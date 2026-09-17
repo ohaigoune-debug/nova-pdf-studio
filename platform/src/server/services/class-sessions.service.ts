@@ -8,6 +8,7 @@ import {
   scannerSessions,
   students
 } from '@/server/db/schema'
+import { qcol } from '@/server/db/sql-helpers'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError } from '@/server/lib/errors'
@@ -277,9 +278,9 @@ export async function listSessions(
       endedAt: classSessions.endedAt,
       status: classSessions.status,
       attendanceOpen: classSessions.attendanceOpen,
-      present: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${classSessions.id} and a.status = 'PRESENT')`,
-      late: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${classSessions.id} and a.status = 'LATE')`,
-      absent: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${classSessions.id} and a.status in ('ABSENT','UNEXCUSED','EXCUSED'))`
+      present: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${qcol(classSessions.id)} and a.status = 'PRESENT')`,
+      late: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${qcol(classSessions.id)} and a.status = 'LATE')`,
+      absent: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${qcol(classSessions.id)} and a.status in ('ABSENT','UNEXCUSED','EXCUSED'))`
     })
     .from(classSessions)
     .innerJoin(groups, eq(groups.id, classSessions.groupId))

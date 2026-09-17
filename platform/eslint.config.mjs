@@ -14,6 +14,8 @@ const eslintConfig = [
   },
   {
     rules: {
+      // App Router: الخطوط في layout.tsx تنطبق على كل الصفحات
+      '@next/next/no-page-custom-font': 'off',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }]
     }

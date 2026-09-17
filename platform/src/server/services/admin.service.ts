@@ -14,6 +14,7 @@ import {
   teachers,
   users
 } from '@/server/db/schema'
+import { qcol } from '@/server/db/sql-helpers'
 import { hashPassword, isStrongEnough } from '@/server/auth/password'
 import { revokeAllSessions } from '@/server/auth/session'
 import { assertRole, type Actor } from '@/server/lib/actor'
@@ -114,8 +115,8 @@ export async function listTeachers(db: Db, actor: Actor) {
       subject: teachers.subject,
       createdAt: users.createdAt,
       lastLoginAt: users.lastLoginAt,
-      groupsCount: sql<number>`(select count(*)::int from ${groups} g where g.workspace_id = ${teacherWorkspaces.id} and g.deleted_at is null)`,
-      studentsCount: sql<number>`(select count(distinct gs.student_id)::int from ${groupStudents} gs where gs.workspace_id = ${teacherWorkspaces.id} and gs.status = 'ACTIVE')`
+      groupsCount: sql<number>`(select count(*)::int from ${groups} g where g.workspace_id = ${qcol(teacherWorkspaces.id)} and g.deleted_at is null)`,
+      studentsCount: sql<number>`(select count(distinct gs.student_id)::int from ${groupStudents} gs where gs.workspace_id = ${qcol(teacherWorkspaces.id)} and gs.status = 'ACTIVE')`
     })
     .from(teachers)
     .innerJoin(users, eq(users.id, teachers.userId))
@@ -167,7 +168,7 @@ export async function listAllStudents(db: Db, actor: Actor, opts: { search?: str
       phone: profiles.phone,
       studentType: students.studentType,
       createdAt: users.createdAt,
-      activeGroups: sql<number>`(select count(*)::int from ${groupStudents} gs where gs.student_id = ${students.id} and gs.status = 'ACTIVE')`
+      activeGroups: sql<number>`(select count(*)::int from ${groupStudents} gs where gs.student_id = ${qcol(students.id)} and gs.status = 'ACTIVE')`
     })
     .from(students)
     .innerJoin(users, eq(users.id, students.userId))
@@ -187,7 +188,7 @@ export async function listAllGroups(db: Db, actor: Actor) {
       workspaceName: teacherWorkspaces.name,
       teacherName: teachers.displayName,
       createdAt: groups.createdAt,
-      activeStudents: sql<number>`(select count(*)::int from ${groupStudents} gs where gs.group_id = ${groups.id} and gs.status = 'ACTIVE')`
+      activeStudents: sql<number>`(select count(*)::int from ${groupStudents} gs where gs.group_id = ${qcol(groups.id)} and gs.status = 'ACTIVE')`
     })
     .from(groups)
     .innerJoin(teacherWorkspaces, eq(teacherWorkspaces.id, groups.workspaceId))

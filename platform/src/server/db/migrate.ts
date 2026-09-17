@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+ 
 import { createDatabase } from './connect'
 
 async function main() {

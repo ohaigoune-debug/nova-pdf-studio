@@ -13,6 +13,7 @@ import {
   users,
   wilayas
 } from '@/server/db/schema'
+import { qcol } from '@/server/db/sql-helpers'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { listStudentAttendance, summarizeAttendance, type AttendanceStats } from './attendance.service'
@@ -219,7 +220,7 @@ export async function studentHome(db: Db, actor: Actor) {
       streamName: streams.nameAr,
       unexcused: groupStudents.unexcusedAbsencesCount,
       maxUnexcused: groups.maxUnexcusedAbsences,
-      hasOpenSession: sql<boolean>`exists(select 1 from ${classSessions} cs where cs.group_id = ${groups.id} and cs.status = 'OPEN')`
+      hasOpenSession: sql<boolean>`exists(select 1 from ${classSessions} cs where cs.group_id = ${qcol(groups.id)} and cs.status = 'OPEN')`
     })
     .from(groupStudents)
     .innerJoin(groups, eq(groups.id, groupStudents.groupId))

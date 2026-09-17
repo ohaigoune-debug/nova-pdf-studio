@@ -5,7 +5,7 @@ import { createDatabase, type DatabaseHandle, type Db } from './connect'
 export type { Db }
 
 declare global {
-  // eslint-disable-next-line no-var
+   
   var __madrasaDb: Promise<DatabaseHandle> | undefined
 }
 

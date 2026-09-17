@@ -11,6 +11,7 @@ import {
   students,
   users
 } from '@/server/db/schema'
+import { qcol } from '@/server/db/sql-helpers'
 import type { AttendanceStatus } from '@/server/db/schema/enums'
 import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeActivity, writeAudit } from '@/server/lib/audit'
@@ -50,7 +51,7 @@ export async function listStudentActiveGroups(db: Db, actor: Actor) {
       status: groupStudents.status,
       dayOfWeek: groups.dayOfWeek,
       startTime: groups.startTime,
-      hasOpenSession: sql<boolean>`exists(select 1 from ${classSessions} cs where cs.group_id = ${groups.id} and cs.status = 'OPEN')`
+      hasOpenSession: sql<boolean>`exists(select 1 from ${classSessions} cs where cs.group_id = ${qcol(groups.id)} and cs.status = 'OPEN')`
     })
     .from(groupStudents)
     .innerJoin(groups, eq(groups.id, groupStudents.groupId))

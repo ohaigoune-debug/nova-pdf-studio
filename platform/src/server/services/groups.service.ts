@@ -19,6 +19,7 @@ import {
   users,
   wilayas
 } from '@/server/db/schema'
+import { qcol } from '@/server/db/sql-helpers'
 import type { GroupStatus } from '@/server/db/schema/enums'
 import { assertRole, workspaceOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
@@ -199,10 +200,10 @@ export async function listGroups(db: Db, actor: Actor, opts: { workspaceId?: str
       schoolName: schools.name,
       wilayaName: wilayas.nameAr,
       yearLabel: academicYears.label,
-      activeStudents: sql<number>`(select count(*)::int from ${groupStudents} gs where gs.group_id = ${groups.id} and gs.status = 'ACTIVE')`,
-      totalStudents: sql<number>`(select count(*)::int from ${groupStudents} gs where gs.group_id = ${groups.id} and gs.status <> 'LEFT_GROUP')`,
-      suspendedStudents: sql<number>`(select count(*)::int from ${groupStudents} gs where gs.group_id = ${groups.id} and gs.status in ('SUSPENDED','SUSPENDED_DUE_TO_ABSENCE'))`,
-      hasOpenSession: sql<boolean>`exists(select 1 from ${classSessions} cs where cs.group_id = ${groups.id} and cs.status = 'OPEN')`
+      activeStudents: sql<number>`(select count(*)::int from ${groupStudents} gs where gs.group_id = ${qcol(groups.id)} and gs.status = 'ACTIVE')`,
+      totalStudents: sql<number>`(select count(*)::int from ${groupStudents} gs where gs.group_id = ${qcol(groups.id)} and gs.status <> 'LEFT_GROUP')`,
+      suspendedStudents: sql<number>`(select count(*)::int from ${groupStudents} gs where gs.group_id = ${qcol(groups.id)} and gs.status in ('SUSPENDED','SUSPENDED_DUE_TO_ABSENCE'))`,
+      hasOpenSession: sql<boolean>`exists(select 1 from ${classSessions} cs where cs.group_id = ${qcol(groups.id)} and cs.status = 'OPEN')`
     })
     .from(groups)
     .leftJoin(levels, eq(levels.id, groups.levelId))
@@ -272,9 +273,9 @@ export async function listGroupMembers(db: Db, actor: Actor, groupId: string): P
       status: groupStudents.status,
       enrolledAt: groupStudents.enrolledAt,
       unexcusedAbsences: groupStudents.unexcusedAbsencesCount,
-      presentCount: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.group_student_id = ${groupStudents.id} and a.status = 'PRESENT')`,
-      lateCount: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.group_student_id = ${groupStudents.id} and a.status = 'LATE')`,
-      absentCount: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.group_student_id = ${groupStudents.id} and a.status in ('ABSENT','UNEXCUSED','EXCUSED'))`
+      presentCount: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.group_student_id = ${qcol(groupStudents.id)} and a.status = 'PRESENT')`,
+      lateCount: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.group_student_id = ${qcol(groupStudents.id)} and a.status = 'LATE')`,
+      absentCount: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.group_student_id = ${qcol(groupStudents.id)} and a.status in ('ABSENT','UNEXCUSED','EXCUSED'))`
     })
     .from(groupStudents)
     .innerJoin(students, eq(students.id, groupStudents.studentId))
@@ -358,9 +359,9 @@ export async function getGroupDashboard(db: Db, actor: Actor, groupId: string): 
       scheduledAt: classSessions.scheduledAt,
       status: classSessions.status,
       title: classSessions.title,
-      present: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${classSessions.id} and a.status = 'PRESENT')`,
-      late: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${classSessions.id} and a.status = 'LATE')`,
-      absent: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${classSessions.id} and a.status in ('ABSENT','UNEXCUSED','EXCUSED'))`
+      present: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${qcol(classSessions.id)} and a.status = 'PRESENT')`,
+      late: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${qcol(classSessions.id)} and a.status = 'LATE')`,
+      absent: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.class_session_id = ${qcol(classSessions.id)} and a.status in ('ABSENT','UNEXCUSED','EXCUSED'))`
     })
     .from(classSessions)
     .where(eq(classSessions.groupId, g.id))
