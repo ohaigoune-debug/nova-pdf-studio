@@ -1,0 +1,71 @@
+# خطة التنفيذ — IMPLEMENTATION_PLAN
+
+المبدأ: **Vertical Slice** حقيقي يعمل من طرف إلى طرف قبل التوسّع. بعد كل مرحلة: `npm run typecheck && npm run lint && npm test` ثم تشغيل التطبيق.
+
+## المرحلة 1 — الأساس ✅
+
+- [x] Next.js 15 + TS strict + Tailwind + مكوّنات UI بأسلوب shadcn + RTL + Dark Mode
+- [x] Drizzle schema كامل للجداول الأساسية + Migrations + PGlite/Postgres client
+- [x] مصادقة: تسجيل، دخول، خروج، جلسات في DB، كوكي httpOnly، إدارة الأجهزة
+- [x] الأدوار + حرّاس الخادم (`requireActor`, `requireRole`)
+- [x] i18n (ar أساسي، بنية لإضافة fr/en)
+- [x] الأصداف: Public / Student / Teacher / Admin (Sidebar + TopBar + Navigation)
+- [x] `AppError` + رسائل عربية، سجل تدقيق، إشعارات داخل التطبيق
+
+## المرحلة 2 — الأفواج والتسجيل ✅
+
+- [x] الولايات (58) + المدارس + السنوات + المستويات + الشعب (Seed)
+- [x] Admin: إنشاء/تعطيل أستاذ (ينشئ workspace)
+- [x] Teacher: CRUD الأفواج + Dashboard الفوج
+- [x] أكواد التسجيل: كود واحد/دفعة، تعطيل، إلغاء دفعة، تصدير CSV، طباعة
+- [x] الطالب: إنشاء حساب → إدخال كود → انضمام تلقائي للفوج
+- [x] ملف الطالب (Teacher view) + سجل الحالات
+
+## المرحلة 3 — الحضور الذكي ✅
+
+- [x] الحصص: بدء/إنهاء/إلغاء، حصة مفتوحة واحدة لكل فوج
+- [x] QR ديناميكي موقّع (HMAC، 60 ثانية، nonce) في حساب الطالب
+- [x] Scanner Mode (قارئ USB/Bluetooth كلوحة مفاتيح) + ردود فورية + صوت
+- [x] حالات الحضور PRESENT/LATE/ABSENT/EXCUSED/UNEXCUSED + late_after_minutes
+- [x] إنهاء الحصة: غياب تلقائي UNEXCUSED + إعادة حساب + قاعدة 4 غيابات ⇒ تعليق
+- [x] تبرير الغياب (سبب/ملاحظات) + إعادة تفعيل الطالب يدوياً
+- [x] الحضور في ملف الطالب + Timeline + إشعارات الغياب/التعليق
+- [x] اختبارات: الكود، الحضور، QR منتهٍ، فوج خاطئ، تكرار، تأخر، إغلاق، غياب تلقائي، تعليق، تبرير، عزل الأساتذة، عزل الطلاب
+
+## المرحلة 4 — المحتوى والواجبات
+
+- [ ] CMS: أنواع المحتوى + Visibility + Targets + بحث عام
+- [ ] Storage: رفع ملفات (Local adapter الآن، S3/Supabase Storage لاحقاً بنفس الواجهة) + Signed URLs
+- [ ] الواجبات + الإسناد (طالب/مجموعة/فوج/أفواج) + إجابات (نص/صورة/PDF/ملف) مع حفظ الأصل
+- [ ] الصفحات العامة تقرأ من `content`
+
+## المرحلة 5 — الاختبارات والعلامات
+
+- [ ] Quiz Engine (MCQ, T/F, Short, Long, Fill, Matching, Image) + تصحيح آلي للموضوعي
+- [ ] Rubrics قابلة للتعديل + Grades + عرض للطالب
+
+## المرحلة 6 — التصحيح بالذكاء الاصطناعي
+
+- [ ] `AIProvider` (evaluateEssay, analyzeStudent, generateExercises, generateTeacherInsights) + مزوّد حقيقي عبر متغيّرات بيئة
+- [ ] Jobs للتصحيح + Teacher Review (Approve/Edit/Reject) + قاعدة "AI لا يكتب فوق علامة الأستاذ"
+- [ ] OCR pipeline (Upload → OCR → تأكيد الطالب → AI → مراجعة)
+- [ ] Skills Engine: student_skills + history + skill map
+
+## المرحلة 7 — التحليلات والتوصيات
+
+- [ ] Teacher AI Insights من بيانات حقيقية (ضعف مشترك، تحسّن، متأخرون، معرّضون للتراجع)
+- [ ] ربط الغياب بالمستوى (توصية لا حكم)
+- [ ] Adaptive Learning (Weak Skill ⇒ درس + ملخص + 3 تمارين + اختبار قصير)
+- [ ] تقارير PDF/CSV (طالب/فوج/حضور/علامات/تقدّم) كـ Jobs
+- [ ] Push Notifications (PWA)
+
+## المرحلة 8 — التحصين والإنتاج
+
+- [ ] Rate limiting على الدخول/الأكواد/المسح، CSRF (Origin check على Actions)، CSP
+- [ ] RLS على Postgres/Supabase، Signed URLs، تنظيف nonces/جلسات
+- [ ] PWA (manifest + service worker + offline shell)
+- [ ] Docker + متغيّرات بيئة + دليل النشر
+
+## ما بعد الإطلاق (لا يُبنى الآن)
+
+اشتراكات/دفع، ولي أمر، دردشة، حصص مباشرة، شهادات، Marketplace، تطبيق جوال (يستهلك `/api/v1`).
