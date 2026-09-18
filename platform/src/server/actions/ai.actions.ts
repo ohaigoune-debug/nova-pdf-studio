@@ -1,0 +1,95 @@
+'use server'
+
+import { revalidatePath } from 'next/cache'
+import { z } from 'zod'
+import { requireRole } from '@/server/auth/current-user'
+import { getDb } from '@/server/db/client'
+import { kickWorker } from '@/server/jobs/runner'
+import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
+import { applyAiEvaluation, rejectAiEvaluation, requestAiEvaluation, requestTeacherInsights, updateAiSettings } from '@/server/services/ai.service'
+
+export async function requestAiEvaluationAction(submissionId: string): Promise<ActionResult<{ evaluationId: string; reused: boolean }>> {
+  const parsed = z.string().uuid().safeParse(submissionId)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    const r = await requestAiEvaluation(await getDb(), actor, parsed.data)
+    return { evaluationId: r.evaluationId, reused: r.reused }
+  })
+  if (result.ok) {
+    kickWorker(getDb)
+    revalidatePath('/', 'layout')
+  }
+  return result
+}
+
+const lines = (v?: string) =>
+  (v ?? '')
+    .split(/\r?\n/)
+    .map((s) => s.replace(/^[-•*]\s*/, '').trim())
+    .filter(Boolean)
+
+const applySchema = z.object({
+  evaluationId: z.string().uuid(),
+  score: z.coerce.number().min(0, 'النقطة لا تكون سالبة').default(0),
+  strengths: z.string().optional(),
+  improvements: z.string().optional(),
+  notes: z.string().trim().optional()
+})
+
+/** اعتماد الاقتراح (كما هو أو بعد تعديل) — نفس نموذج التصحيح مع معرّف الاقتراح */
+export async function applyAiEvaluationAction(_prev: ActionResult | null, fd: FormData): Promise<ActionResult> {
+  const parsed = applySchema.safeParse(Object.fromEntries(fd))
+  if (!parsed.success) return failValidation(parsed.error)
+  const d = parsed.data
+  const breakdown: Record<string, number> = {}
+  for (const [k, v] of fd.entries()) if (k.startsWith('rubric_')) breakdown[k.slice(7)] = Number(v)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    await applyAiEvaluation(await getDb(), actor, d.evaluationId, {
+      score: d.score,
+      strengths: lines(d.strengths),
+      improvements: lines(d.improvements),
+      notes: d.notes,
+      rubricBreakdown: Object.keys(breakdown).length ? breakdown : null
+    })
+    return undefined
+  })
+  if (result.ok) revalidatePath('/', 'layout')
+  return result
+}
+
+export async function rejectAiEvaluationAction(evaluationId: string): Promise<ActionResult> {
+  const parsed = z.string().uuid().safeParse(evaluationId)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    await rejectAiEvaluation(await getDb(), actor, parsed.data)
+    return undefined
+  })
+  if (result.ok) revalidatePath('/', 'layout')
+  return result
+}
+
+export async function requestTeacherInsightsAction(): Promise<ActionResult<{ jobId: string }>> {
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER')
+    return requestTeacherInsights(await getDb(), actor)
+  })
+  if (result.ok) {
+    kickWorker(getDb)
+    revalidatePath('/teacher/ai-insights')
+  }
+  return result
+}
+
+export async function updateAiSettingsAction(_prev: ActionResult | null, fd: FormData): Promise<ActionResult> {
+  const autoEvaluate = fd.get('autoEvaluate') === 'on'
+  const result = await runAction(async () => {
+    const actor = await requireRole('SUPER_ADMIN')
+    await updateAiSettings(await getDb(), actor, { autoEvaluate })
+    return undefined
+  })
+  if (result.ok) revalidatePath('/admin/ai')
+  return result
+}

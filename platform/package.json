@@ -14,7 +14,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/server/db/migrate.ts",
     "db:seed": "tsx src/server/db/seed.ts",
-    "db:reset": "tsx src/server/db/reset.ts"
+    "db:reset": "tsx src/server/db/reset.ts",
+    "jobs:worker": "tsx src/server/jobs/worker.ts"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.8",

@@ -305,12 +305,17 @@ export const aiEvaluations = pgTable(
     rubricBreakdown: jsonb('rubric_breakdown').$type<Record<string, number>>(),
     teacherNotesSuggestion: text('teacher_notes_suggestion'),
     rawResponse: jsonb('raw_response').$type<Record<string, unknown>>(),
+    /** رسالة الخطأ الداخلية (لا تُعرض للطالب أبداً) */
     error: text('error'),
+    /** من طلب التقييم (الأستاذ) أو NULL إن كان تلقائياً عند الإرسال */
+    requestedByUserId: uuid('requested_by_user_id').references(() => users.id),
+    completedAt: timestamp('completed_at', { withTimezone: true }),
     ...timestamps
   },
   (t) => [
     check('ai_eval_status_check', inList(t.status, AI_EVAL_STATUSES)),
-    index('ai_evaluations_submission_idx').on(t.submissionId)
+    index('ai_evaluations_submission_idx').on(t.submissionId),
+    index('ai_evaluations_workspace_idx').on(t.workspaceId, t.status)
   ]
 )
 

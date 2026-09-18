@@ -7,6 +7,7 @@ import { Input, Textarea } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { toast } from '@/components/ui/toast'
 import { t } from '@/i18n'
+import { applyAiEvaluationAction } from '@/server/actions/ai.actions'
 import { reviewSubmissionAction } from '@/server/actions/assignments.actions'
 
 export interface RubricItemView {
@@ -17,20 +18,36 @@ export interface RubricItemView {
   skillName: string | null
 }
 
+export interface ReviewValues {
+  score: string
+  strengths: string[]
+  improvements: string[]
+  notes: string | null
+  rubricBreakdown?: Record<string, number> | null
+}
+
 export function ReviewForm({
   submissionId,
   maxScore,
   current,
-  rubricItems
+  rubricItems,
+  prefill,
+  aiEvaluationId
 }: {
   submissionId: string
   maxScore: string
-  current: { score: string; strengths: string[]; improvements: string[]; notes: string | null; rubricBreakdown?: Record<string, number> | null } | null
+  current: ReviewValues | null
   rubricItems?: RubricItemView[]
+  /** قيم مبدئية من اقتراح الذكاء الاصطناعي (تُعبَّأ ثم يعدّلها الأستاذ) */
+  prefill?: ReviewValues | null
+  /** إن وُجد يُعتمد الاقتراح عبر مسار القرار (APPROVED/EDITED) بدل التصحيح اليدوي */
+  aiEvaluationId?: string | null
 }) {
   const router = useRouter()
-  const [state, action] = useActionState(reviewSubmissionAction, null)
-  const [breakdown, setBreakdown] = useState<Record<string, number>>(() => Object.fromEntries((rubricItems ?? []).map((i) => [i.id, current?.rubricBreakdown?.[i.id] ?? 0])))
+  const action = aiEvaluationId ? applyAiEvaluationAction : reviewSubmissionAction
+  const [state, formAction] = useActionState(action, null)
+  const init = prefill ?? current
+  const [breakdown, setBreakdown] = useState<Record<string, number>>(() => Object.fromEntries((rubricItems ?? []).map((i) => [i.id, init?.rubricBreakdown?.[i.id] ?? 0])))
   const total = Object.values(breakdown).reduce((s, v) => s + (Number.isFinite(v) ? v : 0), 0)
   useEffect(() => {
     if (state?.ok) {
@@ -40,8 +57,9 @@ export function ReviewForm({
   }, [state, router])
   const hasRubric = !!rubricItems && rubricItems.length > 0
   return (
-    <form action={action} className="space-y-4">
+    <form action={formAction} className="space-y-4">
       <input type="hidden" name="submissionId" value={submissionId} />
+      {aiEvaluationId ? <input type="hidden" name="evaluationId" value={aiEvaluationId} /> : null}
       {hasRubric ? (
         <div className="space-y-2 rounded-lg border p-3">
           <p className="text-sm font-bold">{t('rubrics.breakdown')}</p>
@@ -76,17 +94,17 @@ export function ReviewForm({
         </div>
       ) : (
         <Field label={`${t('assignments.score')} / ${Number(maxScore)}`} htmlFor="score" error={fieldError(state, 'score')}>
-          <Input id="score" name="score" type="number" min={0} max={Number(maxScore)} step="0.25" defaultValue={current ? Number(current.score) : ''} required className="w-32 text-lg font-bold" dir="ltr" />
+          <Input id="score" name="score" type="number" min={0} max={Number(maxScore)} step="0.25" defaultValue={init ? Number(init.score) : ''} required className="w-32 text-lg font-bold" dir="ltr" />
         </Field>
       )}
       <Field label={t('assignments.strengths')} htmlFor="strengths" hint={t('assignments.oneLinePerItem')}>
-        <Textarea id="strengths" name="strengths" rows={3} defaultValue={current?.strengths.join('\n') ?? ''} />
+        <Textarea id="strengths" name="strengths" rows={3} defaultValue={init?.strengths.join('\n') ?? ''} />
       </Field>
       <Field label={t('assignments.improvements')} htmlFor="improvements" hint={t('assignments.oneLinePerItem')}>
-        <Textarea id="improvements" name="improvements" rows={3} defaultValue={current?.improvements.join('\n') ?? ''} />
+        <Textarea id="improvements" name="improvements" rows={3} defaultValue={init?.improvements.join('\n') ?? ''} />
       </Field>
       <Field label={t('assignments.notes')} htmlFor="notes">
-        <Textarea id="notes" name="notes" rows={2} defaultValue={current?.notes ?? ''} />
+        <Textarea id="notes" name="notes" rows={2} defaultValue={init?.notes ?? ''} />
       </Field>
       <FormError state={state} />
       <SubmitButton>{t('assignments.saveReview')}</SubmitButton>

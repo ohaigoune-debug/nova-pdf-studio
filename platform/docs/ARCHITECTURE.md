@@ -32,9 +32,9 @@
 | التحقق | **Zod** في كل Server Action وكل Route Handler | لا يصل إلى الخدمات أي مدخل غير محقّق |
 | الرسوم | **Recharts** | Client Components فقط |
 | QR | `qrcode` لتوليد الصورة + Token موقّع بـ HMAC-SHA256 | لا بيانات شخصية في الرمز |
-| الذكاء الاصطناعي | `AIProvider` (واجهة مجرّدة) + مزوّد تجريبي | المرحلة 6 — لا يرتبط النظام بنموذج واحد |
+| الذكاء الاصطناعي | `AIProvider` (واجهة مجرّدة): مزوّد تجريبي حتمي (بلا شبكة) + مزوّد Anthropic عبر `fetch` يُفعَّل بـ `AI_PROVIDER=anthropic` و`AI_API_KEY` | لا يرتبط النظام بنموذج واحد؛ الاستدعاء داخل Jobs فقط؛ يقترح ولا يكتب علامة |
 | الاختبارات | **Vitest** على PGlite | اختبارات تكامل حقيقية للقواعد التجارية |
-| المهام الخلفية | جدول `jobs` (QUEUED/PROCESSING/COMPLETED/FAILED) + Worker داخلي | يُستبدل لاحقاً بـ Queue خارجي (pg-boss/BullMQ) بنفس الواجهة |
+| المهام الخلفية | جدول `jobs` (QUEUED/PROCESSING/COMPLETED/FAILED، التقاط بـ `FOR UPDATE SKIP LOCKED`، إعادة محاولة بتراجع أسّي) + عامل داخل عملية الخادم يُوقَظ بعد كل إدراج + `POST /api/v1/jobs/run` لـ Cron خارجي + `npm run jobs:worker` مستقل | بلا Redis؛ يُستبدل لاحقاً بـ pg-boss/BullMQ بنفس الواجهة |
 
 ---
 
@@ -93,7 +93,8 @@ platform/
       queries/                 قراءات للوحات (dashboard stats) — read-only
       actions/                 Server Actions (zod → guard → service)
       lib/                     errors.ts, actor.ts, ids.ts, result.ts
-      ai/                      provider.ts (واجهة) + mock.ts  (المرحلة 6)
+      ai/                      types.ts (واجهة AIProvider) · provider.ts (الاختيار من البيئة) · mock-provider.ts · anthropic-provider.ts
+      jobs/                    queue.ts (إدراج/التقاط/إكمال/فشل) · runner.ts (المعالِجات + العامل الداخلي) · worker.ts (عامل مستقل)
   tests/                       اختبارات تكامل على PGlite
 ```
 

@@ -285,7 +285,19 @@ export async function getAssignmentForStudent(db: Db, actor: Actor, id: string):
     .limit(1)
   const messages = submission ? await loadThread(db, submission.id, actor.userId) : []
   const grade = submission ? await visibleGrade(db, submission.id) : null
-  return { assignment: { ...a, attachmentName: meta?.attachmentName ?? null, teacherName: meta?.teacherName ?? null }, submission: submission ?? null, messages, grade }
+  return {
+    assignment: { ...a, attachmentName: meta?.attachmentName ?? null, teacherName: meta?.teacherName ?? null },
+    submission: submission ? { ...submission, status: studentFacingStatus(submission.status) } : null,
+    messages,
+    grade
+  }
+}
+
+/** الطالب لا يرى أي أثر للذكاء الاصطناعي: AI_EVALUATED تُعرض له كـ SUBMITTED حتى يعتمد الأستاذ */
+export function studentFacingStatus(status: string): string
+export function studentFacingStatus(status: string | null): string | null
+export function studentFacingStatus(status: string | null): string | null {
+  return status === 'AI_EVALUATED' ? 'SUBMITTED' : status
 }
 
 async function visibleGrade(db: Db, submissionId: string) {
@@ -365,13 +377,14 @@ export async function submitAnswer(db: Db, actor: Actor, assignmentId: string, t
 
 /* ------------------------------ Thread & review --------------------------- */
 
-interface SubmissionCtx {
+export interface SubmissionCtx {
   submission: typeof assignmentSubmissions.$inferSelect
   assignment: AssignmentRow
   studentUserId: string
 }
 
-async function loadSubmissionCtx(db: Db, actor: Actor, submissionId: string): Promise<SubmissionCtx> {
+/** يحمّل الإجابة مع الواجب ويتحقق من صلاحية الفاعل (الطالب صاحبها / أستاذ المساحة / المشرف) */
+export async function loadSubmissionCtx(db: Db, actor: Actor, submissionId: string): Promise<SubmissionCtx> {
   assertUuid(submissionId, 'SUBMISSION_NOT_FOUND')
   const [row] = await db
     .select({ submission: assignmentSubmissions, assignment: assignments, studentUserId: students.userId })
@@ -530,7 +543,7 @@ export async function listAssignmentsForStudent(db: Db, actor: Actor) {
     .select({ id: assignmentTargets.assignmentId })
     .from(assignmentTargets)
     .where(or(gids.length ? inArray(assignmentTargets.groupId, gids) : sql`false`, eq(assignmentTargets.studentId, studentId)))
-  return db
+  const rows = await db
     .select({
       id: assignments.id,
       title: assignments.title,
@@ -549,4 +562,5 @@ export async function listAssignmentsForStudent(db: Db, actor: Actor) {
     .leftJoin(grades, and(eq(grades.submissionId, assignmentSubmissions.id), eq(grades.visibleToStudent, true)))
     .where(and(inArray(assignments.id, targeted), isNull(assignments.deletedAt)))
     .orderBy(desc(assignments.createdAt))
+  return rows.map((r) => ({ ...r, status: studentFacingStatus(r.status) }))
 }

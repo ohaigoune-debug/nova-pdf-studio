@@ -5,7 +5,9 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { requireActor, requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { kickWorker } from '@/server/jobs/runner'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
+import { maybeAutoEvaluate } from '@/server/services/ai.service'
 import {
   addThreadMessage,
   createAssignment,
@@ -103,6 +105,13 @@ export async function submitAnswerAction(assignmentId: string, text: string): Pr
     return submitAnswer(await getDb(), actor, parsed.data.assignmentId, parsed.data.text)
   })
   if (result.ok) {
+    // تقييم تلقائي (إن فعّله المشرف) — لا يؤثر على نجاح الإرسال ولا يراه الطالب
+    try {
+      const db = await getDb()
+      if (await maybeAutoEvaluate(db, result.data.submissionId)) kickWorker(getDb)
+    } catch (err) {
+      console.error('[ai] auto-evaluate enqueue failed', err)
+    }
     revalidatePath(`/student/assignments/${assignmentId}`)
     revalidatePath('/student/assignments')
   }

@@ -21,7 +21,9 @@ import {
   wilayas
 } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
+import { processQueuedJobs } from '@/server/jobs/runner'
 import { createTeacher } from '@/server/services/admin.service'
+import { requestAiEvaluation } from '@/server/services/ai.service'
 import { addThreadMessage, createAssignment, reviewSubmission, saveDraft, submitAnswer } from '@/server/services/assignments.service'
 import { createContent } from '@/server/services/content.service'
 import { createQuiz, getAttemptForTeacher, getQuizForStudent, reviewAttempt, startAttempt, submitAttempt } from '@/server/services/quizzes.service'
@@ -239,8 +241,11 @@ export async function seedDemo(db: Db) {
   await addThreadMessage(db, teacher, sub1.submissionId, 'أحسنت في الفكرة العامة. وضّح أكثر وجه الشبه في الصورة الأولى.')
   await addThreadMessage(db, g1Students[0]!, sub1.submissionId, 'وجه الشبه هو الاتساع والخصب، أستاذ.')
   await reviewSubmission(db, teacher, sub1.submissionId, { score: 14, strengths: ['استخراج الفكرة العامة', 'تحديد الصورة البيانية'], improvements: ['إعراب الجملة', 'شرح الصورة البيانية'], notes: 'راجع درس الاستعارة المكنية.' })
-  await submitAnswer(db, g1Students[1]!, asg.id, 'الفكرة العامة للنص هي الحنين والأمل. الصورة البيانية: تشبيه في البيت الأول…')
+  const sub2 = await submitAnswer(db, g1Students[1]!, asg.id, 'الفكرة العامة للنص هي الحنين والأمل. الصورة البيانية: تشبيه في البيت الأول، إذ شبّه الشاعر العينين بغابتي نخيل، مثلاً في قوله "عيناكِ غابتا نخيل ساعة السحر". لذلك تبدو العاطفة صادقة والألفاظ موحية.')
   await saveDraft(db, g1Students[2]!, asg.id, 'مسودة: الفكرة العامة…')
+  // اقتراح تصحيح بالذكاء الاصطناعي (المزوّد التجريبي) بانتظار مراجعة الأستاذ
+  await requestAiEvaluation(db, teacher, sub2.submissionId)
+  await processQueuedJobs(db)
 
   // شبكة تقييم + اختبار تجريبي بسبعة أنواع أسئلة ومحاولات
   const skillIds = Object.fromEntries((await db.select().from(skills)).map((s) => [s.code, s.id]))
