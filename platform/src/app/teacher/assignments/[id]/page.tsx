@@ -1,6 +1,7 @@
 import { Paperclip, Pencil } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { AssignmentAiBulk } from '@/components/domain/assignment-ai-bulk'
 import { DeleteAssignmentButton } from '@/components/domain/delete-assignment-button'
 import { Markdown } from '@/components/domain/markdown'
 import { Badge } from '@/components/ui/badge'
@@ -14,6 +15,7 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { signFileUrl } from '@/server/lib/storage'
+import { assignmentAiSummary } from '@/server/services/ai.service'
 import { getAssignmentForTeacher } from '@/server/services/assignments.service'
 
 function statusBadge(status: string | null) {
@@ -27,8 +29,11 @@ export default async function TeacherAssignmentDetailPage({ params }: { params: 
   const actor = await requirePageActor('TEACHER')
   const { id } = await params
   let d
+  let aiSummary
   try {
-    d = await getAssignmentForTeacher(await getDb(), actor, id)
+    const db = await getDb()
+    d = await getAssignmentForTeacher(db, actor, id)
+    aiSummary = await assignmentAiSummary(db, actor, id)
   } catch (e) {
     if (isAppError(e)) notFound()
     throw e
@@ -60,6 +65,7 @@ export default async function TeacherAssignmentDetailPage({ params }: { params: 
         <StatCard label={t('assignments.pendingReview')} value={pending} tone={pending > 0 ? 'warning' : 'default'} />
         <StatCard label={t('assignments.completion')} value={percent(completion)} hint={<Progress value={completion} className="mt-1" />} />
       </div>
+      <AssignmentAiBulk assignmentId={a.id} summary={aiSummary} />
       {a.description || a.attachmentName ? (
         <Card>
           <CardHeader>

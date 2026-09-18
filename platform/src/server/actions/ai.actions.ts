@@ -7,7 +7,7 @@ import { getDb } from '@/server/db/client'
 import { kickWorker } from '@/server/jobs/runner'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
-import { applyAiEvaluation, rejectAiEvaluation, requestAiEvaluation, requestExercises, requestStudentAnalysis, requestTeacherInsights, updateAiSettings } from '@/server/services/ai.service'
+import { applyAiEvaluation, applyAllAiEvaluations, rejectAiEvaluation, requestAiEvaluation, requestAiEvaluationForAssignment, requestExercises, requestStudentAnalysis, requestTeacherInsights, updateAiSettings } from '@/server/services/ai.service'
 
 export async function requestAiEvaluationAction(submissionId: string): Promise<ActionResult<{ evaluationId: string; reused: boolean }>> {
   const parsed = z.string().uuid().safeParse(submissionId)
@@ -126,5 +126,34 @@ export async function requestStudentAnalysisAction(studentId: string): Promise<A
     kickWorker(getDb)
     revalidatePath(`/teacher/students/${parsed.data}`)
   }
+  return result
+}
+
+/** "تصحيح الكل": اقتراح لكل الإجابات المرسلة في الواجب دفعة واحدة */
+export async function requestAiEvaluationForAssignmentAction(assignmentId: string): Promise<ActionResult<{ queued: number; skipped: number; total: number }>> {
+  const parsed = z.string().uuid().safeParse(assignmentId)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    const db = await getDb()
+    await checkRateLimit(db, { scope: 'ai-request', subject: actor.userId, ...RATE_LIMITS.aiRequest })
+    return requestAiEvaluationForAssignment(db, actor, parsed.data)
+  })
+  if (result.ok) {
+    kickWorker(getDb)
+    revalidatePath('/', 'layout')
+  }
+  return result
+}
+
+/** "اعتماد الكل": اعتماد كل الاقتراحات المكتملة فوق حدّ الثقة كما هي */
+export async function applyAllAiEvaluationsAction(assignmentId: string, minConfidence: number): Promise<ActionResult<{ approved: number; belowThreshold: number; skipped: number }>> {
+  const parsed = z.object({ assignmentId: z.string().uuid(), minConfidence: z.coerce.number().min(0).max(1) }).safeParse({ assignmentId, minConfidence })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    return applyAllAiEvaluations(await getDb(), actor, parsed.data.assignmentId, { minConfidence: parsed.data.minConfidence })
+  })
+  if (result.ok) revalidatePath('/', 'layout')
   return result
 }

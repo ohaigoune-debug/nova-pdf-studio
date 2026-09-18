@@ -56,7 +56,7 @@ export function StatCard({ label, value, hint, icon: Icon, tone = 'default', cla
       <div className="min-w-0">
         <p className="text-xs font-semibold text-muted-foreground">{label}</p>
         <p className="mt-1 text-2xl font-extrabold tabular">{value}</p>
-        {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
+        {hint ? <div className="mt-1 text-xs text-muted-foreground">{hint}</div> : null}
       </div>
       {Icon ? (
         <div className={cn('flex size-10 shrink-0 items-center justify-center rounded-lg', tones[tone])}>

@@ -8,7 +8,7 @@ import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { enqueueJob } from '@/server/jobs/queue'
 import { dataInsights } from '@/server/queries/teacher-extras.queries'
-import { loadSubmissionCtx, reviewSubmission, type ReviewInput } from './assignments.service'
+import { getAssignmentForTeacher, loadSubmissionCtx, reviewSubmission, type ReviewInput } from './assignments.service'
 import { assertGroupAccess } from './groups.service'
 import { notify } from './notifications.service'
 import { createQuiz } from './quizzes.service'
@@ -97,6 +97,118 @@ export async function maybeAutoEvaluate(db: Db, submissionId: string): Promise<{
   if (last && last.status === 'PENDING') return { evaluationId: last.id }
   const r = await enqueueEvaluation(db, { submissionId, workspaceId: row.workspaceId, rubricId: row.rubricId }, null)
   return { evaluationId: r.evaluationId }
+}
+
+/* --------------------------- Bulk: whole assignment ----------------------- */
+
+export interface AssignmentAiSummary {
+  eligible: number
+  submitted: number
+  /** إجابات مرسلة بلا اقتراح بعد (أو فشل اقتراحها) */
+  awaiting: number
+  pending: number
+  /** اقتراحات مكتملة بانتظار قرار الأستاذ */
+  suggested: number
+  reviewed: number
+  /** الثقة الأدنى بين الاقتراحات المكتملة غير المقرَّرة */
+  minConfidence: number | null
+}
+
+/** حالة الذكاء الاصطناعي لواجب كامل: كم إجابة بلا اقتراح، كم قيد المعالجة، كم مقترحة، كم مصحَّحة */
+export async function assignmentAiSummary(db: Db, actor: Actor, assignmentId: string): Promise<AssignmentAiSummary> {
+  const d = await getAssignmentForTeacher(db, actor, assignmentId)
+  const subs = d.submissions.filter((s) => s.submissionId && s.status && s.status !== 'DRAFT')
+  const out: AssignmentAiSummary = { eligible: d.eligible, submitted: subs.length, awaiting: 0, pending: 0, suggested: 0, reviewed: 0, minConfidence: null }
+  for (const s of subs) {
+    if (s.status === 'REVIEWED') {
+      out.reviewed++
+      continue
+    }
+    const last = await latestEvaluationRow(db, s.submissionId!)
+    if (!last || last.status === 'FAILED') out.awaiting++
+    else if (last.status === 'PENDING') out.pending++
+    else {
+      const [decided] = await db.select({ id: teacherReviews.id }).from(teacherReviews).where(eq(teacherReviews.aiEvaluationId, last.id)).limit(1)
+      if (decided) out.awaiting++
+      else {
+        out.suggested++
+        const c = last.confidence === null ? null : Number(last.confidence)
+        if (c !== null) out.minConfidence = out.minConfidence === null ? c : Math.min(out.minConfidence, c)
+      }
+    }
+  }
+  return out
+}
+
+/**
+ * "تصحيح الكل": يطلب اقتراحاً لكل إجابة مرسلة ليس لها اقتراح قيد المعالجة أو مكتمل بانتظار القرار.
+ * لا يمسّ الإجابات المصحَّحة. يبقى الاقتراح مخفياً عن الطالب حتى الاعتماد.
+ */
+export async function requestAiEvaluationForAssignment(db: Db, actor: Actor, assignmentId: string): Promise<{ queued: number; skipped: number; total: number }> {
+  assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+  const d = await getAssignmentForTeacher(db, actor, assignmentId)
+  let queued = 0
+  let skipped = 0
+  const subs = d.submissions.filter((s) => s.submissionId && (s.status === 'SUBMITTED' || s.status === 'AI_EVALUATED'))
+  for (const s of subs) {
+    const last = await latestEvaluationRow(db, s.submissionId!)
+    if (last && last.status === 'PENDING') {
+      skipped++
+      continue
+    }
+    if (last && last.status === 'COMPLETED') {
+      const [decided] = await db.select({ id: teacherReviews.id }).from(teacherReviews).where(eq(teacherReviews.aiEvaluationId, last.id)).limit(1)
+      if (!decided) {
+        skipped++
+        continue
+      }
+    }
+    await enqueueEvaluation(db, { submissionId: s.submissionId!, workspaceId: d.assignment.workspaceId, rubricId: d.assignment.rubricId }, actor.userId)
+    queued++
+  }
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: d.assignment.workspaceId, action: 'ai.evaluate.request_all', entityType: 'assignment', entityId: d.assignment.id, newValue: { queued, skipped } })
+  return { queued, skipped, total: subs.length }
+}
+
+/**
+ * "اعتماد الكل": يعتمد كل الاقتراحات المكتملة غير المقرَّرة كما هي (قرار الأستاذ الصريح على الدفعة)،
+ * مع حدّ ثقة اختياري: ما دونه يُترك للمراجعة اليدوية. الكتابة تمرّ عبر reviewSubmission كالمعتاد.
+ */
+export async function applyAllAiEvaluations(db: Db, actor: Actor, assignmentId: string, opts: { minConfidence?: number } = {}): Promise<{ approved: number; belowThreshold: number; skipped: number }> {
+  assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+  const d = await getAssignmentForTeacher(db, actor, assignmentId)
+  const min = Math.max(0, Math.min(1, opts.minConfidence ?? 0))
+  let approved = 0
+  let belowThreshold = 0
+  let skipped = 0
+  for (const s of d.submissions) {
+    if (!s.submissionId || s.status !== 'AI_EVALUATED') continue
+    const ev = await latestEvaluationRow(db, s.submissionId)
+    if (!ev || ev.status !== 'COMPLETED' || ev.suggestedScore === null) {
+      skipped++
+      continue
+    }
+    const [decided] = await db.select({ id: teacherReviews.id }).from(teacherReviews).where(eq(teacherReviews.aiEvaluationId, ev.id)).limit(1)
+    if (decided) {
+      skipped++
+      continue
+    }
+    const confidence = ev.confidence === null ? 0 : Number(ev.confidence)
+    if (confidence < min) {
+      belowThreshold++
+      continue
+    }
+    await applyAiEvaluation(db, actor, ev.id, {
+      score: Number(ev.suggestedScore),
+      strengths: ev.strengths,
+      improvements: ev.weaknesses,
+      notes: ev.teacherNotesSuggestion,
+      rubricBreakdown: ev.rubricBreakdown ?? null
+    })
+    approved++
+  }
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: d.assignment.workspaceId, action: 'ai.evaluate.apply_all', entityType: 'assignment', entityId: d.assignment.id, newValue: { approved, belowThreshold, skipped, minConfidence: min } })
+  return { approved, belowThreshold, skipped }
 }
 
 /* ------------------------------- Job handler ------------------------------ */
