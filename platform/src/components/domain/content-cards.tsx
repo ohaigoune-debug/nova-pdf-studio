@@ -19,13 +19,13 @@ const icons: Record<string, LucideIcon> = {
   LINK: Link2
 }
 
-export function ContentGrid({ items, emptyText }: { items: ContentCard[]; emptyText?: string }) {
+export function ContentGrid({ items, emptyText, basePath = '/lessons' }: { items: ContentCard[]; emptyText?: string; basePath?: string }) {
   if (items.length === 0) return <EmptyState icon={BookOpen} title={emptyText ?? t('public.noContent')} />
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((c) => {
         const Icon = icons[c.type] ?? FileText
-        const href = c.externalUrl ?? `/lessons/${c.slug}`
+        const href = c.externalUrl ?? `${basePath}/${c.slug}`
         return (
           <Link key={c.id} href={href} className="group">
             <Card className="h-full transition-shadow group-hover:shadow-md">

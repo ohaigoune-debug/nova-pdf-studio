@@ -1,5 +1,5 @@
 import { HardDrive } from 'lucide-react'
-import { PageHeader, PhaseNote, StatCard } from '@/components/ui/misc'
+import { PageHeader, StatCard } from '@/components/ui/misc'
 import { t } from '@/i18n'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
@@ -10,8 +10,7 @@ export default async function AdminStoragePage() {
   const s = await storageStats(await getDb(), actor)
   return (
     <>
-      <PageHeader title={t('admin.storageTitle')} />
-      <PhaseNote phase={4} />
+      <PageHeader title={t('admin.storageTitle')} description="تخزين محلي خاص (data/uploads) بروابط موقّعة؛ يُستبدل بـ S3/Supabase Storage بنفس الواجهة." />
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label="الملفات" value={s.files} icon={HardDrive} />
         <StatCard label="الحجم" value={`${(s.bytes / 1024 / 1024).toFixed(1)} MB`} />

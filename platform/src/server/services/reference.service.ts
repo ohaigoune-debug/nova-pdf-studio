@@ -1,6 +1,6 @@
 import { and, asc, eq, isNull, or } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { academicYears, levels, schools, streams, wilayas } from '@/server/db/schema'
+import { academicYears, levels, schools, skills, streams, wilayas } from '@/server/db/schema'
 import type { SchoolType } from '@/server/db/schema/enums'
 import { assertRole, workspaceOf, type Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
@@ -15,6 +15,10 @@ export async function listLevels(db: Db) {
 
 export async function listStreams(db: Db) {
   return db.select().from(streams).orderBy(asc(streams.sortOrder))
+}
+
+export async function listSkills(db: Db) {
+  return db.select().from(skills).orderBy(asc(skills.category), asc(skills.nameAr))
 }
 
 export async function listAcademicYears(db: Db) {

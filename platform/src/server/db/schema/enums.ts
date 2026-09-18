@@ -77,6 +77,9 @@ export const QUESTION_TYPES = [
 export type QuestionType = (typeof QUESTION_TYPES)[number]
 
 export const SUBMISSION_STATUSES = ['DRAFT', 'SUBMITTED', 'AI_EVALUATED', 'REVIEWED', 'RETURNED'] as const
+export type SubmissionStatus = (typeof SUBMISSION_STATUSES)[number]
+export const SUBMISSION_MESSAGE_KINDS = ['ANSWER', 'FEEDBACK', 'REPLY', 'SYSTEM'] as const
+export type SubmissionMessageKind = (typeof SUBMISSION_MESSAGE_KINDS)[number]
 export const GRADE_SOURCES = ['AUTO', 'AI', 'TEACHER'] as const
 export const REVIEW_DECISIONS = ['APPROVED', 'EDITED', 'REJECTED'] as const
 export const AI_EVAL_STATUSES = ['PENDING', 'COMPLETED', 'FAILED'] as const

@@ -8,6 +8,7 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
   uuid
 } from 'drizzle-orm/pg-core'
 import { id, inList, softDelete, timestamps } from './_common'
@@ -18,6 +19,7 @@ import {
   GRADE_SOURCES,
   QUESTION_TYPES,
   REVIEW_DECISIONS,
+  SUBMISSION_MESSAGE_KINDS,
   SUBMISSION_STATUSES
 } from './enums'
 import { groups } from './groups'
@@ -120,14 +122,38 @@ export const assignmentSubmissions = pgTable(
     originalFileId: uuid('original_file_id').references(() => files.id),
     ocrText: text('ocr_text'),
     ocrConfirmed: boolean('ocr_confirmed').notNull().default(false),
-    status: text('status').notNull().default('SUBMITTED'),
-    submittedAt: timestamp('submitted_at', { withTimezone: true }).notNull().defaultNow(),
+    status: text('status').notNull().default('DRAFT'),
+    submittedAt: timestamp('submitted_at', { withTimezone: true }),
     ...timestamps
   },
   (t) => [
     check('submission_status_check', inList(t.status, SUBMISSION_STATUSES)),
-    index('submissions_assignment_idx').on(t.assignmentId, t.studentId),
+    uniqueIndex('submissions_unique_per_student').on(t.assignmentId, t.studentId),
     index('submissions_student_idx').on(t.studentId)
+  ]
+)
+
+/**
+ * سلسلة رسائل الإجابة: إجابة الطالب (ANSWER) ← تصحيح/ملاحظة الأستاذ (FEEDBACK) ← ردّ الطالب (REPLY).
+ * الرسائل لا تُعدَّل ولا تُحذف بعد إرسالها.
+ */
+export const submissionMessages = pgTable(
+  'submission_messages',
+  {
+    id: id(),
+    submissionId: uuid('submission_id')
+      .notNull()
+      .references(() => assignmentSubmissions.id, { onDelete: 'cascade' }),
+    authorUserId: uuid('author_user_id')
+      .notNull()
+      .references(() => users.id),
+    kind: text('kind').notNull(),
+    body: text('body').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+  },
+  (t) => [
+    check('submission_messages_kind_check', inList(t.kind, SUBMISSION_MESSAGE_KINDS)),
+    index('submission_messages_submission_idx').on(t.submissionId, t.createdAt)
   ]
 )
 

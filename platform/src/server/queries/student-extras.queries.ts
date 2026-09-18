@@ -2,7 +2,6 @@ import { and, desc, eq, inArray, isNotNull, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import {
   assignmentSubmissions,
-  assignmentTargets,
   assignments,
   content,
   contentTargets,
@@ -65,30 +64,6 @@ export async function listStudentContent(db: Db, actor: Actor, opts: { types?: s
     .limit(opts.limit ?? 60)
 }
 
-export async function listStudentAssignments(db: Db, actor: Actor) {
-  const studentId = studentIdOf(actor)
-  const gids = await myGroupIds(db, studentId)
-  const targeted = db
-    .select({ id: assignmentTargets.assignmentId })
-    .from(assignmentTargets)
-    .where(or(gids.length ? inArray(assignmentTargets.groupId, gids) : sql`false`, eq(assignmentTargets.studentId, studentId)))
-  return db
-    .select({
-      id: assignments.id,
-      title: assignments.title,
-      description: assignments.description,
-      topic: assignments.topic,
-      dueAt: assignments.dueAt,
-      maxScore: assignments.maxScore,
-      submissionStatus: assignmentSubmissions.status,
-      submittedAt: assignmentSubmissions.submittedAt
-    })
-    .from(assignments)
-    .leftJoin(assignmentSubmissions, and(eq(assignmentSubmissions.assignmentId, assignments.id), eq(assignmentSubmissions.studentId, studentId)))
-    .where(and(inArray(assignments.id, targeted), isNull(assignments.deletedAt)))
-    .orderBy(desc(assignments.dueAt))
-}
-
 export async function listStudentGrades(db: Db, actor: Actor) {
   const studentId = studentIdOf(actor)
   return db
@@ -128,7 +103,7 @@ export async function listStudentFiles(db: Db, actor: Actor) {
     .from(contentTargets)
     .where(or(gids.length ? inArray(contentTargets.groupId, gids) : sql`false`, eq(contentTargets.studentId, studentId)))
   return db
-    .select({ id: content.id, title: content.title, type: content.type, publishedAt: content.publishedAt, fileName: files.originalName, size: files.sizeBytes, mime: files.mimeType })
+    .select({ id: content.id, title: content.title, type: content.type, publishedAt: content.publishedAt, fileId: files.id, fileName: files.originalName, size: files.sizeBytes, mime: files.mimeType })
     .from(content)
     .innerJoin(files, eq(files.id, content.fileId))
     .where(and(isNull(content.deletedAt), isNotNull(content.publishedAt), or(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), inArray(content.id, targeted))))

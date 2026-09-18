@@ -1,6 +1,9 @@
-import { BookOpen } from 'lucide-react'
+import { BookOpen, Plus } from 'lucide-react'
+import Link from 'next/link'
+import { ContentRowActions } from '@/components/domain/content-row-actions'
 import { Badge } from '@/components/ui/badge'
-import { EmptyState, PageHeader, PhaseNote } from '@/components/ui/misc'
+import { Button } from '@/components/ui/button'
+import { EmptyState, PageHeader } from '@/components/ui/misc'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { t, tEnum } from '@/i18n'
 import { formatDate } from '@/lib/utils'
@@ -8,34 +11,69 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listWorkspaceContent } from '@/server/queries/teacher-extras.queries'
 
+const visibilityLabel: Record<string, string> = {
+  PUBLIC: t('contentMgmt.visibilityPUBLIC'),
+  STUDENTS_ONLY: t('contentMgmt.visibilitySTUDENTS_ONLY'),
+  GROUP_ONLY: t('contentMgmt.visibilityGROUP_ONLY'),
+  SPECIFIC_STUDENTS: t('contentMgmt.visibilitySPECIFIC_STUDENTS'),
+  TEACHERS_ONLY: t('contentMgmt.visibilityTEACHERS_ONLY')
+}
+
 export default async function TeacherContentPage() {
   const actor = await requirePageActor('TEACHER')
   const items = await listWorkspaceContent(await getDb(), actor)
   return (
     <>
-      <PageHeader title={t('teacherPages.contentTitle')} />
-      <PhaseNote phase={4} />
+      <PageHeader
+        title={t('contentMgmt.title')}
+        actions={
+          <Button asChild>
+            <Link href="/teacher/content/new">
+              <Plus className="size-4" /> {t('contentMgmt.new')}
+            </Link>
+          </Button>
+        }
+      />
       {items.length === 0 ? (
-        <EmptyState icon={BookOpen} title="لم تنشئ محتوى خاصاً بعد." description="إدارة الدروس والمقالات والملفات والفيديو مع الرؤية (عام/طلاب/فوج/طلاب محددون) — المرحلة 4." />
+        <EmptyState
+          icon={BookOpen}
+          title={t('contentMgmt.noContent')}
+          action={
+            <Button asChild>
+              <Link href="/teacher/content/new">{t('contentMgmt.new')}</Link>
+            </Button>
+          }
+        />
       ) : (
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>العنوان</TableHead>
-              <TableHead>النوع</TableHead>
-              <TableHead>الرؤية</TableHead>
+              <TableHead>{t('contentMgmt.titleField')}</TableHead>
+              <TableHead>{t('contentMgmt.type')}</TableHead>
+              <TableHead>{t('contentMgmt.visibility')}</TableHead>
+              <TableHead>{t('common.status')}</TableHead>
               <TableHead>{t('common.date')}</TableHead>
+              <TableHead />
             </TableRow>
           </TableHeader>
           <TableBody>
             {items.map((c) => (
               <TableRow key={c.id}>
-                <TableCell className="font-semibold">{c.title}</TableCell>
+                <TableCell>
+                  <Link href={`/teacher/content/${c.id}/edit`} className="font-semibold hover:underline">
+                    {c.title}
+                  </Link>
+                  {c.topic ? <span className="block text-xs text-muted-foreground">{c.topic}</span> : null}
+                </TableCell>
                 <TableCell>{tEnum('contentTypes', c.type)}</TableCell>
                 <TableCell>
-                  <Badge variant="muted">{c.visibility}</Badge>
+                  <Badge variant="muted">{visibilityLabel[c.visibility] ?? c.visibility}</Badge>
                 </TableCell>
-                <TableCell>{formatDate(c.publishedAt ?? c.createdAt)}</TableCell>
+                <TableCell>{c.publishedAt ? <Badge variant="success">{t('contentMgmt.published')}</Badge> : <Badge variant="warning">{t('contentMgmt.unpublished')}</Badge>}</TableCell>
+                <TableCell className="text-xs">{formatDate(c.publishedAt ?? c.createdAt)}</TableCell>
+                <TableCell className="text-end">
+                  <ContentRowActions id={c.id} published={!!c.publishedAt} />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

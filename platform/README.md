@@ -57,6 +57,11 @@ npm run build && npm start
 - `GET /api/v1/student/attendance-token?groupId=` → رمز QR موقّع
 - `GET|POST /api/v1/teacher/sessions` · `POST /api/v1/teacher/sessions/:id/close` · `GET /api/v1/teacher/sessions/:id/attendance`
 - `POST /api/v1/attendance/scan` `{ classSessionId, token }`
+- `GET /api/v1/files/:id?exp=&sig=` → تنزيل ملف عبر رابط موقّع فقط
+
+## الواجبات (المرحلة 4)
+
+الأستاذ ينشئ واجباً ويسنده لأفواج أو طلاب محددين → الطالب **يكتب إجابته نصاً كرسالة** (مسودة تُحفظ تلقائياً، ثم إرسال نهائي) → الأستاذ يقرأ ويعلّق في سلسلة الرسائل ويعتمد التصحيح (نقطة، ما أحسن فيه، ما يحتاج تحسينه) → تصل الطالب علامة معتمدة ورسالة تصحيح، ويستطيع الردّ. لا تصوير ولا OCR؛ المرفقات مواد داعمة فقط.
 
 ## البنية
 

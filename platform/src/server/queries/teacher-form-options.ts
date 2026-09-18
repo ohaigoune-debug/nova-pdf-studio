@@ -1,0 +1,26 @@
+import type { Db } from '@/server/db/connect'
+import type { Actor } from '@/server/lib/actor'
+import { listWorkspaceFiles } from '@/server/queries/teacher-extras.queries'
+import { listGroups } from '@/server/services/groups.service'
+import { listLevels, listSkills, listStreams } from '@/server/services/reference.service'
+import { listTeacherStudents } from '@/server/services/students.service'
+
+/** خيارات النماذج (أفواج، طلاب، مهارات، ملفات…) لمساحة الأستاذ */
+export async function teacherFormOptions(db: Db, actor: Actor) {
+  const [groups, students, skills, files, levels, streams] = await Promise.all([
+    listGroups(db, actor),
+    listTeacherStudents(db, actor),
+    listSkills(db),
+    listWorkspaceFiles(db, actor),
+    listLevels(db),
+    listStreams(db)
+  ])
+  return {
+    groups: groups.filter((g) => g.status === 'ACTIVE').map((g) => ({ id: g.id, name: g.name })),
+    students: students.map((s) => ({ id: s.studentId, name: `${s.fullName} — ${s.groups.map((g) => g.groupName).join('، ')}` })),
+    skills: skills.map((s) => ({ id: s.id, name: s.nameAr })),
+    files: files.map((f) => ({ id: f.id, name: f.originalName })),
+    levels: levels.map((l) => ({ id: l.id, name: l.nameAr })),
+    streams: streams.map((s) => ({ id: s.id, name: s.nameAr }))
+  }
+}

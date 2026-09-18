@@ -11,7 +11,7 @@ export default async function StudentLessonsPage() {
   return (
     <>
       <PageHeader title={t('nav.myLessons')} description="الدروس العامة والدروس الموجّهة لأفواجك." />
-      <ContentGrid items={items} />
+      <ContentGrid items={items} basePath="/student/lessons" />
     </>
   )
 }

@@ -63,7 +63,7 @@ function renderBody(body: string) {
 
 export default async function LessonPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const item = await getPublicContentBySlug(await getDb(), slug)
+  const item = await getPublicContentBySlug(await getDb(), decodeURIComponent(slug))
   if (!item) notFound()
   return (
     <article className="container max-w-3xl py-10">

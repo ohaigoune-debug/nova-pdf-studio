@@ -22,6 +22,8 @@ import {
 } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { createTeacher } from '@/server/services/admin.service'
+import { addThreadMessage, createAssignment, reviewSubmission, saveDraft, submitAnswer } from '@/server/services/assignments.service'
+import { createContent } from '@/server/services/content.service'
 import { issueAttendanceToken, scanAttendanceToken } from '@/server/services/attendance.service'
 import { registerStudent } from '@/server/services/auth.service'
 import { closeSession, startSession } from '@/server/services/class-sessions.service'
@@ -219,6 +221,36 @@ export async function seedDemo(db: Db) {
     await closeSession(db, teacher, session.id, new Date(day.getTime() + 90 * 60_000))
     day = new Date(day.getTime() + 7 * 24 * 3600_000)
   }
+
+  // واجب تجريبي بإجابة نصية مُصحَّحة وأخرى بانتظار التصحيح
+  const asg = await createAssignment(db, teacher, {
+    title: 'تحليل نص شعري: البناء الفكري',
+    description: 'اقرأ قصيدة "أنشودة المطر" ثم:\n- استخرج الفكرة العامة\n- حدّد صورتين بيانيتين واشرحهما\n- أعرب ما تحته خط',
+    subject: 'اللغة العربية',
+    topic: 'البناء الفكري',
+    dueAt: new Date(Date.now() + 5 * 24 * 3600_000),
+    maxScore: 20,
+    groupIds: [g1.id],
+    studentIds: []
+  })
+  const sub1 = await submitAnswer(db, g1Students[0]!, asg.id, 'الفكرة العامة: يعبّر الشاعر عن أمله في التغيير من خلال رمز المطر.\nالصورة الأولى: "عيناكِ غابتا نخيل" تشبيه بليغ…\nالصورة الثانية: استعارة في "يتثاءب المساء"…')
+  await addThreadMessage(db, teacher, sub1.submissionId, 'أحسنت في الفكرة العامة. وضّح أكثر وجه الشبه في الصورة الأولى.')
+  await addThreadMessage(db, g1Students[0]!, sub1.submissionId, 'وجه الشبه هو الاتساع والخصب، أستاذ.')
+  await reviewSubmission(db, teacher, sub1.submissionId, { score: 14, strengths: ['استخراج الفكرة العامة', 'تحديد الصورة البيانية'], improvements: ['إعراب الجملة', 'شرح الصورة البيانية'], notes: 'راجع درس الاستعارة المكنية.' })
+  await submitAnswer(db, g1Students[1]!, asg.id, 'الفكرة العامة للنص هي الحنين والأمل. الصورة البيانية: تشبيه في البيت الأول…')
+  await saveDraft(db, g1Students[2]!, asg.id, 'مسودة: الفكرة العامة…')
+
+  // محتوى خاص بالأستاذ موجّه للفوج الأول
+  await createContent(db, teacher, {
+    type: 'LESSON',
+    title: 'ملخص الحصة: الصور البيانية (خاص بالفوج)',
+    summary: 'ما تناولناه في حصة السبت مع أمثلة إضافية.',
+    body: '## التشبيه البليغ\n- ما حُذفت منه الأداة ووجه الشبه\n\n## الاستعارة المكنية\n- حُذف فيها المشبه به وأُبقي على لازمة من لوازمه',
+    topic: 'البلاغة',
+    visibility: 'GROUP_ONLY',
+    groupIds: [g1.id],
+    publish: true
+  })
 
   // محتوى عام
   await db.insert(content).values([

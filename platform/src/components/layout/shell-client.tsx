@@ -1,6 +1,6 @@
 'use client'
 
-import { Bell, BookOpenText, LogOut, Menu, X } from 'lucide-react'
+import { Bell, BookOpenText, LogOut, Menu, Search, X } from 'lucide-react'
 import * as Icons from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -135,7 +135,14 @@ export function ShellClient({
           <Link href={`/${base}`} className="font-extrabold lg:hidden">
             {t('app.name')}
           </Link>
-          <div className="flex-1" />
+          <div className="flex-1">
+            {actor.role === 'TEACHER' ? (
+              <form action="/teacher/search" className="relative mx-auto hidden max-w-md md:block">
+                <Search className="absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                <input name="q" placeholder={t('search.placeholder')} className="h-9 w-full rounded-md border bg-background ps-9 pe-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+              </form>
+            ) : null}
+          </div>
           <Link href={notificationsHref} className="relative rounded-md p-2 hover:bg-muted" aria-label={t('common.notifications')}>
             <Bell className="size-5" />
             {unread > 0 ? (

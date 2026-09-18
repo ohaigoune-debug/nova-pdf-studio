@@ -30,7 +30,7 @@ export default async function StudentQuizzesPage() {
           ))}
         </div>
       ) : null}
-      {exercises.length === 0 && quizzes.length === 0 ? <EmptyState icon={ListChecks} title="لا توجد اختبارات متاحة بعد." /> : <ContentGrid items={exercises} />}
+      {exercises.length === 0 && quizzes.length === 0 ? <EmptyState icon={ListChecks} title="لا توجد اختبارات متاحة بعد." /> : <ContentGrid items={exercises} basePath="/student/lessons" />}
     </>
   )
 }

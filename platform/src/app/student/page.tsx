@@ -130,7 +130,7 @@ export default async function StudentHomePage() {
             <Link href="/student/lessons">{t('common.viewAll')}</Link>
           </Button>
         </div>
-        <ContentGrid items={suggested} />
+        <ContentGrid items={suggested} basePath="/student/lessons" />
       </section>
     </div>
   )
