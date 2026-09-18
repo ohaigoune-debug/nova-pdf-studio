@@ -1,6 +1,7 @@
 import { and, asc, desc, eq, inArray, isNotNull, isNull, lt, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { content, contentTargets, groupStudents, levels, profiles, skills, studentSkillHistory, studentSkills, users } from '@/server/db/schema'
+import { content, contentTargets, groupStudents, levels, profiles, quizAttempts, quizTargets, quizzes, skills, studentSkillHistory, studentSkills, users } from '@/server/db/schema'
+import { qcol } from '@/server/db/sql-helpers'
 import type { Actor } from '@/server/lib/actor'
 import { assertRole, studentIdOf } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
@@ -157,6 +158,67 @@ export async function suggestedContentForStudent(db: Db, actor: Actor, limit = 6
       .orderBy(desc(content.publishedAt))
       .limit(limit)
     if (items.length) out.push({ skillName: w.name, items })
+  }
+  return out
+}
+
+export interface RemediationStep {
+  skillId: string
+  skillName: string
+  score: number
+  lessons: ContentCard[]
+  exercises: ContentCard[]
+  quizzes: { id: string; title: string; topic: string | null; bestScore: number | null; maxScore: string }[]
+}
+
+/**
+ * خطة تقوية للطالب (تعلّم تكيفي): لكل مهارة ضعيفة ⇒ درس/ملخص + تمارين + اختبار قصير من المحتوى المتاح له فعلاً.
+ * لا يخترع شيئاً: إن لم يوجد محتوى لمهارة ما تظهر بلا عناصر ليعرف الأستاذ الفجوة.
+ */
+export async function remediationPlan(db: Db, actor: Actor, maxSkills = 3): Promise<RemediationStep[]> {
+  const studentId = studentIdOf(actor)
+  const weak = (await skillMap(db, studentId)).filter((s) => s.score < WEAK_THRESHOLD).sort((a, b) => a.score - b.score).slice(0, maxSkills)
+  if (weak.length === 0) return []
+  const gids = (await db.select({ groupId: groupStudents.groupId }).from(groupStudents).where(and(eq(groupStudents.studentId, studentId), eq(groupStudents.status, 'ACTIVE')))).map((r) => r.groupId)
+  const targetedContent = db
+    .select({ id: contentTargets.contentId })
+    .from(contentTargets)
+    .where(or(gids.length ? inArray(contentTargets.groupId, gids) : sql`false`, eq(contentTargets.studentId, studentId)))
+  const targetedQuizzes = db
+    .select({ id: quizTargets.quizId })
+    .from(quizTargets)
+    .where(or(gids.length ? inArray(quizTargets.groupId, gids) : sql`false`, eq(quizTargets.studentId, studentId)))
+  const out: RemediationStep[] = []
+  for (const w of weak) {
+    const items = await db
+      .select({ id: content.id, slug: content.slug, type: content.type, title: content.title, summary: content.summary, topic: content.topic, levelName: levels.nameAr, authorName: profiles.fullName, publishedAt: content.publishedAt, externalUrl: content.externalUrl })
+      .from(content)
+      .leftJoin(levels, eq(levels.id, content.levelId))
+      .leftJoin(users, eq(users.id, content.authorUserId))
+      .leftJoin(profiles, eq(profiles.userId, users.id))
+      .where(and(eq(content.skillId, w.skillId), isNotNull(content.publishedAt), isNull(content.deletedAt), or(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), inArray(content.id, targetedContent))))
+      .orderBy(desc(content.publishedAt))
+      .limit(12)
+    const qz = await db
+      .select({
+        id: quizzes.id,
+        title: quizzes.title,
+        topic: quizzes.topic,
+        maxScore: quizzes.maxScore,
+        bestScore: sql<number | null>`(select max(a.final_score) from ${quizAttempts} a where a.quiz_id = ${qcol(quizzes.id)} and a.student_id = ${studentId} and a.status = 'REVIEWED')`
+      })
+      .from(quizzes)
+      .where(and(eq(quizzes.skillId, w.skillId), isNotNull(quizzes.publishedAt), isNull(quizzes.deletedAt), or(eq(quizzes.isPublic, true), inArray(quizzes.id, targetedQuizzes))))
+      .orderBy(desc(quizzes.publishedAt))
+      .limit(3)
+    out.push({
+      skillId: w.skillId,
+      skillName: w.name,
+      score: w.score,
+      lessons: items.filter((i) => i.type !== 'EXERCISE' && i.type !== 'QUIZ').slice(0, 3),
+      exercises: items.filter((i) => i.type === 'EXERCISE').slice(0, 3),
+      quizzes: qz.map((q) => ({ ...q, bestScore: q.bestScore === null ? null : Number(q.bestScore) }))
+    })
   }
   return out
 }

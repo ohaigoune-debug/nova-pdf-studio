@@ -1,12 +1,14 @@
 import type { Db } from '@/server/db/connect'
 import { runAiEvaluationJob, runTeacherInsightsJob } from '@/server/services/ai.service'
+import { runReportJob } from '@/server/services/reports.service'
 import { claimNextJob, completeJob, failJob, type JobRow, type JobType } from './queue'
 
 type Handler = (db: Db, job: JobRow) => Promise<Record<string, unknown> | null>
 
 const handlers: Record<JobType, Handler> = {
   AI_EVALUATE_SUBMISSION: (db, job) => runAiEvaluationJob(db, String(job.payload.evaluationId ?? '')),
-  AI_TEACHER_INSIGHTS: (db, job) => runTeacherInsightsJob(db, String(job.payload.workspaceId ?? ''), String(job.payload.userId ?? ''))
+  AI_TEACHER_INSIGHTS: (db, job) => runTeacherInsightsJob(db, String(job.payload.workspaceId ?? ''), String(job.payload.userId ?? '')),
+  REPORT_EXPORT: (db, job) => runReportJob(db, job.payload)
 }
 
 export interface RunSummary {

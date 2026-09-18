@@ -181,6 +181,29 @@ export async function dataInsights(db: Db, actor: Actor): Promise<DataInsight[]>
     }
   }
 
+  // ربط الغياب بالمستوى (توصية لا حكم): مقارنة متوسط المهارات بين الأكثر غياباً والمنتظمين في كل فوج
+  for (const g of overview) {
+    if (g.sessions < 3) continue
+    const rows = await db
+      .select({
+        studentId: groupStudents.studentId,
+        attended: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.group_student_id = ${qcol(groupStudents.id)} and a.status in ('PRESENT','LATE'))`,
+        total: sql<number>`(select count(*)::int from ${attendanceRecords} a where a.group_student_id = ${qcol(groupStudents.id)})`,
+        avgSkill: sql<number | null>`(select avg(ss.score) from student_skills ss where ss.student_id = ${qcol(groupStudents.studentId)})`
+      })
+      .from(groupStudents)
+      .where(and(eq(groupStudents.groupId, g.groupId), eq(groupStudents.status, 'ACTIVE')))
+    const scored = rows.filter((r) => r.total > 0 && r.avgSkill !== null).map((r) => ({ rate: r.attended / r.total, skill: Number(r.avgSkill) }))
+    const low = scored.filter((r) => r.rate < 0.75)
+    const high = scored.filter((r) => r.rate >= 0.75)
+    if (low.length >= 2 && high.length >= 2) {
+      const avg = (xs: { skill: number }[]) => Math.round(xs.reduce((s, x) => s + x.skill, 0) / xs.length)
+      const a = avg(low)
+      const b = avg(high)
+      if (b - a >= 10) out.push({ tone: 'info', text: `في فوج ${g.name}: متوسط مهارات الطلاب الأكثر غياباً ${a}% مقابل ${b}% للمنتظمين (${low.length} طلاب). توصية: تواصل معهم وقدّم ملخصات الحصص الفائتة — هذا ارتباط لا حكم.`, href: `/teacher/groups/${g.groupId}` })
+    }
+  }
+
   // من لم يرسل آخر واجبين
   const lastTwo = await db.select({ id: assignments.id }).from(assignments).where(and(eq(assignments.workspaceId, w), isNull(assignments.deletedAt))).orderBy(desc(assignments.createdAt)).limit(2)
   if (lastTwo.length === 2) {

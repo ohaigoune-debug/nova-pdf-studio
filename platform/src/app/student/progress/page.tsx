@@ -1,5 +1,5 @@
 import { TrendingUp } from 'lucide-react'
-import { ContentGrid } from '@/components/domain/content-cards'
+import { RemediationPlan } from '@/components/domain/remediation-plan'
 import { SkillMap } from '@/components/domain/skill-map'
 import { Timeline } from '@/components/domain/timeline'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -9,13 +9,13 @@ import { percent } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listStudentGrades } from '@/server/queries/student-extras.queries'
-import { skillMap, suggestedContentForStudent } from '@/server/services/skills.service'
+import { remediationPlan, skillMap } from '@/server/services/skills.service'
 import { getStudentProfile } from '@/server/services/students.service'
 
 export default async function StudentProgressPage() {
   const actor = await requirePageActor('STUDENT')
   const db = await getDb()
-  const [profile, skills, suggestions, grades] = await Promise.all([getStudentProfile(db, actor, actor.studentId!), skillMap(db, actor.studentId!), suggestedContentForStudent(db, actor), listStudentGrades(db, actor)])
+  const [profile, skills, grades, plan] = await Promise.all([getStudentProfile(db, actor, actor.studentId!), skillMap(db, actor.studentId!), listStudentGrades(db, actor), remediationPlan(db, actor)])
   const avgSkill = skills.length ? skills.reduce((s, k) => s + k.score, 0) / skills.length : null
   const avgGrade = grades.length ? (grades.reduce((s, g) => s + (Number(g.score) / Number(g.maxScore)) * 20, 0) / grades.length) : null
   return (
@@ -45,17 +45,9 @@ export default async function StudentProgressPage() {
           </CardContent>
         </Card>
       </div>
-      {suggestions.length ? (
-        <section className="mt-6 space-y-4">
-          <h2 className="text-lg font-extrabold">{t('skills.suggested')}</h2>
-          {suggestions.map((s) => (
-            <div key={s.skillName}>
-              <p className="mb-2 text-sm font-semibold text-muted-foreground">{s.skillName}</p>
-              <ContentGrid items={s.items} basePath="/student/lessons" />
-            </div>
-          ))}
-        </section>
-      ) : null}
+      <div className="mt-6">
+        <RemediationPlan steps={plan} />
+      </div>
     </>
   )
 }
