@@ -16,6 +16,7 @@ import { users } from './auth'
 import { files, skills } from './content'
 import {
   AI_EVAL_STATUSES,
+  ATTEMPT_STATUSES,
   GRADE_SOURCES,
   QUESTION_TYPES,
   REVIEW_DECISIONS,
@@ -173,10 +174,26 @@ export const quizzes = pgTable(
     maxScore: numeric('max_score', { precision: 6, scale: 2 }).notNull().default('20'),
     isPublic: boolean('is_public').notNull().default(false),
     publishedAt: timestamp('published_at', { withTimezone: true }),
+    dueAt: timestamp('due_at', { withTimezone: true }),
+    maxAttempts: integer('max_attempts').notNull().default(1),
     ...timestamps,
     ...softDelete
   },
   (t) => [index('quizzes_workspace_idx').on(t.workspaceId)]
+)
+
+export const quizTargets = pgTable(
+  'quiz_targets',
+  {
+    id: id(),
+    quizId: uuid('quiz_id')
+      .notNull()
+      .references(() => quizzes.id, { onDelete: 'cascade' }),
+    groupId: uuid('group_id').references(() => groups.id, { onDelete: 'cascade' }),
+    studentId: uuid('student_id').references(() => students.id, { onDelete: 'cascade' }),
+    ...timestamps
+  },
+  (t) => [index('quiz_targets_quiz_idx').on(t.quizId), index('quiz_targets_group_idx').on(t.groupId)]
 )
 
 export const questions = pgTable(
@@ -227,13 +244,22 @@ export const quizAttempts = pgTable(
     studentId: uuid('student_id')
       .notNull()
       .references(() => students.id),
+    workspaceId: uuid('workspace_id').references(() => teacherWorkspaces.id, { onDelete: 'cascade' }),
+    status: text('status').notNull().default('IN_PROGRESS'),
     startedAt: timestamp('started_at', { withTimezone: true }).notNull().defaultNow(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }),
     submittedAt: timestamp('submitted_at', { withTimezone: true }),
     autoScore: numeric('auto_score', { precision: 6, scale: 2 }),
     finalScore: numeric('final_score', { precision: 6, scale: 2 }),
+    /** هل توجد أسئلة مقالية تنتظر مراجعة الأستاذ */
+    needsReview: boolean('needs_review').notNull().default(false),
     ...timestamps
   },
-  (t) => [index('quiz_attempts_student_idx').on(t.studentId, t.quizId)]
+  (t) => [
+    check('quiz_attempts_status_check', inList(t.status, ATTEMPT_STATUSES)),
+    index('quiz_attempts_student_idx').on(t.studentId, t.quizId),
+    index('quiz_attempts_quiz_idx').on(t.quizId, t.status)
+  ]
 )
 
 export const answers = pgTable(
@@ -328,6 +354,8 @@ export const grades = pgTable(
     feedbackStrengths: jsonb('feedback_strengths').$type<string[]>().notNull().default([]),
     feedbackImprovements: jsonb('feedback_improvements').$type<string[]>().notNull().default([]),
     teacherNotes: text('teacher_notes'),
+    /** نقاط كل بند من الـRubric: { rubricItemId: points } */
+    rubricBreakdown: jsonb('rubric_breakdown').$type<Record<string, number>>(),
     /** ما يراه الطالب فقط بعد الاعتماد */
     visibleToStudent: boolean('visible_to_student').notNull().default(false),
     ...timestamps

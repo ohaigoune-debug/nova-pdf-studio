@@ -11,7 +11,7 @@ import {
 import { qcol } from '@/server/db/sql-helpers'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
-import { AppError } from '@/server/lib/errors'
+import { AppError, assertUuid } from '@/server/lib/errors'
 import { recomputeUnexcused } from './enrollment.service'
 import { assertGroupAccess } from './groups.service'
 import { notifyMany } from './notifications.service'
@@ -21,6 +21,7 @@ export type ClassSessionRow = typeof classSessions.$inferSelect
 
 export async function assertSessionAccess(db: Db, actor: Actor, sessionId: string): Promise<ClassSessionRow> {
   assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+  assertUuid(sessionId, 'SESSION_NOT_FOUND')
   const [s] = await db.select().from(classSessions).where(eq(classSessions.id, sessionId)).limit(1)
   if (!s) throw new AppError('SESSION_NOT_FOUND')
   if (actor.role === 'TEACHER' && s.workspaceId !== actor.workspaceId) throw new AppError('SESSION_NOT_FOUND')

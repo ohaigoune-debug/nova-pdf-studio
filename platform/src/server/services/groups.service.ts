@@ -23,7 +23,7 @@ import { qcol } from '@/server/db/sql-helpers'
 import type { GroupStatus } from '@/server/db/schema/enums'
 import { assertRole, workspaceOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
-import { AppError } from '@/server/lib/errors'
+import { AppError, assertUuid } from '@/server/lib/errors'
 
 export interface GroupInput {
   name: string
@@ -50,6 +50,7 @@ export type GroupRow = typeof groups.$inferSelect
 /** يرجع الفوج إذا كان ضمن نطاق الفاعل، وإلا NOT_FOUND (لا نكشف وجوده). */
 export async function assertGroupAccess(db: Db, actor: Actor, groupId: string): Promise<GroupRow> {
   assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+  assertUuid(groupId)
   const rows = await db
     .select()
     .from(groups)

@@ -9,6 +9,7 @@ import {
   groupStudents,
   groups,
   profiles,
+  rubricItems,
   skills,
   students,
   submissionMessages,
@@ -18,9 +19,11 @@ import {
 import { qcol } from '@/server/db/sql-helpers'
 import { assertRole, studentIdOf, workspaceOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
-import { AppError } from '@/server/lib/errors'
+import { AppError, assertUuid } from '@/server/lib/errors'
 import { assertGroupAccess } from './groups.service'
 import { notify, notifyMany } from './notifications.service'
+import { validateBreakdown } from './rubrics.service'
+import { recordSkillResult } from './skills.service'
 import { addTimeline } from './timeline.service'
 
 export interface AssignmentInput {
@@ -33,6 +36,7 @@ export interface AssignmentInput {
   dueAt?: Date | null
   maxScore?: number
   attachmentFileId?: string | null
+  rubricId?: string | null
   groupIds: string[]
   studentIds: string[]
 }
@@ -41,6 +45,7 @@ type AssignmentRow = typeof assignments.$inferSelect
 
 async function assertAssignmentAccess(db: Db, actor: Actor, id: string): Promise<AssignmentRow> {
   assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+  assertUuid(id, 'ASSIGNMENT_NOT_FOUND')
   const [a] = await db.select().from(assignments).where(and(eq(assignments.id, id), isNull(assignments.deletedAt))).limit(1)
   if (!a) throw new AppError('ASSIGNMENT_NOT_FOUND')
   if (actor.role === 'TEACHER' && a.workspaceId !== actor.workspaceId) throw new AppError('ASSIGNMENT_NOT_FOUND')
@@ -104,7 +109,8 @@ export async function createAssignment(db: Db, actor: Actor, input: AssignmentIn
         startsAt: input.startsAt ?? null,
         dueAt: input.dueAt ?? null,
         maxScore: String(maxScore),
-        attachmentFileId: input.attachmentFileId ?? null
+        attachmentFileId: input.attachmentFileId ?? null,
+        rubricId: input.rubricId ?? null
       })
       .returning()
     if (!row) throw new AppError('INTERNAL')
@@ -147,6 +153,7 @@ export async function updateAssignment(db: Db, actor: Actor, id: string, input: 
     patch.maxScore = String(input.maxScore)
   }
   if (input.attachmentFileId !== undefined) patch.attachmentFileId = input.attachmentFileId
+  if (input.rubricId !== undefined) patch.rubricId = input.rubricId
   if (input.groupIds && input.studentIds) await validateTargets(db, actor, a.workspaceId, input.groupIds, input.studentIds)
 
   return db.transaction(async (tx) => {
@@ -261,6 +268,7 @@ export interface StudentAssignmentDetail {
 
 export async function getAssignmentForStudent(db: Db, actor: Actor, id: string): Promise<StudentAssignmentDetail> {
   const studentId = studentIdOf(actor)
+  assertUuid(id, 'ASSIGNMENT_NOT_FOUND')
   const [a] = await db.select().from(assignments).where(and(eq(assignments.id, id), isNull(assignments.deletedAt))).limit(1)
   if (!a) throw new AppError('ASSIGNMENT_NOT_FOUND')
   if (!(await isTargeted(db, a.id, studentId))) throw new AppError('NOT_TARGETED')
@@ -282,7 +290,7 @@ export async function getAssignmentForStudent(db: Db, actor: Actor, id: string):
 
 async function visibleGrade(db: Db, submissionId: string) {
   const [g] = await db
-    .select({ score: grades.score, maxScore: grades.maxScore, strengths: grades.feedbackStrengths, improvements: grades.feedbackImprovements, notes: grades.teacherNotes })
+    .select({ score: grades.score, maxScore: grades.maxScore, strengths: grades.feedbackStrengths, improvements: grades.feedbackImprovements, notes: grades.teacherNotes, rubricBreakdown: grades.rubricBreakdown })
     .from(grades)
     .where(and(eq(grades.submissionId, submissionId), eq(grades.visibleToStudent, true)))
     .limit(1)
@@ -364,6 +372,7 @@ interface SubmissionCtx {
 }
 
 async function loadSubmissionCtx(db: Db, actor: Actor, submissionId: string): Promise<SubmissionCtx> {
+  assertUuid(submissionId, 'SUBMISSION_NOT_FOUND')
   const [row] = await db
     .select({ submission: assignmentSubmissions, assignment: assignments, studentUserId: students.userId })
     .from(assignmentSubmissions)
@@ -404,15 +413,23 @@ export interface ReviewInput {
   strengths: string[]
   improvements: string[]
   notes?: string | null
+  /** نقاط كل بند من شبكة التقييم المرتبطة بالواجب؛ إن وُجدت فالمجموع هو العلامة */
+  rubricBreakdown?: Record<string, number> | null
 }
 
-/** اعتماد تصحيح الأستاذ: العلامة + ما أحسن فيه + ما يحتاج تحسينه، تصل الطالب كرسالة تصحيح */
+/** اعتماد تصحيح الأستاذ: العلامة (أو مجموع بنود الـRubric) + ما أحسن فيه + ما يحتاج تحسينه، تصل الطالب كرسالة تصحيح وتُحدّث خريطة المهارات */
 export async function reviewSubmission(db: Db, actor: Actor, submissionId: string, input: ReviewInput) {
   assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
   const ctx = await loadSubmissionCtx(db, actor, submissionId)
   if (ctx.submission.status === 'DRAFT') throw new AppError('SUBMISSION_NOT_SUBMITTED')
   const max = Number(ctx.assignment.maxScore)
-  if (!Number.isFinite(input.score) || input.score < 0 || input.score > max) throw new AppError('INVALID_SCORE')
+  let score = input.score
+  let items: { id: string; maxPoints: string; skillId: string | null }[] = []
+  if (ctx.assignment.rubricId && input.rubricBreakdown) {
+    items = await db.select({ id: rubricItems.id, maxPoints: rubricItems.maxPoints, skillId: rubricItems.skillId }).from(rubricItems).where(eq(rubricItems.rubricId, ctx.assignment.rubricId))
+    score = validateBreakdown(items, input.rubricBreakdown)
+  }
+  if (!Number.isFinite(score) || score < 0 || score > max) throw new AppError('INVALID_SCORE')
   const strengths = input.strengths.map((s) => s.trim()).filter(Boolean)
   const improvements = input.improvements.map((s) => s.trim()).filter(Boolean)
   const notes = input.notes?.trim() || null
@@ -420,7 +437,7 @@ export async function reviewSubmission(db: Db, actor: Actor, submissionId: strin
   return db.transaction(async (tx) => {
     const [existing] = await tx.select().from(grades).where(eq(grades.submissionId, submissionId)).limit(1)
     const values = {
-      score: String(input.score),
+      score: String(score),
       maxScore: String(max),
       source: 'TEACHER' as const,
       approvedByUserId: actor.userId,
@@ -428,6 +445,7 @@ export async function reviewSubmission(db: Db, actor: Actor, submissionId: strin
       feedbackStrengths: strengths,
       feedbackImprovements: improvements,
       teacherNotes: notes,
+      rubricBreakdown: input.rubricBreakdown ?? null,
       visibleToStudent: true
     }
     let gradeId: string
@@ -441,14 +459,25 @@ export async function reviewSubmission(db: Db, actor: Actor, submissionId: strin
     }
     await tx.update(assignmentSubmissions).set({ status: 'REVIEWED' }).where(eq(assignmentSubmissions.id, submissionId))
 
-    const lines = [`نقطتك: ${input.score}/${max}`]
+    // محرّك المهارات: المهارة العامة للواجب + مهارات بنود الشبكة
+    if (max > 0 && ctx.assignment.skillId) {
+      await recordSkillResult(tx, { studentId: ctx.submission.studentId, skillId: ctx.assignment.skillId, percent: (score / max) * 100, sourceType: 'ASSIGNMENT', sourceId: submissionId })
+    }
+    for (const it of items) {
+      const pts = input.rubricBreakdown?.[it.id]
+      if (it.skillId && pts !== undefined && Number(it.maxPoints) > 0 && it.skillId !== ctx.assignment.skillId) {
+        await recordSkillResult(tx, { studentId: ctx.submission.studentId, skillId: it.skillId, percent: (pts / Number(it.maxPoints)) * 100, sourceType: 'ASSIGNMENT', sourceId: submissionId })
+      }
+    }
+
+    const lines = [`نقطتك: ${score}/${max}`]
     if (strengths.length) lines.push('', 'أحسنت في:', ...strengths.map((s) => `• ${s}`))
     if (improvements.length) lines.push('', 'تحتاج إلى تحسين:', ...improvements.map((s) => `• ${s}`))
     if (notes) lines.push('', notes)
     await tx.insert(submissionMessages).values({ submissionId, authorUserId: actor.userId, kind: 'FEEDBACK', body: lines.join('\n') })
 
-    await notify(tx, { userId: ctx.studentUserId, workspaceId: ctx.submission.workspaceId, type: 'NEW_GRADE', title: `تم تصحيح "${ctx.assignment.title}": ${input.score}/${max}`, link: `/student/assignments/${ctx.assignment.id}` })
-    await addTimeline(tx, { studentId: ctx.submission.studentId, workspaceId: ctx.submission.workspaceId, type: 'GRADED', title: `حصل على ${input.score}/${max} في "${ctx.assignment.title}"`, meta: { assignmentId: ctx.assignment.id, gradeId } })
+    await notify(tx, { userId: ctx.studentUserId, workspaceId: ctx.submission.workspaceId, type: 'NEW_GRADE', title: `تم تصحيح "${ctx.assignment.title}": ${score}/${max}`, link: `/student/assignments/${ctx.assignment.id}` })
+    await addTimeline(tx, { studentId: ctx.submission.studentId, workspaceId: ctx.submission.workspaceId, type: 'GRADED', title: `حصل على ${score}/${max} في "${ctx.assignment.title}"`, meta: { assignmentId: ctx.assignment.id, gradeId } })
     await writeAudit(tx, {
       actorUserId: actor.userId,
       workspaceId: ctx.submission.workspaceId,
@@ -456,7 +485,7 @@ export async function reviewSubmission(db: Db, actor: Actor, submissionId: strin
       entityType: 'grade',
       entityId: gradeId,
       oldValue: existing ? { score: existing.score } : null,
-      newValue: { score: input.score, maxScore: max }
+      newValue: { score, maxScore: max }
     })
     return { gradeId }
   })

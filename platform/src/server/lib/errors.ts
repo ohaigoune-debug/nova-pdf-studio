@@ -41,6 +41,17 @@ export const ERROR_CODES = [
   'FILE_NOT_FOUND',
   'FILE_TOO_LARGE',
   'FILE_TYPE_NOT_ALLOWED',
+  'QUIZ_NOT_FOUND',
+  'QUIZ_NOT_PUBLISHED',
+  'QUIZ_NO_QUESTIONS',
+  'QUIZ_HAS_ATTEMPTS',
+  'QUIZ_CLOSED',
+  'ATTEMPT_NOT_FOUND',
+  'ATTEMPT_LIMIT',
+  'ATTEMPT_CLOSED',
+  'ATTEMPT_NOT_SUBMITTED',
+  'RUBRIC_NOT_FOUND',
+  'RUBRIC_MISMATCH',
   'INTERNAL'
 ] as const
 
@@ -56,6 +67,9 @@ const HTTP_STATUS: Partial<Record<ErrorCode, number>> = {
   SUBMISSION_NOT_FOUND: 404,
   CONTENT_NOT_FOUND: 404,
   FILE_NOT_FOUND: 404,
+  QUIZ_NOT_FOUND: 404,
+  ATTEMPT_NOT_FOUND: 404,
+  RUBRIC_NOT_FOUND: 404,
   VALIDATION: 422,
   RATE_LIMITED: 429,
   INTERNAL: 500
@@ -77,6 +91,13 @@ export class AppError extends Error {
     this.status = HTTP_STATUS[code] ?? 400
     this.details = details
   }
+}
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+/** يرمي الخطأ المناسب قبل الوصول إلى قاعدة البيانات إذا لم يكن المعرّف UUID صالحاً */
+export function assertUuid(id: string | null | undefined, code: ErrorCode = 'NOT_FOUND'): asserts id is string {
+  if (!id || !UUID_RE.test(id)) throw new AppError(code)
 }
 
 export function isAppError(err: unknown): err is AppError {

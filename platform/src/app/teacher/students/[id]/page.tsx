@@ -5,28 +5,32 @@ import { AttendanceHistoryTable } from '@/components/domain/attendance-history-t
 import { ExcuseDialog } from '@/components/domain/excuse-dialog'
 import { MemberActions } from '@/components/domain/member-actions'
 import { EnrollmentStatusBadge } from '@/components/domain/status-badges'
+import { SkillMap } from '@/components/domain/skill-map'
 import { Timeline } from '@/components/domain/timeline'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, Avatar, PageHeader, PhaseNote, Progress, StatCard } from '@/components/ui/misc'
+import { Alert, Avatar, PageHeader, Progress, StatCard } from '@/components/ui/misc'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { t, tEnum } from '@/i18n'
 import { formatDate, formatDateTime, percent } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
+import { skillMap } from '@/server/services/skills.service'
 import { getStudentProfile } from '@/server/services/students.service'
 
 export default async function TeacherStudentProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const actor = await requirePageActor('TEACHER')
   const { id } = await params
+  const db = await getDb()
   let p
   try {
-    p = await getStudentProfile(await getDb(), actor, id)
+    p = await getStudentProfile(db, actor, id)
   } catch (e) {
     if (isAppError(e)) notFound()
     throw e
   }
+  const skills = await skillMap(db, p.studentId)
   const info: [string, string][] = [
     [t('common.phone'), p.phone ?? '—'],
     [t('common.email'), p.email],
@@ -143,8 +147,11 @@ export default async function TeacherStudentProfilePage({ params }: { params: Pr
           </Card>
         </TabsContent>
         <TabsContent value="skills">
-          <PhaseNote phase={6} />
-          <p className="text-sm text-muted-foreground">{t('studentPages.skillsEmpty')}</p>
+          <Card>
+            <CardContent className="p-6">
+              <SkillMap items={skills} />
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

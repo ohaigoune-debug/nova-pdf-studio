@@ -4,7 +4,7 @@ import type { Db } from '@/server/db/connect'
 import { files } from '@/server/db/schema'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
-import { AppError } from '@/server/lib/errors'
+import { AppError, assertUuid } from '@/server/lib/errors'
 import { ALLOWED_MIME, MAX_UPLOAD_BYTES, newStorageKey, storage } from '@/server/lib/storage'
 
 export interface UploadInput {
@@ -55,6 +55,7 @@ export async function deleteFile(db: Db, actor: Actor, id: string) {
 
 /** يُستدعى من مسار التنزيل بعد التحقق من التوقيع فقط */
 export async function readFileForDownload(db: Db, id: string) {
+  assertUuid(id, 'FILE_NOT_FOUND')
   const [f] = await db.select().from(files).where(and(eq(files.id, id), isNull(files.deletedAt))).limit(1)
   if (!f) throw new AppError('FILE_NOT_FOUND')
   const bytes = await storage().get(f.storageKey)

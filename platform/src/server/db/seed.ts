@@ -24,6 +24,8 @@ import type { Actor } from '@/server/lib/actor'
 import { createTeacher } from '@/server/services/admin.service'
 import { addThreadMessage, createAssignment, reviewSubmission, saveDraft, submitAnswer } from '@/server/services/assignments.service'
 import { createContent } from '@/server/services/content.service'
+import { createQuiz, getAttemptForTeacher, getQuizForStudent, reviewAttempt, startAttempt, submitAttempt } from '@/server/services/quizzes.service'
+import { createRubric } from '@/server/services/rubrics.service'
 import { issueAttendanceToken, scanAttendanceToken } from '@/server/services/attendance.service'
 import { registerStudent } from '@/server/services/auth.service'
 import { closeSession, startSession } from '@/server/services/class-sessions.service'
@@ -239,6 +241,82 @@ export async function seedDemo(db: Db) {
   await reviewSubmission(db, teacher, sub1.submissionId, { score: 14, strengths: ['استخراج الفكرة العامة', 'تحديد الصورة البيانية'], improvements: ['إعراب الجملة', 'شرح الصورة البيانية'], notes: 'راجع درس الاستعارة المكنية.' })
   await submitAnswer(db, g1Students[1]!, asg.id, 'الفكرة العامة للنص هي الحنين والأمل. الصورة البيانية: تشبيه في البيت الأول…')
   await saveDraft(db, g1Students[2]!, asg.id, 'مسودة: الفكرة العامة…')
+
+  // شبكة تقييم + اختبار تجريبي بسبعة أنواع أسئلة ومحاولات
+  const skillIds = Object.fromEntries((await db.select().from(skills)).map((s) => [s.code, s.id]))
+  await createRubric(db, teacher, {
+    name: 'موضوع البكالوريا — نص أدبي',
+    description: 'شبكة التصحيح الرسمية المبسّطة',
+    items: [
+      { label: 'البناء الفكري', maxPoints: 8, skillId: skillIds.INTELLECTUAL },
+      { label: 'البناء اللغوي', maxPoints: 8, skillId: skillIds.LINGUISTIC },
+      { label: 'التقويم النقدي', maxPoints: 4, skillId: skillIds.CRITIQUE }
+    ]
+  })
+  const quiz = await createQuiz(db, teacher, {
+    title: 'اختبار قصير: الصور البيانية والإعراب',
+    description: 'أجب عن كل الأسئلة. الأسئلة الموضوعية تُصحَّح فوراً.',
+    topic: 'البلاغة',
+    timeLimitMinutes: 15,
+    maxAttempts: 2,
+    publish: true,
+    groupIds: [g1.id],
+    studentIds: [],
+    questions: [
+      { type: 'MCQ', prompt: 'ما نوع الصورة البيانية في "عيناكِ غابتا نخيلٍ ساعةَ السحر"؟', points: 2, skillId: skillIds.IMAGERY, answerKey: null, options: [{ label: 'تشبيه بليغ', isCorrect: true }, { label: 'استعارة مكنية', isCorrect: false }, { label: 'كناية عن صفة', isCorrect: false }] },
+      { type: 'TRUE_FALSE', prompt: 'الحال اسم نكرة منصوب يبيّن هيئة صاحبه.', points: 1, skillId: skillIds.HAL_TAMYIZ, answerKey: { value: true }, options: [] },
+      { type: 'SHORT_ANSWER', prompt: 'ما إعراب كلمة "كتاباً" في: قرأتُ كتاباً؟', points: 2, skillId: skillIds.IRAB_WORD, answerKey: { accepted: ['مفعول به', 'مفعول به منصوب'] }, options: [] },
+      { type: 'FILL_BLANK', prompt: 'الاستعارة ___ حُذف فيها المشبه به، والاستعارة ___ حُذف فيها المشبه.', points: 2, skillId: skillIds.IMAGERY, answerKey: { blanks: [['المكنية', 'مكنية'], ['التصريحية', 'تصريحية']] }, options: [] },
+      { type: 'MATCHING', prompt: 'طابق كل مصطلح بتعريفه', points: 2, skillId: skillIds.RHETORIC_STYLES, answerKey: { pairs: [{ left: 'تشبيه', right: 'عقد مماثلة بين شيئين' }, { left: 'كناية', right: 'لفظ أُريد به لازم معناه' }, { left: 'استعارة', right: 'تشبيه حُذف أحد طرفيه' }] }, options: [] },
+      { type: 'LONG_ANSWER', prompt: 'اشرح الصورة البيانية في قول الشاعر "يتثاءب المساء" مبيّناً أثرها في المعنى.', points: 3, skillId: skillIds.IMAGERY, answerKey: null, options: [] }
+    ]
+  })
+  {
+    const view = await getQuizForStudent(db, g1Students[0]!, quiz.id)
+    const byType = Object.fromEntries(view.questions.map((q) => [q.type, q]))
+    const a = await startAttempt(db, g1Students[0]!, quiz.id)
+    const m = byType.MATCHING!.matching!
+    const idx = (label: string) => m.rights.find((r) => r.label === label)!.index
+    await submitAttempt(db, g1Students[0]!, a.id, [
+      { questionId: byType.MCQ!.id, optionIds: [byType.MCQ!.options[0]!.id] },
+      { questionId: byType.TRUE_FALSE!.id, value: true },
+      { questionId: byType.SHORT_ANSWER!.id, text: 'مفعول به' },
+      { questionId: byType.FILL_BLANK!.id, blanks: ['المكنية', 'التصريحية'] },
+      { questionId: byType.MATCHING!.id, matches: { '0': idx('عقد مماثلة بين شيئين'), '1': idx('لفظ أُريد به لازم معناه'), '2': idx('تشبيه حُذف أحد طرفيه') } },
+      { questionId: byType.LONG_ANSWER!.id, text: 'استعارة مكنية: شُبّه المساء بإنسان يتثاءب وحُذف المشبه به، فأضفت على المشهد بطئاً وكسلاً يوحي بالملل.' }
+    ])
+    const ta = await getAttemptForTeacher(db, teacher, a.id)
+    const essay = ta.items.find((i) => i.type === 'LONG_ANSWER')!.answerId!
+    await reviewAttempt(db, teacher, a.id, { [essay]: 2.5 })
+    // طالب ثانٍ بمحاولة ضعيفة لإظهار المهارات الضعيفة المشتركة
+    const b = await startAttempt(db, g1Students[1]!, quiz.id)
+    await submitAttempt(db, g1Students[1]!, b.id, [
+      { questionId: byType.MCQ!.id, optionIds: [byType.MCQ!.options[1]!.id] },
+      { questionId: byType.TRUE_FALSE!.id, value: false },
+      { questionId: byType.SHORT_ANSWER!.id, text: 'فاعل' },
+      { questionId: byType.FILL_BLANK!.id, blanks: ['التصريحية', 'المكنية'] },
+      { questionId: byType.MATCHING!.id, matches: { '0': idx('تشبيه حُذف أحد طرفيه') } },
+      { questionId: byType.LONG_ANSWER!.id, text: 'لا أعرف.' }
+    ])
+  }
+
+  // اختبار عام للزوار والطلاب جميعاً
+  await createQuiz(db, teacher, {
+    title: 'اختبار ذاتي: الحال والتمييز',
+    description: 'ثلاثة أسئلة سريعة للتحقق من فهمك.',
+    topic: 'القواعد',
+    skillId: skillIds.HAL_TAMYIZ,
+    isPublic: true,
+    publish: true,
+    maxAttempts: 3,
+    groupIds: [],
+    studentIds: [],
+    questions: [
+      { type: 'TRUE_FALSE', prompt: 'التمييز اسم نكرة منصوب يزيل إبهام ما قبله.', points: 1, skillId: skillIds.HAL_TAMYIZ, answerKey: { value: true }, options: [] },
+      { type: 'MCQ', prompt: 'في "جاء الطالبُ مسرعاً"، كلمة "مسرعاً":', points: 1, skillId: skillIds.HAL_TAMYIZ, answerKey: null, options: [{ label: 'حال', isCorrect: true }, { label: 'تمييز', isCorrect: false }, { label: 'مفعول به', isCorrect: false }] },
+      { type: 'SHORT_ANSWER', prompt: 'ما إعراب "طولاً" في: طاب الجوُّ طولاً؟', points: 1, skillId: skillIds.HAL_TAMYIZ, answerKey: { accepted: ['تمييز', 'تمييز منصوب'] }, options: [] }
+    ]
+  })
 
   // محتوى خاص بالأستاذ موجّه للفوج الأول
   await createContent(db, teacher, {

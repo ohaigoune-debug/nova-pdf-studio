@@ -32,7 +32,8 @@ const assignmentSchema = z.object({
   startsAt: optionalDate,
   dueAt: optionalDate,
   maxScore: z.coerce.number().positive('العلامة يجب أن تكون موجبة').max(1000).default(20),
-  attachmentFileId: optionalUuid
+  attachmentFileId: optionalUuid,
+  rubricId: optionalUuid
 })
 
 function parseTargets(fd: FormData) {
@@ -122,7 +123,7 @@ export async function addThreadMessageAction(submissionId: string, text: string)
 
 const reviewSchema = z.object({
   submissionId: z.string().uuid(),
-  score: z.coerce.number().min(0, 'النقطة لا تكون سالبة'),
+  score: z.coerce.number().min(0, 'النقطة لا تكون سالبة').default(0),
   strengths: z.string().optional(),
   improvements: z.string().optional(),
   notes: z.string().trim().optional()
@@ -138,9 +139,19 @@ export async function reviewSubmissionAction(_prev: ActionResult | null, fd: For
   const parsed = reviewSchema.safeParse(Object.fromEntries(fd))
   if (!parsed.success) return failValidation(parsed.error)
   const d = parsed.data
+  const breakdown: Record<string, number> = {}
+  for (const [k, v] of fd.entries()) {
+    if (k.startsWith('rubric_')) breakdown[k.slice(7)] = Number(v)
+  }
   const result = await runAction(async () => {
     const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
-    await reviewSubmission(await getDb(), actor, d.submissionId, { score: d.score, strengths: lines(d.strengths), improvements: lines(d.improvements), notes: d.notes })
+    await reviewSubmission(await getDb(), actor, d.submissionId, {
+      score: d.score,
+      strengths: lines(d.strengths),
+      improvements: lines(d.improvements),
+      notes: d.notes,
+      rubricBreakdown: Object.keys(breakdown).length ? breakdown : null
+    })
     return undefined
   })
   if (result.ok) revalidatePath('/', 'layout')

@@ -10,12 +10,14 @@ import { formatClock, formatDateTime, percent } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listStudentContent } from '@/server/queries/student-extras.queries'
+import { skillMap } from '@/server/services/skills.service'
 import { studentHome } from '@/server/services/students.service'
 
 export default async function StudentHomePage() {
   const actor = await requirePageActor('STUDENT')
   const db = await getDb()
-  const [home, suggested] = await Promise.all([studentHome(db, actor), listStudentContent(db, actor, { limit: 3 })])
+  const [home, suggested, skills] = await Promise.all([studentHome(db, actor), listStudentContent(db, actor, { limit: 3 }), skillMap(db, actor.studentId!)])
+  const avgSkill = skills.length ? skills.reduce((s, k) => s + k.score, 0) / skills.length : null
   const open = home.groups.find((g) => g.hasOpenSession && g.status === 'ACTIVE')
   const suspended = home.groups.filter((g) => g.status === 'SUSPENDED_DUE_TO_ABSENCE')
 
@@ -53,7 +55,7 @@ export default async function StudentHomePage() {
         <StatCard label={t('dashboard.attendanceRate')} value={percent(home.attendance.rate)} icon={CalendarCheck} tone={home.attendance.rate !== null && home.attendance.rate < 70 ? 'warning' : 'success'} />
         <StatCard label={t('attendanceStatus.UNEXCUSED')} value={home.unexcusedTotal} icon={CalendarX} tone={home.unexcusedTotal >= 3 ? 'destructive' : 'default'} />
         <StatCard label={t('nav.myGroups')} value={home.groups.length} icon={UsersRound} />
-        <StatCard label={t('dashboard.skillsLevel')} value="—" hint={t('studentPages.skillsEmpty')} icon={TrendingUp} />
+        <StatCard label={t('dashboard.skillsLevel')} value={percent(avgSkill)} hint={avgSkill === null ? t('studentPages.skillsEmpty') : `${skills.length} مهارة مقيَّمة`} icon={TrendingUp} tone={avgSkill !== null && avgSkill < 60 ? 'warning' : 'default'} />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">

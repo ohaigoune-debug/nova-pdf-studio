@@ -15,7 +15,7 @@ import {
 } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
 import { assertRole, type Actor } from '@/server/lib/actor'
-import { AppError } from '@/server/lib/errors'
+import { AppError, assertUuid } from '@/server/lib/errors'
 import { listStudentAttendance, summarizeAttendance, type AttendanceStats } from './attendance.service'
 import { listStatusHistory } from './enrollment.service'
 import { listTimeline } from './timeline.service'
@@ -129,6 +129,7 @@ export interface StudentProfile {
  * الطالب يرى نفسه فقط.
  */
 export async function getStudentProfile(db: Db, actor: Actor, studentId: string): Promise<StudentProfile> {
+  assertUuid(studentId)
   if (actor.role === 'STUDENT' && actor.studentId !== studentId) throw new AppError('FORBIDDEN')
   if (actor.role !== 'STUDENT') assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
 

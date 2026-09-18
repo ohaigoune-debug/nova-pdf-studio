@@ -33,6 +33,7 @@ export default async function EditAssignmentPage({ params }: { params: Promise<{
             students={opts.students}
             skills={opts.skills}
             files={opts.files}
+            rubrics={opts.rubrics}
           />
         </CardContent>
       </Card>

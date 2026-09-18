@@ -11,17 +11,20 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { getSubmissionForTeacher } from '@/server/services/assignments.service'
+import { getRubric } from '@/server/services/rubrics.service'
 
 export default async function TeacherSubmissionPage({ params }: { params: Promise<{ id: string; sid: string }> }) {
   const actor = await requirePageActor('TEACHER')
   const { sid } = await params
+  const db = await getDb()
   let v
   try {
-    v = await getSubmissionForTeacher(await getDb(), actor, sid)
+    v = await getSubmissionForTeacher(db, actor, sid)
   } catch (e) {
     if (isAppError(e)) notFound()
     throw e
   }
+  const rubric = v.assignment.rubricId ? await getRubric(db, actor, v.assignment.rubricId).catch(() => null) : null
   const late = v.submission.submittedAt && v.assignment.dueAt && v.submission.submittedAt > v.assignment.dueAt
   return (
     <div className="space-y-6">
@@ -57,7 +60,7 @@ export default async function TeacherSubmissionPage({ params }: { params: Promis
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ReviewForm submissionId={v.submission.id} maxScore={v.assignment.maxScore} current={v.grade} />
+            <ReviewForm submissionId={v.submission.id} maxScore={v.assignment.maxScore} current={v.grade} rubricItems={rubric?.items} />
           </CardContent>
         </Card>
       </div>

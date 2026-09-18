@@ -15,6 +15,13 @@
       "when": 1789707836781,
       "tag": "0001_assignments_messages",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789718001131,
+      "tag": "0002_quizzes_rubrics",
+      "breakpoints": true
     }
   ]
 }

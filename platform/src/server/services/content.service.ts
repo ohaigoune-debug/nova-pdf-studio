@@ -5,7 +5,7 @@ import { content, contentTargets, files, groupStudents, levels, profiles, studen
 import type { ContentType, Visibility } from '@/server/db/schema/enums'
 import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
-import { AppError } from '@/server/lib/errors'
+import { AppError, assertUuid } from '@/server/lib/errors'
 import { assertGroupAccess } from './groups.service'
 import { notifyMany } from './notifications.service'
 
@@ -40,6 +40,7 @@ function slugify(title: string): string {
 
 async function assertContentAccess(db: Db, actor: Actor, id: string): Promise<ContentRow> {
   assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+  assertUuid(id, 'CONTENT_NOT_FOUND')
   const [c] = await db.select().from(content).where(and(eq(content.id, id), isNull(content.deletedAt))).limit(1)
   if (!c) throw new AppError('CONTENT_NOT_FOUND')
   if (actor.role === 'TEACHER' && c.workspaceId !== actor.workspaceId) throw new AppError('CONTENT_NOT_FOUND')

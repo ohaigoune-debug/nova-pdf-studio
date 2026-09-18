@@ -14,7 +14,7 @@ export default async function NewAssignmentPage() {
       <PageHeader title={t('assignments.new')} description="يكتب الطالب إجابته نصاً كرسالة داخل المنصة، ثم تصحّحها وتتحاوران حولها." />
       <Card className="max-w-3xl">
         <CardContent className="p-6">
-          <AssignmentForm groups={opts.groups} students={opts.students} skills={opts.skills} files={opts.files} />
+          <AssignmentForm groups={opts.groups} students={opts.students} skills={opts.skills} files={opts.files} rubrics={opts.rubrics} />
         </CardContent>
       </Card>
     </>

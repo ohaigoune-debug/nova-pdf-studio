@@ -20,6 +20,7 @@ export interface AssignmentFormDefaults {
   dueAt?: Date | null
   maxScore?: string | number
   attachmentFileId?: string | null
+  rubricId?: string | null
   groupIds?: string[]
   studentIds?: string[]
 }
@@ -31,7 +32,7 @@ function toLocalInput(d: Date | null | undefined): string {
   return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}T${pad(x.getHours())}:${pad(x.getMinutes())}`
 }
 
-export function AssignmentForm({ assignmentId, defaults = {}, groups, students, skills, files }: { assignmentId?: string; defaults?: AssignmentFormDefaults; groups: Opt[]; students: Opt[]; skills: Opt[]; files: Opt[] }) {
+export function AssignmentForm({ assignmentId, defaults = {}, groups, students, skills, files, rubrics = [] }: { assignmentId?: string; defaults?: AssignmentFormDefaults; groups: Opt[]; students: Opt[]; skills: Opt[]; files: Opt[]; rubrics?: Opt[] }) {
   const action = assignmentId
     ? (updateAssignmentAction.bind(null, assignmentId) as (p: ActionResult<unknown> | null, fd: FormData) => Promise<ActionResult<unknown>>)
     : (createAssignmentAction as (p: ActionResult<unknown> | null, fd: FormData) => Promise<ActionResult<unknown>>)
@@ -71,16 +72,28 @@ export function AssignmentForm({ assignmentId, defaults = {}, groups, students, 
           <Input id="maxScore" name="maxScore" type="number" min={1} max={1000} step="0.5" defaultValue={defaults.maxScore ?? 20} />
         </Field>
       </div>
-      <Field label={t('assignments.attachment')} htmlFor="attachmentFileId" hint="الملفات تُرفع من صفحة الملفات.">
-        <Select id="attachmentFileId" name="attachmentFileId" defaultValue={defaults.attachmentFileId ?? ''}>
-          <option value="">—</option>
-          {files.map((f) => (
-            <option key={f.id} value={f.id}>
-              {f.name}
-            </option>
-          ))}
-        </Select>
-      </Field>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field label={t('assignments.attachment')} htmlFor="attachmentFileId" hint="الملفات تُرفع من صفحة الملفات.">
+          <Select id="attachmentFileId" name="attachmentFileId" defaultValue={defaults.attachmentFileId ?? ''}>
+            <option value="">—</option>
+            {files.map((f) => (
+              <option key={f.id} value={f.id}>
+                {f.name}
+              </option>
+            ))}
+          </Select>
+        </Field>
+        <Field label={t('rubrics.attach')} htmlFor="rubricId" hint="التصحيح بنداً بنداً؛ مجموع البنود يجب أن يساوي العلامة القصوى.">
+          <Select id="rubricId" name="rubricId" defaultValue={defaults.rubricId ?? ''}>
+            <option value="">—</option>
+            {rubrics.map((r) => (
+              <option key={r.id} value={r.id}>
+                {r.name}
+              </option>
+            ))}
+          </Select>
+        </Field>
+      </div>
       <fieldset className="rounded-lg border p-4">
         <legend className="px-1 text-sm font-bold">{t('assignments.targets')}</legend>
         <p className="mb-3 text-xs text-muted-foreground">{t('assignments.targetHint')}</p>

@@ -4,6 +4,7 @@ import { assignmentSubmissions, assignments, attendanceRecords, classSessions, c
 import { qcol } from '@/server/db/sql-helpers'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
+import { groupWeakSkills } from '@/server/services/skills.service'
 
 function ws(actor: Actor): string {
   if (!actor.workspaceId) throw new AppError('FORBIDDEN')
@@ -87,7 +88,45 @@ export async function attendanceOverview(db: Db, actor: Actor): Promise<GroupAtt
   })
 }
 
-/** تحليلات مبنية على بيانات حقيقية فقط (الحضور حالياً؛ المهارات في المرحلة 6) */
+export interface AttendanceMatrix {
+  sessions: { id: string; scheduledAt: Date; title: string | null }[]
+  rows: { studentId: string; fullName: string; cells: (string | null)[]; rate: number | null }[]
+}
+
+/** مصفوفة الحضور (خريطة حرارية): آخر الحصص المغلقة × الطلاب النشطون */
+export async function attendanceMatrix(db: Db, actor: Actor, groupId: string, limit = 14): Promise<AttendanceMatrix> {
+  const w = ws(actor)
+  const sessions = (
+    await db
+      .select({ id: classSessions.id, scheduledAt: classSessions.scheduledAt, title: classSessions.title })
+      .from(classSessions)
+      .where(and(eq(classSessions.groupId, groupId), eq(classSessions.workspaceId, w), eq(classSessions.status, 'CLOSED')))
+      .orderBy(desc(classSessions.scheduledAt))
+      .limit(limit)
+  ).reverse()
+  const members = await db
+    .select({ studentId: groupStudents.studentId, fullName: profiles.fullName })
+    .from(groupStudents)
+    .innerJoin(users, sql`${users.id} = (select user_id from students st where st.id = ${groupStudents.studentId})`)
+    .leftJoin(profiles, eq(profiles.userId, users.id))
+    .where(and(eq(groupStudents.groupId, groupId), eq(groupStudents.status, 'ACTIVE')))
+    .orderBy(profiles.fullName)
+  const records = sessions.length
+    ? await db
+        .select({ sessionId: attendanceRecords.classSessionId, studentId: attendanceRecords.studentId, status: attendanceRecords.status })
+        .from(attendanceRecords)
+        .where(sql`${attendanceRecords.classSessionId} in (${sql.join(sessions.map((s) => sql`${s.id}`), sql`, `)})`)
+    : []
+  const rows = members.map((m) => {
+    const cells = sessions.map((s) => records.find((r) => r.sessionId === s.id && r.studentId === m.studentId)?.status ?? null)
+    const total = cells.filter(Boolean).length
+    const present = cells.filter((c) => c === 'PRESENT' || c === 'LATE').length
+    return { studentId: m.studentId, fullName: m.fullName ?? '—', cells, rate: total ? Math.round((present / total) * 100) : null }
+  })
+  return { sessions, rows }
+}
+
+/** تحليلات مبنية على بيانات حقيقية فقط (الحضور والمهارات والواجبات) */
 export interface DataInsight {
   tone: 'info' | 'warning' | 'success' | 'destructive'
   text: string
@@ -133,5 +172,24 @@ export async function dataInsights(db: Db, actor: Actor): Promise<DataInsight[]>
     .having(sql`count(*) >= 3`)
     .limit(5)
   if (frequentlyLate.length > 0) out.push({ tone: 'info', text: `طلاب يتأخرون باستمرار: ${frequentlyLate.map((f) => `${f.name ?? '—'} (${f.n})`).join('، ')}.` })
+
+  // المهارات الضعيفة المشتركة لكل فوج (من نتائج الاختبارات والتصحيحات المعتمدة)
+  for (const g of overview) {
+    const weak = await groupWeakSkills(db, g.groupId)
+    for (const w of weak.slice(0, 2)) {
+      if (w.weakCount >= 2) out.push({ tone: 'warning', text: `${w.weakCount} من ${w.assessed} طلاب في فوج ${g.name} يعانون من ضعف في "${w.name}" (متوسط ${w.average}%). موضوع مقترح للحصة القادمة.`, href: `/teacher/groups/${g.groupId}` })
+    }
+  }
+
+  // من لم يرسل آخر واجبين
+  const lastTwo = await db.select({ id: assignments.id }).from(assignments).where(and(eq(assignments.workspaceId, w), isNull(assignments.deletedAt))).orderBy(desc(assignments.createdAt)).limit(2)
+  if (lastTwo.length === 2) {
+    const ids = lastTwo.map((a) => a.id)
+    const missing = await db
+      .select({ n: sql<number>`count(distinct gs.student_id)::int` })
+      .from(sql`${groupStudents} gs`)
+      .where(sql`gs.workspace_id = ${w} and gs.status = 'ACTIVE' and not exists (select 1 from ${assignmentSubmissions} s where s.student_id = gs.student_id and s.assignment_id in (${sql.join(ids.map((i) => sql`${i}`), sql`, `)}) and s.status <> 'DRAFT')`)
+    if ((missing[0]?.n ?? 0) > 0) out.push({ tone: 'warning', text: `${missing[0]!.n} طالب لم يرسل أياً من آخر واجبين.`, href: '/teacher/assignments' })
+  }
   return out
 }

@@ -68,6 +68,7 @@ export function navFor(role: UserRole): NavSection[] {
           items: [
             { href: '/teacher/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
             { href: '/teacher/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
+            { href: '/teacher/rubrics', label: t('rubrics.title'), iconKey: 'ClipboardCheck' },
             { href: '/teacher/content', label: t('nav.content'), iconKey: 'BookOpen' },
             { href: '/teacher/files', label: t('nav.files'), iconKey: 'FolderOpen' },
             { href: '/teacher/reports', label: t('nav.reports'), iconKey: 'BarChart3' },

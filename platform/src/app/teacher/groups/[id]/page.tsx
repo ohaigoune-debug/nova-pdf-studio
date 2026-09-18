@@ -14,7 +14,10 @@ import { formatClock, formatDateTime, percent } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
+import { attendanceMatrix } from '@/server/queries/teacher-extras.queries'
 import { getGroupDashboard, getGroupDetail, listGroupMembers } from '@/server/services/groups.service'
+import { groupWeakSkills } from '@/server/services/skills.service'
+import { AttendanceHeatmap } from '@/components/domain/attendance-heatmap'
 
 export default async function GroupDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const actor = await requirePageActor('TEACHER')
@@ -27,7 +30,7 @@ export default async function GroupDetailPage({ params }: { params: Promise<{ id
     if (isAppError(e)) notFound()
     throw e
   }
-  const [dash, members] = await Promise.all([getGroupDashboard(db, actor, g.id), listGroupMembers(db, actor, g.id)])
+  const [dash, members, matrix, weakSkills] = await Promise.all([getGroupDashboard(db, actor, g.id), listGroupMembers(db, actor, g.id), attendanceMatrix(db, actor, g.id), groupWeakSkills(db, g.id)])
   const activeMembers = members.filter((m) => m.status === 'ACTIVE')
   const otherMembers = members.filter((m) => m.status !== 'ACTIVE')
 
@@ -202,6 +205,35 @@ export default async function GroupDetailPage({ params }: { params: Promise<{ id
           </Card>
         </div>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>خريطة الحضور</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <AttendanceHeatmap matrix={matrix} />
+        </CardContent>
+      </Card>
+
+      {weakSkills.length ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('skills.groupWeak')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="divide-y text-sm">
+              {weakSkills.map((w) => (
+                <li key={w.skillId} className="flex flex-wrap items-center justify-between gap-2 py-2">
+                  <span className="font-semibold">{w.name}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {w.weakCount} من {w.assessed} · متوسط {w.average}% · {w.students.slice(0, 4).join('، ')}{w.students.length > 4 ? '…' : ''}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      ) : null}
 
       <Card>
         <CardHeader className="flex-row items-center justify-between">
