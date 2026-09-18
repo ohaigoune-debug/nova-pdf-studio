@@ -1,9 +1,11 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { LessonMedia } from '@/components/domain/lesson-media'
 import { Badge } from '@/components/ui/badge'
 import { tEnum } from '@/i18n'
 import { formatDate } from '@/lib/utils'
+import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { getPublicContentBySlug } from '@/server/queries/content.queries'
 
@@ -65,6 +67,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   const { slug } = await params
   const item = await getPublicContentBySlug(await getDb(), decodeURIComponent(slug))
   if (!item) notFound()
+  const actor = await getCurrentActor()
   return (
     <article className="container max-w-3xl py-10">
       <Link href="/lessons" className="mb-6 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
@@ -81,7 +84,10 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
         {formatDate(item.publishedAt)}
       </p>
       {item.summary ? <p className="mt-6 rounded-lg border-s-4 border-primary bg-primary/5 p-4 text-muted-foreground">{item.summary}</p> : null}
-      <div className="prose-ar mt-6 space-y-3 text-[17px]">{item.body ? renderBody(item.body) : <p className="text-muted-foreground">المحتوى سيُضاف قريباً.</p>}</div>
+      <div className="mt-6">
+        <LessonMedia item={item} actor={actor} />
+      </div>
+      <div className="prose-ar mt-6 space-y-3 text-[17px]">{item.body ? renderBody(item.body) : item.youtubeId || item.fileId ? null : <p className="text-muted-foreground">المحتوى سيُضاف قريباً.</p>}</div>
     </article>
   )
 }

@@ -74,8 +74,9 @@ audit_logs, activity_logs, jobs, qr_nonces
 
 | جدول | الأعمدة |
 |---|---|
-| `files` | `workspace_id` (nullable), `owner_user_id`, `bucket` (public/private), `storage_key`, `original_name`, `mime_type`, `size_bytes`, `checksum`, `visibility`, `deleted_at` |
-| `content` | `workspace_id` (nullable = عام), `author_user_id`, `type` (ARTICLE/LESSON/PDF/VIDEO/AUDIO/QUIZ/EXERCISE/IMAGE/LINK), `title`, `slug`, `summary`, `body` (markdown), `file_id`, `external_url`, `level_id`, `stream_id`, `topic`, `skill_id`, `visibility` (PUBLIC/STUDENTS_ONLY/GROUP_ONLY/SPECIFIC_STUDENTS/TEACHERS_ONLY), `published_at`, `deleted_at` |
+| `files` | `workspace_id` (nullable), `owner_user_id`, `bucket` (public/private), `storage_key`, `original_name`, `mime_type`, `size_bytes`, `checksum`, `status` (PENDING = تذكرة رفع مباشر لم تكتمل / READY), `deleted_at` |
+| `content` | `workspace_id` (nullable = عام), `author_user_id`, `type` (ARTICLE/LESSON/PDF/VIDEO/AUDIO/QUIZ/EXERCISE/IMAGE/LINK), `title`, `slug`, `summary`, `body` (markdown), `file_id`, `external_url`, `video_provider` (YOUTUBE/UPLOAD/NULL), `youtube_id` (11 حرفاً مُتحقَّق منه), `allow_download` (PDF: تنزيل خام أم عرض مختوم فقط)، `level_id`, `stream_id`, `topic`, `skill_id`, `visibility` (PUBLIC/STUDENTS_ONLY/GROUP_ONLY/SPECIFIC_STUDENTS/TEACHERS_ONLY), `published_at`, `deleted_at` |
+| `media_views` | `workspace_id`, `content_id`, `file_id`, `user_id`, `student_id`, `viewer_key` (جهاز/تبويب), `ip`, `user_agent`, `started_at`, `last_seen_at`, `seconds_watched`, `max_position`, `completed` | سجل مشاهدة الوسائط المحمية + كشف مشاركة الحساب؛ idx (content_id,user_id), (user_id,last_seen_at) |
 | `content_targets` | `content_id`, `group_id` / `student_id` (للرؤية المحددة) |
 | `lessons` | = `content` بنوع LESSON + `content_sections` (ترتيب) — مرحلة 4 |
 

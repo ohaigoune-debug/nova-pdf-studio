@@ -25,7 +25,7 @@ export function ContentGrid({ items, emptyText, basePath = '/lessons', locale = 
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((c) => {
         const Icon = icons[c.type] ?? FileText
-        const href = c.externalUrl ?? `${basePath}/${c.slug}`
+        const href = c.type === 'LINK' && c.externalUrl ? c.externalUrl : `${basePath}/${c.slug}`
         return (
           <Link key={c.id} href={href} className="group">
             <Card className="h-full transition-shadow group-hover:shadow-md">
@@ -42,7 +42,7 @@ export function ContentGrid({ items, emptyText, basePath = '/lessons', locale = 
                   {c.levelName ? <span>{c.levelName}</span> : null}
                   {c.topic ? <span>· {c.topic}</span> : null}
                   <span className="ms-auto">{formatShortDate(c.publishedAt)}</span>
-                  {c.externalUrl ? <ExternalLink className="size-3" /> : null}
+                  {c.type === 'LINK' && c.externalUrl ? <ExternalLink className="size-3" /> : null}
                 </div>
               </CardContent>
             </Card>

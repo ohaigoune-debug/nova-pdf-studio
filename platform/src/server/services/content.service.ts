@@ -2,7 +2,8 @@ import { randomBytes } from 'node:crypto'
 import { and, eq, inArray, isNotNull, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { content, contentTargets, files, groupStudents, levels, profiles, students, users } from '@/server/db/schema'
-import type { ContentType, Visibility } from '@/server/db/schema/enums'
+import type { ContentType, VideoProvider, Visibility } from '@/server/db/schema/enums'
+import { parseYoutubeId } from '@/server/lib/youtube'
 import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
@@ -24,6 +25,23 @@ export interface ContentInput {
   groupIds?: string[]
   studentIds?: string[]
   publish?: boolean
+  /** فيديو: YOUTUBE (رابط) أو UPLOAD (ملف من مكتبة الأستاذ) */
+  videoProvider?: VideoProvider | null
+  /** PDF: السماح بالتنزيل الخام (الافتراضي عرض مختوم داخل التطبيق فقط) */
+  allowDownload?: boolean
+}
+
+/** يشتق حقول الفيديو من المدخلات: معرّف يوتيوب مُتحقَّق منه أو ملف مرفوع */
+function videoFields(input: Partial<ContentInput>): Partial<typeof content.$inferInsert> {
+  if (input.type !== 'VIDEO') return { videoProvider: null, youtubeId: null }
+  const provider = input.videoProvider ?? (input.fileId ? 'UPLOAD' : 'YOUTUBE')
+  if (provider === 'YOUTUBE') {
+    const id = parseYoutubeId(input.externalUrl ?? '')
+    if (!id) throw new AppError('INVALID_YOUTUBE_URL')
+    return { videoProvider: 'YOUTUBE', youtubeId: id, externalUrl: `https://www.youtube.com/watch?v=${id}` }
+  }
+  if (!input.fileId) throw new AppError('VALIDATION', { field: 'fileId' })
+  return { videoProvider: 'UPLOAD', youtubeId: null }
 }
 
 type ContentRow = typeof content.$inferSelect
@@ -99,7 +117,9 @@ export async function createContent(db: Db, actor: Actor, input: ContentInput) {
         topic: input.topic?.trim() || null,
         skillId: input.skillId ?? null,
         visibility: input.visibility,
-        publishedAt: input.publish ? new Date() : null
+        publishedAt: input.publish ? new Date() : null,
+        allowDownload: input.allowDownload ?? false,
+        ...videoFields(input)
       })
       .returning()
     if (!row) throw new AppError('INTERNAL')
@@ -125,6 +145,18 @@ export async function updateContent(db: Db, actor: Actor, id: string, input: Par
   if (input.skillId !== undefined) patch.skillId = input.skillId
   if (input.visibility !== undefined) patch.visibility = input.visibility
   if (input.publish !== undefined) patch.publishedAt = input.publish ? (c.publishedAt ?? new Date()) : null
+  if (input.allowDownload !== undefined) patch.allowDownload = input.allowDownload
+  if (input.type !== undefined || input.videoProvider !== undefined || input.externalUrl !== undefined || input.fileId !== undefined) {
+    Object.assign(
+      patch,
+      videoFields({
+        type: input.type ?? (c.type as ContentType),
+        videoProvider: input.videoProvider ?? (c.videoProvider as VideoProvider | null),
+        externalUrl: input.externalUrl !== undefined ? input.externalUrl : c.externalUrl,
+        fileId: input.fileId !== undefined ? input.fileId : c.fileId
+      })
+    )
+  }
   return db.transaction(async (tx) => {
     const [row] = await tx.update(content).set(patch).where(eq(content.id, c.id)).returning()
     const vis = input.visibility ?? (c.visibility as Visibility)
@@ -180,6 +212,11 @@ export async function getContentForStudent(db: Db, actor: Actor, slug: string) {
       externalUrl: content.externalUrl,
       fileId: content.fileId,
       fileName: files.originalName,
+      fileMime: files.mimeType,
+      fileStatus: files.status,
+      videoProvider: content.videoProvider,
+      youtubeId: content.youtubeId,
+      allowDownload: content.allowDownload,
       levelName: levels.nameAr,
       authorName: profiles.fullName,
       publishedAt: content.publishedAt

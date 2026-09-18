@@ -45,7 +45,7 @@ export async function listWorkspaceContent(db: Db, actor: Actor) {
 
 export async function listWorkspaceFiles(db: Db, actor: Actor) {
   return db
-    .select({ id: files.id, originalName: files.originalName, mimeType: files.mimeType, sizeBytes: files.sizeBytes, bucket: files.bucket, createdAt: files.createdAt, ownerName: profiles.fullName })
+    .select({ id: files.id, originalName: files.originalName, mimeType: files.mimeType, sizeBytes: files.sizeBytes, bucket: files.bucket, status: files.status, createdAt: files.createdAt, ownerName: profiles.fullName })
     .from(files)
     .leftJoin(users, eq(users.id, files.ownerUserId))
     .leftJoin(profiles, eq(profiles.userId, users.id))

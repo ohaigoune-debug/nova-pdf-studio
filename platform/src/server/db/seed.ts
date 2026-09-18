@@ -24,6 +24,8 @@ import type { Actor } from '@/server/lib/actor'
 import { processQueuedJobs } from '@/server/jobs/runner'
 import { createTeacher } from '@/server/services/admin.service'
 import { createAssistantCode, joinAsAssistant } from '@/server/services/assistants.service'
+import { uploadFile } from '@/server/services/files.service'
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
 import { requestAiEvaluation } from '@/server/services/ai.service'
 import { addThreadMessage, createAssignment, reviewSubmission, saveDraft, submitAnswer } from '@/server/services/assignments.service'
 import { createContent } from '@/server/services/content.service'
@@ -113,11 +115,45 @@ export async function ensureDemoAssistant(db: Db) {
   return true
 }
 
+const DEMO_PDF_TITLE = 'ملخص درس الحال والتمييز (PDF محمي)'
+
+/** ملف PDF تجريبي محمي (عرض مختوم داخل التطبيق) للطلاب — يُضاف مرة واحدة حتى على قاعدة مبذورة سابقاً */
+export async function ensureDemoMedia(db: Db) {
+  const [existing] = await db.select({ id: content.id }).from(content).where(eq(content.title, DEMO_PDF_TITLE)).limit(1)
+  if (existing) return false
+  const [teacherUser] = await db.select({ id: users.id }).from(users).where(eq(users.email, DEMO_ACCOUNTS.teacher.email)).limit(1)
+  if (!teacherUser) return false
+  const teacher = await actorOf(db, teacherUser.id)
+  const doc = await PDFDocument.create()
+  const font = await doc.embedFont(StandardFonts.HelveticaBold)
+  for (let i = 1; i <= 3; i++) {
+    const page = doc.addPage([595, 842])
+    page.drawText(`Madrasa - Lesson summary (demo) - page ${i}`, { x: 60, y: 780, size: 18, font, color: rgb(0.1, 0.3, 0.3) })
+    page.drawText('Protected PDF: viewed inside the app, stamped with the student identity.', { x: 60, y: 740, size: 11, font })
+    page.drawRectangle({ x: 60, y: 120, width: 475, height: 580, borderColor: rgb(0.8, 0.8, 0.8), borderWidth: 1 })
+  }
+  const bytes = Buffer.from(await doc.save())
+  const file = await uploadFile(db, teacher, { originalName: 'hal-tamyiz-summary.pdf', mimeType: 'application/pdf', bytes })
+  await createContent(db, teacher, {
+    type: 'PDF',
+    title: DEMO_PDF_TITLE,
+    summary: 'ملف PDF يُعرض داخل المنصة فقط مع ختم مائي باسم الطالب وبريده على كل صفحة.',
+    fileId: file.id,
+    topic: 'النحو',
+    visibility: 'STUDENTS_ONLY',
+    allowDownload: false,
+    publish: true
+  })
+  console.log('✔ demo protected PDF added')
+  return true
+}
+
 export async function seedDemo(db: Db) {
   const [flag] = await db.select().from(appSettings).where(eq(appSettings.key, 'demo_seeded')).limit(1)
   if (flag) {
     console.log('• demo data already seeded — skip')
     if (await ensureDemoAssistant(db)) console.log('✔ demo assistant added to existing demo data')
+    await ensureDemoMedia(db)
     return
   }
   await seedReferenceData(db)
@@ -431,6 +467,7 @@ export async function seedDemo(db: Db) {
 
   // مساعد الأستاذ أسامة: كود من الأستاذ ثم انضمام بالبريد نفسه (نفس مسار الإنتاج)
   await ensureDemoAssistant(db)
+  await ensureDemoMedia(db)
 
   await db.insert(appSettings).values({ key: 'demo_seeded', value: { at: new Date().toISOString() } })
   console.log('✔ demo data seeded')

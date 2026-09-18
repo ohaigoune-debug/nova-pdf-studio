@@ -21,7 +21,7 @@ export async function teacherFormOptions(db: Db, actor: Actor) {
     groups: groups.filter((g) => g.status === 'ACTIVE').map((g) => ({ id: g.id, name: g.name })),
     students: students.map((s) => ({ id: s.studentId, name: `${s.fullName} — ${s.groups.map((g) => g.groupName).join('، ')}` })),
     skills: skills.map((s) => ({ id: s.id, name: s.nameAr })),
-    files: files.map((f) => ({ id: f.id, name: f.originalName })),
+    files: files.filter((f) => f.status === 'READY').map((f) => ({ id: f.id, name: f.originalName, mimeType: f.mimeType })),
     levels: levels.map((l) => ({ id: l.id, name: l.nameAr })),
     streams: streams.map((s) => ({ id: s.id, name: s.nameAr })),
     rubrics: rubrics.map((r) => ({ id: r.id, name: `${r.name} (${Number(r.maxScore)})${r.isGlobal ? ' — عام' : ''}` }))

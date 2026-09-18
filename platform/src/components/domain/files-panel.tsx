@@ -17,6 +17,7 @@ export interface FileRow {
   originalName: string
   mimeType: string
   sizeBytes: number
+  status?: string
   createdAt: Date
   downloadUrl: string
 }
@@ -64,11 +65,13 @@ export function FilesPanel({ files }: { files: FileRow[] }) {
           <TableBody>
             {files.map((f) => (
               <TableRow key={f.id}>
-                <TableCell className="font-semibold">{f.originalName}</TableCell>
+                <TableCell className="font-semibold">
+                  {f.originalName} {f.status === 'PENDING' ? <span className="ms-1 rounded bg-warning/20 px-1.5 py-0.5 text-[10px]">{t('media.pending')}</span> : null}
+                </TableCell>
                 <TableCell dir="ltr" className="text-start text-xs">
                   {f.mimeType}
                 </TableCell>
-                <TableCell className="tabular">{(f.sizeBytes / 1024).toFixed(0)} KB</TableCell>
+                <TableCell className="tabular">{f.sizeBytes > 1024 * 1024 ? `${(f.sizeBytes / (1024 * 1024)).toFixed(1)} MB` : `${(f.sizeBytes / 1024).toFixed(0)} KB`}</TableCell>
                 <TableCell className="text-xs tabular">{formatDateTime(f.createdAt)}</TableCell>
                 <TableCell className="text-end">
                   <div className="flex justify-end gap-1">

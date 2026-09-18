@@ -1,16 +1,35 @@
 import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto'
+import { createReadStream, createWriteStream } from 'node:fs'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { pipeline } from 'node:stream/promises'
+import { Readable } from 'node:stream'
 import { S3StorageAdapter, s3ConfigFromEnv } from './storage-s3'
 
+export interface RangeRead {
+  /** تيار البايتات للنطاق المطلوب */
+  stream: ReadableStream<Uint8Array>
+  /** الحجم الكلي للكائن */
+  size: number
+  start: number
+  end: number
+}
+
 /**
- * واجهة التخزين. التنفيذ الحالي محلي (data/uploads). لاحقاً S3/Supabase Storage بنفس الواجهة.
+ * واجهة التخزين. التنفيذ الحالي محلي (data/uploads) أو S3 بنفس الواجهة.
  * الملفات الخاصة لا تُخدم أبداً مباشرة؛ فقط عبر رابط موقّع قصير العمر.
+ * - getRange: بثّ جزئي (Range) للفيديو بلا تحميل الملف كله في الذاكرة.
+ * - putStream: رفع تياري للملفات الكبيرة عبر الخادم (المحلي).
+ * - presignPut: رابط رفع مباشر من المتصفح (S3 فقط) لا يمرّ عبر الخادم.
  */
 export interface StorageAdapter {
   put(key: string, data: Buffer): Promise<void>
   get(key: string): Promise<Buffer>
   remove(key: string): Promise<void>
+  size(key: string): Promise<number | null>
+  getRange(key: string, start: number, end?: number): Promise<RangeRead>
+  putStream(key: string, body: ReadableStream<Uint8Array>, maxBytes: number): Promise<number>
+  presignPut?(key: string, contentType: string, contentLength: number, ttlSeconds: number): Promise<{ url: string; headers: Record<string, string> }>
 }
 
 const ROOT = () => path.resolve(process.cwd(), process.env.UPLOADS_DIR ?? 'data/uploads')
@@ -31,6 +50,40 @@ class LocalStorageAdapter implements StorageAdapter {
   }
   async remove(key: string) {
     await fs.rm(this.resolve(key), { force: true })
+  }
+  async size(key: string) {
+    try {
+      return (await fs.stat(this.resolve(key))).size
+    } catch {
+      return null
+    }
+  }
+  async getRange(key: string, start: number, end?: number): Promise<RangeRead> {
+    const p = this.resolve(key)
+    const size = (await fs.stat(p)).size
+    const s = Math.max(0, Math.min(start, Math.max(0, size - 1)))
+    const e = Math.min(end ?? size - 1, size - 1)
+    const stream = Readable.toWeb(createReadStream(p, { start: s, end: e })) as ReadableStream<Uint8Array>
+    return { stream, size, start: s, end: e }
+  }
+  async putStream(key: string, body: ReadableStream<Uint8Array>, maxBytes: number): Promise<number> {
+    const p = this.resolve(key)
+    await fs.mkdir(path.dirname(p), { recursive: true })
+    let total = 0
+    const counter = new TransformStream<Uint8Array, Uint8Array>({
+      transform(chunk, controller) {
+        total += chunk.byteLength
+        if (total > maxBytes) controller.error(new Error('FILE_TOO_LARGE'))
+        else controller.enqueue(chunk)
+      }
+    })
+    try {
+      await pipeline(Readable.fromWeb(body.pipeThrough(counter) as import('node:stream/web').ReadableStream), createWriteStream(p))
+    } catch (err) {
+      await fs.rm(p, { force: true })
+      throw err
+    }
+    return total
   }
 }
 
@@ -93,7 +146,13 @@ export const ALLOWED_MIME = new Set([
   'audio/mpeg',
   'audio/mp4',
   'video/mp4',
+  'video/webm',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   'text/plain'
 ])
 export const MAX_UPLOAD_BYTES = 15 * 1024 * 1024
+/** الفيديوهات المرفوعة مباشرة: MAX_VIDEO_UPLOAD_MB (افتراضياً 500 MB) */
+export const MAX_VIDEO_UPLOAD_BYTES = () => {
+  const mb = Number(process.env.MAX_VIDEO_UPLOAD_MB ?? 500)
+  return (Number.isFinite(mb) && mb > 0 ? mb : 500) * 1024 * 1024
+}

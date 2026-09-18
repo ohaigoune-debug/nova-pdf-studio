@@ -1,6 +1,6 @@
 import { and, desc, eq, ilike, inArray, isNotNull, isNull, or } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { content, levels, profiles, users } from '@/server/db/schema'
+import { content, files, levels, profiles, users } from '@/server/db/schema'
 import type { ContentType } from '@/server/db/schema/enums'
 
 export interface ContentCard {
@@ -61,9 +61,16 @@ export async function getPublicContentBySlug(db: Db, slug: string) {
       levelName: levels.nameAr,
       authorName: profiles.fullName,
       publishedAt: content.publishedAt,
-      externalUrl: content.externalUrl
+      externalUrl: content.externalUrl,
+      fileId: content.fileId,
+      fileMime: files.mimeType,
+      fileStatus: files.status,
+      videoProvider: content.videoProvider,
+      youtubeId: content.youtubeId,
+      allowDownload: content.allowDownload
     })
     .from(content)
+    .leftJoin(files, eq(files.id, content.fileId))
     .leftJoin(levels, eq(levels.id, content.levelId))
     .leftJoin(users, eq(users.id, content.authorUserId))
     .leftJoin(profiles, eq(profiles.userId, users.id))

@@ -50,6 +50,13 @@
       "when": 1789755335477,
       "tag": "0006_assistants",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1789761451378,
+      "tag": "0007_media",
+      "breakpoints": true
     }
   ]
 }

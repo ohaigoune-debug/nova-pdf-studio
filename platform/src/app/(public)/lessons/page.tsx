@@ -9,5 +9,5 @@ export async function generateMetadata() {
 
 export default async function LessonsPage({ searchParams }: { searchParams: Promise<{ q?: string; topic?: string }> }) {
   const { t, locale } = await getT()
-  return <PublicContentPage locale={locale} title={t('public.lessonsTitle')} description={t('public.f1d')} types={['LESSON', 'ARTICLE']} basePath="/lessons" searchParams={searchParams} />
+  return <PublicContentPage locale={locale} title={t('public.lessonsTitle')} description={t('public.f1d')} types={['LESSON', 'ARTICLE', 'VIDEO', 'PDF']} basePath="/lessons" searchParams={searchParams} />
 }

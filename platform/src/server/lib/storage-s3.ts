@@ -1,5 +1,5 @@
 import { createHash, createHmac } from 'node:crypto'
-import type { StorageAdapter } from './storage'
+import type { RangeRead, StorageAdapter } from './storage'
 
 /**
  * محوّل تخزين متوافق مع S3 (AWS S3, Cloudflare R2, MinIO, Supabase Storage S3, Backblaze B2)
@@ -92,7 +92,7 @@ export class S3StorageAdapter implements StorageAdapter {
     return { url: `${proto}//${host}/${encodedKey}`, host, path: `/${encodedKey}` }
   }
 
-  private async request(method: 'PUT' | 'GET' | 'DELETE', key: string, body?: Buffer, extraHeaders: Record<string, string> = {}): Promise<Response> {
+  private async request(method: 'PUT' | 'GET' | 'DELETE' | 'HEAD', key: string, body?: Buffer, extraHeaders: Record<string, string> = {}): Promise<Response> {
     const t = this.target(key)
     const payloadHash = sha256hex(body ?? '')
     const headers: Record<string, string> = { ...extraHeaders }
@@ -120,6 +120,76 @@ export class S3StorageAdapter implements StorageAdapter {
   async remove(key: string): Promise<void> {
     const res = await this.request('DELETE', key)
     if (!res.ok && res.status !== 404) throw new Error(`s3 delete failed: ${res.status}`)
+  }
+
+  async size(key: string): Promise<number | null> {
+    const res = await this.request('HEAD', key)
+    if (res.status === 404) return null
+    if (!res.ok) throw new Error(`s3 head failed: ${res.status}`)
+    const len = Number(res.headers.get('content-length'))
+    return Number.isFinite(len) ? len : null
+  }
+
+  /** بثّ جزئي: S3 يدعم Range أصلاً، نمرّر التيار كما هو */
+  async getRange(key: string, start: number, end?: number): Promise<RangeRead> {
+    const res = await this.request('GET', key, undefined, { range: `bytes=${start}-${end ?? ''}` })
+    if (!res.ok || !res.body) throw new Error(`s3 range get failed: ${res.status}`)
+    const cr = res.headers.get('content-range') // bytes s-e/size
+    const m = cr?.match(/bytes (\d+)-(\d+)\/(\d+)/)
+    const size = m ? Number(m[3]) : Number(res.headers.get('content-length'))
+    const s = m ? Number(m[1]) : start
+    const e = m ? Number(m[2]) : size - 1
+    return { stream: res.body, size, start: s, end: e }
+  }
+
+  /** رفع تياري عبر الخادم: S3 يتطلب طولاً معروفاً للتوقيع؛ نجمّع في الذاكرة حتى الحد ثم PUT واحد */
+  async putStream(key: string, body: ReadableStream<Uint8Array>, maxBytes: number): Promise<number> {
+    const chunks: Uint8Array[] = []
+    let total = 0
+    const reader = body.getReader()
+    for (;;) {
+      const { done, value } = await reader.read()
+      if (done) break
+      total += value.byteLength
+      if (total > maxBytes) throw new Error('FILE_TOO_LARGE')
+      chunks.push(value)
+    }
+    await this.put(key, Buffer.concat(chunks))
+    return total
+  }
+
+  /**
+   * رابط رفع مباشر من المتصفح (Presigned PUT، SigV4 query-string). المتصفح يرفع إلى S3 مباشرة،
+   * فلا يمرّ الفيديو الكبير عبر خادم التطبيق. يجب ضبط CORS على الحاوية (PUT من نطاق التطبيق).
+   */
+  async presignPut(key: string, contentType: string, contentLength: number, ttlSeconds: number) {
+    const t = this.target(key)
+    const now = new Date()
+    const { amz, day } = amzDate(now)
+    const scope = `${day}/${this.cfg.region}/s3/aws4_request`
+    const signedHeaders = 'content-length;content-type;host'
+    const query: Record<string, string> = {
+      'X-Amz-Algorithm': 'AWS4-HMAC-SHA256',
+      'X-Amz-Credential': `${this.cfg.accessKeyId}/${scope}`,
+      'X-Amz-Date': amz,
+      'X-Amz-Expires': String(ttlSeconds),
+      'X-Amz-SignedHeaders': signedHeaders
+    }
+    if (this.cfg.sessionToken) query['X-Amz-Security-Token'] = this.cfg.sessionToken
+    const enc = (v: string) => encodeURIComponent(v).replace(/[!'()*]/g, (c) => '%' + c.charCodeAt(0).toString(16).toUpperCase())
+    const canonicalQuery = Object.keys(query)
+      .sort()
+      .map((k) => `${enc(k)}=${enc(query[k]!)}`)
+      .join('&')
+    const canonicalHeaders = `content-length:${contentLength}\ncontent-type:${contentType}\nhost:${t.host}\n`
+    const canonicalRequest = ['PUT', t.path, canonicalQuery, canonicalHeaders, signedHeaders, 'UNSIGNED-PAYLOAD'].join('\n')
+    const stringToSign = ['AWS4-HMAC-SHA256', amz, scope, sha256hex(canonicalRequest)].join('\n')
+    const kDate = hmac('AWS4' + this.cfg.secretAccessKey, day)
+    const kRegion = hmac(kDate, this.cfg.region)
+    const kService = hmac(kRegion, 's3')
+    const kSigning = hmac(kService, 'aws4_request')
+    const signature = createHmac('sha256', kSigning).update(stringToSign, 'utf8').digest('hex')
+    return { url: `${t.url}?${canonicalQuery}&X-Amz-Signature=${signature}`, headers: { 'Content-Type': contentType, 'Content-Length': String(contentLength) } }
   }
 }
 

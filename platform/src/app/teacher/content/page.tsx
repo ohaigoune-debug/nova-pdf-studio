@@ -1,4 +1,4 @@
-import { BookOpen, Plus } from 'lucide-react'
+import { BookOpen, Eye, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { ContentRowActions } from '@/components/domain/content-row-actions'
 import { Badge } from '@/components/ui/badge'
@@ -10,6 +10,7 @@ import { formatDate } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listWorkspaceContent } from '@/server/queries/teacher-extras.queries'
+import { viewCountsForWorkspace } from '@/server/services/media.service'
 
 const visibilityLabel: Record<string, string> = {
   PUBLIC: t('contentMgmt.visibilityPUBLIC'),
@@ -21,7 +22,8 @@ const visibilityLabel: Record<string, string> = {
 
 export default async function TeacherContentPage() {
   const actor = await requirePageActor('TEACHER')
-  const items = await listWorkspaceContent(await getDb(), actor)
+  const db = await getDb()
+  const [items, views] = await Promise.all([listWorkspaceContent(db, actor), viewCountsForWorkspace(db, actor)])
   return (
     <>
       <PageHeader
@@ -52,6 +54,7 @@ export default async function TeacherContentPage() {
               <TableHead>{t('contentMgmt.type')}</TableHead>
               <TableHead>{t('contentMgmt.visibility')}</TableHead>
               <TableHead>{t('common.status')}</TableHead>
+              <TableHead>{t('contentMgmt.views')}</TableHead>
               <TableHead>{t('common.date')}</TableHead>
               <TableHead />
             </TableRow>
@@ -70,6 +73,11 @@ export default async function TeacherContentPage() {
                   <Badge variant="muted">{visibilityLabel[c.visibility] ?? c.visibility}</Badge>
                 </TableCell>
                 <TableCell>{c.publishedAt ? <Badge variant="success">{t('contentMgmt.published')}</Badge> : <Badge variant="warning">{t('contentMgmt.unpublished')}</Badge>}</TableCell>
+                <TableCell>
+                  <Link href={`/teacher/content/${c.id}/views`} className="inline-flex items-center gap-1 text-sm tabular hover:underline">
+                    <Eye className="size-4 text-muted-foreground" /> {views[c.id] ?? 0}
+                  </Link>
+                </TableCell>
                 <TableCell className="text-xs">{formatDate(c.publishedAt ?? c.createdAt)}</TableCell>
                 <TableCell className="text-end">
                   <ContentRowActions id={c.id} published={!!c.publishedAt} />

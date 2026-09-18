@@ -26,6 +26,9 @@ export interface ContentFormDefaults {
   published?: boolean
   groupIds?: string[]
   studentIds?: string[]
+  videoProvider?: string | null
+  youtubeId?: string | null
+  allowDownload?: boolean
 }
 
 const visibilityLabel: Record<string, string> = {
@@ -36,17 +39,23 @@ const visibilityLabel: Record<string, string> = {
   TEACHERS_ONLY: t('contentMgmt.visibilityTEACHERS_ONLY')
 }
 
-export function ContentForm({ contentId, defaults = {}, groups, students, levels, streams, skills, files }: { contentId?: string; defaults?: ContentFormDefaults; groups: Opt[]; students: Opt[]; levels: Opt[]; streams: Opt[]; skills: Opt[]; files: Opt[] }) {
+type FileOpt = Opt & { mimeType?: string }
+
+export function ContentForm({ contentId, defaults = {}, groups, students, levels, streams, skills, files }: { contentId?: string; defaults?: ContentFormDefaults; groups: Opt[]; students: Opt[]; levels: Opt[]; streams: Opt[]; skills: Opt[]; files: FileOpt[] }) {
   const action = contentId
     ? (updateContentAction.bind(null, contentId) as (p: ActionResult<unknown> | null, fd: FormData) => Promise<ActionResult<unknown>>)
     : (createContentAction as (p: ActionResult<unknown> | null, fd: FormData) => Promise<ActionResult<unknown>>)
   const [state, formAction] = useActionState(action, null)
   const [visibility, setVisibility] = useState(defaults.visibility ?? 'STUDENTS_ONLY')
+  const [type, setType] = useState(defaults.type ?? 'LESSON')
+  const [videoProvider, setVideoProvider] = useState<'YOUTUBE' | 'UPLOAD'>(defaults.videoProvider === 'UPLOAD' ? 'UPLOAD' : 'YOUTUBE')
+  const videoFiles = files.filter((f) => f.mimeType?.startsWith('video/'))
+  const pdfFiles = files.filter((f) => f.mimeType === 'application/pdf')
   return (
     <form action={formAction} className="space-y-5">
       <div className="grid gap-4 sm:grid-cols-[1fr_2fr]">
         <Field label={t('contentMgmt.type')} htmlFor="type">
-          <Select id="type" name="type" defaultValue={defaults.type ?? 'LESSON'}>
+          <Select id="type" name="type" value={type} onChange={(e) => setType(e.target.value)}>
             {CONTENT_TYPES.map((c) => (
               <option key={c} value={c}>
                 {tEnum('contentTypes', c)}
@@ -64,21 +73,62 @@ export function ContentForm({ contentId, defaults = {}, groups, students, levels
       <Field label={t('contentMgmt.body')} htmlFor="body">
         <Textarea id="body" name="body" rows={12} defaultValue={defaults.body ?? ''} className="leading-7" />
       </Field>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label={t('contentMgmt.externalUrl')} htmlFor="externalUrl" error={fieldError(state, 'externalUrl')}>
-          <Input id="externalUrl" name="externalUrl" type="url" defaultValue={defaults.externalUrl ?? ''} dir="ltr" placeholder="https://" />
-        </Field>
-        <Field label={t('contentMgmt.file')} htmlFor="fileId">
-          <Select id="fileId" name="fileId" defaultValue={defaults.fileId ?? ''}>
-            <option value="">—</option>
-            {files.map((f) => (
-              <option key={f.id} value={f.id}>
-                {f.name}
-              </option>
-            ))}
-          </Select>
-        </Field>
-      </div>
+      {type === 'VIDEO' ? (
+        <fieldset className="space-y-3 rounded-lg border p-4">
+          <legend className="px-1 text-sm font-bold">{t('contentMgmt.videoSource')}</legend>
+          <div className="flex flex-wrap gap-4 text-sm">
+            <label className="flex items-center gap-2">
+              <input type="radio" name="videoProvider" value="YOUTUBE" checked={videoProvider === 'YOUTUBE'} onChange={() => setVideoProvider('YOUTUBE')} className="size-4" />
+              {t('contentMgmt.videoYoutube')}
+            </label>
+            <label className="flex items-center gap-2">
+              <input type="radio" name="videoProvider" value="UPLOAD" checked={videoProvider === 'UPLOAD'} onChange={() => setVideoProvider('UPLOAD')} className="size-4" />
+              {t('contentMgmt.videoUpload')}
+            </label>
+          </div>
+          {videoProvider === 'YOUTUBE' ? (
+            <Field label={t('contentMgmt.youtubeUrl')} htmlFor="youtubeUrl" hint={t('contentMgmt.youtubeHint')} error={fieldError(state, 'youtubeUrl')}>
+              <Input id="youtubeUrl" name="youtubeUrl" defaultValue={defaults.externalUrl ?? ''} dir="ltr" placeholder="https://www.youtube.com/watch?v=…" required />
+            </Field>
+          ) : (
+            <Field label={t('contentMgmt.videoFile')} htmlFor="fileId" hint={t('contentMgmt.videoFileHint')} error={fieldError(state, 'fileId')}>
+              <Select id="fileId" name="fileId" defaultValue={defaults.fileId ?? ''} required>
+                <option value="">—</option>
+                {videoFiles.map((f) => (
+                  <option key={f.id} value={f.id}>
+                    {f.name}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+          )}
+        </fieldset>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label={t('contentMgmt.externalUrl')} htmlFor="externalUrl" error={fieldError(state, 'externalUrl')}>
+            <Input id="externalUrl" name="externalUrl" type="url" defaultValue={defaults.externalUrl ?? ''} dir="ltr" placeholder="https://" />
+          </Field>
+          <Field label={type === 'PDF' ? t('contentMgmt.pdfFile') : t('contentMgmt.file')} htmlFor="fileId">
+            <Select id="fileId" name="fileId" defaultValue={defaults.fileId ?? ''}>
+              <option value="">—</option>
+              {(type === 'PDF' ? pdfFiles : files).map((f) => (
+                <option key={f.id} value={f.id}>
+                  {f.name}
+                </option>
+              ))}
+            </Select>
+          </Field>
+        </div>
+      )}
+      {type !== 'VIDEO' ? (
+        <label className="flex items-start gap-2 text-sm">
+          <input type="checkbox" name="allowDownload" defaultChecked={defaults.allowDownload ?? false} className="mt-1 size-4" />
+          <span>
+            <span className="block font-semibold">{t('contentMgmt.allowDownload')}</span>
+            <span className="block text-xs text-muted-foreground">{t('contentMgmt.allowDownloadHint')}</span>
+          </span>
+        </label>
+      ) : null}
       <div className="grid gap-4 sm:grid-cols-4">
         <Field label={t('contentMgmt.level')} htmlFor="levelId">
           <Select id="levelId" name="levelId" defaultValue={defaults.levelId ?? ''}>

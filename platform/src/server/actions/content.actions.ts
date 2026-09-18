@@ -24,8 +24,24 @@ const contentSchema = z.object({
   topic: z.string().trim().optional(),
   skillId: optionalUuid,
   visibility: z.enum(VISIBILITIES),
-  publish: z.string().optional().transform((v) => v === 'on' || v === 'true')
+  publish: z.string().optional().transform((v) => v === 'on' || v === 'true'),
+  videoProvider: z.enum(['YOUTUBE', 'UPLOAD']).optional().or(z.literal('')),
+  youtubeUrl: z.string().trim().optional(),
+  allowDownload: z.string().optional().transform((v) => v === 'on' || v === 'true')
 })
+
+/** يحوّل حقول النموذج إلى مدخلات الخدمة: فيديو يوتيوب ⇒ externalUrl = رابط يوتيوب، فيديو مرفوع ⇒ fileId */
+function contentInput(d: z.infer<typeof contentSchema>, fd: FormData) {
+  const provider = d.type === 'VIDEO' ? (d.videoProvider || (d.fileId ? 'UPLOAD' : 'YOUTUBE')) : null
+  const externalUrl = provider === 'YOUTUBE' ? d.youtubeUrl || d.externalUrl || '' : d.externalUrl || ''
+  return {
+    ...d,
+    externalUrl: externalUrl || null,
+    fileId: provider === 'YOUTUBE' ? null : d.fileId,
+    videoProvider: provider as 'YOUTUBE' | 'UPLOAD' | null,
+    ...targets(fd)
+  }
+}
 
 function targets(fd: FormData) {
   return {
@@ -39,7 +55,7 @@ export async function createContentAction(_prev: ActionResult<{ id: string }> | 
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
     const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
-    const c = await createContent(await getDb(), actor, { ...parsed.data, externalUrl: parsed.data.externalUrl || null, ...targets(fd) })
+    const c = await createContent(await getDb(), actor, contentInput(parsed.data, fd))
     return { id: c.id }
   })
   if (!result.ok) return result
@@ -52,7 +68,7 @@ export async function updateContentAction(id: string, _prev: ActionResult | null
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
     const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
-    await updateContent(await getDb(), actor, id, { ...parsed.data, externalUrl: parsed.data.externalUrl || null, ...targets(fd) })
+    await updateContent(await getDb(), actor, id, contentInput(parsed.data, fd))
     return undefined
   })
   if (result.ok) {
