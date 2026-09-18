@@ -7,6 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start:hosted": "sh scripts/start-hosted.sh",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

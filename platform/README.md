@@ -25,6 +25,12 @@ npm run dev                       # http://localhost:3000
 
 `npm run db:reset` يحذف قاعدة PGlite المحلية بالكامل.
 
+## نشر بضغطة زر
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ohaigoune-debug/nova-pdf-studio)
+
+يقرأ Render ملف `render.yaml` فينشئ قاعدة PostgreSQL والخدمة ويولّد الأسرار ويزرع البيانات التجريبية تلقائياً. التفاصيل والبدائل (Docker، VPS، Vercel) في [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
 ## الإنتاج (PostgreSQL / Supabase / Neon)
 
 ```bash

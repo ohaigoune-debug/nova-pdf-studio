@@ -22,6 +22,15 @@
 
 لا يوجد أي متغيّر بادئته `NEXT_PUBLIC_`؛ لا مفاتيح في المتصفح.
 
+## 0) نشر بضغطة زر على Render (مجاني للتجربة)
+
+1. افتح: **https://render.com/deploy?repo=https://github.com/ohaigoune-debug/nova-pdf-studio**
+2. سجّل الدخول بحساب GitHub، اختر الفرع `claude/arabic-edtech-platform-wfcst1`، ثم **Apply**.
+3. Render يقرأ `render.yaml` من جذر المستودع: ينشئ قاعدة PostgreSQL مجانية وخدمة ويب، يولّد الأسرار تلقائياً، يطبّق الهجرات، ويزرع البيانات التجريبية (`SEED_DEMO=1`).
+4. بعد 3–5 دقائق يظهر الرابط بصيغة `https://madrasa-xxxx.onrender.com` — الحسابات التجريبية في README.
+
+ملاحظات الخطة المجانية: الخدمة تنام بعد 15 دقيقة خمول (أول طلب يستغرق ~30 ثانية)، والملفات المرفوعة على القرص المؤقت تُمسح عند إعادة النشر (اضبط `STORAGE_DRIVER=s3` للإنتاج)، وقاعدة Postgres المجانية محدودة المدة. للإنتاج ارفع الخطة أو استعمل Docker/VPS أدناه.
+
 ## 1) Docker Compose (أسرع طريقة)
 
 ```bash
@@ -50,7 +59,7 @@ npm run jobs:worker                            # اختياري: عامل مست
 
 - اربط المستودع، جذر المشروع `platform/`، وأضف المتغيّرات.
 - استعمل Postgres مُدار (Neon/Supabase) و`STORAGE_DRIVER=s3` (لا قرص دائم).
-- فعّل Cron في `vercel.json` لاستدعاء `/api/v1/jobs/run` كل دقيقة مع الترويسة `x-cron-secret`، واضبط `JOBS_INLINE_WORKER=0` إن أردت التنفيذ عبر Cron فقط.
+- `platform/vercel.json` يعرّف Cron يستدعي `/api/v1/jobs/run` كل دقيقة؛ Vercel يرسل الترويسة `Authorization: Bearer $CRON_SECRET` تلقائياً (المسار يقبلها). اضبط `JOBS_INLINE_WORKER=0` إن أردت التنفيذ عبر Cron فقط.
 
 ## Row Level Security (Postgres/Supabase)
 
