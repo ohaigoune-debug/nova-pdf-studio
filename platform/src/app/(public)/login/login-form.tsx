@@ -1,9 +1,11 @@
 'use client'
 
+import Link from 'next/link'
 import { useActionState } from 'react'
 import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bits'
 import { Input } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
+import { Alert } from '@/components/ui/misc'
 import { t } from '@/i18n'
 import { loginAction } from '@/server/actions/auth.actions'
 
@@ -13,7 +15,7 @@ const DEMO = [
   { label: 'طالب', email: 'mohamed@madrasa.dz', password: 'Student@12345' }
 ]
 
-export function LoginForm({ next, showDemo }: { next?: string; showDemo: boolean }) {
+export function LoginForm({ next, showDemo, resetDone = false }: { next?: string; showDemo: boolean; resetDone?: boolean }) {
   const [state, action] = useActionState(loginAction, null)
   return (
     <form action={action} className="space-y-4">
@@ -24,6 +26,12 @@ export function LoginForm({ next, showDemo }: { next?: string; showDemo: boolean
       <Field label={t('common.password')} htmlFor="password" error={fieldError(state, 'password')}>
         <Input id="password" name="password" type="password" autoComplete="current-password" required dir="ltr" />
       </Field>
+      <div className="text-end text-xs">
+        <Link href="/forgot-password" className="text-primary hover:underline">
+          {t('auth.forgot')}
+        </Link>
+      </div>
+      {resetDone ? <Alert tone="success">{t('auth.resetDone')}</Alert> : null}
       <FormError state={state} />
       <SubmitButton className="w-full" size="lg">
         {t('auth.loginButton')}

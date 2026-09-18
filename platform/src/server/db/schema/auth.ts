@@ -1,4 +1,4 @@
-import { check, index, inet, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { check, index, inet, integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { id, inList, softDelete, timestamps } from './_common'
 import { USER_ROLES, USER_STATUSES } from './enums'
 
@@ -36,6 +36,18 @@ export const profiles = pgTable('profiles', {
   ...timestamps
 })
 
+/** نافذة ثابتة للحدّ من المحاولات: المفتاح = المسار + IP أو المستخدم */
+export const rateLimits = pgTable(
+  'rate_limits',
+  {
+    key: text('key').primaryKey(),
+    windowStart: timestamp('window_start', { withTimezone: true }).notNull(),
+    count: integer('count').notNull().default(0),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow()
+  },
+  (t) => [index('rate_limits_window_idx').on(t.windowStart)]
+)
+
 export const sessions = pgTable(
   'sessions',
   {
@@ -65,7 +77,8 @@ export const passwordResets = pgTable(
     tokenHash: text('token_hash').notNull().unique(),
     expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
     usedAt: timestamp('used_at', { withTimezone: true }),
+    requestedIp: text('requested_ip'),
     ...timestamps
   },
-  (t) => [index('password_resets_user_idx').on(t.userId)]
+  (t) => [index('password_resets_user_idx').on(t.userId), index('password_resets_expires_idx').on(t.expiresAt)]
 )

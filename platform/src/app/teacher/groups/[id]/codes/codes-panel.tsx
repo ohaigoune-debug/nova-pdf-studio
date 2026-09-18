@@ -88,8 +88,19 @@ export function CodesPanel({ groupId, groupName, codes, batches }: { groupId: st
       )
       .join('')
     w.document.write(`<!doctype html><html dir="rtl" lang="ar"><head><meta charset="utf-8"><title>${t('codes.printTitle', { group: groupName })}</title>
-<style>body{font-family:Tahoma,sans-serif;margin:16px}h1{font-size:18px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.card{border:1px dashed #999;border-radius:10px;padding:12px;text-align:center;page-break-inside:avoid}.g{font-size:12px;color:#555}.c{font-family:monospace;font-size:26px;font-weight:bold;letter-spacing:3px;margin:8px 0;direction:ltr}.h{font-size:10px;color:#666}.e{font-size:10px;color:#a00}</style></head><body><h1>${t('codes.printTitle', { group: groupName })}</h1><div class="grid">${cards}</div><script>window.onload=()=>window.print()</script></body></html>`)
+<style>body{font-family:Tahoma,sans-serif;margin:16px}h1{font-size:18px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.card{border:1px dashed #999;border-radius:10px;padding:12px;text-align:center;page-break-inside:avoid}.g{font-size:12px;color:#555}.c{font-family:monospace;font-size:26px;font-weight:bold;letter-spacing:3px;margin:8px 0;direction:ltr}.h{font-size:10px;color:#666}.e{font-size:10px;color:#a00}</style></head><body><h1>${t('codes.printTitle', { group: groupName })}</h1><div class="grid">${cards}</div></body></html>`)
     w.document.close()
+    // بلا سكربت مضمّن (CSP): نطبع من نافذة الأصل بعد اكتمال التحميل
+    const print = () => {
+      try {
+        w.focus()
+        w.print()
+      } catch {
+        /* نافذة مغلقة */
+      }
+    }
+    if (w.document.readyState === 'complete') setTimeout(print, 150)
+    else w.addEventListener('load', () => setTimeout(print, 150), { once: true })
   }
 
   const disable = (id: string) =>

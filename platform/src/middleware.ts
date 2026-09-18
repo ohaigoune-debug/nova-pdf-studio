@@ -4,11 +4,34 @@ const SESSION_COOKIE = 'madrasa_session'
 const PROTECTED = ['/student', '/teacher', '/admin']
 
 /**
- * فحص خفيف على الحافة: وجود كوكي الجلسة فقط.
- * التحقق الحقيقي (صلاحية الجلسة + الدور) يتم في Layouts والخدمات على الخادم.
+ * سياسة أمن المحتوى (CSP) بـ nonce لكل طلب: لا سكربت مضمّن بلا nonce، ولا مصادر خارجية إلا خطوط Google.
+ * Next.js يقرأ الترويسة من الطلب ويضع الـnonce على سكربتاته تلقائياً.
  */
+function buildCsp(nonce: string): string {
+  const dev = process.env.NODE_ENV !== 'production'
+  const directives = [
+    `default-src 'self'`,
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${dev ? " 'unsafe-eval'" : ''}`,
+    `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
+    `font-src 'self' https://fonts.gstatic.com data:`,
+    `img-src 'self' blob: data:`,
+    `connect-src 'self'${dev ? ' ws: wss:' : ''}`,
+    `worker-src 'self'`,
+    `manifest-src 'self'`,
+    `media-src 'self' blob:`,
+    `object-src 'none'`,
+    `base-uri 'self'`,
+    `form-action 'self'`,
+    `frame-ancestors 'none'`
+  ]
+  if (!dev) directives.push('upgrade-insecure-requests')
+  return directives.join('; ')
+}
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
+
+  // فحص خفيف على الحافة: وجود كوكي الجلسة فقط. التحقق الحقيقي في الخادم.
   if (PROTECTED.some((p) => pathname === p || pathname.startsWith(p + '/'))) {
     if (!req.cookies.get(SESSION_COOKIE)?.value) {
       const url = req.nextUrl.clone()
@@ -17,9 +40,26 @@ export function middleware(req: NextRequest) {
       return NextResponse.redirect(url)
     }
   }
-  return NextResponse.next()
+
+  const nonce = btoa(crypto.randomUUID())
+  const csp = buildCsp(nonce)
+  const requestHeaders = new Headers(req.headers)
+  requestHeaders.set('x-nonce', nonce)
+  requestHeaders.set('Content-Security-Policy', csp)
+  const res = NextResponse.next({ request: { headers: requestHeaders } })
+  res.headers.set('Content-Security-Policy', csp)
+  return res
 }
 
 export const config = {
-  matcher: ['/student/:path*', '/teacher/:path*', '/admin/:path*']
+  matcher: [
+    {
+      // كل الصفحات عدا الملفات الثابتة وطلبات الجلب المسبق
+      source: '/((?!_next/static|_next/image|favicon.ico|icon.svg|sw.js|manifest.webmanifest|api/).*)',
+      missing: [
+        { type: 'header', key: 'next-router-prefetch' },
+        { type: 'header', key: 'purpose', value: 'prefetch' }
+      ]
+    }
+  ]
 }

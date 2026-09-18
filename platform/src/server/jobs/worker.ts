@@ -3,6 +3,7 @@
  * يستعمل نفس قاعدة البيانات ونفس المعالجات. يُوقف بـ SIGINT/SIGTERM.
  */
 import { createDatabase } from '@/server/db/connect'
+import { ensureMaintenanceJobs } from '@/server/services/maintenance.service'
 import { processQueuedJobs } from './runner'
 
 async function main() {
@@ -18,6 +19,7 @@ async function main() {
   process.on('SIGTERM', stop)
   console.log(`[jobs] worker started (poll ${intervalMs}ms)`)
   while (!stopped) {
+    await ensureMaintenanceJobs(handle.db)
     const s = await processQueuedJobs(handle.db, { limit: 20 })
     if (s.processed > 0) console.log(`[jobs] processed=${s.processed} completed=${s.completed} retried=${s.retried} failed=${s.failed}`)
     await new Promise((r) => setTimeout(r, intervalMs))

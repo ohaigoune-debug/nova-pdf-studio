@@ -7,7 +7,9 @@ import { clearSessionCookie, currentSessionToken, homeFor, requestMeta, requireA
 import { getDb } from '@/server/db/client'
 import type { UserRole } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
-import { login, logout, registerStudent } from '@/server/services/auth.service'
+import { sha256 } from '@/server/lib/codes'
+import { RATE_LIMITS, checkRateLimit, resetRateLimit } from '@/server/lib/rate-limit'
+import { login, logout, registerStudent, requestPasswordReset, resetPassword } from '@/server/services/auth.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 
 const loginSchema = z.object({
@@ -22,7 +24,11 @@ export async function loginAction(_prev: ActionResult | null, formData: FormData
   const db = await getDb()
   const meta = await requestMeta()
   const result = await runAction(async () => {
+    const emailKey = sha256(parsed.data.email.trim().toLowerCase())
+    await checkRateLimit(db, { scope: 'login-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.loginIp })
+    await checkRateLimit(db, { scope: 'login-email', subject: emailKey, ...RATE_LIMITS.loginEmail })
     const r = await login(db, { email: parsed.data.email, password: parsed.data.password }, meta)
+    await resetRateLimit(db, 'login-email', emailKey)
     await setSessionCookie(r.session.token, r.session.expiresAt)
     return r.role as UserRole
   })
@@ -49,6 +55,7 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
   const meta = await requestMeta()
   const d = parsed.data
   const result = await runAction(async () => {
+    await checkRateLimit(db, { scope: 'register-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.registerIp })
     const r = await registerStudent(
       db,
       {
@@ -84,9 +91,43 @@ export async function activateCodeAction(_prev: ActionResult<{ groupName: string
   const db = await getDb()
   return runAction(async () => {
     const actor = await requireActor()
+    await checkRateLimit(db, { scope: 'activate-code', subject: actor.userId, ...RATE_LIMITS.activateCode })
     const r = await redeemEnrollmentCode(db, actor, parsed.data.code)
     return { groupName: r.groupName }
   })
+}
+
+const forgotSchema = z.object({ email: z.string().trim().email('أدخل بريداً صحيحاً') })
+
+/** لا يكشف وجود الحساب: النتيجة واحدة في كل الحالات (عدا تجاوز الحد) */
+export async function forgotPasswordAction(_prev: ActionResult<{ done: true }> | null, formData: FormData): Promise<ActionResult<{ done: true }>> {
+  const parsed = forgotSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) return failValidation(parsed.error)
+  const db = await getDb()
+  const meta = await requestMeta()
+  return runAction(async () => {
+    await checkRateLimit(db, { scope: 'reset-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.passwordReset })
+    await checkRateLimit(db, { scope: 'reset-email', subject: sha256(parsed.data.email.toLowerCase()), ...RATE_LIMITS.passwordReset })
+    await requestPasswordReset(db, parsed.data.email, meta)
+    return { done: true as const }
+  })
+}
+
+const resetSchema = z
+  .object({ token: z.string().min(20), password: z.string().min(8, 'كلمة السر 8 أحرف على الأقل'), confirm: z.string() })
+  .refine((d) => d.password === d.confirm, { path: ['confirm'], message: 'كلمتا السر غير متطابقتين' })
+
+export async function resetPasswordAction(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const parsed = resetSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) return failValidation(parsed.error)
+  const db = await getDb()
+  const result = await runAction(async () => {
+    await resetPassword(db, parsed.data.token, parsed.data.password)
+    return undefined
+  })
+  if (!result.ok) return result
+  await clearSessionCookie()
+  redirect('/login?reset=1')
 }
 
 export async function revokeDeviceAction(sessionId: string): Promise<ActionResult> {

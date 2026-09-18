@@ -15,7 +15,9 @@
     "db:migrate": "tsx src/server/db/migrate.ts",
     "db:seed": "tsx src/server/db/seed.ts",
     "db:reset": "tsx src/server/db/reset.ts",
-    "jobs:worker": "tsx src/server/jobs/worker.ts"
+    "db:rls": "tsx src/server/db/apply-rls.ts",
+    "jobs:worker": "tsx src/server/jobs/worker.ts",
+    "build:standalone": "NEXT_OUTPUT=standalone next build"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.8",

@@ -6,6 +6,7 @@ import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { kickWorker } from '@/server/jobs/runner'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
+import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
 import { applyAiEvaluation, rejectAiEvaluation, requestAiEvaluation, requestTeacherInsights, updateAiSettings } from '@/server/services/ai.service'
 
 export async function requestAiEvaluationAction(submissionId: string): Promise<ActionResult<{ evaluationId: string; reused: boolean }>> {
@@ -13,7 +14,9 @@ export async function requestAiEvaluationAction(submissionId: string): Promise<A
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
     const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
-    const r = await requestAiEvaluation(await getDb(), actor, parsed.data)
+    const db = await getDb()
+    await checkRateLimit(db, { scope: 'ai-request', subject: actor.userId, ...RATE_LIMITS.aiRequest })
+    const r = await requestAiEvaluation(db, actor, parsed.data)
     return { evaluationId: r.evaluationId, reused: r.reused }
   })
   if (result.ok) {

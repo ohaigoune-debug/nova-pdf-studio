@@ -7,10 +7,10 @@ import { LoginForm } from './login-form'
 
 export const metadata = { title: t('auth.loginTitle') }
 
-export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string; reset?: string }> }) {
   const actor = await getCurrentActor()
   if (actor) redirect(homeFor(actor.role))
-  const { next } = await searchParams
+  const { next, reset } = await searchParams
   return (
     <AuthCard
       title={t('auth.loginTitle')}
@@ -24,7 +24,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         </>
       }
     >
-      <LoginForm next={next} showDemo={process.env.NODE_ENV !== 'production'} />
+      <LoginForm next={next} showDemo={process.env.NODE_ENV !== 'production'} resetDone={reset === '1'} />
     </AuthCard>
   )
 }

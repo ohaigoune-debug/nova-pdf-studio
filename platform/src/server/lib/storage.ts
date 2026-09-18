@@ -1,6 +1,7 @@
 import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { S3StorageAdapter, s3ConfigFromEnv } from './storage-s3'
 
 /**
  * واجهة التخزين. التنفيذ الحالي محلي (data/uploads). لاحقاً S3/Supabase Storage بنفس الواجهة.
@@ -34,9 +35,26 @@ class LocalStorageAdapter implements StorageAdapter {
 }
 
 let adapter: StorageAdapter | null = null
+/**
+ * الاختيار من البيئة فقط: STORAGE_DRIVER=local (افتراضي) | s3 (يتطلب S3_BUCKET/S3_ACCESS_KEY_ID/S3_SECRET_ACCESS_KEY).
+ * إن طُلب s3 بلا إعدادات كاملة يُستعمل المحلي مع تحذير (لا يتعطّل التطبيق).
+ */
 export function storage(): StorageAdapter {
-  adapter ??= new LocalStorageAdapter()
+  if (adapter) return adapter
+  if ((process.env.STORAGE_DRIVER ?? 'local').toLowerCase() === 's3') {
+    const cfg = s3ConfigFromEnv()
+    if (cfg) adapter = new S3StorageAdapter(cfg)
+    else {
+      console.warn('[storage] STORAGE_DRIVER=s3 بلا إعدادات كاملة — سيُستعمل التخزين المحلي')
+      adapter = new LocalStorageAdapter()
+    }
+  } else adapter = new LocalStorageAdapter()
   return adapter
+}
+
+export function storageInfo(): { driver: 'local' | 's3'; root?: string; bucket?: string } {
+  const a = storage()
+  return a instanceof S3StorageAdapter ? { driver: 's3', bucket: process.env.S3_BUCKET } : { driver: 'local', root: ROOT() }
 }
 
 export function newStorageKey(workspaceId: string | null, ext: string): string {

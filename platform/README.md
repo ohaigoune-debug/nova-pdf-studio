@@ -2,7 +2,7 @@
 
 منصة تعليمية عربية (RTL أولاً) لطلبة الثانوي والبكالوريا تجمع: محتوى عام، إدارة أفواج وطلاب لكل أستاذ في مساحة معزولة، تسجيل بأكواد، حضور ذكي ببطاقة QR ديناميكية وقارئ USB/Bluetooth، قاعدة الغيابات والتعليق، ملف شامل لكل طالب، ولاحقاً الواجبات والتصحيح بمساعدة الذكاء الاصطناعي وخريطة المهارات.
 
-الوثائق: [الهندسة](docs/ARCHITECTURE.md) · [قاعدة البيانات](docs/DATABASE_SCHEMA.md) · [الصلاحيات](docs/PERMISSIONS.md) · [خطة التنفيذ](docs/IMPLEMENTATION_PLAN.md) · [الأمان](docs/SECURITY.md)
+الوثائق: [الهندسة](docs/ARCHITECTURE.md) · [قاعدة البيانات](docs/DATABASE_SCHEMA.md) · [الصلاحيات](docs/PERMISSIONS.md) · [خطة التنفيذ](docs/IMPLEMENTATION_PLAN.md) · [الأمان](docs/SECURITY.md) · [النشر](docs/DEPLOYMENT.md)
 
 ## التشغيل محلياً (بلا خادم قاعدة بيانات)
 
@@ -32,7 +32,7 @@ DATABASE_URL=postgres://user:pass@host:5432/db npm run db:migrate
 npm run build && npm start
 ```
 
-ثم فعّل سياسات RLS اختيارياً: `psql "$DATABASE_URL" -f src/server/db/rls.sql`.
+ثم فعّل سياسات RLS اختيارياً: `npm run db:rls`. للنشر بـ Docker انظر [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## الأوامر
 
@@ -44,6 +44,9 @@ npm run build && npm start
 | `npm test` | اختبارات تكامل على PostgreSQL حقيقي في الذاكرة (PGlite) |
 | `npm run db:generate` | توليد Migration من الـSchema |
 | `npm run db:migrate` / `db:seed` / `db:reset` | قاعدة البيانات |
+| `npm run db:rls` | تطبيق سياسات RLS على Postgres/Supabase |
+| `npm run jobs:worker` | عامل مهام مستقل (اختياري) |
+| `npm run build:standalone` | بناء Docker (standalone) |
 
 ## المسار الكامل (Vertical Slice) — يعمل ومختبَر
 
@@ -88,6 +91,15 @@ npm run build && npm start
 - **ربط الغياب بالمستوى** كتوصية: يقارن النظام متوسط مهارات الأكثر غياباً بالمنتظمين داخل الفوج ويقترح التواصل وملخصات الحصص الفائتة.
 - **خطة التقوية للطالب**: للمهارات الأضعف ⇒ درس، تمارين، اختبار قصير من المحتوى المتاح له، تتحدّث بعد كل تقييم.
 - **تقارير CSV كمهام خلفية**: حضور الفوج (حصة × طالب)، علامات الفوج، خريطة مهارات الفوج، قائمة الطلاب — تُحفظ كملفات خاصة وتُنزَّل برابط موقّع، مع إشعار عند الجاهزية.
+
+## التحصين والإنتاج (المرحلة 8)
+
+- **الحدّ من المحاولات** في قاعدة البيانات (دخول، تسجيل، أكواد، مسح، إعادة تعيين، AI) برسائل عربية.
+- **CSP بـ nonce** لكل طلب + HSTS وبقية الترويسات، مُتحقَّق منها بمتصفح حقيقي بلا انتهاكات.
+- **نسيت كلمة السر**: رابط بريد مجزّأ صالح 30 دقيقة لمرة واحدة، يُنهي الجلسات القديمة؛ مزوّد بريد قابل للتبديل (console/Resend/Webhook).
+- **PWA**: تثبيت على الهاتف، صفحة بلا اتصال، تخزين الأصول.
+- **تخزين S3** متوافق (R2/MinIO/Supabase) عبر `STORAGE_DRIVER=s3`، وصيانة دورية تلقائية.
+- **النشر**: `Dockerfile` + `docker-compose.yml` (Postgres + app + cron) — التفاصيل في [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## البنية
 

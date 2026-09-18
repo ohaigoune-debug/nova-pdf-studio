@@ -6,6 +6,7 @@ import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { ATTENDANCE_STATUSES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
+import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
 import {
   excuseAbsence,
   openScannerSession,
@@ -27,7 +28,9 @@ export async function scanAction(input: { classSessionId: string; token: string;
   if (!parsed.success) return failValidation(parsed.error)
   return runAction(async () => {
     const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
-    return scanAttendanceToken(await getDb(), actor, parsed.data)
+    const db = await getDb()
+    await checkRateLimit(db, { scope: 'scan', subject: actor.userId, ...RATE_LIMITS.scan })
+    return scanAttendanceToken(db, actor, parsed.data)
   })
 }
 

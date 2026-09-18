@@ -73,10 +73,16 @@
 
 ## المرحلة 8 — التحصين والإنتاج
 
-- [ ] Rate limiting على الدخول/الأكواد/المسح، CSRF (Origin check على Actions)، CSP
-- [ ] RLS على Postgres/Supabase، Signed URLs، تنظيف nonces/جلسات
-- [ ] PWA (manifest + service worker + offline shell)
-- [ ] Docker + متغيّرات بيئة + دليل النشر
+- [x] Rate limiting مخزَّن في قاعدة البيانات (`rate_limits`، نافذة ثابتة، يعمل مع عدة نسخ): الدخول (IP + بريد مجزّأ)، التسجيل، تفعيل الأكواد، المسح، إعادة التعيين، طلبات AI
+- [x] CSRF: Server Actions تتحقق من Origin (Next) + `assertSameOrigin` على Route Handlers؛ CSP بـ nonce لكل طلب (`strict-dynamic`، لا سكربت مضمّن) + HSTS + COOP، مُتحقَّق منها بمتصفح حقيقي (Playwright) بلا أي انتهاك
+- [x] إعادة تعيين كلمة السر بالبريد: رمز مجزّأ صالح 30 دقيقة لمرة واحدة، لا يكشف وجود الحساب، يُنهي كل الجلسات؛ `Mailer` مجرّد (console / Resend / Webhook)
+- [x] مهمة صيانة `CLEANUP` كل 24 ساعة (جلسات، nonces، رموز إعادة تعيين، حدود المحاولات، مهام قديمة)
+- [x] RLS: `npm run db:rls` يطبّق `rls.sql` على Postgres/Supabase؛ Signed URLs للملفات (منذ المرحلة 4)
+- [x] تخزين سحابي: محوّل S3 متوافق (AWS/R2/MinIO/Supabase) بتوقيع SigV4 مُختبَر بمتجهات AWS الرسمية، يُفعَّل بـ `STORAGE_DRIVER=s3`
+- [x] PWA: manifest + service worker (غلاف بلا اتصال، تخزين الأصول، معالج push جاهز) + صفحة `/offline`
+- [x] Docker (متعدد المراحل، standalone) + docker-compose (Postgres + app + cron) + `docs/DEPLOYMENT.md`
+- [ ] Push Notifications (اشتراكات + إرسال VAPID)
+- [ ] تقارير PDF، `analyzeStudent`/`generateExercises`، لغات fr/en
 
 ## ما بعد الإطلاق (لا يُبنى الآن)
 
