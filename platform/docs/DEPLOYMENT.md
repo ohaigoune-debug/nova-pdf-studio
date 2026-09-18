@@ -25,7 +25,7 @@
 ## 0) نشر بضغطة زر على Render (مجاني للتجربة)
 
 1. افتح: **https://render.com/deploy?repo=https://github.com/ohaigoune-debug/nova-pdf-studio**
-2. سجّل الدخول بحساب GitHub، اختر الفرع `claude/arabic-edtech-platform-wfcst1`، ثم **Apply**.
+2. سجّل الدخول بحساب GitHub، ثم **Apply**.
 3. Render يقرأ `render.yaml` من جذر المستودع: ينشئ قاعدة PostgreSQL مجانية وخدمة ويب، يولّد الأسرار تلقائياً، يطبّق الهجرات، ويزرع البيانات التجريبية (`SEED_DEMO=1`).
 4. بعد 3–5 دقائق يظهر الرابط بصيغة `https://madrasa-xxxx.onrender.com` — الحسابات التجريبية في README.
 

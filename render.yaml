@@ -5,7 +5,7 @@ services:
     name: madrasa
     runtime: node
     rootDir: platform
-    branch: claude/arabic-edtech-platform-wfcst1
+    branch: main
     plan: free
     buildCommand: npm ci --include=dev && npm run build
     startCommand: npm run start:hosted
