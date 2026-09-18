@@ -12,6 +12,11 @@ export default async function AdminSettingsPage() {
     ['DATABASE_URL', (process.env.DATABASE_URL ?? 'pglite://./data/pglite').replace(/:\/\/.*@/, '://***@')],
     ['QR_TOKEN_TTL_SECONDS', process.env.QR_TOKEN_TTL_SECONDS ?? '60'],
     ['AI_PROVIDER', process.env.AI_PROVIDER ?? 'mock'],
+    ['MAIL_PROVIDER', process.env.MAIL_PROVIDER ?? 'console'],
+    ['STORAGE_DRIVER', process.env.STORAGE_DRIVER ?? 'local'],
+    ['JOBS_INLINE_WORKER', process.env.JOBS_INLINE_WORKER === '0' ? 'off' : 'on'],
+    ['CRON_SECRET', process.env.CRON_SECRET ? 'set' : 'unset'],
+    ['VAPID (Web Push)', process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY ? 'configured' : 'unset'],
     ['APP_URL', process.env.APP_URL ?? '—'],
     ['NODE_ENV', process.env.NODE_ENV ?? '—']
   ]
