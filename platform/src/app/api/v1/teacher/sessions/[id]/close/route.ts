@@ -1,3 +1,4 @@
+import { kickJobsSoon } from '@/server/jobs/kick'
 import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { closeSession } from '@/server/services/class-sessions.service'
@@ -12,6 +13,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
     const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
     const { id } = await ctx.params
     const r = await closeSession(await getDb(), actor, id)
+    kickJobsSoon()
     return jsonOk(r)
   } catch (err) {
     return jsonError(err)

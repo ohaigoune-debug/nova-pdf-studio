@@ -46,6 +46,7 @@ npm run build && npm start
 | `npm run db:migrate` / `db:seed` / `db:reset` | قاعدة البيانات |
 | `npm run db:rls` | تطبيق سياسات RLS على Postgres/Supabase |
 | `npm run jobs:worker` | عامل مهام مستقل (اختياري) |
+| `npm run push:keys` | توليد مفاتيح VAPID لإشعارات الدفع |
 | `npm run build:standalone` | بناء Docker (standalone) |
 
 ## المسار الكامل (Vertical Slice) — يعمل ومختبَر
@@ -97,7 +98,7 @@ npm run build && npm start
 - **الحدّ من المحاولات** في قاعدة البيانات (دخول، تسجيل، أكواد، مسح، إعادة تعيين، AI) برسائل عربية.
 - **CSP بـ nonce** لكل طلب + HSTS وبقية الترويسات، مُتحقَّق منها بمتصفح حقيقي بلا انتهاكات.
 - **نسيت كلمة السر**: رابط بريد مجزّأ صالح 30 دقيقة لمرة واحدة، يُنهي الجلسات القديمة؛ مزوّد بريد قابل للتبديل (console/Resend/Webhook).
-- **PWA**: تثبيت على الهاتف، صفحة بلا اتصال، تخزين الأصول.
+- **PWA + إشعارات الدفع**: تثبيت على الهاتف، صفحة بلا اتصال، وإشعارات تصل الجهاز حتى والتطبيق مغلق (`npm run push:keys` ثم ضبط `VAPID_*`).
 - **تخزين S3** متوافق (R2/MinIO/Supabase) عبر `STORAGE_DRIVER=s3`، وصيانة دورية تلقائية.
 - **النشر**: `Dockerfile` + `docker-compose.yml` (Postgres + app + cron) — التفاصيل في [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 

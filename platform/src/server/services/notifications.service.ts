@@ -2,6 +2,8 @@ import { and, desc, eq, isNull, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { notifications } from '@/server/db/schema'
 import type { NotificationType } from '@/server/db/schema/enums'
+import { enqueueJob } from '@/server/jobs/queue'
+import { isPushConfigured } from './push.service'
 
 export interface NotifyInput {
   userId: string
@@ -13,21 +15,31 @@ export interface NotifyInput {
   meta?: Record<string, unknown>
 }
 
+/** بعد إدراج الإشعارات: مهمة دفع واحدة للدفعة (فقط إن كانت مفاتيح VAPID مضبوطة) */
+async function queuePush(db: Db, ids: string[]) {
+  if (ids.length === 0 || !isPushConfigured()) return
+  await enqueueJob(db, { type: 'PUSH_DISPATCH', payload: { notificationIds: ids }, maxAttempts: 2 })
+}
+
 export async function notify(db: Db, input: NotifyInput): Promise<void> {
-  await db.insert(notifications).values({
-    userId: input.userId,
-    workspaceId: input.workspaceId ?? null,
-    type: input.type,
-    title: input.title,
-    body: input.body ?? null,
-    link: input.link ?? null,
-    meta: input.meta ?? {}
-  })
+  const rows = await db
+    .insert(notifications)
+    .values({
+      userId: input.userId,
+      workspaceId: input.workspaceId ?? null,
+      type: input.type,
+      title: input.title,
+      body: input.body ?? null,
+      link: input.link ?? null,
+      meta: input.meta ?? {}
+    })
+    .returning({ id: notifications.id })
+  await queuePush(db, rows.map((r) => r.id))
 }
 
 export async function notifyMany(db: Db, inputs: NotifyInput[]): Promise<void> {
   if (inputs.length === 0) return
-  await db.insert(notifications).values(
+  const rows = await db.insert(notifications).values(
     inputs.map((i) => ({
       userId: i.userId,
       workspaceId: i.workspaceId ?? null,
@@ -37,7 +49,8 @@ export async function notifyMany(db: Db, inputs: NotifyInput[]): Promise<void> {
       link: i.link ?? null,
       meta: i.meta ?? {}
     }))
-  )
+  ).returning({ id: notifications.id })
+  await queuePush(db, rows.map((r) => r.id))
 }
 
 export async function listNotifications(db: Db, userId: string, limit = 30) {

@@ -83,6 +83,25 @@ export const jobs = pgTable(
   ]
 )
 
+/** اشتراكات إشعارات الدفع (Web Push) لكل جهاز؛ المفاتيح عامة الطبيعة ولا تحمل بيانات شخصية */
+export const pushSubscriptions = pgTable(
+  'push_subscriptions',
+  {
+    id: id(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    endpoint: text('endpoint').notNull().unique(),
+    p256dh: text('p256dh').notNull(),
+    auth: text('auth').notNull(),
+    userAgent: text('user_agent'),
+    failures: integer('failures').notNull().default(0),
+    lastUsedAt: timestamp('last_used_at', { withTimezone: true }),
+    ...timestamps
+  },
+  (t) => [index('push_subscriptions_user_idx').on(t.userId)]
+)
+
 export const appSettings = pgTable('settings', {
   key: text('key').primaryKey(),
   value: jsonb('value').$type<unknown>().notNull(),

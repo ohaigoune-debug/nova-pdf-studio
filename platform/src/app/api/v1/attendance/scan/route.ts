@@ -1,3 +1,4 @@
+import { kickJobsSoon } from '@/server/jobs/kick'
 import { z } from 'zod'
 import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
@@ -20,6 +21,7 @@ export async function POST(req: Request) {
     const db = await getDb()
     await checkRateLimit(db, { scope: 'scan', subject: actor.userId, ...RATE_LIMITS.scan })
     const r = await scanAttendanceToken(db, actor, parsed.data)
+    kickJobsSoon()
     return jsonOk(r)
   } catch (err) {
     return jsonError(err)

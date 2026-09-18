@@ -1,5 +1,6 @@
 import type { ZodError } from 'zod'
 import { errorMessage } from '@/i18n'
+import { kickJobsSoon } from '@/server/jobs/kick'
 import { isAppError, toAppError, type ErrorCode } from './errors'
 
 export type ActionResult<T = undefined> =
@@ -23,10 +24,12 @@ export function failValidation(err: ZodError): ActionResult<never> {
   return { ok: false, error: { code: 'VALIDATION', message: errorMessage('VALIDATION'), fieldErrors } }
 }
 
-/** يغلّف تنفيذ Server Action: AppError → رسالة عربية آمنة، وأي خطأ آخر → INTERNAL. */
+/** يغلّف تنفيذ Server Action: AppError → رسالة عربية آمنة، وأي خطأ آخر → INTERNAL. بعد النجاح يوقظ عامل المهام. */
 export async function runAction<T>(fn: () => Promise<T>): Promise<ActionResult<T>> {
   try {
-    return ok(await fn())
+    const data = await fn()
+    kickJobsSoon()
+    return ok(data)
   } catch (err) {
     if (isAppError(err)) return fail(err.code)
     const e = toAppError(err)

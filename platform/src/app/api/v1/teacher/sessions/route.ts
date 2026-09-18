@@ -1,3 +1,4 @@
+import { kickJobsSoon } from '@/server/jobs/kick'
 import { z } from 'zod'
 import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
@@ -18,6 +19,7 @@ export async function GET(req: Request) {
       groupId: sp.get('groupId') ?? undefined,
       limit: Number(sp.get('limit') ?? 50)
     })
+    kickJobsSoon()
     return jsonOk(rows)
   } catch (err) {
     return jsonError(err)
@@ -44,6 +46,7 @@ export async function POST(req: Request) {
       topic: parsed.data.topic ?? null,
       lateAfterMinutes: parsed.data.lateAfterMinutes ?? null
     })
+    kickJobsSoon()
     return jsonOk(s, { status: 201 })
   } catch (err) {
     return jsonError(err)

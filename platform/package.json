@@ -17,6 +17,7 @@
     "db:reset": "tsx src/server/db/reset.ts",
     "db:rls": "tsx src/server/db/apply-rls.ts",
     "jobs:worker": "tsx src/server/jobs/worker.ts",
+    "push:keys": "tsx src/server/lib/web-push-keys.ts",
     "build:standalone": "NEXT_OUTPUT=standalone next build"
   },
   "dependencies": {

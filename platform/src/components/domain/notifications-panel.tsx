@@ -6,13 +6,23 @@ import { cn, formatDateTime } from '@/lib/utils'
 import type { Actor } from '@/server/lib/actor'
 import { getDb } from '@/server/db/client'
 import { listNotifications } from '@/server/services/notifications.service'
+import { pushPublicKey } from '@/server/services/push.service'
 import { MarkAllReadButton } from './notifications-actions'
+import { PushToggle } from './push-toggle'
 
 export async function NotificationsPanel({ actor }: { actor: Actor }) {
   const items = await listNotifications(await getDb(), actor.userId, 50)
   return (
     <>
-      <PageHeader title={t('notifications.title')} actions={items.some((i) => !i.readAt) ? <MarkAllReadButton /> : null} />
+      <PageHeader
+        title={t('notifications.title')}
+        actions={
+          <>
+            <PushToggle publicKey={pushPublicKey()} />
+            {items.some((i) => !i.readAt) ? <MarkAllReadButton /> : null}
+          </>
+        }
+      />
       {items.length === 0 ? (
         <EmptyState icon={Bell} title={t('notifications.empty')} />
       ) : (

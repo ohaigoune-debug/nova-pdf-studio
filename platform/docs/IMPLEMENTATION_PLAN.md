@@ -69,7 +69,7 @@
 - [x] Adaptive Learning: خطة تقوية للطالب (المهارات الثلاث الأضعف ⇒ درس + تمارين + اختبار قصير من المحتوى المتاح له فعلاً، مع "أفضل نتيجة")؛ عند غياب محتوى لمهارة تُعرض الفجوة
 - [x] تقارير CSV (حضور الفوج حصة×طالب، علامات الفوج، مهارات الفوج، قائمة الطلاب) كـ Jobs → ملف خاص في مساحة الأستاذ → رابط موقّع + إشعار؛ CSV بـ BOM ومنع حقن الصيغ
 - [ ] تقارير PDF (يمكن بناؤها فوق نفس المسار بمولّد PDF لاحقاً)
-- [ ] Push Notifications (PWA) — المرحلة 8
+- [x] Push Notifications (PWA) — نُفِّذت في المرحلة 8
 
 ## المرحلة 8 — التحصين والإنتاج
 
@@ -81,7 +81,7 @@
 - [x] تخزين سحابي: محوّل S3 متوافق (AWS/R2/MinIO/Supabase) بتوقيع SigV4 مُختبَر بمتجهات AWS الرسمية، يُفعَّل بـ `STORAGE_DRIVER=s3`
 - [x] PWA: manifest + service worker (غلاف بلا اتصال، تخزين الأصول، معالج push جاهز) + صفحة `/offline`
 - [x] Docker (متعدد المراحل، standalone) + docker-compose (Postgres + app + cron) + `docs/DEPLOYMENT.md`
-- [ ] Push Notifications (اشتراكات + إرسال VAPID)
+- [x] Push Notifications: اشتراكات لكل جهاز (`push_subscriptions`) + إرسال Web Push بلا مكتبات (RFC 8291 aes128gcm مُختبَر بمتجه RFC الرسمي، VAPID ES256) كمهمة `PUSH_DISPATCH` تُنشأ تلقائياً مع كل إشعار داخل التطبيق؛ حذف الاشتراكات الملغاة (410) والفاشلة المتكررة؛ زر تفعيل في صفحة الإشعارات
 - [ ] تقارير PDF، `analyzeStudent`/`generateExercises`، لغات fr/en
 
 ## ما بعد الإطلاق (لا يُبنى الآن)
