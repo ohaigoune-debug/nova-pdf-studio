@@ -9,22 +9,23 @@ import {
   students
 } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
-import { assertRole, type Actor } from '@/server/lib/actor'
+import { assertAttendanceStaff, inWorkspaceScope, staffWorkspaceOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { recomputeUnexcused } from './enrollment.service'
-import { assertGroupAccess } from './groups.service'
+import { assertGroupAccess, assertGroupStaffAccess } from './groups.service'
 import { notifyMany } from './notifications.service'
 import { addTimelineMany } from './timeline.service'
 
 export type ClassSessionRow = typeof classSessions.$inferSelect
 
+/** الحصص متاحة لطاقم الحضور (الأستاذ ومساعده) داخل مساحتهم فقط. */
 export async function assertSessionAccess(db: Db, actor: Actor, sessionId: string): Promise<ClassSessionRow> {
-  assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+  assertAttendanceStaff(actor)
   assertUuid(sessionId, 'SESSION_NOT_FOUND')
   const [s] = await db.select().from(classSessions).where(eq(classSessions.id, sessionId)).limit(1)
   if (!s) throw new AppError('SESSION_NOT_FOUND')
-  if (actor.role === 'TEACHER' && s.workspaceId !== actor.workspaceId) throw new AppError('SESSION_NOT_FOUND')
+  if (!inWorkspaceScope(actor, s.workspaceId)) throw new AppError('SESSION_NOT_FOUND')
   return s
 }
 
@@ -38,7 +39,7 @@ export interface StartSessionInput {
 
 /** "بدء الحصة": ينشئ حصة OPEN ويفتح الحضور. حصة مفتوحة واحدة لكل فوج. */
 export async function startSession(db: Db, actor: Actor, input: StartSessionInput) {
-  const g = await assertGroupAccess(db, actor, input.groupId)
+  const g = await assertGroupStaffAccess(db, actor, input.groupId)
   if (g.status !== 'ACTIVE') throw new AppError('GROUP_NOT_ACTIVE')
   const now = input.now ?? new Date()
 
@@ -265,8 +266,7 @@ export async function listSessions(
   actor: Actor,
   opts: { groupId?: string; status?: string[]; from?: Date; to?: Date; limit?: number; workspaceId?: string } = {}
 ): Promise<SessionListItem[]> {
-  assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
-  const workspaceId = actor.role === 'TEACHER' ? actor.workspaceId : (opts.workspaceId ?? null)
+  const workspaceId = staffWorkspaceOf(actor, opts.workspaceId)
   return db
     .select({
       id: classSessions.id,

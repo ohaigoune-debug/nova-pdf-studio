@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
 const SESSION_COOKIE = 'madrasa_session'
-const PROTECTED = ['/student', '/teacher', '/admin']
+const PROTECTED = ['/student', '/teacher', '/assistant', '/admin']
 
 /**
  * سياسة أمن المحتوى (CSP) بـ nonce لكل طلب: لا سكربت مضمّن بلا nonce، ولا مصادر خارجية إلا خطوط Google.

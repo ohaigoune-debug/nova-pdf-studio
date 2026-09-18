@@ -31,12 +31,14 @@ audit_logs, activity_logs, jobs, qr_nonces
 
 | جدول | الأعمدة الأساسية | ملاحظات |
 |---|---|---|
-| `users` | `email` (unique, lowercase), `password_hash`, `role` CHECK IN (SUPER_ADMIN, TEACHER, STUDENT, PUBLIC, PARENT*), `status` (ACTIVE/DISABLED), `email_verified_at`, `last_login_at`, `deleted_at` | PARENT محجوز |
+| `users` | `email` (unique, lowercase), `password_hash`, `role` CHECK IN (SUPER_ADMIN, TEACHER, ASSISTANT, STUDENT, PUBLIC, PARENT*), `status` (ACTIVE/DISABLED), `email_verified_at`, `last_login_at`, `deleted_at` | PARENT محجوز |
 | `profiles` | `user_id` (unique FK), `full_name`, `phone`, `avatar_file_id`, `locale` (ar/fr/en), `theme` | |
 | `sessions` | `user_id`, `token_hash` (unique), `device_name`, `user_agent`, `ip`, `expires_at`, `revoked_at`, `last_seen_at` | إدارة الأجهزة/الجلسات |
 | `password_resets` | `user_id`, `token_hash`, `expires_at`, `used_at` | |
 | `teacher_workspaces` | `owner_user_id`, `name`, `slug` (unique), `plan` (FREE), `status`, `settings jsonb` | المستأجر (Tenant) |
 | `teachers` | `user_id` (unique), `workspace_id`, `display_name`, `subject`, `bio` | أستاذ ↔ مساحة |
+| `assistant_codes` | `workspace_id`, `teacher_id`, `email` (lowercase، الكود لا يعمل إلا معه), `code_hash` (unique), `code_prefix`, `status` (ACTIVE/USED/DISABLED/EXPIRED), `expires_at`, `used_by_user_id`, `used_at`, `created_by_user_id`, `disabled_at` | كود دعوة مساعد، يُعرض مرة واحدة |
+| `teacher_assistants` | `workspace_id`, `teacher_id`, `user_id`, `status` (ACTIVE/REVOKED), `joined_via_code_id`, `revoked_at`, `revoked_by_user_id` | **unique جزئي** على `user_id` حيث `status='ACTIVE'`: عضوية نشطة واحدة لكل مساعد |
 | `students` | `user_id` (unique), `student_type` (IN_PERSON/COURSE/ONLINE/FREE/EXTERNAL), `wilaya_id`, `school_id`, `level_id`, `stream_id`, `guardian_phone`, `birth_date` | الطالب كيان عام، والانتماء لأستاذ عبر `group_students` |
 
 ### المرجعية الأكاديمية

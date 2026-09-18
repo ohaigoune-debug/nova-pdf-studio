@@ -15,7 +15,7 @@ import { formatTime } from '@/lib/utils'
 import { setManualAttendanceAction } from '@/server/actions/attendance.actions'
 import type { SessionAttendanceRow } from '@/server/services/attendance.service'
 
-export function SessionAttendanceTable({ sessionId, sessionStatus, rows }: { sessionId: string; sessionStatus: string; rows: SessionAttendanceRow[] }) {
+export function SessionAttendanceTable({ sessionId, sessionStatus, rows, basePath = '/teacher', canExcuse = true }: { sessionId: string; sessionStatus: string; rows: SessionAttendanceRow[]; basePath?: string; canExcuse?: boolean }) {
   const router = useRouter()
   const [pending, start] = useTransition()
   const editable = sessionStatus !== 'CANCELLED'
@@ -40,7 +40,7 @@ export function SessionAttendanceTable({ sessionId, sessionStatus, rows }: { ses
         {rows.map((r) => (
           <TableRow key={r.groupStudentId} className={r.enrollmentStatus !== 'ACTIVE' ? 'opacity-70' : undefined}>
             <TableCell>
-              <Link href={`/teacher/students/${r.studentId}`} className="flex items-center gap-2 hover:underline">
+              <Link href={`${basePath}/students/${r.studentId}`} className="flex items-center gap-2 hover:underline">
                 <Avatar name={r.fullName} size="sm" />
                 <span>
                   <span className="block font-semibold">{r.fullName}</span>
@@ -74,7 +74,7 @@ export function SessionAttendanceTable({ sessionId, sessionStatus, rows }: { ses
                       <X className="size-4 text-destructive" />
                     </Button>
                   ) : null}
-                  {r.recordId && (r.status === 'UNEXCUSED' || r.status === 'ABSENT') ? <ExcuseDialog recordId={r.recordId} studentName={r.fullName} /> : null}
+                  {canExcuse && r.recordId && (r.status === 'UNEXCUSED' || r.status === 'ABSENT') ? <ExcuseDialog recordId={r.recordId} studentName={r.fullName} /> : null}
                 </div>
               </TableCell>
             ) : null}

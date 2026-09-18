@@ -21,7 +21,7 @@ import {
 } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
 import type { GroupStatus } from '@/server/db/schema/enums'
-import { assertRole, workspaceOf, type Actor } from '@/server/lib/actor'
+import { assertAttendanceStaff, assertRole, inWorkspaceScope, staffWorkspaceOf, workspaceOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 
@@ -48,6 +48,22 @@ export interface GroupInput {
 export type GroupRow = typeof groups.$inferSelect
 
 /** يرجع الفوج إذا كان ضمن نطاق الفاعل، وإلا NOT_FOUND (لا نكشف وجوده). */
+/**
+ * وصول طاقم الحضور (الأستاذ + مساعده) إلى فوج للقراءة وبدء الحصص فقط.
+ * التعديل/الأرشفة/الأكواد تبقى عبر assertGroupAccess (الأستاذ فقط).
+ */
+export async function assertGroupStaffAccess(db: Db, actor: Actor, groupId: string): Promise<GroupRow> {
+  assertAttendanceStaff(actor)
+  assertUuid(groupId)
+  const [g] = await db
+    .select()
+    .from(groups)
+    .where(and(eq(groups.id, groupId), isNull(groups.deletedAt)))
+    .limit(1)
+  if (!g || !inWorkspaceScope(actor, g.workspaceId)) throw new AppError('NOT_FOUND')
+  return g
+}
+
 export async function assertGroupAccess(db: Db, actor: Actor, groupId: string): Promise<GroupRow> {
   assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
   assertUuid(groupId)
@@ -185,8 +201,7 @@ export interface GroupListItem {
 }
 
 export async function listGroups(db: Db, actor: Actor, opts: { workspaceId?: string; includeArchived?: boolean } = {}): Promise<GroupListItem[]> {
-  assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
-  const workspaceId = actor.role === 'TEACHER' ? actor.workspaceId : (opts.workspaceId ?? null)
+  const workspaceId = staffWorkspaceOf(actor, opts.workspaceId)
   const rows = await db
     .select({
       id: groups.id,

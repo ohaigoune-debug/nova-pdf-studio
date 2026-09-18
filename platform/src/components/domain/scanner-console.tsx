@@ -66,7 +66,7 @@ function useBeep(enabled: boolean) {
   )
 }
 
-export function ScannerConsole({ sessions, sessionId, initial }: { sessions: SessionOpt[]; sessionId: string; initial: { present: number; late: number; active: number; recorded: number } }) {
+export function ScannerConsole({ sessions, sessionId, initial, basePath = '/teacher' }: { sessions: SessionOpt[]; sessionId: string; initial: { present: number; late: number; active: number; recorded: number }; basePath?: string }) {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const [value, setValue] = useState('')
@@ -143,7 +143,7 @@ export function ScannerConsole({ sessions, sessionId, initial }: { sessions: Ses
       <div className="space-y-4 lg:col-span-2">
         <div className="flex flex-wrap items-center gap-2">
           {sessions.length > 1 ? (
-            <Select value={sessionId} onChange={(e) => router.push(`/teacher/scanner?session=${e.target.value}`)} className="w-auto min-w-64" aria-label={t('scanner.selectSession')}>
+            <Select value={sessionId} onChange={(e) => router.push(`${basePath}/scanner?session=${e.target.value}`)} className="w-auto min-w-64" aria-label={t('scanner.selectSession')}>
               {sessions.map((s) => (
                 <option key={s.id} value={s.id}>
                   {s.label}
@@ -161,9 +161,9 @@ export function ScannerConsole({ sessions, sessionId, initial }: { sessions: Ses
               {sound ? <Volume2 className="size-5" /> : <VolumeX className="size-5" />}
             </Button>
             <Button asChild variant="outline" size="sm">
-              <Link href={`/teacher/sessions/${sessionId}`}>{t('sessions.attendanceList')}</Link>
+              <Link href={`${basePath}/sessions/${sessionId}`}>{t('sessions.attendanceList')}</Link>
             </Button>
-            <CloseSessionButton sessionId={sessionId} afterClose="sessions" />
+            <CloseSessionButton sessionId={sessionId} afterClose="sessions" basePath={basePath} />
           </div>
         </div>
 

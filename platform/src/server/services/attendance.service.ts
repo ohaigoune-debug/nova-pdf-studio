@@ -13,7 +13,7 @@ import {
 } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
 import type { AttendanceStatus } from '@/server/db/schema/enums'
-import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
+import { assertRole, staffWorkspaceOf, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeActivity, writeAudit } from '@/server/lib/audit'
 import { AppError } from '@/server/lib/errors'
 import { issueQrToken, verifyQrToken } from '@/server/lib/qr-token'
@@ -377,10 +377,11 @@ export interface StudentAttendanceItem {
 
 /** سجل حضور طالب (للطالب نفسه أو لأستاذه). */
 export async function listStudentAttendance(db: Db, actor: Actor, studentId: string, opts: { groupId?: string; limit?: number } = {}): Promise<StudentAttendanceItem[]> {
+  let workspaceId: string | null = null
   if (actor.role === 'STUDENT') {
     if (actor.studentId !== studentId) throw new AppError('FORBIDDEN')
   } else {
-    assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+    workspaceId = staffWorkspaceOf(actor)
   }
   const rows = await db
     .select({
@@ -403,7 +404,7 @@ export async function listStudentAttendance(db: Db, actor: Actor, studentId: str
       and(
         eq(attendanceRecords.studentId, studentId),
         opts.groupId ? eq(classSessions.groupId, opts.groupId) : undefined,
-        actor.role === 'TEACHER' ? eq(attendanceRecords.workspaceId, actor.workspaceId ?? '') : undefined
+        workspaceId ? eq(attendanceRecords.workspaceId, workspaceId) : undefined
       )
     )
     .orderBy(desc(classSessions.scheduledAt))

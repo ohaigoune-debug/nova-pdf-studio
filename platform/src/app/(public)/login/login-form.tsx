@@ -12,6 +12,7 @@ import { loginAction } from '@/server/actions/auth.actions'
 const DEMO = [
   { label: 'مشرف', email: 'admin@madrasa.dz', password: 'Admin@12345' },
   { label: 'أستاذ', email: 'osama@madrasa.dz', password: 'Teacher@12345' },
+  { label: 'مساعد أستاذ', email: 'amine@madrasa.dz', password: 'Assistant@12345' },
   { label: 'طالب', email: 'mohamed@madrasa.dz', password: 'Student@12345' }
 ]
 

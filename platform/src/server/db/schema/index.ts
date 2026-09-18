@@ -1,6 +1,7 @@
 export * from './enums'
 export * from './auth'
 export * from './tenancy'
+export * from './assistants'
 export * from './reference'
 export * from './students'
 export * from './groups'

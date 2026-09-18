@@ -1,6 +1,7 @@
 import { kickJobsSoon } from '@/server/jobs/kick'
 import { z } from 'zod'
 import { requireRole } from '@/server/auth/current-user'
+import { ATTENDANCE_STAFF_ROLES } from '@/server/lib/actor'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
 import { listSessions, startSession } from '@/server/services/class-sessions.service'
@@ -11,7 +12,7 @@ export const dynamic = 'force-dynamic'
 /** GET /api/v1/teacher/sessions?status=OPEN&groupId=… */
 export async function GET(req: Request) {
   try {
-    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    const actor = await requireRole(...ATTENDANCE_STAFF_ROLES)
     const sp = new URL(req.url).searchParams
     const status = sp.get('status')
     const rows = await listSessions(await getDb(), actor, {
@@ -37,7 +38,7 @@ const startSchema = z.object({
 export async function POST(req: Request) {
   try {
     assertSameOrigin(req)
-    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    const actor = await requireRole(...ATTENDANCE_STAFF_ROLES)
     const parsed = startSchema.safeParse(await req.json())
     if (!parsed.success) throw new AppError('VALIDATION')
     const s = await startSession(await getDb(), actor, {

@@ -14,7 +14,7 @@ import {
   wilayas
 } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
-import { assertRole, type Actor } from '@/server/lib/actor'
+import { staffWorkspaceOf, type Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { listStudentAttendance, summarizeAttendance, type AttendanceStats } from './attendance.service'
 import { listStatusHistory } from './enrollment.service'
@@ -38,8 +38,7 @@ export async function listTeacherStudents(
   actor: Actor,
   opts: { search?: string; groupId?: string; status?: string; workspaceId?: string } = {}
 ): Promise<TeacherStudentRow[]> {
-  assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
-  const workspaceId = actor.role === 'TEACHER' ? actor.workspaceId : (opts.workspaceId ?? null)
+  const workspaceId = staffWorkspaceOf(actor, opts.workspaceId)
   const rows = await db
     .select({
       studentId: students.id,
@@ -131,7 +130,8 @@ export interface StudentProfile {
 export async function getStudentProfile(db: Db, actor: Actor, studentId: string): Promise<StudentProfile> {
   assertUuid(studentId)
   if (actor.role === 'STUDENT' && actor.studentId !== studentId) throw new AppError('FORBIDDEN')
-  if (actor.role !== 'STUDENT') assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+  // الأستاذ ومساعده يريان طلاب مساحتهم فقط
+  const staffWs = actor.role === 'STUDENT' ? null : staffWorkspaceOf(actor)
 
   const [base] = await db
     .select({
@@ -176,23 +176,20 @@ export async function getStudentProfile(db: Db, actor: Actor, studentId: string)
     .where(
       and(
         eq(groupStudents.studentId, studentId),
-        actor.role === 'TEACHER' ? eq(groupStudents.workspaceId, actor.workspaceId ?? '') : undefined
+        staffWs ? eq(groupStudents.workspaceId, staffWs) : undefined
       )
     )
     .orderBy(desc(groupStudents.enrolledAt))
 
-  // الأستاذ لا يرى طالباً ليس في أي فوج من أفواجه
-  if (actor.role === 'TEACHER' && enrollmentRows.length === 0) throw new AppError('NOT_FOUND')
+  // الأستاذ (ومساعده) لا يرى طالباً ليس في أي فوج من أفواجه
+  if (staffWs && enrollmentRows.length === 0) throw new AppError('NOT_FOUND')
 
   const enrollments = await Promise.all(
     enrollmentRows.map(async (e) => ({ ...e, history: await listStatusHistory(db, e.groupStudentId) }))
   )
   const recentAttendance = await listStudentAttendance(db, actor, studentId, { limit: 200 })
   const timelineRows = await listTimeline(db, studentId, 40)
-  const timeline =
-    actor.role === 'TEACHER'
-      ? timelineRows.filter((t) => t.workspaceId === null || t.workspaceId === actor.workspaceId)
-      : timelineRows
+  const timeline = staffWs ? timelineRows.filter((t) => t.workspaceId === null || t.workspaceId === staffWs) : timelineRows
 
   return {
     ...base,

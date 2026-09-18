@@ -21,6 +21,7 @@ npm run dev                       # http://localhost:3000
 | مشرف عام | admin@madrasa.dz | Admin@12345 |
 | أستاذ (حيقون أسامة — قالمة) | osama@madrasa.dz | Teacher@12345 |
 | أستاذة ثانية (عزل المستأجرين) | nadia@madrasa.dz | Teacher@12345 |
+| مساعد الأستاذ أسامة (حضور + سكانر فقط) | amine@madrasa.dz | Assistant@12345 |
 | طالب (محمد أحمد) | mohamed@madrasa.dz | Student@12345 |
 
 `npm run db:reset` يحذف قاعدة PGlite المحلية بالكامل.

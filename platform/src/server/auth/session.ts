@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto'
 import { and, eq, gt, isNull } from 'drizzle-orm'
 import type { Db } from '@/server/db/client'
-import { profiles, sessions, students, teachers, users } from '@/server/db/schema'
+import { profiles, sessions, students, teacherAssistants, teachers, users } from '@/server/db/schema'
 import type { UserRole } from '@/server/db/schema/enums'
 import { sha256 } from '@/server/lib/codes'
 import type { Actor } from '@/server/lib/actor'
@@ -62,12 +62,15 @@ export async function resolveActor(db: Db, token: string | undefined | null): Pr
       fullName: profiles.fullName,
       teacherId: teachers.id,
       workspaceId: teachers.workspaceId,
+      assistantWorkspaceId: teacherAssistants.workspaceId,
       studentId: students.id
     })
     .from(sessions)
     .innerJoin(users, eq(users.id, sessions.userId))
     .leftJoin(profiles, eq(profiles.userId, users.id))
     .leftJoin(teachers, eq(teachers.userId, users.id))
+    // المساعد: مساحته = مساحة الأستاذ الذي يتبعه (العضوية النشطة فقط؛ الإلغاء يُسقطها فوراً)
+    .leftJoin(teacherAssistants, and(eq(teacherAssistants.userId, users.id), eq(teacherAssistants.status, 'ACTIVE')))
     .leftJoin(students, eq(students.userId, users.id))
     .where(and(eq(sessions.tokenHash, sha256(token)), isNull(sessions.revokedAt), gt(sessions.expiresAt, now), isNull(users.deletedAt)))
     .limit(1)
@@ -90,7 +93,7 @@ export async function resolveActor(db: Db, token: string | undefined | null): Pr
     email: row.email,
     fullName: row.fullName ?? row.email,
     teacherId: row.teacherId ?? null,
-    workspaceId: row.workspaceId ?? null,
+    workspaceId: row.workspaceId ?? (row.role === 'ASSISTANT' ? (row.assistantWorkspaceId ?? null) : null),
     studentId: row.studentId ?? null
   }
 }

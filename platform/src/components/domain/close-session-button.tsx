@@ -9,7 +9,7 @@ import { toast } from '@/components/ui/toast'
 import { t } from '@/i18n'
 import { cancelSessionAction, closeSessionAction } from '@/server/actions/sessions.actions'
 
-export function CloseSessionButton({ sessionId, afterClose }: { sessionId: string; afterClose?: 'refresh' | 'sessions' }) {
+export function CloseSessionButton({ sessionId, afterClose, basePath = '/teacher' }: { sessionId: string; afterClose?: 'refresh' | 'sessions'; basePath?: string }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [pending, start] = useTransition()
@@ -38,7 +38,7 @@ export function CloseSessionButton({ sessionId, afterClose }: { sessionId: strin
                 }
                 toast('success', t('sessions.closedSummary', { present: r.data.present, late: r.data.late, absent: r.data.autoAbsent, suspended: r.data.suspended.length }), undefined, 8000)
                 setOpen(false)
-                if (afterClose === 'sessions') router.push(`/teacher/sessions/${sessionId}`)
+                if (afterClose === 'sessions') router.push(`${basePath}/sessions/${sessionId}`)
                 else router.refresh()
               })
             }

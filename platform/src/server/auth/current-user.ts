@@ -48,6 +48,8 @@ export function homeFor(role: UserRole): string {
       return '/admin'
     case 'TEACHER':
       return '/teacher'
+    case 'ASSISTANT':
+      return '/assistant'
     case 'STUDENT':
       return '/student'
     default:

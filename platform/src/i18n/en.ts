@@ -54,7 +54,7 @@ const en: DeepPartial<typeof ar> = {
     dashboard: 'Dashboard',
     attendanceCard: 'Attendance card'
   },
-  roles: { SUPER_ADMIN: 'Administrator', TEACHER: 'Teacher', STUDENT: 'Student', PUBLIC: 'Visitor', PARENT: 'Parent' },
+  roles: { SUPER_ADMIN: 'Administrator', TEACHER: 'Teacher', ASSISTANT: 'Assistant', STUDENT: 'Student', PUBLIC: 'Visitor', PARENT: 'Parent' },
   contentTypes: { ARTICLE: 'Article', LESSON: 'Lesson', PDF: 'PDF file', VIDEO: 'Video', AUDIO: 'Audio', QUIZ: 'Quiz', EXERCISE: 'Exercise', IMAGE: 'Image', LINK: 'Link' },
   auth: {
     loginTitle: 'Log in',
@@ -135,6 +135,11 @@ const en: DeepPartial<typeof ar> = {
     ALREADY_ENROLLED: 'You are already enrolled in this group.',
     RESET_TOKEN_INVALID: 'The reset link is invalid or was already used. Request a new one.',
     RESET_TOKEN_EXPIRED: 'The reset link has expired. Request a new one.',
+    ASSISTANT_EMAIL_MISMATCH: 'This code was issued for a different email address.',
+    ASSISTANT_EMAIL_TAKEN: 'This email already belongs to an account of another type.',
+    ASSISTANT_ALREADY_ACTIVE: 'This assistant is already attached to a teacher.',
+    ASSISTANT_NOT_FOUND: 'Assistant not found.',
+    ASSISTANT_NO_WORKSPACE: 'Your assistant account is not attached to any teacher.',
     INTERNAL: 'An unexpected error occurred. Please try again.'
   }
 }

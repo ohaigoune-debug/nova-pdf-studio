@@ -54,7 +54,7 @@ const fr: DeepPartial<typeof ar> = {
     dashboard: 'Tableau de bord',
     attendanceCard: 'Carte de présence'
   },
-  roles: { SUPER_ADMIN: 'Administrateur', TEACHER: 'Enseignant', STUDENT: 'Élève', PUBLIC: 'Visiteur', PARENT: 'Parent' },
+  roles: { SUPER_ADMIN: 'Administrateur', TEACHER: 'Enseignant', ASSISTANT: 'Assistant', STUDENT: 'Élève', PUBLIC: 'Visiteur', PARENT: 'Parent' },
   contentTypes: { ARTICLE: 'Article', LESSON: 'Cours', PDF: 'Fichier PDF', VIDEO: 'Vidéo', AUDIO: 'Audio', QUIZ: 'Quiz', EXERCISE: 'Exercice', IMAGE: 'Image', LINK: 'Lien' },
   auth: {
     loginTitle: 'Connexion',
@@ -135,6 +135,11 @@ const fr: DeepPartial<typeof ar> = {
     ALREADY_ENROLLED: 'Vous êtes déjà inscrit dans ce groupe.',
     RESET_TOKEN_INVALID: 'Lien de réinitialisation invalide ou déjà utilisé. Demandez-en un nouveau.',
     RESET_TOKEN_EXPIRED: 'Le lien de réinitialisation a expiré. Demandez-en un nouveau.',
+    ASSISTANT_EMAIL_MISMATCH: 'Ce code est réservé à une autre adresse e-mail.',
+    ASSISTANT_EMAIL_TAKEN: "Cet e-mail appartient déjà à un compte d'un autre type.",
+    ASSISTANT_ALREADY_ACTIVE: 'Cet assistant est déjà rattaché à un enseignant.',
+    ASSISTANT_NOT_FOUND: 'Assistant introuvable.',
+    ASSISTANT_NO_WORKSPACE: "Votre compte assistant n'est rattaché à aucun enseignant.",
     INTERNAL: 'Une erreur inattendue est survenue. Réessayez.'
   }
 }

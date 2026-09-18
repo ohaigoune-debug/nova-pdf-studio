@@ -23,6 +23,7 @@ import {
 import type { Actor } from '@/server/lib/actor'
 import { processQueuedJobs } from '@/server/jobs/runner'
 import { createTeacher } from '@/server/services/admin.service'
+import { createAssistantCode, joinAsAssistant } from '@/server/services/assistants.service'
 import { requestAiEvaluation } from '@/server/services/ai.service'
 import { addThreadMessage, createAssignment, reviewSubmission, saveDraft, submitAnswer } from '@/server/services/assignments.service'
 import { createContent } from '@/server/services/content.service'
@@ -39,6 +40,7 @@ export const DEMO_ACCOUNTS = {
   admin: { email: 'admin@madrasa.dz', password: 'Admin@12345' },
   teacher: { email: 'osama@madrasa.dz', password: 'Teacher@12345' },
   teacher2: { email: 'nadia@madrasa.dz', password: 'Teacher@12345' },
+  assistant: { email: 'amine@madrasa.dz', password: 'Assistant@12345' },
   student: { email: 'mohamed@madrasa.dz', password: 'Student@12345' }
 }
 
@@ -95,10 +97,27 @@ const STUDENT_NAMES = [
   'رحمة بوقرة'
 ]
 
+/**
+ * يضيف مساعد الأستاذ التجريبي إن لم يكن موجوداً (يعمل حتى على قاعدة سبق بذرها قبل هذه الميزة).
+ * نفس مسار الإنتاج: كود من الأستاذ ثم انضمام بالبريد نفسه.
+ */
+export async function ensureDemoAssistant(db: Db) {
+  const [existing] = await db.select({ id: users.id }).from(users).where(eq(users.email, DEMO_ACCOUNTS.assistant.email)).limit(1)
+  if (existing) return false
+  const [teacherUser] = await db.select({ id: users.id }).from(users).where(eq(users.email, DEMO_ACCOUNTS.teacher.email)).limit(1)
+  if (!teacherUser) return false
+  const teacher = await actorOf(db, teacherUser.id)
+  const code = await createAssistantCode(db, teacher, { email: DEMO_ACCOUNTS.assistant.email })
+  await joinAsAssistant(db, { code: code.code, email: DEMO_ACCOUNTS.assistant.email, fullName: 'أمين بوخالفة', password: DEMO_ACCOUNTS.assistant.password })
+  console.log('  assistant:', DEMO_ACCOUNTS.assistant.email, '/', DEMO_ACCOUNTS.assistant.password)
+  return true
+}
+
 export async function seedDemo(db: Db) {
   const [flag] = await db.select().from(appSettings).where(eq(appSettings.key, 'demo_seeded')).limit(1)
   if (flag) {
     console.log('• demo data already seeded — skip')
+    if (await ensureDemoAssistant(db)) console.log('✔ demo assistant added to existing demo data')
     return
   }
   await seedReferenceData(db)
@@ -122,6 +141,7 @@ export async function seedDemo(db: Db) {
   })
   const teacher = await actorOf(db, t1.userId)
   const teacher2 = await actorOf(db, t2.userId)
+
 
   const w = Object.fromEntries((await db.select().from(wilayas)).map((x) => [x.code, x.id]))
   const lv = Object.fromEntries((await db.select().from(levels)).map((x) => [x.code, x.id]))
@@ -408,6 +428,9 @@ export async function seedDemo(db: Db) {
       publishedAt: new Date()
     }
   ])
+
+  // مساعد الأستاذ أسامة: كود من الأستاذ ثم انضمام بالبريد نفسه (نفس مسار الإنتاج)
+  await ensureDemoAssistant(db)
 
   await db.insert(appSettings).values({ key: 'demo_seeded', value: { at: new Date().toISOString() } })
   console.log('✔ demo data seeded')

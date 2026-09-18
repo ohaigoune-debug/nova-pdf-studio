@@ -2,6 +2,7 @@ import { ScanLine } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CancelSessionButton, CloseSessionButton } from '@/components/domain/close-session-button'
+import { SessionAttendanceTable } from '@/components/domain/session-attendance-table'
 import { SessionStatusBadge } from '@/components/domain/status-badges'
 import { Button } from '@/components/ui/button'
 import { PageHeader, StatCard } from '@/components/ui/misc'
@@ -12,10 +13,9 @@ import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { listSessionAttendance } from '@/server/services/attendance.service'
 import { getSessionDetail } from '@/server/services/class-sessions.service'
-import { SessionAttendanceTable } from '@/components/domain/session-attendance-table'
 
-export default async function SessionDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const actor = await requirePageActor('TEACHER')
+export default async function AssistantSessionDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const actor = await requirePageActor('ASSISTANT')
   const { id } = await params
   const db = await getDb()
   let s
@@ -39,17 +39,14 @@ export default async function SessionDetailPage({ params }: { params: Promise<{ 
         actions={
           <>
             <SessionStatusBadge status={s.status} />
-            <Button asChild variant="ghost">
-              <Link href={`/teacher/groups/${s.groupId}`}>{t('common.group')}</Link>
-            </Button>
             {s.status === 'OPEN' ? (
               <>
                 <Button asChild>
-                  <Link href={`/teacher/scanner?session=${s.id}`}>
+                  <Link href={`/assistant/scanner?session=${s.id}`}>
                     <ScanLine className="size-4" /> {t('sessions.openScanner')}
                   </Link>
                 </Button>
-                <CloseSessionButton sessionId={s.id} />
+                <CloseSessionButton sessionId={s.id} basePath="/assistant" />
                 <CancelSessionButton sessionId={s.id} />
               </>
             ) : null}
@@ -63,7 +60,8 @@ export default async function SessionDetailPage({ params }: { params: Promise<{ 
         <StatCard label={t('sessions.excused')} value={excused} />
         <StatCard label={t('sessions.unrecorded')} value={unrecorded} />
       </div>
-      <SessionAttendanceTable sessionId={s.id} sessionStatus={s.status} rows={rows} />
+      {/* المساعد يسجّل الحضور يدوياً لكنه لا يبرّر الغياب (قرار الأستاذ) */}
+      <SessionAttendanceTable sessionId={s.id} sessionStatus={s.status} rows={rows} basePath="/assistant" canExcuse={false} />
     </div>
   )
 }

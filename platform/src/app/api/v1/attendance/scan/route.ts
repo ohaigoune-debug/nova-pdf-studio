@@ -1,6 +1,7 @@
 import { kickJobsSoon } from '@/server/jobs/kick'
 import { z } from 'zod'
 import { requireRole } from '@/server/auth/current-user'
+import { ATTENDANCE_STAFF_ROLES } from '@/server/lib/actor'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
@@ -15,7 +16,7 @@ const schema = z.object({ classSessionId: z.string().uuid(), token: z.string().m
 export async function POST(req: Request) {
   try {
     assertSameOrigin(req)
-    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    const actor = await requireRole(...ATTENDANCE_STAFF_ROLES)
     const parsed = schema.safeParse(await req.json())
     if (!parsed.success) throw new AppError('VALIDATION')
     const db = await getDb()

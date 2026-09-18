@@ -60,7 +60,8 @@ export function navFor(role: UserRole): NavSection[] {
           items: [
             { href: '/teacher/groups', label: t('common.groups'), iconKey: 'UsersRound' },
             { href: '/teacher/students', label: t('nav.students'), iconKey: 'Users' },
-            { href: '/teacher/codes', label: t('nav.codes'), iconKey: 'KeyRound' }
+            { href: '/teacher/codes', label: t('nav.codes'), iconKey: 'KeyRound' },
+            { href: '/teacher/assistants', label: t('nav.assistants'), iconKey: 'UserCog' }
           ]
         },
         {
@@ -82,6 +83,19 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/teacher/settings', label: t('nav.settings'), iconKey: 'Settings' }
           ]
         }
+      ]
+    case 'ASSISTANT':
+      return [
+        {
+          items: [
+            { href: '/assistant', label: t('nav.dashboard'), iconKey: 'LayoutDashboard', exact: true },
+            { href: '/assistant/scanner', label: t('nav.scanner'), iconKey: 'ScanLine' },
+            { href: '/assistant/sessions', label: t('nav.sessions'), iconKey: 'CalendarCheck' },
+            { href: '/assistant/attendance', label: t('nav.attendance'), iconKey: 'ListChecks' },
+            { href: '/assistant/students', label: t('nav.students'), iconKey: 'Users' }
+          ]
+        },
+        { title: 'الحساب', items: [{ href: '/assistant/notifications', label: t('common.notifications'), iconKey: 'BellRing' }] }
       ]
     case 'SUPER_ADMIN':
       return [

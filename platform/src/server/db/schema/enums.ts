@@ -3,8 +3,12 @@
  * إضافة قيمة جديدة = تعديل هنا + Migration بسيط لقيد CHECK.
  */
 
-export const USER_ROLES = ['SUPER_ADMIN', 'TEACHER', 'STUDENT', 'PUBLIC', 'PARENT'] as const
+export const USER_ROLES = ['SUPER_ADMIN', 'TEACHER', 'ASSISTANT', 'STUDENT', 'PUBLIC', 'PARENT'] as const
 export type UserRole = (typeof USER_ROLES)[number]
+
+/** حالة عضوية مساعد الأستاذ في مساحة العمل */
+export const ASSISTANT_STATUSES = ['ACTIVE', 'REVOKED'] as const
+export type AssistantStatus = (typeof ASSISTANT_STATUSES)[number]
 
 export const USER_STATUSES = ['ACTIVE', 'DISABLED'] as const
 export type UserStatus = (typeof USER_STATUSES)[number]

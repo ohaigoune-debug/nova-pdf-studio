@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { requireRole } from '@/server/auth/current-user'
+import { ATTENDANCE_STAFF_ROLES, portalBase } from '@/server/lib/actor'
 import { getDb } from '@/server/db/client'
 import { ATTENDANCE_STATUSES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
@@ -17,7 +18,7 @@ import {
 
 export async function openScannerAction(classSessionId: string, deviceLabel?: string): Promise<ActionResult<{ scannerSessionId: string }>> {
   return runAction(async () => {
-    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    const actor = await requireRole(...ATTENDANCE_STAFF_ROLES)
     const s = await openScannerSession(await getDb(), actor, classSessionId, deviceLabel)
     return { scannerSessionId: s?.id ?? '' }
   })
@@ -27,7 +28,7 @@ export async function scanAction(input: { classSessionId: string; token: string;
   const parsed = z.object({ classSessionId: z.string().uuid(), token: z.string().min(10).max(2000), scannerSessionId: z.string().uuid().nullish() }).safeParse(input)
   if (!parsed.success) return failValidation(parsed.error)
   return runAction(async () => {
-    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    const actor = await requireRole(...ATTENDANCE_STAFF_ROLES)
     const db = await getDb()
     await checkRateLimit(db, { scope: 'scan', subject: actor.userId, ...RATE_LIMITS.scan })
     return scanAttendanceToken(db, actor, parsed.data)
@@ -39,12 +40,14 @@ export async function setManualAttendanceAction(input: { classSessionId: string;
     .object({ classSessionId: z.string().uuid(), studentId: z.string().uuid(), status: z.enum(ATTENDANCE_STATUSES), notes: z.string().optional() })
     .safeParse(input)
   if (!parsed.success) return failValidation(parsed.error)
+  let base = '/teacher'
   const result = await runAction(async () => {
-    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    const actor = await requireRole(...ATTENDANCE_STAFF_ROLES)
+    base = portalBase(actor.role)
     await setAttendanceManually(await getDb(), actor, parsed.data)
     return undefined
   })
-  if (result.ok) revalidatePath(`/teacher/sessions/${parsed.data.classSessionId}`)
+  if (result.ok) revalidatePath(`${base}/sessions/${parsed.data.classSessionId}`)
   return result
 }
 
