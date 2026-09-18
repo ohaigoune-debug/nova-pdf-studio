@@ -15,7 +15,7 @@ export default async function TeacherAssignmentsPage() {
       <PageHeader title={t('teacherPages.assignmentsTitle')} />
       <PhaseNote phase={4} />
       {items.length === 0 ? (
-        <EmptyState icon={ClipboardList} title="لا توجد واجبات بعد." description="إنشاء الواجبات والإسناد (طالب/مجموعة/فوج/عدة أفواج) ورفع الإجابات — المرحلة 4." />
+        <EmptyState icon={ClipboardList} title="لا توجد واجبات بعد." description="إنشاء الواجبات والإسناد (طالب/مجموعة/فوج/عدة أفواج) وكتابة الطلاب إجاباتهم نصاً كرسائل — المرحلة 4." />
       ) : (
         <Table>
           <TableHeader>
