@@ -16,6 +16,9 @@ import { formatDate, formatDateTime, percent } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
+import { AiStudentPanel } from '@/components/domain/ai-student-panel'
+import { Button } from '@/components/ui/button'
+import { latestStudentAnalysis } from '@/server/services/ai.service'
 import { skillMap } from '@/server/services/skills.service'
 import { getStudentProfile } from '@/server/services/students.service'
 
@@ -30,7 +33,7 @@ export default async function TeacherStudentProfilePage({ params }: { params: Pr
     if (isAppError(e)) notFound()
     throw e
   }
-  const skills = await skillMap(db, p.studentId)
+  const [skills, analysis] = await Promise.all([skillMap(db, p.studentId), latestStudentAnalysis(db, actor, p.studentId)])
   const info: [string, string][] = [
     [t('common.phone'), p.phone ?? '—'],
     [t('common.email'), p.email],
@@ -42,7 +45,14 @@ export default async function TeacherStudentProfilePage({ params }: { params: Pr
   ]
   return (
     <div className="space-y-6">
-      <PageHeader title={t('teacherPages.studentProfile')} />
+      <PageHeader
+        title={t('teacherPages.studentProfile')}
+        actions={
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/teacher/students/${p.studentId}/report`}>{t('printReport.open')}</Link>
+          </Button>
+        }
+      />
       <Card>
         <CardContent className="flex flex-col gap-6 p-6 md:flex-row">
           <div className="flex items-center gap-4 md:w-72">
@@ -146,12 +156,13 @@ export default async function TeacherStudentProfilePage({ params }: { params: Pr
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="skills">
+        <TabsContent value="skills" className="space-y-4">
           <Card>
             <CardContent className="p-6">
               <SkillMap items={skills} />
             </CardContent>
           </Card>
+          <AiStudentPanel studentId={p.studentId} analysis={analysis} />
         </TabsContent>
       </Tabs>
     </div>

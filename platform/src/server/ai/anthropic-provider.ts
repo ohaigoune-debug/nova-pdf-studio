@@ -1,4 +1,4 @@
-import type { AIProvider, EvaluateEssayInput, EvaluateEssayOutput, TeacherInsightsInput, TeacherInsightsOutput } from './types'
+import type { AIProvider, AnalyzeStudentInput, AnalyzeStudentOutput, EvaluateEssayInput, EvaluateEssayOutput, GenerateExercisesInput, GenerateExercisesOutput, GeneratedQuestion, TeacherInsightsInput, TeacherInsightsOutput } from './types'
 
 /**
  * مزوّد حقيقي عبر Anthropic Messages API (بلا SDK — fetch فقط).
@@ -108,6 +108,37 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
       const user = `الأستاذ: ${input.teacherName}\nالحقائق:\n${input.facts.map((f) => `- ${f}`).join('\n') || '- لا توجد حقائق بعد'}`
       const j = await complete(system, user, 1000)
       return { summary: typeof j.summary === 'string' ? j.summary.slice(0, 3000) : '', nextLessonSuggestions: strList(j.next_lesson, 6), raw: j }
+    },
+    async generateExercises(input: GenerateExercisesInput): Promise<GenerateExercisesOutput> {
+      const system = [
+        'أنت أستاذ لغة عربية وآدابها للطور الثانوي بالجزائر. تولّد تمارين علاجية قصيرة لمهارة محددة.',
+        'أعد JSON فقط: {"title":string,"description":string,"questions":[{"type":"MCQ"|"TRUE_FALSE"|"SHORT_ANSWER"|"FILL_BLANK","prompt":string,"options":[{"label":string,"isCorrect":boolean}],"answerKey":object|null,"explanation":string}]}',
+        'قواعد المفاتيح: MCQ ⇒ options (2–4) مع isCorrect واحد على الأقل وanswerKey=null؛ TRUE_FALSE ⇒ answerKey={"value":boolean}؛ SHORT_ANSWER ⇒ answerKey={"accepted":[إجابات مقبولة قصيرة]}؛ FILL_BLANK ⇒ ضع ___ مكان كل فراغ في prompt وanswerKey={"blanks":[[إجابات الفراغ الأول],…]} بنفس عدد الفراغات.',
+        'اللغة فصحى، مستوى بكالوريا، بلا أسئلة غامضة أو مفاتيح متعددة التأويل.'
+      ].join('\n')
+      const user = `المهارة: ${input.skillName}${input.skillCategory ? ` (${input.skillCategory})` : ''}\nالمستوى: ${input.levelName ?? 'الثانوي'}\nعدد الأسئلة: ${input.count}`
+      const j = await complete(system, user, 2500)
+      const qs = Array.isArray(j.questions) ? (j.questions as Record<string, unknown>[]) : []
+      const questions: GeneratedQuestion[] = qs
+        .filter((q) => typeof q.prompt === 'string' && ['MCQ', 'TRUE_FALSE', 'SHORT_ANSWER', 'FILL_BLANK'].includes(String(q.type)))
+        .map((q) => ({
+          type: q.type as GeneratedQuestion['type'],
+          prompt: String(q.prompt).trim(),
+          options: Array.isArray(q.options) ? (q.options as { label?: unknown; isCorrect?: unknown }[]).filter((o) => typeof o.label === 'string').map((o) => ({ label: String(o.label), isCorrect: Boolean(o.isCorrect) })) : undefined,
+          answerKey: q.answerKey && typeof q.answerKey === 'object' ? (q.answerKey as Record<string, unknown>) : null,
+          explanation: typeof q.explanation === 'string' ? q.explanation : undefined
+        }))
+      return { title: typeof j.title === 'string' ? j.title.slice(0, 200) : `تمارين علاجية: ${input.skillName}`, description: typeof j.description === 'string' ? j.description.slice(0, 1000) : '', questions, raw: j }
+    },
+
+    async analyzeStudent(input: AnalyzeStudentInput): Promise<AnalyzeStudentOutput> {
+      const system = [
+        'أنت مساعد بيداغوجي لأستاذ لغة عربية. تحلّل ملف طالب من حقائق حقيقية مستخرجة من قاعدة البيانات وتقترح توصيات عملية.',
+        'لا تخترع أرقاماً أو أحداثاً. أعد JSON فقط: {"summary":string,"strengths":string[],"weaknesses":string[],"recommendations":string[]}'
+      ].join('\n')
+      const user = `الطالب: ${input.studentName}\nالحقائق:\n${input.facts.map((f) => `- ${f}`).join('\n') || '- لا توجد حقائق بعد'}`
+      const j = await complete(system, user, 1200)
+      return { summary: typeof j.summary === 'string' ? j.summary.slice(0, 3000) : '', strengths: strList(j.strengths, 6), weaknesses: strList(j.weaknesses, 6), recommendations: strList(j.recommendations, 6), raw: j }
     }
   }
 }

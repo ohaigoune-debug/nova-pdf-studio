@@ -1,6 +1,6 @@
 import { and, count, desc, eq, gte, isNull, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { assignmentSubmissions, assignments, attendanceRecords, classSessions, content, files, groupStudents, groups, profiles, quizzes, users } from '@/server/db/schema'
+import { assignmentSubmissions, assignments, attendanceRecords, classSessions, content, files, grades, groupStudents, groups, profiles, quizAttempts, quizzes, users } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
@@ -215,4 +215,31 @@ export async function dataInsights(db: Db, actor: Actor): Promise<DataInsight[]>
     if ((missing[0]?.n ?? 0) > 0) out.push({ tone: 'warning', text: `${missing[0]!.n} طالب لم يرسل أياً من آخر واجبين.`, href: '/teacher/assignments' })
   }
   return out
+}
+
+/** علامات طالب في مساحة الأستاذ (للبطاقة القابلة للطباعة) */
+export async function studentGradesForTeacher(db: Db, actor: Actor, studentId: string) {
+  const w = ws(actor)
+  return db
+    .select({ score: grades.score, maxScore: grades.maxScore, approvedAt: grades.approvedAt, title: sql<string>`coalesce(${assignments.title}, ${quizzes.title}, 'تقييم')`, kind: sql<string>`case when ${assignments.id} is null then 'QUIZ' else 'ASSIGNMENT' end` })
+    .from(grades)
+    .leftJoin(assignmentSubmissions, eq(assignmentSubmissions.id, grades.submissionId))
+    .leftJoin(assignments, eq(assignments.id, assignmentSubmissions.assignmentId))
+    .leftJoin(quizAttempts, eq(quizAttempts.id, grades.quizAttemptId))
+    .leftJoin(quizzes, eq(quizzes.id, quizAttempts.quizId))
+    .where(and(eq(grades.studentId, studentId), eq(grades.workspaceId, w), eq(grades.visibleToStudent, true)))
+    .orderBy(desc(grades.createdAt))
+    .limit(30)
+}
+
+/** متوسط العلامات (من 20) لكل طالب في فوج */
+export async function groupGradeAverages(db: Db, actor: Actor, groupId: string): Promise<Map<string, { avg: number; count: number }>> {
+  const w = ws(actor)
+  const rows = await db
+    .select({ studentId: grades.studentId, avg: sql<number>`avg(${grades.score}::numeric / nullif(${grades.maxScore}::numeric, 0) * 20)`, count: sql<number>`count(*)::int` })
+    .from(grades)
+    .innerJoin(groupStudents, and(eq(groupStudents.studentId, grades.studentId), eq(groupStudents.groupId, groupId)))
+    .where(and(eq(grades.workspaceId, w), eq(grades.visibleToStudent, true)))
+    .groupBy(grades.studentId)
+  return new Map(rows.map((r) => [r.studentId, { avg: Math.round(Number(r.avg) * 10) / 10, count: r.count }]))
 }

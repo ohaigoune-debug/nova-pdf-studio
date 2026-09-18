@@ -1,5 +1,5 @@
 import type { Db } from '@/server/db/connect'
-import { runAiEvaluationJob, runTeacherInsightsJob } from '@/server/services/ai.service'
+import { runAiEvaluationJob, runAnalyzeStudentJob, runGenerateExercisesJob, runTeacherInsightsJob } from '@/server/services/ai.service'
 import { runCleanupJob } from '@/server/services/maintenance.service'
 import { runPushDispatchJob } from '@/server/services/push.service'
 import { runReportJob } from '@/server/services/reports.service'
@@ -10,6 +10,8 @@ type Handler = (db: Db, job: JobRow) => Promise<Record<string, unknown> | null>
 const handlers: Record<JobType, Handler> = {
   AI_EVALUATE_SUBMISSION: (db, job) => runAiEvaluationJob(db, String(job.payload.evaluationId ?? '')),
   AI_TEACHER_INSIGHTS: (db, job) => runTeacherInsightsJob(db, String(job.payload.workspaceId ?? ''), String(job.payload.userId ?? '')),
+  AI_GENERATE_EXERCISES: (db, job) => runGenerateExercisesJob(db, job.payload),
+  AI_ANALYZE_STUDENT: (db, job) => runAnalyzeStudentJob(db, job.payload),
   REPORT_EXPORT: (db, job) => runReportJob(db, job.payload),
   CLEANUP: async (db) => ({ ...(await runCleanupJob(db)) }),
   PUSH_DISPATCH: (db, job) => runPushDispatchJob(db, job.payload)

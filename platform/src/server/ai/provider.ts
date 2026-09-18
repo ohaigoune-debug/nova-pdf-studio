@@ -2,7 +2,7 @@ import { createAnthropicProvider } from './anthropic-provider'
 import { createMockProvider } from './mock-provider'
 import type { AIProvider } from './types'
 
-export type { AIProvider, EvaluateEssayInput, EvaluateEssayOutput, TeacherInsightsInput, TeacherInsightsOutput } from './types'
+export type { AIProvider, AnalyzeStudentInput, AnalyzeStudentOutput, EvaluateEssayInput, EvaluateEssayOutput, GenerateExercisesInput, GenerateExercisesOutput, GeneratedQuestion, TeacherInsightsInput, TeacherInsightsOutput } from './types'
 
 let override: AIProvider | null = null
 let cached: AIProvider | null = null

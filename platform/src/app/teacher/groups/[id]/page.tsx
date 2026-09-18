@@ -16,6 +16,7 @@ import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { attendanceMatrix } from '@/server/queries/teacher-extras.queries'
 import { getGroupDashboard, getGroupDetail, listGroupMembers } from '@/server/services/groups.service'
+import { GenerateExercisesButton } from '@/components/domain/generate-exercises-button'
 import { groupWeakSkills } from '@/server/services/skills.service'
 import { AttendanceHeatmap } from '@/components/domain/attendance-heatmap'
 
@@ -42,6 +43,9 @@ export default async function GroupDetailPage({ params }: { params: Promise<{ id
         actions={
           <>
             <GroupStatusBadge status={g.status} />
+            <Button asChild variant="outline" size="sm">
+              <Link href={`/teacher/groups/${g.id}/report`}>{t('printReport.groupOpen')}</Link>
+            </Button>
             {dash.openSession ? (
               <>
                 <Button asChild>
@@ -228,6 +232,7 @@ export default async function GroupDetailPage({ params }: { params: Promise<{ id
                   <span className="text-xs text-muted-foreground">
                     {w.weakCount} من {w.assessed} · متوسط {w.average}% · {w.students.slice(0, 4).join('، ')}{w.students.length > 4 ? '…' : ''}
                   </span>
+                  <GenerateExercisesButton skillId={w.skillId} groupId={g.id} />
                 </li>
               ))}
             </ul>

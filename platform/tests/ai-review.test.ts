@@ -217,6 +217,12 @@ describe('التصحيح بمساعدة الذكاء الاصطناعي (اقت�
       },
       async generateTeacherInsights() {
         throw new Error('down')
+      },
+      async generateExercises() {
+        throw new Error('down')
+      },
+      async analyzeStudent() {
+        throw new Error('down')
       }
     }
     setAiProviderForTests(failing)

@@ -52,9 +52,49 @@ export interface TeacherInsightsOutput {
   raw?: Record<string, unknown>
 }
 
+export interface GenerateExercisesInput {
+  skillName: string
+  /** وصف المهارة أو فئتها إن وُجد */
+  skillCategory: string | null
+  levelName: string | null
+  count: number
+}
+
+export interface GeneratedQuestion {
+  type: 'MCQ' | 'TRUE_FALSE' | 'SHORT_ANSWER' | 'FILL_BLANK'
+  prompt: string
+  options?: { label: string; isCorrect: boolean }[]
+  answerKey: Record<string, unknown> | null
+  explanation?: string
+}
+
+export interface GenerateExercisesOutput {
+  title: string
+  description: string
+  questions: GeneratedQuestion[]
+  raw?: Record<string, unknown>
+}
+
+export interface AnalyzeStudentInput {
+  studentName: string
+  facts: string[]
+}
+
+export interface AnalyzeStudentOutput {
+  summary: string
+  strengths: string[]
+  weaknesses: string[]
+  recommendations: string[]
+  raw?: Record<string, unknown>
+}
+
 export interface AIProvider {
   readonly name: string
   readonly model: string
   evaluateEssay(input: EvaluateEssayInput): Promise<EvaluateEssayOutput>
   generateTeacherInsights(input: TeacherInsightsInput): Promise<TeacherInsightsOutput>
+  /** تمارين علاجية لمهارة ضعيفة تُحفظ كمسودة اختبار يراجعها الأستاذ قبل النشر */
+  generateExercises(input: GenerateExercisesInput): Promise<GenerateExercisesOutput>
+  /** تحليل سردي لملف طالب من حقائق حقيقية (لا يخترع أرقاماً) */
+  analyzeStudent(input: AnalyzeStudentInput): Promise<AnalyzeStudentOutput>
 }

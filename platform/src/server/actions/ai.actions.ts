@@ -7,7 +7,7 @@ import { getDb } from '@/server/db/client'
 import { kickWorker } from '@/server/jobs/runner'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
-import { applyAiEvaluation, rejectAiEvaluation, requestAiEvaluation, requestTeacherInsights, updateAiSettings } from '@/server/services/ai.service'
+import { applyAiEvaluation, rejectAiEvaluation, requestAiEvaluation, requestExercises, requestStudentAnalysis, requestTeacherInsights, updateAiSettings } from '@/server/services/ai.service'
 
 export async function requestAiEvaluationAction(submissionId: string): Promise<ActionResult<{ evaluationId: string; reused: boolean }>> {
   const parsed = z.string().uuid().safeParse(submissionId)
@@ -94,5 +94,37 @@ export async function updateAiSettingsAction(_prev: ActionResult | null, fd: For
     return undefined
   })
   if (result.ok) revalidatePath('/admin/ai')
+  return result
+}
+
+export async function requestExercisesAction(input: { skillId: string; groupId?: string | null }): Promise<ActionResult<{ jobId: string }>> {
+  const parsed = z.object({ skillId: z.string().uuid(), groupId: z.string().uuid().nullish() }).safeParse(input)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER')
+    const db = await getDb()
+    await checkRateLimit(db, { scope: 'ai-request', subject: actor.userId, ...RATE_LIMITS.aiRequest })
+    return requestExercises(db, actor, { skillId: parsed.data.skillId, groupId: parsed.data.groupId ?? null })
+  })
+  if (result.ok) {
+    kickWorker(getDb)
+    revalidatePath('/teacher/quizzes')
+  }
+  return result
+}
+
+export async function requestStudentAnalysisAction(studentId: string): Promise<ActionResult<{ jobId: string }>> {
+  const parsed = z.string().uuid().safeParse(studentId)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER')
+    const db = await getDb()
+    await checkRateLimit(db, { scope: 'ai-request', subject: actor.userId, ...RATE_LIMITS.aiRequest })
+    return requestStudentAnalysis(db, actor, parsed.data)
+  })
+  if (result.ok) {
+    kickWorker(getDb)
+    revalidatePath(`/teacher/students/${parsed.data}`)
+  }
   return result
 }

@@ -2,14 +2,19 @@ import { and, desc, eq, sql } from 'drizzle-orm'
 import { aiProviderInfo, getAiProvider } from '@/server/ai/provider'
 import type { EvaluateEssayOutput } from '@/server/ai/types'
 import type { Db } from '@/server/db/connect'
-import { aiEvaluations, appSettings, assignmentSubmissions, assignments, jobs, profiles, rubricItems, skills, teacherReviews } from '@/server/db/schema'
+import { aiEvaluations, appSettings, assignmentSubmissions, assignments, grades, jobs, levels, profiles, quizAttempts, quizzes, rubricItems, skills, teacherReviews } from '@/server/db/schema'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { enqueueJob } from '@/server/jobs/queue'
 import { dataInsights } from '@/server/queries/teacher-extras.queries'
 import { loadSubmissionCtx, reviewSubmission, type ReviewInput } from './assignments.service'
+import { assertGroupAccess } from './groups.service'
 import { notify } from './notifications.service'
+import { createQuiz } from './quizzes.service'
+import { skillMap } from './skills.service'
+import { getStudentProfile } from './students.service'
+import { validateQuestion } from '@/server/lib/quiz-grading'
 
 /**
  * التصحيح بمساعدة الذكاء الاصطناعي — القواعد الثابتة:
@@ -385,4 +390,147 @@ export async function aiAdminStats(db: Db, actor: Actor) {
     failures,
     inlineWorker: process.env.JOBS_INLINE_WORKER !== '0'
   }
+}
+
+/* ------------------------- Remedial exercises (job) ----------------------- */
+
+/** الأستاذ يطلب تمارين علاجية لمهارة (اختياريا لفوج)؛ النتيجة مسودة اختبار غير منشورة يراجعها */
+export async function requestExercises(db: Db, actor: Actor, input: { skillId: string; groupId?: string | null; count?: number }): Promise<{ jobId: string }> {
+  assertRole(actor, 'TEACHER')
+  if (!actor.workspaceId) throw new AppError('FORBIDDEN')
+  assertUuid(input.skillId, 'NOT_FOUND')
+  const [sk] = await db.select({ id: skills.id }).from(skills).where(eq(skills.id, input.skillId)).limit(1)
+  if (!sk) throw new AppError('NOT_FOUND')
+  if (input.groupId) await assertGroupAccess(db, actor, input.groupId)
+  const count = Math.max(3, Math.min(10, input.count ?? 5))
+  const job = await enqueueJob(db, {
+    type: 'AI_GENERATE_EXERCISES',
+    payload: { workspaceId: actor.workspaceId, userId: actor.userId, skillId: input.skillId, groupId: input.groupId ?? null, count },
+    workspaceId: actor.workspaceId,
+    maxAttempts: 2
+  })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: actor.workspaceId, action: 'ai.exercises.request', entityType: 'job', entityId: job.id, newValue: { skillId: input.skillId, groupId: input.groupId ?? null } })
+  return { jobId: job.id }
+}
+
+export async function runGenerateExercisesJob(db: Db, payload: Record<string, unknown>): Promise<Record<string, unknown>> {
+  const workspaceId = String(payload.workspaceId ?? '')
+  const userId = String(payload.userId ?? '')
+  const skillId = String(payload.skillId ?? '')
+  const groupId = payload.groupId ? String(payload.groupId) : null
+  assertUuid(workspaceId, 'NOT_FOUND')
+  assertUuid(userId, 'NOT_FOUND')
+  assertUuid(skillId, 'NOT_FOUND')
+  const [sk] = await db.select().from(skills).where(eq(skills.id, skillId)).limit(1)
+  if (!sk) throw new AppError('NOT_FOUND')
+  const [p] = await db.select({ fullName: profiles.fullName }).from(profiles).where(eq(profiles.userId, userId)).limit(1)
+  const actor: Actor = { userId, role: 'TEACHER', fullName: p?.fullName ?? '', email: '', workspaceId, teacherId: null, studentId: null }
+  let levelName: string | null = null
+  if (groupId) {
+    const g = await assertGroupAccess(db, actor, groupId)
+    if (g.levelId) levelName = (await db.select({ n: levels.nameAr }).from(levels).where(eq(levels.id, g.levelId)).limit(1))[0]?.n ?? null
+  }
+  const provider = getAiProvider()
+  const out = await provider.generateExercises({ skillName: sk.nameAr, skillCategory: sk.category, levelName, count: Number(payload.count ?? 5) })
+  const questions = out.questions
+    .map((q) => ({ type: q.type, prompt: q.prompt.trim(), points: 1, skillId, answerKey: q.answerKey, options: q.type === 'MCQ' ? (q.options ?? []) : [] }))
+    .filter((q) => validateQuestion(q) === null)
+  if (questions.length === 0) throw new AppError('AI_UNAVAILABLE')
+  const quiz = await createQuiz(db, actor, {
+    title: out.title.slice(0, 200),
+    description: out.description ? `${out.description}\n\n(مولَّد بمساعدة الذكاء الاصطناعي — راجعه قبل النشر)` : '(مولَّد بمساعدة الذكاء الاصطناعي — راجعه قبل النشر)',
+    topic: sk.category,
+    skillId,
+    isPublic: false,
+    publish: false,
+    maxAttempts: 2,
+    groupIds: groupId ? [groupId] : [],
+    studentIds: [],
+    questions
+  })
+  await notify(db, { userId, workspaceId, type: 'SYSTEM', title: `مسودة تمارين علاجية جاهزة: ${sk.nameAr}`, body: `${questions.length} أسئلة — راجعها وانشرها.`, link: `/teacher/quizzes/${quiz.id}/edit` })
+  return { quizId: quiz.id, questions: questions.length, dropped: out.questions.length - questions.length, provider: provider.name }
+}
+
+/* ---------------------------- Student analysis (job) ---------------------- */
+
+export async function requestStudentAnalysis(db: Db, actor: Actor, studentId: string): Promise<{ jobId: string }> {
+  assertRole(actor, 'TEACHER')
+  if (!actor.workspaceId) throw new AppError('FORBIDDEN')
+  await getStudentProfile(db, actor, studentId) // يتحقق من أن الطالب في مساحة الأستاذ
+  const [pending] = await db
+    .select({ id: jobs.id })
+    .from(jobs)
+    .where(and(eq(jobs.type, 'AI_ANALYZE_STUDENT'), eq(jobs.workspaceId, actor.workspaceId), sql`${jobs.payload}->>'studentId' = ${studentId}`, sql`${jobs.status} in ('QUEUED','PROCESSING')`))
+    .limit(1)
+  if (pending) return { jobId: pending.id }
+  const job = await enqueueJob(db, { type: 'AI_ANALYZE_STUDENT', payload: { workspaceId: actor.workspaceId, userId: actor.userId, studentId }, workspaceId: actor.workspaceId, maxAttempts: 2 })
+  return { jobId: job.id }
+}
+
+/** حقائق الطالب من قاعدة البيانات فقط (لا يخترع المزوّد شيئاً) */
+export async function studentFacts(db: Db, actor: Actor, studentId: string): Promise<{ name: string; facts: string[] }> {
+  const p = await getStudentProfile(db, actor, studentId)
+  const facts: string[] = []
+  if (p.attendance.total > 0) facts.push(`نسبة الحضور ${p.attendance.rate ?? 0}% من ${p.attendance.total} حصة (${p.attendance.late} متأخر، ${p.attendance.unexcused} غياب غير مبرر)`)
+  for (const e of p.enrollments) if (e.status === 'SUSPENDED_DUE_TO_ABSENCE') facts.push(`معلّق بسبب الغياب في فوج ${e.groupName}`)
+  const sk = await skillMap(db, studentId)
+  for (const s of sk) facts.push(`${s.score >= 70 ? 'مهارة قوية' : s.score < 60 ? 'مهارة ضعيفة' : 'مهارة متوسطة'}: ${s.name} ${Math.round(s.score)}% (${s.attempts} تقييم)`)
+  const gr = await db
+    .select({ score: grades.score, maxScore: grades.maxScore, a: assignments.title, q: quizzes.title })
+    .from(grades)
+    .leftJoin(assignmentSubmissions, eq(assignmentSubmissions.id, grades.submissionId))
+    .leftJoin(assignments, eq(assignments.id, assignmentSubmissions.assignmentId))
+    .leftJoin(quizAttempts, eq(quizAttempts.id, grades.quizAttemptId))
+    .leftJoin(quizzes, eq(quizzes.id, quizAttempts.quizId))
+    .where(and(eq(grades.studentId, studentId), eq(grades.workspaceId, actor.workspaceId ?? ''), eq(grades.visibleToStudent, true)))
+    .orderBy(desc(grades.createdAt))
+    .limit(8)
+  for (const g of gr) facts.push(`علامة ${Number(g.score)}/${Number(g.maxScore)} في "${g.a ?? g.q ?? 'تقييم'}"`)
+  const missing = await db
+    .select({ n: sql<number>`count(*)::int` })
+    .from(assignments)
+    .where(and(eq(assignments.workspaceId, actor.workspaceId ?? ''), sql`${assignments.deletedAt} is null`, sql`not exists (select 1 from assignment_submissions s where s.assignment_id = ${assignments.id} and s.student_id = ${studentId} and s.status <> 'DRAFT')`, sql`exists (select 1 from assignment_targets t join group_students gs on gs.group_id = t.group_id where t.assignment_id = ${assignments.id} and gs.student_id = ${studentId})`))
+  if ((missing[0]?.n ?? 0) > 0) facts.push(`لم يرسل ${missing[0]!.n} واجب مسند إليه`)
+  return { name: p.fullName, facts }
+}
+
+export async function runAnalyzeStudentJob(db: Db, payload: Record<string, unknown>): Promise<Record<string, unknown>> {
+  const workspaceId = String(payload.workspaceId ?? '')
+  const userId = String(payload.userId ?? '')
+  const studentId = String(payload.studentId ?? '')
+  assertUuid(workspaceId, 'NOT_FOUND')
+  assertUuid(userId, 'NOT_FOUND')
+  assertUuid(studentId, 'NOT_FOUND')
+  const actor: Actor = { userId, role: 'TEACHER', fullName: '', email: '', workspaceId, teacherId: null, studentId: null }
+  const { name, facts } = await studentFacts(db, actor, studentId)
+  const provider = getAiProvider()
+  const out = await provider.analyzeStudent({ studentName: name, facts })
+  return { studentId, summary: out.summary, strengths: out.strengths, weaknesses: out.weaknesses, recommendations: out.recommendations, facts: facts.length, provider: provider.name, model: provider.model, generatedAt: new Date().toISOString() }
+}
+
+export interface StudentAnalysisView {
+  status: string
+  summary: string | null
+  strengths: string[]
+  weaknesses: string[]
+  recommendations: string[]
+  generatedAt: Date | null
+  provider: string | null
+}
+
+export async function latestStudentAnalysis(db: Db, actor: Actor, studentId: string): Promise<StudentAnalysisView | null> {
+  assertRole(actor, 'TEACHER')
+  if (!actor.workspaceId) return null
+  assertUuid(studentId, 'NOT_FOUND')
+  const [job] = await db
+    .select()
+    .from(jobs)
+    .where(and(eq(jobs.type, 'AI_ANALYZE_STUDENT'), eq(jobs.workspaceId, actor.workspaceId), sql`${jobs.payload}->>'studentId' = ${studentId}`))
+    .orderBy(desc(jobs.createdAt))
+    .limit(1)
+  if (!job) return null
+  const r = (job.result ?? {}) as { summary?: string; strengths?: string[]; weaknesses?: string[]; recommendations?: string[]; generatedAt?: string; provider?: string }
+  const arr = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : [])
+  return { status: job.status, summary: r.summary ?? null, strengths: arr(r.strengths), weaknesses: arr(r.weaknesses), recommendations: arr(r.recommendations), generatedAt: r.generatedAt ? new Date(r.generatedAt) : null, provider: r.provider ?? null }
 }

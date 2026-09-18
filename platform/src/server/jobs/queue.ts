@@ -7,7 +7,7 @@ import { AppError } from '@/server/lib/errors'
  * طابور مهام خلفية على جدول `jobs` (بلا Redis): تُدرج المهمة داخل نفس المعاملة
  * التي تنشئ الكيان، ثم يلتقطها العامل (داخل العملية، أو عبر /api/v1/jobs/run من Cron، أو `npm run jobs:worker`).
  */
-export const JOB_TYPES = ['AI_EVALUATE_SUBMISSION', 'AI_TEACHER_INSIGHTS', 'REPORT_EXPORT', 'CLEANUP', 'PUSH_DISPATCH'] as const
+export const JOB_TYPES = ['AI_EVALUATE_SUBMISSION', 'AI_TEACHER_INSIGHTS', 'AI_GENERATE_EXERCISES', 'AI_ANALYZE_STUDENT', 'REPORT_EXPORT', 'CLEANUP', 'PUSH_DISPATCH'] as const
 export type JobType = (typeof JOB_TYPES)[number]
 
 export type JobRow = typeof jobs.$inferSelect
