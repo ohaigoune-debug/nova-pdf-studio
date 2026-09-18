@@ -1,17 +1,41 @@
 import ar from './ar'
+import en from './en'
+import fr from './fr'
+import type { DeepPartial } from './types'
 
 export type Dictionary = typeof ar
 export type Locale = 'ar' | 'fr' | 'en'
 
-/** اللغات المدعومة؛ fr/en تُضاف بملفات مطابقة للمفاتيح */
-const dictionaries: Record<Locale, Dictionary> = {
-  ar,
-  fr: ar,
-  en: ar
-}
-
+export const LOCALES: { code: Locale; label: string; dir: 'rtl' | 'ltr' }[] = [
+  { code: 'ar', label: 'العربية', dir: 'rtl' },
+  { code: 'fr', label: 'Français', dir: 'ltr' },
+  { code: 'en', label: 'English', dir: 'ltr' }
+]
+export const LOCALE_COOKIE = 'madrasa_locale'
 export const DEFAULT_LOCALE: Locale = 'ar'
 export const LOCALE_DIR: Record<Locale, 'rtl' | 'ltr'> = { ar: 'rtl', fr: 'ltr', en: 'ltr' }
+
+export function isLocale(v: unknown): v is Locale {
+  return v === 'ar' || v === 'fr' || v === 'en'
+}
+
+/** دمج عميق: المفاتيح غير المترجمة تبقى بالعربية (المصدر الوحيد للمفاتيح) */
+function merge<T extends object>(base: T, patch: DeepPartial<T> | undefined): T {
+  if (!patch) return base
+  const out: Record<string, unknown> = { ...(base as Record<string, unknown>) }
+  for (const [k, v] of Object.entries(patch as Record<string, unknown>)) {
+    const b = out[k]
+    if (v && typeof v === 'object' && !Array.isArray(v) && b && typeof b === 'object' && !Array.isArray(b)) out[k] = merge(b as object, v as DeepPartial<object>)
+    else if (v !== undefined) out[k] = v
+  }
+  return out as T
+}
+
+const dictionaries: Record<Locale, Dictionary> = {
+  ar,
+  fr: merge(ar, fr),
+  en: merge(ar, en)
+}
 
 type PathsOf<T, P extends string = ''> = {
   [K in keyof T & string]: T[K] extends string
@@ -38,7 +62,7 @@ export function getDictionary(locale: Locale = DEFAULT_LOCALE): Dictionary {
 
 /**
  * t('auth.loginTitle') — مع استبدال {name} من params.
- * تعمل في الخادم والعميل (العربية افتراضياً).
+ * تعمل في الخادم والعميل (العربية افتراضياً). للغة الطلب: `getT()` في الخادم أو `useT()` في العميل.
  */
 export function t(key: TKey, params?: Record<string, string | number>, locale: Locale = DEFAULT_LOCALE): string {
   const value = lookup(getDictionary(locale), key)
@@ -47,6 +71,13 @@ export function t(key: TKey, params?: Record<string, string | number>, locale: L
     for (const [k, v] of Object.entries(params)) text = text.replaceAll(`{${k}}`, String(v))
   }
   return text
+}
+
+export type Translator = (key: TKey, params?: Record<string, string | number>) => string
+
+/** مترجم مقيّد بلغة معيّنة */
+export function translator(locale: Locale): Translator {
+  return (key, params) => t(key, params, locale)
 }
 
 /** ترجمة قيمة تعداد بأمان: tEnum('attendanceStatus', 'LATE') */
@@ -61,7 +92,7 @@ export function dayName(day: number | null | undefined): string {
   return ar.days[day] ?? '—'
 }
 
-export function errorMessage(code: string): string {
-  const dict = getDictionary().errors as Record<string, string>
+export function errorMessage(code: string, locale: Locale = DEFAULT_LOCALE): string {
+  const dict = getDictionary(locale).errors as Record<string, string>
   return dict[code] ?? dict.INTERNAL ?? code
 }

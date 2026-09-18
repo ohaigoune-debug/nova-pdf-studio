@@ -1,16 +1,20 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { AuthCard } from '@/components/domain/auth-card'
-import { t } from '@/i18n'
+import { getT } from '@/i18n/server'
 import { getCurrentActor, homeFor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listLevels, listStreams, listWilayas } from '@/server/services/reference.service'
 import { RegisterForm } from './register-form'
 
-export const metadata = { title: t('auth.registerTitle') }
+export async function generateMetadata() {
+  const { t: tt } = await getT()
+  return { title: tt('auth.registerTitle') }
+}
 export const dynamic = 'force-dynamic'
 
 export default async function RegisterPage({ searchParams }: { searchParams: Promise<{ code?: string }> }) {
+  const { t, locale } = await getT()
   const actor = await getCurrentActor()
   if (actor) redirect(homeFor(actor.role))
   const { code } = await searchParams
@@ -18,6 +22,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
   const [wilayas, levels, streams] = await Promise.all([listWilayas(db), listLevels(db), listStreams(db)])
   return (
     <AuthCard
+      locale={locale}
       title={t('auth.registerTitle')}
       subtitle={t('auth.registerSubtitle')}
       footer={

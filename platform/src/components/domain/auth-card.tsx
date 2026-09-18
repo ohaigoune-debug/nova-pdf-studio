@@ -1,9 +1,9 @@
 import { BookOpenText } from 'lucide-react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
-import { t } from '@/i18n'
+import { t, type Locale } from '@/i18n'
 
-export function AuthCard({ title, subtitle, children, footer }: { title: string; subtitle?: string; children: ReactNode; footer?: ReactNode }) {
+export function AuthCard({ title, subtitle, children, footer, locale = 'ar' }: { title: string; subtitle?: string; children: ReactNode; footer?: ReactNode; locale?: Locale }) {
   return (
     <div className="container flex min-h-[70vh] items-center justify-center py-10">
       <div className="w-full max-w-md">
@@ -11,7 +11,7 @@ export function AuthCard({ title, subtitle, children, footer }: { title: string;
           <span className="flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <BookOpenText className="size-5" />
           </span>
-          {t('app.name')}
+          {t('app.name', undefined, locale)}
         </Link>
         <div className="rounded-lg border bg-card p-6 shadow-sm sm:p-8">
           <h1 className="text-2xl font-extrabold">{title}</h1>

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { EmptyState } from '@/components/ui/misc'
-import { t, tEnum } from '@/i18n'
+import { t, tEnum, type Locale } from '@/i18n'
 import { formatShortDate } from '@/lib/utils'
 import type { ContentCard } from '@/server/queries/content.queries'
 
@@ -19,8 +19,8 @@ const icons: Record<string, LucideIcon> = {
   LINK: Link2
 }
 
-export function ContentGrid({ items, emptyText, basePath = '/lessons' }: { items: ContentCard[]; emptyText?: string; basePath?: string }) {
-  if (items.length === 0) return <EmptyState icon={BookOpen} title={emptyText ?? t('public.noContent')} />
+export function ContentGrid({ items, emptyText, basePath = '/lessons', locale = 'ar' }: { items: ContentCard[]; emptyText?: string; basePath?: string; locale?: Locale }) {
+  if (items.length === 0) return <EmptyState icon={BookOpen} title={emptyText ?? t('public.noContent', undefined, locale)} />
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((c) => {
@@ -34,7 +34,7 @@ export function ContentGrid({ items, emptyText, basePath = '/lessons' }: { items
                   <span className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
                     <Icon className="size-4" />
                   </span>
-                  <Badge variant="muted">{tEnum('contentTypes', c.type)}</Badge>
+                  <Badge variant="muted">{tEnum('contentTypes', c.type, locale)}</Badge>
                 </div>
                 <h3 className="font-bold leading-snug group-hover:text-primary">{c.title}</h3>
                 {c.summary ? <p className="line-clamp-2 text-sm text-muted-foreground">{c.summary}</p> : null}

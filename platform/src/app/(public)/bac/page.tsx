@@ -1,9 +1,13 @@
 import { PublicContentPage } from '@/components/domain/public-content-page'
-import { t } from '@/i18n'
+import { getT } from '@/i18n/server'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: t('public.bacTitle') }
+export async function generateMetadata() {
+  const { t: tt } = await getT()
+  return { title: tt('public.bacTitle') }
+}
 
-export default function BacPage({ searchParams }: { searchParams: Promise<{ q?: string; topic?: string }> }) {
-  return <PublicContentPage title={t('public.bacTitle')} description={t('public.f2d')} basePath="/bac" searchParams={Promise.resolve(searchParams).then((s) => ({ ...s, topic: s.topic ?? 'البكالوريا' }))} />
+export default async function BacPage({ searchParams }: { searchParams: Promise<{ q?: string; topic?: string }> }) {
+  const { t, locale } = await getT()
+  return <PublicContentPage locale={locale} title={t('public.bacTitle')} description={t('public.f2d')} basePath="/bac" searchParams={Promise.resolve(searchParams).then((s) => ({ ...s, topic: s.topic ?? 'البكالوريا' }))} />
 }

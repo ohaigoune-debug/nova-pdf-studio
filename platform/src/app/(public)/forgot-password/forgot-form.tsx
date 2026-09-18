@@ -5,10 +5,11 @@ import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bit
 import { Input } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { Alert } from '@/components/ui/misc'
-import { t } from '@/i18n'
+import { useT } from '@/i18n/client'
 import { forgotPasswordAction } from '@/server/actions/auth.actions'
 
 export function ForgotForm() {
+  const t = useT()
   const [state, action] = useActionState(forgotPasswordAction, null)
   if (state?.ok) return <Alert tone="success">{t('auth.forgotSent')}</Alert>
   return (

@@ -1,13 +1,18 @@
 import Link from 'next/link'
 import { AuthCard } from '@/components/domain/auth-card'
-import { t } from '@/i18n'
+import { getT } from '@/i18n/server'
 import { ForgotForm } from './forgot-form'
 
-export const metadata = { title: t('auth.forgotTitle') }
+export async function generateMetadata() {
+  const { t: tt } = await getT()
+  return { title: tt('auth.forgotTitle') }
+}
 
-export default function ForgotPasswordPage() {
+export default async function ForgotPasswordPage() {
+  const { t, locale } = await getT()
   return (
     <AuthCard
+      locale={locale}
       title={t('auth.forgotTitle')}
       subtitle={t('auth.forgotSubtitle')}
       footer={

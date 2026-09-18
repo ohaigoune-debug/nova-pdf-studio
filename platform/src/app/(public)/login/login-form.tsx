@@ -6,7 +6,7 @@ import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bit
 import { Input } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { Alert } from '@/components/ui/misc'
-import { t } from '@/i18n'
+import { useT } from '@/i18n/client'
 import { loginAction } from '@/server/actions/auth.actions'
 
 const DEMO = [
@@ -16,6 +16,7 @@ const DEMO = [
 ]
 
 export function LoginForm({ next, showDemo, resetDone = false }: { next?: string; showDemo: boolean; resetDone?: boolean }) {
+  const t = useT()
   const [state, action] = useActionState(loginAction, null)
   return (
     <form action={action} className="space-y-4">

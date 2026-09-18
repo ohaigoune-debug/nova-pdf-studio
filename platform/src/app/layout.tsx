@@ -4,7 +4,9 @@ import type { ReactNode } from 'react'
 import { PwaRegister } from '@/components/pwa-register'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toast'
-import { DEFAULT_LOCALE, LOCALE_DIR, t } from '@/i18n'
+import { LOCALE_DIR, t } from '@/i18n'
+import { LocaleProvider } from '@/i18n/client'
+import { getLocale } from '@/i18n/server'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -29,19 +31,21 @@ export const viewport: Viewport = {
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const nonce = (await headers()).get('x-nonce') ?? undefined
+  const [nonce, locale] = await Promise.all([headers().then((h) => h.get('x-nonce') ?? undefined), getLocale()])
   return (
-    <html lang={DEFAULT_LOCALE} dir={LOCALE_DIR[DEFAULT_LOCALE]} suppressHydrationWarning>
+    <html lang={locale} dir={LOCALE_DIR[locale]} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
       </head>
       <body className="min-h-dvh font-sans">
-        <ThemeProvider nonce={nonce}>
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <LocaleProvider locale={locale}>
+          <ThemeProvider nonce={nonce}>
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </LocaleProvider>
         <PwaRegister enabled={process.env.NODE_ENV === 'production'} />
       </body>
     </html>

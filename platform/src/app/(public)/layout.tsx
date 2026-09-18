@@ -3,18 +3,18 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
-import { t } from '@/i18n'
+import { LocaleSwitcher } from '@/components/locale-switcher'
+import { getT } from '@/i18n/server'
 import { getCurrentActor, homeFor } from '@/server/auth/current-user'
 
-const links = [
-  { href: '/lessons', label: t('nav.lessons') },
-  { href: '/bac', label: t('nav.bac') },
-  { href: '/resources', label: t('nav.resources') },
-  { href: '/quizzes', label: t('nav.quizzes') }
-]
-
 export default async function PublicLayout({ children }: { children: ReactNode }) {
-  const actor = await getCurrentActor()
+  const [actor, { t }] = await Promise.all([getCurrentActor(), getT()])
+  const links = [
+    { href: '/lessons', label: t('nav.lessons') },
+    { href: '/bac', label: t('nav.bac') },
+    { href: '/resources', label: t('nav.resources') },
+    { href: '/quizzes', label: t('nav.quizzes') }
+  ]
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
@@ -33,6 +33,7 @@ export default async function PublicLayout({ children }: { children: ReactNode }
             ))}
           </nav>
           <div className="flex-1" />
+          <LocaleSwitcher />
           <ThemeToggle />
           {actor ? (
             <Button asChild>

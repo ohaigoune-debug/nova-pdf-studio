@@ -2,18 +2,22 @@ import Link from 'next/link'
 import { AuthCard } from '@/components/domain/auth-card'
 import { Button } from '@/components/ui/button'
 import { Alert } from '@/components/ui/misc'
-import { t } from '@/i18n'
+import { getT } from '@/i18n/server'
 import { getCurrentActor, homeFor } from '@/server/auth/current-user'
 import { ActivateForm } from './activate-form'
 
-export const metadata = { title: t('activate.title') }
+export async function generateMetadata() {
+  const { t: tt } = await getT()
+  return { title: tt('activate.title') }
+}
 export const dynamic = 'force-dynamic'
 
 export default async function ActivateCodePage({ searchParams }: { searchParams: Promise<{ code?: string }> }) {
+  const { t, locale } = await getT()
   const actor = await getCurrentActor()
   const { code } = await searchParams
   return (
-    <AuthCard title={t('activate.title')} subtitle={t('activate.subtitle')}>
+    <AuthCard locale={locale} title={t('activate.title')} subtitle={t('activate.subtitle')}>
       {!actor ? (
         <div className="space-y-4">
           <Alert tone="info">{t('activate.needLogin')}</Alert>

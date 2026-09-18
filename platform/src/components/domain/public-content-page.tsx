@@ -1,7 +1,7 @@
 import { Search } from 'lucide-react'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { Input } from '@/components/ui/input'
-import { t } from '@/i18n'
+import { translator, type Locale } from '@/i18n'
 import { getDb } from '@/server/db/client'
 import type { ContentType } from '@/server/db/schema/enums'
 import { listPublicContent, listTopics } from '@/server/queries/content.queries'
@@ -13,14 +13,17 @@ export async function PublicContentPage({
   description,
   types,
   basePath,
-  searchParams
+  searchParams,
+  locale = 'ar'
 }: {
   title: string
   description?: string
   types?: ContentType[]
   basePath: string
   searchParams: Promise<{ q?: string; topic?: string }>
+  locale?: Locale
 }) {
+  const t = translator(locale)
   const sp = await searchParams
   const db = await getDb()
   const [items, topics] = await Promise.all([listPublicContent(db, { types, search: sp.q, topic: sp.topic }), listTopics(db)])
@@ -49,7 +52,7 @@ export async function PublicContentPage({
           ))}
         </div>
       ) : null}
-      <ContentGrid items={items} />
+      <ContentGrid items={items} locale={locale} />
     </div>
   )
 }

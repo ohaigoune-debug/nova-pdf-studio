@@ -7,10 +7,11 @@ import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bit
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
-import { t } from '@/i18n'
+import { useT } from '@/i18n/client'
 import { activateCodeAction } from '@/server/actions/auth.actions'
 
 export function ActivateForm({ code }: { code?: string }) {
+  const t = useT()
   const [state, action] = useActionState(activateCodeAction, null)
   if (state?.ok) {
     return (

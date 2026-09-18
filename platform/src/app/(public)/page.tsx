@@ -2,14 +2,14 @@ import { BookOpen, Brain, GraduationCap, QrCode } from 'lucide-react'
 import Link from 'next/link'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { Button } from '@/components/ui/button'
-import { t } from '@/i18n'
+import { getT } from '@/i18n/server'
 import { getDb } from '@/server/db/client'
 import { listPublicContent } from '@/server/queries/content.queries'
 
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const latest = await listPublicContent(await getDb(), { limit: 6 })
+  const [latest, { t, locale }] = await Promise.all([listPublicContent(await getDb(), { limit: 6 }), getT()])
   const features = [
     { icon: BookOpen, title: t('public.f1'), text: t('public.f1d') },
     { icon: GraduationCap, title: t('public.f2'), text: t('public.f2d') },
@@ -54,7 +54,7 @@ export default async function HomePage() {
             <Link href="/lessons">{t('common.viewAll')}</Link>
           </Button>
         </div>
-        <ContentGrid items={latest} />
+        <ContentGrid items={latest} locale={locale} />
       </section>
     </>
   )

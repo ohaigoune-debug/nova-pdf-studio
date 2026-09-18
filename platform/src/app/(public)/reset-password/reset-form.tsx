@@ -4,10 +4,11 @@ import { useActionState } from 'react'
 import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bits'
 import { Input } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
-import { t } from '@/i18n'
+import { useT } from '@/i18n/client'
 import { resetPasswordAction } from '@/server/actions/auth.actions'
 
 export function ResetForm({ token }: { token: string }) {
+  const t = useT()
   const [state, action] = useActionState(resetPasswordAction, null)
   return (
     <form action={action} className="space-y-4">

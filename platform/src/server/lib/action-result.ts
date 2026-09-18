@@ -1,5 +1,6 @@
 import type { ZodError } from 'zod'
-import { errorMessage } from '@/i18n'
+import { errorMessage, type Locale } from '@/i18n'
+import { getLocale } from '@/i18n/server'
 import { kickJobsSoon } from '@/server/jobs/kick'
 import { isAppError, toAppError, type ErrorCode } from './errors'
 
@@ -11,8 +12,8 @@ export function ok<T>(data: T): ActionResult<T> {
   return { ok: true, data }
 }
 
-export function fail(code: ErrorCode, fieldErrors?: Record<string, string>): ActionResult<never> {
-  return { ok: false, error: { code, message: errorMessage(code), fieldErrors } }
+export function fail(code: ErrorCode, fieldErrors?: Record<string, string>, locale: Locale = 'ar'): ActionResult<never> {
+  return { ok: false, error: { code, message: errorMessage(code, locale), fieldErrors } }
 }
 
 export function failValidation(err: ZodError): ActionResult<never> {
@@ -31,8 +32,9 @@ export async function runAction<T>(fn: () => Promise<T>): Promise<ActionResult<T
     kickJobsSoon()
     return ok(data)
   } catch (err) {
-    if (isAppError(err)) return fail(err.code)
+    const locale = await getLocale()
+    if (isAppError(err)) return fail(err.code, undefined, locale)
     const e = toAppError(err)
-    return fail(e.code)
+    return fail(e.code, undefined, locale)
   }
 }

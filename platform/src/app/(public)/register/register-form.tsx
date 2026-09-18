@@ -4,12 +4,13 @@ import { useActionState } from 'react'
 import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bits'
 import { Input, Select } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
-import { t } from '@/i18n'
+import { useT } from '@/i18n/client'
 import { registerAction } from '@/server/actions/auth.actions'
 
 type Opt = { id: string; name: string }
 
 export function RegisterForm({ code, wilayas, levels, streams }: { code?: string; wilayas: Opt[]; levels: Opt[]; streams: Opt[] }) {
+  const t = useT()
   const [state, action] = useActionState(registerAction, null)
   return (
     <form action={action} className="space-y-4">

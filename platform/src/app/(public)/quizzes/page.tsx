@@ -3,15 +3,18 @@ import Link from 'next/link'
 import { PublicContentPage } from '@/components/domain/public-content-page'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
-import { t } from '@/i18n'
+import { getT } from '@/i18n/server'
 import { getDb } from '@/server/db/client'
 import { listPublicQuizzesCards } from '@/server/services/quizzes.service'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: t('public.quizzesTitle') }
+export async function generateMetadata() {
+  const { t: tt } = await getT()
+  return { title: tt('public.quizzesTitle') }
+}
 
 export default async function QuizzesPage({ searchParams }: { searchParams: Promise<{ q?: string; topic?: string }> }) {
-  const quizzes = await listPublicQuizzesCards(await getDb())
+  const [quizzes, { t, locale }] = await Promise.all([listPublicQuizzesCards(await getDb()), getT()])
   return (
     <>
       {quizzes.length ? (
@@ -40,7 +43,7 @@ export default async function QuizzesPage({ searchParams }: { searchParams: Prom
           <p className="mt-2 text-xs text-muted-foreground">يتطلب إنجاز الاختبار حساب طالب.</p>
         </section>
       ) : null}
-      <PublicContentPage title={t('public.quizzesTitle')} types={['QUIZ', 'EXERCISE']} basePath="/quizzes" searchParams={searchParams} />
+      <PublicContentPage locale={locale} title={t('public.quizzesTitle')} types={['QUIZ', 'EXERCISE']} basePath="/quizzes" searchParams={searchParams} />
     </>
   )
 }

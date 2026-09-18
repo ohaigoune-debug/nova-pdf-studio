@@ -104,6 +104,7 @@ npm run build && npm start
 - **PWA + إشعارات الدفع**: تثبيت على الهاتف، صفحة بلا اتصال، وإشعارات تصل الجهاز حتى والتطبيق مغلق (`npm run push:keys` ثم ضبط `VAPID_*`).
 - **تخزين S3** متوافق (R2/MinIO/Supabase) عبر `STORAGE_DRIVER=s3`، وصيانة دورية تلقائية.
 - **النشر**: `Dockerfile` + `docker-compose.yml` (Postgres + app + cron) — التفاصيل في [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+- **ثلاث لغات للموقع العام** (عربي/فرنسي/إنجليزي) بمبدّل في الرأس؛ الاتجاه والرسائل تتبع اللغة، واللوحات الداخلية عربية أولاً.
 
 ## البنية
 
@@ -111,6 +112,6 @@ npm run build && npm start
 src/app         الصفحات (public / student / teacher / admin / api)
 src/components  UI (shadcn-style) + مكوّنات المجال
 src/server      auth · db (schema, migrations, seed) · services (قواعد العمل) · actions · queries
-src/i18n        القاموس العربي (بنية جاهزة لإضافة fr/en)
+src/i18n        القاموس العربي (المصدر) + fr/en للموقع العام والمصادقة (دمج فوق العربية)
 tests           اختبارات التكامل
 ```
