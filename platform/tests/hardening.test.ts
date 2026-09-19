@@ -44,7 +44,8 @@ afterAll(async () => {
 describe('التحصين: الحدّ من المحاولات، إعادة تعيين كلمة السر، الصيانة', () => {
   it('الحدّ من المحاولات: نافذة ثابتة، يرمي RATE_LIMITED بعد الحد، ويُعاد بعد النجاح أو النافذة التالية', async () => {
     const rule = { scope: 'test', subject: '1.2.3.4', limit: 3, windowSeconds: 60 }
-    const t0 = new Date('2026-09-18T10:00:00Z')
+    // نسبيّ إلى الآن: تاريخ ثابت يصير أقدم من مهلة التنظيف فتحذفه مهمة الصيانة لاحقاً في هذا الملف
+    const t0 = new Date()
     expect((await checkRateLimit(h.db, rule, t0)).remaining).toBe(2)
     expect((await checkRateLimit(h.db, rule, t0)).remaining).toBe(1)
     expect((await checkRateLimit(h.db, rule, t0)).remaining).toBe(0)

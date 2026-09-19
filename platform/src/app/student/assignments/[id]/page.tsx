@@ -95,7 +95,7 @@ export default async function StudentAssignmentPage({ params }: { params: Promis
           </CardHeader>
           <CardContent>
             {overdue ? <Alert tone="warning" className="mb-3">{t('assignments.overdue')} — ستُعلَّم إجابتك كمتأخرة.</Alert> : null}
-            <AnswerEditor assignmentId={a.id} initialText={s?.answerText ?? ''} />
+            <AnswerEditor assignmentId={a.id} title={a.title} initialText={s?.answerText ?? ''} serverSavedAt={s?.updatedAt ? new Date(s.updatedAt).getTime() : 0} />
           </CardContent>
         </Card>
       ) : (

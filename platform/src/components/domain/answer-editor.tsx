@@ -1,38 +1,90 @@
 'use client'
 
-import { Send } from 'lucide-react'
+import { Send, Smartphone } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef, useState, useTransition } from 'react'
+import { useCallback, useEffect, useRef, useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { toast } from '@/components/ui/toast'
 import { t } from '@/i18n'
-import { saveDraftAction, submitAnswerAction } from '@/server/actions/assignments.actions'
+import { clearDraft, pickDraftText, queueSubmission, readDraft, writeDraft } from '@/lib/device-store'
+import { submitAnswerAction } from '@/server/actions/assignments.actions'
 
-/** محرر إجابة نصية كرسالة: حفظ مسودة تلقائي، ثم إرسال نهائي بتأكيد */
-export function AnswerEditor({ assignmentId, initialText }: { assignmentId: string; initialText: string }) {
+/** محرر إجابة نصية: المسودة تُحفظ على جهاز الطالب، ولا يستقبل الخادم إلا الإجابة النهائية */
+export function AnswerEditor({ assignmentId, title, initialText, serverSavedAt = 0 }: { assignmentId: string; title: string; initialText: string; serverSavedAt?: number }) {
   const router = useRouter()
   const [text, setText] = useState(initialText)
   const [savedText, setSavedText] = useState(initialText)
   const [saving, setSaving] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const [confirm, setConfirm] = useState(false)
   const [pending, start] = useTransition()
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  // المسودة المحفوظة على الجهاز تسبق نص الخادم متى كانت أحدث
   useEffect(() => {
-    if (text === savedText) return
+    let alive = true
+    const done = (value: string) => {
+      if (!alive) return
+      setText(value)
+      setSavedText(value)
+      setLoaded(true)
+    }
+    readDraft(assignmentId).then(
+      (d) => done(pickDraftText(initialText, d, serverSavedAt)),
+      () => done(initialText)
+    )
+    return () => {
+      alive = false
+    }
+  }, [assignmentId, initialText, serverSavedAt])
+
+  useEffect(() => {
+    if (!loaded || text === savedText) return
     if (timer.current) clearTimeout(timer.current)
     timer.current = setTimeout(async () => {
       setSaving(true)
-      const r = await saveDraftAction(assignmentId, text)
-      setSaving(false)
-      if (r.ok) setSavedText(text)
-      else toast('error', r.error.message)
-    }, 1500)
+      try {
+        await writeDraft(assignmentId, text)
+        setSavedText(text)
+      } catch {
+        toast('error', t('assignments.deviceSaveFailed'))
+      } finally {
+        setSaving(false)
+      }
+    }, 800)
     return () => {
       if (timer.current) clearTimeout(timer.current)
     }
-  }, [text, savedText, assignmentId])
+  }, [text, savedText, loaded, assignmentId])
+
+  const queueLocally = useCallback(async () => {
+    await queueSubmission(assignmentId, title, text)
+    setConfirm(false)
+    toast('warning', t('assignments.queuedOffline'), t('assignments.queuedOfflineHint'), 8000)
+  }, [assignmentId, title, text])
+
+  const send = () =>
+    start(async () => {
+      if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+        await queueLocally()
+        return
+      }
+      try {
+        const r = await submitAnswerAction(assignmentId, text)
+        if (!r.ok) {
+          toast('error', r.error.message)
+          return
+        }
+        await clearDraft(assignmentId)
+        setConfirm(false)
+        toast('success', t('common.success'), r.data.late ? t('assignments.late') : undefined)
+        router.refresh()
+      } catch {
+        // انقطاع الشبكة أثناء الإرسال: تبقى الإجابة على الجهاز وتُرسل لاحقاً
+        await queueLocally()
+      }
+    })
 
   const words = text.trim() ? text.trim().split(/\s+/).length : 0
 
@@ -47,8 +99,16 @@ export function AnswerEditor({ assignmentId, initialText }: { assignmentId: stri
         dir="rtl"
       />
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
-        <span>
-          {words} كلمة · {saving ? t('assignments.saving') : text === savedText && text ? t('assignments.draftSaved') : ''}
+        <span className="flex items-center gap-1">
+          {words} كلمة
+          {saving ? (
+            <> · {t('assignments.saving')}</>
+          ) : text && text === savedText ? (
+            <>
+              {' · '}
+              <Smartphone className="size-3.5" /> {t('assignments.savedOnDevice')}
+            </>
+          ) : null}
         </span>
         <Button onClick={() => setConfirm(true)} disabled={text.trim().length < 3 || pending} loading={pending}>
           <Send className="size-4" /> {t('assignments.submit')}
@@ -61,20 +121,7 @@ export function AnswerEditor({ assignmentId, initialText }: { assignmentId: stri
             <DialogDescription>{t('assignments.submitConfirm')}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              loading={pending}
-              onClick={() =>
-                start(async () => {
-                  const r = await submitAnswerAction(assignmentId, text)
-                  if (!r.ok) toast('error', r.error.message)
-                  else {
-                    toast('success', t('common.success'), r.data.late ? t('assignments.late') : undefined)
-                    setConfirm(false)
-                    router.refresh()
-                  }
-                })
-              }
-            >
+            <Button loading={pending} onClick={send}>
               {t('common.confirm')}
             </Button>
             <Button variant="outline" onClick={() => setConfirm(false)}>
