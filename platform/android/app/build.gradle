@@ -1,0 +1,97 @@
+plugins {
+    id 'com.android.application'
+}
+
+/*
+ * غلاف Trusted Web Activity حول منصة "مدرسة": لا نسخة ثانية من الكود —
+ * التطبيق يفتح الموقع نفسه ملء الشاشة بعد التحقق من /.well-known/assetlinks.json.
+ * النطاق يأتي من madrasaHost في gradle.properties (أو -PmadrasaHost=… عند البناء).
+ */
+def twaHost = project.property('madrasaHost')
+def twaAppId = project.property('madrasaAppId')
+
+// التوقيع: من متغيّرات البيئة (CI) أو android/keystore.properties محلياً.
+// بلا مفتاح يبقى بناء الإصدار غير موقّع — وبناء debug يعمل دائماً للتجربة.
+def keystorePropertiesFile = rootProject.file('keystore.properties')
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) keystorePropertiesFile.withInputStream { keystoreProperties.load(it) }
+def storePath = System.getenv('ANDROID_KEYSTORE_PATH') ?: keystoreProperties.getProperty('storeFile')
+def storePass = System.getenv('ANDROID_KEYSTORE_PASSWORD') ?: keystoreProperties.getProperty('storePassword')
+def keyAliasName = System.getenv('ANDROID_KEY_ALIAS') ?: keystoreProperties.getProperty('keyAlias')
+def keyPass = System.getenv('ANDROID_KEY_PASSWORD') ?: keystoreProperties.getProperty('keyPassword')
+def hasSigning = storePath != null && file(storePath).exists() && storePass != null && keyAliasName != null
+
+android {
+    namespace twaAppId
+    compileSdk 36
+
+    defaultConfig {
+        applicationId twaAppId
+        minSdk 21
+        targetSdk 36
+        versionCode project.property('madrasaVersionCode').toInteger()
+        versionName project.property('madrasaVersionName')
+
+        resValue "string", "appName", "مدرسة"
+        resValue "string", "launcherName", "مدرسة"
+        resValue "string", "hostName", twaHost
+        resValue "string", "launchUrl", "https://${twaHost}/"
+        resValue "string", "webManifestUrl", "https://${twaHost}/manifest.webmanifest"
+        resValue "string", "providerAuthority", "${twaAppId}.fileprovider"
+        resValue "string", "generatorApp", "madrasa-platform"
+        // بلا متصفح يدعم TWA (هواتف قديمة) يعمل التطبيق داخل WebView بدل أن يفشل
+        resValue "string", "fallbackType", "customtabs"
+        resValue "string", "orientation", "unspecified"
+        resValue "bool", "enableNotification", "true"
+        resValue "bool", "enableSiteSettingsShortcut", "true"
+        resValue "integer", "splashScreenFadeOutDuration", "300"
+
+        // ألوان شريط الحالة والتنقّل وشاشة البدء — مطابقة لسمة الويب
+        resValue "color", "colorPrimary", "#1d8f7f"
+        resValue "color", "colorPrimaryDark", "#14655a"
+        resValue "color", "navigationColor", "#f5f8fb"
+        resValue "color", "navigationColorDark", "#0b1220"
+        resValue "color", "navigationDividerColor", "#00000000"
+        resValue "color", "navigationDividerColorDark", "#000000"
+        resValue "color", "backgroundColor", "#f5f8fb"
+
+        // يربط التطبيق بالنطاق؛ الطرف المقابل هو /.well-known/assetlinks.json على الخادم
+        resValue "string", "assetStatements",
+                '[{ \\"relation\\": [\\"delegate_permission/common.handle_all_urls\\"], \\"target\\": {\\"namespace\\": \\"web\\", \\"site\\": \\"https://' + twaHost + '\\"}}]'
+    }
+
+    signingConfigs {
+        release {
+            if (hasSigning) {
+                storeFile file(storePath)
+                storePassword storePass
+                keyAlias keyAliasName
+                keyPassword keyPass ?: storePass
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (hasSigning) signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        checkReleaseBuilds false
+    }
+}
+
+dependencies {
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.6.2'
+}
+
+tasks.register('printSigningReady') {
+    doLast { println hasSigning ? "signing: ready (${storePath})" : 'signing: NOT configured — release will be unsigned' }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- خلفية الأيقونة التكيّفية: النظام يقصّها بأي شكل (دائرة/مربع) فتبقى ممتلئة -->
+    <color name="iconBackground">#1d8f7f</color>
+    <color name="shortcut_background">#F5F5F5</color>
+</resources>

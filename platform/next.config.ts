@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '10mb'
     }
   },
+  async rewrites() {
+    // مسار ‎.well-known‎ لا يمرّ بموجّه الملفات، فيُخدَم من معالج عادي
+    return [{ source: '/.well-known/assetlinks.json', destination: '/assetlinks' }]
+  },
   async headers() {
     return [
       {

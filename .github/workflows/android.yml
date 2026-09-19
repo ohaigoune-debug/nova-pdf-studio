@@ -1,0 +1,90 @@
+name: بناء تطبيق أندرويد
+
+# يبني APK للتجربة و AAB للنشر على Play. شغّله يدوياً من تبويب Actions.
+on:
+  workflow_dispatch:
+    inputs:
+      host:
+        description: 'نطاق المنصة المنشورة (بلا https://)'
+        required: true
+        default: 'madrasa.dz'
+      versionName:
+        description: 'اسم الإصدار (1.0.0)'
+        required: true
+        default: '1.0.0'
+      versionCode:
+        description: 'رقم الإصدار — يجب أن يزيد مع كل رفع إلى Play'
+        required: true
+        default: '1'
+
+defaults:
+  run:
+    working-directory: platform/android
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: تهيئة مفتاح التوقيع
+        id: keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/madrasa.keystore"
+            echo "signed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::بلا ANDROID_KEYSTORE_BASE64 — سيُبنى APK تجريبي (debug) فقط، غير صالح للنشر"
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: بناء الإصدار الموقّع
+        if: steps.keystore.outputs.signed == 'true'
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/madrasa.keystore
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          ./gradlew --no-daemon \
+            -PmadrasaHost='${{ inputs.host }}' \
+            -PmadrasaVersionName='${{ inputs.versionName }}' \
+            -PmadrasaVersionCode='${{ inputs.versionCode }}' \
+            assembleRelease bundleRelease
+
+      - name: بناء نسخة تجريبية
+        if: steps.keystore.outputs.signed != 'true'
+        run: |
+          ./gradlew --no-daemon \
+            -PmadrasaHost='${{ inputs.host }}' \
+            -PmadrasaVersionName='${{ inputs.versionName }}' \
+            -PmadrasaVersionCode='${{ inputs.versionCode }}' \
+            assembleDebug
+
+      - name: بصمة التوقيع لـ assetlinks.json
+        run: |
+          APK=$(find app/build/outputs/apk -name '*.apk' | head -1)
+          echo "### بصمة SHA-256" >> "$GITHUB_STEP_SUMMARY"
+          echo "ضعها في متغيّر البيئة ANDROID_CERT_FINGERPRINTS على الخادم:" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          # البصمة تُقرأ من الـAPK نفسه فتطابق ما وقّع به فعلاً
+          $ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/apksigner verify --print-certs "$APK" \
+            | grep -i 'SHA-256 digest' | head -1 \
+            | sed 's/.*: //' | tr 'a-z' 'A-Z' | sed 's/\(..\)/\1:/g;s/:$//' >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: madrasa-android-${{ inputs.versionName }}
+          path: |
+            platform/android/app/build/outputs/apk/**/*.apk
+            platform/android/app/build/outputs/bundle/**/*.aab
+          if-no-files-found: error
