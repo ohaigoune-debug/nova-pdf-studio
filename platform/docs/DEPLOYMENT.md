@@ -116,10 +116,39 @@ git pull && docker compose -f docker-compose.prod.yml up -d --build
 
 خدمة الإقلاع تعمل عند كل نشر بلا ضرر: لا تضاعف شيئاً ولا تغيّر كلمة سر المالك.
 
+النسخ الاحتياطي **تلقائي**: خدمة `backup` تكتب في `./backups` عند كل إقلاع ثم كل 24 ساعة، وتحتفظ بآخر 14 نسخة من القاعدة والمرفوعات.
+
 ```sh
-# نسخة احتياطية يومية (أضفها إلى crontab)
-docker compose -f docker-compose.prod.yml exec -T db pg_dump -U madrasa madrasa | gzip > backup-$(date +%F).sql.gz
+ls -lh backups/                                          # النسخ الموجودة
+docker compose -f docker-compose.prod.yml logs backup     # سجلّ الخدمة
 ```
+
+لا تُعتمد نسخة إلا بعد التحقق من اكتمالها (علامة نهاية `pg_dump` وقراءة الأرشيف كاملاً)، ولا يُحذف القديم إلا بعد نجاح الجديد. فشل النسخ يترك ما عندك سليماً ويُسجّل السبب.
+
+> **انسخها خارج الخادم.** نسخة على نفس القرص تحميك من الخطأ البشري وبطلان الهجرة، لا من تلف القرص:
+> ```sh
+> rsync -az backups/ you@somewhere:/backups/madrasa/     # أو rclone إلى R2/Drive
+> ```
+
+### الاستعادة — جرّبها مرة قبل أن تحتاجها
+
+```sh
+cd nova-pdf-studio/platform
+docker compose -f docker-compose.prod.yml stop app cron
+
+# القاعدة
+gunzip -c backups/db-2026….sql.gz | \
+  docker compose -f docker-compose.prod.yml exec -T db psql -U madrasa -d madrasa
+
+# المرفوعات — حاوية منفصلة، لأن خدمة backup تركّبها للقراءة فقط عمداً
+docker run --rm -v platform_uploads:/uploads -v "$PWD/backups:/b:ro" alpine \
+  sh -c 'tar xzf /b/uploads-2026….tar.gz -C /uploads'
+
+docker compose -f docker-compose.prod.yml start app cron
+```
+
+> استعادة القاعدة فوق بيانات قائمة قد تتعارض؛ للاستعادة الكاملة أنشئ قاعدة نظيفة أولاً
+> (`dropdb`/`createdb` داخل حاوية `db`) ثم استورد.
 
 > القاعدة والمرفوعات في volumes باسم `platform_pgdata` و`platform_uploads`؛ لا تحذفها بـ `docker compose down -v`.
 
@@ -179,7 +208,7 @@ DATABASE_URL=postgres://… npm run db:rls
 - [ ] تخزين S3 أو volume دائم للمرفوعات
 - [ ] Cron أو عامل مستقل للمهام
 - [ ] RLS مفعّلة على Postgres
-- [ ] نسخ احتياطي مجدول
+- [ ] نسخ احتياطي يعمل (`ls backups/`) **ومُجرَّبة استعادته مرة**، ونسخة منه خارج الخادم
 - [ ] `/.well-known/assetlinks.json` يعيد JSON لا 404 (لتطبيق أندرويد)
 
 

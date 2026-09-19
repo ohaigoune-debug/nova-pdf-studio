@@ -91,6 +91,24 @@ services:
       - '443:443/udp'
     restart: unless-stopped
 
+  # نسخ احتياطي إلى ./backups على الخادم. لا يعتمد نسخة إلا بعد التحقق من اكتمالها،
+  # ولا يحذف القديم إلا بعد نجاح الجديد. انسخ المجلد خارج الخادم دورياً (rsync/rclone).
+  backup:
+    image: postgres:16-alpine
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      BACKUP_KEEP: ${BACKUP_KEEP:-14}
+      BACKUP_INTERVAL_HOURS: ${BACKUP_INTERVAL_HOURS:-24}
+    volumes:
+      - ./scripts/backup.sh:/backup.sh:ro
+      - ./backups:/backups
+      - uploads:/uploads:ro
+    entrypoint: ['sh', '/backup.sh']
+    restart: unless-stopped
+
   cron:
     image: curlimages/curl:8.10.1
     depends_on:
