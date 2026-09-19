@@ -1,0 +1,111 @@
+# حزمة الإنتاج لخادم VPS (Contabo): Caddy بشهادة TLS تلقائية + التطبيق + Postgres + عامل المهام.
+#   cp .env.production.example .env  &&  عدّله  &&  docker compose -f docker-compose.prod.yml up -d --build
+# الصورة النهائية تشغّل node server.js مباشرة، لذلك الإقلاع (المرجعيات + أول مشرف) خدمة مستقلة
+# تعمل مرة عند كل نشر وتنتهي، والتطبيق لا يبدأ قبل نجاحها.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: madrasa
+      POSTGRES_USER: madrasa
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U madrasa']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  bootstrap:
+    build:
+      context: .
+      target: build
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://madrasa:${POSTGRES_PASSWORD}@db:5432/madrasa
+      AUTO_MIGRATE: '1'
+      ADMIN_EMAIL: ${ADMIN_EMAIL:?set ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set ADMIN_PASSWORD}
+      ADMIN_NAME: ${ADMIN_NAME:-مالك المنصة}
+    command: ['npx', 'tsx', 'src/server/db/bootstrap.ts']
+    restart: 'no'
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+      bootstrap:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgres://madrasa:${POSTGRES_PASSWORD}@db:5432/madrasa
+      AUTO_MIGRATE: '1'
+      NODE_ENV: production
+      APP_URL: ${APP_URL:?set APP_URL}
+      SESSION_SECRET: ${SESSION_SECRET:?set SESSION_SECRET}
+      QR_TOKEN_SECRET: ${QR_TOKEN_SECRET:?set QR_TOKEN_SECRET}
+      CRON_SECRET: ${CRON_SECRET:?set CRON_SECRET}
+      AI_PROVIDER: ${AI_PROVIDER:-mock}
+      AI_API_KEY: ${AI_API_KEY:-}
+      AI_MODEL: ${AI_MODEL:-}
+      MAIL_PROVIDER: ${MAIL_PROVIDER:-console}
+      MAIL_API_KEY: ${MAIL_API_KEY:-}
+      MAIL_FROM: ${MAIL_FROM:-}
+      STORAGE_DRIVER: ${STORAGE_DRIVER:-local}
+      UPLOADS_DIR: /app/data/uploads
+      S3_BUCKET: ${S3_BUCKET:-}
+      S3_REGION: ${S3_REGION:-}
+      S3_ENDPOINT: ${S3_ENDPOINT:-}
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-}
+      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-}
+      JOBS_INLINE_WORKER: '1'
+      VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
+      VAPID_SUBJECT: ${VAPID_SUBJECT:-}
+      # تطبيق أندرويد: بلا البصمة يعيد /.well-known/assetlinks.json رمز 404 ويظهر شريط المتصفح
+      ANDROID_PACKAGE_NAME: ${ANDROID_PACKAGE_NAME:-dz.madrasa.app}
+      ANDROID_CERT_FINGERPRINTS: ${ANDROID_CERT_FINGERPRINTS:-}
+    volumes:
+      - uploads:/app/data
+    expose:
+      - '3000'
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    depends_on:
+      - app
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:?set SITE_ADDRESS}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    restart: unless-stopped
+
+  cron:
+    image: curlimages/curl:8.10.1
+    depends_on:
+      - app
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      - |
+        while true; do
+          curl -s -X POST -H "x-cron-secret: ${CRON_SECRET}" http://app:3000/api/v1/jobs/run >/dev/null || true
+          sleep 60
+        done
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  uploads:
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,11 @@
+# TLS تلقائي من Let's Encrypt. أضف madrasa.dz إلى SITE_ADDRESS حين يجهز:
+#   SITE_ADDRESS=madrasadz.com, www.madrasadz.com, madrasa.dz, www.madrasa.dz
+# النطاق يجب أن يشير إلى هذا الخادم قبل الإقلاع، وإلا فشل إصدار الشهادة.
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	# التطبيق يقرأ عنوان الزائر من X-Forwarded-For للحدّ من المحاولات لكل IP
+	reverse_proxy app:3000 {
+		header_up X-Real-IP {remote_host}
+	}
+}

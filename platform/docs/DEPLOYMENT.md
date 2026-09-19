@@ -62,7 +62,68 @@ ADMIN_EMAIL=you@madrasadz.com ADMIN_PASSWORD=… npm run db:bootstrap
 
 ملاحظات الخطة المجانية: الخدمة تنام بعد 15 دقيقة خمول (أول طلب يستغرق ~30 ثانية)، والملفات المرفوعة على القرص المؤقت تُمسح عند إعادة النشر (اضبط `STORAGE_DRIVER=s3` للإنتاج)، وقاعدة Postgres المجانية محدودة المدة. للإنتاج ارفع الخطة أو استعمل Docker/VPS أدناه.
 
-## 2) Docker Compose (أسرع طريقة)
+## 2) خادم VPS (Contabo) — الحزمة الإنتاجية الكاملة
+
+`docker-compose.prod.yml` يشغّل: Caddy (شهادة TLS تلقائية) + التطبيق + Postgres + عامل المهام + خدمة إقلاع تعمل مرة وتنتهي.
+
+### أ) وجّه النطاق أولاً
+
+في Cloudflare أضف سجلّي `A` إلى عنوان الخادم:
+
+| النوع | الاسم | القيمة |
+|---|---|---|
+| A | `@` | عنوان IP للخادم |
+| A | `www` | نفس العنوان |
+
+> **مهم:** اجعل السحابة **رمادية (DNS only) لا برتقالية**. مع الوكيل البرتقالي ووضع SSL الافتراضي (Flexible) تدخل في حلقة إعادة توجيه لا تنتهي، ولن يتمكّن Caddy من إصدار شهادته. إن أردت وكيل Cloudflare لاحقاً فاضبط SSL/TLS على **Full (strict)** بعد نجاح الشهادة.
+
+تحقّق قبل المتابعة: `dig +short madrasadz.com` يجب أن يعيد عنوان خادمك.
+
+### ب) على الخادم
+
+```sh
+curl -fsSL https://get.docker.com | sh
+ufw allow 22 && ufw allow 80 && ufw allow 443 && ufw enable
+
+git clone https://github.com/ohaigoune-debug/nova-pdf-studio.git
+cd nova-pdf-studio/platform
+cp .env.production.example .env
+```
+
+عدّل `.env`: النطاق، والأسرار (`openssl rand -base64 48` لكل واحد)، و`ADMIN_EMAIL` / `ADMIN_PASSWORD`.
+
+```sh
+docker compose -f docker-compose.prod.yml up -d --build
+docker compose -f docker-compose.prod.yml logs -f bootstrap   # يجب أن ينتهي بـ ✔
+```
+
+أي متغيّر ناقص يوقف النشر برسالة صريحة قبل أن يعمل شيء.
+
+### ج) تحقّق
+
+```sh
+curl -I https://madrasadz.com/login                      # 200 وشهادة صالحة
+curl -s https://madrasadz.com/.well-known/assetlinks.json # JSON بعد إضافة البصمة، وإلا 404
+```
+
+ثم ادخل بـ `ADMIN_EMAIL` وأنشئ أول أستاذ من لوحة المشرف.
+
+### د) التحديث والنسخ الاحتياطي
+
+```sh
+git pull && docker compose -f docker-compose.prod.yml up -d --build
+```
+
+خدمة الإقلاع تعمل عند كل نشر بلا ضرر: لا تضاعف شيئاً ولا تغيّر كلمة سر المالك.
+
+```sh
+# نسخة احتياطية يومية (أضفها إلى crontab)
+docker compose -f docker-compose.prod.yml exec -T db pg_dump -U madrasa madrasa | gzip > backup-$(date +%F).sql.gz
+```
+
+> القاعدة والمرفوعات في volumes باسم `platform_pgdata` و`platform_uploads`؛ لا تحذفها بـ `docker compose down -v`.
+
+## 3) Docker Compose محلياً (تجربة سريعة)
 
 ```bash
 cd platform
@@ -75,7 +136,7 @@ docker compose exec app node -e "console.log('ok')"
 - الملفات المرفوعة في volume `uploads` (أو اضبط `STORAGE_DRIVER=s3`).
 - أول مشرف في الإنتاج: `ADMIN_EMAIL=… ADMIN_PASSWORD=… npm run db:bootstrap` (القسم 0). أما `npm run db:seed` فيزرع بيانات تجريبية دائماً — للتجربة المحلية فقط.
 
-## 3) خادم Node مباشر (VPS)
+## 4) خادم Node مباشر (بلا Docker)
 
 ```bash
 cd platform && npm ci
@@ -86,7 +147,7 @@ npm run jobs:worker                            # اختياري: عامل مست
 
 ضع Nginx/Caddy أمامه مع TLS؛ التطبيق يرسل `Strict-Transport-Security` و`Content-Security-Policy` بـ nonce ويحتاج `X-Forwarded-For` من الوكيل للحدّ من المحاولات لكل IP.
 
-## 4) Vercel / منصّات Serverless
+## 5) Vercel / منصّات Serverless
 
 - اربط المستودع، جذر المشروع `platform/`، وأضف المتغيّرات.
 - استعمل Postgres مُدار (Neon/Supabase) و`STORAGE_DRIVER=s3` (لا قرص دائم).
