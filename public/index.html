@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comment Winner - أداة سحب الفائزين</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <h1 class="logo">🎉 Comment Winner</h1>
+        <p class="subtitle">أداة سحب الفائزين من تعليقات Facebook و Instagram</p>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Settings Button -->
+      <button class="settings-btn" onclick="openSettings()">⚙️ الإعدادات</button>
+
+      <!-- Settings Modal -->
+      <div id="settingsModal" class="modal hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>إعدادات Meta API</h2>
+            <button class="close-btn" onclick="closeSettings()">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="setting-group">
+              <label for="accessToken">Meta Access Token</label>
+              <input type="password" id="accessToken" placeholder="أدخل Access Token الخاص بك">
+              <small>⚠️ يتم الاحتفاظ به محليًا فقط</small>
+            </div>
+            <div class="setting-group">
+              <label for="facebookPageId">Facebook Page ID (اختياري)</label>
+              <input type="text" id="facebookPageId" placeholder="رقم صفحة Facebook">
+            </div>
+            <div class="setting-group">
+              <label for="instagramAccountId">Instagram Account ID (اختياري)</label>
+              <input type="text" id="instagramAccountId" placeholder="رقم حساب Instagram">
+            </div>
+            <button class="btn btn-primary" onclick="saveSettings()">💾 حفظ الإعدادات</button>
+            <div id="settingsMessage" class="message"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Platform & URL Section -->
+      <section class="section">
+        <h2>1️⃣ اختر المنصة والمنشور</h2>
+        <div class="platform-selector">
+          <button class="platform-btn active" data-platform="facebook" onclick="selectPlatform('facebook')">
+            📘 Facebook
+          </button>
+          <button class="platform-btn" data-platform="instagram" onclick="selectPlatform('instagram')">
+            📷 Instagram
+          </button>
+        </div>
+
+        <div class="url-input-group">
+          <label for="postUrl">رابط المنشور أو Reel:</label>
+          <input
+            type="text"
+            id="postUrl"
+            placeholder="https://facebook.com/... أو https://instagram.com/p/..."
+            class="input-large"
+          >
+          <button class="btn btn-secondary" onclick="resolvePostUrl()">🔍 التحقق من الرابط</button>
+        </div>
+
+        <div id="postIdSection" class="hidden">
+          <div class="url-input-group">
+            <label for="postId">معرف المنشور (Post/Media ID):</label>
+            <input type="text" id="postId" placeholder="معرف المنشور (يتم ملؤه تلقائيًا)">
+            <small>إذا لم يتم التعرف عليه تلقائيًا، أدخله يدويًا</small>
+          </div>
+        </div>
+
+        <button class="btn btn-success btn-large" onclick="fetchComments()">
+          📥 سحب التعليقات
+        </button>
+      </section>
+
+      <!-- Comments Stats Section -->
+      <section class="section hidden" id="statsSection">
+        <h2>2️⃣ إحصائيات التعليقات</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="totalComments">0</div>
+            <div class="stat-label">إجمالي التعليقات</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="uniqueUsers">0</div>
+            <div class="stat-label">حسابات مختلفة</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="eligibleComments">0</div>
+            <div class="stat-label">التعليقات المؤهلة</div>
+          </div>
+        </div>
+
+        <!-- Comment Filters -->
+        <div class="filters-section">
+          <h3>تطبيق الفلاتر</h3>
+
+          <div class="filter-group">
+            <label>
+              <input type="checkbox" id="removeDuplicates" onchange="applyFilters()">
+              حذف التعليقات المكررة لنفس الشخص
+            </label>
+          </div>
+
+          <div class="filter-group">
+            <label>
+              <input type="checkbox" id="onePerUser" onchange="applyFilters()">
+              مشاركة واحدة فقط لكل مستخدم
+            </label>
+          </div>
+
+          <div class="filter-group">
+            <label>
+              <input type="checkbox" id="excludePageOwner" onchange="applyFilters()">
+              تجاهل تعليقات صاحب الصفحة
+            </label>
+          </div>
+
+          <div class="filter-group">
+            <label>
+              <input type="checkbox" id="excludeEmpty" onchange="applyFilters()">
+              تجاهل التعليقات الفارغة
+            </label>
+          </div>
+
+          <div class="filter-group">
+            <label>
+              <input type="checkbox" id="excludeReplies" onchange="applyFilters()">
+              احسب Top Level Comments فقط (بدون Replies)
+            </label>
+          </div>
+
+          <div class="filter-group">
+            <label for="minimumMentions">الحد الأدنى للمنشنات (@mentions):</label>
+            <input type="number" id="minimumMentions" min="0" value="0" onchange="applyFilters()">
+          </div>
+
+          <div class="filter-group">
+            <label for="requiredKeyword">كلمة إجبارية (اختياري):</label>
+            <input type="text" id="requiredKeyword" placeholder="مثال: تم، مشارك" onchange="applyFilters()">
+          </div>
+
+          <div class="filter-group">
+            <label for="searchComments">بحث في التعليقات:</label>
+            <input type="text" id="searchComments" placeholder="ابحث في النصوص..." onchange="applyFilters()">
+          </div>
+        </div>
+      </section>
+
+      <!-- Draw Winners Section -->
+      <section class="section hidden" id="drawSection">
+        <h2>3️⃣ سحب الفائزين</h2>
+
+        <div class="draw-settings">
+          <div class="draw-setting-group">
+            <label for="winnerCount">عدد الفائزين:</label>
+            <select id="winnerCount">
+              <option value="1">1 فائز</option>
+              <option value="2">2 فائزين</option>
+              <option value="3" selected>3 فائزين</option>
+              <option value="5">5 فائزين</option>
+              <option value="10">10 فائزين</option>
+              <option value="15">15 فائز</option>
+              <option value="20">20 فائز</option>
+            </select>
+          </div>
+
+          <div class="draw-setting-group">
+            <label>
+              <input type="checkbox" id="excludePreviousWinners">
+              استبعاد الفائزين السابقين
+            </label>
+          </div>
+        </div>
+
+        <button class="btn btn-draw btn-large" onclick="drawWinners()">
+          🎉 اختيار الفائزين
+        </button>
+      </section>
+
+      <!-- Winners Display Section -->
+      <section class="section hidden" id="winnersSection">
+        <h2>🏆 الفائزون</h2>
+
+        <div id="winnersContainer"></div>
+
+        <div class="winner-actions">
+          <button class="btn btn-secondary" onclick="redraw()">🔄 إعادة القرعة</button>
+          <button class="btn btn-secondary" onclick="selectAlternate()">➕ اختيار فائز بديل</button>
+          <button class="btn btn-export" onclick="exportCSV()">📊 Export CSV</button>
+          <button class="btn btn-export" onclick="exportXLSX()">📄 Export Excel</button>
+        </div>
+      </section>
+
+      <!-- Loading Indicator -->
+      <div id="loadingIndicator" class="loading-indicator hidden">
+        <div class="spinner"></div>
+        <p>جاري المعالجة...</p>
+      </div>
+
+      <!-- Error/Message Display -->
+      <div id="messageContainer" class="message-container"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Comment Winner v1.0 • أداة آمنة محلية • Meta Graph API</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

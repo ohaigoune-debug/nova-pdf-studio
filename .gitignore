@@ -4,3 +4,10 @@ dist
 release
 *.log
 .DS_Store
+
+# Comment Winner
+.env
+!.env.example
+database.db
+database.db-wal
+database.db-shm
