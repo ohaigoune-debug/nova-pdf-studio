@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const Database = require('better-sqlite3');
 const dotenv = require('dotenv');
+const metaApi = require('./meta-api');
 
 // Load environment variables
 dotenv.config();
@@ -163,7 +164,7 @@ function extractMentions(text) {
 // ============ API Endpoints ============
 
 // GET /api/meta/pages - Get Facebook pages
-app.get('/api/meta/pages', (req, res) => {
+app.get('/api/meta/pages', async (req, res) => {
   try {
     if (!process.env.META_ACCESS_TOKEN) {
       return res.status(400).json({
@@ -172,11 +173,32 @@ app.get('/api/meta/pages', (req, res) => {
       });
     }
 
-    // TODO: Call Meta API to get pages
-    res.json({
-      message: 'Meta API integration available',
-      status: 'ready'
-    });
+    // Fetch pages from Meta API
+    try {
+      const pages = await metaApi.getFacebookPages(process.env.META_ACCESS_TOKEN);
+
+      if (pages.length === 0) {
+        return res.status(400).json({
+          error: 'No Facebook pages found',
+          message: 'Make sure you are the admin of at least one Facebook page.'
+        });
+      }
+
+      res.json({
+        success: true,
+        pages: pages.map(page => ({
+          id: page.id,
+          name: page.name
+        })),
+        message: `Found ${pages.length} Facebook page(s)`
+      });
+    } catch (metaError) {
+      console.error('Meta API Error:', metaError.message);
+      return res.status(401).json({
+        error: metaError.message,
+        message: 'Failed to fetch pages. Check your Access Token.'
+      });
+    }
   } catch (error) {
     logError('GET /api/meta/pages', error);
     res.status(500).json({ error: 'Failed to fetch pages' });
@@ -220,7 +242,7 @@ app.post('/api/posts/resolve', (req, res) => {
 });
 
 // POST /api/comments/fetch - Fetch comments from post
-app.post('/api/comments/fetch', (req, res) => {
+app.post('/api/comments/fetch', async (req, res) => {
   try {
     const { platform, postId, contestId } = req.body;
 
@@ -235,16 +257,86 @@ app.post('/api/comments/fetch', (req, res) => {
       });
     }
 
-    // TODO: Fetch comments from Meta API
-    res.json({
-      message: 'Comment fetching initialized',
+    // Fetch comments from Meta API
+    let comments = [];
+    try {
+      if (platform === 'facebook') {
+        comments = await metaApi.fetchFacebookComments(postId, process.env.META_ACCESS_TOKEN);
+      } else if (platform === 'instagram') {
+        comments = await metaApi.fetchInstagramComments(postId, process.env.META_ACCESS_TOKEN);
+      }
+    } catch (metaError) {
+      console.error('Meta API Error:', metaError.message);
+      return res.status(400).json({
+        error: metaError.message,
+        message: 'Failed to fetch comments from Meta API. Check your token and IDs.'
+      });
+    }
+
+    if (comments.length === 0) {
+      return res.status(400).json({
+        error: 'No comments found',
+        message: 'The post may not have any comments or may not be accessible.'
+      });
+    }
+
+    // Create contest and post records
+    const contestRow = db.prepare('INSERT OR IGNORE INTO contests (name) VALUES (?)').run(
+      `${platform.toUpperCase()} - ${new Date().toLocaleDateString('ar')}`
+    );
+
+    const postRow = db.prepare(
+      'INSERT OR IGNORE INTO posts (contest_id, platform, post_id, post_url, total_comments, fetched_at) VALUES (?, ?, ?, ?, ?, ?)'
+    ).run(
+      contestRow.lastInsertRowid || contestId,
       platform,
       postId,
-      contestId
+      req.body.postUrl || `https://${platform}.com/post/${postId}`,
+      comments.length,
+      new Date().toISOString()
+    );
+
+    // Insert comments
+    const insertComment = db.prepare(`
+      INSERT OR IGNORE INTO comments (
+        post_id, comment_id, user_id, username, name, text,
+        likes_count, created_time, is_reply, mentions_count, is_eligible
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    let inserted = 0;
+    comments.forEach(comment => {
+      try {
+        insertComment.run(
+          postRow.lastInsertRowid || 1,
+          comment.comment_id,
+          comment.user_id,
+          comment.username,
+          comment.name,
+          comment.text,
+          comment.likes_count,
+          comment.created_time,
+          comment.is_reply,
+          comment.mentions_count,
+          comment.is_eligible
+        );
+        inserted++;
+      } catch (err) {
+        // Ignore duplicates
+      }
+    });
+
+    res.json({
+      success: true,
+      commentsFetched: comments.length,
+      commentsInserted: inserted,
+      platform,
+      postId,
+      contestId: contestRow.lastInsertRowid || contestId
     });
   } catch (error) {
     logError('POST /api/comments/fetch', error);
-    res.status(500).json({ error: 'Failed to fetch comments' });
+    res.status(500).json({ error: 'Failed to fetch comments', details: error.message });
   }
 });
 
