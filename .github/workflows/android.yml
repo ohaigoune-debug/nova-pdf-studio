@@ -4,10 +4,6 @@ name: بناء تطبيق أندرويد
 on:
   workflow_dispatch:
     inputs:
-      host:
-        description: 'نطاق المنصة المنشورة (بلا https://)'
-        required: true
-        default: 'madrasa.dz'
       versionName:
         description: 'اسم الإصدار (1.0.0)'
         required: true
@@ -55,7 +51,6 @@ jobs:
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           ./gradlew --no-daemon \
-            -PmadrasaHost='${{ inputs.host }}' \
             -PmadrasaVersionName='${{ inputs.versionName }}' \
             -PmadrasaVersionCode='${{ inputs.versionCode }}' \
             assembleRelease bundleRelease
@@ -64,7 +59,6 @@ jobs:
         if: steps.keystore.outputs.signed != 'true'
         run: |
           ./gradlew --no-daemon \
-            -PmadrasaHost='${{ inputs.host }}' \
             -PmadrasaVersionName='${{ inputs.versionName }}' \
             -PmadrasaVersionCode='${{ inputs.versionCode }}' \
             assembleDebug

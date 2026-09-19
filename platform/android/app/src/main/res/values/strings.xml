@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    نطاقات المنصة — هذا الملف الوحيد الذي تعدّله عند تغيير النطاق.
+    التطبيق يثق بالنطاقين معاً: يُطلق على hostName، ويبقى ملء الشاشة إن حُوّل إلى altHostName.
+    هكذا تنتقل لاحقاً من .com إلى .dz (أو العكس) بلا إصدار APK جديد.
+    شرط لازم: كلا النطاقين يخدم /.well-known/assetlinks.json بنفس بصمة التوقيع.
+-->
+<resources>
+    <string name="hostName" translatable="false">madrasadz.com</string>
+    <string name="launchUrl" translatable="false">https://madrasadz.com/</string>
+    <string name="webManifestUrl" translatable="false">https://madrasadz.com/manifest.webmanifest</string>
+
+    <string name="altHostName" translatable="false">madrasa.dz</string>
+    <string-array name="additional_trusted_origins" translatable="false">
+        <item>https://madrasa.dz</item>
+    </string-array>
+
+    <string name="assetStatements" translatable="false">
+        [{\"relation\": [\"delegate_permission/common.handle_all_urls\"], \"target\": {\"namespace\": \"web\", \"site\": \"https://madrasadz.com\"}},
+         {\"relation\": [\"delegate_permission/common.handle_all_urls\"], \"target\": {\"namespace\": \"web\", \"site\": \"https://madrasa.dz\"}}]
+    </string>
+</resources>

@@ -88,6 +88,10 @@
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
+            <!-- النطاق الثاني يبقى ملء الشاشة أيضاً، فالانتقال بينهما لا يحتاج APK جديداً -->
+            <meta-data
+                android:name="android.support.customtabs.trusted.ADDITIONAL_TRUSTED_ORIGINS"
+                android:resource="@array/additional_trusted_origins" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -101,6 +105,15 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:host="@string/hostName"
+                    android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="@string/altHostName"
                     android:scheme="https" />
             </intent-filter>
         </activity>

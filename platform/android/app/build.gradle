@@ -5,9 +5,8 @@ plugins {
 /*
  * غلاف Trusted Web Activity حول منصة "مدرسة": لا نسخة ثانية من الكود —
  * التطبيق يفتح الموقع نفسه ملء الشاشة بعد التحقق من /.well-known/assetlinks.json.
- * النطاق يأتي من madrasaHost في gradle.properties (أو -PmadrasaHost=… عند البناء).
+ * النطاقات كلها في res/values/strings.xml — هناك تُعدَّل، لا هنا.
  */
-def twaHost = project.property('madrasaHost')
 def twaAppId = project.property('madrasaAppId')
 
 // التوقيع: من متغيّرات البيئة (CI) أو android/keystore.properties محلياً.
@@ -34,9 +33,6 @@ android {
 
         resValue "string", "appName", "مدرسة"
         resValue "string", "launcherName", "مدرسة"
-        resValue "string", "hostName", twaHost
-        resValue "string", "launchUrl", "https://${twaHost}/"
-        resValue "string", "webManifestUrl", "https://${twaHost}/manifest.webmanifest"
         resValue "string", "providerAuthority", "${twaAppId}.fileprovider"
         resValue "string", "generatorApp", "madrasa-platform"
         // بلا متصفح يدعم TWA (هواتف قديمة) يعمل التطبيق داخل WebView بدل أن يفشل
@@ -54,10 +50,6 @@ android {
         resValue "color", "navigationDividerColor", "#00000000"
         resValue "color", "navigationDividerColorDark", "#000000"
         resValue "color", "backgroundColor", "#f5f8fb"
-
-        // يربط التطبيق بالنطاق؛ الطرف المقابل هو /.well-known/assetlinks.json على الخادم
-        resValue "string", "assetStatements",
-                '[{ \\"relation\\": [\\"delegate_permission/common.handle_all_urls\\"], \\"target\\": {\\"namespace\\": \\"web\\", \\"site\\": \\"https://' + twaHost + '\\"}}]'
     }
 
     signingConfigs {
