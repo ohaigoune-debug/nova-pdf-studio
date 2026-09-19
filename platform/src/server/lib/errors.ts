@@ -115,6 +115,23 @@ export class AppError extends Error {
   }
 }
 
+/**
+ * فشل نهائي لمهمة خلفية: إعادة المحاولة بنفس المدخل لن تنفع وقد تُكلّف من جديد
+ * (ردّ مبتور، رفض، طلب مرفوض 4xx). الطابور يعلّمها FAILED فوراً بلا إعادة.
+ */
+export class PermanentJobError extends Error {
+  readonly permanent = true as const
+
+  constructor(message: string) {
+    super(message)
+    this.name = 'PermanentJobError'
+  }
+}
+
+export function isPermanentJobError(err: unknown): boolean {
+  return err instanceof PermanentJobError || (typeof err === 'object' && err !== null && (err as { permanent?: unknown }).permanent === true)
+}
+
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 /** يرمي الخطأ المناسب قبل الوصول إلى قاعدة البيانات إذا لم يكن المعرّف UUID صالحاً */

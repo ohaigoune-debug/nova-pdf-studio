@@ -1,14 +1,15 @@
 import type { Db } from '@/server/db/connect'
-import { runAiEvaluationJob, runAnalyzeStudentJob, runGenerateExercisesJob, runTeacherInsightsJob } from '@/server/services/ai.service'
+import { runAiBatchCollectJob, runAiEvaluationJob, runAnalyzeStudentJob, runGenerateExercisesJob, runTeacherInsightsJob } from '@/server/services/ai.service'
 import { runCleanupJob } from '@/server/services/maintenance.service'
 import { runPushDispatchJob } from '@/server/services/push.service'
 import { runReportJob } from '@/server/services/reports.service'
-import { claimNextJob, completeJob, failJob, type JobRow, type JobType } from './queue'
+import { claimNextJob, completeJob, failJob, nextRunAfter, type JobRow, type JobType } from './queue'
 
 type Handler = (db: Db, job: JobRow) => Promise<Record<string, unknown> | null>
 
 const handlers: Record<JobType, Handler> = {
   AI_EVALUATE_SUBMISSION: (db, job) => runAiEvaluationJob(db, String(job.payload.evaluationId ?? '')),
+  AI_BATCH_COLLECT: (db, job) => runAiBatchCollectJob(db, job.payload),
   AI_TEACHER_INSIGHTS: (db, job) => runTeacherInsightsJob(db, String(job.payload.workspaceId ?? ''), String(job.payload.userId ?? '')),
   AI_GENERATE_EXERCISES: (db, job) => runGenerateExercisesJob(db, job.payload),
   AI_ANALYZE_STUDENT: (db, job) => runAnalyzeStudentJob(db, job.payload),
@@ -49,6 +50,20 @@ export async function processQueuedJobs(db: Db, opts: { limit?: number; now?: Da
 
 let running = false
 let again = false
+let wake: ReturnType<typeof setTimeout> | null = null
+
+/** المهام المؤجلة (تراجع الإعادة، استطلاع الدفعات) توقظ العامل الداخلي في موعدها بدل انتظار إدراج جديد */
+async function armWake(db: Db, getDb: () => Promise<Db>): Promise<void> {
+  const next = await nextRunAfter(db)
+  if (!next) return
+  if (wake) clearTimeout(wake)
+  const delay = Math.min(15 * 60_000, Math.max(1000, next.getTime() - Date.now()))
+  wake = setTimeout(() => {
+    wake = null
+    kickWorker(getDb)
+  }, delay)
+  wake.unref?.()
+}
 
 /**
  * عامل داخل عملية الخادم: يُستدعى بعد أي إدراج مهمة، بلا انتظار.
@@ -63,10 +78,12 @@ export function kickWorker(getDb: () => Promise<Db>): void {
   running = true
   setTimeout(async () => {
     try {
+      const db = await getDb()
       do {
         again = false
-        await processQueuedJobs(await getDb(), { limit: 20 })
+        await processQueuedJobs(db, { limit: 20 })
       } while (again)
+      await armWake(db, getDb)
     } catch (err) {
       console.error('[jobs] worker error', err)
     } finally {

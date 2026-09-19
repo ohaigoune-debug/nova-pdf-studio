@@ -1,11 +1,11 @@
-import { and, desc, eq, sql } from 'drizzle-orm'
+import { and, desc, eq, inArray, sql } from 'drizzle-orm'
 import { aiProviderInfo, getAiProvider } from '@/server/ai/provider'
-import type { EvaluateEssayOutput } from '@/server/ai/types'
+import type { EssayBatchItem, EvaluateEssayInput, EvaluateEssayOutput } from '@/server/ai/types'
 import type { Db } from '@/server/db/connect'
 import { aiEvaluations, appSettings, assignmentSubmissions, assignments, grades, jobs, levels, profiles, quizAttempts, quizzes, rubricItems, skills, teacherReviews } from '@/server/db/schema'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
-import { AppError, assertUuid } from '@/server/lib/errors'
+import { AppError, assertUuid, PermanentJobError } from '@/server/lib/errors'
 import { enqueueJob } from '@/server/jobs/queue'
 import { dataInsights } from '@/server/queries/teacher-extras.queries'
 import { getAssignmentForTeacher, loadSubmissionCtx, reviewSubmission, type ReviewInput } from './assignments.service'
@@ -147,8 +147,8 @@ export async function assignmentAiSummary(db: Db, actor: Actor, assignmentId: st
 export async function requestAiEvaluationForAssignment(db: Db, actor: Actor, assignmentId: string): Promise<{ queued: number; skipped: number; total: number }> {
   assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
   const d = await getAssignmentForTeacher(db, actor, assignmentId)
-  let queued = 0
   let skipped = 0
+  const toRequest: string[] = []
   const subs = d.submissions.filter((s) => s.submissionId && (s.status === 'SUBMITTED' || s.status === 'AI_EVALUATED'))
   for (const s of subs) {
     const last = await latestEvaluationRow(db, s.submissionId!)
@@ -163,11 +163,55 @@ export async function requestAiEvaluationForAssignment(db: Db, actor: Actor, ass
         continue
       }
     }
-    await enqueueEvaluation(db, { submissionId: s.submissionId!, workspaceId: d.assignment.workspaceId, rubricId: d.assignment.rubricId }, actor.userId)
-    queued++
+    toRequest.push(s.submissionId!)
   }
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: d.assignment.workspaceId, action: 'ai.evaluate.request_all', entityType: 'assignment', entityId: d.assignment.id, newValue: { queued, skipped } })
-  return { queued, skipped, total: subs.length }
+  const ctx = { workspaceId: d.assignment.workspaceId, rubricId: d.assignment.rubricId }
+  let batched = false
+  if (getAiProvider().submitEssayBatch && toRequest.length > 0) batched = await dispatchViaBatch(db, actor, d.assignment.id, toRequest, ctx)
+  else for (const submissionId of toRequest) await enqueueEvaluation(db, { submissionId, ...ctx }, actor.userId)
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: d.assignment.workspaceId, action: 'ai.evaluate.request_all', entityType: 'assignment', entityId: d.assignment.id, newValue: { queued: toRequest.length, skipped, batched } })
+  return { queued: toRequest.length, skipped, total: subs.length }
+}
+
+/** فاصل استطلاع الدفعة: دقيقة ثم تضاعف حتى 10 دقائق (أغلب الدفعات تنتهي خلال ساعة) */
+function batchPollDelay(polls: number): number {
+  return Math.min(10 * 60_000, 60_000 * 2 ** polls)
+}
+
+/**
+ * يرسل الإجابات في Message Batch واحد (نصف السعر) ويُجدول جامع النتائج.
+ * سجلات التقييم تُنشأ أولاً؛ فإن تعذّر إرسال الدفعة تُعالَج فرادى بالمسار المعتاد ويُعاد false.
+ */
+async function dispatchViaBatch(db: Db, actor: Actor, assignmentId: string, submissionIds: string[], ctx: { workspaceId: string; rubricId: string | null }): Promise<boolean> {
+  const provider = getAiProvider()
+  if (!provider.submitEssayBatch) return false
+  const info = aiProviderInfo()
+  const knownSkills = await loadKnownSkills(db)
+  const evaluationIds: string[] = []
+  const items: EssayBatchItem[] = []
+  await db.transaction(async (tx) => {
+    for (const submissionId of submissionIds) {
+      const [ev] = await tx
+        .insert(aiEvaluations)
+        .values({ workspaceId: ctx.workspaceId, submissionId, rubricId: ctx.rubricId, provider: info.name, model: info.model, status: 'PENDING', requestedByUserId: actor.userId })
+        .returning()
+      if (!ev) throw new AppError('INTERNAL')
+      await writeAudit(tx, { actorUserId: actor.userId, workspaceId: ctx.workspaceId, action: 'ai.evaluate.request', entityType: 'ai_evaluation', entityId: ev.id, newValue: { submissionId, provider: info.name, batch: true } })
+      evaluationIds.push(ev.id)
+      items.push({ customId: ev.id, input: (await loadEssayContext(tx, submissionId, knownSkills)).input })
+    }
+  })
+  try {
+    const { batchId } = await provider.submitEssayBatch(items)
+    await enqueueJob(db, { type: 'AI_BATCH_COLLECT', payload: { batchId, evaluationIds, assignmentId, polls: 0 }, workspaceId: ctx.workspaceId, runAfter: new Date(Date.now() + batchPollDelay(0)) })
+    return true
+  } catch (err) {
+    if (process.env.NODE_ENV !== 'test') console.warn('[ai] batch submit failed; falling back to single jobs', err instanceof Error ? err.message : err)
+    for (let i = 0; i < evaluationIds.length; i++) {
+      await enqueueJob(db, { type: 'AI_EVALUATE_SUBMISSION', payload: { evaluationId: evaluationIds[i], submissionId: submissionIds[i] }, workspaceId: ctx.workspaceId })
+    }
+    return false
+  }
 }
 
 /**
@@ -243,20 +287,25 @@ function sanitize(out: EvaluateEssayOutput, maxScore: number, items: { id: strin
   }
 }
 
-/** معالج المهمة: يستدعي المزوّد ويخزّن الاقتراح. لا يلمس `grades` إطلاقاً. */
-export async function runAiEvaluationJob(db: Db, evaluationId: string): Promise<Record<string, unknown>> {
-  assertUuid(evaluationId, 'AI_EVAL_NOT_FOUND')
-  const [ev] = await db.select().from(aiEvaluations).where(eq(aiEvaluations.id, evaluationId)).limit(1)
-  if (!ev || !ev.submissionId) throw new AppError('AI_EVAL_NOT_FOUND')
-  if (ev.status === 'COMPLETED') return { skipped: true }
-  if (ev.status === 'FAILED') await db.update(aiEvaluations).set({ status: 'PENDING', error: null }).where(eq(aiEvaluations.id, ev.id))
+interface EssayContext {
+  submission: typeof assignmentSubmissions.$inferSelect
+  assignment: typeof assignments.$inferSelect
+  items: { id: string; label: string; description: string | null; maxPoints: string; skillName: string | null }[]
+  input: EvaluateEssayInput
+}
 
+async function loadKnownSkills(db: Db): Promise<string[]> {
+  return (await db.select({ name: skills.nameAr }).from(skills)).map((s) => s.name)
+}
+
+/** يجمع كل ما يحتاجه المزوّد عن إجابة واحدة (الواجب، الشبكة، المهارة) */
+async function loadEssayContext(db: Db, submissionId: string, knownSkills: string[]): Promise<EssayContext> {
   const [row] = await db
     .select({ submission: assignmentSubmissions, assignment: assignments, skillName: skills.nameAr })
     .from(assignmentSubmissions)
     .innerJoin(assignments, eq(assignments.id, assignmentSubmissions.assignmentId))
     .leftJoin(skills, eq(skills.id, assignments.skillId))
-    .where(eq(assignmentSubmissions.id, ev.submissionId))
+    .where(eq(assignmentSubmissions.id, submissionId))
     .limit(1)
   if (!row) throw new AppError('SUBMISSION_NOT_FOUND')
   const items = row.assignment.rubricId
@@ -267,10 +316,11 @@ export async function runAiEvaluationJob(db: Db, evaluationId: string): Promise<
         .where(eq(rubricItems.rubricId, row.assignment.rubricId))
         .orderBy(rubricItems.sortOrder)
     : []
-  const knownSkills = (await db.select({ name: skills.nameAr }).from(skills)).map((s) => s.name)
-  const provider = getAiProvider()
-  try {
-    const raw = await provider.evaluateEssay({
+  return {
+    submission: row.submission,
+    assignment: row.assignment,
+    items,
+    input: {
       assignmentTitle: row.assignment.title,
       prompt: row.assignment.description,
       answerText: row.submission.answerText ?? '',
@@ -278,46 +328,126 @@ export async function runAiEvaluationJob(db: Db, evaluationId: string): Promise<
       rubric: items.length ? items.map((i) => ({ id: i.id, label: i.label, description: i.description, maxPoints: Number(i.maxPoints), skillName: i.skillName })) : null,
       skillName: row.skillName,
       knownSkills
-    })
-    const out = sanitize(raw, Number(row.assignment.maxScore), items)
-    await db.transaction(async (tx) => {
-      await tx
-        .update(aiEvaluations)
-        .set({
-          status: 'COMPLETED',
-          provider: provider.name,
-          model: provider.model,
-          suggestedScore: String(out.suggestedScore),
-          confidence: String(out.confidence),
-          rubricBreakdown: out.rubricBreakdown,
-          strengths: out.strengths,
-          weaknesses: out.weaknesses,
-          mistakes: out.mistakes,
-          skillsDetected: out.skillsDetected,
-          skillsToImprove: out.skillsToImprove,
-          teacherNotesSuggestion: out.teacherNotesSuggestion,
-          rawResponse: out.raw ?? null,
-          error: null,
-          completedAt: new Date()
-        })
-        .where(eq(aiEvaluations.id, ev.id))
-      // لا نغيّر حالة إجابة صحّحها الأستاذ بالفعل
-      await tx.update(assignmentSubmissions).set({ status: 'AI_EVALUATED' }).where(and(eq(assignmentSubmissions.id, row.submission.id), eq(assignmentSubmissions.status, 'SUBMITTED')))
-      await notify(tx, {
-        userId: row.assignment.createdByUserId,
-        workspaceId: row.submission.workspaceId,
-        type: 'SYSTEM',
-        title: `اقتراح تصحيح جاهز لواجب "${row.assignment.title}"`,
-        body: `النقطة المقترحة ${out.suggestedScore}/${Number(row.assignment.maxScore)} — بانتظار مراجعتك.`,
-        link: `/teacher/assignments/${row.assignment.id}/submissions/${row.submission.id}`
+    }
+  }
+}
+
+/** يخزّن الاقتراح بعد تنقيته. لا يلمس `grades` إطلاقاً. */
+async function storeEssayEvaluation(db: Db, evaluationId: string, ctx: EssayContext, raw: EvaluateEssayOutput, provider: { name: string; model: string }, opts: { notifyTeacher: boolean }): Promise<EvaluateEssayOutput> {
+  const out = sanitize(raw, Number(ctx.assignment.maxScore), ctx.items)
+  await db.transaction(async (tx) => {
+    await tx
+      .update(aiEvaluations)
+      .set({
+        status: 'COMPLETED',
+        provider: provider.name,
+        model: provider.model,
+        suggestedScore: String(out.suggestedScore),
+        confidence: String(out.confidence),
+        rubricBreakdown: out.rubricBreakdown,
+        strengths: out.strengths,
+        weaknesses: out.weaknesses,
+        mistakes: out.mistakes,
+        skillsDetected: out.skillsDetected,
+        skillsToImprove: out.skillsToImprove,
+        teacherNotesSuggestion: out.teacherNotesSuggestion,
+        rawResponse: out.raw ?? null,
+        error: null,
+        completedAt: new Date()
       })
-    })
+      .where(eq(aiEvaluations.id, evaluationId))
+    // لا نغيّر حالة إجابة صحّحها الأستاذ بالفعل
+    await tx.update(assignmentSubmissions).set({ status: 'AI_EVALUATED' }).where(and(eq(assignmentSubmissions.id, ctx.submission.id), eq(assignmentSubmissions.status, 'SUBMITTED')))
+    if (opts.notifyTeacher) {
+      await notify(tx, {
+        userId: ctx.assignment.createdByUserId,
+        workspaceId: ctx.submission.workspaceId,
+        type: 'SYSTEM',
+        title: `اقتراح تصحيح جاهز لواجب "${ctx.assignment.title}"`,
+        body: `النقطة المقترحة ${out.suggestedScore}/${Number(ctx.assignment.maxScore)} — بانتظار مراجعتك.`,
+        link: `/teacher/assignments/${ctx.assignment.id}/submissions/${ctx.submission.id}`
+      })
+    }
+  })
+  return out
+}
+
+/** معالج المهمة الفردية: يستدعي المزوّد ويخزّن الاقتراح */
+export async function runAiEvaluationJob(db: Db, evaluationId: string): Promise<Record<string, unknown>> {
+  assertUuid(evaluationId, 'AI_EVAL_NOT_FOUND')
+  const [ev] = await db.select().from(aiEvaluations).where(eq(aiEvaluations.id, evaluationId)).limit(1)
+  if (!ev || !ev.submissionId) throw new AppError('AI_EVAL_NOT_FOUND')
+  if (ev.status === 'COMPLETED') return { skipped: true }
+  if (ev.status === 'FAILED') await db.update(aiEvaluations).set({ status: 'PENDING', error: null }).where(eq(aiEvaluations.id, ev.id))
+  const ctx = await loadEssayContext(db, ev.submissionId, await loadKnownSkills(db))
+  const provider = getAiProvider()
+  try {
+    const out = await storeEssayEvaluation(db, ev.id, ctx, await provider.evaluateEssay(ctx.input), provider, { notifyTeacher: true })
     return { evaluationId: ev.id, suggestedScore: out.suggestedScore, provider: provider.name }
   } catch (err) {
     const message = (err instanceof Error ? err.message : String(err)).slice(0, 1000)
     await db.update(aiEvaluations).set({ status: 'FAILED', error: message }).where(eq(aiEvaluations.id, ev.id))
     throw err
   }
+}
+
+/**
+ * جامع نتائج الدفعة: يستطلع الحالة، وعند الانتهاء يخزّن كل اقتراح.
+ * الفشل غير المفوتَر (خطأ خادمي، انتهاء صلاحية) يُعاد فرادى؛ والنهائي يُعلَّم FAILED.
+ * ما دامت الدفعة قيد المعالجة يُجدول استطلاعاً جديداً بدل استهلاك المحاولات.
+ */
+export async function runAiBatchCollectJob(db: Db, payload: Record<string, unknown>): Promise<Record<string, unknown>> {
+  const batchId = String(payload.batchId ?? '')
+  const evaluationIds = Array.isArray(payload.evaluationIds) ? (payload.evaluationIds as unknown[]).filter((x): x is string => typeof x === 'string') : []
+  const polls = Number(payload.polls ?? 0)
+  if (!batchId || evaluationIds.length === 0) throw new PermanentJobError('batch payload invalid')
+  const provider = getAiProvider()
+  if (!provider.fetchEssayBatch) throw new PermanentJobError('provider has no batch support')
+  const rows = await db.select().from(aiEvaluations).where(inArray(aiEvaluations.id, evaluationIds))
+  const pending = rows.filter((e) => e.status === 'PENDING' && e.submissionId)
+  if (pending.length === 0) return { batchId, skipped: true }
+  const workspaceId = pending[0]!.workspaceId
+
+  // استطلاع خفيف أولاً: لا نحمّل سياق كل إجابة إلا حين تنتهي الدفعة فعلاً
+  if (!(await provider.fetchEssayBatch(batchId, [])).ended) {
+    await enqueueJob(db, { type: 'AI_BATCH_COLLECT', payload: { ...payload, polls: polls + 1 }, workspaceId, runAfter: new Date(Date.now() + batchPollDelay(polls + 1)) })
+    return { batchId, ended: false, polls: polls + 1 }
+  }
+  const knownSkills = await loadKnownSkills(db)
+  const ctxs = new Map<string, EssayContext>()
+  for (const ev of pending) ctxs.set(ev.id, await loadEssayContext(db, ev.submissionId!, knownSkills))
+  const status = await provider.fetchEssayBatch(
+    batchId,
+    [...ctxs].map(([customId, c]) => ({ customId, input: c.input }))
+  )
+  let completed = 0
+  let failed = 0
+  let requeued = 0
+  for (const ev of pending) {
+    const outcome = status.outcomes[ev.id]
+    if (outcome?.type === 'succeeded') {
+      await storeEssayEvaluation(db, ev.id, ctxs.get(ev.id)!, outcome.output, provider, { notifyTeacher: false })
+      completed++
+    } else if (outcome?.type === 'failed' && outcome.permanent) {
+      await db.update(aiEvaluations).set({ status: 'FAILED', error: outcome.error.slice(0, 1000) }).where(eq(aiEvaluations.id, ev.id))
+      failed++
+    } else {
+      await enqueueJob(db, { type: 'AI_EVALUATE_SUBMISSION', payload: { evaluationId: ev.id, submissionId: ev.submissionId }, workspaceId })
+      requeued++
+    }
+  }
+  if (completed > 0) {
+    const a = ctxs.get(pending[0]!.id)!.assignment
+    await notify(db, {
+      userId: a.createdByUserId,
+      workspaceId,
+      type: 'SYSTEM',
+      title: `اكتملت دفعة التصحيح لواجب "${a.title}"`,
+      body: `${completed} اقتراحاً جاهزاً بانتظار مراجعتك${failed ? `، و${failed} تعذّر تصحيحه` : ''}.`,
+      link: `/teacher/assignments/${a.id}`
+    })
+  }
+  return { batchId, ended: true, completed, failed, requeued }
 }
 
 /* ------------------------------ Teacher view ------------------------------ */

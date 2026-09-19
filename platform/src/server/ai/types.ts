@@ -88,6 +88,23 @@ export interface AnalyzeStudentOutput {
   raw?: Record<string, unknown>
 }
 
+export interface EssayBatchItem {
+  /** معرّف يعود مع النتيجة (معرّف سجل التقييم) */
+  customId: string
+  input: EvaluateEssayInput
+}
+
+export type EssayBatchOutcome =
+  | { type: 'succeeded'; output: EvaluateEssayOutput }
+  /** permanent: الطلب نفسه مرفوض فلا تُعاد محاولته؛ وإلا فالفشل غير مفوتَر ويمكن إعادته فرادى */
+  | { type: 'failed'; error: string; permanent: boolean }
+
+export interface EssayBatchStatus {
+  ended: boolean
+  /** مفتاحها customId؛ فارغة ما دامت الدفعة قيد المعالجة */
+  outcomes: Record<string, EssayBatchOutcome>
+}
+
 export interface AIProvider {
   readonly name: string
   readonly model: string
@@ -97,4 +114,10 @@ export interface AIProvider {
   generateExercises(input: GenerateExercisesInput): Promise<GenerateExercisesOutput>
   /** تحليل سردي لملف طالب من حقائق حقيقية (لا يخترع أرقاماً) */
   analyzeStudent(input: AnalyzeStudentInput): Promise<AnalyzeStudentOutput>
+  /**
+   * اختياري: تصحيح دفعة كاملة بنصف السعر؛ النتائج تُجلب لاحقاً بالاستطلاع.
+   * المزوّد الذي لا يوفّرها يُعالَج فرادى.
+   */
+  submitEssayBatch?(items: EssayBatchItem[]): Promise<{ batchId: string }>
+  fetchEssayBatch?(batchId: string, items: EssayBatchItem[]): Promise<EssayBatchStatus>
 }
