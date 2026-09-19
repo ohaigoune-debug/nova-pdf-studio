@@ -22,7 +22,38 @@
 
 لا يوجد أي متغيّر بادئته `NEXT_PUBLIC_`؛ لا مفاتيح في المتصفح.
 
-## 0) نشر بضغطة زر على Render (مجاني للتجربة)
+## 0) الإطلاق الحقيقي على نطاقك — الإقلاع الإنتاجي
+
+البيانات التجريبية (`SEED_DEMO=1`) تنشئ حسابات كلمات سرّها **منشورة في README**. لا تستعملها على منصة حقيقية أبداً.
+
+للإطلاق، اضبط هذين المتغيّرين بدلها:
+
+```
+ADMIN_EMAIL=you@madrasadz.com
+ADMIN_PASSWORD=…              # 12 حرفاً على الأقل
+```
+
+عند الإقلاع يُنفَّذ `npm run db:bootstrap` تلقائياً فيُدرج البيانات المرجعية (48 ولاية، المستويات، الشعب، المهارات) وينشئ **أول مشرف عام فقط** — بلا أي بيانات تجريبية. آمن للتكرار: كل نشر لاحق لا يضاعف شيئاً ولا يغيّر كلمة سر المالك.
+
+يدوياً على خادمك:
+
+```sh
+ADMIN_EMAIL=you@madrasadz.com ADMIN_PASSWORD=… npm run db:bootstrap
+```
+
+> بلا `ADMIN_EMAIL` وبلا `SEED_DEMO` تُطبَّق الهجرات فقط — **ولن يوجد حساب تدخل به**.
+
+### متغيّرات النطاق والتطبيق
+
+| المتغيّر | القيمة |
+|---|---|
+| `APP_URL` | `https://madrasadz.com` |
+| `ANDROID_PACKAGE_NAME` | `dz.madrasa.app` |
+| `ANDROID_CERT_FINGERPRINTS` | بصمة SHA-256 من بناء التطبيق (وبصمة Play بعد أول رفع، مفصولتان بفاصلة) |
+
+النطاقان `madrasadz.com` و`madrasa.dz` يجب أن يخدما `/.well-known/assetlinks.json` معاً — انظر `platform/android/README.md`.
+
+## 1) نشر بضغطة زر على Render (مجاني للتجربة)
 
 1. افتح: **https://render.com/deploy?repo=https://github.com/ohaigoune-debug/nova-pdf-studio**
 2. سجّل الدخول بحساب GitHub، ثم **Apply**.
@@ -31,7 +62,7 @@
 
 ملاحظات الخطة المجانية: الخدمة تنام بعد 15 دقيقة خمول (أول طلب يستغرق ~30 ثانية)، والملفات المرفوعة على القرص المؤقت تُمسح عند إعادة النشر (اضبط `STORAGE_DRIVER=s3` للإنتاج)، وقاعدة Postgres المجانية محدودة المدة. للإنتاج ارفع الخطة أو استعمل Docker/VPS أدناه.
 
-## 1) Docker Compose (أسرع طريقة)
+## 2) Docker Compose (أسرع طريقة)
 
 ```bash
 cd platform
@@ -42,9 +73,9 @@ docker compose exec app node -e "console.log('ok')"
 
 - الخدمات: `db` (Postgres 16)، `app` (Next standalone على 3000)، `cron` (يستدعي العامل كل دقيقة).
 - الملفات المرفوعة في volume `uploads` (أو اضبط `STORAGE_DRIVER=s3`).
-- أول مشرف: `npm run db:seed` يزرع بيانات تجريبية؛ في الإنتاج أنشئ المشرف عبر `ensureSuperAdmin` (سكربت `db:seed` بدون `SEED_DEMO`) أو من لوحة المشرف لاحقاً.
+- أول مشرف في الإنتاج: `ADMIN_EMAIL=… ADMIN_PASSWORD=… npm run db:bootstrap` (القسم 0). أما `npm run db:seed` فيزرع بيانات تجريبية دائماً — للتجربة المحلية فقط.
 
-## 2) خادم Node مباشر (VPS)
+## 3) خادم Node مباشر (VPS)
 
 ```bash
 cd platform && npm ci
@@ -55,7 +86,7 @@ npm run jobs:worker                            # اختياري: عامل مست
 
 ضع Nginx/Caddy أمامه مع TLS؛ التطبيق يرسل `Strict-Transport-Security` و`Content-Security-Policy` بـ nonce ويحتاج `X-Forwarded-For` من الوكيل للحدّ من المحاولات لكل IP.
 
-## 3) Vercel / منصّات Serverless
+## 4) Vercel / منصّات Serverless
 
 - اربط المستودع، جذر المشروع `platform/`، وأضف المتغيّرات.
 - استعمل Postgres مُدار (Neon/Supabase) و`STORAGE_DRIVER=s3` (لا قرص دائم).
@@ -77,7 +108,10 @@ DATABASE_URL=postgres://… npm run db:rls
 
 ## قائمة ما قبل الإطلاق
 
+- [ ] **`SEED_DEMO` غير مضبوط** — ولا وجود لأي حساب من `DEMO_ACCOUNTS` في قاعدة الإنتاج
+- [ ] `ADMIN_EMAIL` + `ADMIN_PASSWORD` مضبوطان، والدخول بهما مُجرَّب
 - [ ] أسرار قوية وفريدة، `NODE_ENV=production`
+- [ ] `APP_URL=https://madrasadz.com`
 - [ ] TLS + وكيل يمرّر `X-Forwarded-For`
 - [ ] `AUTO_MIGRATE=1` أو هجرات مطبّقة
 - [ ] بريد حقيقي (`MAIL_PROVIDER`) لإعادة تعيين كلمة السر
@@ -85,6 +119,7 @@ DATABASE_URL=postgres://… npm run db:rls
 - [ ] Cron أو عامل مستقل للمهام
 - [ ] RLS مفعّلة على Postgres
 - [ ] نسخ احتياطي مجدول
+- [ ] `/.well-known/assetlinks.json` يعيد JSON لا 404 (لتطبيق أندرويد)
 
 
 ## الفيديوهات والملفات الكبيرة على الاستضافة

@@ -1,5 +1,9 @@
 # Render Blueprint — نشر بضغطة زر (Web Service + PostgreSQL)
 # https://render.com/deploy?repo=https://github.com/ohaigoune-debug/nova-pdf-studio
+#
+# هذا الملف للتجربة: SEED_DEMO=1 يزرع حسابات كلمات سرّها منشورة في README.
+# للإطلاق الحقيقي على نطاقك: احذف SEED_DEMO وأضف ADMIN_EMAIL و ADMIN_PASSWORD
+# (سرّيتين من لوحة Render لا من هذا الملف) — انظر platform/docs/DEPLOYMENT.md
 services:
   - type: web
     name: madrasa
@@ -43,6 +47,11 @@ services:
         value: /tmp/uploads
       - key: JOBS_INLINE_WORKER
         value: '1'
+      # تطبيق أندرويد: البصمة تُضاف يدوياً بعد أول بناء موقّع
+      - key: ANDROID_PACKAGE_NAME
+        value: dz.madrasa.app
+      - key: ANDROID_CERT_FINGERPRINTS
+        sync: false
 
 databases:
   - name: madrasa-db
