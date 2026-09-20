@@ -59,7 +59,7 @@ export default async function TeacherAssignmentDetailPage({ params }: { params: 
           </>
         }
       />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('assignments.student')} value={d.eligible} hint={[...d.targets.groups.map((g) => g.name), ...d.targets.students.map((s) => s.fullName)].join('، ')} />
         <StatCard label={t('assignments.submitted')} value={submitted} tone="success" />
         <StatCard label={t('assignments.pendingReview')} value={pending} tone={pending > 0 ? 'warning' : 'default'} />

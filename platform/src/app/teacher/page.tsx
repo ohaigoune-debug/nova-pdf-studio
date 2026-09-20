@@ -6,30 +6,17 @@ import { EnrollmentStatusBadge, SessionStatusBadge } from '@/components/domain/s
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, EmptyState, StatCard } from '@/components/ui/misc'
-import { t } from '@/i18n'
+import { getDictionary, t } from '@/i18n'
 import { formatClock, formatDateTime, formatTime, percent } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { teacherDashboard } from '@/server/queries/teacher-dashboard.queries'
 import { listGroups } from '@/server/services/groups.service'
 
-const actionLabels: Record<string, string> = {
-  'session.start': 'بدأ حصة',
-  'session.close': 'أنهى حصة',
-  'session.cancel': 'ألغى حصة',
-  'group.create': 'أنشأ فوجاً',
-  'group.update': 'عدّل فوجاً',
-  'group.archive': 'أرشف فوجاً',
-  'codes.generate': 'ولّد أكواداً',
-  'codes.disable': 'عطّل كوداً',
-  'codes.cancel_batch': 'ألغى دفعة أكواد',
-  'attendance.excuse': 'برّر غياباً',
-  'attendance.manual': 'عدّل حضوراً',
-  'enrollment.redeem_code': 'انضم طالب بكود',
-  'enrollment.suspend_absence': 'تعليق تلقائي بسبب الغياب',
-  'enrollment.reactivate': 'أعاد تفعيل طالب',
-  'enrollment.status': 'غيّر حالة تسجيل',
-  'teacher.create': 'إنشاء حساب أستاذ'
+/** اسم الحدث بالعربية؛ حدث جديد بلا ترجمة يظهر بمفتاحه بدل أن يختفي */
+function actionLabel(action: string): string {
+  const labels = getDictionary().activity as Record<string, string | undefined>
+  return labels[action.replace(/\./g, '_')] ?? action
 }
 
 export default async function TeacherHomePage() {
@@ -74,7 +61,7 @@ export default async function TeacherHomePage() {
         </Alert>
       ))}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('dashboard.groupsCount')} value={d.groupsCount} icon={UsersRound} />
         <StatCard label={t('dashboard.studentsCount')} value={d.studentsCount} hint={d.suspendedCount ? `${d.suspendedCount} معلّق` : undefined} icon={Users} />
         <StatCard label={t('dashboard.attendanceToday')} value={d.attendanceToday} hint={`${t('dashboard.attendanceRate')} (7 أيام): ${percent(d.weeklyAttendanceRate)}`} icon={CalendarCheck} tone="success" />
@@ -206,7 +193,7 @@ export default async function TeacherHomePage() {
                 {d.recentActivity.map((a) => (
                   <li key={a.id} className="flex items-start justify-between gap-2 text-sm">
                     <span>
-                      <span className="font-semibold">{a.actorName ?? '—'}</span> {actionLabels[a.action] ?? a.action}
+                      <span className="font-semibold">{a.actorName ?? '—'}</span> {actionLabel(a.action)}
                     </span>
                     <span className="shrink-0 text-[11px] text-muted-foreground tabular">{formatDateTime(a.createdAt)}</span>
                   </li>

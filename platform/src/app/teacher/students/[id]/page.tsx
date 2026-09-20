@@ -86,7 +86,7 @@ export default async function TeacherStudentProfilePage({ params }: { params: Pr
           </Alert>
         ))}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('dashboard.attendanceRate')} value={percent(p.attendance.rate)} icon={CalendarCheck} tone="success" />
         <StatCard label={t('attendanceStatus.LATE')} value={p.attendance.late} icon={Clock} tone="warning" />
         <StatCard label={t('attendanceStatus.EXCUSED')} value={p.attendance.excused} icon={CheckCircle2} />

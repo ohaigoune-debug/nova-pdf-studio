@@ -51,7 +51,7 @@ export default async function StudentHomePage() {
         </Alert>
       ))}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('dashboard.attendanceRate')} value={percent(home.attendance.rate)} icon={CalendarCheck} tone={home.attendance.rate !== null && home.attendance.rate < 70 ? 'warning' : 'success'} />
         <StatCard label={t('attendanceStatus.UNEXCUSED')} value={home.unexcusedTotal} icon={CalendarX} tone={home.unexcusedTotal >= 3 ? 'destructive' : 'default'} />
         <StatCard label={t('nav.myGroups')} value={home.groups.length} icon={UsersRound} />

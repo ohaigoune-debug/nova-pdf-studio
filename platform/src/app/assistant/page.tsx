@@ -59,7 +59,7 @@ export default async function AssistantHomePage({ searchParams }: { searchParams
         </Alert>
       ))}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('dashboard.studentsCount')} value={d.studentsCount} hint={d.suspendedCount ? `${d.suspendedCount} ${t('groups.suspended')}` : undefined} icon={Users} />
         <StatCard label={t('dashboard.attendanceToday')} value={d.attendanceToday} hint={`${t('dashboard.attendanceRate')} (7 أيام): ${percent(d.weeklyAttendanceRate)}`} icon={CalendarCheck} tone="success" />
         <StatCard label={t('dashboard.absencesToday')} value={d.absencesToday} icon={CalendarX} tone={d.absencesToday > 0 ? 'warning' : 'default'} />

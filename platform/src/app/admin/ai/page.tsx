@@ -16,7 +16,7 @@ export default async function AdminAiPage() {
   return (
     <>
       <PageHeader title={t('admin.aiTitle')} />
-      <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('ai.provider')} value={<span dir="ltr">{s.provider.name}</span>} hint={s.provider.configured ? `${t('ai.model')}: ${s.provider.model}` : 'وضع تجريبي (بلا مفتاح) — اضبط AI_PROVIDER و AI_API_KEY في البيئة'} icon={Cpu} />
         <StatCard label={t('ai.evaluationsTitle')} value={(s.evaluations.COMPLETED ?? 0) + (s.evaluations.PENDING ?? 0) + (s.evaluations.FAILED ?? 0)} hint={`${s.evaluations.PENDING ?? 0} قيد المعالجة`} icon={Bot} />
         <StatCard label={t('ai.decisionsTitle')} value={(s.decisions.APPROVED ?? 0) + (s.decisions.EDITED ?? 0) + (s.decisions.REJECTED ?? 0)} hint={`${t('ai.decisionApproved')} ${s.decisions.APPROVED ?? 0} · ${t('ai.decisionEdited')} ${s.decisions.EDITED ?? 0} · ${t('ai.decisionRejected')} ${s.decisions.REJECTED ?? 0}`} icon={ListChecks} tone="success" />

@@ -14,7 +14,7 @@ export default async function AdminSecurityPage() {
     <>
       <PageHeader title={t('admin.securityTitle')} />
       <PhaseNote phase={8} />
-      <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label="جلسات نشطة" value={s.activeSessions} icon={KeyRound} />
         <StatCard label="عمليات دخول (24 س)" value={s.logins24h} icon={LogIn} />
         <StatCard label="حسابات معطّلة" value={s.disabledUsers} icon={UserX} />

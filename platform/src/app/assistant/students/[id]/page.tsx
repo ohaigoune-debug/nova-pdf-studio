@@ -39,7 +39,7 @@ export default async function AssistantStudentPage({ params }: { params: Promise
           {p.enrollments.find((e) => e.status === 'SUSPENDED_DUE_TO_ABSENCE')?.suspensionReason}
         </Alert>
       ) : null}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('sessions.present')} value={a.present} icon={CheckCircle2} tone="success" />
         <StatCard label={t('sessions.late')} value={a.late} icon={Clock} tone="warning" />
         <StatCard label={t('sessions.excused')} value={a.excused} icon={CalendarCheck} />

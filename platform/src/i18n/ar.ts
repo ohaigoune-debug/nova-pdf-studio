@@ -941,6 +941,59 @@ const ar = {
     inlineWorker: 'العامل الداخلي',
     on: 'مفعّل',
     off: 'معطّل'
+  },
+  /**
+   * أسماء أحداث السجلّ كما تُقرأ في "النشاط الأخير" — تأتي بعد اسم الفاعل:
+   * «حيقون أسامة أنشأ واجباً». المفاتيح بشرطة سفلية لأن النقطة تفصل مسارات الترجمة.
+   * صفحات المشرف تعرض المفتاح الخام عمداً: سجلّ التدقيق يحتاج الدقة لا الصياغة.
+   */
+  activity: {
+    session_start: 'بدأ حصة',
+    session_close: 'أنهى حصة',
+    session_cancel: 'ألغى حصة',
+    group_create: 'أنشأ فوجاً',
+    group_update: 'عدّل فوجاً',
+    group_archive: 'أرشف فوجاً',
+    codes_generate: 'ولّد أكواداً',
+    codes_disable: 'عطّل كوداً',
+    codes_cancel_batch: 'ألغى دفعة أكواد',
+    attendance_excuse: 'برّر غياباً',
+    attendance_manual: 'عدّل حضوراً',
+    enrollment_redeem_code: 'انضم طالب بكود',
+    enrollment_suspend_absence: 'تعليق تلقائي بسبب الغياب',
+    enrollment_reactivate: 'أعاد تفعيل طالب',
+    enrollment_status: 'غيّر حالة تسجيل',
+    teacher_create: 'أنشأ حساب أستاذ',
+    user_status: 'غيّر حالة مستخدم',
+    assignment_create: 'أنشأ واجباً',
+    assignment_update: 'عدّل واجباً',
+    assignment_delete: 'حذف واجباً',
+    submission_submit: 'أرسل إجابة',
+    grade_set: 'سجّل علامة',
+    rubric_create: 'أنشأ شبكة تقييم',
+    rubric_update: 'عدّل شبكة تقييم',
+    rubric_delete: 'حذف شبكة تقييم',
+    quiz_create: 'أنشأ اختباراً',
+    quiz_update: 'عدّل اختباراً',
+    quiz_delete: 'حذف اختباراً',
+    quiz_submit: 'أرسل محاولة اختبار',
+    quiz_review: 'صحّح محاولة اختبار',
+    content_create: 'أضاف محتوى',
+    content_update: 'عدّل محتوى',
+    content_delete: 'حذف محتوى',
+    file_upload: 'رفع ملفاً',
+    file_delete: 'حذف ملفاً',
+    report_request: 'طلب تقريراً',
+    assistant_code_create: 'ولّد كود مساعد',
+    assistant_code_disable: 'عطّل كود مساعد',
+    assistant_join: 'انضم مساعد أستاذ',
+    assistant_revoke: 'أوقف مساعداً',
+    ai_evaluate_request: 'طلب اقتراح تصحيح',
+    ai_evaluate_request_all: 'طلب تصحيح الواجب كاملاً',
+    ai_evaluate_decide: 'قرّر في اقتراح تصحيح',
+    ai_evaluate_apply_all: 'اعتمد اقتراحات التصحيح دفعةً',
+    ai_exercises_request: 'طلب تمارين علاجية',
+    settings_ai: 'غيّر إعدادات الذكاء الاصطناعي'
   }
 } as const
 

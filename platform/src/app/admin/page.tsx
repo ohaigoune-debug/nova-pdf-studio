@@ -25,7 +25,7 @@ export default async function AdminHomePage() {
           </Button>
         }
       />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('dashboard.usersCount')} value={s.users} icon={Users} />
         <StatCard label={t('dashboard.studentsCount')} value={s.students} icon={GraduationCap} />
         <StatCard label={t('dashboard.teachersCount')} value={s.teachers} icon={UsersRound} />

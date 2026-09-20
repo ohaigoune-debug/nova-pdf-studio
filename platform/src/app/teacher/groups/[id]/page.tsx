@@ -78,7 +78,7 @@ export default async function GroupDetailPage({ params }: { params: Promise<{ id
         </Alert>
       ) : null}
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('groups.enrolled')} value={dash.enrolled} hint={g.capacity ? `${t('common.capacity')}: ${g.capacity}` : undefined} icon={UsersRound} />
         <StatCard label={t('groups.active')} value={dash.active} hint={dash.suspended ? `${dash.suspended} ${t('groups.suspended')}` : undefined} icon={Users} tone={dash.suspended ? 'warning' : 'success'} />
         <StatCard label={t('groups.attendanceRate')} value={percent(dash.attendanceRate)} hint={`${dash.presentTotal} حاضر · ${dash.lateTotal} متأخر · ${dash.absentTotal} غائب`} icon={CalendarCheck} />

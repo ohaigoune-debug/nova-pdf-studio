@@ -45,7 +45,7 @@ export default async function TeacherQuizDetailPage({ params }: { params: Promis
           </>
         }
       />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('quizzes.questions')} value={q.questions.length} hint={`/${Number(q.maxScore)}`} />
         <StatCard label={t('assignments.student')} value={q.isPublic ? 'عام' : q.eligible} />
         <StatCard label={t('quizzes.attempts')} value={q.attempts.filter((a) => a.status !== 'IN_PROGRESS').length} tone="success" />

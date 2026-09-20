@@ -23,7 +23,7 @@ export default async function StudentAttendancePage() {
           </Button>
         }
       />
-      <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('dashboard.attendanceRate')} value={percent(s.rate)} icon={CalendarCheck} tone="success" />
         <StatCard label={t('attendanceStatus.LATE')} value={s.late} icon={Clock} tone="warning" />
         <StatCard label={t('attendanceStatus.EXCUSED')} value={s.excused} icon={CheckCircle2} />
