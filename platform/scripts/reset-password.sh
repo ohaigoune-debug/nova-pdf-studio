@@ -27,9 +27,12 @@ else
   SHOW=0
 fi
 
-# الصورة ذات الشيفرة المصدرية (target: build) هي وحدها التي تشغّل tsx
+# الصورة ذات الشيفرة المصدرية (target: build) هي وحدها التي تشغّل tsx.
+# شيفرتها مأخوذة وقت البناء، فتُمرَّر شيفرة القرص للقراءة: أداة أُضيفت بعد آخر
+# نشر تعمل فوراً بلا إعادة بناء تأخذ دقائق على خادم يعمل.
 RESET_EMAIL="$EMAIL" RESET_PASSWORD="$P1" docker compose -f docker-compose.prod.yml run --rm \
   -e RESET_EMAIL -e RESET_PASSWORD \
+  -v "$PWD/src:/app/src:ro" \
   bootstrap npx tsx src/server/db/reset-password.ts
 
 if [ "$SHOW" = 1 ]; then
