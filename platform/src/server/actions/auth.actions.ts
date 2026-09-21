@@ -9,7 +9,7 @@ import type { UserRole } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { sha256 } from '@/server/lib/codes'
 import { RATE_LIMITS, checkRateLimit, resetRateLimit } from '@/server/lib/rate-limit'
-import { login, logout, registerStudent, requestPasswordReset, resetPassword } from '@/server/services/auth.service'
+import { changePassword, login, logout, registerStudent, requestPasswordReset, resetPassword } from '@/server/services/auth.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 
 const loginSchema = z.object({
@@ -123,6 +123,27 @@ export async function resetPasswordAction(_prev: ActionResult | null, formData: 
   const db = await getDb()
   const result = await runAction(async () => {
     await resetPassword(db, parsed.data.token, parsed.data.password)
+    return undefined
+  })
+  if (!result.ok) return result
+  await clearSessionCookie()
+  redirect('/login?reset=1')
+}
+
+const changeSchema = z
+  .object({ current: z.string().min(1, 'أدخل كلمة السر الحالية'), password: z.string().min(8, 'كلمة السر 8 أحرف على الأقل'), confirm: z.string() })
+  .refine((d) => d.password === d.confirm, { path: ['confirm'], message: 'كلمتا السر غير متطابقتين' })
+
+/** تغيير كلمة السر من داخل الحساب — لمن يعرف كلمته الحالية ولا ينتظر بريداً */
+export async function changePasswordAction(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const parsed = changeSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) return failValidation(parsed.error)
+  const db = await getDb()
+  const result = await runAction(async () => {
+    const actor = await requireActor()
+    // نفس حدّ محاولات الدخول: الحقل يقبل كلمة السر الحالية، فلا يُترك للتخمين
+    await checkRateLimit(db, { scope: 'password-change', subject: actor.userId, ...RATE_LIMITS.loginEmail })
+    await changePassword(db, actor.userId, parsed.data.current, parsed.data.password)
     return undefined
   })
   if (!result.ok) return result

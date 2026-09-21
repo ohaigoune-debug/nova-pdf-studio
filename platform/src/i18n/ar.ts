@@ -203,7 +203,12 @@ const ar = {
     passwordMismatch: 'كلمتا السر غير متطابقتين',
     resetButton: 'حفظ كلمة السر',
     resetDone: 'تم تغيير كلمة السر. سجّل الدخول الآن.',
-    backToLogin: 'العودة إلى تسجيل الدخول'
+    backToLogin: 'العودة إلى تسجيل الدخول',
+    changeTitle: 'تغيير كلمة السر',
+    changeSubtitle: 'اختر كلمة سر جديدة. ستُنهى كل جلساتك — بما فيها هذه — فادخل من جديد بالكلمة الجديدة.',
+    currentPassword: 'كلمة السر الحالية',
+    changeButton: 'تغيير كلمة السر',
+    changeDone: 'تم تغيير كلمة السر.'
   },
   assistant: {
     title: 'مساعدو الأستاذ',

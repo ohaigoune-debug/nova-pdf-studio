@@ -131,12 +131,17 @@ export async function resetPassword(db: Db, token: string, newPassword: string, 
   return { userId: row.userId }
 }
 
+/** يغيّر كلمة السر ويُنهي كل الجلسات: من سرق كلمة السر القديمة لا تبقى له جلسة مفتوحة */
 export async function changePassword(db: Db, userId: string, current: string, next: string): Promise<void> {
   if (!isStrongEnough(next)) throw new AppError('WEAK_PASSWORD')
   const rows = await db.select({ passwordHash: users.passwordHash }).from(users).where(eq(users.id, userId)).limit(1)
   const row = rows[0]
   if (!row || !verifyPassword(current, row.passwordHash)) throw new AppError('INVALID_CREDENTIALS')
-  await db.update(users).set({ passwordHash: hashPassword(next) }).where(eq(users.id, userId))
+  await db.transaction(async (tx) => {
+    await tx.update(users).set({ passwordHash: hashPassword(next) }).where(eq(users.id, userId))
+    await revokeAllSessions(tx, userId)
+    await writeActivity(tx, { userId, event: 'auth.password.change' })
+  })
 }
 
 const DUMMY_HASH = hashPassword('dummy-password-for-timing')

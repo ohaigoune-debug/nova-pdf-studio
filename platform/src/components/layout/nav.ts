@@ -95,7 +95,13 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/assistant/students', label: t('nav.students'), iconKey: 'Users' }
           ]
         },
-        { title: 'الحساب', items: [{ href: '/assistant/notifications', label: t('common.notifications'), iconKey: 'BellRing' }] }
+        {
+          title: 'الحساب',
+          items: [
+            { href: '/assistant/notifications', label: t('common.notifications'), iconKey: 'BellRing' },
+            { href: '/assistant/settings', label: t('nav.settings'), iconKey: 'Settings' }
+          ]
+        }
       ]
     case 'SUPER_ADMIN':
       return [

@@ -3,12 +3,13 @@ import { DevicesList } from '@/components/domain/devices-list'
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, PageHeader } from '@/components/ui/misc'
 import { t, tEnum } from '@/i18n'
-import { listUserSessions } from '@/server/auth/session'
 import { requirePageActor } from '@/server/auth/current-user'
+import { listUserSessions } from '@/server/auth/session'
 import { getDb } from '@/server/db/client'
 
-export default async function TeacherSettingsPage() {
-  const actor = await requirePageActor('TEACHER')
+/** المساعد يتسلّم كلمة سره من الأستاذ، فأوّل ما يحتاجه تغييرها */
+export default async function AssistantSettingsPage() {
+  const actor = await requirePageActor('ASSISTANT')
   const devices = await listUserSessions(await getDb(), actor.userId)
   return (
     <>

@@ -1,3 +1,4 @@
+import { ChangePasswordCard } from '@/components/domain/change-password-card'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/misc'
 import { t } from '@/i18n'
@@ -23,6 +24,9 @@ export default async function AdminSettingsPage() {
   return (
     <>
       <PageHeader title={t('admin.settingsTitle')} />
+      <div className="mb-6 max-w-xl">
+        <ChangePasswordCard />
+      </div>
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
