@@ -13,7 +13,9 @@
 | `DATABASE_URL` | `postgres://…` للإنتاج أو `pglite://./data/pglite` محلياً |
 | `AUTO_MIGRATE=1` | تطبيق الهجرات من `drizzle/` عند الإقلاع (أو `npm run db:migrate` يدوياً) |
 | `APP_URL` | عنوان الموقع العام (روابط البريد وإعادة التعيين) |
-| `AI_PROVIDER`, `AI_API_KEY`, `AI_MODEL` | `mock` افتراضياً؛ `anthropic` مع مفتاح لمزوّد حقيقي |
+| `AI_PROVIDER`, `AI_API_KEY`, `AI_MODEL` | `mock` افتراضياً؛ `anthropic` أو `openai` مع مفتاح لمزوّد حقيقي |
+| `AI_BASE_URL` | `openai` فقط: خادم متوافق بدل `api.openai.com` |
+| `YOUTUBE_API_KEY` | اختياري: استيراد قوائم التشغيل كاملة؛ بدونه آخر ١٥ فيديو من كل قائمة |
 | `MAIL_PROVIDER`, `MAIL_API_KEY`, `MAIL_FROM` | `console` افتراضياً؛ `resend` أو `webhook` (`MAIL_WEBHOOK_URL`) للإنتاج |
 | `STORAGE_DRIVER` | `local` (مجلد `UPLOADS_DIR`) أو `s3` مع `S3_BUCKET/S3_REGION/S3_ENDPOINT/S3_ACCESS_KEY_ID/S3_SECRET_ACCESS_KEY` (متوافق مع R2/MinIO/Supabase) |
 | `JOBS_INLINE_WORKER` | `1` افتراضياً: العامل داخل عملية الخادم؛ `0` للاعتماد على Cron/العامل المستقل فقط |

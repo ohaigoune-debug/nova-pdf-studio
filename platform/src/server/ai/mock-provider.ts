@@ -1,5 +1,5 @@
 import { normalizeArabic } from '@/server/lib/arabic'
-import type { AIProvider, AnalyzeStudentInput, AnalyzeStudentOutput, EvaluateEssayInput, EvaluateEssayOutput, GenerateExercisesInput, GenerateExercisesOutput, GeneratedQuestion, TeacherInsightsInput, TeacherInsightsOutput } from './types'
+import type { AIProvider, AnalyzeStudentInput, AnalyzeStudentOutput, EvaluateEssayInput, EvaluateEssayOutput, GenerateExercisesInput, GenerateExercisesOutput, GeneratedQuestion, OrganizeLessonsInput, OrganizeLessonsOutput, TeacherInsightsInput, TeacherInsightsOutput } from './types'
 
 /**
  * مزوّد تجريبي حتمي (بلا شبكة): يقيس ملامح شكلية في النص العربي فقط.
@@ -17,6 +17,19 @@ function countHits(text: string, words: string[]): number {
 
 function round2(n: number): number {
   return Math.round(n * 100) / 100
+}
+
+/** تنظيف حتمي لعنوان يوتيوب: ترقيم الحلقات، اسم القناة بعد | أو -، والوسوم */
+function cleanTitle(raw: string): string {
+  const cut = raw.split(/\s+[|｜]\s+/)[0] ?? raw
+  return (
+    cut
+      .replace(/#\S+/g, '')
+      .replace(/^\s*(?:الحلقة|الدرس|المحاضرة|الجزء|حصة)\s*[:\-–]?\s*\d+\s*[:\-–]?\s*/u, '')
+      .replace(/^\s*\d{1,3}\s*[)\-–.:]\s*/u, '')
+      .replace(/\s{2,}/g, ' ')
+      .trim() || raw.trim()
+  )
 }
 
 
@@ -190,6 +203,14 @@ export function createMockProvider(): AIProvider {
         ? `ملخص أولي (مزوّد تجريبي) للطالب ${input.studentName}: ${strengths.length} نقاط قوة و${weaknesses.length} نقاط تحتاج متابعة من ${f.length} معطيات مسجّلة.`
         : `لا توجد بيانات كافية بعد عن الطالب ${input.studentName}.`
       return { summary, strengths, weaknesses, recommendations, raw: { facts: f.length } }
+    },
+
+    /** بلا نموذج: ترتيب القائمة كما هو وعنوان منظّف، ولا يُخترع ملخّص */
+    async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {
+      return {
+        lessons: input.items.map((i, n) => ({ youtubeId: i.youtubeId, title: cleanTitle(i.title), summary: '', topic: null, order: n + 1 })),
+        raw: { count: input.items.length }
+      }
     }
   }
 }

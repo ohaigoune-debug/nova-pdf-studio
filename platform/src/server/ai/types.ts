@@ -88,6 +88,37 @@ export interface AnalyzeStudentOutput {
   raw?: Record<string, unknown>
 }
 
+export interface OrganizePlaylistItem {
+  youtubeId: string
+  /** العنوان كما هو على يوتيوب */
+  title: string
+  description: string | null
+}
+
+export interface OrganizeLessonsInput {
+  playlistTitle: string | null
+  levelName: string | null
+  streamName: string | null
+  items: OrganizePlaylistItem[]
+}
+
+export interface OrganizedLesson {
+  youtubeId: string
+  /** عنوان عربي نظيف بلا زخارف ولا اسم القناة */
+  title: string
+  /** سطران يصفان ما يتعلّمه الطالب */
+  summary: string
+  /** المحور/الوحدة */
+  topic: string | null
+  /** ترتيب بيداغوجي مقترح يبدأ من 1 */
+  order: number
+}
+
+export interface OrganizeLessonsOutput {
+  lessons: OrganizedLesson[]
+  raw?: Record<string, unknown>
+}
+
 export interface EssayBatchItem {
   /** معرّف يعود مع النتيجة (معرّف سجل التقييم) */
   customId: string
@@ -114,6 +145,11 @@ export interface AIProvider {
   generateExercises(input: GenerateExercisesInput): Promise<GenerateExercisesOutput>
   /** تحليل سردي لملف طالب من حقائق حقيقية (لا يخترع أرقاماً) */
   analyzeStudent(input: AnalyzeStudentInput): Promise<AnalyzeStudentOutput>
+  /**
+   * تنظيم قائمة تشغيل يوتيوب دروساً: عنوان عربي وملخّص ومحور وترتيب بيداغوجي.
+   * المزوّد الذي لا يوفّرها ⇒ يُستورد كما هو بترتيب القائمة.
+   */
+  organizeLessons?(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput>
   /**
    * اختياري: تصحيح دفعة كاملة بنصف السعر؛ النتائج تُجلب لاحقاً بالاستطلاع.
    * المزوّد الذي لا يوفّرها يُعالَج فرادى.

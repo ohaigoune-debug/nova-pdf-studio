@@ -9,6 +9,7 @@ import { CONTENT_TYPES, VISIBILITIES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { createContent, deleteContent, updateContent } from '@/server/services/content.service'
 import { deleteFile, uploadFile } from '@/server/services/files.service'
+import { importPlaylist, type ImportPlaylistResult } from '@/server/services/youtube-import.service'
 
 const optionalUuid = z.string().uuid().optional().or(z.literal('')).transform((v) => (v ? v : null))
 
@@ -61,6 +62,26 @@ export async function createContentAction(_prev: ActionResult<{ id: string }> | 
   if (!result.ok) return result
   revalidatePath('/teacher/content')
   redirect('/teacher/content')
+}
+
+const importSchema = z.object({
+  url: z.string().trim().min(5, 'الصق رابط قائمة التشغيل'),
+  levelId: optionalUuid,
+  streamId: optionalUuid,
+  visibility: z.enum(VISIBILITIES),
+  publish: z.string().optional().transform((v) => v === 'on' || v === 'true'),
+  organize: z.string().optional().transform((v) => v === 'on' || v === 'true')
+})
+
+export async function importPlaylistAction(_prev: ActionResult<ImportPlaylistResult> | null, fd: FormData): Promise<ActionResult<ImportPlaylistResult>> {
+  const parsed = importSchema.safeParse(Object.fromEntries(fd))
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    return importPlaylist(await getDb(), actor, { ...parsed.data, groupIds: targets(fd).groupIds })
+  })
+  if (result.ok) revalidatePath('/teacher/content')
+  return result
 }
 
 export async function updateContentAction(id: string, _prev: ActionResult | null, fd: FormData): Promise<ActionResult> {

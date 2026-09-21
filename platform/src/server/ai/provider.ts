@@ -1,16 +1,17 @@
 import { createAnthropicProvider } from './anthropic-provider'
 import { createMockProvider } from './mock-provider'
+import { createOpenAiProvider } from './openai-provider'
 import type { AIProvider } from './types'
 
-export type { AIProvider, AnalyzeStudentInput, AnalyzeStudentOutput, EvaluateEssayInput, EvaluateEssayOutput, GenerateExercisesInput, GenerateExercisesOutput, GeneratedQuestion, TeacherInsightsInput, TeacherInsightsOutput } from './types'
+export type { AIProvider, AnalyzeStudentInput, AnalyzeStudentOutput, EvaluateEssayInput, EvaluateEssayOutput, GenerateExercisesInput, GenerateExercisesOutput, GeneratedQuestion, OrganizeLessonsInput, OrganizeLessonsOutput, OrganizedLesson, TeacherInsightsInput, TeacherInsightsOutput } from './types'
 
 let override: AIProvider | null = null
 let cached: AIProvider | null = null
 
 /**
  * يختار المزوّد من البيئة فقط:
- *   AI_PROVIDER=mock (افتراضي) | anthropic
- *   AI_API_KEY=…  AI_MODEL=…
+ *   AI_PROVIDER=mock (افتراضي) | anthropic | openai
+ *   AI_API_KEY=…  AI_MODEL=…  AI_BASE_URL=… (openai فقط: خادم متوافق)
  * إن اختير مزوّد حقيقي بلا مفتاح يُرجَع المزوّد التجريبي مع تحذير في السجل (لا يتعطّل التطبيق).
  */
 export function getAiProvider(): AIProvider {
@@ -18,14 +19,16 @@ export function getAiProvider(): AIProvider {
   if (cached) return cached
   const name = (process.env.AI_PROVIDER ?? 'mock').toLowerCase()
   const apiKey = process.env.AI_API_KEY
-  if (name === 'anthropic') {
-    if (apiKey) cached = createAnthropicProvider({ apiKey, model: process.env.AI_MODEL || undefined })
-    else {
-      console.warn('[ai] AI_PROVIDER=anthropic بلا AI_API_KEY — سيُستعمل المزوّد التجريبي')
-      cached = createMockProvider()
-    }
-  } else {
+  const model = process.env.AI_MODEL || undefined
+  if (name !== 'anthropic' && name !== 'openai') {
     cached = createMockProvider()
+  } else if (!apiKey) {
+    console.warn(`[ai] AI_PROVIDER=${name} بلا AI_API_KEY — سيُستعمل المزوّد التجريبي`)
+    cached = createMockProvider()
+  } else if (name === 'anthropic') {
+    cached = createAnthropicProvider({ apiKey, model })
+  } else {
+    cached = createOpenAiProvider({ apiKey, model, baseUrl: process.env.AI_BASE_URL || undefined })
   }
   return cached
 }

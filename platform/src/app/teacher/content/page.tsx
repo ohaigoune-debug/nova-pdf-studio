@@ -1,4 +1,4 @@
-import { BookOpen, Eye, Plus } from 'lucide-react'
+import { BookOpen, Eye, ListVideo, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { ContentRowActions } from '@/components/domain/content-row-actions'
 import { Badge } from '@/components/ui/badge'
@@ -29,11 +29,18 @@ export default async function TeacherContentPage() {
       <PageHeader
         title={t('contentMgmt.title')}
         actions={
-          <Button asChild>
-            <Link href="/teacher/content/new">
-              <Plus className="size-4" /> {t('contentMgmt.new')}
-            </Link>
-          </Button>
+          <>
+            <Button asChild variant="outline">
+              <Link href="/teacher/content/import">
+                <ListVideo className="size-4" /> {t('contentMgmt.importAction')}
+              </Link>
+            </Button>
+            <Button asChild>
+              <Link href="/teacher/content/new">
+                <Plus className="size-4" /> {t('contentMgmt.new')}
+              </Link>
+            </Button>
+          </>
         }
       />
       {items.length === 0 ? (

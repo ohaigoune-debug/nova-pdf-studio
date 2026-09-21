@@ -52,6 +52,8 @@ services:
       AI_PROVIDER: ${AI_PROVIDER:-mock}
       AI_API_KEY: ${AI_API_KEY:-}
       AI_MODEL: ${AI_MODEL:-}
+      AI_BASE_URL: ${AI_BASE_URL:-}
+      YOUTUBE_API_KEY: ${YOUTUBE_API_KEY:-}
       MAIL_PROVIDER: ${MAIL_PROVIDER:-console}
       MAIL_API_KEY: ${MAIL_API_KEY:-}
       MAIL_FROM: ${MAIL_FROM:-}
