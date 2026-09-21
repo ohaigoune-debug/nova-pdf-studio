@@ -39,7 +39,10 @@ else
   if [ -z "${ADMIN_EMAIL:-}" ]; then read -rp "بريد المشرف: " ADMIN_EMAIL; fi
   [ -n "${ADMIN_EMAIL:-}" ] || die "بريد المشرف مطلوب"
   if [ -z "${ADMIN_PASSWORD:-}" ]; then
+    # مرّتان: كلمة سر مكتوبة مخفيّة وبخطأ مطبعي تُقفل الحساب الوحيد على المنصة
     read -rsp "كلمة سر المشرف (12 حرفاً فأكثر): " ADMIN_PASSWORD; echo
+    read -rsp "أعد كتابتها: " ADMIN_PASSWORD2; echo
+    [ "$ADMIN_PASSWORD" = "$ADMIN_PASSWORD2" ] || die "الكلمتان غير متطابقتين"
   fi
   [ "${#ADMIN_PASSWORD}" -ge 12 ] || die "كلمة السر أقصر من 12 حرفاً"
 
