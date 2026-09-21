@@ -1,0 +1,16 @@
+# للخوادم التي يعمل عليها Caddy (أو أي وكيل) داخل Docker ويحتجز 80/443 لمواقع أخرى.
+# يضمّ حاوية التطبيق إلى شبكة ذلك الوكيل، فيصل إليها باسمها دون فتح أي منفذ على الخادم.
+#
+#   docker compose -f docker-compose.prod.yml -f docker-compose.edge.yml \
+#     up -d --build --scale caddy=0
+#
+# ثم في Caddyfile الوكيل:  reverse_proxy platform-app-1:3000
+# (انظر deploy/madrasadz.caddy — و scripts/deploy-edge.sh يقوم بذلك كلّه)
+services:
+  app:
+    networks: [default, edge]
+
+networks:
+  edge:
+    external: true
+    name: ${EDGE_NET:-deploy_default}

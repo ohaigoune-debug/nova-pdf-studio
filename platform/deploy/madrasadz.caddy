@@ -1,0 +1,22 @@
+
+# ---- منصة مدرسة (madrasadz.com) ----
+# يُلحق بـ Caddyfile الوكيل القائم. التطبيق داخل شبكة الوكيل باسم platform-app-1.
+madrasadz.com {
+	encode zstd gzip
+	reverse_proxy platform-app-1:3000 {
+		header_up X-Real-IP {remote_host}
+	}
+	# رفع الدروس والفيديوهات يحتاج حداً أعلى من الافتراضي
+	request_body {
+		max_size 512MB
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		-Server
+	}
+}
+
+www.madrasadz.com {
+	redir https://madrasadz.com{uri} permanent
+}
