@@ -15,6 +15,7 @@ import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError } from '@/server/lib/errors'
 import { fetchPlaylistItems, parsePlaylistId, type FetchPlaylistOptions, type PlaylistItem } from '@/server/lib/youtube'
+import { workspaceSubject } from './ai.service'
 import { createContent } from './content.service'
 
 export interface ImportPlaylistInput {
@@ -62,11 +63,11 @@ async function existingIds(db: Db, workspaceId: string | null, ids: string[]): P
   return new Set(rows.map((r) => r.youtubeId).filter((v): v is string => Boolean(v)))
 }
 
-async function organize(items: PlaylistItem[], levelName: string | null, streamName: string | null): Promise<{ lessons: OrganizedLesson[]; by: string | null }> {
+async function organize(items: PlaylistItem[], levelName: string | null, streamName: string | null, subject: string | null): Promise<{ lessons: OrganizedLesson[]; by: string | null }> {
   const provider = getAiProvider()
   if (!provider.organizeLessons) return { lessons: fallback(items), by: null }
   try {
-    const out = await provider.organizeLessons({ playlistTitle: null, levelName, streamName, items })
+    const out = await provider.organizeLessons({ subject, playlistTitle: null, levelName, streamName, items })
     return { lessons: out.lessons, by: provider.name }
   } catch (err) {
     // التنظيم تحسين لا شرط: فشله لا يمنع الأستاذ من استيراد دروسه
@@ -100,7 +101,7 @@ export async function importPlaylist(db: Db, actor: Actor, input: ImportPlaylist
   }
 
   const { levelName, streamName } = await referenceNames(db, input.levelId, input.streamId)
-  const { lessons, by } = input.organize ? await organize(fresh, levelName, streamName) : { lessons: fallback(fresh), by: null }
+  const { lessons, by } = input.organize ? await organize(fresh, levelName, streamName, await workspaceSubject(db, workspaceId)) : { lessons: fallback(fresh), by: null }
 
   // الإدراج متتابع لا متوازٍ: الترتيب البيداغوجي هو ترتيب الإنشاء الذي تُعرض به الدروس
   const titles: string[] = []

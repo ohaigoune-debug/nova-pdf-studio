@@ -1,12 +1,12 @@
 import {
-  ANALYZE_SYSTEM,
+  analyzeSystem,
   ESSAY_MAX_TOKENS,
   ESSAY_SCHEMA,
-  ESSAY_SYSTEM,
-  EXERCISES_SYSTEM,
-  INSIGHTS_SYSTEM,
+  essaySystem,
+  exercisesSystem,
+  insightsSystem,
   ORGANIZE_SCHEMA,
-  ORGANIZE_SYSTEM,
+  organizeSystem,
   analyzeUser,
   essayUser,
   exercisesUser,
@@ -111,7 +111,7 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
     output_config: { format: { type: 'json_schema', schema } }
   })
 
-  const essayParams = (input: EvaluateEssayInput): MessageParams => jsonParams(ESSAY_SYSTEM, essayUser(input), ESSAY_MAX_TOKENS, ESSAY_SCHEMA)
+  const essayParams = (input: EvaluateEssayInput): MessageParams => jsonParams(essaySystem(input.subject), essayUser(input), ESSAY_MAX_TOKENS, ESSAY_SCHEMA)
 
   /** سطر واحد من ملف نتائج الدفعة (JSONL) */
   interface BatchLine {
@@ -175,23 +175,23 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
     },
 
     async generateTeacherInsights(input: TeacherInsightsInput): Promise<TeacherInsightsOutput> {
-      const j = await complete(textParams(INSIGHTS_SYSTEM, insightsUser(input), 1000))
+      const j = await complete(textParams(insightsSystem(input.subject), insightsUser(input), 1000))
       return { summary: text(j.summary, 3000), nextLessonSuggestions: strList(j.next_lesson, 6), raw: j }
     },
 
     async generateExercises(input: GenerateExercisesInput): Promise<GenerateExercisesOutput> {
-      return parseExercises(await complete(textParams(EXERCISES_SYSTEM, exercisesUser(input), 2500)), input)
+      return parseExercises(await complete(textParams(exercisesSystem(input.subject), exercisesUser(input), 2500)), input)
     },
 
     async analyzeStudent(input: AnalyzeStudentInput): Promise<AnalyzeStudentOutput> {
-      const j = await complete(textParams(ANALYZE_SYSTEM, analyzeUser(input), 1200))
+      const j = await complete(textParams(analyzeSystem(input.subject), analyzeUser(input), 1200))
       return { summary: text(j.summary, 3000), strengths: strList(j.strengths, 6), weaknesses: strList(j.weaknesses, 6), recommendations: strList(j.recommendations, 6), raw: j }
     },
 
     async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {
       // ~160 رمزاً لكل درس في الردّ، مع هامش للقوائم الطويلة
       const maxTokens = Math.min(8000, 600 + input.items.length * 200)
-      return parseOrganize(await complete(jsonParams(ORGANIZE_SYSTEM, organizeUser(input), maxTokens, ORGANIZE_SCHEMA)), input)
+      return parseOrganize(await complete(jsonParams(organizeSystem(input.subject), organizeUser(input), maxTokens, ORGANIZE_SCHEMA)), input)
     }
   }
 }

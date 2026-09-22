@@ -104,7 +104,7 @@ export default async function HomePage() {
             <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3.5 py-1.5 text-xs font-bold text-accent">
               <Sparkles className="size-3.5" /> {t('public.heroEyebrow')}
             </span>
-            <h1 className="font-display text-5xl font-bold leading-[1.25] sm:text-6xl lg:text-7xl">
+            <h1 className="font-display text-balance text-5xl font-bold leading-[1.25] sm:text-6xl lg:text-7xl">
               {before}
               {after !== '' || title.includes(highlight) ? <span className="text-gradient-gold">{highlight}</span> : null}
               {after}

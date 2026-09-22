@@ -8,8 +8,8 @@ import type ar from './ar'
 const fr: DeepPartial<typeof ar> = {
   app: {
     name: 'Madrasa',
-    tagline: 'Plateforme de langue et littérature arabes — lycée et baccalauréat',
-    description: 'Cours, résumés, grammaire, rhétorique, sujets de bac, gestion des groupes et présence intelligente pour les enseignants.'
+    tagline: 'Plateforme du lycée et du baccalauréat — toutes les matières',
+    description: "Cours, résumés et sujets de bac dans toutes les matières, avec gestion des groupes, présence intelligente et correction assistée par l'IA."
   },
   common: {
     save: 'Enregistrer',
@@ -92,16 +92,16 @@ const fr: DeepPartial<typeof ar> = {
     needLogin: "Connectez-vous ou créez un compte d'abord, puis activez le code."
   },
   public: {
-    heroTitle: "Maîtrisez la langue et la littérature arabes pour le bac",
-    heroSubtitle: 'Cours ciblés, grammaire et rhétorique, sujets corrigés, et un suivi réel de vos progrès avec votre enseignant.',
+    heroTitle: 'Votre réussite au bac commence ici',
+    heroSubtitle: 'Des cours ciblés dans toutes les matières, des sujets corrigés, et un suivi réel de vos progrès avec vos enseignants.',
     ctaStudent: 'Je suis élève — commencer',
     ctaCode: "J'ai un code de mon enseignant",
     browseLessons: 'Parcourir les cours',
     featuresTitle: 'Que propose la plateforme ?',
     f1: 'Cours et résumés',
-    f1d: 'Grammaire, rhétorique, figures de style, analyse grammaticale, poésie et prose.',
+    f1d: 'Cours ciblés et résumés pour chaque matière : vidéo, texte et PDF.',
     f2: 'Baccalauréat',
-    f2d: 'Méthodologie de la structure intellectuelle, linguistique et critique, avec des sujets corrigés.',
+    f2d: 'Sujets corrigés et méthodologie de réponse dans chaque matière.',
     f3: 'Présence intelligente',
     f3d: 'Carte de présence QR dynamique et scan instantané en classe.',
     f4: 'Correction et suivi',
@@ -114,12 +114,12 @@ const fr: DeepPartial<typeof ar> = {
     searchContent: 'Rechercher dans les cours et ressources…',
     noContent: 'Aucun contenu publié dans cette section pour le moment.',
     readMore: 'Lire la suite',
-    heroEyebrow: 'Terminale — toutes les filières',
-    heroHighlight: 'pour le bac',
+    heroEyebrow: 'Lycée — toutes les matières, toutes les filières',
+    heroHighlight: 'bac',
     previewAttendance: 'Carte de présence',
     previewAttendanceD: 'Un code renouvelé chaque minute — ni copiable ni prêtable',
     previewSkills: 'Carte des compétences',
-    previewSkillsD: 'Rhétorique 82 % · Analyse grammaticale 64 % · Méthodologie 91 %',
+    previewSkillsD: 'Compréhension 82 % · Application 64 % · Méthodologie 91 %',
     previewAi: 'Proposition de correction',
     previewAiD: "Le professeur relit et valide — l'IA ne fait que proposer",
     trust1: 'Sans publicité, sans vente de données',
@@ -143,7 +143,7 @@ const fr: DeepPartial<typeof ar> = {
     mapStudents: 'élèves',
     mapEmpty: '58 wilayas — le cours vous rejoint où que vous soyez',
     verse: 'أنا البحرُ في أحشائه الدرُّ كامنٌ ۞ فهل سألوا الغوّاصَ عن صدفاتي',
-    verseAuthor: "Hafez Ibrahim — dans la voix de la langue arabe"
+    verseAuthor: 'Ahmed Chawqi'
   },
   errors: {
     AUTH_REQUIRED: 'Veuillez vous connecter.',

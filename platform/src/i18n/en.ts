@@ -8,8 +8,8 @@ import type ar from './ar'
 const en: DeepPartial<typeof ar> = {
   app: {
     name: 'Madrasa',
-    tagline: 'Arabic language & literature platform — secondary school and baccalaureate',
-    description: 'Lessons, summaries, grammar, rhetoric, exam models, group management and smart attendance for teachers.'
+    tagline: 'Secondary school and baccalaureate platform — every subject',
+    description: 'Lessons, summaries and baccalaureate exam models in every subject, with group management, smart attendance and AI-assisted correction.'
   },
   common: {
     save: 'Save',
@@ -92,16 +92,16 @@ const en: DeepPartial<typeof ar> = {
     needLogin: 'Log in or create an account first, then activate the code.'
   },
   public: {
-    heroTitle: 'Master Arabic language and literature for the baccalaureate',
-    heroSubtitle: 'Focused lessons, grammar and rhetoric, corrected exam models, and real progress tracking with your teacher.',
+    heroTitle: 'Your baccalaureate success starts here',
+    heroSubtitle: 'Focused lessons in every subject, corrected exam models, and real progress tracking with your teachers.',
     ctaStudent: 'I am a student — get started',
     ctaCode: 'I have a code from my teacher',
     browseLessons: 'Browse lessons',
     featuresTitle: 'What does the platform offer?',
     f1: 'Lessons and summaries',
-    f1d: 'Grammar, rhetoric, figures of speech, sentence parsing, poetry and prose.',
+    f1d: 'Focused lessons and summaries for every subject: video, text and PDF.',
     f2: 'Baccalaureate',
-    f2d: 'Methodology for intellectual, linguistic and critical analysis, with corrected models.',
+    f2d: 'Corrected exam models and answer methodology in every subject.',
     f3: 'Smart attendance',
     f3d: 'Dynamic QR attendance card and instant scanning in class.',
     f4: 'Correction and follow-up',
@@ -114,12 +114,12 @@ const en: DeepPartial<typeof ar> = {
     searchContent: 'Search lessons and resources…',
     noContent: 'No published content in this section yet.',
     readMore: 'Read more',
-    heroEyebrow: 'Final-year secondary — every stream',
-    heroHighlight: 'for the baccalaureate',
+    heroEyebrow: 'Secondary school — every subject, every stream',
+    heroHighlight: 'baccalaureate',
     previewAttendance: 'Attendance card',
     previewAttendanceD: 'A code that renews every minute — cannot be copied or lent',
     previewSkills: 'Skills map',
-    previewSkillsD: 'Rhetoric 82% · Parsing 64% · Methodology 91%',
+    previewSkillsD: 'Understanding 82% · Application 64% · Methodology 91%',
     previewAi: 'Correction suggestion',
     previewAiD: 'The teacher reviews and approves — AI only suggests',
     trust1: 'No ads, no data selling',
@@ -143,7 +143,7 @@ const en: DeepPartial<typeof ar> = {
     mapStudents: 'students',
     mapEmpty: '58 wilayas — the lesson reaches you wherever you are',
     verse: 'أنا البحرُ في أحشائه الدرُّ كامنٌ ۞ فهل سألوا الغوّاصَ عن صدفاتي',
-    verseAuthor: 'Hafez Ibrahim — in the voice of the Arabic language'
+    verseAuthor: 'Ahmed Shawqi'
   },
   errors: {
     AUTH_REQUIRED: 'Please log in first.',

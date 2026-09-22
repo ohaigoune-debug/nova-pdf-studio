@@ -8,7 +8,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-arabic)', 'Segoe UI', 'Tahoma', 'sans-serif'],
-        // عناوين: أميري — نسخ كلاسيكي يليق بمنصة أدب عربي
+        // عناوين: أميري — نسخ كلاسيكي راقٍ
         display: ['Amiri', 'var(--font-arabic)', 'serif'],
         // شعر واقتباسات: رقعة
         ruqaa: ['"Aref Ruqaa"', 'Amiri', 'serif']

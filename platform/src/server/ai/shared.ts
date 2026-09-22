@@ -103,12 +103,18 @@ export const num = (v: unknown, fallback = 0): number =>
 export const text = (v: unknown, max: number): string => (typeof v === 'string' ? v.trim().slice(0, max) : '')
 
 // ── التعليمات ────────────────────────────────────────────────────────────
+// المنصة متعددة المواد: الدور يُبنى من مادة الأستاذ، ولغة الردّ تتبع المادة.
 
-export const ESSAY_SYSTEM = [
-  'أنت مساعد أستاذ لغة عربية وآدابها في الطور الثانوي بالجزائر. تقيّم إجابة نصية كتبها طالب.',
+const teacherOf = (subject?: string | null): string => (subject?.trim() ? `أستاذ مادة «${subject.trim()}»` : 'أستاذ')
+
+/** مادة لغة أجنبية تُصحَّح وتُمرَّن بلغتها؛ غيرها بالعربية الفصحى */
+const LANGUAGE_RULE = 'اكتب بلغة المادة إن كانت لغة أجنبية (الفرنسية، الإنجليزية…)، وإلا فبالعربية الفصحى.'
+
+export const essaySystem = (subject?: string | null): string => [
+  `أنت مساعد ${teacherOf(subject)} في الطور الثانوي بالجزائر. تقيّم إجابة نصية كتبها طالب.`,
   'أعد JSON فقط بالحقول: suggested_score (رقم)، confidence (0–1)، rubric_breakdown (قائمة {item_id, points} لكل بند من الشبكة، أو null إن لم توجد شبكة)،',
   'strengths، weaknesses، mistakes، skills_detected، skills_to_improve (قوائم نصوص)، teacher_notes (نص).',
-  'القيم كلها بالعربية الفصحى، مختصرة وعملية للأستاذ. لا تتجاوز النقطة القصوى ولا نقاط كل بند.',
+  `القيم مختصرة وعملية للأستاذ. ${LANGUAGE_RULE} لا تتجاوز النقطة القصوى ولا نقاط كل بند.`,
   'skills_detected و skills_to_improve تُختار حصراً من قائمة المهارات المعطاة.'
 ].join('\n')
 
@@ -156,19 +162,19 @@ export function parseEssay(j: Record<string, unknown>, input: EvaluateEssayInput
   }
 }
 
-export const INSIGHTS_SYSTEM = [
-  'أنت مساعد بيداغوجي لأستاذ لغة عربية. تصوغ الحقائق المعطاة (وهي مستخرجة من قاعدة بيانات حقيقية) في ملخص قصير وتوصيات عملية للحصة القادمة.',
+export const insightsSystem = (subject?: string | null): string => [
+  `أنت مساعد بيداغوجي لـ${teacherOf(subject)}. تصوغ الحقائق المعطاة (وهي مستخرجة من قاعدة بيانات حقيقية) في ملخص قصير وتوصيات عملية للحصة القادمة.`,
   'لا تخترع أرقاماً أو أسماء غير موجودة في الحقائق. أعد JSON فقط: {"summary":string,"next_lesson":string[]}'
 ].join('\n')
 
 export const insightsUser = (input: TeacherInsightsInput): string =>
   `الأستاذ: ${input.teacherName}\nالحقائق:\n${input.facts.map((f) => `- ${f}`).join('\n') || '- لا توجد حقائق بعد'}`
 
-export const EXERCISES_SYSTEM = [
-  'أنت أستاذ لغة عربية وآدابها للطور الثانوي بالجزائر. تولّد تمارين علاجية قصيرة لمهارة محددة.',
+export const exercisesSystem = (subject?: string | null): string => [
+  `أنت ${teacherOf(subject)} للطور الثانوي بالجزائر. تولّد تمارين علاجية قصيرة لمهارة محددة.`,
   'أعد JSON فقط: {"title":string,"description":string,"questions":[{"type":"MCQ"|"TRUE_FALSE"|"SHORT_ANSWER"|"FILL_BLANK","prompt":string,"options":[{"label":string,"isCorrect":boolean}],"answerKey":object|null,"explanation":string}]}',
   'قواعد المفاتيح: MCQ ⇒ options (2–4) مع isCorrect واحد على الأقل وanswerKey=null؛ TRUE_FALSE ⇒ answerKey={"value":boolean}؛ SHORT_ANSWER ⇒ answerKey={"accepted":[إجابات مقبولة قصيرة]}؛ FILL_BLANK ⇒ ضع ___ مكان كل فراغ في prompt وanswerKey={"blanks":[[إجابات الفراغ الأول],…]} بنفس عدد الفراغات.',
-  'اللغة فصحى، مستوى بكالوريا، بلا أسئلة غامضة أو مفاتيح متعددة التأويل.'
+  `مستوى بكالوريا، بلا أسئلة غامضة أو مفاتيح متعددة التأويل. ${LANGUAGE_RULE}`
 ].join('\n')
 
 export const exercisesUser = (input: GenerateExercisesInput): string =>
@@ -190,17 +196,17 @@ export function parseExercises(j: Record<string, unknown>, input: GenerateExerci
   return { title: text(j.title, 200) || `تمارين علاجية: ${input.skillName}`, description: text(j.description, 1000), questions, raw: j }
 }
 
-export const ANALYZE_SYSTEM = [
-  'أنت مساعد بيداغوجي لأستاذ لغة عربية. تحلّل ملف طالب من حقائق حقيقية مستخرجة من قاعدة البيانات وتقترح توصيات عملية.',
+export const analyzeSystem = (subject?: string | null): string => [
+  `أنت مساعد بيداغوجي لـ${teacherOf(subject)}. تحلّل ملف طالب من حقائق حقيقية مستخرجة من قاعدة البيانات وتقترح توصيات عملية.`,
   'لا تخترع أرقاماً أو أحداثاً. أعد JSON فقط: {"summary":string,"strengths":string[],"weaknesses":string[],"recommendations":string[]}'
 ].join('\n')
 
 export const analyzeUser = (input: AnalyzeStudentInput): string =>
   `الطالب: ${input.studentName}\nالحقائق:\n${input.facts.map((f) => `- ${f}`).join('\n') || '- لا توجد حقائق بعد'}`
 
-export const ORGANIZE_SYSTEM = [
-  'أنت أستاذ لغة عربية وآدابها بالجزائر تنظّم قائمة فيديوهات يوتيوب لتصبح دروساً في منصة تعليمية.',
-  'لكل فيديو: عنوان عربي فصيح نظيف (بلا "الحلقة 12" ولا اسم القناة ولا رموز ولا وسوم)، ملخّص سطرين يذكر ما يتعلّمه الطالب،',
+export const organizeSystem = (subject?: string | null): string => [
+  `أنت ${teacherOf(subject)} بالجزائر تنظّم قائمة فيديوهات يوتيوب لتصبح دروساً في منصة تعليمية.`,
+  `لكل فيديو: عنوان نظيف (بلا "الحلقة 12" ولا اسم القناة ولا رموز ولا وسوم)، ملخّص سطرين يذكر ما يتعلّمه الطالب، ${LANGUAGE_RULE}`,
   'المحور (الوحدة التعليمية) أو null إن لم يتّضح، وترتيب بيداغوجي يبدأ من 1 بحيث يسبق الأساسُ المتفرّعَ عنه.',
   'أعد JSON فقط: {"lessons":[{"youtube_id":string,"title":string,"summary":string,"topic":string|null,"order":number}]}',
   'أعد كل الفيديوهات المعطاة بلا حذف ولا إضافة، وانسخ youtube_id كما هو حرفاً بحرف. لا تخترع محتوى لا يدلّ عليه العنوان أو الوصف.'

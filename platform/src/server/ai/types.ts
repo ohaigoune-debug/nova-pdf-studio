@@ -13,6 +13,8 @@ export interface EssayRubricItem {
 }
 
 export interface EvaluateEssayInput {
+  /** مادة الأستاذ (من مساحة عمله أو الواجب)؛ بدونها تبقى التعليمات عامة */
+  subject?: string | null
   assignmentTitle: string
   /** نص الواجب / السؤال كما كتبه الأستاذ */
   prompt: string | null
@@ -41,6 +43,8 @@ export interface EvaluateEssayOutput {
 }
 
 export interface TeacherInsightsInput {
+  /** مادة الأستاذ (من مساحة عمله أو الواجب)؛ بدونها تبقى التعليمات عامة */
+  subject?: string | null
   teacherName: string
   /** حقائق مستخرجة من قاعدة البيانات (لا يخترع النموذج أرقاماً) */
   facts: string[]
@@ -53,6 +57,8 @@ export interface TeacherInsightsOutput {
 }
 
 export interface GenerateExercisesInput {
+  /** مادة الأستاذ (من مساحة عمله أو الواجب)؛ بدونها تبقى التعليمات عامة */
+  subject?: string | null
   skillName: string
   /** وصف المهارة أو فئتها إن وُجد */
   skillCategory: string | null
@@ -76,6 +82,8 @@ export interface GenerateExercisesOutput {
 }
 
 export interface AnalyzeStudentInput {
+  /** مادة الأستاذ (من مساحة عمله أو الواجب)؛ بدونها تبقى التعليمات عامة */
+  subject?: string | null
   studentName: string
   facts: string[]
 }
@@ -96,6 +104,8 @@ export interface OrganizePlaylistItem {
 }
 
 export interface OrganizeLessonsInput {
+  /** مادة الأستاذ (من مساحة عمله أو الواجب)؛ بدونها تبقى التعليمات عامة */
+  subject?: string | null
   playlistTitle: string | null
   levelName: string | null
   streamName: string | null

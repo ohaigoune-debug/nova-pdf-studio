@@ -2,7 +2,7 @@ import { and, desc, eq, inArray, sql } from 'drizzle-orm'
 import { aiProviderInfo, getAiProvider } from '@/server/ai/provider'
 import type { EssayBatchItem, EvaluateEssayInput, EvaluateEssayOutput } from '@/server/ai/types'
 import type { Db } from '@/server/db/connect'
-import { aiEvaluations, appSettings, assignmentSubmissions, assignments, grades, jobs, levels, profiles, quizAttempts, quizzes, rubricItems, skills, teacherReviews } from '@/server/db/schema'
+import { aiEvaluations, appSettings, assignmentSubmissions, assignments, grades, jobs, levels, profiles, quizAttempts, quizzes, rubricItems, skills, teacherReviews, teachers } from '@/server/db/schema'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid, PermanentJobError } from '@/server/lib/errors'
@@ -299,6 +299,13 @@ async function loadKnownSkills(db: Db): Promise<string[]> {
 }
 
 /** يجمع كل ما يحتاجه المزوّد عن إجابة واحدة (الواجب، الشبكة، المهارة) */
+/** مادة الأستاذ صاحب المساحة: المنصة متعددة المواد فلا تُفترض العربية */
+export async function workspaceSubject(db: Db, workspaceId: string | null | undefined): Promise<string | null> {
+  if (!workspaceId) return null
+  const [w] = await db.select({ subject: teachers.subject }).from(teachers).where(eq(teachers.workspaceId, workspaceId)).limit(1)
+  return w?.subject?.trim() || null
+}
+
 async function loadEssayContext(db: Db, submissionId: string, knownSkills: string[]): Promise<EssayContext> {
   const [row] = await db
     .select({ submission: assignmentSubmissions, assignment: assignments, skillName: skills.nameAr })
@@ -321,6 +328,8 @@ async function loadEssayContext(db: Db, submissionId: string, knownSkills: strin
     assignment: row.assignment,
     items,
     input: {
+      // مادة الواجب إن حدّدها الأستاذ، وإلا مادة مساحة عمله
+      subject: row.assignment.subject?.trim() || (await workspaceSubject(db, row.assignment.workspaceId)),
       assignmentTitle: row.assignment.title,
       prompt: row.assignment.description,
       answerText: row.submission.answerText ?? '',
@@ -582,7 +591,7 @@ export async function runTeacherInsightsJob(db: Db, workspaceId: string, userId:
   const actor: Actor = { userId, role: 'TEACHER', fullName: p?.fullName ?? 'الأستاذ', email: '', workspaceId, teacherId: null, studentId: null }
   const facts = (await dataInsights(db, actor)).map((i) => i.text)
   const provider = getAiProvider()
-  const out = await provider.generateTeacherInsights({ teacherName: actor.fullName, facts })
+  const out = await provider.generateTeacherInsights({ subject: await workspaceSubject(db, workspaceId), teacherName: actor.fullName, facts })
   return { summary: out.summary, nextLessonSuggestions: out.nextLessonSuggestions, facts: facts.length, provider: provider.name, model: provider.model, generatedAt: new Date().toISOString() }
 }
 
@@ -673,7 +682,7 @@ export async function runGenerateExercisesJob(db: Db, payload: Record<string, un
     if (g.levelId) levelName = (await db.select({ n: levels.nameAr }).from(levels).where(eq(levels.id, g.levelId)).limit(1))[0]?.n ?? null
   }
   const provider = getAiProvider()
-  const out = await provider.generateExercises({ skillName: sk.nameAr, skillCategory: sk.category, levelName, count: Number(payload.count ?? 5) })
+  const out = await provider.generateExercises({ subject: await workspaceSubject(db, workspaceId), skillName: sk.nameAr, skillCategory: sk.category, levelName, count: Number(payload.count ?? 5) })
   const questions = out.questions
     .map((q) => ({ type: q.type, prompt: q.prompt.trim(), points: 1, skillId, answerKey: q.answerKey, options: q.type === 'MCQ' ? (q.options ?? []) : [] }))
     .filter((q) => validateQuestion(q) === null)
@@ -747,7 +756,7 @@ export async function runAnalyzeStudentJob(db: Db, payload: Record<string, unkno
   const actor: Actor = { userId, role: 'TEACHER', fullName: '', email: '', workspaceId, teacherId: null, studentId: null }
   const { name, facts } = await studentFacts(db, actor, studentId)
   const provider = getAiProvider()
-  const out = await provider.analyzeStudent({ studentName: name, facts })
+  const out = await provider.analyzeStudent({ subject: await workspaceSubject(db, workspaceId), studentName: name, facts })
   return { studentId, summary: out.summary, strengths: out.strengths, weaknesses: out.weaknesses, recommendations: out.recommendations, facts: facts.length, provider: provider.name, model: provider.model, generatedAt: new Date().toISOString() }
 }
 
