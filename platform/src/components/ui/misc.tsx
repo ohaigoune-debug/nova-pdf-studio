@@ -7,15 +7,19 @@ export function Progress({ value, className, tone = 'primary' }: { value: number
   const color = { primary: 'bg-primary', success: 'bg-success', warning: 'bg-warning', destructive: 'bg-destructive' }[tone]
   return (
     <div className={cn('h-2 w-full overflow-hidden rounded-full bg-muted', className)} role="progressbar" aria-valuenow={v} aria-valuemin={0} aria-valuemax={100}>
-      <div className={cn('h-full rounded-full transition-all', color)} style={{ width: `${v}%` }} />
+      <div className={cn('h-full rounded-full transition-all duration-500', color)} style={{ width: `${v}%` }} />
     </div>
   )
 }
 
+/** حرفان أوّلان على تدرّج زمرّدي خفيف — بلا صور شخصية، فلا مساحة تخزين ولا خصوصية تُهدر */
 export function Avatar({ name, className, size = 'md' }: { name: string; className?: string; size?: 'sm' | 'md' | 'lg' }) {
   const sizes = { sm: 'size-8 text-xs', md: 'size-10 text-sm', lg: 'size-16 text-xl' }
   return (
-    <div className={cn('flex shrink-0 items-center justify-center rounded-full bg-primary/15 font-bold text-primary', sizes[size], className)} aria-hidden>
+    <div
+      className={cn('flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-primary/5 font-bold text-primary ring-1 ring-primary/15', sizes[size], className)}
+      aria-hidden
+    >
       {initials(name)}
     </div>
   )
@@ -31,13 +35,14 @@ export function Skeleton({ className }: { className?: string }) {
 
 export function Alert({ tone = 'info', title, children, className }: { tone?: 'info' | 'success' | 'warning' | 'destructive'; title?: string; children?: React.ReactNode; className?: string }) {
   const tones = {
-    info: 'border-primary/30 bg-primary/5 text-foreground',
-    success: 'border-success/30 bg-success/10 text-foreground',
-    warning: 'border-warning/40 bg-warning/10 text-foreground',
-    destructive: 'border-destructive/30 bg-destructive/10 text-foreground'
+    info: 'border-primary/25 bg-primary/5 text-foreground [--bar:hsl(var(--primary))]',
+    success: 'border-success/25 bg-success/5 text-foreground [--bar:hsl(var(--success))]',
+    warning: 'border-warning/35 bg-warning/10 text-foreground [--bar:hsl(var(--warning))]',
+    destructive: 'border-destructive/25 bg-destructive/5 text-foreground [--bar:hsl(var(--destructive))]'
   }
   return (
-    <div role="alert" className={cn('rounded-lg border p-4 text-sm', tones[tone], className)}>
+    <div role="alert" className={cn('relative overflow-hidden rounded-lg border p-4 ps-5 text-sm', tones[tone], className)}>
+      <span className="absolute inset-y-0 start-0 w-1 bg-[var(--bar)]" aria-hidden />
       {title ? <p className="mb-1 font-bold">{title}</p> : null}
       {children}
     </div>
@@ -46,20 +51,20 @@ export function Alert({ tone = 'info', title, children, className }: { tone?: 'i
 
 export function StatCard({ label, value, hint, icon: Icon, tone = 'default', className }: { label: string; value: React.ReactNode; hint?: React.ReactNode; icon?: LucideIcon; tone?: 'default' | 'success' | 'warning' | 'destructive'; className?: string }) {
   const tones = {
-    default: 'text-primary bg-primary/10',
-    success: 'text-success bg-success/10',
-    warning: 'text-amber-700 bg-warning/20 dark:text-amber-300',
-    destructive: 'text-destructive bg-destructive/10'
+    default: 'from-primary/15 to-primary/5 text-primary',
+    success: 'from-success/15 to-success/5 text-success',
+    warning: 'from-warning/25 to-warning/5 text-amber-700 dark:text-amber-300',
+    destructive: 'from-destructive/15 to-destructive/5 text-destructive'
   }
   return (
-    <div className={cn('flex items-start justify-between gap-3 rounded-lg border bg-card p-4 shadow-sm', className)}>
+    <div className={cn('group relative flex items-start justify-between gap-3 overflow-hidden rounded-lg border border-border/80 bg-card p-4 shadow-soft sm:p-5', className)}>
       <div className="min-w-0">
-        <p className="text-xs font-semibold text-muted-foreground">{label}</p>
-        <p className="mt-1 text-2xl font-extrabold tabular">{value}</p>
+        <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{label}</p>
+        <p className="mt-1.5 text-2xl font-extrabold tabular sm:text-3xl">{value}</p>
         {hint ? <div className="mt-1 text-xs text-muted-foreground">{hint}</div> : null}
       </div>
       {Icon ? (
-        <div className={cn('flex size-10 shrink-0 items-center justify-center rounded-lg', tones[tone])}>
+        <div className={cn('flex size-11 shrink-0 items-center justify-center rounded-md bg-gradient-to-br ring-1 ring-inset ring-black/5 dark:ring-white/5', tones[tone])}>
           <Icon className="size-5" />
         </div>
       ) : null}
@@ -69,8 +74,12 @@ export function StatCard({ label, value, hint, icon: Icon, tone = 'default', cla
 
 export function EmptyState({ icon: Icon, title, description, action, className }: { icon?: LucideIcon; title: string; description?: string; action?: React.ReactNode; className?: string }) {
   return (
-    <div className={cn('flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed p-10 text-center', className)}>
-      {Icon ? <Icon className="size-10 text-muted-foreground/60" /> : null}
+    <div className={cn('flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border bg-card/50 p-10 text-center', className)}>
+      {Icon ? (
+        <span className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground/70">
+          <Icon className="size-6" />
+        </span>
+      ) : null}
       <p className="font-bold">{title}</p>
       {description ? <p className="max-w-md text-sm text-muted-foreground">{description}</p> : null}
       {action}
@@ -82,8 +91,8 @@ export function PageHeader({ title, description, actions, className }: { title: 
   return (
     <div className={cn('mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between', className)}>
       <div>
-        <h1 className="text-2xl font-extrabold tracking-tight">{title}</h1>
-        {description ? <div className="mt-1 text-sm text-muted-foreground">{description}</div> : null}
+        <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">{title}</h1>
+        {description ? <div className="mt-1.5 max-w-2xl text-sm text-muted-foreground">{description}</div> : null}
       </div>
       {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
     </div>

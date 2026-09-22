@@ -2,59 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * لوحة ألوان المنصة: حبر عميق يميل إلى الزمرّدي، ورق دافئ، وذهب للتمييز.
+ * الألوان HSL مفكّكة لتعمل مع تدرّجات الشفافية (bg-primary/10).
+ */
 @layer base {
   :root {
-    --font-arabic: 'Tajawal', 'Cairo', 'Noto Naskh Arabic', 'Segoe UI', Tahoma, sans-serif;
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --font-arabic: 'IBM Plex Sans Arabic', 'Tajawal', 'Noto Naskh Arabic', 'Segoe UI', Tahoma, sans-serif;
+
+    --background: 40 33% 97%;
+    --foreground: 200 40% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 200 40% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 172 66% 32%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 94%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 94%;
-    --muted-foreground: 215 16% 42%;
-    --accent: 38 92% 50%;
-    --accent-foreground: 24 40% 12%;
-    --destructive: 0 72% 51%;
+    --popover-foreground: 200 40% 10%;
+    --primary: 168 52% 24%;
+    --primary-foreground: 40 40% 98%;
+    --secondary: 40 25% 93%;
+    --secondary-foreground: 200 40% 12%;
+    --muted: 40 22% 93%;
+    --muted-foreground: 205 14% 42%;
+    --accent: 42 78% 48%;
+    --accent-foreground: 30 40% 10%;
+    --destructive: 0 66% 47%;
     --destructive-foreground: 0 0% 100%;
-    --success: 152 60% 36%;
+    --success: 152 52% 32%;
     --success-foreground: 0 0% 100%;
-    --warning: 38 92% 50%;
+    --warning: 38 92% 48%;
     --warning-foreground: 24 40% 12%;
-    --border: 214 32% 89%;
-    --input: 214 32% 89%;
-    --ring: 172 66% 32%;
-    --radius: 0.9rem;
+    --border: 40 18% 87%;
+    --input: 40 18% 84%;
+    --ring: 168 52% 30%;
+    --radius: 1rem;
+
+    /* الشريط الجانبي حبريّ في الوضعين: هو ما يميّز لوحة فاخرة عن نموذج عام */
+    --sidebar: 200 42% 9%;
+    --sidebar-foreground: 40 30% 92%;
+    --sidebar-muted: 200 20% 62%;
+    --sidebar-border: 200 30% 16%;
+    --sidebar-active: 42 78% 52%;
+
+    --shadow-color: 200 40% 10%;
   }
 
   .dark {
-    --background: 222 47% 6%;
-    --foreground: 210 40% 96%;
-    --card: 222 40% 9%;
-    --card-foreground: 210 40% 96%;
-    --popover: 222 40% 9%;
-    --popover-foreground: 210 40% 96%;
-    --primary: 172 60% 45%;
-    --primary-foreground: 222 47% 6%;
-    --secondary: 217 33% 15%;
-    --secondary-foreground: 210 40% 96%;
-    --muted: 217 33% 15%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 38 92% 55%;
-    --accent-foreground: 24 40% 10%;
-    --destructive: 0 63% 45%;
+    --background: 205 45% 5%;
+    --foreground: 40 25% 94%;
+    --card: 205 38% 8%;
+    --card-foreground: 40 25% 94%;
+    --popover: 205 38% 8%;
+    --popover-foreground: 40 25% 94%;
+    --primary: 165 48% 46%;
+    --primary-foreground: 205 45% 5%;
+    --secondary: 205 30% 13%;
+    --secondary-foreground: 40 25% 94%;
+    --muted: 205 30% 13%;
+    --muted-foreground: 205 15% 64%;
+    --accent: 42 82% 56%;
+    --accent-foreground: 30 40% 8%;
+    --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
-    --success: 152 55% 42%;
-    --success-foreground: 0 0% 100%;
-    --warning: 38 92% 55%;
-    --warning-foreground: 24 40% 10%;
-    --border: 217 33% 18%;
-    --input: 217 33% 18%;
-    --ring: 172 60% 45%;
+    --success: 152 50% 44%;
+    --success-foreground: 205 45% 5%;
+    --warning: 38 92% 56%;
+    --warning-foreground: 24 40% 8%;
+    --border: 205 28% 15%;
+    --input: 205 28% 18%;
+    --ring: 165 48% 46%;
+
+    --sidebar: 205 45% 4%;
+    --sidebar-foreground: 40 25% 92%;
+    --sidebar-muted: 205 15% 58%;
+    --sidebar-border: 205 30% 12%;
+    --sidebar-active: 42 82% 56%;
+
+    --shadow-color: 205 60% 2%;
   }
 
   * {
@@ -63,15 +85,75 @@
 
   html {
     -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: 'kern';
+    font-feature-settings: 'kern', 'liga', 'calt';
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.01em;
   }
 
   ::selection {
-    @apply bg-primary/20;
+    @apply bg-accent/30;
+  }
+
+  /* حقول التاريخ والوقت في الطرف الأيمن للنص العربي */
+  input[type='date'],
+  input[type='time'],
+  input[type='datetime-local'] {
+    direction: ltr;
+  }
+}
+
+@layer components {
+  /* ظلّ طبقي هادئ: خط رفيع قريب + هالة بعيدة خفيفة. الأزرق المحايد لا يصفرّ الورق */
+  .shadow-soft {
+    box-shadow:
+      0 1px 2px hsl(var(--shadow-color) / 0.04),
+      0 8px 24px -12px hsl(var(--shadow-color) / 0.12);
+  }
+  .shadow-lift {
+    box-shadow:
+      0 1px 2px hsl(var(--shadow-color) / 0.05),
+      0 16px 40px -16px hsl(var(--shadow-color) / 0.22);
+  }
+
+  /* خلفية الحبر للأقسام البارزة (البطل، بطاقة الدخول): تدرّج + توهّجان ذهبي وزمرّدي */
+  .bg-ink {
+    background-color: hsl(200 42% 9%);
+    background-image:
+      radial-gradient(60% 50% at 85% 10%, hsl(42 78% 52% / 0.18), transparent 60%),
+      radial-gradient(50% 60% at 10% 90%, hsl(168 52% 34% / 0.28), transparent 60%),
+      linear-gradient(180deg, hsl(200 42% 11%), hsl(205 45% 6%));
+  }
+
+  /* زخرفة هندسية عربية خفيفة جداً — نجمة ثمانية متكرّرة، لا تشوّش على النص */
+  .bg-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='1'%3E%3Cpath d='M32 4l8 20 20 8-20 8-8 20-8-20-20-8 20-8z'/%3E%3Ccircle cx='32' cy='32' r='6'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 64px 64px;
+  }
+
+  .text-gold {
+    color: hsl(var(--accent));
+  }
+
+  /* عنوان بتدرّج ذهبي — للبطل فقط */
+  .text-gradient-gold {
+    background: linear-gradient(120deg, hsl(42 85% 68%), hsl(38 80% 52%) 55%, hsl(42 85% 66%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .glass {
+    @apply border border-white/10 bg-white/5 backdrop-blur-md;
   }
 }
 
@@ -86,6 +168,9 @@
   .tabular {
     font-variant-numeric: tabular-nums;
   }
+  .hairline {
+    box-shadow: inset 0 0 0 1px hsl(var(--border));
+  }
 }
 
 @media print {
@@ -95,5 +180,17 @@
   body {
     background: white !important;
     color: black !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

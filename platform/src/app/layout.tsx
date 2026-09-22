@@ -22,8 +22,8 @@ export const dynamic = 'force-dynamic'
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f5f8fb' },
-    { media: '(prefers-color-scheme: dark)', color: '#0b1220' }
+    { media: '(prefers-color-scheme: light)', color: '#f9f7f3' },
+    { media: '(prefers-color-scheme: dark)', color: '#070e12' }
   ],
   width: 'device-width',
   initialScale: 1,
@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@700;800&display=swap" rel="stylesheet" />
       </head>
       <body className="min-h-dvh font-sans">
         <LocaleProvider locale={locale}>

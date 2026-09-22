@@ -14,6 +14,8 @@ export interface ContentCard {
   authorName: string | null
   publishedAt: Date | null
   externalUrl: string | null
+  /** فيديو يوتيوب: صورته المصغّرة على البطاقة بدل أيقونة عامة */
+  youtubeId?: string | null
 }
 
 export async function listPublicContent(db: Db, opts: { types?: ContentType[]; search?: string; topic?: string; limit?: number } = {}): Promise<ContentCard[]> {
@@ -28,7 +30,8 @@ export async function listPublicContent(db: Db, opts: { types?: ContentType[]; s
       levelName: levels.nameAr,
       authorName: profiles.fullName,
       publishedAt: content.publishedAt,
-      externalUrl: content.externalUrl
+      externalUrl: content.externalUrl,
+      youtubeId: content.youtubeId
     })
     .from(content)
     .leftJoin(levels, eq(levels.id, content.levelId))

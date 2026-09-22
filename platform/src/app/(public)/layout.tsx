@@ -17,17 +17,17 @@ export default async function PublicLayout({ children }: { children: ReactNode }
   ]
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-border/70 bg-background/75 backdrop-blur-xl">
         <div className="container flex h-16 items-center gap-4">
-          <Link href="/" className="flex items-center gap-2 font-extrabold">
-            <span className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+          <Link href="/" className="flex items-center gap-2.5 text-lg font-extrabold tracking-tight">
+            <span className="flex size-9 items-center justify-center rounded-md bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-soft">
               <BookOpenText className="size-5" />
             </span>
             {t('app.name')}
           </Link>
           <nav className="hidden items-center gap-1 md:flex">
             {links.map((l) => (
-              <Link key={l.href} href={l.href} className="rounded-md px-3 py-2 text-sm font-semibold text-foreground/80 hover:bg-muted hover:text-foreground">
+              <Link key={l.href} href={l.href} className="rounded-full px-3.5 py-2 text-sm font-semibold text-foreground/75 transition-colors hover:bg-muted hover:text-foreground">
                 {l.label}
               </Link>
             ))}
@@ -50,18 +50,27 @@ export default async function PublicLayout({ children }: { children: ReactNode }
             </div>
           )}
         </div>
-        <nav className="container flex gap-1 overflow-x-auto pb-2 md:hidden">
+        <nav className="container flex gap-1.5 overflow-x-auto pb-2.5 md:hidden">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className="shrink-0 rounded-full border px-3 py-1 text-xs font-semibold">
+            <Link key={l.href} href={l.href} className="shrink-0 rounded-full border border-border/80 bg-card px-3.5 py-1.5 text-xs font-semibold shadow-soft">
               {l.label}
             </Link>
           ))}
         </nav>
       </header>
       <main className="flex-1">{children}</main>
-      <footer className="border-t py-8 text-center text-xs text-muted-foreground">
-        <div className="container">
-          © {new Date().getFullYear()} {t('app.name')} — {t('app.tagline')}
+      <footer className="border-t bg-card/40 py-10">
+        <div className="container flex flex-col items-center justify-between gap-3 text-center text-xs text-muted-foreground sm:flex-row sm:text-start">
+          <p>
+            © {new Date().getFullYear()} <span className="font-bold text-foreground">{t('app.name')}</span> — {t('app.tagline')}
+          </p>
+          <nav className="flex gap-4">
+            {links.map((l) => (
+              <Link key={l.href} href={l.href} className="hover:text-foreground">
+                {l.label}
+              </Link>
+            ))}
+          </nav>
         </div>
       </footer>
     </div>
