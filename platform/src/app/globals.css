@@ -92,6 +92,8 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: 'kern', 'liga', 'calt';
     text-rendering: optimizeLegibility;
+    /* عنصر زخرفي يتجاوز الحافة لا يفتح تمريراً أفقياً على الهاتف */
+    overflow-x: clip;
   }
 
   h1,

@@ -18,12 +18,13 @@ export default async function PublicLayout({ children }: { children: ReactNode }
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-40 border-b border-border/70 bg-background/75 backdrop-blur-xl">
-        <div className="container flex h-16 items-center gap-4">
-          <Link href="/" className="flex items-center gap-2.5 text-lg font-extrabold tracking-tight">
+        <div className="container flex h-16 min-w-0 items-center gap-3 sm:gap-4">
+          <Link href="/" className="flex shrink-0 items-center gap-2.5 text-lg font-extrabold tracking-tight">
             <span className="flex size-9 items-center justify-center rounded-md bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-soft">
               <BookOpenText className="size-5" />
             </span>
-            {t('app.name')}
+            {/* على الهاتف الأيقونة تكفي: الاسم يزاحم الأزرار ويُخرج الصفحة عن عرض الشاشة */}
+            <span className="hidden sm:inline">{t('app.name')}</span>
           </Link>
           <nav className="hidden items-center gap-1 md:flex">
             {links.map((l) => (
@@ -40,11 +41,11 @@ export default async function PublicLayout({ children }: { children: ReactNode }
               <Link href={homeFor(actor.role)}>{t('nav.dashboard')}</Link>
             </Button>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-2">
               <Button asChild variant="ghost" className="hidden sm:inline-flex">
                 <Link href="/login">{t('nav.login')}</Link>
               </Button>
-              <Button asChild>
+              <Button asChild className="h-9 px-3 text-xs sm:h-10 sm:px-4 sm:text-sm">
                 <Link href="/register">{t('nav.register')}</Link>
               </Button>
             </div>
