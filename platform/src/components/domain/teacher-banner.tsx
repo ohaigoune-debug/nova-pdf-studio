@@ -3,10 +3,10 @@ import type { ReactNode } from 'react'
 import type { AboutSettings } from '@/server/services/about.service'
 
 /**
- * واجهة الطالب داخل المنصة: الأستاذ حاضر في أول ما يراه عند الدخول.
+ * صورة الأستاذ داخل المنصة في موضعين فقط: أول شاشة للطالب، وصفحة «دروسي».
  * صورته تقف على حافة البطاقة، وبجانبها الترحيب واسم الأستاذ واقتباسه.
  */
-export function TeacherBanner({ about, greeting, subtitle, action }: { about: AboutSettings; greeting: string; subtitle: string; action?: ReactNode }) {
+export function TeacherBanner({ about, greeting, subtitle, action, image = '/teacher.webp' }: { about: AboutSettings; greeting: string; subtitle: string; action?: ReactNode; image?: string }) {
   return (
     <section className="bg-ink bg-pattern relative overflow-hidden rounded-xl text-white shadow-lift">
       <span className="absolute -top-16 end-10 size-72 rounded-full bg-accent/15 blur-3xl" aria-hidden />
@@ -36,7 +36,7 @@ export function TeacherBanner({ about, greeting, subtitle, action }: { about: Ab
         {about.name ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src="/teacher.webp"
+            src={image}
             alt={about.name}
             width={1000}
             height={1400}

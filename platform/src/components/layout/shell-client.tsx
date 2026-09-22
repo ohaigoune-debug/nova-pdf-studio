@@ -1,11 +1,10 @@
 'use client'
 
-import { Bell, LogOut, Menu, Search, X } from 'lucide-react'
+import { Bell, BookOpenText, LogOut, Menu, Search, X } from 'lucide-react'
 import * as Icons from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, type ReactNode } from 'react'
-import { BrandMark } from '@/components/brand-mark'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Avatar } from '@/components/ui/misc'
 import { Button } from '@/components/ui/button'
@@ -30,11 +29,13 @@ function Icon({ name, className }: { name: string; className?: string }) {
   return <Cmp className={className} />
 }
 
-/** الشعار على الشريط الحبريّ: وجه الأستاذ في حلقة ذهبية — البراند نفسه */
+/** الشعار على الشريط الحبريّ: مربّع ذهبي — العلامة الوحيدة الملوّنة في الشريط فتُقرأ فوراً */
 function Brand({ role }: { role: string }) {
   return (
     <div className="flex items-center gap-3">
-      <BrandMark className="size-11" />
+      <div className="flex size-10 items-center justify-center rounded-md bg-gradient-to-br from-sidebar-active to-sidebar-active/70 text-accent-foreground shadow-lift">
+        <BookOpenText className="size-5" />
+      </div>
       <div className="leading-tight">
         <p className="text-base font-extrabold tracking-tight text-sidebar-foreground">{t('app.name')}</p>
         <p className="text-[11px] font-medium text-sidebar-muted">{tEnum('roles', role)}</p>
@@ -145,7 +146,9 @@ export function ShellClient({
             <Menu className="size-5" />
           </Button>
           <Link href={`/${base}`} className="flex items-center gap-2 font-extrabold lg:hidden">
-            <BrandMark className="size-8" />
+            <span className="flex size-8 items-center justify-center rounded-sm bg-gradient-to-br from-accent to-accent/70 text-accent-foreground">
+              <BookOpenText className="size-4" />
+            </span>
             {t('app.name')}
           </Link>
           <div className="flex-1">
