@@ -1,10 +1,12 @@
 import { ArrowLeft, BookOpen, Brain, CheckCircle2, GraduationCap, QrCode, ShieldCheck, Sparkles, WifiOff, Youtube } from 'lucide-react'
 import Link from 'next/link'
+import { AboutTeacher } from '@/components/domain/about-teacher'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { Button } from '@/components/ui/button'
 import { getT } from '@/i18n/server'
 import { getDb } from '@/server/db/client'
 import { listPublicContent } from '@/server/queries/content.queries'
+import { getAboutSettings } from '@/server/services/about.service'
 
 export const dynamic = 'force-dynamic'
 
@@ -69,7 +71,8 @@ function Preview({ t }: { t: (k: never) => string }) {
 }
 
 export default async function HomePage() {
-  const [latest, { t, locale }] = await Promise.all([listPublicContent(await getDb(), { limit: 6 }), getT()])
+  const db = await getDb()
+  const [latest, about, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), getAboutSettings(db), getT()])
   const features = [
     { icon: BookOpen, title: t('public.f1'), text: t('public.f1d') },
     { icon: GraduationCap, title: t('public.f2'), text: t('public.f2d') },
@@ -153,6 +156,8 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      <AboutTeacher about={about} eyebrow={t('public.aboutEyebrow')} cta={t('public.aboutCta')} />
 
       {/* كيف تبدأ */}
       <section className="border-y bg-card/40">

@@ -1,3 +1,4 @@
+import { AboutSettingsForm } from '@/components/domain/about-settings-form'
 import { ChangePasswordCard } from '@/components/domain/change-password-card'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/misc'
@@ -5,10 +6,12 @@ import { t } from '@/i18n'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listSettings } from '@/server/queries/admin-extras.queries'
+import { getAboutSettings } from '@/server/services/about.service'
 
 export default async function AdminSettingsPage() {
   const actor = await requirePageActor('SUPER_ADMIN')
-  const settings = await listSettings(await getDb(), actor)
+  const db = await getDb()
+  const [settings, about] = await Promise.all([listSettings(db, actor), getAboutSettings(db)])
   const env: [string, string][] = [
     ['DATABASE_URL', (process.env.DATABASE_URL ?? 'pglite://./data/pglite').replace(/:\/\/.*@/, '://***@')],
     ['QR_TOKEN_TTL_SECONDS', process.env.QR_TOKEN_TTL_SECONDS ?? '60'],
@@ -24,7 +27,15 @@ export default async function AdminSettingsPage() {
   return (
     <>
       <PageHeader title={t('admin.settingsTitle')} />
-      <div className="mb-6 max-w-xl">
+      <div className="mb-6 grid gap-6 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('about.title')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <AboutSettingsForm value={about} />
+          </CardContent>
+        </Card>
         <ChangePasswordCard />
       </div>
       <div className="grid gap-6 lg:grid-cols-2">
