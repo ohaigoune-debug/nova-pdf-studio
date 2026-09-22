@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   description: t('app.description'),
   applicationName: t('app.name'),
   manifest: '/manifest.webmanifest',
+  icons: { icon: '/icon-192.png', apple: '/icon-192.png' },
   appleWebApp: { capable: true, title: t('app.name'), statusBarStyle: 'default' }
 }
 

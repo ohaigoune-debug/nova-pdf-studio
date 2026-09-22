@@ -2,6 +2,7 @@ import { CalendarCheck, CalendarX, KeyRound, QrCode, TrendingUp, UsersRound } fr
 import Link from 'next/link'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { AttendanceStatusBadge, EnrollmentStatusBadge } from '@/components/domain/status-badges'
+import { TeacherBanner } from '@/components/domain/teacher-banner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, EmptyState, Progress, StatCard } from '@/components/ui/misc'
@@ -10,30 +11,32 @@ import { formatClock, formatDateTime, percent } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listStudentContent } from '@/server/queries/student-extras.queries'
+import { getAboutSettings } from '@/server/services/about.service'
 import { skillMap } from '@/server/services/skills.service'
 import { studentHome } from '@/server/services/students.service'
 
 export default async function StudentHomePage() {
   const actor = await requirePageActor('STUDENT')
   const db = await getDb()
-  const [home, suggested, skills] = await Promise.all([studentHome(db, actor), listStudentContent(db, actor, { limit: 3 }), skillMap(db, actor.studentId!)])
+  const [home, suggested, skills, about] = await Promise.all([studentHome(db, actor), listStudentContent(db, actor, { limit: 3 }), skillMap(db, actor.studentId!), getAboutSettings(db)])
   const avgSkill = skills.length ? skills.reduce((s, k) => s + k.score, 0) / skills.length : null
   const open = home.groups.find((g) => g.hasOpenSession && g.status === 'ACTIVE')
   const suspended = home.groups.filter((g) => g.status === 'SUSPENDED_DUE_TO_ABSENCE')
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-extrabold">{t('dashboard.welcome', { name: actor.fullName })}</h1>
-          <p className="text-sm text-muted-foreground">{t('dashboard.studentTitle')}</p>
-        </div>
-        <Button asChild size="lg" className="shadow-md">
-          <Link href="/student/attendance/card">
-            <QrCode className="size-5" /> {t('nav.attendanceCard')}
-          </Link>
-        </Button>
-      </div>
+      <TeacherBanner
+        about={about}
+        greeting={t('dashboard.welcome', { name: actor.fullName })}
+        subtitle={t('dashboard.studentTitle')}
+        action={
+          <Button asChild size="lg" variant="gold">
+            <Link href="/student/attendance/card">
+              <QrCode className="size-5" /> {t('nav.attendanceCard')}
+            </Link>
+          </Button>
+        }
+      />
 
       {open ? (
         <Alert tone="success" title={t('dashboard.openSessionNow')}>

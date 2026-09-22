@@ -1,9 +1,9 @@
 /* عامل الخدمة: غلاف بلا اتصال + تخزين الأصول الثابتة + إشعارات الدفع */
-const VERSION = 'v1'
+const VERSION = 'v2'
 const SHELL_CACHE = `madrasa-shell-${VERSION}`
 const STATIC_CACHE = `madrasa-static-${VERSION}`
 const OFFLINE_URL = '/offline'
-const PRECACHE = [OFFLINE_URL, '/icon.svg', '/manifest.webmanifest']
+const PRECACHE = [OFFLINE_URL, '/icon.svg', '/icon-192.png', '/manifest.webmanifest']
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -64,7 +64,7 @@ self.addEventListener('push', (event) => {
   const title = data.title || 'مدرسة'
   const options = {
     body: data.body || '',
-    icon: '/icon.svg',
+    icon: '/icon-192.png',
     badge: '/icon.svg',
     dir: 'rtl',
     lang: 'ar',

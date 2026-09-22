@@ -135,9 +135,7 @@ const fr: DeepPartial<typeof ar> = {
     step3d: 'Cours, devoirs et quiz au même endroit, et la présence par carte QR.',
     teacherCta: 'Professeur ?',
     teacherCtaD: "Vos groupes, la présence, les devoirs et la correction assistée par l'IA — depuis n'importe quel appareil.",
-    teacherCtaBtn: 'Ouvrir le tableau de bord',
-    aboutEyebrow: 'Le professeur de la plateforme',
-    aboutCta: 'Commencer avec le professeur'
+    teacherCtaBtn: 'Ouvrir le tableau de bord'
   },
   errors: {
     AUTH_REQUIRED: 'Veuillez vous connecter.',

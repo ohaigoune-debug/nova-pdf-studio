@@ -1,73 +1,75 @@
 import { ArrowLeft, BookOpen, Brain, CheckCircle2, GraduationCap, QrCode, ShieldCheck, Sparkles, WifiOff, Youtube } from 'lucide-react'
 import Link from 'next/link'
-import { AboutTeacher } from '@/components/domain/about-teacher'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { Button } from '@/components/ui/button'
 import { getT } from '@/i18n/server'
 import { getDb } from '@/server/db/client'
 import { listPublicContent } from '@/server/queries/content.queries'
-import { getAboutSettings, type AboutSettings } from '@/server/services/about.service'
 
 export const dynamic = 'force-dynamic'
 
-/**
- * صورة الأستاذ في واجهة المنصة: هو وجهها. مقصوصة على الحبر، تقف على حافة القسم،
- * ومعها شريحتان زجاجيتان صغيرتان تلمّحان لما وراءها (حضور QR، تصحيح بالذكاء الاصطناعي).
- */
-function HeroPortrait({ about, t }: { about: AboutSettings; t: (k: never) => string }) {
+/** معاينة ثابتة لثلاث شاشات من المنصة — تُظهر ما سيجده الطالب دون صور خارجية */
+function Preview({ t }: { t: (k: never) => string }) {
   const tt = t as unknown as (k: string) => string
   return (
-    <div className="relative mx-auto w-full max-w-md self-end lg:max-w-none">
-      <span className="absolute inset-x-8 bottom-0 top-1/4 rounded-full bg-accent/15 blur-3xl" aria-hidden />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/teacher-hero.webp"
-        alt={about.name}
-        width={991}
-        height={1400}
-        fetchPriority="high"
-        className="relative mx-auto block h-[440px] w-auto object-contain object-bottom drop-shadow-[0_30px_50px_rgba(0,0,0,0.55)] sm:h-[520px] lg:h-[620px]"
-      />
-
-      {/* شريحة الحضور — أعلى الطرف الأمامي */}
-      <div className="glass animate-float absolute end-0 top-[8%] hidden items-center gap-3 rounded-lg px-4 py-3 shadow-lift sm:flex" style={{ animationDelay: '0.6s' }} aria-hidden>
-        <span className="flex size-10 items-center justify-center rounded-md bg-gradient-to-br from-accent to-accent/70 text-accent-foreground">
-          <QrCode className="size-5" />
-        </span>
-        <div className="leading-tight">
-          <p className="text-sm font-bold text-white">{tt('public.previewAttendance')}</p>
-          <p className="text-[11px] text-white/60">{tt('public.previewAttendanceD')}</p>
-        </div>
-      </div>
-
-      {/* شريحة التصحيح — أسفل الطرف الخلفي */}
-      <div className="glass animate-float absolute bottom-[30%] start-0 hidden items-center gap-3 rounded-lg px-4 py-3 shadow-lift sm:flex" style={{ animationDelay: '1.8s' }} aria-hidden>
-        <span className="flex size-10 items-center justify-center rounded-md bg-white/10 text-accent">
-          <Brain className="size-5" />
-        </span>
-        <div className="leading-tight">
-          <p className="text-sm font-bold text-white">{tt('public.previewAi')}</p>
-          <p className="text-[11px] text-white/60">{tt('public.previewAiD')}</p>
-        </div>
-        <span className="ms-2 rounded-full bg-success/20 px-2.5 py-1 text-[11px] font-bold text-emerald-300 tabular">14.5 / 20</span>
-      </div>
-
-      {/* الاسم عند قاعدة الصورة */}
-      {about.name ? (
-        <div className="absolute inset-x-0 bottom-4 flex justify-center">
-          <div className="glass rounded-full px-5 py-2.5 text-center shadow-lift">
-            <p className="text-base font-extrabold text-white">{about.name}</p>
-            {about.title ? <p className="text-[11px] font-medium text-accent">{about.title}</p> : null}
+    <div className="relative mx-auto w-full max-w-md lg:max-w-none" aria-hidden>
+      <div className="absolute -inset-8 rounded-full bg-accent/10 blur-3xl" />
+      <div className="relative grid gap-4">
+        <div className="glass animate-float rounded-lg p-5 shadow-lift" style={{ animationDelay: '0s' }}>
+          <div className="flex items-center gap-3">
+            <span className="flex size-11 items-center justify-center rounded-md bg-gradient-to-br from-accent to-accent/70 text-accent-foreground">
+              <QrCode className="size-5" />
+            </span>
+            <div>
+              <p className="font-bold text-white">{tt('public.previewAttendance')}</p>
+              <p className="text-xs text-white/60">{tt('public.previewAttendanceD')}</p>
+            </div>
+          </div>
+          <div className="mt-4 grid grid-cols-8 gap-1">
+            {Array.from({ length: 24 }).map((_, i) => (
+              <span key={i} className={i % 3 === 0 || i % 7 === 0 ? 'h-2 rounded-sm bg-white/80' : 'h-2 rounded-sm bg-white/15'} />
+            ))}
           </div>
         </div>
-      ) : null}
+
+        <div className="glass animate-float rounded-lg p-5 shadow-lift lg:ms-10" style={{ animationDelay: '1.2s' }}>
+          <div className="flex items-center gap-3">
+            <span className="flex size-11 items-center justify-center rounded-md bg-gradient-to-br from-primary to-primary/70 text-white">
+              <Sparkles className="size-5" />
+            </span>
+            <div>
+              <p className="font-bold text-white">{tt('public.previewSkills')}</p>
+              <p className="text-xs text-white/60">{tt('public.previewSkillsD')}</p>
+            </div>
+          </div>
+          <div className="mt-4 space-y-2">
+            {[82, 64, 91].map((v, i) => (
+              <div key={i} className="h-1.5 overflow-hidden rounded-full bg-white/10">
+                <div className="h-full rounded-full bg-gradient-to-l from-accent to-primary" style={{ width: `${v}%` }} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="glass animate-float rounded-lg p-5 shadow-lift" style={{ animationDelay: '2.4s' }}>
+          <div className="flex items-center gap-3">
+            <span className="flex size-11 items-center justify-center rounded-md bg-white/10 text-accent">
+              <Brain className="size-5" />
+            </span>
+            <div>
+              <p className="font-bold text-white">{tt('public.previewAi')}</p>
+              <p className="text-xs text-white/60">{tt('public.previewAiD')}</p>
+            </div>
+            <span className="ms-auto rounded-full bg-success/20 px-2.5 py-1 text-[11px] font-bold text-emerald-300">14.5 / 20</span>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
 export default async function HomePage() {
-  const db = await getDb()
-  const [latest, about, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), getAboutSettings(db), getT()])
+  const [latest, { t, locale }] = await Promise.all([listPublicContent(await getDb(), { limit: 6 }), getT()])
   const features = [
     { icon: BookOpen, title: t('public.f1'), text: t('public.f1d') },
     { icon: GraduationCap, title: t('public.f2'), text: t('public.f2d') },
@@ -92,8 +94,8 @@ export default async function HomePage() {
     <>
       {/* البطل: حبر، زخرفة خفيفة، عنوان بذهب */}
       <section className="bg-ink bg-pattern relative overflow-hidden text-white">
-        <div className="container grid gap-10 pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pt-20">
-          <div className="space-y-7 self-center pb-4 animate-rise-in lg:pb-24">
+        <div className="container grid items-center gap-12 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
+          <div className="space-y-7 animate-rise-in">
             <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3.5 py-1.5 text-xs font-bold text-accent">
               <Sparkles className="size-3.5" /> {t('public.heroEyebrow')}
             </span>
@@ -124,8 +126,8 @@ export default async function HomePage() {
               ))}
             </ul>
           </div>
-          <div className="flex animate-rise-in [animation-delay:150ms]">
-            <HeroPortrait about={about} t={t as never} />
+          <div className="animate-rise-in [animation-delay:150ms]">
+            <Preview t={t as never} />
           </div>
         </div>
       </section>
@@ -151,8 +153,6 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
-
-      <AboutTeacher about={about} eyebrow={t('public.aboutEyebrow')} cta={t('public.aboutCta')} />
 
       {/* كيف تبدأ */}
       <section className="border-y bg-card/40">

@@ -135,9 +135,7 @@ const en: DeepPartial<typeof ar> = {
     step3d: 'Lessons, assignments and quizzes in one place, and attendance with a QR card.',
     teacherCta: 'A teacher?',
     teacherCtaD: 'Your groups, attendance, assignments and AI-assisted correction — from any device.',
-    teacherCtaBtn: 'Open the teacher dashboard',
-    aboutEyebrow: 'The platform’s teacher',
-    aboutCta: 'Start with the teacher'
+    teacherCtaBtn: 'Open the teacher dashboard'
   },
   errors: {
     AUTH_REQUIRED: 'Please log in first.',
