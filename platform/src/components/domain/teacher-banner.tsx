@@ -13,14 +13,14 @@ export function TeacherBanner({ about, greeting, subtitle, action, image = '/tea
       <div className="relative grid items-end gap-4 sm:grid-cols-[1fr_auto]">
         <div className="space-y-4 p-6 sm:p-8 sm:pe-0">
           <div>
-            <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">{greeting}</h1>
+            <h1 className="font-display text-3xl font-bold leading-tight sm:text-4xl">{greeting}</h1>
             <p className="mt-1 text-sm text-white/60">{subtitle}</p>
           </div>
           {about.name ? (
             <div className="flex items-center gap-3">
               <span className="h-8 w-0.5 rounded-full bg-accent" aria-hidden />
               <div className="leading-tight">
-                <p className="font-bold text-white">{about.name}</p>
+                <p className="font-display text-xl font-bold text-white">{about.name}</p>
                 {about.title ? <p className="text-xs text-accent">{about.title}</p> : null}
               </div>
             </div>

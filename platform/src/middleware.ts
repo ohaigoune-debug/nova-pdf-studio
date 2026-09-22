@@ -12,8 +12,8 @@ function buildCsp(nonce: string): string {
   const directives = [
     `default-src 'self'`,
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${dev ? " 'unsafe-eval'" : ''}`,
-    `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
-    `font-src 'self' https://fonts.gstatic.com data:`,
+    `style-src 'self' 'unsafe-inline'`,
+    `font-src 'self' data:`,
     `img-src 'self' blob: data: https://i.ytimg.com`,
     `connect-src 'self'${dev ? ' ws: wss:' : ''}`,
     `worker-src 'self'`,

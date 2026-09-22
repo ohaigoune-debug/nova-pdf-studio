@@ -135,7 +135,15 @@ const en: DeepPartial<typeof ar> = {
     step3d: 'Lessons, assignments and quizzes in one place, and attendance with a QR card.',
     teacherCta: 'A teacher?',
     teacherCtaD: 'Your groups, attendance, assignments and AI-assisted correction — from any device.',
-    teacherCtaBtn: 'Open the teacher dashboard'
+    teacherCtaBtn: 'Open the teacher dashboard',
+    mapEyebrow: 'From every corner of Algeria',
+    mapTitle: 'A platform for every student in Algeria',
+    mapBody: 'From Algiers to Tamanrasset, from Oran to Tébessa: the same lesson and the same teacher, wherever you are.',
+    mapWilayas: 'wilayas',
+    mapStudents: 'students',
+    mapEmpty: '58 wilayas — the lesson reaches you wherever you are',
+    verse: 'أنا البحرُ في أحشائه الدرُّ كامنٌ ۞ فهل سألوا الغوّاصَ عن صدفاتي',
+    verseAuthor: 'Hafez Ibrahim — in the voice of the Arabic language'
   },
   errors: {
     AUTH_REQUIRED: 'Please log in first.',

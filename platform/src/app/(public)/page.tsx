@@ -1,10 +1,12 @@
 import { ArrowLeft, BookOpen, Brain, CheckCircle2, GraduationCap, QrCode, ShieldCheck, Sparkles, WifiOff, Youtube } from 'lucide-react'
 import Link from 'next/link'
+import { AlgeriaMap } from '@/components/domain/algeria-map'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { Button } from '@/components/ui/button'
 import { getT } from '@/i18n/server'
 import { getDb } from '@/server/db/client'
 import { listPublicContent } from '@/server/queries/content.queries'
+import { studentsPerWilaya } from '@/server/queries/map.queries'
 
 export const dynamic = 'force-dynamic'
 
@@ -69,7 +71,10 @@ function Preview({ t }: { t: (k: never) => string }) {
 }
 
 export default async function HomePage() {
-  const [latest, { t, locale }] = await Promise.all([listPublicContent(await getDb(), { limit: 6 }), getT()])
+  const db = await getDb()
+  const [latest, map, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), studentsPerWilaya(db), getT()])
+  const reached = map.filter((w) => w.students > 0).length
+  const totalStudents = map.reduce((sum, w) => sum + w.students, 0)
   const features = [
     { icon: BookOpen, title: t('public.f1'), text: t('public.f1d') },
     { icon: GraduationCap, title: t('public.f2'), text: t('public.f2d') },
@@ -99,7 +104,7 @@ export default async function HomePage() {
             <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3.5 py-1.5 text-xs font-bold text-accent">
               <Sparkles className="size-3.5" /> {t('public.heroEyebrow')}
             </span>
-            <h1 className="text-4xl font-extrabold leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="font-display text-5xl font-bold leading-[1.25] sm:text-6xl lg:text-7xl">
               {before}
               {after !== '' || title.includes(highlight) ? <span className="text-gradient-gold">{highlight}</span> : null}
               {after}
@@ -135,7 +140,7 @@ export default async function HomePage() {
       {/* المزايا */}
       <section className="container py-16 lg:py-20">
         <div className="mb-10 max-w-2xl">
-          <h2 className="text-3xl font-extrabold tracking-tight">{t('public.featuresTitle')}</h2>
+          <h2 className="font-display text-4xl font-bold">{t('public.featuresTitle')}</h2>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((f, i) => (
@@ -154,11 +159,54 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* بيت شعر: اللغة العربية تتكلّم */}
+      <section className="border-y border-accent/20 bg-gradient-to-b from-accent/[0.06] to-transparent">
+        <div className="container py-14 text-center">
+          {/* صدر وعجز: على الحاسوب متقابلان، وعلى الهاتف الواحد تحت الآخر */}
+          <p className="flex flex-col items-center justify-center gap-x-12 gap-y-2 font-ruqaa text-3xl leading-[1.9] text-amber-800 sm:text-4xl md:flex-row lg:text-5xl dark:text-accent" dir="rtl" lang="ar">
+            {t('public.verse')
+              .split('۞')
+              .map((half) => (
+                <span key={half}>{half.trim()}</span>
+              ))}
+          </p>
+          <p className="mt-4 text-sm text-muted-foreground">{t('public.verseAuthor')}</p>
+        </div>
+      </section>
+
+      {/* خريطة الجزائر: الطلاب عبر الولايات */}
+      <section className="bg-ink bg-pattern relative overflow-hidden text-white">
+        <div className="container grid items-center gap-10 py-16 lg:grid-cols-[0.9fr_1.1fr] lg:py-20">
+          <div className="space-y-5">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">{t('public.mapEyebrow')}</p>
+            <h2 className="font-display text-4xl font-bold leading-tight sm:text-5xl">{t('public.mapTitle')}</h2>
+            <p className="max-w-md text-lg leading-relaxed text-white/70">{t('public.mapBody')}</p>
+            {totalStudents > 0 ? (
+              <dl className="flex gap-10 pt-2">
+                <div>
+                  <dt className="text-sm text-white/60">{t('public.mapWilayas')}</dt>
+                  <dd className="font-display text-5xl font-bold text-gradient-gold tabular">{reached}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-white/60">{t('public.mapStudents')}</dt>
+                  <dd className="font-display text-5xl font-bold text-gradient-gold tabular">{totalStudents}</dd>
+                </div>
+              </dl>
+            ) : (
+              <p className="font-display text-2xl text-accent">{t('public.mapEmpty')}</p>
+            )}
+          </div>
+          <div className="mx-auto w-full max-w-xl">
+            <AlgeriaMap data={map} />
+          </div>
+        </div>
+      </section>
+
       {/* كيف تبدأ */}
       <section className="border-y bg-card/40">
         <div className="container py-16 lg:py-20">
           <div className="mb-10 text-center">
-            <h2 className="text-3xl font-extrabold tracking-tight">{t('public.howTitle')}</h2>
+            <h2 className="font-display text-4xl font-bold">{t('public.howTitle')}</h2>
             <p className="mt-2 text-muted-foreground">{t('public.howSubtitle')}</p>
           </div>
           <ol className="relative grid gap-6 md:grid-cols-3">
@@ -177,7 +225,7 @@ export default async function HomePage() {
       {/* أحدث الدروس */}
       <section className="container py-16">
         <div className="mb-8 flex items-end justify-between">
-          <h2 className="text-3xl font-extrabold tracking-tight">{t('public.latestLessons')}</h2>
+          <h2 className="font-display text-4xl font-bold">{t('public.latestLessons')}</h2>
           <Button asChild variant="link">
             <Link href="/lessons">{t('common.viewAll')}</Link>
           </Button>
@@ -191,7 +239,7 @@ export default async function HomePage() {
           <div className="relative flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
             <div className="max-w-2xl">
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent">{t('public.teacherCta')}</p>
-              <p className="mt-2 text-2xl font-extrabold leading-snug sm:text-3xl">{t('public.teacherCtaD')}</p>
+              <p className="mt-2 font-display text-3xl font-bold leading-snug sm:text-4xl">{t('public.teacherCtaD')}</p>
             </div>
             <Button asChild size="lg" variant="gold" className="shrink-0">
               <Link href="/login">{t('public.teacherCtaBtn')}</Link>

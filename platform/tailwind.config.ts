@@ -7,7 +7,11 @@ const config: Config = {
     container: { center: true, padding: '1rem', screens: { '2xl': '1280px' } },
     extend: {
       fontFamily: {
-        sans: ['var(--font-arabic)', 'Segoe UI', 'Tahoma', 'sans-serif']
+        sans: ['var(--font-arabic)', 'Segoe UI', 'Tahoma', 'sans-serif'],
+        // عناوين: أميري — نسخ كلاسيكي يليق بمنصة أدب عربي
+        display: ['Amiri', 'var(--font-arabic)', 'serif'],
+        // شعر واقتباسات: رقعة
+        ruqaa: ['"Aref Ruqaa"', 'Amiri', 'serif']
       },
       colors: {
         border: 'hsl(var(--border))',

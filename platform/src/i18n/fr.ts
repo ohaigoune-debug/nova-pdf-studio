@@ -135,7 +135,15 @@ const fr: DeepPartial<typeof ar> = {
     step3d: 'Cours, devoirs et quiz au même endroit, et la présence par carte QR.',
     teacherCta: 'Professeur ?',
     teacherCtaD: "Vos groupes, la présence, les devoirs et la correction assistée par l'IA — depuis n'importe quel appareil.",
-    teacherCtaBtn: 'Ouvrir le tableau de bord'
+    teacherCtaBtn: 'Ouvrir le tableau de bord',
+    mapEyebrow: "Des quatre coins de l'Algérie",
+    mapTitle: "Une plateforme pour chaque élève d'Algérie",
+    mapBody: "D'Alger à Tamanrasset, d'Oran à Tébessa : le même cours et le même professeur, où que vous soyez.",
+    mapWilayas: 'wilayas',
+    mapStudents: 'élèves',
+    mapEmpty: '58 wilayas — le cours vous rejoint où que vous soyez',
+    verse: 'أنا البحرُ في أحشائه الدرُّ كامنٌ ۞ فهل سألوا الغوّاصَ عن صدفاتي',
+    verseAuthor: "Hafez Ibrahim — dans la voix de la langue arabe"
   },
   errors: {
     AUTH_REQUIRED: 'Veuillez vous connecter.',

@@ -12,10 +12,10 @@ export function AuthCard({ title, subtitle, children, footer, locale = 'ar' }: {
           <span className="flex size-12 items-center justify-center rounded-lg bg-gradient-to-br from-accent to-accent/70 text-accent-foreground shadow-lift">
             <BookOpenText className="size-6" />
           </span>
-          <span className="text-2xl font-extrabold tracking-tight">{t('app.name', undefined, locale)}</span>
+          <span className="font-display text-3xl font-bold">{t('app.name', undefined, locale)}</span>
         </Link>
         <div className="rounded-xl border border-white/10 bg-card p-6 shadow-lift sm:p-8">
-          <h1 className="text-2xl font-extrabold tracking-tight">{title}</h1>
+          <h1 className="font-display text-3xl font-bold">{title}</h1>
           {subtitle ? <p className="mt-1.5 text-sm text-muted-foreground">{subtitle}</p> : null}
           <div className="mt-6">{children}</div>
         </div>
