@@ -28,6 +28,7 @@ const optionalDate = z
 const assignmentSchema = z.object({
   title: z.string().trim().min(3, 'أدخل عنوان الواجب'),
   description: z.string().trim().optional(),
+  modelAnswer: z.string().trim().max(20_000).optional(),
   subject: z.string().trim().optional(),
   topic: z.string().trim().optional(),
   skillId: optionalUuid,

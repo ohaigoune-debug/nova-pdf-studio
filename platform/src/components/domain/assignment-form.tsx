@@ -13,6 +13,7 @@ type Opt = { id: string; name: string }
 export interface AssignmentFormDefaults {
   title?: string
   description?: string | null
+  modelAnswer?: string | null
   subject?: string | null
   topic?: string | null
   skillId?: string | null
@@ -44,6 +45,9 @@ export function AssignmentForm({ assignmentId, defaults = {}, groups, students, 
       </Field>
       <Field label={t('assignments.description')} htmlFor="description">
         <Textarea id="description" name="description" rows={6} defaultValue={defaults.description ?? ''} placeholder={t('assignments.descriptionPlaceholder')} />
+      </Field>
+      <Field label="الحل النموذجي (لا يراه التلميذ)" htmlFor="modelAnswer" hint="يقارن الذكاء الاصطناعي إجابة التلميذ بهذا الحل وحده، ويقترح علامة تعتمدها أنت أو تعدّلها أو ترفضها.">
+        <Textarea id="modelAnswer" name="modelAnswer" rows={6} defaultValue={defaults.modelAnswer ?? ''} placeholder="الصق هنا الحل النموذجي أو عناصر الإجابة وسلّم التنقيط…" />
       </Field>
       <div className="grid gap-4 sm:grid-cols-3">
         <Field label={t('assignments.subject')} htmlFor="subject">

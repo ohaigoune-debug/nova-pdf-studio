@@ -76,6 +76,8 @@ export const assignments = pgTable(
     skillId: uuid('skill_id').references(() => skills.id),
     rubricId: uuid('rubric_id').references(() => rubrics.id),
     maxScore: numeric('max_score', { precision: 6, scale: 2 }).notNull().default('20'),
+    /** الحل النموذجي: المرجع الوحيد الذي يقارن به الذكاء الاصطناعي إجابة التلميذ (لا يراه التلميذ) */
+    modelAnswer: text('model_answer'),
     startsAt: timestamp('starts_at', { withTimezone: true }),
     dueAt: timestamp('due_at', { withTimezone: true }),
     attachmentFileId: uuid('attachment_file_id').references(() => files.id),

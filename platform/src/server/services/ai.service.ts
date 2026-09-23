@@ -335,6 +335,7 @@ async function loadEssayContext(db: Db, submissionId: string, knownSkills: strin
       assignmentTitle: row.assignment.title,
       prompt: row.assignment.description,
       answerText: row.submission.answerText ?? '',
+      modelAnswer: row.assignment.modelAnswer,
       maxScore: Number(row.assignment.maxScore),
       rubric: items.length ? items.map((i) => ({ id: i.id, label: i.label, description: i.description, maxPoints: Number(i.maxPoints), skillName: i.skillName })) : null,
       skillName: row.skillName,
@@ -477,6 +478,9 @@ export interface AiEvaluationView {
   skillsDetected: string[]
   skillsToImprove: string[]
   teacherNotesSuggestion: string | null
+  /** المقارنة بالحل النموذجي (فارغة إن لم يُعطَ حل) */
+  matched: string[]
+  missing: string[]
   createdAt: Date
   completedAt: Date | null
   decision: { decision: string; finalScore: string | null; reviewerName: string | null; createdAt: Date } | null
@@ -509,10 +513,16 @@ export async function getLatestAiEvaluation(db: Db, actor: Actor, submissionId: 
     skillsDetected: ev.skillsDetected,
     skillsToImprove: ev.skillsToImprove,
     teacherNotesSuggestion: ev.teacherNotesSuggestion,
+    matched: listOf(ev.rawResponse?.matched),
+    missing: listOf(ev.rawResponse?.missing),
     createdAt: ev.createdAt,
     completedAt: ev.completedAt,
     decision: d ?? null
   }
+}
+
+function listOf(v: unknown): string[] {
+  return Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string' && x.trim() !== '').slice(0, 20) : []
 }
 
 /* ------------------------------- Decisions -------------------------------- */
@@ -561,6 +571,20 @@ export async function applyAiEvaluation(db: Db, actor: Actor, evaluationId: stri
 }
 
 /** رفض الاقتراح: لا علامة، وتعود الإجابة إلى "مرسلة" إن لم يكن الأستاذ صحّحها */
+/** «نعم»: اعتماد الاقتراح كما هو بنقرة واحدة — العلامة والملاحظات كما اقترحها النموذج */
+export async function approveAiEvaluation(db: Db, actor: Actor, evaluationId: string): Promise<{ gradeId: string }> {
+  const ev = await loadEvaluationForDecision(db, actor, evaluationId)
+  if (ev.suggestedScore === null) throw new AppError('AI_EVAL_NOT_READY')
+  const { gradeId } = await applyAiEvaluation(db, actor, evaluationId, {
+    score: Number(ev.suggestedScore),
+    strengths: ev.strengths,
+    improvements: ev.weaknesses,
+    notes: ev.teacherNotesSuggestion,
+    rubricBreakdown: ev.rubricBreakdown ?? null
+  })
+  return { gradeId }
+}
+
 export async function rejectAiEvaluation(db: Db, actor: Actor, evaluationId: string, notes?: string | null): Promise<void> {
   const ev = await loadEvaluationForDecision(db, actor, evaluationId)
   await db.transaction(async (tx) => {

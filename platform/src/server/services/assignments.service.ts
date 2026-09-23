@@ -37,6 +37,8 @@ export interface AssignmentInput {
   maxScore?: number
   attachmentFileId?: string | null
   rubricId?: string | null
+  /** الحل النموذجي — للأستاذ والذكاء الاصطناعي فقط */
+  modelAnswer?: string | null
   groupIds: string[]
   studentIds: string[]
 }
@@ -110,7 +112,8 @@ export async function createAssignment(db: Db, actor: Actor, input: AssignmentIn
         dueAt: input.dueAt ?? null,
         maxScore: String(maxScore),
         attachmentFileId: input.attachmentFileId ?? null,
-        rubricId: input.rubricId ?? null
+        rubricId: input.rubricId ?? null,
+        modelAnswer: input.modelAnswer?.trim() || null
       })
       .returning()
     if (!row) throw new AppError('INTERNAL')
@@ -145,6 +148,7 @@ export async function updateAssignment(db: Db, actor: Actor, id: string, input: 
   if (input.description !== undefined) patch.description = input.description?.trim() || null
   if (input.subject !== undefined) patch.subject = input.subject?.trim() || null
   if (input.topic !== undefined) patch.topic = input.topic?.trim() || null
+  if (input.modelAnswer !== undefined) patch.modelAnswer = input.modelAnswer?.trim() || null
   if (input.skillId !== undefined) patch.skillId = input.skillId
   if (input.startsAt !== undefined) patch.startsAt = input.startsAt
   if (input.dueAt !== undefined) patch.dueAt = input.dueAt
@@ -260,7 +264,7 @@ export interface ThreadMessage {
 }
 
 export interface StudentAssignmentDetail {
-  assignment: AssignmentRow & { attachmentName: string | null; teacherName: string | null }
+  assignment: Omit<AssignmentRow, 'modelAnswer'> & { attachmentName: string | null; teacherName: string | null }
   submission: (typeof assignmentSubmissions.$inferSelect) | null
   messages: ThreadMessage[]
   grade: { score: string; maxScore: string; strengths: string[]; improvements: string[]; notes: string | null } | null
@@ -285,8 +289,10 @@ export async function getAssignmentForStudent(db: Db, actor: Actor, id: string):
     .limit(1)
   const messages = submission ? await loadThread(db, submission.id, actor.userId) : []
   const grade = submission ? await visibleGrade(db, submission.id) : null
+  // الحل النموذجي لا يغادر الخادم نحو التلميذ أبداً
+  const { modelAnswer: _hidden, ...visible } = a
   return {
-    assignment: { ...a, attachmentName: meta?.attachmentName ?? null, teacherName: meta?.teacherName ?? null },
+    assignment: { ...visible, attachmentName: meta?.attachmentName ?? null, teacherName: meta?.teacherName ?? null },
     submission: submission ? { ...submission, status: studentFacingStatus(submission.status) } : null,
     messages,
     grade

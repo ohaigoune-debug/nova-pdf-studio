@@ -1,6 +1,6 @@
 'use client'
 
-import { Bot, Loader2, RefreshCw, Sparkles, ThumbsDown, Wand2 } from 'lucide-react'
+import { Bot, Check, Loader2, Pencil, RefreshCw, Sparkles, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState, useTransition } from 'react'
 import { Badge } from '@/components/ui/badge'
@@ -9,7 +9,7 @@ import { Alert } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
 import { t } from '@/i18n'
 import { formatDateTime } from '@/lib/utils'
-import { rejectAiEvaluationAction, requestAiEvaluationAction } from '@/server/actions/ai.actions'
+import { approveAiEvaluationAction, rejectAiEvaluationAction, requestAiEvaluationAction } from '@/server/actions/ai.actions'
 import type { AiEvaluationView } from '@/server/services/ai.service'
 import { ReviewForm, type ReviewValues, type RubricItemView } from './review-form'
 
@@ -92,6 +92,18 @@ export function AiReviewPanel({
     toast('info', t('ai.applied'))
   }
 
+  const approve = () => {
+    if (!evaluation || evaluation.suggestedScore === null) return
+    start(async () => {
+      const r = await approveAiEvaluationAction(evaluation.id)
+      if (!r.ok) toast('error', r.error.message)
+      else {
+        toast('success', `اعتُمدت العلامة ${evaluation.suggestedScore}/${maxScore}`)
+        router.refresh()
+      }
+    })
+  }
+
   const decided = !!evaluation?.decision
   const canDecide = evaluation?.status === 'COMPLETED' && !decided
   const decisionLabel: Record<string, string> = { APPROVED: t('ai.decisionApproved'), EDITED: t('ai.decisionEdited'), REJECTED: t('ai.decisionRejected') }
@@ -150,6 +162,13 @@ export function AiReviewPanel({
                 ))}
               </ul>
             ) : null}
+            {evaluation.matched.length || evaluation.missing.length ? (
+              <div className="space-y-2 rounded-md border border-primary/20 bg-background p-3">
+                <p className="text-xs font-extrabold">مقارنة بالحل النموذجي</p>
+                <List title={`وافق الحل (${evaluation.matched.length})`} items={evaluation.matched} tone="success" />
+                <List title={`غاب أو خالف الحل (${evaluation.missing.length})`} items={evaluation.missing} tone="destructive" />
+              </div>
+            ) : null}
             <List title={t('ai.strengths')} items={evaluation.strengths} tone="success" />
             <List title={t('ai.weaknesses')} items={evaluation.weaknesses} tone="warning" />
             <List title={t('ai.mistakes')} items={evaluation.mistakes} tone="destructive" />
@@ -172,13 +191,22 @@ export function AiReviewPanel({
               {t('ai.provider')}: {evaluation.provider} · {t('ai.model')}: <span dir="ltr">{evaluation.model}</span> · {t('ai.generatedAt')} {formatDateTime(evaluation.completedAt ?? evaluation.createdAt)}
             </p>
             {canDecide ? (
-              <div className="flex flex-wrap gap-2">
-                <Button type="button" size="sm" onClick={apply} disabled={pending}>
-                  <Wand2 className="size-4" /> {t('ai.apply')}
-                </Button>
-                <Button type="button" size="sm" variant="ghost" onClick={reject} loading={pending}>
-                  <ThumbsDown className="size-4" /> {t('ai.reject')}
-                </Button>
+              <div className="space-y-2">
+                <p className="text-xs font-bold">
+                  هل تعتمد العلامة المقترحة {evaluation.suggestedScore}/{maxScore}؟
+                </p>
+                <div className="grid grid-cols-3 gap-2">
+                  <Button type="button" size="sm" onClick={approve} loading={pending} className="bg-success text-white hover:bg-success/90">
+                    <Check className="size-4" /> نعم
+                  </Button>
+                  <Button type="button" size="sm" variant="outline" onClick={reject} disabled={pending}>
+                    <X className="size-4" /> لا
+                  </Button>
+                  <Button type="button" size="sm" variant="outline" onClick={apply} disabled={pending}>
+                    <Pencil className="size-4" /> تعديل
+                  </Button>
+                </div>
+                <p className="text-[11px] text-muted-foreground">«نعم» تعتمدها وتصل التلميذ فوراً، و«تعديل» تملأ نموذج التصحيح أدناه لتغيّر ما تشاء، و«لا» ترفض الاقتراح.</p>
               </div>
             ) : null}
             {decided ? (

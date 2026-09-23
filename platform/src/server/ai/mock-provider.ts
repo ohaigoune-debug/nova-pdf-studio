@@ -37,6 +37,23 @@ function cleanTitle(raw: string): string {
  * تمارين من نصوص المصدر وحدها (مجلد Drive الأستاذ): جملة من الدرس بكلمة محجوبة.
  * لا بنك جاهز ولا معرفة عامّة — نفس قاعدة المزوّد الحقيقي.
  */
+/** عناصر الحل النموذجي (سطر أو جملة لكلٍّ) وما ورد منها في الإجابة: نصف كلماته الدالّة على الأقل */
+function compareWithModel(model: string, answer: string): { matched: string[]; missing: string[] } {
+  const ans = normalizeArabic(answer)
+  const points = model
+    .split(/[\n.؛;!؟?]+/)
+    .map((x) => x.replace(/^[\s\-–•*\d.)]+/, '').trim())
+    .filter((x) => x.length >= 6)
+  const matched: string[] = []
+  const missing: string[] = []
+  for (const p of points) {
+    const words = normalizeArabic(p).split(' ').filter((w) => w.length >= 3).map((w) => w.replace(/^(و|ف|ب|ك|ل)?ال/, ''))
+    const hit = words.filter((w) => w.length >= 3 && ans.includes(w)).length
+    ;(words.length && hit / words.length >= 0.5 ? matched : missing).push(p)
+  }
+  return { matched, missing }
+}
+
 function exercisesFromSources(sources: { title: string; text: string }[], count: number): GeneratedQuestion[] {
   const sentences = sources
     .flatMap((s) => s.text.split(/[.!؟?\n]+/))
@@ -134,6 +151,17 @@ export function createMockProvider(): AIProvider {
         `تقدير أولي من المزوّد التجريبي (${wc} كلمة، ${sentences.length} جمل).`,
         weaknesses.length ? `يُنصح بالتركيز على: ${weaknesses[0]}.` : 'الإجابة متوازنة شكلاً؛ راجع المضمون.'
       ].join(' ')
+      if (input.modelAnswer?.trim()) {
+        // مع حل نموذجي: العلامة من نسبة عناصره التي وردت في الإجابة، ولا شيء غيرها
+        const cmp = compareWithModel(input.modelAnswer, input.answerText)
+        const score = round2((input.maxScore * cmp.matched.length) / Math.max(1, cmp.matched.length + cmp.missing.length))
+        return {
+          suggestedScore: score, confidence: 0.6, rubricBreakdown: null, strengths, weaknesses, mistakes, skillsDetected, skillsToImprove,
+          teacherNotesSuggestion: `أصاب ${cmp.matched.length} من ${cmp.matched.length + cmp.missing.length} عناصر في الحل النموذجي.`,
+          matched: cmp.matched, missing: cmp.missing,
+          raw: { wc, matched: cmp.matched, missing: cmp.missing }
+        }
+      }
       return { suggestedScore, confidence, rubricBreakdown, strengths, weaknesses, mistakes, skillsDetected, skillsToImprove, teacherNotesSuggestion: notes, raw: { wc, sentences: sentences.length, connectors, evidence, literary, grammar } }
     },
 

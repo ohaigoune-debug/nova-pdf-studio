@@ -7,7 +7,7 @@ import { getDb } from '@/server/db/client'
 import { kickWorker } from '@/server/jobs/runner'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
-import { applyAiEvaluation, applyAllAiEvaluations, rejectAiEvaluation, requestAiEvaluation, requestAiEvaluationForAssignment, requestExercises, requestStudentAnalysis, requestTeacherInsights, updateAiSettings } from '@/server/services/ai.service'
+import { applyAiEvaluation, approveAiEvaluation, applyAllAiEvaluations, rejectAiEvaluation, requestAiEvaluation, requestAiEvaluationForAssignment, requestExercises, requestStudentAnalysis, requestTeacherInsights, updateAiSettings } from '@/server/services/ai.service'
 
 export async function requestAiEvaluationAction(submissionId: string): Promise<ActionResult<{ evaluationId: string; reused: boolean }>> {
   const parsed = z.string().uuid().safeParse(submissionId)
@@ -56,6 +56,19 @@ export async function applyAiEvaluationAction(_prev: ActionResult | null, fd: Fo
       notes: d.notes,
       rubricBreakdown: Object.keys(breakdown).length ? breakdown : null
     })
+    return undefined
+  })
+  if (result.ok) revalidatePath('/', 'layout')
+  return result
+}
+
+/** «نعم» بنقرة واحدة */
+export async function approveAiEvaluationAction(evaluationId: string): Promise<ActionResult> {
+  const parsed = z.string().uuid().safeParse(evaluationId)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    await approveAiEvaluation(await getDb(), actor, parsed.data)
     return undefined
   })
   if (result.ok) revalidatePath('/', 'layout')

@@ -20,6 +20,8 @@ export interface EvaluateEssayInput {
   prompt: string | null
   /** إجابة الطالب النصية */
   answerText: string
+  /** الحل النموذجي للأستاذ — إن وُجد فهو المرجع الوحيد للمقارنة والعلامة */
+  modelAnswer?: string | null
   maxScore: number
   rubric: EssayRubricItem[] | null
   /** المهارة العامة للواجب إن وُجدت */
@@ -39,6 +41,9 @@ export interface EvaluateEssayOutput {
   skillsDetected: string[]
   skillsToImprove: string[]
   teacherNotesSuggestion: string
+  /** مقارنة بالحل النموذجي: ما وافقه التلميذ، وما غاب أو خالف */
+  matched?: string[]
+  missing?: string[]
   raw?: Record<string, unknown>
 }
 
