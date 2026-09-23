@@ -8,7 +8,9 @@ import { getDb } from '@/server/db/client'
 import type { UserRole } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { sha256 } from '@/server/lib/codes'
+import { safeNextPath } from '@/server/lib/safe-next'
 import { RATE_LIMITS, checkRateLimit, resetRateLimit } from '@/server/lib/rate-limit'
+import { deleteOwnAccount } from '@/server/services/account-deletion.service'
 import { changePassword, login, logout, registerStudent, requestPasswordReset, resetPassword } from '@/server/services/auth.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 
@@ -33,7 +35,7 @@ export async function loginAction(_prev: ActionResult | null, formData: FormData
     return r.role as UserRole
   })
   if (!result.ok) return result
-  const next = parsed.data.next && parsed.data.next.startsWith('/') ? parsed.data.next : homeFor(result.data)
+  const next = safeNextPath(parsed.data.next) ?? homeFor(result.data)
   redirect(next)
 }
 
@@ -149,6 +151,27 @@ export async function changePasswordAction(_prev: ActionResult | null, formData:
   if (!result.ok) return result
   await clearSessionCookie()
   redirect('/login?reset=1')
+}
+
+const deleteSchema = z.object({
+  password: z.string().min(1, 'أدخل كلمة السر'),
+  understood: z.literal('on', { errorMap: () => ({ message: 'أكّد أنك تفهم أن الحذف نهائي' }) })
+})
+
+/** حذف التلميذ حسابه بنفسه — بكلمة السر وتأكيد صريح */
+export async function deleteAccountAction(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const parsed = deleteSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) return failValidation(parsed.error)
+  const db = await getDb()
+  const result = await runAction(async () => {
+    const actor = await requireActor()
+    await checkRateLimit(db, { scope: 'account-delete', subject: actor.userId, ...RATE_LIMITS.loginEmail })
+    await deleteOwnAccount(db, actor.userId, parsed.data.password)
+    return undefined
+  })
+  if (!result.ok) return result
+  await clearSessionCookie()
+  redirect('/delete-account?done=1')
 }
 
 export async function revokeDeviceAction(sessionId: string): Promise<ActionResult> {

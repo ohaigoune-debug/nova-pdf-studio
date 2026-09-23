@@ -71,6 +71,9 @@ function Preview({ t }: { t: (k: never) => string }) {
   )
 }
 
+/** أرقام صغيرة في بداية المنصة تُضعف الواجهة: تظهر العدّادات من هذا الحدّ، وقبله جملة الخريطة */
+const MAP_COUNTS_FROM = 50
+
 export default async function HomePage() {
   const db = await getDb()
   const [latest, map, apk, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), studentsPerWilaya(db), appDownload(), getT()])
@@ -195,7 +198,7 @@ export default async function HomePage() {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">{t('public.mapEyebrow')}</p>
             <h2 className="font-display text-4xl font-bold leading-tight sm:text-5xl">{t('public.mapTitle')}</h2>
             <p className="max-w-md text-lg leading-relaxed text-white/70">{t('public.mapBody')}</p>
-            {totalStudents > 0 ? (
+            {totalStudents >= MAP_COUNTS_FROM ? (
               <dl className="flex gap-10 pt-2">
                 <div>
                   <dt className="text-sm text-white/60">{t('public.mapWilayas')}</dt>

@@ -1,4 +1,5 @@
 import { ChangePasswordCard } from '@/components/domain/change-password-card'
+import { DeleteAccountCard } from '@/components/domain/delete-account-card'
 import { DevicesList } from '@/components/domain/devices-list'
 import { EnrollmentStatusBadge } from '@/components/domain/status-badges'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -67,6 +68,9 @@ export default async function StudentProfilePage() {
       <section className="mt-6">
         <h2 className="mb-3 text-lg font-extrabold">{t('teacherPages.devicesTitle')}</h2>
         <DevicesList devices={devices} />
+      </section>
+      <section className="mt-10">
+        <DeleteAccountCard />
       </section>
     </>
   )

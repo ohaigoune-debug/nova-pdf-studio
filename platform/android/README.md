@@ -33,7 +33,7 @@ cd /opt/madrasa/platform && bash scripts/build-android.sh
 
 ينشئ مفتاح التوقيع مرّة واحدة في `/opt/madrasa/android-key`، ويبني APK موقّعاً داخل Docker،
 ويضع البصمة في `.env`، وينشر الملف على `/download/android` فيظهر زرّ «حمّل تطبيق أندرويد»
-في الصفحة الرئيسية. أعد تشغيله متى شئت: رقم الإصدار يزيد تلقائياً فيتحدّث التطبيق فوق القديم.
+في الصفحة الرئيسية، ويضع ملف AAB لـ Google Play في `/opt/madrasa/android-release`. أعد تشغيله متى شئت: رقم الإصدار يزيد تلقائياً فيتحدّث التطبيق فوق القديم.
 **انسخ مجلد المفتاح خارج الخادم** — فقدانه يمنع تحديث التطبيق عند من ثبّته.
 
 الخطوات أدناه للبناء عبر GitHub أو محلياً، وللنشر على Play.
@@ -90,8 +90,9 @@ ANDROID_CERT_FINGERPRINTS=AA:BB:CC:…
 تحقّق بفتح `https://<نطاقك>/.well-known/assetlinks.json` — يجب أن يعيد JSON لا 404.
 
 > **بعد أول رفع إلى Play:** يعيد Google توقيع التطبيق بمفتاحه (Play App Signing). خذ البصمة الجديدة من
-> `Play Console → Setup → App integrity` وأضفها إلى نفس المتغيّر مفصولة بفاصلة عن بصمتك:
-> `ANDROID_CERT_FINGERPRINTS=بصمتك,بصمة-Play`. بلا هذا سيعمل التطبيق عندك ويفشل عند المستخدمين.
+> `Play Console → Setup → App integrity` وأضفها على الخادم بأمر واحد:
+> `bash scripts/add-fingerprint.sh AB:CD:…` — تُضاف إلى بصمتك ولا تستبدلها.
+> بلا هذا يعمل التطبيق المثبّت من المتجر لكن بشريط المتصفّح.
 
 ### 5. ارفع على Play Store
 - رسوم التسجيل: **25 دولاراً مرة واحدة**

@@ -80,7 +80,12 @@ const en: DeepPartial<typeof ar> = {
     passwordMismatch: 'Passwords do not match',
     resetButton: 'Save password',
     resetDone: 'Password changed. You can log in now.',
-    backToLogin: 'Back to login'
+    backToLogin: 'Back to login',
+    deleteTitle: 'Delete my account',
+    deleteSubtitle: 'Your name, email, phone, wilaya and school are erased for good, you leave your groups, and you can no longer sign in with this account. Your past grades and attendance stay with your teacher without your name, inside group statistics.',
+    deleteConfirm: 'I understand that deletion is permanent and cannot be undone',
+    deleteButton: 'Delete my account permanently',
+    deleteNeedConfirm: 'Confirm that you understand deletion is permanent'
   },
   activate: {
     title: 'Activate an enrollment code',
@@ -145,7 +150,9 @@ const en: DeepPartial<typeof ar> = {
     verse: 'قُمْ للمعلّمِ وفِّهِ التبجيلا ۞ كادَ المعلّمُ أن يكونَ رسولا',
     verseAuthor: 'Ahmed Shawqi',
     androidApp: 'Get the Android app',
-    androidAppD: 'Free for students — {size} MB'
+    androidAppD: 'Free for students — {size} MB',
+    privacy: 'Privacy policy',
+    deleteAccount: 'Delete account'
   },
   errors: {
     AUTH_REQUIRED: 'Please log in first.',

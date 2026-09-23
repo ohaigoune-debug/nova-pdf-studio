@@ -15,6 +15,10 @@ export default async function PublicLayout({ children }: { children: ReactNode }
     { href: '/resources', label: t('nav.resources') },
     { href: '/quizzes', label: t('nav.quizzes') }
   ]
+  const legal = [
+    { href: '/privacy', label: t('public.privacy') },
+    { href: '/delete-account', label: t('public.deleteAccount') }
+  ]
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-40 border-b border-border/70 bg-background/75 backdrop-blur-xl">
@@ -65,8 +69,8 @@ export default async function PublicLayout({ children }: { children: ReactNode }
           <p>
             © {new Date().getFullYear()} <span className="font-bold text-foreground">{t('app.name')}</span> — {t('app.tagline')}
           </p>
-          <nav className="flex gap-4">
-            {links.map((l) => (
+          <nav className="flex flex-wrap justify-center gap-4">
+            {[...links, ...legal].map((l) => (
               <Link key={l.href} href={l.href} className="hover:text-foreground">
                 {l.label}
               </Link>

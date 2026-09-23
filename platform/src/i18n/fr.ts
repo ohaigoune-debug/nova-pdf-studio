@@ -80,7 +80,12 @@ const fr: DeepPartial<typeof ar> = {
     passwordMismatch: 'Les mots de passe ne correspondent pas',
     resetButton: 'Enregistrer le mot de passe',
     resetDone: 'Mot de passe modifié. Connectez-vous maintenant.',
-    backToLogin: 'Retour à la connexion'
+    backToLogin: 'Retour à la connexion',
+    deleteTitle: 'Supprimer mon compte',
+    deleteSubtitle: "Votre nom, e-mail, téléphone, wilaya et établissement sont effacés définitivement, vous quittez vos groupes et ne pourrez plus vous connecter avec ce compte. Vos notes et présences passées restent chez votre enseignant, sans votre nom, dans les statistiques du groupe.",
+    deleteConfirm: 'Je comprends que la suppression est définitive et irréversible',
+    deleteButton: 'Supprimer mon compte définitivement',
+    deleteNeedConfirm: 'Confirmez que vous comprenez que la suppression est définitive'
   },
   activate: {
     title: "Activer un code d'inscription",
@@ -145,7 +150,9 @@ const fr: DeepPartial<typeof ar> = {
     verse: 'قُمْ للمعلّمِ وفِّهِ التبجيلا ۞ كادَ المعلّمُ أن يكونَ رسولا',
     verseAuthor: 'Ahmed Chawqi',
     androidApp: "Télécharger l'application Android",
-    androidAppD: 'Gratuite pour les élèves — {size} Mo'
+    androidAppD: 'Gratuite pour les élèves — {size} Mo',
+    privacy: 'Confidentialité',
+    deleteAccount: 'Supprimer le compte'
   },
   errors: {
     AUTH_REQUIRED: 'Veuillez vous connecter.',

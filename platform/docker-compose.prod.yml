@@ -54,6 +54,9 @@ services:
       AI_MODEL: ${AI_MODEL:-}
       AI_BASE_URL: ${AI_BASE_URL:-}
       YOUTUBE_API_KEY: ${YOUTUBE_API_KEY:-}
+      # بريد التواصل في سياسة الخصوصية وصفحة حذف الحساب (Google Play)؛ بدونه يُعرض بريد المشرف
+      CONTACT_EMAIL: ${CONTACT_EMAIL:-}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
       MAIL_PROVIDER: ${MAIL_PROVIDER:-console}
       MAIL_API_KEY: ${MAIL_API_KEY:-}
       MAIL_FROM: ${MAIL_FROM:-}
