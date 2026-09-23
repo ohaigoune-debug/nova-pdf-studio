@@ -107,5 +107,5 @@ say "إعادة تشغيل المنصة بالمفتاح الجديد"
 COMPOSE="docker compose -f docker-compose.prod.yml"
 [ -f docker-compose.edge.yml ] && docker network inspect "${EDGE_NET:-deploy_default}" >/dev/null 2>&1 \
   && COMPOSE="$COMPOSE -f docker-compose.edge.yml"
-$COMPOSE up -d --no-build --scale caddy=0 app
+$COMPOSE up -d --no-build app
 ok "تمّ. $LABEL مفعّل على المنصة"
