@@ -142,8 +142,10 @@ const en: DeepPartial<typeof ar> = {
     mapWilayas: 'wilayas',
     mapStudents: 'students',
     mapEmpty: '58 wilayas — the lesson reaches you wherever you are',
-    verse: 'أنا البحرُ في أحشائه الدرُّ كامنٌ ۞ فهل سألوا الغوّاصَ عن صدفاتي',
-    verseAuthor: 'Ahmed Shawqi'
+    verse: 'قُمْ للمعلّمِ وفِّهِ التبجيلا ۞ كادَ المعلّمُ أن يكونَ رسولا',
+    verseAuthor: 'Ahmed Shawqi',
+    androidApp: 'Get the Android app',
+    androidAppD: 'Free for students — {size} MB'
   },
   errors: {
     AUTH_REQUIRED: 'Please log in first.',

@@ -1,10 +1,11 @@
-import { ArrowLeft, BookOpen, Brain, CheckCircle2, GraduationCap, QrCode, ShieldCheck, Sparkles, WifiOff, Youtube } from 'lucide-react'
+import { ArrowLeft, BookOpen, Brain, CheckCircle2, GraduationCap, QrCode, ShieldCheck, Smartphone, Sparkles, WifiOff, Youtube } from 'lucide-react'
 import Link from 'next/link'
 import { AlgeriaMap } from '@/components/domain/algeria-map'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { Button } from '@/components/ui/button'
 import { getT } from '@/i18n/server'
 import { getDb } from '@/server/db/client'
+import { apkInfo } from '@/server/lib/android-apk'
 import { listPublicContent } from '@/server/queries/content.queries'
 import { studentsPerWilaya } from '@/server/queries/map.queries'
 
@@ -72,7 +73,7 @@ function Preview({ t }: { t: (k: never) => string }) {
 
 export default async function HomePage() {
   const db = await getDb()
-  const [latest, map, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), studentsPerWilaya(db), getT()])
+  const [latest, map, apk, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), studentsPerWilaya(db), apkInfo(), getT()])
   const reached = map.filter((w) => w.students > 0).length
   const totalStudents = map.reduce((sum, w) => sum + w.students, 0)
   const features = [
@@ -123,6 +124,19 @@ export default async function HomePage() {
                 </Link>
               </Button>
             </div>
+            {/* يظهر ما دام التطبيق مبنياً ومنشوراً على الخادم (scripts/build-android.sh) */}
+            {apk ? (
+              <a
+                href="/download/android"
+                className="inline-flex items-center gap-3 rounded-lg border border-accent/30 bg-accent/10 px-4 py-2.5 text-white transition-colors hover:bg-accent/20"
+              >
+                <Smartphone className="size-6 text-accent" />
+                <span className="leading-tight">
+                  <span className="block font-bold">{t('public.androidApp')}</span>
+                  <span className="block text-xs text-white/60">{t('public.androidAppD', { size: Math.max(0.1, apk.size / 1048576).toFixed(1) })}</span>
+                </span>
+              </a>
+            ) : null}
             <ul className="flex flex-wrap gap-x-6 gap-y-2 pt-2 text-sm text-white/60">
               {trust.map((x) => (
                 <li key={x.text} className="flex items-center gap-2">
