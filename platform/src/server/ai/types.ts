@@ -64,6 +64,11 @@ export interface GenerateExercisesInput {
   skillCategory: string | null
   levelName: string | null
   count: number
+  /**
+   * مقاطع من مجلد Drive الأستاذ — المصدر الوحيد للأسئلة: لا يُسأل عن شيء ليس فيها.
+   * (تُختار بما يخصّ المهارة؛ الخدمة ترفض الطلب إن لم يوجد شيء.)
+   */
+  sources: { title: string; text: string }[]
 }
 
 export interface GeneratedQuestion {

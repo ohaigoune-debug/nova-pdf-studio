@@ -1,15 +1,18 @@
 import { ChangePasswordCard } from '@/components/domain/change-password-card'
 import { DevicesList } from '@/components/domain/devices-list'
+import { DriveSourceCard } from '@/components/domain/drive-source-card'
 import { Card, CardContent } from '@/components/ui/card'
 import { Avatar, PageHeader } from '@/components/ui/misc'
 import { t, tEnum } from '@/i18n'
 import { listUserSessions } from '@/server/auth/session'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { getDriveSource } from '@/server/services/drive-source.service'
 
 export default async function TeacherSettingsPage() {
   const actor = await requirePageActor('TEACHER')
-  const devices = await listUserSessions(await getDb(), actor.userId)
+  const db = await getDb()
+  const [devices, drive] = await Promise.all([listUserSessions(db, actor.userId), actor.workspaceId ? getDriveSource(db, actor.workspaceId) : null])
   return (
     <>
       <PageHeader title={t('nav.settings')} />
@@ -25,6 +28,9 @@ export default async function TeacherSettingsPage() {
           </div>
         </CardContent>
       </Card>
+      <div className="mb-6">
+        <DriveSourceCard source={drive} />
+      </div>
       <div className="mb-6">
         <ChangePasswordCard />
       </div>

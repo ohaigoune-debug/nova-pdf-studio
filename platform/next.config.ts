@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
   // بناء مستقل لـ Docker (server.js + الحد الأدنى من node_modules)
   output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   outputFileTracingRoot: __dirname,
-  serverExternalPackages: ['@electric-sql/pglite', 'pg'],
+  // unpdf يحمل pdf.js بمسارات ديناميكية: يُحمَّل من node_modules كما هو لا مجمَّعاً
+  serverExternalPackages: ['@electric-sql/pglite', 'pg', 'unpdf', 'mammoth'],
   experimental: {
     serverActions: {
       bodySizeLimit: '10mb'

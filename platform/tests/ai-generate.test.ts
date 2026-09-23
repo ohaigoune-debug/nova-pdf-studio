@@ -1,5 +1,7 @@
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { eq } from 'drizzle-orm'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { getAiProvider } from '@/server/ai/provider'
 import type { DatabaseHandle } from '@/server/db/connect'
 import { jobs, notifications, questions, quizzes, skills } from '@/server/db/schema'
@@ -15,7 +17,12 @@ import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 import { createGroup } from '@/server/services/groups.service'
 import { getQuizForEdit, listQuizzesForStudent, listQuizzesForTeacher } from '@/server/services/quizzes.service'
 import { recordSkillResult } from '@/server/services/skills.service'
+import { setDriveSource } from '@/server/services/drive-source.service'
+import { fakeDrive, LESSON_IMAGERY } from './fake-drive'
 import { makeAdmin, makeStudent, makeTeacher, setupDb } from './helpers'
+
+const FOLDER = 'FOLDER_generate01'
+const drive = fakeDrive({ [FOLDER]: 'دروسي' }, [{ id: 'imagery', name: 'درس الصور البيانية', mimeType: 'application/vnd.google-apps.document', text: LESSON_IMAGERY, parent: FOLDER }])
 
 let h: DatabaseHandle
 let admin: Actor
@@ -51,23 +58,36 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
+  vi.unstubAllGlobals()
+  delete process.env.GOOGLE_API_KEY
+  delete process.env.DRIVE_CACHE_DIR
   await h.close()
 })
 
 describe('توليد التمارين العلاجية وتحليل الطالب بالذكاء الاصطناعي', () => {
-  it('المزوّد التجريبي يولّد أسئلة صالحة لكل نوع مفتاح', async () => {
+  it('المزوّد التجريبي يولّد من نصوص المصدر وحدها، وبلا مصدر لا شيء', async () => {
     const p = getAiProvider()
-    for (const name of ['الصور البيانية', 'إعراب المفردات', 'مهارة عامة']) {
-      const out = await p.generateExercises({ skillName: name, skillCategory: null, levelName: null, count: 5 })
-      expect(out.questions.length).toBeGreaterThanOrEqual(3)
-      for (const q of out.questions) expect(validateQuestion({ type: q.type, prompt: q.prompt, points: 1, answerKey: q.answerKey, options: q.options ?? [] })).toBeNull()
+    const out = await p.generateExercises({ skillName: 'الصور البيانية', skillCategory: null, levelName: null, count: 5, sources: [{ title: 'درس', text: LESSON_IMAGERY }] })
+    expect(out.questions.length).toBeGreaterThanOrEqual(3)
+    for (const q of out.questions) {
+      expect(validateQuestion({ type: q.type, prompt: q.prompt, points: 1, answerKey: q.answerKey, options: q.options ?? [] })).toBeNull()
+      // الكلمة المحجوبة من نصّ الدرس نفسه
+      const word = (q.answerKey as { blanks: string[][] }).blanks[0]![0]!
+      expect(LESSON_IMAGERY).toContain(word)
     }
+    expect((await p.generateExercises({ skillName: 'x', skillCategory: null, levelName: null, count: 5, sources: [] })).questions).toEqual([])
   })
 
   it('طلب التمارين: تحقق من المهارة والفوج والدور، ثم المهمة تنشئ مسودة اختبار غير منشورة مسندة للفوج', async () => {
     await expectCode(() => requestExercises(h.db, student, { skillId: skillRhetoric }), 'FORBIDDEN')
     await expectCode(() => requestExercises(h.db, teacher, { skillId: '00000000-0000-0000-0000-000000000000' }), 'NOT_FOUND')
     await expectCode(() => requestExercises(h.db, teacherB, { skillId: skillRhetoric, groupId: group.id }), 'NOT_FOUND')
+    // من الدرايف لا غير: بلا مجلد مربوط يُرفض الطلب
+    await expectCode(() => requestExercises(h.db, teacher, { skillId: skillRhetoric, groupId: group.id, count: 4 }), 'DRIVE_SOURCE_MISSING')
+    await setDriveSource(h.db, teacher, FOLDER, { apiKey: 'test-key', fetch: drive })
+    process.env.GOOGLE_API_KEY = 'test-key'
+    process.env.DRIVE_CACHE_DIR = path.join(tmpdir(), `drive-cache-${Date.now()}`)
+    vi.stubGlobal('fetch', drive)
     const r = await requestExercises(h.db, teacher, { skillId: skillRhetoric, groupId: group.id, count: 4 })
     expect(r.jobId).toBeTruthy()
     const s = await processQueuedJobs(h.db)
@@ -79,7 +99,9 @@ describe('توليد التمارين العلاجية وتحليل الطالب
     expect(q.publishedAt).toBeNull()
     expect(q.skillId).toBe(skillRhetoric)
     expect(q.title).toContain('الصور البيانية')
-    expect(q.questions.length).toBe(4)
+    expect(q.questions.length).toBeGreaterThanOrEqual(3)
+    expect(q.questions.length).toBeLessThanOrEqual(4)
+    expect(q.description).toContain('«درس الصور البيانية»')
     expect(q.questions.every((x) => x.skillId === skillRhetoric && Number(x.points) === 1)).toBe(true)
     expect(q.groupIds).toEqual([group.id])
     // غير مرئي للطالب حتى ينشره الأستاذ
@@ -89,8 +111,16 @@ describe('توليد التمارين العلاجية وتحليل الطالب
     const n = await h.db.select().from(notifications).where(eq(notifications.userId, teacher.userId))
     expect(n.some((x) => x.title.includes('مسودة تمارين علاجية') && x.link === `/teacher/quizzes/${quizId}/edit`)).toBe(true)
     const dbq = await h.db.select().from(questions).where(eq(questions.quizId, quizId))
-    expect(dbq).toHaveLength(4)
-    expect((await h.db.select().from(quizzes).where(eq(quizzes.id, quizId)))[0]?.maxScore).toBe('4.00')
+    expect(dbq).toHaveLength(q.questions.length)
+    expect((await h.db.select().from(quizzes).where(eq(quizzes.id, quizId)))[0]?.maxScore).toBe(`${q.questions.length}.00`)
+
+    // مهارة لا أثر لها في المجلد: لا اختراع — تفشل المهمة ويُبلَّغ الأستاذ بالسبب
+    const miss = await requestExercises(h.db, teacher, { skillId: skillGrammar, groupId: group.id })
+    await processQueuedJobs(h.db)
+    const [missed] = await h.db.select().from(jobs).where(eq(jobs.id, miss.jobId))
+    expect(missed).toMatchObject({ status: 'FAILED', error: 'DRIVE_NO_MATCH' })
+    const n2 = await h.db.select().from(notifications).where(eq(notifications.userId, teacher.userId))
+    expect(n2.some((x) => x.title.includes('لم تُولَّد تمارين: إعراب المفردات') && x.link === '/teacher/settings#drive')).toBe(true)
   })
 
   it('تحليل الطالب: الحقائق من البيانات فقط، مهمة واحدة نشطة، والنتيجة للأستاذ صاحب المساحة', async () => {

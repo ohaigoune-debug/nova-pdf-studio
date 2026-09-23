@@ -33,39 +33,31 @@ function cleanTitle(raw: string): string {
 }
 
 
-/** بنك تمارين تجريبي مصنّف بكلمات مفتاحية في اسم المهارة (يُستبدل بالمزوّد الحقيقي في الإنتاج) */
-const EXERCISE_BANK: { match: string[]; questions: GeneratedQuestion[] }[] = [
-  {
-    match: ['بلاغ', 'صور', 'استعار', 'تشبيه', 'كناي'],
-    questions: [
-      { type: 'MCQ', prompt: 'في قوله "رأيتُ أسداً يخطب على المنبر"، الصورة البيانية هي:', options: [{ label: 'استعارة تصريحية', isCorrect: true }, { label: 'تشبيه بليغ', isCorrect: false }, { label: 'كناية عن صفة', isCorrect: false }, { label: 'مجاز مرسل', isCorrect: false }], answerKey: null, explanation: 'صُرِّح بالمشبه به (الأسد) وحُذف المشبه (الرجل الشجاع).' },
-      { type: 'TRUE_FALSE', prompt: 'التشبيه البليغ هو ما حُذفت منه الأداة ووجه الشبه معاً.', answerKey: { value: true } },
-      { type: 'SHORT_ANSWER', prompt: 'ما نوع الصورة في: "فلانٌ كثير الرماد"؟', answerKey: { accepted: ['كناية', 'كناية عن صفة', 'كناية عن الكرم'] } },
-      { type: 'FILL_BLANK', prompt: 'الاستعارة التي يُحذف فيها المشبه به ويُرمز له بشيء من لوازمه تسمى استعارة ___.', answerKey: { blanks: [['مكنية', 'مكنيه']] } },
-      { type: 'MCQ', prompt: '"العلمُ نورٌ" تشبيه:', options: [{ label: 'بليغ', isCorrect: true }, { label: 'مرسل مفصّل', isCorrect: false }, { label: 'ضمني', isCorrect: false }], answerKey: null }
-    ]
-  },
-  {
-    match: ['إعراب', 'نحو', 'حال', 'تمييز', 'مفعول', 'فاعل'],
-    questions: [
-      { type: 'MCQ', prompt: 'في "جاء الطالبُ مسرعاً"، كلمة "مسرعاً":', options: [{ label: 'حال منصوب', isCorrect: true }, { label: 'تمييز', isCorrect: false }, { label: 'مفعول به', isCorrect: false }, { label: 'نعت', isCorrect: false }], answerKey: null },
-      { type: 'TRUE_FALSE', prompt: 'التمييز اسم نكرة منصوب يزيل إبهام ما قبله.', answerKey: { value: true } },
-      { type: 'SHORT_ANSWER', prompt: 'أعرب كلمة "طولاً" في: طاب الجوُّ طولاً.', answerKey: { accepted: ['تمييز', 'تمييز منصوب', 'تمييز منصوب بالفتحة'] } },
-      { type: 'FILL_BLANK', prompt: 'المفعول المطلق مصدر ___ يؤكّد الفعل أو يبيّن نوعه أو عدده.', answerKey: { blanks: [['منصوب']] } },
-      { type: 'MCQ', prompt: 'الجملة التي فيها نائب فاعل:', options: [{ label: 'كُتِبَ الدرسُ', isCorrect: true }, { label: 'كتبَ الطالبُ الدرسَ', isCorrect: false }, { label: 'الطالبُ كاتبٌ', isCorrect: false }], answerKey: null }
-    ]
-  },
-  {
-    match: [],
-    questions: [
-      { type: 'TRUE_FALSE', prompt: 'الفكرة العامة للنص تُستخرج من مجمل أفكاره الجزئية لا من جملة واحدة.', answerKey: { value: true } },
-      { type: 'SHORT_ANSWER', prompt: 'ما اسم الخطوة التي نحدّد فيها العاطفة المسيطرة على الشاعر؟', answerKey: { accepted: ['البناء الفكري', 'تحليل العاطفة', 'العاطفة'] } },
-      { type: 'MCQ', prompt: 'أداة الربط المناسبة للتعليل:', options: [{ label: 'لأنّ', isCorrect: true }, { label: 'ثم', isCorrect: false }, { label: 'بينما', isCorrect: false }], answerKey: null },
-      { type: 'FILL_BLANK', prompt: 'نمط النص الذي يغلب عليه سرد الأحداث وتتابعها هو النمط ___.', answerKey: { blanks: [['السردي', 'سردي']] } },
-      { type: 'TRUE_FALSE', prompt: 'المقدمة في موضوع البكالوريا تُذكر فيها الأفكار الجزئية تفصيلاً.', answerKey: { value: false } }
-    ]
+/**
+ * تمارين من نصوص المصدر وحدها (مجلد Drive الأستاذ): جملة من الدرس بكلمة محجوبة.
+ * لا بنك جاهز ولا معرفة عامّة — نفس قاعدة المزوّد الحقيقي.
+ */
+function exercisesFromSources(sources: { title: string; text: string }[], count: number): GeneratedQuestion[] {
+  const sentences = sources
+    .flatMap((s) => s.text.split(/[.!؟?\n]+/))
+    .map((x) => x.replace(/\s+/g, ' ').trim())
+    .filter((x) => x.length >= 25 && x.length <= 240 && !x.includes('___'))
+  const out: GeneratedQuestion[] = []
+  const seen = new Set<string>()
+  for (const s of sentences) {
+    if (out.length >= count) break
+    const word = s
+      .split(' ')
+      .map((w) => w.replace(/[^\p{L}\p{N}]/gu, ''))
+      .filter((w) => w.length >= 4 && !seen.has(w))
+      .sort((a, b) => b.length - a.length)[0]
+    if (!word) continue
+    seen.add(word)
+    const at = s.indexOf(word)
+    out.push({ type: 'FILL_BLANK', prompt: `أكمل من الدرس: ${s.slice(0, at)}___${s.slice(at + word.length)}`, answerKey: { blanks: [[word]] } })
   }
-]
+  return out
+}
 
 export function createMockProvider(): AIProvider {
   return {
@@ -171,14 +163,12 @@ export function createMockProvider(): AIProvider {
       return { summary, nextLessonSuggestions: next, raw: { facts: facts.length } }
     },
     async generateExercises(input: GenerateExercisesInput): Promise<GenerateExercisesOutput> {
-      const key = normalizeArabic(input.skillName)
-      const set = EXERCISE_BANK.find((b) => b.match.some((m) => key.includes(normalizeArabic(m)))) ?? EXERCISE_BANK[EXERCISE_BANK.length - 1]!
-      const questions = set.questions.slice(0, Math.max(1, Math.min(input.count, set.questions.length)))
+      const questions = exercisesFromSources(input.sources, Math.max(1, input.count))
       return {
         title: `تمارين علاجية: ${input.skillName}`,
-        description: `مجموعة قصيرة لتقوية مهارة "${input.skillName}"${input.levelName ? ` — ${input.levelName}` : ''}. ولّدها المزوّد التجريبي؛ راجعها وعدّلها قبل النشر.`,
+        description: `من دروسك في Drive لمهارة "${input.skillName}"${input.levelName ? ` — ${input.levelName}` : ''}. ولّدها المزوّد التجريبي؛ راجعها قبل النشر.`,
         questions,
-        raw: { bank: set.match[0] ?? 'general', count: questions.length }
+        raw: { sources: input.sources.map((x) => x.title), count: questions.length }
       }
     },
 

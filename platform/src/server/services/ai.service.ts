@@ -9,12 +9,14 @@ import { AppError, assertUuid, PermanentJobError } from '@/server/lib/errors'
 import { enqueueJob } from '@/server/jobs/queue'
 import { dataInsights } from '@/server/queries/teacher-extras.queries'
 import { getAssignmentForTeacher, loadSubmissionCtx, reviewSubmission, type ReviewInput } from './assignments.service'
+import { getDriveSource, loadSourceDocs, queryTerms, selectPassages } from './drive-source.service'
 import { assertGroupAccess } from './groups.service'
 import { notify } from './notifications.service'
 import { createQuiz } from './quizzes.service'
 import { skillMap } from './skills.service'
 import { getStudentProfile } from './students.service'
 import { validateQuestion } from '@/server/lib/quiz-grading'
+import { t } from '@/i18n'
 
 /**
  * التصحيح بمساعدة الذكاء الاصطناعي — القواعد الثابتة:
@@ -653,6 +655,8 @@ export async function requestExercises(db: Db, actor: Actor, input: { skillId: s
   const [sk] = await db.select({ id: skills.id }).from(skills).where(eq(skills.id, input.skillId)).limit(1)
   if (!sk) throw new AppError('NOT_FOUND')
   if (input.groupId) await assertGroupAccess(db, actor, input.groupId)
+  // التمارين من مجلد Drive الأستاذ لا غير: بلا مجلد مربوط لا يُقبل الطلب أصلاً
+  if (!(await getDriveSource(db, actor.workspaceId))) throw new AppError('DRIVE_SOURCE_MISSING')
   const count = Math.max(3, Math.min(10, input.count ?? 5))
   const job = await enqueueJob(db, {
     type: 'AI_GENERATE_EXERCISES',
@@ -681,15 +685,35 @@ export async function runGenerateExercisesJob(db: Db, payload: Record<string, un
     const g = await assertGroupAccess(db, actor, groupId)
     if (g.levelId) levelName = (await db.select({ n: levels.nameAr }).from(levels).where(eq(levels.id, g.levelId)).limit(1))[0]?.n ?? null
   }
+  // فشل يخصّ المصدر لا يُصلحه تكرار المحاولة: يُبلَّغ الأستاذ بالسبب وتنتهي المهمة
+  const stop = async (code: 'DRIVE_SOURCE_MISSING' | 'DRIVE_NO_MATCH' | 'DRIVE_NOT_SHARED' | 'DRIVE_API_DISABLED' | 'DRIVE_NOT_FOLDER' | 'DRIVE_EMPTY'): Promise<never> => {
+    await notify(db, { userId, workspaceId, type: 'SYSTEM', title: `لم تُولَّد تمارين: ${sk.nameAr}`, body: t(`errors.${code}`), link: '/teacher/settings#drive' })
+    throw new PermanentJobError(code)
+  }
+  const source = await getDriveSource(db, workspaceId)
+  if (!source) return stop('DRIVE_SOURCE_MISSING')
+  let docs: Awaited<ReturnType<typeof loadSourceDocs>>
+  try {
+    docs = await loadSourceDocs(source.folderId)
+  } catch (e) {
+    if (e instanceof AppError && ['DRIVE_NOT_SHARED', 'DRIVE_API_DISABLED', 'DRIVE_NOT_FOLDER'].includes(e.code)) return stop(e.code as 'DRIVE_NOT_SHARED')
+    throw e
+  }
+  if (docs.length === 0) return stop('DRIVE_EMPTY')
+  const sources = selectPassages(docs, queryTerms(sk.nameAr))
+  if (!sources) return stop('DRIVE_NO_MATCH')
+
   const provider = getAiProvider()
-  const out = await provider.generateExercises({ subject: await workspaceSubject(db, workspaceId), skillName: sk.nameAr, skillCategory: sk.category, levelName, count: Number(payload.count ?? 5) })
+  const out = await provider.generateExercises({ subject: await workspaceSubject(db, workspaceId), skillName: sk.nameAr, skillCategory: sk.category, levelName, count: Number(payload.count ?? 5), sources })
   const questions = out.questions
     .map((q) => ({ type: q.type, prompt: q.prompt.trim(), points: 1, skillId, answerKey: q.answerKey, options: q.type === 'MCQ' ? (q.options ?? []) : [] }))
     .filter((q) => validateQuestion(q) === null)
-  if (questions.length === 0) throw new AppError('AI_UNAVAILABLE')
+  // النموذج لم يجد في المقاطع ما يكفي لسؤال واحد: لا اختراع
+  if (questions.length === 0) return stop('DRIVE_NO_MATCH')
+  const from = `المصدر: ${sources.map((s) => `«${s.title}»`).join('، ')} من مجلد Drive «${source.folderName}».`
   const quiz = await createQuiz(db, actor, {
     title: out.title.slice(0, 200),
-    description: out.description ? `${out.description}\n\n(مولَّد بمساعدة الذكاء الاصطناعي — راجعه قبل النشر)` : '(مولَّد بمساعدة الذكاء الاصطناعي — راجعه قبل النشر)',
+    description: `${out.description ? `${out.description}\n\n` : ''}${from}\n(مولَّد بمساعدة الذكاء الاصطناعي — راجعه قبل النشر)`.slice(0, 2000),
     topic: sk.category,
     skillId,
     isPublic: false,
@@ -700,7 +724,7 @@ export async function runGenerateExercisesJob(db: Db, payload: Record<string, un
     questions
   })
   await notify(db, { userId, workspaceId, type: 'SYSTEM', title: `مسودة تمارين علاجية جاهزة: ${sk.nameAr}`, body: `${questions.length} أسئلة — راجعها وانشرها.`, link: `/teacher/quizzes/${quiz.id}/edit` })
-  return { quizId: quiz.id, questions: questions.length, dropped: out.questions.length - questions.length, provider: provider.name }
+  return { quizId: quiz.id, questions: questions.length, dropped: out.questions.length - questions.length, provider: provider.name, sources: sources.map((s) => s.title) }
 }
 
 /* ---------------------------- Student analysis (job) ---------------------- */
