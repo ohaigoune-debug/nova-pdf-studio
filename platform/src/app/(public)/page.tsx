@@ -5,7 +5,7 @@ import { ContentGrid } from '@/components/domain/content-cards'
 import { Button } from '@/components/ui/button'
 import { getT } from '@/i18n/server'
 import { getDb } from '@/server/db/client'
-import { apkInfo } from '@/server/lib/android-apk'
+import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
 import { listPublicContent } from '@/server/queries/content.queries'
 import { studentsPerWilaya } from '@/server/queries/map.queries'
 
@@ -73,7 +73,7 @@ function Preview({ t }: { t: (k: never) => string }) {
 
 export default async function HomePage() {
   const db = await getDb()
-  const [latest, map, apk, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), studentsPerWilaya(db), apkInfo(), getT()])
+  const [latest, map, apk, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), studentsPerWilaya(db), appDownload(), getT()])
   const reached = map.filter((w) => w.students > 0).length
   const totalStudents = map.reduce((sum, w) => sum + w.students, 0)
   const features = [
@@ -133,7 +133,7 @@ export default async function HomePage() {
                 <Smartphone className="size-6 text-accent" />
                 <span className="leading-tight">
                   <span className="block font-bold">{t('public.androidApp')}</span>
-                  <span className="block text-xs text-white/60">{t('public.androidAppD', { size: Math.max(0.1, apk.size / 1048576).toFixed(1) })}</span>
+                  <span className="block text-xs text-white/60">{t('public.androidAppD', { size: apkSizeMb(apk.size) })}</span>
                 </span>
               </a>
             ) : null}

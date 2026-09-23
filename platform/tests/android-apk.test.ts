@@ -34,3 +34,21 @@ describe('تحميل تطبيق أندرويد', () => {
     expect(Buffer.from(await res.arrayBuffer()).equals(bytes)).toBe(true)
   })
 })
+
+describe('داخل التطبيق لا يُعرض «حمّل التطبيق»', () => {
+  it('الإطلاق من التطبيق يُعلَّم بكوكي ويُمرَّر للصفحات، ولا يُقبل من الزائر مزوّراً', async () => {
+    const { NextRequest } = await import('next/server')
+    const { middleware } = await import('@/middleware')
+
+    const launch = middleware(new NextRequest('https://madrasadz.com/?source=android-app'))
+    expect(launch.cookies.get('madrasa_app')?.value).toBe('1')
+    expect(launch.headers.get('x-middleware-request-x-madrasa-app')).toBe('1')
+
+    const later = middleware(new NextRequest('https://madrasadz.com/lessons', { headers: { cookie: 'madrasa_app=1' } }))
+    expect(later.headers.get('x-middleware-request-x-madrasa-app')).toBe('1')
+
+    const web = middleware(new NextRequest('https://madrasadz.com/', { headers: { 'x-madrasa-app': '1' } }))
+    expect(web.headers.get('x-middleware-request-x-madrasa-app')).toBeNull()
+    expect(web.cookies.get('madrasa_app')).toBeUndefined()
+  })
+})

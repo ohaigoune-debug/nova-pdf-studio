@@ -5,6 +5,7 @@
  */
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
+import { headers } from 'next/headers'
 
 export const APK_FILENAME = 'madrasa.apk'
 
@@ -19,4 +20,19 @@ export async function apkInfo(): Promise<{ size: number; updatedAt: Date } | nul
   } catch {
     return null
   }
+}
+
+/**
+ * هل يُعرض زرّ تحميل التطبيق؟ الملف منشور، والزائر ليس داخل التطبيق نفسه.
+ * onlyAndroid: في لوحة التلميذ لا معنى للزرّ على حاسوب أو آيفون.
+ */
+export async function appDownload(opts: { onlyAndroid?: boolean } = {}): Promise<{ size: number } | null> {
+  const [info, h] = await Promise.all([apkInfo(), headers()])
+  if (!info || h.get('x-madrasa-app') === '1') return null
+  if (opts.onlyAndroid && !/android/i.test(h.get('user-agent') ?? '')) return null
+  return { size: info.size }
+}
+
+export function apkSizeMb(size: number): string {
+  return Math.max(0.1, size / 1048576).toFixed(1)
 }

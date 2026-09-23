@@ -1,4 +1,4 @@
-import { CalendarCheck, CalendarX, KeyRound, QrCode, TrendingUp, UsersRound } from 'lucide-react'
+import { CalendarCheck, CalendarX, KeyRound, QrCode, Smartphone, TrendingUp, UsersRound } from 'lucide-react'
 import Link from 'next/link'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { AttendanceStatusBadge, EnrollmentStatusBadge } from '@/components/domain/status-badges'
@@ -10,6 +10,7 @@ import { dayName, t } from '@/i18n'
 import { formatClock, formatDateTime, percent } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
 import { listStudentContent } from '@/server/queries/student-extras.queries'
 import { getAboutSettings } from '@/server/services/about.service'
 import { skillMap } from '@/server/services/skills.service'
@@ -18,7 +19,7 @@ import { studentHome } from '@/server/services/students.service'
 export default async function StudentHomePage() {
   const actor = await requirePageActor('STUDENT')
   const db = await getDb()
-  const [home, suggested, skills, about] = await Promise.all([studentHome(db, actor), listStudentContent(db, actor, { limit: 3 }), skillMap(db, actor.studentId!), getAboutSettings(db)])
+  const [home, suggested, skills, about, apk] = await Promise.all([studentHome(db, actor), listStudentContent(db, actor, { limit: 3 }), skillMap(db, actor.studentId!), getAboutSettings(db), appDownload({ onlyAndroid: true })])
   const avgSkill = skills.length ? skills.reduce((s, k) => s + k.score, 0) / skills.length : null
   const open = home.groups.find((g) => g.hasOpenSession && g.status === 'ACTIVE')
   const suspended = home.groups.filter((g) => g.status === 'SUSPENDED_DUE_TO_ABSENCE')
@@ -47,6 +48,15 @@ export default async function StudentHomePage() {
             </Button>
           </div>
         </Alert>
+      ) : null}
+      {apk ? (
+        <a href="/download/android" className="flex items-center gap-3 rounded-lg border border-primary/25 bg-primary/5 p-4 transition-colors hover:bg-primary/10">
+          <Smartphone className="size-7 shrink-0 text-primary" />
+          <span className="min-w-0 leading-tight">
+            <span className="block font-bold">{t('public.androidApp')}</span>
+            <span className="block text-xs text-muted-foreground">{t('public.androidAppD', { size: apkSizeMb(apk.size) })}</span>
+          </span>
+        </a>
       ) : null}
       {suspended.map((g) => (
         <Alert key={g.groupId} tone="destructive" title={`تسجيلك في فوج ${g.name} معلّق`}>

@@ -2,6 +2,10 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 const SESSION_COOKIE = 'madrasa_session'
 const PROTECTED = ['/student', '/teacher', '/assistant', '/admin']
+// تطبيق أندرويد يُطلق المنصة بـ ?source=android-app (strings.xml): يُتذكَّر في كوكي
+// فتُخفى أزرار «حمّل التطبيق» عمّن يستعمل التطبيق أصلاً
+const APP_COOKIE = 'madrasa_app'
+const APP_SOURCE = 'android-app'
 
 /**
  * سياسة أمن المحتوى (CSP) بـ nonce لكل طلب: لا سكربت مضمّن بلا nonce، ولا مصادر خارجية إلا خطوط Google.
@@ -48,8 +52,13 @@ export function middleware(req: NextRequest) {
   const requestHeaders = new Headers(req.headers)
   requestHeaders.set('x-nonce', nonce)
   requestHeaders.set('Content-Security-Policy', csp)
+  const fromApp = req.nextUrl.searchParams.get('source') === APP_SOURCE
+  const inApp = fromApp || req.cookies.get(APP_COOKIE)?.value === '1'
+  if (inApp) requestHeaders.set('x-madrasa-app', '1')
+  else requestHeaders.delete('x-madrasa-app')
   const res = NextResponse.next({ request: { headers: requestHeaders } })
   res.headers.set('Content-Security-Policy', csp)
+  if (fromApp) res.cookies.set(APP_COOKIE, '1', { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/' })
   return res
 }
 

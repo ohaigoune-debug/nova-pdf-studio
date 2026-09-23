@@ -7,7 +7,7 @@
 -->
 <resources>
     <string name="hostName" translatable="false">madrasadz.com</string>
-    <string name="launchUrl" translatable="false">https://madrasadz.com/</string>
+    <string name="launchUrl" translatable="false">https://madrasadz.com/?source=android-app</string>
     <string name="webManifestUrl" translatable="false">https://madrasadz.com/manifest.webmanifest</string>
 
     <string name="altHostName" translatable="false">madrasa.dz</string>
