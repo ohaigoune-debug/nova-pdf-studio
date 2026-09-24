@@ -1,4 +1,8 @@
 import {
+  DRAFT_SCHEMA,
+  draftSystem,
+  draftUser,
+  parseDraft,
   analyzeSystem,
   ESSAY_MAX_TOKENS,
   ESSAY_SCHEMA,
@@ -25,6 +29,8 @@ import type {
   AIProvider,
   AnalyzeStudentInput,
   AnalyzeStudentOutput,
+  DraftFromSourceInput,
+  DraftFromSourceOutput,
   EvaluateEssayInput,
   EvaluateEssayOutput,
   GenerateExercisesInput,
@@ -139,6 +145,10 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
     async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {
       const maxTokens = Math.min(8000, 600 + input.items.length * 200)
       return parseOrganize(await complete(schemaParams(organizeSystem(input.subject, input.kind), organizeUser(input), maxTokens, 'organized_lessons', ORGANIZE_SCHEMA)), input)
+    },
+
+    async draftFromSource(input: DraftFromSourceInput): Promise<DraftFromSourceOutput> {
+      return parseDraft(await complete(schemaParams(draftSystem(input.subject, input.mode), draftUser(input), 6000, 'source_draft', DRAFT_SCHEMA)), input)
     }
   }
 }

@@ -1,5 +1,20 @@
 import { normalizeArabic } from '@/server/lib/arabic'
-import type { AIProvider, AnalyzeStudentInput, AnalyzeStudentOutput, EvaluateEssayInput, EvaluateEssayOutput, GenerateExercisesInput, GenerateExercisesOutput, GeneratedQuestion, OrganizeLessonsInput, OrganizeLessonsOutput, TeacherInsightsInput, TeacherInsightsOutput } from './types'
+import type {
+  AIProvider,
+  AnalyzeStudentInput,
+  AnalyzeStudentOutput,
+  DraftFromSourceInput,
+  DraftFromSourceOutput,
+  EvaluateEssayInput,
+  EvaluateEssayOutput,
+  GenerateExercisesInput,
+  GenerateExercisesOutput,
+  GeneratedQuestion,
+  OrganizeLessonsInput,
+  OrganizeLessonsOutput,
+  TeacherInsightsInput,
+  TeacherInsightsOutput
+} from './types'
 
 /**
  * مزوّد تجريبي حتمي (بلا شبكة): يقيس ملامح شكلية في النص العربي فقط.
@@ -230,6 +245,19 @@ export function createMockProvider(): AIProvider {
     },
 
     /** بلا نموذج: ترتيب القائمة كما هو وعنوان منظّف، ولا يُخترع ملخّص */
+    async draftFromSource(input: DraftFromSourceInput): Promise<DraftFromSourceOutput> {
+      // الحل في الملف إن سبقه عنوان «الحل/التصحيح/الإجابة»؛ وإلا يبقى فارغاً لا مخترعاً
+      const text = input.text.trim()
+      const m = /^\s*(?:الحل|التصحيح|الإجابة|حل التمرين)[^\n]*$/m.exec(text)
+      const statement = (m ? text.slice(0, m.index) : text).trim()
+      const answer = m ? text.slice(m.index + m[0].length).trim() : ''
+      const title = cleanTitle(input.fileTitle.replace(/\.[a-z0-9]{2,5}$/i, ''))
+      if (input.mode === 'explanation') {
+        return { title, statement: '', modelAnswer: '', solutionInSource: false, summary: text.split(/[.!؟?\n]/)[0]!.trim().slice(0, 200), body: text.slice(0, 4000), raw: { mode: 'explanation' } }
+      }
+      return { title, statement, modelAnswer: answer, solutionInSource: !!answer, summary: '', body: '', raw: { mode: 'assignment', split: !!m } }
+    },
+
     async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {
       return {
         lessons: input.items.map((i, n) =>

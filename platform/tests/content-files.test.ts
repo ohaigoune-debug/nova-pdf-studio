@@ -55,7 +55,7 @@ describe('الملفات', () => {
     const back = await readFileForDownload(h.db, f.id)
     expect(back.bytes.equals(pdf)).toBe(true)
     await expectCode(() => uploadFile(h.db, teacherA, { originalName: 'x.exe', mimeType: 'application/x-msdownload', bytes: pdf }), 'FILE_TYPE_NOT_ALLOWED')
-    await expectCode(() => uploadFile(h.db, teacherA, { originalName: 'big.pdf', mimeType: 'application/pdf', bytes: Buffer.alloc(16 * 1024 * 1024) }), 'FILE_TOO_LARGE')
+    await expectCode(() => uploadFile(h.db, teacherA, { originalName: 'big.pdf', mimeType: 'application/pdf', bytes: Buffer.alloc(41 * 1024 * 1024) }), 'FILE_TOO_LARGE')
     await expectCode(() => uploadFile(h.db, s1, { originalName: 'a.pdf', mimeType: 'application/pdf', bytes: pdf }), 'FORBIDDEN')
     await expectCode(() => deleteFile(h.db, teacherB, f.id), 'FILE_NOT_FOUND')
     await deleteFile(h.db, teacherA, f.id)

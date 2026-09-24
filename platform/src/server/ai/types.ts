@@ -143,6 +143,28 @@ export interface OrganizeLessonsOutput {
   raw?: Record<string, unknown>
 }
 
+/** مسودة من ملف واحد يختاره الأستاذ: واجب (نص + حل نموذجي) أو شرح للتلاميذ */
+export interface DraftFromSourceInput {
+  subject?: string | null
+  mode: 'assignment' | 'explanation'
+  fileTitle: string
+  text: string
+}
+
+export interface DraftFromSourceOutput {
+  title: string
+  /** واجب: نص الموضوع/التمرين كما يُعطى للتلميذ */
+  statement: string
+  /** واجب: الحل النموذجي — من الملف إن وُجد فيه، وإلا مقترح يراجعه الأستاذ */
+  modelAnswer: string
+  /** هل الحل مأخوذ من الملف نفسه؟ */
+  solutionInSource: boolean
+  /** شرح: ملخّص سطرين ونصّ الشرح */
+  summary: string
+  body: string
+  raw?: Record<string, unknown>
+}
+
 export interface EssayBatchItem {
   /** معرّف يعود مع النتيجة (معرّف سجل التقييم) */
   customId: string
@@ -174,6 +196,8 @@ export interface AIProvider {
    * المزوّد الذي لا يوفّرها ⇒ يُستورد كما هو بترتيب القائمة.
    */
   organizeLessons?(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput>
+  /** مسودة واجب أو شرح من ملف واحد — يراجعها الأستاذ قبل أي نشر */
+  draftFromSource?(input: DraftFromSourceInput): Promise<DraftFromSourceOutput>
   /**
    * اختياري: تصحيح دفعة كاملة بنصف السعر؛ النتائج تُجلب لاحقاً بالاستطلاع.
    * المزوّد الذي لا يوفّرها يُعالَج فرادى.

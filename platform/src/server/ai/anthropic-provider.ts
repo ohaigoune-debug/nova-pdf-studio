@@ -1,4 +1,8 @@
 import {
+  DRAFT_SCHEMA,
+  draftSystem,
+  draftUser,
+  parseDraft,
   analyzeSystem,
   ESSAY_MAX_TOKENS,
   ESSAY_SCHEMA,
@@ -25,6 +29,8 @@ import type {
   AIProvider,
   AnalyzeStudentInput,
   AnalyzeStudentOutput,
+  DraftFromSourceInput,
+  DraftFromSourceOutput,
   EssayBatchItem,
   EssayBatchOutcome,
   EssayBatchStatus,
@@ -192,6 +198,10 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
       // ~160 رمزاً لكل درس في الردّ، مع هامش للقوائم الطويلة
       const maxTokens = Math.min(8000, 600 + input.items.length * 200)
       return parseOrganize(await complete(jsonParams(organizeSystem(input.subject, input.kind), organizeUser(input), maxTokens, ORGANIZE_SCHEMA)), input)
+    },
+
+    async draftFromSource(input: DraftFromSourceInput): Promise<DraftFromSourceOutput> {
+      return parseDraft(await complete(jsonParams(draftSystem(input.subject, input.mode), draftUser(input), 6000, DRAFT_SCHEMA)), input)
     }
   }
 }

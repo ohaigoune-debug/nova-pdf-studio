@@ -17,7 +17,7 @@ const TYPES = [
   { v: 'SHORT_ANSWER', label: 'إجابة قصيرة' }
 ]
 
-export function QuizGenerateForm({ groups, files, linkedFolder }: { groups: { id: string; name: string }[]; files: PickableFile[]; linkedFolder: { name: string; files: number } | null }) {
+export function QuizGenerateForm({ groups, files, linkedFolder, presetLink = null }: { groups: { id: string; name: string }[]; files: PickableFile[]; linkedFolder: { name: string; files: number } | null; presetLink?: string | null }) {
   const [state, action] = useActionState(requestQuizGenerationAction, null)
   if (state?.ok) {
     return (
@@ -37,7 +37,7 @@ export function QuizGenerateForm({ groups, files, linkedFolder }: { groups: { id
         <h2 className="font-extrabold">١. المصادر — لا يُسأل إلا عمّا فيها</h2>
         {linkedFolder ? (
           <label className="flex items-center gap-2 rounded-lg border p-3 text-sm">
-            <input type="checkbox" name="useLinkedFolder" defaultChecked className="size-4 accent-[hsl(var(--primary))]" />
+            <input type="checkbox" name="useLinkedFolder" defaultChecked={!presetLink} className="size-4 accent-[hsl(var(--primary))]" />
             <FolderOpen className="size-4 text-primary" /> مجلد Drive المربوط: <strong>{linkedFolder.name}</strong> ({linkedFolder.files} ملف)
           </label>
         ) : (
@@ -50,7 +50,7 @@ export function QuizGenerateForm({ groups, files, linkedFolder }: { groups: { id
           </p>
         )}
         <Field label="روابط Google Drive (ملف أو مجلد — رابط في كل سطر)" htmlFor="driveLinks" hint="المشاركة: «أي شخص لديه الرابط — عارض».">
-          <Textarea id="driveLinks" name="driveLinks" rows={3} dir="ltr" placeholder="https://drive.google.com/file/d/…" />
+          <Textarea id="driveLinks" name="driveLinks" rows={3} dir="ltr" defaultValue={presetLink ?? ""} placeholder="https://drive.google.com/file/d/…" />
         </Field>
         <Field label="ملفاتك (PDF، Word، نص)" error={fieldError(state, 'sources')}>
           <MultiFilePicker files={files} />

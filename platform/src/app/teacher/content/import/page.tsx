@@ -16,7 +16,7 @@ export default async function ImportPlaylistPage() {
   const ai = aiProviderInfo()
   return (
     <>
-      <PageHeader title={t('contentMgmt.importTitle')} description={t('contentMgmt.importSubtitle')} />
+      <PageHeader title="استيراد الدروس" description="ملفات كثيرة أو مجلد كامل من جهازك، أو روابط Google Drive، أو قائمة تشغيل يوتيوب — فتصير دروساً مرتّبة بالذكاء الاصطناعي." />
       {actor.role === 'TEACHER' ? (
         <Card className="mb-6 max-w-2xl">
           <CardContent className="space-y-4 p-6">

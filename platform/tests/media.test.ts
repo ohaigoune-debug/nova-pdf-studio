@@ -194,7 +194,7 @@ describe('رفع مباشر: تذكرة → تيار → إكمال', () => {
     await expectCode(() => createUploadTicket(h.db, student, { originalName: 'x.mp4', mimeType: 'video/mp4', sizeBytes: 10 }), 'FORBIDDEN')
     await expectCode(() => createUploadTicket(h.db, teacher, { originalName: 'x.exe', mimeType: 'application/x-msdownload', sizeBytes: 10 }), 'FILE_TYPE_NOT_ALLOWED')
     await expectCode(() => createUploadTicket(h.db, teacher, { originalName: 'big.mp4', mimeType: 'video/mp4', sizeBytes: 600 * 1024 * 1024 }), 'FILE_TOO_LARGE')
-    await expectCode(() => createUploadTicket(h.db, teacher, { originalName: 'big.pdf', mimeType: 'application/pdf', sizeBytes: 20 * 1024 * 1024 }), 'FILE_TOO_LARGE')
+    await expectCode(() => createUploadTicket(h.db, teacher, { originalName: 'big.pdf', mimeType: 'application/pdf', sizeBytes: 41 * 1024 * 1024 }), 'FILE_TOO_LARGE')
 
     const ticket = await createUploadTicket(h.db, teacher, { originalName: 'lecture.mp4', mimeType: 'video/mp4', sizeBytes: 1000 })
     expect(ticket.direct).toBe(false)
