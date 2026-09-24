@@ -29,6 +29,7 @@ export function navFor(role: UserRole): NavSection[] {
         {
           title: 'التعلّم',
           items: [
+            { href: '/student/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' },
             { href: '/student/lessons', label: t('nav.myLessons'), iconKey: 'BookOpen' },
             { href: '/student/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
             { href: '/student/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
@@ -68,6 +69,8 @@ export function navFor(role: UserRole): NavSection[] {
         {
           title: 'التعليم',
           items: [
+            { href: '/teacher/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' },
+            { href: '/teacher/announcements', label: 'الإشعارات', iconKey: 'Megaphone' },
             { href: '/teacher/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
             { href: '/teacher/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
             { href: '/teacher/rubrics', label: t('rubrics.title'), iconKey: 'ClipboardCheck' },

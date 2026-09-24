@@ -112,7 +112,10 @@ export const NOTIFICATION_TYPES = [
   'SUSPENDED_ABSENCE',
   'ENROLLED',
   'REACTIVATED',
-  'SYSTEM'
+  'SYSTEM',
+  'ANNOUNCEMENT',
+  'CLASS_POST',
+  'CLASS_COMMENT'
 ] as const
 export type NotificationType = (typeof NOTIFICATION_TYPES)[number]
 
