@@ -1,4 +1,4 @@
-import { ListChecks, Plus } from 'lucide-react'
+import { ListChecks, Plus, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -21,6 +21,11 @@ export default async function TeacherQuizzesPage() {
           <>
             <Button asChild variant="outline">
               <Link href="/teacher/rubrics">{t('rubrics.title')}</Link>
+            </Button>
+            <Button asChild variant="gold">
+              <Link href="/teacher/quizzes/generate">
+                <Sparkles className="size-4" /> توليد بالذكاء الاصطناعي
+              </Link>
             </Button>
             <Button asChild>
               <Link href="/teacher/quizzes/new">

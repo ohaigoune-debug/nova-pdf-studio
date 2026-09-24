@@ -4,7 +4,7 @@
  *
  * الأنواع المقروءة: مستندات Google وعروضها، PDF (ذات نصّ لا مصوّرة)، Word (docx)، والنص العادي.
  */
-import { fixArabicPdfOrder } from './arabic-pdf'
+import { cleanText, extractDocText } from './doc-text'
 import { AppError } from './errors'
 
 export const DRIVE_MIME = {
@@ -37,6 +37,24 @@ export interface DriveOptions {
 
 export function driveApiKey(): string | undefined {
   return process.env.GOOGLE_API_KEY || process.env.YOUTUBE_API_KEY || undefined
+}
+
+/** رابط ملف واحد: /file/d/ID، أو مستند/عرض Google، أو ?id=ID */
+export function parseDriveFileId(input: string): string | null {
+  const m = input.trim().match(/\/(?:file|document|presentation|spreadsheets)\/d\/([A-Za-z0-9_-]{10,})/)
+  return m ? m[1]! : null
+}
+
+/** بيانات ملف واحد (للروابط المفردة) */
+export async function getDriveFile(fileId: string, opts: DriveOptions = {}): Promise<DriveFile> {
+  const f = (await (await driveGet(`files/${encodeURIComponent(fileId)}`, { fields: 'id,name,mimeType,modifiedTime,size' }, opts)).json()) as {
+    id: string
+    name: string
+    mimeType: string
+    modifiedTime: string
+    size?: string
+  }
+  return { id: f.id, name: f.name, mimeType: f.mimeType, modifiedTime: f.modifiedTime, size: f.size ? Number(f.size) : undefined }
 }
 
 /** رابط مجلد (بأي صيغة يعطيها Drive) أو معرّفه مباشرة */
@@ -101,19 +119,6 @@ export async function listDriveFolder(folderId: string, opts: DriveOptions = {})
   return { name: meta.name ?? '', files }
 }
 
-/**
- * نصوص PDF العربية تخرج غالباً بأشكال العرض (ﻻ، ﺍ…) — NFKC يعيدها حروفاً عادية
- * فيفهمها النموذج ويعمل عليها البحث.
- */
-export function cleanText(s: string): string {
-  return s
-    .normalize('NFKC')
-    .replace(/\u0000/g, '')
-    .replace(/[ \t ]+/g, ' ')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim()
-}
-
 /** نصّ ملف واحد، أو '' إن لم يكن فيه نصّ (PDF مصوّر مثلاً) */
 export async function fetchDriveText(file: DriveFile, opts: DriveOptions = {}): Promise<string> {
   if (file.size && file.size > MAX_BYTES) return ''
@@ -124,17 +129,5 @@ export async function fetchDriveText(file: DriveFile, opts: DriveOptions = {}): 
   const res = await driveGet(`files/${encodeURIComponent(file.id)}`, { alt: 'media' }, opts)
   const buf = new Uint8Array(await res.arrayBuffer())
   if (buf.byteLength > MAX_BYTES) return ''
-  if (file.mimeType === DRIVE_MIME.text) return cleanText(new TextDecoder().decode(buf))
-  if (file.mimeType === DRIVE_MIME.pdf) {
-    const { extractText, getDocumentProxy } = await import('unpdf')
-    const pdf = await getDocumentProxy(buf)
-    const { text } = await extractText(pdf, { mergePages: true })
-    return cleanText(fixArabicPdfOrder(text.normalize('NFKC')))
-  }
-  if (file.mimeType === DRIVE_MIME.docx) {
-    const mammoth = await import('mammoth')
-    const { value } = await mammoth.extractRawText({ buffer: Buffer.from(buf) })
-    return cleanText(value)
-  }
-  return ''
+  return extractDocText(buf, file.mimeType)
 }

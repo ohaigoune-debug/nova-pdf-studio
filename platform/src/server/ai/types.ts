@@ -74,6 +74,8 @@ export interface GenerateExercisesInput {
    * (تُختار بما يخصّ المهارة؛ الخدمة ترفض الطلب إن لم يوجد شيء.)
    */
   sources: { title: string; text: string }[]
+  /** أنواع الأسئلة المسموحة (فارغة ⇒ كلّها) */
+  questionTypes?: GeneratedQuestion['type'][]
 }
 
 export interface GeneratedQuestion {

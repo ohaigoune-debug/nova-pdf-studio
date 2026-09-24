@@ -3,9 +3,6 @@
  * يُحفظ في إعدادات مساحة عمله، وتُخبَّأ نصوص ملفاته على القرص بمفتاح (الملف + تاريخ تعديله)
  * فلا يُعاد تنزيل ملف لم يتغيّر.
  */
-import { createHash } from 'node:crypto'
-import { promises as fs } from 'node:fs'
-import path from 'node:path'
 import { eq } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { teacherWorkspaces } from '@/server/db/schema'
@@ -13,7 +10,8 @@ import { assertRole, type Actor } from '@/server/lib/actor'
 import { normalizeArabic } from '@/server/lib/arabic'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError } from '@/server/lib/errors'
-import { fetchDriveText, listDriveFolder, parseDriveFolderId, type DriveFile, type DriveOptions } from '@/server/lib/google-drive'
+import { fetchDriveText, listDriveFolder, parseDriveFolderId, type DriveOptions } from '@/server/lib/google-drive'
+import { cachedText } from '@/server/lib/text-cache'
 
 export interface DriveSource {
   folderId: string
@@ -66,23 +64,6 @@ export async function clearDriveSource(db: Db, actor: Actor): Promise<void> {
 
 /* ------------------------------ النصوص ------------------------------ */
 
-function cacheDir(): string {
-  return path.resolve(process.cwd(), process.env.DRIVE_CACHE_DIR ?? 'data/drive-cache')
-}
-
-async function cachedText(file: DriveFile, opts: DriveOptions): Promise<string> {
-  const key = createHash('sha256').update(`${file.id}:${file.modifiedTime}`).digest('hex')
-  const p = path.join(cacheDir(), `${key}.txt`)
-  try {
-    return await fs.readFile(p, 'utf8')
-  } catch {
-    const text = await fetchDriveText(file, opts)
-    await fs.mkdir(cacheDir(), { recursive: true })
-    await fs.writeFile(p, text, 'utf8')
-    return text
-  }
-}
-
 /** نصوص كل ملفات المجلد (الفارغة، كـ PDF المصوّر، تُسقط) */
 export async function loadSourceDocs(folderId: string, opts: DriveOptions = {}): Promise<SourceDoc[]> {
   const { files } = await listDriveFolder(folderId, opts)
@@ -92,7 +73,7 @@ export async function loadSourceDocs(folderId: string, opts: DriveOptions = {}):
     const batch = await Promise.all(
       files.slice(i, i + 3).map(async (f) => {
         try {
-          return { title: f.name, text: await cachedText(f, opts) }
+          return { title: f.name, text: await cachedText(`drive:${f.id}:${f.modifiedTime}`, () => fetchDriveText(f, opts)) }
         } catch (e) {
           // ملف واحد مقفل أو تالف لا يُسقط المجلد كلّه
           if (e instanceof AppError && e.code === 'DRIVE_API_DISABLED') throw e

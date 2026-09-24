@@ -54,7 +54,9 @@ function compareWithModel(model: string, answer: string): { matched: string[]; m
   return { matched, missing }
 }
 
-function exercisesFromSources(sources: { title: string; text: string }[], count: number): GeneratedQuestion[] {
+function exercisesFromSources(sources: { title: string; text: string }[], count: number, types?: GeneratedQuestion['type'][]): GeneratedQuestion[] {
+  // صحيح/خطأ من جملة الدرس نفسها إن لم يُسمح بالفراغات
+  const trueFalse = !!types?.length && !types.includes('FILL_BLANK') && types.includes('TRUE_FALSE')
   const sentences = sources
     .flatMap((s) => s.text.split(/[.!؟?\n]+/))
     .map((x) => x.replace(/\s+/g, ' ').trim())
@@ -68,6 +70,10 @@ function exercisesFromSources(sources: { title: string; text: string }[], count:
       .map((w) => w.replace(/[^\p{L}\p{N}]/gu, ''))
       .filter((w) => w.length >= 4 && !seen.has(w))
       .sort((a, b) => b.length - a.length)[0]
+    if (trueFalse) {
+      out.push({ type: 'TRUE_FALSE', prompt: `صحيح أم خطأ: ${s}`, answerKey: { value: true } })
+      continue
+    }
     if (!word) continue
     seen.add(word)
     const at = s.indexOf(word)
@@ -191,7 +197,7 @@ export function createMockProvider(): AIProvider {
       return { summary, nextLessonSuggestions: next, raw: { facts: facts.length } }
     },
     async generateExercises(input: GenerateExercisesInput): Promise<GenerateExercisesOutput> {
-      const questions = exercisesFromSources(input.sources, Math.max(1, input.count))
+      const questions = exercisesFromSources(input.sources, Math.max(1, input.count), input.questionTypes)
       return {
         title: `تمارين علاجية: ${input.skillName}`,
         description: `من دروسك في Drive لمهارة "${input.skillName}"${input.levelName ? ` — ${input.levelName}` : ''}. ولّدها المزوّد التجريبي؛ راجعها قبل النشر.`,

@@ -192,8 +192,11 @@ export const exercisesSystem = (subject?: string | null): string => [
 export const exercisesUser = (input: GenerateExercisesInput): string =>
   [
     `المهارة: ${input.skillName}${input.skillCategory ? ` (${input.skillCategory})` : ''}\nالمستوى: ${input.levelName ?? 'الثانوي'}\nعدد الأسئلة: ${input.count}`,
+    input.questionTypes?.length ? `أنواع الأسئلة المسموحة فقط: ${input.questionTypes.join('، ')}` : '',
     ...input.sources.map((s) => `<مصدر ملف="${s.title.replace(/"/g, "'")}">\n${s.text.replace(/<\/?مصدر/g, '')}\n</مصدر>`)
-  ].join('\n\n')
+  ]
+    .filter(Boolean)
+    .join('\n\n')
 
 export function parseExercises(j: Record<string, unknown>, input: GenerateExercisesInput): GenerateExercisesOutput {
   const qs = Array.isArray(j.questions) ? (j.questions as Record<string, unknown>[]) : []
