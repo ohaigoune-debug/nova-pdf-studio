@@ -31,7 +31,8 @@ export interface SyncReport {
   errors: number
 }
 
-const UA = 'MadrasaBot/1.0 (+https://madrasadz.com; روابط مواضيع البكالوريا مع ذكر المصدر)'
+// ترويسات HTTP بايتات لاتينية فقط: أي حرف عربي هنا يُسقط كل الطلبات
+const UA = 'MadrasaBot/1.0 (+https://madrasadz.com; bac exam links with source attribution)'
 
 /** موادّ احتياطية إن لم تُقرأ صفحة الفهرس (المعروفة من روابط DzExams العامة) */
 const FALLBACK_SUBJECTS = [

@@ -19,7 +19,9 @@ const pages: Record<string, string> = {
     <a href="/download/arabe-2024-lp-corrige.pdf">تحميل التصحيح</a>`,
   [`${B}/ar/annales/BBB222==`]: `<h1>موضوع 2019</h1><iframe src="https://cdn.dzexams.com/viewer/bac-2019-arabe.pdf"></iframe>`
 }
-const fakeSite = (async (u: RequestInfo | URL) => {
+const fakeSite = (async (u: RequestInfo | URL, init?: RequestInit) => {
+  // كما يفعل fetch الحقيقي: ترويسة بحرف غير لاتيني ترمي خطأ
+  new Headers(init?.headers)
   const html = pages[String(u)]
   return html === undefined ? new Response('not found', { status: 404 }) : new Response(html, { headers: { 'content-type': 'text/html' } })
 }) as typeof fetch
