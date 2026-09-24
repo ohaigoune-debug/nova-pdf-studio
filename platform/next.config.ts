@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   outputFileTracingRoot: __dirname,
   // unpdf يحمل pdf.js بمسارات ديناميكية: يُحمَّل من node_modules كما هو لا مجمَّعاً
-  serverExternalPackages: ['@electric-sql/pglite', 'pg', 'unpdf', 'mammoth'],
+  serverExternalPackages: ['@electric-sql/pglite', 'pg', 'unpdf', 'mammoth', 'jszip'],
   experimental: {
     serverActions: {
       bodySizeLimit: '10mb'

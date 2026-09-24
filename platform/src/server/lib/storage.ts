@@ -148,9 +148,13 @@ export const ALLOWED_MIME = new Set([
   'video/mp4',
   'video/webm',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'application/vnd.ms-powerpoint',
   'text/plain'
 ])
-export const MAX_UPLOAD_BYTES = 15 * 1024 * 1024
+/** ملفات الدروس (PDF مصوّر، عروض بصور) تتجاوز 15 MB كثيراً */
+export const MAX_UPLOAD_BYTES = 40 * 1024 * 1024
 /** الفيديوهات المرفوعة مباشرة: MAX_VIDEO_UPLOAD_MB (افتراضياً 500 MB) */
 export const MAX_VIDEO_UPLOAD_BYTES = () => {
   const mb = Number(process.env.MAX_VIDEO_UPLOAD_MB ?? 500)

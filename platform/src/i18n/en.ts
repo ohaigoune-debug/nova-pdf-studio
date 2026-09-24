@@ -46,6 +46,7 @@ const en: DeepPartial<typeof ar> = {
     home: 'Home',
     lessons: 'Lessons',
     bac: 'Baccalaureate',
+    pastBac: 'Past exams',
     resources: 'Resources',
     quizzes: 'Quizzes',
     login: 'Log in',

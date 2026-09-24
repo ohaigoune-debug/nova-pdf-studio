@@ -1,40 +1,29 @@
 'use client'
 
-import { FileText, Loader2, Upload } from 'lucide-react'
+import { FileText, FolderUp, Loader2, Upload } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { toast } from '@/components/ui/toast'
+import { LESSON_ACCEPT } from '@/lib/file-types'
+import { acceptedOnly, uploadMany } from '@/lib/upload-client'
 
 export interface PickableFile {
   id: string
   name: string
 }
 
-const ACCEPT = '.pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain'
-
-async function uploadOne(file: File): Promise<PickableFile> {
-  const mime = file.type || (file.name.toLowerCase().endsWith('.pdf') ? 'application/pdf' : file.name.toLowerCase().endsWith('.docx') ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' : 'text/plain')
-  const tr = await fetch('/api/v1/files/upload-ticket', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ name: file.name, mime, size: file.size }) })
-  const tj = await tr.json()
-  if (!tj.ok) throw new Error(tj.error?.message ?? 'تعذّر الرفع')
-  const ticket = tj.data as { fileId: string; url: string; headers: Record<string, string> }
-  const headers = Object.fromEntries(Object.entries(ticket.headers).filter(([k]) => k.toLowerCase() !== 'content-length'))
-  const put = await fetch(ticket.url, { method: 'PUT', headers, body: file })
-  if (!put.ok) throw new Error(`تعذّر رفع ${file.name}`)
-  const cr = await fetch(`/api/v1/files/${ticket.fileId}/complete`, { method: 'POST' })
-  const cj = await cr.json()
-  if (!cj.ok) throw new Error(cj.error?.message ?? 'تعذّر الرفع')
-  return { id: ticket.fileId, name: file.name }
-}
+/** خاصية اختيار مجلد كامل (غير معرّفة في أنواع React) */
+const FOLDER_PROPS = { webkitdirectory: '', directory: '' } as Record<string, string>
 
 /**
- * اختيار ملفات كثيرة دفعة واحدة: من ملفاتك على المنصة، أو برفع جديدة (PDF وWord ونص).
+ * اختيار ملفات كثيرة دفعة واحدة: من ملفاتك على المنصة، أو برفع جديدة، أو مجلد كامل بمجلداته الفرعية.
  * كل ملف مختار يُرسل مع النموذج كحقل name (معرّفه).
  */
 export function MultiFilePicker({ files: initial, name = 'fileIds' }: { files: PickableFile[]; name?: string }) {
   const [files, setFiles] = useState(initial)
   const [checked, setChecked] = useState<Set<string>>(new Set())
   const [busy, setBusy] = useState<string | null>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const filesRef = useRef<HTMLInputElement>(null)
+  const folderRef = useRef<HTMLInputElement>(null)
 
   const toggle = (id: string) =>
     setChecked((prev) => {
@@ -45,32 +34,42 @@ export function MultiFilePicker({ files: initial, name = 'fileIds' }: { files: P
     })
 
   const onPick = async (list: FileList | null) => {
-    if (!list?.length) return
-    const added: PickableFile[] = []
-    for (const [i, f] of [...list].entries()) {
-      setBusy(`${i + 1}/${list.length} — ${f.name}`)
-      try {
-        added.push(await uploadOne(f))
-      } catch (e) {
-        toast('error', e instanceof Error ? e.message : 'تعذّر الرفع')
-      }
+    const picked = list ? acceptedOnly(list, LESSON_ACCEPT) : []
+    if (filesRef.current) filesRef.current.value = ''
+    if (folderRef.current) folderRef.current.value = ''
+    if (picked.length === 0) {
+      if (list?.length) toast('error', 'لا ملفات دروس في الاختيار (PDF، Word، PowerPoint، نص)')
+      return
     }
+    const { ok, failed } = await uploadMany(picked, setBusy)
     setBusy(null)
-    if (inputRef.current) inputRef.current.value = ''
-    if (added.length) {
-      setFiles((prev) => [...added, ...prev])
-      setChecked((prev) => new Set([...prev, ...added.map((a) => a.id)]))
-      toast('success', `رُفع ${added.length} ملف واختير`)
+    for (const f of failed.slice(0, 3)) toast('error', f)
+    if (ok.length) {
+      setFiles((prev) => [...ok, ...prev])
+      setChecked((prev) => new Set([...prev, ...ok.map((a) => a.id)]))
+      toast('success', `رُفع ${ok.length} ملف واختير${failed.length ? ` — وتعذّر ${failed.length}` : ''}`)
     }
   }
 
+  const btn = 'flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-primary/40 bg-primary/5 p-4 text-sm font-bold text-primary hover:bg-primary/10'
   return (
     <div className="space-y-3">
-      <label className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-primary/40 bg-primary/5 p-4 text-sm font-bold text-primary hover:bg-primary/10">
-        {busy ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-4" />}
-        {busy ? `جارٍ الرفع ${busy}` : 'ارفع ملفات من جهازك (يمكن اختيار عدة ملفات)'}
-        <input ref={inputRef} type="file" multiple accept={ACCEPT} className="sr-only" disabled={!!busy} onChange={(e) => void onPick(e.target.files)} />
-      </label>
+      {busy ? (
+        <p className={btn}>
+          <Loader2 className="size-4 animate-spin" /> جارٍ الرفع {busy}
+        </p>
+      ) : (
+        <div className="grid gap-2 sm:grid-cols-2">
+          <label className={btn}>
+            <Upload className="size-4" /> ارفع ملفات
+            <input ref={filesRef} type="file" multiple accept={LESSON_ACCEPT} className="sr-only" onChange={(e) => void onPick(e.target.files)} />
+          </label>
+          <label className={btn}>
+            <FolderUp className="size-4" /> ارفع مجلداً كاملاً
+            <input ref={folderRef} type="file" multiple {...FOLDER_PROPS} className="sr-only" onChange={(e) => void onPick(e.target.files)} />
+          </label>
+        </div>
+      )}
       {files.length ? (
         <div className="max-h-64 space-y-1 overflow-y-auto rounded-lg border p-2">
           {files.map((f) => (
@@ -82,9 +81,11 @@ export function MultiFilePicker({ files: initial, name = 'fileIds' }: { files: P
           ))}
         </div>
       ) : (
-        <p className="text-xs text-muted-foreground">لا ملفات بعد — ارفع ملفاتك أعلاه.</p>
+        <p className="text-xs text-muted-foreground">لا ملفات بعد — ارفع ملفاتك أو مجلداً كاملاً أعلاه.</p>
       )}
-      <p className="text-xs text-muted-foreground">{checked.size} ملف مختار</p>
+      <p className="text-xs text-muted-foreground">
+        {checked.size} ملف مختار · PDF وWord (.docx) وPowerPoint (.pptx) والنص تُقرأ. الصيغ القديمة (.doc و.ppt) تُرفع لكن لا تُقرأ: احفظها من Word أو PowerPoint بصيغة .docx/.pptx أو PDF.
+      </p>
     </div>
   )
 }

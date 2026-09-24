@@ -88,6 +88,7 @@ const ar = {
     home: 'الرئيسية',
     lessons: 'الدروس',
     bac: 'البكالوريا',
+    pastBac: 'بكالوريات سابقة',
     resources: 'الموارد',
     quizzes: 'الاختبارات',
     login: 'تسجيل الدخول',

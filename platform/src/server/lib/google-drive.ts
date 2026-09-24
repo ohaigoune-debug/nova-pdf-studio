@@ -13,10 +13,11 @@ export const DRIVE_MIME = {
   gslides: 'application/vnd.google-apps.presentation',
   pdf: 'application/pdf',
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
   text: 'text/plain'
 } as const
 
-const READABLE: string[] = [DRIVE_MIME.gdoc, DRIVE_MIME.gslides, DRIVE_MIME.pdf, DRIVE_MIME.docx, DRIVE_MIME.text]
+const READABLE: string[] = [DRIVE_MIME.gdoc, DRIVE_MIME.gslides, DRIVE_MIME.pdf, DRIVE_MIME.docx, DRIVE_MIME.pptx, DRIVE_MIME.text]
 /** حدود تحمي الخادم من مجلد ضخم أو ملف عملاق */
 export const MAX_FILES = 80
 const MAX_DEPTH = 2

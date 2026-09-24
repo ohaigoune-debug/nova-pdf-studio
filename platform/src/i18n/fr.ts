@@ -46,6 +46,7 @@ const fr: DeepPartial<typeof ar> = {
     home: 'Accueil',
     lessons: 'Cours',
     bac: 'Baccalauréat',
+    pastBac: 'Sujets des années passées',
     resources: 'Ressources',
     quizzes: 'Quiz',
     login: 'Connexion',

@@ -12,6 +12,7 @@ export default async function PublicLayout({ children }: { children: ReactNode }
   const links = [
     { href: '/lessons', label: t('nav.lessons') },
     { href: '/bac', label: t('nav.bac') },
+    { href: '/past-bac', label: t('nav.pastBac') },
     { href: '/resources', label: t('nav.resources') },
     { href: '/quizzes', label: t('nav.quizzes') }
   ]
