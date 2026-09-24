@@ -1077,6 +1077,7 @@ const ar = {
     ai_evaluate_decide: 'قرّر في اقتراح تصحيح',
     ai_evaluate_apply_all: 'اعتمد اقتراحات التصحيح دفعةً',
     ai_exercises_request: 'طلب تمارين علاجية',
+    content_import_files: 'استيراد ملفات دروساً',
     ai_quiz_request: 'طلب توليد اختبار من المصادر',
     drive_source_link: 'ربط مجلد Drive مصدراً للتمارين',
     drive_source_unlink: 'فكّ ربط مجلد Drive',

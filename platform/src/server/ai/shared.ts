@@ -222,9 +222,13 @@ export const analyzeSystem = (subject?: string | null): string => [
 export const analyzeUser = (input: AnalyzeStudentInput): string =>
   `الطالب: ${input.studentName}\nالحقائق:\n${input.facts.map((f) => `- ${f}`).join('\n') || '- لا توجد حقائق بعد'}`
 
-export const organizeSystem = (subject?: string | null): string => [
-  `أنت ${teacherOf(subject)} بالجزائر تنظّم قائمة فيديوهات يوتيوب لتصبح دروساً في منصة تعليمية.`,
-  `لكل فيديو: عنوان نظيف (بلا "الحلقة 12" ولا اسم القناة ولا رموز ولا وسوم)، ملخّص سطرين يذكر ما يتعلّمه الطالب، ${LANGUAGE_RULE}`,
+export const organizeSystem = (subject?: string | null, kind: 'videos' | 'files' = 'videos'): string => [
+  kind === 'files'
+    ? `أنت ${teacherOf(subject)} بالجزائر تنظّم ملفات دروس (PDF وWord ومستندات) لتصبح دروساً مرتّبة في منصة تعليمية. العنصر هنا ملف، وyoutube_id مفتاحه الداخلي.`
+    : `أنت ${teacherOf(subject)} بالجزائر تنظّم قائمة فيديوهات يوتيوب لتصبح دروساً في منصة تعليمية.`,
+  kind === 'files'
+    ? `لكل ملف: عنوان درس نظيف مستخرج من مضمونه لا من اسم الملف (بلا امتدادات ولا أرقام نسخ)، ملخّص سطرين مما في المقتطف وحده، ${LANGUAGE_RULE}`
+    : `لكل فيديو: عنوان نظيف (بلا "الحلقة 12" ولا اسم القناة ولا رموز ولا وسوم)، ملخّص سطرين يذكر ما يتعلّمه الطالب، ${LANGUAGE_RULE}`,
   'المحور (الوحدة التعليمية) أو null إن لم يتّضح، وترتيب بيداغوجي يبدأ من 1 بحيث يسبق الأساسُ المتفرّعَ عنه.',
   'أعد JSON فقط: {"lessons":[{"youtube_id":string,"title":string,"summary":string,"topic":string|null,"order":number}]}',
   'أعد كل الفيديوهات المعطاة بلا حذف ولا إضافة، وانسخ youtube_id كما هو حرفاً بحرف. لا تخترع محتوى لا يدلّ عليه العنوان أو الوصف.'
@@ -236,8 +240,9 @@ export function organizeUser(input: OrganizeLessonsInput): string {
     input.levelName ? `المستوى: ${input.levelName}` : '',
     input.streamName ? `الشعبة: ${input.streamName}` : ''
   ].filter(Boolean)
-  const items = input.items.map((i, n) => `${n + 1}. [${i.youtubeId}] ${i.title}${i.description ? `\n   الوصف: ${i.description.slice(0, 300)}` : ''}`)
-  return [...head, '', 'الفيديوهات بترتيب القائمة:', ...items].join('\n')
+  const files = input.kind === 'files'
+  const items = input.items.map((i, n) => `${n + 1}. [${i.youtubeId}] ${i.title}${i.description ? `\n   ${files ? 'مقتطف' : 'الوصف'}: ${i.description.slice(0, files ? 900 : 300)}` : ''}`)
+  return [...head, '', files ? 'الملفات:' : 'الفيديوهات بترتيب القائمة:', ...items].join('\n')
 }
 
 /** يحرس المخرجات: المعرّفات من القائمة فقط، والترتيب متتالٍ بلا تكرار */

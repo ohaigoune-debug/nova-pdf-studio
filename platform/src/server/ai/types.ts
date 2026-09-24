@@ -122,6 +122,8 @@ export interface OrganizeLessonsInput {
   levelName: string | null
   streamName: string | null
   items: OrganizePlaylistItem[]
+  /** فيديوهات يوتيوب (الافتراضي) أو ملفات دروس؛ للملفات يكون youtubeId مفتاحاً داخلياً والوصف مقتطفاً من النص */
+  kind?: 'videos' | 'files'
 }
 
 export interface OrganizedLesson {

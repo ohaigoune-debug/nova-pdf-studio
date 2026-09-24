@@ -232,7 +232,11 @@ export function createMockProvider(): AIProvider {
     /** بلا نموذج: ترتيب القائمة كما هو وعنوان منظّف، ولا يُخترع ملخّص */
     async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {
       return {
-        lessons: input.items.map((i, n) => ({ youtubeId: i.youtubeId, title: cleanTitle(i.title), summary: '', topic: null, order: n + 1 })),
+        lessons: input.items.map((i, n) =>
+          input.kind === 'files'
+            ? { youtubeId: i.youtubeId, title: cleanTitle(i.title.replace(/\.[a-z0-9]{2,5}$/i, '')), summary: (i.description ?? '').split(/[.!؟?\n]/)[0]!.trim().slice(0, 160), topic: null, order: n + 1 }
+            : { youtubeId: i.youtubeId, title: cleanTitle(i.title), summary: '', topic: null, order: n + 1 }
+        ),
         raw: { count: input.items.length }
       }
     }

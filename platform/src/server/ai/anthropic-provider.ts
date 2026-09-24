@@ -191,7 +191,7 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
     async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {
       // ~160 رمزاً لكل درس في الردّ، مع هامش للقوائم الطويلة
       const maxTokens = Math.min(8000, 600 + input.items.length * 200)
-      return parseOrganize(await complete(jsonParams(organizeSystem(input.subject), organizeUser(input), maxTokens, ORGANIZE_SCHEMA)), input)
+      return parseOrganize(await complete(jsonParams(organizeSystem(input.subject, input.kind), organizeUser(input), maxTokens, ORGANIZE_SCHEMA)), input)
     }
   }
 }

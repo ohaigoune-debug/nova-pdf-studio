@@ -138,7 +138,7 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
 
     async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {
       const maxTokens = Math.min(8000, 600 + input.items.length * 200)
-      return parseOrganize(await complete(schemaParams(organizeSystem(input.subject), organizeUser(input), maxTokens, 'organized_lessons', ORGANIZE_SCHEMA)), input)
+      return parseOrganize(await complete(schemaParams(organizeSystem(input.subject, input.kind), organizeUser(input), maxTokens, 'organized_lessons', ORGANIZE_SCHEMA)), input)
     }
   }
 }

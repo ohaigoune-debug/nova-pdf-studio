@@ -1,3 +1,4 @@
+import { runFileImportJob } from '@/server/services/file-import.service'
 import { runGenerateQuizJob } from '@/server/services/quiz-generate.service'
 import type { Db } from '@/server/db/connect'
 import { runAiBatchCollectJob, runAiEvaluationJob, runAnalyzeStudentJob, runGenerateExercisesJob, runTeacherInsightsJob } from '@/server/services/ai.service'
@@ -14,6 +15,7 @@ const handlers: Record<JobType, Handler> = {
   AI_TEACHER_INSIGHTS: (db, job) => runTeacherInsightsJob(db, String(job.payload.workspaceId ?? ''), String(job.payload.userId ?? '')),
   AI_GENERATE_EXERCISES: (db, job) => runGenerateExercisesJob(db, job.payload),
   AI_GENERATE_QUIZ: (db, job) => runGenerateQuizJob(db, job.payload),
+  AI_IMPORT_FILES: (db, job) => runFileImportJob(db, job.payload),
   AI_ANALYZE_STUDENT: (db, job) => runAnalyzeStudentJob(db, job.payload),
   REPORT_EXPORT: (db, job) => runReportJob(db, job.payload),
   CLEANUP: async (db) => ({ ...(await runCleanupJob(db)) }),
