@@ -5,6 +5,7 @@
 import { sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { bacExams } from '@/server/db/schema'
+import { backfillBacExams } from '@/server/services/resources.service'
 import { annaleLinks, downloadLinks, DZ_BASE, extractLinks, pageTitle, paginationLinks, streamLinks, streamOf, subjectLinks, yearOf } from './dzexams'
 
 export interface SyncOptions {
@@ -155,6 +156,11 @@ export async function syncBacExams(db: Db | null, opts: SyncOptions = {}): Promi
         })
       report.saved++
     }
+  }
+  // ما حُفظ ينتقل فوراً إلى المكتبة الموحّدة (بلا تكرار)
+  if (db && !opts.dry && report.saved > 0) {
+    const moved = await backfillBacExams(db)
+    log(`المكتبة الموحّدة: ${moved.exams} موضوعاً جديداً و${moved.solutions} تصحيحاً`)
   }
   log(`تمّ: ${report.found} موضوعاً، حُفظ ${report.saved}، منها ${report.withDirectLink} برابط تنزيل مباشر، أخطاء ${report.errors}`)
   return report

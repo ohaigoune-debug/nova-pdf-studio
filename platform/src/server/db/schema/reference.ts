@@ -1,6 +1,6 @@
-import { boolean, check, date, index, integer, pgTable, text, uuid } from 'drizzle-orm/pg-core'
+import { boolean, check, date, index, integer, pgTable, text, uuid, type AnyPgColumn } from 'drizzle-orm/pg-core'
 import { id, inList, timestamps } from './_common'
-import { SCHOOL_TYPES } from './enums'
+import { EDUCATION_STAGES, SCHOOL_TYPES } from './enums'
 import { teacherWorkspaces } from './tenancy'
 
 export const wilayas = pgTable('wilayas', {
@@ -41,18 +41,60 @@ export const academicYears = pgTable('academic_years', {
   ...timestamps
 })
 
-export const levels = pgTable('levels', {
-  id: id(),
-  code: text('code').notNull().unique(),
-  nameAr: text('name_ar').notNull(),
-  sortOrder: integer('sort_order').notNull().default(0),
-  ...timestamps
-})
+/** الأطوار: ابتدائي، متوسط، ثانوي — ولكل طور امتحانه الوطني (شهادة الابتدائي، BEM، BAC) */
+export const educationStages = pgTable(
+  'education_stages',
+  {
+    id: id(),
+    code: text('code').notNull().unique(),
+    nameAr: text('name_ar').notNull(),
+    nameFr: text('name_fr').notNull(),
+    /** رمز الامتحان الوطني للطور: 5AP، BEM، BAC */
+    examCode: text('exam_code'),
+    sortOrder: integer('sort_order').notNull().default(0),
+    ...timestamps
+  },
+  (t) => [check('education_stages_code_check', inList(t.code, EDUCATION_STAGES))]
+)
+
+/**
+ * «الصفوف» (1AP…5AP، 1AM…4AM، 1AS…3AS). الاسم التاريخي للجدول levels يبقى
+ * لأن أعمدة levelId منتشرة في الأفواج والتلاميذ والمحتوى.
+ */
+export const levels = pgTable(
+  'levels',
+  {
+    id: id(),
+    code: text('code').notNull().unique(),
+    nameAr: text('name_ar').notNull(),
+    /** اسم قصير للروابط والشارات: 3AS، 4AM */
+    slug: text('slug'),
+    stageId: uuid('stage_id').references(() => educationStages.id),
+    sortOrder: integer('sort_order').notNull().default(0),
+    ...timestamps
+  },
+  (t) => [index('levels_stage_idx').on(t.stageId, t.sortOrder)]
+)
 
 export const streams = pgTable('streams', {
   id: id(),
   code: text('code').notNull().unique(),
   nameAr: text('name_ar').notNull(),
+  slug: text('slug'),
+  /** خيارات شعبة تقني رياضي (هندسة مدنية، ميكانيكية، كهربائية، طرائق) تتفرّع عنها */
+  parentId: uuid('parent_id').references((): AnyPgColumn => streams.id),
+  sortOrder: integer('sort_order').notNull().default(0),
+  ...timestamps
+})
+
+/** المواد — مصدر واحد لكل التسميات بدل النصوص الحرّة المنتشرة */
+export const subjects = pgTable('subjects', {
+  id: id(),
+  code: text('code').notNull().unique(),
+  /** للروابط العامة: /3as/sciences/math */
+  slug: text('slug').notNull().unique(),
+  nameAr: text('name_ar').notNull(),
+  nameFr: text('name_fr').notNull(),
   sortOrder: integer('sort_order').notNull().default(0),
   ...timestamps
 })

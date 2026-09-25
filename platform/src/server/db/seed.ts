@@ -8,6 +8,7 @@ import { hashPassword } from '@/server/auth/password'
 import { createSession, resolveActor } from '@/server/auth/session'
 import { createDatabase, type Db } from '@/server/db/connect'
 import { LEVELS, SKILLS, STREAMS, WILAYAS } from '@/server/db/reference-data'
+import { seedCurriculum } from '@/server/db/seed-curriculum'
 import {
   academicYears,
   appSettings,
@@ -65,6 +66,8 @@ export async function seedReferenceData(db: Db) {
       { label: '2026/2027', startsOn: '2026-09-01', endsOn: '2027-06-30', isCurrent: true }
     ])
   }
+  // المنهاج والمصادر: يُكمَّل عند كل تشغيل (قاعدة قديمة تأخذ الأطوار والمواد الجديدة)
+  await seedCurriculum(db)
 }
 
 export async function ensureSuperAdmin(db: Db, email: string, password: string, fullName = 'مالك المنصة') {

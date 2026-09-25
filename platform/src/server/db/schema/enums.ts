@@ -134,3 +134,30 @@ export const TIMELINE_TYPES = [
   'QUIZ_COMPLETED'
 ] as const
 export type TimelineType = (typeof TIMELINE_TYPES)[number]
+
+/* ---------------- المكتبة الوطنية وتصنيف المنهاج (الإصدار الثاني) ---------------- */
+
+export const EDUCATION_STAGES = ['PRIMARY', 'MIDDLE', 'SECONDARY'] as const
+export type EducationStage = (typeof EDUCATION_STAGES)[number]
+
+/** أنواع عُقد المنهاج: شجرة واحدة لأن عمقها يختلف من مادة لأخرى */
+export const CURRICULUM_NODE_KINDS = ['UNIT', 'CHAPTER', 'LESSON', 'TOPIC'] as const
+export type CurriculumNodeKind = (typeof CURRICULUM_NODE_KINDS)[number]
+
+export const CONTENT_SOURCE_TYPES = ['DZEXAMS', 'YOUTUBE', 'HAIGOUN', 'MADRASADZ', 'OFFICIAL_EXAM', 'OTHER'] as const
+export type ContentSourceType = (typeof CONTENT_SOURCE_TYPES)[number]
+
+/** نوع المورد في المكتبة */
+export const RESOURCE_TYPES = ['LESSON', 'SUMMARY', 'EXERCISE', 'HOMEWORK', 'TEST', 'EXAM', 'SOLUTION', 'VIDEO', 'PEDAGOGICAL', 'OTHER'] as const
+export type ResourceType = (typeof RESOURCE_TYPES)[number]
+
+export const RESOURCE_STATUSES = ['DRAFT', 'NEEDS_REVIEW', 'PUBLISHED', 'ARCHIVED', 'BROKEN'] as const
+export type ResourceStatus = (typeof RESOURCE_STATUSES)[number]
+
+/** من يصل إلى المورد: العموم، المسجّلون، تلاميذ الأكاديمية، أفواج محدّدة، مدفوع */
+export const ACCESS_LEVELS = ['PUBLIC', 'REGISTERED', 'STUDENTS', 'GROUP', 'PREMIUM'] as const
+export type AccessLevel = (typeof ACCESS_LEVELS)[number]
+
+/** دورة الامتحان: الرسمية، الاستدراكية، التجريبية (البكالوريا البيضاء) */
+export const EXAM_SESSIONS = ['NORMAL', 'MAKEUP', 'MOCK'] as const
+export type ExamSession = (typeof EXAM_SESSIONS)[number]

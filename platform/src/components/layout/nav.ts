@@ -122,6 +122,7 @@ export function navFor(role: UserRole): NavSection[] {
         {
           title: 'المنصة',
           items: [
+            { href: '/admin/curriculum', label: 'المنهاج والمكتبة', iconKey: 'Network' },
             { href: '/admin/content', label: t('nav.content'), iconKey: 'FileText' },
             { href: '/admin/ai', label: t('nav.ai'), iconKey: 'Cpu' },
             { href: '/admin/storage', label: t('nav.storage'), iconKey: 'HardDrive' },

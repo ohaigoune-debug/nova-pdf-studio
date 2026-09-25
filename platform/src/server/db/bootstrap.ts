@@ -3,6 +3,7 @@
  * يُشغَّل مرة واحدة بعد الهجرات:  ADMIN_EMAIL=… ADMIN_PASSWORD=… npm run db:bootstrap
  * آمن للتكرار: لا يلمس المرجعيات إن وُجدت ولا يعيد إنشاء المشرف.
  */
+import { backfillBacExams } from '@/server/services/resources.service'
 import { eq } from 'drizzle-orm'
 import { createDatabase, type Db } from './connect'
 import { users, wilayas } from './schema'
@@ -30,6 +31,8 @@ export async function bootstrapPlatform(db: Db, input: BootstrapInput): Promise<
 
   const hadReferenceData = (await db.select({ id: wilayas.id }).from(wilayas).limit(1)).length > 0
   await seedReferenceData(db)
+  // أرشيف البكالوريا القديم ← المكتبة الموحّدة (idempotent: لا يضاعف عند كل نشر)
+  await backfillBacExams(db)
 
   const existing = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1)
   const userId = await ensureSuperAdmin(db, email, input.password, input.fullName?.trim() || 'مالك المنصة')

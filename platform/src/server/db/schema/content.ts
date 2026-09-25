@@ -4,7 +4,8 @@ import { id, inList, softDelete, timestamps } from './_common'
 import { users } from './auth'
 import { CONTENT_TYPES, FILE_STATUSES, VISIBILITIES } from './enums'
 import { groups } from './groups'
-import { levels, streams } from './reference'
+import { curriculumNodes } from './curriculum'
+import { levels, streams, subjects } from './reference'
 import { students } from './students'
 import { teacherWorkspaces } from './tenancy'
 
@@ -34,14 +35,22 @@ export const files = pgTable(
   ]
 )
 
-export const skills = pgTable('skills', {
-  id: id(),
-  code: text('code').notNull().unique(),
-  nameAr: text('name_ar').notNull(),
-  category: text('category').notNull().default('GENERAL'),
-  description: text('description'),
-  ...timestamps
-})
+export const skills = pgTable(
+  'skills',
+  {
+    id: id(),
+    code: text('code').notNull().unique(),
+    nameAr: text('name_ar').notNull(),
+    category: text('category').notNull().default('GENERAL'),
+    description: text('description'),
+    /** مهارة مادة بعينها (إعراب الجمل ← العربية) — فارغ في المهارات العامة القديمة */
+    subjectId: uuid('subject_id').references(() => subjects.id),
+    /** أدقّ عقدة منهاج تنتمي إليها المهارة */
+    curriculumNodeId: uuid('curriculum_node_id').references(() => curriculumNodes.id),
+    ...timestamps
+  },
+  (t) => [index('skills_subject_idx').on(t.subjectId)]
+)
 
 export const content = pgTable(
   'content',
