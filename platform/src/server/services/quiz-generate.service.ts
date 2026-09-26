@@ -3,6 +3,7 @@
  * النتيجة مسودة غير منشورة يراجعها ثم ينشرها.
  */
 import { eq } from 'drizzle-orm'
+import { aiFailureReason } from '@/server/ai/failure'
 import { getAiProvider } from '@/server/ai/provider'
 import type { GeneratedQuestion } from '@/server/ai/types'
 import type { Db } from '@/server/db/connect'
@@ -10,7 +11,7 @@ import { profiles } from '@/server/db/schema'
 import { enqueueJob } from '@/server/jobs/queue'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
-import { AppError, assertUuid, PermanentJobError, type ErrorCode } from '@/server/lib/errors'
+import { AppError, assertUuid, isPermanentJobError, PermanentJobError, type ErrorCode } from '@/server/lib/errors'
 import { validateQuestion } from '@/server/lib/quiz-grading'
 import { t } from '@/i18n'
 import { workspaceSubject } from './ai.service'
@@ -71,7 +72,7 @@ export async function requestQuizGeneration(db: Db, actor: Actor, input: QuizGen
 
 const strs = (v: unknown): string[] => (Array.isArray(v) ? v.map(String) : [])
 
-export async function runGenerateQuizJob(db: Db, payload: Record<string, unknown>): Promise<Record<string, unknown>> {
+export async function runGenerateQuizJob(db: Db, payload: Record<string, unknown>, ctx: { lastAttempt?: boolean } = {}): Promise<Record<string, unknown>> {
   const workspaceId = String(payload.workspaceId ?? '')
   const userId = String(payload.userId ?? '')
   assertUuid(workspaceId, 'NOT_FOUND')
@@ -98,15 +99,23 @@ export async function runGenerateQuizJob(db: Db, payload: Record<string, unknown
   if (!sources) return stop(docs.length ? 'SOURCES_NO_MATCH' : 'DRIVE_EMPTY')
 
   const provider = getAiProvider()
-  const out = await provider.generateExercises({
-    subject: await workspaceSubject(db, workspaceId),
-    skillName: topic ?? 'مضمون المصادر المرفقة',
-    skillCategory: null,
-    levelName: null,
-    count: Number(payload.count ?? 10),
-    sources,
-    questionTypes: strs(payload.questionTypes) as GeneratedQuestion['type'][]
-  })
+  let out: Awaited<ReturnType<typeof provider.generateExercises>>
+  try {
+    out = await provider.generateExercises({
+      subject: await workspaceSubject(db, workspaceId),
+      skillName: topic ?? 'مضمون المصادر المرفقة',
+      skillCategory: null,
+      levelName: null,
+      count: Number(payload.count ?? 10),
+      sources,
+      questionTypes: strs(payload.questionTypes) as GeneratedQuestion['type'][]
+    })
+  } catch (e) {
+    // فشل نهائي (أو آخر محاولة): الأستاذ يعرف السبب بدل انتظار بلا نهاية
+    if (isPermanentJobError(e) || ctx.lastAttempt !== false)
+      await notify(db, { userId, workspaceId, type: 'SYSTEM', title: `لم يُولَّد الاختبار: ${label}`, body: aiFailureReason(e), link: '/teacher/quizzes/generate' })
+    throw e
+  }
   const allowed = strs(payload.questionTypes)
   const questions = out.questions
     .filter((q) => allowed.length === 0 || allowed.includes(q.type))

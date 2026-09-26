@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { aiFailureReason } from '@/server/ai/failure'
 import { createOpenAiProvider } from '@/server/ai/openai-provider'
+import { exercisesMaxTokens, salvageQuestions } from '@/server/ai/shared'
 import type { EvaluateEssayInput } from '@/server/ai/types'
 import { isPermanentJobError } from '@/server/lib/errors'
 
@@ -105,5 +107,32 @@ describe('مزوّد OpenAI', () => {
       ['bbbbbbbbbbb', 1],
       ['aaaaaaaaaaa', 2]
     ])
+  })
+
+  it('توليد الأسئلة: سقف الإخراج يتسع مع العدد، والردّ المبتور تُستنقذ أسئلته المكتملة', async () => {
+    expect(exercisesMaxTokens(20)).toBeGreaterThan(exercisesMaxTokens(5))
+    expect(exercisesMaxTokens(20)).toBeGreaterThanOrEqual(10_000)
+    const q = (i: number) => JSON.stringify({ type: 'TRUE_FALSE', prompt: `عبارة \"${i}\" {}`, options: [], answerKey: { value: true }, explanation: 'من الدرس' })
+    const cut = `{"title":"اختبار \\"الاستعارة\\"","description":"وصف","questions":[${q(1)},${q(2)},{"type":"MCQ","prompt":"سؤال لم يكتمل`
+    const fn = mockFetch(chat(cut, 'length'))
+    const out = await createOpenAiProvider({ apiKey: 'k' }).generateExercises({ skillName: 'الاستعارة', skillCategory: null, levelName: null, count: 20, sources: [{ title: 'درس', text: 'نص' }] })
+    expect(out.questions.map((x) => x.prompt)).toEqual(['عبارة "1" {}', 'عبارة "2" {}'])
+    expect(out.title).toBe('اختبار "الاستعارة"')
+    expect(JSON.parse(String(fn.mock.calls[0]![1]!.body)).max_completion_tokens).toBe(exercisesMaxTokens(20))
+    // لا شيء مكتمل ⇒ خطأ دائم كما كان
+    mockFetch(chat('{"title":"x","questions":[{"type":"MCQ","prompt":"نصف', 'length'))
+    await expect(createOpenAiProvider({ apiKey: 'k' }).generateExercises({ skillName: 's', skillCategory: null, levelName: null, count: 5, sources: [] })).rejects.toSatisfy(isPermanentJobError)
+    expect(salvageQuestions('لا JSON هنا')).toBeNull()
+  })
+
+  it('429 برصيد منتهٍ دائم لا يُعاد، وسبب الفشل يُشرح للأستاذ', async () => {
+    const fn = vi.fn(async () => ({ ok: false, status: 429, json: async () => ({}), text: async () => '{"error":{"code":"insufficient_quota"}}' }) as unknown as Response)
+    globalThis.fetch = fn as unknown as typeof fetch
+    const err = await createOpenAiProvider({ apiKey: 'k' }).evaluateEssay(input).catch((e: unknown) => e)
+    expect(isPermanentJobError(err)).toBe(true)
+    expect(aiFailureReason(err)).toContain('رصيد')
+    expect(aiFailureReason(new Error('AI HTTP 401'))).toContain('مفتاح')
+    expect(aiFailureReason(new Error('AI timeout'))).toContain('مهلة')
+    expect(aiFailureReason(new Error('AI output truncated (max_completion_tokens)'))).toContain('عدد الأسئلة')
   })
 })

@@ -14,6 +14,8 @@ import {
   analyzeUser,
   essayUser,
   exercisesUser,
+  exercisesMaxTokens,
+  exercisesTimeoutMs,
   extractJson,
   httpError,
   insightsUser,
@@ -21,6 +23,7 @@ import {
   parseEssay,
   parseExercises,
   parseOrganize,
+  salvageQuestions,
   strList,
   text
 } from './shared'
@@ -68,12 +71,16 @@ interface ChatResponse {
   choices?: { message?: { content?: string | null; refusal?: string | null }; finish_reason?: string | null }[]
 }
 
-/** ردّ مبتور أو مرفوض: مدفوع الثمن ولن يتحسن بالإعادة */
-function choiceText(res: ChatResponse): string {
+/** ردّ مبتور أو مرفوض: مدفوع الثمن ولن يتحسن بالإعادة — إلا ما يستنقذه salvage من المبتور */
+function choiceText(res: ChatResponse, salvage?: (raw: string) => Record<string, unknown> | null): string | Record<string, unknown> {
   const choice = res.choices?.[0]
   if (!choice) throw new PermanentJobError('AI response has no choices')
   if (choice.message?.refusal) throw new PermanentJobError('AI refused the request')
-  if (choice.finish_reason === 'length') throw new PermanentJobError('AI output truncated (max_completion_tokens)')
+  if (choice.finish_reason === 'length') {
+    const saved = salvage?.(choice.message?.content ?? '')
+    if (saved) return saved
+    throw new PermanentJobError('AI output truncated (max_completion_tokens)')
+  }
   if (choice.finish_reason === 'content_filter') throw new PermanentJobError('AI response blocked by content filter')
   return choice.message?.content ?? ''
 }
@@ -91,13 +98,16 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
   const timeoutMs = opts.timeoutMs ?? 60_000
   const headers = { 'content-type': 'application/json', authorization: `Bearer ${opts.apiKey}` }
 
-  async function complete(params: ChatParams): Promise<Record<string, unknown>> {
+  async function complete(params: ChatParams, o: { timeoutMs?: number; salvage?: (raw: string) => Record<string, unknown> | null } = {}): Promise<Record<string, unknown>> {
     const ctrl = new AbortController()
-    const timer = setTimeout(() => ctrl.abort(), timeoutMs)
+    const timer = setTimeout(() => ctrl.abort(), Math.max(timeoutMs, o.timeoutMs ?? 0))
     try {
-      const res = await fetch(`${baseUrl}/chat/completions`, { method: 'POST', headers, body: JSON.stringify(params), signal: ctrl.signal })
-      if (!res.ok) throw httpError(res.status)
-      return extractJson(choiceText((await res.json()) as ChatResponse))
+      const res = await fetch(`${baseUrl}/chat/completions`, { method: 'POST', headers, body: JSON.stringify(params), signal: ctrl.signal }).catch((e: unknown) => {
+        throw ctrl.signal.aborted ? new Error('AI timeout') : e
+      })
+      if (!res.ok) throw httpError(res.status, 'AI', await res.text().catch(() => ''))
+      const out = choiceText((await res.json()) as ChatResponse, o.salvage)
+      return typeof out === 'string' ? extractJson(out) : out
     } finally {
       clearTimeout(timer)
     }
@@ -134,7 +144,8 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
     },
 
     async generateExercises(input: GenerateExercisesInput): Promise<GenerateExercisesOutput> {
-      return parseExercises(await complete(jsonParams(exercisesSystem(input.subject), exercisesUser(input), 2500)), input)
+      const j = await complete(jsonParams(exercisesSystem(input.subject), exercisesUser(input), exercisesMaxTokens(input.count)), { timeoutMs: exercisesTimeoutMs(input.count), salvage: salvageQuestions })
+      return parseExercises(j, input)
     },
 
     async analyzeStudent(input: AnalyzeStudentInput): Promise<AnalyzeStudentOutput> {

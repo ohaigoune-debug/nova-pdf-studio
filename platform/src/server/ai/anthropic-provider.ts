@@ -13,6 +13,8 @@ import {
   organizeSystem,
   analyzeUser,
   essayUser,
+  exercisesMaxTokens,
+  exercisesTimeoutMs,
   exercisesUser,
   extractJson,
   httpError,
@@ -21,6 +23,7 @@ import {
   parseEssay,
   parseExercises,
   parseOrganize,
+  salvageQuestions,
   strList,
   text
 } from './shared'
@@ -91,21 +94,27 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
   const timeoutMs = opts.timeoutMs ?? 60_000
   const headers = { 'content-type': 'application/json', 'x-api-key': opts.apiKey, 'anthropic-version': '2023-06-01' }
 
-  async function request(url: string, init: RequestInit): Promise<Response> {
+  async function request(url: string, init: RequestInit, waitMs = timeoutMs): Promise<Response> {
     const ctrl = new AbortController()
-    const timer = setTimeout(() => ctrl.abort(), timeoutMs)
+    const timer = setTimeout(() => ctrl.abort(), Math.max(timeoutMs, waitMs))
     try {
-      const res = await fetch(url, { ...init, headers, signal: ctrl.signal })
-      if (!res.ok) throw httpError(res.status)
+      const res = await fetch(url, { ...init, headers, signal: ctrl.signal }).catch((e: unknown) => {
+        throw ctrl.signal.aborted ? new Error('AI timeout') : e
+      })
+      if (!res.ok) throw httpError(res.status, 'AI', await res.text().catch(() => ''))
       return res
     } finally {
       clearTimeout(timer)
     }
   }
 
-  async function complete(params: MessageParams): Promise<Record<string, unknown>> {
-    const res = await request(API_URL, { method: 'POST', body: JSON.stringify(params) })
+  async function complete(params: MessageParams, o: { timeoutMs?: number; salvage?: (raw: string) => Record<string, unknown> | null } = {}): Promise<Record<string, unknown>> {
+    const res = await request(API_URL, { method: 'POST', body: JSON.stringify(params) }, o.timeoutMs)
     const msg = (await res.json()) as ApiMessage
+    if (msg.stop_reason === 'max_tokens' && o.salvage) {
+      const saved = o.salvage(messageText(msg))
+      if (saved) return saved
+    }
     assertComplete(msg)
     return extractJson(messageText(msg))
   }
@@ -186,7 +195,8 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
     },
 
     async generateExercises(input: GenerateExercisesInput): Promise<GenerateExercisesOutput> {
-      return parseExercises(await complete(textParams(exercisesSystem(input.subject), exercisesUser(input), 2500)), input)
+      const j = await complete(textParams(exercisesSystem(input.subject), exercisesUser(input), exercisesMaxTokens(input.count)), { timeoutMs: exercisesTimeoutMs(input.count), salvage: salvageQuestions })
+      return parseExercises(j, input)
     },
 
     async analyzeStudent(input: AnalyzeStudentInput): Promise<AnalyzeStudentOutput> {

@@ -1,11 +1,12 @@
 import { and, desc, eq, inArray, sql } from 'drizzle-orm'
+import { aiFailureReason } from '@/server/ai/failure'
 import { aiProviderInfo, getAiProvider } from '@/server/ai/provider'
 import type { EssayBatchItem, EvaluateEssayInput, EvaluateEssayOutput } from '@/server/ai/types'
 import type { Db } from '@/server/db/connect'
 import { aiEvaluations, appSettings, assignmentSubmissions, assignments, grades, jobs, levels, profiles, quizAttempts, quizzes, rubricItems, skills, teacherReviews, teachers } from '@/server/db/schema'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
-import { AppError, assertUuid, PermanentJobError } from '@/server/lib/errors'
+import { AppError, assertUuid, isPermanentJobError, PermanentJobError } from '@/server/lib/errors'
 import { enqueueJob } from '@/server/jobs/queue'
 import { dataInsights } from '@/server/queries/teacher-extras.queries'
 import { getAssignmentForTeacher, loadSubmissionCtx, reviewSubmission, type ReviewInput } from './assignments.service'
@@ -692,7 +693,7 @@ export async function requestExercises(db: Db, actor: Actor, input: { skillId: s
   return { jobId: job.id }
 }
 
-export async function runGenerateExercisesJob(db: Db, payload: Record<string, unknown>): Promise<Record<string, unknown>> {
+export async function runGenerateExercisesJob(db: Db, payload: Record<string, unknown>, ctx: { lastAttempt?: boolean } = {}): Promise<Record<string, unknown>> {
   const workspaceId = String(payload.workspaceId ?? '')
   const userId = String(payload.userId ?? '')
   const skillId = String(payload.skillId ?? '')
@@ -728,7 +729,14 @@ export async function runGenerateExercisesJob(db: Db, payload: Record<string, un
   if (!sources) return stop('DRIVE_NO_MATCH')
 
   const provider = getAiProvider()
-  const out = await provider.generateExercises({ subject: await workspaceSubject(db, workspaceId), skillName: sk.nameAr, skillCategory: sk.category, levelName, count: Number(payload.count ?? 5), sources })
+  let out: Awaited<ReturnType<typeof provider.generateExercises>>
+  try {
+    out = await provider.generateExercises({ subject: await workspaceSubject(db, workspaceId), skillName: sk.nameAr, skillCategory: sk.category, levelName, count: Number(payload.count ?? 5), sources })
+  } catch (e) {
+    if (isPermanentJobError(e) || ctx.lastAttempt !== false)
+      await notify(db, { userId, workspaceId, type: 'SYSTEM', title: `لم تُولَّد تمارين: ${sk.nameAr}`, body: aiFailureReason(e), link: groupId ? `/teacher/groups/${groupId}` : '/teacher/quizzes' })
+    throw e
+  }
   const questions = out.questions
     .map((q) => ({ type: q.type, prompt: q.prompt.trim(), points: 1, skillId, answerKey: q.answerKey, options: q.type === 'MCQ' ? (q.options ?? []) : [] }))
     .filter((q) => validateQuestion(q) === null)

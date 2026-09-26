@@ -7,7 +7,9 @@ import type { DatabaseHandle } from '@/server/db/connect'
 import { jobs, notifications } from '@/server/db/schema'
 import { processQueuedJobs } from '@/server/jobs/runner'
 import type { Actor } from '@/server/lib/actor'
-import { AppError } from '@/server/lib/errors'
+import { setAiProviderForTests } from '@/server/ai/provider'
+import type { AIProvider } from '@/server/ai/types'
+import { AppError, PermanentJobError } from '@/server/lib/errors'
 import { uploadFile } from '@/server/services/files.service'
 import { createGroup } from '@/server/services/groups.service'
 import { requestQuizGeneration } from '@/server/services/quiz-generate.service'
@@ -97,5 +99,19 @@ describe('توليد اختبار من مصادر الأستاذ وحدها', ()
     await expect(requestQuizGeneration(h.db, other, { ...base, groupIds: [], fileIds: [fileId] })).rejects.toMatchObject({ code: 'FILE_NOT_FOUND' })
     await expect(requestQuizGeneration(h.db, teacher, { ...base, groupIds: [], fileIds: [fileId] })).rejects.toBeInstanceOf(AppError)
     await expect(requestQuizGeneration(h.db, teacher, { ...base, groupIds: [group.id], fileIds: [], useLinkedFolder: true })).rejects.toMatchObject({ code: 'DRIVE_SOURCE_MISSING' })
+  })
+
+  it('فشل الذكاء الاصطناعي نفسه (رصيد منتهٍ): إشعار بسبب مفهوم، بلا إعادة', async () => {
+    const failing = { name: 'openai', model: 'x', generateExercises: async () => { throw new PermanentJobError('AI HTTP 429 insufficient_quota') } } as unknown as AIProvider
+    setAiProviderForTests(failing)
+    try {
+      const r = await requestQuizGeneration(h.db, teacher, { topic: 'الاستعارة', count: 20, questionTypes: [], groupIds: [group.id], fileIds: [fileId], driveLinks: [], useLinkedFolder: false })
+      const job = await runAndGetQuiz(r.jobId)
+      expect(job).toMatchObject({ status: 'FAILED', attempts: 1 })
+      const n = await h.db.select().from(notifications).where(eq(notifications.userId, teacher.userId))
+      expect(n.some((x) => x.title === 'لم يُولَّد الاختبار: الاستعارة' && (x.body ?? '').includes('رصيد'))).toBe(true)
+    } finally {
+      setAiProviderForTests(null)
+    }
   })
 })
