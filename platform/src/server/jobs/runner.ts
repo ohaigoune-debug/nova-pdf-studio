@@ -2,6 +2,7 @@ import { runFileImportJob } from '@/server/services/file-import.service'
 import { runGenerateQuizJob } from '@/server/services/quiz-generate.service'
 import type { Db } from '@/server/db/connect'
 import { runAiBatchCollectJob, runAiEvaluationJob, runAnalyzeStudentJob, runGenerateExercisesJob, runTeacherInsightsJob } from '@/server/services/ai.service'
+import { loadAiCredentials } from '@/server/services/ai-credentials.service'
 import { runCleanupJob } from '@/server/services/maintenance.service'
 import { runPushDispatchJob } from '@/server/services/push.service'
 import { runReportJob } from '@/server/services/reports.service'
@@ -33,6 +34,8 @@ export interface RunSummary {
 export async function processQueuedJobs(db: Db, opts: { limit?: number; now?: Date } = {}): Promise<RunSummary> {
   const limit = opts.limit ?? 10
   const summary: RunSummary = { processed: 0, completed: 0, retried: 0, failed: 0 }
+  // عامل في عملية مستقلة يلتقط مفتاحاً غيّره المدير من اللوحة
+  await loadAiCredentials(db, { maxAgeMs: 60_000 }).catch(() => undefined)
   for (let i = 0; i < limit; i++) {
     const job = await claimNextJob(db, opts.now ?? new Date())
     if (!job) break

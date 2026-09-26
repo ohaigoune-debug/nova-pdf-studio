@@ -50,7 +50,7 @@ import type {
  * نفس التعليمات والمخططات المستعملة مع المزوّد الآخر، فالنتيجة على الأستاذ واحدة.
  * لا دفعات هنا: تصحيح الواجب يمرّ فرادى (submitEssayBatch غير معرّف).
  */
-const DEFAULT_MODEL = 'gpt-4.1-mini'
+export const DEFAULT_MODEL = 'gpt-4.1-mini'
 const DEFAULT_BASE_URL = 'https://api.openai.com/v1'
 
 interface Opts {

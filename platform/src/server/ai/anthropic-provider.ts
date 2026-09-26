@@ -53,7 +53,7 @@ import type {
  * المفتاح يبقى في الخادم. التصحيح يستعمل المخرجات المُهيكلة (JSON مضمون بالمخطط)،
  * والدفعات تمرّ عبر Message Batches بنصف السعر.
  */
-const DEFAULT_MODEL = 'claude-sonnet-5'
+export const DEFAULT_MODEL = 'claude-sonnet-5'
 const API_URL = 'https://api.anthropic.com/v1/messages'
 const BATCHES_URL = 'https://api.anthropic.com/v1/messages/batches'
 

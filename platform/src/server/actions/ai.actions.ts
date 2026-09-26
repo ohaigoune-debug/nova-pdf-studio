@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { kickWorker } from '@/server/jobs/runner'
+import { clearAiCredentials, saveAiCredentials } from '@/server/services/ai-credentials.service'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
 import { applyAiEvaluation, approveAiEvaluation, applyAllAiEvaluations, rejectAiEvaluation, requestAiEvaluation, requestAiEvaluationForAssignment, requestExercises, requestStudentAnalysis, requestTeacherInsights, updateAiSettings } from '@/server/services/ai.service'
@@ -168,5 +169,31 @@ export async function applyAllAiEvaluationsAction(assignmentId: string, minConfi
     return applyAllAiEvaluations(await getDb(), actor, parsed.data.assignmentId, { minConfidence: parsed.data.minConfidence })
   })
   if (result.ok) revalidatePath('/', 'layout')
+  return result
+}
+
+export async function saveAiKeyAction(_prev: ActionResult<{ hint: string }> | null, fd: FormData): Promise<ActionResult<{ hint: string }>> {
+  const parsed = z
+    .object({ provider: z.enum(['openai', 'anthropic']), apiKey: z.string().min(1).max(400), model: z.string().max(80).optional() })
+    .safeParse({ provider: fd.get('provider'), apiKey: fd.get('apiKey') ?? '', model: fd.get('model') ?? undefined })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('SUPER_ADMIN')
+    const db = await getDb()
+    await checkRateLimit(db, { scope: 'ai-key', subject: actor.userId, ...RATE_LIMITS.aiRequest })
+    const saved = await saveAiCredentials(db, actor, parsed.data)
+    return { hint: saved.hint }
+  })
+  if (result.ok) revalidatePath('/admin/ai')
+  return result
+}
+
+export async function clearAiKeyAction(): Promise<ActionResult> {
+  const result = await runAction(async () => {
+    const actor = await requireRole('SUPER_ADMIN')
+    await clearAiCredentials(await getDb(), actor)
+    return undefined
+  })
+  if (result.ok) revalidatePath('/admin/ai')
   return result
 }
