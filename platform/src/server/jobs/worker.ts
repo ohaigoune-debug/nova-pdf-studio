@@ -21,7 +21,10 @@ async function main() {
   while (!stopped) {
     await ensureMaintenanceJobs(handle.db)
     const s = await processQueuedJobs(handle.db, { limit: 20 })
-    if (s.processed > 0) console.log(`[jobs] processed=${s.processed} completed=${s.completed} retried=${s.retried} failed=${s.failed}`)
+    // المسار البطيء أيضاً (مهمة واحدة في الدورة)
+    const slow = await processQueuedJobs(handle.db, { limit: 1, lane: 'slow' })
+    const processed = s.processed + slow.processed
+    if (processed > 0) console.log(`[jobs] processed=${processed} completed=${s.completed + slow.completed} retried=${s.retried + slow.retried} failed=${s.failed + slow.failed}`)
     await new Promise((r) => setTimeout(r, intervalMs))
   }
 }

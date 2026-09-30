@@ -6,7 +6,10 @@ import { z } from 'zod'
 import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { CONTENT_TYPES, VISIBILITIES } from '@/server/db/schema/enums'
+import { kickWorker } from '@/server/jobs/runner'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
+import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
+import { applyOrganizeProposals, requestContentOrganize } from '@/server/services/content-organize.service'
 import { createContent, deleteContent, updateContent } from '@/server/services/content.service'
 import { deleteFile, uploadFile } from '@/server/services/files.service'
 import { importPlaylist, type ImportPlaylistResult } from '@/server/services/youtube-import.service'
@@ -141,5 +144,38 @@ export async function deleteFileAction(id: string): Promise<ActionResult> {
     return undefined
   })
   if (result.ok) revalidatePath('/teacher/files')
+  return result
+}
+
+const organizeSchema = z.object({ levelId: z.string().uuid().nullish(), streamId: z.string().uuid().nullish() })
+
+/** تنظيم فيديوهات الأستاذ بالذكاء الاصطناعي: مهمة خلفية تنتهي باقتراحات يراجعها */
+export async function requestContentOrganizeAction(input: { levelId?: string | null; streamId?: string | null }): Promise<ActionResult<{ jobId: string; reused: boolean; lessons: number }>> {
+  const parsed = organizeSchema.safeParse(input)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER')
+    const db = await getDb()
+    await checkRateLimit(db, { scope: 'ai-request', subject: actor.userId, ...RATE_LIMITS.aiRequest })
+    return requestContentOrganize(db, actor, { levelId: parsed.data.levelId ?? null, streamId: parsed.data.streamId ?? null })
+  })
+  if (result.ok) {
+    kickWorker(getDb)
+    revalidatePath('/teacher/content/organize')
+  }
+  return result
+}
+
+export async function applyOrganizeAction(jobId: string, contentIds: string[]): Promise<ActionResult<{ applied: number }>> {
+  const parsed = z.object({ jobId: z.string().uuid(), contentIds: z.array(z.string().uuid()).max(500) }).safeParse({ jobId, contentIds })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER')
+    return applyOrganizeProposals(await getDb(), actor, parsed.data.jobId, parsed.data.contentIds)
+  })
+  if (result.ok) {
+    revalidatePath('/teacher/content')
+    revalidatePath('/teacher/content/organize')
+  }
   return result
 }

@@ -1,6 +1,6 @@
 import { timingSafeEqual } from 'node:crypto'
 import { getDb } from '@/server/db/client'
-import { processQueuedJobs } from '@/server/jobs/runner'
+import { kickWorker, processQueuedJobs } from '@/server/jobs/runner'
 import { AppError } from '@/server/lib/errors'
 import { ensureMaintenanceJobs } from '@/server/services/maintenance.service'
 import { jsonError, jsonOk } from '../../_lib'
@@ -29,6 +29,8 @@ export async function POST(req: Request) {
     const db = await getDb()
     const scheduledCleanup = await ensureMaintenanceJobs(db)
     const summary = await processQueuedJobs(db, { limit })
+    // المهام البطيئة (زحف DzExams) لا تناسب طلباً محدوداً بدقيقة: يلتقطها العامل الداخلي
+    kickWorker(getDb)
     return jsonOk({ ...summary, scheduledCleanup })
   } catch (err) {
     return jsonError(err)

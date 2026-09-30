@@ -21,6 +21,17 @@ export interface SyncOptions {
   maxPagesPerListing?: number
   maxExams?: number
   log?: (line: string) => void
+  /** يُستدعى بعد كل صفحة: للمهام الخلفية التي تعرض تقدّمها للمدير */
+  onProgress?: (p: SyncProgress) => void | Promise<void>
+}
+
+export interface SyncProgress extends SyncReport {
+  phase: 'subjects' | 'listing' | 'exams' | 'done'
+  subject: string | null
+  subjectIndex: number
+  /** مواضيع زارها هذه المرّة (المحفوظ سابقاً لا يُزار) */
+  visited: number
+  toVisit: number
 }
 
 export interface SyncReport {
@@ -57,6 +68,14 @@ export async function syncBacExams(db: Db | null, opts: SyncOptions = {}): Promi
   const log = opts.log ?? (() => {})
   const report: SyncReport = { subjects: 0, listings: 0, found: 0, saved: 0, withDirectLink: 0, errors: 0 }
   let last = 0
+  let visited = 0
+  let toVisit = 0
+  let subjectIndex = 0
+  let phase: SyncProgress['phase'] = 'subjects'
+  let subject: string | null = null
+  const tick = async () => {
+    if (opts.onProgress) await opts.onProgress({ ...report, phase, subject, subjectIndex, visited, toVisit })
+  }
 
   const get = async (url: string): Promise<string | null> => {
     const wait = last + delay - Date.now()
@@ -94,8 +113,11 @@ export async function syncBacExams(db: Db | null, opts: SyncOptions = {}): Promi
   // ٢) المواضيع في كل مادة وشُعبها وصفحات ترقيمها
   const maxPages = opts.maxPagesPerListing ?? 25
   const maxExams = opts.maxExams ?? Infinity
-  let visited = 0
   for (const s of subjects) {
+    subjectIndex++
+    subject = s.slug
+    phase = 'listing'
+    await tick()
     const queue: { url: string; stream: { slug: string; name: string } | null }[] = [{ url: s.url, stream: null }]
     const seenListing = new Set<string>()
     const exams = new Map<string, { title: string; stream: { slug: string; name: string } | null }>()
@@ -104,6 +126,7 @@ export async function syncBacExams(db: Db | null, opts: SyncOptions = {}): Promi
       if (seenListing.has(item.url) || seenListing.size >= maxPages * 8) continue
       seenListing.add(item.url)
       const html = await get(item.url)
+      await tick()
       if (!html) continue
       report.listings++
       const links = extractLinks(html)
@@ -118,6 +141,9 @@ export async function syncBacExams(db: Db | null, opts: SyncOptions = {}): Promi
     }
     log(`• ${s.slug}: ${exams.size} موضوعاً في ${seenListing.size} صفحة`)
     report.found += exams.size
+    phase = 'exams'
+    toVisit += [...exams.keys()].filter((u) => !known.has(u)).length
+    await tick()
 
     // ٣) صفحة كل موضوع: روابط التنزيل المباشر
     for (const [pageUrl, meta] of exams) {
@@ -125,6 +151,7 @@ export async function syncBacExams(db: Db | null, opts: SyncOptions = {}): Promi
       if (known.has(pageUrl)) continue
       visited++
       const html = await get(pageUrl)
+      await tick()
       if (!html) continue
       const title = meta.title || pageTitle(html)
       const dl = downloadLinks(html)
@@ -163,5 +190,7 @@ export async function syncBacExams(db: Db | null, opts: SyncOptions = {}): Promi
     log(`المكتبة الموحّدة: ${moved.exams} موضوعاً جديداً و${moved.solutions} تصحيحاً`)
   }
   log(`تمّ: ${report.found} موضوعاً، حُفظ ${report.saved}، منها ${report.withDirectLink} برابط تنزيل مباشر، أخطاء ${report.errors}`)
+  phase = 'done'
+  await tick()
   return report
 }

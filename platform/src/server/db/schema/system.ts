@@ -75,11 +75,19 @@ export const jobs = pgTable(
     result: jsonb('result').$type<Record<string, unknown> | null>(),
     error: text('error'),
     workspaceId: uuid('workspace_id').references(() => teacherWorkspaces.id, { onDelete: 'cascade' }),
+    /** تقدّم المهام الطويلة (استيراد، تنظيم): يقرأه المدير أثناء التنفيذ */
+    progress: jsonb('progress').$type<Record<string, unknown>>().notNull().default({}),
+    totalItems: integer('total_items'),
+    processedItems: integer('processed_items').notNull().default(0),
+    failedItems: integer('failed_items').notNull().default(0),
+    /** آخر السطور فقط (مقصوصة في الخدمة) */
+    logs: jsonb('logs').$type<string[]>().notNull().default([]),
     ...timestamps
   },
   (t) => [
     check('jobs_status_check', inList(t.status, JOB_STATUSES)),
-    index('jobs_status_run_idx').on(t.status, t.runAfter)
+    index('jobs_status_run_idx').on(t.status, t.runAfter),
+    index('jobs_type_created_idx').on(t.type, t.createdAt)
   ]
 )
 

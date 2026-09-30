@@ -20,7 +20,7 @@ export function PastBacList({ data, basePath, current }: { data: Data; basePath:
     cn('rounded-full border px-3 py-1.5 text-sm transition-colors', active ? 'border-primary bg-primary text-primary-foreground' : 'bg-card hover:border-primary/50')
 
   if (data.subjects.length === 0) {
-    return <EmptyState icon={FileText} title="لم تُجلب المواضيع بعد" description="يحدّثها المشرف من الخادم، فتظهر هنا مواضيع البكالوريا لكل المواد بروابط تنزيل مباشرة." />
+    return <EmptyState icon={FileText} title="لم تُجلب المواضيع بعد" description="يجلبها المشرف من «المنهاج والمكتبة» بضغطة زر، فتظهر هنا مواضيع البكالوريا لكل المواد بروابط تنزيل مباشرة." />
   }
   const byYear = new Map<string, Data['exams']>()
   for (const e of data.exams) {

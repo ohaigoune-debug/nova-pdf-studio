@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { BacImportCard } from '@/components/domain/bac-import-card'
 import { CurriculumTree } from '@/components/domain/curriculum-tree'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -6,6 +7,7 @@ import { PageHeader, StatCard } from '@/components/ui/misc'
 import { cn } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { bacSyncStatus } from '@/server/services/bac-sync.service'
 import { resourceStats } from '@/server/services/resources.service'
 import { getTaxonomy, listNodes, subjectsFor } from '@/server/services/taxonomy.service'
 import { BookOpen, FileCheck2, Layers, Sparkles } from 'lucide-react'
@@ -17,10 +19,10 @@ type Q = { level?: string; stream?: string; subject?: string }
 const TYPE_AR: Record<string, string> = { LESSON: 'دروس', SUMMARY: 'ملخصات', EXERCISE: 'تمارين', HOMEWORK: 'فروض', TEST: 'اختبارات', EXAM: 'امتحانات رسمية', SOLUTION: 'حلول', VIDEO: 'فيديوهات', PEDAGOGICAL: 'وثائق بيداغوجية', OTHER: 'أخرى' }
 
 export default async function CurriculumAdminPage({ searchParams }: { searchParams: Promise<Q> }) {
-  await requirePageActor('SUPER_ADMIN')
+  const actor = await requirePageActor('SUPER_ADMIN')
   const db = await getDb()
   const q = await searchParams
-  const [tax, stats] = await Promise.all([getTaxonomy(db), resourceStats(db)])
+  const [tax, stats, sync] = await Promise.all([getTaxonomy(db), resourceStats(db), bacSyncStatus(db, actor)])
   const allLevels = tax.stages.flatMap((s) => s.levels)
   const level = allLevels.find((l) => l.id === q.level) ?? null
   const stream = level?.streams.find((s) => s.id === q.stream) ?? null
@@ -54,9 +56,10 @@ export default async function CurriculumAdminPage({ searchParams }: { searchPara
               {TYPE_AR[t.type] ?? t.type}: {t.n}
             </Badge>
           ))}
-          {stats.total === 0 ? <span className="text-muted-foreground">المكتبة فارغة بعد — يملؤها استيراد DzExams (المرحلة 2).</span> : null}
+          {stats.total === 0 ? <span className="text-muted-foreground">المكتبة فارغة بعد — يملؤها جلب بكالوريات DzExams أدناه.</span> : null}
         </CardContent>
       </Card>
+      <BacImportCard status={sync} />
 
       <div className="space-y-4">
         {tax.stages.map((s) => (
