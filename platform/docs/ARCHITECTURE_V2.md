@@ -148,10 +148,10 @@ Mode 3 يحمل دائماً `is_ai_generated=true` ووسم «سؤال مولّ
 |---|---|---|---|
 | 0010 | `curriculum_taxonomy` | `education_stages`، `subjects`، `grade_streams`، `subject_offerings`، `curriculum_versions`، `curriculum_nodes`، أعمدة `levels.stage_id`، `streams.parent_id`، `skills.subject_id`، `skills.curriculum_node_id` | بذرة مرجعية idempotent عند كل bootstrap: المراحل، الصفوف 1AP…3AS، الشعب وخيارات التقني، المواد، مواد البكالوريا لكل شعبة ومواد BEM |
 | 0010 | `unified_content` | `content_sources`، `resources`، `resource_groups` | ملء `resources` من `bac_exams` (بصمة ⇒ بلا تكرار) |
-| 0011 | `jobs_progress` | أعمدة `progress`، `total_items`، `processed_items`، `failed_items`، `logs` في `jobs` | — |
-| 0012 | `question_bank` | `source_documents`، `bank_questions`، `question_solutions`، `question_sources`، `question_skills`، `question_usage`، `question_attempts`، `review_queue` | — |
-| 0013 | `search_index` | tsvector مولّد + GIN على `resources` و`bank_questions` | إعادة البناء بمهمة |
-| 0014 | `youtube_directory` | `educators`، `youtube_channels`، `youtube_playlists`، `youtube_videos`، `educator_subjects`، `educator_levels` | — |
+| 0011 ✅ | `jobs_progress` | أعمدة `progress`، `total_items`، `processed_items`، `failed_items`، `logs` في `jobs` | — |
+| 0013 | `question_bank` | `source_documents`، `bank_questions`، `question_solutions`، `question_sources`، `question_skills`، `question_usage`، `question_attempts`، `review_queue` | — |
+| 0014 | `search_index` | tsvector مولّد + GIN على `resources` و`bank_questions` | إعادة البناء بمهمة |
+| 0012 ✅ | `youtube_directory` | `educators`، `educator_subjects`، `resources.educator_id` (الفيديوهات في `resources` نفسها بدل جدول مستقل) | زرع دليل الثانوي |
 | 0015 | `ai_layer` | `ai_usage_logs`، `ai_cache`، `ai_budgets`، `embeddings` (pgvector) | تفعيل pgvector بعد تبديل الصورة |
 | 0016 | `adaptive` | `student_skill_progress` (توسيع `student_skills` بمعرّف المادة والعقدة) | نقل آمن من القائم |
 
@@ -166,7 +166,7 @@ Mode 3 يحمل دائماً `is_ai_generated=true` ووسم «سؤال مولّ
 | **2** ◐ | خطّ استيراد DZExams: DISCOVER→FETCH→PARSE→EXTRACT→CLASSIFY→NORMALIZE→DEDUPLICATE→STORE→INDEX→REVIEW، مهام بتقدّم وسجلّات، أرشيف BAC/BEM. **منجز:** هجرة 0011 (تقدّم المهام وسجلّاتها)، مسار «بطيء» مستقل في العامل، مهمة `BAC_SYNC` تُطلق من «المنهاج والمكتبة» (جلب كل المواد / تجربة بلا حفظ / تحديث) بتقدّم حيّ وإشعار، وتصبّ في `resources`. **متبقٍ:** التحقّق على الموقع الحقيقي (البنية غير مؤكّدة)، BEM، INDEX/REVIEW | تشغيلان متتاليان = نفس العدد ✅ (اختبار) |
 | **3** | استخراج الأسئلة من PDF (محلّلات أولاً، ذكاء اصطناعي للتصنيف)، الحلول، منع التكرار، قائمة المراجعة | لا سؤال مكرّر؛ كل سؤال بصفحته ومصدره |
 | **4** | البحث الشامل، مراكز المواد، صفحات BAC DZ / BEM بمسارات SEO، التنقّل «ثلاث نقرات» | |
-| **5** | دليل أساتذة الجزائر: اكتشاف القنوات، الاعتماد، المزامنة التزايدية، تصنيف الفيديوهات | |
+| **5** ◐ | دليل أساتذة الجزائر: اكتشاف القنوات، الاعتماد، المزامنة التزايدية، تصنيف الفيديوهات. **منجز:** هجرة 0012 (`educators`، `educator_subjects`، `resources.educator_id`)، زرع 46 أستاذاً للثانوي من دليل الأستاذ (Drive)، حلّ الأسماء إلى قنوات بـ YouTube API (مهمة تتوقّف عند نفاد الحصة وتكمل)، اعتماد يدوي من `/admin/educators`، مزامنة قائمة رفع القناة إلى `resources` مع عناوين نظيفة وصفّ مصنّف بالذكاء الاصطناعي، صفحة عامة `/videos` ومثلها للتلميذ. **متبقٍ:** المتوسط والابتدائي، مزامنة دورية تلقائية، تصنيف الوحدة إلى `curriculum_nodes` | |
 | **6** | مولّد الاختبارات (3 أوضاع)، RAG، طبقة الذكاء الاصطناعي بالسجلّ والتكلفة والميزانية والـCache، التحقّق من الأسئلة المولّدة | |
 | **7** | التصحيح الموسّع (عددي، شبكات)، تقدّم المهارات، التوصيات، «اختبرني كما في الباك» | |
 | **8** | أكاديمية حيقون: تجميع القائم تحت قسم واحد، مصدر HAIGOUN ومستويات الوصول | |

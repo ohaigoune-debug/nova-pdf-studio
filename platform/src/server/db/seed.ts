@@ -9,6 +9,7 @@ import { createSession, resolveActor } from '@/server/auth/session'
 import { createDatabase, type Db } from '@/server/db/connect'
 import { LEVELS, SKILLS, STREAMS, WILAYAS } from '@/server/db/reference-data'
 import { seedCurriculum } from '@/server/db/seed-curriculum'
+import { seedEducators } from '@/server/db/seed-educators'
 import {
   academicYears,
   appSettings,
@@ -68,6 +69,8 @@ export async function seedReferenceData(db: Db) {
   }
   // المنهاج والمصادر: يُكمَّل عند كل تشغيل (قاعدة قديمة تأخذ الأطوار والمواد الجديدة)
   await seedCurriculum(db)
+  // دليل أساتذة الثانوي (ترشيحات فقط؛ الاعتماد بيد المشرف)
+  await seedEducators(db)
 }
 
 export async function ensureSuperAdmin(db: Db, email: string, password: string, fullName = 'مالك المنصة') {

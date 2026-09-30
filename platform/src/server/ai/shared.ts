@@ -78,9 +78,10 @@ export const ORGANIZE_SCHEMA: Record<string, unknown> = {
           title: { type: 'string' },
           summary: { type: 'string' },
           topic: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+          level: { anyOf: [{ type: 'string' }, { type: 'null' }] },
           order: { type: 'number' }
         },
-        required: ['youtube_id', 'title', 'summary', 'topic', 'order'],
+        required: ['youtube_id', 'title', 'summary', 'topic', 'level', 'order'],
         additionalProperties: false
       }
     }
@@ -305,7 +306,8 @@ export const organizeSystem = (subject?: string | null, kind: 'videos' | 'files'
     ? `لكل ملف: عنوان درس نظيف مستخرج من مضمونه لا من اسم الملف (بلا امتدادات ولا أرقام نسخ)، ملخّص سطرين مما في المقتطف وحده، ${LANGUAGE_RULE}`
     : `لكل فيديو: عنوان نظيف (بلا "الحلقة 12" ولا اسم القناة ولا رموز ولا وسوم)، ملخّص سطرين يذكر ما يتعلّمه الطالب، ${LANGUAGE_RULE}`,
   'المحور (الوحدة التعليمية) أو null إن لم يتّضح، وترتيب بيداغوجي يبدأ من 1 بحيث يسبق الأساسُ المتفرّعَ عنه.',
-  'أعد JSON فقط: {"lessons":[{"youtube_id":string,"title":string,"summary":string,"topic":string|null,"order":number}]}',
+  'level: السنة الدراسية إن دلّ عليها العنوان أو الوصف صراحةً بأحد الرموز: 1AP…5AP للابتدائي، 1AM…4AM للمتوسط، 1AS/2AS/3AS للثانوي (بكالوريا = 3AS)؛ وإلا null. لا تخمّن.',
+  'أعد JSON فقط: {"lessons":[{"youtube_id":string,"title":string,"summary":string,"topic":string|null,"level":string|null,"order":number}]}',
   'أعد كل الفيديوهات المعطاة بلا حذف ولا إضافة، وانسخ youtube_id كما هو حرفاً بحرف. لا تخترع محتوى لا يدلّ عليه العنوان أو الوصف.'
 ].join('\n')
 
@@ -318,6 +320,17 @@ export function organizeUser(input: OrganizeLessonsInput): string {
   const files = input.kind === 'files'
   const items = input.items.map((i, n) => `${n + 1}. [${i.youtubeId}] ${i.title}${i.description ? `\n   ${files ? 'مقتطف' : 'الوصف'}: ${i.description.slice(0, files ? 900 : 300)}` : ''}`)
   return [...head, '', files ? 'الملفات:' : 'الفيديوهات بترتيب القائمة:', ...items].join('\n')
+}
+
+/** رمز صف صالح من نصّ النموذج (1AS…3AS، 1AM…4AM، 1AP…5AP)، وإلا null */
+export function gradeCodeOf(v: unknown): string | null {
+  if (typeof v !== 'string') return null
+  const m = /^\s*([1-5])\s*(AP|AM|AS)\s*$/i.exec(v)
+  if (!m) return null
+  const n = Number(m[1])
+  const k = m[2]!.toUpperCase()
+  if ((k === 'AS' && n > 3) || (k === 'AM' && n > 4)) return null
+  return `${n}${k}`
 }
 
 /** يحرس المخرجات: المعرّفات من القائمة فقط، والترتيب متتالٍ بلا تكرار */
@@ -339,6 +352,7 @@ export function parseOrganize(j: Record<string, unknown>, input: OrganizeLessons
       title: text(r.title, 200) || byId.get(id)!.title,
       summary: text(r.summary, 600),
       topic: text(r.topic, 120) || null,
+      level: gradeCodeOf(r.level),
       order: i + 1
     }))
   // ما أسقطه النموذج يُلحق بترتيب القائمة الأصلي: لا يضيع درس

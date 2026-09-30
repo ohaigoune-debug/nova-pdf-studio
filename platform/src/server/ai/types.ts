@@ -134,6 +134,8 @@ export interface OrganizedLesson {
   summary: string
   /** المحور/الوحدة */
   topic: string | null
+  /** رمز الصف إن دلّ عليه العنوان صراحةً (3AS…)، وإلا null — لا يُخمَّن */
+  level?: string | null
   /** ترتيب بيداغوجي مقترح يبدأ من 1 */
   order: number
 }

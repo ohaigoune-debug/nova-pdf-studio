@@ -34,6 +34,7 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/student/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
             { href: '/student/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
             { href: '/student/past-bac', label: t('nav.pastBac'), iconKey: 'Archive' },
+            { href: '/student/videos', label: 'فيديوهات الأساتذة', iconKey: 'PlayCircle' },
             { href: '/student/grades', label: t('nav.grades'), iconKey: 'GraduationCap' },
             { href: '/student/progress', label: t('nav.progress'), iconKey: 'TrendingUp' },
             { href: '/student/files', label: t('nav.files'), iconKey: 'FolderOpen' }
@@ -123,6 +124,7 @@ export function navFor(role: UserRole): NavSection[] {
           title: 'المنصة',
           items: [
             { href: '/admin/curriculum', label: 'المنهاج والمكتبة', iconKey: 'Network' },
+            { href: '/admin/educators', label: 'دليل الأساتذة', iconKey: 'PlayCircle' },
             { href: '/admin/content', label: t('nav.content'), iconKey: 'FileText' },
             { href: '/admin/ai', label: t('nav.ai'), iconKey: 'Cpu' },
             { href: '/admin/storage', label: t('nav.storage'), iconKey: 'HardDrive' },

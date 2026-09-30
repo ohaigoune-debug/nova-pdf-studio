@@ -1,5 +1,6 @@
 import { runBacSyncJob } from '@/server/services/bac-sync.service'
 import { runOrganizeContentJob } from '@/server/services/content-organize.service'
+import { runResolveEducatorsJob, runSyncChannelJob } from '@/server/services/educators.service'
 import { runFileImportJob } from '@/server/services/file-import.service'
 import { runGenerateQuizJob } from '@/server/services/quiz-generate.service'
 import type { Db } from '@/server/db/connect'
@@ -22,6 +23,8 @@ const handlers: Record<JobType, Handler> = {
   AI_ANALYZE_STUDENT: (db, job) => runAnalyzeStudentJob(db, job.payload),
   AI_ORGANIZE_CONTENT: (db, job) => runOrganizeContentJob(db, job),
   BAC_SYNC: (db, job) => runBacSyncJob(db, job),
+  YT_RESOLVE_EDUCATORS: (db, job) => runResolveEducatorsJob(db, job),
+  YT_SYNC_CHANNEL: (db, job) => runSyncChannelJob(db, job),
   REPORT_EXPORT: (db, job) => runReportJob(db, job.payload),
   CLEANUP: async (db) => ({ ...(await runCleanupJob(db)) }),
   PUSH_DISPATCH: (db, job) => runPushDispatchJob(db, job.payload)

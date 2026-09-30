@@ -3,6 +3,7 @@ import { boolean, check, index, integer, jsonb, pgTable, text, timestamp, unique
 import { id, inList, softDelete, timestamps } from './_common'
 import { content, files } from './content'
 import { curriculumNodes, curriculumVersions } from './curriculum'
+import { educators } from './directory'
 import { ACCESS_LEVELS, CONTENT_SOURCE_TYPES, EXAM_SESSIONS, RESOURCE_STATUSES, RESOURCE_TYPES } from './enums'
 import { groups } from './groups'
 import { educationStages, levels, streams, subjects } from './reference'
@@ -67,6 +68,8 @@ export const resources = pgTable(
     thumbnailUrl: text('thumbnail_url'),
     youtubeVideoId: text('youtube_video_id'),
     youtubeChannelId: text('youtube_channel_id'),
+    /** فيديو من دليل الأساتذة: قناته المعتمدة */
+    educatorId: uuid('educator_id').references(() => educators.id, { onDelete: 'set null' }),
     // ── الحلّ
     hasSolution: boolean('has_solution').notNull().default(false),
     solutionResourceId: uuid('solution_resource_id').references((): AnyPgColumn => resources.id, { onDelete: 'set null' }),
@@ -103,7 +106,8 @@ export const resources = pgTable(
     index('resources_source_idx').on(t.sourceId, t.createdAt),
     index('resources_status_idx').on(t.status, t.updatedAt),
     index('resources_content_hash_idx').on(t.contentHash),
-    index('resources_workspace_idx').on(t.workspaceId)
+    index('resources_workspace_idx').on(t.workspaceId),
+    index('resources_educator_idx').on(t.educatorId, t.createdAt)
   ]
 )
 

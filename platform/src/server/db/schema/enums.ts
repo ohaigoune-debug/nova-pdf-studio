@@ -151,6 +151,10 @@ export type ContentSourceType = (typeof CONTENT_SOURCE_TYPES)[number]
 export const RESOURCE_TYPES = ['LESSON', 'SUMMARY', 'EXERCISE', 'HOMEWORK', 'TEST', 'EXAM', 'SOLUTION', 'VIDEO', 'PEDAGOGICAL', 'OTHER'] as const
 export type ResourceType = (typeof RESOURCE_TYPES)[number]
 
+/** أستاذ في الدليل: مرشّح ← معتمد (قناة محدّدة) أو مرفوض */
+export const EDUCATOR_STATUSES = ['SUGGESTED', 'APPROVED', 'REJECTED'] as const
+export type EducatorStatus = (typeof EDUCATOR_STATUSES)[number]
+
 export const RESOURCE_STATUSES = ['DRAFT', 'NEEDS_REVIEW', 'PUBLISHED', 'ARCHIVED', 'BROKEN'] as const
 export type ResourceStatus = (typeof RESOURCE_STATUSES)[number]
 

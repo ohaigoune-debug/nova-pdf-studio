@@ -7,7 +7,7 @@ import { AppError, isPermanentJobError } from '@/server/lib/errors'
  * طابور مهام خلفية على جدول `jobs` (بلا Redis): تُدرج المهمة داخل نفس المعاملة
  * التي تنشئ الكيان، ثم يلتقطها العامل (داخل العملية، أو عبر /api/v1/jobs/run من Cron، أو `npm run jobs:worker`).
  */
-export const JOB_TYPES = ['AI_EVALUATE_SUBMISSION', 'AI_BATCH_COLLECT', 'AI_TEACHER_INSIGHTS', 'AI_GENERATE_EXERCISES', 'AI_GENERATE_QUIZ', 'AI_IMPORT_FILES', 'AI_ANALYZE_STUDENT', 'AI_ORGANIZE_CONTENT', 'BAC_SYNC', 'REPORT_EXPORT', 'CLEANUP', 'PUSH_DISPATCH'] as const
+export const JOB_TYPES = ['AI_EVALUATE_SUBMISSION', 'AI_BATCH_COLLECT', 'AI_TEACHER_INSIGHTS', 'AI_GENERATE_EXERCISES', 'AI_GENERATE_QUIZ', 'AI_IMPORT_FILES', 'AI_ANALYZE_STUDENT', 'AI_ORGANIZE_CONTENT', 'BAC_SYNC', 'YT_RESOLVE_EDUCATORS', 'YT_SYNC_CHANNEL', 'REPORT_EXPORT', 'CLEANUP', 'PUSH_DISPATCH'] as const
 export type JobType = (typeof JOB_TYPES)[number]
 
 /**
@@ -15,7 +15,7 @@ export type JobType = (typeof JOB_TYPES)[number]
  * تصحيح الواجبات وتوليد الاختبارات خلفها. المسار البطيء يعمل في العامل الداخلي فقط
  * (طلب Cron الخارجي محدود بدقيقة واحدة).
  */
-export const SLOW_JOB_TYPES: readonly JobType[] = ['BAC_SYNC']
+export const SLOW_JOB_TYPES: readonly JobType[] = ['BAC_SYNC', 'YT_RESOLVE_EDUCATORS', 'YT_SYNC_CHANNEL']
 export type JobLane = 'default' | 'slow'
 export const laneOf = (type: string): JobLane => ((SLOW_JOB_TYPES as readonly string[]).includes(type) ? 'slow' : 'default')
 

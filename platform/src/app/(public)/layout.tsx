@@ -13,6 +13,7 @@ export default async function PublicLayout({ children }: { children: ReactNode }
     { href: '/lessons', label: t('nav.lessons') },
     { href: '/bac', label: t('nav.bac') },
     { href: '/past-bac', label: t('nav.pastBac') },
+    { href: '/videos', label: 'فيديوهات' },
     { href: '/resources', label: t('nav.resources') },
     { href: '/quizzes', label: t('nav.quizzes') }
   ]

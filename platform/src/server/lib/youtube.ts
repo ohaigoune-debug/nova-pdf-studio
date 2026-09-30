@@ -148,3 +148,68 @@ export async function fetchPlaylistItems(playlistId: string, opts: FetchPlaylist
   }
   return out
 }
+
+/* ------------------------------ القنوات (الدليل) ------------------------------ */
+
+/** حصة YouTube API اليومية نفدت (10 000 وحدة؛ البحث يكلّف 100): يُعاد غداً */
+export class YouTubeQuotaError extends Error {
+  constructor() {
+    super('YouTube API quota exceeded')
+    this.name = 'YouTubeQuotaError'
+  }
+}
+
+async function apiGet(path: string, params: Record<string, string>, apiKey: string, doFetch: typeof fetch): Promise<Record<string, unknown>> {
+  const q = new URLSearchParams({ ...params, key: apiKey })
+  const res = await doFetch(`https://www.googleapis.com/youtube/v3/${path}?${q.toString()}`, { signal: AbortSignal.timeout(20_000) })
+  if (!res.ok) {
+    const body = await res.text().catch(() => '')
+    if (res.status === 403 && /quotaExceeded|dailyLimitExceeded/.test(body)) throw new YouTubeQuotaError()
+    throw new Error(`YouTube API HTTP ${res.status}`)
+  }
+  return (await res.json()) as Record<string, unknown>
+}
+
+export interface ChannelInfo {
+  channelId: string
+  title: string
+  description: string
+  thumbnail: string | null
+  handle: string | null
+  subscriberCount: number | null
+  videoCount: number | null
+  uploadsPlaylistId: string | null
+}
+
+const num = (v: unknown): number | null => (typeof v === 'string' && /^\d+$/.test(v) ? Number(v) : typeof v === 'number' ? v : null)
+
+/** بيانات قنوات بمعرّفاتها (وحدة واحدة من الحصة لكل 50 قناة) */
+export async function getChannels(ids: string[], opts: { apiKey: string; fetchImpl?: typeof fetch }): Promise<ChannelInfo[]> {
+  if (ids.length === 0) return []
+  const data = (await apiGet('channels', { part: 'snippet,statistics,contentDetails', id: ids.slice(0, 50).join(','), maxResults: '50' }, opts.apiKey, opts.fetchImpl ?? fetch)) as {
+    items?: { id?: string; snippet?: { title?: string; description?: string; customUrl?: string; thumbnails?: Record<string, { url?: string }> }; statistics?: { subscriberCount?: string; videoCount?: string }; contentDetails?: { relatedPlaylists?: { uploads?: string } } }[]
+  }
+  return (data.items ?? [])
+    .filter((c) => c.id)
+    .map((c) => ({
+      channelId: c.id!,
+      title: c.snippet?.title ?? '',
+      description: c.snippet?.description ?? '',
+      thumbnail: c.snippet?.thumbnails?.medium?.url ?? c.snippet?.thumbnails?.default?.url ?? null,
+      handle: c.snippet?.customUrl ?? null,
+      subscriberCount: num(c.statistics?.subscriberCount),
+      videoCount: num(c.statistics?.videoCount),
+      uploadsPlaylistId: c.contentDetails?.relatedPlaylists?.uploads ?? null
+    }))
+}
+
+/** بحث عن قنوات بالاسم (100 وحدة من الحصة): أفضل النتائج مع إحصاءاتها */
+export async function searchChannels(query: string, opts: { apiKey: string; fetchImpl?: typeof fetch; max?: number }): Promise<ChannelInfo[]> {
+  const data = (await apiGet('search', { part: 'snippet', type: 'channel', q: query, maxResults: String(Math.max(1, Math.min(opts.max ?? 5, 10))), relevanceLanguage: 'ar' }, opts.apiKey, opts.fetchImpl ?? fetch)) as {
+    items?: { snippet?: { channelId?: string } }[]
+  }
+  const ids = [...new Set((data.items ?? []).map((i) => i.snippet?.channelId).filter((x): x is string => Boolean(x)))]
+  const infos = await getChannels(ids, opts)
+  // ترتيب البحث (الأنسب أولاً) لا ترتيب channels.list
+  return ids.map((id) => infos.find((c) => c.channelId === id)).filter((c): c is ChannelInfo => Boolean(c))
+}
