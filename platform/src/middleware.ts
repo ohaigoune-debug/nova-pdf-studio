@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
 const SESSION_COOKIE = 'madrasa_session'
-const PROTECTED = ['/student', '/teacher', '/assistant', '/admin']
+const PROTECTED = ['/student', '/teacher', '/assistant', '/admin', '/print']
 // تطبيق أندرويد يُطلق المنصة بـ ?source=android-app (strings.xml): يُتذكَّر في كوكي
 // فتُخفى أزرار «حمّل التطبيق» عمّن يستعمل التطبيق أصلاً
 const APP_COOKIE = 'madrasa_app'

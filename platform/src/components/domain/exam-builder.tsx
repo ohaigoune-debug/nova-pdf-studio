@@ -1,6 +1,6 @@
 'use client'
 
-import { Copy, FileText, GripVertical, Plus, Scissors, Search, Settings2, Trash2, Wand2 } from 'lucide-react'
+import { Copy, FileCheck2, FileText, GripVertical, Plus, Printer, Scissors, Search, Settings2, Trash2, Wand2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition, type DragEvent } from 'react'
@@ -145,6 +145,18 @@ export function ExamBuilder({ exam, options }: { exam: ExamView; options: { subj
 
       {/* ── الإعدادات (يسار) */}
       <aside className="order-2 space-y-3 xl:order-3 xl:sticky xl:top-4 xl:max-h-[calc(100dvh-2rem)] xl:overflow-auto">
+        <div className="grid grid-cols-2 gap-2">
+          <Button asChild>
+            <a href={`/print/exams/${exam.id}?mode=subject`} target="_blank" rel="noreferrer">
+              <Printer className="size-4" /> PDF الموضوع
+            </a>
+          </Button>
+          <Button asChild variant="outline">
+            <a href={`/print/exams/${exam.id}?mode=correction`} target="_blank" rel="noreferrer">
+              <FileCheck2 className="size-4" /> PDF التصحيح
+            </a>
+          </Button>
+        </div>
         <div className="rounded-xl border bg-card p-4 text-sm">
           <p className="mb-2 flex items-center gap-2 font-bold">
             <Settings2 className="size-4" /> النقاط والصعوبة
