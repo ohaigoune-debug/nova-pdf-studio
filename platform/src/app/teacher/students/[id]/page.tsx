@@ -5,6 +5,7 @@ import { AttendanceHistoryTable } from '@/components/domain/attendance-history-t
 import { ExcuseDialog } from '@/components/domain/excuse-dialog'
 import { MemberActions } from '@/components/domain/member-actions'
 import { EnrollmentStatusBadge } from '@/components/domain/status-badges'
+import { NodeProgress } from '@/components/domain/node-progress'
 import { SkillMap } from '@/components/domain/skill-map'
 import { Timeline } from '@/components/domain/timeline'
 import { Badge } from '@/components/ui/badge'
@@ -19,6 +20,7 @@ import { isAppError } from '@/server/lib/errors'
 import { AiStudentPanel } from '@/components/domain/ai-student-panel'
 import { Button } from '@/components/ui/button'
 import { latestStudentAnalysis } from '@/server/services/ai.service'
+import { nodeProgressFor } from '@/server/services/adaptive.service'
 import { skillMap } from '@/server/services/skills.service'
 import { getStudentProfile } from '@/server/services/students.service'
 
@@ -33,7 +35,7 @@ export default async function TeacherStudentProfilePage({ params }: { params: Pr
     if (isAppError(e)) notFound()
     throw e
   }
-  const [skills, analysis] = await Promise.all([skillMap(db, p.studentId), latestStudentAnalysis(db, actor, p.studentId)])
+  const [skills, analysis, nodes] = await Promise.all([skillMap(db, p.studentId), latestStudentAnalysis(db, actor, p.studentId), nodeProgressFor(db, actor, p.studentId).catch(() => [])])
   const info: [string, string][] = [
     [t('common.phone'), p.phone ?? '—'],
     [t('common.email'), p.email],
@@ -160,6 +162,14 @@ export default async function TeacherStudentProfilePage({ params }: { params: Pr
           <Card>
             <CardContent className="p-6">
               <SkillMap items={skills} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>التدريب الذاتي بالدرس</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <NodeProgress items={nodes} compact emptyText="لم يتدرّب ذاتياً بعد." />
             </CardContent>
           </Card>
           <AiStudentPanel studentId={p.studentId} analysis={analysis} />

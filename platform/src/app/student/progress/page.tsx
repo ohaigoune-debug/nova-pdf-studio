@@ -1,4 +1,5 @@
 import { TrendingUp } from 'lucide-react'
+import { NodeProgress } from '@/components/domain/node-progress'
 import { RemediationPlan } from '@/components/domain/remediation-plan'
 import { SkillMap } from '@/components/domain/skill-map'
 import { Timeline } from '@/components/domain/timeline'
@@ -9,13 +10,14 @@ import { percent } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listStudentGrades } from '@/server/queries/student-extras.queries'
+import { nodeProgress } from '@/server/services/adaptive.service'
 import { remediationPlan, skillMap } from '@/server/services/skills.service'
 import { getStudentProfile } from '@/server/services/students.service'
 
 export default async function StudentProgressPage() {
   const actor = await requirePageActor('STUDENT')
   const db = await getDb()
-  const [profile, skills, grades, plan] = await Promise.all([getStudentProfile(db, actor, actor.studentId!), skillMap(db, actor.studentId!), listStudentGrades(db, actor), remediationPlan(db, actor)])
+  const [profile, skills, grades, plan, nodes] = await Promise.all([getStudentProfile(db, actor, actor.studentId!), skillMap(db, actor.studentId!), listStudentGrades(db, actor), remediationPlan(db, actor), nodeProgress(db, actor.studentId!)])
   const avgSkill = skills.length ? skills.reduce((s, k) => s + k.score, 0) / skills.length : null
   const avgGrade = grades.length ? (grades.reduce((s, g) => s + (Number(g.score) / Number(g.maxScore)) * 20, 0) / grades.length) : null
   return (
@@ -45,6 +47,14 @@ export default async function StudentProgressPage() {
           </CardContent>
         </Card>
       </div>
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>تقدّمي بالدروس (التدريب الذاتي)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <NodeProgress items={nodes} emptyText="ابدأ تدريباً ذاتياً ليظهر تقدّمك درساً درساً." />
+        </CardContent>
+      </Card>
       <div className="mt-6">
         <RemediationPlan steps={plan} />
       </div>

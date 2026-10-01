@@ -1,4 +1,4 @@
-import { Dumbbell, Target, TrendingUp } from 'lucide-react'
+import { Dumbbell, Lightbulb, Target, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import { PracticeStartForm } from '@/components/domain/practice-start-form'
 import { Badge } from '@/components/ui/badge'
@@ -8,18 +8,22 @@ import { EmptyState, PageHeader, Progress, StatCard } from '@/components/ui/misc
 import { formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { recommendations, type RecommendationKind } from '@/server/services/adaptive.service'
 import { practiceOptions, practiceOverview } from '@/server/services/practice.service'
 
 export const dynamic = 'force-dynamic'
 
 /** التدريب الذاتي (المرحلة 7): ابدأ سلسلة، وراجع جلساتك ونقاط ضعفك */
-export default async function PracticePage({ searchParams }: { searchParams: Promise<{ subject?: string; node?: string }> }) {
+const REC_AR: Record<RecommendationKind, { label: string; variant: 'warning' | 'default' | 'success' }> = { REVIEW: { label: 'راجع', variant: 'warning' }, NEW: { label: 'جديد', variant: 'default' }, LEVEL_UP: { label: 'ارفع الصعوبة', variant: 'success' } }
+
+export default async function PracticePage({ searchParams }: { searchParams: Promise<{ subject?: string; node?: string; difficulty?: string }> }) {
   const actor = await requirePageActor('STUDENT')
   const sp = await searchParams
   const db = await getDb()
   const base = await practiceOptions(db, actor)
   const subjectId = base.subjects.some((s) => s.id === sp.subject) ? sp.subject! : (base.subjects[0]?.id ?? '')
-  const [opts, overview] = await Promise.all([subjectId ? practiceOptions(db, actor, subjectId) : Promise.resolve(base), practiceOverview(db, actor)])
+  const [opts, overview, recs] = await Promise.all([subjectId ? practiceOptions(db, actor, subjectId) : Promise.resolve(base), practiceOverview(db, actor), recommendations(db, actor)])
+  const difficulty = ['1', '2', '3', '4'].includes(sp.difficulty ?? '') ? Number(sp.difficulty) : null
   const rate = overview.totals.answered ? Math.round((overview.totals.correct / overview.totals.answered) * 100) : null
   return (
     <div className="space-y-6">
@@ -39,10 +43,40 @@ export default async function PracticePage({ searchParams }: { searchParams: Pro
           {base.subjects.length === 0 ? (
             <EmptyState icon={Dumbbell} title="لا أسئلة للتدريب بعد" description="حين ينشر الأساتذة أسئلة عامة في البنك بمستواك تظهر هنا." />
           ) : (
-            <PracticeStartForm key={subjectId} subjects={base.subjects} nodes={opts.nodes} subjectId={subjectId} nodeId={sp.node ?? null} />
+            <PracticeStartForm key={`${subjectId}-${sp.node ?? ''}-${difficulty ?? ''}`} subjects={base.subjects} nodes={opts.nodes} subjectId={subjectId} nodeId={sp.node ?? null} difficulty={difficulty} />
           )}
         </CardContent>
       </Card>
+
+      {recs.length ? (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Lightbulb className="size-4 text-warning" /> مقترح لك الآن
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {recs.map((r) => (
+                <li key={`${r.kind}-${r.nodeId}`} className="flex items-center justify-between gap-2 rounded-lg border p-3 text-sm">
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold">{r.title}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {r.subjectName} · {r.questions} سؤال{r.score !== null ? ` · ${Math.round(r.score)}%` : ''}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-1">
+                    <Badge variant={REC_AR[r.kind].variant}>{REC_AR[r.kind].label}</Badge>
+                    <Button asChild size="sm" variant="outline">
+                      <Link href={`/student/practice?subject=${r.subjectId}&node=${r.nodeId}${r.difficulty ? `&difficulty=${r.difficulty}` : ''}`}>ابدأ</Link>
+                    </Button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      ) : null}
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>

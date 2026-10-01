@@ -17,6 +17,7 @@ import { isAppError } from '@/server/lib/errors'
 import { attendanceMatrix } from '@/server/queries/teacher-extras.queries'
 import { getGroupDashboard, getGroupDetail, listGroupMembers } from '@/server/services/groups.service'
 import { GenerateExercisesButton } from '@/components/domain/generate-exercises-button'
+import { groupNodeWeakness } from '@/server/services/adaptive.service'
 import { groupWeakSkills } from '@/server/services/skills.service'
 import { AttendanceHeatmap } from '@/components/domain/attendance-heatmap'
 
@@ -31,7 +32,7 @@ export default async function GroupDetailPage({ params }: { params: Promise<{ id
     if (isAppError(e)) notFound()
     throw e
   }
-  const [dash, members, matrix, weakSkills] = await Promise.all([getGroupDashboard(db, actor, g.id), listGroupMembers(db, actor, g.id), attendanceMatrix(db, actor, g.id), groupWeakSkills(db, g.id)])
+  const [dash, members, matrix, weakSkills, weakNodes] = await Promise.all([getGroupDashboard(db, actor, g.id), listGroupMembers(db, actor, g.id), attendanceMatrix(db, actor, g.id), groupWeakSkills(db, g.id), groupNodeWeakness(db, actor, g.id)])
   const activeMembers = members.filter((m) => m.status === 'ACTIVE')
   const otherMembers = members.filter((m) => m.status !== 'ACTIVE')
 
@@ -218,6 +219,30 @@ export default async function GroupDetailPage({ params }: { params: Promise<{ id
           <AttendanceHeatmap matrix={matrix} />
         </CardContent>
       </Card>
+
+      {weakNodes.length ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>دروس يتعثّر فيها الفوج (من التدريب الذاتي)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="divide-y text-sm">
+              {weakNodes.map((w) => (
+                <li key={w.nodeId} className="flex flex-wrap items-center justify-between gap-2 py-2">
+                  <span className="font-semibold">
+                    {w.title} <span className="font-normal text-muted-foreground">· {w.subjectName}</span>
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {w.weak} من {w.assessed} · متوسط {w.average}% · {w.students.slice(0, 4).join('، ')}
+                    {w.students.length > 4 ? '…' : ''}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-2 text-xs text-muted-foreground">يُحسب من تلاميذ الفوج الذين تدرّبوا 3 مرات فأكثر على الدرس. ابنِ لهم فرض دعم من «ابنِ لي الامتحان» بنفس الدرس.</p>
+          </CardContent>
+        </Card>
+      ) : null}
 
       {weakSkills.length ? (
         <Card>

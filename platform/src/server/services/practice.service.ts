@@ -6,12 +6,13 @@
  */
 import { and, asc, desc, eq, inArray, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { bankQuestions, curriculumNodes, practiceAnswers, practiceSessions, students, subjects, type BankQuestionRow, type PracticeAnswerRow, type PracticeSessionRow } from '@/server/db/schema'
+import { bankQuestions, curriculumNodes, practiceAnswers, practiceSessions, studentNodeProgress, students, subjects, type BankQuestionRow, type PracticeAnswerRow, type PracticeSessionRow } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { answerKeyText, shuffleWith } from '@/server/lib/exam-render'
 import { gradeAnswer, type StudentAnswer } from '@/server/lib/quiz-grading'
+import { recordNodeResult, targetDifficulties } from './adaptive.service'
 
 /** الأنواع التي تُصحَّح آلياً (الأسئلة المفتوحة تُترك للامتحانات والواجبات) */
 export const PRACTICE_TYPES = ['MCQ', 'TRUE_FALSE', 'SHORT_ANSWER', 'FILL_BLANK', 'MATCHING'] as const
@@ -23,6 +24,8 @@ export interface StartPracticeInput {
   curriculumNodeId?: string | null
   difficulty?: number | null
   count?: number
+  /** تكيّفي: الصعوبة من تقدّم التلميذ بالدرس (يُهمل إن حُدّدت صعوبة) */
+  adaptive?: boolean
 }
 
 const me = (actor: Actor): string => {
@@ -103,12 +106,23 @@ export async function startPractice(db: Db, actor: Actor, input: StartPracticeIn
   const nodeIds = input.curriculumNodeId ? await subtreeIds(db, input.curriculumNodeId) : null
   const since = new Date(Date.now() - 30 * 24 * 3600_000)
   const seen = sql<number>`(select count(*) from ${practiceAnswers} pa where pa.question_id = ${bankQuestions.id} and pa.student_id = ${studentId} and pa.answered_at >= ${since})`
-  const rows = await db
-    .select({ id: bankQuestions.id, points: bankQuestions.points })
+  const adaptive = Boolean(input.adaptive) && !input.difficulty
+  const candidates = await db
+    .select({ id: bankQuestions.id, points: bankQuestions.points, difficulty: bankQuestions.difficulty, nodeId: bankQuestions.curriculumNodeId })
     .from(bankQuestions)
     .where(and(poolWhere(scope, input.subjectId), nodeIds ? inArray(bankQuestions.curriculumNodeId, nodeIds) : undefined, input.difficulty ? eq(bankQuestions.difficulty, input.difficulty) : undefined))
     .orderBy(asc(seen), sql`random()`)
-    .limit(count)
+    .limit(adaptive ? count * 4 : count)
+  let rows = candidates
+  if (adaptive && candidates.length > count) {
+    // الصعوبة المناسبة لكل درس من تقدّم التلميذ؛ ما يطابقها أولاً، ثم الباقي لإكمال العدد
+    const nodeIdsSeen = [...new Set(candidates.map((c) => c.nodeId).filter((x): x is string => Boolean(x)))]
+    const progress = nodeIdsSeen.length ? await db.select().from(studentNodeProgress).where(and(eq(studentNodeProgress.studentId, studentId), inArray(studentNodeProgress.curriculumNodeId, nodeIdsSeen))) : []
+    const byNode = new Map(progress.map((p) => [p.curriculumNodeId, p]))
+    const fits = candidates.filter((c) => targetDifficulties(c.nodeId ? (byNode.get(c.nodeId) ?? null) : null).includes(c.difficulty))
+    const rest = candidates.filter((c) => !fits.includes(c))
+    rows = [...fits, ...rest].slice(0, count)
+  }
   if (rows.length === 0) throw new AppError('PRACTICE_NO_QUESTIONS')
   const session = await db.transaction(async (tx) => {
     const [s] = await tx
@@ -269,6 +283,8 @@ export async function answerPractice(db: Db, actor: Actor, sessionId: string, qu
     .update(practiceSessions)
     .set({ answeredCount: sql`${practiceSessions.answeredCount} + 1`, correctCount: sql`${practiceSessions.correctCount} + ${isCorrect ? 1 : 0}`, updatedAt: new Date() })
     .where(eq(practiceSessions.id, sessionId))
+  // المرحلة 8: تقدّم التلميذ بالدرس
+  if (q.curriculumNodeId && q.subjectId) await recordNodeResult(db, { studentId: session.studentId, subjectId: q.subjectId, curriculumNodeId: q.curriculumNodeId, isCorrect, difficulty: q.difficulty })
   return resultOf(q, updated!)
 }
 

@@ -120,6 +120,13 @@
       "when": 1791600000000,
       "tag": "0016_practice",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1791700000000,
+      "tag": "0017_adaptive",
+      "breakpoints": true
     }
   ]
 }

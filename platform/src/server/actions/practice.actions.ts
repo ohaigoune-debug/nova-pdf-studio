@@ -9,8 +9,8 @@ import { answerPractice, finishPractice, startPractice, type PracticeAnswerResul
 
 const uuid = z.string().uuid()
 
-export async function startPracticeAction(input: { subjectId: string; curriculumNodeId?: string | null; difficulty?: number | null; count?: number }): Promise<ActionResult<{ id: string }>> {
-  const parsed = z.object({ subjectId: uuid, curriculumNodeId: uuid.nullish(), difficulty: z.coerce.number().int().min(1).max(4).nullish(), count: z.coerce.number().int().min(1).max(30).optional() }).safeParse(input)
+export async function startPracticeAction(input: { subjectId: string; curriculumNodeId?: string | null; difficulty?: number | null; count?: number; adaptive?: boolean }): Promise<ActionResult<{ id: string }>> {
+  const parsed = z.object({ subjectId: uuid, curriculumNodeId: uuid.nullish(), difficulty: z.coerce.number().int().min(1).max(4).nullish(), count: z.coerce.number().int().min(1).max(30).optional(), adaptive: z.boolean().optional() }).safeParse(input)
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
     const s = await startPractice(await getDb(), await requireRole('STUDENT'), { ...parsed.data, curriculumNodeId: parsed.data.curriculumNodeId ?? null, difficulty: parsed.data.difficulty ?? null })
