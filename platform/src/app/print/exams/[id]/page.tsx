@@ -4,7 +4,8 @@ import { PrintToolbar } from '@/components/domain/print-toolbar'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
-import { getExam } from '@/server/services/exams.service'
+import { applyVariant, VARIANTS, type Variant } from '@/server/lib/exam-render'
+import { autoTitle, getExam, type ExamView } from '@/server/services/exams.service'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 /** الموضوع أو التصحيح بصيغة A4 جاهزة للطباعة أو الحفظ PDF من المتصفّح */
-export default async function ExamPrintPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ mode?: string }> }) {
+export default async function ExamPrintPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ mode?: string; variant?: string }> }) {
   const actor = await requirePageActor('TEACHER')
   const { id } = await params
   const q = await searchParams
@@ -27,10 +28,24 @@ export default async function ExamPrintPage({ params, searchParams }: { params: 
     if (e instanceof AppError) notFound()
     throw e
   }
+  const variant: Variant = (VARIANTS as readonly string[]).includes(q.variant ?? '') ? (q.variant as Variant) : 'A'
+  const view: ExamView = variant === 'A' ? exam : renumber({ ...exam, items: applyVariant(exam.items, exam.id, variant) })
   return (
     <>
-      <PrintToolbar examId={id} mode={mode} title={exam.title} />
-      <ExamPrint exam={exam} mode={mode} />
+      <PrintToolbar examId={id} mode={mode} variant={variant} title={exam.title} />
+      <ExamPrint exam={view} mode={mode} variant={variant} />
     </>
   )
+}
+
+/** بعد خلط النسخة: ترقيم جديد بترتيب الظهور (العناوين اليدوية تبقى) */
+function renumber(view: ExamView): ExamView {
+  const numbering: Record<string, string> = {}
+  let ex = 0
+  let q = 0
+  for (const it of view.items) {
+    if (it.kind === 'EXERCISE') numbering[it.id] = it.title?.trim() || autoTitle('EXERCISE', ++ex)
+    else if (it.kind === 'QUESTION') numbering[it.id] = it.title?.trim() || autoTitle('QUESTION', ++q)
+  }
+  return { ...view, numbering }
 }

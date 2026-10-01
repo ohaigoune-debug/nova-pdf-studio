@@ -1,4 +1,4 @@
-import { FileText, Plus } from 'lucide-react'
+import { FileText, Plus, Wand2 } from 'lucide-react'
 import Link from 'next/link'
 import { ExamListActions } from '@/components/domain/exam-list-actions'
 import { Badge } from '@/components/ui/badge'
@@ -22,11 +22,18 @@ export default async function ExamsPage() {
         title="الامتحانات"
         description="اختبارات وفروض ورقية تُبنى من بنك الأسئلة في دقائق."
         actions={
-          <Button asChild>
-            <Link href="/teacher/exams/new">
-              <Plus className="size-4" /> امتحان جديد
-            </Link>
-          </Button>
+          <>
+            <Button asChild variant="outline">
+              <Link href="/teacher/exams/generate">
+                <Wand2 className="size-4" /> ابنِ لي الامتحان
+              </Link>
+            </Button>
+            <Button asChild>
+              <Link href="/teacher/exams/new">
+                <Plus className="size-4" /> امتحان جديد
+              </Link>
+            </Button>
+          </>
         }
       />
       {rows.length === 0 ? (

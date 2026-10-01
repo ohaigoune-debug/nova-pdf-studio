@@ -6,7 +6,10 @@ import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { EXAM_ITEM_KINDS, EXAM_KINDS, EXAM_STATUSES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
+import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
 import { addFreeItem, addItemFromBank, createExam, deleteExam, duplicateExam, duplicateItem, rebalancePoints, removeItem, reorderItems, updateExam, updateItem, type ExamInput } from '@/server/services/exams.service'
+import { kickWorker } from '@/server/jobs/runner'
+import { buildExamFromBank, parseExamRequest, requestAiBuild, type DifficultyProfile, type GenerateParams, type ParsedRequest } from '@/server/services/exam-generator.service'
 import { listBankQuestions, type BankFilter, type BankListItem } from '@/server/services/question-bank.service'
 
 const uuid = z.string().uuid()
@@ -168,3 +171,52 @@ export async function searchBankAction(filter: BankFilter, cursor?: string | nul
   if (!parsed.success) return failValidation(parsed.error)
   return runAction(async () => listBankQuestions(await getDb(), await requireRole('TEACHER'), parsed.data as BankFilter, { cursor: cursor ?? null, limit: 20 }))
 }
+
+const generateSchema = z.object({
+  title: z.string().max(200).nullish(),
+  kind: z.enum(EXAM_KINDS).optional(),
+  subjectId: uuid,
+  levelId: uuid,
+  streamId: optUuid,
+  schoolTerm: z.coerce.number().int().min(1).max(3).nullish(),
+  curriculumNodeIds: z.array(uuid).max(20).optional(),
+  durationMinutes: z.coerce.number().int().min(5).max(600),
+  exercises: z.coerce.number().int().min(1).max(12),
+  targetPoints: z.coerce.number().positive().max(200).optional(),
+  profile: z.object({ easy: z.coerce.number().min(0).max(100), medium: z.coerce.number().min(0).max(100), hard: z.coerce.number().min(0).max(100) }).optional(),
+  allowAi: z.boolean().optional()
+})
+
+/** «ابنِ لي الامتحان»: من البنك فوراً، ثم الناقص بالذكاء الاصطناعي في الخلفية إن سُمح */
+export async function buildExamAction(input: GenerateParams): Promise<ActionResult<{ examId: string; jobId: string | null; picked: number; missing: number }>> {
+  const parsed = generateSchema.safeParse(input)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('TEACHER')
+    const db = await getDb()
+    const p = parsed.data as GenerateParams
+    if (p.allowAi) {
+      await checkRateLimit(db, { scope: 'ai-request', subject: actor.userId, ...RATE_LIMITS.aiRequest })
+      return requestAiBuild(db, actor, p)
+    }
+    const r = await buildExamFromBank(db, actor, p)
+    return { ...r, jobId: null }
+  })
+  if (result.ok) {
+    kickWorker(getDb)
+    revalidate(result.data.examId)
+  }
+  return result
+}
+
+/** يحوّل طلباً حرّاً بالعربية إلى معاملات النموذج (بلا نموذج ذكاء اصطناعي) */
+export async function parseExamRequestAction(text: string): Promise<ActionResult<ParsedRequest>> {
+  const parsed = z.string().min(3).max(500).safeParse(text)
+  if (!parsed.success) return failValidation(parsed.error)
+  return runAction(async () => {
+    await requireRole('TEACHER')
+    return parseExamRequest(await getDb(), parsed.data)
+  })
+}
+
+export type { DifficultyProfile }

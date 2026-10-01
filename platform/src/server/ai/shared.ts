@@ -8,6 +8,8 @@ import type {
   ExtractQuestionsInput,
   ExtractQuestionsOutput,
   ExtractedQuestion,
+  GenerateExamItemsInput,
+  GenerateExamItemsOutput,
   AnalyzeStudentInput,
   DraftFromSourceInput,
   DraftFromSourceOutput,
@@ -458,6 +460,33 @@ export function parseExtract(j: Record<string, unknown>): ExtractQuestionsOutput
     questions.push({ ...item, children })
   }
   return { questions, note: text(j.note, 500) || null, raw: j }
+}
+
+export const examItemsSystem = (subject?: string | null): string => [
+  `أنت ${teacherOf(subject)} بالجزائر تضع تمارين امتحان ورقي وفق البرنامج الرسمي الجزائري للمستوى المحدّد.`,
+  'الأمثلة المعطاة من بنك الأستاذ هي المرجع في الأسلوب والمستوى والمحتوى: ولّد تمارين **جديدة مشابهة** (لا نسخاً ولا إعادة صياغة سطحية)، في نفس الوحدات، بالصعوبة المطلوبة، وبزمن حلّ مقارب.',
+  'لكل تمرين: body واضح (نصّ/سند إن لزم ثم المطلوب)، children للأسئلة الفرعية مع نقاطها، solution حلّ نموذجي كامل، points مجموع التمرين، difficulty، estimated_minutes، keywords. المعادلات بصيغة LaTeX بين $…$.',
+  'لا تكرّر الأمثلة، ولا تضع ما يخرج عن البرنامج الجزائري أو عن مستوى التلميذ. أعد JSON فقط بنفس مخطط الاستخراج: {"questions":[…],"note":null}.',
+  LANGUAGE_RULE
+].join('\n')
+
+export const examItemsUser = (input: GenerateExamItemsInput): string =>
+  [
+    `المادة: ${input.subject ?? '—'} · المستوى: ${input.levelName ?? '—'}${input.streamName ? ` · الشعبة: ${input.streamName}` : ''}${input.term ? ` · الفصل ${input.term}` : ''}`,
+    input.units.length ? `الوحدات/الدروس: ${input.units.join('، ')}` : '',
+    `المطلوب: ${input.count} تمرين بصعوبة «${input.difficulty}»، نحو ${input.minutesEach} دقيقة لكل تمرين.`,
+    '',
+    'أمثلة من البنك (للأسلوب والمستوى):',
+    ...input.examples.map((e, i) => `<مثال ${i + 1}>\n${e.body}${e.children.length ? `\nالأسئلة: ${e.children.join(' | ')}` : ''}${e.solution ? `\nالحلّ: ${e.solution.slice(0, 600)}` : ''}\n</مثال>`)
+  ]
+    .filter((x) => x !== '')
+    .join('\n')
+
+export const EXAM_ITEMS_MAX_TOKENS = 9000
+
+export function parseExamItems(j: Record<string, unknown>): GenerateExamItemsOutput {
+  const out = parseExtract(j)
+  return { items: out.questions.map((q) => ({ ...q, kind: q.kind === 'QUESTION' ? 'EXERCISE' : q.kind })), raw: j }
 }
 
 export const draftSystem = (subject: string | null | undefined, mode: 'assignment' | 'explanation'): string =>

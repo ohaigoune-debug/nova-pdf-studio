@@ -145,17 +145,27 @@ export function ExamBuilder({ exam, options }: { exam: ExamView; options: { subj
 
       {/* ── الإعدادات (يسار) */}
       <aside className="order-2 space-y-3 xl:order-3 xl:sticky xl:top-4 xl:max-h-[calc(100dvh-2rem)] xl:overflow-auto">
-        <div className="grid grid-cols-2 gap-2">
-          <Button asChild>
-            <a href={`/print/exams/${exam.id}?mode=subject`} target="_blank" rel="noreferrer">
-              <Printer className="size-4" /> PDF الموضوع
-            </a>
-          </Button>
-          <Button asChild variant="outline">
-            <a href={`/print/exams/${exam.id}?mode=correction`} target="_blank" rel="noreferrer">
-              <FileCheck2 className="size-4" /> PDF التصحيح
-            </a>
-          </Button>
+        <div className="space-y-2 rounded-xl border bg-card p-3 text-sm">
+          <div className="grid grid-cols-2 gap-2">
+            <Button asChild>
+              <a href={`/print/exams/${exam.id}?mode=subject`} target="_blank" rel="noreferrer">
+                <Printer className="size-4" /> PDF الموضوع
+              </a>
+            </Button>
+            <Button asChild variant="outline">
+              <a href={`/print/exams/${exam.id}?mode=correction`} target="_blank" rel="noreferrer">
+                <FileCheck2 className="size-4" /> PDF التصحيح
+              </a>
+            </Button>
+          </div>
+          <p className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
+            نسخ ضدّ الغشّ (ترتيب مختلف، نفس الصعوبة):
+            {['A', 'B', 'C', 'D'].map((v) => (
+              <a key={v} href={`/print/exams/${exam.id}?mode=subject&variant=${v}`} target="_blank" rel="noreferrer" className="rounded border px-2 py-0.5 text-primary hover:border-primary">
+                {v}
+              </a>
+            ))}
+          </p>
         </div>
         <div className="rounded-xl border bg-card p-4 text-sm">
           <p className="mb-2 flex items-center gap-2 font-bold">

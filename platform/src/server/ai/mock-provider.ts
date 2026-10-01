@@ -2,6 +2,8 @@ import { normalizeArabic } from '@/server/lib/arabic'
 import type {
   ExtractQuestionsInput,
   ExtractQuestionsOutput,
+  GenerateExamItemsInput,
+  GenerateExamItemsOutput,
   AIProvider,
   AnalyzeStudentInput,
   AnalyzeStudentOutput,
@@ -271,6 +273,13 @@ export function createMockProvider(): AIProvider {
         return { kind: 'QUESTION' as const, type: 'OPEN' as const, title: null, body: body.slice(0, 6000), options: [], answerKey: null, solution: null, points: pts ? Number(pts[1]!.replace(',', '.')) : null, difficulty: 2 as const, estimatedMinutes: null, topic: null, keywords: [], children: [] }
       })
       return { questions, note: null, raw: { mock: true, chunks: questions.length } }
+    },
+
+    /** بلا نموذج: لا يُخترع محتوى — يعيد الأمثلة نفسها بوسم واضح ليراجعها الأستاذ (للتطوير والاختبار) */
+    async generateExamItems(input: GenerateExamItemsInput): Promise<GenerateExamItemsOutput> {
+      const d = input.difficulty === 'سهل' ? 1 : input.difficulty === 'صعب' ? 3 : 2
+      const items = input.examples.slice(0, input.count).map((e, i) => ({ kind: 'EXERCISE' as const, type: 'OPEN' as const, title: `تمرين مقترح ${i + 1} (بلا ذكاء اصطناعي: نسخة من مثال)`, body: e.body, options: [], answerKey: null, solution: e.solution, points: 4, difficulty: d as 1 | 2 | 3, estimatedMinutes: input.minutesEach, topic: input.units[0] ?? null, keywords: [], children: e.children.map((c) => ({ kind: 'QUESTION' as const, type: 'OPEN' as const, title: null, body: c, options: [], answerKey: null, solution: null, points: 1, difficulty: d as 1 | 2 | 3, estimatedMinutes: null, topic: null, keywords: [] })) }))
+      return { items, raw: { mock: true } }
     },
 
     async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {

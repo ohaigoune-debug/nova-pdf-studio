@@ -6,8 +6,12 @@ import {
   analyzeSystem,
   ESSAY_MAX_TOKENS,
   ESSAY_SCHEMA,
+  EXAM_ITEMS_MAX_TOKENS,
   EXTRACT_MAX_TOKENS,
   EXTRACT_SCHEMA,
+  examItemsSystem,
+  examItemsUser,
+  parseExamItems,
   extractSystem,
   extractUser,
   parseExtract,
@@ -43,6 +47,8 @@ import type {
   EvaluateEssayOutput,
   ExtractQuestionsInput,
   ExtractQuestionsOutput,
+  GenerateExamItemsInput,
+  GenerateExamItemsOutput,
   GenerateExercisesInput,
   GenerateExercisesOutput,
   OrganizeLessonsInput,
@@ -167,6 +173,10 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
 
     async extractQuestions(input: ExtractQuestionsInput): Promise<ExtractQuestionsOutput> {
       return parseExtract(await complete(schemaParams(extractSystem(input.subject), extractUser(input), EXTRACT_MAX_TOKENS, 'extracted_questions', EXTRACT_SCHEMA), { timeoutMs: 180_000 }))
+    },
+
+    async generateExamItems(input: GenerateExamItemsInput): Promise<GenerateExamItemsOutput> {
+      return parseExamItems(await complete(schemaParams(examItemsSystem(input.subject), examItemsUser(input), EXAM_ITEMS_MAX_TOKENS, 'exam_items', EXTRACT_SCHEMA), { timeoutMs: 180_000 }))
     },
 
     async draftFromSource(input: DraftFromSourceInput): Promise<DraftFromSourceOutput> {

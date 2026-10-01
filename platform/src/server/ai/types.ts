@@ -178,6 +178,25 @@ export interface ExtractQuestionsOutput {
   raw?: Record<string, unknown>
 }
 
+/** توليد تمارين جديدة لورقة امتحان، مشابهة لأمثلة من البنك (لا من فراغ)، بالحلّ والنقاط */
+export interface GenerateExamItemsInput {
+  subject: string | null
+  levelName: string | null
+  streamName: string | null
+  units: string[]
+  term: number | null
+  count: number
+  /** سهل | متوسط | صعب */
+  difficulty: string
+  minutesEach: number
+  examples: { body: string; solution: string | null; children: string[] }[]
+}
+
+export interface GenerateExamItemsOutput {
+  items: ExtractedQuestion[]
+  raw?: Record<string, unknown>
+}
+
 /** مسودة من ملف واحد يختاره الأستاذ: واجب (نص + حل نموذجي) أو شرح للتلاميذ */
 export interface DraftFromSourceInput {
   subject?: string | null
@@ -235,6 +254,8 @@ export interface AIProvider {
   draftFromSource?(input: DraftFromSourceInput): Promise<DraftFromSourceOutput>
   /** أسئلة منظّمة من نصّ اختبار قديم أو سلسلة تمارين — إلى قائمة المراجعة لا إلى البنك مباشرة */
   extractQuestions?(input: ExtractQuestionsInput): Promise<ExtractQuestionsOutput>
+  /** تمارين جديدة مشابهة لأمثلة البنك لورقة امتحان — تُوسم «راجعه» وتُنسخ إلى المراجعة */
+  generateExamItems?(input: GenerateExamItemsInput): Promise<GenerateExamItemsOutput>
   /**
    * اختياري: تصحيح دفعة كاملة بنصف السعر؛ النتائج تُجلب لاحقاً بالاستطلاع.
    * المزوّد الذي لا يوفّرها يُعالَج فرادى.

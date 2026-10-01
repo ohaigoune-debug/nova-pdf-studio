@@ -1088,6 +1088,7 @@ const ar = {
     exam_delete: 'حذف امتحاناً',
     exam_duplicate: 'نسخ امتحاناً',
     exam_rebalance: 'أعاد توزيع نقاط امتحان',
+    exam_auto_build: 'بنى امتحاناً تلقائياً من البنك',
     bank_question_create: 'أضاف سؤالاً إلى بنك الأسئلة',
     bank_question_update: 'عدّل سؤالاً في بنك الأسئلة',
     bank_question_status: 'غيّر حالة سؤال في البنك',

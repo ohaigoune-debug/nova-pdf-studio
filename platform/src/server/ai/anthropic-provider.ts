@@ -6,8 +6,12 @@ import {
   analyzeSystem,
   ESSAY_MAX_TOKENS,
   ESSAY_SCHEMA,
+  EXAM_ITEMS_MAX_TOKENS,
   EXTRACT_MAX_TOKENS,
   EXTRACT_SCHEMA,
+  examItemsSystem,
+  examItemsUser,
+  parseExamItems,
   extractSystem,
   extractUser,
   parseExtract,
@@ -46,6 +50,8 @@ import type {
   EvaluateEssayOutput,
   ExtractQuestionsInput,
   ExtractQuestionsOutput,
+  GenerateExamItemsInput,
+  GenerateExamItemsOutput,
   GenerateExercisesInput,
   GenerateExercisesOutput,
   OrganizeLessonsInput,
@@ -219,6 +225,10 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
 
     async extractQuestions(input: ExtractQuestionsInput): Promise<ExtractQuestionsOutput> {
       return parseExtract(await complete(jsonParams(extractSystem(input.subject), extractUser(input), EXTRACT_MAX_TOKENS, EXTRACT_SCHEMA), { timeoutMs: 180_000 }))
+    },
+
+    async generateExamItems(input: GenerateExamItemsInput): Promise<GenerateExamItemsOutput> {
+      return parseExamItems(await complete(jsonParams(examItemsSystem(input.subject), examItemsUser(input), EXAM_ITEMS_MAX_TOKENS, EXTRACT_SCHEMA), { timeoutMs: 180_000 }))
     },
 
     async draftFromSource(input: DraftFromSourceInput): Promise<DraftFromSourceOutput> {

@@ -64,3 +64,56 @@ export function answerKeyText(type: string | undefined, key: Record<string, unkn
   if (Array.isArray(key.pairs)) return (key.pairs as { left: string; right: string }[]).map((p) => `${p.left} ← ${p.right}`).join('، ')
   return null
 }
+
+/* ------------------------------ النسخ A/B/C/D ------------------------------ */
+
+export const VARIANTS = ['A', 'B', 'C', 'D'] as const
+export type Variant = (typeof VARIANTS)[number]
+
+/** مولّد عشوائي حتمي (mulberry32): نفس الحرف ⇒ نفس الترتيب دائماً، فتتطابق ورقة التصحيح */
+function rng(seed: number) {
+  let a = seed >>> 0
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0
+    let t = a
+    t = Math.imul(t ^ (t >>> 15), t | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+export function shuffleWith<T>(arr: T[], seed: number): T[] {
+  const out = [...arr]
+  const r = rng(seed)
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(r() * (i + 1))
+    ;[out[i], out[j]] = [out[j]!, out[i]!]
+  }
+  return out
+}
+
+const seedOf = (examId: string, variant: Variant, salt: number) => {
+  let h = 2166136261 ^ (VARIANTS.indexOf(variant) + 1) ^ (salt * 7919)
+  for (const ch of examId) h = Math.imul(h ^ ch.charCodeAt(0), 16777619)
+  return h >>> 0
+}
+
+/**
+ * النسخة A هي الأصل؛ B/C/D تخلط ترتيب العناصر المرقّمة (داخل كل صفحة، فواصل الصفحات ثابتة)
+ * وترتيب اختيارات MCQ، بنفس الصعوبة والنقاط. الحلّ والسلّم يتبعان الخلط نفسه.
+ */
+export function applyVariant<T extends { kind: string; snapshot: { options?: { label: string; isCorrect: boolean }[]; children?: { options?: { label: string; isCorrect: boolean }[] }[] } }>(items: T[], examId: string, variant: Variant): T[] {
+  if (variant === 'A') return items
+  const groups: T[][] = [[]]
+  for (const it of items) {
+    if (it.kind === 'PAGE_BREAK') groups.push([it], [])
+    else groups[groups.length - 1]!.push(it)
+  }
+  let salt = 0
+  const shuffled = groups.flatMap((g) => (g.length === 1 && g[0]!.kind === 'PAGE_BREAK' ? g : shuffleWith(g, seedOf(examId, variant, salt++))))
+  return shuffled.map((it, i) => {
+    const s = it.snapshot
+    const shuffleOpts = (opts?: { label: string; isCorrect: boolean }[], k = 0) => (opts && opts.length > 1 ? shuffleWith(opts, seedOf(examId, variant, 1000 + i * 10 + k)) : opts)
+    return { ...it, snapshot: { ...s, options: shuffleOpts(s.options), children: s.children?.map((c, k) => ({ ...c, options: shuffleOpts(c.options, k + 1) })) } }
+  })
+}

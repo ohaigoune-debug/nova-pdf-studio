@@ -6,7 +6,7 @@ import { itemPoints, type ExamView } from '@/server/services/exams.service'
 export type PrintMode = 'subject' | 'correction'
 
 /** صفحة A4 رسمية بالعربية: الموضوع أو التصحيح؛ CSS داخل الصفحة والمعادلات مُصيَّرة في الخادم */
-export function ExamPrint({ exam, mode }: { exam: ExamView; mode: PrintMode }) {
+export function ExamPrint({ exam, mode, variant = 'A' }: { exam: ExamView; mode: PrintMode; variant?: string }) {
   const graded = exam.items.filter((i) => i.kind === 'EXERCISE' || i.kind === 'QUESTION')
   const math = hasMath(exam.items.flatMap((i) => [i.snapshot.body, i.snapshot.solution, ...(i.snapshot.children ?? []).flatMap((c) => [c.body, c.solution])]))
   const total = Number(exam.totalPoints)
@@ -35,7 +35,10 @@ export function ExamPrint({ exam, mode }: { exam: ExamView; mode: PrintMode }) {
               </tr>
             </tbody>
           </table>
-          <h1>{mode === 'correction' ? `التصحيح النموذجي وسلّم التنقيط — ${exam.heading}` : exam.heading}</h1>
+          <h1>
+            {mode === 'correction' ? `التصحيح النموذجي وسلّم التنقيط — ${exam.heading}` : exam.heading}
+            {variant !== 'A' ? <span className="variant"> — النسخة {variant}</span> : null}
+          </h1>
           <p className="title">{exam.title}</p>
           {mode === 'subject' && exam.instructions ? <p className="instructions">{exam.instructions}</p> : null}
         </header>
@@ -200,6 +203,7 @@ const PRINT_CSS = `
 .meta td { padding: 1mm 2mm; width: 50%; }
 .head h1 { font-size: 17pt; margin: 3mm 0 1mm; }
 .head .title { margin: 0; font-weight: 700; }
+.variant { font-size: 13pt; font-weight: 400; }
 .instructions { font-size: 11pt; margin: 2mm 0 0; color: #222; }
 .items { list-style: none; padding: 0; margin: 0; }
 .item { margin: 0 0 5mm; break-inside: avoid-page; }
