@@ -190,3 +190,7 @@ export type AccessLevel = (typeof ACCESS_LEVELS)[number]
 /** دورة الامتحان: الرسمية، الاستدراكية، التجريبية (البكالوريا البيضاء) */
 export const EXAM_SESSIONS = ['NORMAL', 'MAKEUP', 'MOCK'] as const
 export type ExamSession = (typeof EXAM_SESSIONS)[number]
+
+/* ───────────── التدريب الذاتي للتلميذ (Student Practice) ───────────── */
+export const PRACTICE_STATUSES = ['ACTIVE', 'FINISHED'] as const
+export type PracticeStatus = (typeof PRACTICE_STATUSES)[number]
