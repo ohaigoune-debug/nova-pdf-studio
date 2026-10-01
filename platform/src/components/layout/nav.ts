@@ -74,6 +74,7 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/teacher/announcements', label: 'الإشعارات', iconKey: 'Megaphone' },
             { href: '/teacher/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
             { href: '/teacher/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
+            { href: '/teacher/bank', label: 'بنك الأسئلة', iconKey: 'Library' },
             { href: '/teacher/rubrics', label: t('rubrics.title'), iconKey: 'ClipboardCheck' },
             { href: '/teacher/drive', label: 'مكتبة Drive', iconKey: 'HardDrive' },
             { href: '/teacher/content', label: t('nav.content'), iconKey: 'BookOpen' },

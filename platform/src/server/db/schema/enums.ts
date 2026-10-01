@@ -155,6 +155,23 @@ export type ResourceType = (typeof RESOURCE_TYPES)[number]
 export const EDUCATOR_STATUSES = ['SUGGESTED', 'APPROVED', 'REJECTED'] as const
 export type EducatorStatus = (typeof EDUCATOR_STATUSES)[number]
 
+/* ───────────── بنك الأسئلة (Exam Builder) ───────────── */
+/** طبيعة العنصر: سؤال مفرد، تمرين (بأسئلة فرعية)، نصّ/سند بأسئلته، مسألة، وضعية إدماجية، وثيقة */
+export const BANK_KINDS = ['QUESTION', 'EXERCISE', 'PASSAGE', 'PROBLEM', 'INTEGRATIVE', 'DOCUMENT'] as const
+export type BankKind = (typeof BANK_KINDS)[number]
+/** أنواع الاختبار الإلكتروني + OPEN (سؤال ورقي مفتوح يُصحَّح بسلّم) */
+export const BANK_QUESTION_TYPES = ['MCQ', 'TRUE_FALSE', 'SHORT_ANSWER', 'LONG_ANSWER', 'FILL_BLANK', 'MATCHING', 'IMAGE', 'OPEN'] as const
+export type BankQuestionType = (typeof BANK_QUESTION_TYPES)[number]
+export const BANK_STATUSES = ['DRAFT', 'NEEDS_REVIEW', 'PUBLISHED', 'ARCHIVED'] as const
+export type BankStatus = (typeof BANK_STATUSES)[number]
+export const BANK_VISIBILITIES = ['PRIVATE', 'PUBLIC'] as const
+export type BankVisibility = (typeof BANK_VISIBILITIES)[number]
+export const BANK_EXAM_KINDS = ['BAC', 'BEM', 'TEST', 'HOMEWORK', 'QUIZ', 'PRACTICE', 'OTHER'] as const
+export type BankExamKind = (typeof BANK_EXAM_KINDS)[number]
+export const RIGHTS_STATUSES = ['OWN', 'LICENSED', 'PUBLIC_DOMAIN', 'THIRD_PARTY', 'UNKNOWN'] as const
+export type RightsStatus = (typeof RIGHTS_STATUSES)[number]
+export const BANK_DIFFICULTIES = [1, 2, 3, 4] as const
+
 export const RESOURCE_STATUSES = ['DRAFT', 'NEEDS_REVIEW', 'PUBLISHED', 'ARCHIVED', 'BROKEN'] as const
 export type ResourceStatus = (typeof RESOURCE_STATUSES)[number]
 

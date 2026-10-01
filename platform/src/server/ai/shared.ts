@@ -5,6 +5,9 @@
  */
 import { PermanentJobError } from '@/server/lib/errors'
 import type {
+  ExtractQuestionsInput,
+  ExtractQuestionsOutput,
+  ExtractedQuestion,
   AnalyzeStudentInput,
   DraftFromSourceInput,
   DraftFromSourceOutput,
@@ -65,6 +68,40 @@ export const DRAFT_SCHEMA: Record<string, unknown> = {
   required: ['title', 'statement', 'model_answer', 'solution_in_source', 'summary', 'body'],
   additionalProperties: false
 }
+
+/** مخطط استخراج الأسئلة (صارم عند OpenAI: كل الحقول مطلوبة، null حيث لا قيمة) */
+const EXTRACTED_ITEM: Record<string, unknown> = {
+  type: 'object',
+  properties: {
+    kind: { type: 'string', enum: ['QUESTION', 'EXERCISE', 'PASSAGE', 'PROBLEM', 'INTEGRATIVE', 'DOCUMENT'] },
+    type: { type: 'string', enum: ['MCQ', 'TRUE_FALSE', 'SHORT_ANSWER', 'LONG_ANSWER', 'FILL_BLANK', 'MATCHING', 'IMAGE', 'OPEN'] },
+    title: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    body: { type: 'string' },
+    options: { type: 'array', items: { type: 'object', properties: { label: { type: 'string' }, is_correct: { type: 'boolean' } }, required: ['label', 'is_correct'], additionalProperties: false } },
+    answer_key: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    solution: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    points: { anyOf: [{ type: 'number' }, { type: 'null' }] },
+    difficulty: { type: 'integer' },
+    estimated_minutes: { anyOf: [{ type: 'integer' }, { type: 'null' }] },
+    topic: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+    keywords: { type: 'array', items: { type: 'string' } }
+  },
+  required: ['kind', 'type', 'title', 'body', 'options', 'answer_key', 'solution', 'points', 'difficulty', 'estimated_minutes', 'topic', 'keywords'],
+  additionalProperties: false
+}
+export const EXTRACT_SCHEMA: Record<string, unknown> = {
+  type: 'object',
+  properties: {
+    questions: {
+      type: 'array',
+      items: { ...EXTRACTED_ITEM, properties: { ...(EXTRACTED_ITEM.properties as object), children: { type: 'array', items: EXTRACTED_ITEM } }, required: [...(EXTRACTED_ITEM.required as string[]), 'children'] }
+    },
+    note: { anyOf: [{ type: 'string' }, { type: 'null' }] }
+  },
+  required: ['questions', 'note'],
+  additionalProperties: false
+}
+export const EXTRACT_MAX_TOKENS = 12_000
 
 export const ORGANIZE_SCHEMA: Record<string, unknown> = {
   type: 'object',
@@ -362,6 +399,66 @@ export function parseOrganize(j: Record<string, unknown>, input: OrganizeLessons
 }
 
 /* ------------------------- مسودة من ملف واحد ------------------------- */
+
+export const extractSystem = (subject?: string | null): string => [
+  `أنت ${teacherOf(subject)} بالجزائر تحوّل نصّ اختبار قديم أو سلسلة تمارين إلى أسئلة منظّمة لبنك أسئلة.`,
+  'المصدر الوحيد النصّ المعطى: انسخ نصّ كل سؤال/تمرين كما هو (مع تصحيح أخطاء الاستخراج الواضحة فقط)، ولا تضف أسئلة ولا تختصر.',
+  'kind: QUESTION سؤال مفرد؛ EXERCISE تمرين له أسئلة فرعية (ضعها في children)؛ PASSAGE نصّ/سند (body = النصّ، أسئلته في children)؛ PROBLEM مسألة؛ INTEGRATIVE وضعية إدماجية؛ DOCUMENT وثيقة/جدول.',
+  'type: MCQ (مع options وis_correct)؛ TRUE_FALSE (answer_key = "true"/"false")؛ SHORT_ANSWER (answer_key = الإجابة)؛ FILL_BLANK (ضع ___ مكان الفراغ وanswer_key = الإجابات مفصولة بـ|)؛ LONG_ANSWER/OPEN للسؤال المفتوح (answer_key null).',
+  'solution: الحلّ إن كان مكتوباً في النصّ نفسه، وإلا null — لا تؤلّف حلاً. points: النقاط إن ذُكرت (مثل «2ن» أو «(03 نقاط)»)، وإلا null.',
+  'difficulty: 1 سهل، 2 متوسط، 3 صعب، 4 صعب جداً (بحسب المستوى). estimated_minutes تقدير معقول أو null. topic: الوحدة/المحور إن اتّضح. keywords: 2–5 كلمات مفتاحية.',
+  'المعادلات بصيغة LaTeX بين $…$. أعد JSON فقط: {"questions":[…],"note":string|null}. note: إن كان النصّ فارغاً أو مصوّراً أو بلا أسئلة فاشرح ذلك في note وأعد questions فارغة.',
+  LANGUAGE_RULE
+].join('\n')
+
+export const extractUser = (input: ExtractQuestionsInput): string =>
+  [`الملف: ${input.fileTitle}`, input.subject ? `المادة: ${input.subject}` : '', input.levelName ? `المستوى: ${input.levelName}` : '', '', '<نص>', input.text.replace(/<\/?نص>/g, ''), '</نص>'].filter((x) => x !== '').join('\n')
+
+const EXTRACT_KINDS = ['QUESTION', 'EXERCISE', 'PASSAGE', 'PROBLEM', 'INTEGRATIVE', 'DOCUMENT']
+const EXTRACT_TYPES = ['MCQ', 'TRUE_FALSE', 'SHORT_ANSWER', 'LONG_ANSWER', 'FILL_BLANK', 'MATCHING', 'IMAGE', 'OPEN']
+
+/** يحوّل answer_key النصّي إلى مفتاح quiz-grading حسب النوع */
+export function answerKeyFromText(type: string, raw: unknown): Record<string, unknown> | null {
+  const v = typeof raw === 'string' ? raw.trim() : ''
+  if (!v) return null
+  if (type === 'TRUE_FALSE') return /^(true|صحيح|صح|vrai|1)$/i.test(v) ? { value: true } : /^(false|خطأ|خاطئ|faux|0)$/i.test(v) ? { value: false } : null
+  if (type === 'SHORT_ANSWER') return { accepted: v.split('|').map((x) => x.trim()).filter(Boolean) }
+  if (type === 'FILL_BLANK') return { blanks: v.split('|').map((x) => x.trim()).filter(Boolean).map((x) => [x]) }
+  return null
+}
+
+function parseExtractedItem(r: Record<string, unknown>): Omit<ExtractedQuestion, 'children'> | null {
+  const body = text(r.body, 6000)
+  if (!body) return null
+  const type = EXTRACT_TYPES.includes(String(r.type)) ? (String(r.type) as ExtractedQuestion['type']) : 'OPEN'
+  const d = num(r.difficulty, 2)
+  return {
+    kind: EXTRACT_KINDS.includes(String(r.kind)) ? (String(r.kind) as ExtractedQuestion['kind']) : 'QUESTION',
+    type,
+    title: text(r.title, 200) || null,
+    body,
+    options: Array.isArray(r.options) ? (r.options as { label?: unknown; is_correct?: unknown }[]).filter((o) => typeof o.label === 'string' && o.label.trim()).map((o) => ({ label: String(o.label).trim(), isCorrect: Boolean(o.is_correct) })) : [],
+    answerKey: answerKeyFromText(type, r.answer_key),
+    solution: text(r.solution, 6000) || null,
+    points: typeof r.points === 'number' && r.points > 0 ? Math.round(r.points * 100) / 100 : null,
+    difficulty: (d >= 1 && d <= 4 ? Math.round(d) : 2) as 1 | 2 | 3 | 4,
+    estimatedMinutes: typeof r.estimated_minutes === 'number' && r.estimated_minutes > 0 ? Math.round(r.estimated_minutes) : null,
+    topic: text(r.topic, 120) || null,
+    keywords: strList(r.keywords, 8)
+  }
+}
+
+export function parseExtract(j: Record<string, unknown>): ExtractQuestionsOutput {
+  const rows = Array.isArray(j.questions) ? (j.questions as Record<string, unknown>[]) : []
+  const questions: ExtractedQuestion[] = []
+  for (const r of rows.slice(0, 80)) {
+    const item = parseExtractedItem(r)
+    if (!item) continue
+    const children = Array.isArray(r.children) ? (r.children as Record<string, unknown>[]).map(parseExtractedItem).filter((c): c is NonNullable<typeof c> => c !== null).slice(0, 30) : []
+    questions.push({ ...item, children })
+  }
+  return { questions, note: text(j.note, 500) || null, raw: j }
+}
 
 export const draftSystem = (subject: string | null | undefined, mode: 'assignment' | 'explanation'): string =>
   [

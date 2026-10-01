@@ -145,6 +145,39 @@ export interface OrganizeLessonsOutput {
   raw?: Record<string, unknown>
 }
 
+/** استخراج أسئلة منظّمة من نصّ اختبار أو سلسلة تمارين (ملف الأستاذ) — تُراجَع قبل الحفظ */
+export interface ExtractQuestionsInput {
+  subject?: string | null
+  levelName?: string | null
+  fileTitle: string
+  text: string
+}
+
+export interface ExtractedQuestion {
+  kind: 'QUESTION' | 'EXERCISE' | 'PASSAGE' | 'PROBLEM' | 'INTEGRATIVE' | 'DOCUMENT'
+  type: 'MCQ' | 'TRUE_FALSE' | 'SHORT_ANSWER' | 'LONG_ANSWER' | 'FILL_BLANK' | 'MATCHING' | 'IMAGE' | 'OPEN'
+  title: string | null
+  body: string
+  options: { label: string; isCorrect: boolean }[]
+  answerKey: Record<string, unknown> | null
+  /** الحلّ إن وُجد في الملف نفسه، وإلا null — لا يُؤلَّف */
+  solution: string | null
+  points: number | null
+  difficulty: 1 | 2 | 3 | 4
+  estimatedMinutes: number | null
+  topic: string | null
+  keywords: string[]
+  /** أسئلة فرعية (لتمرين أو نصّ) بنفس الشكل بلا تداخل أعمق */
+  children: Omit<ExtractedQuestion, 'children'>[]
+}
+
+export interface ExtractQuestionsOutput {
+  questions: ExtractedQuestion[]
+  /** الملف مصوّر أو بلا أسئلة واضحة */
+  note: string | null
+  raw?: Record<string, unknown>
+}
+
 /** مسودة من ملف واحد يختاره الأستاذ: واجب (نص + حل نموذجي) أو شرح للتلاميذ */
 export interface DraftFromSourceInput {
   subject?: string | null
@@ -200,6 +233,8 @@ export interface AIProvider {
   organizeLessons?(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput>
   /** مسودة واجب أو شرح من ملف واحد — يراجعها الأستاذ قبل أي نشر */
   draftFromSource?(input: DraftFromSourceInput): Promise<DraftFromSourceOutput>
+  /** أسئلة منظّمة من نصّ اختبار قديم أو سلسلة تمارين — إلى قائمة المراجعة لا إلى البنك مباشرة */
+  extractQuestions?(input: ExtractQuestionsInput): Promise<ExtractQuestionsOutput>
   /**
    * اختياري: تصحيح دفعة كاملة بنصف السعر؛ النتائج تُجلب لاحقاً بالاستطلاع.
    * المزوّد الذي لا يوفّرها يُعالَج فرادى.

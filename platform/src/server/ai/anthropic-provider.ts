@@ -6,6 +6,11 @@ import {
   analyzeSystem,
   ESSAY_MAX_TOKENS,
   ESSAY_SCHEMA,
+  EXTRACT_MAX_TOKENS,
+  EXTRACT_SCHEMA,
+  extractSystem,
+  extractUser,
+  parseExtract,
   essaySystem,
   exercisesSystem,
   insightsSystem,
@@ -39,6 +44,8 @@ import type {
   EssayBatchStatus,
   EvaluateEssayInput,
   EvaluateEssayOutput,
+  ExtractQuestionsInput,
+  ExtractQuestionsOutput,
   GenerateExercisesInput,
   GenerateExercisesOutput,
   OrganizeLessonsInput,
@@ -208,6 +215,10 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
       // ~160 رمزاً لكل درس في الردّ، مع هامش للقوائم الطويلة
       const maxTokens = Math.min(8000, 600 + input.items.length * 200)
       return parseOrganize(await complete(jsonParams(organizeSystem(input.subject, input.kind), organizeUser(input), maxTokens, ORGANIZE_SCHEMA)), input)
+    },
+
+    async extractQuestions(input: ExtractQuestionsInput): Promise<ExtractQuestionsOutput> {
+      return parseExtract(await complete(jsonParams(extractSystem(input.subject), extractUser(input), EXTRACT_MAX_TOKENS, EXTRACT_SCHEMA), { timeoutMs: 180_000 }))
     },
 
     async draftFromSource(input: DraftFromSourceInput): Promise<DraftFromSourceOutput> {

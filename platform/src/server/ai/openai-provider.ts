@@ -6,6 +6,11 @@ import {
   analyzeSystem,
   ESSAY_MAX_TOKENS,
   ESSAY_SCHEMA,
+  EXTRACT_MAX_TOKENS,
+  EXTRACT_SCHEMA,
+  extractSystem,
+  extractUser,
+  parseExtract,
   essaySystem,
   exercisesSystem,
   insightsSystem,
@@ -36,6 +41,8 @@ import type {
   DraftFromSourceOutput,
   EvaluateEssayInput,
   EvaluateEssayOutput,
+  ExtractQuestionsInput,
+  ExtractQuestionsOutput,
   GenerateExercisesInput,
   GenerateExercisesOutput,
   OrganizeLessonsInput,
@@ -156,6 +163,10 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
     async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {
       const maxTokens = Math.min(8000, 600 + input.items.length * 200)
       return parseOrganize(await complete(schemaParams(organizeSystem(input.subject, input.kind), organizeUser(input), maxTokens, 'organized_lessons', ORGANIZE_SCHEMA)), input)
+    },
+
+    async extractQuestions(input: ExtractQuestionsInput): Promise<ExtractQuestionsOutput> {
+      return parseExtract(await complete(schemaParams(extractSystem(input.subject), extractUser(input), EXTRACT_MAX_TOKENS, 'extracted_questions', EXTRACT_SCHEMA), { timeoutMs: 180_000 }))
     },
 
     async draftFromSource(input: DraftFromSourceInput): Promise<DraftFromSourceOutput> {

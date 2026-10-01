@@ -1,5 +1,7 @@
 import { normalizeArabic } from '@/server/lib/arabic'
 import type {
+  ExtractQuestionsInput,
+  ExtractQuestionsOutput,
   AIProvider,
   AnalyzeStudentInput,
   AnalyzeStudentOutput,
@@ -256,6 +258,19 @@ export function createMockProvider(): AIProvider {
         return { title, statement: '', modelAnswer: '', solutionInSource: false, summary: text.split(/[.!؟?\n]/)[0]!.trim().slice(0, 200), body: text.slice(0, 4000), raw: { mode: 'explanation' } }
       }
       return { title, statement, modelAnswer: answer, solutionInSource: !!answer, summary: '', body: '', raw: { mode: 'assignment', split: !!m } }
+    },
+
+    /** بلا نموذج: يقسّم النصّ عند عناوين «التمرين/السؤال/Exercice» وأرقام البداية؛ لا حلول ولا نقاط مخترعة */
+    async extractQuestions(input: ExtractQuestionsInput): Promise<ExtractQuestionsOutput> {
+      const text = input.text.replace(/\r/g, '').trim()
+      if (text.length < 20) return { questions: [], note: 'النصّ فارغ أو مصوّر: لم يُستخرج شيء.', raw: { mock: true } }
+      const parts = text.split(/\n(?=\s*(?:التمرين|تمرين|السؤال|سؤال|Exercice|Exercise|Question)\s*(?:رقم\s*)?[0-9٠-٩]*\s*[:：.\-–)]?)/u).map((x) => x.trim()).filter((x) => x.length >= 15)
+      const chunks = parts.length > 1 ? parts : text.split(/\n(?=\s*[0-9٠-٩]{1,2}\s*[-–.)])/u).map((x) => x.trim()).filter((x) => x.length >= 15)
+      const questions = (chunks.length ? chunks : [text]).slice(0, 40).map((body) => {
+        const pts = /\(?\s*([0-9]{1,2}(?:[.,][05])?)\s*(?:ن|نقاط|نقطة|pts?|points?)\s*\)?/i.exec(body)
+        return { kind: 'QUESTION' as const, type: 'OPEN' as const, title: null, body: body.slice(0, 6000), options: [], answerKey: null, solution: null, points: pts ? Number(pts[1]!.replace(',', '.')) : null, difficulty: 2 as const, estimatedMinutes: null, topic: null, keywords: [], children: [] }
+      })
+      return { questions, note: null, raw: { mock: true, chunks: questions.length } }
     },
 
     async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {

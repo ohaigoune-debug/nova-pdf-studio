@@ -2,6 +2,7 @@ import { runBacSyncJob } from '@/server/services/bac-sync.service'
 import { runOrganizeContentJob } from '@/server/services/content-organize.service'
 import { runResolveEducatorsJob, runSyncChannelJob } from '@/server/services/educators.service'
 import { runFileImportJob } from '@/server/services/file-import.service'
+import { runExtractQuestionsJob } from '@/server/services/question-bank.service'
 import { runGenerateQuizJob } from '@/server/services/quiz-generate.service'
 import type { Db } from '@/server/db/connect'
 import { runAiBatchCollectJob, runAiEvaluationJob, runAnalyzeStudentJob, runGenerateExercisesJob, runTeacherInsightsJob } from '@/server/services/ai.service'
@@ -22,6 +23,7 @@ const handlers: Record<JobType, Handler> = {
   AI_IMPORT_FILES: (db, job) => runFileImportJob(db, job.payload),
   AI_ANALYZE_STUDENT: (db, job) => runAnalyzeStudentJob(db, job.payload),
   AI_ORGANIZE_CONTENT: (db, job) => runOrganizeContentJob(db, job),
+  AI_EXTRACT_QUESTIONS: (db, job) => runExtractQuestionsJob(db, job),
   BAC_SYNC: (db, job) => runBacSyncJob(db, job),
   YT_RESOLVE_EDUCATORS: (db, job) => runResolveEducatorsJob(db, job),
   YT_SYNC_CHANNEL: (db, job) => runSyncChannelJob(db, job),
