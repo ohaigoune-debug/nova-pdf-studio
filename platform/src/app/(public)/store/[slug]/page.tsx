@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button'
 import { Alert, PageHeader } from '@/components/ui/misc'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
+import type { ListingKind } from '@/server/db/schema/enums'
+import { LISTING_KIND_AR } from '@/server/services/marketplace.service'
 import { getProduct, PRODUCT_TYPE_AR, shippingFeeDzd } from '@/server/services/store.service'
 
 export const dynamic = 'force-dynamic'
@@ -61,7 +63,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
         <div className="space-y-4 lg:col-span-2">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="secondary">{PRODUCT_TYPE_AR[p.type]}</Badge>
+            <Badge variant="secondary">{p.listing ? LISTING_KIND_AR[p.listing.kind as ListingKind] : PRODUCT_TYPE_AR[p.type]}</Badge>
+            {p.sellerName ? <Badge variant="default">من الأستاذ: {p.sellerName}</Badge> : null}
+            {p.listing?.teachersOnly ? <Badge variant="warning">للأساتذة: يُنسخ إلى ورشتك</Badge> : null}
             {p.pages ? <Badge variant="muted">{p.pages} صفحة</Badge> : null}
             {p.physical ? p.inStock ? <Badge variant="success">متوفر{p.stock !== null ? ` (${p.stock})` : ''}</Badge> : <Badge variant="destructive">نفد المخزون</Badge> : null}
           </div>
@@ -76,7 +80,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <Truck className="me-1 inline size-4" /> يُشحن إلى كل الولايات والدفع عند الاستلام{fee ? ` (شحن ${fee} دج)` : ''}.
             </Alert>
           ) : null}
-          {p.digital ? (
+          {p.listing && p.listing.kind !== 'SUMMARY' ? (
+            <Alert tone="info">{p.listing.kind === 'EXAM' ? 'بعد التأكيد تظهر نسخة من الامتحان في «الامتحانات» عندك، قابلة للتعديل والطباعة بنسخ A/B/C/D.' : 'بعد التأكيد تُنسخ الأسئلة إلى بنكك مع ذكر المصدر.'}</Alert>
+          ) : p.digital ? (
             <Alert tone="info">
               <FileText className="me-1 inline size-4" /> {p.files.length ? `${p.files.length} ملف رقمي` : 'ملفات رقمية'} تُتاح للتنزيل من «طلباتي» بعد {p.priceDzd === 0 ? 'الطلب مباشرة' : 'تأكيد الدفع'}.
               {p.files.length ? <ul className="mt-1 text-xs text-muted-foreground">{p.files.map((f) => <li key={f.id}>{f.label ?? f.name} · {Math.max(1, Math.round(f.sizeBytes / 1024 / 1024))} م.ب</li>)}</ul> : null}

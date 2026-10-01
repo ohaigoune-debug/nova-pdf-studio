@@ -553,3 +553,29 @@ export async function extractionStatus(db: Db, actor: Actor) {
   const pending = actor.workspaceId ? await pendingJobOfType(db, 'AI_EXTRACT_QUESTIONS', actor.workspaceId) : null
   return { running: Boolean(pending), jobId: pending?.id ?? null, processed: pending?.processedItems ?? 0, total: pending?.totalItems ?? 0, aiConfigured: aiProviderInfo().configured }
 }
+
+/* ------------------------- نسخ من السوق إلى بنك المشتري ------------------------- */
+
+/**
+ * ينسخ أسئلة (وفرعياتها) إلى مساحة أخرى: منشورة خاصة، حقوق «مرخَّص»، المصدر مذكور، بلا عدّاد استعمال.
+ * يُستدعى عند تسليم عرض من السوق؛ لا يفحص الملكية (المسار المستدعي تحقّق من الشراء).
+ */
+export async function copyQuestionsToWorkspace(db: Db, ids: string[], target: { workspaceId: string; userId: string }, sourceLabel: string): Promise<{ copied: number }> {
+  if (ids.length === 0) return { copied: 0 }
+  const parents = await db.select().from(bankQuestions).where(and(inArray(bankQuestions.id, ids), isNull(bankQuestions.deletedAt), isNull(bankQuestions.parentId)))
+  const children = parents.length ? await db.select().from(bankQuestions).where(and(inArray(bankQuestions.parentId, parents.map((p) => p.id)), isNull(bankQuestions.deletedAt))).orderBy(asc(bankQuestions.sortOrder)) : []
+  let copied = 0
+  await db.transaction(async (tx) => {
+    for (const p of parents) {
+      const [np] = await tx
+        .insert(bankQuestions)
+        .values({ ...p, id: undefined, workspaceId: target.workspaceId, authorUserId: target.userId, parentId: null, visibility: 'PRIVATE', status: 'PUBLISHED', rightsStatus: 'LICENSED', sourceLabel: p.sourceLabel ?? sourceLabel, usageCount: 0, lastUsedAt: null, importBatchId: null, createdAt: undefined, updatedAt: undefined, deletedAt: null })
+        .returning()
+      copied++
+      for (const c of children.filter((x) => x.parentId === p.id)) {
+        await tx.insert(bankQuestions).values({ ...c, id: undefined, workspaceId: target.workspaceId, authorUserId: target.userId, parentId: np!.id, visibility: 'PRIVATE', status: 'PUBLISHED', rightsStatus: 'LICENSED', sourceLabel: c.sourceLabel ?? sourceLabel, usageCount: 0, lastUsedAt: null, importBatchId: null, createdAt: undefined, updatedAt: undefined, deletedAt: null })
+      }
+    }
+  })
+  return { copied }
+}

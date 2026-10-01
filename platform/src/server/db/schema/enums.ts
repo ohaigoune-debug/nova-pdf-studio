@@ -205,3 +205,11 @@ export type OrderStatus = (typeof ORDER_STATUSES)[number]
 /** الدفع عند الاستلام (مادي)، تحويل (CCP/BaridiMob يؤكّده المشرف)، مجاني */
 export const PAYMENT_METHODS = ['COD', 'TRANSFER', 'FREE'] as const
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number]
+
+/* ───────────── سوق الأساتذة (Marketplace) ───────────── */
+export const LISTING_KINDS = ['EXAM', 'EXERCISE_SET', 'SUMMARY', 'QUESTION_BANK'] as const
+export type ListingKind = (typeof LISTING_KINDS)[number]
+export const LISTING_STATUSES = ['DRAFT', 'PENDING_REVIEW', 'PUBLISHED', 'REJECTED', 'ARCHIVED'] as const
+export type ListingStatus = (typeof LISTING_STATUSES)[number]
+export const PAYOUT_STATUSES = ['PENDING', 'PAID'] as const
+export type PayoutStatus = (typeof PAYOUT_STATUSES)[number]

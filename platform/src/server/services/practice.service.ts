@@ -112,7 +112,7 @@ export async function startPractice(db: Db, actor: Actor, input: StartPracticeIn
     .from(bankQuestions)
     .where(and(poolWhere(scope, input.subjectId), nodeIds ? inArray(bankQuestions.curriculumNodeId, nodeIds) : undefined, input.difficulty ? eq(bankQuestions.difficulty, input.difficulty) : undefined))
     .orderBy(asc(seen), sql`random()`)
-    .limit(adaptive ? count * 4 : count)
+    .limit(adaptive ? Math.max(count * 4, 40) : count)
   let rows = candidates
   if (adaptive && candidates.length > count) {
     // الصعوبة المناسبة لكل درس من تقدّم التلميذ؛ ما يطابقها أولاً، ثم الباقي لإكمال العدد

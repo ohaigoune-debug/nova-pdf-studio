@@ -7,7 +7,7 @@
 import { randomBytes } from 'node:crypto'
 import { and, asc, desc, eq, inArray, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { downloads, files, levels, orderItems, orders, productFiles, products, profiles, subjects, users, wilayas, type OrderRow, type ProductRow } from '@/server/db/schema'
+import { downloads, files, levels, listings, orderItems, orders, productFiles, products, profiles, subjects, teacherWorkspaces, users, wilayas, type OrderRow, type ProductRow } from '@/server/db/schema'
 import type { OrderStatus, PaymentMethod, ProductStatus, ProductType } from '@/server/db/schema/enums'
 import { ORDER_STATUSES, PRODUCT_STATUSES, PRODUCT_TYPES } from '@/server/db/schema/enums'
 import { assertRole, type Actor } from '@/server/lib/actor'
@@ -15,6 +15,7 @@ import { normalizeArabic } from '@/server/lib/arabic'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { signFileUrl } from '@/server/lib/storage'
+import { grantPurchasesForOrder } from './marketplace.service'
 import { notify } from './notifications.service'
 
 export const PRODUCT_TYPE_AR: Record<ProductType, string> = { BOOK: 'كتاب ورقي', PDF: 'ملف PDF', PACK: 'حزمة (ورقي + رقمي)' }
@@ -186,7 +187,9 @@ export async function getProduct(db: Db, slug: string) {
     .innerJoin(files, eq(files.id, productFiles.fileId))
     .where(eq(productFiles.productId, row.p.id))
     .orderBy(asc(productFiles.sortOrder))
-  return { ...cardOf(row.p, row.subjectName, row.levelName), description: row.p.description, pages: row.p.pages, stock: row.p.stock, files: fileRows }
+  const [seller] = row.p.workspaceId ? await db.select({ name: teacherWorkspaces.name }).from(teacherWorkspaces).where(eq(teacherWorkspaces.id, row.p.workspaceId)).limit(1) : []
+  const [listing] = await db.select({ id: listings.id, kind: listings.kind, teachersOnly: listings.teachersOnly, salesCount: listings.salesCount }).from(listings).where(eq(listings.productId, row.p.id)).limit(1)
+  return { ...cardOf(row.p, row.subjectName, row.levelName), description: row.p.description, pages: row.p.pages, stock: row.p.stock, files: fileRows, sellerName: seller?.name ?? null, listing: listing ?? null }
 }
 
 /* ---------------------------------- الطلب ---------------------------------- */
@@ -222,6 +225,11 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
     if (isPhysical(p.type) && p.stock !== null && p.stock < qty) throw new AppError('OUT_OF_STOCK', { product: p.title })
     return { p, qty, total: p.priceDzd * qty }
   })
+  // عروض السوق الموجّهة للأساتذة (تُنسخ إلى مساحتهم) لا يشتريها غيرهم
+  if (actor.role !== 'TEACHER') {
+    const [tOnly] = await db.select({ id: listings.id }).from(listings).where(and(inArray(listings.productId, ids), eq(listings.teachersOnly, true))).limit(1)
+    if (tOnly) throw new AppError('LISTING_TEACHERS_ONLY')
+  }
   const needsShipping = lines.some((l) => isPhysical(l.p.type))
   if (needsShipping && !input.wilayaId) throw new AppError('VALIDATION', { field: 'wilayaId' })
   if (needsShipping && !input.address?.trim()) throw new AppError('VALIDATION', { field: 'address' })
@@ -243,6 +251,7 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
     return o!
   })
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'store.order_place', entityType: 'order', entityId: order.id, newValue: { number: order.number, total, paymentMethod, items: lines.length } })
+  if (status === 'DELIVERED') await grantPurchasesForOrder(db, order.id)
   // المشرفون يُخطرون بالطلبات التي تنتظرهم
   if (status === 'PENDING') {
     const admins = await db.select({ id: users.id }).from(users).where(eq(users.role, 'SUPER_ADMIN'))
@@ -334,6 +343,7 @@ export async function setOrderStatus(db: Db, actor: Actor, id: string, next: Ord
     return r!
   })
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'store.order_status', entityType: 'order', entityId: id, oldValue: { status: o.status }, newValue: { status: next, reason: opts.reason ?? null } })
+  if (next === 'CONFIRMED' || next === 'DELIVERED') await grantPurchasesForOrder(db, id)
   const msg: Record<OrderStatus, string> = { PENDING: '', CONFIRMED: o.needsShipping ? 'أُكّد طلبك وسيُشحن قريباً.' : 'أُكّد طلبك: ملفاتك جاهزة للتنزيل من «طلباتي».', SHIPPED: 'طلبك في الطريق إليك.', DELIVERED: 'سُلّم طلبك. شكراً لك.', CANCELLED: `أُلغي طلبك${opts.reason ? `: ${opts.reason}` : ''}.` }
   if (msg[next]) await notify(db, { userId: o.userId, workspaceId: null, type: 'SYSTEM', title: `طلب ${o.number}: ${ORDER_STATUS_AR[next]}`, body: msg[next], link: `/store/orders/${o.id}` })
   return row

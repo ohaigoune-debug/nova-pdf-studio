@@ -12,6 +12,8 @@ import { getDb } from '@/server/db/client'
 import type { OrderStatus, PaymentMethod } from '@/server/db/schema/enums'
 import { AppError } from '@/server/lib/errors'
 import { getOrder, ORDER_STATUS_AR, PAYMENT_AR } from '@/server/services/store.service'
+import { listingPurchases, listings } from '@/server/db/schema'
+import { and, eq } from 'drizzle-orm'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'تفاصيل الطلب' }
@@ -29,6 +31,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
     throw e
   }
   const o = v.order
+  const delivered = await (await getDb()).select({ listingId: listings.id, kind: listings.kind, title: listings.title, examId: listings.examId, delivered: listingPurchases.delivered }).from(listingPurchases).innerJoin(listings, eq(listings.id, listingPurchases.listingId)).where(and(eq(listingPurchases.orderId, o.id), eq(listingPurchases.buyerUserId, o.userId)))
   const steps: OrderStatus[] = o.needsShipping ? ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED'] : ['PENDING', 'CONFIRMED', 'DELIVERED']
   const idx = steps.indexOf(o.status as OrderStatus)
   return (
@@ -61,6 +64,32 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
       </div>
       {o.status === 'PENDING' ? <Alert tone="info">{o.paymentMethod === 'TRANSFER' ? 'حوّل المبلغ (CCP / BaridiMob) ثم أرسل الوصل للمشرف؛ عند التأكيد تُفتح التنزيلات هنا.' : 'نتصل بك على رقمك للتأكيد، ثم نشحن الطلب.'}</Alert> : null}
       {o.status === 'CANCELLED' ? <Alert tone="warning">أُلغي الطلب{o.cancelReason ? `: ${o.cancelReason}` : ''}.</Alert> : null}
+      {delivered.length ? (
+        <Alert tone="success" title="سُلّم من السوق">
+          <ul className="space-y-1 text-sm">
+            {delivered.map((d) => (
+              <li key={d.listingId}>
+                {d.title} —{' '}
+                {typeof d.delivered.examId === 'string' ? (
+                  <Link href={`/teacher/exams/${d.delivered.examId}`} className="underline">
+                    نسختك في الامتحانات
+                  </Link>
+                ) : d.kind === 'EXAM' && d.examId ? (
+                  <Link href={`/print/exams/${d.examId}?mode=subject`} className="underline">
+                    عرض وطباعة الورقة
+                  </Link>
+                ) : typeof d.delivered.copied === 'number' ? (
+                  <Link href="/teacher/bank" className="underline">
+                    {d.delivered.copied} سؤالاً في بنكك
+                  </Link>
+                ) : (
+                  'ملفاته أدناه'
+                )}
+              </li>
+            ))}
+          </ul>
+        </Alert>
+      ) : null}
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader>

@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 import { recordPrintAction } from '@/server/actions/exams.actions'
 
 /** شريط فوق الورقة (لا يُطبع): طباعة/حفظ PDF، والتبديل بين الموضوع والتصحيح */
-export function PrintToolbar({ examId, mode, variant, title }: { examId: string; mode: 'subject' | 'correction'; variant: string; title: string }) {
+export function PrintToolbar({ examId, mode, variant, title, readOnly = false }: { examId: string; mode: 'subject' | 'correction'; variant: string; title: string; readOnly?: boolean }) {
   useEffect(() => {
     document.title = `${mode === 'correction' ? 'التصحيح' : 'الموضوع'}${variant !== 'A' ? ` (${variant})` : ''} — ${title}`
   }, [mode, variant, title])
@@ -16,9 +16,15 @@ export function PrintToolbar({ examId, mode, variant, title }: { examId: string;
   return (
     <div className="no-print sticky top-0 z-10 flex flex-wrap items-center justify-between gap-2 border-b bg-white/90 px-4 py-2 backdrop-blur" dir="rtl">
       <div className="flex items-center gap-2">
-        <Link href={`/teacher/exams/${examId}`} className="inline-flex items-center gap-1 text-sm text-primary underline">
-          <ArrowRight className="size-4" /> العودة إلى المحرّر
-        </Link>
+        {readOnly ? (
+          <Link href="/store/orders" className="inline-flex items-center gap-1 text-sm text-primary underline">
+            <ArrowRight className="size-4" /> طلباتي
+          </Link>
+        ) : (
+          <Link href={`/teacher/exams/${examId}`} className="inline-flex items-center gap-1 text-sm text-primary underline">
+            <ArrowRight className="size-4" /> العودة إلى المحرّر
+          </Link>
+        )}
         <Link href={`/print/exams/${examId}?mode=subject&variant=${variant}`} className={cn(tab(mode === 'subject'), 'inline-flex items-center gap-1')}>
           <FileText className="size-4" /> الموضوع
         </Link>
@@ -38,7 +44,7 @@ export function PrintToolbar({ examId, mode, variant, title }: { examId: string;
           size="sm"
           onClick={() => {
             // السجلّ لا يعطّل الطباعة: يُسجَّل في الخلفية ثم تُفتح نافذة الطباعة فوراً
-            void recordPrintAction(examId, mode, variant)
+            if (!readOnly) void recordPrintAction(examId, mode, variant)
             window.print()
           }}
         >

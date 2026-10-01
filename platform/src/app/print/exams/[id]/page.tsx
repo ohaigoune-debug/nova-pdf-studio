@@ -5,7 +5,8 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
 import { applyVariant, VARIANTS, type Variant } from '@/server/lib/exam-render'
-import { autoTitle, getExam, type ExamView } from '@/server/services/exams.service'
+import { autoTitle, type ExamView } from '@/server/services/exams.service'
+import { getExamForReader } from '@/server/services/marketplace.service'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,13 +18,17 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 /** الموضوع أو التصحيح بصيغة A4 جاهزة للطباعة أو الحفظ PDF من المتصفّح */
 export default async function ExamPrintPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ mode?: string; variant?: string }> }) {
-  const actor = await requirePageActor('TEACHER')
+  const actor = await requirePageActor()
   const { id } = await params
   const q = await searchParams
   const mode: PrintMode = q.mode === 'correction' ? 'correction' : 'subject'
-  let exam
+  let exam: ExamView
+  let readOnly = false
   try {
-    exam = await getExam(await getDb(), actor, id)
+    // المالك يطبع ويعدّل؛ مشتري عرض من السوق يطبع فقط
+    const r = await getExamForReader(await getDb(), actor, id)
+    exam = r.exam
+    readOnly = r.readOnly
   } catch (e) {
     if (e instanceof AppError) notFound()
     throw e
@@ -32,7 +37,7 @@ export default async function ExamPrintPage({ params, searchParams }: { params: 
   const view: ExamView = variant === 'A' ? exam : renumber({ ...exam, items: applyVariant(exam.items, exam.id, variant) })
   return (
     <>
-      <PrintToolbar examId={id} mode={mode} variant={variant} title={exam.title} />
+      <PrintToolbar examId={id} mode={mode} variant={variant} title={exam.title} readOnly={readOnly} />
       <ExamPrint exam={view} mode={mode} variant={variant} />
     </>
   )

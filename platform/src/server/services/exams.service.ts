@@ -410,6 +410,38 @@ export function examHeading(ex: Pick<ExamRow, 'kind' | 'schoolTerm' | 'header'>)
 
 export async function getExam(db: Db, actor: Actor, id: string): Promise<ExamView> {
   const ex = await getOwnExam(db, actor, id)
+  return viewOfExam(db, ex)
+}
+
+/** عرض امتحان بلا فحص ملكية — للمسارات التي تحقّقت من الحقّ بنفسها (مشترٍ من السوق) */
+export async function getExamUnchecked(db: Db, id: string): Promise<ExamView> {
+  assertUuid(id, 'EXAM_NOT_FOUND')
+  const [ex] = await db.select().from(exams).where(and(eq(exams.id, id), isNull(exams.deletedAt))).limit(1)
+  if (!ex) throw new AppError('EXAM_NOT_FOUND')
+  return viewOfExam(db, ex)
+}
+
+/**
+ * نسخة من امتحان إلى مساحة أخرى (تسليم من السوق): مسودة باسم المشتري، العناصر بنسخها المجمّدة
+ * بلا ربط ببنك البائع، والأصل مذكور في `source_exam_id`.
+ */
+export async function copyExamToWorkspace(db: Db, examId: string, target: { workspaceId: string; userId: string; fullName: string }, sourceLabel: string): Promise<ExamRow> {
+  assertUuid(examId, 'EXAM_NOT_FOUND')
+  const [ex] = await db.select().from(exams).where(and(eq(exams.id, examId), isNull(exams.deletedAt))).limit(1)
+  if (!ex) throw new AppError('EXAM_NOT_FOUND')
+  const items = await db.select().from(examItems).where(eq(examItems.examId, examId)).orderBy(asc(examItems.position))
+  return db.transaction(async (tx) => {
+    const [row] = await tx
+      .insert(exams)
+      .values({ ...ex, id: undefined, workspaceId: target.workspaceId, createdByUserId: target.userId, status: 'DRAFT', isTemplate: false, groupId: null, printCount: 0, lastPrintedAt: null, sourceExamId: ex.id, pdfFileId: null, solutionPdfFileId: null, header: { ...ex.header, teacherName: target.fullName, school: undefined, wilaya: undefined }, createdAt: undefined, updatedAt: undefined, deletedAt: null })
+      .returning()
+    if (items.length) await tx.insert(examItems).values(items.map((it) => ({ examId: row!.id, position: it.position, kind: it.kind, bankQuestionId: null, title: it.title, points: it.points, snapshot: { ...it.snapshot, sourceLabel: it.snapshot.sourceLabel ?? sourceLabel } })))
+    return row!
+  })
+}
+
+async function viewOfExam(db: Db, ex: ExamRow): Promise<ExamView> {
+  const id = ex.id
   const [names] = await db
     .select({ subjectName: subjects.nameAr, levelName: levels.nameAr, streamName: streams.nameAr })
     .from(exams)
