@@ -194,3 +194,14 @@ export type ExamSession = (typeof EXAM_SESSIONS)[number]
 /* ───────────── التدريب الذاتي للتلميذ (Student Practice) ───────────── */
 export const PRACTICE_STATUSES = ['ACTIVE', 'FINISHED'] as const
 export type PracticeStatus = (typeof PRACTICE_STATUSES)[number]
+
+/* ───────────── متجر الكتب (Book Store) ───────────── */
+export const PRODUCT_TYPES = ['BOOK', 'PDF', 'PACK'] as const
+export type ProductType = (typeof PRODUCT_TYPES)[number]
+export const PRODUCT_STATUSES = ['DRAFT', 'PUBLISHED', 'ARCHIVED'] as const
+export type ProductStatus = (typeof PRODUCT_STATUSES)[number]
+export const ORDER_STATUSES = ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED', 'CANCELLED'] as const
+export type OrderStatus = (typeof ORDER_STATUSES)[number]
+/** الدفع عند الاستلام (مادي)، تحويل (CCP/BaridiMob يؤكّده المشرف)، مجاني */
+export const PAYMENT_METHODS = ['COD', 'TRANSFER', 'FREE'] as const
+export type PaymentMethod = (typeof PAYMENT_METHODS)[number]

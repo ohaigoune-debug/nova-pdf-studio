@@ -11,6 +11,7 @@ export default async function PublicLayout({ children }: { children: ReactNode }
   const [actor, { t }] = await Promise.all([getCurrentActor(), getT()])
   const links = [
     { href: '/library', label: 'المكتبة' },
+    { href: '/store', label: 'المتجر' },
     { href: '/lessons', label: t('nav.lessons') },
     { href: '/bac', label: t('nav.bac') },
     { href: '/past-bac', label: t('nav.pastBac') },
