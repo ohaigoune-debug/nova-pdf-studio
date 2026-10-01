@@ -1,4 +1,4 @@
-import { AlertTriangle, CalendarCheck, CalendarX, ClipboardList, KeyRound, ScanLine, Users, UsersRound } from 'lucide-react'
+import { AlertTriangle, CalendarCheck, CalendarX, ClipboardList, KeyRound, ScanLine, Users, UsersRound, Wand2 } from 'lucide-react'
 import Link from 'next/link'
 import { CloseSessionButton } from '@/components/domain/close-session-button'
 import { StartSessionDialog } from '@/components/domain/start-session-dialog'
@@ -145,6 +145,12 @@ export default async function TeacherHomePage() {
               <Link href="/teacher/assignments">
                 <ClipboardList className="size-5" />
                 <span className="text-xs">{t('dashboard.addAssignment')}</span>
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="col-span-2 h-auto flex-col gap-1 py-3">
+              <Link href="/teacher/exams/generate">
+                <Wand2 className="size-5" />
+                <span className="text-xs">ابنِ لي الامتحان — من البنك في دقائق</span>
               </Link>
             </Button>
           </CardContent>

@@ -6,7 +6,7 @@
  */
 import { and, asc, desc, eq, inArray, isNull, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { academicYears, bankQuestions, examItems, exams, levels, streams, subjects, type BankQuestionRow, type DifficultySummary, type ExamHeader, type ExamItemRow, type ExamItemSnapshot, type ExamRow } from '@/server/db/schema'
+import { academicYears, auditLogs, bankQuestions, examItems, exams, groups, levels, profiles, streams, subjects, type BankQuestionRow, type DifficultySummary, type ExamHeader, type ExamItemRow, type ExamItemSnapshot, type ExamRow } from '@/server/db/schema'
 import type { ExamItemKind, ExamKind, ExamStatus } from '@/server/db/schema/enums'
 import { EXAM_KINDS, EXAM_STATUSES } from '@/server/db/schema/enums'
 import { assertRole, type Actor } from '@/server/lib/actor'
@@ -30,6 +30,9 @@ export interface ExamInput {
   instructions?: string | null
   header?: ExamHeader
   status?: ExamStatus
+  /** المرحلة 6: قالب يُستنسخ منه، والفوج المعدّ له */
+  isTemplate?: boolean
+  groupId?: string | null
 }
 
 const ws = (actor: Actor): string => {
@@ -154,8 +157,24 @@ export async function updateExam(db: Db, actor: Actor, id: string, input: ExamIn
   }
   if (input.instructions !== undefined) patch.instructions = input.instructions?.trim() || null
   if (input.header !== undefined) patch.header = { ...current.header, ...input.header }
+  if (input.isTemplate !== undefined) patch.isTemplate = input.isTemplate
+  if (input.groupId !== undefined) {
+    if (input.groupId) {
+      assertUuid(input.groupId, 'VALIDATION')
+      const [g] = await db.select({ id: groups.id }).from(groups).where(and(eq(groups.id, input.groupId), eq(groups.workspaceId, current.workspaceId))).limit(1)
+      if (!g) throw new AppError('VALIDATION', { field: 'groupId' })
+    }
+    patch.groupId = input.groupId
+  }
   const [row] = await db.update(exams).set(patch).where(eq(exams.id, id)).returning()
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: current.workspaceId, action: 'exam.update', entityType: 'exam', entityId: id, newValue: { ...input, header: undefined } })
+  if (input.isTemplate !== undefined && Object.keys(input).length === 1) await writeAudit(db, { actorUserId: actor.userId, workspaceId: current.workspaceId, action: 'exam.template', entityType: 'exam', entityId: id, newValue: { isTemplate: input.isTemplate } })
+  else {
+    // في السجلّ: ما تغيّر فعلاً فقط (المحرّر يرسل كل الحقول عند كل حفظ)
+    const changed: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(patch)) if (k !== 'updatedAt' && k !== 'header' && JSON.stringify(v) !== JSON.stringify((current as Record<string, unknown>)[k])) changed[k] = v
+    if (input.header !== undefined && JSON.stringify(patch.header) !== JSON.stringify(current.header)) changed.header = true
+    await writeAudit(db, { actorUserId: actor.userId, workspaceId: current.workspaceId, action: 'exam.update', entityType: 'exam', entityId: id, newValue: changed })
+  }
   return row!
 }
 
@@ -171,7 +190,7 @@ export async function duplicateExam(db: Db, actor: Actor, id: string): Promise<E
   const copy = await db.transaction(async (tx) => {
     const [row] = await tx
       .insert(exams)
-      .values({ ...ex, id: undefined, title: `${ex.title} (نسخة)`, status: 'DRAFT', sourceExamId: ex.id, pdfFileId: null, solutionPdfFileId: null, createdAt: undefined, updatedAt: undefined, deletedAt: null })
+      .values({ ...ex, id: undefined, title: `${ex.title} (نسخة)`, status: 'DRAFT', isTemplate: false, printCount: 0, lastPrintedAt: null, sourceExamId: ex.id, pdfFileId: null, solutionPdfFileId: null, createdAt: undefined, updatedAt: undefined, deletedAt: null })
       .returning()
     if (items.length) await tx.insert(examItems).values(items.map((it) => ({ examId: row!.id, position: it.position, kind: it.kind, bankQuestionId: it.bankQuestionId, title: it.title, points: it.points, snapshot: it.snapshot })))
     return row!
@@ -180,17 +199,197 @@ export async function duplicateExam(db: Db, actor: Actor, id: string): Promise<E
   return copy
 }
 
-export async function listExams(db: Db, actor: Actor) {
+export type ExamScope = 'all' | 'draft' | 'ready' | 'templates' | 'archived'
+
+export interface ExamFilter {
+  scope?: ExamScope
+  subjectId?: string | null
+  levelId?: string | null
+  kind?: ExamKind | null
+  groupId?: string | null
+  q?: string | null
+}
+
+/** قائمة الورشة: «الكل» = غير المؤرشف وغير القالب؛ القوالب والأرشيف نطاقان مستقلّان */
+export async function listExams(db: Db, actor: Actor, filter: ExamFilter = {}) {
   const workspaceId = ws(actor)
+  const scope = filter.scope ?? 'all'
+  const q = filter.q?.trim()
   return db
-    .select({ id: exams.id, title: exams.title, kind: exams.kind, status: exams.status, totalPoints: exams.totalPoints, targetPoints: exams.targetPoints, durationMinutes: exams.durationMinutes, schoolTerm: exams.schoolTerm, updatedAt: exams.updatedAt, subjectName: subjects.nameAr, levelName: levels.nameAr, streamName: streams.nameAr, items: sql<number>`(select count(*)::int from ${examItems} i where i.exam_id = ${exams.id} and i.kind in ('EXERCISE','QUESTION'))` })
+    .select({
+      id: exams.id,
+      title: exams.title,
+      kind: exams.kind,
+      status: exams.status,
+      isTemplate: exams.isTemplate,
+      totalPoints: exams.totalPoints,
+      targetPoints: exams.targetPoints,
+      durationMinutes: exams.durationMinutes,
+      schoolTerm: exams.schoolTerm,
+      printCount: exams.printCount,
+      lastPrintedAt: exams.lastPrintedAt,
+      updatedAt: exams.updatedAt,
+      subjectName: subjects.nameAr,
+      levelName: levels.nameAr,
+      streamName: streams.nameAr,
+      groupName: groups.name,
+      items: sql<number>`(select count(*)::int from ${examItems} i where i.exam_id = ${exams.id} and i.kind in ('EXERCISE','QUESTION'))`
+    })
     .from(exams)
     .leftJoin(subjects, eq(subjects.id, exams.subjectId))
     .leftJoin(levels, eq(levels.id, exams.levelId))
     .leftJoin(streams, eq(streams.id, exams.streamId))
-    .where(and(eq(exams.workspaceId, workspaceId), isNull(exams.deletedAt), sql`${exams.status} <> 'ARCHIVED'`))
+    .leftJoin(groups, eq(groups.id, exams.groupId))
+    .where(
+      and(
+        eq(exams.workspaceId, workspaceId),
+        isNull(exams.deletedAt),
+        scope === 'archived' ? eq(exams.status, 'ARCHIVED') : sql`${exams.status} <> 'ARCHIVED'`,
+        scope === 'templates' ? eq(exams.isTemplate, true) : scope === 'archived' ? undefined : eq(exams.isTemplate, false),
+        scope === 'draft' ? eq(exams.status, 'DRAFT') : scope === 'ready' ? eq(exams.status, 'READY') : undefined,
+        filter.subjectId ? eq(exams.subjectId, filter.subjectId) : undefined,
+        filter.levelId ? eq(exams.levelId, filter.levelId) : undefined,
+        filter.kind ? eq(exams.kind, filter.kind) : undefined,
+        filter.groupId ? eq(exams.groupId, filter.groupId) : undefined,
+        q ? sql`${exams.title} ilike ${'%' + q.replace(/[%_]/g, '') + '%'}` : undefined
+      )
+    )
     .orderBy(desc(exams.updatedAt))
     .limit(200)
+}
+
+/* ------------------------------ ورشة الأستاذ (المرحلة 6) ------------------------------ */
+
+/** إنشاء امتحان من قالب: نسخة كاملة (ترويسة، إعدادات، عناصر) بعنوان القالب، ليست قالباً */
+export async function createFromTemplate(db: Db, actor: Actor, templateId: string): Promise<ExamRow> {
+  const tpl = await getOwnExam(db, actor, templateId)
+  if (!tpl.isTemplate) throw new AppError('EXAM_NOT_FOUND')
+  const items = await db.select().from(examItems).where(eq(examItems.examId, templateId)).orderBy(asc(examItems.position))
+  const row = await db.transaction(async (tx) => {
+    const [r] = await tx
+      .insert(exams)
+      .values({ ...tpl, id: undefined, title: tpl.title.replace(/\s*\(قالب\)\s*$/, ''), status: 'DRAFT', isTemplate: false, sourceExamId: tpl.id, pdfFileId: null, solutionPdfFileId: null, printCount: 0, lastPrintedAt: null, createdAt: undefined, updatedAt: undefined, deletedAt: null })
+      .returning()
+    if (items.length) await tx.insert(examItems).values(items.map((it) => ({ examId: r!.id, position: it.position, kind: it.kind, bankQuestionId: it.bankQuestionId, title: it.title, points: it.points, snapshot: it.snapshot })))
+    return r!
+  })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: tpl.workspaceId, action: 'exam.from_template', entityType: 'exam', entityId: row.id, newValue: { template: templateId, title: row.title } })
+  return row
+}
+
+/** تسجيل طباعة/حفظ PDF (من زرّ الطباعة): عدّاد وتاريخ وسجلّ */
+export async function recordPrint(db: Db, actor: Actor, id: string, meta: { mode: 'subject' | 'correction'; variant: string }): Promise<void> {
+  const ex = await getOwnExam(db, actor, id)
+  await db.update(exams).set({ printCount: sql`${exams.printCount} + 1`, lastPrintedAt: new Date() }).where(eq(exams.id, id))
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: ex.workspaceId, action: 'exam.print', entityType: 'exam', entityId: id, newValue: { mode: meta.mode, variant: meta.variant } })
+}
+
+export interface ExamHistory {
+  events: { id: string; action: string; createdAt: Date; actorName: string | null; newValue: Record<string, unknown> | null }[]
+  /** الامتحانات المشتقّة من هذا (نسخ أو من القالب) */
+  copies: { id: string; title: string; status: string; createdAt: Date }[]
+  source: { id: string; title: string } | null
+}
+
+/** سجلّ الامتحان: الأحداث (إنشاء، تعديل، طباعة، نسخ…) والنسخ المشتقّة والأصل */
+export async function examHistory(db: Db, actor: Actor, id: string): Promise<ExamHistory> {
+  const ex = await getOwnExam(db, actor, id)
+  const [events, copies, src] = await Promise.all([
+    db
+      .select({ id: auditLogs.id, action: auditLogs.action, createdAt: auditLogs.createdAt, actorName: profiles.fullName, newValue: auditLogs.newValue })
+      .from(auditLogs)
+      .leftJoin(profiles, eq(profiles.userId, auditLogs.actorUserId))
+      .where(and(eq(auditLogs.entityType, 'exam'), eq(auditLogs.entityId, id)))
+      .orderBy(desc(auditLogs.createdAt))
+      .limit(100),
+    db.select({ id: exams.id, title: exams.title, status: exams.status, createdAt: exams.createdAt }).from(exams).where(and(eq(exams.sourceExamId, id), isNull(exams.deletedAt))).orderBy(desc(exams.createdAt)).limit(50),
+    ex.sourceExamId ? db.select({ id: exams.id, title: exams.title }).from(exams).where(and(eq(exams.id, ex.sourceExamId), isNull(exams.deletedAt))).limit(1) : Promise.resolve([])
+  ])
+  return { events, copies, source: src[0] ?? null }
+}
+
+export interface WorkspaceStats {
+  exams: { total: number; draft: number; ready: number; templates: number; archived: number }
+  prints: { total: number; month: number }
+  bySubject: { name: string; n: number }[]
+  byKind: { kind: string; n: number }[]
+  /** توزيع صعوبة عناصر الامتحانات الجاهزة (1–4) */
+  difficulty: Record<number, number>
+  topQuestions: { id: string; title: string | null; body: string; usageCount: number }[]
+  recent: { id: string; title: string; status: string; updatedAt: Date }[]
+  /** الطباعات في آخر 6 أشهر (YYYY-MM) */
+  printsByMonth: { month: string; n: number }[]
+}
+
+/** إحصاءات الورشة: الامتحانات والطباعة والمواد والأنواع والصعوبة والأسئلة الأكثر استعمالاً */
+export async function workspaceStats(db: Db, actor: Actor): Promise<WorkspaceStats> {
+  const workspaceId = ws(actor)
+  const live = and(eq(exams.workspaceId, workspaceId), isNull(exams.deletedAt))
+  const monthStart = new Date()
+  monthStart.setDate(1)
+  monthStart.setHours(0, 0, 0, 0)
+  const sixMonths = new Date(monthStart)
+  sixMonths.setMonth(sixMonths.getMonth() - 5)
+  const [counts, prints, bySubject, byKind, diff, topQuestions, recent, printsByMonth] = await Promise.all([
+    db
+      .select({
+        total: sql<number>`count(*) filter (where ${exams.status} <> 'ARCHIVED' and not ${exams.isTemplate})::int`,
+        draft: sql<number>`count(*) filter (where ${exams.status} = 'DRAFT' and not ${exams.isTemplate})::int`,
+        ready: sql<number>`count(*) filter (where ${exams.status} = 'READY' and not ${exams.isTemplate})::int`,
+        templates: sql<number>`count(*) filter (where ${exams.isTemplate} and ${exams.status} <> 'ARCHIVED')::int`,
+        archived: sql<number>`count(*) filter (where ${exams.status} = 'ARCHIVED')::int`
+      })
+      .from(exams)
+      .where(live),
+    db
+      .select({ total: sql<number>`coalesce(sum(${exams.printCount}), 0)::int`, month: sql<number>`count(*) filter (where ${exams.lastPrintedAt} >= ${monthStart})::int` })
+      .from(exams)
+      .where(live),
+    db
+      .select({ name: subjects.nameAr, n: sql<number>`count(*)::int` })
+      .from(exams)
+      .innerJoin(subjects, eq(subjects.id, exams.subjectId))
+      .where(and(live, sql`${exams.status} <> 'ARCHIVED'`))
+      .groupBy(subjects.nameAr)
+      .orderBy(desc(sql`count(*)`))
+      .limit(6),
+    db
+      .select({ kind: exams.kind, n: sql<number>`count(*)::int` })
+      .from(exams)
+      .where(and(live, sql`${exams.status} <> 'ARCHIVED'`))
+      .groupBy(exams.kind)
+      .orderBy(desc(sql`count(*)`)),
+    db
+      .select({ d: sql<number>`coalesce((${examItems.snapshot}->>'difficulty')::int, 2)`, n: sql<number>`count(*)::int` })
+      .from(examItems)
+      .innerJoin(exams, eq(exams.id, examItems.examId))
+      .where(and(live, sql`${exams.status} <> 'ARCHIVED'`, inArray(examItems.kind, ['EXERCISE', 'QUESTION'])))
+      .groupBy(sql`coalesce((${examItems.snapshot}->>'difficulty')::int, 2)`),
+    db
+      .select({ id: bankQuestions.id, title: bankQuestions.title, body: bankQuestions.body, usageCount: bankQuestions.usageCount })
+      .from(bankQuestions)
+      .where(and(eq(bankQuestions.workspaceId, workspaceId), isNull(bankQuestions.deletedAt), isNull(bankQuestions.parentId), sql`${bankQuestions.usageCount} > 0`))
+      .orderBy(desc(bankQuestions.usageCount), desc(bankQuestions.lastUsedAt))
+      .limit(5),
+    db.select({ id: exams.id, title: exams.title, status: exams.status, updatedAt: exams.updatedAt }).from(exams).where(and(live, sql`${exams.status} <> 'ARCHIVED'`, eq(exams.isTemplate, false))).orderBy(desc(exams.updatedAt)).limit(5),
+    db
+      .select({ month: sql<string>`to_char(${auditLogs.createdAt}, 'YYYY-MM')`, n: sql<number>`count(*)::int` })
+      .from(auditLogs)
+      .where(and(eq(auditLogs.workspaceId, workspaceId), eq(auditLogs.action, 'exam.print'), sql`${auditLogs.createdAt} >= ${sixMonths}`))
+      .groupBy(sql`to_char(${auditLogs.createdAt}, 'YYYY-MM')`)
+      .orderBy(sql`to_char(${auditLogs.createdAt}, 'YYYY-MM')`)
+  ])
+  const c = counts[0]
+  return {
+    exams: { total: c?.total ?? 0, draft: c?.draft ?? 0, ready: c?.ready ?? 0, templates: c?.templates ?? 0, archived: c?.archived ?? 0 },
+    prints: { total: prints[0]?.total ?? 0, month: prints[0]?.month ?? 0 },
+    bySubject,
+    byKind,
+    difficulty: Object.fromEntries(diff.map((x) => [x.d, x.n])) as Record<number, number>,
+    topQuestions: topQuestions.map((q) => ({ ...q, body: q.body.slice(0, 120) })),
+    recent,
+    printsByMonth
+  }
 }
 
 export interface ExamView extends ExamRow {

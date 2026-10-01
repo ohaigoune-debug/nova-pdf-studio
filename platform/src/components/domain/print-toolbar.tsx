@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { recordPrintAction } from '@/server/actions/exams.actions'
 
 /** شريط فوق الورقة (لا يُطبع): طباعة/حفظ PDF، والتبديل بين الموضوع والتصحيح */
 export function PrintToolbar({ examId, mode, variant, title }: { examId: string; mode: 'subject' | 'correction'; variant: string; title: string }) {
@@ -33,7 +34,14 @@ export function PrintToolbar({ examId, mode, variant, title }: { examId: string;
       </div>
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         <span className="hidden sm:inline">في نافذة الطباعة اختر «حفظ كـ PDF» — حجم A4.</span>
-        <Button size="sm" onClick={() => window.print()}>
+        <Button
+          size="sm"
+          onClick={() => {
+            // السجلّ لا يعطّل الطباعة: يُسجَّل في الخلفية ثم تُفتح نافذة الطباعة فوراً
+            void recordPrintAction(examId, mode, variant)
+            window.print()
+          }}
+        >
           <Printer className="size-4" /> طباعة / حفظ PDF
         </Button>
       </div>

@@ -101,14 +101,20 @@
 `bank_questions`: `id`, `workspace_id` (null = بنك Madrasadz المركزي), `author_user_id`, `parent_id` (أسئلة فرعية تحت تمرين/نصّ), `kind` (QUESTION|EXERCISE|PASSAGE|PROBLEM|INTEGRATIVE|DOCUMENT), `type` (MCQ|TRUE_FALSE|SHORT_ANSWER|LONG_ANSWER|FILL_BLANK|MATCHING|IMAGE|OPEN), `title`, `body` (Markdown + LaTeX بين `$…$`), `options` jsonb, `answer_key` jsonb, `solution` (حلّ نموذجي), `bareme` jsonb (سلّم), `points`, `difficulty` 1–4, `estimated_minutes`, `subject_id`, `level_id`, `stream_id`, `curriculum_node_id`, `school_term`, `exam_kind` (BAC|BEM|TEST|HOMEWORK|QUIZ|PRACTICE|OTHER), `source_id`, `source_resource_id`, `source_year`, `source_label`, `original_file_id`, `rights_status`, `language`, `keywords text[]`, `image_file_id`, `attachments` jsonb, `visibility` (PRIVATE|PUBLIC), `status` (DRAFT|NEEDS_REVIEW|PUBLISHED|ARCHIVED), `import_batch_id`, `content_hash`, `search_text` + عمود `search tsvector` مولَّد بفهرس GIN, `usage_count`, `last_used_at`, `sort_order`, timestamps + soft delete.
 `bank_favorites`: (`user_id`, `question_id`).
 
+### المرحلة 2 — `0014_exams` ✅
+`exams` (workspace, created_by, title, kind, subject/level/stream/term, academic_year, duration_minutes, target_points, total_points, instructions, header jsonb, difficulty_summary jsonb, status DRAFT|READY|ARCHIVED, source_exam_id, pdf_file_id, solution_pdf_file_id) و`exam_items` (exam_id, position, kind EXERCISE|QUESTION|TEXT|PAGE_BREAK, bank_question_id, title, points, snapshot jsonb). النسخ A–D تُحسب عند الطباعة من بذرة حتمية (لا جدول `exam_variants`).
+
+### المرحلة 6 — `0015_exam_workspace` ✅
+على `exams`: `is_template` (قوالبي)، `group_id` (الفوج المعدّ له)، `print_count` و`last_printed_at` (تُحدَّث من زرّ الطباعة مع حدث `exam.print` في `audit_logs`). السجلّ والإحصاءات تُشتقّ من `audit_logs` و`exams` بلا جداول جديدة.
+
 ### المراحل التالية (مخطّطة)
-- **0014 `exams`**: `exams` (workspace, title, kind: TEST|HOMEWORK|BAC_MOCK|QUIZ, subject/level/stream/term, duration_minutes, total_points, difficulty_summary jsonb, template_id, header jsonb, status, pdf_file_id, solution_pdf_file_id, source_exam_id للنسخ), `exam_items` (exam_id, position, kind: EXERCISE|QUESTION|PAGE_BREAK|TEXT, bank_question_id nullable, snapshot jsonb — نسخة مجمّدة من السؤال وقت الإدراج، points, numbering), `exam_variants` (exam_id, label A/B/C, seed, item_order jsonb, option_order jsonb, substitutions jsonb), `exam_templates` (workspace, name, school, logo_file_id, header_lines jsonb, footer, font, is_default), `exam_downloads` (exam_id, user_id, kind, at).
-- **0015 `search_index`**: `tsvector` + GIN على `resources` و`bank_questions` (المرحلة 1 أدرجته للبنك).
-- **0016 `practice`**: `practice_sessions`, `practice_answers`, `student_skill_progress` (بالمادة والعقدة).
-- **0017 `store`**: `products` (BOOK|PDF|PACK|COURSE|SUBSCRIPTION), `product_files`, `carts`, `orders`, `order_items`, `payments` (COD أولاً), `downloads`.
-- **0018 `marketplace`**: `listings` (exam|exercise_set|summary|question_bank)، `listing_purchases`, `teacher_payouts`.
-- **0019 `ai_layer`**: `ai_usage_logs`, `ai_budgets`, `ai_cache`, pgvector `embeddings` (بعد تبديل الصورة).
-- **0020 `credits`**: `plans`, `teacher_subscriptions`, `usage_counters`.
+- **0014 `exams`** (المقترح الأصلي؛ نُفّذ مبسّطاً أعلاه): `exams` (workspace, title, kind: TEST|HOMEWORK|BAC_MOCK|QUIZ, subject/level/stream/term, duration_minutes, total_points, difficulty_summary jsonb, template_id, header jsonb, status, pdf_file_id, solution_pdf_file_id, source_exam_id للنسخ), `exam_items` (exam_id, position, kind: EXERCISE|QUESTION|PAGE_BREAK|TEXT, bank_question_id nullable, snapshot jsonb — نسخة مجمّدة من السؤال وقت الإدراج، points, numbering), `exam_variants` (exam_id, label A/B/C, seed, item_order jsonb, option_order jsonb, substitutions jsonb), `exam_templates` (workspace, name, school, logo_file_id, header_lines jsonb, footer, font, is_default), `exam_downloads` (exam_id, user_id, kind, at).
+- **0016 `search_index`**: `tsvector` + GIN على `resources` و`bank_questions` (المرحلة 1 أدرجته للبنك).
+- **0017 `practice`**: `practice_sessions`, `practice_answers`, `student_skill_progress` (بالمادة والعقدة).
+- **0018 `store`**: `products` (BOOK|PDF|PACK|COURSE|SUBSCRIPTION), `product_files`, `carts`, `orders`, `order_items`, `payments` (COD أولاً), `downloads`.
+- **0019 `marketplace`**: `listings` (exam|exercise_set|summary|question_bank)، `listing_purchases`, `teacher_payouts`.
+- **0020 `ai_layer`**: `ai_usage_logs`, `ai_budgets`, `ai_cache`, pgvector `embeddings` (بعد تبديل الصورة).
+- **0021 `credits`**: `plans`, `teacher_subscriptions`, `usage_counters`.
 
 كل الهجرات إضافية وبملف تراجع؛ لا تُعاد تسمية جداول مستعملة.
 
@@ -121,10 +127,10 @@
 | **3 ✅ PDF** | `/print/exams/[id]`: صفحة A4 RTL رسمية (الجمهورية، الوزارة، المؤسسة، المادة، المستوى، المدة، الأستاذ، السنة الدراسية، عنوان الورقة، التعليمات)، KaTeX مُصيَّر في الخادم (بلا CDN؛ CSS والخطوط مستضافة في `public/katex`)، فواصل صفحات، خانات صح/خطأ، سطور إجابة، تذييل المصادر اختياري؛ «طباعة / حفظ PDF» من المتصفّح (PDF حقيقي بتشكيل عربي كامل). **لاحقاً:** خدمة Chromium على الخادم لحفظ الملف في `files` وتتبّع التنزيلات | 2 |
 | **4 ✅ Solutions & Barème** | وضع `?mode=correction`: جدول توزيع النقاط، ولكل عنصر الإجابة (MCQ/صح-خطأ/قصير/فراغات/مطابقة) والحلّ النموذجي وسلّم التنقيط، وللفرعيات كذلك | 3 |
 | **5 ✅ AI Exam Generator** | `/teacher/exams/generate` «ابنِ لي الامتحان»: طلب حرّ بالعربية يُحوَّل إلى الحقول بلا نموذج (`parseExamRequest`: المادة/الصف/الشعبة من القاعدة، المدة، عدد التمارين، الفصل، الصعوبة، النوع) ← اختيار حتمي من البنك (`selectFromBank`: مادة+صف+شعبة، تفضيل الفصل، حصص صعوبة من النسب، زمن الحلّ ضمن المدة، الأقل استعمالاً أولاً عبر `usage_count`/`last_used_at`، تعويض النقص من الصعوبة المجاورة) ← ورقة مسودة بنقاط موزّعة فوراً ← الناقص فقط يولّده الذكاء الاصطناعي في مهمة `AI_BUILD_EXAM` **مشابهاً لأمثلة من البنك**، يُدرج موسوماً «راجعه» وتُحفظ نسخة `NEEDS_REVIEW` في البنك (لا نشر آلي)؛ نسخ A/B/C/D في الطباعة (`?variant=`): خلط حتمي للعناصر داخل كل صفحة ولاختيارات MCQ، نفس النقاط والصعوبة، وورقة التصحيح تتبع النسخة | 2, 4 |
-| **6 Teacher Workspace** | لوحة: امتحاناتي، أسئلتي، ملفات PDF، أفواجي، قوالبي، المفضّلة، الأخيرة، المولّد؛ القوالب؛ سجلّ الامتحانات (نسخ/تعديل/تنزيل/إعادة توليد)؛ إحصاءات | 2–5 |
+| **6 ✅ Teacher Workspace** | `/teacher/exams` ورشة: شريط إحصاءات (الامتحانات، القوالب، طباعات الشهر، أسئلتي، المراجعة)، نطاقات (الكل / المسودات / الجاهزة / قوالبي / الأرشيف)، تصفية (بحث، مادة، صف، نوع، فوج)؛ القوالب (`is_template`: تحويل بضغطة، «استعمال» ينشئ امتحاناً كاملاً من القالب)؛ الحالة جاهز/مسودة والفوج من إعدادات المحرّر؛ أرشفة/استرجاع؛ تسجيل الطباعة (`print_count`, `exam.print`)؛ `/teacher/exams/[id]/history` سجلّ الأحداث والنسخ المشتقّة والأصل؛ `/teacher/exams/stats` حسب المادة والنوع، صعوبة الأوراق، طباعات 6 أشهر، الأسئلة الأكثر استعمالاً، الأخيرة؛ زرّ «ابنِ لي الامتحان» في لوحة الأستاذ. **لاحقاً:** تنزيلات PDF المحفوظة في `files` (مع خدمة Chromium) | 2–5 |
 | **7 Student Practice** | التلميذ يختار مادة/درس/صعوبة ← سلسلة من البنك (PUBLISHED+PUBLIC) ← تصحيح آلي (`gradeAnswer`) ← نقاط ضعف | 1 |
 | **8 Adaptive** | من `practice_answers` إلى `student_skill_progress` وتوصيات بالعقدة | 7 |
-| **9 Library** | محرّك بحث موحّد على `resources` + البنك + المحتوى؛ أقسام المكتبة؛ مراكز المواد | 0015 |
+| **9 Library** | محرّك بحث موحّد على `resources` + البنك + المحتوى؛ أقسام المكتبة؛ مراكز المواد | 0016 |
 | **10 Book Store** | منتجات، سلّة، طلبات، دفع عند الاستلام، تتبّع | — |
 | **11 Marketplace** | نشر الأساتذة، مجاني/مدفوع، نسب، حقوق | 10 |
 | لاحقاً | Credits/Pro، BAC Generator (قالب هيكلة رسمي لكل شعبة)، الصفحة الرئيسية الجديدة | 5, 6 |

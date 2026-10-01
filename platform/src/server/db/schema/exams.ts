@@ -1,10 +1,11 @@
 import { sql } from 'drizzle-orm'
-import { check, index, integer, jsonb, numeric, pgTable, text, uuid, type AnyPgColumn } from 'drizzle-orm/pg-core'
+import { boolean, check, index, integer, jsonb, numeric, pgTable, text, timestamp, uuid, type AnyPgColumn } from 'drizzle-orm/pg-core'
 import { id, inList, softDelete, timestamps } from './_common'
 import { users } from './auth'
 import { bankQuestions, type BankOption, type BaremeItem } from './bank'
 import { files } from './content'
 import { EXAM_ITEM_KINDS, EXAM_KINDS, EXAM_STATUSES } from './enums'
+import { groups } from './groups'
 import { levels, streams, subjects } from './reference'
 import { teacherWorkspaces } from './tenancy'
 
@@ -74,6 +75,12 @@ export const exams = pgTable(
     sourceExamId: uuid('source_exam_id').references((): AnyPgColumn => exams.id, { onDelete: 'set null' }),
     pdfFileId: uuid('pdf_file_id').references(() => files.id, { onDelete: 'set null' }),
     solutionPdfFileId: uuid('solution_pdf_file_id').references(() => files.id, { onDelete: 'set null' }),
+    /** قالب: يُستنسخ منه امتحان جديد بترويسته وإعداداته وعناصره (المرحلة 6) */
+    isTemplate: boolean('is_template').notNull().default(false),
+    /** الفوج الذي أُعدّ له الامتحان (اختياري) */
+    groupId: uuid('group_id').references(() => groups.id, { onDelete: 'set null' }),
+    printCount: integer('print_count').notNull().default(0),
+    lastPrintedAt: timestamp('last_printed_at', { withTimezone: true }),
     ...timestamps,
     ...softDelete
   },
@@ -82,7 +89,9 @@ export const exams = pgTable(
     check('exams_status_check', inList(t.status, EXAM_STATUSES)),
     check('exams_term_check', sql`${t.schoolTerm} IS NULL OR ${t.schoolTerm} BETWEEN 1 AND 3`),
     check('exams_duration_check', sql`${t.durationMinutes} BETWEEN 5 AND 600`),
-    index('exams_workspace_idx').on(t.workspaceId, t.status, t.updatedAt)
+    index('exams_workspace_idx').on(t.workspaceId, t.status, t.updatedAt),
+    index('exams_template_idx').on(t.workspaceId, t.isTemplate),
+    index('exams_group_idx').on(t.groupId)
   ]
 )
 

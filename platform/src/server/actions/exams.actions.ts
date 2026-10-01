@@ -7,7 +7,7 @@ import { getDb } from '@/server/db/client'
 import { EXAM_ITEM_KINDS, EXAM_KINDS, EXAM_STATUSES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
-import { addFreeItem, addItemFromBank, createExam, deleteExam, duplicateExam, duplicateItem, rebalancePoints, removeItem, reorderItems, updateExam, updateItem, type ExamInput } from '@/server/services/exams.service'
+import { addFreeItem, addItemFromBank, createExam, createFromTemplate, deleteExam, duplicateExam, duplicateItem, rebalancePoints, recordPrint, removeItem, reorderItems, updateExam, updateItem, type ExamInput } from '@/server/services/exams.service'
 import { kickWorker } from '@/server/jobs/runner'
 import { buildExamFromBank, parseExamRequest, requestAiBuild, type DifficultyProfile, type GenerateParams, type ParsedRequest } from '@/server/services/exam-generator.service'
 import { listBankQuestions, type BankFilter, type BankListItem } from '@/server/services/question-bank.service'
@@ -27,7 +27,9 @@ const examSchema = z.object({
   targetPoints: z.coerce.number().positive().max(200).optional(),
   instructions: z.string().max(4000).nullish(),
   header: z.object({ school: z.string().max(200).optional(), wilaya: z.string().max(80).optional(), teacherName: z.string().max(120).optional(), heading: z.string().max(120).optional(), date: z.string().max(40).optional(), showSources: z.boolean().optional() }).optional(),
-  status: z.enum(EXAM_STATUSES).optional()
+  status: z.enum(EXAM_STATUSES).optional(),
+  isTemplate: z.boolean().optional(),
+  groupId: optUuid
 })
 
 const revalidate = (id?: string) => {
@@ -80,6 +82,54 @@ export async function duplicateExamAction(id: string): Promise<ActionResult<{ id
     return { id: row.id }
   })
   if (result.ok) revalidate()
+  return result
+}
+
+/** قالب ↔ امتحان عادي */
+export async function setTemplateAction(id: string, isTemplate: boolean): Promise<ActionResult> {
+  const parsed = z.object({ id: uuid, isTemplate: z.boolean() }).safeParse({ id, isTemplate })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    await updateExam(await getDb(), await requireRole('TEACHER'), parsed.data.id, { isTemplate: parsed.data.isTemplate })
+    return undefined
+  })
+  if (result.ok) revalidate(id)
+  return result
+}
+
+/** أرشفة/استرجاع (الأرشيف لا يظهر في القائمة الرئيسية) */
+export async function archiveExamAction(id: string, archived: boolean): Promise<ActionResult> {
+  const parsed = z.object({ id: uuid, archived: z.boolean() }).safeParse({ id, archived })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    await updateExam(await getDb(), await requireRole('TEACHER'), parsed.data.id, { status: parsed.data.archived ? 'ARCHIVED' : 'DRAFT' })
+    return undefined
+  })
+  if (result.ok) revalidate(id)
+  return result
+}
+
+/** امتحان جديد من قالب */
+export async function createFromTemplateAction(templateId: string): Promise<ActionResult<{ id: string }>> {
+  const parsed = uuid.safeParse(templateId)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const row = await createFromTemplate(await getDb(), await requireRole('TEACHER'), parsed.data)
+    return { id: row.id }
+  })
+  if (result.ok) revalidate()
+  return result
+}
+
+/** يُستدعى من زرّ الطباعة: عدّاد الطباعة والسجلّ (لا يؤثر على الطباعة نفسها) */
+export async function recordPrintAction(examId: string, mode: 'subject' | 'correction', variant: string): Promise<ActionResult> {
+  const parsed = z.object({ examId: uuid, mode: z.enum(['subject', 'correction']), variant: z.enum(['A', 'B', 'C', 'D']) }).safeParse({ examId, mode, variant })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    await recordPrint(await getDb(), await requireRole('TEACHER'), parsed.data.examId, { mode: parsed.data.mode, variant: parsed.data.variant })
+    return undefined
+  })
+  if (result.ok) revalidate(examId)
   return result
 }
 

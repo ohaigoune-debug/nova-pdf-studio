@@ -25,7 +25,7 @@ type Result = { ok: boolean; error?: { message: string } } & Record<string, unkn
  * محرّر الامتحان الثلاثي: البنك (يمين) ← الورقة (وسط) ← الإعدادات (يسار).
  * سحب وإفلات أصلي (HTML5) بلا مكتبات؛ وكل زرّ له بديل بالضغط للهاتف.
  */
-export function ExamBuilder({ exam, options }: { exam: ExamView; options: { subjects: Opt[]; levels: Opt[]; streams: Opt[] } }) {
+export function ExamBuilder({ exam, options }: { exam: ExamView; options: { subjects: Opt[]; levels: Opt[]; streams: Opt[]; groups?: Opt[] } }) {
   const router = useRouter()
   const [pending, start] = useTransition()
   const run = useCallback(
@@ -469,7 +469,7 @@ function BankPanel({ exam, onAdd, pending }: { exam: ExamView; onAdd: (id: strin
 
 /* ─────────────────────────── الإعدادات ─────────────────────────── */
 
-function ExamSettings({ exam, options, run, pending }: { exam: ExamView; options: { subjects: Opt[]; levels: Opt[]; streams: Opt[] }; run: (fn: () => Promise<Result>, ok?: string) => void; pending: boolean }) {
+function ExamSettings({ exam, options, run, pending }: { exam: ExamView; options: { subjects: Opt[]; levels: Opt[]; streams: Opt[]; groups?: Opt[] }; run: (fn: () => Promise<Result>, ok?: string) => void; pending: boolean }) {
   const [f, setF] = useState({
     title: exam.title,
     kind: exam.kind as ExamKind,
@@ -481,6 +481,9 @@ function ExamSettings({ exam, options, run, pending }: { exam: ExamView; options
     targetPoints: String(Number(exam.targetPoints)),
     academicYear: exam.academicYear ?? '',
     instructions: exam.instructions ?? '',
+    status: exam.status === 'READY' ? 'READY' : 'DRAFT',
+    groupId: exam.groupId ?? '',
+    isTemplate: exam.isTemplate ? '1' : '',
     school: exam.header.school ?? '',
     wilaya: exam.header.wilaya ?? '',
     teacherName: exam.header.teacherName ?? '',
@@ -501,7 +504,10 @@ function ExamSettings({ exam, options, run, pending }: { exam: ExamView; options
           targetPoints: Number(f.targetPoints) || 20,
           academicYear: f.academicYear || null,
           instructions: f.instructions || null,
-          header: { school: f.school, wilaya: f.wilaya, teacherName: f.teacherName, heading: f.heading }
+          header: { school: f.school, wilaya: f.wilaya, teacherName: f.teacherName, heading: f.heading },
+          status: exam.status === 'ARCHIVED' ? undefined : (f.status as 'DRAFT' | 'READY'),
+          groupId: f.groupId || null,
+          isTemplate: f.isTemplate === '1'
         }),
       'حُفظت الإعدادات'
     )
@@ -586,6 +592,31 @@ function ExamSettings({ exam, options, run, pending }: { exam: ExamView; options
       <Field label="تعليمات للتلميذ" htmlFor="ex-instr">
         <Textarea id="ex-instr" rows={2} value={f.instructions} onChange={set('instructions')} dir="auto" />
       </Field>
+      <div className="grid grid-cols-2 gap-2">
+        <Field label="الحالة" htmlFor="ex-status" hint="«جاهز» = اكتملت المراجعة">
+          <Select id="ex-status" value={f.status} onChange={set('status')} disabled={exam.status === 'ARCHIVED'}>
+            <option value="DRAFT">مسودة</option>
+            <option value="READY">جاهز</option>
+          </Select>
+        </Field>
+        <Field label="الفوج" htmlFor="ex-group" hint="لمن أُعدّ هذا الامتحان">
+          <Select id="ex-group" value={f.groupId} onChange={set('groupId')}>
+            <option value="">—</option>
+            {(options.groups ?? []).map((o) => (
+              <option key={o.id} value={o.id}>
+                {o.name}
+              </option>
+            ))}
+          </Select>
+        </Field>
+      </div>
+      <label className="flex items-start gap-2 rounded-lg border p-2">
+        <input type="checkbox" className="mt-0.5 size-4" checked={f.isTemplate === '1'} onChange={(e) => setF((s) => ({ ...s, isTemplate: e.target.checked ? '1' : '' }))} />
+        <span>
+          <span className="font-semibold">قالب</span>
+          <span className="block text-xs text-muted-foreground">يظهر في «قوالبي» ويُنشأ منه امتحان جديد بترويسته وإعداداته وعناصره.</span>
+        </span>
+      </label>
       <Button size="sm" onClick={save} loading={pending} className="w-full">
         حفظ الإعدادات
       </Button>
