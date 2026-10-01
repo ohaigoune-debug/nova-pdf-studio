@@ -172,6 +172,14 @@ export const RIGHTS_STATUSES = ['OWN', 'LICENSED', 'PUBLIC_DOMAIN', 'THIRD_PARTY
 export type RightsStatus = (typeof RIGHTS_STATUSES)[number]
 export const BANK_DIFFICULTIES = [1, 2, 3, 4] as const
 
+/* ───────────── ورقة الامتحان (Exam Builder) ───────────── */
+export const EXAM_KINDS = ['TEST', 'HOMEWORK', 'BAC_MOCK', 'BEM_MOCK', 'QUIZ', 'PRACTICE'] as const
+export type ExamKind = (typeof EXAM_KINDS)[number]
+export const EXAM_STATUSES = ['DRAFT', 'READY', 'ARCHIVED'] as const
+export type ExamStatus = (typeof EXAM_STATUSES)[number]
+export const EXAM_ITEM_KINDS = ['EXERCISE', 'QUESTION', 'TEXT', 'PAGE_BREAK'] as const
+export type ExamItemKind = (typeof EXAM_ITEM_KINDS)[number]
+
 export const RESOURCE_STATUSES = ['DRAFT', 'NEEDS_REVIEW', 'PUBLISHED', 'ARCHIVED', 'BROKEN'] as const
 export type ResourceStatus = (typeof RESOURCE_STATUSES)[number]
 
