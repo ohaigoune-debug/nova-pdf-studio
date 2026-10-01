@@ -127,6 +127,13 @@
       "when": 1791700000000,
       "tag": "0017_adaptive",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1791800000000,
+      "tag": "0018_search_index",
+      "breakpoints": true
     }
   ]
 }

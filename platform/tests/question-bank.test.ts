@@ -76,7 +76,8 @@ describe('بنك الأسئلة — المرحلة 1', () => {
     // الأستاذ الآخر لا يرى الخاص
     expect((await listBankQuestions(h.db, other, {})).items).toHaveLength(0)
     // الفلاتر والبحث
-    expect(tsQueryOf('تمارين الدوال صعبة')).toBe('تمارين:* & الدوال:* & صعبه:*')
+    expect(tsQueryOf('تمارين الدوال صعبة')).toBe('(تمارين:* | التمارين:*) & (الدوال:* | دوال:*) & (صعبه:* | الصعبه:*)')
+    expect(tsQueryOf('bac 2023')).toBe('bac:* & 2023:*')
     const mine = await listBankQuestions(h.db, teacher, { scope: 'mine' })
     expect(mine.items.map((i) => i.kind).sort()).toEqual(['EXERCISE', 'QUESTION'])
     expect(mine.items.find((i) => i.id === q2.id)!.children).toBe(1)

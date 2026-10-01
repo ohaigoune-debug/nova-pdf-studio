@@ -253,7 +253,9 @@ export function tsQueryOf(q: string): string | null {
     .split(/\s+/)
     .filter((w) => w.length >= 2)
     .slice(0, 8)
-  return words.length ? words.map((w) => `${w}:*`).join(' & ') : null
+  // «ال» التعريف لا تمنع المطابقة: الاستعارة ⇔ استعارة
+  const forms = (w: string) => (w.startsWith('ال') && w.length >= 5 ? `(${w}:* | ${w.slice(2)}:*)` : /^\p{Script=Arabic}/u.test(w) && w.length >= 3 ? `(${w}:* | ال${w}:*)` : `${w}:*`)
+  return words.length ? words.map(forms).join(' & ') : null
 }
 
 export async function listBankQuestions(db: Db, actor: Actor, f: BankFilter = {}, page: { cursor?: string | null; limit?: number } = {}): Promise<{ items: BankListItem[]; nextCursor: string | null }> {
