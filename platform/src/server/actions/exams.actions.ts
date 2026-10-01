@@ -9,6 +9,7 @@ import { failValidation, runAction, type ActionResult } from '@/server/lib/actio
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
 import { addFreeItem, addItemFromBank, createExam, createFromTemplate, deleteExam, duplicateExam, duplicateItem, rebalancePoints, recordPrint, removeItem, reorderItems, updateExam, updateItem, type ExamInput } from '@/server/services/exams.service'
 import { kickWorker } from '@/server/jobs/runner'
+import { buildBacMock } from '@/server/services/bac-generator.service'
 import { buildExamFromBank, parseExamRequest, requestAiBuild, type DifficultyProfile, type GenerateParams, type ParsedRequest } from '@/server/services/exam-generator.service'
 import { listBankQuestions, type BankFilter, type BankListItem } from '@/server/services/question-bank.service'
 
@@ -267,6 +268,18 @@ export async function parseExamRequestAction(text: string): Promise<ActionResult
     await requireRole('TEACHER')
     return parseExamRequest(await getDb(), parsed.data)
   })
+}
+
+/** بكالوريا تجريبية بالهيكلة الرسمية للمادة والشعبة */
+export async function buildBacMockAction(input: { subjectId: string; streamId?: string | null; title?: string | null }): Promise<ActionResult<{ examId: string; filled: number; missing: string[] }>> {
+  const parsed = z.object({ subjectId: uuid, streamId: optUuid, title: z.string().max(200).nullish() }).safeParse(input)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const r = await buildBacMock(await getDb(), await requireRole('TEACHER'), { subjectId: parsed.data.subjectId, streamId: parsed.data.streamId ?? null, title: parsed.data.title ?? null })
+    return { examId: r.examId, filled: r.filled, missing: r.missing }
+  })
+  if (result.ok) revalidate(result.data.examId)
+  return result
 }
 
 export type { DifficultyProfile }

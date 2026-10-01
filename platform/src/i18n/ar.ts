@@ -1104,6 +1104,7 @@ const ar = {
     exam_duplicate: 'نسخ امتحاناً',
     exam_rebalance: 'أعاد توزيع نقاط امتحان',
     exam_auto_build: 'بنى امتحاناً تلقائياً من البنك',
+    exam_bac_build: 'بنى بكالوريا تجريبية بالهيكلة الرسمية',
     exam_print: 'طبع امتحاناً',
     exam_template: 'غيّر حالة القالب لامتحان',
     exam_from_template: 'أنشأ امتحاناً من قالب',
