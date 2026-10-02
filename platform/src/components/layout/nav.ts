@@ -35,7 +35,7 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/student/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
             { href: '/student/practice', label: 'تدريب ذاتي', iconKey: 'Dumbbell' },
             { href: '/library', label: 'المكتبة', iconKey: 'Library' },
-            { href: '/archive', label: 'بنك البكالوريا', iconKey: 'FileStack' },
+            { href: '/bac', label: 'بنك البكالوريا', iconKey: 'FileStack' },
             { href: '/store', label: 'المتجر', iconKey: 'ShoppingBag' },
             { href: '/student/past-bac', label: t('nav.pastBac'), iconKey: 'Archive' },
             { href: '/student/videos', label: 'فيديوهات الأساتذة', iconKey: 'PlayCircle' },
@@ -132,6 +132,7 @@ export function navFor(role: UserRole): NavSection[] {
           title: 'المنصة',
           items: [
             { href: '/admin/curriculum', label: 'المنهاج والمكتبة', iconKey: 'Network' },
+            { href: '/admin/bac-bank', label: 'بنك البكالوريا', iconKey: 'Database' },
             { href: '/admin/exam-engine', label: 'محرّك الامتحانات', iconKey: 'Cog' },
             { href: '/admin/educators', label: 'دليل الأساتذة', iconKey: 'PlayCircle' },
             { href: '/admin/content', label: t('nav.content'), iconKey: 'FileText' },

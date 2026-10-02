@@ -55,7 +55,7 @@ describe('تصنيف المنهاج', () => {
   })
 
   it('شجرة المنهاج: ترتيب الأنواع مفروض، والتكرار مرفوض، والعقدة المستعملة لا تُحذف', async () => {
-    // الفيزياء: لا شجرة مزروعة لها (الرياضيات 3AS تُزرع من محرّك الامتحانات)
+    // الفيزياء 3AS لها شجرة مزروعة (بنك البكالوريا)؛ ما يُنشئه المشرف يضاف إليها ولا يحلّ محلّها
     const ids = await resolveCodes(h.db, { level: '3AS', stream: 'SCI', subject: 'PHYSICS' })
     const scope = { subjectId: ids.subjectId!, levelId: ids.levelId!, streamId: null }
     const unit = await createNode(h.db, admin, { ...scope, kind: 'UNIT', title: 'الاحتمالات' })
@@ -67,8 +67,10 @@ describe('تصنيف المنهاج', () => {
     await expect(createNode(h.db, teacher, { ...scope, kind: 'UNIT', title: 'x x' })).rejects.toMatchObject({ code: 'FORBIDDEN' })
 
     const tree = await listNodes(h.db, { ...scope, streamId: ids.streamId })
-    expect(tree[0]?.title).toBe('الاحتمالات')
-    expect(tree[0]?.children[0]?.children[0]?.title).toBe('شجرة الاحتمالات')
+    const mine = tree.find((n) => n.title === 'الاحتمالات')
+    expect(mine).toBeTruthy()
+    expect(mine?.children[0]?.children[0]?.title).toBe('شجرة الاحتمالات')
+    expect(tree.some((n) => n.title.includes('المتابعة الزمنية'))).toBe(true)
 
     await upsertResource(h.db, { sourceCode: 'madrasadz', ref: 'lesson-proba', title: 'ملخص الاحتمال الشرطي', type: 'SUMMARY', subjectId: scope.subjectId, levelId: scope.levelId, curriculumNodeId: lesson.id })
     await expect(deleteNode(h.db, admin, unit.id)).rejects.toMatchObject({ code: 'NODE_IN_USE' })

@@ -225,7 +225,7 @@ export type PayoutStatus = (typeof PAYOUT_STATUSES)[number]
 export const QUESTION_ORIGINS = ['ORIGINAL', 'SOURCED', 'AI_GENERATED', 'ADAPTED'] as const
 export type QuestionOrigin = (typeof QUESTION_ORIGINS)[number]
 /** وثيقة في سجلّ المعالجة: معلّقة ← قيد المعالجة ← للمراجعة ← منشورة، أو فاشلة */
-export const EXAM_DOC_STATUSES = ['PENDING', 'PROCESSING', 'NEEDS_REVIEW', 'PUBLISHED', 'FAILED'] as const
+export const EXAM_DOC_STATUSES = ['PENDING', 'PROCESSING', 'NEEDS_REVIEW', 'VERIFIED', 'PUBLISHED', 'FAILED'] as const
 export type ExamDocStatus = (typeof EXAM_DOC_STATUSES)[number]
 /** نوع الوثيقة (مستقلّ عن الفصل الدراسي) */
 export const EXAM_DOC_TYPES = ['BAC', 'BEM', 'TEST', 'HOMEWORK', 'EXERCISE_SET', 'OTHER'] as const

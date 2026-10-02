@@ -12,6 +12,8 @@ const uuid = z.string().uuid()
 const revalidate = () => {
   revalidatePath('/admin/exam-engine')
   revalidatePath('/archive')
+  revalidatePath('/bac')
+  revalidatePath('/admin/bac-bank')
 }
 
 /** يسجّل مواضيع المكتبة الرسمية (الافتراضي: رياضيات 3AS) في سجلّ المعالجة */

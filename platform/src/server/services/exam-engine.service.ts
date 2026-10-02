@@ -12,8 +12,11 @@ import { aiFailureReason } from '@/server/ai/failure'
 import { aiProviderInfo, getAiProvider } from '@/server/ai/provider'
 import type { AIProvider, ExtractedQuestion } from '@/server/ai/types'
 import { recentAiUsage, withAiTask } from '@/server/ai/usage'
+import { pdfPageCount } from '@/server/lib/doc-text'
+import { languageOfSubject, topicNumberOf } from '@/lib/bac-bank'
 import type { Db } from '@/server/db/connect'
 import { CURRICULUM_TREES } from '@/server/db/curriculum-nodes-data'
+import { BAC_CURRICULUM_TREES } from '@/server/db/curriculum-nodes-data-bac'
 import { bankQuestions, contentSources, curriculumNodes, examDocuments, files, levels, resources, streams, subjects, teacherProgress, type ExamDocumentRow } from '@/server/db/schema'
 import { DOC_TYPE_AR } from '@/lib/exam-engine-labels'
 import type { ExamDocStatus, ExamDocType } from '@/server/db/schema/enums'
@@ -90,7 +93,7 @@ export async function registerBacDocuments(db: Db, actor: Actor, input: Register
   for (const r of rows) {
     const [row] = await db
       .insert(examDocuments)
-      .values({ resourceId: r.id, solutionResourceId: r.solutionResourceId, title: r.title, docType: 'BAC', subjectId: r.subjectId, levelId: r.levelId, streamId: r.streamId, examYear: r.examYear, examSession: r.examSession, sourceId: r.sourceId, sourceUrl: r.sourceUrl, status: 'PENDING', metadata: { fileUrl: r.fileUrl, importedAt: new Date().toISOString(), originalAuthor: r.originalAuthor } })
+      .values({ resourceId: r.id, solutionResourceId: r.solutionResourceId, title: r.title, docType: 'BAC', subjectId: r.subjectId, levelId: r.levelId, streamId: r.streamId, examYear: r.examYear, examSession: r.examSession, topicNumber: topicNumberOf(r.title), language: languageOfSubject(input.subjectCode ?? 'MATH'), sourceId: r.sourceId, sourceUrl: r.sourceUrl, status: 'PENDING', metadata: { fileUrl: r.fileUrl, importedAt: new Date().toISOString(), originalAuthor: r.originalAuthor } })
       .onConflictDoNothing()
       .returning({ id: examDocuments.id })
     if (row) registered++
@@ -181,6 +184,14 @@ async function storeRemote(db: Db, input: { url: string; name: string; userId: s
   return row!
 }
 
+/** بصمة الملف المخزَّن وعدد صفحاته */
+async function fileFacts(db: Db, fileId: string): Promise<{ checksum: string | null; pages: number | null }> {
+  const [f] = await db.select().from(files).where(eq(files.id, fileId)).limit(1)
+  if (!f) return { checksum: null, pages: null }
+  const pages = f.mimeType === 'application/pdf' ? await pdfPageCount(new Uint8Array(await storage().get(f.storageKey))) : null
+  return { checksum: f.checksum ?? null, pages }
+}
+
 async function textOfFile(db: Db, fileId: string): Promise<string> {
   const [f] = await db.select().from(files).where(eq(files.id, fileId)).limit(1)
   if (!f) throw new DocError('file_missing', 'الملف المخزَّن غير موجود')
@@ -237,7 +248,7 @@ export async function nodesForMapping(db: Db, scope: { subjectId: string | null;
     .where(and(eq(curriculumNodes.subjectId, scope.subjectId), eq(curriculumNodes.levelId, scope.levelId), scope.streamId ? or(isNull(curriculumNodes.streamId), eq(curriculumNodes.streamId, scope.streamId)) : isNull(curriculumNodes.streamId)))
     .orderBy(asc(curriculumNodes.sortOrder))
   const kw = new Map<string, string[]>()
-  for (const tree of CURRICULUM_TREES) for (const u of tree.units) {
+  for (const tree of [...CURRICULUM_TREES, ...BAC_CURRICULUM_TREES]) for (const u of tree.units) {
     kw.set(u.slug, u.keywords)
     for (const l of u.lessons ?? []) kw.set(l.slug, l.keywords ?? [])
   }
@@ -307,6 +318,11 @@ export async function processDocument(db: Db, documentId: string, opts: ProcessO
       await db.update(examDocuments).set({ fileId }).where(eq(examDocuments.id, doc.id))
     }
     const text = await textOfFile(db, fileId)
+    // بصمة الملف وعدد صفحاته (مراقبة الجودة وكشف المكرّرات) — مرة واحدة
+    if (!doc.pdfHash || !doc.pagesCount) {
+      const facts = await fileFacts(db, fileId)
+      await db.update(examDocuments).set({ pdfHash: facts.checksum, pagesCount: facts.pages, metadata: { ...doc.metadata, scanned: text.length < MIN_TEXT_CHARS } }).where(eq(examDocuments.id, doc.id))
+    }
     if (text.length < MIN_TEXT_CHARS) throw new DocError('scanned', 'الملف مصوّر أو بلا نصّ قابل للقراءة (OCR في مرحلة لاحقة)')
 
     // التصحيح (إن وُجد): فشله لا يوقف الموضوع
@@ -320,6 +336,7 @@ export async function processDocument(db: Db, documentId: string, opts: ProcessO
           await db.update(examDocuments).set({ solutionFileId: solId }).where(eq(examDocuments.id, doc.id))
         }
         solutionText = await textOfFile(db, solId)
+        if (!doc.solutionPdfHash) await db.update(examDocuments).set({ solutionPdfHash: (await fileFacts(db, solId)).checksum }).where(eq(examDocuments.id, doc.id))
       } catch (e) {
         solutionText = ''
         await db.update(examDocuments).set({ metadata: { ...doc.metadata, solutionError: e instanceof Error ? e.message : String(e) } }).where(eq(examDocuments.id, doc.id))
@@ -387,7 +404,7 @@ export async function processDocument(db: Db, documentId: string, opts: ProcessO
         origin: 'SOURCED' as const,
         documentId: doc.id,
         sourceExerciseNo: i + 1,
-        sourceTopicNo: topicNoOf(text, q.body, q.title),
+        sourceTopicNo: topicNoOf(text, q.body, q.title) ?? doc.topicNumber ?? null,
         aiConfidence: parentId || cls.confidence == null ? null : String(cls.confidence),
         keywords: [...new Set([...x.keywords, ...(x.topic ? [x.topic] : [])])].slice(0, 12),
         visibility: 'PUBLIC' as const,
@@ -430,7 +447,7 @@ export async function approveDocument(db: Db, actor: Actor, id: string): Promise
   const doc = await ownDoc(db, actor, id)
   const ids = (await db.select({ id: bankQuestions.id }).from(bankQuestions).where(and(eq(bankQuestions.documentId, doc.id), isNull(bankQuestions.parentId), eq(bankQuestions.status, 'NEEDS_REVIEW'), isNull(bankQuestions.deletedAt)))).map((x) => x.id)
   const r = await approveReviewed(db, actor, ids)
-  await db.update(examDocuments).set({ status: 'PUBLISHED', reviewedByUserId: actor.userId, reviewedAt: new Date(), updatedAt: new Date() }).where(eq(examDocuments.id, doc.id))
+  await db.update(examDocuments).set({ status: 'PUBLISHED', reviewedByUserId: actor.userId, reviewedAt: new Date(), verifiedByUserId: doc.verifiedByUserId ?? actor.userId, verifiedAt: doc.verifiedAt ?? new Date(), updatedAt: new Date() }).where(eq(examDocuments.id, doc.id))
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'engine.document.approve', entityType: 'exam_document', entityId: doc.id, newValue: { approved: r.approved } })
   return r
 }
@@ -610,6 +627,8 @@ export interface ArchiveFilter {
   type?: 'EXAM' | 'TEST' | 'HOMEWORK' | null
   session?: string | null
   q?: string | null
+  /** بنك البكالوريا: الموضوع الأول/الثاني */
+  topic?: number | null
 }
 
 export interface ArchiveItem {
@@ -631,6 +650,10 @@ export interface ArchiveItem {
   exercises: number
   /** نسخة محلية قابلة للمعاينة داخل الموقع */
   localPreview: boolean
+  topic: number | null
+  /** تمارين لها حلّ مفصّل معتمد */
+  detailed: number
+  docStatus: string | null
 }
 
 const ARCHIVE_TYPES = ['EXAM', 'TEST', 'HOMEWORK'] as const
@@ -649,7 +672,8 @@ export async function listArchive(db: Db, f: ArchiveFilter = {}, page: { cursor?
     f.subjectId ? eq(resources.subjectId, f.subjectId) : undefined,
     f.year ? eq(resources.examYear, f.year) : undefined,
     f.session ? eq(resources.examSession, f.session) : undefined,
-    f.q?.trim() ? sql`${resources.title} ilike ${`%${f.q.trim().replace(/[%_\\]/g, '\\$&')}%`}` : undefined
+    f.q?.trim() ? sql`${resources.title} ilike ${`%${f.q.trim().replace(/[%_\\]/g, '\\$&')}%`}` : undefined,
+    f.topic ? eq(examDocuments.topicNumber, f.topic) : undefined
   ]
   if (page.cursor) {
     const [y, id] = Buffer.from(page.cursor, 'base64url').toString().split('|')
@@ -666,7 +690,10 @@ export async function listArchive(db: Db, f: ArchiveFilter = {}, page: { cursor?
       solutionUrl: sol.url,
       docFileId: examDocuments.fileId,
       docId: examDocuments.id,
-      exercises: sql<number>`coalesce((select count(*)::int from bank_questions q where q.document_id = ${examDocuments.id} and q.parent_id is null and q.deleted_at is null and q.status = 'PUBLISHED'), 0)`
+      docStatus: examDocuments.status,
+      topic: examDocuments.topicNumber,
+      exercises: sql<number>`coalesce((select count(*)::int from bank_questions q where q.document_id = ${examDocuments.id} and q.parent_id is null and q.deleted_at is null and q.status = 'PUBLISHED'), 0)`,
+      detailed: sql<number>`coalesce((select count(*)::int from bank_questions q where q.document_id = ${examDocuments.id} and q.parent_id is null and q.deleted_at is null and q.status = 'PUBLISHED' and (q.solution_detail->>'verified') = 'true'), 0)`
     })
     .from(resources)
     .innerJoin(contentSources, eq(contentSources.id, resources.sourceId))
@@ -678,7 +705,7 @@ export async function listArchive(db: Db, f: ArchiveFilter = {}, page: { cursor?
     .where(and(...where))
     .orderBy(desc(sql`coalesce(${resources.examYear}, 0)`), desc(resources.id))
     .limit(limit + 1)
-  const items = rows.slice(0, limit).map((x) => ({ id: x.r.id, title: x.r.title, type: x.r.type, year: x.r.examYear, session: x.r.examSession, subjectName: x.subjectName, levelName: x.levelName, streamName: x.streamName, source: x.source, sourceUrl: x.r.sourceUrl, fileUrl: x.r.fileUrl, hasSolution: x.r.hasSolution, solutionUrl: x.solutionUrl ?? null, official: x.r.isOfficial, exercises: x.exercises, localPreview: Boolean(x.docFileId) }))
+  const items = rows.slice(0, limit).map((x) => ({ id: x.r.id, title: x.r.title, type: x.r.type, year: x.r.examYear, session: x.r.examSession, subjectName: x.subjectName, levelName: x.levelName, streamName: x.streamName, source: x.source, sourceUrl: x.r.sourceUrl, fileUrl: x.r.fileUrl, hasSolution: x.r.hasSolution, solutionUrl: x.solutionUrl ?? null, official: x.r.isOfficial, exercises: x.exercises, localPreview: Boolean(x.docFileId), topic: x.topic ?? topicNumberOf(x.r.title), detailed: x.detailed, docStatus: x.docStatus ?? null }))
   const last = rows[limit - 1]
   return { items, nextCursor: rows.length > limit && last ? Buffer.from(`${last.r.examYear ?? 0}|${last.r.id}`).toString('base64url') : null }
 }

@@ -6,6 +6,7 @@ import { and, eq, isNull, sql } from 'drizzle-orm'
 import type { Db } from './connect'
 import { CURRICULUM_VERSION, GRADE_STREAMS, GRADES, OFFERINGS, SOURCES, STAGES, STREAM_DATA, SUBJECTS } from './curriculum-data'
 import { CURRICULUM_TREES } from './curriculum-nodes-data'
+import { BAC_CURRICULUM_TREES } from './curriculum-nodes-data-bac'
 import { contentSources, curriculumNodes, curriculumVersions, educationStages, gradeStreams, levels, streams, subjectOfferings, subjects } from './schema'
 
 export async function seedCurriculum(db: Db): Promise<void> {
@@ -69,7 +70,7 @@ export async function seedCurriculum(db: Db): Promise<void> {
  * ما عدّله المشرف (عنوان، فصل، ترتيب) لا يُلمس، وما حذفه لا يعود إلا إن حُذف رمزه من البيانات… أي لا يعود.
  */
 async function seedCurriculumNodes(db: Db, ids: { versionId: string; levelId: Map<string, string>; subjectId: Map<string, string>; streamId: Map<string, string> }): Promise<void> {
-  for (const tree of CURRICULUM_TREES) {
+  for (const tree of [...CURRICULUM_TREES, ...BAC_CURRICULUM_TREES]) {
     const subjectId = ids.subjectId.get(tree.subject)
     const levelId = ids.levelId.get(tree.level)
     const streamId = tree.stream ? ids.streamId.get(tree.stream) : null

@@ -162,6 +162,13 @@
       "when": 1792200000000,
       "tag": "0022_exam_studio",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1792300000000,
+      "tag": "0023_bac_bank",
+      "breakpoints": true
     }
   ]
 }

@@ -37,6 +37,11 @@ import {
   text,
   PARSE_REQUEST_MAX_TOKENS,
   COPILOT_MAX_TOKENS,
+  DETAIL_SOLUTION_MAX_TOKENS,
+  DETAIL_SOLUTION_SCHEMA,
+  detailSolutionSystem,
+  detailSolutionUser,
+  parseDetailSolution,
   COPILOT_SCHEMA,
   copilotSystem,
   copilotUser,
@@ -72,6 +77,8 @@ import type {
   ParseExamRequestInput,
   ExamCopilotInput,
   ExamCopilotOutput,
+  DetailSolutionInput,
+  DetailSolutionOutput,
   ParsedExamRequest
 } from './types'
 
@@ -266,6 +273,10 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
 
     async examCopilot(input: ExamCopilotInput): Promise<ExamCopilotOutput> {
       return parseCopilot(await complete(jsonParams(copilotSystem(input.subject), copilotUser(input), COPILOT_MAX_TOKENS, COPILOT_SCHEMA)))
+    },
+
+    async detailSolution(input: DetailSolutionInput): Promise<DetailSolutionOutput> {
+      return parseDetailSolution(await complete(jsonParams(detailSolutionSystem(input), detailSolutionUser(input), DETAIL_SOLUTION_MAX_TOKENS, DETAIL_SOLUTION_SCHEMA)))
     }
   }
 }

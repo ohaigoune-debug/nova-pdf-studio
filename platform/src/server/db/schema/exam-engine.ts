@@ -35,6 +35,18 @@ export const examDocuments = pgTable(
     /** النسخة المخزَّنة محلياً (للمعاينة داخل الموقع والمعالجة) */
     fileId: uuid('file_id').references(() => files.id, { onDelete: 'set null' }),
     solutionFileId: uuid('solution_file_id').references(() => files.id, { onDelete: 'set null' }),
+    /** بنك البكالوريا: رقم الموضوع (الأول/الثاني) إن كانت الوثيقة موضوعاً واحداً من اثنين */
+    topicNumber: integer('topic_number'),
+    /** لغة الوثيقة: ar | fr | en | de | es | it | ber */
+    language: text('language'),
+    pagesCount: integer('pages_count'),
+    /** بصمة SHA-256 لملف الموضوع والتصحيح (كشف المكرّرات عبر المصادر) */
+    pdfHash: text('pdf_hash'),
+    solutionPdfHash: text('solution_pdf_hash'),
+    /** مراقبة الجودة: قائمة الفحص التي أكّدها المشرف قبل النشر */
+    quality: jsonb('quality').$type<QualityChecklist>().notNull().default({}),
+    verifiedByUserId: uuid('verified_by_user_id').references(() => users.id, { onDelete: 'set null' }),
+    verifiedAt: timestamp('verified_at', { withTimezone: true }),
     status: text('status').notNull().default('PENDING'),
     error: text('error'),
     textChars: integer('text_chars').notNull().default(0),
@@ -55,9 +67,29 @@ export const examDocuments = pgTable(
     check('exam_documents_term_check', sql`${t.schoolTerm} IS NULL OR ${t.schoolTerm} BETWEEN 1 AND 3`),
     uniqueIndex('exam_documents_resource_unique').on(t.resourceId),
     index('exam_documents_status_idx').on(t.status, t.updatedAt),
-    index('exam_documents_scope_idx').on(t.subjectId, t.levelId, t.streamId, t.examYear)
+    index('exam_documents_scope_idx').on(t.subjectId, t.levelId, t.streamId, t.examYear),
+    index('exam_documents_bac_key_idx').on(t.subjectId, t.streamId, t.examYear, t.examSession, t.topicNumber),
+    index('exam_documents_pdf_hash_idx').on(t.pdfHash)
   ]
 )
+
+/** قائمة فحص الجودة قبل النشر (كل بند true/false يؤكّده المشرف أو يُستنتج آلياً) */
+export interface QualityChecklist {
+  year?: boolean
+  subject?: boolean
+  stream?: boolean
+  topic?: boolean
+  pages?: boolean
+  questions?: boolean
+  numbers?: boolean
+  equations?: boolean
+  figures?: boolean
+  bareme?: boolean
+  solution?: boolean
+  complete?: boolean
+  notDuplicate?: boolean
+  note?: string
+}
 
 /** «حدّد أين وصلت في البرنامج»: آخر درس بلغه الأستاذ لمادة في صف (وشعبة)؛ التوليد التلقائي لا يتجاوزه */
 export const teacherProgress = pgTable(

@@ -67,3 +67,14 @@ export async function extractDocText(bytes: Uint8Array, mime: string): Promise<s
   }
   return ''
 }
+
+/** عدد صفحات PDF (لمراقبة الجودة في بنك البكالوريا)؛ null إن تعذّرت القراءة */
+export async function pdfPageCount(bytes: Uint8Array): Promise<number | null> {
+  try {
+    const { getDocumentProxy } = await import('unpdf')
+    const pdf = await getDocumentProxy(bytes)
+    return pdf.numPages
+  } catch {
+    return null
+  }
+}

@@ -284,6 +284,34 @@ export interface ExamCopilotOutput {
   raw?: Record<string, unknown>
 }
 
+/** بنك البكالوريا: حلّ مفصّل تعليمي لتمرين (يُولَّد مرة ويُخزَّن ويُراجَع) */
+export interface DetailSolutionInput {
+  subject?: string | null
+  levelName?: string | null
+  streamName?: string | null
+  /** علمية (تحقّق حسابي) أو أدبية (تمييز الحلّ المرجعي عن الاقتراح) */
+  scientific: boolean
+  source: string | null
+  exercise: { title: string | null; body: string; points: number; officialSolution: string | null; children: { body: string; points: number; officialSolution: string | null }[] }
+}
+
+export interface DetailSolutionOutput {
+  shortAnswer: string
+  steps: string[]
+  rule: string | null
+  why: string | null
+  commonMistakes: string[]
+  faster: string | null
+  teacherNotes: string | null
+  bareme: { label: string; points: number }[]
+  children: { shortAnswer: string; steps: string[]; commonMistakes: string[] }[]
+  /** هل تحقّق النموذج من النتائج (إعادة الحساب/الاتساق مع الحلّ الرسمي) */
+  selfChecked: boolean
+  /** ما لم يستطع تأكيده (يظهر للمشرف) */
+  uncertainties: string[]
+  raw?: Record<string, unknown>
+}
+
 export interface EssayBatchItem {
   /** معرّف يعود مع النتيجة (معرّف سجل التقييم) */
   customId: string
@@ -325,6 +353,8 @@ export interface AIProvider {
   parseExamRequest?(input: ParseExamRequestInput): Promise<ParsedExamRequest>
   /** مساعد الاستوديو: تعديل/حلّ/سلّم/تحويل عنصر — مقترح فقط، الأستاذ يقبل أو يرفض */
   examCopilot?(input: ExamCopilotInput): Promise<ExamCopilotOutput>
+  /** بنك البكالوريا: حلّ مفصّل لتمرين (خطوات، قاعدة، أخطاء شائعة، سلّم) — يُراجَع قبل النشر */
+  detailSolution?(input: DetailSolutionInput): Promise<DetailSolutionOutput>
   /**
    * اختياري: تصحيح دفعة كاملة بنصف السعر؛ النتائج تُجلب لاحقاً بالاستطلاع.
    * المزوّد الذي لا يوفّرها يُعالَج فرادى.

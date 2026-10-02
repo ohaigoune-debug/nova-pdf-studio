@@ -37,7 +37,7 @@ export default async function PublicQuestionPage({ params }: { params: Promise<{
           <span className="flex flex-wrap gap-2">
             {r.originalResourceId ? (
               <Button asChild size="sm">
-                <Link href={`/archive/${r.originalResourceId}`}>
+                <Link href={`/bac/${r.originalResourceId}`}>
                   <FileText className="size-4" /> عرض الامتحان الأصلي
                 </Link>
               </Button>

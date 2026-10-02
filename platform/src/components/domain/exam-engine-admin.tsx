@@ -61,7 +61,7 @@ export function EngineControls({ stats }: { stats: EngineStats }) {
             <Cog className="size-4" /> معالجة المعلّق ({stats.docs.PENDING})
           </Button>
           <Button asChild variant="ghost">
-            <Link href="/archive">الأرشيف العام</Link>
+            <Link href="/bac">بنك البكالوريا العام</Link>
           </Button>
         </div>
         {stats.queue.pending ? (
@@ -124,7 +124,7 @@ export function DocumentsTable({ docs }: { docs: DocumentListItem[] }) {
               <div className="max-w-md">
                 <p className="font-semibold leading-snug">
                   {d.resourceId ? (
-                    <Link href={`/archive/${d.resourceId}`} className="hover:underline">
+                    <Link href={`/bac/${d.resourceId}`} className="hover:underline">
                       {d.title}
                     </Link>
                   ) : (

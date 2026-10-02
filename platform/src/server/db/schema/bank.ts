@@ -21,6 +21,29 @@ export interface BaremeItem {
   points: number
 }
 
+/** الحلّ المفصّل التعليمي الخاص بمنصة مدرسة (يُبنى مرة بالذكاء الاصطناعي ويُراجَع ثم يُقرأ من القاعدة) */
+export interface DetailedSolution {
+  /** official: الحلّ الرسمي مرجعاً · madrasadz: اقتراح تعليمي للمنصة */
+  source: 'official' | 'madrasadz'
+  shortAnswer: string
+  steps: string[]
+  rule: string | null
+  why: string | null
+  commonMistakes: string[]
+  faster: string | null
+  teacherNotes: string | null
+  bareme: { label: string; points: number }[]
+  /** الفرعيات بنفس البنية (بترتيبها) */
+  children?: { shortAnswer: string; steps: string[]; commonMistakes: string[] }[]
+  /** هل تحقّق النموذج من النتيجة حسابياً/منطقياً (للمواد العلمية) */
+  selfChecked: boolean
+  /** راجعه المشرف واعتمده */
+  verified: boolean
+  verifiedAt?: string | null
+  generatedAt: string
+  model?: string | null
+}
+
 export interface BankAttachment {
   fileId: string
   caption?: string
@@ -89,6 +112,8 @@ export const bankQuestions = pgTable(
     contentHash: text('content_hash'),
     /** نصّ مطبَّع يُبنى منه عمود البحث `search` (tsvector مولَّد في الهجرة) */
     searchText: text('search_text').notNull().default(''),
+    /** بنك البكالوريا: الحلّ المفصّل (خطوات، قاعدة، أخطاء شائعة، سلّم) — null قبل التوليد */
+    solutionDetail: jsonb('solution_detail').$type<DetailedSolution | null>(),
     usageCount: integer('usage_count').notNull().default(0),
     lastUsedAt: timestamp('last_used_at', { withTimezone: true }),
     sortOrder: integer('sort_order').notNull().default(0),
