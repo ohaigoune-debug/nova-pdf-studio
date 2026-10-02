@@ -1124,6 +1124,7 @@ const ar = {
     engine_document_verify: 'وثّق وثيقة بكالوريا بعد الفحص',
     bac_solutions_request: 'طلب توليد حلول مفصّلة لبنك البكالوريا',
     bac_solution_review: 'راجع حلاً مفصّلاً في بنك البكالوريا',
+    bac_import: 'استورد ملفات بكالوريا إلى البنك',
     practice_start: 'بدأ جلسة تدريب ذاتي',
     practice_finish: 'أنهى جلسة تدريب ذاتي',
     store_product_create: 'أضاف منتجاً إلى المتجر',

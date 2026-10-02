@@ -312,6 +312,28 @@ export interface DetailSolutionOutput {
   raw?: Record<string, unknown>
 }
 
+/** بنك البكالوريا: تصنيف ملف مستورد (Drive/مجلد) من اسمه وبداية نصّه — يكمل ما لم يُستنتج حتمياً */
+export interface ClassifyBacFileInput {
+  fileName: string
+  excerpt: string
+  subjects: { code: string; name: string }[]
+  streams: { code: string; name: string }[]
+  /** ما استُنتج حتمياً من الاسم (قد يكون ناقصاً) */
+  guess: { year: number | null; session: string | null; streamCode: string | null; subjectCode: string | null; topicNumber: number | null; correction: boolean }
+}
+
+export interface ClassifyBacFileOutput {
+  year: number | null
+  session: 'NORMAL' | 'MAKEUP' | null
+  streamCode: string | null
+  subjectCode: string | null
+  topicNumber: number | null
+  correction: boolean
+  /** 0..1 */
+  confidence: number
+  raw?: Record<string, unknown>
+}
+
 export interface EssayBatchItem {
   /** معرّف يعود مع النتيجة (معرّف سجل التقييم) */
   customId: string
@@ -355,6 +377,8 @@ export interface AIProvider {
   examCopilot?(input: ExamCopilotInput): Promise<ExamCopilotOutput>
   /** بنك البكالوريا: حلّ مفصّل لتمرين (خطوات، قاعدة، أخطاء شائعة، سلّم) — يُراجَع قبل النشر */
   detailSolution?(input: DetailSolutionInput): Promise<DetailSolutionOutput>
+  /** بنك البكالوريا: تصنيف ملف مستورد (سنة/دورة/شعبة/مادة/موضوع/تصحيح) — لا يُنشر شيء دون مراجعة */
+  classifyBacFile?(input: ClassifyBacFileInput): Promise<ClassifyBacFileOutput>
   /**
    * اختياري: تصحيح دفعة كاملة بنصف السعر؛ النتائج تُجلب لاحقاً بالاستطلاع.
    * المزوّد الذي لا يوفّرها يُعالَج فرادى.

@@ -1,5 +1,6 @@
 import { runBacSyncJob } from '@/server/services/bac-sync.service'
 import { runSolutionDetailJob } from '@/server/services/bac-bank.service'
+import { runBacImportJob } from '@/server/services/bac-import.service'
 import { runOrganizeContentJob } from '@/server/services/content-organize.service'
 import { runResolveEducatorsJob, runSyncChannelJob } from '@/server/services/educators.service'
 import { runFileImportJob } from '@/server/services/file-import.service'
@@ -32,6 +33,7 @@ const handlers: Record<JobType, Handler> = {
   BAC_SYNC: (db, job) => runBacSyncJob(db, job),
   EXAM_DOC_PROCESS: (db, job) => runProcessDocumentsJob(db, job),
   BAC_SOLUTION_DETAIL: (db, job) => runSolutionDetailJob(db, job),
+  BAC_IMPORT_FILES: (db, job) => runBacImportJob(db, job),
   YT_RESOLVE_EDUCATORS: (db, job) => runResolveEducatorsJob(db, job),
   YT_SYNC_CHANNEL: (db, job) => runSyncChannelJob(db, job),
   REPORT_EXPORT: (db, job) => runReportJob(db, job.payload),

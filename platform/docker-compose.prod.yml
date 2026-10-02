@@ -55,6 +55,8 @@ services:
       AI_API_KEY: ${AI_API_KEY:-}
       AI_MODEL: ${AI_MODEL:-}
       AI_BASE_URL: ${AI_BASE_URL:-}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
+      YOUTUBE_API_KEY: ${YOUTUBE_API_KEY:-}
       STORAGE_DRIVER: ${STORAGE_DRIVER:-local}
       UPLOADS_DIR: /app/data/uploads
       S3_BUCKET: ${S3_BUCKET:-}
@@ -65,6 +67,8 @@ services:
     volumes:
       - uploads:/app/data
       - ./src:/app/src:ro
+      # ملفات PDF تُنسخ إلى /opt/madrasa/platform/import ثم: bash scripts/bac-bank.sh --import-dir=/app/import --all
+      - ./import:/app/import:ro
     restart: 'no'
 
   app:

@@ -42,6 +42,11 @@ import {
   detailSolutionSystem,
   detailSolutionUser,
   parseDetailSolution,
+  CLASSIFY_BAC_FILE_SCHEMA,
+  CLASSIFY_BAC_FILE_MAX_TOKENS,
+  classifyBacFileSystem,
+  classifyBacFileUser,
+  parseClassifyBacFile,
   COPILOT_SCHEMA,
   copilotSystem,
   copilotUser,
@@ -77,6 +82,8 @@ import type {
   ParseExamRequestInput,
   ExamCopilotInput,
   ExamCopilotOutput,
+  ClassifyBacFileInput,
+  ClassifyBacFileOutput,
   DetailSolutionInput,
   DetailSolutionOutput,
   ParsedExamRequest
@@ -277,6 +284,9 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
 
     async detailSolution(input: DetailSolutionInput): Promise<DetailSolutionOutput> {
       return parseDetailSolution(await complete(jsonParams(detailSolutionSystem(input), detailSolutionUser(input), DETAIL_SOLUTION_MAX_TOKENS, DETAIL_SOLUTION_SCHEMA)))
+    },
+    async classifyBacFile(input: ClassifyBacFileInput): Promise<ClassifyBacFileOutput> {
+      return parseClassifyBacFile(await complete(jsonParams(classifyBacFileSystem(input), classifyBacFileUser(input), CLASSIFY_BAC_FILE_MAX_TOKENS, CLASSIFY_BAC_FILE_SCHEMA)), input)
     }
   }
 }

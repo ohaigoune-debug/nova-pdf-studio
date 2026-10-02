@@ -120,6 +120,19 @@ export async function listDriveFolder(folderId: string, opts: DriveOptions = {})
   return { name: meta.name ?? '', files }
 }
 
+/** بايتات ملف واحد (PDF/Word/نص) — لتخزينه محلياً؛ مستندات Google تُصدَّر PDF */
+export async function fetchDriveBytes(file: DriveFile, opts: DriveOptions = {}): Promise<{ bytes: Uint8Array; mimeType: string }> {
+  if (file.size && file.size > MAX_BYTES) throw new AppError('DRIVE_FETCH_FAILED')
+  if (file.mimeType === DRIVE_MIME.gdoc || file.mimeType === DRIVE_MIME.gslides) {
+    const res = await driveGet(`files/${encodeURIComponent(file.id)}/export`, { mimeType: DRIVE_MIME.pdf }, opts)
+    return { bytes: new Uint8Array(await res.arrayBuffer()), mimeType: DRIVE_MIME.pdf }
+  }
+  const res = await driveGet(`files/${encodeURIComponent(file.id)}`, { alt: 'media' }, opts)
+  const bytes = new Uint8Array(await res.arrayBuffer())
+  if (bytes.byteLength > MAX_BYTES) throw new AppError('DRIVE_FETCH_FAILED')
+  return { bytes, mimeType: file.mimeType }
+}
+
 /** نصّ ملف واحد، أو '' إن لم يكن فيه نصّ (PDF مصوّر مثلاً) */
 export async function fetchDriveText(file: DriveFile, opts: DriveOptions = {}): Promise<string> {
   if (file.size && file.size > MAX_BYTES) return ''

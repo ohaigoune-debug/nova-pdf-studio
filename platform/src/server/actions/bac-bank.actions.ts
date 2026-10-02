@@ -11,6 +11,7 @@ import { failValidation, runAction, type ActionResult } from '@/server/lib/actio
 import { autoQuality, registerAllBacDocuments, requestSolutionDetails, reviewSolutionDetail, searchBacExercises, verifyDocument, type BacSearchHit } from '@/server/services/bac-bank.service'
 
 
+import { requestBacImport } from '@/server/services/bac-import.service'
 import { requestProcessing } from '@/server/services/exam-engine.service'
 
 const uuid = z.string().uuid()
@@ -97,4 +98,16 @@ export async function qualityPreviewAction(id: string): Promise<ActionResult<Rec
     if (!doc) return {}
     return { ...(await autoQuality(db, doc)), ...doc.quality }
   })
+}
+
+/** استيراد مواضيع/تصحيحات من مجلد Google Drive عامّ (بديل الجلب من DzExams) — في الخلفية */
+export async function importBacFromDriveAction(folderUrl: string): Promise<ActionResult<{ jobId: string; reused: boolean }>> {
+  const parsed = z.string().trim().min(10).max(500).safeParse(folderUrl)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => requestBacImport(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data))
+  if (result.ok) {
+    kickWorker(getDb)
+    revalidate()
+  }
+  return result
 }

@@ -4,6 +4,8 @@
  *
  *   --report           تقرير الجرد فقط (بلا كتابة)
  *   --sync             جلب روابط DzExams أولاً (كل المواد؛ 30–60 دقيقة في المرة الأولى)
+ *   --drive=<رابط>     استيراد مواضيع/تصحيحات من مجلد Google Drive عامّ (بديل DzExams عند الحجب)
+ *   --import-dir=<مسار> استيراد من مجلد على الخادم (scripts/bac-bank.sh يمرّر مجلد import/ تحت /app/import)
  *   --register         تسجيل كل المواضيع الرسمية في البنك
  *   --process[=N]      معالجة N وثيقة بالذكاء الاصطناعي (افتراضي: كل ما ينتظر) في دفعات من 20 مع نقطة تحقّق
  *   --retry-failed     يعيد ما فشل سابقاً (عدا الممسوحة ضوئياً: تبقى في طابور المراجعة)
@@ -23,6 +25,7 @@ import type { Actor } from '@/server/lib/actor'
 import { installAiUsageSink } from '@/server/services/ai-usage.service'
 import { loadAiCredentials } from '@/server/services/ai-credentials.service'
 import { autoQuality, bacInventory, detailOne, registerAllBacDocuments, verifyDocument, type BacInventory } from '@/server/services/bac-bank.service'
+import { importBacFiles } from '@/server/services/bac-import.service'
 import { processDocument, type ProcessResult } from '@/server/services/exam-engine.service'
 import { syncBacExams } from './sync'
 
@@ -40,6 +43,8 @@ const all = flag('all')
 const opts = {
   report: flag('report'),
   sync: flag('sync'),
+  drive: str('drive'),
+  importDir: str('import-dir'),
   register: all || flag('register'),
   process: all || args.some((a) => a === '--process' || a.startsWith('--process=')),
   processLimit: num('process', null),
@@ -123,13 +128,26 @@ async function main() {
   const subjectId = await subjectIdOf(db, opts.subject)
   const inv0 = await bacInventory(db, actor)
   printReport(inv0, 'الحالة قبل التشغيل')
-  if (opts.report || (!opts.sync && !opts.register && !opts.process && !opts.autoVerify && !opts.details)) return
+  if (opts.report || (!opts.sync && !opts.drive && !opts.importDir && !opts.register && !opts.process && !opts.autoVerify && !opts.details)) return
 
   // 1) جلب روابط DzExams (روابط فقط؛ الملفات تُنزَّل عند المعالجة)
   if (opts.sync && !stopping) {
     log('▶ جلب DzExams …')
     const r = await syncBacExams(opts.dry ? null : db, { dry: opts.dry, maxExams: opts.dry ? 3 : undefined, maxPagesPerListing: opts.dry ? 1 : undefined, subjects: opts.dry ? ['arabe'] : undefined, log })
     log(`✔ الجلب: ${r.found} موضوعاً في ${r.subjects} مادة، حُفظ ${r.saved}، أخطاء ${r.errors}`)
+  }
+
+  // 1ب) استيراد ملفات (Drive أو مجلد الخادم): المكرّر يُتجاهل، وغير المصنَّف يُعرض ولا يُخمَّن
+  for (const source of [opts.drive ? { kind: 'drive' as const, folderUrl: opts.drive } : null, opts.importDir ? { kind: 'dir' as const, dir: opts.importDir } : null]) {
+    if (!source || stopping) continue
+    log(`▶ استيراد ${source.kind === 'drive' ? 'من Drive' : `من ${source.dir}`} …`)
+    if (opts.dry) {
+      log('(تجربة) يُسرد المجلد فقط عند التشغيل الفعلي')
+      continue
+    }
+    const r = await importBacFiles(db, actor, source, { useAi: ai.configured, onProgress: (d, t, last) => log(`  ${d}/${t} ${last}`) })
+    for (const i of r.items) if (i.outcome !== 'exam' && i.outcome !== 'correction') log(`  ${i.outcome === 'duplicate' ? '=' : '✖'} ${i.name} — ${i.reason ?? ''}`)
+    log(`✔ الاستيراد: ${r.exams} موضوعاً، ${r.corrections} تصحيحاً، ${r.duplicates} مكرّر، ${r.unclassified} بلا تصنيف، ${r.errors} خطأ${r.scanned ? `، ${r.scanned} مصوّر (OCR لاحقاً)` : ''}`)
   }
 
   // 2) تسجيل كل المواضيع الرسمية كوثائق للبنك
@@ -186,18 +204,21 @@ async function main() {
       .where(and(eq(examDocuments.status, 'NEEDS_REVIEW'), eq(examDocuments.docType, 'BAC'), subjectId ? eq(examDocuments.subjectId, subjectId) : undefined))
       .orderBy(desc(examDocuments.examYear))
     let skipped = 0
+    const why: Record<string, number> = {}
     for (const doc of docs) {
       if (stopping) break
       const auto = await autoQuality(db, doc)
       const failing = Object.entries(auto).filter(([, v]) => v !== true).map(([k]) => k)
       if (failing.length) {
         skipped++
+        failing.forEach((k) => (why[k] = (why[k] ?? 0) + 1))
         continue
       }
       if (!opts.dry) await verifyDocument(db, actor, doc.id, { ...auto, note: 'توثيق آلي للبنود المحسوبة؛ البنود اليدوية بانتظار المشرف' })
       summary.verified++
     }
-    log(`✔ التوثيق الآلي: ${summary.verified} وثيقة${opts.dry ? ' (تجربة)' : ''}، ${skipped} تبقى للمراجعة اليدوية (فحص آلي ناقص)`)
+    const AUTO_AR: Record<string, string> = { year: 'السنة', subject: 'المادة', stream: 'الشعبة', pages: 'الصفحات', questions: 'الأسئلة', solution: 'الحلّ الرسمي', notDuplicate: 'مكرّر' }
+    log(`✔ التوثيق الآلي: ${summary.verified} وثيقة${opts.dry ? ' (تجربة)' : ''}، ${skipped} تبقى للمراجعة اليدوية${skipped ? ` (ينقصها: ${Object.entries(why).map(([k, v]) => `${AUTO_AR[k] ?? k} ${v}`).join('، ')})` : ''}`)
   }
 
   // 5) الحلول المفصّلة: تمرين تلو الآخر، تُبنى مرة وتُحفظ غير موثَّقة حتى يراجعها المشرف

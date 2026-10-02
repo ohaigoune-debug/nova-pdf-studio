@@ -39,6 +39,11 @@ import {
   detailSolutionSystem,
   detailSolutionUser,
   parseDetailSolution,
+  CLASSIFY_BAC_FILE_SCHEMA,
+  CLASSIFY_BAC_FILE_MAX_TOKENS,
+  classifyBacFileSystem,
+  classifyBacFileUser,
+  parseClassifyBacFile,
   COPILOT_SCHEMA,
   copilotSystem,
   copilotUser,
@@ -72,6 +77,8 @@ import type {
   ParseExamRequestInput,
   ExamCopilotInput,
   ExamCopilotOutput,
+  ClassifyBacFileInput,
+  ClassifyBacFileOutput,
   DetailSolutionInput,
   DetailSolutionOutput,
   ParsedExamRequest,
@@ -226,6 +233,9 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
 
     async detailSolution(input: DetailSolutionInput): Promise<DetailSolutionOutput> {
       return parseDetailSolution(await complete(schemaParams(detailSolutionSystem(input), detailSolutionUser(input), DETAIL_SOLUTION_MAX_TOKENS, 'detail_solution', DETAIL_SOLUTION_SCHEMA), { timeoutMs: 120_000 }))
+    },
+    async classifyBacFile(input: ClassifyBacFileInput): Promise<ClassifyBacFileOutput> {
+      return parseClassifyBacFile(await complete(schemaParams(classifyBacFileSystem(input), classifyBacFileUser(input), CLASSIFY_BAC_FILE_MAX_TOKENS, 'classify_bac_file', CLASSIFY_BAC_FILE_SCHEMA)), input)
     }
   }
 }

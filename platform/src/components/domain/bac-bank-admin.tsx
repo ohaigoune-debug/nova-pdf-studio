@@ -1,6 +1,6 @@
 'use client'
 
-import { Check, Cog, Download, FileDown, Sparkles, X } from 'lucide-react'
+import { Check, Cog, Download, FileDown, FolderInput, Sparkles, X } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState, useTransition } from 'react'
@@ -8,10 +8,11 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 import { Alert } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
 import { DOC_STATUS_AR } from '@/lib/exam-engine-labels'
-import { processBatchAction, qualityPreviewAction, registerAllBacAction, requestSolutionDetailsAction, reviewSolutionDetailAction, verifyDocumentAction } from '@/server/actions/bac-bank.actions'
+import { importBacFromDriveAction, processBatchAction, qualityPreviewAction, registerAllBacAction, requestSolutionDetailsAction, reviewSolutionDetailAction, verifyDocumentAction } from '@/server/actions/bac-bank.actions'
 import type { BacInventory, DetailQueueItem } from '@/server/services/bac-bank.service'
 
 type Result = { ok: boolean; error?: { message: string }; data?: Record<string, unknown> }
@@ -71,6 +72,68 @@ export function BacBatchControls({ inv, aiConfigured, jobs }: { inv: BacInventor
           </Alert>
         ) : jobs.lastError ? (
           <Alert tone="destructive">آخر مهمة حلول فشلت: {jobs.lastError}</Alert>
+        ) : null}
+      </CardContent>
+    </Card>
+  )
+}
+
+/** استيراد من مجلد Drive عامّ: بديل الجلب من DzExams عندما يحجب الخادم، أو لملفات Madrasadz النظيفة */
+export function BacImportCard({ last, driveConfigured }: { last: { at: Date; logs: string[]; running: boolean; processed: number; total: number; error: string | null } | null; driveConfigured: boolean }) {
+  const router = useRouter()
+  const [pending, start] = useTransition()
+  const [url, setUrl] = useState('')
+  const [open, setOpen] = useState(false)
+  useEffect(() => {
+    if (!last?.running) return
+    const id = setInterval(() => router.refresh(), 5000)
+    return () => clearInterval(id)
+  }, [last?.running, router])
+  const submit = () =>
+    start(async () => {
+      const r = await importBacFromDriveAction(url)
+      if (!r.ok) return toast('error', r.error.message)
+      toast('success', r.data.reused ? 'استيراد يعمل سلفاً' : 'بدأ الاستيراد في الخلفية')
+      setUrl('')
+      router.refresh()
+    })
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <FolderInput className="size-5 text-primary" /> استيراد ملفات من Google Drive
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 text-sm">
+        <p className="text-muted-foreground">ضع ملفات PDF للمواضيع والتصحيحات في مجلد Drive مشارَك «أي شخص لديه الرابط — عارض». يُستنتج التصنيف من اسم الملف (مثال: bac-2023-math-se-sujet1.pdf وbac-2023-math-se-sujet1-corrige.pdf) ويكمل الذكاء الاصطناعي الناقص من أول صفحة. المكرّر يُتجاهل، وما لم يُصنَّف يُعرض هنا ولا يُخمَّن.</p>
+        {!driveConfigured ? <Alert tone="warning">قراءة Drive تحتاج GOOGLE_API_KEY (أو مفتاح يوتيوب مع تفعيل Drive API) في ملف البيئة.</Alert> : null}
+        <form
+          className="flex flex-wrap gap-2"
+          onSubmit={(e) => {
+            e.preventDefault()
+            submit()
+          }}
+        >
+          <Input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://drive.google.com/drive/folders/…" dir="ltr" className="min-w-64 flex-1" required />
+          <Button type="submit" loading={pending} disabled={!driveConfigured || Boolean(last?.running)}>
+            <FolderInput className="size-4" /> استيراد
+          </Button>
+        </form>
+        {last?.running ? <Alert tone="info">الاستيراد يعمل: {last.processed} / {last.total || '…'} ملفاً.</Alert> : null}
+        {last && !last.running ? (
+          <div className="space-y-1">
+            {last.error ? <Alert tone="destructive">آخر استيراد فشل: {last.error}</Alert> : null}
+            <button type="button" className="text-xs text-primary underline" onClick={() => setOpen((o) => !o)}>
+              {open ? 'إخفاء' : 'عرض'} سجلّ آخر استيراد ({last.logs.length} سطراً)
+            </button>
+            {open ? (
+              <ul className="max-h-64 space-y-0.5 overflow-auto rounded-md border bg-muted/30 p-2 text-xs">
+                {last.logs.map((l, i) => (
+                  <li key={i}>{l}</li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
         ) : null}
       </CardContent>
     </Card>

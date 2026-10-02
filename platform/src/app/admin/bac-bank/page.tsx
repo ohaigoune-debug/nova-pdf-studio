@@ -1,7 +1,7 @@
 import { AlertTriangle, BookOpenCheck, CheckCircle2, Copy, FileStack, FileWarning, ListChecks, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { inArray } from 'drizzle-orm'
-import { BacBatchControls, DetailQueue, InventoryTable } from '@/components/domain/bac-bank-admin'
+import { BacBatchControls, BacImportCard, DetailQueue, InventoryTable } from '@/components/domain/bac-bank-admin'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageHeader, Progress, StatCard } from '@/components/ui/misc'
@@ -11,6 +11,8 @@ import { getDb } from '@/server/db/client'
 import { examDocuments } from '@/server/db/schema'
 import { pendingJobOfType } from '@/server/jobs/queue'
 import { bacInventory, solutionDetailJobStatus, solutionDetailQueue } from '@/server/services/bac-bank.service'
+import { lastImportSummary } from '@/server/services/bac-import.service'
+import { driveApiKey } from '@/server/lib/google-drive'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,7 +23,7 @@ export default async function BacBankAdminPage({ searchParams }: { searchParams:
   const actor = await requirePageActor('SUPER_ADMIN')
   const q = await searchParams
   const db = await getDb()
-  const [inv, queue, detailJob, processing] = await Promise.all([bacInventory(db, actor), solutionDetailQueue(db, actor, 30), solutionDetailJobStatus(db), pendingJobOfType(db, 'EXAM_DOC_PROCESS', null)])
+  const [inv, queue, detailJob, processing, lastImport] = await Promise.all([bacInventory(db, actor), solutionDetailQueue(db, actor, 30), solutionDetailJobStatus(db), pendingJobOfType(db, 'EXAM_DOC_PROCESS', null), lastImportSummary(db)])
   const docIds = inv.cells.map((c) => c.documentId).filter((x): x is string => Boolean(x))
   const docRows = docIds.length ? await db.select({ id: examDocuments.id, title: examDocuments.title, quality: examDocuments.quality }).from(examDocuments).where(inArray(examDocuments.id, docIds)) : []
   const docs = Object.fromEntries(docRows.map((d) => [d.id, { id: d.id, title: d.title, quality: d.quality as Record<string, boolean | string | undefined> }]))
@@ -101,6 +103,9 @@ export default async function BacBankAdminPage({ searchParams }: { searchParams:
             )}
           </CardContent>
         </Card>
+      </div>
+      <div className="mb-6">
+        <BacImportCard last={lastImport} driveConfigured={Boolean(driveApiKey())} />
       </div>
       {inv.ocrErrors.length ? (
         <Card className="mb-6">

@@ -6,11 +6,14 @@
 #   bash scripts/bac-bank.sh --all                    الجولات التالية (ما ينتظر فقط)
 #   bash scripts/bac-bank.sh --process=20 --subject=MATH   دفعة محدودة لمادة واحدة
 #   bash scripts/bac-bank.sh --retry-failed --process       إعادة ما فشل (الممسوح ضوئياً يبقى للمراجعة)
+#   bash scripts/bac-bank.sh --drive=<رابط مجلد> --all      استيراد مواضيع/تصحيحات من مجلد Google Drive عامّ ثم بناء البنك
+#   bash scripts/bac-bank.sh --import-dir=/app/import --all   استيراد ملفات نُسخت إلى مجلد import/ في المشروع (scp)
 # يُستأنف بأمان: كل وثيقة/تمرين يُحفظ فور إتمامه (نقطة تحقّق)، وCtrl+C يوقف بعد الوثيقة الحالية.
 # يُفضَّل تشغيله داخل tmux أو nohup لأن الجولة الأولى قد تأخذ ساعات:
 #   nohup bash scripts/bac-bank.sh --sync --all > data/bac-bank.log 2>&1 &
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
+mkdir -p import data
 
 docker compose -f docker-compose.prod.yml --profile tools run --rm -T tools npx tsx src/server/bac/bank-cli.ts "$@"
