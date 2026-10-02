@@ -1,4 +1,5 @@
 import { normalizeArabic } from '@/server/lib/arabic'
+import { reportAiUsage } from './usage'
 import type {
   ExtractQuestionsInput,
   ExtractQuestionsOutput,
@@ -17,7 +18,9 @@ import type {
   OrganizeLessonsInput,
   OrganizeLessonsOutput,
   TeacherInsightsInput,
-  TeacherInsightsOutput
+  TeacherInsightsOutput,
+  ParseExamRequestInput,
+  ParsedExamRequest
 } from './types'
 
 /**
@@ -264,6 +267,7 @@ export function createMockProvider(): AIProvider {
 
     /** بلا نموذج: يقسّم النصّ عند عناوين «التمرين/السؤال/Exercice» وأرقام البداية؛ لا حلول ولا نقاط مخترعة */
     async extractQuestions(input: ExtractQuestionsInput): Promise<ExtractQuestionsOutput> {
+      reportAiUsage({ provider: 'mock', model: 'mock', inputTokens: 0, outputTokens: 0, durationMs: 0, ok: true })
       const text = input.text.replace(/\r/g, '').trim()
       if (text.length < 20) return { questions: [], note: 'النصّ فارغ أو مصوّر: لم يُستخرج شيء.', raw: { mock: true } }
       const parts = text.split(/\n(?=\s*(?:التمرين|تمرين|السؤال|سؤال|Exercice|Exercise|Question)\s*(?:رقم\s*)?[0-9٠-٩]*\s*[:：.\-–)]?)/u).map((x) => x.trim()).filter((x) => x.length >= 15)
@@ -280,6 +284,17 @@ export function createMockProvider(): AIProvider {
       const d = input.difficulty === 'سهل' ? 1 : input.difficulty === 'صعب' ? 3 : 2
       const items = input.examples.slice(0, input.count).map((e, i) => ({ kind: 'EXERCISE' as const, type: 'OPEN' as const, title: `تمرين مقترح ${i + 1} (بلا ذكاء اصطناعي: نسخة من مثال)`, body: e.body, options: [], answerKey: null, solution: e.solution, points: 4, difficulty: d as 1 | 2 | 3, estimatedMinutes: input.minutesEach, topic: input.units[0] ?? null, keywords: [], children: e.children.map((c) => ({ kind: 'QUESTION' as const, type: 'OPEN' as const, title: null, body: c, options: [], answerKey: null, solution: null, points: 1, difficulty: d as 1 | 2 | 3, estimatedMinutes: null, topic: null, keywords: [] })) }))
       return { items, raw: { mock: true } }
+    },
+
+    /** بلا نموذج: مطابقة الأسماء حرفياً من القوائم المعطاة (يكفي للتطوير والاختبار؛ المحلّل الحتمي في الخدمة أدقّ) */
+    async parseExamRequest(input: ParseExamRequestInput): Promise<ParsedExamRequest> {
+      reportAiUsage({ provider: 'mock', model: 'mock', inputTokens: 0, outputTokens: 0, durationMs: 0, ok: true })
+      const t = input.text
+      const find = (list: string[]) => list.find((x) => x && t.includes(x)) ?? null
+      const dur = /(\d+)\s*(?:دقيقة|دقائق|min)/.exec(t)
+      const hrs = /(\d+)\s*(?:ساعات|ساعة|h)/.exec(t)
+      const ex = /(\d+)\s*(?:تمارين|تمرين)/.exec(t)
+      return { subject: find(input.subjects), level: find(input.levels), stream: find(input.streams), term: /الأول|الاول/.test(t) ? 1 : /الثاني/.test(t) ? 2 : /الثالث/.test(t) ? 3 : null, durationMinutes: hrs ? Number(hrs[1]) * 60 : dur ? Number(dur[1]) : /ساعتين|ساعتان/.test(t) ? 120 : null, exercises: ex ? Number(ex[1]) : null, difficulty: /صعب/.test(t) ? 'hard' : /سهل/.test(t) ? 'easy' : /متوسط/.test(t) ? 'medium' : null, topics: input.topics.filter((x) => t.includes(x)).slice(0, 12), kind: /فرض/.test(t) ? 'HOMEWORK' : /بكالوريا تجريبية|بكالوريا بيضاء/.test(t) ? 'BAC_MOCK' : null, raw: { mock: true } }
     },
 
     async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {

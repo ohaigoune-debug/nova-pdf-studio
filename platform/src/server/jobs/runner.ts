@@ -8,6 +8,8 @@ import { runGenerateQuizJob } from '@/server/services/quiz-generate.service'
 import type { Db } from '@/server/db/connect'
 import { runAiBatchCollectJob, runAiEvaluationJob, runAnalyzeStudentJob, runGenerateExercisesJob, runTeacherInsightsJob } from '@/server/services/ai.service'
 import { loadAiCredentials } from '@/server/services/ai-credentials.service'
+import { installAiUsageSink } from '@/server/services/ai-usage.service'
+import { runProcessDocumentsJob } from '@/server/services/exam-engine.service'
 import { runCleanupJob } from '@/server/services/maintenance.service'
 import { runPushDispatchJob } from '@/server/services/push.service'
 import { runReportJob } from '@/server/services/reports.service'
@@ -27,6 +29,7 @@ const handlers: Record<JobType, Handler> = {
   AI_EXTRACT_QUESTIONS: (db, job) => runExtractQuestionsJob(db, job),
   AI_BUILD_EXAM: (db, job) => runBuildExamJob(db, job),
   BAC_SYNC: (db, job) => runBacSyncJob(db, job),
+  EXAM_DOC_PROCESS: (db, job) => runProcessDocumentsJob(db, job),
   YT_RESOLVE_EDUCATORS: (db, job) => runResolveEducatorsJob(db, job),
   YT_SYNC_CHANNEL: (db, job) => runSyncChannelJob(db, job),
   REPORT_EXPORT: (db, job) => runReportJob(db, job.payload),
@@ -48,6 +51,7 @@ export async function processQueuedJobs(db: Db, opts: { limit?: number; now?: Da
   const summary: RunSummary = { processed: 0, completed: 0, retried: 0, failed: 0 }
   // عامل في عملية مستقلة يلتقط مفتاحاً غيّره المدير من اللوحة
   await loadAiCredentials(db, { maxAgeMs: 60_000 }).catch(() => undefined)
+  installAiUsageSink(db)
   for (let i = 0; i < limit; i++) {
     const job = await claimNextJob(db, opts.now ?? new Date(), lane)
     if (!job) break

@@ -60,6 +60,9 @@ export default async function CurriculumAdminPage({ searchParams }: { searchPara
         </CardContent>
       </Card>
       <BacImportCard status={sync} />
+      <p className="mb-6 text-sm text-muted-foreground">
+        بعد الجلب: <Link href="/admin/exam-engine" className="font-semibold text-primary underline">محرّك الامتحانات</Link> يقسّم المواضيع تمارين مصنّفة بالمنهاج ويضعها في البنك المركزي بعد مراجعتك.
+      </p>
 
       <div className="space-y-4">
         {tax.stages.map((s) => (

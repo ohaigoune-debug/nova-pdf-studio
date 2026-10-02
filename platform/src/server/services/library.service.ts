@@ -6,7 +6,7 @@
  */
 import { and, asc, desc, eq, inArray, isNull, or, sql, type SQL } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { bankQuestions, content, contentSources, curriculumNodes, levels, resources, streams, subjects } from '@/server/db/schema'
+import { bankQuestions, content, contentSources, curriculumNodes, examDocuments, levels, resources, streams, subjects } from '@/server/db/schema'
 import type { ResourceType } from '@/server/db/schema/enums'
 import { normalizeArabic } from '@/server/lib/arabic'
 import { AppError } from '@/server/lib/errors'
@@ -248,12 +248,13 @@ export async function subjectHub(db: Db, slug: string, scope: { levelId?: string
 /** سؤال عام من البنك للعرض في المكتبة (بلا مفتاح الإجابة؛ الحلّ يُعرض لأنه مادة تعلّم) */
 export async function publicQuestion(db: Db, id: string) {
   const [row] = await db
-    .select({ q: bankQuestions, subjectName: subjects.nameAr, levelName: levels.nameAr, streamName: streams.nameAr, nodeTitle: curriculumNodes.title })
+    .select({ q: bankQuestions, subjectName: subjects.nameAr, levelName: levels.nameAr, streamName: streams.nameAr, nodeTitle: curriculumNodes.title, originalResourceId: examDocuments.resourceId })
     .from(bankQuestions)
     .leftJoin(subjects, eq(subjects.id, bankQuestions.subjectId))
     .leftJoin(levels, eq(levels.id, bankQuestions.levelId))
     .leftJoin(streams, eq(streams.id, bankQuestions.streamId))
     .leftJoin(curriculumNodes, eq(curriculumNodes.id, bankQuestions.curriculumNodeId))
+    .leftJoin(examDocuments, eq(examDocuments.id, bankQuestions.documentId))
     .where(and(eq(bankQuestions.id, id), isNull(bankQuestions.deletedAt), isNull(bankQuestions.parentId), eq(bankQuestions.status, 'PUBLISHED'), eq(bankQuestions.visibility, 'PUBLIC')))
     .limit(1)
   if (!row) throw new AppError('NOT_FOUND')

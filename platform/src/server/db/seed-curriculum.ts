@@ -2,10 +2,11 @@
  * زرع المنهاج والمصادر — idempotent: يُشغَّل عند كل bootstrap، فيضيف الناقص ويحدّث الروابط
  * (الطور، الرمز القصير، الأم) دون أن يمسّ أسماء أو بيانات يعدّلها المشرف.
  */
-import { eq, sql } from 'drizzle-orm'
+import { and, eq, isNull, sql } from 'drizzle-orm'
 import type { Db } from './connect'
 import { CURRICULUM_VERSION, GRADE_STREAMS, GRADES, OFFERINGS, SOURCES, STAGES, STREAM_DATA, SUBJECTS } from './curriculum-data'
-import { contentSources, curriculumVersions, educationStages, gradeStreams, levels, streams, subjectOfferings, subjects } from './schema'
+import { CURRICULUM_TREES } from './curriculum-nodes-data'
+import { contentSources, curriculumNodes, curriculumVersions, educationStages, gradeStreams, levels, streams, subjectOfferings, subjects } from './schema'
 
 export async function seedCurriculum(db: Db): Promise<void> {
   await db
@@ -59,4 +60,41 @@ export async function seedCurriculum(db: Db): Promise<void> {
     .insert(contentSources)
     .values(SOURCES.map((s) => ({ code: s.code, type: s.type, name: s.name, baseUrl: s.baseUrl, attribution: s.attribution })))
     .onConflictDoNothing({ target: contentSources.code })
+
+  await seedCurriculumNodes(db, { versionId: version!.id, levelId, subjectId, streamId })
+}
+
+/**
+ * شجرة المنهاج الأولية (محرّك الامتحانات): تُضاف المحاور والدروس الناقصة بالرمز الفريد فقط؛
+ * ما عدّله المشرف (عنوان، فصل، ترتيب) لا يُلمس، وما حذفه لا يعود إلا إن حُذف رمزه من البيانات… أي لا يعود.
+ */
+async function seedCurriculumNodes(db: Db, ids: { versionId: string; levelId: Map<string, string>; subjectId: Map<string, string>; streamId: Map<string, string> }): Promise<void> {
+  for (const tree of CURRICULUM_TREES) {
+    const subjectId = ids.subjectId.get(tree.subject)
+    const levelId = ids.levelId.get(tree.level)
+    const streamId = tree.stream ? ids.streamId.get(tree.stream) : null
+    if (!subjectId || !levelId || (tree.stream && !streamId)) continue
+    const scope = and(eq(curriculumNodes.subjectId, subjectId), eq(curriculumNodes.levelId, levelId), streamId ? eq(curriculumNodes.streamId, streamId) : isNull(curriculumNodes.streamId))
+    // رموز موجودة سلفاً (بأي إصدار) لا تُكرَّر حتى لو تغيّر الإصدار الحالي
+    const existing = new Map((await db.select({ id: curriculumNodes.id, slug: curriculumNodes.slug, parentId: curriculumNodes.parentId }).from(curriculumNodes).where(scope)).map((n) => [`${n.parentId ?? ''}/${n.slug}`, n.id]))
+    for (const [i, unit] of tree.units.entries()) {
+      let unitId = existing.get(`/${unit.slug}`)
+      if (!unitId) {
+        const [row] = await db
+          .insert(curriculumNodes)
+          .values({ curriculumVersionId: ids.versionId, subjectId, levelId, streamId: streamId ?? null, parentId: null, kind: 'UNIT', title: unit.title, slug: unit.slug, schoolTerm: unit.term, sortOrder: i + 1 })
+          .onConflictDoNothing()
+          .returning({ id: curriculumNodes.id })
+        unitId = row?.id
+        if (!unitId) continue
+      }
+      for (const [j, lesson] of (unit.lessons ?? []).entries()) {
+        if (existing.has(`${unitId}/${lesson.slug}`)) continue
+        await db
+          .insert(curriculumNodes)
+          .values({ curriculumVersionId: ids.versionId, subjectId, levelId, streamId: streamId ?? null, parentId: unitId, kind: 'LESSON', title: lesson.title, slug: lesson.slug, schoolTerm: unit.term, sortOrder: j + 1 })
+          .onConflictDoNothing()
+      }
+    }
+  }
 }

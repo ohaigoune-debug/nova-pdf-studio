@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, FileText } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Badge } from '@/components/ui/badge'
@@ -9,6 +9,7 @@ import { DIFF_AR, KIND_AR } from '@/lib/bank-labels'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
 import { ARABIC_LETTERS, hasMath, renderBody } from '@/server/lib/exam-render'
+import { ORIGIN_AR } from '@/server/services/exam-engine.service'
 import { publicQuestion } from '@/server/services/library.service'
 
 export const dynamic = 'force-dynamic'
@@ -33,11 +34,20 @@ export default async function PublicQuestionPage({ params }: { params: Promise<{
         title={q.title ?? KIND_AR[q.kind] ?? 'سؤال'}
         description={[r.subjectName, r.levelName, r.streamName, r.nodeTitle].filter(Boolean).join(' · ')}
         actions={
-          <Button asChild variant="outline" size="sm">
-            <Link href="/library">
-              <ArrowRight className="size-4" /> المكتبة
-            </Link>
-          </Button>
+          <span className="flex flex-wrap gap-2">
+            {r.originalResourceId ? (
+              <Button asChild size="sm">
+                <Link href={`/archive/${r.originalResourceId}`}>
+                  <FileText className="size-4" /> عرض الامتحان الأصلي
+                </Link>
+              </Button>
+            ) : null}
+            <Button asChild variant="outline" size="sm">
+              <Link href="/library">
+                <ArrowRight className="size-4" /> المكتبة
+              </Link>
+            </Button>
+          </span>
         }
       />
       <Card>
@@ -46,6 +56,8 @@ export default async function PublicQuestionPage({ params }: { params: Promise<{
             <Badge variant="secondary">{KIND_AR[q.kind]}</Badge>
             <Badge variant={DIFF_AR[q.difficulty]?.variant ?? 'default'}>{DIFF_AR[q.difficulty]?.label}</Badge>
             <Badge variant="muted">{Number(q.points)} ن</Badge>
+            <Badge variant={q.origin === 'AI_GENERATED' ? 'gold' : q.origin === 'SOURCED' ? 'success' : 'outline'}>{ORIGIN_AR[q.origin] ?? q.origin}</Badge>
+            {q.sourceExerciseNo ? <Badge variant="outline">التمرين {q.sourceExerciseNo}{q.sourceTopicNo ? ` — الموضوع ${q.sourceTopicNo}` : ''}</Badge> : null}
             {q.sourceLabel ? <span className="text-xs font-normal text-muted-foreground">المصدر: {q.sourceLabel}{q.sourceYear ? ` ${q.sourceYear}` : ''}</span> : null}
           </CardTitle>
         </CardHeader>

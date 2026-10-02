@@ -1,15 +1,15 @@
 'use client'
 
-import { Sparkles, Wand2 } from 'lucide-react'
+import { ListChecks, MapPin, Plus, Sparkles, Trash2, Wand2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useState, useTransition } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input, Select, Textarea } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { Alert } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
-import { buildExamAction, parseExamRequestAction } from '@/server/actions/exams.actions'
+import { buildExamAction, listNodesAction, parseExamRequestAction, setProgressAction, type NodeOption } from '@/server/actions/exams.actions'
 import type { ExamKind } from '@/server/db/schema/enums'
 import { EXAM_KIND_AR } from '@/server/services/exams.service'
 
@@ -22,8 +22,42 @@ export function ExamGenerateForm({ subjects, levels, streams, aiConfigured }: { 
   const router = useRouter()
   const [pending, start] = useTransition()
   const [text, setText] = useState('')
-  const [f, setF] = useState({ subjectId: '', levelId: '', streamId: '', schoolTerm: '1', kind: 'TEST' as ExamKind, durationMinutes: '120', exercises: '4', targetPoints: '20', easy: '30', medium: '50', hard: '20', allowAi: true })
+  const [f, setF] = useState({ subjectId: '', levelId: '', streamId: '', schoolTerm: '1', kind: 'TEST' as ExamKind, durationMinutes: '120', exercises: '4', targetPoints: '20', easy: '30', medium: '50', hard: '20', allowAi: true, respectProgress: true })
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setF((s) => ({ ...s, [k]: e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked : e.target.value }))
+  // محرّك الامتحانات: عقد المنهاج للمادة/الصف (للفتحات والتدرّج)
+  const [nodes, setNodes] = useState<NodeOption[]>([])
+  const [progress, setProgress] = useState<string>('')
+  const [savedProgress, setSavedProgress] = useState<string>('')
+  const [slotMode, setSlotMode] = useState(false)
+  const [slots, setSlots] = useState<{ nodeId: string; difficulty: string; points: string }[]>([])
+  const scope = f.subjectId && f.levelId ? { subjectId: f.subjectId, levelId: f.levelId, streamId: f.streamId || null } : null
+  useEffect(() => {
+    if (!scope) {
+      setNodes([])
+      return
+    }
+    let alive = true
+    listNodesAction(scope).then((r) => {
+      if (!alive || !r.ok) return
+      setNodes(r.data.nodes)
+      setProgress(r.data.progressNodeId ?? '')
+      setSavedProgress(r.data.progressNodeId ?? '')
+    })
+    return () => {
+      alive = false
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [f.subjectId, f.levelId, f.streamId])
+  const saveProgress = () =>
+    start(async () => {
+      if (!scope) return
+      const r = await setProgressAction(scope, progress || null)
+      if (!r.ok) return toast('error', r.error.message)
+      setSavedProgress(progress)
+      toast('success', progress ? 'حُفظ موضعك في البرنامج: التوليد التلقائي لن يتجاوزه' : 'أُلغي قيد التدرّج')
+    })
+  const addSlot = (nodeId = '') => setSlots((s) => (s.length >= 12 ? s : [...s, { nodeId, difficulty: '', points: '' }]))
+  const setSlot = (i: number, patch: Partial<{ nodeId: string; difficulty: string; points: string }>) => setSlots((s) => s.map((x, k) => (k === i ? { ...x, ...patch } : x)))
 
   const parse = () =>
     start(async () => {
@@ -43,16 +77,37 @@ export function ExamGenerateForm({ subjects, levels, streams, aiConfigured }: { 
         medium: d.profile ? String(d.profile.medium) : s.medium,
         hard: d.profile ? String(d.profile.hard) : s.hard
       }))
+      if (d.curriculumNodeIds.length) {
+        // محاور مذكورة في الطلب ⇒ فتحات بالدرس (تتكرّر لتغطية العدد المطلوب)
+        const n = d.exercises ?? Math.max(d.curriculumNodeIds.length, Number(f.exercises) || 1)
+        setSlotMode(true)
+        setSlots(Array.from({ length: Math.min(12, n) }, (_, i) => ({ nodeId: d.curriculumNodeIds[i % d.curriculumNodeIds.length]!, difficulty: '', points: '' })))
+      }
       const missing = [!d.subjectId && 'المادة', !d.levelId && 'الصف'].filter(Boolean)
-      toast(missing.length ? 'error' : 'success', missing.length ? `فهمتُ الطلب إلا: ${missing.join(' و')} — اخترهما يدوياً` : 'فهمتُ الطلب: راجع الحقول ثم ابنِ')
+      const via = d.via === 'ai' ? 'فهم النموذج الطلب' : 'فُهم الطلب'
+      toast(missing.length ? 'error' : 'success', missing.length ? `${via} إلا: ${missing.join(' و')} — اخترهما يدوياً` : `${via}${d.topics.length ? ` (المحاور: ${d.topics.join('، ')})` : ''}: راجع الحقول ثم ابنِ — البنك أولاً`)
     })
 
   const build = () =>
     start(async () => {
-      const r = await buildExamAction({ subjectId: f.subjectId, levelId: f.levelId, streamId: f.streamId || null, schoolTerm: f.schoolTerm ? Number(f.schoolTerm) : null, kind: f.kind, durationMinutes: Number(f.durationMinutes), exercises: Number(f.exercises), targetPoints: Number(f.targetPoints) || 20, profile: { easy: Number(f.easy), medium: Number(f.medium), hard: Number(f.hard) }, allowAi: f.allowAi && aiConfigured })
+      const useSlots = slotMode && slots.length > 0
+      const r = await buildExamAction({
+        subjectId: f.subjectId,
+        levelId: f.levelId,
+        streamId: f.streamId || null,
+        schoolTerm: f.schoolTerm ? Number(f.schoolTerm) : null,
+        kind: f.kind,
+        durationMinutes: Number(f.durationMinutes),
+        exercises: useSlots ? slots.length : Number(f.exercises),
+        targetPoints: Number(f.targetPoints) || 20,
+        profile: { easy: Number(f.easy), medium: Number(f.medium), hard: Number(f.hard) },
+        allowAi: f.allowAi && aiConfigured,
+        respectProgress: f.respectProgress,
+        slots: useSlots ? slots.map((x) => ({ curriculumNodeId: x.nodeId || null, difficulty: x.difficulty ? (Number(x.difficulty) as 1 | 2 | 3) : null, points: x.points ? Number(x.points) : null })) : undefined
+      })
       if (!r.ok) return toast('error', r.error.message)
       const d = r.data
-      toast('success', d.missing === 0 ? `بُني الامتحان من ${d.picked} تمريناً من البنك` : d.jobId ? `${d.picked} من البنك، و${d.missing} يولّدها الذكاء الاصطناعي الآن — يصلك إشعار` : `${d.picked} من البنك؛ ${d.missing} لم يجدها البنك (أضفها يدوياً)`)
+      toast('success', d.missing === 0 ? `بُني الامتحان من ${d.picked} تمريناً من البنك` : d.jobId ? `${d.picked} من البنك، و${d.missing} يولّدها الذكاء الاصطناعي الآن — يصلك إشعار` : `${d.picked} من البنك؛ ${d.missing} لم يجدها البنك (أضفها يدوياً أو استبدل)`)
       router.push(`/teacher/exams/${d.examId}`)
     })
 
@@ -151,6 +206,75 @@ export function ExamGenerateForm({ subjects, levels, streams, aiConfigured }: { 
             </div>
             {sum !== 100 ? <p className="mt-1 text-xs text-warning">المجموع {sum}% — سيُوزَّع نسبياً.</p> : null}
           </div>
+          {scope ? (
+            <div className="rounded-lg border p-3">
+              <p className="mb-2 flex items-center gap-2 font-semibold">
+                <MapPin className="size-4 text-primary" /> حدّد أين وصلت في البرنامج
+              </p>
+              {nodes.length === 0 ? (
+                <p className="text-xs text-muted-foreground">لا شجرة منهاج لهذه المادة والصف بعد (يضيفها المشرف من «المنهاج والمكتبة»).</p>
+              ) : (
+                <div className="flex flex-wrap items-end gap-2">
+                  <Field label="آخر درس بلغته" htmlFor="g-progress" className="min-w-64 flex-1">
+                    <Select id="g-progress" value={progress} onChange={(e) => setProgress(e.target.value)}>
+                      <option value="">— بلا قيد (كل البرنامج) —</option>
+                      {nodes.map((n) => (
+                        <option key={n.id} value={n.id}>
+                          {n.name}
+                          {n.schoolTerm ? ` (ف${n.schoolTerm})` : ''}
+                        </option>
+                      ))}
+                    </Select>
+                  </Field>
+                  <Button variant="outline" size="sm" onClick={saveProgress} loading={pending} disabled={progress === savedProgress}>
+                    حفظ
+                  </Button>
+                  <label className="flex items-center gap-2 text-xs">
+                    <input type="checkbox" className="size-4" checked={f.respectProgress} onChange={set('respectProgress')} /> لا تدرج ما بعد هذا الدرس في التوليد التلقائي
+                  </label>
+                </div>
+              )}
+            </div>
+          ) : null}
+          {scope && nodes.length ? (
+            <div className="rounded-lg border p-3">
+              <label className="flex items-center gap-2 font-semibold">
+                <input type="checkbox" className="size-4" checked={slotMode} onChange={(e) => setSlotMode(e.target.checked)} />
+                <ListChecks className="size-4 text-primary" /> تحديد تمريناً تمريناً (الدرس، الصعوبة، النقاط)
+              </label>
+              {slotMode ? (
+                <div className="mt-2 space-y-2">
+                  {slots.map((x, i) => (
+                    <div key={i} className="grid grid-cols-[auto_1fr_7rem_5rem_auto] items-center gap-2 text-sm">
+                      <span className="font-bold">التمرين {i + 1}</span>
+                      <Select value={x.nodeId} onChange={(e) => setSlot(i, { nodeId: e.target.value })} aria-label="الدرس">
+                        <option value="">أي درس (حسب الفصل)</option>
+                        {nodes.map((n) => (
+                          <option key={n.id} value={n.id}>
+                            {n.name}
+                          </option>
+                        ))}
+                      </Select>
+                      <Select value={x.difficulty} onChange={(e) => setSlot(i, { difficulty: e.target.value })} aria-label="الصعوبة">
+                        <option value="">أي صعوبة</option>
+                        <option value="1">سهل</option>
+                        <option value="2">متوسط</option>
+                        <option value="3">صعب</option>
+                      </Select>
+                      <Input type="number" min="0.5" max="20" step="0.5" value={x.points} onChange={(e) => setSlot(i, { points: e.target.value })} placeholder="ن" dir="ltr" aria-label="النقاط" />
+                      <Button size="sm" variant="ghost" title="حذف" onClick={() => setSlots((s) => s.filter((_, k) => k !== i))}>
+                        <Trash2 className="size-4" />
+                      </Button>
+                    </div>
+                  ))}
+                  <Button size="sm" variant="outline" onClick={() => addSlot()} disabled={slots.length >= 12}>
+                    <Plus className="size-4" /> إضافة تمرين
+                  </Button>
+                  <p className="text-xs text-muted-foreground">النقاط الفارغة تُوزَّع تلقائياً على المجموع. محور بلا درس يشمل كل دروسه.</p>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
           <label className="flex items-start gap-2">
             <input type="checkbox" className="mt-1 size-4" checked={f.allowAi} onChange={set('allowAi')} disabled={!aiConfigured} />
             <span>
@@ -159,7 +283,7 @@ export function ExamGenerateForm({ subjects, levels, streams, aiConfigured }: { 
             </span>
           </label>
           {!aiConfigured ? null : <Alert tone="info">البنك أولاً دائماً: الذكاء الاصطناعي لا يولّد إلا ما نقص، ولا يُنشر شيء منه في البنك قبل مراجعتك.</Alert>}
-          <Button onClick={build} loading={pending} disabled={!f.subjectId || !f.levelId}>
+          <Button onClick={build} loading={pending} disabled={!f.subjectId || !f.levelId || (slotMode && slots.length === 0)}>
             <Wand2 className="size-4" /> ابنِ الامتحان
           </Button>
         </CardContent>

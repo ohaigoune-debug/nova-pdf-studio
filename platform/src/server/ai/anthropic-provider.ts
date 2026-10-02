@@ -34,9 +34,15 @@ import {
   parseOrganize,
   salvageQuestions,
   strList,
-  text
+  text,
+  PARSE_REQUEST_MAX_TOKENS,
+  PARSE_REQUEST_SCHEMA,
+  parseParsedRequest,
+  parseRequestSystem,
+  parseRequestUser
 } from './shared'
 import { PermanentJobError } from '@/server/lib/errors'
+import { reportAiUsage } from './usage'
 import type {
   AIProvider,
   AnalyzeStudentInput,
@@ -57,7 +63,9 @@ import type {
   OrganizeLessonsInput,
   OrganizeLessonsOutput,
   TeacherInsightsInput,
-  TeacherInsightsOutput
+  TeacherInsightsOutput,
+  ParseExamRequestInput,
+  ParsedExamRequest
 } from './types'
 
 /**
@@ -87,6 +95,7 @@ interface MessageParams {
 interface ApiMessage {
   content?: { type: string; text?: string }[]
   stop_reason?: string | null
+  usage?: { input_tokens?: number; output_tokens?: number }
 }
 
 /** ردّ مبتور أو مرفوض: مدفوع الثمن ولن يتحسن بالإعادة */
@@ -122,14 +131,23 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
   }
 
   async function complete(params: MessageParams, o: { timeoutMs?: number; salvage?: (raw: string) => Record<string, unknown> | null } = {}): Promise<Record<string, unknown>> {
-    const res = await request(API_URL, { method: 'POST', body: JSON.stringify(params) }, o.timeoutMs)
-    const msg = (await res.json()) as ApiMessage
-    if (msg.stop_reason === 'max_tokens' && o.salvage) {
-      const saved = o.salvage(messageText(msg))
-      if (saved) return saved
+    const started = Date.now()
+    let msg: ApiMessage | undefined
+    try {
+      const res = await request(API_URL, { method: 'POST', body: JSON.stringify(params) }, o.timeoutMs)
+      msg = (await res.json()) as ApiMessage
+      let out: Record<string, unknown> | null = null
+      if (msg.stop_reason === 'max_tokens' && o.salvage) out = o.salvage(messageText(msg))
+      if (!out) {
+        assertComplete(msg)
+        out = extractJson(messageText(msg))
+      }
+      reportAiUsage({ provider: 'anthropic', model: params.model, inputTokens: msg.usage?.input_tokens, outputTokens: msg.usage?.output_tokens, durationMs: Date.now() - started, ok: true })
+      return out
+    } catch (err) {
+      reportAiUsage({ provider: 'anthropic', model: params.model, inputTokens: msg?.usage?.input_tokens, outputTokens: msg?.usage?.output_tokens, durationMs: Date.now() - started, ok: false, error: err instanceof Error ? err.message : String(err) })
+      throw err
     }
-    assertComplete(msg)
-    return extractJson(messageText(msg))
   }
 
   const textParams = (system: string, user: string, maxTokens: number): MessageParams => ({ model, max_tokens: maxTokens, system, messages: [{ role: 'user', content: user }] })
@@ -233,6 +251,10 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
 
     async draftFromSource(input: DraftFromSourceInput): Promise<DraftFromSourceOutput> {
       return parseDraft(await complete(jsonParams(draftSystem(input.subject, input.mode), draftUser(input), 6000, DRAFT_SCHEMA)), input)
+    },
+
+    async parseExamRequest(input: ParseExamRequestInput): Promise<ParsedExamRequest> {
+      return parseParsedRequest(await complete(jsonParams(parseRequestSystem(), parseRequestUser(input), PARSE_REQUEST_MAX_TOKENS, PARSE_REQUEST_SCHEMA)), input)
     }
   }
 }

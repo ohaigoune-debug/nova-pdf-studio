@@ -10,8 +10,10 @@ import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
 import { addFreeItem, addItemFromBank, createExam, createFromTemplate, deleteExam, duplicateExam, duplicateItem, rebalancePoints, recordPrint, removeItem, reorderItems, updateExam, updateItem, type ExamInput } from '@/server/services/exams.service'
 import { kickWorker } from '@/server/jobs/runner'
 import { buildBacMock } from '@/server/services/bac-generator.service'
-import { buildExamFromBank, parseExamRequest, requestAiBuild, type DifficultyProfile, type GenerateParams, type ParsedRequest } from '@/server/services/exam-generator.service'
+import { getTeacherProgress, setTeacherProgress } from '@/server/services/exam-engine.service'
+import { buildExamFromBank, parseExamRequestSmart, replaceItem, requestAiBuild, type DifficultyProfile, type GenerateParams, type ParsedRequest } from '@/server/services/exam-generator.service'
 import { listBankQuestions, type BankFilter, type BankListItem } from '@/server/services/question-bank.service'
+import { listNodes, type CurriculumTreeNode } from '@/server/services/taxonomy.service'
 
 const uuid = z.string().uuid()
 const optUuid = z.string().uuid().nullish()
@@ -235,7 +237,9 @@ const generateSchema = z.object({
   exercises: z.coerce.number().int().min(1).max(12),
   targetPoints: z.coerce.number().positive().max(200).optional(),
   profile: z.object({ easy: z.coerce.number().min(0).max(100), medium: z.coerce.number().min(0).max(100), hard: z.coerce.number().min(0).max(100) }).optional(),
-  allowAi: z.boolean().optional()
+  allowAi: z.boolean().optional(),
+  slots: z.array(z.object({ curriculumNodeId: optUuid, difficulty: z.union([z.literal(1), z.literal(2), z.literal(3)]).nullish(), points: z.number().positive().max(200).nullish() })).max(12).optional(),
+  respectProgress: z.boolean().optional()
 })
 
 /** «ابنِ لي الامتحان»: من البنك فوراً، ثم الناقص بالذكاء الاصطناعي في الخلفية إن سُمح */
@@ -260,13 +264,60 @@ export async function buildExamAction(input: GenerateParams): Promise<ActionResu
   return result
 }
 
-/** يحوّل طلباً حرّاً بالعربية إلى معاملات النموذج (بلا نموذج ذكاء اصطناعي) */
+/** AI Mode: يحوّل طلباً حرّاً إلى معاملات النموذج (النموذج إن ضُبط، وإلا المحلّل الحتمي) — ثم البنك أولاً */
 export async function parseExamRequestAction(text: string): Promise<ActionResult<ParsedRequest>> {
   const parsed = z.string().min(3).max(500).safeParse(text)
   if (!parsed.success) return failValidation(parsed.error)
   return runAction(async () => {
-    await requireRole('TEACHER')
-    return parseExamRequest(await getDb(), parsed.data)
+    const actor = await requireRole('TEACHER')
+    const db = await getDb()
+    await checkRateLimit(db, { scope: 'ai-request', subject: actor.userId, ...RATE_LIMITS.aiRequest })
+    return parseExamRequestSmart(db, parsed.data, { userId: actor.userId, workspaceId: actor.workspaceId })
+  })
+}
+
+/** «استبدال هذا التمرين» ببديل من البنك بنفس المعايير */
+export async function replaceItemAction(examId: string, itemId: string): Promise<ActionResult<{ itemId: string }>> {
+  const parsed = z.object({ examId: uuid, itemId: uuid }).safeParse({ examId, itemId })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const r = await replaceItem(await getDb(), await requireRole('TEACHER'), parsed.data.itemId)
+    return { itemId: r.itemId }
+  })
+  if (result.ok) revalidate(examId)
+  return result
+}
+
+export type NodeOption = { id: string; name: string; kind: string; schoolTerm: number | null; parentId: string | null }
+
+/** عقد المنهاج لمادة وصف (وشعبة) — للفتحات والتدرّج في «ابنِ لي الامتحان» */
+export async function listNodesAction(scope: { subjectId: string; levelId: string; streamId?: string | null }): Promise<ActionResult<{ nodes: NodeOption[]; progressNodeId: string | null }>> {
+  const parsed = z.object({ subjectId: uuid, levelId: uuid, streamId: optUuid }).safeParse(scope)
+  if (!parsed.success) return failValidation(parsed.error)
+  return runAction(async () => {
+    const actor = await requireRole('TEACHER')
+    const db = await getDb()
+    const tree = await listNodes(db, { subjectId: parsed.data.subjectId, levelId: parsed.data.levelId, streamId: parsed.data.streamId ?? null })
+    const nodes: NodeOption[] = []
+    const walk = (ns: CurriculumTreeNode[], parentId: string | null, prefix: string) => {
+      for (const n of ns) {
+        nodes.push({ id: n.id, name: `${prefix}${n.title}`, kind: n.kind, schoolTerm: n.schoolTerm, parentId })
+        walk(n.children, n.id, `${prefix}${n.title} / `)
+      }
+    }
+    walk(tree, null, '')
+    const progress = await getTeacherProgress(db, actor, { subjectId: parsed.data.subjectId, levelId: parsed.data.levelId, streamId: parsed.data.streamId ?? null })
+    return { nodes: nodes.slice(0, 400), progressNodeId: progress.nodeId }
+  })
+}
+
+/** «حدّد أين وصلت في البرنامج» */
+export async function setProgressAction(scope: { subjectId: string; levelId: string; streamId?: string | null }, nodeId: string | null): Promise<ActionResult> {
+  const parsed = z.object({ subjectId: uuid, levelId: uuid, streamId: optUuid, nodeId: optUuid }).safeParse({ ...scope, nodeId })
+  if (!parsed.success) return failValidation(parsed.error)
+  return runAction(async () => {
+    await setTeacherProgress(await getDb(), await requireRole('TEACHER'), { subjectId: parsed.data.subjectId, levelId: parsed.data.levelId, streamId: parsed.data.streamId ?? null }, parsed.data.nodeId ?? null)
+    return undefined
   })
 }
 

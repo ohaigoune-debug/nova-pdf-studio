@@ -32,11 +32,17 @@ import {
   parseEssay,
   parseExercises,
   parseOrganize,
+  PARSE_REQUEST_MAX_TOKENS,
+  PARSE_REQUEST_SCHEMA,
+  parseParsedRequest,
+  parseRequestSystem,
+  parseRequestUser,
   salvageQuestions,
   strList,
   text
 } from './shared'
 import { PermanentJobError } from '@/server/lib/errors'
+import { reportAiUsage } from './usage'
 import type {
   AIProvider,
   AnalyzeStudentInput,
@@ -53,6 +59,8 @@ import type {
   GenerateExercisesOutput,
   OrganizeLessonsInput,
   OrganizeLessonsOutput,
+  ParseExamRequestInput,
+  ParsedExamRequest,
   TeacherInsightsInput,
   TeacherInsightsOutput
 } from './types'
@@ -82,6 +90,7 @@ interface ChatParams {
 
 interface ChatResponse {
   choices?: { message?: { content?: string | null; refusal?: string | null }; finish_reason?: string | null }[]
+  usage?: { prompt_tokens?: number; completion_tokens?: number }
 }
 
 /** ردّ مبتور أو مرفوض: مدفوع الثمن ولن يتحسن بالإعادة — إلا ما يستنقذه salvage من المبتور */
@@ -114,13 +123,23 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
   async function complete(params: ChatParams, o: { timeoutMs?: number; salvage?: (raw: string) => Record<string, unknown> | null } = {}): Promise<Record<string, unknown>> {
     const ctrl = new AbortController()
     const timer = setTimeout(() => ctrl.abort(), Math.max(timeoutMs, o.timeoutMs ?? 0))
+    const started = Date.now()
+    let usage: ChatResponse['usage']
     try {
       const res = await fetch(`${baseUrl}/chat/completions`, { method: 'POST', headers, body: JSON.stringify(params), signal: ctrl.signal }).catch((e: unknown) => {
         throw ctrl.signal.aborted ? new Error('AI timeout') : e
       })
       if (!res.ok) throw httpError(res.status, 'AI', await res.text().catch(() => ''))
-      const out = choiceText((await res.json()) as ChatResponse, o.salvage)
-      return typeof out === 'string' ? extractJson(out) : out
+      const json = (await res.json()) as ChatResponse
+      usage = json.usage
+      const out = choiceText(json, o.salvage)
+      const result = typeof out === 'string' ? extractJson(out) : out
+      reportAiUsage({ provider: 'openai', model: params.model, inputTokens: usage?.prompt_tokens, outputTokens: usage?.completion_tokens, durationMs: Date.now() - started, ok: true })
+      return result
+    } catch (err) {
+      // الفشل يُسجَّل أيضاً (المبتور مدفوع الثمن)
+      reportAiUsage({ provider: 'openai', model: params.model, inputTokens: usage?.prompt_tokens, outputTokens: usage?.completion_tokens, durationMs: Date.now() - started, ok: false, error: err instanceof Error ? err.message : String(err) })
+      throw err
     } finally {
       clearTimeout(timer)
     }
@@ -181,6 +200,10 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
 
     async draftFromSource(input: DraftFromSourceInput): Promise<DraftFromSourceOutput> {
       return parseDraft(await complete(schemaParams(draftSystem(input.subject, input.mode), draftUser(input), 6000, 'source_draft', DRAFT_SCHEMA)), input)
+    },
+
+    async parseExamRequest(input: ParseExamRequestInput): Promise<ParsedExamRequest> {
+      return parseParsedRequest(await complete(schemaParams(parseRequestSystem(), parseRequestUser(input), PARSE_REQUEST_MAX_TOKENS, 'exam_request', PARSE_REQUEST_SCHEMA)), input)
     }
   }
 }

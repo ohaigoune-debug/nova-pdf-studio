@@ -55,7 +55,8 @@ describe('تصنيف المنهاج', () => {
   })
 
   it('شجرة المنهاج: ترتيب الأنواع مفروض، والتكرار مرفوض، والعقدة المستعملة لا تُحذف', async () => {
-    const ids = await resolveCodes(h.db, { level: '3AS', stream: 'SCI', subject: 'MATH' })
+    // الفيزياء: لا شجرة مزروعة لها (الرياضيات 3AS تُزرع من محرّك الامتحانات)
+    const ids = await resolveCodes(h.db, { level: '3AS', stream: 'SCI', subject: 'PHYSICS' })
     const scope = { subjectId: ids.subjectId!, levelId: ids.levelId!, streamId: null }
     const unit = await createNode(h.db, admin, { ...scope, kind: 'UNIT', title: 'الاحتمالات' })
     await expect(createNode(h.db, admin, { ...scope, kind: 'LESSON', title: 'درس بلا وحدة' })).rejects.toMatchObject({ code: 'VALIDATION' })

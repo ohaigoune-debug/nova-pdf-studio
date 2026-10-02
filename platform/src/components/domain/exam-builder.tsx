@@ -1,6 +1,6 @@
 'use client'
 
-import { Copy, FileCheck2, FileText, GripVertical, Plus, Printer, Scissors, Search, Settings2, Trash2, Wand2 } from 'lucide-react'
+import { Copy, FileCheck2, FileText, GripVertical, Plus, Printer, RefreshCw, Scissors, Search, Settings2, Trash2, Wand2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition, type DragEvent } from 'react'
@@ -12,7 +12,7 @@ import { Alert, EmptyState } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
 import { DIFF_AR, KIND_AR, TYPE_AR } from '@/lib/bank-labels'
 import { cn } from '@/lib/utils'
-import { addFreeItemAction, addFromBankAction, duplicateItemAction, rebalanceAction, removeItemAction, reorderItemsAction, searchBankAction, updateExamAction, updateItemAction } from '@/server/actions/exams.actions'
+import { addFreeItemAction, addFromBankAction, duplicateItemAction, rebalanceAction, removeItemAction, reorderItemsAction, replaceItemAction, searchBankAction, updateExamAction, updateItemAction } from '@/server/actions/exams.actions'
 import type { ExamItemRow } from '@/server/db/schema'
 import type { ExamKind } from '@/server/db/schema/enums'
 import { EXAM_KIND_AR, itemPoints, type ExamView } from '@/server/services/exams.service'
@@ -279,6 +279,11 @@ function ItemCard({ item, label, examId, run, pending }: { item: ExamItemRow; la
           <Button size="sm" variant="ghost" title="نسخ" onClick={() => run(() => duplicateItemAction(examId, item.id))} loading={pending}>
             <Copy className="size-4" />
           </Button>
+          {item.kind !== 'TEXT' ? (
+            <Button size="sm" variant="ghost" title="استبدال هذا التمرين ببديل من البنك بنفس المعايير" onClick={() => run(() => replaceItemAction(examId, item.id), 'استُبدل التمرين')} loading={pending}>
+              <RefreshCw className="size-4" />
+            </Button>
+          ) : null}
           <Button size="sm" variant="ghost" title="حذف" onClick={() => run(() => removeItemAction(examId, item.id))} loading={pending}>
             <Trash2 className="size-4" />
           </Button>

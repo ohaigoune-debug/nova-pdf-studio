@@ -154,7 +154,7 @@ describe('بناء الامتحان تلقائياً — المرحلة 5', () =
 
   it('الطلب الحرّ بالعربية يُفهم بلا نموذج', async () => {
     const p = await parseExamRequest(h.db, 'أنشئ اختباراً لمدة ساعتين للسنة الثالثة ثانوي علوم تجريبية في اللغة العربية، الفصل الأول، أربعة تمارين، مستوى متوسط إلى صعب')
-    expect(p).toEqual({ subjectId: arabic, levelId: l3, streamId: sci, schoolTerm: 1, durationMinutes: 120, exercises: 4, profile: { easy: 10, medium: 50, hard: 40 }, kind: 'TEST' })
+    expect(p).toEqual({ subjectId: arabic, levelId: l3, streamId: sci, schoolTerm: 1, durationMinutes: 120, exercises: 4, profile: { easy: 10, medium: 50, hard: 40 }, kind: 'TEST', curriculumNodeIds: [], topics: [], via: 'rules' })
     const q = await parseExamRequest(h.db, 'فرض في الرياضيات للثانية ثانوي، ١ ساعة و٣٠ دقيقة، 3 تمارين، سهل')
     expect(q.levelId).not.toBeNull()
     expect(q.subjectId).not.toBe(arabic)

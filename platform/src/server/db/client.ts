@@ -1,6 +1,7 @@
 import 'server-only'
 import * as schema from './schema'
 import { loadAiCredentials } from '@/server/services/ai-credentials.service'
+import { installAiUsageSink } from '@/server/services/ai-usage.service'
 import { createDatabase, type DatabaseHandle, type Db } from './connect'
 
 export type { Db }
@@ -26,6 +27,8 @@ export async function getDb(): Promise<Db> {
   // مفتاح الذكاء الاصطناعي المحفوظ من لوحة الإدارة يُطبَّق مرة عند الإقلاع
   globalThis.__madrasaAiKey ??= loadAiCredentials(handle.db).catch((err) => console.error('[ai] تعذّر تحميل المفتاح المحفوظ', err))
   await globalThis.__madrasaAiKey
+  // استهلاك الذكاء الاصطناعي يُسجَّل في القاعدة (محرّك الامتحانات)
+  installAiUsageSink(handle.db)
   return handle.db
 }
 

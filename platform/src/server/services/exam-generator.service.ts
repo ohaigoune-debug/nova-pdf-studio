@@ -10,6 +10,7 @@ import { and, asc, desc, eq, inArray, isNull, or, sql } from 'drizzle-orm'
 import { aiFailureReason } from '@/server/ai/failure'
 import { aiProviderInfo, getAiProvider } from '@/server/ai/provider'
 import type { ExtractedQuestion } from '@/server/ai/types'
+import { withAiTask } from '@/server/ai/usage'
 import type { Db } from '@/server/db/connect'
 import { bankQuestions, curriculumNodes, examItems, levels, streams, subjects, type BankQuestionRow, type ExamItemSnapshot } from '@/server/db/schema'
 import type { ExamKind } from '@/server/db/schema/enums'
@@ -18,7 +19,8 @@ import { assertRole, type Actor } from '@/server/lib/actor'
 import { normalizeArabic } from '@/server/lib/arabic'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid, isPermanentJobError } from '@/server/lib/errors'
-import { addFreeItem, addItemFromBank, createExam, rebalancePoints, snapshotOf, updateExam } from './exams.service'
+import { allowedNodeIds, getTeacherProgress } from './exam-engine.service'
+import { addFreeItem, addItemFromBank, createExam, getOwnExam, rebalancePoints, removeItem, snapshotOf, updateExam, updateItem } from './exams.service'
 import { notify } from './notifications.service'
 import { contentHashOf, searchTextOf } from './question-bank.service'
 
@@ -28,6 +30,13 @@ export interface DifficultyProfile {
   hard: number
 }
 export const DEFAULT_PROFILE: DifficultyProfile = { easy: 30, medium: 50, hard: 20 }
+
+/** فتحة تمرين في الورقة: درس/محور، صعوبة، نقاط (محرّك الامتحانات — «تمرين 1 دوال، تمرين 2 متتاليات…») */
+export interface ExerciseSlot {
+  curriculumNodeId?: string | null
+  difficulty?: 1 | 2 | 3 | null
+  points?: number | null
+}
 
 export interface GenerateParams {
   title?: string | null
@@ -43,13 +52,21 @@ export interface GenerateParams {
   profile?: DifficultyProfile
   /** إن نقص البنك: توليد الباقي بالذكاء الاصطناعي (يحتاج مفتاحاً) */
   allowAi?: boolean
+  /** فتحات محدّدة تمريناً تمريناً (تغلب العدد والتوزيع إن وُجدت) */
+  slots?: ExerciseSlot[]
+  /** احترام «أين وصلت في البرنامج» (الافتراضي نعم إن حُدّد التدرّج) */
+  respectProgress?: boolean
 }
 
 export interface SelectionResult {
   picked: BankQuestionRow[]
-  /** ما لم يجده البنك، بصعوبة كل ناقص */
-  missing: { difficulty: 1 | 2 | 3 }[]
+  /** ما لم يجده البنك، بصعوبة كل ناقص (ورقم الفتحة إن كان الاختيار بالفتحات) */
+  missing: { difficulty: 1 | 2 | 3; slot?: number }[]
   pool: number
+  /** في وضع الفتحات: الفتحة التي أتى منها كل عنصر مختار (بترتيب picked) */
+  slotOf?: number[]
+  /** قُيّد الاختيار بالتدرّج؟ */
+  progressApplied: boolean
 }
 
 const ws = (actor: Actor): string => {
@@ -78,6 +95,12 @@ export async function selectFromBank(db: Db, actor: Actor, p: GenerateParams, ex
   const workspaceId = ws(actor)
   assertUuid(p.subjectId, 'VALIDATION')
   assertUuid(p.levelId, 'VALIDATION')
+  // التدرّج: ما بعد الدرس المبلوغ لا يدخل الورقة التلقائية (الأسئلة بلا درس محدّد لا تُحجب)
+  const scope = { subjectId: p.subjectId, levelId: p.levelId, streamId: p.streamId ?? null }
+  const progress = p.respectProgress === false ? null : await getTeacherProgress(db, actor, scope)
+  const allowed = progress?.nodeId ? await allowedNodeIds(db, scope, progress.nodeId) : null
+  const slotNodes = p.slots?.length ? [...new Set(p.slots.map((x) => x.curriculumNodeId).filter((x): x is string => Boolean(x)))] : []
+  const descendants = slotNodes.length ? await nodeDescendants(db, slotNodes) : new Map<string, Set<string>>()
   const rows = await db
     .select()
     .from(bankQuestions)
@@ -90,7 +113,8 @@ export async function selectFromBank(db: Db, actor: Actor, p: GenerateParams, ex
         eq(bankQuestions.subjectId, p.subjectId),
         eq(bankQuestions.levelId, p.levelId),
         p.streamId ? or(eq(bankQuestions.streamId, p.streamId), isNull(bankQuestions.streamId)) : undefined,
-        p.curriculumNodeIds?.length ? inArray(bankQuestions.curriculumNodeId, p.curriculumNodeIds) : undefined,
+        p.curriculumNodeIds?.length && !slotNodes.length ? inArray(bankQuestions.curriculumNodeId, p.curriculumNodeIds) : undefined,
+        allowed ? or(isNull(bankQuestions.curriculumNodeId), inArray(bankQuestions.curriculumNodeId, [...allowed])) : undefined,
         exclude.length ? sql`${bankQuestions.id} not in (${sql.join(exclude.map((id) => sql`${id}`), sql`, `)})` : undefined
       )
     )
@@ -99,12 +123,33 @@ export async function selectFromBank(db: Db, actor: Actor, p: GenerateParams, ex
   // ما يطابق الفصل يتقدّم؛ ثم تمارين قبل أسئلة مفردة (الورقة تمارين أساساً)
   const score = (r: BankQuestionRow) => (p.schoolTerm && r.schoolTerm === p.schoolTerm ? 0 : p.schoolTerm && r.schoolTerm ? 2 : 1) * 10 + (r.kind === 'QUESTION' ? 1 : 0)
   const sorted = [...rows].sort((a, b) => score(a) - score(b))
-  const quota = quotaOf(p.exercises, p.profile)
   const picked: BankQuestionRow[] = []
   const missing: SelectionResult['missing'] = []
   let minutes = 0
   const budget = p.durationMinutes
   const seenHash = new Set<string>()
+  const progressApplied = Boolean(allowed)
+
+  // ── وضع الفتحات: لكل فتحة درسها (أو محورها بفروعه) وصعوبتها؛ الصعوبة المجاورة احتياط، ثم ناقص
+  if (p.slots?.length) {
+    const slotOf: number[] = []
+    for (const [i, slot] of p.slots.entries()) {
+      const inNode = (r: BankQuestionRow) => !slot.curriculumNodeId || (r.curriculumNodeId != null && (descendants.get(slot.curriculumNodeId)?.has(r.curriculumNodeId) ?? false))
+      const free = (r: BankQuestionRow) => !picked.includes(r) && !seenHash.has(r.contentHash ?? r.id) && minutes + (r.estimatedMinutes ?? 0) <= budget
+      const cand = sorted.find((r) => free(r) && inNode(r) && (!slot.difficulty || bucket(r.difficulty) === slot.difficulty)) ?? (slot.difficulty ? sorted.find((r) => free(r) && inNode(r) && Math.abs(bucket(r.difficulty) - slot.difficulty!) === 1) : undefined)
+      if (!cand) {
+        missing.push({ difficulty: slot.difficulty ?? 2, slot: i })
+        continue
+      }
+      picked.push(cand)
+      slotOf.push(i)
+      seenHash.add(cand.contentHash ?? cand.id)
+      minutes += cand.estimatedMinutes ?? 0
+    }
+    return { picked, missing, pool: rows.length, slotOf, progressApplied }
+  }
+
+  const quota = quotaOf(p.exercises, p.profile)
   for (const d of [3, 2, 1] as const) {
     for (let i = 0; i < quota[d]; i++) {
       const cand = sorted.find((r) => !picked.includes(r) && bucket(r.difficulty) === d && !seenHash.has(r.contentHash ?? r.id) && minutes + (r.estimatedMinutes ?? 0) <= budget)
@@ -126,7 +171,28 @@ export async function selectFromBank(db: Db, actor: Actor, p: GenerateParams, ex
     minutes += cand.estimatedMinutes ?? 0
     missing.splice(i, 1)
   }
-  return { picked, missing, pool: rows.length }
+  return { picked, missing, pool: rows.length, progressApplied }
+}
+
+/** لكل عقدة: هي وكل فروعها (لاختيار «تمرين في محور» يشمل دروسه) */
+async function nodeDescendants(db: Db, ids: string[]): Promise<Map<string, Set<string>>> {
+  const out = new Map<string, Set<string>>()
+  if (!ids.length) return out
+  const [first] = await db.select({ subjectId: curriculumNodes.subjectId, levelId: curriculumNodes.levelId }).from(curriculumNodes).where(eq(curriculumNodes.id, ids[0]!)).limit(1)
+  if (!first) return out
+  const rows = await db.select({ id: curriculumNodes.id, parentId: curriculumNodes.parentId }).from(curriculumNodes).where(and(eq(curriculumNodes.subjectId, first.subjectId), eq(curriculumNodes.levelId, first.levelId)))
+  const children = new Map<string | null, string[]>()
+  for (const r of rows) children.set(r.parentId, [...(children.get(r.parentId) ?? []), r.id])
+  for (const id of ids) {
+    const set = new Set<string>()
+    const walk = (x: string) => {
+      set.add(x)
+      for (const c of children.get(x) ?? []) walk(c)
+    }
+    walk(id)
+    out.set(id, set)
+  }
+  return out
 }
 
 async function names(db: Db, p: GenerateParams) {
@@ -140,17 +206,57 @@ async function names(db: Db, p: GenerateParams) {
 const TERM_AR = ['', 'الفصل الأول', 'الفصل الثاني', 'الفصل الثالث']
 
 /** بناء فوري من البنك: امتحان مسودة بالعناصر المختارة ونقاط موزّعة على المستهدف */
-export async function buildExamFromBank(db: Db, actor: Actor, p: GenerateParams): Promise<{ examId: string; picked: number; missing: number; pool: number }> {
+export async function buildExamFromBank(db: Db, actor: Actor, p: GenerateParams): Promise<{ examId: string; picked: number; missing: number; pool: number; progressApplied: boolean }> {
   ws(actor)
+  if (p.slots?.length) {
+    if (p.slots.length > 12) throw new AppError('VALIDATION', { field: 'slots' })
+    p = { ...p, exercises: p.slots.length }
+  }
   if (p.exercises < 1 || p.exercises > 12) throw new AppError('VALIDATION', { field: 'exercises' })
   const sel = await selectFromBank(db, actor, p)
   const n = await names(db, p)
   const title = p.title?.trim() || `${p.kind === 'HOMEWORK' ? 'فرض' : 'اختبار'} ${p.schoolTerm ? TERM_AR[p.schoolTerm] : ''} في ${n.subject ?? 'المادة'}`.replace(/\s+/g, ' ').trim()
   const exam = await createExam(db, actor, { title, kind: p.kind ?? 'TEST', subjectId: p.subjectId, levelId: p.levelId, streamId: p.streamId ?? null, schoolTerm: p.schoolTerm ?? null, durationMinutes: p.durationMinutes, targetPoints: p.targetPoints ?? 20 })
-  for (const q of sel.picked) await addItemFromBank(db, actor, exam.id, q.id)
-  if (sel.picked.length) await rebalancePoints(db, actor, exam.id)
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: exam.workspaceId, action: 'exam.auto_build', entityType: 'exam', entityId: exam.id, newValue: { picked: sel.picked.length, missing: sel.missing.length, pool: sel.pool } })
-  return { examId: exam.id, picked: sel.picked.length, missing: sel.missing.length, pool: sel.pool }
+  const slotPoints = p.slots?.some((s) => s.points && s.points > 0)
+  for (const [i, q] of sel.picked.entries()) {
+    const item = await addItemFromBank(db, actor, exam.id, q.id)
+    const slot = sel.slotOf != null ? p.slots?.[sel.slotOf[i]!] : undefined
+    if (slot?.points && slot.points > 0) await updateItem(db, actor, item.id, { points: slot.points })
+  }
+  if (sel.picked.length && !slotPoints) await rebalancePoints(db, actor, exam.id)
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: exam.workspaceId, action: 'exam.auto_build', entityType: 'exam', entityId: exam.id, newValue: { picked: sel.picked.length, missing: sel.missing.length, pool: sel.pool, slots: p.slots?.length ?? 0, progressApplied: sel.progressApplied } })
+  return { examId: exam.id, picked: sel.picked.length, missing: sel.missing.length, pool: sel.pool, progressApplied: sel.progressApplied }
+}
+
+/* ------------------------------ استبدال تمرين ------------------------------ */
+
+/**
+ * «استبدال هذا التمرين»: بديل من البنك بنفس المعايير (المادة والصف والشعبة، والدرس إن عُرف، والصعوبة)،
+ * غير موجود في الورقة ولا مكرّر النصّ، في نفس الموضع وبنفس النقاط المحدّدة يدوياً.
+ */
+export async function replaceItem(db: Db, actor: Actor, itemId: string): Promise<{ itemId: string; questionId: string }> {
+  ws(actor)
+  assertUuid(itemId, 'EXAM_ITEM_NOT_FOUND')
+  const [item] = await db.select().from(examItems).where(eq(examItems.id, itemId)).limit(1)
+  if (!item) throw new AppError('EXAM_ITEM_NOT_FOUND')
+  const exam = await getOwnExam(db, actor, item.examId)
+  if (item.kind !== 'EXERCISE' && item.kind !== 'QUESTION') throw new AppError('VALIDATION', { field: 'kind' })
+  if (!exam.subjectId || !exam.levelId) throw new AppError('VALIDATION', { field: 'subjectId' })
+  const siblings = await db.select({ id: examItems.id, bankQuestionId: examItems.bankQuestionId }).from(examItems).where(eq(examItems.examId, exam.id))
+  const exclude = siblings.map((s) => s.bankQuestionId).filter((x): x is string => Boolean(x))
+  const [orig] = item.bankQuestionId ? await db.select({ nodeId: bankQuestions.curriculumNodeId }).from(bankQuestions).where(eq(bankQuestions.id, item.bankQuestionId)).limit(1) : []
+  const difficulty = item.snapshot.difficulty ? bucket(item.snapshot.difficulty) : null
+  const sel = await selectFromBank(db, actor, { subjectId: exam.subjectId, levelId: exam.levelId, streamId: exam.streamId, schoolTerm: exam.schoolTerm, durationMinutes: 600, exercises: 1, slots: [{ curriculumNodeId: orig?.nodeId ?? null, difficulty }] }, exclude)
+  let cand = sel.picked[0]
+  if (!cand && orig?.nodeId) cand = (await selectFromBank(db, actor, { subjectId: exam.subjectId, levelId: exam.levelId, streamId: exam.streamId, schoolTerm: exam.schoolTerm, durationMinutes: 600, exercises: 1, slots: [{ curriculumNodeId: null, difficulty }] }, exclude)).picked[0]
+  if (!cand) throw new AppError('BANK_QUESTION_NOT_FOUND')
+  const position = item.position
+  const points = item.points != null ? Number(item.points) : null
+  await removeItem(db, actor, item.id)
+  const row = await addItemFromBank(db, actor, exam.id, cand.id, position)
+  if (points) await updateItem(db, actor, row.id, { points })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: exam.workspaceId, action: 'exam.item_replace', entityType: 'exam', entityId: exam.id, oldValue: { itemId: item.id, questionId: item.bankQuestionId }, newValue: { itemId: row.id, questionId: cand.id } })
+  return { itemId: row.id, questionId: cand.id }
 }
 
 /* ------------------------------ التوليد بالذكاء الاصطناعي ------------------------------ */
@@ -250,6 +356,11 @@ export interface ParsedRequest {
   exercises: number | null
   profile: DifficultyProfile | null
   kind: ExamKind
+  /** محاور/دروس ذُكرت في الطلب (معرّفات عقد المنهاج) */
+  curriculumNodeIds: string[]
+  topics: string[]
+  /** مصدر التحليل: النموذج أو المحلّل الحتمي */
+  via: 'ai' | 'rules'
 }
 
 const AR_DIGITS = /[٠-٩]/g
@@ -291,5 +402,56 @@ export async function parseExamRequest(db: Db, text: string): Promise<ParsedRequ
   const exercises = em ? Number(em[1]) : /اربعه تمارين|اربع تمارين/.test(t) ? 4 : /ثلاثه تمارين|ثلاث تمارين/.test(t) ? 3 : /خمسه تمارين|خمس تمارين/.test(t) ? 5 : /سته تمارين|ست تمارين/.test(t) ? 6 : null
   const profile: DifficultyProfile | null = /صعب جدا/.test(t) ? { easy: 0, medium: 30, hard: 70 } : /متوسط الي صعب|متوسط فصعب|متوسط و ?صعب/.test(t) ? { easy: 10, medium: 50, hard: 40 } : word('صعب').test(t) ? { easy: 10, medium: 40, hard: 50 } : word('سهل').test(t) ? { easy: 60, medium: 35, hard: 5 } : /متوسط/.test(t) ? { easy: 25, medium: 60, hard: 15 } : null
   const kind: ExamKind = /فرض/.test(t) ? 'HOMEWORK' : /بكالوريا تجريبيه|باك تجريبي|بكالوريا بيضاء/.test(t) ? 'BAC_MOCK' : /استجواب/.test(t) ? 'QUIZ' : 'TEST'
-  return { subjectId: subject?.id ?? null, levelId: level?.id ?? null, streamId: stream?.id ?? null, schoolTerm: term, durationMinutes: duration, exercises, profile, kind }
+  const nodes = subject && level ? await topicNodes(db, { subjectId: subject.id, levelId: level.id, streamId: stream?.id ?? null }) : []
+  const hit = nodes.filter((n) => n.keys.some((k) => k.length >= 4 && t.includes(k)))
+  // درس مذكور يُفضَّل على محوره
+  const ids = hit.filter((n) => !hit.some((o) => o.parentId === n.id)).map((n) => n.id)
+  return { subjectId: subject?.id ?? null, levelId: level?.id ?? null, streamId: stream?.id ?? null, schoolTerm: term, durationMinutes: duration, exercises, profile, kind, curriculumNodeIds: ids, topics: hit.filter((n) => ids.includes(n.id)).map((n) => n.title), via: 'rules' }
+}
+
+/** عقد المنهاج مع مفاتيح المطابقة (العنوان وكلماته المميّزة) */
+async function topicNodes(db: Db, scope: { subjectId: string; levelId: string; streamId: string | null }) {
+  const rows = await db
+    .select({ id: curriculumNodes.id, parentId: curriculumNodes.parentId, title: curriculumNodes.title, slug: curriculumNodes.slug })
+    .from(curriculumNodes)
+    .where(and(eq(curriculumNodes.subjectId, scope.subjectId), eq(curriculumNodes.levelId, scope.levelId), scope.streamId ? or(isNull(curriculumNodes.streamId), eq(curriculumNodes.streamId, scope.streamId)) : isNull(curriculumNodes.streamId)))
+    .orderBy(asc(curriculumNodes.sortOrder))
+  const STOP = new Set(['الدوال', 'دوال', 'العددية', 'في', 'و', 'الحساب', 'خواص', 'دراسة', 'معادلات', 'ومتراجحات', 'وتطبيقاتها', 'وقانون', 'والاستقلالية', 'الشكل', 'النقطية', 'والتحويلات', 'الدالة', 'دالة'])
+  const titleOf = new Map(rows.map((r) => [r.id, normalizeArabic(r.title)]))
+  return rows.map((r) => {
+    const title = titleOf.get(r.id)!
+    const parent = r.parentId ? (titleOf.get(r.parentId) ?? '') : ''
+    // كلمات الدرس التي تتكرّر في عنوان محوره تخصّ المحور لا الدرس («المتتاليات» في «المتتاليات الحسابية»)
+    const words = title.split(' ').filter((w) => w.length >= 5 && !STOP.has(w) && !parent.includes(w))
+    return { ...r, keys: [title, ...words] }
+  })
+}
+
+/**
+ * AI Mode: النموذج يحوّل الطلب إلى مرشّحات (أسماء من القاعدة فقط)، ثم تُربط بالمعرّفات؛
+ * ما لم يفهمه النموذج يُكمَل بالمحلّل الحتمي، وبلا مفتاح يُستعمل الحتمي وحده. لا توليد هنا: البحث في البنك أولاً.
+ */
+export async function parseExamRequestSmart(db: Db, text: string, ctx: { userId?: string | null; workspaceId?: string | null } = {}): Promise<ParsedRequest> {
+  const rules = await parseExamRequest(db, text)
+  const provider = getAiProvider()
+  if (!aiProviderInfo().configured || !provider.parseExamRequest) return rules
+  const [subjectRows, levelRows, streamRows] = await Promise.all([db.select({ id: subjects.id, name: subjects.nameAr }).from(subjects), db.select({ id: levels.id, name: levels.nameAr }).from(levels), db.select({ id: streams.id, name: streams.nameAr }).from(streams).where(isNull(streams.parentId))])
+  const scopeSubject = rules.subjectId ?? null
+  const scopeLevel = rules.levelId ?? null
+  const nodes = scopeSubject && scopeLevel ? await topicNodes(db, { subjectId: scopeSubject, levelId: scopeLevel, streamId: rules.streamId }) : []
+  let ai
+  try {
+    ai = await withAiTask({ task: 'exam_request_parse', userId: ctx.userId ?? null, workspaceId: ctx.workspaceId ?? null }, () => provider.parseExamRequest!({ text, subjects: subjectRows.map((s) => s.name), levels: levelRows.map((l) => l.name), streams: streamRows.map((s) => s.name), topics: nodes.map((n) => n.title) }))
+  } catch {
+    return rules
+  }
+  const byName = <T extends { id: string; name: string }>(rows: T[], name: string | null) => (name ? (rows.find((r) => r.name === name)?.id ?? null) : null)
+  const subjectId = byName(subjectRows, ai.subject) ?? rules.subjectId
+  const levelId = byName(levelRows, ai.level) ?? rules.levelId
+  const streamId = byName(streamRows, ai.stream) ?? rules.streamId
+  const nodesNow = subjectId && levelId && (subjectId !== scopeSubject || levelId !== scopeLevel) ? await topicNodes(db, { subjectId, levelId, streamId }) : nodes
+  const topicIds = ai.topics.map((t) => nodesNow.find((n) => n.title === t)?.id ?? null).filter((x): x is string => Boolean(x))
+  const profile: DifficultyProfile | null = ai.difficulty === 'easy' ? { easy: 60, medium: 35, hard: 5 } : ai.difficulty === 'hard' ? { easy: 10, medium: 40, hard: 50 } : ai.difficulty === 'medium' ? { easy: 25, medium: 60, hard: 15 } : ai.difficulty === 'mixed' ? DEFAULT_PROFILE : rules.profile
+  const ids = topicIds.length ? topicIds : rules.curriculumNodeIds
+  return { subjectId, levelId, streamId, schoolTerm: ai.term ?? rules.schoolTerm, durationMinutes: ai.durationMinutes ?? rules.durationMinutes, exercises: ai.exercises ?? rules.exercises, profile, kind: ai.kind ?? rules.kind, curriculumNodeIds: ids, topics: ids.map((id) => nodesNow.find((n) => n.id === id)?.title ?? '').filter(Boolean), via: 'ai' }
 }

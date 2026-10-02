@@ -4,7 +4,8 @@ import { id, inList, softDelete, timestamps } from './_common'
 import { users } from './auth'
 import { files } from './content'
 import { curriculumNodes } from './curriculum'
-import { BANK_EXAM_KINDS, BANK_KINDS, BANK_QUESTION_TYPES, BANK_STATUSES, BANK_VISIBILITIES, RIGHTS_STATUSES } from './enums'
+import { BANK_EXAM_KINDS, BANK_KINDS, BANK_QUESTION_TYPES, BANK_STATUSES, BANK_VISIBILITIES, QUESTION_ORIGINS, RIGHTS_STATUSES } from './enums'
+import { examDocuments } from './exam-engine'
 import { contentSources, resources } from './library'
 import { levels, streams, subjects } from './reference'
 import { teacherWorkspaces } from './tenancy'
@@ -68,6 +69,14 @@ export const bankQuestions = pgTable(
     sourceLabel: text('source_label'),
     originalFileId: uuid('original_file_id').references(() => files.id, { onDelete: 'set null' }),
     rightsStatus: text('rights_status').notNull().default('OWN'),
+    // ── الأصل (محرّك الامتحانات): من تأليف / مستخرج من وثيقة / مولَّد / معدَّل — والوثيقة ورقم التمرين فيها
+    origin: text('origin').notNull().default('ORIGINAL'),
+    documentId: uuid('document_id').references(() => examDocuments.id, { onDelete: 'set null' }),
+    sourceExerciseNo: integer('source_exercise_no'),
+    sourceTopicNo: integer('source_topic_no'),
+    /** ثقة التصنيف الآلي 0–1 (فارغ = صنّفه إنسان) */
+    aiConfidence: numeric('ai_confidence', { precision: 4, scale: 3 }),
+    skills: text('skills').array().notNull().default([]),
     language: text('language').notNull().default('ar'),
     keywords: text('keywords').array().notNull().default([]),
     imageFileId: uuid('image_file_id').references(() => files.id, { onDelete: 'set null' }),
@@ -92,6 +101,7 @@ export const bankQuestions = pgTable(
     check('bank_questions_status_check', inList(t.status, BANK_STATUSES)),
     check('bank_questions_visibility_check', inList(t.visibility, BANK_VISIBILITIES)),
     check('bank_questions_rights_check', inList(t.rightsStatus, RIGHTS_STATUSES)),
+    check('bank_questions_origin_check', inList(t.origin, QUESTION_ORIGINS)),
     check('bank_questions_exam_kind_check', sql`${t.examKind} IS NULL OR ${inList(t.examKind, BANK_EXAM_KINDS)}`),
     check('bank_questions_difficulty_check', sql`${t.difficulty} BETWEEN 1 AND 4`),
     check('bank_questions_term_check', sql`${t.schoolTerm} IS NULL OR ${t.schoolTerm} BETWEEN 1 AND 3`),
@@ -102,7 +112,9 @@ export const bankQuestions = pgTable(
     index('bank_questions_parent_idx').on(t.parentId, t.sortOrder),
     index('bank_questions_difficulty_idx').on(t.difficulty, t.type),
     index('bank_questions_batch_idx').on(t.importBatchId),
-    index('bank_questions_hash_idx').on(t.contentHash)
+    index('bank_questions_hash_idx').on(t.contentHash),
+    index('bank_questions_document_idx').on(t.documentId, t.sourceExerciseNo),
+    index('bank_questions_origin_idx').on(t.origin, t.status)
   ]
 )
 

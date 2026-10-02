@@ -219,6 +219,33 @@ export interface DraftFromSourceOutput {
   raw?: Record<string, unknown>
 }
 
+/** AI Mode (محرّك الامتحانات): طلب طبيعي ← مرشّحات مهيكلة تُبحث بها في البنك أولاً (لا توليد) */
+export interface ParseExamRequestInput {
+  text: string
+  /** الأسماء المتاحة في القاعدة ليختار منها النموذج حرفياً (لا يخترع) */
+  subjects: string[]
+  levels: string[]
+  streams: string[]
+  /** محاور/دروس المنهاج المتاحة (للمادة والصف إن عُرفا، وإلا عيّنة) */
+  topics: string[]
+}
+
+export interface ParsedExamRequest {
+  subject: string | null
+  level: string | null
+  stream: string | null
+  /** 1–3 */
+  term: number | null
+  durationMinutes: number | null
+  exercises: number | null
+  /** سهل | متوسط | صعب | مختلط */
+  difficulty: 'easy' | 'medium' | 'hard' | 'mixed' | null
+  /** محاور من القائمة المعطاة فقط */
+  topics: string[]
+  kind: 'TEST' | 'HOMEWORK' | 'BAC_MOCK' | 'QUIZ' | null
+  raw?: Record<string, unknown>
+}
+
 export interface EssayBatchItem {
   /** معرّف يعود مع النتيجة (معرّف سجل التقييم) */
   customId: string
@@ -256,6 +283,8 @@ export interface AIProvider {
   extractQuestions?(input: ExtractQuestionsInput): Promise<ExtractQuestionsOutput>
   /** تمارين جديدة مشابهة لأمثلة البنك لورقة امتحان — تُوسم «راجعه» وتُنسخ إلى المراجعة */
   generateExamItems?(input: GenerateExamItemsInput): Promise<GenerateExamItemsOutput>
+  /** طلب حرّ ← مرشّحات مهيكلة (أسماء من القوائم المعطاة فقط) — المزوّد الذي لا يوفّرها يُستعمل المحلّل الحتمي */
+  parseExamRequest?(input: ParseExamRequestInput): Promise<ParsedExamRequest>
   /**
    * اختياري: تصحيح دفعة كاملة بنصف السعر؛ النتائج تُجلب لاحقاً بالاستطلاع.
    * المزوّد الذي لا يوفّرها يُعالَج فرادى.
