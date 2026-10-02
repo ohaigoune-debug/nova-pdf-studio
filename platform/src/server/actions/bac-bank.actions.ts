@@ -1,12 +1,16 @@
 'use server'
 
+import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { examDocuments } from '@/server/db/schema'
 import { kickWorker } from '@/server/jobs/runner'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
-import { registerAllBacDocuments, requestSolutionDetails, reviewSolutionDetail, searchBacExercises, verifyDocument, type BacSearchHit } from '@/server/services/bac-bank.service'
+import { autoQuality, registerAllBacDocuments, requestSolutionDetails, reviewSolutionDetail, searchBacExercises, verifyDocument, type BacSearchHit } from '@/server/services/bac-bank.service'
+
+
 import { requestProcessing } from '@/server/services/exam-engine.service'
 
 const uuid = z.string().uuid()
@@ -77,4 +81,17 @@ export async function searchBacAction(query: string, f: { subjectId?: string | n
   const parsed = z.object({ query: z.string().min(2).max(100), subjectId: uuid.nullish(), streamId: uuid.nullish(), year: z.number().int().min(1960).max(2100).nullish() }).safeParse({ query, ...f })
   if (!parsed.success) return failValidation(parsed.error)
   return runAction(async () => searchBacExercises(await getDb(), parsed.data.query, { subjectId: parsed.data.subjectId, streamId: parsed.data.streamId, year: parsed.data.year }))
+}
+
+/** قائمة الفحص الحالية لوثيقة: البنود الآلية + ما أكّده المشرف سابقاً (تملأ نافذة الفحص) */
+export async function qualityPreviewAction(id: string): Promise<ActionResult<Record<string, boolean | string | undefined>>> {
+  const parsed = uuid.safeParse(id)
+  if (!parsed.success) return failValidation(parsed.error)
+  return runAction(async () => {
+    await requireRole('SUPER_ADMIN')
+    const db = await getDb()
+    const [doc] = await db.select().from(examDocuments).where(eq(examDocuments.id, parsed.data)).limit(1)
+    if (!doc) return {}
+    return { ...(await autoQuality(db, doc)), ...doc.quality }
+  })
 }

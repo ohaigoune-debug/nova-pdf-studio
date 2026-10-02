@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Alert } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
 import { DOC_STATUS_AR } from '@/lib/exam-engine-labels'
-import { processBatchAction, registerAllBacAction, requestSolutionDetailsAction, reviewSolutionDetailAction, verifyDocumentAction } from '@/server/actions/bac-bank.actions'
+import { processBatchAction, qualityPreviewAction, registerAllBacAction, requestSolutionDetailsAction, reviewSolutionDetailAction, verifyDocumentAction } from '@/server/actions/bac-bank.actions'
 import type { BacInventory, DetailQueueItem } from '@/server/services/bac-bank.service'
 
 type Result = { ok: boolean; error?: { message: string }; data?: Record<string, unknown> }
@@ -103,6 +103,11 @@ export function VerifyDialog({ doc, onClose }: { doc: { id: string; title: strin
     if (!doc) return
     setF(Object.fromEntries(QC_ITEMS.map(([k]) => [k, doc.quality[k] === true])))
     setNote(typeof doc.quality.note === 'string' ? doc.quality.note : '')
+    // البنود الآلية (السنة، المادة، الشعبة، الصفحات، الأسئلة، الحلّ، التكرار) تُملأ من الخادم
+    qualityPreviewAction(doc.id).then((r) => {
+      if (!r.ok) return
+      setF((s) => ({ ...s, ...Object.fromEntries(Object.entries(r.data).filter(([, v]) => typeof v === 'boolean') as [string, boolean][]) }))
+    })
   }, [doc])
   if (!doc) return null
   const submit = () =>
