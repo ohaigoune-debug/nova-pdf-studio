@@ -24,7 +24,7 @@ export default async function AttendanceCardPage({ searchParams }: { searchParam
           title={t('qr.noActiveGroups')}
           action={
             <Button asChild>
-              <Link href="/activate-code">{t('nav.activateCode')}</Link>
+              <Link href="/student?join=1">{t('studentPages.joinTitle')}</Link>
             </Button>
           }
         />

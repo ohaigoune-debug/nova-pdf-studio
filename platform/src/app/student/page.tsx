@@ -1,6 +1,7 @@
 import { CalendarCheck, CalendarX, KeyRound, QrCode, Smartphone, TrendingUp, UsersRound } from 'lucide-react'
 import Link from 'next/link'
 import { ContentGrid } from '@/components/domain/content-cards'
+import { JoinGroupCard, JoinGroupMenu } from '@/components/domain/join-group'
 import { AttendanceStatusBadge, EnrollmentStatusBadge } from '@/components/domain/status-badges'
 import { TeacherBanner } from '@/components/domain/teacher-banner'
 import { Button } from '@/components/ui/button'
@@ -16,8 +17,10 @@ import { getAboutSettings } from '@/server/services/about.service'
 import { skillMap } from '@/server/services/skills.service'
 import { studentHome } from '@/server/services/students.service'
 
-export default async function StudentHomePage() {
+export default async function StudentHomePage({ searchParams }: { searchParams: Promise<{ code?: string; join?: string }> }) {
   const actor = await requirePageActor('STUDENT')
+  const q = await searchParams
+  const prefill = q.code?.trim().slice(0, 40) || undefined
   const db = await getDb()
   const [home, suggested, skills, about, apk] = await Promise.all([studentHome(db, actor), listStudentContent(db, actor, { limit: 3 }), skillMap(db, actor.studentId!), getAboutSettings(db), appDownload({ onlyAndroid: true })])
   const avgSkill = skills.length ? skills.reduce((s, k) => s + k.score, 0) / skills.length : null
@@ -31,13 +34,18 @@ export default async function StudentHomePage() {
         greeting={t('dashboard.welcome', { name: actor.fullName })}
         subtitle={t('dashboard.studentTitle')}
         action={
-          <Button asChild size="lg" variant="gold">
-            <Link href="/student/attendance/card">
-              <QrCode className="size-5" /> {t('nav.attendanceCard')}
-            </Link>
-          </Button>
+          <span className="flex flex-wrap gap-2">
+            <Button asChild size="lg" variant="gold">
+              <Link href="/student/attendance/card">
+                <QrCode className="size-5" /> {t('nav.attendanceCard')}
+              </Link>
+            </Button>
+            {home.groups.length > 0 ? <JoinGroupMenu code={prefill} open={Boolean(prefill || q.join)} variant="ghost" size="lg" /> : null}
+          </span>
         }
       />
+      {/* التلميذ بلا فوج: إدخال الكود هنا مباشرة، في مكان واضح، بلا مغادرة الصفحة */}
+      {home.groups.length === 0 ? <JoinGroupCard code={prefill} /> : null}
 
       {open ? (
         <Alert tone="success" title={t('dashboard.openSessionNow')}>
@@ -81,15 +89,7 @@ export default async function StudentHomePage() {
           </CardHeader>
           <CardContent>
             {home.groups.length === 0 ? (
-              <EmptyState
-                icon={KeyRound}
-                title={t('studentPages.noGroups')}
-                action={
-                  <Button asChild>
-                    <Link href="/activate-code">{t('nav.activateCode')}</Link>
-                  </Button>
-                }
-              />
+              <EmptyState icon={KeyRound} title={t('studentPages.noGroups')} />
             ) : (
               <ul className="divide-y">
                 {home.groups.map((g) => (

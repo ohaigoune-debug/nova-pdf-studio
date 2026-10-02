@@ -1,9 +1,10 @@
-import { KeyRound, QrCode } from 'lucide-react'
+import { QrCode } from 'lucide-react'
 import Link from 'next/link'
+import { JoinGroupCard, JoinGroupMenu } from '@/components/domain/join-group'
 import { EnrollmentStatusBadge } from '@/components/domain/status-badges'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { EmptyState, PageHeader, Progress } from '@/components/ui/misc'
+import { PageHeader, Progress } from '@/components/ui/misc'
 import { dayName, t } from '@/i18n'
 import { formatClock } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
@@ -17,16 +18,10 @@ export default async function StudentGroupsPage() {
     <>
       <PageHeader
         title={t('studentPages.myGroups')}
-        actions={
-          <Button asChild variant="outline">
-            <Link href="/activate-code">
-              <KeyRound className="size-4" /> {t('nav.activateCode')}
-            </Link>
-          </Button>
-        }
+        actions={home.groups.length > 0 ? <JoinGroupMenu /> : null}
       />
       {home.groups.length === 0 ? (
-        <EmptyState icon={KeyRound} title={t('studentPages.noGroups')} />
+        <JoinGroupCard />
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
           {home.groups.map((g) => (

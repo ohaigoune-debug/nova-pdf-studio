@@ -4,6 +4,7 @@ import { AlgeriaMap } from '@/components/domain/algeria-map'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { Button } from '@/components/ui/button'
 import { getT } from '@/i18n/server'
+import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
 import { listPublicContent } from '@/server/queries/content.queries'
@@ -75,6 +76,8 @@ function Preview({ t }: { t: (k: never) => string }) {
 const MAP_COUNTS_FROM = 50
 
 export default async function HomePage() {
+  const actor = await getCurrentActor()
+  const student = actor?.role === 'STUDENT'
   const db = await getDb()
   const [latest, map, apk, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), studentsPerWilaya(db), appDownload(), getT()])
   const reached = map.filter((w) => w.students > 0).length
@@ -116,10 +119,10 @@ export default async function HomePage() {
             <p className="max-w-xl text-lg leading-relaxed text-white/70">{t('public.heroSubtitle')}</p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg" variant="gold">
-                <Link href="/register">{t('public.ctaStudent')}</Link>
+                <Link href={student ? '/student' : '/register'}>{student ? t('nav.dashboard') : t('public.ctaStudent')}</Link>
               </Button>
               <Button asChild size="lg" className="border border-white/15 bg-white/10 text-white shadow-none hover:bg-white/15" variant="ghost">
-                <Link href="/activate-code">{t('public.ctaCode')}</Link>
+                <Link href={student ? '/student?join=1' : '/activate-code'}>{t('public.ctaCode')}</Link>
               </Button>
               <Button asChild size="lg" variant="link" className="text-white/80 hover:text-white">
                 <Link href="/lessons">
