@@ -61,6 +61,9 @@ export async function requestSolutionDetailsAction(input: { limit?: number; docu
   if (result.ok) {
     kickWorker(getDb)
     revalidate()
+  } else if (result.error.code === 'VALIDATION') {
+    // لا تمارين منشورة بلا حلّ مفصّل: رسالة واضحة بدل «تحقق من البيانات»
+    return { ok: false, error: { ...result.error, message: 'لا شيء ينتظر: كل التمارين المنشورة لها حلول مفصّلة.' } }
   }
   return result
 }

@@ -93,7 +93,7 @@ describe('المكتبة الموحّدة — المرحلة 9', () => {
     expect(hub.latest.exams[0]).toMatchObject({ official: true, year: 2023 })
     expect(hub.lessons).toEqual([])
     const l3hub = await subjectHub(h.db, 'arabic', { levelId: l3 })
-    expect(l3hub.lessons).toEqual([{ id: nodeId, title: 'البلاغة', kind: 'UNIT', parentId: null, count: 1 }])
+    expect(l3hub.lessons).toEqual(expect.arrayContaining([{ id: nodeId, title: 'البلاغة', kind: 'UNIT', parentId: null, count: 1 }])) // شجرة 3AS مزروعة إلى جانب الوحدة المُنشأة
     expect(l3hub.latest.exercises).toEqual([])
     await expect(subjectHub(h.db, 'nope')).rejects.toMatchObject({ code: 'NOT_FOUND' })
     const q = await publicQuestion(h.db, publicQ)

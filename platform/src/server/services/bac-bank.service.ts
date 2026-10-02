@@ -230,7 +230,10 @@ export async function verifyDocument(db: Db, actor: Actor, id: string, checklist
   if (!doc) throw new AppError('NOT_FOUND')
   if (doc.status !== 'NEEDS_REVIEW' && doc.status !== 'VERIFIED' && doc.status !== 'PUBLISHED') throw new AppError('VALIDATION', { field: 'status' })
   const auto = await autoQuality(db, doc)
-  const quality: QualityChecklist = { ...auto, ...Object.fromEntries(Object.entries(checklist).filter(([k, v]) => (QC_KEYS as string[]).includes(k) && typeof v === 'boolean')), note: checklist.note?.slice(0, 500) }
+  // البنود الآلية التي ثبتت صحّتها من البيانات لا يلغيها المشرف سهواً (خانة غير مُفعَّلة)؛ أما ما لم يثبت آلياً فيؤكّده بنفسه
+  const manual = Object.fromEntries(Object.entries(checklist).filter(([k, v]) => (QC_KEYS as string[]).includes(k) && typeof v === 'boolean'))
+  const autoTrue = Object.fromEntries(Object.entries(auto).filter(([, v]) => v === true))
+  const quality: QualityChecklist = { ...auto, ...manual, ...autoTrue, note: checklist.note?.slice(0, 500) }
   const missing = QC_KEYS.filter((k) => quality[k] !== true)
   await db.update(examDocuments).set({ quality, status: doc.status === 'PUBLISHED' ? 'PUBLISHED' : 'VERIFIED', verifiedByUserId: actor.userId, verifiedAt: new Date(), updatedAt: new Date() }).where(eq(examDocuments.id, id))
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'engine.document.verify', entityType: 'exam_document', entityId: id, newValue: { missing } })
