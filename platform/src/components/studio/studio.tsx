@@ -242,13 +242,13 @@ export function ExamStudio({ exam, options, aiConfigured }: { exam: ExamView; op
         <aside className="hidden xl:sticky xl:top-4 xl:block xl:max-h-[calc(100dvh-2rem)] xl:overflow-auto">
           <div className="rounded-xl border bg-card p-3">{sidebar}</div>
         </aside>
-        <main className="min-w-0 pb-16 xl:pb-0">
+        <section aria-label="الورقة" className="min-w-0 pb-16 xl:pb-0">
           {view === 'edit' ? (
             <Paper exam={exam} order={order} byId={byId} run={run} pending={pending} onDrop={onDrop} onReorder={onReorder} onCopilot={aiConfigured ? (it) => setCopilotItem(it) : undefined} focusId={focusId} />
           ) : (
             <A4Preview exam={exam} />
           )}
-        </main>
+        </section>
         <aside className="hidden xl:sticky xl:top-4 xl:block xl:max-h-[calc(100dvh-2rem)] xl:overflow-auto">{settings}</aside>
       </div>
 
