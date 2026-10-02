@@ -5,15 +5,19 @@
  * المجموع والصعوبة يُحسبان عند كل تغيير ويُخزّنان في الامتحان.
  */
 import { and, asc, desc, eq, inArray, isNull, sql } from 'drizzle-orm'
+import { figuresSchema, imageIdsOf, layoutSchema, parseBlock, type ExamLayout, type StudioBlock } from '@/lib/exam-blocks'
 import type { Db } from '@/server/db/connect'
-import { academicYears, auditLogs, bankQuestions, examItems, exams, groups, levels, profiles, streams, subjects, type BankQuestionRow, type DifficultySummary, type ExamHeader, type ExamItemRow, type ExamItemSnapshot, type ExamRow } from '@/server/db/schema'
+import { academicYears, auditLogs, bankQuestions, examItems, examRevisions, exams, groups, levels, profiles, streams, subjects, type BankQuestionRow, type BaremeItem, type DifficultySummary, type ExamHeader, type ExamItemRow, type ExamItemSnapshot, type ExamRevisionSnapshot, type ExamRow } from '@/server/db/schema'
 import type { ExamItemKind, ExamKind, ExamStatus } from '@/server/db/schema/enums'
 import { EXAM_KINDS, EXAM_STATUSES } from '@/server/db/schema/enums'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
+import { signFileUrl } from '@/server/lib/storage'
+import { autoTitle, itemPoints } from '@/lib/exam-points'
+import { EXAM_KIND_AR } from '@/lib/exam-labels'
 
-export const EXAM_KIND_AR: Record<ExamKind, string> = { TEST: 'اختبار', HOMEWORK: 'فرض', BAC_MOCK: 'بكالوريا تجريبية', BEM_MOCK: 'شهادة تعليم متوسط تجريبية', QUIZ: 'استجواب', PRACTICE: 'تدريب' }
+export { EXAM_KIND_AR }
 const TERM_AR = ['', 'الفصل الأول', 'الفصل الثاني', 'الفصل الثالث']
 const MAX_ITEMS = 60
 
@@ -33,7 +37,14 @@ export interface ExamInput {
   /** المرحلة 6: قالب يُستنسخ منه، والفوج المعدّ له */
   isTemplate?: boolean
   groupId?: string | null
+  /** الاستوديو: تخطيط الورقة (يُدمج مع الحالي) والمفضّلة */
+  layout?: ExamLayout
+  isFavorite?: boolean
 }
+
+/** مراجعة تلقائية: لقطة قبل أول تغيير في كل نافذة زمنية (وتُحذف الأقدم بعد الحدّ) */
+export const AUTO_REVISION_MINUTES = 10
+const MAX_AUTO_REVISIONS = 40
 
 const ws = (actor: Actor): string => {
   assertRole(actor, 'TEACHER')
@@ -43,21 +54,7 @@ const ws = (actor: Actor): string => {
 
 const round2 = (n: number) => Math.round(n * 100) / 100
 
-/** نقاط العنصر: التجاوز اليدوي، وإلا نقاط النسخة (أو مجموع فرعياتها) */
-export function itemPoints(it: Pick<ExamItemRow, 'kind' | 'points' | 'snapshot'>): number {
-  if (it.kind === 'TEXT' || it.kind === 'PAGE_BREAK') return 0
-  if (it.points != null) return Number(it.points)
-  const s = it.snapshot
-  if (s.children?.length) return round2(s.children.reduce((a, c) => a + (c.points ?? 0), 0))
-  return s.points ?? 0
-}
-
-/** عنوان تلقائي: «التمرين الأول/الثاني…» للتمارين و«السؤال n» للأسئلة؛ العنوان اليدوي يغلب */
-const ORDINALS = ['الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس', 'السابع', 'الثامن', 'التاسع', 'العاشر']
-export function autoTitle(kind: string, n: number): string {
-  if (kind === 'EXERCISE') return `التمرين ${ORDINALS[n - 1] ?? n}`
-  return `السؤال ${n}`
-}
+export { autoTitle, itemPoints }
 
 export function summarize(items: Pick<ExamItemRow, 'kind' | 'points' | 'snapshot'>[], targetPoints: number): { total: number; summary: DifficultySummary } {
   const graded = items.filter((i) => i.kind === 'EXERCISE' || i.kind === 'QUESTION')
@@ -126,6 +123,7 @@ export async function getOwnExam(db: Db, actor: Actor, id: string): Promise<Exam
 
 export async function updateExam(db: Db, actor: Actor, id: string, input: ExamInput): Promise<ExamRow> {
   const current = await getOwnExam(db, actor, id)
+  if (!(input.isFavorite !== undefined && Object.keys(input).length === 1)) await autoRevision(db, current, actor.userId)
   const patch: Partial<typeof exams.$inferInsert> = { updatedAt: new Date() }
   if (input.title !== undefined) {
     if (!input.title.trim()) throw new AppError('VALIDATION', { field: 'title' })
@@ -158,6 +156,12 @@ export async function updateExam(db: Db, actor: Actor, id: string, input: ExamIn
   if (input.instructions !== undefined) patch.instructions = input.instructions?.trim() || null
   if (input.header !== undefined) patch.header = { ...current.header, ...input.header }
   if (input.isTemplate !== undefined) patch.isTemplate = input.isTemplate
+  if (input.isFavorite !== undefined) patch.isFavorite = input.isFavorite
+  if (input.layout !== undefined) {
+    const parsed = layoutSchema.safeParse({ ...current.layout, ...input.layout })
+    if (!parsed.success) throw new AppError('VALIDATION', { field: 'layout' })
+    patch.layout = parsed.data
+  }
   if (input.groupId !== undefined) {
     if (input.groupId) {
       assertUuid(input.groupId, 'VALIDATION')
@@ -171,8 +175,9 @@ export async function updateExam(db: Db, actor: Actor, id: string, input: ExamIn
   else {
     // في السجلّ: ما تغيّر فعلاً فقط (المحرّر يرسل كل الحقول عند كل حفظ)
     const changed: Record<string, unknown> = {}
-    for (const [k, v] of Object.entries(patch)) if (k !== 'updatedAt' && k !== 'header' && JSON.stringify(v) !== JSON.stringify((current as Record<string, unknown>)[k])) changed[k] = v
+    for (const [k, v] of Object.entries(patch)) if (k !== 'updatedAt' && k !== 'header' && k !== 'layout' && JSON.stringify(v) !== JSON.stringify((current as Record<string, unknown>)[k])) changed[k] = v
     if (input.header !== undefined && JSON.stringify(patch.header) !== JSON.stringify(current.header)) changed.header = true
+    if (input.layout !== undefined && JSON.stringify(patch.layout) !== JSON.stringify(current.layout)) changed.layout = true
     await writeAudit(db, { actorUserId: actor.userId, workspaceId: current.workspaceId, action: 'exam.update', entityType: 'exam', entityId: id, newValue: changed })
   }
   return row!
@@ -199,7 +204,7 @@ export async function duplicateExam(db: Db, actor: Actor, id: string): Promise<E
   return copy
 }
 
-export type ExamScope = 'all' | 'draft' | 'ready' | 'templates' | 'archived'
+export type ExamScope = 'all' | 'draft' | 'ready' | 'templates' | 'archived' | 'favorites'
 
 export interface ExamFilter {
   scope?: ExamScope
@@ -222,6 +227,7 @@ export async function listExams(db: Db, actor: Actor, filter: ExamFilter = {}) {
       kind: exams.kind,
       status: exams.status,
       isTemplate: exams.isTemplate,
+      isFavorite: exams.isFavorite,
       totalPoints: exams.totalPoints,
       targetPoints: exams.targetPoints,
       durationMinutes: exams.durationMinutes,
@@ -245,8 +251,9 @@ export async function listExams(db: Db, actor: Actor, filter: ExamFilter = {}) {
         eq(exams.workspaceId, workspaceId),
         isNull(exams.deletedAt),
         scope === 'archived' ? eq(exams.status, 'ARCHIVED') : sql`${exams.status} <> 'ARCHIVED'`,
-        scope === 'templates' ? eq(exams.isTemplate, true) : scope === 'archived' ? undefined : eq(exams.isTemplate, false),
+        scope === 'templates' ? eq(exams.isTemplate, true) : scope === 'archived' || scope === 'favorites' ? undefined : eq(exams.isTemplate, false),
         scope === 'draft' ? eq(exams.status, 'DRAFT') : scope === 'ready' ? eq(exams.status, 'READY') : undefined,
+        scope === 'favorites' ? eq(exams.isFavorite, true) : undefined,
         filter.subjectId ? eq(exams.subjectId, filter.subjectId) : undefined,
         filter.levelId ? eq(exams.levelId, filter.levelId) : undefined,
         filter.kind ? eq(exams.kind, filter.kind) : undefined,
@@ -394,9 +401,12 @@ export async function workspaceStats(db: Db, actor: Actor): Promise<WorkspaceSta
 
 export interface ExamView extends ExamRow {
   subjectName: string | null
+  subjectCode: string | null
   levelName: string | null
   streamName: string | null
   items: ExamItemRow[]
+  /** روابط موقّعة للصور المستعملة في الكتل والشعار (معرّف الملف ← رابط) */
+  assets: Record<string, string>
   /** العنوان الظاهر لكل عنصر مرقّم (التمرين الأول…) */
   numbering: Record<string, string>
   heading: string
@@ -443,7 +453,7 @@ export async function copyExamToWorkspace(db: Db, examId: string, target: { work
 async function viewOfExam(db: Db, ex: ExamRow): Promise<ExamView> {
   const id = ex.id
   const [names] = await db
-    .select({ subjectName: subjects.nameAr, levelName: levels.nameAr, streamName: streams.nameAr })
+    .select({ subjectName: subjects.nameAr, subjectCode: subjects.code, levelName: levels.nameAr, streamName: streams.nameAr })
     .from(exams)
     .leftJoin(subjects, eq(subjects.id, exams.subjectId))
     .leftJoin(levels, eq(levels.id, exams.levelId))
@@ -454,11 +464,48 @@ async function viewOfExam(db: Db, ex: ExamRow): Promise<ExamView> {
   const numbering: Record<string, string> = {}
   let ex_n = 0
   let q_n = 0
+  const style = ex.layout?.numbering ?? 'words'
   for (const it of items) {
-    if (it.kind === 'EXERCISE') numbering[it.id] = it.title?.trim() || autoTitle('EXERCISE', ++ex_n)
-    else if (it.kind === 'QUESTION') numbering[it.id] = it.title?.trim() || autoTitle('QUESTION', ++q_n)
+    if (it.kind === 'EXERCISE') numbering[it.id] = it.title?.trim() || autoTitle('EXERCISE', ++ex_n, style)
+    else if (it.kind === 'QUESTION') numbering[it.id] = it.title?.trim() || autoTitle('QUESTION', ++q_n, style)
   }
-  return { ...ex, subjectName: names?.subjectName ?? null, levelName: names?.levelName ?? null, streamName: names?.streamName ?? null, items, numbering, heading: examHeading(ex) }
+  const imageIds = imageIdsOf(items.flatMap((it) => [it.snapshot.block, ...(it.snapshot.figures ?? [])]))
+  if (ex.layout?.logoFileId) imageIds.push(ex.layout.logoFileId)
+  const assets: Record<string, string> = {}
+  for (const id of imageIds) assets[id] = signFileUrl(id, 8 * 3600)
+  return { ...ex, subjectName: names?.subjectName ?? null, subjectCode: names?.subjectCode ?? null, levelName: names?.levelName ?? null, streamName: names?.streamName ?? null, items, numbering, heading: examHeading(ex), assets }
+}
+
+/* ------------------------------- المراجعات ------------------------------- */
+
+/** لقطة كاملة للورقة (إعدادات + عناصر بترتيبها) */
+export async function snapshotExam(db: Db, ex: ExamRow): Promise<ExamRevisionSnapshot> {
+  const items = await db.select().from(examItems).where(eq(examItems.examId, ex.id)).orderBy(asc(examItems.position), asc(examItems.createdAt))
+  return {
+    exam: { title: ex.title, kind: ex.kind, subjectId: ex.subjectId, levelId: ex.levelId, streamId: ex.streamId, schoolTerm: ex.schoolTerm, academicYear: ex.academicYear, durationMinutes: ex.durationMinutes, targetPoints: Number(ex.targetPoints), instructions: ex.instructions, header: ex.header, layout: ex.layout ?? {} },
+    items: items.map((it) => ({ kind: it.kind, bankQuestionId: it.bankQuestionId, title: it.title, points: it.points == null ? null : Number(it.points), snapshot: it.snapshot }))
+  }
+}
+
+export async function insertRevision(db: Db, ex: ExamRow, userId: string | null, reason: 'AUTO' | 'MANUAL' | 'RESTORE', label: string | null = null) {
+  const snap = await snapshotExam(db, ex)
+  const [n] = await db.select({ m: sql<number>`coalesce(max(${examRevisions.number}), 0)::int` }).from(examRevisions).where(eq(examRevisions.examId, ex.id))
+  const [row] = await db
+    .insert(examRevisions)
+    .values({ examId: ex.id, number: (n?.m ?? 0) + 1, reason, label, snapshot: snap, itemsCount: snap.items.filter((i) => i.kind === 'EXERCISE' || i.kind === 'QUESTION').length, totalPoints: String(ex.totalPoints), createdByUserId: userId })
+    .returning()
+  if (reason === 'AUTO') {
+    const old = await db.select({ id: examRevisions.id }).from(examRevisions).where(and(eq(examRevisions.examId, ex.id), eq(examRevisions.reason, 'AUTO'))).orderBy(desc(examRevisions.number)).offset(MAX_AUTO_REVISIONS)
+    if (old.length) await db.delete(examRevisions).where(inArray(examRevisions.id, old.map((o) => o.id)))
+  }
+  return row!
+}
+
+/** قبل أول تغيير في نافذة AUTO_REVISION_MINUTES: لقطة تلقائية (حالة «قبل») */
+async function autoRevision(db: Db, ex: ExamRow, userId: string): Promise<void> {
+  const [last] = await db.select({ createdAt: examRevisions.createdAt }).from(examRevisions).where(eq(examRevisions.examId, ex.id)).orderBy(desc(examRevisions.number)).limit(1)
+  if (last && Date.now() - last.createdAt.getTime() < AUTO_REVISION_MINUTES * 60 * 1000) return
+  await insertRevision(db, ex, userId, 'AUTO')
 }
 
 /* ------------------------------- العناصر ------------------------------- */
@@ -509,6 +556,7 @@ export function snapshotOf(q: BankQuestionRow, children: BankQuestionRow[] = [])
 /** سؤال من البنك إلى الورقة: نسخة مجمّدة (مع فرعياته)، ويُحتسب استعماله في البنك */
 export async function addItemFromBank(db: Db, actor: Actor, examId: string, questionId: string, position?: number | null): Promise<ExamItemRow> {
   const ex = await getOwnExam(db, actor, examId)
+  await autoRevision(db, ex, actor.userId)
   assertUuid(questionId, 'BANK_QUESTION_NOT_FOUND')
   if ((await countItems(db, examId)) >= MAX_ITEMS) throw new AppError('VALIDATION', { field: 'items' })
   const [q] = await db
@@ -527,7 +575,9 @@ export async function addItemFromBank(db: Db, actor: Actor, examId: string, ques
 
 /** تمرين حرّ يكتبه الأستاذ في الورقة (بلا بنك)، أو نصّ تعليمات، أو فاصل صفحة */
 export async function addFreeItem(db: Db, actor: Actor, examId: string, input: { kind: ExamItemKind; body?: string; title?: string | null; points?: number | null; position?: number | null }): Promise<ExamItemRow> {
-  await getOwnExam(db, actor, examId)
+  const ex = await getOwnExam(db, actor, examId)
+  await autoRevision(db, ex, actor.userId)
+  if (input.kind === 'BLOCK') throw new AppError('VALIDATION', { field: 'kind' })
   if ((await countItems(db, examId)) >= MAX_ITEMS) throw new AppError('VALIDATION', { field: 'items' })
   const body = (input.body ?? '').trim()
   if (input.kind !== 'PAGE_BREAK' && !body) throw new AppError('VALIDATION', { field: 'body' })
@@ -547,7 +597,71 @@ async function ownItem(db: Db, actor: Actor, itemId: string): Promise<{ item: Ex
   const [item] = await db.select().from(examItems).where(eq(examItems.id, itemId)).limit(1)
   if (!item) throw new AppError('EXAM_ITEM_NOT_FOUND')
   const exam = await getOwnExam(db, actor, item.examId)
+  await autoRevision(db, exam, actor.userId)
   return { item, exam }
+}
+
+/** الاستوديو: كتلة منظّمة (عنوان/فقرة/معادلة/منحنى/جدول…) في موضع من الورقة */
+export async function addBlock(db: Db, actor: Actor, examId: string, block: unknown, position?: number | null): Promise<ExamItemRow> {
+  const ex = await getOwnExam(db, actor, examId)
+  await autoRevision(db, ex, actor.userId)
+  const b = parseBlock(block)
+  if (!b) throw new AppError('VALIDATION', { field: 'block' })
+  if ((await countItems(db, examId)) >= MAX_ITEMS) throw new AppError('VALIDATION', { field: 'items' })
+  const row = await insertAt(db, examId, position, { kind: 'BLOCK', bankQuestionId: null, title: null, points: null, snapshot: { body: '', block: b } })
+  await db.update(exams).set({ updatedAt: new Date() }).where(eq(exams.id, examId))
+  return row
+}
+
+export interface ItemState {
+  /** إن وُجد العنصر بهذا المعرّف يُستبدل، وإلا يُدرج بالمعرّف نفسه (للتراجع/الإعادة) */
+  itemId?: string | null
+  kind: ExamItemKind
+  bankQuestionId?: string | null
+  title?: string | null
+  points?: number | null
+  snapshot: ExamItemSnapshot
+  position?: number | null
+}
+
+/** الاستوديو: استرجاع حالة عناصر (تراجع/إعادة): استبدال الموجود أو إعادة إدراج المحذوف في موضعه */
+export async function restoreItems(db: Db, actor: Actor, examId: string, states: ItemState[]): Promise<ExamItemRow[]> {
+  const ex = await getOwnExam(db, actor, examId)
+  await autoRevision(db, ex, actor.userId)
+  const out: ExamItemRow[] = []
+  for (const st of states) {
+    const snapshot = sanitizeSnapshot(st.kind, st.snapshot)
+    const values = { kind: st.kind, bankQuestionId: st.bankQuestionId ?? null, title: st.title?.trim() || null, points: st.points == null ? null : String(round2(st.points)), snapshot }
+    const existing = st.itemId ? (await db.select({ id: examItems.id }).from(examItems).where(and(eq(examItems.id, st.itemId), eq(examItems.examId, examId))).limit(1))[0] : null
+    if (existing) {
+      const [row] = await db.update(examItems).set({ ...values, updatedAt: new Date() }).where(eq(examItems.id, existing.id)).returning()
+      out.push(row!)
+    } else {
+      if ((await countItems(db, examId)) >= MAX_ITEMS) throw new AppError('VALIDATION', { field: 'items' })
+      const row = await insertAt(db, examId, st.position, { ...values, ...(st.itemId ? { id: st.itemId } : {}) })
+      out.push(row)
+    }
+  }
+  await recompute(db, examId)
+  return out
+}
+
+/** يتحقّق من النسخة المجمّدة القادمة من العميل (الكتل والأشكال بالمخطط، النصوص بحدود) */
+function sanitizeSnapshot(kind: ExamItemKind, s: ExamItemSnapshot): ExamItemSnapshot {
+  const out: ExamItemSnapshot = { ...s, body: String(s.body ?? '').slice(0, 8000) }
+  if (kind === 'BLOCK') {
+    const b = parseBlock(s.block)
+    if (!b) throw new AppError('VALIDATION', { field: 'block' })
+    return { body: '', block: b }
+  }
+  delete out.block
+  if (s.figures !== undefined) {
+    const f = figuresSchema.safeParse(s.figures)
+    if (!f.success) throw new AppError('VALIDATION', { field: 'figures' })
+    out.figures = f.data
+  }
+  if (s.children) out.children = s.children.slice(0, 40).map((c) => ({ ...c, body: String(c.body ?? '').slice(0, 8000) }))
+  return out
 }
 
 export interface ItemPatch {
@@ -558,6 +672,16 @@ export interface ItemPatch {
   /** نقاط الأسئلة الفرعية بترتيبها */
   childPoints?: number[]
   options?: { label: string; isCorrect: boolean }[]
+  /** الاستوديو */
+  block?: StudioBlock
+  figures?: StudioBlock[] | null
+  /** استبدال الأسئلة الفرعية كاملة (إضافة/حذف/تعديل) */
+  children?: { body: string; points?: number | null; solution?: string | null; options?: { label: string; isCorrect: boolean }[]; type?: string; title?: string | null }[]
+  bareme?: BaremeItem[] | null
+  optionsColumns?: 1 | 2 | 3 | 4 | null
+  difficulty?: number | null
+  estimatedMinutes?: number | null
+  type?: string
 }
 
 /** تعديل العنصر داخل الورقة فقط (النسخة المجمّدة)؛ البنك لا يتغيّر */
@@ -570,6 +694,44 @@ export async function updateItem(db: Db, actor: Actor, itemId: string, patch: It
   }
   if (patch.solution !== undefined) snapshot.solution = patch.solution?.trim() || null
   if (patch.options !== undefined) snapshot.options = patch.options.filter((o) => o.label.trim()).map((o) => ({ label: o.label.trim(), isCorrect: Boolean(o.isCorrect) }))
+  if (patch.block !== undefined) {
+    if (item.kind !== 'BLOCK') throw new AppError('VALIDATION', { field: 'block' })
+    const b = parseBlock(patch.block)
+    if (!b) throw new AppError('VALIDATION', { field: 'block' })
+    snapshot.block = b
+  }
+  if (patch.figures !== undefined) {
+    if (patch.figures == null || patch.figures.length === 0) delete snapshot.figures
+    else {
+      const f = figuresSchema.safeParse(patch.figures)
+      if (!f.success) throw new AppError('VALIDATION', { field: 'figures' })
+      snapshot.figures = f.data
+    }
+  }
+  if (patch.children !== undefined) {
+    const prev = snapshot.children ?? []
+    snapshot.children = patch.children
+      .filter((c) => c.body.trim())
+      .slice(0, 40)
+      .map((c, i) => ({
+        ...(prev[i] ?? {}),
+        kind: 'QUESTION',
+        type: c.type ?? prev[i]?.type ?? 'OPEN',
+        title: c.title?.trim() || null,
+        body: c.body.trim().slice(0, 8000),
+        points: c.points != null && c.points > 0 ? round2(c.points) : (prev[i]?.points ?? 1),
+        solution: c.solution === undefined ? (prev[i]?.solution ?? null) : c.solution?.trim() || null,
+        options: c.options === undefined ? (prev[i]?.options ?? []) : c.options.filter((o) => o.label.trim()).map((o) => ({ label: o.label.trim(), isCorrect: Boolean(o.isCorrect) }))
+      }))
+  }
+  if (patch.bareme !== undefined) snapshot.bareme = patch.bareme ? patch.bareme.filter((b) => b.label.trim()).slice(0, 40).map((b) => ({ label: b.label.trim(), points: round2(Number(b.points) || 0) })) : []
+  if (patch.optionsColumns !== undefined) {
+    if (patch.optionsColumns == null) delete snapshot.optionsColumns
+    else snapshot.optionsColumns = patch.optionsColumns
+  }
+  if (patch.difficulty !== undefined && patch.difficulty != null && patch.difficulty >= 1 && patch.difficulty <= 4) snapshot.difficulty = Math.round(patch.difficulty)
+  if (patch.estimatedMinutes !== undefined) snapshot.estimatedMinutes = patch.estimatedMinutes != null && patch.estimatedMinutes > 0 ? Math.round(patch.estimatedMinutes) : null
+  if (patch.type !== undefined && item.kind !== 'BLOCK' && item.kind !== 'TEXT') snapshot.type = patch.type
   if (patch.childPoints !== undefined && snapshot.children?.length) {
     snapshot.children = snapshot.children.map((c, i) => ({ ...c, points: patch.childPoints![i] != null && patch.childPoints![i]! > 0 ? round2(patch.childPoints![i]!) : c.points }))
   }
@@ -579,7 +741,7 @@ export async function updateItem(db: Db, actor: Actor, itemId: string, patch: It
     if (patch.points != null && (!(patch.points > 0) || patch.points > 200)) throw new AppError('VALIDATION', { field: 'points' })
     // تعديل نقاط الفرعيات يلغي التجاوز اليدوي للمجموع
     update.points = patch.childPoints !== undefined && patch.points == null ? null : patch.points == null ? null : String(round2(patch.points))
-  } else if (patch.childPoints !== undefined) update.points = null
+  } else if (patch.childPoints !== undefined || patch.children !== undefined) update.points = null
   const [row] = await db.update(examItems).set(update).where(eq(examItems.id, itemId)).returning()
   await recompute(db, item.examId)
   return row!
@@ -602,7 +764,8 @@ export async function duplicateItem(db: Db, actor: Actor, itemId: string): Promi
 
 /** ترتيب جديد كامل بمعرّفات العناصر (السحب والإفلات) */
 export async function reorderItems(db: Db, actor: Actor, examId: string, orderedIds: string[]): Promise<void> {
-  await getOwnExam(db, actor, examId)
+  const ex = await getOwnExam(db, actor, examId)
+  await autoRevision(db, ex, actor.userId)
   const items = await db.select({ id: examItems.id }).from(examItems).where(eq(examItems.examId, examId))
   const known = new Set(items.map((i) => i.id))
   const order = orderedIds.filter((id) => known.has(id))
@@ -637,6 +800,7 @@ export function proposeDistribution(points: number[], target: number): number[] 
 /** يطبّق التوزيع المقترح على عناصر الورقة (التمارين والأسئلة الجذرية؛ الفرعيات تتدرّج داخل تمرينها) */
 export async function rebalancePoints(db: Db, actor: Actor, examId: string): Promise<{ total: number; distribution: Record<string, number> }> {
   const ex = await getOwnExam(db, actor, examId)
+  await autoRevision(db, ex, actor.userId)
   const items = (await db.select().from(examItems).where(eq(examItems.examId, examId)).orderBy(asc(examItems.position))).filter((i) => i.kind === 'EXERCISE' || i.kind === 'QUESTION')
   if (items.length === 0) throw new AppError('EXAM_EMPTY')
   const proposed = proposeDistribution(

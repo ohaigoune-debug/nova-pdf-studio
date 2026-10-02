@@ -7,7 +7,8 @@ import { getDb } from '@/server/db/client'
 import { EXAM_ITEM_KINDS, EXAM_KINDS, EXAM_STATUSES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
-import { addFreeItem, addItemFromBank, createExam, createFromTemplate, deleteExam, duplicateExam, duplicateItem, rebalancePoints, recordPrint, removeItem, reorderItems, updateExam, updateItem, type ExamInput } from '@/server/services/exams.service'
+import { blockSchema, figuresSchema, layoutSchema } from '@/lib/exam-blocks'
+import { addBlock, addFreeItem, addItemFromBank, createExam, createFromTemplate, deleteExam, duplicateExam, duplicateItem, rebalancePoints, recordPrint, removeItem, reorderItems, restoreItems, updateExam, updateItem, type ExamInput, type ItemPatch, type ItemState } from '@/server/services/exams.service'
 import { kickWorker } from '@/server/jobs/runner'
 import { buildBacMock } from '@/server/services/bac-generator.service'
 import { getTeacherProgress, setTeacherProgress } from '@/server/services/exam-engine.service'
@@ -32,8 +33,11 @@ const examSchema = z.object({
   header: z.object({ school: z.string().max(200).optional(), wilaya: z.string().max(80).optional(), teacherName: z.string().max(120).optional(), heading: z.string().max(120).optional(), date: z.string().max(40).optional(), showSources: z.boolean().optional() }).optional(),
   status: z.enum(EXAM_STATUSES).optional(),
   isTemplate: z.boolean().optional(),
-  groupId: optUuid
+  groupId: optUuid,
+  layout: layoutSchema.optional(),
+  isFavorite: z.boolean().optional()
 })
+const snapshotSchema = z.object({ body: z.string().max(8000) }).passthrough()
 
 const revalidate = (id?: string) => {
   revalidatePath('/teacher/exams')
@@ -159,14 +163,59 @@ export async function addFreeItemAction(examId: string, input: { kind: string; b
   return result
 }
 
-export async function updateItemAction(examId: string, itemId: string, patch: { title?: string | null; points?: number | null; body?: string; solution?: string | null; childPoints?: number[]; options?: { label: string; isCorrect: boolean }[] }): Promise<ActionResult> {
-  const parsed = z
-    .object({ examId: uuid, itemId: uuid, patch: z.object({ title: z.string().max(200).nullish(), points: z.number().positive().max(200).nullish(), body: z.string().max(8000).optional(), solution: z.string().max(8000).nullish(), childPoints: z.array(z.number().min(0).max(200)).max(40).optional(), options: z.array(z.object({ label: z.string().max(500), isCorrect: z.boolean() })).max(8).optional() }) })
-    .safeParse({ examId, itemId, patch })
+const optionsSchema = z.array(z.object({ label: z.string().max(500), isCorrect: z.boolean() })).max(8)
+const itemPatchSchema = z.object({
+  title: z.string().max(200).nullish(),
+  points: z.number().positive().max(200).nullish(),
+  body: z.string().max(8000).optional(),
+  solution: z.string().max(8000).nullish(),
+  childPoints: z.array(z.number().min(0).max(200)).max(40).optional(),
+  options: optionsSchema.optional(),
+  block: blockSchema.optional(),
+  figures: figuresSchema.nullish(),
+  children: z.array(z.object({ body: z.string().max(8000), points: z.number().min(0).max(200).nullish(), solution: z.string().max(8000).nullish(), options: optionsSchema.optional(), type: z.string().max(20).optional(), title: z.string().max(200).nullish() })).max(40).optional(),
+  bareme: z.array(z.object({ label: z.string().max(300), points: z.number().min(0).max(200) })).max(40).nullish(),
+  optionsColumns: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]).nullish(),
+  difficulty: z.number().int().min(1).max(4).nullish(),
+  estimatedMinutes: z.number().int().min(0).max(600).nullish(),
+  type: z.string().max(20).optional()
+})
+
+export async function updateItemAction(examId: string, itemId: string, patch: ItemPatch): Promise<ActionResult> {
+  const parsed = z.object({ examId: uuid, itemId: uuid, patch: itemPatchSchema }).safeParse({ examId, itemId, patch })
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
-    await updateItem(await getDb(), await requireRole('TEACHER'), parsed.data.itemId, parsed.data.patch)
+    await updateItem(await getDb(), await requireRole('TEACHER'), parsed.data.itemId, parsed.data.patch as ItemPatch)
     return undefined
+  })
+  if (result.ok) revalidate(examId)
+  return result
+}
+
+/** الاستوديو: كتلة منظّمة في الورقة */
+export async function addBlockAction(examId: string, block: unknown, position?: number | null): Promise<ActionResult<{ id: string }>> {
+  const parsed = z.object({ examId: uuid, block: blockSchema, position: z.number().int().min(0).max(500).nullish() }).safeParse({ examId, block, position })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const row = await addBlock(await getDb(), await requireRole('TEACHER'), parsed.data.examId, parsed.data.block, parsed.data.position)
+    return { id: row.id }
+  })
+  if (result.ok) revalidate(examId)
+  return result
+}
+
+/** الاستوديو: تراجع/إعادة — استرجاع حالة عناصر (استبدال أو إعادة إدراج بالمعرّف نفسه) */
+export async function restoreItemsAction(examId: string, states: ItemState[]): Promise<ActionResult<{ ids: string[] }>> {
+  const parsed = z
+    .object({
+      examId: uuid,
+      states: z.array(z.object({ itemId: optUuid, kind: z.enum(EXAM_ITEM_KINDS), bankQuestionId: optUuid, title: z.string().max(200).nullish(), points: z.number().min(0).max(200).nullish(), snapshot: snapshotSchema, position: z.number().int().min(0).max(500).nullish() })).min(1).max(60)
+    })
+    .safeParse({ examId, states })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const rows = await restoreItems(await getDb(), await requireRole('TEACHER'), parsed.data.examId, parsed.data.states as ItemState[])
+    return { ids: rows.map((r) => r.id) }
   })
   if (result.ok) revalidate(examId)
   return result

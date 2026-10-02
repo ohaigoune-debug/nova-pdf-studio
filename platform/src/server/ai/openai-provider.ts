@@ -33,6 +33,11 @@ import {
   parseExercises,
   parseOrganize,
   PARSE_REQUEST_MAX_TOKENS,
+  COPILOT_MAX_TOKENS,
+  COPILOT_SCHEMA,
+  copilotSystem,
+  copilotUser,
+  parseCopilot,
   PARSE_REQUEST_SCHEMA,
   parseParsedRequest,
   parseRequestSystem,
@@ -60,6 +65,8 @@ import type {
   OrganizeLessonsInput,
   OrganizeLessonsOutput,
   ParseExamRequestInput,
+  ExamCopilotInput,
+  ExamCopilotOutput,
   ParsedExamRequest,
   TeacherInsightsInput,
   TeacherInsightsOutput
@@ -204,6 +211,10 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
 
     async parseExamRequest(input: ParseExamRequestInput): Promise<ParsedExamRequest> {
       return parseParsedRequest(await complete(schemaParams(parseRequestSystem(), parseRequestUser(input), PARSE_REQUEST_MAX_TOKENS, 'exam_request', PARSE_REQUEST_SCHEMA)), input)
+    },
+
+    async examCopilot(input: ExamCopilotInput): Promise<ExamCopilotOutput> {
+      return parseCopilot(await complete(schemaParams(copilotSystem(input.subject), copilotUser(input), COPILOT_MAX_TOKENS, 'exam_copilot', COPILOT_SCHEMA), { timeoutMs: 90_000 }))
     }
   }
 }

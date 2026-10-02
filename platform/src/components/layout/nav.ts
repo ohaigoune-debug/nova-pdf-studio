@@ -80,6 +80,7 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/teacher/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
             { href: '/teacher/exams', label: 'الامتحانات', iconKey: 'FileText' },
             { href: '/teacher/bank', label: 'بنك الأسئلة', iconKey: 'Library' },
+            { href: '/teacher/library', label: 'مكتبتي', iconKey: 'BookMarked' },
             { href: '/teacher/market', label: 'سوق الأساتذة', iconKey: 'Store' },
             { href: '/teacher/rubrics', label: t('rubrics.title'), iconKey: 'ClipboardCheck' },
             { href: '/teacher/drive', label: 'مكتبة Drive', iconKey: 'HardDrive' },

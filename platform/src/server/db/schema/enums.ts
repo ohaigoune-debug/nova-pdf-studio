@@ -177,7 +177,13 @@ export const EXAM_KINDS = ['TEST', 'HOMEWORK', 'BAC_MOCK', 'BEM_MOCK', 'QUIZ', '
 export type ExamKind = (typeof EXAM_KINDS)[number]
 export const EXAM_STATUSES = ['DRAFT', 'READY', 'ARCHIVED'] as const
 export type ExamStatus = (typeof EXAM_STATUSES)[number]
-export const EXAM_ITEM_KINDS = ['EXERCISE', 'QUESTION', 'TEXT', 'PAGE_BREAK'] as const
+export const EXAM_ITEM_KINDS = ['EXERCISE', 'QUESTION', 'TEXT', 'PAGE_BREAK', 'BLOCK'] as const
+/** سبب المراجعة المحفوظة لورقة الامتحان (الاستوديو) */
+export const EXAM_REVISION_REASONS = ['AUTO', 'MANUAL', 'RESTORE'] as const
+export type ExamRevisionReason = (typeof EXAM_REVISION_REASONS)[number]
+/** أنواع عناصر مكتبة الأستاذ: كتلة قابلة لإعادة الاستعمال أو ترويسة */
+export const LIBRARY_ITEM_KINDS = ['BLOCK', 'HEADER'] as const
+export type LibraryItemKind = (typeof LIBRARY_ITEM_KINDS)[number]
 export type ExamItemKind = (typeof EXAM_ITEM_KINDS)[number]
 
 export const RESOURCE_STATUSES = ['DRAFT', 'NEEDS_REVIEW', 'PUBLISHED', 'ARCHIVED', 'BROKEN'] as const

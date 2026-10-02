@@ -22,6 +22,7 @@ const TABS: { key: ExamScope; label: string }[] = [
   { key: 'draft', label: 'المسودات' },
   { key: 'ready', label: 'الجاهزة' },
   { key: 'templates', label: 'قوالبي' },
+  { key: 'favorites', label: 'المفضّلة' },
   { key: 'archived', label: 'الأرشيف' }
 ]
 
@@ -59,6 +60,11 @@ export default async function ExamsPage({ searchParams }: { searchParams: Promis
             <Button asChild variant="outline">
               <Link href="/teacher/exams/stats">
                 <BarChart3 className="size-4" /> الإحصاءات
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/teacher/exams/templates">
+                <BookTemplate className="size-4" /> القوالب
               </Link>
             </Button>
             <Button asChild variant="outline">

@@ -36,6 +36,11 @@ import {
   strList,
   text,
   PARSE_REQUEST_MAX_TOKENS,
+  COPILOT_MAX_TOKENS,
+  COPILOT_SCHEMA,
+  copilotSystem,
+  copilotUser,
+  parseCopilot,
   PARSE_REQUEST_SCHEMA,
   parseParsedRequest,
   parseRequestSystem,
@@ -65,6 +70,8 @@ import type {
   TeacherInsightsInput,
   TeacherInsightsOutput,
   ParseExamRequestInput,
+  ExamCopilotInput,
+  ExamCopilotOutput,
   ParsedExamRequest
 } from './types'
 
@@ -255,6 +262,10 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
 
     async parseExamRequest(input: ParseExamRequestInput): Promise<ParsedExamRequest> {
       return parseParsedRequest(await complete(jsonParams(parseRequestSystem(), parseRequestUser(input), PARSE_REQUEST_MAX_TOKENS, PARSE_REQUEST_SCHEMA)), input)
+    },
+
+    async examCopilot(input: ExamCopilotInput): Promise<ExamCopilotOutput> {
+      return parseCopilot(await complete(jsonParams(copilotSystem(input.subject), copilotUser(input), COPILOT_MAX_TOKENS, COPILOT_SCHEMA)))
     }
   }
 }

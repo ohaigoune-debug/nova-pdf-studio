@@ -11,7 +11,7 @@ import { Alert } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
 import { buildExamAction, listNodesAction, parseExamRequestAction, setProgressAction, type NodeOption } from '@/server/actions/exams.actions'
 import type { ExamKind } from '@/server/db/schema/enums'
-import { EXAM_KIND_AR } from '@/server/services/exams.service'
+import { EXAM_KIND_AR } from '@/lib/exam-labels'
 
 type Opt = { id: string; name: string }
 

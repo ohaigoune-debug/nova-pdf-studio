@@ -246,6 +246,44 @@ export interface ParsedExamRequest {
   raw?: Record<string, unknown>
 }
 
+/** Exam Studio Copilot: عملية واحدة على عنصر من الورقة ← مقترح يراجعه الأستاذ قبل تطبيقه (لا يُكتب شيء تلقائياً) */
+export type CopilotOp = 'easier' | 'harder' | 'similar' | 'rewrite' | 'solution' | 'marking' | 'distractors' | 'to_mcq' | 'subquestions' | 'points' | 'time'
+
+export interface ExamCopilotInput {
+  subject?: string | null
+  levelName?: string | null
+  streamName?: string | null
+  op: CopilotOp
+  /** توجيه حرّ من الأستاذ (اختياري) */
+  instructions?: string | null
+  item: {
+    title: string | null
+    body: string
+    type: string | null
+    points: number
+    solution: string | null
+    options: { label: string; isCorrect: boolean }[]
+    children: { body: string; points: number; solution: string | null }[]
+  }
+  /** سياق الورقة لاقتراح النقاط والزمن */
+  exam: { targetPoints: number; totalPoints: number; durationMinutes: number; gradedItems: number }
+}
+
+export interface ExamCopilotOutput {
+  title: string | null
+  body: string | null
+  children: { body: string; points: number; solution: string | null }[] | null
+  options: { label: string; isCorrect: boolean }[] | null
+  solution: string | null
+  bareme: { label: string; points: number }[] | null
+  points: number | null
+  estimatedMinutes: number | null
+  difficulty: number | null
+  /** شرح قصير لما غُيّر ولماذا (يظهر للأستاذ) */
+  note: string
+  raw?: Record<string, unknown>
+}
+
 export interface EssayBatchItem {
   /** معرّف يعود مع النتيجة (معرّف سجل التقييم) */
   customId: string
@@ -285,6 +323,8 @@ export interface AIProvider {
   generateExamItems?(input: GenerateExamItemsInput): Promise<GenerateExamItemsOutput>
   /** طلب حرّ ← مرشّحات مهيكلة (أسماء من القوائم المعطاة فقط) — المزوّد الذي لا يوفّرها يُستعمل المحلّل الحتمي */
   parseExamRequest?(input: ParseExamRequestInput): Promise<ParsedExamRequest>
+  /** مساعد الاستوديو: تعديل/حلّ/سلّم/تحويل عنصر — مقترح فقط، الأستاذ يقبل أو يرفض */
+  examCopilot?(input: ExamCopilotInput): Promise<ExamCopilotOutput>
   /**
    * اختياري: تصحيح دفعة كاملة بنصف السعر؛ النتائج تُجلب لاحقاً بالاستطلاع.
    * المزوّد الذي لا يوفّرها يُعالَج فرادى.

@@ -1,10 +1,11 @@
 import { BookTemplate, History } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ExamBuilder } from '@/components/domain/exam-builder'
+import { ExamStudio } from '@/components/studio/studio'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { PageHeader } from '@/components/ui/misc'
+import { aiProviderInfo } from '@/server/ai/provider'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
@@ -38,7 +39,7 @@ export default async function ExamBuilderPage({ params }: { params: Promise<{ id
               </Badge>
             ) : null}
             {exam.status === 'ARCHIVED' ? <Badge variant="muted">مؤرشف</Badge> : exam.status === 'READY' ? <Badge variant="success">جاهز</Badge> : <Badge variant="secondary">مسودة</Badge>}
-            <span>اسحب من البنك إلى الورقة، رتّب، عدّل داخل الورقة، وراقب المجموع والصعوبة.</span>
+            <span>الاستوديو: كتل وبنك على اليمين، الورقة في الوسط، الترويسة والنقاط على اليسار. كل تغيير يُحفظ فوراً ويمكن التراجع عنه.</span>
           </span>
         }
         actions={
@@ -49,7 +50,7 @@ export default async function ExamBuilderPage({ params }: { params: Promise<{ id
           </Button>
         }
       />
-      <ExamBuilder exam={exam} options={{ subjects: opts.subjects, levels: opts.levels, streams: opts.streams, groups: groups.filter((g) => g.status === 'ACTIVE').map((g) => ({ id: g.id, name: g.name })) }} />
+      <ExamStudio exam={exam} options={{ subjects: opts.subjects, levels: opts.levels, streams: opts.streams, groups: groups.filter((g) => g.status === 'ACTIVE').map((g) => ({ id: g.id, name: g.name })) }} aiConfigured={aiProviderInfo().configured} />
     </>
   )
 }

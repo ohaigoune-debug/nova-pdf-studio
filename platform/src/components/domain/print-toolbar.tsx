@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight, FileCheck2, FileText, Printer } from 'lucide-react'
+import { ArrowRight, FileCheck2, FileText, ListOrdered, Printer } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
@@ -8,9 +8,9 @@ import { cn } from '@/lib/utils'
 import { recordPrintAction } from '@/server/actions/exams.actions'
 
 /** شريط فوق الورقة (لا يُطبع): طباعة/حفظ PDF، والتبديل بين الموضوع والتصحيح */
-export function PrintToolbar({ examId, mode, variant, title, readOnly = false }: { examId: string; mode: 'subject' | 'correction'; variant: string; title: string; readOnly?: boolean }) {
+export function PrintToolbar({ examId, mode, variant, title, readOnly = false }: { examId: string; mode: 'subject' | 'correction' | 'marking'; variant: string; title: string; readOnly?: boolean }) {
   useEffect(() => {
-    document.title = `${mode === 'correction' ? 'التصحيح' : 'الموضوع'}${variant !== 'A' ? ` (${variant})` : ''} — ${title}`
+    document.title = `${mode === 'correction' ? 'التصحيح' : mode === 'marking' ? 'سلّم التنقيط' : 'الموضوع'}${variant !== 'A' ? ` (${variant})` : ''} — ${title}`
   }, [mode, variant, title])
   const tab = (on: boolean) => cn('rounded-full border px-3 py-1 text-sm', on ? 'border-primary bg-primary text-primary-foreground' : 'bg-white hover:border-primary/50')
   return (
@@ -29,7 +29,10 @@ export function PrintToolbar({ examId, mode, variant, title, readOnly = false }:
           <FileText className="size-4" /> الموضوع
         </Link>
         <Link href={`/print/exams/${examId}?mode=correction&variant=${variant}`} className={cn(tab(mode === 'correction'), 'inline-flex items-center gap-1')}>
-          <FileCheck2 className="size-4" /> التصحيح والسلّم
+          <FileCheck2 className="size-4" /> التصحيح
+        </Link>
+        <Link href={`/print/exams/${examId}?mode=marking&variant=${variant}`} className={cn(tab(mode === 'marking'), 'inline-flex items-center gap-1')}>
+          <ListOrdered className="size-4" /> سلّم التنقيط
         </Link>
         <span className="ms-2 text-xs text-muted-foreground">النسخة:</span>
         {['A', 'B', 'C', 'D'].map((v) => (
@@ -44,7 +47,7 @@ export function PrintToolbar({ examId, mode, variant, title, readOnly = false }:
           size="sm"
           onClick={() => {
             // السجلّ لا يعطّل الطباعة: يُسجَّل في الخلفية ثم تُفتح نافذة الطباعة فوراً
-            if (!readOnly) void recordPrintAction(examId, mode, variant)
+            if (!readOnly) void recordPrintAction(examId, mode === 'marking' ? 'correction' : mode, variant)
             window.print()
           }}
         >

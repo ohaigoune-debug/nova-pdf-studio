@@ -6,7 +6,7 @@ import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bit
 import { Input, Select } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { createExamAction } from '@/server/actions/exams.actions'
-import { EXAM_KIND_AR } from '@/server/services/exams.service'
+import { EXAM_KIND_AR } from '@/lib/exam-labels'
 
 type Opt = { id: string; name: string }
 

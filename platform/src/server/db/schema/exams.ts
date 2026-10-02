@@ -8,6 +8,9 @@ import { EXAM_ITEM_KINDS, EXAM_KINDS, EXAM_STATUSES } from './enums'
 import { groups } from './groups'
 import { levels, streams, subjects } from './reference'
 import { teacherWorkspaces } from './tenancy'
+import type { ExamLayout, StudioBlock } from '@/lib/exam-blocks'
+
+export type { ExamLayout, StudioBlock }
 
 /** ترويسة الورقة الرسمية: ما لا يأتي من التصنيف يكتبه الأستاذ مرة ويُعاد في كل امتحان */
 export interface ExamHeader {
@@ -37,6 +40,12 @@ export interface ExamItemSnapshot {
   sourceYear?: number | null
   keywords?: string[]
   children?: ExamItemSnapshot[]
+  /** الاستوديو: كتلة منظّمة (للعنصر من نوع BLOCK) */
+  block?: StudioBlock
+  /** الاستوديو: أشكال داخل التمرين (منحنى/جدول/معادلة…) تُعرض بين النصّ والأسئلة الفرعية */
+  figures?: StudioBlock[]
+  /** عدد أعمدة اختيارات QCM في الورقة */
+  optionsColumns?: 1 | 2 | 3 | 4
 }
 
 export interface DifficultySummary {
@@ -71,6 +80,10 @@ export const exams = pgTable(
     instructions: text('instructions'),
     header: jsonb('header').$type<ExamHeader>().notNull().default({}),
     difficultySummary: jsonb('difficulty_summary').$type<DifficultySummary>().notNull().default({}),
+    /** الاستوديو: تخطيط الورقة (خطّ، هوامش، ترويسة، تذييل، QR…) — فارغ = الافتراضي */
+    layout: jsonb('layout').$type<ExamLayout>().notNull().default({}),
+    /** الاستوديو: مفضّلة الأستاذ (امتحانات وقوالب) */
+    isFavorite: boolean('is_favorite').notNull().default(false),
     status: text('status').notNull().default('DRAFT'),
     sourceExamId: uuid('source_exam_id').references((): AnyPgColumn => exams.id, { onDelete: 'set null' }),
     pdfFileId: uuid('pdf_file_id').references(() => files.id, { onDelete: 'set null' }),
