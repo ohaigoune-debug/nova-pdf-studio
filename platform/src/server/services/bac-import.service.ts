@@ -21,6 +21,7 @@ import { writeAudit } from '@/server/lib/audit'
 import { extractDocText, pdfPageCount, TEXT_MIME } from '@/server/lib/doc-text'
 import { AppError } from '@/server/lib/errors'
 import { fetchDriveBytes, listDriveFolder, parseDriveFolderId, type DriveFile, type DriveOptions } from '@/server/lib/google-drive'
+import { HARVEST_UA, harvestSite } from '@/server/bac/harvest'
 import { newStorageKey, storage } from '@/server/lib/storage'
 import { errorMessage } from '@/i18n'
 import { notify } from './notifications.service'
@@ -33,7 +34,7 @@ const EXCERPT_CHARS = 2500
 const MIN_AI_CONFIDENCE = 0.6
 const ONEC = 'الديوان الوطني للامتحانات والمسابقات'
 
-export type ImportSource = { kind: 'drive'; folderUrl: string } | { kind: 'dir'; dir: string }
+export type ImportSource = { kind: 'drive'; folderUrl: string } | { kind: 'dir'; dir: string } | { kind: 'web'; seedUrl: string }
 
 export interface ImportedFile {
   name: string
@@ -60,6 +61,7 @@ export interface ImportReport {
 
 interface Classified {
   name: string
+  pageUrl?: string
   bytes: Uint8Array
   mimeType: string
   checksum: string
@@ -146,7 +148,7 @@ async function classify(name: string, text: string, lists: { subjects: { code: s
  * الاستيراد الفعلي (يُستدعى من المهمة الخلفية أو من سطر الأوامر). كل ملف يُحفظ فور إتمامه.
  * `onProgress` لتحديث تقدّم المهمة.
  */
-export async function importBacFiles(db: Db, actor: Actor, source: ImportSource, opts: { drive?: DriveOptions; useAi?: boolean; onProgress?: (done: number, total: number, last: string) => Promise<void> | void } = {}): Promise<ImportReport> {
+export async function importBacFiles(db: Db, actor: Actor, source: ImportSource, opts: { drive?: DriveOptions; fetch?: typeof fetch; useAi?: boolean; log?: (line: string) => void; onProgress?: (done: number, total: number, last: string) => Promise<void> | void } = {}): Promise<ImportReport> {
   assertRole(actor, 'SUPER_ADMIN')
   const useAi = opts.useAi ?? true
   const [l3] = await db.select({ id: levels.id, stageId: levels.stageId }).from(levels).where(eq(levels.code, '3AS')).limit(1)
@@ -159,9 +161,33 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
   if (!src) throw new AppError('NOT_FOUND', { source: 'onec' })
 
   // 1) القائمة
-  let entries: { name: string; read: () => Promise<{ bytes: Uint8Array; mimeType: string }> }[]
+  let entries: { name: string; pageUrl?: string; read: () => Promise<{ bytes: Uint8Array; mimeType: string }> }[]
   let label: string
-  if (source.kind === 'drive') {
+  if (source.kind === 'web') {
+    // موقع عامّ (ency-education، eddirassa…): روابط PDF مع نصّ الرابط وعنوان الصفحة؛ الملف يُنزَّل هنا
+    let seed: URL
+    try {
+      seed = new URL(source.seedUrl)
+    } catch {
+      throw new AppError('VALIDATION', { field: 'seedUrl' })
+    }
+    if (!/^https?:$/.test(seed.protocol)) throw new AppError('VALIDATION', { field: 'seedUrl' })
+    const h = await harvestSite(source.seedUrl, { fetch: opts.fetch, log: opts.log })
+    label = `موقع: ${seed.hostname}`
+    const doFetch = opts.fetch ?? fetch
+    entries = h.pdfs.map((p) => ({
+      name: `${[p.text, p.pageTitle].filter(Boolean).join(' — ')} (${decodeURIComponent(path.basename(new URL(p.url).pathname) || 'file')})`,
+      pageUrl: p.pageUrl,
+      read: async () => {
+        const res = await doFetch(p.url, { headers: { 'user-agent': HARVEST_UA, accept: 'application/pdf,*/*' }, redirect: 'follow', signal: AbortSignal.timeout(60_000) })
+        if (!res.ok) throw new Error(`المصدر ردّ ${res.status}`)
+        const ct = (res.headers.get('content-type') ?? '').toLowerCase()
+        if (ct.includes('html')) throw new Error('الرابط صفحة ويب لا ملفاً')
+        const mimeType = ct.includes('pdf') || /\.pdf(?:$|\?)/i.test(p.url) ? TEXT_MIME.pdf : ct.startsWith('text/plain') ? 'text/plain' : ct.includes('wordprocessingml') ? TEXT_MIME.docx : TEXT_MIME.pdf
+        return { bytes: new Uint8Array(await res.arrayBuffer()), mimeType }
+      }
+    }))
+  } else if (source.kind === 'drive') {
     const folderId = parseDriveFolderId(source.folderUrl)
     if (!folderId) throw new AppError('INVALID_DRIVE_URL')
     const { name, files: driveFiles } = await listDriveFolder(folderId, opts.drive)
@@ -174,7 +200,7 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
     label = `مجلد: ${dir}`
     entries = (await listDir(dir)).map((f) => ({ name: f.name, read: async () => ({ bytes: new Uint8Array(await readFile(f.path)), mimeType: EXT_MIME[path.extname(f.path).toLowerCase()]! }) }))
   }
-  if (entries.length === 0) throw new AppError('DRIVE_EMPTY')
+  if (entries.length === 0) throw new AppError(source.kind === 'web' ? 'HARVEST_EMPTY' : 'DRIVE_EMPTY')
 
   const report: ImportReport = { source: label, files: entries.length, exams: 0, corrections: 0, duplicates: 0, unclassified: 0, errors: 0, scanned: 0, items: [] }
   const known = new Set((await db.select({ h: examDocuments.pdfHash }).from(examDocuments)).map((d) => d.h).filter((h): h is string => Boolean(h)))
@@ -200,7 +226,7 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
         report.items.push({ name: e.name, outcome: 'unclassified', reason: `لم تُعرف ${!guess.year ? 'السنة' : 'المادة'} — أعد تسمية الملف (مثال: bac-2023-math-se-sujet1.pdf) أو ضع العنوان الرسمي في أول صفحة` })
         continue
       }
-      classified.push({ name: e.name, bytes, mimeType, checksum, text, guess, aiFilled })
+      classified.push({ name: e.name, pageUrl: e.pageUrl, bytes, mimeType, checksum, text, guess, aiFilled })
       known.add(checksum)
     } catch (err) {
       report.errors++
@@ -251,13 +277,13 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
       const { subject, stream, base } = common(c.guess)
       const title = titleOf(c.guess, subject.name, stream?.name ?? null)
       const fileId = await storeBytes(db, { bytes: c.bytes, mimeType: c.mimeType, name: c.name, checksum: c.checksum, userId: actor.userId })
-      const r = await upsertResource(db, { ...base, ref: `import:${c.checksum}`, type: 'EXAM', title, fileId, metadata: { importedFrom: source.kind, fileName: c.name, aiFilled: c.aiFilled } })
+      const r = await upsertResource(db, { ...base, ref: `import:${c.checksum}`, type: 'EXAM', title, fileId, sourceUrl: c.pageUrl ?? null, metadata: { importedFrom: source.kind, fileName: c.name, aiFilled: c.aiFilled } })
       const pages = c.mimeType === TEXT_MIME.pdf ? await pdfPageCount(c.bytes).catch(() => null) : null
       const scanned = c.text.length < 200
       if (scanned) report.scanned++
       const [doc] = await db
         .insert(examDocuments)
-        .values({ resourceId: r.id, title, docType: 'BAC', subjectId: subject.id, levelId: l3?.id ?? null, streamId: stream?.id ?? null, examYear: c.guess.year, examSession: c.guess.session ?? 'NORMAL', topicNumber: c.guess.topicNumber, language: languageOfSubject(subject.code), sourceId: src.id, fileId, pdfHash: c.checksum, pagesCount: pages, status: 'PENDING', metadata: { importedFrom: source.kind, fileName: c.name, aiFilled: c.aiFilled, scanned, importedAt: new Date().toISOString(), originalAuthor: ONEC } })
+        .values({ resourceId: r.id, title, docType: 'BAC', subjectId: subject.id, levelId: l3?.id ?? null, streamId: stream?.id ?? null, examYear: c.guess.year, examSession: c.guess.session ?? 'NORMAL', topicNumber: c.guess.topicNumber, language: languageOfSubject(subject.code), sourceId: src.id, sourceUrl: c.pageUrl ?? null, fileId, pdfHash: c.checksum, pagesCount: pages, status: 'PENDING', metadata: { importedFrom: source.kind, fileName: c.name, aiFilled: c.aiFilled, scanned, importedAt: new Date().toISOString(), originalAuthor: ONEC } })
         .onConflictDoNothing()
         .returning({ id: examDocuments.id })
       const documentId = doc?.id ?? (await db.select({ id: examDocuments.id }).from(examDocuments).where(eq(examDocuments.resourceId, r.id)).limit(1))[0]?.id
@@ -277,7 +303,9 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
       const target = byKey.get(keyOf(c.guess)) ?? (c.guess.topicNumber === null ? (byKey.get(keyOf({ ...c.guess, topicNumber: 1 })) ?? byKey.get(keyOf({ ...c.guess, topicNumber: 2 }))) : undefined)
       const title = `تصحيح: ${titleOf(c.guess, subject.name, stream?.name ?? null)}`
       const fileId = await storeBytes(db, { bytes: c.bytes, mimeType: c.mimeType, name: c.name, checksum: c.checksum, userId: actor.userId })
-      const sol = await upsertResource(db, { ...base, ref: `import:${c.checksum}`, type: 'SOLUTION', part: 'correction', title, fileId, metadata: { importedFrom: source.kind, fileName: c.name, aiFilled: c.aiFilled } })
+      // تصحيح من موقع عامّ ليس رسمياً: يُنسب إلى الموقع ويُراجَع كأي حلّ
+      const webHost = source.kind === 'web' && c.pageUrl ? new URL(c.pageUrl).hostname.replace(/^www\./, '') : null
+      const sol = await upsertResource(db, { ...base, ...(webHost ? { isOfficial: false, originalAuthor: webHost, status: 'NEEDS_REVIEW' as const } : {}), ref: `import:${c.checksum}`, type: 'SOLUTION', part: 'correction', title, fileId, sourceUrl: c.pageUrl ?? null, metadata: { importedFrom: source.kind, fileName: c.name, aiFilled: c.aiFilled } })
       if (!target) {
         report.unclassified++
         report.items.push({ name: c.name, outcome: 'unclassified', reason: 'تصحيح بلا موضوع مطابق في البنك (حُفظ في المكتبة؛ استورد الموضوع ثم أعد المحاولة)', title })
@@ -298,22 +326,46 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
 }
 
 /** من اللوحة: استيراد مجلد Drive في الخلفية (مهمة واحدة في كل مرة) */
-export async function requestBacImport(db: Db, actor: Actor, folderUrl: string): Promise<{ jobId: string; reused: boolean }> {
+export async function requestBacImport(db: Db, actor: Actor, input: { folderUrl?: string | null; seedUrl?: string | null }): Promise<{ jobId: string; reused: boolean }> {
   assertRole(actor, 'SUPER_ADMIN')
-  if (!parseDriveFolderId(folderUrl)) throw new AppError('INVALID_DRIVE_URL')
+  let payload: Record<string, unknown>
+  if (input.folderUrl) {
+    if (!parseDriveFolderId(input.folderUrl)) throw new AppError('INVALID_DRIVE_URL')
+    payload = { folderUrl: input.folderUrl }
+  } else if (input.seedUrl) {
+    let u: URL
+    try {
+      u = new URL(input.seedUrl)
+    } catch {
+      throw new AppError('VALIDATION', { field: 'seedUrl' })
+    }
+    if (!/^https?:$/.test(u.protocol) || parseDriveFolderId(input.seedUrl)) throw new AppError('VALIDATION', { field: 'seedUrl' })
+    payload = { seedUrl: u.toString() }
+  } else throw new AppError('VALIDATION', { field: 'url' })
   const pending = await pendingJobOfType(db, 'BAC_IMPORT_FILES', null)
   if (pending && !(await failStaleJob(db, pending, STALE_AFTER_MS))) return { jobId: pending.id, reused: true }
-  const job = await enqueueJob(db, { type: 'BAC_IMPORT_FILES', payload: { folderUrl, userId: actor.userId }, workspaceId: null, maxAttempts: 1 })
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'bac.import', entityType: 'job', entityId: job.id, newValue: { folderUrl } })
+  const job = await enqueueJob(db, { type: 'BAC_IMPORT_FILES', payload: { ...payload, userId: actor.userId }, workspaceId: null, maxAttempts: 1 })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'bac.import', entityType: 'job', entityId: job.id, newValue: payload })
   return { jobId: job.id, reused: false }
 }
 
 export async function runBacImportJob(db: Db, job: JobRow): Promise<Record<string, unknown>> {
   const userId = String(job.payload.userId ?? '')
-  const folderUrl = String(job.payload.folderUrl ?? '')
+  const folderUrl = typeof job.payload.folderUrl === 'string' ? job.payload.folderUrl : ''
+  const seedUrl = typeof job.payload.seedUrl === 'string' ? job.payload.seedUrl : ''
   const actor: Actor = { userId, role: 'SUPER_ADMIN', fullName: '', email: '', workspaceId: null, teacherId: null, studentId: null }
-  const report = await importBacFiles(db, actor, { kind: 'drive', folderUrl }, {
-    onProgress: (done, total, last) => updateJobProgress(db, job.id, { totalItems: total, processedItems: done, progress: { last } })
+  const crawlLogs: string[] = []
+  let lastFlush = 0
+  const report = await importBacFiles(db, actor, seedUrl ? { kind: 'web', seedUrl } : { kind: 'drive', folderUrl }, {
+    log: async (line) => {
+      crawlLogs.push(line)
+      if (crawlLogs.length > 60) crawlLogs.splice(0, crawlLogs.length - 60)
+      if (Date.now() - lastFlush > 4000) {
+        lastFlush = Date.now()
+        await updateJobProgress(db, job.id, { logs: [...crawlLogs], progress: { phase: 'harvest', last: line } })
+      }
+    },
+    onProgress: (done, total, last) => updateJobProgress(db, job.id, { totalItems: total, processedItems: done, progress: { phase: 'import', last } })
   })
   const logs = report.items.map((i) => `${i.outcome === 'exam' ? '✔' : i.outcome === 'correction' ? '✔ تصحيح' : i.outcome === 'duplicate' ? '=' : '✖'} ${i.name}${i.title ? ` → ${i.title}` : ''}${i.reason ? ` — ${i.reason}` : ''}${i.aiFilled?.length ? ` (أكمل الذكاء الاصطناعي: ${i.aiFilled.join('، ')})` : ''}`)
   await updateJobProgress(db, job.id, { totalItems: report.files, processedItems: report.files, failedItems: report.errors + report.unclassified, logs: logs.slice(0, 200) })

@@ -6,6 +6,7 @@
  *   --sync             جلب روابط DzExams أولاً (كل المواد؛ 30–60 دقيقة في المرة الأولى)
  *   --drive=<رابط>     استيراد مواضيع/تصحيحات من مجلد Google Drive عامّ (بديل DzExams عند الحجب)
  *   --import-dir=<مسار> استيراد من مجلد على الخادم (scripts/bac-bank.sh يمرّر مجلد import/ تحت /app/import)
+ *   --harvest=<رابط>   حصاد موقع عامّ يتيح مواضيع البكالوريا (صفحة البكالوريا فيه): روابط PDF تُنزَّل وتُصنَّف وتُنسب
  *   --register         تسجيل كل المواضيع الرسمية في البنك
  *   --process[=N]      معالجة N وثيقة بالذكاء الاصطناعي (افتراضي: كل ما ينتظر) في دفعات من 20 مع نقطة تحقّق
  *   --retry-failed     يعيد ما فشل سابقاً (عدا الممسوحة ضوئياً: تبقى في طابور المراجعة)
@@ -45,6 +46,7 @@ const opts = {
   sync: flag('sync'),
   drive: str('drive'),
   importDir: str('import-dir'),
+  harvest: str('harvest'),
   register: all || flag('register'),
   process: all || args.some((a) => a === '--process' || a.startsWith('--process=')),
   processLimit: num('process', null),
@@ -128,7 +130,7 @@ async function main() {
   const subjectId = await subjectIdOf(db, opts.subject)
   const inv0 = await bacInventory(db, actor)
   printReport(inv0, 'الحالة قبل التشغيل')
-  if (opts.report || (!opts.sync && !opts.drive && !opts.importDir && !opts.register && !opts.process && !opts.autoVerify && !opts.details)) return
+  if (opts.report || (!opts.sync && !opts.drive && !opts.importDir && !opts.harvest && !opts.register && !opts.process && !opts.autoVerify && !opts.details)) return
 
   // 1) جلب روابط DzExams (روابط فقط؛ الملفات تُنزَّل عند المعالجة)
   if (opts.sync && !stopping) {
@@ -138,14 +140,14 @@ async function main() {
   }
 
   // 1ب) استيراد ملفات (Drive أو مجلد الخادم): المكرّر يُتجاهل، وغير المصنَّف يُعرض ولا يُخمَّن
-  for (const source of [opts.drive ? { kind: 'drive' as const, folderUrl: opts.drive } : null, opts.importDir ? { kind: 'dir' as const, dir: opts.importDir } : null]) {
+  for (const source of [opts.harvest ? { kind: 'web' as const, seedUrl: opts.harvest } : null, opts.drive ? { kind: 'drive' as const, folderUrl: opts.drive } : null, opts.importDir ? { kind: 'dir' as const, dir: opts.importDir } : null]) {
     if (!source || stopping) continue
-    log(`▶ استيراد ${source.kind === 'drive' ? 'من Drive' : `من ${source.dir}`} …`)
+    log(`▶ استيراد ${source.kind === 'web' ? `بحصاد ${source.seedUrl}` : source.kind === 'drive' ? 'من Drive' : `من ${source.dir}`} …`)
     if (opts.dry) {
       log('(تجربة) يُسرد المجلد فقط عند التشغيل الفعلي')
       continue
     }
-    const r = await importBacFiles(db, actor, source, { useAi: ai.configured, onProgress: (d, t, last) => log(`  ${d}/${t} ${last}`) })
+    const r = await importBacFiles(db, actor, source, { useAi: ai.configured, log: (l) => log(`  ${l}`), onProgress: (d, t, last) => log(`  ${d}/${t} ${last}`) })
     for (const i of r.items) if (i.outcome !== 'exam' && i.outcome !== 'correction') log(`  ${i.outcome === 'duplicate' ? '=' : '✖'} ${i.name} — ${i.reason ?? ''}`)
     log(`✔ الاستيراد: ${r.exams} موضوعاً، ${r.corrections} تصحيحاً، ${r.duplicates} مكرّر، ${r.unclassified} بلا تصنيف، ${r.errors} خطأ${r.scanned ? `، ${r.scanned} مصوّر (OCR لاحقاً)` : ''}`)
   }

@@ -104,10 +104,24 @@ export async function qualityPreviewAction(id: string): Promise<ActionResult<Rec
 export async function importBacFromDriveAction(folderUrl: string): Promise<ActionResult<{ jobId: string; reused: boolean }>> {
   const parsed = z.string().trim().min(10).max(500).safeParse(folderUrl)
   if (!parsed.success) return failValidation(parsed.error)
-  const result = await runAction(async () => requestBacImport(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data))
+  const result = await runAction(async () => requestBacImport(await getDb(), await requireRole('SUPER_ADMIN'), { folderUrl: parsed.data }))
   if (result.ok) {
     kickWorker(getDb)
     revalidate()
+  }
+  return result
+}
+
+/** حصاد موقع عامّ يتيح مواضيع البكالوريا (رابط صفحة البكالوريا فيه) — روابط PDF تُنزَّل وتُصنَّف وتُنسب */
+export async function harvestBacSiteAction(seedUrl: string): Promise<ActionResult<{ jobId: string; reused: boolean }>> {
+  const parsed = z.string().trim().url().max(500).safeParse(seedUrl)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => requestBacImport(await getDb(), await requireRole('SUPER_ADMIN'), { seedUrl: parsed.data }))
+  if (result.ok) {
+    kickWorker(getDb)
+    revalidate()
+  } else if (result.error.code === 'VALIDATION') {
+    return { ok: false, error: { ...result.error, message: 'الرابط يجب أن يكون صفحة موقع (http/https) لا مجلد Drive.' } }
   }
   return result
 }

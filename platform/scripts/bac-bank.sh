@@ -8,6 +8,7 @@
 #   bash scripts/bac-bank.sh --retry-failed --process       إعادة ما فشل (الممسوح ضوئياً يبقى للمراجعة)
 #   bash scripts/bac-bank.sh --drive=<رابط مجلد> --all      استيراد مواضيع/تصحيحات من مجلد Google Drive عامّ ثم بناء البنك
 #   bash scripts/bac-bank.sh --import-dir=/app/import --all   استيراد ملفات نُسخت إلى مجلد import/ في المشروع (scp)
+#   bash scripts/bac-bank.sh --harvest=https://www.ency-education.com/bac.html --all   حصاد موقع عامّ لا يحجب الخادم
 # يُستأنف بأمان: كل وثيقة/تمرين يُحفظ فور إتمامه (نقطة تحقّق)، وCtrl+C يوقف بعد الوثيقة الحالية.
 # يُفضَّل تشغيله داخل tmux أو nohup لأن الجولة الأولى قد تأخذ ساعات:
 #   nohup bash scripts/bac-bank.sh --sync --all > data/bac-bank.log 2>&1 &

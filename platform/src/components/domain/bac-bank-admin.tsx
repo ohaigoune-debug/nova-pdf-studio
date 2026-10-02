@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Alert } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
 import { DOC_STATUS_AR } from '@/lib/exam-engine-labels'
-import { importBacFromDriveAction, processBatchAction, qualityPreviewAction, registerAllBacAction, requestSolutionDetailsAction, reviewSolutionDetailAction, verifyDocumentAction } from '@/server/actions/bac-bank.actions'
+import { harvestBacSiteAction, importBacFromDriveAction, processBatchAction, qualityPreviewAction, registerAllBacAction, requestSolutionDetailsAction, reviewSolutionDetailAction, verifyDocumentAction } from '@/server/actions/bac-bank.actions'
 import type { BacInventory, DetailQueueItem } from '@/server/services/bac-bank.service'
 
 type Result = { ok: boolean; error?: { message: string }; data?: Record<string, unknown> }
@@ -83,6 +83,7 @@ export function BacImportCard({ last, driveConfigured }: { last: { at: Date; log
   const router = useRouter()
   const [pending, start] = useTransition()
   const [url, setUrl] = useState('')
+  const [site, setSite] = useState('')
   const [open, setOpen] = useState(false)
   useEffect(() => {
     if (!last?.running) return
@@ -95,6 +96,14 @@ export function BacImportCard({ last, driveConfigured }: { last: { at: Date; log
       if (!r.ok) return toast('error', r.error.message)
       toast('success', r.data.reused ? 'استيراد يعمل سلفاً' : 'بدأ الاستيراد في الخلفية')
       setUrl('')
+      router.refresh()
+    })
+  const harvest = () =>
+    start(async () => {
+      const r = await harvestBacSiteAction(site)
+      if (!r.ok) return toast('error', r.error.message)
+      toast('success', r.data.reused ? 'استيراد يعمل سلفاً' : 'بدأ حصاد الموقع في الخلفية')
+      setSite('')
       router.refresh()
     })
   return (
@@ -117,6 +126,19 @@ export function BacImportCard({ last, driveConfigured }: { last: { at: Date; log
           <Input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://drive.google.com/drive/folders/…" dir="ltr" className="min-w-64 flex-1" required />
           <Button type="submit" loading={pending} disabled={!driveConfigured || Boolean(last?.running)}>
             <FolderInput className="size-4" /> استيراد
+          </Button>
+        </form>
+        <p className="text-muted-foreground">أو موقع عامّ لا يحجب الخادم (مثل ency-education): الصق رابط صفحة البكالوريا فيه؛ تُتبع صفحاته إلى ثلاث مستويات (300 صفحة كحدّ، طلب كل ثانية) وتُجمع ملفات PDF وتُنسب إلى مصدرها. المواضيع رسمية (الديوان)، أما تصحيحات الموقع فتُحفظ غير رسمية بانتظار المراجعة.</p>
+        <form
+          className="flex flex-wrap gap-2"
+          onSubmit={(e) => {
+            e.preventDefault()
+            harvest()
+          }}
+        >
+          <Input value={site} onChange={(e) => setSite(e.target.value)} placeholder="https://www.ency-education.com/bac.html" dir="ltr" className="min-w-64 flex-1" required />
+          <Button type="submit" variant="outline" loading={pending} disabled={Boolean(last?.running)}>
+            <FolderInput className="size-4" /> حصاد الموقع
           </Button>
         </form>
         {last?.running ? <Alert tone="info">الاستيراد يعمل: {last.processed} / {last.total || '…'} ملفاً.</Alert> : null}
