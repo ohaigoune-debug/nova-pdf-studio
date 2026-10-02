@@ -15,6 +15,7 @@ import { recentAiUsage, withAiTask } from '@/server/ai/usage'
 import type { Db } from '@/server/db/connect'
 import { CURRICULUM_TREES } from '@/server/db/curriculum-nodes-data'
 import { bankQuestions, contentSources, curriculumNodes, examDocuments, files, levels, resources, streams, subjects, teacherProgress, type ExamDocumentRow } from '@/server/db/schema'
+import { DOC_TYPE_AR } from '@/lib/exam-engine-labels'
 import type { ExamDocStatus, ExamDocType } from '@/server/db/schema/enums'
 import { enqueueJob, failStaleJob, latestJobOfType, pendingJobOfType, updateJobProgress, type JobRow } from '@/server/jobs/queue'
 import { assertRole, type Actor } from '@/server/lib/actor'
@@ -36,9 +37,7 @@ const EXTRACT_CHUNK = 24_000
 const MIN_TEXT_CHARS = 200
 const STALE_AFTER_MS = 2 * 60 * 60_000
 
-export const DOC_STATUS_AR: Record<ExamDocStatus, string> = { PENDING: 'معلّقة', PROCESSING: 'قيد المعالجة', NEEDS_REVIEW: 'بانتظار المراجعة', PUBLISHED: 'منشورة', FAILED: 'فشلت' }
-export const DOC_TYPE_AR: Record<ExamDocType, string> = { BAC: 'بكالوريا', BEM: 'شهادة التعليم المتوسط', TEST: 'اختبار', HOMEWORK: 'فرض', EXERCISE_SET: 'سلسلة تمارين', OTHER: 'أخرى' }
-export const ORIGIN_AR: Record<string, string> = { ORIGINAL: 'من تأليف الأستاذ', SOURCED: 'من وثيقة أصلية', AI_GENERATED: 'مولَّد بالذكاء الاصطناعي', ADAPTED: 'معدَّل عن أصل' }
+export { DOC_STATUS_AR, DOC_TYPE_AR, ORIGIN_AR } from '@/lib/exam-engine-labels'
 
 /** خطأ معالجة وثيقة: رمز قصير يظهر في اللوحة + تفصيل */
 class DocError extends Error {

@@ -8,7 +8,8 @@ import { cn } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { EXAM_DOC_STATUSES, type ExamDocStatus } from '@/server/db/schema/enums'
-import { DOC_STATUS_AR, ORIGIN_AR, engineStats, listDocuments } from '@/server/services/exam-engine.service'
+import { DOC_STATUS_AR, ORIGIN_AR } from '@/lib/exam-engine-labels'
+import { engineStats, listDocuments } from '@/server/services/exam-engine.service'
 
 export const dynamic = 'force-dynamic'
 

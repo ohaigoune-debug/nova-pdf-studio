@@ -12,8 +12,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { toast } from '@/components/ui/toast'
 import { formatDateTime } from '@/lib/utils'
 import { approveDocumentAction, processDocumentsAction, registerBacDocumentsAction, rejectDocumentAction, reprocessDocumentAction } from '@/server/actions/exam-engine.actions'
+import { DOC_STATUS_AR, DOC_TYPE_AR } from '@/lib/exam-engine-labels'
 import type { DocumentListItem, EngineStats } from '@/server/services/exam-engine.service'
-import { DOC_STATUS_AR, DOC_TYPE_AR } from '@/server/services/exam-engine.service'
 
 const STATUS_VARIANT: Record<string, 'muted' | 'default' | 'warning' | 'success' | 'destructive'> = { PENDING: 'muted', PROCESSING: 'default', NEEDS_REVIEW: 'warning', PUBLISHED: 'success', FAILED: 'destructive' }
 

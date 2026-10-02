@@ -9,7 +9,7 @@ import { DIFF_AR, KIND_AR } from '@/lib/bank-labels'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
 import { ARABIC_LETTERS, hasMath, renderBody } from '@/server/lib/exam-render'
-import { ORIGIN_AR } from '@/server/services/exam-engine.service'
+import { ORIGIN_AR } from '@/lib/exam-engine-labels'
 import { publicQuestion } from '@/server/services/library.service'
 
 export const dynamic = 'force-dynamic'

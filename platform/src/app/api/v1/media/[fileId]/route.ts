@@ -34,7 +34,10 @@ export async function GET(req: Request, ctx: { params: Promise<{ fileId: string 
       'Content-Type': file.mimeType,
       'Cache-Control': 'private, no-store',
       'X-Content-Type-Options': 'nosniff',
-      'Content-Disposition': `inline; filename*=UTF-8''${encodeURIComponent(file.originalName)}`
+      'Content-Disposition': `inline; filename*=UTF-8''${encodeURIComponent(file.originalName)}`,
+      // عارض PDF داخل الدرس (iframe نفس الأصل): frame-ancestors يغلب X-Frame-Options العام (DENY)
+      'Content-Security-Policy': "frame-ancestors 'self'",
+      'X-Frame-Options': 'SAMEORIGIN'
     }
 
     if (file.mimeType === 'application/pdf' && !access.content.allowDownload) {
