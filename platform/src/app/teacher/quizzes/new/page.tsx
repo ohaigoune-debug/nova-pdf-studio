@@ -12,7 +12,7 @@ export default async function NewQuizPage() {
     <>
       <PageHeader title={t('quizzes.new')} description="الأسئلة الموضوعية تُصحَّح آلياً فور الإرسال، والمقالية تنتظر تصحيحك." />
       <div className="max-w-4xl">
-        <QuizBuilder groups={opts.groups} students={opts.students} skills={opts.skills} files={opts.files} />
+        <QuizBuilder groups={opts.groups} students={opts.students} skills={opts.skills} files={opts.files} levels={opts.levels} />
       </div>
     </>
   )

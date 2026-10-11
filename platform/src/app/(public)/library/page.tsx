@@ -40,7 +40,7 @@ export default async function LibraryPage() {
             </Link>
           )
         })}
-        <Link href="/past-bac" className="rounded-xl border bg-card p-4 transition-colors hover:border-primary/50">
+        <Link href="/bac" className="rounded-xl border bg-card p-4 transition-colors hover:border-primary/50">
           <FileText className="mb-2 size-5 text-success" />
           <p className="text-sm font-semibold">بكالوريات رسمية</p>
           <p className="tabular text-2xl font-extrabold">{secs.officialExams}</p>

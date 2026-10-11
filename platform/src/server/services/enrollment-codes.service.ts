@@ -39,30 +39,27 @@ export async function generateCodes(db: Db, actor: Actor, input: GenerateCodesIn
 
     const generated: GeneratedCode[] = []
     const seen = new Set<string>()
-    // حلقة مع إعادة المحاولة عند التصادم (نادر جداً: 31^7 احتمال)
+    // 10^11 احتمال: التصادم نادر جداً، ومع ذلك يُتجاوز بلا إفساد المعاملة (onConflictDoNothing لا يرمي خطأ)
+    let attempts = 0
     while (generated.length < count) {
+      if (++attempts > count * 20) throw new AppError('INTERNAL')
       const code = generateEnrollmentCode()
       if (seen.has(code)) continue
       seen.add(code)
-      try {
-        const [row] = await tx
-          .insert(enrollmentCodes)
-          .values({
-            workspaceId: g.workspaceId,
-            groupId: g.id,
-            batchId: batch.id,
-            codeHash: hashEnrollmentCode(code),
-            codePrefix: codePrefix(code),
-            expiresAt: input.expiresAt ?? null,
-            createdByUserId: actor.userId
-          })
-          .returning({ id: enrollmentCodes.id })
-        if (row) generated.push({ id: row.id, code, expiresAt: input.expiresAt ?? null })
-      } catch (err) {
-        // تصادم hash → أعد المحاولة بكود آخر
-        if (String(err).includes('unique')) continue
-        throw err
-      }
+      const [row] = await tx
+        .insert(enrollmentCodes)
+        .values({
+          workspaceId: g.workspaceId,
+          groupId: g.id,
+          batchId: batch.id,
+          codeHash: hashEnrollmentCode(code),
+          codePrefix: codePrefix(code),
+          expiresAt: input.expiresAt ?? null,
+          createdByUserId: actor.userId
+        })
+        .onConflictDoNothing({ target: enrollmentCodes.codeHash })
+        .returning({ id: enrollmentCodes.id })
+      if (row) generated.push({ id: row.id, code, expiresAt: input.expiresAt ?? null })
     }
 
     await writeAudit(tx, {

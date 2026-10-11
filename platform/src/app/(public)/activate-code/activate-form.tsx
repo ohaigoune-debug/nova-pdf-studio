@@ -40,7 +40,7 @@ export function ActivateForm({ code }: { code?: string }) {
           required
           dir="ltr"
           autoFocus
-          className="h-14 text-center font-mono text-2xl uppercase tracking-[0.3em]"
+          className="h-14 text-center font-mono text-2xl uppercase tracking-[0.12em]"
           autoComplete="off"
         />
       </Field>

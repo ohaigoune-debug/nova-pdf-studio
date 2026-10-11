@@ -25,6 +25,7 @@ import {
 } from './enums'
 import { groups } from './groups'
 import { students } from './students'
+import { levels } from './reference'
 import { teacherWorkspaces } from './tenancy'
 
 export const rubrics = pgTable(
@@ -172,6 +173,8 @@ export const quizzes = pgTable(
     description: text('description'),
     topic: text('topic'),
     skillId: uuid('skill_id').references(() => skills.id),
+    /** المستوى الدراسي (4AM، 1AS…) لعرض «اختبارات المستوى» بحسب صفّ التلميذ؛ فارغ = كل المستويات */
+    levelId: uuid('level_id').references(() => levels.id),
     timeLimitMinutes: integer('time_limit_minutes'),
     maxScore: numeric('max_score', { precision: 6, scale: 2 }).notNull().default('20'),
     isPublic: boolean('is_public').notNull().default(false),

@@ -5,7 +5,7 @@ import type { Db } from '@/server/db/connect'
 import { assistantCodes, profiles, teacherAssistants, teacherWorkspaces, teachers, users } from '@/server/db/schema'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeActivity, writeAudit } from '@/server/lib/audit'
-import { codePrefix, generateEnrollmentCode, hashEnrollmentCode, normalizeEnrollmentCode } from '@/server/lib/codes'
+import { codePrefix, generateEnrollmentCode, hashEnrollmentCode, isValidCodeShape, normalizeEnrollmentCode } from '@/server/lib/codes'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import type { RequestMeta } from './auth.service'
 import { notify } from './notifications.service'
@@ -63,35 +63,32 @@ export async function createAssistantCode(db: Db, actor: Actor, input: { email: 
       .set({ status: 'DISABLED', disabledAt: new Date() })
       .where(and(eq(assistantCodes.workspaceId, workspaceId), eq(assistantCodes.email, email), eq(assistantCodes.status, 'ACTIVE')))
 
-    for (let attempt = 0; attempt < 5; attempt++) {
+    for (let attempt = 0; attempt < 10; attempt++) {
       const code = generateEnrollmentCode()
-      try {
-        const [row] = await tx
-          .insert(assistantCodes)
-          .values({
-            workspaceId,
-            teacherId,
-            email,
-            codeHash: hashEnrollmentCode(code),
-            codePrefix: codePrefix(code),
-            expiresAt: input.expiresAt ?? null,
-            createdByUserId: actor.userId
-          })
-          .returning({ id: assistantCodes.id })
-        if (!row) throw new AppError('INTERNAL')
-        await writeAudit(tx, {
-          actorUserId: actor.userId,
+      const [row] = await tx
+        .insert(assistantCodes)
+        .values({
           workspaceId,
-          action: 'assistant.code_create',
-          entityType: 'assistant_code',
-          entityId: row.id,
-          newValue: { email, expiresAt: input.expiresAt?.toISOString() ?? null }
+          teacherId,
+          email,
+          codeHash: hashEnrollmentCode(code),
+          codePrefix: codePrefix(code),
+          expiresAt: input.expiresAt ?? null,
+          createdByUserId: actor.userId
         })
-        return { id: row.id, code, email, expiresAt: input.expiresAt ?? null }
-      } catch (err) {
-        if (String(err).includes('unique')) continue
-        throw err
-      }
+        .onConflictDoNothing({ target: assistantCodes.codeHash })
+        .returning({ id: assistantCodes.id })
+      // تصادم (نادر جداً): كود آخر بلا إفساد المعاملة
+      if (!row) continue
+      await writeAudit(tx, {
+        actorUserId: actor.userId,
+        workspaceId,
+        action: 'assistant.code_create',
+        entityType: 'assistant_code',
+        entityId: row.id,
+        newValue: { email, expiresAt: input.expiresAt?.toISOString() ?? null }
+      })
+      return { id: row.id, code, email, expiresAt: input.expiresAt ?? null }
     }
     throw new AppError('INTERNAL')
   })
@@ -110,7 +107,7 @@ export interface JoinAssistantInput {
  */
 export async function joinAsAssistant(db: Db, input: JoinAssistantInput, meta: RequestMeta = {}) {
   const code = normalizeEnrollmentCode(input.code)
-  if (!/^[A-Z0-9]{3}-[A-Z0-9]{4}$/.test(code)) throw new AppError('CODE_INVALID')
+  if (!isValidCodeShape(code)) throw new AppError('CODE_INVALID')
   const email = normalizeEmail(input.email)
   const fullName = input.fullName.trim()
   if (fullName.length < 3) throw new AppError('VALIDATION', { field: 'fullName' })

@@ -69,7 +69,7 @@ describe('مساعد الأستاذ: الكود والانضمام', () => {
     await expectCode(() => createAssistantCode(h.db, teacherA, { email: teacherA.email }), 'VALIDATION')
 
     const first = await createAssistantCode(h.db, teacherA, { email: assistantEmail.toUpperCase() })
-    expect(first.code).toMatch(/^[A-Z0-9]{3}-[A-Z0-9]{4}$/)
+    expect(first.code).toMatch(/^[1-9]\d{10}$/)
     expect(first.email).toBe(assistantEmail)
     const rows = await h.db.select().from(assistantCodes).where(eq(assistantCodes.workspaceId, teacherA.workspaceId!))
     expect(rows).toHaveLength(1)

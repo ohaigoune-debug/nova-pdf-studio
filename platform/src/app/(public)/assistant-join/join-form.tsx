@@ -21,7 +21,7 @@ export function JoinAssistantForm({ code, email }: { code?: string; email?: stri
           required
           dir="ltr"
           autoFocus={!code}
-          className="h-14 text-center font-mono text-2xl uppercase tracking-[0.3em]"
+          className="h-14 text-center font-mono text-2xl uppercase tracking-[0.12em]"
           autoComplete="off"
         />
       </Field>

@@ -70,6 +70,12 @@ export const resources = pgTable(
     youtubeChannelId: text('youtube_channel_id'),
     /** فيديو من دليل الأساتذة: قناته المعتمدة */
     educatorId: uuid('educator_id').references(() => educators.id, { onDelete: 'set null' }),
+    /**
+     * الدرس الموحّد لفيديوهات القنوات (الدوال، إعراب البدل، الصور البيانية…): يجمع كل من شرح الدرس نفسه
+     * من قنوات مختلفة. lessonKey مطبَّع للتجميع، lessonTitle للعرض. يملؤهما ترتيب الذكاء الاصطناعي.
+     */
+    lessonKey: text('lesson_key'),
+    lessonTitle: text('lesson_title'),
     // ── الحلّ
     hasSolution: boolean('has_solution').notNull().default(false),
     solutionResourceId: uuid('solution_resource_id').references((): AnyPgColumn => resources.id, { onDelete: 'set null' }),
@@ -107,7 +113,8 @@ export const resources = pgTable(
     index('resources_status_idx').on(t.status, t.updatedAt),
     index('resources_content_hash_idx').on(t.contentHash),
     index('resources_workspace_idx').on(t.workspaceId),
-    index('resources_educator_idx').on(t.educatorId, t.createdAt)
+    index('resources_educator_idx').on(t.educatorId, t.createdAt),
+    index('resources_lesson_idx').on(t.subjectId, t.levelId, t.lessonKey)
   ]
 )
 

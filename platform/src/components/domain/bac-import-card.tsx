@@ -62,7 +62,7 @@ export function BacImportCard({ status }: { status: BacSyncStatus }) {
           <Badge variant="secondary">{status.subjects} مادة</Badge>
           {status.lastFetchedAt ? <span className="text-xs text-muted-foreground">آخر جلب: {formatDateTime(status.lastFetchedAt)}</span> : null}
           {status.saved ? (
-            <Link href="/past-bac" className="text-xs text-primary underline">
+            <Link href="/bac" className="text-xs text-primary underline">
               التبويب العام «بكالوريات سابقة»
             </Link>
           ) : null}

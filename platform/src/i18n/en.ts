@@ -92,7 +92,7 @@ const en: DeepPartial<typeof ar> = {
     title: 'Activate an enrollment code',
     subtitle: 'Enter the code you received from your teacher to join your group automatically',
     codeLabel: 'Enrollment code',
-    codePlaceholder: 'Example: HG8-KP72',
+    codePlaceholder: 'Example: 48203917562',
     button: 'Activate and join',
     success: 'You have been enrolled in group {group}',
     needLogin: 'Log in or create an account first, then activate the code.'

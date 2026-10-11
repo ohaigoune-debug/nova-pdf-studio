@@ -26,6 +26,7 @@ const quizSchema = z.object({
   description: z.string().trim().optional().nullable(),
   topic: z.string().trim().optional().nullable(),
   skillId: z.string().uuid().nullable().optional(),
+  levelId: z.string().uuid().nullable().optional(),
   timeLimitMinutes: z.number().int().min(1).max(300).nullable().optional(),
   maxAttempts: z.number().int().min(1).max(10).default(1),
   dueAt: z.string().nullable().optional(),

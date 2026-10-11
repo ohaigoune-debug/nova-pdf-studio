@@ -2,11 +2,12 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
-import { normalizeEnrollmentCode } from '@/server/lib/codes'
+import { hashEnrollmentCode, isValidCodeShape, normalizeEnrollmentCode } from '@/server/lib/codes'
+import { enrollmentCodeBatches, enrollmentCodes } from '@/server/db/schema'
 import { cancelBatch, disableCode, generateCodes, listCodes } from '@/server/services/enrollment-codes.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 import { createGroup, listGroupMembers, listGroups } from '@/server/services/groups.service'
-import { makeAdmin, makeStudent, makeTeacher, setupDb } from './helpers'
+import { makeAdmin, makeStudent, makeTeacher, setupDb, workspaceIdOfTeacher } from './helpers'
 
 let h: DatabaseHandle
 let admin: Actor
@@ -33,22 +34,47 @@ async function expectCode(fn: () => Promise<unknown>, code: string) {
 }
 
 describe('أكواد التسجيل', () => {
-  it('يطبّع مدخلات الكود', () => {
+  it('يطبّع مدخلات الكود: 11 رقماً بالمسافات والأرقام العربية، والأكواد القديمة تبقى صالحة', () => {
+    expect(normalizeEnrollmentCode(' 482 0391 7562 ')).toBe('48203917562')
+    expect(normalizeEnrollmentCode('٤٨٢٠٣٩١٧٥٦٢')).toBe('48203917562')
+    expect(normalizeEnrollmentCode('482-0391-7562')).toBe('48203917562')
     expect(normalizeEnrollmentCode(' hg8kp72 ')).toBe('HG8-KP72')
     expect(normalizeEnrollmentCode('HG8-KP72')).toBe('HG8-KP72')
     expect(normalizeEnrollmentCode('hg8 kp72')).toBe('HG8-KP72')
+    expect(isValidCodeShape('48203917562')).toBe(true)
+    expect(isValidCodeShape('HG8-KP72')).toBe(true)
+    expect(isValidCodeShape('4820391756')).toBe(false)
   })
 
-  it('يولّد دفعة أكواد فريدة بصيغة XXX-XXXX ويخزّن hash فقط', async () => {
-    const r = await generateCodes(h.db, teacherA, { groupId: groupA.id, count: 30, label: 'دفعة سبتمبر' })
-    expect(r.codes).toHaveLength(30)
+  it('يولّد دفعة أكواد فريدة من 11 رقماً (الأول ليس صفراً) ويخزّن hash فقط', async () => {
+    const r = await generateCodes(h.db, teacherA, { groupId: groupA.id, count: 200, label: 'دفعة سبتمبر' })
+    expect(r.codes).toHaveLength(200)
     const set = new Set(r.codes.map((c) => c.code))
-    expect(set.size).toBe(30)
-    for (const c of r.codes) expect(c.code).toMatch(/^[A-Z0-9]{3}-[A-Z0-9]{4}$/)
+    expect(set.size).toBe(200)
+    for (const c of r.codes) expect(c.code).toMatch(/^[1-9]\d{10}$/)
     const listed = await listCodes(h.db, teacherA, groupA.id)
-    expect(listed.length).toBeGreaterThanOrEqual(30)
+    expect(listed.length).toBeGreaterThanOrEqual(200)
     // لا يوجد كود صريح في القاعدة
     for (const row of listed) expect(row.codePrefix).toHaveLength(3)
+  })
+
+  it('كود قديم بالحروف (XXX-XXXX) وُزّع سابقاً يبقى قابلاً للاستعمال', async () => {
+    const ws = await workspaceIdOfTeacher(h.db, teacherA)
+    const [batch] = await h.db.insert(enrollmentCodeBatches).values({ workspaceId: ws, groupId: groupA.id, label: 'قديمة', count: 1, createdByUserId: teacherA.userId }).returning({ id: enrollmentCodeBatches.id })
+    await h.db.insert(enrollmentCodes).values({ workspaceId: ws, groupId: groupA.id, batchId: batch!.id, codeHash: hashEnrollmentCode('HG8-KP72'), codePrefix: 'HG8', createdByUserId: teacherA.userId })
+    const student = await makeStudent(h.db, 'صاحب الكود القديم')
+    const joined = await redeemEnrollmentCode(h.db, student, 'hg8 kp72')
+    expect(joined.groupId).toBe(groupA.id)
+  })
+
+  it('الكود الرقمي يُقبل مكتوباً بالأرقام العربية ومع مسافات', async () => {
+    const r = await generateCodes(h.db, teacherA, { groupId: groupA.id, count: 1 })
+    const code = r.codes[0]!.code
+    const arabic = code.replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[Number(d)]!)
+    const spaced = `${arabic.slice(0, 3)} ${arabic.slice(3, 7)} ${arabic.slice(7)}`
+    const student = await makeStudent(h.db, 'تلميذ بلوحة عربية')
+    const joined = await redeemEnrollmentCode(h.db, student, spaced)
+    expect(joined.groupId).toBe(groupA.id)
   })
 
   it('الطالب ينضم تلقائياً إلى الفوج الصحيح ولا يمكن إعادة استعمال الكود', async () => {

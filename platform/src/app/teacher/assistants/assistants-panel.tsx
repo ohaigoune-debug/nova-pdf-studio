@@ -59,7 +59,7 @@ export function AssistantsPanel({ assistants, pendingCodes, origin }: { assistan
             <div className="space-y-4">
               <Alert tone="success">{t('assistant.generated', { email: generated.email })}</Alert>
               <div className="rounded-lg border bg-muted/40 p-4 text-center">
-                <p className="font-mono text-3xl font-extrabold tracking-[0.3em]" dir="ltr">
+                <p className="font-mono text-2xl font-extrabold tracking-[0.15em] sm:text-3xl" dir="ltr">
                   {generated.code}
                 </p>
                 {generated.expiresAt ? (

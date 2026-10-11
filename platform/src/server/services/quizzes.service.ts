@@ -1,6 +1,6 @@
 import { and, asc, count, desc, eq, inArray, isNotNull, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { answers, grades, groupStudents, groups, profiles, questionOptions, questions, quizAttempts, quizTargets, quizzes, skills, students, teachers, users } from '@/server/db/schema'
+import { answers, grades, groupStudents, groups, levels, profiles, questionOptions, questions, quizAttempts, quizTargets, quizzes, skills, students, teachers, users } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
 import { assertRole, studentIdOf, workspaceOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
@@ -27,6 +27,8 @@ export interface QuizInput {
   description?: string | null
   topic?: string | null
   skillId?: string | null
+  /** المستوى الدراسي (فارغ = كل المستويات) */
+  levelId?: string | null
   timeLimitMinutes?: number | null
   maxAttempts?: number
   dueAt?: Date | null
@@ -111,6 +113,7 @@ export async function createQuiz(db: Db, actor: Actor, input: QuizInput) {
         description: input.description?.trim() || null,
         topic: input.topic?.trim() || null,
         skillId: input.skillId ?? null,
+        levelId: input.levelId ?? null,
         timeLimitMinutes: input.timeLimitMinutes ?? null,
         maxAttempts: input.maxAttempts ?? 1,
         dueAt: input.dueAt ?? null,
@@ -148,6 +151,7 @@ export async function updateQuiz(db: Db, actor: Actor, id: string, input: QuizIn
         description: input.description?.trim() || null,
         topic: input.topic?.trim() || null,
         skillId: input.skillId ?? null,
+        levelId: input.levelId ?? null,
         timeLimitMinutes: input.timeLimitMinutes ?? null,
         maxAttempts: input.maxAttempts ?? 1,
         dueAt: input.dueAt ?? null,
@@ -490,12 +494,21 @@ export async function reviewAttempt(db: Db, actor: Actor, attemptId: string, sco
   })
 }
 
-/** الاختبارات العامة للزوار (بلا أسئلة) */
-export async function listPublicQuizzesCards(db: Db) {
+/** الاختبارات العامة للزوار (بلا أسئلة) — بمستوى الزائر: اختبارات مستواه ثم ما لم يُحدَّد له مستوى */
+export async function listPublicQuizzesCards(db: Db, opts: { levelId?: string | null; subjectId?: string | null } = {}) {
   return db
-    .select({ id: quizzes.id, title: quizzes.title, description: quizzes.description, topic: quizzes.topic, timeLimitMinutes: quizzes.timeLimitMinutes, maxScore: quizzes.maxScore, skillName: skills.nameAr, questionsCount: sql<number>`(select count(*)::int from ${questions} qq where qq.quiz_id = ${qcol(quizzes.id)})` })
+    .select({ id: quizzes.id, title: quizzes.title, description: quizzes.description, topic: quizzes.topic, timeLimitMinutes: quizzes.timeLimitMinutes, maxScore: quizzes.maxScore, skillName: skills.nameAr, levelCode: levels.code, levelName: levels.nameAr, questionsCount: sql<number>`(select count(*)::int from ${questions} qq where qq.quiz_id = ${qcol(quizzes.id)})` })
     .from(quizzes)
     .leftJoin(skills, eq(skills.id, quizzes.skillId))
-    .where(and(eq(quizzes.isPublic, true), isNotNull(quizzes.publishedAt), isNull(quizzes.deletedAt)))
-    .orderBy(desc(quizzes.publishedAt))
+    .leftJoin(levels, eq(levels.id, quizzes.levelId))
+    .where(
+      and(
+        eq(quizzes.isPublic, true),
+        isNotNull(quizzes.publishedAt),
+        isNull(quizzes.deletedAt),
+        opts.levelId ? or(eq(quizzes.levelId, opts.levelId), isNull(quizzes.levelId)) : undefined,
+        opts.subjectId ? eq(skills.subjectId, opts.subjectId) : undefined
+      )
+    )
+    .orderBy(opts.levelId ? sql`(${quizzes.levelId} is null)` : desc(quizzes.publishedAt), desc(quizzes.publishedAt))
 }

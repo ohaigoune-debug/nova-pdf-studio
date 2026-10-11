@@ -12,7 +12,7 @@ import {
 import type { EnrollmentStatus } from '@/server/db/schema/enums'
 import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
-import { hashEnrollmentCode, normalizeEnrollmentCode } from '@/server/lib/codes'
+import { hashEnrollmentCode, isValidCodeShape, normalizeEnrollmentCode } from '@/server/lib/codes'
 import { AppError } from '@/server/lib/errors'
 import { notify } from './notifications.service'
 import { addTimeline } from './timeline.service'
@@ -23,7 +23,7 @@ import { addTimeline } from './timeline.service'
 export async function redeemEnrollmentCode(db: Db, actor: Actor, rawCode: string) {
   const studentId = studentIdOf(actor)
   const code = normalizeEnrollmentCode(rawCode)
-  if (!/^[A-Z0-9]{3}-[A-Z0-9]{4}$/.test(code)) throw new AppError('CODE_INVALID')
+  if (!isValidCodeShape(code)) throw new AppError('CODE_INVALID')
   const codeHash = hashEnrollmentCode(code)
 
   return db.transaction(async (tx) => {

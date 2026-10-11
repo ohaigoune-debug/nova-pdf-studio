@@ -261,3 +261,150 @@ export async function publicQuestion(db: Db, id: string) {
   const children = await db.select().from(bankQuestions).where(and(eq(bankQuestions.parentId, id), isNull(bankQuestions.deletedAt), eq(bankQuestions.status, 'PUBLISHED'))).orderBy(asc(bankQuestions.sortOrder))
   return { ...row, children }
 }
+
+/* ───────────── «الفروض والاختبارات» و«الدروس والموارد»: قوائم مرشّحة بالمستوى والمادة ───────────── */
+
+/** أنواع قسم «الفروض والاختبارات» بتسمياتها في المرشّح */
+export const PRACTICE_KINDS = [
+  { key: 'homework', label: 'فروض', types: ['HOMEWORK'] as ResourceType[] },
+  { key: 'tests', label: 'اختبارات', types: ['TEST', 'EXAM'] as ResourceType[] },
+  { key: 'exercises', label: 'تمارين وسلاسل', types: ['EXERCISE'] as ResourceType[] },
+  { key: 'solutions', label: 'تصحيحات', types: ['SOLUTION'] as ResourceType[] }
+] as const
+export type PracticeKind = (typeof PRACTICE_KINDS)[number]['key']
+
+/** أنواع قسم «الدروس والموارد» من المكتبة */
+export const LESSON_RESOURCE_TYPES: ResourceType[] = ['LESSON', 'SUMMARY', 'PEDAGOGICAL', 'OTHER']
+
+export interface ResourceCard {
+  id: string
+  title: string
+  type: ResourceType
+  typeLabel: string
+  subjectName: string | null
+  levelName: string | null
+  year: number | null
+  term: number | null
+  source: string
+  official: boolean
+  /** رابط الفتح: ملف محلي عبر /library/r/:id، أو الملف/الصفحة عند المصدر */
+  href: string
+  external: boolean
+  hasFile: boolean
+  hasSolution: boolean
+}
+
+export interface ResourceListFilter {
+  levelId?: string | null
+  subjectId?: string | null
+  types: ResourceType[]
+  q?: string | null
+  /** يستثني مواضيع البكالوريا الرسمية (لها قسمها) */
+  excludeBac?: boolean
+}
+
+/** رابط فتح المورد: الملف المخزَّن عندنا أولاً، ثم الملف أو الصفحة عند المصدر */
+export function openHref(r: { id: string; type: string; educatorId: string | null; fileId: string | null; fileUrl: string | null; sourceUrl: string | null; youtubeVideoId: string | null }): { href: string; external: boolean } {
+  if (r.fileId && !r.fileUrl) return { href: `/library/r/${r.id}`, external: false }
+  return resourceHref(r)
+}
+
+/** موارد منشورة عامة بمرشّحات القسم، الأحدث أولاً، بترقيم المؤشّر (createdAt|id) */
+export async function listResourceCards(db: Db, f: ResourceListFilter, page: { cursor?: string | null; limit?: number } = {}): Promise<{ items: ResourceCard[]; nextCursor: string | null; total: number }> {
+  const limit = Math.max(1, Math.min(60, page.limit ?? 24))
+  const q = f.q?.trim().slice(0, 80) ?? ''
+  const ts = q.length >= 2 ? tsQueryOf(q) : null
+  const where: (SQL | undefined)[] = [
+    publicResources(),
+    inArray(resources.type, f.types),
+    f.levelId ? eq(resources.levelId, f.levelId) : undefined,
+    f.subjectId ? eq(resources.subjectId, f.subjectId) : undefined,
+    q.length >= 2 ? (ts ? or(sql`${resources.title} ilike ${`%${esc(q)}%`}`, sql`${resources}."search" @@ to_tsquery('simple', ${ts})`) : sql`${resources.title} ilike ${`%${esc(q)}%`}`) : undefined,
+    // البكالوريا الرسمية: امتحان رسمي في السنة الثالثة ثانوي أو وثيقة BAC في محرّك الامتحانات
+    f.excludeBac ? sql`not exists (select 1 from exam_documents d where d.resource_id = ${resources.id} and d.doc_type = 'BAC')` : undefined,
+    f.excludeBac ? sql`not (${resources.isOfficial} and ${resources.type} in ('EXAM', 'SOLUTION') and ${resources.levelId} is not distinct from (select l.id from levels l where l.code = '3AS'))` : undefined
+  ]
+  const base = and(...where)
+  const pageWhere: (SQL | undefined)[] = [base]
+  if (page.cursor) {
+    const [at, id] = Buffer.from(page.cursor, 'base64url').toString().split('|')
+    const atDate = at ? new Date(at) : null
+    if (atDate && !Number.isNaN(atDate.getTime()) && id && /^[0-9a-f-]{36}$/i.test(id)) pageWhere.push(or(sql`${resources.createdAt} < ${atDate}`, and(eq(resources.createdAt, atDate), sql`${resources.id} < ${id}`)))
+  }
+  const [rows, [tot]] = await Promise.all([
+    db
+      .select({ r: resources, subjectName: subjects.nameAr, levelName: levels.nameAr, source: contentSources.name })
+      .from(resources)
+      .innerJoin(contentSources, eq(contentSources.id, resources.sourceId))
+      .leftJoin(subjects, eq(subjects.id, resources.subjectId))
+      .leftJoin(levels, eq(levels.id, resources.levelId))
+      .where(and(...pageWhere))
+      .orderBy(desc(resources.createdAt), desc(resources.id))
+      .limit(limit + 1),
+    db.select({ n: sql<number>`count(*)::int` }).from(resources).where(base)
+  ])
+  const items = rows.slice(0, limit).map((x) => {
+    const link = openHref(x.r)
+    return {
+      id: x.r.id,
+      title: x.r.title,
+      type: x.r.type as ResourceType,
+      typeLabel: RESOURCE_TYPE_AR[x.r.type as ResourceType] ?? x.r.type,
+      subjectName: x.subjectName,
+      levelName: x.levelName,
+      year: x.r.examYear ?? x.r.academicYear,
+      term: x.r.schoolTerm,
+      source: x.source,
+      official: x.r.isOfficial,
+      href: link.href,
+      external: link.external,
+      hasFile: Boolean(x.r.fileId || x.r.fileUrl),
+      hasSolution: x.r.hasSolution
+    }
+  })
+  const last = rows[limit - 1]
+  return { items, nextCursor: rows.length > limit && last ? Buffer.from(`${last.r.createdAt.toISOString()}|${last.r.id}`).toString('base64url') : null, total: tot?.n ?? 0 }
+}
+
+/** أعداد كل نوع ضمن المستوى والمادة (لشارات المرشّح) */
+export async function practiceCounts(db: Db, f: Omit<ResourceListFilter, 'types' | 'q'>): Promise<Record<PracticeKind, number>> {
+  const all = PRACTICE_KINDS.flatMap((k) => k.types)
+  const rows = await db
+    .select({ type: resources.type, n: sql<number>`count(*)::int` })
+    .from(resources)
+    .where(
+      and(
+        publicResources(),
+        inArray(resources.type, all),
+        f.levelId ? eq(resources.levelId, f.levelId) : undefined,
+        f.subjectId ? eq(resources.subjectId, f.subjectId) : undefined,
+        f.excludeBac ? sql`not exists (select 1 from exam_documents d where d.resource_id = ${resources.id} and d.doc_type = 'BAC')` : undefined,
+        f.excludeBac ? sql`not (${resources.isOfficial} and ${resources.type} in ('EXAM', 'SOLUTION') and ${resources.levelId} is not distinct from (select l.id from levels l where l.code = '3AS'))` : undefined
+      )
+    )
+    .groupBy(resources.type)
+  const byType = new Map(rows.map((r) => [r.type, r.n]))
+  return Object.fromEntries(PRACTICE_KINDS.map((k) => [k.key, k.types.reduce((a, t) => a + (byType.get(t) ?? 0), 0)])) as Record<PracticeKind, number>
+}
+
+/** رابط ملف مورد عام (أو تصحيحه) — لصفحة /library/r/:id */
+export async function publicResourceFile(db: Db, resourceId: string, part: 'file' | 'solution' = 'file'): Promise<{ fileId: string | null; url: string | null }> {
+  if (!/^[0-9a-f-]{36}$/i.test(resourceId)) throw new AppError('NOT_FOUND')
+  const [r] = await db.select().from(resources).where(and(eq(resources.id, resourceId), publicResources())).limit(1)
+  if (!r) throw new AppError('NOT_FOUND')
+  if (part === 'solution') {
+    const [doc] = await db.select({ solutionFileId: examDocuments.solutionFileId }).from(examDocuments).where(eq(examDocuments.resourceId, r.id)).limit(1)
+    const [sol] = r.solutionResourceId ? await db.select().from(resources).where(and(eq(resources.id, r.solutionResourceId), isNull(resources.deletedAt))).limit(1) : []
+    const fileId = doc?.solutionFileId ?? sol?.fileId ?? null
+    if (fileId) return { fileId, url: null }
+    const url = sol?.fileUrl ?? sol?.sourceUrl ?? null
+    if (!url) throw new AppError('NOT_FOUND')
+    return { fileId: null, url }
+  }
+  if (r.fileId) return { fileId: r.fileId, url: null }
+  const [doc] = await db.select({ fileId: examDocuments.fileId }).from(examDocuments).where(eq(examDocuments.resourceId, r.id)).limit(1)
+  if (doc?.fileId) return { fileId: doc.fileId, url: null }
+  const url = r.fileUrl ?? r.sourceUrl ?? (r.youtubeVideoId ? `https://www.youtube.com/watch?v=${r.youtubeVideoId}` : null)
+  if (!url) throw new AppError('NOT_FOUND')
+  return { fileId: null, url }
+}

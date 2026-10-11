@@ -18,7 +18,7 @@ export interface ContentCard {
   youtubeId?: string | null
 }
 
-export async function listPublicContent(db: Db, opts: { types?: ContentType[]; search?: string; topic?: string; limit?: number } = {}): Promise<ContentCard[]> {
+export async function listPublicContent(db: Db, opts: { types?: ContentType[]; search?: string; topic?: string; levelId?: string | null; limit?: number } = {}): Promise<ContentCard[]> {
   return db
     .select({
       id: content.id,
@@ -44,6 +44,8 @@ export async function listPublicContent(db: Db, opts: { types?: ContentType[]; s
         isNull(content.deletedAt),
         opts.types && opts.types.length > 0 ? inArray(content.type, opts.types) : undefined,
         opts.topic ? eq(content.topic, opts.topic) : undefined,
+        // درس بلا مستوى محدّد يبقى ظاهراً لكل المستويات
+        opts.levelId ? or(eq(content.levelId, opts.levelId), isNull(content.levelId)) : undefined,
         opts.search ? or(ilike(content.title, `%${opts.search}%`), ilike(content.summary, `%${opts.search}%`), ilike(content.topic, `%${opts.search}%`)) : undefined
       )
     )

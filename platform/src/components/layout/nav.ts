@@ -1,5 +1,6 @@
 import type { UserRole } from '@/server/db/schema/enums'
 import { t } from '@/i18n'
+import { MAIN_SECTIONS } from '@/lib/sections'
 
 /** iconKey = اسم أيقونة lucide (PascalCase) يُحلّ في العميل */
 export interface NavItem {
@@ -34,15 +35,14 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/student/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
             { href: '/student/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
             { href: '/student/practice', label: 'تدريب ذاتي', iconKey: 'Dumbbell' },
-            { href: '/library', label: 'المكتبة', iconKey: 'Library' },
-            { href: '/bac', label: 'بنك البكالوريا', iconKey: 'FileStack' },
-            { href: '/store', label: 'المتجر', iconKey: 'ShoppingBag' },
-            { href: '/student/past-bac', label: t('nav.pastBac'), iconKey: 'Archive' },
-            { href: '/student/videos', label: 'فيديوهات الأساتذة', iconKey: 'PlayCircle' },
             { href: '/student/grades', label: t('nav.grades'), iconKey: 'GraduationCap' },
             { href: '/student/progress', label: t('nav.progress'), iconKey: 'TrendingUp' },
             { href: '/student/files', label: t('nav.files'), iconKey: 'FolderOpen' }
           ]
+        },
+        {
+          title: 'أقسام المنصة',
+          items: [...MAIN_SECTIONS.map((s) => ({ href: s.href === '/videos' ? '/student/videos' : s.href, label: s.label, iconKey: s.iconKey })), { href: '/store', label: 'المتجر', iconKey: 'ShoppingBag' }]
         },
         {
           title: 'الحساب',
@@ -76,6 +76,7 @@ export function navFor(role: UserRole): NavSection[] {
           items: [
             { href: '/teacher/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' },
             { href: '/teacher/announcements', label: 'الإشعارات', iconKey: 'Megaphone' },
+            { href: '/forum', label: 'المنتدى', iconKey: 'MessageSquareText' },
             { href: '/teacher/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
             { href: '/teacher/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
             { href: '/teacher/exams', label: 'الامتحانات', iconKey: 'FileText' },

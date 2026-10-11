@@ -1,25 +1,19 @@
 import { BookOpenText } from 'lucide-react'
 import Link from 'next/link'
-import type { ReactNode } from 'react'
+import { Suspense, type ReactNode } from 'react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { LocaleSwitcher } from '@/components/locale-switcher'
+import { LevelPicker } from '@/components/level-picker'
+import { PublicNav, type PublicLink } from '@/components/layout/public-nav'
+import { FOOTER_EXTRA, MAIN_SECTIONS } from '@/lib/sections'
+import { savedLevelCode } from '@/server/queries/level-scope'
 import { getT } from '@/i18n/server'
 import { getCurrentActor, homeFor } from '@/server/auth/current-user'
 
 export default async function PublicLayout({ children }: { children: ReactNode }) {
-  const [actor, { t }] = await Promise.all([getCurrentActor(), getT()])
-  const links = [
-    { href: '/library', label: 'المكتبة' },
-    { href: '/bac', label: 'بنك البكالوريا' },
-    { href: '/store', label: 'المتجر' },
-    { href: '/lessons', label: t('nav.lessons') },
-    { href: '/bac', label: t('nav.bac') },
-    { href: '/past-bac', label: t('nav.pastBac') },
-    { href: '/videos', label: 'فيديوهات' },
-    { href: '/resources', label: t('nav.resources') },
-    { href: '/quizzes', label: t('nav.quizzes') }
-  ]
+  const [actor, { t }, saved] = await Promise.all([getCurrentActor(), getT(), savedLevelCode()])
+  const links: PublicLink[] = MAIN_SECTIONS.map((s) => ({ href: s.href, label: s.label }))
   const legal = [
     { href: '/privacy', label: t('public.privacy') },
     { href: '/delete-account', label: t('public.deleteAccount') }
@@ -35,14 +29,11 @@ export default async function PublicLayout({ children }: { children: ReactNode }
             {/* على الهاتف الأيقونة تكفي: الاسم يزاحم الأزرار ويُخرج الصفحة عن عرض الشاشة */}
             <span className="hidden sm:inline">{t('app.name')}</span>
           </Link>
-          <nav className="hidden items-center gap-1 md:flex">
-            {links.map((l) => (
-              <Link key={l.href} href={l.href} className="rounded-full px-3.5 py-2 text-sm font-semibold text-foreground/75 transition-colors hover:bg-muted hover:text-foreground">
-                {l.label}
-              </Link>
-            ))}
-          </nav>
+          <PublicNav links={links} variant="desktop" />
           <div className="flex-1" />
+          <Suspense fallback={null}>
+            <LevelPicker saved={saved} className="hidden xl:inline-flex" />
+          </Suspense>
           <LocaleSwitcher />
           <ThemeToggle />
           {actor ? (
@@ -60,12 +51,11 @@ export default async function PublicLayout({ children }: { children: ReactNode }
             </div>
           )}
         </div>
-        <nav className="container flex gap-1.5 overflow-x-auto pb-2.5 md:hidden">
-          {links.map((l) => (
-            <Link key={l.href} href={l.href} className="shrink-0 rounded-full border border-border/80 bg-card px-3.5 py-1.5 text-xs font-semibold shadow-soft">
-              {l.label}
-            </Link>
-          ))}
+        <nav className="container flex items-center gap-1.5 overflow-x-auto pb-2.5 xl:hidden" aria-label="أقسام المنصة">
+          <Suspense fallback={null}>
+            <LevelPicker saved={saved} className="shrink-0" />
+          </Suspense>
+          <PublicNav links={links} variant="mobile" />
         </nav>
       </header>
       <main className="flex-1">{children}</main>
@@ -75,7 +65,7 @@ export default async function PublicLayout({ children }: { children: ReactNode }
             © {new Date().getFullYear()} <span className="font-bold text-foreground">{t('app.name')}</span> — {t('app.tagline')}
           </p>
           <nav className="flex flex-wrap justify-center gap-4">
-            {[...links, ...legal].map((l) => (
+            {[...links, ...FOOTER_EXTRA, ...legal].map((l) => (
               <Link key={l.href} href={l.href} className="hover:text-foreground">
                 {l.label}
               </Link>

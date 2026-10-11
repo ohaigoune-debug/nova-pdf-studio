@@ -39,7 +39,7 @@ export function JoinGroupForm({ code, onDone, autoFocus = true }: { code?: strin
   return (
     <form action={action} className="space-y-3">
       <Field label={t('activate.codeLabel')} htmlFor="join-code" error={fieldError(state, 'code')}>
-        <Input id="join-code" name="code" defaultValue={code ?? ''} placeholder={t('activate.codePlaceholder')} required dir="ltr" autoFocus={autoFocus} className="h-12 text-center font-mono text-xl uppercase tracking-[0.3em]" autoComplete="off" />
+        <Input id="join-code" name="code" defaultValue={code ?? ''} placeholder={t('activate.codePlaceholder')} required dir="ltr" autoFocus={autoFocus} className="h-12 text-center font-mono text-xl uppercase tracking-[0.12em]" autoComplete="off" />
       </Field>
       <FormError state={state} />
       <SubmitButton className="w-full">

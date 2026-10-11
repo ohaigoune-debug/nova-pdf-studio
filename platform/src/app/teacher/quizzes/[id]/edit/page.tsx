@@ -33,6 +33,7 @@ export default async function EditQuizPage({ params }: { params: Promise<{ id: s
           students={opts.students}
           skills={opts.skills}
           files={opts.files}
+          levels={opts.levels}
         />
       </div>
     </>

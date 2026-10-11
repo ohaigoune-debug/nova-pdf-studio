@@ -90,7 +90,7 @@ export const enrollmentCodes = pgTable(
       .references(() => groups.id, { onDelete: 'cascade' }),
     batchId: uuid('batch_id').references(() => enrollmentCodeBatches.id, { onDelete: 'set null' }),
     codeHash: text('code_hash').notNull().unique(),
-    /** أول 3 أحرف للعرض فقط (مثال: HG8-****) */
+    /** أول 3 خانات للعرض فقط (مثال: 482-•••• أو HG8-**** للأكواد القديمة) */
     codePrefix: text('code_prefix').notNull(),
     status: text('status').notNull().default('ACTIVE'),
     expiresAt: timestamp('expires_at', { withTimezone: true }),

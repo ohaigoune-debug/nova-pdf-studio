@@ -92,7 +92,7 @@ const fr: DeepPartial<typeof ar> = {
     title: "Activer un code d'inscription",
     subtitle: 'Saisissez le code reçu de votre enseignant pour rejoindre votre groupe automatiquement',
     codeLabel: "Code d'inscription",
-    codePlaceholder: 'Exemple : HG8-KP72',
+    codePlaceholder: 'Exemple : 48203917562',
     button: 'Activer et rejoindre',
     success: 'Vous êtes inscrit au groupe {group}',
     needLogin: "Connectez-vous ou créez un compte d'abord, puis activez le code."

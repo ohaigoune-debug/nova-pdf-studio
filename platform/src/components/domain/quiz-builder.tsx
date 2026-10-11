@@ -21,6 +21,7 @@ export interface QuizBuilderDefaults {
   description?: string | null
   topic?: string | null
   skillId?: string | null
+  levelId?: string | null
   timeLimitMinutes?: number | null
   maxAttempts?: number
   dueAt?: Date | null
@@ -75,13 +76,14 @@ function toLocal(d: Date | null | undefined) {
   return `${x.getFullYear()}-${p(x.getMonth() + 1)}-${p(x.getDate())}T${p(x.getHours())}:${p(x.getMinutes())}`
 }
 
-export function QuizBuilder({ quizId, defaults = {}, groups, students, skills, files, hasAttempts = false }: { quizId?: string; defaults?: QuizBuilderDefaults; groups: Opt[]; students: Opt[]; skills: Opt[]; files: Opt[]; hasAttempts?: boolean }) {
+export function QuizBuilder({ quizId, defaults = {}, groups, students, skills, files, levels = [], hasAttempts = false }: { quizId?: string; defaults?: QuizBuilderDefaults; groups: Opt[]; students: Opt[]; skills: Opt[]; files: Opt[]; levels?: Opt[]; hasAttempts?: boolean }) {
   const router = useRouter()
   const [meta, setMeta] = useState({
     title: defaults.title ?? '',
     description: defaults.description ?? '',
     topic: defaults.topic ?? '',
     skillId: defaults.skillId ?? '',
+    levelId: defaults.levelId ?? '',
     timeLimitMinutes: defaults.timeLimitMinutes ?? ('' as number | ''),
     maxAttempts: defaults.maxAttempts ?? 1,
     dueAt: toLocal(defaults.dueAt),
@@ -113,6 +115,7 @@ export function QuizBuilder({ quizId, defaults = {}, groups, students, skills, f
         description: meta.description || null,
         topic: meta.topic || null,
         skillId: meta.skillId || null,
+        levelId: meta.levelId || null,
         timeLimitMinutes: meta.timeLimitMinutes === '' ? null : Number(meta.timeLimitMinutes),
         maxAttempts: meta.maxAttempts,
         dueAt: meta.dueAt || null,
@@ -156,6 +159,18 @@ export function QuizBuilder({ quizId, defaults = {}, groups, students, skills, f
                 ))}
               </Select>
             </Field>
+            {levels.length ? (
+              <Field label="المستوى الدراسي" htmlFor="levelId">
+                <Select id="levelId" value={meta.levelId} onChange={(e) => setMeta({ ...meta, levelId: e.target.value })}>
+                  <option value="">كل المستويات</option>
+                  {levels.map((l) => (
+                    <option key={l.id} value={l.id}>
+                      {l.name}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+            ) : null}
             <Field label={t('quizzes.timeLimit')} htmlFor="timeLimit">
               <Input id="timeLimit" type="number" min={1} max={300} value={meta.timeLimitMinutes} onChange={(e) => setMeta({ ...meta, timeLimitMinutes: e.target.value === '' ? '' : Number(e.target.value) })} dir="ltr" />
             </Field>
