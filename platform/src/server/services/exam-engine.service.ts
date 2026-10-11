@@ -689,6 +689,7 @@ export async function listArchive(db: Db, f: ArchiveFilter = {}, page: { cursor?
       source: contentSources.name,
       solutionUrl: sol.url,
       docFileId: examDocuments.fileId,
+      docSolutionFileId: examDocuments.solutionFileId,
       docId: examDocuments.id,
       docStatus: examDocuments.status,
       topic: examDocuments.topicNumber,
@@ -705,7 +706,7 @@ export async function listArchive(db: Db, f: ArchiveFilter = {}, page: { cursor?
     .where(and(...where))
     .orderBy(desc(sql`coalesce(${resources.examYear}, 0)`), desc(resources.id))
     .limit(limit + 1)
-  const items = rows.slice(0, limit).map((x) => ({ id: x.r.id, title: x.r.title, type: x.r.type, year: x.r.examYear, session: x.r.examSession, subjectName: x.subjectName, levelName: x.levelName, streamName: x.streamName, source: x.source, sourceUrl: x.r.sourceUrl, fileUrl: x.r.fileUrl, hasSolution: x.r.hasSolution, solutionUrl: x.solutionUrl ?? null, official: x.r.isOfficial, exercises: x.exercises, localPreview: Boolean(x.docFileId), topic: x.topic ?? topicNumberOf(x.r.title), detailed: x.detailed, docStatus: x.docStatus ?? null }))
+  const items = rows.slice(0, limit).map((x) => ({ id: x.r.id, title: x.r.title, type: x.r.type, year: x.r.examYear, session: x.r.examSession, subjectName: x.subjectName, levelName: x.levelName, streamName: x.streamName, source: x.source, sourceUrl: x.r.sourceUrl, fileUrl: x.r.fileUrl ?? (x.docFileId || x.r.fileId ? `/library/r/${x.r.id}` : null), hasSolution: x.r.hasSolution, solutionUrl: x.solutionUrl ?? (x.docSolutionFileId || (x.r.hasSolution && x.r.solutionResourceId) ? `/library/r/${x.r.id}?part=solution` : null), official: x.r.isOfficial, exercises: x.exercises, localPreview: Boolean(x.docFileId), topic: x.topic ?? topicNumberOf(x.r.title), detailed: x.detailed, docStatus: x.docStatus ?? null }))
   const last = rows[limit - 1]
   return { items, nextCursor: rows.length > limit && last ? Buffer.from(`${last.r.examYear ?? 0}|${last.r.id}`).toString('base64url') : null }
 }

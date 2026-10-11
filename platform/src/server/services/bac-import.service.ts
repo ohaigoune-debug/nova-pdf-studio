@@ -9,7 +9,7 @@
 import { createHash } from 'node:crypto'
 import { readdir, readFile, stat } from 'node:fs/promises'
 import path from 'node:path'
-import { and, eq, isNull } from 'drizzle-orm'
+import { and, eq, isNull, sql } from 'drizzle-orm'
 import { guessBacFile, languageOfSubject, TOPIC_AR, type BacFileGuess } from '@/lib/bac-bank'
 import { getAiProvider } from '@/server/ai/provider'
 import { withAiTask } from '@/server/ai/usage'
@@ -20,7 +20,7 @@ import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { extractDocText, pdfPageCount, TEXT_MIME } from '@/server/lib/doc-text'
 import { AppError } from '@/server/lib/errors'
-import { fetchDriveBytes, listDriveFolder, parseDriveFolderId, type DriveFile, type DriveOptions } from '@/server/lib/google-drive'
+import { fetchDriveBytes, fetchPublicFileBytes, listDriveFolder, listPublicFolderNoKey, parseDriveFolderId, type DriveFile, type DriveOptions } from '@/server/lib/google-drive'
 import { HARVEST_UA, harvestSite } from '@/server/bac/harvest'
 import { newStorageKey, storage } from '@/server/lib/storage'
 import { errorMessage } from '@/i18n'
@@ -72,7 +72,7 @@ interface Classified {
 
 const EXT_MIME: Record<string, string> = { '.pdf': TEXT_MIME.pdf, '.txt': 'text/plain', '.docx': TEXT_MIME.docx }
 
-/** يسرد ملفات مجلد على الخادم (مستويان) — PDF وWord ونص */
+/** يسرد ملفات مجلد على الخادم (حتى خمسة مستويات: مادة / شعبة / سنة / دورة / ملف) — PDF وWord ونص */
 async function listDir(dir: string): Promise<{ name: string; path: string }[]> {
   const out: { name: string; path: string }[] = []
   const walk = async (d: string, depth: number, prefix: string) => {
@@ -80,7 +80,7 @@ async function listDir(dir: string): Promise<{ name: string; path: string }[]> {
     for (const e of entries.sort((a, b) => a.name.localeCompare(b.name))) {
       const p = path.join(d, e.name)
       if (e.isDirectory()) {
-        if (depth < 2) await walk(p, depth + 1, `${prefix}${e.name} / `)
+        if (depth < 5) await walk(p, depth + 1, `${prefix}${e.name} / `)
       } else if (EXT_MIME[path.extname(e.name).toLowerCase()]) out.push({ name: `${prefix}${e.name}`, path: p })
     }
   }
@@ -144,6 +144,23 @@ async function classify(name: string, text: string, lists: { subjects: { code: s
   return { guess, aiFilled }
 }
 
+/** حدود أرشيف Drive الكامل (مادة / شعبة / سنة / دورة / ملف): ~1500 ملف على خمسة مستويات */
+const DRIVE_ARCHIVE_LIMITS = { maxFiles: 6000, maxDepth: 5 }
+
+interface ImportEntry {
+  name: string
+  pageUrl?: string
+  /** معرّف الملف في Drive: يتيح تخطّي ما استُورد سابقاً بلا تنزيل (استئناف آمن) */
+  driveId?: string
+  read: () => Promise<{ bytes: Uint8Array; mimeType: string }>
+}
+
+/** مجلد الملف داخل المصدر («المادة / الشعبة / السنة / الدورة»): وحدة المعالجة — الموضوع وحلّه معاً، والذاكرة لا تحمل إلا ملفات مجلد واحد */
+function folderOf(name: string): string {
+  const i = name.lastIndexOf(' / ')
+  return i >= 0 ? name.slice(0, i) : ''
+}
+
 /**
  * الاستيراد الفعلي (يُستدعى من المهمة الخلفية أو من سطر الأوامر). كل ملف يُحفظ فور إتمامه.
  * `onProgress` لتحديث تقدّم المهمة.
@@ -161,7 +178,7 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
   if (!src) throw new AppError('NOT_FOUND', { source: 'onec' })
 
   // 1) القائمة
-  let entries: { name: string; pageUrl?: string; read: () => Promise<{ bytes: Uint8Array; mimeType: string }> }[]
+  let entries: ImportEntry[]
   let label: string
   if (source.kind === 'web') {
     // موقع عامّ (ency-education، eddirassa…): روابط PDF مع نصّ الرابط وعنوان الصفحة؛ الملف يُنزَّل هنا
@@ -190,9 +207,21 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
   } else if (source.kind === 'drive') {
     const folderId = parseDriveFolderId(source.folderUrl)
     if (!folderId) throw new AppError('INVALID_DRIVE_URL')
-    const { name, files: driveFiles } = await listDriveFolder(folderId, opts.drive)
-    label = `Drive: ${name}`
-    entries = driveFiles.map((f: DriveFile) => ({ name: f.name, read: () => fetchDriveBytes(f, opts.drive) }))
+    const driveOpts: DriveOptions = { ...DRIVE_ARCHIVE_LIMITS, ...opts.drive }
+    let listing: { name: string; files: DriveFile[] }
+    let read: (f: DriveFile) => Promise<{ bytes: Uint8Array; mimeType: string }>
+    try {
+      listing = await listDriveFolder(folderId, driveOpts)
+      read = (f) => fetchDriveBytes(f, driveOpts)
+    } catch (err) {
+      // بلا مفتاح Google (أو Drive API غير مفعّلة في مشروعه): المجلد العامّ يُقرأ ويُنزَّل بلا مفتاح
+      if (!(err instanceof AppError) || err.code !== 'DRIVE_API_DISABLED') throw err
+      opts.log?.('لا مفتاح Drive API صالح — قراءة المجلد العامّ بلا مفتاح')
+      listing = await listPublicFolderNoKey(folderId, driveOpts)
+      read = (f) => fetchPublicFileBytes(f, driveOpts)
+    }
+    label = `Drive: ${listing.name}`
+    entries = listing.files.map((f) => ({ name: f.name, driveId: f.id, read: () => read(f) }))
   } else {
     const dir = path.resolve(source.dir)
     const st = await stat(dir).catch(() => null)
@@ -201,53 +230,27 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
     entries = (await listDir(dir)).map((f) => ({ name: f.name, read: async () => ({ bytes: new Uint8Array(await readFile(f.path)), mimeType: EXT_MIME[path.extname(f.path).toLowerCase()]! }) }))
   }
   if (entries.length === 0) throw new AppError(source.kind === 'web' ? 'HARVEST_EMPTY' : 'DRIVE_EMPTY')
+  opts.log?.(`${entries.length} ملفاً في ${label}`)
 
   const report: ImportReport = { source: label, files: entries.length, exams: 0, corrections: 0, duplicates: 0, unclassified: 0, errors: 0, scanned: 0, items: [] }
   const known = new Set((await db.select({ h: examDocuments.pdfHash }).from(examDocuments)).map((d) => d.h).filter((h): h is string => Boolean(h)))
   const knownSol = new Set((await db.select({ h: examDocuments.solutionPdfHash }).from(examDocuments)).map((d) => d.h).filter((h): h is string => Boolean(h)))
+  // ملفات Drive استُوردت في جولة سابقة (موضوعاً أو تصحيحاً): لا تُنزَّل مرة أخرى
+  const knownDrive = new Set(
+    (await db.select({ id: sql<string | null>`${resources.metadata}->>'driveFileId'` }).from(resources).where(sql`${resources.metadata} ? 'driveFileId'`)).map((r) => r.id).filter((x): x is string => Boolean(x))
+  )
 
-  // 2) القراءة والتصنيف (ملف تلو الآخر؛ فشل واحد لا يوقف البقية)
-  const classified: Classified[] = []
-  let done = 0
-  for (const e of entries) {
-    try {
-      const { bytes, mimeType } = await e.read()
-      if (bytes.byteLength === 0 || bytes.byteLength > MAX_BYTES) throw new Error('ملف فارغ أو أكبر من الحدّ')
-      const checksum = createHash('sha256').update(bytes).digest('hex')
-      if (known.has(checksum) || knownSol.has(checksum)) {
-        report.duplicates++
-        report.items.push({ name: e.name, outcome: 'duplicate', reason: 'نفس الملف موجود في البنك' })
-        continue
-      }
-      const text = await extractDocText(bytes, mimeType).catch(() => '')
-      const { guess, aiFilled } = await classify(e.name, text, lists, useAi)
-      if (!guess.year || !guess.subjectCode || !subjectById.has(guess.subjectCode)) {
-        report.unclassified++
-        report.items.push({ name: e.name, outcome: 'unclassified', reason: `لم تُعرف ${!guess.year ? 'السنة' : 'المادة'} — أعد تسمية الملف (مثال: bac-2023-math-se-sujet1.pdf) أو ضع العنوان الرسمي في أول صفحة` })
-        continue
-      }
-      classified.push({ name: e.name, pageUrl: e.pageUrl, bytes, mimeType, checksum, text, guess, aiFilled })
-      known.add(checksum)
-    } catch (err) {
-      report.errors++
-      report.items.push({ name: e.name, outcome: 'error', reason: err instanceof Error ? err.message : String(err) })
-    } finally {
-      done++
-      await opts.onProgress?.(done, entries.length, e.name)
-    }
-  }
-
-  // 3) المواضيع أولاً ثم التصحيحات (حتى يجد كل تصحيح موضوعه)
-  const byKey = new Map<string, { documentId: string; resourceId: string }>()
+  // المواضيع الموجودة في البنك بمفتاحها (سنة+دورة+شعبة+مادة+رقم الموضوع)
+  const byKey = new Map<string, { documentId: string; resourceId: string; hasFile: boolean; hasSolution: boolean }>()
   const existingDocs = await db
-    .select({ id: examDocuments.id, resourceId: examDocuments.resourceId, year: examDocuments.examYear, session: examDocuments.examSession, streamId: examDocuments.streamId, subjectId: examDocuments.subjectId, topic: examDocuments.topicNumber })
+    .select({ id: examDocuments.id, resourceId: examDocuments.resourceId, fileId: examDocuments.fileId, solutionFileId: examDocuments.solutionFileId, year: examDocuments.examYear, session: examDocuments.examSession, streamId: examDocuments.streamId, subjectId: examDocuments.subjectId, topic: examDocuments.topicNumber })
     .from(examDocuments)
     .where(eq(examDocuments.docType, 'BAC'))
   const streamCodeById = new Map(streamRows.map((s) => [s.id, s.code]))
   const subjectCodeById = new Map(subjectRows.map((s) => [s.id, s.code]))
   for (const d of existingDocs) {
     if (!d.resourceId || !d.year || !d.subjectId) continue
-    byKey.set([d.year, d.session ?? 'NORMAL', d.streamId ? streamCodeById.get(d.streamId) : null, subjectCodeById.get(d.subjectId), d.topic ?? 0].join('|'), { documentId: d.id, resourceId: d.resourceId })
+    byKey.set([d.year, d.session ?? 'NORMAL', d.streamId ? streamCodeById.get(d.streamId) : null, subjectCodeById.get(d.subjectId), d.topic ?? 0].join('|'), { documentId: d.id, resourceId: d.resourceId, hasFile: Boolean(d.fileId), hasSolution: Boolean(d.solutionFileId) })
   }
 
   const common = (g: BacFileGuess) => {
@@ -271,54 +274,133 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
       }
     }
   }
+  const meta = (c: Classified & { driveId?: string }) => ({ importedFrom: source.kind, fileName: c.name, aiFilled: c.aiFilled, ...(c.driveId ? { driveFileId: c.driveId } : {}) })
 
-  for (const c of classified.filter((x) => !x.guess.correction)) {
-    try {
-      const { subject, stream, base } = common(c.guess)
-      const title = titleOf(c.guess, subject.name, stream?.name ?? null)
+  const storeExam = async (c: Classified & { driveId?: string }) => {
+    const { subject, stream, base } = common(c.guess)
+    const title = titleOf(c.guess, subject.name, stream?.name ?? null)
+    const existing = byKey.get(keyOf(c.guess))
+    const pages = c.mimeType === TEXT_MIME.pdf ? await pdfPageCount(c.bytes).catch(() => null) : null
+    const scanned = c.text.length < 200
+    if (existing) {
+      // الموضوع نفسه مسجّل سلفاً: يُرفق به الملف إن كان بلا ملف، وإلا فهو مكرّر — لا بطاقة ثانية لنفس الامتحان
+      if (existing.hasFile) {
+        report.duplicates++
+        report.items.push({ name: c.name, outcome: 'duplicate', reason: 'الموضوع نفسه موجود في البنك بملفه', documentId: existing.documentId })
+        return
+      }
       const fileId = await storeBytes(db, { bytes: c.bytes, mimeType: c.mimeType, name: c.name, checksum: c.checksum, userId: actor.userId })
-      const r = await upsertResource(db, { ...base, ref: `import:${c.checksum}`, type: 'EXAM', title, fileId, sourceUrl: c.pageUrl ?? null, metadata: { importedFrom: source.kind, fileName: c.name, aiFilled: c.aiFilled } })
-      const pages = c.mimeType === TEXT_MIME.pdf ? await pdfPageCount(c.bytes).catch(() => null) : null
-      const scanned = c.text.length < 200
+      await db.update(examDocuments).set({ fileId, pdfHash: c.checksum, pagesCount: pages, updatedAt: new Date() }).where(eq(examDocuments.id, existing.documentId))
+      await db
+        .update(resources)
+        .set({ fileId, metadata: sql`${resources.metadata} || ${JSON.stringify(meta(c))}::jsonb`, updatedAt: new Date() })
+        .where(eq(resources.id, existing.resourceId))
+      existing.hasFile = true
       if (scanned) report.scanned++
-      const [doc] = await db
-        .insert(examDocuments)
-        .values({ resourceId: r.id, title, docType: 'BAC', subjectId: subject.id, levelId: l3?.id ?? null, streamId: stream?.id ?? null, examYear: c.guess.year, examSession: c.guess.session ?? 'NORMAL', topicNumber: c.guess.topicNumber, language: languageOfSubject(subject.code), sourceId: src.id, sourceUrl: c.pageUrl ?? null, fileId, pdfHash: c.checksum, pagesCount: pages, status: 'PENDING', metadata: { importedFrom: source.kind, fileName: c.name, aiFilled: c.aiFilled, scanned, importedAt: new Date().toISOString(), originalAuthor: ONEC } })
-        .onConflictDoNothing()
-        .returning({ id: examDocuments.id })
-      const documentId = doc?.id ?? (await db.select({ id: examDocuments.id }).from(examDocuments).where(eq(examDocuments.resourceId, r.id)).limit(1))[0]?.id
-      if (documentId) byKey.set(keyOf(c.guess), { documentId, resourceId: r.id })
       report.exams++
-      report.items.push({ name: c.name, outcome: 'exam', title, documentId, aiFilled: c.aiFilled })
-    } catch (err) {
-      report.errors++
-      report.items.push({ name: c.name, outcome: 'error', reason: err instanceof Error ? err.message : String(err) })
+      report.items.push({ name: c.name, outcome: 'exam', title: `${title} (أُرفق الملف بالموضوع الموجود)`, documentId: existing.documentId, aiFilled: c.aiFilled })
+      return
+    }
+    const fileId = await storeBytes(db, { bytes: c.bytes, mimeType: c.mimeType, name: c.name, checksum: c.checksum, userId: actor.userId })
+    const r = await upsertResource(db, { ...base, ref: `import:${c.checksum}`, type: 'EXAM', title, fileId, sourceUrl: c.pageUrl ?? null, metadata: meta(c) })
+    if (scanned) report.scanned++
+    const [doc] = await db
+      .insert(examDocuments)
+      .values({ resourceId: r.id, title, docType: 'BAC', subjectId: subject.id, levelId: l3?.id ?? null, streamId: stream?.id ?? null, examYear: c.guess.year, examSession: c.guess.session ?? 'NORMAL', topicNumber: c.guess.topicNumber, language: languageOfSubject(subject.code), sourceId: src.id, sourceUrl: c.pageUrl ?? null, fileId, pdfHash: c.checksum, pagesCount: pages, status: 'PENDING', metadata: { ...meta(c), scanned, importedAt: new Date().toISOString(), originalAuthor: ONEC } })
+      .onConflictDoNothing()
+      .returning({ id: examDocuments.id })
+    const documentId = doc?.id ?? (await db.select({ id: examDocuments.id }).from(examDocuments).where(eq(examDocuments.resourceId, r.id)).limit(1))[0]?.id
+    if (documentId) byKey.set(keyOf(c.guess), { documentId, resourceId: r.id, hasFile: true, hasSolution: false })
+    report.exams++
+    report.items.push({ name: c.name, outcome: 'exam', title, documentId, aiFilled: c.aiFilled })
+  }
+
+  /** التصحيح المحفوظ يُربط بموضوعه؛ إن لم يُعرف الموضوع بعد (في مجلد لاحق) يُعاد ربطه في النهاية */
+  type Pending = { name: string; guess: BacFileGuess; solId: string; fileId: string; checksum: string; title: string; aiFilled: string[] }
+  const pendingCorrections: Pending[] = []
+  const targetOf = (g: BacFileGuess) => byKey.get(keyOf(g)) ?? (g.topicNumber === null ? (byKey.get(keyOf({ ...g, topicNumber: 1 })) ?? byKey.get(keyOf({ ...g, topicNumber: 2 }))) : undefined)
+  const linkCorrection = async (p: Pending): Promise<boolean> => {
+    const target = targetOf(p.guess)
+    if (!target) return false
+    await db.update(resources).set({ hasSolution: true, solutionResourceId: p.solId, updatedAt: new Date() }).where(eq(resources.id, target.resourceId))
+    await db.update(examDocuments).set({ solutionResourceId: p.solId, solutionFileId: p.fileId, solutionPdfHash: p.checksum, updatedAt: new Date() }).where(eq(examDocuments.id, target.documentId))
+    target.hasSolution = true
+    report.corrections++
+    report.items.push({ name: p.name, outcome: 'correction', title: p.title, documentId: target.documentId, aiFilled: p.aiFilled })
+    return true
+  }
+  const storeCorrection = async (c: Classified & { driveId?: string }) => {
+    // للموضوع حلّه سلفاً: نسخة ثانية من الحلّ لا تُخزَّن ولا تستبدل الأولى
+    const existing = targetOf(c.guess)
+    if (existing?.hasSolution) {
+      report.duplicates++
+      report.items.push({ name: c.name, outcome: 'duplicate', reason: 'للموضوع حلّه في البنك', documentId: existing.documentId })
+      return
+    }
+    const { subject, stream, base } = common(c.guess)
+    const title = `تصحيح: ${titleOf(c.guess, subject.name, stream?.name ?? null)}`
+    const fileId = await storeBytes(db, { bytes: c.bytes, mimeType: c.mimeType, name: c.name, checksum: c.checksum, userId: actor.userId })
+    // تصحيح من موقع عامّ ليس رسمياً: يُنسب إلى الموقع ويُراجَع كأي حلّ
+    const webHost = source.kind === 'web' && c.pageUrl ? new URL(c.pageUrl).hostname.replace(/^www\./, '') : null
+    const sol = await upsertResource(db, { ...base, ...(webHost ? { isOfficial: false, originalAuthor: webHost, status: 'NEEDS_REVIEW' as const } : {}), ref: `import:${c.checksum}`, type: 'SOLUTION', part: 'correction', title, fileId, sourceUrl: c.pageUrl ?? null, metadata: meta(c) })
+    const p: Pending = { name: c.name, guess: c.guess, solId: sol.id, fileId, checksum: c.checksum, title, aiFilled: c.aiFilled }
+    if (!(await linkCorrection(p))) pendingCorrections.push(p)
+  }
+
+  // 2) مجلداً مجلداً: تنزيل وتصنيف، ثم المواضيع قبل تصحيحاتها (فشل ملف لا يوقف البقية)
+  const groups = new Map<string, ImportEntry[]>()
+  for (const e of entries) groups.set(folderOf(e.name), [...(groups.get(folderOf(e.name)) ?? []), e])
+  let done = 0
+  for (const group of groups.values()) {
+    const classified: (Classified & { driveId?: string })[] = []
+    for (const e of group) {
+      try {
+        if (e.driveId && knownDrive.has(e.driveId)) {
+          report.duplicates++
+          report.items.push({ name: e.name, outcome: 'duplicate', reason: 'استُورد في جولة سابقة' })
+          continue
+        }
+        const { bytes, mimeType } = await e.read()
+        if (bytes.byteLength === 0 || bytes.byteLength > MAX_BYTES) throw new Error('ملف فارغ أو أكبر من الحدّ')
+        const checksum = createHash('sha256').update(bytes).digest('hex')
+        if (known.has(checksum) || knownSol.has(checksum)) {
+          report.duplicates++
+          report.items.push({ name: e.name, outcome: 'duplicate', reason: 'نفس الملف موجود في البنك' })
+          continue
+        }
+        const text = await extractDocText(bytes, mimeType).catch(() => '')
+        const { guess, aiFilled } = await classify(e.name, text, lists, useAi)
+        if (!guess.year || !guess.subjectCode || !subjectById.has(guess.subjectCode)) {
+          report.unclassified++
+          report.items.push({ name: e.name, outcome: 'unclassified', reason: `لم تُعرف ${!guess.year ? 'السنة' : 'المادة'} — أعد تسمية الملف (مثال: bac-2023-math-se-sujet1.pdf) أو ضع العنوان الرسمي في أول صفحة` })
+          continue
+        }
+        classified.push({ name: e.name, pageUrl: e.pageUrl, driveId: e.driveId, bytes, mimeType, checksum, text, guess, aiFilled })
+        known.add(checksum)
+      } catch (err) {
+        report.errors++
+        report.items.push({ name: e.name, outcome: 'error', reason: err instanceof Error ? err.message : String(err) })
+      } finally {
+        done++
+        await opts.onProgress?.(done, entries.length, e.name)
+      }
+    }
+    for (const c of [...classified.filter((x) => !x.guess.correction), ...classified.filter((x) => x.guess.correction)]) {
+      try {
+        if (c.guess.correction) await storeCorrection(c)
+        else await storeExam(c)
+      } catch (err) {
+        report.errors++
+        report.items.push({ name: c.name, outcome: 'error', reason: err instanceof Error ? err.message : String(err) })
+      }
     }
   }
 
-  for (const c of classified.filter((x) => x.guess.correction)) {
-    try {
-      const { subject, stream, base } = common(c.guess)
-      // تصحيح بلا رقم موضوع يُلحق بالموضوع الوحيد لنفس المفتاح إن وُجد
-      const target = byKey.get(keyOf(c.guess)) ?? (c.guess.topicNumber === null ? (byKey.get(keyOf({ ...c.guess, topicNumber: 1 })) ?? byKey.get(keyOf({ ...c.guess, topicNumber: 2 }))) : undefined)
-      const title = `تصحيح: ${titleOf(c.guess, subject.name, stream?.name ?? null)}`
-      const fileId = await storeBytes(db, { bytes: c.bytes, mimeType: c.mimeType, name: c.name, checksum: c.checksum, userId: actor.userId })
-      // تصحيح من موقع عامّ ليس رسمياً: يُنسب إلى الموقع ويُراجَع كأي حلّ
-      const webHost = source.kind === 'web' && c.pageUrl ? new URL(c.pageUrl).hostname.replace(/^www\./, '') : null
-      const sol = await upsertResource(db, { ...base, ...(webHost ? { isOfficial: false, originalAuthor: webHost, status: 'NEEDS_REVIEW' as const } : {}), ref: `import:${c.checksum}`, type: 'SOLUTION', part: 'correction', title, fileId, sourceUrl: c.pageUrl ?? null, metadata: { importedFrom: source.kind, fileName: c.name, aiFilled: c.aiFilled } })
-      if (!target) {
-        report.unclassified++
-        report.items.push({ name: c.name, outcome: 'unclassified', reason: 'تصحيح بلا موضوع مطابق في البنك (حُفظ في المكتبة؛ استورد الموضوع ثم أعد المحاولة)', title })
-        continue
-      }
-      await db.update(resources).set({ hasSolution: true, solutionResourceId: sol.id, updatedAt: new Date() }).where(eq(resources.id, target.resourceId))
-      await db.update(examDocuments).set({ solutionResourceId: sol.id, solutionFileId: fileId, solutionPdfHash: c.checksum, updatedAt: new Date() }).where(eq(examDocuments.id, target.documentId))
-      report.corrections++
-      report.items.push({ name: c.name, outcome: 'correction', title, documentId: target.documentId, aiFilled: c.aiFilled })
-    } catch (err) {
-      report.errors++
-      report.items.push({ name: c.name, outcome: 'error', reason: err instanceof Error ? err.message : String(err) })
-    }
+  // 3) تصحيحات سبقت مواضيعها: محاولة أخيرة بعد اكتمال كل المجلدات
+  for (const p of pendingCorrections) {
+    if (await linkCorrection(p)) continue
+    report.unclassified++
+    report.items.push({ name: p.name, outcome: 'unclassified', reason: 'تصحيح بلا موضوع مطابق في البنك (حُفظ في المكتبة؛ استورد الموضوع ثم أعد المحاولة)', title: p.title })
   }
 
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'bac.import', entityType: 'exam_document', entityId: null, newValue: { source: label, files: report.files, exams: report.exams, corrections: report.corrections, duplicates: report.duplicates, unclassified: report.unclassified, errors: report.errors } })

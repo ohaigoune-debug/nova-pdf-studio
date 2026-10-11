@@ -83,7 +83,71 @@ const STREAM_PATTERNS: [string, RegExp][] = [
   ['MATH', /(?:^|[\s_-])(?:sm|m)(?:$|[\s_-])|sc[\s_-]?math|sciences?[\s_-]?math|شعبه (?:ال)?رياضيات|شعبه رياضي/]
 ]
 
+/**
+ * أسماء المجلدات والملفات المنظّمة (أرشيف «BAC 2008-2026»): «المادة / الشعبة / السنة / الدورة / 2022 - القانون - تسيير واقتصاد - الدورة العادية - الموضوع.pdf».
+ * كل مقطع يُطابَق كاملاً بأسماء المواد والشعب الرسمية — أدقّ من البحث عن كلمة داخل الاسم.
+ */
+const SEGMENT_SUBJECTS: [string, string[]][] = [
+  ['ARABIC', ['اللغة العربية وآدابها', 'اللغة العربية', 'الأدب العربي']],
+  ['MATH', ['الرياضيات']],
+  ['PHYSICS', ['العلوم الفيزيائية', 'الفيزياء']],
+  ['SCIENCES', ['علوم الطبيعة والحياة', 'العلوم الطبيعية']],
+  ['FRENCH', ['اللغة الفرنسية']],
+  ['ENGLISH', ['اللغة الإنجليزية']],
+  ['HISTGEO', ['التاريخ والجغرافيا']],
+  ['PHILO', ['الفلسفة']],
+  ['ISLAMIC', ['العلوم الإسلامية', 'التربية الإسلامية']],
+  ['AMAZIGH', ['اللغة الأمازيغية']],
+  ['ACCOUNTING', ['التسيير المحاسبي والمالي']],
+  ['ECONOMICS', ['الاقتصاد والمناجمنت']],
+  ['LAW', ['القانون']],
+  ['TECH_CIVIL', ['الهندسة المدنية']],
+  ['TECH_MECA', ['الهندسة الميكانيكية']],
+  ['TECH_ELEC', ['الهندسة الكهربائية']],
+  ['TECH_PROC', ['هندسة الطرائق']],
+  ['GERMAN', ['اللغة الألمانية']],
+  ['SPANISH', ['اللغة الإسبانية']],
+  ['ITALIAN', ['اللغة الإيطالية']]
+]
+const SEGMENT_STREAMS: [string, string[]][] = [
+  ['SCI', ['علوم تجريبية']],
+  ['MATH', ['رياضيات', 'شعبة الرياضيات']],
+  ['TM', ['تقني رياضي']],
+  ['GE', ['تسيير واقتصاد', 'تسيير و اقتصاد', 'اقتصاد وتسيير']],
+  ['LIT', ['آداب وفلسفة', 'آداب و فلسفة']],
+  ['LANG', ['لغات أجنبية']]
+]
+const segKey = (s: string) => normalizeArabic(s).replace(/\s+/g, '')
+const SUBJECT_BY_SEGMENT = new Map(SEGMENT_SUBJECTS.flatMap(([code, names]) => names.map((n) => [segKey(n), code] as const)))
+const STREAM_BY_SEGMENT = new Map(SEGMENT_STREAMS.flatMap(([code, names]) => names.map((n) => [segKey(n), code] as const)))
+
+/** مقاطع الاسم: مسار المجلدات (/) وأجزاء اسم الملف المفصولة بشرطة محاطة بمسافتين */
+export function nameSegments(name: string): string[] {
+  return name
+    .replace(/\.[a-z0-9]{2,5}$/i, '')
+    .split(/\s*\/\s*|\s+[-–—]\s+/)
+    .map((x) => x.trim())
+    .filter(Boolean)
+}
+
+/** ما يُستخرج حتمياً من المقاطع؛ الحقل المجهول يبقى null */
+export function guessFromSegments(name: string): Partial<BacFileGuess> {
+  const out: Partial<BacFileGuess> = {}
+  for (const seg of nameSegments(name)) {
+    const k = segKey(seg)
+    if (!out.subjectCode && SUBJECT_BY_SEGMENT.has(k)) out.subjectCode = SUBJECT_BY_SEGMENT.get(k)!
+    else if (!out.streamCode && STREAM_BY_SEGMENT.has(k)) out.streamCode = STREAM_BY_SEGMENT.get(k)!
+    else if (!out.year && /^(19[89]\d|20\d\d)$/.test(seg)) out.year = Number(seg)
+    else if (/^الدورهالعاديه$|^الدورهالرييسيه$/.test(k)) out.session = 'NORMAL'
+    else if (/^الدوره(الاستدراكيه|الاستثناييه|الثانيه)$/.test(k)) out.session = 'MAKEUP'
+    else if (/^(الحل|حل|التصحيح|تصحيح|الحلالنموذجي|الاجابهالنموذجيه|الاجابه|الحلول)$/.test(k)) out.correction = true
+    else if (k === 'الموضوع') out.correction = out.correction ?? false
+  }
+  return out
+}
+
 export function guessBacFile(name: string, text = ''): BacFileGuess {
+  const seg = guessFromSegments(name)
   const base = name.replace(/\.[a-z0-9]{2,5}$/i, '')
   const n = normalizeArabic(base).replace(/[٠-٩]/g, (d) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)))
   const head = normalizeArabic(text.slice(0, 1500)).replace(/[٠-٩]/g, (d) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)))
@@ -100,6 +164,14 @@ export function guessBacFile(name: string, text = ''): BacFileGuess {
   const streamCode = pick(STREAM_PATTERNS, n) ?? pick(STREAM_PATTERNS, head)
   const t = /(?:^|[\s_-])(?:s|sujet|t|topic)[\s_-]?0?([12])(?:$|[\s_-])/.exec(n)
   const topicNumber = topicNumberOf(base) ?? (t ? Number(t[1]) : null) ?? topicNumberOf(text.slice(0, 400))
-  const correction = /corrig|correction|solution|bareme|تصحيح|الاجابه النموذجيه|(?:^|[\s_-])حل(?:$|[\s_-])/.test(n)
-  return { year, session, streamCode, subjectCode, topicNumber, correction }
+  const correction = /corrig|correction|solution|bareme|تصحيح|الاجابه النموذجيه|(?:^|[\s_-])(?:ال)?حل(?:$|[\s_-])/.test(n)
+  // المقاطع المطابقة كاملاً أدقّ من البحث داخل الاسم: تغلب عند وجودها
+  return {
+    year: seg.year ?? year,
+    session: seg.session ?? session,
+    streamCode: seg.streamCode ?? streamCode,
+    subjectCode: seg.subjectCode ?? subjectCode,
+    topicNumber,
+    correction: seg.correction ?? correction
+  }
 }
