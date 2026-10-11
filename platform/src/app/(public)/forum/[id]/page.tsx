@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Alert, Avatar } from '@/components/ui/misc'
+import { arCount, REPLIES } from '@/lib/ar-count'
 import { cn, formatDateTime } from '@/lib/utils'
 import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
@@ -80,7 +81,7 @@ export default async function ForumThreadPage({ params }: { params: Promise<{ id
         </CardContent>
       </Card>
 
-      <h2 className="mb-3 mt-8 text-lg font-extrabold">{thread.posts.length ? `${thread.posts.length} ردّاً` : 'لا ردود بعد'}</h2>
+      <h2 className="mb-3 mt-8 text-lg font-extrabold">{thread.posts.length ? arCount(thread.posts.length, REPLIES) : 'لا ردود بعد'}</h2>
       <ul className="space-y-3">
         {thread.posts.map((p) => (
           <li key={p.id} id={`p-${p.id}`} className={cn('scroll-mt-24 rounded-xl border bg-card p-4', p.author.role === 'TEACHER' && 'border-accent/40 bg-accent/5', p.hidden && 'opacity-60')}>

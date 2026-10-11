@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { EmptyState } from '@/components/ui/misc'
+import { arCount, CHANNELS, EXPLAINERS } from '@/lib/ar-count'
 import { cn } from '@/lib/utils'
 import type { Db } from '@/server/db/connect'
 import { AppError } from '@/server/lib/errors'
@@ -100,7 +101,7 @@ async function LessonsView({ db, basePath, q, levelId, href }: { db: Db; basePat
             </Button>
             <h2 className="text-2xl font-extrabold">{lesson.title}</h2>
             <p className="text-sm text-muted-foreground">
-              {lesson.subject.name} — {lesson.total} شرحاً من {lesson.channels.length} {lesson.channels.length === 1 ? 'قناة' : 'قنوات'}
+              {lesson.subject.name} — {arCount(lesson.total, EXPLAINERS)} من {lesson.channels.length === 2 ? 'قناتين' : arCount(lesson.channels.length, CHANNELS)}
             </p>
           </div>
         </div>
@@ -153,7 +154,7 @@ async function LessonsView({ db, basePath, q, levelId, href }: { db: Db; basePat
               <Link href={href({ subject: l.subject.slug, lesson: l.key, q: undefined })} className="flex h-full flex-col">
                 <div className="relative bg-black" style={{ aspectRatio: '16 / 7' }}>
                   {l.thumbnail ? <img src={l.thumbnail} alt="" className="absolute inset-0 h-full w-full object-cover opacity-80" loading="lazy" /> : null}
-                  <span className="absolute bottom-2 start-2 rounded-full bg-black/70 px-2.5 py-1 text-xs font-bold text-white">{l.videos} شرحاً</span>
+                  <span className="absolute bottom-2 start-2 rounded-full bg-black/70 px-2.5 py-1 text-xs font-bold text-white">{arCount(l.videos, EXPLAINERS)}</span>
                 </div>
                 <div className="flex flex-1 flex-col gap-2 p-3">
                   <p className="font-bold leading-snug" dir="auto">

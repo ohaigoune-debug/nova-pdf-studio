@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input, Select } from '@/components/ui/input'
 import { EmptyState, PageHeader } from '@/components/ui/misc'
+import { arCount, REPLIES } from '@/lib/ar-count'
 import { formatDateTime } from '@/lib/utils'
 import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
@@ -42,7 +43,7 @@ export default async function ForumPage({ searchParams }: { searchParams: Promis
         title="المنتدى"
         description={
           <>
-            ساحة نقاش مفتوحة لكل التلاميذ — انضممت إلى أستاذ بكود أم لا — ولكل الأساتذة: اسأل، أجب، وتبادل الطرائق. {stats.threads} موضوعاً · {stats.posts} ردّاً
+            ساحة نقاش مفتوحة لكل التلاميذ — انضممت إلى أستاذ بكود أم لا — ولكل الأساتذة: اسأل، أجب، وتبادل الطرائق. {arCount(stats.threads, ['موضوع', 'موضوعان', 'مواضيع', 'موضوعاً'])} · {arCount(stats.posts, REPLIES)}
             {level ? ` · المستوى: ${level.label}` : ''}
           </>
         }

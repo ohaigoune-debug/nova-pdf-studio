@@ -35,7 +35,7 @@ export function LevelPicker({ saved, className }: { saved: string | null; classN
   }
 
   return (
-    <label className={cn('inline-flex min-w-0 items-center gap-1.5 text-xs', className)}>
+    <label className={cn('inline-flex shrink-0 items-center gap-1.5 text-xs', className)}>
       <GraduationCap className="size-4 shrink-0 text-primary" aria-hidden />
       <span className="sr-only">مستواك الدراسي</span>
       <select

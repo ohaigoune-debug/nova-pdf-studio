@@ -9,13 +9,13 @@ export interface PublicLink {
   label: string
 }
 
-/** الأقسام الستة في أعلى الموقع: نفس الروابط على الحاسوب (سطر واحد) وعلى الهاتف (شريط أفقي)، والقسم الحالي مميَّز */
+/** الأقسام الستة في أعلى الموقع: سطر الترويسة على الشاشات العريضة جداً، وشريط ثانٍ تحتها فيما دون ذلك؛ القسم الحالي مميَّز */
 export function PublicNav({ links, variant }: { links: PublicLink[]; variant: 'desktop' | 'mobile' }) {
   const pathname = usePathname()
   const active = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
   if (variant === 'desktop')
     return (
-      <nav className="hidden items-center gap-0.5 xl:flex" aria-label="أقسام المنصة">
+      <nav className="hidden items-center gap-0.5 min-[1720px]:flex" aria-label="أقسام المنصة">
         {links.map((l) => (
           <Link key={l.href} href={l.href} aria-current={active(l.href) ? 'page' : undefined} className={cn('whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold transition-colors', active(l.href) ? 'bg-primary/10 text-primary' : 'text-foreground/75 hover:bg-muted hover:text-foreground')}>
             {l.label}

@@ -32,7 +32,7 @@ export default async function PublicLayout({ children }: { children: ReactNode }
           <PublicNav links={links} variant="desktop" />
           <div className="flex-1" />
           <Suspense fallback={null}>
-            <LevelPicker saved={saved} className="hidden xl:inline-flex" />
+            <LevelPicker saved={saved} className="hidden min-[1720px]:inline-flex" />
           </Suspense>
           <LocaleSwitcher />
           <ThemeToggle />
@@ -51,7 +51,7 @@ export default async function PublicLayout({ children }: { children: ReactNode }
             </div>
           )}
         </div>
-        <nav className="container flex items-center gap-1.5 overflow-x-auto pb-2.5 xl:hidden" aria-label="أقسام المنصة">
+        <nav className="container flex items-center gap-1.5 overflow-x-auto pb-2.5 min-[1720px]:hidden" aria-label="أقسام المنصة">
           <Suspense fallback={null}>
             <LevelPicker saved={saved} className="shrink-0" />
           </Suspense>

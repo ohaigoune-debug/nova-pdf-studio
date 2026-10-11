@@ -83,13 +83,13 @@ export function LevelSubjectBar({ action, levelLabel, subjects, subjectId, q, hi
           تصفية
         </Button>
       </div>
-      <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-        <GraduationCap className="size-4 text-primary" />
+      <p className="text-xs leading-relaxed text-muted-foreground">
+        <GraduationCap className="me-1 inline size-4 align-text-bottom text-primary" />
         {levelLabel ? (
           <>
-            المستوى: <span className="font-bold text-foreground">{levelLabel}</span> — غيّره من «مستواك» أعلى الصفحة.{' '}
+            المستوى: <span className="font-bold text-foreground">{levelLabel}</span> — غيّره من «مستواك» أعلى الصفحة، أو{' '}
             <Link href={`${action}?level=all`} className="text-primary underline">
-              كل المستويات
+              اعرض كل المستويات
             </Link>
           </>
         ) : (

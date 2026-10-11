@@ -11,7 +11,7 @@ import { searchBacExercises } from '@/server/services/bac-bank.service'
 import { archiveFacets, listArchive, type ArchiveFilter } from '@/server/services/exam-engine.service'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'بنك البكالوريا' }
+export const metadata = { title: 'بنك البكالوريات السابقة' }
 
 type Q = { level?: string; stream?: string; subject?: string; year?: string; topic?: string; session?: string; q?: string; cursor?: string }
 
@@ -34,7 +34,7 @@ export default async function BacBankPage({ searchParams }: { searchParams: Prom
   const items = query ? list.items.filter((it) => it.title.includes(query)) : list.items
   return (
     <div className="container py-10">
-      <PageHeader title="بنك البكالوريا" description="مواضيع البكالوريا الجزائرية الرسمية بكل السنوات والشعب والمواد، مع الحلول النموذجية والحلول المفصّلة لمنصة مدرسة، وتمارينها مصنّفة بالدرس لتجدها بكلمة واحدة." actions={<Button asChild variant="outline" size="sm"><Link href="/library">المكتبة</Link></Button>} />
+      <PageHeader title="بنك البكالوريات السابقة" description="مواضيع البكالوريا الجزائرية الرسمية بكل السنوات والشعب والمواد، مع الحلول النموذجية والحلول المفصّلة لمنصة مدرسة، وتمارينها مصنّفة بالدرس لتجدها بكلمة واحدة." actions={<Button asChild variant="outline" size="sm"><Link href="/library">المكتبة</Link></Button>} />
 
       <form action="/bac" className="mb-5 grid gap-2 rounded-xl border bg-card p-3 sm:grid-cols-2 lg:grid-cols-6">
         <Select name="year" defaultValue={q.year ?? ''} aria-label="السنة">
