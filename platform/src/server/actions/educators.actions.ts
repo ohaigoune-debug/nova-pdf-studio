@@ -58,9 +58,12 @@ export async function syncEducatorAction(educatorId: string): Promise<ActionResu
   return done(await runAction(async () => requestChannelSync(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data)))
 }
 
-/** يرتّب كل فيديوهات القنوات بالدرس بالذكاء الاصطناعي (مهمة خلفية؛ الأسماء السابقة تبقى ثابتة) */
+/**
+ * يرتّب فيديوهات القنوات بالدرس بالذكاء الاصطناعي (مهمة خلفية). ما رُتّب سابقاً لا يُعاد (لا كلفة مكرّرة)،
+ * فإن انقطعت المهمة يكمل الضغط التالي من حيث توقّفت.
+ */
 export async function organizeVideoLessonsAction(): Promise<ActionResult<{ jobId: string; reused: boolean }>> {
-  const r = await runAction(async () => requestVideoLessonsOrganize(await getDb(), await requireRole('SUPER_ADMIN')))
+  const r = await runAction(async () => requestVideoLessonsOrganize(await getDb(), await requireRole('SUPER_ADMIN'), { onlyMissing: true }))
   if (r.ok) revalidatePath('/videos')
   return done(r)
 }

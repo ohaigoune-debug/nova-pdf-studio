@@ -11,7 +11,7 @@ import type { GroupVideoLessonsInput } from '@/server/ai/types'
 import { withAiTask } from '@/server/ai/usage'
 import type { Db } from '@/server/db/connect'
 import { curriculumNodes, educators, levels, resources, subjects } from '@/server/db/schema'
-import { enqueueJob, pendingJobOfType, updateJobProgress, type JobRow } from '@/server/jobs/queue'
+import { enqueueJob, failStaleJob, pendingJobOfType, updateJobProgress, type JobRow } from '@/server/jobs/queue'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, isPermanentJobError } from '@/server/lib/errors'
@@ -22,6 +22,8 @@ export { lessonKeyOf }
 
 /** فيديوهات في كل طلب للذكاء الاصطناعي */
 const CHUNK = 60
+/** آلاف الفيديوهات تأخذ ساعة أو أكثر؛ بعد أربع ساعات في PROCESSING تُعدّ منقطعة */
+const STALE_AFTER_MS = 4 * 60 * 60_000
 
 const directoryVideos = (): SQL => and(isNull(resources.deletedAt), eq(resources.status, 'PUBLISHED'), eq(resources.accessLevel, 'PUBLIC'), eq(resources.type, 'VIDEO'), isNotNull(resources.educatorId))!
 
@@ -128,7 +130,8 @@ export async function organizeVideoLessons(db: Db, opts: { subjectId?: string | 
 export async function requestVideoLessonsOrganize(db: Db, actor: Actor | null, input: { subjectId?: string | null; onlyMissing?: boolean } = {}): Promise<{ jobId: string; reused: boolean }> {
   if (actor) assertRole(actor, 'SUPER_ADMIN')
   const pending = await pendingJobOfType(db, 'YT_ORGANIZE_LESSONS', null)
-  if (pending) return { jobId: pending.id, reused: true }
+  // مهمة انقطعت بإعادة تشغيل الخادم لا تحجب طلباً جديداً (والجديد يكمل ما بقي بلا درس فقط)
+  if (pending && !(await failStaleJob(db, pending, STALE_AFTER_MS))) return { jobId: pending.id, reused: true }
   const job = await enqueueJob(db, { type: 'YT_ORGANIZE_LESSONS', payload: { subjectId: input.subjectId ?? null, onlyMissing: input.onlyMissing ?? false, userId: actor?.userId ?? null }, workspaceId: null, maxAttempts: 2 })
   if (actor) await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'videos.organize_lessons', entityType: 'job', entityId: job.id, newValue: { subjectId: input.subjectId ?? null } })
   return { jobId: job.id, reused: false }
