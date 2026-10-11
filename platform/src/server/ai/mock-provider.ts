@@ -1,4 +1,5 @@
 import { normalizeArabic } from '@/server/lib/arabic'
+import { lessonKeyOf } from './shared'
 import { reportAiUsage } from './usage'
 import type {
   ExtractQuestionsInput,
@@ -20,7 +21,9 @@ import type {
   TeacherInsightsInput,
   TeacherInsightsOutput,
   ParseExamRequestInput,
-  ParsedExamRequest
+  ParsedExamRequest,
+  GroupVideoLessonsInput,
+  GroupVideoLessonsOutput
 } from './types'
 
 /**
@@ -297,6 +300,17 @@ export function createMockProvider(): AIProvider {
       return { subject: find(input.subjects), level: find(input.levels), stream: find(input.streams), term: /الأول|الاول/.test(t) ? 1 : /الثاني/.test(t) ? 2 : /الثالث/.test(t) ? 3 : null, durationMinutes: hrs ? Number(hrs[1]) * 60 : dur ? Number(dur[1]) : /ساعتين|ساعتان/.test(t) ? 120 : null, exercises: ex ? Number(ex[1]) : null, difficulty: /صعب/.test(t) ? 'hard' : /سهل/.test(t) ? 'easy' : /متوسط/.test(t) ? 'medium' : null, topics: input.topics.filter((x) => t.includes(x)).slice(0, 12), kind: /فرض/.test(t) ? 'HOMEWORK' : /بكالوريا تجريبية|بكالوريا بيضاء/.test(t) ? 'BAC_MOCK' : null, raw: { mock: true } }
     },
 
+    /** حتمي بلا شبكة: المحور الذي سمّاه التنظيم السابق، أو درس معتمد ورد اسمه في العنوان */
+    async groupVideoLessons(input: GroupVideoLessonsInput): Promise<GroupVideoLessonsOutput> {
+      const known = input.knownLessons.map((k) => ({ k, key: lessonKeyOf(k) })).sort((a, b) => b.key.length - a.key.length)
+      return {
+        items: input.items.map((i) => {
+          const titleKey = lessonKeyOf(i.title)
+          const hit = known.find((x) => x.key.length >= 3 && titleKey.includes(x.key))
+          return { id: i.id, lesson: hit?.k ?? i.topic ?? null, level: null }
+        })
+      }
+    },
     async organizeLessons(input: OrganizeLessonsInput): Promise<OrganizeLessonsOutput> {
       return {
         lessons: input.items.map((i, n) =>

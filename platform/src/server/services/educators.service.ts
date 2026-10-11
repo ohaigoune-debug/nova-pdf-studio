@@ -3,7 +3,7 @@
  * يعتمدها المشرف بنفسه (لا اعتماد آلي)، ثم تُزامَن فيديوهات القناة إلى المكتبة الموحّدة
  * مع تنظيف العناوين وتصنيف الصفّ بالذكاء الاصطناعي. الفيديو يبقى على يوتيوب؛ المصدر مذكور دائماً.
  */
-import { and, asc, count, desc, eq, inArray, isNull, sql } from 'drizzle-orm'
+import { and, asc, count, desc, eq, inArray, isNull, or, sql } from 'drizzle-orm'
 import { aiFailureReason } from '@/server/ai/failure'
 import { getAiProvider } from '@/server/ai/provider'
 import type { OrganizedLesson } from '@/server/ai/types'
@@ -16,6 +16,7 @@ import { AppError, assertUuid, isPermanentJobError, PermanentJobError } from '@/
 import { fetchPlaylistItems, getChannels, searchChannels, youtubeThumbnail, YouTubeQuotaError, type ChannelInfo } from '@/server/lib/youtube'
 import { notify } from './notifications.service'
 import { upsertResource } from './resources.service'
+import { requestVideoLessonsOrganize, sameLessonVideos } from './video-lessons.service'
 
 /** فيديوهات تُجلب من القناة في المزامنة الواحدة (الأحدث أولاً كما تعطيها قائمة الرفع) */
 export const MAX_VIDEOS_PER_CHANNEL = 300
@@ -242,6 +243,8 @@ export async function runSyncChannelJob(db: Db, job: JobRow, opts: { fetch?: typ
   // ما اختفى من القناة يُؤرشف (لا يُحذف)
   if (seen.length) await db.update(resources).set({ status: 'ARCHIVED', updatedAt: new Date() }).where(and(eq(resources.educatorId, educatorId), eq(resources.status, 'PUBLISHED'), sql`${resources.id} not in (${sql.join(seen.map((id) => sql`${id}`), sql`, `)})`))
   await db.update(educators).set({ syncedAt: new Date(), lastError: aiError, updatedAt: new Date() }).where(eq(educators.id, educatorId))
+  // فيديوهات القناة الجديدة تُضمّ إلى دروسها مع شروح القنوات الأخرى (الأسماء السابقة تبقى كما هي)
+  if (created) await requestVideoLessonsOrganize(db, null, { onlyMissing: true }).catch((err) => console.error('[educators] organize lessons enqueue failed', err instanceof Error ? err.message : err))
   if (userId) await notify(db, { userId, workspaceId: null, type: 'SYSTEM', title: `زُومنت قناة ${e.channelTitle ?? e.name}`, body: `${items.length} فيديو (${created} جديد)${organized.size ? `، صُنّف ${organized.size} بالذكاء الاصطناعي` : aiError ? `، بلا تصنيف: ${aiError}` : ''}.`, link: '/admin/educators' })
   return { videos: items.length, created, classified: organized.size, aiError }
 }
@@ -250,7 +253,10 @@ export async function runSyncChannelJob(db: Db, job: JobRow, opts: { fetch?: typ
 
 export interface VideoFilter {
   subject?: string | null
+  /** رمز الصف المختصر (3as) — مرشّح صارم */
   level?: string | null
+  /** مستوى الزائر: فيديوهاته + غير المحدَّدة المستوى */
+  levelId?: string | null
   educator?: string | null
 }
 
@@ -263,7 +269,8 @@ export async function listDirectoryVideos(db: Db, f: VideoFilter = {}, limit = 6
     sql`${resources.educatorId} is not null`,
     f.subject ? eq(subjects.slug, f.subject) : undefined,
     f.level ? eq(levels.slug, f.level) : undefined,
-    f.educator ? eq(resources.educatorId, f.educator) : undefined
+    f.levelId ? or(eq(resources.levelId, f.levelId), isNull(resources.levelId)) : undefined,
+    f.educator && /^[0-9a-f-]{36}$/i.test(f.educator) ? eq(resources.educatorId, f.educator) : undefined
   )
   const base = () =>
     db
@@ -307,7 +314,7 @@ export async function listDirectoryVideos(db: Db, f: VideoFilter = {}, limit = 6
       .from(resources)
       .innerJoin(educators, eq(educators.id, resources.educatorId))
       .innerJoin(subjects, eq(subjects.id, resources.subjectId))
-      .where(and(isNull(resources.deletedAt), eq(resources.status, 'PUBLISHED'), eq(resources.type, 'VIDEO'), f.subject ? eq(subjects.slug, f.subject) : undefined))
+      .where(and(isNull(resources.deletedAt), eq(resources.status, 'PUBLISHED'), eq(resources.type, 'VIDEO'), f.subject ? eq(subjects.slug, f.subject) : undefined, f.levelId ? or(eq(resources.levelId, f.levelId), isNull(resources.levelId)) : undefined))
       .groupBy(educators.id, educators.name, educators.channelTitle, educators.channelThumbnail)
       .orderBy(desc(count()))
   ])
@@ -323,6 +330,8 @@ export async function getDirectoryVideo(db: Db, id: string) {
       description: resources.description,
       youtubeId: resources.youtubeVideoId,
       topic: sql<string | null>`${resources.metadata}->>'topic'`,
+      lessonKey: resources.lessonKey,
+      lessonTitle: resources.lessonTitle,
       sourceUrl: resources.sourceUrl,
       subject: { slug: subjects.slug, nameAr: subjects.nameAr },
       level: { slug: levels.slug, nameAr: levels.nameAr },
@@ -345,5 +354,7 @@ export async function getDirectoryVideo(db: Db, id: string) {
         .orderBy(desc(resources.createdAt))
         .limit(8)
     : []
-  return { ...v, more }
+  // كل من شرح الدرس نفسه من قنوات أخرى
+  const sameLesson = v.lessonKey ? await sameLessonVideos(db, id) : []
+  return { ...v, more, sameLesson }
 }

@@ -7,6 +7,7 @@ import { getDb } from '@/server/db/client'
 import { kickWorker } from '@/server/jobs/runner'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { approveEducator, rejectEducator, requestChannelSync, requestEducatorResolve, resetEducator } from '@/server/services/educators.service'
+import { requestVideoLessonsOrganize } from '@/server/services/video-lessons.service'
 
 const uuid = z.string().uuid()
 
@@ -55,4 +56,11 @@ export async function syncEducatorAction(educatorId: string): Promise<ActionResu
   const parsed = uuid.safeParse(educatorId)
   if (!parsed.success) return failValidation(parsed.error)
   return done(await runAction(async () => requestChannelSync(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data)))
+}
+
+/** يرتّب كل فيديوهات القنوات بالدرس بالذكاء الاصطناعي (مهمة خلفية؛ الأسماء السابقة تبقى ثابتة) */
+export async function organizeVideoLessonsAction(): Promise<ActionResult<{ jobId: string; reused: boolean }>> {
+  const r = await runAction(async () => requestVideoLessonsOrganize(await getDb(), await requireRole('SUPER_ADMIN')))
+  if (r.ok) revalidatePath('/videos')
+  return done(r)
 }

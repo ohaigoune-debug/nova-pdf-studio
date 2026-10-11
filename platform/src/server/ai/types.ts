@@ -334,6 +334,20 @@ export interface ClassifyBacFileOutput {
   raw?: Record<string, unknown>
 }
 
+/** ترتيب فيديوهات القنوات بالدرس: كل من شرح «الدوال» أو «إعراب البدل» يجتمع تحت اسم واحد */
+export interface GroupVideoLessonsInput {
+  /** المادة بالعربية */
+  subject: string
+  /** أسماء الدروس المعتمدة سلفاً (المنهاج + ما سُمّي في دفعات سابقة): تُعاد حرفاً بحرف عند المطابقة */
+  knownLessons: string[]
+  items: { id: string; title: string; topic: string | null; channel: string | null; level: string | null }[]
+}
+
+export interface GroupVideoLessonsOutput {
+  items: { id: string; lesson: string | null; level: string | null }[]
+  raw?: Record<string, unknown>
+}
+
 export interface EssayBatchItem {
   /** معرّف يعود مع النتيجة (معرّف سجل التقييم) */
   customId: string
@@ -379,6 +393,8 @@ export interface AIProvider {
   detailSolution?(input: DetailSolutionInput): Promise<DetailSolutionOutput>
   /** بنك البكالوريا: تصنيف ملف مستورد (سنة/دورة/شعبة/مادة/موضوع/تصحيح) — لا يُنشر شيء دون مراجعة */
   classifyBacFile?(input: ClassifyBacFileInput): Promise<ClassifyBacFileOutput>
+  /** فيديوهات القنوات ← درس المنهاج الذي يشرحه كل فيديو (لتجميع كل الشروح في مكان واحد) */
+  groupVideoLessons?(input: GroupVideoLessonsInput): Promise<GroupVideoLessonsOutput>
   /**
    * اختياري: تصحيح دفعة كاملة بنصف السعر؛ النتائج تُجلب لاحقاً بالاستطلاع.
    * المزوّد الذي لا يوفّرها يُعالَج فرادى.

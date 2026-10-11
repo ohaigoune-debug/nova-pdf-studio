@@ -11,7 +11,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Alert } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
 import { cn, formatDateTime } from '@/lib/utils'
-import { approveEducatorAction, rejectEducatorAction, resetEducatorAction, resolveEducatorsAction, syncEducatorAction } from '@/server/actions/educators.actions'
+import { approveEducatorAction, organizeVideoLessonsAction, rejectEducatorAction, resetEducatorAction, resolveEducatorsAction, syncEducatorAction } from '@/server/actions/educators.actions'
 import type { EducatorView } from '@/server/services/educators.service'
 
 const STATUS_AR: Record<string, { label: string; variant: 'default' | 'success' | 'destructive' | 'muted' }> = {
@@ -66,6 +66,9 @@ export function EducatorsAdmin({ educators, hasApiKey, pendingResolve }: { educa
             <Search className="size-4" /> {pendingResolve ? 'البحث جارٍ…' : `ابحث عن قنوات الـ${unresolved} الباقين`}
           </Button>
           <span className="text-xs text-muted-foreground">كل بحث يستهلك 100 وحدة من حصة يوتيوب اليومية (10 000)؛ إن نفدت يتوقّف ويكمل غداً.</span>
+          <Button size="sm" variant="outline" onClick={() => run(organizeVideoLessonsAction, 'بدأ ترتيب الفيديوهات بالدرس في الخلفية')} loading={pending} title="يجمع كل من شرح الدرس نفسه (الدوال، إعراب البدل، الصور البيانية…) في بطاقة واحدة">
+            رتّب الفيديوهات بالدرس (ذكاء اصطناعي)
+          </Button>
           <Link href="/videos" className="text-xs text-primary underline">
             صفحة الفيديوهات العامة
           </Link>

@@ -39,6 +39,34 @@ export function VideoPlayerPage({ video, basePath }: { video: Video; basePath: s
           ) : null}
         </p>
       </div>
+      <div className="space-y-6">
+      {video.lessonKey && video.subject?.slug ? (
+        <aside className="space-y-2 rounded-xl border border-primary/30 bg-primary/5 p-3">
+          <p className="text-sm font-bold">شروح أخرى لدرس «{video.lessonTitle}»</p>
+          {video.sameLesson.length ? (
+            <ul className="space-y-2">
+              {video.sameLesson.map((m) => (
+                <li key={m.id}>
+                  <Link href={`${basePath}/${m.id}`} className="flex gap-2 rounded-lg border bg-card p-2 hover:border-primary/50">
+                    {m.thumbnail ? <img src={m.thumbnail} alt="" className="w-24 shrink-0 rounded object-cover" style={{ aspectRatio: '16 / 9' }} loading="lazy" /> : null}
+                    <span className="min-w-0">
+                      <span className="line-clamp-2 text-xs" dir="auto">
+                        {m.title}
+                      </span>
+                      <span className="text-[11px] text-muted-foreground">{m.channel}</span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-xs text-muted-foreground">هذه القناة وحدها شرحت الدرس حتى الآن.</p>
+          )}
+          <Link href={`${basePath}?subject=${video.subject.slug}&lesson=${encodeURIComponent(video.lessonKey)}`} className="block text-xs font-semibold text-primary underline">
+            كل من شرح هذا الدرس
+          </Link>
+        </aside>
+      ) : null}
       {video.more.length ? (
         <aside className="space-y-2">
           <p className="text-sm font-bold">المزيد من {video.educator?.name}</p>
@@ -55,12 +83,13 @@ export function VideoPlayerPage({ video, basePath }: { video: Video; basePath: s
             ))}
           </ul>
           {video.educator?.id ? (
-            <Link href={`${basePath}?educator=${video.educator.id}`} className="block text-xs text-primary underline">
+            <Link href={`${basePath}?tab=channels&educator=${video.educator.id}`} className="block text-xs text-primary underline">
               كل فيديوهات الأستاذ
             </Link>
           ) : null}
         </aside>
       ) : null}
+      </div>
     </div>
   )
 }

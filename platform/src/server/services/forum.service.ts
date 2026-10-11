@@ -254,6 +254,17 @@ export async function deletePost(db: Db, actor: Actor, postId: string): Promise<
 
 export type ForumModeration = 'pin' | 'unpin' | 'lock' | 'unlock' | 'hide' | 'unhide'
 
+/** أحداث السجلّ بأسمائها الحرفية (لكل منها تسمية عربية في «النشاط») */
+const MODERATION_AUDIT: Record<ForumModeration, { action: string }> = {
+  pin: { action: 'forum.pin' },
+  unpin: { action: 'forum.unpin' },
+  lock: { action: 'forum.lock' },
+  unlock: { action: 'forum.unlock' },
+  hide: { action: 'forum.hide' },
+  unhide: { action: 'forum.unhide' }
+}
+const POST_AUDIT = { hide: { action: 'forum.post_hide' }, show: { action: 'forum.post_unhide' } }
+
 /** إشراف: تثبيت، قفل الردود، إخفاء — للمشرف العامّ فقط */
 export async function moderateThread(db: Db, actor: Actor, threadId: string, action: ForumModeration): Promise<void> {
   assertRole(actor, 'SUPER_ADMIN')
@@ -262,7 +273,7 @@ export async function moderateThread(db: Db, actor: Actor, threadId: string, act
     action === 'pin' ? { pinned: true } : action === 'unpin' ? { pinned: false } : action === 'lock' ? { status: 'LOCKED' } : action === 'hide' ? { status: 'HIDDEN' } : { status: 'OPEN' }
   const [row] = await db.update(forumThreads).set(patch).where(and(eq(forumThreads.id, threadId), isNull(forumThreads.deletedAt))).returning({ id: forumThreads.id })
   if (!row) throw new AppError('NOT_FOUND')
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: `forum.${action}`, entityType: 'forum_thread', entityId: threadId, newValue: patch })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: MODERATION_AUDIT[action].action, entityType: 'forum_thread', entityId: threadId, newValue: patch })
 }
 
 export async function hidePost(db: Db, actor: Actor, postId: string, hidden: boolean): Promise<{ threadId: string }> {
@@ -270,7 +281,7 @@ export async function hidePost(db: Db, actor: Actor, postId: string, hidden: boo
   if (!UUID.test(postId)) throw new AppError('NOT_FOUND')
   const [row] = await db.update(forumPosts).set({ hidden }).where(and(eq(forumPosts.id, postId), isNull(forumPosts.deletedAt))).returning({ threadId: forumPosts.threadId })
   if (!row) throw new AppError('NOT_FOUND')
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: hidden ? 'forum.post_hide' : 'forum.post_unhide', entityType: 'forum_post', entityId: postId, newValue: { hidden } })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: (hidden ? POST_AUDIT.hide : POST_AUDIT.show).action, entityType: 'forum_post', entityId: postId, newValue: { hidden } })
   return row
 }
 

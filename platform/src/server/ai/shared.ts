@@ -26,6 +26,8 @@ import type {
   ExamCopilotOutput,
   ClassifyBacFileInput,
   ClassifyBacFileOutput,
+  GroupVideoLessonsInput,
+  GroupVideoLessonsOutput,
   DetailSolutionInput,
   DetailSolutionOutput,
   TeacherInsightsInput
@@ -803,4 +805,79 @@ export function parseClassifyBacFile(j: Record<string, unknown>, input: Classify
     confidence: conf,
     raw: j
   }
+}
+
+/* ───────────── فيديوهات القنوات ← الدرس ───────────── */
+
+export const GROUP_LESSONS_SCHEMA: Record<string, unknown> = {
+  type: 'object',
+  properties: {
+    items: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: { id: { type: 'string' }, lesson: { anyOf: [{ type: 'string' }, { type: 'null' }] }, level: { anyOf: [{ type: 'string' }, { type: 'null' }] } },
+        required: ['id', 'lesson', 'level'],
+        additionalProperties: false
+      }
+    }
+  },
+  required: ['items'],
+  additionalProperties: false
+}
+
+export const groupLessonsMaxTokens = (n: number) => Math.min(8000, 300 + n * 60)
+
+export const groupLessonsSystem = (subject: string): string =>
+  [
+    `أنت ${teacherOf(subject)} بالجزائر ترتّب فيديوهات شرح من قنوات يوتيوب مختلفة بحسب الدرس في المنهاج الجزائري، ليجد التلميذ كل من شرح الدرس نفسه في مكان واحد.`,
+    'لكل فيديو: lesson = اسم الدرس كما يُسمّى في المنهاج، قصيراً بلا رقم حلقة ولا اسم قناة ولا سنة (مثال: «الدوال الأسية»، «إعراب البدل»، «الصور البيانية»، «المتتاليات العددية»).',
+    'إن طابق الفيديو درساً من «الدروس المعتمدة» فأعد اسمه حرفاً بحرف؛ لا تخترع اسماً جديداً لدرس موجود بصيغة أخرى. فيديوهات الدرس نفسه من قنوات مختلفة يجب أن تحمل الاسم نفسه.',
+    'حلّ موضوع بكالوريا كامل ← «حلول مواضيع البكالوريا»؛ حلّ موضوع شهادة التعليم المتوسط ← «حلول مواضيع شهادة التعليم المتوسط». فيديو لا يشرح درساً (تحفيز، نصائح، إعلان، بثّ عامّ) ← lesson = null.',
+    'level: السنة الدراسية التي يُدرَّس فيها الدرس بأحد الرموز 1AM…4AM أو 1AS/2AS/3AS، فقط إن كنت متأكداً من المنهاج أو دلّ عليها العنوان؛ وإلا null.',
+    'أعد JSON فقط: {"items":[{"id":string,"lesson":string|null,"level":string|null}]} — كل الفيديوهات المعطاة بمعرّفاتها كما هي.'
+  ].join('\n')
+
+export function groupLessonsUser(input: GroupVideoLessonsInput): string {
+  const known = input.knownLessons.slice(0, 250)
+  return [
+    `المادة: ${input.subject}`,
+    known.length ? `الدروس المعتمدة (أعد الاسم كما هو عند المطابقة):\n${known.map((k) => `- ${k}`).join('\n')}` : 'لا دروس معتمدة بعد: سمِّ الدروس بأسماء المنهاج.',
+    '',
+    'الفيديوهات:',
+    ...input.items.map((i) => `[${i.id}] ${i.title}${i.topic ? ` — المحور: ${i.topic}` : ''}${i.channel ? ` — القناة: ${i.channel}` : ''}${i.level ? ` — الصف: ${i.level}` : ''}`)
+  ].join('\n')
+}
+
+/** المعرّفات من القائمة فقط؛ الاسم المطابق لدرس معتمد (بعد التطبيع) يُعاد بصيغته المعتمدة */
+export function parseGroupLessons(j: Record<string, unknown>, input: GroupVideoLessonsInput): GroupVideoLessonsOutput {
+  const ids = new Set(input.items.map((i) => i.id))
+  const canon = new Map(input.knownLessons.map((k) => [lessonKeyOf(k), k]))
+  const rows = Array.isArray(j.items) ? (j.items as Record<string, unknown>[]) : []
+  const out = new Map<string, { id: string; lesson: string | null; level: string | null }>()
+  for (const r of rows) {
+    const id = typeof r.id === 'string' ? r.id.trim() : ''
+    if (!ids.has(id) || out.has(id)) continue
+    const raw = text(r.lesson, 80)
+    const lesson = raw ? (canon.get(lessonKeyOf(raw)) ?? raw) : null
+    out.set(id, { id, lesson, level: gradeCodeOf(r.level) })
+  }
+  return { items: input.items.map((i) => out.get(i.id) ?? { id: i.id, lesson: null, level: null }), raw: j }
+}
+
+/** مفتاح تجميع الدرس: «الصور البيانية» = «صور بيانية» = «الصّور البيانيّة» */
+export function lessonKeyOf(title: string): string {
+  return title
+    .normalize('NFKC')
+    .replace(/[ً-ْٰـ]/g, '')
+    .replace(/[أإآٱ]/g, 'ا')
+    .replace(/ة/g, 'ه')
+    .replace(/ى/g, 'ي')
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => (w.startsWith('ال') && w.length >= 4 ? w.slice(2) : w))
+    .join('-')
+    .slice(0, 120)
 }

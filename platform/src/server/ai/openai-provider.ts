@@ -43,6 +43,11 @@ import {
   CLASSIFY_BAC_FILE_MAX_TOKENS,
   classifyBacFileSystem,
   classifyBacFileUser,
+  GROUP_LESSONS_SCHEMA,
+  groupLessonsMaxTokens,
+  groupLessonsSystem,
+  groupLessonsUser,
+  parseGroupLessons,
   parseClassifyBacFile,
   COPILOT_SCHEMA,
   copilotSystem,
@@ -79,6 +84,8 @@ import type {
   ExamCopilotOutput,
   ClassifyBacFileInput,
   ClassifyBacFileOutput,
+  GroupVideoLessonsInput,
+  GroupVideoLessonsOutput,
   DetailSolutionInput,
   DetailSolutionOutput,
   ParsedExamRequest,
@@ -233,6 +240,9 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
 
     async detailSolution(input: DetailSolutionInput): Promise<DetailSolutionOutput> {
       return parseDetailSolution(await complete(schemaParams(detailSolutionSystem(input), detailSolutionUser(input), DETAIL_SOLUTION_MAX_TOKENS, 'detail_solution', DETAIL_SOLUTION_SCHEMA), { timeoutMs: 120_000 }))
+    },
+    async groupVideoLessons(input: GroupVideoLessonsInput): Promise<GroupVideoLessonsOutput> {
+      return parseGroupLessons(await complete(schemaParams(groupLessonsSystem(input.subject), groupLessonsUser(input), groupLessonsMaxTokens(input.items.length), 'group_video_lessons', GROUP_LESSONS_SCHEMA)), input)
     },
     async classifyBacFile(input: ClassifyBacFileInput): Promise<ClassifyBacFileOutput> {
       return parseClassifyBacFile(await complete(schemaParams(classifyBacFileSystem(input), classifyBacFileUser(input), CLASSIFY_BAC_FILE_MAX_TOKENS, 'classify_bac_file', CLASSIFY_BAC_FILE_SCHEMA)), input)

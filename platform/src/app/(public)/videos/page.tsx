@@ -1,20 +1,19 @@
-import { VideoDirectory } from '@/components/domain/video-directory'
+import { VideoHub, type VideoHubQuery } from '@/components/domain/video-directory'
 import { PageHeader } from '@/components/ui/misc'
 import { getDb } from '@/server/db/client'
-import { listDirectoryVideos } from '@/server/services/educators.service'
+import { currentLevel } from '@/server/queries/level-scope'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'فيديوهات الأساتذة' }
+export const metadata = { title: 'الفيديوهات والقنوات' }
 
-type Q = { subject?: string; level?: string; educator?: string }
-
-export default async function VideosPage({ searchParams }: { searchParams: Promise<Q> }) {
+export default async function VideosPage({ searchParams }: { searchParams: Promise<VideoHubQuery> }) {
   const q = await searchParams
-  const data = await listDirectoryVideos(await getDb(), q)
+  const db = await getDb()
+  const level = await currentLevel(db, q.level)
   return (
     <div className="container py-10">
-      <PageHeader title="فيديوهات الأساتذة" description="دروس مصوّرة من قنوات أساتذة جزائريين معتمدة في الدليل، مصنّفة بالمادة والصف." />
-      <VideoDirectory data={data} basePath="/videos" current={q} />
+      <PageHeader title="الفيديوهات والقنوات" description={`كل من شرح الدرس نفسه في مكان واحد — من قنوات أساتذة جزائريين معتمدة${level ? ` — ${level.label}` : ''}. أو تصفّح قناة بعينها.`} />
+      <VideoHub db={db} basePath="/videos" q={q} levelId={level?.id ?? null} />
     </div>
   )
 }
