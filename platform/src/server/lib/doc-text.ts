@@ -55,7 +55,8 @@ export async function extractDocText(bytes: Uint8Array, mime: string): Promise<s
   if (mime.startsWith('text/plain')) return cleanText(new TextDecoder().decode(bytes))
   if (mime === TEXT_MIME.pdf) {
     const { extractText, getDocumentProxy } = await import('unpdf')
-    const pdf = await getDocumentProxy(bytes)
+    // pdf.js ينقل ذاكرة المصفوفة إلى عامله فيُفرغها: نسخة، حتى يبقى الأصل صالحاً للحفظ
+    const pdf = await getDocumentProxy(bytes.slice())
     const { text } = await extractText(pdf, { mergePages: true })
     return cleanText(fixArabicPdfOrder(text.normalize('NFKC')))
   }
@@ -72,7 +73,7 @@ export async function extractDocText(bytes: Uint8Array, mime: string): Promise<s
 export async function pdfPageCount(bytes: Uint8Array): Promise<number | null> {
   try {
     const { getDocumentProxy } = await import('unpdf')
-    const pdf = await getDocumentProxy(bytes)
+    const pdf = await getDocumentProxy(bytes.slice())
     return pdf.numPages
   } catch {
     return null

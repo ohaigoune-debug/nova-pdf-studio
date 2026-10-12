@@ -1,5 +1,6 @@
 import { ArrowRight, Download, ExternalLink, FileCheck2, ListChecks } from 'lucide-react'
 import Link from 'next/link'
+import { PdfPages } from '@/components/domain/pdf-pages'
 import { notFound } from 'next/navigation'
 import { BacExercises } from '@/components/domain/bac-exercises'
 import { Badge } from '@/components/ui/badge'
@@ -106,14 +107,7 @@ export default async function BacExamPage({ params, searchParams }: { params: Pr
             </span>
           </CardHeader>
           <CardContent className="p-0">
-            <object data={d.previewUrl} type="application/pdf" aria-label="معاينة الموضوع" className="h-[70vh] w-full bg-muted">
-              <p className="p-6 text-center text-sm text-muted-foreground">
-                المعاينة غير مدعومة في هذا المتصفح —{' '}
-                <a href={`/library/r/${r.id}`} target="_blank" rel="noopener" className="font-bold text-primary underline">
-                  افتح الموضوع
-                </a>
-              </p>
-            </object>
+            <PdfPages src={d.previewUrl} openHref={`/library/r/${r.id}`} />
           </CardContent>
         </Card>
       ) : r.fileUrl ? (
@@ -124,7 +118,7 @@ export default async function BacExamPage({ params, searchParams }: { params: Pr
       {d.solution?.previewUrl ? (
         <details className="mb-6 rounded-xl border bg-card">
           <summary className="cursor-pointer px-4 py-3 font-bold">الحلّ النموذجي الرسمي (معاينة)</summary>
-          <iframe src={d.solution.previewUrl} title="معاينة الحلّ" className="h-[70vh] w-full border-0 bg-muted" />
+          <PdfPages src={d.solution.previewUrl} openHref={`/library/r/${r.id}?part=solution`} />
         </details>
       ) : null}
 

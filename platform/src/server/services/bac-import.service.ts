@@ -38,7 +38,7 @@ export type ImportSource = { kind: 'drive'; folderUrl: string } | { kind: 'dir';
 
 export interface ImportedFile {
   name: string
-  outcome: 'exam' | 'correction' | 'duplicate' | 'unclassified' | 'error'
+  outcome: 'exam' | 'correction' | 'duplicate' | 'unclassified' | 'error' | 'repaired'
   /** لماذا لم يُصنَّف أو ما الخطأ */
   reason?: string
   title?: string
@@ -56,6 +56,8 @@ export interface ImportReport {
   unclassified: number
   errors: number
   scanned: number
+  /** ملفات حُفظت فارغة في جولة سابقة (0 بايت) وأُعيد حفظها */
+  repaired: number
   items: ImportedFile[]
 }
 
@@ -232,12 +234,26 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
   if (entries.length === 0) throw new AppError(source.kind === 'web' ? 'HARVEST_EMPTY' : 'DRIVE_EMPTY')
   opts.log?.(`${entries.length} ملفاً في ${label}`)
 
-  const report: ImportReport = { source: label, files: entries.length, exams: 0, corrections: 0, duplicates: 0, unclassified: 0, errors: 0, scanned: 0, items: [] }
+  const report: ImportReport = { source: label, files: entries.length, exams: 0, corrections: 0, duplicates: 0, unclassified: 0, errors: 0, scanned: 0, repaired: 0, items: [] }
   const known = new Set((await db.select({ h: examDocuments.pdfHash }).from(examDocuments)).map((d) => d.h).filter((h): h is string => Boolean(h)))
   const knownSol = new Set((await db.select({ h: examDocuments.solutionPdfHash }).from(examDocuments)).map((d) => d.h).filter((h): h is string => Boolean(h)))
-  // ملفات Drive استُوردت في جولة سابقة (موضوعاً أو تصحيحاً): لا تُنزَّل مرة أخرى
+  // ملفات حُفظت فارغة (0 بايت) في نسخة سابقة من المستورد: تُنزَّل من جديد ويُعاد حفظها في مكانها
+  const broken = new Map((await db.select({ checksum: files.checksum, id: files.id, key: files.storageKey }).from(files).where(and(eq(files.sizeBytes, 0), isNull(files.deletedAt)))).filter((f) => f.checksum).map((f) => [f.checksum!, f]))
+  for (const c of broken.keys()) {
+    known.delete(c)
+    knownSol.delete(c)
+  }
+  // ملفات Drive استُوردت في جولة سابقة بملف سليم (موضوعاً أو تصحيحاً): لا تُنزَّل مرة أخرى
   const knownDrive = new Set(
-    (await db.select({ id: sql<string | null>`${resources.metadata}->>'driveFileId'` }).from(resources).where(sql`${resources.metadata} ? 'driveFileId'`)).map((r) => r.id).filter((x): x is string => Boolean(x))
+    (
+      await db
+        .select({ id: sql<string | null>`${resources.metadata}->>'driveFileId'` })
+        .from(resources)
+        .innerJoin(files, eq(files.id, resources.fileId))
+        .where(and(sql`${resources.metadata} ? 'driveFileId'`, sql`${files.sizeBytes} > 0`))
+    )
+      .map((r) => r.id)
+      .filter((x): x is string => Boolean(x))
   )
 
   // المواضيع الموجودة في البنك بمفتاحها (سنة+دورة+شعبة+مادة+رقم الموضوع)
@@ -248,9 +264,11 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
     .where(eq(examDocuments.docType, 'BAC'))
   const streamCodeById = new Map(streamRows.map((s) => [s.id, s.code]))
   const subjectCodeById = new Map(subjectRows.map((s) => [s.id, s.code]))
+  // ملف محفوظ فارغاً يُعدّ غائباً: أي نسخة جديدة منه تحلّ محلّه
+  const emptyIds = new Set([...broken.values()].map((f) => f.id))
   for (const d of existingDocs) {
     if (!d.resourceId || !d.year || !d.subjectId) continue
-    byKey.set([d.year, d.session ?? 'NORMAL', d.streamId ? streamCodeById.get(d.streamId) : null, subjectCodeById.get(d.subjectId), d.topic ?? 0].join('|'), { documentId: d.id, resourceId: d.resourceId, hasFile: Boolean(d.fileId), hasSolution: Boolean(d.solutionFileId) })
+    byKey.set([d.year, d.session ?? 'NORMAL', d.streamId ? streamCodeById.get(d.streamId) : null, subjectCodeById.get(d.subjectId), d.topic ?? 0].join('|'), { documentId: d.id, resourceId: d.resourceId, hasFile: Boolean(d.fileId && !emptyIds.has(d.fileId)), hasSolution: Boolean(d.solutionFileId && !emptyIds.has(d.solutionFileId)) })
   }
 
   const common = (g: BacFileGuess) => {
@@ -363,6 +381,15 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
         const { bytes, mimeType } = await e.read()
         if (bytes.byteLength === 0 || bytes.byteLength > MAX_BYTES) throw new Error('ملف فارغ أو أكبر من الحدّ')
         const checksum = createHash('sha256').update(bytes).digest('hex')
+        const empty = broken.get(checksum)
+        if (empty) {
+          await storage().put(empty.key, Buffer.from(bytes))
+          await db.update(files).set({ sizeBytes: bytes.byteLength }).where(eq(files.id, empty.id))
+          broken.delete(checksum)
+          report.repaired++
+          report.items.push({ name: e.name, outcome: 'repaired', reason: 'كان محفوظاً فارغاً — أُعيد حفظه' })
+          continue
+        }
         if (known.has(checksum) || knownSol.has(checksum)) {
           report.duplicates++
           report.items.push({ name: e.name, outcome: 'duplicate', reason: 'نفس الملف موجود في البنك' })
@@ -449,9 +476,9 @@ export async function runBacImportJob(db: Db, job: JobRow): Promise<Record<strin
     },
     onProgress: (done, total, last) => updateJobProgress(db, job.id, { totalItems: total, processedItems: done, progress: { phase: 'import', last } })
   })
-  const logs = report.items.map((i) => `${i.outcome === 'exam' ? '✔' : i.outcome === 'correction' ? '✔ تصحيح' : i.outcome === 'duplicate' ? '=' : '✖'} ${i.name}${i.title ? ` → ${i.title}` : ''}${i.reason ? ` — ${i.reason}` : ''}${i.aiFilled?.length ? ` (أكمل الذكاء الاصطناعي: ${i.aiFilled.join('، ')})` : ''}`)
+  const logs = report.items.map((i) => `${i.outcome === 'exam' ? '✔' : i.outcome === 'correction' ? '✔ تصحيح' : i.outcome === 'duplicate' ? '=' : i.outcome === 'repaired' ? '↻ أُصلح' : '✖'} ${i.name}${i.title ? ` → ${i.title}` : ''}${i.reason ? ` — ${i.reason}` : ''}${i.aiFilled?.length ? ` (أكمل الذكاء الاصطناعي: ${i.aiFilled.join('، ')})` : ''}`)
   await updateJobProgress(db, job.id, { totalItems: report.files, processedItems: report.files, failedItems: report.errors + report.unclassified, logs: logs.slice(0, 200) })
-  await notify(db, { userId, workspaceId: null, type: 'SYSTEM', title: 'انتهى استيراد ملفات البكالوريا', body: `${report.exams} موضوعاً و${report.corrections} تصحيحاً${report.duplicates ? `، ${report.duplicates} مكرّر` : ''}${report.unclassified ? `، ${report.unclassified} بلا تصنيف` : ''}${report.errors ? `، ${report.errors} خطأ` : ''}. الخطوة التالية: معالجة دفعة.`, link: '/admin/bac-bank' })
+  await notify(db, { userId, workspaceId: null, type: 'SYSTEM', title: 'انتهى استيراد ملفات البكالوريا', body: `${report.exams} موضوعاً و${report.corrections} تصحيحاً${report.repaired ? `، أُصلح ${report.repaired} ملفاً كان فارغاً` : ''}${report.duplicates ? `، ${report.duplicates} مكرّر` : ''}${report.unclassified ? `، ${report.unclassified} بلا تصنيف` : ''}${report.errors ? `، ${report.errors} خطأ` : ''}. الخطوة التالية: معالجة دفعة.`, link: '/admin/bac-bank' })
   const { items: _items, ...summary } = report
   return summary
 }
