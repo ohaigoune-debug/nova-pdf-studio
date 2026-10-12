@@ -44,6 +44,11 @@ import {
   classifyBacFileSystem,
   classifyBacFileUser,
   GROUP_LESSONS_SCHEMA,
+  ORGANIZE_UPLOAD_SCHEMA,
+  organizeUploadMaxTokens,
+  organizeUploadSystem,
+  organizeUploadUser,
+  parseOrganizeUpload,
   groupLessonsMaxTokens,
   groupLessonsSystem,
   groupLessonsUser,
@@ -86,6 +91,8 @@ import type {
   ClassifyBacFileOutput,
   GroupVideoLessonsInput,
   GroupVideoLessonsOutput,
+  OrganizeUploadInput,
+  OrganizeUploadOutput,
   DetailSolutionInput,
   DetailSolutionOutput,
   ParsedExamRequest,
@@ -240,6 +247,9 @@ export function createOpenAiProvider(opts: Opts): AIProvider {
 
     async detailSolution(input: DetailSolutionInput): Promise<DetailSolutionOutput> {
       return parseDetailSolution(await complete(schemaParams(detailSolutionSystem(input), detailSolutionUser(input), DETAIL_SOLUTION_MAX_TOKENS, 'detail_solution', DETAIL_SOLUTION_SCHEMA), { timeoutMs: 120_000 }))
+    },
+    async organizeUpload(input: OrganizeUploadInput): Promise<OrganizeUploadOutput> {
+      return parseOrganizeUpload(await complete(schemaParams(organizeUploadSystem(), organizeUploadUser(input), organizeUploadMaxTokens(input), 'organize_upload', ORGANIZE_UPLOAD_SCHEMA), { timeoutMs: 240_000 }), input)
     },
     async groupVideoLessons(input: GroupVideoLessonsInput): Promise<GroupVideoLessonsOutput> {
       return parseGroupLessons(await complete(schemaParams(groupLessonsSystem(input.subject), groupLessonsUser(input), groupLessonsMaxTokens(input.items.length), 'group_video_lessons', GROUP_LESSONS_SCHEMA)), input)

@@ -30,6 +30,7 @@ export function ResourceCards({ items }: { items: ResourceCard[] }) {
                 </Badge>
               ) : null}
               {it.hasSolution ? <Badge variant="success">مع الحلّ</Badge> : null}
+              {it.groupOnly ? <Badge variant="warning">لفوجك فقط</Badge> : null}
             </div>
             <div className="flex flex-wrap gap-1.5 pt-1">
               {it.href !== '#' ? (
@@ -53,7 +54,14 @@ export function ResourceCards({ items }: { items: ResourceCard[] }) {
                 </Button>
               ) : null}
             </div>
-            <p className="text-[11px] text-muted-foreground">المصدر: {it.source}</p>
+            <p className="text-[11px] text-muted-foreground">
+              {it.author ? (
+                <>
+                  من إنشاء: <span className="font-semibold text-foreground">{it.author}</span> ·{' '}
+                </>
+              ) : null}
+              المصدر: {it.source}
+            </p>
           </CardContent>
         </Card>
       ))}

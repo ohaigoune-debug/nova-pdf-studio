@@ -176,6 +176,13 @@
       "when": 1792400000000,
       "tag": "0024_forum_levels",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1792500000000,
+      "tag": "0025_upload_batches",
+      "breakpoints": true
     }
   ]
 }

@@ -4,6 +4,7 @@ import { LevelSubjectBar, ResourceCards } from '@/components/domain/resource-car
 import { Button } from '@/components/ui/button'
 import { EmptyState, PageHeader } from '@/components/ui/misc'
 import { cn } from '@/lib/utils'
+import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { currentLevel, subjectsForLevel } from '@/server/queries/level-scope'
 import { listResourceCards, PRACTICE_KINDS, practiceCounts, type PracticeKind } from '@/server/services/library.service'
@@ -20,10 +21,11 @@ type Q = { level?: string; subject?: string; kind?: string; q?: string; cursor?:
 export default async function ExamsPage({ searchParams }: { searchParams: Promise<Q> }) {
   const sp = await searchParams
   const db = await getDb()
-  const level = await currentLevel(db, sp.level)
+  const [level, actor] = await Promise.all([currentLevel(db, sp.level), getCurrentActor()])
+  const studentId = actor?.studentId ?? null
   const subjectId = sp.subject && /^[0-9a-f-]{36}$/i.test(sp.subject) ? sp.subject : null
   const kind = PRACTICE_KINDS.find((k) => k.key === sp.kind) ?? null
-  const scope = { levelId: level?.id ?? null, subjectId, excludeBac: true }
+  const scope = { levelId: level?.id ?? null, subjectId, excludeBac: true, studentId }
   const allTypes = PRACTICE_KINDS.flatMap((k) => k.types)
   const [list, counts, subjectOpts] = await Promise.all([listResourceCards(db, { ...scope, types: kind ? [...kind.types] : allTypes, q: sp.q ?? null }, { cursor: sp.cursor ?? null, limit: 24 }), practiceCounts(db, scope), subjectsForLevel(db, level?.id ?? null)])
   const link = (patch: Partial<Q>) => {

@@ -79,3 +79,15 @@ export async function pdfPageCount(bytes: Uint8Array): Promise<number | null> {
     return null
   }
 }
+
+/** نصّ كل صفحة على حدة (لتقسيم سلسلة مجمَّعة)؛ [] إن تعذّرت القراءة */
+export async function pdfPagesText(bytes: Uint8Array): Promise<string[]> {
+  try {
+    const { extractText, getDocumentProxy } = await import('unpdf')
+    const pdf = await getDocumentProxy(bytes.slice())
+    const { text } = await extractText(pdf, { mergePages: false })
+    return (text as string[]).map((t) => cleanText(fixArabicPdfOrder(t.normalize('NFKC'))))
+  } catch {
+    return []
+  }
+}

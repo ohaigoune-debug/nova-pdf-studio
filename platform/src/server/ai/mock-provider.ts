@@ -1,5 +1,5 @@
 import { normalizeArabic } from '@/server/lib/arabic'
-import { lessonKeyOf } from './shared'
+import { heuristicOrganize, lessonKeyOf } from './shared'
 import { reportAiUsage } from './usage'
 import type {
   ExtractQuestionsInput,
@@ -23,7 +23,9 @@ import type {
   ParseExamRequestInput,
   ParsedExamRequest,
   GroupVideoLessonsInput,
-  GroupVideoLessonsOutput
+  GroupVideoLessonsOutput,
+  OrganizeUploadInput,
+  OrganizeUploadOutput
 } from './types'
 
 /**
@@ -300,6 +302,9 @@ export function createMockProvider(): AIProvider {
       return { subject: find(input.subjects), level: find(input.levels), stream: find(input.streams), term: /الأول|الاول/.test(t) ? 1 : /الثاني/.test(t) ? 2 : /الثالث/.test(t) ? 3 : null, durationMinutes: hrs ? Number(hrs[1]) * 60 : dur ? Number(dur[1]) : /ساعتين|ساعتان/.test(t) ? 120 : null, exercises: ex ? Number(ex[1]) : null, difficulty: /صعب/.test(t) ? 'hard' : /سهل/.test(t) ? 'easy' : /متوسط/.test(t) ? 'medium' : null, topics: input.topics.filter((x) => t.includes(x)).slice(0, 12), kind: /فرض/.test(t) ? 'HOMEWORK' : /بكالوريا تجريبية|بكالوريا بيضاء/.test(t) ? 'BAC_MOCK' : null, raw: { mock: true } }
     },
 
+    async organizeUpload(input: OrganizeUploadInput): Promise<OrganizeUploadOutput> {
+      return heuristicOrganize(input)
+    },
     /** حتمي بلا شبكة: المحور الذي سمّاه التنظيم السابق، أو درس معتمد ورد اسمه في العنوان */
     async groupVideoLessons(input: GroupVideoLessonsInput): Promise<GroupVideoLessonsOutput> {
       const known = input.knownLessons.map((k) => ({ k, key: lessonKeyOf(k) })).sort((a, b) => b.key.length - a.key.length)

@@ -74,6 +74,7 @@ export function navFor(role: UserRole): NavSection[] {
         {
           title: 'التعليم',
           items: [
+            { href: '/teacher/publish', label: 'نشر درس / فرض / اختبار', iconKey: 'Upload' },
             { href: '/teacher/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' },
             { href: '/teacher/announcements', label: 'الإشعارات', iconKey: 'Megaphone' },
             { href: '/forum', label: 'المنتدى', iconKey: 'MessageSquareText' },
@@ -132,6 +133,7 @@ export function navFor(role: UserRole): NavSection[] {
         {
           title: 'المنصة',
           items: [
+            { href: '/admin/publish', label: 'نشر درس / فرض / اختبار', iconKey: 'Upload' },
             { href: '/admin/curriculum', label: 'المنهاج والمكتبة', iconKey: 'Network' },
             { href: '/admin/bac-bank', label: 'بنك البكالوريا', iconKey: 'Database' },
             { href: '/admin/exam-engine', label: 'محرّك الامتحانات', iconKey: 'Cog' },

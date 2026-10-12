@@ -47,6 +47,11 @@ import {
   classifyBacFileSystem,
   classifyBacFileUser,
   GROUP_LESSONS_SCHEMA,
+  ORGANIZE_UPLOAD_SCHEMA,
+  organizeUploadMaxTokens,
+  organizeUploadSystem,
+  organizeUploadUser,
+  parseOrganizeUpload,
   groupLessonsMaxTokens,
   groupLessonsSystem,
   groupLessonsUser,
@@ -91,6 +96,8 @@ import type {
   ClassifyBacFileOutput,
   GroupVideoLessonsInput,
   GroupVideoLessonsOutput,
+  OrganizeUploadInput,
+  OrganizeUploadOutput,
   DetailSolutionInput,
   DetailSolutionOutput,
   ParsedExamRequest
@@ -291,6 +298,9 @@ export function createAnthropicProvider(opts: Opts): AIProvider {
 
     async detailSolution(input: DetailSolutionInput): Promise<DetailSolutionOutput> {
       return parseDetailSolution(await complete(jsonParams(detailSolutionSystem(input), detailSolutionUser(input), DETAIL_SOLUTION_MAX_TOKENS, DETAIL_SOLUTION_SCHEMA)))
+    },
+    async organizeUpload(input: OrganizeUploadInput): Promise<OrganizeUploadOutput> {
+      return parseOrganizeUpload(await complete(jsonParams(organizeUploadSystem(), organizeUploadUser(input), organizeUploadMaxTokens(input), ORGANIZE_UPLOAD_SCHEMA), { timeoutMs: 240_000 }), input)
     },
     async groupVideoLessons(input: GroupVideoLessonsInput): Promise<GroupVideoLessonsOutput> {
       return parseGroupLessons(await complete(jsonParams(groupLessonsSystem(input.subject), groupLessonsUser(input), groupLessonsMaxTokens(input.items.length), GROUP_LESSONS_SCHEMA)), input)

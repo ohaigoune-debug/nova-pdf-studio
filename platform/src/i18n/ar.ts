@@ -1137,6 +1137,8 @@ const ar = {
     forum_post_hide: 'أخفى ردّاً في المنتدى',
     forum_post_unhide: 'أظهر ردّاً في المنتدى',
     videos_organize_lessons: 'طلب ترتيب فيديوهات القنوات بالدرس',
+    resources_publish: 'نشر دروساً أو فروضاً أو اختبارات',
+    resources_unpublish: 'سحب مورداً منشوراً',
     practice_start: 'بدأ جلسة تدريب ذاتي',
     practice_finish: 'أنهى جلسة تدريب ذاتي',
     store_product_create: 'أضاف منتجاً إلى المتجر',

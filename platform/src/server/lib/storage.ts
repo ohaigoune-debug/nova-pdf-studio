@@ -151,7 +151,9 @@ export const ALLOWED_MIME = new Set([
   'application/msword',
   'application/vnd.openxmlformats-officedocument.presentationml.presentation',
   'application/vnd.ms-powerpoint',
-  'text/plain'
+  'text/plain',
+  // أرشيف دروس/فروض يُفكّ في صفحة «نشر» (لا يُعرض للتلاميذ كما هو)
+  'application/zip'
 ])
 /** ملفات الدروس (PDF مصوّر، عروض بصور) تتجاوز 15 MB كثيراً */
 export const MAX_UPLOAD_BYTES = 40 * 1024 * 1024

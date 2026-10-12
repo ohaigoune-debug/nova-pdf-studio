@@ -3,6 +3,7 @@
  * سببه أن كل مزوّد جديد كان سينسخ التعليمات فتتفرّق الصياغة بين النماذج
  * وتختلف النتيجة على الأستاذ حسب المزوّد المفعّل.
  */
+import { guessDocType, guessTerm, solutionBaseName, splitByHeadings } from '@/lib/publish-guess'
 import { PermanentJobError } from '@/server/lib/errors'
 import type {
   ExtractQuestionsInput,
@@ -28,6 +29,9 @@ import type {
   ClassifyBacFileOutput,
   GroupVideoLessonsInput,
   GroupVideoLessonsOutput,
+  OrganizeUploadInput,
+  OrganizeUploadOutput,
+  OrganizedDocument,
   DetailSolutionInput,
   DetailSolutionOutput,
   TeacherInsightsInput
@@ -880,4 +884,136 @@ export function lessonKeyOf(title: string): string {
     .map((w) => (w.startsWith('ال') && w.length >= 4 ? w.slice(2) : w))
     .join('-')
     .slice(0, 120)
+}
+
+/* ───────────── دفعة نشر الأستاذ: تقسيم وتصنيف ───────────── */
+
+const PUBLISH_KINDS = ['LESSON', 'SUMMARY', 'EXERCISE', 'HOMEWORK', 'TEST', 'SOLUTION'] as const
+const nullable = (t: Record<string, unknown>) => ({ anyOf: [t, { type: 'null' }] })
+
+export const ORGANIZE_UPLOAD_SCHEMA: Record<string, unknown> = {
+  type: 'object',
+  properties: {
+    documents: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          file_key: { type: 'string' },
+          from_page: nullable({ type: 'number' }),
+          to_page: nullable({ type: 'number' }),
+          type: { type: 'string', enum: [...PUBLISH_KINDS] },
+          title: { type: 'string' },
+          subject_code: nullable({ type: 'string' }),
+          level_code: nullable({ type: 'string' }),
+          stream_code: nullable({ type: 'string' }),
+          term: nullable({ type: 'number' }),
+          year: nullable({ type: 'number' }),
+          solution_of: nullable({ type: 'number' })
+        },
+        required: ['file_key', 'from_page', 'to_page', 'type', 'title', 'subject_code', 'level_code', 'stream_code', 'term', 'year', 'solution_of'],
+        additionalProperties: false
+      }
+    }
+  },
+  required: ['documents'],
+  additionalProperties: false
+}
+
+export const organizeUploadMaxTokens = (input: OrganizeUploadInput) => Math.min(16_000, 800 + input.files.reduce((a, f) => a + Math.max(1, Math.ceil((f.pageCount ?? 1) / 2)), 0) * 180)
+
+export const organizeUploadSystem = (): string =>
+  [
+    'أنت أستاذ جزائري خبير بالمنهاج ترتّب ملفات رفعها زميل لتُنشر في منصة تعليمية: دروس، ملخّصات، سلاسل تمارين، فروض، اختبارات، وحلولها.',
+    'ملف واحد قد يحوي وثائق كثيرة (سلسلة فروض واختبارات في PDF واحد، والحلول في آخره): قسّمه بأرقام الصفحات from_page/to_page (تبدأ من 1 وتشمل الطرفين، بلا تداخل). ملف يحوي وثيقة واحدة: from_page = to_page = null.',
+    'لكل وثيقة: type (LESSON درس، SUMMARY ملخّص، EXERCISE سلسلة تمارين، HOMEWORK فرض، TEST اختبار فصلي، SOLUTION حلّ/تصحيح)، وعنوان عربي نظيف يذكر نوعها ومادتها ورقمها أو فصلها كما في النصّ (مثال: «الفرض الأول للفصل الأول في الرياضيات»، «حلّ الاختبار الأول في اللغة العربية»).',
+    'subject_code وlevel_code وstream_code من القوائم المعطاة فقط؛ ما لا يدلّ عليه النصّ خذه من «اختيار الأستاذ»، وإلا null. term: الفصل 1–3 إن ذُكر. year: سنة الامتحان أو الموسم إن ذُكرت صراحةً، وإلا null.',
+    'solution_of: رقم (يبدأ من 0 بترتيب قائمتك) الوثيقة التي هذه حلّها — الحلّ يُربط بموضوعه بالمادة والرقم والفصل؛ وإلا null.',
+    'لا تخترع محتوى. أعد JSON فقط: {"documents":[{"file_key":…,"from_page":…,"to_page":…,"type":…,"title":…,"subject_code":…,"level_code":…,"stream_code":…,"term":…,"year":…,"solution_of":…}]}، وغطِّ كل ملف معطى.'
+  ].join('\n')
+
+export function organizeUploadUser(input: OrganizeUploadInput): string {
+  const h = input.hints
+  return [
+    `المواد: ${input.subjects.map((s) => `${s.code}=${s.name}`).join('، ')}`,
+    `المستويات: ${input.levels.map((s) => `${s.code}=${s.name}`).join('، ')}`,
+    `الشعب: ${input.streams.map((s) => `${s.code}=${s.name}`).join('، ')}`,
+    `اختيار الأستاذ: النوع=${h.type ?? 'تلقائي'}، المادة=${h.subjectCode ?? '—'}، المستوى=${h.levelCode ?? '—'}، الشعبة=${h.streamCode ?? '—'}، الفصل=${h.term ?? '—'}`,
+    '',
+    ...input.files.map((f) =>
+      [`### ملف ${f.key}: «${f.name}»${f.pageCount ? ` — ${f.pageCount} صفحة` : ''}`, ...(f.pages.length ? f.pages.map((p) => `[ص${p.n}] ${p.text}`) : [f.excerpt ? `مقتطف: ${f.excerpt}` : '(بلا نصّ مقروء)'])].join('\n')
+    )
+  ].join('\n')
+}
+
+/** يحرس الاقتراح: ملفات معروفة، صفحات ضمن الحدود، رموز من القوائم، وكل ملف مغطّى ولو كاملاً */
+export function parseOrganizeUpload(j: Record<string, unknown>, input: OrganizeUploadInput): OrganizeUploadOutput {
+  const fileByKey = new Map(input.files.map((f) => [f.key, f]))
+  const codes = (l: { code: string }[]) => new Set(l.map((x) => x.code))
+  const subj = codes(input.subjects)
+  const lvl = codes(input.levels)
+  const str = codes(input.streams)
+  const pick = (v: unknown, set: Set<string>) => (typeof v === 'string' && set.has(v.trim().toUpperCase()) ? v.trim().toUpperCase() : typeof v === 'string' && set.has(v.trim()) ? v.trim() : null)
+  const rows = Array.isArray(j.documents) ? (j.documents as Record<string, unknown>[]) : []
+  const docs: OrganizedDocument[] = []
+  const mapIndex = new Map<number, number>()
+  rows.forEach((r, i) => {
+    const f = fileByKey.get(String(r.file_key ?? ''))
+    if (!f) return
+    let from = typeof r.from_page === 'number' ? Math.floor(r.from_page) : null
+    let to = typeof r.to_page === 'number' ? Math.floor(r.to_page) : null
+    if (from !== null && to !== null && f.pageCount) {
+      from = Math.max(1, Math.min(from, f.pageCount))
+      to = Math.max(from, Math.min(to, f.pageCount))
+      if (from === 1 && to === f.pageCount) from = to = null
+    } else from = to = null
+    const type = (PUBLISH_KINDS as readonly string[]).includes(String(r.type)) ? (r.type as OrganizedDocument['type']) : 'EXERCISE'
+    mapIndex.set(i, docs.length)
+    docs.push({
+      fileKey: f.key,
+      fromPage: from,
+      toPage: to,
+      type,
+      title: text(r.title, 160) || f.name.replace(/\.[a-z0-9]{2,5}$/i, ''),
+      subjectCode: pick(r.subject_code, subj),
+      levelCode: pick(r.level_code, lvl),
+      streamCode: pick(r.stream_code, str),
+      term: typeof r.term === 'number' && r.term >= 1 && r.term <= 3 ? Math.floor(r.term) : null,
+      year: typeof r.year === 'number' && r.year >= 1990 && r.year <= 2100 ? Math.floor(r.year) : null,
+      solutionOf: typeof r.solution_of === 'number' ? Math.floor(r.solution_of) : null
+    })
+  })
+  // إعادة ترقيم solution_of بعد إسقاط ما لا يصلح، ولا حلّ لنفسه ولا لحلّ
+  for (const d of docs) {
+    const target = d.solutionOf === null ? undefined : mapIndex.get(d.solutionOf)
+    d.solutionOf = d.type === 'SOLUTION' && target !== undefined && docs[target] && docs[target]!.type !== 'SOLUTION' && docs[target] !== d ? target : null
+  }
+  // ملف لم يذكره النموذج يُنشر كاملاً
+  for (const f of input.files) if (!docs.some((d) => d.fileKey === f.key)) docs.push({ fileKey: f.key, fromPage: null, toPage: null, type: 'EXERCISE', title: f.name.replace(/\.[a-z0-9]{2,5}$/i, ''), subjectCode: null, levelCode: null, streamCode: null, term: null, year: null, solutionOf: null })
+  return { documents: docs, raw: j }
+}
+
+/** الاقتراح الحتمي (بلا ذكاء اصطناعي): عناوين الصفحات تقسّم السلسلة، والاسم يحدّد النوع، والحلّ يُربط بالاسم */
+export function heuristicOrganize(input: OrganizeUploadInput): OrganizeUploadOutput {
+  const hintType = input.hints.type && (PUBLISH_KINDS as readonly string[]).includes(input.hints.type) ? (input.hints.type as OrganizedDocument['type']) : null
+  const docs: OrganizedDocument[] = []
+  for (const f of input.files) {
+    const base = { fileKey: f.key, subjectCode: input.hints.subjectCode, levelCode: input.hints.levelCode, streamCode: input.hints.streamCode, year: null }
+    const segs = f.pages.length ? splitByHeadings(f.pages) : []
+    if (segs.length) {
+      for (const sg of segs) docs.push({ ...base, fromPage: sg.fromPage, toPage: sg.toPage, type: sg.type, title: sg.title, term: input.hints.term ?? guessTerm(sg.title), solutionOf: null })
+    } else {
+      const guessed = guessDocType(f.name, f.excerpt ?? f.pages[0]?.text ?? '')
+      const type = guessed === 'SOLUTION' ? 'SOLUTION' : hintType ?? guessed
+      docs.push({ ...base, fromPage: null, toPage: null, type, title: f.name.replace(/\.[a-z0-9]{2,5}$/i, '').split(' / ').pop()!.trim(), term: input.hints.term ?? guessTerm(f.name), solutionOf: null })
+    }
+  }
+  const keyOf = (d: OrganizedDocument) => solutionBaseName(d.title)
+  docs.forEach((d) => {
+    if (d.type !== 'SOLUTION') return
+    const k = keyOf(d)
+    const i = docs.findIndex((x) => x.type !== 'SOLUTION' && keyOf(x) === k)
+    if (i >= 0) d.solutionOf = i
+  })
+  return { documents: docs }
 }

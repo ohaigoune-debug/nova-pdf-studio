@@ -24,16 +24,19 @@ const BY_EXT: Record<string, string> = {
   webp: 'image/webp',
   mp3: 'audio/mpeg',
   m4a: 'audio/mp4',
-  mp4: 'video/mp4'
+  mp4: 'video/mp4',
+  zip: 'application/zip'
 }
 
 /** ملفات الدروس التي يقرؤها الذكاء الاصطناعي (القديمة .doc و.ppt تُرفع لكنها لا تُقرأ) */
 export const LESSON_ACCEPT = '.pdf,.docx,.doc,.pptx,.ppt,.txt'
+/** صفحة «نشر»: وثائق الدروس والفروض، صور الأوراق، وأرشيف ZIP يُفكّ تلقائياً */
+export const PUBLISH_ACCEPT = '.pdf,.docx,.doc,.pptx,.ppt,.txt,.jpg,.jpeg,.png,.zip'
 /** كل ما يُرفع إلى «ملفاتي» */
 export const ANY_ACCEPT = '.pdf,.docx,.doc,.pptx,.ppt,.txt,.jpg,.jpeg,.png,.webp,.mp3,.m4a,.mp4'
 
 /** نوع الملف من المتصفّح، وإلا من امتداده (ويندوز يترك النوع فارغاً أحياناً) */
 export function mimeOf(file: { name: string; type: string }): string {
   const ext = file.name.toLowerCase().split('.').pop() ?? ''
-  return BY_EXT[ext] ?? (file.type || 'application/octet-stream')
+  return BY_EXT[ext] ?? (file.type === 'application/x-zip-compressed' ? 'application/zip' : file.type || 'application/octet-stream')
 }

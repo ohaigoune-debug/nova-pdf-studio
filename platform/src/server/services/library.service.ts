@@ -58,6 +58,19 @@ const esc = (s: string) => s.replace(/[%_\\]/g, (c) => `\\${c}`)
 /** شرط الموارد المنشورة العامة (ما يراه الزائر) */
 const publicResources = () => and(isNull(resources.deletedAt), eq(resources.status, 'PUBLISHED'), eq(resources.accessLevel, 'PUBLIC'))
 
+/** العامّ للجميع، وما خصّه أستاذ بأفواج لتلاميذ تلك الأفواج النشطين */
+export const visibleResources = (studentId?: string | null) =>
+  and(
+    isNull(resources.deletedAt),
+    eq(resources.status, 'PUBLISHED'),
+    studentId
+      ? or(
+          eq(resources.accessLevel, 'PUBLIC'),
+          and(eq(resources.accessLevel, 'GROUP'), sql`exists (select 1 from resource_groups rg join group_students gs on gs.group_id = rg.group_id where rg.resource_id = ${resources.id} and gs.student_id = ${studentId} and gs.status = 'ACTIVE')`)
+        )
+      : eq(resources.accessLevel, 'PUBLIC')
+  )
+
 /** رابط المورد: فيديو الدليل داخلياً، وإلا الملف أو صفحة المصدر */
 export function resourceHref(r: { id: string; type: string; educatorId: string | null; fileUrl: string | null; sourceUrl: string | null; youtubeVideoId: string | null }): { href: string; external: boolean } {
   if (r.type === 'VIDEO' && r.educatorId) return { href: `/videos/${r.id}`, external: false }
@@ -286,6 +299,10 @@ export interface ResourceCard {
   year: number | null
   term: number | null
   source: string
+  /** «من إنشاء: …» (الأستاذ أو المشرف الذي نشره) */
+  author: string | null
+  /** خاصّ بأفواج الأستاذ */
+  groupOnly: boolean
   official: boolean
   /** رابط الفتح: ملف محلي عبر /library/r/:id، أو الملف/الصفحة عند المصدر */
   href: string
@@ -301,6 +318,8 @@ export interface ResourceListFilter {
   q?: string | null
   /** يستثني مواضيع البكالوريا الرسمية (لها قسمها) */
   excludeBac?: boolean
+  /** تلميذ مسجّل: يرى أيضاً ما خُصّ به فوجه */
+  studentId?: string | null
 }
 
 /** رابط فتح المورد: الملف المخزَّن عندنا أولاً، ثم الملف أو الصفحة عند المصدر */
@@ -315,7 +334,9 @@ export async function listResourceCards(db: Db, f: ResourceListFilter, page: { c
   const q = f.q?.trim().slice(0, 80) ?? ''
   const ts = q.length >= 2 ? tsQueryOf(q) : null
   const where: (SQL | undefined)[] = [
-    publicResources(),
+    visibleResources(f.studentId),
+    // الحلّ المرفق بموضوعه يُفتح من زرّ «الحلّ» تحته: لا بطاقة ثانية له
+    sql`not exists (select 1 from resources p where p.solution_resource_id = ${resources.id} and p.deleted_at is null)`,
     inArray(resources.type, f.types),
     f.levelId ? eq(resources.levelId, f.levelId) : undefined,
     f.subjectId ? eq(resources.subjectId, f.subjectId) : undefined,
@@ -355,6 +376,8 @@ export async function listResourceCards(db: Db, f: ResourceListFilter, page: { c
       year: x.r.examYear ?? x.r.academicYear,
       term: x.r.schoolTerm,
       source: x.source,
+      author: x.r.originalAuthor && x.r.originalAuthor !== x.source ? x.r.originalAuthor : null,
+      groupOnly: x.r.accessLevel === 'GROUP',
       official: x.r.isOfficial,
       href: link.href,
       external: link.external,
@@ -374,7 +397,9 @@ export async function practiceCounts(db: Db, f: Omit<ResourceListFilter, 'types'
     .from(resources)
     .where(
       and(
-        publicResources(),
+        visibleResources(f.studentId),
+    // الحلّ المرفق بموضوعه يُفتح من زرّ «الحلّ» تحته: لا بطاقة ثانية له
+        sql`not exists (select 1 from resources p where p.solution_resource_id = ${resources.id} and p.deleted_at is null)`,
         inArray(resources.type, all),
         f.levelId ? eq(resources.levelId, f.levelId) : undefined,
         f.subjectId ? eq(resources.subjectId, f.subjectId) : undefined,
@@ -388,9 +413,10 @@ export async function practiceCounts(db: Db, f: Omit<ResourceListFilter, 'types'
 }
 
 /** رابط ملف مورد عام (أو تصحيحه) — لصفحة /library/r/:id */
-export async function publicResourceFile(db: Db, resourceId: string, part: 'file' | 'solution' = 'file'): Promise<{ fileId: string | null; url: string | null }> {
+export async function publicResourceFile(db: Db, resourceId: string, part: 'file' | 'solution' = 'file', viewer: { studentId?: string | null; userId?: string | null; admin?: boolean } = {}): Promise<{ fileId: string | null; url: string | null }> {
   if (!/^[0-9a-f-]{36}$/i.test(resourceId)) throw new AppError('NOT_FOUND')
-  const [r] = await db.select().from(resources).where(and(eq(resources.id, resourceId), publicResources())).limit(1)
+  const own = viewer.admin ? sql`true` : viewer.userId ? sql`${resources.metadata}->>'uploadedBy' = ${viewer.userId}` : sql`false`
+  const [r] = await db.select().from(resources).where(and(eq(resources.id, resourceId), or(visibleResources(viewer.studentId), and(isNull(resources.deletedAt), own)))).limit(1)
   if (!r) throw new AppError('NOT_FOUND')
   if (part === 'solution') {
     const [doc] = await db.select({ solutionFileId: examDocuments.solutionFileId }).from(examDocuments).where(eq(examDocuments.resourceId, r.id)).limit(1)

@@ -334,6 +334,36 @@ export interface ClassifyBacFileOutput {
   raw?: Record<string, unknown>
 }
 
+/** دفعة ملفات يرفعها أستاذ: الذكاء الاصطناعي يقترح تقسيم الملف المجمَّع وتصنيف كل وثيقة وربط الحلول — يراجعها الأستاذ قبل النشر */
+export interface OrganizeUploadInput {
+  subjects: { code: string; name: string }[]
+  levels: { code: string; name: string }[]
+  streams: { code: string; name: string }[]
+  /** ما اختاره الأستاذ في النموذج (يُستعمل حين لا يدلّ النصّ على غيره) */
+  hints: { type: string | null; subjectCode: string | null; levelCode: string | null; streamCode: string | null; term: number | null }
+  files: { key: string; name: string; pageCount: number | null; pages: { n: number; text: string }[]; excerpt: string | null }[]
+}
+
+export interface OrganizedDocument {
+  fileKey: string
+  fromPage: number | null
+  toPage: number | null
+  type: 'LESSON' | 'SUMMARY' | 'EXERCISE' | 'HOMEWORK' | 'TEST' | 'SOLUTION'
+  title: string
+  subjectCode: string | null
+  levelCode: string | null
+  streamCode: string | null
+  term: number | null
+  year: number | null
+  /** رقم (من 0) الوثيقة في هذه القائمة التي هذه حلّها */
+  solutionOf: number | null
+}
+
+export interface OrganizeUploadOutput {
+  documents: OrganizedDocument[]
+  raw?: Record<string, unknown>
+}
+
 /** ترتيب فيديوهات القنوات بالدرس: كل من شرح «الدوال» أو «إعراب البدل» يجتمع تحت اسم واحد */
 export interface GroupVideoLessonsInput {
   /** المادة بالعربية */
@@ -395,6 +425,8 @@ export interface AIProvider {
   classifyBacFile?(input: ClassifyBacFileInput): Promise<ClassifyBacFileOutput>
   /** فيديوهات القنوات ← درس المنهاج الذي يشرحه كل فيديو (لتجميع كل الشروح في مكان واحد) */
   groupVideoLessons?(input: GroupVideoLessonsInput): Promise<GroupVideoLessonsOutput>
+  /** دفعة نشر الأستاذ: تقسيم وتصنيف وربط حلول — اقتراح يُراجَع */
+  organizeUpload?(input: OrganizeUploadInput): Promise<OrganizeUploadOutput>
   /**
    * اختياري: تصحيح دفعة كاملة بنصف السعر؛ النتائج تُجلب لاحقاً بالاستطلاع.
    * المزوّد الذي لا يوفّرها يُعالَج فرادى.

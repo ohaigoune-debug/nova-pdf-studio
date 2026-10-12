@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { EmptyState, PageHeader } from '@/components/ui/misc'
 import { cn } from '@/lib/utils'
 import { getT } from '@/i18n/server'
+import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { currentLevel, subjectsForLevel } from '@/server/queries/level-scope'
 import { listPublicContent, listTopics } from '@/server/queries/content.queries'
@@ -24,13 +25,14 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
   const sp = await searchParams
   const db = await getDb()
   const { locale } = await getT()
-  const level = await currentLevel(db, sp.level)
+  const [level, actor] = await Promise.all([currentLevel(db, sp.level), getCurrentActor()])
+  const studentId = actor?.studentId ?? null
   const subjectId = sp.subject && /^[0-9a-f-]{36}$/i.test(sp.subject) ? sp.subject : null
   const [academy, topics, library, subjectOpts] = await Promise.all([
     // دروس المنصة لا تحمل مادة: تُرشَّح بالمستوى والبحث، وتُخفى حين يختار الزائر مادة بعينها من المكتبة
     subjectId ? Promise.resolve([]) : listPublicContent(db, { types: ['LESSON', 'ARTICLE', 'VIDEO', 'PDF', 'AUDIO', 'IMAGE', 'LINK'], search: sp.q, topic: sp.topic, levelId: level?.id ?? null }),
     listTopics(db),
-    listResourceCards(db, { levelId: level?.id ?? null, subjectId, types: LESSON_RESOURCE_TYPES, q: sp.q ?? null }, { cursor: sp.cursor ?? null, limit: 24 }),
+    listResourceCards(db, { levelId: level?.id ?? null, subjectId, types: LESSON_RESOURCE_TYPES, q: sp.q ?? null, studentId }, { cursor: sp.cursor ?? null, limit: 24 }),
     subjectsForLevel(db, level?.id ?? null)
   ])
   const link = (patch: Partial<Q>) => {

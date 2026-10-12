@@ -16,6 +16,7 @@ import { runCleanupJob } from '@/server/services/maintenance.service'
 import { runPushDispatchJob } from '@/server/services/push.service'
 import { runReportJob } from '@/server/services/reports.service'
 import { runOrganizeLessonsJob } from '@/server/services/video-lessons.service'
+import { runOrganizeUploadJob } from '@/server/services/publish.service'
 import { claimNextJob, completeJob, failJob, nextRunAfter, type JobLane, type JobRow, type JobType } from './queue'
 
 type Handler = (db: Db, job: JobRow) => Promise<Record<string, unknown> | null>
@@ -38,6 +39,7 @@ const handlers: Record<JobType, Handler> = {
   YT_RESOLVE_EDUCATORS: (db, job) => runResolveEducatorsJob(db, job),
   YT_SYNC_CHANNEL: (db, job) => runSyncChannelJob(db, job),
   YT_ORGANIZE_LESSONS: (db, job) => runOrganizeLessonsJob(db, job),
+  AI_ORGANIZE_UPLOAD: (db, job) => runOrganizeUploadJob(db, job),
   REPORT_EXPORT: (db, job) => runReportJob(db, job.payload),
   CLEANUP: async (db) => ({ ...(await runCleanupJob(db)) }),
   PUSH_DISPATCH: (db, job) => runPushDispatchJob(db, job.payload)
