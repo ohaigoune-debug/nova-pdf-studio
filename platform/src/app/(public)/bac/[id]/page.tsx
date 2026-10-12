@@ -87,11 +87,33 @@ export default async function BacExamPage({ params, searchParams }: { params: Pr
 
       {d.previewUrl ? (
         <Card className="mb-6 overflow-hidden">
-          <CardHeader>
+          <CardHeader className="flex-row flex-wrap items-center justify-between gap-2">
             <CardTitle className="text-base">الموضوع</CardTitle>
+            {/* على iPhone لا تُعرض ملفات PDF داخل الإطار غالباً: الزرّ يفتحها في عارض الهاتف */}
+            <span className="flex flex-wrap gap-2">
+              <Button asChild size="sm">
+                <a href={`/library/r/${r.id}`} target="_blank" rel="noopener">
+                  <Download className="size-4" /> فتح الموضوع
+                </a>
+              </Button>
+              {d.solution?.previewUrl ? (
+                <Button asChild size="sm" variant="outline">
+                  <a href={`/library/r/${r.id}?part=solution`} target="_blank" rel="noopener">
+                    فتح الحلّ
+                  </a>
+                </Button>
+              ) : null}
+            </span>
           </CardHeader>
           <CardContent className="p-0">
-            <iframe src={d.previewUrl} title="معاينة الموضوع" className="h-[70vh] w-full border-0 bg-muted" />
+            <object data={d.previewUrl} type="application/pdf" aria-label="معاينة الموضوع" className="h-[70vh] w-full bg-muted">
+              <p className="p-6 text-center text-sm text-muted-foreground">
+                المعاينة غير مدعومة في هذا المتصفح —{' '}
+                <a href={`/library/r/${r.id}`} target="_blank" rel="noopener" className="font-bold text-primary underline">
+                  افتح الموضوع
+                </a>
+              </p>
+            </object>
           </CardContent>
         </Card>
       ) : r.fileUrl ? (
