@@ -66,3 +66,15 @@ it('الموضوع وحلّه يُحفظان بكامل بايتاتهما، و�
   expect(fixed!.sizeBytes).toBeGreaterThan(500)
   expect(Buffer.from(await storage().get(fixed!.storageKey)).subarray(0, 4).toString()).toBe('%PDF')
 })
+
+it('مهمة استيراد متوقّفة بلا تقدّم تُغلق ويُفتح زرّ الاستيراد', async () => {
+  const { enqueueJob } = await import('@/server/jobs/queue')
+  const { jobs } = await import('@/server/db/schema')
+  const { lastImportSummary } = await import('@/server/services/bac-import.service')
+  const job = await enqueueJob(h.db, { type: 'BAC_IMPORT_FILES', payload: { folderUrl: 'x', userId: admin.userId }, workspaceId: null, maxAttempts: 1 })
+  const old = new Date(Date.now() - 30 * 60_000)
+  await h.db.update(jobs).set({ status: 'PROCESSING', startedAt: old, updatedAt: old, processedItems: 553, totalItems: 873 }).where(eq(jobs.id, job.id))
+  const s = await lastImportSummary(h.db)
+  expect(s?.running).toBe(false)
+  expect(s?.error).toContain('توقّف')
+})

@@ -14,8 +14,8 @@ import { guessBacFile, languageOfSubject, TOPIC_AR, type BacFileGuess } from '@/
 import { getAiProvider } from '@/server/ai/provider'
 import { withAiTask } from '@/server/ai/usage'
 import type { Db } from '@/server/db/connect'
-import { contentSources, examDocuments, files, levels, resources, streams, subjects } from '@/server/db/schema'
-import { enqueueJob, failStaleJob, latestJobOfType, pendingJobOfType, updateJobProgress, type JobRow } from '@/server/jobs/queue'
+import { contentSources, examDocuments, files, jobs, levels, resources, streams, subjects } from '@/server/db/schema'
+import { enqueueJob, failIdleJob, failStaleJob, latestJobOfType, pendingJobOfType, updateJobProgress, type JobRow } from '@/server/jobs/queue'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { extractDocText, pdfPageCount, TEXT_MIME } from '@/server/lib/doc-text'
@@ -28,6 +28,15 @@ import { notify } from './notifications.service'
 import { upsertResource } from './resources.service'
 
 const STALE_AFTER_MS = 3 * 60 * 60_000
+/** بلا أي تقدّم هذه المدة ⇒ المهمة متوقّفة (كل ملف يحدّث التقدّم، وأبطؤها دقيقتان) */
+const IDLE_AFTER_MS = 10 * 60_000
+/** ملف واحد (تنزيل + قراءة + تصنيف) لا يتجاوز هذا وإلا تُخطّى */
+const FILE_TIMEOUT_MS = 150_000
+
+function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
+  let t: ReturnType<typeof setTimeout> | undefined
+  return Promise.race([p.finally(() => clearTimeout(t)), new Promise<T>((_, reject) => (t = setTimeout(() => reject(new Error(label)), ms)))])
+}
 const MAX_BYTES = 40 * 1024 * 1024
 const EXCERPT_CHARS = 2500
 /** أقل ثقة يُقبل بها تصنيف الذكاء الاصطناعي لحقل لم يُستنتج من الاسم */
@@ -378,7 +387,7 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
           report.items.push({ name: e.name, outcome: 'duplicate', reason: 'استُورد في جولة سابقة' })
           continue
         }
-        const { bytes, mimeType } = await e.read()
+        const { bytes, mimeType } = await withTimeout(e.read(), FILE_TIMEOUT_MS, 'انتهت مهلة تنزيل الملف — تُخطّي، أعد الاستيراد لاحقاً')
         if (bytes.byteLength === 0 || bytes.byteLength > MAX_BYTES) throw new Error('ملف فارغ أو أكبر من الحدّ')
         const checksum = createHash('sha256').update(bytes).digest('hex')
         const empty = broken.get(checksum)
@@ -395,8 +404,8 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
           report.items.push({ name: e.name, outcome: 'duplicate', reason: 'نفس الملف موجود في البنك' })
           continue
         }
-        const text = await extractDocText(bytes, mimeType).catch(() => '')
-        const { guess, aiFilled } = await classify(e.name, text, lists, useAi)
+        const text = await withTimeout(extractDocText(bytes, mimeType), 60_000, 'read').catch(() => '')
+        const { guess, aiFilled } = await withTimeout(classify(e.name, text, lists, useAi), 90_000, 'انتهت مهلة التصنيف — تُخطّي')
         if (!guess.year || !guess.subjectCode || !subjectById.has(guess.subjectCode)) {
           report.unclassified++
           report.items.push({ name: e.name, outcome: 'unclassified', reason: `لم تُعرف ${!guess.year ? 'السنة' : 'المادة'} — أعد تسمية الملف (مثال: bac-2023-math-se-sujet1.pdf) أو ضع العنوان الرسمي في أول صفحة` })
@@ -452,13 +461,24 @@ export async function requestBacImport(db: Db, actor: Actor, input: { folderUrl?
     payload = { seedUrl: u.toString() }
   } else throw new AppError('VALIDATION', { field: 'url' })
   const pending = await pendingJobOfType(db, 'BAC_IMPORT_FILES', null)
-  if (pending && !(await failStaleJob(db, pending, STALE_AFTER_MS))) return { jobId: pending.id, reused: true }
+  if (pending && !(await failStaleJob(db, pending, STALE_AFTER_MS)) && !(await failIdleJob(db, pending, IDLE_AFTER_MS))) return { jobId: pending.id, reused: true }
   const job = await enqueueJob(db, { type: 'BAC_IMPORT_FILES', payload: { ...payload, userId: actor.userId }, workspaceId: null, maxAttempts: 1 })
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'bac.import', entityType: 'job', entityId: job.id, newValue: payload })
   return { jobId: job.id, reused: false }
 }
 
 export async function runBacImportJob(db: Db, job: JobRow): Promise<Record<string, unknown>> {
+  // نبضة كل دقيقة: المهمة الحيّة لا تُعدّ متوقّفة (التعليق مستحيل بفضل مهلة كل ملف؛ والميّتة بإعادة التشغيل تتوقّف نبضتها)
+  const beat = setInterval(() => void db.update(jobs).set({ updatedAt: new Date() }).where(eq(jobs.id, job.id)).catch(() => undefined), 60_000)
+  beat.unref?.()
+  try {
+    return await runImport(db, job)
+  } finally {
+    clearInterval(beat)
+  }
+}
+
+async function runImport(db: Db, job: JobRow): Promise<Record<string, unknown>> {
   const userId = String(job.payload.userId ?? '')
   const folderUrl = typeof job.payload.folderUrl === 'string' ? job.payload.folderUrl : ''
   const seedUrl = typeof job.payload.seedUrl === 'string' ? job.payload.seedUrl : ''
@@ -485,7 +505,9 @@ export async function runBacImportJob(db: Db, job: JobRow): Promise<Record<strin
 
 /** آخر تقرير استيراد (للوحة): يُقرأ من سجلّ المهمة */
 export async function lastImportSummary(db: Db): Promise<{ at: Date; logs: string[]; running: boolean; processed: number; total: number; error: string | null } | null> {
-  const row = await latestJobOfType(db, 'BAC_IMPORT_FILES', null)
+  let row = await latestJobOfType(db, 'BAC_IMPORT_FILES', null)
   if (!row) return null
+  // متوقّفة بلا تقدّم: تُغلق فيُفتح زرّ الاستيراد (الجولة الجديدة تتخطّى ما استُورد)
+  if (await failIdleJob(db, row, IDLE_AFTER_MS)) row = (await latestJobOfType(db, 'BAC_IMPORT_FILES', null))!
   return { at: row.finishedAt ?? row.createdAt, logs: Array.isArray(row.logs) ? row.logs.map(String) : [], running: row.status === 'QUEUED' || row.status === 'PROCESSING', processed: row.processedItems ?? 0, total: row.totalItems ?? 0, error: row.error ? (/^[A-Z_]{3,40}$/.test(row.error) ? errorMessage(row.error) : row.error) : null }
 }

@@ -101,6 +101,15 @@ export async function failStaleJob(db: Db, job: JobRow, maxAgeMs: number, now: D
   return true
 }
 
+/** مهمة PROCESSING لم تتقدّم منذ مدة (توقّف عاملها أو علقت): تُعلَّم فاشلة ليُعاد تشغيلها فتكمل من حيث توقّفت */
+export async function failIdleJob(db: Db, job: JobRow, idleMs: number, now: Date = new Date()): Promise<boolean> {
+  if (job.status !== 'PROCESSING') return false
+  const last = (job.updatedAt ?? job.startedAt ?? job.createdAt).getTime()
+  if (now.getTime() - last < idleMs) return false
+  await db.update(jobs).set({ status: 'FAILED', finishedAt: now, error: 'توقّف بلا تقدّم (أُعيد تشغيل الخادم أو علق ملف) — أعد التشغيل ليكمل من حيث توقّف' }).where(and(eq(jobs.id, job.id), eq(jobs.status, 'PROCESSING')))
+  return true
+}
+
 export async function completeJob(db: Db, id: string, result: Record<string, unknown> | null): Promise<void> {
   await db.update(jobs).set({ status: 'COMPLETED', finishedAt: new Date(), result, error: null }).where(eq(jobs.id, id))
 }
