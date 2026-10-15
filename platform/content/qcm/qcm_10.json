@@ -1,0 +1,1410 @@
+{
+ "title": "اختبر نفسك: إعراب الجمل (2)",
+ "description": "أسئلة اختيار من متعدد مع الحل المفصّل لكل سؤال.",
+ "topic": "البناء اللغوي",
+ "isPublic": true,
+ "publish": true,
+ "maxAttempts": 3,
+ "questions": [
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «الطالبُ مجتهدٌ» في قولك: «الطالبُ مجتهدٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها من الإعراب لأنها ابتدائية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة الابتدائية هي التي تبدأ الكلام ولا تتعلق بما قبلها إعرابياً، ولذلك لا محل لها من الإعراب. والجملة هنا لم تسبقها جملة تتصل بها.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «أقرأُ القصةَ» في قولك: «سألني أبي: ماذا تفعلُ؟ أقرأُ القصةَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "استئنافية لا محل لها من الإعراب",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «أقرأُ القصةَ» جواب عن سؤال مقدّر فهي استئنافية، ولا تتعلق إعرابياً بما قبلها، فلا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «وأنتَ تعلمُ» في قولك: «الصبرُ، وأنتَ تعلمُ، مفتاحُ الفرجِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جملة اعتراضية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة «وأنتَ تعلمُ» اعتُرضت بين المبتدأ «الصبرُ» وخبره «مفتاحُ الفرجِ» دون أن تكون جزءاً من تركيبهما، فهي جملة اعتراضية لا محل لها.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «نجحَ» في قولك: «أكرمتُ الطالبَ الذي نجحَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع فاعل",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها صلة الموصول",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«الذي» اسم موصول، والجملة الفعلية «نجحَ» بعده صلة له، وصلة الموصول لا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «قرأتُه» في قولك: «الكتابُ الذي قرأتُه مفيدٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها صلة الموصول",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«الذي» اسم موصول، و«قرأتُه» جملة فعلية تقع صلة له، وصلة الموصول لا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «طلبَه الضيفُ» في قولك: «أعطيتُ ما طلبَه الضيفُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها صلة الموصول",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الاسم الموصول «ما» يُوصل بالجملة الفعلية «طلبَه الضيفُ»، فهي صلة الموصول، ولا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «الشمسُ مشرقةٌ» في قولك: «الجوُّ صافٍ، الشمسُ مشرقةٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها ابتدائية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة «الشمسُ مشرقةٌ» مستأنفة بعد جملة سابقة لا تتعلق بها إعرابياً، فهي ابتدائية، ولا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «أنتَ مجتهدٌ» في قولك: «أنتَ مجتهدٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب لأنها ابتدائية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة ابتدائية لأنها ابتدأت الكلام، ولا تتعلق بما قبلها، فلا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «ركضَ نحوَه» في قولك: «أسرعَ الطالبُ إلى الفصلِ، أي: ركضَ نحوَه»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها جملة تفسيرية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «ركضَ نحوَه» جاءت بعد «أي» لتفسير ما قبلها، فهي جملة تفسيرية، ولا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «اجتهدوا» في قولك: «نجحَ الذين اجتهدوا»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع فاعل",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها صلة الموصول",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الاسم الموصول «الذين» يُوصل بالجملة الفعلية «اجتهدوا»، فهي صلة الموصول، ولا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «واللهُ أعلمُ» في قولك: «الأرضُ، واللهُ أعلمُ، واسعةٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جملة اعتراضية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «واللهُ أعلمُ» اعتُرضت بين المبتدأ «الأرضُ» وخبره «واسعةٌ»، فهي جملة اعتراضية لا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «أعتذرُ عن ذلك» في قولك: «سألتُ صديقي: لماذا غبتَ؟ أعتذرُ عن ذلك»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها استئنافية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «أعتذرُ عن ذلك» جواب عن سؤال سابق دون أن تتعلق إعرابياً بما قبلها، فهي استئنافية ولا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «تكتبُ قصيدةً» في قولك: «الفتاةُ التي تكتبُ قصيدةً جميلةٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها صلة الموصول",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الاسم الموصول «التي» يُوصل بالجملة الفعلية «تكتبُ قصيدةً»، فهي صلة الموصول، ولا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «فعلتَ» في قولك: «أحسنتَ فيما فعلتَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها صلة الموصول",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر بحرف الجر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع فاعل",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«ما» اسم موصول بمعنى «الذي»، و«فعلتَ» جملة فعلية تقع صلة له، فلا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «نجحَ أكثرُ الطلابِ» في قولك: «قيل: ما نتيجةُ الامتحانِ؟ نجحَ أكثرُ الطلابِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها استئنافية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «نجحَ أكثرُ الطلابِ» جواب عن سؤال مقدّر في الكلام، فهي استئنافية لا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «أطالَ اللهُ عمرَها» في قولك: «الأمُّ، أطالَ اللهُ عمرَها، حنونةٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جملة اعتراضية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة الدعائية «أطالَ اللهُ عمرَها» اعتُرضت بين المبتدأ «الأمُّ» وخبره «حنونةٌ» دون أن تكون ركناً فيهما، فهي اعتراضية لا محل لها.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «لم يُخيِّبوا ظنَّ أساتذتِهم» في قولك: «تفوّقَ الطلابُ — ولم يُخيِّبوا ظنَّ أساتذتِهم — في الامتحانِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها جملة اعتراضية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «ولم يُخيِّبوا ظنَّ أساتذتِهم» اعتُرضت بين الفعل «تفوّقَ» وشبه الجملة «في الامتحانِ»، ولا تدخل في تركيب الجملة الأصلية، فهي اعتراضية لا محل لها.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «وقد أوشكَ الوقتُ على الانتهاءِ» في قولك: «ينتظرُ الجميعُ — وقد أوشكَ الوقتُ على الانتهاءِ — نتيجةَ المسابقةِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها جملة اعتراضية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «وقد أوشكَ الوقتُ على الانتهاءِ» اعتُرضت بين الفعل «ينتظرُ» ومفعوله «نتيجةَ»، فهي اعتراضية لا محل لها.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «كانتْ مزدهرةً» في قولك: «زرتُ المدينةَ التي كانتْ مزدهرةً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها صلة الموصول",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الاسم الموصول «التي» يُوصل بالجملة الفعلية «كانتْ مزدهرةً»، فهي صلة الموصول، ولا محل لها من الإعراب.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «وهو يعلمُ ذلك» في قولك: «إنَّ المؤمنَ — وهو يعلمُ ذلك — يُحسنُ الظنَّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جملة اعتراضية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «وهو يعلمُ ذلك» اعتُرضت بين اسم «إنَّ» «المؤمنَ» وخبرها «يُحسنُ»، فهي اعتراضية لا محل لها من الإعراب.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يُحبُّه الجميعُ» في قولك: «جاءَ الذي يُحبُّه الجميعُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل جر نعت لـ«الذي»",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها صلة الموصول",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الاسم الموصول «الذي» يُوصل بالجملة الفعلية «يُحبُّه الجميعُ»، فهي صلة الموصول، ولا محل لها من الإعراب.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «لو تعلمُ» في قولك: «المسافرُ، لو تعلمُ، عائدٌ قريباً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جملة اعتراضية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «لو تعلمُ» اعتُرضت بين المبتدأ «المسافرُ» وخبره «عائدٌ»، فهي اعتراضية لا محل لها من الإعراب.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يمرُّ بالمدينةِ» في قولك: «النهرُ الذي يمرُّ بالمدينةِ عميقٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها صلة الموصول",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الاسم الموصول «الذي» يُوصل بالجملة الفعلية «يمرُّ بالمدينةِ»، فهي صلة الموصول، ولا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «الجوُّ جميلٌ» في قولك: «الجوُّ جميلٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع فاعل",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها ابتدائية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة ابتدائية لأنها بدأت الكلام ولم تتعلق بما قبلها، فلا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «الماءُ سائلٌ» في قولك: «الماءُ سائلٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها ابتدائية",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة ابتدائية لأنها أول الكلام، ولا تتصل بما قبلها إعرابياً، فلا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «تنجحْ» في قولك: «إنْ تجتهدْ تنجحْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل جزم جواب الشرط",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، وجملة فعل الشرط «تجتهدْ» وجوابه «تنجحْ» لا محل لهما من الإعراب. وإن كان الجواب مجزوماً لفظاً فلا يُعدّ له محل.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يحصدْ» في قولك: «مَن يزرعْ يحصدْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«مَن» اسم شرط جازم، والفعل «يحصدْ» جواب الشرط، وجواب الشرط الجازم لا محل له من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «تحصدْ» في قولك: «ما تزرعْ تحصدْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع فاعل",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«ما» اسم شرط جازم، والفعل «تزرعْ» فعل الشرط، و«تحصدْ» جواب الشرط، وكلاهما لا محل له من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «لأجتهدنَّ» في قولك: «واللهِ لأجتهدنَّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع مبتدأ",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب القسم",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة الواقعة بعد القسم «واللهِ» هي جواب القسم، وجواب القسم لا محل له من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «لتنجحنَّ» في قولك: «واللهِ لتنجحنَّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها جواب القسم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «لتنجحنَّ» جاءت جواباً للقسم «واللهِ»، فلا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يكرمْكَ الناسُ» في قولك: «إنْ تصدقْ يكرمْكَ الناسُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، والجملة «يكرمْكَ الناسُ» جواب الشرط، فلا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يُفلحْ» في قولك: «مَن يُخلصْ يُفلحْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل جزم جواب الشرط",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع فاعل",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«مَن» اسم شرط جازم، و«يُفلحْ» جواب الشرط، وجواب الشرط الجازم لا محل له من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يحفظْ عمرَه» في قولك: «مَن يحفظْ وقتَه يحفظْ عمرَه»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«مَن» اسم شرط جازم، و«يحفظْ وقتَه» فعل الشرط، و«يحفظْ عمرَه» جواب الشرط، وكلاهما لا محل له من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «إنَّ الصدقَ لنافعٌ» في قولك: «واللهِ إنَّ الصدقَ لنافعٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب القسم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «إنَّ الصدقَ لنافعٌ» هي المقسم عليها، أي جواب القسم «واللهِ»، فلا محل لها من الإعراب، مع أن بداخلها جملة اسمية مؤكدة بـ«إنَّ».",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «زرعتُ الأرضَ» في قولك: «إنْ جاءَ المطرُ زرعتُ الأرضَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، و«جاءَ المطرُ» فعل الشرط، و«زرعتُ الأرضَ» جوابه، فلا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «فليخسرْ» في قولك: «مَن غشَّ فليخسرْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل جزم جواب الشرط",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب الشرط المقترن بالفاء",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«مَن» اسم شرط جازم، و«فليخسرْ» جواب الشرط المقترن بالفاء، وجملة الجواب لا محل لها من الإعراب، ولا يُعدّ لها محل الجزم.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «أثبتْ ذلك» في قولك: «إنْ كنتَ صادقاً فأثبتْ ذلك»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها جواب الشرط المقترن بالفاء",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، و«كنتَ صادقاً» فعل الشرط، و«فأثبتْ ذلك» جواب الشرط المقترن بالفاء، فلا محل له من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «تجدْ» في قولك: «مَن يدّخرْ في الصيفِ تجدْ في الشتاءِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«مَن» اسم شرط جازم، و«يدّخرْ» فعل الشرط، و«تجدْ» جواب الشرط، فلا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «ما غادرتُ البيتَ» في قولك: «واللهِ ما غادرتُ البيتَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب القسم",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة «ما غادرتُ البيتَ» جواب القسم «واللهِ»، وجواب القسم لا محل له من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يصلْ» في قولك: «مَن يسعَ يصلْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«مَن» اسم شرط جازم، و«يسعَ» فعل الشرط، و«يصلْ» جواب الشرط، وجواب الشرط الجازم لا محل له من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «فكافئْه» في قولك: «مَن أحسنَ إليكَ فكافئْه»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب الشرط المقترن بالفاء",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«مَن» اسم شرط جازم، و«أحسنَ إليكَ» فعل الشرط، و«فكافئْه» جواب الشرط المقترن بالفاء، فلا محل له من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «تفهمْ» في قولك: «إنْ تقرأْ تفهمْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل جزم جواب الشرط",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، و«تقرأْ» فعل الشرط، و«تفهمْ» جواب الشرط، فلا محل له من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «لأتعلّمنّ» في قولك: «أُقسمُ بالعلمِ لأتعلّمنّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب القسم",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة «لأتعلّمنّ» هي جواب القسم المذكور بعد الفعل «أُقسمُ»، فلا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يرسبْ» في قولك: «إنْ يجتهدْ عليٌّ يَنجحْ، وإنْ يكسلْ يرسبْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جزم جواب الشرط الثاني",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة «يرسبْ» جواب الشرط الثاني الذي أداته «إنْ» الجازمة، فلا محل لها من الإعراب، ولا يُعدّ لها محل الجزم.",
+   "difficulty": "صعب",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «فاعملْ به» في قولك: «إنْ كنتَ تحبُّ الخيرَ فاعملْ به»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم مقترن بالفاء",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، و«كنتَ تحبُّ الخيرَ» فعل الشرط، و«فاعملْ به» جواب الشرط المقترن بالفاء، فلا محل له من الإعراب.",
+   "difficulty": "صعب",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «لا أعودُ إلى الكذبِ» في قولك: «قالَ: واللهِ لا أعودُ إلى الكذبِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب مقول القول",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب القسم",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة «لا أعودُ إلى الكذبِ» جواب القسم «واللهِ»، فلا محل لها من الإعراب، مع أنّ الجملة كلها مقول القول.",
+   "difficulty": "صعب",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «تجدْ جزاءَه» في قولك: «إنْ تفعلْ الخيرَ تجدْ جزاءَه»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، و«تفعلْ الخيرَ» فعل الشرط، و«تجدْ جزاءَه» جواب الشرط، فلا محل له من الإعراب.",
+   "difficulty": "صعب",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «أنتَ ناجحٌ» في قولك: «إنْ اجتهدتَ فأنتَ ناجحٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب الشرط المقترن بالفاء",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، و«اجتهدتَ» فعل الشرط، والجملة الاسمية «أنتَ ناجحٌ» جواب الشرط المقترن بالفاء، فلا محل لها من الإعراب.",
+   "difficulty": "صعب",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «لا أتركُ الأمرَ» في قولك: «وحياتِكَ لا أتركُ الأمرَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها لأنها جواب القسم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "القسم هنا بالحياة، والجملة «لا أتركُ الأمرَ» هي جواب القسم، فلا محل لها من الإعراب.",
+   "difficulty": "صعب",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يُثمرْ» في قولك: «إنْ تسقِ الزرعَ يُثمرْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها جواب شرط جازم",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، و«تسقِ الزرعَ» فعل الشرط، و«يُثمرْ» جواب الشرط، فلا محل له من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  }
+ ]
+}

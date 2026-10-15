@@ -1,0 +1,1410 @@
+{
+ "title": "اختبر نفسك: الأساليب (2)",
+ "description": "أسئلة اختيار من متعدد مع الحل المفصّل لكل سؤال.",
+ "topic": "البناء اللغوي",
+ "isPublic": true,
+ "publish": true,
+ "maxAttempts": 3,
+ "questions": [
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن أمراً أُريد به الإباحة؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "تناولْ طعامَك في موعده",
+     "isCorrect": false
+    },
+    {
+     "label": "كُلْ قبل أن يبرد الطعام",
+     "isCorrect": false
+    },
+    {
+     "label": "تناولْ ما شئتَ من الطعامِ",
+     "isCorrect": true
+    },
+    {
+     "label": "ادخلْ هذا المكانَ مع أهلِك",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الأمر في «تناولْ ما شئتَ» يفيد الإذن والتخيير، فهو أمر بغرض الإباحة. والبقية أوامر تطلب الفعل على وجه الإلزام أو الإرشاد.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في قولك: «لا تَسخرْ من أخيك فيسخرَ منك»، الفعل «فيسخرَ» منصوب بـ:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا الناهية",
+     "isCorrect": false
+    },
+    {
+     "label": "ليس",
+     "isCorrect": false
+    },
+    {
+     "label": "حرف الجرّ",
+     "isCorrect": false
+    },
+    {
+     "label": "أنْ مضمرةً بعد فاء السببية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الفعل بعد الفاء الواقعة في جواب النهي يُنصب بـ«أنْ» مضمرة وجوباً، لأن المعنى: لا يكن منك سخرية فيكون منه سخرية منك.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ العبارات فيها أمرٌ بغرض التسوية؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "اصنعْ ما شئتَ أو اتركْ، فلن يتغيّرَ شيءٌ",
+     "isCorrect": true
+    },
+    {
+     "label": "اصنعْ لوحةً جميلةً",
+     "isCorrect": false
+    },
+    {
+     "label": "اتركِ المكانَ فوراً",
+     "isCorrect": false
+    },
+    {
+     "label": "احفظْ هذه القصيدةَ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الأمر في «اصنعْ ما شئتَ أو اتركْ» لا يُطلب به الفعل، وإنما يُراد به تساوي الأمرين عند المتكلم. وهذا غرض التسوية.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل التالية تتضمن تعجباً قياسياً؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الربيعُ جميلٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "ما أجملَ الربيعَ!",
+     "isCorrect": true
+    },
+    {
+     "label": "هل الربيعُ جميلٌ؟",
+     "isCorrect": false
+    },
+    {
+     "label": "ليتَ الربيعَ يدومُ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "صيغة «ما أفعلَ» من صيغ التعجب القياسي، وهي هنا «ما أجملَ». أما الجمل الأخرى فخبر واستفهام وتمنٍّ.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما صيغتا التعجب القياسي؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "فَعَلَ وأفعَلَ",
+     "isCorrect": false
+    },
+    {
+     "label": "اسمُ الفاعلِ واسمُ المفعولِ",
+     "isCorrect": false
+    },
+    {
+     "label": "ما أفعلَه، وأفعِلْ به",
+     "isCorrect": true
+    },
+    {
+     "label": "الأمرُ والنهيُ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "للتعجب القياسي صيغتان: «ما أفعلَه» و«أفعِلْ به»، وهما من الإنشاء غير الطلبي لأنهما لا يحتملان الطلب ولا الاستفهام.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في العبارة «أكرِمْ بأخيكَ وفياً»، ما نوع الأسلوب؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "أمر حقيقي يُطلب به الفعل",
+     "isCorrect": false
+    },
+    {
+     "label": "خبر ابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "نداء",
+     "isCorrect": false
+    },
+    {
+     "label": "إنشاء غير طلبي: تعجب بصيغة «أفعِلْ به»",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«أكرِمْ بأخيك» على صيغة «أفعِلْ به» وهي صيغة تعجب قياسي، فالأسلوب إنشاء غير طلبي، وليس أمراً حقيقياً.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن مدحاً بصيغة «نِعْمَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "نِعْمَ الصديقُ الوفيُّ",
+     "isCorrect": true
+    },
+    {
+     "label": "بِئسَ الكسولُ",
+     "isCorrect": false
+    },
+    {
+     "label": "ما أقبحَ الكذبَ",
+     "isCorrect": false
+    },
+    {
+     "label": "لا خيرَ في الكذبِ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«نِعْمَ» فعل من أفعال المدح، وقد جاء معه الفاعل «الصديقُ» والنعت «الوفيُّ». أما «بئس» فللذم، و«ما أقبح» تعجب بالذم.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن ذمّاً؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "نِعْمَ الخُلُقُ الصدقُ",
+     "isCorrect": false
+    },
+    {
+     "label": "بئسَ الخُلُقُ الغشُّ",
+     "isCorrect": true
+    },
+    {
+     "label": "ما أحسنَ الصدقَ!",
+     "isCorrect": false
+    },
+    {
+     "label": "أحبُّ الصدقَ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«بِئسَ» فعل من أفعال الذم، وهي هنا مع «الخُلُقُ» فاعلاً. أما «نِعم» فللمدح، والباقي تعجب بالمدح أو خبر.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "بأيّ الأدوات يُقسَم في العربية؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "إنّ وأنّ",
+     "isCorrect": false
+    },
+    {
+     "label": "لا وإلّا",
+     "isCorrect": false
+    },
+    {
+     "label": "الواو والباء والتاء",
+     "isCorrect": true
+    },
+    {
+     "label": "يا وأيُّها",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "حروف القسم في العربية هي الواو والباء والتاء، ويُقسم بها على اسم الله أو غيره. أما الباقي فليس من حروف القسم.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن قسماً؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لقد اجتهدتُ",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ الاجتهادَ محمودٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "ما اجتهدتُ",
+     "isCorrect": false
+    },
+    {
+     "label": "واللهِ لأجتهدنَّ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة الأولى فيها قسم بالواو مع اسم الله، وجوابه «لأجتهدنَّ». أما «لقد» فليست قسماً، و«ما اجتهدتُ» نفي.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ العبارات تُعدّ من صيغ العقود؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "بعتُ هذا الكتابَ بعشرةِ دنانيرَ",
+     "isCorrect": true
+    },
+    {
+     "label": "أنا أكرهُ البيعَ",
+     "isCorrect": false
+    },
+    {
+     "label": "ما أجملَ هذا البيتَ!",
+     "isCorrect": false
+    },
+    {
+     "label": "سافرتُ إلى المدينةِ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«بعتُ» صيغة إيجاب في عقد البيع، لأنها تُنشئ العقد وتُوجد أثره. أما البقية فخبر أو تعجب أو إخبار عن سفر.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الفعل الصريح الذي يُستعمل في إيجاب عقد البيع؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "اشتريتُ",
+     "isCorrect": false
+    },
+    {
+     "label": "بِعْتُ",
+     "isCorrect": true
+    },
+    {
+     "label": "أعطيتُ",
+     "isCorrect": false
+    },
+    {
+     "label": "رهنتُ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الإيجاب في البيع يكون بلفظ «بعتُ» وهو الفعل الصريح الدال على العقد. أما «اشتريتُ» فهو لفظ القبول من المشتري.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن تعجباً بصيغة «ما أفعلَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ما الأمانةُ عظيمةٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "هل الأمانةُ عظيمةٌ؟",
+     "isCorrect": false
+    },
+    {
+     "label": "ما أعظمَ الأمانةَ!",
+     "isCorrect": true
+    },
+    {
+     "label": "الأمانةُ عظيمةٌ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«ما أعظمَ» صيغة التعجب القياسي، والجملة الأولى تُعبر عن إعجاب المتكلم بعظم الأمانة. أما «ما الأمانةُ عظيمةٌ» فنفي واستفهام إنكاري ولا تعجب فيه.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما إعراب «ما» في «ما أجملَ السماءَ!»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "فعل",
+     "isCorrect": false
+    },
+    {
+     "label": "حرف نفي",
+     "isCorrect": false
+    },
+    {
+     "label": "اسم موصول",
+     "isCorrect": false
+    },
+    {
+     "label": "مبتدأ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«ما» في صيغة «ما أفعلَ» نكرة تامة مبتدأ، و«أجملَ» خبرها، و«السماءَ» مفعول به على الإعراب المعتاد لهذه الصيغة.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "يُشترط في فعل التعجب القياسي أن يكون:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ثلاثياً مثبتاً متصرفاً تاماً",
+     "isCorrect": true
+    },
+    {
+     "label": "رباعياً مجرداً",
+     "isCorrect": false
+    },
+    {
+     "label": "ماضياً ناقصاً",
+     "isCorrect": false
+    },
+    {
+     "label": "أمراً مبنياً",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "فعل التعجب القياسي يُبنى من الفعل الثلاثي المثبت المتصرف التام، فلا يُتعجب من الأفعال المنفية أو غير المتصرفة كـ«ليس» و«نعم».",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع «الصديقُ» في «نِعْمَ الصديقُ الوفيُّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "مبتدأ",
+     "isCorrect": false
+    },
+    {
+     "label": "فاعل",
+     "isCorrect": true
+    },
+    {
+     "label": "مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«نِعْمَ» فعل مدح، و«الصديقُ» فاعله، و«الوفيُّ» نعت. وهذا هو الإعراب المعتمد في أسلوب المدح بـ«نِعْمَ».",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في «بِئسَ الخُلُقُ الغِشُّ»، ما إعراب «الغِشُّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "فاعل «بِئسَ»",
+     "isCorrect": false
+    },
+    {
+     "label": "مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "المخصوص بالذم، وخبر لمبتدأ محذوف تقديره «هو»",
+     "isCorrect": true
+    },
+    {
+     "label": "نعت لـ«الخُلُقُ»",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«الخُلُقُ» فاعل «بِئسَ»، و«الغِشُّ» هو المخصوص بالذم، ويُعرب خبراً لمبتدأ محذوف تقديره «هو».",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما جواب القسم في «واللهِ لأُكرمنَّ الضيفَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "واللهِ",
+     "isCorrect": false
+    },
+    {
+     "label": "الضيفَ",
+     "isCorrect": false
+    },
+    {
+     "label": "لا تُكرم",
+     "isCorrect": false
+    },
+    {
+     "label": "لأُكرمنَّ الضيفَ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "جواب القسم هو الجملة التي تأتي بعد القسم ويُؤكَّد مضمونها، وهنا «لأُكرمنَّ الضيفَ». أما «واللهِ» فهي القسم نفسه.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في القسم بـ«تاللهِ»، الأداة التي تُستعمل هي:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "التاء",
+     "isCorrect": true
+    },
+    {
+     "label": "الواو",
+     "isCorrect": false
+    },
+    {
+     "label": "الباء",
+     "isCorrect": false
+    },
+    {
+     "label": "اللام",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«تاللهِ» قسم بالتاء، وهي من حروف القسم الخاصة باسم الله تعالى. أما الواو فعامة، والباء كذلك، واللام ليست من حروف القسم.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الفرق بين الإيجاب والقبول في العقد؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الإيجاب كلامُ المشتري، والقبولُ كلامُ البائع",
+     "isCorrect": false
+    },
+    {
+     "label": "الإيجاب كلامُ البائع أو الموجِب، والقبولُ كلامُ المشتري أو المقبِل",
+     "isCorrect": true
+    },
+    {
+     "label": "كلاهما لا يكون إلا بالكتابة",
+     "isCorrect": false
+    },
+    {
+     "label": "الإيجاب هو الثمن فقط",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الإيجاب هو اللفظ الأول الصادر من أحد المتعاقدين الدال على إنشاء العقد، والقبول هو لفظ الطرف الآخر الموافق عليه.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في عقد الهبة، الصيغة الصريحة للإيجاب هي:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "بعتُ لك الكتابَ",
+     "isCorrect": false
+    },
+    {
+     "label": "أجّرتُك الكتابَ",
+     "isCorrect": false
+    },
+    {
+     "label": "وهبتُ لك هذا الكتابَ",
+     "isCorrect": true
+    },
+    {
+     "label": "أعرتُك الكتابَ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الهبة تنعقد بلفظ «وهبتُ» الدال عليها صراحة. أما «بعتُ» فبيع، و«أجّرتُ» إجارة، و«أعرتُ» عارية، وكلها عقود مختلفة.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من التعجب في «ما أسرعَ مرورَ الأيامِ!»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الأمر بالإسراع",
+     "isCorrect": false
+    },
+    {
+     "label": "الاستفهام عن الأيام",
+     "isCorrect": false
+    },
+    {
+     "label": "المدح",
+     "isCorrect": false
+    },
+    {
+     "label": "الحسرة على انقضاء الوقت",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "المتكلم يتعجب من سرعة مرور الأيام، وهذا التعجب يحمل معنى الحسرة على ما انقضى من الوقت دون استثمار.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأفعال يُستعمل للذم في العربية؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "بِئسَ",
+     "isCorrect": true
+    },
+    {
+     "label": "نِعْمَ",
+     "isCorrect": false
+    },
+    {
+     "label": "حَسُنَ",
+     "isCorrect": false
+    },
+    {
+     "label": "أحسِنْ بِ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«بِئسَ» فعل جامد يُستعمل لإنشاء الذم، كما أن «نِعمَ» فعل جامد للمدح. أما «حَسُنَ» فليس فعل ذم، و«أحسنْ بـ» تعجب بالمدح.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الفرق بين صيغة «ما أفعلَه» وصيغة «أفعِلْ به» في التعجب؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "كلاهما فعل ماض وبعده مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "الأولى: «ما» وفعل ماضٍ، والثانية: فعل أمر ولفظه مع الباء الزائدة مع المتعجَّب منه",
+     "isCorrect": true
+    },
+    {
+     "label": "الأولى أمر والثانية نهي",
+     "isCorrect": false
+    },
+    {
+     "label": "لا فرق بينهما إلا في المتعجَّب منه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«ما أفعلَه» تتكون من «ما» التامة ثم فعل ماض بصيغة أفعل، أما «أفعِلْ به» فتتكون من فعل أمر لفظاً ثم باء زائدة تليها الاسم المتعجَّب منه.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في «ساءَ الخُلُقُ الكذبُ»، ما الفاعل؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الكذبُ",
+     "isCorrect": false
+    },
+    {
+     "label": "ساءَ",
+     "isCorrect": false
+    },
+    {
+     "label": "الخُلُقُ",
+     "isCorrect": true
+    },
+    {
+     "label": "لا فاعل فيها",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«ساءَ» فعل ذم جامد، وفاعله «الخُلُقُ»، و«الكذبُ» هو المخصوص بالذم، وقد أعربناه خبراً لمبتدأ محذوف.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في قولك: «وأبيكَ لأُخبرنَّك بالخبرِ»، ما جواب القسم؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "أبيكَ",
+     "isCorrect": false
+    },
+    {
+     "label": "الواو",
+     "isCorrect": false
+    },
+    {
+     "label": "الخبرُ",
+     "isCorrect": false
+    },
+    {
+     "label": "لأُخبرنَّك بالخبرِ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "القسم هنا بالواو والمقسَم به «أبيكَ»، وجوابه الجملة المؤكَّدة «لأُخبرنَّك بالخبرِ»، وهي التي فيها اللام والنون.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "متى يُحذف فعل القسم في العربية؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "يُحذف كثيراً، ويُعوَّض عنه بالحرف",
+     "isCorrect": true
+    },
+    {
+     "label": "لا يُحذف أبداً",
+     "isCorrect": false
+    },
+    {
+     "label": "يُحذف مع الباء فقط",
+     "isCorrect": false
+    },
+    {
+     "label": "يُحذف دائماً في صيغ العقود",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "فعل القسم «أُقسم» يُحذف كثيراً في العربية، ويبقى حرف القسم دالاً عليه، كالواو والباء. أما صيغ العقود فليست مظنة للقسم.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تُعدّ تعجباً بصيغة «أفعِلْ به» مع فاعل ومعمول صحيحين؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "أكرمَ محمدٌ الضيفَ",
+     "isCorrect": false
+    },
+    {
+     "label": "أكرِمْ بمحمدٍ مُجتهداً",
+     "isCorrect": true
+    },
+    {
+     "label": "أكرِمْ محمداً الضيفَ",
+     "isCorrect": false
+    },
+    {
+     "label": "لا أكرمَ محمداً",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«أكرِمْ بمحمدٍ» صيغة «أفعِلْ به» في التعجب، وبعدها الاسم المتعجَّب منه مجروراً بالباء الزائدة. أما «أكرمَ محمدٌ» فخبر، و«أكرِمْ محمداً» أمر، و«لا أكرمَ» نفي.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء غير الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من الاستفهام في «هل يستوي من يُتقنُ عملَه ومن يُهمِلُه؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الاستعلامُ عن الحال",
+     "isCorrect": false
+    },
+    {
+     "label": "التمنّي",
+     "isCorrect": false
+    },
+    {
+     "label": "النفيُ، أي لا يستويان",
+     "isCorrect": true
+    },
+    {
+     "label": "الترجّي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "السائل لا يطلب الجواب، وإنما يقرّر أن الاثنين لا يتساويان، فالاستفهام يحمل معنى النفي.",
+   "difficulty": "سهل",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل فيها أمرٌ غرضه التهديد؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "افعلْ ما يُرضيك",
+     "isCorrect": false
+    },
+    {
+     "label": "ساعدْ أخاكَ في حاجته",
+     "isCorrect": false
+    },
+    {
+     "label": "احترمْ معلمَك",
+     "isCorrect": false
+    },
+    {
+     "label": "ارتكبْ هذا الخطأَ مرةً أخرى، ولن تنجوَ من عقابي",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الأمر في الجملة الصحيحة يحمل وعيداً بالعقاب، فهو تهديد. أما البقية فأوامر تحمل معنى الإرشاد أو الإباحة.",
+   "difficulty": "سهل",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من التمنّي في «ليتَ الزمنَ يعودُ لحظةً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الحنين إلى الماضي",
+     "isCorrect": true
+    },
+    {
+     "label": "الأمر بالعودة",
+     "isCorrect": false
+    },
+    {
+     "label": "الترجّي لأمر ممكن",
+     "isCorrect": false
+    },
+    {
+     "label": "الاستفهام عن الزمن",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتكلم يتمنى رجوع الزمن الماضي، وهو أمر مستحيل، فالتمني هنا يعبّر عن الحنين إليه.",
+   "difficulty": "سهل",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض من النداء في «يا لَلنجدةِ!»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "التعجب",
+     "isCorrect": false
+    },
+    {
+     "label": "الاستغاثة",
+     "isCorrect": true
+    },
+    {
+     "label": "التحذير",
+     "isCorrect": false
+    },
+    {
+     "label": "الندبة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتكلم يطلب العون من المنادى في موقف يحتاج إلى نجدة، فهذا غرض الاستغاثة.",
+   "difficulty": "سهل",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من أسلوب «نِعْمَ» في «نِعْمَ الرفيقُ الكتابُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الذم",
+     "isCorrect": false
+    },
+    {
+     "label": "التعجب",
+     "isCorrect": false
+    },
+    {
+     "label": "المدح",
+     "isCorrect": true
+    },
+    {
+     "label": "الاستفهام",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«نِعْمَ» فعل مدح، والمتكلم يمدح الكتاب بأنه رفيق نافع، فالغرض هو المدح.",
+   "difficulty": "سهل",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض من الترجي في «لعلّ الأيامَ القادمةَ تحملُ الخيرَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الحسرة على أمرٍ فائت",
+     "isCorrect": false
+    },
+    {
+     "label": "التوبيخ",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنكار",
+     "isCorrect": false
+    },
+    {
+     "label": "الأمل في حدوث أمرٍ ممكنٍ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«لعلّ» تفيد الترجي، والمتكلم يأمل حصول الخير في أيام قادمة، وهو أمر ممكن.",
+   "difficulty": "سهل",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من الاستفهام في «ألستَ القائلَ: الوقتُ من ذهبٍ؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "التقرير",
+     "isCorrect": true
+    },
+    {
+     "label": "الإنكار",
+     "isCorrect": false
+    },
+    {
+     "label": "التعجب",
+     "isCorrect": false
+    },
+    {
+     "label": "التمني",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتكلم يذكّر المخاطب بقول معروف صدر منه، ويطلب منه الإقرار به، فالغرض هو التقرير.",
+   "difficulty": "سهل",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض من الأمر في «اسلُكْ أيَّ طريقٍ تشاءُ، فالأمرُ لك»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الإلزام",
+     "isCorrect": false
+    },
+    {
+     "label": "الإباحة والتخيير",
+     "isCorrect": true
+    },
+    {
+     "label": "التهديد",
+     "isCorrect": false
+    },
+    {
+     "label": "الدعاء",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتكلم يخيّر المخاطب ويبيح له ما يشاء من الطرق، فالأمر هنا يفيد الإباحة لا الإلزام.",
+   "difficulty": "سهل",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ أغراض النداء يُفيده النداء في «يا لها من ليلةٍ جميلةٍ!»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الاستغاثة",
+     "isCorrect": false
+    },
+    {
+     "label": "التحذير",
+     "isCorrect": false
+    },
+    {
+     "label": "التعجب",
+     "isCorrect": true
+    },
+    {
+     "label": "الندبة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "النداء هنا موجّه إلى الليلة كأنها تُنادى، والمقصود التعجب من جمالها، فهو نداء لغرض التعجب.",
+   "difficulty": "سهل",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من النهي في «لا تنسَ فضلَ والديكَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "التهديد",
+     "isCorrect": false
+    },
+    {
+     "label": "التمني",
+     "isCorrect": false
+    },
+    {
+     "label": "الاستفهام",
+     "isCorrect": false
+    },
+    {
+     "label": "النصح والتوجيه",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "النهي هنا يوجّه المخاطب إلى ما فيه الخير له، فهو نصح وتوجيه لا تهديد.",
+   "difficulty": "سهل",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن استفهاماً غرضه التعجب؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "أيُّ جمالٍ هذا الذي تراه العينُ!",
+     "isCorrect": true
+    },
+    {
+     "label": "أينَ يذهبُ الطالبُ الآن؟",
+     "isCorrect": false
+    },
+    {
+     "label": "متى يعودُ المعلمُ؟",
+     "isCorrect": false
+    },
+    {
+     "label": "أتزورنا غداً؟",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الاستفهام في الجملة الصحيحة يخرج عن طلب الفهم إلى الإعجاب والتعجب من الجمال. أما البقية فاستفهامات حقيقية تطلب الجواب.",
+   "difficulty": "متوسط",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من النهي في «لا تحزنْ على ما فاتَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الترجي",
+     "isCorrect": false
+    },
+    {
+     "label": "التسلية والتخفيف",
+     "isCorrect": true
+    },
+    {
+     "label": "التهديد",
+     "isCorrect": false
+    },
+    {
+     "label": "الاستعلام",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "النهي عن الحزن يُراد به تسلية المخاطب وتخفيف همّه على ما فات، وليس نهياً عن أمر ممكن الترك.",
+   "difficulty": "متوسط",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الاستفهام في «أمِنَ الحقِّ أن تُهمِلَ حقوقَ الآخرينَ؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الاستعلام",
+     "isCorrect": false
+    },
+    {
+     "label": "التمني",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنكار",
+     "isCorrect": true
+    },
+    {
+     "label": "التعجب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتكلم ينكر على المخاطب إهماله حقوق الآخرين، ويقرّر أن ذلك ليس من الحق في شيء، فالاستفهام إنكاري.",
+   "difficulty": "متوسط",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من الأمر في «اسمحْ لي بالرحيلِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الإلزام",
+     "isCorrect": false
+    },
+    {
+     "label": "التهديد",
+     "isCorrect": false
+    },
+    {
+     "label": "التعجيز",
+     "isCorrect": false
+    },
+    {
+     "label": "الالتماس",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الأمر يصدر من المتكلم إلى المخاطب على وجه التلطف والرجاء، فهو التماس لا إلزام.",
+   "difficulty": "متوسط",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض من الاستفهام في «كم مرّةً نبّهتُك؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "التوبيخ والعتاب",
+     "isCorrect": true
+    },
+    {
+     "label": "الاستعلام عن العدد",
+     "isCorrect": false
+    },
+    {
+     "label": "التمني",
+     "isCorrect": false
+    },
+    {
+     "label": "الترجي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتكلم يعرف عدد التنبيهات، ولا يسأل عنه، وإنما يعاتب المخاطب على تكرار الخطأ، فالاستفهام توبيخي.",
+   "difficulty": "متوسط",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن تمنّياً لأمرٍ مستحيلٍ؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ليتَ الامتحانَ يكونُ غداً",
+     "isCorrect": false
+    },
+    {
+     "label": "ليتَ الماضيَ يعودُ يوماً",
+     "isCorrect": true
+    },
+    {
+     "label": "لعلّ السفرَ قريبٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "هل السفرُ قريبٌ؟",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "التمني بـ«ليت» في الجملة الصحيحة يكون لأمر مستحيل، فالماضي لا يعود. أما «لعلّ» فللترجي، و«هل» للاستفهام.",
+   "difficulty": "متوسط",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من التعجب في «ما أحسنَ التعاونَ!»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الأمر بالتعاون",
+     "isCorrect": false
+    },
+    {
+     "label": "الاستفهام عن التعاون",
+     "isCorrect": false
+    },
+    {
+     "label": "إظهار الإعجاب",
+     "isCorrect": true
+    },
+    {
+     "label": "الذمّ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتكلم يعبّر عن إعجابه بحسن التعاون، وهذا هو الغرض البلاغي من صيغة التعجب هنا.",
+   "difficulty": "متوسط",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "قرأ طالب النص الآتي: «تعالَ يا صديقي، فالطريقُ طويلٌ، ولن نصلَ إلا معاً. ما أجملَ الصحبةَ! هل رأيتَ أروعَ منها؟ احرصْ عليها». أيّ الأساليب غلب على النص؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "غلبة الخبر الابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "غلبة الخبر الإنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "غلبة الإنشاء غير الطلبي (التعجب) وحده",
+     "isCorrect": false
+    },
+    {
+     "label": "غلبة الإنشاء الطلبي، وأبرز صوره الأمر والنداء والاستفهام",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "في النص أربعة أساليب طلبية (أمران ونداء واستفهام)، وخبران، وتعجب واحد. فالغالب هو الإنشاء الطلبي.",
+   "difficulty": "صعب",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأساليب غلب على النص الآتي: «لقد اجتهدتُ، واللهِ إنّي لأستحقُّ النجاحَ، فلا تُنكروا جهدي!»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الخبري الإنكاري",
+     "isCorrect": true
+    },
+    {
+     "label": "الإنشاء الطلبي (النهي)",
+     "isCorrect": false
+    },
+    {
+     "label": "الخبري الابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنشاء غير الطلبي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجمل الخبرية في النص مؤكدة بأكثر من مؤكد، وهي تُلقى لمنكر للجهد، فالغالب هو الخبري الإنكاري، والنهي جملة واحدة فقط.",
+   "difficulty": "صعب",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأساليب غلب على النص الآتي: «ما أجملَ الحديقةَ! وما أحسنَ أزهارَها! وما أروعَ ألوانَها! لقد زرعتُها بيدي»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الخبري الطلبي",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنشاء غير الطلبي (التعجب)",
+     "isCorrect": true
+    },
+    {
+     "label": "الإنشاء الطلبي (الاستفهام)",
+     "isCorrect": false
+    },
+    {
+     "label": "الخبري الابتدائي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "في النص ثلاث صيغ تعجب متكررة، مقابل جملة خبرية واحدة، فالغالب هو الإنشاء غير الطلبي، أي التعجب.",
+   "difficulty": "صعب",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأساليب غلب على النص الآتي: «لا تَغِبْ عن الحصصِ، واحرصْ على الواجباتِ، ولا تتأخّرْ عن الامتحانِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الخبري الابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "الخبري الإنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنشاء الطلبي بالنهي والأمر",
+     "isCorrect": true
+    },
+    {
+     "label": "الإنشاء غير الطلبي (التعجب)",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "النص كله طلبي، فيه نهيان وأمر، ولا خبر فيه، فالغالب هو الإنشاء الطلبي بالنهي والأمر.",
+   "difficulty": "صعب",
+   "subtopic": "الغرض البلاغي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأساليب غلب على النص الآتي: «ما أروعَ الفجرَ! أيُّ نسيمٍ هذا؟ وا أسفاهُ على ليالٍ ذهبتْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الخبري الابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "الخبري الإنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنشاء غير الطلبي (التعجب) وحده",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنشاء الطلبي بالاستفهام والنداء (الندبة)",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "في النص صيغتان طلبيتان هما الاستفهام والنداء، مقابل صيغة تعجب واحدة، ولا خبر فيه، فالغالب هو الإنشاء الطلبي.",
+   "difficulty": "صعب",
+   "subtopic": "الغرض البلاغي"
+  }
+ ]
+}
