@@ -1,0 +1,1495 @@
+[
+ {
+  "key": "2AS-EN-U1-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Recognise the correct form 'used to + base verb' for past habits.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Choose the correct sentence to describe a past habit.",
+  "options": [
+   "I used to playing football every Friday.",
+   "I use to play football every Friday.",
+   "I used to play football every Friday.",
+   "I am used to play football every Friday."
+  ],
+  "correct": 2,
+  "explanation": "'Used to' is followed by the base form of the verb (play). 'Use to' without -d is only correct after 'did/didn't', and 'used to playing' mixes two different structures.",
+  "tags": [
+   "grammar",
+   "used to",
+   "past habits"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L1-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Use the past simple of an irregular verb to talk about a finished past time.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Fifty years ago, most people in my town ____ (go) to work on foot or by donkey.",
+  "blanks": [
+   "went"
+  ],
+  "bank": [
+   "went",
+   "go",
+   "gone",
+   "going",
+   "goes"
+  ],
+  "explanation": "'Fifty years ago' refers to a finished past time, so the past simple 'went' is needed. 'Gone' is the past participle and cannot stand alone as the main verb of the sentence.",
+  "tags": [
+   "grammar",
+   "past simple",
+   "irregular verbs"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L1-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Understand that 'used to' describes a past state or habit that no longer exists.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "What does the sentence 'My aunt used to live in Oran' mean?",
+  "options": [
+   "She still lives in Oran today.",
+   "She lived in Oran in the past, but not now.",
+   "She is accustomed to living in Oran.",
+   "She will move to Oran very soon."
+  ],
+  "correct": 1,
+  "explanation": "'Used to + verb' describes something that was true in the past but is not true now. Being accustomed to something is expressed differently: 'She is used to living in Oran'.",
+  "tags": [
+   "grammar",
+   "used to",
+   "meaning"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Form questions about past habits with 'did + subject + use to'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Choose the correct question form: '____ your grandparents ____ a television when they were young?'",
+  "options": [
+   "Did / use to have",
+   "Did / used to have",
+   "Were / used to have",
+   "Do / use to have"
+  ],
+  "correct": 0,
+  "explanation": "Questions about past habits are formed with 'Did + subject + use to + verb'. After the auxiliary 'did', the form is 'use to' without -d, so 'Did ... used to' is a common mistake.",
+  "tags": [
+   "grammar",
+   "used to",
+   "questions"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Form the negative of 'used to' correctly.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "In the past, Algerian families ____ ____ to have so many electronic devices at home.",
+  "blanks": [
+   "didn't",
+   "use"
+  ],
+  "bank": [
+   "didn't",
+   "use",
+   "used",
+   "don't",
+   "weren't",
+   "using"
+  ],
+  "explanation": "The negative of 'used to' is 'didn't use to + verb'. After 'didn't', the verb loses its -d ending, so 'didn't used to' is incorrect.",
+  "tags": [
+   "grammar",
+   "used to",
+   "negative"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L1-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Distinguish repeated past habits (used to) from single past events (past simple).",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "In which sentence is 'used to' used incorrectly?",
+  "options": [
+   "We used to play marbles in the street after school.",
+   "There used to be a well in the middle of our village.",
+   "She didn't use to like couscous when she was little.",
+   "I used to visit my grandmother last Saturday."
+  ],
+  "correct": 3,
+  "explanation": "'Used to' describes repeated habits or states in the past, not a single action. A single event like a visit last Saturday needs the past simple: 'I visited my grandmother last Saturday'.",
+  "tags": [
+   "grammar",
+   "used to",
+   "past simple"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L1-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Combine the past continuous and the past simple to describe an interrupted past action.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "While my grandmother ____ (knit) a burnous, the neighbours ____ (arrive) with good news.",
+  "blanks": [
+   "was knitting",
+   "arrived"
+  ],
+  "bank": [
+   "was knitting",
+   "knitted",
+   "arrived",
+   "were arriving",
+   "knits",
+   "arrive"
+  ],
+  "explanation": "'While' introduces a longer action in progress (past continuous: was knitting) that is interrupted by a shorter completed action (past simple: arrived). Using the past simple for both verbs would present the two actions as a simple sequence, not an interruption.",
+  "tags": [
+   "grammar",
+   "past continuous",
+   "past simple"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L2-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Form the comparative of a short adjective with -er + than.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Living in a small village is ____ than living in Algiers.",
+  "options": [
+   "cheaper",
+   "more cheap",
+   "cheapest",
+   "the most cheap"
+  ],
+  "correct": 0,
+  "explanation": "One-syllable adjectives take -er in the comparative: cheap becomes cheaper, followed by 'than'. 'More cheap' uses the pattern for long adjectives, and 'cheapest' is a superlative.",
+  "tags": [
+   "grammar",
+   "comparatives"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L2-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Form the superlative of a long adjective with 'the most'.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The smartphone is probably the ____ invention of the last twenty years.",
+  "blanks": [
+   "most important"
+  ],
+  "bank": [
+   "most important",
+   "more important",
+   "importantest",
+   "importanter",
+   "as important"
+  ],
+  "explanation": "Adjectives of three or more syllables form the superlative with 'the most': the most important. 'More important' is a comparative, and 'importantest' does not exist in English.",
+  "tags": [
+   "grammar",
+   "superlatives"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L2-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Use the irregular comparative form of 'good'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "My grandfather thinks that food was ____ in the past than it is today.",
+  "options": [
+   "gooder",
+   "more good",
+   "better",
+   "best"
+  ],
+  "correct": 2,
+  "explanation": "'Good' has an irregular comparative: better. 'Gooder' and 'more good' do not exist, and 'best' is the superlative, which is not followed by 'than'.",
+  "tags": [
+   "grammar",
+   "comparatives",
+   "irregular adjectives"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L2-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Use '(not) as ... as' to compare two things that are or are not equal.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Today's children are not ____ active ____ children were in the past.",
+  "options": [
+   "more / than",
+   "as / as",
+   "so / than",
+   "as / than"
+  ],
+  "correct": 1,
+  "explanation": "To express equality or inequality we use '(not) as + adjective + as'. 'Than' only follows a comparative form such as 'more active' or 'less active', never the simple adjective.",
+  "tags": [
+   "grammar",
+   "comparison of equality"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L2-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Apply the spelling rules of -er comparatives (double consonant, y changes to i).",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Our cities are getting ____ (big) and ____ (noisy) every year.",
+  "blanks": [
+   "bigger",
+   "noisier"
+  ],
+  "bank": [
+   "bigger",
+   "biger",
+   "noisier",
+   "noisyer",
+   "biggest",
+   "noisiest"
+  ],
+  "explanation": "'Big' doubles its final consonant (bigger) and 'noisy' changes -y to -i before -er (noisier). The superlatives 'biggest' and 'noisiest' do not fit a comparison of change with 'getting ... every year'.",
+  "tags": [
+   "grammar",
+   "comparatives",
+   "spelling"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Identify common errors in the formation of comparatives and superlatives.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Choose the sentence that is grammatically correct.",
+  "options": [
+   "This is the more expensive car in the showroom.",
+   "This car is more expensive that the other one.",
+   "This car is expensiver than the other one.",
+   "This is the most expensive car in the showroom."
+  ],
+  "correct": 3,
+  "explanation": "A superlative with 'the' needs 'most' for a long adjective: the most expensive. 'The more expensive car in the showroom' confuses comparative and superlative, 'that' cannot replace 'than', and 'expensiver' is not a word.",
+  "tags": [
+   "grammar",
+   "comparatives",
+   "superlatives",
+   "error analysis"
+  ]
+ },
+ {
+  "key": "2AS-EN-U1-L2-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Compare quantities with 'less' and 'more' before an uncountable noun.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "In the old days, people spent ____ time in front of screens and ____ time with their families.",
+  "blanks": [
+   "less",
+   "more"
+  ],
+  "bank": [
+   "less",
+   "more",
+   "fewer",
+   "most",
+   "least",
+   "many"
+  ],
+  "explanation": "'Time' is uncountable, so we use 'less' (not 'fewer') for a smaller quantity and 'more' for a larger one. 'Fewer' is only used with countable plural nouns such as 'hours'.",
+  "tags": [
+   "grammar",
+   "comparatives",
+   "quantity"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Identify the modal verb that expresses a strong obligation.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Which modal verb expresses a strong obligation?",
+  "options": [
+   "should",
+   "must",
+   "might",
+   "could"
+  ],
+  "correct": 1,
+  "explanation": "'Must' expresses a strong obligation or a rule, as in 'You must respect the law'. 'Should' only gives advice, while 'might' and 'could' express possibility.",
+  "tags": [
+   "grammar",
+   "modals",
+   "obligation"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L1-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Use 'should' to give advice.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "I think you ____ talk to your classmate calmly instead of shouting at him.",
+  "blanks": [
+   "should"
+  ],
+  "bank": [
+   "should",
+   "ought",
+   "must to",
+   "shouldn't",
+   "mustn't"
+  ],
+  "explanation": "'I think you should ...' is the usual way to give advice. 'Ought' is only correct with 'to' (ought to talk), 'must' is never followed by 'to', and the negative forms contradict the meaning of the sentence.",
+  "tags": [
+   "grammar",
+   "modals",
+   "advice"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L1-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Use the structure 'ought to + base verb' correctly.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Choose the correct sentence.",
+  "options": [
+   "Students ought be tolerant with each other.",
+   "Students oughts to be tolerant with each other.",
+   "Students ought to being tolerant with each other.",
+   "Students ought to be tolerant with each other."
+  ],
+  "correct": 3,
+  "explanation": "'Ought' is always followed by 'to' and the base form of the verb: ought to be. Like other modals, it never takes -s with a third person subject and is never followed by an -ing form.",
+  "tags": [
+   "grammar",
+   "modals",
+   "ought to"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Use 'mustn't' to express prohibition.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "The teacher said: 'You ____ fight in the playground. It is strictly forbidden.'",
+  "options": [
+   "don't have to",
+   "needn't",
+   "mustn't",
+   "shouldn't have"
+  ],
+  "correct": 2,
+  "explanation": "'Mustn't' means that something is forbidden. 'Don't have to' and 'needn't' mean that something is not necessary, which is the opposite idea, and 'shouldn't have' needs a past participle after it.",
+  "tags": [
+   "grammar",
+   "modals",
+   "prohibition"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Use 'must' to express a rule or a strong obligation.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Rule number one of our debate club: members ____ respect the speaker's time; it is compulsory.",
+  "blanks": [
+   "must"
+  ],
+  "bank": [
+   "must",
+   "should",
+   "can",
+   "might",
+   "ought"
+  ],
+  "explanation": "The word 'compulsory' shows that this is a rule, so the strong modal 'must' is needed. 'Should' would only make it a piece of advice, and 'ought' cannot be used without 'to'.",
+  "tags": [
+   "grammar",
+   "modals",
+   "obligation"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L1-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Form the negative of 'ought to' correctly.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Choose the correct negative form: 'You ____ ignore your friend's apology.'",
+  "options": [
+   "ought not to",
+   "don't ought to",
+   "ought to not",
+   "oughtn't to not"
+  ],
+  "correct": 0,
+  "explanation": "The negative of 'ought to' is 'ought not to' (or 'oughtn't to'). 'Ought' is a modal, so it does not take the auxiliary 'do', and 'not' comes before 'to', not after it.",
+  "tags": [
+   "grammar",
+   "modals",
+   "ought to",
+   "negative"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L1-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Distinguish prohibition (mustn't) from absence of obligation (don't have to).",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Visitors ____ touch the exhibits; it is strictly forbidden. However, they ____ pay to enter the museum because it is free.",
+  "blanks": [
+   "mustn't",
+   "don't have to"
+  ],
+  "bank": [
+   "mustn't",
+   "don't have to",
+   "must",
+   "should",
+   "ought to",
+   "may"
+  ],
+  "explanation": "'Mustn't' expresses prohibition (touching is forbidden), while 'don't have to' means there is no obligation (paying is not necessary because entry is free). 'Must' in the second blank would wrongly make paying an obligation.",
+  "tags": [
+   "grammar",
+   "modals",
+   "prohibition",
+   "absence of obligation"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L2-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Recognise the structure of the first conditional: if + present simple, will + base verb.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Choose the correct first conditional sentence.",
+  "options": [
+   "If it will rain tomorrow, the peace march will be cancelled.",
+   "If it rains tomorrow, the peace march will be cancelled.",
+   "If it rained tomorrow, the peace march will be cancelled.",
+   "If it rains tomorrow, the peace march would be cancelled."
+  ],
+  "correct": 1,
+  "explanation": "The first conditional uses the present simple in the if-clause and 'will' in the main clause. 'Will' is never used in the if-clause, and 'rained' or 'would' belong to the second conditional.",
+  "tags": [
+   "grammar",
+   "first conditional"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L2-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Use 'will + base verb' in the main clause of a first conditional.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "If the two leaders sign the agreement next week, the fighting ____ (stop).",
+  "blanks": [
+   "will stop"
+  ],
+  "bank": [
+   "will stop",
+   "stops",
+   "stopped",
+   "would stop",
+   "stop"
+  ],
+  "explanation": "The main clause of a first conditional expresses a probable future result with 'will + verb': will stop. 'Would stop' belongs to the second conditional, which describes unreal or imaginary situations.",
+  "tags": [
+   "grammar",
+   "first conditional",
+   "main clause"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L2-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Use 'unless' with the meaning of 'if ... not' in a first conditional.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "I won't go to the peace conference ____ you come with me.",
+  "options": [
+   "if",
+   "when",
+   "unless",
+   "although"
+  ],
+  "correct": 2,
+  "explanation": "'Unless' means 'if ... not': I won't go if you don't come with me. 'If you come with me' would give the opposite, illogical meaning.",
+  "tags": [
+   "grammar",
+   "first conditional",
+   "unless"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L2-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Use an imperative in the main clause of a first conditional.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "If you see your cousin at the wedding, ____ him to call me.",
+  "options": [
+   "tell",
+   "will tell",
+   "told",
+   "telling"
+  ],
+  "correct": 0,
+  "explanation": "The main clause of a first conditional can be an imperative when we give an instruction: tell him to call me. 'Will tell' needs a subject (you will tell him), and 'told' is a past form.",
+  "tags": [
+   "grammar",
+   "first conditional",
+   "imperative"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L2-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Form a negative if-clause in the present simple.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "If the mediator ____ (not / find) a solution soon, the two tribes will fight again.",
+  "blanks": [
+   "doesn't find"
+  ],
+  "bank": [
+   "doesn't find",
+   "won't find",
+   "didn't find",
+   "don't find",
+   "not find"
+  ],
+  "explanation": "The if-clause of a first conditional stays in the present simple, even in the negative: doesn't find. 'Won't find' wrongly puts 'will' in the if-clause, and 'don't find' does not agree with the singular subject 'the mediator'.",
+  "tags": [
+   "grammar",
+   "first conditional",
+   "negative"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Identify the communicative function of a first conditional sentence (warning, promise, request).",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "What is the speaker doing when he says: 'If you keep interrupting me, I'll leave the room'?",
+  "options": [
+   "making a promise",
+   "apologising",
+   "making a request",
+   "giving a warning"
+  ],
+  "correct": 3,
+  "explanation": "The speaker announces an unpleasant consequence if the other person continues, which is a warning (or a threat). A promise would offer something positive, such as 'If you listen, I'll help you'.",
+  "tags": [
+   "grammar",
+   "first conditional",
+   "functions"
+  ]
+ },
+ {
+  "key": "2AS-EN-U2-L2-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Build a first conditional sentence with the main clause placed before the if-clause.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Our teacher will organise a trip to Tipaza ____ we ____ (finish) the project on time.",
+  "blanks": [
+   "if",
+   "finish"
+  ],
+  "bank": [
+   "if",
+   "finish",
+   "will finish",
+   "unless",
+   "finished",
+   "finishes"
+  ],
+  "explanation": "The condition for the trip is finishing the project, so 'if' + present simple (finish) is needed. 'Unless' would mean the opposite ('if we don't finish'), and 'will finish' cannot be used after 'if'.",
+  "tags": [
+   "grammar",
+   "first conditional",
+   "word order"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Form the present simple passive with be + past participle and the right subject agreement.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Choose the passive form of: 'People throw away tons of plastic every year.'",
+  "options": [
+   "Tons of plastic is thrown away every year.",
+   "Tons of plastic are throwing away every year.",
+   "Tons of plastic are thrown away every year.",
+   "Tons of plastic were thrown away every year."
+  ],
+  "correct": 2,
+  "explanation": "The present simple passive is formed with 'am/is/are + past participle'. The subject 'tons' is plural, so 'are thrown' is correct; 'were thrown' changes the tense to the past.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "present simple"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L1-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Use the irregular past participle in a passive sentence.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "This beautiful basket ____ (make) from recycled newspapers.",
+  "blanks": [
+   "is made"
+  ],
+  "bank": [
+   "is made",
+   "is making",
+   "made",
+   "makes",
+   "is maked"
+  ],
+  "explanation": "The passive needs 'be + past participle': is made. 'Make' is an irregular verb, so 'maked' does not exist, and 'is making' is the active present continuous.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "past participle"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L1-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Form the past simple passive.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "The new recycling centre ____ by the mayor last month.",
+  "options": [
+   "inaugurated",
+   "was inaugurated",
+   "is inaugurated",
+   "has inaugurated"
+  ],
+  "correct": 1,
+  "explanation": "'Last month' requires the past simple, and the centre receives the action, so the passive 'was inaugurated' is needed. 'Inaugurated' alone would make the centre the doer of the action.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "past simple"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Form the passive with a modal verb: modal + be + past participle.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Old batteries ____ in the ordinary dustbin because they contain dangerous chemicals.",
+  "options": [
+   "mustn't be throw",
+   "mustn't throw",
+   "mustn't been thrown",
+   "mustn't be thrown"
+  ],
+  "correct": 3,
+  "explanation": "After a modal verb, the passive is 'modal + be + past participle': mustn't be thrown. 'Mustn't throw' is active and would need a subject that throws the batteries.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "modals"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Use the passive with an agent introduced by 'by'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "The report on food waste ____ ____ a group of students from our school.",
+  "blanks": [
+   "was written",
+   "by"
+  ],
+  "bank": [
+   "was written",
+   "by",
+   "wrote",
+   "from",
+   "is writing",
+   "written"
+  ],
+  "explanation": "The report receives the action, so the passive 'was written' is needed, and the agent is introduced by 'by', not 'from'. 'Wrote' would make the report the writer.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "agent"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L1-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Decide when the agent can be omitted in a passive sentence.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "In which sentence is the 'by' phrase unnecessary?",
+  "options": [
+   "Paper is made by people from wood.",
+   "The vaccine was discovered by Pasteur.",
+   "The cake was baked by my grandmother.",
+   "The report was written by the minister."
+  ],
+  "correct": 0,
+  "explanation": "The agent is omitted when it is obvious, unknown or unimportant: 'by people' adds no information, so 'Paper is made from wood' is enough. In the other sentences the agent tells us something important about who did the action.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "agent"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L1-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Choose between the active and the passive according to the subject of each clause.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Every year, the city council ____ (collect) tons of rubbish, but only a small part of it ____ (recycle).",
+  "blanks": [
+   "collects",
+   "is recycled"
+  ],
+  "bank": [
+   "collects",
+   "is collected",
+   "is recycled",
+   "recycles",
+   "are recycled",
+   "collected"
+  ],
+  "explanation": "The city council does the action, so the active 'collects' is correct, while 'a small part of it' receives the action, so the passive 'is recycled' is needed. 'Are recycled' does not agree with the singular subject 'part'.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "active vs passive"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L2-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Identify connectors of purpose.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Which connector expresses purpose?",
+  "options": [
+   "because",
+   "so that",
+   "therefore",
+   "as a result"
+  ],
+  "correct": 1,
+  "explanation": "'So that' introduces the purpose of an action, that is its goal. 'Because' expresses cause, while 'therefore' and 'as a result' express effect.",
+  "tags": [
+   "grammar",
+   "connectors",
+   "purpose"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L2-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Use 'because' to introduce a cause expressed by a clause.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Many rivers are polluted ____ factories throw their waste into them.",
+  "blanks": [
+   "because"
+  ],
+  "bank": [
+   "because",
+   "so that",
+   "in order to",
+   "therefore",
+   "because of"
+  ],
+  "explanation": "'Because' is followed by a clause (subject + verb) that explains the cause. 'Because of' must be followed by a noun, and 'therefore' would introduce a result, not a cause.",
+  "tags": [
+   "grammar",
+   "connectors",
+   "cause"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L2-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Distinguish 'because of + noun' from 'because + clause'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "The beach was closed ____ the oil spill.",
+  "options": [
+   "because of",
+   "because",
+   "so",
+   "in order to"
+  ],
+  "correct": 0,
+  "explanation": "'The oil spill' is a noun phrase, so 'because of' is needed. 'Because' must be followed by a subject and a verb (because there was an oil spill).",
+  "tags": [
+   "grammar",
+   "connectors",
+   "cause"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L2-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Use 'so that' + clause to express purpose.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "We sort our rubbish at home ____ it can be recycled more easily.",
+  "options": [
+   "in order to",
+   "so as to",
+   "so that",
+   "to"
+  ],
+  "correct": 2,
+  "explanation": "'So that' is followed by a clause with a subject and a verb (it can be recycled). 'In order to', 'so as to' and 'to' are followed directly by a base verb, not by a subject.",
+  "tags": [
+   "grammar",
+   "connectors",
+   "purpose"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L2-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Use 'as a result' to introduce an effect.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Consumers often buy more than they need; ____, a lot of food ends up in the bin.",
+  "blanks": [
+   "as a result"
+  ],
+  "bank": [
+   "as a result",
+   "because",
+   "so that",
+   "in order to",
+   "due to"
+  ],
+  "explanation": "The second sentence is the consequence of the first, so a connector of effect like 'as a result' is needed. 'Because' would wrongly present the wasted food as the cause of overbuying.",
+  "tags": [
+   "grammar",
+   "connectors",
+   "effect"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Use 'such a + adjective + noun + that' to express an effect.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Plastic is ____ cheap material that companies use it everywhere.",
+  "options": [
+   "so",
+   "such",
+   "so a",
+   "such a"
+  ],
+  "correct": 3,
+  "explanation": "Before an adjective + singular countable noun we use 'such a': such a cheap material that... 'So' is used directly before an adjective or adverb without a noun (so cheap that...).",
+  "tags": [
+   "grammar",
+   "connectors",
+   "effect",
+   "so such that"
+  ]
+ },
+ {
+  "key": "2AS-EN-U3-L2-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Analyse the logical relation between clauses to choose between cause and effect connectors.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "The factory was fined ____ it had polluted the river, ____ it now treats its waste water before releasing it.",
+  "blanks": [
+   "because",
+   "so"
+  ],
+  "bank": [
+   "because",
+   "so",
+   "so that",
+   "because of",
+   "in order to",
+   "due to"
+  ],
+  "explanation": "The pollution is the cause of the fine (because), and treating the water is the effect of the fine (so). 'Because of' and 'due to' need a noun after them, and 'so that' would wrongly express a purpose.",
+  "tags": [
+   "grammar",
+   "connectors",
+   "cause",
+   "effect"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Use sequencers to order the steps of an experiment.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "____, pour some water into the beaker. Then add a spoonful of salt and stir.",
+  "options": [
+   "First",
+   "Finally",
+   "After that",
+   "Next"
+  ],
+  "correct": 0,
+  "explanation": "'First' introduces the opening step of a process. 'Next' and 'after that' must follow a previous step, and 'finally' introduces the last one.",
+  "tags": [
+   "process",
+   "sequencers"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L1-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Choose the sequencer that introduces a middle step of a process.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "First, pour the water into the test tube. ____, add a few drops of ink. Finally, stir the mixture.",
+  "blanks": [
+   "Next"
+  ],
+  "bank": [
+   "Next",
+   "First",
+   "Finally",
+   "Lastly",
+   "Before"
+  ],
+  "explanation": "A middle step of a process is introduced by 'next' (or 'then'). 'First' and 'finally' are already used for the opening and closing steps, and 'lastly' would repeat the idea of 'finally'.",
+  "tags": [
+   "process",
+   "sequencers"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L1-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Recall the names of basic laboratory equipment.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Which piece of equipment is used to measure the temperature of a liquid?",
+  "options": [
+   "a funnel",
+   "a thermometer",
+   "a test tube",
+   "a magnet"
+  ],
+  "correct": 1,
+  "explanation": "A thermometer measures temperature. A funnel is used to pour liquids without spilling, a test tube holds small quantities of liquid, and a magnet attracts metals.",
+  "tags": [
+   "vocabulary",
+   "laboratory equipment"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Use the imperative to give instructions in a procedure.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which sentence gives an instruction in an experiment?",
+  "options": [
+   "You heated the water for two minutes.",
+   "The water is heating for two minutes.",
+   "Heat the water for two minutes.",
+   "To heating the water for two minutes."
+  ],
+  "correct": 2,
+  "explanation": "Instructions are given with the imperative, that is the base verb without a subject: Heat the water. 'You heated' reports a past action, and 'to heating' is not a correct verb form.",
+  "tags": [
+   "process",
+   "imperative",
+   "instructions"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Use 'until' to link two steps of a procedure in time.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Do not touch the beaker ____ it has cooled down completely.",
+  "blanks": [
+   "until"
+  ],
+  "bank": [
+   "until",
+   "while",
+   "after",
+   "then",
+   "during"
+  ],
+  "explanation": "'Until' means 'up to the moment when': do not touch it before the cooling is complete. 'After' would give the opposite instruction, and 'during' cannot introduce a clause with a verb.",
+  "tags": [
+   "process",
+   "time connectors"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L1-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Combine two steps of a process with 'before' and 'after' without changing their order.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Steps: 1) Fill the beaker with water. 2) Add the salt. Which sentence keeps the same order of steps?",
+  "options": [
+   "After adding the salt, fill the beaker with water.",
+   "Before filling the beaker with water, add the salt.",
+   "Add the salt, then fill the beaker with water.",
+   "Fill the beaker with water before adding the salt."
+  ],
+  "correct": 3,
+  "explanation": "'Fill the beaker before adding the salt' keeps water first and salt second. In the three other sentences the salt is added first, which changes the order of the steps.",
+  "tags": [
+   "process",
+   "before after",
+   "sequencing"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L1-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Use the present simple passive to describe the stages of a natural process.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "In the water cycle, water ____ (heat) by the sun, and the vapour ____ (carry) upwards by warm air.",
+  "blanks": [
+   "is heated",
+   "is carried"
+  ],
+  "bank": [
+   "is heated",
+   "heats",
+   "is carried",
+   "carries",
+   "heated",
+   "carried"
+  ],
+  "explanation": "Water and vapour receive the actions, so the passive forms 'is heated' and 'is carried' are needed. The active forms 'heats' and 'carries' would wrongly make water and vapour the doers of the actions.",
+  "tags": [
+   "process",
+   "passive voice",
+   "natural process"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L2-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Recall the meaning of the word 'hypothesis' in a lab report.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "In a lab report, the ____ is what the scientist expects to happen before doing the experiment.",
+  "options": [
+   "hypothesis",
+   "conclusion",
+   "result",
+   "method"
+  ],
+  "correct": 0,
+  "explanation": "A hypothesis is a prediction made before the experiment. The results are observed during the experiment, and the conclusion is written after analysing them.",
+  "tags": [
+   "vocabulary",
+   "lab report",
+   "hypothesis"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L2-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Report the result of an experiment using the past simple.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Yesterday we tested our hypothesis, and the salty water ____ (make) the egg float.",
+  "blanks": [
+   "made"
+  ],
+  "bank": [
+   "made",
+   "makes",
+   "make",
+   "will make",
+   "making"
+  ],
+  "explanation": "Results are reported in the past simple because the experiment is finished ('yesterday'): made. 'Will make' would express a prediction, not a result.",
+  "tags": [
+   "lab report",
+   "results",
+   "past simple"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L2-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Distinguish a reported result from a hypothesis and an instruction.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which sentence reports a result?",
+  "options": [
+   "We think the plant near the window will grow faster.",
+   "First, put one plant near the window and one in the cupboard.",
+   "The plant near the window grew five centimetres taller.",
+   "If we give the plant more water, it will grow faster."
+  ],
+  "correct": 2,
+  "explanation": "A result reports what was observed, in the past simple: the plant grew taller. The sentences with 'we think' and 'if ... will' express hypotheses, and the imperative gives an instruction.",
+  "tags": [
+   "lab report",
+   "results",
+   "hypothesis"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L2-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Use the verb 'confirm' to say that a result agrees with a hypothesis.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "The experiment ____ our hypothesis: the ice melted faster in salty water, as we had expected.",
+  "options": [
+   "repeated",
+   "confirmed",
+   "refused",
+   "denied"
+  ],
+  "correct": 1,
+  "explanation": "When the result matches the prediction, the experiment 'confirms' (or proves) the hypothesis. 'Refused' and 'denied' are used for people, not for experiments, and a result that contradicts a hypothesis 'disproves' it.",
+  "tags": [
+   "vocabulary",
+   "lab report",
+   "hypothesis"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L2-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Report a result and draw a conclusion with 'show that' and 'therefore'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "The results ____ that plants need light to grow; ____, our hypothesis was right.",
+  "blanks": [
+   "show",
+   "therefore"
+  ],
+  "bank": [
+   "show",
+   "therefore",
+   "because",
+   "showing",
+   "however",
+   "so that"
+  ],
+  "explanation": "'The results show that ...' introduces what the experiment proves, and 'therefore' introduces the logical conclusion. 'However' would introduce a contrast, which does not fit a confirmed hypothesis.",
+  "tags": [
+   "lab report",
+   "conclusion",
+   "connectors"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Interpret a result that contradicts the hypothesis.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Students predicted that sugar dissolves faster in cold water than in hot water, but the sugar dissolved much faster in the hot water. What can they conclude?",
+  "options": [
+   "The result proves the hypothesis.",
+   "The result has nothing to do with the hypothesis.",
+   "The result shows that the method was wrong.",
+   "The result disproves the hypothesis."
+  ],
+  "correct": 3,
+  "explanation": "When the observed result is the opposite of the prediction, the hypothesis is disproved, not confirmed. An unexpected result does not mean the method was wrong; it is simply evidence against the hypothesis.",
+  "tags": [
+   "lab report",
+   "hypothesis",
+   "conclusion"
+  ]
+ },
+ {
+  "key": "2AS-EN-U4-L2-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Report a hypothesis in the past using 'predicted that' + 'would'.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Before the experiment, we ____ (predict) that the heavier ball ____ (fall) faster, but both balls reached the ground at the same time.",
+  "blanks": [
+   "predicted",
+   "would fall"
+  ],
+  "bank": [
+   "predicted",
+   "would fall",
+   "will fall",
+   "predict",
+   "fell",
+   "falls"
+  ],
+  "explanation": "The reporting verb is in the past (predicted), so the prediction is expressed with 'would fall'. 'Will fall' is only used when the prediction is reported in the present (we predict that ... will).",
+  "tags": [
+   "lab report",
+   "hypothesis",
+   "reported prediction"
+  ]
+ }
+]

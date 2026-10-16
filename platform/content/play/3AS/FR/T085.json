@@ -1,0 +1,1397 @@
+[
+  {
+    "key": "3AS-FR-U1-L1-0001",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Identifier la visée d'un texte qui informe d'un fait d'histoire.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Quelle est la visée principale d'un texte historique qui informe d'un fait d'histoire ?",
+    "options": [
+      "Convaincre le lecteur d'adopter une opinion",
+      "Émouvoir le lecteur par un récit personnel",
+      "Informer objectivement sur des faits passés",
+      "Divertir le lecteur par une histoire inventée"
+    ],
+    "correct": 2,
+    "explanation": "Le texte historique informatif rapporte des faits réels et vérifiables sans chercher à convaincre ni à émouvoir : l'auteur s'efface derrière les faits. Convaincre relève du texte argumentatif, non du texte d'histoire.",
+    "tags": [
+      "visée",
+      "texte historique",
+      "objectivité"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0002",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Reconnaître la personne grammaticale dominante dans un texte d'histoire objectif.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Dans un texte d'histoire objectif, à quelle personne l'auteur rapporte-t-il les faits ?",
+    "options": [
+      "À la troisième personne",
+      "À la première personne du singulier",
+      "À la deuxième personne du pluriel",
+      "À la première personne du pluriel"
+    ],
+    "correct": 0,
+    "explanation": "L'historien s'efface et emploie la troisième personne (il, ils, les colons, la population…). La première personne (je, nous) signalerait au contraire la présence de l'énonciateur et sa subjectivité.",
+    "tags": [
+      "énonciation",
+      "objectivité",
+      "troisième personne"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0003",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Distinguer un énoncé objectif d'énoncés marqués par la subjectivité.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Lequel de ces énoncés est le plus objectif ?",
+    "options": [
+      "Cette terrible journée marqua à jamais les cœurs.",
+      "Le 8 mai 1945, des manifestations eurent lieu à Sétif, Guelma et Kherrata.",
+      "Je crois que ce fut le tournant le plus décisif de notre histoire.",
+      "Quelle injustice révoltante pour tout un peuple !"
+    ],
+    "correct": 1,
+    "explanation": "Le deuxième énoncé donne une date, des lieux et un verbe au passé simple, sans aucun jugement. Les autres contiennent un adjectif affectif (terrible), un verbe d'opinion à la première personne (je crois) ou une exclamation indignée.",
+    "tags": [
+      "objectivité",
+      "subjectivité",
+      "repérage"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0004",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Identifier le temps verbal privilégié du récit historique au passé.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Quel temps verbal l'historien emploie-t-il le plus souvent pour rapporter des événements passés successifs (à côté du présent historique) ?",
+    "options": [
+      "Le conditionnel présent",
+      "Le futur simple",
+      "Le subjonctif présent",
+      "Le passé simple"
+    ],
+    "correct": 3,
+    "explanation": "Le passé simple est le temps du récit historique écrit : il présente les événements comme achevés et successifs (débarqua, s'empara, proclama). Le futur et le conditionnel ne conviennent pas au récit de faits passés et certains.",
+    "tags": [
+      "temps verbaux",
+      "passé simple",
+      "récit historique"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0005",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Expliquer le rôle de la voix passive dans l'effacement de l'énonciateur.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« Les terres des tribus furent confisquées en 1871. » Quel procédé d'objectivité cette phrase illustre-t-elle ?",
+    "options": [
+      "L'emploi d'un modalisateur de doute",
+      "L'emploi d'un adjectif évaluatif",
+      "L'emploi de la voix passive qui met en avant le fait",
+      "L'emploi de la première personne du pluriel"
+    ],
+    "correct": 2,
+    "explanation": "La voix passive (furent confisquées) place le fait au premier plan et efface l'énonciateur ; l'agent peut même être omis. Il n'y a ni modalisateur ni adjectif de jugement dans la phrase.",
+    "tags": [
+      "voix passive",
+      "objectivité",
+      "effacement de l'énonciateur"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0006",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Repérer une marque de subjectivité dissimulée dans un énoncé d'apparence factuelle.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Le 1er novembre 1954, une poignée de braves déclencha la lutte armée dans les Aurès. » Quel élément de cette phrase rompt l'objectivité ?",
+    "options": [
+      "« une poignée de braves »",
+      "« Le 1er novembre 1954 »",
+      "« déclencha »",
+      "« dans les Aurès »"
+    ],
+    "correct": 0,
+    "explanation": "« Braves » est un adjectif appréciatif (mélioratif) employé comme nom : il exprime l'admiration de l'auteur. La date, le verbe au passé simple et l'indication de lieu sont des marques d'objectivité.",
+    "tags": [
+      "subjectivité",
+      "adjectif appréciatif",
+      "analyse"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0007",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Identifier la valeur du présent de narration (présent historique).",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« En juin 1830, l'armée française débarque à Sidi Fredj. » Quelle est la valeur du présent dans cette phrase ?",
+    "options": [
+      "Présent d'énonciation : le fait se produit au moment où l'on parle",
+      "Présent de narration (présent historique) : il rend plus vivant un fait passé",
+      "Présent de vérité générale : il énonce une loi toujours vraie",
+      "Présent à valeur de futur proche : le fait va se produire"
+    ],
+    "correct": 1,
+    "explanation": "La date (juin 1830) montre que le fait est passé ; le présent est donc un présent de narration, qui actualise l'événement et le rend plus vivant. Il ne s'agit ni d'une vérité générale ni du moment de l'énonciation.",
+    "tags": [
+      "présent historique",
+      "temps verbaux",
+      "valeur du présent"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0008",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Interpréter l'emploi du conditionnel pour rapporter une information non confirmée.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Selon certaines sources, le nombre des victimes s'élèverait à plusieurs milliers. » Que marque le conditionnel « s'élèverait » ?",
+    "options": [
+      "Un souhait de l'auteur",
+      "Une action future et certaine",
+      "Une hypothèse impossible à réaliser",
+      "Une information non confirmée que l'auteur ne prend pas à son compte"
+    ],
+    "correct": 3,
+    "explanation": "Associé à « selon certaines sources », le conditionnel signale que le chiffre n'est pas vérifié : l'auteur le rapporte avec prudence sans l'affirmer. Ce n'est ni un souhait ni une hypothèse irréelle.",
+    "tags": [
+      "conditionnel",
+      "information non confirmée",
+      "prudence"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0009",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Rappeler que le texte historique informatif repose sur des faits vérifiables.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Un texte d'histoire qui informe s'appuie sur des ____ vérifiables (dates, lieux, chiffres) et non sur des opinions.",
+    "blanks": [
+      "faits"
+    ],
+    "bank": [
+      "faits",
+      "sentiments",
+      "jugements",
+      "impressions",
+      "rumeurs",
+      "souhaits"
+    ],
+    "explanation": "L'information historique repose sur des faits que l'on peut vérifier dans les sources. Sentiments, jugements et impressions relèvent de la subjectivité.",
+    "tags": [
+      "faits",
+      "objectivité",
+      "vocabulaire"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0010",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Nominaliser une phrase verbale pour formuler un titre ou un intertitre historique.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Phrase verbale : « Les autorités coloniales arrêtèrent les militants. » → Nominalisation : « L'____ des militants par les autorités coloniales. »",
+    "blanks": [
+      "arrestation"
+    ],
+    "bank": [
+      "arrestation",
+      "arrêt",
+      "arrêté",
+      "arrêtée",
+      "arrestée"
+    ],
+    "explanation": "Le nom d'action dérivé du verbe « arrêter » (au sens de capturer) est « arrestation ». « Arrêt » désigne le fait de s'arrêter et « arrêté » est une décision administrative ; « arrêtée » et « arrestée » ne sont pas des noms d'action.",
+    "tags": [
+      "nominalisation",
+      "titre",
+      "lexique"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0011",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Employer le passé simple pour l'événement de premier plan et l'imparfait pour l'arrière-plan.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Complétez avec les formes qui conviennent : « En 1954, le FLN ____ l'insurrection ; le pays ____ alors sous domination coloniale depuis 1830. »",
+    "blanks": [
+      "lança",
+      "vivait"
+    ],
+    "bank": [
+      "lança",
+      "lançait",
+      "vivait",
+      "vécut",
+      "lancera",
+      "vit"
+    ],
+    "explanation": "« Lança » (passé simple) exprime l'événement ponctuel de premier plan ; « vivait » (imparfait) décrit la situation d'arrière-plan qui durait. « Vécut » présenterait la situation comme un fait achevé, ce qui contredit « depuis 1830 ».",
+    "tags": [
+      "passé simple",
+      "imparfait",
+      "premier plan et arrière-plan"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0012",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Choisir un indicateur temporel qui situe les événements dans la chronologie sans jugement.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Complétez par l'indicateur temporel propre au récit historique objectif : « Les négociations s'ouvrirent au mois de mai ; ____, un accord de cessez-le-feu fut signé. »",
+    "blanks": [
+      "quelques semaines plus tard"
+    ],
+    "bank": [
+      "quelques semaines plus tard",
+      "malheureusement",
+      "à mon avis",
+      "pourtant",
+      "certes",
+      "parce que"
+    ],
+    "explanation": "« Quelques semaines plus tard » situe le second fait par rapport au premier dans le temps : c'est la fonction des indicateurs chronologiques. « Malheureusement » et « à mon avis » introduisent un jugement ; « pourtant » et « certes » marquent une opposition ou une concession.",
+    "tags": [
+      "indicateurs temporels",
+      "chronologie",
+      "objectivité"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L1-0013",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Connaître le vocabulaire de la recherche documentaire en histoire.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Le document (archive, lettre, journal, photographie) sur lequel l'historien s'appuie pour établir un fait s'appelle une ____.",
+    "blanks": [
+      "source"
+    ],
+    "bank": [
+      "source",
+      "opinion",
+      "légende",
+      "rumeur",
+      "fiction",
+      "thèse"
+    ],
+    "explanation": "Une source est un document authentique qui permet d'établir et de vérifier un fait. Une rumeur ou une légende ne sont pas vérifiables, et une opinion n'est pas un fait.",
+    "tags": [
+      "source",
+      "recherche documentaire",
+      "vocabulaire"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0001",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Définir le témoignage dans un texte d'histoire.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Dans un texte d'histoire, qu'est-ce qu'un témoignage ?",
+    "options": [
+      "Le récit d'une personne qui a vu ou vécu l'événement",
+      "L'analyse d'un historien à partir des archives",
+      "Un tableau de chiffres officiels",
+      "Le résumé d'un événement dans un manuel scolaire"
+    ],
+    "correct": 0,
+    "explanation": "Le témoignage est la parole d'un témoin, c'est-à-dire d'une personne ayant assisté à l'événement ou l'ayant vécu. L'analyse de l'historien, les chiffres et le résumé de manuel sont des documents de seconde main.",
+    "tags": [
+      "témoignage",
+      "définition",
+      "témoin"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0002",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Reconnaître la personne grammaticale caractéristique du témoignage.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "À quelle personne grammaticale un témoin rapporte-t-il généralement ce qu'il a vécu ?",
+    "options": [
+      "À la troisième personne du singulier",
+      "À la deuxième personne du pluriel",
+      "À la première personne (je, nous)",
+      "À la forme impersonnelle (il y a, il s'est produit)"
+    ],
+    "correct": 2,
+    "explanation": "Le témoin parle de ce qu'il a vécu lui-même : il emploie « je » ou « nous », ainsi que les possessifs « mon », « notre ». La troisième personne et les tournures impersonnelles caractérisent plutôt le récit de l'historien.",
+    "tags": [
+      "témoignage",
+      "première personne",
+      "énonciation"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0003",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Expliquer la fonction du témoignage inséré dans un texte historique.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Pourquoi l'auteur d'un texte d'histoire insère-t-il un témoignage dans son récit ?",
+    "options": [
+      "Pour remplacer entièrement son analyse des faits",
+      "Pour authentifier son récit et le rendre plus vivant et plus crédible",
+      "Pour corriger les dates qu'il a données auparavant",
+      "Pour résumer l'ensemble de l'événement en une phrase"
+    ],
+    "correct": 1,
+    "explanation": "Le témoignage apporte la voix d'une personne qui a vécu les faits : il authentifie le récit, l'illustre et lui donne une dimension humaine. Il complète l'analyse de l'historien mais ne la remplace pas.",
+    "tags": [
+      "témoignage",
+      "fonction",
+      "crédibilité"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0004",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Identifier la ponctuation qui signale un témoignage rapporté au discours direct.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Quels signes de ponctuation signalent qu'un témoignage est rapporté au discours direct ?",
+    "options": [
+      "Des parenthèses après une virgule",
+      "Des tirets de part et d'autre du témoignage",
+      "Des points de suspension avant et après",
+      "Des guillemets, généralement après deux points"
+    ],
+    "correct": 3,
+    "explanation": "Au discours direct, les paroles du témoin sont annoncées par deux points et encadrées par des guillemets (« … »). Les parenthèses et les points de suspension ont d'autres fonctions.",
+    "tags": [
+      "discours direct",
+      "ponctuation",
+      "guillemets"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0005",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Choisir un verbe introducteur adapté à l'insertion d'un témoignage.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Quel verbe introducteur complète correctement la phrase sans mettre en doute les paroles du témoin ? « Un ancien moudjahid … : “Nous n'avions que des fusils de chasse.” »",
+    "options": [
+      "prétend",
+      "raconte",
+      "nie",
+      "ordonne"
+    ],
+    "correct": 1,
+    "explanation": "« Raconte » introduit de façon neutre un récit vécu. « Prétend » suggère que l'auteur doute des paroles, « nie » exprime le contraire d'une affirmation et « ordonne » introduit un commandement, non un témoignage.",
+    "tags": [
+      "verbe introducteur",
+      "témoignage",
+      "discours rapporté"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0006",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Transposer un témoignage du discours direct au discours indirect en respectant la concordance des temps et les changements de repères.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Témoignage au discours direct : Le témoin déclara : « J'ai vu les soldats entrer hier dans notre village. » Quelle est la transposition correcte au discours indirect ?",
+    "options": [
+      "Le témoin déclara qu'il avait vu les soldats entrer la veille dans leur village.",
+      "Le témoin déclara qu'il a vu les soldats entrer hier dans notre village.",
+      "Le témoin déclara qu'il avait vu les soldats entrer hier dans son village.",
+      "Le témoin déclara que j'avais vu les soldats entrer la veille dans leur village."
+    ],
+    "correct": 0,
+    "explanation": "Avec un verbe introducteur au passé, le passé composé devient plus-que-parfait (avait vu), « hier » devient « la veille », « je » devient « il » et « notre » devient « leur ». Les autres propositions conservent au moins un repère du discours direct.",
+    "tags": [
+      "discours indirect",
+      "concordance des temps",
+      "transposition"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0007",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Reconnaître le discours indirect libre dans un récit intégrant la parole d'un témoin.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Le vieil homme soupira. Il avait tout perdu cette nuit-là, et personne n'était venu les aider. » Comment les paroles du témoin sont-elles rapportées ?",
+    "options": [
+      "Au discours direct, avec des guillemets",
+      "Au discours indirect, avec une subordonnée introduite par « que »",
+      "Au discours narrativisé, sans aucun contenu de parole",
+      "Au discours indirect libre, sans verbe introducteur ni subordination"
+    ],
+    "correct": 3,
+    "explanation": "Les paroles sont fondues dans le récit à la troisième personne, avec les temps du récit, mais sans guillemets, sans verbe introducteur et sans « que » : c'est le discours indirect libre. Le discours narrativisé se contenterait de signaler l'acte de parole (il se plaignit).",
+    "tags": [
+      "discours indirect libre",
+      "discours rapporté",
+      "analyse"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0008",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Distinguer un témoin direct d'un témoin indirect.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Mon grand-père me racontait souvent comment les soldats avaient encerclé le village cette nuit-là. » Celui qui parle ici est :",
+    "options": [
+      "Un témoin direct (oculaire) qui a vu l'événement",
+      "L'historien qui analyse les archives",
+      "Un témoin indirect qui rapporte un récit de seconde main",
+      "Un journaliste présent sur les lieux ce jour-là"
+    ],
+    "correct": 2,
+    "explanation": "Le locuteur n'a pas assisté aux faits : il rapporte ce que son grand-père (le témoin direct) lui racontait. C'est un témoignage de seconde main, moins fiable qu'un témoignage oculaire.",
+    "tags": [
+      "témoin direct",
+      "témoin indirect",
+      "fiabilité"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0009",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Connaître les expressions qui introduisent un témoignage dans un texte d'histoire.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Pour introduire un témoignage, l'historien emploie des expressions comme « ____ le témoignage de… », « d'après… » ou « comme le rapporte… ».",
+    "blanks": [
+      "selon"
+    ],
+    "bank": [
+      "selon",
+      "malgré",
+      "pourtant",
+      "donc",
+      "parce que",
+      "sauf"
+    ],
+    "explanation": "« Selon le témoignage de » attribue les propos à leur source, comme « d'après ». « Malgré » exprime la concession, « pourtant » l'opposition et « donc » la conséquence.",
+    "tags": [
+      "introduire un témoignage",
+      "selon",
+      "source"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0010",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Distinguer, dans un passage, l'information de l'historien du témoignage inséré.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« Le 20 août 1955, des attaques furent lancées dans le Nord-Constantinois. Un paysan de la région se souvient : “Nous avons entendu les coups de feu dès l'aube.” » Dans ce passage, la phrase entre guillemets est un ____ et la première phrase est une ____ donnée par l'historien.",
+    "blanks": [
+      "témoignage",
+      "information"
+    ],
+    "bank": [
+      "témoignage",
+      "information",
+      "hypothèse",
+      "légende",
+      "opinion",
+      "conclusion"
+    ],
+    "explanation": "La phrase entre guillemets, à la première personne, rapporte ce qu'un témoin a vécu : c'est le témoignage. La première phrase, datée et à la troisième personne, est l'information objective de l'historien ; ce n'est ni une hypothèse ni une opinion.",
+    "tags": [
+      "témoignage",
+      "information",
+      "repérage"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0011",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Repérer les marques linguistiques qui révèlent la subjectivité du témoin.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Les marques de la première personne (je, nous, mon, notre) et le lexique des ____ (peur, joie, colère) révèlent la ____ du témoin.",
+    "blanks": [
+      "sentiments",
+      "subjectivité"
+    ],
+    "bank": [
+      "sentiments",
+      "chiffres",
+      "subjectivité",
+      "objectivité",
+      "dates",
+      "neutralité"
+    ],
+    "explanation": "Le témoin exprime ce qu'il a ressenti : le vocabulaire des sentiments et les pronoms de la première personne sont des marques de subjectivité. Les chiffres et les dates relèvent au contraire de l'objectivité.",
+    "tags": [
+      "subjectivité",
+      "sentiments",
+      "marques du témoignage"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0012",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Distinguer les temps du témoignage et ceux du récit de l'historien.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Le témoin raconte au ____ (« j'ai vu, nous avons fui »), tandis que l'historien rapporte les faits au ____ (« ils virent, ils fuirent »).",
+    "blanks": [
+      "passé composé",
+      "passé simple"
+    ],
+    "bank": [
+      "passé composé",
+      "passé simple",
+      "futur simple",
+      "conditionnel présent",
+      "plus-que-parfait",
+      "subjonctif présent"
+    ],
+    "explanation": "Le témoignage, proche de l'oral, emploie le passé composé ; le récit historique écrit privilégie le passé simple. Le plus-que-parfait exprime l'antériorité et ne correspond pas aux exemples donnés.",
+    "tags": [
+      "passé composé",
+      "passé simple",
+      "temps verbaux"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L2-0013",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Distinguer le discours direct et le discours indirect pour insérer un témoignage.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Pour citer fidèlement les paroles du témoin sans les modifier, on emploie le discours ____ ; pour les intégrer à son propre récit en les transformant, on emploie le discours ____.",
+    "blanks": [
+      "direct",
+      "indirect"
+    ],
+    "bank": [
+      "direct",
+      "indirect",
+      "narratif",
+      "descriptif",
+      "argumentatif",
+      "explicatif"
+    ],
+    "explanation": "Le discours direct reproduit les paroles telles quelles, entre guillemets ; le discours indirect les subordonne au verbe introducteur en modifiant pronoms et temps. « Narratif » et « descriptif » désignent des types de textes, non des discours rapportés.",
+    "tags": [
+      "discours direct",
+      "discours indirect",
+      "discours rapporté"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0001",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Définir la notion de modalisateur.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Qu'est-ce qu'un modalisateur ?",
+    "options": [
+      "Un mot ou une expression qui traduit l'attitude de l'énonciateur à l'égard de ce qu'il dit",
+      "Un connecteur qui situe les faits les uns par rapport aux autres dans le temps",
+      "Un nom propre qui désigne un lieu ou un personnage historique",
+      "Un verbe conjugué au passé simple dans un récit"
+    ],
+    "correct": 0,
+    "explanation": "Le modalisateur (certainement, peut-être, hélas, il semble que…) exprime le degré de certitude ou le jugement de celui qui parle. Les connecteurs temporels et les noms propres sont au contraire des marques d'objectivité.",
+    "tags": [
+      "modalisateur",
+      "subjectivité",
+      "définition"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0002",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Reconnaître un adjectif évaluatif parmi des adjectifs objectifs.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Lequel de ces adjectifs est un adjectif évaluatif (appréciatif) ?",
+    "options": [
+      "militaire",
+      "héroïque",
+      "rural",
+      "annuel"
+    ],
+    "correct": 1,
+    "explanation": "« Héroïque » exprime un jugement de valeur admiratif de l'auteur. « Militaire », « rural » et « annuel » sont des adjectifs objectifs qui classent sans juger.",
+    "tags": [
+      "adjectif évaluatif",
+      "subjectivité",
+      "lexique"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0003",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Comprendre ce que signifie analyser un fait d'histoire.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Analyser un fait d'histoire, c'est avant tout :",
+    "options": [
+      "Le raconter dans l'ordre chronologique",
+      "Le résumer en une seule phrase",
+      "Le traduire dans une autre langue",
+      "En dégager les causes et les conséquences"
+    ],
+    "correct": 3,
+    "explanation": "Analyser, c'est expliquer : remonter aux causes du fait et en mesurer les conséquences. Raconter dans l'ordre chronologique relève de l'information, non de l'analyse.",
+    "tags": [
+      "analyse",
+      "causes",
+      "conséquences"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0004",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Repérer le mot qui porte le jugement de l'auteur dans un énoncé.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« Cette répression, malheureusement, fit des milliers de victimes. » Quel mot traduit le jugement de l'auteur ?",
+    "options": [
+      "« répression »",
+      "« fit »",
+      "« malheureusement »",
+      "« milliers »"
+    ],
+    "correct": 2,
+    "explanation": "L'adverbe « malheureusement » est un modalisateur appréciatif : il exprime le regret de l'auteur. « Répression », « fit » et « milliers » rapportent le fait sans l'évaluer.",
+    "tags": [
+      "modalisateur",
+      "adverbe",
+      "repérage"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0005",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Identifier la relation logique exprimée par un verbe de causalité.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« La confiscation des terres entraîna l'exode des paysans vers les villes. » Quelle relation logique le verbe « entraîna » exprime-t-il ?",
+    "options": [
+      "Une opposition entre deux faits",
+      "Une relation de cause à conséquence",
+      "Une comparaison entre deux faits",
+      "Une concession suivie d'une réfutation"
+    ],
+    "correct": 1,
+    "explanation": "« Entraîner », comme « provoquer » ou « engendrer », relie une cause (la confiscation) à sa conséquence (l'exode). Il n'y a ni opposition ni comparaison dans la phrase.",
+    "tags": [
+      "cause",
+      "conséquence",
+      "verbes de causalité"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0006",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Interpréter correctement la valeur modale de l'expression « sans doute ».",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Les insurgés étaient sans doute mal armés. » Dans le français d'aujourd'hui, que signifie « sans doute » dans cette phrase ?",
+    "options": [
+      "Une certitude absolue : il est impossible d'en douter",
+      "Une négation : les insurgés n'étaient pas mal armés",
+      "Une opposition avec ce qui précède dans le texte",
+      "Une probabilité : l'auteur juge cela vraisemblable sans en être certain"
+    ],
+    "correct": 3,
+    "explanation": "Contrairement à ce que laisse croire sa forme, « sans doute » signifie aujourd'hui « probablement » et exprime une forte probabilité, non une certitude. Pour marquer la certitude, on dirait « sans aucun doute » ou « indéniablement ».",
+    "tags": [
+      "modalisation",
+      "sans doute",
+      "probabilité"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0007",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Distinguer une information d'un commentaire de l'historien.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Lequel de ces énoncés relève du commentaire et non de l'information ?",
+    "options": [
+      "Les accords d'Évian furent signés le 18 mars 1962.",
+      "Le cessez-le-feu entra en vigueur le lendemain.",
+      "Ces accords constituent, à n'en pas douter, la plus belle victoire de la diplomatie algérienne.",
+      "Les négociations s'étaient déroulées en plusieurs étapes."
+    ],
+    "correct": 2,
+    "explanation": "Le troisième énoncé contient un modalisateur de certitude (à n'en pas douter) et un superlatif appréciatif (la plus belle victoire) : c'est un jugement de l'auteur. Les autres énoncés rapportent des faits datés et vérifiables.",
+    "tags": [
+      "commentaire",
+      "information",
+      "repérage"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0008",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Analyser comment le choix du lexique révèle le point de vue dans la formulation d'un même fait.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Même fait, deux formulations : « Les forces de l'ordre rétablirent le calme dans la ville. » / « L'armée coloniale écrasa la révolte populaire. » Quel procédé révèle ici le point de vue de chaque auteur ?",
+    "options": [
+      "Le choix d'un lexique connoté pour désigner les acteurs et l'action",
+      "L'emploi du passé simple dans les deux phrases",
+      "L'emploi de la troisième personne dans les deux phrases",
+      "La présence d'indications de temps précises"
+    ],
+    "correct": 0,
+    "explanation": "Les deux phrases ont la même structure (troisième personne, passé simple) ; ce sont les mots choisis (forces de l'ordre / armée coloniale, rétablir le calme / écraser la révolte) qui portent un jugement implicite. Le temps et la personne sont identiques et ne distinguent pas les points de vue.",
+    "tags": [
+      "connotation",
+      "point de vue",
+      "lexique"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0009",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Distinguer commenter (juger) et informer (rapporter).",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Commenter un fait d'histoire, c'est porter un ____ sur cet événement ; informer, c'est seulement le ____.",
+    "blanks": [
+      "jugement",
+      "rapporter"
+    ],
+    "bank": [
+      "jugement",
+      "résumé",
+      "rapporter",
+      "inventer",
+      "cacher",
+      "dater"
+    ],
+    "explanation": "Le commentaire exprime le jugement personnel de l'auteur (approbation, regret, admiration), tandis que l'information se contente de rapporter les faits. Inventer ou cacher des faits n'est ni informer ni commenter.",
+    "tags": [
+      "commentaire",
+      "information",
+      "jugement"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0010",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Reconnaître les verbes d'opinion comme marques de subjectivité.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Les verbes d'opinion comme « je pense », « j'estime » ou « je ____ » signalent que l'auteur exprime un point de vue personnel.",
+    "blanks": [
+      "crois"
+    ],
+    "bank": [
+      "crois",
+      "cite",
+      "date",
+      "signe",
+      "lis",
+      "compte"
+    ],
+    "explanation": "« Croire » est un verbe d'opinion : il présente l'énoncé comme une conviction personnelle. « Citer », « dater » ou « lire » décrivent des actions et n'expriment aucune opinion.",
+    "tags": [
+      "verbes d'opinion",
+      "subjectivité",
+      "lexique"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0011",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Classer les adjectifs de jugement selon leur connotation méliorative ou péjorative.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "L'adjectif « glorieux » appartient au lexique ____, tandis que l'adjectif « barbare » appartient au lexique ____.",
+    "blanks": [
+      "mélioratif",
+      "péjoratif"
+    ],
+    "bank": [
+      "mélioratif",
+      "péjoratif",
+      "neutre",
+      "technique",
+      "chronologique",
+      "objectif"
+    ],
+    "explanation": "« Glorieux » valorise (lexique mélioratif) et « barbare » dévalorise (lexique péjoratif) : tous deux marquent la subjectivité de l'auteur. Un lexique neutre ou objectif ne comporterait aucun jugement.",
+    "tags": [
+      "mélioratif",
+      "péjoratif",
+      "connotation"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0012",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Distinguer le temps du fait rapporté et le temps du commentaire.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« En 1871, l'insurrection d'El Mokrani ____ en Kabylie. Elle ____ aujourd'hui un symbole de la résistance populaire. » Complétez : le fait passé au passé simple, le commentaire au présent.",
+    "blanks": [
+      "éclata",
+      "reste"
+    ],
+    "bank": [
+      "éclata",
+      "éclate",
+      "reste",
+      "resta",
+      "restera",
+      "éclatera"
+    ],
+    "explanation": "Le fait passé est rapporté au passé simple (éclata), tandis que le commentaire de l'auteur, valable au moment où il écrit (aujourd'hui), est au présent (reste). « Resta » renverrait le jugement dans le passé, ce qui contredit « aujourd'hui ».",
+    "tags": [
+      "temps du commentaire",
+      "passé simple",
+      "présent"
+    ]
+  },
+  {
+    "key": "3AS-FR-U1-L3-0013",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Percevoir la mise à distance exprimée par le verbe « prétendre » dans un commentaire.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Les autorités ____ avoir rétabli l'ordre, mais les archives montrent que les troubles continuèrent. » Choisissez le verbe qui montre que l'historien met en doute cette affirmation.",
+    "blanks": [
+      "prétendent"
+    ],
+    "bank": [
+      "prétendent",
+      "affirment",
+      "déclarent",
+      "annoncent",
+      "constatent",
+      "rappellent"
+    ],
+    "explanation": "« Prétendre » présente les paroles rapportées comme douteuses : l'auteur ne les prend pas à son compte, ce que confirme le « mais » qui suit. « Affirment », « déclarent » et « annoncent » rapportent les propos de façon neutre.",
+    "tags": [
+      "prétendre",
+      "mise à distance",
+      "modalisation"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0001",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Définir l'argument dans un texte argumentatif.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Dans un texte argumentatif, qu'est-ce qu'un argument ?",
+    "options": [
+      "Une raison avancée pour soutenir une thèse",
+      "Le sujet général dont on débat",
+      "La question posée au début du texte",
+      "La citation d'un auteur célèbre"
+    ],
+    "correct": 0,
+    "explanation": "L'argument est la raison, l'idée qui justifie la thèse et vise à convaincre. Le sujet du débat est le thème, et une citation n'est au mieux qu'un exemple ou un appui.",
+    "tags": [
+      "argument",
+      "définition",
+      "argumentation"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0002",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Définir la notion de controverse.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Qu'est-ce qu'une controverse ?",
+    "options": [
+      "Un accord unanime sur une question de société",
+      "Un débat où s'affrontent des opinions opposées sur une même question",
+      "Le récit détaillé d'un événement historique",
+      "La description objective d'un lieu ou d'un objet"
+    ],
+    "correct": 1,
+    "explanation": "La controverse suppose au moins deux thèses opposées défendues publiquement. Un accord unanime exclut le débat, et le récit ou la description ne sont pas des textes argumentatifs.",
+    "tags": [
+      "controverse",
+      "définition",
+      "débat"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0003",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Identifier la thèse défendue par l'auteur dans un court passage.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« Certains affirment que la télévision abrutit les jeunes. Pour ma part, je pense qu'elle peut être un formidable outil d'apprentissage. » Quelle est la thèse défendue par l'auteur ?",
+    "options": [
+      "La télévision abrutit les jeunes.",
+      "Il faut interdire la télévision aux jeunes.",
+      "La télévision peut être un outil d'apprentissage.",
+      "Les jeunes ne regardent plus la télévision."
+    ],
+    "correct": 2,
+    "explanation": "« Pour ma part, je pense que » signale la prise de position de l'auteur : sa thèse est que la télévision peut être un outil d'apprentissage. L'idée que la télévision abrutit est la thèse adverse, attribuée à « certains ».",
+    "tags": [
+      "thèse",
+      "repérage",
+      "prise de position"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0004",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Repérer les deux thèses en présence dans une controverse.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« Si certains voient dans l'intelligence artificielle une menace pour l'emploi, d'autres y voient une chance de progrès. » Quelles sont les deux thèses en présence ?",
+    "options": [
+      "« certains » et « d'autres »",
+      "« l'emploi » et « le progrès »",
+      "« l'intelligence » et « artificielle »",
+      "« une menace pour l'emploi » et « une chance de progrès »"
+    ],
+    "correct": 3,
+    "explanation": "Les thèses sont les positions opposées prises sur le thème (l'intelligence artificielle) : menace pour l'emploi contre chance de progrès. « Certains » et « d'autres » désignent les partisans de chaque thèse, non les thèses elles-mêmes.",
+    "tags": [
+      "thèses en présence",
+      "controverse",
+      "repérage"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0005",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Reconnaître une expression qui marque explicitement la prise de position de l'énonciateur.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Quelle expression marque explicitement la prise de position de l'énonciateur dans un débat ?",
+    "options": [
+      "« Il a été constaté que »",
+      "« À mon avis »",
+      "« En l'an 2000 »",
+      "« Les chercheurs ont mesuré »"
+    ],
+    "correct": 1,
+    "explanation": "« À mon avis », comme « selon moi » ou « je pense que », engage personnellement l'énonciateur. « Il a été constaté que » et « les chercheurs ont mesuré » présentent les faits de manière impersonnelle ou objective.",
+    "tags": [
+      "prise de position",
+      "énonciateur",
+      "modalisation"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0006",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Interpréter une question rhétorique comme une prise de position implicite.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Peut-on vraiment croire que la publicité informe le consommateur ? » Que révèle cette question rhétorique ?",
+    "options": [
+      "L'auteur hésite et n'a pas encore d'opinion sur la publicité",
+      "L'auteur demande au lecteur une information qu'il ignore",
+      "L'auteur suggère que la publicité n'informe pas vraiment : c'est une prise de position implicite",
+      "L'auteur défend la publicité comme une source d'information fiable"
+    ],
+    "correct": 2,
+    "explanation": "La question rhétorique n'attend pas de réponse : sous forme interrogative, elle affirme le contraire (la publicité n'informe pas vraiment). Elle ne traduit ni une hésitation ni une vraie demande d'information.",
+    "tags": [
+      "question rhétorique",
+      "implicite",
+      "prise de position"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0007",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Distinguer thèse, argument et exemple dans un enchaînement argumentatif.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Le travail des enfants doit être interdit (1). En effet, il les prive d'instruction (2) : dans certains ateliers, des enfants de dix ans travaillent dix heures par jour au lieu d'aller à l'école (3). » Les segments (1), (2) et (3) sont respectivement :",
+    "options": [
+      "thèse – argument – exemple",
+      "argument – thèse – exemple",
+      "exemple – argument – thèse",
+      "thèse – exemple – argument"
+    ],
+    "correct": 0,
+    "explanation": "(1) énonce la position défendue (thèse) ; (2), introduit par « en effet », en donne la raison (argument) ; (3) illustre cette raison par un cas concret (exemple). L'exemple vient toujours à l'appui d'un argument, non l'inverse.",
+    "tags": [
+      "thèse",
+      "argument",
+      "exemple"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0008",
+    "type": "MCQ",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Identifier la thèse adverse lorsqu'elle est seulement évoquée pour être contestée.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Contrairement à ce que soutiennent les partisans du tout-numérique, le livre papier n'est pas condamné. » Quelle est la thèse adverse que l'auteur conteste ?",
+    "options": [
+      "Le livre papier n'est pas condamné.",
+      "Le numérique est condamné.",
+      "Les partisans du numérique ne lisent pas.",
+      "Le livre papier est condamné."
+    ],
+    "correct": 3,
+    "explanation": "« Contrairement à ce que soutiennent… » annonce une thèse opposée à celle de l'auteur : puisque l'auteur affirme que le livre papier n'est pas condamné, la thèse adverse est qu'il est condamné. La première proposition est la thèse de l'auteur, non celle de ses adversaires.",
+    "tags": [
+      "thèse adverse",
+      "implicite",
+      "analyse"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0009",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Distinguer le thème et la thèse d'un texte argumentatif.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Le ____ est le sujet dont on débat ; la ____ est la position que l'on défend sur ce sujet.",
+    "blanks": [
+      "thème",
+      "thèse"
+    ],
+    "bank": [
+      "thème",
+      "thèse",
+      "titre",
+      "exemple",
+      "conclusion",
+      "paragraphe"
+    ],
+    "explanation": "Le thème est la question traitée (par exemple le nucléaire), la thèse est l'opinion soutenue à son propos (le nucléaire est indispensable). Le titre ou la conclusion ne définissent pas la position de l'auteur.",
+    "tags": [
+      "thème",
+      "thèse",
+      "vocabulaire"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0010",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Employer le lexique désignant les acteurs d'une controverse.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Dans une controverse, les ____ d'une thèse la défendent, tandis que ses ____ la combattent.",
+    "blanks": [
+      "partisans",
+      [
+        "adversaires",
+        "détracteurs"
+      ]
+    ],
+    "bank": [
+      "partisans",
+      "adversaires",
+      "détracteurs",
+      "témoins",
+      "arbitres",
+      "lecteurs"
+    ],
+    "explanation": "Les partisans (ou défenseurs) soutiennent une thèse ; ses adversaires ou détracteurs la rejettent. Les témoins, les arbitres et les lecteurs ne prennent pas position dans le débat.",
+    "tags": [
+      "partisans",
+      "adversaires",
+      "lexique de la controverse"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0011",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Choisir le connecteur d'opposition qui introduit la thèse contraire.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Complétez par le connecteur qui oppose la seconde thèse à la première : « Certains pensent que le sport de haut niveau forme le caractère ; ____, d'autres estiment qu'il met en danger la santé des jeunes. »",
+    "blanks": [
+      [
+        "en revanche",
+        "au contraire"
+      ]
+    ],
+    "bank": [
+      "en revanche",
+      "au contraire",
+      "en effet",
+      "par conséquent",
+      "par exemple",
+      "ensuite"
+    ],
+    "explanation": "« En revanche » ou « au contraire » opposent la seconde thèse à la première. « En effet » introduirait une justification, « par conséquent » une conséquence et « par exemple » une illustration.",
+    "tags": [
+      "connecteurs",
+      "opposition",
+      "thèses"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0012",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Connaître le terme qui désigne la thèse contraire dans un débat d'idées.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Dans un débat d'idées, la thèse contraire à celle qui est défendue s'appelle l'____.",
+    "blanks": [
+      "antithèse"
+    ],
+    "bank": [
+      "antithèse",
+      "synthèse",
+      "hypothèse",
+      "parenthèse",
+      "analyse"
+    ],
+    "explanation": "L'antithèse est la thèse opposée ; la synthèse, elle, cherche à dépasser l'opposition entre thèse et antithèse. Une hypothèse est une supposition à vérifier, non une position dans un débat.",
+    "tags": [
+      "antithèse",
+      "vocabulaire",
+      "débat d'idées"
+    ]
+  },
+  {
+    "key": "3AS-FR-U2-L1-0013",
+    "type": "FILL_BLANK",
+    "grade": "3AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Identifier les rôles de la situation d'argumentation.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Dans une situation d'argumentation, celui qui défend la thèse est l'____ et celui qu'il cherche à convaincre est le ____.",
+    "blanks": [
+      "énonciateur",
+      "destinataire"
+    ],
+    "bank": [
+      "énonciateur",
+      "destinataire",
+      "témoin",
+      "narrateur",
+      "personnage",
+      "historien"
+    ],
+    "explanation": "L'énonciateur est celui qui prend la parole pour défendre sa thèse ; le destinataire est celui à qui s'adresse l'argumentation. Le narrateur et le personnage appartiennent au récit, non à la situation d'argumentation.",
+    "tags": [
+      "énonciateur",
+      "destinataire",
+      "situation d'argumentation"
+    ]
+  }
+]

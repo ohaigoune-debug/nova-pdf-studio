@@ -29,6 +29,7 @@ export function navFor(role: UserRole): NavSection[] {
         {
           title: 'التعلّم',
           items: [
+            { href: '/student/play', label: 'MADRASADZ PLAY', iconKey: 'Gamepad2' },
             { href: '/student/lessons', label: t('nav.myLessons'), iconKey: 'BookOpen' },
             { href: '/student/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
             { href: '/student/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
