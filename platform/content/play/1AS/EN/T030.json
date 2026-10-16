@@ -1,0 +1,1428 @@
+[
+  {
+    "key": "1AS-EN-U1-L1-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Use the present simple for daily routines and habits.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "Every morning, Amina ____ the bus to school.",
+    "options": [
+      "takes",
+      "is taking",
+      "take",
+      "taking"
+    ],
+    "correct": 0,
+    "explanation": "'Every morning' signals a habit, so the present simple is used; with the subject 'Amina' (third person singular) the verb needs -s: 'takes'. 'Is taking' describes an action in progress now, not a routine.",
+    "tags": [
+      "grammar",
+      "present simple",
+      "routine"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L1-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Use the present continuous for actions happening at the moment of speaking.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "Listen! The teacher ____ about the exam now.",
+    "options": [
+      "speaks",
+      "speak",
+      "is speaking",
+      "speaking"
+    ],
+    "correct": 2,
+    "explanation": "'Listen!' and 'now' show that the action is happening at this moment, so the present continuous (be + verb-ing) is needed. 'Speaks' would describe a habit, and 'speaking' alone has no auxiliary.",
+    "tags": [
+      "grammar",
+      "present continuous"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L1-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Recognise that stative verbs are not normally used in the continuous form.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "Which sentence with the verb 'know' is grammatically correct?",
+    "options": [
+      "I am knowing the answer.",
+      "I knowing the answer.",
+      "I am know the answer.",
+      "I know the answer."
+    ],
+    "correct": 3,
+    "explanation": "'Know' is a stative verb (a verb of thinking), so it is used in the present simple even when we talk about now. 'I am knowing' is a common mistake because students apply the continuous to every present action.",
+    "tags": [
+      "grammar",
+      "stative verbs"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L1-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Explain why the present simple can refer to a scheduled future event.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "Why is the present simple used in 'The train leaves at 7:00 tomorrow' although it refers to the future?",
+    "options": [
+      "Because 'tomorrow' always requires the present simple",
+      "Because it describes a fixed timetable",
+      "Because the speaker is not sure about the time",
+      "Because the action is happening right now"
+    ],
+    "correct": 1,
+    "explanation": "The present simple is used for timetables and fixed schedules (trains, planes, lessons) even when they are in the future. The word 'tomorrow' itself does not decide the tense: 'I am meeting Ali tomorrow' uses the continuous.",
+    "tags": [
+      "grammar",
+      "present simple",
+      "future"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L1-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Contrast a permanent situation with a temporary one in the same sentence.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "My father ____ in a bank, but today he ____ at home because he is ill.",
+    "blanks": [
+      "works",
+      "is staying"
+    ],
+    "bank": [
+      "works",
+      "is working",
+      "is staying",
+      "stays",
+      "work",
+      "staying"
+    ],
+    "explanation": "The job in a bank is a permanent fact, so the present simple 'works' is used; 'today' describes a temporary situation, so the present continuous 'is staying' is needed. 'Is working' wrongly presents the job as temporary.",
+    "tags": [
+      "grammar",
+      "present simple",
+      "present continuous"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L1-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Use the present simple to express a general or scientific truth.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "Water ____ at 100 °C.",
+    "blanks": [
+      "boils"
+    ],
+    "bank": [
+      "boils",
+      "is boiling",
+      "boil",
+      "boiling",
+      "boiled"
+    ],
+    "explanation": "A scientific fact that is always true takes the present simple; 'water' is a singular subject, so the verb takes -s. 'Is boiling' would describe water boiling at this very moment.",
+    "tags": [
+      "grammar",
+      "present simple",
+      "general truth"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L2-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Choose the correct wh-word to ask about a place.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "____ do you live? — In Bou Saada.",
+    "options": [
+      "Where",
+      "When",
+      "Who",
+      "What"
+    ],
+    "correct": 0,
+    "explanation": "The answer names a place, so the question word must be 'Where'. 'When' asks about time and 'Who' asks about a person.",
+    "tags": [
+      "grammar",
+      "wh-questions"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L2-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Form a wh-question with the auxiliary 'do' in the correct position.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "Which question is correctly formed?",
+    "options": [
+      "Where you go on holiday?",
+      "Where you do go on holiday?",
+      "Where does you go on holiday?",
+      "Where do you go on holiday?"
+    ],
+    "correct": 3,
+    "explanation": "A wh-question in the present simple follows the order: wh-word + do/does + subject + base verb. 'Does' is wrong with 'you', and the auxiliary must come before the subject, not after it.",
+    "tags": [
+      "grammar",
+      "wh-questions",
+      "word order"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L2-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Distinguish object questions from subject questions with 'who'.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "Which question asks about the words in capitals? 'Karim met HIS COUSIN at the station.'",
+    "options": [
+      "Who met Karim at the station?",
+      "Who Karim met at the station?",
+      "Who did Karim meet at the station?",
+      "Who does Karim meet at the station?"
+    ],
+    "correct": 2,
+    "explanation": "'His cousin' is the object of the verb, so the question needs the auxiliary 'did' and the base verb: 'Who did Karim meet?'. 'Who met Karim?' asks about the subject and would be answered by a different person.",
+    "tags": [
+      "grammar",
+      "wh-questions",
+      "object questions"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L2-0004",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Ask about age using the correct question word.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "____ old is your brother? — He is fifteen.",
+    "blanks": [
+      "How"
+    ],
+    "bank": [
+      "How",
+      "What",
+      "Which",
+      "When",
+      "Where"
+    ],
+    "explanation": "Age is asked with 'How old'. 'What old' is a direct translation error and does not exist in English.",
+    "tags": [
+      "grammar",
+      "wh-questions",
+      "how"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L2-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Build a complete wh-question with the right question word and auxiliary.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "____ ____ your sister study? — She studies at the University of M'sila.",
+    "blanks": [
+      "Where",
+      "does"
+    ],
+    "bank": [
+      "Where",
+      "does",
+      "do",
+      "is",
+      "What",
+      "When"
+    ],
+    "explanation": "The answer gives a place, so 'Where' is needed, and the subject 'your sister' is third person singular, so the auxiliary is 'does'. 'Do' is used with I, you, we and they.",
+    "tags": [
+      "grammar",
+      "wh-questions",
+      "auxiliary"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L2-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Use 'whose' to ask about possession.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "____ bag is this? — It's Leila's.",
+    "blanks": [
+      "Whose"
+    ],
+    "bank": [
+      "Whose",
+      "Who's",
+      "Which",
+      "What",
+      "Who"
+    ],
+    "explanation": "The answer shows an owner (Leila's), so the question word is 'Whose'. 'Who's' sounds the same but means 'who is' and cannot be followed by a noun like 'bag'.",
+    "tags": [
+      "grammar",
+      "wh-questions",
+      "possession"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L3-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Identify a sentence that asks for permission.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "Which sentence asks for permission?",
+    "options": [
+      "Can you swim?",
+      "Can I use your phone?",
+      "I can speak English.",
+      "She can't come today."
+    ],
+    "correct": 1,
+    "explanation": "'Can I ...?' with the speaker as subject asks for permission to do something. 'Can you swim?' asks about someone's ability, not permission.",
+    "tags": [
+      "grammar",
+      "modals",
+      "permission"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L3-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Recognise a polite request made with 'could'.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "Which sentence is a polite request to another person?",
+    "options": [
+      "Could you lend me your dictionary, please?",
+      "Lend me your dictionary.",
+      "You could lend your dictionary.",
+      "I could lend you my dictionary."
+    ],
+    "correct": 0,
+    "explanation": "'Could you ... please?' is the polite form for asking someone to do something. 'Lend me your dictionary' is an order, and 'I could lend you' is an offer, not a request.",
+    "tags": [
+      "grammar",
+      "modals",
+      "requests"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L3-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Give permission with the appropriate modal.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "Student: 'May I leave early, sir?' — Which reply gives permission?",
+    "options": [
+      "Yes, you could.",
+      "No, you may.",
+      "Yes, you can't.",
+      "Yes, you may."
+    ],
+    "correct": 3,
+    "explanation": "Permission is granted with 'may' (or 'can'): 'Yes, you may.' 'Could' is used to ask politely but not to give permission, so 'Yes, you could' is a typical student error.",
+    "tags": [
+      "grammar",
+      "modals",
+      "permission"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L3-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Distinguish 'could' for past ability from 'could' in polite requests.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "In which sentence does 'could' express a past ability, NOT a request?",
+    "options": [
+      "Could you help me with this exercise?",
+      "When I was six, I could already read.",
+      "Could I borrow your pen?",
+      "Could you please close the door?"
+    ],
+    "correct": 1,
+    "explanation": "'When I was six, I could already read' describes an ability in the past. The other three sentences use 'could' to ask politely for help, permission or an action.",
+    "tags": [
+      "grammar",
+      "modals",
+      "ability"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L3-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Use 'may' to ask for permission formally.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "____ I come in, please? — Yes, of course.",
+    "blanks": [
+      "May"
+    ],
+    "bank": [
+      "May",
+      "Must",
+      "Should",
+      "Would",
+      "Will"
+    ],
+    "explanation": "'May I ...?' is the formal way to ask for permission. 'Must I' asks about obligation and 'Should I' asks for advice, so they do not fit the reply 'Yes, of course'.",
+    "tags": [
+      "grammar",
+      "modals",
+      "permission"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L3-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Make a polite request for information with 'could'.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "Excuse me, ____ you tell me the way to the post office, please?",
+    "blanks": [
+      "could"
+    ],
+    "bank": [
+      "could",
+      "may",
+      "might",
+      "must",
+      "should"
+    ],
+    "explanation": "A polite request to another person uses 'Could you ...?'. 'May you tell me' is incorrect because 'may' is used for permission with the speaker as subject (May I ...?), not for requests addressed to 'you'.",
+    "tags": [
+      "grammar",
+      "modals",
+      "requests"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L4-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Choose the correct greeting for a formal letter to an unknown recipient.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "Which greeting is appropriate for a formal letter to a person whose name you do not know?",
+    "options": [
+      "Hi there,",
+      "Dear Sir/Madam,",
+      "Hello friend,",
+      "Dear Ahmed,"
+    ],
+    "correct": 1,
+    "explanation": "'Dear Sir/Madam,' is the standard formal greeting when the name is unknown. 'Dear Ahmed,' uses a first name and is informal, and 'Hi there,' belongs in a message to a friend.",
+    "tags": [
+      "writing",
+      "formal letter",
+      "greeting"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L4-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Match the closing of a formal letter to its greeting.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "A formal letter begins with 'Dear Mr Benali,'. Which closing is correct?",
+    "options": [
+      "Yours faithfully,",
+      "Love,",
+      "Bye for now,",
+      "Yours sincerely,"
+    ],
+    "correct": 3,
+    "explanation": "When the letter starts with the recipient's name (Dear Mr Benali), it ends with 'Yours sincerely'. 'Yours faithfully' is used only after 'Dear Sir/Madam', and 'Love' or 'Bye for now' are informal.",
+    "tags": [
+      "writing",
+      "formal letter",
+      "closing"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L4-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Recognise an appropriate opening sentence in a formal letter of application.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "Which sentence is suitable to open a formal letter of application?",
+    "options": [
+      "I am writing to apply for the position advertised in your newspaper.",
+      "Hey, I want that job you posted.",
+      "Give me the job, please!!",
+      "What's up? I saw your ad."
+    ],
+    "correct": 0,
+    "explanation": "'I am writing to apply for ...' is a polite, formal opening that states the purpose of the letter. The other sentences use slang, orders or exclamation marks, which are unacceptable in formal writing.",
+    "tags": [
+      "writing",
+      "formal letter",
+      "register"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L4-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Identify features that break the formal register of an email.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "Which element is NOT appropriate in a formal email to a school director?",
+    "options": [
+      "A clear subject line",
+      "A polite closing such as 'Kind regards,'",
+      "Abbreviations such as 'u' for 'you' and smileys",
+      "A formal greeting such as 'Dear Mr Director,'"
+    ],
+    "correct": 2,
+    "explanation": "Text-message abbreviations and smileys are informal and must be avoided in a formal email. A subject line, a formal greeting and a polite closing are all required features of formal emails.",
+    "tags": [
+      "writing",
+      "email",
+      "register"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L4-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Name the parts of an email.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "In an email, the short line that tells the reader what the message is about is called the ____.",
+    "blanks": [
+      "subject"
+    ],
+    "bank": [
+      "subject",
+      "signature",
+      "greeting",
+      "body",
+      "attachment"
+    ],
+    "explanation": "The subject line summarises the topic of the email. The body is the main text, and the signature is the sender's name at the end.",
+    "tags": [
+      "writing",
+      "email",
+      "layout"
+    ]
+  },
+  {
+    "key": "1AS-EN-U1-L4-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Use a fixed formal expression to end a letter.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "I look ____ to ____ from you soon.",
+    "blanks": [
+      "forward",
+      "hearing"
+    ],
+    "bank": [
+      "forward",
+      "hearing",
+      "hear",
+      "heard",
+      "ahead",
+      "listening"
+    ],
+    "explanation": "The fixed expression is 'I look forward to hearing from you'. After 'look forward to', the verb takes the -ing form because 'to' is a preposition here, so 'to hear' is a common mistake.",
+    "tags": [
+      "writing",
+      "formal letter",
+      "fixed expressions"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L1-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Use the past simple of an irregular verb for a finished action.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "Yesterday, we ____ to the museum.",
+    "options": [
+      "went",
+      "go",
+      "gone",
+      "was going"
+    ],
+    "correct": 0,
+    "explanation": "'Yesterday' marks a finished action, so the past simple of 'go', which is 'went', is used. 'Gone' is the past participle and cannot be used alone as the main verb.",
+    "tags": [
+      "grammar",
+      "past simple",
+      "irregular verbs"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L1-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Use the past continuous for a longer action interrupted by a shorter one.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "While I ____ my homework, the lights went out.",
+    "options": [
+      "did",
+      "was doing",
+      "am doing",
+      "were doing"
+    ],
+    "correct": 1,
+    "explanation": "'While' introduces a longer action in progress that was interrupted, so the past continuous 'was doing' is used with 'I'. 'Were doing' is wrong with the subject 'I', and 'am doing' is present.",
+    "tags": [
+      "grammar",
+      "past continuous",
+      "while"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L1-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Combine the past simple and past continuous correctly with 'when'.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "Which sentence uses the two past tenses correctly?",
+    "options": [
+      "When the phone was ring, she cooked dinner.",
+      "When the phone ringing, she was cooking dinner.",
+      "When the phone rang, she was cooking dinner.",
+      "When the phone rang, she is cooking dinner."
+    ],
+    "correct": 2,
+    "explanation": "The short action (the phone rang) is in the past simple and the action in progress (she was cooking) is in the past continuous. The other options have an incomplete verb form or mix the present with the past.",
+    "tags": [
+      "grammar",
+      "past simple",
+      "past continuous"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L1-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Analyse the difference in meaning between the past simple and the past continuous after 'when'.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "Compare: A) 'When he arrived, we had dinner.' B) 'When he arrived, we were having dinner.' What is the difference?",
+    "options": [
+      "In A dinner was already in progress; in B it started after he arrived.",
+      "Both sentences mean exactly the same thing.",
+      "In B he arrived after dinner had finished.",
+      "In A dinner started after he arrived; in B dinner was already in progress."
+    ],
+    "correct": 3,
+    "explanation": "Two past simple verbs (A) describe one action following another: he arrived, then we had dinner. The past continuous (B) shows that dinner was in progress at the moment he arrived.",
+    "tags": [
+      "grammar",
+      "past simple",
+      "past continuous",
+      "meaning"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L1-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Use the past simple of an irregular verb with a past time expression.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "Last summer, my family ____ a week in Oran.",
+    "blanks": [
+      "spent"
+    ],
+    "bank": [
+      "spent",
+      "spend",
+      "spends",
+      "spending",
+      "was spending"
+    ],
+    "explanation": "'Last summer' refers to a finished period, so the past simple 'spent' is needed. 'Spend' and 'spends' are present forms.",
+    "tags": [
+      "grammar",
+      "past simple"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L1-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Choose the past continuous and the past simple for a background action and a sudden event.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "The children ____ in the garden when it suddenly ____ to rain.",
+    "blanks": [
+      "were playing",
+      "started"
+    ],
+    "bank": [
+      "were playing",
+      "played",
+      "was playing",
+      "started",
+      "was starting",
+      "starts"
+    ],
+    "explanation": "The children's game is the background action in progress, so it takes the past continuous with a plural subject: 'were playing'. The sudden event introduced by 'when' takes the past simple: 'started'.",
+    "tags": [
+      "grammar",
+      "past continuous",
+      "past simple"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L2-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Identify the sequencer that introduces the first event of a story.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "Which word is used to introduce the first event in a story?",
+    "options": [
+      "Finally",
+      "Then",
+      "First",
+      "After that"
+    ],
+    "correct": 2,
+    "explanation": "'First' opens the sequence of events. 'Then' and 'After that' introduce following events, and 'Finally' introduces the last one.",
+    "tags": [
+      "narration",
+      "sequencers"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L2-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Order the events of a short story using the sequencers as clues.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "Put the events in the correct order: a) Finally, the hunter returned home. b) First, the hunter entered the forest. c) Then, he saw a wolf.",
+    "options": [
+      "b – c – a",
+      "a – b – c",
+      "c – b – a",
+      "b – a – c"
+    ],
+    "correct": 0,
+    "explanation": "The sequencers show the order: 'First' (b) comes first, 'Then' (c) follows, and 'Finally' (a) ends the story. Option 'a – b – c' follows the letters, not the sequencers.",
+    "tags": [
+      "narration",
+      "sequencers",
+      "ordering"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L2-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Use 'meanwhile' to link two actions happening at the same time.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "Which sentence uses 'meanwhile' correctly?",
+    "options": [
+      "Meanwhile, the story begins in a small village.",
+      "The king was away. Meanwhile, the queen ruled the country.",
+      "He opened the box; meanwhile, it was empty.",
+      "Meanwhile, the end of the story was happy."
+    ],
+    "correct": 1,
+    "explanation": "'Meanwhile' means 'during the same time' and links two events happening at the same time: while the king was away, the queen ruled. It cannot open a story or introduce a result, as in the other options.",
+    "tags": [
+      "narration",
+      "sequencers",
+      "meanwhile"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L2-0004",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Begin a set of instructions with the right sequencer.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "____, mix the flour and the eggs. Then, add some milk.",
+    "blanks": [
+      "First"
+    ],
+    "bank": [
+      "First",
+      "Finally",
+      "Then",
+      "Next",
+      "After that"
+    ],
+    "explanation": "The sentence describes the opening step, so 'First' is needed; the following step is already introduced by 'Then'. 'Finally' would mark the last step.",
+    "tags": [
+      "narration",
+      "sequencers",
+      "instructions"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L2-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Use 'finally' to introduce the last event after a long wait.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "He waited for three long hours. ____, the bus arrived.",
+    "blanks": [
+      "Finally"
+    ],
+    "bank": [
+      "Finally",
+      "First",
+      "Firstly",
+      "Before",
+      "Meanwhile"
+    ],
+    "explanation": "After a long wait, the last event is introduced by 'Finally'. 'First' or 'Firstly' would wrongly present the arrival as the opening event, and 'Before' cannot stand alone followed by a comma.",
+    "tags": [
+      "narration",
+      "sequencers",
+      "finally"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L2-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Use a chain of sequencers to narrate three successive actions.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "____ she bought the ingredients, ____ she cooked the dish, and finally she served it.",
+    "blanks": [
+      "First",
+      "then"
+    ],
+    "bank": [
+      "First",
+      "then",
+      "Finally",
+      "last",
+      "Before",
+      "After"
+    ],
+    "explanation": "The three actions follow the pattern 'First ..., then ..., and finally ...'. 'Finally' with a capital letter cannot fill the first blank because it marks the last action, which is already given.",
+    "tags": [
+      "narration",
+      "sequencers"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L3-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Use the affirmative form of 'used to' for a past situation.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "My grandfather ____ live in a small village.",
+    "options": [
+      "used to",
+      "use to",
+      "is used to",
+      "uses to"
+    ],
+    "correct": 0,
+    "explanation": "'Used to + base verb' describes a past situation that is no longer true. 'Use to' is only correct after 'did' or 'didn't', and 'is used to' means 'is accustomed to' and is followed by -ing.",
+    "tags": [
+      "grammar",
+      "used to",
+      "past habits"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L3-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Form the negative of 'used to' correctly.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "She ____ coffee, but now she drinks it every day.",
+    "options": [
+      "didn't used to drink",
+      "didn't use to drink",
+      "used not drinking",
+      "didn't use drink"
+    ],
+    "correct": 1,
+    "explanation": "In the negative, the auxiliary 'didn't' carries the past, so the verb returns to its base form: 'didn't use to drink'. 'Didn't used to' is a frequent error because students keep the -d after 'didn't'.",
+    "tags": [
+      "grammar",
+      "used to",
+      "negative"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L3-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Form a yes/no question with 'used to'.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "____ you ____ play football when you were a child?",
+    "options": [
+      "Did / used to",
+      "Do / use to",
+      "Did / use to",
+      "Were / used to"
+    ],
+    "correct": 2,
+    "explanation": "Questions with 'used to' are formed with 'Did + subject + use to + verb'. After 'Did', the form 'used to' is wrong because the past is already shown by the auxiliary.",
+    "tags": [
+      "grammar",
+      "used to",
+      "questions"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L3-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Recognise that 'used to' cannot describe a single past action.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "Which sentence CANNOT be rewritten with 'used to'?",
+    "options": [
+      "I played tennis every Sunday when I was young.",
+      "We lived in Algiers before 2010.",
+      "My mother smoked, but she stopped years ago.",
+      "Yesterday I watched a film at the cinema."
+    ],
+    "correct": 3,
+    "explanation": "'Used to' expresses repeated past habits or long past states, not a single action at a precise moment like 'yesterday'. The other three sentences describe habits or situations that lasted for some time.",
+    "tags": [
+      "grammar",
+      "used to",
+      "past habits"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L3-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Use 'there used to be' for something that no longer exists.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "There ____ to be a cinema here, but it closed down.",
+    "blanks": [
+      "used"
+    ],
+    "bank": [
+      "used",
+      "use",
+      "uses",
+      "using",
+      "was"
+    ],
+    "explanation": "'There used to be' describes something that existed in the past but does not exist now. 'Use' without -d is only correct after 'did' or 'didn't'.",
+    "tags": [
+      "grammar",
+      "used to",
+      "there used to be"
+    ]
+  },
+  {
+    "key": "1AS-EN-U2-L3-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Build the negative form of 'used to' with the correct auxiliary and verb form.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "Kamel ____ ____ to eat vegetables when he was a child, but now he loves them.",
+    "blanks": [
+      "didn't",
+      "use"
+    ],
+    "bank": [
+      "didn't",
+      "use",
+      "used",
+      "doesn't",
+      "wasn't",
+      "uses"
+    ],
+    "explanation": "The negative is 'didn't use to': the past auxiliary 'didn't' is followed by the base form 'use'. 'Doesn't' is present and 'used' after 'didn't' is a common mistake.",
+    "tags": [
+      "grammar",
+      "used to",
+      "negative"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L1-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Transform a present simple active sentence into the passive.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "Choose the passive form of: 'The students clean the classroom every day.'",
+    "options": [
+      "The classroom is cleaned every day.",
+      "The classroom was cleaned every day.",
+      "The classroom cleans every day.",
+      "The classroom is cleaning every day."
+    ],
+    "correct": 0,
+    "explanation": "The present simple passive is 'is/are + past participle', so 'is cleaned' is correct. 'Was cleaned' changes the tense to the past, and 'is cleaning' is active.",
+    "tags": [
+      "grammar",
+      "passive voice",
+      "present simple"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L1-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Use the past simple passive to describe a historical discovery or invention.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "The telephone ____ by Alexander Graham Bell in 1876.",
+    "options": [
+      "is invented",
+      "was invented",
+      "invented",
+      "was invent"
+    ],
+    "correct": 1,
+    "explanation": "The date (1876) and the agent introduced by 'by' require the past simple passive: 'was + past participle'. 'Invented' alone is active and would mean the telephone did the inventing.",
+    "tags": [
+      "grammar",
+      "passive voice",
+      "past simple"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L1-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Identify the agent in a passive sentence.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "Which words are the agent in: 'The experiment was carried out by the researchers.'?",
+    "options": [
+      "the experiment",
+      "was carried out",
+      "the researchers",
+      "by"
+    ],
+    "correct": 2,
+    "explanation": "The agent is the doer of the action, introduced by 'by': 'the researchers'. 'The experiment' is the grammatical subject of the passive sentence, not the doer.",
+    "tags": [
+      "grammar",
+      "passive voice",
+      "agent"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L1-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Recognise that only sentences with an object can be made passive.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "Which sentence CANNOT be put into the passive voice?",
+    "options": [
+      "The scientists observed the stars.",
+      "They published the results.",
+      "The teacher explained the lesson.",
+      "The baby slept all night."
+    ],
+    "correct": 3,
+    "explanation": "Only a verb with an object can be made passive. 'Slept' is intransitive (there is no object to become the subject), whereas 'the stars', 'the results' and 'the lesson' are objects that can become subjects.",
+    "tags": [
+      "grammar",
+      "passive voice",
+      "transitive verbs"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L1-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Form the present simple passive with the correct auxiliary and past participle.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "Rice ____ ____ in many Asian countries.",
+    "blanks": [
+      "is",
+      "grown"
+    ],
+    "bank": [
+      "is",
+      "grown",
+      "grows",
+      "was",
+      "grew",
+      "are"
+    ],
+    "explanation": "'Rice' is an uncountable singular subject, so the present passive is 'is grown' (be + past participle). 'Grows' is active and 'grew' is the past simple, not the participle.",
+    "tags": [
+      "grammar",
+      "passive voice",
+      "present simple"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L1-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Form the past simple passive with a plural subject.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "These photos ____ ____ by my uncle last year.",
+    "blanks": [
+      "were",
+      "taken"
+    ],
+    "bank": [
+      "were",
+      "taken",
+      "took",
+      "was",
+      "take",
+      "are"
+    ],
+    "explanation": "'Last year' needs the past, and 'photos' is plural, so the auxiliary is 'were' followed by the past participle 'taken'. 'Took' is the past simple form and cannot follow 'were' in the passive.",
+    "tags": [
+      "grammar",
+      "passive voice",
+      "past simple"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L2-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L2",
+    "objective": "Use 'because' to introduce a cause.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "I stayed at home ____ it was raining.",
+    "options": [
+      "so",
+      "because",
+      "therefore",
+      "so that"
+    ],
+    "correct": 1,
+    "explanation": "The rain is the cause of staying at home, so 'because' introduces it. 'So' would introduce a result, which does not fit the meaning here.",
+    "tags": [
+      "grammar",
+      "cause and result",
+      "because"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L2-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L2",
+    "objective": "Use 'so' to introduce a result.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "It was raining, ____ I stayed at home.",
+    "options": [
+      "because",
+      "because of",
+      "so",
+      "due to"
+    ],
+    "correct": 2,
+    "explanation": "Staying at home is the result of the rain, so the connector of result 'so' is needed. 'Because' would reverse the logic, and 'because of' or 'due to' must be followed by a noun, not a clause.",
+    "tags": [
+      "grammar",
+      "cause and result",
+      "so"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L2-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L2",
+    "objective": "Distinguish 'because of + noun' from 'because + clause'.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "Which sentence about the closed road is grammatically correct?",
+    "options": [
+      "The road was closed because of the snow.",
+      "The road was closed because the snow.",
+      "The road was closed because of it snowed.",
+      "The road was closed therefore the snow."
+    ],
+    "correct": 0,
+    "explanation": "'Because of' is followed by a noun phrase (the snow), while 'because' needs a full clause with a verb (because it snowed). Mixing the two, as in options 2 and 3, is a frequent student error.",
+    "tags": [
+      "grammar",
+      "cause and result",
+      "because of"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L2-0004",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L2",
+    "objective": "Link an action to its result with 'so'.",
+    "difficulty": "EASY",
+    "language": "en",
+    "question": "Nadia studied hard, ____ she passed her exam.",
+    "blanks": [
+      "so"
+    ],
+    "bank": [
+      "so",
+      "because",
+      "although",
+      "but",
+      "since"
+    ],
+    "explanation": "Passing the exam is the result of studying hard, so 'so' is the right connector. 'Because' and 'since' introduce a cause and would reverse the meaning.",
+    "tags": [
+      "grammar",
+      "cause and result",
+      "so"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L2-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L2",
+    "objective": "Express a cause and then a result with 'because' and 'therefore'.",
+    "difficulty": "HARD",
+    "language": "en",
+    "question": "The experiment failed ____ the temperature was too high. ____, the scientists repeated it the next day.",
+    "blanks": [
+      "because",
+      "Therefore"
+    ],
+    "bank": [
+      "because",
+      "Therefore",
+      "so",
+      "Because",
+      "therefore",
+      "Since"
+    ],
+    "explanation": "The first blank introduces the cause of the failure inside the sentence, so lower-case 'because' fits. The second blank opens a new sentence expressing the result, so 'Therefore' with a capital letter and a comma is needed.",
+    "tags": [
+      "grammar",
+      "cause and result",
+      "therefore"
+    ]
+  },
+  {
+    "key": "1AS-EN-U3-L2-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "EN",
+    "unit": "U3",
+    "lesson": "L2",
+    "objective": "Use 'because of' before a noun phrase at the beginning of a sentence.",
+    "difficulty": "MEDIUM",
+    "language": "en",
+    "question": "____ of the heavy traffic, we arrived late.",
+    "blanks": [
+      "Because"
+    ],
+    "bank": [
+      "Because",
+      "So",
+      "Therefore",
+      "Since",
+      "Although"
+    ],
+    "explanation": "'Because of' + noun phrase (the heavy traffic) gives the cause of arriving late. 'So of' and 'Therefore of' do not exist, and 'Since' cannot be followed by 'of'.",
+    "tags": [
+      "grammar",
+      "cause and result",
+      "because of"
+    ]
+  }
+]
