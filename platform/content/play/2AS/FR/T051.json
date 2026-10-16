@@ -1,0 +1,1458 @@
+[
+ {
+  "key": "2AS-FR-U1-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Identifier le procédé explicatif de la définition.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "« Le séisme est un tremblement du sol provoqué par le déplacement des plaques tectoniques. » Quel procédé explicatif est employé ?",
+  "options": [
+   "La définition",
+   "L'énumération",
+   "La comparaison",
+   "La reformulation"
+  ],
+  "correct": 0,
+  "explanation": "La phrase donne le sens précis du mot « séisme » avec le verbe « est » : c'est une définition. Il n'y a ni liste d'éléments (énumération) ni rapprochement avec autre chose (comparaison).",
+  "tags": [
+   "procédés explicatifs",
+   "définition"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L1-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Reconnaître l'énumération dans un texte explicatif.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "« Les énergies renouvelables comprennent le solaire, l'éolien, l'hydraulique et la géothermie. » Quel procédé explicatif reconnaît-on ?",
+  "options": [
+   "La reformulation",
+   "L'illustration",
+   "L'énumération",
+   "La dénomination"
+  ],
+  "correct": 2,
+  "explanation": "Le texte dresse la liste des éléments qui composent les énergies renouvelables : c'est une énumération. L'illustration donnerait un seul exemple précis introduit par « par exemple ».",
+  "tags": [
+   "procédés explicatifs",
+   "énumération"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L1-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Distinguer la reformulation des autres procédés explicatifs.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Ce métal est ductile, c'est-à-dire qu'il peut être étiré en fils sans se rompre. » Le segment introduit par « c'est-à-dire » correspond à :",
+  "options": [
+   "une comparaison",
+   "une reformulation",
+   "une énumération",
+   "une dénomination"
+  ],
+  "correct": 1,
+  "explanation": "« C'est-à-dire » introduit une autre façon de dire la même chose pour éclairer le mot difficile « ductile » : c'est une reformulation. La dénomination, elle, consisterait à nommer un phénomène (« on appelle… »).",
+  "tags": [
+   "procédés explicatifs",
+   "reformulation"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Repérer la comparaison comme procédé explicatif.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Le cœur fonctionne comme une pompe qui propulse le sang dans tout le corps. » Quel est le procédé explicatif utilisé ?",
+  "options": [
+   "La dénomination",
+   "La définition",
+   "L'énumération",
+   "La comparaison"
+  ],
+  "correct": 3,
+  "explanation": "L'auteur rapproche le cœur d'un objet connu, la pompe, grâce à « comme » : c'est une comparaison qui rend le fonctionnement plus concret. Ce n'est pas une définition, car la phrase ne dit pas ce qu'est le cœur mais ce à quoi il ressemble.",
+  "tags": [
+   "procédés explicatifs",
+   "comparaison"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L1-0005",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Identifier la dénomination à partir de ses marques linguistiques.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Ce passage de l'eau de l'état liquide à l'état gazeux s'appelle l'évaporation. » Quel procédé explicatif est employé ?",
+  "options": [
+   "La dénomination",
+   "L'illustration",
+   "La reformulation",
+   "La comparaison"
+  ],
+  "correct": 0,
+  "explanation": "Le verbe « s'appelle » attribue un nom à un phénomène déjà décrit : c'est une dénomination. La définition ferait l'inverse : elle partirait du mot « évaporation » pour en donner le sens.",
+  "tags": [
+   "procédés explicatifs",
+   "dénomination"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L1-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Distinguer la définition de la dénomination dans un énoncé proche.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Parmi ces phrases, laquelle relève de la DÉFINITION et non de la dénomination ?",
+  "options": [
+   "On nomme photosynthèse ce processus de fabrication du glucose.",
+   "Ce phénomène est désigné par le terme de photosynthèse.",
+   "La photosynthèse est le processus par lequel la plante fabrique du glucose grâce à la lumière.",
+   "Les botanistes appellent cela la photosynthèse."
+  ],
+  "correct": 2,
+  "explanation": "Seule la troisième phrase part du terme « photosynthèse » pour en expliquer le sens avec « est » : c'est une définition. Les trois autres partent du phénomène pour lui donner un nom (« on nomme », « est désigné par », « appellent ») : ce sont des dénominations.",
+  "tags": [
+   "procédés explicatifs",
+   "définition",
+   "dénomination"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L1-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Analyser le rôle de l'illustration dans un texte explicatif.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Certains animaux hibernent. Ainsi, la marmotte dort près de six mois dans son terrier. » Quelle est la fonction de la deuxième phrase ?",
+  "options": [
+   "Elle reformule la première phrase avec d'autres mots.",
+   "Elle illustre l'idée générale par un cas précis.",
+   "Elle définit le mot « hiberner ».",
+   "Elle énumère les animaux qui hibernent."
+  ],
+  "correct": 1,
+  "explanation": "La marmotte est un exemple concret qui illustre l'affirmation générale « certains animaux hibernent » ; l'adverbe « ainsi » introduit cette illustration. Il n'y a pas de liste de plusieurs animaux, donc ce n'est pas une énumération.",
+  "tags": [
+   "procédés explicatifs",
+   "illustration",
+   "exemple"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L1-0008",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Nommer le procédé explicatif qui consiste à donner un exemple.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quand l'auteur d'un texte explicatif écrit « par exemple, le lion chasse en groupe », il utilise le procédé de l'____.",
+  "blanks": [
+   "illustration"
+  ],
+  "bank": [
+   "illustration",
+   "énumération",
+   "analyse",
+   "reformulation",
+   "dénomination"
+  ],
+  "explanation": "Donner un exemple concret pour éclairer une idée générale s'appelle l'illustration. L'énumération, elle, consiste à lister plusieurs éléments.",
+  "tags": [
+   "procédés explicatifs",
+   "illustration"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L1-0009",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Associer les marques linguistiques « c'est-à-dire / autrement dit » à la reformulation.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Les expressions « c'est-à-dire », « autrement dit » et « en d'autres termes » annoncent une ____, tandis que « comme », « tel que » et « semblable à » annoncent une ____.",
+  "blanks": [
+   "reformulation",
+   "comparaison"
+  ],
+  "bank": [
+   "reformulation",
+   "comparaison",
+   "définition",
+   "énumération",
+   "dénomination",
+   "illustration"
+  ],
+  "explanation": "« C'est-à-dire » et « autrement dit » reprennent une idée avec d'autres mots : reformulation. « Comme » et « semblable à » rapprochent deux éléments : comparaison.",
+  "tags": [
+   "procédés explicatifs",
+   "reformulation",
+   "comparaison"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L1-0010",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Reconnaître l'analyse comme décomposition d'un tout en ses parties.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« La cellule se compose d'une membrane, d'un cytoplasme et d'un noyau. » En décomposant un tout en ses parties, l'auteur utilise le procédé de l'____.",
+  "blanks": [
+   "analyse"
+  ],
+  "bank": [
+   "analyse",
+   "analogie",
+   "définition",
+   "reformulation",
+   "dénomination"
+  ],
+  "explanation": "Décomposer un ensemble (la cellule) en ses constituants (membrane, cytoplasme, noyau) relève de l'analyse. L'analogie rapprocherait la cellule d'un autre objet, ce qui n'est pas le cas ici.",
+  "tags": [
+   "procédés explicatifs",
+   "analyse"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L1-0011",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Compléter un énoncé explicatif avec le verbe approprié à la définition.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Pour donner une définition dans un texte objectivé, on emploie souvent le verbe « ____ » suivi d'un terme générique, puis d'une précision ; pour donner un nom à un phénomène, on emploie plutôt « ____ ».",
+  "blanks": [
+   "est",
+   "s'appelle"
+  ],
+  "bank": [
+   "est",
+   "s'appelle",
+   "ressemble",
+   "comprend",
+   "signifie",
+   "paraît"
+  ],
+  "explanation": "La définition suit le schéma « X est un Y qui… » ; la dénomination attribue un nom avec « s'appelle », « se nomme », « est désigné par ». « Ressemble » introduirait une comparaison et « comprend » une énumération.",
+  "tags": [
+   "procédés explicatifs",
+   "définition",
+   "dénomination"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L2-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Reconnaître une phrase à la voix passive.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quelle phrase est à la voix passive ?",
+  "options": [
+   "Les chercheurs analysent les échantillons.",
+   "Les échantillons sont analysés par les chercheurs.",
+   "Les chercheurs ont analysé les échantillons.",
+   "Les chercheurs analyseront les échantillons."
+  ],
+  "correct": 1,
+  "explanation": "À la voix passive, le sujet subit l'action : « les échantillons sont analysés » (auxiliaire être + participe passé + complément d'agent). Dans « ont analysé », « ont » est l'auxiliaire avoir du passé composé, la phrase reste active.",
+  "tags": [
+   "objectivité",
+   "voix passive"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L2-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Identifier le complément d'agent dans une phrase passive.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans « La vaccination a été rendue obligatoire par les autorités », quel est le complément d'agent ?",
+  "options": [
+   "La vaccination",
+   "obligatoire",
+   "par les autorités",
+   "a été rendue"
+  ],
+  "correct": 2,
+  "explanation": "Le complément d'agent désigne celui qui fait l'action dans une phrase passive ; il est introduit par « par » : « par les autorités ». « La vaccination » est le sujet qui subit l'action.",
+  "tags": [
+   "objectivité",
+   "complément d'agent"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L2-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Transformer une phrase active en phrase passive en respectant le temps verbal.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quelle est la transformation passive correcte de « Les ingénieurs ont construit ce barrage » ?",
+  "options": [
+   "Ce barrage est construit par les ingénieurs.",
+   "Ce barrage était construit par les ingénieurs.",
+   "Ce barrage sera construit par les ingénieurs.",
+   "Ce barrage a été construit par les ingénieurs."
+  ],
+  "correct": 3,
+  "explanation": "Le passé composé actif « ont construit » devient « a été construit » au passif : l'auxiliaire être se met au même temps que le verbe actif. « Est construit » correspondrait au présent actif « construisent ».",
+  "tags": [
+   "objectivité",
+   "voix passive",
+   "temps"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L2-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Comprendre pourquoi on supprime le complément d'agent pour objectiver un discours.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Pourquoi, dans un texte explicatif objectivé, écrit-on souvent « Le vaccin a été découvert en 1885 » sans complément d'agent ?",
+  "options": [
+   "Pour mettre en valeur le résultat plutôt que la personne qui agit.",
+   "Parce que la voix passive interdit tout complément d'agent.",
+   "Pour rendre la phrase plus longue et plus précise.",
+   "Parce que le verbe découvrir n'accepte pas de complément d'agent."
+  ],
+  "correct": 0,
+  "explanation": "L'effacement de l'agent concentre l'attention sur le fait lui-même et neutralise l'énonciateur : c'est une marque d'objectivité. Le passif autorise bien un complément d'agent ; on choisit simplement de ne pas le mentionner.",
+  "tags": [
+   "objectivité",
+   "effacement de l'énonciateur"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L2-0005",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Nominaliser une phrase verbale.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quelle est la nominalisation correcte de « Le gouvernement a construit de nouveaux hôpitaux » ?",
+  "options": [
+   "Construire de nouveaux hôpitaux par le gouvernement.",
+   "Le gouvernement construisant de nouveaux hôpitaux.",
+   "Construction de nouveaux hôpitaux par le gouvernement.",
+   "Les hôpitaux neufs construits par le gouvernement."
+  ],
+  "correct": 2,
+  "explanation": "Nominaliser, c'est remplacer le verbe par un nom de la même famille : « a construit » devient « construction », suivi de ses compléments. Un infinitif ou un participe présent n'est pas un nom.",
+  "tags": [
+   "objectivité",
+   "nominalisation"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Repérer la marque de subjectivité à supprimer pour effacer l'énonciateur.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Quelle phrase est la plus objectivée (énonciateur effacé) ?",
+  "options": [
+   "Je pense que la pollution de l'air augmente dans nos villes.",
+   "La pollution de l'air augmente dans les grandes villes.",
+   "À mon avis, la pollution de l'air augmente terriblement dans nos villes.",
+   "Nous constatons tous que la pollution de l'air augmente dans nos villes."
+  ],
+  "correct": 1,
+  "explanation": "La deuxième phrase ne contient ni pronom de la première personne, ni verbe d'opinion, ni adverbe appréciatif, ni possessif « nos » : l'énonciateur est effacé. « Je pense », « à mon avis », « nous constatons » et « nos » marquent la présence de celui qui parle.",
+  "tags": [
+   "objectivité",
+   "effacement de l'énonciateur",
+   "modalisation"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L2-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Distinguer la tournure impersonnelle comme moyen d'objectivation.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Parmi ces reformulations de « Je constate que le niveau de la mer monte », laquelle utilise une tournure impersonnelle ?",
+  "options": [
+   "On constate que le niveau de la mer monte.",
+   "Le niveau de la mer monte, constatons-le.",
+   "Il est constaté que le niveau de la mer monte.",
+   "Nous avons constaté la montée du niveau de la mer."
+  ],
+  "correct": 2,
+  "explanation": "« Il est constaté que… » emploie le pronom impersonnel « il » qui ne désigne personne : c'est une tournure impersonnelle. « On » est un pronom indéfini, mais la tournure n'est pas impersonnelle au sens grammatical, et « nous » révèle encore l'énonciateur.",
+  "tags": [
+   "objectivité",
+   "tournure impersonnelle"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L2-0008",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Former le passif au présent avec l'auxiliaire être.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Les déchets ____ triés chaque jour par les employés de la commune.",
+  "blanks": [
+   "sont"
+  ],
+  "bank": [
+   "sont",
+   "ont",
+   "étaient",
+   "seront",
+   "est",
+   "avaient"
+  ],
+  "explanation": "Le passif se forme avec l'auxiliaire être accordé avec le sujet pluriel « les déchets » au présent : « sont triés ». « Ont » est l'auxiliaire avoir, qui ne sert pas au passif.",
+  "tags": [
+   "objectivité",
+   "voix passive"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L2-0009",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Trouver le nom correspondant à un verbe pour nominaliser.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Les médecins ont découvert un nouveau traitement » devient, après nominalisation : « ____ d'un nouveau traitement par les médecins ».",
+  "blanks": [
+   "Découverte"
+  ],
+  "bank": [
+   "Découverte",
+   "Découvrir",
+   "Découvert",
+   "Découvrant",
+   "Découvreur",
+   "Découverts"
+  ],
+  "explanation": "Le nom dérivé du verbe « découvrir » est « découverte ». « Découvrir » est un infinitif, « découvrant » un participe présent et « découvreur » désigne la personne, non l'action.",
+  "tags": [
+   "objectivité",
+   "nominalisation"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L2-0010",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Accorder le participe passé dans une phrase passive.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "La nouvelle route ____ été ____ par l'entreprise locale.",
+  "blanks": [
+   "a",
+   "construite"
+  ],
+  "bank": [
+   "a",
+   "construite",
+   "est",
+   "construit",
+   "construits",
+   "construites",
+   "ont"
+  ],
+  "explanation": "Au passé composé passif, on écrit « a été » + participe passé accordé avec le sujet féminin singulier « la route » : « construite ». « Construit » sans -e serait une faute d'accord.",
+  "tags": [
+   "objectivité",
+   "voix passive",
+   "accord"
+  ]
+ },
+ {
+  "key": "2AS-FR-U1-L2-0011",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Nominaliser un verbe à l'aide du suffixe approprié.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Après nominalisation, « La population a augmenté rapidement » donne : « ____ rapide de la population » ; et « Les usines polluent les rivières » donne : « ____ des rivières par les usines ».",
+  "blanks": [
+   "Augmentation",
+   "Pollution"
+  ],
+  "bank": [
+   "Augmentation",
+   "Pollution",
+   "Augmentage",
+   "Polluage",
+   "Augmenter",
+   "Polluant"
+  ],
+  "explanation": "« Augmenter » et « polluer » forment leurs noms d'action avec le suffixe -tion : « augmentation », « pollution ». Les formes « augmentage » et « polluage » n'existent pas, et « polluant » est un adjectif ou un nom désignant la substance.",
+  "tags": [
+   "objectivité",
+   "nominalisation",
+   "suffixes"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Définir la thèse dans un texte argumentatif.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans un texte argumentatif, qu'appelle-t-on la thèse ?",
+  "options": [
+   "Un exemple concret tiré de la vie quotidienne",
+   "L'opinion que l'auteur défend",
+   "La conclusion qui résume le texte",
+   "Le mot de liaison entre deux idées"
+  ],
+  "correct": 1,
+  "explanation": "La thèse est le point de vue, l'opinion que l'auteur cherche à faire admettre. Les exemples viennent seulement l'appuyer, et la conclusion la reprend sans être la thèse elle-même.",
+  "tags": [
+   "argumentation",
+   "thèse"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L1-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Distinguer plaidoyer et réquisitoire.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Un texte qui accuse et condamne un comportement en multipliant les critiques est :",
+  "options": [
+   "un plaidoyer",
+   "une explication",
+   "un réquisitoire",
+   "une description"
+  ],
+  "correct": 2,
+  "explanation": "Le réquisitoire est un discours qui attaque et condamne. Le plaidoyer, au contraire, défend une cause ou une personne.",
+  "tags": [
+   "argumentation",
+   "réquisitoire",
+   "plaidoyer"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L1-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Repérer la thèse dans un court passage.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Le sport à l'école est indispensable. D'abord, il améliore la santé des élèves. Ensuite, il leur apprend l'esprit d'équipe. Ainsi, dans mon lycée, les élèves sportifs sont plus solidaires. » Quelle phrase exprime la thèse ?",
+  "options": [
+   "Le sport à l'école est indispensable.",
+   "Il améliore la santé des élèves.",
+   "Il leur apprend l'esprit d'équipe.",
+   "Dans mon lycée, les élèves sportifs sont plus solidaires."
+  ],
+  "correct": 0,
+  "explanation": "La thèse est l'idée générale défendue : « le sport à l'école est indispensable ». Les deux phrases suivantes sont des arguments qui la justifient, et la dernière est un exemple.",
+  "tags": [
+   "argumentation",
+   "thèse"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Distinguer un argument d'un exemple.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Il faut limiter l'usage du téléphone chez les adolescents, car il nuit au sommeil : ma cousine, qui dort avec son téléphone, est épuisée chaque matin. » Quel est le rôle du segment « ma cousine… chaque matin » ?",
+  "options": [
+   "C'est la thèse.",
+   "C'est un argument.",
+   "C'est un exemple.",
+   "C'est une thèse adverse."
+  ],
+  "correct": 2,
+  "explanation": "Le cas précis de la cousine est un exemple qui illustre l'argument « il nuit au sommeil ». L'argument est une raison générale ; l'exemple est un fait particulier.",
+  "tags": [
+   "argumentation",
+   "exemple",
+   "argument"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L1-0005",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Identifier le type d'argument utilisé.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Selon l'Organisation mondiale de la santé, l'activité physique réduit les risques de maladies cardiaques. » Sur quoi s'appuie cet argument ?",
+  "options": [
+   "Sur une expérience personnelle",
+   "Sur un argument d'autorité",
+   "Sur une valeur morale",
+   "Sur un proverbe populaire"
+  ],
+  "correct": 1,
+  "explanation": "L'auteur s'appuie sur une institution reconnue pour donner du poids à son propos : c'est un argument d'autorité. Une expérience personnelle serait introduite par « j'ai vu » ou « j'ai vécu ».",
+  "tags": [
+   "argumentation",
+   "argument d'autorité"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L1-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Reconnaître la thèse réfutée dans un texte argumentatif.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Certains affirment que les jeux vidéo rendent violents. Pourtant, aucune étude sérieuse ne l'a démontré ; au contraire, ils développent les réflexes. » Quelle est la thèse défendue par l'auteur ?",
+  "options": [
+   "Les jeux vidéo rendent violents.",
+   "Les études sur les jeux vidéo sont peu nombreuses.",
+   "Les jeux vidéo ne rendent pas violents et ont des effets positifs.",
+   "Certains ont raison de craindre les jeux vidéo."
+  ],
+  "correct": 2,
+  "explanation": "« Certains affirment… » introduit la thèse adverse, que l'auteur réfute avec « pourtant » et « au contraire ». Sa propre thèse est donc l'inverse : les jeux vidéo ne rendent pas violents et ont même des bienfaits.",
+  "tags": [
+   "argumentation",
+   "thèse réfutée",
+   "concession"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L1-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Analyser l'organisation des arguments dans un plaidoyer.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Dans un plaidoyer bien construit, quel ordre est le plus efficace pour présenter les arguments ?",
+  "options": [
+   "Du plus fort au plus faible, pour frapper dès le début",
+   "Du plus faible au plus fort, pour finir sur l'argument décisif",
+   "Dans l'ordre où ils viennent à l'esprit de l'auteur",
+   "En plaçant tous les exemples avant les arguments"
+  ],
+  "correct": 1,
+  "explanation": "La progression du plus faible au plus fort garde l'argument le plus convaincant pour la fin, ce que le lecteur retient le mieux. Placer les exemples avant les arguments les priverait de l'idée qu'ils illustrent.",
+  "tags": [
+   "argumentation",
+   "plaidoyer",
+   "plan"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L1-0008",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Nommer le discours qui défend une cause.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Le discours argumentatif qui défend une personne, une idée ou une cause s'appelle un ____.",
+  "blanks": [
+   "plaidoyer"
+  ],
+  "bank": [
+   "plaidoyer",
+   "réquisitoire",
+   "récit",
+   "compte rendu",
+   "dialogue"
+  ],
+  "explanation": "Le plaidoyer défend ; le réquisitoire attaque. Le récit et le compte rendu ne sont pas des discours argumentatifs.",
+  "tags": [
+   "argumentation",
+   "plaidoyer"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L1-0009",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Classer les composants d'un texte argumentatif selon leur rôle.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans un texte argumentatif, la ____ est l'idée défendue, les ____ sont les raisons qui la justifient et les exemples les illustrent.",
+  "blanks": [
+   "thèse",
+   "arguments"
+  ],
+  "bank": [
+   "thèse",
+   "arguments",
+   "exemples",
+   "connecteurs",
+   "conclusion",
+   "antithèse"
+  ],
+  "explanation": "La thèse est l'opinion soutenue ; les arguments sont les raisons avancées pour la justifier ; les exemples rendent ces raisons concrètes. L'antithèse est la thèse opposée, non celle qu'on défend.",
+  "tags": [
+   "argumentation",
+   "thèse",
+   "arguments"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L1-0010",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Employer les verbes d'opinion appropriés pour introduire une thèse.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Pour présenter sa thèse, l'auteur d'un plaidoyer écrit souvent : « Je ____ que la lecture est indispensable aux jeunes. »",
+  "blanks": [
+   [
+    "soutiens",
+    "affirme"
+   ]
+  ],
+  "bank": [
+   "soutiens",
+   "affirme",
+   "raconte",
+   "décris",
+   "énumère",
+   "explique"
+  ],
+  "explanation": "« Soutenir » et « affirmer » sont des verbes d'opinion qui introduisent une prise de position. « Raconter », « décrire » et « énumérer » relèvent du récit, de la description ou de l'explication, non de l'argumentation.",
+  "tags": [
+   "argumentation",
+   "verbes d'opinion"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L1-0011",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Identifier le mouvement de concession-réfutation dans un réquisitoire.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Certes, la voiture est pratique, ____ elle pollue nos villes et met en danger les piétons. » Le mot manquant introduit la ____ de la thèse adverse.",
+  "blanks": [
+   [
+    "mais",
+    "cependant"
+   ],
+   "réfutation"
+  ],
+  "bank": [
+   "mais",
+   "cependant",
+   "réfutation",
+   "donc",
+   "parce que",
+   "confirmation",
+   "illustration"
+  ],
+  "explanation": "« Certes… mais/cependant » est le schéma de la concession : on admet un point de la thèse adverse avant de la réfuter. « Donc » marquerait une conséquence et « confirmation » est le contraire de ce que fait l'auteur.",
+  "tags": [
+   "argumentation",
+   "concession",
+   "réfutation"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L2-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Reconnaître un terme mélioratif.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quel mot appartient au lexique mélioratif ?",
+  "options": [
+   "admirable",
+   "médiocre",
+   "grossier",
+   "ridicule"
+  ],
+  "correct": 0,
+  "explanation": "« Admirable » exprime un jugement positif : il est mélioratif. « Médiocre », « grossier » et « ridicule » dévalorisent ce dont on parle : ils sont péjoratifs.",
+  "tags": [
+   "lexique",
+   "mélioratif"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L2-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Reconnaître un terme péjoratif.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quel mot appartient au lexique péjoratif ?",
+  "options": [
+   "généreux",
+   "brillant",
+   "lamentable",
+   "courageux"
+  ],
+  "correct": 2,
+  "explanation": "« Lamentable » porte un jugement négatif, il est péjoratif. Les trois autres adjectifs valorisent la personne ou la chose décrite.",
+  "tags": [
+   "lexique",
+   "péjoratif"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L2-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Identifier le suffixe à valeur péjorative.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans « une chambre verdâtre », quel élément donne à l'adjectif sa valeur péjorative ?",
+  "options": [
+   "Le préfixe « ver- »",
+   "Le radical « vert »",
+   "L'article « une »",
+   "Le suffixe « -âtre »"
+  ],
+  "correct": 3,
+  "explanation": "Le suffixe « -âtre » ajoute une nuance dévalorisante : « verdâtre » désigne un vert sale ou désagréable. Le radical « vert » est neutre.",
+  "tags": [
+   "lexique",
+   "péjoratif",
+   "suffixes"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L2-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Repérer la valeur appréciative du lexique dans une phrase de plaidoyer.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Ce jeune médecin dévoué a sauvé, avec un courage exemplaire, des dizaines de vies. » Quel effet produit le lexique employé ?",
+  "options": [
+   "Il valorise le médecin pour le défendre.",
+   "Il condamne le médecin pour l'accuser.",
+   "Il décrit le médecin de façon neutre.",
+   "Il explique le métier de médecin."
+  ],
+  "correct": 0,
+  "explanation": "« Dévoué », « courage exemplaire » et « sauvé » sont des termes mélioratifs qui dressent un portrait élogieux : la phrase relève du plaidoyer. Un discours neutre éviterait tout adjectif appréciatif.",
+  "tags": [
+   "lexique",
+   "mélioratif",
+   "plaidoyer"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L2-0005",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Choisir le terme péjoratif correspondant à un mot neutre.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quel est l'équivalent péjoratif du mot neutre « maison » ?",
+  "options": [
+   "demeure",
+   "taudis",
+   "habitation",
+   "logement"
+  ],
+  "correct": 1,
+  "explanation": "« Taudis » désigne une maison misérable et délabrée : c'est le terme péjoratif. « Demeure » est plutôt mélioratif, tandis que « habitation » et « logement » sont neutres.",
+  "tags": [
+   "lexique",
+   "péjoratif",
+   "synonymes"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Analyser l'effet du changement de lexique sur le point de vue.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Un journaliste écrit : « Les manifestants ont envahi la place. » Un autre écrit : « Les citoyens se sont rassemblés sur la place. » Que révèle la différence de lexique ?",
+  "options": [
+   "Les deux phrases sont parfaitement objectives.",
+   "Le premier décrit un fait, le second donne une opinion.",
+   "Le premier emploie un lexique péjoratif, le second un lexique plutôt mélioratif.",
+   "Le second emploie un lexique péjoratif, le premier un lexique neutre."
+  ],
+  "correct": 2,
+  "explanation": "« Envahir » suggère une intrusion violente (péjoratif), alors que « citoyens » et « se rassembler » présentent la même scène de façon favorable (mélioratif). Les deux phrases traduisent donc un point de vue, aucune n'est neutre.",
+  "tags": [
+   "lexique",
+   "point de vue",
+   "mélioratif",
+   "péjoratif"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L2-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Distinguer un mot neutre d'un mot connoté dans une série proche.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Parmi ces mots désignant une personne qui parle beaucoup, lequel est le plus NEUTRE ?",
+  "options": [
+   "un moulin à paroles",
+   "un bavard",
+   "un pipelette",
+   "un orateur"
+  ],
+  "correct": 3,
+  "explanation": "« Orateur » désigne simplement quelqu'un qui parle en public, sans jugement marqué. « Bavard », « pipelette » et « moulin à paroles » sont des expressions péjoratives ou familières qui critiquent l'excès de parole.",
+  "tags": [
+   "lexique",
+   "connotation",
+   "neutre"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L2-0008",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Nommer les deux catégories du lexique appréciatif.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Les mots qui valorisent forment le lexique ____, et ceux qui dévalorisent forment le lexique ____.",
+  "blanks": [
+   "mélioratif",
+   "péjoratif"
+  ],
+  "bank": [
+   "mélioratif",
+   "péjoratif",
+   "objectif",
+   "explicatif",
+   "narratif",
+   "subjectif"
+  ],
+  "explanation": "Le lexique mélioratif présente quelque chose sous un jour favorable, le lexique péjoratif sous un jour défavorable. « Objectif » et « subjectif » qualifient l'ensemble du discours, non une catégorie de mots.",
+  "tags": [
+   "lexique",
+   "mélioratif",
+   "péjoratif"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L2-0009",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Former un adjectif péjoratif à l'aide d'un suffixe.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Pour critiquer la couleur terne d'un mur, on parlera d'un mur ____ ; pour se moquer d'un enfant qui pleure souvent, on dira qu'il est ____.",
+  "blanks": [
+   "jaunâtre",
+   "pleurnichard"
+  ],
+  "bank": [
+   "jaunâtre",
+   "pleurnichard",
+   "jaune",
+   "pleureur",
+   "jaunet",
+   "pleurant"
+  ],
+  "explanation": "Les suffixes « -âtre » et « -ard » donnent une valeur péjorative : « jaunâtre », « pleurnichard ». « Jaune » et « pleurant » sont neutres.",
+  "tags": [
+   "lexique",
+   "péjoratif",
+   "suffixes"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L2-0010",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Choisir un adjectif mélioratif pour construire un plaidoyer.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans son plaidoyer pour l'école publique, l'avocat parle d'enseignants ____ et d'un projet ____.",
+  "blanks": [
+   "dévoués",
+   "remarquable"
+  ],
+  "bank": [
+   "dévoués",
+   "remarquable",
+   "paresseux",
+   "médiocre",
+   "ordinaires",
+   "banal"
+  ],
+  "explanation": "Un plaidoyer valorise sa cause avec des termes mélioratifs comme « dévoués » et « remarquable ». « Paresseux » et « médiocre » sont péjoratifs, « ordinaires » et « banal » sont neutres ou légèrement dévalorisants.",
+  "tags": [
+   "lexique",
+   "mélioratif",
+   "plaidoyer"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L2-0011",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Transformer un énoncé neutre en énoncé péjoratif par le choix du verbe.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Énoncé neutre : « Le ministre a parlé pendant deux heures. » Énoncé péjoratif : « Le ministre a ____ pendant deux heures. »",
+  "blanks": [
+   [
+    "bavardé",
+    "radoté"
+   ]
+  ],
+  "bank": [
+   "bavardé",
+   "radoté",
+   "discouru",
+   "exposé",
+   "déclaré",
+   "expliqué"
+  ],
+  "explanation": "« Bavarder » et « radoter » suggèrent des paroles inutiles ou répétitives : ils dévalorisent le ministre. « Exposer », « déclarer » et « expliquer » restent neutres.",
+  "tags": [
+   "lexique",
+   "péjoratif",
+   "réquisitoire"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L3-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Reconnaître un connecteur exprimant la cause.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quel connecteur exprime la cause ?",
+  "options": [
+   "parce que",
+   "donc",
+   "par conséquent",
+   "si bien que"
+  ],
+  "correct": 0,
+  "explanation": "« Parce que » introduit la raison d'un fait : c'est un connecteur de cause. « Donc », « par conséquent » et « si bien que » introduisent une conséquence.",
+  "tags": [
+   "connecteurs",
+   "cause"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L3-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Reconnaître un connecteur exprimant la conséquence.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "« Il a beaucoup révisé, ____ il a réussi son examen. » Quel connecteur de conséquence convient ?",
+  "options": [
+   "puisque",
+   "car",
+   "grâce à",
+   "c'est pourquoi"
+  ],
+  "correct": 3,
+  "explanation": "« C'est pourquoi » annonce le résultat de la révision : la réussite. « Puisque », « car » et « grâce à » expriment au contraire une cause.",
+  "tags": [
+   "connecteurs",
+   "conséquence"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L3-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Distinguer « grâce à » et « à cause de » selon la valeur de la cause.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quelle phrase est correcte du point de vue du sens ?",
+  "options": [
+   "Grâce à la tempête, plusieurs maisons ont été détruites.",
+   "À cause de son travail acharné, elle a obtenu une bourse.",
+   "Grâce à son travail acharné, elle a obtenu une bourse.",
+   "Grâce à la pollution, les poissons disparaissent."
+  ],
+  "correct": 2,
+  "explanation": "« Grâce à » introduit une cause aux effets positifs (le travail mène à une bourse), tandis que « à cause de » introduit une cause aux effets négatifs. Les autres phrases inversent ces valeurs.",
+  "tags": [
+   "connecteurs",
+   "cause",
+   "grâce à",
+   "à cause de"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L3-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Identifier la relation logique exprimée par « tellement… que ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« La route était tellement glissante que plusieurs voitures ont dérapé. » Quelle relation logique est exprimée ?",
+  "options": [
+   "La conséquence",
+   "La cause",
+   "L'opposition",
+   "Le but"
+  ],
+  "correct": 0,
+  "explanation": "« Tellement… que » exprime l'intensité d'une cause et introduit sa conséquence : les voitures ont dérapé. Ce n'est pas le but, car le dérapage n'est pas recherché.",
+  "tags": [
+   "connecteurs",
+   "conséquence",
+   "intensité"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L3-0005",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Reformuler une relation de cause en relation de conséquence.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Les élèves sont fatigués parce que les cours commencent trop tôt. » Quelle phrase exprime la même idée sous forme de conséquence ?",
+  "options": [
+   "Les élèves sont fatigués, puisque les cours commencent trop tôt.",
+   "Les élèves sont fatigués, car les cours commencent trop tôt.",
+   "Comme les élèves sont fatigués, les cours commencent trop tôt.",
+   "Les cours commencent trop tôt, si bien que les élèves sont fatigués."
+  ],
+  "correct": 3,
+  "explanation": "La cause (les cours commencent trop tôt) est placée en premier et la conséquence (la fatigue) est introduite par « si bien que ». La phrase avec « comme » inverse le rapport logique et devient absurde.",
+  "tags": [
+   "connecteurs",
+   "cause",
+   "conséquence",
+   "reformulation"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L3-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Analyser la nuance entre « puisque » et « parce que ».",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Puisque tu connais la réponse, explique-la-nous. » Pourquoi « puisque » convient-il mieux que « parce que » ici ?",
+  "options": [
+   "Parce que « puisque » exprime une conséquence et non une cause.",
+   "Parce que « puisque » introduit une cause déjà connue des interlocuteurs.",
+   "Parce que « puisque » ne s'emploie qu'en début de phrase.",
+   "Parce que « parce que » est réservé aux phrases négatives."
+  ],
+  "correct": 1,
+  "explanation": "« Puisque » présente la cause comme un fait admis par tous (tu connais la réponse), alors que « parce que » apporte une information nouvelle. Les deux connecteurs expriment bien la cause, et aucune règle de position ou de négation ne les distingue.",
+  "tags": [
+   "connecteurs",
+   "cause",
+   "puisque"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L3-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Repérer un connecteur de conséquence qui exprime aussi l'intensité.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Quelle phrase contient un connecteur de conséquence ?",
+  "options": [
+   "Bien que le prix du pain augmente, les gens en achètent toujours.",
+   "Le prix du pain augmente, de sorte que les familles réduisent leurs achats.",
+   "Le prix du pain augmente à cause de la sécheresse.",
+   "Le prix du pain augmente afin que les producteurs survivent."
+  ],
+  "correct": 1,
+  "explanation": "« De sorte que » introduit le résultat de la hausse des prix : la baisse des achats. « Bien que » marque l'opposition, « à cause de » la cause et « afin que » le but.",
+  "tags": [
+   "connecteurs",
+   "conséquence",
+   "de sorte que"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L3-0008",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Compléter une phrase avec un connecteur de cause.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Le match a été annulé ____ du mauvais temps.",
+  "blanks": [
+   "à cause"
+  ],
+  "bank": [
+   "à cause",
+   "donc",
+   "alors",
+   "grâce",
+   "c'est pourquoi",
+   "si bien"
+  ],
+  "explanation": "« À cause du mauvais temps » exprime une cause aux effets négatifs. « Grâce » conviendrait à une cause positive, et « donc » ou « alors » introduisent une conséquence.",
+  "tags": [
+   "connecteurs",
+   "cause"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L3-0009",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Choisir le connecteur de conséquence qui s'accorde avec la construction de la phrase.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "La pollution augmente chaque année ; ____, l'air des villes devient irrespirable.",
+  "blanks": [
+   [
+    "par conséquent",
+    "donc"
+   ]
+  ],
+  "bank": [
+   "par conséquent",
+   "donc",
+   "parce que",
+   "puisque",
+   "comme",
+   "car"
+  ],
+  "explanation": "Après le point-virgule, la seconde proposition exprime la conséquence de la pollution : « par conséquent » ou « donc ». « Parce que », « puisque », « comme » et « car » introduiraient une cause, ce qui inverserait la logique.",
+  "tags": [
+   "connecteurs",
+   "conséquence"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L3-0010",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Employer « comme » en tête de phrase pour exprimer la cause.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "____ les routes étaient verglacées, les écoles sont restées fermées ; les élèves ont ____ pu rester chez eux.",
+  "blanks": [
+   "Comme",
+   "donc"
+  ],
+  "bank": [
+   "Comme",
+   "donc",
+   "Car",
+   "Puisque",
+   "car",
+   "alors que"
+  ],
+  "explanation": "En tête de phrase, la cause s'exprime avec « comme » (ou « puisque ») ; « car » ne peut pas ouvrir une phrase. Dans la seconde proposition, « donc » placé après l'auxiliaire marque la conséquence.",
+  "tags": [
+   "connecteurs",
+   "cause",
+   "conséquence",
+   "comme"
+  ]
+ },
+ {
+  "key": "2AS-FR-U2-L3-0011",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Distinguer la cause de la conséquence dans une phrase à deux connecteurs.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Il a tant insisté ____ ses parents ont fini par accepter, ____ ils redoutaient ce voyage.",
+  "blanks": [
+   "que",
+   "alors qu'"
+  ],
+  "bank": [
+   "que",
+   "alors qu'",
+   "parce que",
+   "donc",
+   "puisque",
+   "afin que"
+  ],
+  "explanation": "« Tant… que » exprime la conséquence de l'insistance : l'acceptation. La dernière proposition marque une opposition (« alors qu'ils redoutaient »), non une cause : « parce que » rendrait la phrase illogique.",
+  "tags": [
+   "connecteurs",
+   "conséquence",
+   "opposition"
+  ]
+ }
+]
