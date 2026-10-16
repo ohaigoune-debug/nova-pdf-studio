@@ -1,0 +1,7355 @@
+{
+ "version": 1,
+ "grades": [
+  {
+   "grade": "4AM",
+   "subjects": [
+    {
+     "subject": "AR",
+     "units": [
+      {
+       "code": "U1",
+       "name": "الحياة العائلية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "النمط الحجاجي: الأطروحة والحجج والنتيجة",
+         "objective": "يحدد بنية النص الحجاجي ومؤشراته في نص مقروء",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الجملة الواقعة خبرا",
+         "objective": "يميز الجملة الواقعة خبرا ويعربها في محل رفع",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الجملة الواقعة نعتا",
+         "objective": "يستخرج الجملة الواقعة نعتا ويحدد محلها الإعرابي",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "حب الوطن",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الجملة الواقعة حالا",
+         "objective": "يميز جملة الحال ورابطها ويعربها في محل نصب",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الجملة الواقعة مضافا إليه",
+         "objective": "يحدد الجملة الواقعة مضافا إليه بعد الظرف ويعربها",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "التشبيه: أركانه وأنواعه",
+         "objective": "يستخرج أركان التشبيه ويميز أنواعه (المرسل، المؤكد، البليغ)",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الأخلاق والمجتمع",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الجملة الواقعة مفعولا به",
+         "objective": "يحدد الجملة الواقعة مفعولا به بعد أفعال القول والظن",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الجملة الواقعة جوابا لشرط جازم",
+         "objective": "يميز جملة جواب الشرط المقترنة بالفاء ويعربها",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الاستعارة التصريحية والمكنية",
+         "objective": "يميز بين الاستعارة التصريحية والمكنية ويحلل قرينتها",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الصحة والرياضة",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الأفعال الخمسة",
+         "objective": "يعرب الأفعال الخمسة رفعا بثبوت النون ونصبا وجزما بحذفها",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "إعراب الفعل المعتل الآخر",
+         "objective": "يعرب الفعل المضارع المعتل الآخر في حالات الرفع والنصب والجزم",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الكناية",
+         "objective": "يميز الكناية عن صفة أو موصوف أو نسبة ويفسر معناها",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "العلم والاكتشافات العلمية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الممنوع من الصرف",
+         "objective": "يحدد أسباب منع الاسم من الصرف ويعربه بالفتحة نيابة عن الكسرة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "النسبة",
+         "objective": "يصوغ الاسم المنسوب ويطبق تغييرات النسبة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المجاز المرسل",
+         "objective": "يميز المجاز المرسل وعلاقاته (الجزئية، الكلية، السببية)",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "الطبيعة",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التصغير",
+         "objective": "يصوغ الاسم المصغر على أوزان فُعَيل وفُعَيعِل وفُعَيعيل",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "اسم الفاعل واسم المفعول والصفة المشبهة",
+         "objective": "يصوغ المشتقات من الثلاثي وغير الثلاثي ويميز بينها",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الطباق والمقابلة",
+         "objective": "يستخرج الطباق والمقابلة ويميز بينهما",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U7",
+       "name": "الإعلام والاتصال",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الأساليب الإنشائية: الاستفهام والتعجب والنداء",
+         "objective": "يميز الأسلوب الخبري من الإنشائي ويحدد أغراضه",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الجناس والسجع",
+         "objective": "يستخرج الجناس التام والناقص والسجع من النص",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الهمزة المتوسطة والمتطرفة",
+         "objective": "يكتب الهمزة المتوسطة والمتطرفة كتابة صحيحة حسب حركتها",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U8",
+       "name": "الفنون",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الألف اللينة في الأسماء والأفعال",
+         "objective": "يميز متى تكتب الألف اللينة قائمة أو مقصورة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "المصدر الصريح والمصدر المؤول",
+         "objective": "يحول المصدر المؤول إلى صريح ويحدد محله الإعرابي",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "كتابة نص حجاجي",
+         "objective": "ينتج نصا حجاجيا متماسكا بأطروحة وحجج وروابط مناسبة",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "MATH",
+     "units": [
+      {
+       "code": "U1",
+       "name": "الأنشطة العددية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الأعداد الطبيعية والناطقة: القاسم المشترك الأكبر والكسر غير القابل للاختزال",
+         "objective": "يحسب PGCD بخوارزمية إقليدس ويختزل كسرا إلى كسر غير قابل للاختزال",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الحساب على القوى والكتابة العلمية",
+         "objective": "يطبق قواعد القوى ذات الأسس الصحيحة ويكتب عددا بالكتابة العلمية",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الحساب الحرفي: النشر والتحليل",
+         "objective": "ينشر ويبسط عبارة جبرية ويحللها بعامل مشترك",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "المتطابقات الشهيرة",
+         "objective": "يستعمل المتطابقات الشهيرة الثلاث في النشر والتحليل",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "الجذور التربيعية",
+         "objective": "يحسب ويبسط عبارات تحوي جذورا تربيعية ويطبق خواص الجداء والحاصل",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "المعادلات والمتراجحات من الدرجة الأولى بمجهول واحد",
+         "objective": "يحل معادلة أو متراجحة من الدرجة الأولى ويمثل حلولها على مستقيم",
+         "verified": true
+        },
+        {
+         "code": "L7",
+         "name": "المعادلة جداء معدوم",
+         "objective": "يحل معادلة من الشكل (ax+b)(cx+d)=0",
+         "verified": false
+        },
+        {
+         "code": "L8",
+         "name": "جملة معادلتين من الدرجة الأولى بمجهولين",
+         "objective": "يحل جملة معادلتين بالتعويض أو الجمع ويوظفها في مسألة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الأنشطة الهندسية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "نظرية طالس وعكسها",
+         "objective": "يحسب أطوالا بنظرية طالس ويبرهن توازي مستقيمين بعكسها",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المثلثات القائمة والنسب المثلثية",
+         "objective": "يحسب جيب وجيب تمام وظل زاوية حادة ويستعملها لحساب طول أو زاوية",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "العلاقات بين النسب المثلثية",
+         "objective": "يستعمل cos²x+sin²x=1 وtan x=sin x/cos x",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "الأشعة والانسحاب",
+         "objective": "يميز شعاعين متساويين ويجمع شعاعين بعلاقة شال",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "المعلم في المستوي: إحداثيات شعاع والمسافة بين نقطتين",
+         "objective": "يحسب إحداثيات شعاع ومنتصف قطعة والمسافة بين نقطتين",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "الهندسة في الفضاء: الهرم ومخروط الدوران",
+         "objective": "يحسب حجم الهرم والمخروط ويتعرف على مقاطعهما",
+         "verified": true
+        },
+        {
+         "code": "L7",
+         "name": "الكرة والمقاطع المستوية",
+         "objective": "يحسب مساحة وحجم الكرة ويحدد مقطعها المستوي",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "تنظيم معطيات ودوال",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التناسبية والنسبة المئوية",
+         "objective": "يتعرف على وضعية تناسبية ويحسب معامل التناسب والنسبة المئوية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الدالة الخطية",
+         "objective": "يحسب صورة عدد بدالة خطية ويعين معاملها",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الدالة التآلفية",
+         "objective": "يعين دالة تآلفية من صورتي عددين ويحسب الصور والسوابق",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "التمثيل البياني للدالة الخطية والتآلفية",
+         "objective": "يمثل بيانيا دالة خطية أو تآلفية ويقرأ معاملها من المستقيم",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "الإحصاء: المتوسط والوسيط والمدى",
+         "objective": "يحسب المتوسط الحسابي والوسيط والمدى لسلسلة إحصائية",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "التكرار والتواتر والتكرار المجمع",
+         "objective": "ينجز جدول التكرارات المجمعة ويحسب التواترات",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "PHYS",
+     "units": [
+      {
+       "code": "U1",
+       "name": "المادة وتحولاتها",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المحاليل الشاردية والشوارد",
+         "objective": "يميز المحلول الشاردي من الجزيئي ويكتب صيغة شاردة بسيطة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الكشف عن الشوارد في محلول مائي",
+         "objective": "يتعرف على شوارد الكلور والكبريتات والنحاس والحديد بكواشفها",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "التفاعل الكيميائي والمعادلة الكيميائية",
+         "objective": "يكتب معادلة تفاعل ويوازنها مع احترام انحفاظ الذرات",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "تفاعل المعادن مع حمض كلور الماء",
+         "objective": "يصف نواتج تفاعل الحديد أو الزنك مع الحمض ويكتب معادلته",
+         "verified": false
+        },
+        {
+         "code": "L5",
+         "name": "الحموضة والقاعدية: قياس pH",
+         "objective": "يصنف محلولا حمضيا أو قاعديا أو معتدلا حسب قيمة pH",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الظواهر الكهربائية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التوتر الكهربائي المتناوب: الدور والتواتر والقيمة العظمى",
+         "objective": "يقرأ الدور والقيمة العظمى من راسم الاهتزاز ويحسب التواتر",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الاستطاعة الكهربائية P=U×I",
+         "objective": "يحسب استطاعة جهاز كهربائي ويقرأ الدلائل الاسمية",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الطاقة الكهربائية E=P×t والعداد الكهربائي",
+         "objective": "يحسب الطاقة المستهلكة بالكيلوواط ساعي وكلفتها",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الأمن الكهربائي: القاطع والمصهر والمأخذ الأرضي",
+         "objective": "يشرح دور أجهزة الحماية من القصر والزيادة في الشدة",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "قانون أوم والناقل الأومي",
+         "objective": "يطبق U=R×I ويحسب مقاومة ناقل أومي",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الظواهر الميكانيكية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "القوة وتمثيلها بشعاع",
+         "objective": "يحدد مميزات القوة الأربع ويمثلها بشعاع بسلم مناسب",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الثقل والكتلة: P=m×g",
+         "objective": "يميز الثقل عن الكتلة ويحسب ثقل جسم على الأرض والقمر",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "مبدأ العطالة",
+         "objective": "يفسر حركة جسم أو سكونه بمبدأ العطالة عند انعدام القوى",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "القوى المتبادلة: الفعل ورد الفعل",
+         "objective": "يمثل التأثيرات المتبادلة بين جسمين بمخطط الأجسام المتأثرة",
+         "verified": false
+        },
+        {
+         "code": "L5",
+         "name": "توازن جسم صلب خاضع لقوتين",
+         "objective": "يستنتج شرطي توازن جسم خاضع لقوتين ويطبقهما",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الظواهر الضوئية والفلكية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "تحليل الضوء الأبيض بالموشور",
+         "objective": "يصف طيف الضوء الأبيض ويفسر تحليله بالموشور",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "تركيب الألوان الضوئية ولون الأجسام",
+         "objective": "يفسر لون جسم مضاء بضوء ملون وفق الامتصاص والنشر",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "النظام الشمسي وحركة الكواكب",
+         "objective": "يرتب كواكب المجموعة الشمسية ويصف حركتها حول الشمس",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الجاذبية الكونية",
+         "objective": "يفسر حركة الكواكب والأقمار بقوة الجاذبية بين الكتل",
+         "verified": false
+        },
+        {
+         "code": "L5",
+         "name": "الفصول وأطوار القمر والكسوف والخسوف",
+         "objective": "يفسر تعاقب الفصول وأطوار القمر وظاهرتي الكسوف والخسوف",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "SVT",
+     "units": [
+      {
+       "code": "U1",
+       "name": "التنسيق العصبي والهرموني",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاتصال العصبي: المستقبلات الحسية والمراكز العصبية",
+         "objective": "يحدد عناصر الاتصال العصبي من المنبه إلى الاستجابة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الرسالة العصبية والمشبك",
+         "objective": "يصف انتقال الرسالة العصبية عبر الليف والمشبك",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الحركة الإرادية والفعل المنعكس",
+         "objective": "يميز الحركة الإرادية من المنعكس ويرسم القوس الانعكاسية",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "التنسيق الهرموني: الغدد الصماء والهرمونات",
+         "objective": "يعرف الهرمون ويحدد الغدد الصماء الرئيسية ودورها",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "تنظيم نسبة السكر في الدم",
+         "objective": "يشرح دور الأنسولين والغلوكاغون في تنظيم الغليسيميا",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "التكاثر الجنسي والوراثة",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "البلوغ والأعضاء التناسلية",
+         "objective": "يصف تغيرات البلوغ ووظائف الأعضاء التناسلية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الأمشاج والإلقاح وتشكل البيضة",
+         "objective": "يصف النطفة والبويضة ومراحل الإلقاح",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الحمل والولادة",
+         "objective": "يصف مراحل الحمل ودور المشيمة",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "الصبغيات والنمط النووي",
+         "objective": "يقرأ نمطا نوويا ويحدد الجنس وعدد الصبغيات",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "انتقال الصفات الوراثية والمورثات",
+         "objective": "يفسر انتقال صفة وراثية من الآباء إلى الأبناء عبر المورثات",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "الانقسام المنصف والتنوع الوراثي",
+         "objective": "يفسر دور الانقسام المنصف والإلقاح في التنوع الوراثي",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الجهاز المناعي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الذات واللاذات وأعضاء الجهاز المناعي",
+         "objective": "يميز الذات من اللاذات ويحدد أعضاء المناعة وخلاياها",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الاستجابة المناعية اللانوعية: الالتهاب والبلعمة",
+         "objective": "يصف مراحل البلعمة وأعراض الاستجابة الالتهابية",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الاستجابة المناعية النوعية الخلطية: الأجسام المضادة",
+         "objective": "يشرح دور اللمفاويات B والأجسام المضادة ضد المستضد",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الاستجابة المناعية النوعية الخلوية",
+         "objective": "يشرح دور اللمفاويات T في تخريب الخلايا المصابة",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "التلقيح والعلاج بالمصل",
+         "objective": "يميز بين التلقيح الوقائي والمصل العلاجي ومدة فعاليتهما",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "اختلالات المناعة: السيدا والحساسية",
+         "objective": "يفسر فقدان المناعة في السيدا وآلية الحساسية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الجيولوجيا: الظواهر الجيولوجية الباطنية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الزلازل: أسبابها وقياسها",
+         "objective": "يحدد البؤرة والمركز السطحي ويفسر الزلزال بالصدع",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "البراكين وأنواعها",
+         "objective": "يصف بنية البركان ويميز النشاط الثوراني من الانفجاري",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "البنية الداخلية للكرة الأرضية",
+         "objective": "يحدد طبقات الأرض (القشرة، الرداء، النواة) والغلاف الصخري",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "تكتونية الصفائح",
+         "objective": "يفسر حركة الصفائح وربطها بتوزيع الزلازل والبراكين",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "تشكل السلاسل الجبلية والمحيطات",
+         "objective": "يربط تقارب الصفائح وتباعدها بتشكل الجبال والظهرات",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "FR",
+     "units": [
+      {
+       "code": "U1",
+       "name": "Projet 1 : Argumenter dans le récit et l'explication",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Le texte argumentatif : thèse, arguments, exemples",
+         "objective": "Identifier la thèse, les arguments et les exemples d'un texte",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Les connecteurs logiques et d'énumération",
+         "objective": "Employer les connecteurs pour organiser une argumentation",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "Les verbes d'opinion et le lexique de l'argumentation",
+         "objective": "Utiliser les verbes et expressions d'opinion pour défendre une thèse",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "L'expression de la cause",
+         "objective": "Exprimer la cause avec parce que, car, grâce à, à cause de",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "L'expression de la conséquence",
+         "objective": "Exprimer la conséquence avec donc, si bien que, par conséquent",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "L'accord du participe passé",
+         "objective": "Accorder le participe passé employé avec être et avoir",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "Projet 2 : Argumenter pour convaincre ou persuader",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Convaincre et persuader : les procédés",
+         "objective": "Distinguer les procédés pour convaincre (raison) et persuader (sentiments)",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "L'expression de l'opposition et de la concession",
+         "objective": "Employer mais, pourtant, bien que, malgré pour opposer ou concéder",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "L'expression de la condition et de l'hypothèse",
+         "objective": "Construire si + imparfait / conditionnel présent",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "Le subjonctif présent après les verbes d'obligation et de souhait",
+         "objective": "Conjuguer au subjonctif présent après il faut que, je souhaite que",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "Les modalisateurs",
+         "objective": "Repérer et employer les modalisateurs de certitude et de doute",
+         "verified": false
+        },
+        {
+         "code": "L6",
+         "name": "L'impératif et l'injonction",
+         "objective": "Formuler des consignes et conseils à l'impératif",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "Projet 3 : Argumenter en réfutant et dans le dialogue",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "La réfutation : contre-thèse et contre-arguments",
+         "objective": "Réfuter une thèse en formulant des contre-arguments",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Le discours direct et le discours indirect",
+         "objective": "Transformer un discours direct en discours indirect",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "La phrase complexe : juxtaposition, coordination, subordination",
+         "objective": "Analyser et construire des phrases complexes",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "L'expression du but",
+         "objective": "Exprimer le but avec pour, afin de, pour que + subjonctif",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "Les homophones grammaticaux",
+         "objective": "Distinguer à/a, ou/où, ces/ses, quel/qu'elle",
+         "verified": false
+        },
+        {
+         "code": "L6",
+         "name": "La nominalisation",
+         "objective": "Transformer une phrase verbale en phrase nominale (titres)",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "EN",
+     "units": [
+      {
+       "code": "U1",
+       "name": "Sequence 1: Universal Landmarks",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Describing landmarks: adjectives and adjective order",
+         "objective": "Describe a monument using adjectives in the correct order",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "The passive voice (present and past simple)",
+         "objective": "Form passive sentences to say when and by whom a landmark was built",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "Comparatives and superlatives",
+         "objective": "Compare landmarks using -er/-est, more/most and irregular forms",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "Relative pronouns: who, which, where",
+         "objective": "Join sentences with who, which and where",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "Expressing dimensions and quantities",
+         "objective": "Ask and answer about height, length and width (How high/long is...)",
+         "verified": false
+        },
+        {
+         "code": "L6",
+         "name": "Prepositions of place and location",
+         "objective": "Locate places with in, on, near, between, next to",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "Sequence 2: Outstanding Figures in History, Literature and Arts",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "The past simple: regular and irregular verbs",
+         "objective": "Narrate a biography using past simple forms",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Time markers and sequencers in a biography",
+         "objective": "Use in, during, ago, then, later to order life events",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "The present perfect vs the past simple",
+         "objective": "Choose present perfect or past simple with since/for/ago",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "Used to for past habits",
+         "objective": "Describe past habits and states with used to",
+         "verified": false
+        },
+        {
+         "code": "L5",
+         "name": "Expressing cause and result",
+         "objective": "Link ideas with because, because of, so, thanks to",
+         "verified": false
+        },
+        {
+         "code": "L6",
+         "name": "Reported speech: statements",
+         "objective": "Report what a famous person said with tense backshift",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "Sequence 3: Dreams, Hopes and Ambitions",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "The future with will and going to",
+         "objective": "Express plans and predictions with will and going to",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Conditional type 1",
+         "objective": "Form if + present simple, will + verb sentences",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "Conditional type 2",
+         "objective": "Express unreal situations with if + past simple, would + verb",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "Modals: should, must, may, might",
+         "objective": "Give advice and express obligation and possibility",
+         "verified": false
+        },
+        {
+         "code": "L5",
+         "name": "Expressing wishes and ambitions",
+         "objective": "Use would like to, hope to, dream of + -ing",
+         "verified": false
+        },
+        {
+         "code": "L6",
+         "name": "The gerund after verbs of preference",
+         "objective": "Use -ing forms after like, enjoy, love, hate",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "HIST",
+     "units": [
+      {
+       "code": "U1",
+       "name": "الوثائق التاريخية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "بيان أول نوفمبر 1954",
+         "objective": "يحلل بيان أول نوفمبر ويستخرج أهدافه ووسائله",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "وثيقة مؤتمر الصومام 1956",
+         "objective": "يستخرج من الوثيقة مبادئ المؤتمر وقراراته التنظيمية",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "اتفاقيات إيفيان 1962",
+         "objective": "يحدد أهم بنود اتفاقيات إيفيان ونتائجها",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "التاريخ العام: العالم بعد الحرب العالمية الثانية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الحرب العالمية الثانية: أسبابها ونتائجها",
+         "objective": "يحدد أسباب الحرب العالمية الثانية ونتائجها السياسية والاقتصادية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "هيئة الأمم المتحدة",
+         "objective": "يحدد ظروف تأسيس الأمم المتحدة وأجهزتها الرئيسية",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الحرب الباردة والكتلتان الشرقية والغربية",
+         "objective": "يفسر مظاهر الصراع بين المعسكرين وأزماته الكبرى",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "حركات التحرر في آسيا وإفريقيا وعدم الانحياز",
+         "objective": "يحدد عوامل انتشار حركات التحرر ومبادئ عدم الانحياز",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "القضية الفلسطينية",
+         "objective": "يتتبع تطور القضية الفلسطينية من وعد بلفور إلى الانتفاضة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "التاريخ الوطني: الثورة التحريرية الكبرى 1954-1962",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "أزمة حركة انتصار الحريات الديمقراطية واللجنة الثورية للوحدة والعمل",
+         "objective": "يفسر أسباب الأزمة ودور اللجنة الثورية في التحضير للثورة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "اندلاع الثورة التحريرية وتنظيمها",
+         "objective": "يحدد ظروف اندلاع الثورة وتقسيمها إلى مناطق",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "مؤتمر الصومام: قراراته ونتائجه",
+         "objective": "يذكر قرارات المؤتمر السياسية والعسكرية وتقسيم الولايات",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "السياسة الاستعمارية لمواجهة الثورة: المخططات والمحتشدات والخطوط المكهربة",
+         "objective": "يحدد مشروع سوستال ومخطط شال وخطي موريس وشال",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "الحكومة المؤقتة للجمهورية الجزائرية",
+         "objective": "يحدد ظروف تأسيس الحكومة المؤقتة ودورها الدبلوماسي",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "مظاهرات 11 ديسمبر 1960 و17 أكتوبر 1961",
+         "objective": "يفسر دلالة المظاهرات وأثرها في تدويل القضية",
+         "verified": true
+        },
+        {
+         "code": "L7",
+         "name": "المفاوضات واسترجاع السيادة الوطنية",
+         "objective": "يتتبع مراحل المفاوضات حتى استفتاء 1 جويلية 1962",
+         "verified": true
+        },
+        {
+         "code": "L8",
+         "name": "الجزائر بعد الاستقلال: بناء الدولة",
+         "objective": "يذكر خطوات بناء الدولة الجزائرية بعد 1962",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "GEO",
+     "units": [
+      {
+       "code": "U1",
+       "name": "الموقع والخصائص الطبيعية للجزائر",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الموقع الجغرافي والفلكي للجزائر وأهميته",
+         "objective": "يحدد موقع الجزائر الفلكي والجغرافي ويبرز أهميته",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التضاريس: الإقليم التلي والهضاب العليا والصحراء",
+         "objective": "يميز الأقاليم التضاريسية الثلاثة وخصائص كل إقليم",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المناخ والأقاليم المناخية",
+         "objective": "يحدد العوامل المؤثرة في المناخ ويميز الأقاليم المناخية",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الشبكة المائية والغطاء النباتي",
+         "objective": "يصف الموارد المائية السطحية والجوفية والغطاء النباتي",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "السكان في الجزائر",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "النمو الديموغرافي وتركيب السكان",
+         "objective": "يفسر تطور النمو السكاني ويقرأ الهرم السكاني",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "توزيع السكان وعوامله",
+         "objective": "يفسر التوزيع غير المتوازن للسكان بين الشمال والجنوب",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الهجرة الداخلية والنزوح الريفي",
+         "objective": "يحدد أسباب النزوح الريفي ونتائجه على المدن",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "التنمية البشرية: الصحة والتعليم",
+         "objective": "يقرأ مؤشرات التنمية البشرية في الجزائر",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "النشاط الاقتصادي في الجزائر",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الفلاحة والثروة الحيوانية",
+         "objective": "يحدد المناطق الفلاحية وأهم المنتجات ومشاكل الفلاحة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الصناعة والمحروقات",
+         "objective": "يحدد مناطق إنتاج النفط والغاز وأهم الصناعات",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "النقل والمواصلات",
+         "objective": "يصف شبكة النقل البري والبحري والجوي ودورها في التنمية",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "التجارة الخارجية",
+         "objective": "يحلل بنية الصادرات والواردات والميزان التجاري",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "المخاطر الطبيعية والمشكلات البيئية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الزلازل والفيضانات في الجزائر",
+         "objective": "يحدد مناطق الخطر الزلزالي وإجراءات الوقاية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "التصحر والانجراف",
+         "objective": "يفسر أسباب التصحر ودور السد الأخضر",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "التلوث وحماية البيئة والتنمية المستدامة",
+         "objective": "يقترح حلولا لمشكلات التلوث في إطار التنمية المستدامة",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "ISL",
+     "units": [
+      {
+       "code": "U1",
+       "name": "القرآن الكريم والحديث النبوي الشريف",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التعارف والتقارب بين الناس (سورة الحجرات)",
+         "objective": "يستظهر الآية ويستنتج أن التقوى معيار التفاضل بين الناس",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "محاسبة النفس (سورة الحشر)",
+         "objective": "يستخرج من الآيات معنى محاسبة النفس وثمراتها",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الصبر على البلاء",
+         "objective": "يستدل بالنصوص على فضل الصبر وأنواعه",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "حقوق المسلم على المسلم (حديث)",
+         "objective": "يعدد حقوق المسلم على أخيه الواردة في الحديث",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "العقيدة الإسلامية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الإيمان بالقضاء والقدر",
+         "objective": "يعرف القضاء والقدر ويبين أثر الإيمان بهما في السلوك",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الإيمان باليوم الآخر: البعث والجزاء",
+         "objective": "يذكر مراحل اليوم الآخر وأثر الإيمان به",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "من مظاهر عظمة الله في الكون",
+         "objective": "يستنتج دلائل قدرة الله من آيات الكون",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "الإيمان والعلم",
+         "objective": "يبين علاقة الإيمان بالعلم ومكانة العلماء في الإسلام",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "العبادات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الحج: أركانه وواجباته",
+         "objective": "يعدد أركان الحج وواجباته ويرتب مناسكه",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "العمرة وأحكامها",
+         "objective": "يميز العمرة عن الحج ويذكر أركانها",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الزكاة: أحكامها ومصارفها",
+         "objective": "يحدد شروط وجوب الزكاة ومصارفها الثمانية",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "صلاة الجنازة وصلاة العيدين",
+         "objective": "يصف كيفية صلاة الجنازة والعيدين وحكمهما",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الأخلاق والآداب الإسلامية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الكسب الحلال وتحريم الربا",
+         "objective": "يميز الكسب الحلال من الحرام ويبين خطر الربا",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الإسراف والتبذير",
+         "objective": "يميز الإسراف عن التبذير ويستدل على تحريمهما",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "التسامح والعفو",
+         "objective": "يستدل على فضل التسامح ويذكر نماذج من السيرة",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "من حقوق الإنسان في الإسلام: المرأة والجار",
+         "objective": "يعدد حقوق المرأة والجار التي كفلها الإسلام",
+         "verified": false
+        },
+        {
+         "code": "L5",
+         "name": "الصلح بين الناس",
+         "objective": "يبين فضل الإصلاح بين المتخاصمين وآدابه",
+         "verified": false
+        },
+        {
+         "code": "L6",
+         "name": "آفات اللسان: الغيبة والنميمة",
+         "objective": "يعرف الغيبة والنميمة ويبين خطرهما على المجتمع",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "CIV",
+     "units": [
+      {
+       "code": "U1",
+       "name": "الدولة الجزائرية ومؤسساتها",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الدستور الجزائري",
+         "objective": "يعرف الدستور ويحدد محتواه وكيفية تعديله",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "السلطة التشريعية: البرلمان",
+         "objective": "يحدد غرفتي البرلمان ومهامهما في سن القوانين",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "السلطة التنفيذية: رئيس الجمهورية والحكومة",
+         "objective": "يحدد صلاحيات رئيس الجمهورية والحكومة",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "السلطة القضائية",
+         "objective": "يبين استقلالية القضاء ودرجات التقاضي",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "المواطنة والمشاركة السياسية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الانتخابات والمشاركة السياسية",
+         "objective": "يحدد أنواع الانتخابات وشروط الناخب والمترشح",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الأحزاب السياسية والجمعيات",
+         "objective": "يميز دور الأحزاب والجمعيات في الحياة الديمقراطية",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الإعلام وحرية التعبير",
+         "objective": "يبين دور الإعلام وحدود حرية التعبير وضوابطها",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "حقوق المواطن وواجباته",
+         "objective": "يربط بين الحقوق والواجبات في ممارسة المواطنة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "حقوق الإنسان والحريات",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الإعلان العالمي لحقوق الإنسان",
+         "objective": "يذكر أهم الحقوق الواردة في الإعلان العالمي 1948",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "العدالة والمساواة أمام القانون",
+         "objective": "يبين مبدأ المساواة أمام القانون وضمانات المحاكمة العادلة",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "التسامح والحوار ونبذ العنف",
+         "objective": "يقترح سلوكيات الحوار والتسامح لحل النزاعات",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الجزائر والمنظمات الدولية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "هيئة الأمم المتحدة ووكالاتها",
+         "objective": "يحدد أهداف الأمم المتحدة وأهم وكالاتها المتخصصة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "جامعة الدول العربية والاتحاد الإفريقي",
+         "objective": "يحدد أهداف المنظمتين وعضوية الجزائر فيهما",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "السلم والأمن الدوليان",
+         "objective": "يبين دور الجزائر في حفظ السلم وحل النزاعات",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "التنمية المستدامة وحماية البيئة",
+         "objective": "يعرف التنمية المستدامة ويقترح سلوكيات لحماية البيئة",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "grade": "1AS",
+   "subjects": [
+    {
+     "subject": "AR",
+     "units": [
+      {
+       "code": "U1",
+       "name": "الأدب في العصر الجاهلي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المعلقات وأصحابها",
+         "objective": "يذكر أصحاب المعلقات ويحدد خصائصها الفنية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "شعر الحكمة (زهير بن أبي سلمى)",
+         "objective": "يستخرج مظاهر الحكمة من نص جاهلي ويشرحها",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الوصف في الشعر الجاهلي",
+         "objective": "يميز أساليب الوصف الحسي للناقة والفرس والطبيعة",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الفخر والحماسة (عنترة، عمرو بن كلثوم)",
+         "objective": "يحدد قيم الفروسية والفخر القبلي في النص",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "شعر الصعاليك (الشنفرى، عروة بن الورد)",
+         "objective": "يستنتج القيم الاجتماعية لأدب الصعاليك",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "النثر الجاهلي: الخطابة والوصايا والأمثال",
+         "objective": "يميز فنون النثر الجاهلي وخصائص كل فن",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الأدب في عصر صدر الإسلام",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "أثر القرآن الكريم في اللغة والأدب",
+         "objective": "يبين أثر الإسلام في موضوعات الشعر وأساليبه",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "شعر الدعوة الإسلامية (حسان بن ثابت، كعب بن زهير)",
+         "objective": "يحلل مظاهر الدعوة والمدح النبوي في النص",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الرثاء (الخنساء)",
+         "objective": "يحدد خصائص شعر الرثاء وعاطفته",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "الخطابة في صدر الإسلام (خطبة الوداع، خطب الخلفاء)",
+         "objective": "يستخرج خصائص الخطبة الإسلامية وبناءها",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الأدب في العصر الأموي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "النقائض (جرير، الفرزدق، الأخطل)",
+         "objective": "يعرف النقائض ويحدد أسباب ظهورها وخصائصها",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الشعر السياسي (الكميت، شعراء الخوارج)",
+         "objective": "يربط بين الأحزاب السياسية وشعرها",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الغزل العذري (جميل بثينة، قيس بن الملوح)",
+         "objective": "يميز خصائص الغزل العذري عن الغزل الصريح",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الغزل الصريح (عمر بن أبي ربيعة)",
+         "objective": "يحدد سمات الغزل الحضري وبيئته",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "الخطابة والرسائل في العصر الأموي",
+         "objective": "يحلل خطبة أموية ويحدد أساليب التأثير فيها",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "قواعد اللغة (النحو والصرف)",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الجمل التي لها محل من الإعراب (الواقعة خبرا، نعتا، حالا، مفعولا به، مضافا إليه)",
+         "objective": "يعين محل الجملة من الإعراب في سياقها",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الجمل التي لا محل لها من الإعراب",
+         "objective": "يميز الجمل الابتدائية والاعتراضية وصلة الموصول",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المفعول المطلق والمفعول لأجله",
+         "objective": "يعرب المفعول المطلق والمفعول لأجله ويبين دلالتهما",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "المفعول فيه والمفعول معه",
+         "objective": "يميز ظرف الزمان والمكان والمفعول معه",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "الحال والتمييز",
+         "objective": "يميز الحال المفردة والجملة والتمييز الملفوظ والملحوظ",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "الاستثناء",
+         "objective": "يحدد أركان الاستثناء وحكم إعراب المستثنى",
+         "verified": false
+        },
+        {
+         "code": "L7",
+         "name": "التوابع: النعت والعطف والتوكيد والبدل",
+         "objective": "يعرب التوابع ويطابقها مع متبوعها",
+         "verified": false
+        },
+        {
+         "code": "L8",
+         "name": "المشتقات: اسم الفاعل واسم المفعول وصيغ المبالغة والصفة المشبهة",
+         "objective": "يصوغ المشتقات من الفعل ويميز بينها",
+         "verified": true
+        },
+        {
+         "code": "L9",
+         "name": "اسم التفضيل واسما الزمان والمكان واسم الآلة",
+         "objective": "يصوغ اسم التفضيل واسمي الزمان والمكان قياسا",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "البلاغة",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التشبيه: أركانه وأنواعه",
+         "objective": "يحدد أركان التشبيه ويميز أنواعه",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الاستعارة التصريحية والمكنية",
+         "objective": "يميز نوعي الاستعارة ويشرح سر بلاغتهما",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الكناية والمجاز المرسل",
+         "objective": "يستخرج الكناية والمجاز المرسل ويبين علاقته",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "المحسنات البديعية: الطباق والمقابلة والجناس والسجع",
+         "objective": "يميز المحسنات اللفظية والمعنوية في النص",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "العروض",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الكتابة العروضية والتقطيع والتفعيلات",
+         "objective": "يكتب البيت كتابة عروضية ويقطعه إلى تفعيلات",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "البحور: الطويل والبسيط والكامل والوافر",
+         "objective": "يحدد بحر البيت من مفتاحه وتفعيلاته",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "MATH",
+     "streams": [
+      "TC_SCI"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الأعداد والحساب",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مجموعات الأعداد ℕ، ℤ، 𝔻، ℚ، ℝ",
+         "objective": "يصنف عددا في أصغر مجموعة أعداد تحويه",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "القسمة الإقليدية والقواسم والمضاعفات والأعداد الأولية",
+         "objective": "يحلل عددا إلى عوامل أولية ويحسب القاسم المشترك الأكبر",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الحساب على الجذور والقوى",
+         "objective": "يبسط عبارة تتضمن جذورا تربيعية وقوى",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الحساب الحرفي: النشر والتحليل والمتطابقات الشهيرة",
+         "objective": "ينشر ويحلل عبارة جبرية باستعمال المتطابقات الشهيرة",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "الترتيب في ℝ والمجالات",
+         "objective": "يقارن عددين حقيقيين ويمثل مجالا على مستقيم مدرج",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "القيمة المطلقة",
+         "objective": "يحل معادلة بسيطة بالقيمة المطلقة ويفسرها كمسافة",
+         "verified": true
+        },
+        {
+         "code": "L7",
+         "name": "التقريبات والحصر والترميز العلمي",
+         "objective": "يعطي قيمة مقربة وحصرا لعدد حقيقي بدقة معينة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الدوال العددية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مفهوم الدالة ومجموعة التعريف والتمثيل البياني",
+         "objective": "يحدد مجموعة التعريف ويقرأ صورة عدد بيانيا",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "اتجاه تغير دالة وجدول التغيرات والقيم الحدية",
+         "objective": "ينشئ جدول تغيرات دالة من تمثيلها البياني",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الدوال المرجعية: x²، 1/x، |x|، الجذر التربيعي",
+         "objective": "يرسم منحنيات الدوال المرجعية ويذكر خواصها",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "شفعية دالة (الزوجية والفردية)",
+         "objective": "يبرهن شفعية دالة ويفسر تناظر منحناها",
+         "verified": false
+        },
+        {
+         "code": "L5",
+         "name": "الحل البياني للمعادلات والمتراجحات f(x)=k و f(x)≤g(x)",
+         "objective": "يحل بيانيا معادلة أو متراجحة بمقارنة منحنيين",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "المعادلات والمتراجحات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المعادلات من الدرجة الأولى بمجهول واحد",
+         "objective": "يحل معادلة من الدرجة الأولى ويترجم مسألة إلى معادلة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المتراجحات من الدرجة الأولى وجداول الإشارة",
+         "objective": "يدرس إشارة ثنائي حد ويحل متراجحة جداء",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "جملة معادلتين خطيتين بمجهولين",
+         "objective": "يحل جملة معادلتين بالتعويض أو الجمع",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الهندسة في المستوي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الأشعة: المجموع والجداء بعدد حقيقي وعلاقة شال",
+         "objective": "ينشئ مجموع شعاعين ويستعمل علاقة شال",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الأشعة المرتبطة خطيا والتوازي والاستقامية",
+         "objective": "يبرهن استقامية ثلاث نقط بالأشعة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المعالم: إحداثيات نقطة وشعاع والمسافة بين نقطتين",
+         "objective": "يحسب إحداثيات شعاع ومنتصف قطعة ومسافة",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "معادلة مستقيم ومعامل التوجيه والتوازي",
+         "objective": "يكتب معادلة مستقيم ويحدد توازي مستقيمين تحليليا",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "النسب المثلثية في المثلث القائم والدائرة المثلثية",
+         "objective": "يحسب النسب المثلثية لزاوية حادة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "الهندسة في الفضاء",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الأوضاع النسبية للمستقيمات والمستويات",
+         "objective": "يحدد الوضع النسبي لمستقيمين أو مستقيم ومستو",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التوازي في الفضاء",
+         "objective": "يبرهن توازي مستقيم ومستو أو مستويين",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "الإحصاء",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "السلاسل الإحصائية: التكرارات والتواترات والتكرارات المجمعة",
+         "objective": "ينظم معطيات في جدول تكرارات وتواترات مجمعة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "مؤشرات الموقع: المتوسط والمنوال والوسيط",
+         "objective": "يحسب المتوسط والمنوال والوسيط لسلسلة إحصائية",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "التمثيلات البيانية: المدرج والمضلع التكراري",
+         "objective": "يمثل سلسلة إحصائية بمدرج تكراري ومضلع",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "MATH",
+     "streams": [
+      "TC_LIT"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الأعداد والحساب",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الأعداد الطبيعية والنسبية: القواسم والمضاعفات والأعداد الأولية",
+         "objective": "يحدد قواسم عدد ويميز العدد الأولي",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الكسور والأعداد العشرية والناطقة",
+         "objective": "يجري العمليات على الكسور ويبسطها",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "القوى والجذور التربيعية",
+         "objective": "يحسب قوى عدد ويبسط جذرا تربيعيا بسيطا",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "النسب المئوية والتناسبية",
+         "objective": "يحسب نسبة مئوية ويحل مسألة تناسبية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "المعادلات والمتراجحات من الدرجة الأولى",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "حل معادلة من الدرجة الأولى بمجهول واحد",
+         "objective": "يحل معادلة من الدرجة الأولى ويتحقق من الحل",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "حل متراجحة من الدرجة الأولى",
+         "objective": "يحل متراجحة ويمثل حلولها على مستقيم مدرج",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "جملة معادلتين خطيتين بمجهولين",
+         "objective": "يحل جملة معادلتين بالتعويض",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الدوال",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مفهوم الدالة والتمثيل البياني",
+         "objective": "يقرأ صورة عدد وسوابقه من منحنى دالة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الدالة التآلفية وتمثيلها بمستقيم",
+         "objective": "يمثل دالة تآلفية بمستقيم ويحدد معامل توجيهه",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الإحصاء",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "السلاسل الإحصائية والتكرارات والتواترات",
+         "objective": "ينظم معطيات في جدول تكرارات وتواترات",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "المتوسط الحسابي والمنوال والوسيط",
+         "objective": "يحسب مؤشرات الموقع لسلسلة إحصائية",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "التمثيلات البيانية للسلسلة الإحصائية",
+         "objective": "يمثل سلسلة بمخطط بالأعمدة أو بدائرة",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "PHYS",
+     "units": [
+      {
+       "code": "U1",
+       "name": "المادة وتحولاتها",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "من المجهري إلى العياني: المول وكمية المادة",
+         "objective": "يحسب كمية المادة انطلاقا من الكتلة والكتلة المولية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الكتلة المولية والحجم المولي للغازات",
+         "objective": "يحسب الكتلة المولية لجزيء وكمية مادة غاز من حجمه",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المحاليل المائية والتركيز المولي",
+         "objective": "يحسب التركيز المولي لمحلول محضر بالإذابة أو التمديد",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "التحول الكيميائي لجملة ومعادلة التفاعل",
+         "objective": "يكتب معادلة تفاعل موزونة ويميز المتفاعلات والنواتج",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "التقدم وجدول التقدم والمتفاعل المحد",
+         "objective": "ينشئ جدول التقدم ويحدد المتفاعل المحد",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الظواهر الميكانيكية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "نسبية الحركة: المرجع والمسار",
+         "objective": "يصف حركة جسم بالنسبة إلى مرجع معين",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الحركة المستقيمة المنتظمة والسرعة",
+         "objective": "يحسب السرعة المتوسطة ويميز الحركة المنتظمة",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "نمذجة الفعل الميكانيكي بالقوة",
+         "objective": "يمثل قوة بشعاع ويحدد مميزاتها الأربع",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "مبدأ العطالة (قانون نيوتن الأول)",
+         "objective": "يستنتج حالة حركة جسم من انعدام محصلة القوى",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "الجاذبية الكونية والثقل",
+         "objective": "يحسب الثقل من الكتلة ويميز بين الكتلة والثقل",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الظواهر الكهربائية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "شدة التيار والتوتر الكهربائي وقياسهما",
+         "objective": "يقيس الشدة والتوتر ويطبق قانوني العقد والإضافية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "المميزة توتر-شدة وقانون أوم",
+         "objective": "يرسم مميزة ناقل أومي ويحسب مقاومته",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الاستطاعة والطاقة الكهربائية وقانون جول",
+         "objective": "يحسب الاستطاعة والطاقة المستهلكة في جهاز كهربائي",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "المولدات والمستقبلات والحصيلة الطاقوية",
+         "objective": "ينجز حصيلة طاقوية لدارة بسيطة ويحسب المردود",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الظواهر الضوئية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الضوء الأبيض وتبدده والطيف الضوئي",
+         "objective": "يفسر تبدد الضوء الأبيض عبر الموشور",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "انكسار الضوء وقانون سنيل-ديكارت",
+         "objective": "يطبق قانون الانكسار لحساب زاوية الانكسار",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "العدسات الرقيقة المجمعة والصور",
+         "objective": "ينشئ صورة جسم عبر عدسة مجمعة هندسيا",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "SVT",
+     "units": [
+      {
+       "code": "U1",
+       "name": "التنوع الحيوي",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مفهوم النوع والتنوع الحيوي",
+         "objective": "يعرف النوع ويذكر مستويات التنوع الحيوي",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "تصنيف الكائنات الحية ومعايير التصنيف",
+         "objective": "يصنف كائنا حيا وفق معايير التصنيف",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "التنوع البيئي والأنظمة البيئية",
+         "objective": "يحدد مكونات نظام بيئي والعلاقات بينها",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الخلية وحدة بنيوية ووظيفية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التنظيم الخلوي: الخلية الحيوانية والنباتية",
+         "objective": "يقارن بين الخلية الحيوانية والنباتية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "بنية الخلية وعضياتها بالمجهر الإلكتروني",
+         "objective": "يتعرف العضيات الخلوية ويحدد وظيفة كل منها",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "التركيب الكيميائي للمادة الحية",
+         "objective": "يكشف عن الماء والأملاح والمواد العضوية في المادة الحية",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "المادة الوراثية: الصبغيات والانقسام المتساوي",
+         "objective": "يرتب مراحل الانقسام المتساوي ويبين دوره",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "التغذية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الأغذية والمغذيات والكشف عنها",
+         "objective": "يكشف عن الغلوسيدات والبروتيدات والدسم في غذاء",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الحاجيات الغذائية والراتب الغذائي المتوازن",
+         "objective": "يبني راتبا غذائيا متوازنا وفق الحاجيات",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "التغذية عند النبات الأخضر",
+         "objective": "يبين دور الامتصاص والتركيب الضوئي في تغذية النبات",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "حركية الأجسام: الدعم والحركة",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الهيكل العظمي والمفاصل",
+         "objective": "يحدد دور العظام والمفاصل في الحركة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "العضلات وآلية التقلص العضلي",
+         "objective": "يشرح كيفية إحداث العضلة للحركة",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "التنسيق العصبي للحركة",
+         "objective": "يبين دور الجهاز العصبي في التحكم في الحركة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "الجيولوجيا: بنية الكرة الأرضية وحركيتها",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "بنية الكرة الأرضية الداخلية",
+         "objective": "يصف طبقات الكرة الأرضية وخصائصها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "تكتونية الصفائح والزلازل والبراكين",
+         "objective": "يربط بين حركة الصفائح والظواهر الجيولوجية",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "FR",
+     "units": [
+      {
+       "code": "U1",
+       "name": "Projet 1 : Réaliser une campagne d'information (la vulgarisation scientifique)",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Contracter un texte : le résumé",
+         "objective": "Résumer un texte explicatif en respectant son plan",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Les procédés explicatifs : définition, énumération, reformulation, exemple",
+         "objective": "Identifier les procédés explicatifs dans un texte",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "Le présent de l'indicatif à valeur atemporelle",
+         "objective": "Reconnaître et employer le présent de vérité générale",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "La nominalisation",
+         "objective": "Transformer une phrase verbale en groupe nominal",
+         "verified": false
+        },
+        {
+         "code": "L5",
+         "name": "Les substituts lexicaux et grammaticaux",
+         "objective": "Repérer les reprises nominales et pronominales",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "Projet 2 : Concevoir un dossier documentaire (l'interview)",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "La phrase interrogative et les types de questions",
+         "objective": "Formuler des questions ouvertes et fermées pertinentes",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Le discours rapporté direct et indirect",
+         "objective": "Transposer des propos du discours direct à l'indirect",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "Les indices de l'énonciation",
+         "objective": "Relever les marques de l'énonciateur dans un texte",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "Projet 3 : Rédiger une lettre ouverte (le discours argumentatif)",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "La structure de l'argumentation : thèse, arguments, exemples",
+         "objective": "Dégager la thèse et les arguments d'un texte",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Les connecteurs logiques, la cause et la conséquence",
+         "objective": "Employer les connecteurs pour organiser une argumentation",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "Les modalisateurs et l'implication de l'énonciateur",
+         "objective": "Identifier les modalisateurs exprimant un jugement",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "La lettre ouverte : mise en forme et formules",
+         "objective": "Rédiger une lettre ouverte structurée à une autorité",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "Projet 4 : Écrire une petite biographie romancée (le récit)",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Le fait divers : structure et questions de référence",
+         "objective": "Reconstituer la structure d'un fait divers",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Les temps du récit : passé simple, imparfait, passé composé",
+         "objective": "Employer correctement les temps du récit au passé",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "La chronologie et les indicateurs de temps",
+         "objective": "Ordonner les événements d'un récit",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "EN",
+     "units": [
+      {
+       "code": "U1",
+       "name": "Unit 1: Getting Through",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Present simple and present continuous",
+         "objective": "Use the present simple and continuous correctly in context",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Asking for and giving information (wh-questions)",
+         "objective": "Form wh-questions to request information",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "Modals: can, could, may (requests and permission)",
+         "objective": "Make polite requests and ask for permission with modals",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "Writing a formal letter and an email",
+         "objective": "Write a short formal letter with correct layout",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "Unit 2: Once Upon a Time",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Past simple and past continuous",
+         "objective": "Narrate past events using past simple and continuous",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Sequencers and narrating events",
+         "objective": "Order events of a story with first, then, finally",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "Used to (past habits)",
+         "objective": "Describe past habits with used to",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "Unit 3: Our Findings Show",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "The passive voice (present and past)",
+         "objective": "Transform active sentences into the passive",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Expressing cause and result (because, so, therefore)",
+         "objective": "Link cause and result with appropriate connectors",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "Reporting an experiment and its findings",
+         "objective": "Write a short report describing an experiment",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "Unit 4: Eureka!",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Past perfect and sequence of events",
+         "objective": "Use the past perfect to order two past events",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Relative pronouns: who, which, that",
+         "objective": "Join sentences with relative pronouns",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "Expressing purpose: to, in order to, so that",
+         "objective": "Express the purpose of an invention",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "Unit 5: Back to Nature",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Conditional types 1 and 2",
+         "objective": "Form and use conditional sentences types 1 and 2",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Modals of obligation and advice: must, should, have to",
+         "objective": "Express obligation and advice about the environment",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "Comparatives and superlatives",
+         "objective": "Compare things using comparative and superlative forms",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "HIST",
+     "units": [
+      {
+       "code": "U1",
+       "name": "العالم الإسلامي: وضعيته الداخلية وعلاقاته الخارجية ما بين القرنين 15 و17م",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الدولة العثمانية: نشأتها وتوسعها ومؤسساتها",
+         "objective": "يحدد مراحل توسع الدولة العثمانية ومؤسسات حكمها",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الدولة الصفوية والدولة المغولية في الهند",
+         "objective": "يقارن بين الدول الإسلامية الكبرى في القرن 16م",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "المغرب الإسلامي: الزيانيون والحفصيون والمرينيون",
+         "objective": "يحدد الدول القائمة في المغرب الإسلامي قبل العثمانيين",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "الكشوفات الجغرافية والتوسع الأوروبي",
+         "objective": "يستنتج أثر الكشوفات الجغرافية على العالم الإسلامي",
+         "verified": false
+        },
+        {
+         "code": "L5",
+         "name": "العلاقات بين العالم الإسلامي وأوروبا",
+         "objective": "يصف طبيعة العلاقات العثمانية الأوروبية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الجزائر: أوضاعها الداخلية وعلاقاتها الخارجية في العهد العثماني (1515-1830)",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاحتلال الإسباني للسواحل ودخول العثمانيين (عروج وخير الدين)",
+         "objective": "يفسر ظروف انضمام الجزائر إلى الدولة العثمانية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "نظام الحكم: البايلربايات والباشوات والأغوات والدايات",
+         "objective": "يرتب عهود الحكم العثماني في الجزائر",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "التنظيم الإداري: دار السلطان والبايلكات",
+         "objective": "يصف التقسيم الإداري للجزائر العثمانية",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الأوضاع الاقتصادية والاجتماعية والثقافية",
+         "objective": "يصف الحياة الاقتصادية والاجتماعية في الجزائر العثمانية",
+         "verified": false
+        },
+        {
+         "code": "L5",
+         "name": "القوة البحرية الجزائرية والعلاقات الخارجية",
+         "objective": "يبين دور الأسطول الجزائري في علاقات الجزائر الخارجية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "أوروبا الحديثة وتوسعها الخارجي",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التحولات الفكرية والاقتصادية في أوروبا (النهضة، الثورة الصناعية)",
+         "objective": "يربط بين التحولات الأوروبية والتوسع الخارجي",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الحركة الاستعمارية الأوروبية ودوافعها",
+         "objective": "يحدد دوافع الاستعمار الأوروبي ووسائله",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "GEO",
+     "units": [
+      {
+       "code": "U1",
+       "name": "أدوات الجغرافيا والمجال الجغرافي",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الخريطة: أنواعها ومقياسها ورموزها",
+         "objective": "يقرأ خريطة ويحسب مسافة باستعمال المقياس",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "التمثيل البياني للمعطيات الإحصائية",
+         "objective": "يحول جدولا إحصائيا إلى منحنى أو أعمدة بيانية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "السكان في العالم",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "توزيع السكان في العالم وعوامله",
+         "objective": "يفسر التباين في توزيع السكان بعوامل طبيعية وبشرية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "النمو الديموغرافي والتركيب السكاني",
+         "objective": "يحسب معدل النمو الطبيعي ويقرأ هرما سكانيا",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الهجرة: أنواعها وأسبابها ونتائجها",
+         "objective": "يصنف أنواع الهجرة ويحدد أسبابها ونتائجها",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الموارد والتنمية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الموارد المائية في العالم وأزمة المياه",
+         "objective": "يحدد أسباب أزمة المياه وسبل مواجهتها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الأمن الغذائي ومشكلة الغذاء في العالم",
+         "objective": "يفسر تفاوت الأمن الغذائي بين الدول",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "موارد الطاقة وتوزيعها",
+         "objective": "يصنف مصادر الطاقة ويحدد مناطق إنتاجها",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "التنمية والتباين بين الشمال والجنوب",
+         "objective": "يقارن مؤشرات التنمية بين دول الشمال والجنوب",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "البيئة والتنمية المستدامة",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المشكلات البيئية: التلوث والتصحر والاحتباس الحراري",
+         "objective": "يحدد أسباب المشكلات البيئية الكبرى ونتائجها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "مفهوم التنمية المستدامة",
+         "objective": "يعرف التنمية المستدامة ويذكر أبعادها",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "ISL",
+     "units": [
+      {
+       "code": "U1",
+       "name": "القرآن الكريم والحديث النبوي",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "آيات الله في الكون ودلائل الإيمان",
+         "objective": "يستخرج دلائل وجود الله من الآيات الكونية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "من هدي السنة النبوية: آداب المعاملة",
+         "objective": "يستنبط الأحكام والآداب من حديث نبوي",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "العقيدة",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الإيمان: أركانه وأثره في الفرد والمجتمع",
+         "objective": "يذكر أركان الإيمان ويبين أثره السلوكي",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الإسلام والرسالات السماوية السابقة",
+         "objective": "يبين وحدة أصل الرسالات السماوية",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "خصائص الإسلام: الربانية والشمول والوسطية",
+         "objective": "يشرح خصائص الإسلام بأمثلة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الشريعة ومصادر التشريع",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مصادر التشريع: القرآن والسنة والإجماع والقياس",
+         "objective": "يرتب مصادر التشريع ويعرف كلا منها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الحكم الشرعي: التكليفي والوضعي",
+         "objective": "يميز أقسام الحكم التكليفي بأمثلة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "العبادات",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الزكاة: أحكامها ومصارفها",
+         "objective": "يحدد شروط وجوب الزكاة ومصارفها الثمانية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الصيام: أحكامه وحكمه",
+         "objective": "يذكر أركان الصيام ومبطلاته وحكمه",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "الأخلاق والآداب الإسلامية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الصدق والأمانة والوفاء بالعهد",
+         "objective": "يستدل على قيمة الصدق والأمانة من النصوص",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "آداب الحوار والتسامح",
+         "objective": "يذكر آداب الحوار في الإسلام",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "الفكر والحضارة",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الإسلام والعلم",
+         "objective": "يبين مكانة العلم في الإسلام بالأدلة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "العمل في الإسلام وقيمته",
+         "objective": "يستنتج قيمة العمل من النصوص الشرعية",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "TECH",
+     "streams": [
+      "TC_SCI"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الهندسة الميكانيكية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التحليل الوظيفي للمنتوج: الوظيفة الشاملة والوظائف التقنية",
+         "objective": "يحدد الوظيفة الشاملة والوظائف التقنية لمنتوج",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الرسم التقني: الإسقاط المتعامد والمناظر",
+         "objective": "يرسم مناظر قطعة بالإسقاط المتعامد",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "المقاطع والتقطيع في الرسم التقني",
+         "objective": "يقرأ ويرسم مقطعا لقطعة ميكانيكية",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "الروابط الميكانيكية والوصلات",
+         "objective": "يميز أنواع الروابط الميكانيكية ودرجات الحرية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الهندسة الكهربائية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الدارات والمخططات الكهربائية",
+         "objective": "يقرأ مخططا كهربائيا ويحدد عناصره",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الجبر البولي والبوابات المنطقية وجدول الحقيقة",
+         "objective": "ينشئ جدول الحقيقة لدالة منطقية بسيطة",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الأنظمة الآلية: جزء العمليات وجزء التحكم",
+         "objective": "يميز الحساسات والمشغلات في نظام آلي",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الهندسة المدنية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الهياكل ومواد البناء",
+         "objective": "يصنف مواد البناء ويحدد دور عناصر الهيكل",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "قراءة مخطط بناء",
+         "objective": "يقرأ مخطط بناء ويحدد مقياسه وعناصره",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "هندسة الطرائق",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "العمليات الوحدوية في الصناعة: الفصل والتصفية",
+         "objective": "يصف عملية فصل صناعية ومراحلها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "المواد والطاقة في الطرائق الصناعية",
+         "objective": "يتتبع مسار المادة والطاقة في طريقة صناعية",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "INFO",
+     "units": [
+      {
+       "code": "U1",
+       "name": "البنية العامة للحاسوب",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مكونات الحاسوب: وحدة المعالجة المركزية والذاكرات",
+         "objective": "يذكر مكونات الوحدة المركزية ودور كل منها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الأجهزة الطرفية: الإدخال والإخراج والتخزين",
+         "objective": "يصنف الأجهزة الطرفية حسب وظيفتها",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "أنواع البرمجيات",
+         "objective": "يميز بين برمجيات النظام والبرمجيات التطبيقية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "نظام التشغيل",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "واجهة نظام التشغيل: المكتب والنوافذ والقوائم",
+         "objective": "يتعامل مع النوافذ والقوائم والاختصارات",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "تسيير الملفات والمجلدات",
+         "objective": "ينشئ وينسخ وينقل ويحذف ملفات ومجلدات",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "لوحة التحكم وإعدادات الجهاز",
+         "objective": "يعدل الإعدادات الأساسية للجهاز",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "معالج النصوص",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "إنشاء مستند وحفظه وتنسيق النص",
+         "objective": "ينشئ مستندا وينسق الخط والفقرات",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "إدراج الجداول والصور والرموز",
+         "objective": "يدرج جدولا وصورة في مستند",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "تنسيق الصفحات والطباعة",
+         "objective": "يضبط الهوامش والترقيم ويطبع المستند",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الشبكات والإنترنت",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مفهوم الشبكة وأنواعها",
+         "objective": "يميز الشبكة المحلية عن الشبكة الواسعة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "تصفح الإنترنت والبحث عن المعلومة",
+         "objective": "يستعمل محرك بحث للوصول إلى معلومة",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "البريد الإلكتروني",
+         "objective": "ينشئ ويرسل رسالة إلكترونية بمرفق",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "grade": "2AS",
+   "subjects": [
+    {
+     "subject": "AR",
+     "streams": [
+      "SCI",
+      "MATH",
+      "TM",
+      "GE"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الأدب في العصر العباسي",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "شعر الزهد والحكمة (أبو العتاهية)",
+         "objective": "يستخرج معاني الزهد وخصائصه",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "النثر عند الجاحظ (البخلاء)",
+         "objective": "يستنتج سمات أسلوب الجاحظ",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الأدب الأندلسي وعصر الضعف",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "شعر الطبيعة والغزل في الأندلس",
+         "objective": "يحلل صورة الطبيعة الأندلسية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الموشحات والأزجال",
+         "objective": "يميز بنية الموشح عن القصيدة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "رثاء المدن والممالك (الرندي)",
+         "objective": "يحدد دواعي رثاء الأندلس",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "البناء اللغوي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الجمل التي لها محل من الإعراب",
+         "objective": "يحدد محل الجملة من الإعراب",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الجمل التي لا محل لها من الإعراب",
+         "objective": "يميز الجمل التي لا محل لها",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "أسلوب التعجب",
+         "objective": "يصوغ صيغتي التعجب ويعربهما",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "أسلوب المدح والذم",
+         "objective": "يعرب نعم وبئس وحبذا والمخصوص",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "الإغراء والتحذير والاختصاص",
+         "objective": "يميز الأساليب الثلاثة ويعربها",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "النسبة والتصغير",
+         "objective": "يصوغ المنسوب والمصغر بقواعدهما",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "البلاغة",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المجاز المرسل وعلاقاته",
+         "objective": "يحدد المجاز المرسل وعلاقته",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المجاز العقلي",
+         "objective": "يميز المجاز العقلي وعلاقته",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الكناية",
+         "objective": "يستخرج الكناية ويحدد نوعها",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "التورية",
+         "objective": "يكشف المعنيين القريب والبعيد",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "AR",
+     "streams": [
+      "LIT",
+      "LANG"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الأدب في العصر العباسي",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "شعر الزهد والحكمة (أبو العتاهية)",
+         "objective": "يستخرج معاني الزهد وخصائصه",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الحكمة والفلسفة (المعري)",
+         "objective": "يحلل النزعة العقلية عند المعري",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "المقامات (الهمذاني والحريري)",
+         "objective": "يحدد بنية المقامة وخصائصها",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الأدب الأندلسي وعصر الضعف",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "شعر الطبيعة والغزل في الأندلس",
+         "objective": "يحلل صورة الطبيعة والعاطفة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الموشحات والأزجال",
+         "objective": "يميز بنية الموشح عن القصيدة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "رثاء المدن والممالك (الرندي)",
+         "objective": "يحدد دواعي رثاء الأندلس",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "المدائح النبوية (البوصيري)",
+         "objective": "يستخرج خصائص المديح النبوي",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "البناء اللغوي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الجمل التي لها محل من الإعراب",
+         "objective": "يحدد محل الجملة من الإعراب",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الجمل التي لا محل لها من الإعراب",
+         "objective": "يميز الجمل التي لا محل لها",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "أسلوب التعجب",
+         "objective": "يصوغ صيغتي التعجب ويعربهما",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "أسلوب المدح والذم",
+         "objective": "يعرب نعم وبئس وحبذا والمخصوص",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "الإغراء والتحذير والاختصاص",
+         "objective": "يميز الأساليب الثلاثة ويعربها",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "النسبة والتصغير",
+         "objective": "يصوغ المنسوب والمصغر بقواعدهما",
+         "verified": true
+        },
+        {
+         "code": "L7",
+         "name": "أدوات الشرط الجازمة وغير الجازمة",
+         "objective": "يعرب جملة الشرط ويميز أدواته",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "البلاغة",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المجاز المرسل وعلاقاته",
+         "objective": "يحدد المجاز المرسل وعلاقته",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المجاز العقلي",
+         "objective": "يميز المجاز العقلي وعلاقته",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الكناية",
+         "objective": "يستخرج الكناية ويحدد نوعها",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "التورية",
+         "objective": "يكشف المعنيين القريب والبعيد",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "العروض",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "بحور الخفيف والرمل والرجز",
+         "objective": "يقطع بيتا ويحدد بحره",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الزحافات والعلل",
+         "objective": "يميز الزحاف من العلة",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "MATH",
+     "streams": [
+      "SCI",
+      "MATH",
+      "TM"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الدوال",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "العمليات على الدوال",
+         "objective": "يدرس مجموع وجداء ومركب دالتين",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "اتجاه التغير والتمثيل البياني",
+         "objective": "يمثل دالة بيانيا",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "معادلات ومتراجحات من الدرجة 2 و3",
+         "objective": "يحل معادلات من الدرجة 2 و3",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الاشتقاقية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "العدد المشتق ومعادلة المماس",
+         "objective": "يحسب العدد المشتق ويعين المماس",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "قواعد حساب المشتقات",
+         "objective": "يحسب مشتقة دالة بقواعد الاشتقاق",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "اتجاه التغير ومسائل الاستمثال",
+         "objective": "يستنتج التغيرات من المشتقة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الاحتمالات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاحتمال على فضاء منته",
+         "objective": "يحسب احتمال حادثة في فضاء منته",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المتغير العشوائي",
+         "objective": "يعين قانون احتمال متغير عشوائي",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "المرجح",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مرجح نقطتين أو ثلاث نقط",
+         "objective": "ينشئ المرجح ويطبق التجميع",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "تطبيقات المرجح",
+         "objective": "يثبت استقامية نقط بالمرجح",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "النهايات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "حساب نهايات دالة",
+         "objective": "يحسب نهاية دالة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المستقيمات المقاربة",
+         "objective": "يعين المستقيمات المقاربة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "الزوايا الموجهة وحساب المثلثات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الزوايا الموجهة لشعاعين",
+         "objective": "يحسب قيس زاوية موجهة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المعادلات والمتراجحات المثلثية",
+         "objective": "يحل معادلات ومتراجحات مثلثية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U7",
+       "name": "التحويلات النقطية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التحاكي وخواصه",
+         "objective": "يعين صورة شكل بتحاك",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "مسائل هندسية بالتحويلات",
+         "objective": "يوظف الانسحاب والتحاكي في مسائل",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U8",
+       "name": "الجداء السلمي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الجداء السلمي وخواصه",
+         "objective": "يحسب جداء سلميا بعدة طرق",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "تطبيقات الجداء السلمي",
+         "objective": "يوظفه في التعامد والمسافات",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U9",
+       "name": "المتتاليات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "اتجاه تغير متتالية",
+         "objective": "يدرس اتجاه تغير متتالية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المتتاليات الحسابية والهندسية",
+         "objective": "يحسب الحد العام والمجموع والنهاية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U10",
+       "name": "الهندسة في الفضاء",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المقاطع المستوية للمجسمات",
+         "objective": "ينشئ مقطع مجسم بمستو",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الحساب الشعاعي والتعليم في الفضاء",
+         "objective": "يوظف الأشعة في الفضاء",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "MATH",
+     "streams": [
+      "GE"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الدوال العددية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الدوال المرجعية والتمثيل البياني",
+         "objective": "يمثل الدوال المرجعية بيانيا",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "معادلات ومتراجحات من الدرجة 2",
+         "objective": "يحل معادلة ومتراجحة من الدرجة 2",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الاشتقاقية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "العدد المشتق ومعادلة المماس",
+         "objective": "يحسب العدد المشتق ويعين المماس",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الدالة المشتقة واتجاه التغير",
+         "objective": "يستنتج التغيرات من المشتقة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "المتتاليات العددية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المتتاليات الحسابية",
+         "objective": "يحسب الحد العام ومجموع الحدود",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "المتتاليات الهندسية",
+         "objective": "يحسب الحد العام ومجموع الحدود",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الإحصاء",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مؤشرات الموقع",
+         "objective": "يحسب المتوسط والوسيط والمنوال",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "مؤشرات التشتت",
+         "objective": "يحسب التباين والانحراف المعياري",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "الاحتمالات",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التجربة العشوائية والحوادث",
+         "objective": "يصف فضاء العينة وحوادثه",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "حالة تساوي الاحتمال",
+         "objective": "يحسب احتمال حادثة",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "MATH",
+     "streams": [
+      "LIT",
+      "LANG"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الأعداد والحساب",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الحساب في R: القوى والجذور",
+         "objective": "يبسط عبارات بقوى وجذور",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "النسب المئوية والتناسبية",
+         "objective": "يحل مسائل النسب المئوية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الدوال العددية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مجموعة التعريف واتجاه التغير",
+         "objective": "يقرأ تغيرات دالة من منحناها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الدوال المرجعية والتمثيل البياني",
+         "objective": "يمثل الدوال المرجعية بيانيا",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "معادلات ومتراجحات من الدرجة 1",
+         "objective": "يحل معادلة ومتراجحة من الدرجة 1",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "المتتاليات العددية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المتتاليات الحسابية",
+         "objective": "يحسب الحد العام ومجموع الحدود",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "المتتاليات الهندسية",
+         "objective": "يحسب الحد العام ومجموع الحدود",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الإحصاء",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التمثيلات البيانية",
+         "objective": "ينشئ مدرجا ومضلعا تكراريين",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "مؤشرات الموقع",
+         "objective": "يحسب المتوسط والوسيط والمنوال",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "مؤشرات التشتت",
+         "objective": "يحسب المدى والتباين والانحراف",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "PHYS",
+     "streams": [
+      "SCI",
+      "MATH",
+      "TM"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "مقاربة كيفية لطاقة جملة وانحفاظها",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الجملة وأشكال الطاقة وتحولاتها",
+         "objective": "يحدد الجملة وأشكال طاقتها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الحصيلة الطاقوية",
+         "objective": "ينجز حصيلة طاقوية لجملة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "العمل والطاقة الحركية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "عمل قوة ثابتة في حركة انسحابية",
+         "objective": "يحسب عمل قوة ثابتة ويميز نوعه",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "عمل قوة في حركة دورانية",
+         "objective": "يحسب عمل قوة عزمها ثابت",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "مبرهنة الطاقة الحركية",
+         "objective": "يطبق مبرهنة الطاقة الحركية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الطاقة الكامنة",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الطاقة الكامنة الثقالية والمرونية",
+         "objective": "يحسب الطاقة الكامنة بنوعيها",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الطاقة الميكانيكية وانحفاظها",
+         "objective": "يطبق انحفاظ الطاقة الميكانيكية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الطاقة الداخلية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الطاقة الداخلية والحرارة",
+         "objective": "يميز الطاقة الداخلية من الحرارة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "المركبة المنسوبة للحالة الفيزيائية والكيميائية",
+         "objective": "يحسب طاقة تغير الحالة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "تعيين كمية المادة في الحالة الغازية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "نموذج الغاز المثالي",
+         "objective": "يطبق معادلة الحالة PV=nRT",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الحجم المولي وكمية المادة لغاز",
+         "objective": "يحسب كمية مادة غاز من حجمه",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "قياس الناقلية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الناقلية والناقلية النوعية",
+         "objective": "يحسب الناقلية النوعية لمحلول",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الناقلية النوعية المولية الشاردية",
+         "objective": "يحسب تركيز محلول من ناقليته",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U7",
+       "name": "تعيين كمية المادة بواسطة المعايرة",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المعايرة حمض-أساس",
+         "objective": "يحسب التركيز عند التكافؤ",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المعايرة بالأكسدة والإرجاع",
+         "objective": "يحسب التركيز بمعايرة أكسدة-إرجاع",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U8",
+       "name": "العدسات الرقيقة",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "العدسات المجمعة والمفرقة",
+         "objective": "يحدد البؤر والبعد البؤري لعدسة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الصورة عبر عدسة وعلاقة التوافق",
+         "objective": "ينشئ الصورة ويطبق علاقة التوافق",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "SVT",
+     "streams": [
+      "SCI",
+      "MATH"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "التحولات الطاقوية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التركيب الضوئي",
+         "objective": "يشرح دور اليخضور والضوء",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "التنفس والتخمر",
+         "objective": "يقارن مردود التنفس والتخمر",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "تحويل الطاقة في العضلة",
+         "objective": "يربط التقلص العضلي باستهلاك ATP",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "أسس التنوع البيولوجي والوراثة",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الانقسام المنصف",
+         "objective": "يصف مراحله وتطور كمية ADN",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الإلقاح",
+         "objective": "يشرح دور الإلقاح في التنوع",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الهجونة الأحادية وقوانين مندل",
+         "objective": "يحل مسألة هجونة أحادية",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الهجونة الثنائية والتوزع المستقل",
+         "objective": "يفسر نسب 9:3:3:1",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "الوراثة المرتبطة بالجنس",
+         "objective": "يحل مسألة صفة مرتبطة بالجنس",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الظواهر الجيولوجية الباطنية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "بنية الأرض وتكتونية الصفائح",
+         "objective": "يفسر حركة الصفائح",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الزلازل والبراكين",
+         "objective": "يربطهما بحدود الصفائح",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الصخور وتشكل السلاسل الجبلية",
+         "objective": "يفسر تشكل السلاسل الجبلية",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "TECH",
+     "streams": [
+      "TM"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "التحليل الوظيفي للأنظمة التقنية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "النظام التقني ومادة العمل",
+         "objective": "يحدد مادة العمل ومخرجات نظام",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الوظيفة الكلية ومخطط FAST",
+         "objective": "يرسم مخطط FAST لنظام بسيط",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الرسم التقني",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الإسقاط المتعامد والمناظر",
+         "objective": "يرسم مناظر قطعة ميكانيكية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "المقاطع والقطوع",
+         "objective": "يمثل قطعة بمقطع مهشر",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الهندسة الكهربائية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "قوانين كيرشوف",
+         "objective": "يحسب الشدات والتوترات في دارة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "المنطق التوافقي والجبر البولي",
+         "objective": "يبسط دالة منطقية ويرسم دارتها",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الهندسة الميكانيكية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الروابط الميكانيكية",
+         "objective": "يرسم المخطط الحركي لآلية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "نقل الحركة: التروس والسيور",
+         "objective": "يحسب نسبة النقل",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "الهندسة المدنية وهندسة الطرائق",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مواد البناء: الخرسانة والفولاذ",
+         "objective": "يحدد مكونات الخرسانة وخصائصها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الإجهادات البسيطة: الشد والضغط",
+         "objective": "يحسب الإجهاد الناظمي",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الترشيح والتقطير",
+         "objective": "يصف مبدأ الترشيح والتقطير",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "FR",
+     "units": [
+      {
+       "code": "U1",
+       "name": "Projet 1 : Le discours objectivé",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Les procédés explicatifs",
+         "objective": "Repérer les procédés explicatifs",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "L'objectivité : passif, nominalisation",
+         "objective": "Effacer l'énonciateur",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "Projet 2 : Le plaidoyer et le réquisitoire",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Thèse, arguments, exemples",
+         "objective": "Dégager la thèse et les arguments",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Le lexique mélioratif et péjoratif",
+         "objective": "Classer le lexique appréciatif",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "Les connecteurs logiques",
+         "objective": "Exprimer cause et conséquence",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "Projet 3 : Le reportage touristique et le récit de voyage",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "La structure du reportage",
+         "objective": "Identifier titre, chapeau, intertitres",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "La description : expansions du nom",
+         "objective": "Rédiger une description de lieu",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "Le récit de voyage : temps du récit",
+         "objective": "Employer les temps du récit",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "Projet 4 : La nouvelle d'anticipation",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Le schéma narratif et le point de vue",
+         "objective": "Repérer les étapes du récit",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Le futur et le conditionnel",
+         "objective": "Rédiger un passage d'anticipation",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "EN",
+     "units": [
+      {
+       "code": "U1",
+       "name": "Signs of the Time",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Past tenses and used to",
+         "objective": "Describe past habits",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Comparatives and superlatives",
+         "objective": "Compare lifestyles",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "Make Peace",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Modals: must, should, ought to",
+         "objective": "Express obligation and advice",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Conditional type 1",
+         "objective": "Form first conditional sentences",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "Waste Not, Want Not",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "The passive voice",
+         "objective": "Form passive sentences",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Cause, effect and purpose",
+         "objective": "Express cause and purpose",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "Budding Scientist",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Describing a process",
+         "objective": "Describe an experiment",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Hypothesis and result",
+         "objective": "Report an experiment's results",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "News and Tales",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Reported speech",
+         "objective": "Report what people said",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Narrative tenses",
+         "objective": "Write a short narrative",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "No Man is an Island",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Conditional types 2 and 3",
+         "objective": "Form unreal conditionals",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Wishes and regrets",
+         "objective": "Use wish and if only correctly",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U7",
+       "name": "Science or Fiction?",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Future forms",
+         "objective": "Make predictions",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Possibility and certainty",
+         "objective": "Speculate with may, might, must",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U8",
+       "name": "Business is Business",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Letters of application and CVs",
+         "objective": "Write a letter of application",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Quantifiers",
+         "objective": "Use quantifiers correctly",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "HIST",
+     "units": [
+      {
+       "code": "U1",
+       "name": "الاستعمار الأوروبي والحركات التحررية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "دوافع التوسع الاستعماري وأساليبه",
+         "objective": "يحدد دوافع الاستعمار وأساليبه",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الحركات التحررية في آسيا وإفريقيا",
+         "objective": "يستنتج عوامل ظهورها ووسائلها",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الاحتلال الفرنسي والمقاومة الشعبية (1830-1919)",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "أوضاع الجزائر قبل 1830 وظروف الاحتلال",
+         "objective": "يحلل أسباب الاحتلال وذرائعه",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "مقاومة الأمير عبد القادر",
+         "objective": "يتتبع مراحل المقاومة ونتائجها",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "مقاومة أحمد باي",
+         "objective": "يبين خصائص مقاومة أحمد باي",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الثورات الشعبية: المقراني وبوعمامة",
+         "objective": "يقارن الثورات أسبابا ونتائج",
+         "verified": false
+        },
+        {
+         "code": "L5",
+         "name": "السياسة الاستعمارية في الجزائر",
+         "objective": "يحدد مظاهر السياسة الاستعمارية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الحركة الوطنية الجزائرية (1919-1954)",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "اتجاهات الحركة الوطنية",
+         "objective": "يقارن الإدماج والإصلاح والاستقلال",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "نجم شمال إفريقيا وحزب الشعب",
+         "objective": "يتتبع تطور التيار الاستقلالي",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "جمعية العلماء المسلمين الجزائريين",
+         "objective": "يحدد أهداف الجمعية ووسائلها",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "مجازر 8 ماي 1945",
+         "objective": "يشرح أسباب المجازر وانعكاساتها",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "GEO",
+     "units": [
+      {
+       "code": "U1",
+       "name": "السكان والتنمية في العالم",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "توزيع السكان والنمو الديموغرافي",
+         "objective": "يفسر تباين توزيع السكان",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "مؤشرات التنمية البشرية",
+         "objective": "يقرأ ويفسر مؤشرات التنمية",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "التفاوت بين الشمال والجنوب",
+         "objective": "يقارن دول الشمال والجنوب",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الموارد والمشكلات البيئية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الموارد المائية ومشكلة الماء",
+         "objective": "يحلل مشكلة الماء وحلولها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الموارد الغذائية والأمن الغذائي",
+         "objective": "يفسر التفاوت الغذائي في العالم",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "موارد الطاقة وتسييرها",
+         "objective": "يصنف مصادر الطاقة",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "المشكلات البيئية والتنمية المستدامة",
+         "objective": "يربط البيئة بالتنمية المستدامة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "السكان والتنمية في الجزائر",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "النمو السكاني وتوزيعه في الجزائر",
+         "objective": "يفسر توزع السكان في الجزائر",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الموارد الطبيعية في الجزائر",
+         "objective": "يحدد الموارد ودورها في الاقتصاد",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "التهيئة الإقليمية والتنمية",
+         "objective": "يشرح أهداف التهيئة الإقليمية",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "ISL",
+     "units": [
+      {
+       "code": "U1",
+       "name": "من هدي القرآن الكريم",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "دلائل وحدانية الله في الكون",
+         "objective": "يستنبط دلائل الوحدانية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "القيم الاجتماعية والخلقية",
+         "objective": "يستخرج القيم من النص القرآني",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "من هدي السنة النبوية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مكانة السنة النبوية وحجيتها",
+         "objective": "يبين علاقة السنة بالقرآن",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "علم الحديث: السند والمتن",
+         "objective": "يميز الصحيح والحسن والضعيف",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "العقيدة الإسلامية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الإيمان بالقضاء والقدر",
+         "objective": "يشرح معنى القضاء والقدر وأثرهما",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الإيمان بالغيب",
+         "objective": "يحدد مقتضيات الإيمان بالغيب",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الفقه وأصوله",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مصادر التشريع الإسلامي",
+         "objective": "يرتب مصادر التشريع الأربعة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الزواج وأحكامه",
+         "objective": "يحدد أركان الزواج وشروطه",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "السيرة والفكر الإسلامي",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "من مواقف الرسول في بناء المجتمع",
+         "objective": "يستخلص الدروس من السيرة",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "خصائص الحضارة الإسلامية",
+         "objective": "يحدد خصائص الحضارة الإسلامية",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "PHILO",
+     "units": [
+      {
+       "code": "U1",
+       "name": "في المشكلة والإشكالية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المشكلة والإشكالية",
+         "objective": "يميز المشكلة من الإشكالية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التفكير الفلسفي والتفكير العلمي",
+         "objective": "يقارن السؤال الفلسفي بالعلمي",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "في الإحساس والإدراك",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الإحساس والإدراك",
+         "objective": "يميز الإحساس من الإدراك",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الإدراك بين العقل والجشطالت",
+         "objective": "يقارن النظرية العقلية بالجشطالت",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "في اللغة والفكر",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "اللغة والفكر: اتصال أم انفصال",
+         "objective": "يناقش أطروحتي الاتصال والانفصال",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "وظائف اللغة ورمزيتها",
+         "objective": "يحدد وظائف اللغة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "في الشعور واللاشعور",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الشعور أساس الحياة النفسية",
+         "objective": "يعرض أطروحة الشعور ويناقشها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "اللاشعور عند فرويد",
+         "objective": "يشرح أدلة فرويد على اللاشعور",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "في الذاكرة والخيال",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "طبيعة الذاكرة",
+         "objective": "يقارن النظرية المادية بالنفسية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الخيال ووظائفه",
+         "objective": "يميز الخيال من الذاكرة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "في العادة والإرادة",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "العادة: إيجابياتها وسلبياتها",
+         "objective": "يناقش أثر العادة في السلوك",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الإرادة ودورها في الفعل",
+         "objective": "يبين علاقة الإرادة بالفعل",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "ECO",
+     "streams": [
+      "GE"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "المفاهيم الاقتصادية الأساسية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الحاجات والسلع والخدمات",
+         "objective": "يصنف الحاجات والسلع والخدمات",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الأعوان الاقتصاديون",
+         "objective": "يحدد الأعوان الاقتصاديين ووظائفهم",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الإنتاج والتوزيع",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "عوامل الإنتاج",
+         "objective": "يحدد عوامل الإنتاج ودورها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الإنتاجية والقيمة المضافة",
+         "objective": "يحسب الإنتاجية والقيمة المضافة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الاستهلاك والادخار والاستثمار",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاستهلاك ومحدداته",
+         "objective": "يحدد العوامل المؤثرة في الاستهلاك",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الادخار والاستثمار",
+         "objective": "يربط الادخار بالاستثمار والنمو",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "السوق والأسعار",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "العرض والطلب",
+         "objective": "يفسر قانوني العرض والطلب بيانيا",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "سعر التوازن وأشكال السوق",
+         "objective": "يحدد سعر التوازن وأشكال السوق",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "المؤسسة والمناجمنت",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "تعريف المؤسسة وتصنيفها",
+         "objective": "يصنف المؤسسات حسب الحجم والملكية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "وظائف المؤسسة ومحيطها",
+         "objective": "يحدد وظائف المؤسسة وعناصر محيطها",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "ACC",
+     "streams": [
+      "GE"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "المؤسسة والمحاسبة",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المحاسبة والنظام المحاسبي المالي",
+         "objective": "يحدد دور المحاسبة ومبادئ SCF",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الذمة المالية والميزانية",
+         "objective": "ينجز ميزانية ويصنف الأصول والخصوم",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الحسابات والقيد المزدوج",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الحساب: المدين والدائن والرصيد",
+         "objective": "يسجل في حساب ويحسب رصيده",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "مبدأ القيد المزدوج",
+         "objective": "يطبق القيد المزدوج على عملية",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "اليومية ودفتر الأستاذ",
+         "objective": "يسجل في اليومية ويرحل",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "ميزان المراجعة",
+         "objective": "يعد ميزان المراجعة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "عمليات الشراء والبيع",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الفاتورة والتخفيضات",
+         "objective": "يحسب صافي الفاتورة بعد التخفيضات",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الرسم على القيمة المضافة (TVA)",
+         "objective": "يحسب TVA ويسجلها محاسبيا",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "عمليات الخزينة",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الصندوق والبنك ووسائل الدفع",
+         "objective": "يسجل التسديدات نقدا وبالشيك",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الأوراق التجارية",
+         "objective": "يسجل السفتجة والسند لأمر",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "LAW",
+     "streams": [
+      "GE"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "مدخل إلى علم القانون",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "خصائص القاعدة القانونية",
+         "objective": "يحدد خصائص القاعدة القانونية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "مصادر القانون",
+         "objective": "يرتب مصادر القانون",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "فروع القانون: العام والخاص",
+         "objective": "يصنف فروع القانون",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "تطبيق القانون في الزمان والمكان",
+         "objective": "يطبق عدم الرجعية والإقليمية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "نظرية الحق",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "تعريف الحق وأنواعه",
+         "objective": "يصنف الحقوق السياسية والمدنية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "أشخاص الحق: الطبيعي والمعنوي",
+         "objective": "يميز الشخص الطبيعي من المعنوي",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "الأهلية وعوارضها",
+         "objective": "يميز أهلية الوجوب من الأداء",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "نظرية الالتزام",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مصادر الالتزام",
+         "objective": "يعدد مصادر الالتزام ويميزها",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "العقد وأركانه",
+         "objective": "يحدد التراضي والمحل والسبب",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "المسؤولية المدنية",
+         "objective": "يميز العقدية من التقصيرية",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "grade": "3AS",
+   "subjects": [
+    {
+     "subject": "AR",
+     "streams": [
+      "SCI",
+      "MATH",
+      "TM",
+      "GE"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الشعر العربي الحديث",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الشعر السياسي والاجتماعي في عصر النهضة",
+         "objective": "يحدد سمات شعر النهضة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الأدب المهجري (الاتجاه الوجداني)",
+         "objective": "يميز سمات أدب المهجر",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الشعر الحر (شعر التفعيلة)",
+         "objective": "يحدد خصائص الشعر الحر",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "النثر العربي الحديث",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المقال",
+         "objective": "يميز أنواع المقال",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "القصة القصيرة",
+         "objective": "يحلل عناصر القصة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المسرحية",
+         "objective": "يحدد عناصر المسرحية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "البناء اللغوي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "إعراب المفردات",
+         "objective": "يعرب المفردات",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "إعراب الجمل",
+         "objective": "يعين محل الجملة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الأساليب: الخبر والإنشاء",
+         "objective": "يميز الخبر من الإنشاء",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الصور البيانية",
+         "objective": "يشرح صورة بيانية",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "المحسنات البديعية",
+         "objective": "يستخرج محسنا بديعيا",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "الإحالة والاتساق",
+         "objective": "يحدد أدوات الاتساق",
+         "verified": true
+        },
+        {
+         "code": "L7",
+         "name": "الحقول الدلالية",
+         "objective": "يستخرج حقلا دلاليا",
+         "verified": true
+        },
+        {
+         "code": "L8",
+         "name": "العروض: البحور الشعرية",
+         "objective": "يقطع بيتا ويعين بحره",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "البناء الفكري",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الفكرة العامة والأفكار الأساسية",
+         "objective": "يستخلص أفكار النص",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "النمط النصي ومؤشراته",
+         "objective": "يحدد النمط ومؤشراته",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "التعبير الكتابي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "تلخيص النص",
+         "objective": "يلخص نصا بأسلوبه",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "كتابة مقال أدبي أو اجتماعي",
+         "objective": "يكتب مقالا منظما",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "AR",
+     "streams": [
+      "LIT",
+      "LANG"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الشعر العربي الحديث",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "شعر الإحياء والنهضة",
+         "objective": "يحدد سمات الإحياء",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الشعر السياسي والاجتماعي",
+         "objective": "يحلل قصيدة سياسية",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المدرسة الرومانسية وأدب المهجر",
+         "objective": "يميز سمات الرومانسية",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الشعر الحر: البناء والإيقاع",
+         "objective": "يحدد تجديد الشعر الحر",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "النثر العربي الحديث",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المقال: أنواعه وخصائصه",
+         "objective": "يميز أنواع المقال",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "القصة القصيرة",
+         "objective": "يحلل عناصر القصة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المسرحية",
+         "objective": "يحدد عناصر المسرحية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "البناء اللغوي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "إعراب المفردات",
+         "objective": "يعرب المفردات",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "إعراب الجمل",
+         "objective": "يعين محل الجملة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الأساليب: الخبر والإنشاء",
+         "objective": "يميز الخبر من الإنشاء",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الصور البيانية",
+         "objective": "يشرح صورة بيانية",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "المحسنات البديعية",
+         "objective": "يستخرج محسنا بديعيا",
+         "verified": true
+        },
+        {
+         "code": "L6",
+         "name": "الإحالة والاتساق",
+         "objective": "يحدد أدوات الاتساق",
+         "verified": true
+        },
+        {
+         "code": "L7",
+         "name": "الحقول الدلالية",
+         "objective": "يستخرج حقلا دلاليا",
+         "verified": true
+        },
+        {
+         "code": "L8",
+         "name": "العروض: البحور الشعرية",
+         "objective": "يقطع بيتا ويعين بحره",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "البناء الفكري",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الفكرة العامة والأفكار الأساسية",
+         "objective": "يستخلص أفكار النص",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "النمط النصي ومؤشراته",
+         "objective": "يحدد النمط ومؤشراته",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "التعبير الكتابي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الدراسة الأدبية للنص",
+         "objective": "يكتب دراسة أدبية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "كتابة المقال والتلخيص",
+         "objective": "يكتب مقالا ويلخص نصا",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "MATH",
+     "streams": [
+      "SCI"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "النهايات والاستمرارية والاشتقاقية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "النهايات والمستقيمات المقاربة",
+         "objective": "يحسب النهايات",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الاستمرارية والاشتقاقية ودراسة الدوال",
+         "objective": "يدرس تغيرات دالة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الدوال الأسية واللوغاريتمية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الدالة الأسية واللوغاريتم النيبيري",
+         "objective": "يحل معادلات أسية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المعادلات التفاضلية y'=ay+b",
+         "objective": "يحل معادلة تفاضلية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "المتتاليات العددية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاستدلال بالتراجع",
+         "objective": "يبرهن خاصية بالتراجع",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "رتابة متتالية وتقاربها",
+         "objective": "يدرس تقارب متتالية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الحساب التكاملي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الدوال الأصلية",
+         "objective": "يعين دالة أصلية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التكامل وحساب المساحات",
+         "objective": "يحسب تكاملا ومساحة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "الاحتمالات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاحتمالات الشرطية والاستقلالية",
+         "objective": "يحسب احتمالا شرطيا",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المتغير العشوائي والقانون الثنائي الحدين",
+         "objective": "يحسب الأمل الرياضي",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "الأعداد المركبة",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الشكل الجبري والمثلثي والأسي",
+         "objective": "يحول بين الأشكال",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "حل المعادلات في C",
+         "objective": "يحل معادلة في C",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الأعداد المركبة والتحويلات النقطية",
+         "objective": "يعين تحويلا نقطيا",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U7",
+       "name": "الهندسة في الفضاء",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الجداء السلمي ومعادلة مستو",
+         "objective": "يكتب معادلة مستو",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الأوضاع النسبية والمسافة",
+         "objective": "يدرس تقاطع ومسافة",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "MATH",
+     "streams": [
+      "MATH",
+      "TM"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "النهايات والاستمرارية والاشتقاقية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "النهايات والمستقيمات المقاربة",
+         "objective": "يحسب النهايات",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الاستمرارية والاشتقاقية ودراسة الدوال",
+         "objective": "يدرس تغيرات دالة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الدوال الأسية واللوغاريتمية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الدالة الأسية واللوغاريتم النيبيري",
+         "objective": "يحل معادلات أسية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المعادلات التفاضلية y'=ay+b",
+         "objective": "يحل معادلة تفاضلية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "المتتاليات العددية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاستدلال بالتراجع",
+         "objective": "يبرهن خاصية بالتراجع",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "رتابة متتالية وتقاربها",
+         "objective": "يدرس تقارب متتالية",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المتتاليتان المتجاورتان",
+         "objective": "يبرهن تجاور متتاليتين",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الحساب التكاملي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الدوال الأصلية",
+         "objective": "يعين دالة أصلية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التكامل وحساب المساحات",
+         "objective": "يحسب تكاملا ومساحة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "الاحتمالات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاحتمالات الشرطية والاستقلالية",
+         "objective": "يحسب احتمالا شرطيا",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المتغير العشوائي والقانون الثنائي الحدين",
+         "objective": "يحسب الأمل الرياضي",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "الأعداد المركبة والتشابهات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الشكل الجبري والمثلثي والأسي",
+         "objective": "يحول بين الأشكال",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "حل المعادلات في C",
+         "objective": "يحل معادلة في C",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الأعداد المركبة والتحويلات النقطية",
+         "objective": "يعين تحويلا نقطيا",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "التشابه المباشر وكتابته المركبة",
+         "objective": "يحدد عناصر تشابه",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U7",
+       "name": "الحسابيات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "القسمة الإقليدية والموافقات في Z",
+         "objective": "يستعمل الموافقات",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "مبرهنتا بيزو وغوص",
+         "objective": "يحل معادلة ديوفنتية",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الأعداد الأولية وأنظمة التعداد",
+         "objective": "يحول نظام تعداد",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U8",
+       "name": "الهندسة في الفضاء",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الجداء السلمي ومعادلة مستو",
+         "objective": "يكتب معادلة مستو",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الأوضاع النسبية والمسافة",
+         "objective": "يدرس تقاطع ومسافة",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "MATH",
+     "streams": [
+      "GE"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الدوال العددية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "النهايات والمستقيمات المقاربة",
+         "objective": "يحسب النهايات",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الاشتقاقية ودراسة الدوال",
+         "objective": "يدرس تغيرات دالة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الدوال الأسية واللوغاريتمية",
+         "objective": "يدرس دالة أسية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "المتتاليات العددية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المتتاليات الحسابية والهندسية",
+         "objective": "يحسب الحد العام",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "تطبيقات: الفوائد المركبة",
+         "objective": "يحسب فائدة مركبة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الحساب التكاملي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الدوال الأصلية",
+         "objective": "يعين دالة أصلية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التكامل وحساب المساحات",
+         "objective": "يحسب تكاملا ومساحة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الاحتمالات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاحتمالات الشرطية",
+         "objective": "يحسب احتمالا شرطيا",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المتغير العشوائي والأمل الرياضي",
+         "objective": "يعين قانون احتمال وأمله",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "الإحصاء",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "السلاسل الإحصائية ذات متغيرين",
+         "objective": "يعين نقطة الوسط",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "مستقيم الانحدار ومعامل الارتباط",
+         "objective": "يعين مستقيم الانحدار",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "MATH",
+     "streams": [
+      "LIT",
+      "LANG"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الإحصاء",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مؤشرات الموقع: المتوسط والوسيط",
+         "objective": "يحسب المتوسط والوسيط",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "مؤشرات التشتت",
+         "objective": "يحسب التباين",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "التمثيلات البيانية",
+         "objective": "يقرأ مدرجا تكراريا",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الاحتمالات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التجربة العشوائية والحوادث",
+         "objective": "يعين الإمكانيات",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الاحتمال المتساوي والتعداد",
+         "objective": "يحسب احتمالا بشجرة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "احتمال اتحاد وتقاطع حادثتين",
+         "objective": "يطبق قاعدة الجمع",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الدوال",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الدالة التآلفية ودالة الدرجة الثانية",
+         "objective": "يدرس دالة بسيطة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "جدول التغيرات والتمثيل البياني",
+         "objective": "يرسم منحنى دالة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "المتتاليات العددية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المتتاليات الحسابية",
+         "objective": "يحسب الحد العام",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المتتاليات الهندسية",
+         "objective": "يحسب الحد العام",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "PHYS",
+     "streams": [
+      "SCI",
+      "MATH",
+      "TM"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "المتابعة الزمنية لتحول كيميائي في وسط مائي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التحولات البطيئة والعوامل الحركية",
+         "objective": "يحدد العوامل الحركية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "سرعة التفاعل وزمن نصف التفاعل",
+         "objective": "يحسب سرعة التفاعل",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "تطور جملة ميكانيكية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "قوانين نيوتن والسقوط الشاقولي",
+         "objective": "يدرس سقوطا شاقوليا",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "حركة قذيفة وجسيم مشحون في حقل منتظم",
+         "objective": "يعين معادلات المسار",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "حركة الكواكب والأقمار الاصطناعية",
+         "objective": "يطبق قوانين كبلر",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الظواهر الكهربائية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "ثنائيا القطب RC وRL",
+         "objective": "يدرس شحن مكثفة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الدارة RLC والتذبذبات الكهربائية",
+         "objective": "يفسر التذبذبات الحرة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "تطور جملة كيميائية نحو حالة التوازن",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التحولات غير التامة وثابت التوازن",
+         "objective": "يحسب ثابت التوازن",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الحموض والأسس وpH",
+         "objective": "يحسب pH محلول",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المعايرة حمض-أساس",
+         "objective": "يعين نقطة التكافؤ",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "مراقبة تطور جملة كيميائية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الأعمدة والتحليل الكهربائي",
+         "objective": "يميز التلقائي من القسري",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الأسترة والإماهة",
+         "objective": "يحسب مردود الأسترة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "التحولات النووية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "النشاط الإشعاعي وقانون التناقص",
+         "objective": "يطبق قانون التناقص",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التفاعلات النووية: الانشطار والاندماج",
+         "objective": "يوازن معادلة نووية",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الكتلة والطاقة وطاقة الربط",
+         "objective": "يحسب الطاقة المحررة",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "SVT",
+     "streams": [
+      "SCI",
+      "MATH"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "التخصص الوظيفي للبروتينات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "تركيب البروتين: الاستنساخ والترجمة",
+         "objective": "يشرح الترجمة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "العلاقة بين بنية البروتين ووظيفته",
+         "objective": "يربط البنية بالوظيفة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "النشاط الإنزيمي للبروتينات",
+         "objective": "يفسر التخصص الإنزيمي",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "دور البروتينات في الدفاع عن الذات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الذات واللاذات: مركب HLA",
+         "objective": "يميز الذات من اللاذات",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الاستجابة المناعية النوعية: الخلطية والخلوية",
+         "objective": "يميز دور LB من دور LT",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "دور البروتينات في الاتصال العصبي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الرسالة العصبية وكمون العمل",
+         "objective": "يفسر نشوء كمون العمل",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "النقل المشبكي والمبلغات العصبية",
+         "objective": "يشرح النقل المشبكي",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "التكامل العصبي",
+         "objective": "يفسر التكامل العصبي",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "التحولات الطاقوية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مرحلتا التركيب الضوئي",
+         "objective": "يميز المرحلتين",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التنفس الخلوي والتخمر",
+         "objective": "يقارن التنفس بالتخمر",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "استعمال ATP في التقلص العضلي",
+         "objective": "يفسر دور ATP",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "TECH",
+     "streams": [
+      "TM"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "التحليل الوظيفي والرسم الصناعي",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التحليل الوظيفي لنظام تقني",
+         "objective": "يحلل وظائف نظام تقني",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "قراءة الرسم الصناعي والمخططات",
+         "objective": "يقرأ رسما صناعيا",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الهندسة الميكانيكية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاستاتيك: توازن الأجسام الصلبة",
+         "objective": "يحل مسألة توازن",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "مقاومة المواد",
+         "objective": "يحسب الإجهادات",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الهندسة الكهربائية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المنطق التركيبي والتسلسلي",
+         "objective": "يصمم دارة منطقية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الآلات الكهربائية",
+         "objective": "يشرح عمل آلة كهربائية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الهندسة المدنية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الخرسانة المسلحة وعناصر البناء",
+         "objective": "يحدد عناصر منشأ",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الطوبوغرافيا",
+         "objective": "يقرأ مخططا طوبوغرافيا",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "هندسة الطرائق",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التحليل الكيميائي الصناعي",
+         "objective": "يجري معايرة صناعية",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "عمليات الفصل والتبادل الحراري",
+         "objective": "يشرح عملية فصل صناعية",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "FR",
+     "units": [
+      {
+       "code": "U1",
+       "name": "Projet 1 : Textes et documents d'histoire",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Informer d'un fait d'histoire",
+         "objective": "Repérer l'objectivité",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Introduire un témoignage dans un fait d'histoire",
+         "objective": "Insérer un témoignage",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "Analyser et commenter un fait d'histoire",
+         "objective": "Repérer la subjectivité",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "Projet 2 : Le débat d'idées",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "S'inscrire dans une controverse",
+         "objective": "Identifier les thèses",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Prendre position dans un débat : concéder et réfuter",
+         "objective": "Concéder puis réfuter",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "Projet 3 : L'appel",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Comprendre l'enjeu de l'appel",
+         "objective": "Analyser un appel",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Produire un appel",
+         "objective": "Rédiger un appel",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "Projet 4 : La nouvelle fantastique (LIT/LANG)",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Rapporter des faits qui ont trait au fantastique",
+         "objective": "Repérer le fantastique",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Faire entrer l'étrange dans le récit",
+         "objective": "Insérer l'étrange",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "Points de langue",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Le discours rapporté",
+         "objective": "Transposer un discours",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "La modalisation",
+         "objective": "Modaliser un énoncé",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "Les connecteurs logiques",
+         "objective": "Employer un connecteur",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "EN",
+     "units": [
+      {
+       "code": "U1",
+       "name": "Ancient Civilizations",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Past simple vs past perfect; used to",
+         "objective": "Narrate past events",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Modals of deduction in the past",
+         "objective": "Make past deductions",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "Ethics in Business",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Conditionals types 1, 2 and 3",
+         "objective": "Use conditionals",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Expressing wish, regret and obligation",
+         "objective": "Express regret",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "Education in the World",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Comparing and contrasting",
+         "objective": "Compare two systems",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Expressing purpose, result and concession",
+         "objective": "Use result linkers",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "Advertising, Consumers and Safety",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Giving advice and warning",
+         "objective": "Give safety advice",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Quantifiers; cause and effect",
+         "objective": "Use quantifiers",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "Astronomy and the Solar System",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "The passive voice",
+         "objective": "Use the passive",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "Relative clauses and definitions",
+         "objective": "Write definitions",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "Feelings, Emotions and Humour",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "Expressing feelings and emotions",
+         "objective": "Describe emotions",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "Writing a short story or anecdote",
+         "objective": "Write an anecdote",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "HIST",
+     "units": [
+      {
+       "code": "U1",
+       "name": "تطور العالم في ظل الثنائية القطبية 1945-1989",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "بروز الصراع وتشكل العالم: الحرب الباردة",
+         "objective": "يفسر نشأة الكتلتين",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الأزمات الدولية في ظل الحرب الباردة",
+         "objective": "يحلل أزمة دولية",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "مساعي الانفراج الدولي والتعايش السلمي",
+         "objective": "يفسر عوامل الانفراج",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "من الثنائية إلى الأحادية القطبية",
+         "objective": "يفسر زوال الثنائية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الجزائر 1945-1989",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التطورات السياسية في الجزائر 1945-1954",
+         "objective": "يفسر أثر 8 ماي 1945",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "اندلاع الثورة التحريرية واستراتيجيتها",
+         "objective": "يشرح استراتيجية الثورة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "مؤتمر الصومام وتطور الثورة",
+         "objective": "يحدد قرارات الصومام",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "المفاوضات واتفاقيات إيفيان",
+         "objective": "يستخرج بنود إيفيان",
+         "verified": true
+        },
+        {
+         "code": "L5",
+         "name": "استرجاع السيادة وبناء الدولة 1962-1989",
+         "objective": "يحدد اختيارات الدولة",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "تطور العالم الثالث 1945-1989",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الحركات التحررية في آسيا وإفريقيا",
+         "objective": "يقارن أساليب التحرر",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "القضية الفلسطينية",
+         "objective": "يتتبع تطور القضية",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "حركة عدم الانحياز",
+         "objective": "يحدد مبادئ الحركة",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "GEO",
+     "units": [
+      {
+       "code": "U1",
+       "name": "الواقع الاقتصادي في العالم",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التنمية والتخلف: المفاهيم والمؤشرات",
+         "objective": "يميز مؤشرات التنمية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التفاوت بين الشمال والجنوب",
+         "objective": "يفسر مظاهر التفاوت",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "التكتلات الاقتصادية الكبرى",
+         "objective": "يحدد أهداف التكتلات",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "القوى الاقتصادية الكبرى في العالم",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الولايات المتحدة الأمريكية",
+         "objective": "يفسر عوامل قوتها",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الاتحاد الأوروبي",
+         "objective": "يحدد مقومات الاتحاد",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "اليابان ودول جنوب شرق آسيا",
+         "objective": "يفسر قوة اليابان",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الجزائر والتنمية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "مكانة الجزائر الاقتصادية في العالم",
+         "objective": "يحدد مكانة الجزائر",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "الموارد والإنتاج الاقتصادي في الجزائر",
+         "objective": "يصنف موارد الجزائر",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "السكان والتهيئة الإقليمية",
+         "objective": "يفسر التوزيع السكاني",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "المبادلات التجارية للجزائر",
+         "objective": "يحلل التجارة الخارجية",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "ISL",
+     "units": [
+      {
+       "code": "U1",
+       "name": "من هدي القرآن الكريم",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "وسائل القرآن الكريم في تثبيت العقيدة",
+         "objective": "يحدد وسائل التثبيت",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "القيم في القرآن الكريم",
+         "objective": "يصنف القيم القرآنية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "مصادر التشريع الإسلامي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الإجماع والقياس",
+         "objective": "يعرف الإجماع والقياس",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المصالح المرسلة والاستحسان والعرف",
+         "objective": "يميز المصادر التبعية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "المعاملات المالية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الربا: أنواعه وأحكامه",
+         "objective": "يميز أنواع الربا",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الشركات في الفقه الإسلامي",
+         "objective": "يحدد أنواع الشركات",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المعاملات المالية المعاصرة",
+         "objective": "يبين حكم التأمين",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "الحقوق والقيم الاجتماعية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "حقوق الإنسان في الإسلام",
+         "objective": "يستخرج حقوق الإنسان",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "أثر الإيمان والعبادات في اجتناب الانحراف والجريمة",
+         "objective": "يبين أثر العبادات",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "العلاقات الاجتماعية بين المسلمين وغيرهم",
+         "objective": "يحدد ضوابط التعامل",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "PHILO",
+     "streams": [
+      "SCI",
+      "MATH",
+      "TM",
+      "GE",
+      "LANG"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "إدراك العالم الخارجي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الإحساس والإدراك",
+         "objective": "يميز الإحساس من الإدراك",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "اللغة والفكر",
+         "objective": "يناقش أسبقية الفكر",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الذاكرة والخيال",
+         "objective": "يقارن الذاكرة بالخيال",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "الشعور واللاشعور",
+         "objective": "يناقش فرضية اللاشعور",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "في الأخلاق",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الحرية والمسؤولية",
+         "objective": "يناقش شرط المسؤولية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "أساس المسؤولية والجزاء",
+         "objective": "يحدد أساس الجزاء",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "في فلسفة العلوم",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المنهج التجريبي والحتمية",
+         "objective": "يشرح خطوات المنهج",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التجريب في البيولوجيا",
+         "objective": "يناقش عوائق التجريب",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "التجريب في العلوم الإنسانية",
+         "objective": "يناقش علميتها",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الرياضيات: المطلقية والنسبية",
+         "objective": "يناقش اليقين الرياضي",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "منهجية المقالة الفلسفية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الطريقة الجدلية والاستقصاء",
+         "objective": "يكتب مقالة جدلية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المقارنة وتحليل النص الفلسفي",
+         "objective": "يحلل نصا فلسفيا",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "PHILO",
+     "streams": [
+      "LIT"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "في المشكلة والإشكالية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المشكلة والإشكالية",
+         "objective": "يعرف الإشكالية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "السؤال والمشكلة",
+         "objective": "يميز السؤال الفلسفي",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "في الاستدلال",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاستدلال الاستنتاجي: المنطق الصوري",
+         "objective": "يحلل قياسا منطقيا",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الاستدلال الاستقرائي والمنطق المادي",
+         "objective": "يحدد خطوات الاستقراء",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "في فلسفة العلوم",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "المنهج التجريبي والحتمية",
+         "objective": "يشرح خطوات المنهج",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التجريب في البيولوجيا",
+         "objective": "يناقش عوائق التجريب",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "التجريب في العلوم الإنسانية",
+         "objective": "يناقش علميتها",
+         "verified": true
+        },
+        {
+         "code": "L4",
+         "name": "الرياضيات: المطلقية والنسبية",
+         "objective": "يناقش اليقين الرياضي",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "في الشعور بالأنا والغير",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الشعور واللاشعور",
+         "objective": "يناقش فرضية اللاشعور",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الشعور بالأنا والشعور بالغير",
+         "objective": "يناقش دور الغير",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "اللغة والفكر",
+         "objective": "يناقش أسبقية الفكر",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "في الأخلاق والأنظمة الاقتصادية والسياسية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الحرية والمسؤولية",
+         "objective": "يناقش شرط المسؤولية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الأنظمة الاقتصادية: الرأسمالية والاشتراكية",
+         "objective": "يقارن النظامين",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "الأنظمة السياسية: الديمقراطية",
+         "objective": "يقارن الديمقراطيتين",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U6",
+       "name": "منهجية المقالة الفلسفية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الطريقة الجدلية والاستقصاء",
+         "objective": "يكتب مقالة جدلية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "المقارنة وتحليل النص الفلسفي",
+         "objective": "يحلل نصا فلسفيا",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "ECO",
+     "streams": [
+      "GE"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "النقود والسياسة النقدية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "النقود: وظائفها وأشكالها",
+         "objective": "يحدد وظائف النقود",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "الكتلة النقدية وخلق النقود",
+         "objective": "يشرح آلية خلق النقود",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "التضخم والسياسة النقدية",
+         "objective": "يفسر أسباب التضخم",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "النظام المالي والمصرفي",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "البنك المركزي والبنوك التجارية",
+         "objective": "يميز وظائف البنوك",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "السوق المالية (البورصة)",
+         "objective": "يشرح دور البورصة",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "العلاقات الاقتصادية الدولية",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "التجارة الخارجية وميزان المدفوعات",
+         "objective": "يقرأ ميزان المدفوعات",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "النمو والتنمية الاقتصادية",
+         "objective": "يميز النمو من التنمية",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "المناجمنت: وظائف المؤسسة",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "وظيفة التموين وتسيير المخزون",
+         "objective": "يحسب المخزون الأمثل",
+         "verified": false
+        },
+        {
+         "code": "L2",
+         "name": "وظيفة التسويق والمزيج التسويقي",
+         "objective": "يشرح المزيج التسويقي",
+         "verified": false
+        },
+        {
+         "code": "L3",
+         "name": "وظيفة الموارد البشرية",
+         "objective": "يحدد مهام الوظيفة",
+         "verified": false
+        },
+        {
+         "code": "L4",
+         "name": "وظيفة التمويل",
+         "objective": "يصنف مصادر التمويل",
+         "verified": false
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "ACC",
+     "streams": [
+      "GE"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "أعمال نهاية السنة: الجرد",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الاهتلاكات: الخطي والمتناقص",
+         "objective": "يحسب قسط الاهتلاك",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "خسائر القيمة",
+         "objective": "يسجل خسارة القيمة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "التنازل عن التثبيتات",
+         "objective": "يسجل عملية التنازل",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "التسويات",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "تسوية الأعباء والنواتج",
+         "objective": "يسجل أعباء مقدمة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التسوية البنكية",
+         "objective": "يعد التقارب البنكي",
+         "verified": false
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الكشوف المالية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الميزانية الختامية",
+         "objective": "يعد ميزانية ختامية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "حساب النتائج حسب الطبيعة",
+         "objective": "يحسب النتيجة الصافية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "التحليل المالي",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الميزانية الوظيفية ورأس المال العامل",
+         "objective": "يحسب رأس المال العامل",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "احتياج رأس المال العامل والخزينة",
+         "objective": "يحسب BFR والخزينة",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "النسب المالية",
+         "objective": "يحسب نسبا مالية",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U5",
+       "name": "تحليل الاستغلال",
+       "verified": false,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الأعباء الثابتة والمتغيرة",
+         "objective": "يصنف الأعباء",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "عتبة المردودية",
+         "objective": "يحسب عتبة المردودية",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "subject": "LAW",
+     "streams": [
+      "GE"
+     ],
+     "units": [
+      {
+       "code": "U1",
+       "name": "الأعمال التجارية والتاجر",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "الأعمال التجارية",
+         "objective": "يصنف الأعمال التجارية",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "التاجر والسجل التجاري",
+         "objective": "يحدد شروط صفة التاجر",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "المحل التجاري",
+         "objective": "يحدد عناصر المحل",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U2",
+       "name": "الشركات التجارية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "شركات الأشخاص: شركة التضامن",
+         "objective": "يحدد خصائص التضامن",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "شركات الأموال: SPA وSARL",
+         "objective": "يميز SPA من SARL",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U3",
+       "name": "الأوراق التجارية",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "السفتجة",
+         "objective": "يحدد بيانات السفتجة",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "السند لأمر والشيك",
+         "objective": "يميز السند من الشيك",
+         "verified": true
+        }
+       ]
+      },
+      {
+       "code": "U4",
+       "name": "قانون العمل",
+       "verified": true,
+       "lessons": [
+        {
+         "code": "L1",
+         "name": "عقد العمل: أنواعه وشروطه",
+         "objective": "يميز أنواع عقد العمل",
+         "verified": true
+        },
+        {
+         "code": "L2",
+         "name": "حقوق العامل وواجباته",
+         "objective": "يحدد حقوق العامل",
+         "verified": true
+        },
+        {
+         "code": "L3",
+         "name": "انتهاء علاقة العمل",
+         "objective": "يحدد حالات الانتهاء",
+         "verified": true
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

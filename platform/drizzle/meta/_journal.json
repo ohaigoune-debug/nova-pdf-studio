@@ -57,6 +57,13 @@
       "when": 1789761451378,
       "tag": "0007_media",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792154332830,
+      "tag": "0008_madrasadz_play",
+      "breakpoints": true
     }
   ]
 }
