@@ -1,4 +1,4 @@
-import { bigint, boolean, check, index, integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { bigint, boolean, check, index, integer, pgTable, text, timestamp, uuid, type AnyPgColumn } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
 import { id, inList, softDelete, timestamps } from './_common'
 import { users } from './auth'
@@ -72,6 +72,10 @@ export const content = pgTable(
     streamId: uuid('stream_id').references(() => streams.id),
     topic: text('topic'),
     skillId: uuid('skill_id').references(() => skills.id),
+    /** المادة (إضافة 2027: لترتيب الدروس وفلترتها بالمنهاج؛ فارغ = محتوى قديم غير مصنّف) */
+    subjectId: uuid('subject_id').references(() => subjects.id),
+    /** عقدة المنهاج (وحدة/درس) التي ينتمي إليها الدرس — ترتيب العرض يتبع curriculum_nodes.sort_order */
+    curriculumNodeId: uuid('curriculum_node_id').references((): AnyPgColumn => curriculumNodes.id, { onDelete: 'set null' }),
     visibility: text('visibility').notNull().default('PUBLIC'),
     publishedAt: timestamp('published_at', { withTimezone: true }),
     /** فيديو: YOUTUBE (مضمّن داخل التطبيق) أو UPLOAD (ملف خاص يُبثّ عبر رابط موقّع بهوية المشاهد) أو BUNNY (Bunny Stream برابط تضمين موقّع) */
@@ -90,7 +94,9 @@ export const content = pgTable(
     check('content_video_provider_check', sql`${t.videoProvider} IS NULL OR ${t.videoProvider} IN ('YOUTUBE', 'UPLOAD', 'BUNNY')`),
     index('content_workspace_idx').on(t.workspaceId),
     index('content_public_idx').on(t.visibility, t.publishedAt),
-    index('content_level_idx').on(t.levelId, t.type)
+    index('content_level_idx').on(t.levelId, t.type),
+    index('content_subject_idx').on(t.subjectId, t.levelId, t.streamId),
+    index('content_node_idx').on(t.curriculumNodeId)
   ]
 )
 

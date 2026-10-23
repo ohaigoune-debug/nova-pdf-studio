@@ -26,7 +26,7 @@ export default async function EditContentPage({ params }: { params: Promise<{ id
       <PageHeader title={t('contentMgmt.edit')} description={c.title} />
       <Card className="max-w-3xl">
         <CardContent className="p-6">
-          <ContentForm contentId={c.id} defaults={{ ...c, published: !!c.publishedAt }} groups={opts.groups} students={opts.students} levels={opts.levels} streams={opts.streams} skills={opts.skills} files={opts.files} />
+          <ContentForm contentId={c.id} defaults={{ ...c, published: !!c.publishedAt }} groups={opts.groups} students={opts.students} levels={opts.levels} streams={opts.streams} skills={opts.skills} files={opts.files} subjects={opts.subjects} nodes={opts.nodes} />
         </CardContent>
       </Card>
     </>

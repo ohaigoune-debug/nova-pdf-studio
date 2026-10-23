@@ -9,6 +9,7 @@ import type { Db } from '@/server/db/connect'
 import { bankQuestions, content, contentSources, curriculumNodes, examDocuments, levels, resources, streams, subjects } from '@/server/db/schema'
 import type { ResourceType } from '@/server/db/schema/enums'
 import { normalizeArabic } from '@/server/lib/arabic'
+import { hasCourseAccessOn } from '@/server/lib/course-access'
 import { AppError } from '@/server/lib/errors'
 import { tsQueryOf } from './question-bank.service'
 
@@ -66,7 +67,7 @@ export const visibleResources = (studentId?: string | null) =>
     studentId
       ? or(
           eq(resources.accessLevel, 'PUBLIC'),
-          and(eq(resources.accessLevel, 'GROUP'), sql`exists (select 1 from resource_groups rg join group_students gs on gs.group_id = rg.group_id where rg.resource_id = ${resources.id} and gs.student_id = ${studentId} and gs.status = 'ACTIVE')`)
+          and(eq(resources.accessLevel, 'GROUP'), sql`exists (select 1 from resource_groups rg join group_students gs on gs.group_id = rg.group_id where rg.resource_id = ${resources.id} and gs.student_id = ${studentId} and gs.status = 'ACTIVE' and ${hasCourseAccessOn(sql`gs.group_id`, studentId)})`)
         )
       : eq(resources.accessLevel, 'PUBLIC')
   )
@@ -320,6 +321,31 @@ export interface ResourceListFilter {
   excludeBac?: boolean
   /** تلميذ مسجّل: يرى أيضاً ما خُصّ به فوجه */
   studentId?: string | null
+  /** الشعبة: موارد الشعبة + المشتركة بين الشعب (stream_id فارغ) */
+  streamId?: string | null
+  /** عائلة الشعبة (الشعبة وأمّها) إن حُسبت مسبقاً؛ تغني عن streamId */
+  streamIds?: string[] | null
+  /** الفصل الدراسي 1–3 (resources.school_term)؛ لا يُخمَّن من العنوان */
+  term?: number | null
+}
+
+/** استثناء مواضيع البكالوريا الرسمية (لها قسمها /bac): نفس الشرط في العرض والعدّ والبطاقات */
+export function bacExclusionClauses(): SQL[] {
+  return [
+    // وثيقة BAC في محرّك الامتحانات
+    sql`not exists (select 1 from exam_documents d where d.resource_id = ${resources.id} and d.doc_type = 'BAC')`,
+    // امتحان رسمي في السنة الثالثة ثانوي
+    sql`not (${resources.isOfficial} and ${resources.type} in ('EXAM', 'SOLUTION') and ${resources.levelId} is not distinct from (select l.id from levels l where l.code = '3AS'))`
+  ]
+}
+
+/** بطاقة الحلّ المرفق بموضوعه لا تُعرض ثانيةً (يُفتح من زرّ «الحلّ») */
+export const notAttachedSolution = () => sql`not exists (select 1 from resources p where p.solution_resource_id = ${resources.id} and p.deleted_at is null)`
+
+/** شرط الشعبة: الشعبة (أو عائلتها) + المشترك بين الشعب */
+function streamClause(f: Pick<ResourceListFilter, 'streamId' | 'streamIds'>): SQL | undefined {
+  const ids = f.streamIds?.length ? f.streamIds : f.streamId ? [f.streamId] : []
+  return ids.length ? or(inArray(resources.streamId, ids), isNull(resources.streamId)) : undefined
 }
 
 /** رابط فتح المورد: الملف المخزَّن عندنا أولاً، ثم الملف أو الصفحة عند المصدر */
@@ -340,10 +366,11 @@ export async function listResourceCards(db: Db, f: ResourceListFilter, page: { c
     inArray(resources.type, f.types),
     f.levelId ? eq(resources.levelId, f.levelId) : undefined,
     f.subjectId ? eq(resources.subjectId, f.subjectId) : undefined,
+    streamClause(f),
+    f.term ? eq(resources.schoolTerm, f.term) : undefined,
     q.length >= 2 ? (ts ? or(sql`${resources.title} ilike ${`%${esc(q)}%`}`, sql`${resources}."search" @@ to_tsquery('simple', ${ts})`) : sql`${resources.title} ilike ${`%${esc(q)}%`}`) : undefined,
     // البكالوريا الرسمية: امتحان رسمي في السنة الثالثة ثانوي أو وثيقة BAC في محرّك الامتحانات
-    f.excludeBac ? sql`not exists (select 1 from exam_documents d where d.resource_id = ${resources.id} and d.doc_type = 'BAC')` : undefined,
-    f.excludeBac ? sql`not (${resources.isOfficial} and ${resources.type} in ('EXAM', 'SOLUTION') and ${resources.levelId} is not distinct from (select l.id from levels l where l.code = '3AS'))` : undefined
+    ...(f.excludeBac ? bacExclusionClauses() : [])
   ]
   const base = and(...where)
   const pageWhere: (SQL | undefined)[] = [base]
@@ -403,8 +430,9 @@ export async function practiceCounts(db: Db, f: Omit<ResourceListFilter, 'types'
         inArray(resources.type, all),
         f.levelId ? eq(resources.levelId, f.levelId) : undefined,
         f.subjectId ? eq(resources.subjectId, f.subjectId) : undefined,
-        f.excludeBac ? sql`not exists (select 1 from exam_documents d where d.resource_id = ${resources.id} and d.doc_type = 'BAC')` : undefined,
-        f.excludeBac ? sql`not (${resources.isOfficial} and ${resources.type} in ('EXAM', 'SOLUTION') and ${resources.levelId} is not distinct from (select l.id from levels l where l.code = '3AS'))` : undefined
+        streamClause(f),
+        f.term ? eq(resources.schoolTerm, f.term) : undefined,
+        ...(f.excludeBac ? bacExclusionClauses() : [])
       )
     )
     .groupBy(resources.type)

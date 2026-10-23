@@ -1,12 +1,13 @@
 import { randomBytes } from 'node:crypto'
 import { and, eq, inArray, isNotNull, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { content, contentTargets, files, groupStudents, levels, profiles, students, users } from '@/server/db/schema'
+import { content, contentTargets, curriculumNodes, files, groupStudents, levels, profiles, streams, students, users } from '@/server/db/schema'
 import type { ContentType, VideoProvider, Visibility } from '@/server/db/schema/enums'
 import { isBunnyVideoId } from '@/server/lib/bunny'
 import { parseYoutubeId } from '@/server/lib/youtube'
 import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
+import { reachableGroupIds } from '@/server/lib/course-access'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { assertGroupAccess } from './groups.service'
 import { notifyMany } from './notifications.service'
@@ -22,6 +23,9 @@ export interface ContentInput {
   streamId?: string | null
   topic?: string | null
   skillId?: string | null
+  /** المادة وعقدة المنهاج (وحدة/درس) — اختياريان؛ يرتّبان الدرس في «دروسي» بترتيب المنهاج */
+  subjectId?: string | null
+  curriculumNodeId?: string | null
   visibility: Visibility
   groupIds?: string[]
   studentIds?: string[]
@@ -32,6 +36,37 @@ export interface ContentInput {
   allowDownload?: boolean
   /** فيديو BUNNY: معرّف الفيديو في مكتبة Bunny Stream */
   bunnyVideoId?: string | null
+}
+
+/**
+ * اتساق التصنيف: عقدة المنهاج تحدّد المادة والمستوى (تُملآن منها إن غابا، وتُرفضان إن خالفتاها)،
+ * وشعبة الدرس يجب أن تكون شعبة العقدة أو فرعًا منها (العقدة المشتركة بين الشعب تقبل أي شعبة).
+ */
+async function reconcileClassification(db: Db, input: { curriculumNodeId?: string | null; subjectId?: string | null; levelId?: string | null; streamId?: string | null }) {
+  if (!input.curriculumNodeId) return { subjectId: input.subjectId ?? null, levelId: input.levelId ?? null, streamId: input.streamId ?? null, curriculumNodeId: null }
+  assertUuid(input.curriculumNodeId, 'VALIDATION')
+  const [node] = await db.select({ id: curriculumNodes.id, subjectId: curriculumNodes.subjectId, levelId: curriculumNodes.levelId, streamId: curriculumNodes.streamId }).from(curriculumNodes).where(eq(curriculumNodes.id, input.curriculumNodeId)).limit(1)
+  if (!node) throw new AppError('VALIDATION', { field: 'curriculumNodeId' })
+  if (input.subjectId && input.subjectId !== node.subjectId) throw new AppError('VALIDATION', { field: 'subjectId', reason: 'node_subject_mismatch' })
+  if (input.levelId && input.levelId !== node.levelId) throw new AppError('VALIDATION', { field: 'levelId', reason: 'node_level_mismatch' })
+  let streamId = input.streamId ?? null
+  if (node.streamId) {
+    if (!streamId) streamId = node.streamId
+    else {
+      // الشعبة أو أحد أسلافها يجب أن يساوي شعبة العقدة
+      let cur: string | null = streamId
+      let ok = false
+      for (let i = 0; cur && i < 4 && !ok; i++) {
+        if (cur === node.streamId) ok = true
+        else {
+          const [s] = await db.select({ parentId: streams.parentId }).from(streams).where(eq(streams.id, cur)).limit(1)
+          cur = s?.parentId ?? null
+        }
+      }
+      if (!ok) throw new AppError('VALIDATION', { field: 'streamId', reason: 'node_stream_mismatch' })
+    }
+  }
+  return { subjectId: node.subjectId, levelId: node.levelId, streamId, curriculumNodeId: node.id }
 }
 
 /** يشتق حقول الفيديو من المدخلات: معرّف يوتيوب مُتحقَّق منه أو ملف مرفوع */
@@ -107,6 +142,7 @@ export async function createContent(db: Db, actor: Actor, input: ContentInput) {
   const title = input.title.trim()
   if (!title) throw new AppError('VALIDATION', { field: 'title' })
   const workspaceId = actor.role === 'TEACHER' ? actor.workspaceId : null
+  const cls = await reconcileClassification(db, input)
   return db.transaction(async (tx) => {
     const [row] = await tx
       .insert(content)
@@ -120,10 +156,12 @@ export async function createContent(db: Db, actor: Actor, input: ContentInput) {
         body: input.body?.trim() || null,
         externalUrl: input.externalUrl?.trim() || null,
         fileId: input.fileId ?? null,
-        levelId: input.levelId ?? null,
-        streamId: input.streamId ?? null,
+        levelId: cls.levelId,
+        streamId: cls.streamId,
         topic: input.topic?.trim() || null,
         skillId: input.skillId ?? null,
+        subjectId: cls.subjectId,
+        curriculumNodeId: cls.curriculumNodeId,
         visibility: input.visibility,
         publishedAt: input.publish ? new Date() : null,
         allowDownload: input.allowDownload ?? false,
@@ -151,6 +189,18 @@ export async function updateContent(db: Db, actor: Actor, id: string, input: Par
   if (input.streamId !== undefined) patch.streamId = input.streamId
   if (input.topic !== undefined) patch.topic = input.topic?.trim() || null
   if (input.skillId !== undefined) patch.skillId = input.skillId
+  if (input.subjectId !== undefined) patch.subjectId = input.subjectId
+  if (input.curriculumNodeId !== undefined) patch.curriculumNodeId = input.curriculumNodeId
+  // اتساق التصنيف على الحالة الناتجة (القديم + التعديل)
+  if (input.curriculumNodeId !== undefined || input.subjectId !== undefined || input.levelId !== undefined || input.streamId !== undefined) {
+    const cls = await reconcileClassification(db, {
+      curriculumNodeId: input.curriculumNodeId !== undefined ? input.curriculumNodeId : c.curriculumNodeId,
+      subjectId: input.subjectId !== undefined ? input.subjectId : c.subjectId,
+      levelId: input.levelId !== undefined ? input.levelId : c.levelId,
+      streamId: input.streamId !== undefined ? input.streamId : c.streamId
+    })
+    if (cls.curriculumNodeId) Object.assign(patch, cls)
+  }
   if (input.visibility !== undefined) patch.visibility = input.visibility
   if (input.publish !== undefined) patch.publishedAt = input.publish ? (c.publishedAt ?? new Date()) : null
   if (input.allowDownload !== undefined) patch.allowDownload = input.allowDownload
@@ -199,12 +249,8 @@ export async function getContentForEdit(db: Db, actor: Actor, id: string) {
 /** محتوى للطالب حسب الرؤية: عام / للطلاب / موجّه لأفواجه أو له */
 export async function getContentForStudent(db: Db, actor: Actor, slug: string) {
   const studentId = studentIdOf(actor)
-  const gids = (
-    await db
-      .select({ groupId: groupStudents.groupId })
-      .from(groupStudents)
-      .where(and(eq(groupStudents.studentId, studentId), inArray(groupStudents.status, ['ACTIVE', 'SUSPENDED', 'SUSPENDED_DUE_TO_ABSENCE'])))
-  ).map((r) => r.groupId)
+  // الأفواج التي يصل إليها الآن: اشتراك الدورة المنتهي يُستبعد عند كل طلب لا عند مهمة الانتهاء فقط
+  const gids = await reachableGroupIds(db, studentId)
   const targeted = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)

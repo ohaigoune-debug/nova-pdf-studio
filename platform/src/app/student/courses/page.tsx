@@ -17,18 +17,33 @@ export default async function StudentCoursesPage() {
   const items = await myCourses(await getDb(), actor)
   return (
     <>
-      <PageHeader title="دوراتي" description="الدورات المدفوعة التي اشتركت فيها: حصص مباشرة، فيديوهات مسجّلة، ملفات، وقسم افتراضي مع أستاذك." />
+      <PageHeader
+        title="دوراتي"
+        description="الدورات التي اشتركت فيها: حصص مباشرة، فيديوهات مسجّلة، ملفات، وقسم افتراضي مع أستاذك."
+        actions={
+          <Button asChild variant="outline" size="sm">
+            <Link href="/student/courses/catalog">كتالوج الدورات</Link>
+          </Button>
+        }
+      />
       {items.length === 0 ? (
         <EmptyState
           icon={BookMarked}
           title="لا اشتراك في أي دورة بعد"
           description="يُفعَّل اشتراكك تلقائياً عند استلام الكتاب الذي اشتريته من المتجر، أو عبر رمز التفعيل الذي تتلقّاه بالرسالة."
           action={
-            <Button asChild>
-              <Link href="/store">
-                <ShoppingBag className="size-4" /> تصفّح المتجر
-              </Link>
-            </Button>
+            <span className="flex flex-wrap justify-center gap-2">
+              <Button asChild>
+                <Link href="/student/courses/catalog">
+                  <BookMarked className="size-4" /> تصفّح كتالوج الدورات
+                </Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/store">
+                  <ShoppingBag className="size-4" /> المتجر
+                </Link>
+              </Button>
+            </span>
           }
         />
       ) : (
