@@ -1,0 +1,1330 @@
+[
+ {
+  "key": "3AS-EN-U3-L1-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Recognise a linker that expresses contrast between two education systems.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Which word shows a CONTRAST between two school systems?",
+  "options": [
+   "similarly",
+   "likewise",
+   "whereas",
+   "both"
+  ],
+  "correct": 2,
+  "explanation": "'Whereas' introduces a difference between two things. 'Similarly', 'likewise' and 'both' all express similarity, not contrast.",
+  "tags": [
+   "contrast",
+   "linkers",
+   "comparing"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0002",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Form the comparative of a long adjective correctly.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Complete: 'University courses in Britain are usually ____ than in Algeria.'",
+  "options": [
+   "more expensive",
+   "expensiver",
+   "most expensive",
+   "the more expensive"
+  ],
+  "correct": 0,
+  "explanation": "Long adjectives form the comparative with 'more + adjective' and are followed by 'than'. 'Expensiver' does not exist and 'most expensive' is a superlative.",
+  "tags": [
+   "comparatives",
+   "adjectives"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0003",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Use 'as ... as' to express equality between two systems.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "In both countries, primary education is ____ important ____ secondary education.",
+  "blanks": [
+   "as",
+   "as"
+  ],
+  "bank": [
+   "as",
+   "than",
+   "so",
+   "like",
+   "more",
+   "that"
+  ],
+  "explanation": "Equality is expressed with 'as + adjective + as'. 'Than' is only used after a comparative form such as 'more important'.",
+  "tags": [
+   "equality",
+   "as...as"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0004",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Identify the function of 'unlike' at the beginning of a sentence.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "'Unlike American students, Algerian pupils wear a school uniform.' What does 'unlike' express?",
+  "options": [
+   "a similarity",
+   "a difference",
+   "a result",
+   "a purpose"
+  ],
+  "correct": 1,
+  "explanation": "'Unlike' is a preposition meaning 'different from' and introduces a difference. 'Like', by contrast, would introduce a similarity.",
+  "tags": [
+   "contrast",
+   "unlike",
+   "prepositions"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Choose the correct contrast linker before a clause.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Japanese pupils clean their own classrooms, ____ in many other countries this is done by cleaners.",
+  "blanks": [
+   "whereas"
+  ],
+  "bank": [
+   "whereas",
+   "despite",
+   "similarly",
+   "because",
+   "like",
+   "too"
+  ],
+  "explanation": "'Whereas' links two full clauses that contrast. 'Despite' is followed by a noun or -ing form, not a clause, and 'similarly' would express likeness.",
+  "tags": [
+   "contrast",
+   "whereas"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Distinguish 'like' from 'as' when comparing.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Comparing Algeria and Tunisia, which sentence is correct?",
+  "options": [
+   "As in Algeria, pupils in Tunisia sit a baccalaureate exam.",
+   "Like in Algeria, pupils in Tunisia sits a baccalaureate exam.",
+   "As Algeria, pupils in Tunisia sit a baccalaureate exam.",
+   "Alike Algeria, pupils in Tunisia sit a baccalaureate exam."
+  ],
+  "correct": 0,
+  "explanation": "'As in Algeria' correctly compares a situation with a prepositional phrase. 'As Algeria' and 'alike Algeria' are not acceptable structures, and option 2 also has a subject-verb agreement error ('pupils sits').",
+  "tags": [
+   "as",
+   "like",
+   "comparing"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0007",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Use a linker of similarity correctly.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "In France, the school year starts in September. ____, Algerian schools open in September too.",
+  "blanks": [
+   [
+    "Similarly",
+    "Likewise"
+   ]
+  ],
+  "bank": [
+   "Similarly",
+   "Likewise",
+   "However",
+   "Whereas",
+   "Unlike",
+   "Although"
+  ],
+  "explanation": "The second sentence gives a point in common, so a similarity linker such as 'Similarly' or 'Likewise' is needed. 'However' and 'Whereas' signal a difference.",
+  "tags": [
+   "similarity",
+   "linkers"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0008",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Use the correct comparative form of an irregular adjective.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "'Some people think private schools offer ____ facilities than public ones.'",
+  "options": [
+   "gooder",
+   "more good",
+   "better",
+   "best"
+  ],
+  "correct": 2,
+  "explanation": "'Good' has the irregular comparative 'better'. 'Best' is the superlative, and 'gooder'/'more good' are incorrect forms.",
+  "tags": [
+   "comparatives",
+   "irregular adjectives"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0009",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Analyse which sentence expresses the same idea as a 'while' sentence.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "'While British pupils specialise early, Algerian pupils study many subjects until the baccalaureate.' Which sentence has the SAME meaning?",
+  "options": [
+   "British pupils specialise early because Algerian pupils study many subjects.",
+   "Both British and Algerian pupils specialise early.",
+   "British pupils specialise early, but Algerian pupils do not.",
+   "British pupils specialise early, so Algerian pupils study many subjects."
+  ],
+  "correct": 2,
+  "explanation": "Here 'while' is a contrast linker equivalent to 'but'. The sentences with 'because' and 'so' wrongly create a cause-effect link, and 'both' wrongly makes the two systems similar.",
+  "tags": [
+   "contrast",
+   "while",
+   "paraphrase"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0010",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Use a noun phrase to express a difference.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "The main ____ between the two systems is the age at which pupils start school, but they have a lot in ____.",
+  "blanks": [
+   "difference",
+   "common"
+  ],
+  "bank": [
+   "difference",
+   "common",
+   "similarity",
+   "contrast",
+   "same",
+   "compared"
+  ],
+  "explanation": "A 'difference between' two things is the standard collocation, and 'to have a lot in common' means to share many features. 'Similarity' would contradict 'but'.",
+  "tags": [
+   "vocabulary",
+   "collocations",
+   "comparing"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0011",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Identify the correct use of 'the same ... as'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which sentence correctly uses 'the same ... as'?",
+  "options": [
+   "Algerian pupils take the same number of exams than French pupils.",
+   "Algerian pupils take the same number of exams as French pupils.",
+   "Algerian pupils take same number of exams like French pupils.",
+   "Algerian pupils take the same number of exams that French pupils."
+  ],
+  "correct": 1,
+  "explanation": "'The same ... as' is the correct structure for identity. 'Than' belongs with comparatives, and 'same ... like' / 'the same ... that' are incorrect.",
+  "tags": [
+   "the same as",
+   "comparing"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0012",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Judge the most suitable linker in a formal comparison paragraph.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which sentence is correctly written?",
+  "options": [
+   "In contrast to Finland, where homework is light, pupils in South Korea study long hours.",
+   "In contrast Finland, where homework is light, pupils in South Korea study long hours.",
+   "On the contrary of Finland, where homework is light, pupils in South Korea study long hours.",
+   "Contrast to Finland, where homework is light, pupils in South Korea study long hours."
+  ],
+  "correct": 0,
+  "explanation": "'In contrast to + noun' is the correct prepositional phrase. 'On the contrary' is not followed by 'of', and 'in contrast' needs 'to' before a noun.",
+  "tags": [
+   "in contrast to",
+   "contrast",
+   "formal writing"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L1-0013",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Use the superlative to rank a system among several.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Of all the countries we studied, Finland has ____ school day, with pupils finishing early in the afternoon.",
+  "blanks": [
+   "the shortest"
+  ],
+  "bank": [
+   "the shortest",
+   "shorter",
+   "the most short",
+   "shortest",
+   "as short",
+   "short"
+  ],
+  "explanation": "When comparing more than two items, the superlative with 'the' is required: 'the shortest'. 'Shorter' compares only two, and 'the most short' is wrong for a one-syllable adjective.",
+  "tags": [
+   "superlatives",
+   "comparing"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Recognise a linker that expresses result.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Which linker expresses a RESULT?",
+  "options": [
+   "in order to",
+   "although",
+   "therefore",
+   "so that"
+  ],
+  "correct": 2,
+  "explanation": "'Therefore' introduces a consequence. 'In order to' and 'so that' express purpose, and 'although' expresses concession.",
+  "tags": [
+   "result",
+   "linkers"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0002",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Use 'so' to link a cause to its result.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The school had no computers, ____ the pupils could not learn programming.",
+  "blanks": [
+   "so"
+  ],
+  "bank": [
+   "so",
+   "because",
+   "although",
+   "to",
+   "despite",
+   "unless"
+  ],
+  "explanation": "The second clause is the consequence of the first, so 'so' is correct. 'Because' would reverse the logic by making the lack of computers the result.",
+  "tags": [
+   "result",
+   "so"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0003",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Use the structure 'so + adjective + that' to express result.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which sentence correctly expresses the result of an interesting lesson?",
+  "options": [
+   "The lesson was so interesting that nobody wanted to leave.",
+   "The lesson was such interesting that nobody wanted to leave.",
+   "The lesson was so interesting than nobody wanted to leave.",
+   "The lesson was too interesting that nobody wanted to leave."
+  ],
+  "correct": 0,
+  "explanation": "'So + adjective + that' expresses a result. 'Such' is used before a noun phrase ('such an interesting lesson'), and 'than' and 'too ... that' are incorrect here.",
+  "tags": [
+   "result",
+   "so...that"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0004",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Use 'such' before a noun phrase to express result.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "It was ____ a difficult exam that half the class failed.",
+  "blanks": [
+   "such"
+  ],
+  "bank": [
+   "such",
+   "so",
+   "too",
+   "very",
+   "enough",
+   "as"
+  ],
+  "explanation": "Before 'a + adjective + noun' we use 'such', not 'so'. 'So' is used directly before an adjective or adverb ('so difficult that').",
+  "tags": [
+   "result",
+   "such...that"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0005",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Distinguish 'as a result' from a purpose linker.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "'Many pupils left school early. ____, the government built more secondary schools.' Choose the best linker.",
+  "options": [
+   "So as to",
+   "In order to",
+   "As a result",
+   "In spite of"
+  ],
+  "correct": 2,
+  "explanation": "The second sentence is the consequence of the first, so 'As a result' fits. 'So as to' and 'In order to' need a verb and express purpose; 'In spite of' expresses concession.",
+  "tags": [
+   "result",
+   "as a result"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Identify the purpose linker that is followed by a clause.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which sentence correctly expresses purpose?",
+  "options": [
+   "She studies hard in order that she can get a scholarship.",
+   "She studies hard so that she can get a scholarship.",
+   "She studies hard for to get a scholarship.",
+   "She studies hard so as she can get a scholarship."
+  ],
+  "correct": 1,
+  "explanation": "'So that + clause' expresses purpose. 'So as' must be followed by 'to + verb', and 'for to' is incorrect. ('In order that' exists but is very formal and rare; 'so that' is the taught form.)",
+  "tags": [
+   "purpose",
+   "so that"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0007",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Use 'in order to' with the base verb to express purpose.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Many Algerian students learn English ____ study abroad.",
+  "blanks": [
+   [
+    "in order to",
+    "so as to"
+   ]
+  ],
+  "bank": [
+   "in order to",
+   "so as to",
+   "so that",
+   "because of",
+   "therefore",
+   "for"
+  ],
+  "explanation": "Before a base verb, purpose is expressed with 'in order to' or 'so as to'. 'So that' needs a subject and verb after it, and 'therefore' expresses result.",
+  "tags": [
+   "purpose",
+   "in order to"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0008",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Use 'although' to express concession.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Complete: '____ the school is small, it gets excellent exam results.'",
+  "options": [
+   "Because",
+   "Therefore",
+   "Although",
+   "So that"
+  ],
+  "correct": 2,
+  "explanation": "There is a contrast between being small and getting excellent results, so the concession linker 'although' is needed. 'Because' would suggest smallness causes the results.",
+  "tags": [
+   "concession",
+   "although"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0009",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Use 'despite / in spite of' before a noun phrase.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "____ the long distance, Amina walks to school every day.",
+  "blanks": [
+   [
+    "Despite",
+    "In spite of"
+   ]
+  ],
+  "bank": [
+   "Despite",
+   "In spite of",
+   "Although",
+   "Even though",
+   "However",
+   "Consequently"
+  ],
+  "explanation": "'The long distance' is a noun phrase, so 'despite' or 'in spite of' is required. 'Although' and 'even though' must be followed by a clause with a verb.",
+  "tags": [
+   "concession",
+   "despite"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0010",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Rewrite a sentence with 'consequently' without changing the meaning.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "'Because the teacher explained clearly, everyone understood the lesson.' Which rewrite keeps the meaning?",
+  "options": [
+   "Everyone understood the lesson; consequently, the teacher explained clearly.",
+   "The teacher explained clearly; consequently, everyone understood the lesson.",
+   "Although the teacher explained clearly, everyone understood the lesson.",
+   "The teacher explained clearly so that everyone understood the lesson."
+  ],
+  "correct": 1,
+  "explanation": "'Consequently' must follow the cause and introduce the result, so the clear explanation comes first. Option 1 reverses cause and result, option 3 turns it into a concession, and 'so that' in option 4 expresses purpose rather than an achieved result.",
+  "tags": [
+   "result",
+   "consequently",
+   "paraphrase"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0011",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Analyse the logical relationship signalled by 'thus' in a text.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "'Online courses are free; thus, students from poor families can now study at home.' The word 'thus' shows that the second idea is ...",
+  "options": [
+   "the reason for the first idea",
+   "the purpose of the first idea",
+   "a result of the first idea",
+   "an exception to the first idea"
+  ],
+  "correct": 2,
+  "explanation": "'Thus' is a formal result linker like 'therefore'. It signals that free courses lead to the consequence that poor students can study; it does not give a reason or an exception.",
+  "tags": [
+   "result",
+   "thus",
+   "reading"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0012",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Choose between a result linker and a concession linker in a short paragraph.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "The library was closed for repairs. ____, pupils had nowhere to revise. ____, most of them still passed their exams.",
+  "blanks": [
+   [
+    "Therefore",
+    "Consequently"
+   ],
+   [
+    "However",
+    "Nevertheless"
+   ]
+  ],
+  "bank": [
+   "Therefore",
+   "Consequently",
+   "However",
+   "Nevertheless",
+   "Because",
+   "Moreover"
+  ],
+  "explanation": "The first gap introduces the consequence of the closure (a result linker), and the second introduces a surprising outcome despite the problem (a concession linker). 'Because' would need to be followed by a cause, and 'Moreover' only adds information.",
+  "tags": [
+   "result",
+   "concession",
+   "discourse markers"
+  ]
+ },
+ {
+  "key": "3AS-EN-U3-L2-0013",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Use the negative purpose form 'so as not to'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which sentence correctly expresses a negative purpose?",
+  "options": [
+   "He left early so as not to miss the bus.",
+   "He left early so as to not miss the bus.",
+   "He left early in order not miss the bus.",
+   "He left early for not missing the bus."
+  ],
+  "correct": 0,
+  "explanation": "The negative purpose form is 'so as not to + verb' or 'in order not to + verb'. Option 3 lacks 'to', and 'for not missing' is not a correct purpose structure.",
+  "tags": [
+   "purpose",
+   "so as not to"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Recognise the modal used to give advice.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Which modal is used to give ADVICE?",
+  "options": [
+   "should",
+   "might",
+   "can",
+   "will"
+  ],
+  "correct": 0,
+  "explanation": "'Should' is the modal of advice ('You should read the label'). 'Might' expresses possibility, 'can' ability or permission, and 'will' the future.",
+  "tags": [
+   "advice",
+   "modals",
+   "should"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0002",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Use 'had better' with the base form of the verb.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "You had better ____ the expiry date before you buy that milk.",
+  "blanks": [
+   "check"
+  ],
+  "bank": [
+   "check",
+   "to check",
+   "checking",
+   "checked",
+   "checks"
+  ],
+  "explanation": "'Had better' is followed by the base form without 'to'. 'To check', 'checking' and 'checked' are not possible after 'had better'.",
+  "tags": [
+   "advice",
+   "had better"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0003",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Form a negative warning with 'had better not'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Choose the correct warning.",
+  "options": [
+   "You hadn't better buy medicine from the street.",
+   "You had better not to buy medicine from the street.",
+   "You had better not buy medicine from the street.",
+   "You had not better buy medicine from the street."
+  ],
+  "correct": 2,
+  "explanation": "The negative of 'had better' is 'had better not + base verb'. 'Not' comes after 'better', and 'to' is never used.",
+  "tags": [
+   "warning",
+   "had better not"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0004",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Use 'ought to' correctly to give advice.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Complete: 'Consumers ____ read the ingredients list carefully.'",
+  "options": [
+   "ought",
+   "ought to",
+   "ought reading",
+   "oughts to"
+  ],
+  "correct": 1,
+  "explanation": "'Ought' is always followed by 'to + base verb' and does not take -s with any subject. It has the same meaning as 'should'.",
+  "tags": [
+   "advice",
+   "ought to"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Use the imperative to give a safety instruction.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Warning on a bottle of cleaning product: '____ out of reach of children.'",
+  "blanks": [
+   "Keep"
+  ],
+  "bank": [
+   "Keep",
+   "Keeping",
+   "To keep",
+   "Kept",
+   "Keeps",
+   "Should keep"
+  ],
+  "explanation": "Safety instructions on labels use the imperative, which is the base form of the verb: 'Keep out of reach of children'.",
+  "tags": [
+   "warning",
+   "imperative",
+   "labels"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Interpret the strength of 'must not' in a safety warning.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "'This toy must not be given to children under three.' What does 'must not' express?",
+  "options": [
+   "a polite suggestion",
+   "a strong prohibition",
+   "a lack of necessity",
+   "a possibility"
+  ],
+  "correct": 1,
+  "explanation": "'Must not' expresses prohibition: it is forbidden. A lack of necessity would be 'need not' / 'don't have to', and a suggestion would use 'should'.",
+  "tags": [
+   "warning",
+   "must not",
+   "prohibition"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0007",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Distinguish 'mustn't' from 'don't have to'.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which sentence correctly tells a shopper that something is NOT necessary (but allowed)?",
+  "options": [
+   "You mustn't keep the receipt; the shop has a copy.",
+   "You don't have to keep the receipt; the shop has a copy.",
+   "You had better not keep the receipt; the shop has a copy.",
+   "You shouldn't keep the receipt; the shop has a copy."
+  ],
+  "correct": 1,
+  "explanation": "'Don't have to' means it is not necessary. 'Mustn't' means it is forbidden, while 'had better not' and 'shouldn't' advise against it; none of these means the action is simply optional.",
+  "tags": [
+   "don't have to",
+   "mustn't",
+   "modals"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0008",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Use 'If I were you' to give advice.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "If I ____ you, I ____ buy that phone from an unknown website.",
+  "blanks": [
+   "were",
+   "wouldn't"
+  ],
+  "bank": [
+   "were",
+   "wouldn't",
+   "am",
+   "won't",
+   "was being",
+   "don't"
+  ],
+  "explanation": "The advice structure is 'If I were you, I would / wouldn't + verb'. 'Were' is used for all persons in this fixed expression, and the main clause takes 'would'.",
+  "tags": [
+   "advice",
+   "if I were you",
+   "conditional"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0009",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Identify the correct form after 'warn somebody'.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which sentence correctly reports the doctor's warning?",
+  "options": [
+   "The doctor warned him not to take the pills on an empty stomach.",
+   "The doctor warned him to not taking the pills on an empty stomach.",
+   "The doctor warned him that not take the pills on an empty stomach.",
+   "The doctor warned him don't take the pills on an empty stomach."
+  ],
+  "correct": 0,
+  "explanation": "The reported warning follows the pattern 'warn + object + (not) to + base verb'. The other options mix an -ing form, a 'that' clause and direct speech incorrectly.",
+  "tags": [
+   "warning",
+   "reported speech",
+   "warn somebody not to"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0010",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Choose the correct modal for a strong obligation on a safety sign.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Sign in a factory: 'Visitors ____ wear a helmet at all times.'",
+  "blanks": [
+   "must"
+  ],
+  "bank": [
+   "must",
+   "might",
+   "could",
+   "would",
+   "may",
+   "needn't"
+  ],
+  "explanation": "A safety rule that is compulsory is expressed with 'must'. 'Might', 'could' and 'may' express possibility or permission, and 'needn't' means it is not necessary.",
+  "tags": [
+   "obligation",
+   "must",
+   "safety"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0011",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Choose the most appropriate phrase to introduce advice politely.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Which phrase is used to GIVE advice?",
+  "options": [
+   "I'd rather you ...",
+   "I advise you to ...",
+   "I'm afraid that ...",
+   "I used to ..."
+  ],
+  "correct": 1,
+  "explanation": "'I advise you to + verb' directly introduces a piece of advice. 'I'm afraid that' introduces bad news, and 'I used to' describes a past habit.",
+  "tags": [
+   "advice",
+   "functional language"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L1-0012",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Decide which sentence gives the strongest warning.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which sentence gives the STRONGEST warning to a consumer?",
+  "options": [
+   "You might want to avoid products without a label.",
+   "You could try to avoid products without a label.",
+   "Never use products without a label; they can be dangerous.",
+   "Perhaps you should avoid products without a label."
+  ],
+  "correct": 2,
+  "explanation": "A negative imperative with 'never' plus a stated danger is the most forceful warning. 'Might want to', 'could try' and 'perhaps you should' are all soft, tentative suggestions.",
+  "tags": [
+   "warning",
+   "degrees of strength",
+   "imperative"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Choose the correct quantifier for an uncountable noun.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Complete: 'This cereal contains too ____ sugar.'",
+  "options": [
+   "many",
+   "much",
+   "few",
+   "several"
+  ],
+  "correct": 1,
+  "explanation": "'Sugar' is uncountable, so 'much' is used. 'Many', 'few' and 'several' go only with plural countable nouns.",
+  "tags": [
+   "quantifiers",
+   "much",
+   "uncountable"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0002",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Choose the correct quantifier for a plural countable noun.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "How ____ advertisements do you see on your phone every day?",
+  "blanks": [
+   "many"
+  ],
+  "bank": [
+   "many",
+   "much",
+   "little",
+   "a little",
+   "less"
+  ],
+  "explanation": "'Advertisements' is a plural countable noun, so the question word is 'how many'. 'Much', 'little' and 'less' are used with uncountable nouns.",
+  "tags": [
+   "quantifiers",
+   "many",
+   "countable"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0003",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Distinguish 'few' from 'a few' in meaning.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "'Very ____ consumers read the small print, so most of them get surprised by hidden charges.' Choose the correct word.",
+  "options": [
+   "a few",
+   "few",
+   "little",
+   "a little"
+  ],
+  "correct": 1,
+  "explanation": "'Few' (without 'a') has a negative meaning: almost none. 'A few' would mean 'some', which contradicts 'most of them get surprised'. 'Little' is for uncountable nouns.",
+  "tags": [
+   "quantifiers",
+   "few",
+   "a few"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0004",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Distinguish 'little' from 'a little' in meaning.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Don't worry, there is still ____ money left on the card, enough for a small purchase.",
+  "blanks": [
+   "a little"
+  ],
+  "bank": [
+   "a little",
+   "little",
+   "a few",
+   "few",
+   "many",
+   "any"
+  ],
+  "explanation": "'A little' has a positive meaning (some, enough). 'Little' alone would mean 'almost none', which does not fit 'don't worry'. 'A few' is for countable nouns.",
+  "tags": [
+   "quantifiers",
+   "a little",
+   "little"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0005",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Use 'some' and 'any' correctly in affirmative and negative sentences.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Which negative sentence uses the quantifier correctly?",
+  "options": [
+   "I didn't find some information about the product.",
+   "I didn't find any information about the product.",
+   "I didn't find no information about the product.",
+   "I didn't find a information about the product."
+  ],
+  "correct": 1,
+  "explanation": "'Any' is used in negative sentences. 'Some' is normally used in affirmatives, a double negative ('didn't ... no') is incorrect, and 'information' is uncountable so it cannot take 'a'.",
+  "tags": [
+   "quantifiers",
+   "some",
+   "any"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Choose the quantifier that fits a plural noun to mean 'a large number'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "'____ complaints were sent to the consumer protection office last month.' Which option is correct?",
+  "options": [
+   "A great deal of",
+   "Much",
+   "A large number of",
+   "A little"
+  ],
+  "correct": 2,
+  "explanation": "'Complaints' is plural countable, so 'a large number of' is appropriate. 'A great deal of' and 'much' are used with uncountable nouns, and 'a little' is also for uncountables.",
+  "tags": [
+   "quantifiers",
+   "a large number of"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0007",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Use 'because of' before a noun phrase to express cause.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Sales of the drink fell sharply ____ the misleading advertisement.",
+  "blanks": [
+   [
+    "because of",
+    "due to",
+    "owing to"
+   ]
+  ],
+  "bank": [
+   "because of",
+   "due to",
+   "owing to",
+   "because",
+   "so",
+   "as a result"
+  ],
+  "explanation": "'The misleading advertisement' is a noun phrase, so a prepositional cause linker such as 'because of', 'due to' or 'owing to' is needed. 'Because' must be followed by a clause, and 'so' introduces a result.",
+  "tags": [
+   "cause",
+   "because of",
+   "due to"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0008",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Identify the cause and the effect in a sentence with 'since'.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "'Since the product had no safety certificate, the shop withdrew it from sale.' What is the EFFECT?",
+  "options": [
+   "The product had no safety certificate.",
+   "The shop withdrew the product from sale.",
+   "The product was sold since last year.",
+   "The shop obtained a safety certificate."
+  ],
+  "correct": 1,
+  "explanation": "Here 'since' means 'because' and introduces the cause (no certificate). The effect is the action that followed: the shop withdrew the product. 'Since' is not about time in this sentence.",
+  "tags": [
+   "cause and effect",
+   "since",
+   "reading"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0009",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Use a verb phrase that expresses cause.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Aggressive advertising often ____ to impulsive buying, and this behaviour ____ in debt for many families.",
+  "blanks": [
+   "leads",
+   "results"
+  ],
+  "bank": [
+   "leads",
+   "results",
+   "causes",
+   "due",
+   "owing",
+   "effects"
+  ],
+  "explanation": "The correct collocations are 'lead to + effect' and 'result in + effect'. 'Causes' is not followed by 'to', and 'due'/'owing' need 'to' and a noun, not a verb position.",
+  "tags": [
+   "cause and effect",
+   "lead to",
+   "result in"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0010",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Use 'plenty of' with countable and uncountable nouns.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which sentence about cheap products is grammatically correct?",
+  "options": [
+   "There are plenty of cheap products, but little of them are safe.",
+   "There are plenty of cheap products, but few of them are safe.",
+   "There are plenty cheap products, but few of them are safe.",
+   "There is plenty of cheap products, but a few of them is safe."
+  ],
+  "correct": 1,
+  "explanation": "'Plenty of' needs 'of', and 'few of them' is the correct quantifier for the plural 'products'. 'Little of them' is wrong with a countable noun, and 'there is' does not agree with a plural.",
+  "tags": [
+   "quantifiers",
+   "plenty of",
+   "few of"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0011",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Analyse which sentence correctly reverses cause and effect using 'so'.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "'The company was fined because it hid the risks of its product.' Which sentence expresses the SAME relationship with 'so'?",
+  "options": [
+   "The company was fined, so it hid the risks of its product.",
+   "The company hid the risks of its product, so it was fined.",
+   "The company hid the risks of its product so that it was fined.",
+   "The company was fined so as to hide the risks of its product."
+  ],
+  "correct": 1,
+  "explanation": "With 'so', the cause comes first and the result second: hiding the risks (cause) led to the fine (effect). Option 1 reverses the logic, and 'so that' / 'so as to' express purpose.",
+  "tags": [
+   "cause and effect",
+   "so",
+   "paraphrase"
+  ]
+ },
+ {
+  "key": "3AS-EN-U4-L2-0012",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Choose between 'less' and 'fewer' correctly.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "If shops displayed ____ adverts and gave ____ clear information, customers would choose better.",
+  "blanks": [
+   "fewer",
+   "more"
+  ],
+  "bank": [
+   "fewer",
+   "more",
+   "less",
+   "much",
+   "many",
+   "least"
+  ],
+  "explanation": "'Adverts' is plural countable, so the comparative of small quantity is 'fewer', not 'less'. 'More' works with both countable and uncountable nouns, so it fits 'information'.",
+  "tags": [
+   "quantifiers",
+   "fewer",
+   "less",
+   "more"
+  ]
+ }
+]
