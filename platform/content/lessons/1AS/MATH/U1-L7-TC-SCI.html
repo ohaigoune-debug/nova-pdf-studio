@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>التقريبات والحصر والترميز العلمي</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">1 ثانوي · الرياضيات · جذع مشترك علوم وتكنولوجيا · الوحدة 1: الأعداد والحساب · الدرس 7</div>
+<h1>التقريبات والحصر والترميز العلمي</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تعطي قيمة مقرّبة لعدد بالنقصان أو بالزيادة أو بالتدوير إلى 10<sup>−n</sup>، وأن تحصر مجموعًا أو فرقًا بحصر ذي سعة معلومة، وأن تكتب عددًا بالترميز العلمي.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> أعداد مثل √2 وπ لا تُكتب بعدد منتهٍ من الأرقام، فنحصرها بين عددين عشريين قريبين، والفرق بينهما هو سعة الحصر. والترميز العلمي يكتب أي عدد على شكل a × 10<sup>n</sup> مع 1 ≤ a &lt; 10 لتسهيل مقارنة الأعداد الكبيرة جدًا أو الصغيرة جدًا.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="art" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<text x="270" y="22" text-anchor="middle" font-weight="700">حصر √2 ≈ 1,41421… إلى 10<tspan font-size="11" dy="-6">−2</tspan></text>
+<line x1="40" y1="75" x2="500" y2="75" stroke="#1f2937" stroke-width="2" marker-end="url(#art)"/>
+<line x1="90" y1="68" x2="90" y2="82" stroke="#1d4ed8" stroke-width="2.5"/><text x="90" y="100" text-anchor="middle" fill="#1d4ed8" font-weight="700">1,41</text><text x="90" y="118" text-anchor="middle" font-size="12" fill="#1d4ed8">قيمة مقرّبة بالنقصان</text>
+<line x1="450" y1="68" x2="450" y2="82" stroke="#c2410c" stroke-width="2.5"/><text x="450" y="100" text-anchor="middle" fill="#c2410c" font-weight="700">1,42</text><text x="450" y="118" text-anchor="middle" font-size="12" fill="#c2410c">قيمة مقرّبة بالزيادة</text>
+<circle cx="242" cy="75" r="5" fill="#15803d"/><text x="242" y="60" text-anchor="middle" fill="#15803d" font-weight="700">√2</text>
+<line x1="270" y1="68" x2="270" y2="82" stroke="#a16207" stroke-width="1.5" stroke-dasharray="3 2"/><text x="270" y="100" text-anchor="middle" font-size="12" fill="#a16207">1,415 (منتصف)</text>
+<rect x="90" y="130" width="360" height="8" fill="#fde68a" stroke="#a16207"/><text x="270" y="158" text-anchor="middle" font-size="13">سعة الحصر = 1,42 − 1,41 = 0,01 = 10<tspan font-size="10" dy="-5">−2</tspan></text>
+<text x="500" y="150" text-anchor="middle" font-size="13" fill="#15803d">المدوَّر: 1,41</text>
+</svg><figcaption>الشكل 1: √2 محصور بين 1,41 و1,42؛ المدوّرة هي الطرف الأقرب.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">الحصر:</span> كتابة a ≤ x ≤ b، و<span class="k">سعة الحصر</span> هي b − a؛ كلما صغرت كان الحصر أدق.</li>
+<li><span class="k">القيمة المقرّبة إلى 10<sup>−n</sup>:</span> إذا كان a ≤ x ≤ a + 10<sup>−n</sup> مع a عشري له n رقمًا بعد الفاصلة، فإن a القيمة المقرّبة <span class="k">بالنقصان</span> وa + 10<sup>−n</sup> القيمة المقرّبة <span class="k">بالزيادة</span>.</li>
+<li><span class="k">التدوير (القيمة المدوّرة):</span> الطرف الأقرب إلى x: إن كان الرقم الموالي للرتبة المطلوبة أقل من 5 نُبقي، وإن كان 5 فأكثر نزيد.</li>
+<li><span class="k">حصر مجموع:</span> من a ≤ x ≤ b وc ≤ y ≤ d نستنتج a + c ≤ x + y ≤ b + d، والسعة الجديدة مجموع السعتين.</li>
+<li><span class="k">حصر فرق وجداء:</span> للفرق x − y نحصر −y أولًا: −d ≤ −y ≤ −c ثم نجمع. ولجداء أعداد موجبة: ac ≤ xy ≤ bd. لا نطرح الحصور مباشرة.</li>
+<li><span class="k">الترميز العلمي:</span> a × 10<sup>n</sup> حيث 1 ≤ a &lt; 10 وn صحيح. نزيح الفاصلة حتى يبقى رقم واحد غير معدوم على يسارها؛ n موجب للأعداد الكبيرة وسالب للصغيرة.</li>
+<li><span class="k">رتبة القدر:</span> قوة العدد 10 الأقرب إلى العدد؛ تُستعمل لتقدير النتائج والتحقق من معقوليتها.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>π ≈ 3,14159… أعطِ القيم المقرّبة إلى 10<sup>−3</sup>. <span class="k">الحل:</span> 3,141 ≤ π ≤ 3,142. بالنقصان 3,141؛ بالزيادة 3,142؛ المدوّرة 3,142 لأن الرقم الموالي 5.</li>
+<li>علمًا أن 1,41 ≤ √2 ≤ 1,42 و1,73 ≤ √3 ≤ 1,74، احصر √2 + √3 و√2 − √3. <span class="k">الحل:</span> بالجمع: 3,14 ≤ √2 + √3 ≤ 3,16 (سعة 0,02). للفرق: −1,74 ≤ −√3 ≤ −1,73 ثم نجمع: −0,33 ≤ √2 − √3 ≤ −0,31.</li>
+<li>اكتب بالترميز العلمي 345 000 و0,00052، ثم احسب (3 × 10<sup>4</sup>) × (2 × 10<sup>−7</sup>). <span class="k">الحل:</span> 345 000 = 3,45 × 10<sup>5</sup> ؛ 0,00052 = 5,2 × 10<sup>−4</sup>. والجداء = 6 × 10<sup>4−7</sup> = 6 × 10<sup>−3</sup> = 0,006.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>كتابة √2 = 1,41؛ الصحيح √2 ≈ 1,41 أو 1,41 ≤ √2 ≤ 1,42، لأن √2 ليس عشريًا.</li>
+<li>طرح الحصور طرفًا لطرف لحصر الفرق؛ يجب حصر −y أولًا ثم الجمع.</li>
+<li>اعتبار 48 × 10<sup>5</sup> ترميزًا علميًا؛ العدد a يجب أن يحقق 1 ≤ a &lt; 10، فالصواب 4,8 × 10<sup>6</sup>.</li>
+<li>الخلط بين القيمة بالنقصان والمدوّرة؛ المدوّرة قد تكون بالزيادة.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>حصر a ≤ x ≤ b سعته b − a؛ إلى 10<sup>−n</sup> تكون السعة 10<sup>−n</sup>.</li>
+<li>بالنقصان = الطرف الأصغر، بالزيادة = الطرف الأكبر، المدوّرة = الأقرب.</li>
+<li>مجموع: اجمع الطرفين؛ فرق: اقلب حصر المطروح ثم اجمع.</li>
+<li>ترميز علمي: a × 10<sup>n</sup> مع 1 ≤ a &lt; 10.</li>
+<li>عند ضرب قوى 10 تُجمع الأسس ويُعاد الناتج إلى الشكل العلمي.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>

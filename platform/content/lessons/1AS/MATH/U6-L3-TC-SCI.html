@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>التمثيلات البيانية: المدرج والمضلع التكراري</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">1 ثانوي · الرياضيات · جذع مشترك علوم وتكنولوجيا · الوحدة 6: الإحصاء · الدرس 3</div>
+<h1>التمثيلات البيانية: المدرج والمضلع التكراري</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تمثّل سلسلة بفئات بمدرج تكراري وبمضلع تكراري، وأن ترسم المضلع المجمع الصاعد وتقرأ منه الوسيط وعدد الأفراد الأقل من قيمة معطاة.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المدرج التكراري مستطيلات متلاصقة قواعدها الفئات ومساحاتها متناسبة مع التكرارات. المضلع التكراري يصل منتصفات قمم المستطيلات، والمضلع المجمع يصل النقط (الطرف الأعلى للفئة ؛ التكرار المجمع).</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<line x1="50" y1="145" x2="520" y2="145" stroke="#1f2937" stroke-width="1.5"/>
+<line x1="50" y1="145" x2="50" y2="15" stroke="#1f2937" stroke-width="1.5"/>
+<line x1="46" y1="115" x2="54" y2="115" stroke="#1f2937"/><line x1="46" y1="85" x2="54" y2="85" stroke="#1f2937"/><line x1="46" y1="55" x2="54" y2="55" stroke="#1f2937"/><line x1="46" y1="25" x2="54" y2="25" stroke="#1f2937"/>
+<text x="38" y="119" text-anchor="middle" font-size="13">2</text><text x="38" y="89" text-anchor="middle" font-size="13">4</text><text x="38" y="59" text-anchor="middle" font-size="13">6</text><text x="38" y="29" text-anchor="middle" font-size="13">8</text>
+<rect x="50" y="115" width="90" height="30" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<rect x="140" y="70" width="90" height="75" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<rect x="230" y="25" width="90" height="120" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<rect x="320" y="85" width="90" height="60" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<rect x="410" y="130" width="90" height="15" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<polyline points="5,145 95,115 185,70 275,25 365,85 455,130 535,145" fill="none" stroke="#c2410c" stroke-width="2.5"/>
+<circle cx="95" cy="115" r="4" fill="#c2410c"/><circle cx="185" cy="70" r="4" fill="#c2410c"/><circle cx="275" cy="25" r="4" fill="#c2410c"/><circle cx="365" cy="85" r="4" fill="#c2410c"/><circle cx="455" cy="130" r="4" fill="#c2410c"/>
+<text x="50" y="163" text-anchor="middle" font-size="13">0</text><text x="140" y="163" text-anchor="middle" font-size="13">4</text><text x="230" y="163" text-anchor="middle" font-size="13">8</text><text x="320" y="163" text-anchor="middle" font-size="13">12</text><text x="410" y="163" text-anchor="middle" font-size="13">16</text><text x="500" y="163" text-anchor="middle" font-size="13">20</text>
+<text x="20" y="50" text-anchor="middle" font-size="12" transform="rotate(-90 20 50)">التكرار</text>
+<text x="95" y="108" text-anchor="middle" font-size="12" fill="#1f2937">2</text><text x="185" y="63" text-anchor="middle" font-size="12">5</text><text x="275" y="18" text-anchor="middle" font-size="12">8</text><text x="365" y="78" text-anchor="middle" font-size="12">4</text><text x="455" y="123" text-anchor="middle" font-size="12">1</text>
+<text x="470" y="60" text-anchor="middle" fill="#c2410c" font-weight="700" font-size="13">المضلع التكراري</text>
+<text x="470" y="40" text-anchor="middle" fill="#1d4ed8" font-weight="700" font-size="13">المدرج التكراري</text>
+</svg><figcaption>الشكل 1: مدرج تكراري لخمس فئات متساوية المدى (4)، والمضلع التكراري يصل مراكز قممها ويُغلق على محور الفواصل عند مركزي فئتين وهميتين.</figcaption></figure>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<line x1="50" y1="145" x2="520" y2="145" stroke="#1f2937" stroke-width="1.5"/>
+<line x1="50" y1="145" x2="50" y2="15" stroke="#1f2937" stroke-width="1.5"/>
+<text x="38" y="119" text-anchor="middle" font-size="13">5</text><text x="38" y="89" text-anchor="middle" font-size="13">10</text><text x="38" y="59" text-anchor="middle" font-size="13">15</text><text x="38" y="29" text-anchor="middle" font-size="13">20</text>
+<line x1="46" y1="115" x2="54" y2="115" stroke="#1f2937"/><line x1="46" y1="85" x2="54" y2="85" stroke="#1f2937"/><line x1="46" y1="55" x2="54" y2="55" stroke="#1f2937"/><line x1="46" y1="25" x2="54" y2="25" stroke="#1f2937"/>
+<polyline points="50,145 140,133 230,103 320,55 410,31 500,25" fill="none" stroke="#15803d" stroke-width="2.5"/>
+<circle cx="50" cy="145" r="4" fill="#15803d"/><circle cx="140" cy="133" r="4" fill="#15803d"/><circle cx="230" cy="103" r="4" fill="#15803d"/><circle cx="320" cy="55" r="4" fill="#15803d"/><circle cx="410" cy="31" r="4" fill="#15803d"/><circle cx="500" cy="25" r="4" fill="#15803d"/>
+<line x1="50" y1="85" x2="264" y2="85" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="5 3"/>
+<line x1="264" y1="85" x2="264" y2="145" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="5 3"/>
+<circle cx="264" cy="85" r="4" fill="#c2410c"/>
+<text x="50" y="163" text-anchor="middle" font-size="13">0</text><text x="140" y="163" text-anchor="middle" font-size="13">4</text><text x="230" y="163" text-anchor="middle" font-size="13">8</text><text x="320" y="163" text-anchor="middle" font-size="13">12</text><text x="410" y="163" text-anchor="middle" font-size="13">16</text><text x="500" y="163" text-anchor="middle" font-size="13">20</text>
+<text x="264" y="163" text-anchor="middle" font-size="13" fill="#c2410c" font-weight="700">9,5</text>
+<text x="150" y="80" text-anchor="middle" font-size="13" fill="#c2410c">N ÷ 2 = 10</text>
+<text x="400" y="80" text-anchor="middle" fill="#15803d" font-weight="700" font-size="13">المضلع التكراري المجمع الصاعد</text>
+<text x="400" y="100" text-anchor="middle" font-size="12">النقط: (4 ؛ 2) (8 ؛ 7) (12 ؛ 15) (16 ؛ 19) (20 ؛ 20)</text>
+<text x="20" y="50" text-anchor="middle" font-size="12" transform="rotate(-90 20 50)">التكرار المجمع</text>
+</svg><figcaption>الشكل 2: المضلع المجمع الصاعد يبدأ من (0 ؛ 0)؛ الفاصلة التي ترتيبها 10 على المضلع تعطي قيمة تقريبية للوسيط (نحو 9,5).</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المخطط بالأعمدة</span> يخصّ الميزة الكمية المتقطعة: أعمدة منفصلة ارتفاعها التكرار.</li>
+<li><span class="k">المدرج التكراري</span> يخصّ الميزة المستمرة بفئات: مستطيلات متلاصقة قاعدتها الفئة و<span class="k">مساحتها</span> متناسبة مع التكرار.</li>
+<li>عندما تكون <span class="k">المدايات متساوية</span> نأخذ الارتفاع مساوياً للتكرار؛ وإلا نختار مدى وحدة ونقسم التكرار على عدد وحدات المدى.</li>
+<li><span class="k">المضلع التكراري</span> خط منكسر يصل النقط (مركز الفئة ؛ التكرار)، ويُغلق عادة على محور الفواصل عند مركزي فئتين وهميتين تكرارهما 0.</li>
+<li><span class="k">المضلع التكراري المجمع الصاعد</span> يصل النقط (الطرف الأعلى للفئة ؛ التكرار المجمع الصاعد) بقطع مستقيمة، ويبدأ من النقطة (الطرف الأدنى للفئة الأولى ؛ 0).</li>
+<li><span class="k">القراءة البيانية:</span> ترتيب نقطة من المضلع المجمع يعطي عدد الأفراد الذين قيمتهم أقل من فاصلتها؛ وفاصلة النقطة التي ترتيبها N ÷ 2 تعطي تقريباً للوسيط.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>مدة مطالعة 20 تلميذاً بالساعات: [0 ؛ 4[ تكرارها 2، [4 ؛ 8[ تكرارها 5، [8 ؛ 12[ تكرارها 8، [12 ؛ 16[ تكرارها 4، [16 ؛ 20[ تكرارها 1. <span class="k">الحل:</span> المدايات متساوية (4) فالارتفاعات 2 و5 و8 و4 و1، ونقط المضلع (2 ؛ 2) و(6 ؛ 5) و(10 ؛ 8) و(14 ؛ 4) و(18 ؛ 1)، ويُغلق عند (−2 ؛ 0) و(22 ؛ 0).</li>
+<li>من السلسلة نفسها ارسم المضلع المجمع الصاعد وعيّن الوسيط بيانياً. <span class="k">الحل:</span> التكرارات المجمعة 2 ؛ 7 ؛ 15 ؛ 19 ؛ 20 فالنقط (0 ؛ 0) و(4 ؛ 2) و(8 ؛ 7) و(12 ؛ 15) و(16 ؛ 19) و(20 ؛ 20). N ÷ 2 = 10 يقع بين 7 و15، أي على القطعة الواصلة بين (8 ؛ 7) و(12 ؛ 15)، فالوسيط في [8 ؛ 12[ ويُقرأ بيانياً نحو 9,5.</li>
+<li>سلسلة بمدايات مختلفة: [0 ؛ 10[ تكرارها 4 و[10 ؛ 15[ تكرارها 6. <span class="k">الحل:</span> نختار مدى الوحدة 5؛ الفئة الأولى تمتد على وحدتين فارتفاعها 4 ÷ 2 = 2، والثانية على وحدة واحدة فارتفاعها 6، فتبقى المساحتان 4 و6.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>رسم المدرج بأعمدة منفصلة كأنه مخطط بالأعمدة؛ مستطيلات المدرج <span class="k">متلاصقة</span>.</li>
+<li>جعل الارتفاع مساوياً للتكرار مع فئات <span class="k">مختلفة المدايات</span>؛ المساحة هي التي تمثّل التكرار.</li>
+<li>وضع نقط المضلع المجمع عند مراكز الفئات بدل أطرافها العليا، أو نسيان نقطة البداية.</li>
+<li>قراءة الوسيط عند الترتيب N بدل N ÷ 2.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>متقطعة: مخطط بالأعمدة ؛ مستمرة بفئات: مدرج تكراري.</li>
+<li>المدرج: المساحة تمثّل التكرار؛ مدايات متساوية ⇒ الارتفاع = التكرار.</li>
+<li>المضلع التكراري: (مركز الفئة ؛ التكرار) ويُغلق على المحور.</li>
+<li>المضلع المجمع الصاعد: (الطرف الأعلى ؛ المجمع الصاعد) بدءاً من الترتيب 0.</li>
+<li>الوسيط بيانياً: فاصلة النقطة التي ترتيبها N ÷ 2.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>

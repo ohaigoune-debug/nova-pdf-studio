@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الدوال المرجعية: x²، 1/x، |x|، الجذر التربيعي</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">1 ثانوي · الرياضيات · جذع مشترك علوم وتكنولوجيا · الوحدة 2: الدوال العددية · الدرس 3</div>
+<h1>الدوال المرجعية: x²، 1/x، |x|، الجذر التربيعي</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تعرف مجموعة تعريف واتجاه تغيّر وشكل منحنى كل من الدوال x ⟼ x² وx ⟼ 1/x وx ⟼ |x| وx ⟼ √x، وأن توظّفها لحل معادلات بسيطة ولمقارنة أعداد دون آلة حاسبة.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> أربع دوال «نموذجية»: المربّع والقيمة المطلقة زوجيتان ومنحنياهما متناظران بالنسبة إلى محور التراتيب، والمقلوب فردية ومنحناها متناظر بالنسبة إلى المبدأ، والجذر التربيعي معرّف على الأعداد الموجبة فقط ومتزايد.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<line x1="150" y1="150" x2="400" y2="150" stroke="#1f2937" stroke-width="1.5" marker-end="url(#arr)"/><line x1="270" y1="170" x2="270" y2="8" stroke="#1f2937" stroke-width="1.5" marker-end="url(#arr)"/>
+<g font-size="11" text-anchor="middle"><text x="190" y="165">−2</text><text x="230" y="165">−1</text><text x="310" y="165">1</text><text x="350" y="165">2</text><text x="283" y="124">1</text><text x="283" y="34">4</text></g>
+<line x1="190" y1="147" x2="190" y2="153" stroke="#1f2937"/><line x1="230" y1="147" x2="230" y2="153" stroke="#1f2937"/><line x1="310" y1="147" x2="310" y2="153" stroke="#1f2937"/><line x1="350" y1="147" x2="350" y2="153" stroke="#1f2937"/><line x1="267" y1="120" x2="273" y2="120" stroke="#1f2937"/><line x1="267" y1="30" x2="273" y2="30" stroke="#1f2937"/>
+<path d="M190 30 Q 270 270 350 30" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<path d="M170 75 L270 150 L370 75" fill="none" stroke="#c2410c" stroke-width="2.5"/>
+<text x="360" y="22" fill="#1d4ed8" font-weight="700">y = x²</text><text x="378" y="92" fill="#c2410c" font-weight="700">y = |x|</text>
+<rect x="415" y="80" width="120" height="85" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="525" y="100" text-anchor="end" font-size="13">كلتاهما زوجية</text><text x="525" y="120" text-anchor="end" font-size="13">متناقصة على ]−∞ ; 0]</text><text x="525" y="140" text-anchor="end" font-size="13">متزايدة على [0 ; +∞[</text><text x="525" y="160" text-anchor="end" font-size="13">قيمة صغرى 0 عند 0</text>
+<rect x="5" y="80" width="135" height="85" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="1.5"/>
+<text x="135" y="100" text-anchor="end" font-size="13">تقاطع المنحنيين:</text><text x="135" y="120" text-anchor="end" font-size="13">x² = |x| ⇔ x ∈ {−1 ; 0 ; 1}</text><text x="135" y="140" text-anchor="end" font-size="13">بين −1 و1: x² ≤ |x|</text><text x="135" y="160" text-anchor="end" font-size="13">خارجهما: x² ≥ |x|</text>
+</svg><figcaption>الشكل 1: القطع المكافئ y = x² والشكل V للدالة y = |x|؛ كلاهما متناظر بالنسبة إلى محور التراتيب.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">دالة المربّع x ⟼ x²:</span> معرّفة على ℝ، <span class="k">زوجية</span> لأن (−x)² = x²، متناقصة على ]−∞ ; 0] ومتزايدة على [0 ; +∞[، قيمتها الصغرى 0 عند 0. منحناها <span class="k">قطع مكافئ</span> رأسه المبدأ.</li>
+<li><span class="k">دالة المقلوب x ⟼ 1/x:</span> معرّفة على ℝ<sup>*</sup>، <span class="k">فردية</span> لأن 1/(−x) = −1/x، متناقصة على ]−∞ ; 0[ وعلى ]0 ; +∞[ (وليس على ℝ<sup>*</sup> كله). منحناها <span class="k">قطع زائد</span> لا يقطع المحورين.</li>
+<li><span class="k">دالة القيمة المطلقة x ⟼ |x|:</span> معرّفة على ℝ وزوجية، تساوي −x على ]−∞ ; 0] وx على [0 ; +∞[، فهي متناقصة ثم متزايدة وقيمتها الصغرى 0. منحناها نصفا مستقيمين على شكل V.</li>
+<li><span class="k">دالة الجذر التربيعي x ⟼ √x:</span> معرّفة على [0 ; +∞[ فقط، متزايدة تمامًا، قيمتها الصغرى 0 عند 0. منحناها نصف قطع مكافئ.</li>
+<li><span class="k">المقارنة بين x وx² و√x:</span> على [0 ; 1]: x² ≤ x ≤ √x، وعلى [1 ; +∞[: √x ≤ x ≤ x²، وتتساوى عند 0 و1.</li>
+<li><span class="k">المقارنة:</span> لعددين موجبين a &lt; b: a² &lt; b² و√a &lt; √b بينما 1/a &gt; 1/b.</li>
+</ol></div>
+
+<div class="figs"><figure class="fig small"><svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="13">
+<line x1="15" y1="85" x2="250" y2="85" stroke="#1f2937" stroke-width="1.5"/><line x1="130" y1="165" x2="130" y2="8" stroke="#1f2937" stroke-width="1.5"/>
+<polyline points="138,10 142,35 155,60 168,68 180,72 205,76 240,80" fill="none" stroke="#15803d" stroke-width="2.5"/>
+<polyline points="122,160 118,135 105,110 92,102 80,98 55,94 20,90" fill="none" stroke="#15803d" stroke-width="2.5"/>
+<text x="200" y="30" fill="#15803d" font-weight="700">y = 1/x</text><text x="155" y="100" font-size="11">1</text><text x="100" y="80" font-size="11">−1</text>
+<circle cx="155" cy="60" r="3" fill="#15803d"/><circle cx="105" cy="110" r="3" fill="#15803d"/>
+<text x="60" y="150" text-anchor="middle" font-size="11">متناقصة على ]−∞ ; 0[</text><text x="200" y="150" text-anchor="middle" font-size="11">وعلى ]0 ; +∞[</text>
+</svg><figcaption>الشكل 2: القطع الزائد؛ لا صورة للصفر.</figcaption></figure><figure class="fig small"><svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="13">
+<line x1="15" y1="140" x2="255" y2="140" stroke="#1f2937" stroke-width="1.5"/><line x1="30" y1="160" x2="30" y2="15" stroke="#1f2937" stroke-width="1.5"/>
+<path d="M30 140 Q 30 102 255 65" fill="none" stroke="#a16207" stroke-width="2.5"/>
+<circle cx="55" cy="115" r="3" fill="#a16207"/><circle cx="130" cy="90" r="3" fill="#a16207"/><circle cx="255" cy="65" r="3" fill="#a16207"/>
+<g font-size="11" text-anchor="middle"><text x="55" y="155">1</text><text x="130" y="155">4</text><text x="250" y="155">9</text><text x="20" y="119">1</text><text x="20" y="94">2</text><text x="20" y="69">3</text></g>
+<text x="120" y="40" fill="#a16207" font-weight="700">y = √x</text>
+<text x="150" y="25" font-size="11" text-anchor="middle">معرّفة على [0 ; +∞[ ومتزايدة</text>
+</svg><figcaption>الشكل 3: منحنى √x يمرّ بالنقط (0 ; 0) و(1 ; 1) و(4 ; 2) و(9 ; 3).</figcaption></figure><figure class="fig small"><svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="13">
+<line x1="20" y1="145" x2="250" y2="145" stroke="#1f2937" stroke-width="1.5"/><line x1="40" y1="165" x2="40" y2="5" stroke="#1f2937" stroke-width="1.5"/>
+<line x1="170" y1="145" x2="170" y2="20" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="40" y1="145" x2="209" y2="41" stroke="#1f2937" stroke-width="2"/>
+<path d="M40 145 Q 124 145 209 10" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<path d="M40 145 Q 40 99 209 54" fill="none" stroke="#a16207" stroke-width="2.5"/>
+<circle cx="170" cy="65" r="3.5" fill="#c2410c"/>
+<text x="170" y="160" text-anchor="middle" font-size="11">1</text><text x="30" y="69" font-size="11">1</text>
+<text x="222" y="14" fill="#1d4ed8" font-size="12">x²</text><text x="222" y="42" font-size="12">x</text><text x="222" y="62" fill="#a16207" font-size="12">√x</text>
+<text x="105" y="125" text-anchor="middle" font-size="11">على [0 ; 1]: x² ≤ x ≤ √x</text>
+</svg><figcaption>الشكل 4: الترتيب ينقلب عند x = 1.</figcaption></figure></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>حلّ في ℝ: x² = 5 ثم x² ≤ 4. <span class="k">الحل:</span> x² = 5 ⇔ x = √5 أو x = −√5. x² ≤ 4 ⇔ −2 ≤ x ≤ 2 أي S = [−2 ; 2] (القطع المكافئ تحت المستقيم y = 4).</li>
+<li>قارن دون آلة: 1/3 و1/π، ثم (0,7)² و0,7 و√0,7. <span class="k">الحل:</span> 0 &lt; 3 &lt; π ودالة المقلوب متناقصة على ]0 ; +∞[، إذن 1/3 &gt; 1/π. وبما أن 0 &lt; 0,7 &lt; 1 فإن (0,7)² &lt; 0,7 &lt; √0,7 (0,49 &lt; 0,7 &lt; 0,83 تقريبًا).</li>
+<li>حلّ بيانيًا |x| ≥ 1. <span class="k">الحل:</span> الشكل V فوق المستقيم y = 1 أو عليه عندما x ≤ −1 أو x ≥ 1، إذن S = ]−∞ ; −1] ∪ [1 ; +∞[.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>كتابة «دالة المقلوب متناقصة على ℝ<sup>*</sup>»؛ خطأ لأن −1 &lt; 1 و1/(−1) &lt; 1/1. الصواب: متناقصة على كل مجال على حدة.</li>
+<li>حل x² = 5 بإعطاء x = √5 فقط ونسيان −√5.</li>
+<li>الاعتقاد أن التربيع يكبّر العدد دائمًا؛ بين 0 و1 يكون x² أصغر من x.</li>
+<li>حساب √(−4)؛ الجذر التربيعي معرّف على [0 ; +∞[ فقط.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>x²: ℝ، زوجية، تنقص ثم تزيد، أصغر قيمة 0، قطع مكافئ.</li>
+<li>1/x: ℝ<sup>*</sup>، فردية، متناقصة على كل مجال على حدة، قطع زائد.</li>
+<li>|x|: ℝ، زوجية، شكل V، أصغر قيمة 0 عند 0.</li>
+<li>√x: [0 ; +∞[، متزايدة، نصف قطع مكافئ.</li>
+<li>على [0 ; 1]: x² ≤ x ≤ √x، وبعد 1 ينقلب الترتيب.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>

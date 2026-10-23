@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>شفعية دالة (الزوجية والفردية)</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">1 ثانوي · الرياضيات · جذع مشترك علوم وتكنولوجيا · الوحدة 2: الدوال العددية · الدرس 4</div>
+<h1>شفعية دالة (الزوجية والفردية)</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تتعرّف على دالة زوجية أو فردية انطلاقًا من عبارتها أو من تمثيلها البياني، وأن تستغلّ الشفعية لاختصار دراسة الدالة على نصف مجموعة التعريف.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الدالة الزوجية تعطي نفس الصورة للعدد ونظيره، فمنحناها متناظر بالنسبة إلى محور التراتيب. الدالة الفردية تعطي صورتين متعاكستين، فمنحناها متناظر بالنسبة إلى المبدأ. في الحالتين يكفي دراسة الدالة على الأعداد الموجبة ثم إكمال المنحنى بالتناظر.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<line x1="290" y1="150" x2="530" y2="150" stroke="#1f2937" stroke-width="1.5"/><line x1="410" y1="165" x2="410" y2="15" stroke="#1f2937" stroke-width="1.5"/>
+<path d="M310 30 Q410 250 510 30" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<line x1="370" y1="78" x2="450" y2="78" stroke="#c2410c" stroke-dasharray="4 3"/>
+<circle cx="370" cy="78" r="3.5" fill="#c2410c"/><circle cx="450" cy="78" r="3.5" fill="#c2410c"/>
+<text x="362" y="165" text-anchor="middle" font-size="13">−a</text><text x="455" y="165" text-anchor="middle" font-size="13">a</text>
+<text x="410" y="12" text-anchor="middle" font-weight="700" fill="#1d4ed8">زوجية: f(x)=x²</text>
+<text x="330" y="140" font-size="12" fill="#1d4ed8">تناظر حول (Oy)</text>
+<line x1="20" y1="90" x2="260" y2="90" stroke="#1f2937" stroke-width="1.5"/><line x1="140" y1="165" x2="140" y2="15" stroke="#1f2937" stroke-width="1.5"/>
+<path d="M50 160 C 110 140, 110 110, 140 90 C 170 70, 170 40, 230 20" fill="none" stroke="#15803d" stroke-width="2.5"/>
+<circle cx="190" cy="48" r="3.5" fill="#c2410c"/><circle cx="90" cy="132" r="3.5" fill="#c2410c"/>
+<line x1="90" y1="132" x2="190" y2="48" stroke="#c2410c" stroke-dasharray="4 3"/>
+<text x="195" y="103" font-size="13">a</text><text x="78" y="103" font-size="13">−a</text>
+<text x="140" y="12" text-anchor="middle" font-weight="700" fill="#15803d">فردية: f(x)=x³</text>
+<text x="160" y="150" font-size="12" fill="#15803d">تناظر حول O</text>
+</svg><figcaption>الشكل 1: منحنى الدالة الزوجية متناظر بالنسبة إلى محور التراتيب، ومنحنى الدالة الفردية متناظر بالنسبة إلى مبدأ المعلم.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">مجموعة تعريف متناظرة:</span> قبل الحديث عن الشفعية نتحقق أن D متناظرة بالنسبة إلى 0، أي: إذا كان x ينتمي إلى D فإن −x ينتمي إلى D أيضًا. مثلاً [−3 ; 3] متناظرة، أما [0 ; +∞[ فليست كذلك.</li>
+<li><span class="k">الدالة الزوجية:</span> f زوجية على D إذا كان من أجل كل x من D: f(−x) = f(x).</li>
+<li><span class="k">الدالة الفردية:</span> f فردية على D إذا كان من أجل كل x من D: f(−x) = −f(x).</li>
+<li><span class="k">التفسير البياني:</span> في معلم متعامد، منحنى الدالة الزوجية متناظر بالنسبة إلى <span class="k">محور التراتيب</span>، ومنحنى الدالة الفردية متناظر بالنسبة إلى <span class="k">مبدأ المعلم</span>.</li>
+<li><span class="k">خاصية مفيدة:</span> إذا كانت f فردية ومعرّفة عند 0 فإن f(0) = 0 بالضرورة، لأن f(−0) = −f(0) يعني f(0) = −f(0).</li>
+<li><span class="k">الاستغلال:</span> يكفي دراسة اتجاه تغيّر الدالة ورسم منحناها على D ∩ [0 ; +∞[ ثم إكماله بالتناظر المناسب؛ الدالة الزوجية يتعاكس اتجاه تغيّرها على الجزأين، والفردية تحافظ على نفس اتجاه التغيّر.</li>
+<li><span class="k">دوال مرجعية:</span> x² و |x| والدالة الثابتة زوجية؛ x و x³ و 1/x فردية.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>ادرس شفعية f(x) = 3x² − 5 على ℝ. <span class="k">الحل:</span> ℝ متناظرة. f(−x) = 3(−x)² − 5 = 3x² − 5 = f(x)، إذن f زوجية. تحقق عددي: f(2) = 7 و f(−2) = 7.</li>
+<li>ادرس شفعية g(x) = 2x³ − x على ℝ. <span class="k">الحل:</span> g(−x) = 2(−x)³ − (−x) = −2x³ + x = −(2x³ − x) = −g(x)، إذن g فردية. تحقق: g(1) = 1 و g(−1) = −1.</li>
+<li>ادرس شفعية h(x) = x² + x على ℝ. <span class="k">الحل:</span> h(1) = 2 و h(−1) = 0. بما أن h(−1) ≠ h(1) فهي ليست زوجية، وبما أن h(−1) ≠ −h(1) فهي ليست فردية. <span class="k">التفسير:</span> مثال مضاد واحد يكفي لنفي الشفعية.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>نسيان التحقق من <span class="k">تناظر مجموعة التعريف</span> قبل حساب f(−x)؛ دالة معرّفة على [0 ; 5] لا يمكن أن تكون زوجية ولا فردية.</li>
+<li>الاعتقاد أن كل دالة إما زوجية أو فردية؛ الحقيقة أن معظم الدوال <span class="k">لا زوجية ولا فردية</span>.</li>
+<li>الخطأ في الإشارة عند حساب (−x)³ فتُكتب x³ بدل −x³.</li>
+<li>إثبات الشفعية بقيمة عددية واحدة فقط؛ القيمة العددية تصلح <span class="k">للنفي</span> لا للإثبات، والإثبات يكون بـ x كيفي.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>الشرط الأول دائمًا: D متناظرة بالنسبة إلى 0.</li>
+<li>f(−x) = f(x) ⇒ زوجية ⇒ تناظر حول (Oy).</li>
+<li>f(−x) = −f(x) ⇒ فردية ⇒ تناظر حول O.</li>
+<li>القوى الزوجية لـ x تعطي دوال زوجية، والقوى الفردية تعطي دوال فردية.</li>
+<li>الفائدة: دراسة على نصف المجال ثم إكمال بالتناظر.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>
