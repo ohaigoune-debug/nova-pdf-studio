@@ -20,7 +20,7 @@ import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { extractDocText, pdfPageCount, TEXT_MIME } from '@/server/lib/doc-text'
 import { AppError } from '@/server/lib/errors'
-import { fetchDriveBytes, fetchPublicFileBytes, listDriveFolder, listPublicFolderNoKey, parseDriveFolderId, type DriveFile, type DriveOptions } from '@/server/lib/google-drive'
+import { downloadDriveFile, type DriveFile, type DriveOptions, listDriveFolder, listPublicFolderNoKey, parseDriveFolderId } from '@/server/lib/google-drive'
 import { HARVEST_UA, harvestSite } from '@/server/bac/harvest'
 import { newStorageKey, storage } from '@/server/lib/storage'
 import { errorMessage } from '@/i18n'
@@ -31,7 +31,8 @@ const STALE_AFTER_MS = 3 * 60 * 60_000
 /** بلا أي تقدّم هذه المدة ⇒ المهمة متوقّفة (كل ملف يحدّث التقدّم، وأبطؤها دقيقتان) */
 const IDLE_AFTER_MS = 10 * 60_000
 /** ملف واحد (تنزيل + قراءة + تصنيف) لا يتجاوز هذا وإلا تُخطّى */
-const FILE_TIMEOUT_MS = 150_000
+// يشمل إعادة المحاولة بتمهّل عند الحدّ المؤقت (3 + 15 + 60 ث) فوق التنزيل نفسه
+const FILE_TIMEOUT_MS = 240_000
 
 function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
   let t: ReturnType<typeof setTimeout> | undefined
@@ -176,7 +177,7 @@ function folderOf(name: string): string {
  * الاستيراد الفعلي (يُستدعى من المهمة الخلفية أو من سطر الأوامر). كل ملف يُحفظ فور إتمامه.
  * `onProgress` لتحديث تقدّم المهمة.
  */
-export async function importBacFiles(db: Db, actor: Actor, source: ImportSource, opts: { drive?: DriveOptions; fetch?: typeof fetch; useAi?: boolean; log?: (line: string) => void; onProgress?: (done: number, total: number, last: string) => Promise<void> | void } = {}): Promise<ImportReport> {
+export async function importBacFiles(db: Db, actor: Actor, source: ImportSource, opts: { drive?: DriveOptions; fetch?: typeof fetch; useAi?: boolean; log?: (line: string) => void; onProgress?: (done: number, total: number, last: string) => Promise<void> | void; drivePaceMs?: number } = {}): Promise<ImportReport> {
   assertRole(actor, 'SUPER_ADMIN')
   const useAi = opts.useAi ?? true
   const [l3] = await db.select({ id: levels.id, stageId: levels.stageId }).from(levels).where(eq(levels.code, '3AS')).limit(1)
@@ -221,15 +222,21 @@ export async function importBacFiles(db: Db, actor: Actor, source: ImportSource,
     const driveOpts: DriveOptions = { ...DRIVE_ARCHIVE_LIMITS, ...opts.drive }
     let listing: { name: string; files: DriveFile[] }
     let read: (f: DriveFile) => Promise<{ bytes: Uint8Array; mimeType: string }>
+    // تمهّل بين التنزيلات حتى لا يحجب Google عنوان الخادم (حجبه 1432 ملفاً من 1527 في جولة 2026-10)
+    const paceMs = opts.drivePaceMs ?? 700
+    const paced = async (f: DriveFile, o: DriveOptions) => {
+      if (paceMs > 0) await new Promise((r) => setTimeout(r, paceMs))
+      return downloadDriveFile(f, o)
+    }
     try {
       listing = await listDriveFolder(folderId, driveOpts)
-      read = (f) => fetchDriveBytes(f, driveOpts)
+      read = (f) => paced(f, driveOpts)
     } catch (err) {
       // بلا مفتاح Google (أو Drive API غير مفعّلة في مشروعه): المجلد العامّ يُقرأ ويُنزَّل بلا مفتاح
       if (!(err instanceof AppError) || err.code !== 'DRIVE_API_DISABLED') throw err
       opts.log?.('لا مفتاح Drive API صالح — قراءة المجلد العامّ بلا مفتاح')
       listing = await listPublicFolderNoKey(folderId, driveOpts)
-      read = (f) => fetchPublicFileBytes(f, driveOpts)
+      read = (f) => paced(f, { ...driveOpts, apiKey: '' })
     }
     label = `Drive: ${listing.name}`
     entries = listing.files.map((f) => ({ name: f.name, driveId: f.id, read: () => read(f) }))

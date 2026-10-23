@@ -24,6 +24,10 @@ const DEFAULT_MAX_FILES = MAX_FILES
 const DEFAULT_MAX_DEPTH = 2
 const MAX_BYTES = 25 * 1024 * 1024
 
+/** علامات الحدّ المؤقت في ردود Google (API أو صفحة التنزيل) */
+const RATE_LIMIT_RE = /rateLimitExceeded|userRateLimitExceeded|downloadQuotaExceeded|quotaExceeded|dailyLimitExceeded|Too Many Requests|unusual traffic|automated queries|sorry\/index/i
+const DEFAULT_RETRY_DELAYS_MS = [3_000, 15_000, 60_000]
+
 export interface DriveFile {
   id: string
   name: string
@@ -35,6 +39,9 @@ export interface DriveFile {
 export interface DriveOptions {
   apiKey?: string
   fetch?: typeof fetch
+  /** مهل إعادة المحاولة عند الحدّ المؤقت أو الخطأ العابر (الاختبارات تمرّر [0, 0]) */
+  retryDelaysMs?: number[]
+  sleep?: (ms: number) => Promise<void>
   /** حدود السرد (الافتراضي 80 ملفاً ومستويان — يكفي لمكتبة أستاذ؛ أرشيف البكالوريا يرفعها) */
   maxFiles?: number
   maxDepth?: number
@@ -83,6 +90,8 @@ async function driveGet(path: string, params: Record<string, string>, opts: Driv
   const body = await res.text().catch(() => '')
   // مفتاح غير صالح أو Drive API غير مفعّلة في مشروعه
   if (res.status === 400 || /accessNotConfigured|API_KEY|keyInvalid|SERVICE_DISABLED|API has not been used/i.test(body)) throw new AppError('DRIVE_API_DISABLED')
+  // 429 أو 403 بسبب الحصّة/المعدّل: حدّ مؤقت — ليس «غير مشارك» (كان يُصنَّف خطأً فيُترك الملف)
+  if (res.status === 429 || (res.status === 403 && RATE_LIMIT_RE.test(body))) throw new AppError('DRIVE_RATE_LIMITED')
   // 404/403: المجلد أو الملف غير مشارَك للعموم
   if (res.status === 404 || res.status === 403) throw new AppError('DRIVE_NOT_SHARED')
   throw new AppError('DRIVE_FETCH_FAILED')
@@ -213,14 +222,54 @@ export async function listPublicFolderNoKey(folderId: string, opts: DriveOptions
   return { name: root.title, files }
 }
 
-/** تنزيل ملف عامّ بلا مفتاح (رابط التنزيل المباشر)؛ صفحة HTML بدل الملف تعني أنه غير مشارَك */
+/** تنزيل ملف عامّ بلا مفتاح (رابط التنزيل المباشر)؛ صفحة دخول بدل الملف = غير مشارَك، وصفحة «طلبات كثيرة» = حدّ مؤقت */
 export async function fetchPublicFileBytes(file: DriveFile, opts: DriveOptions = {}): Promise<{ bytes: Uint8Array; mimeType: string }> {
   const res = await (opts.fetch ?? fetch)(`https://drive.usercontent.google.com/download?id=${encodeURIComponent(file.id)}&export=download&confirm=t`, { redirect: 'follow', signal: AbortSignal.timeout(120_000) })
-  if (res.status === 404 || res.status === 403) throw new AppError('DRIVE_NOT_SHARED')
-  if (!res.ok) throw new AppError('DRIVE_FETCH_FAILED')
-  if ((res.headers.get('content-type') ?? '').includes('text/html')) throw new AppError('DRIVE_NOT_SHARED')
+  if (res.status === 429) throw new AppError('DRIVE_RATE_LIMITED')
+  if (res.status === 404 || res.status === 403) {
+    const body = await res.text().catch(() => '')
+    throw new AppError(RATE_LIMIT_RE.test(body) ? 'DRIVE_RATE_LIMITED' : 'DRIVE_NOT_SHARED')
+  }
+  if (!res.ok) throw new AppError(res.status >= 500 ? 'DRIVE_RATE_LIMITED' : 'DRIVE_FETCH_FAILED')
+  if ((res.headers.get('content-type') ?? '').includes('text/html')) {
+    const html = await res.text().catch(() => '')
+    throw new AppError(RATE_LIMIT_RE.test(html) && !/accounts\.google\.com|ServiceLogin/.test(html) ? 'DRIVE_RATE_LIMITED' : 'DRIVE_NOT_SHARED')
+  }
   const bytes = new Uint8Array(await res.arrayBuffer())
   if (bytes.byteLength > MAX_BYTES) throw new AppError('DRIVE_FETCH_FAILED')
   if (file.mimeType === DRIVE_MIME.pdf && !(bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46)) throw new AppError('DRIVE_FETCH_FAILED')
   return { bytes, mimeType: file.mimeType }
+}
+
+/**
+ * تنزيل ملف من مجلد عامّ بأكثر الطرق صموداً (أرشيف البكالوريا: 1500+ ملف):
+ *  1. عبر Drive API بالمفتاح إن وُجد؛
+ *  2. إن رفض (غير مشارك/حدّ مؤقت/المفتاح معطّل) فبالرابط العامّ بلا مفتاح — الملفات العامة تُنزَّل هكذا؛
+ *  3. الحدّ المؤقت والخطأ العابر يُعاد عليهما بتمهّل متزايد. «غير مشارك» الحقيقي لا يُعاد.
+ */
+export async function downloadDriveFile(file: DriveFile, opts: DriveOptions = {}): Promise<{ bytes: Uint8Array; mimeType: string }> {
+  const delays = opts.retryDelaysMs ?? DEFAULT_RETRY_DELAYS_MS
+  const sleep = opts.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)))
+  const hasKey = Boolean(opts.apiKey ?? driveApiKey())
+  const isGoogleDoc = file.mimeType === DRIVE_MIME.gdoc || file.mimeType === DRIVE_MIME.gslides
+  let last: unknown
+  for (let attempt = 0; attempt <= delays.length; attempt++) {
+    if (attempt > 0) await sleep(delays[attempt - 1]!)
+    try {
+      if (hasKey) {
+        try {
+          return await fetchDriveBytes(file, opts)
+        } catch (err) {
+          // مستندات Google لا رابط تنزيل عامّاً مباشراً لها: خطأ المفتاح هو الحكم
+          if (isGoogleDoc || !(err instanceof AppError) || !['DRIVE_NOT_SHARED', 'DRIVE_RATE_LIMITED', 'DRIVE_API_DISABLED'].includes(err.code)) throw err
+        }
+      }
+      return await fetchPublicFileBytes(file, opts)
+    } catch (err) {
+      last = err
+      const transient = err instanceof AppError && (err.code === 'DRIVE_RATE_LIMITED' || err.code === 'DRIVE_FETCH_FAILED')
+      if (!transient) throw err
+    }
+  }
+  throw last
 }
