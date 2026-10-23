@@ -4,7 +4,7 @@
  */
 import { and, asc, count, desc, eq, ilike, inArray, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { playAnswers, playLessons, playQuestionReports, playQuestions, playSessions, playStudentStats, playSubjects } from '@/server/db/schema'
+import { playAnswers, playLessons, playQuestionReports, playQuestions, playSessions, playStudentStats, playSubjects, profiles, students } from '@/server/db/schema'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
@@ -219,6 +219,66 @@ export async function listReports(db: Db, actor: Actor, status: PlayReportStatus
     .where(status ? eq(playQuestionReports.status, status) : undefined)
     .orderBy(desc(playQuestionReports.createdAt))
     .limit(limit)
+}
+
+/** البلاغات مع اسم الطالب (إن وُجد) — للوحة الإدارة */
+export async function listReportsDetailed(db: Db, actor: Actor, status: PlayReportStatus | null = 'OPEN', limit = 100) {
+  assertRole(actor, 'SUPER_ADMIN')
+  return db
+    .select({
+      id: playQuestionReports.id,
+      questionId: playQuestionReports.questionId,
+      key: playQuestions.key,
+      questionText: playQuestions.questionText,
+      reason: playQuestionReports.reason,
+      message: playQuestionReports.message,
+      status: playQuestionReports.status,
+      resolution: playQuestionReports.resolution,
+      resolvedAt: playQuestionReports.resolvedAt,
+      createdAt: playQuestionReports.createdAt,
+      isSuspended: playQuestions.isSuspended,
+      studentId: playQuestionReports.studentId,
+      studentName: profiles.fullName
+    })
+    .from(playQuestionReports)
+    .innerJoin(playQuestions, eq(playQuestions.id, playQuestionReports.questionId))
+    .leftJoin(students, eq(students.id, playQuestionReports.studentId))
+    .leftJoin(profiles, eq(profiles.userId, students.userId))
+    .where(status ? eq(playQuestionReports.status, status) : undefined)
+    .orderBy(desc(playQuestionReports.createdAt))
+    .limit(limit)
+}
+
+/** كل دروس المنهاج النشطة (لقوائم اختيار نموذج الإنشاء) */
+export async function listLessonsAdmin(db: Db, actor: Actor) {
+  assertRole(actor, 'SUPER_ADMIN')
+  return db
+    .select({
+      id: playLessons.id,
+      gradeCode: playLessons.gradeCode,
+      streamCodes: playLessons.streamCodes,
+      subjectCode: playLessons.subjectCode,
+      unitCode: playLessons.unitCode,
+      unitName: playLessons.unitName,
+      lessonCode: playLessons.lessonCode,
+      lessonName: playLessons.lessonName
+    })
+    .from(playLessons)
+    .where(eq(playLessons.isActive, true))
+    .orderBy(asc(playLessons.gradeCode), asc(playLessons.subjectCode), asc(playLessons.unitOrder), asc(playLessons.lessonOrder))
+}
+
+/** المفتاح التالي للأسئلة اليدوية: GRADE-SUBJECT-UNIT-LESSON-9NNN (أول رقم حرّ ابتداءً من 9001) */
+export async function nextManualKey(db: Db, actor: Actor, grade: string, subject: string, unit: string, lesson: string) {
+  assertRole(actor, 'SUPER_ADMIN')
+  const prefix = `${grade}-${subject}-${unit}-${lesson}-9`
+  const rows = await db.select({ key: playQuestions.key }).from(playQuestions).where(ilike(playQuestions.key, `${prefix}%`))
+  let max = 9000
+  for (const r of rows) {
+    const n = Number(r.key.slice(prefix.length - 1))
+    if (Number.isInteger(n) && n > max && n < 10000) max = n
+  }
+  return `${prefix.slice(0, -1)}${max + 1}`
 }
 
 export async function resolveReport(db: Db, actor: Actor, id: string, status: 'RESOLVED' | 'DISMISSED', resolution?: string | null) {

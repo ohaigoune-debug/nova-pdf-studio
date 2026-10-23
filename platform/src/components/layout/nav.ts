@@ -137,6 +137,7 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/admin/publish', label: 'نشر درس / فرض / اختبار', iconKey: 'Upload' },
             { href: '/admin/curriculum', label: 'المنهاج والمكتبة', iconKey: 'Network' },
             { href: '/admin/bac-bank', label: 'بنك البكالوريا', iconKey: 'Database' },
+            { href: '/admin/play', label: 'MADRASADZ PLAY', iconKey: 'Gamepad2' },
             { href: '/admin/exam-engine', label: 'محرّك الامتحانات', iconKey: 'Cog' },
             { href: '/admin/educators', label: 'دليل الأساتذة', iconKey: 'PlayCircle' },
             { href: '/admin/content', label: t('nav.content'), iconKey: 'FileText' },
