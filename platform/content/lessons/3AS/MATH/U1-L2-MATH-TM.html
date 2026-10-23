@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الاستمرارية والاشتقاقية ودراسة الدوال</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">3 ثانوي · الرياضيات · رياضيات / تقني رياضي · الوحدة 1: النهايات والاستمرارية والاشتقاقية · الدرس 2</div>
+<h1>الاستمرارية والاشتقاقية ودراسة الدوال</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تدرس استمرارية دالة وقابلية اشتقاقها عند عدد، وأن توظّف المشتقة في دراسة اتجاه التغير وكتابة معادلة المماس وإثبات وجود حلول لمعادلة.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الدالة المستمرة يُرسم منحناها دون رفع القلم، والدالة القابلة للاشتقاق يقبل منحناها مماساً غير عمودي. إشارة المشتقة تحدّد اتجاه التغير، فنلخّصها في جدول تغيرات.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15" direction="ltr">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1d4ed8"/></marker></defs>
+<rect x="10" y="10" width="520" height="160" fill="none" stroke="#1f2937" stroke-width="1.5"/>
+<rect x="10" y="10" width="80" height="160" fill="#dbe6ff"/>
+<line x1="10" y1="45" x2="530" y2="45" stroke="#1f2937"/><line x1="10" y1="85" x2="530" y2="85" stroke="#1f2937"/><line x1="90" y1="10" x2="90" y2="170" stroke="#1f2937"/>
+<text x="50" y="33" text-anchor="middle">x</text><text x="50" y="72" text-anchor="middle">f′(x)</text><text x="50" y="133" text-anchor="middle">f(x)</text>
+<text x="125" y="33" text-anchor="middle">−∞</text><text x="240" y="33" text-anchor="middle">−1</text><text x="380" y="33" text-anchor="middle">1</text><text x="505" y="33" text-anchor="middle">+∞</text>
+<text x="185" y="72" text-anchor="middle" fill="#15803d">+</text><text x="240" y="72" text-anchor="middle">0</text><text x="310" y="72" text-anchor="middle" fill="#c2410c">−</text><text x="380" y="72" text-anchor="middle">0</text><text x="445" y="72" text-anchor="middle" fill="#15803d">+</text>
+<line x1="240" y1="45" x2="240" y2="85" stroke="#1f2937" stroke-dasharray="3 3"/><line x1="380" y1="45" x2="380" y2="85" stroke="#1f2937" stroke-dasharray="3 3"/>
+<text x="125" y="162" text-anchor="middle">−∞</text><text x="240" y="105" text-anchor="middle" font-weight="700">3</text><text x="380" y="162" text-anchor="middle" font-weight="700">−1</text><text x="505" y="105" text-anchor="middle">+∞</text>
+<line x1="140" y1="152" x2="225" y2="102" stroke="#1d4ed8" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="255" y1="102" x2="365" y2="150" stroke="#1d4ed8" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="395" y1="152" x2="490" y2="102" stroke="#1d4ed8" stroke-width="2" marker-end="url(#ar)"/>
+</svg><figcaption>الشكل 1: جدول تغيرات الدالة <bdi dir="ltr">f(x) = x³ − 3x + 1</bdi>: قيمة حدية عظمى 3 وقيمة حدية صغرى −1.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">الاستمرارية عند a:</span> <bdi dir="ltr">f</bdi> مستمرة عند <bdi dir="ltr">a</bdi> إذا كان <bdi dir="ltr">lim<sub>x→a</sub> f(x) = f(a)</bdi>.</li>
+<li><span class="k">قابلية الاشتقاق:</span> <bdi dir="ltr">f</bdi> قابلة للاشتقاق عند <bdi dir="ltr">a</bdi> إذا كانت نهاية <bdi dir="ltr">(f(x) − f(a))/(x − a)</bdi> عددًا حقيقيًا <bdi dir="ltr">f′(a)</bdi>.</li>
+<li><span class="k">علاقة المفهومين:</span> كل دالة قابلة للاشتقاق عند <bdi dir="ltr">a</bdi> مستمرة عنده، والعكس غير صحيح.</li>
+<li><span class="k">معادلة المماس:</span> <bdi dir="ltr">y = f′(a)(x − a) + f(a)</bdi>.</li>
+<li><span class="k">اتجاه التغير:</span> إذا كانت <bdi dir="ltr">f′ &gt; 0</bdi> على مجال فإن <bdi dir="ltr">f</bdi> متزايدة تماماً عليه، وإذا كانت <bdi dir="ltr">f′ &lt; 0</bdi> فهي متناقصة تماماً.</li>
+<li><span class="k">مبرهنة القيم المتوسطة:</span> إذا كانت <bdi dir="ltr">f</bdi> مستمرة ورتيبة تماماً على <bdi dir="ltr">[a ; b]</bdi> و<bdi dir="ltr">f(a) × f(b) &lt; 0</bdi> فللمعادلة <bdi dir="ltr">f(x) = 0</bdi> حل وحيد في <bdi dir="ltr">]a ; b[</bdi>.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>ادرس تغيرات <bdi dir="ltr">f(x) = x³ − 3x + 1</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">f′(x) = 3x² − 3 = 3(x − 1)(x + 1)</bdi>؛ موجبة خارج <bdi dir="ltr">[−1 ; 1]</bdi> وسالبة داخله، و<bdi dir="ltr">f(−1) = 3</bdi>، <bdi dir="ltr">f(1) = −1</bdi> (الشكل 1).</li>
+<li>بيّن أن <bdi dir="ltr">f(x) = 0</bdi> تقبل حلاً وحيداً <bdi dir="ltr">α</bdi> في <bdi dir="ltr">]0 ; 1[</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">f</bdi> مستمرة ومتناقصة تماماً على <bdi dir="ltr">[0 ; 1]</bdi>، و<bdi dir="ltr">f(0) = 1 &gt; 0</bdi>، <bdi dir="ltr">f(1) = −1 &lt; 0</bdi>.</li>
+<li>معادلة المماس عند 0: <bdi dir="ltr">f′(0) = −3</bdi> و<bdi dir="ltr">f(0) = 1</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">y = −3x + 1</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>الاستنتاج أن الدالة قابلة للاشتقاق لأنها مستمرة؛ مثال مضاد: <bdi dir="ltr">|x|</bdi> عند 0.</li>
+<li>تطبيق مبرهنة القيم المتوسطة دون ذكر الاستمرارية والرتابة التامة معاً.</li>
+<li>الخلط في معادلة المماس بين <bdi dir="ltr">f(a)</bdi> و<bdi dir="ltr">f′(a)</bdi>.</li>
+<li>نسيان النهايات عند أطراف مجموعة التعريف في جدول التغيرات.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>اشتقاق ⇐ استمرارية، والعكس خاطئ.</li>
+<li>إشارة <bdi dir="ltr">f′</bdi> تعطي اتجاه التغير.</li>
+<li>المماس: <bdi dir="ltr">y = f′(a)(x − a) + f(a)</bdi>.</li>
+<li>حل وحيد: استمرارية + رتابة تامة + تغيّر الإشارة.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حل المعادلات في C</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">3 ثانوي · الرياضيات · علوم تجريبية · الوحدة 6: الأعداد المركبة · الدرس 2</div>
+<h1>حل المعادلات في C</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تحل في مجموعة الأعداد المركبة C معادلات من الدرجة الأولى ومن الدرجة الثانية بمعاملات حقيقية، ومعادلات كثيرات حدود يُعرف أحد جذورها.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> في C يصبح للعدد السالب جذران تربيعيان، فكل معادلة من الدرجة الثانية لها حلول حتى لو كان المميز سالباً. أما المعادلات التي تحوي z و z̄ فنحلها بكتابة <bdi dir="ltr">z = x + iy</bdi> ثم المطابقة.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<rect x="175" y="8" width="190" height="40" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
+<text x="270" y="33" text-anchor="middle" font-weight="700">az² + bz + c = 0 ; Δ = b² − 4ac</text>
+<line x1="230" y1="48" x2="95" y2="92" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar2)"/>
+<line x1="270" y1="48" x2="270" y2="92" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar2)"/>
+<line x1="310" y1="48" x2="445" y2="92" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar2)"/>
+<rect x="10" y="95" width="170" height="70" rx="8" fill="#86efac" stroke="#15803d"/>
+<text x="95" y="118" text-anchor="middle" font-weight="700">Δ &gt; 0</text><text x="95" y="145" text-anchor="middle">حلان حقيقيان</text>
+<rect x="185" y="95" width="170" height="70" rx="8" fill="#fde68a" stroke="#a16207"/>
+<text x="270" y="118" text-anchor="middle" font-weight="700">Δ = 0</text><text x="270" y="145" text-anchor="middle">z = −b/2a</text>
+<rect x="360" y="95" width="170" height="70" rx="8" fill="#dbe6ff" stroke="#c2410c"/>
+<text x="445" y="118" text-anchor="middle" font-weight="700" fill="#c2410c">Δ &lt; 0</text><text x="445" y="145" text-anchor="middle">(−b ± i√−Δ)/2a</text>
+</svg><figcaption>الشكل 1: حسب إشارة المميز Δ نحصل على حلين حقيقيين، أو حل مضاعف، أو حلين مركبين مترافقين.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المعادلة <bdi dir="ltr">z² = a</bdi></span> مع a حقيقي سالب: حلاها <bdi dir="ltr">i√−a</bdi> و <bdi dir="ltr">−i√−a</bdi>.</li>
+<li><span class="k">المميز:</span> لمعادلة <bdi dir="ltr">az² + bz + c = 0</bdi> بمعاملات حقيقية نحسب <bdi dir="ltr">Δ = b² − 4ac</bdi>.</li>
+<li>إذا كان <bdi dir="ltr">Δ &lt; 0</bdi> فالحلان <span class="k">مترافقان</span>: <bdi dir="ltr">z = (−b ± i√−Δ)/2a</bdi>.</li>
+<li><span class="k">معادلة تحوي z̄:</span> نضع <bdi dir="ltr">z = x + iy</bdi> ثم نطابق الجزأين الحقيقي والتخيلي.</li>
+<li><span class="k">كثير حدود له جذر معلوم <bdi dir="ltr">z₀</bdi>:</span> إذا كان <bdi dir="ltr">P(z₀) = 0</bdi> فإن <bdi dir="ltr">P(z) = (z − z₀)Q(z)</bdi>، ونجد Q بالمطابقة أو بالقسمة.</li>
+<li><span class="k">التحقق:</span> مجموع الحلين <bdi dir="ltr">−b/a</bdi> وجداؤهما <bdi dir="ltr">c/a</bdi>.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>حل <bdi dir="ltr">z² − 2z + 5 = 0</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">Δ = 4 − 20 = −16</bdi>، إذن <bdi dir="ltr">z = (2 ± 4i)/2</bdi>، أي <bdi dir="ltr">z₁ = 1 + 2i</bdi> و <bdi dir="ltr">z₂ = 1 − 2i</bdi>. تحقق: المجموع 2 والجداء <bdi dir="ltr">1 + 4 = 5</bdi>.</li>
+<li>حل <bdi dir="ltr">z² + 9 = 0</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">z² = −9</bdi> إذن <bdi dir="ltr">z = 3i</bdi> أو <bdi dir="ltr">z = −3i</bdi>.</li>
+<li>حل <bdi dir="ltr">z + 2z̄ = 3 − i</bdi>. <span class="k">الحل:</span> بوضع <bdi dir="ltr">z = x + iy</bdi> نجد <bdi dir="ltr">3x − iy = 3 − i</bdi>، إذن <bdi dir="ltr">x = 1</bdi> و <bdi dir="ltr">y = 1</bdi>، ومنه <bdi dir="ltr">z = 1 + i</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>كتابة <bdi dir="ltr">√−16</bdi> في الحل النهائي بدل <bdi dir="ltr">4i</bdi>.</li>
+<li>القول «المعادلة لا تقبل حلولاً» عندما <bdi dir="ltr">Δ &lt; 0</bdi>: هذا صحيح في R فقط لا في C.</li>
+<li>نسيان أن مرافق <bdi dir="ltr">x + iy</bdi> هو <bdi dir="ltr">x − iy</bdi> عند المطابقة، فيُخطأ في إشارة الجزء التخيلي.</li>
+<li>عدم التحقق من <bdi dir="ltr">P(z₀) = 0</bdi> قبل التحليل.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li><bdi dir="ltr">Δ &lt; 0</bdi> ⇐ حلان مترافقان <bdi dir="ltr">(−b ± i√−Δ)/2a</bdi>.</li>
+<li><bdi dir="ltr">z² = −k²</bdi> ⇐ <bdi dir="ltr">z = ±ik</bdi>.</li>
+<li>معادلة فيها z̄ ⇐ <bdi dir="ltr">z = x + iy</bdi> ثم مطابقة.</li>
+<li>جذر معلوم ⇐ تحليل <bdi dir="ltr">(z − z₀)Q(z)</bdi>.</li>
+<li>تحقق دائماً بالمجموع والجداء.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>
