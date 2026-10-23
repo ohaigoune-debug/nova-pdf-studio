@@ -42,7 +42,9 @@ const handlers: Record<JobType, Handler> = {
   AI_ORGANIZE_UPLOAD: (db, job) => runOrganizeUploadJob(db, job),
   REPORT_EXPORT: (db, job) => runReportJob(db, job.payload),
   CLEANUP: async (db) => ({ ...(await runCleanupJob(db)) }),
-  PUSH_DISPATCH: (db, job) => runPushDispatchJob(db, job.payload)
+  PUSH_DISPATCH: (db, job) => runPushDispatchJob(db, job.payload),
+  COURSE_EXPIRY: (db) => import('@/server/services/courses.service').then((m) => m.runCourseExpiryJob(db)),
+  LIVE_REMINDERS: (db) => import('@/server/services/live.service').then((m) => m.runLiveRemindersJob(db))
 }
 
 export interface RunSummary {

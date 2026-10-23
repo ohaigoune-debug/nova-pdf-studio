@@ -20,6 +20,8 @@ async function main() {
   console.log(`[jobs] worker started (poll ${intervalMs}ms)`)
   while (!stopped) {
     await ensureMaintenanceJobs(handle.db)
+    await import('@/server/services/courses.service').then((m) => m.ensureCourseExpiryScheduled(handle.db))
+    await import('@/server/services/live.service').then((m) => m.ensureLiveRemindersScheduled(handle.db))
     const s = await processQueuedJobs(handle.db, { limit: 20 })
     // المسار البطيء أيضاً (مهمة واحدة في الدورة)
     const slow = await processQueuedJobs(handle.db, { limit: 1, lane: 'slow' })
