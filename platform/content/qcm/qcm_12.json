@@ -1,0 +1,1410 @@
+{
+ "title": "اختبر نفسك: إعراب الجمل (4)",
+ "description": "أسئلة اختيار من متعدد مع الحل المفصّل لكل سؤال.",
+ "topic": "البناء اللغوي",
+ "isPublic": true,
+ "publish": true,
+ "maxAttempts": 3,
+ "questions": [
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «يسافرُ المعلّمُ كلَّ صيفٍ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة قسمية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بدأت الجملة بالفعل المضارع «يسافرُ»، وفاعله «المعلّمُ»، فهي جملة فعلية، و«كلَّ صيفٍ» ظرف زمان متعلق بالفعل.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «الحقيقةُ واضحةٌ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اعتراضية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "بدأت الجملة باسم «الحقيقةُ» وهو مبتدأ مرفوع، و«واضحةٌ» خبره، فهي جملة اسمية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «إنّ الصدقَ ينجّي صاحبَهُ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة قسمية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنّ» حرف توكيد ناسخ دخل على جملة اسمية، فاسمها «الصدقَ»، وخبرها الجملة الفعلية «ينجّي صاحبَهُ»، فالجملة اسمية في أصلها.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «اجتهدَ الطلابُ في المراجعةِ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة استئنافية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بدأت الجملة بالفعل الماضي «اجتهدَ»، وفاعلها «الطلابُ»، فهي جملة فعلية، والجار والمجرور «في المراجعةِ» متعلق بالفعل.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «لكنّ الأمرَ صعبٌ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة استئنافية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«لكنّ» حرف استدراك مشبّه بالفعل يدخل على الجملة الاسمية فينصب اسمها «الأمرَ»، ويبقى الخبر «صعبٌ» مرفوعاً، فالجملة اسمية.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «ما حضرَ الضيفُ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة تفسيرية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«ما» حرف نفي، والجملة بعدها فعل ماضٍ «حضرَ» وفاعله «الضيفُ»، فهي جملة فعلية منفية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «أقرأُ كتاباً» في قولنا: «جلستُ أقرأُ كتاباً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب حال",
+     "isCorrect": true
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة الفعلية «أقرأُ كتاباً» تبيّن هيئة الفاعل وقت الجلوس، فهي حال من التاء في «جلستُ»، ومحلها نصب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «يتقنُ ثلاثَ لغاتٍ» في قولنا: «أعرفُ رجلاً يتقنُ ثلاثَ لغاتٍ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب نعت",
+     "isCorrect": true
+    },
+    {
+     "label": "محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«رجلاً» نكرة منصوبة مفعول به، والجملة الفعلية «يتقنُ ثلاثَ لغاتٍ» صفة لها، فتأخذ محل المنعوت وهو النصب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «يجلسُ الأساتذةُ» في قولنا: «جلستُ حيثُ يجلسُ الأساتذةُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر مضاف إليه",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«حيثُ» ظرف مكان مضاف، والجملة بعده «يجلسُ الأساتذةُ» تقع في محل جر بالإضافة.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «ينادي الطلابَ» في قولنا: «سمعتُ صوتاً ينادي الطلابَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب نعت",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«صوتاً» نكرة منصوبة مفعول به، والجملة الفعلية «ينادي الطلابَ» صفة له، فمحلها نصب تبعاً للمنعوت.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «تحيطُ بها الجبالُ» في قولنا: «سافرتُ إلى مدينةٍ تحيطُ بها الجبالُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل جر نعت",
+     "isCorrect": true
+    },
+    {
+     "label": "محل نصب نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«مدينةٍ» نكرة مجرورة بحرف الجر «إلى»، والجملة الفعلية بعدها صفة لها، فتأخذ محل المنعوت وهو الجر.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «يجتهدُ» في قولنا: «الطالبُ الذي يجتهدُ ينجحُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الاسم «الذي» موصول، والجملة «يجتهدُ» صلته، وصلة الموصول لا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «الزحامُ شديدٌ» في قولنا: «لماذا تأخّرتَ؟ الزحامُ شديدٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة الاسمية «الزحامُ شديدٌ» جاءت جواباً عن سؤال مقدّر، فهي استئنافية، ولا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة الاعتراضية «بارك اللهُ فيهِ» في قولنا: «المعلّمُ — بارك اللهُ فيهِ — يشرحُ بوضوحٍ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة الاعتراضية الدعائية «بارك اللهُ فيهِ» جاءت بين المبتدأ «المعلّمُ» وخبره «يشرحُ»، ولا تدخل في الإعراب، فلا محل لها.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «تعيشُ فيهِ أمّي» في قولنا: «زرتُ البلدَ الذي تعيشُ فيهِ أمّي»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«الذي» اسم موصول، والجملة «تعيشُ فيهِ أمّي» صلته، وصلة الموصول لا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «قلتَهُ» في قولنا: «أعجبني ما قلتَهُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«ما» اسم موصول بمعنى «الذي»، والجملة «قلتَهُ» صلته، وصلة الموصول لا محل لها من الإعراب.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «كنتَ تعرفُهُ» في قولنا: «تحدّثتُ مع الذي كنتَ تعرفُهُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل جر بحرف الجر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«الذي» اسم موصول، والجملة «كنتَ تعرفُهُ» صلته، فلا محل لها من الإعراب، وإن كان الموصول نفسه مجروراً بحرف الجر.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب الشرط «أُكرِمْكَ» في قولنا: «إنْ تُكرِمْني أُكرِمْكَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جزم",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، و«تُكرِمْني» فعل الشرط، و«أُكرِمْكَ» جواب الشرط المضارع المجزوم، وهو في محل جزم.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب القسم «ليأتينَّ الحقُّ» في قولنا: «واللهِ ليأتينَّ الحقُّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل جزم جواب الشرط",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "جواب القسم جملة لا محل لها من الإعراب، و«ليأتينَّ الحقُّ» هنا جواب للقسم لا للشرط، لأنه لا توجد أداة شرط في الجملة.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب الشرط «يُوفّقْ» في قولنا: «مَنْ يُخلصْ يُوفّقْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جزم",
+     "isCorrect": true
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«مَنْ» اسم شرط جازم، فجوابه «يُوفّقْ» فعل مضارع مجزوم المحل، أي في محل جزم.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب الشرط «نصلْ» في قولنا: «إنْ تأتِ الحافلةَ نصلْ بسرعةٍ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جزم",
+     "isCorrect": true
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، وفعل الشرط «تأتِ»، وجوابه المضارع المجزوم «نصلْ»، فهو في محل جزم.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب الشرط «فسيُكافأُ» في قولنا: «إنْ يَكنْ صادقاً فسيُكافأُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جزم",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، وجوابها الجملة المقترنة بالفاء «فسيُكافأُ»، وهي في محل جزم، والفاء رابطة لا تغيّر محل الجواب.",
+   "difficulty": "صعب",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب القسم «لا أكذبُ» في قولنا: «واللهِ لا أكذبُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جزم جواب الشرط",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«لا أكذبُ» جواب للقسم، وجواب القسم لا محل له من الإعراب، ولا تُعدّ جواب شرط لعدم وجود أداة شرط.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب القسم «لقد نجحَ المجتهدُ» في قولنا: «واللهِ لقد نجحَ المجتهدُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جزم جواب الشرط",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«واللهِ» قَسَم، والجملة «لقد نجحَ المجتهدُ» جواب القسم، لا محل لها من الإعراب، لأنها ليست داخلة في تركيب يحتاج إلى محل.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب القسم «إنّكَ لمجتهدٌ» في قولنا: «باللهِ إنّكَ لمجتهدٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل جزم جواب الشرط",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«باللهِ» قَسَم، والجملة «إنّكَ لمجتهدٌ» جواب القسم، وهي لا محل لها من الإعراب، واللام في «لمجتهدٌ» لام الابتداء المؤكدة.",
+   "difficulty": "صعب",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «العصفورُ يغرّدُ على الغصنِ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة قسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "بدأت الجملة باسم «العصفورُ» وهو مبتدأ، وخبرها جملة فعلية «يغرّدُ على الغصنِ»، فالجملة اسمية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «سقطتِ الورقةُ عنِ الشجرةِ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اعتراضية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بدأت الجملة بالفعل الماضي «سقطتِ»، وفاعلها «الورقةُ»، فهي جملة فعلية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «قد أتمّ الطالبُ واجبَهُ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة قسمية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«قد» حرف تحقيق يدخل على الفعل الماضي «أتمّ»، وفاعله «الطالبُ»، فالجملة فعلية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «أمّا المجتهدُ فمكرّمٌ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة قسمية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بعد أداة التفصيل «أمّا» جاء الاسم «المجتهدُ» مبتدأ، و«مكرّمٌ» خبره، فالجملة اسمية.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «ليتَ الأيامَ تعودُ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة قسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«ليتَ» حرف تمنٍّ ناسخ يدخل على الجملة الاسمية فينصب اسمها «الأيامَ»، والخبر الفعلي «تعودُ»، فالجملة اسمية في أصلها.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «هل نجحَ الفريقُ؟».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة قسمية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الأداة «هل» تدخل على الفعل، وقد جاء بعدها الفعل الماضي «نجحَ» وفاعله «الفريقُ»، فالجملة فعلية.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "حدّد نوع الجملة في قولنا: «كأنّ الجوَّ ربيعٌ».",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اعتراضية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«كأنّ» حرف تشبيه ناسخ يدخل على الجملة الاسمية فينصب اسمها «الجوَّ»، ويبقى الخبر «ربيعٌ» مرفوعاً، فالجملة اسمية.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «تعلو منارتُهُ السماءَ» في قولنا: «رأيتُ مسجداً تعلو منارتُهُ السماءَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب نعت",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«مسجداً» نكرة منصوبة مفعول به، والجملة الفعلية بعدها صفة له، فتأخذ محل المنعوت وهو النصب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «تغيّبَ الأستاذُ» في قولنا: «تأخّرتُ يومَ تغيّبَ الأستاذُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر مضاف إليه",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«يومَ» ظرف زمان مضاف، والجملة بعده «تغيّبَ الأستاذُ» تقع مضافاً إليها، فمحلها الجر.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «يُحبُّ القراءةَ» في قولنا: «أخي يُحبُّ القراءةَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": true
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«أخي» مبتدأ مرفوع، والجملة الفعلية «يُحبُّ القراءةَ» خبره، فمحلها الرفع.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «يحاولُ جاهداً» في قولنا: «كانَ الطالبُ يحاولُ جاهداً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب خبر كان",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«كان» فعل ناقص يرفع اسمها «الطالبُ» وينصب خبرها، والجملة الفعلية «يحاولُ جاهداً» هي الخبر، فمحلها نصب.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة الاعتراضية «لم يكنْ مفاجئاً» في قولنا: «النجاحُ — لم يكنْ مفاجئاً — ثمرةُ الجدِّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة الاعتراضية تُؤتى بين ركنين متلازمين لتأكيد المعنى، ولا تدخل في الإعراب، فلا محل لها. وهي هنا بين المبتدأ «النجاحُ» وخبره «ثمرةُ الجدِّ».",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «الشمسُ تشرقُ كلَّ يومٍ» إذا وردت في أول الكلام؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة التي يُبتدأ بها الكلام ولم تسبقها جملة تعربها تُسمّى ابتدائية، ولا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «أحبُّهُ» في قولنا: «قابلتُ الذي أحبُّهُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل نصب نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الاسم «الذي» موصول، والجملة «أحبُّهُ» صلته، وصلة الموصول لا محل لها من الإعراب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «تقولُهُ» في قولنا: «سمعتُ الذي تقولُهُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الاسم «الذي» موصول، والجملة «تقولُهُ» صلته، ولا محل لها من الإعراب، لأن الصلة تكمّل معنى الموصول فقط.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة الاعتراضية «حفظكَ اللهُ» في قولنا: «أخوكَ — حفظكَ اللهُ — وفيٌّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة الاعتراضية الدعائية «حفظكَ اللهُ» جاءت بين المبتدأ «أخوكَ» وخبره «وفيٌّ»، ولا تدخل في الإعراب، فلا محل لها.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ الجملة «لا أعرفُهُ» في قولنا: «هل تعرفُ الجوابَ؟ لا أعرفُهُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة «لا أعرفُهُ» جاءت استئنافاً، جواباً عن السؤال السابق، فهي جملة استئنافية لا محل لها من الإعراب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لا محل لها"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب الشرط «يُحسنوا إليكَ» في قولنا: «إنْ تُحسِنْ إلى الناسِ يُحسنوا إليكَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل جزم",
+     "isCorrect": true
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، وفعل الشرط «تُحسِنْ»، وجوابه الفعل المضارع المجزوم «يُحسنوا»، وهو في محل جزم.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب القسم «سأكتبُ الحقيقةَ» في قولنا: «واللهِ سأكتبُ الحقيقةَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل جزم جواب الشرط",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة «سأكتبُ الحقيقةَ» جواب للقسم، وجواب القسم لا محل له من الإعراب، لأنه لا توجد في الجملة أداة شرط.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب الشرط «يجدِ الخيرَ» في قولنا: «مَنْ يزرعِ الخيرَ يجدِ الخيرَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جزم",
+     "isCorrect": true
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«مَنْ» اسم شرط جازم، فجوابه «يجدِ الخيرَ» فعل مضارع مجزوم المحل، أي في محل جزم.",
+   "difficulty": "سهل",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب الشرط «فلنْ يخسرَ» في قولنا: «أيُّ طالبٍ يُتقنْ عملَهُ فلنْ يخسرَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جزم",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«أيُّ» اسم شرط جازم، وجوابها الجملة المقترنة بالفاء «فلنْ يخسرَ»، وهي في محل جزم لأن أداة الشرط جازمة.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب القسم «لأكتبنَّ» في قولنا: «تاللهِ لأكتبنَّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل جزم جواب الشرط",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«لأكتبنَّ» جواب للقسم، وهو جملة لا محل لها من الإعراب، إذ لا توجد أداة شرط تجعل لها محلاً.",
+   "difficulty": "متوسط",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب الشرط «فستنالُ مرادَكَ» في قولنا: «إنْ عملتَ بجدٍّ فستنالُ مرادَكَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جزم",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، وجوابها الجملة المقترنة بالفاء «فستنالُ مرادَكَ»، وهي في محل جزم، والفاء رابطة للجواب.",
+   "difficulty": "صعب",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب القسم «ما كذبتُ عليكَ» في قولنا: «واللهِ ما كذبتُ عليكَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جزم جواب الشرط",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": true
+    },
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«واللهِ» قَسَم، والجملة «ما كذبتُ عليكَ» جواب القسم، وهي لا محل لها من الإعراب، لأنها ليست داخلة في تركيب يحتاج إلى محل.",
+   "difficulty": "صعب",
+   "subtopic": "جواب الشرط والقسم"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محلّ جواب الشرط «تربحْ» في قولنا: «إنْ تُخلصْ في عملِكَ تربحْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها",
+     "isCorrect": false
+    },
+    {
+     "label": "محل جزم",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«إنْ» أداة شرط جازمة، وفعل الشرط «تُخلصْ»، وجوابه الفعل المضارع المجزوم «تربحْ»، فهو في محل جزم.",
+   "difficulty": "صعب",
+   "subtopic": "جواب الشرط والقسم"
+  }
+ ]
+}

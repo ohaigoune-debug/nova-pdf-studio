@@ -1,0 +1,1410 @@
+{
+ "title": "اختبر نفسك: الأساليب (1)",
+ "description": "أسئلة اختيار من متعدد مع الحل المفصّل لكل سؤال.",
+ "topic": "البناء اللغوي",
+ "isPublic": true,
+ "publish": true,
+ "maxAttempts": 3,
+ "questions": [
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الخبر في قولك: «العلمُ نورٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ابتدائي",
+     "isCorrect": true
+    },
+    {
+     "label": "طلبي",
+     "isCorrect": false
+    },
+    {
+     "label": "إنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "إنشائي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة خبر مجرد من أي مؤكد، يُلقى إلى المخاطب الخالي الذهن من الحكم، فهو خبري ابتدائي.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الذي يميّز الخبري الطلبي؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا يُؤكَّد بأي مؤكد، ويُلقى لخالي الذهن",
+     "isCorrect": false
+    },
+    {
+     "label": "يُؤكَّد بمؤكد واحد، ويُلقى لمن يتردد في الحكم",
+     "isCorrect": true
+    },
+    {
+     "label": "يُؤكَّد بمؤكدين فأكثر، ويُلقى لمنكر الحكم",
+     "isCorrect": false
+    },
+    {
+     "label": "يبدأ بفعل أمر ويحمل معنى الطلب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الخبري الطلبي يُقوّى بمؤكد واحد مثل «إنّ» أو «قد»، لأن المخاطب متردد في الحكم وليس منكراً له.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل التالية خبرٌ ابتدائيٌّ؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "إنّ الجوَّ باردٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "واللهِ لأجتهدنَّ",
+     "isCorrect": false
+    },
+    {
+     "label": "قدِمَ المسافرُ مساءً",
+     "isCorrect": true
+    },
+    {
+     "label": "ما أجملَ السماءَ!",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«قدِمَ المسافرُ مساءً» خبر مجرد من أي مؤكد. أما «إنّ الجوَّ باردٌ» فطلبي، و«واللهِ لأجتهدنَّ» مؤكدة بالقسم، و«ما أجملَ» تعجب.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "قال المعلّم: «اكتبْ درسَك بخطٍّ واضحٍ». ما نوع الأسلوب؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "خبري ابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "خبري إنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "إنشائي غير طلبي",
+     "isCorrect": false
+    },
+    {
+     "label": "إنشائي طلبي",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "فعل الأمر «اكتبْ» يدل على طلب حصول الفعل بعد زمن التكلم، فهو إنشاء طلبي وليس خبراً.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل التالية مؤكَّدة بحرف واحد هو «قد»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "قد نجحَ المجتهدُ",
+     "isCorrect": true
+    },
+    {
+     "label": "ما نجحَ الكسولُ",
+     "isCorrect": false
+    },
+    {
+     "label": "نجحَ المجتهدُ",
+     "isCorrect": false
+    },
+    {
+     "label": "لَيَنجحَنَّ المجتهدُ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«قد» مع الفعل الماضي حرف توكيد واحد، فالجملة خبر طلبي. أما «ليَنجحَنَّ» ففيها لام ونون توكيد، فهي مؤكدة بأكثر من مؤكد.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل التالية تُعدّ خبراً إنكارياً؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "سافرَ الأستاذُ إلى المدينةِ",
+     "isCorrect": false
+    },
+    {
+     "label": "لقد سافرَ الأستاذُ، واللهِ إنّه لمسافرٌ",
+     "isCorrect": true
+    },
+    {
+     "label": "إنّ الأستاذَ لمسافرٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "هل سافرَ الأستاذُ إلى المدينةِ؟",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "تجتمع في الجملة الصحيحة عدة مؤكدات (قد واللام، والقسم، وإنّ واللام)، والخبر المؤكد بأكثر من مؤكد يُلقى لمنكر الحكم فهو إنكاري.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض من إلقاء الخبر الابتدائي؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "طلب الفعل من المخاطب",
+     "isCorrect": false
+    },
+    {
+     "label": "إظهار التعجب من الحدث",
+     "isCorrect": false
+    },
+    {
+     "label": "إفادة المخاطب الخالي الذهن بالحكم",
+     "isCorrect": true
+    },
+    {
+     "label": "تحذير المخاطب من الخطر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الخبر الابتدائي يُلقى لمن لا يعرف الحكم ولا يشك فيه، فيُفاد به الحكم مجرداً من التوكيد.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل خبريّة منفيّة ابتدائيّة؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا تحضرِ الضيفَ",
+     "isCorrect": false
+    },
+    {
+     "label": "ما أحضرَ الضيفَ!",
+     "isCorrect": false
+    },
+    {
+     "label": "أحضرِ الضيفَ",
+     "isCorrect": false
+    },
+    {
+     "label": "لم يحضرِ الضيفُ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«لم يحضرِ الضيفُ» نفي بالحرف «لم» في جملة خبرية مجردة من المؤكدات. أما «لا تحضر» فنهي، و«ما أحضر» تعجب، و«أحضر» أمر.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما المؤكِّدات في قولك: «واللهِ إنّ الصبرَ لَجميلٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "القسم وإنّ واللامُ المزحلقةُ",
+     "isCorrect": true
+    },
+    {
+     "label": "إنّ وحدها",
+     "isCorrect": false
+    },
+    {
+     "label": "اللامُ وحدها",
+     "isCorrect": false
+    },
+    {
+     "label": "لا توجد مؤكدات",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "في الجملة ثلاثة مؤكدات: القسم بالواو، و«إنّ»، واللام المزحلقة إلى الخبر. وهذا يدل على أن الكلام يُلقى لمنكر الحكم.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "الجملة «إنّ الصدقَ لَيُنجي صاحبَه» مؤكدة بـ:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "قد وحدها",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ واللامِ المزحلقةِ",
+     "isCorrect": true
+    },
+    {
+     "label": "القسمِ وحده",
+     "isCorrect": false
+    },
+    {
+     "label": "لا توجد مؤكدات",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنّ» حرف توكيد، واللام المزحلقة في خبرها «لَيُنجي» توكيد ثانٍ. وبذلك تكون الجملة مؤكدة بمؤكدين.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأساليب يناسب مخاطباً متردداً في حكم؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الخبري الابتدائي، ولا يُؤكَّد بشيء",
+     "isCorrect": false
+    },
+    {
+     "label": "الخبري الإنكاري، ويُؤكَّد بمؤكدين فأكثر",
+     "isCorrect": false
+    },
+    {
+     "label": "الخبري الطلبي، ويُؤكَّد بمؤكد واحد",
+     "isCorrect": true
+    },
+    {
+     "label": "الإنشائي الطلبي، ويُعبَّر فيه بالأمر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المخاطب المتردد يُخاطَب بالخبر المؤكد بمؤكد واحد، كـ«إنّ» أو «قد». أما المنكر فيُخاطَب بأكثر من مؤكد.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "نوع الخبر في الجملة «قد أفلحَ المجتهدونَ»:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "إنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "غير طلبي",
+     "isCorrect": false
+    },
+    {
+     "label": "طلبي",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة خبر مؤكد بحرف واحد هو «قد»، ويُلقى إلى المتردد في الحكم، فهو خبري طلبي.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في قولك: «واللهِ لقد نجحَ المجتهدُ»، المؤكدات الموجودة هي:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "القسم واللامُ وقدْ",
+     "isCorrect": true
+    },
+    {
+     "label": "القسم وحده",
+     "isCorrect": false
+    },
+    {
+     "label": "قدْ وحدها",
+     "isCorrect": false
+    },
+    {
+     "label": "لا توجد مؤكدات",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "تجمع «لقد» بين اللام و«قد»، ومعهما القسم بالواو. وهذا من أساليب الإنكار المؤكد بأكثر من مؤكد.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الخبر في الجملة «ليس الكذبُ من شيم الكرامِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "خبري طلبي منفي",
+     "isCorrect": false
+    },
+    {
+     "label": "خبري ابتدائي منفي",
+     "isCorrect": true
+    },
+    {
+     "label": "إنشائي غير طلبي",
+     "isCorrect": false
+    },
+    {
+     "label": "إنشائي طلبي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة نفي بالفعل الناقص «ليس»، وهي خبر مجرد من التوكيد يُلقى إلى خالي الذهن، فهي ابتدائية.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الفرق بين الخبري الإنكاري والخبري الطلبي في عدد المؤكدات؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الإنكاري يُؤكَّد بمؤكد واحد، والطلبي بمؤكدين فأكثر",
+     "isCorrect": false
+    },
+    {
+     "label": "كلاهما يُؤكَّد بمؤكد واحد فقط",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنكاري يُؤكَّد بمؤكدين فأكثر، والطلبي بمؤكد واحد",
+     "isCorrect": true
+    },
+    {
+     "label": "كلاهما لا يحتاج إلى مؤكد",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "كلما ازداد إنكار المخاطب للحكم ازدادت المؤكدات، فالإنكاري بمؤكدين فأكثر، والطلبي بمؤكد واحد.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تجمع بين النفي والقسم والتوكيد بـ«إنّ» واللام، فتُعدّ خبراً إنكارياً؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ما المسافرُ متأخّرٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "المسافرُ مبكّرٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "هل المسافرُ مبكّرٌ؟",
+     "isCorrect": false
+    },
+    {
+     "label": "ما المسافرُ بمتأخرٍ، واللهِ إنّه لمبكّرٌ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجملة الصحيحة تجمع القسم و«إنّ» واللام مع النفي، وهي تُلقى لمنكر الحكم. أما بقية الخيارات فخبر عادي أو استفهام.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في العبارة «أيّها الطلابُ، الامتحانُ قريبٌ»، الجملة الثانية خبرٌ:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ابتدائي",
+     "isCorrect": true
+    },
+    {
+     "label": "طلبي",
+     "isCorrect": false
+    },
+    {
+     "label": "إنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "إنشائي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة الثانية «الامتحانُ قريبٌ» خبر مجرد من المؤكدات، والنداء في الجملة الأولى إنشاء لا يغيّر نوع الخبر الذي بعده.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "إذا كان المخاطب منكراً لخبرٍ سمعه، فأيّ أسلوب تستعمل معه؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الخبري الابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "الخبري الإنكاري بمؤكدين فأكثر",
+     "isCorrect": true
+    },
+    {
+     "label": "الخبري الطلبي بمؤكد واحد",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنشائي غير الطلبي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المنكر للحكم يُخاطَب بالخبر المؤكد بمؤكدين فأكثر، كالقسم مع «إنّ» واللام. وهذا هو الأسلوب الإنكاري.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأدوات التالية تُستعمل في التوكيد الطلبي وحده، أي مع المتردد؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا النافية",
+     "isCorrect": false
+    },
+    {
+     "label": "ما الاستفهامية",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ",
+     "isCorrect": true
+    },
+    {
+     "label": "هل الاستفهامية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنّ» حرف توكيد يُستعمل مع المتردد في الحكم، وهو المؤكد الطلبي. أما لا وما وهل فليست من أدوات التوكيد.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تُعدّ خبراً طلبياً؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "قام الرجلُ",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ الرجلَ لقامَ",
+     "isCorrect": false
+    },
+    {
+     "label": "ما قامَ الرجلُ",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ الرجلَ قامَ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«إنّ الرجلَ قامَ» مؤكدة بمؤكد واحد هو «إنّ»، فهي خبر طلبي. أما «إنّ الرجلَ لقامَ» فمؤكدة بإنّ واللام، وهي إنكارية.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "قال المعلّم لطالبٍ أنكر فضلَ المطالعة: «واللهِ إنّ المطالعةَ لَتزيدُ الفهمَ». ما نوع الخبر وسبب التوكيد؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "إنكاري؛ لأن المخاطب منكر، والمؤكدات: القسم وإنّ واللامُ",
+     "isCorrect": true
+    },
+    {
+     "label": "طلبي؛ لأن المخاطب متردد في الحكم",
+     "isCorrect": false
+    },
+    {
+     "label": "ابتدائي؛ لأن المخاطب خالي الذهن",
+     "isCorrect": false
+    },
+    {
+     "label": "إنشائي؛ لوجود القسم في الجملة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المخاطب منكر للحكم، فيُؤكَّد الخبر بأكثر من مؤكد، وهنا القسم و«إنّ» واللام المزحلقة. فالخبر إنكاري.",
+   "difficulty": "صعب",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "بعد أن ظنّ المخاطب خلاف الخبر، أيّ الأساليب يُناسب إلقاءه؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الخبري الابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "الخبري الإنكاري بمؤكدين فأكثر",
+     "isCorrect": true
+    },
+    {
+     "label": "الخبري الطلبي بمؤكد واحد",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنشائي الطلبي بالأمر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "ظنّ المخاطب خلافَ الحكم يعني إنكاره، ولذلك يُؤكَّد الخبر بأكثر من مؤكد، وهذا ما يسمى الإنكاري.",
+   "difficulty": "صعب",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في الجملة «إنّ الصبرَ لَمفتاحُ النجاحِ»، ما نوعها من حيث التوكيد؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "طلبية؛ فيها إنّ وحدها",
+     "isCorrect": false
+    },
+    {
+     "label": "ابتدائية؛ لا مؤكد فيها",
+     "isCorrect": false
+    },
+    {
+     "label": "إنكارية؛ فيها إنّ واللامُ المزحلقةُ",
+     "isCorrect": true
+    },
+    {
+     "label": "إنشائية؛ لوجود حرف الجر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة مؤكدة بـ«إنّ» واللام المزحلقة في خبرها، وهما مؤكدان. فهي خبر إنكاري.",
+   "difficulty": "صعب",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "بعد سؤال عن نزول المطر، أُجيب: «إنّ المطرَ نازلٌ»، ثم أُجيب بعد إنكار السائل: «واللهِ إنّه لنازلٌ». فالجوابان على الترتيب:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "إنكاري، ثم طلبي",
+     "isCorrect": false
+    },
+    {
+     "label": "ابتدائي، ثم إنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "طلبي، ثم ابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "طلبي، ثم إنكاري",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الجواب الأول يُلقى للمتردد بمؤكد واحد، فهو طلبي. والثاني يُلقى لمنكر الحكم بالقسم و«إنّ» واللام، فهو إنكاري.",
+   "difficulty": "صعب",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل التالية أمرٌ؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "اكتبْ واجبَك",
+     "isCorrect": true
+    },
+    {
+     "label": "كتبَ الطالبُ واجبَه",
+     "isCorrect": false
+    },
+    {
+     "label": "هل كتبتَ واجبَك؟",
+     "isCorrect": false
+    },
+    {
+     "label": "ليتَ الواجبَ قصيرٌ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "فعل الأمر «اكتبْ» يطلب به المتكلم حصول الفعل من المخاطب على وجه الاستعلاء. أما البقية فخبر واستفهام وتمنٍّ.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل التالية نهيٌ؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لن يتأخرَ الطالبُ",
+     "isCorrect": false
+    },
+    {
+     "label": "لا تتأخرْ عن الموعدِ",
+     "isCorrect": true
+    },
+    {
+     "label": "ما أجملَ الوفاءَ!",
+     "isCorrect": false
+    },
+    {
+     "label": "تأخّرَ الطالبُ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "النهي طلب الكفّ عن الفعل، ويكون بـ«لا» الناهية مع المضارع المجزوم، كما في «لا تتأخرْ».",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الفعل الذي يأتي بعد «لا» الناهية؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ماضٍ مبنيّ على الفتح",
+     "isCorrect": false
+    },
+    {
+     "label": "أمر مبنيّ على السكون",
+     "isCorrect": false
+    },
+    {
+     "label": "مضارع مجزوم",
+     "isCorrect": true
+    },
+    {
+     "label": "مضارع منصوب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«لا» الناهية تجزم الفعل المضارع بعدها، فيكون الفعل بعدها مضارعاً مجزوماً، كقولك: «لا تكذبْ».",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل التالية تتضمن استفهاماً حقيقياً يُطلب به الجواب؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "من ذا الذي يجهلُ قدرَ العلمِ؟",
+     "isCorrect": false
+    },
+    {
+     "label": "أليسَ العلمُ نوراً؟",
+     "isCorrect": false
+    },
+    {
+     "label": "كم مرّةً سأكرّرُ لك؟",
+     "isCorrect": false
+    },
+    {
+     "label": "متى يعودُ أبوك من السفرِ؟",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الاستفهام الحقيقي هو الذي يسأل فيه المتكلم عن أمر يجهله ويطلب جوابه، كالسؤال عن وقت العودة. أما البقية فاستفهامات بلاغية.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الاستفهام في «أتسافرُ غداً؟» إذا كان السائل يطلب معرفة الجواب؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "استفهام حقيقي يُطلب به الفهم",
+     "isCorrect": true
+    },
+    {
+     "label": "استفهام بلاغي للتعجب",
+     "isCorrect": false
+    },
+    {
+     "label": "استفهام إنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "أمر بصيغة الاستفهام",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "السائل يجهل الجواب ويريد معرفته، فالاستفهام حقيقي. أما الأنواع الأخرى فتعدل الاستفهام عن أصله إلى غرض بلاغي.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن نداءً؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "محمدٌ يُقبل على دروسه",
+     "isCorrect": false
+    },
+    {
+     "label": "يا محمدُ، أقبلْ على دروسِك",
+     "isCorrect": true
+    },
+    {
+     "label": "أقبلَ محمدٌ على دروسه",
+     "isCorrect": false
+    },
+    {
+     "label": "ما أقبلَ محمداً على دروسه!",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "النداء طلب إقبال المنادى بأحد حروف النداء، وهنا «يا» مع المنادى «محمدُ». أما البقية فليست نداء.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تدل على التمنّي؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الإجازةُ طويلةٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "لعلّ الإجازةَ تطولُ",
+     "isCorrect": false
+    },
+    {
+     "label": "ليتَ الإجازةَ تطولُ",
+     "isCorrect": true
+    },
+    {
+     "label": "هل الإجازةُ طويلةٌ؟",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«ليت» أداة التمني، وهي تطلب حصول أمر محبوب قد يكون مستحيلاً أو بعيداً. أما «لعلّ» فللترجي.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأدوات التالية تُفيد الترجي؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ليت",
+     "isCorrect": false
+    },
+    {
+     "label": "لو",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ",
+     "isCorrect": false
+    },
+    {
+     "label": "لعلّ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«لعلّ» أداة الترجي، وهي تدل على طلب حصول أمر محبوب ممكن ومرجوّ. أما «ليت» فللتمني، و«لو» للشرط، و«إنّ» للتوكيد.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأدوات تُستعمل في التمنّي؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ليت",
+     "isCorrect": true
+    },
+    {
+     "label": "لعلّ",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ",
+     "isCorrect": false
+    },
+    {
+     "label": "أنّ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«ليت» أداة التمني، وتقال في الأمر المحبوب الذي يُتمنى حصوله. أما «لعلّ» فللترجي و«إنّ» و«أنّ» للتوكيد.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما المنادى في «يا صديقُ، أقبلْ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "يا",
+     "isCorrect": false
+    },
+    {
+     "label": "صديقُ",
+     "isCorrect": true
+    },
+    {
+     "label": "أقبلْ",
+     "isCorrect": false
+    },
+    {
+     "label": "الفاعل المستتر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المنادى هو الاسم الذي يُطلب إقبالُه بعد أداة النداء، وهو هنا «صديقُ». أما «يا» فأداة النداء، و«أقبلْ» فعل أمر.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن استفهاماً يُطلب به تحديد الزمن؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "كم كتاباً قرأتَ؟",
+     "isCorrect": false
+    },
+    {
+     "label": "أين سكنتَ؟",
+     "isCorrect": false
+    },
+    {
+     "label": "متى ينتهي الامتحانُ؟",
+     "isCorrect": true
+    },
+    {
+     "label": "كيف حالُ أمّك؟",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«متى» أداة استفهام تُستعمل للسؤال عن الزمان، فالجملة الأولى تسأل عن وقت انتهاء الامتحان. وما بقي يسأل عن العدد والمكان والحال.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن أمراً غرضه الالتماس؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "أعطِ الفقيرَ حقَّه",
+     "isCorrect": false
+    },
+    {
+     "label": "اتركِ المكانَ فوراً",
+     "isCorrect": false
+    },
+    {
+     "label": "اكتبْ هذا الدرسَ الآن",
+     "isCorrect": false
+    },
+    {
+     "label": "أعِرني قلمَك، من فضلِك",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الالتماس أمر يصدر من النظير إلى نظيره على وجه التلطف، كقولك: «أعِرني قلمَك، من فضلِك». والبقية أوامر بمعنى الطلب العادي أو التهديد.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من النهي في «لا تُؤاخذْني بذنبِ غيري أيُّها الكريمُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الدعاء",
+     "isCorrect": true
+    },
+    {
+     "label": "التوبيخ",
+     "isCorrect": false
+    },
+    {
+     "label": "الالتماس",
+     "isCorrect": false
+    },
+    {
+     "label": "التهديد",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "النهي هنا موجّه إلى طلب الرحمة والعفو، فيُعدّ دعاءً لا نهياً حقيقياً. والتوبيخ والتهديد والالتماس أغراض مختلفة لا تناسب السياق.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من الاستفهام في «أما آنَ لك أن تستيقظَ من غفلتك؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الاستعلام عن الزمن",
+     "isCorrect": false
+    },
+    {
+     "label": "التوبيخ والعتاب",
+     "isCorrect": true
+    },
+    {
+     "label": "التمني",
+     "isCorrect": false
+    },
+    {
+     "label": "الأمر بالسكوت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الاستفهام هنا يحمل معنى اللوم على التقصير، فالمتكلم يعاتب المخاطب على غفلته، وليس يسأل عن الوقت.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ عبارة فيها نداء للندبة؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "يا تلميذُ، اجتهدْ في دروسِك",
+     "isCorrect": false
+    },
+    {
+     "label": "يا أيُّها الطلابُ، ادرسوا",
+     "isCorrect": false
+    },
+    {
+     "label": "وا حسرتاهُ على أيامِ الصِّبا!",
+     "isCorrect": true
+    },
+    {
+     "label": "يا فتى، اتّئِدْ في قرارِك",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الندبة نداء يُندَب فيه المتكلم أمراً فقده أو تحسّر عليه، ويكون بـ«وا»، كقولك: «وا حسرتاهُ». أما البقية فنداء عادي.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من التمنّي في «ليتَ أيامَ الصِّغرِ تعودُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الأمر بالعودة",
+     "isCorrect": false
+    },
+    {
+     "label": "النهي عن التذكّر",
+     "isCorrect": false
+    },
+    {
+     "label": "الاستفهام عن الماضي",
+     "isCorrect": false
+    },
+    {
+     "label": "الحسرة على الماضي",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "التمني بـ«ليت» مع رجوع أيام الصغر، يعبّر عن الحنين والحسرة على ما فات، لأن عودة الماضي غير ممكنة.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الفرق بين التمنّي والترجي؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "التمني لما لا يُرجى حصوله غالباً، والترجي لما يُرجى حصوله",
+     "isCorrect": true
+    },
+    {
+     "label": "التمني لما يُرجى حصوله، والترجي لما لا يُرجى",
+     "isCorrect": false
+    },
+    {
+     "label": "كلاهما لطلب حصول الممكن القريب",
+     "isCorrect": false
+    },
+    {
+     "label": "كلاهما يُستعمل للنفي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "التمني يكون في أمر محبوب يُستبعد حصوله أو يستحيل، أما الترجي فيكون في أمر محبوب ممكن يُرجى وقوعه، كما في «لعلّ المطرَ يهطلُ».",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض من الأمر في «ادرسْ قبل الامتحانِ بأسبوعٍ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "التهديد",
+     "isCorrect": false
+    },
+    {
+     "label": "الإرشاد والنصح",
+     "isCorrect": true
+    },
+    {
+     "label": "التعجيز",
+     "isCorrect": false
+    },
+    {
+     "label": "الإباحة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الأمر هنا يوجّه المخاطب إلى ما فيه مصلحته، وهو من أغراض الإرشاد والنصح. وليس فيه إلزام شديد ولا تهديد.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض من الاستفهام في «أليسَ الوطنُ أغلى من كلِّ شيءٍ؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الإنكار",
+     "isCorrect": false
+    },
+    {
+     "label": "التعجب",
+     "isCorrect": false
+    },
+    {
+     "label": "التقرير",
+     "isCorrect": true
+    },
+    {
+     "label": "التمني",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الاستفهام التقريري يحمل المخاطب على الإقرار بما هو معلوم، وهنا يُقرره المتكلم بأن الوطن أغلى الأشياء.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض من النهي في «لا تُكثرِ الكلامَ في غيرِ موضعِه»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "التهديد",
+     "isCorrect": false
+    },
+    {
+     "label": "الاستعلام",
+     "isCorrect": false
+    },
+    {
+     "label": "التمني",
+     "isCorrect": false
+    },
+    {
+     "label": "النصح والإرشاد",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "النهي يحذّر المخاطب من فعل فيه ضرر له، وهذا من أغراض النصح والإرشاد لا التهديد.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن أمراً خرج عن طلب الفعل إلى التهديد؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "اصنعْ ما شئتَ، فستعلمُ جزاءَك",
+     "isCorrect": true
+    },
+    {
+     "label": "اصنعْ لوحةً جميلةً",
+     "isCorrect": false
+    },
+    {
+     "label": "اكتبْ قصةً قصيرةً",
+     "isCorrect": false
+    },
+    {
+     "label": "اقرأْ كتابَ المطالعةِ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الأمر في «اصنعْ ما شئتَ» لا يُراد به الإذن، وإنما الوعيد بالعقوبة، فهو أمر بغرض التهديد. والبقية أوامر على أصلها.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض من الاستفهام في «أتطلبُ النجاحَ دون اجتهادٍ؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الاستعلام",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنكار",
+     "isCorrect": true
+    },
+    {
+     "label": "التمني",
+     "isCorrect": false
+    },
+    {
+     "label": "الأمر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتكلم ينكر على المخاطب أن يطلب شيئاً دون مقدماته، فالاستفهام إنكاري، لأن الجواب المنتظر عنده هو النفي.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل تتضمن نداءً غرضه التحذير؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "أحبُّك يا صديقي",
+     "isCorrect": false
+    },
+    {
+     "label": "يا صديقي، لقد نجحتَ",
+     "isCorrect": false
+    },
+    {
+     "label": "يا صديقي، احذرِ الطريقَ الزلقَ",
+     "isCorrect": true
+    },
+    {
+     "label": "يا صديقي، أعطِني الكتابَ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "النداء في الجملة الصحيحة يُراد به تنبيه المنادى وتحذيره من خطر الطريق الزلق. والبقية نداء لغرض آخر أو ليس فيه غرض التحذير.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في قول المعلّم: «ألم أقلْ لكم إنّ الجِدَّ يُثمرُ؟»، الاستفهام:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "حقيقي يُطلب به الجواب",
+     "isCorrect": false
+    },
+    {
+     "label": "أمر بصيغة الاستفهام",
+     "isCorrect": false
+    },
+    {
+     "label": "نفي مؤكد",
+     "isCorrect": false
+    },
+    {
+     "label": "تقريري بغرض التوبيخ والعتاب",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "المعلّم يذكّر المخاطبين بما قاله لهم سابقاً، فالاستفهام تقريري، وفيه معنى اللوم والعتاب على ترك الجد.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ العبارات تجمع بين النداء والتعجب؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "يا لعجبي! كيف نجحتَ دون مذاكرةٍ؟",
+     "isCorrect": true
+    },
+    {
+     "label": "يا أحمدُ، هل نجحتَ؟",
+     "isCorrect": false
+    },
+    {
+     "label": "أحمدُ نجحَ بالاجتهادِ",
+     "isCorrect": false
+    },
+    {
+     "label": "نجحَ أحمدُ دون مذاكرةٍ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "العبارة الصحيحة فيها نداء «يا لعجبي» يُراد به التعجب، ثم جملة استفهام تعجبية. أما «يا أحمدُ، هل نجحتَ؟» فنداء مع استفهام حقيقي.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الترجي في «لعلّ المطرَ يهطلُ اليومَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "تمنٍّ لأمرٍ مستحيلٍ",
+     "isCorrect": false
+    },
+    {
+     "label": "ترجٍّ لأمرٍ ممكنٍ قريبٍ",
+     "isCorrect": true
+    },
+    {
+     "label": "إنكارٌ لوقوع المطر",
+     "isCorrect": false
+    },
+    {
+     "label": "استفهامٌ عن المطر",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«لعلّ» للترجي، والمتكلم يرجو هطول المطر وهو أمر ممكن قريب الوقوع، فليس فيه استحالة كما في التمني.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء الطلبي"
+  }
+ ]
+}

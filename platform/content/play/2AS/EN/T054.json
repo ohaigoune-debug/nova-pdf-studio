@@ -1,0 +1,1385 @@
+[
+ {
+  "key": "2AS-EN-U5-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Recognise the tense shift from present simple to past simple in reported speech.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Direct: \"I live in Biskra,\" Amina said. Reported: Amina said that she ____ in Biskra.",
+  "options": [
+   "lived",
+   "lives",
+   "is living",
+   "had lived"
+  ],
+  "correct": 0,
+  "explanation": "When the reporting verb is in the past, the present simple becomes the past simple. 'Had lived' would be the shift for a past simple original.",
+  "tags": [
+   "reported speech",
+   "tense shift"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L1-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Report a question with a question word using statement word order.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Direct: \"Where do you work?\" he asked me. Which reported sentence is correct?",
+  "options": [
+   "He asked me where did I work.",
+   "He asked me where I worked.",
+   "He asked me where do I work.",
+   "He asked me that where I worked."
+  ],
+  "correct": 1,
+  "explanation": "A reported question keeps the question word but uses statement word order (subject + verb) and the auxiliary 'do' disappears. Keeping 'did I work' repeats the direct question form.",
+  "tags": [
+   "reported speech",
+   "reported questions"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L1-0003",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Shift the present perfect to the past perfect in reported speech.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Direct: \"We have finished the report,\" they said. Reported: They said that they ____ the report.",
+  "blanks": [
+   "had finished"
+  ],
+  "bank": [
+   "had finished",
+   "have finished",
+   "finished",
+   "were finishing",
+   "would finish"
+  ],
+  "explanation": "The present perfect 'have finished' moves one step back to the past perfect 'had finished'. 'Finished' alone would correspond to a present simple or past simple original.",
+  "tags": [
+   "reported speech",
+   "past perfect"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Choose the correct structure for a reported order.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Direct: \"Close the window,\" the teacher said to Karim. Reported: The teacher told Karim ____ the window.",
+  "options": [
+   "that close",
+   "closing",
+   "to close",
+   "close"
+  ],
+  "correct": 2,
+  "explanation": "Orders are reported with tell/order + object + to-infinitive. 'That close' is wrong because commands are not reported with a that-clause.",
+  "tags": [
+   "reported speech",
+   "imperatives"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Change time and place expressions when reporting speech.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Direct: \"I will call you tomorrow,\" she said. Reported: She said that she would call me ____.",
+  "blanks": [
+   "the next day"
+  ],
+  "bank": [
+   "the next day",
+   "tomorrow",
+   "the day before",
+   "yesterday",
+   "that day",
+   "now"
+  ],
+  "explanation": "'Tomorrow' becomes 'the next day' (or 'the following day') in reported speech. 'The day before' is the change for 'yesterday'.",
+  "tags": [
+   "reported speech",
+   "time expressions"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L1-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Report a yes/no question with 'if' or 'whether'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Direct: \"Are you coming to the party?\" Nadia asked Samir. Which is the correct reported form?",
+  "options": [
+   "Nadia asked Samir that he was coming to the party.",
+   "Nadia asked Samir was he coming to the party.",
+   "Nadia asked Samir if was he coming to the party.",
+   "Nadia asked Samir if he was coming to the party."
+  ],
+  "correct": 3,
+  "explanation": "Yes/no questions are reported with 'if' or 'whether' followed by normal statement order. The option with 'that' is wrong because 'that' introduces reported statements, not questions.",
+  "tags": [
+   "reported speech",
+   "yes/no questions"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L1-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Analyse which modal verbs do not change in reported speech.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Direct: \"You should rest and you must see a doctor,\" the nurse said. Which reported version is correct?",
+  "options": [
+   "The nurse said I should rest and I must see a doctor.",
+   "The nurse said I would rest and I had to see a doctor.",
+   "The nurse said I should have rested and I must have seen a doctor.",
+   "The nurse said I ought to rest and I would see a doctor."
+  ],
+  "correct": 0,
+  "explanation": "'Should' does not change in reported speech, and 'must' can stay as 'must' (or become 'had to'). The version with 'would rest' wrongly changes 'should' to 'would', which is the shift for 'will'.",
+  "tags": [
+   "reported speech",
+   "modals"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L2-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Identify the past simple as the tense for completed actions in a story.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Last summer, we ____ to Jijel and ____ a week by the sea.",
+  "options": [
+   "go / spend",
+   "went / spent",
+   "were going / spending",
+   "have gone / have spent"
+  ],
+  "correct": 1,
+  "explanation": "Completed past events in a narrative are told in the past simple: 'went' and 'spent'. The present perfect is not used with a finished time like 'last summer'.",
+  "tags": [
+   "narrative tenses",
+   "past simple"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L2-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Use the past continuous for a background action interrupted by a past simple action.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Choose the correct combination: While I ____ dinner, the lights suddenly ____ out.",
+  "options": [
+   "cooked / were going",
+   "was cooking / was going",
+   "was cooking / went",
+   "cooked / went"
+  ],
+  "correct": 2,
+  "explanation": "The longer background action takes the past continuous ('was cooking') and the sudden short interruption takes the past simple ('went'). Using two past continuous forms would suggest two long parallel actions.",
+  "tags": [
+   "narrative tenses",
+   "past continuous"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L2-0003",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Use the past perfect for an action that happened before another past action.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "When we arrived at the station, the train ____ already ____.",
+  "blanks": [
+   "had",
+   "left"
+  ],
+  "bank": [
+   "had",
+   "left",
+   "has",
+   "leaving",
+   "was",
+   "leaves"
+  ],
+  "explanation": "The train left before we arrived, so the earlier action takes the past perfect 'had left'. 'Has left' is the present perfect and does not fit a past narrative.",
+  "tags": [
+   "narrative tenses",
+   "past perfect"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L2-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Distinguish the order of events expressed by the past perfect and the past simple.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Read: \"By the time the firefighters arrived, the family had escaped through the back door.\" Which statement is true?",
+  "options": [
+   "The family escaped after the firefighters arrived.",
+   "The family escaped at the same moment the firefighters arrived.",
+   "The family was still escaping when the firefighters arrived.",
+   "The family escaped before the firefighters arrived."
+  ],
+  "correct": 3,
+  "explanation": "The past perfect 'had escaped' marks the action that was complete before the past simple action 'arrived'. Choosing 'after' reverses the real order of events.",
+  "tags": [
+   "narrative tenses",
+   "sequence of events"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L2-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Use the irregular past simple form of common verbs in a narrative.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The old fisherman ____ his net into the sea and ____ patiently.",
+  "blanks": [
+   "threw",
+   "waited"
+  ],
+  "bank": [
+   "threw",
+   "waited",
+   "throwed",
+   "throw",
+   "waiting",
+   "thrown"
+  ],
+  "explanation": "'Threw' is the irregular past simple of 'throw'; 'waited' is a regular past form. 'Throwed' is a common error because 'throw' is irregular.",
+  "tags": [
+   "narrative tenses",
+   "irregular verbs"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Use the past continuous to set the scene at the start of a story.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which opening sentence correctly sets the scene of a story?",
+  "options": [
+   "It was raining hard and the streets were empty.",
+   "It rained hard and the streets emptied.",
+   "It had rained hard and the streets had been empty.",
+   "It is raining hard and the streets are empty."
+  ],
+  "correct": 0,
+  "explanation": "Scene-setting descriptions of what was happening use the past continuous ('was raining'). The past simple option describes completed events rather than an ongoing background.",
+  "tags": [
+   "narrative tenses",
+   "scene setting"
+  ]
+ },
+ {
+  "key": "2AS-EN-U5-L2-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Choose the correct narrative tense when two events happen in sequence with 'as soon as'.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "As soon as the bell rang, the students ____ up and ____ the classroom.",
+  "blanks": [
+   "stood",
+   "left"
+  ],
+  "bank": [
+   "stood",
+   "left",
+   "had stood",
+   "were leaving",
+   "had left",
+   "stand"
+  ],
+  "explanation": "'As soon as' links two consecutive short actions, both in the past simple: 'stood' and 'left'. The past perfect is unnecessary because the order is already clear from the conjunction.",
+  "tags": [
+   "narrative tenses",
+   "sequence"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Recognise the structure of the second conditional.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "If I ____ a million dinars, I would build a school in my village.",
+  "options": [
+   "have",
+   "had",
+   "would have",
+   "will have"
+  ],
+  "correct": 1,
+  "explanation": "The second conditional uses the past simple in the if-clause and 'would + base verb' in the main clause. 'Have' belongs to the first conditional (real situation).",
+  "tags": [
+   "conditionals",
+   "second conditional"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L1-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Form the main clause of the third conditional.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "If Yacine had studied harder, he ____ the exam.",
+  "options": [
+   "would pass",
+   "will pass",
+   "would have passed",
+   "had passed"
+  ],
+  "correct": 2,
+  "explanation": "The third conditional refers to an unreal past: 'had + past participle' in the if-clause and 'would have + past participle' in the main clause. 'Would pass' is the second conditional result and refers to the present/future.",
+  "tags": [
+   "conditionals",
+   "third conditional"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L1-0003",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Complete the if-clause of a third conditional sentence.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "If we ____ the weather forecast, we would not have gone sailing.",
+  "blanks": [
+   "had checked"
+  ],
+  "bank": [
+   "had checked",
+   "checked",
+   "have checked",
+   "would check",
+   "would have checked",
+   "check"
+  ],
+  "explanation": "The third conditional if-clause uses the past perfect 'had checked'. 'Checked' alone would make it a second conditional, which does not fit the past result 'would not have gone'.",
+  "tags": [
+   "conditionals",
+   "third conditional"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Understand the meaning of a second conditional sentence.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "\"If Lamia lived closer, she would visit her grandmother every day.\" What do we understand?",
+  "options": [
+   "Lamia lives close and visits her grandmother every day.",
+   "Lamia lived close in the past and visited every day.",
+   "Lamia will live closer next year.",
+   "Lamia does not live close, so she does not visit every day."
+  ],
+  "correct": 3,
+  "explanation": "The second conditional describes an unreal present situation: in reality Lamia does not live close. The past simple 'lived' here does not refer to past time.",
+  "tags": [
+   "conditionals",
+   "meaning"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Use 'were' with 'if I' in formal second conditional advice.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "If I ____ you, I would apologise to her immediately.",
+  "blanks": [
+   "were"
+  ],
+  "bank": [
+   "were",
+   "am",
+   "will be",
+   "had been",
+   "be",
+   "would be"
+  ],
+  "explanation": "The fixed expression for giving advice is 'If I were you'. 'Am' is wrong because the second conditional does not use the present tense in the if-clause.",
+  "tags": [
+   "conditionals",
+   "if I were you"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L1-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Analyse a mixed conditional linking a past condition to a present result.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which sentence correctly links a past condition to a present result?",
+  "options": [
+   "If she had taken the job in Oran, she would live there now.",
+   "If she took the job in Oran, she would have lived there now.",
+   "If she had taken the job in Oran, she would have lived there now.",
+   "If she takes the job in Oran, she would live there now."
+  ],
+  "correct": 0,
+  "explanation": "A past condition ('had taken') with a present result ('would live ... now') is a mixed conditional. The version with 'would have lived', which places the result in the past and clashes with 'now'.",
+  "tags": [
+   "conditionals",
+   "mixed conditional"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L1-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Choose between the second and third conditional according to the time reference.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Yesterday Hichem missed the bus because he woke up late. Which sentence describes this correctly?",
+  "options": [
+   "If Hichem woke up early, he would not miss the bus.",
+   "If Hichem had woken up early, he would not have missed the bus.",
+   "If Hichem wakes up early, he will not miss the bus.",
+   "If Hichem had woken up early, he would not miss the bus yesterday."
+  ],
+  "correct": 1,
+  "explanation": "The situation is a finished past event, so the third conditional is required. The second conditional ('woke up ... would not miss') would describe a general unreal present, not what happened yesterday.",
+  "tags": [
+   "conditionals",
+   "second vs third"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L2-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Use 'wish + past simple' to express a wish about the present.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "I wish I ____ more free time at the weekend.",
+  "options": [
+   "have",
+   "will have",
+   "had",
+   "would have"
+  ],
+  "correct": 2,
+  "explanation": "A wish about a present situation uses 'wish + past simple': 'I wish I had'. 'Have' is a frequent error because students keep the present tense.",
+  "tags": [
+   "wishes",
+   "present wish"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L2-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Use 'wish + past perfect' to express regret about the past.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Salim failed his driving test last week. Which sentence expresses his regret?",
+  "options": [
+   "I wish I practised more before the test.",
+   "I wish I would practise more before the test.",
+   "I wish I practise more before the test.",
+   "I wish I had practised more before the test."
+  ],
+  "correct": 3,
+  "explanation": "A regret about a finished past action uses 'wish + past perfect'. 'I wish I practised' uses the past simple, which expresses a wish about the present, not the past.",
+  "tags": [
+   "regrets",
+   "past perfect"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L2-0003",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Form a regret with 'if only' and the past perfect.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "If only we ____ the earlier train; we would have arrived on time.",
+  "blanks": [
+   "had taken"
+  ],
+  "bank": [
+   "had taken",
+   "took",
+   "take",
+   "would take",
+   "have taken",
+   "taking"
+  ],
+  "explanation": "'If only' works like 'wish': a regret about the past needs the past perfect 'had taken'. 'Took' would express a wish about a present situation.",
+  "tags": [
+   "if only",
+   "regrets"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L2-0004",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Use 'wish + would' to complain about someone else's annoying behaviour.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "My brother plays loud music every night. I wish he ____ stop doing that!",
+  "blanks": [
+   "would"
+  ],
+  "bank": [
+   "would",
+   "will",
+   "had",
+   "has",
+   "did",
+   "could have"
+  ],
+  "explanation": "To express annoyance at another person's behaviour that we want to change, we use 'wish + would'. 'Will' is never used after 'wish'.",
+  "tags": [
+   "wishes",
+   "wish + would"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L2-0005",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Use 'wish + could' for an ability we lack in the present.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Choose the correct sentence about an ability you do not have now.",
+  "options": [
+   "I wish I could speak Spanish.",
+   "I wish I can speak Spanish.",
+   "I wish I could have speak Spanish.",
+   "I wish I will speak Spanish."
+  ],
+  "correct": 0,
+  "explanation": "A present lack of ability is expressed with 'wish + could'. 'Can' stays in the present tense and is not possible after 'wish'.",
+  "tags": [
+   "wishes",
+   "could"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Interpret the real situation behind a wish sentence.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "\"Rania wishes she hadn't sold her old camera.\" What really happened?",
+  "options": [
+   "Rania did not sell her camera and she is happy.",
+   "Rania sold her camera and now regrets it.",
+   "Rania wants to sell her camera soon.",
+   "Rania has not sold her camera yet but plans to."
+  ],
+  "correct": 1,
+  "explanation": "'Wishes she hadn't sold' is a regret about a past action that did take place: she sold the camera. The negative wish expresses the opposite of the real fact.",
+  "tags": [
+   "regrets",
+   "meaning"
+  ]
+ },
+ {
+  "key": "2AS-EN-U6-L2-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Choose the correct verb form after 'wish' with the verb 'to be' in a present wish.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "It is freezing in Setif today. I wish it ____ a little warmer.",
+  "blanks": [
+   [
+    "were",
+    "was"
+   ]
+  ],
+  "bank": [
+   "were",
+   "was",
+   "is",
+   "had been",
+   "will be",
+   "would be"
+  ],
+  "explanation": "A present wish about the weather uses the past simple of 'be': 'were' (formal) or 'was'. 'Had been' would turn it into a regret about the past, which does not fit 'today'.",
+  "tags": [
+   "wishes",
+   "to be"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L1",
+  "objective": "Use 'will' for a prediction based on opinion.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "I think robots ____ most factory jobs by 2050.",
+  "options": [
+   "do",
+   "are doing",
+   "will do",
+   "did"
+  ],
+  "correct": 2,
+  "explanation": "A prediction based on personal opinion ('I think') uses 'will + base verb'. The present continuous 'are doing' describes what is happening now, not a future prediction.",
+  "tags": [
+   "future forms",
+   "will"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L1-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L1",
+  "objective": "Use 'be going to' for a prediction based on present evidence.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Look at those dark clouds! It ____ rain.",
+  "options": [
+   "will",
+   "is",
+   "would",
+   "is going to"
+  ],
+  "correct": 3,
+  "explanation": "When there is visible evidence in the present, we predict with 'be going to'. 'Will' is used for opinions without evidence, so it is less natural here.",
+  "tags": [
+   "future forms",
+   "going to"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L1-0003",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L1",
+  "objective": "Use the present continuous for a fixed future arrangement.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "We ____ the science museum next Tuesday; the tickets are already booked.",
+  "blanks": [
+   "are visiting"
+  ],
+  "bank": [
+   "are visiting",
+   "visit",
+   "will visit",
+   "visited",
+   "are going visit",
+   "would visit"
+  ],
+  "explanation": "A fixed arrangement with a set time and tickets uses the present continuous 'are visiting'. 'Will visit' expresses a spontaneous decision or opinion, not an arrangement.",
+  "tags": [
+   "future forms",
+   "arrangements"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L1",
+  "objective": "Use the present simple for timetables and scheduled events.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The train to Constantine ____ at 7:15 tomorrow morning.",
+  "options": [
+   "leaves",
+   "is leaving",
+   "will leaving",
+   "leave"
+  ],
+  "correct": 0,
+  "explanation": "Timetabled events use the present simple even for future time: 'leaves'. 'Leave' lacks the third-person -s.",
+  "tags": [
+   "future forms",
+   "timetables"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L1",
+  "objective": "Use the future continuous for an action in progress at a future time.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "This time next year, I ____ at a university in Algiers.",
+  "blanks": [
+   "will be studying"
+  ],
+  "bank": [
+   "will be studying",
+   "will study",
+   "am studying",
+   "will have studied",
+   "study",
+   "was studying"
+  ],
+  "explanation": "'This time next year' points to an action in progress at a future moment, which takes the future continuous 'will be studying'. 'Will have studied' is the future perfect and means the action will be finished.",
+  "tags": [
+   "future forms",
+   "future continuous"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L1-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L1",
+  "objective": "Use the future perfect for an action completed before a future time.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "By 2040, scientists ____ a cure for many genetic diseases.",
+  "options": [
+   "will find",
+   "will have found",
+   "will be finding",
+   "are finding"
+  ],
+  "correct": 1,
+  "explanation": "'By + future time' signals an action completed before that moment, so the future perfect 'will have found' is correct. 'Will be finding' describes an ongoing, not completed, action.",
+  "tags": [
+   "future forms",
+   "future perfect"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L1-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L1",
+  "objective": "Use 'will' for a spontaneous decision made at the moment of speaking.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "\"The phone is ringing.\" — \"Don't worry, I ____ answer it.\"",
+  "blanks": [
+   "will"
+  ],
+  "bank": [
+   "will",
+   "am going to",
+   "am",
+   "would",
+   "shall have",
+   "was going to"
+  ],
+  "explanation": "A decision made at the moment of speaking uses 'will'. 'Am going to' expresses a plan decided before the conversation.",
+  "tags": [
+   "future forms",
+   "spontaneous decision"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L2-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L2",
+  "objective": "Use 'must' to express logical certainty.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The lights are on and I can hear music. Someone ____ be at home.",
+  "options": [
+   "might",
+   "can't",
+   "must",
+   "may not"
+  ],
+  "correct": 2,
+  "explanation": "Strong evidence leads to a confident deduction, expressed with 'must'. 'Might' would express only a weak possibility, which does not match the clear evidence.",
+  "tags": [
+   "modals",
+   "certainty"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L2-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L2",
+  "objective": "Use 'can't' for negative certainty.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Ahmed left only five minutes ago. He ____ be at the airport already!",
+  "options": [
+   "mustn't",
+   "might not",
+   "must",
+   "can't"
+  ],
+  "correct": 3,
+  "explanation": "To say something is logically impossible we use 'can't', not 'mustn't'. 'Mustn't' expresses prohibition, not impossibility.",
+  "tags": [
+   "modals",
+   "impossibility"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L2-0003",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L2",
+  "objective": "Use 'might' to express a weak possibility.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "I'm not sure where Nour is. She ____ be in the library, but I really don't know.",
+  "blanks": [
+   [
+    "might",
+    "may"
+   ]
+  ],
+  "bank": [
+   "might",
+   "may",
+   "must",
+   "can't",
+   "should",
+   "will"
+  ],
+  "explanation": "Uncertainty ('I really don't know') calls for a weak possibility modal: 'might' or 'may'. 'Must' would express a confident conclusion that the speaker does not have.",
+  "tags": [
+   "modals",
+   "possibility"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L2-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L2",
+  "objective": "Form a past deduction with 'must have + past participle'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "The ground is wet this morning. It ____ during the night.",
+  "options": [
+   "must have rained",
+   "must rain",
+   "must had rained",
+   "must raining"
+  ],
+  "correct": 0,
+  "explanation": "A deduction about the past uses 'must have + past participle'. 'Must had rained' is a common error because 'have' never changes form after a modal.",
+  "tags": [
+   "modals",
+   "past deduction"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L2-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L2",
+  "objective": "Speculate about the past with 'might have + past participle'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Why didn't Walid answer my message? He ____ his phone at home.",
+  "blanks": [
+   "might have left"
+  ],
+  "bank": [
+   "might have left",
+   "might leave",
+   "must leave",
+   "might left",
+   "could leaving",
+   "had left"
+  ],
+  "explanation": "A possible explanation for a past event uses 'might have + past participle'. 'Might left' is wrong because the auxiliary 'have' is missing.",
+  "tags": [
+   "modals",
+   "past speculation"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L2",
+  "objective": "Analyse the degree of certainty expressed by different modal verbs.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which sentence expresses the HIGHEST degree of certainty?",
+  "options": [
+   "The strange lights might be a weather balloon.",
+   "The strange lights must be a weather balloon.",
+   "The strange lights could be a weather balloon.",
+   "The strange lights may be a weather balloon."
+  ],
+  "correct": 1,
+  "explanation": "'Must' expresses a confident logical conclusion, while 'might', 'could' and 'may' all express only possibility. Students often treat 'could' as strong, but it is a weak possibility here.",
+  "tags": [
+   "modals",
+   "degrees of certainty"
+  ]
+ },
+ {
+  "key": "2AS-EN-U7-L2-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U7",
+  "lesson": "L2",
+  "objective": "Distinguish 'can't have' from 'mustn't have' in past deductions.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Yasmine got full marks in the exam. Which sentence is correct?",
+  "options": [
+   "She mustn't have found it difficult.",
+   "She might not had found it difficult.",
+   "She can't have found it difficult.",
+   "She couldn't find it difficult have."
+  ],
+  "correct": 2,
+  "explanation": "Negative certainty about the past is expressed with 'can't have + past participle'. 'Mustn't have' is not used for deduction in standard English.",
+  "tags": [
+   "modals",
+   "can't have"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L1",
+  "objective": "Identify the correct formal opening of a letter of application when the recipient's name is unknown.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "You do not know the name of the person who will read your letter of application. Which greeting is appropriate?",
+  "options": [
+   "Hi there,",
+   "Hello Manager,",
+   "Dear friend,",
+   "Dear Sir or Madam,"
+  ],
+  "correct": 3,
+  "explanation": "'Dear Sir or Madam' is the standard formal greeting when the recipient is unknown. 'Hi there' is informal and unsuitable for a job application.",
+  "tags": [
+   "letter of application",
+   "greeting"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L1-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L1",
+  "objective": "Choose the correct closing formula according to the greeting used.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "A letter begins with \"Dear Mr Benali,\". Which closing is correct?",
+  "options": [
+   "Yours sincerely,",
+   "Yours faithfully,",
+   "Love,",
+   "See you soon,"
+  ],
+  "correct": 0,
+  "explanation": "When the recipient is addressed by name, the letter closes with 'Yours sincerely'. 'Yours faithfully' is used after 'Dear Sir or Madam'.",
+  "tags": [
+   "letter of application",
+   "closing"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L1-0003",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L1",
+  "objective": "Use the standard opening sentence of a letter of application.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "I am writing to ____ for the position of sales assistant advertised in El Watan on 3 May.",
+  "blanks": [
+   "apply"
+  ],
+  "bank": [
+   "apply",
+   "ask",
+   "want",
+   "applying",
+   "demand",
+   "applied"
+  ],
+  "explanation": "The fixed expression is 'I am writing to apply for the position of...'. 'Demand' is a false friend influenced by French 'demander' and sounds aggressive in English.",
+  "tags": [
+   "letter of application",
+   "set phrases"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L1",
+  "objective": "Recognise which information belongs in a CV.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which of the following is normally included in a CV?",
+  "options": [
+   "Your favourite TV series",
+   "Your education and work experience",
+   "Your parents' salaries",
+   "Your opinion of the company"
+  ],
+  "correct": 1,
+  "explanation": "A CV summarises education, work experience, skills and languages. Personal opinions and family finances are irrelevant to an employer.",
+  "tags": [
+   "CV",
+   "content"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L1",
+  "objective": "Use the formal closing sentence requesting an interview.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "I would be ____ for the opportunity to discuss my application at an interview. I look forward to ____ from you.",
+  "blanks": [
+   "grateful",
+   "hearing"
+  ],
+  "bank": [
+   "grateful",
+   "hearing",
+   "happy",
+   "hear",
+   "heard",
+   "thankful",
+   "to hear"
+  ],
+  "explanation": "The standard formal sentences are 'I would be grateful for...' and 'I look forward to hearing from you'. After 'look forward to', the verb takes the -ing form because 'to' is a preposition here.",
+  "tags": [
+   "letter of application",
+   "closing sentence"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L1-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L1",
+  "objective": "Analyse the register of sentences in a letter of application.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which sentence is written in the appropriate register for a letter of application?",
+  "options": [
+   "I'm super good with computers, so give me the job!",
+   "I guess I could do the job, it looks kinda easy.",
+   "I have two years' experience in customer service and I am fluent in English and French.",
+   "You'd be crazy not to hire me, honestly."
+  ],
+  "correct": 2,
+  "explanation": "A letter of application uses a formal, factual tone that presents qualifications objectively. The other sentences use contractions, slang and an informal or arrogant tone.",
+  "tags": [
+   "letter of application",
+   "register"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L2-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L2",
+  "objective": "Use 'much' with uncountable nouns and 'many' with countable nouns.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "How ____ money did the company spend on advertising last year?",
+  "options": [
+   "many",
+   "few",
+   "a few",
+   "much"
+  ],
+  "correct": 3,
+  "explanation": "'Money' is an uncountable noun, so it takes 'much'. 'Many' is used only with plural countable nouns such as 'customers'.",
+  "tags": [
+   "quantifiers",
+   "much/many"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L2-0002",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L2",
+  "objective": "Distinguish 'few' (negative meaning) from 'a few' (positive meaning).",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "The shop is nearly empty. There are ____ customers, so the owner is worried.",
+  "options": [
+   "few",
+   "a few",
+   "a little",
+   "little"
+  ],
+  "correct": 0,
+  "explanation": "'Few' (without 'a') means 'not many, almost none' and has a negative meaning that fits the owner's worry. 'A few' means 'some' and would sound positive.",
+  "tags": [
+   "quantifiers",
+   "few/a few"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L2-0003",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L2",
+  "objective": "Use 'a little' with an uncountable noun in a positive sense.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "We still have ____ time before the meeting, so let's check the figures again.",
+  "blanks": [
+   "a little"
+  ],
+  "bank": [
+   "a little",
+   "a few",
+   "little",
+   "few",
+   "many",
+   "much"
+  ],
+  "explanation": "'Time' is uncountable and the sentence is positive ('we still have some'), so 'a little' is correct. 'A few' only goes with plural countable nouns.",
+  "tags": [
+   "quantifiers",
+   "a little"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L2-0004",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L2",
+  "objective": "Use 'any' in negative sentences and 'some' in affirmative ones.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "We have ____ new products this month, but we don't have ____ brochures yet.",
+  "blanks": [
+   "some",
+   "any"
+  ],
+  "bank": [
+   "some",
+   "any",
+   "much",
+   "no",
+   "every",
+   "a little"
+  ],
+  "explanation": "'Some' is used in affirmative sentences and 'any' in negatives and questions. 'No' is wrong in the second blank because 'don't have no' creates a double negative.",
+  "tags": [
+   "quantifiers",
+   "some/any"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L2-0005",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L2",
+  "objective": "Use 'a lot of' and 'plenty of' with both countable and uncountable nouns.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which quantifier can be used correctly with BOTH 'orders' and 'information'?",
+  "options": [
+   "many",
+   "a lot of",
+   "much",
+   "a few"
+  ],
+  "correct": 1,
+  "explanation": "'A lot of' works with countable ('a lot of orders') and uncountable ('a lot of information') nouns. 'Many' and 'a few' go only with countable nouns, and 'much' only with uncountable ones.",
+  "tags": [
+   "quantifiers",
+   "a lot of"
+  ]
+ },
+ {
+  "key": "2AS-EN-U8-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "EN",
+  "unit": "U8",
+  "lesson": "L2",
+  "objective": "Analyse quantifier errors involving uncountable nouns that look plural in other languages.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "The manager wants to help the team. Which sentence uses the correct quantifier with the noun \"advice\"?",
+  "options": [
+   "The manager gave us many advices about the project.",
+   "The manager gave us a few advice about the project.",
+   "The manager gave us some advice about the project.",
+   "The manager gave us several advices about the project."
+  ],
+  "correct": 2,
+  "explanation": "'Advice' is uncountable in English, so it has no plural and takes 'some'. Arabic and French speakers often treat it as countable ('advices'), which is incorrect.",
+  "tags": [
+   "quantifiers",
+   "uncountable nouns"
+  ]
+ }
+]

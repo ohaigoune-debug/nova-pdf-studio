@@ -1,0 +1,1397 @@
+[
+ {
+  "key": "4AM-FR-U1-L1-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Définir la thèse d'un texte argumentatif.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans un texte argumentatif, comment appelle-t-on l'opinion que l'auteur défend du début à la fin du texte ?",
+  "options": [
+   "Le thème",
+   "L'exemple",
+   "La thèse",
+   "Le connecteur"
+  ],
+  "correct": 2,
+  "explanation": "La thèse est l'opinion que l'auteur défend tout au long du texte. Le thème est seulement le sujet dont on parle, et l'exemple sert à illustrer un argument.",
+  "tags": [
+   "argumentation",
+   "thèse"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L1-0002",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Identifier la fonction de l'exemple dans l'argumentation.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quel est le rôle d'un exemple dans un texte argumentatif ?",
+  "options": [
+   "Illustrer un argument par un cas concret",
+   "Annoncer la thèse de l'auteur",
+   "Résumer le texte dans la conclusion",
+   "Présenter le sujet du débat"
+  ],
+  "correct": 0,
+  "explanation": "L'exemple est un fait concret (situation vécue, chiffre, cas précis) qui rend l'argument plus convaincant. Il ne remplace pas l'argument et n'annonce pas la thèse.",
+  "tags": [
+   "argumentation",
+   "exemple"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L1-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Distinguer l'argument de la thèse et de l'exemple dans un court passage.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Le sport est indispensable aux adolescents. D'abord, il fortifie le corps. Ainsi, mon cousin, qui nage trois fois par semaine, ne tombe presque jamais malade. » Quelle phrase est un argument ?",
+  "options": [
+   "Le sport est indispensable aux adolescents.",
+   "Il fortifie le corps.",
+   "Mon cousin nage trois fois par semaine.",
+   "Mon cousin ne tombe presque jamais malade."
+  ],
+  "correct": 1,
+  "explanation": "« Il fortifie le corps » est la raison générale donnée pour soutenir la thèse (première phrase). Le cas du cousin est un exemple personnel qui illustre cet argument.",
+  "tags": [
+   "argumentation",
+   "argument",
+   "repérage"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L1-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Distinguer le thème (sujet) de la thèse (opinion défendue).",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans un texte sur les réseaux sociaux où l'auteur affirme qu'ils isolent les jeunes, « les réseaux sociaux » est le ____ du texte et « ils isolent les jeunes » est sa ____.",
+  "blanks": [
+   "thème",
+   "thèse"
+  ],
+  "bank": [
+   "thème",
+   "thèse",
+   "argument",
+   "exemple",
+   "conclusion",
+   "titre"
+  ],
+  "explanation": "Le thème est le sujet dont on parle (les réseaux sociaux) ; la thèse est l'opinion que l'auteur défend sur ce sujet (ils isolent les jeunes). Un argument serait une raison donnée pour justifier cette thèse.",
+  "tags": [
+   "argumentation",
+   "thème",
+   "thèse"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Repérer la thèse lorsqu'elle est placée à la fin du paragraphe, après les arguments.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Les écrans fatiguent les yeux, réduisent le temps de sommeil et isolent les jeunes. C'est pourquoi il faut limiter leur usage. » Dans ce paragraphe, l'auteur présente d'abord ses ____ puis, à la fin, sa ____.",
+  "blanks": [
+   "arguments",
+   "thèse"
+  ],
+  "bank": [
+   "arguments",
+   "thèse",
+   "exemples",
+   "thème",
+   "questions",
+   "opinions"
+  ],
+  "explanation": "Ici l'ordre habituel est inversé : les trois raisons (fatigue, sommeil, isolement) sont les arguments, et la thèse « il faut limiter leur usage » arrive à la fin, annoncée par « c'est pourquoi ». Ce ne sont pas des exemples, car aucun cas précis n'est cité.",
+  "tags": [
+   "argumentation",
+   "structure",
+   "thèse"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L2-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Reconnaître le connecteur qui ouvre une énumération d'arguments.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quel connecteur sert à introduire le premier argument d'une énumération ?",
+  "options": [
+   "Enfin",
+   "Ensuite",
+   "Donc",
+   "D'abord"
+  ],
+  "correct": 3,
+  "explanation": "« D'abord » (comme « premièrement » ou « en premier lieu ») ouvre l'énumération. « Ensuite » ajoute un argument, « enfin » ferme la liste et « donc » introduit une conséquence.",
+  "tags": [
+   "connecteurs",
+   "énumération"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L2-0002",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Identifier la fonction du connecteur « en effet ».",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "« Le vélo est économique ; en effet, il ne consomme pas de carburant. » Quel est le rôle du connecteur « en effet » ?",
+  "options": [
+   "Il ajoute un argument nouveau",
+   "Il introduit une explication qui justifie ce qui précède",
+   "Il oppose deux idées",
+   "Il conclut le raisonnement"
+  ],
+  "correct": 1,
+  "explanation": "« En effet » introduit la justification de l'affirmation précédente : on explique pourquoi le vélo est économique. Il ne marque ni opposition ni conclusion.",
+  "tags": [
+   "connecteurs",
+   "explication"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L2-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Choisir la série de connecteurs qui ordonne trois arguments.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quels connecteurs organisent correctement cette énumération ? « (1) le téléphone permet de rester en contact. (2) il donne accès à l'information. (3) il aide à s'organiser grâce à l'agenda. »",
+  "options": [
+   "D'abord / Ensuite / Enfin",
+   "Enfin / Ensuite / D'abord",
+   "Donc / Ensuite / Enfin",
+   "D'abord / Par conséquent / Enfin"
+  ],
+  "correct": 0,
+  "explanation": "Les trois arguments s'enchaînent dans l'ordre d'abord, ensuite, enfin. « Donc » et « par conséquent » introduiraient une conséquence, ce qui n'a pas de sens ici ; l'ordre « enfin… d'abord » est inversé.",
+  "tags": [
+   "connecteurs",
+   "énumération",
+   "organisation"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L2-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Employer les connecteurs d'ouverture et de fermeture d'une énumération.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez avec les connecteurs qui conviennent : « Le travail en groupe a des avantages. ____, on partage les idées ; de plus, on apprend à s'écouter ; ____, on termine le travail plus vite. »",
+  "blanks": [
+   "D'abord",
+   "Enfin"
+  ],
+  "bank": [
+   "D'abord",
+   "Enfin",
+   "Donc",
+   "Pourtant",
+   "Parce que",
+   "Par exemple"
+  ],
+  "explanation": "« D'abord » ouvre la liste des avantages et « enfin » la ferme. « Donc » marquerait une conséquence et « pourtant » une opposition, ce qui ne convient pas à une simple énumération.",
+  "tags": [
+   "connecteurs",
+   "énumération"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L2-0005",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Compléter un couple de connecteurs corrélés et introduire une conclusion.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Complétez : « Le recyclage est une habitude à adopter. D'une part, il réduit la quantité de déchets ; ____, il économise les matières premières. ____, tout le monde y gagne. »",
+  "blanks": [
+   "d'autre part",
+   "En somme"
+  ],
+  "bank": [
+   "d'autre part",
+   "En somme",
+   "d'abord",
+   "Par exemple",
+   "Pourtant",
+   "c'est-à-dire"
+  ],
+  "explanation": "« D'une part » appelle obligatoirement « d'autre part » pour présenter le second argument ; « en somme » introduit la conclusion qui résume le raisonnement. « Pourtant » contredirait le texte et « par exemple » annoncerait un cas précis, absent ici.",
+  "tags": [
+   "connecteurs",
+   "conclusion",
+   "corrélation"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L3-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L3",
+  "objective": "Reconnaître un verbe d'opinion.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Lequel de ces verbes est un verbe d'opinion ?",
+  "options": [
+   "Courir",
+   "Manger",
+   "Construire",
+   "Estimer"
+  ],
+  "correct": 3,
+  "explanation": "« Estimer » (comme penser, croire, juger, trouver) sert à exprimer un avis. Les trois autres verbes désignent des actions concrètes.",
+  "tags": [
+   "verbes d'opinion",
+   "lexique"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L3-0002",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L3",
+  "objective": "Identifier une expression qui introduit un point de vue personnel.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quelle expression permet d'introduire une opinion personnelle ?",
+  "options": [
+   "À mon avis",
+   "Par exemple",
+   "Ensuite",
+   "Autrement dit"
+  ],
+  "correct": 0,
+  "explanation": "« À mon avis » (comme « selon moi » ou « pour ma part ») annonce un point de vue personnel. « Par exemple » introduit une illustration, « ensuite » une étape et « autrement dit » une reformulation.",
+  "tags": [
+   "opinion",
+   "expressions"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L3-0003",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L3",
+  "objective": "Employer le lexique de l'accord et du désaccord.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans un débat, celui qui ____ une idée la trouve bonne ; celui qui la ____ la trouve mauvaise.",
+  "blanks": [
+   "approuve",
+   "désapprouve"
+  ],
+  "bank": [
+   "approuve",
+   "désapprouve",
+   "approuvent",
+   "désapprouvent",
+   "ignore",
+   "répète"
+  ],
+  "explanation": "« Approuver » signifie être d'accord avec une idée, « désapprouver » signifie la rejeter. Les formes « approuvent » et « désapprouvent » sont au pluriel alors que le sujet « celui qui » est au singulier.",
+  "tags": [
+   "lexique",
+   "accord",
+   "désaccord"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L3-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L3",
+  "objective": "Conjuguer correctement les verbes d'opinion pour exprimer l'accord et le désaccord.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez avec les formes qui conviennent : « Mon frère ____ que les jeux vidéo sont une perte de temps ; moi, je ne ____ pas son avis. »",
+  "blanks": [
+   "pense",
+   "partage"
+  ],
+  "bank": [
+   "pense",
+   "partage",
+   "pensent",
+   "partages",
+   "croient",
+   "approuves"
+  ],
+  "explanation": "« Pense » s'accorde avec « mon frère » (3e personne du singulier) et « partager l'avis de quelqu'un » signifie avoir la même opinion que lui. « Pensent » et « partages » ne correspondent pas aux sujets de la phrase.",
+  "tags": [
+   "verbes d'opinion",
+   "conjugaison"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L3-0005",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L3",
+  "objective": "Repérer une opinion exprimée par le vocabulaire évaluatif plutôt que par un verbe d'opinion.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Dans quelle phrase l'auteur exprime-t-il une opinion sans employer de verbe d'opinion ?",
+  "options": [
+   "Je crois que la ville est trop bruyante.",
+   "Cette ville est insupportablement bruyante.",
+   "La ville compte deux millions d'habitants.",
+   "Les voitures circulent dans les rues de la ville."
+  ],
+  "correct": 1,
+  "explanation": "L'adverbe « insupportablement » et l'adjectif « bruyante » traduisent un jugement de l'auteur sans verbe d'opinion. La première phrase contient le verbe d'opinion « je crois » ; les deux autres sont de simples constats.",
+  "tags": [
+   "opinion",
+   "lexique évaluatif",
+   "analyse"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L4-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L4",
+  "objective": "Reconnaître la relation de cause exprimée par « parce que ».",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans « Je reste à la maison parce qu'il pleut », quelle relation logique exprime « parce que » ?",
+  "options": [
+   "La cause",
+   "La conséquence",
+   "Le but",
+   "L'opposition"
+  ],
+  "correct": 0,
+  "explanation": "« Parce que » introduit la raison de l'action : la pluie explique pourquoi je reste. La conséquence serait exprimée par « donc » ou « si bien que ».",
+  "tags": [
+   "cause",
+   "parce que"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L4-0002",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L4",
+  "objective": "Distinguer l'emploi de « parce que » et de « car ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quelle réponse à la question « Pourquoi es-tu en retard ? » est correctement construite ?",
+  "options": [
+   "Car j'ai raté le bus.",
+   "Donc j'ai raté le bus.",
+   "Parce que j'ai raté le bus.",
+   "Pourtant j'ai raté le bus."
+  ],
+  "correct": 2,
+  "explanation": "Seul « parce que » peut répondre directement à la question « pourquoi ? ». « Car » relie deux propositions à l'intérieur d'une phrase mais ne commence pas une réponse ; « donc » et « pourtant » n'expriment pas la cause.",
+  "tags": [
+   "cause",
+   "car",
+   "parce que"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L4-0003",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L4",
+  "objective": "Exprimer la cause avec un groupe nominal (en raison de) et avec une proposition (car).",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « Le match a été reporté ____ du mauvais temps ; les joueurs sont déçus ____ ils s'étaient bien préparés. »",
+  "blanks": [
+   "en raison",
+   "car"
+  ],
+  "bank": [
+   "en raison",
+   "car",
+   "grâce",
+   "donc",
+   "si bien",
+   "afin que"
+  ],
+  "explanation": "« En raison de » introduit une cause suivie d'un nom (du mauvais temps) ; « car » introduit une proposition qui explique la déception. « Grâce » se construit avec « à » et introduit une cause positive ; « donc » exprime une conséquence.",
+  "tags": [
+   "cause",
+   "en raison de",
+   "car"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L4-0004",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L4",
+  "objective": "Identifier la valeur causale de « comme » en tête de phrase.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Dans quelle phrase « comme » exprime-t-il la cause ?",
+  "options": [
+   "Il court comme un champion.",
+   "Elle est grande comme sa mère.",
+   "Fais comme tu veux.",
+   "Comme il fait froid, nous restons à l'intérieur."
+  ],
+  "correct": 3,
+  "explanation": "Placé en tête de phrase, « comme » introduit ici la cause : il fait froid, donc nous restons. Dans les autres phrases, « comme » exprime une comparaison ou une manière.",
+  "tags": [
+   "cause",
+   "comme",
+   "analyse"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L4-0005",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L4",
+  "objective": "Choisir entre « à cause de » et « grâce à » selon la valeur de la cause.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « Le pique-nique a été annulé ____ la pluie ; heureusement, ____ un ami, nous avons trouvé une salle. »",
+  "blanks": [
+   "à cause de",
+   "grâce à"
+  ],
+  "bank": [
+   "à cause de",
+   "grâce à",
+   "parce que",
+   "car",
+   "donc",
+   "pour"
+  ],
+  "explanation": "« À cause de » introduit une cause au résultat négatif (l'annulation) et « grâce à » une cause au résultat positif (trouver une salle). « Parce que » et « car » ne peuvent pas être suivis directement d'un nom.",
+  "tags": [
+   "cause",
+   "grâce à",
+   "à cause de"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L5-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L5",
+  "objective": "Reconnaître un connecteur de conséquence.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Lequel de ces connecteurs introduit une conséquence ?",
+  "options": [
+   "Parce que",
+   "Par conséquent",
+   "Bien que",
+   "Afin de"
+  ],
+  "correct": 1,
+  "explanation": "« Par conséquent » (comme donc, c'est pourquoi, si bien que) annonce le résultat d'un fait. « Parce que » exprime la cause, « bien que » la concession et « afin de » le but.",
+  "tags": [
+   "conséquence",
+   "connecteurs"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L5-0002",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L5",
+  "objective": "Repérer la proposition de conséquence introduite par « si bien que ».",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "« Il pleuvait très fort, si bien que la route a été coupée. » Quelle est la conséquence dans cette phrase ?",
+  "options": [
+   "Il pleuvait très fort",
+   "Le temps était mauvais",
+   "La pluie",
+   "La route a été coupée"
+  ],
+  "correct": 3,
+  "explanation": "La proposition introduite par « si bien que » exprime le résultat : la coupure de la route. La forte pluie est la cause.",
+  "tags": [
+   "conséquence",
+   "si bien que",
+   "repérage"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L5-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L5",
+  "objective": "Reformuler une conséquence d'intensité avec « si… que ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quelle phrase exprime la même idée que « Le bruit était tel que personne n'entendait le professeur » ?",
+  "options": [
+   "Le bruit était si fort que personne n'entendait le professeur.",
+   "Personne n'entendait le professeur, c'est pourquoi le bruit était fort.",
+   "Le bruit était fort parce que personne n'entendait le professeur.",
+   "Malgré le bruit, tout le monde entendait le professeur."
+  ],
+  "correct": 0,
+  "explanation": "« Tel que » et « si… que » expriment tous deux une conséquence liée à l'intensité du bruit. Les deuxième et troisième phrases inversent la cause et la conséquence, et la dernière exprime une opposition.",
+  "tags": [
+   "conséquence",
+   "intensité",
+   "reformulation"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L5-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L5",
+  "objective": "Employer « donc » et « tellement… que » pour exprimer la conséquence.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « Il n'a pas entendu son réveil, ____ il est arrivé en retard ; il a ____ couru qu'il est arrivé essoufflé. »",
+  "blanks": [
+   "donc",
+   "tellement"
+  ],
+  "bank": [
+   "donc",
+   "tellement",
+   "car",
+   "parce que",
+   "si",
+   "pourtant"
+  ],
+  "explanation": "« Donc » introduit la conséquence du réveil manqué. Devant un verbe, on emploie « tellement… que » (ou « tant… que ») ; « si… que » ne s'emploie que devant un adjectif ou un adverbe.",
+  "tags": [
+   "conséquence",
+   "donc",
+   "tellement que"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L5-0005",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L5",
+  "objective": "Exprimer une conséquence non réalisable avec « trop… pour que ».",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Complétez : « Ce sac est ____ lourd ____ que je puisse le porter seul : il faut être deux. »",
+  "blanks": [
+   "trop",
+   "pour"
+  ],
+  "bank": [
+   "trop",
+   "pour",
+   "assez",
+   "si",
+   "tellement",
+   "donc"
+  ],
+  "explanation": "« Trop… pour que » exprime une conséquence qui ne peut pas se réaliser : je ne peux pas le porter seul. « Assez… pour que » dirait le contraire, et « si… que » ou « tellement… que » se construisent sans « pour ».",
+  "tags": [
+   "conséquence",
+   "trop pour que",
+   "analyse"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L6-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L6",
+  "objective": "Connaître la règle d'accord du participe passé employé avec « être ».",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Avec l'auxiliaire « être », le participe passé s'accorde en genre et en nombre avec :",
+  "options": [
+   "Le complément d'objet direct",
+   "Le verbe",
+   "Le sujet",
+   "Le complément d'objet indirect"
+  ],
+  "correct": 2,
+  "explanation": "Avec « être », le participe passé s'accorde avec le sujet : elles sont parties. Avec « avoir », il s'accorde avec le complément d'objet direct seulement si celui-ci est placé avant le verbe.",
+  "tags": [
+   "participe passé",
+   "accord",
+   "être"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L6-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L6",
+  "objective": "Accorder le participe passé avec le sujet après l'auxiliaire « être ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « Ma sœur est ____ à Alger et mes frères sont ____ à Oran. »",
+  "blanks": [
+   "restée",
+   "restés"
+  ],
+  "bank": [
+   "restée",
+   "restés",
+   "resté",
+   "restées",
+   "rester",
+   "restez"
+  ],
+  "explanation": "Avec l'auxiliaire « être », le participe s'accorde avec le sujet : « ma sœur » (féminin singulier) donne restée, « mes frères » (masculin pluriel) donne restés.",
+  "tags": [
+   "participe passé",
+   "accord",
+   "être"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L6-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L6",
+  "objective": "Accorder le participe passé avec le COD placé avant l'auxiliaire « avoir ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « Les lettres que j'ai … hier sont sur la table. »",
+  "options": [
+   "écrit",
+   "écrites",
+   "écrite",
+   "écrits"
+  ],
+  "correct": 1,
+  "explanation": "Avec « avoir », le participe s'accorde avec le complément d'objet direct placé avant le verbe : « que » reprend « les lettres » (féminin pluriel), donc « écrites ».",
+  "tags": [
+   "participe passé",
+   "accord",
+   "avoir",
+   "COD"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L6-0004",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L6",
+  "objective": "Ne pas accorder le participe passé avec un complément d'objet indirect.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Dans quelle phrase le participe passé est-il correctement écrit ?",
+  "options": [
+   "Mes cousines, je leur ai téléphonées hier.",
+   "Mes cousines, je les ai vu hier.",
+   "Mes cousines sont venu hier.",
+   "Mes cousines, je leur ai téléphoné hier."
+  ],
+  "correct": 3,
+  "explanation": "« Leur » est un complément d'objet indirect (téléphoner à quelqu'un) : le participe ne s'accorde pas avec lui. « Les ai vu » devrait s'écrire « vues » (COD placé avant) et « sont venu » devrait s'écrire « venues » (auxiliaire être).",
+  "tags": [
+   "participe passé",
+   "accord",
+   "COI",
+   "analyse"
+  ]
+ },
+ {
+  "key": "4AM-FR-U1-L6-0005",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U1",
+  "lesson": "L6",
+  "objective": "Appliquer l'accord avec « avoir » selon la place du COD.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Complétez : « Les photos que tu as ____ sont belles ; tu as ____ de vrais paysages. »",
+  "blanks": [
+   "prises",
+   "photographié"
+  ],
+  "bank": [
+   "prises",
+   "photographié",
+   "pris",
+   "photographiés",
+   "prise",
+   "photographiée"
+  ],
+  "explanation": "« Que » (= les photos) est un COD placé avant « as prises » : accord au féminin pluriel. Dans « tu as photographié de vrais paysages », le COD est placé après le verbe : pas d'accord.",
+  "tags": [
+   "participe passé",
+   "accord",
+   "avoir",
+   "COD"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L1-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Définir « convaincre » par rapport à « persuader ».",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Convaincre quelqu'un, c'est l'amener à partager une opinion en s'adressant surtout à :",
+  "options": [
+   "Ses sentiments",
+   "Sa raison",
+   "Son imagination",
+   "Sa mémoire"
+  ],
+  "correct": 1,
+  "explanation": "Convaincre s'appuie sur la raison : arguments logiques, faits, chiffres. Persuader cherche plutôt à toucher les sentiments du destinataire.",
+  "tags": [
+   "convaincre",
+   "persuader",
+   "définition"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L1-0002",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Reconnaître un procédé de persuasion.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Lequel de ces procédés relève de la persuasion ?",
+  "options": [
+   "Faire appel à la peur ou à la pitié du lecteur",
+   "Citer des chiffres précis",
+   "Présenter un raisonnement logique",
+   "Donner une définition exacte"
+  ],
+  "correct": 0,
+  "explanation": "Persuader, c'est jouer sur les émotions (peur, pitié, fierté). Les chiffres, le raisonnement et les définitions s'adressent à la raison : ils servent à convaincre.",
+  "tags": [
+   "persuader",
+   "procédés",
+   "émotions"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L1-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Distinguer un énoncé qui convainc d'énoncés qui persuadent.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quel énoncé cherche à convaincre plutôt qu'à persuader ?",
+  "options": [
+   "Pensez à ces pauvres animaux abandonnés qui meurent de froid !",
+   "Comment pouvez-vous rester insensibles à leur souffrance ?",
+   "Stériliser un animal coûte moins cher à la commune que soigner un animal errant.",
+   "Imaginez le regard triste d'un chien laissé seul sur la route…"
+  ],
+  "correct": 2,
+  "explanation": "Le troisième énoncé s'appuie sur un fait et un calcul de coût : il s'adresse à la raison. Les autres jouent sur la pitié, l'indignation et l'imagination du lecteur, procédés de persuasion.",
+  "tags": [
+   "convaincre",
+   "persuader",
+   "repérage"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L1-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Nommer deux procédés de persuasion : l'exclamation et la question rhétorique.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Pour persuader, l'auteur emploie souvent l'____ (« Quelle honte ! ») et la question ____ (« Qui pourrait accepter cela ? »).",
+  "blanks": [
+   "exclamation",
+   "rhétorique"
+  ],
+  "bank": [
+   "exclamation",
+   "rhétorique",
+   "énumération",
+   "fermée",
+   "définition",
+   "statistique"
+  ],
+  "explanation": "L'exclamation traduit l'émotion de l'auteur et la question rhétorique, dont la réponse est évidente, pousse le lecteur à partager son avis : ce sont des procédés de persuasion. L'énumération et la statistique servent plutôt à convaincre.",
+  "tags": [
+   "persuader",
+   "procédés",
+   "question rhétorique"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Analyser l'impératif et le sentiment d'urgence comme procédés de persuasion.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Dans « Agissez dès aujourd'hui, car demain il sera trop tard ! », l'auteur emploie l'____ pour pousser le lecteur à agir et crée un sentiment d'____.",
+  "blanks": [
+   "impératif",
+   "urgence"
+  ],
+  "bank": [
+   "impératif",
+   "urgence",
+   "indicatif",
+   "calme",
+   "subjonctif",
+   "sécurité"
+  ],
+  "explanation": "Le verbe « agissez » est à l'impératif : il ordonne au lecteur d'agir. L'expression « demain il sera trop tard » crée un sentiment d'urgence qui joue sur la peur, procédé de persuasion.",
+  "tags": [
+   "persuader",
+   "impératif",
+   "analyse"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L2-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Reconnaître un connecteur d'opposition.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Lequel de ces mots sert à exprimer une opposition ?",
+  "options": [
+   "Parce que",
+   "Donc",
+   "Pourtant",
+   "Afin que"
+  ],
+  "correct": 2,
+  "explanation": "« Pourtant » (comme mais, cependant, en revanche) oppose deux idées. « Parce que » exprime la cause, « donc » la conséquence et « afin que » le but.",
+  "tags": [
+   "opposition",
+   "connecteurs"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L2-0002",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Reformuler une concession exprimée par « quand même » avec « bien que ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quelle phrase exprime la même idée que « Il pleut ; nous sortons quand même » ?",
+  "options": [
+   "Bien qu'il pleuve, nous sortons.",
+   "Comme il pleut, nous sortons.",
+   "Il pleut, donc nous sortons.",
+   "Nous sortons pour qu'il pleuve."
+  ],
+  "correct": 0,
+  "explanation": "« Quand même » marque une concession : la pluie n'empêche pas la sortie, ce qu'exprime aussi « bien que » suivi du subjonctif. « Comme » et « donc » feraient de la pluie la cause de la sortie, ce qui est absurde ici.",
+  "tags": [
+   "concession",
+   "quand même",
+   "bien que"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L2-0003",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Employer « malgré » devant un nom et « cependant » entre deux propositions.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « ____ la pluie, les élèves sont venus à l'école ; ____, certains sont arrivés en retard. »",
+  "blanks": [
+   "Malgré",
+   "cependant"
+  ],
+  "bank": [
+   "Malgré",
+   "cependant",
+   "Bien que",
+   "parce que",
+   "Grâce à",
+   "donc"
+  ],
+  "explanation": "« Malgré » est une préposition qui se construit avec un nom (malgré la pluie) ; « cependant » oppose le retard de certains à la venue de tous. « Bien que » doit être suivi d'un verbe au subjonctif, pas d'un simple nom.",
+  "tags": [
+   "opposition",
+   "concession",
+   "malgré"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L2-0004",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Distinguer la concession de l'opposition simple.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Quelle phrase exprime une concession et non une simple opposition ?",
+  "options": [
+   "Mon frère aime la mer, tandis que je préfère la montagne.",
+   "Elle est brune alors que sa sœur est blonde.",
+   "Lui travaille le matin, moi je travaille le soir.",
+   "Il a réussi l'examen, bien qu'il ait peu révisé."
+  ],
+  "correct": 3,
+  "explanation": "La concession admet un fait (il a peu révisé) qui aurait dû empêcher le résultat (la réussite), mais ne l'empêche pas. « Tandis que », « alors que » et la juxtaposition marquent une simple opposition entre deux faits différents.",
+  "tags": [
+   "concession",
+   "opposition",
+   "analyse"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L2-0005",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Choisir le mode après « même si » (indicatif) et « bien que » (subjonctif).",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « Même si elle ____ malade hier, elle est venue en classe ; bien qu'elle ____ fatiguée, elle a participé. »",
+  "blanks": [
+   "était",
+   "soit"
+  ],
+  "bank": [
+   "était",
+   "soit",
+   "est",
+   "sera",
+   "ait",
+   "serait"
+  ],
+  "explanation": "« Même si » se construit avec l'indicatif (elle était malade hier), tandis que « bien que » exige le subjonctif (qu'elle soit). « Est » après « bien que » et « ait » (auxiliaire avoir) sont des erreurs fréquentes.",
+  "tags": [
+   "concession",
+   "même si",
+   "bien que",
+   "modes"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L3-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Identifier le conditionnel présent dans une phrase hypothétique.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans « Si tu révisais, tu réussirais », à quel temps est le verbe « réussirais » ?",
+  "options": [
+   "Au futur simple",
+   "Au conditionnel présent",
+   "À l'imparfait",
+   "Au subjonctif présent"
+  ],
+  "correct": 1,
+  "explanation": "« Réussirais » (radical du futur + terminaison -ais) est au conditionnel présent, le temps de l'hypothèse. Le futur serait « réussiras » ; l'imparfait est employé dans la proposition introduite par « si ».",
+  "tags": [
+   "hypothèse",
+   "conditionnel présent"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L3-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Construire si + imparfait / conditionnel présent.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « Si j'____ le temps, je ____ avec vous. »",
+  "blanks": [
+   "avais",
+   "viendrais"
+  ],
+  "bank": [
+   "avais",
+   "viendrais",
+   "aurais",
+   "viendrai",
+   "aurai",
+   "venais"
+  ],
+  "explanation": "Après « si », on emploie l'imparfait (j'avais) et, dans la principale, le conditionnel présent (je viendrais). « Si j'aurais » est une faute classique : jamais de conditionnel ni de futur après « si ».",
+  "tags": [
+   "hypothèse",
+   "si + imparfait",
+   "conditionnel"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L3-0003",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Former le conditionnel présent de verbes irréguliers.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Au conditionnel présent, le verbe « pouvoir » avec « nous » donne « nous ____ » et le verbe « être » avec « ils » donne « ils ____ ».",
+  "blanks": [
+   "pourrions",
+   "seraient"
+  ],
+  "bank": [
+   "pourrions",
+   "seraient",
+   "pourrons",
+   "serons",
+   "pouvions",
+   "étaient"
+  ],
+  "explanation": "Le conditionnel présent se forme avec le radical du futur (pourr-, ser-) et les terminaisons de l'imparfait (-ions, -aient). « Pourrons » et « serons » sont au futur ; « pouvions » et « étaient » sont à l'imparfait.",
+  "tags": [
+   "conditionnel présent",
+   "conjugaison"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L3-0004",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Distinguer le « si » de condition des autres emplois de « si ».",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Dans quelle phrase « si » exprime-t-il une condition ?",
+  "options": [
+   "Je me demande si le bus est passé.",
+   "Il est si gentil que tout le monde l'aime.",
+   "Si tu venais me voir, nous réviserions ensemble.",
+   "Je ne sais pas si elle viendra."
+  ],
+  "correct": 2,
+  "explanation": "Seule la troisième phrase pose une condition (venir) dont dépend un résultat (réviser ensemble), avec si + imparfait / conditionnel. Dans les autres, « si » introduit une interrogation indirecte ou marque l'intensité (si… que).",
+  "tags": [
+   "condition",
+   "si",
+   "analyse"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L4-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L4",
+  "objective": "Connaître le mode exigé après « il faut que ».",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Après « il faut que », à quel mode se conjugue le verbe ?",
+  "options": [
+   "Au subjonctif",
+   "À l'indicatif",
+   "À l'impératif",
+   "Au conditionnel"
+  ],
+  "correct": 0,
+  "explanation": "« Il faut que » exprime l'obligation et impose le subjonctif : il faut que tu fasses, que nous partions. L'indicatif s'emploie après des verbes comme « je sais que » ou « je pense que ».",
+  "tags": [
+   "subjonctif",
+   "obligation",
+   "il faut que"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L4-0002",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L4",
+  "objective": "Conjuguer « être » au subjonctif présent après un verbe de souhait.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « Je souhaite que vous … à l'heure. »",
+  "options": [
+   "êtes",
+   "serez",
+   "soyez",
+   "seriez"
+  ],
+  "correct": 2,
+  "explanation": "Le souhait (je souhaite que) entraîne le subjonctif présent : « que vous soyez ». « Êtes » et « serez » sont des formes de l'indicatif, « seriez » du conditionnel.",
+  "tags": [
+   "subjonctif",
+   "souhait",
+   "être"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L4-0003",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L4",
+  "objective": "Conjuguer au subjonctif présent après « il faut que ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « Il faut que tu ____ tes devoirs avant de sortir et que nous ____ ensemble. »",
+  "blanks": [
+   "finisses",
+   "révisions"
+  ],
+  "bank": [
+   "finisses",
+   "révisions",
+   "finis",
+   "finiras",
+   "révisons",
+   "réviserons"
+  ],
+  "explanation": "Après « il faut que », le subjonctif présent est obligatoire : « que tu finisses », « que nous révisions ». « Finis » et « révisons » sont des formes de l'indicatif présent.",
+  "tags": [
+   "subjonctif",
+   "obligation",
+   "conjugaison"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L4-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L4",
+  "objective": "Conjuguer des verbes irréguliers au subjonctif présent après un verbe de souhait.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Complétez : « Je voudrais que tu ____ (aller) chez le médecin et qu'il ____ (avoir) le temps de t'examiner. »",
+  "blanks": [
+   "ailles",
+   "ait"
+  ],
+  "bank": [
+   "ailles",
+   "ait",
+   "vas",
+   "iras",
+   "a",
+   "aie"
+  ],
+  "explanation": "« Aller » et « avoir » ont des subjonctifs irréguliers : que tu ailles, qu'il ait. « Vas » et « a » sont des formes de l'indicatif ; « aie » est la première personne (que j'aie), pas la troisième.",
+  "tags": [
+   "subjonctif",
+   "souhait",
+   "verbes irréguliers"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L5-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L5",
+  "objective": "Reconnaître un modalisateur de doute.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Lequel de ces mots est un modalisateur de doute ?",
+  "options": [
+   "Certainement",
+   "Peut-être",
+   "Évidemment",
+   "Bien sûr"
+  ],
+  "correct": 1,
+  "explanation": "« Peut-être » (comme « probablement » ou « il semble que ») atténue l'affirmation et marque le doute. Les trois autres expressions marquent au contraire la certitude.",
+  "tags": [
+   "modalisateurs",
+   "doute"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L5-0002",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L5",
+  "objective": "Comprendre l'effet d'un modalisateur de doute sur un jugement.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quel est l'effet du modalisateur dans « Ce film est, me semble-t-il, le meilleur de l'année » ?",
+  "options": [
+   "Il présente l'avis comme une certitude absolue",
+   "Il supprime toute opinion de l'auteur",
+   "Il présente l'avis comme personnel et prudent",
+   "Il exprime une conséquence"
+  ],
+  "correct": 2,
+  "explanation": "« Me semble-t-il » atténue le jugement : l'auteur le présente comme son impression personnelle, sans l'imposer. Un modalisateur de certitude comme « sans aucun doute » aurait l'effet inverse.",
+  "tags": [
+   "modalisateurs",
+   "doute",
+   "nuance"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L5-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L5",
+  "objective": "Distinguer un énoncé neutre d'énoncés modalisés.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Quel énoncé ne contient aucun modalisateur ?",
+  "options": [
+   "Le cours commence probablement à huit heures.",
+   "Je crois que le cours commence à huit heures.",
+   "Il paraît que le cours commence à huit heures.",
+   "Le cours commence à huit heures."
+  ],
+  "correct": 3,
+  "explanation": "La dernière phrase est un simple constat, sans marque de doute ni de certitude. « Probablement », « je crois que » et « il paraît que » présentent l'information comme incertaine ou rapportée.",
+  "tags": [
+   "modalisateurs",
+   "repérage",
+   "analyse"
+  ]
+ },
+ {
+  "key": "4AM-FR-U2-L5-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L5",
+  "objective": "Employer le conditionnel comme modalisateur d'une information non confirmée.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Un journaliste qui n'a pas confirmé l'information écrit : « Le stade ____ ses portes en juin » ; une fois l'information confirmée, il écrit : « Le stade ____ ses portes en juin ».",
+  "blanks": [
+   "ouvrirait",
+   "ouvrira"
+  ],
+  "bank": [
+   "ouvrirait",
+   "ouvrira",
+   "ouvrait",
+   "ouvrirai",
+   "ouvrirais",
+   "ouvrent"
+  ],
+  "explanation": "Le conditionnel présent (ouvrirait) présente une information comme incertaine ou non confirmée ; le futur simple (ouvrira) la présente comme sûre. « Ouvrait » (imparfait) n'exprime aucune modalisation.",
+  "tags": [
+   "modalisateurs",
+   "conditionnel",
+   "certitude"
+  ]
+ }
+]

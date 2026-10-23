@@ -1,0 +1,1398 @@
+[
+  {
+    "key": "1AS-FR-U1-L1-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Comprendre que le résumé conserve le système d'énonciation du texte source.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Un texte explicatif est rédigé à la troisième personne et au présent. Comment doit-on l'écrire dans son résumé ?",
+    "options": [
+      "À la première personne, en s'adressant à l'auteur",
+      "À la troisième personne et au présent, comme le texte source",
+      "Au passé composé, pour montrer que le texte a déjà été lu",
+      "À la première personne du pluriel, pour impliquer le lecteur"
+    ],
+    "correct": 1,
+    "explanation": "Le résumé conserve le système d'énonciation du texte source : mêmes personnes et mêmes temps verbaux. Changer de personne ou de temps transformerait le résumé en commentaire personnel ou en récit.",
+    "tags": [
+      "résumé",
+      "énonciation"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L1-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Calculer la longueur attendue d'un résumé à partir du taux de réduction demandé.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "On demande de résumer au quart un texte de 400 mots. Combien de mots environ doit compter le résumé ?",
+    "options": [
+      "40 mots",
+      "200 mots",
+      "100 mots",
+      "300 mots"
+    ],
+    "correct": 2,
+    "explanation": "Résumer au quart signifie diviser la longueur par 4 : 400 ÷ 4 = 100 mots. Un résumé de 200 mots correspondrait à une réduction de moitié, et 40 mots au dixième.",
+    "verify": {
+      "expression": "400/4",
+      "expected": 100
+    },
+    "tags": [
+      "résumé",
+      "contraction"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L1-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Identifier la généralisation comme technique de contraction d'un texte.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Pour contracter la phrase « Le marché propose des pommes, des poires, des oranges et des bananes », on écrit « Le marché propose des fruits ». Quelle technique du résumé est employée ?",
+    "options": [
+      "La généralisation par un terme générique",
+      "La citation des mots exacts de l'auteur",
+      "L'énumération des éléments un par un",
+      "L'illustration par un exemple concret"
+    ],
+    "correct": 0,
+    "explanation": "Remplacer une liste d'éléments par le mot qui les englobe tous (« fruits ») est une généralisation, technique essentielle de la contraction. L'énumération est au contraire ce que l'on supprime.",
+    "tags": [
+      "résumé",
+      "généralisation"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L1-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Reconnaître qu'un résumé exclut tout avis personnel du rédacteur.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Un texte explique que la pollution de l'air nuit à la santé. Quelle phrase ne peut PAS figurer dans son résumé ?",
+    "options": [
+      "Les gaz rejetés par les usines provoquent des maladies respiratoires.",
+      "La pollution de l'air est dangereuse pour la santé des habitants.",
+      "Cette pollution touche surtout les grandes villes.",
+      "À mon avis, l'auteur a raison de dénoncer la pollution."
+    ],
+    "correct": 3,
+    "explanation": "Le résumé doit rester objectif : il reformule les idées du texte sans ajouter d'avis personnel. « À mon avis » introduit un jugement du rédacteur, ce qui est interdit dans un résumé.",
+    "tags": [
+      "résumé",
+      "objectivité"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L1-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Rappeler deux règles essentielles du résumé : respect du plan et reformulation.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Un bon résumé respecte le ____ du texte et reformule les idées avec ses ____ mots.",
+    "blanks": [
+      "plan",
+      "propres"
+    ],
+    "bank": [
+      "plan",
+      "propres",
+      "titre",
+      "mêmes",
+      "style",
+      "nouveaux"
+    ],
+    "explanation": "Le résumé suit l'ordre des idées (le plan) du texte source et les reformule avec les propres mots du rédacteur ; recopier les mêmes mots de l'auteur serait une citation, non un résumé.",
+    "tags": [
+      "résumé",
+      "règles"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L1-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L1",
+    "objective": "Appliquer les techniques de suppression et de généralisation dans la contraction d'un texte.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Pour contracter un texte, on remplace une énumération par un terme ____ et on supprime les ____ qui ne font qu'illustrer les idées.",
+    "blanks": [
+      "générique",
+      "exemples"
+    ],
+    "bank": [
+      "générique",
+      "exemples",
+      "précis",
+      "connecteurs",
+      "idées principales",
+      "titres"
+    ],
+    "explanation": "Le terme générique englobe tous les éléments d'une énumération en un seul mot ; les exemples, qui illustrent sans ajouter d'idée nouvelle, sont supprimés. Les connecteurs, eux, doivent être gardés pour conserver les liens logiques.",
+    "tags": [
+      "résumé",
+      "contraction"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L2-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Reconnaître une définition à partir de sa structure (mot défini + est + catégorie + caractéristique).",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "« Le baromètre est un instrument qui mesure la pression atmosphérique. » Quel procédé explicatif est employé dans cette phrase ?",
+    "options": [
+      "La définition",
+      "L'énumération",
+      "La reformulation",
+      "L'exemple"
+    ],
+    "correct": 0,
+    "explanation": "La phrase donne le sens du mot « baromètre » à l'aide du verbe « est » suivi d'une catégorie (« un instrument ») et d'une caractéristique (« qui mesure… ») : c'est une définition.",
+    "tags": [
+      "procédés explicatifs",
+      "définition"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L2-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Distinguer le « comme » qui introduit un exemple du « comme » de comparaison.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« Les énergies renouvelables, comme le solaire ou l'éolien, ne polluent pas. » Dans cette phrase, le mot « comme » introduit :",
+    "options": [
+      "une définition",
+      "une comparaison",
+      "un exemple",
+      "une reformulation"
+    ],
+    "correct": 2,
+    "explanation": "Ici, « comme » présente des cas concrets d'énergies renouvelables (le solaire, l'éolien) : il s'agit d'une illustration par l'exemple. Il n'y a pas de comparaison, car on ne rapproche pas deux réalités différentes.",
+    "tags": [
+      "procédés explicatifs",
+      "exemple"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L2-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Définir la reformulation comme procédé explicatif.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Quel procédé explicatif consiste à redire une idée avec d'autres mots pour la rendre plus claire ?",
+    "options": [
+      "L'énumération",
+      "La définition",
+      "L'exemple",
+      "La reformulation"
+    ],
+    "correct": 3,
+    "explanation": "La reformulation reprend une idée déjà exprimée en la disant autrement, souvent après « c'est-à-dire » ou « autrement dit ». La définition, elle, donne le sens d'un mot nouveau.",
+    "tags": [
+      "procédés explicatifs",
+      "reformulation"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L2-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Analyser une phrase qui combine deux procédés explicatifs.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Quelle phrase contient à la fois une définition et un exemple ?",
+    "options": [
+      "Les séismes provoquent des dégâts : fissures, effondrements, glissements de terrain.",
+      "Un séisme est une secousse brutale du sol, comme celle qui a frappé Boumerdès en 2003.",
+      "Un séisme, autrement dit un tremblement de terre, peut détruire des villes entières.",
+      "Les séismes sont fréquents dans le nord du pays, surtout près des côtes."
+    ],
+    "correct": 1,
+    "explanation": "La phrase sur la secousse brutale du sol définit d'abord le séisme (« est une secousse… ») puis l'illustre par un exemple introduit par « comme ». Les deux-points suivis d'une liste signalent une énumération, et « autrement dit » signale une reformulation.",
+    "tags": [
+      "procédés explicatifs",
+      "analyse"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L2-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Repérer l'énumération introduite par les deux-points dans une phrase explicative.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Dans la phrase « Le désert abrite plusieurs reptiles : le varan, la vipère à cornes et le scinque », l'auteur explique en utilisant une ____.",
+    "blanks": [
+      "énumération"
+    ],
+    "bank": [
+      "énumération",
+      "définition",
+      "reformulation",
+      "analyse",
+      "comparaison"
+    ],
+    "explanation": "Après les deux-points, l'auteur dresse la liste des reptiles du désert : c'est une énumération. Il ne donne ni le sens d'un mot (définition) ni une autre formulation de la même idée.",
+    "tags": [
+      "procédés explicatifs",
+      "énumération"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L2-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L2",
+    "objective": "Associer les marqueurs linguistiques aux procédés explicatifs qu'ils introduisent.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« Par exemple » et « tel que » annoncent un ____, tandis que « c'est-à-dire » annonce une ____.",
+    "blanks": [
+      "exemple",
+      "reformulation"
+    ],
+    "bank": [
+      "exemple",
+      "reformulation",
+      "définition",
+      "énumération",
+      "comparaison",
+      "conclusion"
+    ],
+    "explanation": "« Par exemple » et « tel que » introduisent des cas concrets qui illustrent l'idée ; « c'est-à-dire » reprend l'idée avec d'autres mots, ce qui est une reformulation et non une définition.",
+    "tags": [
+      "procédés explicatifs",
+      "marqueurs"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L3-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Reconnaître le présent de vérité générale dans un énoncé scientifique.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "« Le fer rouille au contact de l'air humide. » Quelle est la valeur du présent dans cette phrase ?",
+    "options": [
+      "Présent d'énonciation",
+      "Présent de vérité générale",
+      "Présent d'habitude",
+      "Présent de narration"
+    ],
+    "correct": 1,
+    "explanation": "La phrase exprime un fait scientifique vrai à tout moment : c'est un présent de vérité générale, dit aussi atemporel. Le présent d'énonciation renverrait au moment précis où l'on parle.",
+    "tags": [
+      "présent",
+      "valeurs du présent"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L3-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Distinguer le présent atemporel des autres valeurs du présent.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Dans quelle phrase le présent a-t-il une valeur atemporelle ?",
+    "options": [
+      "Je regarde un documentaire en ce moment.",
+      "Chaque matin, il prend le bus pour aller au lycée.",
+      "Soudain, la porte s'ouvre et le voleur entre.",
+      "Les plantes produisent de l'oxygène grâce à la photosynthèse."
+    ],
+    "correct": 3,
+    "explanation": "La production d'oxygène par les plantes est un fait toujours vrai : présent atemporel. « En ce moment » marque un présent d'énonciation, « chaque matin » un présent d'habitude, et « soudain » un présent de narration.",
+    "tags": [
+      "présent",
+      "valeurs du présent"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L3-0003",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Nommer la valeur du présent dominante dans le texte explicatif.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Dans un texte de vulgarisation scientifique, le présent a une valeur ____ : il exprime des faits vrais en tout temps, c'est-à-dire des vérités ____.",
+    "blanks": [
+      "atemporelle",
+      "générales"
+    ],
+    "bank": [
+      "atemporelle",
+      "générales",
+      "passée",
+      "personnelles",
+      "momentanée",
+      "futures"
+    ],
+    "explanation": "Le présent atemporel (ou de vérité générale) ne situe pas l'action dans le temps : il énonce des lois ou des faits valables toujours. Une valeur momentanée renverrait seulement au moment où l'on parle.",
+    "tags": [
+      "présent",
+      "vulgarisation"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L3-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Identifier un présent d'énonciation parmi des présents de vérité générale, y compris dans un proverbe.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Dans quelle phrase le présent n'a-t-il PAS une valeur de vérité générale ?",
+    "options": [
+      "Le Soleil se lève à l'est.",
+      "Qui dort dîne.",
+      "Le professeur explique la leçon depuis dix minutes.",
+      "Les métaux se dilatent sous l'effet de la chaleur."
+    ],
+    "correct": 2,
+    "explanation": "« Depuis dix minutes » ancre l'action dans le moment où l'on parle : c'est un présent d'énonciation. Le proverbe « Qui dort dîne », comme les faits sur le Soleil et les métaux, énonce une vérité valable en tout temps.",
+    "tags": [
+      "présent",
+      "valeurs du présent"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L3-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Conjuguer un verbe du premier groupe au présent de vérité générale.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "La Terre ____ autour du Soleil en un an.",
+    "blanks": [
+      "tourne"
+    ],
+    "bank": [
+      "tourne",
+      "tournent",
+      "tournait",
+      "tournera",
+      "tournes",
+      "a tourné"
+    ],
+    "explanation": "Le sujet « la Terre » est à la troisième personne du singulier et le fait est une vérité générale : on emploie le présent « tourne ». « Tournent » correspond au pluriel, et l'imparfait ou le futur ne conviennent pas à une vérité permanente.",
+    "tags": [
+      "présent",
+      "conjugaison"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L3-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L3",
+    "objective": "Conjuguer correctement un verbe irrégulier du troisième groupe (bouillir) au présent de vérité générale.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "L'eau ____ à 0 °C et ____ à 100 °C.",
+    "blanks": [
+      "gèle",
+      "bout"
+    ],
+    "bank": [
+      "gèle",
+      "bout",
+      "gèlent",
+      "bouille",
+      "bouillit",
+      "gelait",
+      "bous"
+    ],
+    "explanation": "« Geler » donne « gèle » à la troisième personne du singulier, et « bouillir » (troisième groupe) donne « bout », et non « bouille » ou « bouillit », erreurs fréquentes. Le présent exprime ici deux vérités scientifiques.",
+    "tags": [
+      "présent",
+      "conjugaison"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L4-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Trouver le nom dérivé d'un verbe à nominalisation irrégulière.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Quel nom est formé à partir du verbe « découvrir » ?",
+    "options": [
+      "la découverte",
+      "le découvrement",
+      "la découvrance",
+      "la découvrure"
+    ],
+    "correct": 0,
+    "explanation": "Le nom dérivé de « découvrir » est « découverte », formé sur le participe passé. Les autres formes, construites avec des suffixes de nominalisation (-ment, -ance, -ure), n'existent pas pour ce verbe.",
+    "tags": [
+      "nominalisation",
+      "dérivation"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L4-0002",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Transformer une phrase verbale en groupe nominal en choisissant le nom de sens correct.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Nominalisez : « Les glaciers fondent » devient « la ____ des glaciers ».",
+    "blanks": [
+      "fonte"
+    ],
+    "bank": [
+      "fonte",
+      "fondation",
+      "fondement",
+      "fondu",
+      "fondre"
+    ],
+    "explanation": "Le nom qui correspond au verbe « fondre » au sens de « passer à l'état liquide » est « fonte ». « Fondation » et « fondement » dérivent de « fonder » et ont un tout autre sens.",
+    "tags": [
+      "nominalisation",
+      "sens"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L4-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Nominaliser une phrase à base adjectivale sans confondre état et action.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Quelle est la nominalisation correcte de la phrase « Cette eau est pure » ?",
+    "options": [
+      "la purification de cette eau",
+      "l'épuration de cette eau",
+      "le purisme de cette eau",
+      "la pureté de cette eau"
+    ],
+    "correct": 3,
+    "explanation": "L'adjectif « pure » exprime un état ; le nom correspondant est « pureté ». « Purification » et « épuration » dérivent de verbes et désignent une action qui rend l'eau pure, ce qui change le sens de la phrase.",
+    "tags": [
+      "nominalisation",
+      "base adjectivale"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L4-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Retrouver la phrase verbale à partir d'un groupe nominal (nominalisation inverse).",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Quelle phrase verbale correspond au groupe nominal « la disparition de plusieurs espèces animales » ?",
+    "options": [
+      "Plusieurs espèces animales apparaissent.",
+      "Plusieurs espèces animales disparaissent.",
+      "On fait disparaître plusieurs espèces animales.",
+      "Plusieurs espèces animales sont dispersées."
+    ],
+    "correct": 1,
+    "explanation": "Le nom « disparition » correspond au verbe « disparaître », dont le sujet est « plusieurs espèces animales ». « Faire disparaître » ajoute un agent responsable, et « dispersées » vient d'un autre verbe.",
+    "tags": [
+      "nominalisation",
+      "transformation"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L4-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Former un nom d'action avec le suffixe -tion.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Le nom formé à partir du verbe « polluer » est « la ____ ».",
+    "blanks": [
+      "pollution"
+    ],
+    "bank": [
+      "pollution",
+      "polluant",
+      "pollué",
+      "polluer",
+      "pollueur"
+    ],
+    "explanation": "« Pollution » est le nom d'action dérivé de « polluer » avec le suffixe -tion. « Polluant » et « pollueur » désignent ce qui pollue ou celui qui pollue, pas l'action elle-même.",
+    "tags": [
+      "nominalisation",
+      "suffixes"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L4-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L4",
+    "objective": "Nominaliser deux phrases verbales avec les suffixes -tion et -ment.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« On a construit un barrage » devient « la ____ d'un barrage », et « La ville s'est développée » devient « le ____ de la ville ».",
+    "blanks": [
+      "construction",
+      "développement"
+    ],
+    "bank": [
+      "construction",
+      "développement",
+      "constructeur",
+      "développeur",
+      "construite",
+      "développée"
+    ],
+    "explanation": "Les noms d'action correspondants sont « construction » (suffixe -tion) et « développement » (suffixe -ment). « Constructeur » et « développeur » désignent des personnes, non des actions.",
+    "tags": [
+      "nominalisation",
+      "suffixes"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L5-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L5",
+    "objective": "Identifier un pronom personnel comme substitut grammatical.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "« Le dromadaire supporte bien la chaleur. Il peut rester plusieurs jours sans boire. » Que représente le mot « Il » ?",
+    "options": [
+      "Un connecteur logique",
+      "Un substitut lexical",
+      "Un substitut grammatical",
+      "Un terme générique"
+    ],
+    "correct": 2,
+    "explanation": "« Il » est un pronom personnel qui reprend « le dromadaire » : c'est un substitut grammatical. Un substitut lexical serait un nom ou un groupe nominal, comme « cet animal ».",
+    "tags": [
+      "substituts",
+      "pronoms"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L5-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L5",
+    "objective": "Reconnaître un terme générique employé comme substitut lexical.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« Les abeilles butinent les fleurs. Ces insectes produisent ensuite le miel. » Le groupe « Ces insectes » est :",
+    "options": [
+      "un substitut lexical (terme générique)",
+      "un substitut grammatical (pronom)",
+      "un connecteur d'énumération",
+      "un indicateur de temps"
+    ],
+    "correct": 0,
+    "explanation": "« Ces insectes » reprend « les abeilles » par un nom générique précédé d'un déterminant démonstratif : c'est un substitut lexical. Un substitut grammatical serait un pronom comme « elles ».",
+    "tags": [
+      "substituts",
+      "terme générique"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L5-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L5",
+    "objective": "Comprendre la fonction des substituts dans la cohérence textuelle.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Quel est le rôle principal des substituts dans un texte ?",
+    "options": [
+      "Rendre le texte plus long",
+      "Éviter les répétitions et assurer la cohérence du texte",
+      "Introduire des exemples",
+      "Exprimer l'opinion de l'auteur"
+    ],
+    "correct": 1,
+    "explanation": "Les substituts reprennent un élément déjà cité pour éviter de le répéter tout en maintenant le fil du texte. Ils n'introduisent pas d'exemples et n'expriment pas d'opinion.",
+    "tags": [
+      "substituts",
+      "cohérence"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L5-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L5",
+    "objective": "Retrouver l'antécédent d'un pronom démonstratif dans un passage comportant plusieurs reprises.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Le Sahara couvre une grande partie de l'Algérie. On y trouve des oasis où les habitants cultivent le palmier dattier ; celui-ci résiste bien à la sécheresse. » Que reprend le pronom « celui-ci » ?",
+    "options": [
+      "Le Sahara",
+      "Les habitants",
+      "Les oasis",
+      "Le palmier dattier"
+    ],
+    "correct": 3,
+    "explanation": "« Celui-ci » est un pronom démonstratif masculin singulier qui désigne l'élément le plus proche : « le palmier dattier ». « Le Sahara » est repris plus haut par le pronom « y », et « les oasis » et « les habitants » sont au pluriel.",
+    "tags": [
+      "substituts",
+      "antécédent"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L5-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L5",
+    "objective": "Employer le déterminant démonstratif qui convient devant un substitut lexical.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« La baleine bleue est le plus grand animal de la planète. ____ mammifère peut mesurer jusqu'à trente mètres. »",
+    "blanks": [
+      "Ce"
+    ],
+    "bank": [
+      "Ce",
+      "Cette",
+      "Il",
+      "Elle",
+      "Cet",
+      "Ces"
+    ],
+    "explanation": "Le substitut lexical « mammifère » est un nom masculin singulier : il prend le démonstratif « Ce ». « Cette » est une erreur fréquente due au genre féminin de « baleine », mais l'accord se fait avec le nom qui suit.",
+    "tags": [
+      "substituts",
+      "démonstratif"
+    ]
+  },
+  {
+    "key": "1AS-FR-U1-L5-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U1",
+    "lesson": "L5",
+    "objective": "Choisir les pronoms personnels de reprise selon leur fonction et leur nombre.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« Les élèves ont visité le musée. ____ ont admiré les objets anciens, et le guide ____ a expliqué leur histoire. »",
+    "blanks": [
+      "Ils",
+      "leur"
+    ],
+    "bank": [
+      "Ils",
+      "leur",
+      "Elles",
+      "les",
+      "lui",
+      "Il"
+    ],
+    "explanation": "« Ils » reprend « les élèves » (masculin pluriel) comme sujet ; « leur » est le pronom complément d'objet indirect pluriel (le guide a expliqué l'histoire aux élèves). « Les » serait un complément d'objet direct et « lui » un singulier.",
+    "tags": [
+      "substituts",
+      "pronoms"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L1-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Distinguer une question fermée d'une question ouverte.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Laquelle de ces questions est une question fermée ?",
+    "options": [
+      "Pourquoi avez-vous choisi ce métier ?",
+      "Comment avez-vous commencé votre carrière ?",
+      "Est-ce que vous aimez votre métier ?",
+      "Quelles sont les difficultés de votre travail ?"
+    ],
+    "correct": 2,
+    "explanation": "Une question fermée appelle une réponse par « oui » ou « non » ; c'est le cas de « Est-ce que vous aimez votre métier ? ». Les questions commençant par « pourquoi », « comment » ou « quelles » demandent une réponse développée : elles sont ouvertes.",
+    "tags": [
+      "interrogation",
+      "interview"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L1-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Comprendre l'intérêt des questions ouvertes dans une interview.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Dans une interview, pourquoi le journaliste privilégie-t-il les questions ouvertes ?",
+    "options": [
+      "Elles permettent à la personne interrogée de développer sa réponse.",
+      "Elles permettent de répondre rapidement par oui ou par non.",
+      "Elles évitent au journaliste de préparer d'autres questions.",
+      "Elles servent uniquement à vérifier l'identité de la personne."
+    ],
+    "correct": 0,
+    "explanation": "Une question ouverte (pourquoi, comment, que pensez-vous de…) oblige l'interviewé à expliquer et à argumenter, ce qui enrichit l'interview. La réponse par oui ou non caractérise au contraire la question fermée.",
+    "tags": [
+      "interrogation",
+      "interview"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L1-0003",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Construire une interrogation totale avec « est-ce que ».",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Transformez « Pars-tu demain ? » en question avec la locution interrogative : « ____ tu pars demain ? »",
+    "blanks": [
+      "Est-ce que"
+    ],
+    "bank": [
+      "Est-ce que",
+      "Est-ce qui",
+      "Qu'est-ce que",
+      "Si",
+      "Pourquoi"
+    ],
+    "explanation": "L'interrogation totale se construit avec « est-ce que » suivi de l'ordre sujet-verbe. « Qu'est-ce que » introduit une interrogation partielle sur l'objet, et « si » n'apparaît que dans l'interrogation indirecte.",
+    "tags": [
+      "interrogation",
+      "est-ce que"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L1-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Écrire correctement l'inversion du sujet avec le « t » euphonique.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Quelle question avec inversion du sujet est correctement écrite ?",
+    "options": [
+      "Aime-t-elle son travail ?",
+      "Aime-elle son travail ?",
+      "Elle aime-t-elle son travail ?",
+      "Est-ce qu'aime-t-elle son travail ?"
+    ],
+    "correct": 0,
+    "explanation": "Quand le verbe se termine par une voyelle et que le pronom commence par une voyelle, on insère un « t » entre deux traits d'union : « aime-t-elle ». On n'emploie pas à la fois « est-ce que » et l'inversion, et le sujet pronom n'est pas répété.",
+    "tags": [
+      "interrogation",
+      "inversion"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L1-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Nommer les deux types de questions selon la réponse attendue.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Pour obtenir une réponse par « oui » ou « non », on pose une question ____ ; pour obtenir une explication, on pose une question ____.",
+    "blanks": [
+      "fermée",
+      "ouverte"
+    ],
+    "bank": [
+      "fermée",
+      "ouverte",
+      "directe",
+      "indirecte",
+      "exclamative",
+      "négative"
+    ],
+    "explanation": "La question fermée (interrogation totale) se contente d'un oui ou d'un non ; la question ouverte (interrogation partielle) commence par un mot interrogatif et demande une réponse développée. « Directe » et « indirecte » désignent la forme du discours, non le type de réponse attendue.",
+    "tags": [
+      "interrogation",
+      "types de questions"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L1-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L1",
+    "objective": "Choisir le mot interrogatif adapté à l'information recherchée.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« ____ avez-vous commencé ce métier ? — En 2010. » « ____ l'avez-vous choisi ? — Parce que j'aime les enfants. »",
+    "blanks": [
+      "Quand",
+      "Pourquoi"
+    ],
+    "bank": [
+      "Quand",
+      "Pourquoi",
+      "Comment",
+      "Où",
+      "Combien",
+      "Qui"
+    ],
+    "explanation": "La réponse « En 2010 » indique une date : la question porte sur le temps (« Quand »). La réponse « Parce que… » donne une raison : la question porte sur la cause (« Pourquoi »), et non sur la manière (« Comment »).",
+    "tags": [
+      "interrogation",
+      "mots interrogatifs"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L2-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Reconnaître le discours indirect à ses marques (conjonction, absence de guillemets).",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Quelle phrase est au discours indirect ?",
+    "options": [
+      "Le médecin affirme : « Le sport est bon pour la santé. »",
+      "« Le sport est bon pour la santé », affirme le médecin.",
+      "Le sport est bon pour la santé, dit le médecin.",
+      "Le médecin affirme que le sport est bon pour la santé."
+    ],
+    "correct": 3,
+    "explanation": "Au discours indirect, les paroles sont intégrées à la phrase par une conjonction (« que ») sans guillemets ni deux-points. Les trois autres phrases rapportent les paroles telles quelles : c'est le discours direct.",
+    "tags": [
+      "discours rapporté",
+      "discours indirect"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L2-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Appliquer le changement de personne et la concordance des temps au discours indirect.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Transposez au discours indirect : Il a dit : « Je suis fatigué. »",
+    "options": [
+      "Il a dit qu'il est fatigué.",
+      "Il a dit qu'il était fatigué.",
+      "Il a dit que je suis fatigué.",
+      "Il a dit qu'il serait fatigué."
+    ],
+    "correct": 1,
+    "explanation": "Le verbe introducteur « a dit » est au passé : le présent « suis » devient l'imparfait « était », et « je » devient « il ». Garder « je » ou le présent est une erreur de transposition.",
+    "tags": [
+      "discours rapporté",
+      "concordance des temps"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L2-0003",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Rapporter une interrogation totale au discours indirect avec « si ».",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Elle me demande : « Est-ce que tu viens demain ? » → Elle me demande ____ je viens demain.",
+    "blanks": [
+      "si"
+    ],
+    "bank": [
+      "si",
+      "que",
+      "est-ce que",
+      "quand",
+      "ce que"
+    ],
+    "explanation": "Une interrogation totale (réponse oui/non) rapportée au discours indirect est introduite par « si ». « Est-ce que » disparaît, « que » sert aux déclarations et « ce que » aux questions portant sur l'objet.",
+    "tags": [
+      "discours rapporté",
+      "interrogation indirecte"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L2-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Transposer un ordre au discours indirect en adaptant possessif et indicateur de temps.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Transposez au discours indirect : Le professeur nous a dit : « Rendez vos devoirs demain. »",
+    "options": [
+      "Le professeur nous a dit que nous rendions nos devoirs demain.",
+      "Le professeur nous a dit de rendre vos devoirs demain.",
+      "Le professeur nous a dit de rendre nos devoirs le lendemain.",
+      "Le professeur nous a dit qu'il faut rendre les devoirs le lendemain."
+    ],
+    "correct": 2,
+    "explanation": "L'impératif se rapporte par « de + infinitif », le possessif « vos » devient « nos » (les paroles s'adressent à « nous ») et, avec un verbe introducteur au passé, « demain » devient « le lendemain ».",
+    "tags": [
+      "discours rapporté",
+      "impératif"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L2-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Appliquer la concordance des temps (futur → conditionnel) et le changement des indicateurs de temps.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "Il a promis : « Je reviendrai la semaine prochaine. » → Il a promis qu'il ____ la semaine ____.",
+    "blanks": [
+      "reviendrait",
+      "suivante"
+    ],
+    "bank": [
+      "reviendrait",
+      "suivante",
+      "reviendra",
+      "prochaine",
+      "revenait",
+      "dernière",
+      "précédente"
+    ],
+    "explanation": "Après un verbe introducteur au passé, le futur « reviendrai » devient le conditionnel présent « reviendrait », et « la semaine prochaine » devient « la semaine suivante ». « Reviendra » et « prochaine » ne conviendraient qu'avec un verbe introducteur au présent.",
+    "tags": [
+      "discours rapporté",
+      "concordance des temps"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L2-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L2",
+    "objective": "Rapporter une déclaration simple au discours indirect avec changement de personne.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Ali dit : « J'habite à Biskra. » → Ali dit ____ habite à Biskra.",
+    "blanks": [
+      "qu'il"
+    ],
+    "bank": [
+      "qu'il",
+      "que je",
+      "s'il",
+      "qu'elle",
+      "de"
+    ],
+    "explanation": "Au discours indirect, la déclaration est introduite par « que » et la première personne « je » devient « il » puisque c'est Ali qui parle. « Si » ne s'emploie que pour rapporter une question.",
+    "tags": [
+      "discours rapporté",
+      "changement de personne"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L3-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Identifier les pronoms de première personne comme marques de l'énonciateur.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Parmi ces mots, lequel est un indice de l'énonciation qui révèle la présence de l'énonciateur ?",
+    "options": [
+      "je",
+      "il",
+      "le",
+      "un"
+    ],
+    "correct": 0,
+    "explanation": "Le pronom « je » désigne directement la personne qui parle : c'est une marque de l'énonciateur. « Il » renvoie à une troisième personne absente de la situation d'énonciation, et « le » et « un » sont des déterminants.",
+    "tags": [
+      "énonciation",
+      "pronoms"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L3-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Relever de façon exhaustive les marques de l'énonciation dans un énoncé.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Aujourd'hui, je vous présente ici notre nouveau laboratoire. » Combien d'indices de l'énonciation (pronoms personnels, possessifs, indicateurs de temps et de lieu) cette phrase contient-elle ?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "correct": 3,
+    "explanation": "On relève deux pronoms (« je », « vous »), un possessif (« notre »), un indicateur de temps (« aujourd'hui ») et un indicateur de lieu (« ici »), soit cinq indices. Oublier « notre » ou « ici » est l'erreur la plus courante.",
+    "tags": [
+      "énonciation",
+      "relevé"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L3-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Distinguer un énoncé ancré dans la situation d'énonciation d'un énoncé coupé de celle-ci.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Quelle phrase ne contient aucune marque de l'énonciateur (énoncé coupé de la situation d'énonciation) ?",
+    "options": [
+      "Je trouve cette découverte passionnante.",
+      "Le vaccin fut mis au point par une équipe de chercheurs.",
+      "Nous devons protéger notre planète.",
+      "Vous verrez demain les résultats de l'expérience."
+    ],
+    "correct": 1,
+    "explanation": "La phrase sur le vaccin est à la troisième personne, au passé simple, sans pronom de première ou deuxième personne ni indicateur lié au moment où l'on parle. Les autres contiennent « je », « nous/notre » ou « vous/demain ».",
+    "tags": [
+      "énonciation",
+      "ancrage"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L3-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Repérer les marques du destinataire (apostrophe, possessif de deuxième personne).",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« Chers élèves, votre lycée organise demain une sortie scientifique. » Quels mots désignent le destinataire du message ?",
+    "options": [
+      "« lycée » et « sortie »",
+      "« demain » et « organise »",
+      "« Chers élèves » et « votre »",
+      "« une » et « scientifique »"
+    ],
+    "correct": 2,
+    "explanation": "L'apostrophe « Chers élèves » nomme directement ceux à qui l'on s'adresse, et le possessif « votre » renvoie à la deuxième personne, donc au destinataire. « Demain » est un indicateur de temps, non une marque du destinataire.",
+    "tags": [
+      "énonciation",
+      "destinataire"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L3-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Associer les pronoms personnels aux rôles de l'énonciateur et du destinataire.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Les pronoms « je » et « nous » désignent l'____ ; les pronoms « tu » et « vous » désignent le ____.",
+    "blanks": [
+      "énonciateur",
+      "destinataire"
+    ],
+    "bank": [
+      "énonciateur",
+      "destinataire",
+      "narrateur",
+      "personnage",
+      "auteur",
+      "lecteur"
+    ],
+    "explanation": "L'énonciateur est celui qui produit l'énoncé (« je », « nous ») et le destinataire est celui à qui il s'adresse (« tu », « vous »). Le narrateur et le personnage relèvent du récit, non de la situation d'énonciation.",
+    "tags": [
+      "énonciation",
+      "énonciateur"
+    ]
+  },
+  {
+    "key": "1AS-FR-U2-L3-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U2",
+    "lesson": "L3",
+    "objective": "Choisir l'indicateur de temps adapté à un énoncé ancré dans la situation d'énonciation.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« ____, nous avons visité le barrage ; demain, nous rencontrerons les ingénieurs. » Quel indicateur de temps, lié au moment de l'énonciation, complète la phrase ?",
+    "blanks": [
+      "Hier"
+    ],
+    "bank": [
+      "Hier",
+      "La veille",
+      "Le lendemain",
+      "Ce jour-là",
+      "Autrefois"
+    ],
+    "explanation": "L'énoncé est ancré dans la situation d'énonciation (« nous », « demain ») : le jour précédent se dit « hier ». « La veille » et « ce jour-là » appartiennent au récit coupé de la situation d'énonciation, et « le lendemain » désigne le jour suivant.",
+    "tags": [
+      "énonciation",
+      "indicateurs de temps"
+    ]
+  },
+  {
+    "key": "1AS-FR-U3-L1-0001",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Définir la thèse dans un texte argumentatif.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Dans un texte argumentatif, comment appelle-t-on l'opinion que l'auteur défend ?",
+    "options": [
+      "Le thème",
+      "La thèse",
+      "L'argument",
+      "L'exemple"
+    ],
+    "correct": 1,
+    "explanation": "La thèse est le point de vue que l'auteur soutient tout au long du texte. Le thème est seulement le sujet dont on parle, et les arguments sont les raisons avancées pour défendre la thèse.",
+    "tags": [
+      "argumentation",
+      "thèse"
+    ]
+  },
+  {
+    "key": "1AS-FR-U3-L1-0002",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Distinguer l'exemple de l'argument et de la thèse dans un court paragraphe.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "« Le sport est indispensable aux jeunes. D'abord, il améliore la santé. Ainsi, mon frère, qui court chaque jour, n'est jamais malade. » Quel énoncé constitue l'exemple ?",
+    "options": [
+      "mon frère, qui court chaque jour, n'est jamais malade",
+      "Le sport est indispensable aux jeunes",
+      "il améliore la santé",
+      "D'abord"
+    ],
+    "correct": 0,
+    "explanation": "L'exemple est un fait concret et particulier (le frère qui court) qui illustre l'argument général (« il améliore la santé »). La première phrase est la thèse et « d'abord » est un connecteur d'énumération.",
+    "tags": [
+      "argumentation",
+      "exemple"
+    ]
+  },
+  {
+    "key": "1AS-FR-U3-L1-0003",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Comprendre la relation entre argument et exemple.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Quelle est la différence entre un argument et un exemple ?",
+    "options": [
+      "L'argument est un fait concret ; l'exemple est une idée générale.",
+      "L'argument et l'exemple sont toujours le même énoncé.",
+      "L'argument est une raison générale ; l'exemple est un fait concret qui l'illustre.",
+      "L'exemple exprime la thèse ; l'argument la conclut."
+    ],
+    "correct": 2,
+    "explanation": "L'argument est une raison, une idée générale qui justifie la thèse ; l'exemple est un cas particulier, concret, qui rend l'argument plus convaincant. Inverser les deux est une confusion fréquente.",
+    "tags": [
+      "argumentation",
+      "argument"
+    ]
+  },
+  {
+    "key": "1AS-FR-U3-L1-0004",
+    "type": "MCQ",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Dégager une thèse placée en fin de paragraphe et introduite par un connecteur de conclusion.",
+    "difficulty": "HARD",
+    "language": "fr",
+    "question": "« Les élèves passent des heures devant les écrans. Leur sommeil diminue et leurs résultats baissent. Il faut donc limiter l'usage du téléphone chez les jeunes. » Quelle est la thèse de ce paragraphe ?",
+    "options": [
+      "Les élèves passent des heures devant les écrans.",
+      "Leur sommeil diminue.",
+      "Leurs résultats baissent.",
+      "Il faut limiter l'usage du téléphone chez les jeunes."
+    ],
+    "correct": 3,
+    "explanation": "La thèse est ici placée en conclusion, introduite par « donc » : c'est l'idée que l'auteur veut faire admettre. Les phrases précédentes sont les constats et arguments qui la préparent, et non la thèse elle-même.",
+    "tags": [
+      "argumentation",
+      "thèse"
+    ]
+  },
+  {
+    "key": "1AS-FR-U3-L1-0005",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Rappeler les trois éléments de la structure argumentative.",
+    "difficulty": "EASY",
+    "language": "fr",
+    "question": "Pour défendre sa ____, l'auteur avance des ____ qu'il illustre ensuite par des exemples.",
+    "blanks": [
+      "thèse",
+      "arguments"
+    ],
+    "bank": [
+      "thèse",
+      "arguments",
+      "thème",
+      "exemples",
+      "conclusion",
+      "connecteurs"
+    ],
+    "explanation": "La structure argumentative va de la thèse (point de vue défendu) aux arguments (raisons), puis aux exemples (illustrations). Le thème, lui, n'est que le sujet abordé et ne se défend pas.",
+    "tags": [
+      "argumentation",
+      "structure"
+    ]
+  },
+  {
+    "key": "1AS-FR-U3-L1-0006",
+    "type": "FILL_BLANK",
+    "grade": "1AS",
+    "subject": "FR",
+    "unit": "U3",
+    "lesson": "L1",
+    "objective": "Distinguer thème, thèse et antithèse.",
+    "difficulty": "MEDIUM",
+    "language": "fr",
+    "question": "Le sujet général dont traite un texte argumentatif s'appelle le ____, tandis que la position opposée à celle de l'auteur s'appelle l'____.",
+    "blanks": [
+      "thème",
+      "antithèse"
+    ],
+    "bank": [
+      "thème",
+      "antithèse",
+      "thèse",
+      "argument",
+      "exemple",
+      "hypothèse"
+    ],
+    "explanation": "Le thème est le sujet (par exemple : les réseaux sociaux), la thèse est l'opinion de l'auteur sur ce sujet, et l'antithèse est la thèse adverse que l'auteur peut réfuter. Confondre thème et thèse est l'erreur la plus répandue.",
+    "tags": [
+      "argumentation",
+      "thème"
+    ]
+  }
+]

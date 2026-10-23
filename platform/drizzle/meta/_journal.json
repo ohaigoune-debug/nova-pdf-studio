@@ -183,6 +183,13 @@
       "when": 1792500000000,
       "tag": "0025_upload_batches",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1792600000000,
+      "tag": "0026_madrasadz_play",
+      "breakpoints": true
     }
   ]
 }
