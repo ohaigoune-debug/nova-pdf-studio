@@ -29,6 +29,7 @@ import type { ResourceType } from '@/server/db/schema/enums'
 import { studentIdOf, type Actor } from '@/server/lib/actor'
 import { reachableGroupIds } from '@/server/lib/course-access'
 import { AppError } from '@/server/lib/errors'
+import { PICKER_LEVELS } from '@/lib/levels'
 import { signFileUrl } from '@/server/lib/storage'
 import { bacExclusionClauses, notAttachedSolution, PRACTICE_KINDS, visibleResources } from './library.service'
 import { subjectsFor } from './taxonomy.service'
@@ -77,7 +78,8 @@ export async function browseScope(db: Db, actor: Actor, fromUrl: Partial<Record<
 /** خيارات المرشّحات من البيانات المرجعية والمنهاج القائم (لا تُخترع مواد) */
 export async function browseOptions(db: Db, scope: BrowseScope) {
   const [levelRows, streamRows] = await Promise.all([
-    db.select({ id: levels.id, code: levels.code, name: levels.nameAr }).from(levels).orderBy(asc(levels.sortOrder)),
+    // المتوسط والثانوي فقط (PICKER_LEVELS) — لا الابتدائي — لتخفيف الضجيج البصري
+    db.select({ id: levels.id, code: levels.code, name: levels.nameAr }).from(levels).where(inArray(levels.code, PICKER_LEVELS.map((l) => l.code))).orderBy(asc(levels.sortOrder)),
     scope.levelId
       ? db
           .select({ id: streams.id, code: streams.code, name: streams.nameAr })

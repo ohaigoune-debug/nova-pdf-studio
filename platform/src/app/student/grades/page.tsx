@@ -1,3 +1,4 @@
+import { HubTabs } from '@/components/student/hub-tabs'
 import { GraduationCap } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { EmptyState, PageHeader, PhaseNote } from '@/components/ui/misc'
@@ -12,6 +13,7 @@ export default async function StudentGradesPage() {
   const items = await listStudentGrades(await getDb(), actor)
   return (
     <>
+      <HubTabs hub="progress" />
       <PageHeader title={t('nav.grades')} description="تظهر العلامات بعد اعتمادها من الأستاذ فقط." />
       <PhaseNote phase={5} />
       {items.length === 0 ? (

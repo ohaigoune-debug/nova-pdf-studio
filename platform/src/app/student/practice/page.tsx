@@ -1,3 +1,4 @@
+import { HubTabs } from '@/components/student/hub-tabs'
 import { Dumbbell, Lightbulb, Target, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import { PracticeStartForm } from '@/components/domain/practice-start-form'
@@ -27,6 +28,7 @@ export default async function PracticePage({ searchParams }: { searchParams: Pro
   const rate = overview.totals.answered ? Math.round((overview.totals.correct / overview.totals.answered) * 100) : null
   return (
     <div className="space-y-6">
+      <HubTabs hub="train" />
       <PageHeader title="تدريب ذاتي" description="اختر مادة ودرساً، أجب سؤالاً سؤالاً، واعرف فوراً أين تخطئ." />
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">

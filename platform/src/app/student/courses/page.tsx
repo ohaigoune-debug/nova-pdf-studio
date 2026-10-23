@@ -1,3 +1,4 @@
+import { HubTabs } from '@/components/student/hub-tabs'
 import { BookMarked, Clock, FileText, PlayCircle, Radio, ShoppingBag } from 'lucide-react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
@@ -17,14 +18,10 @@ export default async function StudentCoursesPage() {
   const items = await myCourses(await getDb(), actor)
   return (
     <>
+      <HubTabs hub="courses" />
       <PageHeader
         title="دوراتي"
         description="الدورات التي اشتركت فيها: حصص مباشرة، فيديوهات مسجّلة، ملفات، وقسم افتراضي مع أستاذك."
-        actions={
-          <Button asChild variant="outline" size="sm">
-            <Link href="/student/courses/catalog">كتالوج الدورات</Link>
-          </Button>
-        }
       />
       {items.length === 0 ? (
         <EmptyState

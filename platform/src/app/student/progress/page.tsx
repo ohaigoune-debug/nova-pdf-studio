@@ -1,3 +1,4 @@
+import { HubTabs } from '@/components/student/hub-tabs'
 import { TrendingUp } from 'lucide-react'
 import { NodeProgress } from '@/components/domain/node-progress'
 import { RemediationPlan } from '@/components/domain/remediation-plan'
@@ -22,6 +23,7 @@ export default async function StudentProgressPage() {
   const avgGrade = grades.length ? (grades.reduce((s, g) => s + (Number(g.score) / Number(g.maxScore)) * 20, 0) / grades.length) : null
   return (
     <>
+      <HubTabs hub="progress" />
       <PageHeader title={t('nav.progress')} />
       <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-4">
         <StatCard label={t('dashboard.attendanceRate')} value={percent(profile.attendance.rate)} />

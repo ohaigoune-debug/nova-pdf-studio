@@ -9,7 +9,7 @@ export async function AppShell({ actor, children }: { actor: Actor; children: Re
   const unread = await unreadCount(await getDb(), actor.userId)
   const sections = navFor(actor.role).map((s) => ({
     title: s.title,
-    items: s.items.map((i) => ({ href: i.href, label: i.label, exact: i.exact ?? false, iconKey: i.iconKey }))
+    items: s.items.map((i) => ({ href: i.href, label: i.label, exact: i.exact ?? false, iconKey: i.iconKey, also: i.also ?? [] }))
   }))
   return (
     <ShellClient actor={{ fullName: actor.fullName, email: actor.email, role: actor.role }} sections={sections} unread={unread}>
