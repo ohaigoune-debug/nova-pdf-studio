@@ -1257,7 +1257,7 @@ const ar = {
     course_update: 'عدّل دورة مدفوعة',
     course_status: 'غيّر حالة دورة مدفوعة',
     course_enroll: 'فعّل اشتراك تلميذ في دورة',
-    course_enroll_backfill: 'أنشأ اشتراكات لعضويات قديمة على أفواج الدورات',
+    course_access_migration: 'رحّل عضويات أفواج الدورات إلى اشتراكات صريحة',
     course_revoke: 'ألغى اشتراك تلميذ في دورة',
     course_expire: 'انتهى اشتراك تلميذ في دورة',
     course_terms_accept: 'وافق تلميذ على شروط دورة'

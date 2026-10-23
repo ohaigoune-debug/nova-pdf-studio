@@ -37,6 +37,7 @@ import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { normalizeArabic } from '@/server/lib/arabic'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
+import { CONTENT_MEMBERSHIP_STATUSES, getCourseAccessMode, setCourseAccessMode, type CourseAccessMode } from '@/server/lib/course-access'
 import { signFileUrl } from '@/server/lib/storage'
 import { PLAY_SUBJECTS } from '@/server/play/constants'
 import { notify } from './notifications.service'
@@ -562,26 +563,73 @@ async function deactivateGroupMembership(tx: Db, groupId: string, studentId: str
 }
 
 /** ينهي الاشتراكات النشطة التي تجاوزت تاريخ انتهائها؛ يعيد عددها. يُستدعى من مهمة COURSE_EXPIRY اليومية. */
-/**
- * توافق العضويات القديمة: كل عضوية نشطة على فوج دورة بلا سجل اشتراك (أُنشئت قبل نظام الدورات أو
- * برمز انضمام قبل إغلاق ذلك المسار) تحصل على اشتراك صريح MANUAL حتى آخر يوم للوصول.
- * يشغّله المشرف مرة واحدة بعد النشر (scripts/academy/backfill-enrollments.ts)؛ idempotent، وبلا dry-run لا يكتب.
- */
-export async function backfillCourseEnrollments(db: Db, actor: Actor | null, opts: { dryRun?: boolean } = {}): Promise<{ candidates: { courseId: string; courseTitle: string; studentId: string }[]; created: number }> {
-  if (actor) assertRole(actor, 'SUPER_ADMIN')
-  const candidates = await db
-    .select({ courseId: courses.id, courseTitle: courses.title, studentId: groupStudents.studentId })
+/* ----------------------- إجراء الانتقال إلى الوصول الصارم ----------------------- */
+
+export interface CourseAccessMigrationReport {
+  mode: CourseAccessMode
+  /** عضويات على أفواج الدورات (ACTIVE/SUSPENDED/SUSPENDED_DUE_TO_ABSENCE) بلا أي سجل اشتراك */
+  candidates: { courseId: string; courseTitle: string; studentId: string; membershipStatus: string }[]
+  /** ما أُدرج فعلًا (0 في المحاكاة) */
+  created: number
+  /** ما بقي بلا اشتراك بعد الإدراج (يجب أن يكون 0 قبل التفعيل) */
+  remaining: number
+  strictEnabled: boolean
+}
+
+/** العضويات على أفواج الدورات التي لا سجل اشتراك لها، بحالات الوصول إلى المحتوى (لا تُمسّ حالة العضوية ولا سبب الإيقاف) */
+async function enrollmentGaps(db: Db) {
+  return db
+    .select({ courseId: courses.id, courseTitle: courses.title, studentId: groupStudents.studentId, membershipStatus: groupStudents.status })
     .from(groupStudents)
     .innerJoin(courses, and(eq(courses.groupId, groupStudents.groupId), isNull(courses.deletedAt)))
-    .where(and(eq(groupStudents.status, 'ACTIVE'), sql`not exists (select 1 from ${courseEnrollments} ce where ce.course_id = ${courses.id} and ce.student_id = ${groupStudents.studentId})`))
-  if (opts.dryRun) return { candidates, created: 0 }
-  let created = 0
-  for (const c of candidates) {
-    await enrollStudent(db, actor, { courseId: c.courseId, studentId: c.studentId, source: 'MANUAL' })
-    created++
+    .where(and(inArray(groupStudents.status, [...CONTENT_MEMBERSHIP_STATUSES]), sql`not exists (select 1 from ${courseEnrollments} ce where ce.course_id = ${courses.id} and ce.student_id = ${groupStudents.studentId})`))
+    .orderBy(asc(courses.title))
+}
+
+/**
+ * إجراء الصيانة الصريح للانتقال من النمط legacy إلى strict دون فقد وصول:
+ *   1. يحصر العضويات القديمة على أفواج الدورات بلا اشتراك (ACTIVE والموقوفة بنوعيها).
+ *   2. يدرج لها اشتراكات MANUAL بعبارة INSERT … SELECT … ON CONFLICT DO NOTHING واحدة وذرّية:
+ *      تُعاد فيها الأهلية (الحالة، الدورة غير محذوفة، لا اشتراك) لحظة التنفيذ، ولا يُعدَّل أي اشتراك موجود —
+ *      فاشتراك أُلغي أثناء التنفيذ لا يُعاد تفعيله. لا تُغيَّر حالة العضوية ولا سبب الإيقاف.
+ *   3. يتحقق أن ما بقي بلا اشتراك = 0، وعندها فقط (وبطلب `enableStrict`) يفعّل النمط الصارم.
+ * `dryRun`: قراءة فقط داخل معاملة READ ONLY؛ لا يكتب شيئًا ولا يغيّر النمط.
+ */
+export async function runCourseAccessMigration(db: Db, actor: Actor | null, opts: { dryRun?: boolean; enableStrict?: boolean } = {}): Promise<CourseAccessMigrationReport> {
+  if (actor) assertRole(actor, 'SUPER_ADMIN')
+  const mode = await getCourseAccessMode(db)
+  if (opts.dryRun) {
+    return db.transaction(async (tx) => {
+      await tx.execute(sql`set transaction read only`)
+      const candidates = await enrollmentGaps(tx)
+      return { mode, candidates, created: 0, remaining: candidates.length, strictEnabled: false }
+    })
   }
-  if (actor && created) await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'course.enroll_backfill', entityType: 'course', entityId: null, newValue: { created } })
-  return { candidates, created }
+  return db.transaction(async (tx) => {
+    const candidates = await enrollmentGaps(tx)
+    const byUser = actor?.userId ?? null
+    const inserted = await tx.execute(sql`
+      insert into course_enrollments (course_id, student_id, source, status, activated_at, expires_at, activated_by_user_id)
+      select c.id, gs.student_id, 'MANUAL', 'ACTIVE', now(),
+             -- نفس endOfDayDz: آخر لحظة من اليوم بتوقيت الجزائر (UTC+1)
+             case when c.access_ends_on is null then null else ((c.access_ends_on::timestamp + interval '23:59:59.999') - interval '1 hour') at time zone 'UTC' end,
+             ${byUser}::uuid
+      from group_students gs
+      join courses c on c.group_id = gs.group_id and c.deleted_at is null
+      where gs.status in ('ACTIVE', 'SUSPENDED', 'SUSPENDED_DUE_TO_ABSENCE')
+        and not exists (select 1 from course_enrollments ce where ce.course_id = c.id and ce.student_id = gs.student_id)
+      on conflict (course_id, student_id) do nothing
+    `)
+    const created = Number((inserted as unknown as { rowCount?: number; affectedRows?: number }).rowCount ?? (inserted as unknown as { affectedRows?: number }).affectedRows ?? 0)
+    const remaining = (await enrollmentGaps(tx)).length
+    let strictEnabled = false
+    if (opts.enableStrict && remaining === 0) {
+      await setCourseAccessMode(tx, 'strict')
+      strictEnabled = true
+    }
+    if (actor && (created || strictEnabled)) await writeAudit(tx, { actorUserId: actor.userId, workspaceId: null, action: 'course.access_migration', entityType: 'course', entityId: null, newValue: { created, remaining, strictEnabled } })
+    return { mode: strictEnabled ? 'strict' : mode, candidates, created, remaining, strictEnabled }
+  })
 }
 
 export async function expireDueEnrollments(db: Db, now: Date = new Date()): Promise<number> {

@@ -2,16 +2,16 @@
  * أكاديمية 2027 — اختبارات انحدار: الكتالوج (اكتشاف ≠ وصول)، «دوراتي»، المحتوى المجاني دون فوج،
  * المرشّحات وترتيب المنهاج، والبطاقات الست. قاعدة PGlite في الذاكرة وبيانات وهمية فقط.
  */
-import { eq } from 'drizzle-orm'
+import { and, eq, sql } from 'drizzle-orm'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
-import { courseEnrollments, curriculumNodes, groupStudents, levels, streams, students, subjects } from '@/server/db/schema'
+import { courseEnrollments, curriculumNodes, groupStudents, levels, notifications, streams, students, subjects } from '@/server/db/schema'
 import { seedCurriculum } from '@/server/db/seed-curriculum'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { CATALOG_FORBIDDEN_KEYS, assessmentCards, browseOptions, browseScope, courseLanding, curriculumNodeOptions, listCourseCatalog, listStudentLessonsOrganized, streamFamily } from '@/server/services/academy-catalog.service'
 import { createContent, getContentForStudent, updateContent } from '@/server/services/content.service'
-import { backfillCourseEnrollments, courseHome, createCourse, enrollStudent, linkProduct, myCourses, revokeEnrollment, setCourseStatus } from '@/server/services/courses.service'
+import { runCourseAccessMigration, courseHome, createCourse, endOfDayDz, enrollStudent, linkProduct, myCourses, revokeEnrollment, setCourseStatus } from '@/server/services/courses.service'
 import { uploadFile } from '@/server/services/files.service'
 import { listResourceCards, practiceCounts, publicResourceFile } from '@/server/services/library.service'
 import { resolveMediaAccess } from '@/server/services/media.service'
@@ -19,7 +19,7 @@ import { upsertResource } from '@/server/services/resources.service'
 import { createProduct } from '@/server/services/store.service'
 import { resolveCodes } from '@/server/services/taxonomy.service'
 import { listStudentContent, listStudentFiles } from '@/server/queries/student-extras.queries'
-import { reachableGroupIds } from '@/server/lib/course-access'
+import { getCourseAccessMode, reachableGroupIds, setCourseAccessMode } from '@/server/lib/course-access'
 import { makeAdmin, makeStudent, makeTeacher, setupDb, workspaceIdOfTeacher } from './helpers'
 
 let h: DatabaseHandle
@@ -49,6 +49,8 @@ beforeAll(async () => {
   workspaceId = await workspaceIdOfTeacher(h.db, teacher)
   ids = await resolveCodes(h.db, { level: '3AS', stream: 'SCI', subject: 'ARABIC' })
   expect(ids.levelId && ids.streamId && ids.subjectId).toBeTruthy()
+  // ملف الاختبار هذا يفحص النمط الصارم؛ النمط الافتراضي legacy يُختبر في كتلة الترحيل
+  await setCourseAccessMode(h.db, 'strict')
 
   published = await createCourse(h.db, admin, { title: 'دورة الأدب العربي 2027', description: 'وصف تسويقي', workspaceId, levelId: ids.levelId, subjectId: ids.subjectId, streamIds: [ids.streamId!], season: '2026/2027', priceDzd: 4500, accessEndsOn: '2027-06-30', termsText: '## شروط', status: 'PUBLISHED' })
   draft = await createCourse(h.db, admin, { title: 'دورة مسودة', workspaceId, season: '2026/2027', status: 'DRAFT' })
@@ -369,10 +371,9 @@ describe('مراجعة PR #2 — الملاحظات الأربع', () => {
 })
 
 describe('مراجعة PR #2 (الجولة الثانية)', () => {
-  it('1. عضوية فوج الدورة بلا اشتراك لا تفتح المحتوى؛ رموز الانضمام مغلقة لأفواج الدورات؛ backfill يعالج القديم صراحةً', async () => {
+  it('1. عضوية فوج الدورة بلا اشتراك لا تفتح المحتوى (strict)؛ رموز الانضمام مغلقة لأفواج الدورات', async () => {
     const c = await createCourse(h.db, admin, { title: 'دورة بعضوية قديمة', workspaceId, season: '2026/2027', accessEndsOn: '2027-06-30', status: 'PUBLISHED' })
     const s = await makeStudent(h.db, 'تلميذ بعضوية قديمة')
-    // عضوية مباشرة على فوج الدورة (قديمة) دون أي سجل اشتراك
     await h.db.insert(groupStudents).values({ groupId: c.groupId, studentId: s.studentId!, workspaceId, status: 'ACTIVE' })
     const lesson = await createContent(h.db, teacher, { type: 'LESSON', title: 'درس للدورة القديمة', visibility: 'GROUP_ONLY', groupIds: [c.groupId], body: 'x', publish: true })
     expect(await reachableGroupIds(h.db, s.studentId!)).not.toContain(c.groupId)
@@ -380,7 +381,6 @@ describe('مراجعة PR #2 (الجولة الثانية)', () => {
     await expectCode(() => resolveMediaAccess(h.db, s, lesson.id), 'CONTENT_NOT_FOUND')
     expect((await listStudentContent(h.db, s)).some((x) => x.id === lesson.id)).toBe(false)
 
-    // رمز انضمام عام لفوج الدورة: لا يُولَّد، وإن وُجد (قديم) لا يُستبدل
     const { generateCodes } = await import('@/server/services/enrollment-codes.service')
     const { redeemEnrollmentCode } = await import('@/server/services/enrollment.service')
     await expectCode(() => generateCodes(h.db, teacher, { groupId: c.groupId, count: 1 }), 'COURSE_GROUP_CODE')
@@ -392,28 +392,13 @@ describe('مراجعة PR #2 (الجولة الثانية)', () => {
     const s2 = await makeStudent(h.db, 'تلميذ برمز قديم')
     await expectCode(() => redeemEnrollmentCode(h.db, s2, legacyCode), 'COURSE_GROUP_CODE')
     expect((await h.db.select().from(groupStudents).where(eq(groupStudents.studentId, s2.studentId!))).length).toBe(0)
-
-    // الفوج العادي ما زال يقبل الرموز
     const { createGroup } = await import('@/server/services/groups.service')
     const g = await createGroup(h.db, teacher, { name: 'فوج عادي 2' })
     const codes = await generateCodes(h.db, teacher, { groupId: g.id, count: 1 })
     await redeemEnrollmentCode(h.db, s2, codes.codes[0]!.code)
     expect(await reachableGroupIds(h.db, s2.studentId!)).toContain(g.id)
-
-    // التوافق الصريح: backfill (dry-run لا يكتب، ثم فعلي idempotent) يعيد الوصول للعضوية القديمة
-    const dry = await backfillCourseEnrollments(h.db, admin, { dryRun: true })
-    expect(dry.candidates.map((x) => x.studentId)).toContain(s.studentId)
-    expect(dry.created).toBe(0)
-    expect(await reachableGroupIds(h.db, s.studentId!)).not.toContain(c.groupId)
-    const run = await backfillCourseEnrollments(h.db, admin)
-    expect(run.created).toBeGreaterThanOrEqual(1)
-    expect(await reachableGroupIds(h.db, s.studentId!)).toContain(c.groupId)
-    expect((await getContentForStudent(h.db, s, lesson.slug)).id).toBe(lesson.id)
-    expect((await myCourses(h.db, s)).find((m) => m.id === c.id)?.status).toBe('ACTIVE')
-    expect((await backfillCourseEnrollments(h.db, admin)).created).toBe(0)
-    await expectCode(() => backfillCourseEnrollments(h.db, teacher), 'FORBIDDEN')
+    await expectCode(() => runCourseAccessMigration(h.db, teacher), 'FORBIDDEN')
   })
-
   it('2. البطاقات تستثني البكالوريا الرسمية كما تستثنيها /exams (العدّ = العرض)', async () => {
     const phys = await resolveCodes(h.db, { level: '3AS', subject: 'PHYSICS' })
     await upsertResource(h.db, { sourceCode: 'madrasadz', ref: 'bac-official-2025', title: 'بكالوريا 2025 فيزياء', type: 'EXAM', isOfficial: true, subjectId: phys.subjectId, levelId: phys.levelId, schoolTerm: 3, examYear: 2025, fileUrl: 'https://example.test/bac.pdf' })
@@ -478,5 +463,114 @@ describe('مراجعة PR #2 (الجولة الثانية)', () => {
     const cleared = (await updateContent(h.db, teacher, fixed.id, { curriculumNodeId: null }))!
     expect(cleared.curriculumNodeId).toBeNull()
     expect(cleared.subjectId).toBe(tm.subjectId)
+  })
+})
+
+describe('الترحيل إلى الوصول الصارم (course_access.mode)', () => {
+  it('الترتيب: legacy لا يفقد أحد وصوله؛ المحاكاة للقراءة فقط؛ الإدراج ذرّي ويشمل الموقوفين؛ التفعيل يُرفض ما بقي نقص', async () => {
+    await setCourseAccessMode(h.db, 'legacy')
+    expect(await getCourseAccessMode(h.db)).toBe('legacy')
+    const c = await createCourse(h.db, admin, { title: 'دورة الترحيل', workspaceId, season: '2026/2027', accessEndsOn: '2027-06-30', status: 'PUBLISHED' })
+    const lesson = await createContent(h.db, teacher, { type: 'LESSON', title: 'درس الترحيل', visibility: 'GROUP_ONLY', groupIds: [c.groupId], body: 'x', publish: true })
+    const active = await makeStudent(h.db, 'عضو قديم نشط')
+    const suspended = await makeStudent(h.db, 'عضو قديم موقوف')
+    const absent = await makeStudent(h.db, 'عضو قديم موقوف للغياب')
+    const left = await makeStudent(h.db, 'عضو قديم غادر')
+    const revoked = await makeStudent(h.db, 'اشتراك ملغى سابقًا')
+    await h.db.insert(groupStudents).values([
+      { groupId: c.groupId, studentId: active.studentId!, workspaceId, status: 'ACTIVE' },
+      { groupId: c.groupId, studentId: suspended.studentId!, workspaceId, status: 'SUSPENDED', suspensionReason: 'عدم الدفع' },
+      { groupId: c.groupId, studentId: absent.studentId!, workspaceId, status: 'SUSPENDED_DUE_TO_ABSENCE' },
+      { groupId: c.groupId, studentId: left.studentId!, workspaceId, status: 'LEFT_GROUP' },
+      { groupId: c.groupId, studentId: revoked.studentId!, workspaceId, status: 'ACTIVE' }
+    ])
+    const e = await enrollStudent(h.db, admin, { courseId: c.id, studentId: revoked.studentId!, source: 'MANUAL' })
+    await revokeEnrollment(h.db, admin, e.id, 'ملغى')
+
+    // 4. legacy (قبل الترحيل): العضويات القديمة تصل كما كانت؛ الملغى صراحةً لا يصل
+    for (const st of [active, suspended, absent]) expect((await getContentForStudent(h.db, st, lesson.slug)).id).toBe(lesson.id)
+    await expectCode(() => getContentForStudent(h.db, revoked, lesson.slug), 'CONTENT_NOT_FOUND')
+    await expectCode(() => getContentForStudent(h.db, left, lesson.slug), 'CONTENT_NOT_FOUND')
+
+    // 1. المحاكاة: اتصال بلا هجرات + معاملة للقراءة فقط — لا تكتب شيئًا
+    const ro = await (await import('@/server/db/connect')).createDatabase('pglite://memory', { migrate: false })
+    await expect(ro.db.execute(sql`select 1 from course_enrollments`)).rejects.toBeTruthy() // لا مخطط: لم تُشغَّل الهجرات
+    await ro.close()
+    const before = (await h.db.select().from(courseEnrollments).where(eq(courseEnrollments.courseId, c.id))).length
+    const dry = await runCourseAccessMigration(h.db, admin, { dryRun: true, enableStrict: true })
+    expect(dry.candidates.filter((x) => x.courseId === c.id).map((x) => x.studentId).sort()).toEqual([active.studentId, suspended.studentId, absent.studentId].sort())
+    expect(dry.created).toBe(0)
+    expect(dry.strictEnabled).toBe(false)
+    expect(await getCourseAccessMode(h.db)).toBe('legacy')
+    expect((await h.db.select().from(courseEnrollments).where(eq(courseEnrollments.courseId, c.id))).length).toBe(before)
+    // المعاملة للقراءة فقط ترفض الكتابة فعلًا
+    await expect(
+      h.db.transaction(async (tx) => {
+        await tx.execute(sql`set transaction read only`)
+        await tx.execute(sql`update settings set updated_at = now()`)
+      })
+    ).rejects.toBeTruthy()
+
+    // 3. التنفيذ: إدراج ذرّي بلا enrollStudent — الملغى لا يُعاد تفعيله، والعضوية لا تتغيّر
+    const run = await runCourseAccessMigration(h.db, admin)
+    expect(run.created).toBeGreaterThanOrEqual(3)
+    expect(run.remaining).toBe(0)
+    const rows = await h.db.select().from(courseEnrollments).where(eq(courseEnrollments.courseId, c.id))
+    const byStudent = new Map(rows.map((r) => [r.studentId, r]))
+    for (const st of [active, suspended, absent]) {
+      const r = byStudent.get(st.studentId!)!
+      expect(r.status).toBe('ACTIVE')
+      expect(r.source).toBe('MANUAL')
+      expect(r.expiresAt?.toISOString()).toBe(endOfDayDz('2027-06-30').toISOString())
+      expect(r.activatedByUserId).toBe(admin.userId)
+    }
+    expect(byStudent.get(revoked.studentId!)!.status).toBe('REVOKED') // لم يُمسّ
+    expect(byStudent.has(left.studentId!)).toBe(false) // غادر: ليس من حالات الوصول
+    const [gsSusp] = await h.db.select().from(groupStudents).where(and(eq(groupStudents.groupId, c.groupId), eq(groupStudents.studentId, suspended.studentId!)))
+    expect(gsSusp!.status).toBe('SUSPENDED')
+    expect(gsSusp!.suspensionReason).toBe('عدم الدفع')
+    // لا إشعار: ليس تفعيلًا جديدًا
+    const n = await h.db.select().from(notifications).where(eq(notifications.userId, active.userId))
+    expect(n.some((x) => x.type === 'ENROLLED')).toBe(false)
+    expect((await runCourseAccessMigration(h.db, admin)).created).toBe(0) // idempotent
+
+    // 2. بعد التفعيل الصارم: الموقوفون ما زالوا يصلون إلى الدروس (عضويتهم لم تتغيّر)، والملغى لا
+    const en = await runCourseAccessMigration(h.db, admin, { enableStrict: true })
+    expect(en.strictEnabled).toBe(true)
+    expect(await getCourseAccessMode(h.db)).toBe('strict')
+    for (const st of [active, suspended, absent]) expect((await getContentForStudent(h.db, st, lesson.slug)).id).toBe(lesson.id)
+    await expectCode(() => getContentForStudent(h.db, revoked, lesson.slug), 'CONTENT_NOT_FOUND')
+
+    // 4. عضوية جديدة بلا اشتراك ⇒ التفعيل الصارم يُرفض حتى تُرحَّل، ثم يُقبل
+    await setCourseAccessMode(h.db, 'legacy')
+    const late = await makeStudent(h.db, 'عضو متأخر')
+    await h.db.insert(groupStudents).values({ groupId: c.groupId, studentId: late.studentId!, workspaceId, status: 'ACTIVE' })
+    expect((await getContentForStudent(h.db, late, lesson.slug)).id).toBe(lesson.id) // legacy
+    const probe = await runCourseAccessMigration(h.db, admin, { dryRun: true, enableStrict: true })
+    expect(probe.remaining).toBe(1)
+    expect(await getCourseAccessMode(h.db)).toBe('legacy')
+    const fin = await runCourseAccessMigration(h.db, admin, { enableStrict: true })
+    expect(fin.created).toBe(1)
+    expect(fin.remaining).toBe(0)
+    expect(fin.strictEnabled).toBe(true)
+    expect((await getContentForStudent(h.db, late, lesson.slug)).id).toBe(lesson.id)
+  })
+
+  it('3. إلغاء أثناء التنفيذ: الإدراج لا يلمس اشتراكًا موجودًا ولا يعيد تفعيل الملغى', async () => {
+    const c = await createCourse(h.db, admin, { title: 'دورة السباق', workspaceId, season: '2026/2027', status: 'PUBLISHED' })
+    const s = await makeStudent(h.db, 'تلميذ أُلغي اشتراكه أثناء الترحيل')
+    await h.db.insert(groupStudents).values({ groupId: c.groupId, studentId: s.studentId!, workspaceId, status: 'ACTIVE' })
+    const dry = await runCourseAccessMigration(h.db, admin, { dryRun: true })
+    expect(dry.candidates.some((x) => x.courseId === c.id && x.studentId === s.studentId)).toBe(true)
+    // يُفعَّل ويُلغى بين المحاكاة والتنفيذ (سباق): الإدراج يعيد التحقق لحظة التنفيذ ولا يعدّل الموجود
+    const e = await enrollStudent(h.db, admin, { courseId: c.id, studentId: s.studentId!, source: 'MANUAL' })
+    await revokeEnrollment(h.db, admin, e.id, 'إلغاء أثناء الترحيل')
+    const run = await runCourseAccessMigration(h.db, admin)
+    expect(run.candidates.some((x) => x.courseId === c.id)).toBe(false)
+    const [row] = await h.db.select().from(courseEnrollments).where(and(eq(courseEnrollments.courseId, c.id), eq(courseEnrollments.studentId, s.studentId!)))
+    expect(row!.status).toBe('REVOKED')
+    expect(row!.revokedReason).toBe('إلغاء أثناء الترحيل')
+    expect(await reachableGroupIds(h.db, s.studentId!)).not.toContain(c.groupId)
+    await setCourseAccessMode(h.db, 'strict')
   })
 })

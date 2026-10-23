@@ -37,9 +37,10 @@
 | `src/server/db/schema/content.ts` | عمودان اختياريان `subject_id`, `curriculum_node_id` + فهرسان. |
 | `src/server/services/content.service.ts` | `ContentInput.subjectId/curriculumNodeId` في الإنشاء والتحديث. |
 | `drizzle/0029_content_curriculum.sql` + `drizzle/down/…` + `meta/_journal.json` | الهجرة الإضافية (IF NOT EXISTS) وسكربت التراجع. |
-| `tests/academy-catalog.test.ts` (جديد) | 23 اختبار انحدار (15 + 4 + 4 لجولتي المراجعة). |
+| `tests/academy-catalog.test.ts` (جديد) | 25 اختبار انحدار (15 + 4 + 4 + 2 لجولات المراجعة). |
+| `src/server/db/connect.ts` | خيار `{ migrate: false }` لأدوات الصيانة. |
 | `enrollment.service.ts`, `enrollment-codes.service.ts`, `lib/errors.ts`, `i18n/ar.ts` | إغلاق رموز الانضمام لأفواج الدورات (`COURSE_GROUP_CODE`). |
-| `courses.service.ts` (`backfillCourseEnrollments`), `scripts/academy/backfill-enrollments.ts` | توافق العضويات القديمة صراحةً (يدوي، idempotent، dry-run). |
+| `courses.service.ts` (`runCourseAccessMigration`), `lib/course-access.ts` (النمطان + الإعداد), `scripts/academy/backfill-enrollments.ts` | إجراء الانتقال الصريح: محاكاة للقراءة فقط، إدراج ذرّي، تحقق، ثم تفعيل strict. |
 | `src/server/lib/course-access.ts` (جديد) | `reachableGroupIds`/`noExpiredCourseOn`: استبعاد فوج الدورة عند كل طلب إن كان الاشتراك غير نشط أو منتهي التاريخ. |
 | `content.service.ts`, `media.service.ts`, `student-extras.queries.ts`, `skills.service.ts`, `library.service.ts` (`visibleResources`) | كل بوابات الدرس/الوسائط/الملفات/الموارد تمرّ عبر `reachableGroupIds`/`noExpiredCourseOn`. |
 | `src/components/domain/content-form.tsx`, `content.actions.ts`, `teacher-form-options.ts`, `teacher/content/{new,[id]/edit}` | واجهة الأستاذ: اختيار المادة وموضع الدرس في المنهاج (مسار كامل «وحدة › فصل › درس»، مرشّح بالمستوى/المادة/الشعبة). |
@@ -71,6 +72,19 @@
 3. **منتقي المنهاج**: خيارات الشعب تحمل `parentId`، والنموذج يرشّح العقد بعائلة الشعبة (الفرع + الأم) كما في واجهة التلميذ.
 4. **اتساق التصنيف**: `reconcileClassification` في `createContent`/`updateContent`: العقدة تحدّد المادة والمستوى (تُملآن إن غابا، تُرفضان إن خالفتاها)، وشعبة الدرس يجب أن تكون شعبة العقدة أو فرعًا منها؛ يُطبَّق على الحالة الناتجة عند التعديل.
 
+### 4-د. ملاحظات الترحيل (الجولة الثالثة) — عولجت كلها
+الوصول إلى فوج الدورة صار بنمطين يحدّدهما إعداد `course_access.mode` في جدول `settings` (يُقرأ داخل شرط SQL نفسه في `hasCourseAccessOn`):
+- **`legacy`** (الافتراضي عند غياب الإعداد = حال الإنتاج بعد النشر): عضوية الفوج تكفي ما لم يوجد اشتراك ملغى/منتهٍ أو مضى تاريخه. **لا أحد يفقد وصولًا كان له.**
+- **`strict`**: يلزم اشتراك `ACTIVE` غير منتهٍ عند كل طلب.
+
+الإجراء الصريح `runCourseAccessMigration(db, actor, { dryRun, enableStrict })` في `courses.service.ts` + السكربت `scripts/academy/backfill-enrollments.ts`:
+1. **`--dry-run`**: `createDatabase(url, { migrate: false })` (لا هجرات) + معاملة `SET TRANSACTION READ ONLY`؛ يحصر المرشّحين فقط. الاختبار يثبت أن الاتصال بلا هجرات لا يحمل مخططًا، وأن المعاملة للقراءة فقط ترفض الكتابة، وأن المحاكاة لا تغيّر صفًا ولا النمط.
+2. **المرشّحون** = عضويات على أفواج الدورات بحالات `ACTIVE` و`SUSPENDED` و`SUSPENDED_DUE_TO_ABSENCE` بلا أي سجل اشتراك. لا تُمسّ حالة العضوية ولا سبب الإيقاف (اختبار يتحقق من بقاء `SUSPENDED` و`suspensionReason`).
+3. **الإدراج ذرّي**: عبارة `INSERT … SELECT … WHERE NOT EXISTS … ON CONFLICT DO NOTHING` واحدة تعيد التحقق من الأهلية لحظة التنفيذ ولا تعدّل أي اشتراك موجود — لا `enrollStudent`، لا إشعارات، لا سجل زمني. اختبار السباق: اشتراك فُعِّل ثم أُلغي بين المحاكاة والتنفيذ يبقى `REVOKED` بسببه.
+4. **الترتيب**: نشر (legacy) → `--dry-run` → تنفيذ → `--enable-strict` الذي يُدرج ما استجدّ ويتحقق أن المتبقي بلا اشتراك = 0 **وعندها فقط** يبدّل النمط إلى strict؛ وإلا يبقى legacy ويطبع المتبقي. اختبار يغطي السيناريو كاملًا بما فيه عضوية تظهر متأخرة.
+
+**لم يُنفَّذ الترحيل الحقيقي ولم يُتصل بالإنتاج.** `tests/academy-catalog.test.ts` يضبط النمط strict في `beforeAll` لأن معظم اختباراته تفحص الحماية الصارمة؛ بقية الحزمة تعمل بالنمط الافتراضي legacy.
+
 ## 5. أوامر التحقق ونتائجها الحقيقية (بيئة معزولة، PGlite في الذاكرة)
 
 ```
@@ -88,7 +102,7 @@ DATABASE_URL=pglite://memory SESSION_SECRET=… QR_TOKEN_SECRET=… npx next bui
 
 ## 7. المخاطر والعوائق والمتبقي
 
-- **بعد النشر**: تشغيل `scripts/academy/backfill-enrollments.ts --dry-run` ثم بلا `--dry-run` مرة واحدة (بعد نسخة احتياطية) حتى لا يفقد أصحاب العضويات القديمة على أفواج الدورات الوصول؛ قبل ذلك سيُحجَبون بتصميم البوابة الجديدة.
+- **بعد النشر (بموافقة المالك وبعد نسخة احتياطية)**: `backfill-enrollments.ts --dry-run` → بلا خيارات → `--enable-strict`. حتى تفعيل strict يبقى النمط legacy فلا يُحجب أحد؛ وبعد التفعيل تُحجب العضويات التي بلا اشتراك فقط (ولا توجد عندها لأن التفعيل مشروط بالمتبقي = 0).
 - قائمة المستويات في المنتقي تعرض كل الصفوف في `levels` (12 صفًا بعد زرع المنهاج)؛ يمكن حصرها بـ `PICKER_LEVELS` لاحقًا.
 - صورة غلاف الدورة في الكتالوج رابط موقّع مؤقّت (كما في «دوراتي»)؛ ليست محتوى خاصًا.
 - لم يُنفَّذ: مركز التكاملات (Zoom/Bunny/CIBWEB/التوصيل/SMS) — فُحص الموجود فقط: `live.service.ts` (Zoom)، `lib/bunny.ts` + `/admin/settings/video`، `delivery.service.ts` (webhook)، `otp.service.ts` + `lib/sms.ts`، `claims.service.ts`. نقاط التوافق: التفعيل يمرّ كله عبر `enrollStudent` (idempotent) فأي بوابة دفع جديدة تستدعيها بعد التأكيد؛ الإحصائيات يمكن بناؤها على `course_enrollments` + `audit_log`.

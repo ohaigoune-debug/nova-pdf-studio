@@ -1,24 +1,30 @@
 /**
- * توافق العضويات القديمة على أفواج الدورات: ينشئ اشتراكًا صريحًا (MANUAL) لكل عضوية نشطة بلا سجل اشتراك،
- * لأن الوصول إلى محتوى الدورة صار يشترط اشتراكًا نشطًا عند كل طلب (lib/course-access.ts).
+ * إجراء الانتقال إلى الوصول الصارم لأفواج الدورات (course_access.mode: legacy → strict) دون فقد وصول.
  *
- *   npx tsx scripts/academy/backfill-enrollments.ts --dry-run   → يعدّ ويطبع المرشّحين فقط، بلا كتابة
- *   npx tsx scripts/academy/backfill-enrollments.ts             → ينفّذ (idempotent)
+ * الترتيب الصحيح:
+ *   1. النشر بالنمط الافتراضي legacy (لا يفقد أحد وصولًا كان له).
+ *   2. npx tsx scripts/academy/backfill-enrollments.ts --dry-run      → محاكاة: اتصال بلا هجرات + معاملة للقراءة فقط
+ *   3. npx tsx scripts/academy/backfill-enrollments.ts                → إدراج ذرّي للاشتراكات الناقصة (idempotent)
+ *   4. npx tsx scripts/academy/backfill-enrollments.ts --enable-strict → إدراج ما استجدّ + تحقق (المتبقي = 0) + تفعيل strict
  *
- * يُشغَّل مرة واحدة بعد نشر هذه الدفعة وبعد نسخة احتياطية، بموافقة المالك. لا يُشغَّل تلقائيًا.
+ * لا يعدّل أي اشتراك موجود، ولا حالة أي عضوية. يُشغَّل يدويًا بموافقة المالك وبعد نسخة احتياطية.
  */
 import { createDatabase } from '@/server/db/connect'
-import { backfillCourseEnrollments } from '@/server/services/courses.service'
+import { runCourseAccessMigration } from '@/server/services/courses.service'
 
 async function main() {
   const dryRun = process.argv.includes('--dry-run')
+  const enableStrict = process.argv.includes('--enable-strict')
   const url = process.env.DATABASE_URL
   if (!url) throw new Error('DATABASE_URL غير محدّد')
-  const handle = await createDatabase(url)
+  // بلا هجرات: أداة صيانة لا تغيّر المخطط، والمحاكاة لا تكتب شيئًا
+  const handle = await createDatabase(url, { migrate: false })
   try {
-    const r = await backfillCourseEnrollments(handle.db, null, { dryRun })
-    for (const c of r.candidates) console.log(`${dryRun ? 'سيُفعَّل' : 'فُعِّل'}: ${c.courseTitle} ← ${c.studentId}`)
-    console.log(`${r.candidates.length} عضوية بلا اشتراك — ${dryRun ? 'تجربة بلا كتابة' : `أُنشئ ${r.created} اشتراكًا`}`)
+    const r = await runCourseAccessMigration(handle.db, null, { dryRun, enableStrict })
+    console.log(`النمط الحالي: ${r.mode}`)
+    for (const c of r.candidates) console.log(`${dryRun ? 'سيُدرج' : 'أُدرج'}: ${c.courseTitle} ← ${c.studentId} (${c.membershipStatus})`)
+    console.log(`${r.candidates.length} عضوية بلا اشتراك — ${dryRun ? 'محاكاة بلا كتابة' : `أُدرج ${r.created} اشتراكًا`} — المتبقي: ${r.remaining}`)
+    if (enableStrict) console.log(r.strictEnabled ? 'تم تفعيل النمط الصارم (strict).' : `لم يُفعَّل النمط الصارم: بقيت ${r.remaining} عضوية بلا اشتراك.`)
   } finally {
     await handle.close()
   }

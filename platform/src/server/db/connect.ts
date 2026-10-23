@@ -19,7 +19,9 @@ const MIGRATIONS_FOLDER = path.join(process.cwd(), 'drizzle')
  * ينشئ اتصالاً ويطبّق الـMigrations.
  * PGlite: دائماً (آمن ومتكرر). Postgres: فقط إذا AUTO_MIGRATE=1 أو في الاختبارات.
  */
-export async function createDatabase(url: string): Promise<DatabaseHandle> {
+/** `migrate: false` = اتصال بلا تشغيل الهجرات (أدوات الصيانة والمحاكاة للقراءة فقط) */
+export async function createDatabase(url: string, opts: { migrate?: boolean } = {}): Promise<DatabaseHandle> {
+  const runMigrations = opts.migrate ?? true
   if (url.startsWith('pglite://')) {
     const target = url.slice('pglite://'.length)
     const { PGlite } = await import('@electric-sql/pglite')
@@ -35,7 +37,7 @@ export async function createDatabase(url: string): Promise<DatabaseHandle> {
       client = new PGlite(dir)
     }
     const db = drizzle(client, { schema })
-    await migrate(db, { migrationsFolder: MIGRATIONS_FOLDER })
+    if (runMigrations) await migrate(db, { migrationsFolder: MIGRATIONS_FOLDER })
     return {
       db: db as unknown as Db,
       kind: 'pglite',
@@ -48,7 +50,7 @@ export async function createDatabase(url: string): Promise<DatabaseHandle> {
   const { migrate } = await import('drizzle-orm/node-postgres/migrator')
   const pool = new Pool({ connectionString: url, max: Number(process.env.DATABASE_POOL_MAX ?? 10) })
   const db = drizzle(pool, { schema })
-  if (process.env.AUTO_MIGRATE === '1' || process.env.NODE_ENV === 'test') {
+  if (runMigrations && (process.env.AUTO_MIGRATE === '1' || process.env.NODE_ENV === 'test')) {
     await migrate(db, { migrationsFolder: MIGRATIONS_FOLDER })
   }
   return {
