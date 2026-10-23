@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ثنائيا القطب RC وRL</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">3 ثانوي · العلوم الفيزيائية · علوم تجريبية / رياضيات / تقني رياضي · الوحدة 3: الظواهر الكهربائية · الدرس 1</div>
+<h1>ثنائيا القطب RC وRL</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تدرس شحن وتفريغ مكثفة في ثنائي القطب RC، وتطور شدة التيار في ثنائي القطب RL، وأن تعيّن ثابت الزمن وتحسب الطاقة المخزنة.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المكثفة تعارض التغير المفاجئ للتوتر بين طرفيها، والوشيعة تعارض التغير المفاجئ لشدة التيار. لذلك يمر كل منهما بنظام انتقالي أُسّي مدته المميزة ثابت الزمن τ قبل بلوغ النظام الدائم.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<line x1="60" y1="145" x2="510" y2="145" stroke="#1f2937" stroke-width="1.5"/><line x1="60" y1="145" x2="60" y2="15" stroke="#1f2937" stroke-width="1.5"/>
+<text x="505" y="165" text-anchor="end">t</text><text x="30" y="25">u<tspan font-size="11" dy="3">C</tspan></text>
+<line x1="60" y1="35" x2="510" y2="35" stroke="#a16207" stroke-dasharray="5 4"/><text x="40" y="40" text-anchor="middle" fill="#a16207">E</text>
+<path d="M60 145 C 110 70, 180 42, 505 36" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<line x1="60" y1="145" x2="140" y2="35" stroke="#c2410c" stroke-dasharray="4 3"/>
+<line x1="140" y1="35" x2="140" y2="145" stroke="#15803d" stroke-dasharray="4 3"/><text x="140" y="162" text-anchor="middle" fill="#15803d">τ</text>
+<line x1="60" y1="76" x2="140" y2="76" stroke="#15803d" stroke-dasharray="2 3"/><text x="160" y="80" fill="#15803d">0,63 E</text>
+<text x="300" y="100">u<tspan font-size="11" dy="3">C</tspan><tspan dy="-3"> = E(1 − e</tspan><tspan font-size="11" dy="-6">−t/τ</tspan><tspan dy="6">)</tspan></text>
+</svg><figcaption>الشكل 1: شحن مكثفة: يُعيَّن τ بقطع المماس عند المبدأ مع المستقيم <bdi dir="ltr">u<sub>C</sub> = E</bdi>، أو عند <bdi dir="ltr">0,63E</bdi>.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المكثفة:</span> <bdi dir="ltr">q = C·u<sub>C</sub></bdi> و<bdi dir="ltr">i = dq/dt = C·du<sub>C</sub>/dt</bdi>.</li>
+<li><span class="k">الشحن في RC:</span> <bdi dir="ltr">du<sub>C</sub>/dt + u<sub>C</sub>/(RC) = E/(RC)</bdi>، وحلها <bdi dir="ltr">u<sub>C</sub> = E(1 − e<sup>−t/τ</sup>)</bdi> مع <bdi dir="ltr">τ = RC</bdi>.</li>
+<li><span class="k">التفريغ:</span> <bdi dir="ltr">u<sub>C</sub> = E·e<sup>−t/τ</sup></bdi>؛ عند <bdi dir="ltr">t = τ</bdi> يبقى <bdi dir="ltr">37 %</bdi> من E.</li>
+<li><span class="k">الوشيعة:</span> <bdi dir="ltr">u<sub>L</sub> = L·di/dt + r·i</bdi>، وفي RL: <bdi dir="ltr">i = I<sub>0</sub>(1 − e<sup>−t/τ</sup>)</bdi> مع <bdi dir="ltr">τ = L/(R + r)</bdi> و<bdi dir="ltr">I<sub>0</sub> = E/(R + r)</bdi>.</li>
+<li><span class="k">النظام الدائم</span> يُعتبر مُدرَكاً عملياً بعد <bdi dir="ltr">t ≈ 5τ</bdi>.</li>
+<li><span class="k">الطاقة المخزنة:</span> <bdi dir="ltr">E<sub>C</sub> = ½·C·u<sub>C</sub><sup>2</sup></bdi> في المكثفة، و<bdi dir="ltr">E<sub>L</sub> = ½·L·i<sup>2</sup></bdi> في الوشيعة.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li><bdi dir="ltr">R = 1 kΩ</bdi>، <bdi dir="ltr">C = 100 µF</bdi>، <bdi dir="ltr">E = 10 V</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">τ = 10<sup>3</sup>×10<sup>−4</sup> = 0,1 s</bdi>، و<bdi dir="ltr">u<sub>C</sub>(τ) ≈ 6,3 V</bdi>، والطاقة في النهاية <bdi dir="ltr">½×10<sup>−4</sup>×100 = 5×10<sup>−3</sup> J</bdi>.</li>
+<li>وشيعة <bdi dir="ltr">L = 0,2 H</bdi> مع <bdi dir="ltr">R + r = 20 Ω</bdi> و<bdi dir="ltr">E = 12 V</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">τ = 0,2/20 = 0,01 s</bdi>، و<bdi dir="ltr">I<sub>0</sub> = 12/20 = 0,6 A</bdi>، و<bdi dir="ltr">E<sub>L</sub> = ½×0,2×0,36 = 0,036 J</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>نسيان مقاومة الوشيعة r في عبارة τ وفي <bdi dir="ltr">I<sub>0</sub></bdi>.</li>
+<li>الاعتقاد أن التوتر بين طرفي المكثفة أو شدة التيار في الوشيعة يقفز لحظياً: كلاهما مستمر.</li>
+<li>الخطأ في التحويل: <bdi dir="ltr">1 µF = 10<sup>−6</sup> F</bdi> و<bdi dir="ltr">1 mH = 10<sup>−3</sup> H</bdi>.</li>
+<li>عدم إثبات أن τ متجانس مع الزمن عند طلب التحليل البُعدي.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>RC: <bdi dir="ltr">τ = RC</bdi>، الكمية المستمرة <bdi dir="ltr">u<sub>C</sub></bdi>.</li>
+<li>RL: <bdi dir="ltr">τ = L/(R + r)</bdi>، الكمية المستمرة i.</li>
+<li>عند τ: <bdi dir="ltr">63 %</bdi> من القيمة النهائية (شحن/إقامة).</li>
+<li>النظام الدائم بعد <bdi dir="ltr">5τ</bdi> تقريباً.</li>
+<li><bdi dir="ltr">½·C·u<sup>2</sup></bdi> و<bdi dir="ltr">½·L·i<sup>2</sup></bdi>.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/PHYS">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=PHYS">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>
