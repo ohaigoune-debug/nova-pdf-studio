@@ -80,5 +80,5 @@ DATABASE_URL=pglite://memory SESSION_SECRET=… QR_TOKEN_SECRET=… npx next bui
 ## 8. النتيجة
 
 - الفرع: `codex/academy-course-catalog-2027`
-- الـ SHA النهائي: انظر PR
-- PR: انظر الرابط في التقرير الختامي (Draft، لا دمج ولا نشر).
+- الـ SHA النهائي: `d9ece5d66d57027c9b64271b4f37a7073a422ed5` (قبل هذا التحديث للوثيقة)
+- PR (Draft، لا دمج ولا نشر): https://github.com/ohaigoune-debug/nova-pdf-studio/pull/2
