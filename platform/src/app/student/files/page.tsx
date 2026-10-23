@@ -1,4 +1,5 @@
 import { FolderOpen } from 'lucide-react'
+import Link from 'next/link'
 import { EmptyState, PageHeader } from '@/components/ui/misc'
 import { signFileUrl } from '@/server/lib/storage'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -7,13 +8,14 @@ import { formatDate } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listStudentFiles } from '@/server/queries/student-extras.queries'
+import { isRawDownloadAllowed } from '@/server/lib/download-policy'
 
 export default async function StudentFilesPage() {
   const actor = await requirePageActor('STUDENT')
   const items = await listStudentFiles(await getDb(), actor)
   return (
     <>
-      <PageHeader title={t('nav.files')} description="الملفات المرفقة بالدروس المتاحة لك. الروابط موقّعة وتنتهي بعد 10 دقائق." />
+      <PageHeader title={t('nav.files')} description="الملفات المرفقة بالدروس المتاحة لك. ملفات PDF والفيديو المحمية تُفتح داخل المنصة؛ وروابط التنزيل موقّعة وتنتهي بعد 10 دقائق." />
       {items.length === 0 ? (
         <EmptyState icon={FolderOpen} title="لا توجد ملفات مشتركة معك بعد." />
       ) : (
@@ -36,9 +38,15 @@ export default async function StudentFilesPage() {
                 <TableCell>{tEnum('contentTypes', f.type)}</TableCell>
                 <TableCell>{formatDate(f.publishedAt)}</TableCell>
                 <TableCell className="text-end">
-                  <a href={signFileUrl(f.fileId)} target="_blank" rel="noreferrer" className="text-sm text-primary hover:underline">
-                    {t('filesMgmt.download')}
-                  </a>
+                  {isRawDownloadAllowed(f) ? (
+                    <a href={signFileUrl(f.fileId)} target="_blank" rel="noreferrer" className="text-sm text-primary hover:underline">
+                      {t('filesMgmt.download')}
+                    </a>
+                  ) : (
+                    <Link href={`/student/lessons/${f.slug}`} className="text-sm text-primary hover:underline">
+                      فتح داخل المنصة
+                    </Link>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

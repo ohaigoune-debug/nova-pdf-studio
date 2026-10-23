@@ -183,6 +183,27 @@
       "when": 1792500000000,
       "tag": "0025_upload_batches",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1792600000000,
+      "tag": "0026_madrasadz_play",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1792700000000,
+      "tag": "0027_academy",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1792800000000,
+      "tag": "0028_bunny_provider",
+      "breakpoints": true
     }
   ]
 }

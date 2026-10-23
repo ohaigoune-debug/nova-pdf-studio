@@ -1,5 +1,6 @@
 import { AboutSettingsForm } from '@/components/domain/about-settings-form'
 import { ChangePasswordCard } from '@/components/domain/change-password-card'
+import { StoreSmsSettings } from '@/components/domain/store-sms-settings'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/misc'
 import { t } from '@/i18n'
@@ -7,16 +8,19 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listSettings } from '@/server/queries/admin-extras.queries'
 import { getAboutSettings } from '@/server/services/about.service'
+import { smsStatus } from '@/server/lib/sms'
+import { storePolicy } from '@/server/services/store.service'
 
 export default async function AdminSettingsPage() {
   const actor = await requirePageActor('SUPER_ADMIN')
   const db = await getDb()
-  const [settings, about] = await Promise.all([listSettings(db, actor), getAboutSettings(db)])
+  const [settings, about, policy, sms] = await Promise.all([listSettings(db, actor), getAboutSettings(db), storePolicy(db), smsStatus(db)])
   const env: [string, string][] = [
     ['DATABASE_URL', (process.env.DATABASE_URL ?? 'pglite://./data/pglite').replace(/:\/\/.*@/, '://***@')],
     ['QR_TOKEN_TTL_SECONDS', process.env.QR_TOKEN_TTL_SECONDS ?? '60'],
     ['AI_PROVIDER', process.env.AI_PROVIDER ?? 'mock'],
     ['MAIL_PROVIDER', process.env.MAIL_PROVIDER ?? 'console'],
+    ['SMS_PROVIDER', process.env.SMS_PROVIDER ?? 'console'],
     ['STORAGE_DRIVER', process.env.STORAGE_DRIVER ?? 'local'],
     ['JOBS_INLINE_WORKER', process.env.JOBS_INLINE_WORKER === '0' ? 'off' : 'on'],
     ['CRON_SECRET', process.env.CRON_SECRET ? 'set' : 'unset'],
@@ -37,6 +41,9 @@ export default async function AdminSettingsPage() {
           </CardContent>
         </Card>
         <ChangePasswordCard />
+      </div>
+      <div className="mb-6">
+        <StoreSmsSettings policy={policy} sms={sms} />
       </div>
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
@@ -69,7 +76,7 @@ export default async function AdminSettingsPage() {
                   <div key={s.key} className="flex justify-between gap-4 border-b py-1 last:border-0">
                     <dt className="font-mono text-xs">{s.key}</dt>
                     <dd className="truncate font-mono text-xs" dir="ltr">
-                      {JSON.stringify(s.value)}
+                      {typeof s.value === 'object' && s.value !== null && 'key' in s.value ? `{sealed · …${String((s.value as { hint?: string }).hint ?? '')}}` : JSON.stringify(s.value)}
                     </dd>
                   </div>
                 ))}

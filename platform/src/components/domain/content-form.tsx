@@ -28,6 +28,7 @@ export interface ContentFormDefaults {
   studentIds?: string[]
   videoProvider?: string | null
   youtubeId?: string | null
+  bunnyVideoId?: string | null
   allowDownload?: boolean
 }
 
@@ -48,7 +49,7 @@ export function ContentForm({ contentId, defaults = {}, groups, students, levels
   const [state, formAction] = useActionState(action, null)
   const [visibility, setVisibility] = useState(defaults.visibility ?? 'STUDENTS_ONLY')
   const [type, setType] = useState(defaults.type ?? 'LESSON')
-  const [videoProvider, setVideoProvider] = useState<'YOUTUBE' | 'UPLOAD'>(defaults.videoProvider === 'UPLOAD' ? 'UPLOAD' : 'YOUTUBE')
+  const [videoProvider, setVideoProvider] = useState<'YOUTUBE' | 'UPLOAD' | 'BUNNY'>(defaults.videoProvider === 'UPLOAD' ? 'UPLOAD' : defaults.videoProvider === 'BUNNY' ? 'BUNNY' : 'YOUTUBE')
   const videoFiles = files.filter((f) => f.mimeType?.startsWith('video/'))
   const pdfFiles = files.filter((f) => f.mimeType === 'application/pdf')
   return (
@@ -85,10 +86,18 @@ export function ContentForm({ contentId, defaults = {}, groups, students, levels
               <input type="radio" name="videoProvider" value="UPLOAD" checked={videoProvider === 'UPLOAD'} onChange={() => setVideoProvider('UPLOAD')} className="size-4" />
               {t('contentMgmt.videoUpload')}
             </label>
+            <label className="flex items-center gap-2">
+              <input type="radio" name="videoProvider" value="BUNNY" checked={videoProvider === 'BUNNY'} onChange={() => setVideoProvider('BUNNY')} className="size-4" />
+              {t('contentMgmt.videoBunny')}
+            </label>
           </div>
           {videoProvider === 'YOUTUBE' ? (
             <Field label={t('contentMgmt.youtubeUrl')} htmlFor="youtubeUrl" hint={t('contentMgmt.youtubeHint')} error={fieldError(state, 'youtubeUrl')}>
               <Input id="youtubeUrl" name="youtubeUrl" defaultValue={defaults.externalUrl ?? ''} dir="ltr" placeholder="https://www.youtube.com/watch?v=…" required />
+            </Field>
+          ) : videoProvider === 'BUNNY' ? (
+            <Field label={t('contentMgmt.bunnyVideoId')} htmlFor="bunnyVideoId" hint={t('contentMgmt.bunnyVideoIdHint')} error={fieldError(state, 'bunnyVideoId')}>
+              <Input id="bunnyVideoId" name="bunnyVideoId" defaultValue={defaults.bunnyVideoId ?? ''} dir="ltr" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" required />
             </Field>
           ) : (
             <Field label={t('contentMgmt.videoFile')} htmlFor="fileId" hint={t('contentMgmt.videoFileHint')} error={fieldError(state, 'fileId')}>

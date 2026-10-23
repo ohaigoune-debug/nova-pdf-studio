@@ -1,0 +1,1410 @@
+{
+ "title": "اختبر نفسك: الأساليب (3)",
+ "description": "أسئلة اختيار من متعدد مع الحل المفصّل لكل سؤال.",
+ "topic": "البناء اللغوي",
+ "isPublic": true,
+ "publish": true,
+ "maxAttempts": 3,
+ "questions": [
+  {
+   "type": "MCQ",
+   "prompt": "ما اسم الخبر الذي يُلقى إلى مخاطب خالي الذهن لا يتردّد في الحكم ولا ينكره، كقولنا: «الصبرُ مفتاحُ الفرَج»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الابتدائي",
+     "isCorrect": true
+    },
+    {
+     "label": "الطلبي",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنشائي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الخبر الذي يُلقى إلى خالي الذهن يُسمّى ابتدائياً، ولا يحتاج إلى توكيد. أما الطلبي فيُلقى إلى المتردّد، والإنكاري إلى المنكِر، وكلاهما يحتاج إلى مؤكدات.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الخبر في «إنّ الأمانةَ ثقيلةٌ» إذا أُلقي إلى مخاطب متردّد في الحكم؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "طلبي",
+     "isCorrect": true
+    },
+    {
+     "label": "إنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "استفهامي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتردّد يُؤكَّد له الخبر بمؤكد واحد، وهو هنا «إنّ». لذلك يكون الخبر طلبياً، والابتدائي لا توكيد فيه، والإنكاري يحتاج أكثر من مؤكد.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الخبر في قولنا: «والله إنّ الوطنَ لأغلى من كلّ شيء»، إذا كان المخاطب منكراً لذلك؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "طلبي",
+     "isCorrect": false
+    },
+    {
+     "label": "إنكاري",
+     "isCorrect": true
+    },
+    {
+     "label": "استفهامي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة مؤكّدة بالقسم و«إنّ» و«اللام»، وهذا التوكيد الثلاثي يناسب المخاطب المنكِر. لذلك يكون الخبر إنكارياً.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما عدد المؤكدات في جملة: «إنّ الكريمَ لمحبوبٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "واحد",
+     "isCorrect": false
+    },
+    {
+     "label": "ثلاثة",
+     "isCorrect": false
+    },
+    {
+     "label": "أربعة",
+     "isCorrect": false
+    },
+    {
+     "label": "اثنان",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "المؤكدات في الجملة اثنان: الحرف «إنّ» في أولها، و«اللام» الداخلة على الخبر. لا توجد أداة توكيد ثالثة.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية مؤكَّدةٌ توكيداً يناسب المخاطب المنكِر؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "واللهِ إنّ العلمَ لنافعٌ",
+     "isCorrect": true
+    },
+    {
+     "label": "العلمُ نافعٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ العلمَ نافعٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "نافعٌ العلمُ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المنكِر يحتاج إلى توكيد قوي، وهو هنا القسم مع «إنّ» و«اللام» معاً. أما «إنّ العلمَ نافعٌ» فتوكيدها يناسب المتردد، والجملتان الأخريان خاليتان من التوكيد.",
+   "difficulty": "صعب",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في أيّ الجمل الآتية يكون الخبر ابتدائياً؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "إنّ الحقَّ أبلجُ",
+     "isCorrect": false
+    },
+    {
+     "label": "الحقُّ أبلجُ",
+     "isCorrect": true
+    },
+    {
+     "label": "والله إنّ الحقَّ أبلجُ",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ الحقَّ لأبلجُ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الخبر الابتدائي يخلو من أدوات التوكيد. الجملة «الحقُّ أبلجُ» هي الوحيدة الخالية منها، أما البقية ففيها توكيد بـ«إنّ» أو القسم أو اللام.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض الأصلي من الأسلوب الخبري؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "طلبُ الفعل",
+     "isCorrect": false
+    },
+    {
+     "label": "إظهارُ التعجّب",
+     "isCorrect": false
+    },
+    {
+     "label": "إفادةُ المخاطبِ الحكمَ",
+     "isCorrect": true
+    },
+    {
+     "label": "الاستفهامُ عن المجهول",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الأصل في الخبر أن يُفيد المخاطب حكماً يجهله، أو يُفيده لازم الفائدة. أما طلب الفعل فمن خصائص الإنشاء الطلبي.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية خبرها مؤكَّد بمؤكّدٍ واحد يناسب المتردّد؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "العلمُ نافعٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "نافعٌ العلمُ",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ العلمَ لنافعٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ العلمَ نافعٌ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "المتردّد يُؤكَّد له الخبر بمؤكد واحد، وهو «إنّ» في الجملة الأخيرة. الجملة الثالثة فيها «إنّ» و«اللام» فهي للمنكِر.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية خبرها مؤكَّد بمؤكدين أو أكثر يناسب المنكِر؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "والله إنّ الوفاءَ لعزيزٌ",
+     "isCorrect": true
+    },
+    {
+     "label": "إنّ الوفاءَ عزيزٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "الوفاءُ عزيزٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "الوفاءُ عزيزٌ حقّاً",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة الأولى جمعت القسم و«إنّ» و«اللام»، أي ثلاثة مؤكدات تناسب المنكِر. الجملة الثانية فيها مؤكد واحد، والأخيرتان لا توكيد فيهما.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الذي يُسوِّغ توكيد الخبر بأكثر من مؤكد؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "خلوّ المخاطب من الذهن",
+     "isCorrect": false
+    },
+    {
+     "label": "إنكار المخاطب للحكم",
+     "isCorrect": true
+    },
+    {
+     "label": "تردّد المخاطب في الحكم",
+     "isCorrect": false
+    },
+    {
+     "label": "كون الخبر مثبتاً",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المخاطب المنكِر للحكم يحتاج إلى أكثر من مؤكد لإزالة إنكاره. أما خالي الذهن فلا يحتاج إلى توكيد، والمتردّد يكفيه مؤكد واحد.",
+   "difficulty": "صعب",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ هذه الجمل خبرها ابتدائيّ؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "إنّ الصبرَ مفتاحٌ للفرج",
+     "isCorrect": false
+    },
+    {
+     "label": "قد عرفتُ أنّ الصبرَ مفتاحٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "الصبرُ مفتاحُ الفرج",
+     "isCorrect": true
+    },
+    {
+     "label": "والله الصبرُ مفتاحُ الفرج",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة الثالثة خالية من أي أداة توكيد، فهي ابتدائية. بقية الجمل فيها توكيد بـ«إنّ» أو «قد» أو القسم.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الخبر في «قد نجحَ المجتهدون»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ابتدائي",
+     "isCorrect": false
+    },
+    {
+     "label": "إنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "استفهامي",
+     "isCorrect": false
+    },
+    {
+     "label": "طلبي",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«قد» مع الفعل الماضي من أدوات التوكيد، وهي مؤكد واحد. لذلك يكون الخبر طلبياً، أي مناسباً للمتردّد.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما عدد المؤكدات في قولنا: «والله لأنتَ الصادقُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "اثنان",
+     "isCorrect": true
+    },
+    {
+     "label": "واحد",
+     "isCorrect": false
+    },
+    {
+     "label": "ثلاثة",
+     "isCorrect": false
+    },
+    {
+     "label": "أربعة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المؤكدات هنا اثنان: القسم بقولنا «والله»، و«اللام» الداخلة على الخبر. لا توجد أداة توكيد ثالثة.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ماذا يقتضي حال المخاطب المتردّد في الخبر؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "توكيداً بالقسم",
+     "isCorrect": false
+    },
+    {
+     "label": "توكيداً واحداً",
+     "isCorrect": true
+    },
+    {
+     "label": "توكيداً بثلاثة مؤكدات",
+     "isCorrect": false
+    },
+    {
+     "label": "عدمَ التوكيد",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتردّد يكفيه مؤكد واحد يزيل ترددّه. أما المنكِر فيحتاج توكيداً أقوى، وأما خالي الذهن فلا يحتاج توكيداً.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية تحتوي على ثلاثة مؤكدات؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "إنّ الوطنَ لعزيزٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "الوطنُ لعزيزٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "والله إنّ الوطنَ لعزيزٌ",
+     "isCorrect": true
+    },
+    {
+     "label": "والله الوطنُ عزيزٌ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة الثالثة فيها القسم و«إنّ» و«اللام»، أي ثلاثة مؤكدات. الجملة الأولى فيها اثنان، والبقية فيها مؤكد واحد أو لا شيء.",
+   "difficulty": "صعب",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية تناسب مخاطباً متردّداً في الحكم؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الصدقُ منجاةٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "الصدقُ منجاةٌ حقّاً",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ الصدقَ لمنجاةٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ الصدقَ منجاةٌ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "المتردّد يحتاج إلى مؤكد واحد، وهو «إنّ» في الجملة الأخيرة. الجملة الثالثة فيها «إنّ» و«اللام»، فتناسب المنكِر.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما عدد المؤكدات في قولنا: «قد صدقَ الوعدُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "واحد",
+     "isCorrect": true
+    },
+    {
+     "label": "اثنان",
+     "isCorrect": false
+    },
+    {
+     "label": "صفر",
+     "isCorrect": false
+    },
+    {
+     "label": "ثلاثة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الأداة الوحيدة للتوكيد في الجملة هي «قد» مع الفعل الماضي، فعدد المؤكدات واحد. لا توجد أداة ثانية كـ«إنّ» أو القسم.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ هذه الكلمات أداةُ توكيدٍ؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "على",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ",
+     "isCorrect": true
+    },
+    {
+     "label": "ثمّ",
+     "isCorrect": false
+    },
+    {
+     "label": "من",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنّ» حرف توكيد ينصب الاسم ويرفع الخبر. أما «على» و«ثمّ» و«من» فهي حروف جر أو عطف لا تفيد التوكيد.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض من التوكيد في الخبر؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "تحسين اللفظ",
+     "isCorrect": false
+    },
+    {
+     "label": "الإيجاز",
+     "isCorrect": false
+    },
+    {
+     "label": "تقرير الحكم في نفس المخاطب",
+     "isCorrect": true
+    },
+    {
+     "label": "حذف الجملة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "التوكيد يُراد به تقرير الحكم وتثبيته في نفس المخاطب، لإزالة الشك أو الإنكار. أما تحسين اللفظ فليس الغرض منه.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "عدد أدوات التوكيد في قولنا: «لقد علمتُ أنّ الصدقَ ينجي»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "اثنان",
+     "isCorrect": false
+    },
+    {
+     "label": "واحد",
+     "isCorrect": false
+    },
+    {
+     "label": "أربعة",
+     "isCorrect": false
+    },
+    {
+     "label": "ثلاثة",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«لقد» تتكوّن من لام التوكيد و«قد»، فهما أداتان. مع «إنّ» تصبح الأدوات ثلاثاً.",
+   "difficulty": "صعب",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ينقسم الخبر بحسب حال المخاطب إلى:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ابتدائي وطلبي وإنكاري",
+     "isCorrect": true
+    },
+    {
+     "label": "أمر ونهي واستفهام",
+     "isCorrect": false
+    },
+    {
+     "label": "حقيقي ومجازي",
+     "isCorrect": false
+    },
+    {
+     "label": "تام وناقص",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "يُقسَّم الخبر بحسب حال المخاطب إلى ابتدائي (خالي الذهن)، وطلبي (متردّد)، وإنكاري (منكِر). أما أمر ونهي واستفهام فأقسام الإنشاء الطلبي.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "قال قائلٌ: «الجوُّ حارٌّ» لشخصٍ لا يعلم حال الجوّ. نوع الخبر هنا:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "إنكاري",
+     "isCorrect": false
+    },
+    {
+     "label": "ابتدائي",
+     "isCorrect": true
+    },
+    {
+     "label": "طلبي",
+     "isCorrect": false
+    },
+    {
+     "label": "استفهامي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المخاطب لا يعلم الحال ولا يتردد فيه، والخبر خالٍ من أي توكيد. لذلك يكون ابتدائياً.",
+   "difficulty": "سهل",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية خبرها طلبيّ؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الوطنُ عزيزٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "والله إنّ الوطنَ لعزيزٌ",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ الوطنَ عزيزٌ",
+     "isCorrect": true
+    },
+    {
+     "label": "إنّ الوطنَ لعزيزٌ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الخبر الطلبي مؤكّد بمؤكد واحد، وهو «إنّ» في الجملة الثالثة. الأولى ابتدائية، والبقية فيها أكثر من مؤكد.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الفرق بين الخبر الطلبي والخبر الإنكاري من حيث التوكيد؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الطلبي بلا توكيد والإنكاري بمؤكد واحد",
+     "isCorrect": false
+    },
+    {
+     "label": "الطلبي بمؤكدين والإنكاري بلا توكيد",
+     "isCorrect": false
+    },
+    {
+     "label": "الطلبي بمؤكدين والإنكاري بمؤكد واحد",
+     "isCorrect": false
+    },
+    {
+     "label": "الطلبي بمؤكد واحد والإنكاري بمؤكدين أو أكثر",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الخبر الطلبي يُؤكَّد بمؤكد واحد لأن المتردد يحتاج ذلك، والإنكاري يُؤكَّد بمؤكدين أو أكثر لأن المنكِر يحتاج توكيداً أقوى.",
+   "difficulty": "متوسط",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "إلى من يُوجَّه الخبر في قولنا: «واللهِ لقد فازَ المجتهدُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "المنكِرُ",
+     "isCorrect": true
+    },
+    {
+     "label": "المتردِّدُ",
+     "isCorrect": false
+    },
+    {
+     "label": "خالي الذهن",
+     "isCorrect": false
+    },
+    {
+     "label": "السائلُ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة مؤكدة بالقسم و«اللام» و«قد»، وهذا التوكيد الثلاثي يُلقى إلى المنكِر. المتردّد يكفيه مؤكد واحد، وخالي الذهن لا يحتاج إلى توكيد.",
+   "difficulty": "صعب",
+   "subtopic": "الأسلوب الخبري"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية أمرٌ؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا تُهملِ الواجبَ",
+     "isCorrect": false
+    },
+    {
+     "label": "اكتبْ واجبَك",
+     "isCorrect": true
+    },
+    {
+     "label": "ليتَ الواجبَ انتهى",
+     "isCorrect": false
+    },
+    {
+     "label": "هل كتبتَ واجبَك؟",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "فعل الأمر هو «اكتبْ»، وهو طلب حصول الفعل على وجه الاستعلاء. «لا تُهملِ» نهي، و«ليت» تمنٍّ، و«هل» استفهام.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الإنشاء الطلبي في «هل تعلمُ أنّ الأرضَ تدور؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "أمر",
+     "isCorrect": false
+    },
+    {
+     "label": "نهي",
+     "isCorrect": false
+    },
+    {
+     "label": "استفهام",
+     "isCorrect": true
+    },
+    {
+     "label": "نداء",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة تبدأ بأداة الاستفهام «هل»، وهي تطلب الفهم أو الإخبار. لذلك هي استفهام، وليست أمراً أو نهياً أو نداءً.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية يُخرَج فيها النداءُ إلى الاستغاثة؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "يا رحيمُ اغفرْ لي",
+     "isCorrect": false
+    },
+    {
+     "label": "يا أيّها الطلابُ، اتقنوا لغتَكم",
+     "isCorrect": false
+    },
+    {
+     "label": "يا بؤسَ الجائعين",
+     "isCorrect": false
+    },
+    {
+     "label": "يا لَلماءِ! أغيثوني",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "الاستغاثة تكون بنداء المستغيث بـ«يا لـ» طلباً للنجدة، وهذا ما في «يا لَلماءِ! أغيثوني». الباقي إما دعاء أو إرشاد أو تحسّر.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من الأمر في «يا ربِّ اجعلْ بيتي آمناً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الدعاء",
+     "isCorrect": true
+    },
+    {
+     "label": "التهديد",
+     "isCorrect": false
+    },
+    {
+     "label": "الإباحة",
+     "isCorrect": false
+    },
+    {
+     "label": "التعجيز",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الأمر موجَّه إلى الله تعالى، وفيه طلب الرحمة والأمان، فهو دعاء. الأمر يخرج إلى غرض الدعاء حين يكون الطالب أدنى مرتبة من المطلوب منه، لكنه هنا دعاء بالمعنى الصريح.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من الأمر في «فابنِ لنا مدينةً مثلَ هذه إنِ استطعتَ!»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الدعاء",
+     "isCorrect": false
+    },
+    {
+     "label": "التعجيز",
+     "isCorrect": true
+    },
+    {
+     "label": "الالتماس",
+     "isCorrect": false
+    },
+    {
+     "label": "الإباحة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الأمر مقترن بشرط يُعجز المخاطب عن تحقيقه، فيكون المقصود إظهار عجزه. هذا هو غرض التعجيز.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأدوات تُستعمل للاستفهام عن الزمان؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "أينَ",
+     "isCorrect": false
+    },
+    {
+     "label": "كيفَ",
+     "isCorrect": false
+    },
+    {
+     "label": "متى",
+     "isCorrect": true
+    },
+    {
+     "label": "لماذا",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«متى» أداة الاستفهام عن الزمان. «أين» للمكان، و«كيف» للحال، و«لماذا» للسبب.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأدوات تُستعمل للتمنّي؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "هل",
+     "isCorrect": false
+    },
+    {
+     "label": "لعلّ",
+     "isCorrect": false
+    },
+    {
+     "label": "إنّ",
+     "isCorrect": false
+    },
+    {
+     "label": "ليتَ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«ليت» أداة التمني، وهي تطلب ما يُستبعد حصوله أو يتعذّر. «لعل» للترجي، و«هل» للاستفهام، و«إنّ» للتوكيد.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الفرق بين التمنّي والترجّي؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "التمني طلبُ ما لا يُرجى حصولُه أو يتعذّر حصولُه، والترجي طلبُ الممكن المحبوب",
+     "isCorrect": true
+    },
+    {
+     "label": "التمني للممكن والترجي للمستحيل",
+     "isCorrect": false
+    },
+    {
+     "label": "كلاهما يكون للماضي فقط",
+     "isCorrect": false
+    },
+    {
+     "label": "كلاهما بأداة واحدة لا فرق بينهما",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "التمني طلب أمرٍ محبوب يصعب حصوله أو يستحيل، ويكون بـ«ليت». أما الترجي فهو طلب أمرٍ محبوب ممكن الحصول، ويكون بـ«لعلّ».",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "في أيّ الجمل تُستعمل «لعلّ» للترجّي؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ليتَ الغيثَ ينزلُ",
+     "isCorrect": false
+    },
+    {
+     "label": "لعلّ الغيثَ ينزلُ قريباً",
+     "isCorrect": true
+    },
+    {
+     "label": "ليتني كنتُ طيراً",
+     "isCorrect": false
+    },
+    {
+     "label": "ليتَ الفرصةَ الضائعةَ تعودُ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«لعلّ» تُستعمل للترجي، وهو طلب الأمر المحبوب الممكن، كنزول الغيث قريباً. أما الجمل الأخرى فكلها بـ«ليت» وهي تمنٍّ.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من الاستفهام في «أيُعقلُ أنّ من يزرعُ الشوكَ يحصدُ الوردَ؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "التمني",
+     "isCorrect": false
+    },
+    {
+     "label": "الترجي",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنكار والاستبعاد",
+     "isCorrect": true
+    },
+    {
+     "label": "النداء",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الاستفهام لا يطلب الإخبار، والمقصود أن الأمر غير معقول ومستبعد. لذلك غرضه الإنكار والاستبعاد.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية فيها نداءٌ؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "أكرمِ الضيفَ",
+     "isCorrect": false
+    },
+    {
+     "label": "هل تسافرُ غداً؟",
+     "isCorrect": false
+    },
+    {
+     "label": "لا تكذبْ",
+     "isCorrect": false
+    },
+    {
+     "label": "يا صديقي، الوفاءُ شيمةُ الكرام",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "النداء يكون بأداة من أدواته، مثل «يا»، ويتبعها المنادى. الجملة الأخيرة فيها «يا صديقي»، وما عداها أمر أو استفهام أو نهي.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الإنشاء الطلبي في «لا تتأخّرْ عن الموعد»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "النهي",
+     "isCorrect": true
+    },
+    {
+     "label": "الأمر",
+     "isCorrect": false
+    },
+    {
+     "label": "النداء",
+     "isCorrect": false
+    },
+    {
+     "label": "الاستفهام",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "النهي طلب الكفّ عن الفعل، ويكون بـ«لا» الناهية مع فعل مضارع مجزوم. هنا «لا تتأخّرْ» فهو نهي.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية أمرٌ يُفيد الإباحة؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "اِحذرْ من الانزلاق",
+     "isCorrect": false
+    },
+    {
+     "label": "اِقتطفْ من هذه الثمار ما شئتَ",
+     "isCorrect": true
+    },
+    {
+     "label": "اِكتبْ واجبَك الآن",
+     "isCorrect": false
+    },
+    {
+     "label": "اِنصتْ إلى المحاضرة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الإباحة تعني تخيير المخاطب في الفعل، وهي هنا «اقتطفْ ما شئتَ». بقية الجمل أوامر للتحذير أو الكتابة أو الإنصات.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي في «هل يستوي العالِمُ والجاهلُ؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "التمني",
+     "isCorrect": false
+    },
+    {
+     "label": "النداء",
+     "isCorrect": false
+    },
+    {
+     "label": "النفي",
+     "isCorrect": true
+    },
+    {
+     "label": "الاستفهام الحقيقي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الاستفهام هنا لا يُطلب به الجواب، بل يُقصد به نفي التساوي بين العالم والجاهل. فالغرض البلاغي هو النفي.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية تحوي تمنّياً غرضه الاستحالة؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لعلّ الغائبَ يأتي غداً",
+     "isCorrect": false
+    },
+    {
+     "label": "ليتَ الغيثَ ينزلُ في موعده",
+     "isCorrect": false
+    },
+    {
+     "label": "أرجو أن ينجحَ الطالبُ",
+     "isCorrect": false
+    },
+    {
+     "label": "ليتَ الأيامَ الماضيةَ ترجعُ لحظةً",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "التمني بـ«ليت» في رجوع الأيام الماضية أمرٌ مستحيل، فيكون غرضه الاستحالة. الجمل الأخرى إما ترجٍّ ممكن أو تمنٍّ ممكن الحصول.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأساليب الطلبية في «يا عزيزي، احترمْ والديك»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "النداء والأمر",
+     "isCorrect": true
+    },
+    {
+     "label": "الاستفهام والنهي",
+     "isCorrect": false
+    },
+    {
+     "label": "التمني والترجي",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنشاء غير الطلبي",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«يا عزيزي» نداء، و«احترمْ» فعل أمر. الأسلوبان طلبيان، والإنشاء غير الطلبي لا يشمل النداء ولا الأمر.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "الاستفهام الذي يُطلب به تحديد العدد هو:",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "أينَ",
+     "isCorrect": false
+    },
+    {
+     "label": "كم",
+     "isCorrect": true
+    },
+    {
+     "label": "متى",
+     "isCorrect": false
+    },
+    {
+     "label": "هل",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«كم» اسم استفهام يُستعمل للسؤال عن عدد الأشياء. «أين» للمكان، و«متى» للزمان، و«هل» حرف استفهام لا يُسأل به عن العدد.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل الآتية ينصرف فيها النهي إلى الالتماس؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا تتأخّرْ عن الاجتماع أيّها الزميل!",
+     "isCorrect": false
+    },
+    {
+     "label": "لا تُكلّمْني بهذه اللهجة!",
+     "isCorrect": false
+    },
+    {
+     "label": "لا تبتعدْ عنّي يا أخي، أرجوك",
+     "isCorrect": true
+    },
+    {
+     "label": "لا تقرأ المكتوبَ على الجدار",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الالتماس هو طلب الفعل أو الكفّ عنه من مساوٍ في الرتبة برفق. الجملة الثالثة تحمل الرجاء في قولها «أرجوك»، أما البقية فنهي على وجه الأمر أو الإرشاد.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الأدوات تُستعمل للترجّي فيما هو ممكن الحصول؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ليتَ",
+     "isCorrect": false
+    },
+    {
+     "label": "كأنّ",
+     "isCorrect": false
+    },
+    {
+     "label": "لولا",
+     "isCorrect": false
+    },
+    {
+     "label": "لعلّ",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«لعلّ» أداة الترجي، وتُستعمل فيما هو محبوب ممكن الحصول. «ليت» للتمني، و«كأنّ» للتشبيه، و«لولا» لامتناع الشيء لوجود غيره.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من النداء في «يا نفسُ، صبراً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الحثّ والتحفيز",
+     "isCorrect": true
+    },
+    {
+     "label": "الاستغاثة",
+     "isCorrect": false
+    },
+    {
+     "label": "التحسّر",
+     "isCorrect": false
+    },
+    {
+     "label": "الاستبعاد",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتكلم ينادي نفسه ليحثها على الصبر ويحفزها عليه. فالغرض البلاغي من النداء هنا الحث والتحفيز، لا الاستغاثة أو التحسر.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ هذه الكلمات فعلُ أمرٍ؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "ليتَ",
+     "isCorrect": false
+    },
+    {
+     "label": "اكتبْ",
+     "isCorrect": true
+    },
+    {
+     "label": "هل",
+     "isCorrect": false
+    },
+    {
+     "label": "لعلّ",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«اكتبْ» فعل أمر مبني على السكون لأنه من الأفعال الصحيحة الآخر. الكلمات الأخرى حروف تمني أو ترجٍّ أو استفهام.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "أيّ الجمل فيها استفهامٌ يُقصد به التقرير؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "كم عددُ الطلاب؟",
+     "isCorrect": false
+    },
+    {
+     "label": "أيّ الكتبِ قرأتَ؟",
+     "isCorrect": false
+    },
+    {
+     "label": "ألستَ صاحبَ هذا الفضلِ؟",
+     "isCorrect": true
+    },
+    {
+     "label": "من أين جئتَ؟",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "التقرير استفهام يُحمل المخاطب على الإقرار بأمر هو عالم به. «ألستَ صاحب هذا الفضل؟» تقرّر أنه صاحب الفضل، أما البقية فاستفهام حقيقي.",
+   "difficulty": "سهل",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي من الاستفهام في «كيف أنساكَ وأنتَ مُعلّمي الأوّلُ؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الاستعلام",
+     "isCorrect": false
+    },
+    {
+     "label": "الاستخبار",
+     "isCorrect": false
+    },
+    {
+     "label": "التمني",
+     "isCorrect": false
+    },
+    {
+     "label": "الإنكار",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "السائل لا يطلب معرفة شيء، وإنما ينكر أن ينسى معلمه. لذلك الغرض البلاغي هو الإنكار.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما غرض النداء في «يا رحيمُ، ارحمْ عبادَكَ المستضعفين»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الدعاء",
+     "isCorrect": true
+    },
+    {
+     "label": "الاستغاثة",
+     "isCorrect": false
+    },
+    {
+     "label": "التحسّر",
+     "isCorrect": false
+    },
+    {
+     "label": "الاختصاص",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتكلم ينادي الله تعالى ويسأله الرحمة للمستضعفين، فهو دعاء. أما الاستغاثة فتكون عند طلب النجدة الفورية من مكروه.",
+   "difficulty": "متوسط",
+   "subtopic": "الإنشاء الطلبي"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما الغرض البلاغي في «يا خيبةَ جهديَ في موسمٍ لم يُثمرْ!»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "الاستغاثة",
+     "isCorrect": false
+    },
+    {
+     "label": "التحسّر",
+     "isCorrect": true
+    },
+    {
+     "label": "الإغراء",
+     "isCorrect": false
+    },
+    {
+     "label": "الاختصاص",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المتكلم يُظهر حسرته على جهد ضاع دون ثمرة، فالنداء هنا للتحسّر والتوجّع. الاستغاثة تكون طلباً للنجدة، وليس هذا مقصود الجملة.",
+   "difficulty": "صعب",
+   "subtopic": "الإنشاء الطلبي"
+  }
+ ]
+}

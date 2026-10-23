@@ -74,9 +74,11 @@ export const content = pgTable(
     skillId: uuid('skill_id').references(() => skills.id),
     visibility: text('visibility').notNull().default('PUBLIC'),
     publishedAt: timestamp('published_at', { withTimezone: true }),
-    /** فيديو: YOUTUBE (مضمّن داخل التطبيق) أو UPLOAD (ملف خاص يُبثّ عبر رابط موقّع بهوية المشاهد) */
+    /** فيديو: YOUTUBE (مضمّن داخل التطبيق) أو UPLOAD (ملف خاص يُبثّ عبر رابط موقّع بهوية المشاهد) أو BUNNY (Bunny Stream برابط تضمين موقّع) */
     videoProvider: text('video_provider'),
     youtubeId: text('youtube_id'),
+    /** BUNNY: معرّف الفيديو في مكتبة Bunny Stream (التضمين برابط موقّع مؤقّت) */
+    bunnyVideoId: text('bunny_video_id'),
     /** PDF: السماح بالتنزيل الخام؛ الافتراضي عرض داخل التطبيق مع ختم مائي باسم الطالب */
     allowDownload: boolean('allow_download').notNull().default(false),
     ...timestamps,
@@ -85,7 +87,7 @@ export const content = pgTable(
   (t) => [
     check('content_type_check', inList(t.type, CONTENT_TYPES)),
     check('content_visibility_check', inList(t.visibility, VISIBILITIES)),
-    check('content_video_provider_check', sql`${t.videoProvider} IS NULL OR ${t.videoProvider} IN ('YOUTUBE', 'UPLOAD')`),
+    check('content_video_provider_check', sql`${t.videoProvider} IS NULL OR ${t.videoProvider} IN ('YOUTUBE', 'UPLOAD', 'BUNNY')`),
     index('content_workspace_idx').on(t.workspaceId),
     index('content_public_idx').on(t.visibility, t.publishedAt),
     index('content_level_idx').on(t.levelId, t.type)

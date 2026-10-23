@@ -1,5 +1,6 @@
 import { Package, Plus, ShoppingBag, Truck, Wallet } from 'lucide-react'
 import Link from 'next/link'
+import { ShippingForm } from '@/components/delivery/delivery-forms'
 import { OrderRowActions, ProductRowActions } from '@/components/domain/store-admin'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -10,6 +11,7 @@ import { cn, formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { ORDER_STATUSES, type OrderStatus } from '@/server/db/schema/enums'
+import { shippingInfoFor } from '@/server/services/delivery.service'
 import { listOrdersAdmin, listProductsAdmin, ORDER_STATUS_AR, PAYMENT_AR, PRODUCT_TYPE_AR, shippingFeeDzd, storeStats } from '@/server/services/store.service'
 
 export const dynamic = 'force-dynamic'
@@ -23,6 +25,7 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
   const status = ORDER_STATUSES.includes(sp.status as OrderStatus) ? (sp.status as OrderStatus) : null
   const db = await getDb()
   const [stats, orders, products] = await Promise.all([storeStats(db, actor), listOrdersAdmin(db, actor, { status }), listProductsAdmin(db, actor)])
+  const shipping = await shippingInfoFor(db, actor, orders.map((o) => o.id))
   return (
     <div className="space-y-6">
       <PageHeader
@@ -105,6 +108,7 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
                     <TableCell className="text-xs text-muted-foreground">{formatDateTime(o.createdAt)}</TableCell>
                     <TableCell>
                       <OrderRowActions id={o.id} status={o.status} needsShipping={o.needsShipping} />
+                      {o.needsShipping && (o.status === 'CONFIRMED' || o.status === 'SHIPPED' || o.status === 'DELIVERED') ? <ShippingForm orderId={o.id} provider={shipping[o.id]?.provider ?? null} trackingId={shipping[o.id]?.trackingId ?? null} /> : null}
                     </TableCell>
                   </TableRow>
                 ))}

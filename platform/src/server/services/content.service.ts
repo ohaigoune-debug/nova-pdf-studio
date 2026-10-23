@@ -3,6 +3,7 @@ import { and, eq, inArray, isNotNull, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { content, contentTargets, files, groupStudents, levels, profiles, students, users } from '@/server/db/schema'
 import type { ContentType, VideoProvider, Visibility } from '@/server/db/schema/enums'
+import { isBunnyVideoId } from '@/server/lib/bunny'
 import { parseYoutubeId } from '@/server/lib/youtube'
 import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
@@ -29,19 +30,26 @@ export interface ContentInput {
   videoProvider?: VideoProvider | null
   /** PDF: السماح بالتنزيل الخام (الافتراضي عرض مختوم داخل التطبيق فقط) */
   allowDownload?: boolean
+  /** فيديو BUNNY: معرّف الفيديو في مكتبة Bunny Stream */
+  bunnyVideoId?: string | null
 }
 
 /** يشتق حقول الفيديو من المدخلات: معرّف يوتيوب مُتحقَّق منه أو ملف مرفوع */
 function videoFields(input: Partial<ContentInput>): Partial<typeof content.$inferInsert> {
-  if (input.type !== 'VIDEO') return { videoProvider: null, youtubeId: null }
+  if (input.type !== 'VIDEO') return { videoProvider: null, youtubeId: null, bunnyVideoId: null }
   const provider = input.videoProvider ?? (input.fileId ? 'UPLOAD' : 'YOUTUBE')
   if (provider === 'YOUTUBE') {
     const id = parseYoutubeId(input.externalUrl ?? '')
     if (!id) throw new AppError('INVALID_YOUTUBE_URL')
-    return { videoProvider: 'YOUTUBE', youtubeId: id, externalUrl: `https://www.youtube.com/watch?v=${id}` }
+    return { videoProvider: 'YOUTUBE', youtubeId: id, bunnyVideoId: null, externalUrl: `https://www.youtube.com/watch?v=${id}` }
+  }
+  if (provider === 'BUNNY') {
+    const bunnyVideoId = input.bunnyVideoId?.trim() ?? ''
+    if (!isBunnyVideoId(bunnyVideoId)) throw new AppError('VALIDATION', { field: 'bunnyVideoId' })
+    return { videoProvider: 'BUNNY', youtubeId: null, bunnyVideoId, fileId: null }
   }
   if (!input.fileId) throw new AppError('VALIDATION', { field: 'fileId' })
-  return { videoProvider: 'UPLOAD', youtubeId: null }
+  return { videoProvider: 'UPLOAD', youtubeId: null, bunnyVideoId: null }
 }
 
 type ContentRow = typeof content.$inferSelect
@@ -146,14 +154,15 @@ export async function updateContent(db: Db, actor: Actor, id: string, input: Par
   if (input.visibility !== undefined) patch.visibility = input.visibility
   if (input.publish !== undefined) patch.publishedAt = input.publish ? (c.publishedAt ?? new Date()) : null
   if (input.allowDownload !== undefined) patch.allowDownload = input.allowDownload
-  if (input.type !== undefined || input.videoProvider !== undefined || input.externalUrl !== undefined || input.fileId !== undefined) {
+  if (input.type !== undefined || input.videoProvider !== undefined || input.externalUrl !== undefined || input.fileId !== undefined || input.bunnyVideoId !== undefined) {
     Object.assign(
       patch,
       videoFields({
         type: input.type ?? (c.type as ContentType),
         videoProvider: input.videoProvider ?? (c.videoProvider as VideoProvider | null),
         externalUrl: input.externalUrl !== undefined ? input.externalUrl : c.externalUrl,
-        fileId: input.fileId !== undefined ? input.fileId : c.fileId
+        fileId: input.fileId !== undefined ? input.fileId : c.fileId,
+        bunnyVideoId: input.bunnyVideoId !== undefined ? input.bunnyVideoId : c.bunnyVideoId
       })
     )
   }

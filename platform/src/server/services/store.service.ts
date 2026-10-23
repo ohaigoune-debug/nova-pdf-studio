@@ -7,7 +7,7 @@
 import { randomBytes } from 'node:crypto'
 import { and, asc, desc, eq, inArray, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { downloads, files, levels, listings, orderItems, orders, productFiles, products, profiles, subjects, teacherWorkspaces, users, wilayas, type OrderRow, type ProductRow } from '@/server/db/schema'
+import { appSettings, downloads, files, levels, listings, orderItems, orders, productFiles, products, profiles, streams, students, subjects, teacherWorkspaces, users, wilayas, type OrderRow, type ProductRow } from '@/server/db/schema'
 import type { OrderStatus, PaymentMethod, ProductStatus, ProductType } from '@/server/db/schema/enums'
 import { ORDER_STATUSES, PRODUCT_STATUSES, PRODUCT_TYPES } from '@/server/db/schema/enums'
 import { assertRole, type Actor } from '@/server/lib/actor'
@@ -17,6 +17,7 @@ import { AppError, assertUuid } from '@/server/lib/errors'
 import { signFileUrl } from '@/server/lib/storage'
 import { grantPurchasesForOrder } from './marketplace.service'
 import { notify } from './notifications.service'
+import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
 
 export const PRODUCT_TYPE_AR: Record<ProductType, string> = { BOOK: 'كتاب ورقي', PDF: 'ملف PDF', PACK: 'حزمة (ورقي + رقمي)' }
 export const ORDER_STATUS_AR: Record<OrderStatus, string> = { PENDING: 'بانتظار التأكيد', CONFIRMED: 'مؤكَّد', SHIPPED: 'في الطريق', DELIVERED: 'سُلِّم', CANCELLED: 'أُلغي' }
@@ -45,7 +46,13 @@ export interface ProductInput {
   coverUrl?: string | null
   status?: ProductStatus
   sortOrder?: number
+  /** يُلزم المشتري باختيار شعبته */
+  requiresStream?: boolean
+  /** الحدّ الأقصى للوحدات في الطلب الواحد (افتراضي 20) */
+  maxPerOrder?: number
 }
+
+export const DEFAULT_MAX_PER_ORDER = 20
 
 export function slugify(title: string): string {
   const s = normalizeArabic(title).replace(/\s+/g, '-').replace(/[^\p{L}\p{N}-]/gu, '').slice(0, 80)
@@ -59,6 +66,7 @@ function validate(input: ProductInput) {
   if (input.comparePriceDzd != null && !(Number.isInteger(input.comparePriceDzd) && input.comparePriceDzd >= 0)) throw new AppError('VALIDATION', { field: 'comparePriceDzd' })
   if (input.stock != null && !(Number.isInteger(input.stock) && input.stock >= 0)) throw new AppError('VALIDATION', { field: 'stock' })
   if (input.status && !PRODUCT_STATUSES.includes(input.status)) throw new AppError('VALIDATION', { field: 'status' })
+  if (input.maxPerOrder != null && !(Number.isInteger(input.maxPerOrder) && input.maxPerOrder >= 1 && input.maxPerOrder <= 1000)) throw new AppError('VALIDATION', { field: 'maxPerOrder' })
 }
 
 async function uniqueSlug(db: Db, base: string, excludeId?: string): Promise<string> {
@@ -79,7 +87,7 @@ export async function createProduct(db: Db, actor: Actor, input: ProductInput): 
   const slug = await uniqueSlug(db, slugify(input.slug?.trim() || input.title))
   const [row] = await db
     .insert(products)
-    .values({ createdByUserId: actor.userId, slug, title: input.title.trim(), description: input.description?.trim() || null, type: input.type ?? 'BOOK', author: input.author?.trim() || null, pages: input.pages ?? null, priceDzd: input.priceDzd, comparePriceDzd: input.comparePriceDzd ?? null, stock: input.stock ?? null, subjectId: input.subjectId ?? null, levelId: input.levelId ?? null, streamId: input.streamId ?? null, coverFileId: input.coverFileId ?? null, coverUrl: input.coverUrl?.trim() || null, status: input.status ?? 'DRAFT', sortOrder: input.sortOrder ?? 0 })
+    .values({ createdByUserId: actor.userId, slug, title: input.title.trim(), description: input.description?.trim() || null, type: input.type ?? 'BOOK', author: input.author?.trim() || null, pages: input.pages ?? null, priceDzd: input.priceDzd, comparePriceDzd: input.comparePriceDzd ?? null, stock: input.stock ?? null, subjectId: input.subjectId ?? null, levelId: input.levelId ?? null, streamId: input.streamId ?? null, coverFileId: input.coverFileId ?? null, coverUrl: input.coverUrl?.trim() || null, status: input.status ?? 'DRAFT', sortOrder: input.sortOrder ?? 0, requiresStream: Boolean(input.requiresStream), maxPerOrder: input.maxPerOrder ?? DEFAULT_MAX_PER_ORDER })
     .returning()
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'store.product_create', entityType: 'product', entityId: row!.id, newValue: { title: row!.title, type: row!.type, priceDzd: row!.priceDzd } })
   return row!
@@ -95,7 +103,7 @@ export async function updateProduct(db: Db, actor: Actor, id: string, input: Par
   const slug = input.slug !== undefined || input.title !== undefined ? await uniqueSlug(db, slugify(input.slug?.trim() || merged.title), id) : current.slug
   const [row] = await db
     .update(products)
-    .set({ slug, title: merged.title.trim(), description: merged.description?.trim() || null, type: merged.type, author: merged.author?.trim() || null, pages: merged.pages ?? null, priceDzd: merged.priceDzd, comparePriceDzd: merged.comparePriceDzd ?? null, stock: merged.stock ?? null, subjectId: merged.subjectId ?? null, levelId: merged.levelId ?? null, streamId: merged.streamId ?? null, coverFileId: merged.coverFileId ?? null, coverUrl: merged.coverUrl?.trim() || null, status: merged.status, sortOrder: merged.sortOrder ?? 0, updatedAt: new Date() })
+    .set({ slug, title: merged.title.trim(), description: merged.description?.trim() || null, type: merged.type, author: merged.author?.trim() || null, pages: merged.pages ?? null, priceDzd: merged.priceDzd, comparePriceDzd: merged.comparePriceDzd ?? null, stock: merged.stock ?? null, subjectId: merged.subjectId ?? null, levelId: merged.levelId ?? null, streamId: merged.streamId ?? null, coverFileId: merged.coverFileId ?? null, coverUrl: merged.coverUrl?.trim() || null, status: merged.status, sortOrder: merged.sortOrder ?? 0, requiresStream: Boolean(merged.requiresStream), maxPerOrder: merged.maxPerOrder ?? DEFAULT_MAX_PER_ORDER, updatedAt: new Date() })
     .where(eq(products.id, id))
     .returning()
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'store.product_update', entityType: 'product', entityId: id, newValue: { ...input } })
@@ -155,9 +163,11 @@ export interface ProductCard {
   inStock: boolean
   digital: boolean
   physical: boolean
+  requiresStream: boolean
+  maxPerOrder: number
 }
 
-const cardOf = (p: ProductRow, subjectName: string | null, levelName: string | null): ProductCard => ({ id: p.id, slug: p.slug, title: p.title, type: p.type as ProductType, author: p.author, priceDzd: p.priceDzd, comparePriceDzd: p.comparePriceDzd, coverUrl: p.coverUrl, subjectName, levelName, inStock: !isPhysical(p.type) || p.stock === null || p.stock > 0, digital: isDigital(p.type), physical: isPhysical(p.type) })
+const cardOf = (p: ProductRow, subjectName: string | null, levelName: string | null): ProductCard => ({ id: p.id, slug: p.slug, title: p.title, type: p.type as ProductType, author: p.author, priceDzd: p.priceDzd, comparePriceDzd: p.comparePriceDzd, coverUrl: p.coverUrl, subjectName, levelName, inStock: !isPhysical(p.type) || p.stock === null || p.stock > 0, digital: isDigital(p.type), physical: isPhysical(p.type), requiresStream: p.requiresStream, maxPerOrder: p.maxPerOrder })
 
 export async function listProducts(db: Db, f: { type?: ProductType | null; subjectId?: string | null; levelId?: string | null; q?: string | null } = {}): Promise<ProductCard[]> {
   const q = f.q?.trim()
@@ -201,6 +211,38 @@ export interface PlaceOrderInput {
   wilayaId?: string | null
   address?: string | null
   note?: string | null
+  /** شعبة المشتري — إلزامية حين يتطلبها منتج (للتلميذ تُؤخذ من ملفه إن لم تُمرَّر) */
+  streamId?: string | null
+  /** رمز التحقق بالهاتف حين تفرضه سياسة المتجر */
+  otpCode?: string | null
+  /** التلميذ المستفيد إن اشترى وليّ الأمر بحسابه */
+  beneficiaryStudentId?: string | null
+}
+
+/* ------------------------------- سياسة المتجر ------------------------------- */
+
+const STORE_POLICY_KEY = 'store.requireOtp'
+
+export interface StorePolicy {
+  /** يُطلب رمز تحقق بالهاتف قبل إرسال الطلب (افتراضي: لا) */
+  requireOtp: boolean
+}
+
+export async function storePolicy(db: Db): Promise<StorePolicy> {
+  const [row] = await db.select({ value: appSettings.value }).from(appSettings).where(eq(appSettings.key, STORE_POLICY_KEY)).limit(1)
+  return { requireOtp: row?.value === true }
+}
+
+export async function setStorePolicy(db: Db, actor: Actor, input: Partial<StorePolicy>): Promise<StorePolicy> {
+  assertRole(actor, 'SUPER_ADMIN')
+  const previous = await storePolicy(db)
+  const next: StorePolicy = { requireOtp: input.requireOtp ?? previous.requireOtp }
+  await db
+    .insert(appSettings)
+    .values({ key: STORE_POLICY_KEY, value: next.requireOtp })
+    .onConflictDoUpdate({ target: appSettings.key, set: { value: next.requireOtp, updatedAt: new Date() } })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'settings.store_policy', entityType: 'settings', entityId: null, oldValue: { ...previous }, newValue: { ...next } })
+  return next
 }
 
 const orderNumber = () => `MD-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${randomBytes(3).toString('hex').toUpperCase()}`
@@ -212,7 +254,9 @@ const orderNumber = () => `MD-${new Date().toISOString().slice(0, 10).replace(/-
 export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): Promise<OrderRow> {
   if (!input.items.length) throw new AppError('ORDER_EMPTY')
   if (!input.customerName.trim()) throw new AppError('VALIDATION', { field: 'customerName' })
-  if (!/^0[5-7]\d{8}$/.test(input.phone.replace(/\s/g, ''))) throw new AppError('VALIDATION', { field: 'phone' })
+  const phone = normalizePhone(input.phone)
+  if (input.streamId) assertUuid(input.streamId, 'VALIDATION')
+  if (input.beneficiaryStudentId) assertUuid(input.beneficiaryStudentId, 'VALIDATION')
   const ids = [...new Set(input.items.map((i) => i.productId))]
   for (const id of ids) assertUuid(id, 'PRODUCT_NOT_FOUND')
   const rows = await db.select().from(products).where(and(inArray(products.id, ids), isNull(products.deletedAt)))
@@ -221,7 +265,9 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
     const p = byId.get(i.productId)
     if (!p) throw new AppError('PRODUCT_NOT_FOUND')
     if (p.status !== 'PUBLISHED') throw new AppError('PRODUCT_UNAVAILABLE')
-    const qty = Math.max(1, Math.min(20, Math.round(i.qty)))
+    const requested = Math.max(1, Math.round(i.qty))
+    if (requested > p.maxPerOrder) throw new AppError('ORDER_MAX_PER_PRODUCT', { product: p.title, max: p.maxPerOrder })
+    const qty = Math.min(p.maxPerOrder, requested)
     if (isPhysical(p.type) && p.stock !== null && p.stock < qty) throw new AppError('OUT_OF_STOCK', { product: p.title })
     return { p, qty, total: p.priceDzd * qty }
   })
@@ -229,6 +275,29 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
   if (actor.role !== 'TEACHER') {
     const [tOnly] = await db.select({ id: listings.id }).from(listings).where(and(inArray(listings.productId, ids), eq(listings.teachersOnly, true))).limit(1)
     if (tOnly) throw new AppError('LISTING_TEACHERS_ONLY')
+  }
+  // الشعبة: إلزامية حين يتطلبها منتج؛ للتلميذ تُؤخذ من ملفه افتراضياً
+  let streamId: string | null = input.streamId ?? null
+  if (!streamId && actor.role === 'STUDENT' && actor.studentId) {
+    const [st] = await db.select({ streamId: students.streamId }).from(students).where(eq(students.id, actor.studentId)).limit(1)
+    streamId = st?.streamId ?? null
+  }
+  if (streamId) {
+    const [sr] = await db.select({ id: streams.id }).from(streams).where(eq(streams.id, streamId)).limit(1)
+    if (!sr) throw new AppError('ORDER_STREAM_REQUIRED')
+  }
+  if (lines.some((l) => l.p.requiresStream) && !streamId) throw new AppError('ORDER_STREAM_REQUIRED')
+  // التحقق بالهاتف حين تفرضه السياسة: يُعفى من أكّد هذا الهاتف نفسه سلفاً
+  let otpVerifiedAt: Date | null = null
+  const policy = await storePolicy(db)
+  if (policy.requireOtp) {
+    const pv = await isPhoneVerified(db, actor.userId)
+    if (pv.verified && pv.phone === phone) otpVerifiedAt = new Date()
+    else {
+      if (!input.otpCode?.trim()) throw new AppError('ORDER_OTP_REQUIRED')
+      await verifyOtp(db, { phone, purpose: 'ORDER', code: input.otpCode, userId: actor.userId })
+      otpVerifiedAt = new Date()
+    }
   }
   const needsShipping = lines.some((l) => isPhysical(l.p.type))
   if (needsShipping && !input.wilayaId) throw new AppError('VALIDATION', { field: 'wilayaId' })
@@ -241,7 +310,7 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
   const order = await db.transaction(async (tx) => {
     const [o] = await tx
       .insert(orders)
-      .values({ number: orderNumber(), userId: actor.userId, status, paymentMethod, needsShipping, subtotalDzd: subtotal, shippingDzd: shipping, totalDzd: total, customerName: input.customerName.trim(), phone: input.phone.replace(/\s/g, ''), wilayaId: input.wilayaId ?? null, address: input.address?.trim() || null, note: input.note?.trim() || null, confirmedAt: status === 'DELIVERED' ? new Date() : null, deliveredAt: status === 'DELIVERED' ? new Date() : null })
+      .values({ number: orderNumber(), userId: actor.userId, status, paymentMethod, needsShipping, subtotalDzd: subtotal, shippingDzd: shipping, totalDzd: total, customerName: input.customerName.trim(), phone, wilayaId: input.wilayaId ?? null, streamId, otpVerifiedAt, beneficiaryStudentId: input.beneficiaryStudentId ?? null, address: input.address?.trim() || null, note: input.note?.trim() || null, confirmedAt: status === 'DELIVERED' ? new Date() : null, deliveredAt: status === 'DELIVERED' ? new Date() : null })
       .returning()
     await tx.insert(orderItems).values(lines.map((l) => ({ orderId: o!.id, productId: l.p.id, title: l.p.title, type: l.p.type, unitPriceDzd: l.p.priceDzd, qty: l.qty, lineTotalDzd: l.total })))
     for (const l of lines) {
@@ -377,7 +446,8 @@ export async function storeStats(db: Db, actor: Actor) {
 }
 
 /** اسم العميل الافتراضي من ملفه */
-export async function customerDefaults(db: Db, actor: Actor): Promise<{ name: string; phone: string | null }> {
+export async function customerDefaults(db: Db, actor: Actor): Promise<{ name: string; phone: string | null; streamId: string | null }> {
   const [p] = await db.select({ phone: profiles.phone }).from(profiles).where(eq(profiles.userId, actor.userId)).limit(1)
-  return { name: actor.fullName, phone: p?.phone ?? null }
+  const [st] = actor.studentId ? await db.select({ streamId: students.streamId }).from(students).where(eq(students.id, actor.studentId)).limit(1) : []
+  return { name: actor.fullName, phone: p?.phone ?? null, streamId: st?.streamId ?? null }
 }

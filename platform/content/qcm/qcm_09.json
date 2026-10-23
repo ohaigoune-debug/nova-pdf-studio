@@ -1,0 +1,1410 @@
+{
+ "title": "اختبر نفسك: إعراب الجمل (1)",
+ "description": "أسئلة اختيار من متعدد مع الحل المفصّل لكل سؤال.",
+ "topic": "البناء اللغوي",
+ "isPublic": true,
+ "publish": true,
+ "maxAttempts": 3,
+ "questions": [
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «الشمسُ مُشرقةٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بدأت الجملة بالاسم «الشمسُ» وهو المبتدأ، وخبرها «مُشرقةٌ»، فهي جملة اسمية. وليست شبه جملة لأنها ليست جاراً ومجروراً ولا ظرفاً.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «سافرَ المعلّمُ إلى المدينةِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة طلبية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بدأت الجملة بالفعل الماضي «سافرَ»، وفاعله «المعلّمُ»، فهي جملة فعلية. والجار والمجرور «إلى المدينةِ» متعلّق بالفعل ولا يغيّر نوع الجملة.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «العلمُ نورٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة طلبية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بدأت الجملة بالاسم «العلمُ» وهو المبتدأ، وخبرها «نورٌ» مرفوع، فهي جملة اسمية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «يكتبُ التلميذُ درسَه»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "بدأت الجملة بالفعل المضارع «يكتبُ»، وفاعله «التلميذُ»، ومفعوله «درسَه»، فهي جملة فعلية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «المكتبةُ واسعةٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة استفهامية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المبتدأ «المكتبةُ» والخبر «واسعةٌ»، والجملة تبدأ باسم، فهي جملة اسمية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «نجحَ الفريقُ في المباراةِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة استفهامية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "تبدأ الجملة بالفعل الماضي «نجحَ»، وفاعله «الفريقُ»، والجار والمجرور «في المباراةِ» متعلّق بالفعل، فهي جملة فعلية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «الجوُّ باردٌ في الشتاءِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "تبدأ الجملة بالاسم «الجوُّ» وهو المبتدأ، وخبرها «باردٌ»، و«في الشتاءِ» متعلّق بالخبر، فهي جملة اسمية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «أكرمتُ الضيفَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "بدأت الجملة بالفعل الماضي «أكرمتُ»، وفاعله التاء، ومفعوله «الضيفَ»، فهي جملة فعلية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «هذا الكتابُ مفيدٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة طلبية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "تبدأ الجملة باسم الإشارة «هذا» وهو المبتدأ، وخبرها «مفيدٌ»، و«الكتابُ» بدل أو عطف بيان، فالجملة اسمية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «اقرأْ دروسَك»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة استفهامية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بدأت الجملة بفعل الأمر «اقرأْ»، وفاعله مستتر تقديره «أنتَ»، ومفعوله «دروسَك»، فهي جملة فعلية.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «لم يحضرْ الطلابُ الاجتماعَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "أداة النفي «لم» تدخل على الفعل المضارع «يحضرْ»، والركن الأساسي في الجملة فعل، فهي جملة فعلية. ولا يغيّر الحرف الذي قبل الفعل نوع الجملة.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «هل قرأتَ الكتابَ؟»",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة قسم",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«هل» حرف استفهام لا يغيّر نوع الجملة، والركن الأساسي فيها الفعل «قرأتَ»، فهي جملة فعلية.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «أنا أحبُّ القراءةَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بدأت الجملة بالضمير المنفصل «أنا» وهو مبتدأ، وخبرها الجملة الفعلية «أحبُّ القراءةَ»، فالجملة كلها اسمية.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «يُسعدُني أنْ تنجحَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة طلبية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بدأت الجملة بالفعل المضارع «يُسعدُني»، وفاعلها المصدر المؤول «أنْ تنجحَ»، فهي جملة فعلية.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «في الحديقةِ شجرةٌ عاليةٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "تبدأ الجملة بشبه الجملة «في الحديقةِ»، وهي خبر مقدَّم، و«شجرةٌ» مبتدأ مؤخَّر، فالجملة كلها اسمية وليست شبه جملة.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «تعلّمَ الطالبُ الصبرَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة استفهامية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "بدأت الجملة بالفعل الماضي «تعلّمَ»، وفاعله «الطالبُ»، ومفعوله «الصبرَ»، فهي جملة فعلية.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «الإيمانُ يرفعُ صاحبَه»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "المبتدأ «الإيمانُ»، وخبره الجملة الفعلية «يرفعُ صاحبَه»، فالجملة كلها اسمية، والعبرة بأن الجملة بدأت باسم.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «إنَّ الصدقَ منجاةٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنَّ» حرف توكيد ناسخ لا يغيّر نوع الجملة الاسمية، فـ«الصدقَ» اسمها منصوب، و«منجاةٌ» خبرها مرفوع، فالجملة اسمية.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «كانَ الجوُّ معتدلاً صباحاً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بدأت الجملة بالفعل الناسخ «كانَ»، فهي جملة فعلية في الاصطلاح، واسمها «الجوُّ» وخبرها «معتدلاً»، و«صباحاً» ظرف زمان.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «الكتابُ على المكتبِ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "بدأت الجملة باسم «الكتابُ» وهو المبتدأ، وخبرها شبه الجملة «على المكتبِ»، فالجملة كلها اسمية.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة «إنَّ الاجتماعَ مؤجَّلٌ» في قولك: «قالَ المديرُ: إنَّ الاجتماعَ مؤجَّلٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إنَّ» تنصب الاسم «الاجتماعَ» وترفع الخبر «مؤجَّلٌ»، فالجملة اسمية. وهي في محل نصب مقول القول، لكن نوعها اسمية.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «ظننتُ المطرَ يهطلُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "بدأت الجملة بالفعل «ظننتُ»، فهي جملة فعلية، والجملة الفعلية «يهطلُ» تقع مفعولاً ثانياً لـ«ظننتُ»، و«المطرَ» مفعولها الأول.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «ليتَ الشبابَ يعودُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة استفهامية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«ليتَ» حرف تمنٍّ ناسخ، و«الشبابَ» اسمها المنصوب، و«يعودُ» خبرها، فالجملة اسمية، وليست فعلية لأن الفعل «يعودُ» جاء في الخبر.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة في قولك: «ما زالَ المطرُ نازلاً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«ما زالَ» فعل ناسخ يبدأ الجملة، فهي جملة فعلية، واسمها «المطرُ» وخبرها «نازلاً».",
+   "difficulty": "صعب",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما نوع الجملة الواقعة بعد «إذا» في قولك: «خرجتُ من البيتِ فإذا المطرُ شديدٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "جملة اسمية",
+     "isCorrect": true
+    },
+    {
+     "label": "جملة فعلية",
+     "isCorrect": false
+    },
+    {
+     "label": "شبه جملة",
+     "isCorrect": false
+    },
+    {
+     "label": "جملة شرطية",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«إذا» هنا فجائية وليست شرطية، وما بعدها جملة اسمية، فـ«المطرُ» مبتدأ و«شديدٌ» خبر، والفاء زائدة لا تغيّر نوع الجملة.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة الاسمية والفعلية"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «وهو مريضٌ» في قولك: «زرتُ أخي وهو مريضٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "جملة اسمية مقترنة بالواو (واو الحال) وقعت بعد «أخي» المفعول به، فهي حال منه، والحال منصوبة، فمحلها نصب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يحملُ هديةً» في قولك: «جاءَ الضيفُ يحملُ هديةً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "جملة فعلية وقعت بعد الفاعل «الضيفُ» تبيّن هيئته وقت المجيء، فهي حال، ومحلها نصب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يُنجي صاحبَه» في قولك: «الصدقُ يُنجي صاحبَه»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«الصدقُ» مبتدأ، و«يُنجي صاحبَه» جملة فعلية وقعت خبراً له، فمحلها رفع.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «وأنا عطشانُ» في قولك: «شربتُ الماءَ وأنا عطشانُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "جملة اسمية مقترنة بواو الحال، وقعت بعد الفعل وفاعله تبيّن حال الفاعل وقت الشرب، فهي في محل نصب حال.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يُفيدني» في قولك: «اشتريتُ كتاباً يُفيدني»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب نعت لـ«كتاباً»",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«كتاباً» اسم نكرة منصوب، والجملة الفعلية «يُفيدني» بعده تصفه، فهي نعت في محل نصب تابع لـ«كتاباً».",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «أنتم متفوقونَ» في قولك: «قالَ المعلمُ: أنتم متفوقونَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "الجملة الاسمية «أنتم متفوقونَ» وقعت مقولاً للفعل «قالَ»، فهي في محل نصب مفعول به.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «قرأتُه» في قولك: «هذا كتابٌ قرأتُه»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع نعت لـ«كتابٌ»",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«كتابٌ» نكرة مرفوعة خبر لـ«هذا»، والجملة الفعلية «قرأتُه» تصفه، فهي نعت في محل رفع تابع لـ«كتابٌ».",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «وهو يبتسمُ» في قولك: «مرّ الرجلُ وهو يبتسمُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "جملة اسمية مقترنة بواو الحال، وقعت بعد الفاعل «الرجلُ» تبيّن حاله حين المرور، فهي في محل نصب حال.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يحتاجُ صبراً» في قولك: «النجاحُ يحتاجُ صبراً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«النجاحُ» مبتدأ، و«يحتاجُ صبراً» جملة فعلية وقعت خبراً له، فمحلها رفع.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يُحضرُ الكتبَ» في قولك: «ذهبَ المعلمُ يُحضرُ الكتبَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "جملة فعلية وقعت بعد الفاعل «المعلمُ» تبيّن هيئته وقت الذهاب، فهي حال في محل نصب.",
+   "difficulty": "سهل",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يُعلي صاحبَه» في قولك: «علمتُ أنَّ الحقَّ يُعلي صاحبَه»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر إنَّ",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«أنَّ» تنصب اسمها «الحقَّ» وترفع خبرها، والجملة الفعلية «يُعلي صاحبَه» هي الخبر، فمحلها رفع خبر «إنَّ».",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يهطلُ» في قولك: «ظننتُ المطرَ يهطلُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب مفعول به ثانٍ",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«ظننتُ» من أفعال القلوب التي تنصب مفعولين؛ الأول «المطرَ»، والثاني الجملة الفعلية «يهطلُ»، فمحلها نصب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «كتبَها صديقي» في قولك: «قرأتُ رسالةً كتبَها صديقي»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "لا محل لها لأنها صلة الموصول",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب نعت لـ«رسالةً»",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«رسالةً» اسم نكرة منصوب، والجملة الفعلية «كتبَها صديقي» بعدها تصفها، فهي نعت في محل نصب تابع لـ«رسالةً».",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يدرسُ» في قولك: «كانَ الطالبُ يدرسُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب خبر «كانَ»",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«كانَ» فعل ناسخ يطلب خبراً منصوباً، والجملة الفعلية «يدرسُ» تقع خبراً لها، فمحلها نصب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يتحدَّثونَ» في قولك: «أقبلَ الطلابُ يتحدَّثونَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "جملة فعلية وقعت بعد الفاعل «الطلابُ» تبيّن هيئته وقت الإقبال، فهي حال في محل نصب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «سيبدأُ غداً» في قولك: «أعلنَ المديرُ أنَّ الاجتماعَ سيبدأُ غداً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر «أنَّ»",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«أنَّ» تنصب اسمها «الاجتماعَ»، والجملة الفعلية «سيبدأُ غداً» هي خبرها، فمحلها رفع.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يقرأُ كتاباً» في قولك: «رأيتُ رجلاً يقرأُ كتاباً»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب نعت",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "«رجلاً» اسم نكرة منصوب، والجملة الفعلية «يقرأُ كتاباً» بعده تصفه، فهي نعت في محل نصب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «وأمُّه تُغنّي» في قولك: «ينامُ الطفلُ وأمُّه تُغنّي»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب مفعول به",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "جملة اسمية مقترنة بواو الحال، وقعت بعد الفاعل «الطفلُ» تبيّن حاله وقت النوم، فهي في محل نصب حال.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يعملُ بجدٍّ» في قولك: «هذا رجلٌ يعملُ بجدٍّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع نعت لـ«رجلٌ»",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«رجلٌ» نكرة مرفوعة خبر لاسم الإشارة «هذا»، والجملة الفعلية «يعملُ بجدٍّ» تصفه، فهي نعت في محل رفع.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «والشمسُ طالعةٌ» في قولك: «جاءَ محمدٌ والشمسُ طالعةٌ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "جملة اسمية مقترنة بواو الحال، وقعت بعد الفاعل «محمدٌ» وتبيّن حاله وقت المجيء، فهي في محل نصب حال.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «وقد أرهقَه السفرُ» في قولك: «رجعَ المسافرُ وقد أرهقَه السفرُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": true
+    }
+   ],
+   "explanation": "جملة فعلية مقترنة بـ«قد» وواو الحال، وقعت بعد الفاعل «المسافرُ» تبيّن حاله عند الرجوع، فهي في محل نصب حال.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يقولُ الحقَّ» في قولك: «سمعتُ قائلاً يقولُ الحقَّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب نعت لـ«قائلاً»",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«قائلاً» اسم نكرة منصوب، والجملة الفعلية «يقولُ الحقَّ» تصفه، فهي نعت في محل نصب تابع لـ«قائلاً».",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يخرجونَ مسرعينَ» في قولك: «رأيتُ الطلابَ يخرجونَ مسرعينَ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل نصب حال من «الطلابَ»",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "جملة فعلية وقعت بعد المفعول به «الطلابَ» وتصف حاله وقت الرؤية، فهي في محل نصب حال.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «وهو يبتسمُ» في قولك: «سلّمَ المعلمُ على الطلابِ وهو يبتسمُ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل جر نعت",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب حال",
+     "isCorrect": true
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "جملة اسمية مقترنة بواو الحال، وقعت بعد الجار والمجرور وتبيّن حال الفاعل «المعلمُ» حين السلام، فهي في محل نصب حال.",
+   "difficulty": "صعب",
+   "subtopic": "الجملة التي لها محل"
+  },
+  {
+   "type": "MCQ",
+   "prompt": "ما محل الجملة «يعملُ بجدٍّ» في قولك: «أحبُّ رجلاً يعملُ بجدٍّ»؟",
+   "points": 1,
+   "skillId": null,
+   "answerKey": null,
+   "options": [
+    {
+     "label": "في محل رفع خبر",
+     "isCorrect": false
+    },
+    {
+     "label": "لا محل لها من الإعراب",
+     "isCorrect": false
+    },
+    {
+     "label": "في محل نصب نعت لـ«رجلاً»",
+     "isCorrect": true
+    },
+    {
+     "label": "في محل جر مضاف إليه",
+     "isCorrect": false
+    }
+   ],
+   "explanation": "«رجلاً» اسم نكرة منصوب مفعول به، والجملة الفعلية «يعملُ بجدٍّ» بعده تصفه، فهي نعت في محل نصب.",
+   "difficulty": "متوسط",
+   "subtopic": "الجملة التي لها محل"
+  }
+ ]
+}

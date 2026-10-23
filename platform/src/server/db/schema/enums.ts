@@ -50,7 +50,7 @@ export type SchoolType = (typeof SCHOOL_TYPES)[number]
 export const FILE_STATUSES = ['PENDING', 'READY'] as const
 export type FileStatus = (typeof FILE_STATUSES)[number]
 
-export const VIDEO_PROVIDERS = ['YOUTUBE', 'UPLOAD'] as const
+export const VIDEO_PROVIDERS = ['YOUTUBE', 'UPLOAD', 'BUNNY'] as const
 export type VideoProvider = (typeof VIDEO_PROVIDERS)[number]
 
 export const CONTENT_TYPES = [
@@ -234,3 +234,24 @@ export const FEEDBACK_KINDS = ['BUG', 'SUGGESTION', 'RATING'] as const
 export type FeedbackKind = (typeof FEEDBACK_KINDS)[number]
 export const FEEDBACK_STATUSES = ['NEW', 'REVIEWED', 'DONE'] as const
 export type FeedbackStatus = (typeof FEEDBACK_STATUSES)[number]
+
+/* ───────────── الأكاديمية المدفوعة (M8) ───────────── */
+export const COURSE_STATUSES = ['DRAFT', 'PUBLISHED', 'ARCHIVED'] as const
+export type CourseStatus = (typeof COURSE_STATUSES)[number]
+/** مصدر الاشتراك: تسليم طلب كتاب، تفعيل يدوي من الإدارة، هدية/منحة، مطالبة بالرمز (وليّ الأمر) */
+export const ENROLLMENT_SOURCES = ['BOOK_ORDER', 'MANUAL', 'GIFT', 'CLAIM'] as const
+export type EnrollmentSource = (typeof ENROLLMENT_SOURCES)[number]
+export const COURSE_ENROLLMENT_STATUSES = ['ACTIVE', 'EXPIRED', 'REVOKED'] as const
+export type CourseEnrollmentStatus = (typeof COURSE_ENROLLMENT_STATUSES)[number]
+export const LIVE_PROVIDERS = ['ZOOM', 'MEET', 'YOUTUBE', 'OTHER'] as const
+export type LiveProvider = (typeof LIVE_PROVIDERS)[number]
+export const LIVE_SESSION_STATUSES = ['SCHEDULED', 'LIVE', 'ENDED', 'CANCELLED'] as const
+export type LiveSessionStatus = (typeof LIVE_SESSION_STATUSES)[number]
+export const OTP_PURPOSES = ['REGISTER', 'ORDER', 'CLAIM', 'RECOVER'] as const
+export type OtpPurpose = (typeof OTP_PURPOSES)[number]
+export const DELIVERY_EVENT_STATUSES = ['CREATED', 'IN_TRANSIT', 'DELIVERED', 'RETURNED', 'CANCELLED', 'UNKNOWN'] as const
+export type DeliveryEventStatus = (typeof DELIVERY_EVENT_STATUSES)[number]
+export const SUPPORT_KINDS = ['ORDER', 'DELIVERY', 'ACCESS', 'CONTENT', 'TEACHER', 'TECHNICAL', 'OTHER'] as const
+export type SupportKind = (typeof SUPPORT_KINDS)[number]
+export const SUPPORT_STATUSES = ['OPEN', 'IN_PROGRESS', 'WAITING_USER', 'RESOLVED', 'CLOSED'] as const
+export type SupportStatus = (typeof SUPPORT_STATUSES)[number]

@@ -1,0 +1,1425 @@
+[
+ {
+  "key": "2AS-FR-U3-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Identifier le chapeau dans la structure d'un reportage.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans un reportage, comment appelle-t-on le court paragraphe placé sous le titre qui résume le sujet et donne envie de lire ?",
+  "options": [
+   "L'intertitre",
+   "La légende",
+   "La signature",
+   "Le chapeau"
+  ],
+  "correct": 3,
+  "explanation": "Le chapeau est le texte introductif, souvent en gras, placé entre le titre et le corps du reportage. L'intertitre, lui, sépare les parties du corps du texte.",
+  "tags": [
+   "reportage",
+   "structure",
+   "chapeau"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L1-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Reconnaître le rôle des intertitres dans un reportage.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Les ____ sont de petits titres insérés dans le corps du reportage pour annoncer chaque partie et guider la lecture.",
+  "explanation": "Les intertitres sont de petits titres insérés dans le corps du reportage pour annoncer chaque partie et faciliter la lecture. Le nom du journaliste apparaît dans la signature, pas dans les intertitres.",
+  "tags": [
+   "reportage",
+   "intertitre"
+  ],
+  "blanks": [
+   "intertitres"
+  ],
+  "bank": [
+   "intertitres",
+   "chapeaux",
+   "signatures",
+   "légendes",
+   "sous-titres"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L1-0003",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Nommer les éléments de la structure d'un reportage.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Un reportage se compose d'un titre, d'un ____, d'un corps divisé par des intertitres et d'une ____ qui indique l'auteur.",
+  "blanks": [
+   "chapeau",
+   "signature"
+  ],
+  "bank": [
+   "chapeau",
+   "signature",
+   "sommaire",
+   "préface",
+   "conclusion",
+   "légende"
+  ],
+  "explanation": "Le chapeau introduit le sujet sous le titre et la signature identifie le journaliste. Le sommaire et la préface appartiennent aux livres, pas au reportage.",
+  "tags": [
+   "reportage",
+   "structure"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Identifier la visée d'un reportage touristique.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quelle est la visée principale d'un reportage touristique sur la Casbah d'Alger ?",
+  "options": [
+   "Raconter une histoire imaginaire",
+   "Exprimer les sentiments personnels d'un poète",
+   "Convaincre le lecteur d'acheter un produit",
+   "Informer le lecteur en lui faisant découvrir un lieu réel"
+  ],
+  "correct": 3,
+  "explanation": "Le reportage a une visée informative et descriptive : il fait découvrir un lieu réel à partir d'une observation sur le terrain. Il ne s'agit pas d'une publicité ni d'une fiction.",
+  "tags": [
+   "reportage",
+   "visée"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L1-0005",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Distinguer le titre informatif du titre incitatif.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Parmi ces titres de reportage, lequel est un titre incitatif (qui attire la curiosité sans tout dire) ?",
+  "options": [
+   "Le festival du tapis s'ouvre à Ghardaïa le 15 mars",
+   "Timimoun : un joyau rouge au cœur des dunes",
+   "Les hôtels de Béjaïa augmentent leurs tarifs",
+   "La route Alger-Tizi Ouzou fermée pour travaux"
+  ],
+  "correct": 1,
+  "explanation": "« Timimoun : un joyau rouge au cœur des dunes » joue sur une image (joyau) pour donner envie de lire : c'est un titre incitatif. Les autres titres donnent directement une information précise : ce sont des titres informatifs.",
+  "tags": [
+   "reportage",
+   "titre"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L1-0006",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Reconnaître le temps dominant du reportage.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Pour donner au lecteur l'impression d'être sur place, le reporter emploie surtout le ____ de l'indicatif, appelé présent de reportage.",
+  "blanks": [
+   "présent"
+  ],
+  "bank": [
+   "présent",
+   "passé simple",
+   "imparfait",
+   "futur",
+   "conditionnel"
+  ],
+  "explanation": "Le présent de reportage rend la scène vivante et actuelle, comme si le lecteur accompagnait le journaliste. Le passé simple appartient plutôt au récit littéraire.",
+  "tags": [
+   "reportage",
+   "présent"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L1-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Repérer le témoignage comme élément du reportage.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans un reportage, la phrase « “Ici, chaque pierre raconte une histoire”, nous confie Lamine, guide depuis vingt ans » est :",
+  "options": [
+   "Un témoignage rapporté au discours direct",
+   "Un intertitre",
+   "Le chapeau",
+   "Une description du lieu"
+  ],
+  "correct": 0,
+  "explanation": "Les guillemets et le verbe « confie » indiquent que le reporter rapporte les paroles d'une personne rencontrée sur place : c'est un témoignage. Un intertitre serait un titre court sans guillemets.",
+  "tags": [
+   "reportage",
+   "témoignage",
+   "discours direct"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L1-0008",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Comprendre la fonction des indications de lieu et de temps dans le chapeau.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Un chapeau de reportage commence par « Tlemcen, samedi matin. » Que précise cette mention ?",
+  "options": [
+   "Le nom du journaliste et son journal",
+   "Le lieu et le moment du reportage",
+   "Le titre et le sous-titre",
+   "La source de la photo"
+  ],
+  "correct": 1,
+  "explanation": "Le reportage ancre toujours les faits dans un lieu et un temps précis pour montrer que le journaliste était sur place. Le nom du journaliste figure dans la signature, à la fin.",
+  "tags": [
+   "reportage",
+   "chapeau",
+   "lieu"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L1-0009",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Distinguer le reportage de l'éditorial par la position de l'auteur.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Contrairement à l'éditorial, le reportage présente des faits ____ que le journaliste a observés lui-même sur le ____.",
+  "blanks": [
+   "objectifs",
+   "terrain"
+  ],
+  "bank": [
+   "objectifs",
+   "terrain",
+   "subjectifs",
+   "papier",
+   "imaginaires",
+   "studio"
+  ],
+  "explanation": "Le reporter rapporte ce qu'il a vu et entendu sur le terrain, en restant le plus objectif possible. L'éditorial, au contraire, défend une opinion subjective.",
+  "tags": [
+   "reportage",
+   "objectivité"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L1-0010",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Analyser l'ordre des éléments d'un reportage.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "On vous donne les éléments d'un reportage dans le désordre : (A) la signature, (B) le titre, (C) le corps avec ses intertitres, (D) le chapeau. Quel est l'ordre correct de présentation ?",
+  "options": [
+   "B – D – C – A",
+   "D – B – A – C",
+   "B – C – D – A",
+   "A – B – D – C"
+  ],
+  "correct": 0,
+  "explanation": "Le reportage s'ouvre par le titre, suivi du chapeau, puis du corps découpé par des intertitres, et se termine par la signature. Placer la signature au début est l'erreur la plus fréquente.",
+  "tags": [
+   "reportage",
+   "structure",
+   "ordre"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L1-0011",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Identifier le passage qui relève du chapeau dans un court extrait.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Lequel de ces énoncés peut servir de chapeau à un reportage sur le parc national du Djurdjura ?",
+  "options": [
+   "Une forêt de cèdres",
+   "Djurdjura, un paradis à deux heures d'Alger",
+   "Entre cèdres centenaires et sommets enneigés, le parc du Djurdjura attire chaque hiver des milliers de visiteurs. Nous y avons passé une journée.",
+   "Reportage réalisé par Nadia B."
+  ],
+  "correct": 2,
+  "explanation": "Le chapeau est un court paragraphe de deux ou trois phrases qui résume le sujet et annonce la présence du reporter. « Djurdjura, un paradis… » est un titre, « Une forêt de cèdres » un intertitre et la dernière proposition une signature.",
+  "tags": [
+   "reportage",
+   "chapeau"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L2-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Identifier l'adjectif épithète comme expansion du nom.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans « une plage dorée », quelle est la nature de l'expansion du nom « plage » ?",
+  "options": [
+   "Un complément du nom",
+   "Une apposition",
+   "Une proposition subordonnée relative",
+   "Un adjectif épithète"
+  ],
+  "correct": 3,
+  "explanation": "« dorée » est un adjectif qualificatif placé directement à côté du nom qu'il précise : c'est un adjectif épithète. Un complément du nom serait introduit par une préposition (« de sable »).",
+  "tags": [
+   "expansion du nom",
+   "adjectif"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L2-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Reconnaître le complément du nom.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans « les ruelles de la médina », le groupe « de la médina », introduit par une préposition, est un ____ du nom.",
+  "explanation": "« de la médina » est introduit par la préposition « de » et complète le nom « ruelles » : c'est un complément du nom. Un COD complète un verbe, pas un nom.",
+  "tags": [
+   "expansion du nom",
+   "complément du nom"
+  ],
+  "blanks": [
+   "complément"
+  ],
+  "bank": [
+   "complément",
+   "adjectif",
+   "pronom",
+   "sujet",
+   "attribut"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L2-0003",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Reconnaître le pronom relatif qui introduit une subordonnée relative.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans « la mosquée ____ domine la ville », la subordonnée relative est introduite par un pronom relatif sujet.",
+  "blanks": [
+   "qui"
+  ],
+  "bank": [
+   "qui",
+   "que",
+   "dont",
+   "où",
+   "quoi"
+  ],
+  "explanation": "« qui » remplace « la mosquée » et est sujet du verbe « domine ». « que » serait complément d'objet direct et « dont » remplacerait un complément introduit par « de ».",
+  "tags": [
+   "expansion du nom",
+   "relative",
+   "qui"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L2-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Identifier l'apposition.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans « Constantine, ville des ponts suspendus, surplombe le Rhumel », le groupe « ville des ponts suspendus » est :",
+  "options": [
+   "Un adjectif épithète",
+   "Une apposition",
+   "Une proposition subordonnée relative",
+   "Un complément circonstanciel de lieu"
+  ],
+  "correct": 1,
+  "explanation": "Le groupe nominal est séparé par des virgules et désigne la même réalité que « Constantine » : c'est une apposition. Il n'y a ni verbe conjugué (donc pas de relative) ni adjectif seul.",
+  "tags": [
+   "expansion du nom",
+   "apposition"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L2-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Choisir le pronom relatif « dont » après un complément en « de ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Le désert, ____ la beauté fascine les voyageurs, s'étend à perte de vue.",
+  "blanks": [
+   "dont"
+  ],
+  "bank": [
+   "dont",
+   "qui",
+   "que",
+   "où",
+   "lequel"
+  ],
+  "explanation": "On dit « la beauté du désert » : le complément introduit par « de » est remplacé par « dont ». « qui » serait sujet, « que » COD et « où » indiquerait un lieu ou un temps.",
+  "tags": [
+   "expansion du nom",
+   "relative",
+   "dont"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Appliquer l'accord de l'adjectif épithète.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez correctement : « des maisons ____ aux volets bleus ».",
+  "options": [
+   "blanches",
+   "blanche",
+   "blancs",
+   "blanc"
+  ],
+  "correct": 0,
+  "explanation": "L'adjectif épithète s'accorde en genre et en nombre avec le nom « maisons », féminin pluriel : « blanches ». « blancs » est masculin pluriel et « blanche » est féminin singulier.",
+  "tags": [
+   "expansion du nom",
+   "accord",
+   "adjectif"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L2-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Transformer une relative en adjectif épithète équivalent.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quelle phrase remplace la relative par un adjectif épithète de même sens ? « Un paysage qui respire le calme. »",
+  "options": [
+   "Un paysage de calme.",
+   "Un paysage paisible.",
+   "Un paysage, le calme même.",
+   "Un paysage où règne le calme."
+  ],
+  "correct": 1,
+  "explanation": "« paisible » est un adjectif épithète qui condense le sens de la relative. « de calme » est un complément du nom, « le calme même » une apposition et « où règne le calme » reste une relative.",
+  "tags": [
+   "expansion du nom",
+   "transformation"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L2-0008",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Utiliser le pronom relatif « où » pour un complément de lieu.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Nous avons visité le souk ____ les artisans vendent des tapis ____ les couleurs sont éclatantes.",
+  "blanks": [
+   "où",
+   "dont"
+  ],
+  "bank": [
+   "où",
+   "dont",
+   "qui",
+   "que",
+   "quand",
+   "lesquels"
+  ],
+  "explanation": "« où » remplace un complément de lieu (« dans le souk ») et « dont » remplace « les couleurs des tapis ». « que » serait COD et « qui » sujet, ce qui ne convient à aucun des deux fragments.",
+  "tags": [
+   "expansion du nom",
+   "relative",
+   "où"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L2-0009",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Reconnaître une description organisée selon un repère spatial.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Au premier plan, des barques colorées ; plus loin, le port ; à l'horizon, les montagnes bleutées. » Selon quel ordre cette description de lieu est-elle organisée ?",
+  "options": [
+   "Du plus proche au plus éloigné",
+   "Du plus ancien au plus récent",
+   "Du général au particulier",
+   "Du haut vers le bas"
+  ],
+  "correct": 0,
+  "explanation": "Les repères spatiaux « au premier plan », « plus loin », « à l'horizon » font progresser le regard du plus proche au plus lointain. Il n'y a aucune indication de temps ni de hauteur.",
+  "tags": [
+   "description",
+   "repères spatiaux"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L2-0010",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Analyser une phrase contenant plusieurs expansions du nom.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Les dunes immenses du Grand Erg, que le vent sculpte chaque nuit, changent de forme. » Combien d'expansions différentes complètent le nom « dunes » ?",
+  "options": [
+   "Une seule",
+   "Deux",
+   "Trois",
+   "Quatre"
+  ],
+  "correct": 2,
+  "explanation": "« immenses » (adjectif épithète), « du Grand Erg » (complément du nom) et « que le vent sculpte chaque nuit » (subordonnée relative) sont trois expansions du nom « dunes ». « de forme » complète le verbe « changent », pas le nom.",
+  "tags": [
+   "expansion du nom",
+   "analyse"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L2-0011",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Distinguer une relative explicative d'une relative déterminative par la ponctuation.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Comparez : (1) « Les oasis qui possèdent une source sont habitées. » (2) « Les oasis, qui possèdent une source, sont habitées. » Quelle est la différence de sens ?",
+  "options": [
+   "Il n'y a aucune différence de sens",
+   "Dans (1) seules certaines oasis sont concernées ; dans (2) toutes les oasis possèdent une source",
+   "Dans (2) seules certaines oasis sont concernées ; dans (1) toutes possèdent une source",
+   "Dans (1) la relative est une apposition"
+  ],
+  "correct": 1,
+  "explanation": "Sans virgules (1), la relative est déterminative : elle restreint le groupe aux seules oasis qui ont une source. Entre virgules (2), elle est explicative et ajoute une information valable pour toutes les oasis.",
+  "tags": [
+   "expansion du nom",
+   "relative",
+   "ponctuation"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L3-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L3",
+  "objective": "Identifier les deux temps de base du récit au passé.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quels sont les deux temps principaux utilisés dans un récit de voyage écrit au passé ?",
+  "options": [
+   "Le présent et le futur",
+   "Le passé composé et le futur antérieur",
+   "Le conditionnel et le subjonctif",
+   "Le passé simple et l'imparfait"
+  ],
+  "correct": 3,
+  "explanation": "Le récit au passé repose sur le couple passé simple (actions de premier plan) et imparfait (description, arrière-plan). Le présent et le futur ne sont pas des temps du récit au passé.",
+  "tags": [
+   "temps du récit",
+   "passé simple",
+   "imparfait"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L3-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L3",
+  "objective": "Conjuguer un verbe du premier groupe au passé simple.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Au lever du jour, la caravane ____ (quitter, passé simple) l'oasis.",
+  "blanks": [
+   "quitta"
+  ],
+  "bank": [
+   "quitta",
+   "quittait",
+   "quittera",
+   "a quitté",
+   "quittât"
+  ],
+  "explanation": "Au passé simple, les verbes en -er prennent la terminaison -a à la troisième personne du singulier : « quitta ». « quittait » est l'imparfait et « a quitté » le passé composé.",
+  "tags": [
+   "temps du récit",
+   "passé simple",
+   "conjugaison"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L3-0003",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L3",
+  "objective": "Reconnaître la valeur descriptive de l'imparfait.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans « Le ciel était rouge et les palmiers se balançaient doucement », les verbes sont à l'____ parce que le narrateur décrit le décor.",
+  "explanation": "L'imparfait sert à décrire le cadre, les paysages et les actions en cours de durée indéterminée. Les actions brèves et soudaines sont exprimées au passé simple.",
+  "tags": [
+   "temps du récit",
+   "imparfait",
+   "description"
+  ],
+  "blanks": [
+   "imparfait"
+  ],
+  "bank": [
+   "imparfait",
+   "passé simple",
+   "passé composé",
+   "futur",
+   "impératif"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L3-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L3",
+  "objective": "Choisir le passé simple pour une action de premier plan.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « Nous marchions depuis des heures quand, soudain, un chameau ____ devant nous. »",
+  "options": [
+   "surgissait",
+   "surgit",
+   "surgira",
+   "surgirait"
+  ],
+  "correct": 1,
+  "explanation": "« soudain » introduit une action brève qui interrompt l'action en cours : on emploie le passé simple « surgit ». L'imparfait « surgissait » ne marquerait pas la rupture.",
+  "tags": [
+   "temps du récit",
+   "passé simple",
+   "premier plan"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L3-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L3",
+  "objective": "Conjuguer un verbe du troisième groupe au passé simple.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Les voyageurs ____ (prendre) la route du sud et ____ (voir) enfin les premières dunes.",
+  "blanks": [
+   "prirent",
+   "virent"
+  ],
+  "bank": [
+   "prirent",
+   "virent",
+   "prenaient",
+   "voyaient",
+   "prendront",
+   "prisent",
+   "voyèrent"
+  ],
+  "explanation": "« prendre » et « voir » font « prirent » et « virent » à la troisième personne du pluriel du passé simple. « prisent » et « voyèrent » sont des formes inventées par analogie avec les verbes en -er.",
+  "tags": [
+   "temps du récit",
+   "passé simple",
+   "troisième groupe"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L3-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L3",
+  "objective": "Reconnaître la valeur d'antériorité du plus-que-parfait.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Quand nous arrivâmes à Djanet, le guide avait déjà préparé les tentes. » Que marque le plus-que-parfait « avait préparé » ?",
+  "options": [
+   "Une action simultanée à l'arrivée",
+   "Une action habituelle",
+   "Une action postérieure à l'arrivée",
+   "Une action antérieure à l'arrivée"
+  ],
+  "correct": 3,
+  "explanation": "Le plus-que-parfait exprime une action passée accomplie avant une autre action passée : les tentes étaient prêtes avant l'arrivée. L'adverbe « déjà » confirme cette antériorité.",
+  "tags": [
+   "temps du récit",
+   "plus-que-parfait",
+   "antériorité"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L3-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L3",
+  "objective": "Distinguer le récit au passé composé du récit au passé simple.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Un voyageur écrit dans son carnet : « Ce matin, j'ai pris le bus pour Oran, puis j'ai visité le fort de Santa Cruz. » Quel temps domine ce récit et pourquoi ?",
+  "options": [
+   "Le passé simple, parce que c'est un récit écrit",
+   "Le passé composé, parce que le narrateur raconte des faits récents à la première personne",
+   "L'imparfait, parce qu'il décrit un trajet",
+   "Le présent, parce que l'action est en cours"
+  ],
+  "correct": 1,
+  "explanation": "« j'ai pris », « j'ai visité » sont au passé composé, temps du récit personnel et proche de l'oral, fréquent dans un carnet de voyage. Le passé simple est réservé au récit littéraire plus distant.",
+  "tags": [
+   "temps du récit",
+   "passé composé"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L3-0008",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L3",
+  "objective": "Employer l'imparfait pour une action en cours interrompue.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Le soleil ____ (se coucher) lentement lorsque le muezzin lança l'appel à la prière.",
+  "blanks": [
+   "se couchait"
+  ],
+  "bank": [
+   "se couchait",
+   "se coucha",
+   "se couchera",
+   "s'est couché",
+   "se couche"
+  ],
+  "explanation": "L'action longue en cours (le coucher du soleil) est à l'imparfait, tandis que l'action brève qui l'interrompt (« lança ») est au passé simple. « se coucha » présenterait les deux actions comme successives.",
+  "tags": [
+   "temps du récit",
+   "imparfait",
+   "durée"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L3-0009",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L3",
+  "objective": "Analyser l'alternance des temps dans un passage narratif.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« La ville dormait encore. Une porte grinça, un homme sortit, puis le silence revint. » Combien de verbes sont au passé simple ?",
+  "options": [
+   "Un",
+   "Deux",
+   "Trois",
+   "Quatre"
+  ],
+  "correct": 2,
+  "explanation": "« grinça », « sortit » et « revint » sont au passé simple et racontent trois actions successives. « dormait » est à l'imparfait : il décrit l'état de la ville en arrière-plan.",
+  "tags": [
+   "temps du récit",
+   "analyse",
+   "alternance"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L3-0010",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L3",
+  "objective": "Repérer une erreur de concordance des temps dans un récit.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Quelle phrase contient une erreur d'emploi des temps du récit ?",
+  "options": [
+   "Il pleuvait quand nous quittâmes Annaba.",
+   "Le bateau accosta et les passagers descendirent.",
+   "Chaque soir, les pêcheurs rentraient au port.",
+   "Le guide nous montrait la grotte et, soudain, une chauve-souris s'envolait."
+  ],
+  "correct": 3,
+  "explanation": "Après « soudain », l'action brève « s'envoler » doit être au passé simple (« s'envola ») et non à l'imparfait, qui ne peut pas exprimer un événement ponctuel et inattendu. Les trois autres phrases respectent l'alternance imparfait/passé simple.",
+  "tags": [
+   "temps du récit",
+   "erreur",
+   "concordance"
+  ]
+ },
+ {
+  "key": "2AS-FR-U3-L3-0011",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L3",
+  "objective": "Distinguer la terminaison du passé simple de celle de l'imparfait à la première personne.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Quelle forme est au passé simple, première personne du singulier ?",
+  "options": [
+   "je visitais",
+   "je visitai",
+   "je visiterai",
+   "je visite"
+  ],
+  "correct": 1,
+  "explanation": "Au passé simple, « je visitai » se termine par -ai (sans s), alors que l'imparfait « je visitais » prend -ais. La confusion entre ces deux terminaisons est très fréquente à l'écrit.",
+  "tags": [
+   "temps du récit",
+   "passé simple",
+   "terminaison"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L1-0001",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Identifier les cinq étapes du schéma narratif.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quelle étape du schéma narratif vient immédiatement après la situation initiale ?",
+  "options": [
+   "L'élément perturbateur",
+   "Le dénouement",
+   "Les péripéties",
+   "La situation finale"
+  ],
+  "correct": 0,
+  "explanation": "Le schéma narratif suit l'ordre : situation initiale, élément perturbateur, péripéties, dénouement, situation finale. L'élément perturbateur est l'événement qui rompt l'équilibre de départ.",
+  "tags": [
+   "schéma narratif",
+   "nouvelle"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L1-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Nommer l'étape qui rétablit l'équilibre à la fin du récit.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "L'étape du schéma narratif qui résout le problème et met fin aux péripéties s'appelle le ____.",
+  "blanks": [
+   "dénouement"
+  ],
+  "bank": [
+   "dénouement",
+   "nœud",
+   "prologue",
+   "chapeau",
+   "résumé"
+  ],
+  "explanation": "Le dénouement est le moment où l'action se dénoue et où le problème trouve une solution. Le nœud, au contraire, désigne le moment où le problème se noue.",
+  "tags": [
+   "schéma narratif",
+   "dénouement"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L1-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Reconnaître le point de vue interne.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "« Je sentis mon cœur battre quand la porte du vaisseau s'ouvrit. » Quel est le point de vue narratif ?",
+  "options": [
+   "Point de vue externe",
+   "Point de vue omniscient",
+   "Point de vue interne",
+   "Point de vue neutre"
+  ],
+  "correct": 2,
+  "explanation": "Le narrateur raconte ce qu'il ressent de l'intérieur (« je sentis mon cœur battre ») : c'est le point de vue interne. En point de vue externe, le narrateur ne rapporterait que ce qui se voit de l'extérieur.",
+  "tags": [
+   "point de vue",
+   "focalisation interne"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L1-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Reconnaître le point de vue omniscient.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Un narrateur connaît les pensées de tous les personnages, leur passé et leur avenir. De quel point de vue s'agit-il ?",
+  "options": [
+   "Point de vue interne",
+   "Point de vue externe",
+   "Point de vue du personnage principal",
+   "Point de vue omniscient"
+  ],
+  "correct": 3,
+  "explanation": "Le narrateur omniscient sait tout : il entre dans l'esprit de chaque personnage et connaît les événements passés et futurs. En point de vue interne, il ne connaît que les pensées d'un seul personnage.",
+  "tags": [
+   "point de vue",
+   "omniscient"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L1-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Identifier l'élément perturbateur dans un récit d'anticipation.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans une nouvelle d'anticipation, la phrase « Un matin, tous les écrans de la ville s'éteignirent en même temps » correspond à l'étape de l'____ ____.",
+  "blanks": [
+   "élément",
+   "perturbateur"
+  ],
+  "bank": [
+   "élément",
+   "perturbateur",
+   "situation",
+   "initiale",
+   "dénouement",
+   "final"
+  ],
+  "explanation": "Cet événement soudain rompt l'équilibre de la vie quotidienne et déclenche l'action : c'est l'élément perturbateur. La situation initiale décrirait au contraire la ville avant la panne.",
+  "tags": [
+   "schéma narratif",
+   "élément perturbateur",
+   "anticipation"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L1-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Reconnaître les caractéristiques de la nouvelle d'anticipation.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quel trait caractérise la nouvelle d'anticipation ?",
+  "options": [
+   "Elle se déroule dans un futur imaginé à partir des avancées de la science et de la technique",
+   "Elle raconte des faits historiques vérifiés",
+   "Elle se passe toujours dans un désert",
+   "Elle est écrite uniquement au passé simple"
+  ],
+  "correct": 0,
+  "explanation": "La nouvelle d'anticipation imagine un avenir possible en s'appuyant sur la science et la technique, souvent pour mettre en garde. Elle ne rapporte pas des faits historiques réels.",
+  "tags": [
+   "nouvelle d'anticipation",
+   "genre"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L1-0007",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Distinguer le narrateur de l'auteur.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Même quand une nouvelle est écrite avec « je », la voix fictive qui raconte s'appelle le ____ et ne se confond pas avec l'____ réel.",
+  "explanation": "Le narrateur est une voix créée par l'auteur à l'intérieur de la fiction ; même avec « je », il ne se confond pas avec l'auteur réel. Confondre les deux est une erreur fréquente.",
+  "tags": [
+   "narrateur",
+   "auteur"
+  ],
+  "blanks": [
+   "narrateur",
+   "auteur"
+  ],
+  "bank": [
+   "narrateur",
+   "auteur",
+   "lecteur",
+   "personnage",
+   "héros",
+   "éditeur"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L1-0008",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Reconnaître le point de vue externe.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quand le narrateur décrit seulement les gestes et les paroles des personnages, comme une caméra, sans révéler leurs pensées, le point de vue est ____.",
+  "blanks": [
+   "externe"
+  ],
+  "bank": [
+   "externe",
+   "interne",
+   "omniscient",
+   "subjectif",
+   "personnel"
+  ],
+  "explanation": "Le point de vue externe se limite à ce qu'un témoin pourrait observer ; les pensées restent inaccessibles. Le point de vue interne donnerait accès aux sentiments d'un personnage.",
+  "tags": [
+   "point de vue",
+   "externe"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L1-0009",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Situer un passage dans le schéma narratif.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Depuis ce jour, les habitants de la cité vivent sans robots et cultivent eux-mêmes leurs jardins. » À quelle étape du schéma narratif appartient cette phrase ?",
+  "options": [
+   "La situation finale",
+   "L'élément perturbateur",
+   "Les péripéties",
+   "La situation initiale"
+  ],
+  "correct": 0,
+  "explanation": "« Depuis ce jour » et le présent indiquent un nouvel équilibre durable installé après la résolution : c'est la situation finale. La situation initiale décrirait la vie avant l'événement déclencheur.",
+  "tags": [
+   "schéma narratif",
+   "situation finale"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L1-0010",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Analyser un changement de point de vue dans un extrait.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Yacine regardait le ciel violet. Il ignorait que, au même instant, à mille kilomètres de là, sa sœur prenait la même décision que lui. » Quel point de vue permet la deuxième phrase ?",
+  "options": [
+   "Interne, car on suit Yacine",
+   "Externe, car on ne voit que des gestes",
+   "Omniscient, car le narrateur sait ce que Yacine ignore et ce que fait sa sœur ailleurs",
+   "Interne, car on suit la sœur"
+  ],
+  "correct": 2,
+  "explanation": "Le narrateur révèle ce que le personnage ignore et ce qui se passe à mille kilomètres : seul un narrateur omniscient le peut. En point de vue interne, le lecteur n'en saurait pas plus que Yacine.",
+  "tags": [
+   "point de vue",
+   "analyse",
+   "omniscient"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L1-0011",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Remettre dans l'ordre les étapes d'un récit d'anticipation.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Voici les étapes d'une nouvelle dans le désordre : (A) les savants trouvent un filtre pour purifier l'air ; (B) en 2080, la ville vit sous un dôme ; (C) le dôme se fissure ; (D) les habitants cherchent des solutions et échouent plusieurs fois ; (E) la ville respire à nouveau sans dôme. Quel est l'ordre du schéma narratif ?",
+  "options": [
+   "B – C – D – A – E",
+   "C – B – D – A – E",
+   "B – D – C – A – E",
+   "B – C – A – D – E"
+  ],
+  "correct": 0,
+  "explanation": "La situation initiale (B) est suivie de l'élément perturbateur (C), des péripéties (D), du dénouement (A) et de la situation finale (E). Placer la fissure avant la description de la ville ou le dénouement avant les péripéties brise la logique du récit.",
+  "tags": [
+   "schéma narratif",
+   "ordre",
+   "anticipation"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L2-0001",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Conjuguer un verbe du premier groupe au futur simple.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans cent ans, les touristes ____ (voyager, futur simple) peut-être jusqu'à la Lune.",
+  "explanation": "Au futur simple, on ajoute -ont à l'infinitif pour la troisième personne du pluriel : « voyageront ». « voyageraient » est le conditionnel présent, reconnaissable à -aient.",
+  "tags": [
+   "futur simple",
+   "conjugaison"
+  ],
+  "blanks": [
+   "voyageront"
+  ],
+  "bank": [
+   "voyageront",
+   "voyageraient",
+   "voyageaient",
+   "voyagent",
+   "voyagèrent"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L2-0002",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Conjuguer « être » au futur simple.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "En 2100, les voitures ____ (être, futur simple) entièrement autonomes.",
+  "blanks": [
+   "seront"
+  ],
+  "bank": [
+   "seront",
+   "seraient",
+   "sont",
+   "étaient",
+   "soient"
+  ],
+  "explanation": "« être » au futur simple fait « seront » à la troisième personne du pluriel. « seraient » est le conditionnel présent, qui exprimerait une hypothèse et non une prévision.",
+  "tags": [
+   "futur simple",
+   "être"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L2-0003",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Reconnaître la terminaison du conditionnel présent.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quelle forme est au conditionnel présent ?",
+  "options": [
+   "nous habiterons",
+   "nous habitions",
+   "nous habiterions",
+   "nous habitâmes"
+  ],
+  "correct": 2,
+  "explanation": "Le conditionnel présent se forme avec le radical du futur (« habiter- ») et les terminaisons de l'imparfait (-ions) : « habiterions ». « habiterons » est le futur simple.",
+  "tags": [
+   "conditionnel",
+   "terminaison"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L2-0004",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Appliquer la règle de l'hypothèse avec « si + imparfait ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Complétez : « Si les océans montaient de deux mètres, de nombreuses villes côtières ____. »",
+  "options": [
+   "disparaîtront",
+   "disparaîtraient",
+   "disparaissent",
+   "disparaîtraient été"
+  ],
+  "correct": 1,
+  "explanation": "Après « si + imparfait », la conséquence hypothétique se met au conditionnel présent : « disparaîtraient ». Le futur « disparaîtront » s'emploie seulement après « si + présent ».",
+  "tags": [
+   "conditionnel",
+   "hypothèse",
+   "si"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L2-0005",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Employer le futur simple après « si + présent ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Si nous protégeons les forêts aujourd'hui, nos enfants ____ (respirer) un air plus pur demain.",
+  "blanks": [
+   "respireront"
+  ],
+  "bank": [
+   "respireront",
+   "respireraient",
+   "respirent",
+   "respiraient",
+   "respirèrent"
+  ],
+  "explanation": "Avec « si + présent », la conséquence s'exprime au futur simple : « respireront ». « respireraient » (conditionnel) exigerait « si + imparfait » dans la proposition de condition.",
+  "tags": [
+   "futur simple",
+   "hypothèse",
+   "si"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L2-0006",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Reconnaître la valeur d'antériorité du futur antérieur.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Quand les robots auront remplacé tous les ouvriers, que feront les humains ? » Que marque le futur antérieur « auront remplacé » ?",
+  "options": [
+   "Une action future accomplie avant une autre action future",
+   "Une action passée",
+   "Une hypothèse irréelle",
+   "Une action en cours au présent"
+  ],
+  "correct": 0,
+  "explanation": "Le futur antérieur exprime une action future qui sera terminée avant une autre action future (« feront »). Il ne renvoie pas au passé malgré l'auxiliaire au futur et le participe passé.",
+  "tags": [
+   "futur antérieur",
+   "antériorité"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L2-0007",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Reconnaître la valeur de politesse ou de souhait du conditionnel.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans « J'aimerais visiter Mars un jour », quelle est la valeur du conditionnel « aimerais » ?",
+  "options": [
+   "Un ordre",
+   "Une action passée",
+   "Un souhait",
+   "Une certitude future"
+  ],
+  "correct": 2,
+  "explanation": "Le conditionnel exprime ici un désir, un souhait atténué, et non une certitude. Pour une certitude future, on emploierait le futur simple (« je visiterai »).",
+  "tags": [
+   "conditionnel",
+   "valeur",
+   "souhait"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L2-0008",
+  "type": "FILL_BLANK",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Former le futur antérieur avec l'auxiliaire « avoir ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dès que les scientifiques ____ ____ (terminer, futur antérieur) le vaccin, l'épidémie reculera.",
+  "blanks": [
+   "auront",
+   "terminé"
+  ],
+  "bank": [
+   "auront",
+   "terminé",
+   "auraient",
+   "termineront",
+   "ont",
+   "terminer"
+  ],
+  "explanation": "Le futur antérieur se forme avec l'auxiliaire au futur simple (« auront ») suivi du participe passé (« terminé »). « auraient terminé » serait le conditionnel passé.",
+  "tags": [
+   "futur antérieur",
+   "formation"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L2-0009",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Distinguer le futur simple du conditionnel présent à la première personne.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Quelle phrase exprime une prévision certaine et non une hypothèse ?",
+  "options": [
+   "Je partirais sur la Lune si j'en avais les moyens.",
+   "Je partirai sur la Lune en 2095.",
+   "Je partirais volontiers sur la Lune.",
+   "Si je partais sur la Lune, je prendrais des photos."
+  ],
+  "correct": 1,
+  "explanation": "« Je partirai » (-ai) est au futur simple et présente le départ comme certain. Les formes en -ais sont au conditionnel et expriment une hypothèse ou un souhait ; la confusion -ai/-ais est fréquente.",
+  "tags": [
+   "futur simple",
+   "conditionnel",
+   "première personne"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L2-0010",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Repérer une erreur de concordance après « si ».",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Quelle phrase contient une erreur de concordance des temps ?",
+  "options": [
+   "Si la pluie cessait, nous sortirions.",
+   "Si tu viens demain, nous irons au musée.",
+   "Si les machines pensaient, elles se révolteraient.",
+   "Si l'humanité quitterait la Terre, elle vivrait sur Mars."
+  ],
+  "correct": 3,
+  "explanation": "Le conditionnel ne s'emploie jamais directement après « si » : il faut « Si l'humanité quittait la Terre ». Dans les autres phrases, « si » est bien suivi de l'imparfait ou du présent.",
+  "tags": [
+   "conditionnel",
+   "si",
+   "erreur"
+  ]
+ },
+ {
+  "key": "2AS-FR-U4-L2-0011",
+  "type": "MCQ",
+  "grade": "2AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L2",
+  "objective": "Analyser la valeur du futur dans un récit d'anticipation.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Une nouvelle d'anticipation commence ainsi : « En 2150, l'eau coûtera plus cher que l'or. » Pourquoi l'auteur choisit-il le futur simple plutôt que le conditionnel ?",
+  "options": [
+   "Pour montrer que l'événement s'est déjà produit",
+   "Pour présenter cet avenir comme une réalité certaine et frapper le lecteur",
+   "Pour exprimer un simple souhait de l'auteur",
+   "Pour demander poliment l'avis du lecteur"
+  ],
+  "correct": 1,
+  "explanation": "Le futur simple présente la vision d'avenir comme un fait assuré, ce qui renforce l'effet d'avertissement de l'anticipation. Le conditionnel atténuerait l'affirmation en la rendant hypothétique.",
+  "tags": [
+   "futur simple",
+   "anticipation",
+   "valeur"
+  ]
+ }
+]

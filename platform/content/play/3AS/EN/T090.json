@@ -1,0 +1,1284 @@
+[
+ {
+  "key": "3AS-EN-U5-L1-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Recognise the basic form of the present simple passive.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Choose the correct passive sentence.",
+  "options": [
+   "The Moon is observed by astronomers every night.",
+   "The Moon observes by astronomers every night.",
+   "The Moon is observe by astronomers every night.",
+   "The Moon observed by astronomers every night."
+  ],
+  "correct": 0,
+  "explanation": "The present simple passive is formed with 'is/are + past participle' (is observed). 'Is observe' uses the base form instead of the past participle, and the other two options have no auxiliary 'be'.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "present simple"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L1-0002",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Identify the auxiliary used in the past simple passive.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The first artificial satellite ____ into orbit in the twentieth century.",
+  "options": [
+   "is launched",
+   "was launched",
+   "launched",
+   "has launched"
+  ],
+  "correct": 1,
+  "explanation": "A finished past event (the twentieth century) takes the past simple passive: 'was + past participle'. 'Is launched' is present, and 'launched' / 'has launched' are active forms that would need the satellite to do the launching.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "past simple"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L1-0003",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Transform an active sentence into the passive without changing the tense.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which sentence is the correct passive form of: 'Scientists have discovered many exoplanets'?",
+  "options": [
+   "Many exoplanets were discovered by scientists.",
+   "Many exoplanets are discovered by scientists.",
+   "Many exoplanets have been discovered by scientists.",
+   "Many exoplanets had been discovered by scientists."
+  ],
+  "correct": 2,
+  "explanation": "The active verb is present perfect (have discovered), so the passive must keep that tense: 'have been + past participle'. The other options change the tense to past simple, present simple or past perfect.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "present perfect"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L1-0004",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Use the passive with a modal verb.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Choose the correct option: 'Mars ____ with the naked eye on a clear night.'",
+  "options": [
+   "can see",
+   "can be see",
+   "can been seen",
+   "can be seen"
+  ],
+  "correct": 3,
+  "explanation": "After a modal, the passive is 'modal + be + past participle' (can be seen). 'Can see' is active and would mean Mars is doing the seeing; 'can be see' lacks the past participle.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "modals"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L1-0005",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Decide when the agent should be omitted in a passive sentence.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "In which sentence is the 'by' phrase unnecessary and best left out?",
+  "options": [
+   "The theory of relativity was developed by Einstein.",
+   "The telescope was invented by a Dutch lens maker.",
+   "The space station is repaired by people.",
+   "The comet was photographed by an amateur astronomer."
+  ],
+  "correct": 2,
+  "explanation": "'By people' adds no information, so the agent is dropped: 'The space station is repaired.' In the other sentences the agent is specific and important (Einstein, a Dutch lens maker, an amateur astronomer).",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "agent"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L1-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Distinguish passive forms from active forms of intransitive verbs.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which of these sentences about space CANNOT be put into the passive voice?",
+  "options": [
+   "The probe sent clear images of Jupiter.",
+   "The asteroid passed very close to Earth.",
+   "Galileo observed four moons around Jupiter.",
+   "The agency will launch a new rocket next year."
+  ],
+  "correct": 1,
+  "explanation": "'Passed' is used here without an object (intransitive), so there is nothing to become the subject of a passive sentence. The other verbs (sent, observed, launch) have direct objects and can be made passive.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "transitive verbs"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L1-0007",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Use the present continuous passive correctly.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Choose the correct sentence describing an action in progress now.",
+  "options": [
+   "A new telescope is being built in the desert at the moment.",
+   "A new telescope is been built in the desert at the moment.",
+   "A new telescope is building in the desert at the moment.",
+   "A new telescope has being built in the desert at the moment."
+  ],
+  "correct": 0,
+  "explanation": "The present continuous passive is 'is/are + being + past participle'. 'Is been' and 'has being' mix up the auxiliaries, and 'is building' is active, which would mean the telescope builds something.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "present continuous"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L1-0008",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Form the present simple passive with a plural subject.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The planets ____ by the Sun's gravity, which keeps them in their orbits.",
+  "blanks": [
+   "are held"
+  ],
+  "bank": [
+   "are held",
+   "is held",
+   "hold",
+   "are holding",
+   "held"
+  ],
+  "explanation": "The plural subject 'planets' takes 'are', and the passive needs the past participle 'held'. 'Is held' does not agree with a plural subject, and 'hold' / 'are holding' are active forms.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "subject-verb agreement"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L1-0009",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Use the past simple passive with an irregular past participle.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Before modern instruments existed, the positions of the stars ____ (draw) by hand on paper charts.",
+  "blanks": [
+   "were drawn"
+  ],
+  "bank": [
+   "were drawn",
+   "were drew",
+   "was drawn",
+   "drew",
+   "are drawn",
+   "drawn"
+  ],
+  "explanation": "The sentence is about the past and the subject 'positions' is plural, so 'were + drawn' is required. 'Drew' is the past simple, not the past participle, and 'was drawn' does not agree with a plural subject.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "irregular verbs"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L1-0010",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Use the future passive with 'will'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "A new space telescope ____ into orbit next year to study distant galaxies.",
+  "blanks": [
+   "will be sent"
+  ],
+  "bank": [
+   "will be sent",
+   "will send",
+   "will been sent",
+   "is sent",
+   "was sent",
+   "will sending"
+  ],
+  "explanation": "'Next year' calls for the future, and the telescope does not send itself, so the passive 'will be sent' is needed. 'Will send' is active, and 'will been sent' uses the wrong form of 'be'.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "future"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L1-0011",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Use the past perfect passive in a sequence of past events.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "By the time the astronauts returned, the results of their experiments ____ already ____ to Earth.",
+  "blanks": [
+   "had",
+   "been transmitted"
+  ],
+  "bank": [
+   "had",
+   "been transmitted",
+   "have",
+   "were",
+   "transmitted",
+   "being transmitted"
+  ],
+  "explanation": "'By the time + past simple' signals an earlier past action, so the past perfect passive 'had been transmitted' is correct. 'Have' would be present perfect, and 'being transmitted' would form a continuous tense that does not fit 'already'.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "past perfect"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L1-0012",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L1",
+  "objective": "Change an active sentence to the passive, keeping the agent.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Active: 'The Sun's light reaches the Earth in about eight minutes.' Passive: 'The Earth ____ by the Sun's light in about eight minutes.'",
+  "blanks": [
+   "is reached"
+  ],
+  "bank": [
+   "is reached",
+   "reaches",
+   "was reached",
+   "is reaching",
+   "reached"
+  ],
+  "explanation": "The active verb is present simple (reaches), so the passive is 'is + reached'. 'Was reached' changes the tense, and 'is reaching' is the active present continuous.",
+  "tags": [
+   "grammar",
+   "passive voice",
+   "transformation"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Choose the correct relative pronoun for a person.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "An astronomer is a scientist ____ studies stars, planets and other objects in space.",
+  "options": [
+   "which",
+   "who",
+   "where",
+   "whose"
+  ],
+  "correct": 1,
+  "explanation": "'Who' refers to a person (a scientist) and acts as the subject of 'studies'. 'Which' is used for things, 'where' for places and 'whose' for possession.",
+  "tags": [
+   "grammar",
+   "relative clauses",
+   "definitions"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0002",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Choose the correct relative pronoun for a thing in a definition.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "A telescope is an instrument ____ makes distant objects appear closer.",
+  "options": [
+   "who",
+   "whom",
+   "which",
+   "where"
+  ],
+  "correct": 2,
+  "explanation": "'Which' (or 'that') introduces a relative clause about a thing (an instrument). 'Who' and 'whom' are for people, and 'where' is for places.",
+  "tags": [
+   "grammar",
+   "relative clauses",
+   "definitions"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0003",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Use 'where' to define a place.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Complete the definition: 'An observatory is a building ____ astronomers watch the sky.'",
+  "options": [
+   "which",
+   "where",
+   "whose",
+   "when"
+  ],
+  "correct": 1,
+  "explanation": "'Where' replaces 'in which' and introduces a clause about a place where something happens. 'Which' would need a preposition ('in which'), and 'when' refers to time.",
+  "tags": [
+   "grammar",
+   "relative clauses",
+   "where"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0004",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Use 'whose' to express possession in a relative clause.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Choose the correct sentence about Saturn's rings.",
+  "options": [
+   "Saturn is a planet whose rings can be seen with a small telescope.",
+   "Saturn is a planet who rings can be seen with a small telescope.",
+   "Saturn is a planet which rings can be seen with a small telescope.",
+   "Saturn is a planet that its rings can be seen with a small telescope."
+  ],
+  "correct": 0,
+  "explanation": "'Whose' shows possession (the rings of the planet) and is used for both people and things. 'Who' and 'which' cannot be followed directly by a noun in this way, and 'that its' repeats the possessive incorrectly.",
+  "tags": [
+   "grammar",
+   "relative clauses",
+   "whose"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0005",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Identify when the relative pronoun can be omitted.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "In which sentence can the relative pronoun be left out without making the sentence incorrect?",
+  "options": [
+   "The scientist who discovered the comet was very young.",
+   "A galaxy is a system which contains billions of stars.",
+   "The planet which we studied last week is Venus.",
+   "A black hole is a region whose gravity is extremely strong."
+  ],
+  "correct": 2,
+  "explanation": "In 'the planet which we studied', 'which' is the object of 'studied' (the subject is 'we'), so it can be omitted: 'The planet we studied'. In the other sentences the pronoun is the subject of the clause or shows possession, so it must stay.",
+  "tags": [
+   "grammar",
+   "relative clauses",
+   "omission"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Distinguish defining from non-defining relative clauses.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which sentence contains a non-defining relative clause and is correctly punctuated?",
+  "options": [
+   "The planet, that is closest to the Sun, is Mercury.",
+   "Jupiter, which is the largest planet, has dozens of moons.",
+   "Students who study astronomy, need good maths skills.",
+   "A comet is an icy body, which orbits the Sun."
+  ],
+  "correct": 1,
+  "explanation": "'Which is the largest planet' gives extra, non-essential information about a unique noun (Jupiter), so it is set off by commas. 'That' cannot introduce a non-defining clause, and in the other options the clause is defining, so the commas are wrong.",
+  "tags": [
+   "grammar",
+   "relative clauses",
+   "punctuation"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0007",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Recognise the structure of a good definition (term + category + distinguishing feature).",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which of these is the best-formed definition?",
+  "options": [
+   "A satellite is when something goes round a planet.",
+   "A satellite is a thing in space.",
+   "A satellite is an object that orbits a planet or a star.",
+   "A satellite means it orbits."
+  ],
+  "correct": 2,
+  "explanation": "A good definition names the term, places it in a general category (an object) and adds a distinguishing feature in a relative clause (that orbits a planet or a star). 'Is when' is not a noun category, and 'a thing in space' is too vague.",
+  "tags": [
+   "writing",
+   "definitions",
+   "structure"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0008",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Complete a definition with the correct relative pronoun for a thing.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "A star is a huge ball of hot gas ____ produces its own light and heat.",
+  "blanks": [
+   [
+    "which",
+    "that"
+   ]
+  ],
+  "bank": [
+   "which",
+   "that",
+   "who",
+   "where",
+   "whose"
+  ],
+  "explanation": "The noun 'ball of gas' is a thing and is the subject of 'produces', so 'which' or 'that' is correct. 'Who' is only for people and 'where' is for places.",
+  "tags": [
+   "grammar",
+   "relative clauses",
+   "definitions"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0009",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Use 'where' in a definition of a place.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "A planetarium is a place ____ images of the night sky are projected onto a dome.",
+  "blanks": [
+   "where"
+  ],
+  "bank": [
+   "where",
+   "which",
+   "who",
+   "when",
+   "whose"
+  ],
+  "explanation": "A planetarium is a place and the clause describes what happens there, so 'where' is needed. 'Which' would require a preposition ('in which'), and 'when' refers to time.",
+  "tags": [
+   "grammar",
+   "relative clauses",
+   "where"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0010",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Use 'whose' for possession in a definition.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "A dwarf planet is a body ____ gravity is not strong enough to clear its orbit of other objects.",
+  "blanks": [
+   "whose"
+  ],
+  "bank": [
+   "whose",
+   "which",
+   "who",
+   "that",
+   "where",
+   "whom"
+  ],
+  "explanation": "'Gravity' belongs to the body, so the possessive relative 'whose' is required. 'Which' and 'that' cannot be followed directly by a possessed noun, and 'whom' is an object pronoun for people.",
+  "tags": [
+   "grammar",
+   "relative clauses",
+   "whose"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0011",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Use 'when' in a relative clause of time.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "An eclipse is a moment ____ one celestial body passes into the shadow of another.",
+  "blanks": [
+   "when"
+  ],
+  "bank": [
+   "when",
+   "where",
+   "which",
+   "who",
+   "whose"
+  ],
+  "explanation": "'Moment' is a time expression, so the relative adverb 'when' introduces the clause. 'Where' is for places and 'which' would need a preposition ('at which').",
+  "tags": [
+   "grammar",
+   "relative clauses",
+   "when"
+  ]
+ },
+ {
+  "key": "3AS-EN-U5-L2-0012",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U5",
+  "lesson": "L2",
+  "objective": "Combine two sentences into a definition using the correct relative pronouns.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Complete: 'An astronaut is a person ____ travels into space and ____ job requires years of training.'",
+  "blanks": [
+   "who",
+   "whose"
+  ],
+  "bank": [
+   "who",
+   "whose",
+   "which",
+   "whom",
+   "where",
+   "that his"
+  ],
+  "explanation": "The first clause needs a subject pronoun for a person ('who travels'); the second expresses possession ('whose job'). 'Whom' is an object form and cannot be the subject of 'travels', and 'that his' is not a correct relative structure.",
+  "tags": [
+   "grammar",
+   "relative clauses",
+   "combining sentences"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Identify the adjective that names an emotion from its description.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Nadia has not seen her brother for three years and is counting the days until he comes home. She feels very ____.",
+  "options": [
+   "bored",
+   "excited",
+   "ashamed",
+   "jealous"
+  ],
+  "correct": 1,
+  "explanation": "Counting the days until a happy event shows excitement. 'Bored' means having nothing interesting to do, 'ashamed' means feeling guilty, and 'jealous' means wanting what someone else has.",
+  "tags": [
+   "vocabulary",
+   "feelings",
+   "adjectives"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0002",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Distinguish '-ed' adjectives (how someone feels) from '-ing' adjectives (what causes the feeling).",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Choose the sentence in which the -ed or -ing adjective is used correctly.",
+  "options": [
+   "The lecture was so bored that half the students fell asleep.",
+   "I am very interesting in the history of comedy.",
+   "We were all surprised by the ending of the film.",
+   "The children felt frightening during the storm."
+  ],
+  "correct": 2,
+  "explanation": "'Surprised' (-ed) describes how the people felt. A lecture cannot be 'bored' (it is 'boring'), a person is 'interested' not 'interesting' in something, and the children felt 'frightened', not 'frightening'.",
+  "tags": [
+   "grammar",
+   "feelings",
+   "-ed/-ing adjectives"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0003",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Use the correct preposition after an adjective of feeling.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Karim is very proud ____ his exam results.",
+  "options": [
+   "for",
+   "with",
+   "about",
+   "of"
+  ],
+  "correct": 3,
+  "explanation": "The adjective 'proud' is followed by the preposition 'of' (proud of something/someone). 'Pleased with' and 'worried about' take other prepositions, but 'proud' does not.",
+  "tags": [
+   "vocabulary",
+   "feelings",
+   "prepositions"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0004",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Understand an idiomatic expression of emotion.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "When Amine heard he had won the scholarship, he was over the moon. What does the expression mean?",
+  "options": [
+   "He was extremely happy.",
+   "He was very confused.",
+   "He was too shocked to speak.",
+   "He was slightly disappointed."
+  ],
+  "correct": 0,
+  "explanation": "'Over the moon' is an idiom meaning extremely happy or delighted. Winning a scholarship would not normally produce confusion or disappointment.",
+  "tags": [
+   "vocabulary",
+   "feelings",
+   "idioms"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0005",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Form the noun from an adjective of feeling.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which pair of adjective and noun is correct?",
+  "options": [
+   "angry – angriness",
+   "sad – sadness",
+   "anxious – anxiousness",
+   "happy – happity"
+  ],
+  "correct": 1,
+  "explanation": "'Sadness' is the regular noun from 'sad'. The usual nouns for the others are 'anger', 'anxiety' and 'happiness', so those pairs are wrong.",
+  "tags": [
+   "vocabulary",
+   "feelings",
+   "word formation"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Recognise degrees of intensity between emotion adjectives.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which adjective expresses the STRONGEST degree of fear?",
+  "options": [
+   "worried",
+   "nervous",
+   "terrified",
+   "uneasy"
+  ],
+  "correct": 2,
+  "explanation": "'Terrified' means extremely frightened and is the most intense. 'Uneasy', 'nervous' and 'worried' describe milder states of anxiety or concern.",
+  "tags": [
+   "vocabulary",
+   "feelings",
+   "intensity"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0007",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Choose the appropriate exclamation to express a feeling.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Your friend tells you he has lost the book you lent him. Which reply best expresses disappointment politely?",
+  "options": [
+   "Oh no, what a pity! I really liked that book.",
+   "Great! I never wanted it back anyway.",
+   "That's hilarious, tell me more!",
+   "I'm thrilled to hear that."
+  ],
+  "correct": 0,
+  "explanation": "'What a pity!' is a common expression of disappointment, softened by a polite explanation. The other replies express joy or amusement, which do not fit losing something.",
+  "tags": [
+   "functions",
+   "feelings",
+   "exclamations"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0008",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Choose the correct '-ed' adjective to describe how a person feels.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "After waiting two hours for a bus that never came, the passengers were really ____.",
+  "blanks": [
+   "annoyed"
+  ],
+  "bank": [
+   "annoyed",
+   "annoying",
+   "delighted",
+   "relieved",
+   "amused"
+  ],
+  "explanation": "The passengers' feeling after a long, useless wait is 'annoyed' (-ed form for the person who feels). 'Annoying' describes the cause, not the people, and 'delighted' / 'relieved' are positive feelings.",
+  "tags": [
+   "vocabulary",
+   "feelings",
+   "-ed adjectives"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0009",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Use the correct preposition with an adjective of feeling.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "My little sister is afraid ____ the dark, so she sleeps with a small lamp on.",
+  "blanks": [
+   "of"
+  ],
+  "bank": [
+   "of",
+   "from",
+   "about",
+   "with",
+   "at"
+  ],
+  "explanation": "'Afraid' is always followed by 'of' (afraid of something). 'Afraid from' is a common mistake influenced by other languages, and 'about' / 'with' go with other adjectives such as 'worried' or 'pleased'.",
+  "tags": [
+   "vocabulary",
+   "feelings",
+   "prepositions"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0010",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Use the correct adjective of feeling in a contrasting context.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Salim thought he had failed his driving test, so he was ____ when the examiner told him he had passed.",
+  "blanks": [
+   "relieved"
+  ],
+  "bank": [
+   "relieved",
+   "furious",
+   "embarrassed",
+   "disappointed",
+   "homesick",
+   "relieving"
+  ],
+  "explanation": "Finding out that a feared bad result did not happen produces relief, so 'relieved' fits. 'Disappointed' and 'furious' are negative reactions, and 'relieving' is the -ing form, which does not describe the person.",
+  "tags": [
+   "vocabulary",
+   "feelings",
+   "context"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0011",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Use the noun form of an emotion after a verb and preposition.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "She could not hide her ____ when she saw the surprise party her friends had organised; she was clearly very ____.",
+  "blanks": [
+   "joy",
+   "moved"
+  ],
+  "bank": [
+   "joy",
+   "moved",
+   "joyful",
+   "moving",
+   "sorrow",
+   "bored"
+  ],
+  "explanation": "After the possessive 'her', a noun is needed ('her joy'); after 'very' an -ed adjective describes the person ('very moved'). 'Joyful' is an adjective, not a noun, and 'moving' would describe the party, not the person.",
+  "tags": [
+   "vocabulary",
+   "feelings",
+   "word formation"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L1-0012",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L1",
+  "objective": "Describe an emotion using an appropriate intensifier.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "I was ____ exhausted after the marathon; I could hardly stand up.",
+  "blanks": [
+   [
+    "absolutely",
+    "completely"
+   ]
+  ],
+  "bank": [
+   "absolutely",
+   "completely",
+   "very",
+   "a bit",
+   "slightly"
+  ],
+  "explanation": "'Exhausted' is an extreme adjective, so it takes a strong intensifier like 'absolutely' or 'completely', not 'very'. 'A bit' and 'slightly' contradict the idea of not being able to stand up.",
+  "tags": [
+   "vocabulary",
+   "feelings",
+   "intensifiers"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Identify the main tense used for the sequence of events in a narrative.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Which tense is normally used to tell the main events of an anecdote in the order they happened?",
+  "options": [
+   "The present perfect",
+   "The past simple",
+   "The future simple",
+   "The present continuous"
+  ],
+  "correct": 1,
+  "explanation": "The past simple carries the main sequence of completed actions in a story (I opened the door, I saw...). The past continuous gives background, while the present perfect and future are not used for narrating finished past events in order.",
+  "tags": [
+   "writing",
+   "narrative",
+   "tenses"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0002",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Use the past continuous for a background action interrupted by a main event.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Choose the correctly written narrative sentence about walking home.",
+  "options": [
+   "I walked home when I was suddenly hearing a loud laugh behind me.",
+   "I was walking home when I suddenly heard a loud laugh behind me.",
+   "I was walking home when I was suddenly hearing a loud laugh behind me.",
+   "I walked home when I suddenly was hearing a loud laugh behind me."
+  ],
+  "correct": 1,
+  "explanation": "The longer background action is in the past continuous (was walking) and the short interrupting event is in the past simple (heard). 'Hear' is a verb of perception that is not normally used in the continuous form.",
+  "tags": [
+   "grammar",
+   "narrative",
+   "past continuous"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0003",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Use the past perfect to show that one action happened before another in the past.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "When I arrived at the cinema, the film ____, so I missed the beginning.",
+  "options": [
+   "already started",
+   "has already started",
+   "had already started",
+   "was already starting"
+  ],
+  "correct": 2,
+  "explanation": "The film started before the past moment of arriving, so the past perfect 'had already started' is needed. 'Has started' is linked to the present, and 'was starting' would mean the beginning was still in progress, which contradicts 'I missed the beginning'.",
+  "tags": [
+   "grammar",
+   "narrative",
+   "past perfect"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0004",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Choose an appropriate sequencer for the ending of an anecdote.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Which linking word is best used to introduce the final event of a story?",
+  "options": [
+   "Firstly",
+   "Meanwhile",
+   "In the end",
+   "However"
+  ],
+  "correct": 2,
+  "explanation": "'In the end' (like 'finally' or 'eventually') signals the conclusion of a sequence of events. 'Firstly' opens a sequence, 'meanwhile' shows two things happening at the same time, and 'however' introduces a contrast.",
+  "tags": [
+   "writing",
+   "narrative",
+   "sequencers"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0005",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Order the parts of a short anecdote logically.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Put these sentences in the correct order to form a coherent anecdote: (a) Everyone burst out laughing, including the teacher. (b) Last Monday, our teacher asked us to switch off our phones. (c) A few minutes later, a loud ringtone came from his own pocket. (d) He turned red and said, 'Well, rules are for everyone!'",
+  "options": [
+   "b – a – c – d",
+   "b – c – a – d",
+   "c – b – d – a",
+   "b – c – d – a"
+  ],
+  "correct": 1,
+  "explanation": "The anecdote opens with the setting (b), then the unexpected event (c), the reaction of the class (a), and ends with the teacher's funny comment (d). Putting the laughter before the ringtone (option 1) makes no sense.",
+  "tags": [
+   "writing",
+   "narrative",
+   "coherence"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Recognise the function of the opening sentence of an anecdote.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which sentence is the most suitable opening line for a short anecdote?",
+  "options": [
+   "To conclude, that day taught me to check my bag twice.",
+   "Something really embarrassing happened to me on my first day at the lycée.",
+   "In this essay I will discuss the advantages of humour.",
+   "Humour is defined as the quality of being amusing."
+  ],
+  "correct": 1,
+  "explanation": "A good opening sets the scene and catches the reader's interest by announcing the event (something embarrassing, first day). The other options are a conclusion, an essay introduction and a definition, none of which open a narrative.",
+  "tags": [
+   "writing",
+   "narrative",
+   "openings"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0007",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Use reported speech correctly when retelling what someone said in an anecdote.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "In the story, the waiter said to us: 'I have forgotten your order.' How is this correctly reported?",
+  "options": [
+   "The waiter told us that he has forgotten our order.",
+   "The waiter told us that he had forgotten our order.",
+   "The waiter said us that he had forgotten your order.",
+   "The waiter told us that I had forgotten our order."
+  ],
+  "correct": 1,
+  "explanation": "In reported speech after a past reporting verb, the present perfect becomes the past perfect (had forgotten) and the pronouns shift (I → he, your → our). 'Said us' is incorrect ('said to us' or 'told us'), and the other options keep the wrong tense or pronoun.",
+  "tags": [
+   "grammar",
+   "narrative",
+   "reported speech"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0008",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Use the past simple of an irregular verb in a narrative.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Last summer, my cousin ____ (fall) into the pool with all his clothes on, and we laughed for hours.",
+  "blanks": [
+   "fell"
+  ],
+  "bank": [
+   "fell",
+   "fall",
+   "fallen",
+   "falls",
+   "falling"
+  ],
+  "explanation": "'Last summer' is a finished past time, so the past simple 'fell' is required. 'Fallen' is the past participle and needs an auxiliary (had fallen).",
+  "tags": [
+   "grammar",
+   "narrative",
+   "past simple"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0009",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Use time expressions and sequencers to structure an anecdote.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "____, I thought it was a joke, but ____ I realised the message was serious.",
+  "blanks": [
+   "At first",
+   "then"
+  ],
+  "bank": [
+   "At first",
+   "then",
+   "Finally",
+   "because",
+   "although",
+   "Meanwhile"
+  ],
+  "explanation": "'At first ... then' shows a change from an initial reaction to a later realisation. 'Finally' would close the story, and 'because' / 'although' express cause and contrast, not sequence.",
+  "tags": [
+   "writing",
+   "narrative",
+   "sequencers"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0010",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Combine past continuous and past simple in a narrative sentence.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "While my grandmother ____ (tell) us a funny story, the lights suddenly ____ (go) out.",
+  "blanks": [
+   "was telling",
+   "went"
+  ],
+  "bank": [
+   "was telling",
+   "went",
+   "told",
+   "was going",
+   "had told",
+   "goes"
+  ],
+  "explanation": "'While' introduces the longer background action in the past continuous (was telling), and the sudden event is in the past simple (went). 'Was going out' would present the interruption as a long action, and 'goes' is present.",
+  "tags": [
+   "grammar",
+   "narrative",
+   "past continuous"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0011",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Use the past perfect for an earlier past action in an anecdote.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "I searched the whole house for my glasses before I realised that I ____ (put) them on my head.",
+  "blanks": [
+   "had put"
+  ],
+  "bank": [
+   "had put",
+   "put",
+   "have put",
+   "was putting",
+   "putted"
+  ],
+  "explanation": "Putting the glasses on happened before the past moment of realising, so the past perfect 'had put' is needed. 'Have put' links to the present, and 'putted' is not the past form of 'put'.",
+  "tags": [
+   "grammar",
+   "narrative",
+   "past perfect"
+  ]
+ },
+ {
+  "key": "3AS-EN-U6-L2-0012",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "EN",
+  "unit": "U6",
+  "lesson": "L2",
+  "objective": "Use 'used to' and the past simple together to contrast a past habit with a single event.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "My uncle ____ tell the same joke at every family dinner, until one evening my little brother ____ the punchline before him.",
+  "blanks": [
+   "used to",
+   "said"
+  ],
+  "bank": [
+   "used to",
+   "said",
+   "use to",
+   "was saying",
+   "has said",
+   "would to"
+  ],
+  "explanation": "'Used to + base verb' describes a repeated past habit, and the single event that ended it is in the past simple ('said'). 'Use to' is only correct after 'did/didn't', and 'would to' does not exist.",
+  "tags": [
+   "grammar",
+   "narrative",
+   "used to"
+  ]
+ }
+]

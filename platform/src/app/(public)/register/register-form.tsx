@@ -20,8 +20,8 @@ export function RegisterForm({ code, wilayas, levels, streams }: { code?: string
       <Field label={t('common.email')} htmlFor="email" error={fieldError(state, 'email')}>
         <Input id="email" name="email" type="email" autoComplete="email" required dir="ltr" />
       </Field>
-      <Field label={`${t('common.phone')} (${t('common.optional')})`} htmlFor="phone">
-        <Input id="phone" name="phone" type="tel" autoComplete="tel" dir="ltr" />
+      <Field label={`${t('common.phone')} (${t('common.optional')})`} htmlFor="phone" hint="05 / 06 / 07 — سنرسل إليه رمز تحقق بعد التسجيل">
+        <Input id="phone" name="phone" type="tel" autoComplete="tel" dir="ltr" inputMode="tel" placeholder="05XXXXXXXX" />
       </Field>
       <Field label={t('common.password')} htmlFor="password" hint={t('auth.passwordHint')} error={fieldError(state, 'password')}>
         <Input id="password" name="password" type="password" autoComplete="new-password" minLength={8} required dir="ltr" />

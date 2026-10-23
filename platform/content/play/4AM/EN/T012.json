@@ -1,0 +1,1341 @@
+[
+ {
+  "key": "4AM-EN-U1-L1-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Recognise the correct order of adjectives of size, age and colour before a noun.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Which phrase puts the adjectives in the correct order?",
+  "options": [
+   "a white tall ancient tower",
+   "a tall ancient white tower",
+   "an ancient tall white tower",
+   "a white ancient tall tower"
+  ],
+  "correct": 1,
+  "explanation": "English adjectives follow the order size, then age, then colour, so 'tall' (size) comes first, then 'ancient' (age), then 'white' (colour). 'An ancient tall white tower' puts age before size, which is the most common mistake.",
+  "tags": [
+   "adjective order",
+   "description"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L1-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Recall the rule that an adjective of size comes before an adjective of age.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "In English, an adjective of ____ (big, small, tall) comes before an adjective of ____ (old, new, ancient).",
+  "blanks": [
+   "size",
+   "age"
+  ],
+  "bank": [
+   "size",
+   "age",
+   "colour",
+   "origin",
+   "material",
+   "opinion"
+  ],
+  "explanation": "The usual order is opinion, size, age, shape, colour, origin, material. 'Big', 'small' and 'tall' describe size and 'old', 'new' and 'ancient' describe age, so size comes before age.",
+  "tags": [
+   "adjective order",
+   "rule"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L1-0003",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Order an adjective of age and an adjective of origin correctly in a description of a landmark.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Put the adjectives in brackets in the correct order: Timgad is an ____ ____ city in the east of Algeria. (Roman / ancient)",
+  "blanks": [
+   "ancient",
+   "Roman"
+  ],
+  "bank": [
+   "ancient",
+   "Roman",
+   "Rome",
+   "Romans",
+   "anciently",
+   "Italy"
+  ],
+  "explanation": "Age comes before origin, so we say 'an ancient Roman city'. 'Rome', 'Romans' and 'Italy' are nouns, not adjectives, and 'anciently' is an adverb.",
+  "tags": [
+   "adjective order",
+   "Timgad"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L1-0004",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Apply the opinion, size, origin order when describing a monument.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Choose the correct description: 'The Alhambra is ____.'",
+  "options": [
+   "a beautiful large Spanish palace",
+   "a large beautiful Spanish palace",
+   "a Spanish beautiful large palace",
+   "a beautiful Spanish large palace"
+  ],
+  "correct": 0,
+  "explanation": "Opinion adjectives ('beautiful') come first, then size ('large'), then origin ('Spanish'). Putting size before opinion, or origin before size, breaks the normal order.",
+  "tags": [
+   "adjective order",
+   "opinion"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L1-0005",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L1",
+  "objective": "Order adjectives of opinion, colour and material in a description of a monument.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Order the adjectives (white / marble / magnificent): 'The Taj Mahal is a ____ mausoleum.'",
+  "options": [
+   "white magnificent marble",
+   "marble white magnificent",
+   "magnificent white marble",
+   "magnificent marble white"
+  ],
+  "correct": 2,
+  "explanation": "The order is opinion ('magnificent'), then colour ('white'), then material ('marble'), and the material adjective stays closest to the noun. 'Magnificent marble white' wrongly places colour after material.",
+  "tags": [
+   "adjective order",
+   "material"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L2-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Form the past simple passive with 'was' + past participle.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Complete the sentence: 'The Eiffel Tower ____ in 1889.'",
+  "options": [
+   "built",
+   "was built",
+   "is built",
+   "was build"
+  ],
+  "correct": 1,
+  "explanation": "The tower did not build itself, so the passive is needed: 'was' + the past participle 'built'. 'Was build' uses the base form instead of the participle, and 'is built' is present, not 1889.",
+  "tags": [
+   "passive",
+   "past simple"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L2-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Use the present simple passive for a repeated action with a singular subject.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "The Great Mosque of Algiers ____ ____ by thousands of people every day.",
+  "blanks": [
+   "is",
+   "visited"
+  ],
+  "bank": [
+   "is",
+   "visited",
+   "are",
+   "was",
+   "visit",
+   "visiting",
+   "visits"
+  ],
+  "explanation": "'Every day' describes a present habit, so we use the present passive: 'is' (singular subject) + the past participle 'visited'. 'Was visited' would refer to the past, and 'are' does not agree with a singular subject.",
+  "tags": [
+   "passive",
+   "present simple"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L2-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Transform an active sentence into the past simple passive with an agent.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Rewrite in the passive: 'Shah Jahan built the Taj Mahal.'",
+  "options": [
+   "Shah Jahan was built the Taj Mahal.",
+   "The Taj Mahal is built by Shah Jahan.",
+   "The Taj Mahal was build by Shah Jahan.",
+   "The Taj Mahal was built by Shah Jahan."
+  ],
+  "correct": 3,
+  "explanation": "The object 'the Taj Mahal' becomes the subject, the verb becomes 'was built' and the agent is introduced by 'by'. 'Is built' changes the tense to the present, and 'was build' lacks the past participle.",
+  "tags": [
+   "passive",
+   "agent"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L2-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Use an irregular past participle in a past passive sentence with an agent.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "The Statue of Liberty ____ ____ to the United States by France in 1886.",
+  "blanks": [
+   "was",
+   "given"
+  ],
+  "bank": [
+   "was",
+   "given",
+   "gave",
+   "were",
+   "is",
+   "give",
+   "giving"
+  ],
+  "explanation": "The passive needs 'was' + the past participle 'given'. 'Gave' is the past simple, not the participle, so 'was gave' is wrong; 'were' does not agree with the singular subject.",
+  "tags": [
+   "passive",
+   "irregular participle"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L2-0005",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L2",
+  "objective": "Form a passive question with a wh-word in the past simple.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Turn into a passive question: 'When did the Romans build Timgad?'",
+  "options": [
+   "When was Timgad built by the Romans?",
+   "When Timgad was built by the Romans?",
+   "When did Timgad built by the Romans?",
+   "When was Timgad build by the Romans?"
+  ],
+  "correct": 0,
+  "explanation": "In a passive question the auxiliary 'was' comes before the subject: 'When was Timgad built...?'. 'Did' belongs to the active question, and 'build' is the base form, not the past participle.",
+  "tags": [
+   "passive",
+   "questions"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L3-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L3",
+  "objective": "Form the comparative of a short adjective with -er + than.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The Burj Khalifa is ____ than the Eiffel Tower.",
+  "options": [
+   "taller",
+   "more tall",
+   "tallest",
+   "the taller"
+  ],
+  "correct": 0,
+  "explanation": "'Tall' is a one-syllable adjective, so its comparative is 'taller' + 'than'. 'More tall' is only used with longer adjectives, and 'tallest' is the superlative.",
+  "tags": [
+   "comparative",
+   "short adjectives"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L3-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L3",
+  "objective": "Form the superlative of a short adjective with the + -est.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The Great Wall of China is the ____ wall in the world.",
+  "blanks": [
+   "longest"
+  ],
+  "bank": [
+   "longest",
+   "longer",
+   "long",
+   "most long",
+   "more longer"
+  ],
+  "explanation": "'In the world' shows that we compare the wall with all the others, so we need the superlative 'the longest'. 'Longer' compares only two things, and 'most long' is not used with one-syllable adjectives.",
+  "tags": [
+   "superlative",
+   "short adjectives"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L3-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L3",
+  "objective": "Use the irregular superlative of 'good'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Of all the museums I have visited, the Bardo Museum in Algiers is the ____.",
+  "options": [
+   "better",
+   "goodest",
+   "best",
+   "most good"
+  ],
+  "correct": 2,
+  "explanation": "'Good' is irregular: good, better, best. 'Goodest' and 'most good' do not exist, and 'better' is the comparative, used for two things only.",
+  "tags": [
+   "superlative",
+   "irregular"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L3-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L3",
+  "objective": "Form the comparative of a long adjective with 'more'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "For many visitors, the Taj Mahal is ____ than any modern building.",
+  "blanks": [
+   "more beautiful"
+  ],
+  "bank": [
+   "more beautiful",
+   "beautifuler",
+   "the most beautiful",
+   "beautifullest",
+   "most beautiful"
+  ],
+  "explanation": "'Beautiful' has three syllables, so its comparative is 'more beautiful' + than. 'Beautifuler' does not exist, and 'the most beautiful' is the superlative, which is not followed by 'than'.",
+  "tags": [
+   "comparative",
+   "long adjectives"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L3-0005",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L3",
+  "objective": "Identify a double comparative error in a set of comparisons.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which comparison contains a mistake?",
+  "options": [
+   "The Eiffel Tower is higher than Big Ben.",
+   "The new bridge is more longer than the old one.",
+   "The Casbah is one of the oldest districts in Algiers.",
+   "The new stadium is as big as the old one."
+  ],
+  "correct": 1,
+  "explanation": "'Long' takes -er, so 'longer' is already a comparative; adding 'more' creates a double comparative. The other sentences use 'higher than', 'one of the oldest' and 'as big as' correctly.",
+  "tags": [
+   "comparative",
+   "error analysis"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L4-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L4",
+  "objective": "Choose 'who' for a person in a relative clause.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Gustave Eiffel was the engineer ____ gave his name to the famous tower in Paris.",
+  "options": [
+   "which",
+   "where",
+   "what",
+   "who"
+  ],
+  "correct": 3,
+  "explanation": "'Engineer' is a person, so the relative pronoun is 'who'. 'Which' is used for things and animals, 'where' for places, and 'what' is not a relative pronoun.",
+  "tags": [
+   "relative pronouns",
+   "who"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L4-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L4",
+  "objective": "Choose 'where' for a place when the relative clause has its own subject.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Tassili n'Ajjer is a national park ____ you can see prehistoric rock paintings.",
+  "blanks": [
+   "where"
+  ],
+  "bank": [
+   "where",
+   "which",
+   "who",
+   "when",
+   "what"
+  ],
+  "explanation": "The clause 'you can see...' already has a subject ('you'), so we need 'where' to refer to the place. 'Which' would have to be the subject or the object of the clause, and here it is neither.",
+  "tags": [
+   "relative pronouns",
+   "where"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L4-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L4",
+  "objective": "Join two sentences with 'which' without repeating the subject pronoun.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Join the sentences: 'The Casbah is an old district. It overlooks the bay of Algiers.'",
+  "options": [
+   "The Casbah is an old district which overlooks the bay of Algiers.",
+   "The Casbah is an old district who overlooks the bay of Algiers.",
+   "The Casbah is an old district where overlooks the bay of Algiers.",
+   "The Casbah is an old district which it overlooks the bay of Algiers."
+  ],
+  "correct": 0,
+  "explanation": "'District' is a thing, so we use 'which', and it replaces 'it', which must disappear. Keeping 'it' after 'which' repeats the subject, a very common error.",
+  "tags": [
+   "relative pronouns",
+   "joining sentences"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L4-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L4",
+  "objective": "Distinguish 'which' from 'where' in two relative clauses about the same landmark.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Timgad, ____ lies at the foot of the Aurès mountains, is an ancient city ____ you can walk along real Roman streets.",
+  "blanks": [
+   "which",
+   "where"
+  ],
+  "bank": [
+   "which",
+   "where",
+   "who",
+   "whose",
+   "when",
+   "what"
+  ],
+  "explanation": "In the first clause the pronoun is the subject of 'lies', so 'which' is needed even though Timgad is a place. In the second clause 'you' is the subject, so 'where' (= in which) refers to the place.",
+  "tags": [
+   "relative pronouns",
+   "which vs where"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L4-0005",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L4",
+  "objective": "Choose 'which' instead of 'where' when the relative pronoun is the subject of the clause.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "The Colosseum is a huge amphitheatre ____ was built almost 2,000 years ago.",
+  "options": [
+   "where",
+   "who",
+   "which",
+   "whom"
+  ],
+  "correct": 2,
+  "explanation": "Although the Colosseum is a place, the pronoun is the subject of 'was built', so we need 'which'. 'Where' cannot be a subject: it would need a clause with its own subject, like 'where gladiators fought'.",
+  "tags": [
+   "relative pronouns",
+   "which vs where"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L5-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L5",
+  "objective": "Ask about the height of a landmark with 'How high'.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "____ is the Eiffel Tower? — It is more than 300 metres high.",
+  "options": [
+   "How long",
+   "How high",
+   "How wide",
+   "How far"
+  ],
+  "correct": 1,
+  "explanation": "The answer 'more than 300 metres high' describes height, so the question is 'How high...?'. 'How long' asks about length and 'How far' about distance.",
+  "tags": [
+   "dimensions",
+   "questions"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L5-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L5",
+  "objective": "Use the noun 'length' to express a dimension.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The Great Wall of China has a ____ of more than 20,000 kilometres.",
+  "blanks": [
+   "length"
+  ],
+  "bank": [
+   "length",
+   "long",
+   "height",
+   "width",
+   "longer"
+  ],
+  "explanation": "After 'has a ... of' we need a noun: the noun of 'long' is 'length'. 'Height' and 'width' are the nouns of 'high' and 'wide', and 'long' is an adjective.",
+  "tags": [
+   "dimensions",
+   "nouns"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L5-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L5",
+  "objective": "Transform 'is ... metres high' into 'has a height of ... metres'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "The minaret of the Great Mosque of Algiers is 265 metres high. = The minaret has a ____ of 265 metres.",
+  "options": [
+   "high",
+   "tall",
+   "highness",
+   "height"
+  ],
+  "correct": 3,
+  "explanation": "'Has a ... of' needs the noun 'height'. 'High' and 'tall' are adjectives, and 'highness' is not used for measurements.",
+  "tags": [
+   "dimensions",
+   "height"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L5-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L5",
+  "objective": "Ask about depth with the adjective 'deep'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "How ____ is the Mediterranean Sea at its deepest point? — About 5,000 metres.",
+  "blanks": [
+   "deep"
+  ],
+  "bank": [
+   "deep",
+   "depth",
+   "high",
+   "long",
+   "deeply"
+  ],
+  "explanation": "After 'How' we use an adjective, and 'deepest point' tells us the dimension is depth: 'How deep...?'. 'Depth' is the noun (we would say 'What is the depth...?'), and 'deeply' is an adverb.",
+  "tags": [
+   "dimensions",
+   "depth"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L5-0005",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L5",
+  "objective": "Place the measurement before the adjective when giving a dimension.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which sentence gives the dimension of the bridge correctly?",
+  "options": [
+   "The bridge is long 500 metres.",
+   "The bridge is 500 metres long.",
+   "The bridge has 500 metres of long.",
+   "The bridge is long of 500 metres."
+  ],
+  "correct": 1,
+  "explanation": "In English the number comes first and the adjective last: 'is 500 metres long'. 'Is long 500 metres' follows French word order, and 'long' cannot follow 'of' because it is not a noun ('a length of 500 metres' would be correct).",
+  "tags": [
+   "dimensions",
+   "word order"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L6-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L6",
+  "objective": "Use 'in' for a city or a country.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The Eiffel Tower is ____ Paris, the capital of France.",
+  "options": [
+   "on",
+   "in",
+   "at",
+   "between"
+  ],
+  "correct": 1,
+  "explanation": "We use 'in' with cities and countries: 'in Paris', 'in France'. 'At' is used for a precise point or address, and 'on' for a surface.",
+  "tags": [
+   "prepositions",
+   "in"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L6-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L6",
+  "objective": "Use 'on' for an island and 'in' for a harbour or a city.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "The Statue of Liberty stands ____ a small island ____ New York Harbour.",
+  "blanks": [
+   "on",
+   "in"
+  ],
+  "bank": [
+   "on",
+   "in",
+   "at",
+   "under",
+   "between",
+   "over"
+  ],
+  "explanation": "We say 'on an island' because an island is a surface, and 'in' a harbour, a city or a country because it is an area. 'At', 'under' and 'over' do not fit here.",
+  "tags": [
+   "prepositions",
+   "on vs in"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L6-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L6",
+  "objective": "Use 'between' to locate a place with reference to two others.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Algeria lies ____ Morocco and Tunisia.",
+  "options": [
+   "among",
+   "next",
+   "between",
+   "opposite"
+  ],
+  "correct": 2,
+  "explanation": "'Between' is used with two places joined by 'and'. 'Among' is for more than two, 'next' needs 'to', and 'opposite' means 'facing'.",
+  "tags": [
+   "prepositions",
+   "between"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L6-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L6",
+  "objective": "Choose the preposition of place that matches the context.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Maqam Echahid stands ____ a hill, so you can see it from most parts of Algiers.",
+  "blanks": [
+   "on top of"
+  ],
+  "bank": [
+   "on top of",
+   "under",
+   "between",
+   "next to",
+   "in front of",
+   "behind"
+  ],
+  "explanation": "A monument that can be seen from almost everywhere must be 'on top of' a hill. 'Under', 'behind' or 'in front of' a hill would hide it from view.",
+  "tags": [
+   "prepositions",
+   "location"
+  ]
+ },
+ {
+  "key": "4AM-EN-U1-L6-0005",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U1",
+  "lesson": "L6",
+  "objective": "Use 'at' with a complete street address.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "The museum is ____ 12 Didouche Mourad Street, in the centre of Algiers.",
+  "options": [
+   "in",
+   "on",
+   "to",
+   "at"
+  ],
+  "correct": 3,
+  "explanation": "With a precise address (number + street) we use 'at'. 'On' or 'in' is used with the street name alone ('on Didouche Mourad Street'), and 'to' expresses movement, not location.",
+  "tags": [
+   "prepositions",
+   "addresses"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L1-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Form the past simple of a regular verb in a biography.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Ibn Battuta ____ to many countries in Africa and Asia.",
+  "options": [
+   "travel",
+   "travels",
+   "travelling",
+   "travelled"
+  ],
+  "correct": 3,
+  "explanation": "Ibn Battuta's journeys are finished, so the past simple is needed: regular verbs take -ed ('travelled'). 'Travels' is the present simple and 'travelling' needs an auxiliary.",
+  "tags": [
+   "past simple",
+   "regular verbs"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L1-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Form a past simple question with 'did' + base form.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "____ Mouloud Feraoun ____ his first novel before 1950?",
+  "blanks": [
+   "Did",
+   "write"
+  ],
+  "bank": [
+   "Did",
+   "write",
+   "wrote",
+   "Does",
+   "Was",
+   "written"
+  ],
+  "explanation": "Past questions are formed with 'Did' + subject + base form: 'Did ... write'. After 'did', the verb loses its past form, so 'Did ... wrote' is incorrect.",
+  "tags": [
+   "past simple",
+   "questions"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L1-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Spell the past simple of a verb ending in consonant + y.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Ibn Khaldun ____ history and society in his famous Muqaddima.",
+  "options": [
+   "studied",
+   "studyed",
+   "studed",
+   "studdied"
+  ],
+  "correct": 0,
+  "explanation": "When a verb ends in a consonant + y, the y changes to i before -ed: study, studied. 'Studyed' keeps the y, and 'studed' loses a letter.",
+  "tags": [
+   "past simple",
+   "spelling"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L1-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Use two irregular past simple forms in a biographical sentence.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Ibn Battuta ____ (leave) Tangier in 1325 and ____ (see) many countries during his long journey.",
+  "blanks": [
+   "left",
+   "saw"
+  ],
+  "bank": [
+   "left",
+   "saw",
+   "leaved",
+   "seen",
+   "sees",
+   "leaves",
+   "seed"
+  ],
+  "explanation": "'Leave' and 'see' are irregular: left and saw. 'Leaved' and 'seed' wrongly treat them as regular verbs, and 'seen' is the past participle, which cannot be used alone in the past simple.",
+  "tags": [
+   "past simple",
+   "irregular verbs"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L1-0005",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L1",
+  "objective": "Check that all the past forms in a biographical sentence are correct.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Choose the biography sentence in which all the verbs are correct.",
+  "options": [
+   "She borned in Algiers, grew up in Blida and became a famous singer.",
+   "She was born in Algiers, growed up in Blida and became a famous singer.",
+   "She was born in Algiers, grew up in Blida and became a famous singer.",
+   "She was born in Algiers, grew up in Blida and becomed a famous singer."
+  ],
+  "correct": 2,
+  "explanation": "'Be born' is passive ('was born'), and 'grow' and 'become' are irregular: grew, became. 'Borned', 'growed' and 'becomed' are regular endings wrongly added to irregular verbs.",
+  "tags": [
+   "past simple",
+   "irregular verbs",
+   "biography"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L2-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Use 'in' with a year in a biography.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Emir Abdelkader was born ____ 1808.",
+  "options": [
+   "on",
+   "at",
+   "in",
+   "ago"
+  ],
+  "correct": 2,
+  "explanation": "We use 'in' with years and months: 'in 1808'. 'On' is used with complete dates ('on 6 September 1808') and 'at' with times.",
+  "tags": [
+   "time markers",
+   "in + year"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L2-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Use 'ago' to say how long before now an event happened.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Algeria became independent more than sixty years ____.",
+  "blanks": [
+   "ago"
+  ],
+  "bank": [
+   "ago",
+   "since",
+   "for",
+   "later",
+   "then"
+  ],
+  "explanation": "'Ago' follows a period of time and counts back from now: 'sixty years ago'. 'Since' comes before a starting point ('since 1962') and 'for' before a period with the present perfect.",
+  "tags": [
+   "time markers",
+   "ago"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L2-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Use 'during' before a noun that names a period.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Frantz Fanon worked as a doctor in Blida ____ the first years of the war of independence.",
+  "options": [
+   "for",
+   "during",
+   "since",
+   "while"
+  ],
+  "correct": 1,
+  "explanation": "'During' is followed by a noun that names a period ('the first years of the war'). 'For' is followed by a length of time ('for three years'), and 'while' needs a clause with a verb.",
+  "tags": [
+   "time markers",
+   "during"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L2-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Order the events of a biography with 'then' and 'finally'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Ibn Battuta first went to Mecca; ____ he travelled to Persia and India, and ____ he returned to Morocco.",
+  "blanks": [
+   "then",
+   "finally"
+  ],
+  "bank": [
+   "then",
+   "finally",
+   "ago",
+   "during",
+   "since",
+   "for"
+  ],
+  "explanation": "'First ... then ... finally' shows the order of events: 'then' introduces the next step and 'finally' the last one. 'Ago', 'during', 'since' and 'for' are time markers, not sequencers.",
+  "tags": [
+   "sequencers",
+   "biography"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L2-0005",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Interpret chained time markers ('later', 'the following year') to date an event.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Read: 'The poet was born in 1920. He moved to Algiers twenty years later and published his first poems the following year.' When did he publish his first poems?",
+  "options": [
+   "1920",
+   "1921",
+   "1940",
+   "1941"
+  ],
+  "correct": 3,
+  "explanation": "'Twenty years later' than 1920 is 1940, and 'the following year' means the year after that move, so 1941. Choosing 1940 ignores the second time marker.",
+  "tags": [
+   "time markers",
+   "reading"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L3-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Choose 'since' before a starting point with the present perfect.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "My sister has played the piano ____ 2020.",
+  "options": [
+   "for",
+   "since",
+   "ago",
+   "during"
+  ],
+  "correct": 1,
+  "explanation": "'Since' introduces the starting point of an action that continues now ('since 2020'). 'For' would need a period ('for six years'), and 'ago' is used with the past simple.",
+  "tags": [
+   "present perfect",
+   "since vs for"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L3-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Form the present perfect with 'has' + past participle for an action that continues now.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Mr Yacine ____ ____ (teach) at this school for ten years, and he still loves it.",
+  "blanks": [
+   "has",
+   "taught"
+  ],
+  "bank": [
+   "has",
+   "taught",
+   "have",
+   "teached",
+   "was",
+   "teaching",
+   "did"
+  ],
+  "explanation": "'For ten years' + 'he still loves it' shows an action that started in the past and continues, so we use the present perfect: 'has' (he) + the irregular participle 'taught'. 'Teached' does not exist.",
+  "tags": [
+   "present perfect",
+   "irregular participle"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L3-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Use the past simple, not the present perfect, with a finished time.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Choose the correct sentence about the martyr Ahmed Zabana.",
+  "options": [
+   "Ahmed Zabana died in 1956.",
+   "Ahmed Zabana has died in 1956.",
+   "Ahmed Zabana has been died in 1956.",
+   "Ahmed Zabana is died in 1956."
+  ],
+  "correct": 0,
+  "explanation": "'In 1956' is a finished past time, so the past simple 'died' is required. The present perfect ('has died') cannot be used with a precise past date.",
+  "tags": [
+   "past simple",
+   "present perfect"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L3-0004",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L3",
+  "objective": "Analyse the difference in meaning between the past simple and the present perfect with 'for'.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which sentence means that the speaker still lives in Constantine today?",
+  "options": [
+   "I lived in Constantine for five years.",
+   "I was in Constantine five years ago.",
+   "I used to live in Constantine for five years.",
+   "I have lived in Constantine for five years."
+  ],
+  "correct": 3,
+  "explanation": "The present perfect with 'for' describes a situation that began in the past and is still true now. 'I lived ... for five years' (past simple) means the period is finished and the speaker has moved away.",
+  "tags": [
+   "present perfect",
+   "meaning"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L4-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L4",
+  "objective": "Form 'used to' + base verb to describe a past habit.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "When she was young, my grandmother ____ to fetch water from the well every morning.",
+  "options": [
+   "use",
+   "uses",
+   "used",
+   "using"
+  ],
+  "correct": 2,
+  "explanation": "A past habit that no longer exists is expressed with 'used to' + base verb. 'Use to' (without -d) only appears after 'did' or 'didn't'.",
+  "tags": [
+   "used to",
+   "past habits"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L4-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L4",
+  "objective": "Form the negative of 'used to' with 'didn't use to'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Before the Internet, students ____ ____ to find information so quickly.",
+  "blanks": [
+   "didn't",
+   "use"
+  ],
+  "bank": [
+   "didn't",
+   "use",
+   "used",
+   "don't",
+   "weren't",
+   "using"
+  ],
+  "explanation": "The negative is 'didn't use to' + verb: after 'didn't', 'used' loses its -d. 'Didn't used to' is a very common mistake, and 'don't' is present.",
+  "tags": [
+   "used to",
+   "negative"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L4-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L4",
+  "objective": "Form a question about past habits with 'Did ... use to'.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Which question about past habits is correct?",
+  "options": [
+   "Did people use to cross the Sahara by camel?",
+   "Did people used to cross the Sahara by camel?",
+   "Do people used to cross the Sahara by camel?",
+   "Were people use to cross the Sahara by camel?"
+  ],
+  "correct": 0,
+  "explanation": "Questions are formed with 'Did' + subject + 'use to' + verb; the auxiliary 'did' carries the past, so 'use' has no -d. 'Did ... used to' doubles the past marker.",
+  "tags": [
+   "used to",
+   "questions"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L4-0004",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L4",
+  "objective": "Contrast a past habit with 'used to' and a present habit with the present simple.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Years ago, people ____ to send letters by post, but today they ____ e-mails instead.",
+  "blanks": [
+   "used",
+   "send"
+  ],
+  "bank": [
+   "used",
+   "send",
+   "use",
+   "sent",
+   "using",
+   "sends"
+  ],
+  "explanation": "'Years ago' calls for the past habit 'used to send', while 'today' calls for the present simple 'they send'. 'Use to' is wrong in an affirmative past sentence, and 'sent' is past, not present.",
+  "tags": [
+   "used to",
+   "past vs present"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L5-0001",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L5",
+  "objective": "Use 'because' to introduce a cause expressed by a clause.",
+  "difficulty": "EASY",
+  "language": "en",
+  "question": "Ibn Sina is famous ____ he wrote 'The Canon of Medicine'.",
+  "options": [
+   "because",
+   "so",
+   "because of",
+   "thanks"
+  ],
+  "correct": 0,
+  "explanation": "'Because' introduces a clause with a subject and a verb ('he wrote'). 'Because of' is followed by a noun, and 'so' introduces a result, not a cause.",
+  "tags": [
+   "cause",
+   "because"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L5-0002",
+  "type": "FILL_BLANK",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L5",
+  "objective": "Use 'because of' before a noun phrase expressing a cause.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Many tourists visit Timgad ____ its well-preserved Roman ruins.",
+  "blanks": [
+   "because of"
+  ],
+  "bank": [
+   "because of",
+   "because",
+   "so",
+   "thanks",
+   "as a result",
+   "since"
+  ],
+  "explanation": "'Its well-preserved Roman ruins' is a noun phrase, so the cause is introduced by 'because of'. 'Because' and 'since' need a clause with a verb, and 'thanks' alone is incomplete ('thanks to').",
+  "tags": [
+   "cause",
+   "because of"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L5-0003",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L5",
+  "objective": "Use 'so' to introduce a result.",
+  "difficulty": "MEDIUM",
+  "language": "en",
+  "question": "Mohamed Dib described the hard life of ordinary people in Tlemcen, ____ many readers felt close to his characters.",
+  "options": [
+   "because",
+   "because of",
+   "thanks to",
+   "so"
+  ],
+  "correct": 3,
+  "explanation": "The second part is the result of the first, so the connector is 'so'. 'Because' would reverse the logic by presenting the readers' feelings as the cause.",
+  "tags": [
+   "result",
+   "so"
+  ]
+ },
+ {
+  "key": "4AM-EN-U2-L5-0004",
+  "type": "MCQ",
+  "grade": "4AM",
+  "subject": "EN",
+  "unit": "U2",
+  "lesson": "L5",
+  "objective": "Distinguish 'because' + clause from 'because of' + noun in context.",
+  "difficulty": "HARD",
+  "language": "en",
+  "question": "Which sentence about Ibn Battuta is correct?",
+  "options": [
+   "Ibn Battuta stayed in India for years because of the Sultan gave him a job.",
+   "Ibn Battuta stayed in India for years because the Sultan's job.",
+   "Ibn Battuta stayed in India for years because the Sultan gave him a job.",
+   "Ibn Battuta stayed in India for years so the Sultan gave him a job."
+  ],
+  "correct": 2,
+  "explanation": "'The Sultan gave him a job' is a full clause, so it must follow 'because'. 'Because of' needs a noun ('because of the Sultan's job'), and 'so' would wrongly present the job as a result of his stay.",
+  "tags": [
+   "cause",
+   "because vs because of"
+  ]
+ }
+]

@@ -27,7 +27,9 @@ const productSchema = z.object({
   streamId: optUuid,
   coverUrl: z.string().url().max(500).nullish(),
   status: z.enum(PRODUCT_STATUSES).optional(),
-  sortOrder: z.coerce.number().int().min(0).max(10_000).optional()
+  sortOrder: z.coerce.number().int().min(0).max(10_000).optional(),
+  requiresStream: z.boolean().optional(),
+  maxPerOrder: z.coerce.number().int().min(1).max(1000).optional()
 })
 
 const revalidate = () => {
@@ -40,7 +42,7 @@ function fromForm(fd: FormData) {
     const v = fd.get(k)
     return typeof v === 'string' && v.trim() ? v.trim() : null
   }
-  return { title: s('title') ?? '', slug: s('slug'), description: s('description'), type: s('type') ?? undefined, author: s('author'), pages: s('pages'), priceDzd: s('priceDzd') ?? '0', comparePriceDzd: s('comparePriceDzd'), stock: s('stock'), subjectId: s('subjectId'), levelId: s('levelId'), streamId: s('streamId'), coverUrl: s('coverUrl'), status: s('status') ?? undefined, sortOrder: s('sortOrder') ?? undefined }
+  return { title: s('title') ?? '', slug: s('slug'), description: s('description'), type: s('type') ?? undefined, author: s('author'), pages: s('pages'), priceDzd: s('priceDzd') ?? '0', comparePriceDzd: s('comparePriceDzd'), stock: s('stock'), subjectId: s('subjectId'), levelId: s('levelId'), streamId: s('streamId'), coverUrl: s('coverUrl'), status: s('status') ?? undefined, sortOrder: s('sortOrder') ?? undefined, requiresStream: fd.get('requiresStream') === 'on' || fd.get('requiresStream') === '1', maxPerOrder: s('maxPerOrder') ?? undefined }
 }
 
 /** إنشاء/تعديل منتج من نموذج (مع ملف غلاف اختياري وملفات رقمية اختيارية) */
@@ -103,8 +105,8 @@ export async function detachProductFileAction(productFileId: string): Promise<Ac
   return result
 }
 
-export async function placeOrderAction(input: { items: { productId: string; qty: number }[]; customerName: string; phone: string; wilayaId?: string | null; address?: string | null; note?: string | null }): Promise<ActionResult<{ id: string; number: string; status: string }>> {
-  const parsed = z.object({ items: z.array(z.object({ productId: uuid, qty: z.number().int().min(1).max(20) })).min(1).max(20), customerName: z.string().min(2).max(120), phone: z.string().min(9).max(20), wilayaId: optUuid, address: z.string().max(400).nullish(), note: z.string().max(500).nullish() }).safeParse(input)
+export async function placeOrderAction(input: { items: { productId: string; qty: number }[]; customerName: string; phone: string; wilayaId?: string | null; address?: string | null; note?: string | null; streamId?: string | null; otpCode?: string | null; beneficiaryStudentId?: string | null }): Promise<ActionResult<{ id: string; number: string; status: string }>> {
+  const parsed = z.object({ items: z.array(z.object({ productId: uuid, qty: z.number().int().min(1).max(1000) })).min(1).max(20), customerName: z.string().min(2).max(120), phone: z.string().min(9).max(20), wilayaId: optUuid, address: z.string().max(400).nullish(), note: z.string().max(500).nullish(), streamId: optUuid, otpCode: z.string().max(8).nullish(), beneficiaryStudentId: optUuid }).safeParse(input)
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
     const actor = await requireActor()

@@ -28,6 +28,8 @@ export async function POST(req: Request) {
     const limit = Math.max(1, Math.min(50, Number(url.searchParams.get('limit') ?? 20)))
     const db = await getDb()
     const scheduledCleanup = await ensureMaintenanceJobs(db)
+    await import('@/server/services/courses.service').then((m) => m.ensureCourseExpiryScheduled(db))
+    await import('@/server/services/live.service').then((m) => m.ensureLiveRemindersScheduled(db))
     const summary = await processQueuedJobs(db, { limit })
     // المهام البطيئة (زحف DzExams) لا تناسب طلباً محدوداً بدقيقة: يلتقطها العامل الداخلي
     kickWorker(getDb)

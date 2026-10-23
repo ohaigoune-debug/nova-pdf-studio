@@ -30,7 +30,9 @@ export function navFor(role: UserRole): NavSection[] {
         {
           title: 'التعلّم',
           items: [
+            { href: '/student/courses', label: 'دوراتي', iconKey: 'BookMarked' },
             { href: '/student/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' },
+            { href: '/student/play', label: 'MADRASADZ PLAY', iconKey: 'Gamepad2' },
             { href: '/student/lessons', label: t('nav.myLessons'), iconKey: 'BookOpen' },
             { href: '/student/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
             { href: '/student/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
@@ -48,6 +50,7 @@ export function navFor(role: UserRole): NavSection[] {
           title: 'الحساب',
           items: [
             { href: '/student/notifications', label: t('common.notifications'), iconKey: 'BellRing' },
+            { href: '/student/support', label: 'الدعم والشكاوى', iconKey: 'LifeBuoy' },
             { href: '/student/profile', label: t('common.profile'), iconKey: 'UserRound' }
           ]
         }
@@ -136,10 +139,15 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/admin/publish', label: 'نشر درس / فرض / اختبار', iconKey: 'Upload' },
             { href: '/admin/curriculum', label: 'المنهاج والمكتبة', iconKey: 'Network' },
             { href: '/admin/bac-bank', label: 'بنك البكالوريا', iconKey: 'Database' },
+            { href: '/admin/play', label: 'MADRASADZ PLAY', iconKey: 'Gamepad2' },
             { href: '/admin/exam-engine', label: 'محرّك الامتحانات', iconKey: 'Cog' },
             { href: '/admin/educators', label: 'دليل الأساتذة', iconKey: 'PlayCircle' },
             { href: '/admin/content', label: t('nav.content'), iconKey: 'FileText' },
             { href: '/admin/store', label: 'المتجر', iconKey: 'ShoppingBag' },
+            { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' },
+            { href: '/admin/support', label: 'الشكاوى', iconKey: 'LifeBuoy' },
+            { href: '/admin/live', label: 'البث المباشر', iconKey: 'Radio' },
+            { href: '/admin/courses', label: 'الدورات المدفوعة', iconKey: 'GraduationCap' },
             { href: '/admin/market', label: 'سوق الأساتذة', iconKey: 'Store' },
             { href: '/admin/ai', label: t('nav.ai'), iconKey: 'Cpu' },
             { href: '/admin/storage', label: t('nav.storage'), iconKey: 'HardDrive' },

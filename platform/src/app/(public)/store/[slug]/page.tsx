@@ -73,7 +73,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             {p.priceDzd === 0 ? 'مجاني' : `${p.priceDzd} دج`}
             {p.comparePriceDzd && p.comparePriceDzd > p.priceDzd ? <span className="ms-3 text-base font-normal text-muted-foreground line-through">{p.comparePriceDzd} دج</span> : null}
           </p>
-          <AddToCartButton item={{ productId: p.id, slug: p.slug, title: p.title, priceDzd: p.priceDzd, physical: p.physical }} disabled={!p.inStock} />
+          <AddToCartButton item={{ productId: p.id, slug: p.slug, title: p.title, priceDzd: p.priceDzd, physical: p.physical, maxPerOrder: p.maxPerOrder, requiresStream: p.requiresStream }} disabled={!p.inStock} />
           {p.description ? <p className="whitespace-pre-line text-[15px] leading-8" dir="auto">{p.description}</p> : null}
           {p.physical ? (
             <Alert tone="info">
