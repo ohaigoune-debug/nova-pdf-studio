@@ -12,13 +12,13 @@
 |---|---|---|
 | M0 Audit & Baseline | ✅ | `MADRASADZ_BASELINE.md` |
 | M1 PLAY Recovery | ✅ | `MADRASADZ_PLAY_RECOVERY.md`، commit `a3112b4` |
-| M2 Legacy QCM (988) | ⏳ | مُحوَّل إلى صيغة PLAY (3AS/AR/U3/L1–L6)؛ التدقيق العلمي بعشر دفعات جارٍ؛ يُضاف بعد الحكم |
+| M2 Legacy QCM (988) | ✅ | دُقّق علمياً (985: 850 سليم، 120 مُصحَّح ووُسم للمراجعة، 15 مرفوض) → `content/play/3AS/AR/BL-L1..L6.json` (970 سؤالاً)؛ التقرير `BL-AUDIT-REPORT.json` |
 | M3 Game Engine | ✅ (MCQ + FILL_BLANK) | `tests/play.test.ts` 11/11؛ GAME 3/4 مؤجّلان |
-| M4 Question Bank | ⏳ | **4635/5000** صالح، 0 تكرار (`npm run play:validate`) — موجة 7 منجزة (FR/EN/HIST/GEO/ISL)، موجة 8 جارية (PHILO/ECO/ACC/LAW/SVT ≈364) |
-| M5 Admin & Analytics | ⏳ | `scripts/play/import.ts` ✅ (3 اختبارات)؛ `/admin/play` قيد البناء |
-| M6 Security & QA | ⏳ | |
-| M7 Release Candidate | ⏳ | |
-| M8 Academy Roadmap | ⏳ | |
+| M4 Question Bank | ✅ | **5969** صالح، 0 تكرار (`npm run play:validate`): 4999 PLAY + 970 من بنك 988 |
+| M5 Admin & Analytics | ✅ | `scripts/play/import.ts` + `/admin/play` (commit d3b0120) |
+| M6 Security & QA | ✅ | ثغرة «ملفاتي» أُصلحت؛ vitest 382/382 (77 ملفاً) قبل إدخال 988؛ tsc نظيف؛ lint بلا أخطاء |
+| M7 Release Candidate | ✅ | `docs/RELEASE_PLAY_ACADEMY.md` (نسخة احتياطية، سحب، بناء، هجرات 0026–0028، استيراد dry-run، تراجع) |
+| M8 Academy | ✅ منفَّذ | OTP/المتجر، الدورات والاشتراكات، webhook التوصيل والمطالبة، الشكاوى، Bunny، البث المباشر — commits 53beea6…d57dff1 |
 
 ## أعداد الأسئلة (حسب تعريف البرومبت)
 
