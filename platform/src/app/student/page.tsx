@@ -2,8 +2,11 @@ import { CalendarCheck, CalendarX, KeyRound, QrCode, Smartphone, TrendingUp, Use
 import Link from 'next/link'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { JoinGroupCard, JoinGroupMenu } from '@/components/domain/join-group'
+import { PhoneVerifyBanner } from '@/components/domain/otp-banner'
 import { AttendanceStatusBadge, EnrollmentStatusBadge } from '@/components/domain/status-badges'
 import { TeacherBanner } from '@/components/domain/teacher-banner'
+import { NextLiveBanner } from '@/components/live/next-live-banner'
+import { upcomingForStudent } from '@/server/services/live.service'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, EmptyState, Progress, StatCard } from '@/components/ui/misc'
@@ -14,15 +17,17 @@ import { getDb } from '@/server/db/client'
 import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
 import { listStudentContent } from '@/server/queries/student-extras.queries'
 import { getAboutSettings } from '@/server/services/about.service'
+import { isPhoneVerified } from '@/server/services/otp.service'
 import { skillMap } from '@/server/services/skills.service'
 import { studentHome } from '@/server/services/students.service'
 
-export default async function StudentHomePage({ searchParams }: { searchParams: Promise<{ code?: string; join?: string }> }) {
+export default async function StudentHomePage({ searchParams }: { searchParams: Promise<{ code?: string; join?: string; verify?: string }> }) {
   const actor = await requirePageActor('STUDENT')
   const q = await searchParams
   const prefill = q.code?.trim().slice(0, 40) || undefined
   const db = await getDb()
-  const [home, suggested, skills, about, apk] = await Promise.all([studentHome(db, actor), listStudentContent(db, actor, { limit: 3 }), skillMap(db, actor.studentId!), getAboutSettings(db), appDownload({ onlyAndroid: true })])
+  const [home, suggested, skills, about, apk, phoneV] = await Promise.all([studentHome(db, actor), listStudentContent(db, actor, { limit: 3 }), skillMap(db, actor.studentId!), getAboutSettings(db), appDownload({ onlyAndroid: true }), isPhoneVerified(db, actor.userId)])
+  const nextLive = (await upcomingForStudent(db, actor).catch(() => []))[0] ?? null
   const avgSkill = skills.length ? skills.reduce((s, k) => s + k.score, 0) / skills.length : null
   const open = home.groups.find((g) => g.hasOpenSession && g.status === 'ACTIVE')
   const suspended = home.groups.filter((g) => g.status === 'SUSPENDED_DUE_TO_ABSENCE')
@@ -44,8 +49,12 @@ export default async function StudentHomePage({ searchParams }: { searchParams: 
           </span>
         }
       />
+      {/* الحصة المباشرة القادمة (دورات مدفوعة): لا شيء إن لم تكن حصة */}
+      <NextLiveBanner session={nextLive ? { ...nextLive, startsAt: nextLive.startsAt.toISOString() } : null} />
       {/* التلميذ بلا فوج: إدخال الكود هنا مباشرة، في مكان واضح، بلا مغادرة الصفحة */}
       {home.groups.length === 0 ? <JoinGroupCard code={prefill} /> : null}
+      {/* الهاتف غير مؤكَّد: شريط صغير يفتح بطاقة OTP (مفتوحة مباشرة بعد التسجيل) */}
+      {!phoneV.verified ? <PhoneVerifyBanner phone={phoneV.phone} open={q.verify === '1'} /> : null}
 
       {open ? (
         <Alert tone="success" title={t('dashboard.openSessionNow')}>

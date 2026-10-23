@@ -103,6 +103,12 @@ export function ProductForm({ product, files, options }: { product?: ProductRow 
         <Field label="ترتيب العرض" htmlFor="p-sort">
           <Input id="p-sort" name="sortOrder" type="number" min="0" defaultValue={product?.sortOrder ?? 0} dir="ltr" />
         </Field>
+        <Field label="الحدّ الأقصى في الطلب الواحد" htmlFor="p-max" hint="1 للكتب المرتبطة بدورة؛ الافتراضي 20" error={fieldError(state, 'maxPerOrder')}>
+          <Input id="p-max" name="maxPerOrder" type="number" min="1" max="1000" step="1" defaultValue={product?.maxPerOrder ?? 20} dir="ltr" />
+        </Field>
+        <label className="flex items-center gap-2 self-end pb-3 text-sm">
+          <input type="checkbox" name="requiresStream" defaultChecked={product?.requiresStream ?? false} className="size-4" /> يُلزم المشتري باختيار شعبته
+        </label>
         <Field label="الوصف" htmlFor="p-desc" className="sm:col-span-2">
           <Textarea id="p-desc" name="description" rows={4} defaultValue={product?.description ?? ''} maxLength={4000} dir="auto" />
         </Field>

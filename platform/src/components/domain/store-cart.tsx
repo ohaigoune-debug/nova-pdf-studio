@@ -10,6 +10,7 @@ import { Input, Select, Textarea } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { Alert, EmptyState } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
+import { OtpVerifyCard } from '@/components/domain/otp-verify-card'
 import { placeOrderAction } from '@/server/actions/store.actions'
 
 export interface CartItem {
@@ -19,7 +20,13 @@ export interface CartItem {
   priceDzd: number
   qty: number
   physical: boolean
+  /** الحدّ الأقصى للوحدات في الطلب الواحد (من المنتج) */
+  maxPerOrder?: number
+  /** يتطلّب اختيار الشعبة عند الطلب */
+  requiresStream?: boolean
 }
+
+const capOf = (i: Pick<CartItem, 'maxPerOrder'>) => Math.max(1, i.maxPerOrder ?? 20)
 
 const KEY = 'md-cart-v1'
 const read = (): CartItem[] => {
@@ -56,11 +63,14 @@ export function useCart() {
   const add = (item: Omit<CartItem, 'qty'>, qty = 1) => {
     const cur = read()
     const hit = cur.find((i) => i.productId === item.productId)
-    if (hit) hit.qty = Math.min(20, hit.qty + qty)
-    else cur.push({ ...item, qty })
+    if (hit) {
+      hit.qty = Math.min(capOf(item), hit.qty + qty)
+      hit.maxPerOrder = item.maxPerOrder
+      hit.requiresStream = item.requiresStream
+    } else cur.push({ ...item, qty: Math.min(capOf(item), qty) })
     write(cur)
   }
-  const setQty = (productId: string, qty: number) => write(read().map((i) => (i.productId === productId ? { ...i, qty: Math.max(1, Math.min(20, qty)) } : i)))
+  const setQty = (productId: string, qty: number) => write(read().map((i) => (i.productId === productId ? { ...i, qty: Math.max(1, Math.min(capOf(i), qty)) } : i)))
   const remove = (productId: string) => write(read().filter((i) => i.productId !== productId))
   const clear = () => write([])
   return { items, add, setQty, remove, clear, count: items.reduce((s, i) => s + i.qty, 0), total: items.reduce((s, i) => s + i.qty * i.priceDzd, 0) }
@@ -95,17 +105,21 @@ export function CartBadge() {
 }
 
 /** صفحة السلّة والطلب: التصفّح للجميع، والإرسال لمن سجّل دخوله */
-export function CartPage({ loggedIn, defaults, wilayas, shippingDzd }: { loggedIn: boolean; defaults: { name: string; phone: string | null } | null; wilayas: { id: string; name: string }[]; shippingDzd: number }) {
+export function CartPage({ loggedIn, defaults, wilayas, streams = [], shippingDzd, policy = { requireOtp: false }, verifiedPhone = null }: { loggedIn: boolean; defaults: { name: string; phone: string | null; streamId?: string | null } | null; wilayas: { id: string; name: string }[]; streams?: { id: string; name: string }[]; shippingDzd: number; policy?: { requireOtp: boolean }; verifiedPhone?: string | null }) {
   const cart = useCart()
   const router = useRouter()
   const [pending, start] = useTransition()
-  const [f, setF] = useState({ customerName: defaults?.name ?? '', phone: defaults?.phone ?? '', wilayaId: '', address: '', note: '' })
+  const [f, setF] = useState({ customerName: defaults?.name ?? '', phone: defaults?.phone ?? '', wilayaId: '', address: '', note: '', streamId: defaults?.streamId ?? '', otpCode: '' })
   const physical = cart.items.some((i) => i.physical)
+  const needsStream = cart.items.some((i) => i.requiresStream)
+  const normPhone = f.phone.replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
+  // الهاتف المؤكَّد سلفاً لهذا الحساب يُعفي من الرمز
+  const needsOtp = policy.requireOtp && !(verifiedPhone && verifiedPhone === normPhone)
   const shipping = physical ? shippingDzd : 0
   const total = cart.total + shipping
   const submit = () =>
     start(async () => {
-      const r = await placeOrderAction({ items: cart.items.map((i) => ({ productId: i.productId, qty: i.qty })), customerName: f.customerName, phone: f.phone, wilayaId: f.wilayaId || null, address: f.address || null, note: f.note || null })
+      const r = await placeOrderAction({ items: cart.items.map((i) => ({ productId: i.productId, qty: i.qty })), customerName: f.customerName, phone: f.phone, wilayaId: f.wilayaId || null, address: f.address || null, note: f.note || null, streamId: f.streamId || null, otpCode: needsOtp ? f.otpCode || null : null })
       if (!r.ok) return toast('error', r.error.message)
       cart.clear()
       toast('success', r.data.status === 'DELIVERED' ? 'طلبك جاهز: ملفاتك متاحة للتنزيل' : `أُرسل طلبك ${r.data.number}`)
@@ -130,7 +144,7 @@ export function CartPage({ loggedIn, defaults, wilayas, shippingDzd }: { loggedI
                     <Minus className="size-3" />
                   </Button>
                   <span className="tabular w-8 text-center">{i.qty}</span>
-                  <Button size="sm" variant="outline" onClick={() => cart.setQty(i.productId, i.qty + 1)} aria-label="أكثر">
+                  <Button size="sm" variant="outline" onClick={() => cart.setQty(i.productId, i.qty + 1)} aria-label="أكثر" disabled={i.qty >= capOf(i)}>
                     <Plus className="size-3" />
                   </Button>
                 </div>
@@ -196,11 +210,24 @@ export function CartPage({ loggedIn, defaults, wilayas, shippingDzd }: { loggedI
                   </Field>
                 </>
               ) : null}
+              {needsStream ? (
+                <Field label="الشعبة" htmlFor="c-stream" hint="أحد المنتجات موجَّه بالشعبة">
+                  <Select id="c-stream" value={f.streamId} onChange={(e) => setF((s) => ({ ...s, streamId: e.target.value }))}>
+                    <option value="">—</option>
+                    {streams.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Field>
+              ) : null}
               <Field label="ملاحظة" htmlFor="c-note">
                 <Input id="c-note" value={f.note} onChange={(e) => setF((s) => ({ ...s, note: e.target.value }))} dir="auto" />
               </Field>
+              {needsOtp ? <OtpVerifyCard purpose="ORDER" phone={normPhone} editablePhone={false} collectOnly onCode={(c) => setF((s) => ({ ...s, otpCode: c }))} title="تأكيد الهاتف قبل الطلب" description="نرسل رمزاً إلى هذا الرقم؛ أدخله ثم أرسل الطلب." /> : null}
               <Alert tone="info">{total === 0 ? 'طلب مجاني: ملفاتك تُتاح فوراً.' : physical ? 'الدفع عند الاستلام. نتصل بك للتأكيد ثم نشحن.' : 'ملفات رقمية: تحوّل المبلغ (CCP / BaridiMob) وتُرسل الوصل، ويؤكّد المشرف الطلب فتُفتح التنزيلات.'}</Alert>
-              <Button className="w-full" size="lg" onClick={submit} loading={pending} disabled={!f.customerName.trim() || !f.phone.trim() || (physical && (!f.wilayaId || !f.address.trim()))}>
+              <Button className="w-full" size="lg" onClick={submit} loading={pending} disabled={!f.customerName.trim() || !f.phone.trim() || (physical && (!f.wilayaId || !f.address.trim())) || (needsStream && !f.streamId) || (needsOtp && f.otpCode.length !== 6)}>
                 إرسال الطلب
               </Button>
             </>

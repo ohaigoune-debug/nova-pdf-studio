@@ -75,7 +75,8 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
     return r
   })
   if (!result.ok) return result
-  redirect(d.code ? `/activate-code?code=${encodeURIComponent(d.code)}` : '/activate-code')
+  // أدخل هاتفاً: نفتح بطاقة تأكيده في لوحته مباشرة (لا يُحجب الدخول على من لم يؤكّد)
+  redirect(d.code ? `/activate-code?code=${encodeURIComponent(d.code)}` : d.phone ? '/student?verify=1' : '/activate-code')
 }
 
 export async function logoutAction(): Promise<void> {
