@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مبدأ العطالة (قانون نيوتن الأول)</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 2: الظواهر الميكانيكية · الدرس 4</div>
+<h1>مبدأ العطالة (قانون نيوتن الأول)</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تنص على مبدأ العطالة وتطبّقه للربط بين حالة حركة مركز عطالة جملة والقوى المؤثرة عليها.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الجسم لا يحتاج إلى قوة ليستمر في حركته؛ فإذا كانت القوى المؤثرة عليه تتعادل (أو انعدمت) بقي ساكناً أو حافظ على حركة مستقيمة منتظمة. وهذا هو <span class="k">مبدأ العطالة</span>، وهو صحيح في مرجع غاليلي كالمرجع الأرضي في التجارب القصيرة.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ar9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#c2410c"/></marker><marker id="ar9b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1d4ed8"/></marker></defs>
+<line x1="290" y1="125" x2="525" y2="125" stroke="#1f2937" stroke-width="3"/>
+<text x="408" y="150" text-anchor="middle" font-size="13">طاولة هوائية أفقية</text>
+<circle cx="408" cy="105" r="20" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><circle cx="408" cy="105" r="3" fill="#1f2937"/>
+<line x1="408" y1="105" x2="408" y2="165" stroke="#c2410c" stroke-width="2.5" marker-end="url(#ar9)"/><text x="425" y="168" font-size="13" fill="#c2410c">P</text>
+<line x1="408" y1="105" x2="408" y2="45" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#ar9b)"/><text x="425" y="50" font-size="13" fill="#1d4ed8">R</text>
+<text x="408" y="28" text-anchor="middle" font-size="13" fill="#15803d">P + R = 0 ⇒ جملة شبه معزولة</text>
+<line x1="20" y1="90" x2="250" y2="90" stroke="#1f2937" stroke-width="1"/>
+<circle cx="40" cy="90" r="5" fill="#15803d"/><circle cx="80" cy="90" r="5" fill="#15803d"/><circle cx="120" cy="90" r="5" fill="#15803d"/><circle cx="160" cy="90" r="5" fill="#15803d"/><circle cx="200" cy="90" r="5" fill="#15803d"/><circle cx="240" cy="90" r="5" fill="#15803d"/>
+<text x="40" y="112" text-anchor="middle" font-size="11">G0</text><text x="80" y="112" text-anchor="middle" font-size="11">G1</text><text x="120" y="112" text-anchor="middle" font-size="11">G2</text><text x="160" y="112" text-anchor="middle" font-size="11">G3</text><text x="200" y="112" text-anchor="middle" font-size="11">G4</text><text x="240" y="112" text-anchor="middle" font-size="11">G5</text>
+<text x="135" y="45" text-anchor="middle" font-size="13" font-weight="700">تسجيل مواضع مركز العطالة G</text>
+<text x="135" y="65" text-anchor="middle" font-size="12" fill="#15803d">مسافات متساوية في مدد متساوية</text>
+<text x="135" y="140" text-anchor="middle" font-size="13" fill="#c2410c">⇒ حركة مستقيمة منتظمة</text>
+</svg><figcaption>الشكل 1: حامل ذاتي على طاولة هوائية: الثقل ورد الفعل يتعادلان، فيتحرك مركز العطالة بحركة مستقيمة منتظمة.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">الجملة المعزولة</span> لا تخضع لأي قوة (حالة مثالية)، و<span class="k">الجملة شبه المعزولة</span> تخضع لقوى تتعادل، أي محصلتها معدومة: ΣF = 0.</li>
+<li><span class="k">مركز العطالة G</span> نقطة خاصة من الجملة (تنطبق على مركز الثقل) تكون حركتها أبسط حركة ممكنة، وهي التي يصفها المبدأ.</li>
+<li><span class="k">مبدأ العطالة (قانون نيوتن الأول):</span> في مرجع غاليلي، إذا كانت الجملة معزولة أو شبه معزولة فإن مركز عطالتها إما ساكن أو في حركة مستقيمة منتظمة؛ والعكس صحيح.</li>
+<li><span class="k">المرجع الغاليلي</span> هو المرجع الذي يتحقق فيه مبدأ العطالة؛ يُعتبر المرجع الأرضي غاليلياً للتجارب القصيرة المدة.</li>
+<li><span class="k">النتيجة العكسية:</span> إذا تغيّر شعاع سرعة G (في القيمة أو الاتجاه) فالجملة ليست شبه معزولة، أي توجد قوة محصلة غير معدومة.</li>
+<li>مبدأ العطالة يفسر ظواهر يومية: اندفاع الراكب إلى الأمام عند الفرملة، وضرورة حزام الأمان.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>حامل ذاتي على طاولة هوائية أفقية يُدفع ثم يُترك؛ التسجيل يُظهر مواضع متساوية التباعد على خط مستقيم. <span class="k">التفسير:</span> الحركة مستقيمة منتظمة، إذن حسب مبدأ العطالة القوى تتعادل: P + R = 0 (الاحتكاك مهمل بفضل الوسادة الهوائية).</li>
+<li>صندوق يُجرّ على أرضية أفقية بسرعة ثابتة بقوة F شدتها 30 N. <span class="k">الحل:</span> الحركة مستقيمة منتظمة ⇒ الجملة شبه معزولة ⇒ قوة الاحتكاك f تعادل F: f = 30 N، كما يتعادل P مع R.</li>
+<li>حافلة تنطلق فجأة فيميل الراكب الواقف إلى الخلف. <span class="k">التفسير:</span> الراكب يميل بعطالته إلى حفظ حالته (السكون) بينما تتسارع الحافلة.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>الاعتقاد أن استمرار الحركة يتطلب قوة مستمرة؛ الصحيح أن <span class="k">تغيير</span> الحركة هو ما يتطلب قوة.</li>
+<li>الخلط بين «قوى معدومة» و«محصلة معدومة»: الجملة شبه المعزولة تخضع لقوى لكنها تتعادل.</li>
+<li>نسيان ذكر <span class="k">المرجع الغاليلي</span> عند نص المبدأ.</li>
+<li>تطبيق المبدأ على جسم في حركة دائرية منتظمة؛ اتجاه السرعة يتغير فالجملة ليست شبه معزولة.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>معزولة: لا قوى؛ شبه معزولة: ΣF = 0.</li>
+<li>شبه معزولة ⇔ G ساكن أو حركة مستقيمة منتظمة.</li>
+<li>ينطبق في مرجع غاليلي (الأرضي للتجارب القصيرة).</li>
+<li>تغيّر شعاع السرعة ⇒ محصلة غير معدومة.</li>
+<li>الطاولة الهوائية: احتكاك مهمل، P + R = 0.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/PHYS">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=PHYS">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>

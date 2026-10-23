@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>التقدم وجدول التقدم والمتفاعل المحد</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 1: المادة وتحولاتها · الدرس 5</div>
+<h1>التقدم وجدول التقدم والمتفاعل المحد</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تنشئ جدول تقدم تفاعل كيميائي، وأن تحدّد التقدم الأعظمي والمتفاعل المحدّ وتركيب الجملة في الحالة النهائية.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> التقدم x (بالمول) يقيس «كم مرة» حدث التفاعل كما تصفه المعادلة: كل متفاعل ينقص بمقدار معامله × x وكل ناتج يزيد بمعامله × x. يتوقف التفاعل عندما ينفد أحد المتفاعلات، وهو <span class="k">المتفاعل المحدّ</span>، فيكون التقدم عندها أعظمياً x<sub>max</sub>.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<rect x="15" y="15" width="510" height="150" fill="none" stroke="#1f2937" stroke-width="1.5"/>
+<rect x="15" y="15" width="510" height="34" fill="#dbe6ff"/>
+<line x1="15" y1="49" x2="525" y2="49" stroke="#1f2937" stroke-width="1.5"/><line x1="15" y1="87" x2="525" y2="87" stroke="#1f2937"/><line x1="15" y1="125" x2="525" y2="125" stroke="#1f2937"/>
+<line x1="405" y1="15" x2="405" y2="165" stroke="#1f2937" stroke-width="1.5"/><line x1="330" y1="15" x2="330" y2="165" stroke="#1f2937"/><line x1="220" y1="15" x2="220" y2="165" stroke="#1f2937"/><line x1="115" y1="15" x2="115" y2="165" stroke="#1f2937"/>
+<text x="465" y="37" text-anchor="middle" font-weight="700" font-size="13">الحالة / المعادلة</text>
+<text x="367" y="37" text-anchor="middle" font-weight="700">2 H2</text><text x="275" y="37" text-anchor="middle" font-weight="700">+ O2</text><text x="167" y="37" text-anchor="middle" font-weight="700">→ 2 H2O</text><text x="65" y="37" text-anchor="middle" font-weight="700" font-size="13">التقدم</text>
+<text x="465" y="73" text-anchor="middle" font-size="13">ابتدائية</text><text x="367" y="73" text-anchor="middle">3</text><text x="275" y="73" text-anchor="middle">2</text><text x="167" y="73" text-anchor="middle">0</text><text x="65" y="73" text-anchor="middle">0</text>
+<text x="465" y="111" text-anchor="middle" font-size="13">وسيطة</text><text x="367" y="111" text-anchor="middle" fill="#1d4ed8">3 − 2x</text><text x="275" y="111" text-anchor="middle" fill="#1d4ed8">2 − x</text><text x="167" y="111" text-anchor="middle" fill="#15803d">2x</text><text x="65" y="111" text-anchor="middle">x</text>
+<rect x="16" y="126" width="508" height="38" fill="#fde68a"/>
+<text x="465" y="150" text-anchor="middle" font-size="13">نهائية</text><text x="367" y="150" text-anchor="middle" fill="#c2410c" font-weight="700">0</text><text x="275" y="150" text-anchor="middle">0.5</text><text x="167" y="150" text-anchor="middle" fill="#15803d">3</text><text x="65" y="150" text-anchor="middle" fill="#c2410c">xmax = 1.5</text>
+</svg><figcaption>الشكل 1: جدول تقدم تفاعل 2H<sub>2</sub> + O<sub>2</sub> → 2H<sub>2</sub>O؛ ينفد H<sub>2</sub> أولاً فهو المتفاعل المحدّ.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">التقدم x</span> مقدار بالمول يبدأ من 0 ويزداد أثناء التفاعل؛ لمعادلة a A + b B → c C + d D نكتب: n(A) = n<sub>0</sub>(A) − a·x، وn(C) = c·x.</li>
+<li><span class="k">جدول التقدم</span> يضم ثلاثة أسطر: الحالة الابتدائية (x = 0)، الحالة الوسيطة (x)، والحالة النهائية (x<sub>max</sub>).</li>
+<li><span class="k">التقدم الأعظمي x<sub>max</sub></span> هو أصغر قيمة لـx تجعل كمية مادة أحد المتفاعلات معدومة.</li>
+<li><span class="k">المتفاعل المحدّ</span> هو الذي ينعدم أولاً ويوقف التفاعل؛ المتفاعل الآخر <span class="k">بزيادة</span>.</li>
+<li><span class="k">المزيج الستوكيومتري:</span> إذا تحقق n<sub>0</sub>(A) / a = n<sub>0</sub>(B) / b فإن المتفاعلين ينفدان معاً.</li>
+<li>كميات المادة في الحالة النهائية تُحسب بتعويض x<sub>max</sub> في سطر الحالة الوسيطة.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>نمزج 3 mol من H<sub>2</sub> و2 mol من O<sub>2</sub> وفق 2H<sub>2</sub> + O<sub>2</sub> → 2H<sub>2</sub>O. <span class="k">الحل:</span> 3 − 2x = 0 يعطي x = 1.5؛ و2 − x = 0 يعطي x = 2؛ إذن x<sub>max</sub> = 1.5 mol وH<sub>2</sub> هو المحدّ. الحالة النهائية: n(H<sub>2</sub>) = 0، n(O<sub>2</sub>) = 0.5 mol، n(H<sub>2</sub>O) = 3 mol.</li>
+<li>Fe + 2H<sup>+</sup> → Fe<sup>2+</sup> + H<sub>2</sub> مع n<sub>0</sub>(Fe) = 0.1 mol وn<sub>0</sub>(H<sup>+</sup>) = 0.3 mol. <span class="k">الحل:</span> 0.1 − x = 0 يعطي 0.1؛ 0.3 − 2x = 0 يعطي 0.15؛ إذن x<sub>max</sub> = 0.1 mol والحديد محدّ. يبقى n(H<sup>+</sup>) = 0.3 − 0.2 = 0.1 mol، ويتشكل n(H<sub>2</sub>) = 0.1 mol، أي حجم V = 0.1 × 24 = 2.4 L في الشروط العادية.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>اختيار x<sub>max</sub> الأكبر بدل <span class="k">الأصغر</span>؛ الأصغر هو الذي يوقف التفاعل أولاً.</li>
+<li>نسيان ضرب x في المعامل الستوكيومتري (كتابة 3 − x بدل 3 − 2x).</li>
+<li>الحكم على المتفاعل المحدّ بمقارنة كميات المادة الابتدائية مباشرة دون القسمة على المعاملات.</li>
+<li>كتابة كمية مادة الناتج في الحالة الابتدائية بغير الصفر عندما لا يكون موجوداً أصلاً.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>متفاعل: n<sub>0</sub> − (معامل)·x؛ ناتج: (معامل)·x.</li>
+<li>x<sub>max</sub> = أصغر قيمة تُعدم أحد المتفاعلات.</li>
+<li>المتفاعل المحدّ ينفد؛ الآخر يبقى بزيادة.</li>
+<li>مزيج ستوكيومتري: n<sub>0</sub>(A)/a = n<sub>0</sub>(B)/b.</li>
+<li>الحالة النهائية = تعويض x<sub>max</sub> في السطر الوسيط.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/PHYS">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=PHYS">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>

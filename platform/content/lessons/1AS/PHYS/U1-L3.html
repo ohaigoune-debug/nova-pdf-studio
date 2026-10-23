@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>المحاليل المائية والتركيز المولي</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 1: المادة وتحولاتها · الدرس 3</div>
+<h1>المحاليل المائية والتركيز المولي</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تعرّف المحلول المائي والتركيز المولي، وأن تحسب التركيز عند التحضير بالإذابة أو بالتمديد.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المحلول المائي = مذاب مُذاب في الماء (المذيب). التركيز المولي C = n / V يقيس كمية المذاب في لتر واحد من المحلول. عند التمديد نضيف ماء فقط، فكمية مادة المذاب تبقى ثابتة: C<sub>0</sub> × V<sub>0</sub> = C<sub>1</sub> × V<sub>1</sub>.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<path d="M430 20 h20 v45 l25 70 h-70 l25 -70 z" fill="none" stroke="#1f2937" stroke-width="2"/>
+<path d="M413 100 l-8 35 h70 l-8 -35 z" fill="#1d4ed8"/>
+<text x="440" y="155" text-anchor="middle" font-size="13">محلول أمّ</text><text x="440" y="170" text-anchor="middle" font-size="12" fill="#1d4ed8">C0 ، V0</text>
+<line x1="395" y1="90" x2="330" y2="90" stroke="#1f2937" stroke-width="2" marker-end="url(#ar3)"/>
+<text x="362" y="80" text-anchor="middle" font-size="12">نأخذ V0 بالماصّة</text>
+<path d="M260 20 h20 v45 l25 70 h-70 l25 -70 z" fill="none" stroke="#1f2937" stroke-width="2"/>
+<path d="M240 125 h60 l-2 10 h-56 z" fill="#1d4ed8"/>
+<text x="270" y="155" text-anchor="middle" font-size="13">نكمل بالماء</text><text x="270" y="170" text-anchor="middle" font-size="12">حتى الخط</text>
+<line x1="225" y1="90" x2="160" y2="90" stroke="#1f2937" stroke-width="2" marker-end="url(#ar3)"/>
+<text x="192" y="80" text-anchor="middle" font-size="12">نرجّ</text>
+<path d="M90 20 h20 v45 l25 70 h-70 l25 -70 z" fill="none" stroke="#1f2937" stroke-width="2"/>
+<path d="M98 50 l-25 70 h54 l-25 -70 z" fill="#dbe6ff"/><line x1="100" y1="50" x2="110" y2="50" stroke="#c2410c" stroke-width="2"/>
+<text x="100" y="155" text-anchor="middle" font-size="13">محلول ممدّد</text><text x="100" y="170" text-anchor="middle" font-size="12" fill="#1d4ed8">C1 = C0 × V0 / V1</text>
+</svg><figcaption>الشكل 1: مراحل التمديد في حوجلة عيارية؛ كمية مادة المذاب n لا تتغير فيقلّ التركيز.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المحلول</span> مزيج متجانس من <span class="k">مذاب</span> (صلب أو سائل أو غاز) و<span class="k">مذيب</span>؛ إذا كان المذيب هو الماء سُمّي <span class="k">محلولاً مائياً</span>.</li>
+<li><span class="k">التركيز المولي</span> C = n / V، حيث n كمية مادة المذاب (mol) وV حجم المحلول (L)، ووحدته mol/L.</li>
+<li><span class="k">التركيز الكتلي</span> C<sub>m</sub> = m / V بوحدة g/L، والعلاقة بينهما: C<sub>m</sub> = C × M.</li>
+<li><span class="k">التحضير بالإذابة:</span> نزن كتلة m من المذاب، نذيبها في قليل من الماء داخل حوجلة عيارية، ثم نكمل بالماء إلى خط العيار ونرجّ.</li>
+<li><span class="k">التحضير بالتمديد:</span> نأخذ حجماً V<sub>0</sub> من محلول أمّ تركيزه C<sub>0</sub> ونضيف الماء حتى الحجم V<sub>1</sub>؛ فيكون C<sub>0</sub>V<sub>0</sub> = C<sub>1</sub>V<sub>1</sub>.</li>
+<li><span class="k">معامل التمديد</span> F = C<sub>0</sub> / C<sub>1</sub> = V<sub>1</sub> / V<sub>0</sub>، وهو دائماً أكبر من 1.</li>
+<li><span class="k">المحلول المشبع</span> هو الذي لا يقبل إذابة كمية إضافية من المذاب عند درجة حرارة معيّنة.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>نذيب 5.85 g من NaCl في الماء لنحصل على 500 mL من المحلول. <span class="k">الحل:</span> M(NaCl) = 58.5 g/mol، إذن n = 5.85 / 58.5 = 0.1 mol؛ V = 0.5 L؛ C = 0.1 / 0.5 = 0.2 mol/L.</li>
+<li>نأخذ 10 mL من محلول تركيزه 0.5 mol/L ونمدّده إلى 100 mL. <span class="k">الحل:</span> C<sub>1</sub> = C<sub>0</sub>V<sub>0</sub> / V<sub>1</sub> = 0.5 × 10 / 100 = 0.05 mol/L، ومعامل التمديد F = 100 / 10 = 10.</li>
+<li>محلول غلوكوز تركيزه المولي 0.1 mol/L وكتلته المولية 180 g/mol. <span class="k">الحل:</span> C<sub>m</sub> = C × M = 0.1 × 180 = 18 g/L.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>قسمة n على حجم المذيب (الماء المضاف) بدل <span class="k">حجم المحلول</span> الكلي.</li>
+<li>ترك الحجم بالمليلتر في علاقة C = n / V؛ يجب تحويله إلى اللتر.</li>
+<li>الاعتقاد أن التمديد يغيّر كمية مادة المذاب؛ الذي يتغير هو الحجم والتركيز فقط.</li>
+<li>الخلط بين التركيز المولي (mol/L) والتركيز الكتلي (g/L).</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>C = n / V بوحدة mol/L، وV حجم المحلول باللتر.</li>
+<li>C<sub>m</sub> = m / V = C × M.</li>
+<li>تمديد: n ثابت ⇒ C<sub>0</sub>V<sub>0</sub> = C<sub>1</sub>V<sub>1</sub>.</li>
+<li>F = C<sub>0</sub> / C<sub>1</sub> = V<sub>1</sub> / V<sub>0</sub> &gt; 1.</li>
+<li>الأدوات: ميزان، حوجلة عيارية، ماصّة، إجاصة مصّ.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/PHYS">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=PHYS">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>
