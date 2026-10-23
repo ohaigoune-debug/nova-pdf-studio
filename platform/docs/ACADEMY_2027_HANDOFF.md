@@ -37,7 +37,9 @@
 | `src/server/db/schema/content.ts` | عمودان اختياريان `subject_id`, `curriculum_node_id` + فهرسان. |
 | `src/server/services/content.service.ts` | `ContentInput.subjectId/curriculumNodeId` في الإنشاء والتحديث. |
 | `drizzle/0029_content_curriculum.sql` + `drizzle/down/…` + `meta/_journal.json` | الهجرة الإضافية (IF NOT EXISTS) وسكربت التراجع. |
-| `tests/academy-catalog.test.ts` (جديد) | 19 اختبار انحدار (15 + 4 لملاحظات المراجعة). |
+| `tests/academy-catalog.test.ts` (جديد) | 23 اختبار انحدار (15 + 4 + 4 لجولتي المراجعة). |
+| `enrollment.service.ts`, `enrollment-codes.service.ts`, `lib/errors.ts`, `i18n/ar.ts` | إغلاق رموز الانضمام لأفواج الدورات (`COURSE_GROUP_CODE`). |
+| `courses.service.ts` (`backfillCourseEnrollments`), `scripts/academy/backfill-enrollments.ts` | توافق العضويات القديمة صراحةً (يدوي، idempotent، dry-run). |
 | `src/server/lib/course-access.ts` (جديد) | `reachableGroupIds`/`noExpiredCourseOn`: استبعاد فوج الدورة عند كل طلب إن كان الاشتراك غير نشط أو منتهي التاريخ. |
 | `content.service.ts`, `media.service.ts`, `student-extras.queries.ts`, `skills.service.ts`, `library.service.ts` (`visibleResources`) | كل بوابات الدرس/الوسائط/الملفات/الموارد تمرّ عبر `reachableGroupIds`/`noExpiredCourseOn`. |
 | `src/components/domain/content-form.tsx`, `content.actions.ts`, `teacher-form-options.ts`, `teacher/content/{new,[id]/edit}` | واجهة الأستاذ: اختيار المادة وموضع الدرس في المنهاج (مسار كامل «وحدة › فصل › درس»، مرشّح بالمستوى/المادة/الشعبة). |
@@ -63,6 +65,12 @@
 3. **عدّ بطاقات الاختبار**: يُعدّ TEST + EXAM معًا بنفس أنواع `PRACTICE_KINDS`، والاختبار يطابق العدد مع `listResourceCards` للوجهة نفسها.
 4. **الشعب المتفرّعة**: `streamFamily` (الشعبة + أمّها) في الكتالوج والدروس والبطاقات ومكتبة `/exams` (`streamIds`)؛ المحتوى الخاص بفوج يبقى محجوبًا. اختبار: TM_CIVIL يرى محتوى TM العام ولا يرى الخاص، وSCI لا ترى شيئًا منه.
 
+### 4-ج. ملاحظات المراجعة الثانية (عند 51c894d) — عولجت كلها
+1. **الوصول بلا سجل اشتراك**: `hasCourseAccessOn` يشترط الآن اشتراكًا `ACTIVE` غير منتهٍ لأي فوج تابع لدورة؛ العضوية وحدها (قديمة أو عبر رمز) لا تفتح شيئًا. مسار رموز الانضمام مغلق لأفواج الدورات في الاتجاهين (`generateCodes` و`redeemEnrollmentCode` → `COURSE_GROUP_CODE`). **التوافق الصريح**: `backfillCourseEnrollments` (+ `scripts/academy/backfill-enrollments.ts --dry-run`) ينشئ اشتراكًا MANUAL لكل عضوية نشطة بلا اشتراك؛ يشغّله المالك مرة بعد النشر — **لم يُشغَّل على الإنتاج**. الاختبار يغطي: عضوية بلا اشتراك محجوبة، الرمز القديم مرفوض، الفوج العادي يقبل الرموز، dry-run لا يكتب، التنفيذ يعيد الوصول وidempotent.
+2. **البطاقات = الوجهة**: `bacExclusionClauses()` و`notAttachedSolution()` مشتركة بين `listResourceCards`/`practiceCounts`/`assessmentCards`؛ اختبار ببكالوريا رسمية 3AS لا تُعدّ ويطابق العدد العرض.
+3. **منتقي المنهاج**: خيارات الشعب تحمل `parentId`، والنموذج يرشّح العقد بعائلة الشعبة (الفرع + الأم) كما في واجهة التلميذ.
+4. **اتساق التصنيف**: `reconcileClassification` في `createContent`/`updateContent`: العقدة تحدّد المادة والمستوى (تُملآن إن غابا، تُرفضان إن خالفتاها)، وشعبة الدرس يجب أن تكون شعبة العقدة أو فرعًا منها؛ يُطبَّق على الحالة الناتجة عند التعديل.
+
 ## 5. أوامر التحقق ونتائجها الحقيقية (بيئة معزولة، PGlite في الذاكرة)
 
 ```
@@ -80,7 +88,7 @@ DATABASE_URL=pglite://memory SESSION_SECRET=… QR_TOKEN_SECRET=… npx next bui
 
 ## 7. المخاطر والعوائق والمتبقي
 
-- **لا واجهة تصنيف للمحتوى** (المتطلب 5): يحتاج تعديل `content-form.tsx` + إجراء خادم لاختيار المادة والعقدة. حتى ذلك تظهر كل الدروس في «غير مصنّف».
+- **بعد النشر**: تشغيل `scripts/academy/backfill-enrollments.ts --dry-run` ثم بلا `--dry-run` مرة واحدة (بعد نسخة احتياطية) حتى لا يفقد أصحاب العضويات القديمة على أفواج الدورات الوصول؛ قبل ذلك سيُحجَبون بتصميم البوابة الجديدة.
 - قائمة المستويات في المنتقي تعرض كل الصفوف في `levels` (12 صفًا بعد زرع المنهاج)؛ يمكن حصرها بـ `PICKER_LEVELS` لاحقًا.
 - صورة غلاف الدورة في الكتالوج رابط موقّع مؤقّت (كما في «دوراتي»)؛ ليست محتوى خاصًا.
 - لم يُنفَّذ: مركز التكاملات (Zoom/Bunny/CIBWEB/التوصيل/SMS) — فُحص الموجود فقط: `live.service.ts` (Zoom)، `lib/bunny.ts` + `/admin/settings/video`، `delivery.service.ts` (webhook)، `otp.service.ts` + `lib/sms.ts`، `claims.service.ts`. نقاط التوافق: التفعيل يمرّ كله عبر `enrollStudent` (idempotent) فأي بوابة دفع جديدة تستدعيها بعد التأكيد؛ الإحصائيات يمكن بناؤها على `course_enrollments` + `audit_log`.

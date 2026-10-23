@@ -10,8 +10,8 @@ import { seedCurriculum } from '@/server/db/seed-curriculum'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { CATALOG_FORBIDDEN_KEYS, assessmentCards, browseOptions, browseScope, courseLanding, curriculumNodeOptions, listCourseCatalog, listStudentLessonsOrganized, streamFamily } from '@/server/services/academy-catalog.service'
-import { createContent, getContentForStudent } from '@/server/services/content.service'
-import { courseHome, createCourse, enrollStudent, linkProduct, myCourses, revokeEnrollment, setCourseStatus } from '@/server/services/courses.service'
+import { createContent, getContentForStudent, updateContent } from '@/server/services/content.service'
+import { backfillCourseEnrollments, courseHome, createCourse, enrollStudent, linkProduct, myCourses, revokeEnrollment, setCourseStatus } from '@/server/services/courses.service'
 import { uploadFile } from '@/server/services/files.service'
 import { listResourceCards, practiceCounts, publicResourceFile } from '@/server/services/library.service'
 import { resolveMediaAccess } from '@/server/services/media.service'
@@ -365,5 +365,118 @@ describe('مراجعة PR #2 — الملاحظات الأربع', () => {
     expect(viaLibrary.total).toBe(1)
     const sciCards = await assessmentCards(h.db, { levelId: tm.levelId, streamId: sci.streamId, subjectId: tm.subjectId }, { studentId: noGroup.studentId, levelCode: '3AS' })
     expect(sciCards.find((c) => c.key === 'HOMEWORK-1')!.count).toBe(0)
+  })
+})
+
+describe('مراجعة PR #2 (الجولة الثانية)', () => {
+  it('1. عضوية فوج الدورة بلا اشتراك لا تفتح المحتوى؛ رموز الانضمام مغلقة لأفواج الدورات؛ backfill يعالج القديم صراحةً', async () => {
+    const c = await createCourse(h.db, admin, { title: 'دورة بعضوية قديمة', workspaceId, season: '2026/2027', accessEndsOn: '2027-06-30', status: 'PUBLISHED' })
+    const s = await makeStudent(h.db, 'تلميذ بعضوية قديمة')
+    // عضوية مباشرة على فوج الدورة (قديمة) دون أي سجل اشتراك
+    await h.db.insert(groupStudents).values({ groupId: c.groupId, studentId: s.studentId!, workspaceId, status: 'ACTIVE' })
+    const lesson = await createContent(h.db, teacher, { type: 'LESSON', title: 'درس للدورة القديمة', visibility: 'GROUP_ONLY', groupIds: [c.groupId], body: 'x', publish: true })
+    expect(await reachableGroupIds(h.db, s.studentId!)).not.toContain(c.groupId)
+    await expectCode(() => getContentForStudent(h.db, s, lesson.slug), 'CONTENT_NOT_FOUND')
+    await expectCode(() => resolveMediaAccess(h.db, s, lesson.id), 'CONTENT_NOT_FOUND')
+    expect((await listStudentContent(h.db, s)).some((x) => x.id === lesson.id)).toBe(false)
+
+    // رمز انضمام عام لفوج الدورة: لا يُولَّد، وإن وُجد (قديم) لا يُستبدل
+    const { generateCodes } = await import('@/server/services/enrollment-codes.service')
+    const { redeemEnrollmentCode } = await import('@/server/services/enrollment.service')
+    await expectCode(() => generateCodes(h.db, teacher, { groupId: c.groupId, count: 1 }), 'COURSE_GROUP_CODE')
+    const { enrollmentCodeBatches, enrollmentCodes } = await import('@/server/db/schema')
+    const { hashEnrollmentCode } = await import('@/server/lib/codes')
+    const [batch] = await h.db.insert(enrollmentCodeBatches).values({ workspaceId, groupId: c.groupId, count: 1, createdByUserId: teacher.userId }).returning()
+    const legacyCode = 'ABC-DEFG'
+    await h.db.insert(enrollmentCodes).values({ batchId: batch!.id, workspaceId, groupId: c.groupId, codeHash: hashEnrollmentCode(legacyCode), codePrefix: 'ABC', status: 'ACTIVE', createdByUserId: teacher.userId })
+    const s2 = await makeStudent(h.db, 'تلميذ برمز قديم')
+    await expectCode(() => redeemEnrollmentCode(h.db, s2, legacyCode), 'COURSE_GROUP_CODE')
+    expect((await h.db.select().from(groupStudents).where(eq(groupStudents.studentId, s2.studentId!))).length).toBe(0)
+
+    // الفوج العادي ما زال يقبل الرموز
+    const { createGroup } = await import('@/server/services/groups.service')
+    const g = await createGroup(h.db, teacher, { name: 'فوج عادي 2' })
+    const codes = await generateCodes(h.db, teacher, { groupId: g.id, count: 1 })
+    await redeemEnrollmentCode(h.db, s2, codes.codes[0]!.code)
+    expect(await reachableGroupIds(h.db, s2.studentId!)).toContain(g.id)
+
+    // التوافق الصريح: backfill (dry-run لا يكتب، ثم فعلي idempotent) يعيد الوصول للعضوية القديمة
+    const dry = await backfillCourseEnrollments(h.db, admin, { dryRun: true })
+    expect(dry.candidates.map((x) => x.studentId)).toContain(s.studentId)
+    expect(dry.created).toBe(0)
+    expect(await reachableGroupIds(h.db, s.studentId!)).not.toContain(c.groupId)
+    const run = await backfillCourseEnrollments(h.db, admin)
+    expect(run.created).toBeGreaterThanOrEqual(1)
+    expect(await reachableGroupIds(h.db, s.studentId!)).toContain(c.groupId)
+    expect((await getContentForStudent(h.db, s, lesson.slug)).id).toBe(lesson.id)
+    expect((await myCourses(h.db, s)).find((m) => m.id === c.id)?.status).toBe('ACTIVE')
+    expect((await backfillCourseEnrollments(h.db, admin)).created).toBe(0)
+    await expectCode(() => backfillCourseEnrollments(h.db, teacher), 'FORBIDDEN')
+  })
+
+  it('2. البطاقات تستثني البكالوريا الرسمية كما تستثنيها /exams (العدّ = العرض)', async () => {
+    const phys = await resolveCodes(h.db, { level: '3AS', subject: 'PHYSICS' })
+    await upsertResource(h.db, { sourceCode: 'madrasadz', ref: 'bac-official-2025', title: 'بكالوريا 2025 فيزياء', type: 'EXAM', isOfficial: true, subjectId: phys.subjectId, levelId: phys.levelId, schoolTerm: 3, examYear: 2025, fileUrl: 'https://example.test/bac.pdf' })
+    await upsertResource(h.db, { sourceCode: 'madrasadz', ref: 'phys-test-3', title: 'اختبار الفصل الثالث', type: 'TEST', subjectId: phys.subjectId, levelId: phys.levelId, schoolTerm: 3, fileUrl: 'https://example.test/pt3.pdf' })
+    const cards = await assessmentCards(h.db, { levelId: phys.levelId, subjectId: phys.subjectId }, { studentId: noGroup.studentId, levelCode: '3AS' })
+    const test3 = cards.find((c) => c.key === 'TEST-3')!
+    expect(test3.count).toBe(1)
+    const dest = await listResourceCards(h.db, { levelId: phys.levelId, subjectId: phys.subjectId, types: ['TEST', 'EXAM'], term: 3, excludeBac: true, studentId: noGroup.studentId })
+    expect(dest.total).toBe(test3.count)
+    expect(dest.items.map((i) => i.title)).toEqual(['اختبار الفصل الثالث'])
+  })
+
+  it('3. خيارات المنتقي تحمل شعبة العقدة وأب الشعبة ليرث الفرع منهاج أمّه', async () => {
+    const tm = await resolveCodes(h.db, { level: '3AS', stream: 'TM', subject: 'MATH' })
+    const civil = await resolveCodes(h.db, { level: '3AS', stream: 'TM_CIVIL' })
+    const [node] = await h.db.insert(curriculumNodes).values({ subjectId: tm.subjectId!, levelId: tm.levelId!, streamId: tm.streamId, kind: 'UNIT', title: 'وحدة تقني رياضي', slug: 'u-tm', sortOrder: 1 }).returning()
+    const opt = (await curriculumNodeOptions(h.db)).find((o) => o.id === node!.id)!
+    expect(opt.streamId).toBe(tm.streamId)
+    const { teacherFormOptions } = await import('@/server/queries/teacher-form-options')
+    const fo = await teacherFormOptions(h.db, teacher)
+    expect(fo.streams.find((s) => s.id === civil.streamId)?.parentId).toBe(tm.streamId)
+    expect(fo.nodes.some((n) => n.id === node!.id)).toBe(true)
+    // نفس منطق الترشيح الذي في النموذج: عائلة الشعبة المختارة (الفرع + الأم) تشمل شعبة العقدة
+    const family: string[] = []
+    for (let cur: string | null | undefined = civil.streamId, i = 0; cur && i < 4; i++) {
+      family.push(cur)
+      cur = fo.streams.find((s) => s.id === cur)?.parentId ?? null
+    }
+    expect(family).toEqual([civil.streamId, tm.streamId])
+    expect(fo.nodes.filter((n) => n.subjectId === tm.subjectId && n.levelId === tm.levelId && (!n.streamId || family.includes(n.streamId))).some((n) => n.id === node!.id)).toBe(true)
+  })
+
+  it('4. الخادم يرفض تصنيفًا لا يطابق عقدة المنهاج، ويملأ الناقص منها، عند الإنشاء والتعديل', async () => {
+    const tm = await resolveCodes(h.db, { level: '3AS', stream: 'TM', subject: 'MATH' })
+    const civil = await resolveCodes(h.db, { level: '3AS', stream: 'TM_CIVIL' })
+    const sci = await resolveCodes(h.db, { level: '3AS', stream: 'SCI' })
+    const am = await resolveCodes(h.db, { level: '4AM' })
+    const [node] = await h.db.insert(curriculumNodes).values({ subjectId: tm.subjectId!, levelId: tm.levelId!, streamId: tm.streamId, kind: 'UNIT', title: 'وحدة للتحقق', slug: 'u-check', sortOrder: 2 }).returning()
+    // مادة مخالفة
+    await expectCode(() => createContent(h.db, teacher, { type: 'LESSON', title: 'خطأ مادة', visibility: 'PUBLIC', body: 'x', publish: true, subjectId: ids.subjectId, curriculumNodeId: node!.id }), 'VALIDATION')
+    // مستوى مخالف
+    await expectCode(() => createContent(h.db, teacher, { type: 'LESSON', title: 'خطأ مستوى', visibility: 'PUBLIC', body: 'x', publish: true, levelId: am.levelId, curriculumNodeId: node!.id }), 'VALIDATION')
+    // شعبة لا تنتمي لعائلة شعبة العقدة
+    await expectCode(() => createContent(h.db, teacher, { type: 'LESSON', title: 'خطأ شعبة', visibility: 'PUBLIC', body: 'x', publish: true, streamId: sci.streamId, curriculumNodeId: node!.id }), 'VALIDATION')
+    // فرع الشعبة مقبول، والناقص يُملأ من العقدة
+    const ok = await createContent(h.db, teacher, { type: 'LESSON', title: 'صحيح', visibility: 'PUBLIC', body: 'x', publish: true, streamId: civil.streamId, curriculumNodeId: node!.id })
+    expect(ok.subjectId).toBe(tm.subjectId)
+    expect(ok.levelId).toBe(tm.levelId)
+    expect(ok.streamId).toBe(civil.streamId)
+    const filled = await createContent(h.db, teacher, { type: 'LESSON', title: 'بلا شعبة', visibility: 'PUBLIC', body: 'x', publish: true, curriculumNodeId: node!.id })
+    expect(filled.streamId).toBe(tm.streamId)
+    // عقدة غير موجودة
+    await expectCode(() => createContent(h.db, teacher, { type: 'LESSON', title: 'عقدة وهمية', visibility: 'PUBLIC', body: 'x', publish: true, curriculumNodeId: '00000000-0000-0000-0000-000000000000' }), 'VALIDATION')
+    // التعديل: تغيير المادة وحدها إلى ما يخالف العقدة مرفوض؛ وتعيين عقدة على درس بمستوى مخالف مرفوض
+    await expectCode(() => updateContent(h.db, teacher, ok.id, { subjectId: ids.subjectId }), 'VALIDATION')
+    const legacy = await createContent(h.db, teacher, { type: 'LESSON', title: 'قديم 4AM', visibility: 'PUBLIC', body: 'x', publish: true, levelId: am.levelId })
+    await expectCode(() => updateContent(h.db, teacher, legacy.id, { curriculumNodeId: node!.id }), 'VALIDATION')
+    const fixed = (await updateContent(h.db, teacher, legacy.id, { levelId: tm.levelId, curriculumNodeId: node!.id }))!
+    expect(fixed.subjectId).toBe(tm.subjectId)
+    expect(fixed.streamId).toBe(tm.streamId)
+    // إزالة العقدة لا تمسّ التصنيف
+    const cleared = (await updateContent(h.db, teacher, fixed.id, { curriculumNodeId: null }))!
+    expect(cleared.curriculumNodeId).toBeNull()
+    expect(cleared.subjectId).toBe(tm.subjectId)
   })
 })

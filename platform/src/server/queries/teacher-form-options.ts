@@ -26,7 +26,7 @@ export async function teacherFormOptions(db: Db, actor: Actor) {
     skills: skills.map((s) => ({ id: s.id, name: s.nameAr })),
     files: files.filter((f) => f.status === 'READY').map((f) => ({ id: f.id, name: f.originalName, mimeType: f.mimeType })),
     levels: levels.map((l) => ({ id: l.id, name: l.nameAr })),
-    streams: streams.map((s) => ({ id: s.id, name: s.nameAr })),
+    streams: streams.map((s) => ({ id: s.id, name: s.nameAr, parentId: s.parentId ?? null })),
     subjects,
     nodes,
     rubrics: rubrics.map((r) => ({ id: r.id, name: `${r.name} (${Number(r.maxScore)})${r.isGlobal ? ' — عام' : ''}` }))

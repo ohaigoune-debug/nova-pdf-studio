@@ -562,6 +562,28 @@ async function deactivateGroupMembership(tx: Db, groupId: string, studentId: str
 }
 
 /** ينهي الاشتراكات النشطة التي تجاوزت تاريخ انتهائها؛ يعيد عددها. يُستدعى من مهمة COURSE_EXPIRY اليومية. */
+/**
+ * توافق العضويات القديمة: كل عضوية نشطة على فوج دورة بلا سجل اشتراك (أُنشئت قبل نظام الدورات أو
+ * برمز انضمام قبل إغلاق ذلك المسار) تحصل على اشتراك صريح MANUAL حتى آخر يوم للوصول.
+ * يشغّله المشرف مرة واحدة بعد النشر (scripts/academy/backfill-enrollments.ts)؛ idempotent، وبلا dry-run لا يكتب.
+ */
+export async function backfillCourseEnrollments(db: Db, actor: Actor | null, opts: { dryRun?: boolean } = {}): Promise<{ candidates: { courseId: string; courseTitle: string; studentId: string }[]; created: number }> {
+  if (actor) assertRole(actor, 'SUPER_ADMIN')
+  const candidates = await db
+    .select({ courseId: courses.id, courseTitle: courses.title, studentId: groupStudents.studentId })
+    .from(groupStudents)
+    .innerJoin(courses, and(eq(courses.groupId, groupStudents.groupId), isNull(courses.deletedAt)))
+    .where(and(eq(groupStudents.status, 'ACTIVE'), sql`not exists (select 1 from ${courseEnrollments} ce where ce.course_id = ${courses.id} and ce.student_id = ${groupStudents.studentId})`))
+  if (opts.dryRun) return { candidates, created: 0 }
+  let created = 0
+  for (const c of candidates) {
+    await enrollStudent(db, actor, { courseId: c.courseId, studentId: c.studentId, source: 'MANUAL' })
+    created++
+  }
+  if (actor && created) await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'course.enroll_backfill', entityType: 'course', entityId: null, newValue: { created } })
+  return { candidates, created }
+}
+
 export async function expireDueEnrollments(db: Db, now: Date = new Date()): Promise<number> {
   const due = await db
     .select({ id: courseEnrollments.id, studentId: courseEnrollments.studentId, courseId: courseEnrollments.courseId })

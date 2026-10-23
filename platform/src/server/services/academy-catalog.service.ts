@@ -30,7 +30,7 @@ import { studentIdOf, type Actor } from '@/server/lib/actor'
 import { reachableGroupIds } from '@/server/lib/course-access'
 import { AppError } from '@/server/lib/errors'
 import { signFileUrl } from '@/server/lib/storage'
-import { PRACTICE_KINDS, visibleResources } from './library.service'
+import { bacExclusionClauses, notAttachedSolution, PRACTICE_KINDS, visibleResources } from './library.service'
 import { subjectsFor } from './taxonomy.service'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -414,7 +414,10 @@ export async function assessmentCards(db: Db, scope: Partial<BrowseScope>, viewe
     .from(resources)
     .where(
       and(
+        // شروط الوجهة /exams كاملة: الرؤية، لا بطاقة ثانية للحلّ المرفق، واستثناء البكالوريا الرسمية
         visibleResources(viewer.studentId ?? null),
+        notAttachedSolution(),
+        ...bacExclusionClauses(),
         inArray(resources.type, types),
         isNotNull(resources.schoolTerm),
         scope.levelId ? eq(resources.levelId, scope.levelId) : undefined,

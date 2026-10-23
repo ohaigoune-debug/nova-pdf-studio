@@ -1,6 +1,7 @@
-import { and, eq, sql } from 'drizzle-orm'
+import { and, eq, isNull, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import {
+  courses,
   attendanceRecords,
   enrollmentCodes,
   groupStudents,
@@ -39,6 +40,9 @@ export async function redeemEnrollmentCode(db: Db, actor: Actor, rawCode: string
     const [g] = await tx.select().from(groups).where(eq(groups.id, c.groupId)).limit(1)
     if (!g || g.deletedAt) throw new AppError('CODE_INVALID')
     if (g.status !== 'ACTIVE') throw new AppError('GROUP_NOT_ACTIVE')
+    // فوج دورة: العضوية تُمنح بالتفعيل (enrollStudent) فقط، لا برمز انضمام عام
+    const [course] = await tx.select({ id: courses.id }).from(courses).where(and(eq(courses.groupId, g.id), isNull(courses.deletedAt))).limit(1)
+    if (course) throw new AppError('COURSE_GROUP_CODE')
 
     const [existing] = await tx
       .select()

@@ -1,6 +1,6 @@
 import { and, desc, eq, inArray, isNull } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { enrollmentCodeBatches, enrollmentCodes, profiles, students, users } from '@/server/db/schema'
+import { courses, enrollmentCodeBatches, enrollmentCodes, profiles, students, users } from '@/server/db/schema'
 import type { CodeStatus } from '@/server/db/schema/enums'
 import type { Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
@@ -27,6 +27,8 @@ export interface GeneratedCode {
  */
 export async function generateCodes(db: Db, actor: Actor, input: GenerateCodesInput) {
   const g = await assertGroupAccess(db, actor, input.groupId)
+  const [course] = await db.select({ id: courses.id }).from(courses).where(and(eq(courses.groupId, g.id), isNull(courses.deletedAt))).limit(1)
+  if (course) throw new AppError('COURSE_GROUP_CODE')
   const count = Math.floor(input.count)
   if (!Number.isFinite(count) || count < 1 || count > 500) throw new AppError('VALIDATION', { field: 'count' })
 

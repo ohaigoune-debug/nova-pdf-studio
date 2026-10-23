@@ -45,7 +45,9 @@ const visibilityLabel: Record<string, string> = {
 type FileOpt = Opt & { mimeType?: string }
 export type NodeOpt = { id: string; subjectId: string; levelId: string; streamId: string | null; kind: string; label: string }
 
-export function ContentForm({ contentId, defaults = {}, groups, students, levels, streams, skills, files, subjects = [], nodes = [] }: { contentId?: string; defaults?: ContentFormDefaults; groups: Opt[]; students: Opt[]; levels: Opt[]; streams: Opt[]; skills: Opt[]; files: FileOpt[]; subjects?: Opt[]; nodes?: NodeOpt[] }) {
+type StreamOpt = Opt & { parentId?: string | null }
+
+export function ContentForm({ contentId, defaults = {}, groups, students, levels, streams, skills, files, subjects = [], nodes = [] }: { contentId?: string; defaults?: ContentFormDefaults; groups: Opt[]; students: Opt[]; levels: Opt[]; streams: StreamOpt[]; skills: Opt[]; files: FileOpt[]; subjects?: Opt[]; nodes?: NodeOpt[] }) {
   const action = contentId
     ? (updateContentAction.bind(null, contentId) as (p: ActionResult<unknown> | null, fd: FormData) => Promise<ActionResult<unknown>>)
     : (createContentAction as (p: ActionResult<unknown> | null, fd: FormData) => Promise<ActionResult<unknown>>)
@@ -56,8 +58,14 @@ export function ContentForm({ contentId, defaults = {}, groups, students, levels
   const [levelId, setLevelId] = useState(defaults.levelId ?? '')
   const [streamId, setStreamId] = useState(defaults.streamId ?? '')
   const [subjectId, setSubjectId] = useState(defaults.subjectId ?? '')
-  // عقد المنهاج المتاحة: المادة والمستوى المختاران، والمشتركة بين الشعب أو شعبة الدرس
-  const nodeChoices = subjectId && levelId ? nodes.filter((n) => n.subjectId === subjectId && n.levelId === levelId && (!n.streamId || !streamId || n.streamId === streamId)) : []
+  // عقد المنهاج المتاحة: المادة والمستوى المختاران، والمشتركة بين الشعب أو شعبة الدرس أو أمّها
+  // (هندسة مدنية ترث منهاج «تقني رياضي») — نفس التوارث الذي في واجهة التلميذ
+  const streamFamily: string[] = []
+  for (let cur: string | null | undefined = streamId || null, i = 0; cur && i < 4; i++) {
+    streamFamily.push(cur)
+    cur = streams.find((s) => s.id === cur)?.parentId ?? null
+  }
+  const nodeChoices = subjectId && levelId ? nodes.filter((n) => n.subjectId === subjectId && n.levelId === levelId && (!n.streamId || !streamId || streamFamily.includes(n.streamId))) : []
   const videoFiles = files.filter((f) => f.mimeType?.startsWith('video/'))
   const pdfFiles = files.filter((f) => f.mimeType === 'application/pdf')
   return (
