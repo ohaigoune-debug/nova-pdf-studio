@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>النشاط الإنزيمي</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+</style></head>
+<body><main>
+<div class="crumb">3 ثانوي · علوم الطبيعة والحياة · علوم تجريبية / رياضيات · الوحدة 1: التخصص الوظيفي للبروتينات · الدرس 3</div>
+<h1>النشاط الإنزيمي للبروتينات</h1>
+<p class="goal"><span class="k">الهدف:</span> أن تفسّر كيف يُسرّع الإنزيم تفاعلًا كيميائيًا، وأن تقرأ منحنى تغيّر سرعة التفاعل بدلالة تركيز الركيزة أو الحرارة أو pH.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الإنزيم بروتين يعمل وسيطًا حيويًا: يرتبط بركيزته في موقع محدد ويحوّلها إلى ناتج دون أن يُستهلك. نشاطه يتعلق ببنيته الفراغية، فكل ما يغيّر هذه البنية (حرارة، pH) يغيّر نشاطه.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<path d="M430 60 h70 a15 15 0 0 1 15 15 v10 l-18 -10 l-18 10 v-10 h-49 a15 15 0 0 1 -15 -15 v-25 a15 15 0 0 1 15 -15 h70" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="465" y="48" text-anchor="middle" font-weight="700">إنزيم E</text>
+<polygon points="465,112 483,112 483,122 474,130 465,122" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="474" y="150" text-anchor="middle">ركيزة S</text>
+<text x="395" y="100" font-size="11" fill="#1d4ed8" text-anchor="middle">الموقع الفعّال</text>
+<line x1="410" y1="85" x2="365" y2="85" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M245 60 h70 a15 15 0 0 1 15 15 v10 l-18 -10 l-18 10 v-10 h-49 a15 15 0 0 1 -15 -15 v-25 a15 15 0 0 1 15 -15 h70" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="280" y="48" text-anchor="middle" font-weight="700">معقّد ES</text>
+<polygon points="270,75 288,75 288,85 279,93 270,85" fill="#fde68a" stroke="#a16207" stroke-width="2"/>
+<line x1="225" y1="85" x2="180" y2="85" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<path d="M60 60 h70 a15 15 0 0 1 15 15 v10 l-18 -10 l-18 10 v-10 h-49 a15 15 0 0 1 -15 -15 v-25 a15 15 0 0 1 15 -15 h70" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="95" y="48" text-anchor="middle" font-weight="700">إنزيم E يُستعاد</text>
+<rect x="80" y="112" width="12" height="16" fill="#86efac" stroke="#15803d" stroke-width="2"/><rect x="100" y="112" width="12" height="16" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="96" y="150" text-anchor="middle">نواتج P</text>
+</svg><figcaption>الشكل 1: الإنزيم يرتبط بالركيزة في الموقع الفعّال (معقّد ES) ثم يحرّرها نواتج ويُستعاد سليمًا.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">الإنزيم</span> بروتين ذو بنية فراغية (ثالثية أو رابعية) يحوي <span class="k">موقعًا فعّالًا</span> يتكوّن من موقع تثبيت وموقع تحفيز.</li>
+<li><span class="k">التخصص المزدوج:</span> تخصص تجاه الركيزة (شكل الموقع الفعّال يكمّل شكل الركيزة: نموذج «القفل والمفتاح» ثم «التلاؤم المحرَّض») وتخصص تجاه نوع التفاعل.</li>
+<li><span class="k">المعقّد إنزيم–ركيزة (ES)</span> مرحلة مؤقتة: E + S ⇌ ES → E + P، والإنزيم يُستعاد سليمًا.</li>
+<li><span class="k">تأثير تركيز الركيزة:</span> السرعة تزداد مع تركيز الركيزة ثم تبلغ <span class="k">سرعة قصوى (Vmax)</span> عندما تتشبّع كل المواقع الفعّالة.</li>
+<li><span class="k">تأثير الحرارة:</span> للإنزيم <span class="k">حرارة مثلى</span>؛ بعدها تنخفض السرعة بسرعة لأن الحرارة المرتفعة تكسر الروابط الضعيفة فيتغيّر شكل الموقع الفعّال (<span class="k">تمسّخ</span> لا رجعة فيه غالبًا).</li>
+<li><span class="k">تأثير pH:</span> لكل إنزيم <span class="k">pH أمثل</span>؛ الابتعاد عنه يغيّر شحنات الأحماض الأمينية في الموقع الفعّال فيضعف الارتباط بالركيزة.</li>
+<li><span class="k">التثبيط:</span> مثبّط تنافسي يشبه الركيزة ويحتل الموقع الفعّال (يُزال بزيادة الركيزة)، ومثبّط غير تنافسي يرتبط بموقع آخر فيغيّر شكل الإنزيم.</li>
+</ol></div>
+
+<div class="figs"><figure class="fig small"><svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="13">
+<line x1="35" y1="140" x2="245" y2="140" stroke="#1f2937" stroke-width="1.5"/><line x1="35" y1="140" x2="35" y2="15" stroke="#1f2937" stroke-width="1.5"/>
+<text x="140" y="162" text-anchor="middle">تركيز الركيزة [S]</text><text x="12" y="80" text-anchor="middle" transform="rotate(-90 12 80)">سرعة التفاعل</text>
+<path d="M35 138 C 70 60, 110 35, 240 30" fill="none" stroke="#1d4ed8" stroke-width="2.5"/><line x1="35" y1="30" x2="245" y2="30" stroke="#c2410c" stroke-dasharray="4 3"/><text x="200" y="26" fill="#c2410c">Vmax (تشبّع)</text>
+<text x="140" y="12" text-anchor="middle" font-weight="700">تأثير تركيز الركيزة</text></svg><figcaption>الشكل 2: ارتفاع ثم استقرار عند Vmax لأن كل المواقع الفعّالة مشغولة.</figcaption></figure><figure class="fig small"><svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="13">
+<line x1="35" y1="140" x2="245" y2="140" stroke="#1f2937" stroke-width="1.5"/><line x1="35" y1="140" x2="35" y2="15" stroke="#1f2937" stroke-width="1.5"/>
+<text x="140" y="162" text-anchor="middle">الحرارة (°C)</text><text x="12" y="80" text-anchor="middle" transform="rotate(-90 12 80)">سرعة التفاعل</text>
+<path d="M35 138 C 90 120, 130 40, 150 30 C 160 25, 175 90, 200 138" fill="none" stroke="#1d4ed8" stroke-width="2.5"/><line x1="150" y1="30" x2="150" y2="140" stroke="#15803d" stroke-dasharray="4 3"/><text x="150" y="152" text-anchor="middle" fill="#15803d">المثلى</text><text x="205" y="110" fill="#c2410c">تمسّخ</text>
+<text x="140" y="12" text-anchor="middle" font-weight="700">تأثير الحرارة</text></svg><figcaption>الشكل 3: صعود تدريجي حتى الحرارة المثلى ثم هبوط حاد (تمسّخ البروتين).</figcaption></figure><figure class="fig small"><svg viewBox="0 0 260 170" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="13">
+<line x1="35" y1="140" x2="245" y2="140" stroke="#1f2937" stroke-width="1.5"/><line x1="35" y1="140" x2="35" y2="15" stroke="#1f2937" stroke-width="1.5"/>
+<text x="140" y="162" text-anchor="middle">pH</text><text x="12" y="80" text-anchor="middle" transform="rotate(-90 12 80)">سرعة التفاعل</text>
+<path d="M50 138 C 90 120, 120 30, 140 30 C 160 30, 190 120, 230 138" fill="none" stroke="#1d4ed8" stroke-width="2.5"/><line x1="140" y1="30" x2="140" y2="140" stroke="#15803d" stroke-dasharray="4 3"/><text x="140" y="152" text-anchor="middle" fill="#15803d">pH الأمثل</text>
+<text x="140" y="12" text-anchor="middle" font-weight="700">تأثير pH</text></svg><figcaption>الشكل 4: جرس متماثل تقريبًا حول pH الأمثل؛ الابتعاد عنه يضعف الارتباط بالركيزة.</figcaption></figure></div>
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>عند 37°C يحلّل إنزيم 100 جزيء ركيزة في الدقيقة، وعند 60°C لا يحلّل شيئًا حتى بعد إعادته إلى 37°C. <span class="k">التفسير:</span> الحرارة العالية مسّخت الإنزيم فتغيّر موقعه الفعّال، والتمسّخ هنا غير عكوس.</li>
+<li>منحنى السرعة بدلالة تركيز الركيزة يرتفع ثم يستقر أفقيًا رغم زيادة الركيزة. <span class="k">التفسير:</span> تشبّع كل المواقع الفعّالة؛ السرعة لا تزيد إلا بزيادة كمية الإنزيم.</li>
+<li>إنزيم يعمل في المعدة عند pH ≈ 2 يتوقف عمله في الأمعاء (pH ≈ 8). <span class="k">التفسير:</span> لكل إنزيم pH أمثل مرتبط ببيئة عمله.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>القول إن الإنزيم «يُستهلك» في التفاعل: الصحيح أنه يُستعاد سليمًا في نهاية التفاعل.</li>
+<li>الخلط بين <span class="k">موقع التثبيت</span> و<span class="k">موقع التحفيز</span>؛ كلاهما داخل الموقع الفعّال لكن وظيفتاهما مختلفتان.</li>
+<li>تفسير استقرار المنحنى بـ«نفاد الركيزة» بدل <span class="k">تشبّع الإنزيم</span>.</li>
+<li>كتابة «الحرارة تقتل الإنزيم» بدل المصطلح العلمي: <span class="k">التمسّخ</span> وتغيّر البنية الفراغية.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>إنزيم = بروتين وسيط حيوي، متخصص، لا يُستهلك.</li>
+<li>الموقع الفعّال = تثبيت + تحفيز، يكمّل شكل الركيزة.</li>
+<li>الركيزة ↑ ⇒ السرعة ↑ حتى Vmax (تشبّع).</li>
+<li>حرارة أو pH بعيدان عن الأمثل ⇒ تغيّر البنية ⇒ انخفاض النشاط.</li>
+<li>أي سؤال «فسّر المنحنى» يبدأ بوصف المنحنى ثم ربطه ببنية الإنزيم.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="#">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="#">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>
