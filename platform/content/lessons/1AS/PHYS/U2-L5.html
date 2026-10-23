@@ -42,51 +42,46 @@ figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;
 <div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 2: الظواهر الميكانيكية · الدرس 5</div>
 <h1>الجاذبية الكونية والثقل</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن تنص على قانون الجذب العام وتطبّقه، وأن تفسّر الثقل بوصفه قوة جذب الأرض وتميّزه عن الكتلة.</p>
+<p class="goal"><span class="k">الهدف:</span> أن تنص على قانون الجذب العام، وأن تفرّق بين الكتلة والثقل، وتحسب الثقل P = m·g على الأرض وعلى أجرام أخرى.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> كل جسمين لهما كتلة يتجاذبان بقوتين متساويتي الشدة ومتعاكستين، تتناسب شدتهما طرداً مع جداء الكتلتين وعكساً مع مربع المسافة. والثقل ليس إلا قوة جذب الأرض للجسم: P = m·g، حيث g تتعلق بالمكان وليس بالجسم.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> كل جسمين ماديين يتجاذبان بقوة تتناسب طردًا مع جداء كتلتيهما وعكسًا مع مربع المسافة بين مركزيهما. ثقل الجسم هو قوة جذب الأرض له، ويختلف من كوكب إلى آخر بينما تبقى كتلته ثابتة.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<defs><marker id="ar10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#c2410c"/></marker></defs>
-<circle cx="440" cy="90" r="30" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="440" y="95" text-anchor="middle" font-weight="700">A</text><text x="440" y="140" text-anchor="middle" font-size="13">كتلة mA</text>
-<circle cx="300" cy="90" r="18" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="300" y="95" text-anchor="middle" font-weight="700">B</text><text x="300" y="140" text-anchor="middle" font-size="13">كتلة mB</text>
-<line x1="440" y1="90" x2="365" y2="90" stroke="#c2410c" stroke-width="2.5" marker-end="url(#ar10)"/><text x="400" y="78" text-anchor="middle" font-size="12" fill="#c2410c">F A/B</text>
-<line x1="300" y1="90" x2="375" y2="90" stroke="#c2410c" stroke-width="2.5" marker-end="url(#ar10)"/><text x="340" y="110" text-anchor="middle" font-size="12" fill="#c2410c">F B/A</text>
-<line x1="300" y1="30" x2="440" y2="30" stroke="#1f2937" stroke-dasharray="4 3"/><text x="370" y="24" text-anchor="middle" font-size="12">المسافة d</text>
-<text x="370" y="165" text-anchor="middle" font-size="13" fill="#1d4ed8">F = G × mA × mB / d²</text>
-<circle cx="110" cy="130" r="55" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="110" y="150" text-anchor="middle" font-size="13" fill="#15803d">الأرض MT</text>
-<rect x="100" y="40" width="20" height="20" fill="#fde68a" stroke="#a16207" stroke-width="2"/><circle cx="110" cy="50" r="2.5" fill="#1f2937"/>
-<line x1="110" y1="50" x2="110" y2="105" stroke="#c2410c" stroke-width="2.5" marker-end="url(#ar10)"/><text x="130" y="85" font-size="13" fill="#c2410c">P = m·g</text>
-<text x="40" y="30" text-anchor="middle" font-size="12">g = G MT / RT²</text>
-</svg><figcaption>الشكل 1: قوتا الجذب المتبادلتان بين جسمين، والثقل بوصفه قوة جذب الأرض لجسم قرب سطحها.</figcaption></figure>
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="14">
+<defs><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0L10,5L0,10z" fill="#c2410c"/></marker></defs>
+<circle cx="110" cy="85" r="38" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="110" y="90" text-anchor="middle">m₁</text>
+<circle cx="430" cy="85" r="38" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="430" y="90" text-anchor="middle">m₂</text>
+<line x1="150" y1="85" x2="215" y2="85" stroke="#c2410c" stroke-width="3" marker-end="url(#b)"/><line x1="390" y1="85" x2="325" y2="85" stroke="#c2410c" stroke-width="3" marker-end="url(#b)"/>
+<text x="185" y="72" text-anchor="middle" fill="#c2410c">F</text><text x="355" y="72" text-anchor="middle" fill="#c2410c">F</text>
+<line x1="110" y1="140" x2="430" y2="140" stroke="#1f2937" stroke-dasharray="4 3"/><text x="270" y="160" text-anchor="middle">المسافة d بين المركزين</text>
+<text x="270" y="30" text-anchor="middle" font-weight="700">F = G·m₁·m₂ / d²</text>
+</svg><figcaption>الشكل 1: قوتا التجاذب متساويتان في الشدة ومتعاكستان في الاتجاه.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">قانون الجذب العام (نيوتن):</span> جسمان كتلتاهما m<sub>A</sub> وm<sub>B</sub> والمسافة بين مركزيهما d يتجاذبان بقوتين F<sub>A/B</sub> وF<sub>B/A</sub> لهما الحامل نفسه (المستقيم AB)، جهتان متعاكستان، والشدة نفسها.</li>
-<li><span class="k">الشدة:</span> F = G × m<sub>A</sub> × m<sub>B</sub> / d<sup>2</sup>، حيث G = 6.67×10<sup>-11</sup> N·m<sup>2</sup>/kg<sup>2</sup> هو <span class="k">ثابت الجذب العام</span>، والكتل بالكيلوغرام والمسافة بالمتر.</li>
-<li><span class="k">الثقل</span> P هو قوة الجذب التي تطبقها الأرض على جسم قربها: P = m·g، حيث g <span class="k">شدة الجاذبية</span> بوحدة N/kg.</li>
-<li>بمطابقة العلاقتين نجد g = G × M<sub>T</sub> / R<sub>T</sub><sup>2</sup> على سطح الأرض، وg<sub>h</sub> = G × M<sub>T</sub> / (R<sub>T</sub> + h)<sup>2</sup> على ارتفاع h؛ فـg تتناقص مع الارتفاع.</li>
-<li><span class="k">الكتلة</span> m مقدار ثابت للجسم (kg) لا يتغير بالمكان؛ أما <span class="k">الثقل</span> فقوة (N) تتغير من مكان إلى آخر (على القمر g ≈ 1.6 N/kg).</li>
-<li>الجاذبية الكونية تفسر حركة الكواكب حول الشمس والقمر حول الأرض وسقوط الأجسام.</li>
+<li><span class="k">قانون الجذب العام:</span> F = G·m<sub>1</sub>·m<sub>2</sub> / d²، حيث الشدة بالنيوتن والكتلة بـ kg والمسافة بالمتر.</li>
+<li><span class="k">ثابت الجذب العام:</span> G ≈ 6.67 × 10<sup>-11</sup> N·m<sup>2</sup>/kg<sup>2</sup>.</li>
+<li>القوتان المتبادلتان لهما الحامل نفسه (الخط الواصل بين المركزين) وتتساويان في الشدة.</li>
+<li><span class="k">الثقل P:</span> قوة جذب الأرض للجسم، شعاعه شاقولي نحو مركز الأرض.</li>
+<li><span class="k">العلاقة:</span> P = m·g، حيث g شدة الجاذبية بوحدة N/kg، وقيمتها قرب سطح الأرض ≈ 9.8 N/kg.</li>
+<li><span class="k">الكتلة</span> مقدار ثابت يُقاس بالميزان بالكيلوغرام، أما <span class="k">الثقل</span> فقوة تُقاس بالربيعة بالنيوتن وتتغير بالمكان.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>احسب g على سطح الأرض بأخذ M<sub>T</sub> = 5.97×10<sup>24</sup> kg وR<sub>T</sub> = 6.37×10<sup>6</sup> m. <span class="k">الحل:</span> g = 6.67×10<sup>-11</sup> × 5.97×10<sup>24</sup> / (6.37×10<sup>6</sup>)<sup>2</sup> = 3.98×10<sup>14</sup> / 4.06×10<sup>13</sup> ≈ 9.8 N/kg.</li>
-<li>شخصان كتلة كل منهما 50 kg تفصل بينهما مسافة 1 m. <span class="k">الحل:</span> F = 6.67×10<sup>-11</sup> × 50 × 50 / 1<sup>2</sup> ≈ 1.7×10<sup>-7</sup> N؛ قوة مهملة لا تُحسّ، لأن الكتل صغيرة.</li>
-<li>رائد فضاء كتلته 60 kg. <span class="k">الحل:</span> ثقله على الأرض P = 60 × 9.8 = 588 N، وعلى القمر P = 60 × 1.6 = 96 N؛ كتلته تبقى 60 kg في المكانين.</li>
+<li>ثقل جسم كتلته 60 kg على الأرض. <span class="k">الحل:</span> P = 60 × 9.8 = 588 N.</li>
+<li>الجسم نفسه على القمر حيث g ≈ 1.6 N/kg (يُراجَع). <span class="k">الحل:</span> P = 60 × 1.6 = 96 N، والكتلة تبقى 60 kg.</li>
+<li>مضاعفة المسافة بين جسمين. <span class="k">التفسير:</span> d يصبح 2d، فيقسم F على 2² = 4.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>قياس المسافة d بين السطحين بدل <span class="k">المركزين</span>، أو تركها بالكيلومتر.</li>
-<li>نسيان تربيع المسافة في المقام، أو تربيع الكتلة بدلها.</li>
-<li>القول إن الثقل يتغير «لأن الكتلة تتغير»؛ الكتلة ثابتة وg هي التي تتغير.</li>
-<li>الاعتقاد أن الأرض تجذب الجسم بقوة أكبر مما يجذبها الجسم؛ الشدتان متساويتان (تأثير متبادل).</li>
+<li>الخلط بين الكتلة والثقل ووحداتهما (kg مقابل N).</li>
+<li>استعمال المسافة بالكيلومتر أو من السطح بدل المسافة بين المركزين بالمتر.</li>
+<li>القول إن كتلة الجسم تتغير على القمر.</li>
+<li>الظن أن الجسم الأكبر كتلة يجذب الأصغر بقوة أكبر، والصحيح أن القوتين متساويتان في الشدة.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>F = G × m<sub>A</sub> × m<sub>B</sub> / d<sup>2</sup>، مع G = 6.67×10<sup>-11</sup> SI.</li>
-<li>القوتان متبادلتان: نفس الشدة، جهتان متعاكستان.</li>
-<li>P = m·g، وg = G M<sub>T</sub> / R<sub>T</sub><sup>2</sup> ≈ 9.8 N/kg.</li>
-<li>g يقلّ مع الارتفاع ويختلف من كوكب لآخر.</li>
-<li>الكتلة ثابتة (kg)؛ الثقل قوة متغيرة (N).</li>
+<li>F = G·m<sub>1</sub>·m<sub>2</sub> / d².</li>
+<li>P = m·g.</li>
+<li>الكتلة ثابتة والثقل متغير.</li>
+<li>المسافة تُقاس بين المركزين وبالمتر.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

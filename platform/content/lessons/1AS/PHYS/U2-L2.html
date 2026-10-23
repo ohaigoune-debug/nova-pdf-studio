@@ -42,54 +42,47 @@ figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;
 <div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 2: الظواهر الميكانيكية · الدرس 2</div>
 <h1>الحركة المستقيمة المنتظمة والسرعة</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن تحسب السرعة المتوسطة واللحظية، وأن تتعرّف على الحركة المستقيمة المنتظمة وتكتب معادلتها الزمنية وترسم مخططاتها.</p>
+<p class="goal"><span class="k">الهدف:</span> أن تتعرف على الحركة المستقيمة المنتظمة، وأن تحسب السرعة وتستعمل المعادلة الزمنية x = v·t + x<sub>0</sub>.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> السرعة هي المسافة المقطوعة في وحدة الزمن: v = d / Δt. الحركة <span class="k">مستقيمة منتظمة</span> إذا كان المسار مستقيماً والسرعة ثابتة، فتكون الفاصلة x دالة خطية في الزمن: x(t) = v·t + x<sub>0</sub>.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الحركة مستقيمة منتظمة إذا كان المسار مستقيمًا وقطع المتحرك مسافات متساوية في مجالات زمنية متساوية. سرعته ثابتة، ومنحنى موضعه بدلالة الزمن مستقيم.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<defs><marker id="ar7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
-<line x1="320" y1="145" x2="525" y2="145" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar7)"/><line x1="320" y1="145" x2="320" y2="15" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar7)"/>
-<text x="515" y="165" text-anchor="middle" font-size="13">t (s)</text><text x="335" y="20" font-size="13">x (m)</text>
-<line x1="320" y1="120" x2="500" y2="30" stroke="#1d4ed8" stroke-width="2.5"/>
-<text x="305" y="124" text-anchor="end" font-size="13" fill="#c2410c">x0</text>
-<line x1="380" y1="90" x2="440" y2="90" stroke="#15803d" stroke-dasharray="4 3"/><line x1="440" y1="90" x2="440" y2="60" stroke="#15803d" stroke-dasharray="4 3"/>
-<text x="410" y="105" text-anchor="middle" font-size="12" fill="#15803d">Δt</text><text x="455" y="78" font-size="12" fill="#15803d">Δx</text>
-<text x="420" y="160" text-anchor="middle" font-size="13" fill="#1d4ed8">x(t) = v·t + x0 ، الميل = v</text>
-<line x1="30" y1="145" x2="235" y2="145" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar7)"/><line x1="30" y1="145" x2="30" y2="15" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar7)"/>
-<text x="225" y="165" text-anchor="middle" font-size="13">t (s)</text><text x="45" y="20" font-size="13">v (m/s)</text>
-<line x1="30" y1="70" x2="215" y2="70" stroke="#c2410c" stroke-width="2.5"/>
-<rect x="30" y="70" width="185" height="75" fill="#fde68a" opacity="0.6"/>
-<text x="122" y="112" text-anchor="middle" font-size="12" fill="#a16207">المساحة = المسافة المقطوعة</text>
-<text x="130" y="160" text-anchor="middle" font-size="13" fill="#c2410c">v ثابتة: خط أفقي</text>
-</svg><figcaption>الشكل 1: مخططا الحركة المستقيمة المنتظمة: x(t) خط مستقيم ميله v، وv(t) خط أفقي.</figcaption></figure>
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="14">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<line x1="60" y1="145" x2="500" y2="145" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar)"/><line x1="60" y1="145" x2="60" y2="15" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="490" y="165" text-anchor="middle">t (s)</text><text x="40" y="22" text-anchor="middle">x (m)</text>
+<line x1="60" y1="115" x2="440" y2="25" stroke="#1d4ed8" stroke-width="3"/>
+<circle cx="60" cy="115" r="5" fill="#c2410c"/><text x="85" y="108" fill="#c2410c">x₀</text>
+<line x1="200" y1="82" x2="300" y2="82" stroke="#15803d" stroke-dasharray="4 3"/><line x1="300" y1="82" x2="300" y2="59" stroke="#15803d" stroke-dasharray="4 3"/>
+<text x="250" y="102" text-anchor="middle" fill="#15803d">Δt</text><text x="322" y="75" fill="#15803d">Δx</text>
+<text x="380" y="75" fill="#1d4ed8">الميل = v</text>
+</svg><figcaption>الشكل 1: مخطط الموضع بدلالة الزمن: مستقيم ميله يساوي السرعة.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">السرعة المتوسطة</span> بين موضعين: v<sub>m</sub> = d / Δt، حيث d المسافة المقطوعة وΔt المدة؛ وحدتها m/s (أو km/h، مع 1 m/s = 3.6 km/h).</li>
-<li><span class="k">السرعة اللحظية</span> عند الموضع M<sub>i</sub> على تسجيل كرونوفوتوغرافي تُقدَّر بالعلاقة v<sub>i</sub> = M<sub>i-1</sub>M<sub>i+1</sub> / 2τ، حيث τ المدة الفاصلة بين تسجيلين متتاليين.</li>
-<li><span class="k">شعاع السرعة</span> له مبدأ (موضع المتحرك)، حامل (مماس للمسار)، جهة (جهة الحركة)، وطويلة (قيمة السرعة) تُمثَّل بسلم.</li>
-<li><span class="k">الحركة المستقيمة المنتظمة:</span> مسار مستقيم وشعاع سرعة ثابت؛ يقطع المتحرك مسافات متساوية في مدد متساوية.</li>
-<li><span class="k">المعادلة الزمنية:</span> x(t) = v·t + x<sub>0</sub>، حيث x<sub>0</sub> الفاصلة الابتدائية عند t = 0، وv ثابتة (موجبة أو سالبة حسب الجهة).</li>
-<li><span class="k">المخططات:</span> مخطط x(t) خط مستقيم ميله يساوي v؛ ومخطط v(t) خط أفقي، والمساحة تحته تساوي المسافة المقطوعة.</li>
+<li><span class="k">الحركة المستقيمة المنتظمة:</span> مسار مستقيم وسرعة ثابتة.</li>
+<li><span class="k">السرعة:</span> v = Δx / Δt، وحدتها m/s في الجملة الدولية.</li>
+<li><span class="k">التحويل:</span> 1 m/s = 3.6 km/h.</li>
+<li><span class="k">المعادلة الزمنية:</span> x = v·t + x<sub>0</sub>، حيث x<sub>0</sub> الموضع عند t = 0.</li>
+<li>السرعة كمية موجّهة: قيمتها موجبة إذا كانت الحركة في الاتجاه الموجب للمحور وسالبة في الاتجاه المعاكس.</li>
+<li>مخطط السرعة بدلالة الزمن مستقيم أفقي.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>سيارة تقطع 180 km في ساعتين. <span class="k">الحل:</span> v<sub>m</sub> = 180 / 2 = 90 km/h = 90 / 3.6 = 25 m/s.</li>
-<li>متحرك في حركة مستقيمة منتظمة فاصلته الابتدائية x<sub>0</sub> = 5 m وسرعته v = 20 m/s. <span class="k">الحل:</span> المعادلة الزمنية x(t) = 20t + 5، وعند t = 10 s تكون x = 20×10 + 5 = 205 m.</li>
-<li>تسجيل كرونوفوتوغرافي بمدة τ = 40 ms، المسافة بين كل موضعين متتاليين 2 cm وثابتة. <span class="k">الحل:</span> الحركة منتظمة لأن المسافات متساوية؛ v = M<sub>i-1</sub>M<sub>i+1</sub> / 2τ = 0.04 / (2 × 0.040) = 0.5 m/s.</li>
+<li>تحويل 72 km/h إلى m/s. <span class="k">الحل:</span> 72 / 3.6 = 20 m/s.</li>
+<li>سيارة بسرعة ثابتة 25 m/s خلال 20 s. <span class="k">الحل:</span> d = 25 × 20 = 500 m.</li>
+<li>معادلة متحرك x = 5t + 2 (بوحدات SI). <span class="k">الحل:</span> السرعة 5 m/s والموضع الابتدائي 2 m، وعند t = 4 s يكون x = 5 × 4 + 2 = 22 m.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>الضرب في 3.6 بدل القسمة عند التحويل من km/h إلى m/s.</li>
-<li>الخلط بين الفاصلة x (موضع) والمسافة المقطوعة d (طول).</li>
-<li>قراءة v من ارتفاع مخطط x(t) بدل حساب <span class="k">الميل</span>.</li>
-<li>استعمال τ بدل 2τ في حساب السرعة اللحظية، أو ترك المسافة بالسنتيمتر.</li>
+<li>الخلط في التحويل: الضرب في 3.6 بدل القسمة عند الانتقال من km/h إلى m/s.</li>
+<li>نسيان الموضع الابتدائي x<sub>0</sub> في المعادلة الزمنية.</li>
+<li>الخلط بين مخطط الموضع x(t) ومخطط السرعة v(t).</li>
+<li>إهمال إشارة السرعة عند الحركة في الاتجاه السالب.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>v = d / Δt؛ 1 m/s = 3.6 km/h.</li>
-<li>سرعة لحظية: v<sub>i</sub> = M<sub>i-1</sub>M<sub>i+1</sub> / 2τ.</li>
-<li>مستقيمة منتظمة: مسار مستقيم + سرعة ثابتة.</li>
-<li>x(t) = v·t + x<sub>0</sub>؛ الميل = v.</li>
-<li>v(t) خط أفقي؛ المساحة تحته = المسافة.</li>
+<li>مسار مستقيم + سرعة ثابتة = حركة منتظمة.</li>
+<li>v = Δx / Δt.</li>
+<li>x = v·t + x<sub>0</sub>.</li>
+<li>km/h ÷ 3.6 = m/s.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

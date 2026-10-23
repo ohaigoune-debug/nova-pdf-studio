@@ -42,54 +42,46 @@ figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;
 <div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 1: المادة وتحولاتها · الدرس 1</div>
 <h1>من المجهري إلى العياني: المول وكمية المادة</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن تعرّف المول وكمية المادة وثابت أفوغادرو، وأن تحسب كمية المادة n انطلاقاً من عدد الأفراد الكيميائية N والعكس.</p>
+<p class="goal"><span class="k">الهدف:</span> أن تعرّف المول وعدد أفوغادرو، وأن تحسب كمية المادة انطلاقًا من عدد الأفراد الكيميائية والعكس.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> الذرات والجزيئات صغيرة جداً وعددها في أصغر عينة هائل، لذلك نعدّها بـ«رزم» تُسمّى المولات. المول الواحد يحوي N<sub>A</sub> = 6.02×10<sup>23</sup> فرداً، وكمية المادة n (بالمول) هي الجسر بين المستوى المجهري والمستوى العياني.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الذرات والجزيئات صغيرة جدًا فلا يمكن عدّها فرادى، لذلك نجمعها في حزمة ضخمة تسمى المول. كمية المادة n تقيس عدد هذه الحزم، وبها ننتقل من العالم المجهري إلى العالم العياني.</div>
 
 <figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
-<rect x="350" y="30" width="175" height="105" rx="12" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
-<text x="437" y="55" text-anchor="middle" font-weight="700">المستوى المجهري</text>
-<circle cx="395" cy="85" r="8" fill="#1d4ed8"/><circle cx="420" cy="97" r="8" fill="#1d4ed8"/><circle cx="447" cy="83" r="8" fill="#1d4ed8"/><circle cx="475" cy="96" r="8" fill="#1d4ed8"/>
-<text x="437" y="125" text-anchor="middle" font-size="13">N فرد: ذرة، جزيء، شاردة</text>
-<rect x="15" y="30" width="175" height="105" rx="12" fill="#fde68a" stroke="#a16207" stroke-width="2"/>
-<text x="102" y="55" text-anchor="middle" font-weight="700">المستوى العياني</text>
-<rect x="67" y="68" width="70" height="38" rx="5" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="102" y="92" text-anchor="middle" font-size="13">عينة مادة</text>
-<text x="102" y="125" text-anchor="middle" font-size="13">n مول (كتلة m، حجم V)</text>
-<line x1="345" y1="65" x2="200" y2="65" stroke="#1f2937" stroke-width="2" marker-end="url(#ar1)"/>
-<text x="272" y="56" text-anchor="middle" font-size="13" fill="#1d4ed8">n = N / N<tspan dy="4" font-size="10">A</tspan></text>
-<line x1="195" y1="100" x2="340" y2="100" stroke="#1f2937" stroke-width="2" marker-end="url(#ar1)"/>
-<text x="272" y="120" text-anchor="middle" font-size="13" fill="#c2410c">N = n × N<tspan dy="4" font-size="10">A</tspan></text>
-<text x="270" y="162" text-anchor="middle" font-size="13" fill="#1f2937">N<tspan dy="4" font-size="10">A</tspan><tspan dy="-4"> = 6.02 × 10</tspan><tspan dy="-6" font-size="10">23</tspan><tspan dy="6"> mol</tspan><tspan dy="-6" font-size="10">-1</tspan></text>
-</svg><figcaption>الشكل 1: ثابت أفوغادرو هو الجسر بين عدد الأفراد N (مجهري) وكمية المادة n (عياني).</figcaption></figure>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<rect x="20" y="50" width="130" height="70" rx="10" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="85" y="80" text-anchor="middle" font-weight="700">عدد الأفراد N</text><text x="85" y="104" text-anchor="middle" font-size="13">(مجهري)</text>
+<rect x="205" y="50" width="130" height="70" rx="10" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="270" y="80" text-anchor="middle" font-weight="700">كمية المادة n</text><text x="270" y="104" text-anchor="middle" font-size="13">(mol)</text>
+<rect x="390" y="50" width="130" height="70" rx="10" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="455" y="80" text-anchor="middle" font-weight="700">مقدار قابل للقياس</text><text x="455" y="104" text-anchor="middle" font-size="13">(عياني)</text>
+<line x1="150" y1="75" x2="205" y2="75" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/><text x="178" y="68" text-anchor="middle" font-size="12">÷ N<tspan font-size="9" dy="3">A</tspan></text>
+<line x1="335" y1="95" x2="390" y2="95" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<text x="270" y="155" text-anchor="middle" fill="#c2410c">N = n × N_A</text>
+</svg><figcaption>الشكل 1: المول يربط عدد الأفراد الكيميائية بالمقادير التي نقيسها في المخبر.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">الفرد الكيميائي</span> هو أصغر وحدة للمادة: ذرة (Fe)، جزيء (H<sub>2</sub>O)، أو شاردة (Na<sup>+</sup>).</li>
-<li><span class="k">المستوى المجهري</span> يصف الأفراد الفردية التي لا تُرى، و<span class="k">المستوى العياني</span> يصف العينة التي نزنها ونقيس حجمها.</li>
-<li><span class="k">المول</span> هو كمية مادة جملة تحوي 6.02×10<sup>23</sup> فرداً كيميائياً متماثلاً، ورمز وحدته mol.</li>
-<li><span class="k">ثابت أفوغادرو</span> N<sub>A</sub> = 6.02×10<sup>23</sup> mol<sup>-1</sup> هو عدد الأفراد في مول واحد.</li>
-<li><span class="k">كمية المادة</span> n تُحسب بالعلاقة n = N / N<sub>A</sub>، ومنها N = n × N<sub>A</sub>.</li>
-<li>كمية مادة الذرات داخل جزيئات تساوي كمية مادة الجزيئات مضروبة في عدد ذرات العنصر في الجزيء.</li>
+<li><span class="k">الفرد الكيميائي:</span> ذرة أو جزيء أو أيون.</li>
+<li><span class="k">المول (mol):</span> وحدة كمية المادة، ويحوي مولٌ واحد عددًا محددًا من الأفراد الكيميائية.</li>
+<li><span class="k">ثابت أفوغادرو:</span> N<sub>A</sub> ≈ 6.02 × 10<sup>23</sup> mol<sup>-1</sup>.</li>
+<li><span class="k">العلاقة الأساسية:</span> n = N / N<sub>A</sub> أي N = n × N<sub>A</sub>.</li>
+<li>كمية المادة لا تتعلق بنوع الفرد: مول من الذرات ومول من الجزيئات يحويان العدد نفسه من الأفراد.</li>
+<li>تُحدَّد دائمًا نوع الفرد المقصود: مول من جزيئات H<sub>2</sub>O يختلف عن مول من ذرات الهيدروجين.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>عينة حديد تحوي N = 1.204×10<sup>24</sup> ذرة. <span class="k">الحل:</span> n = 1.204×10<sup>24</sup> / 6.02×10<sup>23</sup> = 2 mol من ذرات الحديد.</li>
-<li>كأس يحوي n = 0.5 mol من جزيئات الماء H<sub>2</sub>O. <span class="k">الحل:</span> N = 0.5 × 6.02×10<sup>23</sup> = 3.01×10<sup>23</sup> جزيء؛ وبما أن كل جزيء يحوي ذرتي هيدروجين فإن n(H) = 2 × 0.5 = 1 mol، أي 6.02×10<sup>23</sup> ذرة هيدروجين.</li>
-<li>عينة غاز CO<sub>2</sub> تحوي 3.01×10<sup>22</sup> جزيء. <span class="k">الحل:</span> n = 3.01×10<sup>22</sup> / 6.02×10<sup>23</sup> = 0.05 mol.</li>
+<li>عينة فيها 1.204 × 10<sup>24</sup> جزيئًا. <span class="k">الحل:</span> n = 1.204 × 10<sup>24</sup> / 6.02 × 10<sup>23</sup> = 2 mol.</li>
+<li>كم جزيئًا في 0.5 mol من الماء؟ <span class="k">الحل:</span> N = 0.5 × 6.02 × 10<sup>23</sup> = 3.01 × 10<sup>23</sup> جزيء.</li>
+<li>كم ذرة هيدروجين في 0.1 mol من جزيئات H<sub>2</sub>? <span class="k">الحل:</span> عدد الجزيئات = 0.1 × 6.02 × 10<sup>23</sup> = 6.02 × 10<sup>22</sup>، ولكل جزيء ذرتان، فعدد الذرات = 1.204 × 10<sup>23</sup>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>الخلط بين <span class="k">N</span> (عدد بلا وحدة) و<span class="k">n</span> (كمية مادة بالمول)؛ القسمة على N<sub>A</sub> تحوّل الأول إلى الثاني.</li>
-<li>الخطأ في قوى العشرة عند القسمة: 10<sup>24</sup> / 10<sup>23</sup> = 10 وليس 1.</li>
-<li>الخلط بين عدد الجزيئات وعدد الذرات داخلها (جزيء الماء الواحد يحوي 3 ذرات).</li>
-<li>كتابة النتيجة دون وحدة، أو كتابة N<sub>A</sub> بوحدة mol بدل mol<sup>-1</sup>.</li>
+<li>الخلط بين كمية المادة n (بالمول) وعدد الأفراد N.</li>
+<li>نسيان وحدة الثابت mol<sup>-1</sup> أو كتابة الأسس خطأً.</li>
+<li>عدم التمييز بين مول الجزيئات ومول الذرات داخل الجزيء.</li>
+<li>كتابة «المول هو الكتلة» بدل أنه وحدة كمية المادة.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>مول واحد = 6.02×10<sup>23</sup> فرد كيميائي.</li>
-<li>N<sub>A</sub> = 6.02×10<sup>23</sup> mol<sup>-1</sup>.</li>
-<li>n = N / N<sub>A</sub> و N = n × N<sub>A</sub>.</li>
-<li>n(ذرة في جزيء) = n(جزيء) × عدد ذراتها فيه.</li>
-<li>المجهري: أفراد؛ العياني: مولات وكتل وحجوم.</li>
+<li>1 mol = 6.02 × 10<sup>23</sup> فردًا كيميائيًا.</li>
+<li>n = N / N<sub>A</sub>.</li>
+<li>N<sub>A</sub> ≈ 6.02 × 10<sup>23</sup> mol<sup>-1</sup>.</li>
+<li>حدّد نوع الفرد قبل الحساب.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

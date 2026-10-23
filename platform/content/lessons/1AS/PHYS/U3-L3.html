@@ -42,53 +42,45 @@ figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;
 <div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 3: الظواهر الكهربائية · الدرس 3</div>
 <h1>الاستطاعة والطاقة الكهربائية وقانون جول</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن تحسب الاستطاعة الكهربائية التي يستهلكها جهاز والطاقة المحوّلة خلال مدة معيّنة، وأن تفسّر أثر جول وتطبّق قانونه في ناقل أومي.</p>
+<p class="goal"><span class="k">الهدف:</span> أن تحسب الاستطاعة والطاقة الكهربائية المستهلكة، وأن تطبّق قانون جول لحساب الطاقة المبددة حرارةً في ناقل أومي.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> الاستطاعة P هي الطاقة المحوّلة في كل ثانية، وتُحسب في التيار المستمر بالعلاقة P = U × I، والطاقة E = P × t. وعندما يمر التيار في ناقل أومي تتحوّل الطاقة الكهربائية كلها إلى حرارة: هذا هو أثر جول وقانونه E = R × I<sup>2</sup> × t.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الاستطاعة معدل تحويل الطاقة في الثانية، وتساوي جداء التوتر في الشدة. وكل ناقل أومي يحوّل الطاقة الكهربائية التي يستقبلها كليًا إلى حرارة (مفعول جول).</div>
 
 <figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
-<text x="270" y="24" text-anchor="middle" font-weight="700">من الاستطاعة إلى الطاقة إلى الحرارة</text>
-<rect x="380" y="45" width="150" height="70" rx="10" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
-<text x="455" y="70" text-anchor="middle" font-weight="700" fill="#1d4ed8">الاستطاعة</text><text x="455" y="100" text-anchor="middle" font-size="14">P = U × I (W)</text>
-<line x1="378" y1="80" x2="347" y2="80" stroke="#1f2937" stroke-width="2" marker-end="url(#ar3)"/><text x="362" y="70" text-anchor="middle" font-size="11">× t</text>
-<rect x="195" y="45" width="150" height="70" rx="10" fill="#86efac" stroke="#15803d" stroke-width="2"/>
-<text x="270" y="70" text-anchor="middle" font-weight="700" fill="#15803d">الطاقة</text><text x="270" y="100" text-anchor="middle" font-size="14">E = P × t (J)</text>
-<line x1="193" y1="80" x2="162" y2="80" stroke="#1f2937" stroke-width="2" marker-end="url(#ar3)"/><text x="177" y="70" text-anchor="middle" font-size="11">ناقل أومي</text>
-<rect x="10" y="45" width="150" height="70" rx="10" fill="#fde68a" stroke="#c2410c" stroke-width="2"/>
-<text x="85" y="70" text-anchor="middle" font-weight="700" fill="#c2410c">أثر جول (حرارة)</text><text x="85" y="100" text-anchor="middle" font-size="14">E = R × I² × t</text>
-<text x="270" y="150" text-anchor="middle" font-size="14">الوحدات: 1 W = 1 J/s ؛ 1 kWh = 3.6 × 10⁶ J ؛ t بالثانية</text>
-</svg><figcaption>الشكل 1: الاستطاعة تُضرب في الزمن لتعطي الطاقة، وفي الناقل الأومي تتحول هذه الطاقة كلها إلى حرارة (أثر جول).</figcaption></figure>
-
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<rect x="20" y="55" width="150" height="65" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="95" y="82" text-anchor="middle" font-weight="700">طاقة كهربائية</text><text x="95" y="105" text-anchor="middle">E = U · I · t</text>
+<line x1="170" y1="88" x2="215" y2="88" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="220" y="55" width="130" height="65" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="285" y="82" text-anchor="middle" font-weight="700">ناقل أومي R</text><text x="285" y="105" text-anchor="middle">P = R · I²</text>
+<line x1="350" y1="88" x2="395" y2="88" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="400" y="55" width="125" height="65" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="462" y="82" text-anchor="middle" font-weight="700">حرارة Q</text><text x="462" y="105" text-anchor="middle">Q = R · I² · t</text>
+</svg><figcaption>الشكل 1: الناقل الأومي يحوّل الطاقة الكهربائية كلها إلى طاقة حرارية.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">الاستطاعة الكهربائية</span> التي يستهلكها ثنائي قطب: P = U × I، وحدتها الواط (W)؛ 1 W = 1 V × 1 A، و1 kW = 1000 W.</li>
-<li><span class="k">الطاقة الكهربائية:</span> E = P × t = U × I × t، بالجول (J) إذا كان t بالثانية. وحدة عملية: <span class="k">الكيلوواط-ساعة</span> 1 kWh = 1000 W × 3600 s = 3.6 × 10<sup>6</sup> J.</li>
-<li><span class="k">أثر جول:</span> يسخن الناقل عند مرور التيار بسبب اصطدام الإلكترونات بذرات الناقل؛ نافع (مدفأة، مكواة، سخان) وضار (ضياع في خطوط النقل، خطر الحريق).</li>
-<li><span class="k">قانون جول:</span> في ناقل أومي E = R × I<sup>2</sup> × t، واستطاعة جول P = R × I<sup>2</sup> = U<sup>2</sup> / R (بتعويض U = R × I).</li>
-<li><span class="k">القيم الاسمية</span> المكتوبة على الجهاز (مثلاً 230 V ؛ 1150 W): التوتر الذي يعمل عنده عادياً والاستطاعة التي يستهلكها عندها؛ الشدة الاسمية I = P / U.</li>
-<li><span class="k">العداد الكهربائي</span> يقيس الطاقة المستهلكة بالـkWh، والفاتورة = الطاقة × ثمن الوحدة.</li>
-<li><span class="k">انحفاظ الطاقة:</span> الطاقة الكهربائية المستهلكة تساوي مجموع الطاقات المحوّلة (حرارية، ضوئية، ميكانيكية...).</li>
+<li><span class="k">الاستطاعة الكهربائية:</span> P = U · I، وتُقاس بالواط (W).</li>
+<li><span class="k">الطاقة الكهربائية:</span> E = P · t = U · I · t، وتُقاس بالجول (J) عندما تكون t بالثانية.</li>
+<li>وحدة عملية: <span class="k">الكيلوواط ساعة (kWh)</span>، حيث 1 kWh = 3,6 × 10<sup>6</sup> J.</li>
+<li><span class="k">قانون جول:</span> الطاقة المبددة حرارةً في ناقل أومي Q = R · I² · t، واستطاعته P = R · I².</li>
+<li>بجمع قانون أوم: P = U² / R أيضًا لناقل أومي.</li>
+<li>القيم المكتوبة على الجهاز (230 V، 1150 W) هي التوتر الاسمي والاستطاعة الاسمية.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>مصباح يعمل تحت 230 V ويجتازه تيار 0.5 A. <span class="k">الحل:</span> P = 230 × 0.5 = 115 W؛ خلال ساعتين E = 115 × 2 = 230 Wh = 0.23 kWh.</li>
-<li>مدفأة استطاعتها 2000 W تعمل 3 ساعات. <span class="k">الحل:</span> E = 2 kW × 3 h = 6 kWh = 6 × 3.6 × 10<sup>6</sup> = 2.16 × 10<sup>7</sup> J.</li>
-<li>ناقل أومي R = 50 Ω يجتازه تيار 2 A خلال دقيقة واحدة. <span class="k">الحل:</span> E = 50 × 2<sup>2</sup> × 60 = 12000 J = 12 kJ، والاستطاعة P = 50 × 4 = 200 W.</li>
+<li>مصباح 60 W يشتغل 5 h. <span class="k">الحل:</span> E = 60 × 5 = 300 Wh = 0,3 kWh.</li>
+<li>جهاز استطاعته 1150 W بتوتر 230 V. <span class="k">الحل:</span> I = P / U = 1150 / 230 = 5 A.</li>
+<li>مقاومة 50 Ω يعبرها تيار 2 A مدة 10 s. <span class="k">الحل:</span> P = 50 × 2<sup>2</sup> = 200 W، وQ = 200 × 10 = 2000 J.</li>
 </ol></div>
 
-<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>الخلط بين الاستطاعة (بالواط) والطاقة (بالجول أو kWh).</li>
-<li>حساب E بالجول مع زمن بالساعة أو الدقيقة دون تحويله إلى الثانية.</li>
-<li>نسيان تربيع الشدة في E = R × I<sup>2</sup> × t.</li>
-<li>كتابة النتيجة دون وحدة، أو استعمال kWh مع t بالثانية.</li>
+<div class="block warn"><h2>🟠 أخطاء شائعة في الامتحان</h2><ul>
+<li>الخلط بين الاستطاعة (W) والطاقة (J أو kWh).</li>
+<li>نسيان تحويل الساعة إلى ثانية عند طلب الطاقة بالجول (1 h = 3600 s).</li>
+<li>كتابة Q = R · I · t بدل ضرب مربع الشدة.</li>
+<li>تطبيق قانون جول على محرك أو محلل كهربائي كأن كل طاقته حرارة.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>P = U × I (W).</li>
-<li>E = P × t = U × I × t (J مع t بالثانية).</li>
-<li>أثر جول في ناقل أومي: E = R × I<sup>2</sup> × t.</li>
-<li>1 kWh = 3.6 × 10<sup>6</sup> J.</li>
-<li>القيم الاسمية: I = P / U.</li>
+<li>P = U · I بالواط، وE = P · t بالجول.</li>
+<li>1 kWh = 3,6 × 10<sup>6</sup> J.</li>
+<li>جول: Q = R · I² · t للناقل الأومي.</li>
+<li>P = R · I² = U² / R للناقل الأومي فقط.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

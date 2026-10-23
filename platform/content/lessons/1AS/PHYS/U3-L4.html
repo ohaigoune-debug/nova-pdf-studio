@@ -42,55 +42,46 @@ figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;
 <div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 3: الظواهر الكهربائية · الدرس 4</div>
 <h1>المولدات والمستقبلات والحصيلة الطاقوية</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن تميّز المولد عن المستقبل، وتكتب قانون أوم لكل منهما، وتُجري الحصيلة الطاقوية (الاستطاعة الكلية والنافعة والضائعة) وتحسب المردود.</p>
+<p class="goal"><span class="k">الهدف:</span> أن تميّز المولد من المستقبل، وأن تكتب مميزة كل منهما، وأن تنجز الحصيلة الطاقوية وتحسب المردود.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> المولد يحوّل شكلاً من الطاقة إلى طاقة كهربائية لكنه يضيّع جزءاً منها بأثر جول في مقاومته الداخلية r، لذلك U = E − r × I. أما المستقبل (محرك، محلّل كهربائي) فيستقبل طاقة كهربائية ويحوّل جزءاً منها إلى شكل آخر ويضيّع الباقي حرارة: U = E' + r' × I.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المولد يمنح الدارة طاقة كهربائية، والمستقبل (كالمحرك) يستقبلها ويحوّل جزءًا منها إلى شكل مفيد. في الحالتين يضيع جزء بمفعول جول في المقاومة الداخلية.</div>
 
 <figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
-<text x="150" y="20" text-anchor="middle" font-weight="700" fill="#1d4ed8">المولد: U = E − r × I</text>
-<line x1="60" y1="150" x2="255" y2="150" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar4)"/><line x1="60" y1="150" x2="60" y2="30" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar4)"/>
-<text x="245" y="166" text-anchor="middle" font-size="12">I</text><text x="48" y="40" text-anchor="middle" font-size="12">U</text>
-<line x1="60" y1="55" x2="235" y2="115" stroke="#1d4ed8" stroke-width="2.5"/>
-<text x="48" y="60" text-anchor="middle" font-size="13" fill="#1d4ed8" font-weight="700">E</text>
-<text x="160" y="135" text-anchor="middle" font-size="12">الميل = −r</text>
-<text x="390" y="20" text-anchor="middle" font-weight="700" fill="#c2410c">المستقبل: U = E' + r' × I</text>
-<line x1="320" y1="150" x2="515" y2="150" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar4)"/><line x1="320" y1="150" x2="320" y2="30" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar4)"/>
-<text x="505" y="166" text-anchor="middle" font-size="12">I</text><text x="308" y="40" text-anchor="middle" font-size="12">U</text>
-<line x1="320" y1="115" x2="495" y2="55" stroke="#c2410c" stroke-width="2.5"/>
-<text x="306" y="120" text-anchor="middle" font-size="13" fill="#c2410c" font-weight="700">E'</text>
-<text x="430" y="135" text-anchor="middle" font-size="12">الميل = +r'</text>
-</svg><figcaption>الشكل 1: مميزة المولد مستقيم نازل يقطع محور التوتر عند E، ومميزة المستقبل مستقيم صاعد يبدأ من E'.</figcaption></figure>
-
+<line x1="40" y1="150" x2="500" y2="150" stroke="#1f2937" stroke-width="2"/><line x1="40" y1="150" x2="40" y2="15" stroke="#1f2937" stroke-width="2"/>
+<text x="500" y="168" text-anchor="end">I (A)</text><text x="32" y="22" text-anchor="end">U (V)</text>
+<line x1="40" y1="45" x2="250" y2="130" stroke="#1d4ed8" stroke-width="3"/>
+<text x="150" y="60" fill="#1d4ed8" font-weight="700">مولد: U = E − r · I</text>
+<line x1="270" y1="90" x2="480" y2="25" stroke="#c2410c" stroke-width="3"/>
+<text x="480" y="85" text-anchor="end" fill="#c2410c" font-weight="700">مستقبل: U = E' + r' · I</text>
+<text x="48" y="40" font-size="13">E</text><text x="278" y="108" font-size="13">E'</text>
+</svg><figcaption>الشكل 1: مميزة المولد متناقصة (ميلها −r) ومميزة المستقبل متزايدة (ميلها r').</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">المولد</span> ثنائي قطب يفرض التيار في الدارة؛ يُميَّز بـ<span class="k">القوة المحركة الكهربائية E</span> (بالفولط) و<span class="k">المقاومة الداخلية r</span> (بالأوم).</li>
-<li><span class="k">قانون أوم للمولد:</span> U<sub>PN</sub> = E − r × I؛ في الدارة المفتوحة I = 0 فيكون U = E.</li>
-<li><span class="k">الحصيلة الطاقوية للمولد:</span> E × I = U × I + r × I<sup>2</sup>، أي الاستطاعة الكلية = النافعة (المقدَّمة للدارة) + الضائعة بأثر جول؛ <span class="k">المردود</span> η = U × I / (E × I) = U / E.</li>
-<li><span class="k">المستقبل</span> يحوّل الطاقة الكهربائية إلى شكل غير حراري (ميكانيكي في المحرك، كيميائي في المحلّل)؛ يُميَّز بـ<span class="k">القوة المحركة المضادة E'</span> ومقاومته الداخلية r'.</li>
-<li><span class="k">قانون أوم للمستقبل:</span> U = E' + r' × I. الناقل الأومي مستقبل خاص فيه E' = 0، والمحرك المحجوز (الممنوع من الدوران) يسلك سلوكه.</li>
-<li><span class="k">الحصيلة الطاقوية للمستقبل:</span> U × I = E' × I + r' × I<sup>2</sup>، أي المستقبَلة = النافعة + الضائعة؛ المردود η = E' / U.</li>
-<li>في دارة <span class="k">مولد ومستقبل على التسلسل:</span> I = (E − E') / (r + r').</li>
+<li><span class="k">المولد</span> ثنائي قطب يحوّل طاقة (كيميائية أو ميكانيكية...) إلى كهربائية؛ مميزته U = E − r · I، حيث E <span class="k">القوة المحركة الكهربائية</span> وr <span class="k">مقاومته الداخلية</span>.</li>
+<li>التوتر بين قطبي المولد وهو مفتوح (I = 0) يساوي E.</li>
+<li><span class="k">المستقبل</span> يحوّل الطاقة الكهربائية إلى شكل آخر؛ مميزته U = E' + r' · I، حيث E' <span class="k">القوة المضادة المحركة</span>.</li>
+<li><span class="k">حصيلة المولد:</span> E · I = U · I + r · I².</li>
+<li><span class="k">حصيلة المستقبل:</span> U · I = E' · I + r' · I²، والحد E' · I هو الاستطاعة المفيدة.</li>
+<li><span class="k">المردود</span> = الاستطاعة المفيدة / الاستطاعة المستقبلة (أو المقدمة)، وهو دائمًا أصغر من 1.</li>
+<li>في <span class="k">قصر الدارة</span> للمولد (U = 0) تكون I<sub>cc</sub> = E / r، وهي خطرة.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>مولد E = 12 V، r = 0.5 Ω، يجتازه تيار I = 2 A. <span class="k">الحل:</span> U = 12 − 0.5 × 2 = 11 V. الاستطاعة الكلية 12 × 2 = 24 W، النافعة 11 × 2 = 22 W، الضائعة 0.5 × 2<sup>2</sup> = 2 W؛ المردود η = 22 / 24 ≈ 0.92.</li>
-<li>محرك E' = 9 V، r' = 1 Ω، يجتازه تيار 2 A. <span class="k">الحل:</span> U = 9 + 1 × 2 = 11 V؛ الاستطاعة المستقبَلة 11 × 2 = 22 W، الميكانيكية 9 × 2 = 18 W، الحرارية 1 × 4 = 4 W؛ المردود η = 18 / 22 ≈ 0.82.</li>
-<li>نصل المولد السابق بالمحرك السابق مباشرة. <span class="k">الحل:</span> I = (12 − 9) / (0.5 + 1) = 3 / 1.5 = 2 A، وهو ما يوافق النتائج السابقة.</li>
+<li>مولد E = 12 V وr = 2 Ω يعبره تيار 1 A. <span class="k">الحل:</span> U = 12 − 2 × 1 = 10 V. الاستطاعة الكلية 12 W، الضائعة بجول 2 W، المفيدة 10 W، والمردود 10 / 12 ≈ 83%.</li>
+<li>محرك توتره 12 V ويعبره 2 A وr' = 1 Ω. <span class="k">الحل:</span> E' = 12 − 1 × 2 = 10 V. الاستطاعة المستقبلة 24 W، الضائعة 4 W، المفيدة 20 W، والمردود 20 / 24 ≈ 83%.</li>
 </ol></div>
 
-<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>كتابة U = E + r × I للمولد أو U = E' − r' × I للمستقبل: المولد «يفقد» جزءاً من E والمستقبل «يضيف» إلى E'.</li>
-<li>الخلط بين E وU: يتساويان فقط عندما I = 0.</li>
-<li>إعطاء مردود أكبر من 1، أو كتابته بوحدة؛ المردود نسبة بلا وحدة.</li>
-<li>نسيان تربيع الشدة في حساب الاستطاعة الضائعة r × I<sup>2</sup>.</li>
+<div class="block warn"><h2>🟠 أخطاء شائعة في الامتحان</h2><ul>
+<li>كتابة U = E + r · I للمولد؛ الإشارة سالبة لأن جزءًا من التوتر يضيع داخل المولد.</li>
+<li>اعتبار المحرك ناقلًا أوميًا واستعمال U = R · I له.</li>
+<li>القول إن مردود الجهاز قد يتجاوز 100%.</li>
+<li>الخلط بين القوة المحركة E وتوتر القطبين U أثناء مرور التيار.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>مولد: U = E − r × I؛ E × I = U × I + r × I<sup>2</sup>؛ η = U / E.</li>
-<li>مستقبل: U = E' + r' × I؛ U × I = E' × I + r' × I<sup>2</sup>؛ η = E' / U.</li>
-<li>ناقل أومي = مستقبل بـE' = 0.</li>
-<li>مولد + مستقبل: I = (E − E') / (r + r').</li>
-<li>الحصيلة دائماً: الكلية = النافعة + الضائعة.</li>
+<li>مولد: U = E − r · I، ومستقبل: U = E' + r' · I.</li>
+<li>الضياع بجول في المقاومة الداخلية دائمًا r · I² أو r' · I².</li>
+<li>المردود = المفيد / المقدَّم، وهو أقل من 1.</li>
+<li>I<sub>cc</sub> = E / r للمولد.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

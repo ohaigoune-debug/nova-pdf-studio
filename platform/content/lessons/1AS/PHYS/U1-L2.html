@@ -42,55 +42,45 @@ figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;
 <div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 1: المادة وتحولاتها · الدرس 2</div>
 <h1>الكتلة المولية والحجم المولي للغازات</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن تحسب الكتلة المولية لنوع كيميائي من الكتل المولية الذرية، وأن تحدّد كمية المادة انطلاقاً من الكتلة أو من حجم الغاز.</p>
+<p class="goal"><span class="k">الهدف:</span> أن تحسب الكتلة المولية لجسم انطلاقًا من الكتل المولية الذرية، وأن تستعمل العلاقتين n = m / M وn = V / V<sub>m</sub> لتحديد كمية المادة.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> الكتلة المولية M هي كتلة مول واحد من الأفراد، فتعطينا n = m / M. أما الغازات فمول واحد منها يشغل الحجم نفسه V<sub>m</sub> مهما كانت طبيعة الغاز، في الشروط نفسها من ضغط ودرجة حرارة، فتعطينا n = V / V<sub>m</sub>.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الكتلة المولية هي كتلة مول واحد من الجسم، والحجم المولي هو حجم مول واحد من غاز. بهاتين الكميتين نحوّل كتلة تُقاس بالميزان أو حجمًا يُقاس بالمخبار إلى كمية مادة بالمول.</div>
 
 <figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
-<circle cx="270" cy="88" r="38" fill="#fde68a" stroke="#a16207" stroke-width="2"/>
-<text x="270" y="84" text-anchor="middle" font-weight="700">كمية المادة</text><text x="270" y="104" text-anchor="middle" font-weight="700">n (mol)</text>
-<rect x="400" y="20" width="125" height="50" rx="10" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
-<text x="462" y="41" text-anchor="middle" font-size="13">الكتلة m (g)</text><text x="462" y="60" text-anchor="middle" font-size="13" fill="#1d4ed8">n = m / M</text>
-<line x1="398" y1="50" x2="312" y2="72" stroke="#1f2937" stroke-width="2" marker-end="url(#ar2)"/>
-<rect x="15" y="20" width="125" height="50" rx="10" fill="#86efac" stroke="#15803d" stroke-width="2"/>
-<text x="77" y="41" text-anchor="middle" font-size="13">حجم الغاز V (L)</text><text x="77" y="60" text-anchor="middle" font-size="13" fill="#15803d">n = V / Vm</text>
-<line x1="142" y1="50" x2="228" y2="72" stroke="#1f2937" stroke-width="2" marker-end="url(#ar2)"/>
-<rect x="400" y="110" width="125" height="50" rx="10" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
-<text x="462" y="131" text-anchor="middle" font-size="13">عدد الأفراد N</text><text x="462" y="150" text-anchor="middle" font-size="13" fill="#1d4ed8">n = N / NA</text>
-<line x1="398" y1="130" x2="312" y2="106" stroke="#1f2937" stroke-width="2" marker-end="url(#ar2)"/>
-<rect x="15" y="110" width="125" height="50" rx="10" fill="#86efac" stroke="#15803d" stroke-width="2"/>
-<text x="77" y="131" text-anchor="middle" font-size="12">Vm = 22.4 L/mol (0°C)</text><text x="77" y="150" text-anchor="middle" font-size="12">Vm = 24 L/mol (20°C)</text>
-</svg><figcaption>الشكل 1: ثلاث طرق للوصول إلى كمية المادة n: من الكتلة، من حجم الغاز، أو من عدد الأفراد.</figcaption></figure>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<rect x="20" y="20" width="130" height="60" rx="10" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="85" y="56" text-anchor="middle" font-weight="700">الكتلة m (g)</text>
+<rect x="20" y="105" width="130" height="60" rx="10" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="85" y="141" text-anchor="middle" font-weight="700">الحجم V (L)</text>
+<rect x="205" y="60" width="130" height="60" rx="10" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="270" y="96" text-anchor="middle" font-weight="700">كمية المادة n</text>
+<line x1="150" y1="50" x2="205" y2="80" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/><line x1="150" y1="135" x2="205" y2="105" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<text x="440" y="60" text-anchor="middle" fill="#1d4ed8">n = m / M</text><text x="440" y="100" text-anchor="middle" fill="#15803d">n = V / V_m</text><text x="440" y="140" text-anchor="middle" font-size="13">V_m ≈ 24 L/mol</text>
+</svg><figcaption>الشكل 1: الكتلة والحجم يؤديان إلى كمية المادة عبر M وV<sub>m</sub>.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">الكتلة المولية الذرية</span> M هي كتلة مول واحد من ذرات العنصر، وحدتها g/mol، وتُقرأ من الجدول الدوري: M(H) = 1، M(C) = 12، M(O) = 16، M(N) = 14، M(Na) = 23، M(Cl) = 35.5.</li>
-<li><span class="k">الكتلة المولية الجزيئية</span> هي مجموع الكتل المولية الذرية لذرات الجزيء: M(H<sub>2</sub>O) = 2×1 + 16 = 18 g/mol.</li>
-<li><span class="k">العلاقة بين الكتلة وكمية المادة:</span> n = m / M، ومنها m = n × M.</li>
-<li><span class="k">الحجم المولي للغاز</span> V<sub>m</sub> هو الحجم الذي يشغله مول واحد من أي غاز؛ لا يتعلق بطبيعة الغاز بل بالضغط ودرجة الحرارة فقط (قانون أفوغادرو–أمبير).</li>
-<li>في الشروط النظامية (0°C، 1 atm): V<sub>m</sub> = 22.4 L/mol؛ وفي الشروط العادية (20°C تقريباً): V<sub>m</sub> ≈ 24 L/mol.</li>
-<li><span class="k">كمية مادة الغاز:</span> n = V / V<sub>m</sub>، ومنها V = n × V<sub>m</sub>.</li>
-<li><span class="k">الكتلة الحجمية</span> ρ = m / V (g/L للغازات)، و<span class="k">كثافة الغاز</span> بالنسبة للهواء d = M / 29.</li>
+<li><span class="k">الكتلة المولية M:</span> كتلة مول من الجسم، وحدتها g/mol.</li>
+<li><span class="k">الكتلة المولية الجزيئية:</span> مجموع الكتل المولية الذرية لكل الذرات في الجزيء.</li>
+<li><span class="k">العلاقة:</span> n = m / M، ومنها m = n × M.</li>
+<li><span class="k">الحجم المولي V<sub>m</sub>:</span> حجم مول من غاز في شروط معينة من الحرارة والضغط، وحدته L/mol.</li>
+<li>في الشروط العادية للمخبر (حوالي 20°C و1 atm) نأخذ V<sub>m</sub> ≈ 24 L/mol.</li>
+<li><span class="k">العلاقة:</span> n = V / V<sub>m</sub>. وهي لا تتعلق بنوع الغاز.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>احسب كمية المادة في 36 g من الماء. <span class="k">الحل:</span> M(H<sub>2</sub>O) = 18 g/mol، إذن n = 36 / 18 = 2 mol.</li>
-<li>غاز CO<sub>2</sub> حجمه 11.2 L في الشروط النظامية. <span class="k">الحل:</span> n = 11.2 / 22.4 = 0.5 mol؛ M(CO<sub>2</sub>) = 12 + 2×16 = 44 g/mol، فالكتلة m = 0.5 × 44 = 22 g.</li>
-<li>ما كتلة 0.2 mol من كلور الصوديوم NaCl؟ <span class="k">الحل:</span> M = 23 + 35.5 = 58.5 g/mol، إذن m = 0.2 × 58.5 = 11.7 g.</li>
+<li>M(H<sub>2</sub>O) مع M(H) = 1 وM(O) = 16 g/mol. <span class="k">الحل:</span> M = 2×1 + 16 = 18 g/mol. وفي 36 g ماء: n = 36 / 18 = 2 mol.</li>
+<li>كتلة 0.25 mol من CO<sub>2</sub> علمًا أن M(C) = 12. <span class="k">الحل:</span> M = 12 + 2×16 = 44 g/mol، فـ m = 0.25 × 44 = 11 g.</li>
+<li>كمية المادة في 48 L من غاز في الشروط العادية. <span class="k">الحل:</span> n = 48 / 24 = 2 mol.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>نسيان ضرب الكتلة المولية الذرية في عدد الذرات (كتابة M(O<sub>2</sub>) = 16 بدل 32).</li>
-<li>استعمال V<sub>m</sub> لحساب كمية مادة سائل أو صلب؛ الحجم المولي خاص بالغازات فقط.</li>
-<li>عدم تحويل الحجم إلى اللتر (mL أو cm<sup>3</sup>) قبل القسمة على V<sub>m</sub>.</li>
-<li>الخلط بين <span class="k">الكتلة المولية M</span> (g/mol) و<span class="k">الكتلة m</span> (g) في العلاقة n = m / M.</li>
+<li>نسيان ضرب الكتلة المولية الذرية في عدد الذرات (مثل الرقم 2 في H<sub>2</sub>O).</li>
+<li>استعمال V<sub>m</sub> للمواد الصلبة أو السائلة، وهي خاصة بالغازات.</li>
+<li>خلط الوحدات: g مع kg، أو L مع mL.</li>
+<li>الاعتقاد أن V<sub>m</sub> يتغير بتغير نوع الغاز، والصحيح أنه يتغير بالحرارة والضغط.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>M(جزيء) = مجموع M الذرات (g/mol).</li>
-<li>n = m / M لكل الحالات (صلب، سائل، غاز).</li>
-<li>n = V / V<sub>m</sub> للغازات فقط.</li>
-<li>V<sub>m</sub> = 22.4 L/mol في الشروط النظامية، واحد لجميع الغازات.</li>
-<li>تحقّق دائماً من الوحدات: g، L، mol.</li>
+<li>n = m / M (M بوحدة g/mol).</li>
+<li>n = V / V<sub>m</sub> (غازات فقط).</li>
+<li>V<sub>m</sub> ≈ 24 L/mol في الشروط العادية.</li>
+<li>M(جزيء) = مجموع الكتل المولية الذرية.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

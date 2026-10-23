@@ -42,55 +42,46 @@ figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;
 <div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 1: المادة وتحولاتها · الدرس 3</div>
 <h1>المحاليل المائية والتركيز المولي</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن تعرّف المحلول المائي والتركيز المولي، وأن تحسب التركيز عند التحضير بالإذابة أو بالتمديد.</p>
+<p class="goal"><span class="k">الهدف:</span> أن تعرّف المحلول المائي والتركيز المولي، وأن تحسب التركيز وتحضّر محلولًا بالإذابة أو بالتمديد.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> المحلول المائي = مذاب مُذاب في الماء (المذيب). التركيز المولي C = n / V يقيس كمية المذاب في لتر واحد من المحلول. عند التمديد نضيف ماء فقط، فكمية مادة المذاب تبقى ثابتة: C<sub>0</sub> × V<sub>0</sub> = C<sub>1</sub> × V<sub>1</sub>.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المحلول المائي مزيج متجانس من مذاب في الماء (المذيب). التركيز المولي يقيس كمية المذاب في كل لتر من المحلول، وبه نقارن المحاليل ونحضّرها بدقة.</div>
 
 <figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
-<path d="M430 20 h20 v45 l25 70 h-70 l25 -70 z" fill="none" stroke="#1f2937" stroke-width="2"/>
-<path d="M413 100 l-8 35 h70 l-8 -35 z" fill="#1d4ed8"/>
-<text x="440" y="155" text-anchor="middle" font-size="13">محلول أمّ</text><text x="440" y="170" text-anchor="middle" font-size="12" fill="#1d4ed8">C0 ، V0</text>
-<line x1="395" y1="90" x2="330" y2="90" stroke="#1f2937" stroke-width="2" marker-end="url(#ar3)"/>
-<text x="362" y="80" text-anchor="middle" font-size="12">نأخذ V0 بالماصّة</text>
-<path d="M260 20 h20 v45 l25 70 h-70 l25 -70 z" fill="none" stroke="#1f2937" stroke-width="2"/>
-<path d="M240 125 h60 l-2 10 h-56 z" fill="#1d4ed8"/>
-<text x="270" y="155" text-anchor="middle" font-size="13">نكمل بالماء</text><text x="270" y="170" text-anchor="middle" font-size="12">حتى الخط</text>
-<line x1="225" y1="90" x2="160" y2="90" stroke="#1f2937" stroke-width="2" marker-end="url(#ar3)"/>
-<text x="192" y="80" text-anchor="middle" font-size="12">نرجّ</text>
-<path d="M90 20 h20 v45 l25 70 h-70 l25 -70 z" fill="none" stroke="#1f2937" stroke-width="2"/>
-<path d="M98 50 l-25 70 h54 l-25 -70 z" fill="#dbe6ff"/><line x1="100" y1="50" x2="110" y2="50" stroke="#c2410c" stroke-width="2"/>
-<text x="100" y="155" text-anchor="middle" font-size="13">محلول ممدّد</text><text x="100" y="170" text-anchor="middle" font-size="12" fill="#1d4ed8">C1 = C0 × V0 / V1</text>
-</svg><figcaption>الشكل 1: مراحل التمديد في حوجلة عيارية؛ كمية مادة المذاب n لا تتغير فيقلّ التركيز.</figcaption></figure>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<path d="M60 40 v100 a10 10 0 0 0 10 10 h50 a10 10 0 0 0 10 -10 v-100" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><rect x="62" y="80" width="66" height="68" fill="#86efac" opacity="0.6"/>
+<text x="95" y="30" text-anchor="middle" font-size="13">المحلول الأم</text><text x="95" y="120" text-anchor="middle" font-size="12">C<tspan font-size="9" dy="3">1</tspan></text>
+<line x1="150" y1="95" x2="250" y2="95" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/><text x="200" y="85" text-anchor="middle" font-size="13">أخذ V<tspan font-size="9" dy="3">1</tspan></text>
+<path d="M270 40 v100 a10 10 0 0 0 10 10 h50 a10 10 0 0 0 10 -10 v-100" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><rect x="272" y="40" width="66" height="108" fill="#86efac" opacity="0.25"/>
+<text x="305" y="30" text-anchor="middle" font-size="13">المحلول الابن</text><text x="305" y="120" text-anchor="middle" font-size="12">C<tspan font-size="9" dy="3">2</tspan></text>
+<text x="450" y="80" text-anchor="middle" fill="#c2410c">C = n / V</text><text x="450" y="115" text-anchor="middle" fill="#c2410c">C<tspan font-size="11" dy="3">1</tspan><tspan dy="-3">V</tspan><tspan font-size="11" dy="3">1</tspan><tspan dy="-3"> = C</tspan><tspan font-size="11" dy="3">2</tspan><tspan dy="-3">V</tspan><tspan font-size="11" dy="3">2</tspan></text>
+</svg><figcaption>الشكل 1: التمديد يضيف الماء فتبقى كمية المذاب ثابتة ويقل التركيز.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">المحلول</span> مزيج متجانس من <span class="k">مذاب</span> (صلب أو سائل أو غاز) و<span class="k">مذيب</span>؛ إذا كان المذيب هو الماء سُمّي <span class="k">محلولاً مائياً</span>.</li>
-<li><span class="k">التركيز المولي</span> C = n / V، حيث n كمية مادة المذاب (mol) وV حجم المحلول (L)، ووحدته mol/L.</li>
-<li><span class="k">التركيز الكتلي</span> C<sub>m</sub> = m / V بوحدة g/L، والعلاقة بينهما: C<sub>m</sub> = C × M.</li>
-<li><span class="k">التحضير بالإذابة:</span> نزن كتلة m من المذاب، نذيبها في قليل من الماء داخل حوجلة عيارية، ثم نكمل بالماء إلى خط العيار ونرجّ.</li>
-<li><span class="k">التحضير بالتمديد:</span> نأخذ حجماً V<sub>0</sub> من محلول أمّ تركيزه C<sub>0</sub> ونضيف الماء حتى الحجم V<sub>1</sub>؛ فيكون C<sub>0</sub>V<sub>0</sub> = C<sub>1</sub>V<sub>1</sub>.</li>
-<li><span class="k">معامل التمديد</span> F = C<sub>0</sub> / C<sub>1</sub> = V<sub>1</sub> / V<sub>0</sub>، وهو دائماً أكبر من 1.</li>
-<li><span class="k">المحلول المشبع</span> هو الذي لا يقبل إذابة كمية إضافية من المذاب عند درجة حرارة معيّنة.</li>
+<li><span class="k">المحلول:</span> مذاب + مذيب. وفي المحلول المائي المذيب هو الماء.</li>
+<li><span class="k">التركيز المولي:</span> C = n / V، وحدته mol/L، حيث V حجم المحلول لا حجم الماء المضاف.</li>
+<li><span class="k">التركيز الكتلي:</span> C<sub>m</sub> = m / V بوحدة g/L، والعلاقة C<sub>m</sub> = C × M.</li>
+<li><span class="k">الإذابة:</span> NaCl يتفكك إلى Na<sup>+</sup> وCl<sup>-</sup>، فتركيز كل أيون يساوي C لأن نسبة التفكك 1 إلى 1.</li>
+<li><span class="k">التمديد:</span> كمية المذاب لا تتغير، فنكتب C<sub>1</sub>V<sub>1</sub> = C<sub>2</sub>V<sub>2</sub>. وعامل التمديد F = C<sub>1</sub> / C<sub>2</sub>.</li>
+<li>نستعمل الماصة المعيّرة والحوجلة العيارية لدقة التحضير.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>نذيب 5.85 g من NaCl في الماء لنحصل على 500 mL من المحلول. <span class="k">الحل:</span> M(NaCl) = 58.5 g/mol، إذن n = 5.85 / 58.5 = 0.1 mol؛ V = 0.5 L؛ C = 0.1 / 0.5 = 0.2 mol/L.</li>
-<li>نأخذ 10 mL من محلول تركيزه 0.5 mol/L ونمدّده إلى 100 mL. <span class="k">الحل:</span> C<sub>1</sub> = C<sub>0</sub>V<sub>0</sub> / V<sub>1</sub> = 0.5 × 10 / 100 = 0.05 mol/L، ومعامل التمديد F = 100 / 10 = 10.</li>
-<li>محلول غلوكوز تركيزه المولي 0.1 mol/L وكتلته المولية 180 g/mol. <span class="k">الحل:</span> C<sub>m</sub> = C × M = 0.1 × 180 = 18 g/L.</li>
+<li>أُذيب 5.85 g من NaCl (M = 58.5 g/mol) في حوجلة 500 mL. <span class="k">الحل:</span> n = 5.85 / 58.5 = 0.1 mol، فـ C = 0.1 / 0.5 = 0.2 mol/L.</li>
+<li>كتلة NaOH (M = 40 g/mol) اللازمة لتحضير 250 mL بتركيز 0.2 mol/L. <span class="k">الحل:</span> n = 0.2 × 0.25 = 0.05 mol، فـ m = 0.05 × 40 = 2 g.</li>
+<li>تحضير 100 mL بتركيز 0.1 mol/L من محلول أم تركيزه 1 mol/L. <span class="k">الحل:</span> V<sub>1</sub> = C<sub>2</sub>V<sub>2</sub> / C<sub>1</sub> = 0.1 × 100 / 1 = 10 mL، ثم نكمل بالماء إلى خط العيار (F = 10).</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>قسمة n على حجم المذيب (الماء المضاف) بدل <span class="k">حجم المحلول</span> الكلي.</li>
-<li>ترك الحجم بالمليلتر في علاقة C = n / V؛ يجب تحويله إلى اللتر.</li>
-<li>الاعتقاد أن التمديد يغيّر كمية مادة المذاب؛ الذي يتغير هو الحجم والتركيز فقط.</li>
-<li>الخلط بين التركيز المولي (mol/L) والتركيز الكتلي (g/L).</li>
+<li>استعمال الحجم بـ mL مباشرة في C = n / V دون تحويله إلى لتر.</li>
+<li>إضافة الماء بحجم يساوي V<sub>2</sub> بدل إكمال الحجم إلى خط العيار.</li>
+<li>الظن أن تركيز المحلول يتغير بتغير الحجم المأخوذ منه.</li>
+<li>الخلط بين التركيز الكتلي والمولي.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>C = n / V بوحدة mol/L، وV حجم المحلول باللتر.</li>
-<li>C<sub>m</sub> = m / V = C × M.</li>
-<li>تمديد: n ثابت ⇒ C<sub>0</sub>V<sub>0</sub> = C<sub>1</sub>V<sub>1</sub>.</li>
-<li>F = C<sub>0</sub> / C<sub>1</sub> = V<sub>1</sub> / V<sub>0</sub> &gt; 1.</li>
-<li>الأدوات: ميزان، حوجلة عيارية، ماصّة، إجاصة مصّ.</li>
+<li>C = n / V بوحدة mol/L.</li>
+<li>C<sub>m</sub> = C × M.</li>
+<li>التمديد: C<sub>1</sub>V<sub>1</sub> = C<sub>2</sub>V<sub>2</sub>.</li>
+<li>حوّل الحجم إلى لتر دائمًا.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

@@ -42,55 +42,47 @@ figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;
 <div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 3: الظواهر الكهربائية · الدرس 2</div>
 <h1>المميزة توتر-شدة وقانون أوم</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن ترسم المميزة توتر-شدة U = f(I) لناقل أومي انطلاقاً من قياسات تجريبية، وتستنتج منها قانون أوم، وتميّز الناقل الأومي عن العناصر غير الأومية.</p>
+<p class="goal"><span class="k">الهدف:</span> أن ترسم المميزة توتر-شدة لناقل أومي وتستنتج منها مقاومته، وأن تطبّق قانون أوم وقواعد تجميع النواقل الأومية.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> المميزة توتر-شدة هي المنحنى البياني الذي يمثّل التوتر بين طرفي ثنائي القطب بدلالة الشدة التي تجتازه. إذا كانت خطاً مستقيماً يمر بالمبدأ فالعنصر ناقل أومي يخضع لقانون أوم U = R × I، وميل المستقيم هو المقاومة R.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المميزة توتر-شدة منحنى يمثل U بدلالة I لعنصر كهربائي. إذا كانت مستقيمًا يمر من المبدأ فالعنصر ناقل أومي، وميله هو مقاومته.</div>
 
 <figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
-<line x1="80" y1="150" x2="335" y2="150" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar2)"/><line x1="80" y1="150" x2="80" y2="18" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar2)"/>
-<text x="210" y="170" text-anchor="middle" font-size="13">الشدة I (A)</text><text x="62" y="85" text-anchor="middle" font-size="13" transform="rotate(-90 62 85)">التوتر U (V)</text>
-<line x1="80" y1="150" x2="300" y2="45" stroke="#1d4ed8" stroke-width="2.5"/>
-<text x="240" y="30" text-anchor="middle" font-size="12" fill="#1d4ed8">ناقل أومي: مستقيم بالمبدأ</text>
-<path d="M80 150 C 170 135, 230 115, 262 55" fill="none" stroke="#c2410c" stroke-width="2" stroke-dasharray="5 3"/>
-<text x="305" y="80" text-anchor="middle" font-size="12" fill="#c2410c">مصباح (غير أومي)</text>
-<line x1="240" y1="74" x2="240" y2="150" stroke="#15803d" stroke-dasharray="3 3"/><line x1="80" y1="74" x2="240" y2="74" stroke="#15803d" stroke-dasharray="3 3"/>
-<circle cx="240" cy="74" r="3.5" fill="#15803d"/>
-<text x="240" y="165" text-anchor="middle" font-size="12" fill="#15803d">I₁</text><text x="70" y="78" text-anchor="middle" font-size="12" fill="#15803d">U₁</text>
-<rect x="365" y="35" width="160" height="105" rx="10" fill="#fde68a" stroke="#a16207" stroke-width="1.5"/>
-<text x="445" y="62" text-anchor="middle" font-weight="700">قانون أوم: U = R × I</text>
-<text x="445" y="92" text-anchor="middle" font-size="14">R = U₁ / I₁ = الميل</text>
-<text x="445" y="122" text-anchor="middle" font-size="13">U (V)، I (A)، R (Ω)</text>
-</svg><figcaption>الشكل 1: مميزة الناقل الأومي مستقيم يمر بالمبدأ ميله R، بينما مميزة المصباح منحنية لأن مقاومته تتغير مع الحرارة.</figcaption></figure>
-
+<line x1="120" y1="150" x2="440" y2="150" stroke="#1f2937" stroke-width="2"/><line x1="120" y1="150" x2="120" y2="15" stroke="#1f2937" stroke-width="2"/>
+<text x="440" y="168" text-anchor="end">I (A)</text><text x="112" y="22" text-anchor="end">U (V)</text>
+<line x1="120" y1="150" x2="400" y2="30" stroke="#1d4ed8" stroke-width="3"/>
+<line x1="330" y1="150" x2="330" y2="60" stroke="#15803d" stroke-dasharray="4 3"/><line x1="120" y1="60" x2="330" y2="60" stroke="#15803d" stroke-dasharray="4 3"/>
+<text x="330" y="166" text-anchor="middle" font-size="13">I<tspan font-size="10" dy="3">1</tspan></text><text x="112" y="64" text-anchor="end" font-size="13">U<tspan font-size="10" dy="3">1</tspan></text>
+<text x="230" y="76" fill="#c2410c" font-weight="700">U = R · I</text>
+<text x="460" y="60" font-size="13" fill="#1d4ed8">مستقيم من المبدأ</text>
+<text x="30" y="90" font-size="13">الميل = R</text>
+</svg><figcaption>الشكل 1: مميزة ناقل أومي، والميل U / I ثابت ويساوي المقاومة.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">ثنائي القطب</span> عنصر كهربائي له مربطان (ناقل أومي، مصباح، صمام ثنائي، محرك...).</li>
-<li><span class="k">التركيب التجريبي:</span> مولد ذو توتر قابل للضبط، ثنائي القطب، أمبيرمتر على التسلسل وفولطمتر على التفرع؛ نسجّل أزواج (I ; U) في جدول ثم نرسم النقاط.</li>
-<li><span class="k">الناقل الأومي:</span> مميزته خط مستقيم يمر بالمبدأ؛ <span class="k">قانون أوم:</span> U = R × I، حيث R المقاومة بالأوم (Ω)، U بالفولط وI بالأمبير.</li>
-<li><span class="k">المقاومة R</span> تعبّر عن ممانعة الناقل لمرور التيار؛ تُقاس مباشرة بالأومتر (والناقل خارج الدارة) أو تُحسب من الميل R = U / I؛ 1 kΩ = 1000 Ω.</li>
-<li><span class="k">العناصر غير الأومية:</span> مميزة المصباح منحنية لأن مقاومة الفتيلة تزداد بارتفاع حرارتها؛ الصمام الثنائي لا يمرّر التيار إلا في جهة واحدة.</li>
-<li><span class="k">تجميع المقاومات:</span> على التسلسل R = R<sub>1</sub> + R<sub>2</sub>؛ على التفرع 1/R = 1/R<sub>1</sub> + 1/R<sub>2</sub>، والمقاومة المكافئة أصغر من أصغرهما.</li>
+<li><span class="k">المميزة توتر-شدة</span> تُرسم بقياس U لقيم مختلفة لـ I في دارة فيها ناقل ومولد متغير التوتر.</li>
+<li><span class="k">الناقل الأومي:</span> عنصر مميزته مستقيم يمر بالمبدأ.</li>
+<li><span class="k">قانون أوم:</span> U = R · I، حيث R <span class="k">المقاومة</span> وتُقاس بالأوم (Ω).</li>
+<li>مقاومة الناقل تساوي <span class="k">ميل المستقيم</span>: R = U / I، أي ثابتة بالنسبة لنفس الناقل.</li>
+<li><span class="k">التسلسل:</span> R<sub>eq</sub> = R<sub>1</sub> + R<sub>2</sub>.</li>
+<li><span class="k">التفرع:</span> 1 / R<sub>eq</sub> = 1 / R<sub>1</sub> + 1 / R<sub>2</sub>، وتكون R<sub>eq</sub> أصغر من أصغر مقاومة.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>ناقل أومي التوتر بين طرفيه 6 V والشدة التي تجتازه 200 mA. <span class="k">الحل:</span> نحوّل 200 mA = 0.2 A، ثم R = U / I = 6 / 0.2 = 30 Ω. وإذا رُفع التوتر إلى 9 V: I = 9 / 30 = 0.3 A.</li>
-<li>مميزة مستقيمة تمر بالمبدأ وبالنقطة (0.5 A ; 10 V). <span class="k">الحل:</span> R = الميل = 10 / 0.5 = 20 Ω.</li>
-<li>مقاومتان 30 Ω و60 Ω. <span class="k">الحل:</span> على التسلسل R = 30 + 60 = 90 Ω؛ على التفرع 1/R = 1/30 + 1/60 = 3/60 = 1/20 فتكون R = 20 Ω.</li>
+<li>ناقل توتره 12 V وتيّاره 0,4 A. <span class="k">الحل:</span> R = 12 / 0,4 = 30 Ω.</li>
+<li>مقاومة 100 Ω يعبرها تيار 50 mA = 0,05 A. <span class="k">الحل:</span> U = 100 × 0,05 = 5 V.</li>
+<li>مقاومتان 60 Ω و30 Ω على التفرع. <span class="k">الحل:</span> R<sub>eq</sub> = (60 × 30) / (60 + 30) = 1800 / 90 = 20 Ω. وعلى التسلسل: 60 + 30 = 90 Ω.</li>
 </ol></div>
 
-<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>كتابة R = U × I أو I = U × R بدل U = R × I.</li>
-<li>نسيان تحويل mA إلى A وkΩ إلى Ω قبل الحساب.</li>
-<li>اعتبار مميزة المصباح خطاً مستقيماً وتطبيق قانون أوم عليه بقيمة واحدة لـR.</li>
-<li>وصل النقاط التجريبية بخط متكسر بدل تمرير المستقيم الأنسب بينها، أو اختيار سلّم غير مناسب.</li>
+<div class="block warn"><h2>🟠 أخطاء شائعة في الامتحان</h2><ul>
+<li>تطبيق قانون أوم على عنصر غير أومي (كالصمام الثنائي) رغم أن مميزته ليست مستقيمًا.</li>
+<li>حساب الميل كـ I / U فتنقلب النتيجة؛ الميل هنا U / I.</li>
+<li>استعمال جمع المقاومات مباشرة في التفرع.</li>
+<li>عدم تحويل kΩ وmA إلى Ω وA قبل الحساب.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>المميزة U = f(I) مستقيم بالمبدأ ⇔ ناقل أومي.</li>
-<li>قانون أوم: U = R × I؛ R بالأوم (Ω) = ميل المستقيم.</li>
-<li>المصباح والصمام الثنائي عنصران غير أوميين.</li>
-<li>تسلسل: R = R<sub>1</sub> + R<sub>2</sub>؛ تفرع: 1/R = 1/R<sub>1</sub> + 1/R<sub>2</sub>.</li>
-<li>حوّل الوحدات دائماً قبل الحساب.</li>
+<li>ناقل أومي: مميزة مستقيمة من المبدأ.</li>
+<li>U = R · I، والمقاومة بالأوم.</li>
+<li>تسلسل: R تُجمع.</li>
+<li>تفرع: مقلوبات R تُجمع، والنتيجة أصغر مقاومة.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
