@@ -320,6 +320,10 @@ export interface ResourceListFilter {
   excludeBac?: boolean
   /** تلميذ مسجّل: يرى أيضاً ما خُصّ به فوجه */
   studentId?: string | null
+  /** الشعبة: موارد الشعبة + المشتركة بين الشعب (stream_id فارغ) */
+  streamId?: string | null
+  /** الفصل الدراسي 1–3 (resources.school_term)؛ لا يُخمَّن من العنوان */
+  term?: number | null
 }
 
 /** رابط فتح المورد: الملف المخزَّن عندنا أولاً، ثم الملف أو الصفحة عند المصدر */
@@ -340,6 +344,8 @@ export async function listResourceCards(db: Db, f: ResourceListFilter, page: { c
     inArray(resources.type, f.types),
     f.levelId ? eq(resources.levelId, f.levelId) : undefined,
     f.subjectId ? eq(resources.subjectId, f.subjectId) : undefined,
+    f.streamId ? or(eq(resources.streamId, f.streamId), isNull(resources.streamId)) : undefined,
+    f.term ? eq(resources.schoolTerm, f.term) : undefined,
     q.length >= 2 ? (ts ? or(sql`${resources.title} ilike ${`%${esc(q)}%`}`, sql`${resources}."search" @@ to_tsquery('simple', ${ts})`) : sql`${resources.title} ilike ${`%${esc(q)}%`}`) : undefined,
     // البكالوريا الرسمية: امتحان رسمي في السنة الثالثة ثانوي أو وثيقة BAC في محرّك الامتحانات
     f.excludeBac ? sql`not exists (select 1 from exam_documents d where d.resource_id = ${resources.id} and d.doc_type = 'BAC')` : undefined,
@@ -403,6 +409,8 @@ export async function practiceCounts(db: Db, f: Omit<ResourceListFilter, 'types'
         inArray(resources.type, all),
         f.levelId ? eq(resources.levelId, f.levelId) : undefined,
         f.subjectId ? eq(resources.subjectId, f.subjectId) : undefined,
+        f.streamId ? or(eq(resources.streamId, f.streamId), isNull(resources.streamId)) : undefined,
+        f.term ? eq(resources.schoolTerm, f.term) : undefined,
         f.excludeBac ? sql`not exists (select 1 from exam_documents d where d.resource_id = ${resources.id} and d.doc_type = 'BAC')` : undefined,
         f.excludeBac ? sql`not (${resources.isOfficial} and ${resources.type} in ('EXAM', 'SOLUTION') and ${resources.levelId} is not distinct from (select l.id from levels l where l.code = '3AS'))` : undefined
       )

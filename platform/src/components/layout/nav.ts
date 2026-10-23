@@ -30,11 +30,13 @@ export function navFor(role: UserRole): NavSection[] {
         {
           title: 'التعلّم',
           items: [
-            { href: '/student/courses', label: 'دوراتي', iconKey: 'BookMarked' },
+            { href: '/student/courses', label: 'دوراتي', iconKey: 'BookMarked', exact: true },
+            { href: '/student/courses/catalog', label: 'كتالوج الدورات', iconKey: 'Store' },
             { href: '/student/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' },
             { href: '/student/play', label: 'MADRASADZ PLAY', iconKey: 'Gamepad2' },
             { href: '/student/lessons', label: t('nav.myLessons'), iconKey: 'BookOpen' },
             { href: '/student/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
+            { href: '/student/exams', label: 'الفروض والاختبارات', iconKey: 'FileText' },
             { href: '/student/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
             { href: '/student/practice', label: 'تدريب ذاتي', iconKey: 'Dumbbell' },
             { href: '/student/grades', label: t('nav.grades'), iconKey: 'GraduationCap' },

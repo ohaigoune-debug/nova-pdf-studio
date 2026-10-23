@@ -12,7 +12,13 @@ import { listResourceCards, PRACTICE_KINDS, practiceCounts, type PracticeKind } 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'الفروض والاختبارات' }
 
-type Q = { level?: string; subject?: string; kind?: string; q?: string; cursor?: string }
+type Q = { level?: string; subject?: string; stream?: string; kind?: string; term?: string; q?: string; cursor?: string }
+
+const TERMS = [
+  { n: 1, label: 'الفصل الأول' },
+  { n: 2, label: 'الفصل الثاني' },
+  { n: 3, label: 'الفصل الثالث' }
+] as const
 
 /**
  * /exams — الفروض والاختبارات والتمارين لكل المستويات (4 متوسط، 1 ثانوي…)، مرشّحة بمستوى الزائر والمادة.
@@ -25,7 +31,9 @@ export default async function ExamsPage({ searchParams }: { searchParams: Promis
   const studentId = actor?.studentId ?? null
   const subjectId = sp.subject && /^[0-9a-f-]{36}$/i.test(sp.subject) ? sp.subject : null
   const kind = PRACTICE_KINDS.find((k) => k.key === sp.kind) ?? null
-  const scope = { levelId: level?.id ?? null, subjectId, excludeBac: true, studentId }
+  const streamId = sp.stream && /^[0-9a-f-]{36}$/i.test(sp.stream) ? sp.stream : null
+  const term = sp.term && ['1', '2', '3'].includes(sp.term) ? Number(sp.term) : null
+  const scope = { levelId: level?.id ?? null, subjectId, streamId, term, excludeBac: true, studentId }
   const allTypes = PRACTICE_KINDS.flatMap((k) => k.types)
   const [list, counts, subjectOpts] = await Promise.all([listResourceCards(db, { ...scope, types: kind ? [...kind.types] : allTypes, q: sp.q ?? null }, { cursor: sp.cursor ?? null, limit: 24 }), practiceCounts(db, scope), subjectsForLevel(db, level?.id ?? null)])
   const link = (patch: Partial<Q>) => {
@@ -38,7 +46,7 @@ export default async function ExamsPage({ searchParams }: { searchParams: Promis
   return (
     <div className="container py-10">
       <PageHeader title="الفروض والاختبارات" description={`فروض واختبارات الفصول وسلاسل التمارين مع تصحيحاتها${level ? ` — ${level.label}` : ' لكل المستويات'}. مواضيع البكالوريا في «بنك البكالوريات السابقة».`} />
-      <LevelSubjectBar action="/exams" levelLabel={level?.label ?? null} subjects={subjectOpts} subjectId={subjectId} q={sp.q} hidden={{ kind: sp.kind, level: sp.level }} placeholder="ابحث: فرض الفصل الأول، الدوال، الإعراب…" />
+      <LevelSubjectBar action="/exams" levelLabel={level?.label ?? null} subjects={subjectOpts} subjectId={subjectId} q={sp.q} hidden={{ kind: sp.kind, level: sp.level, term: sp.term, stream: sp.stream }} placeholder="ابحث: فرض الفصل الأول، الدوال، الإعراب…" />
 
       <nav className="mb-5 flex flex-wrap gap-2" aria-label="النوع">
         <Link href={link({ kind: undefined })} className={chip(!kind)}>
@@ -47,6 +55,16 @@ export default async function ExamsPage({ searchParams }: { searchParams: Promis
         {PRACTICE_KINDS.map((k) => (
           <Link key={k.key} href={link({ kind: k.key })} className={chip(kind?.key === k.key)}>
             {k.label} ({counts[k.key as PracticeKind]})
+          </Link>
+        ))}
+      </nav>
+      <nav className="mb-5 flex flex-wrap gap-2" aria-label="الفصل">
+        <Link href={link({ term: undefined })} className={chip(!term)}>
+          كل الفصول
+        </Link>
+        {TERMS.map((t) => (
+          <Link key={t.n} href={link({ term: String(t.n) })} className={chip(term === t.n)}>
+            {t.label}
           </Link>
         ))}
       </nav>

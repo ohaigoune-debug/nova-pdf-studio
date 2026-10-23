@@ -22,6 +22,9 @@ export interface ContentInput {
   streamId?: string | null
   topic?: string | null
   skillId?: string | null
+  /** المادة وعقدة المنهاج (وحدة/درس) — اختياريان؛ يرتّبان الدرس في «دروسي» بترتيب المنهاج */
+  subjectId?: string | null
+  curriculumNodeId?: string | null
   visibility: Visibility
   groupIds?: string[]
   studentIds?: string[]
@@ -124,6 +127,8 @@ export async function createContent(db: Db, actor: Actor, input: ContentInput) {
         streamId: input.streamId ?? null,
         topic: input.topic?.trim() || null,
         skillId: input.skillId ?? null,
+        subjectId: input.subjectId ?? null,
+        curriculumNodeId: input.curriculumNodeId ?? null,
         visibility: input.visibility,
         publishedAt: input.publish ? new Date() : null,
         allowDownload: input.allowDownload ?? false,
@@ -151,6 +156,8 @@ export async function updateContent(db: Db, actor: Actor, id: string, input: Par
   if (input.streamId !== undefined) patch.streamId = input.streamId
   if (input.topic !== undefined) patch.topic = input.topic?.trim() || null
   if (input.skillId !== undefined) patch.skillId = input.skillId
+  if (input.subjectId !== undefined) patch.subjectId = input.subjectId
+  if (input.curriculumNodeId !== undefined) patch.curriculumNodeId = input.curriculumNodeId
   if (input.visibility !== undefined) patch.visibility = input.visibility
   if (input.publish !== undefined) patch.publishedAt = input.publish ? (c.publishedAt ?? new Date()) : null
   if (input.allowDownload !== undefined) patch.allowDownload = input.allowDownload

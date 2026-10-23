@@ -1,6 +1,7 @@
 import { ArrowLeft, Clock, FileText, Gamepad2, MessagesSquare, PlayCircle, Radio } from 'lucide-react'
 import Link from 'next/link'
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
+import { CourseLandingView } from '@/components/academy/course-landing'
 import { TermsGate } from '@/components/courses/terms-gate'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -11,6 +12,7 @@ import { formatDate, formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
+import { courseLanding } from '@/server/services/academy-catalog.service'
 import { courseHome, type CourseContentItem } from '@/server/services/courses.service'
 
 export const dynamic = 'force-dynamic'
@@ -41,12 +43,21 @@ function ContentList({ items, empty }: { items: CourseContentItem[]; empty: stri
 export default async function StudentCoursePage({ params }: { params: Promise<{ slug: string }> }) {
   const actor = await requirePageActor('STUDENT')
   const { slug } = await params
+  const db = await getDb()
   let home: Awaited<ReturnType<typeof courseHome>>
   try {
-    home = await courseHome(await getDb(), actor, slug)
+    home = await courseHome(db, actor, slug)
   } catch (err) {
-    if (isAppError(err) && err.code === 'COURSE_NOT_FOUND') notFound()
-    if (isAppError(err) && err.code === 'COURSE_NOT_ENROLLED') redirect('/student/courses')
+    // غير مشترك أو اشتراك منتهٍ/ملغى: صفحة التعريف (بيانات العرض فقط) بدل 404 — الاكتشاف مفصول عن الوصول.
+    if (isAppError(err) && (err.code === 'COURSE_NOT_FOUND' || err.code === 'COURSE_NOT_ENROLLED')) {
+      try {
+        const landing = await courseLanding(db, actor, slug)
+        return <CourseLandingView landing={landing} />
+      } catch (e2) {
+        if (isAppError(e2) && e2.code === 'COURSE_NOT_FOUND') notFound()
+        throw e2
+      }
+    }
     throw err
   }
 
