@@ -1,0 +1,1294 @@
+[
+ {
+  "key": "3AS-FR-U2-L2-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Reconnaître un connecteur introduisant une concession.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quel mot introduit habituellement une concession dans un débat ?",
+  "options": [
+   "Certes",
+   "Donc",
+   "Parce que",
+   "Enfin"
+  ],
+  "correct": 0,
+  "explanation": "« Certes » sert à admettre provisoirement un point de vue avant de le réfuter. « Donc » exprime une conséquence et « parce que » une cause : ils n'ont rien à voir avec la concession.",
+  "tags": [
+   "concession",
+   "connecteurs"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0002",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Définir le rôle de la concession dans l'argumentation.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Dans un débat d'idées, concéder consiste à :",
+  "options": [
+   "Rejeter totalement la thèse adverse",
+   "Résumer sa propre thèse",
+   "Admettre en partie la thèse adverse avant de la rejeter",
+   "Donner un exemple personnel"
+  ],
+  "correct": 2,
+  "explanation": "Concéder, c'est reconnaître qu'une partie de la thèse adverse est acceptable, pour mieux la réfuter ensuite. Rejeter totalement sans rien admettre n'est pas une concession mais une réfutation directe.",
+  "tags": [
+   "concession",
+   "définition"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0003",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Identifier la structure concession-réfutation dans une phrase.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Il est vrai que la télévision informe ; cependant, elle manipule souvent l'opinion. » Quelle est la structure de cette phrase ?",
+  "options": [
+   "Cause puis conséquence",
+   "Concession puis réfutation",
+   "Hypothèse puis conclusion",
+   "Exemple puis thèse"
+  ],
+  "correct": 1,
+  "explanation": "« Il est vrai que » concède un point à l'adversaire, puis « cependant » introduit la réfutation. Il n'y a ni rapport de cause ni hypothèse dans cette phrase.",
+  "tags": [
+   "concession",
+   "réfutation"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0004",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Distinguer une phrase concessive d'une simple addition d'arguments.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Lequel de ces énoncés contient une concession suivie d'une réfutation ?",
+  "options": [
+   "Le sport est bon pour la santé, et il développe l'esprit d'équipe.",
+   "Le sport est bon pour la santé parce qu'il muscle le corps.",
+   "Tout le monde fait du sport, donc c'est une bonne chose.",
+   "Même si le sport prend du temps, il reste indispensable à l'équilibre."
+  ],
+  "correct": 3,
+  "explanation": "« Même si » admet un inconvénient (le temps) puis la proposition principale le dépasse. Les autres énoncés ajoutent, expliquent ou concluent, sans admettre d'argument adverse.",
+  "tags": [
+   "concession",
+   "repérage"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0005",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Repérer l'absence de concession parmi des phrases proches.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Quelle phrase ne contient PAS de concession ?",
+  "options": [
+   "Bien que le téléphone soit utile, il distrait les élèves.",
+   "Certes le téléphone est utile ; toutefois il distrait les élèves.",
+   "Le téléphone distrait les élèves, car ils l'utilisent en classe.",
+   "Il est vrai que le téléphone est utile, mais il distrait les élèves."
+  ],
+  "correct": 2,
+  "explanation": "La troisième phrase exprime une cause avec « car » : aucun point n'est accordé à l'adversaire. Les trois autres admettent d'abord l'utilité du téléphone (bien que, certes, il est vrai que) avant de la contester.",
+  "tags": [
+   "concession",
+   "cause"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Choisir le verbe qui exprime la réfutation.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quel verbe exprime le mieux l'acte de réfuter ?",
+  "options": [
+   "Contester",
+   "Admettre",
+   "Reconnaître",
+   "Accorder"
+  ],
+  "correct": 0,
+  "explanation": "Réfuter, c'est contester un argument pour montrer qu'il est faux ou insuffisant. Admettre, reconnaître et accorder sont au contraire des verbes de concession.",
+  "tags": [
+   "réfutation",
+   "lexique"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0007",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Comprendre la stratégie argumentative de la concession.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Pourquoi un auteur commence-t-il souvent par concéder un point à son adversaire avant de le réfuter ?",
+  "options": [
+   "Pour montrer qu'il partage totalement son avis",
+   "Pour paraître objectif et rendre sa réfutation plus convaincante",
+   "Pour éviter d'exprimer sa propre opinion",
+   "Pour rendre son texte plus long"
+  ],
+  "correct": 1,
+  "explanation": "Admettre une partie de la thèse adverse donne une image de bonne foi et d'objectivité ; la réfutation qui suit paraît alors plus solide. Il ne s'agit pas de partager l'avis adverse, puisque l'auteur finit par le rejeter.",
+  "tags": [
+   "stratégie",
+   "argumentation"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0008",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Identifier la valeur de la tournure « avoir beau ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Les publicitaires ont beau promettre le bonheur, leurs produits ne le donnent pas. » La tournure « avoir beau » exprime :",
+  "options": [
+   "la cause",
+   "la conséquence",
+   "le but",
+   "la concession"
+  ],
+  "correct": 3,
+  "explanation": "« Avoir beau » signifie « même si » : on admet que les publicitaires promettent, puis on oppose la réalité. Ce n'est ni une cause ni une conséquence.",
+  "tags": [
+   "concession",
+   "avoir beau"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0009",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Compléter une phrase concessive avec les connecteurs adaptés.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "____, l'énergie nucléaire est puissante, ____ elle reste dangereuse.",
+  "blanks": [
+   "Certes",
+   "mais"
+  ],
+  "bank": [
+   "Certes",
+   "mais",
+   "donc",
+   "parce que",
+   "ainsi",
+   "car"
+  ],
+  "explanation": "« Certes » ouvre la concession et « mais » introduit la réfutation. « Donc » ou « car » créeraient un rapport logique de conséquence ou de cause qui ne convient pas au sens.",
+  "tags": [
+   "concession",
+   "connecteurs"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0010",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Employer le subjonctif après « bien que ».",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Bien que la publicité ____ utile aux commerçants, elle pousse à la surconsommation.",
+  "blanks": [
+   "soit"
+  ],
+  "bank": [
+   "soit",
+   "est",
+   "sera",
+   "serait",
+   "était"
+  ],
+  "explanation": "La conjonction concessive « bien que » est toujours suivie du subjonctif : « soit ». L'indicatif « est » est l'erreur la plus fréquente, mais il est incorrect après « bien que ».",
+  "tags": [
+   "concession",
+   "subjonctif"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0011",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Reconstituer un enchaînement concession-réfutation dans un paragraphe.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Les adversaires de cette mesure affirment qu'elle coûte cher. Il est vrai qu'elle ____ des moyens ; ____, elle économise de l'argent à long terme.",
+  "blanks": [
+   "exige",
+   "cependant"
+  ],
+  "bank": [
+   "exige",
+   "cependant",
+   "donc",
+   "car",
+   "interdit",
+   "puisque"
+  ],
+  "explanation": "La concession reprend l'argument adverse (« elle exige des moyens »), puis « cependant » marque l'opposition qui réfute. « Donc » ou « puisque » n'expriment pas d'opposition.",
+  "tags": [
+   "réfutation",
+   "paragraphe"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0012",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Accorder les verbes dans une phrase concessive introduite par « quoique ».",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Quoique les examens ____ stressants, ils ____ les efforts des élèves.",
+  "blanks": [
+   "soient",
+   "récompensent"
+  ],
+  "bank": [
+   "soient",
+   "sont",
+   "récompensent",
+   "récompense",
+   "punissent",
+   "soit"
+  ],
+  "explanation": "« Quoique » exige le subjonctif au pluriel (« soient ») ; la principale, à l'indicatif, prend un verbe pluriel au sens positif (« récompensent »). « Sont » est à l'indicatif et « soit » au singulier : tous deux sont fautifs ici.",
+  "tags": [
+   "concession",
+   "subjonctif",
+   "accord"
+  ]
+ },
+ {
+  "key": "3AS-FR-U2-L2-0013",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U2",
+  "lesson": "L2",
+  "objective": "Nommer les deux opérations argumentatives de la leçon.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Admettre une partie de la thèse adverse s'appelle ____ ; la rejeter ensuite par des arguments s'appelle ____.",
+  "blanks": [
+   "concéder",
+   "réfuter"
+  ],
+  "bank": [
+   "concéder",
+   "réfuter",
+   "illustrer",
+   "conclure",
+   "énumérer",
+   "narrer"
+  ],
+  "explanation": "Concéder et réfuter sont les deux temps de la prise de position dans un débat. Illustrer ou énumérer servent à développer un argument, pas à répondre à l'adversaire.",
+  "tags": [
+   "concession",
+   "réfutation",
+   "vocabulaire"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Identifier la visée d'un appel.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quelle est la visée principale d'un appel ?",
+  "options": [
+   "Raconter une histoire au lecteur",
+   "Pousser le destinataire à agir",
+   "Décrire un paysage avec précision",
+   "Expliquer un phénomène scientifique"
+  ],
+  "correct": 1,
+  "explanation": "L'appel est un texte exhortatif : il cherche à faire agir son destinataire. Raconter, décrire ou expliquer relèvent d'autres types de textes.",
+  "tags": [
+   "appel",
+   "visée"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0002",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Reconnaître le mode verbal dominant de l'exhortation.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quel mode verbal domine dans la partie exhortative d'un appel ?",
+  "options": [
+   "L'impératif",
+   "Le conditionnel",
+   "Le passé simple",
+   "Le plus-que-parfait"
+  ],
+  "correct": 0,
+  "explanation": "L'impératif (« agissez », « unissons-nous ») est le mode de l'ordre et du conseil, donc de l'exhortation. Le passé simple et le plus-que-parfait sont des temps du récit.",
+  "tags": [
+   "appel",
+   "impératif"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0003",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Connaître la structure habituelle d'un appel.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quelle est la structure habituelle d'un appel ?",
+  "options": [
+   "Thèse, antithèse, synthèse",
+   "Situation initiale, péripéties, dénouement",
+   "Constat de la situation, argumentation, exhortation",
+   "Introduction, exemple unique, conclusion"
+  ],
+  "correct": 2,
+  "explanation": "Un appel part d'un constat (partie expositive), justifie la nécessité d'agir (argumentation) puis lance l'exhortation. Le schéma situation initiale/péripéties/dénouement est celui du récit.",
+  "tags": [
+   "appel",
+   "structure"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0004",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Repérer la partie exhortative dans des énoncés.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Lequel de ces énoncés relève de la partie exhortative d'un appel ?",
+  "options": [
+   "Chaque année, des milliers d'hectares de forêt disparaissent.",
+   "Ce désastre a des causes multiples et anciennes.",
+   "Les scientifiques ont mesuré l'ampleur du phénomène.",
+   "Plantons des arbres, sauvons nos forêts !"
+  ],
+  "correct": 3,
+  "explanation": "Seul le dernier énoncé incite à agir avec des verbes à l'impératif. Les trois autres appartiennent au constat ou à l'argumentation.",
+  "tags": [
+   "appel",
+   "exhortation"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0005",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Analyser la valeur du pronom « nous » dans un appel.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Nous devons agir ensemble, aujourd'hui. » Quel est l'effet du pronom « nous » dans cet appel ?",
+  "options": [
+   "Marquer la distance entre l'auteur et le lecteur",
+   "Impliquer le lecteur dans l'action aux côtés de l'auteur",
+   "Désigner uniquement les responsables du problème",
+   "Signaler un récit à la première personne"
+  ],
+  "correct": 1,
+  "explanation": "Le « nous » inclusif associe l'auteur et le destinataire dans une même responsabilité, ce qui renforce l'engagement. Il ne crée pas de distance et ne désigne pas seulement les responsables.",
+  "tags": [
+   "appel",
+   "énonciation"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Reconnaître un verbe typique du discours exhortatif.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quel verbe est caractéristique de l'appel ?",
+  "options": [
+   "Exhorter",
+   "Décrire",
+   "Raconter",
+   "Mesurer"
+  ],
+  "correct": 0,
+  "explanation": "Exhorter signifie encourager vivement quelqu'un à agir : c'est l'acte même de l'appel. Décrire et raconter appartiennent aux textes descriptif et narratif.",
+  "tags": [
+   "appel",
+   "lexique"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0007",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Comprendre la fonction du constat alarmant qui ouvre un appel.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Un appel commence souvent par un constat alarmant. Quelle est la fonction de ce constat ?",
+  "options": [
+   "Divertir le destinataire",
+   "Donner immédiatement la solution",
+   "Justifier l'urgence d'agir en montrant la gravité de la situation",
+   "Remercier le destinataire de son attention"
+  ],
+  "correct": 2,
+  "explanation": "Le constat présente une situation grave pour que l'exhortation paraisse nécessaire et urgente. La solution n'est proposée qu'ensuite, dans la partie exhortative.",
+  "tags": [
+   "appel",
+   "constat"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0008",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Identifier le procédé qui désigne le destinataire.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "« Jeunes de ce pays, votre avenir se construit aujourd'hui ! » Quel procédé l'auteur utilise-t-il pour désigner son destinataire ?",
+  "options": [
+   "Une métaphore",
+   "Une comparaison",
+   "Une énumération",
+   "Une apostrophe"
+  ],
+  "correct": 3,
+  "explanation": "L'apostrophe interpelle directement le destinataire (« Jeunes de ce pays »). Il n'y a ni image (métaphore, comparaison) ni liste d'éléments (énumération).",
+  "tags": [
+   "appel",
+   "apostrophe"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0009",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Nommer les parties d'un appel.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Un appel comporte généralement trois parties : le ____, l'argumentation et l'____.",
+  "blanks": [
+   "constat",
+   "exhortation"
+  ],
+  "bank": [
+   "constat",
+   "exhortation",
+   "dénouement",
+   "narration",
+   "description",
+   "péripétie"
+  ],
+  "explanation": "L'appel expose d'abord un constat, argumente puis exhorte à l'action. Dénouement et péripétie sont des parties du récit, non de l'appel.",
+  "tags": [
+   "appel",
+   "structure"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0010",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Identifier les marques d'énonciation de l'appel.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans un appel, l'auteur emploie souvent le pronom ____ pour s'associer au destinataire, et des verbes à l'____ pour l'inciter à agir.",
+  "blanks": [
+   "nous",
+   "impératif"
+  ],
+  "bank": [
+   "nous",
+   "impératif",
+   "il",
+   "passé simple",
+   "conditionnel",
+   "ils"
+  ],
+  "explanation": "Le « nous » inclusif unit l'auteur et le lecteur, et l'impératif exprime l'incitation. « Il » ou « ils » excluent le destinataire, et le passé simple sert au récit.",
+  "tags": [
+   "appel",
+   "énonciation"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0011",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Reconnaître un modalisateur d'urgence dans un appel.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Il est ____ d'agir avant qu'il ne soit trop tard.",
+  "blanks": [
+   "urgent"
+  ],
+  "bank": [
+   "urgent",
+   "possible",
+   "interdit",
+   "inutile",
+   "rare"
+  ],
+  "explanation": "« Urgent » traduit la nécessité immédiate d'agir, typique de l'appel. « Possible » affaiblit le message et « inutile » ou « interdit » le contredisent.",
+  "tags": [
+   "appel",
+   "modalisation"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0012",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Analyser le type et la forme d'une phrase exhortative.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "La phrase « Ne restons pas les bras croisés ! » est une phrase ____ à la forme ____.",
+  "blanks": [
+   "impérative",
+   "négative"
+  ],
+  "bank": [
+   "impérative",
+   "négative",
+   "déclarative",
+   "interrogative",
+   "affirmative",
+   "exclamative"
+  ],
+  "explanation": "Le verbe est à l'impératif (« restons »), donc la phrase est de type impératif ; « ne... pas » lui donne la forme négative. Le point d'exclamation ne suffit pas à en faire une phrase exclamative : c'est un ordre.",
+  "tags": [
+   "appel",
+   "types de phrases"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L1-0013",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L1",
+  "objective": "Distinguer les moyens de persuasion d'un appel.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Pour toucher le destinataire, l'auteur d'un appel s'adresse à ses ____ (la pitié, la peur, l'espoir) et pas seulement à sa ____.",
+  "blanks": [
+   "sentiments",
+   "raison"
+  ],
+  "bank": [
+   "sentiments",
+   "raison",
+   "connaissances",
+   "habitudes",
+   "fortune",
+   "mémoire"
+  ],
+  "explanation": "L'appel persuade en jouant sur les sentiments du lecteur tout en convainquant sa raison par des arguments. Connaissances, habitudes ou fortune ne sont pas les ressorts de la persuasion visés ici.",
+  "tags": [
+   "appel",
+   "persuasion"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Choisir un titre adapté à un appel.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Quel titre convient le mieux à un appel ?",
+  "options": [
+   "Sauvons la mer Méditerranée !",
+   "La mer Méditerranée : géographie et climat",
+   "Une journée à la plage",
+   "Pourquoi la mer est-elle salée ?"
+  ],
+  "correct": 0,
+  "explanation": "Le titre d'un appel contient déjà une incitation à agir, ici à l'impératif. Les autres titres annoncent un exposé, un récit ou une explication.",
+  "tags": [
+   "appel",
+   "titre"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0002",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Rédiger l'ouverture d'un appel en interpellant le destinataire.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quelle formule convient pour ouvrir un appel ?",
+  "options": [
+   "Il était une fois un village paisible...",
+   "Citoyens, habitants de notre quartier,",
+   "Le lendemain, il se réveilla très tôt.",
+   "Le chapitre suivant décrit le climat de la région."
+  ],
+  "correct": 1,
+  "explanation": "L'appel s'ouvre souvent par une apostrophe qui nomme le destinataire. « Il était une fois » et « le lendemain » ouvrent un récit, et la dernière formule relève d'un exposé.",
+  "tags": [
+   "appel",
+   "ouverture"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0003",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Formuler une phrase exhortative efficace.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Pour rédiger la partie exhortative d'un appel contre le gaspillage, quelle phrase est la mieux adaptée ?",
+  "options": [
+   "Le gaspillage alimentaire augmente chaque année.",
+   "Les experts expliquent les causes du gaspillage.",
+   "Refusons le gaspillage : achetons seulement ce dont nous avons besoin !",
+   "Le gaspillage est un phénomène mondial."
+  ],
+  "correct": 2,
+  "explanation": "Seule cette phrase, à l'impératif et à la première personne du pluriel, incite directement à agir. Les autres constatent ou expliquent sans exhorter.",
+  "tags": [
+   "appel",
+   "exhortation"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0004",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Adapter le style d'un appel à son destinataire.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Pourquoi faut-il éviter, dans un appel, les phrases trop longues et le vocabulaire technique ?",
+  "options": [
+   "Parce que l'appel est destiné à un lecteur spécialiste",
+   "Parce que le texte doit rester neutre et objectif",
+   "Parce que l'appel est un texte narratif",
+   "Parce que le message doit être compris vite et par tous pour les faire agir"
+  ],
+  "correct": 3,
+  "explanation": "L'appel vise un large public qu'il faut mobiliser rapidement : la clarté est indispensable. Il n'est ni neutre (il prend position) ni narratif.",
+  "tags": [
+   "appel",
+   "style"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0005",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Utiliser des procédés d'insistance dans un appel.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quel procédé renforce l'efficacité d'un appel ?",
+  "options": [
+   "La répétition et l'anaphore",
+   "Le passé simple",
+   "Le dialogue entre personnages",
+   "Les descriptions longues"
+  ],
+  "correct": 0,
+  "explanation": "Répéter un mot ou une structure en début de phrase (anaphore) martèle le message et frappe le lecteur. Le passé simple et le dialogue appartiennent au récit.",
+  "tags": [
+   "appel",
+   "anaphore"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Repérer une erreur d'organisation dans un appel rédigé par un élève.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Un élève rédige un appel en commençant par « Agissez maintenant ! », puis il explique le problème. Quelle erreur commet-il ?",
+  "options": [
+   "Il utilise le présent de l'indicatif",
+   "Il emploie la deuxième personne du pluriel",
+   "Il oublie de nommer le destinataire",
+   "Il place l'exhortation avant le constat"
+  ],
+  "correct": 3,
+  "explanation": "L'exhortation doit venir après le constat et l'argumentation, sinon le lecteur ne comprend pas pourquoi il doit agir. L'impératif à la deuxième personne est, lui, tout à fait adapté.",
+  "tags": [
+   "appel",
+   "organisation"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0007",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Connaître la clôture habituelle d'un appel.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Comment un appel se termine-t-il généralement ?",
+  "options": [
+   "Par une morale explicite",
+   "Par une longue description",
+   "Par la signature de l'auteur ou de l'organisme",
+   "Par une question scientifique"
+  ],
+  "correct": 2,
+  "explanation": "L'appel est signé par la personne ou l'organisation qui le lance, ce qui lui donne crédibilité et responsabilité. La morale clôt une fable, non un appel.",
+  "tags": [
+   "appel",
+   "signature"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0008",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Employer la deuxième personne du pluriel pour s'adresser au destinataire.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Pour s'adresser directement aux lecteurs, l'auteur de l'appel utilise la ____ personne du pluriel : « ____ pouvez changer les choses ! »",
+  "blanks": [
+   "deuxième",
+   "vous"
+  ],
+  "bank": [
+   "deuxième",
+   "vous",
+   "première",
+   "troisième",
+   "ils",
+   "nous"
+  ],
+  "explanation": "« Vous » est la deuxième personne du pluriel ; elle interpelle directement le destinataire. « Nous » (première personne) l'associerait à l'auteur, et « ils » parlerait des lecteurs sans s'adresser à eux.",
+  "tags": [
+   "appel",
+   "personne"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0009",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Conjuguer un verbe à l'impératif dans une exhortation.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "____ (agir, impératif, première personne du pluriel) avant qu'il ne soit trop tard !",
+  "blanks": [
+   "Agissons"
+  ],
+  "bank": [
+   "Agissons",
+   "Agissez",
+   "Agir",
+   "Agissent",
+   "Agis"
+  ],
+  "explanation": "À l'impératif, la première personne du pluriel est « agissons ». « Agissez » est la deuxième personne et « agissent » appartient à l'indicatif.",
+  "tags": [
+   "appel",
+   "impératif"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0010",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Employer une tournure impersonnelle d'obligation suivie du subjonctif.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans un appel, on peut exprimer l'obligation ainsi : « Il ____ que chacun ____ sa part. »",
+  "blanks": [
+   "faut",
+   "fasse"
+  ],
+  "bank": [
+   "faut",
+   "fasse",
+   "fait",
+   "doit",
+   "faisait",
+   "ferait"
+  ],
+  "explanation": "« Il faut que » est une tournure impersonnelle d'obligation suivie du subjonctif : « fasse ». « Il doit que » n'existe pas, et « fait » est à l'indicatif.",
+  "tags": [
+   "appel",
+   "obligation",
+   "subjonctif"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0011",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Identifier la figure de répétition employée pour persuader.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "Pour rendre son appel plus persuasif, l'auteur utilise une ____ : « Un geste pour la planète, un geste pour nos enfants, un geste pour demain. »",
+  "blanks": [
+   "anaphore"
+  ],
+  "bank": [
+   "anaphore",
+   "métaphore",
+   "comparaison",
+   "hyperbole",
+   "antithèse"
+  ],
+  "explanation": "La reprise de « un geste pour » en tête de chaque groupe est une anaphore. Il n'y a ni image (métaphore, comparaison) ni exagération (hyperbole).",
+  "tags": [
+   "appel",
+   "figures de style"
+  ]
+ },
+ {
+  "key": "3AS-FR-U3-L2-0012",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U3",
+  "lesson": "L2",
+  "objective": "Exprimer le but d'une action avec « pour que » et le subjonctif.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Signez cette pétition pour que les autorités ____ enfin des mesures.",
+  "blanks": [
+   "prennent"
+  ],
+  "bank": [
+   "prennent",
+   "prendront",
+   "prenaient",
+   "prendre",
+   "prend"
+  ],
+  "explanation": "« Pour que » exprime le but et impose le subjonctif : « prennent ». Le futur « prendront » est une erreur courante, car le but n'est pas une certitude.",
+  "tags": [
+   "appel",
+   "but",
+   "subjonctif"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0001",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Définir le fantastique.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Qu'est-ce qui caractérise un récit fantastique ?",
+  "options": [
+   "L'irruption d'un événement inexplicable dans un cadre réaliste",
+   "Un univers entièrement imaginaire dès la première ligne",
+   "Une histoire vraie racontée par un historien",
+   "Une suite de scènes comiques"
+  ],
+  "correct": 0,
+  "explanation": "Le fantastique repose sur l'intrusion du surnaturel dans un monde présenté comme réel. Un univers imaginaire accepté d'emblée relève du merveilleux.",
+  "tags": [
+   "fantastique",
+   "définition"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0002",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Distinguer le fantastique du merveilleux.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Quelle est la différence entre le fantastique et le merveilleux ?",
+  "options": [
+   "Le fantastique se déroule toujours dans le futur",
+   "Le merveilleux fait toujours peur au lecteur",
+   "Dans le merveilleux, le surnaturel est accepté comme normal ; dans le fantastique, il provoque le doute",
+   "Il n'existe aucune différence entre les deux"
+  ],
+  "correct": 2,
+  "explanation": "Dans un conte merveilleux, personne ne s'étonne qu'une fée apparaisse ; dans le fantastique, le personnage et le lecteur hésitent entre explication rationnelle et surnaturelle. Le futur caractérise plutôt la science-fiction.",
+  "tags": [
+   "fantastique",
+   "merveilleux"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0003",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Identifier le temps des actions de premier plan dans un récit au passé.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Dans une nouvelle fantastique écrite au passé, quel temps rapporte surtout les actions soudaines de premier plan ?",
+  "options": [
+   "L'imparfait",
+   "Le passé simple",
+   "Le futur simple",
+   "Le présent de l'indicatif"
+  ],
+  "correct": 1,
+  "explanation": "Le passé simple exprime des actions brèves et achevées qui font avancer le récit. L'imparfait sert au décor et aux actions en arrière-plan.",
+  "tags": [
+   "fantastique",
+   "temps du récit"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0004",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Analyser l'effet d'un verbe de perception incertaine.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Il me sembla que l'ombre bougeait. » Quel effet produit le verbe « sembler » ?",
+  "options": [
+   "Il affirme la réalité du fait",
+   "Il indique une action future",
+   "Il exprime la joie du narrateur",
+   "Il maintient l'hésitation entre le réel et le surnaturel"
+  ],
+  "correct": 3,
+  "explanation": "« Sembler » présente le fait comme une impression, non comme une certitude : le lecteur ne sait pas si l'ombre a vraiment bougé. C'est le cœur de l'ambiguïté fantastique.",
+  "tags": [
+   "fantastique",
+   "modalisation"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0005",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Comprendre le rôle du narrateur à la première personne dans le fantastique.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Pourquoi les récits fantastiques sont-ils souvent écrits à la première personne ?",
+  "options": [
+   "Pour respecter une règle de grammaire",
+   "Pour rendre le témoignage plus crédible et troublant",
+   "Parce que l'auteur est toujours le héros",
+   "Pour raccourcir le récit"
+  ],
+  "correct": 1,
+  "explanation": "Un narrateur qui dit « je » donne l'impression d'un témoignage vécu, ce qui rend l'inexplicable plus inquiétant. Le narrateur n'est pas forcément l'auteur.",
+  "tags": [
+   "fantastique",
+   "narrateur"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0006",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Repérer les indices du cadre réaliste.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Lequel de ces éléments appartient au cadre réaliste d'une nouvelle fantastique ?",
+  "options": [
+   "Une date et un lieu précis",
+   "Un dragon qui parle",
+   "Une fée qui exauce des vœux",
+   "Un tapis volant"
+  ],
+  "correct": 0,
+  "explanation": "Le fantastique installe d'abord un décor crédible (dates, lieux, objets ordinaires) pour que l'irruption du surnaturel soit troublante. Dragons, fées et tapis volants relèvent du merveilleux.",
+  "tags": [
+   "fantastique",
+   "cadre réaliste"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0007",
+  "type": "MCQ",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Identifier l'hésitation du narrateur comme marque du fantastique.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Je ne sais si je rêvais ou si je veillais. » Cet énoncé illustre :",
+  "options": [
+   "la certitude du narrateur",
+   "la description du décor",
+   "l'hésitation caractéristique du fantastique",
+   "le dénouement heureux du récit"
+  ],
+  "correct": 2,
+  "explanation": "Le narrateur ne peut trancher entre le rêve et la réalité : cette hésitation est la marque essentielle du fantastique. Il n'y a ni certitude ni description ici.",
+  "tags": [
+   "fantastique",
+   "hésitation"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0008",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Formuler le principe du fantastique.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Le fantastique naît de l'intrusion du ____ dans un univers ____.",
+  "blanks": [
+   "surnaturel",
+   "réaliste"
+  ],
+  "bank": [
+   "surnaturel",
+   "réaliste",
+   "comique",
+   "historique",
+   "naturel",
+   "lointain"
+  ],
+  "explanation": "Le surnaturel fait irruption dans un monde réaliste : c'est le contraste qui crée la peur et le doute. « Naturel » est le contraire de ce qui surgit, et « lointain » ne définit pas le cadre.",
+  "tags": [
+   "fantastique",
+   "définition"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0009",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Employer le passé simple pour une action soudaine.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Minuit sonnait quand, soudain, la porte ____ toute seule.",
+  "blanks": [
+   "s'ouvrit"
+  ],
+  "bank": [
+   "s'ouvrit",
+   "s'ouvrait",
+   "s'ouvre",
+   "s'ouvrira",
+   "s'était ouverte"
+  ],
+  "explanation": "L'action soudaine de premier plan, annoncée par « soudain », se met au passé simple : « s'ouvrit ». L'imparfait « s'ouvrait » conviendrait à une action en arrière-plan, comme « sonnait ».",
+  "tags": [
+   "fantastique",
+   "passé simple"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0010",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Repérer les modalisateurs du doute.",
+  "difficulty": "MEDIUM",
+  "language": "fr",
+  "question": "Pour entretenir le doute, le narrateur emploie des modalisateurs comme « ____ » ou « sans doute », et des verbes comme « ____ ».",
+  "blanks": [
+   "peut-être",
+   "sembler"
+  ],
+  "bank": [
+   "peut-être",
+   "sembler",
+   "certainement",
+   "affirmer",
+   "assurément",
+   "prouver"
+  ],
+  "explanation": "« Peut-être » et « sembler » expriment l'incertitude, propre au fantastique. « Certainement », « affirmer » ou « prouver » expriment au contraire la certitude.",
+  "tags": [
+   "fantastique",
+   "modalisateurs"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0011",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Classer des expressions dans le lexique de la perception incertaine.",
+  "difficulty": "HARD",
+  "language": "fr",
+  "question": "« Je crus voir », « j'eus l'impression que » : ces expressions relèvent du lexique de la ____, par opposition à celui de la ____.",
+  "blanks": [
+   "perception",
+   "certitude"
+  ],
+  "bank": [
+   "perception",
+   "certitude",
+   "description",
+   "joie",
+   "narration",
+   "colère"
+  ],
+  "explanation": "Ces tournures rapportent ce que le narrateur croit percevoir sans pouvoir l'affirmer : c'est la perception incertaine, opposée à la certitude. Elles ne décrivent pas un sentiment comme la joie ou la colère.",
+  "tags": [
+   "fantastique",
+   "lexique"
+  ]
+ },
+ {
+  "key": "3AS-FR-U4-L1-0012",
+  "type": "FILL_BLANK",
+  "grade": "3AS",
+  "subject": "FR",
+  "unit": "U4",
+  "lesson": "L1",
+  "objective": "Associer le lexique de la peur au phénomène surnaturel.",
+  "difficulty": "EASY",
+  "language": "fr",
+  "question": "Le lexique de la ____ (frisson, effroi, trembler) accompagne souvent l'apparition du phénomène ____.",
+  "blanks": [
+   "peur",
+   "surnaturel"
+  ],
+  "bank": [
+   "peur",
+   "surnaturel",
+   "joie",
+   "naturel",
+   "fête",
+   "banal"
+  ],
+  "explanation": "Frisson, effroi et trembler appartiennent au champ lexical de la peur, provoquée par le surnaturel. Un phénomène naturel ou banal n'inspirerait pas cette réaction.",
+  "tags": [
+   "fantastique",
+   "champ lexical"
+  ]
+ }
+]
