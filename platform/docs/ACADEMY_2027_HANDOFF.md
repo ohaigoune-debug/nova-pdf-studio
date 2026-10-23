@@ -76,7 +76,7 @@
 ```
 npx tsc --noEmit                      → بلا أخطاء
 npx eslint <الملفات المعدّلة>          → بلا تحذيرات
-npx vitest run                        → Test Files 78 passed (78) · Tests 401 passed (401) (بعد ملاحظات المراجعة؛ قبلها 397)
+npx vitest run                        → Test Files 78 passed (78) · Tests 405 passed (405) (الجولة الثانية؛ قبلها 401 ثم 397)
 DATABASE_URL=pglite://memory SESSION_SECRET=… QR_TOKEN_SECRET=… npx next build → نجح
 ```
 
@@ -97,5 +97,5 @@ DATABASE_URL=pglite://memory SESSION_SECRET=… QR_TOKEN_SECRET=… npx next bui
 ## 8. النتيجة
 
 - الفرع: `codex/academy-course-catalog-2027`
-- الـ SHA النهائي: `51c894d` (+ هذا التحديث للوثيقة)
+- الـ SHA النهائي: `bcc839f` (+ هذا التحديث للوثيقة)
 - PR (Draft، لا دمج ولا نشر): https://github.com/ohaigoune-debug/nova-pdf-studio/pull/2
