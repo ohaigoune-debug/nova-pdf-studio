@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>النسب المالية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">3 ثانوي · التسيير المحاسبي والمالي · تسيير واقتصاد · الوحدة 4: التحليل المالي · الدرس 3</div>
+<h1>النسب المالية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تحسب أهم النسب المالية (التمويل، الاستقلالية، الملاءة، السيولة) انطلاقاً من الميزانية، وأن تعلّق على كل نسبة.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> النسبة المالية علاقة بين عنصرين من الميزانية تختصر وضعية المؤسسة في رقم واحد. قيمتها وحدها لا تكفي؛ المهم تفسيرها بمقارنتها بالواحد أو بسنوات سابقة.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<rect x="365" y="15" width="165" height="35" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="447" y="38" text-anchor="middle" font-weight="700">نسب التمويل</text>
+<text x="447" y="75" text-anchor="middle" font-size="13">التمويل الدائم</text><text x="447" y="100" text-anchor="middle" font-size="13">التمويل الخاص</text>
+<rect x="188" y="15" width="165" height="35" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="270" y="38" text-anchor="middle" font-weight="700">الاستقلالية والملاءة</text>
+<text x="270" y="75" text-anchor="middle" font-size="13">الاستقلالية المالية</text><text x="270" y="100" text-anchor="middle" font-size="13">قابلية السداد</text>
+<rect x="10" y="15" width="165" height="35" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="92" y="38" text-anchor="middle" font-weight="700">نسب السيولة</text>
+<text x="92" y="75" text-anchor="middle" font-size="13">السيولة العامة</text><text x="92" y="100" text-anchor="middle" font-size="13">السيولة المختصرة</text><text x="92" y="125" text-anchor="middle" font-size="13">السيولة الجاهزة</text>
+<text x="270" y="162" text-anchor="middle" font-size="13" fill="#c2410c">المدى الطويل يميناً ← المدى القصير يساراً</text>
+</svg><figcaption>الشكل 1: عائلات النسب المالية من المدى الطويل (التمويل) إلى المدى القصير (السيولة).</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">نسبة التمويل الدائم</span> = الأموال الدائمة ÷ الأصول الثابتة؛ إذا كانت أكبر من 1 فرأس المال العامل موجب.</li>
+<li><span class="k">نسبة التمويل الخاص</span> = الأموال الخاصة ÷ الأصول الثابتة؛ تقيس قدرة الأموال الخاصة وحدها على تمويل الاستثمارات.</li>
+<li><span class="k">نسبة الاستقلالية المالية</span> = الأموال الخاصة ÷ مجموع الديون؛ كلما ارتفعت قلّت تبعية المؤسسة للدائنين.</li>
+<li><span class="k">نسبة قابلية السداد</span> = مجموع الأصول ÷ مجموع الديون؛ أكبر من 1 تعني أن الأصول تكفي لتسديد كل الديون.</li>
+<li><span class="k">السيولة العامة</span> = الأصول المتداولة ÷ الديون قصيرة الأجل.</li>
+<li><span class="k">السيولة المختصرة</span> = (الأصول المتداولة − المخزونات) ÷ الديون قصيرة الأجل، و<span class="k">السيولة الجاهزة</span> = المتاحات ÷ الديون قصيرة الأجل.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>معطيات: أموال خاصة 500 000، ديون طويلة 200 000، ديون قصيرة 250 000، أصول ثابتة 600 000، أصول متداولة 350 000 (منها مخزونات 150 000 ومتاحات 60 000). <span class="k">الحل:</span> التمويل الدائم <bdi dir="ltr">700 000 ÷ 600 000 ≈ 1.17</bdi>؛ التمويل الخاص <bdi dir="ltr">500 000 ÷ 600 000 ≈ 0.83</bdi>.</li>
+<li>الاستقلالية والملاءة. <span class="k">الحل:</span> الاستقلالية <bdi dir="ltr">500 000 ÷ 450 000 ≈ 1.11</bdi>؛ قابلية السداد <bdi dir="ltr">950 000 ÷ 450 000 ≈ 2.11</bdi>؛ المؤسسة مستقلة وقادرة على تسديد ديونها.</li>
+<li>السيولة. <span class="k">الحل:</span> العامة <bdi dir="ltr">350 000 ÷ 250 000 = 1.4</bdi>؛ المختصرة <bdi dir="ltr">200 000 ÷ 250 000 = 0.8</bdi>؛ الجاهزة <bdi dir="ltr">60 000 ÷ 250 000 = 0.24</bdi>. <span class="k">التفسير:</span> المؤسسة تغطي ديونها القصيرة بأصولها المتداولة، لكنها تعتمد على بيع المخزون جزئياً.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>قلب البسط والمقام، خاصة في نسبتي الاستقلالية وقابلية السداد.</li>
+<li>عدم طرح المخزونات في السيولة المختصرة.</li>
+<li>حساب النسبة دون تعليق، والتعليق هو جوهر السؤال.</li>
+<li>إدخال الأموال الخاصة ضمن مجموع الديون.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>التمويل الدائم أكبر من 1 ⇔ رأس مال عامل موجب.</li>
+<li>الاستقلالية = الأموال الخاصة ÷ الديون.</li>
+<li>قابلية السداد = الأصول ÷ الديون.</li>
+<li>السيولة: عامة، مختصرة (دون المخزون)، جاهزة (المتاحات).</li>
+<li>كل نسبة تُحسب ثم تُفسَّر.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/ACC">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=ACC">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>
