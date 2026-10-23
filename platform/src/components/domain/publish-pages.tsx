@@ -16,7 +16,7 @@ import { getBatch, listBatches, listPublished, listSeriesCandidates, PUBLISH_TYP
 const STATUS_AR: Record<string, string> = { ANALYZING: 'قيد التحليل', READY: 'بانتظار مراجعتك', PUBLISHED: 'نُشرت', FAILED: 'فشلت' }
 
 /** الصفحة الرئيسية لـ«نشر» (أستاذ أو مشرف): النموذج، ودفعاتي، وما نشرتُه */
-export async function PublishHome({ actor, basePath, done }: { actor: Actor; basePath: string; done?: string }) {
+export async function PublishHome({ actor, basePath, done, initialType }: { actor: Actor; basePath: string; done?: string; initialType?: string }) {
   const db = await getDb()
   const admin = actor.role === 'SUPER_ADMIN'
   const [options, batches, published, series] = await Promise.all([publishFormOptions(db, actor), listBatches(db, actor), listPublished(db, actor), admin ? listSeriesCandidates(db, actor) : Promise.resolve([])])
@@ -69,7 +69,7 @@ export async function PublishHome({ actor, basePath, done }: { actor: Actor; bas
       ) : null}
       <Card className="mb-6">
         <CardContent className="p-4 sm:p-6">
-          <PublishForm options={options} basePath={basePath} defaultAuthor={author} admin={admin} />
+          <PublishForm options={options} basePath={basePath} defaultAuthor={author} admin={admin} initialType={initialType} />
         </CardContent>
       </Card>
       {batches.length ? (

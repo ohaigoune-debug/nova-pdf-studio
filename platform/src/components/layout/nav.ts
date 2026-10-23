@@ -24,6 +24,30 @@ export interface NavSection {
   items: NavItem[]
 }
 
+/** أدوات الأستاذ التي خرجت من القائمة المبسّطة — تبقى كاملة في /teacher/tools وبمساراتها نفسها */
+export const TEACHER_TOOLS: (NavItem & { group: string })[] = [
+  { group: 'الأفواج الحضورية', href: '/teacher/overview', label: 'لوحة الأفواج والحصص الحضورية', iconKey: 'LayoutDashboard' },
+  { group: 'الأفواج الحضورية', href: '/teacher/scanner', label: t('nav.scanner'), iconKey: 'ScanLine' },
+  { group: 'الأفواج الحضورية', href: '/teacher/sessions', label: t('nav.sessions'), iconKey: 'CalendarCheck' },
+  { group: 'الأفواج الحضورية', href: '/teacher/attendance', label: t('nav.attendance'), iconKey: 'ListChecks' },
+  { group: 'الأفواج الحضورية', href: '/teacher/groups', label: t('common.groups'), iconKey: 'UsersRound' },
+  { group: 'الأفواج الحضورية', href: '/teacher/students', label: t('nav.students'), iconKey: 'Users' },
+  { group: 'الأفواج الحضورية', href: '/teacher/codes', label: t('nav.codes'), iconKey: 'KeyRound' },
+  { group: 'الأفواج الحضورية', href: '/teacher/assistants', label: t('nav.assistants'), iconKey: 'UserCog' },
+  { group: 'التقييم', href: '/teacher/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
+  { group: 'التقييم', href: '/teacher/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
+  { group: 'التقييم', href: '/teacher/exams', label: 'الامتحانات', iconKey: 'FileText' },
+  { group: 'التقييم', href: '/teacher/bank', label: 'بنك الأسئلة', iconKey: 'Library' },
+  { group: 'التقييم', href: '/teacher/rubrics', label: t('rubrics.title'), iconKey: 'ClipboardCheck' },
+  { group: 'المحتوى', href: '/teacher/files', label: t('nav.files'), iconKey: 'FolderOpen' },
+  { group: 'المحتوى', href: '/teacher/library', label: 'مكتبتي', iconKey: 'BookMarked' },
+  { group: 'المحتوى', href: '/teacher/drive', label: 'مكتبة Drive', iconKey: 'HardDrive' },
+  { group: 'المحتوى', href: '/teacher/market', label: 'سوق الأساتذة', iconKey: 'Store' },
+  { group: 'المحتوى', href: '/teacher/announcements', label: 'الإشعارات للتلاميذ', iconKey: 'Megaphone' },
+  { group: 'المتابعة', href: '/teacher/reports', label: t('nav.reports'), iconKey: 'BarChart3' },
+  { group: 'المتابعة', href: '/teacher/ai-insights', label: t('nav.aiInsights'), iconKey: 'Brain' }
+]
+
 export function navFor(role: UserRole): NavSection[] {
   switch (role) {
     case 'STUDENT':
@@ -57,50 +81,22 @@ export function navFor(role: UserRole): NavSection[] {
         }
       ]
     case 'TEACHER':
+      // الواجهة المبسّطة (قرار المالك 2026-10-23): ستة مداخل فقط. بقية الأدوات لم تُحذف — في /teacher/tools.
       return [
         {
           items: [
-            { href: '/teacher', label: t('nav.dashboard'), iconKey: 'LayoutDashboard', exact: true },
-            { href: '/teacher/scanner', label: t('nav.scanner'), iconKey: 'ScanLine' },
-            { href: '/teacher/sessions', label: t('nav.sessions'), iconKey: 'CalendarCheck' },
-            { href: '/teacher/attendance', label: t('nav.attendance'), iconKey: 'ListChecks' }
-          ]
-        },
-        {
-          title: 'الإدارة',
-          items: [
-            { href: '/teacher/groups', label: t('common.groups'), iconKey: 'UsersRound' },
-            { href: '/teacher/students', label: t('nav.students'), iconKey: 'Users' },
-            { href: '/teacher/codes', label: t('nav.codes'), iconKey: 'KeyRound' },
-            { href: '/teacher/assistants', label: t('nav.assistants'), iconKey: 'UserCog' }
-          ]
-        },
-        {
-          title: 'التعليم',
-          items: [
-            { href: '/teacher/publish', label: 'نشر درس / فرض / اختبار', iconKey: 'Upload' },
-            { href: '/teacher/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' },
-            { href: '/teacher/announcements', label: 'الإشعارات', iconKey: 'Megaphone' },
-            { href: '/forum', label: 'المنتدى', iconKey: 'MessageSquareText' },
-            { href: '/teacher/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
-            { href: '/teacher/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
-            { href: '/teacher/exams', label: 'الامتحانات', iconKey: 'FileText' },
-            { href: '/teacher/bank', label: 'بنك الأسئلة', iconKey: 'Library' },
-            { href: '/teacher/library', label: 'مكتبتي', iconKey: 'BookMarked' },
-            { href: '/teacher/market', label: 'سوق الأساتذة', iconKey: 'Store' },
-            { href: '/teacher/rubrics', label: t('rubrics.title'), iconKey: 'ClipboardCheck' },
-            { href: '/teacher/drive', label: 'مكتبة Drive', iconKey: 'HardDrive' },
-            { href: '/teacher/content', label: t('nav.content'), iconKey: 'BookOpen' },
-            { href: '/teacher/files', label: t('nav.files'), iconKey: 'FolderOpen' },
-            { href: '/teacher/reports', label: t('nav.reports'), iconKey: 'BarChart3' },
-            { href: '/teacher/ai-insights', label: t('nav.aiInsights'), iconKey: 'Brain' }
+            { href: '/teacher', label: 'لوحتي: المسجّلون والمداخيل', iconKey: 'LayoutDashboard', exact: true },
+            { href: '/teacher/publish', label: 'رفع ملفات أو اختبار', iconKey: 'Upload' },
+            { href: '/teacher/content', label: 'المحتوى والحصص السابقة', iconKey: 'BookOpen' },
+            { href: '/teacher/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' }
           ]
         },
         {
           title: 'الحساب',
           items: [
             { href: '/teacher/notifications', label: t('common.notifications'), iconKey: 'BellRing' },
-            { href: '/teacher/settings', label: t('nav.settings'), iconKey: 'Settings' }
+            { href: '/teacher/settings', label: t('nav.settings'), iconKey: 'Settings' },
+            { href: '/teacher/tools', label: 'أدوات أخرى', iconKey: 'Wrench', also: TEACHER_TOOLS.map((x) => x.href) }
           ]
         }
       ]
