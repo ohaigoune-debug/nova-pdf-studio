@@ -5,7 +5,7 @@
  */
 import { and, eq, inArray } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { playLessons, playQuestions, playSubjects } from '@/server/db/schema'
+import { auditLogs, playLessons, playQuestions, playSubjects } from '@/server/db/schema'
 import { PLAY_SUBJECTS, type PlayReviewStatus } from './constants'
 import { normalizeContentQuestion, validateContentQuestion } from './engine'
 import type { PlayContentQuestion } from './question-types'
@@ -193,4 +193,9 @@ export async function importQuestions(db: Db, questions: PlayContentQuestion[], 
     }
   }
   return report
+}
+
+/** سجلّ تدقيق لتشغيل استيراد كامل (من CLI) */
+export async function logImportRun(db: Db, summary: Record<string, unknown>): Promise<void> {
+  await db.insert(auditLogs).values({ actorUserId: null, workspaceId: null, action: 'play.import.run', entityType: 'play_question', entityId: null, newValue: summary })
 }

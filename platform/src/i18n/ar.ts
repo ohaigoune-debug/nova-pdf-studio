@@ -1155,6 +1155,7 @@ const ar = {
     play_question_bulk_review: 'راجع دفعة أسئلة في PLAY',
     play_question_bulk_review_filter: 'راجع أسئلة PLAY حسب مرشّح',
     play_question_archive: 'أرشف سؤالاً في PLAY',
+    play_import_run: 'شغّل استيراد أسئلة PLAY',
     store_product_create: 'أضاف منتجاً إلى المتجر',
     store_product_update: 'عدّل منتجاً في المتجر',
     store_order_place: 'أرسل طلب شراء',
