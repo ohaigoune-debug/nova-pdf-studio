@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الاستطاعة الكهربائية P=U×I</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">4 متوسط · العلوم الفيزيائية · كل الشعب · الوحدة 2: الظواهر الكهربائية · الدرس 2</div>
+<h1>الاستطاعة الكهربائية P=U×I</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تقرأ القيم الاسمية المكتوبة على جهاز كهربائي، وأن تحسب الاستطاعة الكهربائية بالعلاقة P = U × I أو تستنتج منها شدة التيار، مع احترام الوحدات.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الاستطاعة الكهربائية تقيس «سرعة» استهلاك الجهاز للطاقة، وحدتها الواط (W). للجهاز الذي يعمل تحت توتر U ويمر فيه تيار شدته I: P = U × I. كل جهاز يحمل قيمتين اسميتين (توتر واستطاعة) يعمل عندهما بشكل عادي.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<rect x="300" y="30" width="200" height="110" fill="none" stroke="#1f2937" stroke-width="2"/>
+<circle cx="300" cy="85" r="16" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="300" y="90" text-anchor="middle" font-size="12" fill="#1d4ed8">~</text><text x="268" y="90" text-anchor="end" font-size="12">مأخذ 220 V</text>
+<circle cx="400" cy="30" r="16" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="400" y="35" text-anchor="middle" font-size="13" font-weight="700">A</text><text x="400" y="12" text-anchor="middle" font-size="11">أمبيرمتر على التسلسل</text>
+<rect x="470" y="65" width="60" height="40" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="500" y="90" text-anchor="middle" font-size="12">جهاز</text>
+<line x1="500" y1="30" x2="500" y2="65" stroke="#1f2937" stroke-width="2"/><line x1="500" y1="105" x2="500" y2="140" stroke="#1f2937" stroke-width="2"/>
+<path d="M440 85 h-20 v70 h80 v-70 h-20" fill="none" stroke="#1f2937" stroke-width="2"/><circle cx="460" cy="155" r="14" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="460" y="160" text-anchor="middle" font-size="12" font-weight="700">V</text><text x="390" y="162" text-anchor="middle" font-size="11">فولطمتر على التفرع</text>
+<rect x="20" y="35" width="230" height="105" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="135" y="62" text-anchor="middle" font-weight="700" font-size="17">P = U × I</text>
+<text x="135" y="88" text-anchor="middle" font-size="13">P بالواط (W)، U بالفولط (V)، I بالأمبير (A)</text>
+<text x="135" y="112" text-anchor="middle" font-size="13" fill="#c2410c">I = P / U      U = P / I</text>
+<text x="135" y="132" text-anchor="middle" font-size="12" fill="#1f2937">1 kW = 1000 W</text>
+</svg><figcaption>الشكل 1: قياس الاستطاعة يحتاج فولطمتراً على التفرع وأمبيرمتراً على التسلسل، ثم نحسب P = U × I.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">الاستطاعة الكهربائية P</span> لجهاز هي الطاقة التي يستهلكها في كل ثانية؛ وحدتها <span class="k">الواط (W)</span>، ومضاعفها الكيلوواط: 1 kW = 1000 W.</li>
+<li><span class="k">العلاقة الأساسية:</span> P = U × I، حيث U التوتر بين طرفي الجهاز بالفولط وI شدة التيار الذي يمر فيه بالأمبير. منها نستنتج I = P / U و U = P / I.</li>
+<li><span class="k">القيم الاسمية</span> هي التوتر والاستطاعة المكتوبان على الجهاز (مثل 220 V ؛ 100 W): عندها يعمل الجهاز بشكل عادي. توتر أكبر يعرّضه للتلف، وتوتر أصغر يجعله يعمل بضعف.</li>
+<li><span class="k">القياس التجريبي:</span> فولطمتر على التفرع بين طرفي الجهاز وأمبيرمتر على التسلسل في الدارة، ثم نحسب الجداول U × I. كل الأجهزة تُقاس في وضع التيار المتناوب عند استعمال الشبكة.</li>
+<li><span class="k">الاستطاعة الكلية</span> للأجهزة التي تعمل في الوقت نفسه في المنزل تساوي مجموع استطاعاتها، وهي التي تحدد شدة التيار الكلية الداخلة إلى المنزل.</li>
+<li><span class="k">رتب مقدار مفيدة:</span> مصباح 60 إلى 100 W، تلفاز نحو 100 W، مكواة نحو 1000 W، غلاية أو مدفأة نحو 2000 W.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>مصباح يحمل الكتابة (220 V ؛ 100 W). احسب شدة التيار الذي يمر فيه عند عمله العادي. <span class="k">الحل:</span> I = P / U = 100 / 220 ≈ 0,45 A.</li>
+<li>مصباح صغير يعمل تحت توتر 6 V ويمر فيه تيار شدته 0,5 A. <span class="k">الحل:</span> P = U × I = 6 × 0,5 = 3 W.</li>
+<li>تعمل في المنزل غلاية 2000 W ومكواة 1000 W ومصباح 100 W في الوقت نفسه تحت 220 V. <span class="k">الحل:</span> P الكلية = 2000 + 1000 + 100 = 3100 W؛ الشدة الكلية I = 3100 / 220 ≈ 14,1 A. <span class="k">التفسير:</span> هذه الشدة هي التي يجب أن يتحملها القاطع الرئيسي.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>الخلط بين الاستطاعة (W) والطاقة (J أو kWh): الاستطاعة لا تتعلق بمدة الاستعمال.</li>
+<li>الحساب بالكيلوواط دون تحويله إلى واط عند استعمال P = U × I مع الفولط والأمبير.</li>
+<li>تقسيم U على P بدل P على U عند حساب الشدة؛ تحقق من الوحدات: W / V = A.</li>
+<li>وضع الأمبيرمتر على التفرع أو الفولطمتر على التسلسل في رسم الدارة.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>P = U × I ؛ الوحدات: W = V × A.</li>
+<li>I = P / U لحساب شدة التيار من القيم الاسمية.</li>
+<li>القيم الاسمية (U ؛ P) مكتوبة على الجهاز وتضمن عمله العادي.</li>
+<li>الاستطاعة الكلية = مجموع استطاعات الأجهزة المشتغلة معاً.</li>
+<li>1 kW = 1000 W، والاستطاعة لا تتعلق بالزمن.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/PHYS">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=PHYS">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>

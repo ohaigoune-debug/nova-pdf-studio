@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>المثلثات القائمة والنسب المثلثية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">4 متوسط · الرياضيات · كل الشعب · الوحدة 2: الأنشطة الهندسية · الدرس 2</div>
+<h1>المثلثات القائمة والنسب المثلثية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تعرّف جيب التمام والجيب والظل لزاوية حادة في مثلث قائم، وأن تستعملها لحساب طول ضلع أو قيس زاوية، مع توظيف العلاقتين cos<sup>2</sup>x + sin<sup>2</sup>x = 1 و tan x = sin x / cos x.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> في مثلث قائم، نسبة طولَي ضلعين لا تتعلق بحجم المثلث بل بقيس الزاوية الحادة فقط؛ هذه النسب هي جيب التمام والجيب والظل. تحديد الضلع «المجاور» و«المقابل» بالنسبة إلى الزاوية المدروسة هو مفتاح كل تمرين.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<polygon points="80,150 320,150 80,30" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
+<rect x="80" y="134" width="16" height="16" fill="none" stroke="#1d4ed8" stroke-width="1.5"/>
+<path d="M285 150 A35 35 0 0 0 292 132" fill="none" stroke="#c2410c" stroke-width="2"/><text x="268" y="140" text-anchor="middle" fill="#c2410c" font-weight="700" font-size="13">B̂</text>
+<text x="70" y="162" text-anchor="middle" font-weight="700">A</text><text x="332" y="162" text-anchor="middle" font-weight="700">B</text><text x="70" y="26" text-anchor="middle" font-weight="700">C</text>
+<text x="200" y="168" text-anchor="middle" fill="#15803d">AB: الضلع المجاور لـ B̂</text>
+<text x="40" y="95" text-anchor="middle" fill="#a16207" transform="rotate(-90 40 95)">AC: الضلع المقابل لـ B̂</text>
+<text x="215" y="80" text-anchor="middle" fill="#1d4ed8" transform="rotate(-26.5 215 80)">BC: الوتر</text>
+<rect x="350" y="20" width="180" height="40" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="440" y="46" text-anchor="middle">cos B̂ = المجاور / الوتر = AB/BC</text>
+<rect x="350" y="68" width="180" height="40" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="440" y="94" text-anchor="middle">sin B̂ = المقابل / الوتر = AC/BC</text>
+<rect x="350" y="116" width="180" height="40" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="440" y="142" text-anchor="middle">tan B̂ = المقابل / المجاور = AC/AB</text>
+</svg><figcaption>الشكل 1: مثلث ABC قائم في A؛ بالنسبة إلى الزاوية B̂ يكون AB الضلع المجاور و AC الضلع المقابل و BC الوتر، ومنها النسب المثلثية الثلاث.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المفردات:</span> في مثلث قائم، <span class="k">الوتر</span> هو الضلع المقابل للزاوية القائمة وهو الأطول؛ ولكل زاوية حادة <span class="k">ضلع مجاور</span> (يلامسها وليس الوتر) و<span class="k">ضلع مقابل</span>.</li>
+<li><span class="k">جيب التمام:</span> cos B̂ = المجاور ÷ الوتر. <span class="k">الجيب:</span> sin B̂ = المقابل ÷ الوتر. <span class="k">الظل:</span> tan B̂ = المقابل ÷ المجاور.</li>
+<li><span class="k">حدود القيم:</span> لأن الوتر أطول ضلع فإن cos B̂ و sin B̂ محصوران بين 0 و 1، أما الظل فيمكن أن يتجاوز 1.</li>
+<li><span class="k">العلاقتان الأساسيتان:</span> cos<sup>2</sup>x + sin<sup>2</sup>x = 1 و tan x = sin x / cos x لكل زاوية حادة x.</li>
+<li><span class="k">حساب طول أو زاوية:</span> نكتب النسبة التي تحوي الطول المجهول والطول المعلوم ثم نحلّ المعادلة؛ ولإيجاد زاوية نحسب النسبة ثم نستعمل الآلة في وضع الدرجات (DEG) بالمفاتيح cos<sup>−1</sup> أو sin<sup>−1</sup> أو tan<sup>−1</sup>.</li>
+<li><span class="k">قيم تُحفظ:</span> cos 60° = sin 30° = 0,5 و tan 45° = 1.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>مثلث ABC قائم في A، فيه AB = 3 cm و AC = 4 cm و BC = 5 cm. احسب النسب المثلثية لـ B̂. <span class="k">الحل:</span> cos B̂ = AB/BC = 3/5 = 0,6 و sin B̂ = AC/BC = 4/5 = 0,8 و tan B̂ = AC/AB = 4/3. التحقق: 0,36 + 0,64 = 1.</li>
+<li>زاوية حادة x بحيث cos x = 0,6. احسب sin x دون الآلة. <span class="k">الحل:</span> sin<sup>2</sup>x = 1 − 0,36 = 0,64، وبما أن sin x موجب فإن sin x = 0,8.</li>
+<li>سلّم طوله 5 m يستند إلى حائط ويصنع مع الأرض زاوية 60°. ما ارتفاع نقطة استناده؟ <span class="k">الحل:</span> الارتفاع h مقابل للزاوية والسلّم هو الوتر: sin 60° = h/5، إذن h = 5 × sin 60° ≈ 5 × 0,866 ≈ 4,33 m.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>تحديد المجاور والمقابل بالنسبة إلى الزاوية الخاطئة؛ المقابل لـ B̂ هو المجاور لـ Ĉ.</li>
+<li>الحصول على قيمة أكبر من 1 لجيب التمام أو الجيب وعدم الانتباه؛ هذا دليل قاطع على الخطأ.</li>
+<li>ترك الآلة الحاسبة في وضع الراديان (RAD)؛ تأكد من وضع DEG قبل الحساب.</li>
+<li>تطبيق النسب المثلثية في مثلث غير قائم، أو نسيان ذكر «قائم في A» في التبرير.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>cos = مجاور/وتر، sin = مقابل/وتر، tan = مقابل/مجاور.</li>
+<li>cos و sin دائمًا بين 0 و 1.</li>
+<li>cos<sup>2</sup>x + sin<sup>2</sup>x = 1 و tan x = sin x / cos x.</li>
+<li>طول مجهول: نسبة مناسبة ثم جداء متصالب؛ زاوية: المفاتيح العكسية والآلة في وضع DEG.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>
