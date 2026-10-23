@@ -103,7 +103,7 @@ export async function listStudentFiles(db: Db, actor: Actor) {
     .from(contentTargets)
     .where(or(gids.length ? inArray(contentTargets.groupId, gids) : sql`false`, eq(contentTargets.studentId, studentId)))
   return db
-    .select({ id: content.id, title: content.title, type: content.type, publishedAt: content.publishedAt, fileId: files.id, fileName: files.originalName, size: files.sizeBytes, mime: files.mimeType })
+    .select({ id: content.id, slug: content.slug, title: content.title, type: content.type, publishedAt: content.publishedAt, fileId: files.id, fileName: files.originalName, size: files.sizeBytes, mime: files.mimeType, allowDownload: content.allowDownload })
     .from(content)
     .innerJoin(files, eq(files.id, content.fileId))
     .where(and(isNull(content.deletedAt), isNotNull(content.publishedAt), or(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), inArray(content.id, targeted))))
