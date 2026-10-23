@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> الشعاع كائن له اتجاه ومنحى وطويلة، ولا يتعلق بموضعه. نجمع شعاعين بوضع الثاني في نهاية الأول (علاقة شال)، ونضرب شعاعًا بعدد حقيقي فنغيّر طويلته ونحافظ على اتجاهه أو نعكس منحاه إذا كان العدد سالبًا.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1d4ed8"/></marker><marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#15803d"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#c2410c"/></marker></defs>
 <line x1="300" y1="140" x2="400" y2="40" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#ab)"/>
 <line x1="400" y1="40" x2="510" y2="140" stroke="#15803d" stroke-width="2.5" marker-end="url(#ag)"/>
@@ -62,43 +62,43 @@ main{position:relative;z-index:1}
 <circle cx="300" cy="140" r="3" fill="#1f2937"/><circle cx="400" cy="40" r="3" fill="#1f2937"/><circle cx="510" cy="140" r="3" fill="#1f2937"/>
 <text x="290" y="160" font-weight="700">A</text><text x="400" y="30" text-anchor="middle" font-weight="700">B</text><text x="515" y="160" font-weight="700">C</text>
 <text x="330" y="80" fill="#1d4ed8" font-weight="700">AB</text><text x="470" y="80" fill="#15803d" font-weight="700">BC</text><text x="405" y="130" text-anchor="middle" fill="#c2410c" font-weight="700">AC = AB + BC</text>
-<text x="405" y="18" text-anchor="middle" font-size="13">علاقة شال</text>
+<text x="300" y="40" text-anchor="middle" font-size="13">علاقة شال</text>
 <line x1="60" y1="50" x2="120" y2="50" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#ab)"/><text x="90" y="40" text-anchor="middle" fill="#1d4ed8" font-weight="700">u</text>
 <line x1="60" y1="95" x2="180" y2="95" stroke="#15803d" stroke-width="2.5" marker-end="url(#ag)"/><text x="120" y="85" text-anchor="middle" fill="#15803d" font-weight="700">2u</text>
 <line x1="150" y1="140" x2="90" y2="140" stroke="#c2410c" stroke-width="2.5" marker-end="url(#ao)"/><text x="120" y="162" text-anchor="middle" fill="#c2410c" font-weight="700">−u</text>
 <text x="120" y="18" text-anchor="middle" font-size="13">جداء شعاع بعدد حقيقي</text>
 <line x1="235" y1="15" x2="235" y2="170" stroke="#1f2937" stroke-dasharray="4 4"/>
-</svg><figcaption>الشكل 1: على اليمين علاقة شال AB + BC = AC، وعلى اليسار الشعاع u ومضاعفاه 2u (نفس المنحى وطويلة مضاعفة) و−u (منحى معاكس).</figcaption></figure>
+</svg><figcaption>الشكل 1: على اليمين علاقة شال <bdi dir="ltr">AB + BC = AC</bdi>، وعلى اليسار الشعاع u ومضاعفاه 2u (نفس المنحى وطويلة مضاعفة) و<bdi dir="ltr">−u</bdi> (منحى معاكس).</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">الشعاع AB</span> يُحدَّد باتجاهه (المستقيم (AB)) ومنحاه (من A نحو B) وطويلته (المسافة AB). الشعاعان AB وCD متساويان إذا وفقط إذا كان ABDC متوازي أضلاع (قد يكون منسحقًا).</li>
-<li><span class="k">علاقة شال:</span> من أجل كل ثلاث نقط A وB وC: AB + BC = AC. نهاية الشعاع الأول هي بداية الثاني، والنتيجة من بداية الأول إلى نهاية الثاني.</li>
-<li><span class="k">قاعدة متوازي الأضلاع:</span> إذا كان الشعاعان من نفس المبدأ A، فإن AB + AC = AD حيث ABDC متوازي أضلاع.</li>
-<li><span class="k">الشعاع المعدوم والمقابل:</span> AA هو الشعاع المعدوم 0، وBA هو مقابل AB أي BA = −AB، ومنه AB + BA = 0.</li>
-<li><span class="k">الجداء بعدد حقيقي k:</span> الشعاع ku له نفس اتجاه u، وطويلته |k| مضروبة في طويلة u، ومنحاه هو منحى u إذا كان k &gt; 0 ومعاكس له إذا كان k &lt; 0.</li>
-<li><span class="k">قواعد الحساب:</span> k(u + v) = ku + kv، و(k + k′)u = ku + k′u، و k(k′u) = (kk′)u. نتعامل مع الأشعة في الحساب كما نتعامل مع الحروف في الجبر.</li>
-<li><span class="k">منتصف قطعة:</span> I منتصف [AB] يكافئ AI = IB، أو IA + IB = 0، أو AI = (1/2)AB.</li>
+<li><span class="k">الشعاع AB</span> يُحدَّد باتجاهه (المستقيم (AB)) ومنحاه (من A نحو B) وطويلته (المسافة AB). الشعاعان AB وCD متساويان إذا وفقط إذا كان ABDC متوازي أضلاع (قد يكون منسحقًا). <span class="k">اصطلاح:</span> في العلاقات الشعاعية من هذا الملخص تدل AB على الشعاع، ويُكتب في الكراس بسهم فوق الحرفين.</li>
+<li><span class="k">علاقة شال:</span> من أجل كل ثلاث نقط A وB وC: <bdi dir="ltr">AB + BC = AC</bdi>. نهاية الشعاع الأول هي بداية الثاني، والنتيجة من بداية الأول إلى نهاية الثاني.</li>
+<li><span class="k">قاعدة متوازي الأضلاع:</span> إذا كان الشعاعان من نفس المبدأ A، فإن <bdi dir="ltr">AB + AC = AD</bdi> حيث ABDC متوازي أضلاع.</li>
+<li><span class="k">الشعاع المعدوم والمقابل:</span> AA هو الشعاع المعدوم 0، وBA هو مقابل AB أي <bdi dir="ltr">BA = −AB</bdi>، ومنه <bdi dir="ltr">AB + BA = 0</bdi>.</li>
+<li><span class="k">الجداء بعدد حقيقي k:</span> الشعاع ku له نفس اتجاه u، وطويلته <bdi dir="ltr">|k|</bdi> مضروبة في طويلة u، ومنحاه هو منحى u إذا كان <bdi dir="ltr">k &gt; 0</bdi> ومعاكس له إذا كان <bdi dir="ltr">k &lt; 0</bdi>.</li>
+<li><span class="k">قواعد الحساب:</span> <bdi dir="ltr">k(u + v) = ku + kv</bdi>، و<bdi dir="ltr">(k + k′)u = ku + k′u</bdi>، و <bdi dir="ltr">k(k′u) = (kk′)u</bdi>. نتعامل مع الأشعة في الحساب كما نتعامل مع الحروف في الجبر.</li>
+<li><span class="k">منتصف قطعة:</span> I منتصف <bdi dir="ltr">[AB]</bdi> يكافئ <bdi dir="ltr">AI = IB</bdi>، أو <bdi dir="ltr">IA + IB = 0</bdi>، أو <bdi dir="ltr">AI = (1/2)AB</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>بسّط العبارة: AB + BC + CD. <span class="k">الحل:</span> بتطبيق علاقة شال مرتين: AB + BC = AC، ثم AC + CD = AD. إذن العبارة تساوي AD.</li>
-<li>بسّط: MA − MB. <span class="k">الحل:</span> −MB = BM، فتصبح العبارة MA + BM = BM + MA = BA. <span class="k">التفسير:</span> فرق شعاعين من نفس المبدأ M يعطي شعاعًا لا يتعلق بـ M.</li>
-<li>ABCD متوازي أضلاع و I منتصف [AB]. عبّر عن DI بدلالة AB وAD. <span class="k">الحل:</span> DI = DA + AI = −AD + (1/2)AB. إذن DI = (1/2)AB − AD.</li>
+<li>بسّط العبارة: <bdi dir="ltr">AB + BC + CD</bdi>. <span class="k">الحل:</span> بتطبيق علاقة شال مرتين: <bdi dir="ltr">AB + BC = AC</bdi>، ثم <bdi dir="ltr">AC + CD = AD</bdi>. إذن العبارة تساوي AD.</li>
+<li>بسّط: <bdi dir="ltr">MA − MB</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">−MB = BM</bdi>، فتصبح العبارة <bdi dir="ltr">MA + BM = BM + MA = BA</bdi>. <span class="k">التفسير:</span> فرق شعاعين من نفس المبدأ M يعطي شعاعًا لا يتعلق بـ M.</li>
+<li>ABCD متوازي أضلاع و I منتصف <bdi dir="ltr">[AB]</bdi>. عبّر عن DI بدلالة AB وAD. <span class="k">الحل:</span> <bdi dir="ltr">DI = DA + AI = −AD + (1/2)AB</bdi>. إذن <bdi dir="ltr">DI = (1/2)AB − AD</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>كتابة AB + CD = AD مباشرة؛ علاقة شال تتطلب أن تكون <span class="k">نهاية الأول هي بداية الثاني</span>، وهنا B ≠ C.</li>
-<li>الخلط بين الشعاع AB والمسافة AB: الشعاع له منحى، أما المسافة فعدد موجب، ولا نكتب أبدًا AB = 5 للشعاع.</li>
-<li>نسيان تغيير الإشارة عند قلب الشعاع: −AB = BA، فمن يكتب −AB = AB يخطئ في كل ما بعده.</li>
-<li>الاعتقاد أن AB = CD يعني أن النقط A وB وC وD على استقامة واحدة؛ الصحيح أنه يعني ABDC متوازي أضلاع.</li>
+<li>كتابة <bdi dir="ltr">AB + CD = AD</bdi> مباشرة؛ علاقة شال تتطلب أن تكون <span class="k">نهاية الأول هي بداية الثاني</span>، وهنا <bdi dir="ltr">B ≠ C</bdi>.</li>
+<li>الخلط بين الشعاع AB والمسافة AB: الشعاع له منحى، أما المسافة فعدد موجب، ولا نكتب أبدًا <bdi dir="ltr">AB = 5</bdi> للشعاع.</li>
+<li>نسيان تغيير الإشارة عند قلب الشعاع: <bdi dir="ltr">−AB = BA</bdi>، فمن يكتب <bdi dir="ltr">−AB = AB</bdi> يخطئ في كل ما بعده.</li>
+<li>الاعتقاد أن <bdi dir="ltr">AB = CD</bdi> يعني أن النقط A وB وC وD على استقامة واحدة؛ الصحيح أنه يعني ABDC متوازي أضلاع.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>شال: AB + BC = AC (النقطة الوسطى تختفي).</li>
-<li>BA = −AB، وAA = 0.</li>
-<li>AB = CD ⇔ ABDC متوازي أضلاع.</li>
-<li>ku: نفس الاتجاه، طويلة |k|·AB، منحى حسب إشارة k.</li>
-<li>I منتصف [AB] ⇔ IA + IB = 0 ⇔ AI = (1/2)AB.</li>
+<li>شال: <bdi dir="ltr">AB + BC = AC</bdi> (النقطة الوسطى تختفي).</li>
+<li><bdi dir="ltr">BA = −AB</bdi>، و<bdi dir="ltr">AA = 0</bdi>.</li>
+<li><bdi dir="ltr">AB = CD ⇔ ABDC</bdi> متوازي أضلاع.</li>
+<li>ku: نفس الاتجاه، طويلته <bdi dir="ltr">|k|</bdi> مضروبة في طويلة u، منحى حسب إشارة k.</li>
+<li>I منتصف <bdi dir="ltr">[AB] ⇔ IA + IB = 0 ⇔ AI = (1/2)AB</bdi>.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> مؤشرات الموقع ثلاثة أعداد تلخّص أين تتمركز القيم: المتوسط يأخذ كل القيم في الحسبان، والمنوال هو القيمة الأكثر تكراراً، والوسيط يقسم السلسلة المرتّبة إلى نصفين متساويي العدد.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <line x1="30" y1="130" x2="500" y2="130" stroke="#1f2937" stroke-width="1.5"/>
 <text x="40" y="150" text-anchor="middle" font-size="13">0</text><text x="96" y="150" text-anchor="middle" font-size="13">2</text><text x="152" y="150" text-anchor="middle" font-size="13">4</text><text x="208" y="150" text-anchor="middle" font-size="13">6</text><text x="264" y="150" text-anchor="middle" font-size="13">8</text><text x="320" y="150" text-anchor="middle" font-size="13">10</text><text x="376" y="150" text-anchor="middle" font-size="13">12</text><text x="432" y="150" text-anchor="middle" font-size="13">14</text><text x="488" y="150" text-anchor="middle" font-size="13">16</text>
 <line x1="40" y1="126" x2="40" y2="134" stroke="#1f2937"/><line x1="96" y1="126" x2="96" y2="134" stroke="#1f2937"/><line x1="152" y1="126" x2="152" y2="134" stroke="#1f2937"/><line x1="208" y1="126" x2="208" y2="134" stroke="#1f2937"/><line x1="264" y1="126" x2="264" y2="134" stroke="#1f2937"/><line x1="320" y1="126" x2="320" y2="134" stroke="#1f2937"/><line x1="376" y1="126" x2="376" y2="134" stroke="#1f2937"/><line x1="432" y1="126" x2="432" y2="134" stroke="#1f2937"/><line x1="488" y1="126" x2="488" y2="134" stroke="#1f2937"/>
@@ -62,26 +62,26 @@ main{position:relative;z-index:1}
 <line x1="236" y1="130" x2="236" y2="56" stroke="#15803d" stroke-width="2" stroke-dasharray="5 3"/>
 <line x1="264" y1="130" x2="264" y2="82" stroke="#1d4ed8" stroke-width="2" stroke-dasharray="5 3"/>
 <circle cx="152" cy="118" r="6" fill="#1f2937"/><circle cx="208" cy="118" r="6" fill="#c2410c"/><circle cx="208" cy="104" r="6" fill="#c2410c"/><circle cx="236" cy="118" r="6" fill="#15803d"/><circle cx="292" cy="118" r="6" fill="#1f2937"/><circle cx="320" cy="118" r="6" fill="#1f2937"/><circle cx="432" cy="118" r="6" fill="#1f2937"/>
-<text x="200" y="26" text-anchor="end" fill="#c2410c" font-weight="700">المنوال = 6 (ظهر مرتين)</text>
-<text x="244" y="52" fill="#15803d" font-weight="700">الوسيط = 7 (القيمة الرابعة من 7 قيم مرتّبة)</text>
-<text x="272" y="78" fill="#1d4ed8" font-weight="700">المتوسط = 56 ÷ 7 = 8</text>
-<text x="270" y="170" text-anchor="middle" font-size="13">السلسلة المرتّبة: 4 ؛ 6 ؛ 6 ؛ 7 ؛ 9 ؛ 10 ؛ 14</text>
+<text x="200" y="26" fill="#c2410c" font-weight="700" text-anchor="start" direction="rtl">المنوال = 6، ظهر مرتين</text>
+<text x="244" y="52" fill="#15803d" font-weight="700" text-anchor="end" direction="rtl">الوسيط = 7، القيمة الرابعة من 7 قيم مرتّبة</text>
+<text x="272" y="78" fill="#1d4ed8" font-weight="700" text-anchor="end" direction="rtl">المتوسط x̄ = 56 ÷ 7 = 8</text>
+<text x="270" y="166" font-size="13" text-anchor="middle" direction="rtl">السلسلة المرتّبة: 4 ؛ 6 ؛ 6 ؛ 7 ؛ 9 ؛ 10 ؛ 14</text>
 </svg><figcaption>الشكل 1: سبع قيم على محور مدرّج؛ المنوال والوسيط والمتوسط ثلاثة أعداد مختلفة لسلسلة واحدة.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">المتوسط الحسابي</span> لسلسلة قيمها x<sub>i</sub> بتكرارات n<sub>i</sub> هو: المتوسط = (n<sub>1</sub>x<sub>1</sub> + n<sub>2</sub>x<sub>2</sub> + … + n<sub>p</sub>x<sub>p</sub>) ÷ N.</li>
+<li><span class="k">المتوسط الحسابي</span> لسلسلة قيمها x<sub>i</sub> بتكرارات n<sub>i</sub> هو: المتوسط = <bdi dir="ltr">(n<sub>1</sub>x<sub>1</sub> + n<sub>2</sub>x<sub>2</sub> + … + n<sub>p</sub>x<sub>p</sub>) ÷ N</bdi>.</li>
 <li>في حالة <span class="k">الفئات</span> نعوّض كل فئة بمركزها ونطبّق القانون نفسه؛ النتيجة تقريبية.</li>
 <li><span class="k">المنوال</span> هو القيمة ذات التكرار الأكبر، وقد يتعدّد. مع الفئات نتحدث عن <span class="k">الفئة المنوالية</span> (ذات التكرار الأكبر إذا تساوت المدايات).</li>
 <li><span class="k">الوسيط</span> عدد يقسم السلسلة المرتّبة تصاعدياً إلى مجموعتين لهما العدد نفسه من القيم.</li>
-<li><span class="k">تعيين الوسيط عملياً:</span> إذا كان N فردياً فالوسيط هو القيمة ذات الرتبة (N + 1) ÷ 2؛ وإذا كان زوجياً فهو نصف مجموع القيمتين ذواتي الرتبتين N ÷ 2 و(N ÷ 2) + 1.</li>
-<li>مع جدول التكرارات نستعمل <span class="k">التكرارات المجمعة الصاعدة</span>: أول قيمة يبلغ عندها المجمع N ÷ 2 أو يتجاوزه تعطي الوسيط، وبالطريقة نفسها نعيّن <span class="k">الفئة الوسيطية</span>.</li>
+<li><span class="k">تعيين الوسيط عملياً:</span> إذا كان N فردياً فالوسيط هو القيمة ذات الرتبة <bdi dir="ltr">(N + 1) ÷ 2</bdi>؛ وإذا كان زوجياً فهو نصف مجموع القيمتين ذواتي الرتبتين <bdi dir="ltr">N ÷ 2</bdi> و<bdi dir="ltr">(N ÷ 2) + 1</bdi>.</li>
+<li>مع جدول التكرارات نستعمل <span class="k">التكرارات المجمعة الصاعدة</span>: أول قيمة يبلغ عندها المجمع <bdi dir="ltr">N ÷ 2</bdi> أو يتجاوزه تعطي الوسيط (وإذا بلغ المجمع <bdi dir="ltr">N ÷ 2</bdi> تماماً عند قيمة ما، فالوسيط نصف مجموعها والقيمة التي تليها)، وبالطريقة نفسها نعيّن <span class="k">الفئة الوسيطية</span>.</li>
 <li><span class="k">الحساسية:</span> المتوسط يتأثر بالقيم المتطرفة، بينما الوسيط والمنوال لا يتأثران بها.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>عدد الكتب التي قرأها 7 تلاميذ: 6 ؛ 9 ؛ 4 ؛ 14 ؛ 6 ؛ 10 ؛ 7. <span class="k">الحل:</span> الترتيب: 4 ؛ 6 ؛ 6 ؛ 7 ؛ 9 ؛ 10 ؛ 14. المجموع 56 فالمتوسط 56 ÷ 7 = 8. المنوال 6. N = 7 فردي فالوسيط هو القيمة الرابعة: 7.</li>
-<li>علامات 20 تلميذاً: 8 (3 مرات)، 10 (5)، 12 (7)، 14 (3)، 16 (2). <span class="k">الحل:</span> المتوسط = (24 + 50 + 84 + 42 + 32) ÷ 20 = 232 ÷ 20 = 11,6. المنوال 12. التكرارات المجمعة 3 ؛ 8 ؛ 15 ؛ 18 ؛ 20، وN = 20 زوجي، فالقيمتان العاشرة والحادية عشرة كلتاهما 12، فالوسيط 12.</li>
-<li>سلسلة بفئات: [0 ؛ 4[ تكرارها 2، [4 ؛ 8[ تكرارها 5، [8 ؛ 12[ تكرارها 8، [12 ؛ 16[ تكرارها 4، [16 ؛ 20[ تكرارها 1. <span class="k">الحل:</span> المراكز 2 ؛ 6 ؛ 10 ؛ 14 ؛ 18. المتوسط = (4 + 30 + 80 + 56 + 18) ÷ 20 = 188 ÷ 20 = 9,4. الفئة المنوالية [8 ؛ 12[. التكرارات المجمعة 2 ؛ 7 ؛ 15 ؛ 19 ؛ 20، وN ÷ 2 = 10 يُبلَغ لأول مرة في الفئة [8 ؛ 12[ فهي الفئة الوسيطية.</li>
+<li>عدد الكتب التي قرأها 7 تلاميذ: 6 ؛ 9 ؛ 4 ؛ 14 ؛ 6 ؛ 10 ؛ 7. <span class="k">الحل:</span> الترتيب: 4 ؛ 6 ؛ 6 ؛ 7 ؛ 9 ؛ 10 ؛ 14. المجموع 56 فالمتوسط <bdi dir="ltr">56 ÷ 7 = 8</bdi>. المنوال 6. <bdi dir="ltr">N = 7</bdi> فردي فالوسيط هو القيمة الرابعة: 7.</li>
+<li>علامات 20 تلميذاً: 8 (3 مرات)، 10 (5)، 12 (7)، 14 (3)، 16 (2). <span class="k">الحل:</span> المتوسط = <bdi dir="ltr">(24 + 50 + 84 + 42 + 32) ÷ 20 = 232 ÷ 20 = 11,6</bdi>. المنوال 12. التكرارات المجمعة 3 ؛ 8 ؛ 15 ؛ 18 ؛ 20، و<bdi dir="ltr">N = 20</bdi> زوجي، فالقيمتان العاشرة والحادية عشرة كلتاهما 12، فالوسيط 12.</li>
+<li>سلسلة بفئات: <bdi dir="ltr">[0 ; 4[</bdi> تكرارها 2، <bdi dir="ltr">[4 ; 8[</bdi> تكرارها 5، <bdi dir="ltr">[8 ; 12[</bdi> تكرارها 8، <bdi dir="ltr">[12 ; 16[</bdi> تكرارها 4، <bdi dir="ltr">[16 ; 20[</bdi> تكرارها 1. <span class="k">الحل:</span> المراكز 2 ؛ 6 ؛ 10 ؛ 14 ؛ 18. المتوسط = <bdi dir="ltr">(4 + 30 + 80 + 56 + 18) ÷ 20 = 188 ÷ 20 = 9,4</bdi>. الفئة المنوالية <bdi dir="ltr">[8 ; 12[</bdi>. التكرارات المجمعة 2 ؛ 7 ؛ 15 ؛ 19 ؛ 20، و<bdi dir="ltr">N ÷ 2 = 10</bdi> يُبلَغ لأول مرة في الفئة <bdi dir="ltr">[8 ; 12[</bdi> فهي الفئة الوسيطية.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
@@ -95,7 +95,7 @@ main{position:relative;z-index:1}
 <li>المتوسط = مجموع (التكرار × القيمة) ÷ N.</li>
 <li>المنوال = القيمة ذات التكرار الأكبر (قد يتعدّد).</li>
 <li>الوسيط: رتّب ثم خذ الرتبة الوسطى (أو متوسط الرتبتين الوسطيين إذا كان N زوجياً).</li>
-<li>مع الجدول: الوسيط عند أول تكرار مجمع يبلغ N ÷ 2 أو يتجاوزه.</li>
+<li>مع الجدول: الوسيط عند أول تكرار مجمع يبلغ <bdi dir="ltr">N ÷ 2</bdi> أو يتجاوزه (وإن بلغه تماماً فنصف مجموعها والتي تليها).</li>
 <li>قيمة متطرفة واحدة تغيّر المتوسط ولا تغيّر الوسيط.</li>
 </ul></div>
 

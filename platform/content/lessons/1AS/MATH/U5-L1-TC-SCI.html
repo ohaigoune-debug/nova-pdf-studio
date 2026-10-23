@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> في المستوي، مستقيمان إمّا متقاطعان وإمّا متوازيان. أمّا في الفضاء فيظهر وضع ثالث: مستقيمان لا يقعان في مستوٍ واحد، نسمّيهما غير مستويين. القاعدة الذهبية: نبحث أولاً عن مستوٍ يحوي العنصرين ثم نستدلّ.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <line x1="330" y1="150" x2="375" y2="115" stroke="#1f2937" stroke-width="1.5" stroke-dasharray="5 4"/>
 <line x1="375" y1="115" x2="465" y2="115" stroke="#1f2937" stroke-width="1.5" stroke-dasharray="5 4"/>
 <line x1="375" y1="115" x2="375" y2="35" stroke="#1f2937" stroke-width="1.5" stroke-dasharray="5 4"/>
@@ -76,11 +76,11 @@ main{position:relative;z-index:1}
 <text x="430" y="66" text-anchor="middle" font-weight="700">F</text>
 <text x="477" y="32" text-anchor="middle" font-weight="700">G</text>
 <text x="368" y="28" text-anchor="middle" font-weight="700">H</text>
-<text x="290" y="42" text-anchor="end" fill="#1d4ed8">(AB) و(EF): متوازيان (في المستوي ABFE)</text>
-<text x="290" y="72" text-anchor="end" fill="#15803d">(AB) و(BC): متقاطعان في النقطة B</text>
-<text x="290" y="102" text-anchor="end" fill="#c2410c">(AB) و(CG): غير مستويين (لا مستوي يحويهما)</text>
-<text x="290" y="132" text-anchor="end" fill="#1f2937">(EF) // (ABC) ؛ (ABF) ∩ (BCG) = (BF)</text>
-<text x="290" y="162" text-anchor="end" fill="#1f2937">(ABC) // (EFG): مستويان متوازيان تماماً</text>
+<text x="290" y="42" fill="#1d4ed8" text-anchor="start" direction="rtl">متوازيان:</text><text x="239" y="42" fill="#1d4ed8" text-anchor="end">(AB) // (EF)</text>
+<text x="290" y="72" fill="#15803d" text-anchor="start" direction="rtl">متقاطعان في B:</text><text x="205" y="72" fill="#15803d" text-anchor="end">(AB) ∩ (BC) = {B}</text>
+<text x="290" y="102" fill="#c2410c" text-anchor="start" direction="rtl">غير مستويين:</text><text x="222" y="102" fill="#c2410c" text-anchor="end">(AB) , (CG)</text>
+<text x="290" y="132" text-anchor="end" fill="#1f2937">(EF) // (ABC) ; (ABF) ∩ (BCG) = (BF)</text>
+<text x="290" y="162" fill="#1f2937" text-anchor="start" direction="rtl">مستويان متوازيان:</text><text x="195" y="162" fill="#1f2937" text-anchor="end">(ABC) // (EFG)</text>
 </svg><figcaption>الشكل 1: المكعّب ABCDEFGH مرجعاً لقراءة الأوضاع النسبية: متوازيان (أزرق)، متقاطعان (أخضر)، غير مستويين (برتقالي)، والخطوط المقطّعة أحرف خفيّة.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
@@ -93,9 +93,9 @@ main{position:relative;z-index:1}
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>في المكعّب ABCDEFGH (E فوق A، وF فوق B، وG فوق C، وH فوق D)، عيّن وضع (AE) و(CG) ثم وضع (AE) و(BC). <span class="k">الحل:</span> الرباعي ACGE مستطيل، فالمستقيمان (AE) و(CG) في مستوٍ واحد ولا يلتقيان: متوازيان. أمّا A وB وC فتنتمي إلى المستوي (ABC) بينما E لا تنتمي إليه، فلا يوجد مستوٍ يحوي (AE) و(BC): غير مستويين.</li>
-<li>عيّن تقاطع المستويين (ABF) و(ADH)، ثم وضع (ABF) و(DCG). <span class="k">الحل:</span> النقطتان A وE مشتركتان بين (ABF) و(ADH)، والمستويان متمايزان، إذن تقاطعهما هو المستقيم (AE). أمّا (ABF) و(DCG) فهما وجهان متقابلان لا يشتركان في أي نقطة: متوازيان تماماً.</li>
-<li>ما وضع المستقيم (EC) بالنسبة إلى المستوي (ABC)؟ <span class="k">الحل:</span> النقطة C تنتمي إلى (ABC) والنقطة E لا تنتمي إليه، فالمستقيم ليس محتوى في المستوي ولا موازياً له؛ إذن يقطعه في النقطة C وحدها.</li>
+<li>في المكعّب ABCDEFGH (حيث E فوق A، وF فوق B، وG فوق C، وH فوق D)، عيّن وضع <bdi dir="ltr">(AE)</bdi> و<bdi dir="ltr">(CG)</bdi> ثم وضع <bdi dir="ltr">(AE)</bdi> و<bdi dir="ltr">(BC)</bdi>. <span class="k">الحل:</span> الرباعي ACGE مستطيل، فالمستقيمان <bdi dir="ltr">(AE)</bdi> و<bdi dir="ltr">(CG)</bdi> في مستوٍ واحد ولا يلتقيان: متوازيان. أمّا A وB وC فتنتمي إلى المستوي <bdi dir="ltr">(ABC)</bdi> بينما E لا تنتمي إليه، فلا يوجد مستوٍ يحوي <bdi dir="ltr">(AE)</bdi> و<bdi dir="ltr">(BC)</bdi>: غير مستويين.</li>
+<li>عيّن تقاطع المستويين <bdi dir="ltr">(ABF)</bdi> و<bdi dir="ltr">(ADH)</bdi>، ثم وضع <bdi dir="ltr">(ABF)</bdi> و<bdi dir="ltr">(DCG)</bdi>. <span class="k">الحل:</span> النقطتان A وE مشتركتان بين <bdi dir="ltr">(ABF)</bdi> و<bdi dir="ltr">(ADH)</bdi>، والمستويان متمايزان، إذن تقاطعهما هو المستقيم <bdi dir="ltr">(AE)</bdi>. أمّا <bdi dir="ltr">(ABF)</bdi> و<bdi dir="ltr">(DCG)</bdi> فهما وجهان متقابلان لا يشتركان في أي نقطة: متوازيان تماماً.</li>
+<li>ما وضع المستقيم <bdi dir="ltr">(EC)</bdi> بالنسبة إلى المستوي <bdi dir="ltr">(ABC)</bdi>؟ <span class="k">الحل:</span> النقطة C تنتمي إلى <bdi dir="ltr">(ABC)</bdi> والنقطة E لا تنتمي إليه، فالمستقيم ليس محتوى في المستوي ولا موازياً له؛ إذن يقطعه في النقطة C وحدها.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>

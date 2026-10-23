@@ -54,35 +54,35 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> التمثيل البياني يحوّل جدول التكرارات إلى صورة تُقرأ بنظرة واحدة. نوع الميزة يفرض نوع الرسم: الميزة الكيفية أو الكمية المتقطعة تُمثَّل بالأعمدة أو بالقطاعات الدائرية، والميزة الكمية المستمرة (بفئات) تُمثَّل بالمدرج التكراري.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <path d="M110 92 L110 32 A60 60 0 0 1 110 152 Z" fill="#dbe6ff" stroke="#1f2937" stroke-width="1.5"/>
 <path d="M110 92 L110 152 A60 60 0 0 1 50 92 Z" fill="#fde68a" stroke="#1f2937" stroke-width="1.5"/>
 <path d="M110 92 L50 92 A60 60 0 0 1 74.7 43.5 Z" fill="#86efac" stroke="#1f2937" stroke-width="1.5"/>
 <path d="M110 92 L74.7 43.5 A60 60 0 0 1 110 32 Z" fill="#c2410c" stroke="#1f2937" stroke-width="1.5"/>
 <text x="138" y="97" font-size="12" text-anchor="middle">180°</text><text x="85" y="128" font-size="12" text-anchor="middle">90°</text>
-<text x="190" y="40" font-size="12" fill="#1d4ed8">سيراً: 20 تلميذاً</text><text x="190" y="62" font-size="12" fill="#a16207">حافلة: 10</text><text x="190" y="84" font-size="12" fill="#15803d">سيارة: 6 (54°)</text><text x="190" y="106" font-size="12" fill="#c2410c">دراجة: 4 (36°)</text>
-<text x="150" y="168" text-anchor="middle" font-size="12" font-weight="700">مخطط دائري (N = 40)</text>
+<text x="190" y="40" font-size="12" fill="#1d4ed8" text-anchor="end" direction="rtl">سيراً: 20 تلميذاً</text><text x="190" y="62" font-size="12" fill="#a16207" text-anchor="end" direction="rtl">حافلة: 10</text><text x="190" y="84" font-size="12" fill="#15803d" text-anchor="end" direction="rtl">سيارة: 6، زاويتها 54°</text><text x="190" y="106" font-size="12" fill="#c2410c" text-anchor="end" direction="rtl">دراجة: 4، زاويتها 36°</text>
+<text x="150" y="168" font-size="12" font-weight="700" text-anchor="middle" direction="rtl">مخطط دائري، N = 40</text>
 <line x1="310" y1="140" x2="520" y2="140" stroke="#1f2937" stroke-width="1.5"/><line x1="310" y1="140" x2="310" y2="25" stroke="#1f2937" stroke-width="1.5"/>
 <rect x="320" y="80" width="60" height="60" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><rect x="380" y="44" width="60" height="96" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><rect x="440" y="104" width="60" height="36" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
 <text x="350" y="74" text-anchor="middle" font-size="12">5</text><text x="410" y="38" text-anchor="middle" font-size="12">8</text><text x="470" y="98" text-anchor="middle" font-size="12">3</text>
 <text x="320" y="156" text-anchor="middle" font-size="12">10</text><text x="380" y="156" text-anchor="middle" font-size="12">20</text><text x="440" y="156" text-anchor="middle" font-size="12">30</text><text x="500" y="156" text-anchor="middle" font-size="12">40</text>
-<text x="415" y="170" text-anchor="middle" font-size="12" font-weight="700">مدرج تكراري (فئات متلاصقة)</text>
+<text x="415" y="170" font-size="12" font-weight="700" text-anchor="middle" direction="rtl">مدرج تكراري: فئات متلاصقة</text>
 </svg><figcaption>الشكل 1: على اليسار مخطط دائري لوسيلة التنقل عند 40 تلميذاً (الزاوية تناسب التكرار)، وعلى اليمين مدرج تكراري لميزة مستمرة بفئات متساوية الطول.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">المخطط بالأعمدة:</span> لكل قيمة عمود (أو خط) منفصل ارتفاعه يناسب التكرار n<sub>i</sub> أو التواتر f<sub>i</sub>. الأعمدة متباعدة ومتساوية العرض. يناسب الميزة الكيفية والميزة الكمية المتقطعة.</li>
 <li><span class="k">المدرج التكراري:</span> يخص الميزة الكمية المستمرة المجمّعة في فئات؛ مستطيلات متلاصقة قاعدتها الفئة ومساحتها تناسب التكرار. إذا كانت الفئات <span class="k">متساوية الطول</span> فالارتفاع يناسب التكرار مباشرة.</li>
 <li><span class="k">المضلع التكراري:</span> نصل بين منتصفات قمم المستطيلات (أو رؤوس الأعمدة) بقطع مستقيمة، فنحصل على خط يُبرز شكل التوزيع.</li>
-<li><span class="k">المخطط الدائري:</span> قرص كامل (360°) يُقسم إلى قطاعات؛ زاوية كل قطاع هي: α<sub>i</sub> = (n<sub>i</sub> × 360) ÷ N، ومجموع الزوايا يساوي 360°.</li>
-<li><span class="k">المخطط نصف الدائري:</span> نفس المبدأ لكن بـ180°: α<sub>i</sub> = (n<sub>i</sub> × 180) ÷ N.</li>
+<li><span class="k">المخطط الدائري:</span> قرص كامل (360°) يُقسم إلى قطاعات؛ زاوية كل قطاع هي: <bdi dir="ltr">α<sub>i</sub> = (n<sub>i</sub> × 360) ÷ N</bdi>، ومجموع الزوايا يساوي 360°.</li>
+<li><span class="k">المخطط نصف الدائري:</span> نفس المبدأ لكن بـ180°: <bdi dir="ltr">α<sub>i</sub> = (n<sub>i</sub> × 180) ÷ N</bdi>.</li>
 <li>في كل رسم يجب: عنوان، تدريج واضح للمحاور (وحدة الطول للتكرار)، مفتاح للألوان في المخطط الدائري.</li>
-<li><span class="k">القراءة العكسية:</span> من الرسم نعيد بناء الجدول: ارتفاع العمود يعطي التكرار، وقياس الزاوية يعطي n<sub>i</sub> = (α<sub>i</sub> × N) ÷ 360.</li>
+<li><span class="k">القراءة العكسية:</span> من الرسم نعيد بناء الجدول: ارتفاع العمود يعطي التكرار، وقياس الزاوية يعطي <bdi dir="ltr">n<sub>i</sub> = (α<sub>i</sub> × N) ÷ 360</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>سُئل 40 تلميذاً عن وسيلة التنقل: سيراً 20، حافلة 10، سيارة 6، دراجة 4. أنجز المخطط الدائري. <span class="k">الحل:</span> الزاوية = n<sub>i</sub> × 360 ÷ 40 = n<sub>i</sub> × 9. إذن: سيراً 180°، حافلة 90°، سيارة 54°، دراجة 36°. التحقق: 180 + 90 + 54 + 36 = 360.</li>
-<li>أعمار 16 شخصاً موزّعة على الفئات [10 ; 20[ بتكرار 5، و[20 ; 30[ بتكرار 8، و[30 ; 40[ بتكرار 3. <span class="k">الحل:</span> الميزة مستمرة والفئات متساوية الطول (10)، فنرسم مدرجاً تكرارياً بمستطيلات متلاصقة ارتفاعاتها 5 و8 و3 بنفس وحدة الطول؛ الفئة المنوالية هي [20 ; 30[.</li>
-<li>في مخطط نصف دائري يمثّل 30 تلميذاً، قطاع «الرياضيات» زاويته 60°. كم تلميذاً يفضّلون الرياضيات؟ <span class="k">الحل:</span> n = (60 × 30) ÷ 180 = 10 تلاميذ.</li>
+<li>سُئل 40 تلميذاً عن وسيلة التنقل: سيراً 20، حافلة 10، سيارة 6، دراجة 4. أنجز المخطط الدائري. <span class="k">الحل:</span> الزاوية = <bdi dir="ltr">n<sub>i</sub> × 360 ÷ 40 = n<sub>i</sub> × 9</bdi>. إذن: سيراً 180°، حافلة 90°، سيارة 54°، دراجة 36°. التحقق: <bdi dir="ltr">180 + 90 + 54 + 36 = 360</bdi>.</li>
+<li>أعمار 16 شخصاً موزّعة على الفئات <bdi dir="ltr">[10 ; 20[</bdi> بتكرار 5، و<bdi dir="ltr">[20 ; 30[</bdi> بتكرار 8، و<bdi dir="ltr">[30 ; 40[</bdi> بتكرار 3. <span class="k">الحل:</span> الميزة مستمرة والفئات متساوية الطول (10)، فنرسم مدرجاً تكرارياً بمستطيلات متلاصقة ارتفاعاتها 5 و8 و3 بنفس وحدة الطول؛ الفئة المنوالية هي <bdi dir="ltr">[20 ; 30[</bdi>.</li>
+<li>في مخطط نصف دائري يمثّل 30 تلميذاً، قطاع «الرياضيات» زاويته 60°. كم تلميذاً يفضّلون الرياضيات؟ <span class="k">الحل:</span> <bdi dir="ltr">n = (60 × 30) ÷ 180 = 10</bdi> تلاميذ.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
@@ -95,7 +95,7 @@ main{position:relative;z-index:1}
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
 <li>ميزة كيفية أو متقطعة ⇒ أعمدة متباعدة أو مخطط دائري.</li>
 <li>ميزة مستمرة بفئات ⇒ مدرج تكراري بمستطيلات متلاصقة.</li>
-<li>زاوية القطاع = n<sub>i</sub> × 360 ÷ N (أو × 180 ÷ N لنصف الدائرة).</li>
+<li>زاوية القطاع = <bdi dir="ltr">n<sub>i</sub> × 360 ÷ N</bdi> (أو × <bdi dir="ltr">180 ÷ N</bdi> لنصف الدائرة).</li>
 <li>المضلع التكراري يصل بين قمم الأعمدة أو منتصفات قمم المستطيلات.</li>
 <li>كل رسم بعنوان وتدريج ومفتاح، وتحقق دائماً من مجموع الزوايا.</li>
 </ul></div>

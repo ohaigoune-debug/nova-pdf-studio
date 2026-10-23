@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> المستقيم المدرّج يرتّب الأعداد الحقيقية، والمجال «قطعة» منه. الجمع يحافظ على الترتيب دائمًا، أمّا الضرب فيحافظ عليه إذا كان المضروب فيه موجبًا ويعكسه إذا كان سالبًا.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="arx" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
 <line x1="20" y1="60" x2="520" y2="60" stroke="#1f2937" stroke-width="2" marker-end="url(#arx)"/>
 <g font-size="13" text-anchor="middle"><line x1="70" y1="55" x2="70" y2="65" stroke="#1f2937"/><text x="70" y="82">−2</text><line x1="130" y1="55" x2="130" y2="65" stroke="#1f2937"/><text x="130" y="82">−1</text><line x1="190" y1="55" x2="190" y2="65" stroke="#1f2937"/><text x="190" y="82">0</text><line x1="250" y1="55" x2="250" y2="65" stroke="#1f2937"/><text x="250" y="82">1</text><line x1="310" y1="55" x2="310" y2="65" stroke="#1f2937"/><text x="310" y="82">2</text><line x1="370" y1="55" x2="370" y2="65" stroke="#1f2937"/><text x="370" y="82">3</text><line x1="430" y1="55" x2="430" y2="65" stroke="#1f2937"/><text x="430" y="82">4</text><line x1="490" y1="55" x2="490" y2="65" stroke="#1f2937"/><text x="490" y="82">5</text></g>
@@ -65,37 +65,37 @@ main{position:relative;z-index:1}
 <rect x="310" y="36" width="120" height="8" fill="#15803d"/>
 <text x="90" y="118" font-weight="700" fill="#15803d">I ∩ J = ]2 ; 4]</text>
 <text x="90" y="145" font-weight="700" fill="#a16207">I ∪ J = [−1 ; +∞[</text>
-<text x="190" y="170" text-anchor="middle" font-size="13">القوس المغلق [ يعني أن الطرف ينتمي، والمفتوح ] يعني أنه لا ينتمي.</text>
+<text x="270" y="170" text-anchor="middle" font-size="13">القوس المتّجه نحو العدد يعني أن الطرف ينتمي، والمتّجه بعيدًا عنه يعني أنه لا ينتمي</text>
 </svg><figcaption>الشكل 1: تمثيل المجالين I وJ على المستقيم المدرّج؛ التقاطع هو الجزء المشترك (بالأخضر) والاتحاد هو كل ما يغطّيه أحدهما.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">المقارنة بالفرق:</span> a ≤ b يكافئ a − b ≤ 0. فلمقارنة عددين ندرس إشارة فرقهما، وهذه أعمّ طريقة.</li>
-<li><span class="k">الجمع والطرح:</span> إذا كان a ≤ b فإن a + c ≤ b + c لكل عدد حقيقي c. وإذا كان a ≤ b وc ≤ d فإن a + c ≤ b + d (نجمع متباينتين في الاتجاه نفسه، ولا نطرحهما).</li>
-<li><span class="k">الضرب:</span> إذا كان a ≤ b وc &gt; 0 فإن ac ≤ bc. وإذا كان c &lt; 0 فإن ac ≥ bc: الضرب في عدد سالب <span class="k">يعكس اتجاه</span> المتباينة.</li>
-<li><span class="k">المقلوب والمربع:</span> إذا كان 0 &lt; a ≤ b فإن 1/a ≥ 1/b وa² ≤ b² و√a ≤ √b. أمّا إذا كان a ≤ b ≤ 0 فإن a² ≥ b².</li>
-<li><span class="k">المجالات المحدودة:</span> [a ; b] مغلق يحوي طرفيه، ]a ; b[ مفتوح لا يحويهما، و[a ; b[ و]a ; b] نصف مفتوحين. طول المجال هو b − a.</li>
-<li><span class="k">المجالات غير المحدودة:</span> [a ; +∞[ هي مجموعة x بحيث x ≥ a، و]−∞ ; a[ هي x &lt; a. القوس عند ∞ مفتوح دائمًا، وℝ = ]−∞ ; +∞[.</li>
-<li><span class="k">التقاطع والاتحاد:</span> I ∩ J مجموعة الأعداد التي تنتمي إلى I <span class="k">و</span>J معًا، وI ∪ J مجموعة الأعداد التي تنتمي إلى I <span class="k">أو</span>J. يُحدَّدان بسهولة بالرسم على المستقيم المدرّج.</li>
+<li><span class="k">المقارنة بالفرق:</span> <bdi dir="ltr">a ≤ b</bdi> يكافئ <bdi dir="ltr">a − b ≤ 0</bdi>. فلمقارنة عددين ندرس إشارة فرقهما، وهذه أعمّ طريقة.</li>
+<li><span class="k">الجمع والطرح:</span> إذا كان <bdi dir="ltr">a ≤ b</bdi> فإن <bdi dir="ltr">a + c ≤ b + c</bdi> لكل عدد حقيقي c. وإذا كان <bdi dir="ltr">a ≤ b</bdi> و<bdi dir="ltr">c ≤ d</bdi> فإن <bdi dir="ltr">a + c ≤ b + d</bdi> (نجمع متباينتين في الاتجاه نفسه، ولا نطرحهما).</li>
+<li><span class="k">الضرب:</span> إذا كان <bdi dir="ltr">a ≤ b</bdi> و<bdi dir="ltr">c &gt; 0</bdi> فإن <bdi dir="ltr">ac ≤ bc</bdi>. وإذا كان <bdi dir="ltr">c &lt; 0</bdi> فإن <bdi dir="ltr">ac ≥ bc</bdi>: الضرب في عدد سالب <span class="k">يعكس اتجاه</span> المتباينة.</li>
+<li><span class="k">المقلوب والمربع:</span> إذا كان <bdi dir="ltr">0 &lt; a ≤ b</bdi> فإن <bdi dir="ltr">1/a ≥ 1/b</bdi> و<bdi dir="ltr">a² ≤ b²</bdi> و<bdi dir="ltr">√a ≤ √b</bdi>. أمّا إذا كان <bdi dir="ltr">a ≤ b ≤ 0</bdi> فإن <bdi dir="ltr">a² ≥ b²</bdi>.</li>
+<li><span class="k">المجالات المحدودة:</span> <bdi dir="ltr">[a ; b]</bdi> مغلق يحوي طرفيه، <bdi dir="ltr">]a ; b[</bdi> مفتوح لا يحويهما، و<bdi dir="ltr">[a ; b[</bdi> و<bdi dir="ltr">]a ; b]</bdi> نصف مفتوحين. طول المجال هو <bdi dir="ltr">b − a</bdi>.</li>
+<li><span class="k">المجالات غير المحدودة:</span> <bdi dir="ltr">[a ; +∞[</bdi> هي مجموعة x بحيث <bdi dir="ltr">x ≥ a</bdi>، و<bdi dir="ltr">]−∞ ; a[</bdi> هي <bdi dir="ltr">x &lt; a</bdi>. القوس عند ∞ مفتوح دائمًا، و<bdi dir="ltr">ℝ = ]−∞ ; +∞[</bdi>.</li>
+<li><span class="k">التقاطع والاتحاد:</span> <bdi dir="ltr">I ∩ J</bdi> مجموعة الأعداد التي تنتمي إلى I <span class="k">و</span>J معًا، و<bdi dir="ltr">I ∪ J</bdi> مجموعة الأعداد التي تنتمي إلى I <span class="k">أو</span>J. يُحدَّدان بسهولة بالرسم على المستقيم المدرّج.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>قارن 3/7 و2/5. <span class="k">الحل:</span> 3/7 − 2/5 = 15/35 − 14/35 = 1/35 &gt; 0، إذن 3/7 &gt; 2/5.</li>
-<li>إذا كان 2 ≤ x ≤ 5 فاحصر العددين 3x + 1 و−2x. <span class="k">الحل:</span> بالضرب في 3 ثم إضافة 1: 7 ≤ 3x + 1 ≤ 16. وبالضرب في −2 ينعكس الاتجاه: −10 ≤ −2x ≤ −4.</li>
-<li>ليكن I = [−1 ; 4] وJ = ]2 ; +∞[. حدّد I ∩ J وI ∪ J. <span class="k">الحل:</span> الأعداد المشتركة هي التي تحقق 2 &lt; x ≤ 4، أي I ∩ J = ]2 ; 4]. والاتحاد يبدأ من −1 (مع الطرف) ولا ينتهي: I ∪ J = [−1 ; +∞[.</li>
+<li>قارن <bdi dir="ltr">3/7</bdi> و<bdi dir="ltr">2/5</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">3/7 − 2/5 = 15/35 − 14/35 = 1/35 &gt; 0</bdi>، إذن <bdi dir="ltr">3/7 &gt; 2/5</bdi>.</li>
+<li>إذا كان <bdi dir="ltr">2 ≤ x ≤ 5</bdi> فاحصر العددين <bdi dir="ltr">3x + 1</bdi> و<bdi dir="ltr">−2x</bdi>. <span class="k">الحل:</span> بالضرب في 3 ثم إضافة 1: <bdi dir="ltr">7 ≤ 3x + 1 ≤ 16</bdi>. وبالضرب في <bdi dir="ltr">−2</bdi> ينعكس الاتجاه: <bdi dir="ltr">−10 ≤ −2x ≤ −4</bdi>.</li>
+<li>ليكن <bdi dir="ltr">I = [−1 ; 4]</bdi> و<bdi dir="ltr">J = ]2 ; +∞[</bdi>. حدّد <bdi dir="ltr">I ∩ J</bdi> و<bdi dir="ltr">I ∪ J</bdi>. <span class="k">الحل:</span> الأعداد المشتركة هي التي تحقق <bdi dir="ltr">2 &lt; x ≤ 4</bdi>، أي <bdi dir="ltr">I ∩ J = ]2 ; 4]</bdi>. والاتحاد يبدأ من <bdi dir="ltr">−1</bdi> (مع الطرف) ولا ينتهي: <bdi dir="ltr">I ∪ J = [−1 ; +∞[</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>نسيان عكس اتجاه المتباينة عند الضرب أو القسمة على عدد سالب: من x ≤ 3 نستنتج −x ≥ −3 وليس −x ≤ −3.</li>
-<li>طرح متباينتين طرفًا لطرف؛ الطرح غير مسموح، بل نضرب الثانية في −1 ثم نجمع.</li>
-<li>كتابة قوس مغلق عند ∞ مثل [2 ; +∞]؛ اللانهاية ليست عددًا فالقوس عندها مفتوح دائمًا.</li>
+<li>نسيان عكس اتجاه المتباينة عند الضرب أو القسمة على عدد سالب: من <bdi dir="ltr">x ≤ 3</bdi> نستنتج <bdi dir="ltr">−x ≥ −3</bdi> وليس <bdi dir="ltr">−x ≤ −3</bdi>.</li>
+<li>طرح متباينتين طرفًا لطرف؛ الطرح غير مسموح، بل نضرب الثانية في <bdi dir="ltr">−1</bdi> ثم نجمع.</li>
+<li>كتابة قوس مغلق عند ∞ مثل <bdi dir="ltr">[2 ; +∞]</bdi>؛ اللانهاية ليست عددًا فالقوس عندها مفتوح دائمًا.</li>
 <li>الخلط بين التقاطع «و» (الأصغر) والاتحاد «أو» (الأكبر)؛ الرسم على المستقيم يحسم الأمر.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>a ≤ b ⇔ a − b ≤ 0.</li>
+<li><bdi dir="ltr">a ≤ b ⇔ a − b ≤ 0</bdi>.</li>
 <li>الجمع يحافظ على الترتيب؛ الضرب في موجب يحافظ، وفي سالب يعكس.</li>
 <li>لعددين موجبين: الترتيب نفسه للمربعات والجذور، ومعكوس للمقلوبات.</li>
-<li>[ مغلق = الطرف ينتمي، ] مفتوح = لا ينتمي، وعند ∞ مفتوح دائمًا.</li>
+<li><bdi dir="ltr">[a ; b]</bdi> مغلق يحوي طرفيه، و<bdi dir="ltr">]a ; b[</bdi> مفتوح لا يحويهما، والقوس عند ∞ مفتوح دائمًا.</li>
 <li>∩ = الجزء المشترك، ∪ = كل ما يغطّيه أحدهما؛ ارسم المستقيم المدرّج.</li>
 </ul></div>
 

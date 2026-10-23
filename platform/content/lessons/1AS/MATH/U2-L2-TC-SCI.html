@@ -54,51 +54,51 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> الدالة متزايدة على مجال إذا حافظت على ترتيب الأعداد، ومتناقصة إذا عكسته؛ ونلخّص ذلك بأسهم في جدول التغيّرات. القيمة الحدية الكبرى أعلى صورة تبلغها الدالة، والصغرى أدناها، وتظهران في قمم الجدول وقيعانه.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="arv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1d4ed8"/></marker></defs>
 <rect x="20" y="30" width="500" height="125" fill="#ffffff" stroke="#1f2937" stroke-width="1.5"/>
-<line x1="20" y1="68" x2="520" y2="68" stroke="#1f2937" stroke-width="1.5"/><line x1="440" y1="30" x2="440" y2="155" stroke="#1f2937" stroke-width="1.5"/>
-<text x="480" y="54" text-anchor="middle" font-weight="700">x</text><text x="480" y="116" text-anchor="middle" font-weight="700">f(x)</text>
-<g font-size="14" text-anchor="middle"><text x="400" y="54">−3</text><text x="300" y="54">−1</text><text x="160" y="54">2</text><text x="55" y="54">4</text></g>
-<text x="400" y="146" text-anchor="middle" fill="#1f2937">1</text>
-<text x="300" y="88" text-anchor="middle" fill="#c2410c" font-weight="700">5</text>
-<text x="160" y="146" text-anchor="middle" fill="#15803d" font-weight="700">−2</text>
-<text x="55" y="88" text-anchor="middle" fill="#1f2937">3</text>
-<line x1="385" y1="138" x2="315" y2="92" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#arv)"/>
-<line x1="285" y1="92" x2="178" y2="138" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#arv)"/>
-<line x1="142" y1="138" x2="72" y2="92" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#arv)"/>
-<text x="300" y="20" text-anchor="middle" font-size="13" fill="#c2410c">قيمة حدية كبرى 5 عند x = −1</text>
-<text x="160" y="170" text-anchor="middle" font-size="13" fill="#15803d">قيمة حدية صغرى −2 عند x = 2</text>
-</svg><figcaption>الشكل 1: جدول تغيّرات دالة f على [−3 ; 4]: سهم صاعد = متزايدة، نازل = متناقصة.</figcaption></figure>
+<line x1="20" y1="68" x2="520" y2="68" stroke="#1f2937" stroke-width="1.5"/><line x1="100" y1="30" x2="100" y2="155" stroke="#1f2937" stroke-width="1.5"/>
+<text x="60" y="54" text-anchor="middle" font-weight="700">x</text><text x="60" y="116" text-anchor="middle" font-weight="700">f(x)</text>
+<g font-size="14" text-anchor="middle"><text x="140" y="54">−3</text><text x="240" y="54">−1</text><text x="380" y="54">2</text><text x="485" y="54">4</text></g>
+<text x="140" y="146" text-anchor="middle" fill="#1f2937">1</text>
+<text x="240" y="88" text-anchor="middle" fill="#c2410c" font-weight="700">5</text>
+<text x="380" y="146" text-anchor="middle" fill="#15803d" font-weight="700">−2</text>
+<text x="485" y="88" text-anchor="middle" fill="#1f2937">3</text>
+<line x1="155" y1="138" x2="225" y2="92" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#arv)"/>
+<line x1="255" y1="92" x2="362" y2="138" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#arv)"/>
+<line x1="398" y1="138" x2="468" y2="92" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#arv)"/>
+<text x="240" y="20" text-anchor="middle" font-size="13" fill="#c2410c">f(−1) = 5 :القيمة الحدية الكبرى</text>
+<text x="380" y="170" text-anchor="middle" font-size="13" fill="#15803d">f(2) = −2 :القيمة الحدية الصغرى</text>
+</svg><figcaption>الشكل 1: جدول تغيّرات دالة f على <bdi dir="ltr">[−3 ; 4]</bdi>: سهم صاعد = متزايدة، نازل = متناقصة.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">دالة متزايدة على مجال I:</span> لكل a وb من I، إذا كان a &lt; b فإن f(a) ≤ f(b): الدالة <span class="k">تحافظ على الترتيب</span>. ومتزايدة تمامًا إذا كان f(a) &lt; f(b).</li>
-<li><span class="k">دالة متناقصة على I:</span> إذا كان a &lt; b فإن f(a) ≥ f(b): <span class="k">تعكس الترتيب</span>. و<span class="k">ثابتة</span> إذا كان f(a) = f(b) دائمًا.</li>
-<li><span class="k">إثبات اتجاه التغيّر بالتعريف:</span> نأخذ a &lt; b في I ونحسب الفرق f(b) − f(a) ونحلّله وندرس إشارته: موجب ⇒ متزايدة، سالب ⇒ متناقصة.</li>
+<li><span class="k">دالة متزايدة على مجال I:</span> لكل a وb من I، إذا كان <bdi dir="ltr">a &lt; b</bdi> فإن <bdi dir="ltr">f(a) ≤ f(b)</bdi>: الدالة <span class="k">تحافظ على الترتيب</span>. ومتزايدة تمامًا إذا كان <bdi dir="ltr">f(a) &lt; f(b)</bdi>.</li>
+<li><span class="k">دالة متناقصة على I:</span> إذا كان <bdi dir="ltr">a &lt; b</bdi> فإن <bdi dir="ltr">f(a) ≥ f(b)</bdi>: <span class="k">تعكس الترتيب</span>. و<span class="k">ثابتة</span> إذا كان <bdi dir="ltr">f(a) = f(b)</bdi> دائمًا.</li>
+<li><span class="k">إثبات اتجاه التغيّر بالتعريف:</span> نأخذ <bdi dir="ltr">a &lt; b</bdi> في I ونحسب الفرق <bdi dir="ltr">f(b) − f(a)</bdi> ونحلّله وندرس إشارته: موجب ⇒ متزايدة، سالب ⇒ متناقصة.</li>
 <li><span class="k">جدول التغيّرات:</span> سطر لقيم x الفاصلة (حدود مجموعة التعريف ونقط تغيّر الاتجاه)، وسطر للأسهم مع الصور عند أطرافها.</li>
-<li><span class="k">القيمة الحدية الكبرى على I:</span> العدد f(x<sub>0</sub>) إذا كان f(x) ≤ f(x<sub>0</sub>) لكل x من I؛ تُبلغ عند x<sub>0</sub> وتظهر في قمة الجدول.</li>
-<li><span class="k">القيمة الحدية الصغرى على I:</span> العدد f(x<sub>0</sub>) إذا كان f(x) ≥ f(x<sub>0</sub>) لكل x من I.</li>
+<li><span class="k">القيمة الحدية الكبرى على I:</span> العدد <bdi dir="ltr">f(x<sub>0</sub>)</bdi> إذا كان <bdi dir="ltr">f(x) ≤ f(x<sub>0</sub>)</bdi> لكل x من I؛ تُبلغ عند <bdi dir="ltr">x<sub>0</sub></bdi> وتظهر في قمة الجدول.</li>
+<li><span class="k">القيمة الحدية الصغرى على I:</span> العدد <bdi dir="ltr">f(x<sub>0</sub>)</bdi> إذا كان <bdi dir="ltr">f(x) ≥ f(x<sub>0</sub>)</bdi> لكل x من I.</li>
 <li><span class="k">المقارنة دون حساب:</span> إذا كان a وb في مجال رتابة واحد، نرتّب f(a) وf(b) من اتجاه التغيّر.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>أثبت أن f(x) = x² − 1 متزايدة على [0 ; +∞[. <span class="k">الحل:</span> ليكن 0 ≤ a &lt; b. f(b) − f(a) = b² − a² = (b − a)(b + a)؛ b − a &gt; 0 وb + a &gt; 0، فالجداء موجب، إذن f(a) &lt; f(b) وf متزايدة تمامًا. وبالمثل هي متناقصة على ]−∞ ; 0]، وقيمتها الصغرى f(0) = −1.</li>
-<li>ادرس اتجاه تغيّر g(x) = 3 − 2x على ℝ. <span class="k">الحل:</span> ليكن a &lt; b. g(b) − g(a) = −2(b − a) &lt; 0 لأن b − a &gt; 0. إذن g متناقصة تمامًا على ℝ، ولا قيم حدية لها.</li>
-<li>من الشكل 1، قارن f(0) وf(1) ثم f(−2) وf(3). <span class="k">الحل:</span> 0 و1 في [−1 ; 2] حيث f متناقصة، و0 &lt; 1 ⇒ f(0) ≥ f(1). أمّا −2 و3 ففي مجالي رتابة مختلفين، والجدول لا يكفي للمقارنة.</li>
+<li>أثبت أن <bdi dir="ltr">f(x) = x² − 1</bdi> متزايدة على <bdi dir="ltr">[0 ; +∞[</bdi>. <span class="k">الحل:</span> ليكن <bdi dir="ltr">0 ≤ a &lt; b</bdi>. <bdi dir="ltr">f(b) − f(a) = b² − a² = (b − a)(b + a)</bdi>؛ <bdi dir="ltr">b − a &gt; 0</bdi> و<bdi dir="ltr">b + a &gt; 0</bdi>، فالجداء موجب، إذن <bdi dir="ltr">f(a) &lt; f(b)</bdi> وf متزايدة تمامًا. وبالمثل هي متناقصة على <bdi dir="ltr">]−∞ ; 0]</bdi>، وقيمتها الصغرى <bdi dir="ltr">f(0) = −1</bdi>.</li>
+<li>ادرس اتجاه تغيّر <bdi dir="ltr">g(x) = 3 − 2x</bdi> على ℝ. <span class="k">الحل:</span> ليكن <bdi dir="ltr">a &lt; b</bdi>. <bdi dir="ltr">g(b) − g(a) = −2(b − a) &lt; 0</bdi> لأن <bdi dir="ltr">b − a &gt; 0</bdi>. إذن g متناقصة تمامًا على ℝ، ولا قيم حدية لها.</li>
+<li>من الشكل 1، قارن f(0) وf(1) ثم <bdi dir="ltr">f(−2)</bdi> وf(3). <span class="k">الحل:</span> 0 و1 في <bdi dir="ltr">[−1 ; 2]</bdi> حيث f متناقصة، و<bdi dir="ltr">0 &lt; 1 ⇒ f(0) ≥ f(1)</bdi>. أمّا <bdi dir="ltr">−2</bdi> و3 ففي مجالي رتابة مختلفين، والجدول لا يكفي للمقارنة.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
 <li>كتابة اتجاه التغيّر على اتحاد مجالين؛ يُذكر على كل مجال على حدة.</li>
-<li>الخلط بين القيمة الحدية وموضعها: «الكبرى هي 5 وتُبلغ عند x = −1»، وليس «الكبرى هي −1».</li>
+<li>الخلط بين القيمة الحدية وموضعها: «الكبرى هي 5 وتُبلغ عند <bdi dir="ltr">x = −1</bdi>»، وليس «الكبرى هي <bdi dir="ltr">−1</bdi>».</li>
 <li>مقارنة صورتي عددين من مجالين مختلفين؛ لا تصح إلا داخل مجال رتابة واحد.</li>
-<li>عند الإثبات بالتعريف، نسيان الفرضية a &lt; b أو عدم تبرير إشارة كل عامل في الفرق.</li>
+<li>عند الإثبات بالتعريف، نسيان الفرضية <bdi dir="ltr">a &lt; b</bdi> أو عدم تبرير إشارة كل عامل في الفرق.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>متزايدة: a &lt; b ⇒ f(a) ≤ f(b) (تحفظ الترتيب)؛ متناقصة: تعكسه.</li>
-<li>للإثبات: خذ a &lt; b، احسب f(b) − f(a) وادرس إشارته.</li>
+<li>متزايدة: <bdi dir="ltr">a &lt; b ⇒ f(a) ≤ f(b)</bdi> (تحفظ الترتيب)؛ متناقصة: تعكسه.</li>
+<li>للإثبات: خذ <bdi dir="ltr">a &lt; b</bdi>، احسب <bdi dir="ltr">f(b) − f(a)</bdi> وادرس إشارته.</li>
 <li>الجدول: قيم x الفاصلة في الأعلى، وأسهم مع الصور في الأسفل.</li>
-<li>كبرى = قمة الجدول، صغرى = قاعه، مع ذكر «عند x = …».</li>
+<li>كبرى = قمة الجدول، صغرى = قاعه، مع ذكر «عند <bdi dir="ltr">x = …</bdi>».</li>
 <li>المقارنة دون حساب: داخل مجال رتابة واحد فقط.</li>
 </ul></div>
 

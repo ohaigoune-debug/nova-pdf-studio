@@ -54,8 +54,8 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> العدد الطبيعي يُستعمل للعدّ، والعدد النسبي يضيف الإشارة السالبة. القاسم «يقسم دون باقٍ»، والمضاعف «ناتج ضرب»، والعدد الأولي لا يملك سوى قاسمين: 1 ونفسه.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<text x="270" y="20" text-anchor="middle" font-weight="700">شجرة تحليل العدد 60 إلى عوامل أولية</text>
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<text x="270" y="20" font-weight="700" text-anchor="middle" direction="rtl">شجرة تحليل العدد 60 إلى عوامل أولية</text>
 <rect x="240" y="30" width="60" height="28" rx="6" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="270" y="50" text-anchor="middle" font-weight="700">60</text>
 <line x1="255" y1="58" x2="200" y2="80" stroke="#1f2937" stroke-width="1.5"/><line x1="285" y1="58" x2="340" y2="80" stroke="#1f2937" stroke-width="1.5"/>
 <rect x="175" y="80" width="50" height="26" rx="6" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="200" y="99" text-anchor="middle" font-weight="700">2</text>
@@ -63,38 +63,39 @@ main{position:relative;z-index:1}
 <line x1="330" y1="106" x2="300" y2="126" stroke="#1f2937" stroke-width="1.5"/><line x1="350" y1="106" x2="390" y2="126" stroke="#1f2937" stroke-width="1.5"/>
 <rect x="275" y="126" width="50" height="26" rx="6" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="300" y="145" text-anchor="middle" font-weight="700">2</text>
 <rect x="365" y="126" width="50" height="26" rx="6" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="390" y="145" text-anchor="middle" font-weight="700">15</text>
-<line x1="380" y1="152" x2="365" y2="168" stroke="#1f2937" stroke-width="1.5"/><line x1="400" y1="152" x2="415" y2="168" stroke="#1f2937" stroke-width="1.5"/>
-<rect x="430" y="140" width="100" height="26" rx="6" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="480" y="159" text-anchor="middle" font-weight="700">3 × 5</text>
+<line x1="415" y1="134" x2="445" y2="118" stroke="#1f2937" stroke-width="1.5"/><line x1="415" y1="144" x2="445" y2="157" stroke="#1f2937" stroke-width="1.5"/>
+<rect x="445" y="105" width="40" height="24" rx="6" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="465" y="122" text-anchor="middle" font-weight="700">3</text>
+<rect x="445" y="145" width="40" height="24" rx="6" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="465" y="162" text-anchor="middle" font-weight="700">5</text>
 <text x="90" y="100" text-anchor="middle" fill="#c2410c" font-weight="700">60 = 2<tspan baseline-shift="super" font-size="11">2</tspan> × 3 × 5</text>
-<text x="90" y="130" text-anchor="middle" font-size="13" fill="#1f2937">الأخضر والأصفر: عوامل أولية</text>
+<text x="90" y="130" font-size="13" fill="#1f2937" text-anchor="middle" direction="rtl">الأخضر والأصفر: عوامل أولية</text>
 </svg><figcaption>الشكل 1: نقسم العدد على أصغر عدد أولي ممكن حتى نصل إلى عوامل أولية فقط.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">مجموعة الأعداد الطبيعية ℕ</span> هي {0، 1، 2، 3، …}، و<span class="k">مجموعة الأعداد النسبية ℤ</span> هي {…، −2، −1، 0، 1، 2، …}. كل عدد طبيعي هو عدد نسبي، أي ℕ ⊂ ℤ.</li>
-<li><span class="k">القاسم:</span> العدد d قاسم للعدد n إذا كان باقي قسمة n على d يساوي 0. مثلًا 4 قاسم لـ 12 لأن 12 = 4 × 3.</li>
-<li><span class="k">المضاعف:</span> العدد n مضاعف للعدد d إذا وُجد عدد طبيعي k بحيث n = d × k. مضاعفات 5 هي: 0، 5، 10، 15، …</li>
+<li><span class="k">مجموعة الأعداد الطبيعية ℕ</span> هي {0، 1، 2، 3، …}، و<span class="k">مجموعة الأعداد النسبية ℤ</span> هي {…، <bdi dir="ltr">−2</bdi>، <bdi dir="ltr">−1</bdi>، 0، 1، 2، …}. كل عدد طبيعي هو عدد نسبي، أي <bdi dir="ltr">ℕ ⊂ ℤ</bdi>.</li>
+<li><span class="k">القاسم:</span> العدد d قاسم للعدد n إذا كان باقي قسمة n على d يساوي 0. مثلًا 4 قاسم لـ 12 لأن <bdi dir="ltr">12 = 4 × 3</bdi>.</li>
+<li><span class="k">المضاعف:</span> العدد n مضاعف للعدد d إذا وُجد عدد طبيعي k بحيث <bdi dir="ltr">n = d × k</bdi>. مضاعفات 5 هي: 0، 5، 10، 15، …</li>
 <li><span class="k">قواعد قابلية القسمة:</span> على 2 إذا كان رقم الآحاد زوجيًا؛ على 3 إذا كان مجموع الأرقام مضاعفًا لـ 3؛ على 5 إذا انتهى بـ 0 أو 5.</li>
 <li><span class="k">العدد الأولي</span> عدد طبيعي له قاسمان مختلفان فقط: 1 ونفسه، مثل 2، 3، 5، 7، 11، 13.</li>
 <li><span class="k">التحليل إلى عوامل أولية:</span> كل عدد طبيعي أكبر من 1 يُكتب بطريقة وحيدة جداءَ عوامل أولية.</li>
-<li><span class="k">القاسم المشترك الأكبر (PGCD)</span> هو أكبر عدد يقسم عددين معًا، و<span class="k">المضاعف المشترك الأصغر (PPCM)</span> هو أصغر مضاعف غير معدوم مشترك بينهما.</li>
+<li><span class="k">القاسم المشترك الأكبر <bdi dir="ltr">(PGCD)</bdi></span> هو أكبر عدد يقسم عددين معًا، و<span class="k">المضاعف المشترك الأصغر <bdi dir="ltr">(PPCM)</bdi></span> هو أصغر مضاعف غير معدوم مشترك بينهما.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>ابحث عن كل قواسم العدد 12. <span class="k">الحل:</span> نكتب 12 جداءَ عددين بكل الطرق: 1 × 12، 2 × 6، 3 × 4. إذن القواسم هي: 1، 2، 3، 4، 6، 12 (ستة قواسم).</li>
-<li>هل العدد 91 أولي؟ <span class="k">الحل:</span> نجرّب الأعداد الأولية الصغيرة: ليس زوجيًا، ومجموع أرقامه 10 فلا يُقسم على 3، ولا ينتهي بـ 0 أو 5. أما 7 فـ 91 = 7 × 13. إذن 91 ليس أوليًا.</li>
-<li>أوجد PGCD(24؛ 36) و PPCM(4؛ 6). <span class="k">الحل:</span> 24 = 2<sup>3</sup> × 3 و 36 = 2<sup>2</sup> × 3<sup>2</sup>، فالقاسم المشترك الأكبر هو 2<sup>2</sup> × 3 = 12. ومضاعفات 4 هي 4، 8، 12… ومضاعفات 6 هي 6، 12…، فالمضاعف المشترك الأصغر هو 12.</li>
+<li>ابحث عن كل قواسم العدد 12. <span class="k">الحل:</span> نكتب 12 جداءَ عددين بكل الطرق: <bdi dir="ltr">1 × 12</bdi>، <bdi dir="ltr">2 × 6</bdi>، <bdi dir="ltr">3 × 4</bdi>. إذن القواسم هي: 1، 2، 3، 4، 6، 12 (ستة قواسم).</li>
+<li>هل العدد 91 أولي؟ <span class="k">الحل:</span> نجرّب الأعداد الأولية الصغيرة: ليس زوجيًا، ومجموع أرقامه 10 فلا يُقسم على 3، ولا ينتهي بـ 0 أو 5. أما 7 فـ <bdi dir="ltr">91 = 7 × 13</bdi>. إذن 91 ليس أوليًا.</li>
+<li>أوجد <bdi dir="ltr">PGCD(24 ; 36)</bdi> و <bdi dir="ltr">PPCM(4 ; 6)</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">24 = 2<sup>3</sup> × 3</bdi> و <bdi dir="ltr">36 = 2<sup>2</sup> × 3<sup>2</sup></bdi>، فالقاسم المشترك الأكبر هو <bdi dir="ltr">2<sup>2</sup> × 3 = 12</bdi>. ومضاعفات 4 هي 4، 8، 12… ومضاعفات 6 هي 6، 12…، فالمضاعف المشترك الأصغر هو 12.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
 <li>اعتبار العدد 1 عددًا أوليًا: الصحيح أن له قاسمًا واحدًا فقط، فهو <span class="k">ليس أوليًا</span>.</li>
 <li>الخلط بين <span class="k">القاسم</span> و<span class="k">المضاعف</span>: 3 قاسم لـ 12، بينما 12 مضاعف لـ 3، وليس العكس.</li>
 <li>نسيان القاسمين 1 والعدد نفسه عند تعداد القواسم.</li>
-<li>التوقف في التحليل عند عامل غير أولي، مثل كتابة 60 = 4 × 15 والاكتفاء بذلك.</li>
+<li>التوقف في التحليل عند عامل غير أولي، مثل كتابة <bdi dir="ltr">60 = 4 × 15</bdi> والاكتفاء بذلك.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>ℕ = الأعداد الطبيعية، ℤ = الأعداد النسبية، و ℕ ⊂ ℤ.</li>
-<li>d قاسم لـ n ⇔ باقي القسمة 0 ⇔ n مضاعف لـ d.</li>
+<li>ℕ = الأعداد الطبيعية، ℤ = الأعداد النسبية، و <bdi dir="ltr">ℕ ⊂ ℤ</bdi>.</li>
+<li>d قاسم لـ n ⇔ باقي القسمة <bdi dir="ltr">0 ⇔ n</bdi> مضاعف لـ d.</li>
 <li>عدد أولي = قاسمان فقط؛ 1 ليس أوليًا و 2 أصغر الأعداد الأولية.</li>
 <li>التحليل: اقسم على 2 ثم 3 ثم 5… حتى تبقى عوامل أولية.</li>
 <li>PGCD = العوامل المشتركة بأصغر أس؛ PPCM = كل العوامل بأكبر أس.</li>

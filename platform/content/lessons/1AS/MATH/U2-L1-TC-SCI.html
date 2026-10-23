@@ -52,9 +52,9 @@ main{position:relative;z-index:1}
 
 <p class="goal"><span class="k">الهدف:</span> أن تتعرّف على الدالة العددية كعلاقة تربط كل عدد بصورة وحيدة، وأن تحدّد مجموعة تعريفها من عبارتها، وأن تحسب صورًا وسوابق جبريًا وبيانيًا.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> الدالة f «آلة» تأخذ عددًا x وتعيد عددًا واحدًا f(x) يسمّى صورته، ومجموعة التعريف هي الأعداد التي تقبلها الآلة. التمثيل البياني هو مجموعة النقط M(x ; f(x))؛ نقرأ عليه عموديًا للصورة وأفقيًا للسوابق.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الدالة f «آلة» تأخذ عددًا x وتعيد عددًا واحدًا f(x) يسمّى صورته، ومجموعة التعريف هي الأعداد التي تقبلها الآلة. التمثيل البياني هو مجموعة النقط <bdi dir="ltr">M(x ; f(x))</bdi>؛ نقرأ عليه عموديًا للصورة وأفقيًا للسوابق.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="arf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
 <line x1="20" y1="130" x2="320" y2="130" stroke="#1f2937" stroke-width="1.5" marker-end="url(#arf)"/><line x1="170" y1="170" x2="170" y2="10" stroke="#1f2937" stroke-width="1.5" marker-end="url(#arf)"/>
 <text x="312" y="147" font-size="12">x</text><text x="180" y="18" font-size="12">y</text>
@@ -65,43 +65,43 @@ main{position:relative;z-index:1}
 <text x="262" y="30" fill="#1d4ed8" font-weight="700" font-size="13">C<tspan font-size="9" dy="4">f</tspan></text>
 <line x1="110" y1="40" x2="230" y2="40" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="4 3"/><line x1="110" y1="40" x2="110" y2="130" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="4 3"/><line x1="230" y1="40" x2="230" y2="130" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="4 3"/>
 <circle cx="110" cy="40" r="4" fill="#c2410c"/><circle cx="230" cy="40" r="4" fill="#c2410c"/>
-<text x="55" y="80" fill="#c2410c" font-size="12" text-anchor="middle">سابقتا العدد 3</text><text x="55" y="96" fill="#c2410c" font-size="12" text-anchor="middle">هما −2 و2</text>
+<text x="55" y="80" fill="#c2410c" font-size="12" text-anchor="middle">سابقتا العدد 3 هما</text><text x="55" y="96" fill="#c2410c" font-size="12" text-anchor="middle">{−2 ; 2}</text>
 <rect x="340" y="20" width="190" height="135" rx="10" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
 <text x="435" y="44" text-anchor="middle" font-weight="700" fill="#1d4ed8">f(x) = x² − 1</text>
-<text x="520" y="72" text-anchor="end" font-size="14">مجموعة التعريف: D<tspan font-size="10" dy="4">f</tspan><tspan dy="-4"> = ℝ</tspan></text>
-<text x="520" y="98" text-anchor="end" font-size="14">صورة 2 هي f(2) = 3</text>
-<text x="520" y="124" text-anchor="end" font-size="14">سوابق 3: x² − 1 = 3 ⇒ x = ±2</text>
+<text x="520" y="72" text-anchor="end" font-size="14">D<tspan font-size="10" dy="4">f</tspan><tspan dy="-4"> = ℝ :مجموعة التعريف</tspan></text>
+<text x="520" y="98" text-anchor="end" font-size="14">f(2) = 3 :صورة 2</text>
+<text x="520" y="124" text-anchor="end" font-size="14">x² − 1 = 3 ⇒ x = ±2 :سوابق 3</text>
 <text x="520" y="148" text-anchor="end" font-size="13" fill="#15803d">M(x ; y) ∈ C<tspan font-size="9" dy="4">f</tspan><tspan dy="-4"> ⇔ y = f(x)</tspan></text>
-</svg><figcaption>الشكل 1: منحنى f(x) = x² − 1؛ للعدد 3 سابقتان بينما لكل عدد صورة وحيدة.</figcaption></figure>
+</svg><figcaption>الشكل 1: منحنى <bdi dir="ltr">f(x) = x² − 1</bdi>؛ للعدد 3 سابقتان بينما لكل عدد صورة وحيدة.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">الدالة العددية:</span> علاقة f تُرفق بكل عدد x من مجموعة D عددًا حقيقيًا <span class="k">وحيدًا</span> يُرمز له f(x). نكتب f : x ⟼ f(x).</li>
+<li><span class="k">الدالة العددية:</span> علاقة f تُرفق بكل عدد x من مجموعة D عددًا حقيقيًا <span class="k">وحيدًا</span> يُرمز له f(x). نكتب f : <bdi dir="ltr">x ⟼ f(x)</bdi>.</li>
 <li><span class="k">الصورة والسابقة:</span> f(x) صورة x، وx سابقة للعدد f(x). لكل عدد صورة وحيدة، لكن قد يكون لعدد عدة سوابق أو لا سابقة له.</li>
-<li><span class="k">مجموعة التعريف D<sub>f</sub>:</span> مجموعة الأعداد x التي يمكن حساب f(x) من أجلها؛ تُعطى في النص أو تُستنتج من العبارة.</li>
-<li><span class="k">قاعدتا تحديد D<sub>f</sub>:</span> المقام غير معدوم (نحذف قيم x التي تُعدمه)، وما تحت الجذر التربيعي موجب أو معدوم (نحلّ متراجحة).</li>
-<li><span class="k">التمثيل البياني:</span> المنحنى C<sub>f</sub> هو مجموعة النقط M(x ; y) حيث x ∈ D<sub>f</sub> وy = f(x). النقطة A(a ; b) ∈ C<sub>f</sub> إذا وفقط إذا كان f(a) = b.</li>
-<li><span class="k">القراءة البيانية:</span> لصورة a نرسم المستقيم العمودي x = a ونقرأ ترتيب تقاطعه مع المنحنى. لسوابق b نرسم المستقيم الأفقي y = b ونقرأ فواصل نقط التقاطع.</li>
+<li><span class="k">مجموعة التعريف <bdi dir="ltr">D<sub>f</sub></bdi>:</span> مجموعة الأعداد x التي يمكن حساب f(x) من أجلها؛ تُعطى في النص أو تُستنتج من العبارة.</li>
+<li><span class="k">قاعدتا تحديد <bdi dir="ltr">D<sub>f</sub></bdi>:</span> المقام غير معدوم (نحذف قيم x التي تُعدمه)، وما تحت الجذر التربيعي موجب أو معدوم (نحلّ متراجحة).</li>
+<li><span class="k">التمثيل البياني:</span> المنحنى <bdi dir="ltr">C<sub>f</sub></bdi> هو مجموعة النقط <bdi dir="ltr">M(x ; y)</bdi> حيث <bdi dir="ltr">x ∈ D<sub>f</sub></bdi> و<bdi dir="ltr">y = f(x)</bdi>. النقطة <bdi dir="ltr">A(a ; b) ∈ C<sub>f</sub></bdi> إذا وفقط إذا كان <bdi dir="ltr">f(a) = b</bdi>.</li>
+<li><span class="k">القراءة البيانية:</span> لصورة a نرسم المستقيم العمودي <bdi dir="ltr">x = a</bdi> ونقرأ ترتيب تقاطعه مع المنحنى. لسوابق b نرسم المستقيم الأفقي <bdi dir="ltr">y = b</bdi> ونقرأ فواصل نقط التقاطع.</li>
 <li><span class="k">جدول القيم:</span> لرسم المنحنى نحسب f(x) لقيم مختارة ثم نعلّم النقط ونصل بينها بخط انسيابي.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>لتكن f(x) = 2x − 3. احسب f(0) وf(2) وf(−1) ثم أوجد سابقة العدد 7. <span class="k">الحل:</span> f(0) = −3، f(2) = 1، f(−1) = −5. السابقة: 2x − 3 = 7 ⇒ x = 5. تحقق: f(5) = 7.</li>
-<li>حدّد مجموعة تعريف g(x) = (x + 1)/(x² − 4) وh(x) = √(x + 3). <span class="k">الحل:</span> g معرّفة إذا كان x² − 4 ≠ 0 أي x ≠ ±2، فـ D<sub>g</sub> = ℝ \ {−2 ; 2}. وh معرّفة إذا كان x + 3 ≥ 0، فـ D<sub>h</sub> = [−3 ; +∞[.</li>
-<li>لتكن f(x) = x² − 1. هل تنتمي النقطة A(3 ; 8) إلى C<sub>f</sub>؟ وما سوابق العدد 3؟ <span class="k">الحل:</span> f(3) = 8 = ترتيب A، إذن A ∈ C<sub>f</sub>. السوابق: x² − 1 = 3 ⇒ x² = 4 ⇒ x = ±2. أمّا −5 فلا سابقة له لأن x² = −4 مستحيل.</li>
+<li>لتكن <bdi dir="ltr">f(x) = 2x − 3</bdi>. احسب f(0) وf(2) و<bdi dir="ltr">f(−1)</bdi> ثم أوجد سابقة العدد 7. <span class="k">الحل:</span> <bdi dir="ltr">f(0) = −3</bdi>، <bdi dir="ltr">f(2) = 1</bdi>، <bdi dir="ltr">f(−1) = −5</bdi>. السابقة: <bdi dir="ltr">2x − 3 = 7 ⇒ x = 5</bdi>. تحقق: <bdi dir="ltr">f(5) = 7</bdi>.</li>
+<li>حدّد مجموعة تعريف <bdi dir="ltr">g(x) = (x + 1)/(x² − 4)</bdi> و<bdi dir="ltr">h(x) = √(x + 3)</bdi>. <span class="k">الحل:</span> g معرّفة إذا كان <bdi dir="ltr">x² − 4 ≠ 0</bdi> أي <bdi dir="ltr">x ≠ ±2</bdi>، فـ <bdi dir="ltr">D<sub>g</sub> = ℝ \ {−2 ; 2}</bdi>. وh معرّفة إذا كان <bdi dir="ltr">x + 3 ≥ 0</bdi>، فـ <bdi dir="ltr">D<sub>h</sub> = [−3 ; +∞[</bdi>.</li>
+<li>لتكن <bdi dir="ltr">f(x) = x² − 1</bdi>. هل تنتمي النقطة <bdi dir="ltr">A(3 ; 8)</bdi> إلى <bdi dir="ltr">C<sub>f</sub></bdi>؟ وما سوابق العدد 3؟ <span class="k">الحل:</span> <bdi dir="ltr">f(3) = 8 =</bdi> ترتيب A، إذن <bdi dir="ltr">A ∈ C<sub>f</sub></bdi>. السوابق: <bdi dir="ltr">x² − 1 = 3 ⇒ x² = 4 ⇒ x = ±2</bdi>. أمّا <bdi dir="ltr">−5</bdi> فلا سابقة له لأن <bdi dir="ltr">x² = −4</bdi> مستحيل.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>الخلط بين الصورة والسابقة: «احسب صورة 2» يعني f(2)، أمّا «أوجد سوابق 2» فيعني حل المعادلة f(x) = 2.</li>
+<li>الخلط بين الصورة والسابقة: «احسب صورة 2» يعني f(2)، أمّا «أوجد سوابق 2» فيعني حل المعادلة <bdi dir="ltr">f(x) = 2</bdi>.</li>
 <li>اعتبار أن لكل عدد سابقة وحيدة؛ الوحدانية تخص الصورة فقط.</li>
-<li>حل x + 3 &gt; 0 بدل x + 3 ≥ 0 عند الجذر؛ الصفر مقبول تحت الجذر.</li>
-<li>الحكم على انتماء نقطة إلى المنحنى بالنظر فقط؛ يجب التحقق بالحساب f(a) = b.</li>
+<li>حل <bdi dir="ltr">x + 3 &gt; 0</bdi> بدل <bdi dir="ltr">x + 3 ≥ 0</bdi> عند الجذر؛ الصفر مقبول تحت الجذر.</li>
+<li>الحكم على انتماء نقطة إلى المنحنى بالنظر فقط؛ يجب التحقق بالحساب <bdi dir="ltr">f(a) = b</bdi>.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>دالة = لكل x من D<sub>f</sub> صورة وحيدة f(x).</li>
-<li>مقام ≠ 0 ؛ تحت الجذر ≥ 0 ⇒ هكذا نجد D<sub>f</sub>.</li>
-<li>صورة a: احسب f(a). سوابق b: حلّ f(x) = b.</li>
-<li>A(a ; b) ∈ C<sub>f</sub> ⇔ f(a) = b.</li>
+<li>دالة = لكل x من <bdi dir="ltr">D<sub>f</sub></bdi> صورة وحيدة f(x).</li>
+<li>مقام <bdi dir="ltr">≠ 0</bdi> ؛ تحت الجذر <bdi dir="ltr">≥ 0 ⇒</bdi> هكذا نجد <bdi dir="ltr">D<sub>f</sub></bdi>.</li>
+<li>صورة a: احسب f(a). سوابق b: حلّ <bdi dir="ltr">f(x) = b</bdi>.</li>
+<li><bdi dir="ltr">A(a ; b) ∈ C<sub>f</sub> ⇔ f(a) = b</bdi>.</li>
 <li>بيانيًا: عمودي للصورة، أفقي للسوابق.</li>
 </ul></div>
 
