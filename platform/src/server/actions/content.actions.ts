@@ -29,8 +29,9 @@ const contentSchema = z.object({
   skillId: optionalUuid,
   visibility: z.enum(VISIBILITIES),
   publish: z.string().optional().transform((v) => v === 'on' || v === 'true'),
-  videoProvider: z.enum(['YOUTUBE', 'UPLOAD']).optional().or(z.literal('')),
+  videoProvider: z.enum(['YOUTUBE', 'UPLOAD', 'BUNNY']).optional().or(z.literal('')),
   youtubeUrl: z.string().trim().optional(),
+  bunnyVideoId: z.string().trim().optional(),
   allowDownload: z.string().optional().transform((v) => v === 'on' || v === 'true')
 })
 
@@ -41,8 +42,9 @@ function contentInput(d: z.infer<typeof contentSchema>, fd: FormData) {
   return {
     ...d,
     externalUrl: externalUrl || null,
-    fileId: provider === 'YOUTUBE' ? null : d.fileId,
-    videoProvider: provider as 'YOUTUBE' | 'UPLOAD' | null,
+    fileId: provider === 'YOUTUBE' || provider === 'BUNNY' ? null : d.fileId,
+    videoProvider: provider as 'YOUTUBE' | 'UPLOAD' | 'BUNNY' | null,
+    bunnyVideoId: provider === 'BUNNY' ? d.bunnyVideoId || null : null,
     ...targets(fd)
   }
 }

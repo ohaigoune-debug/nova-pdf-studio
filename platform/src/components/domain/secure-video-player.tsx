@@ -141,3 +141,108 @@ export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: 
     </div>
   )
 }
+
+/**
+ * مشغّل Bunny Stream: إطار تضمين برابط موقّع مؤقّت (ساعتان) يولّده الخادم بعد التحقق من الأحقية.
+ * - علامة مائية فوق الإطار تتحرك ببطء (اسم التلميذ + آخر 4 أرقام الهاتف + التاريخ) — لا تُزال من المشغّل.
+ * - نبضات مشاهدة كل 15 ثانية ما دامت الصفحة ظاهرة (الإطار لا يكشف موضع التشغيل، فيُحتسب الزمن المنقضي).
+ * - عند انتهاء صلاحية الرابط يُطلب إعادة تحميل الصفحة.
+ */
+export function SecureBunnyPlayer({ src, expires, contentId, watermark, title }: { src: string; expires: number; contentId: string; watermark: string[]; title: string }) {
+  const viewerKey = useMemo(() => makeViewerKey(), [])
+  const [blocked, setBlocked] = useState<string | null>(null)
+  const [expired, setExpired] = useState(false)
+  const elapsed = useRef(0)
+  const lastTick = useRef<number>(0)
+
+  const heartbeat = useCallback(async () => {
+    const now = Date.now()
+    const delta = lastTick.current ? Math.min(120, Math.round((now - lastTick.current) / 1000)) : 0
+    lastTick.current = now
+    elapsed.current += delta
+    try {
+      const r = await fetch('/api/v1/media/heartbeat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ contentId, viewerKey, position: Math.min(24 * 3600, elapsed.current), delta, completed: false })
+      })
+      const j = await r.json()
+      if (!j.ok && j.error?.code === 'MEDIA_TOO_MANY_DEVICES') setBlocked(j.error.message)
+    } catch {
+      /* الشبكة: لا نوقف العرض */
+    }
+  }, [contentId, viewerKey])
+
+  useEffect(() => {
+    lastTick.current = Date.now()
+    void heartbeat()
+    const iv = setInterval(() => {
+      if (document.hidden) {
+        lastTick.current = 0
+        return
+      }
+      if (Date.now() / 1000 >= expires) {
+        setExpired(true)
+        return
+      }
+      void heartbeat()
+    }, HEARTBEAT_MS)
+    return () => clearInterval(iv)
+  }, [heartbeat, expires])
+
+  return (
+    <div className="space-y-2">
+      <div className="relative select-none overflow-hidden rounded-xl border bg-black" onContextMenu={(e) => e.preventDefault()} style={{ aspectRatio: '16 / 9' }}>
+        {!expired ? (
+          <iframe
+            src={src}
+            title={title}
+            loading="lazy"
+            className="absolute inset-0 h-full w-full border-0"
+            allow="accelerometer; gyroscope; encrypted-media; picture-in-picture"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        ) : null}
+        {/* علامة مائية بطيئة الحركة (CSS) فوق الإطار؛ لا تلتقط النقر فيبقى التحكم بالمشغّل */}
+        <div className="madrasa-wm pointer-events-none absolute z-10 rounded bg-black/35 px-2 py-1 font-mono text-[11px] leading-tight text-white/85" dir="ltr">
+          {watermark.map((l) => (
+            <span key={l} className="block">
+              {l}
+            </span>
+          ))}
+        </div>
+        <style>{`
+          .madrasa-wm { top: 8%; left: 6%; animation: madrasa-wm-drift 48s ease-in-out infinite alternate; }
+          @keyframes madrasa-wm-drift {
+            0% { top: 8%; left: 6%; }
+            25% { top: 70%; left: 60%; }
+            50% { top: 15%; left: 65%; }
+            75% { top: 75%; left: 10%; }
+            100% { top: 40%; left: 35%; }
+          }
+        `}</style>
+        {blocked ? (
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/85 p-6 text-center text-white">
+            <ShieldCheck className="size-10 text-amber-300" />
+            <p className="text-lg font-bold">{t('media.playerBlocked')}</p>
+            <p className="text-sm text-white/80">{blocked}</p>
+            <Button variant="secondary" onClick={() => setBlocked(null)}>
+              {t('media.resume')}
+            </Button>
+          </div>
+        ) : expired ? (
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black/85 p-6 text-center text-white">
+            <p className="text-sm">{t('media.bunnyExpired')}</p>
+            <Button variant="secondary" onClick={() => window.location.reload()}>
+              {t('media.resume')}
+            </Button>
+          </div>
+        ) : null}
+      </div>
+      <Alert tone="info" className="text-xs">
+        {t('media.bunnyWatermarkHint')}
+      </Alert>
+    </div>
+  )
+}

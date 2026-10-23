@@ -50,7 +50,7 @@ export type SchoolType = (typeof SCHOOL_TYPES)[number]
 export const FILE_STATUSES = ['PENDING', 'READY'] as const
 export type FileStatus = (typeof FILE_STATUSES)[number]
 
-export const VIDEO_PROVIDERS = ['YOUTUBE', 'UPLOAD'] as const
+export const VIDEO_PROVIDERS = ['YOUTUBE', 'UPLOAD', 'BUNNY'] as const
 export type VideoProvider = (typeof VIDEO_PROVIDERS)[number]
 
 export const CONTENT_TYPES = [

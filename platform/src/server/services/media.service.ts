@@ -5,6 +5,7 @@ import type { Db } from '@/server/db/connect'
 import { content, contentTargets, files, groupStudents, mediaViews, profiles, users } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
+import { getBunnyCredentials, isBunnyVideoId, signedEmbedUrl } from '@/server/lib/bunny'
 import { addTimeline } from './timeline.service'
 
 /**
@@ -128,6 +129,38 @@ export async function stampPdf(bytes: Buffer, lines: string[]): Promise<Buffer> 
     page.drawText(text, { x: 18, y: 12, size: 8, font, color: rgb(0.35, 0.35, 0.35), opacity: 0.7 })
   }
   return Buffer.from(await doc.save({ useObjectStreams: false }))
+}
+
+export const BUNNY_EMBED_TTL_SECONDS = 2 * 3600
+
+export interface BunnyEmbed {
+  url: string
+  expires: number
+  /** سطور العلامة المائية فوق الإطار: اسم التلميذ + آخر 4 أرقام الهاتف + التاريخ */
+  watermark: string[]
+  contentId: string
+  title: string
+}
+
+/**
+ * رابط تضمين Bunny موقّع (ساعتان) — لا يُسلَّم إلا بعد أن تقرّ resolveMediaAccess الأحقية.
+ * الزائر لا يحصل عليه إلا لمحتوى PUBLIC (وهذا ما تفعله resolveMediaAccess أصلاً).
+ */
+export async function bunnyEmbedForViewer(db: Db, actor: Actor | null, contentId: string, now = Date.now()): Promise<BunnyEmbed> {
+  const access = await resolveMediaAccess(db, actor, contentId)
+  if (access.content.videoProvider !== 'BUNNY' || !isBunnyVideoId(access.content.bunnyVideoId)) throw new AppError('CONTENT_NOT_FOUND')
+  const creds = await getBunnyCredentials(db)
+  if (!creds) throw new AppError('BUNNY_NOT_CONFIGURED')
+  const viewerLabel = actor ? actor.userId.slice(0, 8) : ANON_VIEWER
+  const signed = signedEmbedUrl(creds, { videoId: access.content.bunnyVideoId, expiresInSeconds: BUNNY_EMBED_TTL_SECONDS, viewerLabel, now })
+  const date = new Date(now).toISOString().slice(0, 10)
+  let phoneLast4: string | null = null
+  if (actor) {
+    const [p] = await db.select({ phone: profiles.phone }).from(profiles).where(eq(profiles.userId, actor.userId)).limit(1)
+    phoneLast4 = p?.phone ? p.phone.replace(/\D/g, '').slice(-4) || null : null
+  }
+  const watermark = actor ? [actor.fullName || actor.email, [phoneLast4 ? `…${phoneLast4}` : actor.userId.slice(0, 8), date].join(' · ')] : ['madrasa · public', date]
+  return { url: signed.url, expires: signed.expires, watermark, contentId: access.content.id, title: access.content.title }
 }
 
 export interface HeartbeatInput {

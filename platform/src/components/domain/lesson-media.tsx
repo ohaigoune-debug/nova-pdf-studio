@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge'
 import { t } from '@/i18n'
 import type { Actor } from '@/server/lib/actor'
 import { ANON_VIEWER, signMediaUrl } from '@/server/services/media.service'
+import { BunnyMedia } from './bunny-media'
 import { SecurePdfViewer } from './secure-pdf-viewer'
 import { SecureVideoPlayer } from './secure-video-player'
 import { YouTubeEmbed } from './youtube-embed'
@@ -26,6 +27,9 @@ export interface LessonMediaItem {
 export function LessonMedia({ item, actor }: { item: LessonMediaItem; actor: Actor | null }) {
   if (item.type === 'VIDEO' && item.videoProvider === 'YOUTUBE' && item.youtubeId) {
     return <YouTubeEmbed youtubeId={item.youtubeId} title={item.title} />
+  }
+  if (item.type === 'VIDEO' && item.videoProvider === 'BUNNY') {
+    return <BunnyMedia contentId={item.id} actor={actor} />
   }
   if (!item.fileId || !item.fileMime) return null
   if (item.fileStatus && item.fileStatus !== 'READY') return <p className="text-sm text-muted-foreground">{t('errors.MEDIA_NOT_READY')}</p>
