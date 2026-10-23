@@ -30,6 +30,8 @@ export const profiles = pgTable('profiles', {
     .references(() => users.id, { onDelete: 'cascade' }),
   fullName: text('full_name').notNull(),
   phone: text('phone'),
+  /** تحقق OTP من الهاتف */
+  phoneVerifiedAt: timestamp('phone_verified_at', { withTimezone: true }),
   avatarUrl: text('avatar_url'),
   locale: text('locale').notNull().default('ar'),
   theme: text('theme').notNull().default('system'),

@@ -37,6 +37,10 @@ export const products = pgTable(
     status: text('status').notNull().default('DRAFT'),
     sortOrder: integer('sort_order').notNull().default(0),
     salesCount: integer('sales_count').notNull().default(0),
+    /** يُلزم المشتري باختيار شعبته (كتب موجّهة بالشعبة، ودورات) */
+    requiresStream: boolean('requires_stream').notNull().default(false),
+    /** الحدّ الأقصى للوحدات في الطلب الواحد (السياسة التجارية: وحدة واحدة للكتب المرتبطة بدورة) */
+    maxPerOrder: integer('max_per_order').notNull().default(20),
     ...timestamps,
     ...softDelete
   },
@@ -45,6 +49,7 @@ export const products = pgTable(
     check('products_status_check', inList(t.status, PRODUCT_STATUSES)),
     check('products_price_check', sql`${t.priceDzd} >= 0`),
     check('products_stock_check', sql`${t.stock} IS NULL OR ${t.stock} >= 0`),
+    check('products_max_per_order_check', sql`${t.maxPerOrder} >= 1`),
     index('products_browse_idx').on(t.status, t.type, t.subjectId, t.levelId),
     index('products_workspace_idx').on(t.workspaceId)
   ]
@@ -95,13 +100,23 @@ export const orders = pgTable(
     deliveredAt: timestamp('delivered_at', { withTimezone: true }),
     cancelledAt: timestamp('cancelled_at', { withTimezone: true }),
     cancelReason: text('cancel_reason'),
+    /** التحقق بالهاتف (OTP) قبل اعتماد الطلب */
+    otpVerifiedAt: timestamp('otp_verified_at', { withTimezone: true }),
+    /** شعبة المشتري وقت الطلب (إلزامية حين يتطلبها منتج) */
+    streamId: uuid('stream_id').references(() => streams.id),
+    /** التلميذ المستفيد إن اشترى وليّ الأمر بحسابه */
+    beneficiaryStudentId: uuid('beneficiary_student_id'),
+    /** شركة التوصيل ورقم التتبّع */
+    deliveryProvider: text('delivery_provider'),
+    deliveryTrackingId: text('delivery_tracking_id'),
     ...timestamps
   },
   (t) => [
     check('orders_status_check', inList(t.status, ORDER_STATUSES)),
     check('orders_payment_check', inList(t.paymentMethod, PAYMENT_METHODS)),
     index('orders_user_idx').on(t.userId, t.createdAt),
-    index('orders_status_idx').on(t.status, t.createdAt)
+    index('orders_status_idx').on(t.status, t.createdAt),
+    index('orders_tracking_idx').on(t.deliveryProvider, t.deliveryTrackingId)
   ]
 )
 
