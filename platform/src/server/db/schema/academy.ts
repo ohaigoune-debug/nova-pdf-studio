@@ -22,7 +22,7 @@ import {
   SUPPORT_STATUSES
 } from './enums'
 import { groups } from './groups'
-import { levels, streams, subjects } from './reference'
+import { levels, subjects } from './reference'
 import { orders, products } from './store'
 import { students } from './students'
 import { teacherWorkspaces } from './tenancy'
