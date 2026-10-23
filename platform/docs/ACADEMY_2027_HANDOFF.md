@@ -37,7 +37,10 @@
 | `src/server/db/schema/content.ts` | عمودان اختياريان `subject_id`, `curriculum_node_id` + فهرسان. |
 | `src/server/services/content.service.ts` | `ContentInput.subjectId/curriculumNodeId` في الإنشاء والتحديث. |
 | `drizzle/0029_content_curriculum.sql` + `drizzle/down/…` + `meta/_journal.json` | الهجرة الإضافية (IF NOT EXISTS) وسكربت التراجع. |
-| `tests/academy-catalog.test.ts` (جديد) | 15 اختبار انحدار. |
+| `tests/academy-catalog.test.ts` (جديد) | 19 اختبار انحدار (15 + 4 لملاحظات المراجعة). |
+| `src/server/lib/course-access.ts` (جديد) | `reachableGroupIds`/`noExpiredCourseOn`: استبعاد فوج الدورة عند كل طلب إن كان الاشتراك غير نشط أو منتهي التاريخ. |
+| `content.service.ts`, `media.service.ts`, `student-extras.queries.ts`, `skills.service.ts`, `library.service.ts` (`visibleResources`) | كل بوابات الدرس/الوسائط/الملفات/الموارد تمرّ عبر `reachableGroupIds`/`noExpiredCourseOn`. |
+| `src/components/domain/content-form.tsx`, `content.actions.ts`, `teacher-form-options.ts`, `teacher/content/{new,[id]/edit}` | واجهة الأستاذ: اختيار المادة وموضع الدرس في المنهاج (مسار كامل «وحدة › فصل › درس»، مرشّح بالمستوى/المادة/الشعبة). |
 
 لم تُغيَّر عقود الدوال المشتركة: `myCourses`, `courseHome`, `enrollStudent`, `listStudentContent`, `getContentForStudent`, `resolveMediaAccess`, `visibleResources` بقيت كما هي (أُضيفت حقول اختيارية فقط لمرشّح المكتبة). الأفواج وعضوياتها وأكواد التسجيل والشروط والتفعيل لم تُمسّ.
 
@@ -49,10 +52,16 @@
 | 2 | صفحة «دوراتي» | ✅ منفّذ (بلا تعديل منطق) | السلوك القائم صحيح: الساري = `ACTIVE`، المنتهي زمنيًا يُعرض `EXPIRED` رماديًا، الملغى لا يُعرض؛ ثُبّت باختبارات انحدار. |
 | 3 | المحتوى المجاني دون فوج | ✅ اختبار انحدار | الحواجز (`listStudentContent`, `getContentForStudent`, `resolveMediaAccess`, `listStudentFiles`, `visibleResources`) تسمح أصلًا بـ PUBLIC/STUDENTS_ONLY بلا فوج؛ لا تعديل. GROUP_ONLY/SPECIFIC_STUDENTS لم تتغيّر. |
 | 4 | اختيار المستوى/الشعبة/المادة | ✅ منفّذ | من `levels/grade_streams/subject_offerings`؛ الافتراضي من ملف التلميذ دون تعديله؛ الحالة في الرابط؛ المحتوى القديم بلا تصنيف يبقى ظاهرًا. |
-| 5 | ترتيب الدروس بالمنهاج | 🟡 جزئي | الخدمة والصفحة والمخطط الإضافي جاهزة ومختبرة. **غير منفّذ:** واجهة للأستاذ/المشرف لاختيار المادة وعقدة المنهاج عند نشر الدرس (نموذج `content-form.tsx`)؛ المحتوى الحالي كله سيظهر في «غير مصنّف» حتى يُصنَّف. |
-| 6 | البطاقات الست | ✅ منفّذ | من `resources.type ∈ {HOMEWORK, TEST}` و`school_term` الحقيقي؛ لا تخمين من العنوان؛ واجبات الأفواج تبقى في `/student/assignments`؛ لا حلول ولا تسليمات تُعرض. ملاحظة: شريحة «اختبارات» في `/exams` تشمل النوع `EXAM` أيضًا كما كان. |
+| 5 | ترتيب الدروس بالمنهاج | ✅ منفّذ | الترتيب بالمسار الكامل للشجرة (CTE تكراري) لا بالأب المباشر؛ واجهة الأستاذ لاختيار المادة والعقدة مضافة. المحتوى القديم يبقى في «غير مصنّف» حتى يصنّفه الأستاذ من صفحة التعديل. |
+| 6 | البطاقات الست | ✅ منفّذ | العدّ والعرض بشرط واحد (`PRACTICE_KINDS`): «فرض» = HOMEWORK، «اختبار» = TEST + EXAM، و`school_term` الحقيقي؛ واجبات الأفواج تبقى في `/student/assignments`؛ لا حلول ولا تسليمات تُعرض. |
 | 7 | التوافق | ✅ منفّذ | لا تغيير في المصادقة أو المعرّفات أو مسارات API (`/api/v1/*`) أو PLAY؛ الوسائط ما زالت عبر `resolveMediaAccess` وتوقيع HMAC؛ **لم يُشغَّل Android ولا متصفح**. |
 | 8 | الاختبارات والتحقق | ✅ منفّذ | انظر §5. |
+
+### 4-ب. ملاحظات مراجعة PR #2 (عند 3409d83) — عولجت كلها
+1. **الاشتراك المنتهي**: كانت البوابات تعتمد عضوية الفوج فقط حتى تمرّ مهمة الانتهاء اليومية. الآن `reachableGroupIds` يستبعد فوج الدورة عند كل طلب إن كان الاشتراك `≠ ACTIVE` أو `expires_at <= now()`، في الدرس والوسائط والملفات والمهارات والموارد (`visibleResources`). الأفواج العادية بلا دورة لا تتأثر. اختبار: «الاشتراك المنتهي زمنياً يُغلق…».
+2. **ترتيب المنهاج**: CTE تكراري يبني مسار كل عقدة إلى الجذر؛ القسم = الجذر (الوحدة)، والترتيب داخل القسم بمفتاح المسار كاملًا. اختبار بشجرة «وحدة ← فصل ← درس» بترتيب يخالف الأب المباشر والعنوان.
+3. **عدّ بطاقات الاختبار**: يُعدّ TEST + EXAM معًا بنفس أنواع `PRACTICE_KINDS`، والاختبار يطابق العدد مع `listResourceCards` للوجهة نفسها.
+4. **الشعب المتفرّعة**: `streamFamily` (الشعبة + أمّها) في الكتالوج والدروس والبطاقات ومكتبة `/exams` (`streamIds`)؛ المحتوى الخاص بفوج يبقى محجوبًا. اختبار: TM_CIVIL يرى محتوى TM العام ولا يرى الخاص، وSCI لا ترى شيئًا منه.
 
 ## 5. أوامر التحقق ونتائجها الحقيقية (بيئة معزولة، PGlite في الذاكرة)
 

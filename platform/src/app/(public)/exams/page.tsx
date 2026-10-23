@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { currentLevel, subjectsForLevel } from '@/server/queries/level-scope'
+import { streamFamily } from '@/server/services/academy-catalog.service'
 import { listResourceCards, PRACTICE_KINDS, practiceCounts, type PracticeKind } from '@/server/services/library.service'
 
 export const dynamic = 'force-dynamic'
@@ -33,7 +34,8 @@ export default async function ExamsPage({ searchParams }: { searchParams: Promis
   const kind = PRACTICE_KINDS.find((k) => k.key === sp.kind) ?? null
   const streamId = sp.stream && /^[0-9a-f-]{36}$/i.test(sp.stream) ? sp.stream : null
   const term = sp.term && ['1', '2', '3'].includes(sp.term) ? Number(sp.term) : null
-  const scope = { levelId: level?.id ?? null, subjectId, streamId, term, excludeBac: true, studentId }
+  const streamIds = await streamFamily(db, streamId)
+  const scope = { levelId: level?.id ?? null, subjectId, streamIds, term, excludeBac: true, studentId }
   const allTypes = PRACTICE_KINDS.flatMap((k) => k.types)
   const [list, counts, subjectOpts] = await Promise.all([listResourceCards(db, { ...scope, types: kind ? [...kind.types] : allTypes, q: sp.q ?? null }, { cursor: sp.cursor ?? null, limit: 24 }), practiceCounts(db, scope), subjectsForLevel(db, level?.id ?? null)])
   const link = (patch: Partial<Q>) => {

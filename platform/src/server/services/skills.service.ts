@@ -2,6 +2,7 @@ import { and, asc, desc, eq, inArray, isNotNull, isNull, lt, or, sql } from 'dri
 import type { Db } from '@/server/db/connect'
 import { content, contentTargets, groupStudents, levels, profiles, quizAttempts, quizTargets, quizzes, skills, studentSkillHistory, studentSkills, users } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
+import { reachableGroupIds } from '@/server/lib/course-access'
 import type { Actor } from '@/server/lib/actor'
 import { assertRole, studentIdOf } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
@@ -141,7 +142,7 @@ export async function suggestedContentForStudent(db: Db, actor: Actor, limit = 6
   const studentId = studentIdOf(actor)
   const weak = (await skillMap(db, studentId)).filter((s) => s.score < WEAK_THRESHOLD).slice(0, 3)
   if (weak.length === 0) return []
-  const gids = (await db.select({ groupId: groupStudents.groupId }).from(groupStudents).where(eq(groupStudents.studentId, studentId))).map((r) => r.groupId)
+  const gids = await reachableGroupIds(db, studentId)
   const targeted = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)
@@ -179,7 +180,7 @@ export async function remediationPlan(db: Db, actor: Actor, maxSkills = 3): Prom
   const studentId = studentIdOf(actor)
   const weak = (await skillMap(db, studentId)).filter((s) => s.score < WEAK_THRESHOLD).sort((a, b) => a.score - b.score).slice(0, maxSkills)
   if (weak.length === 0) return []
-  const gids = (await db.select({ groupId: groupStudents.groupId }).from(groupStudents).where(and(eq(groupStudents.studentId, studentId), eq(groupStudents.status, 'ACTIVE')))).map((r) => r.groupId)
+  const gids = await reachableGroupIds(db, studentId, ['ACTIVE'])
   const targetedContent = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)

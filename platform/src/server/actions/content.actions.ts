@@ -27,6 +27,8 @@ const contentSchema = z.object({
   streamId: optionalUuid,
   topic: z.string().trim().optional(),
   skillId: optionalUuid,
+  subjectId: optionalUuid,
+  curriculumNodeId: optionalUuid,
   visibility: z.enum(VISIBILITIES),
   publish: z.string().optional().transform((v) => v === 'on' || v === 'true'),
   videoProvider: z.enum(['YOUTUBE', 'UPLOAD', 'BUNNY']).optional().or(z.literal('')),

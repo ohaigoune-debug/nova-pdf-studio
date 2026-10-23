@@ -2,7 +2,8 @@ import { createHmac, timingSafeEqual } from 'node:crypto'
 import { and, desc, eq, gt, inArray, isNotNull, isNull, or, sql } from 'drizzle-orm'
 import { PDFDocument, StandardFonts, degrees, rgb } from 'pdf-lib'
 import type { Db } from '@/server/db/connect'
-import { content, contentTargets, files, groupStudents, mediaViews, profiles, users } from '@/server/db/schema'
+import { content, contentTargets, files, mediaViews, profiles, users } from '@/server/db/schema'
+import { reachableGroupIds } from '@/server/lib/course-access'
 import type { Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { getBunnyCredentials, isBunnyVideoId, signedEmbedUrl } from '@/server/lib/bunny'
@@ -78,12 +79,7 @@ export async function resolveMediaAccess(db: Db, actor: Actor | null, contentId:
     studentId = actor.studentId
     if (c.visibility === 'PUBLIC' || c.visibility === 'STUDENTS_ONLY') allowed = true
     else if (c.visibility === 'GROUP_ONLY' || c.visibility === 'SPECIFIC_STUDENTS') {
-      const gids = (
-        await db
-          .select({ groupId: groupStudents.groupId })
-          .from(groupStudents)
-          .where(and(eq(groupStudents.studentId, studentId), inArray(groupStudents.status, ['ACTIVE', 'SUSPENDED', 'SUSPENDED_DUE_TO_ABSENCE'])))
-      ).map((r) => r.groupId)
+      const gids = await reachableGroupIds(db, studentId)
       const [t] = await db
         .select({ id: contentTargets.id })
         .from(contentTargets)

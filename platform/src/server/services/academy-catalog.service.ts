@@ -16,7 +16,6 @@ import {
   courseProducts,
   courses,
   curriculumNodes,
-  groupStudents,
   groups,
   levels,
   products,
@@ -28,13 +27,31 @@ import {
 } from '@/server/db/schema'
 import type { ResourceType } from '@/server/db/schema/enums'
 import { studentIdOf, type Actor } from '@/server/lib/actor'
+import { reachableGroupIds } from '@/server/lib/course-access'
 import { AppError } from '@/server/lib/errors'
 import { signFileUrl } from '@/server/lib/storage'
-import { visibleResources } from './library.service'
+import { PRACTICE_KINDS, visibleResources } from './library.service'
 import { subjectsFor } from './taxonomy.service'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const uuidOrNull = (v: string | null | undefined) => (v && UUID.test(v) ? v : null)
+
+/**
+ * عائلة الشعبة: الشعبة نفسها وأمّها (وجدّتها إن وُجدت). «تقني رياضي — هندسة مدنية» يرى أيضًا ما صُنّف
+ * للشعبة الأم «تقني رياضي». يعود [] إن لم تُحدَّد شعبة (= كل الشعب).
+ */
+export async function streamFamily(db: Db, streamId: string | null | undefined): Promise<string[]> {
+  if (!streamId) return []
+  const out: string[] = []
+  let cur: string | null = streamId
+  for (let i = 0; cur && i < 4; i++) {
+    const [row] = await db.select({ id: streams.id, parentId: streams.parentId }).from(streams).where(eq(streams.id, cur)).limit(1)
+    if (!row) break
+    out.push(row.id)
+    cur = row.parentId
+  }
+  return out
+}
 
 /* ------------------------------- نطاق التلميذ ------------------------------- */
 
@@ -78,6 +95,50 @@ export async function browseOptions(db: Db, scope: BrowseScope) {
     subjectRows = await db.select({ id: subjects.id, name: subjects.nameAr }).from(subjects).orderBy(asc(subjects.sortOrder))
   }
   return { levels: levelRows, streams: streamRows, subjects: subjectRows }
+}
+
+/* ----------------------- خيارات تصنيف الدرس (نموذج الأستاذ) ----------------------- */
+
+export async function listSubjectOptions(db: Db): Promise<{ id: string; name: string }[]> {
+  return db.select({ id: subjects.id, name: subjects.nameAr }).from(subjects).orderBy(asc(subjects.sortOrder))
+}
+
+export interface CurriculumNodeOption {
+  id: string
+  subjectId: string
+  levelId: string
+  streamId: string | null
+  kind: string
+  /** المسار الكامل «الوحدة › الفصل › الدرس» بترتيب الشجرة */
+  label: string
+  /** مفتاح الترتيب (sort_order على طول المسار) لعرض القائمة بترتيب المنهاج */
+  sortKey: number[]
+}
+
+/** كل عقد المنهاج مع مسارها الكامل، لاختيار «وحدة/درس» في نموذج نشر الدرس. تُرشَّح في الواجهة بالمستوى والمادة. */
+export async function curriculumNodeOptions(db: Db): Promise<CurriculumNodeOption[]> {
+  const rows = await db.select({ id: curriculumNodes.id, subjectId: curriculumNodes.subjectId, levelId: curriculumNodes.levelId, streamId: curriculumNodes.streamId, parentId: curriculumNodes.parentId, kind: curriculumNodes.kind, title: curriculumNodes.title, sortOrder: curriculumNodes.sortOrder }).from(curriculumNodes)
+  const byId = new Map(rows.map((r) => [r.id, r]))
+  const out: CurriculumNodeOption[] = []
+  for (const r of rows) {
+    const titles: string[] = []
+    const key: number[] = []
+    let cur: typeof r | undefined = r
+    for (let i = 0; cur && i < 10; i++) {
+      titles.unshift(cur.title)
+      key.unshift(cur.sortOrder)
+      cur = cur.parentId ? byId.get(cur.parentId) : undefined
+    }
+    out.push({ id: r.id, subjectId: r.subjectId, levelId: r.levelId, streamId: r.streamId, kind: r.kind, label: titles.join(' › '), sortKey: key })
+  }
+  const cmp = (a: number[], b: number[]) => {
+    for (let i = 0; i < Math.max(a.length, b.length); i++) {
+      const d = (a[i] ?? -1) - (b[i] ?? -1)
+      if (d !== 0) return d
+    }
+    return 0
+  }
+  return out.sort((a, b) => cmp(a.sortKey, b.sortKey) || a.label.localeCompare(b.label, 'ar'))
 }
 
 /* --------------------------------- الكتالوج --------------------------------- */
@@ -127,11 +188,13 @@ async function streamNamesOf(db: Db, ids: string[][]): Promise<Map<string, strin
 export async function listCourseCatalog(db: Db, actor: Actor | null, scope: Partial<BrowseScope> = {}): Promise<CatalogCourse[]> {
   const studentId = actor?.role === 'STUDENT' ? actor.studentId : null
   const now = new Date()
+  const family = await streamFamily(db, scope.streamId)
   const where: (SQL | undefined)[] = [
     isNull(courses.deletedAt),
     eq(courses.status, 'PUBLISHED'),
     scope.levelId ? or(isNull(courses.levelId), eq(courses.levelId, scope.levelId)) : undefined,
-    scope.streamId ? sql`(cardinality(${courses.streamIds}) = 0 or ${scope.streamId}::uuid = any(${courses.streamIds}))` : undefined,
+    // الشعبة أو أمّها، أو دورة لكل الشعب (stream_ids فارغ)
+    family.length ? sql`(cardinality(${courses.streamIds}) = 0 or ${courses.streamIds} && array[${sql.join(family.map((id) => sql`${id}::uuid`), sql`, `)}]::uuid[])` : undefined,
     scope.subjectId ? eq(courses.subjectId, scope.subjectId) : undefined
   ]
   const rows = await db
@@ -231,12 +294,8 @@ export interface LessonSection {
  */
 export async function listStudentLessonsOrganized(db: Db, actor: Actor, scope: Partial<BrowseScope> = {}, types: string[] = ['LESSON', 'ARTICLE', 'EXERCISE', 'VIDEO', 'PDF', 'AUDIO', 'IMAGE']): Promise<LessonSection[]> {
   const studentId = studentIdOf(actor)
-  const gids = (
-    await db
-      .select({ groupId: groupStudents.groupId })
-      .from(groupStudents)
-      .where(and(eq(groupStudents.studentId, studentId), inArray(groupStudents.status, ['ACTIVE', 'SUSPENDED', 'SUSPENDED_DUE_TO_ABSENCE'])))
-  ).map((r) => r.groupId)
+  const gids = await reachableGroupIds(db, studentId)
+  const family = await streamFamily(db, scope.streamId)
   const targeted = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)
@@ -249,56 +308,78 @@ export async function listStudentLessonsOrganized(db: Db, actor: Actor, scope: P
       type: content.type,
       summary: content.summary,
       publishedAt: content.publishedAt,
-      nodeId: content.curriculumNodeId,
-      nodeTitle: curriculumNodes.title,
-      nodeKind: curriculumNodes.kind,
-      nodeTerm: curriculumNodes.schoolTerm,
-      nodeOrder: curriculumNodes.sortOrder,
-      parentId: curriculumNodes.parentId
+      nodeId: content.curriculumNodeId
     })
     .from(content)
-    .leftJoin(curriculumNodes, eq(curriculumNodes.id, content.curriculumNodeId))
     .where(
       and(
         isNotNull(content.publishedAt),
         isNull(content.deletedAt),
         inArray(content.type, types),
         or(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), inArray(content.id, targeted)),
-        // المستوى: المحتوى بلا مستوى (قديم) يبقى ظاهراً
+        // المستوى/الشعبة/المادة: المحتوى غير المصنّف (قديم) يبقى ظاهراً؛ الشعبة تشمل أمّها
         scope.levelId ? or(isNull(content.levelId), eq(content.levelId, scope.levelId)) : undefined,
-        scope.streamId ? or(isNull(content.streamId), eq(content.streamId, scope.streamId)) : undefined,
+        family.length ? or(isNull(content.streamId), inArray(content.streamId, family)) : undefined,
         scope.subjectId ? or(isNull(content.subjectId), eq(content.subjectId, scope.subjectId)) : undefined
       )
     )
-    .orderBy(asc(curriculumNodes.sortOrder), asc(content.title), desc(content.publishedAt))
+    .orderBy(asc(content.title), desc(content.publishedAt))
     .limit(400)
 
-  // عقدة الدرس → وحدته (الجذر) لتجميع الأقسام بترتيب الوحدات
-  const parentIds = Array.from(new Set(rows.map((r) => r.parentId).filter((x): x is string => Boolean(x))))
-  const parents = parentIds.length ? await db.select({ id: curriculumNodes.id, title: curriculumNodes.title, kind: curriculumNodes.kind, term: curriculumNodes.schoolTerm, order: curriculumNodes.sortOrder, parentId: curriculumNodes.parentId }).from(curriculumNodes).where(inArray(curriculumNodes.id, parentIds)) : []
-  const parentOf = new Map(parents.map((p) => [p.id, p]))
+  // المسار الكامل لكل عقدة (جذر ← … ← العقدة) بترتيب sort_order في كل مستوى: الترتيب يتبع
+  // الشجرة كاملة «وحدة ← فصل ← درس» لا الأب المباشر فقط.
+  const nodeIds = Array.from(new Set(rows.map((r) => r.nodeId).filter((x): x is string => Boolean(x))))
+  const paths = new Map<string, { rootId: string; key: number[] }>()
+  const rootMeta = new Map<string, { title: string; kind: string; term: number | null }>()
+  if (nodeIds.length) {
+    type PathRow = { id: string; root_id: string; key: number[] | string; root_title: string; root_kind: string; root_term: number | null }
+    const raw = await db.execute<PathRow>(sql`
+      with recursive up as (
+        select n.id as start_id, n.id, n.parent_id, n.sort_order, n.title, n.kind, n.school_term, 1 as depth, array[n.sort_order] as key
+        from curriculum_nodes n where n.id in (${sql.join(nodeIds.map((id) => sql`${id}::uuid`), sql`, `)})
+        union all
+        select up.start_id, p.id, p.parent_id, p.sort_order, p.title, p.kind, p.school_term, up.depth + 1, array[p.sort_order] || up.key
+        from up join curriculum_nodes p on p.id = up.parent_id where up.depth < 10
+      )
+      select distinct on (start_id) start_id as id, id as root_id, key, title as root_title, kind as root_kind, school_term as root_term
+      from up order by start_id, depth desc
+    `)
+    const list = Array.isArray(raw) ? (raw as PathRow[]) : (raw as { rows: PathRow[] }).rows
+    for (const r of list) {
+      // pglite/pg قد يعيدان المصفوفة نصاً «{1,2}»
+      const key = Array.isArray(r.key) ? r.key.map(Number) : String(r.key).replace(/[{}]/g, '').split(',').filter(Boolean).map(Number)
+      paths.set(r.id, { rootId: r.root_id, key })
+      if (!rootMeta.has(r.root_id)) rootMeta.set(r.root_id, { title: r.root_title, kind: r.root_kind, term: r.root_term })
+    }
+  }
 
-  const sections = new Map<string, LessonSection & { order: number }>()
-  const unclassified: OrganizedLesson[] = []
+  const cmpKey = (a: number[], b: number[]) => {
+    for (let i = 0; i < Math.max(a.length, b.length); i++) {
+      const d = (a[i] ?? -1) - (b[i] ?? -1)
+      if (d !== 0) return d
+    }
+    return 0
+  }
   const toLesson = (r: (typeof rows)[number]): OrganizedLesson => ({ id: r.id, slug: r.slug, title: r.title, type: r.type, summary: r.summary, publishedAt: r.publishedAt, href: `/student/lessons/${r.slug}` })
+  const sections = new Map<string, LessonSection & { key: number[]; items: { key: number[]; title: string; lesson: OrganizedLesson }[] }>()
+  const unclassified: OrganizedLesson[] = []
   for (const r of rows) {
-    if (!r.nodeId) {
+    const path = r.nodeId ? paths.get(r.nodeId) : null
+    if (!path) {
       unclassified.push(toLesson(r))
       continue
     }
-    // القسم = الوحدة الأم إن وُجدت، وإلا العقدة نفسها
-    const unit = r.parentId ? parentOf.get(r.parentId) : null
-    const key = unit?.id ?? r.nodeId
-    let sec = sections.get(key)
+    const meta = rootMeta.get(path.rootId)!
+    let sec = sections.get(path.rootId)
     if (!sec) {
-      sec = { nodeId: key, title: unit?.title ?? r.nodeTitle ?? '', kind: unit?.kind ?? r.nodeKind ?? null, term: unit?.term ?? r.nodeTerm ?? null, order: unit?.order ?? r.nodeOrder ?? 0, lessons: [] }
-      sections.set(key, sec)
+      sec = { nodeId: path.rootId, title: meta.title, kind: meta.kind, term: meta.term, key: [path.key[0] ?? 0], lessons: [], items: [] }
+      sections.set(path.rootId, sec)
     }
-    sec.lessons.push(toLesson(r))
+    sec.items.push({ key: path.key, title: r.title, lesson: toLesson(r) })
   }
-  const ordered = Array.from(sections.values())
-    .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title, 'ar'))
-    .map(({ order: _o, ...s }) => s)
+  const ordered: LessonSection[] = Array.from(sections.values())
+    .sort((a, b) => cmpKey(a.key, b.key) || a.title.localeCompare(b.title, 'ar'))
+    .map((s) => ({ nodeId: s.nodeId, title: s.title, kind: s.kind, term: s.term, lessons: s.items.sort((x, y) => cmpKey(x.key, y.key) || x.title.localeCompare(y.title, 'ar')).map((x) => x.lesson) }))
   if (unclassified.length) ordered.push({ nodeId: null, title: 'دروس أخرى (غير مصنّفة بعد)', kind: null, term: null, lessons: unclassified.sort((a, b) => (b.publishedAt?.getTime() ?? 0) - (a.publishedAt?.getTime() ?? 0)) })
   return ordered
 }
@@ -324,7 +405,10 @@ const KIND_AR: Record<'HOMEWORK' | 'TEST', string> = { HOMEWORK: 'فرض', TEST:
  * الذي في المكتبة: عام، أو خاصّ بفوج التلميذ النشط. لا يُكشف أي ملف هنا.
  */
 export async function assessmentCards(db: Db, scope: Partial<BrowseScope>, viewer: { studentId?: string | null; levelCode?: string | null } = {}): Promise<AssessmentCard[]> {
-  const types: ResourceType[] = ['HOMEWORK', 'TEST']
+  // نفس أنواع شرائح /exams (PRACTICE_KINDS): «فروض» = HOMEWORK، «اختبارات» = TEST + EXAM — العدّ والعرض بشرط واحد
+  const kindTypes = Object.fromEntries(PRACTICE_KINDS.map((k) => [k.key, k.types])) as Record<string, readonly ResourceType[]>
+  const types: ResourceType[] = [...kindTypes.homework!, ...kindTypes.tests!]
+  const family = await streamFamily(db, scope.streamId)
   const rows = await db
     .select({ type: resources.type, term: resources.schoolTerm, n: sql<number>`count(*)::int` })
     .from(resources)
@@ -334,12 +418,16 @@ export async function assessmentCards(db: Db, scope: Partial<BrowseScope>, viewe
         inArray(resources.type, types),
         isNotNull(resources.schoolTerm),
         scope.levelId ? eq(resources.levelId, scope.levelId) : undefined,
-        scope.streamId ? or(eq(resources.streamId, scope.streamId), isNull(resources.streamId)) : undefined,
+        family.length ? or(inArray(resources.streamId, family), isNull(resources.streamId)) : undefined,
         scope.subjectId ? eq(resources.subjectId, scope.subjectId) : undefined
       )
     )
     .groupBy(resources.type, resources.schoolTerm)
-  const n = new Map(rows.map((r) => [`${r.type}:${r.term}`, r.n]))
+  const n = new Map<string, number>()
+  for (const r of rows) {
+    const kind = kindTypes.homework!.includes(r.type as ResourceType) ? 'HOMEWORK' : 'TEST'
+    n.set(`${kind}:${r.term}`, (n.get(`${kind}:${r.term}`) ?? 0) + r.n)
+  }
   const cards: AssessmentCard[] = []
   for (const term of [1, 2, 3] as const) {
     for (const kind of ['HOMEWORK', 'TEST'] as const) {

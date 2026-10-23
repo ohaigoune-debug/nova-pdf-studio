@@ -7,7 +7,6 @@ import {
   contentTargets,
   files,
   grades,
-  groupStudents,
   levels,
   profiles,
   quizzes,
@@ -17,14 +16,12 @@ import {
 } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { studentIdOf } from '@/server/lib/actor'
+import { reachableGroupIds } from '@/server/lib/course-access'
 import type { ContentCard } from './content.queries'
 
+/** الأفواج التي يصل التلميذ إلى محتواها الآن (اشتراك الدورة المنتهي يُستبعد) */
 async function myGroupIds(db: Db, studentId: string): Promise<string[]> {
-  const rows = await db
-    .select({ groupId: groupStudents.groupId })
-    .from(groupStudents)
-    .where(and(eq(groupStudents.studentId, studentId), inArray(groupStudents.status, ['ACTIVE', 'SUSPENDED', 'SUSPENDED_DUE_TO_ABSENCE'])))
-  return rows.map((r) => r.groupId)
+  return reachableGroupIds(db, studentId)
 }
 
 /** المحتوى المتاح للطالب: عام + للطلاب + الموجّه لأفواجه أو له شخصياً */

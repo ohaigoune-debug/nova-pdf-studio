@@ -22,6 +22,8 @@ export interface ContentFormDefaults {
   streamId?: string | null
   topic?: string | null
   skillId?: string | null
+  subjectId?: string | null
+  curriculumNodeId?: string | null
   visibility?: string
   published?: boolean
   groupIds?: string[]
@@ -41,8 +43,9 @@ const visibilityLabel: Record<string, string> = {
 }
 
 type FileOpt = Opt & { mimeType?: string }
+export type NodeOpt = { id: string; subjectId: string; levelId: string; streamId: string | null; kind: string; label: string }
 
-export function ContentForm({ contentId, defaults = {}, groups, students, levels, streams, skills, files }: { contentId?: string; defaults?: ContentFormDefaults; groups: Opt[]; students: Opt[]; levels: Opt[]; streams: Opt[]; skills: Opt[]; files: FileOpt[] }) {
+export function ContentForm({ contentId, defaults = {}, groups, students, levels, streams, skills, files, subjects = [], nodes = [] }: { contentId?: string; defaults?: ContentFormDefaults; groups: Opt[]; students: Opt[]; levels: Opt[]; streams: Opt[]; skills: Opt[]; files: FileOpt[]; subjects?: Opt[]; nodes?: NodeOpt[] }) {
   const action = contentId
     ? (updateContentAction.bind(null, contentId) as (p: ActionResult<unknown> | null, fd: FormData) => Promise<ActionResult<unknown>>)
     : (createContentAction as (p: ActionResult<unknown> | null, fd: FormData) => Promise<ActionResult<unknown>>)
@@ -50,6 +53,11 @@ export function ContentForm({ contentId, defaults = {}, groups, students, levels
   const [visibility, setVisibility] = useState(defaults.visibility ?? 'STUDENTS_ONLY')
   const [type, setType] = useState(defaults.type ?? 'LESSON')
   const [videoProvider, setVideoProvider] = useState<'YOUTUBE' | 'UPLOAD' | 'BUNNY'>(defaults.videoProvider === 'UPLOAD' ? 'UPLOAD' : defaults.videoProvider === 'BUNNY' ? 'BUNNY' : 'YOUTUBE')
+  const [levelId, setLevelId] = useState(defaults.levelId ?? '')
+  const [streamId, setStreamId] = useState(defaults.streamId ?? '')
+  const [subjectId, setSubjectId] = useState(defaults.subjectId ?? '')
+  // عقد المنهاج المتاحة: المادة والمستوى المختاران، والمشتركة بين الشعب أو شعبة الدرس
+  const nodeChoices = subjectId && levelId ? nodes.filter((n) => n.subjectId === subjectId && n.levelId === levelId && (!n.streamId || !streamId || n.streamId === streamId)) : []
   const videoFiles = files.filter((f) => f.mimeType?.startsWith('video/'))
   const pdfFiles = files.filter((f) => f.mimeType === 'application/pdf')
   return (
@@ -140,7 +148,7 @@ export function ContentForm({ contentId, defaults = {}, groups, students, levels
       ) : null}
       <div className="grid gap-4 sm:grid-cols-4">
         <Field label={t('contentMgmt.level')} htmlFor="levelId">
-          <Select id="levelId" name="levelId" defaultValue={defaults.levelId ?? ''}>
+          <Select id="levelId" name="levelId" value={levelId} onChange={(e) => setLevelId(e.target.value)}>
             <option value="">—</option>
             {levels.map((l) => (
               <option key={l.id} value={l.id}>
@@ -150,7 +158,7 @@ export function ContentForm({ contentId, defaults = {}, groups, students, levels
           </Select>
         </Field>
         <Field label={t('contentMgmt.stream')} htmlFor="streamId">
-          <Select id="streamId" name="streamId" defaultValue={defaults.streamId ?? ''}>
+          <Select id="streamId" name="streamId" value={streamId} onChange={(e) => setStreamId(e.target.value)}>
             <option value="">—</option>
             {streams.map((s) => (
               <option key={s.id} value={s.id}>
@@ -171,6 +179,29 @@ export function ContentForm({ contentId, defaults = {}, groups, students, levels
               </option>
             ))}
           </Select>
+        </Field>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Field label="المادة" htmlFor="subjectId">
+          <Select id="subjectId" name="subjectId" value={subjectId} onChange={(e) => setSubjectId(e.target.value)}>
+            <option value="">—</option>
+            {subjects.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </Select>
+        </Field>
+        <Field label="موضعه في المنهاج (وحدة › درس)" htmlFor="curriculumNodeId" className="sm:col-span-2">
+          <Select id="curriculumNodeId" name="curriculumNodeId" defaultValue={defaults.curriculumNodeId ?? ''} disabled={!nodeChoices.length}>
+            <option value="">{subjectId && levelId ? (nodeChoices.length ? '— غير مصنّف —' : 'لا منهاج مزروع لهذه المادة والمستوى') : 'اختر المستوى والمادة أولاً'}</option>
+            {nodeChoices.map((n) => (
+              <option key={n.id} value={n.id}>
+                {n.label}
+              </option>
+            ))}
+          </Select>
+          <p className="mt-1 text-xs text-muted-foreground">يرتّب الدرس في صفحة «دروسي» بترتيب المنهاج. بلا تصنيف يظهر في «دروس أخرى».</p>
         </Field>
       </div>
       <fieldset className="rounded-lg border p-4">

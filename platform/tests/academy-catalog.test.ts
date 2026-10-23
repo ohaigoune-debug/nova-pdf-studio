@@ -5,11 +5,11 @@
 import { eq } from 'drizzle-orm'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
-import { curriculumNodes, levels, streams, students, subjects } from '@/server/db/schema'
+import { courseEnrollments, curriculumNodes, groupStudents, levels, streams, students, subjects } from '@/server/db/schema'
 import { seedCurriculum } from '@/server/db/seed-curriculum'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
-import { CATALOG_FORBIDDEN_KEYS, assessmentCards, browseOptions, browseScope, courseLanding, listCourseCatalog, listStudentLessonsOrganized } from '@/server/services/academy-catalog.service'
+import { CATALOG_FORBIDDEN_KEYS, assessmentCards, browseOptions, browseScope, courseLanding, curriculumNodeOptions, listCourseCatalog, listStudentLessonsOrganized, streamFamily } from '@/server/services/academy-catalog.service'
 import { createContent, getContentForStudent } from '@/server/services/content.service'
 import { courseHome, createCourse, enrollStudent, linkProduct, myCourses, revokeEnrollment, setCourseStatus } from '@/server/services/courses.service'
 import { uploadFile } from '@/server/services/files.service'
@@ -19,6 +19,7 @@ import { upsertResource } from '@/server/services/resources.service'
 import { createProduct } from '@/server/services/store.service'
 import { resolveCodes } from '@/server/services/taxonomy.service'
 import { listStudentContent, listStudentFiles } from '@/server/queries/student-extras.queries'
+import { reachableGroupIds } from '@/server/lib/course-access'
 import { makeAdmin, makeStudent, makeTeacher, setupDb, workspaceIdOfTeacher } from './helpers'
 
 let h: DatabaseHandle
@@ -260,5 +261,109 @@ describe('البيانات المرجعية المستعملة في الاختب
     expect((await h.db.select().from(levels).where(eq(levels.id, ids.levelId!))).length).toBe(1)
     expect((await h.db.select().from(streams).where(eq(streams.id, ids.streamId!))).length).toBe(1)
     expect((await h.db.select().from(subjects).where(eq(subjects.id, ids.subjectId!))).length).toBe(1)
+  })
+})
+
+describe('مراجعة PR #2 — الملاحظات الأربع', () => {
+  it('1. الاشتراك المنتهي زمنياً يُغلق الدرس والوسائط والملفات والموارد فوراً رغم بقاء عضوية الفوج', async () => {
+    const c = await createCourse(h.db, admin, { title: 'دورة تنتهي', workspaceId, season: '2026/2027', status: 'PUBLISHED' })
+    const s = await makeStudent(h.db, 'تلميذ سينتهي اشتراكه')
+    const e = await enrollStudent(h.db, admin, { courseId: c.id, studentId: s.studentId!, source: 'MANUAL', expiresAt: new Date(Date.now() + 3600_000) })
+    const pdf = await uploadFile(h.db, teacher, { originalName: 'exp.pdf', mimeType: 'application/pdf', bytes: Buffer.from('%PDF-1.4 exp') })
+    const lesson = await createContent(h.db, teacher, { type: 'PDF', title: 'درس الدورة', visibility: 'GROUP_ONLY', groupIds: [c.groupId], fileId: pdf.id, publish: true })
+    const res = await upsertResource(h.db, { sourceCode: 'madrasadz', ref: 'course-res-1', title: 'فرض الدورة', type: 'HOMEWORK', accessLevel: 'GROUP', schoolTerm: 1, fileUrl: 'https://example.test/c.pdf' })
+    await h.db.insert((await import('@/server/db/schema')).resourceGroups).values({ resourceId: res.id, groupId: c.groupId })
+    // قبل الانتهاء: كل شيء متاح
+    expect((await getContentForStudent(h.db, s, lesson.slug)).id).toBe(lesson.id)
+    await expect(resolveMediaAccess(h.db, s, lesson.id)).resolves.toBeTruthy()
+    expect((await listStudentFiles(h.db, s)).some((f) => f.id === lesson.id)).toBe(true)
+    expect((await listResourceCards(h.db, { types: ['HOMEWORK'], studentId: s.studentId })).items.some((i) => i.id === res.id)).toBe(true)
+    // ينتهي التاريخ دون أن تمرّ مهمة الانتهاء: العضوية ما زالت ACTIVE
+    await h.db.update(courseEnrollments).set({ expiresAt: new Date(Date.now() - 1000) }).where(eq(courseEnrollments.id, e.id))
+    const [gs] = await h.db.select().from(groupStudents).where(eq(groupStudents.groupId, c.groupId))
+    expect(gs?.status).toBe('ACTIVE')
+    expect(await reachableGroupIds(h.db, s.studentId!)).not.toContain(c.groupId)
+    await expectCode(() => getContentForStudent(h.db, s, lesson.slug), 'CONTENT_NOT_FOUND')
+    await expectCode(() => resolveMediaAccess(h.db, s, lesson.id), 'CONTENT_NOT_FOUND')
+    expect((await listStudentFiles(h.db, s)).some((f) => f.id === lesson.id)).toBe(false)
+    expect((await listStudentContent(h.db, s)).some((f) => f.id === lesson.id)).toBe(false)
+    expect((await listStudentLessonsOrganized(h.db, s)).flatMap((x) => x.lessons.map((l) => l.id))).not.toContain(lesson.id)
+    expect((await listResourceCards(h.db, { types: ['HOMEWORK'], studentId: s.studentId })).items.some((i) => i.id === res.id)).toBe(false)
+    await expectCode(() => publicResourceFile(h.db, res.id, 'file', { studentId: s.studentId }), 'NOT_FOUND')
+    await expectCode(() => courseHome(h.db, s, c.slug), 'COURSE_NOT_ENROLLED')
+    // الفوج العادي (بلا دورة) لا يتأثر
+    const { createGroup } = await import('@/server/services/groups.service')
+    const g = await createGroup(h.db, teacher, { name: 'فوج عادي' })
+    await h.db.insert(groupStudents).values({ groupId: g.id, studentId: s.studentId!, workspaceId, status: 'ACTIVE' })
+    expect(await reachableGroupIds(h.db, s.studentId!)).toContain(g.id)
+  })
+
+  it('2. شجرة «وحدة ← فصل ← درس»: الترتيب بالمسار الكامل لا بالأب المباشر', async () => {
+    const mk = async (v: { title: string; slug: string; parentId?: string; sortOrder: number; kind: string; term?: number }) =>
+      (await h.db.insert(curriculumNodes).values({ subjectId: ids.subjectId!, levelId: ids.levelId!, kind: v.kind, title: v.title, slug: v.slug, sortOrder: v.sortOrder, parentId: v.parentId ?? null, schoolTerm: v.term ?? null }).returning())[0]!
+    const unitB = await mk({ title: 'الوحدة ب', slug: 'ub', sortOrder: 20, kind: 'UNIT', term: 2 })
+    const unitA = await mk({ title: 'الوحدة أ', slug: 'ua', sortOrder: 10, kind: 'UNIT', term: 1 })
+    const chA2 = await mk({ title: 'فصل أ2', slug: 'ua-c2', parentId: unitA.id, sortOrder: 2, kind: 'CHAPTER' })
+    const chA1 = await mk({ title: 'فصل أ1', slug: 'ua-c1', parentId: unitA.id, sortOrder: 1, kind: 'CHAPTER' })
+    const chB1 = await mk({ title: 'فصل ب1', slug: 'ub-c1', parentId: unitB.id, sortOrder: 1, kind: 'CHAPTER' })
+    // درس في الفصل ب1 بترتيب 1 (أصغر من دروس الوحدة أ) — لو اعتُمد الأب المباشر فقط لظهر قبلها
+    const lB11 = await mk({ title: 'درس ب1.1', slug: 'lb11', parentId: chB1.id, sortOrder: 1, kind: 'LESSON' })
+    const lA21 = await mk({ title: 'درس أ2.1', slug: 'la21', parentId: chA2.id, sortOrder: 1, kind: 'LESSON' })
+    const lA12 = await mk({ title: 'درس أ1.2', slug: 'la12', parentId: chA1.id, sortOrder: 9, kind: 'LESSON' })
+    const lA11 = await mk({ title: 'درس أ1.1', slug: 'la11', parentId: chA1.id, sortOrder: 5, kind: 'LESSON' })
+    const mkc = async (title: string, nodeId: string) => createContent(h.db, teacher, { type: 'ARTICLE', title, visibility: 'PUBLIC', body: 'x', publish: true, levelId: ids.levelId, subjectId: ids.subjectId, curriculumNodeId: nodeId })
+    const cB11 = await mkc('ا', lB11.id) // عنوان يسبق أبجدياً
+    const cA21 = await mkc('ب', lA21.id)
+    const cA12 = await mkc('ت', lA12.id)
+    const cA11 = await mkc('ث', lA11.id)
+    const sections = (await listStudentLessonsOrganized(h.db, noGroup, { levelId: ids.levelId, subjectId: ids.subjectId }, ['ARTICLE'])).filter((s) => s.nodeId)
+    expect(sections.map((s) => s.title)).toEqual(['الوحدة أ', 'الوحدة ب'])
+    expect(sections[0]!.term).toBe(1)
+    expect(sections[0]!.lessons.map((l) => l.id)).toEqual([cA11.id, cA12.id, cA21.id])
+    expect(sections[1]!.lessons.map((l) => l.id)).toEqual([cB11.id])
+    // خيارات التصنيف في نموذج الأستاذ: مسار كامل وبترتيب الشجرة
+    const opts = (await curriculumNodeOptions(h.db)).filter((o) => o.subjectId === ids.subjectId && [unitA.id, chA1.id, lA11.id, lA12.id, lB11.id].includes(o.id))
+    expect(opts.map((o) => o.label)).toEqual(['الوحدة أ', 'الوحدة أ › فصل أ1', 'الوحدة أ › فصل أ1 › درس أ1.1', 'الوحدة أ › فصل أ1 › درس أ1.2', 'الوحدة ب › فصل ب1 › درس ب1.1'])
+  })
+
+  it('3. بطاقة «اختبار» تعدّ TEST وEXAM معاً كما تعرضهما وجهتها', async () => {
+    const other = await resolveCodes(h.db, { level: '3AS', subject: 'PHILO' })
+    await upsertResource(h.db, { sourceCode: 'madrasadz', ref: 'exam-t1-philo', title: 'امتحان', type: 'EXAM', subjectId: other.subjectId, levelId: other.levelId, schoolTerm: 1, fileUrl: 'https://example.test/e.pdf' })
+    await upsertResource(h.db, { sourceCode: 'madrasadz', ref: 'test-t1-philo', title: 'اختبار', type: 'TEST', subjectId: other.subjectId, levelId: other.levelId, schoolTerm: 1, fileUrl: 'https://example.test/t.pdf' })
+    const cards = await assessmentCards(h.db, { levelId: other.levelId, subjectId: other.subjectId }, { studentId: noGroup.studentId, levelCode: '3AS' })
+    const test1 = cards.find((c) => c.key === 'TEST-1')!
+    expect(test1.count).toBe(2)
+    const listed = await listResourceCards(h.db, { levelId: other.levelId, subjectId: other.subjectId, types: ['TEST', 'EXAM'], term: 1, studentId: noGroup.studentId })
+    expect(listed.total).toBe(test1.count)
+  })
+
+  it('4. الشعبة المتفرّعة ترى محتوى شعبتها الأم (تقني رياضي ← هندسة مدنية) مع الحفاظ على الصلاحيات', async () => {
+    const tm = await resolveCodes(h.db, { level: '3AS', stream: 'TM', subject: 'MATH' })
+    const civil = await resolveCodes(h.db, { level: '3AS', stream: 'TM_CIVIL' })
+    const sci = await resolveCodes(h.db, { level: '3AS', stream: 'SCI' })
+    expect(await streamFamily(h.db, civil.streamId)).toEqual([civil.streamId, tm.streamId])
+    expect(await streamFamily(h.db, null)).toEqual([])
+    // دورة للشعبة الأم فقط
+    const tmCourse = await createCourse(h.db, admin, { title: 'دورة تقني رياضي', workspaceId, levelId: tm.levelId, streamIds: [tm.streamId!], season: '2026/2027', status: 'PUBLISHED' })
+    const asCivil = await listCourseCatalog(h.db, noGroup, { levelId: tm.levelId, streamId: civil.streamId })
+    expect(asCivil.map((c) => c.id)).toContain(tmCourse.id)
+    const asSci = await listCourseCatalog(h.db, noGroup, { levelId: tm.levelId, streamId: sci.streamId })
+    expect(asSci.map((c) => c.id)).not.toContain(tmCourse.id)
+    // درس عام للشعبة الأم، ودرس خاص بفوج للشعبة الأم: الأول يظهر للفرع، الثاني لا (الصلاحيات)
+    const pub = await createContent(h.db, teacher, { type: 'LESSON', title: 'درس TM عام', visibility: 'PUBLIC', body: 'x', publish: true, levelId: tm.levelId, streamId: tm.streamId, subjectId: tm.subjectId })
+    const priv = await createContent(h.db, teacher, { type: 'LESSON', title: 'درس TM خاص', visibility: 'GROUP_ONLY', groupIds: [tmCourse.groupId], body: 'x', publish: true, levelId: tm.levelId, streamId: tm.streamId, subjectId: tm.subjectId })
+    const seen = (await listStudentLessonsOrganized(h.db, noGroup, { levelId: tm.levelId, streamId: civil.streamId, subjectId: tm.subjectId }, ['LESSON'])).flatMap((s) => s.lessons.map((l) => l.id))
+    expect(seen).toContain(pub.id)
+    expect(seen).not.toContain(priv.id)
+    const seenSci = (await listStudentLessonsOrganized(h.db, noGroup, { levelId: tm.levelId, streamId: sci.streamId, subjectId: tm.subjectId }, ['LESSON'])).flatMap((s) => s.lessons.map((l) => l.id))
+    expect(seenSci).not.toContain(pub.id)
+    // الموارد والبطاقات: مورد الشعبة الأم يُحتسب لفرعها
+    await upsertResource(h.db, { sourceCode: 'madrasadz', ref: 'tm-hw-1', title: 'فرض TM', type: 'HOMEWORK', subjectId: tm.subjectId, levelId: tm.levelId, streamId: tm.streamId, schoolTerm: 1, fileUrl: 'https://example.test/tm.pdf' })
+    const cards = await assessmentCards(h.db, { levelId: tm.levelId, streamId: civil.streamId, subjectId: tm.subjectId }, { studentId: noGroup.studentId, levelCode: '3AS' })
+    expect(cards.find((c) => c.key === 'HOMEWORK-1')!.count).toBe(1)
+    const viaLibrary = await listResourceCards(h.db, { levelId: tm.levelId, subjectId: tm.subjectId, streamIds: await streamFamily(h.db, civil.streamId), types: ['HOMEWORK'], term: 1, studentId: noGroup.studentId })
+    expect(viaLibrary.total).toBe(1)
+    const sciCards = await assessmentCards(h.db, { levelId: tm.levelId, streamId: sci.streamId, subjectId: tm.subjectId }, { studentId: noGroup.studentId, levelCode: '3AS' })
+    expect(sciCards.find((c) => c.key === 'HOMEWORK-1')!.count).toBe(0)
   })
 })

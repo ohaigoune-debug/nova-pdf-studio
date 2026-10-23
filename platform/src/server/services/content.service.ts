@@ -7,6 +7,7 @@ import { isBunnyVideoId } from '@/server/lib/bunny'
 import { parseYoutubeId } from '@/server/lib/youtube'
 import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
+import { reachableGroupIds } from '@/server/lib/course-access'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { assertGroupAccess } from './groups.service'
 import { notifyMany } from './notifications.service'
@@ -206,12 +207,8 @@ export async function getContentForEdit(db: Db, actor: Actor, id: string) {
 /** محتوى للطالب حسب الرؤية: عام / للطلاب / موجّه لأفواجه أو له */
 export async function getContentForStudent(db: Db, actor: Actor, slug: string) {
   const studentId = studentIdOf(actor)
-  const gids = (
-    await db
-      .select({ groupId: groupStudents.groupId })
-      .from(groupStudents)
-      .where(and(eq(groupStudents.studentId, studentId), inArray(groupStudents.status, ['ACTIVE', 'SUSPENDED', 'SUSPENDED_DUE_TO_ABSENCE'])))
-  ).map((r) => r.groupId)
+  // الأفواج التي يصل إليها الآن: اشتراك الدورة المنتهي يُستبعد عند كل طلب لا عند مهمة الانتهاء فقط
+  const gids = await reachableGroupIds(db, studentId)
   const targeted = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)

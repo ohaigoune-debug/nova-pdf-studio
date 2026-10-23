@@ -14,7 +14,7 @@ export default async function NewContentPage() {
       <PageHeader title={t('contentMgmt.new')} />
       <Card className="max-w-3xl">
         <CardContent className="p-6">
-          <ContentForm groups={opts.groups} students={opts.students} levels={opts.levels} streams={opts.streams} skills={opts.skills} files={opts.files} />
+          <ContentForm groups={opts.groups} students={opts.students} levels={opts.levels} streams={opts.streams} skills={opts.skills} files={opts.files} subjects={opts.subjects} nodes={opts.nodes} />
         </CardContent>
       </Card>
     </>
