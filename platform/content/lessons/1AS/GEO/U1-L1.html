@@ -54,17 +54,17 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> الخريطة تمثيل مصغّر ومبسّط لجزء من سطح الأرض على مستوٍ، وفق مقياس ثابت ورموز يشرحها المفتاح. من دون المقياس لا نعرف المسافات، ومن دون المفتاح لا نفهم الرموز.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15" direction="ltr">
 <rect x="20" y="15" width="500" height="145" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
-<text x="270" y="38" text-anchor="middle" font-weight="700">خريطة مبسّطة</text>
+<text direction="rtl" x="270" y="38" text-anchor="middle" font-weight="700">خريطة مبسّطة</text>
 <rect x="60" y="55" width="40" height="25" fill="#86efac" stroke="#15803d" stroke-width="2"/>
 <circle cx="150" cy="68" r="8" fill="#c2410c"/>
 <line x1="190" y1="68" x2="260" y2="68" stroke="#a16207" stroke-width="3"/>
-<text x="400" y="68" text-anchor="middle">مقياس الرسم</text>
+<text direction="rtl" x="400" y="68" text-anchor="middle">مقياس الرسم</text>
 <line x1="320" y1="110" x2="480" y2="110" stroke="#1f2937" stroke-width="3"/>
 <line x1="320" y1="102" x2="320" y2="118" stroke="#1f2937" stroke-width="2"/><line x1="400" y1="102" x2="400" y2="118" stroke="#1f2937" stroke-width="2"/><line x1="480" y1="102" x2="480" y2="118" stroke="#1f2937" stroke-width="2"/>
-<text x="320" y="135" text-anchor="middle">0</text><text x="400" y="135" text-anchor="middle">1 كم</text><text x="480" y="135" text-anchor="middle">2 كم</text>
-<text x="80" y="110" text-anchor="middle" font-size="13">غابة</text><text x="150" y="110" text-anchor="middle" font-size="13">مدينة</text><text x="225" y="110" text-anchor="middle" font-size="13">طريق</text>
+<text direction="ltr" x="320" y="135" text-anchor="middle">0</text><text direction="rtl" x="400" y="135" text-anchor="middle">1 كم</text><text direction="rtl" x="480" y="135" text-anchor="middle">2 كم</text>
+<text direction="rtl" x="80" y="110" text-anchor="middle" font-size="13">غابة</text><text direction="rtl" x="150" y="110" text-anchor="middle" font-size="13">مدينة</text><text direction="rtl" x="225" y="110" text-anchor="middle" font-size="13">طريق</text>
 </svg><figcaption>الشكل 1: عناصر الخريطة: رموز (مساحية ونقطية وخطية) ومقياس خطي.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">أنواع الخرائط</span> حسب المحتوى: طبيعية (التضاريس والمناخ)، بشرية واقتصادية (السكان والإنتاج)، وسياسية (الحدود والدول).</li>
@@ -77,8 +77,8 @@ main{position:relative;z-index:1}
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>مسافة 4 سم على خريطة مقياسها 1/50000. <span class="k">الحل:</span> 4 × 50000 = 200000 سم = 2 كم.</li>
-<li>مسافة حقيقية 5 كم، والمقياس 1/100000. <span class="k">الحل:</span> 5 كم = 500000 سم، ثم 500000 ÷ 100000 = 5 سم على الخريطة.</li>
+<li>مسافة 4 سم على خريطة مقياسها 1/50000. <span class="k">الحل:</span> <bdi dir="ltr">4 × 50000 = 200000</bdi> سم = 2 كم.</li>
+<li>مسافة حقيقية 5 كم، والمقياس 1/100000. <span class="k">الحل:</span> 5 كم = 500000 سم، ثم <bdi dir="ltr">500000 ÷ 100000 = 5</bdi> سم على الخريطة.</li>
 <li>خريطتان لنفس المدينة: 1/25000 و1/200000. <span class="k">التفسير:</span> الأولى أكبر مقياسًا فتُظهر الأحياء والشوارع، والثانية تُظهر المدينة كنقطة.</li>
 </ol></div>
 
@@ -87,6 +87,7 @@ main{position:relative;z-index:1}
 <li>نسيان تحويل السنتيمتر إلى كيلومتر (100000 سم = 1 كم).</li>
 <li>تفسير الرموز دون الرجوع إلى المفتاح.</li>
 <li>تحليل خريطة دون ذكر عنوانها ومقياسها.</li>
+<li>نسيان أن المقياس الخطي يبقى صحيحًا عند تكبير الخريطة أو تصغيرها، بخلاف المقياس الرقمي.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>

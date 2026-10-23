@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> نقرّب النقطة M من النقطة A على المنحنى فيقترب القاطع (AM) من وضعية حدّية هي المماس. معامل توجيه هذا المماس هو العدد المشتق f′(a).</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <line x1="60" y1="165" x2="320" y2="165" stroke="#1f2937" stroke-width="1.5"/><line x1="150" y1="172" x2="150" y2="8" stroke="#1f2937" stroke-width="1.5"/>
 <path d="M120 157.5 Q201 198 282 19.8" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
 <line x1="174" y1="171" x2="282" y2="63" stroke="#15803d" stroke-width="2.2"/>
@@ -62,40 +62,40 @@ main{position:relative;z-index:1}
 <circle cx="210" cy="135" r="4" fill="#1f2937"/><text x="228" y="150" text-anchor="middle">A</text>
 <circle cx="270" cy="45" r="4" fill="#1f2937"/><text x="256" y="40" text-anchor="middle">M</text>
 <rect x="340" y="25" width="190" height="125" rx="8" fill="#dbe6ff" stroke="#1d4ed8"/>
-<text x="435" y="52" text-anchor="middle" fill="#1d4ed8" font-weight="700">f(x) = x² ، a = 1</text>
-<text x="435" y="82" text-anchor="middle" fill="#c2410c">القاطع (AM): الميل 3</text>
-<text x="435" y="110" text-anchor="middle" fill="#15803d">المماس: y = 2x − 1</text>
+<text x="435" y="52" text-anchor="middle" fill="#1d4ed8" font-weight="700">f(x) = x² ; a = 1</text>
+<text x="520" y="82" fill="#c2410c" direction="rtl">ميل القاطع (AM):</text><text x="365" y="82" fill="#c2410c">3</text>
+<text x="520" y="110" fill="#15803d" direction="rtl">المماس:</text><text x="355" y="110" fill="#15803d">y = 2x − 1</text>
 <text x="435" y="137" text-anchor="middle">f′(1) = 2</text>
-</svg><figcaption>الشكل 1: عندما تقترب M من A يقترب القاطع (المتقطّع) من المماس (الأخضر) الذي ميله f′(1) = 2.</figcaption></figure>
+</svg><figcaption>الشكل 1: عندما تقترب M من A يقترب القاطع (المتقطّع) من المماس (الأخضر) الذي ميله <bdi dir="ltr">f′(1) = 2</bdi>.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">نسبة التزايد</span> بين a و a + h هي: [f(a + h) − f(a)] / h مع h ≠ 0.</li>
-<li><span class="k">قابلية الاشتقاق:</span> إذا اقتربت هذه النسبة من عدد حقيقي l عندما يقترب h من 0، نقول إن f قابلة للاشتقاق عند a، ونكتب f′(a) = l.</li>
-<li><span class="k">التفسير الهندسي:</span> f′(a) هو معامل توجيه (ميل) المماس للمنحنى في النقطة A(a ; f(a)).</li>
-<li><span class="k">معادلة المماس:</span> y = f′(a)(x − a) + f(a).</li>
-<li>إذا كان f′(a) = 0 فالمماس <span class="k">أفقي</span> يوازي محور الفواصل.</li>
-<li><span class="k">التقريب التآلفي:</span> من أجل h قريب من 0: f(a + h) ≈ f(a) + f′(a) × h.</li>
+<li><span class="k">نسبة التزايد</span> بين a و <bdi dir="ltr">a + h</bdi> هي: <bdi dir="ltr">[f(a + h) − f(a)] / h</bdi> مع <bdi dir="ltr">h ≠ 0</bdi>.</li>
+<li><span class="k">قابلية الاشتقاق:</span> إذا اقتربت هذه النسبة من عدد حقيقي l عندما يقترب h من 0، نقول إن f قابلة للاشتقاق عند a، ونكتب <bdi dir="ltr">f′(a) = l</bdi>.</li>
+<li><span class="k">التفسير الهندسي:</span> f′(a) هو معامل توجيه (ميل) المماس للمنحنى في النقطة <bdi dir="ltr">A(a ; f(a))</bdi>.</li>
+<li><span class="k">معادلة المماس:</span> <bdi dir="ltr">y = f′(a)(x − a) + f(a)</bdi>.</li>
+<li>إذا كان <bdi dir="ltr">f′(a) = 0</bdi> فالمماس <span class="k">أفقي</span> يوازي محور الفواصل.</li>
+<li><span class="k">التقريب التآلفي:</span> من أجل h قريب من 0: <bdi dir="ltr">f(a + h) ≈ f(a) + f′(a) × h</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>f(x) = x² عند a = 1. <span class="k">الحل:</span> [(1 + h)² − 1]/h = (2h + h²)/h = 2 + h، تقترب من 2، إذن f′(1) = 2. المماس: y = 2(x − 1) + 1 أي y = 2x − 1.</li>
-<li>g(x) = x² − 3x عند a = 2. <span class="k">الحل:</span> g(2) = −2 و g(2 + h) = −2 + h + h²، فالنسبة 1 + h تقترب من 1، إذن g′(2) = 1 والمماس y = x − 4.</li>
-<li>قيمة مقرّبة لـ (1,01)². <span class="k">الحل:</span> بأخذ a = 1 و h = 0,01: (1,01)² ≈ 1 + 2 × 0,01 = 1,02 (القيمة المضبوطة 1,0201).</li>
+<li><bdi dir="ltr">f(x) = x²</bdi> عند <bdi dir="ltr">a = 1</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">[(1 + h)² − 1]/h = (2h + h²)/h = 2 + h</bdi>، تقترب من 2، إذن <bdi dir="ltr">f′(1) = 2</bdi>. المماس: <bdi dir="ltr">y = 2(x − 1) + 1</bdi> أي <bdi dir="ltr">y = 2x − 1</bdi>.</li>
+<li><bdi dir="ltr">g(x) = x² − 3x</bdi> عند <bdi dir="ltr">a = 2</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">g(2) = −2</bdi> و <bdi dir="ltr">g(2 + h) = −2 + h + h²</bdi>، فالنسبة <bdi dir="ltr">1 + h</bdi> تقترب من 1، إذن <bdi dir="ltr">g′(2) = 1</bdi> والمماس <bdi dir="ltr">y = x − 4</bdi>.</li>
+<li>قيمة مقرّبة لـ <bdi dir="ltr">(1,01)²</bdi>. <span class="k">الحل:</span> بأخذ <bdi dir="ltr">a = 1</bdi> و <bdi dir="ltr">h = 0,01</bdi>: <bdi dir="ltr">(1,01)² ≈ 1 + 2 × 0,01 = 1,02</bdi> (القيمة المضبوطة 1,0201).</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>تعويض h = 0 مباشرة في النسبة قبل الاختزال، فنحصل على 0/0.</li>
-<li>كتابة المماس y = f′(a)x + f(a) ونسيان (x − a).</li>
+<li>تعويض <bdi dir="ltr">h = 0</bdi> مباشرة في النسبة قبل الاختزال، فنحصل على 0/0.</li>
+<li>كتابة المماس <bdi dir="ltr">y = f′(a)x + f(a)</bdi> ونسيان <bdi dir="ltr">(x − a)</bdi>.</li>
 <li>الخلط بين f(a) (ترتيب النقطة) و f′(a) (ميل المماس).</li>
-<li>نسيان نشر (a + h)² بشكل صحيح: (a + h)² = a² + 2ah + h².</li>
+<li>نسيان نشر <bdi dir="ltr">(a + h)²</bdi> بشكل صحيح: <bdi dir="ltr">(a + h)² = a² + 2ah + h²</bdi>.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>f′(a) = نهاية [f(a + h) − f(a)]/h عندما h يؤول إلى 0.</li>
-<li>f′(a) = ميل المماس في A(a ; f(a)).</li>
-<li>المماس: y = f′(a)(x − a) + f(a).</li>
-<li>f′(a) = 0 ⇐ مماس أفقي.</li>
-<li>f(a + h) ≈ f(a) + f′(a)h لـ h صغير.</li>
+<li>f′(a) هو نهاية <bdi dir="ltr">[f(a + h) − f(a)]/h</bdi> عندما يؤول h إلى 0.</li>
+<li>f′(a) هو ميل المماس في <bdi dir="ltr">A(a ; f(a))</bdi>.</li>
+<li>المماس: <bdi dir="ltr">y = f′(a)(x − a) + f(a)</bdi>.</li>
+<li><bdi dir="ltr">f′(a) = 0</bdi> ⇐ مماس أفقي.</li>
+<li><bdi dir="ltr">f(a + h) ≈ f(a) + f′(a)h</bdi> لـ h صغير.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

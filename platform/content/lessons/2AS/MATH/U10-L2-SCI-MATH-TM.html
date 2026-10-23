@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> قواعد الأشعة في الفضاء هي نفسها في المستوي (علاقة شال، الضرب في عدد، الاستقامية). الجديد هو مركبة ثالثة z، وفكرة الأشعة المستوائية: ثلاثة أشعة يُكتب أحدها بدلالة الآخرين.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
 <line x1="110" y1="120" x2="45" y2="169" stroke="#1f2937" stroke-width="2" marker-end="url(#ar2)"/><line x1="110" y1="120" x2="270" y2="120" stroke="#1f2937" stroke-width="2" marker-end="url(#ar2)"/><line x1="110" y1="120" x2="110" y2="12" stroke="#1f2937" stroke-width="2" marker-end="url(#ar2)"/>
 <text x="38" y="162">x</text><text x="272" y="135">y</text><text x="116" y="18">z</text><text x="96" y="114">O</text>
@@ -65,22 +65,22 @@ main{position:relative;z-index:1}
 <line x1="330" y1="140" x2="418" y2="44" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#ar2)"/><line x1="420" y1="40" x2="508" y2="137" stroke="#15803d" stroke-width="2.5" marker-end="url(#ar2)"/><line x1="330" y1="140" x2="506" y2="140" stroke="#c2410c" stroke-width="2.5" marker-end="url(#ar2)"/>
 <text x="318" y="158">A</text><text x="414" y="30">B</text><text x="512" y="158">C</text>
 <text x="350" y="85" fill="#1d4ed8">AB</text><text x="475" y="85" fill="#15803d">BC</text><text x="420" y="162" text-anchor="middle" fill="#c2410c">AB + BC = AC</text>
-</svg><figcaption>الشكل 1: يساراً نقطة M في معلم (O;i;j;k) للفضاء وإسقاطاتها؛ يميناً علاقة شال للأشعة، وهي صالحة في الفضاء كما في المستوي.</figcaption></figure>
+</svg><figcaption>الشكل 1: يساراً نقطة <bdi dir="ltr">M(2 ; 3 ; 2)</bdi> في معلم <bdi dir="ltr">(O ; i ; j ; k)</bdi> للفضاء وإسقاطاتها؛ يميناً علاقة شال للأشعة، وهي صالحة في الفضاء كما في المستوي.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">علاقة شال:</span> لكل ثلاث نقط A و B و C من الفضاء: الشعاع AB + الشعاع BC = الشعاع AC.</li>
-<li><span class="k">الاستقامية:</span> الشعاعان u و v مرتبطان خطياً إذا وُجد عدد حقيقي k بحيث v = k u؛ والنقط A و B و C على استقامة واحدة إذا كان الشعاعان AB و AC مرتبطين خطياً.</li>
-<li><span class="k">الأشعة المستوائية:</span> تكون u و v و w (مع u و v غير مرتبطين خطياً) مستوائية إذا وُجد عددان a و b بحيث w = a u + b v.</li>
-<li><span class="k">معلم الفضاء</span> (O;i;j;k): لكل نقطة M ثلاثية وحيدة (x;y;z) بحيث الشعاع OM = x i + y j + z k.</li>
-<li><span class="k">مركبات شعاع:</span> الشعاع AB له المركبات (x<sub>B</sub> − x<sub>A</sub>;y<sub>B</sub> − y<sub>A</sub>;z<sub>B</sub> − z<sub>A</sub>).</li>
-<li><span class="k">المنتصف:</span> منتصف [AB] هو I((x<sub>A</sub> + x<sub>B</sub>)/2;(y<sub>A</sub> + y<sub>B</sub>)/2;(z<sub>A</sub> + z<sub>B</sub>)/2).</li>
-<li><span class="k">المسافة</span> في معلم متعامد ومتجانس: AB = √((x<sub>B</sub> − x<sub>A</sub>)² + (y<sub>B</sub> − y<sub>A</sub>)² + (z<sub>B</sub> − z<sub>A</sub>)²).</li>
+<li><span class="k">علاقة شال:</span> لكل ثلاث نقط A و B و C من الفضاء: <bdi dir="ltr">AB + BC = AC</bdi> (بالأشعة).</li>
+<li><span class="k">الاستقامية:</span> الشعاعان u و v مرتبطان خطياً إذا وُجد عدد حقيقي k بحيث <bdi dir="ltr">v = k u</bdi> (أو كان u معدوماً)؛ والنقط A و B و C على استقامة واحدة إذا كان الشعاعان AB و AC مرتبطين خطياً.</li>
+<li><span class="k">الأشعة المستوائية:</span> تكون u و v و w (مع u و v غير مرتبطين خطياً) مستوائية إذا وُجد عددان a و b بحيث <bdi dir="ltr">w = a u + b v</bdi>.</li>
+<li><span class="k">معلم الفضاء</span> <bdi dir="ltr">(O ; i ; j ; k)</bdi>: لكل نقطة M ثلاثية وحيدة <bdi dir="ltr">(x ; y ; z)</bdi> بحيث <bdi dir="ltr">OM = x i + y j + z k</bdi> (بالأشعة).</li>
+<li><span class="k">مركبات شعاع:</span> الشعاع AB له المركبات <bdi dir="ltr">(x<sub>B</sub> − x<sub>A</sub> ; y<sub>B</sub> − y<sub>A</sub> ; z<sub>B</sub> − z<sub>A</sub>)</bdi>.</li>
+<li><span class="k">المنتصف:</span> منتصف [AB] هو <bdi dir="ltr">I((x<sub>A</sub> + x<sub>B</sub>)/2 ; (y<sub>A</sub> + y<sub>B</sub>)/2 ; (z<sub>A</sub> + z<sub>B</sub>)/2)</bdi>.</li>
+<li><span class="k">المسافة</span> في معلم متعامد ومتجانس: <bdi dir="ltr">AB = √((x<sub>B</sub> − x<sub>A</sub>)² + (y<sub>B</sub> − y<sub>A</sub>)² + (z<sub>B</sub> − z<sub>A</sub>)²)</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>A(1;2;3) و B(3;6;1) في معلم متعامد ومتجانس. <span class="k">الحل:</span> الشعاع AB(2;4;−2)، والمنتصف I(2;4;2)، و AB = √(4 + 16 + 4) = √24 = 2√6.</li>
-<li>u(1;−2;3) و v(−2;4;−6). <span class="k">الحل:</span> v = −2u، إذن u و v مرتبطان خطياً (متوازيان).</li>
-<li>u(1;0;1) و v(0;1;1) و w(2;3;5). <span class="k">الحل:</span> نبحث عن a و b: a = 2 و b = 3 فنجد a + b = 5 وهي المركبة الثالثة لـ w، إذن w = 2u + 3v والأشعة مستوائية.</li>
+<li><bdi dir="ltr">A(1 ; 2 ; 3)</bdi> و <bdi dir="ltr">B(3 ; 6 ; 1)</bdi> في معلم متعامد ومتجانس. <span class="k">الحل:</span> الشعاع <bdi dir="ltr">AB(2 ; 4 ; −2)</bdi>، والمنتصف <bdi dir="ltr">I(2 ; 4 ; 2)</bdi>، و <bdi dir="ltr">AB = √(4 + 16 + 4) = √24 = 2√6</bdi>.</li>
+<li><bdi dir="ltr">u(1 ; −2 ; 3)</bdi> و <bdi dir="ltr">v(−2 ; 4 ; −6)</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">v = −2u</bdi>، إذن u و v مرتبطان خطياً (متوازيان).</li>
+<li><bdi dir="ltr">u(1 ; 0 ; 1)</bdi> و <bdi dir="ltr">v(0 ; 1 ; 1)</bdi> و <bdi dir="ltr">w(2 ; 3 ; 5)</bdi>. <span class="k">الحل:</span> نبحث عن a و b بحيث <bdi dir="ltr">w = a u + b v</bdi>: المركبتان الأولى والثانية تعطيان <bdi dir="ltr">a = 2</bdi> و <bdi dir="ltr">b = 3</bdi>، ونتحقق من الثالثة: <bdi dir="ltr">a + b = 5</bdi>، إذن <bdi dir="ltr">w = 2u + 3v</bdi> والأشعة مستوائية.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
@@ -91,9 +91,9 @@ main{position:relative;z-index:1}
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>شال: AB + BC = AC في الفضاء أيضاً.</li>
-<li>v = k u ⇐ استقامية / توازي.</li>
-<li>w = a u + b v ⇐ أشعة مستوائية.</li>
+<li>شال: <bdi dir="ltr">AB + BC = AC</bdi> في الفضاء أيضاً.</li>
+<li><bdi dir="ltr">v = k u</bdi> ⇐ استقامية / توازي.</li>
+<li><bdi dir="ltr">w = a u + b v</bdi> ⇐ أشعة مستوائية.</li>
 <li>مركبات AB = إحداثيات B − إحداثيات A.</li>
 <li>المسافة بثلاثة مربعات تحت الجذر.</li>
 </ul></div>

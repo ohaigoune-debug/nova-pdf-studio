@@ -52,31 +52,31 @@ main{position:relative;z-index:1}
 
 <p class="goal"><span class="k">الهدف:</span> أن تحلّ معادلات ومتراجحات مثلثية بسيطة في ℝ وفي مجال معطى، مستعينًا بالدائرة المثلثية.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> نردّ المعادلة إلى إحدى الصيغ الأساسية cos x = cos a أو sin x = sin a أو tan x = tan a. ثم نكتب كل الحلول ونحتفظ بما يقع في المجال المطلوب، ونقرأ المتراجحات من الدائرة المثلثية.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> نردّ المعادلة إلى إحدى الصيغ الأساسية <bdi dir="ltr">cos x = cos a</bdi> أو <bdi dir="ltr">sin x = sin a</bdi> أو <bdi dir="ltr">tan x = tan a</bdi>. ثم نكتب كل الحلول ونحتفظ بما يقع في المجال المطلوب، ونقرأ المتراجحات من الدائرة المثلثية.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <circle cx="270" cy="90" r="70" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
 <line x1="190" y1="90" x2="360" y2="90" stroke="#1f2937" stroke-width="1.2"/>
 <line x1="305" y1="15" x2="305" y2="165" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="5 4"/>
 <circle cx="305" cy="29" r="4" fill="#15803d"/><circle cx="305" cy="151" r="4" fill="#15803d"/>
 <text x="315" y="30">π/3</text><text x="315" y="160">−π/3</text>
 <text x="310" y="108" fill="#c2410c">1/2</text>
-<text x="80" y="70">cos x = 1/2</text><text x="80" y="95">الحلان: x = π/3 و x = −π/3</text>
-</svg><figcaption>الشكل 1: الخط x = 1/2 يقطع الدائرة المثلثية في نقطتين تعطيان حلّي المعادلة cos x = 1/2.</figcaption></figure>
+<text x="110" y="60" text-anchor="middle">cos x = 1/2</text><text x="110" y="88" text-anchor="middle" direction="rtl">الحلان:</text><text x="110" y="112" text-anchor="middle">x = π/3 ; x = −π/3</text>
+</svg><figcaption>الشكل 1: المستقيم ذو المعادلة <bdi dir="ltr">x = 1/2</bdi> يقطع الدائرة المثلثية في نقطتين تعطيان حلّي المعادلة <bdi dir="ltr">cos x = 1/2</bdi>.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li>cos x = cos a تكافئ x = a + 2kπ أو x = −a + 2kπ.</li>
-<li>sin x = sin a تكافئ x = a + 2kπ أو x = π − a + 2kπ.</li>
-<li>tan x = tan a تكافئ x = a + kπ ، حيث k عدد صحيح.</li>
-<li>القيم الخاصة: cos(π/3) = 1/2 ، sin(π/6) = 1/2 ، cos(π/4) = √2/2 ، tan(π/4) = 1.</li>
-<li>عند حلّ cos(2x) = … نحلّ في 2x ثم نقسم، <span class="k">وكذلك الدور</span> يُقسم على 2.</li>
+<li><bdi dir="ltr">cos x = cos a</bdi> تكافئ <bdi dir="ltr">x = a + 2kπ</bdi> أو <bdi dir="ltr">x = −a + 2kπ</bdi>.</li>
+<li><bdi dir="ltr">sin x = sin a</bdi> تكافئ <bdi dir="ltr">x = a + 2kπ</bdi> أو <bdi dir="ltr">x = π − a + 2kπ</bdi>.</li>
+<li><bdi dir="ltr">tan x = tan a</bdi> تكافئ <bdi dir="ltr">x = a + kπ</bdi> ، حيث k عدد صحيح.</li>
+<li>القيم الخاصة: <bdi dir="ltr">cos(π/3) = 1/2</bdi> ، <bdi dir="ltr">sin(π/6) = 1/2</bdi> ، <bdi dir="ltr">cos(π/4) = √2/2</bdi> ، <bdi dir="ltr">tan(π/4) = 1</bdi>.</li>
+<li>عند حلّ <bdi dir="ltr">cos(2x) = …</bdi> نحلّ بالنسبة إلى 2x ثم نقسم على 2، فيصبح الحد <bdi dir="ltr">2kπ</bdi> في <span class="k">الدور</span> مساويًا <bdi dir="ltr">kπ</bdi>.</li>
 <li><span class="k">المتراجحات</span> تُحلّ بالقراءة على الدائرة المثلثية: نحدّد القوس المناسب ثم نكتب حدّيه.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>حلّ 2cos x − 1 = 0 في ]−π , π]. <span class="k">الحل:</span> cos x = 1/2 = cos(π/3) ، فالحلان x = π/3 و x = −π/3.</li>
-<li>حلّ sin 2x = 1/2 في [0 , 2π]. <span class="k">الحل:</span> 2x = π/6 + 2kπ أو 2x = 5π/6 + 2kπ ، أي x = π/12 + kπ أو x = 5π/12 + kπ. في المجال: π/12 ، 5π/12 ، 13π/12 ، 17π/12.</li>
-<li>حلّ cos x ≥ 1/2 في ]−π , π]. <span class="k">الحل:</span> القوس الموافق يقع بين النقطتين السابقتين، فالحلول: x ∈ [−π/3 , π/3].</li>
+<li>حلّ <bdi dir="ltr">2cos x − 1 = 0</bdi> في <bdi dir="ltr">]−π ; π]</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">cos x = 1/2 = cos(π/3)</bdi> ، فالحلان <bdi dir="ltr">x = π/3</bdi> و<bdi dir="ltr">x = −π/3</bdi>.</li>
+<li>حلّ <bdi dir="ltr">sin 2x = 1/2</bdi> في <bdi dir="ltr">[0 ; 2π]</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">2x = π/6 + 2kπ</bdi> أو <bdi dir="ltr">2x = 5π/6 + 2kπ</bdi> ، أي <bdi dir="ltr">x = π/12 + kπ</bdi> أو <bdi dir="ltr">x = 5π/12 + kπ</bdi>. في المجال: <bdi dir="ltr">π/12 ; 5π/12 ; 13π/12 ; 17π/12</bdi>.</li>
+<li>حلّ <bdi dir="ltr">cos x ≥ 1/2</bdi> في <bdi dir="ltr">]−π ; π]</bdi>. <span class="k">الحل:</span> القوس الموافق يقع بين النقطتين السابقتين، فالحلول: <bdi dir="ltr">x ∈ [−π/3 ; π/3]</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
@@ -87,7 +87,7 @@ main{position:relative;z-index:1}
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>cos: ±a + 2kπ ، sin: a أو π − a ، tan: a + kπ.</li>
+<li>cos: <bdi dir="ltr">±a + 2kπ</bdi> ، sin: <bdi dir="ltr">a + 2kπ</bdi> أو <bdi dir="ltr">π − a + 2kπ</bdi> ، tan: <bdi dir="ltr">a + kπ</bdi>.</li>
 <li>اكتب كل الحلول ثم صفِّها بحسب المجال.</li>
 <li>عند sin 2x قسِّم الدور على 2.</li>
 <li>المتراجحات تُقرأ من الدائرة المثلثية.</li>

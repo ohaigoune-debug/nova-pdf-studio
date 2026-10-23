@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> المتغير العشوائي X يُرفق بكل نتيجة عددًا حقيقيًا. قانون احتماله جدول يعطي كل قيمة واحتمالها، ومنه نستخرج المتوسط المتوقع للتجربة.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <line x1="60" y1="140" x2="300" y2="140" stroke="#1f2937" stroke-width="1.5"/><line x1="60" y1="140" x2="60" y2="25" stroke="#1f2937" stroke-width="1.5"/>
 <rect x="100" y="100" width="40" height="40" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
 <rect x="170" y="60" width="40" height="80" fill="#86efac" stroke="#15803d" stroke-width="2"/>
@@ -65,36 +65,36 @@ main{position:relative;z-index:1}
 <text x="320" y="50" fill="#1d4ed8" font-weight="700">E(X) = 0 + 1/2 + 1/2 = 1</text>
 <text x="320" y="85" fill="#15803d" font-weight="700">E(X²) = 0 + 1/2 + 1 = 1,5</text>
 <text x="320" y="120" fill="#c2410c" font-weight="700">V(X) = 1,5 − 1 = 0,5</text>
-</svg><figcaption>الشكل 1: قانون X = عدد الصور في رميتين لقطعة نقدية، وحساب أمله وتباينه.</figcaption></figure>
+</svg><figcaption>الشكل 1: قانون X (عدد الصور في رميتين لقطعة نقدية)، وحساب أمله وتباينه.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">متغير عشوائي X:</span> دالة تُرفق بكل نتيجة عددًا حقيقيًا.</li>
-<li><span class="k">قانون الاحتمال:</span> جدول قيم x<sub>i</sub> واحتمالاتها p<sub>i</sub> = P(X = x<sub>i</sub>)، ومجموع الاحتمالات يساوي 1.</li>
-<li><span class="k">الأمل الرياضياتي:</span> E(X) = ∑ p<sub>i</sub>·x<sub>i</sub>.</li>
-<li><span class="k">التباين:</span> V(X) = E(X<sup>2</sup>) − (E(X))<sup>2</sup>.</li>
-<li><span class="k">الانحراف المعياري:</span> σ(X) = √V(X).</li>
-<li><span class="k">لعبة عادلة:</span> إذا كان E(X) = 0 حيث X هو الربح.</li>
+<li><span class="k">قانون الاحتمال:</span> جدول قيم x<sub>i</sub> واحتمالاتها <bdi dir="ltr">p<sub>i</sub> = P(X = x<sub>i</sub>)</bdi>، ومجموع الاحتمالات يساوي 1.</li>
+<li><span class="k">الأمل الرياضياتي:</span> <bdi dir="ltr">E(X) = ∑ p<sub>i</sub>·x<sub>i</sub></bdi>.</li>
+<li><span class="k">التباين:</span> <bdi dir="ltr">V(X) = E(X<sup>2</sup>) − (E(X))<sup>2</sup></bdi>.</li>
+<li><span class="k">الانحراف المعياري:</span> <bdi dir="ltr">σ(X) = √V(X)</bdi>.</li>
+<li><span class="k">لعبة عادلة:</span> إذا كان <bdi dir="ltr">E(X) = 0</bdi> حيث X هو الربح.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>رميتان لقطعة نقدية، X عدد الصور. <span class="k">الحل:</span> P(0) = 1/4 وP(1) = 1/2 وP(2) = 1/4، فـ E(X) = 1، وE(X<sup>2</sup>) = 1/2 + 1 = 1,5، فـ V(X) = 0,5.</li>
-<li>رمي نرد: نربح 3 دنانير إذا ظهر 6 ونخسر دينارًا واحدًا وإلا. <span class="k">الحل:</span> E(X) = 3 × 1/6 + (−1) × 5/6 = −2/6 = −1/3، فاللعبة في غير صالح اللاعب.</li>
-<li>هل 0,2 و0,5 و0,3 قانون احتمال؟ <span class="k">الحل:</span> المجموع 0,2 + 0,5 + 0,3 = 1 وكلها بين 0 و1، إذن نعم.</li>
+<li>رميتان لقطعة نقدية، X عدد الصور. <span class="k">الحل:</span> <bdi dir="ltr">P(X = 0) = 1/4</bdi> و<bdi dir="ltr">P(X = 1) = 1/2</bdi> و<bdi dir="ltr">P(X = 2) = 1/4</bdi>، فـ <bdi dir="ltr">E(X) = 1</bdi>، و<bdi dir="ltr">E(X<sup>2</sup>) = 1/2 + 1 = 1,5</bdi>، فـ <bdi dir="ltr">V(X) = 0,5</bdi>.</li>
+<li>رمي نرد: نربح 3 دنانير إذا ظهر 6 ونخسر دينارًا واحدًا في الحالات الأخرى. <span class="k">الحل:</span> <bdi dir="ltr">E(X) = 3 × 1/6 + (−1) × 5/6 = −2/6 = −1/3</bdi>، فاللعبة في غير صالح اللاعب.</li>
+<li>هل 0,2 و0,5 و0,3 قانون احتمال؟ <span class="k">الحل:</span> المجموع <bdi dir="ltr">0,2 + 0,5 + 0,3 = 1</bdi> وكلها بين 0 و1، إذن نعم.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
 <li>نسيان التحقق من أن مجموع الاحتمالات يساوي 1.</li>
-<li>حساب E(X²) بتربيع E(X) بدل ∑ p<sub>i</sub>·x<sub>i</sub><sup>2</sup>.</li>
+<li>حساب <bdi dir="ltr">E(X²)</bdi> بتربيع <bdi dir="ltr">E(X)</bdi> بدل <bdi dir="ltr">∑ p<sub>i</sub>·x<sub>i</sub><sup>2</sup></bdi>.</li>
 <li>الحصول على تباين سالب: التباين لا يكون سالبًا أبدًا.</li>
 <li>إهمال إشارة الخسارة (قيمة سالبة) في جدول الربح.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>مجموع p<sub>i</sub> = 1.</li>
-<li>E(X) = ∑ p<sub>i</sub>x<sub>i</sub>.</li>
-<li>V(X) = E(X²) − E(X)².</li>
-<li>σ = √V.</li>
-<li>E(X) = 0 تعني لعبة عادلة.</li>
+<li>مجموع p<sub>i</sub> يساوي 1.</li>
+<li><bdi dir="ltr">E(X) = ∑ p<sub>i</sub>x<sub>i</sub></bdi>.</li>
+<li><bdi dir="ltr">V(X) = E(X²) − (E(X))²</bdi>.</li>
+<li><bdi dir="ltr">σ = √V</bdi>.</li>
+<li><bdi dir="ltr">E(X) = 0</bdi> تعني لعبة عادلة.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

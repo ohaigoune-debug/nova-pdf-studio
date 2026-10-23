@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> نحدّد مجموعة كل النتائج الممكنة Ω ثم نعدّ النتائج المناسبة للحدث. عند تساوي الاحتمالات يكون الاحتمال حاصل قسمة عدد الحالات المناسبة على عدد الحالات الممكنة.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <rect x="50" y="15" width="220" height="150" fill="none" stroke="#1f2937" stroke-width="2"/><text x="62" y="35" font-weight="700">Ω</text>
 <circle cx="130" cy="95" r="50" fill="#dbe6ff" fill-opacity="0.8" stroke="#1d4ed8" stroke-width="2"/>
 <circle cx="210" cy="95" r="50" fill="#fde68a" fill-opacity="0.7" stroke="#a16207" stroke-width="2"/>
@@ -62,27 +62,28 @@ main{position:relative;z-index:1}
 <line x1="170" y1="52" x2="170" y2="92" stroke="#c2410c" stroke-width="1.5"/><text x="170" y="46" text-anchor="middle" font-size="12" fill="#c2410c">A∩B</text>
 <text x="290" y="70" fill="#1d4ed8" font-weight="700">P(A∪B) =</text>
 <text x="290" y="95" fill="#1d4ed8" font-weight="700">P(A) + P(B) − P(A∩B)</text>
-<text x="290" y="135" fill="#15803d" font-weight="700">P(المعاكس) = 1 − P(A)</text>
+<text x="355" y="125" text-anchor="middle" fill="#15803d" font-weight="700" direction="rtl">الحدث المعاكس:</text>
+<text x="290" y="148" fill="#15803d" font-weight="700">P(Ā) = 1 − P(A)</text>
 </svg><figcaption>الشكل 1: مخطط فن لحدثين A وB داخل Ω وقاعدة احتمال الاتحاد.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">فضاء العينة Ω:</span> مجموعة كل النتائج الممكنة، و<span class="k">الحدث</span> جزء منها.</li>
-<li><span class="k">احتمال حدث:</span> 0 ≤ P(A) ≤ 1، وP(Ω) = 1، وP(∅) = 0.</li>
-<li><span class="k">تساوي الاحتمالات:</span> P(A) = عدد عناصر A ÷ عدد عناصر Ω.</li>
-<li><span class="k">الحدث المعاكس:</span> P(المعاكس) = 1 − P(A).</li>
-<li><span class="k">الاتحاد:</span> P(A∪B) = P(A) + P(B) − P(A∩B).</li>
-<li><span class="k">حدثان غير متلائمين</span> (A∩B = ∅): P(A∪B) = P(A) + P(B).</li>
+<li><span class="k">احتمال حدث:</span> <bdi dir="ltr">0 ≤ P(A) ≤ 1</bdi>، و<bdi dir="ltr">P(Ω) = 1</bdi>، و<bdi dir="ltr">P(∅) = 0</bdi>.</li>
+<li><span class="k">تساوي الاحتمالات:</span> <bdi dir="ltr">P(A)</bdi> = عدد عناصر A ÷ عدد عناصر Ω.</li>
+<li><span class="k">الحدث المعاكس</span> Ā لـ A: <bdi dir="ltr">P(Ā) = 1 − P(A)</bdi>.</li>
+<li><span class="k">الاتحاد:</span> <bdi dir="ltr">P(A∪B) = P(A) + P(B) − P(A∩B)</bdi>.</li>
+<li><span class="k">حدثان غير متلائمين</span> (<bdi dir="ltr">A∩B = ∅</bdi>): <bdi dir="ltr">P(A∪B) = P(A) + P(B)</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>رمي نرد متوازن مرة واحدة. <span class="k">الحل:</span> P(عدد زوجي) = 3/6 = 1/2، وP(عدد ≥ 5) = 2/6 = 1/3.</li>
-<li>رمي نردين وحساب المجموع. <span class="k">الحل:</span> Ω تضم 36 نتيجة، والمجموع 7 يحدث في 6 حالات: (1,6) (2,5) (3,4) (4,3) (5,2) (6,1)، إذن الاحتمال 6/36 = 1/6.</li>
-<li>سحب بطاقة من 32 بطاقة (8 منها قلوب و4 ملوك، وبينها ملك قلوب واحد). <span class="k">الحل:</span> P(قلب أو ملك) = 8/32 + 4/32 − 1/32 = 11/32.</li>
+<li>رمي نرد متوازن مرة واحدة. <span class="k">الحل:</span> احتمال «عدد زوجي» هو <bdi dir="ltr">3/6 = 1/2</bdi>، واحتمال «عدد أكبر من أو يساوي 5» هو <bdi dir="ltr">2/6 = 1/3</bdi>.</li>
+<li>رمي نردين وحساب المجموع. <span class="k">الحل:</span> Ω تضم 36 نتيجة، والمجموع 7 يحدث في 6 حالات: <bdi dir="ltr">(1 ; 6) (2 ; 5) (3 ; 4) (4 ; 3) (5 ; 2) (6 ; 1)</bdi>، إذن الاحتمال <bdi dir="ltr">6/36 = 1/6</bdi>.</li>
+<li>سحب بطاقة من 32 بطاقة (8 منها قلوب و4 ملوك، وبينها ملك قلوب واحد). <span class="k">الحل:</span> احتمال «قلب أو ملك» هو <bdi dir="ltr">8/32 + 4/32 − 1/32 = 11/32</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
 <li>تطبيق قاعدة العدّ مع أن النتائج غير متساوية الاحتمال.</li>
-<li>جمع P(A) + P(B) دون طرح P(A∩B) عندما يتقاطع الحدثان.</li>
+<li>جمع <bdi dir="ltr">P(A) + P(B)</bdi> دون طرح <bdi dir="ltr">P(A∩B)</bdi> عندما يتقاطع الحدثان.</li>
 <li>نسيان الحدث المعاكس لتبسيط عبارة «على الأقل».</li>
 <li>الحصول على احتمال أكبر من 1 دون الانتباه إلى الخطأ.</li>
 </ul></div>
@@ -90,7 +91,7 @@ main{position:relative;z-index:1}
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
 <li>تساوي الاحتمالات: مناسبة ÷ ممكنة.</li>
 <li>الاحتمال دائمًا بين 0 و1.</li>
-<li>المعاكس: 1 − P(A).</li>
+<li>المعاكس: <bdi dir="ltr">P(Ā) = 1 − P(A)</bdi>.</li>
 <li>الاتحاد: اطرح التقاطع.</li>
 <li>«على الأقل» تُحسب غالبًا بالمعاكس.</li>
 </ul></div>

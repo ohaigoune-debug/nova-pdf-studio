@@ -54,8 +54,8 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> بدل حساب النهاية في كل مرة نحفظ مشتقات الدوال المرجعية وقواعد العمليات. نحلّل الدالة إلى أجزاء بسيطة ثم نطبّق القاعدة المناسبة.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<text x="400" y="22" text-anchor="middle" font-weight="700" fill="#1d4ed8">الدالة</text><text x="150" y="22" text-anchor="middle" font-weight="700" fill="#15803d">مشتقتها</text>
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<text x="400" y="22" text-anchor="middle" font-weight="700" fill="#1d4ed8" direction="rtl">الدالة</text><text x="150" y="22" text-anchor="middle" font-weight="700" fill="#15803d" direction="rtl">مشتقتها</text>
 <rect x="290" y="32" width="220" height="28" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/><rect x="30" y="32" width="240" height="28" fill="#86efac" stroke="#15803d" stroke-width="1.5"/>
 <text x="400" y="52" text-anchor="middle">x<tspan font-size="11" dy="-6">n</tspan></text><text x="150" y="52" text-anchor="middle">n · x<tspan font-size="11" dy="-6">n−1</tspan></text>
 <rect x="290" y="64" width="220" height="28" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/><rect x="30" y="64" width="240" height="28" fill="#86efac" stroke="#15803d" stroke-width="1.5"/>
@@ -68,31 +68,31 @@ main{position:relative;z-index:1}
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">ثابت:</span> مشتقة الدالة الثابتة k هي 0، ومشتقة x هي 1.</li>
-<li><span class="k">قوة:</span> (x<sup>n</sup>)′ = n·x<sup>n−1</sup>، ومشتقة √x هي 1/(2√x) من أجل x &gt; 0.</li>
-<li><span class="k">مجموع وجداء بعدد:</span> (u+v)′ = u′+v′ و(k·u)′ = k·u′.</li>
-<li><span class="k">جداء:</span> (u·v)′ = u′v + uv′.</li>
-<li><span class="k">مقلوب وقسمة:</span> (1/v)′ = −v′/v<sup>2</sup> و(u/v)′ = (u′v − uv′)/v<sup>2</sup> مع v ≠ 0.</li>
-<li><span class="k">ميل المماس</span> بعد الاشتقاق: نعوّض a في الدالة المشتقة لنحصل على f′(a).</li>
+<li><span class="k">قوة:</span> <bdi dir="ltr">(x<sup>n</sup>)′ = n·x<sup>n−1</sup></bdi> (n عدد طبيعي غير معدوم)، ومشتقة √x هي <bdi dir="ltr">1/(2√x)</bdi> من أجل <bdi dir="ltr">x &gt; 0</bdi>.</li>
+<li><span class="k">مجموع وجداء بعدد:</span> <bdi dir="ltr">(u+v)′ = u′+v′</bdi> و<bdi dir="ltr">(k·u)′ = k·u′</bdi>.</li>
+<li><span class="k">جداء:</span> <bdi dir="ltr">(u·v)′ = u′v + uv′</bdi>.</li>
+<li><span class="k">مقلوب وقسمة:</span> <bdi dir="ltr">(1/v)′ = −v′/v<sup>2</sup></bdi> و<bdi dir="ltr">(u/v)′ = (u′v − uv′)/v<sup>2</sup></bdi> مع <bdi dir="ltr">v ≠ 0</bdi>.</li>
+<li><span class="k">ميل المماس</span> بعد الاشتقاق: نعوّض a في الدالة المشتقة لنحصل على <bdi dir="ltr">f′(a)</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>f(x) = 3x<sup>4</sup> − 2x<sup>2</sup> + 5x − 7. <span class="k">الحل:</span> f′(x) = 12x<sup>3</sup> − 4x + 5.</li>
-<li>f(x) = (x<sup>2</sup>+1)(x−3). <span class="k">الحل:</span> f′(x) = 2x(x−3) + (x<sup>2</sup>+1) = 3x<sup>2</sup> − 6x + 1، ونتحقق بالنشر: x<sup>3</sup> − 3x<sup>2</sup> + x − 3.</li>
-<li>f(x) = (2x+1)/(x−1). <span class="k">الحل:</span> f′(x) = (2(x−1) − (2x+1))/(x−1)<sup>2</sup> = −3/(x−1)<sup>2</sup>.</li>
+<li><bdi dir="ltr">f(x) = 3x<sup>4</sup> − 2x<sup>2</sup> + 5x − 7</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">f′(x) = 12x<sup>3</sup> − 4x + 5</bdi>.</li>
+<li><bdi dir="ltr">f(x) = (x<sup>2</sup>+1)(x−3)</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">f′(x) = 2x(x−3) + (x<sup>2</sup>+1) = 3x<sup>2</sup> − 6x + 1</bdi>، ونتحقق بالنشر: <bdi dir="ltr">f(x) = x<sup>3</sup> − 3x<sup>2</sup> + x − 3</bdi> ومشتقتها النتيجة نفسها.</li>
+<li><bdi dir="ltr">f(x) = (2x+1)/(x−1)</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">f′(x) = (2(x−1) − (2x+1))/(x−1)<sup>2</sup> = −3/(x−1)<sup>2</sup></bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>اشتقاق الجداء بكتابة u′·v′ بدل u′v + uv′.</li>
-<li>عكس ترتيب البسط في القسمة: يجب u′v − uv′.</li>
+<li>اشتقاق الجداء بكتابة <bdi dir="ltr">u′·v′</bdi> بدل <bdi dir="ltr">u′v + uv′</bdi>.</li>
+<li>عكس ترتيب البسط في القسمة: يجب <bdi dir="ltr">u′v − uv′</bdi>.</li>
 <li>نسيان المربع في مقام مشتقة الحاصل.</li>
 <li>الخطأ في إشارة المشتقة عند وجود حد سالب أو عدد في الأس السالب.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>(x<sup>n</sup>)′ = n·x<sup>n−1</sup>.</li>
-<li>(u+v)′ = u′+v′.</li>
-<li>(uv)′ = u′v + uv′.</li>
-<li>(u/v)′ = (u′v − uv′)/v².</li>
+<li><bdi dir="ltr">(x<sup>n</sup>)′ = n·x<sup>n−1</sup></bdi>.</li>
+<li><bdi dir="ltr">(u+v)′ = u′+v′</bdi>.</li>
+<li><bdi dir="ltr">(uv)′ = u′v + uv′</bdi>.</li>
+<li><bdi dir="ltr">(u/v)′ = (u′v − uv′)/v²</bdi>.</li>
 <li>تحقّق من النتيجة بنشر بسيط عند الإمكان.</li>
 </ul></div>
 

@@ -54,34 +54,35 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> النهاية تصف سلوك f(x) عندما يقترب x من قيمة معينة أو يكبر دون حدّ. نطبّق أولًا مبرهنات العمليات، فإن ظهرت صيغة غير معيّنة غيّرنا شكل العبارة حتى تزول.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <line x1="40" y1="145" x2="510" y2="145" stroke="#1f2937" stroke-width="1.5"/><line x1="60" y1="150" x2="60" y2="15" stroke="#1f2937" stroke-width="1.5"/>
 <line x1="60" y1="50" x2="510" y2="50" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="5 4"/>
 <path d="M60 140 C 120 120, 160 80, 230 62 C 320 48, 420 53, 500 51" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
 <text x="480" y="38" fill="#c2410c">y = 3</text><text x="500" y="165" text-anchor="end">x</text>
-<text x="300" y="90" fill="#1d4ed8">f(x) تقترب من 3 عندما x → +∞</text>
+<text x="370" y="95" text-anchor="middle" fill="#1d4ed8" font-weight="700">f(x) → 3</text>
+<text x="370" y="118" text-anchor="middle" fill="#1d4ed8">(x → +∞)</text>
 </svg><figcaption>الشكل 1: منحنى يقترب من القيمة 3 كلما كبر x، أي أن النهاية تساوي 3.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">نهاية كثير حدود</span> عند ∞ هي نهاية حده الأعلى درجة.</li>
 <li><span class="k">نهاية دالة ناطقة</span> عند ∞ هي نهاية حاصل قسمة الحدين الأعلى درجة في البسط والمقام.</li>
-<li><span class="k">مبرهنات العمليات:</span> نهاية المجموع هي مجموع النهايتين، وكذلك الجداء والحاصل (بشرط أن المقام لا ينتهي إلى 0).</li>
-<li><span class="k">حالات عدم التعيين</span> أربع: ∞ − ∞ ، ∞ × 0 ، ∞/∞ ، 0/0.</li>
+<li><span class="k">مبرهنات العمليات:</span> نهاية المجموع هي مجموع النهايتين، وكذلك الجداء والحاصل (بشرط أن نهاية المقام غير معدومة)، ما لم نصل إلى حالة عدم تعيين.</li>
+<li><span class="k">حالات عدم التعيين</span> أربع: <bdi dir="ltr">∞ − ∞</bdi> ، <bdi dir="ltr">0 × ∞</bdi> ، <bdi dir="ltr">∞/∞</bdi> ، <bdi dir="ltr">0/0</bdi>.</li>
 <li><span class="k">إزالة عدم التعيين:</span> التحليل والاختزال، أو الضرب في <span class="k">المرافق</span> عند وجود جذر، أو إخراج الحد الأعلى درجة عاملًا مشتركًا.</li>
-<li><span class="k">المقارنة:</span> إذا كان f(x) ≥ g(x) وكانت نهاية g هي +∞ فنهاية f هي +∞ أيضًا.</li>
+<li><span class="k">المقارنة:</span> إذا كان <bdi dir="ltr">f(x) ≥ g(x)</bdi> وكانت نهاية g هي <bdi dir="ltr">+∞</bdi> فنهاية f هي <bdi dir="ltr">+∞</bdi> أيضًا.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>احسب نهاية (3x² − x + 1)/(x² + 5) عندما x → +∞. <span class="k">الحل:</span> نأخذ الحدين الأعلى درجة: 3x²/x² = 3، فالنهاية 3.</li>
-<li>احسب نهاية (x² − 4)/(x − 2) عندما x → 2 (الصيغة 0/0). <span class="k">الحل:</span> (x − 2)(x + 2)/(x − 2) = x + 2 ، والنهاية 4.</li>
-<li>احسب نهاية √(x² + 1) − x عندما x → +∞ (الصيغة ∞ − ∞). <span class="k">الحل:</span> نضرب في المرافق فتصبح العبارة 1/(√(x² + 1) + x) ، ومقامها ينتهي إلى +∞ ، فالنهاية 0.</li>
+<li>احسب نهاية <bdi dir="ltr">(3x² − x + 1)/(x² + 5)</bdi> عندما <bdi dir="ltr">x → +∞</bdi>. <span class="k">الحل:</span> نأخذ الحدين الأعلى درجة: <bdi dir="ltr">3x²/x² = 3</bdi>، فالنهاية 3.</li>
+<li>احسب نهاية <bdi dir="ltr">(x² − 4)/(x − 2)</bdi> عندما <bdi dir="ltr">x → 2</bdi> (الصيغة <bdi dir="ltr">0/0</bdi>). <span class="k">الحل:</span> من أجل <bdi dir="ltr">x ≠ 2</bdi>: <bdi dir="ltr">(x − 2)(x + 2)/(x − 2) = x + 2</bdi> ، والنهاية 4.</li>
+<li>احسب نهاية <bdi dir="ltr">√(x² + 1) − x</bdi> عندما <bdi dir="ltr">x → +∞</bdi> (الصيغة <bdi dir="ltr">∞ − ∞</bdi>). <span class="k">الحل:</span> نضرب في المرافق فتصبح العبارة <bdi dir="ltr">1/(√(x² + 1) + x)</bdi> ، ومقامها ينتهي إلى <bdi dir="ltr">+∞</bdi> ، فالنهاية 0.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>كتابة «∞ − ∞ = 0» أو «∞/∞ = 1»: هذه حالات عدم تعيين لا قيمة جاهزة لها.</li>
-<li>الاختزال دون تحليل أو دون ذكر أن x ≠ 2 عند الاختزال.</li>
-<li>نسيان إشارة x عند إخراج √(x²) ، فهي |x| وليست x دائمًا (عند −∞ تكون −x).</li>
-<li>تطبيق قاعدة الحد الأعلى درجة عند نهاية منتهية x → a ، وهي صالحة عند ∞ فقط.</li>
+<li>كتابة «<bdi dir="ltr">∞ − ∞ = 0</bdi>» أو «<bdi dir="ltr">∞/∞ = 1</bdi>»: هذه حالات عدم تعيين لا قيمة جاهزة لها.</li>
+<li>الاختزال دون تحليل أو دون ذكر أن <bdi dir="ltr">x ≠ 2</bdi> عند الاختزال.</li>
+<li>نسيان إشارة x عند إخراج <bdi dir="ltr">√(x²)</bdi> ، فهي <bdi dir="ltr">|x|</bdi> وليست x دائمًا (عند <bdi dir="ltr">−∞</bdi> تكون <bdi dir="ltr">−x</bdi>).</li>
+<li>تطبيق قاعدة الحد الأعلى درجة عندما يؤول x إلى عدد حقيقي a، وهي صالحة عند ∞ فقط.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>

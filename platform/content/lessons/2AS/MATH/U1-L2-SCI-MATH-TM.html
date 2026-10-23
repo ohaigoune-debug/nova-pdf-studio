@@ -54,31 +54,32 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> الدالة متزايدة إذا حافظت على ترتيب القيم، ومتناقصة إذا عكسته. التمثيل البياني يُظهر ذلك: منحنى يصعد ثم ينزل يعني تغيّر الاتجاه عند قيمة حدّية.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <line x1="70" y1="100" x2="440" y2="100" stroke="#1f2937" stroke-width="1.5"/><line x1="150" y1="15" x2="150" y2="170" stroke="#1f2937" stroke-width="1.5"/>
 <path d="M100 25 Q250 295 400 25" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
 <line x1="250" y1="100" x2="250" y2="160" stroke="#15803d" stroke-dasharray="4 3"/>
 <circle cx="250" cy="160" r="4" fill="#c2410c"/>
-<text x="195" y="55" text-anchor="middle" fill="#c2410c" font-weight="700">متناقصة</text>
-<text x="305" y="55" text-anchor="middle" fill="#15803d" font-weight="700">متزايدة</text>
-<text x="335" y="167" fill="#1f2937">الأصغر: (2 ; −4)</text>
+<text x="195" y="55" text-anchor="middle" fill="#c2410c" font-weight="700" direction="rtl">متناقصة</text>
+<text x="305" y="55" text-anchor="middle" fill="#15803d" font-weight="700" direction="rtl">متزايدة</text>
+<text x="380" y="150" text-anchor="middle" fill="#1f2937" direction="rtl">القيمة الصغرى</text>
+<text x="380" y="168" text-anchor="middle" fill="#1f2937">(2 ; −4)</text>
 <text x="250" y="92" text-anchor="middle" font-size="13">2</text>
 <text x="435" y="90" font-size="13">x</text>
-</svg><figcaption>الشكل 1: تمثيل f(x) = (x−2)<sup>2</sup> − 4: تناقص حتى x = 2 ثم تزايد، والقيمة الحدّية الصغرى −4.</figcaption></figure>
+</svg><figcaption>الشكل 1: تمثيل <bdi dir="ltr">f(x) = (x−2)<sup>2</sup> − 4</bdi>: تناقص حتى <bdi dir="ltr">x = 2</bdi> ثم تزايد، والقيمة الحدّية الصغرى <bdi dir="ltr">−4</bdi>.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">متزايدة على I:</span> من a &lt; b نستنتج f(a) ≤ f(b).</li>
-<li><span class="k">متناقصة على I:</span> من a &lt; b نستنتج f(a) ≥ f(b).</li>
-<li><span class="k">طريقة الدراسة:</span> ندرس إشارة الفرق f(a) − f(b) من أجل a و b من I.</li>
+<li><span class="k">متزايدة على I:</span> من <bdi dir="ltr">a &lt; b</bdi> نستنتج <bdi dir="ltr">f(a) ≤ f(b)</bdi>.</li>
+<li><span class="k">متناقصة على I:</span> من <bdi dir="ltr">a &lt; b</bdi> نستنتج <bdi dir="ltr">f(a) ≥ f(b)</bdi>.</li>
+<li><span class="k">طريقة الدراسة:</span> ندرس إشارة الفرق <bdi dir="ltr">f(a) − f(b)</bdi> من أجل a و b من I مع <bdi dir="ltr">a &lt; b</bdi>.</li>
 <li><span class="k">جدول التغيرات:</span> يلخّص بأسهم صاعدة ونازلة تغيّر الدالة مع القيم عند الأطراف.</li>
 <li><span class="k">قيمة حدّية:</span> قيمة عظمى أو صغرى محلية تظهر عند تغيّر اتجاه التغير.</li>
-<li><span class="k">التناظر:</span> الدالة الزوجية f(−x) = f(x) منحناها متناظر بالنسبة لمحور التراتيب، والفردية f(−x) = −f(x) متناظرة بالنسبة للمبدأ.</li>
+<li><span class="k">التناظر:</span> الدالة الزوجية (<bdi dir="ltr">f(−x) = f(x)</bdi>) منحناها متناظر بالنسبة لمحور التراتيب، والفردية (<bdi dir="ltr">f(−x) = −f(x)</bdi>) متناظرة بالنسبة للمبدأ، مع مجموعة تعريف متناظرة بالنسبة إلى 0.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>f(x) = −2x+3. <span class="k">الحل:</span> من a &lt; b: f(a) − f(b) = 2(b − a) &gt; 0، إذن f(a) &gt; f(b) والدالة متناقصة على ℝ.</li>
-<li>f(x) = x<sup>2</sup> − 4x. <span class="k">الحل:</span> f(x) = (x−2)<sup>2</sup> − 4، إذن القيمة الصغرى −4 عند x = 2؛ الدالة متناقصة على ]−∞ ; 2] ومتزايدة على [2 ; +∞[.</li>
-<li>f(x) = x<sup>2</sup>. <span class="k">الحل:</span> f(−3) = 9 = f(3) فهي زوجية، ومنحناها متناظر بالنسبة لمحور التراتيب.</li>
+<li><bdi dir="ltr">f(x) = −2x+3</bdi>. <span class="k">الحل:</span> من <bdi dir="ltr">a &lt; b</bdi>: <bdi dir="ltr">f(a) − f(b) = 2(b − a) &gt; 0</bdi>، إذن <bdi dir="ltr">f(a) &gt; f(b)</bdi> والدالة متناقصة على ℝ.</li>
+<li><bdi dir="ltr">f(x) = x<sup>2</sup> − 4x</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">f(x) = (x−2)<sup>2</sup> − 4</bdi>، إذن القيمة الصغرى <bdi dir="ltr">−4</bdi> عند <bdi dir="ltr">x = 2</bdi>؛ الدالة متناقصة على <bdi dir="ltr">]−∞ ; 2]</bdi> ومتزايدة على <bdi dir="ltr">[2 ; +∞[</bdi>.</li>
+<li><bdi dir="ltr">f(x) = x<sup>2</sup></bdi>. <span class="k">الحل:</span> من أجل كل x من ℝ: <bdi dir="ltr">f(−x) = (−x)<sup>2</sup> = x<sup>2</sup> = f(x)</bdi> فهي زوجية (مثلًا <bdi dir="ltr">f(−3) = 9 = f(3)</bdi>)، ومنحناها متناظر بالنسبة لمحور التراتيب.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
@@ -90,7 +91,7 @@ main{position:relative;z-index:1}
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
 <li>متزايدة: الترتيب محفوظ، ومتناقصة: الترتيب معكوس.</li>
-<li>البرهان يمر بإشارة f(a) − f(b).</li>
+<li>البرهان يمر بإشارة <bdi dir="ltr">f(a) − f(b)</bdi>.</li>
 <li>جدول التغيرات يضم الأسهم والقيم الحدّية.</li>
 <li>زوجية: تناظر حول محور التراتيب.</li>
 <li>فردية: تناظر حول المبدأ.</li>

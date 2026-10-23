@@ -54,14 +54,14 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> في المتتالية الحسابية ننتقل من حد إلى التالي بإضافة عدد ثابت (الأساس r)، وفي الهندسية بالضرب في عدد ثابت (الأساس q). هذا يعطي صيغًا جاهزة للحد العام والمجموع.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<text x="270" y="25" text-anchor="middle" font-weight="700">حسابية: + r</text>
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<text x="300" y="25" text-anchor="middle" font-weight="700" direction="rtl">حسابية:</text><text x="245" y="25" text-anchor="middle" font-weight="700">+ r</text>
 <rect x="30" y="40" width="70" height="30" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="65" y="60" text-anchor="middle">5</text>
 <rect x="190" y="40" width="70" height="30" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="225" y="60" text-anchor="middle">8</text>
 <rect x="350" y="40" width="70" height="30" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="385" y="60" text-anchor="middle">11</text>
 <line x1="100" y1="55" x2="190" y2="55" stroke="#1f2937" stroke-width="2"/><line x1="260" y1="55" x2="350" y2="55" stroke="#1f2937" stroke-width="2"/>
 <text x="145" y="48" text-anchor="middle" fill="#c2410c">+3</text><text x="305" y="48" text-anchor="middle" fill="#c2410c">+3</text>
-<text x="270" y="105" text-anchor="middle" font-weight="700">هندسية: × q</text>
+<text x="300" y="105" text-anchor="middle" font-weight="700" direction="rtl">هندسية:</text><text x="245" y="105" text-anchor="middle" font-weight="700">× q</text>
 <rect x="30" y="120" width="70" height="30" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="65" y="140" text-anchor="middle">2</text>
 <rect x="190" y="120" width="70" height="30" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="225" y="140" text-anchor="middle">6</text>
 <rect x="350" y="120" width="70" height="30" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="385" y="140" text-anchor="middle">18</text>
@@ -70,33 +70,33 @@ main{position:relative;z-index:1}
 </svg><figcaption>الشكل 1: متتالية حسابية أساسها 3 وأخرى هندسية أساسها 3.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">حسابية:</span> u<sub>n+1</sub> = u<sub>n</sub> + r ، والحد العام u<sub>n</sub> = u<sub>0</sub> + nr = u<sub>p</sub> + (n − p)r.</li>
-<li><span class="k">هندسية:</span> u<sub>n+1</sub> = q·u<sub>n</sub> ، والحد العام u<sub>n</sub> = u<sub>0</sub>·q<sup>n</sup> = u<sub>p</sub>·q<sup>n−p</sup>.</li>
-<li>مجموع حدود حسابية متتالية = (عدد الحدود) × (الأول + الأخير)/2.</li>
-<li>مجموع u<sub>0</sub> + … + u<sub>n</sub> لهندسية بأساس q ≠ 1 يساوي u<sub>0</sub>(1 − q<sup>n+1</sup>)/(1 − q).</li>
-<li>الحسابية متزايدة إذا كان r &gt; 0 ، والهندسية ذات الحد الموجب متزايدة إذا كان q &gt; 1.</li>
+<li><span class="k">حسابية:</span> <bdi dir="ltr">u<sub>n+1</sub> = u<sub>n</sub> + r</bdi> ، والحد العام <bdi dir="ltr">u<sub>n</sub> = u<sub>0</sub> + nr = u<sub>p</sub> + (n − p)r</bdi>.</li>
+<li><span class="k">هندسية:</span> <bdi dir="ltr">u<sub>n+1</sub> = q·u<sub>n</sub></bdi> ، والحد العام <bdi dir="ltr">u<sub>n</sub> = u<sub>0</sub>·q<sup>n</sup> = u<sub>p</sub>·q<sup>n−p</sup></bdi>.</li>
+<li>مجموع حدود حسابية متتابعة = (عدد الحدود) × (الأول + الأخير)/2.</li>
+<li>مجموع <bdi dir="ltr">u<sub>0</sub> + … + u<sub>n</sub></bdi> لهندسية بأساس <bdi dir="ltr">q ≠ 1</bdi> يساوي <bdi dir="ltr">u<sub>0</sub>(1 − q<sup>n+1</sup>)/(1 − q)</bdi>.</li>
+<li>الحسابية متزايدة إذا كان <bdi dir="ltr">r &gt; 0</bdi> ، والهندسية ذات الحد الأول الموجب متزايدة إذا كان <bdi dir="ltr">q &gt; 1</bdi>.</li>
 <li><span class="k">متتالية مساعدة:</span> نعرّف v<sub>n</sub> من u<sub>n</sub> بحيث تصبح v حسابية أو هندسية.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>حسابية u<sub>0</sub> = 5 و r = 3. <span class="k">الحل:</span> u<sub>10</sub> = 5 + 30 = 35 ، ومجموع الحدود من u<sub>0</sub> إلى u<sub>10</sub> هو 11 × (5 + 35)/2 = 220.</li>
-<li>هندسية u<sub>0</sub> = 2 و q = 3. <span class="k">الحل:</span> u<sub>4</sub> = 2 × 81 = 162 ، والمجموع = 2(1 − 3<sup>5</sup>)/(1 − 3) = 2 × (−242)/(−2) = 242.</li>
-<li>u<sub>0</sub> = 1 و u<sub>n+1</sub> = 2u<sub>n</sub> + 3. نضع v<sub>n</sub> = u<sub>n</sub> + 3. <span class="k">الحل:</span> v<sub>n+1</sub> = 2u<sub>n</sub> + 6 = 2v<sub>n</sub> ، فهي هندسية أساسها 2 وحدها الأول 4 ، إذن v<sub>n</sub> = 4·2<sup>n</sup> و u<sub>n</sub> = 4·2<sup>n</sup> − 3.</li>
+<li>حسابية <bdi dir="ltr">u<sub>0</sub> = 5</bdi> و <bdi dir="ltr">r = 3</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">u<sub>10</sub> = 5 + 30 = 35</bdi> ، ومجموع الحدود من u<sub>0</sub> إلى u<sub>10</sub> هو <bdi dir="ltr">11 × (5 + 35)/2 = 220</bdi>.</li>
+<li>هندسية <bdi dir="ltr">u<sub>0</sub> = 2</bdi> و <bdi dir="ltr">q = 3</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">u<sub>4</sub> = 2 × 81 = 162</bdi> ، والمجموع <bdi dir="ltr">u<sub>0</sub> + … + u<sub>4</sub> = 2(1 − 3<sup>5</sup>)/(1 − 3) = 2 × (−242)/(−2) = 242</bdi>.</li>
+<li><bdi dir="ltr">u<sub>0</sub> = 1</bdi> و <bdi dir="ltr">u<sub>n+1</sub> = 2u<sub>n</sub> + 3</bdi>. نضع <bdi dir="ltr">v<sub>n</sub> = u<sub>n</sub> + 3</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">v<sub>n+1</sub> = 2u<sub>n</sub> + 6 = 2v<sub>n</sub></bdi> ، فهي هندسية أساسها 2 وحدها الأول 4 ، إذن <bdi dir="ltr">v<sub>n</sub> = 4·2<sup>n</sup></bdi> و <bdi dir="ltr">u<sub>n</sub> = 4·2<sup>n</sup> − 3</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>عدّ عدد الحدود n بدل n + 1 عندما تبدأ المتتالية من u<sub>0</sub>.</li>
+<li>اعتبار عدد الحدود من u<sub>0</sub> إلى u<sub>n</sub> هو n بدل <bdi dir="ltr">n + 1</bdi>.</li>
 <li>الحكم على المتتالية بأنها حسابية بعد اختبار حدّين فقط.</li>
-<li>تطبيق صيغة المجموع الهندسي عندما q = 1.</li>
+<li>تطبيق صيغة المجموع الهندسي عندما <bdi dir="ltr">q = 1</bdi>.</li>
 <li>الرجوع إلى u<sub>n</sub> من v<sub>n</sub> ونسيان طرح الثابت المضاف.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>حسابية: u<sub>n</sub> = u<sub>0</sub> + nr.</li>
-<li>هندسية: u<sub>n</sub> = u<sub>0</sub>q<sup>n</sup>.</li>
+<li>حسابية: <bdi dir="ltr">u<sub>n</sub> = u<sub>0</sub> + nr</bdi>.</li>
+<li>هندسية: <bdi dir="ltr">u<sub>n</sub> = u<sub>0</sub>q<sup>n</sup></bdi>.</li>
 <li>المجموع الحسابي: عدد الحدود × (الأول + الأخير)/2.</li>
-<li>المجموع الهندسي: u<sub>0</sub>(1 − q<sup>n+1</sup>)/(1 − q).</li>
-<li>المتتالية المساعدة تحوّل u<sub>n+1</sub> = au<sub>n</sub> + b إلى هندسية.</li>
+<li>المجموع الهندسي: <bdi dir="ltr">u<sub>0</sub>(1 − q<sup>n+1</sup>)/(1 − q)</bdi>.</li>
+<li>المتتالية المساعدة تحوّل <bdi dir="ltr">u<sub>n+1</sub> = au<sub>n</sub> + b</bdi> إلى هندسية.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

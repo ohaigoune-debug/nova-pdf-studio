@@ -54,40 +54,40 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> نترجم العلاقة الشعاعية المعطاة إلى تحويل نقطي معروف، ثم نستغل خواصه: إذا رسمت M شكلًا ما، فإن M' ترسم صورة هذا الشكل بذلك التحويل.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<rect x="20" y="55" width="140" height="60" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="90" y="90" text-anchor="middle">علاقة شعاعية</text>
+<figure class="fig"><svg direction="rtl" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<rect x="380" y="55" width="140" height="60" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="450" y="90" text-anchor="middle">علاقة شعاعية</text>
 <rect x="200" y="55" width="140" height="60" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="270" y="90" text-anchor="middle">تحويل معروف</text>
-<rect x="380" y="55" width="140" height="60" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="450" y="85" text-anchor="middle">صورة الشكل</text><text x="450" y="105" text-anchor="middle">هي المطلوب</text>
+<rect x="20" y="55" width="140" height="60" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="90" y="85" text-anchor="middle">صورة الشكل</text><text x="90" y="105" text-anchor="middle">هي المطلوب</text>
 <line x1="160" y1="85" x2="200" y2="85" stroke="#1f2937" stroke-width="2"/><line x1="340" y1="85" x2="380" y2="85" stroke="#1f2937" stroke-width="2"/>
 </svg><figcaption>الشكل 1: مراحل الحل: نقرأ العلاقة، نحدد التحويل، ثم نستنتج الصورة.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li>العلاقة MM' = u (شعاع ثابت) تعني أن M' صورة M بالانسحاب الذي شعاعه u.</li>
-<li>العلاقة AM' = k·AM تعني أن M' صورة M بالتحاكي h(A , k).</li>
+<li>العلاقة <bdi dir="ltr">MM' = u</bdi> (شعاع ثابت) تعني أن M' صورة M بالانسحاب الذي شعاعه u.</li>
+<li>العلاقة <bdi dir="ltr">AM' = k·AM</bdi> تعني أن M' صورة M بالتحاكي <bdi dir="ltr">h(A ; k)</bdi>.</li>
 <li><span class="k">مجموعة النقط:</span> إذا رسمت M مستقيمًا أو دائرة (C) فإن M' ترسم صورة (C) بالتحويل.</li>
 <li>الانسحاب يحافظ على الأطوال والزوايا، والتحاكي يضرب الأطوال في |k|.</li>
-<li>لإثبات <span class="k">الاستقامية</span> نبيّن أن نقطة هي صورة نقطتين أخريين بتحاكٍ مركزه معطى.</li>
-<li>مركز ثقل مثلث G يحقق AG = (2/3) AI ، حيث I منتصف [BC].</li>
+<li>لإثبات <span class="k">استقامية</span> ثلاث نقط A و B و C نبيّن أن C صورة B بتحاكٍ مركزه A.</li>
+<li>مركز ثقل مثلث G يحقق <bdi dir="ltr">AG = (2/3) AI</bdi> ، حيث I منتصف [BC].</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>A ثابتة وM على دائرة مركزها O ونصف قطرها 3، ونعرّف AM' = 2·AM. <span class="k">الحل:</span> M' صورة M بالتحاكي h(A , 2) ، فمجموعتها دائرة مركزها h(A , 2)(O) ونصف قطرها 6.</li>
-<li>MM' = u ثابت وM على المستقيم (d). <span class="k">الحل:</span> مجموعة M' هي صورة (d) بالانسحاب، أي مستقيم يوازي (d).</li>
-<li>B وC ثابتتان وA تتغير على دائرة، وI منتصف [BC]. <span class="k">الحل:</span> IG = (1/3) IA ، إذن G صورة A بالتحاكي h(I , 1/3) ، وتنتمي G إلى صورة الدائرة بهذا التحاكي، وهي دائرة نصف قطرها ثلث نصف القطر الأصلي.</li>
+<li>A ثابتة وM على دائرة مركزها O ونصف قطرها 3، ونعرّف <bdi dir="ltr">AM' = 2·AM</bdi>. <span class="k">الحل:</span> M' صورة M بالتحاكي <bdi dir="ltr">h(A ; 2)</bdi> ، فمجموعتها دائرة مركزها صورة O بهذا التحاكي ونصف قطرها <bdi dir="ltr">2 × 3 = 6</bdi>.</li>
+<li><bdi dir="ltr">MM' = u</bdi> ثابت وM على المستقيم (d). <span class="k">الحل:</span> مجموعة M' هي صورة (d) بالانسحاب، أي مستقيم يوازي (d).</li>
+<li>B وC ثابتتان وA تتغير على دائرة، وI منتصف [BC]. <span class="k">الحل:</span> <bdi dir="ltr">IG = (1/3) IA</bdi> ، إذن G صورة A بالتحاكي <bdi dir="ltr">h(I ; 1/3)</bdi> ، وتنتمي G إلى صورة الدائرة بهذا التحاكي، وهي دائرة نصف قطرها ثلث نصف القطر الأصلي.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
 <li>عدم تحديد المركز والنسبة بدقة قبل استعمال الخواص.</li>
 <li>تعيين مجموعة النقط كاملة بدل جزء منها عندما يقيَّد M بجزء من الشكل.</li>
-<li>نسيان نصف القطر الجديد |k|·r عند إيجاد صورة دائرة.</li>
+<li>نسيان نصف القطر الجديد <bdi dir="ltr">|k|·r</bdi> عند إيجاد صورة دائرة.</li>
 <li>الخلط بين الانسحاب والتحاكي في العلاقات الشعاعية.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>MM' = u : انسحاب. AM' = k·AM : تحاكٍ.</li>
+<li><bdi dir="ltr">MM' = u</bdi> : انسحاب. <bdi dir="ltr">AM' = k·AM</bdi> : تحاكٍ.</li>
 <li>مجموعة M' هي صورة مجموعة M.</li>
-<li>الاستقامية تُثبت بتحاكٍ مشترك المركز.</li>
-<li>G صورة A بالتحاكي h(I , 1/3) عندما M هي A.</li>
+<li>الاستقامية: C صورة B بتحاكٍ مركزه A.</li>
+<li>G صورة A بالتحاكي <bdi dir="ltr">h(I ; 1/3)</bdi> حيث I منتصف [BC].</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

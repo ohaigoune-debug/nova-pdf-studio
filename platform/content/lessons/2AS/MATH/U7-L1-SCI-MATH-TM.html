@@ -52,9 +52,9 @@ main{position:relative;z-index:1}
 
 <p class="goal"><span class="k">الهدف:</span> أن تعرّف التحاكي بمركزه ونسبته، وأن تستعمل خواصه في إنشاء صورة شكل وتعيين صور النقط والمستقيمات والدوائر.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> التحاكي h الذي مركزه O ونسبته k ≠ 0 يرفق بكل نقطة M النقطة M' حيث OM' = k·OM (بالأشعة). هو تكبير أو تصغير للأشكال دون تغيير شكلها.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> التحاكي h الذي مركزه O ونسبته <bdi dir="ltr">k ≠ 0</bdi> يرفق بكل نقطة M النقطة M' حيث <bdi dir="ltr">OM' = k·OM</bdi> (بالأشعة). هو تكبير أو تصغير للأشكال دون تغيير شكلها.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <polygon points="100,80 130,100 100,120" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
 <polygon points="140,60 200,100 140,140" fill="#fde68a" stroke="#a16207" stroke-width="2"/>
 <line x1="60" y1="100" x2="210" y2="100" stroke="#1f2937" stroke-width="1" stroke-dasharray="4 3"/>
@@ -63,37 +63,37 @@ main{position:relative;z-index:1}
 <circle cx="60" cy="100" r="4" fill="#15803d"/><text x="45" y="95">O</text>
 <text x="95" y="75">A</text><text x="135" y="98">B</text><text x="95" y="135">C</text>
 <text x="135" y="55">A'</text><text x="205" y="98">B'</text><text x="135" y="155">C'</text>
-<text x="290" y="70">النسبة k = 2</text><text x="290" y="95">A'B' = 2 AB</text><text x="290" y="120">المساحة × 4</text>
+<text x="470" y="70" direction="rtl">النسبة:</text><text x="350" y="70">k = 2</text><text x="350" y="95">A'B' = 2 AB</text><text x="470" y="120" direction="rtl">المساحة:</text><text x="370" y="120">× 4</text>
 </svg><figcaption>الشكل 1: صورة المثلث ABC بالتحاكي الذي مركزه O ونسبته 2.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">التعريف:</span> h(O , k) هو التحويل الذي يحقق OM' = k·OM ، والمركز O صامد.</li>
-<li>الحالتان الخاصتان: k = 1 التطابق، وk = −1 التناظر المركزي.</li>
-<li>لكل نقطتين: M'N' = k·MN (بالأشعة)، فالمسافات تُضرب في |k|.</li>
+<li><span class="k">التعريف:</span> <bdi dir="ltr">h(O ; k)</bdi> هو التحويل الذي يحقق <bdi dir="ltr">OM' = k·OM</bdi> ، والمركز O صامد.</li>
+<li>الحالتان الخاصتان: <bdi dir="ltr">k = 1</bdi> التحويل المطابق، و<bdi dir="ltr">k = −1</bdi> التناظر المركزي.</li>
+<li>لكل نقطتين: <bdi dir="ltr">M'N' = k·MN</bdi> (بالأشعة)، فالمسافات تُضرب في |k|.</li>
 <li>يحافظ التحاكي على <span class="k">التوازي والاستقامية ومنتصف قطعة والزوايا</span>.</li>
-<li>صورة مستقيم هي مستقيم يوازيه، وصورة دائرة (Ω , r) هي دائرة مركزها h(Ω) ونصف قطرها |k|·r.</li>
+<li>صورة مستقيم هي مستقيم يوازيه (ينطبق عليه إذا مرّ بالمركز O)، وصورة دائرة <bdi dir="ltr">(Ω ; r)</bdi> هي دائرة مركزها h(Ω) ونصف قطرها <bdi dir="ltr">|k|·r</bdi>.</li>
 <li>المساحات تُضرب في k².</li>
-<li><span class="k">التركيب:</span> h(O , k) ∘ h(O , k') = h(O , k·k') ، وبمركزين مختلفين إذا كان k·k' = 1 فالنتيجة انسحاب.</li>
+<li><span class="k">التركيب:</span> <bdi dir="ltr">h(O ; k) ∘ h(O ; k') = h(O ; k·k')</bdi> ، وبمركزين مختلفين إذا كان <bdi dir="ltr">k·k' = 1</bdi> فالنتيجة انسحاب.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>h(O , 3) مع O المبدأ و A(1 , 2). <span class="k">الحل:</span> A' = 3A = (3 , 6).</li>
-<li>h(O , −2) و B(2 , −1). <span class="k">الحل:</span> B' = (−4 , 2). ومثلث مساحته 5 تصبح مساحة صورته 4 × 5 = 20.</li>
-<li>دائرة نصف قطرها 2 ونسبة التحاكي −3. <span class="k">الحل:</span> صورتها دائرة نصف قطرها |−3| × 2 = 6.</li>
+<li><bdi dir="ltr">h(O ; 3)</bdi> مع O المبدأ و <bdi dir="ltr">A(1 ; 2)</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">A'(3 ; 6)</bdi> لأن إحداثياتها ثلاثة أضعاف إحداثيات A.</li>
+<li><bdi dir="ltr">h(O ; −2)</bdi> و <bdi dir="ltr">B(2 ; −1)</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">B'(−4 ; 2)</bdi>. ومثلث مساحته 5 تصبح مساحة صورته <bdi dir="ltr">4 × 5 = 20</bdi>.</li>
+<li>دائرة نصف قطرها 2 ونسبة التحاكي <bdi dir="ltr">−3</bdi>. <span class="k">الحل:</span> صورتها دائرة نصف قطرها <bdi dir="ltr">|−3| × 2 = 6</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
 <li>ضرب المساحة في k بدل k².</li>
-<li>أخذ نصف القطر k·r دون القيمة المطلقة عندما تكون النسبة سالبة.</li>
-<li>القول إن المستقيم وصورته متطابقان، والصحيح أنهما متوازيان.</li>
-<li>الخلط بين الرابطة بالأشعة OM' = k·OM والمسافة OM' = k·OM.</li>
+<li>أخذ نصف القطر <bdi dir="ltr">k·r</bdi> دون القيمة المطلقة عندما تكون النسبة سالبة.</li>
+<li>القول إن المستقيم يقطع صورته، والصحيح أنهما متوازيان (أو منطبقان إذا مرّ المستقيم بالمركز).</li>
+<li>الخلط بين الرابطة بالأشعة <bdi dir="ltr">OM' = k·OM</bdi> والمسافة <bdi dir="ltr">OM' = |k|·OM</bdi>.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>OM' = k·OM ، المركز صامد.</li>
+<li><bdi dir="ltr">OM' = k·OM</bdi> ، المركز صامد.</li>
 <li>المسافات × |k| ، المساحات × k².</li>
 <li>الزوايا والتوازي محفوظان.</li>
-<li>صورة المستقيم يوازيه.</li>
+<li>صورة المستقيم توازيه.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

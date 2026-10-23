@@ -54,47 +54,46 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> الدالة المشتقة f′ تعطي ميل المماس في كل نقطة. حيث يكون الميل موجباً يصعد المنحنى، وحيث يكون سالباً ينزل؛ فإشارة f′ تكفي لمعرفة اتجاه تغيّر f.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1d4ed8"/></marker></defs>
 <rect x="20" y="15" width="500" height="150" fill="none" stroke="#1f2937" stroke-width="1.5"/>
 <line x1="20" y1="45" x2="520" y2="45" stroke="#1f2937"/><line x1="20" y1="75" x2="520" y2="75" stroke="#1f2937"/>
-<line x1="440" y1="15" x2="440" y2="165" stroke="#1f2937"/>
-<rect x="440" y="15" width="80" height="30" fill="#dbe6ff"/><rect x="440" y="45" width="80" height="30" fill="#fde68a"/><rect x="440" y="75" width="80" height="90" fill="#86efac"/>
-<line x1="440" y1="15" x2="440" y2="165" stroke="#1f2937"/>
-<text x="480" y="36" text-anchor="middle">x</text><text x="480" y="66" text-anchor="middle">g′(x)</text><text x="480" y="126" text-anchor="middle">g(x)</text>
-<text x="400" y="36" text-anchor="middle">−∞</text><text x="300" y="36" text-anchor="middle">−1</text><text x="160" y="36" text-anchor="middle">1</text><text x="50" y="36" text-anchor="middle">+∞</text>
-<text x="350" y="66" text-anchor="middle" fill="#15803d" font-weight="700">+</text><text x="300" y="66" text-anchor="middle">0</text><text x="230" y="66" text-anchor="middle" fill="#c2410c" font-weight="700">−</text><text x="160" y="66" text-anchor="middle">0</text><text x="105" y="66" text-anchor="middle" fill="#15803d" font-weight="700">+</text>
-<text x="300" y="95" text-anchor="middle" font-weight="700">2</text><text x="160" y="157" text-anchor="middle" font-weight="700">−2</text>
-<line x1="390" y1="150" x2="315" y2="95" stroke="#1d4ed8" stroke-width="2" marker-end="url(#ar)"/>
-<line x1="285" y1="98" x2="175" y2="145" stroke="#1d4ed8" stroke-width="2" marker-end="url(#ar)"/>
-<line x1="145" y1="145" x2="60" y2="90" stroke="#1d4ed8" stroke-width="2" marker-end="url(#ar)"/>
-</svg><figcaption>الشكل 1: جدول تغيّرات g(x) = x³ − 3x: قيمة حدية عظمى محلية 2 عند −1 وصغرى محلية −2 عند 1.</figcaption></figure>
+<rect x="20" y="15" width="80" height="30" fill="#dbe6ff"/><rect x="20" y="45" width="80" height="30" fill="#fde68a"/><rect x="20" y="75" width="80" height="90" fill="#86efac"/>
+<line x1="100" y1="15" x2="100" y2="165" stroke="#1f2937"/>
+<text x="60" y="36" text-anchor="middle">x</text><text x="60" y="66" text-anchor="middle">g′(x)</text><text x="60" y="126" text-anchor="middle">g(x)</text>
+<text x="140" y="36" text-anchor="middle">−∞</text><text x="240" y="36" text-anchor="middle">−1</text><text x="380" y="36" text-anchor="middle">1</text><text x="490" y="36" text-anchor="middle">+∞</text>
+<text x="190" y="66" text-anchor="middle" fill="#15803d" font-weight="700">+</text><text x="240" y="66" text-anchor="middle">0</text><text x="310" y="66" text-anchor="middle" fill="#c2410c" font-weight="700">−</text><text x="380" y="66" text-anchor="middle">0</text><text x="435" y="66" text-anchor="middle" fill="#15803d" font-weight="700">+</text>
+<text x="240" y="95" text-anchor="middle" font-weight="700">2</text><text x="380" y="157" text-anchor="middle" font-weight="700">−2</text>
+<line x1="150" y1="150" x2="225" y2="95" stroke="#1d4ed8" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="255" y1="98" x2="365" y2="145" stroke="#1d4ed8" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="395" y1="145" x2="480" y2="90" stroke="#1d4ed8" stroke-width="2" marker-end="url(#ar)"/>
+</svg><figcaption>الشكل 1: جدول تغيّرات <bdi dir="ltr">g(x) = x³ − 3x</bdi>: قيمة حدية عظمى محلية 2 عند <bdi dir="ltr">−1</bdi> وصغرى محلية <bdi dir="ltr">−2</bdi> عند 1.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">مشتقات مرجعية:</span> (k)′ = 0، (x)′ = 1، (xⁿ)′ = n xⁿ⁻¹، (1/x)′ = −1/x²، (√x)′ = 1/(2√x) على ]0 ; +∞[.</li>
-<li><span class="k">العمليات:</span> (u + v)′ = u′ + v′ و (k u)′ = k u′.</li>
-<li><span class="k">الجداء والحاصل:</span> (u v)′ = u′v + u v′ و (u/v)′ = (u′v − u v′)/v².</li>
-<li><span class="k">اتجاه التغيّر:</span> إذا f′(x) ≥ 0 على مجال فإن f متزايدة عليه، وإذا f′(x) ≤ 0 فهي متناقصة عليه.</li>
+<li><span class="k">مشتقات مرجعية:</span> <bdi dir="ltr">(k)′ = 0</bdi>، <bdi dir="ltr">(x)′ = 1</bdi>، <bdi dir="ltr">(xⁿ)′ = n xⁿ⁻¹</bdi>، <bdi dir="ltr">(1/x)′ = −1/x²</bdi>، <bdi dir="ltr">(√x)′ = 1/(2√x)</bdi> على <bdi dir="ltr">]0 ; +∞[</bdi>.</li>
+<li><span class="k">العمليات:</span> <bdi dir="ltr">(u + v)′ = u′ + v′</bdi> و <bdi dir="ltr">(k u)′ = k u′</bdi>.</li>
+<li><span class="k">الجداء والحاصل:</span> <bdi dir="ltr">(u v)′ = u′v + u v′</bdi> و <bdi dir="ltr">(u/v)′ = (u′v − u v′)/v²</bdi>.</li>
+<li><span class="k">اتجاه التغيّر:</span> إذا <bdi dir="ltr">f′(x) ≥ 0</bdi> على مجال فإن f متزايدة عليه، وإذا <bdi dir="ltr">f′(x) ≤ 0</bdi> فهي متناقصة عليه.</li>
 <li><span class="k">القيمة الحدية:</span> إذا انعدمت f′ عند x₀ مغيّرة إشارتها، فإن f(x₀) قيمة حدية محلية.</li>
 <li><span class="k">التكلفة الحدية:</span> في الاقتصاد، مشتقة دالة التكلفة C′(q) تقيس تغيّر التكلفة عند إنتاج وحدة إضافية تقريباً.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>f(x) = x² − 4x + 1. <span class="k">الحل:</span> f′(x) = 2x − 4، تنعدم عند 2؛ f متناقصة على ]−∞ ; 2] ومتزايدة على [2 ; +∞[، وقيمتها الصغرى f(2) = −3.</li>
-<li>g(x) = x³ − 3x. <span class="k">الحل:</span> g′(x) = 3x² − 3 = 3(x − 1)(x + 1)، موجبة خارج [−1 ; 1] وسالبة داخله؛ g(−1) = 2 و g(1) = −2 (الشكل 1).</li>
-<li>ربح مؤسسة B(q) = −q² + 20q − 36. <span class="k">الحل:</span> B′(q) = −2q + 20 تنعدم عند q = 10، والربح الأعظمي B(10) = −100 + 200 − 36 = 64.</li>
+<li><bdi dir="ltr">f(x) = x² − 4x + 1</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">f′(x) = 2x − 4</bdi>، تنعدم عند 2؛ f متناقصة على <bdi dir="ltr">]−∞ ; 2]</bdi> ومتزايدة على <bdi dir="ltr">[2 ; +∞[</bdi>، وقيمتها الصغرى <bdi dir="ltr">f(2) = −3</bdi>.</li>
+<li><bdi dir="ltr">g(x) = x³ − 3x</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">g′(x) = 3x² − 3 = 3(x − 1)(x + 1)</bdi>، موجبة خارج <bdi dir="ltr">[−1 ; 1]</bdi> وسالبة داخله؛ <bdi dir="ltr">g(−1) = 2</bdi> و <bdi dir="ltr">g(1) = −2</bdi> (الشكل 1).</li>
+<li>ربح مؤسسة <bdi dir="ltr">B(q) = −q² + 20q − 36</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">B′(q) = −2q + 20</bdi> تنعدم عند <bdi dir="ltr">q = 10</bdi> وتتغير إشارتها من موجبة إلى سالبة، والربح الأعظمي <bdi dir="ltr">B(10) = −100 + 200 − 36 = 64</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>كتابة (u v)′ = u′ × v′، وهذا خطأ.</li>
+<li>كتابة <bdi dir="ltr">(u v)′ = u′ × v′</bdi>، وهذا خطأ.</li>
 <li>استنتاج اتجاه التغيّر من إشارة f بدل إشارة f′.</li>
 <li>نسيان حساب صورة النقطة التي تنعدم عندها المشتقة في جدول التغيّرات.</li>
 <li>اعتبار كل نقطة تنعدم فيها f′ قيمة حدية دون التحقق من تغيّر الإشارة.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>(xⁿ)′ = n xⁿ⁻¹ و (1/x)′ = −1/x².</li>
-<li>f′ &gt; 0 ⇐ تزايد، f′ &lt; 0 ⇐ تناقص.</li>
+<li><bdi dir="ltr">(xⁿ)′ = n xⁿ⁻¹</bdi> و <bdi dir="ltr">(1/x)′ = −1/x²</bdi>.</li>
+<li><bdi dir="ltr">f′ &gt; 0</bdi> ⇐ تزايد، <bdi dir="ltr">f′ &lt; 0</bdi> ⇐ تناقص.</li>
 <li>انعدام f′ مع تغيّر إشارتها ⇐ قيمة حدية.</li>
 <li>الخطوات: f′ ثم إشارتها ثم جدول التغيّرات.</li>
 </ul></div>
