@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>التضخم والسياسة النقدية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">3 ثانوي · الاقتصاد والمناجمنت · تسيير واقتصاد · الوحدة 1: النقود والسياسة النقدية · الدرس 3</div>
+<h1>التضخم والسياسة النقدية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تعرّف التضخم وتميّز أنواعه وأسبابه، وأن تحسب معدّله، وأن تشرح كيف تستعمل السلطة النقدية أدواتها لمكافحته.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> التضخم ارتفاع مستمر ومعمّم في المستوى العام للأسعار يُضعف القدرة الشرائية للنقود. وتواجهه السياسة النقدية بتقليص الكتلة النقدية ورفع كلفة القروض.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<text x="270" y="20" text-anchor="middle" font-weight="700">اتجاها السياسة النقدية</text>
+<rect x="285" y="32" width="235" height="130" rx="10" fill="#fde68a" stroke="#c2410c" stroke-width="2"/>
+<text x="402" y="55" text-anchor="middle" font-weight="700" fill="#c2410c">سياسة انكماشية (ضد التضخم)</text>
+<text x="402" y="82" text-anchor="middle">رفع معدل إعادة الخصم</text>
+<text x="402" y="106" text-anchor="middle">رفع نسبة الاحتياطي الإجباري</text>
+<text x="402" y="130" text-anchor="middle">بيع السندات في السوق المفتوحة</text>
+<text x="402" y="153" text-anchor="middle" fill="#c2410c">الكتلة النقدية ↓</text>
+<rect x="20" y="32" width="235" height="130" rx="10" fill="#86efac" stroke="#15803d" stroke-width="2"/>
+<text x="137" y="55" text-anchor="middle" font-weight="700" fill="#15803d">سياسة توسعية (ضد الركود)</text>
+<text x="137" y="82" text-anchor="middle">خفض معدل إعادة الخصم</text>
+<text x="137" y="106" text-anchor="middle">خفض نسبة الاحتياطي الإجباري</text>
+<text x="137" y="130" text-anchor="middle">شراء السندات في السوق المفتوحة</text>
+<text x="137" y="153" text-anchor="middle" fill="#15803d">الكتلة النقدية ↑</text>
+</svg><figcaption>الشكل 1: الأدوات نفسها تُستعمل في اتجاهين متعاكسين حسب الهدف.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">التضخم:</span> ارتفاع مستمر ومعمّم في المستوى العام للأسعار، لا ارتفاع سعر سلعة واحدة.</li>
+<li><span class="k">معدل التضخم</span> = (مؤشر السنة الحالية − مؤشر السنة السابقة) ÷ مؤشر السنة السابقة × 100.</li>
+<li><span class="k">تضخم الطلب:</span> طلب كلي يفوق العرض الكلي؛ <span class="k">تضخم التكاليف:</span> ارتفاع الأجور أو أسعار المواد الأولية المستوردة.</li>
+<li><span class="k">التضخم النقدي:</span> حسب معادلة التبادل <bdi dir="ltr">M·V = P·T</bdi>، زيادة الكتلة النقدية بأسرع من الإنتاج ترفع الأسعار؛ ويوجد أيضاً <span class="k">تضخم هيكلي</span> ناتج عن اختلالات الجهاز الإنتاجي.</li>
+<li><span class="k">آثاره:</span> تدهور القدرة الشرائية لذوي الدخل الثابت، تراجع الادخار، استفادة المدينين على حساب الدائنين، وضعف تنافسية الصادرات.</li>
+<li><span class="k">السياسة النقدية:</span> مجموع الإجراءات التي يتخذها البنك المركزي للتحكم في الكتلة النقدية ومعدلات الفائدة لتحقيق استقرار الأسعار.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>مؤشر الأسعار انتقل من 120 إلى 126. <span class="k">الحل:</span> <bdi dir="ltr">(126 − 120) ÷ 120 × 100 = 5%</bdi>.</li>
+<li>في معادلة التبادل: <bdi dir="ltr">M = 100</bdi>، <bdi dir="ltr">V = 4</bdi>، <bdi dir="ltr">T = 200</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">P = (100 × 4) ÷ 200 = 2</bdi>؛ إذا تضاعفت <bdi dir="ltr">M</bdi> مع ثبات <bdi dir="ltr">V</bdi> و<bdi dir="ltr">T</bdi> تصبح <bdi dir="ltr">P = 4</bdi>.</li>
+<li>ارتفع أجر عامل بـ3% والتضخم 5%. <span class="k">التفسير:</span> أجره الحقيقي انخفض بنحو 2% تقريباً، فقدرته الشرائية تراجعت رغم الزيادة الاسمية.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>تسمية ارتفاع سعر سلعة واحدة تضخماً؛ يُشترط <span class="k">الاستمرار والتعميم</span>.</li>
+<li>عكس اتجاه الأدوات: محاربة التضخم تتطلب <span class="k">رفع</span> معدل إعادة الخصم لا خفضه.</li>
+<li>القسمة على مؤشر السنة الحالية بدل السنة السابقة عند حساب المعدل.</li>
+<li>الخلط بين السياسة النقدية (البنك المركزي) والسياسة المالية (الميزانية العامة).</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>التضخم = ارتفاع مستمر ومعمّم للأسعار.</li>
+<li>أسبابه: طلب، تكاليف، نقود، هيكل.</li>
+<li><bdi dir="ltr">M·V = P·T</bdi>: نقود أكثر دون إنتاج ⇒ أسعار أعلى.</li>
+<li>ضد التضخم: رفع الخصم والاحتياطي وبيع السندات.</li>
+<li>الخاسرون: ذوو الدخل الثابت والدائنون.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/ECO">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=ECO">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>
