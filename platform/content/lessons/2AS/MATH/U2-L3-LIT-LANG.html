@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>معادلات ومتراجحات من الدرجة 1</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">2 ثانوي · الرياضيات · آداب وفلسفة / لغات أجنبية · الوحدة 2: الدوال العددية · الدرس 3</div>
+<h1>معادلات ومتراجحات من الدرجة 1</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تحل معادلات ومتراجحات من الدرجة الأولى بمجهول واحد، وأن تدرس إشارة العبارة ax + b وتستعملها في حل معادلات ومتراجحات جداء.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> نعزل المجهول بعمليات تحافظ على المساواة أو المتباينة. والخطوة الحاسمة في المتراجحة: عند الضرب أو القسمة على عدد سالب ينقلب اتجاهها.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<rect x="40" y="25" width="460" height="110" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<line x1="40" y1="60" x2="500" y2="60" stroke="#1d4ed8"/><line x1="40" y1="98" x2="500" y2="98" stroke="#1d4ed8"/><line x1="420" y1="25" x2="420" y2="135" stroke="#1d4ed8"/>
+<text x="460" y="48" text-anchor="middle">x</text><text x="460" y="84" text-anchor="middle">x − 1</text><text x="460" y="122" text-anchor="middle">2x + 6</text>
+<text x="395" y="48" text-anchor="middle">−∞</text><text x="300" y="48" text-anchor="middle">−3</text><text x="170" y="48" text-anchor="middle">1</text><text x="65" y="48" text-anchor="middle">+∞</text>
+<text x="350" y="84" text-anchor="middle" fill="#c2410c">−</text><text x="235" y="84" text-anchor="middle" fill="#c2410c">−</text><text x="170" y="84" text-anchor="middle">0</text><text x="110" y="84" text-anchor="middle" fill="#15803d">+</text>
+<text x="350" y="122" text-anchor="middle" fill="#c2410c">−</text><text x="300" y="122" text-anchor="middle">0</text><text x="235" y="122" text-anchor="middle" fill="#15803d">+</text><text x="110" y="122" text-anchor="middle" fill="#15803d">+</text>
+<text x="270" y="160" text-anchor="middle" fill="#a16207">إشارة ax + b: عكس إشارة a قبل −b/a، ومن إشارة a بعدها</text>
+</svg><figcaption>الشكل 1: جدول إشارة العبارتين x − 1 و 2x + 6.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">معادلة من الدرجة الأولى:</span> ax + b = 0 مع a ≠ 0، حلها الوحيد x = −b/a.</li>
+<li><span class="k">خواص المساواة:</span> يمكن إضافة العدد نفسه للطرفين أو ضربهما في العدد نفسه غير المعدوم.</li>
+<li><span class="k">خواص المتباينة:</span> الضرب في عدد موجب يحفظ الاتجاه، والضرب في عدد سالب <span class="k">يقلب</span> الاتجاه.</li>
+<li><span class="k">مجموعة الحلول</span> لمتراجحة تُكتب على شكل مجال، مثل ]−∞;2[ أو [3;+∞[.</li>
+<li><span class="k">إشارة ax + b:</span> تأخذ إشارة a من أجل x &gt; −b/a، وعكس إشارة a من أجل x &lt; −b/a.</li>
+<li><span class="k">معادلة جداء معدوم:</span> A×B = 0 يعني A = 0 أو B = 0.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>حل 3x − 6 = 0. <span class="k">الحل:</span> 3x = 6 ومنه x = 2.</li>
+<li>حل −2x + 4 &gt; 0. <span class="k">الحل:</span> −2x &gt; −4، نقسم على −2 فينقلب الاتجاه: x &lt; 2، إذن S = ]−∞;2[.</li>
+<li>حل (x − 1)(2x + 6) = 0 ثم (x − 1)(2x + 6) &lt; 0. <span class="k">الحل:</span> x = 1 أو x = −3. ومن جدول الإشارة يكون الجداء سالباً بين الجذرين: S = ]−3;1[.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>نسيان قلب اتجاه المتباينة عند القسمة على عدد سالب.</li>
+<li>كتابة الحل عدداً واحداً بدل مجال في المتراجحة.</li>
+<li>الخطأ في إغلاق المجال: المتراجحة الصارمة &lt; تعطي قوساً مفتوحاً.</li>
+<li>حل (x − 1)(2x + 6) &lt; 0 بكتابة x − 1 &lt; 0 و 2x + 6 &lt; 0 دون جدول إشارة.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>ax + b = 0 ⇐ x = −b/a.</li>
+<li>عدد سالب في الضرب أو القسمة ⇐ ينقلب الاتجاه.</li>
+<li>إشارة ax + b: «إشارة a على اليمين».</li>
+<li>جداء معدوم ⇐ أحد عوامله معدوم.</li>
+<li>متراجحة جداء ⇐ جدول إشارة.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>

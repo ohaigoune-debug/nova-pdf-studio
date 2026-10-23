@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مؤشرات التشتت</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">2 ثانوي · الرياضيات · آداب وفلسفة / لغات أجنبية · الوحدة 4: الإحصاء · الدرس 3</div>
+<h1>مؤشرات التشتت</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تحسب مؤشرات التشتت (المدى، التباين، الانحراف المعياري، الربيعيات والمدى الربيعي) وتستعملها لمقارنة سلسلتين إحصائيتين.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> سلسلتان قد تملكان الوسط نفسه وتختلفان كثيراً في توزع قيمهما. مؤشرات التشتت تقيس مدى ابتعاد القيم عن المركز: كلما صغرت كانت السلسلة أكثر تجانساً.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<line x1="30" y1="130" x2="510" y2="130" stroke="#1f2937" stroke-width="1.5"/>
+<text x="60" y="152" text-anchor="middle">1</text><text x="120" y="152" text-anchor="middle">3</text><text x="210" y="152" text-anchor="middle">6</text><text x="300" y="152" text-anchor="middle">9</text><text x="390" y="152" text-anchor="middle">12</text>
+<line x1="60" y1="80" x2="120" y2="80" stroke="#1f2937" stroke-width="2"/><line x1="300" y1="80" x2="390" y2="80" stroke="#1f2937" stroke-width="2"/>
+<line x1="60" y1="65" x2="60" y2="95" stroke="#1f2937" stroke-width="2"/><line x1="390" y1="65" x2="390" y2="95" stroke="#1f2937" stroke-width="2"/>
+<rect x="120" y="55" width="180" height="50" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><line x1="210" y1="55" x2="210" y2="105" stroke="#15803d" stroke-width="3"/>
+<text x="120" y="45" text-anchor="middle" fill="#1d4ed8">Q₁</text><text x="210" y="45" text-anchor="middle" fill="#15803d">Me</text><text x="300" y="45" text-anchor="middle" fill="#1d4ed8">Q₃</text>
+<text x="60" y="118" text-anchor="middle" font-size="12">الأصغر</text><text x="390" y="118" text-anchor="middle" font-size="12">الأكبر</text>
+<text x="460" y="80" text-anchor="middle" fill="#a16207">Q₃ − Q₁ = 6</text>
+</svg><figcaption>الشكل 1: مخطط بالعلبة للسلسلة 1، 3، 4، 6، 7، 9، 10، 12: العلبة تضم نصف القيم المركزية.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المدى:</span> الفرق بين أكبر قيمة وأصغر قيمة في السلسلة.</li>
+<li><span class="k">التباين V:</span> V = [n<sub>1</sub>(x<sub>1</sub> − x̄)² + … + n<sub>p</sub>(x<sub>p</sub> − x̄)²]/N، أو بالصيغة المكافئة V = (Σ n<sub>i</sub>x<sub>i</sub>²)/N − x̄².</li>
+<li><span class="k">الانحراف المعياري:</span> σ = √V، ويُعبَّر عنه بوحدة القيم نفسها.</li>
+<li><span class="k">الربيع الأول Q<sub>1</sub>:</span> أصغر قيمة في السلسلة المرتبة بحيث يكون ربع القيم على الأقل أصغر منها أو تساويها؛ رتبته أصغر عدد صحيح ≥ N/4.</li>
+<li><span class="k">الربيع الثالث Q<sub>3</sub>:</span> رتبته أصغر عدد صحيح ≥ 3N/4.</li>
+<li><span class="k">المدى الربيعي</span> Q<sub>3</sub> − Q<sub>1</sub> يضم نحو نصف القيم، ويُمثَّل بالمخطط بالعلبة.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>السلسلة 2، 4، 6، 8، 10. <span class="k">الحل:</span> x̄ = 30/5 = 6، المدى 10 − 2 = 8. مربعات الانحرافات 16، 4، 0، 4، 16 ومجموعها 40، إذن V = 40/5 = 8 و σ = √8 ≈ 2,83.</li>
+<li>السلسلة 1، 3، 4، 6، 7، 9، 10، 12 (N = 8). <span class="k">الحل:</span> N/4 = 2 ⇐ Q<sub>1</sub> هو الحد الثاني = 3؛ 3N/4 = 6 ⇐ Q<sub>3</sub> هو الحد السادس = 9؛ المدى الربيعي 6.</li>
+<li>السلسلتان 5، 6، 7 و 1، 6، 11 لهما الوسط 6. <span class="k">التفسير:</span> تباين الأولى 2/3 وتباين الثانية 50/3، فالأولى أكثر تجانساً.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>نسيان طرح x̄² في الصيغة المختصرة للتباين.</li>
+<li>تقديم التباين على أنه الانحراف المعياري دون أخذ الجذر.</li>
+<li>تعيين الربيعيات دون ترتيب القيم تصاعدياً.</li>
+<li>الحكم على التشتت بمقارنة الوسطين فقط.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>المدى = الأكبر − الأصغر.</li>
+<li>V = متوسط مربعات الانحرافات عن الوسط؛ σ = √V.</li>
+<li>Q<sub>1</sub>: رتبة N/4؛ Q<sub>3</sub>: رتبة 3N/4 (أصغر عدد صحيح أكبر أو يساوي).</li>
+<li>σ أصغر ⇐ سلسلة أكثر تجانساً.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>

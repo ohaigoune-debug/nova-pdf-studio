@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>المتتاليات الهندسية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+</style></head>
+<body><main>
+<div class="crumb">2 ثانوي · الرياضيات · آداب وفلسفة / لغات أجنبية · الوحدة 3: المتتاليات العددية · الدرس 2</div>
+<h1>المتتاليات الهندسية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تتعرف على متتالية هندسية وتعيّن أساسها وحدّها العام، وأن تحسب مجموع حدود متتابعة منها وتوظفها في وضعيات مثل الفائدة المركبة.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> في المتتالية الهندسية ننتقل من حد إلى الموالي بالضرب في العدد نفسه q. لذلك تنمو الحدود (أو تتناقص) بسرعة متزايدة، عكس النمو المنتظم للمتتالية الحسابية.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<line x1="30" y1="150" x2="520" y2="150" stroke="#1f2937" stroke-width="1.5"/>
+<rect x="420" y="146" width="60" height="4" fill="#1d4ed8"/><rect x="330" y="138" width="60" height="12" fill="#1d4ed8"/><rect x="240" y="114" width="60" height="36" fill="#1d4ed8"/><rect x="150" y="42" width="60" height="108" fill="#1d4ed8"/>
+<text x="450" y="138" text-anchor="middle">u₀ = 2</text><text x="360" y="130" text-anchor="middle">u₁ = 6</text><text x="270" y="106" text-anchor="middle">u₂ = 18</text><text x="180" y="34" text-anchor="middle">u₃ = 54</text>
+<text x="405" y="168" text-anchor="middle" fill="#15803d">×3</text><text x="315" y="168" text-anchor="middle" fill="#15803d">×3</text><text x="225" y="168" text-anchor="middle" fill="#15803d">×3</text>
+<text x="75" y="80" text-anchor="middle" font-weight="700" fill="#a16207">q = 3</text><text x="75" y="105" text-anchor="middle" fill="#a16207">u<tspan font-size="11">n+1</tspan> = 3u<tspan font-size="11">n</tspan></text>
+</svg><figcaption>الشكل 1: متتالية هندسية حدها الأول 2 وأساسها 3: كل حد ثلاثة أضعاف سابقه.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">التعريف:</span> (u<sub>n</sub>) هندسية إذا وُجد عدد ثابت q (<span class="k">الأساس</span>) بحيث u<sub>n+1</sub> = q×u<sub>n</sub> لكل n.</li>
+<li><span class="k">إثبات أنها هندسية:</span> نكتب u<sub>n+1</sub> على الشكل q×u<sub>n</sub> مع q ثابت لا يتعلق بـ n.</li>
+<li><span class="k">الحد العام:</span> u<sub>n</sub> = u<sub>0</sub>×q<sup>n</sup>، وبصفة عامة u<sub>n</sub> = u<sub>p</sub>×q<sup>n−p</sup>.</li>
+<li><span class="k">اتجاه التغير</span> (حين u<sub>0</sub> &gt; 0): متزايدة إذا كان q &gt; 1، ومتناقصة إذا كان 0 &lt; q &lt; 1.</li>
+<li><span class="k">المجموع</span> (q ≠ 1): S = الحد الأول × (1 − q<sup>N</sup>)/(1 − q) حيث N عدد الحدود.</li>
+<li><span class="k">الوسط الهندسي:</span> a و b و c حدود متتابعة لمتتالية هندسية إذا كان b² = a×c.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>u<sub>0</sub> = 2 و q = 3. احسب u<sub>4</sub>. <span class="k">الحل:</span> u<sub>4</sub> = 2×3<sup>4</sup> = 2×81 = 162.</li>
+<li>احسب S = u<sub>0</sub> + … + u<sub>4</sub>. <span class="k">الحل:</span> 5 حدود: S = 2×(1 − 3<sup>5</sup>)/(1 − 3) = 2×(−242)/(−2) = 242. تحقق: 2 + 6 + 18 + 54 + 162 = 242.</li>
+<li>رأس مال 10000 DA يُوظَّف بفائدة مركبة 5% سنوياً. <span class="k">الحل:</span> C<sub>n</sub> = 10000×1,05<sup>n</sup> متتالية هندسية أساسها 1,05؛ بعد سنتين C<sub>2</sub> = 10000×1,1025 = 11025 DA.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>الخلط بين الأساس q في الهندسية والأساس r في الحسابية (ضرب مقابل جمع).</li>
+<li>كتابة أساس زيادة 5% على أنه 0,05 بدل 1,05.</li>
+<li>الخطأ في الأس داخل صيغة المجموع: N هو عدد الحدود لا دليل الحد الأخير.</li>
+<li>حساب 2×3<sup>4</sup> على أنه 6<sup>4</sup>.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>هندسية ⇐ u<sub>n+1</sub> = q×u<sub>n</sub>.</li>
+<li>u<sub>n</sub> = u<sub>p</sub>×q<sup>n−p</sup>.</li>
+<li>S = الأول × (1 − q<sup>N</sup>)/(1 − q).</li>
+<li>زيادة t% سنوياً ⇐ متتالية هندسية أساسها 1 + t/100.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+</main></body></html>
