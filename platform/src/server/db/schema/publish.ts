@@ -61,7 +61,7 @@ export const uploadBatches = pgTable(
     mode: text('mode').notNull().default('manual'),
     defaults: jsonb('defaults').$type<BatchDefaults>().notNull(),
     items: jsonb('items').$type<BatchItem[]>().notNull().default([]),
-    /** تفكيك محتوى منشور سابقاً (سلسلة PDF في «الدروس»): يُسحب من هناك بعد النشر */
+    /** تفكيك محتوى منشور سابقاً (سلسلة PDF في «الدروس»): الكتاب يبقى هناك، والمواضيع تُضاف إلى «الفروض والاختبارات» */
     sourceContentId: uuid('source_content_id').references(() => content.id, { onDelete: 'set null' }),
     note: text('note'),
     publishedAt: timestamp('published_at', { withTimezone: true }),

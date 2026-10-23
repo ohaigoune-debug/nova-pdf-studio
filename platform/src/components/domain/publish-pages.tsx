@@ -44,7 +44,7 @@ export async function PublishHome({ actor, basePath, done }: { actor: Actor; bas
             <CardTitle className="text-lg">سلاسل مجمَّعة في «الدروس والموارد»</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            <p className="text-sm text-muted-foreground">كل سلسلة PDF تُفكّ إلى فروض واختبارات منفصلة مع حلولها، وتُنقل إلى «الفروض والاختبارات» بعد مراجعتك، ثم تُسحب من «الدروس».</p>
+            <p className="text-sm text-muted-foreground">كل سلسلة PDF تُفكّ إلى فروض واختبارات منفصلة مع حلولها وتُضاف إلى «الفروض والاختبارات» بعد مراجعتك؛ الكتاب الكامل يبقى في «الدروس». لا يُقبل النشر إلا إذا كان لكل موضوع صفحاته ومادته وفصله.</p>
             <ul className="divide-y rounded-lg border">
               {series.map((s) => (
                 <li key={s.id} className="flex flex-wrap items-center justify-between gap-2 p-3 text-sm">
