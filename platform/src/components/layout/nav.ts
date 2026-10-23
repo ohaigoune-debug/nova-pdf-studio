@@ -1,6 +1,7 @@
 import type { UserRole } from '@/server/db/schema/enums'
 import { t } from '@/i18n'
 import { MAIN_SECTIONS } from '@/lib/sections'
+import { STUDENT_HUBS, hubPaths, type StudentHubKey } from '@/lib/student-hubs'
 
 /** iconKey = اسم أيقونة lucide (PascalCase) يُحلّ في العميل */
 export interface NavItem {
@@ -8,6 +9,14 @@ export interface NavItem {
   label: string
   iconKey: string
   exact?: boolean
+  /** مسارات أخرى تُفعّل هذا المدخل (تبويبات المجمّع) */
+  also?: string[]
+}
+
+/** مدخل قائمة لمجمّع تلميذ: يفتح التبويب الأول ويبقى مفعّلاً في كل تبويباته */
+function hubItem(key: StudentHubKey): NavItem {
+  const h = STUDENT_HUBS[key]
+  return { href: h.href, label: h.label, iconKey: h.iconKey, also: hubPaths(key) }
 }
 
 export interface NavSection {
@@ -29,24 +38,14 @@ export function navFor(role: UserRole): NavSection[] {
         },
         {
           title: 'التعلّم',
-          items: [
-            { href: '/student/courses', label: 'دوراتي', iconKey: 'BookMarked', exact: true },
-            { href: '/student/courses/catalog', label: 'كتالوج الدورات', iconKey: 'Store' },
-            { href: '/student/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' },
-            { href: '/student/play', label: 'MADRASADZ PLAY', iconKey: 'Gamepad2' },
-            { href: '/student/lessons', label: t('nav.myLessons'), iconKey: 'BookOpen' },
-            { href: '/student/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
-            { href: '/student/exams', label: 'الفروض والاختبارات', iconKey: 'FileText' },
-            { href: '/student/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
-            { href: '/student/practice', label: 'تدريب ذاتي', iconKey: 'Dumbbell' },
-            { href: '/student/grades', label: t('nav.grades'), iconKey: 'GraduationCap' },
-            { href: '/student/progress', label: t('nav.progress'), iconKey: 'TrendingUp' },
-            { href: '/student/files', label: t('nav.files'), iconKey: 'FolderOpen' }
-          ]
+          // مجمّعات: الدورات (دوراتي + الكتالوج)، الدروس (دروسي + فيديوهات + ملفات)، تدرّب (PLAY + اختبارات أستاذي + تدريب حرّ)،
+          // الفروض والاختبارات (المجانية + واجباتي)، تقدّمي (التقدم + العلامات). الصفحات القديمة تبقى بمساراتها كتبويبات.
+          items: [hubItem('courses'), hubItem('lessons'), hubItem('train'), hubItem('exams'), hubItem('progress'), { href: '/student/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' }]
         },
         {
           title: 'أقسام المنصة',
-          items: [...MAIN_SECTIONS.map((s) => ({ href: s.href === '/videos' ? '/student/videos' : s.href, label: s.label, iconKey: s.iconKey })), { href: '/store', label: 'المتجر', iconKey: 'ShoppingBag' }]
+          // الأقسام العامة التي لها مقابل داخل «التعلّم» لا تتكرّر هنا؛ والمنتدى = القسم الافتراضي للتلميذ فلا يُعرض
+          items: [...MAIN_SECTIONS.filter((s) => s.href === '/bac').map((s) => ({ href: s.href, label: s.label, iconKey: s.iconKey })), { href: '/store', label: 'المتجر', iconKey: 'ShoppingBag' }]
         },
         {
           title: 'الحساب',

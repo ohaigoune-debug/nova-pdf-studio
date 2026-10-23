@@ -16,6 +16,7 @@ interface ShellNavItem {
   href: string
   label: string
   exact: boolean
+  also?: string[]
   iconKey: string
 }
 interface ShellSection {
@@ -60,7 +61,8 @@ export function ShellClient({
   const base = pathname.split('/')[1] ?? ''
   const notificationsHref = `/${base}/notifications`
 
-  const isActive = (item: ShellNavItem) => (item.exact ? pathname === item.href : pathname === item.href || pathname.startsWith(item.href + '/'))
+  const matches = (href: string, exact: boolean) => (exact ? pathname === href : pathname === href || pathname.startsWith(href + '/'))
+  const isActive = (item: ShellNavItem) => matches(item.href, item.exact) || (item.also ?? []).some((h) => matches(h, false))
 
   const nav = (
     <nav className="flex flex-col gap-6 p-3">

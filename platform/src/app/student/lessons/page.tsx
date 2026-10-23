@@ -1,3 +1,4 @@
+import { HubTabs } from '@/components/student/hub-tabs'
 import { ArrowLeft, BookOpen, FileText, PlayCircle } from 'lucide-react'
 import Link from 'next/link'
 import { ScopePicker } from '@/components/academy/scope-picker'
@@ -29,6 +30,7 @@ export default async function StudentLessonsPage({ searchParams }: { searchParam
   const total = sections.reduce((n, s) => n + s.lessons.length, 0)
   return (
     <div className="space-y-6">
+      <HubTabs hub="lessons" />
       <TeacherBanner about={about} greeting={t('nav.myLessons')} subtitle="الدروس والفيديوهات وملفات PDF العامة والموجّهة لأفواجك، بترتيب الوحدات والدروس." image="/teacher-lessons.webp" />
       <ScopePicker base="/student/lessons" value={scope} options={options} fromProfile={scope.fromProfile} />
       {total === 0 ? (

@@ -1,7 +1,7 @@
-import { ClipboardList, FileText } from 'lucide-react'
+import { HubTabs } from '@/components/student/hub-tabs'
+import { FileText } from 'lucide-react'
 import Link from 'next/link'
 import { ScopePicker } from '@/components/academy/scope-picker'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/misc'
 import { cn } from '@/lib/utils'
@@ -29,16 +29,10 @@ export default async function StudentExamsPage({ searchParams }: { searchParams:
   const [cards, options] = await Promise.all([assessmentCards(db, scope, { studentId: actor.studentId, levelCode: levelRow?.code ?? null }), browseOptions(db, scope)])
   return (
     <>
+      <HubTabs hub="exams" />
       <PageHeader
         title="الفروض والاختبارات"
         description="فروض واختبارات الفصول الثلاثة المنشورة مجاناً بحسب مستواك وشعبتك ومادتك. واجبات أستاذك الموجّهة لفوجك في صفحة «الواجبات»."
-        actions={
-          <Button asChild variant="outline" size="sm">
-            <Link href="/student/assignments">
-              <ClipboardList className="size-4" /> واجباتي
-            </Link>
-          </Button>
-        }
       />
       <ScopePicker base="/student/exams" value={scope} options={options} fromProfile={scope.fromProfile} />
       <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

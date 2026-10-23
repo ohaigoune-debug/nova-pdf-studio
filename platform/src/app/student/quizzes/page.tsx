@@ -1,3 +1,4 @@
+import { HubTabs } from '@/components/student/hub-tabs'
 import { ListChecks } from 'lucide-react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
@@ -14,6 +15,7 @@ export default async function StudentQuizzesPage() {
   const items = await listQuizzesForStudent(await getDb(), actor)
   return (
     <>
+      <HubTabs hub="train" />
       <PageHeader title={t('nav.quizzes')} />
       {items.length === 0 ? (
         <EmptyState icon={ListChecks} title="لا توجد اختبارات متاحة بعد." />
