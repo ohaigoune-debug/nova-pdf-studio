@@ -1,214 +1,142 @@
-import { AlertTriangle, CalendarCheck, CalendarX, ClipboardList, KeyRound, ScanLine, Users, UsersRound, Wand2 } from 'lucide-react'
+import { BookOpen, FileUp, MessagesSquare, PlayCircle, Upload, Users, Wallet, Wrench } from 'lucide-react'
 import Link from 'next/link'
-import { CloseSessionButton } from '@/components/domain/close-session-button'
-import { StartSessionDialog } from '@/components/domain/start-session-dialog'
-import { EnrollmentStatusBadge, SessionStatusBadge } from '@/components/domain/status-badges'
-import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, EmptyState, StatCard } from '@/components/ui/misc'
-import { getDictionary, t } from '@/i18n'
-import { formatClock, formatDateTime, formatTime, percent } from '@/lib/utils'
+import { formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
-import { teacherDashboard } from '@/server/queries/teacher-dashboard.queries'
-import { listGroups } from '@/server/services/groups.service'
+import { teacherHome } from '@/server/services/teacher-home.service'
 
-/** اسم الحدث بالعربية؛ حدث جديد بلا ترجمة يظهر بمفتاحه بدل أن يختفي */
-function actionLabel(action: string): string {
-  const labels = getDictionary().activity as Record<string, string | undefined>
-  return labels[action.replace(/\./g, '_')] ?? action
-}
+export const dynamic = 'force-dynamic'
+export const metadata = { title: 'لوحتي' }
 
+const dzd = (n: number) => `${n.toLocaleString('ar-DZ')} دج`
+
+/** الإجراءات الأربعة الكبيرة — نفس مداخل القائمة الجانبية */
+const ACTIONS = [
+  { href: '/teacher/publish?type=LESSON', label: 'رفع ملفات', hint: 'دروس، ملخّصات، تمارين (PDF/Word)', icon: Upload },
+  { href: '/teacher/publish?type=TEST', label: 'رفع اختبار', hint: 'فرض أو اختبار مع حلّه', icon: FileUp },
+  { href: '/teacher/content', label: 'المحتوى والحصص السابقة', hint: 'كل ما نشرتَه وتسجيلات الحصص', icon: BookOpen },
+  { href: '/teacher/classroom', label: 'القسم الافتراضي', hint: 'منشورات وأسئلة تلاميذك', icon: MessagesSquare }
+] as const
+
+/**
+ * /teacher — الواجهة المبسّطة (قرار المالك 2026-10-23): المسجّلون في الدورة، المداخيل،
+ * رفع ملفات، رفع اختبار، المحتوى والحصص السابقة، القسم الافتراضي. بقية الأدوات في /teacher/tools.
+ */
 export default async function TeacherHomePage() {
   const actor = await requirePageActor('TEACHER')
-  const db = await getDb()
-  const [d, groups] = await Promise.all([teacherDashboard(db, actor), listGroups(db, actor)])
-  const groupOptions = groups.filter((g) => g.status === 'ACTIVE').map((g) => ({ id: g.id, name: g.name, hasOpenSession: g.hasOpenSession }))
-
+  const h = await teacherHome(await getDb(), actor)
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-extrabold">{t('dashboard.welcome', { name: actor.fullName })}</h1>
-          <p className="text-sm text-muted-foreground">{t('dashboard.teacherTitle')}</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <StartSessionDialog groups={groupOptions} />
-          <Button asChild variant="outline">
-            <Link href="/teacher/scanner">
-              <ScanLine className="size-4" /> {t('dashboard.openScanner')}
-            </Link>
-          </Button>
-        </div>
+      <div>
+        <h1 className="text-2xl font-extrabold">مرحباً، {actor.fullName}</h1>
+        <p className="text-sm text-muted-foreground">دوراتك ومداخيلك في لمحة، وما تحتاجه للتدريس في نقرة.</p>
       </div>
 
-      {d.openSessions.map((s) => (
-        <Alert key={s.id} tone="success" title={t('dashboard.openSessionNow')}>
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <span>
-              {s.groupName} {s.title ? `— ${s.title}` : ''} · {t('sessions.started')} {formatTime(s.startedAt)}
-            </span>
-            <div className="flex gap-2">
-              <Button asChild size="sm">
-                <Link href={`/teacher/scanner?session=${s.id}`}>{t('dashboard.openScanner')}</Link>
-              </Button>
-              <Button asChild size="sm" variant="outline">
-                <Link href={`/teacher/sessions/${s.id}`}>{t('common.details')}</Link>
-              </Button>
-              <CloseSessionButton sessionId={s.id} />
-            </div>
-          </div>
-        </Alert>
-      ))}
-
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        <StatCard label={t('dashboard.groupsCount')} value={d.groupsCount} icon={UsersRound} />
-        <StatCard label={t('dashboard.studentsCount')} value={d.studentsCount} hint={d.suspendedCount ? `${d.suspendedCount} معلّق` : undefined} icon={Users} />
-        <StatCard label={t('dashboard.attendanceToday')} value={d.attendanceToday} hint={`${t('dashboard.attendanceRate')} (7 أيام): ${percent(d.weeklyAttendanceRate)}`} icon={CalendarCheck} tone="success" />
-        <StatCard label={t('dashboard.absencesToday')} value={d.absencesToday} icon={CalendarX} tone={d.absencesToday > 0 ? 'warning' : 'default'} />
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>{t('dashboard.todaySessions')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {d.scheduledToday.length === 0 && d.todaySessions.length === 0 ? (
-              <EmptyState icon={CalendarCheck} title="لا توجد حصص مجدولة اليوم." />
-            ) : (
-              <ul className="divide-y">
-                {d.scheduledToday.map((g) => (
-                  <li key={g.id} className="flex items-center justify-between gap-3 py-3">
-                    <div>
-                      <p className="font-bold">{g.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatClock(g.startTime)} {g.room ? `· ${g.room}` : ''}
-                      </p>
-                    </div>
-                    {g.hasOpenSession && g.openSessionId ? (
-                      <Button asChild size="sm">
-                        <Link href={`/teacher/scanner?session=${g.openSessionId}`}>{t('dashboard.openScanner')}</Link>
-                      </Button>
-                    ) : (
-                      <StartSessionDialog groups={groupOptions} defaultGroupId={g.id} size="sm" variant="outline" />
-                    )}
-                  </li>
-                ))}
-                {d.todaySessions
-                  .filter((s) => s.status !== 'OPEN')
-                  .map((s) => (
-                    <li key={s.id} className="flex items-center justify-between gap-3 py-3">
-                      <div>
-                        <p className="font-bold">
-                          {s.groupName} {s.title ? `— ${s.title}` : ''}
-                        </p>
-                        <p className="text-xs text-muted-foreground">{formatTime(s.scheduledAt)}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <SessionStatusBadge status={s.status} />
-                        <Button asChild size="sm" variant="ghost">
-                          <Link href={`/teacher/sessions/${s.id}`}>{t('common.details')}</Link>
-                        </Button>
-                      </div>
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
-
+      <div className="grid gap-4 md:grid-cols-2">
         <Card>
-          <CardHeader>
-            <CardTitle>{t('dashboard.quickActions')}</CardTitle>
-          </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-2">
-            <Button asChild variant="outline" className="h-auto flex-col gap-1 py-3">
-              <Link href="/teacher/scanner">
-                <ScanLine className="size-5" />
-                <span className="text-xs">{t('dashboard.openScanner')}</span>
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="h-auto flex-col gap-1 py-3">
-              <Link href="/teacher/codes">
-                <KeyRound className="size-5" />
-                <span className="text-xs">{t('dashboard.generateCodes')}</span>
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="h-auto flex-col gap-1 py-3">
-              <Link href="/teacher/groups/new">
-                <UsersRound className="size-5" />
-                <span className="text-xs">{t('groups.new')}</span>
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="h-auto flex-col gap-1 py-3">
-              <Link href="/teacher/assignments">
-                <ClipboardList className="size-5" />
-                <span className="text-xs">{t('dashboard.addAssignment')}</span>
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="col-span-2 h-auto flex-col gap-1 py-3">
-              <Link href="/teacher/exams/generate">
-                <Wand2 className="size-5" />
-                <span className="text-xs">ابنِ لي الامتحان — من البنك في دقائق</span>
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card>
-          <CardHeader className="flex-row items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="size-4 text-amber-600" /> {t('dashboard.strugglingStudents')}
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Users className="size-5 text-primary" /> المسجّلون في دوراتك
             </CardTitle>
-            <Button asChild variant="link" size="sm">
-              <Link href="/teacher/students">{t('common.viewAll')}</Link>
-            </Button>
           </CardHeader>
-          <CardContent>
-            {d.atRisk.length === 0 ? (
-              <p className="text-sm text-muted-foreground">لا يوجد طلاب معرّضون للتعليق حالياً.</p>
-            ) : (
-              <ul className="divide-y">
-                {d.atRisk.map((s) => (
-                  <li key={`${s.studentId}-${s.groupName}`} className="flex items-center justify-between gap-2 py-2">
-                    <Link href={`/teacher/students/${s.studentId}`} className="min-w-0 hover:underline">
-                      <p className="truncate font-semibold">{s.fullName}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {s.groupName} · {s.unexcused}/{s.max} {t('groups.unexcusedCount')}
-                      </p>
-                    </Link>
-                    <EnrollmentStatusBadge status={s.status} />
+          <CardContent className="space-y-3">
+            <p className="text-4xl font-extrabold tabular-nums">{h.enrolledActive}</p>
+            <p className="text-xs text-muted-foreground">اشتراك نشط الآن · {h.enrolledTotal} اشتراكاً منذ البداية</p>
+            {h.courses.length ? (
+              <ul className="divide-y rounded-lg border text-sm">
+                {h.courses.map((c) => (
+                  <li key={c.id} className="flex items-center justify-between gap-2 p-2.5">
+                    <span className="min-w-0 truncate font-semibold">{c.title}</span>
+                    <span className="flex shrink-0 items-center gap-2">
+                      {c.status !== 'PUBLISHED' ? <Badge variant="muted">{c.status === 'DRAFT' ? 'مسودة' : 'مؤرشفة'}</Badge> : null}
+                      <Badge>{c.active} نشط</Badge>
+                    </span>
                   </li>
                 ))}
               </ul>
+            ) : (
+              <p className="text-sm text-muted-foreground">لا دورات باسمك بعد — تُنشأ من الإدارة.</p>
             )}
           </CardContent>
         </Card>
+
         <Card>
-          <CardHeader>
-            <CardTitle>{t('dashboard.recentActivity')}</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Wallet className="size-5 text-primary" /> مداخيلك
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            {d.recentActivity.length === 0 ? (
-              <p className="text-sm text-muted-foreground">{t('common.empty')}</p>
-            ) : (
-              <ul className="space-y-2">
-                {d.recentActivity.map((a) => (
-                  <li key={a.id} className="flex items-start justify-between gap-2 text-sm">
-                    <span>
-                      <span className="font-semibold">{a.actorName ?? '—'}</span> {actionLabel(a.action)}
-                    </span>
-                    <span className="shrink-0 text-[11px] text-muted-foreground tabular">{formatDateTime(a.createdAt)}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
+          <CardContent className="space-y-3">
+            <p className="text-4xl font-extrabold tabular-nums">{dzd(h.income.deliveredDzd)}</p>
+            <p className="text-xs text-muted-foreground">مبيعات الكتب المرتبطة بدوراتك — {h.income.deliveredOrders} طلباً سُلِّم (إجمالي قبل أي اقتطاع)</p>
+            <dl className="grid grid-cols-2 gap-2 text-sm">
+              <div className="rounded-lg border p-2.5">
+                <dt className="text-xs text-muted-foreground">قيد التوصيل</dt>
+                <dd className="font-bold tabular-nums">{dzd(h.income.pendingDzd)}</dd>
+              </div>
+              <div className="rounded-lg border p-2.5">
+                <dt className="text-xs text-muted-foreground">سوق الأساتذة — رصيدك</dt>
+                <dd className="font-bold tabular-nums">{dzd(h.income.marketBalanceDzd)}</dd>
+              </div>
+            </dl>
           </CardContent>
         </Card>
       </div>
+
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {ACTIONS.map((a) => (
+          <Link key={a.href} href={a.href} className="group">
+            <Card className="h-full transition-colors group-hover:border-primary/50">
+              <CardContent className="flex flex-col items-center gap-2 p-5 text-center">
+                <span className="flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <a.icon className="size-6" />
+                </span>
+                <span className="font-bold">{a.label}</span>
+                <span className="text-xs text-muted-foreground">{a.hint}</span>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
+
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <PlayCircle className="size-5 text-primary" /> الحصص السابقة
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {h.pastSessions.length ? (
+            <ul className="divide-y rounded-lg border text-sm">
+              {h.pastSessions.map((s) => (
+                <li key={s.id} className="flex items-center justify-between gap-2 p-2.5">
+                  <span className="min-w-0">
+                    <span className="block truncate font-semibold">{s.title}</span>
+                    <span className="block text-xs text-muted-foreground">
+                      {s.courseTitle} · {formatDateTime(s.startsAt)}
+                    </span>
+                  </span>
+                  {s.recordingSlug ? (
+                    <Link href={`/teacher/content?q=${encodeURIComponent(s.title)}`} className="shrink-0 text-xs font-semibold text-primary hover:underline">
+                      التسجيل
+                    </Link>
+                  ) : (
+                    <Badge variant="muted">بلا تسجيل</Badge>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-muted-foreground">لا حصص سابقة بعد. تسجيلات الحصص ودروسك كلها في «المحتوى والحصص السابقة».</p>
+          )}
+        </CardContent>
+      </Card>
+
+      <Link href="/teacher/tools" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground">
+        <Wrench className="size-3.5" /> أدوات أخرى (الأفواج الحضورية، الحضور، بنك الأسئلة…)
+      </Link>
     </div>
   )
 }
