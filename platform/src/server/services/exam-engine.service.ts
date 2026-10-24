@@ -43,6 +43,13 @@ const STALE_AFTER_MS = 2 * 60 * 60_000
 export { DOC_STATUS_AR, DOC_TYPE_AR, ORIGIN_AR } from '@/lib/exam-engine-labels'
 
 /** خطأ معالجة وثيقة: رمز قصير يظهر في اللوحة + تفصيل */
+/** نقطة تقسيم قرب منتصف النصّ عند حدّ سطر (لا يُقطع تمرين وسط جملة إن أمكن) */
+function splitPoint(text: string): number {
+  const mid = Math.floor(text.length / 2)
+  const nl = text.indexOf('\n', mid)
+  return nl > 0 && nl < text.length - 200 ? nl + 1 : mid
+}
+
 class DocError extends Error {
   constructor(
     readonly code: string,
@@ -350,10 +357,19 @@ export async function processDocument(db: Db, documentId: string, opts: ProcessO
     const [stream] = doc.streamId ? await db.select({ n: streams.nameAr }).from(streams).where(eq(streams.id, doc.streamId)).limit(1) : []
     const extracted: ExtractedQuestion[] = []
     await withAiTask({ task: 'exam_doc_extract', userId: opts.userId, entityType: 'exam_document', entityId: doc.id }, async () => {
-      for (let i = 0; i < text.length && i < EXTRACT_CHUNK * 6; i += EXTRACT_CHUNK) {
-        const out = await provider.extractQuestions!({ subject: subject?.n ?? null, levelName: level?.n ?? null, fileTitle: doc.title, text: text.slice(i, i + EXTRACT_CHUNK) })
-        extracted.push(...out.questions)
+      // ردّ مقطوع (موضوع طويل يتجاوز حدّ الردّ) ⇒ يُقسَم الجزء نصفين ويُعاد مرة واحدة لكل نصف
+      const extractPart = async (part: string, splits: number): Promise<void> => {
+        try {
+          const out = await provider.extractQuestions!({ subject: subject?.n ?? null, levelName: level?.n ?? null, fileTitle: doc.title, text: part })
+          extracted.push(...out.questions)
+        } catch (e) {
+          if (splits <= 0 || !/truncated/.test(e instanceof Error ? e.message : String(e)) || part.length < 200) throw e
+          const mid = splitPoint(part)
+          await extractPart(part.slice(0, mid), splits - 1)
+          await extractPart(part.slice(mid), splits - 1)
+        }
       }
+      for (let i = 0; i < text.length && i < EXTRACT_CHUNK * 6; i += EXTRACT_CHUNK) await extractPart(text.slice(i, i + EXTRACT_CHUNK), 1)
     })
     if (extracted.length === 0) throw new DocError('no_exercises', 'لم يُستخرج أي تمرين من النصّ')
 
@@ -426,9 +442,11 @@ export async function processDocument(db: Db, documentId: string, opts: ProcessO
     return { id: doc.id, title: doc.title, status: 'NEEDS_REVIEW', exercises: inserted, duplicates, error: null }
   } catch (e) {
     const code = e instanceof DocError ? e.code : 'error'
+    // الرسالة التقنية الأصلية تُحفظ مع السبب المفهوم: «خطأ غير متوقع» وحده لا يكفي للتشخيص
+    const detail = e instanceof DocError ? '' : ` [${(e instanceof Error ? `${e.name}: ${e.message}` : String(e)).replace(/\s+/g, ' ').slice(0, 300)}]`
     const message = e instanceof DocError ? e.message : aiFailureReason(e)
-    await db.update(examDocuments).set({ status: 'FAILED', error: `${code}: ${message}`.slice(0, 500), processedAt: new Date(), updatedAt: new Date() }).where(eq(examDocuments.id, doc.id))
-    return { id: doc.id, title: doc.title, status: 'FAILED', exercises: 0, duplicates: 0, error: `${code}: ${message}` }
+    await db.update(examDocuments).set({ status: 'FAILED', error: `${code}: ${message}${detail}`.slice(0, 500), processedAt: new Date(), updatedAt: new Date() }).where(eq(examDocuments.id, doc.id))
+    return { id: doc.id, title: doc.title, status: 'FAILED', exercises: 0, duplicates: 0, error: `${code}: ${message}${detail}` }
   }
 }
 
