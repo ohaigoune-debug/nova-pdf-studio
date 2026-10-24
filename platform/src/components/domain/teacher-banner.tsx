@@ -2,16 +2,13 @@ import { Quote } from 'lucide-react'
 import type { ReactNode } from 'react'
 import type { AboutSettings } from '@/server/services/about.service'
 
-/**
- * صورة الأستاذ داخل المنصة في موضعين فقط: أول شاشة للطالب، وصفحة «دروسي».
- * صورته تقف على حافة البطاقة، وبجانبها الترحيب واسم الأستاذ واقتباسه.
- */
-export function TeacherBanner({ about, greeting, subtitle, action, image = '/teacher.webp' }: { about: AboutSettings; greeting: string; subtitle: string; action?: ReactNode; image?: string }) {
+/** Welcome card with the teacher's text only. */
+export function TeacherBanner({ about, greeting, subtitle, action }: { about: AboutSettings; greeting: string; subtitle: string; action?: ReactNode }) {
   return (
     <section className="bg-ink relative overflow-hidden rounded-xl text-white shadow-lift">
       <span className="absolute -top-16 end-10 size-72 rounded-full bg-white/15 blur-3xl" aria-hidden />
-      <div className="relative grid items-end gap-4 sm:grid-cols-[1fr_auto]">
-        <div className="space-y-4 p-6 sm:p-8 sm:pe-0">
+      <div className="relative">
+        <div className="space-y-4 p-6 sm:p-8">
           <div>
             <h1 className="text-2xl font-bold leading-tight sm:text-3xl">{greeting}</h1>
             <p className="mt-1 text-sm text-white/60">{subtitle}</p>
@@ -33,16 +30,6 @@ export function TeacherBanner({ about, greeting, subtitle, action, image = '/tea
           ) : null}
           {action}
         </div>
-        {about.name ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={image}
-            alt={about.name}
-            width={1000}
-            height={1400}
-            className="mx-auto -mb-1 hidden h-56 w-auto object-contain object-bottom drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)] sm:me-6 sm:block sm:h-64 lg:h-72"
-          />
-        ) : null}
       </div>
     </section>
   )
