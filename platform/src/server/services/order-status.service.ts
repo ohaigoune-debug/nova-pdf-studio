@@ -54,7 +54,7 @@ export interface TransitionOptions {
   /** من قام بالتغيير: مشرف (userId) أو النظام (null) */
   actorUserId: string | null
   /** مصدر التغيير، للتدقيق والإشعارات: admin | call | sms | delivery | ecotrack | system */
-  source: 'admin' | 'call' | 'sms' | 'delivery' | 'ecotrack' | 'system'
+  source: 'admin' | 'call' | 'sms' | 'delivery' | 'ecotrack' | 'system' | 'customer'
   reason?: string | null
   adminNote?: string | null
   shippingDzd?: number | null
@@ -186,7 +186,7 @@ export async function transitionOrder(db: Db, orderId: string, next: OrderStatus
   if (opts.source !== 'admin' && (next === 'DELIVERED' || next === 'RETURNED' || next === 'CONFIRMED' || next === 'CANCELLED')) {
     const icon = next === 'DELIVERED' ? '✅' : next === 'RETURNED' ? '↩️' : next === 'CONFIRMED' ? '📞' : '✖️'
     const extra = activation ? (activation.enrolled.length ? ` · فُعّلت ${activation.enrolled.length} دورة` : activation.claims.length ? ` · أُرسل رمز مطالبة (${activation.claims.length})` : '') : ''
-    await notifyAdmins(db, { title: `${icon} الطلب ${o.number}: ${ORDER_STATUS_AR[next]}${extra}`, body: `${o.customerName} · ${o.totalDzd} دج · ${opts.source === 'ecotrack' ? 'EcoTrack' : opts.source === 'delivery' ? 'شركة التوصيل' : opts.source === 'call' ? 'مكالمة تأكيد' : opts.source === 'sms' ? 'رسالة SMS' : 'النظام'}`, link: `/admin/store?status=${next}` })
+    await notifyAdmins(db, { title: `${icon} الطلب ${o.number}: ${ORDER_STATUS_AR[next]}${extra}`, body: `${o.customerName} · ${o.totalDzd} دج · ${opts.source === 'ecotrack' ? 'EcoTrack' : opts.source === 'delivery' ? 'شركة التوصيل' : opts.source === 'call' ? 'مكالمة تأكيد' : opts.source === 'sms' ? 'رسالة SMS' : opts.source === 'customer' ? `ألغاه الزبون${opts.reason ? ` — ${opts.reason}` : ''}` : 'النظام'}`, link: `/admin/store?status=${next}` })
   }
   return { order: row, changed: true, activation }
 }

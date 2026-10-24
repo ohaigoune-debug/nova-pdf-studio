@@ -980,6 +980,7 @@ const ar = {
     ORDER_NOT_FOUND: 'الطلب غير موجود.',
     ORDER_EMPTY: 'السلّة فارغة.',
     ORDER_INVALID_TRANSITION: 'لا يمكن نقل الطلب إلى هذه الحالة من حالته الحالية.',
+    ORDER_NOT_CANCELLABLE: 'لا يمكن إلغاء الطلب الآن: سُلّم لشركة التوصيل. تواصل مع الدعم.',
     ECOTRACK_NOT_CONFIGURED: 'EcoTrack غير مضبوط: أدخل رابط المنصّة ورمز API في صفحة التوصيل.',
     ECOTRACK_REJECTED: 'رفضت EcoTrack الرمز أو الرابط. تحقّق منهما.',
     CALL_CONFIRM_DISABLED: 'التأكيد بالمكالمة متوقف في الإعدادات.',
