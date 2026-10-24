@@ -1,4 +1,4 @@
-import { BookOpen, ExternalLink, KeyRound, Package, Radio, Users } from 'lucide-react'
+import { BookOpen, ExternalLink, Package, Radio, Users } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { LinkProductForm, ManualEnrollDialog, RevokeEnrollmentButton, UnlinkProductButton } from '@/components/courses/course-admin'
@@ -57,11 +57,6 @@ export default async function AdminCourseDetailPage({ params }: { params: Promis
           <>
             <Button asChild variant="outline" size="sm">
               <Link href="/admin/courses">كل الدورات</Link>
-            </Button>
-            <Button asChild variant="outline" size="sm">
-              <Link href={`/admin/courses/${course.id}/codes`}>
-                <KeyRound className="size-4" /> أكواد الكتاب
-              </Link>
             </Button>
             <ManualEnrollDialog courseId={course.id} defaultExpiresOn={course.accessEndsOn} />
           </>
@@ -143,7 +138,7 @@ export default async function AdminCourseDetailPage({ params }: { params: Promis
         <Card>
           <CardHeader>
             <CardTitle>المنتجات المرتبطة</CardTitle>
-            <CardDescription>سعر الدورة = سعر الكتاب المرتبط. تسليم طلب يحوي أحد هذه المنتجات يفعّل الاشتراك تلقائياً؛ وإن لم يُفعَّل فمن «تفعيل يدوي» أو بكود الكتاب.</CardDescription>
+            <CardDescription>سعر الدورة = سعر الكتاب المرتبط. تسليم طلب يحوي أحد هذه المنتجات يفعّل الاشتراك تلقائياً؛ وإن لم يُفعَّل: «تفعيل يدوي» هنا، أو «كود تفعيل» على الطلب في المتجر (يصل هاتف التلميذ أو وليّه).</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {products.length === 0 ? (

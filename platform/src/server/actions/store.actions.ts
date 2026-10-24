@@ -141,3 +141,15 @@ export async function downloadUrlAction(orderId: string, productFileId: string):
   if (!parsed.success) return failValidation(parsed.error)
   return runAction(async () => downloadUrl(await getDb(), await requireActor(), parsed.data.orderId, parsed.data.productFileId))
 }
+
+/** المشرف: كود تفعيل الدورة لطلب (حين لم يُفعِّل التسليمُ الدورةَ) — يُرسل بالـSMS للهاتف المختار ويُعرض للمشرف */
+export async function sendActivationCodeAction(orderId: string, phone?: string | null): Promise<ActionResult<{ phone: string; codes: { courseTitle: string; code: string }[]; smsSent: boolean }>> {
+  const parsed = z.object({ orderId: uuid, phone: z.string().trim().max(20).nullish() }).safeParse({ orderId, phone })
+  if (!parsed.success) return failValidation(parsed.error)
+  return runAction(async () => {
+    const actor = await requireRole('SUPER_ADMIN')
+    const { sendActivationCode } = await import('@/server/services/course-activation.service')
+    const r = await sendActivationCode(await getDb(), actor.userId, parsed.data.orderId, { phone: parsed.data.phone || null })
+    return { phone: r.phone, codes: r.codes.map((c) => ({ courseTitle: c.courseTitle, code: c.code })), smsSent: r.smsSent }
+  })
+}

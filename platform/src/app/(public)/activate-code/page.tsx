@@ -16,8 +16,8 @@ export default async function ActivateCodePage({ searchParams }: { searchParams:
   const { t, locale } = await getT()
   const actor = await getCurrentActor()
   const { code } = await searchParams
-  // التلميذ المسجَّل دخوله يُدخل الكود من صفحته الرئيسية (مكان واضح، ثم زرّ الانضمام إلى أفواج أخرى)
-  if (actor?.role === 'STUDENT') redirect(code ? `/student?code=${encodeURIComponent(code)}` : '/student?join=1')
+  // التلميذ: لا انضمام لأفواج بالكود بعد التحوّل إلى الدورات (2026-10-24) — كود التفعيل الوحيد هو كود الدورة في /claim
+  if (actor?.role === 'STUDENT') redirect('/claim')
   return (
     <AuthCard locale={locale} title={t('activate.title')} subtitle={t('activate.subtitle')}>
       {!actor ? (

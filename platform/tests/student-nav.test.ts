@@ -40,18 +40,28 @@ describe('قائمة التلميذ بعد الدمج', () => {
     expect(new Set(labels).size).toBe(labels.length)
   })
 
-  it('قسم «التعلّم» = المجمّعات الخمسة + القسم الافتراضي فقط', () => {
-    const learn = sections.find((s) => s.title === 'التعلّم')!
-    expect(learn.items.map((i) => i.href)).toEqual([STUDENT_HUBS.courses.href, STUDENT_HUBS.lessons.href, STUDENT_HUBS.train.href, STUDENT_HUBS.exams.href, STUDENT_HUBS.progress.href, '/student/classroom'])
-    for (const key of Object.keys(STUDENT_HUBS) as StudentHubKey[]) {
-      const item = learn.items.find((i) => i.href === STUDENT_HUBS[key].href)!
+  it('قرار 2026-10-24: الرئيسية + الأقسام الخمسة فقط (الدروس، الفروض، بنك البكالوريات، تدرّب، الدورات)', () => {
+    const main = sections[0]!
+    expect(main.items.map((i) => i.href)).toEqual(['/student', STUDENT_HUBS.lessons.href, STUDENT_HUBS.exams.href, '/bac', STUDENT_HUBS.train.href, STUDENT_HUBS.courses.href])
+    expect(main.items.slice(1).map((i) => i.label)).toEqual(['الدروس', 'الفروض', 'بنك البكالوريات السابقة', 'تدرّب', 'الدورات'])
+    for (const key of ['lessons', 'exams', 'train', 'courses'] as StudentHubKey[]) {
+      const item = main.items.find((i) => i.href === STUDENT_HUBS[key].href)!
       expect(item.also).toEqual(hubPaths(key))
     }
   })
 
-  it('الأقسام العامة المكرّرة والمنتدى لم تعد في قائمة التلميذ؛ بنك البكالوريات والمتجر باقيان', () => {
-    for (const dup of ['/exams', '/quizzes', '/lessons', '/videos', '/forum']) expect(hrefs).not.toContain(dup)
-    expect(hrefs).toEqual(expect.arrayContaining(['/bac', '/store', '/student/classroom', '/student/support', '/student/profile']))
+  it('الحضور والأفواج لم يعودا في قائمة التلميذ (الصفحات باقية بمساراتها)', () => {
+    for (const hidden of ['/student/attendance/card', '/student/attendance', '/student/groups', '/student/classroom', '/store']) expect(hrefs).not.toContain(hidden)
+    for (const href of ['/student/attendance', '/student/attendance/card', '/student/groups']) expect(existsSync(pageFile(href)), href).toBe(true)
+  })
+
+  it('قوائم الأستاذ والمساعد بلا ماسح ولا حضور ولا أكواد', () => {
+    for (const role of ['TEACHER', 'ASSISTANT'] as const) {
+      const h = navFor(role)
+        .flatMap((s) => s.items)
+        .map((i) => i.href)
+      expect(h.some((x) => /scanner|attendance|\/sessions|\/codes/.test(x)), `${role}: ${h.join(',')}`).toBe(false)
+    }
   })
 
   it('كل مدخل قديم ما زال موجوداً كتبويب في مجمّعه وله صفحة فعلية', () => {

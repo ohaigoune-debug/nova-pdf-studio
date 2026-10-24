@@ -371,7 +371,7 @@ describe('مراجعة PR #2 — الملاحظات الأربع', () => {
 })
 
 describe('مراجعة PR #2 (الجولة الثانية)', () => {
-  it('1. عضوية فوج الدورة بلا اشتراك لا تفتح المحتوى (strict)؛ كود الكتاب يفعّل الدورة ولا يولّده إلا المشرف', async () => {
+  it('1. عضوية فوج الدورة بلا اشتراك لا تفتح المحتوى (strict)؛ رموز الانضمام مغلقة لأفواج الدورات', async () => {
     const c = await createCourse(h.db, admin, { title: 'دورة بعضوية قديمة', workspaceId, season: '2026/2027', accessEndsOn: '2027-06-30', status: 'PUBLISHED' })
     const s = await makeStudent(h.db, 'تلميذ بعضوية قديمة')
     await h.db.insert(groupStudents).values({ groupId: c.groupId, studentId: s.studentId!, workspaceId, status: 'ACTIVE' })
@@ -389,16 +389,11 @@ describe('مراجعة PR #2 (الجولة الثانية)', () => {
     const [batch] = await h.db.insert(enrollmentCodeBatches).values({ workspaceId, groupId: c.groupId, count: 1, createdByUserId: teacher.userId }).returning()
     const legacyCode = 'ABC-DEFG'
     await h.db.insert(enrollmentCodes).values({ batchId: batch!.id, workspaceId, groupId: c.groupId, codeHash: hashEnrollmentCode(legacyCode), codePrefix: 'ABC', status: 'ACTIVE', createdByUserId: teacher.userId })
-    // قرار المالك (2026-10-24): كود الكتاب يفعّل الدورة ⇒ اشتراك CODE + عضوية الفوج، والكود يُستهلك
+    // قرار المالك (2026-10-24): لا أكواد انضمام لأفواج الدورات، حتى من المشرف — التفعيل بالتسليم أو بكود الطلب (/claim)
     const s2 = await makeStudent(h.db, 'تلميذ برمز قديم')
-    const redeemed = await redeemEnrollmentCode(h.db, s2, legacyCode)
-    expect(redeemed.courseId).toBe(c.id)
-    expect((await h.db.select().from(courseEnrollments).where(and(eq(courseEnrollments.courseId, c.id), eq(courseEnrollments.studentId, s2.studentId!))))[0]?.source).toBe('CODE')
-    expect(await reachableGroupIds(h.db, s2.studentId!)).toContain(c.groupId)
-    const s3 = await makeStudent(h.db, 'تلميذ ثانٍ')
-    await expectCode(() => redeemEnrollmentCode(h.db, s3, legacyCode), 'CODE_USED')
-    // المشرف وحده يولّد أكواد الدورة
-    expect((await generateCodes(h.db, admin, { groupId: c.groupId, count: 2 })).codes.length).toBe(2)
+    await expectCode(() => redeemEnrollmentCode(h.db, s2, legacyCode), 'COURSE_GROUP_CODE')
+    expect((await h.db.select().from(groupStudents).where(eq(groupStudents.studentId, s2.studentId!))).length).toBe(0)
+    await expectCode(() => generateCodes(h.db, admin, { groupId: c.groupId, count: 1 }), 'COURSE_GROUP_CODE')
     const { createGroup } = await import('@/server/services/groups.service')
     const g = await createGroup(h.db, teacher, { name: 'فوج عادي 2' })
     const codes = await generateCodes(h.db, teacher, { groupId: g.id, count: 1 })

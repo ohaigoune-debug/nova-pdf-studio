@@ -27,9 +27,9 @@ export interface GeneratedCode {
  */
 export async function generateCodes(db: Db, actor: Actor, input: GenerateCodesInput) {
   const g = await assertGroupAccess(db, actor, input.groupId)
-  // فوج دورة: أكواد التفعيل (المطبوعة في الكتاب) يولّدها مشرف المنصّة وحده
+  // فوج دورة: لا أكواد انضمام (قرار المالك 2026-10-24) — التفعيل بالتسليم أو بكود تفعيل تولّده الإدارة لطلب بعينه
   const [course] = await db.select({ id: courses.id }).from(courses).where(and(eq(courses.groupId, g.id), isNull(courses.deletedAt))).limit(1)
-  if (course && actor.role !== 'SUPER_ADMIN') throw new AppError('COURSE_GROUP_CODE')
+  if (course) throw new AppError('COURSE_GROUP_CODE')
   const count = Math.floor(input.count)
   if (!Number.isFinite(count) || count < 1 || count > 500) throw new AppError('VALIDATION', { field: 'count' })
 

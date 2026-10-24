@@ -146,7 +146,7 @@ export async function createCourse(db: Db, actor: Actor, input: CourseInput): Pr
   const title = input.title.trim()
   const slug = await uniqueSlug(db, courseSlugify(input.slug?.trim() || title))
 
-  return db.transaction(async (tx) => {
+  const created = await db.transaction(async (tx) => {
     const [g] = await tx
       .insert(groups)
       .values({
@@ -190,6 +190,8 @@ export async function createCourse(db: Db, actor: Actor, input: CourseInput): Pr
     await writeAudit(tx, { actorUserId: actor.userId, workspaceId: ws.id, action: 'course.create', entityType: 'course', entityId: row.id, newValue: { title, groupId: g.id, season: row.season, plan: row.plan } })
     return row
   })
+  if (created.status === 'PUBLISHED') await import('./full-access.service').then((m) => m.enrollFullAccessInCourse(db, created.id))
+  return created
 }
 
 export async function updateCourse(db: Db, actor: Actor, id: string, input: Partial<CourseInput>): Promise<CourseRow> {
@@ -248,6 +250,8 @@ export async function setCourseStatus(db: Db, actor: Actor, id: string, status: 
   if (c.status === status) return
   await db.update(courses).set({ status, updatedAt: new Date() }).where(eq(courses.id, id))
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'course.status', entityType: 'course', entityId: id, oldValue: { status: c.status }, newValue: { status } })
+  // التلاميذ ذوو الوصول الشامل يُشتركون في كل دورة تُنشر (استيراد متأخر: full-access يعتمد على هذا الملف)
+  if (status === 'PUBLISHED') await import('./full-access.service').then((m) => m.enrollFullAccessInCourse(db, id))
 }
 
 export interface CourseListItem {
@@ -453,6 +457,8 @@ export interface EnrollInput {
   orderId?: string | null
   expiresAt?: Date | null
   activatedByUserId?: string | null
+  /** بلا إشعار ولا خط زمني (الوصول الشامل الجماعي: لا نغرق التلميذ بإشعار لكل دورة) */
+  silent?: boolean
 }
 
 /**
@@ -518,8 +524,8 @@ export async function enrollStudent(db: Db, actor: Actor | null, input: EnrollIn
     if (existing && !reactivated) return row
 
     await tx.update(students).set({ studentType: 'COURSE' }).where(and(eq(students.id, st.id), eq(students.studentType, 'FREE')))
-    await addTimeline(tx, { studentId: st.id, workspaceId: course.workspaceId, type: 'ENROLLED', title: `اشترك في دورة ${course.title}`, meta: { courseId: course.id, source: input.source } })
-    await notify(tx, {
+    if (!input.silent) await addTimeline(tx, { studentId: st.id, workspaceId: course.workspaceId, type: 'ENROLLED', title: `اشترك في دورة ${course.title}`, meta: { courseId: course.id, source: input.source } })
+    if (!input.silent) await notify(tx, {
       userId: st.userId,
       workspaceId: course.workspaceId,
       type: 'ENROLLED',

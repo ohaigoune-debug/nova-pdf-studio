@@ -1,36 +1,40 @@
-import { CalendarCheck, CalendarX, KeyRound, QrCode, Smartphone, TrendingUp, UsersRound } from 'lucide-react'
+import { BookMarked, BookOpen, FileStack, FileText, Gamepad2, Smartphone, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import { ContentGrid } from '@/components/domain/content-cards'
-import { JoinGroupCard, JoinGroupMenu } from '@/components/domain/join-group'
 import { PhoneVerifyBanner } from '@/components/domain/otp-banner'
-import { AttendanceStatusBadge, EnrollmentStatusBadge } from '@/components/domain/status-badges'
 import { TeacherBanner } from '@/components/domain/teacher-banner'
 import { NextLiveBanner } from '@/components/live/next-live-banner'
 import { upcomingForStudent } from '@/server/services/live.service'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, EmptyState, Progress, StatCard } from '@/components/ui/misc'
-import { dayName, t } from '@/i18n'
-import { formatClock, formatDateTime, percent } from '@/lib/utils'
+import { EmptyState, StatCard } from '@/components/ui/misc'
+import { t } from '@/i18n'
+import { formatDateTime, percent } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
 import { listStudentContent } from '@/server/queries/student-extras.queries'
 import { getAboutSettings } from '@/server/services/about.service'
+import { myCourses } from '@/server/services/courses.service'
 import { isPhoneVerified } from '@/server/services/otp.service'
 import { skillMap } from '@/server/services/skills.service'
-import { studentHome } from '@/server/services/students.service'
 
-export default async function StudentHomePage({ searchParams }: { searchParams: Promise<{ code?: string; join?: string; verify?: string }> }) {
+export default async function StudentHomePage({ searchParams }: { searchParams: Promise<{ verify?: string }> }) {
   const actor = await requirePageActor('STUDENT')
   const q = await searchParams
-  const prefill = q.code?.trim().slice(0, 40) || undefined
   const db = await getDb()
-  const [home, suggested, skills, about, apk, phoneV] = await Promise.all([studentHome(db, actor), listStudentContent(db, actor, { limit: 3 }), skillMap(db, actor.studentId!), getAboutSettings(db), appDownload({ onlyAndroid: true }), isPhoneVerified(db, actor.userId)])
+  const [courses, suggested, skills, about, apk, phoneV] = await Promise.all([myCourses(db, actor), listStudentContent(db, actor, { limit: 3 }), skillMap(db, actor.studentId!), getAboutSettings(db), appDownload({ onlyAndroid: true }), isPhoneVerified(db, actor.userId)])
   const nextLive = (await upcomingForStudent(db, actor).catch(() => []))[0] ?? null
   const avgSkill = skills.length ? skills.reduce((s, k) => s + k.score, 0) / skills.length : null
-  const open = home.groups.find((g) => g.hasOpenSession && g.status === 'ACTIVE')
-  const suspended = home.groups.filter((g) => g.status === 'SUSPENDED_DUE_TO_ABSENCE')
+  const active = courses.filter((c) => c.status === 'ACTIVE')
+  // الأقسام الخمسة (قرار المالك 2026-10-24): الحضور والأفواج مخفية من واجهة التلميذ
+  const tiles = [
+    { href: '/student/lessons', label: 'الدروس', hint: 'منظَّمة بالمادة والشعبة', icon: BookOpen },
+    { href: '/student/exams', label: 'الفروض', hint: 'فروض واختبارات مع الحلول', icon: FileText },
+    { href: '/bac', label: 'بنك البكالوريات', hint: 'مواضيع السنوات السابقة', icon: FileStack },
+    { href: '/student/play', label: 'تدرّب', hint: 'MADRASADZ PLAY وتمارين', icon: Gamepad2 },
+    { href: '/student/courses', label: 'الدورات', hint: active.length ? `${active.length} دورة مفعّلة` : 'اشترِ دورة مع الكتاب', icon: BookMarked }
+  ]
 
   return (
     <div className="space-y-6">
@@ -41,31 +45,17 @@ export default async function StudentHomePage({ searchParams }: { searchParams: 
         action={
           <span className="flex flex-wrap gap-2">
             <Button asChild size="lg" variant="gold">
-              <Link href="/student/attendance/card">
-                <QrCode className="size-5" /> {t('nav.attendanceCard')}
+              <Link href={active.length ? '/student/courses' : '/student/courses/catalog'}>
+                <BookMarked className="size-5" /> {active.length ? 'دوراتي' : 'شراء دورة'}
               </Link>
             </Button>
-            {home.groups.length > 0 ? <JoinGroupMenu code={prefill} open={Boolean(prefill || q.join)} variant="ghost" size="lg" /> : null}
           </span>
         }
       />
       {/* الحصة المباشرة القادمة (دورات مدفوعة): لا شيء إن لم تكن حصة */}
       <NextLiveBanner session={nextLive ? { ...nextLive, startsAt: nextLive.startsAt.toISOString() } : null} />
-      {/* التلميذ بلا فوج: إدخال الكود هنا مباشرة، في مكان واضح، بلا مغادرة الصفحة */}
-      {home.groups.length === 0 ? <JoinGroupCard code={prefill} /> : null}
       {/* الهاتف غير مؤكَّد: شريط صغير يفتح بطاقة OTP (مفتوحة مباشرة بعد التسجيل) */}
       {!phoneV.verified ? <PhoneVerifyBanner phone={phoneV.phone} open={q.verify === '1'} /> : null}
-
-      {open ? (
-        <Alert tone="success" title={t('dashboard.openSessionNow')}>
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <span>{open.name}</span>
-            <Button asChild size="sm">
-              <Link href={`/student/attendance/card?group=${open.groupId}`}>{t('nav.attendanceCard')}</Link>
-            </Button>
-          </div>
-        </Alert>
-      ) : null}
       {apk ? (
         <a href="/download/android" className="flex items-center gap-3 rounded-lg border border-primary/25 bg-primary/5 p-4 transition-colors hover:bg-primary/10">
           <Smartphone className="size-7 shrink-0 text-primary" />
@@ -75,76 +65,51 @@ export default async function StudentHomePage({ searchParams }: { searchParams: 
           </span>
         </a>
       ) : null}
-      {suspended.map((g) => (
-        <Alert key={g.groupId} tone="destructive" title={`تسجيلك في فوج ${g.name} معلّق`}>
-          {t('groups.suspendedBanner', { n: g.unexcused })} تواصل مع أستاذك لإعادة التفعيل.
-        </Alert>
-      ))}
 
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        <StatCard label={t('dashboard.attendanceRate')} value={percent(home.attendance.rate)} icon={CalendarCheck} tone={home.attendance.rate !== null && home.attendance.rate < 70 ? 'warning' : 'success'} />
-        <StatCard label={t('attendanceStatus.UNEXCUSED')} value={home.unexcusedTotal} icon={CalendarX} tone={home.unexcusedTotal >= 3 ? 'destructive' : 'default'} />
-        <StatCard label={t('nav.myGroups')} value={home.groups.length} icon={UsersRound} />
-        <StatCard label={t('dashboard.skillsLevel')} value={percent(avgSkill)} hint={avgSkill === null ? t('studentPages.skillsEmpty') : `${skills.length} مهارة مقيَّمة`} icon={TrendingUp} tone={avgSkill !== null && avgSkill < 60 ? 'warning' : 'default'} />
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        {tiles.map((tile) => (
+          <Link key={tile.href} href={tile.href} className="group rounded-xl border bg-card p-4 transition-colors hover:border-primary/50 hover:bg-primary/5">
+            <tile.icon className="size-6 text-primary" />
+            <span className="mt-2 block font-extrabold">{tile.label}</span>
+            <span className="block text-xs text-muted-foreground">{tile.hint}</span>
+          </Link>
+        ))}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader className="flex-row items-center justify-between">
-            <CardTitle>{t('nav.myGroups')}</CardTitle>
+            <CardTitle>دوراتي</CardTitle>
             <Button asChild variant="link" size="sm">
-              <Link href="/student/groups">{t('common.viewAll')}</Link>
+              <Link href="/student/courses/catalog">شراء دورة</Link>
             </Button>
           </CardHeader>
           <CardContent>
-            {home.groups.length === 0 ? (
-              <EmptyState icon={KeyRound} title={t('studentPages.noGroups')} />
+            {active.length === 0 ? (
+              <EmptyState icon={BookMarked} title="لا دورة مفعّلة بعد" description="اطلب كتاب الدورة: يصلك بالدفع عند الاستلام وتُفعَّل الدورة لحظة التسليم." action={<Button asChild><Link href="/student/courses/catalog">تصفّح الدورات</Link></Button>} />
             ) : (
               <ul className="divide-y">
-                {home.groups.map((g) => (
-                  <li key={g.groupId} className="flex items-center justify-between gap-3 py-3">
+                {active.map((c) => (
+                  <li key={c.id} className="flex items-center justify-between gap-3 py-3">
                     <div className="min-w-0">
-                      <p className="truncate font-bold">{g.name}</p>
+                      <Link href={c.href} className="truncate font-bold hover:underline">
+                        {c.title}
+                      </Link>
                       <p className="text-xs text-muted-foreground">
-                        {dayName(g.dayOfWeek)} {formatClock(g.startTime)} {g.room ? `· ${g.room}` : ''} {g.levelName ? `· ${g.levelName}` : ''}
+                        {c.teacherName} · {c.videos} فيديو · {c.lessons} درس
+                        {c.nextLive ? ` · الحصة القادمة ${formatDateTime(c.nextLive.startsAt)}` : ''}
                       </p>
-                      <div className="mt-2 flex items-center gap-2">
-                        <Progress value={(g.unexcused / g.maxUnexcused) * 100} tone={g.unexcused >= g.maxUnexcused - 1 ? 'destructive' : 'warning'} className="h-1.5 w-32" />
-                        <span className="text-[11px] text-muted-foreground">{t('studentPages.unexcusedOf', { n: g.unexcused, max: g.maxUnexcused })}</span>
-                      </div>
                     </div>
-                    <EnrollmentStatusBadge status={g.status} />
+                    <Button asChild size="sm" variant="outline">
+                      <Link href={c.href}>دخول</Link>
+                    </Button>
                   </li>
                 ))}
               </ul>
             )}
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="flex-row items-center justify-between">
-            <CardTitle>{t('studentPages.attendanceRecord')}</CardTitle>
-            <Button asChild variant="link" size="sm">
-              <Link href="/student/attendance">{t('common.viewAll')}</Link>
-            </Button>
-          </CardHeader>
-          <CardContent>
-            {home.recent.length === 0 ? (
-              <p className="text-sm text-muted-foreground">{t('common.empty')}</p>
-            ) : (
-              <ul className="space-y-3">
-                {home.recent.map((r) => (
-                  <li key={r.recordId} className="flex items-center justify-between gap-2 text-sm">
-                    <div className="min-w-0">
-                      <p className="truncate font-semibold">{r.sessionTitle ?? r.groupName}</p>
-                      <p className="text-[11px] text-muted-foreground">{formatDateTime(r.scheduledAt)}</p>
-                    </div>
-                    <AttendanceStatusBadge status={r.status} />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-        </Card>
+        <StatCard label={t('dashboard.skillsLevel')} value={percent(avgSkill)} hint={avgSkill === null ? t('studentPages.skillsEmpty') : `${skills.length} مهارة مقيَّمة`} icon={TrendingUp} tone={avgSkill !== null && avgSkill < 60 ? 'warning' : 'default'} />
       </div>
 
       <section>

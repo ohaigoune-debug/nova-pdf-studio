@@ -55,7 +55,7 @@ export function CourseLandingView({ landing }: { landing: CourseLanding }) {
           <CardTitle className="flex items-center gap-2">
             <BookMarked className="size-5 text-primary" /> كيف أشترك؟
           </CardTitle>
-          <CardDescription>اطلب الكتاب فهو طلب الدورة: يصلك الكتاب بالدفع عند الاستلام، وتُفعَّل الدورة على حسابك لحظة التسليم تلقائياً. وإن كان معك كود مطبوع في الكتاب فأدخله من حسابك.</CardDescription>
+          <CardDescription>اطلب الكتاب فهو طلب الدورة: يصلك الكتاب بالدفع عند الاستلام، وتُفعَّل الدورة على حسابك لحظة التسليم تلقائياً. وإن لم تُفعَّل، ترسل لك الإدارة كود تفعيل على هاتفك أو هاتف وليّك.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           {products.length ? (
@@ -79,13 +79,8 @@ export function CourseLandingView({ landing }: { landing: CourseLanding }) {
           )}
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline">
-              <Link href="/activate-code">
-                <KeyRound className="size-4" /> لديّ كود الكتاب
-              </Link>
-            </Button>
-            <Button asChild variant="ghost">
               <Link href="/claim">
-                <KeyRound className="size-4" /> وصلني رمز بالـSMS
+                <KeyRound className="size-4" /> لديّ كود تفعيل
               </Link>
             </Button>
             <Button asChild variant="outline">

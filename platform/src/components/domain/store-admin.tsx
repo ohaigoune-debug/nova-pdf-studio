@@ -1,12 +1,12 @@
 'use client'
 
-import { Archive, CheckCircle2, Clock, Eye, EyeOff, PackageCheck, PhoneMissed, RotateCcw, Send, Trash2, Truck, Undo2, XCircle } from 'lucide-react'
+import { Archive, CheckCircle2, Clock, Eye, EyeOff, KeyRound, PackageCheck, PhoneMissed, RotateCcw, Send, Trash2, Truck, Undo2, XCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
 import { sendToEcotrackAction } from '@/server/actions/ecotrack.actions'
-import { deleteProductAction, setOrderStatusAction, setProductStatusAction } from '@/server/actions/store.actions'
+import { deleteProductAction, sendActivationCodeAction, setOrderStatusAction, setProductStatusAction } from '@/server/actions/store.actions'
 
 export function ProductRowActions({ id, status }: { id: string; status: string }) {
   const router = useRouter()
@@ -61,6 +61,16 @@ export function OrderRowActions({ id, status, needsShipping, ecotrack = false, p
       toast('success', `أُرسل الطرد إلى EcoTrack — رقم التتبّع ${r.data.tracking}`)
       router.refresh()
     })
+  const activationCode = () =>
+    start(async () => {
+      const phone = prompt('هاتف استلام كود التفعيل (اتركه فارغاً لهاتف الطلب، أو اكتب هاتف الولي / رقماً آخر):', '')
+      if (phone === null) return
+      const r = await sendActivationCodeAction(id, phone || null)
+      if (!r.ok) return toast('error', r.error.message)
+      const list = r.data.codes.map((c) => `${c.courseTitle}: ${c.code}`).join(' · ')
+      // نافذة لا تختفي: قد يحتاج المشرف إلى إملاء الكود هاتفياً
+      alert(`${r.data.smsSent ? 'أُرسل كود التفعيل بالـSMS' : 'تعذّر إرسال SMS — أملِ الكود على التلميذ هاتفياً'} إلى ${r.data.phone}\n\n${list}\n\nيُدخله التلميذ مع هذا الرقم في madrasadz.com/claim`)
+    })
   const confirming = status === 'PENDING' || status === 'NO_ANSWER' || status === 'CALL_LATER'
   return (
     <div className="flex flex-wrap justify-end gap-1">
@@ -100,6 +110,11 @@ export function OrderRowActions({ id, status, needsShipping, ecotrack = false, p
       {confirming || status === 'CONFIRMED' || status === 'SHIPPED' ? (
         <Button size="sm" variant="ghost" loading={pending} onClick={() => go('CANCELLED')} title={provider === 'ecotrack' && status === 'SHIPPED' ? 'إلغاء (احذف الطرد من EcoTrack أيضاً من صفحة التوصيل)' : 'إلغاء'}>
           <XCircle className="size-4 text-destructive" />
+        </Button>
+      ) : null}
+      {status === 'DELIVERED' || status === 'SHIPPED' ? (
+        <Button size="sm" variant="ghost" loading={pending} onClick={activationCode} title="لم تُفعَّل الدورة؟ أرسل كود تفعيل لهاتف التلميذ أو وليّه">
+          <KeyRound className="size-4" /> كود تفعيل
         </Button>
       ) : null}
       {status === 'CANCELLED' ? (

@@ -275,20 +275,59 @@ describe('5. التأكيد بالمكالمة الفائتة (NOVA Call)', () =
   })
 })
 
-describe('6. كود الكتاب يفعّل الدورة', () => {
-  it('المشرف يولّد أكواد الدورة؛ التلميذ يُدخل الكود فيُفعَّل اشتراكه ويُستهلك الكود', async () => {
-    const s7 = await makeStudent(h.db, 'تلميذ الكود')
+describe('6. كود التفعيل من الإدارة (حين يفشل التفعيل بالتسليم) والوصول الشامل', () => {
+  it('أكواد الانضمام ممنوعة لأفواج الدورات حتى للمشرف', async () => {
     const course = (await h.db.select().from((await import('@/server/db/schema')).courses).where(eq((await import('@/server/db/schema')).courses.id, courseId)))[0]!
-    await expectCode(() => generateCodes(h.db, teacher, { groupId: course.groupId, count: 1 }), 'COURSE_GROUP_CODE')
-    const batch = await generateCodes(h.db, admin, { groupId: course.groupId, count: 3, label: 'طبعة 1' })
-    expect(batch.codes.length).toBe(3)
-    const r = await redeemEnrollmentCode(h.db, s7, batch.codes[0]!.code)
-    expect(r.courseId).toBe(courseId)
-    expect(r.courseTitle).toBe('دورة الأدب العربي 2027')
-    const e = await enrollment(s7.studentId!)
+    await expectCode(() => generateCodes(h.db, admin, { groupId: course.groupId, count: 1 }), 'COURSE_GROUP_CODE')
+  })
+  it('المشرف يرسل كود تفعيل لطلب مسلَّم إلى هاتف الولي؛ التلميذ يفعّل بالهاتف + الكود', async () => {
+    const { sendActivationCode } = await import('@/server/services/course-activation.service')
+    const { claimCourse } = await import('@/server/services/claims.service')
+    // طلب اشتراه حساب لا يملك ملف تلميذ مرتبطاً: لم تُفعَّل الدورة لأحد
+    const buyer = await makeStudent(h.db, 'تلميذ الكود')
+    const o = await placeOrder(h.db, buyer, { items: [{ productId: bookId, qty: 1 }], customerName: 'وليّ', phone: '0550111222', wilayaId, address: 'x' })
+    await expectCode(() => sendActivationCode(h.db, admin.userId, o.id), 'ORDER_INVALID_TRANSITION')
+    await setOrderStatus(h.db, admin, o.id, 'CONFIRMED')
+    await setOrderStatus(h.db, admin, o.id, 'SHIPPED')
+    sms.length = 0
+    const r = await sendActivationCode(h.db, admin.userId, o.id, { phone: '0661999888' })
+    expect(r.phone).toBe('0661999888')
+    expect(r.codes).toHaveLength(1)
+    expect(r.smsSent).toBe(true)
+    expect(sms.some((m) => m.to === '0661999888' && m.text.includes(r.codes[0]!.code))).toBe(true)
+    const kid = await makeStudent(h.db, 'التلميذ الحقيقي')
+    const done = await claimCourse(h.db, kid, { phone: '0661 999 888', code: r.codes[0]!.code })
+    expect(done.courseId).toBe(courseId)
+    expect((await enrollment(kid.studentId!))?.source).toBe('CLAIM')
+  })
+  it('الوصول الشامل: المسجّلون بكود في فوج عادي يُشترَكون في كل دورة منشورة (والجديدة عند نشرها)', async () => {
+    const { grantFullAccessToCodeStudents } = await import('@/server/services/full-access.service')
+    const { createGroup } = await import('@/server/services/groups.service')
+    const g = await createGroup(h.db, teacher, { name: 'قسم الأستاذ' })
+    const codes = await generateCodes(h.db, teacher, { groupId: g.id, count: 2 })
+    const old1 = await makeStudent(h.db, 'تلميذ قديم 1')
+    const old2 = await makeStudent(h.db, 'تلميذ قديم 2')
+    await redeemEnrollmentCode(h.db, old1, codes.codes[0]!.code)
+    await redeemEnrollmentCode(h.db, old2, codes.codes[1]!.code)
+    const dry = await grantFullAccessToCodeStudents(h.db, null, { dryRun: true })
+    expect(dry.candidates).toBeGreaterThanOrEqual(2)
+    expect(await enrollment(old1.studentId!)).toBeUndefined()
+    const run = await grantFullAccessToCodeStudents(h.db, admin)
+    expect(run.enrollmentsCreated).toBeGreaterThanOrEqual(2)
+    const e = await enrollment(old1.studentId!)
     expect(e?.status).toBe('ACTIVE')
-    expect(e?.source).toBe('CODE')
-    const s8 = await makeStudent(h.db, 'تلميذ كود مستهلك')
-    await expectCode(() => redeemEnrollmentCode(h.db, s8, batch.codes[0]!.code), 'CODE_USED')
+    expect(e?.source).toBe('GIFT')
+    expect(e?.expiresAt?.toISOString().slice(0, 10)).toBe('2027-07-31')
+    // بلا إشعار لكل دورة
+    expect((await h.db.select().from(notifications).where(eq(notifications.userId, old1.userId))).some((n) => n.title.includes('تم تفعيل اشتراكك'))).toBe(false)
+    // إعادة التشغيل لا تكرّر
+    expect((await grantFullAccessToCodeStudents(h.db, admin)).enrollmentsCreated).toBe(0)
+    // دورة تُنشر لاحقاً ⇒ يُشترَكون فيها تلقائياً
+    const workspaceId = await workspaceIdOfTeacher(h.db, teacher)
+    const later = await createCourse(h.db, admin, { title: 'دورة جديدة', workspaceId, season: '2026/2027', status: 'DRAFT' })
+    const { setCourseStatus } = await import('@/server/services/courses.service')
+    await setCourseStatus(h.db, admin, later.id, 'PUBLISHED')
+    const e2 = (await h.db.select().from(courseEnrollments).where(and(eq(courseEnrollments.courseId, later.id), eq(courseEnrollments.studentId, old2.studentId!))))[0]
+    expect(e2?.status).toBe('ACTIVE')
   })
 })
