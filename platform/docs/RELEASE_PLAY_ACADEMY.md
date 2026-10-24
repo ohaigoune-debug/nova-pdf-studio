@@ -62,6 +62,29 @@ docker compose -f docker-compose.prod.yml exec -T app sh -c 'npx tsx scripts/pla
 ```
 المتوقع: نفس الأرقام مع «جديد». إعادة التشغيل آمنة (لا تكرار).
 
+## 5ب) استيراد ملخصات الدروس (837) — تجربة بلا كتابة أولًا
+
+يُشغَّل من خدمة `tools`: صورة `app` لا تحتوي `scripts/` ولا `content/` ولا `tsx`. تتشارك `tools` حجم `uploads` مع التطبيق، فتُحفظ ملفات PDF حيث يقرؤها التطبيق.
+النسخة الاحتياطية في الخطوة 1 إلزامية قبل الاستيراد الحقيقي.
+
+```sh
+docker compose -f docker-compose.prod.yml --profile tools build tools
+docker compose -f docker-compose.prod.yml --profile tools run --rm tools npx tsx scripts/lessons/import.ts --dry-run | tail -5
+```
+المتوقع: `المجموع: 837 درساً — 837 جديد، 0 محدَّث، 0 دون تغيير، 0 ملف PDF خُزّن، 0 خطأ`. إن ظهر أي خطأ فتوقّف وأرسل الأسطر.
+
+```sh
+# 1) استيراد كمسودّات غير منشورة (لا تظهر للتلاميذ بعد) — يمكن البدء بصف واحد: --grade 3AS
+docker compose -f docker-compose.prod.yml --profile tools run --rm tools npx tsx scripts/lessons/import.ts | tail -5
+# 2) بعد مراجعة عيّنة من لوحة الإدارة: النشر
+docker compose -f docker-compose.prod.yml --profile tools run --rm tools npx tsx scripts/lessons/import.ts --publish | tail -5
+```
+- كل درس يصبح سطر `content` من نوع PDF مفتاحه `slug` من `content/lessons/MANIFEST.json`. يُربط بالصف والمادة، وبالشعبة إن كانت واحدة. «كل الشعب» والشعب المتعددة تبقى `NULL`، فيظهر الدرس لكل شعب الصف.
+- إعادة التشغيل آمنة: لا تكرار في الدروس ولا في الملفات (بصمة sha256). لا حذف، ولا يُلغى نشر درس منشور.
+- كل تشغيل حقيقي يكتب سطراً في `audit_logs` بالإجراء `lessons.import.run`.
+- التراجع عن الاستيراد وحده:
+  `delete from content where slug in (…)`، وقائمة الـ slugs في `MANIFEST.json`. أو استرجاع النسخة الاحتياطية كاملة.
+
 ## 6) التحقق من الموقع
 
 ```sh

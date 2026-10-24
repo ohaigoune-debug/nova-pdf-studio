@@ -20,6 +20,7 @@
     "db:rls": "tsx src/server/db/apply-rls.ts",
     "play:validate": "tsx scripts/play/validate.ts",
     "play:import": "tsx scripts/play/import.ts",
+    "lessons:import": "tsx scripts/lessons/import.ts",
     "jobs:worker": "tsx src/server/jobs/worker.ts",
     "push:keys": "tsx src/server/lib/web-push-keys.ts",
     "build:standalone": "NEXT_OUTPUT=standalone next build"
