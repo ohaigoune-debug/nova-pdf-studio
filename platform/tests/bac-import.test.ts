@@ -144,6 +144,17 @@ describe('استيراد ملفات البكالوريا', () => {
     expect(calls).toHaveLength(3)
     expect(calls[1]! + calls[2]!).toBe(calls[0])
 
+    // ردّ يحمل المحرف NUL (0x00) ⇒ يُحذف قبل الحفظ بدل «invalid byte sequence for encoding UTF8: 0x00»
+    setAiProviderForTests({
+      ...fakeAi,
+      async extractQuestions() {
+        return { questions: [{ kind: 'EXERCISE', type: 'OPEN', title: 'Esercizio\u0000 1', body: 'Testo con\u0000 NUL nel mezzo', options: [], answerKey: null, solution: 'sol\u0000', points: 4, difficulty: 2, estimatedMinutes: 30, topic: null, keywords: ['k\u0000'], children: [] }], note: null }
+      }
+    })
+    const nul = await processDocument(h.db, math.id, { userId: admin.userId })
+    expect(nul.error).toBeNull()
+    expect(nul.status).toBe('NEEDS_REVIEW')
+
     // خطأ غير متوقع ⇒ السبب المفهوم + الرسالة التقنية الأصلية محفوظان معاً للتشخيص
     setAiProviderForTests({ ...fakeAi, extractQuestions: () => Promise.reject(new TypeError('boom: cannot read x')) })
     const failed = await processDocument(h.db, math.id, { userId: admin.userId })
