@@ -5,8 +5,8 @@
 <title>الكرة والمقاطع المستوية</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -52,9 +52,9 @@ main{position:relative;z-index:1}
 
 <p class="goal"><span class="k">الهدف:</span> أن تحسب مساحة الكرة وحجم الجسم الكروي، وأن تحدّد طبيعة مقطع كرة (أو مجسّم آخر) بمستوٍ، وأن تحسب نصف قطر دائرة المقطع باستعمال نظرية فيثاغورس.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> الكرة ذات المركز O ونصف القطر R هي مجموعة نقاط الفضاء التي بُعدها عن O يساوي R. مقطعها بمستوٍ هو دائرة، ونصف قطر هذه الدائرة r يرتبط بـ R وبالبُعد d بين المركز والمستوي بالعلاقة r² = R² − d².</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الكرة ذات المركز O ونصف القطر R هي مجموعة نقاط الفضاء التي بُعدها عن O يساوي R. مقطعها بمستوٍ هو دائرة، ونصف قطر هذه الدائرة r يرتبط بـ R وبالبُعد d بين المركز والمستوي بالعلاقة <bdi dir="ltr">r² = R² − d²</bdi>.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <circle cx="150" cy="90" r="70" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
 <ellipse cx="150" cy="60" rx="63" ry="12" fill="#fde68a" stroke="#a16207" stroke-width="1.5"/>
 <line x1="150" y1="90" x2="150" y2="60" stroke="#c2410c" stroke-width="2"/>
@@ -69,35 +69,35 @@ main{position:relative;z-index:1}
 <text x="400" y="45" text-anchor="middle" font-weight="700" fill="#15803d">r² = R² − d²</text>
 <text x="400" y="85" text-anchor="middle" font-weight="700" fill="#1d4ed8">A = 4πR²</text>
 <text x="400" y="125" text-anchor="middle" font-weight="700" fill="#1d4ed8">V = (4/3)πR³</text>
-<text x="400" y="160" text-anchor="middle" font-size="14">d &lt; R ⇒ المقطع دائرة مركزها H</text>
+<text x="483" y="160" font-size="14" text-anchor="end">d &lt; R</text><text x="449" y="160" font-size="14" direction="rtl" text-anchor="start">⇐ المقطع دائرة مركزها H</text>
 </svg><figcaption>الشكل 1: مستوٍ يقطع كرة مركزها O على بُعد d؛ المقطع دائرة مركزها H، والمثلث OHM قائم في H.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">الكرة</span> ذات المركز O ونصف القطر R: مجموعة النقاط M من الفضاء بحيث OM = R. <span class="k">الجسم الكروي</span> (الجُلّة): النقاط التي OM ≤ R (السطح وما بداخله).</li>
-<li><span class="k">المساحة والحجم:</span> مساحة الكرة A = 4πR²، وحجم الجسم الكروي V = (4/3)πR³.</li>
-<li><span class="k">مقطع كرة بمستوٍ:</span> ليكن d بُعد O عن المستوي. إذا كان d &lt; R فالمقطع <span class="k">دائرة</span> مركزها H (المسقط العمودي لـ O على المستوي) ونصف قطرها r حيث r² = R² − d²؛ إذا كان d = R فالمقطع نقطة واحدة (المستوي مماس)؛ إذا كان d &gt; R فلا يوجد مقطع.</li>
-<li><span class="k">الدائرة الكبرى:</span> عندما يمر المستوي بالمركز (d = 0) يكون المقطع دائرة نصف قطرها R.</li>
+<li><span class="k">الكرة</span> ذات المركز O ونصف القطر R: مجموعة النقاط M من الفضاء بحيث <bdi dir="ltr">OM = R</bdi>. <span class="k">الجسم الكروي</span> (الجُلّة): النقاط التي <bdi dir="ltr">OM ≤ R</bdi> (السطح وما بداخله).</li>
+<li><span class="k">المساحة والحجم:</span> مساحة الكرة <bdi dir="ltr">A = 4πR²</bdi>، وحجم الجسم الكروي <bdi dir="ltr">V = (4/3)πR³</bdi>.</li>
+<li><span class="k">مقطع كرة بمستوٍ:</span> ليكن d بُعد O عن المستوي. إذا كان <bdi dir="ltr">d &lt; R</bdi> فالمقطع <span class="k">دائرة</span> مركزها H (المسقط العمودي لـ O على المستوي) ونصف قطرها r حيث <bdi dir="ltr">r² = R² − d²</bdi>؛ إذا كان <bdi dir="ltr">d = R</bdi> فالمقطع نقطة واحدة (المستوي مماس)؛ إذا كان <bdi dir="ltr">d &gt; R</bdi> فلا يوجد مقطع.</li>
+<li><span class="k">الدائرة الكبرى:</span> عندما يمر المستوي بالمركز <bdi dir="ltr">(d = 0)</bdi> يكون المقطع دائرة نصف قطرها R.</li>
 <li><span class="k">مقاطع مجسّمات أخرى:</span> مقطع متوازي المستطيلات بمستوٍ موازٍ لأحد أوجهه مستطيل مطابق له؛ مقطع الأسطوانة بمستوٍ موازٍ للقاعدة قرص مطابق لها، وبمستوٍ موازٍ للمحور مستطيل.</li>
-<li><span class="k">مقطع الهرم أو المخروط</span> بمستوٍ موازٍ للقاعدة: تصغير للقاعدة بنسبة k = h'/h.</li>
+<li><span class="k">مقطع الهرم أو المخروط</span> بمستوٍ موازٍ للقاعدة: تصغير للقاعدة بنسبة <bdi dir="ltr">k = h'/h</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>كرة نصف قطرها R = 5 cm يقطعها مستوٍ على بُعد d = 3 cm من المركز. <span class="k">الحل:</span> في المثلث OHM القائم في H: r² = 25 − 9 = 16، فيكون r = 4 cm، ومحيط دائرة المقطع 2π × 4 = 8π ≈ 25,1 cm.</li>
-<li>كرة نصف قطرها 2 cm. <span class="k">الحل:</span> A = 4π × 2² = 16π ≈ 50,3 cm²، و V = (4/3)π × 2³ = 32π/3 ≈ 33,5 cm³.</li>
+<li>كرة نصف قطرها <bdi dir="ltr">R = 5 cm</bdi> يقطعها مستوٍ على بُعد <bdi dir="ltr">d = 3 cm</bdi> من المركز. <span class="k">الحل:</span> في المثلث OHM القائم في H: <bdi dir="ltr">r² = 25 − 9 = 16</bdi>، فيكون <bdi dir="ltr">r = 4 cm</bdi>، ومحيط دائرة المقطع <bdi dir="ltr">2π × 4 = 8π ≈ 25,1 cm</bdi>.</li>
+<li>كرة نصف قطرها 2 cm. <span class="k">الحل:</span> <bdi dir="ltr">A = 4π × 2² = 16π ≈ 50,3 cm²</bdi>، و <bdi dir="ltr">V = (4/3)π × 2³ = 32π/3 ≈ 33,5 cm³</bdi>.</li>
 <li>أسطوانة نصف قطر قاعدتها 2 cm وارتفاعها 5 cm. <span class="k">التفسير:</span> مقطعها بمستوٍ يحوي المحور مستطيل بعداه 4 cm و 5 cm؛ ومقطعها بمستوٍ موازٍ للقاعدة قرص نصف قطره 2 cm.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
-<li>الخلط بين قانون المساحة 4πR² وقانون الحجم (4/3)πR³.</li>
-<li>كتابة r = R − d بدل العلاقة الفيثاغورية r² = R² − d².</li>
-<li>نسيان رفع R إلى الأس 3 في الحجم، أو ضرب 4/3 في R قبل التكعيب.</li>
+<li>الخلط بين قانون المساحة <bdi dir="ltr">4πR²</bdi> وقانون الحجم <bdi dir="ltr">(4/3)πR³</bdi>.</li>
+<li>كتابة <bdi dir="ltr">r = R − d</bdi> بدل العلاقة الفيثاغورية <bdi dir="ltr">r² = R² − d²</bdi>.</li>
+<li>نسيان رفع R إلى الأس 3 في الحجم، أو ضرب <bdi dir="ltr">4/3</bdi> في R قبل التكعيب.</li>
 <li>الظن أن مقطع الكرة قد يكون شكلًا غير دائري.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>كرة: A = 4πR²؛ جسم كروي: V = (4/3)πR³.</li>
+<li>كرة: <bdi dir="ltr">A = 4πR²</bdi>؛ جسم كروي: <bdi dir="ltr">V = (4/3)πR³</bdi>.</li>
 <li>مقطع كرة بمستوٍ = دائرة (أو نقطة إذا كان المستوي مماسًا).</li>
-<li>r² = R² − d² (فيثاغورس في المثلث OHM).</li>
-<li>d = 0 ⇒ دائرة كبرى نصف قطرها R.</li>
+<li><bdi dir="ltr">r² = R² − d²</bdi> (فيثاغورس في المثلث OHM).</li>
+<li><bdi dir="ltr">d = 0</bdi> ⇐ دائرة كبرى نصف قطرها R.</li>
 <li>مقطع موازٍ للقاعدة: في الأسطوانة قرص مطابق، وفي المخروط قرص مصغّر.</li>
 </ul></div>
 

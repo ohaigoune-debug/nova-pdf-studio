@@ -5,8 +5,8 @@
 <title>التوتر الكهربائي المتناوب: الدور والتواتر والقيمة العظمى</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -52,9 +52,9 @@ main{position:relative;z-index:1}
 
 <p class="goal"><span class="k">الهدف:</span> أن تميّز التوتر المتناوب الجيبي عن التوتر المستمر، وأن تقرأ من منحنى راسم الاهتزاز الدور T والقيمة العظمى U<sub>max</sub> وتحسب التواتر f والقيمة المنتجة U<sub>eff</sub>.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> التوتر الذي تقدمه البطارية مستمر ثابت القيمة والإشارة، أما توتر الشبكة المنزلية فمتناوب جيبي: يتغير بين قيمة عظمى موجبة وأخرى سالبة ويعيد نفسه كل دور T. في الجزائر القيمة المنتجة 220 V والتواتر 50 Hz، أي 50 دورة كل ثانية.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> التوتر الذي تقدمه البطارية مستمر ثابت القيمة والإشارة، أما توتر الشبكة المنزلية فمتناوب جيبي: يتغير بين قيمة عظمى موجبة وأخرى سالبة ويعيد نفسه كل دور T. في الجزائر القيمة المنتجة <bdi dir="ltr">220 V</bdi> والتواتر <bdi dir="ltr">50 Hz</bdi>، أي 50 دورة كل ثانية.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15" direction="ltr">
 <defs><marker id="ar6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
 <line x1="40" y1="90" x2="420" y2="90" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar6)"/><line x1="60" y1="165" x2="60" y2="15" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar6)"/>
 <text x="392" y="80" font-size="13">t (ms)</text><text x="70" y="22" font-size="13">u (V)</text>
@@ -62,29 +62,29 @@ main{position:relative;z-index:1}
 <line x1="60" y1="37" x2="400" y2="37" stroke="#c2410c" stroke-dasharray="4 3"/><text x="405" y="42" font-size="13" fill="#c2410c">+U<tspan font-size="10">max</tspan></text>
 <line x1="60" y1="143" x2="400" y2="143" stroke="#c2410c" stroke-dasharray="4 3"/><text x="405" y="148" font-size="13" fill="#c2410c">−U<tspan font-size="10">max</tspan></text>
 <line x1="60" y1="160" x2="180" y2="160" stroke="#15803d" stroke-width="2"/><line x1="60" y1="155" x2="60" y2="165" stroke="#15803d" stroke-width="2"/><line x1="180" y1="155" x2="180" y2="165" stroke="#15803d" stroke-width="2"/>
-<text x="120" y="156" text-anchor="middle" font-size="13" fill="#15803d" font-weight="700">الدور T</text>
+<text direction="rtl" x="120" y="156" text-anchor="middle" font-size="13" fill="#15803d" font-weight="700">الدور T</text>
 <line x1="180" y1="90" x2="180" y2="150" stroke="#15803d" stroke-dasharray="3 3"/>
 <rect x="440" y="55" width="95" height="80" rx="6" fill="#fde68a" stroke="#a16207" stroke-width="1.5"/>
-<text x="487" y="77" text-anchor="middle" font-size="13">f = 1 / T</text><text x="487" y="100" text-anchor="middle" font-size="13">U<tspan font-size="10">eff</tspan> ≈ U<tspan font-size="10">max</tspan> / 1,41</text><text x="487" y="124" text-anchor="middle" font-size="13">الشبكة: 50 Hz</text>
+<text x="487" y="77" text-anchor="middle" font-size="13">f = 1 / T</text><text x="487" y="100" text-anchor="middle" font-size="13">U<tspan font-size="10">eff</tspan> ≈ U<tspan font-size="10">max</tspan> / 1,41</text><text direction="rtl" y="124" font-size="13" x="504.9" text-anchor="middle">الشبكة:</text><text direction="ltr" y="124" font-size="13" x="470.2" text-anchor="middle">50 Hz</text>
 </svg><figcaption>الشكل 1: منحنى توتر متناوب جيبي على شاشة راسم الاهتزاز؛ الدور T هو مدة نموذج واحد كامل، وU<sub>max</sub> أعلى قيمة يبلغها التوتر.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">التوتر المستمر</span> (بطارية، مولد تيار مستمر) ثابت القيمة والإشارة مع الزمن، ويظهر على راسم الاهتزاز خطاً أفقياً مستقيماً.</li>
 <li><span class="k">التوتر المتناوب الجيبي</span> (مأخذ الشبكة، المنوّب) تتغير قيمته وإشارته دورياً مع الزمن؛ منحناه موجة منتظمة تبلغ قيمة عظمى موجبة ثم سالبة.</li>
 <li><span class="k">الدور T</span> أصغر مدة يعيد بعدها التوتر نفسه، وحدته الثانية (s). على الشاشة: T = عدد تدريجات النموذج الكامل × قاعدة الزمن.</li>
-<li><span class="k">التواتر f</span> عدد الأدوار في الثانية الواحدة، وحدته الهرتز (Hz): f = 1 / T مع T بالثانية. توتر الشبكة الجزائرية 50 Hz أي T = 20 ms.</li>
-<li><span class="k">القيمة العظمى U<sub>max</sub></span> أكبر قيمة للتوتر، تُقرأ من الشاشة: عدد التدريجات من الصفر إلى القمة × الحساسية الشاقولية (V/div).</li>
-<li><span class="k">القيمة المنتجة U<sub>eff</sub></span> هي التي يقيسها الفولطمتر في وضع التيار المتناوب وتُكتب على الأجهزة: U<sub>max</sub> ≈ U<sub>eff</sub> × 1,41. للشبكة 220 V منتجة يقابلها U<sub>max</sub> ≈ 311 V.</li>
+<li><span class="k">التواتر f</span> عدد الأدوار في الثانية الواحدة، وحدته الهرتز (Hz): <bdi dir="ltr">f = 1 / T</bdi> مع T بالثانية. توتر الشبكة الجزائرية <bdi dir="ltr">50 Hz</bdi> أي <bdi dir="ltr">T = 20 ms</bdi>.</li>
+<li><span class="k">القيمة العظمى U<sub>max</sub></span> أكبر قيمة للتوتر، تُقرأ من الشاشة: عدد التدريجات من الصفر إلى القمة × الحساسية الشاقولية <bdi dir="ltr">(V/div)</bdi>.</li>
+<li><span class="k">القيمة المنتجة U<sub>eff</sub></span> هي التي يقيسها الفولطمتر في وضع التيار المتناوب وتُكتب على الأجهزة: <bdi dir="ltr">U<sub>max</sub> ≈ U<sub>eff</sub> × 1,41</bdi>. للشبكة <bdi dir="ltr">220 V</bdi> منتجة يقابلها <bdi dir="ltr">U<sub>max</sub> ≈ 311 V</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>على شاشة راسم اهتزاز الحساسية 5 V/div وقاعدة الزمن 2 ms/div؛ القمة على ارتفاع 3 تدريجات والنموذج الكامل يمتد على 4 تدريجات. <span class="k">الحل:</span> U<sub>max</sub> = 3 × 5 = 15 V؛ T = 4 × 2 = 8 ms = 0,008 s؛ f = 1 / 0,008 = 125 Hz؛ U<sub>eff</sub> ≈ 15 / 1,41 ≈ 10,6 V.</li>
-<li>احسب دور توتر الشبكة ذات التواتر 50 Hz. <span class="k">الحل:</span> T = 1 / f = 1 / 50 = 0,02 s = 20 ms.</li>
-<li>فولطمتر متناوب يشير إلى 220 V. ما القيمة العظمى؟ <span class="k">الحل:</span> U<sub>max</sub> ≈ 220 × 1,414 ≈ 311 V. <span class="k">التفسير:</span> الفولطمتر يقيس القيمة المنتجة لا العظمى.</li>
+<li>على شاشة راسم اهتزاز الحساسية <bdi dir="ltr">5 V/div</bdi> وقاعدة الزمن <bdi dir="ltr">2 ms/div</bdi>؛ القمة على ارتفاع 3 تدريجات والنموذج الكامل يمتد على 4 تدريجات. <span class="k">الحل:</span> <bdi dir="ltr">U<sub>max</sub> = 3 × 5 = 15 V</bdi>؛ <bdi dir="ltr">T = 4 × 2 = 8 ms = 0,008 s</bdi>؛ <bdi dir="ltr">f = 1 / 0,008 = 125 Hz</bdi>؛ <bdi dir="ltr">U<sub>eff</sub> ≈ 15 / 1,41 ≈ 10,6 V</bdi>.</li>
+<li>احسب دور توتر الشبكة ذات التواتر <bdi dir="ltr">50 Hz</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">T = 1 / f = 1 / 50 = 0,02 s = 20 ms</bdi>.</li>
+<li>فولطمتر متناوب يشير إلى <bdi dir="ltr">220 V</bdi>. ما القيمة العظمى؟ <span class="k">الحل:</span> <bdi dir="ltr">U<sub>max</sub> ≈ 220 × 1,414 ≈ 311 V</bdi>. <span class="k">التفسير:</span> الفولطمتر يقيس القيمة المنتجة لا العظمى.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
-<li>حساب f = 1 / T مع T بالميلي ثانية دون تحويلها إلى الثانية، فتخرج النتيجة مضروبة في 1000 خطأً.</li>
+<li>حساب <bdi dir="ltr">f = 1 / T</bdi> مع T بالميلي ثانية دون تحويلها إلى الثانية، فتخرج النتيجة مضروبة في 1000 خطأً.</li>
 <li>اعتبار المسافة بين قمة وقعر دوراً كاملاً؛ الدور بين قمتين متتاليتين (أو مرورين بالصفر في الاتجاه نفسه).</li>
 <li>الخلط بين U<sub>max</sub> المقروءة على راسم الاهتزاز وU<sub>eff</sub> المقروءة على الفولطمتر.</li>
 <li>كتابة وحدة الهرتز للدور أو الثانية للتواتر.</li>
@@ -92,9 +92,9 @@ main{position:relative;z-index:1}
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
 <li>مستمر: خط أفقي ثابت؛ متناوب جيبي: موجة تغيّر الإشارة دورياً.</li>
-<li>T (s) = عدد التدريجات × قاعدة الزمن؛ f (Hz) = 1 / T.</li>
-<li>U<sub>max</sub> = عدد التدريجات × الحساسية؛ U<sub>eff</sub> ≈ U<sub>max</sub> / 1,41.</li>
-<li>الشبكة الجزائرية: 220 V منتجة، 50 Hz، T = 20 ms، U<sub>max</sub> ≈ 311 V.</li>
+<li>T (s) = عدد التدريجات × قاعدة الزمن؛ <bdi dir="ltr">f (Hz) = 1 / T</bdi>.</li>
+<li>U<sub>max</sub> = عدد التدريجات × الحساسية؛ <bdi dir="ltr">U<sub>eff</sub> ≈ U<sub>max</sub> / 1,41</bdi>.</li>
+<li>الشبكة الجزائرية: <bdi dir="ltr">220 V</bdi> منتجة، <bdi dir="ltr">50 Hz</bdi>، <bdi dir="ltr">T = 20 ms</bdi>، <bdi dir="ltr">U<sub>max</sub> ≈ 311 V</bdi>.</li>
 <li>حوّل دائماً ms إلى s قبل حساب التواتر.</li>
 </ul></div>
 

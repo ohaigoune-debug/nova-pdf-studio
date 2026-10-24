@@ -5,8 +5,8 @@
 <title>الحساب الحرفي: النشر والتحليل</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -52,46 +52,46 @@ main{position:relative;z-index:1}
 
 <p class="goal"><span class="k">الهدف:</span> أن تنشر عبارة جبرية وتبسّطها باستعمال خاصية التوزيع، وأن تحلّل عبارة إلى جداء عوامل بإبراز عامل مشترك، مع التمييز بين الشكلين: مجموع ثم جداء.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> النشر هو تحويل جداء إلى مجموع، والتحليل هو العملية العكسية: تحويل مجموع إلى جداء. الأداة الواحدة في الاتجاهين هي خاصية التوزيع k(a + b) = ka + kb، والتحقق بتعويض قيمة عددية للمجهول يكشف أي خطأ.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> النشر هو تحويل جداء إلى مجموع، والتحليل هو العملية العكسية: تحويل مجموع إلى جداء. الأداة الواحدة في الاتجاهين هي خاصية التوزيع <bdi dir="ltr">k(a + b) = ka + kb</bdi>، والتحقق بتعويض قيمة عددية للمجهول يكشف أي خطأ.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
-<text x="270" y="20" text-anchor="middle" font-weight="700" fill="#1f2937">مساحة مستطيل واحد تُحسب بطريقتين: (a + b)(c + d) = ac + ad + bc + bd</text>
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<text x="482" y="20" font-weight="700" fill="#1f2937" direction="rtl" text-anchor="start">مساحة مستطيل واحد تُحسب بطريقتين:</text><text x="270" y="20" font-weight="700" fill="#1f2937" text-anchor="end">(a + b)(c + d) = ac + ad + bc + bd</text>
 <rect x="170" y="40" width="120" height="60" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="230" y="75" text-anchor="middle" font-weight="700">a × c</text>
 <rect x="290" y="40" width="80" height="60" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="330" y="75" text-anchor="middle" font-weight="700">b × c</text>
 <rect x="170" y="100" width="120" height="50" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="230" y="130" text-anchor="middle" font-weight="700">a × d</text>
 <rect x="290" y="100" width="80" height="50" fill="#dbe6ff" stroke="#c2410c" stroke-width="2"/><text x="330" y="130" text-anchor="middle" font-weight="700">b × d</text>
 <text x="230" y="167" text-anchor="middle" fill="#1d4ed8">a</text><text x="330" y="167" text-anchor="middle" fill="#a16207">b</text>
 <text x="155" y="75" text-anchor="middle" fill="#1d4ed8">c</text><text x="155" y="130" text-anchor="middle" fill="#15803d">d</text>
-<text x="455" y="70" text-anchor="middle" fill="#1f2937">الطول: a + b</text><text x="455" y="95" text-anchor="middle" fill="#1f2937">العرض: c + d</text>
-<text x="80" y="70" text-anchor="middle" fill="#15803d">نشر ⟶ مجموع</text><text x="80" y="95" text-anchor="middle" fill="#c2410c">تحليل ⟵ جداء</text>
-</svg><figcaption>الشكل 1: المساحة الكلية (a + b)(c + d) تساوي مجموع مساحات المستطيلات الأربعة الصغيرة، وهذا هو معنى النشر هندسيًا.</figcaption></figure>
+<text x="490" y="70" fill="#1f2937" direction="rtl" text-anchor="start">الطول:</text><text x="450" y="70" fill="#1f2937" text-anchor="end">a + b</text><text x="490" y="95" fill="#1f2937" direction="rtl" text-anchor="start">العرض:</text><text x="450" y="95" fill="#1f2937" text-anchor="end">c + d</text>
+<text x="80" y="70" text-anchor="middle" fill="#15803d" direction="rtl">نشر ⟵ مجموع</text><text x="80" y="95" text-anchor="middle" fill="#c2410c" direction="rtl">تحليل ⟵ جداء</text>
+</svg><figcaption>الشكل 1: المساحة الكلية <bdi dir="ltr">(a + b)(c + d)</bdi> تساوي مجموع مساحات المستطيلات الأربعة الصغيرة، وهذا هو معنى النشر هندسيًا.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">خاصية التوزيع البسيطة:</span> k(a + b) = ka + kb و k(a − b) = ka − kb؛ العامل k يُضرب في كل حد داخل القوس.</li>
-<li><span class="k">التوزيع المزدوج:</span> (a + b)(c + d) = ac + ad + bc + bd؛ كل حد من القوس الأول يُضرب في كل حد من القوس الثاني.</li>
-<li><span class="k">النشر</span> هو كتابة جداء على شكل مجموع، و<span class="k">التبسيط</span> هو جمع الحدود المتشابهة بعده (الحدود التي تحوي x<sup>2</sup> معًا، ثم حدود x، ثم الأعداد).</li>
-<li><span class="k">التحليل</span> هو كتابة مجموع على شكل جداء، وأبسط طرقه إبراز <span class="k">العامل المشترك</span>: ka + kb = k(a + b).</li>
-<li>قد يكون العامل المشترك عددًا أو حرفًا أو <span class="k">قوسًا كاملًا</span> مثل (x + 1) في العبارة (x + 1)(2x − 3) + (x + 1)(x + 5).</li>
-<li><span class="k">الإشارة أمام القوس:</span> −(a − b) = −a + b، أي أن الطرح أمام قوس يقلب إشارة كل حد داخله.</li>
-<li><span class="k">التحقق:</span> نعوّض قيمة بسيطة للمجهول (مثل x = 1 أو x = 2) في العبارة الأصلية والناتج؛ يجب أن نحصل على نفس القيمة.</li>
+<li><span class="k">خاصية التوزيع البسيطة:</span> <bdi dir="ltr">k(a + b) = ka + kb</bdi> و <bdi dir="ltr">k(a − b) = ka − kb</bdi>؛ العامل k يُضرب في كل حد داخل القوس.</li>
+<li><span class="k">التوزيع المزدوج:</span> <bdi dir="ltr">(a + b)(c + d) = ac + ad + bc + bd</bdi>؛ كل حد من القوس الأول يُضرب في كل حد من القوس الثاني.</li>
+<li><span class="k">النشر</span> هو كتابة جداء على شكل مجموع، و<span class="k">التبسيط</span> هو جمع الحدود المتشابهة بعده (الحدود التي تحوي <bdi dir="ltr">x<sup>2</sup></bdi> معًا، ثم حدود x، ثم الأعداد).</li>
+<li><span class="k">التحليل</span> هو كتابة مجموع على شكل جداء، وأبسط طرقه إبراز <span class="k">العامل المشترك</span>: <bdi dir="ltr">ka + kb = k(a + b)</bdi>.</li>
+<li>قد يكون العامل المشترك عددًا أو حرفًا أو <span class="k">قوسًا كاملًا</span> مثل <bdi dir="ltr">(x + 1)</bdi> في العبارة <bdi dir="ltr">(x + 1)(2x − 3) + (x + 1)(x + 5)</bdi>.</li>
+<li><span class="k">الإشارة أمام القوس:</span> <bdi dir="ltr">−(a − b) = −a + b</bdi>، أي أن الطرح أمام قوس يقلب إشارة كل حد داخله.</li>
+<li><span class="k">التحقق:</span> نعوّض قيمة بسيطة للمجهول (مثل <bdi dir="ltr">x = 1</bdi> أو <bdi dir="ltr">x = 2</bdi>) في العبارة الأصلية والناتج؛ يجب أن نحصل على نفس القيمة.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>انشر وبسّط A = 3(x + 2) + 2(x − 5). <span class="k">الحل:</span> A = 3x + 6 + 2x − 10 = 5x − 4. التحقق مع x = 1: العبارة الأصلية 3 × 3 + 2 × (−4) = 9 − 8 = 1، والناتج 5 − 4 = 1.</li>
-<li>انشر وبسّط B = (2x + 1)(x − 3). <span class="k">الحل:</span> B = 2x × x + 2x × (−3) + 1 × x + 1 × (−3) = 2x<sup>2</sup> − 6x + x − 3 = 2x<sup>2</sup> − 5x − 3.</li>
-<li>حلّل C = (x + 1)(2x − 3) + (x + 1)(x + 5). <span class="k">الحل:</span> العامل المشترك هو (x + 1)، فنكتب C = (x + 1)[(2x − 3) + (x + 5)] = (x + 1)(3x + 2). التحقق مع x = 1: الأصل 2 × (−1) + 2 × 6 = 10، والناتج 2 × 5 = 10.</li>
+<li>انشر وبسّط <bdi dir="ltr">A = 3(x + 2) + 2(x − 5)</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">A = 3x + 6 + 2x − 10 = 5x − 4</bdi>. التحقق مع <bdi dir="ltr">x = 1</bdi>: العبارة الأصلية <bdi dir="ltr">3 × 3 + 2 × (−4) = 9 − 8 = 1</bdi>، والناتج <bdi dir="ltr">5 − 4 = 1</bdi>.</li>
+<li>انشر وبسّط <bdi dir="ltr">B = (2x + 1)(x − 3)</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">B = 2x × x + 2x × (−3) + 1 × x + 1 × (−3) = 2x<sup>2</sup> − 6x + x − 3 = 2x<sup>2</sup> − 5x − 3</bdi>.</li>
+<li>حلّل <bdi dir="ltr">C = (x + 1)(2x − 3) + (x + 1)(x + 5)</bdi>. <span class="k">الحل:</span> العامل المشترك هو <bdi dir="ltr">(x + 1)</bdi>، فنكتب <bdi dir="ltr">C = (x + 1)[(2x − 3) + (x + 5)] = (x + 1)(3x + 2)</bdi>. التحقق مع <bdi dir="ltr">x = 1</bdi>: الأصل <bdi dir="ltr">2 × (−1) + 2 × 6 = 10</bdi>، والناتج <bdi dir="ltr">2 × 5 = 10</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
-<li>ضرب العامل في الحد الأول فقط: كتابة 3(x + 2) = 3x + 2 بدل 3x + 6.</li>
-<li>نسيان قلب الإشارات عند طرح قوس: 2x − (x − 5) يساوي 2x − x + 5 = x + 5 وليس x − 5.</li>
+<li>ضرب العامل في الحد الأول فقط: كتابة <bdi dir="ltr">3(x + 2) = 3x + 2</bdi> بدل <bdi dir="ltr">3x + 6</bdi>.</li>
+<li>نسيان قلب الإشارات عند طرح قوس: <bdi dir="ltr">2x − (x − 5)</bdi> يساوي <bdi dir="ltr">2x − x + 5 = x + 5</bdi> وليس <bdi dir="ltr">x − 5</bdi>.</li>
 <li>عند التحليل، ترك جداء ثم إعادة نشره ظنًا أن العبارة «لم تُبسّط»؛ التحليل ينتهي عند الحصول على جداء عوامل.</li>
 <li>في التوزيع المزدوج، ضرب الحدود الأولى والأخيرة فقط (نسيان الحدين الوسطيين).</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>نشر = جداء ⟶ مجموع؛ تحليل = مجموع ⟶ جداء.</li>
-<li>k(a + b) = ka + kb و (a + b)(c + d) = ac + ad + bc + bd.</li>
+<li>نشر = جداء ⟵ مجموع؛ تحليل = مجموع ⟵ جداء.</li>
+<li><bdi dir="ltr">k(a + b) = ka + kb</bdi> و <bdi dir="ltr">(a + b)(c + d) = ac + ad + bc + bd</bdi>.</li>
 <li>بعد النشر اجمع الحدود المتشابهة ورتّبها حسب قوى x.</li>
 <li>للتحليل ابحث عن العامل المشترك (عدد، حرف أو قوس) وأخرجه.</li>
 <li>تحقّق دومًا بتعويض قيمة عددية.</li>

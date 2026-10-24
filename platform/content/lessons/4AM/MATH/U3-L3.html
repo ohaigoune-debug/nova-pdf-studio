@@ -5,8 +5,8 @@
 <title>الدالة التآلفية</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -50,50 +50,50 @@ main{position:relative;z-index:1}
 <div class="crumb">4 متوسط · الرياضيات · كل الشعب · الوحدة 3: تنظيم معطيات ودوال · الدرس 3</div>
 <h1>الدالة التآلفية</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن تتعرّف على الدالة التآلفية f(x) = ax + b، وتميّز معاملها a عن ترتيبها عند المبدأ b، وأن تحسب صورة وسابقة، وأن تعيّن الدالة انطلاقًا من قيمتين معلومتين.</p>
+<p class="goal"><span class="k">الهدف:</span> أن تتعرّف على الدالة التآلفية <bdi dir="ltr">f(x) = ax + b</bdi>، وتميّز معاملها a عن ترتيبها عند المبدأ b، وأن تحسب صورة وسابقة، وأن تعيّن الدالة انطلاقًا من قيمتين معلومتين.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> الدالة التآلفية تضرب العدد x في a ثم تضيف عددًا ثابتًا b. ليست تناسبية (إلا إذا كان b = 0)، لكن الزيادات فيها تناسبية: إذا زاد x بمقدار معيّن زادت صورته بـ a ضعف هذا المقدار.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الدالة التآلفية تضرب العدد x في a ثم تضيف عددًا ثابتًا b. ليست تناسبية (إلا إذا كان <bdi dir="ltr">b = 0</bdi>)، لكن الزيادات فيها تناسبية: إذا زاد x بمقدار معيّن زادت صورته بـ a ضعف هذا المقدار.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="14">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="14">
 <rect x="60" y="20" width="460" height="150" fill="none" stroke="#1f2937"/>
 <rect x="60" y="20" width="460" height="30" fill="#dbe6ff" stroke="#1f2937"/>
 <line x1="380" y1="20" x2="380" y2="170" stroke="#1f2937"/><line x1="220" y1="20" x2="220" y2="170" stroke="#1f2937"/>
 <line x1="60" y1="80" x2="520" y2="80" stroke="#1f2937"/><line x1="60" y1="110" x2="520" y2="110" stroke="#1f2937"/><line x1="60" y1="140" x2="520" y2="140" stroke="#1f2937"/>
-<text x="450" y="41" text-anchor="middle" font-weight="700">المقارنة</text>
-<text x="300" y="41" text-anchor="middle" font-weight="700" fill="#1d4ed8">دالة خطية</text>
-<text x="140" y="41" text-anchor="middle" font-weight="700" fill="#15803d">دالة تآلفية</text>
-<text x="450" y="70" text-anchor="middle">الصيغة</text><text x="300" y="70" text-anchor="middle" fill="#1d4ed8">f(x) = ax</text><text x="140" y="70" text-anchor="middle" fill="#15803d">f(x) = ax + b</text>
-<text x="450" y="100" text-anchor="middle">صورة الصفر</text><text x="300" y="100" text-anchor="middle" fill="#1d4ed8">f(0) = 0</text><text x="140" y="100" text-anchor="middle" fill="#15803d">f(0) = b</text>
-<text x="450" y="130" text-anchor="middle">جدول القيم</text><text x="300" y="130" text-anchor="middle" fill="#1d4ed8">تناسبية</text><text x="140" y="130" text-anchor="middle" fill="#15803d">غير تناسبية (b ≠ 0)</text>
-<text x="450" y="160" text-anchor="middle">التمثيل البياني</text><text x="300" y="160" text-anchor="middle" fill="#1d4ed8">مستقيم يمر بـ O</text><text x="140" y="160" text-anchor="middle" fill="#15803d">مستقيم يقطع (Oy) في b</text>
+<text x="450" y="41" text-anchor="middle" font-weight="700" direction="rtl">المقارنة</text>
+<text x="300" y="41" text-anchor="middle" font-weight="700" fill="#1d4ed8" direction="rtl">دالة خطية</text>
+<text x="140" y="41" text-anchor="middle" font-weight="700" fill="#15803d" direction="rtl">دالة تآلفية</text>
+<text x="450" y="70" text-anchor="middle" direction="rtl">الصيغة</text><text x="300" y="70" text-anchor="middle" fill="#1d4ed8">f(x) = ax</text><text x="140" y="70" text-anchor="middle" fill="#15803d">f(x) = ax + b</text>
+<text x="450" y="100" text-anchor="middle" direction="rtl">صورة الصفر</text><text x="300" y="100" text-anchor="middle" fill="#1d4ed8">f(0) = 0</text><text x="140" y="100" text-anchor="middle" fill="#15803d">f(0) = b</text>
+<text x="450" y="130" text-anchor="middle" direction="rtl">جدول القيم</text><text x="300" y="130" text-anchor="middle" fill="#1d4ed8" direction="rtl">تناسبية</text><text x="192" y="130" fill="#15803d" direction="rtl" text-anchor="start">غير تناسبية</text><text x="125" y="130" fill="#15803d" text-anchor="end">(b ≠ 0)</text>
+<text x="450" y="160" text-anchor="middle" direction="rtl">التمثيل البياني</text><text x="300" y="160" text-anchor="middle" fill="#1d4ed8" direction="rtl">مستقيم يمر بـ O</text><text x="140" y="160" text-anchor="middle" fill="#15803d" direction="rtl">مستقيم يقطع (Oy) في b</text>
 </svg><figcaption>الشكل 1: مقارنة بين الدالة الخطية والدالة التآلفية؛ الفرق هو الحد الثابت b.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">تعريف:</span> a و b عددان معلومان. الدالة التآلفية هي f: x ↦ ax + b؛ a هو <span class="k">معامل</span> الدالة و b هو <span class="k">الترتيب عند المبدأ</span> لأن f(0) = b.</li>
-<li><span class="k">حالتان خاصتان:</span> إذا كان b = 0 فالدالة خطية؛ وإذا كان a = 0 فالدالة ثابتة.</li>
-<li><span class="k">الصورة:</span> نعوّض x في العبارة. <span class="k">السابقة:</span> لإيجاد سابقة y نحل المعادلة ax + b = y أي x = (y − b)/a.</li>
-<li><span class="k">خاصية الزيادات:</span> لكل عددين مختلفين x<sub>1</sub> و x<sub>2</sub>: f(x<sub>2</sub>) − f(x<sub>1</sub>) = a × (x<sub>2</sub> − x<sub>1</sub>).</li>
-<li><span class="k">تعيين الدالة من قيمتين:</span> a = (f(x<sub>2</sub>) − f(x<sub>1</sub>)) ÷ (x<sub>2</sub> − x<sub>1</sub>)، ثم b = f(x<sub>1</sub>) − a × x<sub>1</sub>.</li>
+<li><span class="k">تعريف:</span> a و b عددان معلومان. الدالة التآلفية هي <bdi dir="ltr">f: x ↦ ax + b</bdi>؛ a هو <span class="k">معامل</span> الدالة و b هو <span class="k">الترتيب عند المبدأ</span> لأن <bdi dir="ltr">f(0) = b</bdi>.</li>
+<li><span class="k">حالتان خاصتان:</span> إذا كان <bdi dir="ltr">b = 0</bdi> فالدالة خطية؛ وإذا كان <bdi dir="ltr">a = 0</bdi> فالدالة ثابتة.</li>
+<li><span class="k">الصورة:</span> نعوّض x في العبارة. <span class="k">السابقة:</span> لإيجاد سابقة y نحل المعادلة <bdi dir="ltr">ax + b = y</bdi> أي <bdi dir="ltr">x = (y − b)/a</bdi>.</li>
+<li><span class="k">خاصية الزيادات:</span> لكل عددين مختلفين <bdi dir="ltr">x<sub>1</sub></bdi> و <bdi dir="ltr">x<sub>2</sub></bdi>: <bdi dir="ltr">f(x<sub>2</sub>) − f(x<sub>1</sub>) = a × (x<sub>2</sub> − x<sub>1</sub>)</bdi>.</li>
+<li><span class="k">تعيين الدالة من قيمتين:</span> <bdi dir="ltr">a = (f(x<sub>2</sub>) − f(x<sub>1</sub>)) ÷ (x<sub>2</sub> − x<sub>1</sub>)</bdi>، ثم <bdi dir="ltr">b = f(x<sub>1</sub>) − a × x<sub>1</sub></bdi>.</li>
 <li><span class="k">تمثيلها البياني</span> مستقيم يقطع محور التراتيب في النقطة ذات الترتيب b (الدرس القادم).</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>f(x) = 2x − 3. <span class="k">الحل:</span> f(4) = 8 − 3 = 5، و f(0) = −3 (الترتيب عند المبدأ). سابقة العدد 7: نحل 2x − 3 = 7، فيكون x = 5.</li>
-<li>g دالة تآلفية بحيث g(1) = 5 و g(3) = 11. <span class="k">الحل:</span> a = (11 − 5)/(3 − 1) = 3، ثم b = g(1) − 3 × 1 = 2. إذن g(x) = 3x + 2. تحقّق: g(3) = 9 + 2 = 11 صحيح.</li>
-<li>سيارة أجرة تتقاضى 50 دج عند الانطلاق و 20 دج عن كل كيلومتر. <span class="k">الحل:</span> ثمن x كلم هو C(x) = 20x + 50 (a = 20 و b = 50)؛ C(8) = 160 + 50 = 210 دج.</li>
+<li><bdi dir="ltr">f(x) = 2x − 3</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">f(4) = 8 − 3 = 5</bdi>، و <bdi dir="ltr">f(0) = −3</bdi> (الترتيب عند المبدأ). سابقة العدد 7: نحل <bdi dir="ltr">2x − 3 = 7</bdi>، فيكون <bdi dir="ltr">x = 5</bdi>.</li>
+<li>g دالة تآلفية بحيث <bdi dir="ltr">g(1) = 5</bdi> و <bdi dir="ltr">g(3) = 11</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">a = (11 − 5)/(3 − 1) = 3</bdi>، ثم <bdi dir="ltr">b = g(1) − 3 × 1 = 2</bdi>. إذن <bdi dir="ltr">g(x) = 3x + 2</bdi>. تحقّق: <bdi dir="ltr">g(3) = 9 + 2 = 11</bdi> صحيح.</li>
+<li>سيارة أجرة تتقاضى 50 دج عند الانطلاق و 20 دج عن كل كيلومتر. <span class="k">الحل:</span> ثمن x كلم هو <bdi dir="ltr">C(x) = 20x + 50</bdi> (<bdi dir="ltr">a = 20</bdi> و <bdi dir="ltr">b = 50</bdi>)؛ <bdi dir="ltr">C(8) = 160 + 50 = 210</bdi> دج.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
-<li>معاملة الدالة التآلفية كتناسبية وحساب f(6) بمضاعفة f(3).</li>
-<li>عكس ترتيب الفرقين في حساب a (قسمة فرق x على فرق f(x)).</li>
-<li>الخلط بين a و b: b هو f(0) وليس المعامل.</li>
+<li>معاملة الدالة التآلفية كتناسبية وحساب <bdi dir="ltr">f(6)</bdi> بمضاعفة <bdi dir="ltr">f(3)</bdi>.</li>
+<li>عكس ترتيب الفرقين في حساب a (قسمة فرق x على فرق <bdi dir="ltr">f(x)</bdi>).</li>
+<li>الخلط بين a و b: b هو <bdi dir="ltr">f(0)</bdi> وليس المعامل.</li>
 <li>نسيان نقل b إلى الطرف الآخر عند حل المعادلة لإيجاد السابقة.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>تآلفية: f(x) = ax + b، و f(0) = b.</li>
-<li>b = 0 ⇒ خطية؛ a = 0 ⇒ ثابتة.</li>
-<li>سابقة y: x = (y − b)/a.</li>
-<li>من قيمتين: a = فرق الصور ÷ فرق الأعداد، ثم b = f(x<sub>1</sub>) − a x<sub>1</sub>.</li>
+<li>تآلفية: <bdi dir="ltr">f(x) = ax + b</bdi>، و <bdi dir="ltr">f(0) = b</bdi>.</li>
+<li><bdi dir="ltr">b = 0</bdi> ⇐ خطية؛ <bdi dir="ltr">a = 0</bdi> ⇐ ثابتة.</li>
+<li>سابقة y: <bdi dir="ltr">x = (y − b)/a</bdi>.</li>
+<li>من قيمتين: a = فرق الصور ÷ فرق الأعداد، ثم <bdi dir="ltr">b = f(x<sub>1</sub>) − a x<sub>1</sub></bdi>.</li>
 <li>الزيادات متناسبة مع المعامل a.</li>
 </ul></div>
 

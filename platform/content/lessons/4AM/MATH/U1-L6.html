@@ -5,8 +5,8 @@
 <title>المعادلات والمتراجحات من الدرجة الأولى بمجهول واحد</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -54,9 +54,9 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> المعادلة مساواة فيها مجهول نبحث عن القيمة التي تحققها، والمتراجحة متباينة حلولها مجموعة كاملة من الأعداد. نعزل المجهول في طرف بإضافة نفس العدد أو ضربه في الطرفين، مع قلب اتجاه المتراجحة عند الضرب أو القسمة على عدد سالب.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="ar6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
-<text x="270" y="20" text-anchor="middle" font-weight="700" fill="#1f2937">تمثيل حلول متراجحة على مستقيم عددي</text>
+<text x="270" y="20" text-anchor="middle" font-weight="700" fill="#1f2937" direction="rtl">تمثيل حلول متراجحة على مستقيم عددي</text>
 <text x="490" y="60" text-anchor="middle" fill="#1d4ed8">x &gt; 5</text>
 <line x1="40" y1="65" x2="470" y2="65" stroke="#1f2937" stroke-width="2" marker-end="url(#ar6)"/>
 <line x1="365" y1="65" x2="462" y2="65" stroke="#1d4ed8" stroke-width="6"/>
@@ -64,7 +64,7 @@ main{position:relative;z-index:1}
 <line x1="190" y1="59" x2="190" y2="71" stroke="#1f2937" stroke-width="2"/><text x="190" y="88" text-anchor="middle">0</text>
 <line x1="225" y1="59" x2="225" y2="71" stroke="#1f2937" stroke-width="2"/><text x="225" y="88" text-anchor="middle">1</text>
 <text x="365" y="88" text-anchor="middle" fill="#1d4ed8" font-weight="700">5</text>
-<text x="415" y="50" text-anchor="middle" fill="#1d4ed8" font-size="12">دائرة مفرّغة: 5 ليس حلًّا</text>
+<text x="415" y="50" text-anchor="middle" fill="#1d4ed8" font-size="12" direction="rtl">دائرة مفرّغة: 5 ليس حلًّا</text>
 <text x="490" y="130" text-anchor="middle" fill="#15803d">x ≥ −3</text>
 <line x1="40" y1="135" x2="470" y2="135" stroke="#1f2937" stroke-width="2" marker-end="url(#ar6)"/>
 <line x1="85" y1="135" x2="462" y2="135" stroke="#15803d" stroke-width="6"/>
@@ -72,38 +72,38 @@ main{position:relative;z-index:1}
 <line x1="190" y1="129" x2="190" y2="141" stroke="#1f2937" stroke-width="2"/><text x="190" y="158" text-anchor="middle">0</text>
 <line x1="225" y1="129" x2="225" y2="141" stroke="#1f2937" stroke-width="2"/><text x="225" y="158" text-anchor="middle">1</text>
 <text x="85" y="158" text-anchor="middle" fill="#15803d" font-weight="700">−3</text>
-<text x="100" y="120" text-anchor="middle" fill="#15803d" font-size="12">دائرة مملوءة: −3 حلّ</text>
-</svg><figcaption>الشكل 1: حلول x &gt; 5 (الحد مستثنى، دائرة مفرّغة) وحلول x ≥ −3 (الحد مشمول، دائرة مملوءة) مع تلوين الجزء الذي يحوي الحلول.</figcaption></figure>
+<text x="149" y="120" fill="#15803d" font-size="12" direction="rtl" text-anchor="start">دائرة مملوءة:</text><text x="83" y="120" fill="#15803d" font-size="12" text-anchor="end">−3</text><text x="66" y="120" fill="#15803d" font-size="12" direction="rtl" text-anchor="start">حلّ</text>
+</svg><figcaption>الشكل 1: حلول <bdi dir="ltr">x &gt; 5</bdi> (الحد مستثنى، دائرة مفرّغة) وحلول <bdi dir="ltr">x ≥ −3</bdi> (الحد مشمول، دائرة مملوءة) مع تلوين الجزء الذي يحوي الحلول.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">المعادلة من الدرجة الأولى بمجهول واحد</span> تُرجع بعد التبسيط إلى الشكل ax + b = 0 مع a ≠ 0، وحلّها الوحيد هو x = −b/a.</li>
+<li><span class="k">المعادلة من الدرجة الأولى بمجهول واحد</span> تُرجع بعد التبسيط إلى الشكل <bdi dir="ltr">ax + b = 0</bdi> مع <bdi dir="ltr">a ≠ 0</bdi>، وحلّها الوحيد هو <bdi dir="ltr">x = −b/a</bdi>.</li>
 <li><span class="k">الحفاظ على المساواة:</span> إذا أضفنا أو طرحنا نفس العدد من الطرفين، أو ضربناهما أو قسمناهما على نفس العدد غير المعدوم، نحصل على معادلة لها نفس الحل.</li>
 <li><span class="k">خطوات الحل:</span> ننشر الأقواس، نجمع حدود x في طرف والأعداد في الآخر، نقسم على معامل x، ثم نتحقق بالتعويض.</li>
-<li><span class="k">المتراجحة</span> متباينة من الشكل ax + b &lt; 0 (أو &gt; أو ≤ أو ≥)؛ حلولها كل الأعداد التي تحققها.</li>
+<li><span class="k">المتراجحة</span> متباينة من الشكل <bdi dir="ltr">ax + b &lt; 0</bdi> (أو &gt; أو ≤ أو ≥)؛ حلولها كل الأعداد التي تحققها.</li>
 <li><span class="k">الحفاظ على الترتيب:</span> الجمع والطرح لا يغيّران اتجاه المتراجحة، والضرب أو القسمة على عدد موجب كذلك، أما الضرب أو القسمة على <span class="k">عدد سالب فيقلب الاتجاه</span>.</li>
 <li><span class="k">التمثيل على مستقيم عددي:</span> دائرة مفرّغة للحد المستثنى (&lt; أو &gt;) ودائرة مملوءة للحد المشمول (≤ أو ≥)، ثم نلوّن جهة الحلول.</li>
 <li><span class="k">حلّ مسألة:</span> نختار المجهول، نترجم المعطيات إلى معادلة، نحلّها، ثم نتأكد أن الحل منطقي ونجيب بجملة.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>حلّ المعادلة 2(x − 3) = 5x + 9. <span class="k">الحل:</span> ننشر: 2x − 6 = 5x + 9، ثم 2x − 5x = 9 + 6، أي −3x = 15، ومنه x = −5. التحقق: 2(−5 − 3) = −16 و 5 × (−5) + 9 = −16.</li>
-<li>حلّ المتراجحة −2x + 1 ≤ 7. <span class="k">الحل:</span> −2x ≤ 6، وبالقسمة على −2 (سالب) نقلب الاتجاه: x ≥ −3. التحقق مع x = 0: 1 ≤ 7 صحيح، ومع x = −4: 9 ≤ 7 خاطئ.</li>
-<li>عند أحمد ثلاثة أمثال ما عند أخيه، ومجموع ما عندهما 240 دينارًا. <span class="k">الحل:</span> نرمز لمبلغ الأخ بـ x فيكون لأحمد 3x، والمعادلة x + 3x = 240، أي 4x = 240، ومنه x = 60. للأخ 60 دينارًا ولأحمد 180 دينارًا.</li>
+<li>حلّ المعادلة <bdi dir="ltr">2(x − 3) = 5x + 9</bdi>. <span class="k">الحل:</span> ننشر: <bdi dir="ltr">2x − 6 = 5x + 9</bdi>، ثم <bdi dir="ltr">2x − 5x = 9 + 6</bdi>، أي <bdi dir="ltr">−3x = 15</bdi>، ومنه <bdi dir="ltr">x = −5</bdi>. التحقق: <bdi dir="ltr">2(−5 − 3) = −16</bdi> و <bdi dir="ltr">5 × (−5) + 9 = −16</bdi>.</li>
+<li>حلّ المتراجحة <bdi dir="ltr">−2x + 1 ≤ 7</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">−2x ≤ 6</bdi>، وبالقسمة على <bdi dir="ltr">−2</bdi> (سالب) نقلب الاتجاه: <bdi dir="ltr">x ≥ −3</bdi>. التحقق مع <bdi dir="ltr">x = 0</bdi>: <bdi dir="ltr">1 ≤ 7</bdi> صحيح، ومع <bdi dir="ltr">x = −4</bdi>: <bdi dir="ltr">9 ≤ 7</bdi> خاطئ.</li>
+<li>عند أحمد ثلاثة أمثال ما عند أخيه، ومجموع ما عندهما 240 دينارًا. <span class="k">الحل:</span> نرمز لمبلغ الأخ بـ x فيكون لأحمد 3x، والمعادلة <bdi dir="ltr">x + 3x = 240</bdi>، أي <bdi dir="ltr">4x = 240</bdi>، ومنه <bdi dir="ltr">x = 60</bdi>. للأخ 60 دينارًا ولأحمد 180 دينارًا.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
-<li>نقل حد من طرف إلى آخر دون تغيير إشارته: من 2x − 6 = 5x + 9 كتابة 2x − 5x = 9 − 6.</li>
-<li>نسيان قلب اتجاه المتراجحة عند القسمة على عدد سالب: من −2x ≤ 6 كتابة x ≤ −3.</li>
+<li>نقل حد من طرف إلى آخر دون تغيير إشارته: من <bdi dir="ltr">2x − 6 = 5x + 9</bdi> كتابة <bdi dir="ltr">2x − 5x = 9 − 6</bdi>.</li>
+<li>نسيان قلب اتجاه المتراجحة عند القسمة على عدد سالب: من <bdi dir="ltr">−2x ≤ 6</bdi> كتابة <bdi dir="ltr">x ≤ −3</bdi>.</li>
 <li>تلوين الجهة الخاطئة على المستقيم العددي أو استعمال دائرة مملوءة مع &lt; أو &gt;.</li>
 <li>في المسائل، إعطاء قيمة x دون الإجابة عن السؤال المطروح أو دون التحقق من معقولية النتيجة.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
 <li>معادلة: انشر، اجمع حدود x في طرف والأعداد في الآخر، اقسم، تحقّق.</li>
-<li>ax + b = 0 ⇒ x = −b/a.</li>
+<li><bdi dir="ltr">ax + b = 0 ⇒ x = −b/a</bdi>.</li>
 <li>متراجحة: نفس الخطوات، لكن القسمة على سالب تقلب الاتجاه.</li>
 <li>مفرّغة ⇔ &lt; أو &gt;؛ مملوءة ⇔ ≤ أو ≥.</li>
-<li>مسألة: مجهول ⟶ معادلة ⟶ حل ⟶ تحقّق ⟶ جملة جواب.</li>
+<li>مسألة: مجهول ⟵ معادلة ⟵ حل ⟵ تحقّق ⟵ جملة جواب.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

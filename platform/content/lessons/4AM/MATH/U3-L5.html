@@ -5,8 +5,8 @@
 <title>الإحصاء: المتوسط والوسيط والمدى</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -54,38 +54,38 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> المتوسط يلخّص السلسلة بعدد واحد «يوزّع» المجموع بالتساوي على كل الأفراد، والوسيط هو القيمة التي تقسم السلسلة المرتّبة إلى نصفين متساويي العدد، والمدى يقيس اتساع القيم. المتوسط حسّاس للقيم المتطرفة، أما الوسيط فأقل تأثرًا بها بكثير.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <line x1="50" y1="140" x2="300" y2="140" stroke="#1f2937" stroke-width="1.5"/>
 <line x1="50" y1="140" x2="50" y2="20" stroke="#1f2937" stroke-width="1.5"/>
-<text x="40" y="16" font-size="13">التكرار</text><text x="306" y="145" font-size="13">القيم</text>
+<text x="40" y="16" font-size="13" direction="rtl" text-anchor="end">التكرار</text><text x="306" y="145" font-size="13" direction="rtl" text-anchor="end">القيم</text>
 <rect x="80" y="80" width="40" height="60" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
 <rect x="150" y="40" width="40" height="100" fill="#fde68a" stroke="#a16207" stroke-width="1.5"/>
 <rect x="220" y="100" width="40" height="40" fill="#86efac" stroke="#15803d" stroke-width="1.5"/>
 <text x="100" y="158" text-anchor="middle" font-weight="700">10</text><text x="170" y="158" text-anchor="middle" font-weight="700">12</text><text x="240" y="158" text-anchor="middle" font-weight="700">14</text>
 <text x="100" y="74" text-anchor="middle">3</text><text x="170" y="34" text-anchor="middle">5</text><text x="240" y="94" text-anchor="middle">2</text>
 <text x="420" y="40" text-anchor="middle">N = 3 + 5 + 2 = 10</text>
-<text x="420" y="75" text-anchor="middle" fill="#1d4ed8" font-weight="700">المتوسط = 118 ÷ 10 = 11,8</text>
-<text x="420" y="110" text-anchor="middle" fill="#15803d" font-weight="700">الوسيط = 12</text>
-<text x="420" y="145" text-anchor="middle" fill="#c2410c" font-weight="700">المدى = 14 − 10 = 4</text>
+<text x="505" y="75" fill="#1d4ed8" font-weight="700" direction="rtl" text-anchor="start">المتوسط =</text><text x="439" y="75" fill="#1d4ed8" font-weight="700" text-anchor="end">118 ÷ 10 = 11,8</text>
+<text x="420" y="110" text-anchor="middle" fill="#15803d" font-weight="700" direction="rtl">الوسيط = 12</text>
+<text x="484" y="145" fill="#c2410c" font-weight="700" direction="rtl" text-anchor="start">المدى =</text><text x="432" y="145" fill="#c2410c" font-weight="700" text-anchor="end">14 − 10 = 4</text>
 </svg><figcaption>الشكل 1: مخطط بالأعمدة لسلسلة القيم 10؛ 12؛ 14 بتكرارات 3؛ 5؛ 2، مع مؤشراتها الثلاثة.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">مفردات:</span> السلسلة الإحصائية تتكوّن من <span class="k">قيم</span> ميزة مدروسة (علامات، أطوال...)، ولكل قيمة <span class="k">تكرار</span> (عدد مرات ظهورها)، ومجموع التكرارات هو <span class="k">التكرار الكلي</span> N.</li>
 <li><span class="k">المتوسط</span> m: مجموع كل القيم مقسومًا على N. إذا أُعطيت السلسلة بجدول تكرارات: m = (مجموع القيمة × تكرارها) ÷ N، ويُسمّى <span class="k">المتوسط المثقّل</span>.</li>
-<li><span class="k">الوسيط</span> Me: بعد ترتيب القيم تصاعديًا، هو القيمة التي يسبقها نصف القيم على الأكثر ويليها نصف القيم على الأكثر. إذا كان N فرديًا فهو القيمة ذات الرتبة (N + 1)/2، وإذا كان N زوجيًا فهو نصف مجموع القيمتين الوسطيتين.</li>
+<li><span class="k">الوسيط</span> Me: بعد ترتيب القيم تصاعديًا، هو القيمة التي يسبقها نصف القيم على الأكثر ويليها نصف القيم على الأكثر. إذا كان N فرديًا فهو القيمة ذات الرتبة <bdi dir="ltr">(N + 1)/2</bdi>، وإذا كان N زوجيًا فهو نصف مجموع القيمتين الوسطيتين.</li>
 <li><span class="k">المدى:</span> الفرق بين أكبر قيمة وأصغر قيمة؛ يقيس مدى تشتت السلسلة.</li>
 <li><span class="k">التكرارات المجمّعة المتزايدة</span> تساعد على إيجاد رتبة الوسيط في جدول كبير.</li>
 <li><span class="k">المقارنة:</span> قيمة متطرفة واحدة تغيّر المتوسط كثيرًا ولا تغيّر الوسيط إلا قليلًا.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>علامات تلميذ: 8؛ 12؛ 10؛ 15؛ 10. <span class="k">الحل:</span> السلسلة المرتّبة: 8؛ 10؛ 10؛ 12؛ 15. المتوسط = (8 + 10 + 10 + 12 + 15) ÷ 5 = 55 ÷ 5 = 11. N = 5 فردي فالوسيط هو القيمة الثالثة: 10. المدى = 15 − 8 = 7.</li>
-<li>السلسلة 6؛ 8؛ 11؛ 13. <span class="k">الحل:</span> N = 4 زوجي، الوسيط = (8 + 11) ÷ 2 = 9,5. المتوسط = 38 ÷ 4 = 9,5 أيضًا، والمدى = 13 − 6 = 7.</li>
-<li>جدول: القيم 10؛ 12؛ 14 بتكرارات 3؛ 5؛ 2 (N = 10). <span class="k">الحل:</span> المتوسط = (10 × 3 + 12 × 5 + 14 × 2) ÷ 10 = (30 + 60 + 28) ÷ 10 = 11,8. التكرارات المجمّعة: 3؛ 8؛ 10، فالقيمتان الخامسة والسادسة كلتاهما 12، إذن الوسيط = 12. المدى = 14 − 10 = 4.</li>
+<li>علامات تلميذ: 8؛ 12؛ 10؛ 15؛ 10. <span class="k">الحل:</span> السلسلة المرتّبة: 8؛ 10؛ 10؛ 12؛ 15. المتوسط = <bdi dir="ltr">(8 + 10 + 10 + 12 + 15) ÷ 5 = 55 ÷ 5 = 11</bdi>. <bdi dir="ltr">N = 5</bdi> فردي فالوسيط هو القيمة الثالثة: 10. المدى = <bdi dir="ltr">15 − 8 = 7</bdi>.</li>
+<li>السلسلة 6؛ 8؛ 11؛ 13. <span class="k">الحل:</span> <bdi dir="ltr">N = 4</bdi> زوجي، الوسيط = <bdi dir="ltr">(8 + 11) ÷ 2 = 9,5</bdi>. المتوسط = <bdi dir="ltr">38 ÷ 4 = 9,5</bdi> أيضًا، والمدى = <bdi dir="ltr">13 − 6 = 7</bdi>.</li>
+<li>جدول: القيم 10؛ 12؛ 14 بتكرارات 3؛ 5؛ 2 <bdi dir="ltr">(N = 10)</bdi>. <span class="k">الحل:</span> المتوسط = <bdi dir="ltr">(10 × 3 + 12 × 5 + 14 × 2) ÷ 10 = (30 + 60 + 28) ÷ 10 = 11,8</bdi>. التكرارات المجمّعة: 3؛ 8؛ 10، فالقيمتان الخامسة والسادسة كلتاهما 12، إذن الوسيط = 12. المدى = <bdi dir="ltr">14 − 10 = 4</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
 <li>أخذ القيمة الوسطى دون ترتيب السلسلة تصاعديًا أولًا.</li>
-<li>حساب متوسط القيم (10 + 12 + 14) ÷ 3 متجاهلًا التكرارات.</li>
+<li>حساب متوسط القيم <bdi dir="ltr">(10 + 12 + 14) ÷ 3</bdi> متجاهلًا التكرارات.</li>
 <li>الخلط بين الوسيط والمتوسط، أو بين المدى وأكبر قيمة.</li>
 <li>قسمة مجموع «قيمة × تكرار» على عدد القيم المختلفة بدل التكرار الكلي N.</li>
 </ul></div>

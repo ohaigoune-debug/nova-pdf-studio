@@ -5,8 +5,8 @@
 <title>المثلثات القائمة والنسب المثلثية</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -50,18 +50,18 @@ main{position:relative;z-index:1}
 <div class="crumb">4 متوسط · الرياضيات · كل الشعب · الوحدة 2: الأنشطة الهندسية · الدرس 2</div>
 <h1>المثلثات القائمة والنسب المثلثية</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن تعرّف جيب التمام والجيب والظل لزاوية حادة في مثلث قائم، وأن تستعملها لحساب طول ضلع أو قيس زاوية، مع توظيف العلاقتين cos<sup>2</sup>x + sin<sup>2</sup>x = 1 و tan x = sin x / cos x.</p>
+<p class="goal"><span class="k">الهدف:</span> أن تعرّف جيب التمام والجيب والظل لزاوية حادة في مثلث قائم، وأن تستعملها لحساب طول ضلع أو قيس زاوية، مع توظيف العلاقتين <bdi dir="ltr">cos<sup>2</sup>x + sin<sup>2</sup>x = 1</bdi> و <bdi dir="ltr">tan x = sin x / cos x</bdi>.</p>
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> في مثلث قائم، نسبة طولَي ضلعين لا تتعلق بحجم المثلث بل بقيس الزاوية الحادة فقط؛ هذه النسب هي جيب التمام والجيب والظل. تحديد الضلع «المجاور» و«المقابل» بالنسبة إلى الزاوية المدروسة هو مفتاح كل تمرين.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <polygon points="80,150 320,150 80,30" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
 <rect x="80" y="134" width="16" height="16" fill="none" stroke="#1d4ed8" stroke-width="1.5"/>
 <path d="M285 150 A35 35 0 0 0 292 132" fill="none" stroke="#c2410c" stroke-width="2"/><text x="268" y="140" text-anchor="middle" fill="#c2410c" font-weight="700" font-size="13">B̂</text>
 <text x="70" y="162" text-anchor="middle" font-weight="700">A</text><text x="332" y="162" text-anchor="middle" font-weight="700">B</text><text x="70" y="26" text-anchor="middle" font-weight="700">C</text>
-<text x="200" y="168" text-anchor="middle" fill="#15803d">AB: الضلع المجاور لـ B̂</text>
-<text x="40" y="95" text-anchor="middle" fill="#a16207" transform="rotate(-90 40 95)">AC: الضلع المقابل لـ B̂</text>
-<text x="215" y="80" text-anchor="middle" fill="#1d4ed8" transform="rotate(-26.5 215 80)">BC: الوتر</text>
+<text x="200" y="168" text-anchor="middle" fill="#15803d" direction="rtl">AB: الضلع المجاور لـ B̂</text>
+<text x="40" y="95" text-anchor="middle" fill="#a16207" transform="rotate(-90 40 95)" direction="rtl">AC: الضلع المقابل لـ B̂</text>
+<text x="215" y="80" text-anchor="middle" fill="#1d4ed8" transform="rotate(-26.5 215 80)" direction="rtl">BC: الوتر</text>
 <rect x="350" y="20" width="180" height="40" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="440" y="46" text-anchor="middle">cos B̂ = AB / BC</text>
 <rect x="350" y="68" width="180" height="40" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="440" y="94" text-anchor="middle">sin B̂ = AC / BC</text>
 <rect x="350" y="116" width="180" height="40" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="440" y="142" text-anchor="middle">tan B̂ = AC / AB</text>
@@ -71,15 +71,15 @@ main{position:relative;z-index:1}
 <li><span class="k">المفردات:</span> في مثلث قائم، <span class="k">الوتر</span> هو الضلع المقابل للزاوية القائمة وهو الأطول؛ ولكل زاوية حادة <span class="k">ضلع مجاور</span> (يلامسها وليس الوتر) و<span class="k">ضلع مقابل</span>.</li>
 <li><span class="k">جيب التمام:</span> cos B̂ = المجاور ÷ الوتر. <span class="k">الجيب:</span> sin B̂ = المقابل ÷ الوتر. <span class="k">الظل:</span> tan B̂ = المقابل ÷ المجاور.</li>
 <li><span class="k">حدود القيم:</span> لأن الوتر أطول ضلع فإن cos B̂ و sin B̂ محصوران بين 0 و 1، أما الظل فيمكن أن يتجاوز 1.</li>
-<li><span class="k">العلاقتان الأساسيتان:</span> cos<sup>2</sup>x + sin<sup>2</sup>x = 1 و tan x = sin x / cos x لكل زاوية حادة x.</li>
-<li><span class="k">حساب طول أو زاوية:</span> نكتب النسبة التي تحوي الطول المجهول والطول المعلوم ثم نحلّ المعادلة؛ ولإيجاد زاوية نحسب النسبة ثم نستعمل الآلة في وضع الدرجات (DEG) بالمفاتيح cos<sup>−1</sup> أو sin<sup>−1</sup> أو tan<sup>−1</sup>.</li>
-<li><span class="k">قيم تُحفظ:</span> cos 60° = sin 30° = 0,5 و tan 45° = 1.</li>
+<li><span class="k">العلاقتان الأساسيتان:</span> <bdi dir="ltr">cos<sup>2</sup>x + sin<sup>2</sup>x = 1</bdi> و <bdi dir="ltr">tan x = sin x / cos x</bdi> لكل زاوية حادة x.</li>
+<li><span class="k">حساب طول أو زاوية:</span> نكتب النسبة التي تحوي الطول المجهول والطول المعلوم ثم نحلّ المعادلة؛ ولإيجاد زاوية نحسب النسبة ثم نستعمل الآلة في وضع الدرجات (DEG) بالمفاتيح <bdi dir="ltr">cos<sup>−1</sup></bdi> أو <bdi dir="ltr">sin<sup>−1</sup></bdi> أو <bdi dir="ltr">tan<sup>−1</sup></bdi>.</li>
+<li><span class="k">قيم تُحفظ:</span> <bdi dir="ltr">cos 60° = sin 30° = 0,5</bdi> و <bdi dir="ltr">tan 45° = 1</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>مثلث ABC قائم في A، فيه AB = 3 cm و AC = 4 cm و BC = 5 cm. احسب النسب المثلثية لـ B̂. <span class="k">الحل:</span> cos B̂ = AB/BC = 3/5 = 0,6 و sin B̂ = AC/BC = 4/5 = 0,8 و tan B̂ = AC/AB = 4/3. التحقق: 0,36 + 0,64 = 1.</li>
-<li>زاوية حادة x بحيث cos x = 0,6. احسب sin x دون الآلة. <span class="k">الحل:</span> sin<sup>2</sup>x = 1 − 0,36 = 0,64، وبما أن sin x موجب فإن sin x = 0,8.</li>
-<li>سلّم طوله 5 m يستند إلى حائط ويصنع مع الأرض زاوية 60°. ما ارتفاع نقطة استناده؟ <span class="k">الحل:</span> الارتفاع h مقابل للزاوية والسلّم هو الوتر: sin 60° = h/5، إذن h = 5 × sin 60° ≈ 5 × 0,866 ≈ 4,33 m.</li>
+<li>مثلث ABC قائم في A، فيه <bdi dir="ltr">AB = 3 cm</bdi> و <bdi dir="ltr">AC = 4 cm</bdi> و <bdi dir="ltr">BC = 5 cm</bdi>. احسب النسب المثلثية لـ B̂. <span class="k">الحل:</span> <bdi dir="ltr">cos B̂ = AB/BC = 3/5 = 0,6</bdi> و <bdi dir="ltr">sin B̂ = AC/BC = 4/5 = 0,8</bdi> و <bdi dir="ltr">tan B̂ = AC/AB = 4/3</bdi>. التحقق: <bdi dir="ltr">0,36 + 0,64 = 1</bdi>.</li>
+<li>زاوية حادة x بحيث <bdi dir="ltr">cos x = 0,6</bdi>. احسب sin x دون الآلة. <span class="k">الحل:</span> <bdi dir="ltr">sin<sup>2</sup>x = 1 − 0,36 = 0,64</bdi>، وبما أن sin x موجب فإن <bdi dir="ltr">sin x = 0,8</bdi>.</li>
+<li>سلّم طوله 5 m يستند إلى حائط ويصنع مع الأرض زاوية 60°. ما ارتفاع نقطة استناده؟ <span class="k">الحل:</span> الارتفاع h مقابل للزاوية والسلّم هو الوتر: <bdi dir="ltr">sin 60° = h/5</bdi>، إذن <bdi dir="ltr">h = 5 × sin 60° ≈ 5 × 0,866 ≈ 4,33 m</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
@@ -92,7 +92,7 @@ main{position:relative;z-index:1}
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
 <li>cos = مجاور/وتر، sin = مقابل/وتر، tan = مقابل/مجاور.</li>
 <li>cos و sin دائمًا بين 0 و 1.</li>
-<li>cos<sup>2</sup>x + sin<sup>2</sup>x = 1 و tan x = sin x / cos x.</li>
+<li><bdi dir="ltr">cos<sup>2</sup>x + sin<sup>2</sup>x = 1</bdi> و <bdi dir="ltr">tan x = sin x / cos x</bdi>.</li>
 <li>طول مجهول: نسبة مناسبة ثم جداء متصالب؛ زاوية: المفاتيح العكسية والآلة في وضع DEG.</li>
 </ul></div>
 

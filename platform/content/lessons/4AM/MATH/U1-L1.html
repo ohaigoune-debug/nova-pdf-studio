@@ -5,8 +5,8 @@
 <title>الأعداد الطبيعية والناطقة: القاسم المشترك الأكبر والكسر غير القابل للاختزال</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -52,33 +52,33 @@ main{position:relative;z-index:1}
 
 <p class="goal"><span class="k">الهدف:</span> أن تحسب القاسم المشترك الأكبر لعددين طبيعيين بخوارزمية إقليدس أو بالطرح المتتالي، وأن تستعمله لاختزال كسر إلى كسر غير قابل للاختزال ولحلّ مسائل التقسيم المتساوي.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> القاسم المشترك الأكبر PGCD(a ; b) هو أكبر عدد طبيعي يقسم a و b معًا. عند قسمة بسط الكسر ومقامه على هذا القاسم نحصل على كسر غير قابل للاختزال، أي كسر بسطه ومقامه أوليان فيما بينهما.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> القاسم المشترك الأكبر <bdi dir="ltr">PGCD(a ; b)</bdi> هو أكبر عدد طبيعي يقسم a و b معًا. عند قسمة بسط الكسر ومقامه على هذا القاسم نحصل على كسر غير قابل للاختزال، أي كسر بسطه ومقامه أوليان فيما بينهما.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
-<text x="270" y="22" text-anchor="middle" font-weight="700" fill="#1f2937">خوارزمية إقليدس لحساب PGCD(84 ; 36)</text>
-<rect x="400" y="50" width="125" height="50" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="462" y="72" text-anchor="middle">84 = 36 × 2 + 12</text><text x="462" y="92" text-anchor="middle" font-size="12" fill="#1d4ed8">الباقي 12 ≠ 0</text>
+<text x="388" y="22" font-weight="700" fill="#1f2937" direction="rtl" text-anchor="start">خوارزمية إقليدس لحساب</text><text x="248" y="22" font-weight="700" fill="#1f2937" text-anchor="end">PGCD(84 ; 36)</text>
+<rect x="400" y="50" width="125" height="50" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="462" y="72" text-anchor="middle">84 = 36 × 2 + 12</text><text x="495" y="92" font-size="12" fill="#1d4ed8" direction="rtl" text-anchor="start">الباقي</text><text x="461" y="92" font-size="12" fill="#1d4ed8" text-anchor="end">12 ≠ 0</text>
 <line x1="398" y1="75" x2="352" y2="75" stroke="#1f2937" stroke-width="2" marker-end="url(#ar1)"/>
-<rect x="225" y="50" width="125" height="50" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="287" y="72" text-anchor="middle">36 = 12 × 3 + 0</text><text x="287" y="92" text-anchor="middle" font-size="12" fill="#1d4ed8">الباقي 0: نتوقف</text>
+<rect x="225" y="50" width="125" height="50" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="287" y="72" text-anchor="middle">36 = 12 × 3 + 0</text><text x="287" y="92" text-anchor="middle" font-size="12" fill="#1d4ed8" direction="rtl">الباقي 0: نتوقف</text>
 <line x1="223" y1="75" x2="177" y2="75" stroke="#1f2937" stroke-width="2" marker-end="url(#ar1)"/>
-<rect x="20" y="50" width="155" height="50" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="97" y="72" text-anchor="middle" font-weight="700">PGCD(84 ; 36) = 12</text><text x="97" y="92" text-anchor="middle" font-size="12" fill="#15803d">آخر باقٍ غير معدوم</text>
+<rect x="20" y="50" width="155" height="50" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="97" y="72" text-anchor="middle" font-weight="700">PGCD(84 ; 36) = 12</text><text x="97" y="92" text-anchor="middle" font-size="12" fill="#15803d" direction="rtl">آخر باقٍ غير معدوم</text>
 <rect x="150" y="120" width="240" height="40" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="270" y="146" text-anchor="middle">84/36 = (84 ÷ 12)/(36 ÷ 12) = 7/3</text>
 </svg><figcaption>الشكل 1: قسمات إقليدية متتالية حتى يصبح الباقي صفرًا؛ آخر باقٍ غير معدوم هو القاسم المشترك الأكبر، وبه نختزل الكسر.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">قاسم عدد:</span> العدد d قاسم للعدد a إذا كانت قسمة a على d تعطي باقيًا معدومًا. مثال: قواسم 12 هي 1 ; 2 ; 3 ; 4 ; 6 ; 12.</li>
-<li><span class="k">القاسم المشترك الأكبر PGCD(a ; b)</span> هو أكبر عدد طبيعي يقسم العددين a و b في آن واحد.</li>
-<li><span class="k">خاصية الطرح:</span> إذا كان a &gt; b فإن PGCD(a ; b) = PGCD(b ; a − b)، وهي أساس طريقة الطرح المتتالي.</li>
+<li><span class="k">قاسم عدد:</span> العدد d قاسم للعدد a إذا كانت قسمة a على d تعطي باقيًا معدومًا. مثال: قواسم 12 هي <bdi dir="ltr">1 ; 2 ; 3 ; 4 ; 6 ; 12</bdi>.</li>
+<li><span class="k">القاسم المشترك الأكبر <bdi dir="ltr">PGCD(a ; b)</bdi></span> هو أكبر عدد طبيعي يقسم العددين a و b في آن واحد.</li>
+<li><span class="k">خاصية الطرح:</span> إذا كان <bdi dir="ltr">a &gt; b</bdi> فإن <bdi dir="ltr">PGCD(a ; b) = PGCD(b ; a − b)</bdi>، وهي أساس طريقة الطرح المتتالي.</li>
 <li><span class="k">خوارزمية إقليدس:</span> نقسم العدد الأكبر على الأصغر، ثم نقسم المقسوم عليه على الباقي، ونكرر حتى نحصل على باقٍ معدوم؛ القاسم المشترك الأكبر هو آخر باقٍ غير معدوم.</li>
 <li><span class="k">عددان أوليان فيما بينهما:</span> عددان قاسمهما المشترك الأكبر يساوي 1، مثل 15 و 28.</li>
 <li><span class="k">كسر غير قابل للاختزال:</span> كسر بسطه ومقامه أوليان فيما بينهما. لاختزال كسر نقسم حدّيه على قاسمهما المشترك الأكبر.</li>
-<li><span class="k">حالة خاصة:</span> إذا كان b قاسمًا لـ a فإن PGCD(a ; b) = b.</li>
+<li><span class="k">حالة خاصة:</span> إذا كان b قاسمًا لـ a فإن <bdi dir="ltr">PGCD(a ; b) = b</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>احسب PGCD(252 ; 90) ثم اختزل الكسر 252/90. <span class="k">الحل:</span> 252 = 90 × 2 + 72 ثم 90 = 72 × 1 + 18 ثم 72 = 18 × 4 + 0، فالقاسم المشترك الأكبر هو 18. ومنه 252/90 = 14/5، كسر غير قابل للاختزال لأن 14 و 5 أوليان فيما بينهما.</li>
-<li>بالطرح المتتالي: PGCD(60 ; 36). <span class="k">الحل:</span> 60 − 36 = 24 ثم 36 − 24 = 12 ثم 24 − 12 = 12 ثم 12 − 12 = 0، إذن PGCD(60 ; 36) = 12.</li>
-<li>عند بائع أزهار 60 وردة و 36 زنبقة، يريد صنع أكبر عدد ممكن من الباقات المتطابقة دون أن يبقى شيء. <span class="k">الحل:</span> عدد الباقات هو PGCD(60 ; 36) = 12 باقة، في كل باقة 60 ÷ 12 = 5 ورود و 36 ÷ 12 = 3 زنبقات.</li>
+<li>احسب <bdi dir="ltr">PGCD(252 ; 90)</bdi> ثم اختزل الكسر <bdi dir="ltr">252/90</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">252 = 90 × 2 + 72</bdi> ثم <bdi dir="ltr">90 = 72 × 1 + 18</bdi> ثم <bdi dir="ltr">72 = 18 × 4 + 0</bdi>، فالقاسم المشترك الأكبر هو 18. ومنه <bdi dir="ltr">252/90 = 14/5</bdi>، كسر غير قابل للاختزال لأن 14 و 5 أوليان فيما بينهما.</li>
+<li>بالطرح المتتالي: <bdi dir="ltr">PGCD(60 ; 36)</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">60 − 36 = 24</bdi> ثم <bdi dir="ltr">36 − 24 = 12</bdi> ثم <bdi dir="ltr">24 − 12 = 12</bdi> ثم <bdi dir="ltr">12 − 12 = 0</bdi>، إذن <bdi dir="ltr">PGCD(60 ; 36) = 12</bdi>.</li>
+<li>عند بائع أزهار 60 وردة و 36 زنبقة، يريد صنع أكبر عدد ممكن من الباقات المتطابقة دون أن يبقى شيء. <span class="k">الحل:</span> عدد الباقات هو <bdi dir="ltr">PGCD(60 ; 36) = 12</bdi> باقة، في كل باقة <bdi dir="ltr">60 ÷ 12 = 5</bdi> ورود و <bdi dir="ltr">36 ÷ 12 = 3</bdi> زنبقات.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
@@ -89,10 +89,10 @@ main{position:relative;z-index:1}
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>PGCD(a ; b) = أكبر قاسم مشترك للعددين.</li>
+<li><bdi dir="ltr">PGCD(a ; b)</bdi> = أكبر قاسم مشترك للعددين.</li>
 <li>إقليدس: قسمات متتالية، النتيجة هي آخر باقٍ غير معدوم.</li>
-<li>الطرح: PGCD(a ; b) = PGCD(b ; a − b).</li>
-<li>PGCD = 1 ⇒ العددان أوليان فيما بينهما ⇒ الكسر غير قابل للاختزال.</li>
+<li>الطرح: <bdi dir="ltr">PGCD(a ; b) = PGCD(b ; a − b)</bdi>.</li>
+<li><bdi dir="ltr">PGCD = 1</bdi> ⇐ العددان أوليان فيما بينهما ⇐ الكسر غير قابل للاختزال.</li>
 <li>لاختزال كسر: اقسم البسط والمقام على القاسم المشترك الأكبر.</li>
 </ul></div>
 

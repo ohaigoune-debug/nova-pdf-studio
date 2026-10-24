@@ -5,8 +5,8 @@
 <title>التكرار والتواتر والتكرار المجمع</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -54,22 +54,22 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> التكرار هو عدد مرات ظهور القيمة، والتواتر هو حصّتها من المجموع الكلي (عدد بين 0 و1). أمّا التكرار المجمّع الصاعد فهو مجموع التكرارات من أصغر قيمة إلى القيمة المعتبرة، ويجيب عن سؤال «كم فردًا قيمته أصغر من أو تساوي…؟».</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <rect x="5" y="5" width="530" height="40" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
 <rect x="5" y="45" width="530" height="40" fill="#fff" stroke="#1f2937" stroke-width="1"/>
 <rect x="5" y="85" width="530" height="40" fill="#86efac" stroke="#15803d" stroke-width="1"/>
 <rect x="5" y="125" width="530" height="40" fill="#fde68a" stroke="#a16207" stroke-width="1"/>
 <line x1="440" y1="5" x2="440" y2="165" stroke="#1f2937" stroke-width="1.5"/>
 <line x1="80" y1="5" x2="80" y2="165" stroke="#1f2937" stroke-width="1.5"/>
-<text x="490" y="31" text-anchor="middle" font-weight="700">العلامة x<tspan font-size="10" dy="4">i</tspan></text>
-<text x="490" y="71" text-anchor="middle" font-weight="700">التكرار n<tspan font-size="10" dy="4">i</tspan></text>
-<text x="490" y="111" text-anchor="middle" font-weight="700">التواتر f<tspan font-size="10" dy="4">i</tspan></text>
-<text x="490" y="151" text-anchor="middle" font-weight="700" font-size="13">التكرار المجمّع</text>
+<text x="522" y="31" font-weight="700" direction="rtl" text-anchor="start">العلامة</text><text x="470" y="31" font-weight="700" text-anchor="end">x<tspan font-size="10" dy="4">i</tspan></text>
+<text x="522" y="71" font-weight="700" direction="rtl" text-anchor="start">التكرار</text><text x="470" y="71" font-weight="700" text-anchor="end">n<tspan font-size="10" dy="4">i</tspan></text>
+<text x="522" y="111" font-weight="700" direction="rtl" text-anchor="start">التواتر</text><text x="470" y="111" font-weight="700" text-anchor="end">f<tspan font-size="10" dy="4">i</tspan></text>
+<text x="490" y="151" text-anchor="middle" font-weight="700" font-size="13" direction="rtl">التكرار المجمّع</text>
 <text x="404" y="31" text-anchor="middle">8</text><text x="332" y="31" text-anchor="middle">10</text><text x="260" y="31" text-anchor="middle">12</text><text x="188" y="31" text-anchor="middle">14</text><text x="116" y="31" text-anchor="middle">16</text>
 <text x="404" y="71" text-anchor="middle">2</text><text x="332" y="71" text-anchor="middle">5</text><text x="260" y="71" text-anchor="middle">6</text><text x="188" y="71" text-anchor="middle">4</text><text x="116" y="71" text-anchor="middle">3</text>
 <text x="404" y="111" text-anchor="middle">0,1</text><text x="332" y="111" text-anchor="middle">0,25</text><text x="260" y="111" text-anchor="middle">0,3</text><text x="188" y="111" text-anchor="middle">0,2</text><text x="116" y="111" text-anchor="middle">0,15</text>
 <text x="404" y="151" text-anchor="middle">2</text><text x="332" y="151" text-anchor="middle">7</text><text x="260" y="151" text-anchor="middle">13</text><text x="188" y="151" text-anchor="middle">17</text><text x="116" y="151" text-anchor="middle">20</text>
-<text x="42" y="31" text-anchor="middle" font-weight="700">المجموع</text>
+<text x="42" y="31" text-anchor="middle" font-weight="700" direction="rtl">المجموع</text>
 <text x="42" y="71" text-anchor="middle" fill="#1d4ed8" font-weight="700">20</text>
 <text x="42" y="111" text-anchor="middle" fill="#15803d" font-weight="700">1</text>
 <text x="42" y="151" text-anchor="middle" fill="#c2410c" font-size="12">—</text>
@@ -77,18 +77,18 @@ main{position:relative;z-index:1}
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">السلسلة الإحصائية</span> مجموعة قيم (علامات، أعمار، أطوال…) مأخوذة من <span class="k">مجتمع إحصائي</span> عدد أفراده N يسمّى <span class="k">العدد الكلي</span>.</li>
-<li><span class="k">التكرار n<sub>i</sub></span> لقيمة x<sub>i</sub> هو عدد مرات ظهور هذه القيمة في السلسلة، ومجموع كل التكرارات يساوي N.</li>
-<li><span class="k">التواتر f<sub>i</sub></span> هو حاصل قسمة التكرار على العدد الكلي: f<sub>i</sub> = n<sub>i</sub> ÷ N. يُكتب عددًا عشريًا أو كسرًا أو نسبة مئوية (نضربه في 100).</li>
+<li><span class="k">التكرار <bdi dir="ltr">n<sub>i</sub></bdi></span> لقيمة <bdi dir="ltr">x<sub>i</sub></bdi> هو عدد مرات ظهور هذه القيمة في السلسلة، ومجموع كل التكرارات يساوي N.</li>
+<li><span class="k">التواتر <bdi dir="ltr">f<sub>i</sub></bdi></span> هو حاصل قسمة التكرار على العدد الكلي: <bdi dir="ltr">f<sub>i</sub> = n<sub>i</sub> ÷ N</bdi>. يُكتب عددًا عشريًا أو كسرًا أو نسبة مئوية (نضربه في 100).</li>
 <li>التواتر عدد محصور بين 0 و1، و<span class="k">مجموع التواترات يساوي 1</span> دائمًا (أي 100 %).</li>
-<li><span class="k">التكرار المجمّع الصاعد</span> لقيمة x<sub>i</sub> هو مجموع تكرارات القيم الأصغر من أو تساوي x<sub>i</sub>؛ نحصل عليه بجمع التكرارات تدريجيًا من الأصغر، وآخر قيمة فيه تساوي N.</li>
+<li><span class="k">التكرار المجمّع الصاعد</span> لقيمة <bdi dir="ltr">x<sub>i</sub></bdi> هو مجموع تكرارات القيم الأصغر من أو تساوي <bdi dir="ltr">x<sub>i</sub></bdi>؛ نحصل عليه بجمع التكرارات تدريجيًا من الأصغر، وآخر قيمة فيه تساوي N.</li>
 <li><span class="k">التواتر المجمّع الصاعد</span> يُحسب بالطريقة نفسها مع التواترات، وآخر قيمة فيه تساوي 1.</li>
-<li>في حالة <span class="k">الفئات</span> (مثل [10 ؛ 12[) نطبّق القواعد نفسها، ويُنسب التكرار المجمّع إلى الحد الأعلى للفئة.</li>
+<li>في حالة <span class="k">الفئات</span> (مثل <bdi dir="ltr">[10 ; 12[</bdi>) نطبّق القواعد نفسها، ويُنسب التكرار المجمّع إلى الحد الأعلى للفئة.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>علامات 20 تلميذًا موزّعة كما في الشكل 1. احسب تواتر العلامة 12. <span class="k">الحل:</span> f = 6 ÷ 20 = 0,3 أي 30 %. التحقق: 0,1 + 0,25 + 0,3 + 0,2 + 0,15 = 1.</li>
-<li>من الجدول نفسه، كم تلميذًا علامته أصغر من أو تساوي 12؟ <span class="k">الحل:</span> نقرأ التكرار المجمّع الصاعد عند 12: 2 + 5 + 6 = 13 تلميذًا. ومنه عدد من علامتهم أكبر تمامًا من 12 هو 20 − 13 = 7.</li>
-<li>في قسم من 25 تلميذًا تواتر الذين يأتون مشيًا هو 0,4. ما تكرارهم؟ <span class="k">الحل:</span> n = f × N = 0,4 × 25 = 10 تلاميذ.</li>
+<li>علامات 20 تلميذًا موزّعة كما في الشكل 1. احسب تواتر العلامة 12. <span class="k">الحل:</span> <bdi dir="ltr">f = 6 ÷ 20 = 0,3</bdi> أي 30 %. التحقق: <bdi dir="ltr">0,1 + 0,25 + 0,3 + 0,2 + 0,15 = 1</bdi>.</li>
+<li>من الجدول نفسه، كم تلميذًا علامته أصغر من أو تساوي 12؟ <span class="k">الحل:</span> نقرأ التكرار المجمّع الصاعد عند 12: <bdi dir="ltr">2 + 5 + 6 = 13</bdi> تلميذًا. ومنه عدد من علامتهم أكبر تمامًا من 12 هو <bdi dir="ltr">20 − 13 = 7</bdi>.</li>
+<li>في قسم من 25 تلميذًا تواتر الذين يأتون مشيًا هو 0,4. ما تكرارهم؟ <span class="k">الحل:</span> <bdi dir="ltr">n = f × N = 0,4 × 25 = 10</bdi> تلاميذ.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
@@ -99,11 +99,11 @@ main{position:relative;z-index:1}
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>التكرار n<sub>i</sub> = عدد مرات ظهور القيمة؛ مجموعها = N.</li>
-<li>التواتر f<sub>i</sub> = n<sub>i</sub> ÷ N؛ بين 0 و1؛ مجموعها = 1.</li>
+<li>التكرار <bdi dir="ltr">n<sub>i</sub></bdi> = عدد مرات ظهور القيمة؛ مجموعها = N.</li>
+<li>التواتر <bdi dir="ltr">f<sub>i</sub> = n<sub>i</sub> ÷ N</bdi>؛ بين 0 و1؛ مجموعها = 1.</li>
 <li>النسبة المئوية = التواتر × 100.</li>
 <li>التكرار المجمّع الصاعد = جمع التكرارات تدريجيًا؛ آخره = N.</li>
-<li>«كم فردًا قيمته ≤ x؟» ⇒ اقرأ التكرار المجمّع عند x.</li>
+<li>«كم فردًا قيمته <bdi dir="ltr">≤ x</bdi>؟» ⇐ اقرأ التكرار المجمّع عند x.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

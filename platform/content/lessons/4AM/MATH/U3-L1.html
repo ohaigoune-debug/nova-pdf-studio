@@ -5,8 +5,8 @@
 <title>التناسبية والنسبة المئوية</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -52,37 +52,37 @@ main{position:relative;z-index:1}
 
 <p class="goal"><span class="k">الهدف:</span> أن تتعرّف على وضعية تناسبية وتحسب معامل التناسب والرابع المتناسب، وأن توظّف النسبة المئوية في حساب جزء من كمية أو زيادة أو تخفيض.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> في جدول تناسبية نمرّ من السطر الأول إلى الثاني بالضرب في عدد ثابت هو معامل التناسب. النسبة المئوية t% ليست إلا الكسر t/100، فحساب t% من كمية هو ضربها في t/100، والزيادة أو التخفيض بنسبة t% هو ضرب في (1 + t/100) أو (1 − t/100).</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> في جدول تناسبية نمرّ من السطر الأول إلى الثاني بالضرب في عدد ثابت هو معامل التناسب. النسبة المئوية t% ليست إلا الكسر <bdi dir="ltr">t/100</bdi>، فحساب t% من كمية هو ضربها في <bdi dir="ltr">t/100</bdi>، والزيادة أو التخفيض بنسبة t% هو ضرب في <bdi dir="ltr">(1 + t/100)</bdi> أو <bdi dir="ltr">(1 − t/100)</bdi>.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="arp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#c2410c"/></marker></defs>
-<text x="300" y="22" text-anchor="middle" font-weight="700">جدول تناسبية: معامل التناسب k = 150</text>
+<text x="412" y="22" font-weight="700" direction="rtl" text-anchor="start">جدول تناسبية: معامل التناسب</text><text x="237" y="22" font-weight="700" text-anchor="end">k = 150</text>
 <rect x="400" y="40" width="120" height="70" fill="#dbe6ff" stroke="#1f2937"/>
 <rect x="100" y="40" width="300" height="70" fill="none" stroke="#1f2937"/>
 <line x1="100" y1="75" x2="520" y2="75" stroke="#1f2937"/>
 <line x1="300" y1="40" x2="300" y2="110" stroke="#1f2937"/><line x1="200" y1="40" x2="200" y2="110" stroke="#1f2937"/>
-<text x="460" y="63" text-anchor="middle" font-weight="700">الكتلة (kg)</text><text x="460" y="98" text-anchor="middle" font-weight="700">الثمن (دج)</text>
+<text x="460" y="63" text-anchor="middle" font-weight="700" direction="rtl">الكتلة (kg)</text><text x="460" y="98" text-anchor="middle" font-weight="700" direction="rtl">الثمن (دج)</text>
 <text x="350" y="63" text-anchor="middle">1</text><text x="250" y="63" text-anchor="middle">3</text><text x="150" y="63" text-anchor="middle">5</text>
 <text x="350" y="98" text-anchor="middle" fill="#1d4ed8" font-weight="700">150</text><text x="250" y="98" text-anchor="middle" fill="#1d4ed8" font-weight="700">450</text><text x="150" y="98" text-anchor="middle" fill="#1d4ed8" font-weight="700">750</text>
 <path d="M92 58 C 62 58, 62 92, 90 92" fill="none" stroke="#c2410c" stroke-width="2" marker-end="url(#arp)"/>
 <text x="42" y="80" text-anchor="middle" fill="#c2410c" font-weight="700">× 150</text>
-<text x="300" y="145" text-anchor="middle" fill="#15803d">النسبة المئوية: t% = t/100 ، مثلًا 15% من 240 = 240 × 0,15 = 36</text>
-<text x="300" y="168" text-anchor="middle" fill="#a16207">زيادة 20%: × 1,2 ، تخفيض 20%: × 0,8</text>
+<text x="496" y="145" fill="#15803d" direction="rtl" text-anchor="start">النسبة المئوية:</text><text x="402" y="145" fill="#15803d" text-anchor="end">t% = t/100</text><text x="330" y="145" fill="#15803d" direction="rtl" text-anchor="start">، مثلًا 15% من</text><text x="241" y="145" fill="#15803d" text-anchor="end">240 = 240 × 0,15 = 36</text>
+<text x="300" y="168" text-anchor="middle" fill="#a16207" direction="rtl">زيادة 20%: × 1,2 ، تخفيض 20%: × 0,8</text>
 </svg><figcaption>الشكل 1: جدول تناسبية معامله 150 (الثمن = الكتلة × 150)، وقراءة النسبة المئوية كمعامل ضرب.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">جدول تناسبية:</span> سطران من الأعداد يكون فيهما كل عدد من السطر الثاني يساوي العدد المقابل له في السطر الأول مضروبًا في عدد ثابت k يُسمّى <span class="k">معامل التناسب</span>.</li>
-<li><span class="k">الرابع المتناسب:</span> إذا كان a/b = c/d فإن a × d = b × c (الجداء المتصالب)، ومنه d = (b × c)/a.</li>
-<li><span class="k">النسبة المئوية:</span> t% = t/100. حساب t% من كمية Q يعني Q × t/100.</li>
+<li><span class="k">الرابع المتناسب:</span> إذا كان <bdi dir="ltr">a/b = c/d</bdi> فإن <bdi dir="ltr">a × d = b × c</bdi> (الجداء المتصالب)، ومنه <bdi dir="ltr">d = (b × c)/a</bdi>.</li>
+<li><span class="k">النسبة المئوية:</span> <bdi dir="ltr">t% = t/100</bdi>. حساب t% من كمية Q يعني <bdi dir="ltr">Q × t/100</bdi>.</li>
 <li><span class="k">حساب نسبة مئوية:</span> نسبة الجزء إلى الكل هي (الجزء ÷ الكل) × 100.</li>
-<li><span class="k">الزيادة بنسبة t%</span> تعني الضرب في (1 + t/100)، و<span class="k">التخفيض بنسبة t%</span> يعني الضرب في (1 − t/100).</li>
-<li><span class="k">تناسبية = دالة خطية:</span> الربط بين x و k × x هو ما سنسمّيه في الدرس القادم الدالة الخطية x ↦ kx.</li>
+<li><span class="k">الزيادة بنسبة t%</span> تعني الضرب في <bdi dir="ltr">(1 + t/100)</bdi>، و<span class="k">التخفيض بنسبة t%</span> يعني الضرب في <bdi dir="ltr">(1 − t/100)</bdi>.</li>
+<li><span class="k">تناسبية = دالة خطية:</span> الربط بين x و <bdi dir="ltr">k × x</bdi> هو ما سنسمّيه في الدرس القادم الدالة الخطية <bdi dir="ltr">x ↦ kx</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>احسب 15% من 240 دج. <span class="k">الحل:</span> 240 × 15/100 = 240 × 0,15 = 36 دج.</li>
-<li>نجح 18 تلميذًا من قسم فيه 24 تلميذًا. ما نسبة النجاح؟ <span class="k">الحل:</span> 18 ÷ 24 = 0,75، أي 75%.</li>
-<li>سلعة ثمنها 500 دج زاد ثمنها 20% ثم خُفّض 20%. <span class="k">الحل:</span> بعد الزيادة: 500 × 1,2 = 600 دج؛ بعد التخفيض: 600 × 0,8 = 480 دج. لا نعود إلى 500 لأن التخفيض حُسب على 600 لا على 500.</li>
-<li>3 kg من الفواكه تكلّف 450 دج، فكم تكلّف 5 kg؟ <span class="k">الحل:</span> المعامل k = 450 ÷ 3 = 150 دج لكل kg، فالثمن 150 × 5 = 750 دج.</li>
+<li>احسب 15% من 240 دج. <span class="k">الحل:</span> <bdi dir="ltr">240 × 15/100 = 240 × 0,15 = 36</bdi> دج.</li>
+<li>نجح 18 تلميذًا من قسم فيه 24 تلميذًا. ما نسبة النجاح؟ <span class="k">الحل:</span> <bdi dir="ltr">18 ÷ 24 = 0,75</bdi>، أي 75%.</li>
+<li>سلعة ثمنها 500 دج زاد ثمنها 20% ثم خُفّض 20%. <span class="k">الحل:</span> بعد الزيادة: <bdi dir="ltr">500 × 1,2 = 600</bdi> دج؛ بعد التخفيض: <bdi dir="ltr">600 × 0,8 = 480</bdi> دج. لا نعود إلى 500 لأن التخفيض حُسب على 600 لا على 500.</li>
+<li>3 kg من الفواكه تكلّف 450 دج، فكم تكلّف 5 kg؟ <span class="k">الحل:</span> المعامل <bdi dir="ltr">k = 450 ÷ 3 = 150</bdi> دج لكل kg، فالثمن <bdi dir="ltr">150 × 5 = 750</bdi> دج.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
@@ -94,9 +94,9 @@ main{position:relative;z-index:1}
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
 <li>تناسبية ⇔ معامل ثابت k بين السطرين.</li>
-<li>a/b = c/d ⇔ a × d = b × c.</li>
-<li>t% من Q = Q × t/100.</li>
-<li>زيادة t%: × (1 + t/100)؛ تخفيض t%: × (1 − t/100).</li>
+<li><bdi dir="ltr">a/b = c/d ⇔ a × d = b × c</bdi>.</li>
+<li>t% من <bdi dir="ltr">Q = Q × t/100</bdi>.</li>
+<li>زيادة t%: × <bdi dir="ltr">(1 + t/100)</bdi>؛ تخفيض t%: × <bdi dir="ltr">(1 − t/100)</bdi>.</li>
 <li>زيادة ثم تخفيض بنفس النسبة لا يعيدان القيمة الأصلية.</li>
 </ul></div>
 

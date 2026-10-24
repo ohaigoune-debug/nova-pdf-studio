@@ -5,8 +5,8 @@
 <title>الحركة المستقيمة المنتظمة والسرعة</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -50,11 +50,11 @@ main{position:relative;z-index:1}
 <div class="crumb">1 ثانوي · العلوم الفيزيائية · كل الشعب · الوحدة 2: الظواهر الميكانيكية · الدرس 2</div>
 <h1>الحركة المستقيمة المنتظمة والسرعة</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن تتعرف على الحركة المستقيمة المنتظمة، وأن تحسب السرعة وتستعمل المعادلة الزمنية x = v·t + x<sub>0</sub>.</p>
+<p class="goal"><span class="k">الهدف:</span> أن تتعرف على الحركة المستقيمة المنتظمة، وأن تحسب السرعة وتستعمل المعادلة الزمنية <bdi dir="ltr">x = v·t + x<sub>0</sub></bdi>.</p>
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> الحركة مستقيمة منتظمة إذا كان المسار مستقيمًا وقطع المتحرك مسافات متساوية في مجالات زمنية متساوية. سرعته ثابتة، ومنحنى موضعه بدلالة الزمن مستقيم.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="14">
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" direction="ltr" font-family="Amiri,serif" font-size="14">
 <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
 <line x1="60" y1="145" x2="500" y2="145" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar)"/><line x1="60" y1="145" x2="60" y2="15" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar)"/>
 <text x="490" y="165" text-anchor="middle">t (s)</text><text x="40" y="22" text-anchor="middle">x (m)</text>
@@ -62,35 +62,35 @@ main{position:relative;z-index:1}
 <circle cx="60" cy="115" r="5" fill="#c2410c"/><text x="85" y="108" fill="#c2410c">x₀</text>
 <line x1="200" y1="82" x2="300" y2="82" stroke="#15803d" stroke-dasharray="4 3"/><line x1="300" y1="82" x2="300" y2="59" stroke="#15803d" stroke-dasharray="4 3"/>
 <text x="250" y="102" text-anchor="middle" fill="#15803d">Δt</text><text x="322" y="75" fill="#15803d">Δx</text>
-<text x="380" y="75" fill="#1d4ed8">الميل = v</text>
+<text x="402" y="75" text-anchor="end" direction="rtl" fill="#1d4ed8">الميل</text><text x="380" y="75" text-anchor="start" fill="#1d4ed8">= v</text>
 </svg><figcaption>الشكل 1: مخطط الموضع بدلالة الزمن: مستقيم ميله يساوي السرعة.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">الحركة المستقيمة المنتظمة:</span> مسار مستقيم وسرعة ثابتة.</li>
-<li><span class="k">السرعة:</span> v = Δx / Δt، وحدتها m/s في الجملة الدولية.</li>
-<li><span class="k">التحويل:</span> 1 m/s = 3.6 km/h.</li>
-<li><span class="k">المعادلة الزمنية:</span> x = v·t + x<sub>0</sub>، حيث x<sub>0</sub> الموضع عند t = 0.</li>
+<li><span class="k">السرعة:</span> <bdi dir="ltr">v = Δx / Δt</bdi>، وحدتها <bdi dir="ltr">m/s</bdi> في الجملة الدولية.</li>
+<li><span class="k">التحويل:</span> <bdi dir="ltr">1 m/s = 3.6 km/h</bdi>.</li>
+<li><span class="k">المعادلة الزمنية:</span> <bdi dir="ltr">x = v·t + x<sub>0</sub></bdi>، حيث x<sub>0</sub> الموضع عند <bdi dir="ltr">t = 0</bdi>.</li>
 <li>السرعة كمية موجّهة: قيمتها موجبة إذا كانت الحركة في الاتجاه الموجب للمحور وسالبة في الاتجاه المعاكس.</li>
 <li>مخطط السرعة بدلالة الزمن مستقيم أفقي.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>تحويل 72 km/h إلى m/s. <span class="k">الحل:</span> 72 / 3.6 = 20 m/s.</li>
-<li>سيارة بسرعة ثابتة 25 m/s خلال 20 s. <span class="k">الحل:</span> d = 25 × 20 = 500 m.</li>
-<li>معادلة متحرك x = 5t + 2 (بوحدات SI). <span class="k">الحل:</span> السرعة 5 m/s والموضع الابتدائي 2 m، وعند t = 4 s يكون x = 5 × 4 + 2 = 22 m.</li>
+<li>تحويل <bdi dir="ltr">72 km/h</bdi> إلى <bdi dir="ltr">m/s</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">72 / 3.6 = 20 m/s</bdi>.</li>
+<li>سيارة بسرعة ثابتة <bdi dir="ltr">25 m/s</bdi> خلال 20 s. <span class="k">الحل:</span> <bdi dir="ltr">d = 25 × 20 = 500 m</bdi>.</li>
+<li>معادلة متحرك <bdi dir="ltr">x = 5t + 2</bdi> (بوحدات SI). <span class="k">الحل:</span> السرعة <bdi dir="ltr">5 m/s</bdi> والموضع الابتدائي 2 m، وعند <bdi dir="ltr">t = 4 s</bdi> يكون <bdi dir="ltr">x = 5 × 4 + 2 = 22 m</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>الخلط في التحويل: الضرب في 3.6 بدل القسمة عند الانتقال من km/h إلى m/s.</li>
+<li>الخلط في التحويل: الضرب في 3.6 بدل القسمة عند الانتقال من <bdi dir="ltr">km/h</bdi> إلى <bdi dir="ltr">m/s</bdi>.</li>
 <li>نسيان الموضع الابتدائي x<sub>0</sub> في المعادلة الزمنية.</li>
-<li>الخلط بين مخطط الموضع x(t) ومخطط السرعة v(t).</li>
+<li>الخلط بين مخطط الموضع <bdi dir="ltr">x(t)</bdi> ومخطط السرعة <bdi dir="ltr">v(t)</bdi>.</li>
 <li>إهمال إشارة السرعة عند الحركة في الاتجاه السالب.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
 <li>مسار مستقيم + سرعة ثابتة = حركة منتظمة.</li>
-<li>v = Δx / Δt.</li>
-<li>x = v·t + x<sub>0</sub>.</li>
-<li>km/h ÷ 3.6 = m/s.</li>
+<li><bdi dir="ltr">v = Δx / Δt</bdi>.</li>
+<li><bdi dir="ltr">x = v·t + x<sub>0</sub></bdi>.</li>
+<li><bdi dir="ltr">km/h ÷ 3.6 = m/s</bdi>.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

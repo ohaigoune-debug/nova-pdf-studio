@@ -5,8 +5,8 @@
 <title>شدة التيار والتوتر الكهربائي وقياسهما</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -54,45 +54,45 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> التيار الكهربائي حركة منتظمة لحاملات الشحنة في الدارة، وشدته تقيس كمية الشحنة العابرة في كل ثانية. التوتر فرق كمون بين نقطتين، ويُقاس دائمًا بين طرفي عنصر.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" direction="ltr" font-family="Amiri,serif" font-size="15">
 <polyline points="80,30 185,30" fill="none" stroke="#1f2937" stroke-width="2"/>
 <polyline points="215,30 460,30 460,67" fill="none" stroke="#1f2937" stroke-width="2"/>
 <polyline points="460,103 460,140 80,140 80,85" fill="none" stroke="#1f2937" stroke-width="2"/>
 <polyline points="80,30 80,70" fill="none" stroke="#1f2937" stroke-width="2"/>
 <line x1="65" y1="70" x2="95" y2="70" stroke="#c2410c" stroke-width="3"/><line x1="72" y1="85" x2="88" y2="85" stroke="#1d4ed8" stroke-width="3"/>
-<text x="105" y="82">مولد</text>
+<text x="105" y="82" text-anchor="end" direction="rtl">مولد</text>
 <circle cx="200" cy="30" r="15" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="200" y="36" text-anchor="middle" font-weight="700">A</text>
-<text x="200" y="68" text-anchor="middle" font-size="13">أمبيرمتر على التسلسل</text>
+<text x="200" y="68" text-anchor="middle" direction="rtl" font-size="13">أمبيرمتر على التسلسل</text>
 <line x1="370" y1="30" x2="370" y2="70" stroke="#1f2937" stroke-width="2"/><line x1="370" y1="100" x2="370" y2="140" stroke="#1f2937" stroke-width="2"/>
 <circle cx="370" cy="85" r="15" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="370" y="91" text-anchor="middle" font-weight="700">V</text>
-<text x="300" y="118" text-anchor="middle" font-size="13">فولطمتر على التفرع</text>
+<text x="300" y="118" text-anchor="middle" direction="rtl" font-size="13">فولطمتر على التفرع</text>
 <circle cx="460" cy="85" r="18" fill="#86efac" stroke="#15803d" stroke-width="2"/><line x1="447" y1="72" x2="473" y2="98" stroke="#15803d" stroke-width="2"/><line x1="473" y1="72" x2="447" y2="98" stroke="#15803d" stroke-width="2"/>
-<text x="500" y="90" text-anchor="middle" font-size="13">مصباح</text>
+<text x="500" y="90" text-anchor="middle" direction="rtl" font-size="13">مصباح</text>
 </svg><figcaption>الشكل 1: الأمبيرمتر في الفرع نفسه (تسلسل) والفولطمتر بين طرفي المصباح (تفرع).</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">التيار الكهربائي</span> في المعادن حركة الإلكترونات الحرة؛ و<span class="k">الاتجاه الاصطلاحي</span> للتيار من القطب الموجب إلى القطب السالب خارج المولد، أي عكس حركة الإلكترونات.</li>
-<li><span class="k">شدة التيار:</span> I = Q / t، حيث Q بالكولوم (C) وt بالثانية (s)، ووحدتها <span class="k">الأمبير (A)</span>.</li>
+<li><span class="k">شدة التيار:</span> <bdi dir="ltr">I = Q / t</bdi>، حيث Q بالكولوم (C) وt بالثانية (s)، ووحدتها <span class="k">الأمبير (A)</span>.</li>
 <li><span class="k">قانون العقد:</span> مجموع شدات التيارات الداخلة إلى عقدة يساوي مجموع الخارجة منها.</li>
 <li><span class="k">التوتر الكهربائي U</span> يُقاس بالفولط (V) بين نقطتين، ويُقاس بالفولطمتر المركّب على التفرع.</li>
-<li><span class="k">في التسلسل:</span> الشدة واحدة في كل العناصر، والتوتر الكلي مجموع التوترات: U = U<sub>1</sub> + U<sub>2</sub>.</li>
-<li><span class="k">في التفرع:</span> التوتر نفسه بين طرفي الفروع، وشدة الفرع الرئيسي مجموع شدات الفروع: I = I<sub>1</sub> + I<sub>2</sub>.</li>
+<li><span class="k">في التسلسل:</span> الشدة واحدة في كل العناصر، والتوتر الكلي مجموع التوترات: <bdi dir="ltr">U = U<sub>1</sub> + U<sub>2</sub></bdi>.</li>
+<li><span class="k">في التفرع:</span> التوتر نفسه بين طرفي الفروع، وشدة الفرع الرئيسي مجموع شدات الفروع: <bdi dir="ltr">I = I<sub>1</sub> + I<sub>2</sub></bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>عبرت شحنة 12 C مقطع سلك خلال 4 s. <span class="k">الحل:</span> I = 12 / 4 = 3 A.</li>
-<li>عقدة يدخلها تيار 5 A ويخرج منها فرعان، شدة الأول 2 A. <span class="k">الحل:</span> I<sub>2</sub> = 5 − 2 = 3 A.</li>
-<li>مصباحان على التسلسل، توتر المولد 6 V وتوتر الأول 2.5 V. <span class="k">الحل:</span> U<sub>2</sub> = 6 − 2.5 = 3.5 V.</li>
+<li>عبرت شحنة 12 C مقطع سلك خلال 4 s. <span class="k">الحل:</span> <bdi dir="ltr">I = 12 / 4 = 3 A</bdi>.</li>
+<li>عقدة يدخلها تيار 5 A ويخرج منها فرعان، شدة الأول 2 A. <span class="k">الحل:</span> <bdi dir="ltr">I<sub>2</sub> = 5 − 2 = 3 A</bdi>.</li>
+<li>مصباحان على التسلسل، توتر المولد 6 V وتوتر الأول 2.5 V. <span class="k">الحل:</span> <bdi dir="ltr">U<sub>2</sub> = 6 − 2.5 = 3.5 V</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في الامتحان</h2><ul>
 <li>تركيب الأمبيرمتر على التفرع، فيحدث قصر دارة؛ الصحيح أن يُركَّب على التسلسل.</li>
 <li>القول إن التيار يتجه من القطب السالب لأن الإلكترونات تتحرك كذلك؛ الاتجاه الاصطلاحي معاكس.</li>
-<li>نسيان تحويل الوحدات: mA إلى A قبل التطبيق العددي (1 mA = 10<sup>-3</sup> A).</li>
+<li>نسيان تحويل الوحدات: mA إلى A قبل التطبيق العددي (<bdi dir="ltr">1 mA = 10<sup>-3</sup> A</bdi>).</li>
 <li>جمع الشدات في التسلسل بدل التفرع.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>I = Q / t بالأمبير، والأمبيرمتر على التسلسل.</li>
+<li><bdi dir="ltr">I = Q / t</bdi> بالأمبير، والأمبيرمتر على التسلسل.</li>
 <li>التوتر بالفولط، والفولطمتر على التفرع.</li>
 <li>تسلسل: I ثابتة وU تُجمع.</li>
 <li>تفرع: U ثابت وI تُجمع (قانون العقد).</li>

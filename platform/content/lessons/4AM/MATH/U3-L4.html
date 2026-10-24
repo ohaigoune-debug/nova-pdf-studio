@@ -5,8 +5,8 @@
 <title>التمثيل البياني للدالة الخطية والتآلفية</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -52,9 +52,9 @@ main{position:relative;z-index:1}
 
 <p class="goal"><span class="k">الهدف:</span> أن تمثّل بيانيًا دالة خطية أو تآلفية في معلم، وأن تقرأ من التمثيل البياني صورة أو سابقة أو المعاملين a و b، وأن تتحقّق من انتماء نقطة إلى مستقيم.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> التمثيل البياني للدالة الخطية x ↦ ax مستقيم يمر بمبدأ المعلم، والتمثيل البياني للدالة التآلفية x ↦ ax + b مستقيم يقطع محور التراتيب في النقطة (0; b). في الحالتين يصف a ميل المستقيم: كلما زادت x بـ 1 تغيّر y بمقدار a.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> التمثيل البياني للدالة الخطية <bdi dir="ltr">x ↦ ax</bdi> مستقيم يمر بمبدأ المعلم، والتمثيل البياني للدالة التآلفية <bdi dir="ltr">x ↦ ax + b</bdi> مستقيم يقطع محور التراتيب في النقطة <bdi dir="ltr">(0; b)</bdi>. في الحالتين يصف a ميل المستقيم: كلما زادت x بـ 1 تغيّر y بمقدار a.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
 <line x1="150" y1="95" x2="424" y2="95" stroke="#1f2937" stroke-width="1.5" marker-end="url(#arg)"/>
 <line x1="270" y1="172" x2="270" y2="12" stroke="#1f2937" stroke-width="1.5" marker-end="url(#arg)"/>
@@ -69,24 +69,24 @@ main{position:relative;z-index:1}
 <text x="260" y="128" text-anchor="end" fill="#15803d" font-size="13">b = −1</text>
 <text x="312" y="48" fill="#15803d" font-size="13">(2; 3)</text>
 <text x="312" y="144" fill="#1d4ed8" font-size="13">(2; −2)</text>
-<text x="85" y="80" text-anchor="middle" fill="#15803d">a &gt; 0: مستقيم صاعد</text>
-<text x="85" y="110" text-anchor="middle" fill="#1d4ed8">a &lt; 0: مستقيم نازل</text>
-<text x="85" y="140" text-anchor="middle" fill="#a16207">b: نقطة قطع محور y</text>
-</svg><figcaption>الشكل 1: المستقيم الأزرق يمثّل الدالة الخطية f(x) = −x ويمر بالمبدأ؛ المستقيم الأخضر يمثّل g(x) = 2x − 1 ويقطع محور التراتيب في −1.</figcaption></figure>
+<text x="139" y="80" fill="#15803d" text-anchor="end">a &gt; 0</text><text x="106" y="80" fill="#15803d" direction="rtl" text-anchor="start">: مستقيم صاعد</text>
+<text x="139" y="110" fill="#1d4ed8" text-anchor="end">a &lt; 0</text><text x="106" y="110" fill="#1d4ed8" direction="rtl" text-anchor="start">: مستقيم نازل</text>
+<text x="85" y="140" text-anchor="middle" fill="#a16207" direction="rtl">b: نقطة قطع محور y</text>
+</svg><figcaption>الشكل 1: المستقيم الأزرق يمثّل الدالة الخطية <bdi dir="ltr">f(x) = −x</bdi> ويمر بالمبدأ؛ المستقيم الأخضر يمثّل <bdi dir="ltr">g(x) = 2x − 1</bdi> ويقطع محور التراتيب في <bdi dir="ltr">−1</bdi>.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">الدالة الخطية f(x) = ax:</span> تمثيلها البياني مستقيم يمر بالمبدأ O. نقطة واحدة أخرى تكفي لرسمه، مثل النقطة (1; a).</li>
-<li><span class="k">الدالة التآلفية f(x) = ax + b:</span> تمثيلها البياني مستقيم يمر بالنقطة (0; b)، ولرسمه نحسب صورتي عددين مختلفين ونصل النقطتين.</li>
-<li><span class="k">معامل التوجيه a:</span> عند الانتقال من نقطة إلى أخرى على المستقيم، a = (فرق التراتيب) ÷ (فرق الفواصل). إذا كان a &gt; 0 يصعد المستقيم، وإذا كان a &lt; 0 ينزل، وإذا كان a = 0 يكون أفقيًا.</li>
+<li><span class="k">الدالة الخطية <bdi dir="ltr">f(x) = ax</bdi>:</span> تمثيلها البياني مستقيم يمر بالمبدأ O. نقطة واحدة أخرى تكفي لرسمه، مثل النقطة <bdi dir="ltr">(1; a)</bdi>.</li>
+<li><span class="k">الدالة التآلفية <bdi dir="ltr">f(x) = ax + b</bdi>:</span> تمثيلها البياني مستقيم يمر بالنقطة <bdi dir="ltr">(0; b)</bdi>، ولرسمه نحسب صورتي عددين مختلفين ونصل النقطتين.</li>
+<li><span class="k">معامل التوجيه a:</span> عند الانتقال من نقطة إلى أخرى على المستقيم، a = (فرق التراتيب) ÷ (فرق الفواصل). إذا كان <bdi dir="ltr">a &gt; 0</bdi> يصعد المستقيم، وإذا كان <bdi dir="ltr">a &lt; 0</bdi> ينزل، وإذا كان <bdi dir="ltr">a = 0</bdi> يكون أفقيًا.</li>
 <li><span class="k">الترتيب عند المبدأ b:</span> يُقرأ مباشرة عند تقاطع المستقيم مع محور التراتيب.</li>
-<li><span class="k">انتماء نقطة:</span> النقطة M(x; y) تنتمي إلى التمثيل البياني لـ f إذا وفقط إذا كان y = f(x).</li>
+<li><span class="k">انتماء نقطة:</span> النقطة <bdi dir="ltr">M(x; y)</bdi> تنتمي إلى التمثيل البياني لـ f إذا وفقط إذا كان <bdi dir="ltr">y = f(x)</bdi>.</li>
 <li><span class="k">القراءة البيانية:</span> لإيجاد صورة x ننتقل عموديًا من x على المحور الأفقي إلى المستقيم ثم نقرأ الترتيب؛ ولإيجاد سابقة y نعكس الطريق.</li>
 <li><span class="k">مستقيمان متوازيان</span> ⇔ لهما نفس معامل التوجيه a.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>مثّل f(x) = −x. <span class="k">الحل:</span> مستقيم يمر بالمبدأ O(0; 0) وبالنقطة (2; −2)؛ معامله سالب فهو نازل.</li>
-<li>مثّل g(x) = 2x − 1. <span class="k">الحل:</span> g(0) = −1 و g(2) = 3، فنصل النقطتين (0; −1) و (2; 3). هل تنتمي P(3; 4) إلى هذا المستقيم؟ g(3) = 5 ≠ 4، إذن لا.</li>
-<li>مستقيم يمر بالنقطتين (0; 3) و (2; 7) يمثّل دالة تآلفية h. <span class="k">الحل:</span> b = 3 (الترتيب عند المبدأ)، و a = (7 − 3) ÷ (2 − 0) = 2، إذن h(x) = 2x + 3. تحقّق: h(2) = 7 صحيح.</li>
+<li>مثّل <bdi dir="ltr">f(x) = −x</bdi>. <span class="k">الحل:</span> مستقيم يمر بالمبدأ <bdi dir="ltr">O(0; 0)</bdi> وبالنقطة <bdi dir="ltr">(2; −2)</bdi>؛ معامله سالب فهو نازل.</li>
+<li>مثّل <bdi dir="ltr">g(x) = 2x − 1</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">g(0) = −1</bdi> و <bdi dir="ltr">g(2) = 3</bdi>، فنصل النقطتين <bdi dir="ltr">(0; −1)</bdi> و <bdi dir="ltr">(2; 3)</bdi>. هل تنتمي <bdi dir="ltr">P(3; 4)</bdi> إلى هذا المستقيم؟ <bdi dir="ltr">g(3) = 5 ≠ 4</bdi>، إذن لا.</li>
+<li>مستقيم يمر بالنقطتين <bdi dir="ltr">(0; 3)</bdi> و <bdi dir="ltr">(2; 7)</bdi> يمثّل دالة تآلفية h. <span class="k">الحل:</span> <bdi dir="ltr">b = 3</bdi> (الترتيب عند المبدأ)، و <bdi dir="ltr">a = (7 − 3) ÷ (2 − 0) = 2</bdi>، إذن <bdi dir="ltr">h(x) = 2x + 3</bdi>. تحقّق: <bdi dir="ltr">h(2) = 7</bdi> صحيح.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
@@ -97,10 +97,10 @@ main{position:relative;z-index:1}
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>خطية ⇒ مستقيم يمر بـ O؛ تآلفية ⇒ مستقيم يقطع محور التراتيب في (0; b).</li>
-<li>a = فرق التراتيب ÷ فرق الفواصل؛ a &gt; 0 صاعد، a &lt; 0 نازل.</li>
+<li>خطية ⇐ مستقيم يمر بـ O؛ تآلفية ⇐ مستقيم يقطع محور التراتيب في <bdi dir="ltr">(0; b)</bdi>.</li>
+<li>a = فرق التراتيب ÷ فرق الفواصل؛ <bdi dir="ltr">a &gt; 0</bdi> صاعد، <bdi dir="ltr">a &lt; 0</bdi> نازل.</li>
 <li>نقطتان تكفيان للرسم، والثالثة للتحقق.</li>
-<li>M(x; y) على المستقيم ⇔ y = ax + b.</li>
+<li><bdi dir="ltr">M(x; y)</bdi> على المستقيم ⇔ <bdi dir="ltr">y = ax + b</bdi>.</li>
 <li>نفس a ⇔ مستقيمان متوازيان.</li>
 </ul></div>
 

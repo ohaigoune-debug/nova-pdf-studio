@@ -5,8 +5,8 @@
 <title>العلاقات بين النسب المثلثية</title>
 
 <style>
-@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/amiri-arabic-400-normal.woff2')}
-@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/amiri-arabic-700-normal.woff2')}
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
 @font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
 </style><style>
 :root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
@@ -50,52 +50,52 @@ main{position:relative;z-index:1}
 <div class="crumb">4 متوسط · الرياضيات · كل الشعب · الوحدة 2: الأنشطة الهندسية · الدرس 3</div>
 <h1>العلاقات بين النسب المثلثية</h1>
 
-<p class="goal"><span class="k">الهدف:</span> أن تستعمل العلاقتين cos²x + sin²x = 1 و tan x = sin x / cos x لحساب نسبة مثلثية لزاوية حادة انطلاقًا من نسبة أخرى معلومة، دون اللجوء إلى الآلة الحاسبة.</p>
+<p class="goal"><span class="k">الهدف:</span> أن تستعمل العلاقتين <bdi dir="ltr">cos²x + sin²x = 1</bdi> و <bdi dir="ltr">tan x = sin x / cos x</bdi> لحساب نسبة مثلثية لزاوية حادة انطلاقًا من نسبة أخرى معلومة، دون اللجوء إلى الآلة الحاسبة.</p>
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> في مثلث قائم، النسب المثلثية الثلاث لزاوية حادة x ليست مستقلة عن بعضها: مجموع مربّعي الجيب وجيب التمام يساوي 1 دائمًا، والظل هو حاصل قسمة الجيب على جيب التمام. لذلك تكفي معرفة نسبة واحدة لإيجاد النسبتين الأخريين.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <polygon points="40,150 280,150 280,50" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
 <path d="M268 150 v-12 h12" fill="none" stroke="#1f2937" stroke-width="1.5"/>
 <path d="M70 150 A30 30 0 0 0 67.7 138.5" fill="none" stroke="#c2410c" stroke-width="2"/>
 <text x="82" y="144" fill="#c2410c" font-weight="700">x</text>
 <text x="30" y="168" font-weight="700">B</text><text x="284" y="168" font-weight="700">A</text><text x="284" y="45" font-weight="700">C</text>
-<text x="160" y="170" text-anchor="middle" fill="#1d4ed8">المجاور (AB)</text>
-<text x="292" y="105" fill="#15803d">المقابل (AC)</text>
-<text x="140" y="88" text-anchor="middle" fill="#a16207">الوتر (BC)</text>
+<text x="160" y="170" text-anchor="middle" fill="#1d4ed8" direction="rtl">المجاور (AB)</text>
+<text x="292" y="105" fill="#15803d" direction="rtl" text-anchor="end">المقابل (AC)</text>
+<text x="140" y="88" text-anchor="middle" fill="#a16207" direction="rtl">الوتر (BC)</text>
 <text x="455" y="40" text-anchor="middle" font-weight="700" fill="#1d4ed8">cos²x + sin²x = 1</text>
 <text x="455" y="72" text-anchor="middle" font-weight="700" fill="#15803d">tan x = sin x / cos x</text>
 <text x="455" y="120" text-anchor="middle">cos x = AB / BC</text>
 <text x="455" y="152" text-anchor="middle">sin x = AC / BC</text>
 </svg><figcaption>الشكل 1: مثلث ABC قائم في A؛ النسب المثلثية للزاوية x عند B والعلاقتان اللتان تربطهما.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">تذكير:</span> في مثلث ABC قائم في A، للزاوية الحادة x التي رأسها B: cos x = AB/BC (المجاور على الوتر)، sin x = AC/BC (المقابل على الوتر)، tan x = AC/AB (المقابل على المجاور).</li>
-<li><span class="k">العلاقة الأساسية:</span> cos²x + sin²x = 1، حيث cos²x تعني (cos x)². تنتج من فيثاغورس AB² + AC² = BC² بقسمة الطرفين على BC².</li>
-<li><span class="k">علاقة الظل:</span> tan x = sin x / cos x، لأن (AC/BC) ÷ (AB/BC) = AC/AB.</li>
-<li><span class="k">حدود القيم:</span> لزاوية حادة 0 &lt; cos x &lt; 1 و 0 &lt; sin x &lt; 1، أما tan x فموجب وقد يتجاوز 1.</li>
-<li><span class="k">الزاويتان المتتامّتان:</span> إذا كان x + y = 90° فإن sin x = cos y و cos x = sin y.</li>
-<li><span class="k">طريقة العمل:</span> من sin x نحسب cos²x = 1 − sin²x ثم نأخذ الجذر التربيعي الموجب؛ وبالمثل من cos x، ثم نستنتج tan x بالقسمة.</li>
+<li><span class="k">تذكير:</span> في مثلث ABC قائم في A، للزاوية الحادة x التي رأسها B: <bdi dir="ltr">cos x = AB/BC</bdi> (المجاور على الوتر)، <bdi dir="ltr">sin x = AC/BC</bdi> (المقابل على الوتر)، <bdi dir="ltr">tan x = AC/AB</bdi> (المقابل على المجاور).</li>
+<li><span class="k">العلاقة الأساسية:</span> <bdi dir="ltr">cos²x + sin²x = 1</bdi>، حيث <bdi dir="ltr">cos²x</bdi> تعني <bdi dir="ltr">(cos x)²</bdi>. تنتج من فيثاغورس <bdi dir="ltr">AB² + AC² = BC²</bdi> بقسمة الطرفين على <bdi dir="ltr">BC²</bdi>.</li>
+<li><span class="k">علاقة الظل:</span> <bdi dir="ltr">tan x = sin x / cos x</bdi>، لأن <bdi dir="ltr">(AC/BC) ÷ (AB/BC) = AC/AB</bdi>.</li>
+<li><span class="k">حدود القيم:</span> لزاوية حادة <bdi dir="ltr">0 &lt; cos x &lt; 1</bdi> و <bdi dir="ltr">0 &lt; sin x &lt; 1</bdi>، أما tan x فموجب وقد يتجاوز 1.</li>
+<li><span class="k">الزاويتان المتتامّتان:</span> إذا كان <bdi dir="ltr">x + y = 90°</bdi> فإن <bdi dir="ltr">sin x = cos y</bdi> و <bdi dir="ltr">cos x = sin y</bdi>.</li>
+<li><span class="k">طريقة العمل:</span> من sin x نحسب <bdi dir="ltr">cos²x = 1 − sin²x</bdi> ثم نأخذ الجذر التربيعي الموجب؛ وبالمثل من cos x، ثم نستنتج tan x بالقسمة.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>زاوية حادة x بحيث sin x = 0,6. احسب cos x و tan x. <span class="k">الحل:</span> cos²x = 1 − 0,36 = 0,64 ومنه cos x = 0,8 (الجذر الموجب). ثم tan x = 0,6 ÷ 0,8 = 0,75.</li>
-<li>زاوية حادة x بحيث cos x = 3/5. <span class="k">الحل:</span> sin²x = 1 − 9/25 = 16/25 فيكون sin x = 4/5، و tan x = (4/5) ÷ (3/5) = 4/3.</li>
-<li>تحقّق مع x = 30°: cos 30° = √3/2 و sin 30° = 1/2. <span class="k">التفسير:</span> 3/4 + 1/4 = 1، و tan 30° = (1/2) ÷ (√3/2) = √3/3، وهي القيمة المعروفة.</li>
+<li>زاوية حادة x بحيث <bdi dir="ltr">sin x = 0,6</bdi>. احسب cos x و tan x. <span class="k">الحل:</span> <bdi dir="ltr">cos²x = 1 − 0,36 = 0,64</bdi> ومنه <bdi dir="ltr">cos x = 0,8</bdi> (الجذر الموجب). ثم <bdi dir="ltr">tan x = 0,6 ÷ 0,8 = 0,75</bdi>.</li>
+<li>زاوية حادة x بحيث <bdi dir="ltr">cos x = 3/5</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">sin²x = 1 − 9/25 = 16/25</bdi> فيكون <bdi dir="ltr">sin x = 4/5</bdi>، و <bdi dir="ltr">tan x = (4/5) ÷ (3/5) = 4/3</bdi>.</li>
+<li>تحقّق مع <bdi dir="ltr">x = 30°</bdi>: <bdi dir="ltr">cos 30° = √3/2</bdi> و <bdi dir="ltr">sin 30° = 1/2</bdi>. <span class="k">التفسير:</span> <bdi dir="ltr">3/4 + 1/4 = 1</bdi>، و <bdi dir="ltr">tan 30° = (1/2) ÷ (√3/2) = √3/3</bdi>، وهي القيمة المعروفة.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
-<li>كتابة cos²x على أنها cos(x²) أو 2cos x؛ الصحيح أنها مربّع العدد cos x.</li>
-<li>التوقف عند cos²x = 0,64 ونسيان أخذ الجذر التربيعي، أو اختيار الجذر السالب (الزاوية حادة فجيب التمام موجب).</li>
-<li>قلب العلاقة وكتابة tan x = cos x / sin x.</li>
+<li>كتابة <bdi dir="ltr">cos²x</bdi> على أنها <bdi dir="ltr">cos(x²)</bdi> أو 2cos x؛ الصحيح أنها مربّع العدد cos x.</li>
+<li>التوقف عند <bdi dir="ltr">cos²x = 0,64</bdi> ونسيان أخذ الجذر التربيعي، أو اختيار الجذر السالب (الزاوية حادة فجيب التمام موجب).</li>
+<li>قلب العلاقة وكتابة <bdi dir="ltr">tan x = cos x / sin x</bdi>.</li>
 <li>الخلط بين المجاور والمقابل عند تغيّر الزاوية المدروسة في نفس المثلث.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>cos²x + sin²x = 1 (نتيجة مباشرة لفيثاغورس).</li>
-<li>tan x = sin x / cos x.</li>
-<li>نسبة واحدة معلومة ⇒ النسبتان الأخريان بالحساب.</li>
+<li><bdi dir="ltr">cos²x + sin²x = 1</bdi> (نتيجة مباشرة لفيثاغورس).</li>
+<li><bdi dir="ltr">tan x = sin x / cos x</bdi>.</li>
+<li>نسبة واحدة معلومة ⇐ النسبتان الأخريان بالحساب.</li>
 <li>الجذر التربيعي المأخوذ موجب دائمًا للزاوية الحادة.</li>
-<li>x و y متتامّتان ⇒ sin x = cos y.</li>
+<li>x و y متتامّتان ⇐ <bdi dir="ltr">sin x = cos y</bdi>.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
