@@ -1,6 +1,7 @@
 import { ArrowRight, ExternalLink, Paperclip } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { LessonComments, LessonQuizButton } from '@/components/domain/lesson-extras'
 import { LessonMedia } from '@/components/domain/lesson-media'
 import { Markdown } from '@/components/domain/markdown'
 import { Badge } from '@/components/ui/badge'
@@ -10,17 +11,21 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { getContentForStudent } from '@/server/services/content.service'
+import { lessonQuizForStudent, listLessonComments } from '@/server/services/lesson-extras.service'
 
 export default async function StudentLessonPage({ params }: { params: Promise<{ slug: string }> }) {
   const actor = await requirePageActor('STUDENT')
   const { slug } = await params
+  const db = await getDb()
   let item
   try {
-    item = await getContentForStudent(await getDb(), actor, decodeURIComponent(slug))
+    item = await getContentForStudent(db, actor, decodeURIComponent(slug))
   } catch (e) {
     if (isAppError(e)) notFound()
     throw e
   }
+  // تحت الفيديو: اختبار QCM المرتبط + التعليقات (بموافقة الأستاذ)
+  const [quiz, comments] = await Promise.all([lessonQuizForStudent(db, actor, item.id), listLessonComments(db, actor, item.id)])
   return (
     <article className="mx-auto max-w-3xl">
       <Link href="/student/lessons" className="mb-6 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
@@ -52,7 +57,15 @@ export default async function StudentLessonPage({ params }: { params: Promise<{ 
           </span>
         ) : null}
       </div>
+      {quiz ? (
+        <div className="mt-6">
+          <LessonQuizButton quiz={quiz} />
+        </div>
+      ) : null}
       <div className="mt-6">{item.body ? <Markdown body={item.body} /> : null}</div>
+      <div className="mt-8">
+        <LessonComments slug={item.slug} comments={comments.map((c) => ({ ...c, createdAt: c.createdAt.toISOString() }))} />
+      </div>
     </article>
   )
 }

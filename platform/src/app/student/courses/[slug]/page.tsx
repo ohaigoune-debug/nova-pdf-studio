@@ -2,6 +2,7 @@ import { ArrowLeft, Clock, FileText, Gamepad2, MessagesSquare, PlayCircle, Radio
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CourseLandingView } from '@/components/academy/course-landing'
+import { NextLiveBanner } from '@/components/live/next-live-banner'
 import { TermsGate } from '@/components/courses/terms-gate'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -14,6 +15,7 @@ import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { courseLanding } from '@/server/services/academy-catalog.service'
 import { courseHome, type CourseContentItem } from '@/server/services/courses.service'
+import { upcomingForStudent } from '@/server/services/live.service'
 import { courseCheckoutData } from '@/server/services/store.service'
 
 export const dynamic = 'force-dynamic'
@@ -79,6 +81,7 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
   }
 
   const { course, nextLive, upcoming, videos, lessons, playHref, classroomHref, expiresAt } = home
+  const liveNext = (await upcomingForStudent(db, actor).catch(() => [])).find((l) => l.courseId === course.id) ?? null
   return (
     <div className="space-y-6">
       <PageHeader
@@ -108,14 +111,16 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
       ) : null}
       {course.description ? <p className="text-sm leading-relaxed text-muted-foreground">{course.description}</p> : null}
 
-      {nextLive ? (
+      {/* الحصة المباشرة القادمة لهذه الدورة: عدّ تنازلي + زر «انضم» (يُفتح قبل الموعد بـ15 دقيقة) */}
+      {liveNext ? (
+        <NextLiveBanner session={{ ...liveNext, startsAt: liveNext.startsAt.toISOString() }} />
+      ) : nextLive ? (
         <Alert tone="info" title={`البث القادم: ${nextLive.title}`}>
           <p className="flex flex-wrap items-center gap-2">
             <Radio className="size-4 text-primary" />
             <span>
               {formatDateTime(nextLive.startsAt)} · {nextLive.durationMinutes} دقيقة
             </span>
-            <span className="text-xs text-muted-foreground">يُفتح رابط الدخول قبل الموعد بدقائق من هذه الصفحة.</span>
           </p>
         </Alert>
       ) : null}

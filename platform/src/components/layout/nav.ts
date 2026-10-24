@@ -24,6 +24,26 @@ export interface NavSection {
   items: NavItem[]
 }
 
+/**
+ * أدوات الأستاذ التي خرجت من القائمة المبسّطة — تبقى في /teacher/tools وبمساراتها نفسها.
+ * الحضور (الماسح، الحصص الحضورية، قوائم الحضور، أكواد الأفواج، المساعدون) مخفي بقرار المالك (2026-10-24).
+ */
+export const TEACHER_TOOLS: (NavItem & { group: string })[] = [
+  { group: 'التقييم', href: '/teacher/quizzes', label: 'اختبارات QCM', iconKey: 'ListChecks' },
+  { group: 'التقييم', href: '/teacher/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
+  { group: 'التقييم', href: '/teacher/exams', label: 'الامتحانات', iconKey: 'FileText' },
+  { group: 'التقييم', href: '/teacher/bank', label: 'بنك الأسئلة', iconKey: 'Library' },
+  { group: 'التقييم', href: '/teacher/rubrics', label: t('rubrics.title'), iconKey: 'ClipboardCheck' },
+  { group: 'المحتوى', href: '/teacher/files', label: t('nav.files'), iconKey: 'FolderOpen' },
+  { group: 'المحتوى', href: '/teacher/library', label: 'مكتبتي', iconKey: 'BookMarked' },
+  { group: 'المحتوى', href: '/teacher/drive', label: 'مكتبة Drive', iconKey: 'HardDrive' },
+  { group: 'المحتوى', href: '/teacher/market', label: 'سوق الأساتذة', iconKey: 'Store' },
+  { group: 'المحتوى', href: '/teacher/announcements', label: 'الإشعارات للتلاميذ', iconKey: 'Megaphone' },
+  { group: 'المتابعة', href: '/teacher/groups', label: 'الأفواج', iconKey: 'UsersRound' },
+  { group: 'المتابعة', href: '/teacher/reports', label: t('nav.reports'), iconKey: 'BarChart3' },
+  { group: 'المتابعة', href: '/teacher/ai-insights', label: t('nav.aiInsights'), iconKey: 'Brain' }
+]
+
 export function navFor(role: UserRole): NavSection[] {
   switch (role) {
     case 'STUDENT':
@@ -50,45 +70,34 @@ export function navFor(role: UserRole): NavSection[] {
         }
       ]
     case 'TEACHER':
+      // قرار المالك (2026-10-24): المسجّلون، المداخيل، نشر المحتوى، التفاعل — فقط. بقية الأدوات في /teacher/tools.
       return [
         {
-          // الحضور (الماسح، الحصص الحضورية، قوائم الحضور) مخفي بقرار المالك؛ الصفحات باقية بمساراتها
-          items: [{ href: '/teacher', label: t('nav.dashboard'), iconKey: 'LayoutDashboard', exact: true }]
-        },
-        {
-          title: 'الإدارة',
           items: [
-            { href: '/teacher/groups', label: t('common.groups'), iconKey: 'UsersRound' },
-            { href: '/teacher/students', label: t('nav.students'), iconKey: 'Users' },
-            { href: '/teacher/assistants', label: t('nav.assistants'), iconKey: 'UserCog' }
+            { href: '/teacher', label: 'المسجّلون والمداخيل', iconKey: 'LayoutDashboard', exact: true },
+            { href: '/teacher/students', label: 'المسجّلون', iconKey: 'Users' }
           ]
         },
         {
-          title: 'التعليم',
+          title: 'نشر المحتوى',
           items: [
-            { href: '/teacher/publish', label: 'نشر درس / فرض / اختبار', iconKey: 'Upload' },
+            { href: '/teacher/publish', label: 'نشر درس / ملف / اختبار', iconKey: 'Upload' },
+            { href: '/teacher/content', label: 'المحتوى والحصص السابقة', iconKey: 'BookOpen' }
+          ]
+        },
+        {
+          title: 'التفاعل',
+          items: [
             { href: '/teacher/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' },
-            { href: '/teacher/announcements', label: 'الإشعارات', iconKey: 'Megaphone' },
-            { href: '/forum', label: 'المنتدى', iconKey: 'MessageSquareText' },
-            { href: '/teacher/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
-            { href: '/teacher/quizzes', label: t('nav.quizzes'), iconKey: 'ListChecks' },
-            { href: '/teacher/exams', label: 'الامتحانات', iconKey: 'FileText' },
-            { href: '/teacher/bank', label: 'بنك الأسئلة', iconKey: 'Library' },
-            { href: '/teacher/library', label: 'مكتبتي', iconKey: 'BookMarked' },
-            { href: '/teacher/market', label: 'سوق الأساتذة', iconKey: 'Store' },
-            { href: '/teacher/rubrics', label: t('rubrics.title'), iconKey: 'ClipboardCheck' },
-            { href: '/teacher/drive', label: 'مكتبة Drive', iconKey: 'HardDrive' },
-            { href: '/teacher/content', label: t('nav.content'), iconKey: 'BookOpen' },
-            { href: '/teacher/files', label: t('nav.files'), iconKey: 'FolderOpen' },
-            { href: '/teacher/reports', label: t('nav.reports'), iconKey: 'BarChart3' },
-            { href: '/teacher/ai-insights', label: t('nav.aiInsights'), iconKey: 'Brain' }
+            { href: '/teacher/comments', label: 'تعليقات الحصص', iconKey: 'MessageSquare' }
           ]
         },
         {
           title: 'الحساب',
           items: [
             { href: '/teacher/notifications', label: t('common.notifications'), iconKey: 'BellRing' },
-            { href: '/teacher/settings', label: t('nav.settings'), iconKey: 'Settings' }
+            { href: '/teacher/settings', label: t('nav.settings'), iconKey: 'Settings' },
+            { href: '/teacher/tools', label: 'أدوات أخرى', iconKey: 'Wrench', also: TEACHER_TOOLS.map((x) => x.href) }
           ]
         }
       ]
