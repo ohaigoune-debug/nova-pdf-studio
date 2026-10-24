@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> عندما تبدو نقاط سحابة متجمعة حول خط مستقيم، نعوّضها بمستقيم يمر بالنقطة المتوسطة G ويجعل مجموع مربعات الأخطاء أصغر ما يمكن. معامل الارتباط يقيس مدى صلاحية هذا التعديل الخطي.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15" direction="ltr">
 <line x1="60" y1="155" x2="365" y2="155" stroke="#1f2937" stroke-width="1.5"/><line x1="60" y1="155" x2="60" y2="15" stroke="#1f2937" stroke-width="1.5"/>
 <text x="370" y="160" font-size="13">x</text><text x="55" y="14" font-size="13" text-anchor="end">y</text>
 <line x1="85" y1="100" x2="350" y2="30" stroke="#1d4ed8" stroke-width="2.5"/>
@@ -66,7 +66,7 @@ main{position:relative;z-index:1}
 <text x="457" y="78" text-anchor="middle" font-size="14">a = cov(x,y) / V(x)</text>
 <text x="457" y="104" text-anchor="middle" font-size="14">b = ȳ − a·x̄</text>
 <text x="457" y="132" text-anchor="middle" font-size="14" fill="#c2410c">r = cov / (σx·σy)</text>
-</svg><figcaption>الشكل 1: سحابة نقاط المثال الأول ومستقيم الانحدار y = 0,6x + 2,2 المار بالنقطة المتوسطة G(3;4).</figcaption></figure>
+</svg><figcaption>الشكل 1: سحابة نقاط المثال الأول ومستقيم الانحدار <bdi dir="ltr">y = 0,6x + 2,2</bdi> المار بالنقطة المتوسطة <bdi dir="ltr">G(3 ; 4)</bdi>.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">سحابة النقاط</span> هي تمثيل الأزواج <bdi dir="ltr">(x<sub>i</sub> ; y<sub>i</sub>)</bdi> في معلم، و<span class="k">النقطة المتوسطة</span> هي <bdi dir="ltr">G(x̄ ; ȳ)</bdi>.</li>
@@ -79,9 +79,9 @@ main{position:relative;z-index:1}
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>السلسلة: x = 1، 2، 3، 4، 5 و y = 2، 4، 5، 4، 5. <span class="k">الحل:</span> <bdi dir="ltr">x̄ = 3</bdi>، <bdi dir="ltr">ȳ = 4</bdi>، <bdi dir="ltr">V(x) = 10/5 = 2</bdi>، <bdi dir="ltr">cov(x,y) = 6/5 = 1,2</bdi>؛ إذن <bdi dir="ltr">a = 0,6</bdi> و<bdi dir="ltr">b = 4 − 1,8 = 2,2</bdi>، والمستقيم <bdi dir="ltr">y = 0,6x + 2,2</bdi>.</li>
+<li>السلسلة: <bdi dir="ltr">x: 1, 2, 3, 4, 5</bdi> و<bdi dir="ltr">y: 2, 4, 5, 4, 5</bdi>.<span class="k">الحل:</span> <bdi dir="ltr">x̄ = 3</bdi>، <bdi dir="ltr">ȳ = 4</bdi>، <bdi dir="ltr">V(x) = 10/5 = 2</bdi>، <bdi dir="ltr">cov(x,y) = 6/5 = 1,2</bdi>؛ إذن <bdi dir="ltr">a = 0,6</bdi> و<bdi dir="ltr">b = 4 − 1,8 = 2,2</bdi>، والمستقيم <bdi dir="ltr">y = 0,6x + 2,2</bdi>.</li>
 <li>تابع المثال 1: <bdi dir="ltr">V(y) = 6/5 = 1,2</bdi>، ومنه <bdi dir="ltr">r = 1,2/√(2 × 1,2) = 1,2/√2,4 ≈ 0,77</bdi>. <span class="k">التفسير:</span> ارتباط موجب جيد، وتقدير y عند <bdi dir="ltr">x = 6</bdi> هو <bdi dir="ltr">0,6 × 6 + 2,2 = 5,8</bdi>.</li>
-<li>السلسلة: x = 1، 2، 3 و y = 5، 3، 1. <span class="k">الحل:</span> <bdi dir="ltr">cov = −4/3</bdi>، <bdi dir="ltr">V(x) = 2/3</bdi>، <bdi dir="ltr">V(y) = 8/3</bdi>؛ إذن <bdi dir="ltr">y = −2x + 7</bdi> و<bdi dir="ltr">r = −1</bdi>: النقاط على استقامة واحدة تماماً.</li>
+<li>السلسلة: <bdi dir="ltr">x: 1, 2, 3</bdi> و<bdi dir="ltr">y: 5, 3, 1</bdi>.<span class="k">الحل:</span> <bdi dir="ltr">cov = −4/3</bdi>، <bdi dir="ltr">V(x) = 2/3</bdi>، <bdi dir="ltr">V(y) = 8/3</bdi>؛ إذن <bdi dir="ltr">y = −2x + 7</bdi> و<bdi dir="ltr">r = −1</bdi>: النقاط على استقامة واحدة تماماً.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
@@ -94,7 +94,7 @@ main{position:relative;z-index:1}
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
 <li><bdi dir="ltr">a = cov(x,y)/V(x)</bdi> و<bdi dir="ltr">b = ȳ − a·x̄</bdi>.</li>
 <li>مستقيم الانحدار يمر بالنقطة <bdi dir="ltr">G(x̄ ; ȳ)</bdi>.</li>
-<li><bdi dir="ltr">r = cov/(σ<sub>x</sub>·σ<sub>y</sub>)</bdi> ومحصور بين −1 و 1.</li>
+<li><bdi dir="ltr">r = cov/(σ<sub>x</sub>·σ<sub>y</sub>)</bdi> ومحصور بين <bdi dir="ltr">−1</bdi> و1.</li>
 <li>إشارة r = إشارة a = اتجاه العلاقة.</li>
 <li>للتقدير: عوّض قيمة x في معادلة المستقيم.</li>
 </ul></div>
