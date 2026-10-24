@@ -101,7 +101,6 @@ const fr: DeepPartial<typeof ar> = {
     heroTitle: 'Votre réussite au bac commence ici',
     heroSubtitle: 'Des cours ciblés dans toutes les matières, des sujets corrigés, et un suivi réel de vos progrès avec vos enseignants.',
     ctaStudent: 'Je suis élève — commencer',
-    ctaCode: "J'ai un code de mon enseignant",
     browseLessons: 'Parcourir les cours',
     featuresTitle: 'Que propose la plateforme ?',
     f1: 'Cours et résumés',
