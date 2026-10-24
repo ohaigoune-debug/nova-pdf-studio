@@ -57,80 +57,83 @@
 @tailwind utilities;
 
 /*
- * لوحة ألوان المنصة: حبر عميق يميل إلى الزمرّدي، ورق دافئ، وذهب للتمييز.
+ * MADRASADZ identity v1: neutral surfaces, blue navigation, semantic status colors.
  * الألوان HSL مفكّكة لتعمل مع تدرّجات الشفافية (bg-primary/10).
  */
 @layer base {
   :root {
     --font-arabic: 'IBM Plex Sans Arabic', 'Tajawal', 'Noto Naskh Arabic', 'Segoe UI', Tahoma, sans-serif;
 
-    --background: 40 33% 97%;
-    --foreground: 200 40% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 200 40% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 200 40% 10%;
-    --primary: 168 52% 24%;
-    --primary-foreground: 40 40% 98%;
-    --secondary: 40 25% 93%;
-    --secondary-foreground: 200 40% 12%;
-    --muted: 40 22% 93%;
-    --muted-foreground: 205 14% 42%;
-    --accent: 42 78% 48%;
-    --accent-foreground: 30 40% 10%;
-    --destructive: 0 66% 47%;
-    --destructive-foreground: 0 0% 100%;
-    --success: 152 52% 32%;
-    --success-foreground: 0 0% 100%;
-    --warning: 38 92% 48%;
-    --warning-foreground: 24 40% 12%;
-    --border: 40 18% 87%;
-    --input: 40 18% 84%;
-    --ring: 168 52% 30%;
-    --radius: 1rem;
-
-    /* الشريط الجانبي حبريّ في الوضعين: هو ما يميّز لوحة فاخرة عن نموذج عام */
-    --sidebar: 200 42% 9%;
-    --sidebar-foreground: 40 30% 92%;
-    --sidebar-muted: 200 20% 62%;
-    --sidebar-border: 200 30% 16%;
-    --sidebar-active: 42 78% 52%;
-
-    --shadow-color: 200 40% 10%;
+    --background: 220.000 15.789% 96.275%;
+    --foreground: 219.130 28.395% 15.882%;
+    --card: 0.000 0.000% 100.000%;
+    --card-foreground: 219.130 28.395% 15.882%;
+    --popover: 0.000 0.000% 100.000%;
+    --popover-foreground: 219.130 28.395% 15.882%;
+    --primary: 220.000 46.154% 35.686%;
+    --primary-foreground: 0.000 0.000% 100.000%;
+    --secondary: 217.500 53.333% 94.118%;
+    --secondary-foreground: 220.000 46.154% 35.686%;
+    --muted: 217.500 53.333% 94.118%;
+    --muted-foreground: 218.710 13.305% 45.686%;
+    --accent: 36.055 88.618% 51.765%;
+    --accent-foreground: 219.130 28.395% 15.882%;
+    --destructive: 0.000 77.114% 60.588%;
+    --destructive-foreground: 0.000 0.000% 100.000%;
+    --success: 142.051 55.450% 41.373%;
+    --success-foreground: 0.000 0.000% 100.000%;
+    --warning: 36.055 88.618% 51.765%;
+    --warning-foreground: 219.130 28.395% 15.882%;
+    --border: 220.000 20.930% 91.569%;
+    --input: 220.000 20.930% 91.569%;
+    --ring: 220.000 46.154% 35.686%;
+    --sidebar: 217.200 50.000% 19.608%;
+    --sidebar-foreground: 0.000 0.000% 100.000%;
+    --sidebar-muted: 218.462 40.206% 80.980%;
+    --sidebar-border: 220.000 46.154% 35.686%;
+    --sidebar-active: 0.000 0.000% 100.000%;
+    --shadow-color: 217.200 50.000% 19.608%;
+    --purple: 270.000 38.333% 52.941%;
+    --cyan: 191.707 60.000% 40.196%;
+    --brand-blue: 220.000 46.154% 35.686%;
+    --brand-blue-hover: 218.333 48.000% 29.412%;
+    --radius: 18px;
   }
 
   .dark {
-    --background: 205 45% 5%;
-    --foreground: 40 25% 94%;
-    --card: 205 38% 8%;
-    --card-foreground: 40 25% 94%;
-    --popover: 205 38% 8%;
-    --popover-foreground: 40 25% 94%;
-    --primary: 165 48% 46%;
-    --primary-foreground: 205 45% 5%;
-    --secondary: 205 30% 13%;
-    --secondary-foreground: 40 25% 94%;
-    --muted: 205 30% 13%;
-    --muted-foreground: 205 15% 64%;
-    --accent: 42 82% 56%;
-    --accent-foreground: 30 40% 8%;
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 100%;
-    --success: 152 50% 44%;
-    --success-foreground: 205 45% 5%;
-    --warning: 38 92% 56%;
-    --warning-foreground: 24 40% 8%;
-    --border: 205 28% 15%;
-    --input: 205 28% 18%;
-    --ring: 165 48% 46%;
-
-    --sidebar: 205 45% 4%;
-    --sidebar-foreground: 40 25% 92%;
-    --sidebar-muted: 205 15% 58%;
-    --sidebar-border: 205 30% 12%;
-    --sidebar-active: 42 82% 56%;
-
-    --shadow-color: 205 60% 2%;
+    --background: 219.130 41.818% 10.784%;
+    --foreground: 217.500 53.333% 94.118%;
+    --card: 216.774 38.272% 15.882%;
+    --card-foreground: 217.500 53.333% 94.118%;
+    --popover: 216.774 38.272% 15.882%;
+    --popover-foreground: 217.500 53.333% 94.118%;
+    --primary: 218.630 72.277% 80.196%;
+    --primary-foreground: 217.200 50.000% 19.608%;
+    --secondary: 216.000 39.130% 22.549%;
+    --secondary-foreground: 217.500 53.333% 94.118%;
+    --muted: 216.000 39.130% 22.549%;
+    --muted-foreground: 217.500 27.119% 76.863%;
+    --accent: 216.000 39.130% 22.549%;
+    --accent-foreground: 217.500 53.333% 94.118%;
+    --destructive: 0.000 100.000% 76.471%;
+    --destructive-foreground: 219.130 41.818% 10.784%;
+    --success: 141.869 52.195% 59.804%;
+    --success-foreground: 219.130 41.818% 10.784%;
+    --warning: 36.055 88.618% 51.765%;
+    --warning-foreground: 219.130 28.395% 15.882%;
+    --border: 217.895 26.761% 27.843%;
+    --input: 217.895 26.761% 27.843%;
+    --ring: 218.630 72.277% 80.196%;
+    --sidebar: 217.200 50.000% 19.608%;
+    --sidebar-foreground: 0.000 0.000% 100.000%;
+    --sidebar-muted: 218.462 40.206% 80.980%;
+    --sidebar-border: 220.000 46.154% 35.686%;
+    --sidebar-active: 0.000 0.000% 100.000%;
+    --shadow-color: 217.200 50.000% 19.608%;
+    --purple: 268.462 69.643% 78.039%;
+    --cyan: 191.765 59.302% 66.275%;
+    --brand-blue: 220.000 46.154% 35.686%;
+    --brand-blue-hover: 218.333 48.000% 29.412%;
   }
 
   * {
@@ -171,9 +174,7 @@
 @layer components {
   /* ظلّ طبقي هادئ: خط رفيع قريب + هالة بعيدة خفيفة. الأزرق المحايد لا يصفرّ الورق */
   .shadow-soft {
-    box-shadow:
-      0 1px 2px hsl(var(--shadow-color) / 0.04),
-      0 8px 24px -12px hsl(var(--shadow-color) / 0.12);
+    box-shadow: 0 2px 12px hsl(var(--shadow-color) / 0.07);
   }
   .shadow-lift {
     box-shadow:
@@ -183,11 +184,7 @@
 
   /* خلفية الحبر للأقسام البارزة (البطل، بطاقة الدخول): تدرّج + توهّجان ذهبي وزمرّدي */
   .bg-ink {
-    background-color: hsl(200 42% 9%);
-    background-image:
-      radial-gradient(60% 50% at 85% 10%, hsl(42 78% 52% / 0.18), transparent 60%),
-      radial-gradient(50% 60% at 10% 90%, hsl(168 52% 34% / 0.28), transparent 60%),
-      linear-gradient(180deg, hsl(200 42% 11%), hsl(205 45% 6%));
+    background: hsl(var(--brand-blue));
   }
 
   /* زخرفة هندسية عربية خفيفة جداً — نجمة ثمانية متكرّرة، لا تشوّش على النص */
@@ -249,4 +246,20 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+@layer components {
+  .brand-header {
+    background: hsl(var(--brand-blue));
+    color: white;
+    padding-top: env(safe-area-inset-top);
+    min-height: calc(72px + env(safe-area-inset-top));
+  }
+  .brand-header select { color: hsl(var(--foreground)); }
+  .brand-header label svg { color: white; }
+  .brand-header button, .brand-header a { color: inherit; }
+  .brand-header button:hover, .brand-header a:hover { background-color: rgb(255 255 255 / 0.12); }
+  .student-content { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+  .student-bottom-nav { padding-bottom: env(safe-area-inset-bottom); }
+  @media (min-width: 1024px) { .student-content { padding-bottom: 2rem; } }
 }

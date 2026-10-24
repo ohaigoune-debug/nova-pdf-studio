@@ -1,6 +1,6 @@
 'use client'
 
-import { ShoppingBag } from 'lucide-react'
+import { ShoppingBag, Truck } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState, useTransition } from 'react'
 import { OtpVerifyCard } from '@/components/domain/otp-verify-card'
@@ -73,6 +73,14 @@ export function BuyCourseDialog({ product, courseTitle, data }: { product: { id:
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
+          <div className="rounded-lg border bg-muted/30 p-4">
+            <p className="mb-3 font-bold">معلومات التلميذ</p>
+            <dl className="grid gap-3 text-sm sm:grid-cols-2">
+              <div><dt className="text-muted-foreground">الاسم الكامل</dt><dd className="font-semibold">{d.name}</dd></div>
+              <div><dt className="text-muted-foreground">هاتف التلميذ</dt><dd dir="ltr" className="text-start font-semibold">{d.phone ?? '—'}</dd></div>
+              <div><dt className="text-muted-foreground">هاتف الأب أو ولي الأمر</dt><dd dir="ltr" className="text-start font-semibold">{d.guardianPhone ?? '—'}</dd></div>
+            </dl>
+          </div>
           <Field label="هاتف الاستلام" htmlFor="buy-who">
             <Select id="buy-who" value={who} onChange={(e) => setWho(e.target.value as typeof who)}>
               {d.phone ? <option value="self">هاتفي — {d.phone}</option> : null}
@@ -117,6 +125,13 @@ export function BuyCourseDialog({ product, courseTitle, data }: { product: { id:
             <OtpVerifyCard key={phone} purpose="ORDER" phone={phone} editablePhone={false} collectOnly onCode={(c) => setF((s) => ({ ...s, otpCode: c }))} title="رمز التأكيد" description={`نرسل رمزاً إلى ${phone}؛ أدخله ثم أكّد الشراء.`} />
           ) : null}
           {!data.smsReady ? <Alert tone="info">نتصل بك على هذا الرقم لتأكيد الطلب، ثم نرسل الكتاب.</Alert> : null}
+          <div className="space-y-2 rounded-lg border bg-card p-4 text-sm" aria-live="polite">
+            <p className="font-bold">ملخص الطلب</p>
+            <p className="flex justify-between"><span>{product.title}</span><span>{product.priceDzd} دج</span></p>
+            {physical ? <p className="flex justify-between"><span>التوصيل</span><span>{fee} دج</span></p> : null}
+            <p className="flex justify-between border-t pt-2 text-base font-bold"><span>الإجمالي</span><span>{total} دج</span></p>
+          </div>
+          {physical ? <Alert tone="info"><span className="flex items-center gap-2"><Truck className="size-5 shrink-0" /> تُفعَّل الدورة بعد تأكيد شركة التوصيل تسليم الكتاب لحساب التلميذ نفسه.</span></Alert> : null}
           <Button className="w-full" size="lg" onClick={submit} loading={pending} disabled={!ready}>
             تأكيد الشراء — {total} دج
           </Button>

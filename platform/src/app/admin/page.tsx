@@ -39,7 +39,7 @@ export default async function AdminHomePage() {
         <StatCard label={t('dashboard.aiOpsToday')} value={s.aiJobsToday} icon={Cpu} />
         <StatCard label={t('dashboard.storageUsage')} value={`${(storage.bytes / 1024 / 1024).toFixed(1)} MB`} hint={`${storage.files} ملف · ${storage.content} محتوى`} icon={HardDrive} />
         <StatCard label={t('dashboard.errors')} value={s.failedJobs} icon={AlertTriangle} tone={s.failedJobs > 0 ? 'destructive' : 'default'} />
-        <StatCard label={t('dashboard.securityAlerts')} value={0} hint="المرحلة 8" icon={AlertTriangle} />
+        <StatCard label={t('dashboard.securityAlerts')} value="—" hint="غير متاح حالياً" icon={AlertTriangle} />
         <StatCard label={t('admin.logsTitle')} value={s.auditToday} hint={t('common.today')} icon={ScrollText} />
       </div>
 
