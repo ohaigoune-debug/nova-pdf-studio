@@ -42,7 +42,14 @@ function ContentList({ items, empty }: { items: CourseContentItem[]; empty: stri
 
 export default async function StudentCoursePage({ params }: { params: Promise<{ slug: string }> }) {
   const actor = await requirePageActor('STUDENT')
-  const { slug } = await params
+  // الرابط العربي يصل مرمَّزاً (%D8%AF…) — يُفكّ كما في صفحات الدروس والمتجر، وإلا لا تُوجد الدورة فتظهر صفحة فارغة
+  const { slug: rawSlug } = await params
+  let slug = rawSlug
+  try {
+    slug = decodeURIComponent(rawSlug)
+  } catch {
+    slug = rawSlug
+  }
   const db = await getDb()
   let home: Awaited<ReturnType<typeof courseHome>>
   try {
