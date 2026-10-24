@@ -43,6 +43,14 @@ const STALE_AFTER_MS = 2 * 60 * 60_000
 export { DOC_STATUS_AR, DOC_TYPE_AR, ORIGIN_AR } from '@/lib/exam-engine-labels'
 
 /** خطأ معالجة وثيقة: رمز قصير يظهر في اللوحة + تفصيل */
+/** يحذف المحرف NUL (0x00) من كل النصوص: Postgres يرفضه، وقد يحمله ردّ الذكاء الاصطناعي على PDF رديء */
+export function stripNul(v: unknown): unknown {
+  if (typeof v === 'string') return v.replace(/\u0000/g, '')
+  if (Array.isArray(v)) return v.map(stripNul)
+  if (v && typeof v === 'object') return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, stripNul(x)]))
+  return v
+}
+
 /** نقطة تقسيم قرب منتصف النصّ عند حدّ سطر (لا يُقطع تمرين وسط جملة إن أمكن) */
 function splitPoint(text: string): number {
   const mid = Math.floor(text.length / 2)
@@ -366,12 +374,13 @@ export async function processDocument(db: Db, documentId: string, opts: ProcessO
     const [level] = doc.levelId ? await db.select({ n: levels.nameAr }).from(levels).where(eq(levels.id, doc.levelId)).limit(1) : []
     const [stream] = doc.streamId ? await db.select({ n: streams.nameAr }).from(streams).where(eq(streams.id, doc.streamId)).limit(1) : []
     const extracted: ExtractedQuestion[] = []
+    // Postgres يرفض المحرف NUL (0x00) في النصوص: ردود الذكاء الاصطناعي على نصوص PDF رديئة قد تحمله
     await withAiTask({ task: 'exam_doc_extract', userId: opts.userId, entityType: 'exam_document', entityId: doc.id }, async () => {
       // ردّ مقطوع (موضوع طويل يتجاوز حدّ الردّ) ⇒ يُقسَم الجزء نصفين ويُعاد مرة واحدة لكل نصف
       const extractPart = async (part: string, splits: number): Promise<void> => {
         try {
           const out = await provider.extractQuestions!({ subject: subject?.n ?? null, levelName: level?.n ?? null, fileTitle: doc.title, text: part })
-          extracted.push(...out.questions)
+          extracted.push(...(stripNul(out.questions) as ExtractedQuestion[]))
         } catch (e) {
           if (splits <= 0 || !/truncated/.test(e instanceof Error ? e.message : String(e)) || part.length < 200) throw e
           const mid = splitPoint(part)
