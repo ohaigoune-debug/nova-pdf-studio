@@ -10,6 +10,5 @@ export const MAIN_SECTIONS = [
 
 /** روابط ثانوية تبقى في التذييل فقط */
 export const FOOTER_EXTRA = [
-  { href: '/library', label: 'المكتبة' },
-  { href: '/store', label: 'المتجر' }
+  { href: '/library', label: 'المكتبة' }
 ] as const

@@ -145,6 +145,8 @@ export async function createCourse(db: Db, actor: Actor, input: CourseInput): Pr
   const [year] = await db.select({ id: academicYears.id }).from(academicYears).where(eq(academicYears.isCurrent, true)).limit(1)
   const title = input.title.trim()
   const slug = await uniqueSlug(db, courseSlugify(input.slug?.trim() || title))
+  // دورة جديدة مدفوعة: لا تُنشأ منشورةً قبل إرفاق كتابها (تُنشأ مسودة ثم يُضاف الكتاب من صفحتها فتُنشر)
+  if ((input.status ?? 'DRAFT') === 'PUBLISHED' && (input.priceDzd ?? 0) > 0) throw new AppError('COURSE_BOOK_REQUIRED', { issue: 'NO_BOOK' })
 
   const created = await db.transaction(async (tx) => {
     const [g] = await tx
@@ -248,6 +250,8 @@ export async function setCourseStatus(db: Db, actor: Actor, id: string, status: 
   if (!COURSE_STATUSES.includes(status)) throw new AppError('VALIDATION', { field: 'status' })
   const c = await loadCourse(db, id)
   if (c.status === status) return
+  // دورة مدفوعة لا تُنشر بلا كتاب ورقي صالح (الدورات المنشورة سابقاً لا تُمسّ)
+  if (status === 'PUBLISHED') await import('./course-purchase.service').then((m) => m.assertCoursePublishable(db, c))
   await db.update(courses).set({ status, updatedAt: new Date() }).where(eq(courses.id, id))
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'course.status', entityType: 'course', entityId: id, oldValue: { status: c.status }, newValue: { status } })
   // التلاميذ ذوو الوصول الشامل يُشتركون في كل دورة تُنشر (استيراد متأخر: full-access يعتمد على هذا الملف)

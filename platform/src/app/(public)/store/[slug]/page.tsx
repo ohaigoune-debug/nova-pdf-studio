@@ -10,6 +10,7 @@ import { AppError } from '@/server/lib/errors'
 import type { ListingKind } from '@/server/db/schema/enums'
 import { LISTING_KIND_AR } from '@/server/services/marketplace.service'
 import { getProduct, PRODUCT_TYPE_AR, shippingFeeDzd } from '@/server/services/store.service'
+import { gateStoreBrowsing } from '@/server/lib/store-gate'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  await gateStoreBrowsing()
   const { slug } = await params
   let p
   try {

@@ -4,9 +4,9 @@
  * لا تفعيل على حساب غير تلميذ أبداً. الرمز لا يُخزَّن إلا hash، 5 محاولات ثم يُقفل.
  */
 import { createHash, randomInt } from 'node:crypto'
-import { and, desc, eq, gt, isNull, sql } from 'drizzle-orm'
+import { and, desc, eq, gt, isNotNull, isNull, ne, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { courseClaims, courses, orders } from '@/server/db/schema'
+import { courseClaims, courseEnrollments, courses, orders } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
@@ -82,10 +82,36 @@ export async function claimCourse(db: Db, actor: Actor, input: { phone: string; 
   }
   const [course] = await db.select({ id: courses.id, title: courses.title, workspaceId: courses.workspaceId }).from(courses).where(eq(courses.id, match.courseId)).limit(1)
   if (!course) throw new AppError('NOT_FOUND')
-  const [order] = await db.select({ id: orders.id, number: orders.number }).from(orders).where(eq(orders.id, match.orderId)).limit(1)
-  await enrollStudent(db, null, { courseId: course.id, studentId: actor.studentId, source: 'CLAIM', orderId: order?.id ?? null, activatedByUserId: null })
-  await db.update(courseClaims).set({ claimedAt: now, claimedByStudentId: actor.studentId }).where(eq(courseClaims.id, match.id))
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'course.claim', entityType: 'course', entityId: course.id, newValue: { claimId: match.id, orderNumber: order?.number ?? null, studentId: actor.studentId } })
+  const studentId = actor.studentId
+  // ذرّي: طلب واحد لدورة واحدة لا يمنحها لحسابين — قفل الطلب، ثم التحقق والاستهلاك والاشتراك في معاملة واحدة
+  const order = await db.transaction(async (tx) => {
+    const [o] = await tx.select({ id: orders.id, number: orders.number, status: orders.status }).from(orders).where(eq(orders.id, match.orderId)).for('update').limit(1)
+    // لا تفعيل قبل التسليم المؤكَّد، ولا بعد الإلغاء أو الإرجاع
+    if (!o || o.status !== 'DELIVERED') throw new AppError('ORDER_NOT_DELIVERED')
+    const [other] = await tx
+      .select({ studentId: courseEnrollments.studentId })
+      .from(courseEnrollments)
+      .where(and(eq(courseEnrollments.orderId, o.id), eq(courseEnrollments.courseId, course.id), eq(courseEnrollments.status, 'ACTIVE'), ne(courseEnrollments.studentId, studentId)))
+      .limit(1)
+    if (other) throw new AppError('CLAIM_ALREADY_USED')
+    const [taken] = await tx
+      .select({ by: courseClaims.claimedByStudentId })
+      .from(courseClaims)
+      .where(and(eq(courseClaims.orderId, o.id), eq(courseClaims.courseId, course.id), isNotNull(courseClaims.claimedAt), ne(courseClaims.claimedByStudentId, studentId)))
+      .limit(1)
+    if (taken) throw new AppError('CLAIM_ALREADY_USED')
+    const won = await tx
+      .update(courseClaims)
+      .set({ claimedAt: now, claimedByStudentId: studentId })
+      .where(and(eq(courseClaims.id, match.id), isNull(courseClaims.claimedAt)))
+      .returning({ id: courseClaims.id })
+    if (!won.length) throw new AppError('CLAIM_INVALID')
+    // بقية رموز هذا الطلب لهذه الدورة (رمز تلقائي + رمز الإدارة مثلاً) تسقط: لا حساب ثانٍ
+    await tx.update(courseClaims).set({ expiresAt: now }).where(and(eq(courseClaims.orderId, o.id), eq(courseClaims.courseId, course.id), isNull(courseClaims.claimedAt)))
+    await enrollStudent(tx, null, { courseId: course.id, studentId, source: 'CLAIM', orderId: o.id, activatedByUserId: null })
+    return o
+  })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'course.claim', entityType: 'course', entityId: course.id, newValue: { claimId: match.id, orderNumber: order.number, studentId } })
   return { courseId: course.id, courseTitle: course.title }
 }
 
