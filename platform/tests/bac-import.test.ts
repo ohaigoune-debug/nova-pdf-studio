@@ -7,7 +7,7 @@ import { guessBacFile } from '@/lib/bac-bank'
 import { setAiProviderForTests } from '@/server/ai/provider'
 import type { AIProvider, ClassifyBacFileInput, ExtractQuestionsInput } from '@/server/ai/types'
 import type { DatabaseHandle } from '@/server/db/connect'
-import { examDocuments, resources } from '@/server/db/schema'
+import { examDocuments, files, resources } from '@/server/db/schema'
 import { seedCurriculum } from '@/server/db/seed-curriculum'
 import type { Actor } from '@/server/lib/actor'
 import { installAiUsageSink } from '@/server/services/ai-usage.service'
@@ -196,5 +196,20 @@ describe('حصاد موقع عامّ', () => {
     // إعادة الحصاد: لا تكرار
     const again = await importBacFiles(h.db, admin, { kind: 'web', seedUrl: 'https://edu.test/bac.html' }, { fetch: siteFetch })
     expect(again).toMatchObject({ exams: 0, corrections: 0, duplicates: 2 })
+
+    // ملف مخزَّن صار فارغاً (0 بايت) ⇒ يُعاد تنزيله من رابط المصدر بدل «The PDF file is empty»
+    const [stored] = await h.db.select().from(files).where(eq(files.id, doc!.fileId!))
+    await writeFile(path.join(process.env.UPLOADS_DIR!, stored!.storageKey), '')
+    // بلا رابط عند المصدر: سبب واضح بدل خطأ pdf.js الغامض
+    const noUrl = await processDocument(h.db, doc!.id, { userId: admin.userId, fetch: siteFetch })
+    expect(noUrl.error).toMatch(/^empty_file:/)
+    // برابط المصدر (كمواضيع DzExams): يُعاد التنزيل وتنجح المعالجة
+    SITE['https://edu.test/files/refetch.txt'] = SITE['https://edu.test/files/bac-2020-math-se-sujet1.pdf']!
+    await h.db.update(resources).set({ fileUrl: 'https://edu.test/files/refetch.txt' }).where(eq(resources.id, doc!.resourceId!))
+    const p = await processDocument(h.db, doc!.id, { userId: admin.userId, fetch: siteFetch })
+    // أُعيد التنزيل (ملف جديد) ووصلت المعالجة إلى قراءة النصّ؛ النصّ التجريبي قصير فيُصنَّف «مصوّراً» لا «PDF فارغ»
+    expect(p.error ?? '').not.toMatch(/empty|InvalidPDF/)
+    const [after] = await h.db.select().from(examDocuments).where(eq(examDocuments.id, doc!.id))
+    expect(after!.fileId).not.toBe(doc!.fileId)
   })
 })
