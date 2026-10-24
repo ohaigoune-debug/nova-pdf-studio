@@ -263,7 +263,7 @@ export async function listQuizzesForStudent(db: Db, actor: Actor) {
     .orderBy(desc(quizzes.publishedAt))
 }
 
-async function assertStudentQuizAccess(db: Db, studentId: string, quizId: string): Promise<QuizRow> {
+export async function assertStudentQuizAccess(db: Db, studentId: string, quizId: string): Promise<QuizRow> {
   assertUuid(quizId, 'QUIZ_NOT_FOUND')
   const [q] = await db.select().from(quizzes).where(and(eq(quizzes.id, quizId), isNull(quizzes.deletedAt))).limit(1)
   if (!q) throw new AppError('QUIZ_NOT_FOUND')

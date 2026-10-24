@@ -68,6 +68,7 @@ export function navFor(role: UserRole): NavSection[] {
           items: [
             { href: '/teacher/publish', label: 'نشر درس / فرض / اختبار', iconKey: 'Upload' },
             { href: '/teacher/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' },
+            { href: '/teacher/comments', label: 'التعليقات', iconKey: 'MessageSquare' },
             { href: '/teacher/announcements', label: 'الإشعارات', iconKey: 'Megaphone' },
             { href: '/forum', label: 'المنتدى', iconKey: 'MessageSquareText' },
             { href: '/teacher/assignments', label: t('nav.assignments'), iconKey: 'ClipboardList' },
