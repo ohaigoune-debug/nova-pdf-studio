@@ -155,8 +155,10 @@ describe('webhook التوصيل — المعالجة', () => {
     const [c2] = await h.db.select().from(courseClaims).where(eq(courseClaims.id, claim!.id))
     expect(c2!.claimedByStudentId).toBe(kid.studentId)
     expect(c2!.claimedAt).not.toBeNull()
-    // الرمز لا يُستعمل مرتين
-    await expect(claimCourse(h.db, kid, { phone: '0661234567', code })).rejects.toMatchObject({ code: 'CLAIM_INVALID' })
+    // صاحبه يعيد إدخاله ⇒ نجاح (لا «غير صالح»)، وغيره لا يستعمله مرة ثانية
+    expect((await claimCourse(h.db, kid, { phone: '0661234567', code })).courseId).toBe(courseId)
+    const other = await makeStudent(h.db, 'تلميذ آخر للرمز')
+    await expect(claimCourse(h.db, other, { phone: '0661234567', code })).rejects.toMatchObject({ code: 'CLAIM_INVALID' })
   })
 
   it('رمز خاطئ ×5 يقفل المطالبة', async () => {
