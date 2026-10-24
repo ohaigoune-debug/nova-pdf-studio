@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>العمليات على الدوال</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">2 ثانوي · الرياضيات · علوم تجريبية / رياضيات / تقني رياضي · الوحدة 1: الدوال · الدرس 1</div>
+<h1>العمليات على الدوال</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تُنشئ دوالّ جديدة من دالتين بالجمع والجداء والقسمة والتركيب، وأن تحدّد مجموعة تعريف كل دالة ناتجة.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> نجمع الدالتين f وg أو نضربهما أو نقسمهما نقطةً بنقطة، أو نُطبّق g على نتيجة f (التركيب). مجموعة تعريف الناتج تشترط أن تكون كل خطوة وسيطة ممكنة الحساب.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<ellipse cx="500" cy="85" rx="30" ry="22" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="500" y="90" text-anchor="middle" font-weight="700">x</text>
+<line x1="468" y1="85" x2="434" y2="85" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="340" y="60" width="90" height="50" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="385" y="80" text-anchor="middle" font-weight="700" direction="rtl">الدالة</text><text x="385" y="101" text-anchor="middle" font-weight="700">f</text>
+<line x1="338" y1="85" x2="304" y2="85" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<ellipse cx="268" cy="85" rx="34" ry="22" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="268" y="90" text-anchor="middle" font-weight="700">f(x)</text>
+<line x1="232" y1="85" x2="198" y2="85" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="104" y="60" width="90" height="50" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="149" y="80" text-anchor="middle" font-weight="700" direction="rtl">الدالة</text><text x="149" y="101" text-anchor="middle" font-weight="700">g</text>
+<line x1="102" y1="85" x2="76" y2="85" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<ellipse cx="40" cy="85" rx="34" ry="22" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="40" y="89" text-anchor="middle" font-size="12" font-weight="700">g(f(x))</text>
+<text x="270" y="150" text-anchor="middle" fill="#c2410c" font-weight="700">(g∘f)(x) = g(f(x))</text>
+</svg><figcaption>الشكل 1: في التركيب g∘f تُطبَّق f أولاً ثم g على الناتج.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المجموع والجداء:</span> <bdi dir="ltr">(f+g)(x) = f(x)+g(x)</bdi> و<bdi dir="ltr">(f·g)(x) = f(x)·g(x)</bdi>، ومجموعة تعريفهما <bdi dir="ltr">D<sub>f</sub> ∩ D<sub>g</sub></bdi>.</li>
+<li><span class="k">الجداء بعدد:</span> <bdi dir="ltr">(k·f)(x) = k·f(x)</bdi>، ومجموعة تعريفه هي D<sub>f</sub>.</li>
+<li><span class="k">القسمة:</span> <bdi dir="ltr">(f/g)(x) = f(x)/g(x)</bdi> بشرط <bdi dir="ltr">g(x) ≠ 0</bdi>، فنستبعد من <bdi dir="ltr">D<sub>f</sub> ∩ D<sub>g</sub></bdi> أصفار g.</li>
+<li><span class="k">التركيب:</span> <bdi dir="ltr">(g∘f)(x) = g(f(x))</bdi> معرَّفة إذا كان x من D<sub>f</sub> و<bdi dir="ltr">f(x)</bdi> من D<sub>g</sub>.</li>
+<li><span class="k">التركيب ليس تبديليًا:</span> عمومًا <bdi dir="ltr">g∘f ≠ f∘g</bdi>.</li>
+<li><span class="k">شروط التعريف:</span> الجذر التربيعي يشترط أن يكون ما تحته موجبًا أو معدومًا، والكسر يشترط أن يكون مقامه غير معدوم.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li><bdi dir="ltr">f(x) = x+1</bdi> و<bdi dir="ltr">g(x) = x<sup>2</sup></bdi>. <span class="k">الحل:</span> <bdi dir="ltr">(f+g)(x) = x<sup>2</sup>+x+1</bdi>، و<bdi dir="ltr">(f·g)(x) = x<sup>3</sup>+x<sup>2</sup></bdi>، و<bdi dir="ltr">(g∘f)(x) = (x+1)<sup>2</sup></bdi>، و<bdi dir="ltr">(f∘g)(x) = x<sup>2</sup>+1</bdi>. نلاحظ <bdi dir="ltr">g∘f ≠ f∘g</bdi>.</li>
+<li><bdi dir="ltr">f(x) = 1/(x−2)</bdi> و<bdi dir="ltr">g(x) = √x</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">D<sub>f</sub> = ℝ∖{2}</bdi> و<bdi dir="ltr">D<sub>g</sub> = [0 ; +∞[</bdi>، إذن مجموعة تعريف f+g هي <bdi dir="ltr">[0 ; +∞[ ∖ {2}</bdi>.</li>
+<li><bdi dir="ltr">f(x) = x+1</bdi> و<bdi dir="ltr">g(x) = x<sup>2</sup></bdi>، احسب <bdi dir="ltr">(g∘f)(2)</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">f(2) = 3</bdi> ثم <bdi dir="ltr">g(3) = 9</bdi>، ونتحقق: <bdi dir="ltr">(2+1)<sup>2</sup> = 9</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>نسيان استبعاد أصفار المقام عند تعريف f/g.</li>
+<li>عكس الترتيب في التركيب: في g∘f تُطبَّق f أولاً.</li>
+<li>الخلط بين <bdi dir="ltr">g(f(x))</bdi> والجداء <bdi dir="ltr">g(x)·f(x)</bdi>.</li>
+<li>تبسيط العبارة قبل تحديد مجموعة التعريف: <bdi dir="ltr">x<sup>2</sup>/x</bdi> تُبسَّط إلى x لكنها غير معرَّفة عند 0.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>الجمع والجداء: التقاطع <bdi dir="ltr">D<sub>f</sub> ∩ D<sub>g</sub></bdi>.</li>
+<li>القسمة: نستبعد أصفار المقام.</li>
+<li>التركيب: <bdi dir="ltr">g∘f</bdi> يعني <bdi dir="ltr">g(f(x))</bdi>، وf أولاً.</li>
+<li><bdi dir="ltr">g∘f ≠ f∘g</bdi> في الحالة العامة.</li>
+<li>حدّد مجموعة التعريف أولاً ثم بسّط.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

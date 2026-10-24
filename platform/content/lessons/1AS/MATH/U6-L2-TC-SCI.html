@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مؤشرات الموقع: المتوسط والمنوال والوسيط</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">1 ثانوي · الرياضيات · جذع مشترك علوم وتكنولوجيا · الوحدة 6: الإحصاء · الدرس 2</div>
+<h1>مؤشرات الموقع: المتوسط والمنوال والوسيط</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تحسب المتوسط الحسابي لسلسلة إحصائية، وأن تعيّن منوالها ووسيطها من قائمة قيم أو جدول تكرارات أو فئات، وأن تفسّر دلالة كل مؤشر.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> مؤشرات الموقع ثلاثة أعداد تلخّص أين تتمركز القيم: المتوسط يأخذ كل القيم في الحسبان، والمنوال هو القيمة الأكثر تكراراً، والوسيط يقسم السلسلة المرتّبة إلى نصفين متساويي العدد.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<line x1="30" y1="130" x2="500" y2="130" stroke="#1f2937" stroke-width="1.5"/>
+<text x="40" y="150" text-anchor="middle" font-size="13">0</text><text x="96" y="150" text-anchor="middle" font-size="13">2</text><text x="152" y="150" text-anchor="middle" font-size="13">4</text><text x="208" y="150" text-anchor="middle" font-size="13">6</text><text x="264" y="150" text-anchor="middle" font-size="13">8</text><text x="320" y="150" text-anchor="middle" font-size="13">10</text><text x="376" y="150" text-anchor="middle" font-size="13">12</text><text x="432" y="150" text-anchor="middle" font-size="13">14</text><text x="488" y="150" text-anchor="middle" font-size="13">16</text>
+<line x1="40" y1="126" x2="40" y2="134" stroke="#1f2937"/><line x1="96" y1="126" x2="96" y2="134" stroke="#1f2937"/><line x1="152" y1="126" x2="152" y2="134" stroke="#1f2937"/><line x1="208" y1="126" x2="208" y2="134" stroke="#1f2937"/><line x1="264" y1="126" x2="264" y2="134" stroke="#1f2937"/><line x1="320" y1="126" x2="320" y2="134" stroke="#1f2937"/><line x1="376" y1="126" x2="376" y2="134" stroke="#1f2937"/><line x1="432" y1="126" x2="432" y2="134" stroke="#1f2937"/><line x1="488" y1="126" x2="488" y2="134" stroke="#1f2937"/>
+<line x1="208" y1="130" x2="208" y2="30" stroke="#c2410c" stroke-width="2" stroke-dasharray="5 3"/>
+<line x1="236" y1="130" x2="236" y2="56" stroke="#15803d" stroke-width="2" stroke-dasharray="5 3"/>
+<line x1="264" y1="130" x2="264" y2="82" stroke="#1d4ed8" stroke-width="2" stroke-dasharray="5 3"/>
+<circle cx="152" cy="118" r="6" fill="#1f2937"/><circle cx="208" cy="118" r="6" fill="#c2410c"/><circle cx="208" cy="104" r="6" fill="#c2410c"/><circle cx="236" cy="118" r="6" fill="#15803d"/><circle cx="292" cy="118" r="6" fill="#1f2937"/><circle cx="320" cy="118" r="6" fill="#1f2937"/><circle cx="432" cy="118" r="6" fill="#1f2937"/>
+<text x="200" y="26" fill="#c2410c" font-weight="700" text-anchor="start" direction="rtl">المنوال = 6، ظهر مرتين</text>
+<text x="244" y="52" fill="#15803d" font-weight="700" text-anchor="end" direction="rtl">الوسيط = 7، القيمة الرابعة من 7 قيم مرتّبة</text>
+<text x="272" y="78" fill="#1d4ed8" font-weight="700" text-anchor="end" direction="rtl">المتوسط x̄ = 56 ÷ 7 = 8</text>
+<text x="270" y="166" font-size="13" text-anchor="middle" direction="rtl">السلسلة المرتّبة: 4 ؛ 6 ؛ 6 ؛ 7 ؛ 9 ؛ 10 ؛ 14</text>
+</svg><figcaption>الشكل 1: سبع قيم على محور مدرّج؛ المنوال والوسيط والمتوسط ثلاثة أعداد مختلفة لسلسلة واحدة.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المتوسط الحسابي</span> لسلسلة قيمها x<sub>i</sub> بتكرارات n<sub>i</sub> هو: المتوسط = <bdi dir="ltr">(n<sub>1</sub>x<sub>1</sub> + n<sub>2</sub>x<sub>2</sub> + … + n<sub>p</sub>x<sub>p</sub>) ÷ N</bdi>.</li>
+<li>في حالة <span class="k">الفئات</span> نعوّض كل فئة بمركزها ونطبّق القانون نفسه؛ النتيجة تقريبية.</li>
+<li><span class="k">المنوال</span> هو القيمة ذات التكرار الأكبر، وقد يتعدّد. مع الفئات نتحدث عن <span class="k">الفئة المنوالية</span> (ذات التكرار الأكبر إذا تساوت المدايات).</li>
+<li><span class="k">الوسيط</span> عدد يقسم السلسلة المرتّبة تصاعدياً إلى مجموعتين لهما العدد نفسه من القيم.</li>
+<li><span class="k">تعيين الوسيط عملياً:</span> إذا كان N فردياً فالوسيط هو القيمة ذات الرتبة <bdi dir="ltr">(N + 1) ÷ 2</bdi>؛ وإذا كان زوجياً فهو نصف مجموع القيمتين ذواتي الرتبتين <bdi dir="ltr">N ÷ 2</bdi> و<bdi dir="ltr">(N ÷ 2) + 1</bdi>.</li>
+<li>مع جدول التكرارات نستعمل <span class="k">التكرارات المجمعة الصاعدة</span>: أول قيمة يبلغ عندها المجمع <bdi dir="ltr">N ÷ 2</bdi> أو يتجاوزه تعطي الوسيط (وإذا بلغ المجمع <bdi dir="ltr">N ÷ 2</bdi> تماماً عند قيمة ما، فالوسيط نصف مجموعها والقيمة التي تليها)، وبالطريقة نفسها نعيّن <span class="k">الفئة الوسيطية</span>.</li>
+<li><span class="k">الحساسية:</span> المتوسط يتأثر بالقيم المتطرفة، بينما الوسيط والمنوال لا يتأثران بها.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>عدد الكتب التي قرأها 7 تلاميذ: 6 ؛ 9 ؛ 4 ؛ 14 ؛ 6 ؛ 10 ؛ 7. <span class="k">الحل:</span> الترتيب: 4 ؛ 6 ؛ 6 ؛ 7 ؛ 9 ؛ 10 ؛ 14. المجموع 56 فالمتوسط <bdi dir="ltr">56 ÷ 7 = 8</bdi>. المنوال 6. <bdi dir="ltr">N = 7</bdi> فردي فالوسيط هو القيمة الرابعة: 7.</li>
+<li>علامات 20 تلميذاً: 8 (3 مرات)، 10 (5)، 12 (7)، 14 (3)، 16 (2). <span class="k">الحل:</span> المتوسط = <bdi dir="ltr">(24 + 50 + 84 + 42 + 32) ÷ 20 = 232 ÷ 20 = 11,6</bdi>. المنوال 12. التكرارات المجمعة 3 ؛ 8 ؛ 15 ؛ 18 ؛ 20، و<bdi dir="ltr">N = 20</bdi> زوجي، فالقيمتان العاشرة والحادية عشرة كلتاهما 12، فالوسيط 12.</li>
+<li>سلسلة بفئات: <bdi dir="ltr">[0 ; 4[</bdi> تكرارها 2، <bdi dir="ltr">[4 ; 8[</bdi> تكرارها 5، <bdi dir="ltr">[8 ; 12[</bdi> تكرارها 8، <bdi dir="ltr">[12 ; 16[</bdi> تكرارها 4، <bdi dir="ltr">[16 ; 20[</bdi> تكرارها 1. <span class="k">الحل:</span> المراكز 2 ؛ 6 ؛ 10 ؛ 14 ؛ 18. المتوسط = <bdi dir="ltr">(4 + 30 + 80 + 56 + 18) ÷ 20 = 188 ÷ 20 = 9,4</bdi>. الفئة المنوالية <bdi dir="ltr">[8 ; 12[</bdi>. التكرارات المجمعة 2 ؛ 7 ؛ 15 ؛ 19 ؛ 20، و<bdi dir="ltr">N ÷ 2 = 10</bdi> يُبلَغ لأول مرة في الفئة <bdi dir="ltr">[8 ; 12[</bdi> فهي الفئة الوسيطية.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>حساب المتوسط بقسمة مجموع القيم المختلفة على عددها دون ضربها في تكراراتها.</li>
+<li>الخلط بين <span class="k">المنوال</span> (القيمة الأكثر تكراراً) و<span class="k">التكرار الأكبر</span> نفسه.</li>
+<li>البحث عن الوسيط دون ترتيب القيم تصاعدياً أولاً.</li>
+<li>تقديم مركز الفئة على أنه قيمة فعلية؛ المركز تقريب فقط.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>المتوسط = مجموع (التكرار × القيمة) ÷ N.</li>
+<li>المنوال = القيمة ذات التكرار الأكبر (قد يتعدّد).</li>
+<li>الوسيط: رتّب ثم خذ الرتبة الوسطى (أو متوسط الرتبتين الوسطيين إذا كان N زوجياً).</li>
+<li>مع الجدول: الوسيط عند أول تكرار مجمع يبلغ <bdi dir="ltr">N ÷ 2</bdi> أو يتجاوزه (وإن بلغه تماماً فنصف مجموعها والتي تليها).</li>
+<li>قيمة متطرفة واحدة تغيّر المتوسط ولا تغيّر الوسيط.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>اليومية ودفتر الأستاذ</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">2 ثانوي · التسيير المحاسبي والمالي · تسيير واقتصاد · الوحدة 2: الحسابات والقيد المزدوج · الدرس 3</div>
+<h1>اليومية ودفتر الأستاذ</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تسجّل العمليات في دفتر اليومية حسب تسلسلها الزمني، وأن ترحّلها إلى حسابات دفتر الأستاذ وتستخرج أرصدتها.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> اليومية تسجّل العمليات يوماً بيوم في شكل قيود، فتجيب عن سؤال «متى وماذا حدث؟». ودفتر الأستاذ يجمع حركات كل حساب في مكان واحد، فيجيب عن سؤال «كم أصبح رصيد كل حساب؟».</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="13">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<text x="390" y="22" text-anchor="middle" font-weight="700" font-size="15" fill="#1d4ed8">دفتر اليومية</text>
+<rect x="250" y="32" width="280" height="26" fill="#dbe6ff" stroke="#1d4ed8"/>
+<rect x="250" y="58" width="280" height="54" fill="none" stroke="#1d4ed8"/>
+<line x1="480" y1="32" x2="480" y2="112" stroke="#1d4ed8"/><line x1="430" y1="32" x2="430" y2="112" stroke="#1d4ed8"/><line x1="320" y1="32" x2="320" y2="112" stroke="#1d4ed8"/><line x1="250" y1="85" x2="530" y2="85" stroke="#1d4ed8" stroke-dasharray="3 3"/>
+<text x="505" y="50" text-anchor="middle" font-weight="700">ح مدين</text><text x="455" y="50" text-anchor="middle" font-weight="700">ح دائن</text><text x="375" y="50" text-anchor="middle" font-weight="700">البيان</text><text x="285" y="50" text-anchor="middle" font-weight="700">المبلغ</text>
+<text x="505" y="76" text-anchor="middle">512</text><text x="455" y="76" text-anchor="middle">53</text><text x="375" y="76" text-anchor="middle">إيداع نقود</text><text x="285" y="76" text-anchor="middle">50&#160;000</text>
+<text x="505" y="103" text-anchor="middle">401</text><text x="455" y="103" text-anchor="middle">512</text><text x="375" y="103" text-anchor="middle">تسديد مورد</text><text x="285" y="103" text-anchor="middle">20&#160;000</text>
+<line x1="246" y1="90" x2="206" y2="90" stroke="#a16207" stroke-width="2.5" marker-end="url(#ar)"/><text x="226" y="128" text-anchor="middle" fill="#a16207" font-weight="700">ترحيل</text>
+<text x="110" y="22" text-anchor="middle" font-weight="700" font-size="15" fill="#15803d">دفتر الأستاذ: ح/512</text>
+<text x="155" y="45" text-anchor="middle">مدين</text><text x="65" y="45" text-anchor="middle">دائن</text>
+<line x1="20" y1="52" x2="200" y2="52" stroke="#1f2937" stroke-width="2"/><line x1="110" y1="52" x2="110" y2="145" stroke="#1f2937" stroke-width="2"/>
+<text x="155" y="75" text-anchor="middle" fill="#15803d">50&#160;000</text><text x="65" y="100" text-anchor="middle" fill="#c2410c">20&#160;000</text>
+<text x="110" y="165" text-anchor="middle" font-weight="700" fill="#c2410c">رصيد مدين: 30&#160;000</text>
+</svg><figcaption>الشكل 1: قيدان في اليومية يُرحَّلان إلى ح/512 في دفتر الأستاذ؛ الرصيد مدين 30&#160;000 دج.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">دفتر اليومية</span> دفتر إلزامي تُسجَّل فيه العمليات حسب ترتيبها الزمني، دون شطب أو فراغ.</li>
+<li><span class="k">القيد اليومي</span> يتضمن: التاريخ، رقم الحساب المدين ثم الدائن، البيان (شرح العملية ووثيقتها)، والمبلغ في عمود المدين وعمود الدائن.</li>
+<li>يُكتب <span class="k">الحساب المدين أولاً</span> ثم الحساب الدائن، ويُفصل بين القيود بخط.</li>
+<li><span class="k">دفتر الأستاذ</span> مجموعة حسابات (شكل T أو جدول) يُنقل إليها كل مبلغ من اليومية.</li>
+<li><span class="k">الترحيل:</span> المبلغ المدين في اليومية يُنقل إلى الجانب المدين للحساب نفسه في الأستاذ، والدائن إلى الجانب الدائن.</li>
+<li>بعد الترحيل يُستخرج <span class="k">رصيد كل حساب</span> تمهيداً لميزان المراجعة.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>في 02/03 أودعت المؤسسة <bdi dir="ltr">50&#160;000</bdi> دج من صندوقها في البنك. <span class="k">الحل:</span> قيد اليومية: مدين ح/512 البنوك، دائن ح/53 الصندوق، البيان «إيداع نقدي، وصل رقم 1»، المبلغ <bdi dir="ltr">50&#160;000</bdi>.</li>
+<li>في 05/03 سدّدت دين مورد بشيك <bdi dir="ltr">20&#160;000</bdi> دج. <span class="k">الحل:</span> مدين ح/401 الموردون، دائن ح/512 البنوك بـ <bdi dir="ltr">20&#160;000</bdi>.</li>
+<li>رحّل القيدين إلى ح/512 (دون رصيد أول المدة). <span class="k">الحل:</span> مدين <bdi dir="ltr">50&#160;000</bdi>، دائن <bdi dir="ltr">20&#160;000</bdi>، الرصيد <bdi dir="ltr">50&#160;000 − 20&#160;000 = 30&#160;000</bdi> رصيد مدين.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>كتابة الحساب الدائن قبل المدين في القيد.</li>
+<li>نسيان البيان أو التاريخ في قيد اليومية.</li>
+<li>ترحيل مبلغ إلى الجانب الخطأ من الحساب في دفتر الأستاذ.</li>
+<li>ترحيل طرف واحد من القيد ونسيان الحساب المقابل.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>اليومية = تسجيل زمني في شكل قيود.</li>
+<li>الأستاذ = تصنيف الحركات حسب الحسابات.</li>
+<li>الترحيل: المدين إلى المدين، والدائن إلى الدائن.</li>
+<li>بعد الترحيل نحسب الأرصدة.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/ACC">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=ACC">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

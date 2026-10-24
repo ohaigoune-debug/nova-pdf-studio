@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الجذور التربيعية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">4 متوسط · الرياضيات · كل الشعب · الوحدة 1: الأنشطة العددية · الدرس 5</div>
+<h1>الجذور التربيعية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تعرّف الجذر التربيعي لعدد موجب وتحسب جذور المربعات التامة، وأن تستعمل خواص الجداء والقسمة لتبسيط عبارات تحوي جذورًا وحلّ معادلات من الشكل <bdi dir="ltr">x<sup>2</sup> = a</bdi>.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الجذر التربيعي للعدد الموجب a هو العدد الموجب الذي مربعه a؛ فهو طول ضلع مربع مساحته a. الجذر يتوافق مع الضرب والقسمة <bdi dir="ltr">(√(ab) = √a × √b)</bdi> لكنه لا يتوافق عمومًا مع الجمع والطرح.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<rect x="420" y="40" width="90" height="90" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="465" y="80" text-anchor="middle" font-weight="700" direction="rtl">المساحة</text><text x="465" y="102" text-anchor="middle" font-weight="700">a</text>
+<text x="498" y="150" fill="#1d4ed8" direction="rtl" text-anchor="start">الضلع =</text><text x="448" y="150" fill="#1d4ed8" text-anchor="end">√a</text><text x="465" y="28" text-anchor="middle" fill="#1f2937">(√a)² = a</text>
+<polygon points="285,130 370,130 370,45" fill="#fde68a" stroke="#a16207" stroke-width="2"/><rect x="358" y="118" width="12" height="12" fill="none" stroke="#a16207" stroke-width="1.5"/>
+<text x="327" y="150" text-anchor="middle">1</text><text x="385" y="92" text-anchor="middle">1</text><text x="285" y="80" text-anchor="middle" fill="#c2410c" font-weight="700">√2 ≈ 1,414</text>
+<text x="389" y="28" fill="#1f2937" direction="rtl" text-anchor="start">الوتر =</text><text x="340" y="28" fill="#1f2937" text-anchor="end">√(1² + 1²) = √2</text>
+<line x1="20" y1="110" x2="235" y2="110" stroke="#1f2937" stroke-width="2"/>
+<line x1="30" y1="104" x2="30" y2="116" stroke="#1f2937" stroke-width="2"/><text x="30" y="135" text-anchor="middle">0</text>
+<line x1="95" y1="104" x2="95" y2="116" stroke="#1f2937" stroke-width="2"/><text x="95" y="135" text-anchor="middle">1</text>
+<line x1="160" y1="104" x2="160" y2="116" stroke="#1f2937" stroke-width="2"/><text x="160" y="135" text-anchor="middle">2</text>
+<line x1="225" y1="104" x2="225" y2="116" stroke="#1f2937" stroke-width="2"/><text x="225" y="135" text-anchor="middle">3</text>
+<circle cx="122" cy="110" r="4" fill="#c2410c"/><text x="122" y="95" text-anchor="middle" fill="#c2410c" font-size="13">√2</text>
+<circle cx="175" cy="110" r="4" fill="#15803d"/><text x="178" y="95" text-anchor="middle" fill="#15803d" font-size="13">√5</text>
+<text x="190" y="160" fill="#1f2937" font-size="13" text-anchor="end">1 &lt; √2 &lt; 2</text><text x="132" y="160" fill="#1f2937" font-size="13" direction="rtl" text-anchor="start">لأن</text><text x="112" y="160" fill="#1f2937" font-size="13" text-anchor="end">1 &lt; 2 &lt; 4</text>
+</svg><figcaption>الشكل 1: الجذر التربيعي كطول ضلع مربع، ظهوره في وتر مثلث قائم، وتأطيره بين عددين طبيعيين على المستقيم العددي.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">التعريف:</span> إذا كان <bdi dir="ltr">a ≥ 0</bdi> فإن <bdi dir="ltr">√a</bdi> هو العدد الموجب الوحيد الذي مربعه a، أي <bdi dir="ltr">(√a)<sup>2</sup> = a</bdi>. لا يوجد جذر تربيعي لعدد سالب.</li>
+<li><span class="k">المربعات التامة:</span> <bdi dir="ltr">√0 = 0</bdi>، <bdi dir="ltr">√1 = 1</bdi>، <bdi dir="ltr">√4 = 2</bdi>، <bdi dir="ltr">√9 = 3</bdi>، <bdi dir="ltr">√16 = 4</bdi>، <bdi dir="ltr">√25 = 5</bdi>، <bdi dir="ltr">√36 = 6</bdi>، <bdi dir="ltr">√49 = 7</bdi>، <bdi dir="ltr">√64 = 8</bdi>، <bdi dir="ltr">√81 = 9</bdi>، <bdi dir="ltr">√100 = 10</bdi>، <bdi dir="ltr">√144 = 12</bdi>.</li>
+<li><span class="k">جذر مربع:</span> <bdi dir="ltr">√(a<sup>2</sup>) = a</bdi> إذا كان <bdi dir="ltr">a ≥ 0</bdi>، مثلًا <bdi dir="ltr">√(7<sup>2</sup>) = 7</bdi>.</li>
+<li><span class="k">جذر جداء وجذر قسمة:</span> <bdi dir="ltr">√(a × b) = √a × √b</bdi> و <bdi dir="ltr">√(a/b) = √a / √b</bdi> مع <bdi dir="ltr">a ≥ 0</bdi> و <bdi dir="ltr">b &gt; 0</bdi>.</li>
+<li><span class="k">تحذير:</span> <bdi dir="ltr">√(a + b) ≠ √a + √b</bdi>؛ مثلًا <bdi dir="ltr">√(9 + 16) = √25 = 5</bdi> بينما <bdi dir="ltr">√9 + √16 = 7</bdi>.</li>
+<li><span class="k">التبسيط:</span> نكتب العدد تحت الجذر جداءً لمربع تام في عدد آخر: <bdi dir="ltr">√50 = √(25 × 2) = 5√2</bdi>.</li>
+<li><span class="k">المعادلة <bdi dir="ltr">x<sup>2</sup> = a</bdi>:</span> إذا كان <bdi dir="ltr">a &gt; 0</bdi> فلها حلّان <bdi dir="ltr">√a</bdi> و <bdi dir="ltr">−√a</bdi>؛ إذا كان <bdi dir="ltr">a = 0</bdi> فحلّها 0؛ وإذا كان <bdi dir="ltr">a &lt; 0</bdi> فليس لها حل.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>بسّط <bdi dir="ltr">A = √12 + √75</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">√12 = √(4 × 3) = 2√3</bdi> و <bdi dir="ltr">√75 = √(25 × 3) = 5√3</bdi>، فيكون <bdi dir="ltr">A = 2√3 + 5√3 = 7√3</bdi>. التحقق بالآلة: <bdi dir="ltr">√12 + √75 ≈ 3,46 + 8,66 = 12,12</bdi> و <bdi dir="ltr">7√3 ≈ 12,12</bdi>.</li>
+<li>احسب <bdi dir="ltr">B = √8 × √2</bdi> و <bdi dir="ltr">C = (√5 + 1)<sup>2</sup></bdi>. <span class="k">الحل:</span> <bdi dir="ltr">B = √(8 × 2) = √16 = 4</bdi>. و <bdi dir="ltr">C = (√5)<sup>2</sup> + 2 × √5 × 1 + 1<sup>2</sup> = 5 + 2√5 + 1 = 6 + 2√5</bdi>.</li>
+<li>مثلث قائم ضلعا قائمته 2 cm و 3 cm، احسب وتره، ثم حلّ المعادلة <bdi dir="ltr">x<sup>2</sup> = 16</bdi>. <span class="k">الحل:</span> بنظرية فيثاغورس الوتر = <bdi dir="ltr">√(2<sup>2</sup> + 3<sup>2</sup>) = √(4 + 9) = √13 ≈ 3,6 cm</bdi>. وحلّا المعادلة هما 4 و <bdi dir="ltr">−4</bdi> لأن <bdi dir="ltr">4<sup>2</sup> = (−4)<sup>2</sup> = 16</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>توزيع الجذر على الجمع: كتابة <bdi dir="ltr">√(a + b) = √a + √b</bdi>؛ الجذر يتوافق مع الضرب والقسمة فقط.</li>
+<li>الاكتفاء بالحل الموجب للمعادلة <bdi dir="ltr">x<sup>2</sup> = 16</bdi> ونسيان الحل <bdi dir="ltr">−4</bdi>.</li>
+<li>كتابة <bdi dir="ltr">2√3 + 5√2 = 7√5</bdi>؛ لا نجمع إلا الجذور المتشابهة (نفس العدد تحت الجذر).</li>
+<li>الخلط بين <bdi dir="ltr">√(a<sup>2</sup>)</bdi> و <bdi dir="ltr">(√a)<sup>2</sup></bdi> أو كتابة <bdi dir="ltr">√50 = 25√2</bdi> بدل <bdi dir="ltr">5√2</bdi> عند استخراج المربع التام.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li><bdi dir="ltr">√a</bdi> (مع <bdi dir="ltr">a ≥ 0</bdi>) هو العدد الموجب الذي مربعه a.</li>
+<li><bdi dir="ltr">√(ab) = √a √b</bdi> و <bdi dir="ltr">√(a/b) = √a/√b</bdi>، لكن <bdi dir="ltr">√(a + b) ≠ √a + √b</bdi>.</li>
+<li>للتبسيط: أخرج أكبر مربع تام من تحت الجذر.</li>
+<li><bdi dir="ltr">x<sup>2</sup> = a (a &gt; 0) ⇒ x = √a</bdi> أو <bdi dir="ltr">x = −√a</bdi>.</li>
+<li>احفظ المربعات التامة حتى 144 لتسريع الحساب.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

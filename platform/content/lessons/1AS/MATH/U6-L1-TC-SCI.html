@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>السلاسل الإحصائية: التكرارات والتواترات والتكرارات المجمعة</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">1 ثانوي · الرياضيات · جذع مشترك علوم وتكنولوجيا · الوحدة 6: الإحصاء · الدرس 1</div>
+<h1>السلاسل الإحصائية: التكرارات والتواترات والتكرارات المجمعة</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تنظّم معطيات إحصائية في جدول يحوي التكرارات والتواترات والتكرارات المجمعة، وأن تقرأ منه معلومات دقيقة عن المجتمع المدروس.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> السلسلة الإحصائية قائمة قيم الميزة مع عدد مرات ظهور كل قيمة (التكرار). قسمة التكرار على N تعطي التواتر، وجمع التكرارات تدريجياً يعطي التكرار المجمع الذي يجيب عن «كم عدد الذين حصلوا على أقل من…».</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<rect x="30" y="25" width="490" height="30" fill="#dbe6ff" stroke="#1f2937" stroke-width="1.2"/>
+<rect x="30" y="55" width="490" height="30" fill="none" stroke="#1f2937" stroke-width="1.2"/>
+<rect x="30" y="85" width="490" height="30" fill="none" stroke="#1f2937" stroke-width="1.2"/>
+<rect x="30" y="115" width="490" height="30" fill="#fde68a" stroke="#1f2937" stroke-width="1.2"/>
+<line x1="420" y1="25" x2="420" y2="145" stroke="#1f2937" stroke-width="1.5"/>
+<line x1="355" y1="25" x2="355" y2="145" stroke="#1f2937" stroke-width="1"/>
+<line x1="290" y1="25" x2="290" y2="145" stroke="#1f2937" stroke-width="1"/>
+<line x1="225" y1="25" x2="225" y2="145" stroke="#1f2937" stroke-width="1"/>
+<line x1="160" y1="25" x2="160" y2="145" stroke="#1f2937" stroke-width="1"/>
+<line x1="95" y1="25" x2="95" y2="145" stroke="#1f2937" stroke-width="1.5"/>
+<text x="470" y="46" font-weight="700" text-anchor="middle" direction="rtl">العلامة x<tspan baseline-shift="sub" font-size="11">i</tspan></text>
+<text x="470" y="76" font-weight="700" text-anchor="middle" direction="rtl">التكرار n<tspan baseline-shift="sub" font-size="11">i</tspan></text>
+<text x="470" y="106" font-weight="700" text-anchor="middle" direction="rtl">التواتر f<tspan baseline-shift="sub" font-size="11">i</tspan></text>
+<text x="470" y="136" font-weight="700" text-anchor="middle" direction="rtl">المجمع الصاعد</text>
+<text x="387" y="46" text-anchor="middle" font-weight="700">8</text><text x="322" y="46" text-anchor="middle" font-weight="700">10</text><text x="257" y="46" text-anchor="middle" font-weight="700">12</text><text x="192" y="46" text-anchor="middle" font-weight="700">14</text><text x="127" y="46" text-anchor="middle" font-weight="700">16</text><text x="62" y="46" font-weight="700" text-anchor="middle" direction="rtl">المجموع</text>
+<text x="387" y="76" text-anchor="middle">3</text><text x="322" y="76" text-anchor="middle">5</text><text x="257" y="76" text-anchor="middle">7</text><text x="192" y="76" text-anchor="middle">3</text><text x="127" y="76" text-anchor="middle">2</text><text x="62" y="76" text-anchor="middle" fill="#1d4ed8" font-weight="700">N = 20</text>
+<text x="387" y="106" text-anchor="middle">0,15</text><text x="322" y="106" text-anchor="middle">0,25</text><text x="257" y="106" text-anchor="middle">0,35</text><text x="192" y="106" text-anchor="middle">0,15</text><text x="127" y="106" text-anchor="middle">0,10</text><text x="62" y="106" text-anchor="middle" fill="#15803d" font-weight="700">1</text>
+<text x="387" y="136" text-anchor="middle">3</text><text x="322" y="136" text-anchor="middle">8</text><text x="257" y="136" text-anchor="middle">15</text><text x="192" y="136" text-anchor="middle">18</text><text x="127" y="136" text-anchor="middle">20</text><text x="62" y="136" text-anchor="middle" fill="#a16207">—</text>
+<text x="275" y="163" font-size="13" fill="#c2410c" text-anchor="middle" direction="rtl">f<tspan baseline-shift="sub" font-size="10">i</tspan> = n<tspan baseline-shift="sub" font-size="10">i</tspan> ÷ N ؛ كل تكرار مجمع صاعد = السابق + التكرار الحالي</text>
+</svg><figcaption>الشكل 1: جدول سلسلة إحصائية لعلامات 20 تلميذاً: التكرارات، التواترات (مجموعها 1)، والتكرارات المجمعة الصاعدة (آخرها N).</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المجتمع الإحصائي</span> هو مجموعة الأفراد المدروسين، و<span class="k">الميزة</span> هي الخاصية المدروسة: كيفية (لون) أو كمية متقطعة (عدد الإخوة) أو كمية مستمرة تُجمّع في <span class="k">فئات</span>.</li>
+<li><span class="k">التكرار n<sub>i</sub></span> هو عدد الأفراد الذين تأخذ الميزة عندهم القيمة x<sub>i</sub>، و<span class="k">التكرار الكلي N</span> هو مجموع كل التكرارات.</li>
+<li><span class="k">التواتر <bdi dir="ltr">f<sub>i</sub> = n<sub>i</sub> ÷ N</bdi></span>، وهو عدد محصور بين 0 و1، ومجموع التواترات يساوي 1 دائماً. والنسبة المئوية هي <bdi dir="ltr">100 × f<sub>i</sub></bdi>.</li>
+<li><span class="k">التكرار المجمع الصاعد</span> للقيمة x<sub>i</sub> هو مجموع تكرارات القيم الأصغر منها أو المساوية لها؛ يبدأ بالتكرار الأول وينتهي بـ N.</li>
+<li><span class="k">التكرار المجمع النازل</span> للقيمة x<sub>i</sub> هو مجموع تكرارات القيم الأكبر منها أو المساوية لها؛ يبدأ بـ N وينتهي بالتكرار الأخير.</li>
+<li>في حالة الفئات، <span class="k">مركز الفئة</span> هو نصف مجموع طرفيها، و<span class="k">مداها</span> (سعتها) هو الفرق بينهما.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>علامات 20 تلميذاً: 8 (3 مرات)، 10 (5)، 12 (7)، 14 (3)، 16 (2). احسب التواترات والتكرارات المجمعة الصاعدة. <span class="k">الحل:</span> <bdi dir="ltr">N = 3 + 5 + 7 + 3 + 2 = 20</bdi>. التواترات: <bdi dir="ltr">3 ÷ 20 = 0,15</bdi> ؛ <bdi dir="ltr">5 ÷ 20 = 0,25</bdi> ؛ <bdi dir="ltr">7 ÷ 20 = 0,35</bdi> ؛ 0,15 ؛ 0,10، ومجموعها 1. التكرارات المجمعة الصاعدة: 3 ؛ 8 ؛ 15 ؛ 18 ؛ 20.</li>
+<li>من الجدول نفسه: كم تلميذاً حصل على علامة أقل من 14؟ وكم حصل على 12 على الأقل؟ <span class="k">الحل:</span> أقل من 14 يعني 12 أو أقل، والتكرار المجمع الصاعد عند 12 هو 15 تلميذاً. أمّا 12 على الأقل فالتكرار المجمع النازل عند 12 هو <bdi dir="ltr">7 + 3 + 2 = 12</bdi> تلميذاً.</li>
+<li>أطوال 20 تلميذاً: <bdi dir="ltr">[150 ; 160[</bdi> تكرارها 6، و<bdi dir="ltr">[160 ; 170[</bdi> تكرارها 9، و<bdi dir="ltr">[170 ; 180[</bdi> تكرارها 5. <span class="k">الحل:</span> المراكز 155 و165 و175، المدى 10. التواترات 0,30 و0,45 و0,25. التكرارات المجمعة الصاعدة 6 ثم 15 ثم 20.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>الخلط بين <span class="k">التكرار</span> (عدد صحيح) و<span class="k">التواتر</span> (نسبة بين 0 و1)؛ تواتر أكبر من 1 خطأ مؤكد.</li>
+<li>جمع التكرارات المجمعة في خانة «المجموع»؛ هذه الخانة لا معنى لها في صف التكرارات المجمعة.</li>
+<li>بدء التكرار المجمع النازل من التكرار الأول بدل البدء من N.</li>
+<li>قراءة «أقل من 14» عند 14 نفسها بدل القيمة التي تسبقها (12).</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>N = مجموع التكرارات ؛ <bdi dir="ltr">f<sub>i</sub> = n<sub>i</sub> ÷ N</bdi> ؛ مجموع التواترات = 1.</li>
+<li>المجمع الصاعد: نجمع من أصغر قيمة إلى أكبرها وينتهي بـ N.</li>
+<li>المجمع النازل: نبدأ بـ N وننقص كل مرة التكرار السابق.</li>
+<li>«أقل من أو يساوي» صاعد ؛ «أكبر من أو يساوي» نازل.</li>
+<li>مركز الفئة = نصف مجموع الطرفين.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

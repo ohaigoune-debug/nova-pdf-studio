@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الدالة الخطية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">4 متوسط · الرياضيات · كل الشعب · الوحدة 3: تنظيم معطيات ودوال · الدرس 2</div>
+<h1>الدالة الخطية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تتعرّف على الدالة الخطية ومعاملها، وأن تحسب صورة عدد أو سابقة عدد، وأن تعيّن الدالة الخطية انطلاقًا من قيمة واحدة معلومة أو من وضعية تناسبية.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الدالة الخطية هي «آلة» تضرب كل عدد x في عدد ثابت a: <bdi dir="ltr">x ↦ ax</bdi>. هي الترجمة الرياضية للتناسبية: جدول قيمها جدول تناسبية معامله a، وصورة الصفر فيها هي الصفر دائمًا.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="arl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<text x="400" y="25" font-weight="700" direction="rtl" text-anchor="start">الدالة الخطية:</text><text x="306" y="25" font-weight="700" text-anchor="end">x ↦ ax</text><text x="262" y="25" font-weight="700" direction="rtl" text-anchor="start">(الضرب في المعامل a)</text>
+<rect x="420" y="55" width="90" height="50" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="465" y="86" text-anchor="middle" font-weight="700" direction="rtl">العدد x</text>
+<line x1="416" y1="80" x2="336" y2="80" stroke="#1f2937" stroke-width="2" marker-end="url(#arl)"/>
+<rect x="220" y="55" width="110" height="50" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="275" y="86" text-anchor="middle" font-weight="700">× a</text>
+<line x1="216" y1="80" x2="136" y2="80" stroke="#1f2937" stroke-width="2" marker-end="url(#arl)"/>
+<rect x="30" y="55" width="100" height="50" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="80" y="86" text-anchor="middle" font-weight="700">f(x) = ax</text>
+<text x="376" y="72" text-anchor="middle" font-size="12" direction="rtl">نضرب</text>
+<text x="176" y="72" text-anchor="middle" font-size="12" direction="rtl">الصورة</text>
+<text x="387" y="140" fill="#1d4ed8" direction="rtl" text-anchor="start">مثال</text><text x="357" y="140" fill="#1d4ed8" text-anchor="end">a = 3</text><text x="322" y="140" fill="#1d4ed8" direction="rtl" text-anchor="start">:</text><text x="313" y="140" fill="#1d4ed8" text-anchor="end">2 ↦ 6</text><text x="276" y="140" fill="#1d4ed8" direction="rtl" text-anchor="start">،</text><text x="266" y="140" fill="#1d4ed8" text-anchor="end">5 ↦ 15</text><text x="222" y="140" fill="#1d4ed8" direction="rtl" text-anchor="start">،</text><text x="211" y="140" fill="#1d4ed8" text-anchor="end">−4 ↦ −12</text>
+<text x="441" y="165" fill="#c2410c" direction="rtl" text-anchor="start">سابقة العدد 15 هي</text><text x="335" y="165" fill="#c2410c" text-anchor="end">15 ÷ 3 = 5</text><text x="267" y="165" fill="#c2410c" direction="rtl" text-anchor="start">(الطريق العكسي: القسمة على a)</text>
+</svg><figcaption>الشكل 1: الدالة الخطية كآلة تضرب في a؛ للعودة من الصورة إلى السابقة نقسم على a.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">تعريف:</span> a عدد معلوم. الدالة الخطية ذات المعامل a هي الدالة f التي ترفق بكل عدد x العدد ax؛ نكتب <bdi dir="ltr">f: x ↦ ax</bdi> أو <bdi dir="ltr">f(x) = ax</bdi>.</li>
+<li><span class="k">الصورة والسابقة:</span> العدد ax هو <span class="k">صورة</span> x بالدالة f، و x هو <span class="k">سابقة</span> العدد ax. لإيجاد سابقة y نحل المعادلة <bdi dir="ltr">ax = y</bdi> أي <bdi dir="ltr">x = y/a</bdi> (مع <bdi dir="ltr">a ≠ 0</bdi>).</li>
+<li><span class="k">تعيين المعامل:</span> تكفي قيمة واحدة: إذا علمنا <bdi dir="ltr">f(x<sub>0</sub>)</bdi> مع <bdi dir="ltr">x<sub>0</sub> ≠ 0</bdi> فإن <bdi dir="ltr">a = f(x<sub>0</sub>)/x<sub>0</sub></bdi>.</li>
+<li><span class="k">خاصيتا الخطية:</span> <bdi dir="ltr">f(x + x') = f(x) + f(x')</bdi> و <bdi dir="ltr">f(k × x) = k × f(x)</bdi>؛ وهما تعبّران عن التناسبية.</li>
+<li><span class="k"><bdi dir="ltr">f(0) = 0</bdi></span> دائمًا: صورة الصفر صفر، وهذا ما يميّز الدالة الخطية عن باقي الدوال التآلفية (التي يكون فيها <bdi dir="ltr">f(0) = b ≠ 0</bdi>).</li>
+<li><span class="k">الرابط بالنسبة المئوية:</span> الزيادة بنسبة t% هي الدالة الخطية <bdi dir="ltr">x ↦ (1 + t/100)x</bdi>، والتخفيض بنسبة t% هو <bdi dir="ltr">x ↦ (1 − t/100)x</bdi>.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>f الدالة الخطية <bdi dir="ltr">f(x) = 3x</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">f(2) = 3 × 2 = 6</bdi>، و <bdi dir="ltr">f(−4) = −12</bdi>. سابقة العدد 15: نحل <bdi dir="ltr">3x = 15</bdi> فنجد <bdi dir="ltr">x = 5</bdi>.</li>
+<li>g دالة خطية بحيث <bdi dir="ltr">g(4) = 10</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">a = 10/4 = 2,5</bdi>، إذن <bdi dir="ltr">g(x) = 2,5x</bdi>، ومنه <bdi dir="ltr">g(6) = 2,5 × 6 = 15</bdi>. تحقّق: <bdi dir="ltr">2,5 × 4 = 10</bdi> صحيح.</li>
+<li>خُفّضت الأسعار بنسبة 30%. <span class="k">الحل:</span> السعر الجديد هو صورة السعر القديم بالدالة الخطية <bdi dir="ltr">h(x) = 0,7x</bdi>؛ سلعة ثمنها 200 دج تصبح <bdi dir="ltr">h(200) = 140</bdi> دج.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>اعتبار <bdi dir="ltr">f(x) = 2x + 1</bdi> دالة خطية؛ وجود الحد الثابت يجعلها تآلفية لا خطية.</li>
+<li>الخلط بين الصورة والسابقة: «سابقة 15» تعني حل <bdi dir="ltr">3x = 15</bdi> لا حساب <bdi dir="ltr">3 × 15</bdi>.</li>
+<li>حساب المعامل بقسمة x على <bdi dir="ltr">f(x)</bdi> بدل <bdi dir="ltr">f(x)</bdi> على x.</li>
+<li>كتابة «الدالة <bdi dir="ltr">f(x)</bdi>» بدل «الدالة f»؛ <bdi dir="ltr">f(x)</bdi> هو عدد (الصورة) وليس الدالة.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>دالة خطية: <bdi dir="ltr">f(x) = ax</bdi>، و <bdi dir="ltr">f(0) = 0</bdi>.</li>
+<li>صورة x هي ax؛ سابقة y هي <bdi dir="ltr">y/a</bdi>.</li>
+<li><bdi dir="ltr">a = f(x<sub>0</sub>)/x<sub>0</sub></bdi> من قيمة واحدة معلومة.</li>
+<li><bdi dir="ltr">f(x + x') = f(x) + f(x')</bdi>، و <bdi dir="ltr">f(kx) = k f(x)</bdi>.</li>
+<li>زيادة t% ⇔ معامل <bdi dir="ltr">1 + t/100</bdi>؛ تخفيض t% ⇔ معامل <bdi dir="ltr">1 − t/100</bdi>.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

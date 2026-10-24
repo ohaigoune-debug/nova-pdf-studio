@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>المعادلات من الدرجة الأولى بمجهول واحد</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">1 ثانوي · الرياضيات · جذع مشترك علوم وتكنولوجيا · الوحدة 3: المعادلات والمتراجحات · الدرس 1</div>
+<h1>المعادلات من الدرجة الأولى بمجهول واحد</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تحلّ في ℝ معادلة من الدرجة الأولى بمجهول واحد، بما فيها المعادلات التي تحوي أقواسًا أو مقامات عددية أو معادلات جداء معدوم، وأن تناقش حالات المعادلة <bdi dir="ltr">ax + b = 0</bdi> حسب قيم a وb.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المعادلة مساواة فيها مجهول، وحلّها يعني إيجاد كل القيم التي تجعلها صحيحة. نحوّل المعادلة إلى معادلات مكافئة أبسط بإضافة نفس العدد إلى الطرفين أو ضربهما في نفس العدد غير المعدوم، حتى نعزل المجهول في طرف واحد.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<rect x="415" y="20" width="115" height="60" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="472" y="44" text-anchor="middle" font-weight="700">نفكّ الأقواس</text><text x="472" y="68" text-anchor="middle" font-size="13">3(x − 1) = x + 5</text>
+<line x1="413" y1="50" x2="382" y2="50" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="265" y="20" width="115" height="60" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="322" y="44" text-anchor="middle" font-weight="700">نجمع الحدود</text><text x="322" y="68" text-anchor="middle" font-size="13">3x − 3 = x + 5</text>
+<line x1="263" y1="50" x2="232" y2="50" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="115" y="20" width="115" height="60" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="172" y="44" text-anchor="middle" font-weight="700">نعزل المجهول</text><text x="172" y="68" text-anchor="middle" font-size="13">2x = 8</text>
+<line x1="113" y1="50" x2="82" y2="50" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<rect x="8" y="20" width="72" height="60" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="44" y="44" text-anchor="middle" font-weight="700">الحل</text><text x="44" y="68" text-anchor="middle" font-size="13">x = 4</text>
+<rect x="60" y="105" width="420" height="55" rx="8" fill="none" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="5 3"/>
+<text x="270" y="128" text-anchor="middle" fill="#c2410c" font-weight="700">التحقق</text>
+<text x="270" y="150" text-anchor="middle" font-size="14">x = 4 : 3(4 − 1) = 9 = 4 + 5 ✓</text>
+</svg><figcaption>الشكل 1: خطوات حلّ معادلة من الدرجة الأولى، من فكّ الأقواس إلى عزل المجهول ثم التحقق بالتعويض.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المعادلة من الدرجة الأولى</span> بمجهول واحد هي كل معادلة يمكن كتابتها على الشكل <bdi dir="ltr">ax + b = 0</bdi> حيث a وb عددان حقيقيان، وحلّها هو كل عدد يجعل المساواة صحيحة.</li>
+<li><span class="k">المعادلتان المتكافئتان</span> لهما نفس مجموعة الحلول. نحصل على معادلة مكافئة إذا أضفنا نفس العدد إلى الطرفين، أو ضربنا الطرفين في نفس العدد <span class="k">غير المعدوم</span>.</li>
+<li><span class="k">مناقشة <bdi dir="ltr">ax + b = 0</bdi>:</span> إذا كان <bdi dir="ltr">a ≠ 0</bdi> فالحل الوحيد <bdi dir="ltr">x = −b/a</bdi>. إذا كان <bdi dir="ltr">a = 0</bdi> و<bdi dir="ltr">b ≠ 0</bdi> فلا حل <bdi dir="ltr">(S = ∅)</bdi>. إذا كان <bdi dir="ltr">a = 0</bdi> و<bdi dir="ltr">b = 0</bdi> فكل عدد حقيقي حل <bdi dir="ltr">(S = ℝ)</bdi>.</li>
+<li><span class="k">معادلة الجداء المعدوم:</span> <bdi dir="ltr">A × B = 0</bdi> يكافئ <bdi dir="ltr">A = 0</bdi> أو <bdi dir="ltr">B = 0</bdi>. وهي الطريقة الوحيدة لحل معادلات مثل <bdi dir="ltr">(x − 2)(3x + 1) = 0</bdi> دون نشر.</li>
+<li><span class="k">المعادلات ذات المقامات العددية:</span> نضرب الطرفين في المضاعف المشترك الأصغر للمقامات لنتخلص من الكسور.</li>
+<li><span class="k">التحقق:</span> نعوّض القيمة المحصّلة في المعادلة الأصلية؛ إن تساوى الطرفان فالحل صحيح.</li>
+<li><span class="k">المسائل:</span> نختار المجهول، نترجم نص المسألة إلى معادلة، نحلّها، ثم نتأكد أن الحل مقبول في سياق المسألة.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>حلّ في ℝ: <bdi dir="ltr">5x − 7 = 2x + 8</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">5x − 2x = 8 + 7</bdi>، أي <bdi dir="ltr">3x = 15</bdi>، ومنه <bdi dir="ltr">x = 5</bdi>. التحقق: <bdi dir="ltr">5(5) − 7 = 18</bdi> و <bdi dir="ltr">2(5) + 8 = 18</bdi>. إذن <bdi dir="ltr">S = {5}</bdi>.</li>
+<li>حلّ في ℝ: <bdi dir="ltr">x/2 + x/3 = 10</bdi>. <span class="k">الحل:</span> نضرب الطرفين في 6: <bdi dir="ltr">3x + 2x = 60</bdi>، أي <bdi dir="ltr">5x = 60</bdi>، ومنه <bdi dir="ltr">x = 12</bdi>. التحقق: <bdi dir="ltr">6 + 4 = 10</bdi>. إذن <bdi dir="ltr">S = {12}</bdi>.</li>
+<li>حلّ في ℝ: <bdi dir="ltr">(2x − 6)(x + 4) = 0</bdi>. <span class="k">الحل:</span> جداء معدوم، إذن <bdi dir="ltr">2x − 6 = 0</bdi> أو <bdi dir="ltr">x + 4 = 0</bdi>، أي <bdi dir="ltr">x = 3</bdi> أو <bdi dir="ltr">x = −4</bdi>. إذن <bdi dir="ltr">S = {−4 ; 3}</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>نقل حدّ من طرف إلى آخر <span class="k">دون تغيير إشارته</span>، مثل كتابة <bdi dir="ltr">5x + 2x = 8 − 7</bdi> في المثال الأول.</li>
+<li>القسمة على عبارة تحوي المجهول: من <bdi dir="ltr">x² = 3x</bdi> يستنتج التلميذ <bdi dir="ltr">x = 3</bdi> فقط ويضيّع الحل <bdi dir="ltr">x = 0</bdi>؛ الصواب <bdi dir="ltr">x(x − 3) = 0</bdi>.</li>
+<li>نشر الجداء المعدوم <bdi dir="ltr">(x − 2)(x + 5) = 0</bdi> بدل تطبيق القاعدة مباشرة، فتظهر معادلة من الدرجة الثانية لا يعرف حلّها.</li>
+<li>كتابة «<bdi dir="ltr">x = 5</bdi>» دون مجموعة الحلول <bdi dir="ltr">S = {5}</bdi>، أو نسيان حالة <bdi dir="ltr">a = 0</bdi> عند مناقشة معادلة بوسيط.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li><bdi dir="ltr">ax + b = 0</bdi> مع <bdi dir="ltr">a ≠ 0 ⇒ x = −b/a</bdi>.</li>
+<li><bdi dir="ltr">a = 0</bdi> و<bdi dir="ltr">b ≠ 0 ⇒ S = ∅</bdi> ؛ <bdi dir="ltr">a = 0</bdi> و<bdi dir="ltr">b = 0 ⇒ S = ℝ</bdi>.</li>
+<li>نقل حدّ = تغيير إشارته؛ الضرب أو القسمة على عدد غير معدوم فقط.</li>
+<li><bdi dir="ltr">A × B = 0 ⇔ A = 0</bdi> أو <bdi dir="ltr">B = 0</bdi>.</li>
+<li>التحقق بالتعويض ثم كتابة S في النهاية.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

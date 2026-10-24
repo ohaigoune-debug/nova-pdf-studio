@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>البنية الداخلية للكرة الأرضية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">4 متوسط · علوم الطبيعة والحياة · كل الشعب · الوحدة 4: الجيولوجيا: الظواهر الجيولوجية الباطنية · الدرس 3</div>
+<h1>البنية الداخلية للكرة الأرضية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تشرح كيف مكّنت دراسة الموجات الزلزالية من معرفة باطن الأرض، وأن تصف الطبقات الداخلية للكرة الأرضية (القشرة، الرداء، النواة) وخصائص كل منها.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> لا يمكن حفر أكثر من بضعة كيلومترات، لكن الموجات الزلزالية تعبر الأرض كلها وتتغيّر سرعتها واتجاهها عند كل تغيّر في طبيعة الصخور. من هذه التغيّرات استنتج العلماء أن الأرض مكوّنة من أغلفة متّحدة المركز: قشرة رقيقة، رداء سميك، ونواة خارجية سائلة تحيط بنواة داخلية صلبة.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15" direction="ltr">
+<circle cx="530" cy="180" r="172" fill="#fde68a" stroke="#15803d" stroke-width="5"/>
+<circle cx="530" cy="180" r="93" fill="#c2410c"/>
+<circle cx="530" cy="180" r="34" fill="#1f2937"/>
+<line x1="335" y1="33" x2="445" y2="33" stroke="#1f2937" stroke-width="1"/><circle cx="445" cy="33" r="3" fill="#15803d"/>
+<text direction="rtl" x="330" y="37" text-anchor="start" font-size="12" fill="#15803d">القشرة: 5 إلى 70 كم (صلبة)</text>
+<line x1="335" y1="78" x2="446" y2="80" stroke="#1f2937" stroke-width="1"/><circle cx="446" cy="80" r="3" fill="#a16207"/>
+<text direction="rtl" x="330" y="82" text-anchor="start" font-size="12" fill="#a16207">الرداء: حتى 2900 كم (صخور صلبة)</text>
+<line x1="335" y1="123" x2="480" y2="138" stroke="#1f2937" stroke-width="1"/><circle cx="480" cy="138" r="3" fill="#c2410c"/>
+<text direction="rtl" x="330" y="127" text-anchor="start" font-size="12" fill="#c2410c">النواة الخارجية: سائلة (2900 إلى 5100 كم)</text>
+<line x1="335" y1="165" x2="514" y2="170" stroke="#1f2937" stroke-width="1"/><circle cx="514" cy="170" r="3" fill="#dbe6ff"/>
+<text direction="rtl" x="330" y="169" text-anchor="start" font-size="12">النواة الداخلية: صلبة (حتى المركز 6370 كم)</text>
+<text direction="rtl" x="70" y="22" text-anchor="middle" font-size="11" fill="#1f2937">(رسم بمقياس تقريبي)</text>
+</svg><figcaption>الشكل 1: مقطع في الكرة الأرضية يبيّن الأغلفة المتّحدة المركز: قشرة رقيقة جدًا، رداء يمثّل معظم الحجم، نواة خارجية سائلة ونواة داخلية صلبة.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">وسيلة الدراسة:</span> الموجات الزلزالية تنتشر داخل الأرض وتتعلق سرعتها بكثافة الصخور وحالتها (صلبة أو سائلة)، فكل تغيّر مفاجئ في السرعة يدلّ على <span class="k">انقطاع</span> بين طبقتين.</li>
+<li><span class="k">القشرة الأرضية</span> الغلاف الخارجي الصلب الرقيق: <span class="k">قشرة قارية</span> سمكها 30 إلى 70 كم أساسها الغرانيت، و<span class="k">قشرة محيطية</span> سمكها 5 إلى 10 كم أساسها البازلت؛ يفصلها عن الرداء انقطاع <span class="k">موهو</span>.</li>
+<li><span class="k">الرداء (المعطف)</span> يمتد من موهو إلى عمق 2900 كم ويمثّل أكبر حجم من الأرض؛ صخوره صلبة (البيريدوتيت)، لكن جزءه العلوي لدن يمكنه التشوّه ببطء.</li>
+<li><span class="k">الغلاف الصخري (الليتوسفير)</span> = القشرة + الجزء العلوي الصلب من الرداء (نحو 100 كم)، مقسّم إلى <span class="k">صفائح تكتونية</span> تطفو على طبقة لدنة تُسمى <span class="k">الأستينوسفير</span>.</li>
+<li><span class="k">النواة</span> من 2900 كم إلى المركز (6370 كم)، غنية بالحديد والنيكل: <span class="k">نواة خارجية سائلة</span> (حتى 5100 كم) و<span class="k">نواة داخلية صلبة</span> بسبب الضغط الهائل.</li>
+<li><span class="k">دليل سيولة النواة الخارجية:</span> موجات S لا تنتشر في السوائل وتختفي عند عبور النواة، بينما تتباطأ موجات P فيها فجأة (انقطاع غوتنبرغ).</li>
+<li><span class="k">الحرارة والضغط</span> يرتفعان مع العمق (نحو 30 درجة لكل كيلومتر في القشرة)، فتبلغ الحرارة آلاف الدرجات في النواة؛ هذه الحرارة الباطنية محرّك البراكين والزلازل.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>منحنى سرعة موجات S يبيّن أنها تنتشر حتى عمق 2900 كم ثم تنعدم. ماذا تستنتج؟ <span class="k">الحل:</span> الوسط بعد 2900 كم سائل لأن موجات S لا تعبر السوائل؛ هي النواة الخارجية.</li>
+<li>تزداد سرعة موجات P فجأة عند عمق 35 كم تحت قارة وعند 8 كم تحت محيط. <span class="k">التفسير:</span> هذا انقطاع موهو؛ القشرة القارية أسمك من القشرة المحيطية.</li>
+<li>احسب سمك الرداء إذا كانت القشرة 30 كم والنواة تبدأ عند 2900 كم. <span class="k">الحل:</span> <bdi dir="ltr">2900 − 30 = 2870</bdi> كم، أي نحو مئة مرة سمك القشرة.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>القول إن الرداء «منصهر»؛ الرداء صلب في معظمه، والماغما تتكوّن موضعيًا فقط.</li>
+<li>الخلط بين <span class="k">القشرة</span> و<span class="k">الغلاف الصخري</span> (قشرة + جزء صلب من الرداء).</li>
+<li>عكس حالتي النواة: الخارجية سائلة والداخلية صلبة.</li>
+<li>رسم القشرة سميكة؛ سمكها لا يتجاوز نحو 1% من نصف القطر.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>الموجات الزلزالية = «أشعة» لمعرفة باطن الأرض؛ تغيّر السرعة ⇐ انقطاع.</li>
+<li>قشرة (قارية <bdi dir="ltr">30–70</bdi> كم، محيطية <bdi dir="ltr">5–10</bdi> كم) ← موهو ← رداء حتى 2900 كم.</li>
+<li>نواة خارجية سائلة (S تختفي) ← نواة داخلية صلبة حتى 6370 كم.</li>
+<li>غلاف صخري صلب (صفائح) يطفو على أستينوسفير لدن.</li>
+<li>الحرارة والضغط يرتفعان مع العمق.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/SVT">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=SVT">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

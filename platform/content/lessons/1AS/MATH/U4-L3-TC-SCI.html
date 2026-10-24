@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>المعالم: إحداثيات نقطة وشعاع والمسافة بين نقطتين</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">1 ثانوي · الرياضيات · جذع مشترك علوم وتكنولوجيا · الوحدة 4: الهندسة في المستوي · الدرس 3</div>
+<h1>المعالم: إحداثيات نقطة وشعاع والمسافة بين نقطتين</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تحسب في معلم إحداثيات شعاع انطلاقًا من إحداثيات طرفيه، وإحداثيات منتصف قطعة، وإحداثيات مجموع شعاعين وجداء شعاع بعدد، وأن تحسب المسافة بين نقطتين في معلم متعامد ومتجانس.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المعلم يحوّل الهندسة إلى حساب: كل نقطة تصبح ثنائية أعداد وكل شعاع كذلك. إحداثيا الشعاع AB هما «إحداثيا النهاية ناقص إحداثيي البداية»، والمسافة AB تُحسب بنظرية فيثاغورس على الفرقين.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1d4ed8"/></marker></defs>
+<g stroke="#dbe6ff" stroke-width="1"><line x1="185" y1="10" x2="185" y2="150"/><line x1="210" y1="10" x2="210" y2="150"/><line x1="235" y1="10" x2="235" y2="150"/><line x1="260" y1="10" x2="260" y2="150"/><line x1="285" y1="10" x2="285" y2="150"/><line x1="160" y1="125" x2="300" y2="125"/><line x1="160" y1="100" x2="300" y2="100"/><line x1="160" y1="75" x2="300" y2="75"/><line x1="160" y1="50" x2="300" y2="50"/><line x1="160" y1="25" x2="300" y2="25"/></g>
+<line x1="150" y1="150" x2="305" y2="150" stroke="#1f2937" stroke-width="1.5"/><line x1="160" y1="160" x2="160" y2="10" stroke="#1f2937" stroke-width="1.5"/>
+<text x="150" y="168" font-size="13">O</text><text x="185" y="168" text-anchor="middle" font-size="12">1</text><text x="260" y="168" text-anchor="middle" font-size="12">4</text>
+<text x="150" y="130" text-anchor="end" font-size="12">1</text><text x="150" y="30" text-anchor="end" font-size="12">5</text>
+<line x1="185" y1="125" x2="260" y2="125" stroke="#15803d" stroke-width="2" stroke-dasharray="4 3"/><line x1="260" y1="125" x2="260" y2="25" stroke="#15803d" stroke-width="2" stroke-dasharray="4 3"/>
+<line x1="185" y1="125" x2="258" y2="28" stroke="#1d4ed8" stroke-width="2.5" marker-end="url(#ab)"/>
+<circle cx="185" cy="125" r="4" fill="#c2410c"/><circle cx="260" cy="25" r="4" fill="#c2410c"/>
+<text x="178" y="110" text-anchor="end" font-weight="700" fill="#c2410c">A(1 ; 1)</text><text x="268" y="22" font-weight="700" fill="#c2410c">B(4 ; 5)</text>
+<text x="222" y="142" text-anchor="middle" fill="#15803d" font-size="13">3</text><text x="272" y="80" fill="#15803d" font-size="13">4</text>
+<text x="200" y="70" fill="#1d4ed8" font-weight="700" font-size="13">AB = 5</text>
+<rect x="340" y="20" width="190" height="135" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="1.5"/>
+<text x="435" y="44" text-anchor="middle" font-weight="700">الحساب</text>
+<text x="435" y="68" text-anchor="middle" font-size="13">AB(4 − 1 ; 5 − 1) = AB(3 ; 4)</text>
+<text x="435" y="92" text-anchor="middle" font-size="13">AB = √(3² + 4²) = √25 = 5</text>
+<text x="435" y="116" text-anchor="middle" font-size="13">I((1+4)/2 ; (1+5)/2) المنتصف</text>
+<text x="435" y="140" text-anchor="middle" font-size="13">I(2,5 ; 3)</text>
+<text x="60" y="60" text-anchor="middle" font-size="12">المثلث القائم</text><text x="60" y="77" text-anchor="middle" font-size="12">ضلعاه 3 و4</text><text x="60" y="94" text-anchor="middle" font-size="12">ووتره 5</text>
+</svg><figcaption>الشكل 1: إحداثيا الشعاع AB هما الفرقان الأفقي والعمودي، والمسافة AB هي وتر المثلث القائم الذي يبنيانه.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المعلم <bdi dir="ltr">(O ; i ; j)</bdi>:</span> نقطة مبدأ وشعاعان غير مرتبطين خطيًا. يكون <span class="k">متعامدًا</span> إذا كان <bdi dir="ltr">i ⊥ j</bdi>، و<span class="k">متجانسًا</span> إذا كانت طويلتا i وj متساويتين، و<span class="k">متعامدًا ومتجانسًا</span> إذا تحقق الشرطان معًا.</li>
+<li><span class="k">إحداثيا نقطة وشعاع:</span> <bdi dir="ltr">M(x ; y)</bdi> تعني <bdi dir="ltr">OM = xi + yj</bdi>، والشعاع <bdi dir="ltr">u(x ; y)</bdi> يعني <bdi dir="ltr">u = xi + yj</bdi>. شعاعان متساويان إذا وفقط إذا تساوت إحداثياتهما. (الكتابة AB(…) تعني الشعاع ذا السهم، أما <bdi dir="ltr">AB = …</bdi> دون إحداثيات فهي المسافة.)</li>
+<li><span class="k">إحداثيا الشعاع AB:</span> إذا كان <bdi dir="ltr">A(x<sub>A</sub> ; y<sub>A</sub>)</bdi> و<bdi dir="ltr">B(x<sub>B</sub> ; y<sub>B</sub>)</bdi> فإن <bdi dir="ltr">AB(x<sub>B</sub> − x<sub>A</sub> ; y<sub>B</sub> − y<sub>A</sub>)</bdi>.</li>
+<li><span class="k">العمليات:</span> إذا كان <bdi dir="ltr">u(x ; y)</bdi> و<bdi dir="ltr">v(x′ ; y′)</bdi> فإن <bdi dir="ltr">u + v</bdi> له الإحداثيين <bdi dir="ltr">(x + x′ ; y + y′)</bdi>، وku له الإحداثيين <bdi dir="ltr">(kx ; ky)</bdi>.</li>
+<li><span class="k">منتصف قطعة:</span> منتصف <bdi dir="ltr">[AB]</bdi> هو <bdi dir="ltr">I((x<sub>A</sub> + x<sub>B</sub>)/2 ; (y<sub>A</sub> + y<sub>B</sub>)/2)</bdi>.</li>
+<li><span class="k">المسافة بين نقطتين</span> (في معلم متعامد ومتجانس فقط): <bdi dir="ltr">AB = √((x<sub>B</sub> − x<sub>A</sub>)² + (y<sub>B</sub> − y<sub>A</sub>)²)</bdi>، وهي أيضًا طويلة الشعاع AB.</li>
+<li><span class="k">متوازي الأضلاع بالإحداثيات:</span> ABCD متوازي أضلاع إذا وفقط إذا كان <bdi dir="ltr">AB = DC</bdi>، أي تساوي الإحداثيات، أو إذا كان لقطريه نفس المنتصف.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li><bdi dir="ltr">A(1 ; 1)</bdi> و<bdi dir="ltr">B(4 ; 5)</bdi>. احسب إحداثيي AB ثم المسافة AB. <span class="k">الحل:</span> <bdi dir="ltr">AB(4 − 1 ; 5 − 1) = AB(3 ; 4)</bdi>. المسافة <bdi dir="ltr">AB = √(3² + 4²) = √(9 + 16) = √25 = 5</bdi>.</li>
+<li><bdi dir="ltr">A(−2 ; 3)</bdi> و<bdi dir="ltr">B(4 ; −1)</bdi>. أوجد منتصف <bdi dir="ltr">[AB]</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">I((−2 + 4)/2 ; (3 + (−1))/2) = I(1 ; 1)</bdi>. تحقق: <bdi dir="ltr">AI(3 ; −2)</bdi> و<bdi dir="ltr">IB(3 ; −2)</bdi> متساويان.</li>
+<li><bdi dir="ltr">A(0 ; 1)</bdi> و<bdi dir="ltr">B(3 ; 2)</bdi> و<bdi dir="ltr">C(5 ; 6)</bdi>. أوجد D بحيث يكون ABCD متوازي أضلاع. <span class="k">الحل:</span> نكتب <bdi dir="ltr">AB = DC</bdi>: <bdi dir="ltr">AB(3 ; 1)</bdi> و<bdi dir="ltr">DC(5 − x<sub>D</sub> ; 6 − y<sub>D</sub>)</bdi>. إذن <bdi dir="ltr">5 − x<sub>D</sub> = 3</bdi> و<bdi dir="ltr">6 − y<sub>D</sub> = 1</bdi>، ومنه <bdi dir="ltr">D(2 ; 5)</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>عكس الطرح في إحداثيي الشعاع: كتابة <bdi dir="ltr">AB(x<sub>A</sub> − x<sub>B</sub> ; …)</bdi> وهذا يعطي الشعاع BA.</li>
+<li>استعمال صيغة المسافة في معلم <span class="k">غير متعامد ومتجانس</span>؛ الصيغة لا تصح إلا في المعلم المتعامد والمتجانس.</li>
+<li>نسيان الجذر التربيعي فتُعطى المسافة 25 بدل 5، أو حساب الجذر على كل حدّ على حدة (<bdi dir="ltr">√9 + √16 = 7</bdi> خطأ).</li>
+<li>الخلط في شرط متوازي الأضلاع: ABCD يتطلب <bdi dir="ltr">AB = DC</bdi> وليس <bdi dir="ltr">AB = CD</bdi>.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li><bdi dir="ltr">AB(x<sub>B</sub> − x<sub>A</sub> ; y<sub>B</sub> − y<sub>A</sub>)</bdi>: النهاية ناقص البداية.</li>
+<li>منتصف <bdi dir="ltr">[AB]</bdi>: نصف مجموع الفواصل ونصف مجموع التراتيب.</li>
+<li><bdi dir="ltr">AB = √((Δx)² + (Δy)²)</bdi> في معلم متعامد ومتجانس فقط.</li>
+<li><bdi dir="ltr">u + v</bdi> وku: نجمع أو نضرب كل إحداثية على حدة.</li>
+<li>ABCD متوازي أضلاع <bdi dir="ltr">⇔ AB = DC ⇔</bdi> للقطرين نفس المنتصف.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

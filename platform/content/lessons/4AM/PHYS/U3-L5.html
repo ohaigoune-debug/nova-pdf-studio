@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>توازن جسم صلب خاضع لقوتين</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">4 متوسط · العلوم الفيزيائية · كل الشعب · الوحدة 3: الظواهر الميكانيكية · الدرس 5</div>
+<h1>توازن جسم صلب خاضع لقوتين</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تستنتج شرطي توازن جسم صلب خاضع لقوتين، وتطبّقهما لتحديد مميزات قوة مجهولة ثم تمثيلها بشعاع بسلّم مناسب.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> إذا كان جسم صلب ساكناً (متوازناً) تحت تأثير قوتين فقط، فلا بد أن تكون القوتان على الحامل نفسه، متعاكستي الجهة، ومتساويتي الشدة. لذلك تكفي معرفة إحداهما لاستنتاج الأخرى كاملة.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15" direction="ltr">
+<defs>
+<marker id="mgL5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#15803d"/></marker>
+<marker id="moL5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#c2410c"/></marker>
+</defs>
+<line x1="30" y1="20" x2="200" y2="20" stroke="#1f2937" stroke-width="3"/>
+<line x1="115" y1="20" x2="115" y2="70" stroke="#1f2937" stroke-width="1.5"/>
+<circle cx="115" cy="85" r="15" fill="#fde68a" stroke="#a16207" stroke-width="2"/>
+<line x1="115" y1="85" x2="115" y2="33" stroke="#15803d" stroke-width="2.5" marker-end="url(#mgL5)"/><text x="130" y="45" fill="#15803d" font-weight="700">T</text>
+<line x1="115" y1="85" x2="115" y2="137" stroke="#c2410c" stroke-width="2.5" marker-end="url(#moL5)"/><text x="130" y="132" fill="#c2410c" font-weight="700">P</text>
+<text direction="rtl" y="165" font-weight="700" font-size="14" x="134.1" text-anchor="middle">مصباح معلّق:</text><text direction="ltr" y="165" font-weight="700" font-size="14" x="81.3" text-anchor="middle">T = P</text>
+<line x1="265" y1="10" x2="265" y2="170" stroke="#1f2937" stroke-dasharray="4 4"/>
+<line x1="300" y1="120" x2="520" y2="120" stroke="#1f2937" stroke-width="3"/><line x1="320" y1="120" x2="320" y2="150" stroke="#1f2937" stroke-width="2"/><line x1="500" y1="120" x2="500" y2="150" stroke="#1f2937" stroke-width="2"/>
+<rect x="370" y="95" width="80" height="25" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
+<circle cx="410" cy="107" r="3" fill="#1f2937"/><text x="422" y="112" font-size="12">G</text>
+<line x1="410" y1="107" x2="410" y2="52" stroke="#15803d" stroke-width="2.5" marker-end="url(#mgL5)"/><text x="395" y="62" text-anchor="end" fill="#15803d" font-weight="700">R</text>
+<line x1="410" y1="107" x2="410" y2="162" stroke="#c2410c" stroke-width="2.5" marker-end="url(#moL5)"/><text x="395" y="160" text-anchor="end" fill="#c2410c" font-weight="700">P</text>
+<text direction="rtl" y="30" font-weight="700" font-size="14" x="429.5" text-anchor="middle">كتاب على طاولة:</text><text direction="ltr" y="30" font-weight="700" font-size="14" x="369.9" text-anchor="middle">R = P</text>
+<text direction="rtl" x="472" y="80" text-anchor="middle" font-size="12" fill="#1d4ed8">نفس الحامل الشاقولي</text>
+</svg><figcaption>الشكل 1: في الحالتين يتوازن الجسم لأن القوتين على الحامل نفسه ومتعاكستا الجهة ومتساويتا الشدة (الشعاعان بالطول نفسه).</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">جسم متوازن:</span> جسم صلب ساكن بالنسبة إلى مرجع (الأرض عادة) تحت تأثير القوى المطبّقة عليه.</li>
+<li><span class="k">الشرط الأول:</span> للقوتين الحامل نفسه (المستقيم الذي يحمل الشعاعين واحد).</li>
+<li><span class="k">الشرط الثاني:</span> للقوتين جهتان متعاكستان وشدتان متساويتان: <bdi dir="ltr">F<sub>1</sub> = F<sub>2</sub></bdi>.</li>
+<li><span class="k">الكتابة الشعاعية:</span> <bdi dir="ltr">F<sub>1</sub> + F<sub>2</sub> = 0</bdi>، أي أن مجموع القوتين منعدم وهذا يتفق مع مبدأ العطالة.</li>
+<li><span class="k">خطوات الجرد:</span> نحدّد الجملة المدروسة، نجرد القوى (تلامس/عن بعد)، نكتب مميزات كل قوة، ثم نمثّلها بسلّم.</li>
+<li><span class="k">حالتان شائعتان:</span> جسم معلّق بخيط (الثقل P وشد الخيط T) وجسم على سطح أفقي (الثقل P وفعل الحامل R)؛ في كل حالة الشدتان متساويتان.</li>
+<li>إذا كانت القوتان متساويتين لكن بحاملين مختلفين، فإن الجسم لا يتوازن بل يدور.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>مصباح كتلته <bdi dir="ltr">300 g</bdi> معلّق بسلك ساكن <bdi dir="ltr">(g = 10 N/kg)</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">P = 0,3 × 10 = 3 N</bdi>؛ وبما أن المصباح متوازن تحت تأثير قوتين، فإن شد السلك T شاقولي نحو الأعلى وشدته <bdi dir="ltr">3 N</bdi>.</li>
+<li>كرة كتلتها <bdi dir="ltr">2 kg</bdi> ساكنة على طاولة أفقية. <span class="k">الحل:</span> <bdi dir="ltr">P = 20 N</bdi> نحو الأسفل، إذن فعل الطاولة <bdi dir="ltr">R = 20 N</bdi> نحو الأعلى؛ بسلّم <bdi dir="ltr">1 cm ↔ 10 N</bdi> نرسم شعاعين طول كل منهما <bdi dir="ltr">2 cm</bdi> من G.</li>
+<li>جسم معلّق بدينامومتر يشير إلى <bdi dir="ltr">4,5 N</bdi> وهو ساكن. <span class="k">الحل:</span> قوة الدينامومتر تساوي الثقل: <bdi dir="ltr">P = 4,5 N</bdi>، ومنه <bdi dir="ltr">m = 4,5 ÷ 10 = 0,45 kg</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>رسم الشعاعين بطولين مختلفين مع القول إن الجسم متوازن؛ التساوي في الشدة يعني التساوي في الطول.</li>
+<li>اعتبار الثقل P وشد الخيط T «فعلاً ورد فعل»؛ هما قوتان متوازنتان على الجسم نفسه وليستا قوتين متبادلتين.</li>
+<li>وضع نقطة تأثير الثقل في أي مكان بدل مركز الثقل G.</li>
+<li>نسيان تحويل الغرام إلى كيلوغرام قبل حساب الثقل.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>شرطا التوازن: الحامل نفسه + جهتان متعاكستان وشدتان متساويتان.</li>
+<li>جسم معلّق: <bdi dir="ltr">T = P</bdi>؛ جسم على سطح أفقي: <bdi dir="ltr">R = P</bdi>.</li>
+<li><bdi dir="ltr">P = m × g</bdi> ثم القوة الأخرى بنفس الشدة.</li>
+<li>الشعاعان على مستقيم واحد وبالطول نفسه.</li>
+<li>ابدأ دائماً بـ: «الجسم متوازن تحت تأثير قوتين، إذن…».</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/PHYS">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=PHYS">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

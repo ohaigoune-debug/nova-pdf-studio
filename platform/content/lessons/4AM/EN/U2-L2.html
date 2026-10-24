@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Time markers and sequencers in a biography</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">4 متوسط · اللغة الإنجليزية · كل الشعب · الوحدة 2: Sequence 2: Outstanding Figures in History, Literature and Arts · الدرس 2</div>
+<h1>Time markers and sequencers in a biography</h1>
+
+<p class="goal"><span class="k">Goal:</span> By the end of this lesson, you will be able to organise the events of a biography in chronological order using time markers (in 1920, at the age of 12, two years later) and sequencers (first, then, finally).</p>
+
+<div class="lead"><span class="k">The idea in two lines:</span> A biography tells the main events of a person's life in order. <strong>Time markers</strong> say <em>when</em> something happened, and <strong>sequencers</strong> show the <em>order</em> of events so that the text is clear and well linked.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<text x="270" y="20" text-anchor="middle" font-weight="700" fill="#1f2937">Timeline of a biography (an imaginary painter)</text>
+<line x1="30" y1="95" x2="520" y2="95" stroke="#1f2937" stroke-width="2.5" marker-end="url(#ar)"/>
+<circle cx="70" cy="95" r="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="70" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">1920</text><text x="70" y="118" text-anchor="middle" font-size="11">was born</text><text x="70" y="134" text-anchor="middle" font-size="11" fill="#c2410c">First,</text>
+<circle cx="180" cy="95" r="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="180" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#a16207">at the age of 15</text><text x="180" y="118" text-anchor="middle" font-size="11">started painting</text><text x="180" y="134" text-anchor="middle" font-size="11" fill="#c2410c">Then,</text>
+<circle cx="290" cy="95" r="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="290" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#15803d">in 1945</text><text x="290" y="118" text-anchor="middle" font-size="11">moved to Paris</text><text x="290" y="134" text-anchor="middle" font-size="11" fill="#c2410c">After that,</text>
+<circle cx="400" cy="95" r="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="400" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">five years later</text><text x="400" y="118" text-anchor="middle" font-size="11">won a prize</text><text x="400" y="134" text-anchor="middle" font-size="11" fill="#c2410c">Later,</text>
+<circle cx="490" cy="95" r="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="490" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#a16207">in 1990</text><text x="490" y="118" text-anchor="middle" font-size="11">died</text><text x="490" y="134" text-anchor="middle" font-size="11" fill="#c2410c">Finally,</text>
+<text x="270" y="162" text-anchor="middle" font-size="12" fill="#1f2937">time marker (blue / yellow / green) + sequencer (orange) + past simple verb</text>
+</svg><figcaption>Figure 1: Each event on the timeline is introduced by a time marker and a sequencer.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 Rules and concepts</h2><ol>
+<li><span class="k">Time markers with a date:</span> <em>in 1954, in the 19th century, on 5 July 1962</em>. Use <em>in</em> for years and centuries; <em>on</em> for full dates.</li>
+<li><span class="k">Time markers with age or duration:</span> <em>at the age of ten, when he was 20, for three years, from 1950 to 1960</em>.</li>
+<li><span class="k">Relative time markers:</span> <em>two years later, a few years before, at that time</em>.</li>
+<li><span class="k">Sequencers</span> order the events: <em>first, then, next, after that, later, finally</em>. They begin the sentence and take a comma.</li>
+<li>A biography follows a <span class="k">chronological order</span>: birth → education → career → death (or present situation).</li>
+<li>Verbs are mostly in the <span class="k">past simple</span>: <em>was born, grew up, became, won, died</em>.</li>
+<li><span class="k">Key verbs:</span> <em>grow up, graduate from, get married, move to, be awarded, pass away</em>.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 Examples</h2><ol>
+<li>Choose the correct preposition: <em>Ibn Badis was born … Constantine … 1889.</em> <span class="k">Answer:</span> in Constantine in 1889. <span class="k">Explanation:</span> <em>in</em> before a city and a year; <em>on</em> only with a complete date.</li>
+<li>Link the events with sequencers: <em>he studied in Algiers / he became a teacher / he published his first poem.</em> <span class="k">Answer:</span> First, he studied in Algiers. Then, he became a teacher. Finally, he published his first poem. <span class="k">Explanation:</span> each sequencer opens the sentence and takes a comma.</li>
+<li>Rewrite with a relative time marker: <em>She moved to London in 1960. She opened her studio in 1963.</em> <span class="k">Answer:</span> She moved to London in 1960. Three years later, she opened her studio. <span class="k">Explanation:</span> 1963 − 1960 = 3.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 Common BEM mistakes</h2><ul>
+<li>Wrong preposition: "<em>on</em> 1962", "<em>in</em> 5 July 1962". Years take <em>in</em>; full dates take <em>on</em>.</li>
+<li>Repeating <em>then</em> in every sentence. Vary: <em>after that, later, finally</em>.</li>
+<li>Writing "he borned" or "he was borned". The correct form is <em>he was born</em>.</li>
+<li>Mixing the order of events, for example the death before the career.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 Quick review</h2><ul>
+<li>in + year / century; on + full date; at the age of + number.</li>
+<li>Sequencers: first, then, next, after that, later, finally (+ comma).</li>
+<li>Relative markers: two years later, a few months before, at that time.</li>
+<li>Order: birth → education → career → achievements → death.</li>
+<li>Verbs in the past simple: was born, grew up, became, died.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/EN">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=EN">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

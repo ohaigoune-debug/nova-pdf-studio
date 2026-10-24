@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الدارات والمخططات الكهربائية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">1 ثانوي · التكنولوجيا · جذع مشترك علوم وتكنولوجيا · الوحدة 2: الهندسة الكهربائية · الدرس 1</div>
+<h1>الدارات والمخططات الكهربائية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تتعرف على عناصر الدارة الكهربائية البسيطة ورموزها، وتميّز التركيب على التسلسل من التفرع، وتطبق قانون أوم.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الدارة الكهربائية مسار مغلق يضم مولدًا وقاطعة ومستقبلات تمرّ فيها الشحنات. المخطط يمثل هذه العناصر برموز موحدة لتُقرأ وتُنجَز دون التباس.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<rect x="90" y="30" width="360" height="110" fill="none" stroke="#1f2937" stroke-width="2"/>
+<rect x="75" y="62" width="30" height="46" fill="#fde68a" stroke="#a16207" stroke-width="2"/><line x1="80" y1="72" x2="100" y2="72" stroke="#c2410c" stroke-width="3"/><line x1="85" y1="98" x2="95" y2="98" stroke="#1f2937" stroke-width="3"/>
+<text x="60" y="90" text-anchor="end">مولد</text>
+<rect x="190" y="22" width="60" height="16" fill="#ffffff" stroke="none"/><line x1="190" y1="30" x2="215" y2="30" stroke="#1f2937" stroke-width="2"/><line x1="215" y1="30" x2="245" y2="12" stroke="#15803d" stroke-width="3"/><text x="220" y="8" text-anchor="middle" font-size="13">قاطعة</text>
+<rect x="400" y="62" width="100" height="46" fill="#ffffff" stroke="none"/>
+<circle cx="450" cy="85" r="22" fill="#fde68a" stroke="#a16207" stroke-width="2.5"/><line x1="435" y1="70" x2="465" y2="100" stroke="#a16207" stroke-width="2"/><line x1="465" y1="70" x2="435" y2="100" stroke="#a16207" stroke-width="2"/>
+<text x="512" y="90" text-anchor="middle" font-size="13">مصباح</text>
+<text x="270" y="165" text-anchor="middle" font-size="13">دارة بسيطة: مولد، قاطعة، مصباح (تسلسل)</text>
+</svg><figcaption>الشكل 1: مخطط دارة على التسلسل: عندما تُغلق القاطعة يمر التيار في المصباح.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">الدارة المغلقة</span> وحدها يمر فيها التيار؛ فتح القاطعة يقطع الدارة.</li>
+<li>العناصر: <span class="k">مولد</span> يزوّد الطاقة، <span class="k">قاطعة</span> تتحكم، <span class="k">مستقبل</span> (مصباح، محرك، مقاومة) يستهلك، و<span class="k">منصهرة</span> تحمي.</li>
+<li><span class="k">قانون أوم:</span> U = R × I، حيث U التوتر بالفولط وR المقاومة بالأوم وI الشدة بالأمبير.</li>
+<li><span class="k">التسلسل:</span> الشدة واحدة في كل العناصر، والمقاومة المكافئة Req = R1 + R2.</li>
+<li><span class="k">التفرع:</span> التوتر نفسه بين طرفي كل فرع، وشدة المنبع مجموع شدات الفروع.</li>
+<li>التمييز بين <span class="k">المخطط الوظيفي</span> (يبيّن عمل الدارة بالرموز) و<span class="k">مخطط التسليك</span> (يبيّن طريقة توصيل الأسلاك فعليًا).</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>مولد 12 V ومقاومة 4 Ω. <span class="k">الحل:</span> <bdi dir="ltr">I = U ÷ R = 12 ÷ 4 = 3 A</bdi>.</li>
+<li>مقاومتان 10 Ω و20 Ω على التسلسل مع مولد 12 V. <span class="k">الحل:</span> <bdi dir="ltr">Req = 30 Ω</bdi>، و<bdi dir="ltr">I = 12 ÷ 30 = 0.4 A</bdi>.</li>
+<li>مصباحان متماثلان على التفرع مع مولد 12 V. <span class="k">التفسير:</span> يتلقى كل منهما 12 V، وإن احترق أحدهما يبقى الآخر مضيئًا.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>القول إن الدارة تعمل وقاطعتها مفتوحة.</li>
+<li>جمع الشدات في التسلسل بدل اعتبارها واحدة.</li>
+<li>نسيان الوحدة أو الخلط بين الأوم والأمبير.</li>
+<li>رسم الأسلاك في المخطط الوظيفي بدل الاكتفاء بالرموز.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>دارة مغلقة = تيار.</li>
+<li>U = R × I.</li>
+<li>تسلسل: I ثابتة، المقاومات تُجمع.</li>
+<li>تفرع: U ثابت، الشدات تُجمع.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/TECH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=TECH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

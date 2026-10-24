@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الترتيب في ℝ والمجالات</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">1 ثانوي · الرياضيات · جذع مشترك علوم وتكنولوجيا · الوحدة 1: الأعداد والحساب · الدرس 5</div>
+<h1>الترتيب في ℝ والمجالات</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تقارن عددين حقيقيين بطرق مختلفة، وأن تستعمل خواص الترتيب مع العمليات الأربع، وأن تكتب مجموعة أعداد على شكل مجال وتحدّد تقاطع مجالين واتحادهما.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المستقيم المدرّج يرتّب الأعداد الحقيقية، والمجال «قطعة» منه. الجمع يحافظ على الترتيب دائمًا، أمّا الضرب فيحافظ عليه إذا كان المضروب فيه موجبًا ويعكسه إذا كان سالبًا.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="arx" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<line x1="20" y1="60" x2="520" y2="60" stroke="#1f2937" stroke-width="2" marker-end="url(#arx)"/>
+<g font-size="13" text-anchor="middle"><line x1="70" y1="55" x2="70" y2="65" stroke="#1f2937"/><text x="70" y="82">−2</text><line x1="130" y1="55" x2="130" y2="65" stroke="#1f2937"/><text x="130" y="82">−1</text><line x1="190" y1="55" x2="190" y2="65" stroke="#1f2937"/><text x="190" y="82">0</text><line x1="250" y1="55" x2="250" y2="65" stroke="#1f2937"/><text x="250" y="82">1</text><line x1="310" y1="55" x2="310" y2="65" stroke="#1f2937"/><text x="310" y="82">2</text><line x1="370" y1="55" x2="370" y2="65" stroke="#1f2937"/><text x="370" y="82">3</text><line x1="430" y1="55" x2="430" y2="65" stroke="#1f2937"/><text x="430" y="82">4</text><line x1="490" y1="55" x2="490" y2="65" stroke="#1f2937"/><text x="490" y="82">5</text></g>
+<line x1="130" y1="40" x2="430" y2="40" stroke="#1d4ed8" stroke-width="6"/><path d="M135 30 h-6 v20 h6" fill="none" stroke="#1d4ed8" stroke-width="2.5"/><path d="M425 30 h6 v20 h-6" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="280" y="24" text-anchor="middle" fill="#1d4ed8" font-weight="700">I = [−1 ; 4]</text>
+<line x1="310" y1="112" x2="520" y2="112" stroke="#c2410c" stroke-width="6"/><path d="M305 102 h6 v20 h-6" fill="none" stroke="#c2410c" stroke-width="2.5"/>
+<text x="420" y="138" text-anchor="middle" fill="#c2410c" font-weight="700">J = ]2 ; +∞[</text>
+<rect x="310" y="36" width="120" height="8" fill="#15803d"/>
+<text x="90" y="118" font-weight="700" fill="#15803d">I ∩ J = ]2 ; 4]</text>
+<text x="90" y="145" font-weight="700" fill="#a16207">I ∪ J = [−1 ; +∞[</text>
+<text x="270" y="170" text-anchor="middle" font-size="13">القوس المتّجه نحو العدد يعني أن الطرف ينتمي، والمتّجه بعيدًا عنه يعني أنه لا ينتمي</text>
+</svg><figcaption>الشكل 1: تمثيل المجالين I وJ على المستقيم المدرّج؛ التقاطع هو الجزء المشترك (بالأخضر) والاتحاد هو كل ما يغطّيه أحدهما.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المقارنة بالفرق:</span> <bdi dir="ltr">a ≤ b</bdi> يكافئ <bdi dir="ltr">a − b ≤ 0</bdi>. فلمقارنة عددين ندرس إشارة فرقهما، وهذه أعمّ طريقة.</li>
+<li><span class="k">الجمع والطرح:</span> إذا كان <bdi dir="ltr">a ≤ b</bdi> فإن <bdi dir="ltr">a + c ≤ b + c</bdi> لكل عدد حقيقي c. وإذا كان <bdi dir="ltr">a ≤ b</bdi> و<bdi dir="ltr">c ≤ d</bdi> فإن <bdi dir="ltr">a + c ≤ b + d</bdi> (نجمع متباينتين في الاتجاه نفسه، ولا نطرحهما).</li>
+<li><span class="k">الضرب:</span> إذا كان <bdi dir="ltr">a ≤ b</bdi> و<bdi dir="ltr">c &gt; 0</bdi> فإن <bdi dir="ltr">ac ≤ bc</bdi>. وإذا كان <bdi dir="ltr">c &lt; 0</bdi> فإن <bdi dir="ltr">ac ≥ bc</bdi>: الضرب في عدد سالب <span class="k">يعكس اتجاه</span> المتباينة.</li>
+<li><span class="k">المقلوب والمربع:</span> إذا كان <bdi dir="ltr">0 &lt; a ≤ b</bdi> فإن <bdi dir="ltr">1/a ≥ 1/b</bdi> و<bdi dir="ltr">a² ≤ b²</bdi> و<bdi dir="ltr">√a ≤ √b</bdi>. أمّا إذا كان <bdi dir="ltr">a ≤ b ≤ 0</bdi> فإن <bdi dir="ltr">a² ≥ b²</bdi>.</li>
+<li><span class="k">المجالات المحدودة:</span> <bdi dir="ltr">[a ; b]</bdi> مغلق يحوي طرفيه، <bdi dir="ltr">]a ; b[</bdi> مفتوح لا يحويهما، و<bdi dir="ltr">[a ; b[</bdi> و<bdi dir="ltr">]a ; b]</bdi> نصف مفتوحين. طول المجال هو <bdi dir="ltr">b − a</bdi>.</li>
+<li><span class="k">المجالات غير المحدودة:</span> <bdi dir="ltr">[a ; +∞[</bdi> هي مجموعة x بحيث <bdi dir="ltr">x ≥ a</bdi>، و<bdi dir="ltr">]−∞ ; a[</bdi> هي <bdi dir="ltr">x &lt; a</bdi>. القوس عند ∞ مفتوح دائمًا، و<bdi dir="ltr">ℝ = ]−∞ ; +∞[</bdi>.</li>
+<li><span class="k">التقاطع والاتحاد:</span> <bdi dir="ltr">I ∩ J</bdi> مجموعة الأعداد التي تنتمي إلى I <span class="k">و</span>J معًا، و<bdi dir="ltr">I ∪ J</bdi> مجموعة الأعداد التي تنتمي إلى I <span class="k">أو</span>J. يُحدَّدان بسهولة بالرسم على المستقيم المدرّج.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>قارن <bdi dir="ltr">3/7</bdi> و<bdi dir="ltr">2/5</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">3/7 − 2/5 = 15/35 − 14/35 = 1/35 &gt; 0</bdi>، إذن <bdi dir="ltr">3/7 &gt; 2/5</bdi>.</li>
+<li>إذا كان <bdi dir="ltr">2 ≤ x ≤ 5</bdi> فاحصر العددين <bdi dir="ltr">3x + 1</bdi> و<bdi dir="ltr">−2x</bdi>. <span class="k">الحل:</span> بالضرب في 3 ثم إضافة 1: <bdi dir="ltr">7 ≤ 3x + 1 ≤ 16</bdi>. وبالضرب في <bdi dir="ltr">−2</bdi> ينعكس الاتجاه: <bdi dir="ltr">−10 ≤ −2x ≤ −4</bdi>.</li>
+<li>ليكن <bdi dir="ltr">I = [−1 ; 4]</bdi> و<bdi dir="ltr">J = ]2 ; +∞[</bdi>. حدّد <bdi dir="ltr">I ∩ J</bdi> و<bdi dir="ltr">I ∪ J</bdi>. <span class="k">الحل:</span> الأعداد المشتركة هي التي تحقق <bdi dir="ltr">2 &lt; x ≤ 4</bdi>، أي <bdi dir="ltr">I ∩ J = ]2 ; 4]</bdi>. والاتحاد يبدأ من <bdi dir="ltr">−1</bdi> (مع الطرف) ولا ينتهي: <bdi dir="ltr">I ∪ J = [−1 ; +∞[</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>نسيان عكس اتجاه المتباينة عند الضرب أو القسمة على عدد سالب: من <bdi dir="ltr">x ≤ 3</bdi> نستنتج <bdi dir="ltr">−x ≥ −3</bdi> وليس <bdi dir="ltr">−x ≤ −3</bdi>.</li>
+<li>طرح متباينتين طرفًا لطرف؛ الطرح غير مسموح، بل نضرب الثانية في <bdi dir="ltr">−1</bdi> ثم نجمع.</li>
+<li>كتابة قوس مغلق عند ∞ مثل <bdi dir="ltr">[2 ; +∞]</bdi>؛ اللانهاية ليست عددًا فالقوس عندها مفتوح دائمًا.</li>
+<li>الخلط بين التقاطع «و» (الأصغر) والاتحاد «أو» (الأكبر)؛ الرسم على المستقيم يحسم الأمر.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li><bdi dir="ltr">a ≤ b ⇔ a − b ≤ 0</bdi>.</li>
+<li>الجمع يحافظ على الترتيب؛ الضرب في موجب يحافظ، وفي سالب يعكس.</li>
+<li>لعددين موجبين: الترتيب نفسه للمربعات والجذور، ومعكوس للمقلوبات.</li>
+<li><bdi dir="ltr">[a ; b]</bdi> مغلق يحوي طرفيه، و<bdi dir="ltr">]a ; b[</bdi> مفتوح لا يحويهما، والقوس عند ∞ مفتوح دائمًا.</li>
+<li>∩ = الجزء المشترك، ∪ = كل ما يغطّيه أحدهما؛ ارسم المستقيم المدرّج.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

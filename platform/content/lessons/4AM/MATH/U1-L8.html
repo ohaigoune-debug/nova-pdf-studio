@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>جملة معادلتين من الدرجة الأولى بمجهولين</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">4 متوسط · الرياضيات · كل الشعب · الوحدة 1: الأنشطة العددية · الدرس 8</div>
+<h1>جملة معادلتين من الدرجة الأولى بمجهولين</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تحلّ جملة معادلتين من الدرجة الأولى بمجهولين بطريقة التعويض وبطريقة الجمع (التركيب)، وأن تتحقق من الحل وتستعمل الجمل لحلّ مسائل نصية ذات مجهولين.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> حلّ الجملة هو الثنائية <bdi dir="ltr">(x ; y)</bdi> التي تحقق المعادلتين معًا في الوقت نفسه. الطريقتان تهدفان إلى الشيء نفسه: التخلص من أحد المجهولين للوصول إلى معادلة بمجهول واحد، ثم إيجاد المجهول الثاني.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ar8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<line x1="60" y1="150" x2="290" y2="150" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar8)"/><line x1="60" y1="150" x2="60" y2="15" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar8)"/>
+<text x="285" y="167" text-anchor="middle">x</text><text x="48" y="22" text-anchor="middle">y</text><text x="52" y="162" text-anchor="middle" font-size="12">0</text>
+<line x1="60" y1="30" x2="260" y2="150" stroke="#1d4ed8" stroke-width="2.5"/><text x="95" y="40" fill="#1d4ed8" font-size="13">x + y = 10</text>
+<line x1="100" y1="150" x2="260" y2="54" stroke="#c2410c" stroke-width="2.5"/><text x="215" y="50" fill="#c2410c" font-size="13">x − y = 2</text>
+<line x1="180" y1="102" x2="180" y2="150" stroke="#15803d" stroke-dasharray="4 3"/><line x1="60" y1="102" x2="180" y2="102" stroke="#15803d" stroke-dasharray="4 3"/>
+<circle cx="180" cy="102" r="5" fill="#15803d"/><text x="180" y="165" text-anchor="middle" fill="#15803d" font-weight="700">6</text><text x="48" y="106" text-anchor="middle" fill="#15803d" font-weight="700">4</text>
+<text x="145" y="97" fill="#15803d" font-weight="700" font-size="13" direction="rtl" text-anchor="start">الحل</text><text x="118" y="97" fill="#15803d" font-weight="700" font-size="13" text-anchor="end">(6 ; 4)</text>
+<rect x="320" y="20" width="205" height="60" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="422" y="42" text-anchor="middle" font-weight="700" direction="rtl">طريقة الجمع</text><text x="506" y="66" font-size="13" direction="rtl" text-anchor="start">نجمع المعادلتين:</text><text x="419" y="66" font-size="13" text-anchor="end">2x = 12 ⇒ x = 6</text>
+<rect x="320" y="95" width="205" height="60" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="422" y="117" text-anchor="middle" font-weight="700" direction="rtl">طريقة التعويض</text><text x="422" y="141" text-anchor="middle" font-size="13">x = y + 2 ⇒ 2y + 2 = 10 ⇒ y = 4</text>
+</svg><figcaption>الشكل 1: كل معادلة تمثَّل بمستقيم، وحل الجملة هو إحداثيا نقطة تقاطعهما <bdi dir="ltr">(6 ; 4)</bdi>؛ على اليمين الطريقتان الجبريتان لنفس الجملة.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">جملة معادلتين بمجهولين</span> هي معادلتان من الشكل <bdi dir="ltr">ax + by = c</bdi> تُطلب حلولهما المشتركة؛ <span class="k">حلّ الجملة</span> ثنائية <bdi dir="ltr">(x ; y)</bdi> تحقق المعادلتين معًا.</li>
+<li><span class="k">طريقة التعويض:</span> نعبّر عن أحد المجهولين بدلالة الآخر من إحدى المعادلتين (الأسهل معاملًا)، ثم نعوّضه في المعادلة الثانية فنحصل على معادلة بمجهول واحد.</li>
+<li><span class="k">طريقة الجمع (التركيب):</span> نضرب إحدى المعادلتين أو كلتيهما في أعداد مناسبة حتى يصير معاملا أحد المجهولين متقابلين، ثم نجمع المعادلتين طرفًا لطرف فيختفي ذلك المجهول.</li>
+<li>بعد إيجاد المجهول الأول نعوّض قيمته في <span class="k">أي معادلة من الجملة</span> لإيجاد الثاني، ثم <span class="k">نتحقق</span> بتعويض الثنائية في المعادلتين الأصليتين معًا.</li>
+<li><span class="k">التفسير الهندسي:</span> كل معادلة تمثَّل بمستقيم في المستوي، وحل الجملة هو إحداثيا نقطة تقاطع المستقيمين.</li>
+<li><span class="k">المسائل:</span> مجهولان واضحان، معادلة لكل معلومة، حلّ، ثم جملة جواب مع الوحدات.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>حلّ بالتعويض الجملة: <bdi dir="ltr">2x + 3y = 13</bdi> و <bdi dir="ltr">x − y = −1</bdi>. <span class="k">الحل:</span> من الثانية <bdi dir="ltr">x = y − 1</bdi>، نعوّض في الأولى: <bdi dir="ltr">2(y − 1) + 3y = 13</bdi>، أي <bdi dir="ltr">5y − 2 = 13</bdi>، ومنه <bdi dir="ltr">y = 3</bdi> ثم <bdi dir="ltr">x = 2</bdi>. التحقق: <bdi dir="ltr">4 + 9 = 13</bdi> و <bdi dir="ltr">2 − 3 = −1</bdi>. الحل <bdi dir="ltr">(2 ; 3)</bdi>.</li>
+<li>حلّ بالجمع الجملة: <bdi dir="ltr">3x + 2y = 12</bdi> و <bdi dir="ltr">5x − 2y = 4</bdi>. <span class="k">الحل:</span> معاملا y متقابلان (2 و <bdi dir="ltr">−2</bdi>)، نجمع: <bdi dir="ltr">8x = 16</bdi>، إذن <bdi dir="ltr">x = 2</bdi>. نعوّض: <bdi dir="ltr">6 + 2y = 12</bdi>، ومنه <bdi dir="ltr">y = 3</bdi>. التحقق: <bdi dir="ltr">10 − 6 = 4</bdi>. الحل <bdi dir="ltr">(2 ; 3)</bdi>.</li>
+<li>ثمن 3 أقلام ودفترين 140 دينارًا، وثمن قلم ودفتر 55 دينارًا. <span class="k">الحل:</span> x ثمن القلم و y ثمن الدفتر: <bdi dir="ltr">3x + 2y = 140</bdi> و <bdi dir="ltr">x + y = 55</bdi>. من الثانية <bdi dir="ltr">x = 55 − y</bdi>، فتصبح الأولى <bdi dir="ltr">165 − 3y + 2y = 140</bdi>، أي <bdi dir="ltr">y = 25</bdi> ثم <bdi dir="ltr">x = 30</bdi>. ثمن القلم 30 دينارًا والدفتر 25 دينارًا (التحقق: <bdi dir="ltr">90 + 50 = 140</bdi>).</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>في طريقة الجمع، ضرب الطرف الأول من المعادلة فقط دون الطرف الثاني؛ يجب ضرب كل الحدود.</li>
+<li>التحقق من الحل في معادلة واحدة فقط؛ الثنائية حل للجملة فقط إذا حققت المعادلتين معًا.</li>
+<li>عند التعويض، نسيان القوس: كتابة <bdi dir="ltr">2 × y − 1</bdi> بدل <bdi dir="ltr">2(y − 1)</bdi> فيضيع ضرب الحد الثاني.</li>
+<li>كتابة الحل عددين منفصلين دون ترتيب؛ الحل ثنائية مرتبة <bdi dir="ltr">(x ; y)</bdi>.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>حل الجملة = ثنائية <bdi dir="ltr">(x ; y)</bdi> تحقق المعادلتين معًا.</li>
+<li>تعويض: اعزل مجهولًا ⟵ عوّض ⟵ معادلة بمجهول واحد.</li>
+<li>جمع: اجعل معاملَي مجهول متقابلين ⟵ اجمع ⟵ يختفي المجهول.</li>
+<li>عوّض القيمة الأولى لإيجاد الثانية، ثم تحقّق في المعادلتين.</li>
+<li>هندسيًا: الحل هو نقطة تقاطع المستقيمين.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

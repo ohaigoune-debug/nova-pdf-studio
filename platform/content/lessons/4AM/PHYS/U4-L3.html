@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>النظام الشمسي وحركة الكواكب</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">4 متوسط · العلوم الفيزيائية · كل الشعب · الوحدة 4: الظواهر الضوئية والفلكية · الدرس 3</div>
+<h1>النظام الشمسي وحركة الكواكب</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تصف مكوّنات النظام الشمسي وترتيب كواكبه، وتميّز بين حركتي الدوران والانتقال، وتربطهما بتعاقب الليل والنهار وبطول السنة.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> النظام الشمسي نجم واحد (الشمس) تدور حوله ثمانية كواكب في مدارات شبه دائرية، في المستوي نفسه تقريباً وفي الجهة نفسها، إضافة إلى الأقمار والكويكبات والمذنّبات. كل كوكب يدور حول نفسه (دوران) وحول الشمس (انتقال).</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<circle cx="25" cy="90" r="40" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="45" y="155" text-anchor="middle" font-size="13" font-weight="700">الشمس</text>
+<line x1="70" y1="90" x2="530" y2="90" stroke="#1f2937" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="150" y="25" text-anchor="middle" font-size="13" fill="#c2410c">كواكب داخلية صخرية</text><line x1="85" y1="34" x2="220" y2="34" stroke="#c2410c" stroke-width="1.5"/>
+<text x="405" y="25" text-anchor="middle" font-size="13" fill="#1d4ed8">كواكب خارجية غازية عملاقة</text><line x1="275" y1="34" x2="530" y2="34" stroke="#1d4ed8" stroke-width="1.5"/>
+<circle cx="95" cy="90" r="4" fill="#a16207"/><text x="95" y="118" text-anchor="middle" font-size="13">عطارد</text>
+<circle cx="130" cy="90" r="6" fill="#c2410c"/><text x="130" y="140" text-anchor="middle" font-size="13">الزهرة</text>
+<circle cx="168" cy="90" r="7" fill="#1d4ed8"/><text x="168" y="118" text-anchor="middle" font-size="13">الأرض</text>
+<circle cx="205" cy="90" r="5" fill="#c2410c"/><text x="205" y="140" text-anchor="middle" font-size="13">المريخ</text>
+<circle cx="232" cy="84" r="1.5" fill="#1f2937"/><circle cx="238" cy="94" r="1.5" fill="#1f2937"/><circle cx="245" cy="87" r="1.5" fill="#1f2937"/><circle cx="251" cy="95" r="1.5" fill="#1f2937"/><circle cx="257" cy="85" r="1.5" fill="#1f2937"/><circle cx="242" cy="100" r="1.5" fill="#1f2937"/>
+<text x="245" y="162" text-anchor="middle" font-size="11">حزام الكويكبات</text>
+<circle cx="300" cy="90" r="22" fill="#fde68a" stroke="#a16207" stroke-width="1.5"/><text x="300" y="132" text-anchor="middle" font-size="13">المشتري</text>
+<ellipse cx="375" cy="90" rx="32" ry="6" fill="none" stroke="#a16207" stroke-width="1.5"/><circle cx="375" cy="90" r="18" fill="#fde68a" stroke="#a16207" stroke-width="1.5"/><text x="375" y="132" text-anchor="middle" font-size="13">زحل</text>
+<circle cx="445" cy="90" r="12" fill="#86efac" stroke="#15803d" stroke-width="1.5"/><text x="445" y="132" text-anchor="middle" font-size="13">أورانوس</text>
+<circle cx="505" cy="90" r="11" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/><text x="505" y="132" text-anchor="middle" font-size="13">نبتون</text>
+</svg><figcaption>الشكل 1: ترتيب الكواكب الثمانية ابتعاداً عن الشمس (الأحجام والمسافات غير مرسومة بسلّم)؛ حزام الكويكبات يفصل الداخلية عن الخارجية.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">الشمس نجم:</span> جسم يصدر الضوء بنفسه، وتمثّل كتلته الجزء الأكبر من كتلة النظام الشمسي كله (أكثر من <bdi dir="ltr">99 %</bdi>).</li>
+<li><span class="k">الكواكب الثمانية</span> بالترتيب ابتعاداً عن الشمس: عطارد، الزهرة، الأرض، المريخ، المشتري، زحل، أورانوس، نبتون.</li>
+<li><span class="k">التصنيف:</span> الكواكب الأربعة الأولى <span class="k">داخلية صخرية</span> صغيرة، والأربعة الأخيرة <span class="k">خارجية غازية عملاقة</span>؛ يفصل بينهما حزام الكويكبات.</li>
+<li><span class="k">الكوكب لا يصدر ضوءاً:</span> نراه لأنه ينشر ضوء الشمس. <span class="k">القمر</span> تابع طبيعي يدور حول كوكب (للأرض قمر واحد).</li>
+<li><span class="k">حركة الانتقال:</span> دوران الكوكب حول الشمس في مدار شبه دائري (إهليلجي)؛ مدتها <span class="k">السنة</span> (للأرض ≈ <bdi dir="ltr">365,25</bdi> يوماً)، وكلما بعد الكوكب عن الشمس طالت سنته.</li>
+<li><span class="k">حركة الدوران:</span> دوران الكوكب حول محوره؛ مدتها <span class="k">اليوم</span> (للأرض ≈ <bdi dir="ltr">24 h</bdi>)، وينتج عنها تعاقب الليل والنهار.</li>
+<li><span class="k">الوحدة الفلكية (ua)</span> هي متوسط بعد الأرض عن الشمس ≈ 150 مليون km، ونستعملها لقياس المسافات داخل النظام الشمسي.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>نرى كوكب الزهرة لامعاً في السماء مع أنه ليس نجماً. <span class="k">التفسير:</span> الزهرة ينشر ضوء الشمس الواردة عليه، وهو قريب من الأرض، فيبدو لامعاً.</li>
+<li>احسب زمن وصول ضوء الشمس إلى الأرض علماً أن سرعة الضوء <bdi dir="ltr">300 000 km/s</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">t = 150 000 000 ÷ 300 000 = 500 s</bdi>، أي نحو 8 دقائق و20 ثانية.</li>
+<li>لماذا تختلف مدة السنة من كوكب إلى آخر؟ <span class="k">التفسير:</span> الكوكب الأبعد يقطع مداراً أطول بسرعة أقل، فسنة المريخ (نحو 687 يوماً أرضياً) أطول من سنة الأرض.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>عدّ بلوتو كوكباً تاسعاً؛ صُنّف منذ 2006 <span class="k">كوكباً قزماً</span>.</li>
+<li>الخلط بين <span class="k">الدوران</span> (حول المحور ⇒ اليوم) و<span class="k">الانتقال</span> (حول الشمس ⇒ السنة).</li>
+<li>القول إن الكواكب أو القمر تصدر ضوءاً؛ هي أجسام مضاءة تنشر ضوء الشمس.</li>
+<li>ترتيب خاطئ للكواكب، خاصة وضع المشتري قبل المريخ أو الزهرة بعد الأرض.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>شمس (نجم) + 8 كواكب + أقمار + كويكبات + مذنّبات.</li>
+<li>الترتيب: عطارد، الزهرة، الأرض، المريخ | المشتري، زحل، أورانوس، نبتون.</li>
+<li>داخلية صخرية صغيرة / خارجية غازية عملاقة.</li>
+<li>دوران حول المحور = يوم؛ انتقال حول الشمس = سنة.</li>
+<li><bdi dir="ltr">1 ua ≈ 150</bdi> مليون km؛ ضوء الشمس يصلنا في ≈ <bdi dir="ltr">8 min</bdi>.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/PHYS">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=PHYS">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

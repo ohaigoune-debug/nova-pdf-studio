@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>المنهج التجريبي والحتمية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">3 ثانوي · الفلسفة · آداب وفلسفة · الوحدة 3: في فلسفة العلوم · الدرس 1</div>
+<h1>المنهج التجريبي والحتمية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تعرف خطوات المنهج التجريبي، وأن تناقش مبدأ الحتمية بين الموقف الكلاسيكي المطلق والموقف المعاصر الذي يقول بحتمية نسبية احتمالية.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المنهج التجريبي يقوم على الملاحظة والفرضية والتجربة، ويفترض أن الطبيعة تخضع لنظام ثابت هو <span class="k">الحتمية</span>. الفيزياء الكلاسيكية جعلتها مطلقة، لكن الفيزياء الذرية الحديثة أظهرت حدوداً للتنبؤ الدقيق فصارت الحتمية نسبية.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ar5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<rect x="420" y="25" width="105" height="45" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="472" y="53" text-anchor="middle">ملاحظة</text>
+<line x1="415" y1="47" x2="380" y2="47" stroke="#1f2937" stroke-width="2" marker-end="url(#ar5)"/>
+<rect x="270" y="25" width="105" height="45" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="322" y="53" text-anchor="middle">فرضية</text>
+<line x1="265" y1="47" x2="230" y2="47" stroke="#1f2937" stroke-width="2" marker-end="url(#ar5)"/>
+<rect x="120" y="25" width="105" height="45" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="172" y="53" text-anchor="middle">تجربة</text>
+<line x1="115" y1="47" x2="80" y2="47" stroke="#1f2937" stroke-width="2" marker-end="url(#ar5)"/>
+<rect x="10" y="25" width="68" height="45" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="44" y="53" text-anchor="middle">قانون</text>
+<rect x="290" y="105" width="235" height="55" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="407" y="128" text-anchor="middle" font-weight="700">حتمية مطلقة</text><text x="407" y="149" text-anchor="middle" font-size="13">الفيزياء الكلاسيكية: تنبؤ يقيني</text>
+<rect x="15" y="105" width="235" height="55" rx="8" fill="#fde68a" stroke="#c2410c" stroke-width="2"/><text x="132" y="128" text-anchor="middle" font-weight="700">حتمية نسبية</text><text x="132" y="149" text-anchor="middle" font-size="13">الفيزياء الذرية: تنبؤ احتمالي</text>
+</svg><figcaption>الشكل 1: خطوات المنهج التجريبي، وموقفان من مبدأ الحتمية.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المنهج التجريبي:</span> طريقة لدراسة الظواهر الطبيعية تمرّ بالملاحظة ثم الفرضية ثم التجربة ثم صياغة القانون، وقد نظّر له كلود برنار.</li>
+<li><span class="k">الملاحظة العلمية</span> مقصودة ومنظمة ودقيقة، تختلف عن الملاحظة العامية العابرة.</li>
+<li><span class="k">الفرضية</span> تفسير مؤقت للظاهرة، والتجربة هي محكّها؛ تُقبل إن صمدت وتُرفض إن كذّبتها الوقائع.</li>
+<li><span class="k">مبدأ الحتمية:</span> الأسباب نفسها تؤدي دائماً إلى النتائج نفسها، وهو أساس التنبؤ والتعميم.</li>
+<li><span class="k">الحتمية المطلقة:</span> موقف الفيزياء الكلاسيكية؛ معرفة الشروط الابتدائية تسمح بالتنبؤ الدقيق بكل ما سيحدث.</li>
+<li><span class="k">اللاحتمية:</span> في عالم الجسيمات الدقيقة يتعذر تحديد الموقع والسرعة معاً بدقة تامة (مبدأ الارتياب عند هايزنبرغ)، فيصبح التنبؤ احتمالياً.</li>
+<li><span class="k">التركيب:</span> الحتمية مبدأ ضروري للعلم، لكنها نسبية تختلف باختلاف مستوى الظاهرة.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>التنبؤ بموعد خسوف القمر بدقة. <span class="k">التفسير:</span> ظاهرة على المستوى الكبير تخضع لحتمية صارمة.</li>
+<li>تفكك نواة ذرة مشعّة: نعرف عدد النوى المتفككة إحصائياً، لا متى تتفكك نواة بعينها. <span class="k">التفسير:</span> تنبؤ احتمالي يمثل الحتمية النسبية.</li>
+<li>مقالة «هل الحتمية مطلقة؟» <span class="k">الحل:</span> أطروحة الحتمية المطلقة، ثم نقيضها اللاحتمية، ثم تركيب يجعلها مبدأ نسبياً لا غنى عنه.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>فهم اللاحتمية على أنها فوضى تامة، بينما هي حتمية احتمالية إحصائية.</li>
+<li>الخلط بين الملاحظة العلمية والعامية.</li>
+<li>تقديم خطوات المنهج دون بيان دور الفرضية والتجربة في التحقق.</li>
+<li>تعميم نتائج الفيزياء الذرية على كل الظواهر الكبرى.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>ملاحظة ⇒ فرضية ⇒ تجربة ⇒ قانون.</li>
+<li>الحتمية = نفس الأسباب ⇒ نفس النتائج.</li>
+<li>كلاسيكية: مطلقة. معاصرة: نسبية احتمالية.</li>
+<li>بدون حتمية لا علم ولا تنبؤ.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/PHILO">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=PHILO">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

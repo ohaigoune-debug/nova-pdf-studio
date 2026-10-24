@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>توزيع السكان وعوامله</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">4 متوسط · الجغرافيا · كل الشعب · الوحدة 2: السكان في الجزائر · الدرس 2</div>
+<h1>توزيع السكان وعوامله</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تصف التوزيع المتباين لسكان الجزائر بين الأقاليم الثلاثة، وأن تحسب الكثافة السكانية وتفسّر العوامل الطبيعية والتاريخية والاقتصادية المتحكمة في هذا التوزيع.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الإقليم التلي الصغير يحتضن ثلثي السكان بينما الصحراء الشاسعة شبه خالية. هذا التباين ثمرة المناخ والتضاريس والماء أولاً، ثم الإرث الاستعماري والتركّز الاقتصادي في المدن الساحلية.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<text x="280" y="16" text-anchor="middle" font-weight="700" font-size="13" direction="rtl">نصيب كل إقليم من المساحة ومن السكان (% تقريبية)</text>
+<rect x="395" y="24" width="14" height="12" fill="#fde68a" stroke="#a16207"/><text x="413" y="34" font-size="12" text-anchor="end" direction="rtl">المساحة</text>
+<rect x="470" y="24" width="14" height="12" fill="#1d4ed8"/><text x="488" y="34" font-size="12" text-anchor="end" direction="rtl">السكان</text>
+<line x1="40" y1="140" x2="520" y2="140" stroke="#1f2937" stroke-width="1.5"/>
+<rect x="70" y="135.6" width="40" height="4.4" fill="#fde68a" stroke="#a16207"/><text x="90" y="130" text-anchor="middle" font-size="12" fill="#a16207">4%</text>
+<rect x="115" y="70.7" width="40" height="69.3" fill="#1d4ed8"/><text x="135" y="65" text-anchor="middle" font-size="12" fill="#1d4ed8">63%</text>
+<text x="112" y="158" text-anchor="middle" font-size="13" direction="rtl">الإقليم التلي</text>
+<rect x="240" y="130.1" width="40" height="9.9" fill="#fde68a" stroke="#a16207"/><text x="260" y="125" text-anchor="middle" font-size="12" fill="#a16207">9%</text>
+<rect x="285" y="109.2" width="40" height="30.8" fill="#1d4ed8"/><text x="305" y="104" text-anchor="middle" font-size="12" fill="#1d4ed8">28%</text>
+<text x="282" y="158" text-anchor="middle" font-size="13" direction="rtl">الهضاب العليا</text>
+<rect x="410" y="44.3" width="40" height="95.7" fill="#fde68a" stroke="#a16207"/><text x="430" y="54" text-anchor="middle" font-size="12" fill="#a16207">87%</text>
+<rect x="455" y="130.1" width="40" height="9.9" fill="#1d4ed8"/><text x="475" y="125" text-anchor="middle" font-size="12" fill="#1d4ed8">9%</text>
+<text x="452" y="158" text-anchor="middle" font-size="13" direction="rtl">الصحراء</text>
+<text x="280" y="173" text-anchor="middle" font-size="11" direction="rtl">التباين واضح: مساحة صغيرة وسكان كثر في الشمال، والعكس في الجنوب</text>
+</svg><figcaption>الشكل 1: مقارنة بين نصيب كل إقليم من المساحة ونصيبه من السكان (نسب تقريبية تُراجَع).</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">التوزيع المتباين:</span> نحو ثلثي السكان يعيشون في الإقليم التلي الذي لا يمثّل سوى 4% من المساحة (يُراجَع)، وأقل من 10% في الصحراء التي تمثّل 87% من المساحة.</li>
+<li><span class="k">الكثافة السكانية</span> = عدد السكان ÷ المساحة (نسمة/كم²). المتوسط الوطني نحو 18 نسمة/كم² (يُراجَع)، لكنه يفوق 300 في الولايات الساحلية الكبرى ويقلّ عن نسمة واحدة في أقصى الجنوب؛ لذلك المتوسط الوطني مضلّل.</li>
+<li><span class="k">العوامل الطبيعية:</span> المناخ المعتدل، الأمطار، السهول الخصبة، وتوفّر الماء تجذب السكان شمالاً؛ أما الحرارة والجفاف والجبال الوعرة فعوامل طاردة.</li>
+<li><span class="k">العوامل التاريخية:</span> الاستعمار الفرنسي ركّز المدن والموانئ والمزارع والطرق في الشمال، فورثت الجزائر المستقلة هذا الاختلال.</li>
+<li><span class="k">العوامل الاقتصادية:</span> الموانئ والمصانع والإدارات والجامعات والخدمات تتركّز في المدن الكبرى (الجزائر، وهران، قسنطينة، عنابة) فتجذب الهجرة الداخلية.</li>
+<li><span class="k">الاستثناءات في الصحراء:</span> تجمّعات سكانية حول الواحات (بسكرة، الوادي، غرداية) ومراكز المحروقات (حاسي مسعود) حيث يتوفّر الماء الجوفي أو العمل.</li>
+<li><span class="k">نتائج الاختلال:</span> ضغط على الشمال (سكن، نقل، تلوث، تقلص الأراضي الزراعية) وفراغ في الجنوب؛ لذلك تسعى الدولة إلى تنمية الهضاب والجنوب وبناء مدن جديدة.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>احسب الكثافة السكانية العامة للجزائر إذا كان عدد السكان 44 مليوناً والمساحة 2,38 مليون كم². <span class="k">الحل:</span> <bdi dir="ltr">44 ÷ 2,38 ≈ 18,5</bdi> نسمة/كم².</li>
+<li>ولاية مساحتها 1000 كم² وعدد سكانها <bdi dir="ltr">500 000</bdi> نسمة. <span class="k">الحل:</span> <bdi dir="ltr">500 000 ÷ 1000 = 500</bdi> نسمة/كم²، أي كثافة عالية جداً مقارنة بالمتوسط الوطني.</li>
+<li>لماذا تضمّ ولاية أدرار سكاناً أقل بكثير من ولاية البليدة رغم مساحتها الأكبر مرات عديدة؟ <span class="k">التفسير:</span> البليدة في سهل متيجة الخصب الممطر وقرب العاصمة والمصانع، بينما أدرار صحراوية حارة لا يعيش سكانها إلا حول الواحات.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>الخلط بين <span class="k">عدد السكان</span> و<span class="k">الكثافة</span>؛ الكثافة تقسم العدد على المساحة ووحدتها نسمة/كم².</li>
+<li>الاكتفاء بالعوامل الطبيعية ونسيان العاملين <span class="k">التاريخي</span> و<span class="k">الاقتصادي</span>.</li>
+<li>القول إن الصحراء خالية تماماً من السكان؛ هناك واحات ومراكز محروقات مأهولة.</li>
+<li>قلب الكسر عند الحساب (المساحة ÷ السكان) فتظهر نتيجة أقل من 1 بلا معنى.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>التل: 4% مساحة / نحو 63% سكان؛ الصحراء: 87% مساحة / نحو 9% سكان.</li>
+<li>الكثافة = السكان ÷ المساحة (نسمة/كم²)؛ المتوسط نحو 18 لكنه يخفي تبايناً كبيراً.</li>
+<li>العوامل: طبيعية (مناخ، ماء، سهول) + تاريخية (الاستعمار) + اقتصادية (مدن وموانئ).</li>
+<li>استثناء الصحراء: الواحات ومراكز المحروقات.</li>
+<li>الحل: تنمية الهضاب والجنوب والمدن الجديدة.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/GEO">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=GEO">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

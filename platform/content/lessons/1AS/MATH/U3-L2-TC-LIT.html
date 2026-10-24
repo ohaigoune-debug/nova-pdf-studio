@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الدالة التآلفية وتمثيلها بمستقيم</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">1 ثانوي · الرياضيات · جذع مشترك آداب · الوحدة 3: الدوال · الدرس 2</div>
+<h1>الدالة التآلفية وتمثيلها بمستقيم</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تتعرّف على الدالة التآلفية <bdi dir="ltr">f(x) = ax + b</bdi>، وأن تمثّلها بمستقيم انطلاقًا من نقطتين، وأن تحدّد عبارتها من نقطتين معلومتين.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الدالة التآلفية تتغير بوتيرة ثابتة: كلما زاد x بوحدة زاد <bdi dir="ltr">f(x)</bdi> بالمقدار a. لذلك تمثيلها البياني مستقيم، يقطع محور التراتيب عند b ويميل بحسب إشارة a وقيمته.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<line x1="180" y1="120" x2="400" y2="120" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar4)"/><line x1="250" y1="172" x2="250" y2="12" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar4)"/>
+<text x="396" y="112" font-size="12">x</text><text x="238" y="22" font-size="12">y</text>
+<line x1="290" y1="117" x2="290" y2="123" stroke="#1f2937"/><text x="297" y="135" text-anchor="middle" font-size="11">1</text>
+<line x1="330" y1="117" x2="330" y2="123" stroke="#1f2937"/><text x="330" y="135" text-anchor="middle" font-size="11">2</text>
+<line x1="247" y1="100" x2="253" y2="100" stroke="#1f2937"/><text x="240" y="104" text-anchor="end" font-size="11">1</text>
+<line x1="247" y1="60" x2="253" y2="60" stroke="#1f2937"/><text x="240" y="64" text-anchor="end" font-size="11">3</text>
+<line x1="220" y1="170" x2="370" y2="20" stroke="#1d4ed8" stroke-width="2.5"/>
+<line x1="250" y1="140" x2="290" y2="140" stroke="#c2410c" stroke-width="2"/><line x1="290" y1="140" x2="290" y2="100" stroke="#c2410c" stroke-width="2"/>
+<text x="270" y="156" text-anchor="middle" font-size="12" fill="#c2410c">+1</text><text x="305" y="124" font-size="12" fill="#c2410c">+2</text>
+<circle cx="250" cy="140" r="4" fill="#15803d"/><text x="225" y="150" text-anchor="end" font-size="12" fill="#15803d">b = −1</text>
+<circle cx="330" cy="60" r="4" fill="#1d4ed8"/><text x="345" y="55" font-size="12" fill="#1d4ed8">(2 ; 3)</text>
+<rect x="410" y="30" width="120" height="115" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="470" y="52" text-anchor="middle" font-weight="700" font-size="14">f(x) = 2x − 1</text>
+<text x="470" y="78" font-size="13" text-anchor="middle" direction="rtl">الميل a = 2</text>
+<text x="470" y="100" text-anchor="middle" font-size="13">b = −1</text>
+<text x="470" y="125" font-size="12" fill="#15803d" text-anchor="middle" direction="rtl">a &gt; 0 ⇒ متزايدة</text>
+<rect x="10" y="30" width="150" height="115" rx="8" fill="#fde68a" stroke="#a16207" stroke-width="1.5"/>
+<text x="85" y="52" font-weight="700" font-size="14" text-anchor="middle" direction="rtl">الرسم بنقطتين</text>
+<text x="85" y="78" text-anchor="middle" font-size="13">x = 0 ⇒ f(0) = −1</text>
+<text x="85" y="100" text-anchor="middle" font-size="13">x = 2 ⇒ f(2) = 3</text>
+<text x="85" y="125" font-size="12" fill="#c2410c" text-anchor="middle" direction="rtl">ثم نصل بمسطرة</text>
+</svg><figcaption>الشكل 1: مستقيم الدالة <bdi dir="ltr">f(x) = 2x − 1</bdi> يقطع محور التراتيب عند <bdi dir="ltr">−1</bdi>، وكل خطوة أفقية بوحدة تقابل صعودًا بوحدتين.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">الدالة التآلفية</span> هي كل دالة من الشكل <bdi dir="ltr">f(x) = ax + b</bdi> حيث a و b عددان ثابتان. إذا كان <bdi dir="ltr">b = 0</bdi> سُمّيت <span class="k">دالة خطية</span> (تناسبية)، وإذا كان <bdi dir="ltr">a = 0</bdi> كانت <span class="k">دالة ثابتة</span>.</li>
+<li><span class="k">التمثيل البياني</span> لدالة تآلفية هو مستقيم. الدالة الخطية مستقيم يمرّ بالمبدأ، والدالة الثابتة مستقيم موازٍ لمحور الفواصل.</li>
+<li><span class="k">معامل التوجيه a</span> يقيس ميل المستقيم: إذا كان <bdi dir="ltr">a &gt; 0</bdi> فالدالة متزايدة (المستقيم يصعد)، وإذا كان <bdi dir="ltr">a &lt; 0</bdi> فهي متناقصة (المستقيم ينزل).</li>
+<li><span class="k">الترتيب عند المبدأ b</span> هو <bdi dir="ltr">f(0)</bdi>، أي ترتيب نقطة تقاطع المستقيم مع محور التراتيب.</li>
+<li><span class="k">حساب a من نقطتين:</span> إذا علمنا <bdi dir="ltr">f(x<sub>1</sub>)</bdi> و <bdi dir="ltr">f(x<sub>2</sub>)</bdi> مع <bdi dir="ltr">x<sub>1</sub> ≠ x<sub>2</sub></bdi> فإن <bdi dir="ltr">a = (f(x<sub>2</sub>) − f(x<sub>1</sub>)) ÷ (x<sub>2</sub> − x<sub>1</sub>)</bdi>، ثم نستنتج b بالتعويض في <bdi dir="ltr">f(x) = ax + b</bdi>.</li>
+<li><span class="k">رسم المستقيم:</span> يكفي حساب صورتي عددين مختلفين (يُفضَّل 0 وعدد بسيط آخر)، نعلّم النقطتين ثم نصل بينهما ونمدّ المستقيم.</li>
+<li><span class="k">الزيادات متناسبة:</span> إذا زاد x بالمقدار h زاد <bdi dir="ltr">f(x)</bdi> بالمقدار <bdi dir="ltr">a × h</bdi>.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>مثّل بيانيًا الدالة <bdi dir="ltr">f(x) = 2x − 1</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">f(0) = −1</bdi> و <bdi dir="ltr">f(2) = 3</bdi>، فنعلّم النقطتين <bdi dir="ltr">(0 ; −1)</bdi> و<bdi dir="ltr">(2 ; 3)</bdi> ونصل بينهما. معامل التوجيه <bdi dir="ltr">a = 2</bdi> موجب، فالمستقيم صاعد، والترتيب عند المبدأ <bdi dir="ltr">b = −1</bdi>.</li>
+<li>g دالة تآلفية تحقق <bdi dir="ltr">g(1) = 3</bdi> و <bdi dir="ltr">g(3) = 7</bdi>. أوجد عبارتها. <span class="k">الحل:</span> <bdi dir="ltr">a = (7 − 3) ÷ (3 − 1) = 4 ÷ 2 = 2</bdi>. ثم من <bdi dir="ltr">g(1) = 3</bdi> نكتب <bdi dir="ltr">2 × 1 + b = 3</bdi>، فـ <bdi dir="ltr">b = 1</bdi>. إذن <bdi dir="ltr">g(x) = 2x + 1</bdi>. <span class="k">التحقق:</span> <bdi dir="ltr">g(3) = 6 + 1 = 7</bdi> صحيح.</li>
+<li>حدّد اتجاه تغيّر الدالة <bdi dir="ltr">h(x) = −3x + 5</bdi> واحسب نقطة تقاطع مستقيمها مع محور الفواصل. <span class="k">الحل:</span> <bdi dir="ltr">a = −3 &lt; 0</bdi> فالدالة متناقصة. عند التقاطع مع محور الفواصل يكون <bdi dir="ltr">h(x) = 0</bdi>، أي <bdi dir="ltr">−3x + 5 = 0</bdi>، فـ <bdi dir="ltr">x = 5/3</bdi>. النقطة هي <bdi dir="ltr">(5/3 ; 0)</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>الخلط بين <span class="k">a</span> و<span class="k">b</span>: في <bdi dir="ltr">f(x) = 3 − 2x</bdi> يكون <bdi dir="ltr">a = −2</bdi> و <bdi dir="ltr">b = 3</bdi> وليس العكس.</li>
+<li>حساب a بقسمة فرق الفواصل على فرق التراتيب (مقلوب القاعدة الصحيحة).</li>
+<li>رسم المستقيم من نقطة واحدة فقط، أو عدم مدّه خارج النقطتين المحسوبتين.</li>
+<li>اعتبار كل دالة تآلفية دالة تناسبية؛ التناسبية تتطلب <bdi dir="ltr">b = 0</bdi> ومرور المستقيم بالمبدأ.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li><bdi dir="ltr">f(x) = ax + b</bdi>: a معامل التوجيه، b الترتيب عند المبدأ = <bdi dir="ltr">f(0)</bdi>.</li>
+<li>التمثيل مستقيم؛ <bdi dir="ltr">b = 0</bdi> ⇒ يمرّ بالمبدأ (دالة خطية).</li>
+<li><bdi dir="ltr">a &gt; 0</bdi> متزايدة، <bdi dir="ltr">a &lt; 0</bdi> متناقصة، <bdi dir="ltr">a = 0</bdi> ثابتة.</li>
+<li>a = (فرق الصور) ÷ (فرق الفواصل) ثم b بالتعويض.</li>
+<li>للرسم: نقطتان مختلفتان تكفيان، والتحقق بنقطة ثالثة أفضل.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

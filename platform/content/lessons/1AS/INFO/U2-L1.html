@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>واجهة نظام التشغيل: المكتب والنوافذ والقوائم</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">1 ثانوي · الإعلام الآلي · كل الشعب · الوحدة 2: نظام التشغيل · الدرس 1</div>
+<h1>واجهة نظام التشغيل: المكتب والنوافذ والقوائم</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تتعرّف على عناصر الواجهة الرسومية (المكتب، النوافذ، القوائم)، وأن تتعامل معها بالفأرة ولوحة المفاتيح بشكل سليم.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> نظام التشغيل يوفّر واجهة رسومية تتيح التحكم في الحاسوب بالأيقونات والنوافذ بدل كتابة الأوامر. فهم عناصرها يسرّع كل عمل لاحق.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<rect x="20" y="10" width="500" height="155" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
+<rect x="150" y="30" width="250" height="90" fill="#ffffff" stroke="#1f2937" stroke-width="2"/>
+<rect x="150" y="30" width="250" height="22" fill="#fde68a" stroke="#1f2937" stroke-width="2"/><text x="275" y="46" text-anchor="middle" font-size="13">شريط العنوان</text>
+<text x="275" y="85" text-anchor="middle">نافذة</text>
+<rect x="30" y="25" width="26" height="26" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="43" y="68" text-anchor="middle" font-size="12">أيقونة</text>
+<rect x="20" y="138" width="500" height="27" fill="#1f2937"/><text x="270" y="157" text-anchor="middle" fill="#ffffff" font-size="13">شريط المهام</text>
+<rect x="470" y="141" width="46" height="21" fill="#fde68a" stroke="#a16207"/><text x="493" y="156" text-anchor="middle" font-size="12">ابدأ</text>
+</svg><figcaption>الشكل 1: سطح المكتب يضم الأيقونات والنوافذ وشريط المهام.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">سطح المكتب</span> هو الشاشة الرئيسية التي تضم الأيقونات والخلفية وشريط المهام.</li>
+<li><span class="k">الأيقونة</span> رمز صغير يمثّل برنامجاً أو ملفاً أو مجلداً، ويُفتح بالنقر المزدوج.</li>
+<li><span class="k">النافذة</span> إطار مستطيل يعرض محتوى برنامج، ولها شريط عنوان وأزرار تصغير وتكبير وإغلاق.</li>
+<li>يمكن <span class="k">تحريك</span> النافذة بسحب شريط العنوان و<span class="k">تغيير حجمها</span> بسحب حوافها.</li>
+<li><span class="k">القائمة</span> لائحة أوامر: قائمة ابدأ، قوائم الشريط، والقائمة السياقية التي تظهر بالنقر الأيمن.</li>
+<li><span class="k">شريط المهام</span> يعرض البرامج المفتوحة ويسمح بالتنقل بينها.</li>
+<li>أنماط النقر: نقر واحد للتحديد، نقر مزدوج للفتح، نقر أيمن للقائمة السياقية.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>تريد معرفة خصائص ملف على المكتب. <span class="k">الحل:</span> نقر أيمن على أيقونته ثم اختيار «خصائص» من القائمة السياقية.</li>
+<li>نافذتان مفتوحتان وتريد الانتقال إلى الأخرى. <span class="k">الحل:</span> النقر على زرها في شريط المهام.</li>
+<li>تريد إخفاء نافذة دون إغلاق برنامجها. <span class="k">التفسير:</span> زر التصغير يخفيها إلى شريط المهام وتبقى قيد التشغيل.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>الخلط بين تصغير النافذة وإغلاقها؛ الإغلاق ينهي البرنامج.</li>
+<li>القول إن حذف الأيقونة من المكتب يحذف البرنامج، وقد يكون مجرد اختصار.</li>
+<li>الخلط بين النقر الأيمن (قائمة سياقية) والنقر المزدوج (فتح).</li>
+<li>نسيان أن لكل نافذة شريط عنوان وأزرار تحكم.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>المكتب = أيقونات + خلفية + شريط مهام.</li>
+<li>النافذة: تحريك، تغيير الحجم، تصغير، تكبير، إغلاق.</li>
+<li>نقر مزدوج = فتح، نقر أيمن = قائمة سياقية.</li>
+<li>شريط المهام للتنقل بين البرامج.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/INFO">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=INFO">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>التحولات البطيئة والعوامل الحركية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">3 ثانوي · العلوم الفيزيائية · علوم تجريبية / رياضيات / تقني رياضي · الوحدة 1: المتابعة الزمنية لتحول كيميائي في وسط مائي · الدرس 1</div>
+<h1>التحولات البطيئة والعوامل الحركية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تميّز بين التحول السريع والتحول البطيء، وأن تفسّر تأثير العوامل الحركية (درجة الحرارة، التراكيز الابتدائية، الوسيط) على مدة التحول.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> بعض التحولات الكيميائية تنتهي لحظياً وبعضها يستغرق دقائق أو ساعات. المدة لا تتعلق فقط بطبيعة المتفاعلات، بل نستطيع التحكم فيها بتغيير العوامل الحركية.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15" direction="ltr">
+<line x1="60" y1="145" x2="510" y2="145" stroke="#1f2937" stroke-width="1.5"/><line x1="60" y1="145" x2="60" y2="15" stroke="#1f2937" stroke-width="1.5"/>
+<text x="500" y="165" text-anchor="end">t</text><text x="40" y="25" text-anchor="middle">x</text>
+<line x1="60" y1="40" x2="510" y2="40" stroke="#a16207" stroke-dasharray="5 4"/><text x="40" y="45" text-anchor="middle" fill="#a16207">x<tspan font-size="11" dy="3">max</tspan></text>
+<path d="M60 145 C 90 60, 130 45, 250 41 L 505 40" fill="none" stroke="#c2410c" stroke-width="2.5"/>
+<path d="M60 145 C 150 90, 280 55, 505 45" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>
+<text x="300" y="30" fill="#c2410c" direction="rtl" text-anchor="end">درجة حرارة مرتفعة</text>
+<text x="330" y="80" fill="#1d4ed8" direction="rtl" text-anchor="end">درجة حرارة منخفضة</text>
+</svg><figcaption>الشكل 1: تطور التقدم x بدلالة الزمن لنفس المزيج عند درجتي حرارة؛ نفس التقدم الأعظمي لكن بمدة أقصر عند الحرارة المرتفعة.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">التحول السريع</span> ينتهي في مدة لا تتابعها العين أو أجهزة القياس العادية (مثل تفاعل حمض مع أساس).</li>
+<li><span class="k">التحول البطيء</span> يستغرق من بضع ثوانٍ إلى ساعات، فيمكن متابعته زمنياً بالقياس (الناقلية، الضغط، المعايرة، الامتصاص).</li>
+<li><span class="k">جدول التقدم</span> يربط كميات المادة بالتقدم x، و<span class="k">المتفاعل المحِد</span> هو الذي يعطي أصغر قيمة لـ <bdi dir="ltr">x<sub>max</sub></bdi>.</li>
+<li><span class="k">درجة الحرارة:</span> كلما ارتفعت زادت التصادمات الفعالة بين الأفراد الكيميائية فتقصر مدة التحول.</li>
+<li><span class="k">التراكيز الابتدائية:</span> كلما زاد تركيز المتفاعلات زاد عدد التصادمات في وحدة الحجم فيصبح التحول أسرع.</li>
+<li><span class="k">الوسيط:</span> نوع كيميائي يسرّع التحول دون أن يظهر في المعادلة الإجمالية ودون أن يغيّر الحالة النهائية.</li>
+<li><span class="k">التوقيف (السقي):</span> نوقف التفاعل في عينة بالتبريد المفاجئ بالماء البارد والجليد قبل معايرتها.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>نمزج <bdi dir="ltr">2 mmol</bdi> من شوارد <bdi dir="ltr">S<sub>2</sub>O<sub>8</sub><sup>2−</sup></bdi> مع <bdi dir="ltr">10 mmol</bdi> من شوارد <bdi dir="ltr">I<sup>−</sup></bdi> وفق: <bdi dir="ltr">S<sub>2</sub>O<sub>8</sub><sup>2−</sup> + 2I<sup>−</sup> → 2SO<sub>4</sub><sup>2−</sup> + I<sub>2</sub></bdi>. <span class="k">الحل:</span> <bdi dir="ltr">2 − x = 0 ⇒ x = 2 mmol</bdi> و<bdi dir="ltr">10 − 2x = 0 ⇒ x = 5 mmol</bdi>، إذن المحِد هو <bdi dir="ltr">S<sub>2</sub>O<sub>8</sub><sup>2−</sup></bdi> و<bdi dir="ltr">x<sub>max</sub> = 2 mmol</bdi>.</li>
+<li>نُجري التجربة نفسها في حمام مائي عند <bdi dir="ltr">40°C</bdi> بدل <bdi dir="ltr">20°C</bdi>. <span class="k">التفسير:</span> يظهر لون ثنائي اليود أسرع، لكن <bdi dir="ltr">x<sub>max</sub></bdi> يبقى <bdi dir="ltr">2 mmol</bdi> لأن العامل الحركي لا يغيّر الحالة النهائية.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>الاعتقاد أن رفع درجة الحرارة أو إضافة وسيط يزيد كمية الناتج النهائية: هو يغيّر المدة فقط.</li>
+<li>نسيان المعامل الستوكيومتري عند حساب <bdi dir="ltr">x<sub>max</sub></bdi> (مثلاً <bdi dir="ltr">10 − 2x</bdi> لا <bdi dir="ltr">10 − x</bdi>).</li>
+<li>تفسير تأثير الحرارة بعبارة عامة بدل ذكر <span class="k">التصادمات الفعالة</span>.</li>
+<li>نسيان سبب السقي: توقيف التفاعل لكي تعبّر المعايرة عن لحظة أخذ العينة.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>تحول بطيء ⇐ يمكن متابعته زمنياً.</li>
+<li>العوامل الحركية: الحرارة، التراكيز، الوسيط.</li>
+<li>العامل الحركي يغيّر المدة لا الحالة النهائية.</li>
+<li>المتفاعل المحِد يعطي أصغر <bdi dir="ltr">x<sub>max</sub></bdi>.</li>
+<li>السقي = تبريد مفاجئ لتوقيف التفاعل قبل المعايرة.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/PHYS">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=PHYS">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

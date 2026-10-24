@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الإحصاء: المتوسط والوسيط والمدى</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">4 متوسط · الرياضيات · كل الشعب · الوحدة 3: تنظيم معطيات ودوال · الدرس 5</div>
+<h1>الإحصاء: المتوسط والوسيط والمدى</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تنظّم سلسلة إحصائية وتحسب مؤشرَي الموقع (المتوسط والوسيط) ومؤشر التشتت (المدى)، وأن تفسّر دلالة كل منها وتقارن بينها.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المتوسط يلخّص السلسلة بعدد واحد «يوزّع» المجموع بالتساوي على كل الأفراد، والوسيط هو القيمة التي تقسم السلسلة المرتّبة إلى نصفين متساويي العدد، والمدى يقيس اتساع القيم. المتوسط حسّاس للقيم المتطرفة، أما الوسيط فأقل تأثرًا بها بكثير.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<line x1="50" y1="140" x2="300" y2="140" stroke="#1f2937" stroke-width="1.5"/>
+<line x1="50" y1="140" x2="50" y2="20" stroke="#1f2937" stroke-width="1.5"/>
+<text x="40" y="16" font-size="13" direction="rtl" text-anchor="end">التكرار</text><text x="306" y="145" font-size="13" direction="rtl" text-anchor="end">القيم</text>
+<rect x="80" y="80" width="40" height="60" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<rect x="150" y="40" width="40" height="100" fill="#fde68a" stroke="#a16207" stroke-width="1.5"/>
+<rect x="220" y="100" width="40" height="40" fill="#86efac" stroke="#15803d" stroke-width="1.5"/>
+<text x="100" y="158" text-anchor="middle" font-weight="700">10</text><text x="170" y="158" text-anchor="middle" font-weight="700">12</text><text x="240" y="158" text-anchor="middle" font-weight="700">14</text>
+<text x="100" y="74" text-anchor="middle">3</text><text x="170" y="34" text-anchor="middle">5</text><text x="240" y="94" text-anchor="middle">2</text>
+<text x="420" y="40" text-anchor="middle">N = 3 + 5 + 2 = 10</text>
+<text x="505" y="75" fill="#1d4ed8" font-weight="700" direction="rtl" text-anchor="start">المتوسط =</text><text x="439" y="75" fill="#1d4ed8" font-weight="700" text-anchor="end">118 ÷ 10 = 11,8</text>
+<text x="420" y="110" text-anchor="middle" fill="#15803d" font-weight="700" direction="rtl">الوسيط = 12</text>
+<text x="484" y="145" fill="#c2410c" font-weight="700" direction="rtl" text-anchor="start">المدى =</text><text x="432" y="145" fill="#c2410c" font-weight="700" text-anchor="end">14 − 10 = 4</text>
+</svg><figcaption>الشكل 1: مخطط بالأعمدة لسلسلة القيم 10؛ 12؛ 14 بتكرارات 3؛ 5؛ 2، مع مؤشراتها الثلاثة.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">مفردات:</span> السلسلة الإحصائية تتكوّن من <span class="k">قيم</span> ميزة مدروسة (علامات، أطوال...)، ولكل قيمة <span class="k">تكرار</span> (عدد مرات ظهورها)، ومجموع التكرارات هو <span class="k">التكرار الكلي</span> N.</li>
+<li><span class="k">المتوسط</span> m: مجموع كل القيم مقسومًا على N. إذا أُعطيت السلسلة بجدول تكرارات: m = (مجموع القيمة × تكرارها) ÷ N، ويُسمّى <span class="k">المتوسط المثقّل</span>.</li>
+<li><span class="k">الوسيط</span> Me: بعد ترتيب القيم تصاعديًا، هو القيمة التي يسبقها نصف القيم على الأكثر ويليها نصف القيم على الأكثر. إذا كان N فرديًا فهو القيمة ذات الرتبة <bdi dir="ltr">(N + 1)/2</bdi>، وإذا كان N زوجيًا فهو نصف مجموع القيمتين الوسطيتين.</li>
+<li><span class="k">المدى:</span> الفرق بين أكبر قيمة وأصغر قيمة؛ يقيس مدى تشتت السلسلة.</li>
+<li><span class="k">التكرارات المجمّعة المتزايدة</span> تساعد على إيجاد رتبة الوسيط في جدول كبير.</li>
+<li><span class="k">المقارنة:</span> قيمة متطرفة واحدة تغيّر المتوسط كثيرًا ولا تغيّر الوسيط إلا قليلًا.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>علامات تلميذ: 8؛ 12؛ 10؛ 15؛ 10. <span class="k">الحل:</span> السلسلة المرتّبة: 8؛ 10؛ 10؛ 12؛ 15. المتوسط = <bdi dir="ltr">(8 + 10 + 10 + 12 + 15) ÷ 5 = 55 ÷ 5 = 11</bdi>. <bdi dir="ltr">N = 5</bdi> فردي فالوسيط هو القيمة الثالثة: 10. المدى = <bdi dir="ltr">15 − 8 = 7</bdi>.</li>
+<li>السلسلة 6؛ 8؛ 11؛ 13. <span class="k">الحل:</span> <bdi dir="ltr">N = 4</bdi> زوجي، الوسيط = <bdi dir="ltr">(8 + 11) ÷ 2 = 9,5</bdi>. المتوسط = <bdi dir="ltr">38 ÷ 4 = 9,5</bdi> أيضًا، والمدى = <bdi dir="ltr">13 − 6 = 7</bdi>.</li>
+<li>جدول: القيم 10؛ 12؛ 14 بتكرارات 3؛ 5؛ 2 <bdi dir="ltr">(N = 10)</bdi>. <span class="k">الحل:</span> المتوسط = <bdi dir="ltr">(10 × 3 + 12 × 5 + 14 × 2) ÷ 10 = (30 + 60 + 28) ÷ 10 = 11,8</bdi>. التكرارات المجمّعة: 3؛ 8؛ 10، فالقيمتان الخامسة والسادسة كلتاهما 12، إذن الوسيط = 12. المدى = <bdi dir="ltr">14 − 10 = 4</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>أخذ القيمة الوسطى دون ترتيب السلسلة تصاعديًا أولًا.</li>
+<li>حساب متوسط القيم <bdi dir="ltr">(10 + 12 + 14) ÷ 3</bdi> متجاهلًا التكرارات.</li>
+<li>الخلط بين الوسيط والمتوسط، أو بين المدى وأكبر قيمة.</li>
+<li>قسمة مجموع «قيمة × تكرار» على عدد القيم المختلفة بدل التكرار الكلي N.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>المتوسط = مجموع (قيمة × تكرار) ÷ N.</li>
+<li>الوسيط: رتّب أولًا، ثم خذ الوسط (أو نصف مجموع الوسطيتين إذا كان N زوجيًا).</li>
+<li>المدى = أكبر قيمة − أصغر قيمة.</li>
+<li>القيمة المتطرفة تؤثر كثيرًا في المتوسط وقليلًا (أو لا تؤثر) في الوسيط.</li>
+<li>تحقّق: المتوسط والوسيط يقعان دائمًا بين أصغر قيمة وأكبرها.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

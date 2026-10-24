@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>المتتاليات الحسابية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">2 ثانوي · الرياضيات · آداب وفلسفة / لغات أجنبية · الوحدة 3: المتتاليات العددية · الدرس 1</div>
+<h1>المتتاليات الحسابية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تتعرف على متتالية حسابية وتعيّن أساسها وحدّها العام، وأن تحسب مجموع حدود متتابعة منها.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> في المتتالية الحسابية ننتقل من حد إلى الحد الموالي بإضافة العدد نفسه r دائماً. لذلك تكون الحدود متباعدة بمسافات متساوية كدرجات سلّم.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<line x1="20" y1="120" x2="525" y2="120" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar)"/>
+<circle cx="60" cy="120" r="7" fill="#1d4ed8"/><circle cx="160" cy="120" r="7" fill="#1d4ed8"/><circle cx="260" cy="120" r="7" fill="#1d4ed8"/><circle cx="360" cy="120" r="7" fill="#1d4ed8"/><circle cx="460" cy="120" r="7" fill="#1d4ed8"/>
+<text x="60" y="150" text-anchor="middle">u₀ = 3</text><text x="160" y="150" text-anchor="middle">u₁ = 7</text><text x="260" y="150" text-anchor="middle">u₂ = 11</text><text x="360" y="150" text-anchor="middle">u₃ = 15</text><text x="460" y="150" text-anchor="middle">u₄ = 19</text>
+<path d="M65 108 Q110 60 155 108" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#ar)"/><path d="M165 108 Q210 60 255 108" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#ar)"/><path d="M265 108 Q310 60 355 108" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#ar)"/><path d="M365 108 Q410 60 455 108" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#ar)"/>
+<text x="110" y="70" text-anchor="middle" fill="#15803d">+4</text><text x="210" y="70" text-anchor="middle" fill="#15803d">+4</text><text x="310" y="70" text-anchor="middle" fill="#15803d">+4</text><text x="410" y="70" text-anchor="middle" fill="#15803d">+4</text>
+<text x="270" y="30" text-anchor="middle" font-weight="700">u<tspan font-size="11" baseline-shift="sub">n+1</tspan> = u<tspan font-size="11" baseline-shift="sub">n</tspan> + r  (r = 4)</text>
+</svg><figcaption>الشكل 1: متتالية حسابية حدها الأول 3 وأساسها 4: قفزات متساوية.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">التعريف:</span> (u<sub>n</sub>) حسابية إذا وُجد عدد ثابت r (<span class="k">الأساس</span>) بحيث <bdi dir="ltr">u<sub>n+1</sub> = u<sub>n</sub> + r</bdi> لكل n.</li>
+<li><span class="k">إثبات أنها حسابية:</span> نحسب <bdi dir="ltr">u<sub>n+1</sub> − u<sub>n</sub></bdi> ونبيّن أنه ثابت لا يتعلق بـ n.</li>
+<li><span class="k">الحد العام:</span> <bdi dir="ltr">u<sub>n</sub> = u<sub>0</sub> + n×r</bdi>، وبصفة عامة <bdi dir="ltr">u<sub>n</sub> = u<sub>p</sub> + (n − p)×r</bdi>.</li>
+<li><span class="k">اتجاه التغير:</span> إذا كان <bdi dir="ltr">r &gt; 0</bdi> فهي متزايدة، وإذا كان <bdi dir="ltr">r &lt; 0</bdi> فهي متناقصة، وإذا كان <bdi dir="ltr">r = 0</bdi> فهي ثابتة.</li>
+<li><span class="k">المجموع:</span> S = (عدد الحدود) × (الحد الأول + الحد الأخير) / 2.</li>
+<li><span class="k">الوسط الحسابي:</span> ثلاثة أعداد a و b و c حدود متتابعة لمتتالية حسابية إذا كان <bdi dir="ltr">a + c = 2b</bdi>.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li><bdi dir="ltr">u<sub>0</sub> = 3</bdi> و <bdi dir="ltr">r = 4</bdi>. احسب u<sub>10</sub>. <span class="k">الحل:</span> <bdi dir="ltr">u<sub>10</sub> = 3 + 10×4 = 43</bdi>.</li>
+<li>احسب <bdi dir="ltr">S = u<sub>0</sub> + u<sub>1</sub> + … + u<sub>10</sub></bdi>. <span class="k">الحل:</span> عدد الحدود 11، إذن <bdi dir="ltr">S = 11×(3 + 43)/2 = 11×23 = 253</bdi>.</li>
+<li>متتالية حسابية فيها <bdi dir="ltr">u<sub>2</sub> = 7</bdi> و <bdi dir="ltr">u<sub>5</sub> = 16</bdi>. عيّن r و u<sub>0</sub>. <span class="k">الحل:</span> <bdi dir="ltr">u<sub>5</sub> = u<sub>2</sub> + 3r</bdi> ⇐ <bdi dir="ltr">16 = 7 + 3r</bdi> ⇐ <bdi dir="ltr">r = 3</bdi>، و <bdi dir="ltr">u<sub>0</sub> = u<sub>2</sub> − 2r = 7 − 6 = 1</bdi>.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>الخطأ في عدد الحدود: من u<sub>0</sub> إلى u<sub>10</sub> هناك 11 حداً لا 10.</li>
+<li>استعمال <bdi dir="ltr">u<sub>n</sub> = u<sub>0</sub> + n×r</bdi> والحد الأول هو u<sub>1</sub>؛ الصحيح <bdi dir="ltr">u<sub>n</sub> = u<sub>1</sub> + (n − 1)×r</bdi>.</li>
+<li>الاكتفاء بحساب فرقين أو ثلاثة لإثبات أن المتتالية حسابية.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>حسابية ⇐ <bdi dir="ltr">u<sub>n+1</sub> − u<sub>n</sub> = r</bdi> ثابت.</li>
+<li><bdi dir="ltr">u<sub>n</sub> = u<sub>p</sub> + (n − p)r</bdi>.</li>
+<li>إشارة r تحدد اتجاه التغير.</li>
+<li>S = عدد الحدود × (الأول + الأخير)/2.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

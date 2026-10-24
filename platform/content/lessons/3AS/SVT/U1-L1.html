@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تركيب البروتين: الاستنساخ والترجمة</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">3 ثانوي · علوم الطبيعة والحياة · علوم تجريبية / رياضيات · الوحدة 1: التخصص الوظيفي للبروتينات · الدرس 1</div>
+<h1>تركيب البروتين: الاستنساخ والترجمة</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تشرح كيف تُترجم المعلومة الوراثية المحمولة على <bdi dir="ltr">ADN</bdi> إلى بروتين، عبر مرحلتي الاستنساخ في النواة والترجمة في الهيولى.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> المورثة تُنسخ أولاً إلى جزيء وسيط هو <bdi dir="ltr">ARNm</bdi> الذي يغادر النواة، ثم تقرأ الريبوزومات رامزاته ثلاثية النيكليوتيدات لتربط الأحماض الأمينية بالترتيب الصحيح فتتشكل السلسلة الببتيدية.</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15" direction="ltr">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<rect x="5" y="10" width="250" height="155" rx="14" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
+<text x="130" y="32" text-anchor="middle" font-weight="700" fill="#1d4ed8" direction="rtl">النواة: الاستنساخ</text>
+<rect x="30" y="55" width="200" height="22" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="165" y="71" text-anchor="middle">ADN</text><text x="110" y="71" text-anchor="middle" direction="rtl">(المورثة)</text>
+<line x1="130" y1="80" x2="130" y2="108" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<text x="212" y="98" text-anchor="middle" font-size="12">ARN</text><text x="172" y="98" text-anchor="middle" font-size="12" direction="rtl">بوليميراز</text>
+<rect x="50" y="112" width="160" height="22" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="130" y="128" text-anchor="middle">ARNm</text>
+<line x1="258" y1="123" x2="300" y2="123" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<text x="278" y="112" text-anchor="middle" font-size="11" direction="rtl">ثقب نووي</text>
+<rect x="305" y="10" width="230" height="155" rx="14" fill="#ffffff" stroke="#15803d" stroke-width="2"/>
+<text x="420" y="32" text-anchor="middle" font-weight="700" fill="#15803d" direction="rtl">الهيولى: الترجمة</text>
+<ellipse cx="420" cy="75" rx="60" ry="22" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="420" y="80" text-anchor="middle" direction="rtl">ريبوزوم</text>
+<line x1="330" y1="105" x2="510" y2="105" stroke="#15803d" stroke-width="3"/><text x="420" y="122" text-anchor="middle" font-size="12">ARNm: AUG … UAA</text>
+<line x1="420" y1="130" x2="420" y2="148" stroke="#1f2937" stroke-width="2" marker-end="url(#ar)"/>
+<text x="420" y="162" text-anchor="middle" fill="#c2410c" direction="rtl">سلسلة ببتيدية</text>
+</svg><figcaption>الشكل 1: الاستنساخ في النواة ينتج ARNm، والترجمة على الريبوزوم في الهيولى تنتج السلسلة الببتيدية.</figcaption></figure>
+
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">المورثة</span> قطعة من <bdi dir="ltr">ADN</bdi> تحدد بتتابع نيكليوتيداتها تتابع الأحماض الأمينية في بروتين معيّن.</li>
+<li><span class="k">الاستنساخ</span> يحدث في النواة: يفتح إنزيم <bdi dir="ltr">ARN</bdi> بوليميراز جزءاً من <bdi dir="ltr">ADN</bdi> ويركّب <bdi dir="ltr">ARNm</bdi> مكمّلاً لـ<span class="k">السلسلة الناسخة</span> (U مكان T).</li>
+<li><span class="k">الرامزة</span> ثلاث نيكليوتيدات متتالية على <bdi dir="ltr">ARNm</bdi> تقابل حمضاً أمينياً واحداً؛ <span class="k">الشفرة الوراثية</span> عالمية ومتكررة (عدة رامزات للحمض نفسه).</li>
+<li><span class="k">الترجمة</span> تحدث في الهيولى على الريبوزومات وتمر بثلاث مراحل: <span class="k">البداية</span> عند <bdi dir="ltr">AUG</bdi>، و<span class="k">الاستطالة</span>، و<span class="k">النهاية</span> عند رامزة توقف <bdi dir="ltr">(UAA, UAG, UGA)</bdi>.</li>
+<li><span class="k"><bdi dir="ltr">ARNt</bdi></span> ينقل الحمض الأميني ويحمل <span class="k">رامزة مضادة</span> تكمّل الرامزة على <bdi dir="ltr">ARNm</bdi>.</li>
+<li>تتشكل <span class="k">الرابطة الببتيدية</span> بين حمضين أمينيين متجاورين داخل الريبوزوم، وتتطلب الترجمة طاقة <bdi dir="ltr">ATP</bdi>.</li>
+<li><span class="k">متعدد الريبوزومات</span>: عدة ريبوزومات تترجم نفس <bdi dir="ltr">ARNm</bdi> في آن واحد فتنتج نسخاً كثيرة من البروتين بسرعة.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>السلسلة الناسخة: <bdi dir="ltr">TAC GGA TTT ATC</bdi>. أوجد <bdi dir="ltr">ARNm</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">AUG CCU AAA UAG</bdi>، أي ثلاث رامزات معنوية ثم رامزة توقف، فالببتيد يحوي 3 أحماض أمينية.</li>
+<li>عُوملت خلايا بمادة توقف عمل <bdi dir="ltr">ARN</bdi> بوليميراز فتوقف تركيب البروتين. <span class="k">التفسير:</span> غياب الاستنساخ يعني غياب <bdi dir="ltr">ARNm</bdi>، فلا توجد رسالة تُترجم.</li>
+<li>تحوّلت رامزة <bdi dir="ltr">UGG</bdi> إلى <bdi dir="ltr">UGA</bdi> بطفرة. <span class="k">التفسير:</span> ظهرت رامزة توقف مبكرة فينتج بروتين قصير غير وظيفي غالباً.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
+<li>كتابة T في <bdi dir="ltr">ARNm</bdi>؛ الصحيح أن اليوراسيل U يعوّض التيمين.</li>
+<li>نسخ <bdi dir="ltr">ARNm</bdi> انطلاقاً من السلسلة غير الناسخة دون استعمال التكامل الصحيح.</li>
+<li>اعتبار رامزة التوقف مقابلة لحمض أميني؛ هي لا تقابل أي حمض أميني.</li>
+<li>الخلط بين مكان الاستنساخ (النواة) ومكان الترجمة (الهيولى).</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li><bdi dir="ltr">ADN</bdi> ← <bdi dir="ltr">ARNm</bdi> ← بروتين.</li>
+<li>الاستنساخ: نواة، <bdi dir="ltr">ARN</bdi> بوليميراز، تكامل مع السلسلة الناسخة.</li>
+<li>الترجمة: ريبوزوم + <bdi dir="ltr">ARNt</bdi>، بداية بـ<bdi dir="ltr">AUG</bdi> ونهاية برامزة توقف.</li>
+<li>رامزة = 3 نيكليوتيدات = حمض أميني واحد.</li>
+<li>الطفرة تغيّر الرامزة فقد تغيّر البروتين.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/SVT">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=SVT">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

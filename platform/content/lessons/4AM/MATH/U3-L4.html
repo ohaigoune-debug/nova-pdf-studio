@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>التمثيل البياني للدالة الخطية والتآلفية</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">4 متوسط · الرياضيات · كل الشعب · الوحدة 3: تنظيم معطيات ودوال · الدرس 4</div>
+<h1>التمثيل البياني للدالة الخطية والتآلفية</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تمثّل بيانيًا دالة خطية أو تآلفية في معلم، وأن تقرأ من التمثيل البياني صورة أو سابقة أو المعاملين a و b، وأن تتحقّق من انتماء نقطة إلى مستقيم.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> التمثيل البياني للدالة الخطية <bdi dir="ltr">x ↦ ax</bdi> مستقيم يمر بمبدأ المعلم، والتمثيل البياني للدالة التآلفية <bdi dir="ltr">x ↦ ax + b</bdi> مستقيم يقطع محور التراتيب في النقطة <bdi dir="ltr">(0; b)</bdi>. في الحالتين يصف a ميل المستقيم: كلما زادت x بـ 1 تغيّر y بمقدار a.</div>
+
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<defs><marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
+<line x1="150" y1="95" x2="424" y2="95" stroke="#1f2937" stroke-width="1.5" marker-end="url(#arg)"/>
+<line x1="270" y1="172" x2="270" y2="12" stroke="#1f2937" stroke-width="1.5" marker-end="url(#arg)"/>
+<g stroke="#1f2937" stroke-width="1"><line x1="162" y1="92" x2="162" y2="98"/><line x1="180" y1="92" x2="180" y2="98"/><line x1="198" y1="92" x2="198" y2="98"/><line x1="216" y1="92" x2="216" y2="98"/><line x1="234" y1="92" x2="234" y2="98"/><line x1="252" y1="92" x2="252" y2="98"/><line x1="288" y1="92" x2="288" y2="98"/><line x1="306" y1="92" x2="306" y2="98"/><line x1="324" y1="92" x2="324" y2="98"/><line x1="342" y1="92" x2="342" y2="98"/><line x1="360" y1="92" x2="360" y2="98"/><line x1="378" y1="92" x2="378" y2="98"/><line x1="396" y1="92" x2="396" y2="98"/><line x1="267" y1="23" x2="273" y2="23"/><line x1="267" y1="41" x2="273" y2="41"/><line x1="267" y1="59" x2="273" y2="59"/><line x1="267" y1="77" x2="273" y2="77"/><line x1="267" y1="113" x2="273" y2="113"/><line x1="267" y1="131" x2="273" y2="131"/><line x1="267" y1="149" x2="273" y2="149"/><line x1="267" y1="167" x2="273" y2="167"/></g>
+<text x="258" y="108" font-size="13">O</text><text x="288" y="109" font-size="12" text-anchor="middle">1</text><text x="276" y="80" font-size="12">1</text>
+<text x="424" y="112">x</text><text x="277" y="20">y</text>
+<line x1="198" y1="23" x2="342" y2="167" stroke="#1d4ed8" stroke-width="2.5"/>
+<line x1="243" y1="167" x2="315" y2="23" stroke="#15803d" stroke-width="2.5"/>
+<circle cx="270" cy="113" r="3.5" fill="#15803d"/><circle cx="306" cy="41" r="3.5" fill="#15803d"/><circle cx="306" cy="131" r="3.5" fill="#1d4ed8"/>
+<text x="190" y="45" text-anchor="end" fill="#1d4ed8" font-weight="700">f(x) = −x</text>
+<text x="322" y="32" fill="#15803d" font-weight="700">g(x) = 2x − 1</text>
+<text x="260" y="128" text-anchor="end" fill="#15803d" font-size="13">b = −1</text>
+<text x="312" y="48" fill="#15803d" font-size="13">(2; 3)</text>
+<text x="312" y="144" fill="#1d4ed8" font-size="13">(2; −2)</text>
+<text x="139" y="80" fill="#15803d" text-anchor="end">a &gt; 0</text><text x="106" y="80" fill="#15803d" direction="rtl" text-anchor="start">: مستقيم صاعد</text>
+<text x="139" y="110" fill="#1d4ed8" text-anchor="end">a &lt; 0</text><text x="106" y="110" fill="#1d4ed8" direction="rtl" text-anchor="start">: مستقيم نازل</text>
+<text x="85" y="140" text-anchor="middle" fill="#a16207" direction="rtl">b: نقطة قطع محور y</text>
+</svg><figcaption>الشكل 1: المستقيم الأزرق يمثّل الدالة الخطية <bdi dir="ltr">f(x) = −x</bdi> ويمر بالمبدأ؛ المستقيم الأخضر يمثّل <bdi dir="ltr">g(x) = 2x − 1</bdi> ويقطع محور التراتيب في <bdi dir="ltr">−1</bdi>.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">الدالة الخطية <bdi dir="ltr">f(x) = ax</bdi>:</span> تمثيلها البياني مستقيم يمر بالمبدأ O. نقطة واحدة أخرى تكفي لرسمه، مثل النقطة <bdi dir="ltr">(1; a)</bdi>.</li>
+<li><span class="k">الدالة التآلفية <bdi dir="ltr">f(x) = ax + b</bdi>:</span> تمثيلها البياني مستقيم يمر بالنقطة <bdi dir="ltr">(0; b)</bdi>، ولرسمه نحسب صورتي عددين مختلفين ونصل النقطتين.</li>
+<li><span class="k">معامل التوجيه a:</span> عند الانتقال من نقطة إلى أخرى على المستقيم، a = (فرق التراتيب) ÷ (فرق الفواصل). إذا كان <bdi dir="ltr">a &gt; 0</bdi> يصعد المستقيم، وإذا كان <bdi dir="ltr">a &lt; 0</bdi> ينزل، وإذا كان <bdi dir="ltr">a = 0</bdi> يكون أفقيًا.</li>
+<li><span class="k">الترتيب عند المبدأ b:</span> يُقرأ مباشرة عند تقاطع المستقيم مع محور التراتيب.</li>
+<li><span class="k">انتماء نقطة:</span> النقطة <bdi dir="ltr">M(x; y)</bdi> تنتمي إلى التمثيل البياني لـ f إذا وفقط إذا كان <bdi dir="ltr">y = f(x)</bdi>.</li>
+<li><span class="k">القراءة البيانية:</span> لإيجاد صورة x ننتقل عموديًا من x على المحور الأفقي إلى المستقيم ثم نقرأ الترتيب؛ ولإيجاد سابقة y نعكس الطريق.</li>
+<li><span class="k">مستقيمان متوازيان</span> ⇔ لهما نفس معامل التوجيه a.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>مثّل <bdi dir="ltr">f(x) = −x</bdi>. <span class="k">الحل:</span> مستقيم يمر بالمبدأ <bdi dir="ltr">O(0; 0)</bdi> وبالنقطة <bdi dir="ltr">(2; −2)</bdi>؛ معامله سالب فهو نازل.</li>
+<li>مثّل <bdi dir="ltr">g(x) = 2x − 1</bdi>. <span class="k">الحل:</span> <bdi dir="ltr">g(0) = −1</bdi> و <bdi dir="ltr">g(2) = 3</bdi>، فنصل النقطتين <bdi dir="ltr">(0; −1)</bdi> و <bdi dir="ltr">(2; 3)</bdi>. هل تنتمي <bdi dir="ltr">P(3; 4)</bdi> إلى هذا المستقيم؟ <bdi dir="ltr">g(3) = 5 ≠ 4</bdi>، إذن لا.</li>
+<li>مستقيم يمر بالنقطتين <bdi dir="ltr">(0; 3)</bdi> و <bdi dir="ltr">(2; 7)</bdi> يمثّل دالة تآلفية h. <span class="k">الحل:</span> <bdi dir="ltr">b = 3</bdi> (الترتيب عند المبدأ)، و <bdi dir="ltr">a = (7 − 3) ÷ (2 − 0) = 2</bdi>، إذن <bdi dir="ltr">h(x) = 2x + 3</bdi>. تحقّق: <bdi dir="ltr">h(2) = 7</bdi> صحيح.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>رسم تمثيل دالة تآلفية مارًّا بالمبدأ ظنًّا أن كل المستقيمات تمر بـ O.</li>
+<li>قراءة b عند تقاطع المستقيم مع محور الفواصل بدل محور التراتيب.</li>
+<li>حساب a بفرق الفواصل على فرق التراتيب (مقلوبًا).</li>
+<li>عدم كتابة اسم المحورين والوحدة، أو رسم قطعة قصيرة بدل مستقيم يمتد.</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>خطية ⇐ مستقيم يمر بـ O؛ تآلفية ⇐ مستقيم يقطع محور التراتيب في <bdi dir="ltr">(0; b)</bdi>.</li>
+<li>a = فرق التراتيب ÷ فرق الفواصل؛ <bdi dir="ltr">a &gt; 0</bdi> صاعد، <bdi dir="ltr">a &lt; 0</bdi> نازل.</li>
+<li>نقطتان تكفيان للرسم، والثالثة للتحقق.</li>
+<li><bdi dir="ltr">M(x; y)</bdi> على المستقيم ⇔ <bdi dir="ltr">y = ax + b</bdi>.</li>
+<li>نفس a ⇔ مستقيمان متوازيان.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/MATH">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=MATH">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>

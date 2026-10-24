@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تحليل الضوء الأبيض بالموشور</title>
+
+<style>
+@font-face{font-family:Amiri;font-weight:400;src:url('../../fonts/Amiri-Regular.woff2')}
+@font-face{font-family:Amiri;font-weight:700;src:url('../../fonts/Amiri-Bold.woff2')}
+@font-face{font-family:Hacen;src:url('../../fonts/HacenNewspaper.ttf')}
+</style><style>
+:root{--bg:#faf8f3;--ink:#1f2937;--muted:#6b7280;--card:#fff;--line:#e7e2d6;
+--rule:#1d4ed8;--rule-bg:#eef3ff;--ex:#15803d;--ex-bg:#ecfdf3;--warn:#c2410c;--warn-bg:#fff4ec;--gold:#a16207;--gold-bg:#fdf6e3}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111317;--ink:#e5e7eb;--muted:#9ca3af;--card:#181b21;--line:#2a2f3a;
+--rule-bg:#172038;--ex-bg:#102418;--warn-bg:#2a1a10;--gold-bg:#2a2210;--rule:#93b4ff;--ex:#6ee7a0;--warn:#fdba74;--gold:#fcd34d}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Amiri,serif;font-size:20px;line-height:1.7}
+h1,h2{font-family:Hacen,Amiri,serif}.crumb,.legend,.cta a{font-family:Amiri,serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+.crumb{color:var(--muted);font-size:.85rem}
+h1{font-size:1.6rem;margin:.2rem 0 .3rem}
+.goal{color:var(--muted);margin-bottom:1.2rem}
+.lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:14px}
+.block{border-radius:14px;padding:14px 18px;margin:12px 0;border-right:6px solid}
+.block h2{font-size:1.05rem;margin:0 0 .5rem;display:flex;gap:.5rem;align-items:center}
+.rule{background:var(--rule-bg);border-color:var(--rule)}.rule h2{color:var(--rule)}
+.ex{background:var(--ex-bg);border-color:var(--ex)}.ex h2{color:var(--ex)}
+.warn{background:var(--warn-bg);border-color:var(--warn)}.warn h2{color:var(--warn)}
+.gold{background:var(--gold-bg);border-color:var(--gold)}.gold h2{color:var(--gold)}
+ol,ul{padding-right:1.2rem;margin:.3rem 0}li{margin:.25rem 0}
+.k{font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:.8rem;margin:1.4rem 0 0;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.cta a{background:var(--ink);color:var(--bg);text-decoration:none;padding:10px 16px;border-radius:10px;font-weight:600}
+.cta a.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.fig{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.fig svg{width:100%;height:auto;display:block}
+figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}.figs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.figs .fig{margin:0}
+@media print{body{background:#fff;font-size:20px;line-height:1.6}main{max-width:none;padding:0}.cta,.legend{display:none}.fig,.lead,.figs,.block li{break-inside:avoid}.block{break-inside:auto;border-radius:0;background:transparent!important;padding:4px 14px;margin:8px 0}.block h2{break-after:avoid}.fig svg{max-height:150px}.figs .fig svg{max-height:120px}h1{font-size:1.5rem}.goal{margin-bottom:.6rem}.lead{margin-bottom:8px}@page{size:A4;margin:12mm}}
+[dir=ltr] .block{border-right:0;border-left:6px solid}[dir=ltr] ol,[dir=ltr] ul{padding-right:0;padding-left:1.2rem}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:Hacen,Amiri,serif;font-size:.85rem;color:var(--gold);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px}
+.brand a,.foot a{color:var(--gold);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot{margin-top:16px;padding-top:8px;border-top:1px solid var(--line);text-align:center;font-size:.8rem;color:var(--muted)}
+.wm{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0}
+.wm span{transform:rotate(-30deg);font-family:Hacen,Amiri,serif;font-size:54px;color:var(--gold);opacity:.07;white-space:nowrap}
+main{position:relative;z-index:1}
+@media print{.wm span{opacity:.08}.foot{display:block}}
+</style></head>
+<body><div class="wm" aria-hidden="true"><span>مدرسة ديزاد · madrasadz.com</span></div><main>
+<div class="brand"><span>مدرسة ديزاد MadrasaDZ</span><a href="https://madrasadz.com">madrasadz.com</a></div>
+<div class="crumb">4 متوسط · العلوم الفيزيائية · كل الشعب · الوحدة 4: الظواهر الضوئية والفلكية · الدرس 1</div>
+<h1>تحليل الضوء الأبيض بالموشور</h1>
+
+<p class="goal"><span class="k">الهدف:</span> أن تفسّر كيف يحلّل الموشور الضوء الأبيض إلى طيف ملوّن، وتعرف ترتيب الألوان حسب الانحراف، وتربط ذلك بقوس قزح وبإعادة تركيب الضوء الأبيض.</p>
+
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الضوء الأبيض ليس ضوءاً بسيطاً بل مجموعة أضواء ملوّنة. عند عبوره موشوراً زجاجياً ينكسر كل لون بزاوية مختلفة، فتتفرّق الحزمة إلى طيف متصل من الأحمر (الأقل انحرافاً) إلى البنفسجي (الأكثر انحرافاً).</div>
+
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<polygon points="230,30 170,140 290,140" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/>
+<text x="330" y="45" text-anchor="middle" font-size="13" fill="#1d4ed8">موشور زجاجي</text>
+<line x1="30" y1="85" x2="200" y2="85" stroke="#1f2937" stroke-width="3"/>
+<text x="110" y="75" text-anchor="middle" font-size="13">ضوء أبيض</text>
+<line x1="200" y1="85" x2="265" y2="95" stroke="#1f2937" stroke-width="2"/>
+<line x1="265" y1="95" x2="470" y2="105" stroke="#c2410c" stroke-width="2.5"/>
+<line x1="265" y1="95" x2="470" y2="120" stroke="#a16207" stroke-width="2.5"/>
+<line x1="265" y1="95" x2="470" y2="135" stroke="#15803d" stroke-width="2.5"/>
+<line x1="265" y1="95" x2="470" y2="150" stroke="#1d4ed8" stroke-width="2.5"/>
+<line x1="265" y1="95" x2="470" y2="165" stroke="#1f2937" stroke-width="2.5"/>
+<line x1="472" y1="92" x2="472" y2="172" stroke="#1f2937" stroke-width="3"/>
+<text x="505" y="85" text-anchor="middle" font-size="13" font-weight="700">الشاشة</text>
+<text x="505" y="109" text-anchor="middle" font-size="12" fill="#c2410c">أحمر</text>
+<text x="505" y="124" text-anchor="middle" font-size="12" fill="#a16207">أصفر</text>
+<text x="505" y="139" text-anchor="middle" font-size="12" fill="#15803d">أخضر</text>
+<text x="505" y="154" text-anchor="middle" font-size="12" fill="#1d4ed8">أزرق</text>
+<text x="505" y="169" text-anchor="middle" font-size="12" fill="#1f2937">بنفسجي</text>
+<text x="380" y="60" text-anchor="middle" font-size="12" fill="#c2410c">الأحمر: أقل انحرافاً</text>
+<text x="400" y="160" text-anchor="end" font-size="12" fill="#1f2937">البنفسجي: أكثر انحرافاً</text>
+<text x="110" y="120" text-anchor="middle" font-size="13">ضوء مركّب</text>
+<text x="110" y="140" text-anchor="middle" font-size="13">(متعدّد الألوان)</text>
+</svg><figcaption>الشكل 1: الموشور يحلّل الضوء الأبيض إلى طيف متصل؛ الانحراف نحو قاعدة الموشور ويزداد من الأحمر إلى البنفسجي.</figcaption></figure>
+<div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
+<li><span class="k">الموشور</span> وسط شفاف (زجاج أو بلاستيك) محدود بوجهين مستويين غير متوازيين؛ مقطعه مثلث.</li>
+<li><span class="k">تحليل الضوء (التبدّد):</span> عند مرور ضوء أبيض عبر موشور، يخرج على شكل حزمة متفرّقة ملوّنة تُسمى <span class="k">الطيف</span>: أحمر، برتقالي، أصفر، أخضر، أزرق، نيلي، بنفسجي.</li>
+<li><span class="k">الانحراف مختلف لكل لون:</span> ينحرف الضوء نحو قاعدة الموشور، والأحمر هو الأقل انحرافاً والبنفسجي الأكثر انحرافاً.</li>
+<li><span class="k">الضوء الأبيض مركّب</span> (متعدد الألوان)، أما <span class="k">الضوء أحادي اللون</span> (ضوء الليزر مثلاً) فلا يتحلّل بالموشور ويخرج منه بلون واحد.</li>
+<li><span class="k">الطيف متصل:</span> الألوان تتدرّج دون حدود فاصلة، ونذكر سبعة ألوان للتبسيط فقط.</li>
+<li><span class="k">قوس قزح:</span> قطرات الماء تلعب دور موشورات صغيرة (انكسار ثم انعكاس داخلي ثم انكسار) فيتحلّل ضوء الشمس.</li>
+<li><span class="k">إعادة التركيب:</span> جمع ألوان الطيف بموشور ثانٍ مقلوب أو بقرص نيوتن الدوّار يعطي ضوءاً أبيض من جديد.</li>
+</ol></div>
+
+<div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
+<li>نرسل ضوء ليزر أحمر على الموشور فيخرج شعاع أحمر وحيد منحرف. <span class="k">التفسير:</span> ضوء الليزر أحادي اللون، فهو ينكسر لكنه لا يتحلّل.</li>
+<li>نضع شاشة بعد الموشور ونطلب تحديد اللون الأقرب إلى اتجاه الحزمة الواردة. <span class="k">الحل:</span> الأحمر لأنه الأقل انحرافاً، والبنفسجي هو الأبعد لأنه الأكثر انحرافاً.</li>
+<li>قرص مقسّم إلى قطاعات بألوان الطيف يبدو عند دورانه السريع أبيض مائلاً إلى الرمادي. <span class="k">التفسير:</span> تجمع العين الألوان المتعاقبة بسرعة فتحصل على تركيب الضوء الأبيض.</li>
+</ol></div>
+
+<div class="block warn"><h2>🟠 أخطاء شائعة في شهادة التعليم المتوسط BEM</h2><ul>
+<li>القول إن الموشور «يلوّن» الضوء أو «يصنع» الألوان؛ الألوان موجودة أصلاً في الضوء الأبيض والموشور يفصلها فقط.</li>
+<li>عكس الترتيب: كتابة أن البنفسجي أقل انحرافاً من الأحمر.</li>
+<li>رسم الطيف على شكل أشرطة منفصلة بينها فراغات؛ الطيف متصل.</li>
+<li>الخلط بين <span class="k">التحليل</span> (موشور، قوس قزح) و<span class="k">التركيب</span> (قرص نيوتن).</li>
+</ul></div>
+
+<div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
+<li>الضوء الأبيض مركّب من ألوان الطيف السبعة.</li>
+<li>الموشور يحلّله: الانحراف نحو القاعدة، الأحمر أقل والبنفسجي أكثر.</li>
+<li>الضوء أحادي اللون ينكسر ولا يتحلّل.</li>
+<li>قوس قزح = تحليل بقطرات الماء.</li>
+<li>قرص نيوتن أو موشور مقلوب = إعادة تركيب الأبيض.</li>
+</ul></div>
+
+<div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>
+<div class="cta"><a href="/student/play/subject/PHYS">🎮 تحدّي PLAY على هذا الدرس</a><a class="sec" href="/bac?subject=PHYS">مواضيع بكالوريا مرتبطة</a></div>
+<div class="foot">ملخص من منصة <b>مدرسة ديزاد</b> — المزيد من الدروس والتمارين وتحديات PLAY على <a href="https://madrasadz.com">madrasadz.com</a></div>
+</main></body></html>
