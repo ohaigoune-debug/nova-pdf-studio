@@ -19,7 +19,7 @@ import { generateCodes } from '@/server/services/enrollment-codes.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 import { ORDER_TRANSITIONS, canTransition, transitionOrder } from '@/server/services/order-status.service'
 import { createProduct, listConfirmationQueue, placeOrder, setOrderStatus, shippingFeeFor, storeStats } from '@/server/services/store.service'
-import { makeAdmin, makeStudent, makeTeacher, setupDb, workspaceIdOfTeacher } from './helpers'
+import { makeAdmin, makeStudent, makeTeacher, publishLegacyCourse, setupDb, workspaceIdOfTeacher } from './helpers'
 
 let h: DatabaseHandle
 let admin: Actor
@@ -73,7 +73,8 @@ beforeAll(async () => {
   student = await makeStudent(h.db, 'تلميذ المتجر')
   wilayaId = (await h.db.select({ id: wilayas.id }).from(wilayas).where(eq(wilayas.code, '24')))[0]!.id
   const workspaceId = await workspaceIdOfTeacher(h.db, teacher)
-  courseId = (await createCourse(h.db, admin, { title: 'دورة الأدب العربي 2027', workspaceId, season: '2026/2027', priceDzd: 9999, accessEndsOn: '2027-06-30', status: 'PUBLISHED' })).id
+  courseId = (await createCourse(h.db, admin, { title: 'دورة الأدب العربي 2027', workspaceId, season: '2026/2027', priceDzd: 9999, accessEndsOn: '2027-06-30', status: 'DRAFT' })).id
+  await publishLegacyCourse(h.db, courseId)
   bookId = (await createProduct(h.db, admin, { title: 'كتاب وسام التفوق', type: 'BOOK', priceDzd: 1500, stock: 10, status: 'PUBLISHED' })).id
   await linkProduct(h.db, admin, courseId, bookId)
 })
@@ -284,11 +285,13 @@ describe('6. كود التفعيل من الإدارة (حين يفشل التف
     const { sendActivationCode } = await import('@/server/services/course-activation.service')
     const { claimCourse } = await import('@/server/services/claims.service')
     // طلب اشتراه حساب لا يملك ملف تلميذ مرتبطاً: لم تُفعَّل الدورة لأحد
-    const buyer = await makeStudent(h.db, 'تلميذ الكود')
-    const o = await placeOrder(h.db, buyer, { items: [{ productId: bookId, qty: 1 }], customerName: 'وليّ', phone: '0550111222', wilayaId, address: 'x' })
-    await expectCode(() => sendActivationCode(h.db, admin.userId, o.id), 'ORDER_INVALID_TRANSITION')
+    const o = await placeOrder(h.db, admin, { items: [{ productId: bookId, qty: 1 }], customerName: 'وليّ', phone: '0550111222', wilayaId, address: 'x' })
+    // لا كود قبل التسليم المؤكَّد (قرار 2026-10-24)، حتى في الطريق
+    await expectCode(() => sendActivationCode(h.db, admin.userId, o.id), 'ORDER_NOT_DELIVERED')
     await setOrderStatus(h.db, admin, o.id, 'CONFIRMED')
     await setOrderStatus(h.db, admin, o.id, 'SHIPPED')
+    await expectCode(() => sendActivationCode(h.db, admin.userId, o.id), 'ORDER_NOT_DELIVERED')
+    await setOrderStatus(h.db, admin, o.id, 'DELIVERED')
     sms.length = 0
     const r = await sendActivationCode(h.db, admin.userId, o.id, { phone: '0661999888' })
     expect(r.phone).toBe('0661999888')

@@ -144,9 +144,15 @@ export const orderItems = pgTable(
     unitPriceDzd: integer('unit_price_dzd').notNull(),
     qty: integer('qty').notNull().default(1),
     lineTotalDzd: integer('line_total_dzd').notNull(),
+    /**
+     * الدورة المشتراة بهذا السطر (شراء «الدورة مع كتابها»): الحقّ مثبَّت وقت الشراء —
+     * تغيير ربط الكتب لاحقاً لا يغيّره، وشراء دورة لا يفعّل دورة أخرى تشترك في الكتاب.
+     * null للطلبات القديمة (تُستنتج دوراتها من روابط المنتج كما كانت). FK في الترحيل 0034 (ON DELETE SET NULL).
+     */
+    courseId: uuid('course_id'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
   },
-  (t) => [check('order_items_qty_check', sql`${t.qty} >= 1`), index('order_items_order_idx').on(t.orderId), index('order_items_product_idx').on(t.productId)]
+  (t) => [check('order_items_qty_check', sql`${t.qty} >= 1`), index('order_items_order_idx').on(t.orderId), index('order_items_product_idx').on(t.productId), index('order_items_course_idx').on(t.courseId)]
 )
 
 /** سجلّ التنزيلات الرقمية (من اشترى ماذا ومتى) */

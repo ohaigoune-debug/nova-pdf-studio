@@ -1,4 +1,4 @@
-import { BookMarked, Clock, KeyRound, ShoppingBag } from 'lucide-react'
+import { BookMarked, Clock, KeyRound } from 'lucide-react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -10,8 +10,8 @@ import { BuyCourseDialog, type CheckoutData } from './buy-course-dialog'
 import { priceLabel } from './course-catalog-card'
 
 /** صفحة تعريف الدورة لغير المشترك: ما هي، لمن، بكم، وكيف يُفعَّل الاشتراك. لا محتوى هنا. */
-export function CourseLandingView({ landing, checkout }: { landing: CourseLanding; checkout?: CheckoutData | null }) {
-  const { course, products } = landing
+export function CourseLandingView({ landing, checkout, purchase }: { landing: CourseLanding; checkout?: CheckoutData | null; purchase?: { book: { title: string; priceDzd: number } | null; purchasable: boolean } | null }) {
+  const { course } = landing
   return (
     <div className="space-y-6">
       <PageHeader
@@ -36,7 +36,7 @@ export function CourseLandingView({ landing, checkout }: { landing: CourseLandin
         }
       />
 
-      {course.enrollment === 'EXPIRED' ? <Alert tone="warning" title="انتهت مدة اشتراكك في هذه الدورة">للتجديد تواصل مع الإدارة من صفحة الدعم أو أعد الشراء من المتجر.</Alert> : null}
+      {course.enrollment === 'EXPIRED' ? <Alert tone="warning" title="انتهت مدة اشتراكك في هذه الدورة">للتجديد تواصل مع الإدارة من صفحة الدعم أو اشترِ الدورة مع الكتاب من جديد.</Alert> : null}
       {course.enrollment === 'REVOKED' ? <Alert tone="destructive" title="اشتراكك في هذه الدورة موقوف">تواصل مع الإدارة من صفحة الدعم والشكاوى.</Alert> : null}
 
       {course.coverUrl ? (
@@ -59,31 +59,17 @@ export function CourseLandingView({ landing, checkout }: { landing: CourseLandin
           <CardDescription>اطلب الكتاب فهو طلب الدورة: يصلك الكتاب بالدفع عند الاستلام، وتُفعَّل الدورة على حسابك لحظة التسليم تلقائياً. وإن لم تُفعَّل، ترسل لك الإدارة كود تفعيل على هاتفك أو هاتف وليّك.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          {products.length ? (
-            <ul className="divide-y rounded-lg border">
-              {products.map((p) => (
-                <li key={p.id} className="flex items-center justify-between gap-3 p-3 text-sm">
-                  <span>
-                    <span className="block font-semibold">{p.title}</span>
-                    <span className="block text-xs text-muted-foreground">سعر الدورة مع الكتاب</span>
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <Badge variant="muted">{priceLabel(p.priceDzd)}</Badge>
-                    {checkout ? (
-                      <BuyCourseDialog product={p} courseTitle={course.title} data={checkout} />
-                    ) : (
-                      <Button asChild size="sm">
-                        <Link href={p.href}>
-                          <ShoppingBag className="size-4" /> شراء الدورة
-                        </Link>
-                      </Button>
-                    )}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          {purchase?.book && purchase.purchasable && checkout ? (
+            <div className="flex flex-col gap-3 rounded-lg border border-primary/30 bg-primary/5 p-4 sm:flex-row sm:items-center sm:justify-between">
+              <span>
+                <span className="block text-sm text-muted-foreground">الدورة مع الكتاب: «{purchase.book.title}»</span>
+                <span className="block text-2xl font-extrabold">{priceLabel(purchase.book.priceDzd)}</span>
+                <span className="block text-xs text-muted-foreground">+ التوصيل حسب ولايتك · الدفع عند الاستلام</span>
+              </span>
+              <BuyCourseDialog courseId={course.id} courseTitle={course.title} book={purchase.book} data={checkout} />
+            </div>
           ) : (
-            <p className="text-sm text-muted-foreground">لا منتج مرتبط بهذه الدورة في المتجر حالياً؛ اطلب التفعيل من الإدارة.</p>
+            <p className="text-sm text-muted-foreground">شراء هذه الدورة غير متاح حالياً. تواصل مع الدعم، أو أدخل كود التفعيل إن كان لديك.</p>
           )}
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline">

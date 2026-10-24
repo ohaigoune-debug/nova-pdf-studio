@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { LinkProductForm, ManualEnrollDialog, RevokeEnrollmentButton, UnlinkProductButton } from '@/components/courses/course-admin'
 import { CourseForm } from '@/components/courses/course-form'
+import { CourseBookCard } from '@/components/courses/course-book-card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,6 +15,7 @@ import { getDb } from '@/server/db/client'
 import type { CourseStatus, EnrollmentSource } from '@/server/db/schema/enums'
 import { isAppError } from '@/server/lib/errors'
 import { bankFormOptions } from '@/server/queries/bank-options'
+import { BOOK_ISSUE_AR, courseBookState } from '@/server/services/course-purchase.service'
 import { COURSE_STATUS_AR, ENROLLMENT_SOURCE_AR, ENROLLMENT_STATUS_AR, getCourseAdmin, listCourseWorkspaces, listLinkableProducts } from '@/server/services/courses.service'
 
 export const dynamic = 'force-dynamic'
@@ -35,6 +37,8 @@ export default async function AdminCourseDetailPage({ params }: { params: Promis
   }
   const [opts, workspaces, linkable] = await Promise.all([bankFormOptions(db, actor), listCourseWorkspaces(db, actor), listLinkableProducts(db, actor)])
   const { course, enrollments, products, upcomingSessions, counts } = data
+  const bookState = await courseBookState(db, course)
+  const candidates = bookState.book ? [] : products.filter((p) => p.status === 'PUBLISHED').map((p) => ({ id: p.productId, title: p.title, priceDzd: p.priceDzd }))
   const linkedIds = new Set(products.map((p) => p.productId))
   const activeCount = enrollments.filter((e) => e.status === 'ACTIVE').length
 
@@ -67,6 +71,8 @@ export default async function AdminCourseDetailPage({ params }: { params: Promis
           </>
         }
       />
+
+      <CourseBookCard courseId={course.id} courseTitle={course.title} book={bookState.book} purchasable={bookState.purchasable} issueText={bookState.issue ? BOOK_ISSUE_AR[bookState.issue] : null} candidates={candidates} />
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label="اشتراكات نشطة" value={counts.activeEnrollments} hint={`${enrollments.length} إجمالاً`} icon={Users} tone="success" />

@@ -27,7 +27,7 @@ export const STUDENT_HUBS = {
     tabs: [
       { href: '/student/courses', label: 'دوراتي', exact: true },
       { href: '/student/courses/catalog', label: 'شراء دورة' },
-      { href: '/student/courses/orders', label: 'تتبّع طلبيتي' }
+      { href: '/student/courses/orders', label: 'طلباتي' }
     ]
   },
   lessons: {

@@ -275,7 +275,7 @@ export async function setStorePolicy(db: Db, actor: Actor, input: Partial<StoreP
   return next
 }
 
-const orderNumber = () => `MD-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${randomBytes(3).toString('hex').toUpperCase()}`
+export const orderNumber = () => `MD-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${randomBytes(3).toString('hex').toUpperCase()}`
 
 /**
  * إرسال طلب: يثبّت الأسعار والعناوين، يخصم المخزون المادي، ويحدّد الدفع:

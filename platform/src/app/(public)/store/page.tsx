@@ -11,6 +11,7 @@ import { getDb } from '@/server/db/client'
 import { PRODUCT_TYPES, type ProductType } from '@/server/db/schema/enums'
 import { bankFormOptions } from '@/server/queries/bank-options'
 import { listProducts, PRODUCT_TYPE_AR } from '@/server/services/store.service'
+import { gateStoreBrowsing } from '@/server/lib/store-gate'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'المتجر' }
@@ -19,6 +20,7 @@ const ICON: Record<ProductType, typeof BookOpen> = { BOOK: BookOpen, PDF: FileTe
 
 /** متجر الكتب (المرحلة 10): كتب ورقية وملفات PDF وحزم، مصنّفة بالمادة والصف */
 export default async function StorePage({ searchParams }: { searchParams: Promise<{ type?: string; subject?: string; level?: string; q?: string }> }) {
+  await gateStoreBrowsing()
   const sp = await searchParams
   const type = PRODUCT_TYPES.includes(sp.type as ProductType) ? (sp.type as ProductType) : null
   const db = await getDb()

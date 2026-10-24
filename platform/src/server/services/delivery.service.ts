@@ -45,9 +45,16 @@ const STATUS_ALIASES: [DeliveryEventStatus, string[]][] = [
   ['CREATED', ['created', 'pending', 'new', 'cree', 'créé', 'créée', 'en préparation', 'prepared', 'ready', 'جديد', 'أُنشئ']]
 ]
 
+/**
+ * نفي التسليم («non livré»، «not delivered»، «pas livré»، «لم يُسلَّم»…): ليس تسليماً أبداً.
+ * يُفحص قبل الأسماء المستعارة لأن «non livré» يحتوي «livré».
+ */
+export const NOT_DELIVERED_RE = /(non|pas|jamais)[\s_-]*livr|not[\s_-]*deliver|undeliver|no[\s_-]*entreg|لم[\s_]*ي?[ُ]?سل|غير[\s_]*مسل|لم[\s_]*يتم[\s_]*التسليم/i
+
 export function normalizeDeliveryStatus(raw: unknown): DeliveryEventStatus {
   if (typeof raw !== 'string') return 'UNKNOWN'
   const s = raw.trim().toLowerCase()
+  if (NOT_DELIVERED_RE.test(s.normalize('NFD').replace(/[\u0300-\u036f]/g, ''))) return 'FAILED_ATTEMPT'
   if ((DELIVERY_EVENT_STATUSES as readonly string[]).includes(s.toUpperCase())) return s.toUpperCase() as DeliveryEventStatus
   for (const [status, aliases] of STATUS_ALIASES) if (aliases.some((a) => s === a || s.includes(a))) return status
   return 'UNKNOWN'

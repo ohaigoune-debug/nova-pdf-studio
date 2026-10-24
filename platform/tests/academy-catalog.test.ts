@@ -20,7 +20,7 @@ import { createProduct } from '@/server/services/store.service'
 import { resolveCodes } from '@/server/services/taxonomy.service'
 import { listStudentContent, listStudentFiles } from '@/server/queries/student-extras.queries'
 import { getCourseAccessMode, reachableGroupIds, setCourseAccessMode } from '@/server/lib/course-access'
-import { makeAdmin, makeStudent, makeTeacher, setupDb, workspaceIdOfTeacher } from './helpers'
+import { makeAdmin, makeStudent, makeTeacher, publishLegacyCourse, setupDb, workspaceIdOfTeacher } from './helpers'
 
 let h: DatabaseHandle
 let admin: Actor
@@ -52,7 +52,9 @@ beforeAll(async () => {
   // ملف الاختبار هذا يفحص النمط الصارم؛ النمط الافتراضي legacy يُختبر في كتلة الترحيل
   await setCourseAccessMode(h.db, 'strict')
 
-  published = await createCourse(h.db, admin, { title: 'دورة الأدب العربي 2027', description: 'وصف تسويقي', workspaceId, levelId: ids.levelId, subjectId: ids.subjectId, streamIds: [ids.streamId!], season: '2026/2027', priceDzd: 4500, accessEndsOn: '2027-06-30', termsText: '## شروط', status: 'PUBLISHED' })
+  published = await createCourse(h.db, admin, { title: 'دورة الأدب العربي 2027', description: 'وصف تسويقي', workspaceId, levelId: ids.levelId, subjectId: ids.subjectId, streamIds: [ids.streamId!], season: '2026/2027', priceDzd: 4500, accessEndsOn: '2027-06-30', termsText: '## شروط', status: 'DRAFT' })
+  await publishLegacyCourse(h.db, published.id)
+  published = { ...published, status: 'PUBLISHED' }
   draft = await createCourse(h.db, admin, { title: 'دورة مسودة', workspaceId, season: '2026/2027', status: 'DRAFT' })
   archived = await createCourse(h.db, admin, { title: 'دورة مؤرشفة', workspaceId, season: '2026/2027', status: 'PUBLISHED' })
   await setCourseStatus(h.db, admin, archived.id, 'ARCHIVED')

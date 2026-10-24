@@ -122,6 +122,8 @@ export function mapEcotrackStatus(label: string): EcotrackShipmentStatus | null 
     .trim()
   if (!s) return null
   if (/supprim|annul|cancel/.test(s)) return 'canceled'
+  // «non livré» / «not delivered» يحتويان «livr»/«deliver»: نفي التسليم ليس تسليماً
+  if (/(non|pas)\s*livr|not\s*deliver|undeliver/.test(s)) return 'failed_attempt'
   // كل مراحل "retour_*" تعني انتهاء التوصيل وعودة الطرد: مرتجع لا «محاولة فاشلة أخرى»
   if (/retour/.test(s)) return 'returned'
   if (/echou|tentative|absent|injoignable|reporte|alerte|suspend/.test(s)) return 'failed_attempt'
