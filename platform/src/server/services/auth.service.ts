@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto'
 import { eq } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { passwordResets, profiles, students, users } from '@/server/db/schema'
+import { levels, passwordResets, profiles, streams, students, users } from '@/server/db/schema'
 import { hashPassword, isStrongEnough, verifyPassword } from '@/server/auth/password'
 import { createSession, revokeAllSessions, revokeSession } from '@/server/auth/session'
 import { writeActivity } from '@/server/lib/audit'
@@ -14,6 +14,8 @@ export interface RegisterInput {
   password: string
   fullName: string
   phone?: string | null
+  /** هاتف وليّ الأمر: يختار التلميذ بينه وبين هاتفه عند شراء دورة */
+  guardianPhone?: string | null
   wilayaId?: string | null
   levelId?: string | null
   streamId?: string | null
@@ -31,6 +33,16 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
 
   const existing = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1)
   if (existing.length > 0) throw new AppError('EMAIL_TAKEN')
+  // الشعبة إلزامية للثانوي (رموز المستويات …AS): تحدّد الكتب والدورات المسموح بطلبها
+  if (input.levelId) {
+    const [lv] = await db.select({ code: levels.code }).from(levels).where(eq(levels.id, input.levelId)).limit(1)
+    if (!lv) throw new AppError('VALIDATION', { field: 'levelId' })
+    if (/AS$/i.test(lv.code) && !input.streamId) throw new AppError('VALIDATION', { field: 'streamId' })
+  }
+  if (input.streamId) {
+    const [st] = await db.select({ id: streams.id }).from(streams).where(eq(streams.id, input.streamId)).limit(1)
+    if (!st) throw new AppError('VALIDATION', { field: 'streamId' })
+  }
 
   const result = await db.transaction(async (tx) => {
     const [user] = await tx
@@ -46,7 +58,8 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
         studentType: 'FREE',
         wilayaId: input.wilayaId ?? null,
         levelId: input.levelId ?? null,
-        streamId: input.streamId ?? null
+        streamId: input.streamId ?? null,
+        guardianPhone: input.guardianPhone ?? null
       })
       .returning({ id: students.id })
     await writeActivity(tx, { userId: user.id, event: 'auth.register' })

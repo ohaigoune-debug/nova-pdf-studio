@@ -5,7 +5,7 @@
  */
 import { and, desc, eq, inArray, isNotNull, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { appSettings, deliveryEvents, jobs, orderItems, orders, wilayas } from '@/server/db/schema'
+import { appSettings, deliveryEvents, jobs, orderItems, orders, profiles, students, wilayas } from '@/server/db/schema'
 import type { DeliveryEventStatus } from '@/server/db/schema/enums'
 import { enqueueJob } from '@/server/jobs/queue'
 import { assertRole, type Actor } from '@/server/lib/actor'
@@ -172,10 +172,13 @@ export async function sendOrderToEcotrack(db: Db, actor: Actor | null, orderId: 
   const items = await db.select({ title: orderItems.title, qty: orderItems.qty }).from(orderItems).where(eq(orderItems.orderId, orderId))
   const summary = items.map((i) => (i.qty > 1 ? `${i.title} ×${i.qty}` : i.title)).join(' + ')
   const cod = o.paymentMethod === 'COD' ? o.totalDzd : 0
+  // الهاتف الثاني للطرد: هاتف التلميذ أو هاتف الولي (من التسجيل) — أيّهما ليس هاتف الطلب
+  const phone2 = await secondPhoneFor(db, o.userId, o.phone)
   const { tracking, raw } = await client.createOrder({
     orderNumber: o.number,
     fullName: o.customerName,
     phone: o.phone,
+    phone2,
     address: o.address ?? '',
     wilayaCode: w.code,
     communeName: o.commune ?? w.nameFr,
@@ -193,6 +196,15 @@ export async function sendOrderToEcotrack(db: Db, actor: Actor | null, orderId: 
   await transitionOrder(db, o.id, 'SHIPPED', { actorUserId: actor?.userId ?? null, source: actor ? 'admin' : 'ecotrack', deliveryProvider: 'ecotrack', deliveryTrackingId: tracking })
   await writeAudit(db, { actorUserId: actor?.userId ?? null, workspaceId: null, action: 'ecotrack.order_sent', entityType: 'order', entityId: o.id, newValue: { tracking, cod, wilaya: w.code } })
   return { tracking }
+}
+
+/** الرقم الآخر المسجَّل للمشتري (هاتفه أو هاتف وليّه) ليُرسَل في telephone_2؛ null إن لا رقم مختلفاً */
+export async function secondPhoneFor(db: Db, userId: string, orderPhone: string): Promise<string | null> {
+  const norm = (p: string | null | undefined) => (p ?? '').replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
+  const [r] = await db.select({ phone: profiles.phone, guardian: students.guardianPhone }).from(profiles).leftJoin(students, eq(students.userId, profiles.userId)).where(eq(profiles.userId, userId)).limit(1)
+  const own = norm(orderPhone)
+  const other = [norm(r?.phone), norm(r?.guardian)].find((p) => /^0[5-7]\d{8}$/.test(p) && p !== own)
+  return other ?? null
 }
 
 /** عند تأكيد الطلب: إن كان الإرسال التلقائي مفعّلاً يُرسَل الطرد في الخلفية (مهمة) ولا يُعطَّل التأكيد بفشل الشبكة */

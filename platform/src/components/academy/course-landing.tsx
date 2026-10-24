@@ -6,10 +6,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, PageHeader } from '@/components/ui/misc'
 import { formatDate } from '@/lib/utils'
 import type { CourseLanding } from '@/server/services/academy-catalog.service'
+import { BuyCourseDialog, type CheckoutData } from './buy-course-dialog'
 import { priceLabel } from './course-catalog-card'
 
 /** صفحة تعريف الدورة لغير المشترك: ما هي، لمن، بكم، وكيف يُفعَّل الاشتراك. لا محتوى هنا. */
-export function CourseLandingView({ landing }: { landing: CourseLanding }) {
+export function CourseLandingView({ landing, checkout }: { landing: CourseLanding; checkout?: CheckoutData | null }) {
   const { course, products } = landing
   return (
     <div className="space-y-6">
@@ -62,14 +63,21 @@ export function CourseLandingView({ landing }: { landing: CourseLanding }) {
             <ul className="divide-y rounded-lg border">
               {products.map((p) => (
                 <li key={p.id} className="flex items-center justify-between gap-3 p-3 text-sm">
-                  <span className="font-semibold">{p.title}</span>
+                  <span>
+                    <span className="block font-semibold">{p.title}</span>
+                    <span className="block text-xs text-muted-foreground">سعر الدورة مع الكتاب</span>
+                  </span>
                   <span className="flex items-center gap-2">
                     <Badge variant="muted">{priceLabel(p.priceDzd)}</Badge>
-                    <Button asChild size="sm">
-                      <Link href={p.href}>
-                        <ShoppingBag className="size-4" /> اطلب الكتاب
-                      </Link>
-                    </Button>
+                    {checkout ? (
+                      <BuyCourseDialog product={p} courseTitle={course.title} data={checkout} />
+                    ) : (
+                      <Button asChild size="sm">
+                        <Link href={p.href}>
+                          <ShoppingBag className="size-4" /> شراء الدورة
+                        </Link>
+                      </Button>
+                    )}
                   </span>
                 </li>
               ))}

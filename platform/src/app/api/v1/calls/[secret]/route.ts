@@ -34,7 +34,8 @@ const MESSAGES: Record<string, (r: { orderNumber?: string; customerName?: string
   already_confirmed: (r) => `☑️ الطلب ${r.orderNumber ?? ''} مؤكَّد من قبل`,
   no_order: () => 'لا طلب معلّق لهذا الرقم',
   invalid_phone: () => 'رقم غير مفهوم',
-  disabled: () => 'التأكيد بالمكالمة متوقف في الإعدادات'
+  disabled: () => 'التأكيد بالمكالمة متوقف في الإعدادات',
+  phone_verified: (r) => `📱 ${r.customerName ?? ''} أكّد رقم هاتفه`
 }
 
 /** فحص الاقتران، ومن NOVA Call 1.2 نبضة كل ساعة (?ping=1&v=<version>) */

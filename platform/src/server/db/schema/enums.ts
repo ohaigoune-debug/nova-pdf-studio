@@ -218,7 +218,7 @@ export const CONFIRMATION_STATUSES: readonly OrderStatus[] = ['PENDING', 'NO_ANS
 export const DELIVERY_TYPES = ['HOME', 'DESK'] as const
 export type DeliveryType = (typeof DELIVERY_TYPES)[number]
 /** نتيجة مكالمة/رسالة واردة من هاتف المشرف */
-export const CALL_EVENT_RESULTS = ['confirmed', 'already_confirmed', 'no_order', 'invalid_phone', 'disabled'] as const
+export const CALL_EVENT_RESULTS = ['confirmed', 'already_confirmed', 'no_order', 'invalid_phone', 'disabled', 'phone_verified'] as const
 export type CallEventResult = (typeof CALL_EVENT_RESULTS)[number]
 /** الدفع عند الاستلام (مادي)، تحويل (CCP/BaridiMob يؤكّده المشرف)، مجاني */
 export const PAYMENT_METHODS = ['COD', 'TRANSFER', 'FREE'] as const

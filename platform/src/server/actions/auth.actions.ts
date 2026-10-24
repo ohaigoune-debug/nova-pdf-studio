@@ -39,16 +39,29 @@ export async function loginAction(_prev: ActionResult | null, formData: FormData
   redirect(next)
 }
 
-const registerSchema = z.object({
-  fullName: z.string().trim().min(3, 'أدخل الاسم الكامل'),
-  email: z.string().trim().email('أدخل بريداً صحيحاً'),
-  phone: z.string().trim().optional(),
-  password: z.string().min(8, 'كلمة السر 8 أحرف على الأقل'),
-  wilayaId: z.string().uuid().optional().or(z.literal('')),
-  levelId: z.string().uuid().optional().or(z.literal('')),
-  streamId: z.string().uuid().optional().or(z.literal('')),
-  code: z.string().trim().optional()
-})
+const DZ_MOBILE = /^0[5-7]\d{8}$/
+const dzPhone = (msg: string) =>
+  z
+    .string()
+    .trim()
+    .transform((v) => v.replace(/[\s\-().]/g, '').replace(/^\+?213/, '0'))
+    .refine((v) => DZ_MOBILE.test(v), msg)
+
+/**
+ * التسجيل (قرار المالك 2026-10-24): الهاتف وهاتف الولي إلزاميان (رقم جزائري حقيقي 05/06/07)،
+ * والمستوى إلزامي، والشعبة إلزامية للثانوي — لا يُطلب بعدها كتاب لشعبة أخرى.
+ */
+const registerSchema = z
+  .object({
+    fullName: z.string().trim().min(3, 'أدخل الاسم الكامل'),
+    email: z.string().trim().email('أدخل بريداً صحيحاً'),
+    phone: dzPhone('أدخل رقم هاتفك (05 / 06 / 07 — 10 أرقام)'),
+    guardianPhone: dzPhone('أدخل رقم هاتف الولي (05 / 06 / 07 — 10 أرقام)'),
+    password: z.string().min(8, 'كلمة السر 8 أحرف على الأقل'),
+    wilayaId: z.string().uuid('اختر الولاية'),
+    levelId: z.string().uuid('اختر المستوى'),
+    streamId: z.string().uuid().optional().or(z.literal(''))
+  })
 
 export async function registerAction(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
   const parsed = registerSchema.safeParse(Object.fromEntries(formData))
@@ -64,7 +77,8 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
         email: d.email,
         password: d.password,
         fullName: d.fullName,
-        phone: d.phone || null,
+        phone: d.phone,
+        guardianPhone: d.guardianPhone,
         wilayaId: d.wilayaId || null,
         levelId: d.levelId || null,
         streamId: d.streamId || null
@@ -75,8 +89,8 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
     return r
   })
   if (!result.ok) return result
-  // أدخل هاتفاً: نفتح بطاقة تأكيده في لوحته مباشرة (لا يُحجب الدخول على من لم يؤكّد)
-  redirect(d.code ? `/activate-code?code=${encodeURIComponent(d.code)}` : d.phone ? '/student?verify=1' : '/activate-code')
+  // تأكيد الهاتف بعد التسجيل مباشرة (رمز SMS أو مكالمة فائتة مجانية): الحسابات الجديدة لا تدخل قبله
+  redirect('/student?verify=1')
 }
 
 export async function logoutAction(): Promise<void> {

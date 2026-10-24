@@ -13,11 +13,10 @@ export async function generateMetadata() {
 }
 export const dynamic = 'force-dynamic'
 
-export default async function RegisterPage({ searchParams }: { searchParams: Promise<{ code?: string }> }) {
+export default async function RegisterPage() {
   const { t, locale } = await getT()
   const actor = await getCurrentActor()
   if (actor) redirect(homeFor(actor.role))
-  const { code } = await searchParams
   const db = await getDb()
   const [wilayas, levels, streams] = await Promise.all([listWilayas(db), listLevels(db), listStreams(db)])
   return (
@@ -35,9 +34,8 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
       }
     >
       <RegisterForm
-        code={code}
         wilayas={wilayas.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` }))}
-        levels={levels.map((l) => ({ id: l.id, name: l.nameAr }))}
+        levels={levels.map((l) => ({ id: l.id, name: l.nameAr, secondary: /AS$/i.test(l.code) }))}
         streams={streams.map((s) => ({ id: s.id, name: s.nameAr }))}
       />
     </AuthCard>
