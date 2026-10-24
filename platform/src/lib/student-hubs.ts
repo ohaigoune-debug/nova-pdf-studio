@@ -26,7 +26,7 @@ export const STUDENT_HUBS = {
     href: '/student/courses',
     tabs: [
       { href: '/student/courses', label: 'دوراتي', exact: true },
-      { href: '/student/courses/catalog', label: 'كتالوج الدورات' }
+      { href: '/student/courses/catalog', label: 'شراء دورة' }
     ]
   },
   lessons: {
@@ -53,7 +53,7 @@ export const STUDENT_HUBS = {
   },
   exams: {
     key: 'exams',
-    label: 'الفروض والاختبارات',
+    label: 'الفروض',
     iconKey: 'FileText',
     href: '/student/exams',
     tabs: [

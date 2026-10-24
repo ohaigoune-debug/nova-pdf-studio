@@ -25,9 +25,7 @@ export default async function StudentProgressPage() {
     <>
       <HubTabs hub="progress" />
       <PageHeader title={t('nav.progress')} />
-      <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-4">
-        <StatCard label={t('dashboard.attendanceRate')} value={percent(profile.attendance.rate)} />
-        <StatCard label={t('common.sessions')} value={profile.attendance.total} />
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4">
         <StatCard label={t('groups.averageScore')} value={avgGrade !== null ? `${Math.round(avgGrade * 10) / 10}/20` : '—'} hint={`${grades.length} تقييم`} />
         <StatCard label={t('dashboard.skillsLevel')} value={percent(avgSkill)} icon={TrendingUp} tone={avgSkill !== null && avgSkill < 60 ? 'warning' : 'success'} />
       </div>

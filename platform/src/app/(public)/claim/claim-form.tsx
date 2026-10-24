@@ -29,10 +29,10 @@ export function ClaimForm({ phone, code }: { phone?: string; code?: string }) {
   }
   return (
     <form action={action} className="space-y-4">
-      <Field label="رقم الهاتف الذي وصله الرمز" htmlFor="phone" error={fieldError(state, 'phone')} hint="هاتف الطلب (مثال: 0550123456)">
+      <Field label="رقم الهاتف الذي وصله الكود" htmlFor="phone" error={fieldError(state, 'phone')} hint="هاتفك أو هاتف وليّك (مثال: 0550123456)">
         <Input id="phone" name="phone" type="tel" inputMode="numeric" defaultValue={phone ?? ''} placeholder="05XXXXXXXX" required dir="ltr" className="h-12 text-center font-mono text-lg" autoComplete="tel" />
       </Field>
-      <Field label="رمز التفعيل (6 أرقام)" htmlFor="code" error={fieldError(state, 'code')}>
+      <Field label="كود التفعيل (6 أرقام)" htmlFor="code" error={fieldError(state, 'code')}>
         <Input id="code" name="code" inputMode="numeric" pattern="[0-9]{6}" defaultValue={code ?? ''} placeholder="••••••" required dir="ltr" className="h-14 text-center font-mono text-2xl tracking-[0.3em]" autoComplete="one-time-code" maxLength={6} />
       </Field>
       <FormError state={state} />

@@ -37,7 +37,6 @@ export async function generateCodesAction(_prev: ActionResult<GenerateCodesData>
   if (result.ok) {
     revalidatePath(`/teacher/groups/${d.groupId}/codes`)
     revalidatePath('/teacher/codes')
-    revalidatePath('/admin/courses', 'layout')
   }
   return result
 }
@@ -48,10 +47,7 @@ export async function disableCodeAction(codeId: string, groupId: string): Promis
     await disableCode(await getDb(), actor, codeId)
     return undefined
   })
-  if (result.ok) {
-    revalidatePath(`/teacher/groups/${groupId}/codes`)
-    revalidatePath('/admin/courses', 'layout')
-  }
+  if (result.ok) revalidatePath(`/teacher/groups/${groupId}/codes`)
   return result
 }
 
@@ -60,9 +56,6 @@ export async function cancelBatchAction(batchId: string, groupId: string): Promi
     const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
     return cancelBatch(await getDb(), actor, batchId)
   })
-  if (result.ok) {
-    revalidatePath(`/teacher/groups/${groupId}/codes`)
-    revalidatePath('/admin/courses', 'layout')
-  }
+  if (result.ok) revalidatePath(`/teacher/groups/${groupId}/codes`)
   return result
 }

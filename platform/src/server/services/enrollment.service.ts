@@ -15,7 +15,6 @@ import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { hashEnrollmentCode, isValidCodeShape, normalizeEnrollmentCode } from '@/server/lib/codes'
 import { AppError } from '@/server/lib/errors'
-import { enrollStudent } from './courses.service'
 import { notify } from './notifications.service'
 import { addTimeline } from './timeline.service'
 
@@ -41,14 +40,9 @@ export async function redeemEnrollmentCode(db: Db, actor: Actor, rawCode: string
     const [g] = await tx.select().from(groups).where(eq(groups.id, c.groupId)).limit(1)
     if (!g || g.deletedAt) throw new AppError('CODE_INVALID')
     if (g.status !== 'ACTIVE') throw new AppError('GROUP_NOT_ACTIVE')
-    // فوج دورة: الكود المطبوع في الكتاب يفعّل الاشتراك (course_enrollments + عضوية الفوج) عبر enrollStudent
-    const [course] = await tx.select({ id: courses.id, title: courses.title }).from(courses).where(and(eq(courses.groupId, g.id), isNull(courses.deletedAt))).limit(1)
-    if (course) {
-      await tx.update(enrollmentCodes).set({ status: 'USED', usedAt: new Date(), usedByStudentId: studentId }).where(eq(enrollmentCodes.id, c.id))
-      const enr = await enrollStudent(tx, null, { courseId: course.id, studentId, source: 'CODE', activatedByUserId: actor.userId })
-      await writeAudit(tx, { actorUserId: actor.userId, workspaceId: g.workspaceId, action: 'enrollment.redeem_code', entityType: 'course_enrollment', entityId: enr.id, newValue: { groupId: g.id, codeId: c.id, courseId: course.id } })
-      return { groupId: g.id, groupName: g.name, groupStudentId: null as string | null, courseId: course.id, courseTitle: course.title }
-    }
+    // فوج دورة: لا يُنضمّ إليه برمز انضمام (التفعيل بالتسليم أو بكود تفعيل الطلب في /claim)
+    const [course] = await tx.select({ id: courses.id }).from(courses).where(and(eq(courses.groupId, g.id), isNull(courses.deletedAt))).limit(1)
+    if (course) throw new AppError('COURSE_GROUP_CODE')
 
     const [existing] = await tx
       .select()
@@ -140,7 +134,7 @@ export async function redeemEnrollmentCode(db: Db, actor: Actor, rawCode: string
       newValue: { groupId: g.id, codeId: c.id }
     })
 
-    return { groupId: g.id, groupName: g.name, groupStudentId: groupStudentId as string | null, courseId: null as string | null, courseTitle: null as string | null }
+    return { groupId: g.id, groupName: g.name, groupStudentId }
   })
 }
 

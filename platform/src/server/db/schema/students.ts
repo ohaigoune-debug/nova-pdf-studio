@@ -1,4 +1,4 @@
-import { check, date, index, pgTable, text, uuid } from 'drizzle-orm/pg-core'
+import { check, date, index, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { id, inList, timestamps } from './_common'
 import { users } from './auth'
 import { STUDENT_TYPES } from './enums'
@@ -18,6 +18,8 @@ export const students = pgTable(
     levelId: uuid('level_id').references(() => levels.id),
     streamId: uuid('stream_id').references(() => streams.id),
     guardianPhone: text('guardian_phone'),
+    /** وصول شامل إلى كل الدورات حتى هذا التاريخ (التلاميذ المسجّلون بكود قبل التحوّل إلى الدورات المدفوعة) */
+    fullAccessUntil: timestamp('full_access_until', { withTimezone: true }),
     birthDate: date('birth_date'),
     ...timestamps
   },

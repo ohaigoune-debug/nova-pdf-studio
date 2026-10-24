@@ -27,25 +27,18 @@ export interface NavSection {
 export function navFor(role: UserRole): NavSection[] {
   switch (role) {
     case 'STUDENT':
+      // قرار المالك (2026-10-24): خمسة أقسام فقط — الدروس، الفروض، بنك البكالوريات، تدرّب، الدورات.
+      // الحضور (البطاقة والسجل) والأفواج مخفية؛ صفحاتها القديمة تبقى بمساراتها فلا ينكسر رابط قديم.
       return [
         {
           items: [
             { href: '/student', label: t('nav.home'), iconKey: 'Home', exact: true },
-            { href: '/student/attendance/card', label: t('nav.attendanceCard'), iconKey: 'QrCode' },
-            { href: '/student/groups', label: t('nav.myGroups'), iconKey: 'UsersRound' },
-            { href: '/student/attendance', label: t('nav.attendance'), iconKey: 'CalendarCheck', exact: true }
+            hubItem('lessons'),
+            hubItem('exams'),
+            ...MAIN_SECTIONS.filter((s) => s.href === '/bac').map((s) => ({ href: s.href, label: s.label, iconKey: s.iconKey })),
+            hubItem('train'),
+            hubItem('courses')
           ]
-        },
-        {
-          title: 'التعلّم',
-          // مجمّعات: الدورات (دوراتي + الكتالوج)، الدروس (دروسي + فيديوهات + ملفات)، تدرّب (PLAY + اختبارات أستاذي + تدريب حرّ)،
-          // الفروض والاختبارات (المجانية + واجباتي)، تقدّمي (التقدم + العلامات). الصفحات القديمة تبقى بمساراتها كتبويبات.
-          items: [hubItem('courses'), hubItem('lessons'), hubItem('train'), hubItem('exams'), hubItem('progress'), { href: '/student/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' }]
-        },
-        {
-          title: 'أقسام المنصة',
-          // الأقسام العامة التي لها مقابل داخل «التعلّم» لا تتكرّر هنا؛ والمنتدى = القسم الافتراضي للتلميذ فلا يُعرض
-          items: [...MAIN_SECTIONS.filter((s) => s.href === '/bac').map((s) => ({ href: s.href, label: s.label, iconKey: s.iconKey })), { href: '/store', label: 'المتجر', iconKey: 'ShoppingBag' }]
         },
         {
           title: 'الحساب',
@@ -59,19 +52,14 @@ export function navFor(role: UserRole): NavSection[] {
     case 'TEACHER':
       return [
         {
-          items: [
-            { href: '/teacher', label: t('nav.dashboard'), iconKey: 'LayoutDashboard', exact: true },
-            { href: '/teacher/scanner', label: t('nav.scanner'), iconKey: 'ScanLine' },
-            { href: '/teacher/sessions', label: t('nav.sessions'), iconKey: 'CalendarCheck' },
-            { href: '/teacher/attendance', label: t('nav.attendance'), iconKey: 'ListChecks' }
-          ]
+          // الحضور (الماسح، الحصص الحضورية، قوائم الحضور) مخفي بقرار المالك؛ الصفحات باقية بمساراتها
+          items: [{ href: '/teacher', label: t('nav.dashboard'), iconKey: 'LayoutDashboard', exact: true }]
         },
         {
           title: 'الإدارة',
           items: [
             { href: '/teacher/groups', label: t('common.groups'), iconKey: 'UsersRound' },
             { href: '/teacher/students', label: t('nav.students'), iconKey: 'Users' },
-            { href: '/teacher/codes', label: t('nav.codes'), iconKey: 'KeyRound' },
             { href: '/teacher/assistants', label: t('nav.assistants'), iconKey: 'UserCog' }
           ]
         },
@@ -109,9 +97,6 @@ export function navFor(role: UserRole): NavSection[] {
         {
           items: [
             { href: '/assistant', label: t('nav.dashboard'), iconKey: 'LayoutDashboard', exact: true },
-            { href: '/assistant/scanner', label: t('nav.scanner'), iconKey: 'ScanLine' },
-            { href: '/assistant/sessions', label: t('nav.sessions'), iconKey: 'CalendarCheck' },
-            { href: '/assistant/attendance', label: t('nav.attendance'), iconKey: 'ListChecks' },
             { href: '/assistant/students', label: t('nav.students'), iconKey: 'Users' }
           ]
         },
