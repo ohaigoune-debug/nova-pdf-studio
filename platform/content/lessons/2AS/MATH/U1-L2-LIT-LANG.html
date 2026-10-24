@@ -54,29 +54,29 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> كل زيادة أو تخفيض بنسبة t% يعادل الضرب في معامل ثابت، والتغيرات المتتالية تُضرب معاملاتها ولا تُجمع نسبها. والمقداران المتناسبان يرتبطان بمعامل تناسب ثابت.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
-<rect x="225" y="65" width="90" height="45" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="270" y="93" text-anchor="middle" font-weight="700">القيمة V</text>
-<line x1="320" y1="80" x2="400" y2="40" stroke="#15803d" stroke-width="2" marker-end="url(#ar)"/><text x="360" y="45" text-anchor="middle" fill="#15803d">× (1 + t/100)</text>
-<rect x="405" y="15" width="120" height="45" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="465" y="43" text-anchor="middle">زيادة t%</text>
-<line x1="220" y1="80" x2="140" y2="40" stroke="#c2410c" stroke-width="2" marker-end="url(#ar)"/><text x="180" y="45" text-anchor="middle" fill="#c2410c">× (1 − t/100)</text>
-<rect x="15" y="15" width="120" height="45" rx="8" fill="#fde68a" stroke="#c2410c" stroke-width="2"/><text x="75" y="43" text-anchor="middle">تخفيض t%</text>
-<text x="270" y="140" text-anchor="middle" fill="#a16207">مثال: زيادة 15% ⇐ × 1,15 ؛ تخفيض 20% ⇐ × 0,8</text>
+<rect x="225" y="65" width="90" height="45" rx="8" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="285" y="93" text-anchor="middle" font-weight="700" direction="rtl">القيمة</text><text x="248" y="93" text-anchor="middle" font-weight="700">V</text>
+<line x1="320" y1="80" x2="400" y2="40" stroke="#15803d" stroke-width="2" marker-end="url(#ar)"/><text x="345" y="32" text-anchor="middle" fill="#15803d">× (1 + t/100)</text>
+<rect x="405" y="15" width="120" height="45" rx="8" fill="#86efac" stroke="#15803d" stroke-width="2"/><text x="482" y="43" text-anchor="middle" direction="rtl">زيادة</text><text x="442" y="43" text-anchor="middle">t%</text>
+<line x1="220" y1="80" x2="140" y2="40" stroke="#c2410c" stroke-width="2" marker-end="url(#ar)"/><text x="195" y="32" text-anchor="middle" fill="#c2410c">× (1 − t/100)</text>
+<rect x="15" y="15" width="120" height="45" rx="8" fill="#fde68a" stroke="#c2410c" stroke-width="2"/><text x="93" y="43" text-anchor="middle" direction="rtl">تخفيض</text><text x="50" y="43" text-anchor="middle">t%</text>
+<text x="440" y="140" text-anchor="middle" fill="#a16207" direction="rtl">مثال: زيادة 15% ⇐</text><text x="345" y="140" text-anchor="middle" fill="#a16207">× 1,15</text><text x="240" y="140" text-anchor="middle" fill="#a16207" direction="rtl">؛ تخفيض 20% ⇐</text><text x="150" y="140" text-anchor="middle" fill="#a16207">× 0,8</text>
 </svg><figcaption>الشكل 1: الزيادة والتخفيض بنسبة t% يعادلان الضرب في معامل.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">النسبة المئوية:</span> حساب t% من مقدار A هو A×t/100.</li>
-<li><span class="k">نسبة جزء من كل:</span> النسبة المئوية لجزء p من مجموع A هي (p/A)×100.</li>
-<li><span class="k">الزيادة:</span> زيادة قيمة V بنسبة t% تعطي V×(1 + t/100).</li>
-<li><span class="k">التخفيض:</span> تخفيض قيمة V بنسبة t% يعطي V×(1 − t/100).</li>
+<li><span class="k">النسبة المئوية:</span> حساب t% من مقدار A هو <bdi dir="ltr">A×t/100</bdi>.</li>
+<li><span class="k">نسبة جزء من كل:</span> النسبة المئوية لجزء p من مجموع A هي <bdi dir="ltr">(p/A)×100</bdi>.</li>
+<li><span class="k">الزيادة:</span> زيادة قيمة V بنسبة t% تعطي <bdi dir="ltr">V×(1 + t/100)</bdi>.</li>
+<li><span class="k">التخفيض:</span> تخفيض قيمة V بنسبة t% يعطي <bdi dir="ltr">V×(1 − t/100)</bdi>.</li>
 <li><span class="k">التغيرات المتتالية:</span> نضرب المعاملات المتتالية، والمعامل الإجمالي يعطي النسبة الإجمالية.</li>
-<li><span class="k">التناسبية:</span> المقداران x و y متناسبان إذا وُجد عدد k (معامل التناسب) بحيث y = k×x.</li>
-<li><span class="k">الجداء المتصالب:</span> إذا كان a/b = c/d فإن a×d = b×c، ومنه نحسب الرابع المتناسب.</li>
+<li><span class="k">التناسبية:</span> المقداران x و y متناسبان إذا وُجد عدد k (معامل التناسب) بحيث <bdi dir="ltr">y = k×x</bdi>.</li>
+<li><span class="k">الجداء المتصالب:</span> إذا كان <bdi dir="ltr">a/b = c/d</bdi> فإن <bdi dir="ltr">a×d = b×c</bdi>، ومنه نحسب الرابع المتناسب.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>سعر سلعة 2000 DA ارتفع بنسبة 15%. <span class="k">الحل:</span> السعر الجديد 2000×1,15 = 2300 DA.</li>
-<li>سعر 1000 DA خُفّض بـ 20% ثم زيد بـ 20%. <span class="k">الحل:</span> 1000×0,8×1,2 = 960 DA؛ المعامل الإجمالي 0,96 أي تخفيض إجمالي بـ 4% وليس صفراً.</li>
-<li>ثمن 3 kg من البرتقال 450 DA، فما ثمن 5 kg؟ <span class="k">الحل:</span> معامل التناسب 450/3 = 150 DA للكيلوغرام، إذن الثمن 5×150 = 750 DA.</li>
+<li>سعر سلعة 2000 DA ارتفع بنسبة 15%. <span class="k">الحل:</span> السعر الجديد <bdi dir="ltr">2000×1,15 = 2300 DA</bdi>.</li>
+<li>سعر 1000 DA خُفّض بـ 20% ثم زيد بـ 20%. <span class="k">الحل:</span> <bdi dir="ltr">1000×0,8×1,2 = 960 DA</bdi>؛ المعامل الإجمالي 0,96 أي تخفيض إجمالي بـ 4% وليس صفراً.</li>
+<li>ثمن 3 kg من البرتقال 450 DA، فما ثمن 5 kg؟ <span class="k">الحل:</span> معامل التناسب <bdi dir="ltr">450/3 = 150</bdi> DA للكيلوغرام، إذن الثمن <bdi dir="ltr">5×150 = 750 DA</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
@@ -87,10 +87,10 @@ main{position:relative;z-index:1}
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>t% من A = A×t/100.</li>
-<li>زيادة t% ⇐ × (1 + t/100)؛ تخفيض t% ⇐ × (1 − t/100).</li>
+<li>t% من A = <bdi dir="ltr">A×t/100</bdi>.</li>
+<li>زيادة t% ⇐ <bdi dir="ltr">× (1 + t/100)</bdi>؛ تخفيض t% ⇐ <bdi dir="ltr">× (1 − t/100)</bdi>.</li>
 <li>تغيرات متتالية ⇐ جداء المعاملات.</li>
-<li>تناسبية ⇐ y = k×x و الجداء المتصالب.</li>
+<li>تناسبية ⇐ <bdi dir="ltr">y = k×x</bdi> و الجداء المتصالب.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

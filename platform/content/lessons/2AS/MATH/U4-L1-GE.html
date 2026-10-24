@@ -54,29 +54,29 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> مؤشرات الموقع أعداد تلخّص «أين تتمركز» قيم السلسلة. المتوسط يتأثر بكل القيم، أما الوسيط فيقسم السلسلة المرتبة إلى نصفين ولا يتأثر كثيراً بالقيم المتطرفة.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <line x1="30" y1="125" x2="510" y2="125" stroke="#1f2937" stroke-width="1.5"/>
 <g font-size="13" text-anchor="middle"><text x="40" y="145">6</text><text x="130" y="145">8</text><text x="220" y="145">10</text><text x="310" y="145">12</text><text x="400" y="145">14</text><text x="490" y="145">16</text></g>
 <circle cx="130" cy="113" r="7" fill="#1d4ed8"/><circle cx="220" cy="113" r="7" fill="#1d4ed8"/><circle cx="220" cy="97" r="7" fill="#1d4ed8"/><circle cx="310" cy="113" r="7" fill="#1d4ed8"/><circle cx="445" cy="113" r="7" fill="#1d4ed8"/>
 <line x1="220" y1="45" x2="220" y2="88" stroke="#15803d" stroke-width="2" stroke-dasharray="4 3"/><text x="220" y="38" text-anchor="middle" fill="#15803d" font-weight="700">Me = Q₁ = 10</text>
-<line x1="265" y1="70" x2="265" y2="125" stroke="#c2410c" stroke-width="2.5"/><text x="265" y="64" text-anchor="middle" fill="#c2410c" font-weight="700">المتوسط 11</text>
+<line x1="265" y1="70" x2="265" y2="125" stroke="#c2410c" stroke-width="2.5"/><text x="265" y="64" text-anchor="middle" fill="#c2410c" font-weight="700">x̄ = 11</text>
 <line x1="310" y1="45" x2="310" y2="104" stroke="#a16207" stroke-width="2" stroke-dasharray="4 3"/><text x="330" y="38" text-anchor="middle" fill="#a16207" font-weight="700">Q₃ = 12</text>
-<text x="270" y="168" text-anchor="middle">السلسلة: 8 ، 10 ، 10 ، 12 ، 15</text>
+<text x="345" y="168" text-anchor="middle" direction="rtl">السلسلة:</text><text x="230" y="168" text-anchor="middle">8 ، 10 ، 10 ، 12 ، 15</text>
 </svg><figcaption>الشكل 1: تمثيل نقطي لسلسلة من 5 علامات مع موقع الوسيط والربعيين والمتوسط.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">المتوسط الحسابي:</span> x̄ = (n₁x₁ + n₂x₂ + … + nₚxₚ)/N حيث N هو التكرار الكلي.</li>
+<li><span class="k">المتوسط الحسابي:</span> <bdi dir="ltr">x̄ = (n₁x₁ + n₂x₂ + … + nₚxₚ)/N</bdi> حيث N هو التكرار الكلي.</li>
 <li>في سلسلة مجمّعة في فئات نعوّض كل فئة بـ<span class="k">مركزها</span> (منتصفها) ثم نحسب المتوسط.</li>
 <li><span class="k">المنوال:</span> القيمة (أو الفئة) ذات أكبر تكرار.</li>
 <li><span class="k">الوسيط Me:</span> بعد ترتيب القيم تصاعدياً، هو القيمة التي تقسم السلسلة إلى جزأين متساويين في التكرار؛ إذا كان N زوجياً نأخذ متوسط القيمتين الوسطيين.</li>
 <li><span class="k">الربعي الأول Q₁:</span> أصغر قيمة يكون 25% من القيم على الأقل أصغر منها أو تساويها؛ و<span class="k">الربعي الثالث Q₃</span> بالطريقة نفسها مع 75%.</li>
-<li><span class="k">الخطية:</span> إذا كان yᵢ = a xᵢ + b فإن ȳ = a x̄ + b.</li>
+<li><span class="k">الخطية:</span> إذا كان <bdi dir="ltr">yᵢ = a xᵢ + b</bdi> فإن <bdi dir="ltr">ȳ = a x̄ + b</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>العلامات: 8، 10، 10، 12، 15. <span class="k">الحل:</span> x̄ = 55/5 = 11؛ المنوال 10؛ الوسيط هو الحدّ الثالث: Me = 10. N/4 = 1,25 ⇐ Q₁ هو الحدّ الثاني = 10، و 3N/4 = 3,75 ⇐ Q₃ هو الحدّ الرابع = 12.</li>
-<li>القيم 1، 2، 3 بالتكرارات 2، 5، 3. <span class="k">الحل:</span> N = 10، x̄ = (2 + 10 + 9)/10 = 2,1؛ الحدّان الخامس والسادس يساويان 2، إذن Me = 2.</li>
-<li>أضاف الأستاذ نقطتين لكل علامة في المثال 1. <span class="k">الحل:</span> المتوسط الجديد 11 + 2 = 13 دون إعادة الحساب.</li>
+<li>العلامات: 8، 10، 10، 12، 15. <span class="k">الحل:</span> <bdi dir="ltr">x̄ = 55/5 = 11</bdi>؛ المنوال 10؛ الوسيط هو الحدّ الثالث: <bdi dir="ltr">Me = 10</bdi>. <bdi dir="ltr">N/4 = 1,25</bdi> ⇐ Q₁ هو الحدّ الثاني = 10، و <bdi dir="ltr">3N/4 = 3,75</bdi> ⇐ Q₃ هو الحدّ الرابع = 12.</li>
+<li>القيم 1، 2، 3 بالتكرارات 2، 5، 3. <span class="k">الحل:</span> <bdi dir="ltr">N = 10</bdi>، <bdi dir="ltr">x̄ = (2 + 10 + 9)/10 = 2,1</bdi>؛ الحدّان الخامس والسادس يساويان 2، إذن <bdi dir="ltr">Me = 2</bdi>.</li>
+<li>أضاف الأستاذ نقطتين لكل علامة في المثال 1. <span class="k">الحل:</span> المتوسط الجديد <bdi dir="ltr">11 + 2 = 13</bdi> دون إعادة الحساب.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
@@ -91,7 +91,7 @@ main{position:relative;z-index:1}
 <li>الوسيط يقسم السلسلة المرتبة إلى نصفين.</li>
 <li>Q₁ عند 25% و Q₃ عند 75% من التكرار.</li>
 <li>المنوال = الأكثر تكراراً.</li>
-<li>ax + b ⇐ المتوسط يصبح a x̄ + b.</li>
+<li><bdi dir="ltr">ax + b</bdi> ⇐ المتوسط يصبح <bdi dir="ltr">a x̄ + b</bdi>.</li>
 </ul></div>
 
 <div class="legend"><span><i style="background:var(--rule)"></i> قاعدة تُحفظ</span><span><i style="background:var(--ex)"></i> مثال</span><span><i style="background:var(--warn)"></i> تنبيه بكالوريا</span><span><i style="background:var(--gold)"></i> مراجعة سريعة</span></div>

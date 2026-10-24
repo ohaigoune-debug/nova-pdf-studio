@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> إذا كانت كل المخارج لها الحظ نفسه في الظهور (قطعة نقدية متوازنة، نرد غير مزيّف، سحب عشوائي)، يصبح الاحتمال مجرّد عدّ: عدد المخارج الملائمة مقسوماً على عدد كل المخارج.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <circle cx="500" cy="90" r="5" fill="#1f2937"/>
 <line x1="495" y1="88" x2="395" y2="50" stroke="#1d4ed8" stroke-width="2"/><line x1="495" y1="92" x2="395" y2="130" stroke="#1d4ed8" stroke-width="2"/>
 <text x="380" y="55" text-anchor="middle" font-weight="700">ص</text><text x="380" y="135" text-anchor="middle" font-weight="700">ك</text>
@@ -63,33 +63,33 @@ main{position:relative;z-index:1}
 <line x1="365" y1="128" x2="265" y2="105" stroke="#15803d" stroke-width="2"/><line x1="365" y1="132" x2="265" y2="155" stroke="#15803d" stroke-width="2"/>
 <text x="250" y="30" text-anchor="middle" font-weight="700">ص</text><text x="250" y="80" text-anchor="middle" font-weight="700">ك</text><text x="250" y="110" text-anchor="middle" font-weight="700">ص</text><text x="250" y="160" text-anchor="middle" font-weight="700">ك</text>
 <rect x="60" y="12" width="150" height="153" rx="8" fill="#fde68a" stroke="#a16207"/>
-<text x="135" y="32" text-anchor="middle">(ص ، ص)</text><text x="135" y="80" text-anchor="middle">(ص ، ك)</text><text x="135" y="110" text-anchor="middle">(ك ، ص)</text><text x="135" y="158" text-anchor="middle">(ك ، ك)</text>
+<text x="135" y="32" text-anchor="middle" direction="rtl">(ص ، ص)</text><text x="135" y="80" text-anchor="middle" direction="rtl">(ص ، ك)</text><text x="135" y="110" text-anchor="middle" direction="rtl">(ك ، ص)</text><text x="135" y="158" text-anchor="middle" direction="rtl">(ك ، ك)</text>
 </svg><figcaption>الشكل 1: شجرة رمي قطعة نقدية متوازنة مرتين (ص: صورة، ك: كتابة): 4 مخارج متساوية الاحتمال، احتمال كل منها 1/4.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">تساوي الاحتمال:</span> إذا كانت Ω تحوي n مخرجاً لها الاحتمال نفسه، فاحتمال كل مخرج هو 1/n.</li>
-<li><span class="k">القاعدة الأساسية:</span> P(A) = card A / card Ω = عدد المخارج الملائمة / عدد المخارج الممكنة.</li>
+<li><span class="k">القاعدة الأساسية:</span> <bdi dir="ltr">P(A) = card A / card Ω</bdi> = عدد المخارج الملائمة / عدد المخارج الممكنة.</li>
 <li>عبارات مثل «متوازنة»، «غير مزيّف»، «عشوائياً»، «لا نميّز بينها باللمس» تدلّ على <span class="k">تساوي الاحتمال</span>.</li>
 <li><span class="k">أدوات العدّ:</span> الشجرة لتجارب متتالية، والجدول ذو المدخلين لتجربة بمرحلتين (مثل رمي نردين).</li>
-<li><span class="k">احتمال الاتحاد:</span> P(A ∪ B) = P(A) + P(B) − P(A ∩ B).</li>
-<li>دائماً 0 ≤ P(A) ≤ 1، و P(Ω) = 1، و P(∅) = 0.</li>
+<li><span class="k">احتمال الاتحاد:</span> <bdi dir="ltr">P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</bdi>.</li>
+<li>دائماً <bdi dir="ltr">0 ≤ P(A) ≤ 1</bdi>، و <bdi dir="ltr">P(Ω) = 1</bdi>، و <bdi dir="ltr">P(∅) = 0</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>نرمي قطعة نقدية متوازنة مرتين. ما احتمال الحصول على «صورة» مرة واحدة على الأقل؟ <span class="k">الحل:</span> 3 مخارج ملائمة من 4، إذن P = 3/4؛ أو 1 − P(ك ، ك) = 1 − 1/4 = 3/4.</li>
-<li>نرمي نردين متوازنين ونهتم بمجموع الرقمين. <span class="k">الحل:</span> card Ω = 6 × 6 = 36؛ المجموع 7 يتحقق بـ (1،6)، (2،5)، (3،4)، (4،3)، (5،2)، (6،1)، إذن P = 6/36 = 1/6.</li>
+<li>نرمي قطعة نقدية متوازنة مرتين. ما احتمال الحصول على «صورة» مرة واحدة على الأقل؟ <span class="k">الحل:</span> 3 مخارج ملائمة من 4، إذن <bdi dir="ltr">P = 3/4</bdi>؛ أو 1 − P(ك ، ك) = <bdi dir="ltr">1 − 1/4 = 3/4</bdi>.</li>
+<li>نرمي نردين متوازنين ونهتم بمجموع الرقمين. <span class="k">الحل:</span> <bdi dir="ltr">card Ω = 6 × 6 = 36</bdi>؛ المجموع 7 يتحقق بـ <bdi dir="ltr">(1 ; 6)</bdi>، <bdi dir="ltr">(2 ; 5)</bdi>، <bdi dir="ltr">(3 ; 4)</bdi>، <bdi dir="ltr">(4 ; 3)</bdi>، <bdi dir="ltr">(5 ; 2)</bdi>، <bdi dir="ltr">(6 ; 1)</bdi>، إذن <bdi dir="ltr">P = 6/36 = 1/6</bdi>.</li>
 <li>كيس فيه 3 كريات حمراء و2 بيضاء لا نميّز بينها باللمس، نسحب كرية واحدة. <span class="k">الحل:</span> P(حمراء) = 3/5 و P(بيضاء) = 2/5، والمجموع 1.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
-<li>اعتبار (2،5) و(5،2) مخرجاً واحداً عند رمي نردين، فنجد 3/36 بدل 6/36.</li>
+<li>اعتبار <bdi dir="ltr">(2 ; 5)</bdi> و<bdi dir="ltr">(5 ; 2)</bdi> مخرجاً واحداً عند رمي نردين، فنجد 3/36 بدل 6/36.</li>
 <li>افتراض تساوي احتمال المجاميع (من 2 إلى 12)، وهذا خطأ.</li>
-<li>تطبيق القاعدة card A / card Ω على نرد غير متوازن.</li>
+<li>تطبيق القاعدة <bdi dir="ltr">card A / card Ω</bdi> على نرد غير متوازن.</li>
 <li>جمع P(A) و P(B) دون طرح P(A ∩ B).</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>تساوي الاحتمال ⇐ P(A) = card A / card Ω.</li>
+<li>تساوي الاحتمال ⇐ <bdi dir="ltr">P(A) = card A / card Ω</bdi>.</li>
 <li>ابدأ دائماً بحساب card Ω بشجرة أو جدول.</li>
 <li>«على الأقل» ⇐ فكّر في الحادثة العكسية.</li>
 <li>نردان: 36 مخرجاً مرتباً.</li>

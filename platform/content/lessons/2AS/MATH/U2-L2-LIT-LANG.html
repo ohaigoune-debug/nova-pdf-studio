@@ -52,42 +52,42 @@ main{position:relative;z-index:1}
 
 <p class="goal"><span class="k">الهدف:</span> أن تتعرف على الدوال المرجعية (مربع، مقلوب، جذر تربيعي، قيمة مطلقة) واتجاه تغير كل منها، وأن ترسم تمثيلها البياني وتستغله في المقارنة.</p>
 
-<div class="lead"><span class="k">الفكرة في سطرين:</span> الدوال المرجعية قوالب أساسية نحفظ منحنياتها، ومنها نستنتج خواص دوال أخرى. التمثيل البياني لدالة f هو مجموعة النقط M(x ; f(x)) في معلم.</div>
+<div class="lead"><span class="k">الفكرة في سطرين:</span> الدوال المرجعية قوالب أساسية نحفظ منحنياتها، ومنها نستنتج خواص دوال أخرى. التمثيل البياني لدالة f هو مجموعة النقط <bdi dir="ltr">M(x ; f(x))</bdi> في معلم.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
 <line x1="290" y1="150" x2="530" y2="150" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar)"/><line x1="410" y1="170" x2="410" y2="10" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar)"/>
-<path d="M330 22 Q410 278 490 22" fill="none" stroke="#1d4ed8" stroke-width="2.5"/><text x="500" y="35" fill="#1d4ed8">y = x²</text>
+<path d="M330 22 Q410 278 490 22" fill="none" stroke="#1d4ed8" stroke-width="2.5"/><text x="282" y="40" fill="#1d4ed8">y = x²</text>
 <path d="M410 150 C 420 115, 450 100, 520 88" fill="none" stroke="#15803d" stroke-width="2.5"/><text x="470" y="120" fill="#15803d">y = √x</text>
 <line x1="10" y1="90" x2="260" y2="90" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar)"/><line x1="135" y1="170" x2="135" y2="10" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar)"/>
 <path d="M150 15 C 152 60, 170 78, 250 83" fill="none" stroke="#c2410c" stroke-width="2.5"/><path d="M120 165 C 118 120, 100 102, 20 97" fill="none" stroke="#c2410c" stroke-width="2.5"/><text x="200" y="40" fill="#c2410c">y = 1/x</text>
 </svg><figcaption>الشكل 1: يميناً منحنى الدالة مربع (قطع مكافئ) والدالة جذر؛ يساراً منحنى الدالة مقلوب (قطع زائد) بفرعين.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">الدالة مربع</span> x ↦ x²: معرفة على ℝ، متناقصة على ]−∞;0] ومتزايدة على [0;+∞[، منحناها <span class="k">قطع مكافئ</span> متناظر بالنسبة لمحور التراتيب (دالة زوجية).</li>
-<li><span class="k">الدالة مقلوب</span> x ↦ 1/x: معرفة على ℝ*، متناقصة على ]−∞;0[ وعلى ]0;+∞[، منحناها <span class="k">قطع زائد</span> مركز تناظره المبدأ O (دالة فردية).</li>
-<li><span class="k">الدالة جذر تربيعي</span> x ↦ √x: معرفة على [0;+∞[ ومتزايدة عليه.</li>
-<li><span class="k">الدالة قيمة مطلقة</span> x ↦ |x|: معرفة على ℝ، متناقصة على ]−∞;0] ومتزايدة على [0;+∞[، منحناها نصفا مستقيمين.</li>
-<li><span class="k">التمثيل البياني:</span> النقطة M(a ; b) تنتمي إلى منحنى f إذا وفقط إذا كان f(a) = b.</li>
-<li><span class="k">الانسحاب:</span> منحنى x ↦ f(x) + b هو صورة منحنى f بانسحاب شعاعه b وحدة على محور التراتيب.</li>
+<li><span class="k">الدالة مربع</span> <bdi dir="ltr">x ↦ x²</bdi>: معرفة على ℝ، متناقصة على <bdi dir="ltr">]−∞;0]</bdi> ومتزايدة على <bdi dir="ltr">[0;+∞[</bdi>، منحناها <span class="k">قطع مكافئ</span> متناظر بالنسبة لمحور التراتيب (دالة زوجية).</li>
+<li><span class="k">الدالة مقلوب</span> <bdi dir="ltr">x ↦ 1/x</bdi>: معرفة على ℝ*، متناقصة على <bdi dir="ltr">]−∞;0[</bdi> وعلى <bdi dir="ltr">]0;+∞[</bdi>، منحناها <span class="k">قطع زائد</span> مركز تناظره المبدأ O (دالة فردية).</li>
+<li><span class="k">الدالة جذر تربيعي</span> <bdi dir="ltr">x ↦ √x</bdi>: معرفة على <bdi dir="ltr">[0;+∞[</bdi> ومتزايدة عليه.</li>
+<li><span class="k">الدالة قيمة مطلقة</span> <bdi dir="ltr">x ↦ |x|</bdi>: معرفة على ℝ، متناقصة على <bdi dir="ltr">]−∞;0]</bdi> ومتزايدة على <bdi dir="ltr">[0;+∞[</bdi>، منحناها نصفا مستقيمين.</li>
+<li><span class="k">التمثيل البياني:</span> النقطة <bdi dir="ltr">M(a ; b)</bdi> تنتمي إلى منحنى f إذا وفقط إذا كان <bdi dir="ltr">f(a) = b</bdi>.</li>
+<li><span class="k">الانسحاب:</span> منحنى <bdi dir="ltr">x ↦ f(x) + b</bdi> هو صورة منحنى f بانسحاب شعاعه b وحدة على محور التراتيب.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>قارن (2,5)² و (3,1)². <span class="k">الحل:</span> العددان موجبان و 2,5 &lt; 3,1، والدالة مربع متزايدة على [0;+∞[، إذن (2,5)² &lt; (3,1)².</li>
-<li>قارن 1/4 و 1/7. <span class="k">الحل:</span> 4 &lt; 7 والدالة مقلوب متناقصة على ]0;+∞[، إذن 1/4 &gt; 1/7.</li>
-<li>هل النقطة A(9 ; 3) تنتمي إلى منحنى الدالة جذر؟ <span class="k">الحل:</span> √9 = 3، إذن نعم.</li>
+<li>قارن (2,5)² و (3,1)². <span class="k">الحل:</span> العددان موجبان و <bdi dir="ltr">2,5 &lt; 3,1</bdi>، والدالة مربع متزايدة على <bdi dir="ltr">[0;+∞[</bdi>، إذن <bdi dir="ltr">(2,5)² &lt; (3,1)²</bdi>.</li>
+<li>قارن 1/4 و 1/7. <span class="k">الحل:</span> <bdi dir="ltr">4 &lt; 7</bdi> والدالة مقلوب متناقصة على <bdi dir="ltr">]0;+∞[</bdi>، إذن <bdi dir="ltr">1/4 &gt; 1/7</bdi>.</li>
+<li>هل النقطة <bdi dir="ltr">A(9 ; 3)</bdi> تنتمي إلى منحنى الدالة جذر؟ <span class="k">الحل:</span> <bdi dir="ltr">√9 = 3</bdi>، إذن نعم.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
 <li>كتابة أن الدالة مقلوب متناقصة على ℝ*: الصحيح على كل من المجالين منفصلين.</li>
-<li>مقارنة مربعي عددين سالبين بالترتيب نفسه: (−2)² &lt; (−3)² رغم أن −2 &gt; −3.</li>
+<li>مقارنة مربعي عددين سالبين بالترتيب نفسه: <bdi dir="ltr">(−2)² &lt; (−3)²</bdi> رغم أن <bdi dir="ltr">−2 &gt; −3</bdi>.</li>
 <li>رسم منحنى الدالة جذر لقيم x سالبة.</li>
-<li>وصل فرعي القطع الزائد عبر النقطة x = 0.</li>
+<li>وصل فرعي القطع الزائد عبر <bdi dir="ltr">x = 0</bdi>.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>x²: قطع مكافئ، زوجية، أصغر قيمة 0 عند x = 0.</li>
-<li>1/x: قطع زائد، فردية، متناقصة على كل مجال.</li>
-<li>√x: متزايدة على [0;+∞[.</li>
+<li>x²: قطع مكافئ، زوجية، أصغر قيمة 0 عند <bdi dir="ltr">x = 0</bdi>.</li>
+<li>1/x: قطع زائد، فردية، متناقصة على كل من المجالين.</li>
+<li>√x: متزايدة على <bdi dir="ltr">[0;+∞[</bdi>.</li>
 <li>|x|: شكل V، زوجية.</li>
 <li>للمقارنة: حدّد المجال ثم استعمل اتجاه التغير.</li>
 </ul></div>

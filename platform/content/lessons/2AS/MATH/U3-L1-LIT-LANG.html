@@ -54,39 +54,39 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> في المتتالية الحسابية ننتقل من حد إلى الحد الموالي بإضافة العدد نفسه r دائماً. لذلك تكون الحدود متباعدة بمسافات متساوية كدرجات سلّم.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg direction="ltr" viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
 <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1f2937"/></marker></defs>
 <line x1="20" y1="120" x2="525" y2="120" stroke="#1f2937" stroke-width="1.5" marker-end="url(#ar)"/>
 <circle cx="60" cy="120" r="7" fill="#1d4ed8"/><circle cx="160" cy="120" r="7" fill="#1d4ed8"/><circle cx="260" cy="120" r="7" fill="#1d4ed8"/><circle cx="360" cy="120" r="7" fill="#1d4ed8"/><circle cx="460" cy="120" r="7" fill="#1d4ed8"/>
 <text x="60" y="150" text-anchor="middle">u₀ = 3</text><text x="160" y="150" text-anchor="middle">u₁ = 7</text><text x="260" y="150" text-anchor="middle">u₂ = 11</text><text x="360" y="150" text-anchor="middle">u₃ = 15</text><text x="460" y="150" text-anchor="middle">u₄ = 19</text>
 <path d="M65 108 Q110 60 155 108" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#ar)"/><path d="M165 108 Q210 60 255 108" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#ar)"/><path d="M265 108 Q310 60 355 108" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#ar)"/><path d="M365 108 Q410 60 455 108" fill="none" stroke="#15803d" stroke-width="2" marker-end="url(#ar)"/>
 <text x="110" y="70" text-anchor="middle" fill="#15803d">+4</text><text x="210" y="70" text-anchor="middle" fill="#15803d">+4</text><text x="310" y="70" text-anchor="middle" fill="#15803d">+4</text><text x="410" y="70" text-anchor="middle" fill="#15803d">+4</text>
-<text x="270" y="30" text-anchor="middle" font-weight="700">u<tspan font-size="11">n+1</tspan> = u<tspan font-size="11">n</tspan> + r مع r = 4</text>
+<text x="270" y="30" text-anchor="middle" font-weight="700">u<tspan font-size="11" baseline-shift="sub">n+1</tspan> = u<tspan font-size="11" baseline-shift="sub">n</tspan> + r  (r = 4)</text>
 </svg><figcaption>الشكل 1: متتالية حسابية حدها الأول 3 وأساسها 4: قفزات متساوية.</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
-<li><span class="k">التعريف:</span> (u<sub>n</sub>) حسابية إذا وُجد عدد ثابت r (<span class="k">الأساس</span>) بحيث u<sub>n+1</sub> = u<sub>n</sub> + r لكل n.</li>
-<li><span class="k">إثبات أنها حسابية:</span> نحسب u<sub>n+1</sub> − u<sub>n</sub> ونبيّن أنه ثابت لا يتعلق بـ n.</li>
-<li><span class="k">الحد العام:</span> u<sub>n</sub> = u<sub>0</sub> + n×r، وبصفة عامة u<sub>n</sub> = u<sub>p</sub> + (n − p)×r.</li>
-<li><span class="k">اتجاه التغير:</span> إذا كان r &gt; 0 فهي متزايدة، وإذا كان r &lt; 0 فهي متناقصة، وإذا كان r = 0 فهي ثابتة.</li>
+<li><span class="k">التعريف:</span> (u<sub>n</sub>) حسابية إذا وُجد عدد ثابت r (<span class="k">الأساس</span>) بحيث <bdi dir="ltr">u<sub>n+1</sub> = u<sub>n</sub> + r</bdi> لكل n.</li>
+<li><span class="k">إثبات أنها حسابية:</span> نحسب <bdi dir="ltr">u<sub>n+1</sub> − u<sub>n</sub></bdi> ونبيّن أنه ثابت لا يتعلق بـ n.</li>
+<li><span class="k">الحد العام:</span> <bdi dir="ltr">u<sub>n</sub> = u<sub>0</sub> + n×r</bdi>، وبصفة عامة <bdi dir="ltr">u<sub>n</sub> = u<sub>p</sub> + (n − p)×r</bdi>.</li>
+<li><span class="k">اتجاه التغير:</span> إذا كان <bdi dir="ltr">r &gt; 0</bdi> فهي متزايدة، وإذا كان <bdi dir="ltr">r &lt; 0</bdi> فهي متناقصة، وإذا كان <bdi dir="ltr">r = 0</bdi> فهي ثابتة.</li>
 <li><span class="k">المجموع:</span> S = (عدد الحدود) × (الحد الأول + الحد الأخير) / 2.</li>
-<li><span class="k">الوسط الحسابي:</span> ثلاثة أعداد a و b و c حدود متتابعة لمتتالية حسابية إذا كان a + c = 2b.</li>
+<li><span class="k">الوسط الحسابي:</span> ثلاثة أعداد a و b و c حدود متتابعة لمتتالية حسابية إذا كان <bdi dir="ltr">a + c = 2b</bdi>.</li>
 </ol></div>
 
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
-<li>u<sub>0</sub> = 3 و r = 4. احسب u<sub>10</sub>. <span class="k">الحل:</span> u<sub>10</sub> = 3 + 10×4 = 43.</li>
-<li>احسب S = u<sub>0</sub> + u<sub>1</sub> + … + u<sub>10</sub>. <span class="k">الحل:</span> عدد الحدود 11، إذن S = 11×(3 + 43)/2 = 11×23 = 253.</li>
-<li>متتالية حسابية فيها u<sub>2</sub> = 7 و u<sub>5</sub> = 16. عيّن r و u<sub>0</sub>. <span class="k">الحل:</span> u<sub>5</sub> = u<sub>2</sub> + 3r ⇐ 16 = 7 + 3r ⇐ r = 3، و u<sub>0</sub> = u<sub>2</sub> − 2r = 7 − 6 = 1.</li>
+<li><bdi dir="ltr">u<sub>0</sub> = 3</bdi> و <bdi dir="ltr">r = 4</bdi>. احسب u<sub>10</sub>. <span class="k">الحل:</span> <bdi dir="ltr">u<sub>10</sub> = 3 + 10×4 = 43</bdi>.</li>
+<li>احسب <bdi dir="ltr">S = u<sub>0</sub> + u<sub>1</sub> + … + u<sub>10</sub></bdi>. <span class="k">الحل:</span> عدد الحدود 11، إذن <bdi dir="ltr">S = 11×(3 + 43)/2 = 11×23 = 253</bdi>.</li>
+<li>متتالية حسابية فيها <bdi dir="ltr">u<sub>2</sub> = 7</bdi> و <bdi dir="ltr">u<sub>5</sub> = 16</bdi>. عيّن r و u<sub>0</sub>. <span class="k">الحل:</span> <bdi dir="ltr">u<sub>5</sub> = u<sub>2</sub> + 3r</bdi> ⇐ <bdi dir="ltr">16 = 7 + 3r</bdi> ⇐ <bdi dir="ltr">r = 3</bdi>، و <bdi dir="ltr">u<sub>0</sub> = u<sub>2</sub> − 2r = 7 − 6 = 1</bdi>.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
 <li>الخطأ في عدد الحدود: من u<sub>0</sub> إلى u<sub>10</sub> هناك 11 حداً لا 10.</li>
-<li>استعمال u<sub>n</sub> = u<sub>0</sub> + n×r والحد الأول هو u<sub>1</sub>؛ الصحيح u<sub>n</sub> = u<sub>1</sub> + (n − 1)×r.</li>
+<li>استعمال <bdi dir="ltr">u<sub>n</sub> = u<sub>0</sub> + n×r</bdi> والحد الأول هو u<sub>1</sub>؛ الصحيح <bdi dir="ltr">u<sub>n</sub> = u<sub>1</sub> + (n − 1)×r</bdi>.</li>
 <li>الاكتفاء بحساب فرقين أو ثلاثة لإثبات أن المتتالية حسابية.</li>
 </ul></div>
 
 <div class="block gold"><h2>🟡 خلاصة للمراجعة السريعة</h2><ul>
-<li>حسابية ⇐ u<sub>n+1</sub> − u<sub>n</sub> = r ثابت.</li>
-<li>u<sub>n</sub> = u<sub>p</sub> + (n − p)r.</li>
+<li>حسابية ⇐ <bdi dir="ltr">u<sub>n+1</sub> − u<sub>n</sub> = r</bdi> ثابت.</li>
+<li><bdi dir="ltr">u<sub>n</sub> = u<sub>p</sub> + (n − p)r</bdi>.</li>
 <li>إشارة r تحدد اتجاه التغير.</li>
 <li>S = عدد الحدود × (الأول + الأخير)/2.</li>
 </ul></div>
