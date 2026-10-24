@@ -9,7 +9,7 @@ import { and, asc, desc, eq, inArray, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { appSettings, downloads, files, levels, listings, orderItems, orders, productFiles, products, profiles, streams, students, subjects, teacherWorkspaces, users, wilayas, type OrderRow, type ProductRow } from '@/server/db/schema'
 import type { OrderStatus, PaymentMethod, ProductStatus, ProductType } from '@/server/db/schema/enums'
-import { ORDER_STATUSES, PRODUCT_STATUSES, PRODUCT_TYPES } from '@/server/db/schema/enums'
+import { CONFIRMATION_STATUSES, ORDER_STATUSES, PRODUCT_STATUSES, PRODUCT_TYPES } from '@/server/db/schema/enums'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { normalizeArabic } from '@/server/lib/arabic'
 import { writeAudit } from '@/server/lib/audit'
@@ -17,14 +17,40 @@ import { AppError, assertUuid } from '@/server/lib/errors'
 import { signFileUrl } from '@/server/lib/storage'
 import { grantPurchasesForOrder } from './marketplace.service'
 import { notify } from './notifications.service'
+import { ecotrackFeeFor, listEcotrackFees } from './ecotrack.service'
+import { transitionOrder } from './order-status.service'
 import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
 
 export const PRODUCT_TYPE_AR: Record<ProductType, string> = { BOOK: 'كتاب ورقي', PDF: 'ملف PDF', PACK: 'حزمة (ورقي + رقمي)' }
-export const ORDER_STATUS_AR: Record<OrderStatus, string> = { PENDING: 'بانتظار التأكيد', CONFIRMED: 'مؤكَّد', SHIPPED: 'في الطريق', DELIVERED: 'سُلِّم', CANCELLED: 'أُلغي' }
+export { ORDER_STATUS_AR } from './order-status.service'
 export const PAYMENT_AR: Record<PaymentMethod, string> = { COD: 'الدفع عند الاستلام', TRANSFER: 'تحويل (CCP / BaridiMob)', FREE: 'مجاني' }
 
 /** رسوم الشحن للطلبات المادية (دج) — من البيئة، صفر إن لم تُضبط */
 export const shippingFeeDzd = (): number => Math.max(0, Number(process.env.STORE_SHIPPING_DZD ?? 0) || 0)
+
+/** رسم التوصيل: جدول EcoTrack للولاية إن كان محفوظاً، وإلا الرسم الثابت من البيئة */
+export async function shippingFeeFor(db: Db, wilayaId: string | null, deliveryType: 'HOME' | 'DESK'): Promise<number> {
+  if (wilayaId) {
+    const [w] = await db.select({ code: wilayas.code }).from(wilayas).where(eq(wilayas.id, wilayaId)).limit(1)
+    const fee = w ? await ecotrackFeeFor(db, w.code, deliveryType) : null
+    if (fee != null) return fee
+  }
+  return shippingFeeDzd()
+}
+
+/** خريطة الرسوم لكل ولاية (للسلة): null حين لا جدول EcoTrack محفوظ */
+export async function shippingFeeTable(db: Db): Promise<Record<string, { home: number; desk: number }> | null> {
+  const fees = await listEcotrackFees(db)
+  if (!fees.length) return null
+  const ws = await db.select({ id: wilayas.id, code: wilayas.code }).from(wilayas)
+  const byCode = new Map(fees.map((f) => [f.wilayaCode, f]))
+  const out: Record<string, { home: number; desk: number }> = {}
+  for (const w of ws) {
+    const f = byCode.get(w.code.padStart(2, '0'))
+    if (f) out[w.id] = { home: f.homeDzd, desk: f.deskDzd }
+  }
+  return out
+}
 
 const isPhysical = (type: string) => type === 'BOOK' || type === 'PACK'
 const isDigital = (type: string) => type === 'PDF' || type === 'PACK'
@@ -210,6 +236,9 @@ export interface PlaceOrderInput {
   phone: string
   wilayaId?: string | null
   address?: string | null
+  /** البلدية ونوع التسليم (منزل/مكتب) — لشركة التوصيل */
+  commune?: string | null
+  deliveryType?: 'HOME' | 'DESK' | null
   note?: string | null
   /** شعبة المشتري — إلزامية حين يتطلبها منتج (للتلميذ تُؤخذ من ملفه إن لم تُمرَّر) */
   streamId?: string | null
@@ -303,14 +332,15 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
   if (needsShipping && !input.wilayaId) throw new AppError('VALIDATION', { field: 'wilayaId' })
   if (needsShipping && !input.address?.trim()) throw new AppError('VALIDATION', { field: 'address' })
   const subtotal = lines.reduce((s, l) => s + l.total, 0)
-  const shipping = needsShipping ? shippingFeeDzd() : 0
+  const deliveryType: 'HOME' | 'DESK' = input.deliveryType === 'DESK' ? 'DESK' : 'HOME'
+  const shipping = needsShipping ? await shippingFeeFor(db, input.wilayaId ?? null, deliveryType) : 0
   const total = subtotal + shipping
   const paymentMethod: PaymentMethod = total === 0 ? 'FREE' : needsShipping ? 'COD' : 'TRANSFER'
   const status: OrderStatus = paymentMethod === 'FREE' ? 'DELIVERED' : 'PENDING'
   const order = await db.transaction(async (tx) => {
     const [o] = await tx
       .insert(orders)
-      .values({ number: orderNumber(), userId: actor.userId, status, paymentMethod, needsShipping, subtotalDzd: subtotal, shippingDzd: shipping, totalDzd: total, customerName: input.customerName.trim(), phone, wilayaId: input.wilayaId ?? null, streamId, otpVerifiedAt, beneficiaryStudentId: input.beneficiaryStudentId ?? null, address: input.address?.trim() || null, note: input.note?.trim() || null, confirmedAt: status === 'DELIVERED' ? new Date() : null, deliveredAt: status === 'DELIVERED' ? new Date() : null })
+      .values({ number: orderNumber(), userId: actor.userId, status, paymentMethod, needsShipping, subtotalDzd: subtotal, shippingDzd: shipping, totalDzd: total, customerName: input.customerName.trim(), phone, wilayaId: input.wilayaId ?? null, streamId, otpVerifiedAt, beneficiaryStudentId: input.beneficiaryStudentId ?? null, address: input.address?.trim() || null, commune: input.commune?.trim().slice(0, 120) || null, deliveryType, note: input.note?.trim() || null, confirmedAt: status === 'DELIVERED' ? new Date() : null, deliveredAt: status === 'DELIVERED' ? new Date() : null })
       .returning()
     await tx.insert(orderItems).values(lines.map((l) => ({ orderId: o!.id, productId: l.p.id, title: l.p.title, type: l.p.type, unitPriceDzd: l.p.priceDzd, qty: l.qty, lineTotalDzd: l.total })))
     for (const l of lines) {
@@ -384,38 +414,25 @@ export async function listOrdersAdmin(db: Db, actor: Actor, f: { status?: OrderS
     .limit(300)
 }
 
-const TRANSITIONS: Record<OrderStatus, OrderStatus[]> = { PENDING: ['CONFIRMED', 'CANCELLED'], CONFIRMED: ['SHIPPED', 'DELIVERED', 'CANCELLED'], SHIPPED: ['DELIVERED', 'CANCELLED'], DELIVERED: [], CANCELLED: [] }
+/** طابور التأكيد الهاتفي: الطلبات التي تنتظر مكالمة، الأقدم أولاً (الحالة ثم تاريخ الإنشاء) */
+export async function listConfirmationQueue(db: Db, actor: Actor) {
+  assertRole(actor, 'SUPER_ADMIN')
+  return db
+    .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaName: wilayas.nameAr, commune: orders.commune, address: orders.address, note: orders.note, otpVerifiedAt: orders.otpVerifiedAt, confirmAttempts: orders.confirmAttempts, lastCallAt: orders.lastCallAt, createdAt: orders.createdAt, itemsText: sql<string>`(select coalesce(string_agg(i.title || case when i.qty > 1 then ' ×' || i.qty else '' end, ' + ' order by i.created_at), '') from order_items i where i.order_id = orders.id)` })
+    .from(orders)
+    .leftJoin(wilayas, eq(wilayas.id, orders.wilayaId))
+    .where(inArray(orders.status, [...CONFIRMATION_STATUSES]))
+    .orderBy(asc(orders.createdAt))
+    .limit(300)
+}
 
-/** تغيير حالة الطلب (المشرف): الإلغاء يعيد المخزون؛ صاحب الطلب يُخطر */
+/** تغيير حالة الطلب (المشرف): يمرّ من محرّك الحالات الموحّد (مخزون، تفعيل الدورة، إشعارات) */
 export async function setOrderStatus(db: Db, actor: Actor, id: string, next: OrderStatus, opts: { reason?: string | null; adminNote?: string | null; shippingDzd?: number | null } = {}): Promise<OrderRow> {
   assertRole(actor, 'SUPER_ADMIN')
   assertUuid(id, 'ORDER_NOT_FOUND')
   if (!ORDER_STATUSES.includes(next)) throw new AppError('VALIDATION', { field: 'status' })
-  const [o] = await db.select().from(orders).where(eq(orders.id, id)).limit(1)
-  if (!o) throw new AppError('ORDER_NOT_FOUND')
-  if (!TRANSITIONS[o.status as OrderStatus].includes(next)) throw new AppError('ORDER_INVALID_TRANSITION')
-  const now = new Date()
-  const shipping = opts.shippingDzd != null && Number.isInteger(opts.shippingDzd) && opts.shippingDzd >= 0 ? opts.shippingDzd : o.shippingDzd
-  const row = await db.transaction(async (tx) => {
-    const [r] = await tx
-      .update(orders)
-      .set({ status: next, shippingDzd: shipping, totalDzd: o.subtotalDzd + shipping, adminNote: opts.adminNote !== undefined ? opts.adminNote?.trim() || null : o.adminNote, confirmedAt: next === 'CONFIRMED' ? now : o.confirmedAt, shippedAt: next === 'SHIPPED' ? now : o.shippedAt, deliveredAt: next === 'DELIVERED' ? now : o.deliveredAt, cancelledAt: next === 'CANCELLED' ? now : o.cancelledAt, cancelReason: next === 'CANCELLED' ? opts.reason?.trim() || null : o.cancelReason, updatedAt: now })
-      .where(eq(orders.id, id))
-      .returning()
-    if (next === 'CANCELLED') {
-      const items = await tx.select().from(orderItems).where(eq(orderItems.orderId, id))
-      for (const it of items) {
-        if (isPhysical(it.type)) await tx.update(products).set({ stock: sql`case when ${products.stock} is null then null else ${products.stock} + ${it.qty} end` }).where(eq(products.id, it.productId))
-        await tx.update(products).set({ salesCount: sql`greatest(0, ${products.salesCount} - ${it.qty})` }).where(eq(products.id, it.productId))
-      }
-    }
-    return r!
-  })
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'store.order_status', entityType: 'order', entityId: id, oldValue: { status: o.status }, newValue: { status: next, reason: opts.reason ?? null } })
-  if (next === 'CONFIRMED' || next === 'DELIVERED') await grantPurchasesForOrder(db, id)
-  const msg: Record<OrderStatus, string> = { PENDING: '', CONFIRMED: o.needsShipping ? 'أُكّد طلبك وسيُشحن قريباً.' : 'أُكّد طلبك: ملفاتك جاهزة للتنزيل من «طلباتي».', SHIPPED: 'طلبك في الطريق إليك.', DELIVERED: 'سُلّم طلبك. شكراً لك.', CANCELLED: `أُلغي طلبك${opts.reason ? `: ${opts.reason}` : ''}.` }
-  if (msg[next]) await notify(db, { userId: o.userId, workspaceId: null, type: 'SYSTEM', title: `طلب ${o.number}: ${ORDER_STATUS_AR[next]}`, body: msg[next], link: `/store/orders/${o.id}` })
-  return row
+  const r = await transitionOrder(db, id, next, { actorUserId: actor.userId, source: 'admin', reason: opts.reason ?? null, adminNote: opts.adminNote, shippingDzd: opts.shippingDzd ?? null })
+  return r.order
 }
 
 /** رابط تنزيل موقّع قصير العمر لملف من طلب مؤكَّد لصاحبه (أو المشرف)، مع تسجيل التنزيل */
@@ -442,7 +459,7 @@ export async function storeStats(db: Db, actor: Actor) {
     db.select({ n: sql<number>`count(*)::int` }).from(downloads)
   ])
   const s = Object.fromEntries(byStatus.map((x) => [x.status, x.n])) as Partial<Record<OrderStatus, number>>
-  return { pending: s.PENDING ?? 0, confirmed: s.CONFIRMED ?? 0, shipped: s.SHIPPED ?? 0, delivered: s.DELIVERED ?? 0, cancelled: s.CANCELLED ?? 0, revenueDzd: revenue?.total ?? 0, products: prods?.n ?? 0, published: prods?.published ?? 0, downloads: dl?.n ?? 0 }
+  return { pending: (s.PENDING ?? 0) + (s.NO_ANSWER ?? 0) + (s.CALL_LATER ?? 0), confirmed: s.CONFIRMED ?? 0, shipped: s.SHIPPED ?? 0, delivered: s.DELIVERED ?? 0, returned: s.RETURNED ?? 0, cancelled: s.CANCELLED ?? 0, revenueDzd: revenue?.total ?? 0, products: prods?.n ?? 0, published: prods?.published ?? 0, downloads: dl?.n ?? 0 }
 }
 
 /** اسم العميل الافتراضي من ملفه */

@@ -66,7 +66,7 @@ export async function setStorePolicyAction(input: { requireOtp: boolean }): Prom
 }
 
 export async function saveSmsKeyAction(_prev: ActionResult<{ hint: string }> | null, fd: FormData): Promise<ActionResult<{ hint: string }>> {
-  const parsed = z.object({ apiKey: z.string().trim().min(8, 'أدخل المفتاح كاملاً').max(400), sender: z.string().trim().max(11).optional() }).safeParse({ apiKey: fd.get('apiKey') ?? '', sender: fd.get('sender') ?? undefined })
+  const parsed = z.object({ apiKey: z.string().trim().min(8, 'أدخل المفتاح كاملاً').max(400), sender: z.string().trim().max(80).optional() }).safeParse({ apiKey: fd.get('apiKey') ?? '', sender: fd.get('sender') ?? undefined })
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
     const actor = await requireRole('SUPER_ADMIN')

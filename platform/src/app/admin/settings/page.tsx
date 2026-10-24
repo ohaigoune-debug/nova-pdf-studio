@@ -1,5 +1,6 @@
 import { AboutSettingsForm } from '@/components/domain/about-settings-form'
 import { ChangePasswordCard } from '@/components/domain/change-password-card'
+import { TelegramSettingsForm } from '@/components/delivery/ecotrack-forms'
 import { StoreSmsSettings } from '@/components/domain/store-sms-settings'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/misc'
@@ -9,12 +10,13 @@ import { getDb } from '@/server/db/client'
 import { listSettings } from '@/server/queries/admin-extras.queries'
 import { getAboutSettings } from '@/server/services/about.service'
 import { smsStatus } from '@/server/lib/sms'
+import { telegramConfig } from '@/server/lib/telegram'
 import { storePolicy } from '@/server/services/store.service'
 
 export default async function AdminSettingsPage() {
   const actor = await requirePageActor('SUPER_ADMIN')
   const db = await getDb()
-  const [settings, about, policy, sms] = await Promise.all([listSettings(db, actor), getAboutSettings(db), storePolicy(db), smsStatus(db)])
+  const [settings, about, policy, sms, telegram] = await Promise.all([listSettings(db, actor), getAboutSettings(db), storePolicy(db), smsStatus(db), telegramConfig(db)])
   const env: [string, string][] = [
     ['DATABASE_URL', (process.env.DATABASE_URL ?? 'pglite://./data/pglite').replace(/:\/\/.*@/, '://***@')],
     ['QR_TOKEN_TTL_SECONDS', process.env.QR_TOKEN_TTL_SECONDS ?? '60'],
@@ -42,8 +44,16 @@ export default async function AdminSettingsPage() {
         </Card>
         <ChangePasswordCard />
       </div>
-      <div className="mb-6">
+      <div className="mb-6 grid gap-6 lg:grid-cols-2">
         <StoreSmsSettings policy={policy} sms={sms} />
+        <Card>
+          <CardHeader>
+            <CardTitle>إشعارات تيليغرام</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <TelegramSettingsForm cfg={telegram} />
+          </CardContent>
+        </Card>
       </div>
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>

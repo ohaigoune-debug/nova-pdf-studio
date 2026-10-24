@@ -1,6 +1,7 @@
 import { AlertTriangle, PackageCheck, Truck, Unplug } from 'lucide-react'
 import Link from 'next/link'
 import { WebhookSecretForm } from '@/components/delivery/delivery-forms'
+import { EcotrackSettingsForm } from '@/components/delivery/ecotrack-forms'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { EmptyState, PageHeader, StatCard } from '@/components/ui/misc'
@@ -10,20 +11,50 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import type { DeliveryEventStatus } from '@/server/db/schema/enums'
 import { deliverySecretStatus, deliveryStats, listDeliveryEvents } from '@/server/services/delivery.service'
+import { ecotrackStatus, listEcotrackFees } from '@/server/services/ecotrack.service'
 
 export const dynamic = 'force-dynamic'
 
-const STATUS_AR: Record<DeliveryEventStatus, string> = { CREATED: 'أُنشئت', IN_TRANSIT: 'في الطريق', DELIVERED: 'سُلِّمت', RETURNED: 'مرتجعة', CANCELLED: 'ملغاة', UNKNOWN: 'غير معروفة' }
-const STATUS_VARIANT: Record<DeliveryEventStatus, 'secondary' | 'success' | 'warning' | 'muted' | 'destructive'> = { CREATED: 'secondary', IN_TRANSIT: 'secondary', DELIVERED: 'success', RETURNED: 'warning', CANCELLED: 'muted', UNKNOWN: 'muted' }
+const STATUS_AR: Record<DeliveryEventStatus, string> = { CREATED: 'أُنشئت', IN_TRANSIT: 'في الطريق', FAILED_ATTEMPT: 'محاولة فاشلة', DELIVERED: 'سُلِّمت', RETURNED: 'مرتجعة', CANCELLED: 'ملغاة', UNKNOWN: 'غير معروفة' }
+const STATUS_VARIANT: Record<DeliveryEventStatus, 'secondary' | 'success' | 'warning' | 'muted' | 'destructive'> = { CREATED: 'secondary', IN_TRANSIT: 'secondary', FAILED_ATTEMPT: 'destructive', DELIVERED: 'success', RETURNED: 'warning', CANCELLED: 'muted', UNKNOWN: 'muted' }
 
 /** سجلّ أحداث شركة التوصيل (آخر 200) + ضبط سرّ الـwebhook */
 export default async function AdminDeliveryPage() {
   const actor = await requirePageActor('SUPER_ADMIN')
   const db = await getDb()
-  const [events, stats, secret] = await Promise.all([listDeliveryEvents(db, actor, 200), deliveryStats(db, actor), deliverySecretStatus(db)])
+  const [events, stats, secret, eco, fees] = await Promise.all([listDeliveryEvents(db, actor, 200), deliveryStats(db, actor), deliverySecretStatus(db), ecotrackStatus(db), listEcotrackFees(db)])
   return (
     <div className="space-y-6">
-      <PageHeader title="التوصيل" description="أحداث شركة التوصيل الواردة عبر webhook. عند «سُلِّمت» يُسلَّم الطلب وتُفعَّل الدورة المرتبطة بالكتاب تلقائياً، أو يُرسَل رمز مطالبة بالـSMS إلى وليّ الأمر." />
+      <PageHeader title="التوصيل" description="EcoTrack: إرسال الطرود بزر واحد ومزامنة التتبّع كل 20 دقيقة. عند «سُلِّمت» يُسلَّم الطلب وتُفعَّل الدورة المرتبطة بالكتاب تلقائياً، أو يُرسَل رمز مطالبة بالـSMS إلى وليّ الأمر. شركات أخرى: عبر webhook." />
+      <Card>
+        <CardHeader>
+          <CardTitle>EcoTrack</CardTitle>
+          <CardDescription>رابط منصّتك (https://شركتك.ecotrack.dz) ورمز API من حسابك عندهم. الطلب المؤكَّد يُرسَل طرداً («إرسال إلى EcoTrack» في صف الطلب، أو تلقائياً)، وحالة الطرد تُترجم إلى حالة الطلب.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <EcotrackSettingsForm status={eco} />
+          {fees.length ? (
+            <details className="mt-4 text-sm">
+              <summary className="cursor-pointer font-semibold">رسوم التوصيل لكل ولاية ({fees.length})</summary>
+              <div className="mt-2 grid gap-1 sm:grid-cols-2 lg:grid-cols-3">
+                {fees.map((f) => (
+                  <div key={f.wilayaCode} className="flex justify-between rounded border px-2 py-1 text-xs">
+                    <span>
+                      <span className="font-mono" dir="ltr">
+                        {f.wilayaCode}
+                      </span>{' '}
+                      {f.wilayaName ?? ''}
+                    </span>
+                    <span className="tabular text-muted-foreground">
+                      منزل {f.homeDzd} · مكتب {f.deskDzd}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </details>
+          ) : null}
+        </CardContent>
+      </Card>
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label="كل الأحداث" value={stats.total} icon={Truck} />
         <StatCard label="تسليمات" value={stats.delivered} icon={PackageCheck} tone="success" />
@@ -33,7 +64,7 @@ export default async function AdminDeliveryPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>إعداد الـwebhook</CardTitle>
+          <CardTitle>شركات أخرى: إعداد الـwebhook</CardTitle>
           <CardDescription>
             العنوان: <code dir="ltr">POST /api/v1/delivery/webhook?provider=yalidine</code> (أو <code>generic</code>). المصادقة بترويسة <code dir="ltr">x-webhook-secret</code> أو توقيع <code dir="ltr">x-signature</code> = HMAC-SHA256 للجسم. المطابقة برقم التتبّع المسجَّل على الطلب، وإلا برقم الطلب في الحمولة.
           </CardDescription>

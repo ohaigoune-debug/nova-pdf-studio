@@ -105,8 +105,8 @@ export async function detachProductFileAction(productFileId: string): Promise<Ac
   return result
 }
 
-export async function placeOrderAction(input: { items: { productId: string; qty: number }[]; customerName: string; phone: string; wilayaId?: string | null; address?: string | null; note?: string | null; streamId?: string | null; otpCode?: string | null; beneficiaryStudentId?: string | null }): Promise<ActionResult<{ id: string; number: string; status: string }>> {
-  const parsed = z.object({ items: z.array(z.object({ productId: uuid, qty: z.number().int().min(1).max(1000) })).min(1).max(20), customerName: z.string().min(2).max(120), phone: z.string().min(9).max(20), wilayaId: optUuid, address: z.string().max(400).nullish(), note: z.string().max(500).nullish(), streamId: optUuid, otpCode: z.string().max(8).nullish(), beneficiaryStudentId: optUuid }).safeParse(input)
+export async function placeOrderAction(input: { items: { productId: string; qty: number }[]; customerName: string; phone: string; wilayaId?: string | null; address?: string | null; commune?: string | null; deliveryType?: 'HOME' | 'DESK' | null; note?: string | null; streamId?: string | null; otpCode?: string | null; beneficiaryStudentId?: string | null }): Promise<ActionResult<{ id: string; number: string; status: string }>> {
+  const parsed = z.object({ items: z.array(z.object({ productId: uuid, qty: z.number().int().min(1).max(1000) })).min(1).max(20), customerName: z.string().min(2).max(120), phone: z.string().min(9).max(20), wilayaId: optUuid, address: z.string().max(400).nullish(), commune: z.string().max(120).nullish(), deliveryType: z.enum(['HOME', 'DESK']).nullish(), note: z.string().max(500).nullish(), streamId: optUuid, otpCode: z.string().max(8).nullish(), beneficiaryStudentId: optUuid }).safeParse(input)
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
     const actor = await requireActor()

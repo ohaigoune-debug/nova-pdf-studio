@@ -3,7 +3,7 @@ import { boolean, check, index, integer, pgTable, text, timestamp, uuid } from '
 import { id, inList, softDelete, timestamps } from './_common'
 import { users } from './auth'
 import { files } from './content'
-import { ORDER_STATUSES, PAYMENT_METHODS, PRODUCT_STATUSES, PRODUCT_TYPES } from './enums'
+import { CALL_EVENT_RESULTS, DELIVERY_TYPES, ORDER_STATUSES, PAYMENT_METHODS, PRODUCT_STATUSES, PRODUCT_TYPES } from './enums'
 import { levels, streams, subjects, wilayas } from './reference'
 import { teacherWorkspaces } from './tenancy'
 
@@ -109,10 +109,18 @@ export const orders = pgTable(
     /** شركة التوصيل ورقم التتبّع */
     deliveryProvider: text('delivery_provider'),
     deliveryTrackingId: text('delivery_tracking_id'),
+    /** البلدية (شركات التوصيل تطابقها بالاسم) ونوع التسليم: HOME للمنزل، DESK لمكتب الشركة */
+    commune: text('commune'),
+    deliveryType: text('delivery_type').notNull().default('HOME'),
+    /** التأكيد الهاتفي: عدد المحاولات وآخر اتصال */
+    confirmAttempts: integer('confirm_attempts').notNull().default(0),
+    lastCallAt: timestamp('last_call_at', { withTimezone: true }),
+    returnedAt: timestamp('returned_at', { withTimezone: true }),
     ...timestamps
   },
   (t) => [
     check('orders_status_check', inList(t.status, ORDER_STATUSES)),
+    check('orders_delivery_type_check', inList(t.deliveryType, DELIVERY_TYPES)),
     check('orders_payment_check', inList(t.paymentMethod, PAYMENT_METHODS)),
     index('orders_user_idx').on(t.userId, t.createdAt),
     index('orders_status_idx').on(t.status, t.createdAt),
@@ -167,3 +175,23 @@ export type ProductRow = typeof products.$inferSelect
 export type ProductFileRow = typeof productFiles.$inferSelect
 export type OrderRow = typeof orders.$inferSelect
 export type OrderItemRow = typeof orderItems.$inferSelect
+
+/**
+ * سجلّ المكالمات/الرسائل الواردة إلى هاتف المشرف (تطبيق NOVA Call): مكالمة من رقم طلب معلّق تؤكّده.
+ * لا يُحذف شيء؛ يُعرض في صفحة التأكيد.
+ */
+export const callEvents = pgTable(
+  'call_events',
+  {
+    id: id(),
+    phone: text('phone').notNull(),
+    orderId: uuid('order_id').references(() => orders.id, { onDelete: 'set null' }),
+    orderNumber: text('order_number'),
+    result: text('result').notNull(),
+    /** call | sms */
+    channel: text('channel').notNull().default('call'),
+    text: text('text'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+  },
+  (t) => [check('call_events_result_check', inList(t.result, CALL_EVENT_RESULTS)), index('call_events_phone_idx').on(t.phone, t.createdAt), index('call_events_created_idx').on(t.createdAt)]
+)

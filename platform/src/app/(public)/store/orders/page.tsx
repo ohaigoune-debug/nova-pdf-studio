@@ -12,7 +12,7 @@ import { myOrders, ORDER_STATUS_AR, PAYMENT_AR } from '@/server/services/store.s
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'طلباتي' }
 
-const VARIANT: Record<string, 'secondary' | 'success' | 'warning' | 'muted'> = { PENDING: 'warning', CONFIRMED: 'secondary', SHIPPED: 'secondary', DELIVERED: 'success', CANCELLED: 'muted' }
+const VARIANT: Record<string, 'secondary' | 'success' | 'warning' | 'muted' | 'destructive'> = { PENDING: 'warning', NO_ANSWER: 'warning', CALL_LATER: 'warning', CONFIRMED: 'secondary', SHIPPED: 'secondary', DELIVERED: 'success', RETURNED: 'destructive', CANCELLED: 'muted' }
 
 export default async function MyOrdersPage() {
   const actor = await requirePageActor()

@@ -11,6 +11,7 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import type { OrderStatus, PaymentMethod } from '@/server/db/schema/enums'
 import { AppError } from '@/server/lib/errors'
+import { getCallConfirm } from '@/server/services/call-confirm.service'
 import { getOrder, ORDER_STATUS_AR, PAYMENT_AR } from '@/server/services/store.service'
 import { listingPurchases, listings } from '@/server/db/schema'
 import { and, eq } from 'drizzle-orm'
@@ -18,7 +19,7 @@ import { and, eq } from 'drizzle-orm'
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'تفاصيل الطلب' }
 
-const VARIANT: Record<string, 'secondary' | 'success' | 'warning' | 'muted'> = { PENDING: 'warning', CONFIRMED: 'secondary', SHIPPED: 'secondary', DELIVERED: 'success', CANCELLED: 'muted' }
+const VARIANT: Record<string, 'secondary' | 'success' | 'warning' | 'muted' | 'destructive'> = { PENDING: 'warning', NO_ANSWER: 'warning', CALL_LATER: 'warning', CONFIRMED: 'secondary', SHIPPED: 'secondary', DELIVERED: 'success', RETURNED: 'destructive', CANCELLED: 'muted' }
 
 export default async function OrderPage({ params }: { params: Promise<{ id: string }> }) {
   const actor = await requirePageActor()
@@ -33,7 +34,10 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
   const o = v.order
   const delivered = await (await getDb()).select({ listingId: listings.id, kind: listings.kind, title: listings.title, examId: listings.examId, delivered: listingPurchases.delivered }).from(listingPurchases).innerJoin(listings, eq(listings.id, listingPurchases.listingId)).where(and(eq(listingPurchases.orderId, o.id), eq(listingPurchases.buyerUserId, o.userId)))
   const steps: OrderStatus[] = o.needsShipping ? ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED'] : ['PENDING', 'CONFIRMED', 'DELIVERED']
-  const idx = steps.indexOf(o.status as OrderStatus)
+  // حالات التأكيد الثلاث كلها الخطوة الأولى في عين الزبون
+  const stepOf = (st: string): OrderStatus => (st === 'NO_ANSWER' || st === 'CALL_LATER' ? 'PENDING' : (st as OrderStatus))
+  const idx = steps.indexOf(stepOf(o.status))
+  const call = await getCallConfirm(await getDb())
   return (
     <div className="container max-w-4xl py-10">
       <PageHeader
@@ -51,7 +55,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
         <Badge variant={VARIANT[o.status] ?? 'secondary'} className="px-3 py-1 text-sm">
           {ORDER_STATUS_AR[o.status as OrderStatus]}
         </Badge>
-        {o.status !== 'CANCELLED' ? (
+        {o.status !== 'CANCELLED' && o.status !== 'RETURNED' ? (
           <ol className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
             {steps.map((s, i) => (
               <li key={s} className={i <= idx ? 'font-semibold text-foreground' : ''}>
@@ -62,7 +66,29 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
           </ol>
         ) : null}
       </div>
-      {o.status === 'PENDING' ? <Alert tone="info">{o.paymentMethod === 'TRANSFER' ? 'حوّل المبلغ (CCP / BaridiMob) ثم أرسل الوصل للمشرف؛ عند التأكيد تُفتح التنزيلات هنا.' : 'نتصل بك على رقمك للتأكيد، ثم نشحن الطلب.'}</Alert> : null}
+      {o.status === 'PENDING' || o.status === 'NO_ANSWER' || o.status === 'CALL_LATER' ? (
+        <Alert tone="info">
+          {o.paymentMethod === 'TRANSFER' ? (
+            'حوّل المبلغ (CCP / BaridiMob) ثم أرسل الوصل للمشرف؛ عند التأكيد تُفتح التنزيلات هنا.'
+          ) : call.enabled && call.number ? (
+            <>
+              لتأكيد طلبك فوراً ومجاناً: اتصل بالرقم{' '}
+              <a href={`tel:${call.number}`} dir="ltr" className="font-mono font-bold underline">
+                {call.number}
+              </a>{' '}
+              من هاتفك <span dir="ltr">{o.phone}</span> ولا تنتظر الردّ — يُؤكَّد الطلب تلقائياً. أو انتظر اتصالنا.
+            </>
+          ) : (
+            'نتصل بك على رقمك للتأكيد، ثم نشحن الطلب.'
+          )}
+        </Alert>
+      ) : null}
+      {o.status === 'SHIPPED' && o.deliveryTrackingId ? (
+        <Alert tone="info">
+          طلبك عند شركة التوصيل{o.deliveryProvider === 'ecotrack' ? ' (EcoTrack)' : ''} — رقم التتبّع <span dir="ltr" className="font-mono font-bold">{o.deliveryTrackingId}</span>. عند التسليم تُفعَّل الدورة المرتبطة بالكتاب على حساب التلميذ تلقائياً.
+        </Alert>
+      ) : null}
+      {o.status === 'RETURNED' ? <Alert tone="warning">أعادت شركة التوصيل الطلب إلينا. تواصل معنا إن كنت ما زلت تريده.</Alert> : null}
       {o.status === 'CANCELLED' ? <Alert tone="warning">أُلغي الطلب{o.cancelReason ? `: ${o.cancelReason}` : ''}.</Alert> : null}
       {delivered.length ? (
         <Alert tone="success" title="سُلّم من السوق">

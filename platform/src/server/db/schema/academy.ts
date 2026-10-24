@@ -181,6 +181,8 @@ export const otpCodes = pgTable(
     purpose: text('purpose').notNull(),
     userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
     codeHash: text('code_hash').notNull(),
+    /** معرّف تحدّي OTP لدى البوابة (SuiviSMS) حين تولّد هي الرمز؛ null حين نولّده نحن */
+    providerRef: text('provider_ref'),
     expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
     attempts: integer('attempts').notNull().default(0),
     consumedAt: timestamp('consumed_at', { withTimezone: true }),

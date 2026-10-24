@@ -22,6 +22,7 @@ async function main() {
     await ensureMaintenanceJobs(handle.db)
     await import('@/server/services/courses.service').then((m) => m.ensureCourseExpiryScheduled(handle.db))
     await import('@/server/services/live.service').then((m) => m.ensureLiveRemindersScheduled(handle.db))
+    await import('@/server/services/ecotrack.service').then((m) => m.ensureEcotrackSyncScheduled(handle.db))
     const s = await processQueuedJobs(handle.db, { limit: 20 })
     // المسار البطيء أيضاً (مهمة واحدة في الدورة)
     const slow = await processQueuedJobs(handle.db, { limit: 1, lane: 'slow' })
