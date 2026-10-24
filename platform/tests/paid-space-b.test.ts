@@ -84,7 +84,7 @@ describe('1. أكواد تفعيل لدورة بعينها', () => {
     expect((await enrolled(courseA.id, s.studentId!))?.source).toBe('CODE')
     expect(await enrolled(courseB.id, s.studentId!)).toBeUndefined()
     const s2 = await makeStudent(h.db, 'تلميذ ثانٍ')
-    await expectCode(() => redeemCourseCode(h.db, s2, batch.codes[0]!), 'CODE_USED')
+    await expectCode(() => redeemCourseCode(h.db, s2, batch.codes[0]!), 'COURSE_CODE_USED')
     await expectCode(() => redeemCourseCode(h.db, s2, '12345678901'), 'CODE_INVALID')
 
     // تعطيل الدفعة يوقف ما لم يُستعمل
@@ -170,5 +170,27 @@ describe('3. التسجيل وبوّابة الهاتف', () => {
     expect((await phoneGateFor(h.db, old.userId)).required).toBe(false)
     void actorOf
     void orders
+  })
+})
+
+describe('4. تفادي «الكود مستعمل»', () => {
+  it('التلميذ نفسه يعيد إدخال كوده ⇒ نجاح؛ تلميذ آخر ⇒ رسالة واضحة؛ المشرف يجد المستعمِل ويحرّر الكود', async () => {
+    const { lookupCourseCode, releaseCourseCode } = await import('@/server/services/course-codes.service')
+    const batch = await generateCourseCodes(h.db, admin, { courseId: courseA.id, count: 1 })
+    const code = batch.codes[0]!
+    const owner = await makeStudent(h.db, 'صاحب الكود')
+    await redeemCourseCode(h.db, owner, code)
+    // ضغطة مزدوجة / إعادة إدخال
+    expect((await redeemCourseCode(h.db, owner, code)).courseId).toBe(courseA.id)
+    const thief = await makeStudent(h.db, 'تلميذ آخر')
+    await expectCode(() => redeemCourseCode(h.db, thief, code), 'COURSE_CODE_USED')
+    const info = await lookupCourseCode(h.db, admin, code)
+    expect(info?.status).toBe('USED')
+    expect(info?.usedBy?.fullName).toBe('صاحب الكود')
+    // استُعمل خطأً: تحرير + إلغاء اشتراك المستعمِل ⇒ صاحبه الحقيقي يفعّله
+    expect(await releaseCourseCode(h.db, admin, code, { revokeEnrollment: true })).toBe(true)
+    expect((await enrolled(courseA.id, owner.studentId!))?.status).toBe('REVOKED')
+    expect((await redeemCourseCode(h.db, thief, code)).courseId).toBe(courseA.id)
+    expect((await enrolled(courseA.id, thief.studentId!))?.status).toBe('ACTIVE')
   })
 })
