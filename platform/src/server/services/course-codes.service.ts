@@ -8,7 +8,7 @@
 import { randomUUID } from 'node:crypto'
 import { and, desc, eq, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { courseCodes, courses } from '@/server/db/schema'
+import { courseCodes, courseEnrollments, courses, profiles, students } from '@/server/db/schema'
 import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { codePrefix, generateEnrollmentCode, hashEnrollmentCode, normalizeEnrollmentCode } from '@/server/lib/codes'
@@ -112,7 +112,17 @@ export async function redeemCourseCode(db: Db, actor: Actor, raw: string): Promi
   const { course, codeId, batchId } = await db.transaction(async (tx) => {
     const [c] = await tx.select().from(courseCodes).where(eq(courseCodes.codeHash, hash)).for('update').limit(1)
     if (!c) throw new AppError('CODE_INVALID')
-    if (c.status === 'USED') throw new AppError('CODE_USED')
+    if (c.status === 'USED') {
+      // نفس التلميذ يُعيد إدخال كوده (ضغطة مزدوجة، انقطاع شبكة، أو نسي أنه فعّله): نجاح لا «مستعمل»،
+      // ويُعاد تفعيل اشتراكه إن كان قد انتهى/أُلغي — الكود ملكه
+      if (c.usedByStudentId === studentId) {
+        const [crs] = await tx.select({ id: courses.id, title: courses.title, slug: courses.slug, workspaceId: courses.workspaceId, deletedAt: courses.deletedAt }).from(courses).where(eq(courses.id, c.courseId)).limit(1)
+        if (!crs || crs.deletedAt) throw new AppError('COURSE_NOT_FOUND')
+        await enrollStudent(tx, null, { courseId: crs.id, studentId, source: 'CODE', activatedByUserId: actor.userId })
+        return { course: crs, codeId: c.id, batchId: c.batchId }
+      }
+      throw new AppError('COURSE_CODE_USED', { usedAt: c.usedAt?.toISOString() ?? null })
+    }
     if (c.status === 'DISABLED') throw new AppError('CODE_DISABLED')
     if (c.expiresAt && c.expiresAt.getTime() < Date.now()) throw new AppError('CODE_EXPIRED')
     const [crs] = await tx.select({ id: courses.id, title: courses.title, slug: courses.slug, workspaceId: courses.workspaceId, deletedAt: courses.deletedAt }).from(courses).where(eq(courses.id, c.courseId)).limit(1)
@@ -123,4 +133,49 @@ export async function redeemCourseCode(db: Db, actor: Actor, raw: string): Promi
   })
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'course.code_redeem', entityType: 'course', entityId: course.id, newValue: { codeId, batchId } })
   return { courseId: course.id, courseTitle: course.title, slug: course.slug }
+}
+
+export interface CourseCodeLookup {
+  status: string
+  courseTitle: string
+  batchLabel: string | null
+  usedAt: Date | null
+  usedBy: { studentId: string; fullName: string; phone: string | null } | null
+  expiresAt: Date | null
+}
+
+/** المشرف يبحث عن كود (شكوى «الكود مستعمل»): لأي دورة، هل استُعمل، متى، ومن استعمله */
+export async function lookupCourseCode(db: Db, actor: Actor, raw: string): Promise<CourseCodeLookup | null> {
+  assertRole(actor, 'SUPER_ADMIN')
+  const code = normalizeEnrollmentCode(raw)
+  if (!/^\d{11}$/.test(code)) return null
+  const [r] = await db
+    .select({ c: courseCodes, courseTitle: courses.title, fullName: profiles.fullName, phone: profiles.phone })
+    .from(courseCodes)
+    .innerJoin(courses, eq(courses.id, courseCodes.courseId))
+    .leftJoin(students, eq(students.id, courseCodes.usedByStudentId))
+    .leftJoin(profiles, eq(profiles.userId, students.userId))
+    .where(eq(courseCodes.codeHash, hashCourseCode(code)))
+    .limit(1)
+  if (!r) return null
+  return { status: r.c.status, courseTitle: r.courseTitle, batchLabel: r.c.batchLabel, usedAt: r.c.usedAt, expiresAt: r.c.expiresAt, usedBy: r.c.usedByStudentId ? { studentId: r.c.usedByStudentId, fullName: r.fullName ?? '—', phone: r.phone } : null }
+}
+
+/**
+ * المشرف يحرّر كوداً استُعمل خطأً (تلميذ آخر أدخله، أو حساب مكرّر): يعود الكود صالحاً،
+ * ويُلغى اشتراك من استعمله إن كان مصدره هذا الكود. يُسجَّل في التدقيق.
+ */
+export async function releaseCourseCode(db: Db, actor: Actor, raw: string, opts: { revokeEnrollment?: boolean } = {}): Promise<boolean> {
+  assertRole(actor, 'SUPER_ADMIN')
+  const code = normalizeEnrollmentCode(raw)
+  if (!/^\d{11}$/.test(code)) throw new AppError('CODE_INVALID')
+  const [c] = await db.select().from(courseCodes).where(eq(courseCodes.codeHash, hashCourseCode(code))).limit(1)
+  if (!c) throw new AppError('CODE_INVALID')
+  if (c.status !== 'USED') return false
+  if (opts.revokeEnrollment && c.usedByStudentId) {
+    await db.update(courseEnrollments).set({ status: 'REVOKED', revokedReason: 'تحرير كود التفعيل من الإدارة', updatedAt: new Date() }).where(and(eq(courseEnrollments.courseId, c.courseId), eq(courseEnrollments.studentId, c.usedByStudentId), eq(courseEnrollments.source, 'CODE')))
+  }
+  await db.update(courseCodes).set({ status: 'ACTIVE', usedAt: null, usedByStudentId: null }).where(eq(courseCodes.id, c.id))
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'course.code_release', entityType: 'course_code', entityId: c.id, oldValue: { usedByStudentId: c.usedByStudentId, usedAt: c.usedAt?.toISOString() ?? null }, newValue: { revokeEnrollment: Boolean(opts.revokeEnrollment) } })
+  return true
 }
