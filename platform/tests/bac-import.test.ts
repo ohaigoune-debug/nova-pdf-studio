@@ -128,6 +128,31 @@ describe('استيراد ملفات البكالوريا', () => {
     const p = await processDocument(h.db, math.id, { userId: admin.userId, fetch: (() => Promise.reject(new Error('no network'))) as unknown as typeof fetch })
     expect(p.status).toBe('NEEDS_REVIEW')
     expect(p.exercises).toBe(1)
+
+    // ردّ مقطوع لموضوع طويل ⇒ يُقسَم الجزء نصفين ويُعاد بدل إسقاط الموضوع كله
+    const calls: number[] = []
+    setAiProviderForTests({
+      ...fakeAi,
+      async extractQuestions(input: ExtractQuestionsInput) {
+        calls.push(input.text.length)
+        if (input.text.length > EXAM.length * 0.75) throw new Error('AI output truncated (max_completion_tokens)')
+        return { questions: [{ kind: 'EXERCISE', type: 'OPEN', title: `جزء ${calls.length}`, body: `جزء ${calls.length}: ${input.text.slice(0, 120)}`, options: [], answerKey: null, solution: null, points: 4, difficulty: 2, estimatedMinutes: 30, topic: null, keywords: [], children: [] }], note: null }
+      }
+    })
+    const split = await processDocument(h.db, math.id, { userId: admin.userId })
+    expect(split.status).toBe('NEEDS_REVIEW')
+    expect(calls).toHaveLength(3)
+    expect(calls[1]! + calls[2]!).toBe(calls[0])
+
+    // خطأ غير متوقع ⇒ السبب المفهوم + الرسالة التقنية الأصلية محفوظان معاً للتشخيص
+    setAiProviderForTests({ ...fakeAi, extractQuestions: () => Promise.reject(new TypeError('boom: cannot read x')) })
+    const failed = await processDocument(h.db, math.id, { userId: admin.userId })
+    expect(failed.status).toBe('FAILED')
+    expect(failed.error).toContain('error: خطأ غير متوقع')
+    expect(failed.error).toContain('[TypeError: boom: cannot read x]')
+    const [row] = await h.db.select().from(examDocuments).where(eq(examDocuments.id, math.id))
+    expect(row!.error).toContain('[TypeError: boom: cannot read x]')
+    setAiProviderForTests(fakeAi)
   })
 })
 
