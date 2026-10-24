@@ -101,7 +101,6 @@ const en: DeepPartial<typeof ar> = {
     heroTitle: 'Your baccalaureate success starts here',
     heroSubtitle: 'Focused lessons in every subject, corrected exam models, and real progress tracking with your teachers.',
     ctaStudent: 'I am a student — get started',
-    ctaCode: 'I have a code from my teacher',
     browseLessons: 'Browse lessons',
     featuresTitle: 'What does the platform offer?',
     f1: 'Lessons and summaries',

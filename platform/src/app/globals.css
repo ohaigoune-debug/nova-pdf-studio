@@ -57,7 +57,7 @@
 @tailwind utilities;
 
 /*
- * لوحة ألوان المنصة: حبر عميق يميل إلى الزمرّدي، ورق دافئ، وذهب للتمييز.
+ * لوحة ألوان المنصة: حبر عميق يميل إلى الزمرّدي، ورق دافئ، وأخضر مائي هادئ للتمييز (لا أصفر فاقع — قرار المالك 2026-10-24).
  * الألوان HSL مفكّكة لتعمل مع تدرّجات الشفافية (bg-primary/10).
  */
 @layer base {
@@ -76,13 +76,13 @@
     --secondary-foreground: 200 40% 12%;
     --muted: 40 22% 93%;
     --muted-foreground: 205 14% 42%;
-    --accent: 42 78% 48%;
-    --accent-foreground: 30 40% 10%;
+    --accent: 174 34% 40%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 66% 47%;
     --destructive-foreground: 0 0% 100%;
     --success: 152 52% 32%;
     --success-foreground: 0 0% 100%;
-    --warning: 38 92% 48%;
+    --warning: 34 70% 46%;
     --warning-foreground: 24 40% 12%;
     --border: 40 18% 87%;
     --input: 40 18% 84%;
@@ -94,7 +94,7 @@
     --sidebar-foreground: 40 30% 92%;
     --sidebar-muted: 200 20% 62%;
     --sidebar-border: 200 30% 16%;
-    --sidebar-active: 42 78% 52%;
+    --sidebar-active: 170 38% 58%;
 
     --shadow-color: 200 40% 10%;
   }
@@ -112,13 +112,13 @@
     --secondary-foreground: 40 25% 94%;
     --muted: 205 30% 13%;
     --muted-foreground: 205 15% 64%;
-    --accent: 42 82% 56%;
-    --accent-foreground: 30 40% 8%;
+    --accent: 170 36% 60%;
+    --accent-foreground: 205 45% 6%;
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
     --success: 152 50% 44%;
     --success-foreground: 205 45% 5%;
-    --warning: 38 92% 56%;
+    --warning: 34 66% 56%;
     --warning-foreground: 24 40% 8%;
     --border: 205 28% 15%;
     --input: 205 28% 18%;
@@ -128,7 +128,7 @@
     --sidebar-foreground: 40 25% 92%;
     --sidebar-muted: 205 15% 58%;
     --sidebar-border: 205 30% 12%;
-    --sidebar-active: 42 82% 56%;
+    --sidebar-active: 170 38% 60%;
 
     --shadow-color: 205 60% 2%;
   }
@@ -181,11 +181,11 @@
       0 16px 40px -16px hsl(var(--shadow-color) / 0.22);
   }
 
-  /* خلفية الحبر للأقسام البارزة (البطل، بطاقة الدخول): تدرّج + توهّجان ذهبي وزمرّدي */
+  /* خلفية الحبر للأقسام البارزة (البطل، بطاقة الدخول): تدرّج + توهّجان أزرق بارد وزمرّدي */
   .bg-ink {
     background-color: hsl(200 42% 9%);
     background-image:
-      radial-gradient(60% 50% at 85% 10%, hsl(42 78% 52% / 0.18), transparent 60%),
+      radial-gradient(60% 50% at 85% 10%, hsl(205 45% 42% / 0.18), transparent 60%),
       radial-gradient(50% 60% at 10% 90%, hsl(168 52% 34% / 0.28), transparent 60%),
       linear-gradient(180deg, hsl(200 42% 11%), hsl(205 45% 6%));
   }
@@ -200,9 +200,9 @@
     color: hsl(var(--accent));
   }
 
-  /* عنوان بتدرّج ذهبي — للبطل فقط */
+  /* عنوان بتدرّج زمرّدي فاتح هادئ — للبطل فقط (الاسم قديم، اللون لم يعد ذهبياً) */
   .text-gradient-gold {
-    background: linear-gradient(120deg, hsl(42 85% 68%), hsl(38 80% 52%) 55%, hsl(42 85% 66%));
+    background: linear-gradient(120deg, hsl(165 42% 80%), hsl(172 32% 66%) 55%, hsl(165 40% 78%));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
