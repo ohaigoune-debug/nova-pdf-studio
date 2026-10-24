@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> في المنطق التركيبي تتعلق المخارج بالمداخل الحالية فقط. في المنطق التسلسلي تتعلق أيضاً بالحالة السابقة، أي أن الدارة «تتذكّر» بفضل القلّابات.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15" direction="ltr">
 <rect x="410" y="40" width="70" height="70" fill="#dbe6ff" stroke="#1d4ed8" stroke-width="2"/><text x="445" y="82" text-anchor="middle" font-weight="700">&amp;</text>
 <line x1="380" y1="60" x2="410" y2="60" stroke="#1f2937" stroke-width="2"/><line x1="380" y1="90" x2="410" y2="90" stroke="#1f2937" stroke-width="2"/><line x1="480" y1="75" x2="510" y2="75" stroke="#1f2937" stroke-width="2"/>
 <text x="370" y="65" text-anchor="end" font-size="13">a</text><text x="370" y="95" text-anchor="end" font-size="13">b</text><text x="515" y="70" font-size="13">S</text>
@@ -64,14 +64,14 @@ main{position:relative;z-index:1}
 <text x="275" y="135" text-anchor="middle">OU: S = a + b</text>
 <rect x="60" y="40" width="80" height="70" fill="#fde68a" stroke="#a16207" stroke-width="2"/><text x="100" y="62" text-anchor="middle" font-weight="700">D</text><text x="100" y="100" text-anchor="middle" font-size="13">H ↑</text>
 <line x1="30" y1="60" x2="60" y2="60" stroke="#1f2937" stroke-width="2"/><line x1="30" y1="95" x2="60" y2="95" stroke="#1f2937" stroke-width="2"/><line x1="140" y1="75" x2="170" y2="75" stroke="#15803d" stroke-width="2"/><text x="175" y="70" font-size="13" fill="#15803d">Q</text>
-<text x="100" y="135" text-anchor="middle">قلّاب D (ذاكرة)</text>
-<text x="360" y="165" text-anchor="middle" fill="#1d4ed8" font-size="13">تركيبي</text><text x="100" y="165" text-anchor="middle" fill="#a16207" font-size="13">تسلسلي</text>
+<text x="100" y="135" text-anchor="middle" direction="rtl">قلّاب (ذاكرة)</text>
+<text x="360" y="165" text-anchor="middle" fill="#1d4ed8" font-size="13" direction="rtl">تركيبي</text><text x="100" y="165" text-anchor="middle" fill="#a16207" font-size="13" direction="rtl">تسلسلي</text>
 </svg><figcaption>الشكل 1: بوابتان تركيبيتان (ET و OU بالرمز الموحّد) وقلّاب D تسلسلي ينسخ D إلى Q عند الجبهة الصاعدة للساعة H.</figcaption></figure>
 
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">الدوال الأساسية:</span> NON <bdi dir="ltr">S = a̅</bdi>، ET <bdi dir="ltr">S = a.b</bdi>، OU <bdi dir="ltr">S = a + b</bdi>، ومنها NAND و NOR و XOR.</li>
 <li><span class="k">قوانين بول:</span> <bdi dir="ltr">a + a̅ = 1</bdi>، <bdi dir="ltr">a.a̅ = 0</bdi>، <bdi dir="ltr">a + a.b = a</bdi>.</li>
-<li><span class="k">نظريتا دي مورغان:</span> <bdi dir="ltr">(a + b)̅ = a̅.b̅</bdi> و <bdi dir="ltr">(a.b)̅ = a̅ + b̅</bdi>.</li>
+<li><span class="k">نظريتا دي مورغان:</span> <bdi dir="ltr"><span style="text-decoration:overline">a + b</span> = a̅.b̅</bdi> و <bdi dir="ltr"><span style="text-decoration:overline">a.b</span> = a̅ + b̅</bdi>.</li>
 <li><span class="k">جدول كارنو:</span> نجمع الخانات المتجاورة التي قيمتها 1 في مجموعات من 2 أو 4 أو 8 لحذف المتغيرات المتغيّرة.</li>
 <li><span class="k">القلّاب <bdi dir="ltr">RS</bdi></span>: <bdi dir="ltr">S</bdi> يضع 1، <bdi dir="ltr">R</bdi> يضع 0، والحالة <bdi dir="ltr">R = S = 1</bdi> ممنوعة.</li>
 <li><span class="k">القلّاب <bdi dir="ltr">JK</bdi></span>: عند <bdi dir="ltr">J = K = 1</bdi> ينقلب المخرج مع كل نبضة ساعة.</li>

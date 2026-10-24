@@ -54,7 +54,7 @@ main{position:relative;z-index:1}
 
 <div class="lead"><span class="k">الفكرة في سطرين:</span> الاهتلاك هو توزيع تكلفة التثبيت على مدة استعماله لأنه يفقد قيمته بالاستعمال والتقادم. الطريقة الخطية توزّع أقساطاً متساوية، والمتناقصة تجعل الأقساط الأولى أكبر ثم تتناقص.</div>
 
-<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15">
+<figure class="fig"><svg viewBox="0 0 540 175" xmlns="http://www.w3.org/2000/svg" font-family="Amiri,serif" font-size="15" direction="ltr">
 <line x1="55" y1="150" x2="460" y2="150" stroke="#1f2937" stroke-width="1.5"/>
 <rect x="70" y="94" width="28" height="56" fill="#dbe6ff" stroke="#1d4ed8"/><rect x="102" y="38" width="28" height="112" fill="#fde68a" stroke="#a16207"/>
 <rect x="155" y="94" width="28" height="56" fill="#dbe6ff" stroke="#1d4ed8"/><rect x="187" y="83" width="28" height="67" fill="#fde68a" stroke="#a16207"/>
@@ -62,10 +62,10 @@ main{position:relative;z-index:1}
 <rect x="325" y="94" width="28" height="56" fill="#dbe6ff" stroke="#1d4ed8"/><rect x="357" y="120" width="28" height="30" fill="#fde68a" stroke="#a16207"/>
 <rect x="410" y="94" width="28" height="56" fill="#dbe6ff" stroke="#1d4ed8"/><rect x="442" y="120" width="28" height="30" fill="#fde68a" stroke="#a16207"/>
 <g font-size="11" text-anchor="middle"><text x="84" y="89" fill="#1d4ed8">80</text><text x="116" y="33" fill="#a16207">160</text><text x="201" y="78" fill="#a16207">96</text><text x="286" y="105" fill="#a16207">57.6</text><text x="371" y="115" fill="#a16207">43.2</text><text x="456" y="115" fill="#a16207">43.2</text></g>
-<g font-size="13" text-anchor="middle"><text x="100" y="168">س1</text><text x="185" y="168">س2</text><text x="270" y="168">س3</text><text x="355" y="168">س4</text><text x="440" y="168">س5</text></g>
-<rect x="490" y="40" width="12" height="12" fill="#dbe6ff" stroke="#1d4ed8"/><text x="510" y="51" font-size="13">خطي</text>
-<rect x="490" y="65" width="12" height="12" fill="#fde68a" stroke="#a16207"/><text x="510" y="76" font-size="13">متناقص</text>
-<text x="300" y="20" text-anchor="middle" font-weight="700">أقساط آلة قيمتها 400 ألف دج على 5 سنوات</text>
+<g font-size="13" text-anchor="middle" direction="rtl"><text x="100" y="168">س1</text><text x="185" y="168">س2</text><text x="270" y="168">س3</text><text x="355" y="168">س4</text><text x="440" y="168">س5</text></g>
+<rect x="478" y="40" width="12" height="12" fill="#dbe6ff" stroke="#1d4ed8"/><text x="496" y="51" font-size="13" direction="rtl" text-anchor="end">خطي</text>
+<rect x="478" y="65" width="12" height="12" fill="#fde68a" stroke="#a16207"/><text x="496" y="76" font-size="13" direction="rtl" text-anchor="end">متناقص</text>
+<text x="300" y="20" text-anchor="middle" font-weight="700" direction="rtl">أقساط آلة قيمتها 400 ألف دج على 5 سنوات</text>
 </svg><figcaption>الشكل 1: الأقساط الخطية ثابتة، والمتناقصة كبيرة في البداية ثم تصبح ثابتة عند التحول إلى الخطي (المبالغ بآلاف الدينارات).</figcaption></figure>
 <div class="block rule"><h2>🔵 القواعد والمفاهيم</h2><ol>
 <li><span class="k">الاهتلاك</span> هو المعاينة المحاسبية لتناقص قيمة التثبيت بسبب الاستعمال أو مرور الزمن أو التقادم التقني.</li>
@@ -79,7 +79,7 @@ main{position:relative;z-index:1}
 <div class="block ex"><h2>🟢 أمثلة تطبيقية</h2><ol>
 <li>آلة قيمتها 400 000 دج، مدتها 5 سنوات، طريقة خطية. <span class="k">الحل:</span> المعدل 20%، القسط <bdi dir="ltr">400 000 × 20% = 80 000</bdi> دج كل سنة.</li>
 <li>الآلة نفسها بالطريقة المتناقصة. <span class="k">الحل:</span> المعدل <bdi dir="ltr">20% × 2 = 40%</bdi>. س1: 160 000 (صافية 240 000)؛ س2: 96 000 (صافية 144 000)؛ س3: 57 600 لأنه أكبر من <bdi dir="ltr">144 000 ÷ 3 = 48 000</bdi> (صافية 86 400)؛ س4: <bdi dir="ltr">86 400 × 40% = 34 560</bdi> أقل من <bdi dir="ltr">86 400 ÷ 2 = 43 200</bdi> فنتحول إلى الخطي: 43 200؛ س5: 43 200. المجموع 400 000 دج.</li>
-<li>حيازة الآلة في 01/04/N بالطريقة الخطية. <span class="k">الحل:</span> قسط N = <bdi dir="ltr">80 000 × 9/12 = 60 000</bdi> دج، ويُقيَّد: من <bdi dir="ltr">ح/681</bdi> إلى <bdi dir="ltr">ح/2815</bdi> بمبلغ 60 000.</li>
+<li>حيازة الآلة في <bdi dir="ltr">01/04/N</bdi> بالطريقة الخطية. <span class="k">الحل:</span> قسط N = <bdi dir="ltr">80 000 × 9/12 = 60 000</bdi> دج، ويُقيَّد: من <bdi dir="ltr">ح/681</bdi> إلى <bdi dir="ltr">ح/2815</bdi> بمبلغ 60 000.</li>
 </ol></div>
 
 <div class="block warn"><h2>🟠 أخطاء شائعة في البكالوريا</h2><ul>
