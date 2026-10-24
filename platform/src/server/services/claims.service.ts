@@ -55,7 +55,19 @@ export async function claimCourse(db: Db, actor: Actor, input: { phone: string; 
     .from(courseClaims)
     .where(and(eq(courseClaims.phone, phone), isNull(courseClaims.claimedAt), gt(courseClaims.expiresAt, now)))
     .orderBy(desc(courseClaims.createdAt))
-  if (open.length === 0) throw new AppError('CLAIM_INVALID')
+  if (open.length === 0) {
+    // التلميذ نفسه يعيد إدخال كود فعّله سابقاً (ضغطة مزدوجة/انقطاع): نجاح، لا «كود غير صالح»
+    const [mine] = await db
+      .select({ courseId: courseClaims.courseId })
+      .from(courseClaims)
+      .where(and(eq(courseClaims.phone, phone), eq(courseClaims.codeHash, hashClaimCode(code)), eq(courseClaims.claimedByStudentId, actor.studentId)))
+      .limit(1)
+    if (mine) {
+      const [c] = await db.select({ id: courses.id, title: courses.title }).from(courses).where(eq(courses.id, mine.courseId)).limit(1)
+      if (c) return { courseId: c.id, courseTitle: c.title }
+    }
+    throw new AppError('CLAIM_INVALID')
+  }
   if (open.every((c) => c.attempts >= CLAIM_MAX_ATTEMPTS)) throw new AppError('CLAIM_BLOCKED')
   const hash = hashClaimCode(code)
   const match = open.find((c) => c.attempts < CLAIM_MAX_ATTEMPTS && c.codeHash === hash)

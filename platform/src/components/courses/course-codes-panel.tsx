@@ -1,6 +1,6 @@
 'use client'
 
-import { Ban, Copy, Download, KeyRound } from 'lucide-react'
+import { Ban, Copy, Download, KeyRound, Search } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useActionState, useEffect, useState, useTransition } from 'react'
 import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bits'
@@ -11,7 +11,7 @@ import { Input, Select } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { toast } from '@/components/ui/toast'
 import { formatDate, formatDateTime } from '@/lib/utils'
-import { disableCourseCodeBatchAction, generateCourseCodesAction, type CourseCodesData } from '@/server/actions/courses.actions'
+import { disableCourseCodeBatchAction, generateCourseCodesAction, lookupCourseCodeAction, releaseCourseCodeAction, type CourseCodesData } from '@/server/actions/courses.actions'
 
 interface Batch {
   batchId: string
@@ -129,6 +129,8 @@ export function CourseCodesPanel({ courses, batches, defaultCourseId }: { course
         </Card>
       ) : null}
 
+      <CodeLookup />
+
       <Card>
         <CardHeader>
           <CardTitle>الدفعات</CardTitle>
@@ -165,5 +167,75 @@ export function CourseCodesPanel({ courses, batches, defaultCourseId }: { course
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+type Lookup = { status: string; courseTitle: string; batchLabel: string | null; usedAt: string | null; usedBy: { fullName: string; phone: string | null } | null }
+const STATUS_AR: Record<string, string> = { ACTIVE: 'متاح (لم يُستعمل)', USED: 'مستعمل', DISABLED: 'معطَّل' }
+
+/** شكوى «الكود مستعمل»: من استعمله ومتى، وتحريره إن استُعمل خطأً */
+function CodeLookup() {
+  const router = useRouter()
+  const [code, setCode] = useState('')
+  const [res, setRes] = useState<Lookup | null | undefined>(undefined)
+  const [pending, start] = useTransition()
+  const find = () =>
+    start(async () => {
+      const r = await lookupCourseCodeAction(code)
+      if (!r.ok) return toast('error', r.error.message)
+      setRes(r.data)
+    })
+  const release = (revoke: boolean) =>
+    confirm(revoke ? 'تحرير الكود وإلغاء اشتراك من استعمله؟' : 'تحرير الكود (يبقى اشتراك من استعمله)؟') &&
+    start(async () => {
+      const r = await releaseCourseCodeAction(code, revoke)
+      if (!r.ok) return toast('error', r.error.message)
+      toast('success', 'حُرّر الكود: يمكن لصاحبه إدخاله الآن')
+      setRes(undefined)
+      router.refresh()
+    })
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Search className="size-5 text-primary" /> البحث عن كود
+        </CardTitle>
+        <CardDescription>تلميذ يقول «الكود مستعمل»؟ ابحث هنا: لأي دورة، ومن استعمله ومتى. التلميذ الذي يعيد إدخال كوده هو لا يرى «مستعمل» أبداً.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3 text-sm">
+        <div className="flex gap-2">
+          <Input value={code} onChange={(e) => setCode(e.target.value)} dir="ltr" inputMode="numeric" placeholder="11 رقماً" className="font-mono" />
+          <Button type="button" variant="outline" onClick={find} loading={pending} disabled={code.replace(/\D/g, '').length < 11}>
+            بحث
+          </Button>
+        </div>
+        {res === null ? <p className="text-destructive">لا يوجد كود دورة بهذا الرقم (تحقّق من الأرقام، أو قد يكون كود فوج أستاذ قديم).</p> : null}
+        {res ? (
+          <div className="space-y-2 rounded-lg border p-3">
+            <p>
+              <span className="font-semibold">{res.courseTitle}</span>
+              {res.batchLabel ? <span className="text-muted-foreground"> · {res.batchLabel}</span> : null} — <Badge variant={res.status === 'USED' ? 'warning' : res.status === 'ACTIVE' ? 'success' : 'muted'}>{STATUS_AR[res.status] ?? res.status}</Badge>
+            </p>
+            {res.usedBy ? (
+              <p className="text-muted-foreground">
+                استعمله: <span className="font-semibold text-foreground">{res.usedBy.fullName}</span>
+                {res.usedBy.phone ? <span dir="ltr"> · {res.usedBy.phone}</span> : null}
+                {res.usedAt ? ` · ${formatDateTime(new Date(res.usedAt))}` : ''}
+              </p>
+            ) : null}
+            {res.status === 'USED' ? (
+              <div className="flex flex-wrap gap-2">
+                <Button size="sm" variant="outline" loading={pending} onClick={() => release(true)}>
+                  تحرير + إلغاء اشتراك المستعمِل
+                </Button>
+                <Button size="sm" variant="ghost" loading={pending} onClick={() => release(false)}>
+                  تحرير فقط
+                </Button>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+      </CardContent>
+    </Card>
   )
 }

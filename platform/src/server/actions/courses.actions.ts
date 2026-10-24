@@ -222,3 +222,26 @@ export async function disableCourseCodeBatchAction(batchId: string): Promise<Act
   if (result.ok) revalidatePath('/admin/courses/codes')
   return result
 }
+
+/** المشرف: البحث عن كود تفعيل (شكوى «الكود مستعمل») */
+export async function lookupCourseCodeAction(code: string): Promise<ActionResult<{ status: string; courseTitle: string; batchLabel: string | null; usedAt: string | null; usedBy: { fullName: string; phone: string | null } | null } | null>> {
+  const parsed = z.string().trim().min(6).max(30).safeParse(code)
+  if (!parsed.success) return failValidation(parsed.error)
+  return runAction(async () => {
+    const { lookupCourseCode } = await import('@/server/services/course-codes.service')
+    const r = await lookupCourseCode(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data)
+    return r ? { status: r.status, courseTitle: r.courseTitle, batchLabel: r.batchLabel, usedAt: r.usedAt?.toISOString() ?? null, usedBy: r.usedBy ? { fullName: r.usedBy.fullName, phone: r.usedBy.phone } : null } : null
+  })
+}
+
+/** المشرف: تحرير كود استُعمل خطأً (مع إلغاء اشتراك من استعمله اختيارياً) */
+export async function releaseCourseCodeAction(code: string, revokeEnrollment: boolean): Promise<ActionResult<{ released: boolean }>> {
+  const parsed = z.object({ code: z.string().trim().min(6).max(30), revokeEnrollment: z.boolean() }).safeParse({ code, revokeEnrollment })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const { releaseCourseCode } = await import('@/server/services/course-codes.service')
+    return { released: await releaseCourseCode(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data.code, { revokeEnrollment: parsed.data.revokeEnrollment }) }
+  })
+  if (result.ok) revalidatePath('/admin/courses/codes')
+  return result
+}
