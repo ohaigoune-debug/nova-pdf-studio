@@ -121,7 +121,7 @@ export function CourseForm({
         <Field label="آخر يوم للوصول إلى المحتوى" htmlFor="c-access" error={fieldError(state, 'accessEndsOn')} hint="بعده تختفي الفيديوهات (بعد البكالوريا). يُستعمل تاريخاً افتراضياً لانتهاء الاشتراكات.">
           <Input id="c-access" name="accessEndsOn" type="date" defaultValue={course?.accessEndsOn ?? ''} dir="ltr" />
         </Field>
-        <Field label="السعر (دج)" htmlFor="c-price" error={fieldError(state, 'priceDzd')} hint="للعرض فقط؛ التفعيل يتم بشراء الكتاب المرتبط أو يدوياً">
+        <Field label="السعر (دج)" htmlFor="c-price" error={fieldError(state, 'priceDzd')} hint="يُستبدل تلقائياً بسعر الكتاب المرتبط حين تربط كتاباً من المتجر؛ يبقى هذا السعر للدورات بلا كتاب">
           <Input id="c-price" name="priceDzd" type="number" min="0" step="1" defaultValue={course?.priceDzd ?? 0} dir="ltr" required />
         </Field>
         <Field label="الرابط (slug)" htmlFor="c-slug" hint="فارغ = من العنوان">

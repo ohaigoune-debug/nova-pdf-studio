@@ -75,7 +75,7 @@ export function OtpVerifyCard({ purpose, phone: initialPhone, editablePhone = tr
   const verify = () => {
     setError(null)
     const c = code.replace(/\D/g, '')
-    if (c.length !== 6) return setError('أدخل الرمز المكوّن من 6 أرقام.')
+    if (c.length < 4 || c.length > 6) return setError('أدخل الرمز كما وصلك في الرسالة (4 إلى 6 أرقام).')
     start(async () => {
       const r = await verifyOtpAction({ phone: normalized, purpose, code: c })
       if (!r.ok) return setError(r.error.message)
@@ -106,7 +106,7 @@ export function OtpVerifyCard({ purpose, phone: initialPhone, editablePhone = tr
           <Input id={`otp-phone-${purpose}`} value={phone} onChange={(e) => setPhone(e.target.value)} dir="ltr" inputMode="tel" placeholder="05XXXXXXXX" disabled={!editablePhone || (sent && cooldown > 0)} />
         </Field>
         {sent ? (
-          <Field label="رمز التحقق" htmlFor={`otp-code-${purpose}`} hint="6 أرقام وصلتك في رسالة قصيرة، صالحة 5 دقائق">
+          <Field label="رمز التحقق" htmlFor={`otp-code-${purpose}`} hint="الرمز الذي وصلك في رسالة قصيرة (4 أو 6 أرقام)، صالح 5 دقائق">
             <Input
               id={`otp-code-${purpose}`}
               value={code}
@@ -134,7 +134,7 @@ export function OtpVerifyCard({ purpose, phone: initialPhone, editablePhone = tr
           {sent ? (
             <>
               {!collectOnly ? (
-                <Button type="button" onClick={verify} loading={pending} disabled={code.length !== 6}>
+                <Button type="button" onClick={verify} loading={pending} disabled={code.length < 4}>
                   <ShieldCheck className="size-4" /> تأكيد
                 </Button>
               ) : null}

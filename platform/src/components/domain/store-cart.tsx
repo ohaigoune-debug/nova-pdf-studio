@@ -105,21 +105,22 @@ export function CartBadge() {
 }
 
 /** صفحة السلّة والطلب: التصفّح للجميع، والإرسال لمن سجّل دخوله */
-export function CartPage({ loggedIn, defaults, wilayas, streams = [], shippingDzd, policy = { requireOtp: false }, verifiedPhone = null }: { loggedIn: boolean; defaults: { name: string; phone: string | null; streamId?: string | null } | null; wilayas: { id: string; name: string }[]; streams?: { id: string; name: string }[]; shippingDzd: number; policy?: { requireOtp: boolean }; verifiedPhone?: string | null }) {
+export function CartPage({ loggedIn, defaults, wilayas, streams = [], shippingDzd, feeTable = null, policy = { requireOtp: false }, verifiedPhone = null }: { loggedIn: boolean; defaults: { name: string; phone: string | null; streamId?: string | null } | null; wilayas: { id: string; name: string }[]; streams?: { id: string; name: string }[]; shippingDzd: number; feeTable?: Record<string, { home: number; desk: number }> | null; policy?: { requireOtp: boolean }; verifiedPhone?: string | null }) {
   const cart = useCart()
   const router = useRouter()
   const [pending, start] = useTransition()
-  const [f, setF] = useState({ customerName: defaults?.name ?? '', phone: defaults?.phone ?? '', wilayaId: '', address: '', note: '', streamId: defaults?.streamId ?? '', otpCode: '' })
+  const [f, setF] = useState({ customerName: defaults?.name ?? '', phone: defaults?.phone ?? '', wilayaId: '', address: '', commune: '', deliveryType: 'HOME' as 'HOME' | 'DESK', note: '', streamId: defaults?.streamId ?? '', otpCode: '' })
   const physical = cart.items.some((i) => i.physical)
   const needsStream = cart.items.some((i) => i.requiresStream)
   const normPhone = f.phone.replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
   // الهاتف المؤكَّد سلفاً لهذا الحساب يُعفي من الرمز
   const needsOtp = policy.requireOtp && !(verifiedPhone && verifiedPhone === normPhone)
-  const shipping = physical ? shippingDzd : 0
+  const wilayaFee = f.wilayaId && feeTable?.[f.wilayaId] ? feeTable[f.wilayaId]![f.deliveryType === 'DESK' ? 'desk' : 'home'] : null
+  const shipping = physical ? (wilayaFee ?? shippingDzd) : 0
   const total = cart.total + shipping
   const submit = () =>
     start(async () => {
-      const r = await placeOrderAction({ items: cart.items.map((i) => ({ productId: i.productId, qty: i.qty })), customerName: f.customerName, phone: f.phone, wilayaId: f.wilayaId || null, address: f.address || null, note: f.note || null, streamId: f.streamId || null, otpCode: needsOtp ? f.otpCode || null : null })
+      const r = await placeOrderAction({ items: cart.items.map((i) => ({ productId: i.productId, qty: i.qty })), customerName: f.customerName, phone: f.phone, wilayaId: f.wilayaId || null, address: f.address || null, commune: f.commune || null, deliveryType: f.deliveryType, note: f.note || null, streamId: f.streamId || null, otpCode: needsOtp ? f.otpCode || null : null })
       if (!r.ok) return toast('error', r.error.message)
       cart.clear()
       toast('success', r.data.status === 'DELIVERED' ? 'طلبك جاهز: ملفاتك متاحة للتنزيل' : `أُرسل طلبك ${r.data.number}`)
@@ -205,6 +206,15 @@ export function CartPage({ loggedIn, defaults, wilayas, streams = [], shippingDz
                       ))}
                     </Select>
                   </Field>
+                  <Field label="البلدية" htmlFor="c-commune" hint="كما تكتبها شركة التوصيل">
+                    <Input id="c-commune" value={f.commune} onChange={(e) => setF((s) => ({ ...s, commune: e.target.value }))} dir="auto" />
+                  </Field>
+                  <Field label="طريقة الاستلام" htmlFor="c-delivery-type">
+                    <Select id="c-delivery-type" value={f.deliveryType} onChange={(e) => setF((s) => ({ ...s, deliveryType: e.target.value === 'DESK' ? 'DESK' : 'HOME' }))}>
+                      <option value="HOME">توصيل إلى المنزل{f.wilayaId && feeTable?.[f.wilayaId] ? ` — ${feeTable[f.wilayaId]!.home} دج` : ''}</option>
+                      <option value="DESK">استلام من مكتب شركة التوصيل{f.wilayaId && feeTable?.[f.wilayaId] ? ` — ${feeTable[f.wilayaId]!.desk} دج` : ''}</option>
+                    </Select>
+                  </Field>
                   <Field label="العنوان" htmlFor="c-address">
                     <Textarea id="c-address" rows={2} value={f.address} onChange={(e) => setF((s) => ({ ...s, address: e.target.value }))} dir="auto" />
                   </Field>
@@ -227,7 +237,7 @@ export function CartPage({ loggedIn, defaults, wilayas, streams = [], shippingDz
               </Field>
               {needsOtp ? <OtpVerifyCard purpose="ORDER" phone={normPhone} editablePhone={false} collectOnly onCode={(c) => setF((s) => ({ ...s, otpCode: c }))} title="تأكيد الهاتف قبل الطلب" description="نرسل رمزاً إلى هذا الرقم؛ أدخله ثم أرسل الطلب." /> : null}
               <Alert tone="info">{total === 0 ? 'طلب مجاني: ملفاتك تُتاح فوراً.' : physical ? 'الدفع عند الاستلام. نتصل بك للتأكيد ثم نشحن.' : 'ملفات رقمية: تحوّل المبلغ (CCP / BaridiMob) وتُرسل الوصل، ويؤكّد المشرف الطلب فتُفتح التنزيلات.'}</Alert>
-              <Button className="w-full" size="lg" onClick={submit} loading={pending} disabled={!f.customerName.trim() || !f.phone.trim() || (physical && (!f.wilayaId || !f.address.trim())) || (needsStream && !f.streamId) || (needsOtp && f.otpCode.length !== 6)}>
+              <Button className="w-full" size="lg" onClick={submit} loading={pending} disabled={!f.customerName.trim() || !f.phone.trim() || (physical && (!f.wilayaId || !f.address.trim())) || (needsStream && !f.streamId) || (needsOtp && f.otpCode.length < 4)}>
                 إرسال الطلب
               </Button>
             </>

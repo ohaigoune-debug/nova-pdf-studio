@@ -4,7 +4,7 @@ import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listStreams, listWilayas } from '@/server/services/reference.service'
 import { isPhoneVerified } from '@/server/services/otp.service'
-import { customerDefaults, shippingFeeDzd, storePolicy } from '@/server/services/store.service'
+import { customerDefaults, shippingFeeDzd, shippingFeeTable, storePolicy } from '@/server/services/store.service'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'السلّة' }
@@ -16,7 +16,7 @@ export default async function StoreCartPage() {
   return (
     <div className="container py-10">
       <PageHeader title="السلّة والطلب" />
-      <CartPage loggedIn={Boolean(actor)} defaults={defaults} wilayas={wilayas.map((w) => ({ id: w.id, name: w.nameAr }))} streams={streams.map((s) => ({ id: s.id, name: s.nameAr }))} shippingDzd={shippingFeeDzd()} policy={policy} verifiedPhone={phoneV?.verified ? phoneV.phone : null} />
+      <CartPage loggedIn={Boolean(actor)} defaults={defaults} wilayas={wilayas.map((w) => ({ id: w.id, name: w.nameAr }))} streams={streams.map((s) => ({ id: s.id, name: s.nameAr }))} shippingDzd={shippingFeeDzd()} feeTable={await shippingFeeTable(db)} policy={policy} verifiedPhone={phoneV?.verified ? phoneV.phone : null} />
     </div>
   )
 }

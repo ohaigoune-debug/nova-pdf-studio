@@ -145,6 +145,7 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/admin/educators', label: 'دليل الأساتذة', iconKey: 'PlayCircle' },
             { href: '/admin/content', label: t('nav.content'), iconKey: 'FileText' },
             { href: '/admin/store', label: 'المتجر', iconKey: 'ShoppingBag' },
+            { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall' },
             { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' },
             { href: '/admin/support', label: 'الشكاوى', iconKey: 'LifeBuoy' },
             { href: '/admin/live', label: 'البث المباشر', iconKey: 'Radio' },

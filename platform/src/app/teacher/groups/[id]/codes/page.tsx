@@ -7,7 +7,7 @@ import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { listBatches, listCodes } from '@/server/services/enrollment-codes.service'
 import { getGroupDetail } from '@/server/services/groups.service'
-import { CodesPanel } from './codes-panel'
+import { CodesPanel } from '@/components/domain/codes-panel'
 
 export default async function GroupCodesPage({ params }: { params: Promise<{ id: string }> }) {
   const actor = await requirePageActor('TEACHER')

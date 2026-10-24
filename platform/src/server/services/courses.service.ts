@@ -45,7 +45,7 @@ import { addTimeline } from './timeline.service'
 
 export const COURSE_STATUS_AR: Record<CourseStatus, string> = { DRAFT: 'مسودة', PUBLISHED: 'منشورة', ARCHIVED: 'مؤرشفة' }
 export const COURSE_PLAN_AR: Record<string, string> = { ANNUAL: 'اشتراك سنوي', TERM: 'اشتراك فصلي' }
-export const ENROLLMENT_SOURCE_AR: Record<EnrollmentSource, string> = { BOOK_ORDER: 'شراء الكتاب', MANUAL: 'تفعيل يدوي', GIFT: 'هدية', CLAIM: 'رمز مطالبة' }
+export const ENROLLMENT_SOURCE_AR: Record<EnrollmentSource, string> = { BOOK_ORDER: 'شراء الكتاب', MANUAL: 'تفعيل يدوي', GIFT: 'هدية', CLAIM: 'رمز مطالبة', CODE: 'كود الكتاب' }
 export const ENROLLMENT_STATUS_AR: Record<string, string> = { ACTIVE: 'نشط', EXPIRED: 'منتهٍ', REVOKED: 'ملغى' }
 
 /** رمز مادة المنصة (subjects.code) → رمز مادة PLAY */
@@ -392,9 +392,12 @@ export async function linkProduct(db: Db, actor: Actor, courseId: string, produc
   assertRole(actor, 'SUPER_ADMIN')
   await loadCourse(db, courseId)
   assertUuid(productId, 'PRODUCT_NOT_FOUND')
-  const [p] = await db.select({ id: products.id }).from(products).where(and(eq(products.id, productId), isNull(products.deletedAt))).limit(1)
+  const [p] = await db.select({ id: products.id, priceDzd: products.priceDzd }).from(products).where(and(eq(products.id, productId), isNull(products.deletedAt))).limit(1)
   if (!p) throw new AppError('PRODUCT_NOT_FOUND')
   await db.insert(courseProducts).values({ courseId, productId }).onConflictDoNothing()
+  // سعر الدورة = سعر الكتاب المرتبط (قرار المالك): يُحدَّث عند الربط، والكتالوج يقرأ أرخص كتاب مرتبط منشور مباشرة
+  await db.update(courses).set({ priceDzd: p.priceDzd, updatedAt: new Date() }).where(eq(courses.id, courseId))
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'course.link_product', entityType: 'course', entityId: courseId, newValue: { productId, priceDzd: p.priceDzd } })
 }
 
 export async function unlinkProduct(db: Db, actor: Actor, courseId: string, productId: string): Promise<void> {

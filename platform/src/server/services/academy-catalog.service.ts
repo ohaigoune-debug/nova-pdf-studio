@@ -207,7 +207,8 @@ export async function listCourseCatalog(db: Db, actor: Actor | null, scope: Part
       description: courses.description,
       season: courses.season,
       plan: courses.plan,
-      priceDzd: courses.priceDzd,
+      // سعر الدورة هو سعر الكتاب المرتبط (أرخص كتاب منشور)؛ سعر الدورة نفسها احتياط حين لا كتاب
+      priceDzd: sql<number>`coalesce((select min(p.price_dzd) from course_products cp join products p on p.id = cp.product_id where cp.course_id = ${courses.id} and p.status = 'PUBLISHED' and p.deleted_at is null), ${courses.priceDzd})::int`,
       accessEndsOn: courses.accessEndsOn,
       coverFileId: courses.coverFileId,
       streamIds: courses.streamIds,

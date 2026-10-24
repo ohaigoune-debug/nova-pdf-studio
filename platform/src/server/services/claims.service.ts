@@ -10,7 +10,7 @@ import { courseClaims, courses, orders } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
-import { activateEnrollment } from './delivery.service'
+import { enrollStudent } from './courses.service'
 
 export const CLAIM_MAX_ATTEMPTS = 5
 export const CLAIM_TTL_DAYS = 30
@@ -71,7 +71,7 @@ export async function claimCourse(db: Db, actor: Actor, input: { phone: string; 
   const [course] = await db.select({ id: courses.id, title: courses.title, workspaceId: courses.workspaceId }).from(courses).where(eq(courses.id, match.courseId)).limit(1)
   if (!course) throw new AppError('NOT_FOUND')
   const [order] = await db.select({ id: orders.id, number: orders.number }).from(orders).where(eq(orders.id, match.orderId)).limit(1)
-  await activateEnrollment(db, { courseId: course.id, studentId: actor.studentId, source: 'CLAIM', orderId: order?.id ?? null, activatedByUserId: null })
+  await enrollStudent(db, null, { courseId: course.id, studentId: actor.studentId, source: 'CLAIM', orderId: order?.id ?? null, activatedByUserId: null })
   await db.update(courseClaims).set({ claimedAt: now, claimedByStudentId: actor.studentId }).where(eq(courseClaims.id, match.id))
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'course.claim', entityType: 'course', entityId: course.id, newValue: { claimId: match.id, orderNumber: order?.number ?? null, studentId: actor.studentId } })
   return { courseId: course.id, courseTitle: course.title }

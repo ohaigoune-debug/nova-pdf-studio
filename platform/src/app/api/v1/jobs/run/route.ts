@@ -30,6 +30,7 @@ export async function POST(req: Request) {
     const scheduledCleanup = await ensureMaintenanceJobs(db)
     await import('@/server/services/courses.service').then((m) => m.ensureCourseExpiryScheduled(db))
     await import('@/server/services/live.service').then((m) => m.ensureLiveRemindersScheduled(db))
+    await import('@/server/services/ecotrack.service').then((m) => m.ensureEcotrackSyncScheduled(db))
     const summary = await processQueuedJobs(db, { limit })
     // المهام البطيئة (زحف DzExams) لا تناسب طلباً محدوداً بدقيقة: يلتقطها العامل الداخلي
     kickWorker(getDb)

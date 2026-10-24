@@ -105,7 +105,7 @@ export function StoreSmsSettings({ policy, sms }: Props) {
               {sms.sender ? (
                 <>
                   {' '}
-                  · المرسِل <span dir="ltr">{sms.sender}</span>
+                  · القالب <span dir="ltr">{sms.sender}</span>
                 </>
               ) : null}
               {sms.updatedAt ? <span className="block text-xs text-muted-foreground">آخر تحديث: {formatDateTime(new Date(sms.updatedAt))}</span> : null}
@@ -121,8 +121,8 @@ export function StoreSmsSettings({ policy, sms }: Props) {
           <Field label="مفتاح SuiviSMS" htmlFor="sms-key" error={fieldError(state, 'apiKey')} hint="يُخزَّن مشفّراً ولا يُعرض بعد الحفظ إلا آخر 4 أحرف. يتقدّم على SUIVISMS_API_KEY في البيئة.">
             <Input id="sms-key" name="apiKey" type="password" dir="ltr" required spellCheck={false} autoComplete="new-password" />
           </Field>
-          <Field label="اسم المرسِل (اختياري)" htmlFor="sms-sender" error={fieldError(state, 'sender')} hint="حتى 11 حرفاً لاتينياً كما سجّلته لدى المزوّد">
-            <Input id="sms-sender" name="sender" dir="ltr" maxLength={11} placeholder="MADRASA" />
+          <Field label="معرّف القالب المعتمد (اختياري)" htmlFor="sms-sender" error={fieldError(state, 'sender')} hint="قالب SuiviSMS المعتمد بمتغيّرَي {name} و{code}. بدونه تُرسَل رموز التحقق بآلية OTP الخاصة بالبوابة (تعمل فوراً)، ولا تُرسَل رسائل نصّية حرّة.">
+            <Input id="sms-sender" name="sender" dir="ltr" maxLength={80} placeholder="tpl_…" />
           </Field>
           <FormError state={state} />
           <SubmitButton size="sm">حفظ المفتاح</SubmitButton>

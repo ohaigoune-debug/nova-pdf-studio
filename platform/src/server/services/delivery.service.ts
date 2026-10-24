@@ -6,24 +6,20 @@
 import { createHmac, timingSafeEqual } from 'node:crypto'
 import { and, desc, eq, inArray, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { appSettings, courseProducts, courses, deliveryEvents, orderItems, orders, students } from '@/server/db/schema'
-import type { DeliveryEventStatus, EnrollmentSource } from '@/server/db/schema/enums'
+import { appSettings, deliveryEvents, orders } from '@/server/db/schema'
+import type { DeliveryEventStatus } from '@/server/db/schema/enums'
 import { DELIVERY_EVENT_STATUSES } from '@/server/db/schema/enums'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { seal, unseal } from '@/server/lib/secret-box'
-import { sendSms } from '@/server/lib/sms'
-import { createClaim } from './claims.service'
-import { enrollStudent } from './courses.service'
-import { grantPurchasesForOrder } from './marketplace.service'
-import { notify } from './notifications.service'
+import { notifyAdmins, transitionOrder } from './order-status.service'
 
 /* ───────────────────────── المزوّدون وخرائط الحقول ───────────────────────── */
 
-export const DELIVERY_PROVIDERS = ['generic', 'yalidine'] as const
+export const DELIVERY_PROVIDERS = ['generic', 'yalidine', 'ecotrack'] as const
 export type DeliveryProvider = (typeof DELIVERY_PROVIDERS)[number]
-export const DELIVERY_PROVIDER_AR: Record<DeliveryProvider, string> = { generic: 'شركة توصيل (عام)', yalidine: 'Yalidine' }
+export const DELIVERY_PROVIDER_AR: Record<DeliveryProvider, string> = { generic: 'شركة توصيل (عام)', yalidine: 'Yalidine', ecotrack: 'EcoTrack' }
 
 interface FieldMap {
   /** مسارات مرشّحة لكل حقل، بالترتيب (الأول الموجود يُعتمد) */
@@ -35,13 +31,15 @@ interface FieldMap {
 
 const PROVIDER_FIELDS: Record<DeliveryProvider, FieldMap> = {
   generic: { externalId: ['id', 'event_id', 'eventId'], trackingId: ['tracking', 'tracking_id', 'trackingId'], status: ['status', 'event'], orderNumber: ['order', 'order_number', 'orderNumber', 'reference'] },
-  yalidine: { externalId: ['event_id', 'id', 'tracking+status'], trackingId: ['tracking', 'tracking_id'], status: ['status', 'last_status', 'event'], orderNumber: ['order_id', 'reference', 'customer_reference'] }
+  yalidine: { externalId: ['event_id', 'id', 'tracking+status'], trackingId: ['tracking', 'tracking_id'], status: ['status', 'last_status', 'event'], orderNumber: ['order_id', 'reference', 'customer_reference'] },
+  ecotrack: { externalId: ['id', 'event_id', 'tracking+status'], trackingId: ['tracking', 'tracking_id'], status: ['status', 'event'], orderNumber: ['reference', 'order', 'order_number'] }
 }
 
 /** تطبيع حالات المزوّدين (عربية/فرنسية/إنجليزية) إلى الحالات الست */
 const STATUS_ALIASES: [DeliveryEventStatus, string[]][] = [
   ['DELIVERED', ['delivered', 'livre', 'livré', 'livrée', 'delivre', 'received', 'completed', 'done', 'سُلّم', 'سلم', 'تم التسليم', 'تم التوصيل']],
-  ['RETURNED', ['returned', 'return', 'retour', 'retourne', 'retourné', 'echec', 'échec', 'failed', 'مرتجع', 'إرجاع', 'ارجاع']],
+  ['RETURNED', ['returned', 'return', 'retour', 'retourne', 'retourné', 'مرتجع', 'إرجاع', 'ارجاع']],
+  ['FAILED_ATTEMPT', ['failed_attempt', 'failed attempt', 'tentative', 'echou', 'échou', 'echec', 'échec', 'failed', 'absent', 'injoignable', 'reporte', 'reporté', 'محاولة فاشلة', 'لا يرد']],
   ['CANCELLED', ['cancelled', 'canceled', 'annule', 'annulé', 'annulée', 'ملغى', 'ملغي', 'ألغي']],
   ['IN_TRANSIT', ['in_transit', 'in transit', 'transit', 'shipped', 'expedie', 'expédié', 'expédiée', 'en cours', 'en_cours', 'en livraison', 'out for delivery', 'sorti en livraison', 'centre', 'hub', 'dispatched', 'في الطريق', 'قيد التوصيل']],
   ['CREATED', ['created', 'pending', 'new', 'cree', 'créé', 'créée', 'en préparation', 'prepared', 'ready', 'جديد', 'أُنشئ']]
@@ -156,66 +154,48 @@ export async function verifyDeliveryWebhook(db: Db, input: { headerSecret: strin
   return false
 }
 
-/* ───────────────────────── التفعيل ───────────────────────── */
+/* التفعيل انتقل إلى course-activation.service (يُعاد تصديره هنا للمستدعين القدامى) */
+import type { ActivationSummary } from './course-activation.service'
+export { activateEnrollment, activateCoursesForOrder, type ActivateInput, type ActivationSummary } from './course-activation.service'
 
-export interface ActivateInput {
-  courseId: string
-  studentId: string
-  source: EnrollmentSource
-  orderId: string | null
-  activatedByUserId: string | null
+/* ───────────────────────── تطبيق حالة شحنة على طلب ───────────────────────── */
+
+export interface ApplyDeliveryResult {
+  activation: ActivationSummary | null
+  error: string | null
+  changed: boolean
 }
 
-/** تفعيل اشتراك تلميذ في دورة بلا فاعل (النظام): يفوّض إلى enrollStudent في courses.service */
-export async function activateEnrollment(db: Db, input: ActivateInput): Promise<{ enrollmentId: string }> {
-  const row = await enrollStudent(db, null, { courseId: input.courseId, studentId: input.studentId, source: input.source, orderId: input.orderId, activatedByUserId: input.activatedByUserId })
-  return { enrollmentId: row.id }
-}
-
-export interface ActivationSummary {
-  enrolled: { courseId: string; studentId: string }[]
-  claims: { courseId: string; claimId: string; phone: string }[]
-}
-
-/** بعد تسليم الطلب: لكل منتج مرتبط بدورة ⇒ تفعيل على التلميذ المستفيد/حساب التلميذ، وإلا مطالبة بالـSMS */
-export async function activateCoursesForOrder(db: Db, orderId: string): Promise<ActivationSummary> {
-  const summary: ActivationSummary = { enrolled: [], claims: [] }
-  const [order] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1)
-  if (!order) return summary
-  const items = await db.select({ productId: orderItems.productId }).from(orderItems).where(eq(orderItems.orderId, orderId))
-  if (items.length === 0) return summary
-  const links = await db
-    .select({ courseId: courseProducts.courseId, title: courses.title, workspaceId: courses.workspaceId })
-    .from(courseProducts)
-    .innerJoin(courses, eq(courses.id, courseProducts.courseId))
-    .where(inArray(courseProducts.productId, [...new Set(items.map((i) => i.productId))]))
-  if (links.length === 0) return summary
-  const courseIds = [...new Set(links.map((l) => l.courseId))]
-
-  let studentId: string | null = order.beneficiaryStudentId ?? null
-  if (!studentId) {
-    const [s] = await db.select({ id: students.id }).from(students).where(eq(students.userId, order.userId)).limit(1)
-    studentId = s?.id ?? null
+/**
+ * يترجم حالة الشحنة (من webhook أو من مزامنة EcoTrack) إلى انتقال في محرّك الطلبات:
+ * DELIVERED ⇒ سُلِّم + تفعيل الدورة؛ IN_TRANSIT ⇒ في الطريق؛ RETURNED ⇒ مرتجع؛ CANCELLED ⇒ ملاحظة (لا نلغي طلباً من تلقاء الشركة)؛
+ * FAILED_ATTEMPT ⇒ ملاحظة + إشعار المشرف ليتصل بالزبون.
+ */
+export async function applyDeliveryStatus(db: Db, order: typeof orders.$inferSelect, status: DeliveryEventStatus, ctx: { provider: DeliveryProvider; trackingId: string | null; rawStatus: string | null; source: 'delivery' | 'ecotrack' }): Promise<ApplyDeliveryResult> {
+  const common = { actorUserId: null, source: ctx.source, deliveryProvider: order.deliveryProvider ?? ctx.provider, deliveryTrackingId: order.deliveryTrackingId ?? ctx.trackingId } as const
+  if (status === 'DELIVERED') {
+    if (order.status === 'CANCELLED') return { activation: null, error: 'order cancelled', changed: false }
+    if (order.status === 'RETURNED') return { activation: null, error: 'order returned', changed: false }
+    const r = await transitionOrder(db, order.id, 'DELIVERED', { ...common, force: true })
+    return { activation: r.activation, error: null, changed: r.changed }
   }
-  for (const courseId of courseIds) {
-    const link = links.find((l) => l.courseId === courseId)!
-    if (studentId) {
-      await activateEnrollment(db, { courseId, studentId, source: 'BOOK_ORDER', orderId: order.id, activatedByUserId: null })
-      summary.enrolled.push({ courseId, studentId })
-      await writeAudit(db, { actorUserId: null, workspaceId: link.workspaceId, action: 'delivery.delivered_activation', entityType: 'course', entityId: courseId, newValue: { orderId: order.id, orderNumber: order.number, studentId, mode: 'enroll' } })
-    } else {
-      const claim = await createClaim(db, { orderId: order.id, courseId, phone: order.phone })
-      summary.claims.push({ courseId, claimId: claim.id, phone: claim.phone })
-      try {
-        await sendSms(db, { to: claim.phone, text: `مدرسة: تم تسليم طلبك ${order.number}. لتفعيل دورة ${link.title} على حساب التلميذ أدخل الرمز ${claim.code} في madrasadz.com/claim` })
-      } catch (err) {
-        if (process.env.NODE_ENV !== 'test') console.error('[delivery] sms failed', err)
-      }
-      await notify(db, { userId: order.userId, workspaceId: link.workspaceId, type: 'SYSTEM', title: `رمز تفعيل دورة «${link.title}»`, body: `سُلّم طلبك ${order.number}. أُرسل رمز التفعيل إلى الهاتف ${claim.phone}؛ يُدخله التلميذ من حسابه في صفحة /claim.`, link: '/claim' })
-      await writeAudit(db, { actorUserId: null, workspaceId: link.workspaceId, action: 'delivery.delivered_activation', entityType: 'course', entityId: courseId, newValue: { orderId: order.id, orderNumber: order.number, claimId: claim.id, mode: 'claim' } })
-    }
+  if (status === 'IN_TRANSIT') {
+    if (order.status !== 'CONFIRMED') return { activation: null, error: null, changed: false }
+    const r = await transitionOrder(db, order.id, 'SHIPPED', common)
+    return { activation: null, error: null, changed: r.changed }
   }
-  return summary
+  if (status === 'RETURNED') {
+    if (order.status !== 'SHIPPED' && order.status !== 'CONFIRMED' && order.status !== 'DELIVERED') return { activation: null, error: null, changed: false }
+    const r = await transitionOrder(db, order.id, 'RETURNED', { ...common, force: true, reason: ctx.rawStatus })
+    return { activation: null, error: null, changed: r.changed }
+  }
+  if (status === 'FAILED_ATTEMPT' || status === 'CANCELLED') {
+    const label = status === 'FAILED_ATTEMPT' ? 'محاولة تسليم فاشلة' : 'ألغته شركة التوصيل'
+    await db.update(orders).set({ adminNote: sql`concat_ws(' | ', ${orders.adminNote}, ${`التوصيل: ${label} (${ctx.rawStatus ?? status})`}::text)`, updatedAt: new Date() }).where(eq(orders.id, order.id))
+    await notifyAdmins(db, { title: `${status === 'FAILED_ATTEMPT' ? '📵' : '✖️'} الطلب ${order.number}: ${label}`, body: `${order.customerName} · ${order.phone}${ctx.rawStatus ? ` · ${ctx.rawStatus}` : ''} — اتصل بالزبون.`, link: `/admin/store?status=SHIPPED` })
+    return { activation: null, error: null, changed: false }
+  }
+  return { activation: null, error: null, changed: false }
 }
 
 /* ───────────────────────── تسجيل الحدث ───────────────────────── */
@@ -252,22 +232,9 @@ export async function recordDeliveryEvent(db: Db, provider: DeliveryProvider, pa
   let activation: ActivationSummary | null = null
   let error: string | null = null
   try {
-    if (parsed.status === 'DELIVERED') {
-      if (order.status === 'CANCELLED') error = 'order cancelled'
-      else {
-        if (order.status !== 'DELIVERED') {
-          const now = new Date()
-          await db.update(orders).set({ status: 'DELIVERED', deliveredAt: now, confirmedAt: order.confirmedAt ?? now, shippedAt: order.shippedAt ?? now, deliveryProvider: order.deliveryProvider ?? provider, deliveryTrackingId: order.deliveryTrackingId ?? parsed.trackingId, updatedAt: now }).where(eq(orders.id, order.id))
-          await grantPurchasesForOrder(db, order.id)
-          await notify(db, { userId: order.userId, workspaceId: null, type: 'SYSTEM', title: `طلب ${order.number}: سُلِّم`, body: 'سُلّم طلبك. شكراً لك.', link: `/store/orders/${order.id}` })
-        }
-        activation = await activateCoursesForOrder(db, order.id)
-      }
-    } else if (parsed.status === 'IN_TRANSIT' && order.status === 'CONFIRMED') {
-      await db.update(orders).set({ status: 'SHIPPED', shippedAt: new Date(), deliveryProvider: order.deliveryProvider ?? provider, deliveryTrackingId: order.deliveryTrackingId ?? parsed.trackingId, updatedAt: new Date() }).where(eq(orders.id, order.id))
-    } else if (parsed.status === 'RETURNED' || parsed.status === 'CANCELLED') {
-      await db.update(orders).set({ adminNote: sql`concat_ws(' | ', ${orders.adminNote}, ${`التوصيل: ${parsed.status === 'RETURNED' ? 'مرتجع' : 'ألغته شركة التوصيل'} (${parsed.rawStatus ?? parsed.status})`})`, updatedAt: new Date() }).where(eq(orders.id, order.id))
-    }
+    const r = await applyDeliveryStatus(db, order, parsed.status, { provider, trackingId: parsed.trackingId, rawStatus: parsed.rawStatus, source: 'delivery' })
+    activation = r.activation
+    error = r.error
   } catch (err) {
     error = err instanceof Error ? err.message.slice(0, 300) : 'processing failed'
     if (process.env.NODE_ENV !== 'test') console.error('[delivery] processing failed', err)
@@ -297,12 +264,13 @@ export async function setOrderShipping(db: Db, actor: Actor, orderId: string, in
   if (trackingId.length < 3 || trackingId.length > 120) throw new AppError('VALIDATION', { field: 'trackingId' })
   const [o] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1)
   if (!o) throw new AppError('ORDER_NOT_FOUND')
-  if (o.status === 'CANCELLED' || o.status === 'PENDING') throw new AppError('ORDER_INVALID_TRANSITION')
-  const now = new Date()
-  const toShipped = o.status === 'CONFIRMED'
-  await db.update(orders).set({ deliveryProvider: input.provider, deliveryTrackingId: trackingId, status: toShipped ? 'SHIPPED' : o.status, shippedAt: toShipped ? now : o.shippedAt, updatedAt: now }).where(eq(orders.id, orderId))
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'delivery.shipping_set', entityType: 'order', entityId: orderId, oldValue: { status: o.status, trackingId: o.deliveryTrackingId }, newValue: { provider: input.provider, trackingId, status: toShipped ? 'SHIPPED' : o.status } })
-  if (toShipped) await notify(db, { userId: o.userId, workspaceId: null, type: 'SYSTEM', title: `طلب ${o.number}: في الطريق`, body: `طلبك في الطريق إليك عبر ${DELIVERY_PROVIDER_AR[input.provider]} — رقم التتبّع ${trackingId}.`, link: `/store/orders/${o.id}` })
+  if (o.status !== 'CONFIRMED' && o.status !== 'SHIPPED' && o.status !== 'DELIVERED') throw new AppError('ORDER_INVALID_TRANSITION')
+  if (o.status === 'CONFIRMED') {
+    await transitionOrder(db, orderId, 'SHIPPED', { actorUserId: actor.userId, source: 'admin', deliveryProvider: input.provider, deliveryTrackingId: trackingId })
+  } else {
+    await db.update(orders).set({ deliveryProvider: input.provider, deliveryTrackingId: trackingId, updatedAt: new Date() }).where(eq(orders.id, orderId))
+  }
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'delivery.shipping_set', entityType: 'order', entityId: orderId, oldValue: { status: o.status, trackingId: o.deliveryTrackingId }, newValue: { provider: input.provider, trackingId } })
 }
 
 /** معلومات الشحن لعدّة طلبات (لصفحة المتجر في الإدارة) */

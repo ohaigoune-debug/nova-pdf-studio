@@ -96,7 +96,8 @@ export async function activateCodeAction(_prev: ActionResult<{ groupName: string
     const actor = await requireActor()
     await checkRateLimit(db, { scope: 'activate-code', subject: actor.userId, ...RATE_LIMITS.activateCode })
     const r = await redeemEnrollmentCode(db, actor, parsed.data.code)
-    return { groupName: r.groupName }
+    // كود دورة: الاسم المعروض هو عنوان الدورة (الفوج الخلفي تفصيل داخلي)
+    return { groupName: r.courseTitle ?? r.groupName }
   })
 }
 

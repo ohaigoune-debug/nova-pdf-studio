@@ -206,8 +206,20 @@ export const PRODUCT_TYPES = ['BOOK', 'PDF', 'PACK'] as const
 export type ProductType = (typeof PRODUCT_TYPES)[number]
 export const PRODUCT_STATUSES = ['DRAFT', 'PUBLISHED', 'ARCHIVED'] as const
 export type ProductStatus = (typeof PRODUCT_STATUSES)[number]
-export const ORDER_STATUSES = ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED', 'CANCELLED'] as const
+/**
+ * دورة حياة الطلب (على نسق NOVA COMMERCE): PENDING ← بانتظار التأكيد؛ NO_ANSWER/CALL_LATER ← محاولات اتصال؛
+ * CONFIRMED ← مؤكَّد؛ SHIPPED ← عند شركة التوصيل؛ DELIVERED ← سُلِّم (يفعّل الدورة)؛ RETURNED ← أعادته الشركة؛ CANCELLED.
+ */
+export const ORDER_STATUSES = ['PENDING', 'NO_ANSWER', 'CALL_LATER', 'CONFIRMED', 'SHIPPED', 'DELIVERED', 'RETURNED', 'CANCELLED'] as const
 export type OrderStatus = (typeof ORDER_STATUSES)[number]
+/** الطلبات التي ما زالت في مرحلة التأكيد الهاتفي */
+export const CONFIRMATION_STATUSES: readonly OrderStatus[] = ['PENDING', 'NO_ANSWER', 'CALL_LATER']
+/** تسليم للمنزل أو استلام من مكتب شركة التوصيل (stop desk) */
+export const DELIVERY_TYPES = ['HOME', 'DESK'] as const
+export type DeliveryType = (typeof DELIVERY_TYPES)[number]
+/** نتيجة مكالمة/رسالة واردة من هاتف المشرف */
+export const CALL_EVENT_RESULTS = ['confirmed', 'already_confirmed', 'no_order', 'invalid_phone', 'disabled'] as const
+export type CallEventResult = (typeof CALL_EVENT_RESULTS)[number]
 /** الدفع عند الاستلام (مادي)، تحويل (CCP/BaridiMob يؤكّده المشرف)، مجاني */
 export const PAYMENT_METHODS = ['COD', 'TRANSFER', 'FREE'] as const
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number]
@@ -239,7 +251,7 @@ export type FeedbackStatus = (typeof FEEDBACK_STATUSES)[number]
 export const COURSE_STATUSES = ['DRAFT', 'PUBLISHED', 'ARCHIVED'] as const
 export type CourseStatus = (typeof COURSE_STATUSES)[number]
 /** مصدر الاشتراك: تسليم طلب كتاب، تفعيل يدوي من الإدارة، هدية/منحة، مطالبة بالرمز (وليّ الأمر) */
-export const ENROLLMENT_SOURCES = ['BOOK_ORDER', 'MANUAL', 'GIFT', 'CLAIM'] as const
+export const ENROLLMENT_SOURCES = ['BOOK_ORDER', 'MANUAL', 'GIFT', 'CLAIM', 'CODE'] as const
 export type EnrollmentSource = (typeof ENROLLMENT_SOURCES)[number]
 export const COURSE_ENROLLMENT_STATUSES = ['ACTIVE', 'EXPIRED', 'REVOKED'] as const
 export type CourseEnrollmentStatus = (typeof COURSE_ENROLLMENT_STATUSES)[number]
@@ -249,7 +261,7 @@ export const LIVE_SESSION_STATUSES = ['SCHEDULED', 'LIVE', 'ENDED', 'CANCELLED']
 export type LiveSessionStatus = (typeof LIVE_SESSION_STATUSES)[number]
 export const OTP_PURPOSES = ['REGISTER', 'ORDER', 'CLAIM', 'RECOVER'] as const
 export type OtpPurpose = (typeof OTP_PURPOSES)[number]
-export const DELIVERY_EVENT_STATUSES = ['CREATED', 'IN_TRANSIT', 'DELIVERED', 'RETURNED', 'CANCELLED', 'UNKNOWN'] as const
+export const DELIVERY_EVENT_STATUSES = ['CREATED', 'IN_TRANSIT', 'FAILED_ATTEMPT', 'DELIVERED', 'RETURNED', 'CANCELLED', 'UNKNOWN'] as const
 export type DeliveryEventStatus = (typeof DELIVERY_EVENT_STATUSES)[number]
 export const SUPPORT_KINDS = ['ORDER', 'DELIVERY', 'ACCESS', 'CONTENT', 'TEACHER', 'TECHNICAL', 'OTHER'] as const
 export type SupportKind = (typeof SUPPORT_KINDS)[number]

@@ -13,7 +13,7 @@ import { writeAudit } from '@/server/lib/audit'
 import { sha256 } from '@/server/lib/codes'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { checkRateLimit } from '@/server/lib/rate-limit'
-import { sendSms } from '@/server/lib/sms'
+import { getSmsSender, sendSms } from '@/server/lib/sms'
 
 export const OTP_TTL_MS = 5 * 60 * 1000
 export const OTP_MAX_ATTEMPTS = 5
@@ -39,6 +39,14 @@ function assertPurpose(p: string): asserts p is OtpPurpose {
   if (!OTP_PURPOSES.includes(p as OtpPurpose)) throw new AppError('VALIDATION', { field: 'purpose' })
 }
 
+/** أرقام عربية/فارسية وصفّ AZERTY بلا Shift → أرقام لاتينية (كما في NOVA) */
+export function normalizeDigits(raw: string): string {
+  const AZERTY: Record<string, string> = { '&': '1', 'é': '2', '"': '3', "'": '4', '(': '5', '-': '6', '§': '6', 'è': '7', _: '8', '!': '8', 'ç': '9', 'à': '0' }
+  let t = raw.trim().replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x0660)).replace(/[\u06f0-\u06f9]/g, (d) => String(d.charCodeAt(0) - 0x06f0))
+  if (t && !/\d/.test(t) && t.split('').every((c) => c in AZERTY)) t = t.split('').map((c) => AZERTY[c] ?? '').join('')
+  return t.replace(/\D/g, '')
+}
+
 export const otpSmsText = (code: string) => `مدرسة: رمز التحقق ${code}. صالح 5 دقائق. لا تشاركه مع أحد.`
 
 export interface RequestOtpInput {
@@ -62,7 +70,15 @@ export async function requestOtp(db: Db, input: RequestOtpInput): Promise<{ phon
     .where(and(eq(otpCodes.phone, phone), eq(otpCodes.purpose, input.purpose), isNull(otpCodes.consumedAt)))
   const [row] = await db.insert(otpCodes).values({ phone, purpose: input.purpose, userId: input.userId ?? null, codeHash: hashCode(phone, input.purpose, code), expiresAt }).returning({ id: otpCodes.id })
   try {
-    await sendSms(db, { to: phone, text: otpSmsText(code) })
+    const sender = await getSmsSender(db)
+    // SuiviSMS بلا قالب معتمد: البوابة تولّد الرمز (4 أرقام) وتتحقق منه هي؛ نحفظ معرّف التحدّي فقط
+    const gateway = sender.name === 'suivisms' && !(sender as { templateId?: string | null }).templateId && sender.sendOtp
+    if (gateway) {
+      const ch = await sender.sendOtp!(phone, `otp:${row!.id}`)
+      await db.update(otpCodes).set({ providerRef: ch.id, codeHash: 'gateway' }).where(eq(otpCodes.id, row!.id))
+    } else {
+      await sendSms(db, { to: phone, text: otpSmsText(code), variables: { name: 'مدرسة', code } })
+    }
   } catch (e) {
     // الرمز الذي لم يصل لا يبقى صالحاً
     await db.update(otpCodes).set({ consumedAt: new Date() }).where(eq(otpCodes.id, row!.id))
@@ -84,8 +100,8 @@ export interface VerifyOtpInput {
 export async function verifyOtp(db: Db, input: VerifyOtpInput): Promise<{ ok: true }> {
   assertPurpose(input.purpose)
   const phone = normalizePhone(input.phone)
-  const code = (input.code ?? '').replace(/\D/g, '')
-  if (code.length !== 6) throw new AppError('OTP_INVALID')
+  const code = normalizeDigits(input.code ?? '')
+  if (code.length < 4 || code.length > 6) throw new AppError('OTP_INVALID')
   const now = new Date()
   const [row] = await db
     .select()
@@ -98,12 +114,23 @@ export async function verifyOtp(db: Db, input: VerifyOtpInput): Promise<{ ok: tr
     await db.update(otpCodes).set({ consumedAt: now }).where(eq(otpCodes.id, row.id))
     throw new AppError('OTP_EXPIRED')
   }
-  const expected = Buffer.from(row.codeHash, 'hex')
-  const actual = Buffer.from(hashCode(phone, input.purpose, code), 'hex')
-  const match = expected.length === actual.length && timingSafeEqual(expected, actual)
+  let match: boolean
+  let exhaustedByGateway = false
+  if (row.providerRef) {
+    // رمز البوابة: التحقق لديها (مجاني، 3 محاولات عندها)
+    const sender = await getSmsSender(db)
+    if (!sender.verifyOtp) throw new AppError('OTP_INVALID')
+    const v = await sender.verifyOtp(row.providerRef, code)
+    match = v.ok
+    exhaustedByGateway = !v.ok && (v.status === 'expired' || v.status === 'failed')
+  } else {
+    const expected = Buffer.from(row.codeHash, 'hex')
+    const actual = Buffer.from(hashCode(phone, input.purpose, code), 'hex')
+    match = code.length === 6 && expected.length === actual.length && timingSafeEqual(expected, actual)
+  }
   if (!match) {
     const attempts = row.attempts + 1
-    const exhausted = attempts >= OTP_MAX_ATTEMPTS
+    const exhausted = attempts >= OTP_MAX_ATTEMPTS || exhaustedByGateway
     await db
       .update(otpCodes)
       .set({ attempts: sql`${otpCodes.attempts} + 1`, consumedAt: exhausted ? now : null })
