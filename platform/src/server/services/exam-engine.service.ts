@@ -43,6 +43,14 @@ const STALE_AFTER_MS = 2 * 60 * 60_000
 export { DOC_STATUS_AR, DOC_TYPE_AR, ORIGIN_AR } from '@/lib/exam-engine-labels'
 
 /** خطأ معالجة وثيقة: رمز قصير يظهر في اللوحة + تفصيل */
+/** يحذف المحرف NUL (0x00) من كل النصوص: Postgres يرفضه، وقد يحمله ردّ الذكاء الاصطناعي على PDF رديء */
+export function stripNul(v: unknown): unknown {
+  if (typeof v === 'string') return v.replace(/\u0000/g, '')
+  if (Array.isArray(v)) return v.map(stripNul)
+  if (v && typeof v === 'object') return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, stripNul(x)]))
+  return v
+}
+
 /** نقطة تقسيم قرب منتصف النصّ عند حدّ سطر (لا يُقطع تمرين وسط جملة إن أمكن) */
 function splitPoint(text: string): number {
   const mid = Math.floor(text.length / 2)
@@ -199,6 +207,13 @@ async function fileFacts(db: Db, fileId: string): Promise<{ checksum: string | n
   return { checksum: f.checksum ?? null, pages }
 }
 
+/** حجم الملف الفعلي في التخزين (0 = فارغ أو مفقود) */
+async function storedBytes(db: Db, fileId: string): Promise<number> {
+  const [f] = await db.select({ key: files.storageKey }).from(files).where(eq(files.id, fileId)).limit(1)
+  if (!f) return 0
+  return (await storage().size(f.key)) ?? 0
+}
+
 async function textOfFile(db: Db, fileId: string): Promise<string> {
   const [f] = await db.select().from(files).where(eq(files.id, fileId)).limit(1)
   if (!f) throw new DocError('file_missing', 'الملف المخزَّن غير موجود')
@@ -320,6 +335,9 @@ export async function processDocument(db: Db, documentId: string, opts: ProcessO
     const fileUrl = resource?.fileUrl ?? (typeof doc.metadata.fileUrl === 'string' ? doc.metadata.fileUrl : null)
     if (!doc.fileId && !fileUrl) throw new DocError('no_file', 'لا رابط ملف للموضوع عند المصدر')
     let fileId = doc.fileId
+    // ملف مخزَّن فارغ أو مفقود من التخزين (تنزيل سابق ناقص أو حجم تخزين أُعيد إنشاؤه) ⇒ يُعاد تنزيله من المصدر مرة واحدة
+    if (fileId && fileUrl && !(await storedBytes(db, fileId))) fileId = null
+    if (fileId && !fileUrl && !(await storedBytes(db, fileId))) throw new DocError('empty_file', 'الملف المخزَّن فارغ ولا رابط له عند المصدر لإعادة تنزيله')
     if (!fileId) {
       fileId = (await storeRemote(db, { url: fileUrl!, name: doc.title, userId: opts.userId, fetch: opts.fetch })).id
       await db.update(examDocuments).set({ fileId }).where(eq(examDocuments.id, doc.id))
@@ -356,12 +374,13 @@ export async function processDocument(db: Db, documentId: string, opts: ProcessO
     const [level] = doc.levelId ? await db.select({ n: levels.nameAr }).from(levels).where(eq(levels.id, doc.levelId)).limit(1) : []
     const [stream] = doc.streamId ? await db.select({ n: streams.nameAr }).from(streams).where(eq(streams.id, doc.streamId)).limit(1) : []
     const extracted: ExtractedQuestion[] = []
+    // Postgres يرفض المحرف NUL (0x00) في النصوص: ردود الذكاء الاصطناعي على نصوص PDF رديئة قد تحمله
     await withAiTask({ task: 'exam_doc_extract', userId: opts.userId, entityType: 'exam_document', entityId: doc.id }, async () => {
       // ردّ مقطوع (موضوع طويل يتجاوز حدّ الردّ) ⇒ يُقسَم الجزء نصفين ويُعاد مرة واحدة لكل نصف
       const extractPart = async (part: string, splits: number): Promise<void> => {
         try {
           const out = await provider.extractQuestions!({ subject: subject?.n ?? null, levelName: level?.n ?? null, fileTitle: doc.title, text: part })
-          extracted.push(...out.questions)
+          extracted.push(...(stripNul(out.questions) as ExtractedQuestion[]))
         } catch (e) {
           if (splits <= 0 || !/truncated/.test(e instanceof Error ? e.message : String(e)) || part.length < 200) throw e
           const mid = splitPoint(part)
@@ -443,7 +462,10 @@ export async function processDocument(db: Db, documentId: string, opts: ProcessO
   } catch (e) {
     const code = e instanceof DocError ? e.code : 'error'
     // الرسالة التقنية الأصلية تُحفظ مع السبب المفهوم: «خطأ غير متوقع» وحده لا يكفي للتشخيص
-    const detail = e instanceof DocError ? '' : ` [${(e instanceof Error ? `${e.name}: ${e.message}` : String(e)).replace(/\s+/g, ' ').slice(0, 300)}]`
+    // خطأ قاعدة البيانات يلفّ السبب الحقيقي في cause (رسالة «Failed query: …» وحدها طويلة وبلا سبب)
+    const cause = e instanceof Error && e.cause instanceof Error ? ` ← ${e.cause.message}` : ''
+    const raw = e instanceof Error ? (/^Failed query/.test(e.message) ? `${e.name}: Failed query${cause}` : `${e.name}: ${e.message}${cause}`) : String(e)
+    const detail = e instanceof DocError ? '' : ` [${raw.replace(/\s+/g, ' ').slice(0, 300)}]`
     const message = e instanceof DocError ? e.message : aiFailureReason(e)
     await db.update(examDocuments).set({ status: 'FAILED', error: `${code}: ${message}${detail}`.slice(0, 500), processedAt: new Date(), updatedAt: new Date() }).where(eq(examDocuments.id, doc.id))
     return { id: doc.id, title: doc.title, status: 'FAILED', exercises: 0, duplicates: 0, error: `${code}: ${message}${detail}` }
