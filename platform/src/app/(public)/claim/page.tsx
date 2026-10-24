@@ -17,7 +17,7 @@ export default async function ClaimPage({ searchParams }: { searchParams: Promis
   const self = `/claim${sp.code || sp.phone ? `?${new URLSearchParams({ ...(sp.phone ? { phone: sp.phone } : {}), ...(sp.code ? { code: sp.code } : {}) }).toString()}` : ''}`
   if (!actor) redirect(`/login?next=${encodeURIComponent(self)}`)
   return (
-    <AuthCard locale={locale} title="تفعيل دورة" subtitle="وصلك كود تفعيل بالـSMS (على هاتفك أو هاتف وليّك)؟ أدخل الهاتف الذي وصله الكود والكود نفسه، فتُفعَّل الدورة على حسابك.">
+    <AuthCard locale={locale} title="تفعيل دورة" subtitle="أدخل كود الدورة الذي أعطتك إياه الإدارة، أو الكود الذي وصلك بالـSMS بعد تسليم الكتاب، فتُفعَّل الدورة على حسابك.">
       {actor.role === 'STUDENT' ? (
         <ClaimForm phone={sp.phone} code={sp.code} />
       ) : (

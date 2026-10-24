@@ -253,14 +253,14 @@ export async function listCourseCatalog(db: Db, actor: Actor | null, scope: Part
 export interface CourseLanding {
   course: CatalogCourse
   /** منتجات المتجر المنشورة المرتبطة بالدورة — شراؤها يفعّل الاشتراك عند التسليم */
-  products: { id: string; slug: string; title: string; priceDzd: number; href: string }[]
+  products: { id: string; slug: string; title: string; priceDzd: number; type: string; href: string }[]
 }
 
 export async function courseLanding(db: Db, actor: Actor | null, slug: string): Promise<CourseLanding> {
   const [course] = (await listCourseCatalog(db, actor)).filter((c) => c.slug === slug)
   if (!course) throw new AppError('COURSE_NOT_FOUND')
   const prods = await db
-    .select({ id: products.id, slug: products.slug, title: products.title, priceDzd: products.priceDzd })
+    .select({ id: products.id, slug: products.slug, title: products.title, priceDzd: products.priceDzd, type: products.type })
     .from(courseProducts)
     .innerJoin(products, eq(products.id, courseProducts.productId))
     .where(and(eq(courseProducts.courseId, course.id), eq(products.status, 'PUBLISHED'), isNull(products.deletedAt)))

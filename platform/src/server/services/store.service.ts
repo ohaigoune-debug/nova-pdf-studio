@@ -7,7 +7,7 @@
 import { randomBytes } from 'node:crypto'
 import { and, asc, desc, eq, inArray, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { appSettings, downloads, files, levels, listings, orderItems, orders, productFiles, products, profiles, streams, students, subjects, teacherWorkspaces, users, wilayas, type OrderRow, type ProductRow } from '@/server/db/schema'
+import { appSettings, courseProducts, courses, downloads, files, levels, listings, orderItems, orders, productFiles, products, profiles, streams, students, subjects, teacherWorkspaces, users, wilayas, type OrderRow, type ProductRow } from '@/server/db/schema'
 import type { OrderStatus, PaymentMethod, ProductStatus, ProductType } from '@/server/db/schema/enums'
 import { CONFIRMATION_STATUSES, ORDER_STATUSES, PRODUCT_STATUSES, PRODUCT_TYPES } from '@/server/db/schema/enums'
 import { assertRole, type Actor } from '@/server/lib/actor'
@@ -17,6 +17,7 @@ import { AppError, assertUuid } from '@/server/lib/errors'
 import { signFileUrl } from '@/server/lib/storage'
 import { grantPurchasesForOrder } from './marketplace.service'
 import { notify } from './notifications.service'
+import { streamFamily } from './academy-catalog.service'
 import { ecotrackFeeFor, listEcotrackFees } from './ecotrack.service'
 import { transitionOrder } from './order-status.service'
 import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
@@ -316,10 +317,28 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
     if (!sr) throw new AppError('ORDER_STREAM_REQUIRED')
   }
   if (lines.some((l) => l.p.requiresStream) && !streamId) throw new AppError('ORDER_STREAM_REQUIRED')
+  // كتب الدورات: لا يُطلب كتاب دورة لشعبة غير شعبة التلميذ (قرار المالك 2026-10-24). دورة بلا شعب = لكل الشعب.
+  const courseLinks = await db
+    .select({ productId: courseProducts.productId, streamIds: courses.streamIds })
+    .from(courseProducts)
+    .innerJoin(courses, eq(courses.id, courseProducts.courseId))
+    .where(and(inArray(courseProducts.productId, ids), isNull(courses.deletedAt)))
+  const isCourseOrder = courseLinks.length > 0
+  if (isCourseOrder && actor.role === 'STUDENT') {
+    const [own] = actor.studentId ? await db.select({ streamId: students.streamId }).from(students).where(eq(students.id, actor.studentId)).limit(1) : []
+    const family = await streamFamily(db, own?.streamId ?? streamId)
+    for (const pid of new Set(courseLinks.map((l) => l.productId))) {
+      const ls = courseLinks.filter((l) => l.productId === pid)
+      const open = ls.some((l) => l.streamIds.length === 0 || l.streamIds.some((sid) => family.includes(sid)))
+      if (!open) throw new AppError('ORDER_STREAM_MISMATCH', { product: byId.get(pid)?.title ?? '' })
+    }
+  }
   // التحقق بالهاتف حين تفرضه السياسة: يُعفى من أكّد هذا الهاتف نفسه سلفاً
   let otpVerifiedAt: Date | null = null
   const policy = await storePolicy(db)
-  if (policy.requireOtp) {
+  // شراء دورة = رمز تأكيد إلى الهاتف المختار (هاتف التلميذ أو الولي أو آخر)، متى وُجدت قناة SMS فعلية
+  const smsReady = isCourseOrder ? (await import('./phone-gate.service').then((m) => m.phoneChannels(db))).sms : false
+  if (policy.requireOtp || smsReady) {
     const pv = await isPhoneVerified(db, actor.userId)
     if (pv.verified && pv.phone === phone) otpVerifiedAt = new Date()
     else {
@@ -351,6 +370,10 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
   })
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'store.order_place', entityType: 'order', entityId: order.id, newValue: { number: order.number, total, paymentMethod, items: lines.length } })
   if (status === 'DELIVERED') await grantPurchasesForOrder(db, order.id)
+  // شراء دورة برمز تأكيد ناجح (أو بهاتف مؤكَّد سلفاً): الطلب مؤكَّد مباشرة — لا ينتظر مكالمة (نسق NOVA)
+  if (status === 'PENDING' && isCourseOrder && otpVerifiedAt) {
+    return (await transitionOrder(db, order.id, 'CONFIRMED', { actorUserId: actor.userId, source: 'sms' })).order
+  }
   // المشرفون يُخطرون بالطلبات التي تنتظرهم
   if (status === 'PENDING') {
     const admins = await db.select({ id: users.id }).from(users).where(eq(users.role, 'SUPER_ADMIN'))
@@ -463,8 +486,14 @@ export async function storeStats(db: Db, actor: Actor) {
 }
 
 /** اسم العميل الافتراضي من ملفه */
-export async function customerDefaults(db: Db, actor: Actor): Promise<{ name: string; phone: string | null; streamId: string | null }> {
-  const [p] = await db.select({ phone: profiles.phone }).from(profiles).where(eq(profiles.userId, actor.userId)).limit(1)
-  const [st] = actor.studentId ? await db.select({ streamId: students.streamId }).from(students).where(eq(students.id, actor.studentId)).limit(1) : []
-  return { name: actor.fullName, phone: p?.phone ?? null, streamId: st?.streamId ?? null }
+export async function customerDefaults(db: Db, actor: Actor): Promise<{ name: string; phone: string | null; phoneVerified: boolean; guardianPhone: string | null; wilayaId: string | null; streamId: string | null }> {
+  const [p] = await db.select({ phone: profiles.phone, verifiedAt: profiles.phoneVerifiedAt }).from(profiles).where(eq(profiles.userId, actor.userId)).limit(1)
+  const [st] = actor.studentId ? await db.select({ streamId: students.streamId, guardianPhone: students.guardianPhone, wilayaId: students.wilayaId }).from(students).where(eq(students.id, actor.studentId)).limit(1) : []
+  return { name: actor.fullName, phone: p?.phone ?? null, phoneVerified: Boolean(p?.verifiedAt), guardianPhone: st?.guardianPhone ?? null, wilayaId: st?.wilayaId ?? null, streamId: st?.streamId ?? null }
+}
+
+/** كل ما تحتاجه استمارة «شراء الدورة» (المعلومات تُعبّأ من التسجيل مباشرة) */
+export async function courseCheckoutData(db: Db, actor: Actor) {
+  const [defaults, ws, feeTable, channels] = await Promise.all([customerDefaults(db, actor), db.select({ id: wilayas.id, code: wilayas.code, nameAr: wilayas.nameAr }).from(wilayas).orderBy(asc(wilayas.code)), shippingFeeTable(db), import('./phone-gate.service').then((m) => m.phoneChannels(db))])
+  return { defaults, wilayas: ws.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` })), feeTable, shippingDzd: shippingFeeDzd(), smsReady: channels.sms }
 }

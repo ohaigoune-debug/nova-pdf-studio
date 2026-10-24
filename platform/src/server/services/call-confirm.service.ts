@@ -5,9 +5,9 @@
  * العنوان: POST /api/v1/calls/<secret> — سرّ عشوائي في المسار (كما في NOVA) يُنشأ عند أول حفظ.
  */
 import { randomBytes, timingSafeEqual } from 'node:crypto'
-import { and, desc, eq, gte, inArray, lte } from 'drizzle-orm'
+import { and, desc, eq, gte, inArray, isNull, lte } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { appSettings, callEvents, orders } from '@/server/db/schema'
+import { appSettings, callEvents, orders, profiles } from '@/server/db/schema'
 import { CONFIRMATION_STATUSES, type CallEventResult } from '@/server/db/schema/enums'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
@@ -119,6 +119,12 @@ export async function handleIncomingCall(db: Db, rawPhone: string, opts: { chann
     await db.insert(callEvents).values({ createdAt: at, phone: rawPhone.slice(0, 32), result: 'invalid_phone', channel, text })
     return { result: 'invalid_phone', reject: false }
   }
+  // الحساب الجديد يؤكّد هاتفه بمكالمة فائتة مجانية (بوّابة التسجيل): نُعلِّم كل ملف غير مؤكَّد بهذا الرقم
+  const verified = await db
+    .update(profiles)
+    .set({ phoneVerifiedAt: at, updatedAt: new Date() })
+    .where(and(eq(profiles.phone, phone), isNull(profiles.phoneVerifiedAt)))
+    .returning({ userId: profiles.userId, fullName: profiles.fullName })
   const since = new Date(at.getTime() - cfg.windowHours * 3_600_000)
   const until = new Date(at.getTime() + AT_SLACK_MS)
   const [order] = await db
@@ -127,6 +133,10 @@ export async function handleIncomingCall(db: Db, rawPhone: string, opts: { chann
     .where(and(eq(orders.phone, phone), gte(orders.createdAt, since), lte(orders.createdAt, until), inArray(orders.status, [...CONFIRMATION_STATUSES, 'CONFIRMED', 'SHIPPED'])))
     .orderBy(desc(orders.createdAt))
     .limit(1)
+  if (!order && verified.length) {
+    await db.insert(callEvents).values({ createdAt: at, phone, result: 'phone_verified', channel, text: verified.map((v) => v.fullName).join('، ').slice(0, 500) })
+    return { result: 'phone_verified', customerName: verified[0]!.fullName, reject: cfg.autoReject }
+  }
   if (!order) {
     await db.insert(callEvents).values({ createdAt: at, phone, result: 'no_order', channel, text })
     await notifyAdmins(db, { title: `📞 اتصال من ${phone} بلا طلب معلّق`, body: text ? `رسالة: ${text}` : 'لا طلب خلال النافذة.', link: '/admin/store/confirm', telegram: false })

@@ -37,22 +37,37 @@ export async function saveDeliverySecretAction(_prev: ActionResult<{ done: true 
   return result
 }
 
-const claimSchema = z.object({ phone: z.string().trim().min(9, 'أدخل رقم هاتف صحيحاً').max(20), code: z.string().trim().regex(/^\d{6}$/, 'الرمز 6 أرقام') })
+const claimSchema = z.object({
+  phone: z.string().trim().max(20).optional(),
+  code: z.string().trim().min(6, 'أدخل الكود كاملاً').max(20)
+})
 
-/** التلميذ يفعّل دورة برمز المطالبة الذي وصل بالـSMS */
-export async function claimCourseAction(_prev: ActionResult<{ courseTitle: string }> | null, fd: FormData): Promise<ActionResult<{ courseTitle: string }>> {
-  const parsed = claimSchema.safeParse({ phone: fd.get('phone') ?? '', code: String(fd.get('code') ?? '').replace(/\s/g, '') })
+/**
+ * التلميذ يفعّل دورة بكود، من صفحة واحدة (/claim):
+ *  - كود الدورة (11 رقماً) الذي ولّدته الإدارة لدورة بعينها — بلا هاتف؛
+ *  - أو كود الطلب (6 أرقام) الذي وصل بالـSMS بعد التسليم — مع الهاتف الذي وصله.
+ */
+export async function claimCourseAction(_prev: ActionResult<{ courseTitle: string; href: string }> | null, fd: FormData): Promise<ActionResult<{ courseTitle: string; href: string }>> {
+  const parsed = claimSchema.safeParse({ phone: String(fd.get('phone') ?? '') || undefined, code: String(fd.get('code') ?? '').replace(/\s/g, '') })
   if (!parsed.success) return failValidation(parsed.error)
+  const { isCourseCodeShape, redeemCourseCode } = await import('@/server/services/course-codes.service')
+  const courseCode = isCourseCodeShape(parsed.data.code)
+  if (!courseCode && !/^\d{6}$/.test(parsed.data.code.replace(/\D/g, ''))) return { ok: false, error: { code: 'VALIDATION', message: 'الكود 11 رقماً (كود الدورة) أو 6 أرقام (كود الطلب).', fieldErrors: { code: 'الكود 11 رقماً (كود الدورة) أو 6 أرقام (كود الطلب).' } } }
+  if (!courseCode && !parsed.data.phone) return { ok: false, error: { code: 'VALIDATION', message: 'كود الطلب يحتاج الهاتف الذي وصله.', fieldErrors: { phone: 'أدخل الهاتف الذي وصله الكود' } } }
   const result = await runAction(async () => {
     const actor = await requireRole('STUDENT')
     const db = await getDb()
     await checkRateLimit(db, { scope: 'course-claim', subject: actor.userId, ...RATE_LIMITS.activateCode })
-    const r = await claimCourse(db, actor, parsed.data)
-    return { courseTitle: r.courseTitle }
+    if (courseCode) {
+      const r = await redeemCourseCode(db, actor, parsed.data.code)
+      return { courseTitle: r.courseTitle, href: `/student/courses/${r.slug}` }
+    }
+    const r = await claimCourse(db, actor, { phone: parsed.data.phone!, code: parsed.data.code })
+    return { courseTitle: r.courseTitle, href: '/student/courses' }
   })
   if (result.ok) {
     revalidatePath('/student')
-    revalidatePath('/student/groups')
+    revalidatePath('/student/courses')
   }
   return result
 }

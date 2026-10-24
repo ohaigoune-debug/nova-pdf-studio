@@ -122,6 +122,31 @@ export const courseEnrollments = pgTable(
  * رابط مطالبة: حين يشتري وليّ الأمر الكتاب بحسابه (أو بلا حساب تلميذ)، يُرسَل رمز بالـSMS
  * يربط الدورة بحساب التلميذ عند أول دخول. لا تفعيل على حساب الولي أبداً.
  */
+/**
+ * أكواد تفعيل الدورة (قرار المالك 2026-10-24): المشرف يولّد دفعة ويختار الدورة الموجّهة لها؛
+ * كل كود يفتح تلك الدورة وحدها، مرة واحدة، لأول تلميذ يُدخله. لا يُخزَّن إلا hash الكود وبادئته.
+ */
+export const courseCodes = pgTable(
+  'course_codes',
+  {
+    id: id(),
+    courseId: uuid('course_id')
+      .notNull()
+      .references(() => courses.id, { onDelete: 'cascade' }),
+    batchId: uuid('batch_id').notNull(),
+    batchLabel: text('batch_label'),
+    codeHash: text('code_hash').notNull().unique(),
+    codePrefix: text('code_prefix').notNull(),
+    status: text('status').notNull().default('ACTIVE'),
+    expiresAt: timestamp('expires_at', { withTimezone: true }),
+    usedByStudentId: uuid('used_by_student_id').references(() => students.id, { onDelete: 'set null' }),
+    usedAt: timestamp('used_at', { withTimezone: true }),
+    createdByUserId: uuid('created_by_user_id').references(() => users.id, { onDelete: 'set null' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+  },
+  (t) => [check('course_codes_status_check', sql`${t.status} IN ('ACTIVE', 'USED', 'DISABLED')`), index('course_codes_course_idx').on(t.courseId, t.batchId)]
+)
+
 export const courseClaims = pgTable(
   'course_claims',
   {

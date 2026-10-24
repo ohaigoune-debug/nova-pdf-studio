@@ -18,7 +18,7 @@ import { listConfirmationQueue, PAYMENT_AR } from '@/server/services/store.servi
 
 export const dynamic = 'force-dynamic'
 
-const RESULT_AR: Record<string, string> = { confirmed: 'أكّد طلبه', already_confirmed: 'مؤكَّد من قبل', no_order: 'بلا طلب', invalid_phone: 'رقم غير مفهوم', disabled: 'الخدمة متوقفة' }
+const RESULT_AR: Record<string, string> = { phone_verified: 'أكّد هاتف حسابه', confirmed: 'أكّد طلبه', already_confirmed: 'مؤكَّد من قبل', no_order: 'بلا طلب', invalid_phone: 'رقم غير مفهوم', disabled: 'الخدمة متوقفة' }
 const STATUS_VARIANT: Record<string, 'warning' | 'secondary' | 'muted'> = { PENDING: 'warning', NO_ANSWER: 'secondary', CALL_LATER: 'secondary' }
 
 /** طابور التأكيد الهاتفي (نسق NOVA): الطلبات التي تنتظر مكالمة، بأزرار «تأكيد / لا يردّ / لاحقاً / إلغاء»، وإعداد التأكيد بالمكالمة الفائتة */

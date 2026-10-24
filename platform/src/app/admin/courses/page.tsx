@@ -1,4 +1,4 @@
-import { GraduationCap, Plus, Radio, Users } from 'lucide-react'
+import { GraduationCap, KeyRound, Plus, Radio, Users } from 'lucide-react'
 import Link from 'next/link'
 import { CourseStatusActions } from '@/components/courses/course-admin'
 import { Badge } from '@/components/ui/badge'
@@ -29,11 +29,18 @@ export default async function AdminCoursesPage() {
         title="الدورات المدفوعة"
         description="كل دورة = فوج يملكه أستاذ المنصة؛ شراء الكتاب المرتبط يفعّل الاشتراك تلقائياً، ويمكن التفعيل يدوياً. المحتوى يُنشر من صفحة الفوج."
         actions={
-          <Button asChild>
-            <Link href="/admin/courses/new">
-              <Plus className="size-4" /> دورة جديدة
-            </Link>
-          </Button>
+          <>
+            <Button asChild variant="outline">
+              <Link href="/admin/courses/codes">
+                <KeyRound className="size-4" /> أكواد التفعيل
+              </Link>
+            </Button>
+            <Button asChild>
+              <Link href="/admin/courses/new">
+                <Plus className="size-4" /> دورة جديدة
+              </Link>
+            </Button>
+          </>
         }
       />
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">

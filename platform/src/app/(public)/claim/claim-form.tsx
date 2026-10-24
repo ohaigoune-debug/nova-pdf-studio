@@ -18,7 +18,7 @@ export function ClaimForm({ phone, code }: { phone?: string; code?: string }) {
         <p className="text-lg font-bold">فُعّلت دورة «{state.data.courseTitle}» على حسابك</p>
         <div className="grid gap-2 sm:grid-cols-2">
           <Button asChild>
-            <Link href="/student/groups">أفواجي</Link>
+            <Link href={state.data.href}>ادخل الدورة</Link>
           </Button>
           <Button asChild variant="outline">
             <Link href="/student">لوحتي</Link>
@@ -29,11 +29,11 @@ export function ClaimForm({ phone, code }: { phone?: string; code?: string }) {
   }
   return (
     <form action={action} className="space-y-4">
-      <Field label="رقم الهاتف الذي وصله الكود" htmlFor="phone" error={fieldError(state, 'phone')} hint="هاتفك أو هاتف وليّك (مثال: 0550123456)">
-        <Input id="phone" name="phone" type="tel" inputMode="numeric" defaultValue={phone ?? ''} placeholder="05XXXXXXXX" required dir="ltr" className="h-12 text-center font-mono text-lg" autoComplete="tel" />
+      <Field label="كود التفعيل" htmlFor="code" error={fieldError(state, 'code')} hint="كود الدورة (11 رقماً) أو الكود الذي وصلك بالـSMS بعد التسليم (6 أرقام)">
+        <Input id="code" name="code" inputMode="numeric" defaultValue={code ?? ''} placeholder="•••••••••••" required dir="ltr" className="h-14 text-center font-mono text-2xl tracking-[0.2em]" autoComplete="one-time-code" maxLength={20} />
       </Field>
-      <Field label="كود التفعيل (6 أرقام)" htmlFor="code" error={fieldError(state, 'code')}>
-        <Input id="code" name="code" inputMode="numeric" pattern="[0-9]{6}" defaultValue={code ?? ''} placeholder="••••••" required dir="ltr" className="h-14 text-center font-mono text-2xl tracking-[0.3em]" autoComplete="one-time-code" maxLength={6} />
+      <Field label="الهاتف الذي وصله الكود (لكود الـSMS فقط)" htmlFor="phone" error={fieldError(state, 'phone')} hint="هاتفك أو هاتف وليّك — اتركه فارغاً لكود الدورة">
+        <Input id="phone" name="phone" type="tel" inputMode="numeric" defaultValue={phone ?? ''} placeholder="05XXXXXXXX" dir="ltr" className="h-12 text-center font-mono text-lg" autoComplete="tel" />
       </Field>
       <FormError state={state} />
       <SubmitButton className="w-full" size="lg">

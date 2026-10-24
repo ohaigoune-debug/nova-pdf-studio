@@ -188,3 +188,37 @@ export async function acceptCourseTermsAction(payload: { courseId: string; slug:
   }
   return r
 }
+
+/* ───────────── أكواد تفعيل الدورة ───────────── */
+
+export interface CourseCodesData {
+  batchId: string
+  courseTitle: string
+  codes: string[]
+}
+
+/** المشرف: توليد دفعة أكواد لدورة يختارها — الأكواد الصريحة تُعاد مرة واحدة للطباعة/التصدير */
+export async function generateCourseCodesAction(_prev: ActionResult<CourseCodesData> | null, fd: FormData): Promise<ActionResult<CourseCodesData>> {
+  const parsed = z
+    .object({ courseId: z.string().uuid('اختر الدورة'), count: z.coerce.number().int().min(1, 'العدد 1 على الأقل').max(1000, 'الحد الأقصى 1000'), label: z.string().trim().max(80).optional(), expiresOn: z.string().optional() })
+    .safeParse({ courseId: fd.get('courseId') ?? '', count: fd.get('count') ?? 0, label: fd.get('label') ?? undefined, expiresOn: fd.get('expiresOn') ?? undefined })
+  if (!parsed.success) return failValidation(parsed.error)
+  const exp = parsed.data.expiresOn ? new Date(`${parsed.data.expiresOn}T22:59:59Z`) : null
+  const result = await runAction(async () => {
+    const { generateCourseCodes } = await import('@/server/services/course-codes.service')
+    return generateCourseCodes(await getDb(), await requireRole('SUPER_ADMIN'), { courseId: parsed.data.courseId, count: parsed.data.count, label: parsed.data.label || null, expiresAt: exp && !Number.isNaN(exp.getTime()) ? exp : null })
+  })
+  if (result.ok) revalidatePath('/admin/courses/codes')
+  return result
+}
+
+export async function disableCourseCodeBatchAction(batchId: string): Promise<ActionResult<{ disabled: number }>> {
+  const parsed = z.string().uuid().safeParse(batchId)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const { disableCourseCodeBatch } = await import('@/server/services/course-codes.service')
+    return { disabled: await disableCourseCodeBatch(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data) }
+  })
+  if (result.ok) revalidatePath('/admin/courses/codes')
+  return result
+}
