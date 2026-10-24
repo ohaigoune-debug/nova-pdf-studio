@@ -55,9 +55,10 @@ function OptSelect({ id, label, value, onChange, options, empty }: { id: string;
  * نشر درس / فرض / اختبار / حلّ: النوع والمادة والمستوى، عامّ أو لأفواج، «من إنشاء»، ثم الملفات (مفردة، مجلد، ZIP)،
  * ثم «نظّمها بالذكاء الاصطناعي» (يقسّم السلسلة ويصنّف ويربط الحلول — تراجعه) أو «كما رفعتها».
  */
-export function PublishForm({ options, basePath, defaultAuthor, admin }: { options: PublishOptions; basePath: string; defaultAuthor: string; admin: boolean }) {
+export function PublishForm({ options, basePath, defaultAuthor, admin, initialType }: { options: PublishOptions; basePath: string; defaultAuthor: string; admin: boolean; initialType?: string }) {
   const router = useRouter()
-  const [type, setType] = useState<PublishType | 'AUTO'>('AUTO')
+  // ?type=TEST من «رفع اختبار» يختار النوع مسبقاً؛ قيمة مجهولة = تلقائي
+  const [type, setType] = useState<PublishType | 'AUTO'>(ITEM_TYPES.find((t) => t.value === initialType)?.value ?? 'AUTO')
   const [subjectId, setSubject] = useState('')
   const [levelId, setLevel] = useState('')
   const [streamId, setStream] = useState('')

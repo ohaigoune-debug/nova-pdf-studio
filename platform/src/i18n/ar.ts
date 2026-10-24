@@ -1246,6 +1246,8 @@ const ar = {
     course_codes_generate: 'ولّد أكواد تفعيل لدورة',
     course_codes_disable: 'عطّل دفعة أكواد تفعيل',
     course_code_redeem: 'فعّل دورة بكود',
+    lesson_quiz_set: 'ربط اختبار QCM بحصة',
+    lesson_comment_moderate: 'راجع تعليقاً على حصة',
     course_code_release: 'حرّر كود تفعيل دورة',
     course_activation_code_sent: 'أرسل كود تفعيل دورة لطلب',
     students_full_access_granted: 'منح الوصول الشامل للتلاميذ المسجّلين بكود',
