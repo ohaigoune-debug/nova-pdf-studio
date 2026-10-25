@@ -117,6 +117,11 @@ export function navFor(role: UserRole): NavSection[] {
           ]
         }
       ]
+    case 'CONFIRMER':
+      return [{ items: [
+        { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall', exact: true },
+        { href: '/admin/store', label: 'الطلبات', iconKey: 'ShoppingBag', exact: true }
+      ] }]
     case 'SUPER_ADMIN':
       return [
         {

@@ -55,7 +55,7 @@ const en: DeepPartial<typeof ar> = {
     dashboard: 'Dashboard',
     attendanceCard: 'Attendance card'
   },
-  roles: { SUPER_ADMIN: 'Administrator', TEACHER: 'Teacher', ASSISTANT: 'Assistant', STUDENT: 'Student', PUBLIC: 'Visitor', PARENT: 'Parent' },
+  roles: { SUPER_ADMIN: 'Administrator', TEACHER: 'Teacher', CONFIRMER: 'Order confirmer', ASSISTANT: 'Assistant', STUDENT: 'Student', PUBLIC: 'Visitor', PARENT: 'Parent' },
   contentTypes: { ARTICLE: 'Article', LESSON: 'Lesson', PDF: 'PDF file', VIDEO: 'Video', AUDIO: 'Audio', QUIZ: 'Quiz', EXERCISE: 'Exercise', IMAGE: 'Image', LINK: 'Link' },
   auth: {
     loginTitle: 'Log in',

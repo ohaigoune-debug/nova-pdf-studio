@@ -6,6 +6,7 @@ import { getDb } from '@/server/db/client'
 import type { UserRole } from '@/server/db/schema/enums'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
+import { homeFor } from '@/lib/role-home'
 import { resolveActor, SESSION_COOKIE } from './session'
 
 /** الفاعل الحالي من كوكي الجلسة (مع cache لكل طلب). */
@@ -42,20 +43,7 @@ export async function requirePageActor(...roles: UserRole[]): Promise<Actor> {
   return actor
 }
 
-export function homeFor(role: UserRole): string {
-  switch (role) {
-    case 'SUPER_ADMIN':
-      return '/admin'
-    case 'TEACHER':
-      return '/teacher'
-    case 'ASSISTANT':
-      return '/assistant'
-    case 'STUDENT':
-      return '/student'
-    default:
-      return '/'
-  }
-}
+export { homeFor } from '@/lib/role-home'
 
 export async function requestMeta() {
   const h = await headers()

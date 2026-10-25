@@ -3,7 +3,7 @@
  * إضافة قيمة جديدة = تعديل هنا + Migration بسيط لقيد CHECK.
  */
 
-export const USER_ROLES = ['SUPER_ADMIN', 'TEACHER', 'ASSISTANT', 'STUDENT', 'PUBLIC', 'PARENT'] as const
+export const USER_ROLES = ['SUPER_ADMIN', 'CONFIRMER', 'TEACHER', 'ASSISTANT', 'STUDENT', 'PUBLIC', 'PARENT'] as const
 export type UserRole = (typeof USER_ROLES)[number]
 
 /** حالة عضوية مساعد الأستاذ في مساحة العمل */

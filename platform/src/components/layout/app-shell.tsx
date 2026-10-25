@@ -6,7 +6,7 @@ import { navFor } from './nav'
 import { ShellClient } from './shell-client'
 
 export async function AppShell({ actor, children }: { actor: Actor; children: ReactNode }) {
-  const unread = await unreadCount(await getDb(), actor.userId)
+  const unread = actor.role === 'CONFIRMER' ? 0 : await unreadCount(await getDb(), actor.userId)
   const sections = navFor(actor.role).map((s) => ({
     title: s.title,
     items: s.items.map((i) => ({ href: i.href, label: i.label, exact: i.exact ?? false, iconKey: i.iconKey, also: i.also ?? [] }))

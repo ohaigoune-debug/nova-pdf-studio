@@ -15,6 +15,7 @@ import { normalizeArabic } from '@/server/lib/arabic'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { signFileUrl } from '@/server/lib/storage'
+import { assertConfirmerOrderScope, confirmerOrderScope } from '@/server/lib/confirmer-orders'
 import { grantPurchasesForOrder } from './marketplace.service'
 import { notify } from './notifications.service'
 import { streamFamily } from './academy-catalog.service'
@@ -438,35 +439,47 @@ export async function myOrders(db: Db, actor: Actor) {
 }
 
 export async function listOrdersAdmin(db: Db, actor: Actor, f: { status?: OrderStatus | null } = {}) {
-  assertRole(actor, 'SUPER_ADMIN')
+  assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
   return db
     .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaName: wilayas.nameAr, commune: orders.commune, createdAt: orders.createdAt, items: sql<number>`(select coalesce(sum(i.qty), 0)::int from order_items i where i.order_id = orders.id)` })
     .from(orders)
     .leftJoin(wilayas, eq(wilayas.id, orders.wilayaId))
-    .where(f.status ? eq(orders.status, f.status) : undefined)
+    .where(and(f.status ? eq(orders.status, f.status) : undefined, actor.role === 'CONFIRMER' ? confirmerOrderScope() : undefined))
     .orderBy(desc(orders.createdAt))
     .limit(300)
 }
 
 /** طابور التأكيد الهاتفي: الطلبات التي تنتظر مكالمة، الأقدم أولاً (الحالة ثم تاريخ الإنشاء) */
 export async function listConfirmationQueue(db: Db, actor: Actor) {
-  assertRole(actor, 'SUPER_ADMIN')
+  assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
   return db
     .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaName: wilayas.nameAr, commune: orders.commune, address: orders.address, note: orders.note, otpVerifiedAt: orders.otpVerifiedAt, confirmAttempts: orders.confirmAttempts, lastCallAt: orders.lastCallAt, createdAt: orders.createdAt, itemsText: sql<string>`(select coalesce(string_agg(i.title || case when i.qty > 1 then ' ×' || i.qty else '' end, ' + ' order by i.created_at), '') from order_items i where i.order_id = orders.id)` })
     .from(orders)
     .leftJoin(wilayas, eq(wilayas.id, orders.wilayaId))
-    .where(inArray(orders.status, [...CONFIRMATION_STATUSES]))
+    .where(and(inArray(orders.status, [...CONFIRMATION_STATUSES]), actor.role === 'CONFIRMER' ? confirmerOrderScope() : undefined))
     .orderBy(asc(orders.createdAt))
     .limit(300)
 }
 
 /** تغيير حالة الطلب (المشرف): يمرّ من محرّك الحالات الموحّد (مخزون، تفعيل الدورة، إشعارات) */
 export async function setOrderStatus(db: Db, actor: Actor, id: string, next: OrderStatus, opts: { reason?: string | null; adminNote?: string | null; shippingDzd?: number | null } = {}): Promise<OrderRow> {
-  assertRole(actor, 'SUPER_ADMIN')
+  assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
   assertUuid(id, 'ORDER_NOT_FOUND')
   if (!ORDER_STATUSES.includes(next)) throw new AppError('VALIDATION', { field: 'status' })
-  const r = await transitionOrder(db, id, next, { actorUserId: actor.userId, source: 'admin', reason: opts.reason ?? null, adminNote: opts.adminNote, shippingDzd: opts.shippingDzd ?? null })
-  return r.order
+  if (actor.role !== 'CONFIRMER') return (await transitionOrder(db, id, next, { actorUserId: actor.userId, source: 'admin', reason: opts.reason ?? null, adminNote: opts.adminNote, shippingDzd: opts.shippingDzd ?? null })).order
+  return db.transaction(async (tx) => {
+    if (actor.role === 'CONFIRMER') {
+      if (!['CONFIRMED', 'NO_ANSWER', 'CALL_LATER', 'CANCELLED'].includes(next) || opts.shippingDzd != null || opts.adminNote != null) throw new AppError('FORBIDDEN')
+      const [order] = await tx.select().from(orders).where(eq(orders.id, id)).for('update').limit(1)
+      if (!order) throw new AppError('ORDER_NOT_FOUND')
+      // الموظف يؤكد الطلب المادي عند الاستلام، ولا يقرّ دفع التحويل أو يعدّل طردًا شُحن.
+      await assertConfirmerOrderScope(tx, id)
+      if (order.deliveryTrackingId || ![...CONFIRMATION_STATUSES, 'CONFIRMED'].includes(order.status as typeof CONFIRMATION_STATUSES[number])) throw new AppError('FORBIDDEN')
+      if (next === 'CANCELLED' && !opts.reason?.trim()) throw new AppError('VALIDATION', { field: 'reason' })
+    }
+    const r = await transitionOrder(tx, id, next, { actorUserId: actor.userId, source: 'admin', reason: opts.reason ?? null, adminNote: opts.adminNote, shippingDzd: opts.shippingDzd ?? null })
+    return r.order
+  })
 }
 
 /** رابط تنزيل موقّع قصير العمر لملف من طلب مؤكَّد لصاحبه (أو المشرف)، مع تسجيل التنزيل */

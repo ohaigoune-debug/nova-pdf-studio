@@ -80,7 +80,7 @@ export async function syncEcotrackNowAction(): Promise<ActionResult<EcotrackSync
 export async function sendToEcotrackAction(orderId: string): Promise<ActionResult<{ tracking: string }>> {
   const parsed = uuid.safeParse(orderId)
   if (!parsed.success) return failValidation(parsed.error)
-  const result = await runExternal(async () => sendOrderToEcotrack(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data))
+  const result = await runExternal(async () => sendOrderToEcotrack(await getDb(), await requireRole('SUPER_ADMIN', 'CONFIRMER'), parsed.data))
   if (result.ok) {
     revalidateStore()
     revalidatePath(`/store/orders/${orderId}`)

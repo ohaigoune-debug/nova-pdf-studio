@@ -12,6 +12,7 @@ import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { EcotrackClient, EcotrackError, ecotrackBaseUrl, type EcotrackFee, type EcotrackShipmentStatus } from '@/server/lib/ecotrack'
 import { AppError, assertUuid } from '@/server/lib/errors'
+import { assertConfirmerOrderScope } from '@/server/lib/confirmer-orders'
 import { seal, unseal } from '@/server/lib/secret-box'
 import { applyDeliveryStatus } from './delivery.service'
 import { notifyAdmins, transitionOrder } from './order-status.service'
@@ -72,6 +73,12 @@ export async function ecotrackClient(db: Db, opts: { fetchImpl?: typeof fetch; i
   const token = unseal(s.tokenSealed, SEAL_PURPOSE)
   if (!token) return null
   return new EcotrackClient({ baseUrl: s.baseUrl, apiToken: token }, opts.fetchImpl)
+}
+
+/** قدرة إرسال فقط؛ لا رابط المنصة ولا تلميح المفتاح أو إعداداته للموظف. */
+export async function ecotrackOperatorStatus(db: Db, actor: Actor): Promise<{ enabled: boolean }> {
+  assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
+  return { enabled: Boolean(await ecotrackClient(db)) }
 }
 
 export interface SaveEcotrackInput {
@@ -159,12 +166,14 @@ export async function listEcotrackFees(db: Db): Promise<(EcotrackFee & { wilayaN
 
 /** ينشئ الطرد عند EcoTrack لطلب مؤكَّد يحتاج شحناً، ويحفظ رقم التتبّع وينقله إلى «في الطريق» */
 export async function sendOrderToEcotrack(db: Db, actor: Actor | null, orderId: string, fetchImpl?: typeof fetch): Promise<{ tracking: string }> {
-  if (actor) assertRole(actor, 'SUPER_ADMIN')
+  if (actor) assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
   assertUuid(orderId, 'ORDER_NOT_FOUND')
   const client = await ecotrackClient(db, { fetchImpl })
   if (!client) throw new AppError('ECOTRACK_NOT_CONFIGURED')
   const [o] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1)
   if (!o) throw new AppError('ORDER_NOT_FOUND')
+  if (actor?.role === 'CONFIRMER') await assertConfirmerOrderScope(db, o.id)
+  if (actor?.role === 'CONFIRMER' && (o.paymentMethod !== 'COD' || !o.needsShipping || (o.deliveryTrackingId && o.deliveryProvider !== 'ecotrack') || (o.status !== 'CONFIRMED' && !(o.status === 'SHIPPED' && o.deliveryProvider === 'ecotrack' && o.deliveryTrackingId)))) throw new AppError('FORBIDDEN')
   if (!o.needsShipping) throw new AppError('VALIDATION', { field: 'needsShipping' })
   // أُرسل من قبل: لا طرد ثانٍ أبداً (ضغطة مكرّرة، أو مهمة أُعيدت)
   if (o.deliveryProvider === 'ecotrack' && o.deliveryTrackingId) return { tracking: o.deliveryTrackingId }

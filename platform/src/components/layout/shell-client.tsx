@@ -147,7 +147,7 @@ export function ShellClient({
           <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 hover:text-white lg:hidden" onClick={() => setOpen(true)} aria-label="القائمة">
             <Menu className="size-5" />
           </Button>
-          <Link href={`/${base}`} className="flex items-center gap-2 font-extrabold lg:hidden">
+          <Link href={actor.role === 'CONFIRMER' ? '/admin/store/confirm' : `/${base}`} className="flex items-center gap-2 font-extrabold lg:hidden">
             <span className="flex size-8 items-center justify-center rounded-sm bg-white/15 text-white">
               <BookOpenText className="size-4" />
             </span>
@@ -165,6 +165,7 @@ export function ShellClient({
               </form>
             ) : null}
           </div>
+          {actor.role !== 'CONFIRMER' ? (
           <Link href={notificationsHref} className="relative flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-white/10" aria-label={t('common.notifications')}>
             <Bell className="size-5" />
             {unread > 0 ? (
@@ -173,6 +174,7 @@ export function ShellClient({
               </span>
             ) : null}
           </Link>
+          ) : null}
           <ThemeToggle />
           <div className="hidden items-center gap-2 sm:flex">
             <Avatar name={actor.fullName} size="sm" />

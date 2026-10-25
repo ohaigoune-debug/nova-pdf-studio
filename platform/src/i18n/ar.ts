@@ -123,7 +123,7 @@ const ar = {
   roles: {
     SUPER_ADMIN: 'مشرف عام',
     TEACHER: 'أستاذ',
-    ASSISTANT: 'مساعد أستاذ',
+    CONFIRMER: 'موظف تأكيد الطلبات', ASSISTANT: 'مساعد أستاذ',
     STUDENT: 'طالب',
     PUBLIC: 'زائر',
     PARENT: 'ولي أمر'
@@ -1127,6 +1127,7 @@ const ar = {
     enrollment_suspend_absence: 'تعليق تلقائي بسبب الغياب',
     enrollment_reactivate: 'أعاد تفعيل طالب',
     enrollment_status: 'غيّر حالة تسجيل',
+    confirmer_create: 'أنشأ حساب موظف تأكيد طلبات',
     teacher_create: 'أنشأ حساب أستاذ',
     user_status: 'غيّر حالة مستخدم',
     assignment_create: 'أنشأ واجباً',
