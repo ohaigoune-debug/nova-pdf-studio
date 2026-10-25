@@ -185,10 +185,10 @@ describe('3. من طلب الكتاب إلى تفعيل الدورة عبر EcoT
     const cust = await h.db.select().from(notifications).where(eq(notifications.userId, student.userId))
     expect(cust.some((n) => n.title.includes('سُلِّم'))).toBe(true)
     expect(cust.some((n) => n.title.includes('تم تفعيل اشتراكك'))).toBe(true)
-    // مزامنة ثانية: الطرد المسلَّم لم يعد مفتوحاً، ولا حدث مكرَّر
+    // مزامنة ثانية: يبقى الطرد المسلَّم ضمن نافذة رصد الإرجاع، بلا حدث مكرَّر
     const before = (await h.db.select().from(deliveryEvents)).length
     s = await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })
-    expect(s.polled).toBe(0)
+    expect(s.polled).toBe(1)
     expect((await h.db.select().from(deliveryEvents)).length).toBe(before)
   })
   it('جدولة المزامنة: مرة واحدة في النافذة', async () => {

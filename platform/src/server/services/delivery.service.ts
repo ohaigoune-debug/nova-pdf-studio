@@ -37,8 +37,8 @@ const PROVIDER_FIELDS: Record<DeliveryProvider, FieldMap> = {
 
 /** تطبيع حالات المزوّدين (عربية/فرنسية/إنجليزية) إلى الحالات الست */
 const STATUS_ALIASES: [DeliveryEventStatus, string[]][] = [
-  ['DELIVERED', ['delivered', 'livre', 'livré', 'livrée', 'delivre', 'received', 'completed', 'done', 'سُلّم', 'سلم', 'تم التسليم', 'تم التوصيل']],
   ['RETURNED', ['returned', 'return', 'retour', 'retourne', 'retourné', 'مرتجع', 'إرجاع', 'ارجاع']],
+  ['DELIVERED', ['delivered', 'livre', 'livré', 'livrée', 'delivre', 'received', 'completed', 'done', 'سُلّم', 'سلم', 'تم التسليم', 'تم التوصيل']],
   ['FAILED_ATTEMPT', ['failed_attempt', 'failed attempt', 'tentative', 'echou', 'échou', 'echec', 'échec', 'failed', 'absent', 'injoignable', 'reporte', 'reporté', 'محاولة فاشلة', 'لا يرد']],
   ['CANCELLED', ['cancelled', 'canceled', 'annule', 'annulé', 'annulée', 'ملغى', 'ملغي', 'ألغي']],
   ['IN_TRANSIT', ['in_transit', 'in transit', 'transit', 'shipped', 'expedie', 'expédié', 'expédiée', 'en cours', 'en_cours', 'en livraison', 'out for delivery', 'sorti en livraison', 'centre', 'hub', 'dispatched', 'في الطريق', 'قيد التوصيل']],
@@ -56,7 +56,9 @@ export function normalizeDeliveryStatus(raw: unknown): DeliveryEventStatus {
   const s = raw.trim().toLowerCase()
   if (NOT_DELIVERED_RE.test(s.normalize('NFD').replace(/[\u0300-\u036f]/g, ''))) return 'FAILED_ATTEMPT'
   if ((DELIVERY_EVENT_STATUSES as readonly string[]).includes(s.toUpperCase())) return s.toUpperCase() as DeliveryEventStatus
-  for (const [status, aliases] of STATUS_ALIASES) if (aliases.some((a) => s === a || s.includes(a))) return status
+  // القيمة الكاملة أولاً؛ وفي النص المركّب يسبق الإرجاعُ التسليمَ («retour livré»).
+  for (const [status, aliases] of STATUS_ALIASES) if (aliases.includes(s)) return status
+  for (const [status, aliases] of STATUS_ALIASES) if (aliases.some((a) => s.includes(a))) return status
   return 'UNKNOWN'
 }
 

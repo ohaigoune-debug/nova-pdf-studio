@@ -65,8 +65,10 @@ describe('سياسة المتجر: الحدّ بالطلب، الشعبة، ال
     expect(s.streamId).toBe(streamId)
   })
 
-  it('beneficiaryStudentId يُحفظ على الطلب', async () => {
-    const o = await placeOrder(h.db, teacher, { ...base, items: [{ productId: plain, qty: 1 }], beneficiaryStudentId: student.studentId })
+  it('beneficiaryStudentId يُحفظ باختيار المشرف ويُرفض من الأستاذ', async () => {
+    const input = { ...base, items: [{ productId: plain, qty: 1 }], beneficiaryStudentId: student.studentId }
+    await expect(placeOrder(h.db, teacher, input)).rejects.toMatchObject({ code: 'FORBIDDEN' })
+    const o = await placeOrder(h.db, admin, input)
     expect(o.beneficiaryStudentId).toBe(student.studentId)
     expect(o.otpVerifiedAt).toBeNull()
   })

@@ -18,6 +18,7 @@ import { signFileUrl } from '@/server/lib/storage'
 import { grantPurchasesForOrder } from './marketplace.service'
 import { notify } from './notifications.service'
 import { streamFamily } from './academy-catalog.service'
+import { activateCoursesForOrder } from './course-activation.service'
 import { ecotrackFeeFor, listEcotrackFees } from './ecotrack.service'
 import { transitionOrder } from './order-status.service'
 import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
@@ -245,7 +246,7 @@ export interface PlaceOrderInput {
   streamId?: string | null
   /** رمز التحقق بالهاتف حين تفرضه سياسة المتجر */
   otpCode?: string | null
-  /** التلميذ المستفيد إن اشترى وليّ الأمر بحسابه */
+  /** التلميذ المستفيد: التلميذ نفسه، أو اختيار صريح من المشرف */
   beneficiaryStudentId?: string | null
 }
 
@@ -286,7 +287,14 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
   if (!input.customerName.trim()) throw new AppError('VALIDATION', { field: 'customerName' })
   const phone = normalizePhone(input.phone)
   if (input.streamId) assertUuid(input.streamId, 'VALIDATION')
-  if (input.beneficiaryStudentId) assertUuid(input.beneficiaryStudentId, 'VALIDATION')
+  if (input.beneficiaryStudentId) {
+    assertUuid(input.beneficiaryStudentId, 'VALIDATION')
+    if (actor.role !== 'SUPER_ADMIN') {
+      if (actor.role !== 'STUDENT' || actor.studentId !== input.beneficiaryStudentId) throw new AppError('FORBIDDEN')
+      const [own] = await db.select({ id: students.id }).from(students).where(and(eq(students.id, input.beneficiaryStudentId), eq(students.userId, actor.userId))).limit(1)
+      if (!own) throw new AppError('FORBIDDEN')
+    }
+  }
   const ids = [...new Set(input.items.map((i) => i.productId))]
   for (const id of ids) assertUuid(id, 'PRODUCT_NOT_FOUND')
   const rows = await db.select().from(products).where(and(inArray(products.id, ids), isNull(products.deletedAt)))
@@ -369,7 +377,10 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
     return o!
   })
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'store.order_place', entityType: 'order', entityId: order.id, newValue: { number: order.number, total, paymentMethod, items: lines.length } })
-  if (status === 'DELIVERED') await grantPurchasesForOrder(db, order.id)
+  if (status === 'DELIVERED') {
+    await grantPurchasesForOrder(db, order.id)
+    await activateCoursesForOrder(db, order.id)
+  }
   // شراء دورة برمز تأكيد ناجح (أو بهاتف مؤكَّد سلفاً): الطلب مؤكَّد مباشرة — لا ينتظر مكالمة (نسق NOVA)
   if (status === 'PENDING' && isCourseOrder && otpVerifiedAt) {
     return (await transitionOrder(db, order.id, 'CONFIRMED', { actorUserId: actor.userId, source: 'sms' })).order
