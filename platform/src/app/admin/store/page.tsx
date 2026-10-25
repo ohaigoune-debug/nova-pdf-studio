@@ -100,7 +100,7 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
                       <span className="block text-xs text-muted-foreground" dir="ltr">
                         {o.phone}
                       </span>
-                      {o.wilayaName ? <span className="block text-xs text-muted-foreground">{o.wilayaName}</span> : null}
+                      {o.wilayaName || o.commune ? <span className="block text-xs text-muted-foreground">{[o.wilayaName, o.commune].filter(Boolean).join(' — ')}</span> : null}
                     </TableCell>
                     <TableCell className="text-xs">{PAYMENT_AR[o.paymentMethod as keyof typeof PAYMENT_AR]}</TableCell>
                     <TableCell className="tabular">{o.totalDzd} دج</TableCell>

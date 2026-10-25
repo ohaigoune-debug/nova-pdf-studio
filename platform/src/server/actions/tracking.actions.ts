@@ -22,6 +22,8 @@ export interface TrackedOrderView {
   trackingId: string | null
   timeline: { label: string; at: string; tone: 'done' | 'bad' | 'info' }[]
   canCancel: boolean
+  wilayaName: string | null
+  commune: string | null
 }
 
 /** التتبّع العام بالهاتف: 12 بحثاً / 10 دقائق لكل عنوان، و10 / ساعة لكل هاتف */

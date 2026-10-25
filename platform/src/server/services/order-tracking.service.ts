@@ -6,7 +6,7 @@
  */
 import { and, desc, eq, gte, inArray } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { deliveryEvents, orderItems, orders } from '@/server/db/schema'
+import { deliveryEvents, orderItems, orders, wilayas } from '@/server/db/schema'
 import type { OrderStatus } from '@/server/db/schema/enums'
 import type { Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
@@ -37,6 +37,8 @@ export interface TrackedOrder {
   trackingId: string | null
   timeline: TimelineStep[]
   canCancel: boolean
+  wilayaName: string | null
+  commune: string | null
 }
 
 const PROVIDER_AR: Record<string, string> = { ecotrack: 'EcoTrack', yalidine: 'Yalidine', generic: 'شركة التوصيل' }
@@ -69,8 +71,11 @@ async function buildTimelines(db: Db, rows: (typeof orders.$inferSelect)[]): Pro
   return out
 }
 
-async function toTracked(db: Db, rows: (typeof orders.$inferSelect)[]): Promise<TrackedOrder[]> {
+async function toTracked(db: Db, rows: (typeof orders.$inferSelect)[], includeLocation = false): Promise<TrackedOrder[]> {
   const timelines = await buildTimelines(db, rows)
+  const wilayaIds = includeLocation ? [...new Set(rows.map((o) => o.wilayaId).filter((id): id is string => Boolean(id)))] : []
+  const locations = wilayaIds.length ? await db.select({ id: wilayas.id, name: wilayas.nameAr }).from(wilayas).where(inArray(wilayas.id, wilayaIds)) : []
+  const wilayaById = new Map(locations.map((w) => [w.id, w.name]))
   const ids = rows.map((r) => r.id)
   const items = ids.length ? await db.select({ orderId: orderItems.orderId, title: orderItems.title, qty: orderItems.qty }).from(orderItems).where(inArray(orderItems.orderId, ids)).orderBy(orderItems.createdAt) : []
   const text = (id: string) =>
@@ -90,7 +95,9 @@ async function toTracked(db: Db, rows: (typeof orders.$inferSelect)[]): Promise<
     deliveryProvider: o.deliveryProvider,
     trackingId: o.deliveryTrackingId,
     timeline: timelines.get(o.id) ?? [],
-    canCancel: canCustomerCancel(o)
+    canCancel: canCustomerCancel(o),
+    wilayaName: includeLocation && o.wilayaId ? wilayaById.get(o.wilayaId) ?? null : null,
+    commune: includeLocation ? o.commune : null
   }))
 }
 
@@ -106,7 +113,7 @@ export async function trackByPhone(db: Db, rawPhone: string): Promise<TrackedOrd
 /** طلبات التلميذ بحسابه مع الخط الزمني وإمكانية الإلغاء */
 export async function myTrackedOrders(db: Db, actor: Actor): Promise<TrackedOrder[]> {
   const rows = await db.select().from(orders).where(eq(orders.userId, actor.userId)).orderBy(desc(orders.createdAt)).limit(30)
-  return toTracked(db, rows)
+  return toTracked(db, rows, true)
 }
 
 /** الزبون يلغي طلبه قبل الشحن؛ المخزون يعود والمشرف يُخطر (محرّك الحالات) */

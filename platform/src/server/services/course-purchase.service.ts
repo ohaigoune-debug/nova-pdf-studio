@@ -12,6 +12,7 @@ import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { streamFamily } from './academy-catalog.service'
+import { courseCommunesForWilaya } from './delivery-communes.service'
 import { notifyMany } from './notifications.service'
 import { transitionOrder } from './order-status.service'
 import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
@@ -162,7 +163,7 @@ export async function courseQuote(db: Db, courseId: string, wilayaId: string | n
   return { priceDzd: s.book.priceDzd, shippingDzd, totalDzd: s.book.priceDzd + shippingDzd, bookTitle: s.book.title }
 }
 
-export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseOrderInput): Promise<PlacedCourseOrder> {
+export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseOrderInput, fetchImpl?: typeof fetch): Promise<PlacedCourseOrder> {
   const studentId = studentIdOf(actor)
   const c = await loadCourse(db, input.courseId)
   const state = await courseBookState(db, c)
@@ -171,6 +172,17 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
   assertUuid(input.wilayaId, 'VALIDATION')
   if (!input.address?.trim()) throw new AppError('VALIDATION', { field: 'address' })
   const deliveryType: 'HOME' | 'DESK' = input.deliveryType === 'DESK' ? 'DESK' : 'HOME'
+  // الاستدعاءات القديمة بلا بلدية تبقى متوافقة؛ الواجهة الجديدة تطلبها.
+  let commune = input.commune?.trim().slice(0, 120) || null
+  if (commune) {
+    const lookup = await courseCommunesForWilaya(db, input.wilayaId, fetchImpl)
+    if (lookup.mode === 'select') {
+      const selected = lookup.communes.find((c) => c.name === commune)
+      if (!selected) throw new AppError('VALIDATION', { field: 'commune' })
+      if (deliveryType === 'DESK' && !selected.hasDesk) throw new AppError('VALIDATION', { field: 'deliveryType' })
+      commune = selected.name
+    }
+  }
 
   // الشعبة: من ملف التلميذ (لا من المتصفح)؛ دورة بلا شعب = لكل الشعب
   const [st] = await db.select({ streamId: students.streamId }).from(students).where(eq(students.id, studentId)).limit(1)
@@ -219,7 +231,7 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
     if (!reserved) throw new AppError('OUT_OF_STOCK', { product: bookTitle })
     const [o] = await tx
       .insert(orders)
-      .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: 'COD', needsShipping: true, subtotalDzd: price, shippingDzd: shipping, totalDzd: total, customerName: (input.customerName?.trim() || actor.fullName).slice(0, 120), phone, wilayaId: input.wilayaId, streamId: st?.streamId ?? null, otpVerifiedAt, beneficiaryStudentId: studentId, address: input.address.trim().slice(0, 400), commune: input.commune?.trim().slice(0, 120) || null, deliveryType, note: [`دورة: ${c.title}`, input.note?.trim()].filter(Boolean).join(' — ').slice(0, 500) })
+      .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: 'COD', needsShipping: true, subtotalDzd: price, shippingDzd: shipping, totalDzd: total, customerName: (input.customerName?.trim() || actor.fullName).slice(0, 120), phone, wilayaId: input.wilayaId, streamId: st?.streamId ?? null, otpVerifiedAt, beneficiaryStudentId: studentId, address: input.address.trim().slice(0, 400), commune, deliveryType, note: [`دورة: ${c.title}`, input.note?.trim()].filter(Boolean).join(' — ').slice(0, 500) })
       .returning()
     await tx.insert(orderItems).values({ orderId: o!.id, productId: bookId, courseId: c.id, title: bookTitle, type: 'BOOK', unitPriceDzd: price, qty: 1, lineTotalDzd: price })
     return o!

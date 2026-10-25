@@ -77,6 +77,7 @@ export function TrackedOrderCard({ o, onChanged }: { o: TrackedOrderView; onChan
         <Badge variant={VARIANT[o.status] ?? 'secondary'}>{o.statusAr}</Badge>
       </CardHeader>
       <CardContent className="space-y-3 text-sm">
+        {o.wilayaName || o.commune ? <p className="text-muted-foreground">{[o.wilayaName, o.commune].filter(Boolean).join(' — ')}</p> : null}
         {o.trackingId ? (
           <p className="text-xs text-muted-foreground">
             رقم التتبّع{o.deliveryProvider === 'ecotrack' ? ' (EcoTrack)' : ''}: <span dir="ltr" className="font-mono font-bold text-foreground">{o.trackingId}</span>
