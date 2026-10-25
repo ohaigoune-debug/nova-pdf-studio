@@ -134,7 +134,7 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
           </Card>
         </div>
 
-        <Card id="order" className="border-primary/30">
+        <Card id="order" className="order-first border-primary/30 lg:order-none">
           <CardHeader>
             <CardTitle>اطلب الدورة</CardTitle>
             {purchase.book ? <p className="text-sm text-muted-foreground">يصلك كتاب «{purchase.book.title}» وتُفعَّل الدورة على حسابك عند التسليم.</p> : null}
