@@ -1,17 +1,20 @@
 /** Régressions PR #15 : PGlite en mémoire uniquement, aucune API de livraison réelle. */
-import { and, eq } from 'drizzle-orm'
-import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
+import { and, eq, inArray } from 'drizzle-orm'
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
-import { auditLogs, courseClaims, courseEnrollments, groupStudents, notifications, orders, products, users } from '@/server/db/schema'
+import { auditLogs, courseClaims, courseEnrollments, deliveryEvents, groupStudents, notifications, orders, products, users } from '@/server/db/schema'
 import type { EnrollmentSource } from '@/server/db/schema/enums'
 import type { Actor } from '@/server/lib/actor'
 import { mapEcotrackStatus } from '@/server/lib/ecotrack'
 import { AppError } from '@/server/lib/errors'
+import * as smsService from '@/server/lib/sms'
 import { claimCourse, createClaim } from '@/server/services/claims.service'
 import { activateCoursesForOrder } from '@/server/services/course-activation.service'
+import * as activationService from '@/server/services/course-activation.service'
 import { courseBookStateById, placeCourseOrder, setCourseBook } from '@/server/services/course-purchase.service'
 import { createCourse, enrollStudent, revokeEnrollment, setCourseStatus } from '@/server/services/courses.service'
 import { applyDeliveryStatus, normalizeDeliveryStatus, recordDeliveryEvent } from '@/server/services/delivery.service'
+import { saveEcotrackSettings, syncEcotrackShipments } from '@/server/services/ecotrack.service'
 import { transitionOrder } from '@/server/services/order-status.service'
 import * as notificationService from '@/server/services/notifications.service'
 import { placeOrder, setOrderStatus } from '@/server/services/store.service'
@@ -339,5 +342,125 @@ describe('التفعيل الفوري للطلب المجاني', () => {
     expect(await membershipsOf(student.studentId!, c.groupId)).toHaveLength(1)
     const enrollAudits = await h.db.select().from(auditLogs).where(and(eq(auditLogs.action, 'course.enroll'), eq(auditLogs.entityId, initial[0]!.id)))
     expect(enrollAudits).toHaveLength(1)
+  })
+})
+
+
+/** اكتشاف الإرجاع بعد التسليم عبر API وهمية، من دون شركة أو رسائل حقيقية. */
+describe('EcoTrack: نافذة الإرجاع بعد التسليم وأولوية الطرود المفتوحة', () => {
+  const DAY_MS = 24 * 60 * 60 * 1000
+  const statuses = new Map<string, string>()
+  const requests: { path: string; tracking: string | null }[] = []
+  const fixtureOrderIds: string[] = []
+  const ecoFetch: typeof fetch = (async (input: string | URL | Request) => {
+    const url = new URL(String(input))
+    const tracking = url.searchParams.get('tracking')
+    requests.push({ path: url.pathname, tracking })
+    const json = (body: unknown) => new Response(JSON.stringify(body), { status: 200, headers: { 'content-type': 'application/json', 'x-ratelimit-remaining': '9000' } })
+    if (url.pathname.endsWith('/get/wilayas')) return json({ '24': { id: 24, nom: 'Guelma' } })
+    if (url.pathname.endsWith('/get/orders')) return json({ data: tracking && statuses.has(tracking) ? [{ tracking, status: statuses.get(tracking), tarif_prestation: 0 }] : [] })
+    if (url.pathname.endsWith('/get/tracking/info')) return json({ activity: tracking && statuses.has(tracking) ? [{ event: statuses.get(tracking), date: new Date().toISOString() }] : [] })
+    throw new Error(`unexpected mocked EcoTrack route: ${url.pathname}`)
+  }) as typeof fetch
+
+  beforeAll(async () => {
+    await saveEcotrackSettings(h.db, admin, { baseUrl: 'activation-window.ecotrack.dz', apiToken: 'window-test-only-token', enabled: true, autoSend: false }, ecoFetch)
+  })
+
+  beforeEach(() => {
+    statuses.clear()
+    requests.length = 0
+  })
+
+  afterEach(async () => {
+    vi.restoreAllMocks()
+    vi.useRealTimers()
+    if (fixtureOrderIds.length) await h.db.update(orders).set({ deliveryProvider: null, deliveryTrackingId: null }).where(inArray(orders.id, fixtureOrderIds))
+    fixtureOrderIds.length = 0
+  })
+
+  async function ecoOrder(daysAgo: number | null, status: 'DELIVERED' | 'SHIPPED' = 'DELIVERED') {
+    const c = await courseWithBook()
+    const student = await makeStudent(h.db)
+    const order = await buy(student, c.id)
+    await ship(order.id)
+    if (status === 'DELIVERED') await setOrderStatus(h.db, admin, order.id, 'DELIVERED')
+    const tracking = `WINDOW-${++sequence}`
+    fixtureOrderIds.push(order.id)
+    await h.db.update(orders).set({ deliveryProvider: 'ecotrack', deliveryTrackingId: tracking, deliveredAt: status === 'DELIVERED' && daysAgo !== null ? new Date(Date.now() - daysAgo * DAY_MS) : null }).where(eq(orders.id, order.id))
+    statuses.set(tracking, 'Livré')
+    return { c, student, order, tracking }
+  }
+
+  it('طلب مسلّم منذ يومين وحالة retour ⇒ RETURNED وسحب الدورة وإزالة عضوية الفوج', async () => {
+    const fixture = await ecoOrder(2)
+    statuses.set(fixture.tracking, 'retour')
+    const summary = await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })
+    expect(summary).toMatchObject({ polled: 1, changed: 1, delivered: 0, failed: 0 })
+    expect(requests.some((r) => r.path.endsWith('/get/orders') && r.tracking === fixture.tracking)).toBe(true)
+    expect((await orderOf(fixture.order.id)).status).toBe('RETURNED')
+    expect((await enrollmentsOf(fixture.student.studentId!))[0]).toMatchObject({ source: 'BOOK_ORDER', orderId: fixture.order.id, status: 'REVOKED' })
+    expect((await membershipsOf(fixture.student.studentId!, fixture.c.groupId))[0]!.status).toBe('INACTIVE')
+  })
+
+  it('بقاء الطلب مسلّمًا لا يعيد التفعيل أو SMS أو الإشعارات أو سجلات التدقيق والتوصيل', async () => {
+    const fixture = await ecoOrder(2)
+    const auditsBefore = await h.db.select().from(auditLogs)
+    const noticesBefore = await h.db.select().from(notifications)
+    const eventsBefore = await h.db.select().from(deliveryEvents)
+    const activationSpy = vi.spyOn(activationService, 'activateCoursesForOrder')
+    const smsSpy = vi.spyOn(smsService, 'sendSms')
+    for (let i = 0; i < 2; i++) {
+      const summary = await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })
+      expect(summary).toMatchObject({ polled: 1, changed: 0, delivered: 0, failed: 0 })
+    }
+    expect(requests.filter((r) => r.path.endsWith('/get/orders') && r.tracking === fixture.tracking)).toHaveLength(2)
+    expect((await orderOf(fixture.order.id)).status).toBe('DELIVERED')
+    expect(await enrollmentsOf(fixture.student.studentId!)).toHaveLength(1)
+    expect((await enrollmentsOf(fixture.student.studentId!))[0]!.status).toBe('ACTIVE')
+    expect(activationSpy).not.toHaveBeenCalled()
+    expect(smsSpy).not.toHaveBeenCalled()
+    expect(await h.db.select().from(auditLogs)).toEqual(auditsBefore)
+    expect(await h.db.select().from(notifications)).toEqual(noticesBefore)
+    expect(await h.db.select().from(deliveryEvents)).toEqual(eventsBefore)
+  })
+
+  it.each([
+    ['مسلّم منذ عشرين يومًا', 20],
+    ['بلا تاريخ تسليم', null],
+    ['بتاريخ تسليم في المستقبل', -1]
+  ] as const)('%s لا يُطلب من EcoTrack أصلًا', async (_label, daysAgo) => {
+    const fixture = await ecoOrder(daysAgo)
+    statuses.set(fixture.tracking, 'retour')
+    const summary = await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })
+    expect(summary).toMatchObject({ polled: 0, changed: 0, failed: 0 })
+    expect(requests).toHaveLength(0)
+    expect((await orderOf(fixture.order.id)).status).toBe('DELIVERED')
+    expect((await enrollmentsOf(fixture.student.studentId!))[0]!.status).toBe('ACTIVE')
+  })
+
+  it('تاريخ التسليم على حدّ خمسة عشر يومًا مشمول في النافذة', async () => {
+    const fixture = await ecoOrder(15)
+    const now = new Date()
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(now)
+    await h.db.update(orders).set({ deliveredAt: new Date(now.getTime() - 15 * DAY_MS) }).where(eq(orders.id, fixture.order.id))
+    statuses.set(fixture.tracking, 'retour')
+    expect((await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })).polled).toBe(1)
+    expect((await orderOf(fixture.order.id)).status).toBe('RETURNED')
+  })
+
+  it('limit يُحترم والطلبات غير المسلّمة تسبق المسلّمة ولو كان updatedAt للمسلّمة أقدم', async () => {
+    const recent = await ecoOrder(2)
+    const open = await ecoOrder(null, 'SHIPPED')
+    await h.db.update(orders).set({ updatedAt: new Date(Date.now() - 30 * DAY_MS) }).where(eq(orders.id, recent.order.id))
+    statuses.set(open.tracking, 'En transit vers wilaya')
+    let summary = await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch, limit: 1 })
+    expect(summary.polled).toBe(1)
+    expect(requests.filter((r) => r.path.endsWith('/get/orders')).map((r) => r.tracking)).toEqual([open.tracking])
+    requests.length = 0
+    summary = await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch, limit: 2 })
+    expect(summary.polled).toBe(2)
+    expect(requests.filter((r) => r.path.endsWith('/get/orders')).map((r) => r.tracking)).toEqual([open.tracking, recent.tracking])
   })
 })
