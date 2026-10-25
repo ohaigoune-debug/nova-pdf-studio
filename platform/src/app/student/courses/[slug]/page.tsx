@@ -1,4 +1,4 @@
-import { ArrowLeft, Clock, FileText, Gamepad2, MessagesSquare, PlayCircle, Radio } from 'lucide-react'
+import { ArrowLeft, TrendingUp, Clock, FileText, Gamepad2, MessagesSquare, PlayCircle, Radio } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CourseLandingView } from '@/components/academy/course-landing'
@@ -16,7 +16,7 @@ import { isAppError } from '@/server/lib/errors'
 import { courseLanding } from '@/server/services/academy-catalog.service'
 import { courseHome, type CourseContentItem } from '@/server/services/courses.service'
 import { upcomingForStudent } from '@/server/services/live.service'
-import { courseCheckoutData } from '@/server/services/store.service'
+import { courseBookStateById } from '@/server/services/course-purchase.service'
 
 export const dynamic = 'force-dynamic'
 
@@ -61,8 +61,9 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
     // غير مشترك أو اشتراك منتهٍ/ملغى: صفحة التعريف (بيانات العرض فقط) بدل 404 — الاكتشاف مفصول عن الوصول.
     if (isAppError(err) && (err.code === 'COURSE_NOT_FOUND' || err.code === 'COURSE_NOT_ENROLLED')) {
       try {
-        const [landing, checkout] = await Promise.all([courseLanding(db, actor, slug), courseCheckoutData(db, actor)])
-        return <CourseLandingView landing={landing} checkout={checkout} />
+        const landing = await courseLanding(db, actor, slug)
+        const purchase = await courseBookStateById(db, landing.course.id)
+        return <CourseLandingView landing={landing} purchase={purchase} />
       } catch (e2) {
         if (isAppError(e2) && e2.code === 'COURSE_NOT_FOUND') notFound()
         throw e2
@@ -125,31 +126,21 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
         </Alert>
       ) : null}
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Button asChild variant="outline" className="h-auto flex-col gap-1 py-3">
-          <Link href={classroomHref}>
-            <MessagesSquare className="size-5 text-primary" />
-            <span className="text-xs font-semibold">القسم الافتراضي</span>
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+        {[
+          { href: '#live', label: 'الحصص المباشرة', hint: 'مواعيد الدورة', icon: Radio, tone: 'bg-primary/10 text-primary' },
+          { href: '#videos', label: 'الحصص المسجلة', hint: `${videos.length} فيديو`, icon: PlayCircle, tone: 'bg-warning/10 text-warning' },
+          { href: '#lessons', label: 'ملفات الدورة', hint: `${lessons.length} درس وملف`, icon: FileText, tone: 'bg-success/10 text-success' },
+          { href: playHref, label: 'الاختبارات والتدريب', hint: 'تدرّب في PLAY', icon: Gamepad2, tone: 'bg-purple/10 text-purple' },
+          { href: classroomHref, label: 'القسم الافتراضي', hint: 'أسئلة ومناقشات', icon: MessagesSquare, tone: 'bg-destructive/10 text-destructive' },
+          { href: '/student/progress', label: 'تقدمي', hint: 'إنجازاتي ومهاراتي', icon: TrendingUp, tone: 'bg-cyan/10 text-cyan' }
+        ].map((item) => (
+          <Link key={item.href} href={item.href} className="flex min-h-40 flex-col items-center justify-center gap-3 rounded-lg border bg-card p-5 text-center shadow-soft transition-colors hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <span className={`flex size-14 items-center justify-center rounded-full ${item.tone}`}><item.icon className="size-6" /></span>
+            <span className="font-bold">{item.label}</span>
+            <span className="text-xs text-muted-foreground">{item.hint}</span>
           </Link>
-        </Button>
-        <Button asChild variant="outline" className="h-auto flex-col gap-1 py-3">
-          <Link href={playHref}>
-            <Gamepad2 className="size-5 text-primary" />
-            <span className="text-xs font-semibold">تدرّب في PLAY</span>
-          </Link>
-        </Button>
-        <Button asChild variant="outline" className="h-auto flex-col gap-1 py-3">
-          <Link href="#videos">
-            <PlayCircle className="size-5 text-primary" />
-            <span className="text-xs font-semibold">{videos.length} فيديو</span>
-          </Link>
-        </Button>
-        <Button asChild variant="outline" className="h-auto flex-col gap-1 py-3">
-          <Link href="#lessons">
-            <FileText className="size-5 text-primary" />
-            <span className="text-xs font-semibold">{lessons.length} درس/ملف</span>
-          </Link>
-        </Button>
+        ))}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -177,7 +168,7 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
         </Card>
       </div>
 
-      <Card>
+      <Card id="live">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Radio className="size-5 text-primary" /> الحصص المباشرة القادمة

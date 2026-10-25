@@ -28,7 +28,7 @@ import { resolveMediaAccess } from '@/server/services/media.service'
 import { createProduct } from '@/server/services/store.service'
 import { listStudentFiles } from '@/server/queries/student-extras.queries'
 import { uploadFile } from '@/server/services/files.service'
-import { makeAdmin, makeStudent, makeTeacher, refIds, setupDb, workspaceIdOfTeacher } from './helpers'
+import { makeAdmin, makeStudent, makeTeacher, publishLegacyCourse, refIds, setupDb, workspaceIdOfTeacher } from './helpers'
 
 let h: DatabaseHandle
 let admin: Actor
@@ -76,8 +76,10 @@ describe('الدورات المدفوعة — الإدارة', () => {
       accessEndsOn: '2027-06-30',
       priceDzd: 4500,
       termsText: '## الشروط\n\n1. لا مشاركة للحساب.\n2. الفيديوهات تختفي بعد البكالوريا.',
-      status: 'PUBLISHED'
+      status: 'DRAFT'
     })
+    // دورة مدفوعة «قديمة» بلا كتاب مرفق: تُنشر خارج حارس النشر (قاعدة الكتاب الإلزامي تخصّ الجديدة)
+    await publishLegacyCourse(h.db, course.id)
     expect(course.slug).toBeTruthy()
     expect(course.termsVersion).toBe(1)
     const [g] = await h.db.select().from(groups).where(eq(groups.id, course.groupId))

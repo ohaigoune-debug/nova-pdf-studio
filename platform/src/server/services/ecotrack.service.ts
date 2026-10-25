@@ -3,7 +3,7 @@
  * إرسال الطلب المؤكَّد طرداً، مزامنة دورية للطرود المفتوحة تُترجم حالة الشركة إلى حالة الطلب
  * (ومنها «سُلِّم» ⇒ تفعيل الدورة)، ورسوم التوصيل لكل ولاية من جدول الشركة.
  */
-import { and, desc, eq, inArray, isNotNull, sql } from 'drizzle-orm'
+import { and, desc, eq, gte, inArray, isNotNull, lte, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { appSettings, deliveryEvents, jobs, orderItems, orders, profiles, students, wilayas } from '@/server/db/schema'
 import type { DeliveryEventStatus } from '@/server/db/schema/enums'
@@ -23,6 +23,8 @@ const SEAL_PURPOSE = 'ecotrack'
 export const ECOTRACK_SYNC_INTERVAL_MS = 20 * 60 * 1000
 /** طرود كثيرة ⇒ دفعات، كي لا تستهلك مزامنة واحدة الميزانية */
 export const ECOTRACK_SYNC_BATCH = 60
+/** متابعة الإرجاع بعد التسليم خلال آخر 15 يومًا، مع أولوية الطرود المفتوحة. */
+export const ECOTRACK_DELIVERED_RETURN_WINDOW_DAYS = 15
 
 interface Stored {
   baseUrl: string
@@ -280,7 +282,7 @@ async function knownStatuses(db: Db, trackings: string[]): Promise<Map<string, s
 }
 
 /**
- * يستطلع الطرود المفتوحة (طلبات ecotrack في «في الطريق»، وما زال «مؤكَّداً» برقم تتبّع) ويطبّق الحالات الجديدة.
+ * يستطلع الطرود المفتوحة أولًا، ثم المسلّمة حديثًا لرصد الإرجاع، ويطبّق الحالات الجديدة.
  * كل تغيّر يُسجَّل حدثاً فريداً (tracking:status) فلا يُعالَج مرتين؛ الميزانية تُحترم.
  */
 export async function syncEcotrackShipments(db: Db, opts: { fetchImpl?: typeof fetch; limit?: number } = {}): Promise<EcotrackSyncSummary> {
@@ -294,22 +296,33 @@ export async function syncEcotrackShipments(db: Db, opts: { fetchImpl?: typeof f
     summary.skipped = 'rate budget reserved'
     return summary
   }
-  const open = await db
+  const now = new Date()
+  const deliveredAfter = new Date(now.getTime() - ECOTRACK_DELIVERED_RETURN_WINDOW_DAYS * 24 * 60 * 60 * 1000)
+  const shipments = await db
     .select()
     .from(orders)
-    .where(and(eq(orders.deliveryProvider, 'ecotrack'), isNotNull(orders.deliveryTrackingId), inArray(orders.status, ['CONFIRMED', 'SHIPPED'])))
-    .orderBy(sql`${orders.updatedAt} asc`)
+    .where(and(eq(orders.deliveryProvider, 'ecotrack'), isNotNull(orders.deliveryTrackingId), or(
+      inArray(orders.status, ['CONFIRMED', 'SHIPPED']),
+      and(eq(orders.status, 'DELIVERED'), gte(orders.deliveredAt, deliveredAfter), lte(orders.deliveredAt, now))
+    )))
+    .orderBy(sql`case when ${orders.status} = 'DELIVERED' then 1 else 0 end`, sql`${orders.updatedAt} asc`)
     .limit(opts.limit ?? ECOTRACK_SYNC_BATCH)
   const known = await knownStatuses(
     db,
-    open.map((o) => o.deliveryTrackingId!)
+    shipments.map((o) => o.deliveryTrackingId!)
   )
-  for (const o of open) {
+  for (const o of shipments) {
+    if (!client.pollingAllowed()) {
+      summary.skipped = 'rate budget reserved'
+      break
+    }
     const tracking = o.deliveryTrackingId!
     summary.polled++
     try {
-      const t = await client.tracking(tracking, known.get(tracking) ?? null)
+      const t = await client.tracking(tracking, known.get(tracking) ?? (o.status === 'DELIVERED' ? 'delivered' : null))
       const eventStatus = MAP_TO_EVENT[t.status]
+      // التسليم الثابت مجرد استطلاع: لا حدث جديد ولا إعادة محاولة تفعيل أو رسائل.
+      if (o.status === 'DELIVERED' && eventStatus === 'DELIVERED') continue
       const inserted = await db
         .insert(deliveryEvents)
         .values({ provider: 'ecotrack', externalId: `${tracking}:${eventStatus}:${t.status}`, trackingId: tracking, orderId: o.id, status: eventStatus, payload: { ecotrackStatus: t.status, label: t.carrierStatusLabel, driverName: t.driverName, driverPhone: t.driverPhone, feeDzd: t.feeDzd, events: t.events.map((e) => ({ ...e, occurredAt: e.occurredAt.toISOString() })) } })

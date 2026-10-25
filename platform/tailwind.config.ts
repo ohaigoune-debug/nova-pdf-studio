@@ -14,6 +14,8 @@ const config: Config = {
         ruqaa: ['"Aref Ruqaa"', 'Amiri', 'serif']
       },
       colors: {
+        purple: 'hsl(var(--purple) / <alpha-value>)',
+        cyan: 'hsl(var(--cyan) / <alpha-value>)',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -39,8 +41,8 @@ const config: Config = {
       borderRadius: {
         xl: 'calc(var(--radius) + 4px)',
         lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 4px)',
-        sm: 'calc(var(--radius) - 8px)'
+        md: '12px',
+        sm: '9px'
       },
       keyframes: {
         'fade-in': { from: { opacity: '0', transform: 'translateY(6px)' }, to: { opacity: '1', transform: 'none' } },

@@ -20,8 +20,8 @@ export default async function PublicLayout({ children }: { children: ReactNode }
   ]
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-40 border-b border-border/70 bg-background/75 backdrop-blur-xl">
-        <div className="container flex h-16 min-w-0 items-center gap-3 sm:gap-4">
+      <header className="sticky top-0 z-40 brand-header border-b border-white/10 backdrop-blur-xl">
+        <div className="container flex h-[72px] min-w-0 items-center gap-3 sm:gap-4">
           <Link href="/" className="flex shrink-0 items-center gap-2.5 text-lg font-extrabold tracking-tight">
             <span className="flex size-9 items-center justify-center rounded-md bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-soft">
               <BookOpenText className="size-5" />

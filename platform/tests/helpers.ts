@@ -69,3 +69,10 @@ export async function refIds(db: Db) {
 }
 
 export const _tables = { students, teacherWorkspaces }
+
+/** دورة منشورة «قديمة» (قبل قاعدة الكتاب الإلزامي): تُنشر مباشرة في القاعدة دون حارس النشر */
+export async function publishLegacyCourse(db: Db, courseId: string): Promise<void> {
+  const { courses } = await import('@/server/db/schema')
+  const { eq } = await import('drizzle-orm')
+  await db.update(courses).set({ status: 'PUBLISHED' }).where(eq(courses.id, courseId))
+}

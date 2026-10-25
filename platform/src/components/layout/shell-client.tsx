@@ -1,6 +1,6 @@
 'use client'
 
-import { Bell, BookOpenText, LogOut, Menu, Search, X } from 'lucide-react'
+import { Compass, Home, GraduationCap, UserRound, Bell, BookOpenText, LogOut, Menu, Search, X } from 'lucide-react'
 import * as Icons from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -30,11 +30,11 @@ function Icon({ name, className }: { name: string; className?: string }) {
   return <Cmp className={className} />
 }
 
-/** الشعار على الشريط الحبريّ: مربّع ذهبي — العلامة الوحيدة الملوّنة في الشريط فتُقرأ فوراً */
+/** Shared MADRASADZ mark for the desktop sidebar and mobile drawer. */
 function Brand({ role }: { role: string }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="flex size-10 items-center justify-center rounded-md bg-gradient-to-br from-sidebar-active to-sidebar-active/70 text-accent-foreground shadow-lift">
+      <div className="flex size-10 items-center justify-center rounded-md bg-white/15 text-white shadow-lift">
         <BookOpenText className="size-5" />
       </div>
       <div className="leading-tight">
@@ -83,7 +83,7 @@ export function ShellClient({
                       active ? 'bg-white/[0.08] text-white' : 'text-sidebar-foreground/70 hover:bg-white/[0.05] hover:text-sidebar-foreground'
                     )}
                   >
-                    {/* شريط ذهبي رفيع في الطرف: علامة الصفحة الحالية */}
+                    {/* Current page indicator */}
                     <span className={cn('absolute inset-y-2 start-0 w-0.5 rounded-full bg-sidebar-active transition-opacity', active ? 'opacity-100' : 'opacity-0')} aria-hidden />
                     <Icon name={item.iconKey} className={cn('size-[18px] shrink-0 transition-colors', active ? 'text-sidebar-active' : 'text-sidebar-muted group-hover:text-sidebar-foreground')} />
                     <span className="truncate">{item.label}</span>
@@ -143,12 +143,12 @@ export function ShellClient({
       ) : null}
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="no-print sticky top-0 z-40 flex h-[72px] items-center gap-2 border-b border-border/70 bg-background/75 px-4 backdrop-blur-xl lg:px-8">
-          <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(true)} aria-label="القائمة">
+        <header className="no-print sticky top-0 z-40 flex h-[72px] items-center gap-2 brand-header border-b border-white/10 px-4 backdrop-blur-xl lg:px-8">
+          <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 hover:text-white lg:hidden" onClick={() => setOpen(true)} aria-label="القائمة">
             <Menu className="size-5" />
           </Button>
           <Link href={`/${base}`} className="flex items-center gap-2 font-extrabold lg:hidden">
-            <span className="flex size-8 items-center justify-center rounded-sm bg-gradient-to-br from-accent to-accent/70 text-accent-foreground">
+            <span className="flex size-8 items-center justify-center rounded-sm bg-white/15 text-white">
               <BookOpenText className="size-4" />
             </span>
             {t('app.name')}
@@ -165,7 +165,7 @@ export function ShellClient({
               </form>
             ) : null}
           </div>
-          <Link href={notificationsHref} className="relative rounded-md p-2 text-foreground/80 transition-colors hover:bg-muted hover:text-foreground" aria-label={t('common.notifications')}>
+          <Link href={notificationsHref} className="relative flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-white/10" aria-label={t('common.notifications')}>
             <Bell className="size-5" />
             {unread > 0 ? (
               <span className="absolute -end-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground ring-2 ring-background">
@@ -178,9 +178,30 @@ export function ShellClient({
             <Avatar name={actor.fullName} size="sm" />
           </div>
         </header>
-        <main className="flex-1 px-4 py-6 lg:px-8 lg:py-8">
+        <main className={cn("flex-1 px-4 py-6 lg:px-8 lg:py-8", actor.role === 'STUDENT' && "student-content")}>
           <div className="mx-auto w-full max-w-7xl animate-fade-in">{children}</div>
         </main>
+        {actor.role === 'STUDENT' ? (
+          <nav aria-label="التنقل الرئيسي للتلميذ" className="student-bottom-nav no-print fixed inset-x-0 bottom-0 z-40 border-t bg-card shadow-soft lg:hidden">
+            <div className="mx-auto grid h-[68px] max-w-lg grid-cols-5 items-center px-2">
+              {[
+                { href: '/student', label: 'الرئيسية', icon: Home },
+                { href: '/student/lessons', label: 'دروسي', icon: BookOpenText },
+                { href: '/student/courses/catalog', label: 'استكشف', icon: Compass },
+                { href: '/student/courses', label: 'دوراتي', icon: GraduationCap },
+                { href: '/student/profile', label: 'حسابي', icon: UserRound }
+              ].map((item, i) => {
+                const active = item.href === '/student' ? pathname === item.href : item.href === '/student/courses' ? matches(item.href, false) && !matches('/student/courses/catalog', false) : matches(item.href, false)
+                return (
+                  <Link key={item.href} href={item.href} aria-current={active ? 'page' : undefined} className={cn('flex min-h-11 flex-col items-center justify-center gap-1 rounded-md text-[11px] font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring', active ? 'text-primary' : 'text-muted-foreground')}>
+                    <span className={cn('flex items-center justify-center', i === 2 && '-mt-5 size-12 rounded-full bg-primary text-primary-foreground shadow-soft ring-4 ring-card')}><item.icon className="size-5" /></span>
+                    {item.label}
+                  </Link>
+                )
+              })}
+            </div>
+          </nav>
+        ) : null}
       </div>
     </div>
   )

@@ -1,3 +1,5 @@
+import { MyOrdersTracking } from '@/components/domain/order-tracking'
+import { myTrackedOrders } from '@/server/services/order-tracking.service'
 import { HubTabs } from '@/components/student/hub-tabs'
 import { BookMarked, Clock, FileText, PlayCircle, Radio, ShoppingBag } from 'lucide-react'
 import Link from 'next/link'
@@ -15,7 +17,10 @@ export const metadata = { title: 'دوراتي' }
 
 export default async function StudentCoursesPage() {
   const actor = await requirePageActor('STUDENT')
-  const items = await myCourses(await getDb(), actor)
+  const db = await getDb()
+  const [courses, orders] = await Promise.all([myCourses(db, actor), myTrackedOrders(db, actor)])
+  const items = courses.sort((a, b) => Number(b.status === 'ACTIVE') - Number(a.status === 'ACTIVE'))
+  const pendingOrders = orders.filter((o) => !['DELIVERED', 'RETURNED', 'CANCELLED'].includes(o.status))
   return (
     <>
       <HubTabs hub="courses" />
@@ -23,11 +28,15 @@ export default async function StudentCoursesPage() {
         title="دوراتي"
         description="الدورات التي اشتركت فيها: حصص مباشرة، فيديوهات مسجّلة، ملفات، وقسم افتراضي مع أستاذك."
       />
+      <div className="mb-6 flex flex-wrap gap-3">
+        <Button asChild><Link href="/student/courses/catalog">اكتشف الدورات المتاحة</Link></Button>
+        <Button asChild variant="outline"><Link href="/student/courses/orders"><ShoppingBag className="size-4" /> طلباتي وحالة التوصيل</Link></Button>
+      </div>
       {items.length === 0 ? (
         <EmptyState
           icon={BookMarked}
           title="لا اشتراك في أي دورة بعد"
-          description="يُفعَّل اشتراكك تلقائياً عند استلام الكتاب الذي اشتريته من المتجر، أو عبر رمز التفعيل الذي تتلقّاه بالرسالة."
+          description="يُفعَّل اشتراكك تلقائياً عند استلام كتاب الدورة التي اشتريتها، أو عبر رمز التفعيل الذي تتلقّاه بالرسالة."
           action={
             <span className="flex flex-wrap justify-center gap-2">
               <Button asChild>
@@ -36,8 +45,8 @@ export default async function StudentCoursesPage() {
                 </Link>
               </Button>
               <Button asChild variant="outline">
-                <Link href="/store">
-                  <ShoppingBag className="size-4" /> المتجر
+                <Link href="/student/courses/orders">
+                  <ShoppingBag className="size-4" /> طلباتي
                 </Link>
               </Button>
             </span>
@@ -105,6 +114,13 @@ export default async function StudentCoursesPage() {
           })}
         </div>
       )}
+      {pendingOrders.length ? (
+        <section className="mt-6 space-y-3">
+          <h2 className="text-xl font-bold">بانتظار التفعيل</h2>
+          <p className="text-sm text-muted-foreground">تُفعَّل الدورة المرتبطة بالكتاب بعد تأكيد التسليم من شركة التوصيل.</p>
+          <MyOrdersTracking orders={pendingOrders.map((o) => ({ ...o, createdAt: o.createdAt.toISOString(), timeline: o.timeline.map((t) => ({ ...t, at: t.at.toISOString() })) }))} />
+        </section>
+      ) : null}
     </>
   )
 }

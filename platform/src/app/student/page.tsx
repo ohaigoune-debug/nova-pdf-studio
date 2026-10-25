@@ -1,4 +1,4 @@
-import { BookMarked, BookOpen, FileStack, FileText, Gamepad2, Smartphone, TrendingUp } from 'lucide-react'
+import { CheckCheck, BookMarked, BookOpen, FileStack, Gamepad2, Smartphone, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { PhoneVerifyBanner } from '@/components/domain/otp-banner'
@@ -29,11 +29,10 @@ export default async function StudentHomePage({ searchParams }: { searchParams: 
   const active = courses.filter((c) => c.status === 'ACTIVE')
   // الأقسام الخمسة (قرار المالك 2026-10-24): الحضور والأفواج مخفية من واجهة التلميذ
   const tiles = [
-    { href: '/student/lessons', label: 'الدروس', hint: 'منظَّمة بالمادة والشعبة', icon: BookOpen },
-    { href: '/student/exams', label: 'الفروض', hint: 'فروض واختبارات مع الحلول', icon: FileText },
-    { href: '/bac', label: 'بنك البكالوريات', hint: 'مواضيع السنوات السابقة', icon: FileStack },
-    { href: '/student/play', label: 'تدرّب', hint: 'MADRASADZ PLAY وتمارين', icon: Gamepad2 },
-    { href: '/student/courses', label: 'الدورات', hint: active.length ? `${active.length} دورة مفعّلة` : 'اشترِ دورة مع الكتاب', icon: BookMarked }
+    { href: '/student/lessons', label: 'الدروس', hint: 'المحتوى المجاني', icon: BookOpen, tone: 'bg-warning/10 text-warning' },
+    { href: '/student/courses', label: 'دوراتي', hint: active.length ? `${active.length} دورة مفعّلة` : 'حصص وتسجيلات', icon: BookMarked, tone: 'bg-primary/10 text-primary' },
+    { href: '/student/exams', label: 'الفروض والاختبارات', hint: 'مراجعة وتحضير', icon: CheckCheck, tone: 'bg-success/10 text-success' },
+    { href: '/student/play', label: 'مدرسة PLAY', hint: 'تعلّم بطريقة ممتعة', icon: Gamepad2, tone: 'bg-destructive/10 text-destructive' }
   ]
 
   return (
@@ -66,15 +65,18 @@ export default async function StudentHomePage({ searchParams }: { searchParams: 
         </a>
       ) : null}
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      <h2 className="text-xl font-bold">ماذا تريد أن تتعلم اليوم؟</h2>
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {tiles.map((tile) => (
-          <Link key={tile.href} href={tile.href} className="group rounded-xl border bg-card p-4 transition-colors hover:border-primary/50 hover:bg-primary/5">
-            <tile.icon className="size-6 text-primary" />
+          <Link key={tile.href} href={tile.href} className="group flex min-h-40 flex-col items-center justify-center rounded-lg border bg-card p-5 text-center shadow-soft transition-colors hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <span className={`flex size-14 items-center justify-center rounded-full ${tile.tone}`}><tile.icon className="size-6" /></span>
             <span className="mt-2 block font-extrabold">{tile.label}</span>
             <span className="block text-xs text-muted-foreground">{tile.hint}</span>
           </Link>
         ))}
       </div>
+
+      <Button asChild variant="outline"><Link href="/bac"><FileStack className="size-5" /> بنك البكالوريات</Link></Button>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">

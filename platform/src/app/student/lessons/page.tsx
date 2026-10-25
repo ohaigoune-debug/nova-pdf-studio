@@ -31,7 +31,7 @@ export default async function StudentLessonsPage({ searchParams }: { searchParam
   return (
     <div className="space-y-6">
       <HubTabs hub="lessons" />
-      <TeacherBanner about={about} greeting={t('nav.myLessons')} subtitle="الدروس والفيديوهات وملفات PDF العامة والموجّهة لأفواجك، بترتيب الوحدات والدروس." image="/teacher-lessons.webp" />
+      <TeacherBanner about={about} greeting={t('nav.myLessons')} subtitle="الدروس والفيديوهات وملفات PDF العامة والموجّهة لأفواجك، بترتيب الوحدات والدروس." />
       <ScopePicker base="/student/lessons" value={scope} options={options} fromProfile={scope.fromProfile} />
       {total === 0 ? (
         <EmptyState icon={BookOpen} title="لا دروس بهذه المرشّحات بعد" description="جرّب «الكل» في المستوى أو المادة. تُنشر الدروس تباعاً." />

@@ -38,9 +38,9 @@ export function AlgeriaMap({ data, showCounts = false, className }: { data: Wila
               key={w.code}
               d={w.d}
               className="transition-[fill-opacity] duration-300 hover:[fill-opacity:0.95]"
-              fill={a > 0 ? 'hsl(168 40% 52%)' : 'hsl(195 30% 16%)'}
+              fill={a > 0 ? 'hsl(212 75% 68%)' : 'hsl(195 30% 16%)'}
               fillOpacity={a > 0 ? a : 1}
-              stroke="hsl(168 34% 62%)"
+              stroke="hsl(212 70% 80%)"
               strokeOpacity={0.35}
               strokeWidth={0.8}
               strokeLinejoin="round"
@@ -57,9 +57,9 @@ export function AlgeriaMap({ data, showCounts = false, className }: { data: Wila
         return (
           <g key={`dot-${w.code}`}>
             {n > 0 ? (
-              <circle cx={w.cx} cy={w.cy} r={r} fill="none" stroke="hsl(165 42% 66%)" strokeWidth={1.5} className="animate-ping" style={{ transformBox: 'fill-box', transformOrigin: 'center', animationDuration: '2.4s' }} />
+              <circle cx={w.cx} cy={w.cy} r={r} fill="none" stroke="hsl(210 85% 80%)" strokeWidth={1.5} className="animate-ping" style={{ transformBox: 'fill-box', transformOrigin: 'center', animationDuration: '2.4s' }} />
             ) : null}
-            <circle cx={w.cx} cy={w.cy} r={r} fill={n > 0 ? 'hsl(165 45% 72%)' : 'hsl(165 25% 70%)'} fillOpacity={n > 0 ? 1 : 0.45}>
+            <circle cx={w.cx} cy={w.cy} r={r} fill={n > 0 ? 'hsl(210 90% 86%)' : 'hsl(210 40% 80%)'} fillOpacity={n > 0 ? 1 : 0.45}>
               <title>{label(w.code)}</title>
             </circle>
           </g>

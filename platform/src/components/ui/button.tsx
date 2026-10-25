@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         // تدرّج خفيف وحافة ضوئية علوية: زرّ له عمق دون أن يصرخ
         default:
-          'bg-gradient-to-b from-primary to-primary/90 text-primary-foreground shadow-[inset_0_1px_0_hsl(0_0%_100%/0.15),0_1px_2px_hsl(var(--shadow-color)/0.2)] hover:from-primary/95 hover:to-primary/85 hover:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.15),0_6px_16px_-6px_hsl(var(--primary)/0.6)]',
+          'bg-primary text-primary-foreground shadow-sm hover:bg-[hsl(var(--brand-blue-hover))] dark:hover:bg-primary/90',
         gold: 'bg-gradient-to-b from-accent to-accent/90 text-accent-foreground shadow-[inset_0_1px_0_hsl(0_0%_100%/0.35),0_1px_2px_hsl(var(--shadow-color)/0.2)] hover:shadow-[0_8px_20px_-8px_hsl(var(--accent)/0.7)]',
         destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         success: 'bg-success text-success-foreground shadow-sm hover:bg-success/90',
@@ -21,10 +21,10 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline'
       },
       size: {
-        default: 'h-10 px-4 py-2',
-        sm: 'h-8 rounded-sm px-3 text-xs',
+        default: 'h-11 px-4 py-2',
+        sm: 'h-11 rounded-sm px-3 text-xs',
         lg: 'h-12 rounded-lg px-6 text-base',
-        icon: 'size-10'
+        icon: 'size-11'
       }
     },
     defaultVariants: { variant: 'default', size: 'default' }
