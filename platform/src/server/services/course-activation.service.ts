@@ -57,42 +57,45 @@ export async function coursesOfOrder(db: Db, orderId: string): Promise<{ courseI
  * idempotent لكل (طلب، دورة): إشعار تسليم مكرَّر لا يُنشئ اشتراكاً ثانياً ولا مطالبة ثانية، ولا يُعيد اشتراكاً ألغته الإدارة.
  */
 export async function activateCoursesForOrder(db: Db, orderId: string): Promise<ActivationSummary> {
-  const summary: ActivationSummary = { enrolled: [], claims: [] }
-  const [order] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1)
-  // لا تفعيل عند الإنشاء أو التأكيد أو الدفع أو الشحن: التسليم المؤكَّد وحده
-  if (!order || order.status !== 'DELIVERED') return summary
-  const list = await coursesOfOrder(db, orderId)
-  if (list.length === 0) return summary
+  // نفس قفل الإرجاع: لا يتسابق تفعيل متأخر مع سحب اشتراك الطلب.
+  return db.transaction(async (tx) => {
+    const summary: ActivationSummary = { enrolled: [], claims: [] }
+    const [order] = await tx.select().from(orders).where(eq(orders.id, orderId)).for('update').limit(1)
+    // لا تفعيل عند الإنشاء أو التأكيد أو الدفع أو الشحن: التسليم المؤكَّد وحده
+    if (!order || order.status !== 'DELIVERED') return summary
+    const list = await coursesOfOrder(tx, orderId)
+    if (list.length === 0) return summary
 
-  let studentId: string | null = order.beneficiaryStudentId ?? null
-  if (!studentId) {
-    const [s] = await db.select({ id: students.id }).from(students).where(eq(students.userId, order.userId)).limit(1)
-    studentId = s?.id ?? null
-  }
-  for (const link of list) {
-    const courseId = link.courseId
-    // سبق التفعيل/المطالبة لهذا الطلب وهذه الدورة ⇒ لا شيء (تكرار الإشعار آمن)
-    const [done] = await db.select({ id: courseEnrollments.id }).from(courseEnrollments).where(and(eq(courseEnrollments.courseId, courseId), eq(courseEnrollments.orderId, order.id))).limit(1)
-    if (done) continue
-    const [claimed] = await db.select({ id: courseClaims.id }).from(courseClaims).where(and(eq(courseClaims.orderId, order.id), eq(courseClaims.courseId, courseId))).limit(1)
-    if (claimed) continue
-    if (studentId) {
-      await activateEnrollment(db, { courseId, studentId, source: 'BOOK_ORDER', orderId: order.id, activatedByUserId: null })
-      summary.enrolled.push({ courseId, studentId })
-      await writeAudit(db, { actorUserId: null, workspaceId: link.workspaceId, action: 'delivery.delivered_activation', entityType: 'course', entityId: courseId, newValue: { orderId: order.id, orderNumber: order.number, studentId, mode: 'enroll' } })
-    } else {
-      const claim = await createClaim(db, { orderId: order.id, courseId, phone: order.phone })
-      summary.claims.push({ courseId, claimId: claim.id, phone: claim.phone })
-      try {
-        await sendSms(db, { to: claim.phone, text: `مدرسة: تم تسليم طلبك ${order.number}. لتفعيل دورة ${link.title} على حساب التلميذ أدخل الرمز ${claim.code} في madrasadz.com/claim`, variables: { name: 'مدرسة', code: claim.code } })
-      } catch (err) {
-        if (process.env.NODE_ENV !== 'test') console.error('[delivery] sms failed', err)
-      }
-      await notify(db, { userId: order.userId, workspaceId: link.workspaceId, type: 'SYSTEM', title: `رمز تفعيل دورة «${link.title}»`, body: `سُلّم طلبك ${order.number}. أُرسل رمز التفعيل إلى الهاتف ${claim.phone}؛ يُدخله التلميذ من حسابه في صفحة /claim.`, link: '/claim' })
-      await writeAudit(db, { actorUserId: null, workspaceId: link.workspaceId, action: 'delivery.delivered_activation', entityType: 'course', entityId: courseId, newValue: { orderId: order.id, orderNumber: order.number, claimId: claim.id, mode: 'claim' } })
+    let studentId: string | null = order.beneficiaryStudentId ?? null
+    if (!studentId) {
+      const [s] = await tx.select({ id: students.id }).from(students).where(eq(students.userId, order.userId)).limit(1)
+      studentId = s?.id ?? null
     }
-  }
-  return summary
+    for (const link of list) {
+      const courseId = link.courseId
+      // سبق التفعيل/المطالبة لهذا الطلب وهذه الدورة ⇒ لا شيء (تكرار الإشعار آمن)
+      const [done] = await tx.select({ id: courseEnrollments.id }).from(courseEnrollments).where(and(eq(courseEnrollments.courseId, courseId), eq(courseEnrollments.orderId, order.id))).limit(1)
+      if (done) continue
+      const [claimed] = await tx.select({ id: courseClaims.id }).from(courseClaims).where(and(eq(courseClaims.orderId, order.id), eq(courseClaims.courseId, courseId))).limit(1)
+      if (claimed) continue
+      if (studentId) {
+        await activateEnrollment(tx, { courseId, studentId, source: 'BOOK_ORDER', orderId: order.id, activatedByUserId: null })
+        summary.enrolled.push({ courseId, studentId })
+        await writeAudit(tx, { actorUserId: null, workspaceId: link.workspaceId, action: 'delivery.delivered_activation', entityType: 'course', entityId: courseId, newValue: { orderId: order.id, orderNumber: order.number, studentId, mode: 'enroll' } })
+      } else {
+        const claim = await createClaim(tx, { orderId: order.id, courseId, phone: order.phone })
+        summary.claims.push({ courseId, claimId: claim.id, phone: claim.phone })
+        try {
+          await sendSms(tx, { to: claim.phone, text: `مدرسة: تم تسليم طلبك ${order.number}. لتفعيل دورة ${link.title} على حساب التلميذ أدخل الرمز ${claim.code} في madrasadz.com/claim`, variables: { name: 'مدرسة', code: claim.code } })
+        } catch (err) {
+          if (process.env.NODE_ENV !== 'test') console.error('[delivery] sms failed', err)
+        }
+        await notify(tx, { userId: order.userId, workspaceId: link.workspaceId, type: 'SYSTEM', title: `رمز تفعيل دورة «${link.title}»`, body: `سُلّم طلبك ${order.number}. أُرسل رمز التفعيل إلى الهاتف ${claim.phone}؛ يُدخله التلميذ من حسابه في صفحة /claim.`, link: '/claim' })
+        await writeAudit(tx, { actorUserId: null, workspaceId: link.workspaceId, action: 'delivery.delivered_activation', entityType: 'course', entityId: courseId, newValue: { orderId: order.id, orderNumber: order.number, claimId: claim.id, mode: 'claim' } })
+      }
+    }
+    return summary
+  })
 }
 
 /* ───────────── كود التفعيل الذي تولّده الإدارة (حين يفشل التفعيل بالتسليم) ───────────── */
