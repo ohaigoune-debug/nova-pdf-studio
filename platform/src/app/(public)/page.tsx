@@ -104,7 +104,7 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* البطل: حبر، زخرفة خفيفة، عنوان بذهب */}
+      {/* البطل: حبر، زخرفة خفيفة، عنوان بتدرّج زمرّدي هادئ */}
       <section className="bg-ink bg-pattern relative overflow-hidden text-white">
         <div className="container grid items-center gap-12 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
           <div className="space-y-7 animate-rise-in">
@@ -120,9 +120,6 @@ export default async function HomePage() {
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg" variant="gold">
                 <Link href={student ? '/student' : '/register'}>{student ? t('nav.dashboard') : t('public.ctaStudent')}</Link>
-              </Button>
-              <Button asChild size="lg" className="border border-white/15 bg-white/10 text-white shadow-none hover:bg-white/15" variant="ghost">
-                <Link href={student ? '/student?join=1' : '/activate-code'}>{t('public.ctaCode')}</Link>
               </Button>
               <Button asChild size="lg" variant="link" className="text-white/80 hover:text-white">
                 <Link href="/lessons">
@@ -183,7 +180,7 @@ export default async function HomePage() {
       <section className="border-y border-accent/20 bg-gradient-to-b from-accent/[0.06] to-transparent">
         <div className="container py-14 text-center">
           {/* صدر وعجز: على الحاسوب متقابلان، وعلى الهاتف الواحد تحت الآخر */}
-          <p className="flex flex-col items-center justify-center gap-x-12 gap-y-2 font-ruqaa text-3xl leading-[1.9] text-amber-800 sm:text-4xl md:flex-row lg:text-5xl dark:text-accent" dir="rtl" lang="ar">
+          <p className="flex flex-col items-center justify-center gap-x-12 gap-y-2 font-ruqaa text-3xl leading-[1.9] text-primary sm:text-4xl md:flex-row lg:text-5xl dark:text-accent" dir="rtl" lang="ar">
             {t('public.verse')
               .split('۞')
               .map((half) => (

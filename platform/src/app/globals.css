@@ -58,6 +58,7 @@
 
 /*
  * MADRASADZ identity v1: neutral surfaces, blue navigation, semantic status colors.
+ * لا أصفر ولا برتقالي فاقع للتمييز (قرار المالك 2026-10-24): لون التمييز أزرق سماوي فاتح؛ البرتقالي للتنبيه الدلالي فقط.
  * الألوان HSL مفكّكة لتعمل مع تدرّجات الشفافية (bg-primary/10).
  */
 @layer base {
@@ -76,13 +77,13 @@
     --secondary-foreground: 220.000 46.154% 35.686%;
     --muted: 217.500 53.333% 94.118%;
     --muted-foreground: 218.710 13.305% 45.686%;
-    --accent: 36.055 88.618% 51.765%;
+    --accent: 212 82% 84%;
     --accent-foreground: 219.130 28.395% 15.882%;
     --destructive: 0.000 77.114% 60.588%;
     --destructive-foreground: 0.000 0.000% 100.000%;
     --success: 142.051 55.450% 41.373%;
     --success-foreground: 0.000 0.000% 100.000%;
-    --warning: 36.055 88.618% 51.765%;
+    --warning: 32 72% 47%;
     --warning-foreground: 219.130 28.395% 15.882%;
     --border: 220.000 20.930% 91.569%;
     --input: 220.000 20.930% 91.569%;
@@ -119,7 +120,7 @@
     --destructive-foreground: 219.130 41.818% 10.784%;
     --success: 141.869 52.195% 59.804%;
     --success-foreground: 219.130 41.818% 10.784%;
-    --warning: 36.055 88.618% 51.765%;
+    --warning: 32 72% 47%;
     --warning-foreground: 219.130 28.395% 15.882%;
     --border: 217.895 26.761% 27.843%;
     --input: 217.895 26.761% 27.843%;
@@ -197,9 +198,9 @@
     color: hsl(var(--accent));
   }
 
-  /* عنوان بتدرّج ذهبي — للبطل فقط */
+  /* عنوان بتدرّج أزرق سماوي فاتح على الأزرق — للبطل فقط (الاسم قديم، اللون لم يعد ذهبياً) */
   .text-gradient-gold {
-    background: linear-gradient(120deg, hsl(42 85% 68%), hsl(38 80% 52%) 55%, hsl(42 85% 66%));
+    background: linear-gradient(120deg, hsl(0 0% 100%), hsl(210 85% 84%) 55%, hsl(0 0% 100%));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
