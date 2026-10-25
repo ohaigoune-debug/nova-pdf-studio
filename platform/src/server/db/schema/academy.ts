@@ -54,6 +54,11 @@ export const courses = pgTable(
     /** آخر يوم يُفتح فيه المحتوى (بعد البكالوريا تختفي الفيديوهات) */
     accessEndsOn: date('access_ends_on'),
     priceDzd: integer('price_dzd').notNull().default(0),
+    /**
+     * الكتاب الورقي المرفق بالدورة (قرار المالك 2026-10-24: كل دورة مدفوعة تشمل كتاباً).
+     * سعره هو سعر الدورة؛ يُدار من صفحة الدورة. null = دورة قديمة غير مكتملة (لا شراء جديد) أو مجانية.
+     */
+    bookProductId: uuid('book_product_id').references(() => products.id, { onDelete: 'set null' }),
     coverFileId: uuid('cover_file_id').references(() => files.id, { onDelete: 'set null' }),
     /** نص النظام الداخلي والشروط التي يوافق عليها التلميذ قبل الدخول (Markdown) */
     termsText: text('terms_text'),

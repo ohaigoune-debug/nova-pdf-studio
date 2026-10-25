@@ -30,18 +30,13 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
   return (
     <div className="space-y-6">
       <PageHeader
-        title="المتجر"
+        title="طلبات الدورات"
         description={eco.feesCount ? `رسوم التوصيل من جدول EcoTrack لكل ولاية (${eco.feesCount} ولاية)؛ الرسم الاحتياطي ${shippingFeeDzd()} دج · الدفع عند الاستلام للورقي، وتحويل يؤكَّد يدوياً للرقمي.` : `رسوم الشحن الحالية: ${shippingFeeDzd()} دج (STORE_SHIPPING_DZD في البيئة؛ أو اجلب جدول EcoTrack من صفحة التوصيل) · الدفع عند الاستلام للورقي، وتحويل يؤكَّد يدوياً للرقمي.`}
         actions={
           <>
             <Button asChild variant={stats.pending ? 'default' : 'outline'}>
               <Link href="/admin/store/confirm">
                 <PhoneCall className="size-4" /> طابور التأكيد{stats.pending ? ` (${stats.pending})` : ''}
-              </Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/store" target="_blank">
-                <ShoppingBag className="size-4" /> المتجر العام
               </Link>
             </Button>
             <Button asChild>

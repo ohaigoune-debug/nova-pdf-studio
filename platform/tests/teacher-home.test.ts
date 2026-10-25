@@ -13,7 +13,7 @@ import { createContent } from '@/server/services/content.service'
 import { createCourse, enrollStudent, linkProduct } from '@/server/services/courses.service'
 import { createProduct } from '@/server/services/store.service'
 import { teacherHome } from '@/server/services/teacher-home.service'
-import { makeAdmin, makeStudent, makeTeacher, setupDb, uniq, workspaceIdOfTeacher } from './helpers'
+import { makeAdmin, makeStudent, makeTeacher, publishLegacyCourse, setupDb, uniq, workspaceIdOfTeacher } from './helpers'
 import { eq } from 'drizzle-orm'
 
 let h: DatabaseHandle
@@ -40,7 +40,8 @@ describe('لوحة الأستاذ المبسّطة', () => {
   it('المسجّلون: النشط فقط في الرقم الكبير، والمجموع منذ البداية؛ دورات غيره لا تظهر', async () => {
     const ws = await workspaceIdOfTeacher(h.db, teacher)
     const otherWs = await workspaceIdOfTeacher(h.db, other)
-    const mine = await createCourse(h.db, admin, { title: 'دورتي', workspaceId: ws, season: '2026/2027', status: 'PUBLISHED', priceDzd: 4900 })
+    const mine = await createCourse(h.db, admin, { title: 'دورتي', workspaceId: ws, season: '2026/2027', status: 'DRAFT', priceDzd: 4900 })
+    await publishLegacyCourse(h.db, mine.id)
     const theirs = await createCourse(h.db, admin, { title: 'دورة غيري', workspaceId: otherWs, season: '2026/2027', status: 'PUBLISHED' })
     const [s1, s2, s3] = [await makeStudent(h.db, 'ت1'), await makeStudent(h.db, 'ت2'), await makeStudent(h.db, 'ت3')]
     await enrollStudent(h.db, admin, { courseId: mine.id, studentId: s1.studentId!, source: 'MANUAL' })

@@ -36,7 +36,7 @@ export default async function StudentCoursesPage() {
         <EmptyState
           icon={BookMarked}
           title="لا اشتراك في أي دورة بعد"
-          description="يُفعَّل اشتراكك تلقائياً عند استلام الكتاب الذي اشتريته من المتجر، أو عبر رمز التفعيل الذي تتلقّاه بالرسالة."
+          description="يُفعَّل اشتراكك تلقائياً عند استلام كتاب الدورة التي اشتريتها، أو عبر رمز التفعيل الذي تتلقّاه بالرسالة."
           action={
             <span className="flex flex-wrap justify-center gap-2">
               <Button asChild>
@@ -45,8 +45,8 @@ export default async function StudentCoursesPage() {
                 </Link>
               </Button>
               <Button asChild variant="outline">
-                <Link href="/store">
-                  <ShoppingBag className="size-4" /> المتجر
+                <Link href="/student/courses/orders">
+                  <ShoppingBag className="size-4" /> طلباتي
                 </Link>
               </Button>
             </span>

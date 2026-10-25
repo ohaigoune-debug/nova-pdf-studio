@@ -110,29 +110,37 @@ export function communeKey(name: string): string {
 }
 
 /**
- * حالات EcoTrack نصّ فرنسي حرّ يختلف قليلاً بين المنصّات ("livré_non_encaissé"، "Livré"، "Encaissé"، "Tentative échouée"، "Retourné au vendeur").
- * ترتيب الفحص مهم: "retour" قبل "livr"، و"échou"/"tentative" قبل "sorti".
+ * حالات المزوّد نصّ حرّ: نحتفظ بقواعده الجزئية، لكن القيمة الكاملة تتقدّم عليها،
+ * والإرجاع يسبق التسليم حتى لا تُقرأ «retour livré» تسليماً.
  */
+const ECOTRACK_STATUS_RULES: [EcotrackShipmentStatus, RegExp][] = [
+  ['returned', /retour|return|مرتجع|إرجاع|ارجاع/],
+  ['canceled', /supprim|annul|cancel/],
+  ['failed_attempt', /echou|tentative|absent|injoignable|reporte|alerte|suspend/],
+  ['delivered', /livre|delivered|encaiss|paye/],
+  ['out_for_delivery', /sorti|en livraison|out for delivery/],
+  ['at_agency', /recu a wilaya|centre|agence|hub|arrive|au bureau|en attente du client|pret pour retrait/],
+  // «prête à expédier»: ما زال الطرد عند الشركة لم يتحرّك.
+  ['created', /pret.? a expedier|a expedier|pret.? pour expedition/],
+  ['in_transit', /transit|vers wilaya|expedie|en route|dispatch|transfer/],
+  ['picked_up', /ramass|collect|pick/],
+  ['created', /prepar|nouveau|cree|valid|en attente|pending|new/]
+]
+const ECOTRACK_EXACT_STATUS_RULES = ECOTRACK_STATUS_RULES.map(([status, pattern]) => ({ status, pattern: new RegExp(`^(?:${pattern.source})$`) }))
+
 export function mapEcotrackStatus(label: string): EcotrackShipmentStatus | null {
   const s = label
     .toLowerCase()
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
+    .normalize('NFC')
     .replace(/_/g, ' ')
     .trim()
   if (!s) return null
-  if (/supprim|annul|cancel/.test(s)) return 'canceled'
-  // كل مراحل "retour_*" تعني انتهاء التوصيل وعودة الطرد: مرتجع لا «محاولة فاشلة أخرى»
-  if (/retour/.test(s)) return 'returned'
-  if (/echou|tentative|absent|injoignable|reporte|alerte|suspend/.test(s)) return 'failed_attempt'
-  if (/livre|encaiss|paye/.test(s)) return 'delivered'
-  if (/sorti|en livraison|out for delivery/.test(s)) return 'out_for_delivery'
-  if (/recu a wilaya|centre|agence|hub|arrive|au bureau|en attente du client|pret pour retrait/.test(s)) return 'at_agency'
-  // "prête à expédier": ما زال الطرد عند الشركة لم يتحرّك
-  if (/pret.? a expedier|a expedier|pret.? pour expedition/.test(s)) return 'created'
-  if (/transit|vers wilaya|expedie|en route|dispatch|transfer/.test(s)) return 'in_transit'
-  if (/ramass|collect|pick/.test(s)) return 'picked_up'
-  if (/prepar|nouveau|cree|valid|en attente|pending|new/.test(s)) return 'created'
+  // نفي التسليم يسبق المطابقتين الكاملة والجزئية، كما في webhook العام.
+  if (/(non|pas|jamais)[\s_-]*livr|not[\s_-]*deliver|undeliver|no[\s_-]*entreg|لم[\s_]*ي?[ُ]?سل|غير[\s_]*مسل|لم[\s_]*يتم[\s_]*التسليم/.test(s)) return 'failed_attempt'
+  for (const { status, pattern } of ECOTRACK_EXACT_STATUS_RULES) if (pattern.test(s)) return status
+  for (const [status, pattern] of ECOTRACK_STATUS_RULES) if (pattern.test(s)) return status
   return null
 }
 

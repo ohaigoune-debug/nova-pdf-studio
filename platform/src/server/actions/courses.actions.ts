@@ -245,3 +245,37 @@ export async function releaseCourseCodeAction(code: string, revokeEnrollment: bo
   if (result.ok) revalidatePath('/admin/courses/codes')
   return result
 }
+
+/* ───────────── الكتاب المرفق بالدورة ───────────── */
+
+/** المشرف: إنشاء/تعديل الكتاب المرفق بالدورة (سعره = سعر الدورة) من صفحة الدورة */
+export async function setCourseBookAction(_prev: ActionResult<{ purchasable: boolean }> | null, fd: FormData): Promise<ActionResult<{ purchasable: boolean }>> {
+  const stockRaw = String(fd.get('stock') ?? '').trim()
+  const parsed = z
+    .object({ courseId: z.string().uuid(), title: z.string().trim().min(2, 'اسم الكتاب').max(200), priceDzd: z.coerce.number().int().min(1, 'السعر 1 دج على الأقل').max(1_000_000), stock: z.number().int().min(0).nullable(), active: z.boolean() })
+    .safeParse({ courseId: fd.get('courseId') ?? '', title: fd.get('title') ?? '', priceDzd: fd.get('priceDzd') ?? 0, stock: stockRaw === '' ? null : Number(stockRaw), active: fd.get('active') === 'on' })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const { setCourseBook } = await import('@/server/services/course-purchase.service')
+    const s = await setCourseBook(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data.courseId, { title: parsed.data.title, priceDzd: parsed.data.priceDzd, stock: parsed.data.stock, active: parsed.data.active })
+    return { purchasable: s.purchasable }
+  })
+  if (result.ok) {
+    revalidatePath(`/admin/courses/${parsed.data.courseId}`)
+    revalidatePath('/admin/courses')
+  }
+  return result
+}
+
+/** المشرف: اعتماد منتج كتاب مرتبط سابقاً ككتاب الدورة (الدورات القديمة) */
+export async function chooseCourseBookAction(courseId: string, productId: string): Promise<ActionResult> {
+  const parsed = z.object({ courseId: z.string().uuid(), productId: z.string().uuid() }).safeParse({ courseId, productId })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const { chooseCourseBook } = await import('@/server/services/course-purchase.service')
+    await chooseCourseBook(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data.courseId, parsed.data.productId)
+    return undefined
+  })
+  if (result.ok) revalidatePath(`/admin/courses/${courseId}`)
+  return result
+}

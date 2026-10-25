@@ -145,6 +145,8 @@ export async function createCourse(db: Db, actor: Actor, input: CourseInput): Pr
   const [year] = await db.select({ id: academicYears.id }).from(academicYears).where(eq(academicYears.isCurrent, true)).limit(1)
   const title = input.title.trim()
   const slug = await uniqueSlug(db, courseSlugify(input.slug?.trim() || title))
+  // دورة جديدة مدفوعة: لا تُنشأ منشورةً قبل إرفاق كتابها (تُنشأ مسودة ثم يُضاف الكتاب من صفحتها فتُنشر)
+  if ((input.status ?? 'DRAFT') === 'PUBLISHED' && (input.priceDzd ?? 0) > 0) throw new AppError('COURSE_BOOK_REQUIRED', { issue: 'NO_BOOK' })
 
   const created = await db.transaction(async (tx) => {
     const [g] = await tx
@@ -248,6 +250,8 @@ export async function setCourseStatus(db: Db, actor: Actor, id: string, status: 
   if (!COURSE_STATUSES.includes(status)) throw new AppError('VALIDATION', { field: 'status' })
   const c = await loadCourse(db, id)
   if (c.status === status) return
+  // دورة مدفوعة لا تُنشر بلا كتاب ورقي صالح (الدورات المنشورة سابقاً لا تُمسّ)
+  if (status === 'PUBLISHED') await import('./course-purchase.service').then((m) => m.assertCoursePublishable(db, c))
   await db.update(courses).set({ status, updatedAt: new Date() }).where(eq(courses.id, id))
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'course.status', entityType: 'course', entityId: id, oldValue: { status: c.status }, newValue: { status } })
   // التلاميذ ذوو الوصول الشامل يُشتركون في كل دورة تُنشر (استيراد متأخر: full-access يعتمد على هذا الملف)
@@ -545,6 +549,16 @@ export async function enrollStudent(db: Db, actor: Actor | null, input: EnrollIn
   })
 }
 
+/** نفس آثار السحب للإدارة ولإرجاع الطلب، داخل معاملة المستدعي. */
+async function revokeEnrollmentRecord(tx: Db, e: CourseEnrollmentRow, course: CourseRow, actorUserId: string | null, reason?: string | null): Promise<void> {
+  if (e.status === 'REVOKED') return
+  await tx.update(courseEnrollments).set({ status: 'REVOKED', revokedReason: reason?.trim() || null, updatedAt: new Date() }).where(eq(courseEnrollments.id, e.id))
+  await deactivateGroupMembership(tx, course.groupId, e.studentId, 'course revoked', actorUserId)
+  const [st] = await tx.select({ userId: students.userId }).from(students).where(eq(students.id, e.studentId)).limit(1)
+  if (st) await notify(tx, { userId: st.userId, workspaceId: course.workspaceId, type: 'SYSTEM', title: `أُلغي اشتراكك في دورة ${course.title}`, body: reason?.trim() || null, link: '/student/courses' })
+  await writeAudit(tx, { actorUserId, workspaceId: course.workspaceId, action: 'course.revoke', entityType: 'course_enrollment', entityId: e.id, oldValue: { status: e.status }, newValue: { status: 'REVOKED', reason: reason ?? null, orderId: e.orderId } })
+}
+
 export async function revokeEnrollment(db: Db, actor: Actor, id: string, reason?: string | null): Promise<void> {
   assertRole(actor, 'SUPER_ADMIN')
   assertUuid(id, 'ENROLLMENT_NOT_FOUND')
@@ -552,12 +566,20 @@ export async function revokeEnrollment(db: Db, actor: Actor, id: string, reason?
     const [e] = await tx.select().from(courseEnrollments).where(eq(courseEnrollments.id, id)).for('update').limit(1)
     if (!e) throw new AppError('ENROLLMENT_NOT_FOUND')
     const course = await loadCourse(tx, e.courseId)
-    await tx.update(courseEnrollments).set({ status: 'REVOKED', revokedReason: reason?.trim() || null, updatedAt: new Date() }).where(eq(courseEnrollments.id, id))
-    await deactivateGroupMembership(tx, course.groupId, e.studentId, 'course revoked', actor.userId)
-    const [st] = await tx.select({ userId: students.userId }).from(students).where(eq(students.id, e.studentId)).limit(1)
-    if (st) await notify(tx, { userId: st.userId, workspaceId: course.workspaceId, type: 'SYSTEM', title: `أُلغي اشتراكك في دورة ${course.title}`, body: reason?.trim() || null, link: '/student/courses' })
-    await writeAudit(tx, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'course.revoke', entityType: 'course_enrollment', entityId: id, oldValue: { status: e.status }, newValue: { status: 'REVOKED', reason: reason ?? null } })
+    await revokeEnrollmentRecord(tx, e, course, actor.userId, reason)
   })
+}
+
+/** يخص إرجاع الطلب فقط: لا يسحب اشتراكاً يدوياً أو من طلب آخر. المستدعي يقفل الطلب أولاً. */
+export async function revokeEnrollmentsForReturnedOrder(tx: Db, orderId: string, actorUserId: string | null): Promise<void> {
+  const linked = await tx.select().from(courseEnrollments)
+    .where(and(eq(courseEnrollments.orderId, orderId), inArray(courseEnrollments.source, ['BOOK_ORDER', 'CLAIM']), ne(courseEnrollments.status, 'REVOKED')))
+    .orderBy(asc(courseEnrollments.id)).for('update')
+  for (const e of linked) {
+    // حتى الدورة المحذوفة من العرض يجب أن تفقد عضويتها عند إرجاع طلبها.
+    const [course] = await tx.select().from(courses).where(eq(courses.id, e.courseId)).limit(1)
+    if (course) await revokeEnrollmentRecord(tx, e, course, actorUserId, 'أُرجع الكتاب المرتبط بهذا الاشتراك.')
+  }
 }
 
 async function deactivateGroupMembership(tx: Db, groupId: string, studentId: string, reason: string, byUser: string | null) {

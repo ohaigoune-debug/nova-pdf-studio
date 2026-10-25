@@ -239,6 +239,13 @@
       "when": 1793300000000,
       "tag": "0033_lesson_quiz_comments",
       "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1793400000000,
+      "tag": "0034_course_book_purchase",
+      "breakpoints": true
     }
   ]
 }

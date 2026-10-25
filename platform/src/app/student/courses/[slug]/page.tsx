@@ -16,7 +16,7 @@ import { isAppError } from '@/server/lib/errors'
 import { courseLanding } from '@/server/services/academy-catalog.service'
 import { courseHome, type CourseContentItem } from '@/server/services/courses.service'
 import { upcomingForStudent } from '@/server/services/live.service'
-import { courseCheckoutData } from '@/server/services/store.service'
+import { courseBookStateById } from '@/server/services/course-purchase.service'
 
 export const dynamic = 'force-dynamic'
 
@@ -61,8 +61,9 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
     // غير مشترك أو اشتراك منتهٍ/ملغى: صفحة التعريف (بيانات العرض فقط) بدل 404 — الاكتشاف مفصول عن الوصول.
     if (isAppError(err) && (err.code === 'COURSE_NOT_FOUND' || err.code === 'COURSE_NOT_ENROLLED')) {
       try {
-        const [landing, checkout] = await Promise.all([courseLanding(db, actor, slug), courseCheckoutData(db, actor)])
-        return <CourseLandingView landing={landing} checkout={checkout} />
+        const landing = await courseLanding(db, actor, slug)
+        const purchase = await courseBookStateById(db, landing.course.id)
+        return <CourseLandingView landing={landing} purchase={purchase} />
       } catch (e2) {
         if (isAppError(e2) && e2.code === 'COURSE_NOT_FOUND') notFound()
         throw e2

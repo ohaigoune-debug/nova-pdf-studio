@@ -3,9 +3,9 @@
  * كل من يغيّر حالة طلب — المشرف، طابور التأكيد، webhook التوصيل، مزامنة EcoTrack، مكالمة التأكيد —
  * يمرّ من هنا، فتُطبَّق الانتقالات المسموحة والمخزون والتفعيل والإشعارات بالطريقة نفسها دائماً.
  */
-import { eq, sql } from 'drizzle-orm'
+import { and, eq, isNull, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { orderItems, orders, products, users } from '@/server/db/schema'
+import { courseClaims, orderItems, orders, products, users } from '@/server/db/schema'
 import type { OrderStatus } from '@/server/db/schema/enums'
 import { CONFIRMATION_STATUSES } from '@/server/db/schema/enums'
 import { writeAudit } from '@/server/lib/audit'
@@ -13,6 +13,7 @@ import { AppError } from '@/server/lib/errors'
 import { sendTelegram } from '@/server/lib/telegram'
 import { activateCoursesForOrder, type ActivationSummary } from './course-activation.service'
 import { grantPurchasesForOrder } from './marketplace.service'
+import { revokeEnrollmentsForReturnedOrder } from './courses.service'
 import { notify, notifyMany } from './notifications.service'
 
 export type OrderRow = typeof orders.$inferSelect
@@ -118,19 +119,19 @@ const CUSTOMER_MESSAGE: Partial<Record<OrderStatus, (o: OrderRow, opts: Transiti
  * idempotent: الحالة نفسها ⇒ لا تغيير (لكن «سُلِّم» يعيد محاولة التفعيل لأنه قد يكون فشل سابقاً).
  */
 export async function transitionOrder(db: Db, orderId: string, next: OrderStatus, opts: TransitionOptions): Promise<TransitionResult> {
-  const [o] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1)
-  if (!o) throw new AppError('ORDER_NOT_FOUND')
-  const from = o.status as OrderStatus
-  if (from === next) {
-    const activation = next === 'DELIVERED' ? await activateCoursesForOrder(db, o.id) : null
-    return { order: o, changed: false, activation }
-  }
-  const terminal = from === 'RETURNED' || (from === 'CANCELLED' && next !== 'PENDING') || (from === 'DELIVERED' && next !== 'RETURNED')
-  if (terminal || (!opts.force && !canTransition(from, next))) throw new AppError('ORDER_INVALID_TRANSITION')
+  // قراءة الحالة وقفل الطلب داخل المعاملة: تكرار الإرجاع لا يكرر المخزون أو السحب.
+  const result = await db.transaction(async (tx) => {
+    const [o] = await tx.select().from(orders).where(eq(orders.id, orderId)).for('update').limit(1)
+    if (!o) throw new AppError('ORDER_NOT_FOUND')
+    const from = o.status as OrderStatus
+    if (from === next) {
+      return { order: o, changed: false }
+    }
+    const terminal = from === 'RETURNED' || (from === 'CANCELLED' && next !== 'PENDING') || (from === 'DELIVERED' && next !== 'RETURNED')
+    if (terminal || (!opts.force && !canTransition(from, next))) throw new AppError('ORDER_INVALID_TRANSITION')
 
-  const now = new Date()
-  const shipping = opts.shippingDzd != null && Number.isInteger(opts.shippingDzd) && opts.shippingDzd >= 0 ? opts.shippingDzd : o.shippingDzd
-  const row = await db.transaction(async (tx) => {
+    const now = new Date()
+    const shipping = opts.shippingDzd != null && Number.isInteger(opts.shippingDzd) && opts.shippingDzd >= 0 ? opts.shippingDzd : o.shippingDzd
     const [r] = await tx
       .update(orders)
       .set({
@@ -154,10 +155,18 @@ export async function transitionOrder(db: Db, orderId: string, next: OrderStatus
       .returning()
     if (next === 'CANCELLED' || next === 'RETURNED') await restock(tx, orderId)
     if (from === 'CANCELLED' && next === 'PENDING') await reserveAgain(tx, orderId)
-    return r!
+    if (next === 'RETURNED') {
+      await revokeEnrollmentsForReturnedOrder(tx, orderId, opts.actorUserId)
+      await tx.update(courseClaims).set({ expiresAt: now }).where(and(eq(courseClaims.orderId, orderId), isNull(courseClaims.claimedAt)))
+    }
+    await writeAudit(tx, { actorUserId: opts.actorUserId, workspaceId: null, action: 'store.order_status', entityType: 'order', entityId: orderId, oldValue: { status: from }, newValue: { status: next, source: opts.source, reason: opts.reason ?? null } })
+    return { order: r!, changed: true }
   })
-
-  await writeAudit(db, { actorUserId: opts.actorUserId, workspaceId: null, action: 'store.order_status', entityType: 'order', entityId: orderId, oldValue: { status: from }, newValue: { status: next, source: opts.source, reason: opts.reason ?? null } })
+  const { order: row } = result
+  if (!result.changed) {
+    const activation = next === 'DELIVERED' ? await activateCoursesForOrder(db, row.id) : null
+    return { order: row, changed: false, activation }
+  }
 
   let activation: ActivationSummary | null = null
   if (next === 'CONFIRMED' || next === 'DELIVERED') await grantPurchasesForOrder(db, orderId)
@@ -175,18 +184,18 @@ export async function transitionOrder(db: Db, orderId: string, next: OrderStatus
     } catch (e) {
       // التسليم سُجّل؛ فشل التفعيل يُبلَّغ للمشرف ليُفعِّل يدوياً ولا يُخفى
       if (process.env.NODE_ENV !== 'test') console.error('[order-status] activation failed', e)
-      await notifyAdmins(db, { title: `⚠️ تعذّر تفعيل دورة الطلب ${o.number}`, body: e instanceof Error ? e.message.slice(0, 200) : 'خطأ غير معروف', link: `/admin/store?status=DELIVERED` })
+      await notifyAdmins(db, { title: `⚠️ تعذّر تفعيل دورة الطلب ${row.number}`, body: e instanceof Error ? e.message.slice(0, 200) : 'خطأ غير معروف', link: `/admin/store?status=DELIVERED` })
     }
   }
 
   const msg = CUSTOMER_MESSAGE[next]?.(row, opts)
-  if (msg) await notify(db, { userId: o.userId, workspaceId: null, type: 'SYSTEM', title: `طلب ${o.number}: ${ORDER_STATUS_AR[next]}`, body: msg, link: `/store/orders/${o.id}` })
+  if (msg) await notify(db, { userId: row.userId, workspaceId: null, type: 'SYSTEM', title: `طلب ${row.number}: ${ORDER_STATUS_AR[next]}`, body: msg, link: `/store/orders/${row.id}` })
 
   // المشرف يسمع بما يحدث خارج اللوحة: تسليم/إرجاع من شركة التوصيل، تأكيد بمكالمة أو SMS
   if (opts.source !== 'admin' && (next === 'DELIVERED' || next === 'RETURNED' || next === 'CONFIRMED' || next === 'CANCELLED')) {
     const icon = next === 'DELIVERED' ? '✅' : next === 'RETURNED' ? '↩️' : next === 'CONFIRMED' ? '📞' : '✖️'
     const extra = activation ? (activation.enrolled.length ? ` · فُعّلت ${activation.enrolled.length} دورة` : activation.claims.length ? ` · أُرسل رمز مطالبة (${activation.claims.length})` : '') : ''
-    await notifyAdmins(db, { title: `${icon} الطلب ${o.number}: ${ORDER_STATUS_AR[next]}${extra}`, body: `${o.customerName} · ${o.totalDzd} دج · ${opts.source === 'ecotrack' ? 'EcoTrack' : opts.source === 'delivery' ? 'شركة التوصيل' : opts.source === 'call' ? 'مكالمة تأكيد' : opts.source === 'sms' ? 'رسالة SMS' : opts.source === 'customer' ? `ألغاه الزبون${opts.reason ? ` — ${opts.reason}` : ''}` : 'النظام'}`, link: `/admin/store?status=${next}` })
+    await notifyAdmins(db, { title: `${icon} الطلب ${row.number}: ${ORDER_STATUS_AR[next]}${extra}`, body: `${row.customerName} · ${row.totalDzd} دج · ${opts.source === 'ecotrack' ? 'EcoTrack' : opts.source === 'delivery' ? 'شركة التوصيل' : opts.source === 'call' ? 'مكالمة تأكيد' : opts.source === 'sms' ? 'رسالة SMS' : opts.source === 'customer' ? `ألغاه الزبون${opts.reason ? ` — ${opts.reason}` : ''}` : 'النظام'}`, link: `/admin/store?status=${next}` })
   }
   return { order: row, changed: true, activation }
 }
