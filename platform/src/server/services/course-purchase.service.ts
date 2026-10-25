@@ -15,7 +15,7 @@ import { streamFamily } from './academy-catalog.service'
 import { courseCommunesForWilaya } from './delivery-communes.service'
 import { notifyMany } from './notifications.service'
 import { transitionOrder } from './order-status.service'
-import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
+import { normalizePhone, verifyOtp } from './otp.service'
 import { orderNumber, shippingFeeFor, storePolicy } from './store.service'
 
 const isPhysical = (type: string) => type === 'BOOK' || type === 'PACK'
@@ -205,12 +205,10 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
     .limit(1)
   if (open) throw new AppError('COURSE_ORDER_OPEN', { number: open.number })
 
-  // رمز التأكيد: إلزامي متى وُجدت قناة SMS (أو فرضته السياسة)، إلا لهاتف التلميذ المؤكَّد سلفاً
+  // كل طلب دورة يتأكد برمز جديد؛ تحقق التسجيل لا يستهلك تأكيد الطلب.
   const [policy, channels] = await Promise.all([storePolicy(db), import('./phone-gate.service').then((m) => m.phoneChannels(db))])
   let otpVerifiedAt: Date | null = null
-  const pv = await isPhoneVerified(db, actor.userId)
-  if (pv.verified && pv.phone === phone) otpVerifiedAt = new Date()
-  else if (policy.requireOtp || channels.sms) {
+  if (policy.requireOtp || channels.sms) {
     if (!input.otpCode?.trim()) throw new AppError('ORDER_OTP_REQUIRED')
     await verifyOtp(db, { phone, purpose: 'ORDER', code: input.otpCode, userId: actor.userId })
     otpVerifiedAt = new Date()

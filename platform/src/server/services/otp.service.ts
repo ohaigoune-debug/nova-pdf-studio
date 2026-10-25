@@ -1,12 +1,13 @@
 /**
  * رموز التحقق بالهاتف (OTP): عند التسجيل، وعند تأكيد الطلب، وللمطالبة والاسترجاع.
  * لا يُخزَّن الرمز إلا HMAC؛ 6 أرقام، صلاحية 5 دقائق، 5 محاولات ثم يُبطل، و3 رموز كحدّ أقصى لكل هاتف/غرض في 10 دقائق.
+ * مهلة إعادة الإرسال 60 ثانية مفروضة على الخادم لكل هاتف/غرض، حتى مع الطلبات المتزامنة.
  * في بيئة الاختبار فقط يعود الرمز في النتيجة (devCode) — في الإنتاج لا يُعاد أبداً.
  */
 import { createHmac, randomInt, timingSafeEqual } from 'node:crypto'
-import { and, desc, eq, isNull, lt, sql } from 'drizzle-orm'
+import { and, desc, eq, gt, isNull, lt, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { otpCodes, profiles } from '@/server/db/schema'
+import { otpCodes, profiles, rateLimits } from '@/server/db/schema'
 import type { OtpPurpose } from '@/server/db/schema/enums'
 import { OTP_PURPOSES } from '@/server/db/schema/enums'
 import { writeAudit } from '@/server/lib/audit'
@@ -56,19 +57,33 @@ export interface RequestOtpInput {
   ip?: string | null
 }
 
-export async function requestOtp(db: Db, input: RequestOtpInput): Promise<{ phone: string; expiresAt: Date; devCode?: string }> {
+export async function requestOtp(db: Db, input: RequestOtpInput, now: Date = new Date()): Promise<{ phone: string; expiresAt: Date; devCode?: string }> {
   assertPurpose(input.purpose)
   const phone = normalizePhone(input.phone)
   if (input.userId) assertUuid(input.userId, 'VALIDATION')
-  await checkRateLimit(db, { scope: `otp-${input.purpose.toLowerCase()}`, subject: sha256(phone), ...OTP_RATE })
   const code = String(randomInt(0, 1_000_000)).padStart(6, '0')
-  const expiresAt = new Date(Date.now() + OTP_TTL_MS)
-  // الرموز السابقة غير المستهلكة لنفس الهاتف/الغرض تُبطل: آخر رمز هو الصالح وحده
-  await db
-    .update(otpCodes)
-    .set({ consumedAt: new Date() })
-    .where(and(eq(otpCodes.phone, phone), eq(otpCodes.purpose, input.purpose), isNull(otpCodes.consumedAt)))
-  const [row] = await db.insert(otpCodes).values({ phone, purpose: input.purpose, userId: input.userId ?? null, codeHash: hashCode(phone, input.purpose, code), expiresAt }).returning({ id: otpCodes.id })
+  const expiresAt = new Date(now.getTime() + OTP_TTL_MS)
+  const row = await db.transaction(async (tx) => {
+    // صف ثابت لكل هاتف/غرض: القفل يسبق قراءة آخر طلب، حتى عند عدم وجود رمز سابق.
+    const key = `otp-resend:${input.purpose.toLowerCase()}:${sha256(phone)}`
+    await tx.insert(rateLimits).values({ key, windowStart: now, count: 0, updatedAt: now }).onConflictDoNothing({ target: rateLimits.key })
+    const [guard] = await tx.select().from(rateLimits).where(eq(rateLimits.key, key)).for('update').limit(1)
+    if (!guard) throw new AppError('INTERNAL')
+    const [latest] = await tx.select({ at: otpCodes.createdAt }).from(otpCodes)
+      .where(and(eq(otpCodes.phone, phone), eq(otpCodes.purpose, input.purpose)))
+      .orderBy(desc(otpCodes.createdAt)).limit(1)
+    const lastRequestAt = Math.max(latest?.at.getTime() ?? 0, guard.count > 0 ? guard.windowStart.getTime() : 0)
+    const remaining = OTP_RESEND_COOLDOWN_S * 1000 - (now.getTime() - lastRequestAt)
+    if (lastRequestAt && remaining > 0) throw new AppError('RATE_LIMITED', { retryAfter: Math.ceil(remaining / 1000) })
+    await checkRateLimit(tx, { scope: `otp-${input.purpose.toLowerCase()}`, subject: sha256(phone), ...OTP_RATE }, now)
+    await tx.update(rateLimits).set({ windowStart: now, count: 1, updatedAt: now }).where(eq(rateLimits.key, key))
+    // آخر رمز وحده صالح. الرموز المستهلكة أيضًا تمنع إعادة إرسال مبكرة.
+    await tx.update(otpCodes).set({ consumedAt: now })
+      .where(and(eq(otpCodes.phone, phone), eq(otpCodes.purpose, input.purpose), isNull(otpCodes.consumedAt)))
+    const [created] = await tx.insert(otpCodes).values({ phone, purpose: input.purpose, userId: input.userId ?? null, codeHash: hashCode(phone, input.purpose, code), expiresAt, createdAt: now }).returning({ id: otpCodes.id })
+    if (!created) throw new AppError('INTERNAL')
+    return created
+  })
   try {
     const sender = await getSmsSender(db)
     // SuiviSMS بلا قالب معتمد: البوابة تولّد الرمز (4 أرقام) وتتحقق منه هي؛ نحفظ معرّف التحدّي فقط
@@ -110,6 +125,8 @@ export async function verifyOtp(db: Db, input: VerifyOtpInput): Promise<{ ok: tr
     .orderBy(desc(otpCodes.createdAt))
     .limit(1)
   if (!row) throw new AppError('OTP_INVALID')
+  // عند ربط التحدّي بحساب، لا يستطيع حساب آخر استهلاكه أو تعديل هاتفه به.
+  if (input.userId && row.userId !== input.userId) throw new AppError('OTP_INVALID')
   if (row.expiresAt.getTime() <= now.getTime()) {
     await db.update(otpCodes).set({ consumedAt: now }).where(eq(otpCodes.id, row.id))
     throw new AppError('OTP_EXPIRED')
@@ -129,16 +146,22 @@ export async function verifyOtp(db: Db, input: VerifyOtpInput): Promise<{ ok: tr
     match = code.length === 6 && expected.length === actual.length && timingSafeEqual(expected, actual)
   }
   if (!match) {
-    const attempts = row.attempts + 1
-    const exhausted = attempts >= OTP_MAX_ATTEMPTS || exhaustedByGateway
-    await db
-      .update(otpCodes)
-      .set({ attempts: sql`${otpCodes.attempts} + 1`, consumedAt: exhausted ? now : null })
-      .where(eq(otpCodes.id, row.id))
-    await writeAudit(db, { actorUserId: input.userId ?? row.userId ?? null, workspaceId: null, action: 'otp.verify', entityType: 'otp', entityId: row.id, newValue: { purpose: input.purpose, ok: false, attempts, exhausted } })
+    const [failed] = await db.update(otpCodes)
+      .set({
+        attempts: sql`${otpCodes.attempts} + 1`,
+        consumedAt: sql`case when ${otpCodes.attempts} + 1 >= ${OTP_MAX_ATTEMPTS} or ${exhaustedByGateway} then ${now.toISOString()}::timestamptz else null end`
+      })
+      .where(and(eq(otpCodes.id, row.id), isNull(otpCodes.consumedAt), lt(otpCodes.attempts, OTP_MAX_ATTEMPTS)))
+      .returning({ attempts: otpCodes.attempts })
+    if (!failed) throw new AppError('OTP_INVALID')
+    const exhausted = failed.attempts >= OTP_MAX_ATTEMPTS || exhaustedByGateway
+    await writeAudit(db, { actorUserId: input.userId ?? row.userId ?? null, workspaceId: null, action: 'otp.verify', entityType: 'otp', entityId: row.id, newValue: { purpose: input.purpose, ok: false, attempts: failed.attempts, exhausted } })
     throw new AppError(exhausted ? 'OTP_TOO_MANY_ATTEMPTS' : 'OTP_INVALID')
   }
-  await db.update(otpCodes).set({ consumedAt: now }).where(eq(otpCodes.id, row.id))
+  const consumed = await db.update(otpCodes).set({ consumedAt: now })
+    .where(and(eq(otpCodes.id, row.id), isNull(otpCodes.consumedAt), lt(otpCodes.attempts, OTP_MAX_ATTEMPTS), gt(otpCodes.expiresAt, now)))
+    .returning({ id: otpCodes.id })
+  if (!consumed.length) throw new AppError('OTP_INVALID')
   const userId = input.userId ?? row.userId ?? null
   if (input.purpose === 'REGISTER' && userId) {
     assertUuid(userId, 'VALIDATION')

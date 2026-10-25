@@ -64,9 +64,16 @@ export function OtpVerifyCard({ purpose, phone: initialPhone, editablePhone = tr
     if (!phoneOk) return setError('أدخل رقماً جزائرياً صحيحاً يبدأ بـ 05 أو 06 أو 07 (10 أرقام).')
     start(async () => {
       const r = await requestOtpAction({ phone: normalized, purpose })
-      if (!r.ok) return setError(r.error.message)
+      if (!r.ok) {
+        if (r.error.code === 'RATE_LIMITED') {
+          setSent(true)
+          setCooldown(60)
+        }
+        return setError(r.error.message)
+      }
       setSent(true)
       setCode('')
+      onCode?.('')
       setCooldown(r.data.cooldown)
       toast('success', 'أُرسل رمز التحقق إلى هاتفك')
     })
@@ -129,6 +136,7 @@ export function OtpVerifyCard({ purpose, phone: initialPhone, editablePhone = tr
             />
           </Field>
         ) : null}
+        {sent ? <p role="status" className="text-muted-foreground">قد يتأخر وصول الرسالة قليلًا. راجع رقم الهاتف، وانتظر 60 ثانية قبل إعادة الإرسال.</p> : null}
         {error ? <p className="text-sm text-destructive">{error}</p> : null}
         <div className="flex flex-wrap items-center gap-2">
           {sent ? (

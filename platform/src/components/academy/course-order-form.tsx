@@ -26,7 +26,7 @@ const norm = (p: string) => p.replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
 /**
  * نموذج «اطلب الدورة» داخل صفحة الطلب (نسق صفحات الهبوط في NOVA): المستلم والهاتف والولاية والبلدية والعنوان
  * ومنزل/مكتب، والسعر والتوصيل والإجمالي كما يحسبها الخادم. الطلب يُرسل courseId فقط (لا سعر ولا منتج).
- * رمز التأكيد يصل إلى الهاتف المختار — إلا إن كان هاتف التلميذ المؤكَّد سلفاً. تُفعَّل الدورة عند تسليم الكتاب.
+ * لكل طلب رمز تأكيد جديد يصل إلى الهاتف المختار. تُفعَّل الدورة عند تسليم الكتاب.
  */
 export function CourseOrderForm({ courseId, book, data }: { courseId: string; book: { title: string; priceDzd: number }; data: CheckoutData }) {
   const router = useRouter()
@@ -65,8 +65,8 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
   }, [courseId, f.wilayaId, f.deliveryType])
   const phone = norm(who === 'self' ? (d.phone ?? '') : who === 'guardian' ? (d.guardianPhone ?? '') : other)
   const phoneOk = PHONE_RE.test(phone)
-  // هاتفه المؤكَّد سلفاً لا يحتاج رمزاً جديداً
-  const needsOtp = data.smsReady && !(who === 'self' && d.phoneVerified && phone === norm(d.phone ?? ''))
+  // تأكيد هاتف الحساب لا يستبدل تأكيد هذه الطلبية.
+  const needsOtp = data.smsReady
   const fee = quote?.shippingDzd ?? 0
   const price = quote?.priceDzd ?? book.priceDzd
   const total = quote?.totalDzd ?? book.priceDzd
@@ -154,7 +154,6 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
       {needsOtp && phoneOk ? (
         <OtpVerifyCard key={phone} purpose="ORDER" phone={phone} editablePhone={false} collectOnly onCode={(c) => setF((s) => ({ ...s, otpCode: c }))} title="رمز التأكيد" description={`نرسل رمزاً إلى ${phone}؛ أدخله ثم أكّد الطلب.`} />
       ) : null}
-      {!data.smsReady ? <Alert tone="info">نتصل بك على هذا الرقم لتأكيد الطلب، ثم نرسل الكتاب.</Alert> : null}
       <div className="space-y-2 rounded-lg border bg-card p-4 text-sm" aria-live="polite">
         <p className="font-bold">ملخص الطلب</p>
         <p className="flex justify-between gap-3">
@@ -174,6 +173,9 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
         <span className="flex items-center gap-2">
           <Truck className="size-5 shrink-0" /> تُفعَّل الدورة بعد تأكيد شركة التوصيل تسليم الكتاب لحساب التلميذ نفسه.
         </span>
+      </Alert>
+      <Alert tone={data.smsReady ? 'warning' : 'info'}>
+        {data.smsReady ? 'سيصلك رمز تأكيد على هذا الرقم. الطلبات الوهمية تُلغى ويُمنع صاحبها من الطلب.' : 'سنتصل بك على هذا الرقم لتأكيد الطلب قبل الإرسال.'}
       </Alert>
       <Button className="w-full" size="lg" onClick={submit} loading={pending} disabled={!ready}>
         تأكيد الطلب — {total} دج
