@@ -312,3 +312,27 @@ passed. No production fix or device performance improvement is claimed.
 Current verdict: **installed via internal TestFlight and native shell launches;
 functional learning integration blocked by missing server endpoints; slow loading
 unresolved; not ready for App Review.**
+
+
+## Owner-authorized server update completed — 26 October 2026
+
+See SERVER-DEPLOYMENT-20261026.md for provenance, exact commands, configuration,
+rollback and evidence limits. The owner executed Docker build/deployment over SSH;
+the agent environment still cannot reach SSH. Source 65d1bb9 includes base 09dc07f
+without migration/package/Android/Dockerfile/next.config differences. Initial
+foreground build interrupted; detached background retry exited 0. Compose app-only
+switch used an additional runtime override: direct node/server.js, AUTO_MIGRATE=0,
+NODE_ENV=production, no hooks. No .env or schema edit, database command, merge,
+force-push or other service update was issued.
+
+The owner reported /ios 200 in 0.446760 s and anonymous session 401 in 0.056746 s.
+Independent unauthenticated TLS-verified checks confirm /ios 200 HTML and session
+401 JSON, ok=false, AUTH_REQUIRED and private/no-store. Independent network elapsed
+times are about 6.25 s, so these measurements are not evidence of a device speedup.
+The previous missing-endpoint production blocker is resolved. No authenticated
+native/session/media/PDF/reminder/accessibility retest or new IPA occurred. Subsequent
+Docker healthy state was not supplied. Documentation-only diff checks passed.
+
+Current verdict: **server iOS availability restored and anonymous session contract
+verified; installed TestFlight build awaits authenticated iPhone and performance
+retesting; not ready for App Review.**

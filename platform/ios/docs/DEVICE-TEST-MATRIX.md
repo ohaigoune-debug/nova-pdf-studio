@@ -1,6 +1,6 @@
 # iPhone validation matrix
 
-Current status (2026-10-26): **owner installed TestFlight 1.0.0 (1) and opened the native shell; first learning load FAILED (missing /ios endpoint), Arabic login form rendered; slow loading reported.** Authenticated/device cases remain unverified unless explicitly recorded below. Exact device model/OS were not established by the screenshots. Historical records follow for audit; use the latest sections for current status. A JavaScript unit test or source inspection does not mark a WKWebView/device row passed.
+Current status (2026-10-26): **owner installed TestFlight 1.0.0 (1) and opened the native shell; first learning load FAILED on missing endpoints; an owner-executed server update has now resolved /ios/session availability, with device retest pending. Arabic login form rendered; slow loading remains unverified on retest.** Authenticated/device cases remain unverified unless explicitly recorded below. Exact device model/OS were not established by the screenshots. Historical records follow for audit; use the latest sections for current status. A JavaScript unit test or source inspection does not mark a WKWebView/device row passed.
 
 ## Execution record
 
@@ -23,7 +23,7 @@ Current status (2026-10-26): **owner installed TestFlight 1.0.0 (1) and opened t
 |---|---|---|---|
 | Cold start / reopen | Branded launch, meaningful loading; no indefinite blank WebView | PENDING | FAIL on first learning load: /ios 404; shell launched. Reopen/session persistence PENDING |
 | New registration | Existing account server flow, phone gate where configured, no native bypass | PENDING | PENDING |
-| Existing login | Real WebKit cookie accepted by the server; same account in native session probe | PENDING | PENDING: Arabic form rendered; /api/v1/ios/session 404 blocks integration |
+| Existing login | Real WebKit cookie accepted by the server; same account in native session probe | PENDING | PENDING: Arabic form rendered; session 404 resolved by server update, authenticated retest not yet observed |
 | Kill and relaunch | Session continuity follows server expiry/revocation; no native password storage | PENDING | PENDING |
 | Free account | Only public/free and entitled content; locked course stays locked | PENDING | PENDING |
 | Entitled account | Authorized lessons/quizzes/video display; no entitlement invented in native code | PENDING | PENDING |
@@ -133,3 +133,16 @@ Current status (2026-10-26): **owner installed TestFlight 1.0.0 (1) and opened t
   Loading performance: owner reports slow; no on-device timing trace collected.
 - All video/PDF/session-continuity/account-switch/reminder/accessibility cases remain
   PENDING. SERVER-UPDATE-PLAN.md records required deployment gates and scope.
+
+
+## Owner-executed production server update — 26 October 2026
+
+- Source 65d1bb9 built as platform-app:ios-65d1bb9, background Docker build exit 0.
+- Owner switched app only with --no-deps/--no-build/--pull never; effective runtime
+  AUTO_MIGRATE=0. Original worktree, .env and other services were not targeted.
+- Owner checks: /ios 200 (0.446760 s), anonymous session 401 (0.056746 s).
+  Independent normal-TLS GETs confirm 200 and AUTH_REQUIRED JSON/private no-store.
+- Public endpoint availability is now PASS. First device failure remains historical;
+  no authenticated device/relaunch/media/PDF/reminder/accessibility retest is claimed.
+- See SERVER-DEPLOYMENT-20261026.md and IOS-POST-DEPLOY-CHECKS.json for evidence,
+  timing limits, persistent fourth Compose file and rollback instructions.

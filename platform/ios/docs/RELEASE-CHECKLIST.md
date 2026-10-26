@@ -1,6 +1,6 @@
 # Build, TestFlight and App Store readiness
 
-Current classification (26 October 2026): **signed IPA exported, validated and uploaded to Apple; processing VALID, export compliance completed and owner-only internal TestFlight invitation issued (IN_BETA_TESTING)**. Simulator Debug/Release and the disconnected shell tests have passed on hosted macOS. The owner has installed/opened the native shell; first learning integration failed because /ios and the session endpoint return 404. Slow loading is reported and unresolved. No successful authenticated-iPhone integration test or App Review submission has occurred. See VALIDATION.md for exact source commits and runs.
+Current classification (26 October 2026): **signed IPA exported, validated and uploaded to Apple; processing VALID, export compliance completed and owner-only internal TestFlight invitation issued (IN_BETA_TESTING)**. Simulator Debug/Release and the disconnected shell tests have passed on hosted macOS. The owner has installed/opened the native shell; first learning integration failed on 404s. An owner-authorized app-only server deployment has now resolved those public endpoint failures (/ios 200; anonymous session 401 JSON). Authenticated device and slow-loading retests are pending. No successful authenticated-iPhone integration test or App Review submission has occurred. See VALIDATION.md for exact source commits and runs.
 
 ## 1. Local macOS validation
 

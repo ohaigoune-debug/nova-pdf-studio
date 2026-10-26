@@ -97,6 +97,10 @@ are still unknown. See OPERATOR-HANDOFF-AR.md for the authorized operator workfl
 - Keep the previous app image/configuration for rollback; perform no database
   rollback or schema migration as part of this patch.
 
-Current verdict: **TestFlight installed and native shell running; functional iOS
-learning integration BLOCKED by missing production endpoints. Slow-loading report
-is unresolved. App Review and public release remain blocked.**
+Updated verdict after the owner-executed app-only deployment: **the missing
+production endpoint blocker is resolved (/ios 200; anonymous session 401 JSON,
+AUTH_REQUIRED, private/no-store). Authenticated device and performance retests
+remain pending; App Review/public release remain blocked.** See
+SERVER-DEPLOYMENT-20261026.md for actual execution, runtime override and rollback.
+The preceding investigation/gates are retained as a historical preparation record;
+no isolated HTTPS staging/device regression run is retroactively claimed.
