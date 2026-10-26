@@ -64,3 +64,5 @@ SwiftUI مع WKWebView يحافظ على خادم Next.js وServer Actions وا�
 ## إثبات التنفيذ والاختبارات
 
 بيئة الإعداد Linux، بلا Xcode أو محاكي iOS. لا يُدعى هنا نجاح build iOS أو تسجيل دخول WKWebView أو فيديو أو جلسة جهاز. نتائج الاختبارات الفعلية تسلَّم من تشغيلها، وحالات الجهاز في [DEVICE-TEST-MATRIX.md](DEVICE-TEST-MATRIX.md). معلومات HTTP العام في [PUBLIC-HTTP-CHECKS.json](PUBLIC-HTTP-CHECKS.json) إن اكتمل الطلب؛ لا تكشف إعداد قاعدة البيانات أو SHA الإنتاج.
+
+فحص أخير للمصدر كشف أن CSP كان يمنع نطاق مشغل Bunny الحالي. أُضيف `https://iframe.mediadelivery.net` وحده إلى frame-src مع اختبار فشل قبل الإصلاح ونجح بعده؛ لا wildcard أو تخفيف لسياسة النماذج والإطارات العليا. لا يثبت ذلك تشغيل Bunny فعليًا على جهاز؛ هذه الحالة ما زالت ضمن مصفوفة الاختبار.

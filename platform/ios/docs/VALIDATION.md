@@ -17,7 +17,7 @@ All platform commands below ran from `platform/` with the existing installed dep
 
 The four iOS server test files contribute 48 cases: session22, learning7, presentation8, PDF export11. The entire 660-test suite, rather than a sum of overlapping scoped runs, is the final server reference. The Swift package tests cover navigation and account-scoped local state, not WebKit, notifications, file protection on an actual iOS device, or UI rendering.
 
-The final tested web source fingerprint contains 710 files, with no source changes after the command run. Native Swift source syntax checks are recorded separately because Linux has no SwiftUI/UIKit/WebKit SDK.
+The full-suite tested web source fingerprint contains 710 files. A later final review found the existing Bunny iframe host absent from CSP; the follow-up verification below explicitly records that small source change. Native Swift source syntax checks are recorded separately because Linux has no SwiftUI/UIKit/WebKit SDK.
 
 ## Not executed
 
@@ -27,3 +27,16 @@ The final tested web source fingerprint contains 710 files, with no source chang
 - No authentic runtime screenshots exist yet. Generated brand mockups are not device screenshots and must not be submitted as such.
 
 See DEVICE-TEST-MATRIX.md for pending native scenarios, APP-REVIEW-AR.md for payment/deletion/community constraints, and RELEASE-CHECKLIST.md for the remaining owner and macOS steps.
+
+## Final Bunny CSP follow-up
+
+Source review found that the existing SecureBunnyPlayer embeds `https://iframe.mediadelivery.net`, while CSP omitted this exact host. A regression case failed before the fix (1 failed, 8 passed) and passed after adding only that host to frame-src, without wildcards or relaxing form-action/frame-ancestors.
+
+After this final change, the actual commands were:
+
+- `npx --no-install vitest run tests/ios-presentation.test.ts`: exit0, 9/9 passed.
+- `npx --no-install tsc --noEmit -p .`: exit0, no errors.
+- `npx --no-install eslint .`: exit0, 0 errors and the same 10 existing warnings.
+- `npx --no-install next build`: exit0, compilation/types/prerender/routes completed.
+
+The full 660-test suite above ran on the initial iOS commit, before this narrowly scoped CSP follow-up. It was not rerun in full afterward; do not describe 661 tests as one completed full-suite run. The iOS server files now define49 cases (presentation9, others unchanged); the final targeted run includes8 cases already covered by the full run. Actual Bunny playback remains pending on an iPhone/Simulator.

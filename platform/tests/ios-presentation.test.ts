@@ -12,6 +12,17 @@ function request(path: string, headers: Record<string, string> = {}) {
 const cookie = `${IOS_PRESENTATION_COOKIE}=${IOS_PRESENTATION_VALUE}`
 
 describe('fixed iOS presentation, separate from authorization', () => {
+  it('permits the existing Bunny player iframe without allowing arbitrary frame origins', () => {
+    vi.stubEnv('NODE_ENV', 'production')
+    const csp = middleware(request('/ios')).headers.get('content-security-policy')!
+    const frames = csp.split(';').find((part) => part.trim().startsWith('frame-src '))!.trim().split(/\s+/).slice(1)
+    expect(frames).toContain('https://iframe.mediadelivery.net')
+    expect(frames).toContain("'self'")
+    expect(frames.some((value) => value.includes('*'))).toBe(false)
+    expect(csp).toContain("frame-ancestors 'none'")
+    expect(csp).toContain("form-action 'self'")
+  })
+
   it('activates only through the exact native bootstrap header on /ios', () => {
     expect(iosPresentationState({ pathname: '/ios', clientHeader: 'study-only' })).toEqual({ activate: true, enabled: true })
     for (const pathname of ['/', '/login', '/student', '/ios/lesson/test']) expect(iosPresentationState({ pathname, clientHeader: 'study-only' }).enabled).toBe(false)

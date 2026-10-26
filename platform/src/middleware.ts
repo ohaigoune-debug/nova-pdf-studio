@@ -24,8 +24,8 @@ function buildCsp(nonce: string): string {
     `worker-src 'self'`,
     `manifest-src 'self'`,
     `media-src 'self' blob:`,
-    // فيديوهات يوتيوب مضمّنة داخل التطبيق (نسخة الخصوصية المعزّزة) — لا إطارات أخرى
-    `frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com`,
+    // أصل مشغّل Bunny المحدد مع يوتيوب؛ لا wildcard ولا نطاقات إطارات عشوائية.
+    `frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://iframe.mediadelivery.net`,
     `object-src 'none'`,
     `base-uri 'self'`,
     `form-action 'self'`,
