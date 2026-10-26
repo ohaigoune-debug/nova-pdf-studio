@@ -5,12 +5,12 @@ Current classification: **source/project preparation for unsigned macOS validati
 ## 1. Local macOS validation
 
 - [ ] Clone the development branch and preserve the documented baseline/commit history.
-- [ ] Install the Xcode version required by the checked-in project; the intended minimum is Xcode 16 with iOS 17 deployment target. Verify actual SDK compatibility before archiving.
+- [ ] Install the Xcode version required by the checked-in project; the validation/distribution minimum is Xcode 26 with iOS 26+ SDK (Apple requirement since 2026-04-28); keep the app deployment target at iOS 17. Project-format compatibility with Xcode 16 is not distribution compatibility.
 - [ ] Follow `../README.md` for the precise project generation/build/test commands. Do not confuse a Linux syntax/source check with `xcodebuild`.
 - [ ] Build Debug and Release for a generic iOS Simulator unsigned; inspect all compiler/linker/asset/Info.plist issues.
 - [ ] Run native unit/UI tests available in the project and fill DEVICE-TEST-MATRIX.md with actual results.
 - [ ] Verify permitted PDF export and denied/expired/revoked/account-switch cases, 25 MiB bounds, temporary cleanup and clear no-recall limits; do not claim an offline course library.
-- [ ] Test against an isolated compatible Next.js server. A deployed `/ios` portal and minimal session APIs are required for live integration; they are not deployed by this task.
+- [ ] Follow ISOLATED-VALIDATION.md; offline Debug UI tests never establish backend integration. Test against an isolated compatible Next.js server. A deployed `/ios` portal and minimal session APIs are required for live integration; they are not deployed by this task.
 - [ ] Inspect app icon/launch resources at all sizes; icon source derives from existing project branding, not a screenshot of the website.
 - [ ] Capture real screenshots of learning, bookmarks, planner, login and error states.
 
@@ -53,7 +53,7 @@ Landscape uses reversed width/height. One to ten screenshots per device size, JP
 
 - [ ] All preceding build/signing/device/security gates pass and app endpoints are available in the authorized environment.
 - [ ] Archive/validate in Xcode; export/upload only after owner authorization. No automatic upload workflow is enabled in this task.
-- [ ] Complete export-compliance questions according to actual encryption use and obtain an answer from the owner where required; do not invent an exemption.
+- [ ] No encryption-exemption answer is predeclared in Info.plist. Complete export-compliance questions according to actual encryption use and obtain an answer from the owner where required; do not invent an exemption.
 - [ ] Add test information, privacy policy and reviewer details; comply with Beta App Review for external testers.
 - [ ] Record device tests, crashes and session/content failures before expanding testers.
 

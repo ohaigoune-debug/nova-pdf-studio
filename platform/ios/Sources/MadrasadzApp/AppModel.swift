@@ -92,6 +92,11 @@ final class AppModel: ObservableObject {
 
     func refreshIdentity() async {
         guard !busy else { return }
+        if OfflineShellValidation.enabled {
+            await lockIdentity()
+            identity = .signedOut
+            return
+        }
         generation += 1
         reminderGeneration += 1
         let revision = generation

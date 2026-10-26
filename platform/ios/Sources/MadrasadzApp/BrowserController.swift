@@ -4,6 +4,18 @@ import WebKit
 import SafariServices
 import MadrasadzCore
 
+/// Debug-only, signed-out native-shell validation without any backend requests.
+/// This never authenticates an account, reads stored study data, or changes Release behavior.
+enum OfflineShellValidation {
+    static var enabled: Bool {
+        #if DEBUG
+        return ProcessInfo.processInfo.arguments.contains("--madrasadz-offline-shell-validation")
+        #else
+        return false
+        #endif
+    }
+}
+
 @MainActor
 final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate, WKUIDelegate, WKHTTPCookieStoreObserver {
     let webView: WKWebView
@@ -77,6 +89,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     }
 
     func open(_ url: URL) {
+        guard !OfflineShellValidation.enabled else { failure = true; return }
         switch policy.decision(for: url) {
         case .internalPage(let target):
             failure = false
@@ -89,6 +102,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     }
 
     func retry() {
+        guard !OfflineShellValidation.enabled else { failure = true; return }
         failure = false
         if webView.url != nil { webView.reload() } else { open() }
     }

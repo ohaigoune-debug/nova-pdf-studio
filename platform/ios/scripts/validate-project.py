@@ -130,6 +130,7 @@ def main():
     assert 'NSExceptionDomains' not in info['NSAppTransportSecurity']
     assert set(info['CFBundleLocalizations']) == {'ar', 'fr', 'en'}
     assert info['MadrasadzDistributionMode'] == 'study-only'
+    assert 'ITSAppUsesNonExemptEncryption' not in info, 'Export-compliance classification requires an owner decision before distribution'
     assert privacy['NSPrivacyTracking'] is False
     assert not privacy['NSPrivacyTrackingDomains']
     assert not any(key.endswith('UsageDescription') for key in info), 'Unexpected sensitive permission'

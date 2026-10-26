@@ -39,7 +39,7 @@ After this final change, the actual commands were:
 - `npx --no-install eslint .`: exit0, 0 errors and the same 10 existing warnings.
 - `npx --no-install next build`: exit0, compilation/types/prerender/routes completed.
 
-The full 660-test suite above ran on the initial iOS commit, before this narrowly scoped CSP follow-up. It was not rerun in full afterward; do not describe 661 tests as one completed full-suite run. The iOS server files now define49 cases (presentation9, others unchanged); the final targeted run includes8 cases already covered by the full run. Actual Bunny playback remains pending on an iPhone/Simulator.
+The full 660-test suite above ran on the initial iOS commit, before this narrowly scoped CSP follow-up. It was not rerun in full during that initial delivery. The later independent full-suite run is recorded below; do not retroactively attribute its result to the initial delivery. The iOS server files now define49 cases (presentation9, others unchanged); the final targeted run includes8 cases already covered by the full run. Actual Bunny playback remains pending on an iPhone/Simulator.
 
 ## Re-verification — 2026-10-26 UTC (second session, Linux)
 
@@ -57,3 +57,88 @@ Environment: separate Ubuntu 24.04 container, Node v22.23.4, branch `codex/ios-a
 This resolves the single-run caveat above: **the entire 661-test suite now passes in one complete run on the post-CSP-fix source**, not only as overlapping scoped runs. The `/ios` pages and `/api/v1/ios/*` endpoints compile and register in `next build`.
 
 Swift was **not** available in this container (`swift` absent; the toolchain host is outside the egress allow-list and could not be installed). Therefore the `swift test` result (37 XCTest cases) from the earlier session was **not** reproduced here; it must be re-run on the owner's macOS/Swift toolchain. Everything under "Not executed" below still stands unchanged: no Xcode build, Simulator, device, WKWebView session, notification, video or PDF-share test ran in either session.
+
+
+## Continuation verification — 2026-10-26 UTC
+
+The remote open Draft PR #26 and local branch `codex/ios-app-foundation` both started
+at `a957eac6f1731e2e7b949f5e0749d93fb6befb2e`. No AGENTS.md was found in the checkout
+or its workspace parents. Tracked files were clean before this continuation; an
+untracked promo temporary file outside iOS was preserved. The branch was not
+replaced with work. Web application source was unchanged in this continuation.
+
+These are new executions, independent of the historical results above:
+
+| Command actually run | Exit | Actual result |
+|---|---:|---|
+| `npm ci --ignore-scripts --no-audit --no-fund` in platform | 0 | 595 packages installed; lockfile unchanged |
+| `npm test -- --reporter=dot` in platform | 0 | **102 files / 661 tests passed**, 375.96s, including the Bunny CSP regression |
+| `npx --no-install tsc --noEmit -p .` in platform | 0 | No errors |
+| `npx --no-install eslint .` in platform | 0 | 0 errors / 10 existing warnings |
+| `npm run build` in platform | 0 | Next compilation/types/prerender/routes complete |
+| `python3 platform/ios/scripts/test_tooling.py` | 0 | 12 tooling tests; fake CLI metadata is not a native build |
+| `python3 platform/ios/scripts/validate-project.py` | 0 | 38 references and scheme/plists/storyboard/assets valid; icon conversion still pending macOS |
+| `bash -n` on check-xcode/build-unsigned/test-ios/prepare-assets scripts | 0 | Shell syntax only |
+| `swiftc -frontend -parse` on app and UI tests, with and without `-D DEBUG` | 0 | Both syntax passes; no iOS SDK type checking |
+| `swift test --jobs 2 --package-path platform/ios/Packages/MadrasadzCore` | 1 | Swift compiler process crashed with signal 4; no passing suite claimed |
+| `swift test --jobs 1 -Xswiftc -disable-batch-mode --package-path platform/ios/Packages/MadrasadzCore` | 1 | Package compiled/linked, then XCTest process crashed with signal 4; **37 tests were not successfully rerun** |
+| `bash scripts/build-unsigned.sh Debug` from ios | 1 | Expected preflight block: Linux, no macOS/Xcode |
+| `bash scripts/build-unsigned.sh Release` from ios | 1 | Same preflight block; no native compilation |
+| `bash scripts/test-ios.sh auto Debug` from ios | 1 | Same preflight block; no Simulator/XCTest run |
+| `bash scripts/test-ios.sh auto Release` from ios | 1 | Same preflight block; no Release native test run |
+| `git diff --check` | 0 | No whitespace errors |
+
+Server checks used `DATABASE_URL=pglite://memory`, `AUTO_MIGRATE=0`, telemetry off,
+and synthetic local-only test secrets. Only PGlite was used, never a real database.
+Swift syntax/package attempts used the official Swift 6.0.3 Ubuntu 24.04 toolchain,
+with Ubuntu libncurses6 extracted outside the repository. The initial missing
+libncurses dependency was resolved. The subsequent signal-4 failure remains
+unresolved in this Linux execution environment; it is not a demonstrated source
+assertion failure or evidence of 37 passing tests. The earlier 37-pass result stays
+historical only. No project code was changed to suppress this failure.
+
+The remote branch advanced during delivery to `7c5b2239bba68be2acf85354e52b33169ebba9c0`
+with documentation-only changes from another session. Its records above were preserved
+when rebasing this continuation; no application source from that update changed.
+
+### Scope and remaining evidence
+
+Build scripts now verify Xcode 26+ / iOS SDK 26+, accept explicit Debug/Release,
+and validate/select installed iPhone runtimes deterministically. Three Debug-only
+disconnected AR/FR/EN native shell tests are prepared, not executed. They do not
+validate login, real RTL layout, VoiceOver, Dynamic Type, Safe Areas, keyboard,
+PDF sharing, reminders, account switching or Bunny playback. Release skips these
+shell cases before launching; it has no enabled offline fixture.
+
+No macOS, Simulator, physical device, authentic screenshot, IPA, CI execution,
+signing, production deployment, TestFlight or App Store submission occurred.
+No production runtime/route deployment state or Apple membership status was verified.
+See ISOLATED-VALIDATION.md for the matching HTTPS backend requirements; that
+integration environment is not provisioned. Native and authenticated cases remain
+pending in DEVICE-TEST-MATRIX.md. Payment, membership/signing, deletion/retention,
+privacy/support and review-account decisions remain unresolved.
+
+Verdict: **prepared for validation on a Mac; not ready for TestFlight or App Review.**
+
+### Files changed by this continuation
+
+- `.github/workflows/ios.yml`
+- `platform/ios/.gitignore`
+- `platform/ios/Configuration/Info.plist`
+- `platform/ios/Configuration/Local.xcconfig.example`
+- `platform/ios/README.md`
+- `platform/ios/Sources/MadrasadzApp/AppModel.swift`
+- `platform/ios/Sources/MadrasadzApp/BrowserController.swift`
+- `platform/ios/Tests/MadrasadzUITests/MadrasadzUITests.swift`
+- `platform/ios/docs/APPLE-SOURCES.md`
+- `platform/ios/docs/AUDIT-AR.md`
+- `platform/ios/docs/DEVICE-TEST-MATRIX.md`
+- `platform/ios/docs/ISOLATED-VALIDATION.md`
+- `platform/ios/docs/RELEASE-CHECKLIST.md`
+- `platform/ios/docs/VALIDATION.md`
+- `platform/ios/scripts/build-unsigned.sh`
+- `platform/ios/scripts/check-xcode.sh`
+- `platform/ios/scripts/select-simulator.py`
+- `platform/ios/scripts/test-ios.sh`
+- `platform/ios/scripts/test_tooling.py`
+- `platform/ios/scripts/validate-project.py`

@@ -6,7 +6,7 @@
 
 ## متطلبات Mac
 
-- macOS مع Xcode **16 أو أحدث** وأدوات Command Line Tools المحددة: `xcode-select -p`.
+- macOS مع Xcode **26 أو أحدث** وSDK **iOS 26 أو أحدث** وأدوات Command Line Tools المحددة: `xcode-select -p`. صيغة المشروع نفسها متوافقة مع Xcode 16، لكن ذلك لا يفي بمتطلبات التوزيع الحالية. يبقى أقل نظام تشغيل للتطبيق iOS 17.
 - iPhone Simulator مثبت من Xcode Settings → Components؛ أقل نظام مستهدف iOS 17.
 - مشروع iPhone فقط؛ `TARGETED_DEVICE_FAMILY = 1`. لا يعلن دعم iPad أو Mac Catalyst.
 - لا تحتاج عضوية Apple Developer نشطة أو Team ID لبناء Simulator غير موقّع.
@@ -31,6 +31,8 @@ open Madrasadz.xcodeproj
 
 يمكن وضع Team ID ومعرّف الحزمة في `Local.xcconfig`، وهما ليسا شهادة توقيع. **لا تضع مفاتيح `.p8` أو `.p12` أو كلمات مرور أو أسرار خادم في المشروع.** تغيير العنوان إلى staging يتطلب نطاق HTTPS موثوقًا ومطابقة سياسة URL الأصلية واختبارها؛ لا تضف استثناء ATS أو تجاوز شهادات لتشغيل عنوان غير جاهز.
 
+خطة مطابقة الخادم المعزول وعوائقها في [ISOLATED-VALIDATION.md](docs/ISOLATED-VALIDATION.md).
+
 إذا لم تُنشر مسارات iOS الجديدة على الخادم بعد، فإن النسخة الحالية من الموقع قد لا تخدم `/ios` أو واجهاتها الجديدة. هذا لا يُعالَج بحذف فحص الجلسات أو بتجاوز الصلاحيات؛ يلزم اختبار الخادم المطابق في بيئة HTTPS معزولة، ثم موافقة منفصلة على نشره لاحقًا.
 
 ## تجهيز الأيقونة والبناء غير الموقّع
@@ -43,6 +45,7 @@ open Madrasadz.xcodeproj
 cd platform/ios
 bash scripts/prepare-assets.sh
 python3 scripts/validate-project.py --require-generated-app-icon
+bash scripts/check-xcode.sh
 bash scripts/build-unsigned.sh Debug
 ```
 
@@ -89,10 +92,14 @@ swift test --package-path Packages/MadrasadzCore
 ```bash
 bash scripts/test-ios.sh
 # أو اختيار محاكي محدد مثبت:
-bash scripts/test-ios.sh SIMULATOR_UUID
+bash scripts/test-ios.sh SIMULATOR_UUID Debug
+# فحص حزمة Swift في Release وبناء test bundle أيضًا؛ حالات الواجهة المعزولة Debug-only وستُتخطى:
+bash scripts/test-ios.sh auto Release
 ```
 
-يختار السكربت محاكي iPhone متاحًا عند عدم إعطاء UUID، ويكتب نتائج Xcode في `build/SimulatorTests-*.xcresult`. فتحها في Xcode يوضح ما اختُبر فعليًا. اختبارات UI لا تُعد إثباتًا لاختبار حساب مدفوع أو فيديو حقيقي أو SMS إلا إذا نُفذت تلك الحالات نفسها وسُجلت نتائجها.
+يختار السكربت محاكي iPhone متاحًا بأحدث runtime مثبت (iOS 17+) عند عدم إعطاء UUID، ويرفض UUID غير موجود أو جهاز iPad أو runtime أقدم، ويكتب نتائج Xcode في `build/SimulatorTests-{Debug|Release}-*.xcresult`. فتحها في Xcode يوضح ما اختُبر فعليًا. حالات UI الحالية ثلاث لغات (ar/fr/en) لواجهة أصلية غير مسجلة وبدون شبكة عبر وسيط `--madrasadz-offline-shell-validation` المحصور في `#if DEBUG`. لا يفتح حسابًا أو يقرأ مفضلة محفوظة أو يزوّر خادم جلسات. يرفض مسار المتصفح فتح/إعادة تحميل صفحات في هذا الوضع. في Release يُترجم الوضع إلى false وتتخطى اختبارات الواجهة هذه الحالات صراحةً قبل تشغيل التطبيق؛ لا يُعد هذا اختبار واجهة Release. اللقطات تُرفق بـxcresult فقط عند التنفيذ الفعلي، وليست دليلًا على الدروس أو الجلسات.
+
+اختبارات UI لا تُعد إثباتًا لاختبار حساب مدفوع أو فيديو حقيقي أو SMS إلا إذا نُفذت تلك الحالات نفسها وسُجلت نتائجها.
 
 عند اختبار الجلسات فعليًا على Mac أو جهاز، سجّل نتائج: تسجيل الدخول، إعادة الفتح، تسجيل الخروج، انتهاء الجلسة، تبديل المستخدم، بوابة الهاتف، استرجاع كلمة السر، والصلاحيات على محتوى مجاني ومقيّد. لا تضع بيانات حسابات أو رموز OTP في لقطات أو سجلات مرفوعة. اختبر التذكير بطلب إذن المستخدم بعد إجراء صريح، ثم إلغاءه عند حذف المهمة والخروج.
 
@@ -100,7 +107,8 @@ bash scripts/test-ios.sh SIMULATOR_UUID
 
 ```bash
 python3 scripts/validate-project.py
-bash -n scripts/prepare-assets.sh scripts/build-unsigned.sh scripts/test-ios.sh
+bash -n scripts/check-xcode.sh scripts/prepare-assets.sh scripts/build-unsigned.sh scripts/test-ios.sh
+python3 scripts/test_tooling.py
 swift test --package-path Packages/MadrasadzCore  # إذا توفر Swift متوافق على Linux
 ```
 
@@ -125,6 +133,8 @@ swift test --package-path Packages/MadrasadzCore  # إذا توفر Swift متو
 
 ## التوقيع والأرشفة لاحقًا — دون رفع
 
+متطلبات Apple المفحوصة في 26 أكتوبر 2026: التوزيع منذ 28 أبريل 2026 يحتاج Xcode 26+ وSDK iOS 26+. راجع [المصدر الرسمي](https://developer.apple.com/news/upcoming-requirements/?id=04282026a). حُذف `ITSAppUsesNonExemptEncryption=false` الافتراضي؛ يجب حسم إجابات export compliance مع المالك قبل الأرشفة/التوزيع، ولا توجد إجابة إعفاء مفترضة في الحزمة.
+
 بعد تفعيل العضوية، يفحص المالك Bundle ID في Apple Developer وApp Store Connect ويختار Team وملف التزويد المناسب في Signing & Capabilities. لا تستخدم `-allowProvisioningUpdates` تلقائيًا في هذا الفرع.
 
 لتحضير Archive محلي بعد إكمال التوقيع، دون أي رفع:
@@ -144,7 +154,7 @@ xcodebuild \
 
 ## CI
 
-`.github/workflows/ios.yml` يعمل فقط عبر `workflow_dispatch`. لا يبدأ عند push أو PR، ولم يُشغّل لمجرد إضافة الملف. إذا اختار المالك تشغيله فإنه يستخدم macOS، ويبني المحاكي دون توقيع ويشغّل الاختبارات؛ لا يرفع التطبيق إلى Apple أو ينشر خادمًا أو يضيف أداة تتبع. تشغيل hosted macOS قد يستهلك حصة حساب GitHub، ولذلك بقي التشغيل يدويًا.
+`.github/workflows/ios.yml` يعمل فقط عبر `workflow_dispatch`. لا يبدأ عند push أو PR، ولم يُشغّل لمجرد إضافة الملف. إذا اختار المالك تشغيله فإنه يستخدم macOS، يفحص إصدار Xcode وSDK، ويبني Debug وRelease للمحاكي دون توقيع ويشغّل اختبارات Debug المعزولة؛ لا يرفع التطبيق إلى Apple أو ينشر خادمًا أو يضيف أداة تتبع. تشغيل hosted macOS قد يستهلك حصة حساب GitHub، ولذلك بقي التشغيل يدويًا.
 
 ## حدود الجاهزية
 

@@ -18,11 +18,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Inspect installed Xcode
-        run: xcodebuild -version
+        run: bash platform/ios/scripts/check-xcode.sh
       - name: Prepare and build unsigned Simulator application
-        run: bash platform/ios/scripts/build-unsigned.sh Debug
+        run: |
+          bash platform/ios/scripts/build-unsigned.sh Debug
+          bash platform/ios/scripts/build-unsigned.sh Release
       - name: Test core package and native UI on an installed iPhone Simulator
-        run: bash platform/ios/scripts/test-ios.sh
+        run: bash platform/ios/scripts/test-ios.sh auto Debug
 
 # No App Store Connect API keys, signing certificates, provisioning profiles, archive export,
 # TestFlight upload, App Store submission, deployment, or artifact-distribution step.

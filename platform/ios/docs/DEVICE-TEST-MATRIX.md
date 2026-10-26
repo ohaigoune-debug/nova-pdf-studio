@@ -1,16 +1,18 @@
 # iPhone validation matrix
 
-Status at preparation: **Linux source preparation; no Xcode, simulator, physical iPhone, signed build or IPA was available.** Every device row below is PENDING, not passed and not failed. Fill the actual build SHA, OS/device, tester, timestamp and evidence path when executed. A JavaScript unit test or source inspection does not mark a WKWebView/device row passed.
+Status after follow-up review (2026-10-26): **Linux source preparation; no Xcode, simulator, physical iPhone, signed build or IPA was available.** Every device row below is PENDING, not passed and not failed. Fill the actual build SHA, OS/device, tester, timestamp and evidence path when executed. A JavaScript unit test or source inspection does not mark a WKWebView/device row passed.
 
 ## Execution record
 
 | Environment | Status |
 |---|---|
-| Source/security review | Performed; see AUDIT-AR.md and final engineering report |
-| Server/PGlite tests, TypeScript, lint and Next build | Re-run 2026-10-26 on `a957eac`: full suite 661/661 passed in one run, tsc/eslint/next build exit 0. See VALIDATION.md |
-| Swift package (`swift test`) | NOT re-run in the 2026-10-26 session (no Swift toolchain in that container); run on owner macOS/Swift |
-| macOS unsigned Xcode build | PENDING |
-| XCTest / iPhone simulator | PENDING |
+| Source/security review | Performed; see AUDIT-AR.md and VALIDATION.md |
+| Server/PGlite tests, TypeScript, lint and Next build | PASS on Linux: 661 tests / 102 files; TypeScript/lint/Next build exit0; see VALIDATION.md |
+| Earlier separate Linux session (`7c5b223`) | Full suite 661/661 and platform checks passed; Swift unavailable in that session. Its original detailed record is preserved in VALIDATION.md |
+| Linux Swift package rerun | BLOCKED by signal-4 process crash; serial retry compiled/linked but suite did not complete. Historical 37-pass result was not reproduced; see VALIDATION.md |
+| Linux build-tooling regression tests | PASS: 12 Python tests; CLI fixtures only, not Xcode |
+| macOS unsigned Xcode build (Debug / Release) | BLOCKED: this execution host is Linux; Xcode absent |
+| XCTest / iPhone simulator | PENDING: three disconnected Debug shell locale tests prepared but not executed |
 | Physical iPhone | PENDING |
 | TestFlight | NOT UPLOADED; pending signing/membership and validation |
 | App Store submission | NOT SUBMITTED; payment/privacy/deletion decisions remain |
@@ -63,3 +65,20 @@ Status at preparation: **Linux source preparation; no Xcode, simulator, physical
 - A production read-only public HTTP check is not an authenticated device test or evidence of production SHA.
 - Capture real app screens only after they run; do not use generated brand mockups as execution evidence or App Store screenshots.
 - Record defects and limitations. Screen-recording or HTML watermark tests cannot prove absolute anti-piracy.
+
+## Follow-up source changes (2026-10-26)
+
+- Remote PR #26 was open/Draft, branch `codex/ios-app-foundation`, with HEAD
+  `a957eac6f1731e2e7b949f5e0749d93fb6befb2e` at the start of this follow-up.
+- Linux tooling cases cover unsupported toolchain/SDK, strict simulator UUIDs,
+  runtime/device availability and explicit Debug/Release configuration. The fake CLI
+  metadata in those unit tests is not evidence that macOS/Xcode exists.
+- Three native UI cases now cover AR/FR/EN signed-out tabs/account/error/retry states
+  without backend traffic in Debug. They remain PENDING. Their future XCTest screenshot
+  attachments must be labeled disconnected shell, not authenticated course evidence.
+- Release has no offline test flag and these UI cases skip before launch in Release.
+  Neither a Release build nor Release interface validation was executed here.
+- Production URL trust and all access/session/PDF restrictions remain unchanged.
+- ISOLATED-VALIDATION.md records the unsatisfied HTTPS test-backend requirements.
+- No runtime screenshot, native PDF share, Bunny playback, VoiceOver or actual
+  notification permission/delivery result is available from this Linux session.

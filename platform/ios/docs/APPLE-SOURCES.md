@@ -4,6 +4,7 @@ Retrieved directly on **2026-10-26 UTC** using public verified HTTPS through the
 
 | Source | Relevant sections / use |
 |---|---|
+| https://developer.apple.com/news/upcoming-requirements/?id=04282026a | Since 2026-04-28, App Store Connect uploads require Xcode 26+ and iOS 26+ SDK; distinct from iOS 17 deployment target |
 | https://developer.apple.com/app-store/review/guidelines/ | 1.2 user-generated content,3.1 payments,4.2 minimum functionality,4.8 login services,5.1 privacy/deletion |
 | https://developer.apple.com/support/reader-apps/ | Primary media functionality, per-bundle External Link Account Entitlement, eligibility conditions; no eligibility assumed |
 | https://developer.apple.com/support/offering-account-deletion-in-your-app/ | In-app deletion initiation, related personal data/UGC, confirmation and retention disclosures; redirects to current App Review guidance |

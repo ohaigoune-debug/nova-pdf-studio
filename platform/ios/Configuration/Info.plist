@@ -18,7 +18,6 @@
   <key>UISupportedInterfaceOrientations</key><array><string>UIInterfaceOrientationPortrait</string><string>UIInterfaceOrientationLandscapeLeft</string><string>UIInterfaceOrientationLandscapeRight</string></array>
   <key>UIRequiresFullScreen</key><true/>
   <key>NSAppTransportSecurity</key><dict><key>NSAllowsArbitraryLoads</key><false/><key>NSAllowsLocalNetworking</key><false/></dict>
-  <key>ITSAppUsesNonExemptEncryption</key><false/>
   <key>MadrasadzBaseURL</key><string>$(MADRASADZ_BASE_URL)</string>
   <key>MadrasadzEntryPath</key><string>$(MADRASADZ_ENTRY_PATH)</string>
   <key>MadrasadzDistributionMode</key><string>study-only</string>
