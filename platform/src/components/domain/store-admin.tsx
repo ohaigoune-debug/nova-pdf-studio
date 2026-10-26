@@ -42,7 +42,7 @@ export function ProductRowActions({ id, status }: { id: string; status: string }
 }
 
 /** أزرار حالة الطلب حسب الانتقالات المسموحة */
-export function OrderRowActions({ id, status, needsShipping, ecotrack = false, provider = null }: { id: string; status: string; needsShipping: boolean; ecotrack?: boolean; provider?: string | null }) {
+export function OrderRowActions({ id, status, needsShipping, ecotrack = false, provider = null, confirmer = false }: { id: string; status: string; needsShipping: boolean; ecotrack?: boolean; provider?: string | null; confirmer?: boolean }) {
   const router = useRouter()
   const [pending, start] = useTransition()
   const go = (next: 'CONFIRMED' | 'NO_ANSWER' | 'CALL_LATER' | 'SHIPPED' | 'DELIVERED' | 'RETURNED' | 'CANCELLED' | 'PENDING') =>
@@ -92,32 +92,32 @@ export function OrderRowActions({ id, status, needsShipping, ecotrack = false, p
           <Send className="size-4" /> إرسال إلى EcoTrack
         </Button>
       ) : null}
-      {status === 'CONFIRMED' && needsShipping ? (
+      {!confirmer && status === 'CONFIRMED' && needsShipping ? (
         <Button size="sm" variant="outline" loading={pending} onClick={() => go('SHIPPED')} title="شُحن بطريقة أخرى">
           <Truck className="size-4" /> شُحن
         </Button>
       ) : null}
-      {status === 'CONFIRMED' || status === 'SHIPPED' ? (
+      {!confirmer && (status === 'CONFIRMED' || status === 'SHIPPED') ? (
         <Button size="sm" variant="outline" loading={pending} onClick={() => go('DELIVERED')} title="سُلِّم: يفعّل الدورة المرتبطة بالكتاب">
           <PackageCheck className="size-4" /> سُلّم
         </Button>
       ) : null}
-      {status === 'SHIPPED' ? (
+      {!confirmer && status === 'SHIPPED' ? (
         <Button size="sm" variant="ghost" loading={pending} onClick={() => confirm('أعادت شركة التوصيل الطرد؟ يُعاد المخزون.') && go('RETURNED')} title="مرتجع">
           <Undo2 className="size-4" /> مرتجع
         </Button>
       ) : null}
-      {confirming || status === 'CONFIRMED' || status === 'SHIPPED' ? (
+      {confirming || status === 'CONFIRMED' || (!confirmer && status === 'SHIPPED') ? (
         <Button size="sm" variant="ghost" loading={pending} onClick={() => go('CANCELLED')} title={provider === 'ecotrack' && status === 'SHIPPED' ? 'إلغاء (احذف الطرد من EcoTrack أيضاً من صفحة التوصيل)' : 'إلغاء'}>
           <XCircle className="size-4 text-destructive" />
         </Button>
       ) : null}
-      {status === 'DELIVERED' || status === 'SHIPPED' ? (
+      {!confirmer && (status === 'DELIVERED' || status === 'SHIPPED') ? (
         <Button size="sm" variant="ghost" loading={pending} onClick={activationCode} title="لم تُفعَّل الدورة؟ أرسل كود تفعيل لهاتف التلميذ أو وليّه">
           <KeyRound className="size-4" /> كود تفعيل
         </Button>
       ) : null}
-      {status === 'CANCELLED' ? (
+      {!confirmer && status === 'CANCELLED' ? (
         <Button size="sm" variant="ghost" loading={pending} onClick={() => go('PENDING')} title="إعادة فتح الطلب">
           <RotateCcw className="size-4" /> إعادة فتح
         </Button>

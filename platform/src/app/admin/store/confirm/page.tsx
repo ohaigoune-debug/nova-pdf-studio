@@ -12,7 +12,7 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import type { OrderStatus } from '@/server/db/schema/enums'
 import { callPairingUrl, getCallConfirm, listCallEvents } from '@/server/services/call-confirm.service'
-import { ecotrackStatus } from '@/server/services/ecotrack.service'
+import { ecotrackOperatorStatus, ecotrackStatus } from '@/server/services/ecotrack.service'
 import { ORDER_STATUS_AR } from '@/server/services/order-status.service'
 import { listConfirmationQueue, PAYMENT_AR } from '@/server/services/store.service'
 
@@ -23,10 +23,14 @@ const STATUS_VARIANT: Record<string, 'warning' | 'secondary' | 'muted'> = { PEND
 
 /** طابور التأكيد الهاتفي (نسق NOVA): الطلبات التي تنتظر مكالمة، بأزرار «تأكيد / لا يردّ / لاحقاً / إلغاء»، وإعداد التأكيد بالمكالمة الفائتة */
 export default async function ConfirmQueuePage() {
-  const actor = await requirePageActor('SUPER_ADMIN')
+  const actor = await requirePageActor('SUPER_ADMIN', 'CONFIRMER')
   const db = await getDb()
-  const [queue, cfg, events, eco] = await Promise.all([listConfirmationQueue(db, actor), getCallConfirm(db), listCallEvents(db, actor, 30), ecotrackStatus(db)])
-  const { secret, ...cfgView } = cfg
+  const worker = actor.role === 'CONFIRMER'
+  const [queue, eco] = await Promise.all([listConfirmationQueue(db, actor), worker ? ecotrackOperatorStatus(db, actor) : ecotrackStatus(db)])
+  const admin = worker ? null : await Promise.all([getCallConfirm(db), listCallEvents(db, actor, 30)])
+  const cfg = admin?.[0]
+  const events = admin?.[1] ?? []
+  const cfgView = cfg ? { enabled: cfg.enabled, number: cfg.number, windowHours: cfg.windowHours, autoReject: cfg.autoReject, lastSeenAt: cfg.lastSeenAt, appVersion: cfg.appVersion, pairingUrl: callPairingUrl(cfg.secret, process.env.APP_URL) } : null
   const pending = queue.filter((o) => o.status === 'PENDING').length
   const noAnswer = queue.filter((o) => o.status === 'NO_ANSWER').length
   const later = queue.filter((o) => o.status === 'CALL_LATER').length
@@ -72,9 +76,7 @@ export default async function ConfirmQueuePage() {
                 {queue.map((o) => (
                   <TableRow key={o.id}>
                     <TableCell>
-                      <Link href={`/store/orders/${o.id}`} className="font-mono text-xs font-semibold hover:underline" dir="ltr">
-                        {o.number}
-                      </Link>
+                      {worker ? <span className="font-mono text-xs font-semibold" dir="ltr">{o.number}</span> : <Link href={`/store/orders/${o.id}`} className="font-mono text-xs font-semibold hover:underline" dir="ltr">{o.number}</Link>}
                       <span className="block text-[11px] text-muted-foreground">{formatDateTime(o.createdAt)}</span>
                       <span className="block text-[11px] text-muted-foreground">
                         {o.totalDzd} دج · {PAYMENT_AR[o.paymentMethod as keyof typeof PAYMENT_AR]}
@@ -100,7 +102,7 @@ export default async function ConfirmQueuePage() {
                       {o.lastCallAt ? <span className="block text-muted-foreground">آخر اتصال {formatDateTime(o.lastCallAt)}</span> : null}
                     </TableCell>
                     <TableCell>
-                      <OrderRowActions id={o.id} status={o.status} needsShipping={o.needsShipping} ecotrack={eco.enabled} />
+                      <OrderRowActions id={o.id} status={o.status} needsShipping={o.needsShipping} ecotrack={eco.enabled} confirmer={worker} />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -110,14 +112,14 @@ export default async function ConfirmQueuePage() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      {cfgView ? <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>التأكيد بالمكالمة الفائتة</CardTitle>
             <CardDescription>تطبيق NOVA Call على هاتفك يبلّغ المنصّة بكل مكالمة واردة؛ المكالمة من رقم طلب معلّق تؤكّده.</CardDescription>
           </CardHeader>
           <CardContent>
-            <CallConfirmForm cfg={{ ...cfgView, pairingUrl: callPairingUrl(secret, process.env.APP_URL) }} />
+            <CallConfirmForm cfg={cfgView} />
           </CardContent>
         </Card>
         <Card>
@@ -153,7 +155,7 @@ export default async function ConfirmQueuePage() {
             )}
           </CardContent>
         </Card>
-      </div>
+      </div> : null}
     </div>
   )
 }

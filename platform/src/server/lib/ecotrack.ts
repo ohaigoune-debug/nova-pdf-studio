@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto'
+
 /**
  * عميل EcoTrack (منصّات ecotrack.dz ذات العلامة البيضاء: لكل تاجر رابط خاص https://<شركة>.ecotrack.dz ورمز Bearer).
  * منقول من NOVA COMMERCE (packages/core/src/shipping/ecotrack.ts) بالمنطق نفسه:
@@ -75,7 +77,7 @@ const RESERVED_FOR_WORK = 1500
 const BUDGET_TTL_MS = 30 * 60_000
 const CACHE_TTL_MS = 10 * 60_000
 const budget = new Map<string, { remaining: number; at: number }>()
-const communeCache = new Map<string, { at: number; rows: { id: string; nom: string; wilaya: string }[] }>()
+const communeCache = new Map<string, { at: number; rows: { id: string; nom: string; wilaya: string; hasDesk: boolean }[] }>()
 const feeCache = new Map<string, { at: number; rows: Record<string, unknown>[] }>()
 
 export function ecotrackBaseUrl(raw: string): string {
@@ -84,7 +86,7 @@ export function ecotrackBaseUrl(raw: string): string {
   return /^https?:\/\//i.test(v) ? v : `https://${v}`
 }
 
-const keyOf = (c: EcotrackCredentials) => `${ecotrackBaseUrl(c.baseUrl)}|${c.apiToken.slice(-8)}`
+const keyOf = (c: EcotrackCredentials) => `${ecotrackBaseUrl(c.baseUrl)}|${createHash('sha256').update(c.apiToken).digest('hex')}`
 
 /** 213xxxxxxxxx / +213… → 0xxxxxxxxx كما تتوقّعه EcoTrack */
 export function localPhone(phone: string): string {
@@ -206,14 +208,14 @@ export class EcotrackClient {
     return b.remaining > RESERVED_FOR_WORK
   }
 
-  private async communes(): Promise<{ id: string; nom: string; wilaya: string }[]> {
+  private async communes(): Promise<{ id: string; nom: string; wilaya: string; hasDesk: boolean }[]> {
     const k = keyOf(this.creds)
     const hit = communeCache.get(k)
     if (hit && Date.now() - hit.at < CACHE_TTL_MS) return hit.rows
     const res = await this.call<Record<string, Record<string, unknown>>>('GET', 'api/v1/get/communes')
     const rows = Object.entries(res ?? {})
       .filter(([, c]) => c && typeof c === 'object')
-      .map(([id, c]) => ({ id: String(c.id ?? id), nom: String(c.nom ?? ''), wilaya: String(c.wilaya_id ?? '') }))
+      .map(([id, c]) => ({ id: String(c.id ?? id), nom: String(c.nom ?? ''), wilaya: String(Number(c.wilaya_id ?? '')), hasDesk: Boolean(Number(c.has_stop_desk ?? c.stop_desk ?? 0)) }))
       .filter((c) => c.nom)
     communeCache.set(k, { at: Date.now(), rows })
     return rows
@@ -221,7 +223,7 @@ export class EcotrackClient {
 
   /** EcoTrack تطابق البلدية بالإملاء الدقيق: نحلّ اسمنا إلى مدخلها هي في الولاية نفسها ونرسل اسمها ومعرّفها */
   async resolveCommune(wilayaCode: string, name: string): Promise<{ id: string; nom: string } | null> {
-    let rows: { id: string; nom: string; wilaya: string }[]
+    let rows: { id: string; nom: string; wilaya: string; hasDesk: boolean }[]
     try {
       rows = (await this.communes()).filter((c) => c.wilaya === String(Number(wilayaCode)))
     } catch {
@@ -238,11 +240,9 @@ export class EcotrackClient {
 
   /** بلديات ولاية (لقائمة الاختيار في صفحة الطلب) */
   async communesOf(wilayaCode: string): Promise<{ name: string; hasDesk: boolean }[]> {
-    const res = await this.call<Record<string, Record<string, unknown>>>('GET', 'api/v1/get/communes')
-    return Object.values(res ?? {})
-      .filter((c) => c && typeof c === 'object' && String(c.wilaya_id ?? '') === String(Number(wilayaCode)))
-      .map((c) => ({ name: String(c.nom ?? ''), hasDesk: Boolean(Number(c.has_stop_desk ?? c.stop_desk ?? 0)) }))
-      .filter((c) => c.name)
+    return (await this.communes())
+      .filter((c) => c.wilaya === String(Number(wilayaCode)))
+      .map((c) => ({ name: c.nom, hasDesk: c.hasDesk }))
   }
 
   /** حمولة إنشاء الطرد (تُفصَل لتُختبر بلا شبكة) */

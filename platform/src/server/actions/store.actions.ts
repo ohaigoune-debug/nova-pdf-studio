@@ -126,7 +126,7 @@ export async function setOrderStatusAction(id: string, status: (typeof ORDER_STA
   const parsed = z.object({ id: uuid, status: z.enum(ORDER_STATUSES), reason: z.string().max(300).nullish(), adminNote: z.string().max(500).nullish(), shippingDzd: z.number().int().min(0).max(100_000).nullish() }).safeParse({ id, status, ...(opts ?? {}) })
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
-    await setOrderStatus(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data.id, parsed.data.status, { reason: parsed.data.reason ?? null, adminNote: parsed.data.adminNote, shippingDzd: parsed.data.shippingDzd ?? null })
+    await setOrderStatus(await getDb(), await requireRole('SUPER_ADMIN', 'CONFIRMER'), parsed.data.id, parsed.data.status, { reason: parsed.data.reason ?? null, adminNote: parsed.data.adminNote, shippingDzd: parsed.data.shippingDzd ?? null })
     return undefined
   })
   if (result.ok) {

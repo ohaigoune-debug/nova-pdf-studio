@@ -2,7 +2,7 @@
  * بوّابة تأكيد الهاتف (قرار المالك 2026-10-24: «نستقبل فقط الأرقام الحقيقية»).
  * الحساب الجديد لا يدخل لوحته قبل تأكيد هاتفه — برمز SMS أو بمكالمة فائتة مجانية إلى رقم المشرف (NOVA Call).
  * لا تُطبَّق إلا:
- *   - على الحسابات المنشأة بعد PHONE_VERIFY_REQUIRED_SINCE (لا نُغلق على التلاميذ الحاليين)،
+ *   - على الحسابات المنشأة بعد تاريخ إطلاق البوابة؛ يمكن تقديم التاريخ للقدامى، ولا يمكن تأخيره لإعفاء حساب جديد،
  *   - وحين توجد قناة تأكيد فعلية (مزوّد SMS مضبوط أو التأكيد بالمكالمة مفعّل) — وإلا لا تحجب أحداً.
  */
 import { eq } from 'drizzle-orm'
@@ -15,7 +15,8 @@ const DEFAULT_SINCE = '2026-10-24T14:00:00Z'
 
 export function phoneGateSince(): Date {
   const d = new Date(process.env.PHONE_VERIFY_REQUIRED_SINCE || DEFAULT_SINCE)
-  return Number.isNaN(d.getTime()) ? new Date(DEFAULT_SINCE) : d
+  const launch = new Date(DEFAULT_SINCE)
+  return Number.isNaN(d.getTime()) || d > launch ? launch : d
 }
 
 export interface PhoneChannels {

@@ -62,8 +62,9 @@ describe('رموز التحقق بالهاتف (OTP)', () => {
   })
 
   it('حدّ الطلبات: 3 رموز لكل هاتف/غرض في 10 دقائق، والغرض الآخر مستقل', async () => {
-    for (let i = 0; i < 3; i++) await requestOtp(h.db, { phone: '0770000004', purpose: 'ORDER' })
-    await expect(requestOtp(h.db, { phone: '0770000004', purpose: 'ORDER' })).rejects.toMatchObject({ code: 'RATE_LIMITED' })
+    const start = Math.floor(Date.now() / 600_000) * 600_000
+    for (let i = 0; i < 3; i++) await requestOtp(h.db, { phone: '0770000004', purpose: 'ORDER' }, new Date(start + i * 60_000))
+    await expect(requestOtp(h.db, { phone: '0770000004', purpose: 'ORDER' }, new Date(start + 180_000))).rejects.toMatchObject({ code: 'RATE_LIMITED' })
     await expect(requestOtp(h.db, { phone: '0770000004', purpose: 'REGISTER' })).resolves.toBeTruthy()
     // آخر رمز وحده صالح
     const rows = await h.db.select().from(otpCodes).where(eq(otpCodes.phone, '0770000004'))

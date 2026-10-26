@@ -3,9 +3,9 @@
  * وإلا مطالبة بالـSMS حين يكون المشتري وليّ أمر بلا حساب تلميذ. يُستدعى من محرّك حالات الطلب،
  * وwebhook التوصيل، ومزامنة EcoTrack، والتفعيل اليدوي.
  */
-import { and, eq, inArray } from 'drizzle-orm'
+import { and, eq, inArray, isNull } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { courseClaims, courseEnrollments, courseProducts, courses, orderItems, orders, students } from '@/server/db/schema'
+import { courseClaims, courseEnrollments, courseProducts, courses, orderItems, orders, students, users } from '@/server/db/schema'
 import type { EnrollmentSource } from '@/server/db/schema/enums'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError } from '@/server/lib/errors'
@@ -113,6 +113,8 @@ export interface ActivationCodeResult {
  * الطلب يجب أن يكون مسلَّماً (أو مؤكَّداً/في الطريق لمن دفع مسبقاً)؛ الملغى والمرتجع ممنوعان.
  */
 export async function sendActivationCode(db: Db, actorUserId: string, orderId: string, opts: { phone?: string | null } = {}): Promise<ActivationCodeResult> {
+  const [admin] = await db.select({ id: users.id }).from(users).where(and(eq(users.id, actorUserId), eq(users.role, 'SUPER_ADMIN'), eq(users.status, 'ACTIVE'), isNull(users.deletedAt))).limit(1)
+  if (!admin) throw new AppError('FORBIDDEN')
   const [order] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1)
   if (!order) throw new AppError('ORDER_NOT_FOUND')
   // أكواد الطلب لا تُولَّد قبل التسليم المؤكَّد (لا تفعيل قبل التسليم، حتى بالكود)

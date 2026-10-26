@@ -7,6 +7,7 @@ import { getDb } from '@/server/db/client'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { checkRateLimit } from '@/server/lib/rate-limit'
 import { courseQuote, placeCourseOrder, type PlacedCourseOrder } from '@/server/services/course-purchase.service'
+import { courseCommunesForWilaya, type CourseCommuneLookup } from '@/server/services/delivery-communes.service'
 
 /**
  * شراء «الدورة مع كتابها»: المتصفح يرسل courseId وبيانات الاستلام فقط —
@@ -47,5 +48,17 @@ export async function courseQuoteAction(courseId: string, wilayaId: string | nul
   return runAction(async () => {
     await requireRole('STUDENT')
     return courseQuote(await getDb(), parsed.data.courseId, parsed.data.wilayaId, parsed.data.deliveryType)
+  })
+}
+
+/** بلديات الولاية للطلب: أسماء وخيار المكتب فقط، بلا بيانات اعتماد الناقل. */
+export async function courseCommunesAction(wilayaId: string): Promise<ActionResult<CourseCommuneLookup>> {
+  const parsed = z.string().uuid('اختر الولاية').safeParse(wilayaId)
+  if (!parsed.success) return failValidation(parsed.error)
+  return runAction(async () => {
+    const actor = await requireRole('STUDENT', 'SUPER_ADMIN')
+    const db = await getDb()
+    await checkRateLimit(db, { scope: 'course-communes', subject: actor.userId, limit: 120, windowSeconds: 600 })
+    return courseCommunesForWilaya(db, parsed.data)
   })
 }

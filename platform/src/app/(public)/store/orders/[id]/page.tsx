@@ -172,7 +172,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
             <p dir="ltr" className="text-start">
               {o.phone}
             </p>
-            {o.wilayaName ? <p>{o.wilayaName}</p> : null}
+            {o.wilayaName || o.commune ? <p>{[o.wilayaName, o.commune].filter(Boolean).join(' — ')}</p> : null}
             {o.address ? <p className="whitespace-pre-line text-muted-foreground">{o.address}</p> : null}
             {o.note ? <p className="text-xs text-muted-foreground">ملاحظة: {o.note}</p> : null}
             {actor.role === 'SUPER_ADMIN' && o.customerEmail ? <p className="text-xs text-muted-foreground" dir="ltr">{o.customerEmail}</p> : null}

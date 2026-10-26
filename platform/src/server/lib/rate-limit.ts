@@ -52,6 +52,13 @@ export async function checkRateLimit(db: Db, rule: RateLimitRule, now: Date = ne
   return { remaining: rule.limit - count }
 }
 
+/** قراءة فقط: هل بلغ العدّاد حدّه في النافذة الحالية؟ (لا يزيده — للأقفال التي تُعدّ الإخفاقات وحدها) */
+export async function isRateLimited(db: Db, rule: RateLimitRule, now: Date = new Date()): Promise<boolean> {
+  const windowStart = new Date(Math.floor(now.getTime() / (rule.windowSeconds * 1000)) * rule.windowSeconds * 1000)
+  const [row] = await db.select({ count: rateLimits.count, windowStart: rateLimits.windowStart }).from(rateLimits).where(eq(rateLimits.key, rateKey(rule.scope, rule.subject))).limit(1)
+  return Boolean(row && row.windowStart.getTime() === windowStart.getTime() && row.count >= rule.limit)
+}
+
 /** يُستدعى بعد نجاح العملية لإعادة العدّاد (مثلاً بعد دخول ناجح) */
 export async function resetRateLimit(db: Db, scope: string, subject: string): Promise<void> {
   await db.delete(rateLimits).where(eq(rateLimits.key, rateKey(scope, subject)))

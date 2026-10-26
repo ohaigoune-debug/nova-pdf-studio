@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto'
-import { eq } from 'drizzle-orm'
+import { and, eq, isNull } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { levels, passwordResets, profiles, streams, students, users } from '@/server/db/schema'
+import { levels, otpCodes, passwordResets, profiles, streams, students, users } from '@/server/db/schema'
 import { hashPassword, isStrongEnough, verifyPassword } from '@/server/auth/password'
 import { createSession, revokeAllSessions, revokeSession } from '@/server/auth/session'
 import { writeActivity } from '@/server/lib/audit'
@@ -139,6 +139,7 @@ export async function resetPassword(db: Db, token: string, newPassword: string, 
     await tx.update(users).set({ passwordHash: hashPassword(newPassword) }).where(eq(users.id, row.userId))
     await tx.update(passwordResets).set({ usedAt: now }).where(eq(passwordResets.id, row.id))
     await revokeAllSessions(tx, row.userId)
+    await invalidatePhoneRecoveryCodes(tx, row.userId, now)
     await writeActivity(tx, { userId: row.userId, event: 'auth.reset.done' })
   })
   return { userId: row.userId }
@@ -153,8 +154,14 @@ export async function changePassword(db: Db, userId: string, current: string, ne
   await db.transaction(async (tx) => {
     await tx.update(users).set({ passwordHash: hashPassword(next) }).where(eq(users.id, userId))
     await revokeAllSessions(tx, userId)
+    await invalidatePhoneRecoveryCodes(tx, userId, new Date())
     await writeActivity(tx, { userId, event: 'auth.password.change' })
   })
+}
+
+/** تغيير السر عبر مسار آخر يُسقط رموز استعادة الهاتف التي صدرت قبله. */
+async function invalidatePhoneRecoveryCodes(db: Db, userId: string, now: Date): Promise<void> {
+  await db.update(otpCodes).set({ consumedAt: now }).where(and(eq(otpCodes.userId, userId), eq(otpCodes.purpose, 'RECOVER'), isNull(otpCodes.consumedAt)))
 }
 
 const DUMMY_HASH = hashPassword('dummy-password-for-timing')

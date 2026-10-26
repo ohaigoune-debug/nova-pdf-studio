@@ -12,14 +12,16 @@ import { t, tEnum } from '@/i18n'
 import { cn } from '@/lib/utils'
 import { logoutAction } from '@/server/actions/auth.actions'
 
-interface ShellNavItem {
+export interface ShellNavItem {
   href: string
   label: string
   exact: boolean
   also?: string[]
+  children?: ShellNavItem[]
   iconKey: string
 }
 interface ShellSection {
+  collapsible?: boolean
   title?: string
   items: ShellNavItem[]
 }
@@ -62,36 +64,48 @@ export function ShellClient({
   const notificationsHref = `/${base}/notifications`
 
   const matches = (href: string, exact: boolean) => (exact ? pathname === href : pathname === href || pathname.startsWith(href + '/'))
-  const isActive = (item: ShellNavItem) => matches(item.href, item.exact) || (item.also ?? []).some((h) => matches(h, false))
+  const isActive = (item: ShellNavItem): boolean => matches(item.href, item.exact) || (item.also ?? []).some((h) => matches(h, false)) || (item.children ?? []).some(isActive)
+
+  const renderItem = (item: ShellNavItem): ReactNode => {
+    const active = isActive(item)
+    const classes = cn(
+      'group relative flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold transition-colors',
+      active ? 'bg-white/[0.08] text-white' : 'text-sidebar-foreground/70 hover:bg-white/[0.05] hover:text-sidebar-foreground'
+    )
+    const contents = <><Icon name={item.iconKey} className={cn('size-[18px] shrink-0', active ? 'text-sidebar-active' : 'text-sidebar-muted')} /><span className="truncate">{item.label}</span></>
+    if (item.children?.length) return (
+      <li key={item.href}>
+        <details className="group/nav" open={active}>
+          <summary className={cn(classes, 'cursor-pointer list-none [&::-webkit-details-marker]:hidden')}>
+            {contents}<Icons.ChevronDown className="ms-auto size-4 transition-transform group-open/nav:rotate-180" />
+          </summary>
+          <ul className="ms-4 mt-1 space-y-0.5 border-s border-sidebar-border ps-2">{item.children.map(renderItem)}</ul>
+        </details>
+      </li>
+    )
+    return (
+      <li key={item.href}>
+        <Link href={item.href} onClick={() => setOpen(false)} aria-current={active ? 'page' : undefined} className={classes}>
+          <span className={cn('absolute inset-y-2 start-0 w-0.5 rounded-full bg-sidebar-active transition-opacity', active ? 'opacity-100' : 'opacity-0')} aria-hidden />
+          {contents}
+        </Link>
+      </li>
+    )
+  }
 
   const nav = (
     <nav className="flex flex-col gap-6 p-3">
-      {sections.map((s, i) => (
+      {sections.map((s, i) => s.collapsible ? (
+        <details key={i} className="group/section" open={s.items.some(isActive)}>
+          <summary className="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2.5 text-sm font-semibold text-sidebar-foreground/70 hover:bg-white/[0.05] [&::-webkit-details-marker]:hidden">
+            <Icons.MoreHorizontal className="size-[18px]" /><span>{s.title}</span><Icons.ChevronDown className="ms-auto size-4 transition-transform group-open/section:rotate-180" />
+          </summary>
+          <ul className="mt-1 space-y-0.5">{s.items.map(renderItem)}</ul>
+        </details>
+      ) : (
         <div key={i}>
           {s.title ? <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-sidebar-muted/80">{s.title}</p> : null}
-          <ul className="space-y-0.5">
-            {s.items.map((item) => {
-              const active = isActive(item)
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    aria-current={active ? 'page' : undefined}
-                    className={cn(
-                      'group relative flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold transition-colors',
-                      active ? 'bg-white/[0.08] text-white' : 'text-sidebar-foreground/70 hover:bg-white/[0.05] hover:text-sidebar-foreground'
-                    )}
-                  >
-                    {/* Current page indicator */}
-                    <span className={cn('absolute inset-y-2 start-0 w-0.5 rounded-full bg-sidebar-active transition-opacity', active ? 'opacity-100' : 'opacity-0')} aria-hidden />
-                    <Icon name={item.iconKey} className={cn('size-[18px] shrink-0 transition-colors', active ? 'text-sidebar-active' : 'text-sidebar-muted group-hover:text-sidebar-foreground')} />
-                    <span className="truncate">{item.label}</span>
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
+          <ul className="space-y-0.5">{s.items.map(renderItem)}</ul>
         </div>
       ))}
     </nav>
@@ -147,7 +161,7 @@ export function ShellClient({
           <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 hover:text-white lg:hidden" onClick={() => setOpen(true)} aria-label="القائمة">
             <Menu className="size-5" />
           </Button>
-          <Link href={`/${base}`} className="flex items-center gap-2 font-extrabold lg:hidden">
+          <Link href={actor.role === 'CONFIRMER' ? '/admin/store/confirm' : `/${base}`} className="flex items-center gap-2 font-extrabold lg:hidden">
             <span className="flex size-8 items-center justify-center rounded-sm bg-white/15 text-white">
               <BookOpenText className="size-4" />
             </span>
@@ -165,6 +179,7 @@ export function ShellClient({
               </form>
             ) : null}
           </div>
+          {actor.role !== 'CONFIRMER' ? (
           <Link href={notificationsHref} className="relative flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-white/10" aria-label={t('common.notifications')}>
             <Bell className="size-5" />
             {unread > 0 ? (
@@ -173,6 +188,7 @@ export function ShellClient({
               </span>
             ) : null}
           </Link>
+          ) : null}
           <ThemeToggle />
           <div className="hidden items-center gap-2 sm:flex">
             <Avatar name={actor.fullName} size="sm" />

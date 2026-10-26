@@ -5,10 +5,29 @@ import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bit
 import { Input } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { Alert } from '@/components/ui/misc'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useT } from '@/i18n/client'
 import { forgotPasswordAction } from '@/server/actions/auth.actions'
+import { PhoneRecoveryForm } from './phone-recovery-form'
 
 export function ForgotForm() {
+  return (
+    <Tabs defaultValue="email" dir="rtl">
+      <TabsList className="grid w-full grid-cols-2" aria-label="طريقة استعادة كلمة السر">
+        <TabsTrigger value="email">عبر البريد</TabsTrigger>
+        <TabsTrigger value="phone">عبر الهاتف</TabsTrigger>
+      </TabsList>
+      <TabsContent value="email">
+        <EmailForgotForm />
+      </TabsContent>
+      <TabsContent value="phone">
+        <PhoneRecoveryForm />
+      </TabsContent>
+    </Tabs>
+  )
+}
+
+function EmailForgotForm() {
   const t = useT()
   const [state, action] = useActionState(forgotPasswordAction, null)
   if (state?.ok) return <Alert tone="success">{t('auth.forgotSent')}</Alert>

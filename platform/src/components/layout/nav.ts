@@ -11,6 +11,7 @@ export interface NavItem {
   exact?: boolean
   /** مسارات أخرى تُفعّل هذا المدخل (تبويبات المجمّع) */
   also?: string[]
+  children?: NavItem[]
 }
 
 /** مدخل قائمة لمجمّع تلميذ: يفتح التبويب الأول ويبقى مفعّلاً في كل تبويباته */
@@ -21,6 +22,7 @@ function hubItem(key: StudentHubKey): NavItem {
 
 export interface NavSection {
   title?: string
+  collapsible?: boolean
   items: NavItem[]
 }
 
@@ -117,20 +119,37 @@ export function navFor(role: UserRole): NavSection[] {
           ]
         }
       ]
+    case 'CONFIRMER':
+      return [{ items: [
+        { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall', exact: true },
+        { href: '/admin/store', label: 'الطلبات', iconKey: 'ShoppingBag', exact: true }
+      ] }]
     case 'SUPER_ADMIN':
       return [
         {
           items: [
-            { href: '/admin', label: t('nav.dashboard'), iconKey: 'LayoutDashboard', exact: true },
-            { href: '/admin/teachers', label: t('nav.teachers'), iconKey: 'GraduationCap' },
-            { href: '/admin/students', label: t('nav.students'), iconKey: 'Users' },
-            { href: '/admin/users', label: t('nav.users'), iconKey: 'UserRound' },
-            { href: '/admin/groups', label: t('common.groups'), iconKey: 'UsersRound' }
+            { href: '/admin', label: 'الرئيسية', iconKey: 'LayoutDashboard', exact: true },
+            {
+              href: '/admin/store', label: 'الطلبات', iconKey: 'ShoppingBag',
+              children: [
+                { href: '/admin/store', label: 'طلبات الدورات', iconKey: 'ShoppingBag', exact: true },
+                { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall' }
+              ]
+            },
+            { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' },
+            { href: '/admin/courses', label: 'الدورات', iconKey: 'GraduationCap' },
+            { href: '/admin/employees', label: 'الموظفون', iconKey: 'UsersRound' },
+            { href: '/admin/settings', label: 'الإعدادات', iconKey: 'Settings' }
           ]
         },
         {
-          title: 'المنصة',
+          title: 'المزيد',
+          collapsible: true,
           items: [
+            { href: '/admin/teachers', label: t('nav.teachers'), iconKey: 'GraduationCap' },
+            { href: '/admin/students', label: t('nav.students'), iconKey: 'Users' },
+            { href: '/admin/users', label: t('nav.users'), iconKey: 'UserRound' },
+            { href: '/admin/groups', label: t('common.groups'), iconKey: 'UsersRound' },
             { href: '/admin/publish', label: 'نشر درس / فرض / اختبار', iconKey: 'Upload' },
             { href: '/admin/curriculum', label: 'المنهاج والمكتبة', iconKey: 'Network' },
             { href: '/admin/bac-bank', label: 'بنك البكالوريا', iconKey: 'Database' },
@@ -138,21 +157,16 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/admin/exam-engine', label: 'محرّك الامتحانات', iconKey: 'Cog' },
             { href: '/admin/educators', label: 'دليل الأساتذة', iconKey: 'PlayCircle' },
             { href: '/admin/content', label: t('nav.content'), iconKey: 'FileText' },
-            { href: '/admin/store', label: 'طلبات الدورات', iconKey: 'ShoppingBag' },
-            { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall' },
-            { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' },
             { href: '/admin/support', label: 'الشكاوى', iconKey: 'LifeBuoy' },
             { href: '/admin/live', label: 'البث المباشر', iconKey: 'Radio' },
-            { href: '/admin/courses', label: 'الدورات المدفوعة', iconKey: 'GraduationCap' },
             { href: '/admin/market', label: 'سوق الأساتذة', iconKey: 'Store' },
             { href: '/admin/ai', label: t('nav.ai'), iconKey: 'Cpu' },
             { href: '/admin/storage', label: t('nav.storage'), iconKey: 'HardDrive' },
             { href: '/admin/security', label: t('nav.security'), iconKey: 'Shield' },
             { href: '/admin/logs', label: t('nav.logs'), iconKey: 'ScrollText' },
-            { href: '/admin/settings', label: t('nav.settings'), iconKey: 'Settings' }
+            { href: '/admin/notifications', label: t('common.notifications'), iconKey: 'BellRing' }
           ]
-        },
-        { title: 'الحساب', items: [{ href: '/admin/notifications', label: t('common.notifications'), iconKey: 'BellRing' }] }
+        }
       ]
     default:
       return []
