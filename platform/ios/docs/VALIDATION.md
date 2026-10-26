@@ -142,3 +142,23 @@ Verdict: **prepared for validation on a Mac; not ready for TestFlight or App Rev
 - `platform/ios/scripts/test-ios.sh`
 - `platform/ios/scripts/test_tooling.py`
 - `platform/ios/scripts/validate-project.py`
+
+
+## Cloud build preparation — 2026-10-26
+
+The owner authorized continuing the cloud build. Baseline HEAD was
+`6003d05fa4d917bfa73082c26716703e9de99f16`. The repository was observed as public.
+GitHub Actions showed "This workflow does not exist" because the manual-only
+workflow was absent from the default `main` branch. No branch merge or default
+branch change was performed.
+
+The workflow now accepts iOS-only pushes on `codex/ios-app-foundation`, excludes
+README/docs-only changes, uses the standard `macos-26` runner and refuses private
+repositories. Standard runners are free in public repositories per GitHub Docs.
+Debug and Release builds have separate steps, followed by the existing isolated
+Debug UI/package tests. No signing, deployment or distribution step was added.
+
+Before pushing, Linux checks passed: `python3 platform/ios/scripts/test_tooling.py`
+(12 tests), `python3 platform/ios/scripts/validate-project.py` (38 references), and
+`git diff --check`. These do not establish a native build. Cloud execution and
+its actual result must be recorded after GitHub returns a completed run.

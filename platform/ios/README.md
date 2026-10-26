@@ -154,7 +154,10 @@ xcodebuild \
 
 ## CI
 
-`.github/workflows/ios.yml` يعمل فقط عبر `workflow_dispatch`. لا يبدأ عند push أو PR، ولم يُشغّل لمجرد إضافة الملف. إذا اختار المالك تشغيله فإنه يستخدم macOS، يفحص إصدار Xcode وSDK، ويبني Debug وRelease للمحاكي دون توقيع ويشغّل اختبارات Debug المعزولة؛ لا يرفع التطبيق إلى Apple أو ينشر خادمًا أو يضيف أداة تتبع. تشغيل hosted macOS قد يستهلك حصة حساب GitHub، ولذلك بقي التشغيل يدويًا.
+`.github/workflows/ios.yml` يبني Debug وRelease للمحاكي دون توقيع ويشغّل اختبارات Debug المعزولة. بعد موافقة المالك على متابعة البناء السحابي، أُضيف تشغيل عند push لفرع `codex/ios-app-foundation` فقط عند تغيّر ملفات iOS أو ملف workflow؛ تعديلات الوثائق وحدها لا تشغّله. يبقى `workflow_dispatch` متاحًا حين يُسجّل workflow على الفرع الافتراضي. لا دمج ولا رفع إلى Apple ولا نشر للخادم.
+
+يستخدم خادم GitHub القياسي `macos-26`، مع فحص Xcode وSDK قبل البناء. المستودع عام؛ [الخوادم القياسية مجانية للمستودعات العامة](https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job). شرط job يمنع التنفيذ إذا أصبح المستودع خاصًا؛ لا خادم أكبر مدفوع ولا شهادات أو أسرار. نتائج المحاكي لا تثبت اختبار جهاز فعلي أو الدخول والفيديو وPDF على الخادم.
+
 
 ## حدود الجاهزية
 

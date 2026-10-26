@@ -1,28 +1,37 @@
-name: iOS — manual unsigned validation
+name: iOS — unsigned validation
 
-# Intentionally manual: no hosted macOS run, paid execution, signing, or distribution is triggered by a push/PR.
+# Standard macOS runners are free for public repositories. The job refuses private repos.
+# Only iOS branch changes trigger this workflow; nothing is merged, signed or distributed.
 on:
   workflow_dispatch:
+  push:
+    branches: [codex/ios-app-foundation]
+    paths:
+      - '.github/workflows/ios.yml'
+      - 'platform/ios/**'
+      - '!platform/ios/docs/**'
+      - '!platform/ios/README.md'
 
 permissions:
   contents: read
 
 concurrency:
-  group: ios-manual-${{ github.ref }}
+  group: ios-validation-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   simulator:
-    runs-on: macos-15
+    if: github.event.repository.private == false
+    runs-on: macos-26
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - name: Inspect installed Xcode
         run: bash platform/ios/scripts/check-xcode.sh
-      - name: Prepare and build unsigned Simulator application
-        run: |
-          bash platform/ios/scripts/build-unsigned.sh Debug
-          bash platform/ios/scripts/build-unsigned.sh Release
+      - name: Build unsigned Debug Simulator application
+        run: bash platform/ios/scripts/build-unsigned.sh Debug
+      - name: Build unsigned Release Simulator application
+        run: bash platform/ios/scripts/build-unsigned.sh Release
       - name: Test core package and native UI on an installed iPhone Simulator
         run: bash platform/ios/scripts/test-ios.sh auto Debug
 
