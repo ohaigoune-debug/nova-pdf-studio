@@ -108,3 +108,15 @@ Status after follow-up review (2026-10-26): **Linux source preparation; no Xcode
   the build; all authenticated/device cases remain PENDING.
 - These later records supersede earlier NOT UPLOADED/PENDING-API status only for
   delivery/API setup; they do not promote any native integration row to passed.
+
+
+## Owner-only TestFlight invitation — 26 October 2026
+
+- Owner-approved export-compliance declaration saved and read back as
+  `usesNonExemptEncryption=false`; the missing-compliance blocker is resolved.
+- Version 1.0.0 (1) is assigned to Madrasadz Internal: one build, one internal
+  tester (the owner only), status **Invited**. Apple API state: **IN_BETA_TESTING**.
+- This supersedes the earlier blocked/unassigned TestFlight status. Invitation
+  acceptance, device installation and launch have not been observed. All physical
+  device/authenticated backend/video/PDF/accessibility/reminder cases stay PENDING.
+- No external tester, public link or App Store review/release was created.

@@ -2,7 +2,7 @@
 
 تطبيق SwiftUI مع WKWebView يعيد استعمال خادم Next.js وحسابات المنصة. مشروع Xcode الفعلي هو `Madrasadz.xcodeproj`، والمخطط المشترك `Madrasadz`. لا يحوّل الموقع إلى static export ولا يحتوي خادمًا أو قاعدة حسابات أخرى.
 
-هذا الفرع مخصص للتجهيز والمراجعة. **لا يتضمن رفعًا إلى TestFlight أو App Store، ولا ينشر أي تغيير على خادم المنصة.** راجع [تدقيق المنصة](docs/AUDIT-AR.md)، و[ملاحظات App Review](docs/APP-REVIEW-AR.md)، و[بيانات المتجر بالعربية والفرنسية](docs/STORE-LISTING-AR-FR.md)، و[إفصاحات الخصوصية](docs/PRIVACY-DISCLOSURES-AR.md)، و[مصفوفة اختبار الأجهزة](docs/DEVICE-TEST-MATRIX.md)، و[قائمة تجهيز الإصدار](docs/RELEASE-CHECKLIST.md)، و[مصادر Apple](docs/APPLE-SOURCES.md).
+هذا الفرع مخصص للتجهيز والمراجعة. **رُفعت النسخة 1.0.0 (1) إلى Apple بموافقة المالك، وأُتيحت للاختبار الداخلي لحسابه وحده؛ الدعوة بحالة Invited، والتثبيت على جهاز فعلي لم يُتحقق منه بعد. لا نشر على App Store أو خادم المنصة.** راجع [تدقيق المنصة](docs/AUDIT-AR.md)، و[ملاحظات App Review](docs/APP-REVIEW-AR.md)، و[بيانات المتجر بالعربية والفرنسية](docs/STORE-LISTING-AR-FR.md)، و[إفصاحات الخصوصية](docs/PRIVACY-DISCLOSURES-AR.md)، و[مصفوفة اختبار الأجهزة](docs/DEVICE-TEST-MATRIX.md)، و[قائمة تجهيز الإصدار](docs/RELEASE-CHECKLIST.md)، و[مصادر Apple](docs/APPLE-SOURCES.md).
 
 ## متطلبات Mac
 
@@ -150,7 +150,7 @@ xcodebuild \
   archive
 ```
 
-هذا الأمر لم يُنفذ على Linux. الأرشفة الموقعة وتصدير IPA وTestFlight تتطلب تحقق Mac وحساب Apple وإعدادات التوزيع؛ لا توجد خطوة رفع آلية أو شهادة أو API key في المستودع.
+هذا الأمر لم يُنفذ على Linux. الأرشفة الموقعة وتصدير IPA وTestFlight تتطلب تحقق Mac وحساب Apple وإعدادات التوزيع؛ توجد الآن خطوة رفع أولية منفصلة بموافقة المالك؛ مواد التوقيع ومفتاح API محفوظة في GitHub Secrets خارج Git.
 
 ## CI
 
@@ -161,7 +161,7 @@ xcodebuild \
 
 ## حدود الجاهزية
 
-المشروع يحتاج تنفيذ الفحوص الفعلية على Xcode، واختبار جلسات WKWebView وفيديو وملفات وحسابات الصلاحيات على iPhone، ثم حسم نموذج الشراء ومتطلبات المجتمع والخصوصية ومعلومات المتجر قبل التقديم. تفعيل Apple Developer وTeam ID والتوقيع والمنتجات إن اختير StoreKit ليست مكتملة بمجرد وجود مشروع Xcode.
+نجح بناء Debug وRelease واختبارات الحزمة والغلاف المعزول على Xcode في macOS السحابي. يحتاج المشروع اختبار جلسات WKWebView وفيديو وملفات وحسابات الصلاحيات على iPhone، ثم حسم نموذج الشراء ومتطلبات المجتمع والخصوصية ومعلومات المتجر قبل التقديم. تفعيل Apple Developer وTeam ID والتوقيع والمنتجات إن اختير StoreKit ليست مكتملة بمجرد وجود مشروع Xcode.
 
 
 ## Signed IPA preparation — 26 October 2026
@@ -198,6 +198,10 @@ from run 40373277061 and validates/uploads initial version 1.0.0 (1) using
 on the named public iOS branch. It is an initial-only workflow: it neither
 rebuilds arbitrary source nor assigns testers, declares export compliance or
 submits an App Store release. Apple accepted upload run 40375418654; processing
-is VALID, but installation remains blocked by MISSING_EXPORT_COMPLIANCE.
+is VALID. After explicit owner approval, export compliance was completed through
+the Account Holder UI (usesNonExemptEncryption=false). Version 1.0.0 (1) is now
+assigned to Madrasadz Internal, with only the owner invited (Invited; Apple API
+IN_BETA_TESTING). Invitation acceptance and device installation/launch have not
+been observed. No external testing or App Store submission was performed.
 Do not rerun the same build after a successful delivery; the next build must
 increment its build number. See docs/VALIDATION.md for evidence and limits.

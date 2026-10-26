@@ -254,3 +254,34 @@ No external Beta App Review, App Store review/release or physical-device test ra
 
 Current verdict: **uploaded and processed successfully by Apple; pending export
 compliance and internal tester assignment before installation via TestFlight.**
+
+
+## Export compliance and owner-only internal testing — 26 October 2026
+
+This later record supersedes the pending-compliance/assignment verdict above.
+After the owner explicitly approved the proposed OS-only encryption classification,
+the Developer-role API PATCH returned 403 (insufficient role). The declaration was
+then submitted through the authenticated Account Holder App Store Connect UI,
+selecting "None of the algorithms mentioned above". A subsequent API read verified
+`usesNonExemptEncryption=false`, with processing still `VALID`. No API role was
+broadened; the shipped binary and Info.plist were not changed.
+
+After separate explicit approval naming the internal group and the owner as its
+only recipient, version **1.0.0 (1)** was assigned to **Madrasadz Internal**, and
+only the existing Account Holder was added as an internal tester. App Store
+Connect displayed **1 Tester / 1 Build**, the owner's status **Invited**, and
+build **Ready to Test**. A subsequent authenticated API read confirmed
+`internalBuildState=IN_BETA_TESTING` and
+`externalBuildState=READY_FOR_BETA_SUBMISSION`.
+
+The invitation has been issued; inbox delivery, acceptance, installation and app
+launch on an iPhone have not been observed. No other tester, public link, external
+Beta App Review or App Store review/release was added. The IPA remains the signed
+source `b3a268c27166c36fab858550ae4d124a686bcda1`, exported by run 40373277061
+and uploaded by run 40375418654; documentation changes do not rebuild that IPA.
+
+Current verdict: **available for owner-only internal TestFlight testing; invitation
+pending acceptance, physical-device/backend integration tests still unverified,
+not ready for App Review.** Linux/platform and hosted macOS results above remain
+unchanged; no new runtime test was claimed. This follow-up changes documentation
+only and was checked with `git diff --check`.

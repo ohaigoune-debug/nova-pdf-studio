@@ -1,6 +1,6 @@
 # Build, TestFlight and App Store readiness
 
-Current classification (26 October 2026): **signed IPA exported, validated and uploaded to Apple; processing VALID, TestFlight blocked by MISSING_EXPORT_COMPLIANCE**. Simulator Debug/Release and the disconnected shell tests have passed on hosted macOS. No physical-iPhone integration test or App Review submission has occurred. See VALIDATION.md for exact source commits and runs.
+Current classification (26 October 2026): **signed IPA exported, validated and uploaded to Apple; processing VALID, export compliance completed and owner-only internal TestFlight invitation issued (IN_BETA_TESTING)**. Simulator Debug/Release and the disconnected shell tests have passed on hosted macOS. No physical-iPhone integration test or App Review submission has occurred. See VALIDATION.md for exact source commits and runs.
 
 ## 1. Local macOS validation
 
@@ -22,7 +22,7 @@ Current classification (26 October 2026): **signed IPA exported, validated and u
 - [x] Team ID is public signing configuration; encrypted signing material and the owner-approved Developer API key are in GitHub Actions Secrets. No private keys, passwords, certificates or provisioning profiles are in Git.
 - [x] Initial upload: marketing version 1.0.0, build 1. Future uploads must increase the build number; no Android version was reused as evidence.
 - [x] Configure App Store distribution profile and verify signed Release archive/IPA.
-- [ ] Install and test on a physical iPhone after TestFlight compliance and tester setup; no such run occurred.
+- [ ] Install and test on a physical iPhone after accepting the issued owner-only TestFlight invitation; no such run occurred.
 
 ## 3. Product and policy blockers
 
@@ -53,8 +53,9 @@ Landscape uses reversed width/height. One to ten screenshots per device size, JP
 ## 5. TestFlight (initial upload authorized and completed)
 
 - [ ] Complete remaining integration/device/security gates and matching HTTPS backend checks before expanding testing. The initial internal upload is not evidence that these gates passed.
-- [x] Owner-authorized archive/export run 40373277061 passed; validate/upload run 40375418654 passed with VERIFY SUCCEEDED and UPLOAD SUCCEEDED. The initial-only upload workflow pins that successful IPA, not an arbitrary artifact. Apple reports processing VALID; not yet installable because export compliance is missing.
-- [ ] No encryption-exemption answer is predeclared in Info.plist. Complete export-compliance questions according to actual encryption use and obtain an answer from the owner where required; do not invent an exemption.
+- [x] Owner-authorized archive/export run 40373277061 passed; validate/upload run 40375418654 passed with VERIFY SUCCEEDED and UPLOAD SUCCEEDED. The initial-only upload workflow pins that successful IPA, not an arbitrary artifact. Apple reports processing VALID; export compliance has subsequently been completed and the owner invited for internal testing.
+- [x] Owner explicitly approved the OS-only encryption classification; Account Holder UI submission and API readback confirm usesNonExemptEncryption=false for build 1. The binary/Info.plist were not modified. Reassess if encryption changes.
+- [x] Version 1.0.0 (1) assigned to Madrasadz Internal; only the owner invited, UI status Invited and API internal state IN_BETA_TESTING. Invitation acceptance, installation and launch remain unobserved.
 - [ ] Add test information, privacy policy and reviewer details; comply with Beta App Review for external testers.
 - [ ] Record device tests, crashes and session/content failures before expanding testers.
 
