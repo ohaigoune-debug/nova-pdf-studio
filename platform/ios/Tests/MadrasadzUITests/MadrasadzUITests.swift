@@ -3,6 +3,36 @@ import XCTest
 /// Actual execution still requires Xcode/iPhone Simulator. These cases cover only
 /// a disconnected, signed-out Debug shell; they are not authenticated WebKit tests.
 final class MadrasadzUITests: XCTestCase {
+    /// Public, unauthenticated WebKit navigation only. Run explicitly with
+    /// test-public-navigation.sh; the offline suite skips this networked case.
+    @MainActor func testPublicLearningNavigation() throws {
+        #if !DEBUG
+        throw XCTSkip("Run the public navigation smoke test in Debug.")
+        #else
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments += ["-AppleLanguages", "(ar)", "-AppleLocale", "ar_DZ"]
+        app.launch()
+        defer {
+            let capture = XCTAttachment(screenshot: app.screenshot())
+            capture.name = "Public-WebKit-navigation-no-account"
+            capture.lifetime = .keepAlways
+            add(capture)
+            app.terminate()
+        }
+        let web = app.webViews.firstMatch
+        XCTAssertTrue(web.staticTexts["مساحة التعلّم"].waitForExistence(timeout: 60))
+        let login = web.links["تسجيل الدخول"].firstMatch
+        XCTAssertTrue(login.waitForExistence(timeout: 10))
+        login.tap()
+        XCTAssertTrue(web.textFields["البريد الإلكتروني"].waitForExistence(timeout: 40))
+        app.tabBars.buttons["المفضلة"].tap()
+        XCTAssertTrue(app.staticTexts["سجّل الدخول لتفتح مفضلتك وخطة مراجعتك الخاصة بهذا الحساب."].waitForExistence(timeout: 30))
+        app.buttons["تسجيل الدخول"].tap()
+        XCTAssertTrue(web.textFields["البريد الإلكتروني"].waitForExistence(timeout: 40))
+        #endif
+    }
+
     @MainActor private func checkShell(language: String, locale: String, labels: [String]) throws {
         #if !DEBUG
         throw XCTSkip("Offline shell validation is compiled out of Release. Validate Release integration against an isolated HTTPS backend manually.")

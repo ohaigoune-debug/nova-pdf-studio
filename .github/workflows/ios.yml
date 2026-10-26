@@ -34,6 +34,16 @@ jobs:
         run: bash platform/ios/scripts/build-unsigned.sh Release
       - name: Test core package and native UI on an installed iPhone Simulator
         run: bash platform/ios/scripts/test-ios.sh auto Debug
+      - name: Test actual public WebKit login navigation without an account
+        run: bash platform/ios/scripts/test-public-navigation.sh
+      - name: Retain Simulator diagnostics and genuine screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Madrasadz-Simulator-diagnostics-${{ github.sha }}
+          path: platform/ios/build/*.xcresult
+          retention-days: 1
+          if-no-files-found: ignore
 
 # No App Store Connect API keys, signing certificates, provisioning profiles, archive export,
 # TestFlight upload, App Store submission, deployment, or artifact-distribution step.
