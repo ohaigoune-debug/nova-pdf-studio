@@ -76,7 +76,8 @@ describe('استعادة كلمة السر عبر هاتف موثّق — قاع
       expect((await challengeFor(phone))!.attempts).toBe(i)
     }
     expect((await challengeFor(phone))!.consumedAt).not.toBeNull()
-    await expect(resetPasswordByPhone(h.db, { phone, code: correct, password: NEXT }, meta())).rejects.toMatchObject({ code: 'OTP_INVALID' })
+    // الإخفاقات الخمسة تقفل الاستعادة بالهاتف لهذا الرقم حتى الغد أيضاً (القفل اليومي يسبق فحص الرمز)
+    await expect(resetPasswordByPhone(h.db, { phone, code: correct, password: NEXT }, meta())).rejects.toMatchObject({ code: 'OTP_TOO_MANY_ATTEMPTS' })
     expect(await passwordMatches(actor.userId, 'Student@12345')).toBe(true)
   })
 

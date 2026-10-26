@@ -15,7 +15,7 @@ import { streamFamily } from './academy-catalog.service'
 import { courseCommunesForWilaya } from './delivery-communes.service'
 import { notifyMany } from './notifications.service'
 import { transitionOrder } from './order-status.service'
-import { normalizePhone, verifyOtp } from './otp.service'
+import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
 import { orderNumber, shippingFeeFor, storePolicy } from './store.service'
 
 const isPhysical = (type: string) => type === 'BOOK' || type === 'PACK'
@@ -208,10 +208,15 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
   // كل طلب دورة يتأكد برمز جديد؛ تحقق التسجيل لا يستهلك تأكيد الطلب.
   const [policy, channels] = await Promise.all([storePolicy(db), import('./phone-gate.service').then((m) => m.phoneChannels(db))])
   let otpVerifiedAt: Date | null = null
-  if (policy.requireOtp || channels.sms) {
+  if (channels.sms) {
     if (!input.otpCode?.trim()) throw new AppError('ORDER_OTP_REQUIRED')
     await verifyOtp(db, { phone, purpose: 'ORDER', code: input.otpCode, userId: actor.userId })
     otpVerifiedAt = new Date()
+  } else if (policy.requireOtp) {
+    // بلا قناة SMS لا يظهر حقل الرمز في النموذج: يبقى الهاتف المؤكَّد سلفاً (بمكالمة مثلاً) كافياً كما كان، وإلا لتعطّلت كل الطلبات
+    const pv = await isPhoneVerified(db, actor.userId)
+    if (pv.verified && pv.phone === phone) otpVerifiedAt = new Date()
+    else throw new AppError('ORDER_OTP_REQUIRED')
   }
 
   const price = state.book.priceDzd

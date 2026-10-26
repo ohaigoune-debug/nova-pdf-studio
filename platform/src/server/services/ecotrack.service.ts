@@ -3,9 +3,9 @@
  * إرسال الطلب المؤكَّد طرداً، مزامنة دورية للطرود المفتوحة تُترجم حالة الشركة إلى حالة الطلب
  * (ومنها «سُلِّم» ⇒ تفعيل الدورة)، ورسوم التوصيل لكل ولاية من جدول الشركة.
  */
-import { and, desc, eq, gte, inArray, isNotNull, lte, or, sql } from 'drizzle-orm'
+import { and, desc, eq, gte, inArray, isNotNull, lt, lte, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { appSettings, deliveryEvents, jobs, orderItems, orders, profiles, students, wilayas } from '@/server/db/schema'
+import { appSettings, deliveryEvents, jobs, orderItems, orders, profiles, rateLimits, students, wilayas } from '@/server/db/schema'
 import type { DeliveryEventStatus } from '@/server/db/schema/enums'
 import { enqueueJob } from '@/server/jobs/queue'
 import { assertRole, type Actor } from '@/server/lib/actor'
@@ -164,6 +164,27 @@ export async function listEcotrackFees(db: Db): Promise<(EcotrackFee & { wilayaN
 
 /* ───────────────────────── إرسال الطرد ───────────────────────── */
 
+const SEND_CLAIM_MS = 2 * 60 * 1000
+const sendClaimKey = (orderId: string) => `ecotrack-send:${orderId}`
+
+/**
+ * حجز إرسال طرد الطلب (صف في rate_limits): ضغطة الموظف ومهمة الإرسال التلقائي لا تنشئان طردين متزامنين.
+ * حجز أقدم من دقيقتين (عملية انقطعت) يُستردّ.
+ */
+async function claimEcotrackSend(db: Db, orderId: string, now: Date = new Date()): Promise<boolean> {
+  const key = sendClaimKey(orderId)
+  const inserted = await db.insert(rateLimits).values({ key, windowStart: now, count: 1, updatedAt: now }).onConflictDoNothing({ target: rateLimits.key }).returning({ key: rateLimits.key })
+  if (inserted.length) return true
+  const stale = await db.update(rateLimits).set({ windowStart: now, updatedAt: now })
+    .where(and(eq(rateLimits.key, key), lt(rateLimits.windowStart, new Date(now.getTime() - SEND_CLAIM_MS))))
+    .returning({ key: rateLimits.key })
+  return stale.length > 0
+}
+
+async function releaseEcotrackSend(db: Db, orderId: string): Promise<void> {
+  await db.delete(rateLimits).where(eq(rateLimits.key, sendClaimKey(orderId)))
+}
+
 /** ينشئ الطرد عند EcoTrack لطلب مؤكَّد يحتاج شحناً، ويحفظ رقم التتبّع وينقله إلى «في الطريق» */
 export async function sendOrderToEcotrack(db: Db, actor: Actor | null, orderId: string, fetchImpl?: typeof fetch): Promise<{ tracking: string }> {
   if (actor) assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
@@ -178,6 +199,20 @@ export async function sendOrderToEcotrack(db: Db, actor: Actor | null, orderId: 
   // أُرسل من قبل: لا طرد ثانٍ أبداً (ضغطة مكرّرة، أو مهمة أُعيدت)
   if (o.deliveryProvider === 'ecotrack' && o.deliveryTrackingId) return { tracking: o.deliveryTrackingId }
   if (o.status !== 'CONFIRMED') throw new AppError('ORDER_INVALID_TRANSITION')
+  if (!(await claimEcotrackSend(db, o.id))) throw new AppError('RATE_LIMITED', { retryAfter: 30 })
+  try {
+    // بعد الحجز يُعاد الفحص: إرسال سابق ربما اكتمل بين القراءة الأولى والحجز
+    const [fresh] = await db.select({ status: orders.status, provider: orders.deliveryProvider, tracking: orders.deliveryTrackingId }).from(orders).where(eq(orders.id, o.id)).limit(1)
+    if (fresh?.provider === 'ecotrack' && fresh.tracking) return { tracking: fresh.tracking }
+    if (fresh?.status !== 'CONFIRMED') throw new AppError('ORDER_INVALID_TRANSITION')
+    return await createEcotrackParcel(db, client, actor, o)
+  } finally {
+    await releaseEcotrackSend(db, o.id)
+  }
+}
+
+async function createEcotrackParcel(db: Db, client: EcotrackClient, actor: Actor | null, o: typeof orders.$inferSelect): Promise<{ tracking: string }> {
+  const orderId = o.id
   const [w] = o.wilayaId ? await db.select({ code: wilayas.code, nameAr: wilayas.nameAr, nameFr: wilayas.nameFr }).from(wilayas).where(eq(wilayas.id, o.wilayaId)).limit(1) : []
   if (!w) throw new AppError('VALIDATION', { field: 'wilayaId' })
   const items = await db.select({ title: orderItems.title, qty: orderItems.qty }).from(orderItems).where(eq(orderItems.orderId, orderId))

@@ -1,5 +1,6 @@
 'use server'
 
+import { after } from 'next/server'
 import { z } from 'zod'
 import { clearSessionCookie, requestMeta } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
@@ -12,7 +13,8 @@ const phone = z.string().trim().min(9).max(20)
 export async function requestPhonePasswordResetAction(input: { phone: string }): Promise<ActionResult<{ cooldown: number }>> {
   const parsed = z.object({ phone }).safeParse(input)
   if (!parsed.success) return failValidation(parsed.error)
-  return runAction(async () => requestPhonePasswordReset(await getDb(), parsed.data.phone, await requestMeta()))
+  // الإرسال بعد الرد: لا يكشف التوقيت أن الرقم مرتبط بحساب
+  return runAction(async () => requestPhonePasswordReset(await getDb(), parsed.data.phone, await requestMeta(), { defer: (task) => after(task) }))
 }
 
 const resetSchema = z.object({

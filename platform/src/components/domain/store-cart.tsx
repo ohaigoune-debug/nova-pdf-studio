@@ -113,15 +113,19 @@ export function CartPage({ loggedIn, defaults, wilayas, streams = [], shippingDz
   const physical = cart.items.some((i) => i.physical)
   const needsStream = cart.items.some((i) => i.requiresStream)
   const normPhone = f.phone.replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
-  // الهاتف المؤكَّد سلفاً لهذا الحساب يُعفي من الرمز
-  const needsOtp = policy.requireOtp && !(verifiedPhone && verifiedPhone === normPhone)
+  // الهاتف المؤكَّد سلفاً لهذا الحساب يُعفي من الرمز — إلا كتب الدورات: الخادم يطلب رمزاً جديداً فيظهر الحقل
+  const [otpForced, setOtpForced] = useState(false)
+  const needsOtp = otpForced || (policy.requireOtp && !(verifiedPhone && verifiedPhone === normPhone))
   const wilayaFee = f.wilayaId && feeTable?.[f.wilayaId] ? feeTable[f.wilayaId]![f.deliveryType === 'DESK' ? 'desk' : 'home'] : null
   const shipping = physical ? (wilayaFee ?? shippingDzd) : 0
   const total = cart.total + shipping
   const submit = () =>
     start(async () => {
       const r = await placeOrderAction({ items: cart.items.map((i) => ({ productId: i.productId, qty: i.qty })), customerName: f.customerName, phone: f.phone, wilayaId: f.wilayaId || null, address: f.address || null, commune: f.commune || null, deliveryType: f.deliveryType, note: f.note || null, streamId: f.streamId || null, otpCode: needsOtp ? f.otpCode || null : null })
-      if (!r.ok) return toast('error', r.error.message)
+      if (!r.ok) {
+        if (r.error.code === 'ORDER_OTP_REQUIRED') setOtpForced(true)
+        return toast('error', r.error.message)
+      }
       cart.clear()
       toast('success', r.data.status === 'DELIVERED' ? 'طلبك جاهز: ملفاتك متاحة للتنزيل' : `أُرسل طلبك ${r.data.number}`)
       router.push(`/store/orders/${r.data.id}`)
