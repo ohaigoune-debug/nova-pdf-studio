@@ -1,0 +1,263 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 77;
+	objects = {
+		CF811E617D2A236EBE922AEE /* package-build-file */ = {
+			isa = PBXBuildFile;
+			productRef = ACC78A7A70D72FDB07C8125A;
+		};
+		6960ABEE0D7F5169260ED41F /* container-proxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 72BF3525D1125E8210D988A0;
+			proxyType = 1;
+			remoteGlobalIDString = 79E646DE4E775D4E5BD16120;
+			remoteInfo = Madrasadz;
+		};
+		B81277501B2DDF3864B782BD /* app-product */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.application;
+			path = "Madrasadz.app";
+			sourceTree = "BUILT_PRODUCTS_DIR";
+		};
+		2D76CA28CC10F6D9C66B4898 /* tests-product */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.cfbundle;
+			path = "MadrasadzUITests.xctest";
+			sourceTree = "BUILT_PRODUCTS_DIR";
+		};
+		46EF47AA62058C41D4C830C2 /* debug-file */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xcconfig;
+			path = "Debug.xcconfig";
+			sourceTree = "<group>";
+		};
+		51BC638235CBFEC7D41DBDA0 /* release-file */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xcconfig;
+			path = "Release.xcconfig";
+			sourceTree = "<group>";
+		};
+		549AB6417CC42D2131E147B5 /* base-file */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xcconfig;
+			path = "Base.xcconfig";
+			sourceTree = "<group>";
+		};
+		C0D9FE77961800D719DE335F /* info-file */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = "Info.plist";
+			sourceTree = "<group>";
+		};
+		94947CA587B4506297BE32F9 /* local-example */ = {
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = "Local.xcconfig.example";
+			sourceTree = "<group>";
+		};
+		96B41CE6CAC07D53FD156E1D /* resource-exception */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = ("AppIcon-Source.png",);
+			target = 79E646DE4E775D4E5BD16120;
+		};
+		70E804BCC12B7C86B6E75C79 /* app-sources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {};
+			explicitFolders = ();
+			path = "Sources/MadrasadzApp";
+			sourceTree = "<group>";
+		};
+		104A90DE8B4CD3B9DDC21E14 /* resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (96B41CE6CAC07D53FD156E1D,);
+			explicitFileTypes = {};
+			explicitFolders = ();
+			path = "Resources";
+			sourceTree = "<group>";
+		};
+		E2C588BC27261E8BC74F2C5F /* ui-sources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {};
+			explicitFolders = ();
+			path = "Tests/MadrasadzUITests";
+			sourceTree = "<group>";
+		};
+		E618C6600B7BB44B4275504F /* root-group */ = {
+			isa = PBXGroup;
+			children = (70E804BCC12B7C86B6E75C79,104A90DE8B4CD3B9DDC21E14,E2C588BC27261E8BC74F2C5F,0F04BF47C35E6DE6B4431AFD,E41BDE7AD89C85528853CE5A,);
+			sourceTree = "<group>";
+		};
+		E41BDE7AD89C85528853CE5A /* products-group */ = {
+			isa = PBXGroup;
+			children = (B81277501B2DDF3864B782BD,2D76CA28CC10F6D9C66B4898,);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0F04BF47C35E6DE6B4431AFD /* config-group */ = {
+			isa = PBXGroup;
+			children = (549AB6417CC42D2131E147B5,46EF47AA62058C41D4C830C2,51BC638235CBFEC7D41DBDA0,C0D9FE77961800D719DE335F,94947CA587B4506297BE32F9,);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		EBF57122A9712357152B3F57 /* app-sources-phase */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5E94A54F4D37D8B94D95FAA9 /* app-resources-phase */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		75B882234ED70F4765980A54 /* app-frameworks-phase */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (CF811E617D2A236EBE922AEE,);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		347E284F9F797A2887048B14 /* test-sources-phase */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		17F4D99902E641B3BFF8F7C5 /* test-resources-phase */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1EB7A1E3E63860C1F5803A82 /* test-frameworks-phase */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FEF0B09D7027C5C7A7BFE59 /* app-assets-phase */ = {
+isa = PBXShellScriptBuildPhase;
+            buildActionMask = 2147483647;
+            files = ();
+            inputPaths = ("$(SRCROOT)/Resources/AppIcon-Source.png", "$(SRCROOT)/scripts/prepare-assets.sh",);
+            name = "Prepare opaque AppIcon";
+            outputPaths = ("$(SRCROOT)/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png",);
+            runOnlyForDeploymentPostprocessing = 0;
+            shellPath = /bin/bash;
+            shellScript = "\"$SRCROOT/scripts/prepare-assets.sh\"\n";
+            showEnvVarsInLog = 0;
+		};
+		E7B8BDFFE51D47EF94A40569 /* target-dependency */ = {
+			isa = PBXTargetDependency;
+			target = 79E646DE4E775D4E5BD16120;
+			targetProxy = 6960ABEE0D7F5169260ED41F;
+		};
+		79E646DE4E775D4E5BD16120 /* app-target */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 791A1B696579E792B7BB3BE0;
+			buildPhases = (4FEF0B09D7027C5C7A7BFE59,EBF57122A9712357152B3F57,75B882234ED70F4765980A54,5E94A54F4D37D8B94D95FAA9,);
+			buildRules = ();
+			dependencies = ();
+			fileSystemSynchronizedGroups = (70E804BCC12B7C86B6E75C79,104A90DE8B4CD3B9DDC21E14,);
+			name = Madrasadz;
+			packageProductDependencies = (ACC78A7A70D72FDB07C8125A,);
+			productName = Madrasadz;
+			productReference = B81277501B2DDF3864B782BD;
+			productType = "com.apple.product-type.application";
+		};
+		41BE9A710054F2CFC75091F3 /* tests-target */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A4FFFC878DCC2FC5EA1788E;
+			buildPhases = (347E284F9F797A2887048B14,1EB7A1E3E63860C1F5803A82,17F4D99902E641B3BFF8F7C5,);
+			buildRules = ();
+			dependencies = (E7B8BDFFE51D47EF94A40569,);
+			fileSystemSynchronizedGroups = (E2C588BC27261E8BC74F2C5F,);
+			name = MadrasadzUITests;
+			packageProductDependencies = ();
+			productName = MadrasadzUITests;
+			productReference = 2D76CA28CC10F6D9C66B4898;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		72BF3525D1125E8210D988A0 /* project */ = {
+isa = PBXProject;
+            attributes = { BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1600; LastUpgradeCheck = 1600; TargetAttributes = { 79E646DE4E775D4E5BD16120 = {CreatedOnToolsVersion = 16.0;}; 41BE9A710054F2CFC75091F3 = {CreatedOnToolsVersion = 16.0; TestTargetID = 79E646DE4E775D4E5BD16120;}; }; };
+            buildConfigurationList = C870B145EDE5BC8553173669;
+            compatibilityVersion = "Xcode 16.0";
+            developmentRegion = ar;
+            hasScannedForEncodings = 0;
+            knownRegions = (ar, en, fr, Base,);
+            mainGroup = E618C6600B7BB44B4275504F;
+            minimizedProjectReferenceProxies = 1;
+            packageReferences = (18D91C321B0C9FC6716AEFC1,);
+            preferredProjectObjectVersion = 77;
+            productRefGroup = E41BDE7AD89C85528853CE5A;
+            projectDirPath = "";
+            projectRoot = "";
+            targets = (79E646DE4E775D4E5BD16120,41BE9A710054F2CFC75091F3,);
+		};
+		6E4CEE94451A83476B29B865 /* app-debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 46EF47AA62058C41D4C830C2;
+			buildSettings = {};
+			name = Debug;
+		};
+		87BBD779A3C9D6276FF89FED /* app-release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 51BC638235CBFEC7D41DBDA0;
+			buildSettings = {};
+			name = Release;
+		};
+		791A1B696579E792B7BB3BE0 /* app-config-list */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (6E4CEE94451A83476B29B865,87BBD779A3C9D6276FF89FED,);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		481A5EB5F9BEEFCCEC8798B6 /* tests-debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 46EF47AA62058C41D4C830C2;
+			buildSettings = {PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = com.madrasadz.student.UITests; TEST_TARGET_NAME = Madrasadz; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_FILE = ""; ASSETCATALOG_COMPILER_APPICON_NAME = ""; ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = ""; };
+			name = Debug;
+		};
+		7DE77E575FE5EDAEC005EBAF /* tests-release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 51BC638235CBFEC7D41DBDA0;
+			buildSettings = {PRODUCT_NAME = "$(TARGET_NAME)"; PRODUCT_BUNDLE_IDENTIFIER = com.madrasadz.student.UITests; TEST_TARGET_NAME = Madrasadz; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_FILE = ""; ASSETCATALOG_COMPILER_APPICON_NAME = ""; ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = ""; };
+			name = Release;
+		};
+		8A4FFFC878DCC2FC5EA1788E /* tests-config-list */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (481A5EB5F9BEEFCCEC8798B6,7DE77E575FE5EDAEC005EBAF,);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F9AE58F8364E3C4110E2A9A /* project-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {};
+			name = Debug;
+		};
+		BF0550A27F85BC42D2B4EE07 /* project-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {};
+			name = Release;
+		};
+		C870B145EDE5BC8553173669 /* project-config-list */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (6F9AE58F8364E3C4110E2A9A,BF0550A27F85BC42D2B4EE07,);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18D91C321B0C9FC6716AEFC1 /* package-reference */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/MadrasadzCore;
+		};
+		ACC78A7A70D72FDB07C8125A /* package-product */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 18D91C321B0C9FC6716AEFC1;
+			productName = MadrasadzCore;
+		};
+	};
+	rootObject = 72BF3525D1125E8210D988A0;
+}

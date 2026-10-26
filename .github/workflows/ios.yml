@@ -1,0 +1,28 @@
+name: iOS — manual unsigned validation
+
+# Intentionally manual: no hosted macOS run, paid execution, signing, or distribution is triggered by a push/PR.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-manual-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  simulator:
+    runs-on: macos-15
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect installed Xcode
+        run: xcodebuild -version
+      - name: Prepare and build unsigned Simulator application
+        run: bash platform/ios/scripts/build-unsigned.sh Debug
+      - name: Test core package and native UI on an installed iPhone Simulator
+        run: bash platform/ios/scripts/test-ios.sh
+
+# No App Store Connect API keys, signing certificates, provisioning profiles, archive export,
+# TestFlight upload, App Store submission, deployment, or artifact-distribution step.

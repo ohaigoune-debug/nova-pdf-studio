@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { headers } from 'next/headers'
 import { Suspense, type ReactNode } from 'react'
 import { Logo } from '@/components/brand/logo'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -10,8 +11,14 @@ import { FOOTER_EXTRA, MAIN_SECTIONS } from '@/lib/sections'
 import { savedLevelCode } from '@/server/queries/level-scope'
 import { getT } from '@/i18n/server'
 import { getCurrentActor, homeFor } from '@/server/auth/current-user'
+import { IOS_PRESENTATION_HEADER, IOS_PRESENTATION_VALUE } from '@/lib/ios-presentation'
 
 export default async function PublicLayout({ children }: { children: ReactNode }) {
+  // Stable native presentation. The website keeps its complete navigation when
+  // the preference is absent; no permissions or sales rules depend on it.
+  if ((await headers()).get(IOS_PRESENTATION_HEADER) === IOS_PRESENTATION_VALUE) {
+    return <div className="mx-auto min-h-dvh w-full max-w-4xl px-4 py-5 sm:px-6"><header className="mb-5 flex items-center justify-between gap-3 border-b pb-4"><Link href="/ios"><Logo width={136} /></Link><LocaleSwitcher /></header><main>{children}</main><footer className="mt-8 border-t py-5"><Link href="/privacy" className="text-sm text-primary underline">{(await getT()).t('public.privacy')}</Link></footer></div>
+  }
   const [actor, { t }, saved] = await Promise.all([getCurrentActor(), getT(), savedLevelCode()])
   const links: PublicLink[] = MAIN_SECTIONS.map((s) => ({ href: s.href, label: s.label }))
   const legal = [

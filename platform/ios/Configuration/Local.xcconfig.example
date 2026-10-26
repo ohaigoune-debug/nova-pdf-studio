@@ -1,0 +1,8 @@
+// Copy to Local.xcconfig on your Mac. The local file is gitignored.
+// This identifier is a proposal, not an Apple reservation.
+// PRODUCT_BUNDLE_IDENTIFIER = com.madrasadz.student
+// DEVELOPMENT_TEAM = YOUR_TEAM_ID
+// MARKETING_VERSION = 1.0.0
+// CURRENT_PROJECT_VERSION = 1
+// Use only an explicitly trusted HTTPS staging origin, and update/test native URL policy too.
+// MADRASADZ_BASE_URL = https:/$()/staging.example.invalid

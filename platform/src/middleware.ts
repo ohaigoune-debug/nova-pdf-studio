@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { IOS_CLIENT_HEADER, IOS_PRESENTATION_COOKIE, IOS_PRESENTATION_HEADER, IOS_PRESENTATION_VALUE, iosPresentationRedirect, iosPresentationState } from '@/lib/ios-presentation'
 
 const SESSION_COOKIE = 'madrasa_session'
 const PROTECTED = ['/student', '/teacher', '/assistant', '/admin', '/print']
@@ -36,6 +37,11 @@ function buildCsp(nonce: string): string {
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
+  const ios = iosPresentationState({ pathname, cookie: req.cookies.get(IOS_PRESENTATION_COOKIE)?.value, clientHeader: req.headers.get(IOS_CLIENT_HEADER) })
+  if (ios.enabled) {
+    const target = iosPresentationRedirect(pathname)
+    if (target) return NextResponse.redirect(new URL(target, req.url))
+  }
 
   // فحص خفيف على الحافة: وجود كوكي الجلسة فقط. التحقق الحقيقي في الخادم.
   if (PROTECTED.some((p) => pathname === p || pathname.startsWith(p + '/'))) {
@@ -50,6 +56,10 @@ export function middleware(req: NextRequest) {
   const nonce = btoa(crypto.randomUUID())
   const csp = buildCsp(nonce)
   const requestHeaders = new Headers(req.headers)
+  // Ignore forged internal headers; only the persisted presentation preference
+  // (or its explicit /ios bootstrap) supplies this server rendering hint.
+  requestHeaders.delete(IOS_PRESENTATION_HEADER)
+  if (ios.enabled) requestHeaders.set(IOS_PRESENTATION_HEADER, IOS_PRESENTATION_VALUE)
   requestHeaders.set('x-nonce', nonce)
   requestHeaders.set('Content-Security-Policy', csp)
   const fromApp = req.nextUrl.searchParams.get('source') === APP_SOURCE
@@ -59,6 +69,7 @@ export function middleware(req: NextRequest) {
   const res = NextResponse.next({ request: { headers: requestHeaders } })
   res.headers.set('Content-Security-Policy', csp)
   if (fromApp) res.cookies.set(APP_COOKIE, '1', { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/' })
+  if (ios.activate) res.cookies.set(IOS_PRESENTATION_COOKIE, IOS_PRESENTATION_VALUE, { httpOnly: true, maxAge: 60 * 60 * 24 * 30, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/' })
   return res
 }
 
@@ -71,6 +82,17 @@ export const config = {
         { type: 'header', key: 'next-router-prefetch' },
         { type: 'header', key: 'purpose', value: 'prefetch' }
       ]
+    },
+    {
+      // iOS presentation must also cover RSC/SPA prefetch requests. It is not
+      // an authorization bypass: APIs and existing page guards are unchanged.
+      source: '/((?!_next/static|_next/image|favicon.ico|icon.svg|sw.js|manifest.webmanifest|api/).*)',
+      has: [{ type: 'cookie', key: 'madrasa_ios_study', value: 'study-only' }]
+    },
+    {
+      // A forged internal hint is stripped even on an ordinary prefetch.
+      source: '/((?!_next/static|_next/image|favicon.ico|icon.svg|sw.js|manifest.webmanifest|api/).*)',
+      has: [{ type: 'header', key: 'x-madrasa-ios-presentation' }]
     }
   ]
 }

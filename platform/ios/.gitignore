@@ -1,0 +1,13 @@
+# Xcode local state, signing choices and generated build outputs.
+xcuserdata/
+*.xcuserstate
+.DS_Store
+.build/
+DerivedData/
+build/
+*.xcarchive/
+*.ipa
+*.dSYM/
+Configuration/Local.xcconfig
+# Generated deterministically on macOS by the prepare-assets build phase.
+Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png

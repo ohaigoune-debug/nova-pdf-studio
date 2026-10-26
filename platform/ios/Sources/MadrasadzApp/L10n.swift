@@ -1,0 +1,68 @@
+import Foundation
+
+enum L10n {
+    static func text(_ key: String) -> String {
+        let language = Bundle.main.preferredLocalizations.first ?? "ar"
+        let column = language == "fr" ? 1 : language == "en" ? 2 : 0
+        return values[key]?[column] ?? key
+    }
+
+    private static let values: [String: [String]] = [
+        "study": ["التعلّم", "Apprendre", "Learn"],
+        "saved": ["المفضلة", "Favoris", "Bookmarks"],
+        "planner": ["خطة المراجعة", "Révisions", "Revision plan"],
+        "account": ["الحساب والخصوصية", "Compte et confidentialité", "Account and privacy"],
+        "checking": ["جارٍ التحقق من الحساب…", "Vérification du compte…", "Checking your account…"],
+        "signIn": ["تسجيل الدخول", "Se connecter", "Sign in"],
+        "signInRequired": ["سجّل الدخول لتفتح مفضلتك وخطة مراجعتك الخاصة بهذا الحساب.", "Connectez-vous pour retrouver vos favoris et votre planning personnels.", "Sign in to open this account’s personal bookmarks and revision plan."],
+        "verifyPhone": ["أكمل تأكيد هاتفك في المنصة قبل استخدام المساحة الشخصية.", "Confirmez votre téléphone sur la plateforme avant d’utiliser votre espace personnel.", "Complete phone verification on the platform to use your personal space."],
+        "verifyAccount": ["التحقق من الحساب", "Vérifier le compte", "Verify account"],
+        "offlineAccount": ["تعذر التحقق من الجلسة. اتصل بالإنترنت وأعد المحاولة لفتح بياناتك الشخصية.", "Impossible de vérifier la session. Reconnectez-vous au réseau et réessayez.", "Your session could not be verified. Connect to the internet and try again to unlock personal data."],
+        "studentOnly": ["هذه النسخة مخصّصة لحسابات التلاميذ.", "Cette application est réservée aux comptes élèves.", "This app is for student accounts."],
+        "retry": ["إعادة المحاولة", "Réessayer", "Try again"],
+        "connection": ["تعذر تحميل الصفحة", "Chargement impossible", "Unable to load the page"],
+        "connectionBody": ["تحقق من الاتصال، ثم أعد المحاولة. قد تحتاج هذه النسخة إلى تحديث الخادم قبل اختبارها.", "Vérifiez votre connexion puis réessayez. Cette version peut nécessiter la mise à jour du serveur avant les tests.", "Check your connection and try again. This build may require the server update before testing."],
+        "back": ["رجوع", "Retour", "Back"],
+        "forward": ["تقدّم", "Suivant", "Forward"],
+        "reload": ["تحديث الصفحة", "Actualiser", "Reload page"],
+        "bookmark": ["حفظ رابط الصفحة", "Ajouter aux favoris", "Bookmark this page"],
+        "share": ["مشاركة رابط الصفحة", "Partager le lien", "Share page link"],
+        "savedEmpty": ["صفحاتك المفضلة", "Vos pages favorites", "Your bookmarked pages"],
+        "savedBody": ["افتح درسًا ثم اضغط رمز المفضلة. تحفظ الروابط فقط؛ يبقى الوصول للمحتوى خاضعًا لاشتراكك.", "Ouvrez une leçon puis ajoutez-la aux favoris. Seuls les liens sont enregistrés ; les droits d’accès restent vérifiés.", "Open a lesson and tap the bookmark button. Only links are saved; content still requires your current access rights."],
+        "planEmpty": ["ابدأ خطة مراجعتك", "Préparez vos révisions", "Start your revision plan"],
+        "planBody": ["أضف موعد مراجعة، واختر إن كنت تريد تذكيرًا محليًا على هذا الجهاز.", "Ajoutez une séance et choisissez un rappel local sur cet appareil.", "Add a study session and optionally set a local reminder on this device."],
+        "add": ["إضافة مراجعة", "Ajouter une révision", "Add revision"],
+        "edit": ["تعديل المراجعة", "Modifier la révision", "Edit revision"],
+        "title": ["ماذا ستراجع؟", "Que réviser ?", "What will you revise?"],
+        "date": ["موعد المراجعة", "Date de révision", "Revision date"],
+        "reminder": ["ذكّرني على هذا الجهاز", "Me rappeler sur cet appareil", "Remind me on this device"],
+        "reminderPrivacy": ["التذكير اختياري، ونصه عام دون عنوان الدرس. لا تُرسل الخطة إلى الخادم.", "Le rappel est facultatif et ne révèle pas le titre du cours. Le planning n’est pas envoyé au serveur.", "Reminders are optional and use generic text without a lesson title. Your plan is not sent to the server."],
+        "reminderBody": ["حان وقت مراجعتك. افتح مدرسة لتتابع خطتك.", "C’est l’heure de réviser. Ouvrez Madrasadz pour consulter votre planning.", "It’s time to revise. Open Madrasadz to check your plan."],
+        "reminderDenied": ["حُفظ الموعد دون تذكير. يمكنك السماح بالإشعارات من إعدادات iPhone.", "Séance enregistrée sans rappel. Autorisez les notifications dans les réglages de l’iPhone.", "Saved without a reminder. You can allow notifications in iPhone Settings."],
+        "reminderLimit": ["الحد الأقصى 50 تذكيرًا نشطًا. عطّل تذكيرًا سابقًا لإضافة آخر.", "La limite est de 50 rappels actifs. Désactivez-en un pour en ajouter un autre.", "You can have up to 50 active reminders. Disable one before adding another."],
+        "reminderUnavailable": ["حُفظ الموعد دون تذكير لتعذر جدولته على الجهاز.", "Séance enregistrée sans rappel : la programmation a échoué.", "Saved without a reminder because it could not be scheduled on this device."],
+        "save": ["حفظ", "Enregistrer", "Save"],
+        "cancel": ["إلغاء", "Annuler", "Cancel"],
+        "delete": ["حذف", "Supprimer", "Delete"],
+        "complete": ["تمّت المراجعة", "Révision terminée", "Mark completed"],
+        "reopen": ["إعادة فتح المراجعة", "Réouvrir la révision", "Reopen revision"],
+        "privacy": ["سياسة الخصوصية", "Confidentialité", "Privacy policy"],
+        "support": ["الدعم", "Assistance", "Support"],
+        "profile": ["ملفي وحذف الحساب", "Profil et suppression du compte", "Profile and account deletion"],
+        "logout": ["تسجيل الخروج", "Se déconnecter", "Sign out"],
+        "logoutBody": ["سيُلغى دخول هذا التطبيق وتُحذف مفضلتك وخطة مراجعتك المحلية لهذا الحساب وتذكيراته. تبقى بيانات المنصة وفق سياسة الخصوصية.", "La session de cette application, les favoris, le planning local et ses rappels seront supprimés. Les données du service suivent sa politique de confidentialité.", "This app session, this account’s local bookmarks, revision plan and reminders will be removed. Server data follows the privacy policy."],
+        "notice": ["تنبيه", "Information", "Notice"],
+        "ok": ["حسنًا", "D’accord", "OK"],
+        "error": ["تعذر إكمال العملية. أعد المحاولة.", "Impossible de terminer. Veuillez réessayer.", "The operation could not be completed. Please try again."],
+        "exportDenied": ["تعذرت مشاركة الملف. يلزم اتصال وجلسة صالحة وسماح الأستاذ بتنزيل هذا الملف. الملفات المحمية والفيديوهات لا تُصدّر.", "Partage impossible. Une connexion, une session valide et l’autorisation de téléchargement du professeur sont nécessaires. Les contenus protégés et vidéos ne sont pas exportés.", "Unable to share this file. A connection, valid session and the teacher’s download permission are required. Protected files and videos are not exported."],
+        "purchaseBlocked": ["الشراء وتفعيل الأكواد غير متاحين في نسخة iPhone الحالية. لا توجد مشتريات Apple مفعّلة بعد.", "Les achats et l’activation par code ne sont pas disponibles dans cette version iPhone. Les achats Apple ne sont pas encore configurés.", "Purchases and code activation are unavailable in this iPhone version. Apple purchases have not been configured."],
+        "communityBlocked": ["المنتدى غير متاح في نسخة iPhone الحالية.", "Le forum n’est pas disponible dans cette version iPhone.", "The forum is unavailable in this iPhone version."],
+        "routeBlocked": ["هذه الصفحة غير متاحة في التطبيق. يمكنك متابعة التعلّم من الصفحة الرئيسية.", "Cette page n’est pas disponible dans l’application. Revenez à l’accueil pour apprendre.", "This page is unavailable in the app. Continue learning from the home page."],
+        "studyOnly": ["نسخة تعلّم: لا شراء أو تفعيل أكواد داخل التطبيق. المفضلة تحفظ الروابط فقط، ولا تُنزّل الدروس المحمية.", "Version apprentissage : aucun achat ni activation par code. Les favoris enregistrent des liens, sans télécharger les cours protégés.", "Learning build: no purchases or code activation. Bookmarks save links only, without downloading protected lessons."],
+        "savedNotice": ["أُضيف الرابط إلى المفضلة.", "Lien ajouté aux favoris.", "Page link bookmarked."],
+        "logoutOffline": ["مُسحت بيانات الدخول المحلية. تعذر تأكيد إلغاء الجلسة على الخادم؛ أعد الاتصال لإكماله.", "Les données locales de connexion ont été effacées. La révocation sur le serveur n’a pas pu être confirmée ; reconnectez-vous pour terminer.", "Local sign-in data was cleared. Server revocation could not be confirmed; reconnect to finish it."],
+        "localCleanupFailed": ["أُغلق الوصول المحلي، لكن تعذر تأكيد حذف ملف الخطة. أعد المحاولة قبل مشاركة الجهاز.", "L’accès local est verrouillé, mais la suppression du planning n’a pas pu être confirmée. Réessayez avant de partager l’appareil.", "Local access is locked, but planner file removal could not be confirmed. Retry before sharing this device."],
+        "logoutPending": ["إلغاء الجلسة يحتاج اتصالًا. لم يُسجّل الخروج بعد.", "Une connexion est nécessaire pour révoquer la session. Vous n’êtes pas encore déconnecté.", "A connection is required to revoke this session. You have not signed out yet."],
+        "logoutSuccess": ["تم تسجيل الخروج.", "Vous êtes déconnecté.", "You are signed out."],
+    ]
+}
