@@ -211,3 +211,46 @@ and an isolated matching backend remain separate unresolved items.
 
 Updated verdict: **signed IPA export verified on macOS; not yet available in
 TestFlight, not yet validated on a physical iPhone, not ready for App Review.**
+
+
+## Initial TestFlight delivery accepted — 26 October 2026 UTC
+
+After reviewing the visible API terms, the owner approved accepting them, requesting
+access, creating a Developer-role team API key and storing it in GitHub Actions
+Secrets for this upload. Apple approved API access. The private key was downloaded
+once, checked without printing it and stored separately from public source.
+The workflow uses only the three upload Secrets; it does not receive signing keys.
+
+- Upload workflow source: `fd5ea7a513a181289d7951f4dd479c496464d4a6`.
+- [Run 40375418654](https://github.com/ohaigoune-debug/nova-pdf-studio/actions/runs/40375418654),
+  job 121757042548, completed **success** on Xcode 26.6.
+- It downloaded the existing signed IPA from run 40373277061, verified the bundle,
+  version 1.0.0 and build 1, then ran `xcrun altool --validate-app` and
+  `xcrun altool --upload-app` with API-key authentication. Both exited 0:
+  **VERIFY SUCCEEDED with no errors** and **UPLOAD SUCCEEDED with no errors**.
+- Apple delivery/build UUID: `762c7bc3-0c7f-4a4e-98f8-53c78d324194`.
+  Upload receipt: 26 October 2026 18:13:28 UTC (19:13:28 Algeria).
+- A subsequent authenticated Apple API read confirmed this build belongs to app
+  6827229065, has `processingState=VALID`, build 1, minimum iOS 17.0,
+  `expired=false`, and `usesNonExemptEncryption=null`.
+- Its buildBetaDetail reports both internal/external state
+  **MISSING_EXPORT_COMPLIANCE**. No exemption was declared and no tester was
+  enrolled or invited. Upload acceptance is not availability for installation.
+- A private internal group `Madrasadz Internal` was prepared, with no public link,
+  no access to all future builds, and Mac/Apple Vision access disabled. No build
+  or tester was assigned to it while compliance remains incomplete.
+- TestFlight What to Test instructions were saved for ar-SA, fr-FR and en-US,
+  describing the pending integration tests and unavailable purchase/forum/FairPlay
+  features. These descriptions are instructions, not claims that those tests passed.
+- Source audit found only Apple framework imports and the local MadrasadzCore
+  package in native sources; no linked third-party cryptography library/FairPlay
+  implementation was added. This is input to the owner's pending export-compliance
+  decision, not an automatically submitted exemption or a DRM claim.
+
+The local upload-script checks (`bash -n`, embedded Python parse, workflow YAML,
+pinned artifact/run guard, `git diff --check`) passed before the cloud execution.
+No production server/database, payment model, Android source or .env was changed.
+No external Beta App Review, App Store review/release or physical-device test ran.
+
+Current verdict: **uploaded and processed successfully by Apple; pending export
+compliance and internal tester assignment before installation via TestFlight.**

@@ -97,3 +97,14 @@ Status after follow-up review (2026-10-26): **Linux source preparation; no Xcode
 - TestFlight: NOT UPLOADED; new API-access authorization is pending.
 - See VALIDATION.md for failed first attempt, fix, commands, artifact metadata and
   exact boundaries. The signed build result does not overwrite device-test rows.
+
+
+## Initial Apple upload evidence — 26 October 2026
+
+- Upload run 40375418654 PASS; Apple validation and delivery both succeeded.
+- Version 1.0.0 (1), build UUID 762c7bc3-0c7f-4a4e-98f8-53c78d324194,
+  processing VALID, internal/external states MISSING_EXPORT_COMPLIANCE.
+- Internal group prepared without testers/builds/public links. No device installed
+  the build; all authenticated/device cases remain PENDING.
+- These later records supersede earlier NOT UPLOADED/PENDING-API status only for
+  delivery/API setup; they do not promote any native integration row to passed.

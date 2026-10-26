@@ -187,3 +187,17 @@ A signed IPA export is not a physical-device test, TestFlight processing, App
 Review approval or a production deployment. This workflow does not upload to
 Apple and needs no App Store Connect upload key. The actual result must be read
 from its run before describing the IPA as signed/exported successfully.
+
+
+### Initial upload to Apple
+
+The owner subsequently approved API access and a Developer-role upload key in
+GitHub Actions Secrets. `ios-testflight-upload.yml` pins the successful signed IPA
+from run 40373277061 and validates/uploads initial version 1.0.0 (1) using
+`upload-testflight.sh`. It runs manually or when its own workflow file changes
+on the named public iOS branch. It is an initial-only workflow: it neither
+rebuilds arbitrary source nor assigns testers, declares export compliance or
+submits an App Store release. Apple accepted upload run 40375418654; processing
+is VALID, but installation remains blocked by MISSING_EXPORT_COMPLIANCE.
+Do not rerun the same build after a successful delivery; the next build must
+increment its build number. See docs/VALIDATION.md for evidence and limits.

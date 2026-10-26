@@ -1,14 +1,14 @@
 # Build, TestFlight and App Store readiness
 
-Current classification: **source/project preparation for unsigned macOS validation**. The Linux environment did not compile the iOS target or run a simulator. This is not an IPA, not a TestFlight-ready build, and not a review-ready submission.
+Current classification (26 October 2026): **signed IPA exported, validated and uploaded to Apple; processing VALID, TestFlight blocked by MISSING_EXPORT_COMPLIANCE**. Simulator Debug/Release and the disconnected shell tests have passed on hosted macOS. No physical-iPhone integration test or App Review submission has occurred. See VALIDATION.md for exact source commits and runs.
 
 ## 1. Local macOS validation
 
 - [ ] Clone the development branch and preserve the documented baseline/commit history.
 - [ ] Install the Xcode version required by the checked-in project; the validation/distribution minimum is Xcode 26 with iOS 26+ SDK (Apple requirement since 2026-04-28); keep the app deployment target at iOS 17. Project-format compatibility with Xcode 16 is not distribution compatibility.
 - [ ] Follow `../README.md` for the precise project generation/build/test commands. Do not confuse a Linux syntax/source check with `xcodebuild`.
-- [ ] Build Debug and Release for a generic iOS Simulator unsigned; inspect all compiler/linker/asset/Info.plist issues.
-- [ ] Run native unit/UI tests available in the project and fill DEVICE-TEST-MATRIX.md with actual results.
+- [x] Build Debug and Release for a generic iOS Simulator unsigned: hosted macOS run 40350226821 passed on f089e862. This does not establish physical-device behavior.
+- [x] Run existing package/native shell tests: 37 core and 3 disconnected AR/FR/EN UI cases passed on hosted macOS; integration/device rows remain pending in DEVICE-TEST-MATRIX.md.
 - [ ] Verify permitted PDF export and denied/expired/revoked/account-switch cases, 25 MiB bounds, temporary cleanup and clear no-recall limits; do not claim an offline course library.
 - [ ] Follow ISOLATED-VALIDATION.md; offline Debug UI tests never establish backend integration. Test against an isolated compatible Next.js server. A deployed `/ios` portal and minimal session APIs are required for live integration; they are not deployed by this task.
 - [ ] Inspect app icon/launch resources at all sizes; icon source derives from existing project branding, not a screenshot of the website.
@@ -16,12 +16,13 @@ Current classification: **source/project preparation for unsigned macOS validati
 
 ## 2. Signing and account setup (owner action)
 
-- [ ] Apple Developer membership active; pending enrollment is not distribution authorization.
+- [x] Apple Developer resources accessible: team VN2768K4UH, certificate/profile issued, signed device archive exported and Apple upload accepted. Do not infer future renewal or other agreements from this result.
 - [ ] Confirm legal account owner, rights to the Madrasadz brand and teaching content, contact details and distribution countries.
-- [ ] Confirm Bundle Identifier availability in the developer account and reserve the intended App ID. Proposed identifiers in source are not proof of reservation or global availability.
-- [ ] Set Team ID in local/untracked configuration or CI secrets; do not commit private keys, certificates, provisioning profiles or App Store Connect API keys.
-- [ ] Choose the actual marketing version and monotonically increasing build number. No existing iOS release was inferred from Android versions.
-- [ ] Configure correct signing profiles and device registration where needed; build and test on a physical iPhone.
+- [x] Reserve explicit App ID com.madrasadz.student under VN2768K4UH; App Store Connect record 6827229065 created.
+- [x] Team ID is public signing configuration; encrypted signing material and the owner-approved Developer API key are in GitHub Actions Secrets. No private keys, passwords, certificates or provisioning profiles are in Git.
+- [x] Initial upload: marketing version 1.0.0, build 1. Future uploads must increase the build number; no Android version was reused as evidence.
+- [x] Configure App Store distribution profile and verify signed Release archive/IPA.
+- [ ] Install and test on a physical iPhone after TestFlight compliance and tester setup; no such run occurred.
 
 ## 3. Product and policy blockers
 
@@ -49,10 +50,10 @@ Apple page checked on 2026-10-26: https://developer.apple.com/help/app-store-con
 
 Landscape uses reversed width/height. One to ten screenshots per device size, JPEG/JPG/PNG without alpha/transparency. Do not stretch a screenshot to another device ratio or fabricate app functionality. A practical set: real learning portal, real authorized lesson, bookmarks, planner and chosen reminder flow. Use Arabic and French captures only for actual supported localized screens. Do not use the generated identity phone mockup as a store screenshot.
 
-## 5. TestFlight (later, explicitly authorized)
+## 5. TestFlight (initial upload authorized and completed)
 
-- [ ] All preceding build/signing/device/security gates pass and app endpoints are available in the authorized environment.
-- [ ] Archive/validate in Xcode; export/upload only after owner authorization. No automatic upload workflow is enabled in this task.
+- [ ] Complete remaining integration/device/security gates and matching HTTPS backend checks before expanding testing. The initial internal upload is not evidence that these gates passed.
+- [x] Owner-authorized archive/export run 40373277061 passed; validate/upload run 40375418654 passed with VERIFY SUCCEEDED and UPLOAD SUCCEEDED. The initial-only upload workflow pins that successful IPA, not an arbitrary artifact. Apple reports processing VALID; not yet installable because export compliance is missing.
 - [ ] No encryption-exemption answer is predeclared in Info.plist. Complete export-compliance questions according to actual encryption use and obtain an answer from the owner where required; do not invent an exemption.
 - [ ] Add test information, privacy policy and reviewer details; comply with Beta App Review for external testers.
 - [ ] Record device tests, crashes and session/content failures before expanding testers.
@@ -65,4 +66,4 @@ Landscape uses reversed width/height. One to ten screenshots per device size, JP
 - [ ] No review-only hiding, no unpublished payment switches and no accidental commerce/community escape routes.
 - [ ] Obtain separate authorization before submitting, releasing or deploying production.
 
-The provided CI is intended for manual `workflow_dispatch` build/test only on macOS, unsigned and without automatic upload. Creating the workflow is not a CI execution result; no paid CI job is triggered merely to prepare these sources.
+CI now separates unsigned Simulator validation, signed IPA export, and the explicitly owner-authorized initial upload. Standard macOS runners are guarded to this public repository/iOS branch. Initial upload workflow changes can trigger its one-build upload; no App Review submission or production deployment is configured. Use actual run logs, never the presence of workflow files, as execution evidence.
