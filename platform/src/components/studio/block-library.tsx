@@ -113,7 +113,7 @@ function MyBlocks({ subjectId, onInsert, pending, refreshKey }: { subjectId: str
               <div className="flex items-center justify-between gap-1">
                 <span className="truncate font-semibold">{it.title}</span>
                 <span className="flex shrink-0 items-center gap-0.5">
-                  <button type="button" onClick={() => void fav(it)} title="مفضّلة" className={cn('rounded p-0.5', it.isFavorite ? 'text-accent' : 'text-muted-foreground')}>
+                  <button type="button" onClick={() => void fav(it)} title="مفضّلة" className={cn('rounded p-0.5', it.isFavorite ? 'text-primary' : 'text-muted-foreground')}>
                     {it.isFavorite ? <BookmarkCheck className="size-3.5" /> : <Bookmark className="size-3.5" />}
                   </button>
                   <button type="button" onClick={() => void del(it)} title="حذف" className="rounded p-0.5 text-muted-foreground hover:text-destructive">

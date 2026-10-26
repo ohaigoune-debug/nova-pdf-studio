@@ -126,7 +126,7 @@ export default async function BacBankAdminPage({ searchParams }: { searchParams:
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
-            <Sparkles className="size-5 text-accent" /> الحلول المفصّلة بانتظار المراجعة <Badge variant="muted">{queue.length}</Badge>
+            <Sparkles className="size-5 text-primary" /> الحلول المفصّلة بانتظار المراجعة <Badge variant="muted">{queue.length}</Badge>
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">

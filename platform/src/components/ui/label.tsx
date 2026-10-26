@@ -16,12 +16,32 @@ const Label = React.forwardRef<
 ))
 Label.displayName = 'Label'
 
+/**
+ * تسمية ظاهرة دائمة + تلميح أو خطأ مربوطان بالحقل (aria-describedby / aria-invalid) حين يُعطى htmlFor
+ * وكان الابن عنصراً واحداً. لا يغيّر قيمة الحقل ولا سلوكه.
+ */
 export function Field({ label, htmlFor, hint, error, children, className }: { label: string; htmlFor?: string; hint?: string; error?: string; children: React.ReactNode; className?: string }) {
+  const noteId = htmlFor && (error || hint) ? `${htmlFor}-${error ? 'error' : 'hint'}` : undefined
+  const child =
+    noteId && React.isValidElement<{ 'aria-describedby'?: string; 'aria-invalid'?: boolean }>(children)
+      ? React.cloneElement(children, {
+          'aria-describedby': [children.props['aria-describedby'], noteId].filter(Boolean).join(' '),
+          ...(error ? { 'aria-invalid': true } : {})
+        })
+      : children
   return (
     <div className={cn('space-y-1.5', className)}>
       <Label htmlFor={htmlFor}>{label}</Label>
-      {children}
-      {error ? <p className="text-xs text-destructive">{error}</p> : hint ? <p className="text-xs text-muted-foreground">{hint}</p> : null}
+      {child}
+      {error ? (
+        <p id={noteId} className="text-sm text-destructive">
+          {error}
+        </p>
+      ) : hint ? (
+        <p id={noteId} className="text-xs leading-relaxed text-muted-foreground">
+          {hint}
+        </p>
+      ) : null}
     </div>
   )
 }

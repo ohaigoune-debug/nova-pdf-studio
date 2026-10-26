@@ -30,6 +30,15 @@
   font-style: normal;
   font-display: swap;
 }
+/* عناوين الواجهة (هوية مدرسة v2): El Messiri متغيّر الوزن 400–700، رخصة OFL في fonts/OFL-ElMessiri.txt */
+@font-face {
+  font-family: 'El Messiri';
+  src: url('/fonts/ElMessiri-Variable.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* أميري ورقعة: مستندات الطباعة والدروس والشعر فقط — لا تتغيّر بتغيّر خط الواجهة */
 @font-face {
   font-family: 'Amiri';
   src: url('/fonts/Amiri-Regular.woff2') format('woff2');
@@ -57,84 +66,91 @@
 @tailwind utilities;
 
 /*
- * MADRASADZ identity v1: neutral surfaces, blue navigation, semantic status colors.
- * لا أصفر ولا برتقالي فاقع للتمييز (قرار المالك 2026-10-24): لون التمييز أزرق سماوي فاتح؛ البرتقالي للتنبيه الدلالي فقط.
- * الألوان HSL مفكّكة لتعمل مع تدرّجات الشفافية (bg-primary/10).
+ * هوية مدرسة v2 — «بوابة المعرفة»: الأزرق #3155F5 للإجراء، الكحلي #111B35 للنص، الليموني #D9FA63 مساعد محدود
+ * (بكتابة كحلية عليه، لا نصوص ليمونية)، الأبيض الدافئ #F6F5F0 للخلفية. ألوان الحالات دلالية ومستقلة عن الهوية.
+ * الألوان HSL مفكّكة لتعمل مع تدرّجات الشفافية (bg-primary/10). المرجع: حزمة التسليم reference/brand-tokens.
  */
 @layer base {
   :root {
-    --font-arabic: 'IBM Plex Sans Arabic', 'Tajawal', 'Noto Naskh Arabic', 'Segoe UI', Tahoma, sans-serif;
+    --font-arabic: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+    --font-heading: 'El Messiri', 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif;
 
-    --background: 220.000 15.789% 96.275%;
-    --foreground: 219.130 28.395% 15.882%;
-    --card: 0.000 0.000% 100.000%;
-    --card-foreground: 219.130 28.395% 15.882%;
-    --popover: 0.000 0.000% 100.000%;
-    --popover-foreground: 219.130 28.395% 15.882%;
-    --primary: 220.000 46.154% 35.686%;
-    --primary-foreground: 0.000 0.000% 100.000%;
-    --secondary: 217.500 53.333% 94.118%;
-    --secondary-foreground: 220.000 46.154% 35.686%;
-    --muted: 217.500 53.333% 94.118%;
-    --muted-foreground: 218.710 13.305% 45.686%;
-    --accent: 212 82% 84%;
-    --accent-foreground: 219.130 28.395% 15.882%;
-    --destructive: 0.000 77.114% 60.588%;
-    --destructive-foreground: 0.000 0.000% 100.000%;
-    --success: 142.051 55.450% 41.373%;
-    --success-foreground: 0.000 0.000% 100.000%;
-    --warning: 32 72% 47%;
-    --warning-foreground: 219.130 28.395% 15.882%;
-    --border: 220.000 20.930% 91.569%;
-    --input: 220.000 20.930% 91.569%;
-    --ring: 220.000 46.154% 35.686%;
-    --sidebar: 217.200 50.000% 19.608%;
-    --sidebar-foreground: 0.000 0.000% 100.000%;
-    --sidebar-muted: 218.462 40.206% 80.980%;
-    --sidebar-border: 220.000 46.154% 35.686%;
-    --sidebar-active: 0.000 0.000% 100.000%;
-    --shadow-color: 217.200 50.000% 19.608%;
-    --purple: 270.000 38.333% 52.941%;
-    --cyan: 191.707 60.000% 40.196%;
-    --brand-blue: 220.000 46.154% 35.686%;
-    --brand-blue-hover: 218.333 48.000% 29.412%;
+    --background: 50 25% 95.3%; /* #F6F5F0 */
+    --foreground: 223.3 51.4% 13.7%; /* #111B35 */
+    --card: 0 0% 100%;
+    --card-foreground: 223.3 51.4% 13.7%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 223.3 51.4% 13.7%;
+    --primary: 229 90.7% 57.6%; /* #3155F5 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 228 100% 96.1%; /* #EBEFFF */
+    --secondary-foreground: 230.6 67.8% 46.3%; /* #263FC6 */
+    --muted: 222.9 25.9% 94.7%; /* #EEF0F5 */
+    --muted-foreground: 220 15.6% 41.4%; /* #59647A */
+    --accent: 73.1 93.8% 68.4%; /* #D9FA63 */
+    --accent-foreground: 223.3 51.4% 13.7%;
+    --destructive: 4.2 76.5% 40%; /* #B42318 */
+    --destructive-foreground: 0 0% 100%;
+    --success: 151.9 69.6% 27.1%; /* #157548 */
+    --success-foreground: 0 0% 100%;
+    --warning: 36.1 100% 27.1%; /* #8A5300 */
+    --warning-foreground: 0 0% 100%;
+    --border: 218.8 27% 87.6%; /* #D7DDE8 */
+    --input: 219.4 16% 60.8%; /* #8B96AB */
+    --ring: 229 90.7% 57.6%;
+    --sidebar: 223.3 51.4% 13.7%; /* #111B35 */
+    --sidebar-foreground: 50 25% 95.3%;
+    --sidebar-muted: 220 30.6% 80.8%; /* #BFC9DD */
+    --sidebar-border: 221.9 29.3% 28.8%; /* #34415F */
+    --sidebar-active: 73.1 93.8% 68.4%; /* الليموني: مؤشّر العنصر النشط فقط */
+    --shadow-color: 223.3 51.4% 13.7%;
+    --purple: 270 38.3% 52.9%;
+    --cyan: 191.7 60% 40.2%;
+    --brand-blue: 229 90.7% 57.6%;
+    --brand-blue-hover: 229.1 69.8% 49.4%; /* #2646D6 */
+    --brand-navy: 223.3 51.4% 13.7%;
+    --brand-lime: 73.1 93.8% 68.4%;
+    --brand-paper: 50 25% 95.3%;
     --radius: 18px;
   }
 
   .dark {
-    --background: 219.130 41.818% 10.784%;
-    --foreground: 217.500 53.333% 94.118%;
-    --card: 216.774 38.272% 15.882%;
-    --card-foreground: 217.500 53.333% 94.118%;
-    --popover: 216.774 38.272% 15.882%;
-    --popover-foreground: 217.500 53.333% 94.118%;
-    --primary: 218.630 72.277% 80.196%;
-    --primary-foreground: 217.200 50.000% 19.608%;
-    --secondary: 216.000 39.130% 22.549%;
-    --secondary-foreground: 217.500 53.333% 94.118%;
-    --muted: 216.000 39.130% 22.549%;
-    --muted-foreground: 217.500 27.119% 76.863%;
-    --accent: 216.000 39.130% 22.549%;
-    --accent-foreground: 217.500 53.333% 94.118%;
-    --destructive: 0.000 100.000% 76.471%;
-    --destructive-foreground: 219.130 41.818% 10.784%;
-    --success: 141.869 52.195% 59.804%;
-    --success-foreground: 219.130 41.818% 10.784%;
-    --warning: 32 72% 47%;
-    --warning-foreground: 219.130 28.395% 15.882%;
-    --border: 217.895 26.761% 27.843%;
-    --input: 217.895 26.761% 27.843%;
-    --ring: 218.630 72.277% 80.196%;
-    --sidebar: 217.200 50.000% 19.608%;
-    --sidebar-foreground: 0.000 0.000% 100.000%;
-    --sidebar-muted: 218.462 40.206% 80.980%;
-    --sidebar-border: 220.000 46.154% 35.686%;
-    --sidebar-active: 0.000 0.000% 100.000%;
-    --shadow-color: 217.200 50.000% 19.608%;
-    --purple: 268.462 69.643% 78.039%;
-    --cyan: 191.765 59.302% 66.275%;
-    --brand-blue: 220.000 46.154% 35.686%;
-    --brand-blue-hover: 218.333 48.000% 29.412%;
+    --background: 223.8 48.1% 10.6%; /* #0E1528 */
+    --foreground: 50 25% 95.3%;
+    --card: 221.7 43.9% 16.1%; /* #17223B */
+    --card-foreground: 50 25% 95.3%;
+    --popover: 221.7 43.9% 16.1%;
+    --popover-foreground: 50 25% 95.3%;
+    --primary: 226.8 100% 78.6%; /* #92AAFF: الأزرق المقروء على الكحلي */
+    --primary-foreground: 223.3 51.4% 13.7%;
+    --secondary: 221 35% 22.9%; /* #26334F */
+    --secondary-foreground: 227.6 100% 94.3%;
+    --muted: 219 37% 21.2%; /* #22304A */
+    --muted-foreground: 220.6 29.5% 79.4%; /* #BBC5DA */
+    --accent: 73.1 93.8% 68.4%;
+    --accent-foreground: 223.3 51.4% 13.7%;
+    --destructive: 6.4 100% 83.5%; /* #FFB4AB */
+    --destructive-foreground: 4.1 63% 18%;
+    --success: 146.8 54% 65.9%; /* #79D7A3 */
+    --success-foreground: 154.3 46.7% 11.8%;
+    --warning: 38.3 85.6% 72.7%; /* #F5CA7E */
+    --warning-foreground: 37.8 100% 10.6%;
+    --border: 218.7 28.3% 31.2%; /* #394966 */
+    --input: 218 20.3% 52.7%; /* #6E809F */
+    --ring: 226.8 100% 78.6%;
+    --sidebar: 223.3 51.4% 13.7%;
+    --sidebar-foreground: 50 25% 95.3%;
+    --sidebar-muted: 220 30.6% 80.8%;
+    --sidebar-border: 221.9 29.3% 28.8%;
+    --sidebar-active: 73.1 93.8% 68.4%;
+    --shadow-color: 0 0% 0%;
+    --purple: 268.5 69.6% 78%;
+    --cyan: 191.8 59.3% 66.3%;
+    --brand-blue: 229 90.7% 57.6%;
+    --brand-blue-hover: 229.1 69.8% 49.4%;
+    --brand-navy: 223.3 51.4% 13.7%;
+    --brand-lime: 73.1 93.8% 68.4%;
+    --brand-paper: 50 25% 95.3%;
   }
 
   * {
@@ -148,20 +164,23 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    line-height: 1.7;
     font-feature-settings: 'kern', 'liga', 'calt';
     text-rendering: optimizeLegibility;
     /* عنصر زخرفي يتجاوز الحافة لا يفتح تمريراً أفقياً على الهاتف */
     overflow-x: clip;
   }
 
+  /* لا تباعد حروف على العربية: يقطع الوصل. ارتفاع سطر العناوين يحفظ النقاط والصواعد */
   h1,
   h2,
   h3 {
-    letter-spacing: -0.01em;
+    letter-spacing: normal;
+    line-height: 1.4;
   }
 
   ::selection {
-    @apply bg-accent/30;
+    @apply bg-primary/20;
   }
 
   /* حقول التاريخ والوقت في الطرف الأيمن للنص العربي */
@@ -183,27 +202,28 @@
       0 16px 40px -16px hsl(var(--shadow-color) / 0.22);
   }
 
-  /* خلفية الحبر للأقسام البارزة (البطل، بطاقة الدخول): تدرّج + توهّجان ذهبي وزمرّدي */
+  /* المساحة الزرقاء للأقسام البارزة (الأقسام التسويقية، رأس صفحة الطلب): أزرق الهوية بكتابة بيضاء */
   .bg-ink {
     background: hsl(var(--brand-blue));
   }
 
-  /* زخرفة هندسية عربية خفيفة جداً — نجمة ثمانية متكرّرة، لا تشوّش على النص */
+  /* هوية v2 بلا زخرفة متكرّرة: الصنف باقٍ للتوافق ولا يرسم شيئاً */
   .bg-pattern {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='1'%3E%3Cpath d='M32 4l8 20 20 8-20 8-8 20-8-20-20-8 20-8z'/%3E%3Ccircle cx='32' cy='32' r='6'/%3E%3C/g%3E%3C/svg%3E");
-    background-size: 64px 64px;
+    background-image: none;
   }
 
   .text-gold {
     color: hsl(var(--accent));
   }
 
-  /* عنوان بتدرّج أزرق سماوي فاتح على الأزرق — للبطل فقط (الاسم قديم، اللون لم يعد ذهبياً) */
+  /* كلمة مميَّزة واحدة على المساحة الزرقاء (الليموني مساعد، لا يُلوَّن به نص عادي) */
   .text-gradient-gold {
-    background: linear-gradient(120deg, hsl(0 0% 100%), hsl(210 85% 84%) 55%, hsl(0 0% 100%));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: hsl(var(--brand-lime));
+  }
+
+  /* عناوين الواجهة: El Messiri — لا تُطبَّق على مستندات الدروس والطباعة */
+  .font-heading {
+    font-family: var(--font-heading);
   }
 
   .glass {
@@ -250,16 +270,18 @@
 }
 
 @layer components {
+  /* الترويسة فاتحة (هوية v2): الشعار بكتابة كحلية لا يوضع على الأزرق، وفي الداكن يُحاط بلوحة فاتحة */
   .brand-header {
-    background: hsl(var(--brand-blue));
-    color: white;
+    background: hsl(var(--card) / 0.92);
+    color: hsl(var(--foreground));
+    border-bottom: 1px solid hsl(var(--border));
     padding-top: env(safe-area-inset-top);
     min-height: calc(72px + env(safe-area-inset-top));
   }
   .brand-header select { color: hsl(var(--foreground)); }
-  .brand-header label svg { color: white; }
-  .brand-header button, .brand-header a { color: inherit; }
-  .brand-header button:hover, .brand-header a:hover { background-color: rgb(255 255 255 / 0.12); }
+  .brand-header label svg { color: hsl(var(--muted-foreground)); }
+  .brand-header button:not(.bg-primary), .brand-header a:not(.bg-primary) { color: inherit; }
+  .brand-header button:not(.bg-primary):hover, .brand-header a:not(.bg-primary):hover { background-color: hsl(var(--muted)); }
   .student-content { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
   .student-bottom-nav { padding-bottom: env(safe-area-inset-bottom); }
   @media (min-width: 1024px) { .student-content { padding-bottom: 2rem; } }

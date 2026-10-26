@@ -91,7 +91,7 @@ export default async function ForumPage({ searchParams }: { searchParams: Promis
                   <Link href={`/forum/${t.id}`} className="block rounded-xl border bg-card p-4 transition-colors hover:border-primary/50">
                     <div className="flex items-start justify-between gap-3">
                       <h2 className="min-w-0 font-bold leading-snug">
-                        {t.pinned ? <Pin className="me-1 inline size-4 text-accent" aria-label="مثبّت" /> : null}
+                        {t.pinned ? <Pin className="me-1 inline size-4 text-primary" aria-label="مثبّت" /> : null}
                         {t.status === 'LOCKED' ? <Lock className="me-1 inline size-4 text-muted-foreground" aria-label="مقفل" /> : null}
                         {t.title}
                       </h2>

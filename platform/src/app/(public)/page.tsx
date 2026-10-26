@@ -16,8 +16,7 @@ export const dynamic = 'force-dynamic'
 function Preview({ t }: { t: (k: never) => string }) {
   const tt = t as unknown as (k: string) => string
   return (
-    <div className="relative mx-auto w-full max-w-md lg:max-w-none" aria-hidden>
-      <div className="absolute -inset-8 rounded-full bg-accent/10 blur-3xl" />
+    <div className="bg-ink relative mx-auto w-full max-w-md overflow-hidden rounded-xl p-5 shadow-lift sm:p-6 lg:max-w-none" aria-hidden>
       <div className="relative grid gap-4">
         <div className="glass animate-float rounded-lg p-5 shadow-lift" style={{ animationDelay: '0s' }}>
           <div className="flex items-center gap-3">
@@ -104,24 +103,25 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* البطل: حبر، زخرفة خفيفة، عنوان بتدرّج زمرّدي هادئ */}
-      <section className="bg-ink bg-pattern relative overflow-hidden text-white">
-        <div className="container grid items-center gap-12 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:py-28">
-          <div className="space-y-7 animate-rise-in">
-            <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3.5 py-1.5 text-xs font-bold text-accent">
+      {/* البطل: سطح فاتح، عنوان كحلي بكلمة زرقاء، إجراء أزرق واحد، والعبارة؛ المساحة الزرقاء للمعاينة */}
+      <section className="relative overflow-hidden border-b bg-background">
+        <div className="container grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:py-24">
+          <div className="space-y-6 animate-rise-in">
+            <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-3.5 py-1.5 text-xs font-semibold text-secondary-foreground">
               <Sparkles className="size-3.5" /> {t('public.heroEyebrow')}
             </span>
-            <h1 className="font-display text-balance text-5xl font-bold leading-[1.25] sm:text-6xl lg:text-7xl">
+            <h1 className="font-heading text-balance text-[34px] font-bold leading-[1.35] sm:text-5xl lg:text-6xl">
               {before}
-              {after !== '' || title.includes(highlight) ? <span className="text-gradient-gold">{highlight}</span> : null}
+              {after !== '' || title.includes(highlight) ? <span className="text-primary">{highlight}</span> : null}
               {after}
             </h1>
-            <p className="max-w-xl text-lg leading-relaxed text-white/70">{t('public.heroSubtitle')}</p>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg" variant="gold">
+            <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">{t('public.heroSubtitle')}</p>
+            <p className="font-heading text-xl font-semibold text-foreground">نفهم. نتقدّم. نتفوّق.</p>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button asChild size="lg">
                 <Link href={student ? '/student' : '/register'}>{student ? t('nav.dashboard') : t('public.ctaStudent')}</Link>
               </Button>
-              <Button asChild size="lg" variant="link" className="text-white/80 hover:text-white">
+              <Button asChild size="lg" variant="outline">
                 <Link href="/lessons">
                   {t('public.browseLessons')} <ArrowLeft className="size-4 rtl:rotate-0 ltr:rotate-180" />
                 </Link>
@@ -131,19 +131,19 @@ export default async function HomePage() {
             {apk ? (
               <a
                 href="/download/android"
-                className="inline-flex items-center gap-3 rounded-lg border border-accent/30 bg-accent/10 px-4 py-2.5 text-white transition-colors hover:bg-accent/20"
+                className="inline-flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-2.5 transition-colors hover:border-primary/50"
               >
-                <Smartphone className="size-6 text-accent" />
+                <Smartphone className="size-6 text-primary" />
                 <span className="leading-tight">
                   <span className="block font-bold">{t('public.androidApp')}</span>
-                  <span className="block text-xs text-white/60">{t('public.androidAppD', { size: apkSizeMb(apk.size) })}</span>
+                  <span className="block text-xs text-muted-foreground">{t('public.androidAppD', { size: apkSizeMb(apk.size) })}</span>
                 </span>
               </a>
             ) : null}
-            <ul className="flex flex-wrap gap-x-6 gap-y-2 pt-2 text-sm text-white/60">
+            <ul className="flex flex-wrap gap-x-6 gap-y-2 pt-1 text-sm text-muted-foreground">
               {trust.map((x) => (
                 <li key={x.text} className="flex items-center gap-2">
-                  <x.icon className="size-4 text-accent" /> {x.text}
+                  <x.icon className="size-4 text-primary" /> {x.text}
                 </li>
               ))}
             </ul>
@@ -157,27 +157,24 @@ export default async function HomePage() {
       {/* المزايا */}
       <section className="container py-16 lg:py-20">
         <div className="mb-10 max-w-2xl">
-          <h2 className="font-display text-4xl font-bold">{t('public.featuresTitle')}</h2>
+          <h2 className="font-heading text-[28px] font-bold sm:text-4xl">{t('public.featuresTitle')}</h2>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((f, i) => (
-            <div key={f.title} className="group relative overflow-hidden rounded-lg border border-border/80 bg-card p-6 shadow-soft transition-all hover:-translate-y-1 hover:shadow-lift">
-              <span className="absolute -end-6 -top-6 size-24 rounded-full bg-primary/5 transition-transform group-hover:scale-150" aria-hidden />
-              <span className="relative flex size-12 items-center justify-center rounded-md bg-gradient-to-br from-primary/15 to-primary/5 text-primary ring-1 ring-inset ring-primary/10">
+            <div key={f.title} className="relative rounded-lg border border-border bg-card p-6 shadow-soft transition-colors duration-150 hover:border-primary/40">
+              <span className="flex size-12 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
                 <f.icon className="size-6" />
               </span>
-              <p className="relative mt-5 text-lg font-bold">{f.title}</p>
-              <p className="relative mt-2 text-sm leading-relaxed text-muted-foreground">{f.text}</p>
-              <span className="absolute bottom-4 end-5 text-4xl font-extrabold text-primary/5 tabular" aria-hidden>
-                0{i + 1}
-              </span>
+              <p className="mt-5 font-heading text-lg font-semibold">{f.title}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.text}</p>
+              <span className="sr-only">{i + 1}</span>
             </div>
           ))}
         </div>
       </section>
 
       {/* بيت شعر: اللغة العربية تتكلّم */}
-      <section className="border-y border-accent/20 bg-gradient-to-b from-accent/[0.06] to-transparent">
+      <section className="border-y bg-card">
         <div className="container py-14 text-center">
           {/* صدر وعجز: على الحاسوب متقابلان، وعلى الهاتف الواحد تحت الآخر */}
           <p className="flex flex-col items-center justify-center gap-x-12 gap-y-2 font-ruqaa text-3xl leading-[1.9] text-primary sm:text-4xl md:flex-row lg:text-5xl dark:text-accent" dir="rtl" lang="ar">
@@ -192,25 +189,25 @@ export default async function HomePage() {
       </section>
 
       {/* خريطة الجزائر: الطلاب عبر الولايات */}
-      <section className="bg-ink bg-pattern relative overflow-hidden text-white">
+      <section className="bg-ink relative overflow-hidden text-white">
         <div className="container grid items-center gap-10 py-16 lg:grid-cols-[0.9fr_1.1fr] lg:py-20">
           <div className="space-y-5">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">{t('public.mapEyebrow')}</p>
-            <h2 className="font-display text-4xl font-bold leading-tight sm:text-5xl">{t('public.mapTitle')}</h2>
-            <p className="max-w-md text-lg leading-relaxed text-white/70">{t('public.mapBody')}</p>
+            <p className="inline-flex rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground">{t('public.mapEyebrow')}</p>
+            <h2 className="font-heading text-[32px] font-bold leading-snug sm:text-5xl">{t('public.mapTitle')}</h2>
+            <p className="max-w-md text-lg leading-relaxed text-white/85">{t('public.mapBody')}</p>
             {totalStudents >= MAP_COUNTS_FROM ? (
               <dl className="flex gap-10 pt-2">
                 <div>
-                  <dt className="text-sm text-white/60">{t('public.mapWilayas')}</dt>
-                  <dd className="font-display text-5xl font-bold text-gradient-gold tabular">{reached}</dd>
+                  <dt className="text-sm text-white/85">{t('public.mapWilayas')}</dt>
+                  <dd className="font-heading text-5xl font-bold tabular">{reached}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm text-white/60">{t('public.mapStudents')}</dt>
-                  <dd className="font-display text-5xl font-bold text-gradient-gold tabular">{totalStudents}</dd>
+                  <dt className="text-sm text-white/85">{t('public.mapStudents')}</dt>
+                  <dd className="font-heading text-5xl font-bold tabular">{totalStudents}</dd>
                 </div>
               </dl>
             ) : (
-              <p className="font-display text-2xl text-accent">{t('public.mapEmpty')}</p>
+              <p className="font-heading text-2xl font-semibold">{t('public.mapEmpty')}</p>
             )}
           </div>
           <div className="mx-auto w-full max-w-xl">
@@ -223,14 +220,14 @@ export default async function HomePage() {
       <section className="border-y bg-card/40">
         <div className="container py-16 lg:py-20">
           <div className="mb-10 text-center">
-            <h2 className="font-display text-4xl font-bold">{t('public.howTitle')}</h2>
+            <h2 className="font-heading text-[28px] font-bold sm:text-4xl">{t('public.howTitle')}</h2>
             <p className="mt-2 text-muted-foreground">{t('public.howSubtitle')}</p>
           </div>
           <ol className="relative grid gap-6 md:grid-cols-3">
             {steps.map((s, i) => (
-              <li key={s.title} className="relative rounded-lg border border-border/80 bg-card p-6 shadow-soft">
-                <span className="flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent/70 text-base font-extrabold text-accent-foreground shadow-soft tabular">{i + 1}</span>
-                <p className="mt-4 text-lg font-bold">{s.title}</p>
+              <li key={s.title} className="relative rounded-lg border border-border bg-card p-6 shadow-soft">
+                <span className="flex size-10 items-center justify-center rounded-full bg-accent text-base font-bold text-accent-foreground tabular">{i + 1}</span>
+                <p className="mt-4 font-heading text-lg font-semibold">{s.title}</p>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{s.text}</p>
                 <CheckCircle2 className="absolute end-5 top-6 size-5 text-success/60" aria-hidden />
               </li>
@@ -242,7 +239,7 @@ export default async function HomePage() {
       {/* أحدث الدروس */}
       <section className="container py-16">
         <div className="mb-8 flex items-end justify-between">
-          <h2 className="font-display text-4xl font-bold">{t('public.latestLessons')}</h2>
+          <h2 className="font-heading text-[28px] font-bold sm:text-4xl">{t('public.latestLessons')}</h2>
           <Button asChild variant="link">
             <Link href="/lessons">{t('common.viewAll')}</Link>
           </Button>
@@ -252,11 +249,11 @@ export default async function HomePage() {
 
       {/* نداء الأستاذ */}
       <section className="container pb-20">
-        <div className="bg-ink bg-pattern relative overflow-hidden rounded-xl p-8 text-white shadow-lift sm:p-12">
+        <div className="bg-ink relative overflow-hidden rounded-xl p-8 text-white shadow-lift sm:p-12">
           <div className="relative flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
             <div className="max-w-2xl">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent">{t('public.teacherCta')}</p>
-              <p className="mt-2 font-display text-3xl font-bold leading-snug sm:text-4xl">{t('public.teacherCtaD')}</p>
+              <p className="inline-flex rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground">{t('public.teacherCta')}</p>
+              <p className="mt-3 font-heading text-[28px] font-bold leading-snug sm:text-4xl">{t('public.teacherCtaD')}</p>
             </div>
             <Button asChild size="lg" variant="gold" className="shrink-0">
               <Link href="/login">{t('public.teacherCtaBtn')}</Link>

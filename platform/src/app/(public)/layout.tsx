@@ -1,6 +1,6 @@
-import { BookOpenText } from 'lucide-react'
 import Link from 'next/link'
 import { Suspense, type ReactNode } from 'react'
+import { Logo } from '@/components/brand/logo'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { LocaleSwitcher } from '@/components/locale-switcher'
@@ -20,21 +20,22 @@ export default async function PublicLayout({ children }: { children: ReactNode }
   ]
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-40 brand-header border-b border-white/10 backdrop-blur-xl">
-        <div className="container flex h-[72px] min-w-0 items-center gap-3 sm:gap-4">
-          <Link href="/" className="flex shrink-0 items-center gap-2.5 text-lg font-extrabold tracking-tight">
-            <span className="flex size-9 items-center justify-center rounded-md bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-soft">
-              <BookOpenText className="size-5" />
-            </span>
-            {/* على الهاتف الأيقونة تكفي: الاسم يزاحم الأزرار ويُخرج الصفحة عن عرض الشاشة */}
-            <span className="hidden sm:inline">{t('app.name')}</span>
+      <header className="sticky top-0 z-40 brand-header backdrop-blur-xl">
+        <div className="container flex h-[72px] min-w-0 items-center gap-2 sm:gap-4">
+          {/* الشعار الأصلي: أصغر قليلاً على الهاتف كي لا يزاحم الأزرار */}
+          <Link href="/" className="flex shrink-0 items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <Logo width={132} priority className="sm:hidden" />
+            <Logo width={168} priority className="hidden sm:inline-flex" />
           </Link>
           <PublicNav links={links} variant="desktop" />
-          <div className="flex-1" />
+          <div className="min-w-0 flex-1" />
           <Suspense fallback={null}>
             <LevelPicker saved={saved} className="hidden min-[1720px]:inline-flex" />
           </Suspense>
-          <LocaleSwitcher />
+          {/* على الهاتف يُنقل مبدّل اللغة إلى السطر الثاني كي لا تخرج الترويسة عن عرض الشاشة */}
+          <span className="hidden sm:inline-flex">
+            <LocaleSwitcher />
+          </span>
           <ThemeToggle />
           {actor ? (
             <Button asChild>
@@ -45,13 +46,16 @@ export default async function PublicLayout({ children }: { children: ReactNode }
               <Button asChild variant="ghost" className="hidden sm:inline-flex">
                 <Link href="/login">{t('nav.login')}</Link>
               </Button>
-              <Button asChild className="h-9 px-3 text-xs sm:h-10 sm:px-4 sm:text-sm">
+              <Button asChild size="sm" className="px-3 sm:px-4">
                 <Link href="/register">{t('nav.register')}</Link>
               </Button>
             </div>
           )}
         </div>
         <nav className="container flex items-center gap-1.5 overflow-x-auto pb-2.5 min-[1720px]:hidden" aria-label="أقسام المنصة">
+          <span className="inline-flex shrink-0 sm:hidden">
+            <LocaleSwitcher />
+          </span>
           <Suspense fallback={null}>
             <LevelPicker saved={saved} className="shrink-0" />
           </Suspense>
@@ -59,11 +63,15 @@ export default async function PublicLayout({ children }: { children: ReactNode }
         </nav>
       </header>
       <main className="flex-1">{children}</main>
-      <footer className="border-t bg-card/40 py-10">
-        <div className="container flex flex-col items-center justify-between gap-3 text-center text-xs text-muted-foreground sm:flex-row sm:text-start">
-          <p>
-            © {new Date().getFullYear()} <span className="font-bold text-foreground">{t('app.name')}</span> — {t('app.tagline')}
-          </p>
+      <footer className="border-t bg-card py-10">
+        <div className="container flex flex-col items-center justify-between gap-4 text-center text-xs text-muted-foreground sm:flex-row sm:text-start">
+          <div className="flex flex-col items-center gap-2 sm:items-start">
+            <Logo width={136} />
+            <p className="font-heading text-sm font-semibold text-foreground">نفهم. نتقدّم. نتفوّق.</p>
+            <p>
+              © {new Date().getFullYear()} {t('app.name')} — {t('app.tagline')}
+            </p>
+          </div>
           <nav className="flex flex-wrap justify-center gap-4">
             {[...links, ...FOOTER_EXTRA, ...legal].map((l) => (
               <Link key={l.href} href={l.href} className="hover:text-foreground">

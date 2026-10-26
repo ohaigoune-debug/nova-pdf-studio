@@ -49,7 +49,7 @@ export default async function TeacherLibraryPage() {
                     {e.title}
                   </Link>
                   <span className="shrink-0 text-xs text-muted-foreground">
-                    {e.isFavorite ? <Star className="me-1 inline size-3 fill-current text-accent" /> : null}
+                    {e.isFavorite ? <Star className="me-1 inline size-3 fill-current text-primary" /> : null}
                     {formatDate(e.updatedAt)}
                   </span>
                 </li>
@@ -60,7 +60,7 @@ export default async function TeacherLibraryPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
-              <Star className="size-5 text-accent" /> المفضّلة
+              <Star className="size-5 text-primary" /> المفضّلة
             </CardTitle>
           </CardHeader>
           <CardContent>

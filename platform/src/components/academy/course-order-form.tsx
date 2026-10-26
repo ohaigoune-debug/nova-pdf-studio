@@ -71,6 +71,15 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
   const price = quote?.priceDzd ?? book.priceDzd
   const total = quote?.totalDzd ?? book.priceDzd
   const ready = phoneOk && Boolean(f.wilayaId) && !communesLoading && Boolean(f.commune.trim()) && (communeLookup?.mode !== 'select' || Boolean(selectedCommune)) && Boolean(f.address.trim()) && (!needsOtp || f.otpCode.length >= 4)
+  // ما ينقص لتفعيل زر التأكيد — الشروط نفسها أعلاه، بالترتيب الظاهر في النموذج (الزر الباهت لا يبقى لغزاً)
+  const missing = [
+    !phoneOk && 'رقم هاتف صحيح',
+    !f.wilayaId && 'الولاية',
+    f.wilayaId && communesLoading && 'انتظر تحميل البلديات',
+    f.wilayaId && !communesLoading && (!f.commune.trim() || (communeLookup?.mode === 'select' && !selectedCommune)) && 'البلدية',
+    !f.address.trim() && 'العنوان',
+    needsOtp && phoneOk && f.otpCode.length < 4 && 'رمز التأكيد الذي وصلك'
+  ].filter(Boolean) as string[]
 
   const submit = () =>
     start(async () => {
@@ -81,9 +90,9 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
     })
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-lg border bg-muted/30 p-4">
-        <p className="mb-3 font-bold">معلومات التلميذ</p>
+    <div className="space-y-5">
+      <div className="rounded-lg border bg-muted/40 p-4">
+        <p className="mb-3 font-heading text-base font-semibold">معلومات التلميذ</p>
         <dl className="grid gap-3 text-sm sm:grid-cols-2">
           <div>
             <dt className="text-muted-foreground">الاسم الكامل</dt>
@@ -103,6 +112,7 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
           </div>
         </dl>
       </div>
+      <h3 className="font-heading text-lg font-semibold">1. هاتف الاستلام</h3>
       <Field label="هاتف الاستلام" htmlFor="order-who">
         <Select id="order-who" value={who} onChange={(e) => setWho(e.target.value as typeof who)}>
           {d.phone ? <option value="self">هاتفي — {d.phone}</option> : null}
@@ -115,6 +125,7 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
           <Input id="order-other" value={other} onChange={(e) => setOther(e.target.value)} dir="ltr" inputMode="tel" placeholder="05XXXXXXXX" />
         </Field>
       ) : null}
+      <h3 className="font-heading text-lg font-semibold">2. العنوان والتوصيل</h3>
       <div className="grid gap-3 sm:grid-cols-2">
         <Field label="الولاية" htmlFor="order-wilaya">
           <Select id="order-wilaya" value={f.wilayaId} onChange={(e) => setF((s) => ({ ...s, wilayaId: e.target.value, commune: '', deliveryType: 'HOME' }))}>
@@ -151,22 +162,23 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
       <Field label="العنوان" htmlFor="order-address">
         <Textarea id="order-address" rows={2} value={f.address} onChange={(e) => setF((s) => ({ ...s, address: e.target.value }))} dir="auto" />
       </Field>
+      {needsOtp && phoneOk ? <h3 className="font-heading text-lg font-semibold">3. التأكيد بالهاتف</h3> : null}
       {needsOtp && phoneOk ? (
         <OtpVerifyCard key={phone} purpose="ORDER" phone={phone} editablePhone={false} collectOnly onCode={(c) => setF((s) => ({ ...s, otpCode: c }))} title="رمز التأكيد" description={`نرسل رمزاً إلى ${phone}؛ أدخله ثم أكّد الطلب.`} />
       ) : null}
       <div className="space-y-2 rounded-lg border bg-card p-4 text-sm" aria-live="polite">
-        <p className="font-bold">ملخص الطلب</p>
+        <p className="font-heading text-base font-semibold">ملخص الطلب</p>
         <p className="flex justify-between gap-3">
           <span>الدورة مع كتاب «{book.title}»</span>
-          <span className="tabular-nums">{price} دج</span>
+          <span className="shrink-0 whitespace-nowrap tabular-nums">{price} دج</span>
         </p>
         <p className="flex justify-between">
           <span>التوصيل</span>
-          <span className="tabular-nums">{f.wilayaId ? `${fee} دج` : 'اختر الولاية'}</span>
+          <span className="shrink-0 whitespace-nowrap tabular-nums">{f.wilayaId ? `${fee} دج` : 'اختر الولاية'}</span>
         </p>
         <p className="flex justify-between border-t pt-2 text-base font-bold">
           <span>الإجمالي (الدفع عند الاستلام)</span>
-          <span className="tabular-nums text-primary">{total} دج</span>
+          <span className="shrink-0 whitespace-nowrap tabular-nums text-primary">{total} دج</span>
         </p>
       </div>
       <Alert tone="info">
@@ -177,7 +189,12 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
       <Alert tone={data.smsReady ? 'warning' : 'info'}>
         {data.smsReady ? 'سيصلك رمز تأكيد على هذا الرقم. الطلبات الوهمية تُلغى ويُمنع صاحبها من الطلب.' : 'سنتصل بك على هذا الرقم لتأكيد الطلب قبل الإرسال.'}
       </Alert>
-      <Button className="w-full" size="lg" onClick={submit} loading={pending} disabled={!ready}>
+      {!ready && !pending && missing.length ? (
+        <p id="order-missing" className="text-sm text-muted-foreground" aria-live="polite">
+          لإكمال الطلب: {missing.join('، ')}.
+        </p>
+      ) : null}
+      <Button className="w-full" size="lg" onClick={submit} loading={pending} disabled={!ready} aria-describedby={!ready && missing.length ? 'order-missing' : undefined}>
         تأكيد الطلب — {total} دج
       </Button>
     </div>

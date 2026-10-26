@@ -17,7 +17,7 @@ export function Avatar({ name, className, size = 'md' }: { name: string; classNa
   const sizes = { sm: 'size-8 text-xs', md: 'size-10 text-sm', lg: 'size-16 text-xl' }
   return (
     <div
-      className={cn('flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-primary/5 font-bold text-primary ring-1 ring-primary/15', sizes[size], className)}
+      className={cn('flex shrink-0 items-center justify-center rounded-full bg-secondary font-bold text-secondary-foreground ring-1 ring-primary/15', sizes[size], className)}
       aria-hidden
     >
       {initials(name)}
@@ -51,20 +51,20 @@ export function Alert({ tone = 'info', title, children, className }: { tone?: 'i
 
 export function StatCard({ label, value, hint, icon: Icon, tone = 'default', className }: { label: string; value: React.ReactNode; hint?: React.ReactNode; icon?: LucideIcon; tone?: 'default' | 'success' | 'warning' | 'destructive'; className?: string }) {
   const tones = {
-    default: 'from-primary/15 to-primary/5 text-primary',
-    success: 'from-success/15 to-success/5 text-success',
-    warning: 'from-warning/25 to-warning/5 text-amber-700 dark:text-amber-300',
-    destructive: 'from-destructive/15 to-destructive/5 text-destructive'
+    default: 'bg-secondary text-secondary-foreground',
+    success: 'bg-success/10 text-success',
+    warning: 'bg-warning/10 text-warning',
+    destructive: 'bg-destructive/10 text-destructive'
   }
   return (
-    <div className={cn('group relative flex items-start justify-between gap-3 overflow-hidden rounded-lg border border-border/80 bg-card p-4 shadow-soft sm:p-5', className)}>
+    <div className={cn('group relative flex items-start justify-between gap-3 overflow-hidden rounded-lg border border-border bg-card p-4 shadow-soft sm:p-5', className)}>
       <div className="min-w-0">
-        <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{label}</p>
-        <p className="mt-1.5 text-2xl font-extrabold tabular sm:text-3xl">{value}</p>
+        <p className="text-sm font-semibold text-muted-foreground">{label}</p>
+        <p className="mt-1 text-2xl font-bold tabular sm:text-3xl">{value}</p>
         {hint ? <div className="mt-1 text-xs text-muted-foreground">{hint}</div> : null}
       </div>
       {Icon ? (
-        <div className={cn('flex size-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ring-1 ring-inset ring-black/5 dark:ring-white/5', tones[tone])}>
+        <div className={cn('flex size-11 shrink-0 items-center justify-center rounded-full', tones[tone])}>
           <Icon className="size-5" />
         </div>
       ) : null}
@@ -80,8 +80,8 @@ export function EmptyState({ icon: Icon, title, description, action, className }
           <Icon className="size-6" />
         </span>
       ) : null}
-      <p className="font-bold">{title}</p>
-      {description ? <p className="max-w-md text-sm text-muted-foreground">{description}</p> : null}
+      <p className="font-heading text-lg font-semibold">{title}</p>
+      {description ? <p className="max-w-md text-sm leading-relaxed text-muted-foreground">{description}</p> : null}
       {action}
     </div>
   )
@@ -91,8 +91,8 @@ export function PageHeader({ title, description, actions, className }: { title: 
   return (
     <div className={cn('mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between', className)}>
       <div>
-        <h1 className="text-balance text-2xl font-bold leading-tight sm:text-3xl">{title}</h1>
-        {description ? <div className="mt-1.5 max-w-2xl text-sm text-muted-foreground">{description}</div> : null}
+        <h1 className="text-balance font-heading text-[28px] font-bold leading-[1.4] sm:text-4xl">{title}</h1>
+        {description ? <div className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted-foreground">{description}</div> : null}
       </div>
       {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
     </div>

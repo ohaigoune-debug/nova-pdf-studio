@@ -73,6 +73,42 @@ export default async function ConfirmQueuePage() {
           {queue.length === 0 ? (
             <EmptyState icon={PhoneCall} title="لا طلبات تنتظر التأكيد" />
           ) : (
+            <>
+            {/* الهاتف: بطاقة لكل طلب بالبيانات والإجراءات نفسها (لا عمود ولا صلاحية جديدة) */}
+            <ul className="space-y-3 md:hidden">
+              {queue.map((o) => (
+                <li key={o.id} className="rounded-lg border bg-card p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      {worker ? <span className="font-mono text-sm font-semibold" dir="ltr">{o.number}</span> : <Link href={`/store/orders/${o.id}`} className="font-mono text-sm font-semibold hover:underline" dir="ltr">{o.number}</Link>}
+                      <span className="block text-xs text-muted-foreground">{formatDateTime(o.createdAt)}</span>
+                    </div>
+                    <Badge variant={STATUS_VARIANT[o.status] ?? 'secondary'}>{ORDER_STATUS_AR[o.status as OrderStatus]}</Badge>
+                  </div>
+                  <div className="mt-3 space-y-1">
+                    <p className="font-semibold">{o.customerName}</p>
+                    <a href={tel(o.phone)} className="inline-flex min-h-11 items-center gap-1.5 text-base font-semibold text-primary hover:underline" dir="ltr">
+                      <Phone className="size-4" /> {o.phone}
+                    </a>
+                    <p className="text-sm text-muted-foreground">{[o.wilayaName, o.commune].filter(Boolean).join(' · ') || '—'}</p>
+                    <div className="flex flex-wrap gap-1">
+                      {o.otpVerifiedAt ? <Badge variant="success">هاتف مؤكَّد بالرمز</Badge> : null}
+                      <PhoneHistoryBadges h={o.history} />
+                    </div>
+                  </div>
+                  <p className="mt-3 text-sm">{o.itemsText || '—'}</p>
+                  {o.note ? <p className="text-sm text-muted-foreground">ملاحظة: {o.note}</p> : null}
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {o.totalDzd} دج · {PAYMENT_AR[o.paymentMethod as keyof typeof PAYMENT_AR]} · المحاولات {o.confirmAttempts}
+                    {o.lastCallAt ? ` · آخر اتصال ${formatDateTime(o.lastCallAt)}` : ''}
+                  </p>
+                  <div className="mt-3">
+                    <OrderRowActions id={o.id} status={o.status} needsShipping={o.needsShipping} ecotrack={eco.enabled} confirmer={worker} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="hidden md:block">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -121,6 +157,8 @@ export default async function ConfirmQueuePage() {
                 ))}
               </TableBody>
             </Table>
+            </div>
+            </>
           )}
         </CardContent>
       </Card>

@@ -48,7 +48,7 @@ export function Toaster() {
     info: 'border-primary/40 bg-card',
     warning: 'border-warning/50 bg-card'
   }
-  const iconTones = { success: 'text-success', error: 'text-destructive', info: 'text-primary', warning: 'text-amber-600' }
+  const iconTones = { success: 'text-success', error: 'text-destructive', info: 'text-primary', warning: 'text-warning' }
   return (
     <div className="pointer-events-none fixed bottom-4 start-4 z-[100] flex w-[calc(100%-2rem)] max-w-sm flex-col gap-2">
       {list.map((i) => {

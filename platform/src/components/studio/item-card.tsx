@@ -98,7 +98,7 @@ export function ItemCard({ item, label, examId, position, assets, run, pending, 
           </Button>
           {onCopilot && item.kind !== 'TEXT' ? (
             <Button size="sm" variant="ghost" title="مساعد الذكاء الاصطناعي" onClick={() => onCopilot(item)}>
-              <Sparkles className="size-4 text-accent" />
+              <Sparkles className="size-4 text-primary" />
             </Button>
           ) : null}
           <Button size="sm" variant="ghost" title="نسخ" onClick={() => run(() => duplicateItemAction(examId, item.id))} loading={pending}>

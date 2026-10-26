@@ -37,7 +37,7 @@ export function LibraryBlocks({ items }: { items: LibraryListItem[] }) {
             </p>
           </div>
           <span className="flex shrink-0 gap-1">
-            <Button size="sm" variant="ghost" onClick={() => run(() => updateLibraryItemAction(it.id, { isFavorite: !it.isFavorite }), it.isFavorite ? 'أُزيلت من المفضّلة' : 'أُضيفت إلى المفضّلة')} loading={pending} className={cn(it.isFavorite ? 'text-accent' : '')}>
+            <Button size="sm" variant="ghost" onClick={() => run(() => updateLibraryItemAction(it.id, { isFavorite: !it.isFavorite }), it.isFavorite ? 'أُزيلت من المفضّلة' : 'أُضيفت إلى المفضّلة')} loading={pending} className={cn(it.isFavorite ? 'text-primary' : '')}>
               {it.isFavorite ? <BookmarkCheck className="size-4" /> : <Bookmark className="size-4" />}
             </Button>
             <Button size="sm" variant="ghost" onClick={() => confirm(`حذف «${it.title}»؟`) && run(() => deleteLibraryItemAction(it.id), 'حُذفت')} loading={pending}>

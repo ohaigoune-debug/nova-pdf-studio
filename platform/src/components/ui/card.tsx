@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 
 /** بطاقة بحدّ رفيع وظلّ طبقي هادئ؛ hover يرفعها قليلاً حين تكون رابطاً */
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('rounded-lg border border-border/80 bg-card text-card-foreground shadow-soft transition-shadow', className)} {...props} />
+  <div ref={ref} className={cn('rounded-lg border border-border bg-card text-card-foreground shadow-soft transition-shadow', className)} {...props} />
 ))
 Card.displayName = 'Card'
 
@@ -13,7 +13,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 CardHeader.displayName = 'CardHeader'
 
 const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(({ className, ...props }, ref) => (
-  <h3 ref={ref} className={cn('text-base font-bold leading-none tracking-tight', className)} {...props} />
+  <h3 ref={ref} className={cn('font-heading text-lg font-semibold leading-snug', className)} {...props} />
 ))
 CardTitle.displayName = 'CardTitle'
 
