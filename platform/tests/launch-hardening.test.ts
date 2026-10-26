@@ -148,10 +148,11 @@ describe('رمز كتب الدورات', () => {
     return { courseId: c.id, productId: link!.productId }
   }
 
-  it('السلّة ليست طريقاً جانبياً: كتاب الدورة يحتاج رمزاً جديداً ولو كان هاتف الحساب مؤكَّداً', async () => {
+  it('كتاب الدورة من السلّة بهاتف غير مؤكَّد: الخادم يطلب الرمز (فتُظهر السلّة حقله) ثم يقبله', async () => {
     smsChannel()
     const { productId } = await courseBook()
-    const { actor, phone } = await student()
+    const actor = await makeStudent(h.db)
+    const phone = phoneNumber()
     const input = { items: [{ productId, qty: 1 }], customerName: 'تلميذ', phone, wilayaId, address: 'حي', commune: 'Guelma' }
     await expect(placeOrder(h.db, actor, input)).rejects.toMatchObject({ code: 'ORDER_OTP_REQUIRED' })
     const code = await requestOtp(h.db, { phone, purpose: 'ORDER', userId: actor.userId })

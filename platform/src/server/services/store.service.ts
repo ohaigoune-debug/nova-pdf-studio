@@ -347,12 +347,7 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
   const policy = await storePolicy(db)
   // شراء دورة = رمز تأكيد إلى الهاتف المختار (هاتف التلميذ أو الولي أو آخر)، متى وُجدت قناة SMS فعلية
   const smsReady = isCourseOrder ? (await import('./phone-gate.service').then((m) => m.phoneChannels(db))).sms : false
-  if (isCourseOrder && smsReady) {
-    // كما في placeCourseOrder: كل طلب كتاب دورة برمز جديد، ولو كان هاتف الحساب مؤكَّداً سلفاً (السلّة ليست طريقاً جانبياً)
-    if (!input.otpCode?.trim()) throw new AppError('ORDER_OTP_REQUIRED')
-    await verifyOtp(db, { phone, purpose: 'ORDER', code: input.otpCode, userId: actor.userId })
-    otpVerifiedAt = new Date()
-  } else if (policy.requireOtp) {
+  if (policy.requireOtp || smsReady) {
     const pv = await isPhoneVerified(db, actor.userId)
     if (pv.verified && pv.phone === phone) otpVerifiedAt = new Date()
     else {
