@@ -2,7 +2,7 @@
 
 تطبيق SwiftUI مع WKWebView يعيد استعمال خادم Next.js وحسابات المنصة. مشروع Xcode الفعلي هو `Madrasadz.xcodeproj`، والمخطط المشترك `Madrasadz`. لا يحوّل الموقع إلى static export ولا يحتوي خادمًا أو قاعدة حسابات أخرى.
 
-هذا الفرع مخصص للتجهيز والمراجعة. **رُفعت النسخة 1.0.0 (1) إلى Apple بموافقة المالك، وأُتيحت للاختبار الداخلي لحسابه وحده؛ الدعوة بحالة Invited، والتثبيت على جهاز فعلي لم يُتحقق منه بعد. لا نشر على App Store أو خادم المنصة.** راجع [تدقيق المنصة](docs/AUDIT-AR.md)، و[ملاحظات App Review](docs/APP-REVIEW-AR.md)، و[بيانات المتجر بالعربية والفرنسية](docs/STORE-LISTING-AR-FR.md)، و[إفصاحات الخصوصية](docs/PRIVACY-DISCLOSURES-AR.md)، و[مصفوفة اختبار الأجهزة](docs/DEVICE-TEST-MATRIX.md)، و[قائمة تجهيز الإصدار](docs/RELEASE-CHECKLIST.md)، و[مصادر Apple](docs/APPLE-SOURCES.md).
+هذا الفرع مخصص للتجهيز والمراجعة. **رُفعت النسخة 1.0.0 (1) إلى Apple بموافقة المالك، وأُتيحت للاختبار الداخلي لحسابه وحده؛ تؤكد Apple التثبيت، وصور المالك تثبت تشغيل الواجهة؛ تعلّم iOS محجوب حاليًا لأن الخادم يعيد 404 للمسارات المطلوبة. لا نشر على App Store أو خادم المنصة.** راجع [تدقيق المنصة](docs/AUDIT-AR.md)، و[ملاحظات App Review](docs/APP-REVIEW-AR.md)، و[بيانات المتجر بالعربية والفرنسية](docs/STORE-LISTING-AR-FR.md)، و[إفصاحات الخصوصية](docs/PRIVACY-DISCLOSURES-AR.md)، و[مصفوفة اختبار الأجهزة](docs/DEVICE-TEST-MATRIX.md)، و[قائمة تجهيز الإصدار](docs/RELEASE-CHECKLIST.md)، و[مصادر Apple](docs/APPLE-SOURCES.md).
 
 ## متطلبات Mac
 
@@ -205,3 +205,13 @@ IN_BETA_TESTING). Invitation acceptance and device installation/launch have not
 been observed. No external testing or App Store submission was performed.
 Do not rerun the same build after a successful delivery; the next build must
 increment its build number. See docs/VALIDATION.md for evidence and limits.
+
+
+### First physical run: server update required
+
+The owner installed/opened TestFlight 1.0.0 (1), but /ios and
+/api/v1/ios/session currently return 404 on the public server, including with the
+native presentation header. The Arabic login form renders; this does not prove
+completed authentication. Slow loading is reported and unresolved. See
+[the observed defect and gated server update plan](docs/SERVER-UPDATE-PLAN.md).
+No production deployment, migration or native trust/authentication bypass was made.

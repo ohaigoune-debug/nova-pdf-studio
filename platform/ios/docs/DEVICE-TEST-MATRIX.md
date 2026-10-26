@@ -1,6 +1,6 @@
 # iPhone validation matrix
 
-Status after follow-up review (2026-10-26): **Linux source preparation; no Xcode, simulator, physical iPhone, signed build or IPA was available.** Every device row below is PENDING, not passed and not failed. Fill the actual build SHA, OS/device, tester, timestamp and evidence path when executed. A JavaScript unit test or source inspection does not mark a WKWebView/device row passed.
+Current status (2026-10-26): **owner installed TestFlight 1.0.0 (1) and opened the native shell; first learning load FAILED (missing /ios endpoint), Arabic login form rendered; slow loading reported.** Authenticated/device cases remain unverified unless explicitly recorded below. Exact device model/OS were not established by the screenshots. Historical records follow for audit; use the latest sections for current status. A JavaScript unit test or source inspection does not mark a WKWebView/device row passed.
 
 ## Execution record
 
@@ -11,19 +11,19 @@ Status after follow-up review (2026-10-26): **Linux source preparation; no Xcode
 | Earlier separate Linux session (`7c5b223`) | Full suite 661/661 and platform checks passed; Swift unavailable in that session. Its original detailed record is preserved in VALIDATION.md |
 | Linux Swift package rerun | BLOCKED by signal-4 process crash; serial retry compiled/linked but suite did not complete. Historical 37-pass result was not reproduced; see VALIDATION.md |
 | Linux build-tooling regression tests | PASS: 12 Python tests; CLI fixtures only, not Xcode |
-| macOS unsigned Xcode build (Debug / Release) | BLOCKED: this execution host is Linux; Xcode absent |
-| XCTest / iPhone simulator | PENDING: three disconnected Debug shell locale tests prepared but not executed |
-| Physical iPhone | PENDING |
-| TestFlight | NOT UPLOADED; pending signing/membership and validation |
+| macOS unsigned Xcode build (Debug / Release) | PASS on hosted macOS, run 40350226821; local host remains Linux |
+| XCTest / iPhone simulator | PASS: 37 core package and 3 disconnected Debug locale cases on hosted macOS |
+| Physical iPhone | PARTIAL: installed/native launch/login-form rendering observed; learning FAILED, authenticated integration unverified |
+| TestFlight | INSTALLED for the owner; one internal tester/build, no external distribution |
 | App Store submission | NOT SUBMITTED; payment/privacy/deletion decisions remain |
 
 ## Required cases
 
 | Case | Expected behavior | Simulator | Device |
 |---|---|---|---|
-| Cold start / reopen | Branded launch, meaningful loading; no indefinite blank WebView | PENDING | PENDING |
+| Cold start / reopen | Branded launch, meaningful loading; no indefinite blank WebView | PENDING | FAIL on first learning load: /ios 404; shell launched. Reopen/session persistence PENDING |
 | New registration | Existing account server flow, phone gate where configured, no native bypass | PENDING | PENDING |
-| Existing login | Real WebKit cookie accepted by the server; same account in native session probe | PENDING | PENDING |
+| Existing login | Real WebKit cookie accepted by the server; same account in native session probe | PENDING | PENDING: Arabic form rendered; /api/v1/ios/session 404 blocks integration |
 | Kill and relaunch | Session continuity follows server expiry/revocation; no native password storage | PENDING | PENDING |
 | Free account | Only public/free and entitled content; locked course stays locked | PENDING | PENDING |
 | Entitled account | Authorized lessons/quizzes/video display; no entitlement invented in native code | PENDING | PENDING |
@@ -120,3 +120,16 @@ Status after follow-up review (2026-10-26): **Linux source preparation; no Xcode
   acceptance, device installation and launch have not been observed. All physical
   device/authenticated backend/video/PDF/accessibility/reminder cases stay PENDING.
 - No external tester, public link or App Store review/release was created.
+
+
+## First owner device run — 26 October 2026
+
+- Binary: TestFlight 1.0.0 (1), signed source b3a268c27166c36fab858550ae4d124a686bcda1.
+- Apple API reports INSTALLED; owner confirms app opened. Genuine screenshots show
+  native Arabic tabs, learning failure, signed-out account gate and login form.
+- Exact device/OS, font settings, account category and authenticated state were not
+  supplied; do not infer them from general account/device history.
+- Learning integration: FAIL/BLOCKED by observed /ios and session endpoint 404s.
+  Loading performance: owner reports slow; no on-device timing trace collected.
+- All video/PDF/session-continuity/account-switch/reminder/accessibility cases remain
+  PENDING. SERVER-UPDATE-PLAN.md records required deployment gates and scope.

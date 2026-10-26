@@ -1,6 +1,6 @@
 # Build, TestFlight and App Store readiness
 
-Current classification (26 October 2026): **signed IPA exported, validated and uploaded to Apple; processing VALID, export compliance completed and owner-only internal TestFlight invitation issued (IN_BETA_TESTING)**. Simulator Debug/Release and the disconnected shell tests have passed on hosted macOS. No physical-iPhone integration test or App Review submission has occurred. See VALIDATION.md for exact source commits and runs.
+Current classification (26 October 2026): **signed IPA exported, validated and uploaded to Apple; processing VALID, export compliance completed and owner-only internal TestFlight invitation issued (IN_BETA_TESTING)**. Simulator Debug/Release and the disconnected shell tests have passed on hosted macOS. The owner has installed/opened the native shell; first learning integration failed because /ios and the session endpoint return 404. Slow loading is reported and unresolved. No successful authenticated-iPhone integration test or App Review submission has occurred. See VALIDATION.md for exact source commits and runs.
 
 ## 1. Local macOS validation
 
@@ -22,7 +22,7 @@ Current classification (26 October 2026): **signed IPA exported, validated and u
 - [x] Team ID is public signing configuration; encrypted signing material and the owner-approved Developer API key are in GitHub Actions Secrets. No private keys, passwords, certificates or provisioning profiles are in Git.
 - [x] Initial upload: marketing version 1.0.0, build 1. Future uploads must increase the build number; no Android version was reused as evidence.
 - [x] Configure App Store distribution profile and verify signed Release archive/IPA.
-- [ ] Install and test on a physical iPhone after accepting the issued owner-only TestFlight invitation; no such run occurred.
+- [ ] Install and test on a physical iPhone after correcting the server mismatch: installation/native launch observed, first learning load FAILED; session/media/PDF tests still pending.
 
 ## 3. Product and policy blockers
 

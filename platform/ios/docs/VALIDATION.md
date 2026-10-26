@@ -285,3 +285,30 @@ pending acceptance, physical-device/backend integration tests still unverified,
 not ready for App Review.** Linux/platform and hosted macOS results above remain
 unchanged; no new runtime test was claimed. This follow-up changes documentation
 only and was checked with `git diff --check`.
+
+
+## First physical-iPhone evidence and missing endpoints — 26 October 2026
+
+Apple subsequently reports the owner's internal tester state INSTALLED. The owner
+confirmed opening the app and supplied genuine screenshots (IMG_6658–IMG_6660) of
+native tabs, the initial learning error, account gate and Arabic login form. This
+supersedes "no device installed/launched" for installation and shell launch only.
+No authenticated login success, relaunch/session persistence, media/PDF, notifications
+or accessibility case has passed. The owner also reports very slow loading.
+
+Public unauthenticated HTTPS checks confirmed /ios and /api/v1/ios/session return
+404 HTML, including with the native study-only presentation header. /login returns
+200. Elapsed times were approximately 6–7 seconds from this environment; they are
+not on-device profiling or proof that all delay comes from the origin server.
+See IOS-ENDPOINT-CHECKS.json and SERVER-UPDATE-PLAN.md. Missing endpoint responses
+explain the current learning failure; the live deployment SHA is still unknown.
+
+Targeted Linux PGlite regression rerun on source 9c1f89f: `npm exec vitest run
+tests/ios-session.test.ts tests/ios-learning.test.ts tests/ios-file-export.test.ts
+tests/ios-presentation.test.ts` exited 0: 49/49 tests across 4 files. No real database,
+.env, Android, deployment or new iOS binary was changed. Documentation diff checks
+passed. No production fix or device performance improvement is claimed.
+
+Current verdict: **installed via internal TestFlight and native shell launches;
+functional learning integration blocked by missing server endpoints; slow loading
+unresolved; not ready for App Review.**
