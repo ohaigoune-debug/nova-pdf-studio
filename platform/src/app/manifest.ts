@@ -15,8 +15,8 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ['education'],
     dir: 'rtl',
     lang: 'ar',
-    background_color: '#F4F5F7',
-    theme_color: '#314D85',
+    background_color: '#F6F5F0',
+    theme_color: '#3155F5',
     // PNG مطلوبة للتثبيت وللتغليف في تطبيق أندرويد؛ وmaskable تملأ الأيقونة المستديرة بلا قصّ للشعار
     icons: [
       { src: '/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },

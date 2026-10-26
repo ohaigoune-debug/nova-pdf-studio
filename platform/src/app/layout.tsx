@@ -23,8 +23,8 @@ export const dynamic = 'force-dynamic'
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#314D85' },
-    { media: '(prefers-color-scheme: dark)', color: '#192C4B' }
+    { media: '(prefers-color-scheme: light)', color: '#FFFFFF' },
+    { media: '(prefers-color-scheme: dark)', color: '#0E1528' }
   ],
   width: 'device-width',
   initialScale: 1,
@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     <html lang={locale} dir={LOCALE_DIR[locale]} suppressHydrationWarning>
       <head>
         <link rel="preload" href="/fonts/IBMPlexSansArabic-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/Amiri-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/ElMessiri-Variable.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body className="min-h-dvh font-sans">
         <LocaleProvider locale={locale}>

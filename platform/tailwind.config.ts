@@ -8,8 +8,9 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-arabic)', 'Segoe UI', 'Tahoma', 'sans-serif'],
-        // عناوين: أميري — نسخ كلاسيكي راقٍ
-        display: ['Amiri', 'var(--font-arabic)', 'serif'],
+        // عناوين الواجهة (هوية v2): El Messiri — أميري يبقى لمستندات الطباعة والدروس فقط
+        display: ['var(--font-heading)', 'var(--font-arabic)', 'sans-serif'],
+        heading: ['var(--font-heading)', 'var(--font-arabic)', 'sans-serif'],
         // شعر واقتباسات: رقعة
         ruqaa: ['"Aref Ruqaa"', 'Amiri', 'serif']
       },
@@ -30,6 +31,12 @@ const config: Config = {
         accent: { DEFAULT: 'hsl(var(--accent))', foreground: 'hsl(var(--accent-foreground))' },
         card: { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
         popover: { DEFAULT: 'hsl(var(--popover))', foreground: 'hsl(var(--popover-foreground))' },
+        brand: {
+          blue: 'hsl(var(--brand-blue) / <alpha-value>)',
+          navy: 'hsl(var(--brand-navy) / <alpha-value>)',
+          lime: 'hsl(var(--brand-lime) / <alpha-value>)',
+          paper: 'hsl(var(--brand-paper) / <alpha-value>)'
+        },
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar))',
           foreground: 'hsl(var(--sidebar-foreground))',
