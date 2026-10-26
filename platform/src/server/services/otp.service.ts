@@ -15,6 +15,7 @@ import { sha256 } from '@/server/lib/codes'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { checkRateLimit } from '@/server/lib/rate-limit'
 import { getSmsSender, sendSms } from '@/server/lib/sms'
+import { alertSmsBudget, isSmsBudgetExhausted, reserveSmsBudget, type SmsBudgetAlert } from '@/server/lib/sms-budget'
 
 export const OTP_TTL_MS = 5 * 60 * 1000
 export const OTP_MAX_ATTEMPTS = 5
@@ -63,7 +64,7 @@ export async function requestOtp(db: Db, input: RequestOtpInput, now: Date = new
   if (input.userId) assertUuid(input.userId, 'VALIDATION')
   const code = String(randomInt(0, 1_000_000)).padStart(6, '0')
   const expiresAt = new Date(now.getTime() + OTP_TTL_MS)
-  const row = await db.transaction(async (tx) => {
+  const { row, budgetAlert } = await db.transaction(async (tx) => {
     // صف ثابت لكل هاتف/غرض: القفل يسبق قراءة آخر طلب، حتى عند عدم وجود رمز سابق.
     const key = `otp-resend:${input.purpose.toLowerCase()}:${sha256(phone)}`
     await tx.insert(rateLimits).values({ key, windowStart: now, count: 0, updatedAt: now }).onConflictDoNothing({ target: rateLimits.key })
@@ -76,14 +77,20 @@ export async function requestOtp(db: Db, input: RequestOtpInput, now: Date = new
     const remaining = OTP_RESEND_COOLDOWN_S * 1000 - (now.getTime() - lastRequestAt)
     if (lastRequestAt && remaining > 0) throw new AppError('RATE_LIMITED', { retryAfter: Math.ceil(remaining / 1000) })
     await checkRateLimit(tx, { scope: `otp-${input.purpose.toLowerCase()}`, subject: sha256(phone), ...OTP_RATE }, now)
+    // السقف اليومي العام آخر الفحوص: الطلب المرفوض لهاتف/IP لا يستهلك من الميزانية
+    const alert: SmsBudgetAlert = await reserveSmsBudget(tx, now)
     await tx.update(rateLimits).set({ windowStart: now, count: 1, updatedAt: now }).where(eq(rateLimits.key, key))
     // آخر رمز وحده صالح. الرموز المستهلكة أيضًا تمنع إعادة إرسال مبكرة.
     await tx.update(otpCodes).set({ consumedAt: now })
       .where(and(eq(otpCodes.phone, phone), eq(otpCodes.purpose, input.purpose), isNull(otpCodes.consumedAt)))
     const [created] = await tx.insert(otpCodes).values({ phone, purpose: input.purpose, userId: input.userId ?? null, codeHash: hashCode(phone, input.purpose, code), expiresAt, createdAt: now }).returning({ id: otpCodes.id })
     if (!created) throw new AppError('INTERNAL')
-    return created
+    return { row: created, budgetAlert: alert }
+  }).catch(async (e: unknown) => {
+    if (isSmsBudgetExhausted(e)) await alertSmsBudget(db, 'exhausted', now)
+    throw e
   })
+  if (budgetAlert) await alertSmsBudget(db, budgetAlert, now)
   try {
     const sender = await getSmsSender(db)
     // SuiviSMS بلا قالب معتمد: البوابة تولّد الرمز (4 أرقام) وتتحقق منه هي؛ نحفظ معرّف التحدّي فقط
