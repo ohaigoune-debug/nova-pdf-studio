@@ -40,7 +40,7 @@ export default async function StudentExamsPage({ searchParams }: { searchParams:
           <Link key={c.key} href={c.href} className="group">
             <Card className={cn('h-full transition-colors group-hover:border-primary/50', c.count === 0 && 'opacity-70')}>
               <CardContent className="flex items-center gap-3 p-4">
-                <span className={cn('flex size-11 shrink-0 items-center justify-center rounded-lg', c.kind === 'HOMEWORK' ? 'bg-primary/10 text-primary' : 'bg-accent/15 text-amber-800 dark:text-amber-200')}>
+                <span className={cn('flex size-11 shrink-0 items-center justify-center rounded-lg', c.kind === 'HOMEWORK' ? 'bg-primary/10 text-primary' : 'bg-accent/15 text-accent-foreground dark:text-accent')}>
                   <FileText className="size-5" />
                 </span>
                 <span className="min-w-0 flex-1">

@@ -48,7 +48,7 @@ export function TemplatesGallery({ official, mine, favorites }: { official: Temp
             {[t.subjectName, t.levelName, t.streamName].filter(Boolean).join(' · ') || '—'} · {t.items} عنصر · {Number(t.totalPoints)} ن · {formatDate(t.updatedAt)}
           </p>
         </div>
-        <button type="button" onClick={() => go(() => updateExamAction(t.id, { isFavorite: !t.isFavorite }), t.isFavorite ? 'أُزيل من المفضّلة' : 'أُضيف إلى المفضّلة')} className={cn('rounded p-1', t.isFavorite ? 'text-accent' : 'text-muted-foreground hover:text-accent')} title="مفضّلة" disabled={pending}>
+        <button type="button" onClick={() => go(() => updateExamAction(t.id, { isFavorite: !t.isFavorite }), t.isFavorite ? 'أُزيل من المفضّلة' : 'أُضيف إلى المفضّلة')} className={cn('rounded p-1', t.isFavorite ? 'text-primary' : 'text-muted-foreground hover:text-primary')} title="مفضّلة" disabled={pending}>
           <Star className={cn('size-4', t.isFavorite ? 'fill-current' : '')} />
         </button>
       </div>

@@ -197,7 +197,7 @@ export function PlayDashboard({ data, studentName }: { data: Dashboard; studentN
                 <span className="tabular-nums text-muted-foreground">
                   {s.correctCount}/{s.total}
                 </span>
-                <span className="rounded-full bg-accent/15 px-2 py-0.5 text-xs font-bold text-amber-800 dark:text-amber-200">+{s.xpEarned}</span>
+                <span className="rounded-full bg-accent/15 px-2 py-0.5 text-xs font-bold text-accent-foreground dark:text-accent">+{s.xpEarned}</span>
                 <span className="w-16 text-end text-xs text-muted-foreground">{formatShortDate(s.completedAt)}</span>
               </li>
             ))}

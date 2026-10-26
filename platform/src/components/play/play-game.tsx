@@ -168,7 +168,7 @@ export function PlayGame({ session, questions, prefs, subjectName, backHref }: P
               <p className="text-sm font-bold">شارات جديدة 🎉</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {newBadges.map((b) => (
-                  <span key={b.code} className="inline-flex items-center gap-1 rounded-full bg-accent/20 px-3 py-1 text-sm font-bold text-amber-800 dark:text-amber-200">
+                  <span key={b.code} className="inline-flex items-center gap-1 rounded-full bg-accent/20 px-3 py-1 text-sm font-bold text-accent-foreground dark:text-accent">
                     <LucideIcon name={b.icon} className="size-4" /> {b.nameAr}
                   </span>
                 ))}
@@ -250,7 +250,7 @@ export function PlayGame({ session, questions, prefs, subjectName, backHref }: P
         <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
           <DifficultyPill value={current.difficulty} />
           <span className="rounded-full bg-muted px-2 py-0.5">{current.lessonName}</span>
-          <span className="ms-auto inline-flex items-center gap-1 rounded-full bg-accent/15 px-2 py-0.5 font-bold text-amber-800 dark:text-amber-200">
+          <span className="ms-auto inline-flex items-center gap-1 rounded-full bg-accent/15 px-2 py-0.5 font-bold text-accent-foreground dark:text-accent">
             <Zap className="size-3" /> {tally.xp} XP
           </span>
         </div>
@@ -266,7 +266,7 @@ export function PlayGame({ session, questions, prefs, subjectName, backHref }: P
             <div className="flex-1 space-y-1">
               <p className="text-lg font-extrabold">
                 {result.isCorrect ? 'إجابة صحيحة' : 'إجابة خاطئة'}
-                {result.xp > 0 ? <span className="ms-2 inline-flex items-center gap-1 rounded-full bg-accent/25 px-2 py-0.5 text-sm font-bold text-amber-800 dark:text-amber-200">+{result.xp} XP</span> : null}
+                {result.xp > 0 ? <span className="ms-2 inline-flex items-center gap-1 rounded-full bg-accent/25 px-2 py-0.5 text-sm font-bold text-accent-foreground dark:text-accent">+{result.xp} XP</span> : null}
               </p>
               {!result.isCorrect && current.payload.type === 'MCQ' ? (
                 <p className="text-sm">
@@ -334,7 +334,7 @@ export function PlayGame({ session, questions, prefs, subjectName, backHref }: P
 }
 
 function Stat({ label, value, tone }: { label: string; value: string; tone: 'success' | 'primary' | 'warning' | 'accent' }) {
-  const cls = { success: 'text-success', primary: 'text-primary', warning: 'text-amber-700 dark:text-amber-300', accent: 'text-amber-800 dark:text-amber-200' }[tone]
+  const cls = { success: 'text-success', primary: 'text-primary', warning: 'text-amber-700 dark:text-amber-300', accent: 'text-accent-foreground dark:text-accent' }[tone]
   return (
     <div className="rounded-2xl bg-background/70 p-3">
       <p className={cn('text-2xl font-extrabold tabular-nums', cls)}>{value}</p>

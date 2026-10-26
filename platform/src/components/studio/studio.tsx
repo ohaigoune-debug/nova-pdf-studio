@@ -312,7 +312,7 @@ function Toolbar({ exam, saveState, canUndo, canRedo, onUndo, onRedo, view, setV
           <History className="size-4" /> المراجعات
         </Button>
         <Button size="sm" variant="ghost" onClick={onFavorite} title={exam.isFavorite ? 'إزالة من المفضّلة' : 'إضافة إلى المفضّلة'}>
-          <Save className={cn('size-4', exam.isFavorite ? 'text-accent' : '')} />
+          <Save className={cn('size-4', exam.isFavorite ? 'text-primary' : '')} />
         </Button>
         <Button asChild size="sm" variant="ghost" title="وضع السبّورة: عرض الورقة على الشاشة الكبيرة">
           <Link href={`/teacher/exams/${exam.id}/board`}>

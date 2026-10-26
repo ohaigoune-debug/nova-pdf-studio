@@ -98,7 +98,7 @@ export function CopilotPanel({ exam, item, onClose, run, pending }: { exam: Exam
       <DialogContent className="max-h-[88dvh] max-w-2xl overflow-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="size-5 text-accent" /> مساعد الذكاء الاصطناعي — {exam.numbering[item.id] ?? 'عنصر'}
+            <Sparkles className="size-5 text-primary" /> مساعد الذكاء الاصطناعي — {exam.numbering[item.id] ?? 'عنصر'}
           </DialogTitle>
           <DialogDescription>يقترح فقط؛ لا يتغيّر شيء في الورقة قبل أن تقبل. المفتاح في الخادم، والاستهلاك يُسجَّل.</DialogDescription>
         </DialogHeader>
