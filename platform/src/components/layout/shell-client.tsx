@@ -5,6 +5,7 @@ import * as Icons from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, type ReactNode } from 'react'
+import { Logo } from '@/components/brand/logo'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Avatar } from '@/components/ui/misc'
 import { Button } from '@/components/ui/button'
@@ -32,17 +33,12 @@ function Icon({ name, className }: { name: string; className?: string }) {
   return <Cmp className={className} />
 }
 
-/** Shared MADRASADZ mark for the desktop sidebar and mobile drawer. */
+/** الشعار الأصلي في الشريط الكحلي: على لوحة فاتحة نظيفة (الكتابة كحلية)، وتحته الدور */
 function Brand({ role }: { role: string }) {
   return (
-    <div className="flex items-center gap-3">
-      <div className="flex size-10 items-center justify-center rounded-md bg-white/15 text-white shadow-lift">
-        <BookOpenText className="size-5" />
-      </div>
-      <div className="leading-tight">
-        <p className="text-base font-extrabold tracking-tight text-sidebar-foreground">{t('app.name')}</p>
-        <p className="text-[11px] font-medium text-sidebar-muted">{tEnum('roles', role)}</p>
-      </div>
+    <div className="flex min-w-0 flex-col items-start gap-1">
+      <Logo width={128} surface="plate" />
+      <p className="ps-1 text-xs font-medium text-sidebar-muted">{tEnum('roles', role)}</p>
     </div>
   )
 }
@@ -132,7 +128,7 @@ export function ShellClient({
     <div className="flex min-h-dvh">
       {/* الشريط الجانبي (حاسوب) */}
       <aside className="no-print sticky top-0 hidden h-dvh w-[268px] shrink-0 flex-col border-e border-sidebar-border bg-sidebar lg:flex">
-        <div className="flex h-[72px] items-center border-b border-sidebar-border px-5">
+        <div className="flex min-h-[88px] items-center border-b border-sidebar-border px-5 py-3">
           <Brand role={actor.role} />
         </div>
         <div className="flex-1 overflow-y-auto scrollbar-thin">{nav}</div>
@@ -144,7 +140,7 @@ export function ShellClient({
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
           <aside className="absolute inset-y-0 start-0 flex w-[300px] max-w-[85vw] flex-col bg-sidebar shadow-2xl animate-fade-in">
-            <div className="flex h-[72px] items-center justify-between border-b border-sidebar-border px-4">
+            <div className="flex min-h-[88px] items-center justify-between border-b border-sidebar-border px-4 py-3">
               <Brand role={actor.role} />
               <Button variant="ghost" size="icon" className="text-sidebar-muted hover:bg-white/10 hover:text-white" onClick={() => setOpen(false)} aria-label={t('common.close')}>
                 <X className="size-5" />
@@ -157,15 +153,12 @@ export function ShellClient({
       ) : null}
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="no-print sticky top-0 z-40 flex h-[72px] items-center gap-2 brand-header border-b border-white/10 px-4 backdrop-blur-xl lg:px-8">
-          <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 hover:text-white lg:hidden" onClick={() => setOpen(true)} aria-label="القائمة">
+        <header className="no-print sticky top-0 z-40 flex h-[72px] items-center gap-2 brand-header px-4 backdrop-blur-xl lg:px-8">
+          <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(true)} aria-label="القائمة">
             <Menu className="size-5" />
           </Button>
-          <Link href={actor.role === 'CONFIRMER' ? '/admin/store/confirm' : `/${base}`} className="flex items-center gap-2 font-extrabold lg:hidden">
-            <span className="flex size-8 items-center justify-center rounded-sm bg-white/15 text-white">
-              <BookOpenText className="size-4" />
-            </span>
-            {t('app.name')}
+          <Link href={actor.role === 'CONFIRMER' ? '/admin/store/confirm' : `/${base}`} className="flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:hidden">
+            <Logo width={132} priority />
           </Link>
           <div className="flex-1">
             {actor.role === 'TEACHER' ? (
@@ -180,7 +173,7 @@ export function ShellClient({
             ) : null}
           </div>
           {actor.role !== 'CONFIRMER' ? (
-          <Link href={notificationsHref} className="relative flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-white transition-colors hover:bg-white/10" aria-label={t('common.notifications')}>
+          <Link href={notificationsHref} className="relative flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" aria-label={t('common.notifications')}>
             <Bell className="size-5" />
             {unread > 0 ? (
               <span className="absolute -end-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground ring-2 ring-background">
@@ -210,7 +203,7 @@ export function ShellClient({
                 const active = item.href === '/student' ? pathname === item.href : item.href === '/student/courses' ? matches(item.href, false) && !matches('/student/courses/catalog', false) : matches(item.href, false)
                 return (
                   <Link key={item.href} href={item.href} aria-current={active ? 'page' : undefined} className={cn('flex min-h-11 flex-col items-center justify-center gap-1 rounded-md text-[11px] font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring', active ? 'text-primary' : 'text-muted-foreground')}>
-                    <span className={cn('flex items-center justify-center', i === 2 && '-mt-5 size-12 rounded-full bg-primary text-primary-foreground shadow-soft ring-4 ring-card')}><item.icon className="size-5" /></span>
+                    <span className={cn('flex items-center justify-center', i === 2 && '-mt-5 size-12 rounded-full bg-primary text-primary-foreground shadow-soft ring-4 ring-card', i !== 2 && active && 'rounded-full bg-secondary px-3 py-0.5')}><item.icon className="size-5" /></span>
                     {item.label}
                   </Link>
                 )

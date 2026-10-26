@@ -17,7 +17,7 @@ export function PublicNav({ links, variant }: { links: PublicLink[]; variant: 'd
     return (
       <nav className="hidden items-center gap-0.5 min-[1720px]:flex" aria-label="أقسام المنصة">
         {links.map((l) => (
-          <Link key={l.href} href={l.href} aria-current={active(l.href) ? 'page' : undefined} className={cn('whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold transition-colors', active(l.href) ? 'bg-white/20 text-white' : 'text-white/90 hover:bg-white/10')}>
+          <Link key={l.href} href={l.href} aria-current={active(l.href) ? 'page' : undefined} className={cn('whitespace-nowrap rounded-md px-3 py-2 text-sm font-semibold transition-colors duration-150', active(l.href) ? 'bg-secondary text-secondary-foreground' : 'text-foreground/80 hover:bg-muted hover:text-foreground')}>
             {l.label}
           </Link>
         ))}
@@ -26,7 +26,7 @@ export function PublicNav({ links, variant }: { links: PublicLink[]; variant: 'd
   return (
     <>
       {links.map((l) => (
-        <Link key={l.href} href={l.href} aria-current={active(l.href) ? 'page' : undefined} className={cn('shrink-0 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-xs font-semibold shadow-soft', active(l.href) ? 'border-white/40 bg-white/20 text-white' : 'border-white/20 bg-white/10 text-white')}>
+        <Link key={l.href} href={l.href} aria-current={active(l.href) ? 'page' : undefined} className={cn('flex min-h-9 shrink-0 items-center whitespace-nowrap rounded-full border px-3.5 text-xs font-semibold transition-colors duration-150', active(l.href) ? 'border-primary/40 bg-secondary text-secondary-foreground' : 'border-border bg-card text-foreground/80 hover:border-primary/40')}>
           {l.label}
         </Link>
       ))}
