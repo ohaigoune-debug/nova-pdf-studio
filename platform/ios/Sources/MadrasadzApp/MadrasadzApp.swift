@@ -17,7 +17,7 @@ struct MadrasadzApp: App {
                     // Do not invalidate an in-progress notification-permission
                     // dialog merely because it temporarily makes us inactive.
                     if previous == .background && phase == .active {
-                        Task { await model.lockIdentity(); await model.refreshIdentity() }
+                        Task { await model.refreshIdentity(superseding: true) }
                     }
                 }
         }

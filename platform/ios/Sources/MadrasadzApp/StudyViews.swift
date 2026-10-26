@@ -88,20 +88,29 @@ struct StudyRootView: View {
 struct IdentityGate: View {
     @ObservedObject var model: AppModel
     var body: some View {
-        ContentUnavailableView {
-            Label(L10n.text("verifyAccount"), systemImage: "person.badge.key")
-        } description: {
-            switch model.identity {
-            case .checking: Text(L10n.text("checking"))
-            case .signedOut: Text(L10n.text("signInRequired"))
-            case .phoneRequired: Text(L10n.text("verifyPhone"))
-            case .unsupportedRole: Text(L10n.text("studentOnly"))
-            default: Text(L10n.text("offlineAccount"))
+        if case .checking = model.identity {
+            VStack(spacing: 24) {
+                ProgressView(L10n.text("checking"))
+                    .accessibilityIdentifier("checkingAccount")
+                Button(L10n.text("signIn")) { model.selectedTab = 0; model.browser.open(path: "/login") }
+                    .buttonStyle(.borderedProminent)
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            ContentUnavailableView {
+                Label(L10n.text("verifyAccount"), systemImage: "person.badge.key")
+            } description: {
+                switch model.identity {
+                case .checking: Text(L10n.text("checking"))
+                case .signedOut: Text(L10n.text("signInRequired"))
+                case .phoneRequired: Text(L10n.text("verifyPhone"))
+                case .unsupportedRole: Text(L10n.text("studentOnly"))
+                default: Text(L10n.text("offlineAccount"))
+                }
+            } actions: {
+                Button(L10n.text("signIn")) { model.selectedTab = 0; model.browser.open(path: "/login") }
+                    .buttonStyle(.borderedProminent)
+                Button(L10n.text("retry")) { Task { await model.refreshIdentity() } }
             }
-        } actions: {
-            Button(L10n.text("signIn")) { model.selectedTab = 0; model.browser.open(path: "/login") }
-                .buttonStyle(.borderedProminent)
-            Button(L10n.text("retry")) { Task { await model.refreshIdentity() } }
         }
     }
 }
@@ -127,7 +136,7 @@ struct BookmarksView: View {
                     }
                 }
             }
-        }.navigationTitle(L10n.text("saved"))
+        }.navigationTitle(L10n.text("saved")).navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -173,6 +182,7 @@ struct PlannerView: View {
             }
         }
         .navigationTitle(L10n.text("planner"))
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if model.personalSpaceReady {
                 Button { adding = true } label: { Image(systemName: "plus") }.accessibilityLabel(L10n.text("add"))

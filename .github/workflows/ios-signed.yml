@@ -1,5 +1,6 @@
 name: iOS — signed IPA
-# Revision 2: keep modern PKCS#12 encryption and import its components on macOS.
+# Revision 3: export the Build 2 native checking/navigation repair for validation.
+# Uses the existing owner-approved signing inputs; does not upload to Apple.
 
 on:
   workflow_dispatch:

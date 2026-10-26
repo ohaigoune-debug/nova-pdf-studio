@@ -41,6 +41,10 @@ final class AppModel: ObservableObject {
     private var reminderGeneration = 0
     private var reminderTail: Task<Void, Never>?
     private var studyWriteBusy = false
+    private var started = false
+    private var identityRefresh: Task<Void, Never>?
+    private var identityRefreshRevision: Int?
+    private var identityTimeout: Task<Void, Never>?
     @Published var identity: Identity = .checking
     @Published var snapshot = StudySnapshot.empty
     @Published var selectedTab = 0
@@ -53,7 +57,9 @@ final class AppModel: ObservableObject {
         store = StudyStore(directoryURL: directory, policy: browser.policy)
         browser.onPageFinished = { [weak self] in Task { await self?.refreshIdentity() } }
         browser.onAuthenticationPage = { [weak self] in Task { await self?.lockIdentity() } }
-        browser.onCookiesChanged = { [weak self] in Task { await self?.refreshIdentity() } }
+        // A cookie event may replace an account while a request is in flight.
+        // Supersede that request, but coalesce ordinary page-finished/retry events.
+        browser.onCookiesChanged = { [weak self] in Task { await self?.refreshIdentity(superseding: true) } }
     }
 
     var personalSpaceReady: Bool { if case .ready = identity { return !busy }; return false }
@@ -69,6 +75,8 @@ final class AppModel: ObservableObject {
     }
 
     func start() async {
+        guard !started else { return }
+        started = true
         notifications.removeAllPendingNotificationRequests()
         notifications.removeAllDeliveredNotifications()
         browser.open()
@@ -77,38 +85,84 @@ final class AppModel: ObservableObject {
 
     func lockIdentity() async {
         guard !busy else { return }
-        generation += 1
-        reminderGeneration += 1
-        let revision = generation
-        studySession = nil
-        snapshot = .empty
-        identity = .checking
-        notifications.removeAllPendingNotificationRequests()
-        notifications.removeAllDeliveredNotifications()
+        identityRefresh?.cancel()
+        identityRefresh = nil
+        identityRefreshRevision = nil
+        let revision = beginIdentityCheck()
         let ids = await store.lock()
         guard revision == generation, !busy else { return }
         cancelReminders(ids)
     }
 
-    func refreshIdentity() async {
-        guard !busy else { return }
-        if OfflineShellValidation.enabled {
-            await lockIdentity()
-            identity = .signedOut
-            return
-        }
+    /// Hide the previous account before suspending. Repeated events share the
+    /// same overall deadline rather than extending an endless checking screen.
+    private func beginIdentityCheck() -> Int {
         generation += 1
         reminderGeneration += 1
-        let revision = generation
-        // Lock published state before any suspension: an old account's snapshot
-        // must not remain visible while a changed cookie is being checked.
         studySession = nil
         snapshot = .empty
         identity = .checking
         notifications.removeAllPendingNotificationRequests()
         notifications.removeAllDeliveredNotifications()
+        if identityTimeout == nil {
+            identityTimeout = Task { @MainActor [weak self] in
+                do { try await Task.sleep(nanoseconds: 25_000_000_000) }
+                catch { return }
+                guard !Task.isCancelled, let self, !self.busy,
+                      case .checking = self.identity else { return }
+                // Invalidate late cookie/network/store completions as well as
+                // cancelling URLSession; cancellation alone is not an identity guard.
+                self.generation += 1
+                let revision = self.generation
+                self.identityRefresh?.cancel()
+                self.identityRefresh = nil
+                self.identityRefreshRevision = nil
+                await self.invalidate(to: .unavailable, revision: revision)
+            }
+        }
+        return generation
+    }
+
+    private func stopIdentityTimeout() {
+        identityTimeout?.cancel()
+        identityTimeout = nil
+    }
+
+    func refreshIdentity(superseding: Bool = false) async {
+        guard !busy else { return }
+        if OfflineShellValidation.enabled {
+            await lockIdentity()
+            stopIdentityTimeout()
+            identity = .signedOut
+            return
+        }
+        if !superseding, let pending = identityRefresh {
+            await pending.value
+            return
+        }
+        identityRefresh?.cancel()
+        let revision = beginIdentityCheck()
+        let operation = Task { @MainActor [weak self] in
+            if superseding {
+                // WebKit can report several cookie writes for one navigation.
+                do { try await Task.sleep(nanoseconds: 150_000_000) }
+                catch { return }
+            }
+            guard !Task.isCancelled else { return }
+            await self?.loadIdentity(revision: revision)
+        }
+        identityRefreshRevision = revision
+        identityRefresh = operation
+        await operation.value
+        if identityRefreshRevision == revision {
+            identityRefresh = nil
+            identityRefreshRevision = nil
+        }
+    }
+
+    private func loadIdentity(revision: Int) async {
         let oldIDs = await store.lock()
-        guard revision == generation, !busy else { return }
+        guard revision == generation, !busy, !Task.isCancelled else { return }
         cancelReminders(oldIDs)
         do {
             guard let request = try await authenticatedRequest(path: "/api/v1/ios/session", revision: revision) else {
@@ -136,6 +190,7 @@ final class AppModel: ObservableObject {
             studySession = session
             let state = try await store.snapshot(using: session)
             guard revision == generation, session == studySession, !busy else { return }
+            stopIdentityTimeout()
             identity = .ready
             // Reconcile notification permission/limits before showing reminder flags.
             guard await synchronizeReminders(state: state, session: session, revision: revision),
@@ -150,6 +205,7 @@ final class AppModel: ObservableObject {
 
     private func invalidate(to state: Identity, revision: Int) async {
         guard revision == generation, !busy else { return }
+        stopIdentityTimeout()
         reminderGeneration += 1
         studySession = nil
         snapshot = .empty
@@ -174,8 +230,12 @@ final class AppModel: ObservableObject {
         guard revision == generation,
               case .internalPage = browser.policy.decision(for: browser.baseURL.appendingPathComponent("ios")),
               let host = browser.baseURL.host else { throw URLError(.cancelled) }
-        let cookies: [HTTPCookie] = await withCheckedContinuation { continuation in
-            browser.webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { continuation.resume(returning: $0) }
+        let cookies: [HTTPCookie] = try await withCheckedThrowingContinuation { continuation in
+            let read = CallbackDeadline(continuation)
+            read.armTimeout(nanoseconds: 5_000_000_000)
+            browser.webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
+                Task { @MainActor in read.finish(.success(cookies)) }
+            }
         }
         guard revision == generation else { throw URLError(.cancelled) }
         let matching = cookies.filter {
@@ -383,6 +443,10 @@ final class AppModel: ObservableObject {
 
     func logout() async {
         guard !busy else { return }
+        identityRefresh?.cancel()
+        identityRefresh = nil
+        identityRefreshRevision = nil
+        stopIdentityTimeout()
         busy = true
         generation += 1
         reminderGeneration += 1

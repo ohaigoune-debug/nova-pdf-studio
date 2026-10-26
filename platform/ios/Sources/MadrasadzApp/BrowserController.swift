@@ -104,7 +104,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     func retry() {
         guard !OfflineShellValidation.enabled else { failure = true; return }
         failure = false
-        if webView.url != nil { webView.reload() } else { open() }
+        if webView.url != nil { webView.reloadFromOrigin() } else { open() }
     }
 
     private func canonical(_ url: URL) -> URL {

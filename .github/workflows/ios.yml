@@ -16,7 +16,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: ios-validation-${{ github.ref }}
+  # Keep the reproduction run when a candidate fix is pushed; cancel only a
+  # duplicate validation of the same source commit.
+  group: ios-validation-${{ github.sha }}
   cancel-in-progress: true
 
 jobs:
