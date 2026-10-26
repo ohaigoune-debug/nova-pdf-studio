@@ -7,7 +7,8 @@ Status at preparation: **Linux source preparation; no Xcode, simulator, physical
 | Environment | Status |
 |---|---|
 | Source/security review | Performed; see AUDIT-AR.md and final engineering report |
-| Server/PGlite tests, TypeScript, lint and Next build | Use actual command logs in final delivery; this file does not invent their outcome |
+| Server/PGlite tests, TypeScript, lint and Next build | Re-run 2026-10-26 on `a957eac`: full suite 661/661 passed in one run, tsc/eslint/next build exit 0. See VALIDATION.md |
+| Swift package (`swift test`) | NOT re-run in the 2026-10-26 session (no Swift toolchain in that container); run on owner macOS/Swift |
 | macOS unsigned Xcode build | PENDING |
 | XCTest / iPhone simulator | PENDING |
 | Physical iPhone | PENDING |

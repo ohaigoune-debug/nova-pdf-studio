@@ -40,3 +40,20 @@ After this final change, the actual commands were:
 - `npx --no-install next build`: exit0, compilation/types/prerender/routes completed.
 
 The full 660-test suite above ran on the initial iOS commit, before this narrowly scoped CSP follow-up. It was not rerun in full afterward; do not describe 661 tests as one completed full-suite run. The iOS server files now define49 cases (presentation9, others unchanged); the final targeted run includes8 cases already covered by the full run. Actual Bunny playback remains pending on an iPhone/Simulator.
+
+## Re-verification — 2026-10-26 UTC (second session, Linux)
+
+Environment: separate Ubuntu 24.04 container, Node v22.23.4, branch `codex/ios-app-foundation` at HEAD `a957eac6f1731e2e7b949f5e0749d93fb6befb2e`, source unchanged. Ran from `platform/` with the vitest config's own env (`DATABASE_URL=pglite://memory`, test secrets), `AUTO_MIGRATE=0`, telemetry disabled. No source files were modified in this session.
+
+| Command actually run | Exit | Actual result |
+|---|---:|---|
+| `npx --no-install tsc --noEmit -p .` | 0 | No errors (~20s) |
+| `npx --no-install eslint .` | 0 | 0 errors, same 10 pre-existing legacy warnings |
+| `npx --no-install vitest run` (whole suite) | 0 | **102 test files, 661 tests passed, 0 failed/skipped; 592.72s** |
+| `npx --no-install next build` | 0 | Next.js 15; compile/types/prerender/routes completed; `/ios`, `/ios/course/[slug]`, `/ios/lesson/[slug]`, and the three `/api/v1/ios/*` routes are present in the route table; Middleware 35.3 kB |
+| `python3 platform/ios/scripts/validate-project.py` | 0 | OpenStep project parsed; 38 references resolved; scheme/plists/storyboard/assets valid |
+| `bash -n` on the three scripts | 0 | Shell syntax valid |
+
+This resolves the single-run caveat above: **the entire 661-test suite now passes in one complete run on the post-CSP-fix source**, not only as overlapping scoped runs. The `/ios` pages and `/api/v1/ios/*` endpoints compile and register in `next build`.
+
+Swift was **not** available in this container (`swift` absent; the toolchain host is outside the egress allow-list and could not be installed). Therefore the `swift test` result (37 XCTest cases) from the earlier session was **not** reproduced here; it must be re-run on the owner's macOS/Swift toolchain. Everything under "Not executed" below still stands unchanged: no Xcode build, Simulator, device, WKWebView session, notification, video or PDF-share test ran in either session.
