@@ -2,6 +2,7 @@
 # Export a signed IPA locally. This script never uploads to Apple.
 set -euo pipefail
 set +x
+umask 077
 ios_root="$(cd "$(dirname "$0")/.." && pwd)"
 bash "$ios_root/scripts/check-xcode.sh"
 for name in MADRASADZ_IOS_P12_BASE64 MADRASADZ_IOS_P12_PASSWORD MADRASADZ_IOS_PROFILE_BASE64; do
@@ -37,7 +38,16 @@ keychain_password="$(cat "$work/keychain-password")"
 security create-keychain -p "$keychain_password" "$keychain"
 security set-keychain-settings -lut 21600 "$keychain"
 security unlock-keychain -p "$keychain_password" "$keychain"
-security import "$work/distribution.p12" -P "$MADRASADZ_IOS_P12_PASSWORD" -k "$keychain" -T /usr/bin/codesign -T /usr/bin/security >/dev/null
+# Validate/decrypt the modern encrypted PKCS#12 with OpenSSL, then import its
+# components. Apple's PKCS#12 importer can reject otherwise valid OpenSSL 3 bags.
+# Plaintext inputs exist only in the mode-0700 temporary directory and are removed
+# by the EXIT trap; the encrypted secret and its protection remain unchanged.
+openssl pkcs12 -in "$work/distribution.p12" -passin env:MADRASADZ_IOS_P12_PASSWORD -nocerts -nodes -out "$work/extracted-key.pem"
+openssl pkey -in "$work/extracted-key.pem" -traditional -out "$work/import-key.pem"
+openssl pkcs12 -in "$work/distribution.p12" -passin env:MADRASADZ_IOS_P12_PASSWORD -clcerts -nokeys -out "$work/import-cert.pem"
+chmod 600 "$work/extracted-key.pem" "$work/import-key.pem" "$work/import-cert.pem"
+security import "$work/import-key.pem" -k "$keychain" -T /usr/bin/codesign -T /usr/bin/security >/dev/null
+security import "$work/import-cert.pem" -k "$keychain" -T /usr/bin/codesign -T /usr/bin/security >/dev/null
 security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$keychain_password" "$keychain" >/dev/null
 python3 - "$work/keychains.json" "$keychain" <<'PY'
 import json, subprocess, sys

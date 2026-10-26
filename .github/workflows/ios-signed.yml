@@ -1,4 +1,5 @@
 name: iOS — signed IPA
+# Revision 2: keep modern PKCS#12 encryption and import its components on macOS.
 
 on:
   workflow_dispatch:
