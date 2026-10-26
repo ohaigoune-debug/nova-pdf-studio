@@ -46,6 +46,22 @@ Linux verification rerun on reviewed source:
 Result: exit 0; **49/49 tests, 4/4 files**, PGlite in-memory fixtures. This is not a
 real WebKit session test. No new Swift/Xcode build or App Store upload was run.
 
+## Owner authorization and current execution blocker
+
+After reviewing this diagnosis, the owner explicitly approved updating the
+madrasadz.com production server to support the iOS app, retaining the prohibition
+on database migrations. This authorization supersedes the earlier production
+no-deploy restriction for this narrowly scoped server update only. Do not request
+the same approval again. No merge, force push, .env edit, database migration,
+Android change, paid service or App Store submission is authorized.
+
+A noninteractive SSH attempt from this environment to the previously documented
+Contabo host failed before authentication: `Network is unreachable` (exit 255).
+No SSH agent is available here. No remote command, production change or deployment
+ran; this network error is not evidence that the VPS is offline. No credentials
+were requested, printed or copied. Actual production SHA/path/launch mechanism
+are still unknown. See OPERATOR-HANDOFF-AR.md for the authorized operator workflow.
+
 ## Deployment gates (not executed)
 
 1. Obtain authorized access to the actual deployment and record its source/image
@@ -58,15 +74,16 @@ real WebKit session test. No new Swift/Xcode build or App Store upload was run.
    explicitly trusted test HTTPS origin as specified in ISOLATED-VALIDATION.md.
    No staging hostname or access has been supplied; this gate is still blocked.
 4. Show the final candidate SHA, affected paths, isolated results and rollback image
-   before obtaining approval for a production switch. Existing authorization still
-   forbids a merge/production deployment; TestFlight approval did not change that.
+   before switching production. The owner has now approved the narrow iOS server
+   update; apply that approval within the recorded constraints. Merge/force-push
+   remain unauthorized, and this environment currently cannot reach the VPS.
 5. Do not run scripts/deploy-vps.sh, start:hosted or a full compose up as a shortcut:
    the checked-in deployment path enables AUTO_MIGRATE and may run bootstrap/seed.
    A reviewed app-only launch with migrations disabled and no bootstrap/worker/DB
    recreation is required under the owner's no-real-DB-migration constraint. This
    cannot be prescribed as a blind command without observing the actual deployment.
 
-## Acceptance and rollback after separate deployment authorization
+## Acceptance and rollback within the approved server-update scope
 
 - /ios serves the study portal (or its documented authentication flow), not 404.
 - An unauthenticated /api/v1/ios/session returns the documented 401 JSON response
