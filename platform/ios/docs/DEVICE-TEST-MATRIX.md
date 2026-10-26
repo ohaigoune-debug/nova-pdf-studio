@@ -82,3 +82,18 @@ Status after follow-up review (2026-10-26): **Linux source preparation; no Xcode
 - ISOLATED-VALIDATION.md records the unsatisfied HTTPS test-backend requirements.
 - No runtime screenshot, native PDF share, Bunny playback, VoiceOver or actual
   notification permission/delivery result is available from this Linux session.
+
+
+## Later macOS signing evidence — 26 October 2026
+
+- Historical Linux-only preparation records above remain historical.
+- Simulator run `40350226821` on `f089e8625d0eb54301d0eb2212b3a7f42615348f`:
+  Debug/Release builds PASS, 37 package tests PASS, 3 disconnected Debug language
+  cases PASS (AR/EN/FR); no authenticated backend or paid video case covered.
+- Signed Release device archive and IPA export PASS on Xcode 26.6, source
+  `b3a268c27166c36fab858550ae4d124a686bcda1`, run `40373277061`.
+- Physical-device rows, authenticated sessions, accessibility, real video/PDF and
+  reminders remain PENDING. No signed IPA was installed or launched on an iPhone.
+- TestFlight: NOT UPLOADED; new API-access authorization is pending.
+- See VALIDATION.md for failed first attempt, fix, commands, artifact metadata and
+  exact boundaries. The signed build result does not overwrite device-test rows.

@@ -162,3 +162,52 @@ Before pushing, Linux checks passed: `python3 platform/ios/scripts/test_tooling.
 (12 tests), `python3 platform/ios/scripts/validate-project.py` (38 references), and
 `git diff --check`. These do not establish a native build. Cloud execution and
 its actual result must be recorded after GitHub returns a completed run.
+
+
+## Signed device archive and IPA export — 26 October 2026 UTC
+
+The owner explicitly authorized Apple Distribution issuance, the App Store profile,
+and transferring the encrypted PKCS#12/password/profile to GitHub Actions Secrets.
+App Store Connect app record: `6827229065`; team: `VN2768K4UH`; explicit bundle:
+`com.madrasadz.student`. Certificate/profile expiry: 26 October 2027. No signing
+secrets, certificates, profiles or keys were committed to Git or printed in logs.
+
+- First signing run [40372954012](https://github.com/ohaigoune-debug/nova-pdf-studio/actions/runs/40372954012)
+  at `9de81e6a2adceeba63514c7ec468d7e13cd482c8` failed before compilation: Apple's
+  `security import` rejected the modern encrypted PKCS#12 with a MAC-verification
+  error. This was not counted as a successful archive or export.
+- The fix preserves the encrypted container and uses OpenSSL to decode it only
+  inside a mode-0700 temporary directory, then imports PEM components into the
+  temporary macOS keychain. Cleanup runs via EXIT, removes these inputs/profile/
+  keychain and restores the original user keychain search list.
+- [Signing run 40373277061](https://github.com/ohaigoune-debug/nova-pdf-studio/actions/runs/40373277061)
+  at **`b3a268c27166c36fab858550ae4d124a686bcda1`** completed successfully on macOS
+  with **Xcode 26.6**. `bash platform/ios/scripts/build-signed.sh` exited 0:
+  **ARCHIVE SUCCEEDED**, `codesign --verify --deep --strict` passed, and
+  **EXPORT SUCCEEDED**. The IPA check confirmed the expected bundle and embedded
+  provisioning profile.
+- The IPA-only artifact is `Madrasadz-signed-IPA-b3a268c27166c36fab858550ae4d124a686bcda1`,
+  ID `12674425529`, ZIP size 1,486,616 bytes, SHA-256
+  `047050eadf8baf333b8b91e33df3cf727119315457d81b45c8abeec20153b7dd`.
+  GitHub retention is one day (expires 27 October 2026 at 17:58:19 UTC).
+  Neither private keys nor archives were uploaded as artifacts.
+- Linux checks for the script: `bash -n`, embedded Python syntax, workflow YAML/
+  public-runner guard, 12 existing tooling tests and `git diff --check` passed.
+  OpenSSL decryption/RSA validation passed locally without printing key data.
+  Running `build-signed.sh` on Linux still exits 1 at the macOS/Xcode guard.
+
+This establishes a signed Release device archive and exported IPA, not execution
+on a physical iPhone. The earlier successful Simulator run at `f089e8625d0eb54301d0eb2212b3a7f42615348f`
+([40350226821](https://github.com/ohaigoune-debug/nova-pdf-studio/actions/runs/40350226821))
+passed Debug/Release builds, 37 core XCTest cases and 3 disconnected AR/EN/FR shell
+cases. No real authenticated WebKit, Bunny, PDF share or notification-delivery
+case has been promoted to passed by these build results.
+
+**TestFlight upload has not occurred.** The live App Store Connect Integrations
+page shows App Store Connect API access not enabled and a `Request Access` button.
+Requesting that new account/API access needs owner confirmation before proceeding;
+no API key has been created or stored. Export compliance, review/privacy/payment
+and an isolated matching backend remain separate unresolved items.
+
+Updated verdict: **signed IPA export verified on macOS; not yet available in
+TestFlight, not yet validated on a physical iPhone, not ready for App Review.**
