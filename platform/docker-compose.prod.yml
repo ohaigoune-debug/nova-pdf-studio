@@ -99,6 +99,15 @@ services:
       MAIL_PROVIDER: ${MAIL_PROVIDER:-console}
       MAIL_API_KEY: ${MAIL_API_KEY:-}
       MAIL_FROM: ${MAIL_FROM:-}
+      # الرسائل القصيرة (رموز OTP): بدون SMS_PROVIDER=suivisms تُطبع الرموز في السجل ولا تصل للزبون،
+      # حتى لو حُفظ مفتاح SuiviSMS من لوحة الإدارة
+      SMS_PROVIDER: ${SMS_PROVIDER:-console}
+      SUIVISMS_API_KEY: ${SUIVISMS_API_KEY:-}
+      SUIVISMS_TEMPLATE_ID: ${SUIVISMS_TEMPLATE_ID:-}
+      SUIVISMS_SENDER: ${SUIVISMS_SENDER:-}
+      SMS_WEBHOOK_URL: ${SMS_WEBHOOK_URL:-}
+      SMS_WEBHOOK_SECRET: ${SMS_WEBHOOK_SECRET:-}
+      SMS_DAILY_CAP: ${SMS_DAILY_CAP:-1000}
       STORAGE_DRIVER: ${STORAGE_DRIVER:-local}
       UPLOADS_DIR: /app/data/uploads
       S3_BUCKET: ${S3_BUCKET:-}

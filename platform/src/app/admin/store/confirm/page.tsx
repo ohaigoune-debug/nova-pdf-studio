@@ -14,12 +14,24 @@ import type { OrderStatus } from '@/server/db/schema/enums'
 import { callPairingUrl, getCallConfirm, listCallEvents } from '@/server/services/call-confirm.service'
 import { ecotrackOperatorStatus, ecotrackStatus } from '@/server/services/ecotrack.service'
 import { ORDER_STATUS_AR } from '@/server/services/order-status.service'
-import { listConfirmationQueue, PAYMENT_AR } from '@/server/services/store.service'
+import { listConfirmationQueue, PAYMENT_AR, type PhoneHistory } from '@/server/services/store.service'
 
 export const dynamic = 'force-dynamic'
 
 const RESULT_AR: Record<string, string> = { phone_verified: 'أكّد هاتف حسابه', confirmed: 'أكّد طلبه', already_confirmed: 'مؤكَّد من قبل', no_order: 'بلا طلب', invalid_phone: 'رقم غير مفهوم', disabled: 'الخدمة متوقفة' }
 const STATUS_VARIANT: Record<string, 'warning' | 'secondary' | 'muted'> = { PENDING: 'warning', NO_ANSWER: 'secondary', CALL_LATER: 'secondary' }
+
+/** سجلّ الرقم في الطلبات السابقة: المرتجع (رفض الاستلام) تحذير أحمر قبل الإرسال لشركة التوصيل */
+function PhoneHistoryBadges({ h }: { h: PhoneHistory }) {
+  if (!h.returned && !h.delivered && h.cancelled < 2) return null
+  return (
+    <span className="mt-1 flex flex-wrap gap-1">
+      {h.returned ? <Badge variant="destructive">⚠️ رفض الاستلام سابقاً ×{h.returned}</Badge> : null}
+      {h.delivered ? <Badge variant="success">استلم سابقاً ×{h.delivered}</Badge> : null}
+      {h.cancelled >= 2 ? <Badge variant="warning">طلبات ملغاة ×{h.cancelled}</Badge> : null}
+    </span>
+  )
+}
 
 /** طابور التأكيد الهاتفي (نسق NOVA): الطلبات التي تنتظر مكالمة، بأزرار «تأكيد / لا يردّ / لاحقاً / إلغاء»، وإعداد التأكيد بالمكالمة الفائتة */
 export default async function ConfirmQueuePage() {
@@ -89,6 +101,7 @@ export default async function ConfirmQueuePage() {
                       </a>
                       <span className="block text-xs text-muted-foreground">{[o.wilayaName, o.commune].filter(Boolean).join(' · ') || '—'}</span>
                       {o.otpVerifiedAt ? <Badge variant="success">هاتف مؤكَّد بالرمز</Badge> : null}
+                      <PhoneHistoryBadges h={o.history} />
                     </TableCell>
                     <TableCell className="max-w-[260px] text-xs">
                       <span className="line-clamp-2">{o.itemsText || '—'}</span>

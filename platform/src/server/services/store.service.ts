@@ -449,8 +449,42 @@ export async function listOrdersAdmin(db: Db, actor: Actor, f: { status?: OrderS
     .limit(300)
 }
 
-/** طابور التأكيد الهاتفي: الطلبات التي تنتظر مكالمة، الأقدم أولاً (الحالة ثم تاريخ الإنشاء) */
+export interface PhoneHistory {
+  delivered: number
+  returned: number
+  cancelled: number
+}
+
+/**
+ * سجلّ أرقام الهواتف في الطلبات السابقة (استعلام واحد مجمّع): يُظهر للموظف قبل الشحن
+ * الرقم الذي رفض الاستلام من قبل (مرتجع)، والزبون الذي استلم سابقاً.
+ */
+export async function phoneOrderHistory(db: Db, phones: readonly string[]): Promise<Map<string, PhoneHistory>> {
+  const list = [...new Set(phones.filter(Boolean))]
+  const out = new Map<string, PhoneHistory>()
+  if (!list.length) return out
+  const rows = await db
+    .select({
+      phone: orders.phone,
+      delivered: sql<number>`(count(*) filter (where ${orders.status} = 'DELIVERED'))::int`,
+      returned: sql<number>`(count(*) filter (where ${orders.status} = 'RETURNED'))::int`,
+      cancelled: sql<number>`(count(*) filter (where ${orders.status} = 'CANCELLED'))::int`
+    })
+    .from(orders)
+    .where(inArray(orders.phone, list))
+    .groupBy(orders.phone)
+  for (const r of rows) out.set(r.phone, { delivered: Number(r.delivered), returned: Number(r.returned), cancelled: Number(r.cancelled) })
+  return out
+}
+
+/** طابور التأكيد الهاتفي: الطلبات التي تنتظر مكالمة، الأقدم أولاً، مع سجلّ رقم كل زبون */
 export async function listConfirmationQueue(db: Db, actor: Actor) {
+  const rows = await confirmationQueueRows(db, actor)
+  const history = await phoneOrderHistory(db, rows.map((r) => r.phone))
+  return rows.map((r) => ({ ...r, history: history.get(r.phone) ?? { delivered: 0, returned: 0, cancelled: 0 } }))
+}
+
+async function confirmationQueueRows(db: Db, actor: Actor) {
   assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
   return db
     .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaName: wilayas.nameAr, commune: orders.commune, address: orders.address, note: orders.note, otpVerifiedAt: orders.otpVerifiedAt, confirmAttempts: orders.confirmAttempts, lastCallAt: orders.lastCallAt, createdAt: orders.createdAt, itemsText: sql<string>`(select coalesce(string_agg(i.title || case when i.qty > 1 then ' ×' || i.qty else '' end, ' + ' order by i.created_at), '') from order_items i where i.order_id = orders.id)` })

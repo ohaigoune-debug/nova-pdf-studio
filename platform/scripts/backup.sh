@@ -65,6 +65,13 @@ run_once() {
   fi
 }
 
+# نسخة واحدة الآن ثم الخروج (قبل كل نشر فيه ترحيل لقاعدة البيانات):
+#   docker compose -f docker-compose.prod.yml run --rm backup --once
+if [ "${1:-}" = "--once" ]; then
+  run_once
+  exit $?
+fi
+
 log "بدء الخدمة — كل $INTERVAL_HOURS ساعة، الاحتفاظ بآخر $KEEP نسخة في $OUT"
 while true; do
   run_once || log "✖ دورة فاشلة؛ إعادة المحاولة في الدورة القادمة"
