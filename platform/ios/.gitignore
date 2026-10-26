@@ -4,6 +4,7 @@ xcuserdata/
 .DS_Store
 .build/
 DerivedData/
+DerivedDataSigned/
 build/
 *.xcarchive/
 *.ipa

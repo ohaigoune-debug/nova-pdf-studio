@@ -162,3 +162,28 @@ xcodebuild \
 ## حدود الجاهزية
 
 المشروع يحتاج تنفيذ الفحوص الفعلية على Xcode، واختبار جلسات WKWebView وفيديو وملفات وحسابات الصلاحيات على iPhone، ثم حسم نموذج الشراء ومتطلبات المجتمع والخصوصية ومعلومات المتجر قبل التقديم. تفعيل Apple Developer وTeam ID والتوقيع والمنتجات إن اختير StoreKit ليست مكتملة بمجرد وجود مشروع Xcode.
+
+
+## Signed IPA preparation — 26 October 2026
+
+Apple App ID `com.madrasadz.student` and App Store Connect record `6827229065`
+were registered under team `VN2768K4UH`. Apple Distribution and the matching
+`Madrasadz App Store 2026` App Store provisioning profile were issued and checked.
+Neither the certificate private key, profile nor PKCS#12 password belongs in Git.
+
+`.github/workflows/ios-signed.yml` is separate from Simulator validation. It runs
+only on the named iOS branch in this public repository, via manual dispatch or a
+change to its own workflow file. The owner authorized the first signed build and
+storing `MADRASADZ_IOS_P12_BASE64`, `MADRASADZ_IOS_P12_PASSWORD` and
+`MADRASADZ_IOS_PROFILE_BASE64` as GitHub Actions Secrets. Secrets are supplied
+only to the signing step. The script uses an ephemeral keychain, validates team,
+bundle, expiry and App Store profile type, archives Release for an iOS device,
+checks the signature and exports an IPA. It removes its installed profile,
+keychain and temporary inputs even on failure and restores the keychain list.
+
+Only the IPA is retained as a GitHub Actions artifact for one day; private keys,
+passwords, archives and provisioning inputs are not uploaded as artifacts.
+A signed IPA export is not a physical-device test, TestFlight processing, App
+Review approval or a production deployment. This workflow does not upload to
+Apple and needs no App Store Connect upload key. The actual result must be read
+from its run before describing the IPA as signed/exported successfully.
