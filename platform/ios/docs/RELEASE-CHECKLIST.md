@@ -1,6 +1,6 @@
 # Build, TestFlight and App Store readiness
 
-Current classification (27 October 2026): **Build 3 is VALID / IN_BETA_TESTING in the existing owner-only internal group**, verified by upload run 40466174770. Native source 3e6b4df passed Debug/Release, 40 core tests, 3 offline UI cases and a public WebKit navigation test with three background/activate cycles; genuine cycle-3 image visually verified. The predecessor reproduced a blank document and was not uploaded. Owner screenshots show an authenticated home/course card in Build 2, but foreground reliability failed there. Build 3 authenticated physical-device/course/media retest is PENDING. This is an internal test candidate; no App Review submission or public release. See NATIVE-STALL-INVESTIGATION.md and DEVICE-TEST-MATRIX.md.
+Current classification (27 October 2026): **Build 3 is VALID / IN_BETA_TESTING in the existing owner-only internal group**, verified by upload run 40466174770. Native source 3e6b4df passed Debug/Release, 40 core tests, 3 offline UI cases and a public WebKit navigation test with three background/activate cycles; genuine cycle-3 image visually verified. The predecessor reproduced a blank document and was not uploaded. Owner screenshots show an authenticated home/course card in Build 2, but foreground reliability failed there. Build 3 authenticated physical-device/course/media retest is PENDING. This is an internal test candidate; no App Review submission or public release. See NATIVE-STALL-INVESTIGATION.md and DEVICE-TEST-MATRIX.md. **Update:** the owner reports the black WebView area persists on installed Build 3; a Build 4 source candidate is prepared and pending CI, signing, upload and device test.
 
 ## 1. Local macOS validation
 
@@ -58,6 +58,8 @@ Landscape uses reversed width/height. One to ten screenshots per device size, JP
 - [x] Version 1.0.0 (1) assigned to Madrasadz Internal; only the owner invited, UI status Invited and API internal state IN_BETA_TESTING. Invitation acceptance, installation and launch remain unobserved.
 - [ ] Add test information, privacy policy and reviewer details; comply with Beta App Review for external testers.
 - [ ] Record device tests, crashes and session/content failures before expanding testers.
+- [ ] Before App Review: decide whether the TestFlight-only «تقرير تقني للاختبار» entry stays (App Review installs also use a sandbox receipt). It records codes/timings only, but it must be described accurately or removed.
+- [ ] Build 4 upload: only after unsigned validation and signing pass, update `ios-testflight-upload.yml` (artifact name/run), `upload-testflight.sh` (CFBundleVersion 4) and `enable-internal-build.py` (version 4) together; never rerun the Build 3 pin.
 
 ## 6. App Store submission (later, explicitly authorized)
 

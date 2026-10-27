@@ -15,8 +15,20 @@ struct StudyRootView: View {
         TabView(selection: $model.selectedTab) {
             NavigationStack {
                 ZStack {
+                    // One SwiftUI-owned protection container per WKWebView: a
+                    // replacement view gets a new container and capture observer.
                     PlatformWebView(browser: browser)
                         .id(ObjectIdentifier(browser.webView))
+                    if browser.restoring && !browser.failure {
+                        VStack(spacing: 12) {
+                            ProgressView()
+                            Text(L10n.text("restoring")).font(.footnote).foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(.background)
+                        .accessibilityElement(children: .combine)
+                        .accessibilityIdentifier("restoringPage")
+                    }
                     if browser.failure {
                         ContentUnavailableView {
                             Label(L10n.text("connection"), systemImage: "wifi.exclamationmark")
@@ -83,6 +95,7 @@ struct StudyRootView: View {
                 Task { await exporter.export(contentID: contentID, browser: browser, currentAccount: { model.verifiedAccountID }) }
             }
         }
+        .modifier(DisplayStateLogger(browser: browser))
         .onChange(of: model.verifiedAccountID) { _, _ in exporter.reset() }
         .sheet(item: $exporter.document, onDismiss: { exporter.reset() }) { document in
             DocumentShareSheet(url: document.url) { exporter.reset() }
@@ -131,6 +144,28 @@ struct PrivacyProtectionCover<Actions: View>: View {
 
 extension PrivacyProtectionCover where Actions == EmptyView {
     init(messageKey: String) { self.init(messageKey: messageKey) { EmptyView() } }
+}
+
+/// Logs display-relevant state for the tester-only technical report: appearance,
+/// SwiftUI redaction reasons (privacySensitive only acts if the system applies
+/// .privacy) and whether the native placeholder or failure view is shown.
+private struct DisplayStateLogger: ViewModifier {
+    @ObservedObject var browser: BrowserController
+    @Environment(\.redactionReasons) private var redactionReasons
+    @Environment(\.colorScheme) private var colorScheme
+
+    func body(content: Content) -> some View {
+        content
+            .onAppear { logEnvironment() }
+            .onChange(of: colorScheme) { _, _ in logEnvironment() }
+            .onChange(of: redactionReasons) { _, _ in logEnvironment() }
+            .onChange(of: browser.restoring) { _, shown in browser.diagnostics.record("ui.restoring", "shown=\(shown)") }
+            .onChange(of: browser.failure) { _, shown in browser.diagnostics.record("ui.failure", "shown=\(shown)") }
+    }
+
+    private func logEnvironment() {
+        browser.diagnostics.record("ui.environment", "dark=\(colorScheme == .dark) redaction=\(redactionReasons.rawValue)")
+    }
 }
 
 struct IdentityGate: View {
@@ -295,6 +330,7 @@ struct AccountView: View {
     @ObservedObject var model: AppModel
     @Binding var showing: Bool
     @State private var confirmingLogout = false
+    @State private var showingDiagnostics = false
     var body: some View {
         NavigationStack {
             List {
@@ -309,7 +345,14 @@ struct AccountView: View {
                 Button(L10n.text("support")) { showing = false; model.selectedTab = 0; model.browser.open(path: "/student/support") }
                 Button(L10n.text("logout"), role: .destructive) { confirmingLogout = true }
                     .disabled(model.busy)
+                if ForegroundDiagnostics.isAvailable {
+                    Section {
+                        Button(L10n.text("diagnostics")) { showingDiagnostics = true }
+                            .accessibilityIdentifier("foregroundDiagnostics")
+                    } footer: { Text(L10n.text("diagnosticsFooter")) }
+                }
             }.navigationTitle(L10n.text("account"))
+                .sheet(isPresented: $showingDiagnostics) { DiagnosticsView(diagnostics: model.browser.diagnostics) }
                 .toolbar { Button(L10n.text("ok")) { showing = false } }
                 .confirmationDialog(L10n.text("logout"), isPresented: $confirmingLogout, titleVisibility: .visible) {
                     Button(L10n.text("logout"), role: .destructive) { showing = false; Task { await model.logout() } }

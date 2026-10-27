@@ -68,5 +68,11 @@ enum L10n {
         "localCleanupFailed": ["أُغلق الوصول المحلي، لكن تعذر تأكيد حذف ملف الخطة. أعد المحاولة قبل مشاركة الجهاز.", "L’accès local est verrouillé, mais la suppression du planning n’a pas pu être confirmée. Réessayez avant de partager l’appareil.", "Local access is locked, but planner file removal could not be confirmed. Retry before sharing this device."],
         "logoutPending": ["إلغاء الجلسة يحتاج اتصالًا. لم يُسجّل الخروج بعد.", "Une connexion est nécessaire pour révoquer la session. Vous n’êtes pas encore déconnecté.", "A connection is required to revoke this session. You have not signed out yet."],
         "logoutSuccess": ["تم تسجيل الخروج.", "Vous êtes déconnecté.", "You are signed out."],
+        "restoring": ["جارٍ استعادة الصفحة…", "Restauration de la page…", "Restoring the page…"],
+        "diagnostics": ["تقرير تقني للاختبار", "Rapport technique de test", "Technical test report"],
+        "diagnosticsFooter": ["يظهر في نسخ الاختبار فقط لتشخيص عرض الصفحة بعد العودة إلى التطبيق.", "Visible uniquement dans les versions de test, pour diagnostiquer l’affichage au retour dans l’app.", "Shown in test builds only, to diagnose page display after returning to the app."],
+        "diagnosticsBody": ["سجل تقني محلي لأحداث العرض فقط: لا يحتوي روابط أو نصوص الصفحات أو كلمات السر أو الكوكيز أو الرموز أو بيانات الحساب. لا يُرسل تلقائيًا؛ شاركه يدويًا عند الحاجة.", "Journal technique local des événements d’affichage : aucune URL, aucun texte de page, mot de passe, cookie, jeton ni donnée de compte. Rien n’est envoyé automatiquement ; partagez-le vous-même si besoin.", "Local technical log of display events only: no URLs, page text, passwords, cookies, tokens or account data. Nothing is sent automatically; share it yourself if needed."],
+        "diagnosticsShare": ["مشاركة التقرير التقني", "Partager le rapport", "Share the report"],
+        "diagnosticsClear": ["مسح السجل", "Effacer le journal", "Clear the log"],
     ]
 }

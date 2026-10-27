@@ -19,6 +19,8 @@ struct MadrasadzApp: App {
                     }
                 }
                 .onChange(of: scenePhase) { previous, phase in
+                    model.browser.diagnostics.record("scene.phase", "\(previous)->\(phase) privacyCover=\(phase != .active)")
+                    if previous == .active && phase != .active { model.browser.sceneWillResignActive() }
                     model.browser.updateSceneActivity(phase == .active)
                     // Do not invalidate an in-progress notification-permission
                     // dialog merely because it temporarily makes us inactive.

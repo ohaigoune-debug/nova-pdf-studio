@@ -350,3 +350,15 @@ IN_BETA_TESTING. Linux: 12 Python tooling tests, project validation, helper comp
 ES256 fixture/recipient-guard checks, shell syntax/diff checks PASS. No production
 server/database/Android/.env change; no platform-suite rerun needed for native-only
 changes. Device course/media/session-continuity confirmation remains pending.
+
+## 27 October 2026 — Build 4 foreground candidate (source only)
+
+Owner confirmed the black WebView area on installed Build 1.0.0 (3). See
+NATIVE-STALL-INVESTIGATION.md for evidence, defects found and changes. Checks
+run in this Linux session: tree-sitter-swift syntax parse of all app, core and
+UI-test Swift files (0 issues), `python3 scripts/validate-project.py` PASS,
+`python3 scripts/test_tooling.py` 12 PASS, `bash -n` on all scripts PASS,
+workflow YAML parse PASS, `git diff --check` PASS, and a Python port of the new
+recovery planner/pixel rules agreeing with every expectation of the 11 new core
+tests. Not run: Xcode build, `swift test`, Simulator, signing, upload, device.
+No server, database, Android, .env or upload-workflow change.

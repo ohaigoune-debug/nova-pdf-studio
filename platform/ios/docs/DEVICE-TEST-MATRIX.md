@@ -10,7 +10,7 @@ is authorized by this task. The dated Build 1–3 evidence remains historical an
 preserved below. Follow [SCREEN-CAPTURE-PROTECTION.md](SCREEN-CAPTURE-PROTECTION.md)
 for exact manual steps, evidence fields and the limits of screenshot protection.
 
-Current status (27 October 2026): **Build 2 is available to the sole owner in internal TestFlight. Owner screenshots IMG_6665/IMG_6666 show the authenticated learning home and the Arabic literature course card, but a blank learning document after leaving and returning to the app. Foreground reliability FAILED on the owner's device.** Course detail/video/PDF behavior remains unverified. Build 3 passed hosted macOS validation and is now VALID / IN_BETA_TESTING for the owner; device validation is still pending. Use the latest dated evidence below; historical records remain for audit. A unit test does not establish a device pass.
+Current status (27 October 2026, later): **the owner confirmed the black WebView area after leaving/returning also on installed Build 1.0.0 (3); foreground reliability FAILED on device for Builds 2 and 3.** Build 4 combines the capture/inactive shield above with a foreground fix (verified foreground document, bounded recovery, tester-only technical log) is prepared in source but NOT yet built, signed, uploaded or device-tested. Course detail/video/PDF behavior remains unverified. A unit or Simulator test does not establish a device pass. Historical status: Build 3 is VALID / IN_BETA_TESTING for the owner.
 
 ## Execution record
 
@@ -23,7 +23,7 @@ Current status (27 October 2026): **Build 2 is available to the sole owner in in
 | Linux build-tooling regression tests | PASS: 12 Python tests; CLI fixtures only, not Xcode |
 | macOS unsigned Xcode build (Debug / Release) | PASS on hosted macOS, run 40350226821; local host remains Linux |
 | XCTest / iPhone simulator | PASS: 37 core package and 3 disconnected Debug locale cases on hosted macOS |
-| Physical iPhone | PARTIAL: authenticated learning home and course card observed; background/return blank document FAILED; course detail/media unverified |
+| Physical iPhone | PARTIAL: authenticated learning home and course card observed; background/return black/blank WebView FAILED on Builds 2 and 3; course detail/media unverified |
 | TestFlight | Build 3 VALID / IN_BETA_TESTING in verified owner-only internal group; no external distribution |
 | App Store submission | NOT SUBMITTED; payment/privacy/deletion decisions remain |
 
@@ -32,6 +32,7 @@ Current status (27 October 2026): **Build 2 is available to the sole owner in in
 | Case | Expected behavior | Simulator | Device |
 |---|---|---|---|
 | Cold start / reopen | Branded launch, meaningful loading; no indefinite blank WebView | PENDING | FAIL on first learning load: /ios 404; shell launched. Reopen/session persistence PENDING |
+| Foreground return (signed in) | Same document visible after app switcher/another app, light and dark, short and >5 min away; no black area between native bars; state kept unless recovery log shows replace | Build 4 public no-account case added (pixel check, rapid switching, light+dark): PENDING CI | FAIL on Build 2 and Build 3 (owner, iOS 27.0.1); Build 4 PENDING |
 | New registration | Existing account server flow, phone gate where configured, no native bypass | PENDING | PENDING |
 | Existing login | Real WebKit cookie accepted by the server; same account in native session probe | PENDING | PENDING: Arabic form rendered; session 404 resolved by server update, authenticated retest not yet observed |
 | Kill and relaunch | Session continuity follows server expiry/revocation; no native password storage | PENDING | PENDING |
@@ -249,3 +250,23 @@ that alone is not an image-inspection claim. These synthetic tests are not
 Control Center recording, real AirPlay, screenshots on a physical iPhone,
 authenticated media playback, or App Store approval. All corresponding manual
 rows remain PENDING. No Build4 binary was uploaded to Apple by this task.
+## Build 4 device protocol (owner, TestFlight)
+
+Do not share screenshots that show other students' data. The technical log has
+no URLs, page text, cookies, tokens, passwords or account data.
+
+1. Install 1.0.0 (4) from TestFlight; confirm the build number in TestFlight.
+2. Account → «تقرير تقني للاختبار» → «مسح السجل». Close.
+3. Signed in, open the learning home. Note light or dark mode.
+4. Open the app switcher, open another app for ~10 s, return via the switcher.
+   Repeat 3 times quickly, then once after more than 5 minutes away.
+5. Open «دورة الأدب العربي الفصل الأول» → «متابعة التعلّم» → a lesson; repeat step 4 there.
+6. If the area is black or a «جارٍ استعادة الصفحة…» or Retry screen appears,
+   note the time, then Account → «تقرير تقني للاختبار» → share the text.
+7. Also report: sign out/in, account A → B, and kill/relaunch session continuity.
+
+Interpretation: `fg.check ... action=keep` with `now=1` means the kept document
+rendered. `action=reattach` followed by `keep` and `now=1` proves the
+window/scene re-synchronisation fixed it without reload. `replace`/`retry`,
+`script=false`, `terminated=true`, `attached=false` or `redaction=` other than 0
+identify the remaining failure mode precisely.

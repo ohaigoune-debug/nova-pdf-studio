@@ -162,3 +162,81 @@ untracked promotional video was preserved.
 Verdict: updated owner-only internal candidate with a reproduced Simulator defect
 and a passing revised regression. Still requires owner-device foreground/login
 continuity, course detail/video/PDF and account-switch checks. Not App Review ready.
+
+## Build 4 candidate: device black area persists in Build 3 — 27 October 2026
+
+Owner report: Build 1.0.0 (3) is installed (version screenshot supplied). The
+learning page shows, then after another app/app switcher the WebView area is
+black while native toolbar/tabs stay visible; the switcher card still shows the
+page. Device last recorded by App Store Connect: iPhone 13 Pro Max, iOS 27.0.1.
+CI Simulator: macos-26 runner, Xcode 26.x, iOS 26.x runtime (the script now
+prints the exact SDK/runtime/device/appearance). The Simulator never reproduced
+real process suspension; its pass is not device evidence.
+
+Root cause on the device is NOT proven (no device trace exists). Evidence:
+the predecessor reproduced a blank document plus a stalled WebKit accessibility
+query after repeated reloads (run 40463010411); Build 2 (view untouched) and
+Build 3 (view always replaced) both failed on iOS 27.0.1. A comparable public
+report exists on iOS 27.0.1 (Tuta issue 11585: white WKWebView after return even
+without a termination callback). Code review of Build 3 found these concrete
+defects, each consistent with a black area between native bars:
+
+1. Every return destroyed the rendered document and showed a new, empty
+   WKWebView (isOpaque=false, systemBackground: black in dark mode) for a cold
+   renderer launch plus a cache-bypassing network load, with no native
+   placeholder.
+2. The replacement was loaded before it was attached to a window, during the
+   scene transition. A renderer started for an off-window view can be suspended
+   or reclaimed before first paint without any delegate callback.
+3. The 30 s navigation deadline was armed only by didStartProvisionalNavigation;
+   a load that never started stayed empty indefinitely with no Retry.
+4. Nothing verified that the returned document actually rendered or responded.
+5. makeUIView returned the controller-owned WKWebView (the concurrent capture
+   work since wrapped it in a SwiftUI-owned container, which is kept).
+
+`privacySensitive()` has no documented effect in an app scene and the Build 3
+`.background` cover was SwiftUI-drawn above everything (it would also hide the
+bars, which the owner sees); it did not affect the switcher card. Both are now
+logged (redaction reasons, cover/shield state) so the device report can confirm
+or exclude them. The concurrent capture work replaced that cover with an opaque
+inactive/background cover and a native black WebView shield; neither existed in
+the Build 3 binary the owner tested.
+
+Build 4 changes (source: this commit; build number 4):
+
+- Integrated on top of the concurrent capture-shield commits 6613f2c..196f027:
+  SwiftUI owns one `MediaProtectionWebContainer` per WKWebView (keyed by view
+  identity), so a replacement gets its own container and capture observer.
+  Reattachment re-inserts the same view beneath the opaque shield and asks the
+  shield to re-read scene facts (fail-closed). The shield's published state is
+  logged on every change and in each foreground check, because a held black
+  shield between the native bars is indistinguishable from the reported defect.
+- Keep the rendered document on return (scroll/video/form state and history are
+  preserved). 0.7 s after activation, verify it: window attachment, a 4 s
+  liveness probe (constant boolean in WebKit's isolated `.defaultClient` world,
+  no page data returned) and a 32x64 in-memory on-screen sample compared with a
+  sample of the same view taken when the scene resigned active.
+- Bounded ladder per return (MadrasadzCore `ForegroundRecoveryPlanner`, 11 new
+  unit tests): keep → reattach the same view (WebKit re-evaluates window/scene
+  visibility, non-destructive) → replace once with the same
+  `WKWebsiteDataStore.default()` and GET the current allowed page only after the
+  new view is attached → existing Retry. No loop, no periodic reload.
+- Navigation deadline armed when the request is issued. A reclaimed renderer is
+  replaced on Retry. Termination in background is recovered at activation.
+- Native "restoring" placeholder only while a recovery step runs.
+- Tester-only technical log (Debug/TestFlight receipt): lifecycle phases,
+  window attach/detach, sizes, probe results, actions, navigation stages, HTTP
+  status codes, error domain/code, memory warnings, dark mode and SwiftUI
+  redaction reasons. No URLs/titles/text/cookies/tokens/credentials/account
+  IDs/pixels. Stored in Caches, shown under Account → «تقرير تقني للاختبار»,
+  shared manually by the tester only.
+- Public UI regression now asserts on-screen pixels of the web area (the
+  accessibility tree alone passed while the area could be blank), adds rapid
+  repeated switching, runs in light and dark appearance, and attaches the Debug
+  technical log.
+
+Status at this commit: Linux syntax parse (tree-sitter-swift), project
+validation, 12 tooling tests, shell/YAML syntax and diff checks PASS. Xcode
+build, XCTest, Simulator, signing, upload and the owner-device test are PENDING;
+this session had no push permission. Upload workflow and its Build 3 guards were
+deliberately not changed: update them only after the Build 4 candidate passes.

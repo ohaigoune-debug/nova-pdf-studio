@@ -25,7 +25,7 @@ jobs:
   simulator:
     if: github.event.repository.private == false
     runs-on: macos-26
-    timeout-minutes: 35
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
       - name: Inspect installed Xcode
@@ -34,9 +34,15 @@ jobs:
         run: bash platform/ios/scripts/build-unsigned.sh Debug
       - name: Build unsigned Release Simulator application
         run: bash platform/ios/scripts/build-unsigned.sh Release
-      - name: Test actual public WebKit login navigation without an account
-        run: bash platform/ios/scripts/test-public-navigation.sh
+      - name: Test public WebKit foreground/login navigation without an account (light)
+        id: public_light
+        run: bash platform/ios/scripts/test-public-navigation.sh light
+      - name: Test public WebKit foreground/login navigation without an account (dark)
+        # Also run when the light case failed, to compare appearances.
+        if: always() && (steps.public_light.outcome == 'success' || steps.public_light.outcome == 'failure')
+        run: bash platform/ios/scripts/test-public-navigation.sh dark
       - name: Test core package and native UI on an installed iPhone Simulator
+        if: always() && (steps.public_light.outcome == 'success' || steps.public_light.outcome == 'failure')
         run: bash platform/ios/scripts/test-ios.sh auto Debug
       - name: Export genuine Simulator screenshot attachments
         if: always()

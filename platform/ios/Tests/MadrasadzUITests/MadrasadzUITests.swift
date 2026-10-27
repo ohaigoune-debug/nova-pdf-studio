@@ -1,3 +1,4 @@
+import UIKit
 import XCTest
 
 /// Actual execution still requires Xcode/iPhone Simulator. These cases cover only
@@ -26,17 +27,34 @@ final class MadrasadzUITests: XCTestCase {
         }
         let web = app.webViews.firstMatch
         XCTAssertTrue(web.staticTexts["مساحة التعلّم"].waitForExistence(timeout: 60))
+        // The accessibility tree can exist while the web area is not painted, so
+        // every foreground step also checks the on-screen pixels of that area.
+        XCTAssertTrue(waitForPaintedWebArea(app, web, timeout: 30), "Learning page was not painted before backgrounding")
         // Exercise real background -> inactive -> active transitions repeatedly.
         for cycle in 1...3 {
             XCUIDevice.shared.press(.home)
             app.activate()
             XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
             XCTAssertTrue(web.staticTexts["مساحة التعلّم"].waitForExistence(timeout: 40))
+            XCTAssertTrue(waitForPaintedWebArea(app, web, timeout: 30), "Cycle \(cycle): web area stayed uniform (blank/black)")
             let resumed = XCTAttachment(screenshot: app.screenshot())
             resumed.name = "Public-foreground-cycle-\(cycle)"
             resumed.lifetime = .keepAlways
             add(resumed)
         }
+        // Rapid repeated switching without waiting for the page in between.
+        for _ in 1...4 {
+            XCUIDevice.shared.press(.home)
+            app.activate()
+        }
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
+        XCTAssertTrue(web.staticTexts["مساحة التعلّم"].waitForExistence(timeout: 40))
+        XCTAssertTrue(waitForPaintedWebArea(app, web, timeout: 30), "Rapid switching left the web area uniform (blank/black)")
+        XCTAssertFalse(app.buttons["retryPage"].exists, "Rapid switching must not end in the failure state")
+        let rapid = XCTAttachment(screenshot: app.screenshot())
+        rapid.name = "Public-foreground-rapid-switching"
+        rapid.lifetime = .keepAlways
+        add(rapid)
         let login = web.links["تسجيل الدخول"].firstMatch
         XCTAssertTrue(login.waitForExistence(timeout: 10))
         login.tap()
@@ -45,7 +63,72 @@ final class MadrasadzUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["سجّل الدخول لتفتح مفضلتك وخطة مراجعتك الخاصة بهذا الحساب."].waitForExistence(timeout: 30))
         app.buttons["تسجيل الدخول"].tap()
         XCTAssertTrue(web.textFields["البريد الإلكتروني"].waitForExistence(timeout: 40))
+        attachForegroundDiagnostics(app)
         #endif
+    }
+
+    /// Polls the centre of the web area for visible variation. A hidden/unpainted
+    /// WKWebView samples as one colour (black in dark mode, white in light mode).
+    @MainActor private func waitForPaintedWebArea(_ app: XCUIApplication, _ web: XCUIElement, timeout: TimeInterval) -> Bool {
+        let deadline = Date().addingTimeInterval(timeout)
+        let restoring = app.descendants(matching: .any)["restoringPage"]
+        repeat {
+            if !restoring.exists, webAreaShowsContent(app, web) { return true }
+            RunLoop.current.run(until: Date().addingTimeInterval(0.5))
+        } while Date() < deadline
+        return false
+    }
+
+    @MainActor private func webAreaShowsContent(_ app: XCUIApplication, _ web: XCUIElement) -> Bool {
+        guard web.exists, let image = app.screenshot().image.cgImage, app.frame.width > 0 else { return false }
+        let scale = CGFloat(image.width) / app.frame.width
+        let frame = web.frame
+        // Central region only: native bars and safe-area edges are excluded.
+        let region = CGRect(x: (frame.minX + frame.width * 0.05) * scale,
+                            y: (frame.minY + frame.height * 0.2) * scale,
+                            width: frame.width * 0.9 * scale,
+                            height: frame.height * 0.6 * scale).integral
+        guard region.width >= 8, region.height >= 8, let crop = image.cropping(to: region) else { return false }
+        let width = 32
+        let height = 64
+        var pixels = [UInt8](repeating: 0, count: width * height * 4)
+        let drawn = pixels.withUnsafeMutableBytes { buffer -> Bool in
+            guard let context = CGContext(data: buffer.baseAddress, width: width, height: height,
+                                          bitsPerComponent: 8, bytesPerRow: width * 4,
+                                          space: CGColorSpaceCreateDeviceRGB(),
+                                          bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return false }
+            context.draw(crop, in: CGRect(x: 0, y: 0, width: width, height: height))
+            return true
+        }
+        guard drawn else { return false }
+        var minimum: [UInt8] = [255, 255, 255]
+        var maximum: [UInt8] = [0, 0, 0]
+        var index = 0
+        while index < pixels.count {
+            for channel in 0..<3 {
+                minimum[channel] = min(minimum[channel], pixels[index + channel])
+                maximum[channel] = max(maximum[channel], pixels[index + channel])
+            }
+            index += 4
+        }
+        return (0..<3).contains { maximum[$0] - minimum[$0] > 12 }
+    }
+
+    /// Debug-only native lifecycle log (codes and timings, no account is used).
+    @MainActor private func attachForegroundDiagnostics(_ app: XCUIApplication) {
+        let account = app.buttons["accountButton"]
+        guard account.waitForExistence(timeout: 10) else { return }
+        account.tap()
+        let entry = app.buttons["foregroundDiagnostics"]
+        guard entry.waitForExistence(timeout: 10) else { return }
+        entry.tap()
+        let report = app.staticTexts["diagnosticsReport"]
+        if report.waitForExistence(timeout: 10) {
+            let text = XCTAttachment(string: report.label)
+            text.name = "Foreground-diagnostics-no-account"
+            text.lifetime = .keepAlways
+            add(text)
+        }
     }
 
     @MainActor private func checkShell(language: String, locale: String, labels: [String]) throws {
