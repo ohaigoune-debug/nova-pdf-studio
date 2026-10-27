@@ -169,7 +169,13 @@ export function signedEmbedUrl(creds: Pick<BunnyCredentials, 'libraryId' | 'toke
   const now = input.now ?? Date.now()
   const expires = Math.floor(now / 1000) + Math.max(60, Math.floor(input.expiresInSeconds))
   const token = embedToken(creds.tokenAuthKey, input.videoId, expires)
-  const q = new URLSearchParams({ token, expires: String(expires), autoplay: 'false' })
+  // Documented Stream embedding options: keep the iPhone player inline so the
+  // enclosing page's watermark remains visible. These UI options are not DRM.
+  // https://bunny.net/docs/stream/embedding.md
+  const q = new URLSearchParams({
+    token, expires: String(expires), autoplay: 'false',
+    playsinline: 'true', disableIosPlayer: 'true', disableAirPlay: 'true', chromecast: 'false'
+  })
   if (input.viewerLabel) q.set('v', input.viewerLabel.slice(0, 64))
   return { url: `${BUNNY_EMBED_BASE}/${encodeURIComponent(creds.libraryId)}/${input.videoId}?${q.toString()}`, expires }
 }

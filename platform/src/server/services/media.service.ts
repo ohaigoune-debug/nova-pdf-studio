@@ -28,6 +28,23 @@ export function maxConcurrentDevices(): number {
   return Number.isFinite(n) && n >= 1 ? Math.floor(n) : 2
 }
 
+/**
+ * Shared admission check for both heartbeat updates and Bunny URL issuance.
+ * This is an observed-IP limit, not a physical-device identity or provider DRM.
+ * Never remove an IP because a browser supplied another session's viewerKey:
+ * that value is client-controlled and must not let a new IP replace a live one.
+ * Missing request metadata is a conservative "unknown" IP, never a bypass.
+ */
+async function assertConcurrentMediaIps(db: Db, userId: string, ip: string | null | undefined, now: Date): Promise<void> {
+  const recent = await db
+    .select({ ip: mediaViews.ip })
+    .from(mediaViews)
+    .where(and(eq(mediaViews.userId, userId), gt(mediaViews.lastSeenAt, new Date(now.getTime() - DEVICE_WINDOW_MS))))
+  const normalized = (value: string | null | undefined) => value?.trim() || 'unknown'
+  const activeIps = new Set(recent.map((row) => normalized(row.ip)))
+  if (!activeIps.has(normalized(ip)) && activeIps.size >= maxConcurrentDevices()) throw new AppError('MEDIA_TOO_MANY_DEVICES')
+}
+
 function secret() {
   const s = process.env.SESSION_SECRET
   if (!s) throw new Error('SESSION_SECRET is not configured')
@@ -127,7 +144,14 @@ export async function stampPdf(bytes: Buffer, lines: string[]): Promise<Buffer> 
   return Buffer.from(await doc.save({ useObjectStreams: false }))
 }
 
-export const BUNNY_EMBED_TTL_SECONDS = 2 * 3600
+export const BUNNY_EMBED_TTL_SECONDS = 5 * 60
+
+export interface BunnyViewerContext {
+  /** Server-derived request metadata, e.g. requestMeta().ip; never browser JSON. */
+  ip?: string | null
+  /** Kept for caller compatibility; cannot exempt an observed IP from the limit. */
+  viewerKey?: string
+}
 
 export interface BunnyEmbed {
   url: string
@@ -139,12 +163,13 @@ export interface BunnyEmbed {
 }
 
 /**
- * رابط تضمين Bunny موقّع (ساعتان) — لا يُسلَّم إلا بعد أن تقرّ resolveMediaAccess الأحقية.
+ * رابط تضمين Bunny موقّع (خمس دقائق) — لا يُسلَّم إلا بعد التحقق من الأحقية وحد IPs.
  * الزائر لا يحصل عليه إلا لمحتوى PUBLIC (وهذا ما تفعله resolveMediaAccess أصلاً).
  */
-export async function bunnyEmbedForViewer(db: Db, actor: Actor | null, contentId: string, now = Date.now()): Promise<BunnyEmbed> {
+export async function bunnyEmbedForViewer(db: Db, actor: Actor | null, contentId: string, now = Date.now(), context: BunnyViewerContext = {}): Promise<BunnyEmbed> {
   const access = await resolveMediaAccess(db, actor, contentId)
   if (access.content.videoProvider !== 'BUNNY' || !isBunnyVideoId(access.content.bunnyVideoId)) throw new AppError('CONTENT_NOT_FOUND')
+  if (actor) await assertConcurrentMediaIps(db, actor.userId, context.ip, new Date(now))
   const creds = await getBunnyCredentials(db)
   if (!creds) throw new AppError('BUNNY_NOT_CONFIGURED')
   const viewerLabel = actor ? actor.userId.slice(0, 8) : ANON_VIEWER
@@ -178,14 +203,8 @@ export async function recordMediaHeartbeat(db: Db, actor: Actor, input: Heartbea
   const access = await resolveMediaAccess(db, actor, input.contentId)
   const now = input.now ?? new Date()
   const viewerKey = input.viewerKey.slice(0, 64)
-  const ip = input.ip ?? null
-
-  const recent = await db
-    .select({ ip: mediaViews.ip, viewerKey: mediaViews.viewerKey })
-    .from(mediaViews)
-    .where(and(eq(mediaViews.userId, actor.userId), gt(mediaViews.lastSeenAt, new Date(now.getTime() - DEVICE_WINDOW_MS))))
-  const activeIps = new Set(recent.filter((r) => r.viewerKey !== viewerKey).map((r) => r.ip ?? 'unknown'))
-  if (ip && !activeIps.has(ip) && activeIps.size >= maxConcurrentDevices()) throw new AppError('MEDIA_TOO_MANY_DEVICES')
+  const ip = input.ip?.trim() || null
+  await assertConcurrentMediaIps(db, actor.userId, ip, now)
 
   const delta = Math.max(0, Math.min(Math.floor(input.delta), 120))
   const position = Math.max(0, Math.floor(input.position))

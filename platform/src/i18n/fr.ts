@@ -6,6 +6,19 @@ import type ar from './ar'
  * Les clés manquantes retombent sur l'arabe (fusion profonde dans index.ts).
  */
 const fr: DeepPartial<typeof ar> = {
+  media: {
+    fullscreen: 'Plein écran avec filigrane',
+    exitFullscreen: 'Quitter le plein écran',
+    reloadPlayer: 'Recharger et vérifier à nouveau l’accès',
+    heartbeatLost: 'La session de visionnage n’a pas pu être vérifiée quatre fois de suite. Vérifiez la connexion puis rechargez la page.',
+    accessLost: 'Cette session de visionnage n’est plus valide. Rechargez pour vérifier votre connexion et vos droits.',
+    playerUnavailable: 'Impossible de préparer le lecteur protégé ou de renouveler le lien. Vérifiez la connexion puis rechargez.',
+    renewing: 'Préparation du lecteur et conservation de votre position…',
+    tooManyDevices: 'Votre compte a atteint sa limite de visionnages simultanés depuis d’autres adresses. Fermez ces sessions puis rechargez.',
+    playerBlocked: 'Lecture arrêtée',
+    tabHidden: 'La lecture est en pause car vous avez quitté la page.',
+    bunnyWatermarkHint: 'La protection réduit les fuites sans empêcher toute copie. Le filigrane identifie le spectateur.'
+  },
   app: {
     name: 'Madrasa',
     tagline: 'Plateforme du lycée et du baccalauréat — toutes les matières',
