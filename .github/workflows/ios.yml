@@ -52,6 +52,9 @@ jobs:
               xcrun xcresulttool export attachments --path "$result" --output-path "$result-attachments"
             fi
           done
+      - name: Surface test failures and the no-account technical log as annotations
+        if: always()
+        run: python3 platform/ios/scripts/annotate-xcresults.py platform/ios/build
       - name: Retain Simulator diagnostics and genuine screenshots
         if: always()
         uses: actions/upload-artifact@v4
