@@ -240,3 +240,18 @@ validation, 12 tooling tests, shell/YAML syntax and diff checks PASS. Xcode
 build, XCTest, Simulator, signing, upload and the owner-device test are PENDING;
 this session had no push permission. Upload workflow and its Build 3 guards were
 deliberately not changed: update them only after the Build 4 candidate passes.
+
+### Independent review fixes (same day, before any upload)
+
+A separate static review of the candidate found no compile errors (hosted
+Debug/Release builds of ebfc11b confirmed this) and five runtime issues, now
+fixed: (1) a return while Bookmarks/Planner is selected left the Study view off
+window and walked the ladder to Retry — the check now waits for re-attachment;
+(2) a navigation deadline started before backgrounding could fire on resume —
+it is re-armed on return; (3) a pending page `confirm()` blocks WebKit's main
+thread — the liveness probe treats that as responsive; (4) a fragment-only
+same-document `open()` (e.g. profile `#delete`) got a 30 s deadline without any
+WebKit finish event — no deadline for same-document loads; (5) recovery restores
+only an allowed internal page, else `/ios`, and never leaves the placeholder set
+while backgrounded/deferred. UI test: 4 consecutive painted samples (~2 s) with
+no placeholder or Retry, and nearest-neighbour sampling.

@@ -63,6 +63,11 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     private var foregroundRevision = 0
     private var foregroundCheckDeferred = false
     private var verifyAfterLoad = false
+    /// The Study tab is not on screen (another tab selected): verify once the
+    /// web view is attached again instead of treating it as a detached failure.
+    private var verifyWhenAttached = false
+    /// A page confirm() holds WebKit's main thread until the user answers.
+    private var scriptDialogPending = false
     private var renderedBeforeResign: (generation: Int, rendered: Bool?)?
     private var memoryWarningObserver: NSObjectProtocol?
 
@@ -201,11 +206,14 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
             let destination = canonical(target)
             var request = URLRequest(url: destination, cachePolicy: .reloadIgnoringLocalCacheData)
             request.setValue("study-only", forHTTPHeaderField: "x-madrasadz-ios-client")
+            let sameDocument = destination.fragment != nil && webView.url.map { Self.withoutFragment($0) } == Self.withoutFragment(destination)
             activeNavigation = webView.load(request)
             // Bound the request itself: if WebKit never starts the provisional
             // navigation (renderer not launched/suspended), Retry still appears.
-            armNavigationDeadline()
-            diagnostics.record("nav.request", "gen=\(webViewGeneration) page=\(pageCategory(destination)) attached=\(webView.window != nil)")
+            // A fragment change in the current document is same-document: WebKit
+            // reports no provisional start/finish for it, so no deadline.
+            if !sameDocument { armNavigationDeadline() }
+            diagnostics.record("nav.request", "gen=\(webViewGeneration) page=\(pageCategory(destination)) attached=\(webView.window != nil) sameDocument=\(sameDocument)")
         case .external(let target): openExternal(target)
         case .blocked(let reason): show(reason)
         }
@@ -228,6 +236,8 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         foregroundCheck?.cancel()
         foregroundCheck = nil
         diagnostics.record("scene.background", "gen=\(webViewGeneration) restoring=\(restoring) failure=\(failure)")
+        // The next activation runs a fresh check; never keep a stale placeholder.
+        restoring = false
         diagnostics.flush()
     }
 
@@ -250,7 +260,9 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         foregroundCheckDeferred = false
         recoveryPlanner.reset()
         let away = backgroundedAt.map { Int(Date().timeIntervalSince($0)) } ?? -1
-        diagnostics.record("scene.foreground", "gen=\(webViewGeneration) awaySeconds=\(away) attached=\(webView.window != nil)")
+        diagnostics.record("scene.foreground", "gen=\(webViewGeneration) awaySeconds=\(away) attached=\(webView.window != nil) navPending=\(navigationTimeout != nil)")
+        // Time spent suspended must not count against an in-flight navigation.
+        if navigationTimeout != nil { armNavigationDeadline() }
         // Keep the rendered document, its scroll/video/form state and history.
         // Give WebKit a moment to resume its renderer, then verify the document;
         // only a failed check leads to the bounded recovery ladder.
@@ -274,6 +286,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         guard !OfflineShellValidation.enabled else { return }
         guard UIApplication.shared.applicationState == .active else {
             foregroundCheckDeferred = true
+            restoring = false
             diagnostics.record("fg.deferred", "reason=\(reason)")
             return
         }
@@ -283,6 +296,14 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
             return
         }
         let view = webView
+        // Hosted but off screen (Bookmarks/Planner tab selected): not a failure.
+        // Verify when the Study tab attaches the view again.
+        if view.window == nil, view.superview != nil {
+            verifyWhenAttached = true
+            restoring = false
+            diagnostics.record("fg.deferred", "reason=\(reason) offWindow=1")
+            return
+        }
         let generation = webViewGeneration
         // Fail-closed re-evaluation of the capture/inactive shield from current
         // scene facts; it can only uncover a known-safe, active, attached scene.
@@ -301,7 +322,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
             }
             : nil
         let started = Date()
-        let responsive = await Self.scriptResponds(view)
+        let responsive = scriptDialogPending ? true : await Self.scriptResponds(view)
         reveal?.cancel()
         guard foregroundRevision == revision, view === webView else { return }
         let attached = view.window != nil && !view.isHidden && view.alpha > 0.01
@@ -384,7 +405,17 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         configureWebView()
     }
 
-    private var restorationURL: URL { currentURL ?? baseURL.appendingPathComponent("ios") }
+    /// Only an allowed internal page is restored; anything else falls back to /ios.
+    private var restorationURL: URL {
+        if let url = currentURL, case .internalPage = policy.decision(for: url) { return url }
+        return baseURL.appendingPathComponent("ios")
+    }
+
+    private static func withoutFragment(_ url: URL) -> URL {
+        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return url }
+        components.fragment = nil
+        return components.url ?? url
+    }
 
     /// Start a recovery load only once WebKit sees the new view in a window: a
     /// renderer launched for an off-window view during a scene transition can be
@@ -428,6 +459,10 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         // Window changes can arrive inside a SwiftUI update; publish afterwards.
         if attached, pendingLoad != nil {
             Task { @MainActor [weak self] in self?.flushPendingLoad() }
+        }
+        if attached, verifyWhenAttached {
+            verifyWhenAttached = false
+            scheduleForegroundCheck(after: 300_000_000, reason: "attached")
         }
     }
 
@@ -668,8 +703,15 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         while let presented = controller.presentedViewController { controller = presented }
         guard !(controller is UIAlertController) else { completionHandler(false); return }
         let alert = UIAlertController(title: baseURL.host, message: String(message.prefix(500)), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: L10n.text("cancel"), style: .cancel) { _ in completionHandler(false) })
-        alert.addAction(UIAlertAction(title: L10n.text("ok"), style: .default) { _ in completionHandler(true) })
+        alert.addAction(UIAlertAction(title: L10n.text("cancel"), style: .cancel) { [weak self] _ in
+            self?.scriptDialogPending = false
+            completionHandler(false)
+        })
+        alert.addAction(UIAlertAction(title: L10n.text("ok"), style: .default) { [weak self] _ in
+            self?.scriptDialogPending = false
+            completionHandler(true)
+        })
+        scriptDialogPending = true
         controller.present(alert, animated: true)
     }
 

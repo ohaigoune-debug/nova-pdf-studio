@@ -68,12 +68,21 @@ final class MadrasadzUITests: XCTestCase {
     }
 
     /// Polls the centre of the web area for visible variation. A hidden/unpainted
-    /// WKWebView samples as one colour (black in dark mode, white in light mode).
+    /// WKWebView or an opaque shield samples as one colour. Requires about 2 s of
+    /// consecutive painted samples (after the app's own ~0.7 s foreground check)
+    /// with neither the restoring placeholder nor the failure view present.
     @MainActor private func waitForPaintedWebArea(_ app: XCUIApplication, _ web: XCUIElement, timeout: TimeInterval) -> Bool {
         let deadline = Date().addingTimeInterval(timeout)
         let restoring = app.descendants(matching: .any)["restoringPage"]
+        let retry = app.buttons["retryPage"]
+        var consecutive = 0
         repeat {
-            if !restoring.exists, webAreaShowsContent(app, web) { return true }
+            if !restoring.exists, !retry.exists, webAreaShowsContent(app, web) {
+                consecutive += 1
+                if consecutive >= 4 { return true }
+            } else {
+                consecutive = 0
+            }
             RunLoop.current.run(until: Date().addingTimeInterval(0.5))
         } while Date() < deadline
         return false
@@ -97,6 +106,8 @@ final class MadrasadzUITests: XCTestCase {
                                           bitsPerComponent: 8, bytesPerRow: width * 4,
                                           space: CGColorSpaceCreateDeviceRGB(),
                                           bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue) else { return false }
+            // Nearest-neighbour sampling keeps thin text from averaging away.
+            context.interpolationQuality = .none
             context.draw(crop, in: CGRect(x: 0, y: 0, width: width, height: height))
             return true
         }

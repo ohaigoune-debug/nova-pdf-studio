@@ -1,5 +1,5 @@
 name: iOS — signed IPA
-# Revision 6: export Build 4 (verified foreground document, bounded recovery and
+# Revision 7: export Build 4 after independent-review fixes (verified foreground document, bounded recovery and
 # tester-visible technical log) for validation. Uses the existing owner-approved
 # signing inputs; does not upload to Apple. Upload stays pinned until validated.
 
