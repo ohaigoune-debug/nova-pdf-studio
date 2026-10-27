@@ -334,3 +334,12 @@ Build 5 fix (source: this commit, build number 5):
 
 Diagnostics add `host.created` and `host.left-window handedBack=` events.
 Device confirmation of Build 5 is PENDING.
+
+### Build 5 hosted validation and upload pin
+
+Source e9f291c: unsigned run 40492742751 SUCCESS (Debug, Release, public
+foreground test light and dark, core + offline UI incl. capture-shield
+fixtures); signed run 40492742830 SUCCESS, artifact 12729130441,
+sha256:3910673b9149d2618a8b4865b49d2eea08d6030011744b5f8a78826fb978da1d. The
+upload workflow and both build guards now pin Build 5 only. The Simulator did
+not reproduce the device redaction/orphaning sequence; device result PENDING.

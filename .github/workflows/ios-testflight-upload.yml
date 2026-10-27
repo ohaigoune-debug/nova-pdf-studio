@@ -1,4 +1,4 @@
-name: iOS — Build 4 TestFlight upload
+name: iOS — Build 5 TestFlight upload
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ios-testflight-build-4-upload
+  group: ios-testflight-build-5-upload
   cancel-in-progress: false
 
 jobs:
@@ -26,19 +26,19 @@ jobs:
       - name: Download the owner-approved successful signed IPA
         uses: actions/download-artifact@v4
         with:
-          name: Madrasadz-signed-IPA-d584c1619fc512c860dc6d12de4d897bae8cc3b2
-          run-id: 40485140887
+          name: Madrasadz-signed-IPA-e9f291c6ed2d6d95489567522739ff84a44321dd
+          run-id: 40492742830
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/madrasadz-approved-ipa
-      - name: Validate and upload Build 4 to Apple
+      - name: Validate and upload Build 5 to Apple
         env:
           MADRASADZ_ASC_PRIVATE_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_PRIVATE_KEY_BASE64 }}
           MADRASADZ_ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_KEY_ID }}
           MADRASADZ_ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
         run: bash platform/ios/scripts/upload-testflight.sh "$RUNNER_TEMP/madrasadz-approved-ipa/Madrasadz.ipa"
 
-# Owner-approved internal replacement. Pinned successful signed Build 4 artifact
-# 12724139375 (source d584c16, signed run 40485140887); unsigned Simulator run
-# 40485140870 passed on the same source (Debug/Release, public foreground test in
+# Owner-approved internal replacement. Pinned successful signed Build 5 artifact
+# 12729130441 (source e9f291c, signed run 40492742830); unsigned Simulator run
+# 40492742751 passed on the same source (Debug/Release, public foreground test in
 # light and dark, core and offline UI). No rebuild, new invitation, App Review
 # submission or production release.
