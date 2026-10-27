@@ -1,4 +1,4 @@
-name: iOS — initial TestFlight upload
+name: iOS — Build 2 TestFlight upload
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ios-testflight-initial-upload
+  group: ios-testflight-build-2-upload
   cancel-in-progress: false
 
 jobs:
@@ -26,16 +26,17 @@ jobs:
       - name: Download the owner-approved successful signed IPA
         uses: actions/download-artifact@v4
         with:
-          name: Madrasadz-signed-IPA-b3a268c27166c36fab858550ae4d124a686bcda1
-          run-id: 40373277061
+          name: Madrasadz-signed-IPA-48d1d888838b43dfa121a5130631f2a004cd946b
+          run-id: 40406930730
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/madrasadz-approved-ipa
-      - name: Validate and upload the initial build to Apple
+      - name: Validate and upload Build 2 to Apple
         env:
           MADRASADZ_ASC_PRIVATE_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_PRIVATE_KEY_BASE64 }}
           MADRASADZ_ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_KEY_ID }}
           MADRASADZ_ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
         run: bash platform/ios/scripts/upload-testflight.sh "$RUNNER_TEMP/madrasadz-approved-ipa/Madrasadz.ipa"
 
-# The initial artifact is retained for one day. No automatic rebuild, export-
-# compliance declaration, tester invitation, App Review or production release.
+# Owner-approved internal replacement. Pinned successful signed Build 2 artifact;
+# unsigned Simulator run 40406930734 also passed. No rebuild, new invitation,
+# App Review submission or production release.

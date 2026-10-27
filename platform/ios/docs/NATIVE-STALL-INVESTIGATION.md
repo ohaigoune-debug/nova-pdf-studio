@@ -45,3 +45,20 @@ Linux structural/tooling checks and diff checks pass; native candidate compilati
 public navigation test and iPhone retest are PENDING. These changes address concrete
 unbounded/redundant paths but are not yet proof of the root cause of every reported
 unresponsive button. No production server or database update accompanies this patch.
+
+## Verified 27 October 2026 — internal replacement upload
+
+Source 48d1d888838b43dfa121a5130631f2a004cd946b: macOS Simulator run
+40406930734 completed successfully, including Debug, Release, core/native UI and
+public unauthenticated WebKit navigation. Baseline run 40405503078 also passed;
+the device failure was not reproduced in this public navigation case. Signed
+archive/export run 40406930730 succeeded. These results do not establish successful
+authenticated sessions or resolution on the owner's iPhone.
+
+The owner authorized proceeding with internal Build 2 on 27 October. The upload
+workflow selects only the existing signed artifact from run 40406930730, with
+bundle/version/build assertions. Artifact ID 12690069380; artifact ZIP SHA-256
+ d360a0fb59a1cace57db6506152f7c91ed9dde56b51dc0249001cb109ce877da.
+Apple upload/processing/group availability remain pending at this commit. No new
+tester, App Review submission, server deployment or database change is authorized
+by this workflow. Update through TestFlight and retest login/navigation on device.
