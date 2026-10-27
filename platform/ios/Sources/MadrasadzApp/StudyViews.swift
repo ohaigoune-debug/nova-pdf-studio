@@ -50,21 +50,18 @@ struct StudyRootView: View {
                 .navigationTitle("مدرسة")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    ToolbarItemGroup(placement: .topBarLeading) {
+                    // Owner decision (Build 7): no share or reload buttons in the bar.
+                    // A failed page still shows the Retry overlay; the foreground
+                    // recovery ladder is unchanged.
+                    ToolbarItem(placement: .topBarLeading) {
                         Button { browser.webView.goBack() } label: { Image(systemName: "chevron.backward") }
                             .disabled(!browser.canGoBack).accessibilityLabel(L10n.text("back"))
-                        Button { browser.retry() } label: { Image(systemName: "arrow.clockwise") }
-                            .accessibilityLabel(L10n.text("reload"))
                     }
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         if model.personalSpaceReady, let url = browser.currentURL,
                            browser.policy.bookmarkPath(for: url) != nil {
                             Button { Task { await model.saveCurrentPage() } } label: { Image(systemName: "bookmark") }
                                 .accessibilityLabel(L10n.text("bookmark"))
-                            if let path = browser.policy.bookmarkPath(for: url), let shared = browser.policy.url(forBookmarkPath: path) {
-                                ShareLink(item: shared) { Image(systemName: "square.and.arrow.up") }
-                                    .accessibilityLabel(L10n.text("share"))
-                            }
                         }
                         Button { showingAccount = true } label: { Image(systemName: "line.3.horizontal") }
                             .accessibilityLabel(L10n.text("menu")).accessibilityIdentifier("accountButton")
@@ -228,109 +225,7 @@ struct BookmarksView: View {
     }
 }
 
-struct PlannerView: View {
-    @ObservedObject var model: AppModel
-    @State private var adding = false
-    @State private var editing: RevisionTask?
-    var body: some View {
-        Group {
-            if !model.personalSpaceReady { IdentityGate(model: model) }
-            else if model.snapshot.tasks.isEmpty {
-                ContentUnavailableView {
-                    Label(L10n.text("planEmpty"), systemImage: "calendar")
-                } description: { Text(L10n.text("planBody")) } actions: {
-                    Button(L10n.text("add")) { adding = true }.buttonStyle(.borderedProminent)
-                }
-            } else {
-                List {
-                    ForEach(model.snapshot.tasks) { task in
-                        HStack(alignment: .top, spacing: 12) {
-                            Button {
-                                var updated = task
-                                updated.completed.toggle()
-                                Task { await model.saveTask(updated) }
-                            } label: {
-                                Image(systemName: task.completed ? "checkmark.circle.fill" : "circle").font(.title2)
-                            }.buttonStyle(.plain)
-                                .accessibilityLabel(L10n.text(task.completed ? "reopen" : "complete"))
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text(task.title).font(.headline).strikethrough(task.completed)
-                                Text(task.date, format: .dateTime.day().month().hour().minute()).font(.subheadline).foregroundStyle(.secondary)
-                                if task.reminderEnabled { Label(L10n.text("reminder"), systemImage: "bell").font(.caption) }
-                            }
-                            Spacer(minLength: 4)
-                            Button { editing = task } label: { Image(systemName: "pencil").frame(minWidth: 44, minHeight: 44) }
-                                .buttonStyle(.plain).accessibilityLabel(L10n.text("edit"))
-                        }.padding(.vertical, 6)
-                        .swipeActions {
-                            Button(L10n.text("delete"), role: .destructive) { Task { await model.deleteTask(task) } }
-                        }
-                    }
-                }
-            }
-        }
-        .privacySensitive() // Personal plan only; the web host is not redacted.
-        .navigationTitle(L10n.text("planner"))
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            if model.personalSpaceReady {
-                Button { adding = true } label: { Image(systemName: "plus") }.accessibilityLabel(L10n.text("add"))
-            }
-        }
-        .sheet(isPresented: $adding) { NewRevisionView(model: model) }
-        .sheet(item: $editing) { task in NewRevisionView(model: model, task: task) }
-        .onChange(of: model.verifiedAccountID) { _, _ in adding = false; editing = nil }
-    }
-}
-
-struct NewRevisionView: View {
-    @ObservedObject var model: AppModel
-    @Environment(\.dismiss) private var dismiss
-    @State private var title = ""
-    @State private var date = Date().addingTimeInterval(3600)
-    @State private var reminder = false
-    @State private var saving = false
-    @State private var editorAccount: String?
-    private let original: RevisionTask?
-
-    init(model: AppModel, task: RevisionTask? = nil) {
-        self.model = model
-        original = task
-        _title = State(initialValue: task?.title ?? "")
-        _date = State(initialValue: task?.date ?? Date().addingTimeInterval(3600))
-        _reminder = State(initialValue: task?.reminderEnabled ?? false)
-    }
-    var body: some View {
-        NavigationStack {
-            Form {
-                TextField(L10n.text("title"), text: $title, axis: .vertical).lineLimit(1...4)
-                DatePicker(L10n.text("date"), selection: $date, in: Date()..., displayedComponents: [.date, .hourAndMinute])
-                Toggle(L10n.text("reminder"), isOn: $reminder).disabled(original?.completed == true)
-                Text(L10n.text("reminderPrivacy")).font(.footnote).foregroundStyle(.secondary)
-            }
-            .navigationTitle(L10n.text(original == nil ? "add" : "edit"))
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button(L10n.text("cancel")) { dismiss() } }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(L10n.text("save")) {
-                        saving = true
-                        Task {
-                            let task = RevisionTask(id: original?.id ?? UUID(), title: title, date: date,
-                                completed: original?.completed ?? false, reminderEnabled: reminder)
-                            let success = await model.saveTask(task)
-                            saving = false
-                            if success { dismiss() }
-                        }
-                    }.disabled(saving || title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || title.count > 200 || !model.personalSpaceReady)
-                }
-            }
-        }
-        .onAppear { editorAccount = model.verifiedAccountID }
-        .onChange(of: model.verifiedAccountID) { _, account in
-            if account != editorAccount { title = ""; dismiss() }
-        }
-    }
-}
+// PlannerView, NewRevisionView and the suggested plans live in PlannerViews.swift.
 
 /// Native menu (☰): the allowed learning and account destinations of the website's
 /// student menu, without purchase, activation codes or the forum.
@@ -395,6 +290,9 @@ struct AccountView: View {
             .navigationTitle(L10n.text("menu"))
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showingDiagnostics) { DiagnosticsView(diagnostics: model.browser.diagnostics) }
+            // WebKit media state (none/playing/paused/suspended) at the moment a
+            // tester opens the menu after a player did not start; no URL or id.
+            .onAppear { model.browser.recordMediaState("menu") }
             .toolbar { Button(L10n.text("ok")) { showing = false } }
             .confirmationDialog(L10n.text("logout"), isPresented: $confirmingLogout, titleVisibility: .visible) {
                 Button(L10n.text("logout"), role: .destructive) { showing = false; Task { await model.logout() } }

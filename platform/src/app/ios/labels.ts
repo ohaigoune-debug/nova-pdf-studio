@@ -2,6 +2,10 @@ import type { Locale } from '@/i18n'
 
 const labels = {
   ar: {
+    welcome: 'مرحبًا بك في مدرسة', welcomeIntro: 'دروسك ومراجعتك في مكان واحد.', noAccount: 'ليس لديك حساب؟',
+    learnIntro: 'تابع دوراتك وتدرّب على ما تعلّمته.', freeForAll: 'مجانًا للجميع', lessonsCount: 'دروس',
+    studentOnlyTitle: 'هذا التطبيق مخصص للتلاميذ', logout: 'تسجيل الخروج',
+    studentOnlyBody: 'أنت مسجّل الآن بحساب أستاذ أو إدارة. أدِر دوراتك ومحتواك من موقع madrasadz.com على المتصفح، أو سجّل الخروج لتدخل بحساب تلميذ.',
     home: 'مساحة التعلّم', account: 'حسابي', login: 'تسجيل الدخول', register: 'إنشاء حساب',
     intro: 'تعلّم بحسابك الحالي، واحفظ روابط الدروس في المفضلة ونظّم مراجعتك من تبويبات التطبيق.',
     mode: 'نسخة iPhone للتعلّم: الشراء وتفعيل الأكواد والمناقشات غير متاحة في هذه النسخة.',
@@ -15,6 +19,10 @@ const labels = {
     unavailableAction: 'هذا القسم غير متاح في نسخة iPhone للتعلّم. يمكنك متابعة دروسك والأدوات المتاحة أدناه.'
   },
   fr: {
+    welcome: 'Bienvenue sur Madrasa', welcomeIntro: 'Vos cours et vos révisions au même endroit.', noAccount: 'Pas encore de compte ?',
+    learnIntro: 'Reprenez vos cours et entraînez-vous.', freeForAll: 'Gratuit pour tous', lessonsCount: 'leçons',
+    studentOnlyTitle: 'Cette application est réservée aux élèves', logout: 'Se déconnecter',
+    studentOnlyBody: 'Vous êtes connecté avec un compte enseignant ou administrateur. Gérez vos cours sur madrasadz.com depuis un navigateur, ou déconnectez-vous pour utiliser un compte élève.',
     home: 'Apprendre', account: 'Mon compte', login: 'Connexion', register: 'Créer un compte',
     intro: 'Retrouvez votre compte, ajoutez des cours aux favoris et organisez vos révisions dans les onglets de l’application.',
     mode: 'Version iPhone consacrée à l’apprentissage : achats, activation par code et discussions indisponibles.',
@@ -28,6 +36,10 @@ const labels = {
     unavailableAction: 'Cette section n’est pas disponible dans la version iPhone dédiée à l’apprentissage. Retrouvez les leçons et les outils ci-dessous.'
   },
   en: {
+    welcome: 'Welcome to Madrasa', welcomeIntro: 'Your lessons and revision in one place.', noAccount: 'No account yet?',
+    learnIntro: 'Continue your courses and practise what you learned.', freeForAll: 'Free for everyone', lessonsCount: 'lessons',
+    studentOnlyTitle: 'This app is for students', logout: 'Sign out',
+    studentOnlyBody: 'You are signed in with a teacher or admin account. Manage your courses on madrasadz.com in a browser, or sign out to use a student account.',
     home: 'Learn', account: 'My account', login: 'Sign in', register: 'Create account',
     intro: 'Use your existing account, bookmark lessons and organise revision in the app’s native tabs.',
     mode: 'Learning-only iPhone version: purchases, code activation and discussions are unavailable.',

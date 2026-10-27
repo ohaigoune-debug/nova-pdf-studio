@@ -62,10 +62,7 @@ public actor StudyStore {
     @discardableResult
     public func upsertTask(_ task: RevisionTask, session: StudySession) throws -> RevisionTask {
         try require(session)
-        var clean = task
-        clean.title = try normalizedTitle(task.title)
-        guard valid(date: clean.date) else { throw StudyStoreError.invalidDate }
-        if clean.completed { clean.reminderEnabled = false }
+        let clean = try cleaned(task)
         var next = state
         if let index = next.tasks.firstIndex(where: { $0.id == clean.id }) {
             next.tasks[index] = clean
@@ -76,6 +73,32 @@ public actor StudyStore {
         next.tasks.sort { $0.date < $1.date }
         try persist(next, accountID: session.accountID)
         state = next
+        return clean
+    }
+
+    /// Adds a ready-made plan in one write: all sessions are saved or none.
+    @discardableResult
+    public func addTasks(_ tasks: [RevisionTask], session: StudySession) throws -> [RevisionTask] {
+        try require(session)
+        guard !tasks.isEmpty else { return [] }
+        let clean = try tasks.map { try cleaned($0) }
+        guard Set(clean.map(\.id)).count == clean.count,
+              !clean.contains(where: { task in state.tasks.contains { $0.id == task.id } }) else { throw StudyStoreError.invalidDetails }
+        guard state.tasks.count + clean.count <= Self.maximumTasks else { throw StudyStoreError.limitReached }
+        var next = state
+        next.tasks.append(contentsOf: clean)
+        next.tasks.sort { $0.date < $1.date }
+        try persist(next, accountID: session.accountID)
+        state = next
+        return clean
+    }
+
+    private func cleaned(_ task: RevisionTask) throws -> RevisionTask {
+        var clean = task
+        clean.title = try normalizedTitle(task.title)
+        guard valid(date: clean.date) else { throw StudyStoreError.invalidDate }
+        guard validDetails(clean) else { throw StudyStoreError.invalidDetails }
+        if clean.completed { clean.reminderEnabled = false }
         return clean
     }
 
@@ -180,7 +203,7 @@ public actor StudyStore {
             }
         }
         for task in snapshot.tasks {
-            guard (try? normalizedTitle(task.title)) == task.title, valid(date: task.date),
+            guard (try? normalizedTitle(task.title)) == task.title, valid(date: task.date), validDetails(task),
                   !(task.completed && task.reminderEnabled) else { throw StudyStoreError.invalidStoredState }
         }
     }
@@ -190,6 +213,20 @@ public actor StudyStore {
         guard !clean.isEmpty, clean.count <= 200,
               !clean.unicodeScalars.contains(where: { CharacterSet.controlCharacters.contains($0) }) else { throw StudyStoreError.invalidTitle }
         return clean
+    }
+
+    /// Short lowercase identifiers only (never free text); a bounded duration.
+    private func validDetails(_ task: RevisionTask) -> Bool {
+        let letters: ClosedRange<Unicode.Scalar> = "a"..."z"
+        let digits: ClosedRange<Unicode.Scalar> = "0"..."9"
+        func identifier(_ value: String?) -> Bool {
+            guard let value else { return true }
+            return (1...32).contains(value.count) && value.unicodeScalars.allSatisfy {
+                letters.contains($0) || digits.contains($0) || $0 == "-"
+            }
+        }
+        return identifier(task.subjectID) && identifier(task.activityID) && identifier(task.planID) &&
+            (task.durationMinutes.map { (5...480).contains($0) } ?? true)
     }
 
     private func valid(date: Date) -> Bool {

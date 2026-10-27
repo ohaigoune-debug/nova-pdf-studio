@@ -1,6 +1,6 @@
 name: iOS — signed IPA
-# Revision 9: export Build 6 — native ☰ menu, in-app offline PDF downloads and the
-# owner-approved virtual classroom route, on top of the Build 5 foreground fix.
+# Revision 10: export Build 7 — owner-requested top bar without share/reload, the
+# redesigned revision planner with suggested plans, and a menu-time media probe.
 # For validation only. Uses the existing owner-approved
 # signing inputs; does not upload to Apple. Upload stays pinned until validated.
 

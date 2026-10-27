@@ -20,14 +20,28 @@ public struct RevisionTask: Codable, Equatable, Identifiable, Sendable {
     public var date: Date
     public var completed: Bool
     public var reminderEnabled: Bool
+    // Optional (Build 7): files written by earlier builds decode unchanged.
+    public var subjectID: String?
+    public var activityID: String?
+    public var durationMinutes: Int?
+    public var planID: String?
 
-    public init(id: UUID = UUID(), title: String, date: Date, completed: Bool = false, reminderEnabled: Bool = false) {
+    public init(id: UUID = UUID(), title: String, date: Date, completed: Bool = false, reminderEnabled: Bool = false,
+                subjectID: String? = nil, activityID: String? = nil, durationMinutes: Int? = nil, planID: String? = nil) {
         self.id = id
         self.title = title
         self.date = date
         self.completed = completed
         self.reminderEnabled = reminderEnabled
+        self.subjectID = subjectID
+        self.activityID = activityID
+        self.durationMinutes = durationMinutes
+        self.planID = planID
     }
+
+    public var subject: RevisionSubject? { RevisionSubject.from(subjectID) }
+    public var activity: RevisionActivity? { RevisionActivity.from(activityID) }
+    public var plan: RevisionPlanTemplate? { RevisionPlanTemplate.with(id: planID) }
 }
 
 public struct StudySnapshot: Codable, Equatable, Sendable {
@@ -62,6 +76,7 @@ public enum StudyStoreError: Error, Equatable, Sendable {
     case invalidURL
     case invalidDate
     case limitReached
+    case invalidDetails
     case invalidStoredState
 }
 

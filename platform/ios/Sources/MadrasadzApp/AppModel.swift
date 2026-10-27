@@ -360,6 +360,55 @@ final class AppModel: ObservableObject {
         }
     }
 
+    /// Adds a suggested plan's sessions in one store write (all or none), then
+    /// reconciles reminders exactly like a single saved session.
+    @discardableResult
+    func addPlan(_ tasks: [RevisionTask]) async -> Bool {
+        guard let session = studySession, personalSpaceReady, !studyWriteBusy, !tasks.isEmpty else { return false }
+        let revision = generation
+        studyWriteBusy = true
+        defer { studyWriteBusy = false }
+        do {
+            let now = Date()
+            // A session whose minute has already passed is saved without a reminder.
+            var planned = tasks.map { task -> RevisionTask in
+                var copy = task
+                if copy.reminderEnabled, (reminderMinute(copy.date) ?? .distantPast) <= now { copy.reminderEnabled = false }
+                return copy
+            }
+            let wanted = planned.filter(\.reminderEnabled).count
+            if wanted > 0 {
+                let activeCount = snapshot.tasks.filter {
+                    $0.reminderEnabled && !$0.completed && (reminderMinute($0.date) ?? .distantPast) > now
+                }.count
+                guard activeCount + wanted <= 50 else { notice = L10n.text("reminderLimitPlan"); return false }
+                let accepted = try await notifications.requestAuthorization(options: [.alert, .sound])
+                guard isCurrent(session, revision: revision) else { return false }
+                if !accepted {
+                    planned = planned.map { task in var copy = task; copy.reminderEnabled = false; return copy }
+                    notice = L10n.text("reminderDenied")
+                }
+            }
+            guard isCurrent(session, revision: revision) else { return false }
+            _ = try await store.addTasks(planned, session: session)
+            guard isCurrent(session, revision: revision) else { return false }
+            let state = try await store.snapshot(using: session)
+            guard isCurrent(session, revision: revision) else { return false }
+            guard await synchronizeReminders(state: state, session: session, revision: revision),
+                  isCurrent(session, revision: revision) else { return false }
+            let confirmed = try await store.snapshot(using: session)
+            guard isCurrent(session, revision: revision) else { return false }
+            snapshot = confirmed
+            return true
+        } catch StudyStoreError.limitReached {
+            if isCurrent(session, revision: revision) { notice = L10n.text("planLimit") }
+            return false
+        } catch {
+            if isCurrent(session, revision: revision) { notice = L10n.text("error") }
+            return false
+        }
+    }
+
     func deleteTask(_ task: RevisionTask) async {
         guard let session = studySession, personalSpaceReady, !studyWriteBusy,
               snapshot.tasks.contains(where: { $0.id == task.id }) else { return }

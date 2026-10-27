@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { LessonMedia } from '@/components/domain/lesson-media'
 import { Markdown } from '@/components/domain/markdown'
@@ -18,11 +19,10 @@ export default async function IosLessonPage({ params }: { params: Promise<{ slug
   try { item = await iosLesson(db, actor, decodeURIComponent(slug)) }
   catch (error) { if (isAppError(error)) notFound(); throw error }
   return <article className="space-y-5">
-    <Link href="/ios" className="inline-flex min-h-11 items-center text-sm text-primary underline">{text.back}</Link>
-    <h1 className="font-display text-3xl font-bold leading-snug">{item.title}</h1>
-    {item.summary ? <p className="rounded-xl border bg-card p-4 leading-relaxed text-muted-foreground">{item.summary}</p> : null}
+    <Link href="/ios" className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-primary"><ChevronRight className="size-4 ltr:rotate-180" aria-hidden />{text.back}</Link>
+    <h1 className="font-display text-2xl font-bold leading-snug">{item.title}</h1>
+    {item.summary ? <p className="rounded-2xl border bg-card p-4 leading-relaxed text-muted-foreground">{item.summary}</p> : null}
     <LessonMedia item={item} actor={actor} />
     {item.body ? <Markdown body={item.body} /> : null}
-    <p className="text-sm text-muted-foreground">{text.rights}</p>
   </article>
 }
