@@ -33,6 +33,11 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     var onAuthenticationPage: (() -> Void)?
     var onDownloadRequested: ((UUID) -> Void)?
     var onCookiesChanged: (() -> Void)?
+    private var wasBackgrounded = false
+    private var processRecoveryAttempted = false
+    private var navigationTimeout: Task<Void, Never>?
+    private var navigationRevision = 0
+    private var activeNavigation: WKNavigation?
     private var observations: [NSKeyValueObservation] = []
 
     override init() {
@@ -101,10 +106,54 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         }
     }
 
+    func enterBackground() { wasBackgrounded = true }
+
+    /// Scene transitions may be background -> inactive -> active. Remember the
+    /// background event rather than relying on the immediately previous phase.
+    @discardableResult
+    func restoreAfterBackground() -> Bool {
+        guard wasBackgrounded else { return false }
+        wasBackgrounded = false
+        processRecoveryAttempted = false
+        // Recreate the current allowed document with a GET, preserving WebKit's
+        // persistent cookies. Never replay a submitted POST or restore auth data.
+        // This intentionally resets page-local form/video state after background.
+        restoreCurrentPage()
+        return true
+    }
+
+    private func restoreCurrentPage() {
+        webView.stopLoading()
+        open(currentURL ?? webView.url ?? baseURL.appendingPathComponent("ios"))
+    }
+
+    private func finishNavigationWait() {
+        navigationTimeout?.cancel()
+        navigationTimeout = nil
+        loading = false
+    }
+
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        activeNavigation = navigation
+        navigationRevision += 1
+        let revision = navigationRevision
+        navigationTimeout?.cancel()
+        loading = true
+        navigationTimeout = Task { @MainActor [weak self] in
+            do { try await Task.sleep(nanoseconds: 30_000_000_000) }
+            catch { return }
+            guard let self, self.navigationRevision == revision else { return }
+            self.webView.stopLoading()
+            self.finishNavigationWait()
+            self.failure = true
+        }
+    }
+
     func retry() {
         guard !OfflineShellValidation.enabled else { failure = true; return }
         failure = false
-        if webView.url != nil { webView.reloadFromOrigin() } else { open() }
+        processRecoveryAttempted = false
+        restoreCurrentPage()
     }
 
     private func canonical(_ url: URL) -> URL {
@@ -200,22 +249,35 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        guard navigation === activeNavigation else { return }
+        finishNavigationWait()
         currentURL = webView.url
         currentTitle = webView.title ?? "Madrasadz"
         onPageFinished?()
     }
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        if (error as NSError).code != NSURLErrorCancelled { failure = true }
+        guard navigation === activeNavigation, (error as NSError).code != NSURLErrorCancelled else { return }
+        finishNavigationWait()
+        failure = true
         onPageFinished?()
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        if (error as NSError).code != NSURLErrorCancelled { failure = true }
+        guard navigation === activeNavigation, (error as NSError).code != NSURLErrorCancelled else { return }
+        finishNavigationWait()
+        failure = true
         onPageFinished?()
     }
 
-    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) { failure = true }
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        finishNavigationWait()
+        guard UIApplication.shared.applicationState == .active,
+              !processRecoveryAttempted else { failure = true; return }
+        // At most one automatic recovery; repeated renderer failures expose Retry.
+        processRecoveryAttempted = true
+        restoreCurrentPage()
+    }
 
     func cookiesDidChange(in cookieStore: WKHTTPCookieStore) { onCookiesChanged?() }
 

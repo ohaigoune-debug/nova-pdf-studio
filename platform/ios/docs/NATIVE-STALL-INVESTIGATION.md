@@ -79,3 +79,23 @@ the separate public WebKit navigation case also passed. Linux checks for this
 upload change: bash -n upload-testflight.sh and git diff --check exit 0.
 Device confirmation of the replacement, authenticated login, account switching,
 video and PDF behavior is still pending. This is an internal test candidate.
+
+## Build 3 candidate: device foreground blank document
+
+Owner screenshots IMG_6665/IMG_6666 show an authenticated learning home with the
+Arabic literature course card, followed by a blank document after leaving and
+returning. The card is visible; following its protected course link is not yet
+verified. No course visibility/entitlement or database change is made.
+
+The old foreground handler required previous==background and phase==active;
+background->inactive->active would skip it. The candidate records background
+explicitly and restores the current allowed URL as a GET once on return, with
+the existing WebKit data store and server authorization unchanged. This resets
+page-local form/video state on return, a deliberate temporary reliability tradeoff.
+A terminated WebKit content process gets at most one automatic recovery before
+Retry. A navigation deadline prevents an unbounded blank/loading document; stale
+navigation completions cannot settle a replacement request. The existing public
+Simulator test now backgrounds/activates three times before login navigation.
+
+Build number 3; compile, Simulator run, signing and device validation PENDING.
+No production server or real database operations accompany this candidate.

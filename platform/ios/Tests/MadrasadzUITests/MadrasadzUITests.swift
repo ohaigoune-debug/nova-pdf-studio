@@ -22,6 +22,12 @@ final class MadrasadzUITests: XCTestCase {
         }
         let web = app.webViews.firstMatch
         XCTAssertTrue(web.staticTexts["مساحة التعلّم"].waitForExistence(timeout: 60))
+        // Exercise real background -> inactive -> active transitions repeatedly.
+        for _ in 0..<3 {
+            XCUIDevice.shared.press(.home)
+            app.activate()
+            XCTAssertTrue(web.staticTexts["مساحة التعلّم"].waitForExistence(timeout: 40))
+        }
         let login = web.links["تسجيل الدخول"].firstMatch
         XCTAssertTrue(login.waitForExistence(timeout: 10))
         login.tap()

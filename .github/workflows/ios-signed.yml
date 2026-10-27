@@ -1,5 +1,5 @@
 name: iOS — signed IPA
-# Revision 3: export the Build 2 native checking/navigation repair for validation.
+# Revision 4: export the Build 3 foreground WebView recovery for validation.
 # Uses the existing owner-approved signing inputs; does not upload to Apple.
 
 on:

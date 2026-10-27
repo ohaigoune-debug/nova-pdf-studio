@@ -16,7 +16,8 @@ struct MadrasadzApp: App {
                 .onChange(of: scenePhase) { previous, phase in
                     // Do not invalidate an in-progress notification-permission
                     // dialog merely because it temporarily makes us inactive.
-                    if previous == .background && phase == .active {
+                    if phase == .background { model.browser.enterBackground() }
+                    if phase == .active, model.browser.restoreAfterBackground() {
                         Task { await model.refreshIdentity(superseding: true) }
                     }
                 }
