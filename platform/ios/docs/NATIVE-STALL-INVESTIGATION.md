@@ -62,3 +62,20 @@ bundle/version/build assertions. Artifact ID 12690069380; artifact ZIP SHA-256
 Apple upload/processing/group availability remain pending at this commit. No new
 tester, App Review submission, server deployment or database change is authorized
 by this workflow. Update through TestFlight and retest login/navigation on device.
+
+## Completed upload and internal availability
+
+On 27 October 2026, upload run 40457792781 / job 122035069116 succeeded:
+IPA metadata assertion passed; altool VERIFY SUCCEEDED and UPLOAD SUCCEEDED with
+no errors. Delivery/build UUID fea85afe-3b2e-4518-8227-bf6d1b85e44a.
+App Store Connect then showed Build 2 Ready to Test. Added only this build to the
+existing Madrasadz Internal group ac16c2d4-e99a-4d94-8b53-e71cd5fb39ca.
+The refreshed group visibly shows 1 Tester, 2 Builds, with 1.0.0 (2) Testing.
+The existing sole tester is the owner; no tester was added or reinvited. No export
+compliance prompt, new agreement, App Review submission or public release occurred.
+
+Candidate macOS logs confirm 40 core XCTest tests and 3 offline UI tests passed;
+the separate public WebKit navigation case also passed. Linux checks for this
+upload change: bash -n upload-testflight.sh and git diff --check exit 0.
+Device confirmation of the replacement, authenticated login, account switching,
+video and PDF behavior is still pending. This is an internal test candidate.
