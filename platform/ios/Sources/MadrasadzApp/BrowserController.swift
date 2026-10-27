@@ -18,7 +18,7 @@ enum OfflineShellValidation {
 
 @MainActor
 final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate, WKUIDelegate, WKHTTPCookieStoreObserver {
-    let webView: WKWebView
+    @Published private(set) var webView: WKWebView
     let policy: NavigationPolicy
     let baseURL: URL
     @Published var loading = false
@@ -46,6 +46,12 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         let configured = Bundle.main.object(forInfoDictionaryKey: "MadrasadzBaseURL") as? String
         baseURL = URL(string: configured ?? "https://madrasadz.com") ?? URL(string: "https://madrasadz.com")!
         policy = NavigationPolicy(baseURL: baseURL)
+        webView = Self.makeWebView()
+        super.init()
+        configureWebView()
+    }
+
+    private static func makeWebView() -> WKWebView {
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = .default()
         configuration.allowsInlineMediaPlayback = true
@@ -53,8 +59,10 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         configuration.mediaTypesRequiringUserActionForPlayback = .audio
         // No JavaScript message handler, native execution bridge, injected
         // credentials, altered user-agent authorization, or trust exceptions.
-        webView = WKWebView(frame: .zero, configuration: configuration)
-        super.init()
+        return WKWebView(frame: .zero, configuration: configuration)
+    }
+
+    private func configureWebView() {
         webView.navigationDelegate = self
         webView.uiDelegate = self
         webView.configuration.websiteDataStore.httpCookieStore.add(self)
@@ -64,17 +72,26 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         webView.backgroundColor = .systemBackground
         observations = [
             webView.observe(\.isLoading, options: [.new]) { [weak self] view, _ in
-                Task { @MainActor in self?.loading = view.isLoading }
+                Task { @MainActor in
+                    guard let self, view === self.webView else { return }
+                    self.loading = view.isLoading
+                }
             },
             webView.observe(\.canGoBack, options: [.new]) { [weak self] view, _ in
-                Task { @MainActor in self?.canGoBack = view.canGoBack }
+                Task { @MainActor in
+                    guard let self, view === self.webView else { return }
+                    self.canGoBack = view.canGoBack
+                }
             },
             webView.observe(\.canGoForward, options: [.new]) { [weak self] view, _ in
-                Task { @MainActor in self?.canGoForward = view.canGoForward }
+                Task { @MainActor in
+                    guard let self, view === self.webView else { return }
+                    self.canGoForward = view.canGoForward
+                }
             },
             webView.observe(\.url, options: [.new]) { [weak self] view, _ in
                 Task { @MainActor in
-                    guard let self, let url = view.url else { return }
+                    guard let self, view === self.webView, let url = view.url else { return }
                     self.currentURL = url
                     self.currentTitle = view.title ?? "Madrasadz"
                     // Observe SPA history too. Server presentation middleware
@@ -118,8 +135,27 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         // Recreate the current allowed document with a GET, preserving WebKit's
         // persistent cookies. Never replay a submitted POST or restore auth data.
         // This intentionally resets page-local form/video state after background.
+        replaceWebView()
         restoreCurrentPage()
         return true
+    }
+
+    private func replaceWebView() {
+        finishNavigationWait()
+        navigationRevision += 1
+        activeNavigation = nil
+        let previous = webView
+        previous.navigationDelegate = nil
+        previous.uiDelegate = nil
+        previous.configuration.websiteDataStore.httpCookieStore.remove(self)
+        previous.stopLoading()
+        observations.removeAll()
+        // A suspended/terminated renderer can remain blank even after reload.
+        // Use a new view and renderer attachment, retaining the default data store.
+        webView = Self.makeWebView()
+        canGoBack = false
+        canGoForward = false
+        configureWebView()
     }
 
     private func restoreCurrentPage() {
@@ -134,6 +170,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     }
 
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        guard webView === self.webView else { return }
         activeNavigation = navigation
         navigationRevision += 1
         let revision = navigationRevision
@@ -191,6 +228,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
 
     func webView(_ webView: WKWebView, decidePolicyFor action: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        guard webView === self.webView else { decisionHandler(.cancel); return }
         guard let url = action.request.url else { decisionHandler(.cancel); return }
         if action.shouldPerformDownload {
             decisionHandler(.cancel)
@@ -236,6 +274,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
 
     func webView(_ webView: WKWebView, decidePolicyFor response: WKNavigationResponse,
                  decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        guard webView === self.webView else { decisionHandler(.cancel); return }
         if response.isForMainFrame && !response.canShowMIMEType {
             // No native raw-download fallback: the server's protected viewer and
             // download restrictions are preserved. We only share page links.
@@ -249,7 +288,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        guard navigation === activeNavigation else { return }
+        guard webView === self.webView, navigation === activeNavigation else { return }
         finishNavigationWait()
         currentURL = webView.url
         currentTitle = webView.title ?? "Madrasadz"
@@ -257,25 +296,27 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     }
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        guard navigation === activeNavigation, (error as NSError).code != NSURLErrorCancelled else { return }
+        guard webView === self.webView, navigation === activeNavigation, (error as NSError).code != NSURLErrorCancelled else { return }
         finishNavigationWait()
         failure = true
         onPageFinished?()
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        guard navigation === activeNavigation, (error as NSError).code != NSURLErrorCancelled else { return }
+        guard webView === self.webView, navigation === activeNavigation, (error as NSError).code != NSURLErrorCancelled else { return }
         finishNavigationWait()
         failure = true
         onPageFinished?()
     }
 
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        guard webView === self.webView else { return }
         finishNavigationWait()
         guard UIApplication.shared.applicationState == .active,
               !processRecoveryAttempted else { failure = true; return }
         // At most one automatic recovery; repeated renderer failures expose Retry.
         processRecoveryAttempted = true
+        replaceWebView()
         restoreCurrentPage()
     }
 
@@ -283,6 +324,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
 
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for action: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        guard webView === self.webView else { return nil }
         if let url = action.request.url {
             switch policy.decision(for: url) {
             case .internalPage(let target): open(target)

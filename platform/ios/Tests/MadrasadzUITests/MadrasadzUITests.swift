@@ -23,10 +23,15 @@ final class MadrasadzUITests: XCTestCase {
         let web = app.webViews.firstMatch
         XCTAssertTrue(web.staticTexts["مساحة التعلّم"].waitForExistence(timeout: 60))
         // Exercise real background -> inactive -> active transitions repeatedly.
-        for _ in 0..<3 {
+        for cycle in 1...3 {
             XCUIDevice.shared.press(.home)
             app.activate()
+            XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
             XCTAssertTrue(web.staticTexts["مساحة التعلّم"].waitForExistence(timeout: 40))
+            let resumed = XCTAttachment(screenshot: app.screenshot())
+            resumed.name = "Public-foreground-cycle-\(cycle)"
+            resumed.lifetime = .keepAlways
+            add(resumed)
         }
         let login = web.links["تسجيل الدخول"].firstMatch
         XCTAssertTrue(login.waitForExistence(timeout: 10))

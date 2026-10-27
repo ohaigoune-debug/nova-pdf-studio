@@ -1,5 +1,5 @@
 name: iOS — signed IPA
-# Revision 4: export the Build 3 foreground WebView recovery for validation.
+# Revision 5: export the Build 3 replacement of the resumed WebView renderer for validation.
 # Uses the existing owner-approved signing inputs; does not upload to Apple.
 
 on:

@@ -16,6 +16,7 @@ struct StudyRootView: View {
             NavigationStack {
                 ZStack {
                     PlatformWebView(browser: browser)
+                        .id(ObjectIdentifier(browser.webView))
                     if browser.failure {
                         ContentUnavailableView {
                             Label(L10n.text("connection"), systemImage: "wifi.exclamationmark")

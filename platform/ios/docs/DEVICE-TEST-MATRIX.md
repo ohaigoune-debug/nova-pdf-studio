@@ -1,6 +1,6 @@
 # iPhone validation matrix
 
-Current status (2026-10-26): **owner installed TestFlight 1.0.0 (1) and opened the native shell; first learning load FAILED on missing endpoints; an owner-executed server update has now resolved /ios/session availability, with device retest pending. Arabic login form rendered; slow loading remains unverified on retest.** Authenticated/device cases remain unverified unless explicitly recorded below. Exact device model/OS were not established by the screenshots. Historical records follow for audit; use the latest sections for current status. A JavaScript unit test or source inspection does not mark a WKWebView/device row passed.
+Current status (27 October 2026): **Build 2 is available to the sole owner in internal TestFlight. Owner screenshots IMG_6665/IMG_6666 show the authenticated learning home and the Arabic literature course card, but a blank learning document after leaving and returning to the app. Foreground reliability FAILED on the owner's device.** Course detail/video/PDF behavior remains unverified. Build 3 recovery is a candidate under hosted macOS validation; it is not yet uploaded or device-proven. Use the latest dated evidence below; historical records remain for audit. A unit test does not establish a device pass.
 
 ## Execution record
 
@@ -13,8 +13,8 @@ Current status (2026-10-26): **owner installed TestFlight 1.0.0 (1) and opened t
 | Linux build-tooling regression tests | PASS: 12 Python tests; CLI fixtures only, not Xcode |
 | macOS unsigned Xcode build (Debug / Release) | PASS on hosted macOS, run 40350226821; local host remains Linux |
 | XCTest / iPhone simulator | PASS: 37 core package and 3 disconnected Debug locale cases on hosted macOS |
-| Physical iPhone | PARTIAL: installed/native launch/login-form rendering observed; learning FAILED, authenticated integration unverified |
-| TestFlight | INSTALLED for the owner; one internal tester/build, no external distribution |
+| Physical iPhone | PARTIAL: authenticated learning home and course card observed; background/return blank document FAILED; course detail/media unverified |
+| TestFlight | Build 2 Testing in owner-only internal group; no external distribution |
 | App Store submission | NOT SUBMITTED; payment/privacy/deletion decisions remain |
 
 ## Required cases
@@ -146,3 +146,18 @@ Current status (2026-10-26): **owner installed TestFlight 1.0.0 (1) and opened t
   no authenticated device/relaunch/media/PDF/reminder/accessibility retest is claimed.
 - See SERVER-DEPLOYMENT-20261026.md and IOS-POST-DEPLOY-CHECKS.json for evidence,
   timing limits, persistent fourth Compose file and rollback instructions.
+
+## Device report — 27 October 2026
+
+- IMG_6665/IMG_6666: learning home shows account navigation, a course titled
+  «دورة الادب العربي الفصل الأول» and «متابعة التعلّم». This is evidence of the
+  course card, not of course detail access or video playback.
+- Owner reports the document disappears after leaving and returning; the blank
+  screenshot still shows native tabs/toolbars. Mark foreground restoration FAILED.
+- App Store Connect earlier identified the sole installed tester device as iPhone
+  13 Pro Max / iOS 27.0.1. Screenshots alone do not independently verify OS/build.
+- Candidate Build 3 records background across intermediate inactive states and
+  restores the allowed document using persistent WebKit cookies; it adds a bounded
+  renderer/navigation recovery. No server, enrollment or database change.
+- Retest must include repeated background/activation while signed in, opening
+  «متابعة التعلّم», video/fullscreen, session expiry and account switching.

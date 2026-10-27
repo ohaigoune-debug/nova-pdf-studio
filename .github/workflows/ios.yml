@@ -38,12 +38,22 @@ jobs:
         run: bash platform/ios/scripts/test-ios.sh auto Debug
       - name: Test actual public WebKit login navigation without an account
         run: bash platform/ios/scripts/test-public-navigation.sh
+      - name: Export genuine Simulator screenshot attachments
+        if: always()
+        run: |
+          for result in platform/ios/build/*.xcresult; do
+            if [ -d "$result" ]; then
+              xcrun xcresulttool export attachments --path "$result" --output-path "$result-attachments"
+            fi
+          done
       - name: Retain Simulator diagnostics and genuine screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: Madrasadz-Simulator-diagnostics-${{ github.sha }}
-          path: platform/ios/build/*.xcresult
+          path: |
+            platform/ios/build/*.xcresult
+            platform/ios/build/*-attachments/
           retention-days: 1
           if-no-files-found: ignore
 

@@ -99,3 +99,15 @@ Simulator test now backgrounds/activates three times before login navigation.
 
 Build number 3; compile, Simulator run, signing and device validation PENDING.
 No production server or real database operations accompany this candidate.
+
+### First foreground candidate failed; not uploaded
+
+Source 9be0799, Simulator run 40463010411: Debug/Release and offline UI passed;
+public test failed after the third background/activate cycle (assertion at line 29;
+WebKit accessibility query stalled). Signed export 40463010445 passed, but this
+artifact must NOT be uploaded. Reloading the same WKWebView was insufficient.
+The revised candidate replaces the view attachment on foreground/renderer failure,
+while retaining WKWebsiteDataStore.default() and all navigation/session checks.
+Old view KVO/navigation callbacks are ignored, and SwiftUI keys the representable
+to the new WebView identity. Page-local state and native web back history reset on
+return; server cookies persist. Runtime validation of this revision is pending.
