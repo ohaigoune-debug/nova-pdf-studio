@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Enable only Build 6 in the existing owner-only group; never invite or submit."""
+"""Enable only Build 7 in the existing owner-only group; never invite or submit."""
 import base64
 import json
 import os
@@ -66,7 +66,7 @@ def main():
     assert key.is_file()
     build = None
     for _ in range(20):
-        result = request(key, f'/v1/builds?filter[app]={APP}&filter[version]=6&limit=10')
+        result = request(key, f'/v1/builds?filter[app]={APP}&filter[version]=7&limit=10')
         assert len(result['data']) <= 1, 'Ambiguous build selection'
         if result['data']:
             candidate = result['data'][0]
@@ -75,10 +75,10 @@ def main():
             if state == 'VALID':
                 build = candidate
                 break
-        print('Build 6 processing pending.', flush=True)
+        print('Build 7 processing pending.', flush=True)
         time.sleep(30)
     assert build is not None, 'Processing deadline reached; no group change made'
-    assert build['attributes']['version'] == '6'
+    assert build['attributes']['version'] == '7'
     assert build['attributes']['usesNonExemptEncryption'] is False
     assert request(key, f"/v1/builds/{build['id']}/app")['data']['id'] == APP
     group = request(key, f'/v1/betaGroups/{GROUP}')['data']
@@ -97,7 +97,7 @@ def main():
             break
         time.sleep(5)
     assert detail['internalBuildState'] == 'IN_BETA_TESTING', 'Assigned but internal availability not confirmed'
-    print('PASS: Build 6 VALID and IN_BETA_TESTING in existing owner-only internal group. Build ID=' + build['id'])
+    print('PASS: Build 7 VALID and IN_BETA_TESTING in existing owner-only internal group. Build ID=' + build['id'])
 
 
 if __name__ == '__main__':
