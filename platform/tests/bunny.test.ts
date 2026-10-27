@@ -106,7 +106,7 @@ describe('Bunny Stream: محتوى BUNNY والرابط الموقّع عبر me
     expect(c.bunnyVideoId).toBe(VIDEO)
     const now = 1_700_000_000_000
     const embed = await bunnyEmbedForViewer(h.db, student, c.id, now)
-    expect(embed.expires).toBe(1_700_000_000 + 2 * 3600)
+    expect(embed.expires).toBe(1_700_000_000 + 300)
     expect(embed.url).toContain(`/embed/424242/${VIDEO}?`)
     expect(embed.url).toContain(`token=${embedToken(KEY, VIDEO, embed.expires)}`)
     expect(embed.watermark[0]).toBe(student.fullName)

@@ -6,6 +6,19 @@ import type ar from './ar'
  * Missing keys fall back to Arabic (deep merge in index.ts).
  */
 const en: DeepPartial<typeof ar> = {
+  media: {
+    fullscreen: 'Fullscreen with watermark',
+    exitFullscreen: 'Exit fullscreen',
+    reloadPlayer: 'Reload page and check access again',
+    heartbeatLost: 'The viewing session could not be verified four times in a row. Check your connection and reload the page.',
+    accessLost: 'This viewing session is no longer valid. Reload to verify your sign-in and access.',
+    playerUnavailable: 'The protected player or viewing link could not be renewed. Check your connection and reload.',
+    renewing: 'Preparing the player and preserving your position…',
+    tooManyDevices: 'Your account has reached its simultaneous viewing limit from other addresses. Close those sessions, then reload to check again.',
+    playerBlocked: 'Playback stopped',
+    tabHidden: 'Playback paused because you left the page.',
+    bunnyWatermarkHint: 'Protection reduces leaks; it cannot prevent every copy. The watermark identifies the viewer.'
+  },
   app: {
     name: 'Madrasa',
     tagline: 'Secondary school and baccalaureate platform — every subject',
