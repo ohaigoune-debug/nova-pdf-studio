@@ -353,3 +353,24 @@ Job log not downloadable here (403). Owner-device retest of 1.0.0 (5) PENDING:
 app switcher, Control Center/Notification Center, >5 min away, a lesson, and
 the shared «تقرير تقني للاختبار» (expect `host.left-window handedBack=1` and
 `fg.check ... attached=true ... action=keep`).
+
+## Build 6 — owner feedback on Build 5 (27 October 2026)
+
+Owner report on 1.0.0 (5): foreground behaviour "works very well" (technical log
+not yet shared). Requests: YouTube lessons do not play (symptom screenshot
+requested; server CSP already allows youtube-nocookie frames and the embed sends
+a strict-origin referrer — native cause not yet identified), keep allowed PDFs
+inside the app with a progress ring and offline access, a ☰ menu with sign-out,
+and the virtual classroom.
+
+- Native ☰ menu replaces the person icon (same `accountButton` identifier):
+  notifications, profile/deletion, support, privacy, sign-in when needed,
+  sign-out, then home, videos, files, «تنزيلاتي», tests, bac bank, practice,
+  virtual classroom and progress. No purchase, codes or forum.
+- `OfflineLibrary`: the existing server export endpoint (all access checks) now
+  feeds an in-app library with a determinate progress ring; PDFKit viewer with
+  an account-bound watermark; see RELEASE-CHECKLIST for the storage rules.
+- Virtual classroom route allowed in `NavigationPolicy` (core test updated) and
+  in the server iOS presentation (`src/lib/ios-presentation.ts`, test updated:
+  4 iOS server suites, 49 tests PASS on Linux). The server change is effective
+  only after the owner deploys it; until then the server redirects to /ios.

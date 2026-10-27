@@ -60,7 +60,7 @@ describe('fixed iOS presentation, separate from authorization', () => {
   })
 
   it('redirects fixed commerce, activation, community and staff paths for every iOS account', () => {
-    for (const path of ['/store', '/store/book', '/student/courses/catalog', '/student/courses/math/order', '/student/courses/orders', '/activate-code', '/claim', '/student/activate', '/forum/thread', '/student/classroom', '/student/classroom/thread', '/student/groups', '/student/groups/example', '/admin/store', '/teacher/content', '/assistant']) {
+    for (const path of ['/store', '/store/book', '/student/courses/catalog', '/student/courses/math/order', '/student/courses/orders', '/activate-code', '/claim', '/student/activate', '/forum/thread', '/student/groups', '/student/groups/example', '/admin/store', '/teacher/content', '/assistant']) {
       const response = middleware(request(path, { cookie }))
       expect(response.status).toBe(307)
       expect(new URL(response.headers.get('location')!).pathname).toBe('/ios')
@@ -77,7 +77,7 @@ describe('fixed iOS presentation, separate from authorization', () => {
     expect(iosPresentationRedirect('/STUDENT/courses/math/ORDER')).toBe('/ios?unavailable=commerce')
     expect(iosPresentationRedirect('/%E0%A4')).toBe('/ios?unavailable=route')
     expect(iosPresentationRedirect('/student/lessons/%D8%AF%D8%B1%D8%B3')).toBe('/ios/lesson/%D8%AF%D8%B1%D8%B3')
-    for (const path of ['/ios', '/student/profile', '/student/play', '/student/practice', '/student/quizzes', '/student/exams', '/login', '/forgot-password', '/privacy']) expect(iosPresentationRedirect(path)).toBeNull()
+    for (const path of ['/ios', '/student/profile', '/student/play', '/student/practice', '/student/quizzes', '/student/exams', '/student/classroom', '/student/classroom/thread', '/login', '/forgot-password', '/privacy']) expect(iosPresentationRedirect(path)).toBeNull()
   })
 
   it('does not exempt the native presentation from existing protected-page session checks', () => {

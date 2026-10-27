@@ -6,10 +6,10 @@ private let brandBlue = Color(red: 49/255, green: 85/255, blue: 245/255)
 struct StudyRootView: View {
     @ObservedObject var model: AppModel
     @ObservedObject private var browser: BrowserController
+    @ObservedObject private var downloads: OfflineLibrary
     @State private var showingAccount = false
-    @StateObject private var exporter = FileExporter()
 
-    init(model: AppModel) { self.model = model; browser = model.browser }
+    init(model: AppModel) { self.model = model; browser = model.browser; downloads = model.downloads }
 
     var body: some View {
         TabView(selection: $model.selectedTab) {
@@ -40,8 +40,8 @@ struct StudyRootView: View {
                                 .accessibilityIdentifier("retryPage")
                         }.background(.background)
                     }
-                    if exporter.busy {
-                        ProgressView(L10n.text("share")).padding(24).background(.regularMaterial, in: RoundedRectangle(cornerRadius: 18))
+                    if let value = downloads.progress {
+                        DownloadProgressRing(value: value)
                     }
                 }
                 .safeAreaInset(edge: .top, spacing: 0) {
@@ -66,8 +66,8 @@ struct StudyRootView: View {
                                     .accessibilityLabel(L10n.text("share"))
                             }
                         }
-                        Button { showingAccount = true } label: { Image(systemName: "person.crop.circle") }
-                            .accessibilityLabel(L10n.text("account")).accessibilityIdentifier("accountButton")
+                        Button { showingAccount = true } label: { Image(systemName: "line.3.horizontal") }
+                            .accessibilityLabel(L10n.text("menu")).accessibilityIdentifier("accountButton")
                     }
                 }
             }.tabItem { Label(L10n.text("study"), systemImage: "book") }.tag(0)
@@ -91,24 +91,27 @@ struct StudyRootView: View {
             }
         }
         .onAppear {
+            // An explicit PDF download goes into the in-app offline library after the
+            // server re-checks access and allowDownload for the current account.
             browser.onDownloadRequested = { contentID in
-                Task { await exporter.export(contentID: contentID, browser: browser, currentAccount: { model.verifiedAccountID }) }
+                Task { await downloads.download(contentID: contentID, browser: browser, currentAccount: { model.verifiedAccountID }) }
             }
         }
         .modifier(DisplayStateLogger(browser: browser))
-        .onChange(of: model.verifiedAccountID) { _, _ in exporter.reset() }
-        .sheet(item: $exporter.document, onDismiss: { exporter.reset() }) { document in
-            DocumentShareSheet(url: document.url) { exporter.reset() }
+        .onChange(of: model.verifiedAccountID) { _, account in
+            guard let account else { return }
+            downloads.accountVerified(account)
+            Task { await downloads.recheck(browser: browser, currentAccount: { model.verifiedAccountID }) }
         }
         .sheet(isPresented: $showingAccount) { AccountView(model: model, showing: $showingAccount) }
         .sheet(isPresented: Binding(get: { browser.externalURL != nil }, set: { if !$0 { browser.externalURL = nil } })) {
             if let url = browser.externalURL { ExternalBrowser(url: url).ignoresSafeArea(edges: .bottom) }
         }
-        .alert(L10n.text("notice"), isPresented: Binding(get: { model.notice != nil || browser.notice != nil || exporter.notice != nil }, set: {
-            if !$0 { model.notice = nil; browser.notice = nil; exporter.notice = nil }
+        .alert(L10n.text("notice"), isPresented: Binding(get: { model.notice != nil || browser.notice != nil || downloads.notice != nil }, set: {
+            if !$0 { model.notice = nil; browser.notice = nil; downloads.notice = nil }
         })) {
-            Button(L10n.text("ok"), role: .cancel) { model.notice = nil; browser.notice = nil; exporter.notice = nil }
-        } message: { Text(model.notice ?? browser.notice ?? exporter.notice ?? "") }
+            Button(L10n.text("ok"), role: .cancel) { model.notice = nil; browser.notice = nil; downloads.notice = nil }
+        } message: { Text(model.notice ?? browser.notice ?? downloads.notice ?? "") }
     }
 }
 
@@ -329,38 +332,74 @@ struct NewRevisionView: View {
     }
 }
 
+/// Native menu (☰): the allowed learning and account destinations of the website's
+/// student menu, without purchase, activation codes or the forum.
 struct AccountView: View {
     @ObservedObject var model: AppModel
     @Binding var showing: Bool
     @State private var confirmingLogout = false
     @State private var showingDiagnostics = false
+
+    private func go(_ path: String) {
+        showing = false
+        model.selectedTab = 0
+        model.browser.open(path: path)
+    }
+
+    private func row(_ key: String, _ icon: String, _ path: String) -> some View {
+        Button { go(path) } label: { Label(L10n.text(key), systemImage: icon) }
+    }
+
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    Image("BrandLogo").resizable().scaledToFit().frame(maxWidth: 220)
-                        .padding(12).background(.white, in: RoundedRectangle(cornerRadius: 12))
-                        .accessibilityLabel("مدرسة — Madrasadz")
-                    Text(L10n.text("studyOnly")).font(.footnote)
-                }
-                Button(L10n.text("profile")) { showing = false; model.selectedTab = 0; model.browser.open(path: "/student/profile#delete") }
-                Button(L10n.text("privacy")) { showing = false; model.selectedTab = 0; model.browser.open(path: "/privacy") }
-                Button(L10n.text("support")) { showing = false; model.selectedTab = 0; model.browser.open(path: "/student/support") }
-                Button(L10n.text("logout"), role: .destructive) { confirmingLogout = true }
+                Section(L10n.text("menuAccount")) {
+                    row("menuNotifications", "bell", "/student/notifications")
+                    row("profile", "person.crop.circle", "/student/profile#delete")
+                    row("support", "lifepreserver", "/student/support")
+                    row("privacy", "hand.raised", "/privacy")
+                    if !model.personalSpaceReady {
+                        row("signIn", "person.badge.key", "/login")
+                    }
+                    Button(role: .destructive) { confirmingLogout = true } label: {
+                        Label(L10n.text("logout"), systemImage: "rectangle.portrait.and.arrow.right")
+                    }
                     .disabled(model.busy)
+                }
+                Section(L10n.text("menuLearning")) {
+                    row("menuHome", "house", "/ios")
+                    row("menuVideos", "play.rectangle", "/student/videos")
+                    row("menuFiles", "doc", "/student/files")
+                    NavigationLink {
+                        OfflineDownloadsView(library: model.downloads)
+                    } label: {
+                        Label(L10n.text("downloads"), systemImage: "arrow.down.circle")
+                    }
+                    .accessibilityIdentifier("offlineDownloads")
+                    row("menuExams", "doc.text", "/student/exams")
+                    row("menuBac", "books.vertical", "/bac")
+                    row("menuTrain", "gamecontroller", "/student/play")
+                    row("menuClassroom", "person.3", "/student/classroom")
+                    row("menuProgress", "chart.bar", "/student/progress")
+                }
                 if ForegroundDiagnostics.isAvailable {
                     Section {
                         Button(L10n.text("diagnostics")) { showingDiagnostics = true }
                             .accessibilityIdentifier("foregroundDiagnostics")
                     } footer: { Text(L10n.text("diagnosticsFooter")) }
                 }
-            }.navigationTitle(L10n.text("account"))
-                .sheet(isPresented: $showingDiagnostics) { DiagnosticsView(diagnostics: model.browser.diagnostics) }
-                .toolbar { Button(L10n.text("ok")) { showing = false } }
-                .confirmationDialog(L10n.text("logout"), isPresented: $confirmingLogout, titleVisibility: .visible) {
-                    Button(L10n.text("logout"), role: .destructive) { showing = false; Task { await model.logout() } }
-                    Button(L10n.text("cancel"), role: .cancel) {}
-                } message: { Text(L10n.text("logoutBody")) }
+                Section {
+                    Text(L10n.text("studyOnly")).font(.footnote).foregroundStyle(.secondary)
+                }
+            }
+            .navigationTitle(L10n.text("menu"))
+            .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $showingDiagnostics) { DiagnosticsView(diagnostics: model.browser.diagnostics) }
+            .toolbar { Button(L10n.text("ok")) { showing = false } }
+            .confirmationDialog(L10n.text("logout"), isPresented: $confirmingLogout, titleVisibility: .visible) {
+                Button(L10n.text("logout"), role: .destructive) { showing = false; Task { await model.logout() } }
+                Button(L10n.text("cancel"), role: .cancel) {}
+            } message: { Text(L10n.text("logoutBody")) }
         }
     }
 }

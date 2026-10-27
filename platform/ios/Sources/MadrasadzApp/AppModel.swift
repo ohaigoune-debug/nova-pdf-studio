@@ -31,6 +31,8 @@ private final class NoAPIRedirects: NSObject, URLSessionTaskDelegate {
 final class AppModel: ObservableObject {
     enum Identity { case checking, signedOut, phoneRequired, unavailable, unsupportedRole, ready }
     let browser = BrowserController()
+    /// Teacher-allowed PDFs kept inside the app for one account (owner decision).
+    let downloads = OfflineLibrary()
     private let store: StudyStore
     private let notifications = UNUserNotificationCenter.current()
     private var studySession: StudySession?
@@ -215,6 +217,9 @@ final class AppModel: ObservableObject {
         let ids = await store.lock()
         guard revision == generation, !busy else { return }
         cancelReminders(ids)
+        // The server says there is no session (sign-out elsewhere, expiry, or a
+        // signed-out device): offline copies must not outlive the account session.
+        if case .signedOut = state, !downloads.purgeAll() { notice = L10n.text("localCleanupFailed") }
         if case .signedOut = state, let accountID = lastVerifiedAccountID {
             do {
                 _ = try await store.purgeAccount(accountID: accountID)
@@ -492,7 +497,7 @@ final class AppModel: ObservableObject {
         guard revision == generation else { return }
         notifications.removeAllPendingNotificationRequests()
         notifications.removeAllDeliveredNotifications()
-        var cleanupFailed = false
+        var cleanupFailed = !downloads.purgeAll()
         if let accountToPurge {
             do { _ = try await store.purgeAccount(accountID: accountToPurge) }
             catch { cleanupFailed = true }

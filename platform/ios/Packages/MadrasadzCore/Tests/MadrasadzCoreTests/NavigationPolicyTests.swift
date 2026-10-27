@@ -73,8 +73,13 @@ final class NavigationPolicyTests: XCTestCase {
 
     func testUnsupportedCommunityAndStaffRoutesAreBlocked() {
         XCTAssertEqual(policy.decision(for: URL(string: "https://madrasadz.com/forum/topic")!), .blocked(.communityUnavailable))
-        for path in ["/student/classroom", "/student/classroom/topic", "/student/groups", "/student/groups/group-id"] {
+        for path in ["/student/groups", "/student/groups/group-id", "/student/forum/topic"] {
             XCTAssertEqual(policy.decision(for: URL(string: "https://madrasadz.com" + path)!), .blocked(.communityUnavailable))
+        }
+        // Owner-approved teacher-led virtual classroom (internal build).
+        for path in ["/student/classroom", "/student/classroom/topic"] {
+            let url = URL(string: "https://madrasadz.com" + path)!
+            XCTAssertEqual(policy.decision(for: url), .internalPage(url))
         }
         for prefix in ["admin", "teacher", "assistant"] {
             XCTAssertEqual(policy.decision(for: URL(string: "https://madrasadz.com/\(prefix)/settings")!), .blocked(.roleUnavailable))

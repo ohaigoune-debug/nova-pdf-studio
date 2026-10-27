@@ -24,7 +24,10 @@ export function iosPresentationRedirect(pathname: string): string | null {
   if (['/store', '/track', '/claim', '/activate-code', '/student/store', '/student/cart', '/student/orders', '/student/codes', '/student/activate', '/student/activate-code', '/student/enroll'].some((prefix) => under(matchPath, prefix))
     || under(matchPath, '/student/courses/catalog') || under(matchPath, '/student/courses/orders')
     || /^\/student\/courses\/[^/]+\/order(?:\/|$)/.test(matchPath)) return '/ios?unavailable=commerce'
-  if (['/forum', '/student/forum', '/student/classroom', '/student/groups'].some((prefix) => under(matchPath, prefix))) return '/ios?unavailable=community'
+  // Owner decision (2026-10-27): the teacher-led virtual classroom is available in the
+  // internal iPhone build. The open forum and group directory stay out of scope.
+  // App Review still requires report/block/filter/contact safeguards (guideline 1.2).
+  if (['/forum', '/student/forum', '/student/groups'].some((prefix) => under(matchPath, prefix))) return '/ios?unavailable=community'
   if (['/admin', '/teacher', '/assistant', '/print'].some((prefix) => under(matchPath, prefix))) return '/ios?unavailable=role'
   if (['/', '/student', '/student/courses', '/student/lessons', '/lessons'].includes(matchPath)) return '/ios'
   const course = path.match(/^\/student\/courses\/([^/]+)$/i)

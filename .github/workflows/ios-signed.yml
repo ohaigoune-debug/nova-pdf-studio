@@ -1,7 +1,7 @@
 name: iOS — signed IPA
-# Revision 8: export Build 5 — keeps the shared WKWebView in the on-screen
-# protection container (device log: iOS 27 privacy redaction rebuilt the host and
-# orphaned the view) and checks every activation. For validation only. Uses the existing owner-approved
+# Revision 9: export Build 6 — native ☰ menu, in-app offline PDF downloads and the
+# owner-approved virtual classroom route, on top of the Build 5 foreground fix.
+# For validation only. Uses the existing owner-approved
 # signing inputs; does not upload to Apple. Upload stays pinned until validated.
 
 on:

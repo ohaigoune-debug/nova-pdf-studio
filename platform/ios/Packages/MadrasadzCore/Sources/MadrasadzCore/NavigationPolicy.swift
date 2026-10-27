@@ -38,7 +38,9 @@ public struct NavigationPolicy: Sendable {
             (lower.hasPrefix("/student/courses/") && lower.hasSuffix("/order")) {
             return .blocked(.purchasesUnavailable)
         }
-        if ["/forum", "/community", "/student/forum", "/student/classroom", "/student/groups"].contains(where: { lower == $0 || lower.hasPrefix($0 + "/") }) {
+        // Owner decision (2026-10-27): the teacher-led virtual classroom is allowed in the
+        // internal build; App Review needs report/block/filter/contact (guideline 1.2).
+        if ["/forum", "/community", "/student/forum", "/student/groups"].contains(where: { lower == $0 || lower.hasPrefix($0 + "/") }) {
             return .blocked(.communityUnavailable)
         }
         if ["/admin", "/teacher", "/assistant"].contains(where: { lower == $0 || lower.hasPrefix($0 + "/") }) {
