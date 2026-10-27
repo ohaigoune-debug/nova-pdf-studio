@@ -26,7 +26,7 @@ Current owner report (27 October 2026): **the owner confirmed the black WebView 
 | macOS unsigned Xcode build (Debug / Release) | PASS for Build 4 source 196f027 on hosted macOS, run 40481965732, Xcode 26.6 / iPhoneSimulator 26.5 SDK; local host remains Linux |
 | XCTest / iPhone simulator | PASS on CI3: 45 Core + 6 disconnected Debug UI + 1 public WebKit case, iPhone Air / iOS 26.5; recording/AirPlay hardware scenarios remain PENDING |
 | Physical iPhone | PARTIAL: authenticated learning home and course card observed; background/return black/blank WebView FAILED on Builds 2 and 3; course detail/media unverified |
-| TestFlight | Build 5 (source e9f291c) uploaded by run 40495265190 and verified VALID / IN_BETA_TESTING in the owner-only internal group; Builds 3–4 historical; no external distribution |
+| TestFlight | Build 6 (source 9c22c7d) uploaded by run 40503178778 and verified VALID / IN_BETA_TESTING in the owner-only internal group; Builds 3–5 historical; no external distribution |
 | App Store submission | NOT SUBMITTED; payment/privacy/deletion decisions remain |
 
 ## Required cases

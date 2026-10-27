@@ -374,3 +374,17 @@ and the virtual classroom.
   in the server iOS presentation (`src/lib/ios-presentation.ts`, test updated:
   4 iOS server suites, 49 tests PASS on Linux). The server change is effective
   only after the owner deploys it; until then the server redirects to /ios.
+
+### Build 6 hosted validation and internal availability
+
+The light-mode public test failed intermittently on unchanged app code
+(b50e138, and earlier 3793053/0e183d3 on Build 4/5 code) while the dark run and
+other runs of the same code passed; failures are now surfaced as check-run
+annotations. Build 6 app code: light PASS (29d4372, 9c22c7d), dark PASS
+(b50e138, 29d4372, 9c22c7d), core + offline UI incl. the new menu PASS
+(b50e138, 29d4372, 9c22c7d). Signed run 40502191403 (artifact 12733217487,
+sha256:aa255c0ecefeba10e925936523e3fa89c221a7bb87811c5666a052efe2be58c3).
+Upload run 40503178778 on f99294c SUCCESS: IPA 1.0.0 (6) assertion, altool
+validate/upload, owner-only group VALID / IN_BETA_TESTING read back.
+Owner-device checks PENDING: menu/sign-out, offline PDF, YouTube (with the new
+`frame.*` and `media.state` log lines), classroom after server deployment.
