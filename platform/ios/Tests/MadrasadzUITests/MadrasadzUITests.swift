@@ -14,6 +14,10 @@ final class MadrasadzUITests: XCTestCase {
         app.launchArguments += ["-AppleLanguages", "(ar)", "-AppleLocale", "ar_DZ"]
         app.launch()
         defer {
+            let hierarchy = XCTAttachment(string: app.debugDescription)
+            hierarchy.name = "Public-WebKit-accessibility-no-account"
+            hierarchy.lifetime = .keepAlways
+            add(hierarchy)
             let capture = XCTAttachment(screenshot: app.screenshot())
             capture.name = "Public-WebKit-navigation-no-account"
             capture.lifetime = .keepAlways

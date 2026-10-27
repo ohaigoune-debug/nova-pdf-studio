@@ -14,7 +14,6 @@ final class MediaProtectionWebContainer: UIView {
     private var observations: [NSObjectProtocol] = []
     private var lifecycleActive = UIApplication.shared.applicationState == .active
     private var currentState = MediaProtectionState()
-    private var renderingRevision = 0
     private var hasAppliedState = false
 
     init(webView: WKWebView, browser: BrowserController) {
@@ -126,6 +125,9 @@ final class MediaProtectionWebContainer: UIView {
         message.text = L10n.text(key)
         shield.accessibilityLabel = L10n.text("protectedContent") + ". " + L10n.text(key)
         #if DEBUG
+        // Bounded OS/view state only, for diagnosing a held cover in an
+        // unauthenticated Simulator hierarchy. No URL/account/token is exposed.
+        shield.accessibilityValue = "capture=\(state.capture);visibility=\(state.visibility);attached=\(state.isAttached)"
         // The disconnected fixture's stop-simulation control is in the outer
         // SwiftUI cover. Keep it reachable to UI automation/VoiceOver instead
         // of trapping focus in this inner noninteractive UIKit shield. This
@@ -135,8 +137,6 @@ final class MediaProtectionWebContainer: UIView {
         #endif
         guard changed else { return }
         hasAppliedState = true
-        renderingRevision += 1
-        let revision = renderingRevision
         if state.mustCover {
             shield.isHidden = false
             bringSubviewToFront(shield)
@@ -146,25 +146,22 @@ final class MediaProtectionWebContainer: UIView {
             webView.pauseAllMediaPlayback(completionHandler: nil)
             webView.setAllMediaPlaybackSuspended(true, completionHandler: nil)
         } else {
-            // Release suspension without auto-resuming a previous lesson. Keep
-            // the opaque cover until the WebKit pause acknowledgement arrives.
-            webView.setAllMediaPlaybackSuspended(false) { [weak self] in
-                guard let self, self.webView.superview === self,
-                      self.renderingRevision == revision, !self.currentState.mustCover else { return }
-                self.webView.pauseAllMediaPlayback { [weak self] in
-                    guard let self, self.webView.superview === self,
-                          self.renderingRevision == revision, !self.currentState.mustCover else { return }
-                    self.webView.accessibilityElementsHidden = false
-                    self.shield.isHidden = true
-                }
-            }
+            // The OS capture/scene state decides visibility, not a renderer
+            // callback. WebKit can leave media acknowledgements pending during
+            // startup or renderer recovery even after a document has loaded.
+            // Keep playback paused on either side of releasing suspension, but
+            // do not let an unbounded acknowledgement hide a safe page forever.
+            webView.pauseAllMediaPlayback(completionHandler: nil)
+            webView.setAllMediaPlaybackSuspended(false, completionHandler: nil)
+            webView.pauseAllMediaPlayback(completionHandler: nil)
+            webView.accessibilityElementsHidden = false
+            shield.isHidden = true
         }
     }
 
     func detach() {
         observations.forEach { NotificationCenter.default.removeObserver($0) }
         observations.removeAll()
-        renderingRevision += 1 // Late WebKit completions cannot remove a new shield.
         shield.isHidden = false
         if webView.superview === self {
             webView.pauseAllMediaPlayback(completionHandler: nil)

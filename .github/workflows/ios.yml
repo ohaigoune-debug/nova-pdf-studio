@@ -34,10 +34,10 @@ jobs:
         run: bash platform/ios/scripts/build-unsigned.sh Debug
       - name: Build unsigned Release Simulator application
         run: bash platform/ios/scripts/build-unsigned.sh Release
-      - name: Test core package and native UI on an installed iPhone Simulator
-        run: bash platform/ios/scripts/test-ios.sh auto Debug
       - name: Test actual public WebKit login navigation without an account
         run: bash platform/ios/scripts/test-public-navigation.sh
+      - name: Test core package and native UI on an installed iPhone Simulator
+        run: bash platform/ios/scripts/test-ios.sh auto Debug
       - name: Export genuine Simulator screenshot attachments
         if: always()
         run: |

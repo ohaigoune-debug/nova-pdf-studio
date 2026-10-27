@@ -214,3 +214,38 @@ Mirroring, (4) inactive/background transitions and repeated document recovery,
 and (5) an ordinary hardware-button screenshot. Single screenshots cannot be
 preemptively blocked through a notification posted after capture; document this
 limit instead of presenting the screenshot test as an absolute anti-copy pass.
+
+## Build 4 hosted verification history — 27 October 2026
+
+- CI1, source `6613f2c1accc00f5bb67265499d8e5cbfd147454`, run
+  [40477393208](https://github.com/ohaigoune-debug/nova-pdf-studio/actions/runs/40477393208):
+  Debug/Release builds and45Core tests PASS. Three existing offline shell cases
+  PASS; three new capture-fixture cases FAIL at the stop-simulation button lookup.
+  Public network navigation was not executed after that failed step. This is a
+  real failed validation, not evidence that capture stopping worked.
+- The accessibility fix gives the outer SwiftUI cover its own accessibility
+  container and keeps the Debug-only synthetic control reachable outside the
+  inner modal shield. The test still requires the button to exist, be hittable,
+  actually stop the synthetic state, reveal Retry, and survive WK replacement.
+  A real active capture is never overridden by the fixture.
+- CI2, source `94eb1935ce1df66c1e81de2a1bc9d809ada9d6b6`, run
+  [40479506356](https://github.com/ohaigoune-debug/nova-pdf-studio/actions/runs/40479506356):
+  Xcode26.6 / iPhoneSimulator26.5 SDK, iPhone Air Simulator / iOS26.5.
+  Debug/Release builds PASS;45Core tests PASS;6Debug offline UI cases PASS,
+  comprising3language shell cases and3synthetic-capture cases. The public
+  WebKit navigation case FAILS at the initial home-text wait (line24), before
+  any Home/activation cycle. The overall run therefore FAILS.
+- Follow-up source removes the dependency of shield/accessibility unhide on
+  unbounded WebKit media acknowledgements. A known-safe active scene now
+  releases the opaque cover synchronously while pause/release/pause commands
+  preserve the paused state; active capture, unknown capture or inactive scenes
+  remain covered and suspended. Mac validation of this follow-up is PENDING
+  until an actual subsequent run records its result.
+
+The full CI2 log was downloaded and inspected. Diagnostic/screenshot artifact
+retrieval returned403, so no images or xcresult hierarchy from these runs were
+visually inspected in this review. Export/retention steps succeeded in CI, but
+that alone is not an image-inspection claim. These synthetic tests are not
+Control Center recording, real AirPlay, screenshots on a physical iPhone,
+authenticated media playback, or App Store approval. All corresponding manual
+rows remain PENDING. No Build4 binary was uploaded to Apple by this task.
