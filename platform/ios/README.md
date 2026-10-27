@@ -2,7 +2,7 @@
 
 تطبيق SwiftUI مع WKWebView يعيد استعمال خادم Next.js وحسابات المنصة. مشروع Xcode الفعلي هو `Madrasadz.xcodeproj`، والمخطط المشترك `Madrasadz`. لا يحوّل الموقع إلى static export ولا يحتوي خادمًا أو قاعدة حسابات أخرى.
 
-هذا الفرع مخصص للتجهيز والمراجعة. **رُفعت النسخة 1.0.0 (1) إلى Apple بموافقة المالك، وأُتيحت للاختبار الداخلي لحسابه وحده؛ تؤكد Apple التثبيت، وصور المالك تثبت تشغيل الواجهة؛ نُشر تحديث الخادم بموافقة المالك وأصبح /ios يعمل وواجهة الجلسة تعيد 401 JSON المتوقعة دون دخول؛ إعادة اختبار الدخول والأداء على الآيفون لم تتم بعد. لا نشر على App Store.** راجع [تدقيق المنصة](docs/AUDIT-AR.md)، و[ملاحظات App Review](docs/APP-REVIEW-AR.md)، و[بيانات المتجر بالعربية والفرنسية](docs/STORE-LISTING-AR-FR.md)، و[إفصاحات الخصوصية](docs/PRIVACY-DISCLOSURES-AR.md)، و[مصفوفة اختبار الأجهزة](docs/DEVICE-TEST-MATRIX.md)، و[قائمة تجهيز الإصدار](docs/RELEASE-CHECKLIST.md)، و[مصادر Apple](docs/APPLE-SOURCES.md).
+حالة 27 أكتوبر 2026: **النسخة 1.0.0 (3) أُتيحت للاختبار الداخلي لحساب المالك وحده، وحالتها VALID / IN_BETA_TESTING. أُعيد إنتاج اختفاء صفحة التعلّم بعد العودة من الخلفية في المحاكي، ثم نجح المرشّح المعدّل بعد ثلاث عودات مع لقطات حقيقية وفحص تسجيل الدخول العام. اجتاز بناء Debug/Release و40 اختبار حزمة و3 اختبارات واجهة دون اتصال. اختبار الإصلاح بحساب فعلي على هاتف المالك وفتح محتوى الدورة والفيديو/PDF ما زال مطلوبًا. لا نشر عام على App Store.** راجع [تدقيق المنصة](docs/AUDIT-AR.md)، و[ملاحظات App Review](docs/APP-REVIEW-AR.md)، و[بيانات المتجر بالعربية والفرنسية](docs/STORE-LISTING-AR-FR.md)، و[إفصاحات الخصوصية](docs/PRIVACY-DISCLOSURES-AR.md)، و[مصفوفة اختبار الأجهزة](docs/DEVICE-TEST-MATRIX.md)، و[قائمة تجهيز الإصدار](docs/RELEASE-CHECKLIST.md)، و[مصادر Apple](docs/APPLE-SOURCES.md).
 
 ## متطلبات Mac
 
@@ -16,8 +16,8 @@
 
 `Configuration/Base.xcconfig` يحدد:
 
-- Bundle Identifier المقترح `com.madrasadz.student`. فُحصت النصوص الحالية في المستودع دون تعارض بهذا الاسم؛ **لم يُحجز لدى Apple**، ويجب التأكد من توفره في حساب المطوّر.
-- Version `1.0.0` وBuild `1`، قابلان للتعديل في `MARKETING_VERSION` و`CURRENT_PROJECT_VERSION`.
+- Bundle Identifier المسجّل لدى Apple والمستخدم في التطبيق الموقّع: `com.madrasadz.student`.
+- Version `1.0.0` وBuild `3`، قابلان للتعديل في `MARKETING_VERSION` و`CURRENT_PROJECT_VERSION`.
 - عنوان HTTPS الافتراضي `https://madrasadz.com` ومسار البداية `/ios`.
 - مسار واضح وثابت للاستخدام الدراسي؛ الشراء الرقمي والأكواد والمنتدى غير المدعوم ليست آلية خفية تتغير أثناء مراجعة Apple.
 
@@ -217,3 +217,11 @@ private/no-store). The native app remains TestFlight 1.0.0 (1); authenticated de
 behavior and the slow-loading report need retesting. See
 [deployment evidence and operating/rollback notes](docs/SERVER-DEPLOYMENT-20261026.md).
 No .env/schema/Android change, branch merge or App Store submission was performed.
+
+## استرجاع العرض بعد الخلفية — Build 3
+
+تستبدل النسخة الحالية WebView عند العودة من الخلفية وتفتح الصفحة المسموحة
+نفسها بطلب GET، مع الاحتفاظ بمخزن WebKit الدائم. يعاد ضبط موضع الصفحة
+والفيديو والحقول غير المرسلة وسجل الرجوع المحلي؛ هذه مقايضة مؤقتة لتحسين
+الاسترجاع. لم تتغير صلاحيات الحساب أو الاشتراك أو قواعد تصدير PDF.
+راجع docs/NATIVE-STALL-INVESTIGATION.md للأدلة والمحدودية والنسخة المرفوضة.

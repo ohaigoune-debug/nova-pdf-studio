@@ -336,3 +336,17 @@ Docker healthy state was not supplied. Documentation-only diff checks passed.
 Current verdict: **server iOS availability restored and anonymous session contract
 verified; installed TestFlight build awaits authenticated iPhone and performance
 retesting; not ready for App Review.**
+
+## 27 October 2026 — foreground recovery and Build 3
+
+See NATIVE-STALL-INVESTIGATION.md for the complete failed/passing sequence.
+Source 9be0799 reproduced the blank foreground document and was not uploaded.
+Source 3e6b4df: hosted Mac Debug/Release, 40 core XCTest, 3 disconnected AR/FR/EN
+UI cases and public WebKit navigation after three background/activate cycles PASS
+(run 40464774168); real cycle-3 image visually inspected. Signed export PASS
+(run 40464774116). Upload/processing/owner-only group assignment/readback PASS
+(run 40466174770), UUID 8899fa17-b697-477e-ab7f-9a8b2b9c77a0, VALID and
+IN_BETA_TESTING. Linux: 12 Python tooling tests, project validation, helper compile,
+ES256 fixture/recipient-guard checks, shell syntax/diff checks PASS. No production
+server/database/Android/.env change; no platform-suite rerun needed for native-only
+changes. Device course/media/session-continuity confirmation remains pending.

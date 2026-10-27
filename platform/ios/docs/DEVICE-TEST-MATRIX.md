@@ -1,6 +1,6 @@
 # iPhone validation matrix
 
-Current status (27 October 2026): **Build 2 is available to the sole owner in internal TestFlight. Owner screenshots IMG_6665/IMG_6666 show the authenticated learning home and the Arabic literature course card, but a blank learning document after leaving and returning to the app. Foreground reliability FAILED on the owner's device.** Course detail/video/PDF behavior remains unverified. Build 3 recovery is a candidate under hosted macOS validation; it is not yet uploaded or device-proven. Use the latest dated evidence below; historical records remain for audit. A unit test does not establish a device pass.
+Current status (27 October 2026): **Build 2 is available to the sole owner in internal TestFlight. Owner screenshots IMG_6665/IMG_6666 show the authenticated learning home and the Arabic literature course card, but a blank learning document after leaving and returning to the app. Foreground reliability FAILED on the owner's device.** Course detail/video/PDF behavior remains unverified. Build 3 passed hosted macOS validation and is now VALID / IN_BETA_TESTING for the owner; device validation is still pending. Use the latest dated evidence below; historical records remain for audit. A unit test does not establish a device pass.
 
 ## Execution record
 
@@ -14,7 +14,7 @@ Current status (27 October 2026): **Build 2 is available to the sole owner in in
 | macOS unsigned Xcode build (Debug / Release) | PASS on hosted macOS, run 40350226821; local host remains Linux |
 | XCTest / iPhone simulator | PASS: 37 core package and 3 disconnected Debug locale cases on hosted macOS |
 | Physical iPhone | PARTIAL: authenticated learning home and course card observed; background/return blank document FAILED; course detail/media unverified |
-| TestFlight | Build 2 Testing in owner-only internal group; no external distribution |
+| TestFlight | Build 3 VALID / IN_BETA_TESTING in verified owner-only internal group; no external distribution |
 | App Store submission | NOT SUBMITTED; payment/privacy/deletion decisions remain |
 
 ## Required cases
@@ -171,3 +171,12 @@ Current status (27 October 2026): **Build 2 is available to the sole owner in in
 - Failed predecessor 9be0799 reproduced a blank document after the third cycle;
   its signed artifact was not uploaded.
 - Signed revised IPA run 40464774116 PASS. Owner device retest remains PENDING.
+
+## Build 3 internal availability — 27 October 2026
+
+Upload run 40466174770 / job 122061999288 PASS. Apple validation/upload succeeded;
+processing VALID and existing-group membership/IN_BETA_TESTING verified by API.
+Build UUID 8899fa17-b697-477e-ab7f-9a8b2b9c77a0. App/group/public-link/tester guards
+confirmed the existing internal app group contains only the authorized owner;
+no tester, invitation, public link or review submission was created.
+Physical-device recovery and opening the Arabic literature course remain PENDING.

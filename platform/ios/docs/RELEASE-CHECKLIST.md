@@ -1,6 +1,6 @@
 # Build, TestFlight and App Store readiness
 
-Current classification (26 October 2026): **signed IPA exported, validated and uploaded to Apple; processing VALID, export compliance completed and owner-only internal TestFlight invitation issued (IN_BETA_TESTING)**. Simulator Debug/Release and the disconnected shell tests have passed on hosted macOS. The owner has installed/opened the native shell; first learning integration failed on 404s. An owner-authorized app-only server deployment has now resolved those public endpoint failures (/ios 200; anonymous session 401 JSON). Authenticated device and slow-loading retests are pending. No successful authenticated-iPhone integration test or App Review submission has occurred. See VALIDATION.md for exact source commits and runs.
+Current classification (27 October 2026): **Build 3 is VALID / IN_BETA_TESTING in the existing owner-only internal group**, verified by upload run 40466174770. Native source 3e6b4df passed Debug/Release, 40 core tests, 3 offline UI cases and a public WebKit navigation test with three background/activate cycles; genuine cycle-3 image visually verified. The predecessor reproduced a blank document and was not uploaded. Owner screenshots show an authenticated home/course card in Build 2, but foreground reliability failed there. Build 3 authenticated physical-device/course/media retest is PENDING. This is an internal test candidate; no App Review submission or public release. See NATIVE-STALL-INVESTIGATION.md and DEVICE-TEST-MATRIX.md.
 
 ## 1. Local macOS validation
 

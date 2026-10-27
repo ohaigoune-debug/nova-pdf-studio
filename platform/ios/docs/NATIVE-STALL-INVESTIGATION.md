@@ -135,3 +135,30 @@ cleanup remains in the upload script trap. Local disposable-key checks verified
 verified one successful assignment without making Apple requests. Bash syntax,
 Python compile, project structure, 12 tooling tests and diff checks pass on Linux.
 Apple upload/internal availability is pending at this commit.
+
+### Build 3 available internally — verified 27 October 2026
+
+Run 40466174770 / job 122061999288 completed successfully. Metadata assertion,
+altool validation and upload PASS; delivery/build UUID
+8899fa17-b697-477e-ab7f-9a8b2b9c77a0. At 07:21:44 UTC the API helper verified
+VALID and IN_BETA_TESTING after checking app/group ownership, no public link and
+the sole existing owner tester, adding the build and reading its group relation
+and internal state back. No new invitation or App Review/public release.
+
+Files changed for this repair: Configuration/Base.xcconfig; Sources/MadrasadzApp/
+BrowserController.swift, MadrasadzApp.swift, StudyViews.swift; Tests/
+MadrasadzUITests/MadrasadzUITests.swift; scripts/upload-testflight.sh and
+enable-internal-build.py; .github/workflows/ios.yml, ios-signed.yml,
+ios-testflight-upload.yml, ios-diagnostics.yml; README.md and these validation,
+device-matrix/release-checklist documents. Native signed source remains 3e6b4df;
+upload configuration source bea89e5. Commands on hosted Mac: build-unsigned.sh
+Debug / Release, test-ios.sh auto Debug, test-public-navigation.sh, build-signed.sh
+and upload-testflight.sh all PASS for the selected candidate. Local Linux Python
+tooling/project validation, Python helper compile, bash -n and diff checks PASS;
+no Linux iOS build or physical-device test is claimed. Platform/Android/.env,
+production server and real database were not modified. Existing unrelated
+untracked promotional video was preserved.
+
+Verdict: updated owner-only internal candidate with a reproduced Simulator defect
+and a passing revised regression. Still requires owner-device foreground/login
+continuity, course detail/video/PDF and account-switch checks. Not App Review ready.
