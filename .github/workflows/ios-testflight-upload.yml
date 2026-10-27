@@ -1,4 +1,4 @@
-name: iOS — Build 2 TestFlight upload
+name: iOS — Build 3 TestFlight upload
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ios-testflight-build-2-upload
+  group: ios-testflight-build-3-upload
   cancel-in-progress: false
 
 jobs:
@@ -26,17 +26,17 @@ jobs:
       - name: Download the owner-approved successful signed IPA
         uses: actions/download-artifact@v4
         with:
-          name: Madrasadz-signed-IPA-48d1d888838b43dfa121a5130631f2a004cd946b
-          run-id: 40406930730
+          name: Madrasadz-signed-IPA-3e6b4df8531dbf62039a5658dc1cc4a06efe6793
+          run-id: 40464774116
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/madrasadz-approved-ipa
-      - name: Validate and upload Build 2 to Apple
+      - name: Validate and upload Build 3 to Apple
         env:
           MADRASADZ_ASC_PRIVATE_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_PRIVATE_KEY_BASE64 }}
           MADRASADZ_ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_KEY_ID }}
           MADRASADZ_ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
         run: bash platform/ios/scripts/upload-testflight.sh "$RUNNER_TEMP/madrasadz-approved-ipa/Madrasadz.ipa"
 
-# Owner-approved internal replacement. Pinned successful signed Build 2 artifact;
-# unsigned Simulator run 40406930734 also passed. No rebuild, new invitation,
+# Owner-approved internal replacement. Pinned successful signed Build 3 artifact;
+# unsigned Simulator run 40464774168 also passed. No rebuild, new invitation,
 # App Review submission or production release.

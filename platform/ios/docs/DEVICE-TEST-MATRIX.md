@@ -161,3 +161,13 @@ Current status (27 October 2026): **Build 2 is available to the sole owner in in
   renderer/navigation recovery. No server, enrollment or database change.
 - Retest must include repeated background/activation while signed in, opening
   «متابعة التعلّم», video/fullscreen, session expiry and account switching.
+
+## Revised foreground candidate — hosted Simulator
+
+- Source 3e6b4df, run 40464774168: Debug/Release, 40 core, 3 offline UI cases PASS.
+- Public no-account test: 3 Home/activate cycles, genuine screenshots after each,
+  then login navigation and native tab round trip PASS. Cycle-3 image visually
+  shows the home document; this is not an authenticated course or iPhone pass.
+- Failed predecessor 9be0799 reproduced a blank document after the third cycle;
+  its signed artifact was not uploaded.
+- Signed revised IPA run 40464774116 PASS. Owner device retest remains PENDING.

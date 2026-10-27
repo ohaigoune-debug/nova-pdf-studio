@@ -111,3 +111,27 @@ while retaining WKWebsiteDataStore.default() and all navigation/session checks.
 Old view KVO/navigation callbacks are ignored, and SwiftUI keys the representable
 to the new WebView identity. Page-local state and native web back history reset on
 return; server cookies persist. Runtime validation of this revision is pending.
+
+### Revised candidate verified on hosted macOS
+
+Source 3e6b4df8531dbf62039a5658dc1cc4a06efe6793, run 40464774168:
+Debug/Release PASS, 40 core tests PASS, 3 offline AR/FR/EN UI cases PASS,
+public WebKit test PASS after three background/activate cycles and login-link
+navigation. Exported cycle-3 PNG was visually inspected: real learning home, logo,
+login controls and public lessons visible. Earlier failed-run video extraction
+(run 40464915440, artifact 12716625479) visually confirmed the blank document.
+The failure was observed and the revised public regression passes; authenticated
+physical-device recovery, course-detail access and media are still pending.
+
+Signed archive/export run 40464774116 PASS. Selected artifact 12716446398:
+SHA-256 cb667ac02c776cb97432d0b89a69eb08685f055d782a2b3c8b96ddb72a700a35.
+The upload workflow pins only this revised artifact, not the failed 9be0799 build.
+The existing upload key is reused to check processing and associate Build 3 only
+with the existing internal group after verifying the app, no public link and
+exactly the existing owner tester. No tester invitation or public release.
+The helper uses two-minute in-memory JWTs, normal TLS and refuses redirects; key
+cleanup remains in the upload script trap. Local disposable-key checks verified
+100 ES256 round-trips; fixtures rejected an external group/wrong owner and
+verified one successful assignment without making Apple requests. Bash syntax,
+Python compile, project structure, 12 tooling tests and diff checks pass on Linux.
+Apple upload/internal availability is pending at this commit.

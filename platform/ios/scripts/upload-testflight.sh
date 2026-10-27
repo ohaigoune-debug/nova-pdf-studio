@@ -19,9 +19,9 @@ with zipfile.ZipFile(sys.argv[1]) as z:
     p = plistlib.loads(z.read('Payload/Madrasadz.app/Info.plist'))
     assert p['CFBundleIdentifier'] == 'com.madrasadz.student', 'Unexpected app'
     assert p['CFBundleShortVersionString'] == '1.0.0', 'Unexpected version'
-    assert p['CFBundleVersion'] == '2', 'Unexpected replacement build'
+    assert p['CFBundleVersion'] == '3', 'Unexpected replacement build'
     assert 'Payload/Madrasadz.app/embedded.mobileprovision' in z.namelist()
-print('PASS: expected signed Madrasadz 1.0.0 (2) IPA selected for upload.')
+print('PASS: expected signed Madrasadz 1.0.0 (3) IPA selected for upload.')
 PY
 key_directory="$HOME/.appstoreconnect/private_keys"
 mkdir -p "$key_directory"
@@ -42,3 +42,6 @@ xcrun altool --validate-app --type ios --file "$ipa" \
 xcrun altool --upload-app --type ios --file "$ipa" \
   --apiKey "$MADRASADZ_ASC_KEY_ID" --apiIssuer "$MADRASADZ_ASC_ISSUER_ID" --output-format json
 echo 'Upload command completed. Confirm processing/status in App Store Connect before claiming TestFlight availability.'
+
+# Same existing group/recipient only; no new invitation or public link.
+python3 "$ios_root/scripts/enable-internal-build.py" "$key_path"
