@@ -123,6 +123,9 @@ struct PrivacyProtectionCover<Actions: View>: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.black)
         .ignoresSafeArea()
+        // Keep a real accessibility container so its identifier does not
+        // propagate into the disconnected Debug fixture's child button.
+        .accessibilityElement(children: .contain)
     }
 }
 

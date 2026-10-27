@@ -99,12 +99,21 @@ final class MadrasadzUITests: XCTestCase {
         app.launch()
         defer { app.terminate() }
         XCTAssertTrue(app.staticTexts[message].waitForExistence(timeout: 10))
-        XCTAssertTrue(app.buttons["endCaptureValidation"].exists)
+        let stopSimulation = app.buttons["endCaptureValidation"]
+        // Capture diagnostics before assertions so a failure preserves the
+        // actual disconnected hierarchy. This fixture never authenticates an
+        // account or loads student data, tokens or backend documents.
+        let hierarchy = XCTAttachment(string: app.debugDescription)
+        hierarchy.name = "Simulated-capture-accessibility-\(language)"
+        hierarchy.lifetime = .keepAlways
+        add(hierarchy)
+        XCTAssertTrue(stopSimulation.waitForExistence(timeout: 5))
+        XCTAssertTrue(stopSimulation.isHittable)
         let capture = XCTAttachment(screenshot: app.screenshot())
         capture.name = "Simulated-capture-shield-\(language)"
         capture.lifetime = .keepAlways
         add(capture)
-        app.buttons["endCaptureValidation"].tap()
+        stopSimulation.tap()
         XCTAssertTrue(app.buttons["retryPage"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.staticTexts[message].exists)
         // Also exercise the existing renderer replacement path. A recovered

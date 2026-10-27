@@ -125,6 +125,14 @@ final class MediaProtectionWebContainer: UIView {
         }
         message.text = L10n.text(key)
         shield.accessibilityLabel = L10n.text("protectedContent") + ". " + L10n.text(key)
+        #if DEBUG
+        // The disconnected fixture's stop-simulation control is in the outer
+        // SwiftUI cover. Keep it reachable to UI automation/VoiceOver instead
+        // of trapping focus in this inner noninteractive UIKit shield. This
+        // changes accessibility scope only; a real active trait still covers
+        // and suspends playback after ending the synthetic state.
+        shield.accessibilityViewIsModal = !(OfflineShellValidation.enabled && browser?.captureValidationActive == true)
+        #endif
         guard changed else { return }
         hasAppliedState = true
         renderingRevision += 1
