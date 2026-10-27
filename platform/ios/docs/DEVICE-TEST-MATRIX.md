@@ -3,14 +3,16 @@
 ## Current task — Build 4 capture-protection candidate, 27 October 2026
 
 Build 4 adds capture/mirroring and inactive-scene protection to the existing iOS
-branch. This paragraph records the work to validate, not a device or distribution
-result. All new recording, AirPlay, app-switcher and screenshot checks below remain
+branch. Hosted macOS validation now passes on source `196f027aa076ce156bbb9642d49e0767b379ec57`
+([CI3](https://github.com/ohaigoune-debug/nova-pdf-studio/actions/runs/40481965732)):
+Debug/Release, 45 Core tests, 6 disconnected Debug UI cases and 1 public WebKit
+navigation case. This is not a physical-device or distribution result. All new recording, AirPlay, app-switcher and screenshot checks below remain
 **PENDING on a real iPhone**. No TestFlight/App Store upload or production deployment
 is authorized by this task. The dated Build 1–3 evidence remains historical and is
 preserved below. Follow [SCREEN-CAPTURE-PROTECTION.md](SCREEN-CAPTURE-PROTECTION.md)
 for exact manual steps, evidence fields and the limits of screenshot protection.
 
-Current status (27 October 2026, later): **the owner confirmed the black WebView area after leaving/returning also on installed Build 1.0.0 (3); foreground reliability FAILED on device for Builds 2 and 3.** Build 4 combines the capture/inactive shield above with a foreground fix (verified foreground document, bounded recovery, tester-only technical log) is prepared in source but NOT yet built, signed, uploaded or device-tested. Course detail/video/PDF behavior remains unverified. A unit or Simulator test does not establish a device pass. Historical status: Build 3 is VALID / IN_BETA_TESTING for the owner.
+Current owner report (27 October 2026): **the owner confirmed the black WebView area after leaving/returning on installed Build 1.0.0 (3); foreground reliability FAILED on device for Builds 2 and 3.** Course detail/video/PDF behavior remains unverified. Build 3 is VALID / IN_BETA_TESTING for the owner. The separate concurrent foreground-recovery change at `ebfc11b3ccb25bae328d85d93695229d39fb2f30` preserves the capture work but is newer than the source validated in CI3; its unsigned run [40484092408](https://github.com/ohaigoune-debug/nova-pdf-studio/actions/runs/40484092408) is tracked separately. A unit or Simulator pass does not establish a physical-device pass.
 
 ## Execution record
 
@@ -21,8 +23,8 @@ Current status (27 October 2026, later): **the owner confirmed the black WebView
 | Earlier separate Linux session (`7c5b223`) | Full suite 661/661 and platform checks passed; Swift unavailable in that session. Its original detailed record is preserved in VALIDATION.md |
 | Linux Swift package rerun | BLOCKED by signal-4 process crash; serial retry compiled/linked but suite did not complete. Historical 37-pass result was not reproduced; see VALIDATION.md |
 | Linux build-tooling regression tests | PASS: 12 Python tests; CLI fixtures only, not Xcode |
-| macOS unsigned Xcode build (Debug / Release) | PASS on hosted macOS, run 40350226821; local host remains Linux |
-| XCTest / iPhone simulator | PASS: 37 core package and 3 disconnected Debug locale cases on hosted macOS |
+| macOS unsigned Xcode build (Debug / Release) | PASS for Build 4 source 196f027 on hosted macOS, run 40481965732, Xcode 26.6 / iPhoneSimulator 26.5 SDK; local host remains Linux |
+| XCTest / iPhone simulator | PASS on CI3: 45 Core + 6 disconnected Debug UI + 1 public WebKit case, iPhone Air / iOS 26.5; recording/AirPlay hardware scenarios remain PENDING |
 | Physical iPhone | PARTIAL: authenticated learning home and course card observed; background/return black/blank WebView FAILED on Builds 2 and 3; course detail/media unverified |
 | TestFlight | Build 3 VALID / IN_BETA_TESTING in verified owner-only internal group; no external distribution |
 | App Store submission | NOT SUBMITTED; payment/privacy/deletion decisions remain |
@@ -231,7 +233,7 @@ limit instead of presenting the screenshot test as an absolute anti-copy pass.
   A real active capture is never overridden by the fixture.
 - CI2, source `94eb1935ce1df66c1e81de2a1bc9d809ada9d6b6`, run
   [40479506356](https://github.com/ohaigoune-debug/nova-pdf-studio/actions/runs/40479506356):
-  Xcode26.6 / iPhoneSimulator26.5 SDK, iPhone Air Simulator / iOS26.5.
+  Xcode 26.6 / iPhoneSimulator 26.5 SDK, iPhone Air Simulator / iOS 26.5.
   Debug/Release builds PASS;45Core tests PASS;6Debug offline UI cases PASS,
   comprising3language shell cases and3synthetic-capture cases. The public
   WebKit navigation case FAILS at the initial home-text wait (line24), before
@@ -240,8 +242,8 @@ limit instead of presenting the screenshot test as an absolute anti-copy pass.
   unbounded WebKit media acknowledgements. A known-safe active scene now
   releases the opaque cover synchronously while pause/release/pause commands
   preserve the paused state; active capture, unknown capture or inactive scenes
-  remain covered and suspended. Mac validation of this follow-up is PENDING
-  until an actual subsequent run records its result.
+  remain covered and suspended. Mac validation was PENDING at this point; CI3 below records its actual
+  successful completion.
 
 The full CI2 log was downloaded and inspected. Diagnostic/screenshot artifact
 retrieval returned403, so no images or xcresult hierarchy from these runs were
@@ -249,7 +251,7 @@ visually inspected in this review. Export/retention steps succeeded in CI, but
 that alone is not an image-inspection claim. These synthetic tests are not
 Control Center recording, real AirPlay, screenshots on a physical iPhone,
 authenticated media playback, or App Store approval. All corresponding manual
-rows remain PENDING. No Build4 binary was uploaded to Apple by this task.
+rows remain PENDING. No Build 4 binary was uploaded to Apple by this task.
 ## Build 4 device protocol (owner, TestFlight)
 
 Do not share screenshots that show other students' data. The technical log has
@@ -270,3 +272,39 @@ rendered. `action=reattach` followed by `keep` and `now=1` proves the
 window/scene re-synchronisation fixed it without reload. `replace`/`retry`,
 `script=false`, `terminated=true`, `attached=false` or `redaction=` other than 0
 identify the remaining failure mode precisely.
+
+
+
+## Build 4 final hosted validation — CI3, 27 October 2026
+
+Source `196f027aa076ce156bbb9642d49e0767b379ec57`, unsigned run
+[40481965732](https://github.com/ohaigoune-debug/nova-pdf-studio/actions/runs/40481965732),
+completed SUCCESS in 13m53s. Xcode 26.6, iPhoneSimulator 26.5 SDK, iPhone Air
+Simulator / iOS 26.5. The full job log was downloaded and inspected.
+
+| Actual check | Result |
+|---|---|
+| Unsigned Debug build | PASS |
+| Unsigned Release build | PASS |
+| Core XCTest package on macOS | 45/45 PASS |
+| Disconnected Debug UI | 6/6 PASS: 3 locale shell + 3 synthetic capture cases |
+| Real public no-account WebKit navigation | 1/1 PASS, 153.242s |
+| Screenshot export / diagnostic retention steps |PASS; no artifact images inspected in this review |
+
+The public case loads the real learning page, completes three Home/activate
+cycles, navigates to login, and returns through the native signed-out bookmark
+gate. Log entries confirm cycle 1/2/3 screenshot attachments. This verifies the
+new cover no longer holds the public document indefinitely and preserves the
+existing foreground-recovery path; it does not verify an authenticated lesson,
+actual capture/mirroring, media pause or a physical iPhone.
+
+The 6 offline cases include actual taps on the stop-simulation control, removal of
+the synthetic message, Retry visibility and a recovered WK attachment. The
+fixture remains Debug-only and disconnected; a real active trait cannot be
+overridden. The earlier CI1/CI2 failures remain above for audit.
+
+No additional artifact-download retry was made after the earlier 403 failures,
+and no screenshot or xcresult hierarchy image is claimed visually reviewed.
+Control Center recording, AirPlay/Screen Mirroring, screenshots and authenticated
+media/foreground behavior on a real iPhone all remain PENDING. No signing or
+Apple/TestFlight/App Store upload was performed for Build 4 in this task.
