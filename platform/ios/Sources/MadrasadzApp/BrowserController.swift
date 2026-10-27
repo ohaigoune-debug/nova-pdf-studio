@@ -608,7 +608,10 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         // The website controls its own sandboxed video frames. They cannot call
         // native code (there is no bridge); ATS remains enabled for resources.
         if let frame = action.targetFrame, !frame.isMainFrame {
-            decisionHandler(url.scheme == "https" || url.scheme == "about" ? .allow : .cancel)
+            let allowed = url.scheme == "https" || url.scheme == "about"
+            // Embedded players (YouTube, Bunny): provider host only, never a path or id.
+            if url.scheme == "https" { diagnostics.record("frame.request", "host=\(url.host ?? "-") allowed=\(allowed)") }
+            decisionHandler(allowed ? .allow : .cancel)
             return
         }
         switch policy.decision(for: url) {
@@ -642,6 +645,9 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
             decisionHandler(.cancel)
             notice = L10n.text("routeBlocked")
         } else {
+            if !response.isForMainFrame, let http = response.response as? HTTPURLResponse {
+                diagnostics.record("frame.response", "host=\(http.url?.host ?? "-") code=\(http.statusCode) showable=\(response.canShowMIMEType)")
+            }
             if response.isForMainFrame, let http = response.response as? HTTPURLResponse {
                 if http.statusCode >= 400 { diagnostics.record("nav.status", "gen=\(webViewGeneration) code=\(http.statusCode)") }
                 if http.statusCode >= 500 || http.statusCode == 404 { failure = true }
@@ -656,6 +662,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         currentURL = webView.url
         currentTitle = webView.title ?? "Madrasadz"
         diagnostics.record("nav.finish", "gen=\(webViewGeneration) page=\(pageCategory(webView.url))")
+        recordMediaState("after-finish")
         if verifyAfterLoad {
             verifyAfterLoad = false
             scheduleForegroundCheck(after: 700_000_000, reason: "after-replace")
@@ -750,6 +757,23 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     }
 
     // MARK: Privacy-bounded probes
+
+    /// WebKit's own media state (none/playing/paused/suspended): shows whether the
+    /// capture shield's playback suspension is still in force when a player stalls.
+    func recordMediaState(_ reason: String) {
+        let generation = webViewGeneration
+        webView.requestMediaPlaybackState { [weak self] state in
+            let label: String
+            switch state {
+            case .none: label = "none"
+            case .playing: label = "playing"
+            case .paused: label = "paused"
+            case .suspended: label = "suspended"
+            @unknown default: label = "unknown"
+            }
+            Task { @MainActor in self?.diagnostics.record("media.state", "gen=\(generation) reason=\(reason) state=\(label)") }
+        }
+    }
 
     /// Coarse page category for diagnostics; never a path, identifier or query.
     private func pageCategory(_ url: URL?) -> String {

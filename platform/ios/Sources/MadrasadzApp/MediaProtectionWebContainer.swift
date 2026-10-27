@@ -179,6 +179,7 @@ final class MediaProtectionWebContainer: UIView {
             webView.pauseAllMediaPlayback(completionHandler: nil)
             webView.accessibilityElementsHidden = false
             shield.isHidden = true
+            browser?.recordMediaState("uncovered")
         }
     }
 
