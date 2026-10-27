@@ -26,7 +26,7 @@ Current owner report (27 October 2026): **the owner confirmed the black WebView 
 | macOS unsigned Xcode build (Debug / Release) | PASS for Build 4 source 196f027 on hosted macOS, run 40481965732, Xcode 26.6 / iPhoneSimulator 26.5 SDK; local host remains Linux |
 | XCTest / iPhone simulator | PASS on CI3: 45 Core + 6 disconnected Debug UI + 1 public WebKit case, iPhone Air / iOS 26.5; recording/AirPlay hardware scenarios remain PENDING |
 | Physical iPhone | PARTIAL: authenticated learning home and course card observed; background/return black/blank WebView FAILED on Builds 2 and 3; course detail/media unverified |
-| TestFlight | Build 3 VALID / IN_BETA_TESTING in verified owner-only internal group; no external distribution |
+| TestFlight | Build 4 (source d584c16) uploaded by run 40488738563 and verified VALID / IN_BETA_TESTING in the owner-only internal group; Build 3 remains historical; no external distribution |
 | App Store submission | NOT SUBMITTED; payment/privacy/deletion decisions remain |
 
 ## Required cases
@@ -34,7 +34,7 @@ Current owner report (27 October 2026): **the owner confirmed the black WebView 
 | Case | Expected behavior | Simulator | Device |
 |---|---|---|---|
 | Cold start / reopen | Branded launch, meaningful loading; no indefinite blank WebView | PENDING | FAIL on first learning load: /ios 404; shell launched. Reopen/session persistence PENDING |
-| Foreground return (signed in) | Same document visible after app switcher/another app, light and dark, short and >5 min away; no black area between native bars; state kept unless recovery log shows replace | Build 4 public no-account case added (pixel check, rapid switching, light+dark): PENDING CI | FAIL on Build 2 and Build 3 (owner, iOS 27.0.1); Build 4 PENDING |
+| Foreground return (signed in) | Same document visible after app switcher/another app, light and dark, short and >5 min away; no black area between native bars; state kept unless recovery log shows replace | Build 4 public no-account case (pixel check, rapid switching): PASS light and dark, run 40485140870 | FAIL on Build 2 and Build 3 (owner, iOS 27.0.1); Build 4 available internally, owner retest PENDING |
 | New registration | Existing account server flow, phone gate where configured, no native bypass | PENDING | PENDING |
 | Existing login | Real WebKit cookie accepted by the server; same account in native session probe | PENDING | PENDING: Arabic form rendered; session 404 resolved by server update, authenticated retest not yet observed |
 | Kill and relaunch | Session continuity follows server expiry/revocation; no native password storage | PENDING | PENDING |

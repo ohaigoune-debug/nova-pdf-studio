@@ -276,3 +276,16 @@ no placeholder or Retry, and nearest-neighbour sampling.
 - The upload workflow, `upload-testflight.sh` (CFBundleVersion 4) and
   `enable-internal-build.py` (version 4) now pin only that artifact. The
   Simulator never suspended processes like the iPhone; device result PENDING.
+
+### Build 4 available internally — 27 October 2026
+
+Upload run 40488738563 / job 122137026635 (10:28–10:39 UTC) completed SUCCESS
+on 0e183d3 with the pinned artifact 12724139375 (source d584c16). The step
+includes the IPA assertion (com.madrasadz.student 1.0.0 (4)), altool
+validate/upload and `enable-internal-build.py`, which exits non-zero unless the
+build is VALID, assigned to the existing owner-only group (no public link, sole
+owner tester) and reads back IN_BETA_TESTING. The job log could not be
+downloaded here (403), so the Apple build UUID is not recorded. No tester,
+invitation, App Review submission or public release. Owner-device foreground
+test of 1.0.0 (4) is PENDING; follow the protocol in DEVICE-TEST-MATRIX.md and
+share the «تقرير تقني للاختبار» text if the area turns black again.
