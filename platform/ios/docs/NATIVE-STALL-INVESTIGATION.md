@@ -343,3 +343,13 @@ fixtures); signed run 40492742830 SUCCESS, artifact 12729130441,
 sha256:3910673b9149d2618a8b4865b49d2eea08d6030011744b5f8a78826fb978da1d. The
 upload workflow and both build guards now pin Build 5 only. The Simulator did
 not reproduce the device redaction/orphaning sequence; device result PENDING.
+
+### Build 5 available internally
+
+Upload run 40495265190 on 3793053 completed SUCCESS with the pinned artifact
+12729130441 (source e9f291c): IPA assertion 1.0.0 (5), altool validate/upload,
+and the owner-only group helper (VALID, assigned, IN_BETA_TESTING read back).
+Job log not downloadable here (403). Owner-device retest of 1.0.0 (5) PENDING:
+app switcher, Control Center/Notification Center, >5 min away, a lesson, and
+the shared «تقرير تقني للاختبار» (expect `host.left-window handedBack=1` and
+`fg.check ... attached=true ... action=keep`).
