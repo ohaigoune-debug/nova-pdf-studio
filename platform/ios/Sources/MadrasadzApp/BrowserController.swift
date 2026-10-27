@@ -29,6 +29,16 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     @Published var currentTitle = ""
     @Published var externalURL: URL?
     @Published var notice: String?
+    @Published private(set) var mediaProtection = MediaProtectionState()
+    private(set) var sceneIsActive = false
+    private weak var mediaProtectionContainer: MediaProtectionWebContainer?
+    private var mediaProtectionRevision = 0
+    #if DEBUG
+    private(set) var captureValidationActive = OfflineShellValidation.enabled
+        && ProcessInfo.processInfo.arguments.contains("--madrasadz-capture-shield-validation")
+    #else
+    let captureValidationActive = false
+    #endif
     var onPageFinished: (() -> Void)?
     var onAuthenticationPage: (() -> Void)?
     var onDownloadRequested: ((UUID) -> Void)?
@@ -55,12 +65,51 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = .default()
         configuration.allowsInlineMediaPlayback = true
-        configuration.allowsAirPlayForMediaPlayback = true
+        configuration.allowsAirPlayForMediaPlayback = false
         configuration.mediaTypesRequiringUserActionForPlayback = .audio
         // No JavaScript message handler, native execution bridge, injected
         // credentials, altered user-agent authorization, or trust exceptions.
-        return WKWebView(frame: .zero, configuration: configuration)
+        let view = WKWebView(frame: .zero, configuration: configuration)
+        // A new/recovered renderer stays suspended until its scene has a known
+        // safe capture state and its native opaque container is attached.
+        view.setAllMediaPlaybackSuspended(true, completionHandler: nil)
+        return view
     }
+
+    func attachMediaProtectionContainer(_ container: MediaProtectionWebContainer) {
+        guard container.webView === webView else { return }
+        mediaProtectionContainer = container
+    }
+
+    func detachMediaProtectionContainer(_ container: MediaProtectionWebContainer) {
+        if mediaProtectionContainer === container { mediaProtectionContainer = nil }
+    }
+
+    func updateMediaProtection(_ state: MediaProtectionState, for view: WKWebView) {
+        guard view === webView else { return }
+        mediaProtectionRevision += 1
+        let revision = mediaProtectionRevision
+        // The UIKit shield is already updated synchronously. Publish its
+        // supplementary SwiftUI banner after the current view update finishes.
+        Task { @MainActor [weak self] in
+            guard let self, view === self.webView, revision == self.mediaProtectionRevision,
+                  state != self.mediaProtection else { return }
+            self.mediaProtection = state
+        }
+    }
+
+    func updateSceneActivity(_ active: Bool) {
+        sceneIsActive = active
+        mediaProtectionContainer?.refreshProtection()
+    }
+
+    #if DEBUG
+    func endCaptureValidation() {
+        guard OfflineShellValidation.enabled, captureValidationActive else { return }
+        captureValidationActive = false
+        mediaProtectionContainer?.refreshProtection()
+    }
+    #endif
 
     private func configureWebView() {
         webView.navigationDelegate = self
@@ -150,6 +199,9 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         previous.configuration.websiteDataStore.httpCookieStore.remove(self)
         previous.stopLoading()
         observations.removeAll()
+        mediaProtectionContainer = nil
+        mediaProtectionRevision += 1
+        mediaProtection = MediaProtectionState()
         // A suspended/terminated renderer can remain blank even after reload.
         // Use a new view and renderer attachment, retaining the default data store.
         webView = Self.makeWebView()

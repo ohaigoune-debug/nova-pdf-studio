@@ -17,7 +17,7 @@
 `Configuration/Base.xcconfig` يحدد:
 
 - Bundle Identifier المسجّل لدى Apple والمستخدم في التطبيق الموقّع: `com.madrasadz.student`.
-- Version `1.0.0` وBuild `3`، قابلان للتعديل في `MARKETING_VERSION` و`CURRENT_PROJECT_VERSION`.
+- Version `1.0.0` وBuild `4`، قابلان للتعديل في `MARKETING_VERSION` و`CURRENT_PROJECT_VERSION`.
 - عنوان HTTPS الافتراضي `https://madrasadz.com` ومسار البداية `/ios`.
 - مسار واضح وثابت للاستخدام الدراسي؛ الشراء الرقمي والأكواد والمنتدى غير المدعوم ليست آلية خفية تتغير أثناء مراجعة Apple.
 
@@ -225,3 +225,13 @@ No .env/schema/Android change, branch merge or App Store submission was performe
 والفيديو والحقول غير المرسلة وسجل الرجوع المحلي؛ هذه مقايضة مؤقتة لتحسين
 الاسترجاع. لم تتغير صلاحيات الحساب أو الاشتراك أو قواعد تصدير PDF.
 راجع docs/NATIVE-STALL-INVESTIGATION.md للأدلة والمحدودية والنسخة المرفوضة.
+
+
+## حماية عرض الدرس — مرشح Build 4
+
+- كل WKWebView جديد يعطّل AirPlay ويبدأ بتعليق تشغيل الوسائط حتى يرتبط بحاوية أصلية وتُعرف حالة الـscene.
+- `MediaProtectionWebContainer` يرصد `UITraitSceneCaptureState` على iOS17+، ويقرأ الحالة عند الارتباط بالنافذة؛ يغطي WKWebView بطبقة سوداء معتمة قبل إرسال `pauseAllMediaPlayback` و`setAllMediaPlaybackSuspended(true)`.
+- تتغطى الواجهة أيضًا عند `inactive` و`background`، مع إيقاف الوسائط. عند زوال التسجيل/البث يُفك التعليق وتُؤكَّد حالة الإيقاف قبل إزالة الغلاف؛ لا يبدأ الدرس تلقائيًا.
+- إصلاح إعادة إنشاء WKWebView بعد الخلفية في Build3 محفوظ؛ الحاوية والمراقبة ترتبطان بالعارض الجديد، والنتائج المتأخرة للعارض السابق لا تزيل غلافه.
+- اختبارات Core على Linux بعد هذه الإضافة:45اختبارًا، منها5لحالة الغلاف. اختبارات Debug الثلاث للغلاف المحاكى أُعدت؛ المحاكاة تضيف حالة تسجيل فقط داخل الغلاف غير المتصل ولا تستطيع تجاوز تسجيل حقيقي، وهي غير موجودة في Release.
+- هذا السجل لا يزعم تنفيذ تسجيل شاشة أو AirPlay أو اختبار لقطة شاشة على جهاز. إشعار لقطة الشاشة يأتي بعد أخذها ولا يضمن منعها. راجع [خطوات الجهاز](docs/SCREEN-CAPTURE-PROTECTION.md) ومصفوفة الاختبارات للنتائج الفعلية.

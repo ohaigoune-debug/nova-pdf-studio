@@ -1,5 +1,15 @@
 # iPhone validation matrix
 
+## Current task — Build 4 capture-protection candidate, 27 October 2026
+
+Build 4 adds capture/mirroring and inactive-scene protection to the existing iOS
+branch. This paragraph records the work to validate, not a device or distribution
+result. All new recording, AirPlay, app-switcher and screenshot checks below remain
+**PENDING on a real iPhone**. No TestFlight/App Store upload or production deployment
+is authorized by this task. The dated Build 1–3 evidence remains historical and is
+preserved below. Follow [SCREEN-CAPTURE-PROTECTION.md](SCREEN-CAPTURE-PROTECTION.md)
+for exact manual steps, evidence fields and the limits of screenshot protection.
+
 Current status (27 October 2026): **Build 2 is available to the sole owner in internal TestFlight. Owner screenshots IMG_6665/IMG_6666 show the authenticated learning home and the Arabic literature course card, but a blank learning document after leaving and returning to the app. Foreground reliability FAILED on the owner's device.** Course detail/video/PDF behavior remains unverified. Build 3 passed hosted macOS validation and is now VALID / IN_BETA_TESTING for the owner; device validation is still pending. Use the latest dated evidence below; historical records remain for audit. A unit test does not establish a device pass.
 
 ## Execution record
@@ -54,6 +64,14 @@ Current status (27 October 2026): **Build 2 is available to the sole owner in in
 | Uploaded video | Play/pause/seek/fullscreen/audio/interruption and server permission checks | PENDING | PENDING |
 | Bunny/YouTube | Third-party player iframe works while main-frame bridge remains untrusted to it | PENDING | PENDING |
 | Video rotation | Fullscreen landscape works; note whether HTML watermark remains visible | PENDING | PENDING |
+| Build 4 AirPlay playback policy | WebKit AirPlay playback disabled; an attempted device-wide Screen Mirroring route is handled as capture, not claimed impossible | PENDING | PENDING |
+| Build 4 recording already active at launch | Native opaque shield is present before the WebView document is exposed; playback is paused/suspended | PENDING | PENDING |
+| Build 4 recording starts during playback | Starting Control Center recording covers the WebView immediately and stops media; returning while recording keeps it covered | PENDING | PENDING |
+| Build 4 recording/mirroring stops | Shield is removed only after scene is active and capture state is clear; video does not auto-resume | PENDING | PENDING |
+| Build 4 inactive/background snapshot | Control Center, interruption and Home/app-switcher transitions conceal lesson content; no clean lesson image in the app-switcher snapshot | PENDING | PENDING |
+| Build 4 WebView replacement/recovery | Capture observation and shielding are attached to the recovered WebView; no regression to the Build 2 blank-return defect | PENDING | PENDING |
+| Build 4 AR/FR/EN capture message | Cover message is localized, readable with large text and VoiceOver, and does not depend on JavaScript or the page origin | PENDING | PENDING |
+| Build 4 still screenshot limit | A normal screenshot is not treated as a recording event; do not claim that iOS prevents or deletes it. Check visible watermark separately | PENDING | PENDING |
 | External/new-window links | Trusted content stays internal; allowed external links use appropriate iOS presentation | PENDING | PENDING |
 | Dangerous URL / bridge | Reject untrusted origins, subframes, malformed commands and unsupported schemes | PENDING | PENDING |
 | iOS scope policy | Commerce, code activation and UGC cannot reappear by deep link, redirect, RSC/prefetch or in-site navigation; /ios presentation cookie is not authorization and public web without it remains unchanged | PENDING | PENDING |
@@ -180,3 +198,19 @@ Build UUID 8899fa17-b697-477e-ab7f-9a8b2b9c77a0. App/group/public-link/tester gu
 confirmed the existing internal app group contains only the authorized owner;
 no tester, invitation, public link or review submission was created.
 Physical-device recovery and opening the Arabic literature course remain PENDING.
+
+## Build 4 recording / AirPlay / screenshot checklist
+
+Run the numbered procedures in [SCREEN-CAPTURE-PROTECTION.md](SCREEN-CAPTURE-PROTECTION.md)
+on the exact signed candidate installed for testing. Record device model, iOS
+version, app version/build, source SHA, language, scenario and result. Capture
+protection, media pause, initial-state coverage and app-switcher snapshots are not
+proved by a pure-state unit test or a disconnected Simulator shell test.
+
+Before changing any PENDING entry, attach real evidence for: (1) Control Center
+recording started before launch and during a playing lesson, (2) recording stopped
+and an explicit user-initiated resume, (3) AirPlay media routing and device Screen
+Mirroring, (4) inactive/background transitions and repeated document recovery,
+and (5) an ordinary hardware-button screenshot. Single screenshots cannot be
+preemptively blocked through a notification posted after capture; document this
+limit instead of presenting the screenshot test as an absolute anti-copy pass.

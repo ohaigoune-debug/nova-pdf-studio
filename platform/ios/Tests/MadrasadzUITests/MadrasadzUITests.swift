@@ -85,4 +85,46 @@ final class MadrasadzUITests: XCTestCase {
     @MainActor func testArabicDisconnectedShell() throws {
         try checkShell(language: "ar", locale: "ar_DZ", labels: ["التعلّم", "المفضلة", "خطة المراجعة", "تسجيل الدخول", "ملفي وحذف الحساب", "سياسة الخصوصية", "تسجيل الخروج"])
     }
+
+    /// Simulates capture ON only inside the disconnected Debug fixture. This
+    /// tests the real cover path and translations, not Control Center recording.
+    @MainActor private func checkCaptureShield(language: String, locale: String, message: String) throws {
+        #if !DEBUG
+        throw XCTSkip("Capture simulation is compiled out of Release; it never overrides a real capture state.")
+        #else
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments += ["-AppleLanguages", "(\(language))", "-AppleLocale", locale,
+                                "--madrasadz-offline-shell-validation", "--madrasadz-capture-shield-validation"]
+        app.launch()
+        defer { app.terminate() }
+        XCTAssertTrue(app.staticTexts[message].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.buttons["endCaptureValidation"].exists)
+        let capture = XCTAttachment(screenshot: app.screenshot())
+        capture.name = "Simulated-capture-shield-\(language)"
+        capture.lifetime = .keepAlways
+        add(capture)
+        app.buttons["endCaptureValidation"].tap()
+        XCTAssertTrue(app.buttons["retryPage"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.staticTexts[message].exists)
+        // Also exercise the existing renderer replacement path. A recovered
+        // WKWebView must get a fresh capture observer and native container.
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
+        XCTAssertTrue(app.buttons["retryPage"].waitForExistence(timeout: 10))
+        #endif
+    }
+
+    @MainActor func testEnglishCaptureShieldInDisconnectedDebugShell() throws {
+        try checkCaptureShield(language: "en", locale: "en_US", message: "Stop screen recording or mirroring to return to your lesson. Video playback has been paused.")
+    }
+
+    @MainActor func testFrenchCaptureShieldInDisconnectedDebugShell() throws {
+        try checkCaptureShield(language: "fr", locale: "fr_FR", message: "Arrêtez l’enregistrement ou la recopie de l’écran pour revenir au cours. La vidéo a été mise en pause.")
+    }
+
+    @MainActor func testArabicCaptureShieldInDisconnectedDebugShell() throws {
+        try checkCaptureShield(language: "ar", locale: "ar_DZ", message: "أوقف تسجيل الشاشة أو بثّها للعودة إلى الدرس. أُوقف تشغيل الفيديو.")
+    }
 }

@@ -9,6 +9,10 @@ enum L10n {
 
     private static let values: [String: [String]] = [
         "study": ["التعلّم", "Apprendre", "Learn"],
+        "protectedContent": ["المحتوى محمي", "Contenu protégé", "Protected content"],
+        "captureBlocked": ["أوقف تسجيل الشاشة أو بثّها للعودة إلى الدرس. أُوقف تشغيل الفيديو.", "Arrêtez l’enregistrement ou la recopie de l’écran pour revenir au cours. La vidéo a été mise en pause.", "Stop screen recording or mirroring to return to your lesson. Video playback has been paused."],
+        "privacyInactive": ["المحتوى مخفي أثناء مغادرة التطبيق. عد إلى مدرسة لمتابعة درسك.", "Le contenu est masqué lorsque l’application est inactive. Revenez dans Madrasadz pour continuer.", "Content is hidden while the app is inactive. Return to Madrasadz to continue."],
+        "privacyPreparing": ["جارٍ تأمين العرض…", "Sécurisation de l’affichage…", "Securing the display…"],
         "saved": ["المفضلة", "Favoris", "Bookmarks"],
         "planner": ["خطة المراجعة", "Révisions", "Revision plan"],
         "account": ["الحساب والخصوصية", "Compte et confidentialité", "Account and privacy"],

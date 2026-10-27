@@ -4,8 +4,11 @@ import SafariServices
 
 struct PlatformWebView: UIViewRepresentable {
     @ObservedObject var browser: BrowserController
-    func makeUIView(context: Context) -> WKWebView { browser.webView }
-    func updateUIView(_ uiView: WKWebView, context: Context) {}
+    func makeUIView(context: Context) -> MediaProtectionWebContainer {
+        MediaProtectionWebContainer(webView: browser.webView, browser: browser)
+    }
+    func updateUIView(_ uiView: MediaProtectionWebContainer, context: Context) {}
+    static func dismantleUIView(_ uiView: MediaProtectionWebContainer, coordinator: ()) { uiView.detach() }
 }
 
 struct ExternalBrowser: UIViewControllerRepresentable {

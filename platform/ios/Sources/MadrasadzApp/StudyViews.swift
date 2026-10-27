@@ -65,6 +65,19 @@ struct StudyRootView: View {
                 .tabItem { Label(L10n.text("planner"), systemImage: "calendar") }.tag(2)
         }
         .tint(brandBlue)
+        .overlay {
+            if browser.mediaProtection.capture == .active {
+                PrivacyProtectionCover(messageKey: "captureBlocked") {
+                    #if DEBUG
+                    if browser.captureValidationActive {
+                        Button("End simulated capture") { browser.endCaptureValidation() }
+                            .accessibilityIdentifier("endCaptureValidation")
+                    }
+                    #endif
+                }
+                .accessibilityIdentifier("captureProtectionOverlay")
+            }
+        }
         .onAppear {
             browser.onDownloadRequested = { contentID in
                 Task { await exporter.export(contentID: contentID, browser: browser, currentAccount: { model.verifiedAccountID }) }
@@ -84,6 +97,37 @@ struct StudyRootView: View {
             Button(L10n.text("ok"), role: .cancel) { model.notice = nil; browser.notice = nil; exporter.notice = nil }
         } message: { Text(model.notice ?? browser.notice ?? exporter.notice ?? "") }
     }
+}
+
+/// Opaque, not material/blur. Screenshot capture itself is not preventable by
+/// this view; the native WebKit container independently covers live capture.
+struct PrivacyProtectionCover<Actions: View>: View {
+    let messageKey: String
+    let actions: Actions
+
+    init(messageKey: String, @ViewBuilder actions: () -> Actions) {
+        self.messageKey = messageKey
+        self.actions = actions()
+    }
+
+    var body: some View {
+        ZStack {
+            Color.black.ignoresSafeArea()
+            VStack(spacing: 20) {
+                Image(systemName: "lock.shield.fill").font(.largeTitle).accessibilityHidden(true)
+                Text(L10n.text("protectedContent")).font(.title2.bold())
+                Text(L10n.text(messageKey)).font(.body).multilineTextAlignment(.center)
+                actions
+            }.padding(32).foregroundStyle(.white)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.black)
+        .ignoresSafeArea()
+    }
+}
+
+extension PrivacyProtectionCover where Actions == EmptyView {
+    init(messageKey: String) { self.init(messageKey: messageKey) { EmptyView() } }
 }
 
 struct IdentityGate: View {
