@@ -308,3 +308,23 @@ and no screenshot or xcresult hierarchy image is claimed visually reviewed.
 Control Center recording, AirPlay/Screen Mirroring, screenshots and authenticated
 media/foreground behavior on a real iPhone all remain PENDING. No signing or
 Apple/TestFlight/App Store upload was performed for Build 4 in this task.
+
+## Build 7 internal availability — 27 October 2026
+
+- Source `deb03f6`: top bar without share/reload (owner request), redesigned
+  revision planner (subject colours/icons, activity, duration, day sections,
+  weekly progress, five suggested plans saved atomically), menu-time WebKit
+  media-state probe for the YouTube report. Server `/ios` redesign and the
+  student-only card for staff accounts ship separately via
+  SERVER-UPDATE-BUILD7-AR.md (owner-executed; not deployed from here).
+- Hosted results on `deb03f6`: unsigned run 40525444544 passed Debug/Release,
+  public foreground light + dark, core package (incl. RevisionPlanningTests) and
+  native UI; signed run 40525444553 artifact 12743022733
+  (sha256:78e4ed980736da0f75d2eb384411b50e0ac07ebf1fb46f32458e20688011a106).
+- Upload run 40530906662 on `27a988b` succeeded: the script's assertions confirmed
+  Build 7 VALID, assigned to the existing owner-only internal group (one tester, no
+  public link) and IN_BETA_TESTING. No invitation, App Review or release.
+- Pending on device: planner (add session, suggested plan with/without reminders,
+  complete/reopen, overdue/today sections, account switch), bar layout, YouTube
+  report from the ☰ menu (media.state at menu open), foreground regression.
+  Simulator/CI success is not device evidence.
