@@ -12,7 +12,10 @@ struct MadrasadzApp: App {
                     model.browser.updateSceneActivity(scenePhase == .active)
                     await model.start()
                 }
-                .privacySensitive()
+                // No app-wide privacySensitive(): on iOS 27 its .privacy redaction on
+                // every resign made SwiftUI rebuild the web host and carry the shared
+                // WKWebView off screen (device log, Build 4). The opaque cover below,
+                // the native shield and the per-view markers on personal lists remain.
                 .overlay {
                     if scenePhase != .active {
                         PrivacyProtectionCover(messageKey: "privacyInactive")

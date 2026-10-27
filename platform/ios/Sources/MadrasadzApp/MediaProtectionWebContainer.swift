@@ -21,9 +21,15 @@ final class MediaProtectionWebContainer: UIView {
         self.browser = browser
         super.init(frame: .zero)
         backgroundColor = .systemBackground
-        webView.frame = bounds
-        webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        addSubview(webView)
+        // SwiftUI can build extra instances of this representable (device
+        // evidence: iOS 27 privacy redaction on every resign). Never take the
+        // one shared WKWebView away from a container that is on screen; a
+        // temporary instance would carry it off and orphan it on return.
+        if webView.window == nil {
+            webView.frame = bounds
+            webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            addSubview(webView)
+        }
 
         shield.backgroundColor = .black
         shield.isOpaque = true
@@ -53,7 +59,19 @@ final class MediaProtectionWebContainer: UIView {
             view.refreshProtection()
         }
         observeLifecycle()
-        browser.attachMediaProtectionContainer(self)
+        browser.registerProtectionContainer(self)
+        if webView.superview === self { browser.attachMediaProtectionContainer(self) }
+        refreshProtection()
+    }
+
+    /// Make this (on-screen) container the one that shows the shared web view,
+    /// beneath its own shield, then re-evaluate the shield from scene facts.
+    func claimWebView() {
+        guard webView.superview !== self else { return }
+        webView.frame = bounds
+        webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        insertSubview(webView, belowSubview: shield)
+        browser?.attachMediaProtectionContainer(self)
         refreshProtection()
     }
 
@@ -61,6 +79,11 @@ final class MediaProtectionWebContainer: UIView {
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        if window != nil {
+            claimWebView() // The container on screen is the one that shows the page.
+        } else if webView.superview === self {
+            browser?.protectionContainerLeftWindow(self) // Hand back to an on-screen sibling.
+        }
         refreshProtection() // Trait registration does not deliver an initial state.
     }
 
@@ -168,5 +191,6 @@ final class MediaProtectionWebContainer: UIView {
             webView.setAllMediaPlaybackSuspended(true, completionHandler: nil)
         }
         browser?.detachMediaProtectionContainer(self)
+        browser?.unregisterProtectionContainer(self)
     }
 }

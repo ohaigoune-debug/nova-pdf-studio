@@ -36,6 +36,8 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     @Published private(set) var mediaProtection = MediaProtectionState()
     private(set) var sceneIsActive = false
     private weak var mediaProtectionContainer: MediaProtectionWebContainer?
+    /// Every live SwiftUI container instance; SwiftUI may build more than one.
+    private let protectionContainers = NSHashTable<MediaProtectionWebContainer>.weakObjects()
     private var mediaProtectionRevision = 0
     #if DEBUG
     private(set) var captureValidationActive = OfflineShellValidation.enabled
@@ -105,6 +107,29 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     func attachMediaProtectionContainer(_ container: MediaProtectionWebContainer) {
         guard container.webView === webView else { return }
         mediaProtectionContainer = container
+    }
+
+    func registerProtectionContainer(_ container: MediaProtectionWebContainer) {
+        protectionContainers.add(container)
+        diagnostics.record("host.created", "gen=\(webViewGeneration) live=\(protectionContainers.allObjects.count) owns=\(container.webView.superview === container) visibleOwner=\(webView.window != nil)")
+    }
+
+    func unregisterProtectionContainer(_ container: MediaProtectionWebContainer) {
+        protectionContainers.remove(container)
+    }
+
+    /// A container that showed the web view left the window. If another live
+    /// container for the same view is on screen, it takes the view back, so a
+    /// discarded temporary SwiftUI instance cannot orphan it.
+    func protectionContainerLeftWindow(_ container: MediaProtectionWebContainer) {
+        guard container.webView === webView else { return }
+        let sibling = onScreenProtectionContainer(excluding: container)
+        diagnostics.record("host.left-window", "gen=\(webViewGeneration) handedBack=\(sibling != nil)")
+        sibling?.claimWebView()
+    }
+
+    private func onScreenProtectionContainer(excluding excluded: MediaProtectionWebContainer? = nil) -> MediaProtectionWebContainer? {
+        protectionContainers.allObjects.first { $0 !== excluded && $0.window != nil && $0.webView === webView }
     }
 
     func detachMediaProtectionContainer(_ container: MediaProtectionWebContainer) {
@@ -247,12 +272,14 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     @discardableResult
     func restoreAfterBackground() -> Bool {
         guard wasBackgrounded else {
-            // Inactive -> active without background (Control Center, a system
-            // dialog): verify only if the renderer died or a check was deferred.
-            if contentProcessTerminated || foregroundCheckDeferred {
-                foregroundCheckDeferred = false
-                scheduleForegroundCheck(after: 300_000_000, reason: "active")
-            }
+            // Inactive -> active without background (Control Center, Notification
+            // Center, app-switcher peek): the device log shows the view can be
+            // orphaned here too, so every activation gets a bounded check.
+            foregroundCheckDeferred = false
+            processRecoveryAttempted = false
+            recoveryPlanner.reset()
+            diagnostics.record("scene.reactivated", "gen=\(webViewGeneration) attached=\(webView.window != nil)")
+            scheduleForegroundCheck(after: 300_000_000, reason: "active")
             return false
         }
         wasBackgrounded = false
@@ -296,9 +323,10 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
             return
         }
         let view = webView
-        // Hosted but off screen (Bookmarks/Planner tab selected): not a failure.
-        // Verify when the Study tab attaches the view again.
-        if view.window == nil, view.superview != nil {
+        // Off screen with no visible container (Bookmarks/Planner tab selected):
+        // not a failure. Verify when the Study tab attaches the view again.
+        // If a container IS on screen without the view, the ladder reattaches it.
+        if view.window == nil, onScreenProtectionContainer() == nil {
             verifyWhenAttached = true
             restoring = false
             diagnostics.record("fg.deferred", "reason=\(reason) offWindow=1")
@@ -367,6 +395,12 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     /// beneath the opaque shield. WebKit then re-evaluates window/scene visibility
     /// without discarding the document; the shield re-reads the scene state.
     private func reattachWebView() {
+        // The view may sit in (or have been orphaned by) a container that is not
+        // on screen while the visible container is empty: move it back there.
+        if let visible = onScreenProtectionContainer(), webView.superview !== visible {
+            visible.claimWebView()
+            return
+        }
         guard let host = webView.superview else {
             // Not hosted at all: rebuilding the view tree re-hosts the current view.
             objectWillChange.send()

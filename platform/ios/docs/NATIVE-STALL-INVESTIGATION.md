@@ -289,3 +289,48 @@ downloaded here (403), so the Apple build UUID is not recorded. No tester,
 invitation, App Review submission or public release. Owner-device foreground
 test of 1.0.0 (4) is PENDING; follow the protocol in DEVICE-TEST-MATRIX.md and
 share the «تقرير تقني للاختبار» text if the area turns black again.
+
+## Build 4 owner-device log: root cause identified — 27 October 2026
+
+The owner installed 1.0.0 (4) (iPhone14,3 = iPhone 13 Pro Max, iOS 27.0.1,
+dark appearance) and shared the tester technical log after the WebView area
+again stayed black — now behind the capture shield's stale «المحتوى مخفي أثناء
+مغادرة التطبيق» message — for over 10 s while the app was active.
+
+Evidence from the log, repeated on every transition:
+
+- On resign: `ui.environment redaction=2` (SwiftUI `.privacy` redaction applied
+  by the system to the app-wide `privacySensitive()`), then `web.detached
+  size=0x0` and `web.attached size=375x577`: a new representable instance took
+  the shared WKWebView (the visible host is 375x634).
+- On activation: `web.detached size=375x634` with `container=false` and the
+  published shield `reason=initializing attached=false`: that temporary
+  instance was discarded and the WKWebView was orphaned (no superview, no
+  window). The visible container kept its last shield state, because its
+  refresh requires owning the view — exactly the screenshot. Builds 2/3 had no
+  shield, so the same orphaning showed the empty host (black in dark mode)
+  between the native bars, while the switcher snapshot (taken while the
+  temporary instance held the view) still showed the page.
+- After a real background, the Build 4 check found `attached=false`, reattach
+  could not help (the view was not in the visible host), and the single
+  replacement restored the page after ~1.5 s with web history reset (gray back
+  button). After inactive→active without background (Control Center,
+  Notification Center, switcher peek) Build 4 ran no check, so it stayed stuck.
+- Script probe 0–33 ms, `terminated=false`, `document=true` throughout: the
+  renderer was alive; this was not a WebKit process death or a slow network.
+
+Build 5 fix (source: this commit, build number 5):
+
+1. Remove the app-wide `privacySensitive()`; keep it on the personal
+   Bookmarks and Planner lists. The opaque inactive cover and the native shield
+   still hide content when the scene is not active.
+2. `MediaProtectionWebContainer` never takes the shared WKWebView from a
+   container that is on screen; the container that moves into a window claims
+   it beneath its shield; a container leaving the window hands it back to an
+   on-screen sibling (registry of live instances in `BrowserController`).
+3. Recovery `reattach` moves the view into the on-screen container, so a
+   detached/orphaned view is restored without reload or history loss.
+4. Every activation (also inactive→active) runs one bounded check.
+
+Diagnostics add `host.created` and `host.left-window handedBack=` events.
+Device confirmation of Build 5 is PENDING.

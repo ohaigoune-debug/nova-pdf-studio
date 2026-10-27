@@ -3,6 +3,6 @@
 // PRODUCT_BUNDLE_IDENTIFIER = com.madrasadz.student
 // DEVELOPMENT_TEAM = YOUR_TEAM_ID
 // MARKETING_VERSION = 1.0.0
-// CURRENT_PROJECT_VERSION = 4
+// CURRENT_PROJECT_VERSION = 5
 // Production trust is currently pinned to HTTPS madrasadz.com.
 // Do not set another base URL and expect it to work: see docs/ISOLATED-VALIDATION.md.

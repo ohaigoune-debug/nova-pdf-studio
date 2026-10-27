@@ -219,7 +219,9 @@ struct BookmarksView: View {
                     }
                 }
             }
-        }.navigationTitle(L10n.text("saved")).navigationBarTitleDisplayMode(.inline)
+        }
+        .privacySensitive() // Personal list only; the web host is not redacted.
+        .navigationTitle(L10n.text("saved")).navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -264,6 +266,7 @@ struct PlannerView: View {
                 }
             }
         }
+        .privacySensitive() // Personal plan only; the web host is not redacted.
         .navigationTitle(L10n.text("planner"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
