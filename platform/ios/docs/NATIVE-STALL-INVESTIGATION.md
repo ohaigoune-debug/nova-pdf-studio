@@ -255,3 +255,24 @@ WebKit finish event — no deadline for same-document loads; (5) recovery restor
 only an allowed internal page, else `/ios`, and never leaves the placeholder set
 while backgrounded/deferred. UI test: 4 consecutive painted samples (~2 s) with
 no placeholder or Retry, and nearest-neighbour sampling.
+
+### Hosted macOS results and Build 4 upload pin — 27 October 2026
+
+- ebfc11b: unsigned run 40484092408 SUCCESS (Debug, Release, public foreground
+  test light and dark, core + offline UI); signed run 40484092400 SUCCESS. Not
+  uploaded (superseded by the review fixes).
+- d584c16 (selected candidate): unsigned run 40485140870 SUCCESS — Debug
+  build, Release build, public no-account foreground test in light appearance
+  (3 cycles + 4 rapid switches, each requiring ~2 s of painted on-screen pixels
+  with no placeholder/Retry) and in dark appearance, core package + offline UI
+  (including the capture-shield fixtures). Signed run 40485140887 SUCCESS;
+  artifact 12724139375 `Madrasadz-signed-IPA-d584c16…`,
+  sha256:27841ef80df00381f0bcf7421387732e319c39e407a76ccbfbc1aa33a8d85ecd.
+- Job logs and xcresult artifacts could not be downloaded from this session
+  (blob storage 403), so per-test counts, the Simulator runtime line and the
+  Debug technical-log attachment were not read here; results above are the
+  GitHub step conclusions. The same runner image reported Xcode 26.6 /
+  iPhoneSimulator 26.5 / iPhone Air iOS 26.5 in run 40481965732.
+- The upload workflow, `upload-testflight.sh` (CFBundleVersion 4) and
+  `enable-internal-build.py` (version 4) now pin only that artifact. The
+  Simulator never suspended processes like the iPhone; device result PENDING.
