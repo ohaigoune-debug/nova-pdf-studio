@@ -1,4 +1,4 @@
-import { ArrowLeft, TrendingUp, Clock, FileText, Gamepad2, MessagesSquare, PlayCircle, Radio } from 'lucide-react'
+import { ArrowLeft, BookOpen, ClipboardCheck, ClipboardList, TrendingUp, Clock, FileText, FolderOpen, Gamepad2, MessagesSquare, PlayCircle, Radio, type LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CourseLandingView } from '@/components/academy/course-landing'
@@ -14,28 +14,44 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { courseLanding } from '@/server/services/academy-catalog.service'
+import type { CourseSectionId, SectionItem } from '@/server/lib/course-sections'
 import { courseHome, type CourseContentItem } from '@/server/services/courses.service'
 import { upcomingForStudent } from '@/server/services/live.service'
 import { courseBookStateById } from '@/server/services/course-purchase.service'
 
 export const dynamic = 'force-dynamic'
 
-function ContentList({ items, empty }: { items: CourseContentItem[]; empty: string }) {
-  if (items.length === 0) return <p className="text-sm text-muted-foreground">{empty}</p>
+const SECTION_UI: Record<CourseSectionId, { icon: LucideIcon; tone: string; hint: string }> = {
+  lessons: { icon: BookOpen, tone: 'bg-success/10 text-success', hint: 'بترتيب الحصص' },
+  videos: { icon: PlayCircle, tone: 'bg-warning/10 text-warning', hint: 'تسجيلات وشروح' },
+  homework: { icon: ClipboardList, tone: 'bg-primary/10 text-primary', hint: 'فروض ومواضيع' },
+  tests: { icon: ClipboardCheck, tone: 'bg-destructive/10 text-destructive', hint: 'اختبارات وامتحانات' },
+  files: { icon: FolderOpen, tone: 'bg-cyan/10 text-cyan', hint: 'ملفات ووثائق' }
+}
+
+/** قائمة قسم: شارة برقم الحصة إن وُجد، وإلا أيقونة النوع */
+function SectionList({ items }: { items: SectionItem<CourseContentItem>[] }) {
   return (
     <ul className="divide-y rounded-lg border">
       {items.map((c) => (
         <li key={c.id}>
           <Link href={c.href} className="flex items-center gap-3 p-3 text-sm transition-colors hover:bg-muted/60">
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">{c.type === 'VIDEO' ? <PlayCircle className="size-4" /> : <FileText className="size-4" />}</span>
+            {c.session !== null ? (
+              <span className="flex size-9 shrink-0 flex-col items-center justify-center rounded-full bg-primary text-primary-foreground" aria-label={`الحصة ${c.session}`}>
+                <span className="text-[9px] leading-none opacity-80">حصة</span>
+                <span className="text-sm font-bold leading-none tabular-nums">{c.session}</span>
+              </span>
+            ) : (
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">{c.type === 'VIDEO' ? <PlayCircle className="size-4" /> : <FileText className="size-4" />}</span>
+            )}
             <span className="min-w-0 flex-1">
-              <span className="block truncate font-semibold">{c.title}</span>
+              <span className="block truncate font-semibold">{c.displayTitle}</span>
               <span className="block text-xs text-muted-foreground">
                 {tEnum('contentTypes', c.type)}
                 {c.publishedAt ? ` · ${formatDate(c.publishedAt)}` : ''}
               </span>
             </span>
-            <ArrowLeft className="size-4 shrink-0 text-muted-foreground rtl:rotate-0 ltr:rotate-180" />
+            <ArrowLeft className="size-4 shrink-0 text-muted-foreground ltr:rotate-180" />
           </Link>
         </li>
       ))}
@@ -81,7 +97,7 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
     )
   }
 
-  const { course, nextLive, upcoming, videos, lessons, playHref, classroomHref, expiresAt } = home
+  const { course, nextLive, upcoming, sections, playHref, classroomHref, expiresAt } = home
   const liveNext = (await upcomingForStudent(db, actor).catch(() => [])).find((l) => l.courseId === course.id) ?? null
   return (
     <div className="space-y-6">
@@ -126,16 +142,15 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
         </Alert>
       ) : null}
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {[
           { href: '#live', label: 'الحصص المباشرة', hint: 'مواعيد الدورة', icon: Radio, tone: 'bg-primary/10 text-primary' },
-          { href: '#videos', label: 'الحصص المسجلة', hint: `${videos.length} فيديو`, icon: PlayCircle, tone: 'bg-warning/10 text-warning' },
-          { href: '#lessons', label: 'ملفات الدورة', hint: `${lessons.length} درس وملف`, icon: FileText, tone: 'bg-success/10 text-success' },
-          { href: playHref, label: 'الاختبارات والتدريب', hint: 'تدرّب في PLAY', icon: Gamepad2, tone: 'bg-purple/10 text-purple' },
+          ...sections.map((section) => ({ href: `#${section.id}`, label: section.label, hint: `${section.items.length} · ${SECTION_UI[section.id].hint}`, icon: SECTION_UI[section.id].icon, tone: SECTION_UI[section.id].tone })),
+          { href: playHref, label: 'التدريب PLAY', hint: 'تدرّب واختبر نفسك', icon: Gamepad2, tone: 'bg-purple/10 text-purple' },
           { href: classroomHref, label: 'القسم الافتراضي', hint: 'أسئلة ومناقشات', icon: MessagesSquare, tone: 'bg-destructive/10 text-destructive' },
           { href: '/student/progress', label: 'تقدمي', hint: 'إنجازاتي ومهاراتي', icon: TrendingUp, tone: 'bg-cyan/10 text-cyan' }
         ].map((item) => (
-          <Link key={item.href} href={item.href} className="flex min-h-40 flex-col items-center justify-center gap-3 rounded-lg border bg-card p-5 text-center shadow-soft transition-colors hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <Link key={item.href} href={item.href} className="flex min-h-36 flex-col items-center justify-center gap-3 rounded-lg border bg-card p-5 text-center shadow-soft transition-colors hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
             <span className={`flex size-14 items-center justify-center rounded-full ${item.tone}`}><item.icon className="size-6" /></span>
             <span className="font-bold">{item.label}</span>
             <span className="text-xs text-muted-foreground">{item.hint}</span>
@@ -143,30 +158,30 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
         ))}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card id="videos">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <PlayCircle className="size-5 text-primary" /> الفيديوهات المسجّلة
-            </CardTitle>
-            <CardDescription>الأحدث أولاً. تُشاهَد داخل المنصة فقط وتختفي بعد انتهاء الدورة.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ContentList items={videos} empty="لا فيديوهات بعد — ستظهر هنا تسجيلات الحصص والدروس." />
-          </CardContent>
-        </Card>
-        <Card id="lessons">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="size-5 text-primary" /> الدروس والملفات
-            </CardTitle>
-            <CardDescription>ملخّصات، تمارين، ملفات PDF مختومة باسمك.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ContentList items={lessons} empty="لا ملفات بعد." />
-          </CardContent>
-        </Card>
-      </div>
+      {sections.length === 0 ? (
+        <p className="rounded-lg border bg-card p-5 text-sm text-muted-foreground">لا محتوى منشور في هذه الدورة بعد — ستظهر هنا الحصص والفيديوهات والفروض والاختبارات والملفات.</p>
+      ) : (
+        <div className="grid gap-6 lg:grid-cols-2">
+          {sections.map((section) => {
+            const Icon = SECTION_UI[section.id].icon
+            return (
+              <Card key={section.id} id={section.id}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Icon className="size-5 text-primary" /> {section.label}
+                    <Badge variant="secondary">{section.items.length}</Badge>
+                  </CardTitle>
+                  {section.id === 'videos' ? <CardDescription>تُشاهَد داخل المنصة فقط وتختفي بعد انتهاء الدورة.</CardDescription> : null}
+                  {section.id === 'lessons' ? <CardDescription>بترتيب الحصص: الحصة 1 ثم 2 ثم 3…</CardDescription> : null}
+                </CardHeader>
+                <CardContent>
+                  <SectionList items={section.items} />
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
+      )}
 
       <Card id="live">
         <CardHeader>

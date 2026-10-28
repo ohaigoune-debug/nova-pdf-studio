@@ -2,6 +2,7 @@ import type { Locale } from '@/i18n'
 
 const labels = {
   ar: {
+    sections: { lessons: 'الحصص والدروس', videos: 'الفيديوهات', homework: 'الفروض', tests: 'الاختبارات', files: 'الملفات' }, session: 'حصة', courseEmpty: 'لا محتوى منشور في هذه الدورة بعد.',
     welcome: 'مرحبًا بك في مدرسة', welcomeIntro: 'دروسك ومراجعتك في مكان واحد.', noAccount: 'ليس لديك حساب؟',
     learnIntro: 'تابع دوراتك وتدرّب على ما تعلّمته.', freeForAll: 'مجانًا للجميع', lessonsCount: 'دروس',
     studentOnlyTitle: 'هذا التطبيق مخصص للتلاميذ', logout: 'تسجيل الخروج',
@@ -19,6 +20,7 @@ const labels = {
     unavailableAction: 'هذا القسم غير متاح في نسخة iPhone للتعلّم. يمكنك متابعة دروسك والأدوات المتاحة أدناه.'
   },
   fr: {
+    sections: { lessons: 'Séances et leçons', videos: 'Vidéos', homework: 'Devoirs', tests: 'Examens', files: 'Fichiers' }, session: 'Séance', courseEmpty: 'Aucun contenu publié dans ce cours pour le moment.',
     welcome: 'Bienvenue sur Madrasa', welcomeIntro: 'Vos cours et vos révisions au même endroit.', noAccount: 'Pas encore de compte ?',
     learnIntro: 'Reprenez vos cours et entraînez-vous.', freeForAll: 'Gratuit pour tous', lessonsCount: 'leçons',
     studentOnlyTitle: 'Cette application est réservée aux élèves', logout: 'Se déconnecter',
@@ -36,6 +38,7 @@ const labels = {
     unavailableAction: 'Cette section n’est pas disponible dans la version iPhone dédiée à l’apprentissage. Retrouvez les leçons et les outils ci-dessous.'
   },
   en: {
+    sections: { lessons: 'Sessions and lessons', videos: 'Videos', homework: 'Homework', tests: 'Tests', files: 'Files' }, session: 'Session', courseEmpty: 'No content has been published in this course yet.',
     welcome: 'Welcome to Madrasa', welcomeIntro: 'Your lessons and revision in one place.', noAccount: 'No account yet?',
     learnIntro: 'Continue your courses and practise what you learned.', freeForAll: 'Free for everyone', lessonsCount: 'lessons',
     studentOnlyTitle: 'This app is for students', logout: 'Sign out',

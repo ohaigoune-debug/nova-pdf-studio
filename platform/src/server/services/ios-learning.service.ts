@@ -38,7 +38,8 @@ export async function iosCourseHome(db: Db, actor: Actor | null, slug: string) {
   return {
     ...home,
     videos: home.videos.map((item) => ({ ...item, href: `/ios/lesson/${encodeURIComponent(item.slug)}` })),
-    lessons: home.lessons.map((item) => ({ ...item, href: `/ios/lesson/${encodeURIComponent(item.slug)}` }))
+    lessons: home.lessons.map((item) => ({ ...item, href: `/ios/lesson/${encodeURIComponent(item.slug)}` })),
+    sections: home.sections.map((section) => ({ ...section, items: section.items.map((item) => ({ ...item, href: `/ios/lesson/${encodeURIComponent(item.slug)}` })) }))
   }
 }
 

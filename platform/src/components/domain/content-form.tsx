@@ -80,7 +80,7 @@ export function ContentForm({ contentId, defaults = {}, groups, students, levels
             ))}
           </Select>
         </Field>
-        <Field label={t('contentMgmt.titleField')} htmlFor="title" error={fieldError(state, 'title')}>
+        <Field label={t('contentMgmt.titleField')} htmlFor="title" hint={t('contentMgmt.titleHint')} error={fieldError(state, 'title')}>
           <Input id="title" name="title" defaultValue={defaults.title ?? ''} required />
         </Field>
       </div>
