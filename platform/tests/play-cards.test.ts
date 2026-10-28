@@ -8,6 +8,7 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import { answerReady, canSubmit, cardReducer, createSubmitGate, faceVisibility, FLIP_MS, initialCardState, longestStreak, resumeIndex, type CardEvent, type CardState } from '@/components/play/card-machine'
+import { choiceState, DeckMcq } from '@/components/play/deck-choices'
 import { FlipCard } from '@/components/play/flip-card'
 import type { PlayPublicPayload } from '@/server/play/question-types'
 
@@ -127,7 +128,7 @@ describe('flip card markup', () => {
     renderToStaticMarkup(createElement(FlipCard, { phase, position: 1, total: 10, motion, onReveal: () => {}, onFlipEnd: () => {} }, createElement('p', { dir: 'auto' }, text)))
   const tag = (html: string, testId: string) => html.match(new RegExp(`<[a-z]+[^>]*data-testid="${testId}"[^>]*>`))?.[0] ?? ''
 
-  it('covered: a real button with an Arabic label, the question hidden from readers and focus', () => {
+  it('covered: a real button with an Arabic label; the question is not in the page before the card is turned', () => {
     const html = render('covered')
     const back = tag(html, 'card-back')
     expect(back).toMatch(/^<button[^>]*type="button"/)
@@ -136,8 +137,10 @@ describe('flip card markup', () => {
     const front = tag(html, 'card-front')
     expect(front).toContain('aria-hidden="true"')
     expect(front).toContain('inert=""')
-    // السؤال مرة واحدة فقط في الشجرة
-    expect(html.split(QUESTION).length - 1).toBe(1)
+    expect(html).not.toContain(QUESTION)
+    // ظهر البطاقة المرسوم: الإطار والكتاب والإكليل SVG زخرفية
+    expect(html).toContain('deck-back-frame')
+    expect(html).toMatch(/<svg[^>]*aria-hidden="true"/)
   })
 
   it('question: the blue back is gone and the question is readable once', () => {
@@ -149,16 +152,20 @@ describe('flip card markup', () => {
     expect(html).toContain('data-settled="true"')
   })
 
-  it('flipping: neither face is read while the card turns', () => {
+  it('flipping: the same card turns (white face, gold arrow) and neither face is read', () => {
     const html = render('flipping')
     expect(tag(html, 'card-back')).toContain('aria-hidden="true"')
     expect(tag(html, 'card-back')).toContain('inert=""')
     expect(tag(html, 'card-front')).toContain('aria-hidden="true"')
     expect(html).toContain('data-flipped="true"')
+    expect(html).toContain('deck-front-blank')
+    expect(html).toContain('deck-flip-arrow')
+    expect(html).not.toContain(QUESTION)
   })
 
-  it('reduced motion is carried to the card', () => {
+  it('reduced motion is carried to the card (no arrow, no transition)', () => {
     expect(render('covered', QUESTION, false)).toContain('data-motion="off"')
+    expect(render('flipping', QUESTION, false)).not.toContain('deck-flip-arrow')
     expect(render('covered', QUESTION, true)).toContain('data-motion="on"')
   })
 
@@ -169,6 +176,28 @@ describe('flip card markup', () => {
   })
 })
 
+describe('choices on the card', () => {
+  const mcqPayload = mcq as Extract<PlayPublicPayload, { type: 'MCQ' }>
+  const html = (picked: string | null, result: { correctText: string } | null) => renderToStaticMarkup(createElement(DeckMcq, { payload: mcqPayload, picked, disabled: !!result, result, onPick: () => {} }))
+
+  it('never shows the correct answer before the attempt', () => {
+    const before = html('a', null)
+    expect(before).not.toContain('data-state="correct"')
+    expect(before).toContain('data-state="picked"')
+    expect(before.match(/role="radio"/g)?.length).toBe(4)
+    expect(choiceState('أي نص', false, null)).toBe('idle')
+  })
+
+  it('after the server result: correct green, picked wrong red, the rest dimmed', () => {
+    const after = html('a', { correctText: 'الدعوة إلى التحرر والاستقلال' })
+    expect(after.match(/data-state="correct"/g)?.length).toBe(1)
+    expect(after.match(/data-state="wrong"/g)?.length).toBe(1)
+    expect(after.match(/data-state="dim"/g)?.length).toBe(2)
+    expect(after).toMatch(/disabled=""/)
+    expect(choiceState('الدعوة إلى التحرر والاستقلال', true, { correctText: 'الدعوة إلى التحرر والاستقلال' })).toBe('correct')
+  })
+})
+
 describe('flip css', () => {
   const css = readFileSync(join(process.cwd(), 'src/app/globals.css'), 'utf8')
   const deck = css.slice(css.indexOf('.play-deck {'))
@@ -176,7 +205,7 @@ describe('flip css', () => {
   it('uses a 3D Y flip with hidden backfaces and never mirrors text', () => {
     expect(deck).toMatch(/\.deck-scene \{[^}]*perspective:/)
     expect(deck).toMatch(/\.deck-face \{[^}]*backface-visibility: hidden/)
-    expect(deck).toMatch(/\.deck-card\[data-flipped='true'\] \{\s*transform: rotateY\(180deg\)/)
+    expect(deck).toMatch(/\.deck-card\[data-flipped='true'\] \{\s*transform: rotateY\(-180deg\)/)
     expect(deck).toMatch(/\.deck-face-front \{\s*transform: rotateY\(180deg\)/)
     expect(deck).not.toMatch(/scaleX\(-1\)|direction:/)
   })
@@ -184,6 +213,19 @@ describe('flip css', () => {
   it('turns the flip off for reduced motion', () => {
     expect(deck).toMatch(/\.deck-card\[data-motion='off'\] \{\s*transition: none/)
     expect(deck).toMatch(/@media \(prefers-reduced-motion: reduce\) \{\s*\.deck-scene,\s*\.deck-card \{\s*transition: none/)
+    expect(deck).toMatch(/\.deck-reveal,\s*\.deck-flip-arrow \{\s*animation: none/)
     expect(deck).toMatch(/--deck-flip-ms: 600ms/)
+  })
+
+  it('keeps the approved light palette even when the site is dark', () => {
+    expect(deck).toMatch(/--primary: 217 82% 43%; \/\* #1457C5 \*\//)
+    expect(deck).toMatch(/--background: 222 100% 98%; \/\* #F5F8FF \*\//)
+    expect(deck).toMatch(/--deck-gold: 40 87% 62%; \/\* #F2B94B \*\//)
+    expect(deck).toMatch(/color-scheme: light/)
+    expect(css).not.toContain('.dark .play-deck')
+  })
+
+  it('hides the site header and bottom bar during a round on phones only', () => {
+    expect(deck).toMatch(/@media \(max-width: 1023\.98px\) \{\s*html\.play-immersive \.brand-header,\s*html\.play-immersive \.student-bottom-nav \{\s*display: none/)
   })
 })

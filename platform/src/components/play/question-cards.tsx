@@ -16,6 +16,8 @@ export interface CardProps {
   motion: boolean
   /** الاختيار المتعدد: عمودان على الشاشات الواسعة (الافتراضي) أو عمود واحد داخل بطاقة اللعب */
   layout?: 'grid' | 'stack'
+  /** ملء الفراغ داخل بطاقة اللعب: الجملة بلا إطار ثانٍ */
+  bare?: boolean
 }
 
 /* ---------------------------------- MCQ ---------------------------------- */
@@ -67,7 +69,7 @@ export function McqCard({ payload, disabled, onChange, result, motion, layout = 
 
 /* ------------------------------- FILL_BLANK ------------------------------- */
 
-export function FillBlankCard({ payload, disabled, onChange, result, motion }: CardProps) {
+export function FillBlankCard({ payload, disabled, onChange, result, motion, bare = false }: CardProps) {
   const [filled, setFilled] = useState<(string | null)[]>([])
   const [active, setActive] = useState(0)
   const [dragging, setDragging] = useState<string | null>(null)
@@ -106,7 +108,7 @@ export function FillBlankCard({ payload, disabled, onChange, result, motion }: C
 
   return (
     <div className="space-y-5">
-      <p dir={dir} className={cn('rounded-2xl border bg-card p-4 text-lg leading-[2.4] shadow-sm', dir === 'ltr' ? 'text-left' : 'text-right')}>
+      <p dir={dir} className={cn('text-lg leading-[2.4]', bare ? 'px-1' : 'rounded-2xl border bg-card p-4 shadow-sm', dir === 'ltr' ? 'text-left' : 'text-right')}>
         {payload.segments.map((seg, i) => {
           if ('t' in seg) return <RichText key={i} text={seg.t} />
           const word = filled[seg.b] ?? null

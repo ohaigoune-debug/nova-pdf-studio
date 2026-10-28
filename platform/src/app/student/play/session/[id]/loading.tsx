@@ -1,16 +1,25 @@
-/** أثناء تحضير الجولة: هيكل البطاقة نفسها بدل شاشة فارغة */
+import { PlayImmersive } from '@/components/play/immersive'
+
+/** أثناء تحضير الجولة: الشريط العلوي والبطاقة الزرقاء المغلقة بدل شاشة فارغة */
 export default function PlaySessionLoading() {
   return (
-    <div className="play-deck -mx-4 -mt-6 mb-[calc(-100px-env(safe-area-inset-bottom))] min-h-[calc(100svh-140px)] bg-deck-bg px-4 pb-[calc(124px+env(safe-area-inset-bottom))] pt-4 sm:mx-auto sm:mb-0 sm:mt-0 sm:min-h-0 sm:max-w-2xl sm:rounded-[28px] sm:border sm:border-deck-line sm:px-8 sm:py-8">
-      <div className="mx-auto w-full max-w-[24rem] space-y-4 sm:max-w-[26rem]" role="status" aria-live="polite">
+    <div className="play-deck -mx-4 min-h-[100svh] bg-[linear-gradient(180deg,#F7F9FF_0%,#EEF3FB_100%)] px-5 pb-[calc(env(safe-area-inset-bottom)+20px)] pt-[calc(env(safe-area-inset-top)+16px)] lg:mx-auto lg:min-h-0 lg:max-w-2xl lg:rounded-[32px] lg:border lg:border-[#D3E0F5] lg:px-10 lg:py-8">
+      <PlayImmersive />
+      <div className="mx-auto w-full max-w-[24rem] space-y-4 lg:max-w-[26rem]" role="status" aria-live="polite">
         <div className="flex items-center gap-2" aria-hidden>
-          <div className="size-11 rounded-full bg-primary/20" />
-          <div className="mx-auto h-8 w-36 animate-pulse rounded-full bg-card" />
-          <div className="h-6 w-11 rounded-full bg-deck-gold/20" />
+          <div className="h-6 w-[4.5rem] rounded-full bg-[#E6EDF9]" />
+          <div className="flex flex-1 justify-center">
+            <div className="h-8 w-36 animate-pulse rounded-full bg-[#E6EDF9]" />
+          </div>
+          <div className="flex w-[4.5rem] justify-end">
+            <div className="size-10 rounded-full bg-primary/30" />
+          </div>
         </div>
-        <div className="h-2 rounded-full bg-deck-line" aria-hidden />
-        <div className="deck-face animate-pulse rounded-[20px] bg-deck-back/70" aria-hidden />
-        <p className="text-center text-sm font-semibold text-muted-foreground">جارٍ تحضير الجولة…</p>
+        <div className="h-2.5 rounded-full bg-[#DCE6F7]" aria-hidden />
+        <div className="pt-7" aria-hidden>
+          <div className="mx-auto aspect-[4/5] w-[min(74%,16.5rem)] animate-pulse rounded-[18px] border-[6px] border-white bg-primary/70 shadow-[0_16px_30px_-12px_rgba(20,87,197,0.45)]" />
+        </div>
+        <p className="text-center text-sm font-bold text-muted-foreground">جارٍ تحضير الجولة…</p>
       </div>
     </div>
   )
