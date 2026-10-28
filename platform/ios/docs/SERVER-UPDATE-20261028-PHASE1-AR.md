@@ -73,3 +73,15 @@ curl -s -o /dev/null -w "%{http_code}\n" https://madrasadz.com/api/v1/ios/course
 
 أعد أمر `compose up` نفسه بملف `/opt/madrasa/releases/ios-65d1bb9/ios-runtime.override.json`، أو
 `ios-0e27f98` إن كان منشورًا قبل هذا. لا رجوع لقاعدة البيانات، فلا تغيير في المخطط.
+
+## التنفيذ (28 أكتوبر 2026، المالك)
+
+- أول محاولة لنسخ ملف override فشلت لأن خطوتي التجهيز والبناء لم تكونا قد نُفّذتا بعد. لم يتغيّر
+  شيء في الإنتاج. نُفّذت الخطوات بعد ذلك بالترتيب.
+- انقطع SSH أثناء متابعة السجل، واستمر البناء في الخلفية بـ `nohup` حتى اكتمل.
+- بعد `compose up`، أظهرت فحوص المالك على الخادم:
+  - الصورة: `platform-app:ios-662680b  Up 3 minutes (healthy)`.
+  - `capabilities`: `{"ok":true,"data":{"apiVersion":1,"features":["home","course","lesson"],"minAppBuild":1}}`.
+  - `/` و`/login` و`/ios`: 200.
+- ظهرت صفحة 404 مرة واحدة في Safari أثناء التبديل، ولم تتكرر بعد الفحوص.
+- هذه أدلة من طرفية المالك. بيئة Claude لا تصل إلى madrasadz.com.
