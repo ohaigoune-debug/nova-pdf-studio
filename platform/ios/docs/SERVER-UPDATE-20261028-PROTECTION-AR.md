@@ -87,3 +87,11 @@ curl -s https://madrasadz.com/api/v1/ios/capabilities
 
 - 28 أكتوبر 2026: `next build` الإنتاجي على `994d609` نجح (Compiled successfully). المصدر
   نفسه الذي في الأوامر أعلاه.
+
+## التنفيذ (28 أكتوبر 2026، المالك)
+
+- نفّذ المالك الأوامر بنفسه. أظهر `grep` الصورة `platform-app:ios-994d609` و`AUTO_MIGRATE` بقيمة `0`.
+- `compose up`: `Container platform-app-1 Started`.
+- `docker ps`: `platform-app:ios-994d609  Up 47 seconds (healthy)`.
+- التجربة اليدوية (العلامة المائية على يوتيوب، وحجب الجهاز الثاني) لم تُسجَّل بعد.
+- هذه أدلة من طرفية المالك. بيئة Claude لا تصل إلى madrasadz.com.
