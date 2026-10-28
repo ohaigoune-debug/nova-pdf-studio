@@ -78,7 +78,15 @@ export function displayTitle(title: string): string {
   const m = SESSION.exec(text)
   if (!m) return title.trim()
   const start = m.index + m[1]!.length
-  const rest = (text.slice(0, start) + ' ' + text.slice(m.index + m[0].length))
+  const before = text.slice(0, start)
+  const after = text.slice(m.index + m[0].length)
+  // تُحذف العبارة حين تكون وسمًا: في أول العنوان أو آخره، أو مقطعًا بين فاصلين («أ | الحصة 2 | ب»).
+  // في وسط جملة («شرح الحصة 1 بالفيديو») يبقى العنوان كما هو، والرقم يظهر في الشارة.
+  const b = before.trim()
+  const a = after.trim()
+  const tag = b === '' || a === '' || (/[—–\-|:،,]$/u.test(b) && /^[—–\-|:،,.]/u.test(a))
+  if (!tag) return title.trim()
+  const rest = (before + ' ' + after)
     .replace(/\s*([—–\-|:،,])\s*([—–\-|:،,]\s*)+/gu, ' $1 ')
     .replace(/^[\s—–\-|:،,.]+|[\s—–\-|:،,]+$/gu, '')
     .replace(/\s+/gu, ' ')

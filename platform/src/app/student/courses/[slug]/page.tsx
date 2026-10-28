@@ -142,7 +142,7 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
         </Alert>
       ) : null}
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
         {[
           { href: '#live', label: 'الحصص المباشرة', hint: 'مواعيد الدورة', icon: Radio, tone: 'bg-primary/10 text-primary' },
           ...sections.map((section) => ({ href: `#${section.id}`, label: section.label, hint: `${section.items.length} · ${SECTION_UI[section.id].hint}`, icon: SECTION_UI[section.id].icon, tone: SECTION_UI[section.id].tone })),
