@@ -129,4 +129,18 @@ final class NavigationPolicyTests: XCTestCase {
             XCTAssertNil(policy.url(forBookmarkPath: path), path)
         }
     }
+
+    func testNativeRoutesCoverOnlyTheLearningHomeAndCoursePages() {
+        let route = { (path: String) in self.policy.nativeRoute(for: URL(string: "https://madrasadz.com" + path)!) }
+        XCTAssertEqual(route("/ios"), .home)
+        XCTAssertEqual(route("/ios/"), .home)
+        XCTAssertEqual(route("/student/courses"), .home)
+        XCTAssertEqual(route("/ios/course/الرياضيات"), .course("الرياضيات"))
+        XCTAssertEqual(route("/student/courses/%D8%AF%D9%88%D8%B1%D8%A9"), .course("دورة"))
+        XCTAssertEqual(route("/ios/course/a?x=1#y"), .course("a"))
+        for path in ["/ios/lesson/a", "/student/courses/a/order", "/student/courses/catalog", "/student/play", "/login", "/ios/course/", "/ios/course/a/b", "/admin"] {
+            XCTAssertNil(route(path), path)
+        }
+        XCTAssertNil(policy.nativeRoute(for: URL(string: "https://evil.example/ios")!))
+    }
 }

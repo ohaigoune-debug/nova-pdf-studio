@@ -27,5 +27,6 @@ xcodebuild \
   -derivedDataPath "$ios_root/DerivedData" \
   -resultBundlePath "$result_path" \
   -skip-testing:MadrasadzUITests/MadrasadzUITests/testPublicLearningNavigation \
+  -skip-testing:MadrasadzUITests/MadrasadzUITests/testPublicNativeLearning \
   CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
   test

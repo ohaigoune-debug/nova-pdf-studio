@@ -49,6 +49,19 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     var onAuthenticationPage: (() -> Void)?
     var onDownloadRequested: ((UUID) -> Void)?
     var onCookiesChanged: (() -> Void)?
+    /// Native learning (Build 8): a web link to the learning home or a course page
+    /// is handed to the native screen. Returns true when handled (the web load is
+    /// cancelled); false keeps the page in the web view (e.g. a background load).
+    var nativeRouteHandler: ((NativeRoute) -> Bool)?
+    /// Back-list length when the current web destination started; going back past
+    /// it returns to the native screen instead of an older web page.
+    private(set) var historyFloor: Int?
+    private var floorPending = false
+    /// A native screen opened a web page that has not committed yet: show a
+    /// placeholder instead of the previous destination's document.
+    @Published private(set) var destinationPending = false
+    private var destinationTarget: URL?
+    private var nativeCancelAt: Date?
     private var wasBackgrounded = false
     private var backgroundedAt: Date?
     private var processRecoveryAttempted = false
@@ -210,6 +223,9 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
                     if case .blocked(let reason) = self.policy.decision(for: url) {
                         self.show(reason)
                         self.open()
+                    } else if let route = self.policy.nativeRoute(for: url) {
+                        // Client-side (history API) navigation to a native page.
+                        _ = self.nativeRouteHandler?(route)
                     }
                 }
             }
@@ -223,12 +239,19 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     }
 
     func open(_ url: URL) {
-        guard !OfflineShellValidation.enabled else { failure = true; return }
+        guard !OfflineShellValidation.enabled else { destinationPending = false; failure = true; return }
         switch policy.decision(for: url) {
         case .internalPage(let target):
             cancelPendingLoad()
             failure = false
             let destination = canonical(target)
+            // The learning home and course pages have native screens: nothing to load.
+            if let route = policy.nativeRoute(for: destination), nativeRouteHandler?(route) == true {
+                floorPending = false
+                destinationPending = false
+                diagnostics.record("nav.native", "gen=\(webViewGeneration) page=\(pageCategory(destination)) source=app")
+                return
+            }
             var request = URLRequest(url: destination, cachePolicy: .reloadIgnoringLocalCacheData)
             request.setValue("study-only", forHTTPHeaderField: "x-madrasadz-ios-client")
             let sameDocument = destination.fragment != nil && webView.url.map { Self.withoutFragment($0) } == Self.withoutFragment(destination)
@@ -239,8 +262,14 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
             // reports no provisional start/finish for it, so no deadline.
             if !sameDocument { armNavigationDeadline() }
             diagnostics.record("nav.request", "gen=\(webViewGeneration) page=\(pageCategory(destination)) attached=\(webView.window != nil) sameDocument=\(sameDocument)")
-        case .external(let target): openExternal(target)
-        case .blocked(let reason): show(reason)
+        case .external(let target):
+            floorPending = false
+            destinationPending = false
+            openExternal(target)
+        case .blocked(let reason):
+            floorPending = false
+            destinationPending = false
+            show(reason)
         }
     }
 
@@ -519,6 +548,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
             self.finishNavigationWait()
             self.restoring = false
             self.verifyAfterLoad = false
+            self.destinationPending = false
             self.failure = true
         }
     }
@@ -535,8 +565,48 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         armNavigationDeadline()
     }
 
+    /// A native screen opens a web destination: the page loaded next becomes the
+    /// start of this destination's history (back past it returns to native).
+    func openWebDestination(_ url: URL) {
+        floorPending = true
+        historyFloor = nil
+        destinationTarget = url
+        destinationPending = true
+        failure = false
+        restoring = false
+        diagnostics.record("web.destination", "gen=\(webViewGeneration) page=\(pageCategory(url)) attached=\(webView.window != nil)")
+        // The destination's container attaches the view during the push.
+        loadWhenAttached(url)
+    }
+
+    /// The web destination was closed (back to a native screen).
+    func endWebDestination() {
+        floorPending = false
+        historyFloor = nil
+        destinationTarget = nil
+        destinationPending = false
+        cancelPendingLoad()
+        if webView.isLoading { webView.stopLoading() }
+        finishNavigationWait()
+        restoring = false
+        failure = false
+        diagnostics.record("web.destination-closed", "gen=\(webViewGeneration)")
+    }
+
+    /// Back inside the web destination, or nil when the native screen should pop.
+    func goBackWithinDestination() -> Bool {
+        guard let floor = historyFloor, webView.canGoBack, webView.backForwardList.backList.count > floor else { return false }
+        webView.goBack()
+        return true
+    }
+
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         guard webView === self.webView, navigation === activeNavigation else { return }
+        if floorPending {
+            floorPending = false
+            historyFloor = webView.backForwardList.backList.count
+        }
+        destinationPending = false
         diagnostics.record("nav.commit", "gen=\(webViewGeneration)")
     }
 
@@ -545,10 +615,16 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         failure = false
         processRecoveryAttempted = false
         diagnostics.record("retry", "gen=\(webViewGeneration) terminated=\(contentProcessTerminated) document=\(webView.url != nil)")
+        // A web destination whose first page never committed retries that page,
+        // not the previous destination's document.
+        let pendingTarget = floorPending ? destinationTarget : nil
         if contentProcessTerminated || webView.url == nil {
             // A reclaimed renderer may ignore a reload; use a new attachment.
             replaceWebView()
-            loadWhenAttached(restorationURL)
+            loadWhenAttached(pendingTarget ?? restorationURL)
+        } else if let pendingTarget {
+            webView.stopLoading()
+            open(pendingTarget)
         } else {
             restoreCurrentPage()
         }
@@ -614,6 +690,13 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
             decisionHandler(allowed ? .allow : .cancel)
             return
         }
+        if action.targetFrame?.isMainFrame ?? true, let route = policy.nativeRoute(for: canonical(url)), nativeRouteHandler?(route) == true {
+            nativeCancelAt = Date()
+            decisionHandler(.cancel)
+            destinationPending = false
+            diagnostics.record("nav.native", "gen=\(webViewGeneration) page=\(pageCategory(url)) source=web")
+            return
+        }
         switch policy.decision(for: url) {
         case .internalPage(let target):
             let mapped = canonical(target)
@@ -659,6 +742,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         guard webView === self.webView, navigation === activeNavigation else { return }
         finishNavigationWait()
+        destinationPending = false
         currentURL = webView.url
         currentTitle = webView.title ?? "Madrasadz"
         diagnostics.record("nav.finish", "gen=\(webViewGeneration) page=\(pageCategory(webView.url))")
@@ -674,6 +758,13 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         guard webView === self.webView, navigation === activeNavigation, (error as NSError).code != NSURLErrorCancelled else { return }
+        // Our own cancel of a link that has a native screen is not a failure.
+        let code = error as NSError
+        if code.domain == "WebKitErrorDomain", code.code == 102, let at = nativeCancelAt, Date().timeIntervalSince(at) < 2 {
+            nativeCancelAt = nil
+            finishNavigationWait()
+            return
+        }
         navigationFailed(error, stage: "provisional")
     }
 
@@ -686,6 +777,7 @@ final class BrowserController: NSObject, ObservableObject, WKNavigationDelegate,
         let code = error as NSError
         // Error domain and code only; never the failing URL or description.
         diagnostics.record("nav.fail", "gen=\(webViewGeneration) stage=\(stage) error=\(code.domain)/\(code.code)")
+        destinationPending = false
         finishNavigationWait()
         restoring = false
         verifyAfterLoad = false

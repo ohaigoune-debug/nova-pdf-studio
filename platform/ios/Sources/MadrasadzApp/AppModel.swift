@@ -33,6 +33,8 @@ final class AppModel: ObservableObject {
     let browser = BrowserController()
     /// Teacher-allowed PDFs kept inside the app for one account (owner decision).
     let downloads = OfflineLibrary()
+    /// Native learning screens (Build 8), shown only when the server offers them.
+    let native = NativeLearningModel()
     private let store: StudyStore
     private let notifications = UNUserNotificationCenter.current()
     private var studySession: StudySession?
@@ -47,7 +49,9 @@ final class AppModel: ObservableObject {
     private var identityRefresh: Task<Void, Never>?
     private var identityRefreshRevision: Int?
     private var identityTimeout: Task<Void, Never>?
-    @Published var identity: Identity = .checking
+    @Published var identity: Identity = .checking {
+        didSet { native.identityDidChange() }
+    }
     @Published var snapshot = StudySnapshot.empty
     @Published var selectedTab = 0
     @Published var notice: String?
@@ -62,6 +66,7 @@ final class AppModel: ObservableObject {
         // A cookie event may replace an account while a request is in flight.
         // Supersede that request, but coalesce ordinary page-finished/retry events.
         browser.onCookiesChanged = { [weak self] in Task { await self?.refreshIdentity(superseding: true) } }
+        native.attach(self)
     }
 
     var personalSpaceReady: Bool { if case .ready = identity { return !busy }; return false }
@@ -82,6 +87,7 @@ final class AppModel: ObservableObject {
         notifications.removeAllPendingNotificationRequests()
         notifications.removeAllDeliveredNotifications()
         browser.open()
+        native.checkCapabilities(force: true)
         await refreshIdentity()
     }
 
@@ -315,7 +321,67 @@ final class AppModel: ObservableObject {
         guard personalSpaceReady, snapshot.bookmarks.contains(where: { $0.id == bookmark.id && $0.relativeURL == bookmark.relativeURL }),
               let url = browser.policy.url(forBookmarkPath: bookmark.relativeURL) else { return }
         selectedTab = 0
+        if native.open(url: url) { return }
         browser.open(url)
+    }
+
+    /// Opens a website page from a native control (menu, sign-in buttons): the
+    /// native screen when there is one, otherwise the page in the Study tab.
+    func openWebsite(path: String) {
+        guard let url = URL(string: path, relativeTo: browser.baseURL)?.absoluteURL else { return }
+        selectedTab = 0
+        if native.open(url: url) { return }
+        browser.open(url)
+    }
+
+    /// Bookmark a native screen by the web path it stands for (same store rules).
+    func saveBookmark(title: String, path: String) async {
+        guard let session = studySession, personalSpaceReady, !studyWriteBusy,
+              let url = URL(string: path, relativeTo: browser.baseURL)?.absoluteURL else { return }
+        let revision = generation
+        studyWriteBusy = true
+        defer { studyWriteBusy = false }
+        do {
+            guard isCurrent(session, revision: revision) else { return }
+            _ = try await store.addBookmark(title: String(title.prefix(200)), url: url, session: session)
+            guard isCurrent(session, revision: revision) else { return }
+            let state = try await store.snapshot(using: session)
+            guard isCurrent(session, revision: revision) else { return }
+            snapshot = state
+            notice = L10n.text("savedNotice")
+        } catch { if isCurrent(session, revision: revision) { notice = L10n.text("error") } }
+    }
+
+    enum NativeFetchError: Error { case cancelled, accountMismatch, badResponse }
+
+    /// GET a read-only iOS API path with the website session (or as a guest when
+    /// there is none). A response that names another account than the verified
+    /// one is dropped and identity is re-checked; nothing is cached here.
+    func nativeFetch(path: String, checkAccount: Bool = true) async throws -> (status: Int, data: Data) {
+        let revision = generation
+        guard let target = URL(string: path, relativeTo: browser.baseURL)?.absoluteURL,
+              target.path.hasPrefix("/api/v1/ios/") else { throw NativeFetchError.badResponse }
+        var request: URLRequest
+        if checkAccount, let authenticated = try await authenticatedRequest(path: path, revision: revision) {
+            request = authenticated
+        } else {
+            request = URLRequest(url: target, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 15)
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            request.setValue("no-store", forHTTPHeaderField: "Cache-Control")
+        }
+        request.timeoutInterval = 15
+        let (data, response) = try await perform(request)
+        // A public, cookie-less request (capabilities) does not belong to an account.
+        if checkAccount { guard revision == generation, !busy else { throw NativeFetchError.cancelled } }
+        guard data.count <= 2_000_000, response.url?.path == target.path else { throw NativeFetchError.badResponse }
+        if checkAccount {
+            let header = response.value(forHTTPHeaderField: "X-Madrasadz-Account")?.lowercased()
+            if header != verifiedAccountID?.lowercased() {
+                Task { await refreshIdentity(superseding: true) }
+                throw NativeFetchError.accountMismatch
+            }
+        }
+        return (response.statusCode, data)
     }
 
     private func reminderMinute(_ date: Date) -> Date? {

@@ -4,15 +4,19 @@ import XCTest
 /// Actual execution still requires Xcode/iPhone Simulator. These cases cover only
 /// a disconnected, signed-out Debug shell; they are not authenticated WebKit tests.
 final class MadrasadzUITests: XCTestCase {
+    /// The signed-out /ios page heading (server 662680b and later).
+    private let publicLearningHeading = "مرحبًا بك في مدرسة"
+
     /// Public, unauthenticated WebKit navigation only. Run explicitly with
     /// test-public-navigation.sh; the offline suite skips this networked case.
+    /// Forces the web learning pages (Build 7 path) so WebKit recovery stays covered.
     @MainActor func testPublicLearningNavigation() throws {
         #if !DEBUG
         throw XCTSkip("Run the public navigation smoke test in Debug.")
         #else
         continueAfterFailure = false
         let app = XCUIApplication()
-        app.launchArguments += ["-AppleLanguages", "(ar)", "-AppleLocale", "ar_DZ"]
+        app.launchArguments += ["-AppleLanguages", "(ar)", "-AppleLocale", "ar_DZ", "--madrasadz-web-learning"]
         app.launch()
         defer {
             let hierarchy = XCTAttachment(string: app.debugDescription)
@@ -26,7 +30,7 @@ final class MadrasadzUITests: XCTestCase {
             app.terminate()
         }
         let web = app.webViews.firstMatch
-        XCTAssertTrue(web.staticTexts["مساحة التعلّم"].waitForExistence(timeout: 60))
+        XCTAssertTrue(web.staticTexts[publicLearningHeading].waitForExistence(timeout: 60))
         // The accessibility tree can exist while the web area is not painted, so
         // every foreground step also checks the on-screen pixels of that area.
         XCTAssertTrue(waitForPaintedWebArea(app, web, timeout: 30), "Learning page was not painted before backgrounding")
@@ -35,7 +39,7 @@ final class MadrasadzUITests: XCTestCase {
             XCUIDevice.shared.press(.home)
             app.activate()
             XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
-            XCTAssertTrue(web.staticTexts["مساحة التعلّم"].waitForExistence(timeout: 40))
+            XCTAssertTrue(web.staticTexts[publicLearningHeading].waitForExistence(timeout: 40))
             XCTAssertTrue(waitForPaintedWebArea(app, web, timeout: 30), "Cycle \(cycle): web area stayed uniform (blank/black)")
             let resumed = XCTAttachment(screenshot: app.screenshot())
             resumed.name = "Public-foreground-cycle-\(cycle)"
@@ -48,7 +52,7 @@ final class MadrasadzUITests: XCTestCase {
             app.activate()
         }
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
-        XCTAssertTrue(web.staticTexts["مساحة التعلّم"].waitForExistence(timeout: 40))
+        XCTAssertTrue(web.staticTexts[publicLearningHeading].waitForExistence(timeout: 40))
         XCTAssertTrue(waitForPaintedWebArea(app, web, timeout: 30), "Rapid switching left the web area uniform (blank/black)")
         XCTAssertFalse(app.buttons["retryPage"].exists, "Rapid switching must not end in the failure state")
         let rapid = XCTAttachment(screenshot: app.screenshot())
@@ -65,6 +69,98 @@ final class MadrasadzUITests: XCTestCase {
         XCTAssertTrue(web.textFields["البريد الإلكتروني"].waitForExistence(timeout: 40))
         attachForegroundDiagnostics(app)
         #endif
+    }
+
+    /// Native learning against the public server, signed out: the app asks the
+    /// server for its capabilities, shows the native welcome card, opens sign-in
+    /// in the web view and comes back. No credentials, writes or test accounts.
+    @MainActor func testPublicNativeLearning() throws {
+        #if !DEBUG
+        throw XCTSkip("Run the public native smoke test in Debug.")
+        #else
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments += ["-AppleLanguages", "(ar)", "-AppleLocale", "ar_DZ"]
+        app.launch()
+        defer {
+            let capture = XCTAttachment(screenshot: app.screenshot())
+            capture.name = "Public-native-learning-no-account"
+            capture.lifetime = .keepAlways
+            add(capture)
+            attachForegroundDiagnostics(app)
+            app.terminate()
+        }
+        let signIn = app.buttons["nativeSignIn"]
+        XCTAssertTrue(signIn.waitForExistence(timeout: 60), "Native welcome card did not appear (server capabilities or home API)")
+        XCTAssertTrue(labelled(app, "مرحبًا بك في مدرسة").exists)
+        XCTAssertTrue(labelled(app, "مجانًا للجميع").exists)
+        let home = XCTAttachment(screenshot: app.screenshot())
+        home.name = "Public-native-home"
+        home.lifetime = .keepAlways
+        add(home)
+        // Background and return: native screens have no web view to recover.
+        XCUIDevice.shared.press(.home)
+        app.activate()
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
+        XCTAssertTrue(signIn.waitForExistence(timeout: 20))
+        signIn.tap()
+        let web = app.webViews.firstMatch
+        XCTAssertTrue(web.textFields["البريد الإلكتروني"].waitForExistence(timeout: 40))
+        XCTAssertTrue(waitForPaintedWebArea(app, web, timeout: 30), "Sign-in page was not painted in the web destination")
+        app.buttons["webBack"].tap()
+        XCTAssertTrue(signIn.waitForExistence(timeout: 20), "Back from the web destination must return to the native home")
+        #endif
+    }
+
+    /// Native home and course screens from built-in sample data (Debug only,
+    /// disconnected: no server, account or WebKit page load).
+    @MainActor func testNativeLearningFixture() throws {
+        #if !DEBUG
+        throw XCTSkip("Native fixtures are compiled out of Release.")
+        #else
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments += ["-AppleLanguages", "(ar)", "-AppleLocale", "ar_DZ",
+                                "--madrasadz-offline-shell-validation", "--madrasadz-native-fixture"]
+        app.launch()
+        defer {
+            let hierarchy = XCTAttachment(string: app.debugDescription)
+            hierarchy.name = "Native-fixture-accessibility"
+            hierarchy.lifetime = .keepAlways
+            add(hierarchy)
+            app.terminate()
+        }
+        XCTAssertTrue(labelled(app, "مساحة التعلّم").waitForExistence(timeout: 15))
+        XCTAssertTrue(labelled(app, "دوراتي").exists)
+        XCTAssertTrue(labelled(app, "تدرّب واختبر نفسك").exists)
+        let homeShot = XCTAttachment(screenshot: app.screenshot())
+        homeShot.name = "Native-fixture-home"
+        homeShot.lifetime = .keepAlways
+        add(homeShot)
+        let course = app.buttons.matching(identifier: "courseCard").firstMatch
+        XCTAssertTrue(course.waitForExistence(timeout: 5))
+        course.tap()
+        let rows = app.buttons.matching(identifier: "lessonRow")
+        XCTAssertTrue(rows.firstMatch.waitForExistence(timeout: 10))
+        XCTAssertGreaterThanOrEqual(rows.count, 2)
+        let courseShot = XCTAttachment(screenshot: app.screenshot())
+        courseShot.name = "Native-fixture-course"
+        courseShot.lifetime = .keepAlways
+        add(courseShot)
+        // A lesson opens in the web view; disconnected, it shows Retry.
+        rows.firstMatch.tap()
+        XCTAssertTrue(app.buttons["retryPage"].waitForExistence(timeout: 10))
+        app.buttons["webBack"].tap()
+        XCTAssertTrue(rows.firstMatch.waitForExistence(timeout: 10), "Back must return to the native course")
+        let closed = expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: app.buttons["retryPage"])
+        wait(for: [closed], timeout: 10)
+        #endif
+    }
+
+    /// Any element whose accessibility label is exactly `label` (SwiftUI may
+    /// combine a heading's icon and text into one element of another type).
+    @MainActor private func labelled(_ app: XCUIApplication, _ label: String) -> XCUIElement {
+        app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", label)).firstMatch
     }
 
     /// Polls the centre of the web area for visible variation. A hidden/unpainted

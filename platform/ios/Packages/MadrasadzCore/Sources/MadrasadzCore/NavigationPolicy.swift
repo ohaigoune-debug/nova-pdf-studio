@@ -53,6 +53,24 @@ public struct NavigationPolicy: Sendable {
         return .blocked(.unsupportedRoute)
     }
 
+    /// Native screen for an internal page, when the server offers native learning:
+    /// the learning home and a course page. Everything else stays in the web view.
+    /// One-way mapping (web → native), so it cannot loop.
+    public func nativeRoute(for url: URL) -> NativeRoute? {
+        guard case .internalPage = decision(for: url),
+              let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let path = normalizedPath(components) else { return nil }
+        let trimmed = path.count > 1 && path.hasSuffix("/") ? String(path.dropLast()) : path
+        let lower = trimmed.lowercased()
+        if lower == "/ios" || lower == "/" || lower == "/student" || lower == "/student/courses" { return .home }
+        for prefix in ["/ios/course/", "/student/courses/"] where lower.hasPrefix(prefix) {
+            let slug = String(trimmed.dropFirst(prefix.count))
+            guard !slug.isEmpty, !slug.contains("/"), slug.count <= 200 else { return nil }
+            return .course(slug)
+        }
+        return nil
+    }
+
     /// Store only an approved study page path. Query strings/fragments may contain
     /// short-lived signatures or tokens and are deliberately never persisted.
     public func bookmarkPath(for url: URL) -> String? {
@@ -112,6 +130,12 @@ public struct NavigationPolicy: Sendable {
         "/student/courses", "/student/lessons", "/student/files", "/student/videos", "/student/practice",
         "/student/quizzes", "/student/play", "/student/exams", "/student/assignments", "/student/classroom", "/student/past-bac"
     ]
+}
+
+public enum NativeRoute: Hashable, Sendable {
+    case home
+    /// Decoded course slug (the API path re-encodes it).
+    case course(String)
 }
 
 public enum NavigationDecision: Equatable, Sendable {

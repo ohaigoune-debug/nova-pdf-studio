@@ -31,6 +31,8 @@ struct MadrasadzApp: App {
                     if phase == .active, model.browser.restoreAfterBackground() {
                         Task { await model.refreshIdentity(superseding: true) }
                     }
+                    // Re-ask the server about native screens at most every 10 minutes.
+                    if phase == .active { model.native.sceneBecameActive() }
                 }
         }
     }

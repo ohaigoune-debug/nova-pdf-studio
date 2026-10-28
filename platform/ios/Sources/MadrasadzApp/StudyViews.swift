@@ -7,75 +7,30 @@ struct StudyRootView: View {
     @ObservedObject var model: AppModel
     @ObservedObject private var browser: BrowserController
     @ObservedObject private var downloads: OfflineLibrary
+    @ObservedObject private var native: NativeLearningModel
+    @StateObject private var capture = SceneCaptureState()
     @State private var showingAccount = false
 
-    init(model: AppModel) { self.model = model; browser = model.browser; downloads = model.downloads }
+    init(model: AppModel) {
+        self.model = model
+        browser = model.browser
+        downloads = model.downloads
+        native = model.native
+    }
 
     var body: some View {
         TabView(selection: $model.selectedTab) {
-            NavigationStack {
-                ZStack {
-                    // One SwiftUI-owned protection container per WKWebView: a
-                    // replacement view gets a new container and capture observer.
-                    PlatformWebView(browser: browser)
-                        .id(ObjectIdentifier(browser.webView))
-                    if browser.restoring && !browser.failure {
-                        VStack(spacing: 12) {
-                            ProgressView()
-                            Text(L10n.text("restoring")).font(.footnote).foregroundStyle(.secondary)
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(.background)
-                        .accessibilityElement(children: .combine)
-                        .accessibilityIdentifier("restoringPage")
-                    }
-                    if browser.failure {
-                        ContentUnavailableView {
-                            Label(L10n.text("connection"), systemImage: "wifi.exclamationmark")
-                        } description: {
-                            Text(L10n.text("connectionBody"))
-                        } actions: {
-                            Button(L10n.text("retry")) { browser.retry() }
-                                .buttonStyle(.borderedProminent)
-                                .accessibilityIdentifier("retryPage")
-                        }.background(.background)
-                    }
-                    if let value = downloads.progress {
-                        DownloadProgressRing(value: value)
-                    }
-                }
-                .safeAreaInset(edge: .top, spacing: 0) {
-                    if browser.loading { ProgressView().progressViewStyle(.linear).accessibilityLabel(L10n.text("checking")) }
-                }
-                .navigationTitle("مدرسة")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    // Owner decision (Build 7): no share or reload buttons in the bar.
-                    // A failed page still shows the Retry overlay; the foreground
-                    // recovery ladder is unchanged.
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button { browser.webView.goBack() } label: { Image(systemName: "chevron.backward") }
-                            .disabled(!browser.canGoBack).accessibilityLabel(L10n.text("back"))
-                    }
-                    ToolbarItemGroup(placement: .topBarTrailing) {
-                        if model.personalSpaceReady, let url = browser.currentURL,
-                           browser.policy.bookmarkPath(for: url) != nil {
-                            Button { Task { await model.saveCurrentPage() } } label: { Image(systemName: "bookmark") }
-                                .accessibilityLabel(L10n.text("bookmark"))
-                        }
-                        Button { showingAccount = true } label: { Image(systemName: "line.3.horizontal") }
-                            .accessibilityLabel(L10n.text("menu")).accessibilityIdentifier("accountButton")
-                    }
-                }
-            }.tabItem { Label(L10n.text("study"), systemImage: "book") }.tag(0)
+            learning.tabItem { Label(L10n.text("study"), systemImage: "book") }.tag(0)
             NavigationStack { BookmarksView(model: model) }
                 .tabItem { Label(L10n.text("saved"), systemImage: "bookmark") }.tag(1)
             NavigationStack { PlannerView(model: model) }
                 .tabItem { Label(L10n.text("planner"), systemImage: "calendar") }.tag(2)
         }
         .tint(brandBlue)
+        // Scene capture for native screens; a web page also has its own shield.
+        .background { SceneCaptureProbe(state: capture).frame(width: 0, height: 0).accessibilityHidden(true) }
         .overlay {
-            if browser.mediaProtection.capture == .active {
+            if browser.mediaProtection.capture == .active || capture.captured {
                 PrivacyProtectionCover(messageKey: "captureBlocked") {
                     #if DEBUG
                     if browser.captureValidationActive {
@@ -109,6 +64,126 @@ struct StudyRootView: View {
         })) {
             Button(L10n.text("ok"), role: .cancel) { model.notice = nil; browser.notice = nil; downloads.notice = nil }
         } message: { Text(model.notice ?? browser.notice ?? downloads.notice ?? "") }
+    }
+
+    /// Native home and course screens when the server offers them (Build 8);
+    /// otherwise, or until the server has answered once, the web learning pages.
+    @ViewBuilder private var learning: some View {
+        if native.rootIsNative {
+            NavigationStack(path: $native.path) {
+                NativeHomeView(model: model, native: native, showingAccount: $showingAccount)
+                    .navigationDestination(for: LearnRoute.self) { route in
+                        switch route {
+                        case .course(let slug):
+                            NativeCourseView(model: model, native: native, slug: slug, showingAccount: $showingAccount)
+                        case .web:
+                            WebLearningScreen(model: model, destination: true, showingAccount: $showingAccount) { native.closeWeb() }
+                        }
+                    }
+            }
+        } else if native.available == nil {
+            NavigationStack {
+                ProgressView(L10n.text("loading"))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .accessibilityIdentifier("learningStarting")
+                    .navigationTitle("مدرسة")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar { ToolbarItem(placement: .topBarTrailing) { MenuToolbarButton(showing: $showingAccount) } }
+            }
+        } else {
+            NavigationStack {
+                WebLearningScreen(model: model, destination: false, showingAccount: $showingAccount) {}
+            }
+        }
+    }
+}
+
+/// The shared WKWebView with its recovery, failure and download overlays. As the
+/// Study root (web learning) it keeps the Build 7 behaviour; as a destination
+/// above native screens, back walks the page history and then returns to native.
+struct WebLearningScreen: View {
+    @ObservedObject var model: AppModel
+    @ObservedObject private var browser: BrowserController
+    @ObservedObject private var downloads: OfflineLibrary
+    let destination: Bool
+    @Binding var showingAccount: Bool
+    let close: () -> Void
+
+    init(model: AppModel, destination: Bool, showingAccount: Binding<Bool>, close: @escaping () -> Void) {
+        self.model = model
+        browser = model.browser
+        downloads = model.downloads
+        self.destination = destination
+        _showingAccount = showingAccount
+        self.close = close
+    }
+
+    var body: some View {
+        ZStack {
+            // One SwiftUI-owned protection container per WKWebView: a
+            // replacement view gets a new container and capture observer.
+            PlatformWebView(browser: browser)
+                .id(ObjectIdentifier(browser.webView))
+            if destination && browser.destinationPending && !browser.failure {
+                // Not the previous destination's page while the new one starts.
+                ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(.background)
+                    .accessibilityIdentifier("openingPage")
+            }
+            if browser.restoring && !browser.failure {
+                VStack(spacing: 12) {
+                    ProgressView()
+                    Text(L10n.text("restoring")).font(.footnote).foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(.background)
+                .accessibilityElement(children: .combine)
+                .accessibilityIdentifier("restoringPage")
+            }
+            if browser.failure {
+                ContentUnavailableView {
+                    Label(L10n.text("connection"), systemImage: "wifi.exclamationmark")
+                } description: {
+                    Text(L10n.text("connectionBody"))
+                } actions: {
+                    Button(L10n.text("retry")) { browser.retry() }
+                        .buttonStyle(.borderedProminent)
+                        .accessibilityIdentifier("retryPage")
+                }.background(.background)
+            }
+            if let value = downloads.progress {
+                DownloadProgressRing(value: value)
+            }
+        }
+        .safeAreaInset(edge: .top, spacing: 0) {
+            if browser.loading { ProgressView().progressViewStyle(.linear).accessibilityLabel(L10n.text("checking")) }
+        }
+        .navigationTitle("مدرسة")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(destination)
+        .toolbar {
+            // Owner decision (Build 7): no share or reload buttons in the bar.
+            // A failed page still shows the Retry overlay; the foreground
+            // recovery ladder is unchanged.
+            ToolbarItem(placement: .topBarLeading) {
+                if destination {
+                    Button { if !browser.goBackWithinDestination() { close() } } label: { Image(systemName: "chevron.backward") }
+                        .accessibilityLabel(L10n.text("back")).accessibilityIdentifier("webBack")
+                } else {
+                    Button { browser.webView.goBack() } label: { Image(systemName: "chevron.backward") }
+                        .disabled(!browser.canGoBack).accessibilityLabel(L10n.text("back"))
+                }
+            }
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                if model.personalSpaceReady, let url = browser.currentURL,
+                   browser.policy.bookmarkPath(for: url) != nil, !browser.destinationPending {
+                    Button { Task { await model.saveCurrentPage() } } label: { Image(systemName: "bookmark") }
+                        .accessibilityLabel(L10n.text("bookmark"))
+                }
+                MenuToolbarButton(showing: $showingAccount)
+            }
+        }
     }
 }
 
@@ -175,7 +250,7 @@ struct IdentityGate: View {
             VStack(spacing: 24) {
                 ProgressView(L10n.text("checking"))
                     .accessibilityIdentifier("checkingAccount")
-                Button(L10n.text("signIn")) { model.selectedTab = 0; model.browser.open(path: "/login") }
+                Button(L10n.text("signIn")) { model.openWebsite(path: "/login") }
                     .buttonStyle(.borderedProminent)
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
@@ -190,7 +265,7 @@ struct IdentityGate: View {
                 default: Text(L10n.text("offlineAccount"))
                 }
             } actions: {
-                Button(L10n.text("signIn")) { model.selectedTab = 0; model.browser.open(path: "/login") }
+                Button(L10n.text("signIn")) { model.openWebsite(path: "/login") }
                     .buttonStyle(.borderedProminent)
                 Button(L10n.text("retry")) { Task { await model.refreshIdentity() } }
             }
@@ -237,8 +312,7 @@ struct AccountView: View {
 
     private func go(_ path: String) {
         showing = false
-        model.selectedTab = 0
-        model.browser.open(path: path)
+        model.openWebsite(path: path)
     }
 
     private func row(_ key: String, _ icon: String, _ path: String) -> some View {

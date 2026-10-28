@@ -1,6 +1,6 @@
 name: iOS — signed IPA
-# Revision 10: export Build 7 — owner-requested top bar without share/reload, the
-# redesigned revision planner with suggested plans, and a menu-time media probe.
+# Revision 11: export Build 8 — native learning home and course screens (iOS API
+# v1, gated by the server's capabilities), lessons and tools in the web view.
 # For validation only. Uses the existing owner-approved
 # signing inputs; does not upload to Apple. Upload stays pinned until validated.
 
