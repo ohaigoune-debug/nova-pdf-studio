@@ -14,16 +14,18 @@ export interface CardProps {
   /** بعد التصحيح: لتلوين الاختيار المختار */
   result: { isCorrect: boolean; correctText: string } | null
   motion: boolean
+  /** الاختيار المتعدد: عمودان على الشاشات الواسعة (الافتراضي) أو عمود واحد داخل بطاقة اللعب */
+  layout?: 'grid' | 'stack'
 }
 
 /* ---------------------------------- MCQ ---------------------------------- */
 
-export function McqCard({ payload, disabled, onChange, result, motion }: CardProps) {
+export function McqCard({ payload, disabled, onChange, result, motion, layout = 'grid' }: CardProps) {
   const [picked, setPicked] = useState<string | null>(null)
   if (payload.type !== 'MCQ') return null
   const letters = ['أ', 'ب', 'ج', 'د', 'هـ', 'و']
   return (
-    <div className="grid gap-3 sm:grid-cols-2" role="radiogroup">
+    <div className={cn('grid gap-3', layout === 'grid' && 'sm:grid-cols-2')} role="radiogroup">
       {payload.options.map((o, i) => {
         const isPicked = picked === o.key
         const isCorrectOpt = result ? o.text === result.correctText : false

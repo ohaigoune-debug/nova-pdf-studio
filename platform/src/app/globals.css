@@ -286,3 +286,105 @@
   .student-bottom-nav { padding-bottom: env(safe-area-inset-bottom); }
   @media (min-width: 1024px) { .student-content { padding-bottom: 2rem; } }
 }
+
+/*
+ * لعبة البطاقات (MADRASADZ PLAY) — مرجع التصميم «Simple Blue» مكيّفًا مع الهوية:
+ * الأزرار والأخضر والأحمر من رموز المنصة نفسها، وهذه الرموز للخلفية والظهر الأزرق والذهبي المحدود فقط.
+ * القلب CSS فقط (transform/opacity): لا مكتبات، ولا حركة مع prefers-reduced-motion.
+ */
+@layer components {
+  .play-deck {
+    --deck-bg: 222 100% 98%; /* #F5F8FF */
+    --deck-back: 215 81% 47%; /* #1768D7 */
+    --deck-back-deep: 216 91% 34%; /* #0846A3 */
+    --deck-line: 216 70% 91%; /* #D7E4F8 */
+    --deck-gold: 41 80% 50%; /* #E6A619 */
+    --deck-gold-ink: 36 90% 28%; /* نص ذهبي مقروء على الفاتح */
+    --deck-flip-ms: 600ms;
+    /* ارتفاع البطاقة المغلقة: شكل بطاقة ثابت مهما طال السؤال؛ وجه السؤال يتمدد بعد القلب */
+    --deck-card-h: clamp(20rem, 52svh, 27rem);
+    /* حواف البطاقة أثناء القلب لا تُحدث تمريرًا أفقيًا (لا يجعلها حاوية تمرير، فيبقى sticky يعمل) */
+    overflow-x: clip;
+  }
+  /* الشاشات الواسعة: بطاقة طولية كما في المرجع */
+  @media (min-width: 640px) {
+    .play-deck {
+      --deck-card-h: clamp(22rem, 58svh, 32rem);
+    }
+  }
+  .dark .play-deck {
+    --deck-bg: 223.8 48.1% 10.6%;
+    --deck-back: 215 62% 40%;
+    --deck-back-deep: 216 72% 26%;
+    --deck-line: 218.7 28.3% 31.2%;
+    --deck-gold: 41 85% 62%;
+    --deck-gold-ink: 41 85% 70%;
+  }
+  .deck-scene {
+    position: relative;
+    isolation: isolate;
+    perspective: 1400px;
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+  /* بطاقة ثانية خلف الأولى توحي بالرزمة (في حالة الإخفاء فقط) */
+  .deck-scene[data-phase='covered']::before {
+    content: '';
+    position: absolute;
+    inset: 10px -4px -8px 8px;
+    z-index: -1;
+    border-radius: 20px;
+    border: 1px solid hsl(var(--deck-line));
+    background: hsl(var(--card));
+    transform: rotate(-2deg);
+  }
+  .deck-scene[data-phase='next'] {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  .deck-card {
+    position: relative;
+    display: grid;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    transition: transform var(--deck-flip-ms) ease-in-out;
+  }
+  .deck-card[data-flipped='true'] {
+    transform: rotateY(180deg);
+  }
+  .deck-face {
+    grid-area: 1 / 1;
+    min-height: var(--deck-card-h);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .deck-face-back {
+    background-color: hsl(var(--deck-back));
+    background-image:
+      repeating-linear-gradient(45deg, hsl(0 0% 100% / 0.05) 0 2px, transparent 2px 14px),
+      linear-gradient(160deg, hsl(var(--deck-back)), hsl(var(--deck-back-deep)));
+  }
+  /* الوجه الأمامي مُدار مسبقًا، فيظهر النص سليمًا (غير معكوس) بعد القلب في RTL وLTR */
+  .deck-face-front {
+    transform: rotateY(180deg);
+  }
+  /* قبل اكتمال القلب يأخذ الوجه الأمامي شكل البطاقة نفسه (يُكشف الباقي بعد القلب بتمدد قصير) */
+  .deck-card[data-settled='false'] > .deck-face-front {
+    max-height: var(--deck-card-h);
+    overflow: hidden;
+  }
+  /* بعد اكتمال القلب: لا تحويلات ثلاثية الأبعاد على المحتوى التفاعلي (المحصّلة واحدة، فلا قفزة) */
+  .deck-card[data-flipped][data-settled='true'],
+  .deck-card[data-settled='true'] > .deck-face-front {
+    transform: none;
+    transition: none;
+  }
+  .deck-card[data-motion='off'] {
+    transition: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .deck-scene,
+    .deck-card {
+      transition: none;
+    }
+  }
+}
