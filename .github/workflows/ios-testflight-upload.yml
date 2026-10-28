@@ -1,4 +1,4 @@
-name: iOS — Build 8 TestFlight upload
+name: iOS — Build 9 TestFlight upload
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ios-testflight-build-8-upload
+  group: ios-testflight-build-9-upload
   cancel-in-progress: false
 
 jobs:
@@ -26,20 +26,19 @@ jobs:
       - name: Download the owner-approved successful signed IPA
         uses: actions/download-artifact@v4
         with:
-          name: Madrasadz-signed-IPA-3f6e054ee3822125e1d8a010fe4c95ea95bfc94c
-          run-id: 40733783125
+          name: Madrasadz-signed-IPA-30635ccf35e09d915f937f2595581fbd2c7b55bd
+          run-id: 40762419358
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/madrasadz-approved-ipa
-      - name: Validate and upload Build 8 to Apple
+      - name: Validate and upload Build 9 to Apple
         env:
           MADRASADZ_ASC_PRIVATE_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_PRIVATE_KEY_BASE64 }}
           MADRASADZ_ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_KEY_ID }}
           MADRASADZ_ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
         run: bash platform/ios/scripts/upload-testflight.sh "$RUNNER_TEMP/madrasadz-approved-ipa/Madrasadz.ipa"
 
-# Owner-approved internal replacement. Pinned signed Build 8 artifact 12837260307
-# (signed run 40733783125 on 3f6e054; app source identical to cbcb95a). Unsigned
-# run 40733694677 on cbcb95a passed Debug/Release, the public WebKit and public
-# native tests in light and dark, the core package (iOS API v1 models) and native
-# UI including the native fixture test. No rebuild, new invitation, App Review
-# submission or release.
+# Owner-approved internal replacement. Pinned signed Build 9 artifact 12848048222
+# (signed run 40762419358 on 30635cc). Unsigned run 40762419317 on the same source
+# passed Debug/Release, the public WebKit and public native tests in light and dark,
+# the core package (lesson model) and native UI including the lesson and collection
+# fixture tests. No rebuild, new invitation, App Review submission or release.
