@@ -77,14 +77,23 @@ The app shows native screens only if this succeeds with `apiVersion >= 1`.
 {"ok":true,"data":{"lesson":{
   "slug":"…","title":"…","summary":"…"|null,"type":"LESSON",
   "bodyMarkdown":"…"|null,
-  "media":{"kind":"none"} | {"kind":"youtube","youtubeId":"…"} | {"kind":"pdf","contentId":"uuid","allowDownload":true} | {"kind":"video"} | {"kind":"external"},
+  "media":{"kind":"none"} | {"kind":"youtube","youtubeId":"…","contentId":"uuid"} | {"kind":"pdf","contentId":"uuid","allowDownload":true} | {"kind":"video","contentId":"uuid"} | {"kind":"external"},
   "webPath":"/ios/lesson/{slug}"
-}}}
+},
+ "viewer":{"name":"…"|null,"code":"8 hex"} | null
+}}
 ```
 
 - `bodyMarkdown` is raw text. The app renders it without executing HTML.
 - `pdf` carries only the content id. Viewing and saving go through the existing
   protected export (`/api/v1/ios/materials/{id}/export`), and only when
   `allowDownload` is true. Otherwise the app opens `webPath`.
-- Private video (`UPLOAD`/`BUNNY`) is `{"kind":"video"}` and has no playable URL.
+- Private video (`UPLOAD`/`BUNNY`) is `{"kind":"video","contentId"}` and has no playable URL.
   The app opens `webPath`.
+- `contentId` on `youtube`/`video` lets the native player send the existing
+  `POST /api/v1/media/heartbeat` (views report and the one-device limit), as the
+  web players do. Added 2026-10-28; older servers omit it and the app then plays
+  without heartbeats.
+- `viewer` (signed-in students only) feeds the native moving watermark: the
+  student's own name and the first 8 characters of the account id, the same
+  code the web watermark shows. No email or phone.

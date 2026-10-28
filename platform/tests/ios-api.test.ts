@@ -174,6 +174,7 @@ describe('lessons/[slug]', () => {
     const pub = await call('lesson', null, slugs.public!)
     expect(pub.status).toBe(200)
     expect(pub.body.data.lesson).toMatchObject({ type: 'LESSON', bodyMarkdown: 'عام', media: { kind: 'none' } })
+    expect(pub.body.data.viewer).toBeNull()
     expect((await call('lesson', null, slugs.session2!)).status).toBe(404)
     expect((await call('lesson', other, slugs.session2!)).status).toBe(404)
     const own = await call('lesson', student, slugs.session2!)
@@ -185,7 +186,9 @@ describe('lessons/[slug]', () => {
 
   it('الوسائط: يوتيوب بمعرّفه، وPDF بمعرّف المحتوى دون رابط ملف', async () => {
     const video = await call('lesson', student, slugs.video!)
-    expect(video.body.data.lesson.media).toEqual({ kind: 'youtube', youtubeId: 'dQw4w9WgXcQ' })
+    expect(video.body.data.lesson.media).toEqual({ kind: 'youtube', youtubeId: 'dQw4w9WgXcQ', contentId: expect.any(String) })
+    expect(video.body.data.viewer).toEqual({ name: expect.any(String), code: student.userId.slice(0, 8) })
+    expect(JSON.stringify(video.body)).not.toContain('@')
     const pdf = await call('lesson', student, slugs.pdf!)
     expect(pdf.body.data.lesson.media).toMatchObject({ kind: 'pdf', allowDownload: true, contentId: expect.any(String) })
     expectPrivate(pdf)

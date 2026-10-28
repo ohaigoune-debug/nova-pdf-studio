@@ -103,11 +103,15 @@ export async function iosApiLesson(db: Db, actor: Actor | null, slug: string) {
       bodyMarkdown: item.body ?? null,
       media: {
         kind,
-        ...(kind === 'youtube' ? { youtubeId: item.youtubeId } : {}),
+        // معرّف المحتوى للفيديو: نبضات المشاهدة وحدّ الجهاز الواحد في المشغّل الأصلي (لا رابط ملف)
+        ...(kind === 'youtube' ? { youtubeId: item.youtubeId, contentId: item.id } : {}),
+        ...(kind === 'video' ? { contentId: item.id } : {}),
         // PDF: معرّف المحتوى ليستعمله مسار التصدير الحالي المحمي، لا رابط ملف
         ...(kind === 'pdf' ? { contentId: item.id, allowDownload: Boolean(item.allowDownload) } : {})
       },
       webPath: `/ios/lesson/${encodeURIComponent(item.slug)}`
-    }
+    },
+    // العلامة المائية في المشغّل الأصلي: اسم التلميذ نفسه ورمز حسابه (أول 8 خانات، مثل الموقع) — لا بريد ولا هاتف
+    viewer: actor ? { name: actor.fullName || null, code: actor.userId.slice(0, 8) } : null
   }
 }
