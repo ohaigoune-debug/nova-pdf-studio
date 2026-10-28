@@ -82,3 +82,8 @@ curl -s https://madrasadz.com/api/v1/ios/capabilities
 
 أعد أمر `compose up` نفسه، لكن بملف `/opt/madrasa/releases/ios-662680b/ios-runtime.override.json`.
 لا رجوع لقاعدة البيانات، لأن المخطط لم يتغيّر.
+
+## سجل التحقق قبل النشر
+
+- 28 أكتوبر 2026: `next build` الإنتاجي على `994d609` نجح (Compiled successfully). المصدر
+  نفسه الذي في الأوامر أعلاه.
