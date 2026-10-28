@@ -63,7 +63,7 @@ export function RoleTiles({ title, tiles, more }: { title?: string; tiles: RoleT
                 className="flex min-h-11 items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-white/90 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
               >
                 <TileIcon name={tile.iconKey} className="size-4 shrink-0 text-accent" />
-                <span className="truncate">{tile.label}</span>
+                <span className="min-w-0 leading-snug">{tile.label}</span>
               </Link>
             </li>
           ))}
