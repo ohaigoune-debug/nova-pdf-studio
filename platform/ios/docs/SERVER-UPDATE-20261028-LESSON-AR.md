@@ -46,3 +46,7 @@ docker ps --format '{{.Image}}  {{.Status}}' | grep platform-app
 ## الرجوع
 
 أعد أمر `compose up` نفسه، لكن بملف `/opt/madrasa/releases/ios-83c5006/ios-runtime.override.json`.
+
+## سجل التحقق قبل النشر
+
+- `next build` الإنتاجي على مصدر `f80c956` نجح (Compiled successfully).
