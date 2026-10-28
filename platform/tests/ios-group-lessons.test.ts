@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { groupLessons, splitTitle, type LessonEntry } from '@/app/ios/group-lessons'
+import { groupLessons, splitTitle, type LessonEntry } from '@/server/lib/group-lessons'
 
 const series = (stream: string) => ({ id: stream, title: `سلسلة الفروض والاختبارات — السنة الثالثة ثانوي — ${stream} — الفصل الأول (نسخة مجانية)` })
 

@@ -7,7 +7,7 @@ import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { iosLearningHome } from '@/server/services/ios-learning.service'
 import { phoneGateFor } from '@/server/services/phone-gate.service'
-import { groupLessons } from './group-lessons'
+import { groupLessons } from '@/server/lib/group-lessons'
 import { iosLabels } from './labels'
 
 const focus = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
