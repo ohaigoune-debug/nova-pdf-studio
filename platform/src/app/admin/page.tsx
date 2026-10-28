@@ -1,6 +1,8 @@
 import { Activity, AlertTriangle, CalendarCheck, Cpu, GraduationCap, HardDrive, ScrollText, Users, UsersRound } from 'lucide-react'
 import Link from 'next/link'
 import { AlgeriaMap } from '@/components/domain/algeria-map'
+import { RoleTiles, type RoleTile } from '@/components/domain/role-tiles'
+import { navFor } from '@/components/layout/nav'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageHeader, StatCard } from '@/components/ui/misc'
@@ -11,11 +13,29 @@ import { getDb } from '@/server/db/client'
 import { listAuditLogs, platformStats } from '@/server/services/admin.service'
 import { storageStats } from '@/server/queries/admin-extras.queries'
 import { studentsPerWilaya } from '@/server/queries/map.queries'
+import { listConfirmationQueue } from '@/server/services/store.service'
+
+/** أوامر المشرف الأساسية في مربعات (قرار المالك 2026-10-28): الأكثر استعمالًا أولًا */
+const MAIN_TILES: Omit<RoleTile, 'badge'>[] = [
+  { href: '/admin/store/confirm', label: 'طابور التأكيد', hint: 'اتصل بالزبائن وأكّد الطلبات', iconKey: 'PhoneCall' },
+  { href: '/admin/store', label: 'طلبات الدورات', hint: 'كل الطلبات وحالاتها', iconKey: 'ShoppingBag' },
+  { href: '/admin/delivery', label: 'التوصيل', hint: 'الطرود وشركات التوصيل', iconKey: 'Truck' },
+  { href: '/admin/courses', label: 'الدورات', hint: 'الدورات والأسعار والتفعيل', iconKey: 'GraduationCap' },
+  { href: '/admin/publish', label: 'نشر درس / فرض / اختبار', hint: 'محتوى جديد للتلاميذ', iconKey: 'Upload' },
+  { href: '/admin/students', label: 'التلاميذ', hint: 'الحسابات والاشتراكات', iconKey: 'Users' },
+  { href: '/admin/employees', label: 'الموظفون', hint: 'الحسابات ونشاطهم', iconKey: 'UsersRound' },
+  { href: '/admin/settings', label: 'الإعدادات', hint: 'المنصة والفيديو والدفع', iconKey: 'Settings' }
+]
 
 export default async function AdminHomePage() {
   const actor = await requirePageActor('SUPER_ADMIN')
   const db = await getDb()
-  const [s, storage, logs, map] = await Promise.all([platformStats(db, actor), storageStats(db, actor), listAuditLogs(db, actor, 10), studentsPerWilaya(db)])
+  const [s, storage, logs, map, queue] = await Promise.all([platformStats(db, actor), storageStats(db, actor), listAuditLogs(db, actor, 10), studentsPerWilaya(db), listConfirmationQueue(db, actor)])
+  const awaiting = queue.filter((o) => o.status === 'PENDING').length
+  const tiles: RoleTile[] = MAIN_TILES.map((tile) => (tile.href === '/admin/store/confirm' ? { ...tile, badge: awaiting } : tile))
+  // بقية أوامر القائمة الجانبية («المزيد») روابط صغيرة تحت المربعات، من المصدر نفسه فلا تختلف عنه
+  const mainHrefs = new Set(MAIN_TILES.map((x) => x.href))
+  const more = navFor('SUPER_ADMIN').flatMap((section) => section.items).filter((item) => item.href !== '/admin' && !mainHrefs.has(item.href)).map((item) => ({ href: item.href, label: item.label, iconKey: item.iconKey }))
   const topWilayas = map.filter((w) => w.students > 0).sort((a, b) => b.students - a.students).slice(0, 8)
   return (
     <div className="space-y-6">
@@ -28,6 +48,7 @@ export default async function AdminHomePage() {
           </Button>
         }
       />
+      <RoleTiles tiles={tiles} more={more} />
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('dashboard.usersCount')} value={s.users} icon={Users} />
         <StatCard label={t('dashboard.studentsCount')} value={s.students} icon={GraduationCap} />

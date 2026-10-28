@@ -1,9 +1,11 @@
 import { ArrowLeft, BookOpen, Brain, CheckCircle2, GraduationCap, QrCode, ShieldCheck, Smartphone, Sparkles, WifiOff, Youtube } from 'lucide-react'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { AlgeriaMap } from '@/components/domain/algeria-map'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { Button } from '@/components/ui/button'
 import { getT } from '@/i18n/server'
+import { homeFor } from '@/lib/role-home'
 import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
@@ -76,6 +78,8 @@ const MAP_COUNTS_FROM = 50
 
 export default async function HomePage() {
   const actor = await getCurrentActor()
+  // قرار المالك (2026-10-28): الموظف والمشرف والأستاذ والمساعد يدخلون لوحتهم مباشرة، لا الصفحة التسويقية.
+  if (actor && ['SUPER_ADMIN', 'CONFIRMER', 'TEACHER', 'ASSISTANT'].includes(actor.role)) redirect(homeFor(actor.role))
   const student = actor?.role === 'STUDENT'
   const db = await getDb()
   const [latest, map, apk, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), studentsPerWilaya(db), appDownload(), getT()])

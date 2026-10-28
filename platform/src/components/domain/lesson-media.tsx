@@ -31,7 +31,7 @@ export function LessonMedia({ item, actor }: { item: LessonMediaItem; actor: Act
     if (!actor) return <YouTubeEmbed youtubeId={item.youtubeId} title={item.title} />
     const date = new Date().toISOString().slice(0, 10)
     const marks = [actor.email, `${date} · ${actor.userId.slice(0, 8)}`]
-    return <SecureYouTubePlayer src={youtubeEmbedUrl(item.youtubeId)} contentId={item.id} watermark={marks} title={item.title} />
+    return <SecureYouTubePlayer src={youtubeEmbedUrl(item.youtubeId, { protectedPlayer: true })} contentId={item.id} watermark={marks} title={item.title} />
   }
   if (item.type === 'VIDEO' && item.videoProvider === 'BUNNY') {
     return <BunnyMedia contentId={item.id} actor={actor} />

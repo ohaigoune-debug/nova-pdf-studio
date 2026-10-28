@@ -1,7 +1,7 @@
 'use client'
 
-import { Play, ShieldCheck } from 'lucide-react'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Maximize2, Minimize2, Play, ShieldCheck } from 'lucide-react'
+import { type RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Alert } from '@/components/ui/misc'
 import { Button } from '@/components/ui/button'
 import { t } from '@/i18n'
@@ -12,6 +12,69 @@ const HEARTBEAT_MS = 15_000
 const makeViewerKey = deviceViewerKey
 
 /**
+ * تكبير يحفظ العلامة المائية: الشاشة الكاملة الأصلية للفيديو (مشغّل iPhone) تعرض الفيديو وحده
+ * فتختفي العلامة. هنا يُكبَّر الإطار كله (الفيديو + العلامة): شاشة كاملة حقيقية حيث يدعمها المتصفح
+ * للعناصر (الحاسوب، iPad)، وإلا غطاء يملأ النافذة (iPhone) — أدِر الهاتف أفقيًا لصورة أكبر.
+ */
+function useProtectedFullscreen(ref: RefObject<HTMLElement | null>) {
+  const [expanded, setExpanded] = useState(false)
+  const enter = useCallback(() => {
+    const el = ref.current
+    setExpanded(true)
+    if (el && document.fullscreenEnabled && typeof el.requestFullscreen === 'function' && !document.fullscreenElement) {
+      void el.requestFullscreen().catch(() => {})
+    }
+  }, [ref])
+  const exit = useCallback(() => {
+    setExpanded(false)
+    if (document.fullscreenElement && document.fullscreenElement === ref.current) void document.exitFullscreen().catch(() => {})
+  }, [ref])
+  useEffect(() => {
+    const onChange = () => {
+      if (!document.fullscreenElement && ref.current && expanded) setExpanded(false)
+    }
+    document.addEventListener('fullscreenchange', onChange)
+    return () => document.removeEventListener('fullscreenchange', onChange)
+  }, [ref, expanded])
+  useEffect(() => {
+    if (!expanded) return
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setExpanded(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = previous
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [expanded])
+  return { expanded, enter, exit }
+}
+
+/** الغلاف والإطار 16:9 في الوضعين: الأصناف تتغيّر فقط، فلا يُعاد تحميل المشغّل عند التكبير */
+function frameClasses(expanded: boolean) {
+  return {
+    wrapper: expanded ? 'fixed inset-0 z-[70] flex items-center justify-center bg-black' : '',
+    box: expanded ? 'relative select-none overflow-hidden bg-black' : 'relative select-none overflow-hidden rounded-xl border bg-black',
+    boxStyle: expanded ? { aspectRatio: '16 / 9', width: 'min(100vw, calc(100dvh * 16 / 9))' } : { aspectRatio: '16 / 9' }
+  }
+}
+
+function ExpandButton({ expanded, onToggle }: { expanded: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-label={expanded ? 'تصغير الفيديو' : 'تكبير الفيديو'}
+      className="absolute left-2 top-2 z-30 flex size-10 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-colors hover:bg-black/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+    >
+      {expanded ? <Minimize2 className="size-5" /> : <Maximize2 className="size-5" />}
+    </button>
+  )
+}
+
+/**
  * مشغّل الفيديو الخاص:
  * - المصدر رابط موقّع بهوية المشاهد (لا يعمل خارج جلسته) — لا زر تنزيل، لا صورة داخل صورة، لا قائمة يمين.
  * - ختم مائي متحرّك باسم/بريد المشاهد فوق الفيديو (يظهر في أي تصوير شاشة).
@@ -20,6 +83,9 @@ const makeViewerKey = deviceViewerKey
  */
 export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: string; contentId: string; watermark: string[]; poster?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const frameRef = useRef<HTMLDivElement>(null)
+  const { expanded, enter, exit } = useProtectedFullscreen(frameRef)
+  const frame = frameClasses(expanded)
   const viewerKey = useMemo(() => makeViewerKey(), [])
   const [blocked, setBlocked] = useState<string | null>(null)
   const [paused, setPaused] = useState<string | null>(null)
@@ -66,6 +132,25 @@ export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: 
     return () => clearInterval(iv)
   }, [])
 
+  // زر الشاشة الكاملة في أدوات الفيديو نفسها (iPhone/الحاسوب) يُحوَّل إلى التكبير المحمي
+  useEffect(() => {
+    const v = videoRef.current as (HTMLVideoElement & { webkitExitFullscreen?: () => void }) | null
+    if (!v) return
+    const onNativeBegin = () => {
+      v.webkitExitFullscreen?.()
+      enter()
+    }
+    const onFullscreen = () => {
+      if (document.fullscreenElement === v) void document.exitFullscreen().then(enter).catch(enter)
+    }
+    v.addEventListener('webkitbeginfullscreen', onNativeBegin)
+    document.addEventListener('fullscreenchange', onFullscreen)
+    return () => {
+      v.removeEventListener('webkitbeginfullscreen', onNativeBegin)
+      document.removeEventListener('fullscreenchange', onFullscreen)
+    }
+  }, [enter])
+
   // إيقاف عند مغادرة التبويب
   useEffect(() => {
     const onVis = () => {
@@ -81,13 +166,15 @@ export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: 
 
   return (
     <div className="space-y-2">
-      <div className="relative select-none overflow-hidden rounded-xl border bg-black" onContextMenu={(e) => e.preventDefault()} style={{ aspectRatio: '16 / 9' }}>
+      <div ref={frameRef} className={frame.wrapper}>
+      <div className={frame.box} onContextMenu={(e) => e.preventDefault()} style={frame.boxStyle}>
+        <ExpandButton expanded={expanded} onToggle={expanded ? exit : enter} />
         <video
           ref={videoRef}
           src={src}
           poster={poster}
           controls
-          controlsList="nodownload noremoteplayback"
+          controlsList="nodownload noremoteplayback nofullscreen"
           disablePictureInPicture
           disableRemotePlayback
           playsInline
@@ -103,7 +190,7 @@ export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: 
           onContextMenu={(e) => e.preventDefault()}
         />
         {/* ختم مائي متحرّك: لا يمكن إزالته من المشغّل وسيظهر في أي تسجيل للشاشة */}
-        <div className="pointer-events-none absolute z-10 rounded bg-black/30 px-2 py-1 font-mono text-[11px] leading-tight text-white/80 transition-all duration-1000" style={{ top: `${wmPos.top}%`, left: `${wmPos.left}%` }} dir="ltr">
+        <div className={`pointer-events-none absolute z-10 rounded bg-black/30 px-2 py-1 font-mono leading-tight text-white/80 transition-all duration-1000 ${expanded ? 'text-sm' : 'text-[11px]'}`} style={{ top: `${wmPos.top}%`, left: `${wmPos.left}%` }} dir="ltr">
           {watermark.map((l) => (
             <span key={l} className="block">
               {l}
@@ -126,6 +213,7 @@ export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: 
           </button>
         ) : null}
       </div>
+      </div>
       <Alert tone="info" className="text-xs">
         {t('media.watermarkHint')}
       </Alert>
@@ -142,6 +230,9 @@ export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: 
  */
 export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, allow, hint }: { src: string; expires?: number; contentId: string; watermark: string[]; title: string; allow: string; hint: string }) {
   const viewerKey = useMemo(() => makeViewerKey(), [])
+  const frameRef = useRef<HTMLDivElement>(null)
+  const { expanded, enter, exit } = useProtectedFullscreen(frameRef)
+  const frame = frameClasses(expanded)
   const [blocked, setBlocked] = useState<string | null>(null)
   const [expired, setExpired] = useState(false)
   const elapsed = useRef(0)
@@ -185,7 +276,9 @@ export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, a
 
   return (
     <div className="space-y-2">
-      <div className="relative select-none overflow-hidden rounded-xl border bg-black" onContextMenu={(e) => e.preventDefault()} style={{ aspectRatio: '16 / 9' }}>
+      <div ref={frameRef} className={frame.wrapper}>
+      <div className={frame.box} onContextMenu={(e) => e.preventDefault()} style={frame.boxStyle}>
+        {/* بلا allowFullScreen: الشاشة الكاملة الأصلية للمشغّل تُسقط العلامة؛ التكبير من زرّنا */}
         {!expired && !blocked ? (
           <iframe
             src={src}
@@ -193,12 +286,12 @@ export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, a
             loading="lazy"
             className="absolute inset-0 h-full w-full border-0"
             allow={allow}
-            allowFullScreen
             referrerPolicy="strict-origin-when-cross-origin"
           />
         ) : null}
+        <ExpandButton expanded={expanded} onToggle={expanded ? exit : enter} />
         {/* علامة مائية بطيئة الحركة (CSS) فوق الإطار؛ لا تلتقط النقر فيبقى التحكم بالمشغّل */}
-        <div className="madrasa-wm pointer-events-none absolute z-10 rounded bg-black/35 px-2 py-1 font-mono text-[11px] leading-tight text-white/85" dir="ltr">
+        <div className={`madrasa-wm pointer-events-none absolute z-10 rounded bg-black/35 px-2 py-1 font-mono leading-tight text-white/85 ${expanded ? 'text-sm' : 'text-[11px]'}`} dir="ltr">
           {watermark.map((l) => (
             <span key={l} className="block">
               {l}
@@ -233,6 +326,7 @@ export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, a
           </div>
         ) : null}
       </div>
+      </div>
       <Alert tone="info" className="text-xs">
         {hint}
       </Alert>
@@ -255,6 +349,6 @@ export function SecureBunnyPlayer({ src, expires, contentId, watermark, title }:
 export function SecureYouTubePlayer({ src, contentId, watermark, title }: { src: string; contentId: string; watermark: string[]; title: string }) {
   return (
     <SecureEmbedPlayer src={src} contentId={contentId} watermark={watermark} title={title}
-      allow="accelerometer; encrypted-media; gyroscope; fullscreen" hint={t('media.bunnyWatermarkHint')} />
+      allow="accelerometer; encrypted-media; gyroscope" hint={t('media.bunnyWatermarkHint')} />
   )
 }
