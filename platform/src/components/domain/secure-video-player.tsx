@@ -5,20 +5,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Alert } from '@/components/ui/misc'
 import { Button } from '@/components/ui/button'
 import { t } from '@/i18n'
+import { deviceViewerKey } from './device-key'
 
 const HEARTBEAT_MS = 15_000
 
-function makeViewerKey(): string {
-  try {
-    const k = sessionStorage.getItem('madrasa_viewer_key')
-    if (k) return k
-    const fresh = crypto.randomUUID().replace(/-/g, '').slice(0, 24)
-    sessionStorage.setItem('madrasa_viewer_key', fresh)
-    return fresh
-  } catch {
-    return Math.random().toString(36).slice(2, 26)
-  }
-}
+const makeViewerKey = deviceViewerKey
 
 /**
  * مشغّل الفيديو الخاص:
@@ -143,12 +134,13 @@ export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: 
 }
 
 /**
- * مشغّل Bunny Stream: إطار تضمين برابط موقّع مؤقّت (ساعتان) يولّده الخادم بعد التحقق من الأحقية.
- * - علامة مائية فوق الإطار تتحرك ببطء (اسم التلميذ + آخر 4 أرقام الهاتف + التاريخ) — لا تُزال من المشغّل.
+ * مشغّل مضمَّن محمي (Bunny Stream أو يوتيوب):
+ * - علامة مائية فوق الإطار تتحرك ببطء (اسم التلميذ/بريده + معرّف + التاريخ) — لا تُزال من المشغّل.
  * - نبضات مشاهدة كل 15 ثانية ما دامت الصفحة ظاهرة (الإطار لا يكشف موضع التشغيل، فيُحتسب الزمن المنقضي).
- * - عند انتهاء صلاحية الرابط يُطلب إعادة تحميل الصفحة.
+ * - جهاز واحد فقط: عند رفض الخادم يُزال الإطار فيتوقف التشغيل.
+ * - رابط Bunny مؤقّت (ساعتان): عند انتهائه يُطلب إعادة تحميل الصفحة.
  */
-export function SecureBunnyPlayer({ src, expires, contentId, watermark, title }: { src: string; expires: number; contentId: string; watermark: string[]; title: string }) {
+export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, allow, hint }: { src: string; expires?: number; contentId: string; watermark: string[]; title: string; allow: string; hint: string }) {
   const viewerKey = useMemo(() => makeViewerKey(), [])
   const [blocked, setBlocked] = useState<string | null>(null)
   const [expired, setExpired] = useState(false)
@@ -174,6 +166,7 @@ export function SecureBunnyPlayer({ src, expires, contentId, watermark, title }:
   }, [contentId, viewerKey])
 
   useEffect(() => {
+    if (blocked) return
     lastTick.current = Date.now()
     void heartbeat()
     const iv = setInterval(() => {
@@ -181,25 +174,25 @@ export function SecureBunnyPlayer({ src, expires, contentId, watermark, title }:
         lastTick.current = 0
         return
       }
-      if (Date.now() / 1000 >= expires) {
+      if (expires && Date.now() / 1000 >= expires) {
         setExpired(true)
         return
       }
       void heartbeat()
     }, HEARTBEAT_MS)
     return () => clearInterval(iv)
-  }, [heartbeat, expires])
+  }, [heartbeat, expires, blocked])
 
   return (
     <div className="space-y-2">
       <div className="relative select-none overflow-hidden rounded-xl border bg-black" onContextMenu={(e) => e.preventDefault()} style={{ aspectRatio: '16 / 9' }}>
-        {!expired ? (
+        {!expired && !blocked ? (
           <iframe
             src={src}
             title={title}
             loading="lazy"
             className="absolute inset-0 h-full w-full border-0"
-            allow="accelerometer; gyroscope; encrypted-media; picture-in-picture"
+            allow={allow}
             allowFullScreen
             referrerPolicy="strict-origin-when-cross-origin"
           />
@@ -241,8 +234,27 @@ export function SecureBunnyPlayer({ src, expires, contentId, watermark, title }:
         ) : null}
       </div>
       <Alert tone="info" className="text-xs">
-        {t('media.bunnyWatermarkHint')}
+        {hint}
       </Alert>
     </div>
+  )
+}
+
+/** مشغّل Bunny Stream: إطار تضمين برابط موقّع مؤقّت (ساعتان) يولّده الخادم بعد التحقق من الأحقية. */
+export function SecureBunnyPlayer({ src, expires, contentId, watermark, title }: { src: string; expires: number; contentId: string; watermark: string[]; title: string }) {
+  return (
+    <SecureEmbedPlayer src={src} expires={expires} contentId={contentId} watermark={watermark} title={title}
+      allow="accelerometer; gyroscope; encrypted-media" hint={t('media.bunnyWatermarkHint')} />
+  )
+}
+
+/**
+ * فيديو يوتيوب لتلميذ مسجّل: نفس العلامة المائية وحدّ الجهاز الواحد وسجل المشاهدة.
+ * لا يمنع تنزيل الفيديو من يوتيوب نفسه؛ الحماية الأقوى بنقل الدورات المدفوعة إلى Bunny.
+ */
+export function SecureYouTubePlayer({ src, contentId, watermark, title }: { src: string; contentId: string; watermark: string[]; title: string }) {
+  return (
+    <SecureEmbedPlayer src={src} contentId={contentId} watermark={watermark} title={title}
+      allow="accelerometer; encrypted-media; gyroscope; fullscreen" hint={t('media.bunnyWatermarkHint')} />
   )
 }

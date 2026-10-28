@@ -5,8 +5,9 @@ import type { Actor } from '@/server/lib/actor'
 import { ANON_VIEWER, signMediaUrl } from '@/server/services/media.service'
 import { BunnyMedia } from './bunny-media'
 import { SecurePdfViewer } from './secure-pdf-viewer'
-import { SecureVideoPlayer } from './secure-video-player'
+import { SecureVideoPlayer, SecureYouTubePlayer } from './secure-video-player'
 import { YouTubeEmbed } from './youtube-embed'
+import { youtubeEmbedUrl } from '@/server/lib/youtube'
 
 export interface LessonMediaItem {
   id: string
@@ -26,7 +27,11 @@ export interface LessonMediaItem {
  */
 export function LessonMedia({ item, actor }: { item: LessonMediaItem; actor: Actor | null }) {
   if (item.type === 'VIDEO' && item.videoProvider === 'YOUTUBE' && item.youtubeId) {
-    return <YouTubeEmbed youtubeId={item.youtubeId} title={item.title} />
+    // تلميذ أو أستاذ مسجّل: علامة مائية وحدّ جهاز واحد وسجل مشاهدة؛ الزائر يرى الدرس العام كما هو.
+    if (!actor) return <YouTubeEmbed youtubeId={item.youtubeId} title={item.title} />
+    const date = new Date().toISOString().slice(0, 10)
+    const marks = [actor.email, `${date} · ${actor.userId.slice(0, 8)}`]
+    return <SecureYouTubePlayer src={youtubeEmbedUrl(item.youtubeId)} contentId={item.id} watermark={marks} title={item.title} />
   }
   if (item.type === 'VIDEO' && item.videoProvider === 'BUNNY') {
     return <BunnyMedia contentId={item.id} actor={actor} />

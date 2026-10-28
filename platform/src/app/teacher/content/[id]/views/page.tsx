@@ -9,7 +9,7 @@ import { formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
-import { listContentViews, maxConcurrentDevices } from '@/server/services/media.service'
+import { listContentViews, SHARING_FLAG_IPS } from '@/server/services/media.service'
 
 /** مشاهدات محتوى: من شاهد، كم دقيقة، إلى أين وصل، ومن كم جهاز — مع تنبيه مشاركة الحساب */
 export default async function ContentViewsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -31,7 +31,7 @@ export default async function ContentViewsPage({ params }: { params: Promise<{ i
       <PageHeader title={t('contentMgmt.viewsTitle', { title: data.title })} description={`${data.rows.length} ${t('common.students')}`} />
       {flagged.length > 0 ? (
         <Alert tone="warning" title={t('contentMgmt.flagged')}>
-          {flagged.map((f) => f.fullName).join('، ')} — {t('contentMgmt.flaggedHint', { n: maxConcurrentDevices() })}
+          {flagged.map((f) => f.fullName).join('، ')} — {t('contentMgmt.flaggedHint', { n: SHARING_FLAG_IPS })}
         </Alert>
       ) : null}
       {data.rows.length === 0 ? (
