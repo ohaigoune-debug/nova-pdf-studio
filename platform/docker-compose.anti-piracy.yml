@@ -1,0 +1,44 @@
+# Optional Docker overlay. Requires copying the existing v0.2 bot/ sources to platform/anti-piracy/bot/.
+# docker compose -f docker-compose.yml -f docker-compose.anti-piracy.yml up -d --build
+services:
+  app:
+    environment:
+      ANTI_PIRACY_API_URL: http://anti-piracy-api:8091
+      ANTI_PIRACY_API_KEY: ${ANTI_PIRACY_API_KEY:?set ANTI_PIRACY_API_KEY}
+
+  anti-piracy-bot:
+    build: ./anti-piracy
+    restart: unless-stopped
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN:?set BOT_TOKEN}
+      OWNER_ID: ${OWNER_ID:-0}
+      API_ID: ${API_ID:?set API_ID}
+      API_HASH: ${API_HASH:?set API_HASH}
+      DB_PATH: /data/findings.sqlite3
+      SESSION_PATH: /data/telegram_user
+      SCAN_INTERVAL_MINUTES: ${SCAN_INTERVAL_MINUTES:-30}
+      GLOBAL_SEARCH_ENABLED: ${GLOBAL_SEARCH_ENABLED:-true}
+      GLOBAL_SEARCH_EVERY_CYCLES: ${GLOBAL_SEARCH_EVERY_CYCLES:-12}
+      GLOBAL_SEARCH_TERMS: ${GLOBAL_SEARCH_TERMS:-حيقون,Haigoune,الخباش}
+      KEYWORDS: ${KEYWORDS:-حيقون,هيقون,Haigoune,ohaigoune,الخباش,وسام التفوق,madrasadz,دورة حيقون,دروس حيقون}
+    volumes:
+      - anti_piracy_data:/data
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  anti-piracy-api:
+    build: ./anti-piracy
+    command: ["python", "-m", "bot.bridge_api"]
+    environment:
+      DB_PATH: /data/findings.sqlite3
+      ANTI_PIRACY_API_KEY: ${ANTI_PIRACY_API_KEY:?set ANTI_PIRACY_API_KEY}
+      ANTI_PIRACY_API_PORT: 8091
+    volumes:
+      - anti_piracy_data:/data:ro
+    restart: unless-stopped
+    # No ports: private Docker network only.
+
+volumes:
+  anti_piracy_data:
