@@ -55,5 +55,5 @@ docker ps --format '{{.Image}}  {{.Status}}' | grep platform-app
 
 - أظهر `grep` الصورة `platform-app:ios-f80c956`، و`AUTO_MIGRATE` بقيمة `0`.
 - `compose up`: `Container platform-app-1 Started`.
-- `docker ps`: `platform-app:ios-f80c956  Up Less than a second (health: starting)`. لم تُرسَل بعدُ
-  حالة `healthy`.
+- `docker ps`: `platform-app:ios-f80c956  Up Less than a second (health: starting)`، ثم بعد ثلاث دقائق
+  `platform-app:ios-f80c956  Up 3 minutes (healthy)`.
