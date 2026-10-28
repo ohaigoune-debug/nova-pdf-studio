@@ -54,6 +54,7 @@ describe('عنوان العرض', () => {
     expect(displayTitle('دورة الأدب | الحصة 2 | البلاغة')).toBe('دورة الأدب | البلاغة')
     expect(displayTitle('الحصة 5')).toBe('الحصة 5')
     expect(displayTitle('شرح الحصة 1 بالفيديو')).toBe('شرح الحصة 1 بالفيديو')
+    expect(displayTitle('شرح الحصة 1')).toBe('شرح الحصة 1')
     expect(displayTitle('  عنوان عادي  ')).toBe('عنوان عادي')
   })
 })

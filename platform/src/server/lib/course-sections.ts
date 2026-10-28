@@ -84,7 +84,10 @@ export function displayTitle(title: string): string {
   // في وسط جملة («شرح الحصة 1 بالفيديو») يبقى العنوان كما هو، والرقم يظهر في الشارة.
   const b = before.trim()
   const a = after.trim()
-  const tag = b === '' || a === '' || (/[—–\-|:،,]$/u.test(b) && /^[—–\-|:،,.]/u.test(a))
+  const sepBefore = /[—–\-|:،,]$/u.test(b)
+  const sepAfter = /^[—–\-|:،,.]/u.test(a)
+  // في الأول: وسم دائمًا. في الآخر: بعد فاصل فقط («مدخل — الحصة 3» لا «شرح الحصة 1»). في الوسط: بين فاصلين.
+  const tag = b === '' || (a === '' && sepBefore) || (sepBefore && sepAfter)
   if (!tag) return title.trim()
   const rest = (before + ' ' + after)
     .replace(/\s*([—–\-|:،,])\s*([—–\-|:،,]\s*)+/gu, ' $1 ')
