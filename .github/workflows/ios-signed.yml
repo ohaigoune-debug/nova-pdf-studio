@@ -1,7 +1,7 @@
 name: iOS — signed IPA
-# Revision 12: export Build 8 — native learning home and course screens (iOS API
-# v1, gated by the server's capabilities), lessons and tools in the web view;
-# capability retry and UI-test identifier fix (source cbcb95a).
+# Revision 13: export Build 9 — native lesson page (text, protected YouTube player
+# with watermark and one-device heartbeat, in-app PDF when allowed) and tidy free
+# collections on the home screen.
 # For validation only. Uses the existing owner-approved
 # signing inputs; does not upload to Apple. Upload stays pinned until validated.
 

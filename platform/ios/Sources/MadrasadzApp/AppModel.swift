@@ -354,6 +354,47 @@ final class AppModel: ObservableObject {
 
     enum NativeFetchError: Error { case cancelled, accountMismatch, badResponse }
 
+    enum HeartbeatResult: Equatable {
+        case accepted
+        /// Another device is watching with this account (server message).
+        case blocked(String)
+        case failed
+    }
+
+    /// The web players' viewing heartbeat, sent by a native player with the
+    /// website session (same-origin POST, no redirects). Counts views and applies
+    /// the one-device limit on the server.
+    func mediaHeartbeat(contentID: UUID, viewerKey: String, position: Int, delta: Int) async -> HeartbeatResult {
+        let revision = generation
+        guard personalSpaceReady else { return .failed }
+        do {
+            guard var request = try await authenticatedRequest(path: "/api/v1/media/heartbeat", method: "POST", revision: revision) else { return .failed }
+            let body: [String: Any] = [
+                "contentId": contentID.uuidString.lowercased(),
+                "viewerKey": viewerKey,
+                "position": max(0, min(position, 24 * 3600)),
+                "delta": max(0, min(delta, 120)),
+                "completed": false
+            ]
+            request.httpBody = try JSONSerialization.data(withJSONObject: body)
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.timeoutInterval = 15
+            let (data, response) = try await perform(request)
+            guard revision == generation, !busy, response.url?.path == "/api/v1/media/heartbeat", data.count < 65_536 else { return .failed }
+            struct Reply: Decodable {
+                struct Failure: Decodable { let code: String; let message: String? }
+                let ok: Bool
+                let error: Failure?
+            }
+            let reply = try? JSONDecoder().decode(Reply.self, from: data)
+            if response.statusCode == 200, reply?.ok == true { return .accepted }
+            if reply?.error?.code == "MEDIA_TOO_MANY_DEVICES" { return .blocked(reply?.error?.message ?? L10n.text("deviceBlocked")) }
+            return .failed
+        } catch {
+            return .failed
+        }
+    }
+
     /// GET a read-only iOS API path with the website session (or as a guest when
     /// there is none). A response that names another account than the verified
     /// one is dropped and identity is re-checked; nothing is cached here.

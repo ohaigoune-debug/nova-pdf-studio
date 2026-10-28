@@ -344,60 +344,165 @@ struct NativeHomeView: View {
         }
     }
 
+    /// Owner request (Build 9): no long chip grids. Each series is one row that opens
+    /// its own screen; loose lessons show the newest three and a «show all» row.
     @ViewBuilder private func freeLessons(_ entries: [NativeHome.FreeEntry]) -> some View {
+        let groups = entries.filter { if case .group = $0 { return true }; return false }
+        let singles: [NativeHome.LessonLink] = entries.compactMap { if case .single(let link) = $0 { return link }; return nil }
         VStack(alignment: .leading, spacing: 12) {
             SectionTitle(text: L10n.text("freeForAll"), symbol: "gift.fill", tint: .green)
             if entries.isEmpty {
                 Card { Text(L10n.text("noFreeLessons")).font(.subheadline).foregroundStyle(.secondary) }
             }
-            ForEach(entries) { entry in
-                switch entry {
-                case .group(let heading, let detail, let items):
-                    Card {
-                        VStack(alignment: .leading, spacing: 12) {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(heading).font(.headline)
-                                if let detail { Text(detail).font(.subheadline).foregroundStyle(.secondary) }
+            if !groups.isEmpty {
+                VStack(spacing: 0) {
+                    ForEach(Array(groups.enumerated()), id: \.element.id) { index, entry in
+                        if case .group(let heading, let detail, let items) = entry {
+                            NavigationLink(value: LearnRoute.collection(entry.id)) {
+                                CollectionRow(symbol: "rectangle.stack.fill", tint: .green, title: heading, subtitle: detail,
+                                              count: items.count)
                             }
-                            LazyVGrid(columns: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)], spacing: 8) {
-                                ForEach(items) { item in
-                                    Button { native.openLesson(slug: item.slug) } label: {
-                                        HStack(spacing: 6) {
-                                            Text(item.label).font(.subheadline.weight(.semibold)).lineLimit(2)
-                                                .multilineTextAlignment(.leading)
-                                            Spacer(minLength: 4)
-                                            Image(systemName: "chevron.forward").font(.caption.bold()).foregroundStyle(.tertiary)
-                                        }
-                                        .padding(.horizontal, 12)
-                                        .frame(maxWidth: .infinity, minHeight: 48)
-                                        .background(Color(.tertiarySystemFill), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-                                    }
-                                    .buttonStyle(.plain)
-                                }
-                            }
+                            .buttonStyle(.plain)
+                            .accessibilityIdentifier("freeCollection")
+                            if index < groups.count - 1 { Divider().padding(.leading, 66) }
                         }
                     }
-                case .single(let link):
-                    Button { native.openLesson(slug: link.slug) } label: {
-                        Card {
-                            HStack(spacing: 12) {
-                                IconTile(symbol: ContentKind.symbol(link.type), tint: .green, size: 42)
-                                VStack(alignment: .leading, spacing: 3) {
-                                    Text(link.label).font(.headline).multilineTextAlignment(.leading)
-                                    if let summary = link.summary, !summary.isEmpty {
-                                        Text(summary).font(.subheadline).foregroundStyle(.secondary).lineLimit(2)
-                                            .multilineTextAlignment(.leading)
-                                    }
-                                }
-                                Spacer(minLength: 4)
-                                Image(systemName: "chevron.forward").font(.footnote.bold()).foregroundStyle(.tertiary)
-                            }
+                }
+                .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            }
+            if !singles.isEmpty {
+                VStack(spacing: 0) {
+                    ForEach(singles.prefix(3)) { link in
+                        Button { native.openLesson(slug: link.slug) } label: { LessonLinkRow(link: link) }
+                            .buttonStyle(.plain)
+                        Divider().padding(.leading, 66)
+                    }
+                    NavigationLink(value: LearnRoute.collection(NativeCollection.singlesID)) {
+                        HStack {
+                            Text(String(format: L10n.text("showAllCount"), singles.count)).font(.subheadline.weight(.semibold))
+                                .foregroundStyle(brandBlue)
+                            Spacer()
+                            Image(systemName: "chevron.forward").font(.footnote.bold()).foregroundStyle(.tertiary)
                         }
+                        .padding(.horizontal, 16).padding(.vertical, 14)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
+                    .accessibilityIdentifier("freeShowAll")
                 }
+                .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
             }
         }
+    }
+}
+
+/// A free-lessons collection: a series from the home screen, or all loose lessons.
+enum NativeCollection {
+    static let singlesID = "singles"
+
+    static func content(_ id: String, in home: NativeHome) -> (title: String, detail: String?, items: [NativeHome.LessonLink])? {
+        if id == singlesID {
+            let items = home.freeLessons.compactMap { entry -> NativeHome.LessonLink? in
+                if case .single(let link) = entry { return link }
+                return nil
+            }
+            return (L10n.text("freeLessonsAll"), nil, items)
+        }
+        for entry in home.freeLessons where entry.id == id {
+            if case .group(let heading, let detail, let items) = entry { return (heading, detail, items) }
+        }
+        return nil
+    }
+}
+
+private struct CollectionRow: View {
+    let symbol: String
+    let tint: Color
+    let title: String
+    let subtitle: String?
+    let count: Int
+
+    var body: some View {
+        HStack(spacing: 12) {
+            IconTile(symbol: symbol, tint: tint, size: 42)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title).font(.headline).multilineTextAlignment(.leading)
+                if let subtitle, !subtitle.isEmpty {
+                    Text(subtitle).font(.subheadline).foregroundStyle(.secondary).multilineTextAlignment(.leading)
+                }
+            }
+            Spacer(minLength: 4)
+            Text(String(format: L10n.text("lessonsCount"), count)).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                .padding(.horizontal, 8).padding(.vertical, 4)
+                .background(Color(.tertiarySystemFill), in: Capsule())
+            Image(systemName: "chevron.forward").font(.footnote.bold()).foregroundStyle(.tertiary)
+        }
+        .padding(.horizontal, 12).padding(.vertical, 12)
+        .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
+    }
+}
+
+private struct LessonLinkRow: View {
+    let link: NativeHome.LessonLink
+
+    var body: some View {
+        HStack(spacing: 12) {
+            IconTile(symbol: ContentKind.symbol(link.type), tint: .green, size: 42)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(link.label).font(.body.weight(.semibold)).multilineTextAlignment(.leading)
+                if let summary = link.summary, !summary.isEmpty {
+                    Text(summary).font(.caption).foregroundStyle(.secondary).lineLimit(2).multilineTextAlignment(.leading)
+                }
+            }
+            Spacer(minLength: 4)
+            Image(systemName: "chevron.forward").font(.footnote.bold()).foregroundStyle(.tertiary)
+        }
+        .padding(.horizontal, 12).padding(.vertical, 10)
+        .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// One free collection with full, unshortened names and a search field.
+struct NativeCollectionView: View {
+    @ObservedObject var native: NativeLearningModel
+    let id: String
+    @Binding var showingAccount: Bool
+    @State private var query = ""
+
+    private var content: (title: String, detail: String?, items: [NativeHome.LessonLink])? {
+        guard native.accountKey != nil, let home = native.home.value else { return nil }
+        return NativeCollection.content(id, in: home)
+    }
+
+    var body: some View {
+        List {
+            if let content {
+                if let detail = content.detail, !detail.isEmpty {
+                    Section { Text(detail).font(.subheadline).foregroundStyle(.secondary) }
+                }
+                let needle = query.trimmingCharacters(in: .whitespaces)
+                let items = needle.isEmpty ? content.items : content.items.filter { $0.label.localizedCaseInsensitiveContains(needle) }
+                Section {
+                    ForEach(items) { link in
+                        Button { native.openLesson(slug: link.slug) } label: { LessonLinkRow(link: link) }
+                            .buttonStyle(.plain)
+                            .listRowInsets(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4))
+                            .accessibilityIdentifier("collectionLesson")
+                    }
+                } footer: {
+                    if items.isEmpty { Text(L10n.text("searchEmpty")) }
+                }
+            } else {
+                NativeLoadingView().listRowBackground(Color.clear)
+            }
+        }
+        .listStyle(.insetGrouped)
+        .searchable(text: $query, prompt: L10n.text("searchLessons"))
+        .navigationTitle(content?.title ?? "")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar { ToolbarItem(placement: .topBarTrailing) { MenuToolbarButton(showing: $showingAccount) } }
     }
 }
 

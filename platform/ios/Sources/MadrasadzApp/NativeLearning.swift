@@ -5,6 +5,10 @@ import MadrasadzCore
 /// Destinations pushed on the Study tab's stack when native learning is on.
 enum LearnRoute: Hashable {
     case course(String)
+    /// Native lesson page (Build 9) when the server offers the lesson endpoint.
+    case lesson(String)
+    /// One free-lessons collection from the home screen (its `FreeEntry.id`).
+    case collection(String)
     /// The one shared web view. At most once in the path, and always last.
     case web
 }
@@ -57,6 +61,9 @@ final class NativeLearningModel: ObservableObject {
     @Published private(set) var accountKey: String? = nil
     @Published private(set) var home: NativeLoad<NativeHome> = .idle
     @Published private(set) var courses: [String: NativeLoad<NativeCourse>] = [:]
+    @Published private(set) var lessons: [String: NativeLoad<NativeLesson>] = [:]
+    /// The server's lesson endpoint is usable: lessons open natively (else the web page).
+    @Published private(set) var nativeLessons = false
 
     private weak var app: AppModel?
     /// The identity the cached content belongs to; a different one clears it.
@@ -73,11 +80,16 @@ final class NativeLearningModel: ObservableObject {
     /// A course whose terms page is open in the web destination: that page must load.
     private var termsSlug: String?
     private static let storageKey = "madrasadz.nativeLearning.available.v1"
+    private static let lessonKey = "madrasadz.nativeLearning.lesson.v1"
+    private var lessonLoadedAt: [String: Date] = [:]
 
     init() {
-        if NativeDebug.fixture { available = true }
+        if NativeDebug.fixture { available = true; nativeLessons = true }
         else if NativeDebug.forceWeb || OfflineShellValidation.enabled { available = false }
-        else { available = UserDefaults.standard.object(forKey: Self.storageKey) as? Bool }
+        else {
+            available = UserDefaults.standard.object(forKey: Self.storageKey) as? Bool
+            nativeLessons = UserDefaults.standard.bool(forKey: Self.lessonKey)
+        }
     }
 
     var rootIsNative: Bool { available == true }
@@ -127,6 +139,9 @@ final class NativeLearningModel: ObservableObject {
             guard !Task.isCancelled else { return }
             if status == 200, let caps = (try? JSONDecoder().decode(IOSAPI.Envelope<IOSAPI.Capabilities>.self, from: data))?.data {
                 capabilityAnswered = true
+                let lessonsOn = caps.supportsNativeLearning(appBuild: Self.appBuild) && caps.features.contains("lesson")
+                UserDefaults.standard.set(lessonsOn, forKey: Self.lessonKey)
+                if nativeLessons != lessonsOn { nativeLessons = lessonsOn }
                 setAvailable(caps.supportsNativeLearning(appBuild: Self.appBuild), persist: true, reason: "server")
             } else if status == 404 {
                 capabilityAnswered = true
@@ -206,6 +221,8 @@ final class NativeLearningModel: ObservableObject {
         homeLoadedAt = nil
         courses = [:]
         courseLoadedAt = [:]
+        lessons = [:]
+        lessonLoadedAt = [:]
         record("native.identity", "changed first=\(first)")
         guard !first else { return }
         // Never keep another account's course screens on the stack.
@@ -262,10 +279,24 @@ final class NativeLearningModel: ObservableObject {
         guard rootIsNative, let browser else { return false }
         if let route = browser.policy.nativeRoute(for: url), !bypassesNative(route) {
             show(route)
+        } else if nativeLessons, !phoneRequired, let slug = Self.lessonSlug(in: url, policy: browser.policy) {
+            // A bookmarked lesson page opens as the native lesson.
+            path = path.filter { $0 != .web } + [.lesson(slug)]
         } else {
             openWeb(url)
         }
         return true
+    }
+
+    /// `/ios/lesson/{slug}` (decoded slug) for an allowed internal page, else nil.
+    static func lessonSlug(in url: URL, policy: NavigationPolicy) -> String? {
+        guard case .internalPage = policy.decision(for: url),
+              let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              components.percentEncodedPath.hasPrefix("/ios/lesson/") else { return nil }
+        let tail = String(components.percentEncodedPath.dropFirst("/ios/lesson/".count))
+        guard !tail.isEmpty, !tail.contains("/"), let slug = tail.removingPercentEncoding,
+              !slug.isEmpty, slug.count <= 200 else { return nil }
+        return slug
     }
 
     func openWeb(path webPath: String) {
@@ -279,7 +310,14 @@ final class NativeLearningModel: ObservableObject {
         browser.openWebDestination(url)
     }
 
+    /// A lesson from a native list: the native page when the server offers it.
     func openLesson(slug: String) {
+        guard nativeLessons, rootIsNative else { return openWebLesson(slug: slug) }
+        path = path.filter { $0 != .web } + [.lesson(slug)]
+    }
+
+    /// The protected web page of a lesson (PDF viewer, private video, comments).
+    func openWebLesson(slug: String) {
         openWeb(path: "/ios/lesson/" + Self.encoded(slug))
     }
 
@@ -303,6 +341,9 @@ final class NativeLearningModel: ObservableObject {
         }
         for (slug, state) in courses where state.value?.needsTerms == true || state.failure != nil {
             Task { await loadCourse(slug) }
+        }
+        for (slug, state) in lessons where state.failure != nil {
+            Task { await loadLesson(slug) }
         }
     }
 
@@ -400,6 +441,34 @@ final class NativeLearningModel: ObservableObject {
         record("native.home", result.value != nil ? "loaded courses=\(result.value?.courses.count ?? 0)" : "failed=\(result.failure.map { "\($0)" } ?? "-")")
     }
 
+    func lesson(_ slug: String) -> NativeLoad<NativeLesson> { lessons[slug] ?? .idle }
+
+    func loadLessonIfNeeded(_ slug: String) async {
+        guard accountKey != nil else { return }
+        if lesson(slug) == .idle { await loadLesson(slug); return }
+        if let loaded = lessonLoadedAt[slug], Date().timeIntervalSince(loaded) > 300 { await loadLesson(slug) }
+    }
+
+    func loadLesson(_ slug: String) async {
+        guard accountKey != nil else { return }
+        if lesson(slug).value == nil { lessons[slug] = .loading }
+        guard let result = await settledFetch(NativeLesson.self, path: "/api/v1/ios/lessons/" + Self.encoded(slug)) else { return }
+        if result.failure == .offline, lesson(slug).value != nil { return }
+        lessons[slug] = result
+        if result.value != nil { lessonLoadedAt[slug] = Date() }
+        record("native.lesson", result.value != nil ? "loaded" : "failed=\(result.failure.map { "\($0)" } ?? "-")")
+    }
+
+    /// One viewing heartbeat for a natively played video (views report and the
+    /// one-device limit, as on the web). nil when it could not be sent.
+    func heartbeat(contentID: UUID, position: Int, delta: Int) async -> AppModel.HeartbeatResult? {
+        #if DEBUG
+        if NativeDebug.fixture { return .accepted }
+        #endif
+        guard let app, app.personalSpaceReady else { return nil }
+        return await app.mediaHeartbeat(contentID: contentID, viewerKey: NativeDeviceKey.value, position: position, delta: delta)
+    }
+
     func course(_ slug: String) -> NativeLoad<NativeCourse> { courses[slug] ?? .idle }
 
     func loadCourseIfNeeded(_ slug: String) async {
@@ -464,5 +533,21 @@ struct SceneCaptureProbe: UIViewRepresentable {
             // Trait callbacks can arrive inside a SwiftUI update.
             Task { @MainActor [state] in state.captured = captured }
         }
+    }
+}
+
+/// This install's viewing-device key for native players (the web view keeps its
+/// own in localStorage). Random, no personal data; sent only with heartbeats.
+enum NativeDeviceKey {
+    private static let storageKey = "madrasadz.deviceKey.v1"
+
+    static var value: String {
+        let defaults = UserDefaults.standard
+        if let stored = defaults.string(forKey: storageKey), stored.count == 24, stored.allSatisfy({ $0.isHexDigit }) {
+            return stored
+        }
+        let fresh = String(UUID().uuidString.replacingOccurrences(of: "-", with: "").lowercased().prefix(24))
+        defaults.set(fresh, forKey: storageKey)
+        return fresh
     }
 }

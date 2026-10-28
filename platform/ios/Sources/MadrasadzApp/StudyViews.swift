@@ -27,6 +27,7 @@ struct StudyRootView: View {
                 .tabItem { Label(L10n.text("planner"), systemImage: "calendar") }.tag(2)
         }
         .tint(brandBlue)
+        .environmentObject(capture)
         // Scene capture for native screens; a web page also has its own shield.
         .background { SceneCaptureProbe(state: capture).frame(width: 0, height: 0).accessibilityHidden(true) }
         .overlay {
@@ -76,6 +77,10 @@ struct StudyRootView: View {
                         switch route {
                         case .course(let slug):
                             NativeCourseView(model: model, native: native, slug: slug, showingAccount: $showingAccount)
+                        case .lesson(let slug):
+                            NativeLessonView(model: model, native: native, slug: slug, showingAccount: $showingAccount)
+                        case .collection(let id):
+                            NativeCollectionView(native: native, id: id, showingAccount: $showingAccount)
                         case .web:
                             WebLearningScreen(model: model, destination: true, showingAccount: $showingAccount) { native.closeWeb() }
                         }

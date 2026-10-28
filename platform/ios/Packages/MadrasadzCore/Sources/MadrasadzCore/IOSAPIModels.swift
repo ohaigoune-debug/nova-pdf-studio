@@ -233,3 +233,78 @@ extension NativeCourse.Section {
         self.items = items
     }
 }
+
+/// `GET /api/v1/ios/lessons/{slug}`: the lesson and, for a signed-in student, the
+/// code shown in the native watermark. Unknown or malformed media opens the web page.
+public struct NativeLesson: Decodable, Equatable, Sendable {
+    public enum Media: Equatable, Sendable {
+        case none
+        case youtube(id: String, contentID: UUID?)
+        case pdf(contentID: UUID, allowDownload: Bool)
+        /// Private video (uploaded or Bunny): played by the protected web page.
+        case video(contentID: UUID?)
+        /// External link or anything this build does not play natively.
+        case external
+    }
+
+    public struct Viewer: Equatable, Sendable {
+        public let name: String?
+        /// First 8 hex characters of the account id, as in the web watermark.
+        public let code: String
+    }
+
+    public let slug: String
+    public let title: String
+    public let summary: String?
+    public let type: String
+    public let bodyMarkdown: String?
+    public let media: Media
+    public let webPath: String
+    public let viewer: Viewer?
+
+    private enum Keys: String, CodingKey { case lesson, viewer }
+    private enum LessonKeys: String, CodingKey { case slug, title, summary, type, bodyMarkdown, media, webPath }
+    private enum MediaKeys: String, CodingKey { case kind, youtubeId, contentId, allowDownload }
+    private enum ViewerKeys: String, CodingKey { case name, code }
+
+    public init(from decoder: Decoder) throws {
+        let root = try decoder.container(keyedBy: Keys.self)
+        let c = try root.nestedContainer(keyedBy: LessonKeys.self, forKey: .lesson)
+        slug = try c.decode(String.self, forKey: .slug)
+        title = try c.decode(String.self, forKey: .title)
+        summary = ((try? c.decodeIfPresent(String.self, forKey: .summary)) ?? nil).flatMap { $0.isEmpty ? nil : $0 }
+        type = (try? c.decode(String.self, forKey: .type)) ?? "LESSON"
+        bodyMarkdown = ((try? c.decodeIfPresent(String.self, forKey: .bodyMarkdown)) ?? nil).flatMap { $0.isEmpty ? nil : $0 }
+        webPath = try c.decode(String.self, forKey: .webPath)
+        media = Self.media(from: try? c.nestedContainer(keyedBy: MediaKeys.self, forKey: .media))
+        if let v = try? root.nestedContainer(keyedBy: ViewerKeys.self, forKey: .viewer),
+           let code = (try? v.decode(String.self, forKey: .code))?.lowercased(),
+           code.count == 8, code.allSatisfy({ $0.isHexDigit }) {
+            let name = ((try? v.decodeIfPresent(String.self, forKey: .name)) ?? nil)?.trimmingCharacters(in: .whitespacesAndNewlines)
+            viewer = Viewer(name: name?.isEmpty == false ? String(name!.prefix(80)) : nil, code: code)
+        } else {
+            viewer = nil
+        }
+    }
+
+    private static func media(from m: KeyedDecodingContainer<MediaKeys>?) -> Media {
+        guard let m, let kind = try? m.decode(String.self, forKey: .kind) else { return .external }
+        let content = ((try? m.decodeIfPresent(String.self, forKey: .contentId)) ?? nil).flatMap(UUID.init(uuidString:))
+        switch kind {
+        case "none": return .none
+        case "youtube":
+            guard let id = try? m.decode(String.self, forKey: .youtubeId), isYouTubeID(id) else { return .external }
+            return .youtube(id: id, contentID: content)
+        case "pdf":
+            guard let content else { return .external }
+            return .pdf(contentID: content, allowDownload: (try? m.decode(Bool.self, forKey: .allowDownload)) ?? false)
+        case "video": return .video(contentID: content)
+        default: return .external
+        }
+    }
+
+    /// YouTube ids are exactly 11 characters of [A-Za-z0-9_-].
+    public static func isYouTubeID(_ value: String) -> Bool {
+        value.count == 11 && value.unicodeScalars.allSatisfy { CharacterSet.alphanumerics.contains($0) && $0.isASCII || $0 == "_" || $0 == "-" }
+    }
+}

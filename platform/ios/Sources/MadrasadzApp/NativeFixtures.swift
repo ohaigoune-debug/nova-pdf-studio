@@ -15,6 +15,12 @@ enum NativeFixtures {
             json = courseTerms
         } else if path.hasPrefix("/api/v1/ios/courses/") {
             json = course
+        } else if path == "/api/v1/ios/lessons/v1" {
+            json = lessonVideo
+        } else if path == "/api/v1/ios/lessons/h1" || path == "/api/v1/ios/lessons/t1" || path == "/api/v1/ios/lessons/f1" || path == "/api/v1/ios/lessons/l2" {
+            json = lessonPDF
+        } else if path.hasPrefix("/api/v1/ios/lessons/") {
+            json = lessonText
         } else {
             return nil
         }
@@ -51,6 +57,24 @@ enum NativeFixtures {
         {"slug":"f1","title":"ملخص القوانين","displayTitle":"ملخص القوانين","session":null,"type":"PDF","videoProvider":null,"publishedAt":"2026-10-26T09:00:00.000Z"}]}],
      "upcoming":[{"title":"حصة مباشرة: المراجعة","startsAt":"2026-11-05T17:00:00.000Z","durationMinutes":60}],
      "webPath":"/ios/course/fixture-math"}}
+    """#
+
+    static let lessonText = #"""
+    {"ok":true,"data":{"lesson":{"slug":"l1","title":"الحصة 1 — الدوال","summary":"مدخل إلى الدوال العددية","type":"LESSON",
+     "bodyMarkdown":"نبدأ بتعريف بسيط.\n\n## تعريف الدالة\nالدالة علاقة تربط كل عنصر بعنصر **واحد** فقط.\n\n- مجموعة التعريف\n- الصورة والسابقة\n\nأمثلة محلولة في الحصة.",
+     "media":{"kind":"none"},"webPath":"/ios/lesson/l1"},"viewer":{"name":"تلميذ تجريبي","code":"0a1b2c3d"}}}
+    """#
+
+    static let lessonVideo = #"""
+    {"ok":true,"data":{"lesson":{"slug":"v1","title":"شرح الحصة 1","summary":null,"type":"VIDEO","bodyMarkdown":null,
+     "media":{"kind":"youtube","youtubeId":"dQw4w9WgXcQ","contentId":"00000000-0000-4000-8000-0000000000aa"},"webPath":"/ios/lesson/v1"},
+     "viewer":{"name":"تلميذ تجريبي","code":"0a1b2c3d"}}}
+    """#
+
+    static let lessonPDF = #"""
+    {"ok":true,"data":{"lesson":{"slug":"h1","title":"الفرض الأول","summary":null,"type":"PDF","bodyMarkdown":null,
+     "media":{"kind":"pdf","contentId":"00000000-0000-4000-8000-0000000000bb","allowDownload":false},"webPath":"/ios/lesson/h1"},
+     "viewer":{"name":"تلميذ تجريبي","code":"0a1b2c3d"}}}
     """#
 
     static let courseTerms = #"""

@@ -147,13 +147,45 @@ final class MadrasadzUITests: XCTestCase {
         courseShot.name = "Native-fixture-course"
         courseShot.lifetime = .keepAlways
         add(courseShot)
-        // A lesson opens in the web view; disconnected, it shows Retry.
+        // A lesson opens natively (Build 9): title, text and its actions.
         rows.firstMatch.tap()
+        XCTAssertTrue(labelled(app, "الحصة 1 — الدوال").waitForExistence(timeout: 10))
+        XCTAssertTrue(labelled(app, "تعريف الدالة").exists, "lesson text headings are rendered")
+        let lessonShot = XCTAttachment(screenshot: app.screenshot())
+        lessonShot.name = "Native-fixture-lesson"
+        lessonShot.lifetime = .keepAlways
+        add(lessonShot)
+        // The full web page opens in the web view; disconnected, it shows Retry.
+        app.buttons["lessonWebPage"].tap()
         XCTAssertTrue(app.buttons["retryPage"].waitForExistence(timeout: 10))
         app.buttons["webBack"].tap()
-        XCTAssertTrue(rows.firstMatch.waitForExistence(timeout: 10), "Back must return to the native course")
+        XCTAssertTrue(labelled(app, "الحصة 1 — الدوال").waitForExistence(timeout: 10), "Back must return to the native lesson")
         let closed = expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: app.buttons["retryPage"])
         wait(for: [closed], timeout: 10)
+        #endif
+    }
+
+    /// The free-lessons series open as their own list with full names (Build 9).
+    @MainActor func testNativeCollectionFixture() throws {
+        #if !DEBUG
+        throw XCTSkip("Native fixtures are compiled out of Release.")
+        #else
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments += ["-AppleLanguages", "(ar)", "-AppleLocale", "ar_DZ",
+                                "--madrasadz-offline-shell-validation", "--madrasadz-native-fixture"]
+        app.launch()
+        defer { app.terminate() }
+        let series = app.buttons.matching(identifier: "freeCollection").firstMatch
+        XCTAssertTrue(series.waitForExistence(timeout: 15))
+        series.tap()
+        let lessons = app.buttons.matching(identifier: "collectionLesson")
+        XCTAssertTrue(lessons.firstMatch.waitForExistence(timeout: 10))
+        XCTAssertEqual(lessons.count, 2)
+        let shot = XCTAttachment(screenshot: app.screenshot())
+        shot.name = "Native-fixture-collection"
+        shot.lifetime = .keepAlways
+        add(shot)
         #endif
     }
 

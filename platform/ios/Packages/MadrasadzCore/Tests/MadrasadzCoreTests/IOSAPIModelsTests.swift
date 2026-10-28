@@ -82,4 +82,44 @@ final class IOSAPIModelsTests: XCTestCase {
         XCTAssertEqual(decoded.freeLessons.map(\.id), ["single:s"])
         XCTAssertEqual(decoded.tools.map(\.id), ["play"])
     }
+    func testLessonMediaAndViewer() throws {
+        let textJSON = #"""
+        {"ok":true,"data":{"lesson":{"slug":"a","title":"T","summary":"","type":"LESSON","bodyMarkdown":"H\nB","media":{"kind":"none"},"webPath":"/ios/lesson/a"},"viewer":null}}
+        """#
+        let text = try XCTUnwrap(decode(NativeLesson.self, textJSON).data)
+        XCTAssertEqual(text.media, NativeLesson.Media.none)
+        XCTAssertNil(text.summary, "empty summary is treated as none")
+        XCTAssertEqual(text.bodyMarkdown, "H\nB")
+        XCTAssertNil(text.viewer)
+
+        let videoJSON = #"""
+        {"ok":true,"data":{"lesson":{"slug":"v","title":"V","summary":null,"type":"VIDEO","bodyMarkdown":null,"media":{"kind":"youtube","youtubeId":"dQw4w9WgXcQ","contentId":"a3a44d91-0705-48fd-95ea-545859a4acfe"},"webPath":"/ios/lesson/v"},"viewer":{"name":" Sami ","code":"4B21EFBC"}}}
+        """#
+        let video = try XCTUnwrap(decode(NativeLesson.self, videoJSON).data)
+        XCTAssertEqual(video.media, .youtube(id: "dQw4w9WgXcQ", contentID: UUID(uuidString: "a3a44d91-0705-48fd-95ea-545859a4acfe")))
+        XCTAssertEqual(video.viewer, NativeLesson.Viewer(name: "Sami", code: "4b21efbc"))
+
+        let olderJSON = #"""
+        {"ok":true,"data":{"lesson":{"slug":"v","title":"V","type":"VIDEO","media":{"kind":"youtube","youtubeId":"dQw4w9WgXcQ"},"webPath":"/ios/lesson/v"}}}
+        """#
+        let older = try XCTUnwrap(decode(NativeLesson.self, olderJSON).data)
+        XCTAssertEqual(older.media, .youtube(id: "dQw4w9WgXcQ", contentID: nil), "a server without contentId still plays")
+
+        let pdf = try XCTUnwrap(decode(NativeLesson.self, APIFixtures.lessonPdf).data)
+        guard case .pdf(_, let allow) = pdf.media else { return XCTFail("pdf expected") }
+        XCTAssertTrue(allow)
+
+        let odd = [#"{"kind":"youtube","youtubeId":"x\"><script>"}"#, #"{"kind":"pdf"}"#, #"{"kind":"hologram"}"#, "7"]
+        for media in odd {
+            let head = #"{"ok":true,"data":{"lesson":{"slug":"s","title":"T","type":"LESSON","media":"#
+            let tail = #","webPath":"/ios/lesson/s"},"viewer":{"code":"zz"}}}"#
+            let lesson = try XCTUnwrap(decode(NativeLesson.self, head + media + tail).data, media)
+            XCTAssertEqual(lesson.media, .external, media)
+            XCTAssertNil(lesson.viewer, "a malformed code is ignored")
+        }
+        XCTAssertTrue(NativeLesson.isYouTubeID("dQw4w9WgXcQ"))
+        XCTAssertFalse(NativeLesson.isYouTubeID("dQw4w9WgXc"))
+        XCTAssertFalse(NativeLesson.isYouTubeID("dQw4w9WgXc/"))
+        XCTAssertFalse(NativeLesson.isYouTubeID("\u{062F}Qw4w9WgXcQ"))
+    }
 }
