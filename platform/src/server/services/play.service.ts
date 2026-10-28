@@ -416,6 +416,7 @@ export async function getSessionView(db: Db, actor: Actor, sessionId: string) {
       xpEarned: session.xpEarned,
       total: session.questionIds.length,
       subjectCode: session.subjectCode,
+      unitCode: session.unitCode,
       lessonId: session.lessonId
     },
     questions

@@ -44,7 +44,7 @@ const REASON_LABELS: Record<PlayReportReason, string> = {
   OTHER: 'سبب آخر'
 }
 
-function useBeep(enabled: boolean) {
+export function useBeep(enabled: boolean) {
   const ctx = useRef<AudioContext | null>(null)
   return useCallback(
     (kind: 'ok' | 'bad' | 'win') => {
