@@ -9,7 +9,16 @@ fi
 bash "$ios_root/scripts/check-xcode.sh"
 "$ios_root/scripts/prepare-assets.sh"
 python3 "$ios_root/scripts/validate-project.py" --require-generated-app-icon
-swift test --configuration "$(printf '%s' "$configuration" | tr '[:upper:]' '[:lower:]')" --package-path "$ios_root/Packages/MadrasadzCore"
+mkdir -p "$ios_root/build"
+swift_log="$ios_root/build/swift-test-$configuration.log"
+# Job logs are not always readable by reviewers; surface package test failures
+# (test names and assertion messages only) as check-run annotations.
+if ! swift test --configuration "$(printf '%s' "$configuration" | tr '[:upper:]' '[:lower:]')" --package-path "$ios_root/Packages/MadrasadzCore" 2>&1 | tee "$swift_log"; then
+  if [[ -n "${GITHUB_ACTIONS:-}" ]]; then
+    grep -E "error:|failed \(" "$swift_log" | head -20 | sed -e 's/%/%25/g' -e 's/^/::error title=swift test::/' || true
+  fi
+  exit 1
+fi
 if [[ $# -gt 0 && "$1" != "auto" ]]; then
   simulator_id="$1"
   xcrun simctl list devices available --json | python3 "$ios_root/scripts/select-simulator.py" "$simulator_id" >/dev/null
