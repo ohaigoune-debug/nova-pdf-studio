@@ -259,7 +259,6 @@ struct NativeHomeView: View {
         .navigationTitle("مدرسة")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { ToolbarItem(placement: .topBarTrailing) { MenuToolbarButton(showing: $showingAccount) } }
-        .accessibilityIdentifier("nativeHome")
     }
 
     @ViewBuilder private func content(_ home: NativeHome) -> some View {
@@ -482,7 +481,6 @@ struct NativeCourseView: View {
                 MenuToolbarButton(showing: $showingAccount)
             }
         }
-        .accessibilityIdentifier("nativeCourse")
     }
 
     private func terms(_ course: NativeCourse) -> some View {
@@ -502,8 +500,9 @@ struct NativeCourseView: View {
         } else {
             if course.sections.count > 1 { sectionChips(course.sections, proxy: proxy) }
             ForEach(course.sections) { section in
+                // No identifier here: on a plain container SwiftUI passes it to
+                // every child element, replacing the rows' own identifiers.
                 sectionView(section).id(section.kind)
-                    .accessibilityIdentifier("section-" + section.kind.rawValue)
             }
         }
     }

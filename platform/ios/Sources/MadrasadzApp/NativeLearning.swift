@@ -65,6 +65,9 @@ final class NativeLearningModel: ObservableObject {
     private var homeLoadedAt: Date?
     private var courseLoadedAt: [String: Date] = [:]
     private var lastCapabilityCheck: Date?
+    /// The server gave a definite answer (capabilities or 404) in this session.
+    private var capabilityAnswered = false
+    private var capabilityRetries = 0
     private var capabilityTask: Task<Void, Never>?
     private var undecidedFallback: Task<Void, Never>?
     /// A course whose terms page is open in the web destination: that page must load.
@@ -102,7 +105,9 @@ final class NativeLearningModel: ObservableObject {
     /// answer the previous one is kept; without any answer the web pages are used.
     func checkCapabilities(force: Bool = false) {
         guard !NativeDebug.fixture, !NativeDebug.forceWeb, !OfflineShellValidation.enabled else { return }
-        if !force, let last = lastCapabilityCheck, Date().timeIntervalSince(last) < 600 { return }
+        // Until the server has answered once, ask again sooner.
+        let interval: TimeInterval = capabilityAnswered ? 600 : 30
+        if !force, let last = lastCapabilityCheck, Date().timeIntervalSince(last) < interval { return }
         lastCapabilityCheck = Date()
         capabilityTask?.cancel()
         capabilityTask = Task { @MainActor [weak self] in await self?.runCapabilityCheck() }
@@ -121,15 +126,35 @@ final class NativeLearningModel: ObservableObject {
             let (status, data) = try await app.nativeFetch(path: "/api/v1/ios/capabilities", checkAccount: false)
             guard !Task.isCancelled else { return }
             if status == 200, let caps = (try? JSONDecoder().decode(IOSAPI.Envelope<IOSAPI.Capabilities>.self, from: data))?.data {
+                capabilityAnswered = true
                 setAvailable(caps.supportsNativeLearning(appBuild: Self.appBuild), persist: true, reason: "server")
             } else if status == 404 {
+                capabilityAnswered = true
                 setAvailable(false, persist: true, reason: "no-api") // Server without the iOS API v1.
-            } else if available == nil {
-                setAvailable(false, persist: false, reason: "status-\(status)")
+            } else {
+                record("native.capabilities", "status=\(status)")
+                if available == nil { setAvailable(false, persist: false, reason: "status-\(status)") }
+                scheduleCapabilityRetry()
             }
         } catch {
             guard !Task.isCancelled else { return }
+            record("native.capabilities", "error=\((error as NSError).domain)/\((error as NSError).code)")
             if available == nil { setAvailable(false, persist: false, reason: "offline") }
+            scheduleCapabilityRetry()
+        }
+    }
+
+    /// A failed first check (network blip at launch) is retried a few times, so
+    /// one lost request does not keep the web pages for the whole session.
+    private func scheduleCapabilityRetry() {
+        guard !capabilityAnswered, capabilityRetries < 3 else { return }
+        let delays: [UInt64] = [2, 5, 15]
+        let delay = delays[capabilityRetries]
+        capabilityRetries += 1
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: delay * 1_000_000_000)
+            guard let self, !self.capabilityAnswered else { return }
+            self.checkCapabilities(force: true)
         }
     }
 
