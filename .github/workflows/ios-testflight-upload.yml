@@ -1,4 +1,4 @@
-name: iOS — Build 7 TestFlight upload
+name: iOS — Build 8 TestFlight upload
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ios-testflight-build-7-upload
+  group: ios-testflight-build-8-upload
   cancel-in-progress: false
 
 jobs:
@@ -26,19 +26,20 @@ jobs:
       - name: Download the owner-approved successful signed IPA
         uses: actions/download-artifact@v4
         with:
-          name: Madrasadz-signed-IPA-deb03f622ac84346c690a7da611f46d7d62ec194
-          run-id: 40525444553
+          name: Madrasadz-signed-IPA-3f6e054ee3822125e1d8a010fe4c95ea95bfc94c
+          run-id: 40733783125
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/madrasadz-approved-ipa
-      - name: Validate and upload Build 7 to Apple
+      - name: Validate and upload Build 8 to Apple
         env:
           MADRASADZ_ASC_PRIVATE_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_PRIVATE_KEY_BASE64 }}
           MADRASADZ_ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_KEY_ID }}
           MADRASADZ_ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
         run: bash platform/ios/scripts/upload-testflight.sh "$RUNNER_TEMP/madrasadz-approved-ipa/Madrasadz.ipa"
 
-# Owner-approved internal replacement. Pinned signed Build 7 artifact 12743022733
-# (source deb03f6, signed run 40525444553). Unsigned run 40525444544 on the same
-# source passed Debug/Release, the public foreground test in light and dark, and the
-# core package (planner tests) + native UI. No rebuild, new invitation, App Review
+# Owner-approved internal replacement. Pinned signed Build 8 artifact 12837260307
+# (signed run 40733783125 on 3f6e054; app source identical to cbcb95a). Unsigned
+# run 40733694677 on cbcb95a passed Debug/Release, the public WebKit and public
+# native tests in light and dark, the core package (iOS API v1 models) and native
+# UI including the native fixture test. No rebuild, new invitation, App Review
 # submission or release.
