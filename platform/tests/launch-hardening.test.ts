@@ -122,8 +122,8 @@ describe('استعادة كلمة السر بالهاتف: لا تخمين ول�
   })
 })
 
-describe('نطاق موظف التأكيد: الباقة ذات الملفات للمشرف وحده', () => {
-  it('باقة لها ملفات (تُفتح تنزيلاتها عند التأكيد) خارج طابور الموظف، والباقة الورقية داخله', async () => {
+describe('نطاق موظف التأكيد: كل الطلبات بقرار المالك (2026-10-28)', () => {
+  it('الباقة ذات الملفات والباقة الورقية كلتاهما في طابور الموظف، ويؤكدهما', async () => {
     const buyer = await makeStudent(h.db)
     const withFiles = (await createProduct(h.db, admin, { title: 'باقة بملفات', type: 'PACK', priceDzd: 900, stock: 20, status: 'PUBLISHED' })).id
     const paperOnly = (await createProduct(h.db, admin, { title: 'باقة ورقية', type: 'PACK', priceDzd: 700, stock: 20, status: 'PUBLISHED' })).id
@@ -133,9 +133,9 @@ describe('نطاق موظف التأكيد: الباقة ذات الملفات �
     const digital = await buy(withFiles)
     const paper = await buy(paperOnly)
     const queue = (await listConfirmationQueue(h.db, confirmer)).map((o) => o.id)
-    expect(queue).not.toContain(digital.id)
+    expect(queue).toContain(digital.id)
     expect(queue).toContain(paper.id)
-    await expect(setOrderStatus(h.db, confirmer, digital.id, 'CONFIRMED')).rejects.toMatchObject({ code: 'FORBIDDEN' })
+    expect((await setOrderStatus(h.db, confirmer, digital.id, 'CONFIRMED')).status).toBe('CONFIRMED')
   })
 })
 

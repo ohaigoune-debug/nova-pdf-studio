@@ -2,7 +2,7 @@ import { Package, PhoneCall, Plus, ShoppingBag, Truck, Undo2, Wallet } from 'luc
 import Link from 'next/link'
 import { ShippingForm } from '@/components/delivery/delivery-forms'
 import { ConfirmerOrders } from '@/components/domain/confirmer-orders'
-import { OrderRowActions, ProductRowActions } from '@/components/domain/store-admin'
+import { OrderEditPanel, OrderRowActions, ProductRowActions } from '@/components/domain/store-admin'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,6 +14,7 @@ import { getDb } from '@/server/db/client'
 import { ORDER_STATUSES, type OrderStatus } from '@/server/db/schema/enums'
 import { shippingInfoFor } from '@/server/services/delivery.service'
 import { ecotrackOperatorStatus, ecotrackStatus } from '@/server/services/ecotrack.service'
+import { listStreams } from '@/server/services/reference.service'
 import { listOrdersAdmin, listProductsAdmin, ORDER_STATUS_AR, PAYMENT_AR, PRODUCT_TYPE_AR, shippingFeeDzd, storeStats } from '@/server/services/store.service'
 
 export const dynamic = 'force-dynamic'
@@ -27,10 +28,11 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
   const status = ORDER_STATUSES.includes(sp.status as OrderStatus) ? (sp.status as OrderStatus) : null
   const db = await getDb()
   if (actor.role === 'CONFIRMER') {
-    const [orders, eco] = await Promise.all([listOrdersAdmin(db, actor, { status }), ecotrackOperatorStatus(db, actor)])
-    return <ConfirmerOrders orders={orders} ecotrack={eco.enabled} />
+    const [orders, eco, streamRows] = await Promise.all([listOrdersAdmin(db, actor, { status }), ecotrackOperatorStatus(db, actor), listStreams(db)])
+    return <ConfirmerOrders orders={orders} ecotrack={eco.enabled} streams={streamRows.map((r) => ({ id: r.id, name: r.nameAr }))} />
   }
-  const [stats, orders, products, eco] = await Promise.all([storeStats(db, actor), listOrdersAdmin(db, actor, { status }), listProductsAdmin(db, actor), ecotrackStatus(db)])
+  const [stats, orders, products, eco, streamRows] = await Promise.all([storeStats(db, actor), listOrdersAdmin(db, actor, { status }), listProductsAdmin(db, actor), ecotrackStatus(db), listStreams(db)])
+  const streamOptions = streamRows.map((r) => ({ id: r.id, name: r.nameAr }))
   const shipping = await shippingInfoFor(db, actor, orders.map((o) => o.id))
   return (
     <div className="space-y-6">
@@ -108,7 +110,11 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
                       {o.wilayaName || o.commune ? <span className="block text-xs text-muted-foreground">{[o.wilayaName, o.commune].filter(Boolean).join(' — ')}</span> : null}
                     </TableCell>
                     <TableCell className="text-xs">{PAYMENT_AR[o.paymentMethod as keyof typeof PAYMENT_AR]}</TableCell>
-                    <TableCell className="tabular">{o.totalDzd} دج</TableCell>
+                    <TableCell className="tabular">
+                      {o.totalDzd} دج
+                      <span className="block text-[11px] text-muted-foreground">{o.subtotalDzd} + {o.shippingDzd} توصيل</span>
+                      {o.streamName ? <span className="block text-[11px] text-muted-foreground">{o.streamName}</span> : null}
+                    </TableCell>
                     <TableCell>
                       <Badge variant={STATUS_VARIANT[o.status] ?? 'secondary'}>{ORDER_STATUS_AR[o.status as OrderStatus]}</Badge>
                     </TableCell>
@@ -116,6 +122,7 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
                     <TableCell>
                       <OrderRowActions id={o.id} status={o.status} needsShipping={o.needsShipping} ecotrack={eco.enabled} provider={shipping[o.id]?.provider ?? null} />
                       {o.needsShipping && (o.status === 'CONFIRMED' || o.status === 'SHIPPED' || o.status === 'DELIVERED') ? <ShippingForm orderId={o.id} provider={shipping[o.id]?.provider ?? null} trackingId={shipping[o.id]?.trackingId ?? null} /> : null}
+                      <OrderEditPanel id={o.id} status={o.status} trackingId={o.deliveryTrackingId} streamId={o.streamId} subtotalDzd={o.subtotalDzd} shippingDzd={o.shippingDzd} streams={streamOptions} />
                     </TableCell>
                   </TableRow>
                 ))}

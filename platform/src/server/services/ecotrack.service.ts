@@ -12,7 +12,6 @@ import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { EcotrackClient, EcotrackError, ecotrackBaseUrl, type EcotrackFee, type EcotrackShipmentStatus } from '@/server/lib/ecotrack'
 import { AppError, assertUuid } from '@/server/lib/errors'
-import { assertConfirmerOrderScope } from '@/server/lib/confirmer-orders'
 import { seal, unseal } from '@/server/lib/secret-box'
 import { applyDeliveryStatus } from './delivery.service'
 import { notifyAdmins, transitionOrder } from './order-status.service'
@@ -193,7 +192,6 @@ export async function sendOrderToEcotrack(db: Db, actor: Actor | null, orderId: 
   if (!client) throw new AppError('ECOTRACK_NOT_CONFIGURED')
   const [o] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1)
   if (!o) throw new AppError('ORDER_NOT_FOUND')
-  if (actor?.role === 'CONFIRMER') await assertConfirmerOrderScope(db, o.id)
   if (actor?.role === 'CONFIRMER' && (o.paymentMethod !== 'COD' || !o.needsShipping || (o.deliveryTrackingId && o.deliveryProvider !== 'ecotrack') || (o.status !== 'CONFIRMED' && !(o.status === 'SHIPPED' && o.deliveryProvider === 'ecotrack' && o.deliveryTrackingId)))) throw new AppError('FORBIDDEN')
   if (!o.needsShipping) throw new AppError('VALIDATION', { field: 'needsShipping' })
   // أُرسل من قبل: لا طرد ثانٍ أبداً (ضغطة مكرّرة، أو مهمة أُعيدت)

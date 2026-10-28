@@ -37,7 +37,7 @@ export default async function EmployeesPage() {
         <TableCell className="text-xs">{formatDateTime(a.at)}</TableCell>
         <TableCell>{a.employee}</TableCell>
         <TableCell>{a.orderId && a.orderNumber ? <Link href={`/store/orders/${a.orderId}`} dir="ltr" className="font-mono text-xs hover:underline">{a.orderNumber}</Link> : '—'}</TableCell>
-        <TableCell className="text-xs"><span className="text-muted-foreground">{statusLabel(a.from)}</span> ← <Badge variant={STATUS_VARIANT[a.to as OrderStatus] ?? 'secondary'}>{statusLabel(a.to)}</Badge></TableCell>
+        <TableCell className="text-xs">{a.kind === 'status' ? <><span className="text-muted-foreground">{statusLabel(a.from)}</span> ← <Badge variant={STATUS_VARIANT[a.to as OrderStatus] ?? 'secondary'}>{statusLabel(a.to)}</Badge></> : <Badge variant={a.kind === 'ban' ? 'destructive' : 'secondary'}>{a.detail}</Badge>}</TableCell>
         <TableCell className="max-w-[240px] text-xs">{a.reason || '—'}</TableCell>
       </TableRow>)}</TableBody></Table>}
     </CardContent></Card>
