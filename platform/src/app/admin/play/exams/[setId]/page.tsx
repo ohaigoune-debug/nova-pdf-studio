@@ -10,6 +10,7 @@ import { playExamSets } from '@/server/db/schema'
 import { answerText, validateExamSet } from '@/server/play/exams/engine'
 import { stepExcerpt } from '@/server/play/exams/excerpt'
 import { skillLabel } from '@/server/play/exams/skills'
+import { subjectLanguage } from '@/server/services/play-exams.service'
 import type { OriginalQuestion, TrainingStep } from '@/server/play/exams/types'
 
 export const dynamic = 'force-dynamic'
@@ -64,10 +65,12 @@ export default async function AdminPlayExamReviewPage({ params }: { params: Prom
   if (!row) notFound()
   const doc = row.document
   const v = validateExamSet(doc)
+  // الفرنسية والإنجليزية: محتوى الموضوع من اليسار إلى اليمين
+  const lang = subjectLanguage(doc.source.subject)
   return (
     <>
       <PageHeader title={doc.source.title} description={`${doc.set_id} · ${doc.status} · ${doc.source.trust} · الأصل: ${doc.source.original_file_ref ?? doc.source.original_url ?? '—'} · التصحيح: ${doc.source.correction_file_ref ?? doc.source.correction_url ?? '—'}`} />
-      <div className="space-y-4">
+      <div className="space-y-4" dir={lang === 'ar' ? undefined : 'ltr'} lang={lang}>
         {doc.source.notes ? (
           <Card>
             <CardContent className="p-4 text-sm leading-relaxed">ملاحظات التحويل: {doc.source.notes}</CardContent>

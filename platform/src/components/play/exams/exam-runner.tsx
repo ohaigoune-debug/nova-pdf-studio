@@ -339,7 +339,8 @@ function Interaction({ step, draft, setDraft, locked, feedback }: { step: Public
   return <p className="text-sm text-[#5B6B88]">هذا النوع غير مدعوم في الواجهة بعد.</p>
 }
 
-function FeedbackBox({ fb }: { fb: StepFeedback }) {
+function FeedbackBox({ fb, lang }: { fb: StepFeedback; lang: AttemptView['set']['lang'] }) {
+  const dir = lang === 'ar' ? undefined : 'ltr'
   return (
     <div data-testid="exam-feedback" data-correct={fb.correct ? '1' : '0'} className={cn('rounded-2xl border-[1.5px] p-4', fb.correct ? 'border-[#8FD4A0] bg-[#E6F7EA]' : fb.s > 0 ? 'border-[#F2CF8A] bg-[#FFF8E6]' : 'border-[#EBA9A9] bg-[#FDEDED]')}>
       <p className="flex items-center gap-2 text-[1.05rem] font-extrabold text-[#172B50]">
@@ -354,10 +355,15 @@ function FeedbackBox({ fb }: { fb: StepFeedback }) {
       </p>
       {!fb.correct ? (
         <p className="mt-2 text-sm font-bold text-[#172B50]">
-          الإجابة الصحيحة: <span className="font-extrabold">{fb.correctText}</span>
+          الإجابة الصحيحة:{' '}
+          <bdi dir={dir} lang={lang} className="font-extrabold">
+            {fb.correctText}
+          </bdi>
         </p>
       ) : null}
-      <p className="mt-2 text-sm font-medium leading-relaxed text-[#3B4C6B]">{fb.explanation}</p>
+      <p dir={dir} lang={lang} className="mt-2 text-sm font-medium leading-relaxed text-[#3B4C6B]">
+        {fb.explanation}
+      </p>
     </div>
   )
 }
@@ -365,6 +371,8 @@ function FeedbackBox({ fb }: { fb: StepFeedback }) {
 /* ───────────────────────────── المشغّل ───────────────────────────── */
 
 export function ExamRunner({ view }: { view: AttemptView }) {
+  /** الفرنسية والإنجليزية: المحتوى من اليسار إلى اليمين، والواجهة عربية */
+  const dir = view.set.lang === 'ar' ? undefined : 'ltr'
   const router = useRouter()
   const [steps, setSteps] = useState(view.steps)
   const totalSteps = view.totalSteps
@@ -455,7 +463,9 @@ export function ExamRunner({ view }: { view: AttemptView }) {
           <h2 id="read-first" className="flex items-center gap-2 text-[1.05rem] font-extrabold text-[#1B4DB1]">
             <BookOpenText className="size-5" aria-hidden /> اقرأ النصّ أولًا
           </h2>
-          <Documents docs={docs} />
+          <div dir={dir} lang={view.set.lang}>
+            <Documents docs={docs} />
+          </div>
           <p className="rounded-xl bg-[#F5F8FF] p-3 text-sm font-medium leading-relaxed text-[#3B4C6B]">
             ستجيب عن أسئلة الموضوع خطوة خطوة. كل خطوة مأخوذة من عنصر في سلّم التنقيط الأصلي وتحمل علامته. {view.deferred.length ? `الإنتاج الكتابي (${fmt(view.deferred.reduce((a, d) => a + d.points, 0))} ن) يُصحَّح بشبكة التقويم ولا يدخل في التصحيح الآلي.` : ''}
           </p>
@@ -475,7 +485,9 @@ export function ExamRunner({ view }: { view: AttemptView }) {
                 <BookOpenText className="size-4" aria-hidden /> النصّ
               </button>
             </div>
-            <p className="mt-2 text-[0.85rem] leading-relaxed text-[#3B4C6B]">{step.source_question.verbatim_text}</p>
+            <p dir={dir} lang={view.set.lang} className="mt-2 whitespace-pre-line text-[0.85rem] leading-relaxed text-[#3B4C6B]">
+              {step.source_question.verbatim_text}
+            </p>
           </div>
 
           <div className="rounded-[1.75rem] border border-[#C9D7EE] bg-white p-4 shadow-[0_18px_30px_-24px_rgba(20,87,197,0.7)]" data-testid="exam-step" data-step-type={step.type}>
@@ -483,14 +495,16 @@ export function ExamRunner({ view }: { view: AttemptView }) {
               {step.is_verbatim_original ? 'نصّ السؤال الأصلي' : 'خطوة تدريبية مشتقّة'} · {step.rubric_label} ·{' '}
               <bdi dir="ltr">{fmt(step.points)}</bdi> ن
             </p>
-            <h2 className="mt-2 text-[1.15rem] font-extrabold leading-relaxed text-[#172B50]">{step.prompt}</h2>
-            <StepExcerptView excerpt={step.excerpt} />
-            <div className="mt-4">
-              <Interaction step={step} draft={draft} setDraft={(d) => setDrafts((m) => ({ ...m, [step.id]: d }))} locked={!!answered[step.id] || pending} feedback={answered[step.id]?.feedback ?? null} />
+            <div dir={dir} lang={view.set.lang}>
+              <h2 className="mt-2 text-[1.15rem] font-extrabold leading-relaxed text-[#172B50]">{step.prompt}</h2>
+              <StepExcerptView excerpt={step.excerpt} />
+              <div className="mt-4">
+                <Interaction step={step} draft={draft} setDraft={(d) => setDrafts((m) => ({ ...m, [step.id]: d }))} locked={!!answered[step.id] || pending} feedback={answered[step.id]?.feedback ?? null} />
+              </div>
             </div>
           </div>
 
-          {answered[step.id]?.feedback ? <FeedbackBox fb={answered[step.id]!.feedback!} /> : answered[step.id] ? <p className="text-center text-sm font-bold text-[#15803D]">حُفظت إجابتك.</p> : null}
+          {answered[step.id]?.feedback ? <FeedbackBox fb={answered[step.id]!.feedback!} lang={view.set.lang} /> : answered[step.id] ? <p className="text-center text-sm font-bold text-[#15803D]">حُفظت إجابتك.</p> : null}
 
           <div className="flex items-center gap-2">
             <button type="button" onClick={() => setIndex((i) => Math.max(0, i - 1))} disabled={index === 0} aria-label="الخطوة السابقة" className="flex size-12 items-center justify-center rounded-full border border-[#C9D7EE] bg-white text-[#1457C5] disabled:opacity-30">
@@ -527,7 +541,9 @@ export function ExamRunner({ view }: { view: AttemptView }) {
             <DialogTitle>النصّ والوثائق</DialogTitle>
             <DialogDescription>{view.set.title}</DialogDescription>
           </DialogHeader>
-          <Documents docs={docs} />
+          <div dir={dir} lang={view.set.lang}>
+            <Documents docs={docs} />
+          </div>
         </DialogContent>
       </Dialog>
     </div>

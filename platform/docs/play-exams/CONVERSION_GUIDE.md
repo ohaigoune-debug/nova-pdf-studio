@@ -63,3 +63,38 @@ Schema: `src/server/play/exams/types.ts` (`ExamSetDocument`). Exemplar: `content
 3. `python3 scripts/play/converters/build_<id>.py content/play-exams/sets/<…>/<id>.json && python3 scripts/play/shuffle_exam_set.py content/play-exams/sets/<…>/<id>.json`
 4. `npx tsx scripts/play/exams.ts validate` — must print `✓` for your set with **0 errors** and `20/20` (or the paper total). Fix and rebuild (rebuild + shuffle again from scratch, never shuffle twice).
 5. Log blockers (unreadable text, missing correction, ambiguous underline, image-only question) in the builder's docstring and in `source.notes`.
+
+## Appendix A — other subjects (owner decision 2026-10-29: «نعمّم البقية»)
+
+### Reading PDF-only papers (most non-Arabic BAC papers have no Word copy)
+1. `read_file_content <fileId>` gives an OCR text export: **columns are scrambled, marks are separated from their lines and there are OCR typos** («فلد» for «قاد»). Use it only as a helper.
+2. The faithful source is the page image: `download_file_content <fileId>` (the result is saved to a file under `tool-results/`; decode `content` from base64 with `python3 -I`), then `pdftoppm -r 150 -png file.pdf page` in a fresh scratch directory and `Read` each PNG. Transcribe `verbatim_text`, documents and marks **from the image**, character by character; when the scan is unreadable, record a blocker — never guess.
+3. Put «نُسخ النص من صورة الورقة الرسمية (لا نسخة Word)» in `source.notes`, plus every place where OCR and image disagreed.
+4. Each ONEC PDF holds **both topics** (الموضوع الأول / الثاني): one set per topic (`paper` 1|2), each 20/20.
+5. Same folder: `01_الموضوع.pdf` (paper) and `02_التصحيح.pdf` (official model answer + rubric). When the correction is inside the paper's PDF, use it and say so in `notes`.
+
+### History & geography (التاريخ والجغرافيا) — `subject: "HIST"`
+- One set per topic covers **both** history (10) and geography (10); `subject` is `HIST` (the platform's course code HISTGEO maps to HIST) and the set is also listed under الجغرافيا. `set_id`: `hg-bac-<year>-<sci|lit|lang|ge|litlang>-p<1|2>`, file under `content/play-exams/sets/3AS/HIST/`.
+- `streams` exactly as the header lists them (آداب وفلسفة → LIT, لغات أجنبية → LANG, علوم تجريبية → SCI, رياضيات → MATH, تقني رياضي → TM, تسيير واقتصاد → GE; «الشعب العلمية» without detail → `["SCI","MATH","TM","GE"]` only if the header says so).
+- `original_questions`: one per numbered task, `part` = «التاريخ — الجزء الأول» etc.
+- **Terms (مصطلحات)**: one element per term (its mark) → `mcq` «ما المقصود بـ«…»؟», correct option = the correction's definition (its own wording, trimmed only of OCR noise), 3 distractors = definitions of *other* terms of the same programme (clearly not this term).
+- **Persons (شخصيات)**: one element per person → `mcq` «من هو …؟», correct = the correction's identification (dates + role), distractors = identifications of other figures of the programme.
+- **Event ↔ date / completing the events table**: one element per row (its own mark) → one `mcq` per row with 4 dates (or events) taken from the same table/programme.
+- **Maps (التوقيع على الخريطة، أكمل المفتاح)**: deferred `map_locate`, one step per rubric line (العنوان / المفتاح / الإنجاز …) with its mark; never describe or reproduce the map.
+- **Graphs / curves to draw**: deferred `bar_chart` or `function_plot`; a numeric table printed on the paper may be reproduced as a `table` document verbatim. «علّق على…» items may be interactive only if the data is reproduced (a printed table) and the correction states the conclusion; otherwise defer as `essay_builder`.
+- **Part 2 (المقال التاريخي / الموضوع الجغرافي)**: deferred `essay_builder`, one step per rubric line (المقدمة، كل عنصر من العرض، الخاتمة) with its mark; the paragraph given to the candidate is a `text` document.
+- `skill_id`: `hist.terms`, `hist.figures`, `hist.dates`, `hist.map`, `hist.essay`, `geo.terms`, `geo.data`, `geo.map`, `geo.essay`.
+
+### Islamic sciences (العلوم الإسلامية) — `subject: "ISL"`
+- `set_id`: `isl-bac-<year>-p<1|2>` (add `-<stream>` only if the header restricts streams), file under `content/play-exams/sets/3AS/ISL/`; streams as the header lists (usually all streams: `["SCI","MATH","TM","GE","LIT","LANG"]` when the header says «جميع الشعب»).
+- Quranic verses and hadith are copied exactly as printed (with their diacritics, brackets and references); never complete or correct a verse from memory.
+- Interactive: meanings of words, rulings stated in the correction, evidence ↔ ruling matching, concepts/definitions, «استخرج» items whose answer is printed in the text. Deferred `essay_builder`: «ناقش»، «علّل برأيك»، الوضعية الإدماجية، any item the correction accepts in several formulations.
+- `skill_id`: `isl.vocab`, `isl.ruling`, `isl.evidence`, `isl.concept`, `isl.values`, `isl.writing`.
+
+### English (`subject: "EN"`) and French (`subject: "FR"`)
+- Content is shown left-to-right inside the Arabic interface (the runner sets `dir="ltr"` for these subjects). Write `prompt`, options, `explanation` and documents **in the subject's language**; keep the paper's own wording for originals. Do not translate.
+- `set_id`: `en-bac-<year>-<sci|lit|lang|ge…>-p<1|2>` / `fr-bac-…`, files under `content/play-exams/sets/3AS/EN|FR/`; streams exactly as the header lists them.
+- Reading passage = one `text` document (paragraph breaks as `\n`, line numbers only if printed).
+- Interactive (one element per rubric line, its own mark): true/false statements (`mcq` True/False, or Vrai/Faux), comprehension answers stated in the key (`mcq`, correct = the key's answer), reference words («what do the underlined words refer to» → `mcq`), synonyms/opposites/definitions (`mcq` or `matching` within one element), word formation and grammar transformations with a single answer in the key (`mcq`: the key's form + 3 ungrammatical/incorrect variants), gap filling from a list (`fill_blank`), pronunciation classification (`matching`), re-ordering sentences (`ordering`).
+- Deferred `essay_builder`: written expression (both topics/choices), any item the key says accepts several answers («accept any…», «toute réponse cohérente»).
+- `skill_id`: `en.comprehension`, `en.vocabulary`, `en.grammar`, `en.phonology`, `en.discourse`, `en.writing` (French: `fr.comprehension`, `fr.vocabulaire`, `fr.grammaire`, `fr.enonciation`, `fr.discours`, `fr.ecriture`).

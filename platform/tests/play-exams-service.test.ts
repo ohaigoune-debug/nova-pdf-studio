@@ -87,6 +87,19 @@ describe('visibility', () => {
     await expectCode(() => startExamAttempt(h.db, lit, approvedId, 'PRACTICE', T0), 'PLAY_EXAM_NOT_FOUND')
   })
 
+  it('a history & geography paper (one paper, subject HIST) is listed under history and under geography', async () => {
+    const hg: ExamSetDocument = structuredClone(doc)
+    hg.set_id = 'hg-shared-paper-test'
+    hg.status = 'APPROVED'
+    hg.source.verified = true
+    for (const s of hg.steps) if (s.type !== 'essay_builder') s.review_status = 'approved'
+    const [row] = await h.db.insert(playExamSets).values({ kind: 'TEST', gradeCode: '2AS', streamCodes: doc.source.streams, subjectCode: 'HIST', year: null, term: 1, paper: null, scoreTotal: 20, stepCount: hg.steps.length, setId: hg.set_id, title: 'التاريخ والجغرافيا', status: 'APPROVED', publishable: true, checksum: 'hg-test', document: hg }).returning()
+    const sci = await student('SCI')
+    for (const subjectCode of ['HIST', 'GEO']) expect((await listExamSets(h.db, sci, { subjectCode, kind: 'TESTS' })).items.map((i) => i.id), subjectCode).toEqual([row!.id])
+    expect((await listExamSets(h.db, sci, { subjectCode: 'ISL', kind: 'TESTS' })).items).toEqual([])
+    await h.db.delete(playExamSets).where(eq(playExamSets.id, row!.id))
+  })
+
   it('PLAY_EXAM_PREVIEW=1 (development only) shows review sets with a preview badge', async () => {
     process.env.PLAY_EXAM_PREVIEW = '1'
     const sci = await student('SCI')
