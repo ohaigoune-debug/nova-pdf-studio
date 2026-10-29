@@ -10,13 +10,13 @@ Conversion notes / points for the owner's review:
   «قَوْمًا» (ب2)، «سِوَى» (ب4)، «مِشْيَةَ» (ب5). Bracketed sentences «(وَاللَّيْثُ غَضْبَانُ)» and «(لَا يُنْجِيكَ إِحْسَانُ)» are visible.
 - Split words across the hemistichs (يَرْجِعْـ/ـنَ، الْعُدْوَا/نِ، تَوْهِيـ/ـنٌ، الْجَهْـ/ـلِ، حِيـ/ـنَ) are kept exactly as in the export.
 - q4 «0.5 لكلّ حكمة × 2 + 1 الرّأي المعلّل» ⇒ three elements (two distinct wisdoms ب8 / ب9 + opinion).
-  «الرّأي المعلّل» accepts ANY reasoned opinion: its steps teach the model's sample opinion («موقف متوازن…») and use
-  only misreadings of the text as distractors (never another reasoned opinion) — flag for review.
+  «الرّأي المعلّل» (1) accepts ANY reasoned opinion ⇒ deferred as essay_builder (rule 11), spec carries the model's example.
+- Rule 12: the poem caption is neutral («النّصّ»).
 - q5 «0.5 لكلّ وحدة × 2» ⇒ two elements (two named units).
 - Alternatives accepted by the model answer are never used as distractors: «الوصفيّ» (q6), «كناية عن شدّة ظهور الشّرّ» for
   «فَأَمْسَى وَهْوَ عُرْيَانُ» (q8), «اسم استثناء يُعرب فاعلًا» for «سِوَى» (same i'rab as the correct option).
   «تشبيه تمثيليّ» is kept out of the distractors of «كَفَمِ الزِّقِّ» to avoid a debatable reading.
-- year 2026 = school year 2026/2027, inferred from Drive dates (files created 2026-10-09 in the owner's term-1 folder).
+- year = null (rule 13: the owner's devoirs carry no year; the paper does not state one).
 """
 import json, re, sys, unicodedata
 
@@ -42,7 +42,7 @@ glossary = "شرح المفردات: صفحنا: عفونا عن جُرمهم و
 
 TEXT_DOCS = [
     {"id": "d-intro", "kind": "text", "caption": "تقديم النّصّ", "text": intro},
-    {"id": "d-poem", "kind": "table", "caption": "النّصّ: أبيات الفِنْد الزِّمّانيّ", "table": poem},
+    {"id": "d-poem", "kind": "table", "caption": "النّصّ", "table": poem},
     {"id": "d-ref", "kind": "text", "caption": "توثيق النّصّ", "text": ref},
     {"id": "d-gloss", "kind": "text", "caption": "شرح المفردات", "text": glossary},
 ]
@@ -87,6 +87,12 @@ def st(sid, qid, eid, typ, prompt, payload, answer, expl, pts, skill=None, varia
     S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": variant, "type": typ, "prompt": prompt,
               "payload": {"type": typ, **payload}, "answer": {"type": typ, **answer}, "explanation": expl, "points": pts,
               "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_human_review"})
+
+
+def deferred(sid, qid, eid, prompt, spec, ans_spec, pts, skill, expl):
+    S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": "a", "type": "essay_builder",
+              "prompt": prompt, "payload": {"type": "essay_builder", "spec": spec}, "answer": {"type": "essay_builder", "spec": ans_spec},
+              "explanation": expl, "points": pts, "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_engine_support"})
 
 # ── أوّلًا: البناء الفكريّ ──
 st("s01", "q1", "q1-e1", "mcq", "ما الفكرة العامّة الّتي تدور حولها أبيات الفِنْد الزِّمّانيّ؟",
@@ -137,15 +143,10 @@ st("s13", "q4", "q4-e1", "mcq", "ما شرح الحكمة: «وَبَعْضُ ا
 st("s14", "q4", "q4-e2", "fill_blank", "أكمل شرح الحكمة: «وَفِي الشَّرِّ نَجَاةٌ حِينَ لَا يُنْجِيكَ إِحْسَانُ» (ب9):",
    {"text": "قد يكون في دفع الشّرّ ____ نجاةٌ حين لا ينفع ____.", "bank": ["بمثله", "الإحسان", "بالفرار", "الصّبر"]},
    {"blanks": [["بمثله"], ["الإحسان"]]}, "قد يكون في دفع الشّرّ بمثله نجاةٌ حين لا ينفع الإحسان، وهي قريبة من قولهم: «من لم تقوّمه الكرامة قوّمته الإهانة».", 0.5, "ar.literature.hikma")
-st("s15", "q4", "q4-e3", "mcq", "يُقبل كلّ رأي معلّل في موقف الشّاعر. أيّ هذه الآراء معلَّل ويقوم على فهم صحيح للنّصّ؟",
-   {"options": ["موقف متوازن، لأنّ الشّاعر لم يبدأ بالعدوان، بل قدّم الصّفح وجعل القوّة آخر الحلول دفاعًا عن الكرامة",
-                "موقف عدوانيّ، لأنّ الشّاعر وقومه بدؤوا بني ذهل بالقتال",
-                "موقف ضعيف، لأنّ قوم الشّاعر لم يقاتلوا بني ذهل أبدًا",
-                "موقف صحيح، لأنّ الشّاعر يرى القتال خيرًا من الصّلح في كلّ حال"]},
-   {"correct": 0}, "من الآراء المقبولة: موقف متوازن، لأنّ الشّاعر لم يبدأ بالعدوان، بل قدّم الصّفح وجعل القوّة آخر الحلول دفاعًا عن الكرامة؛ ويمكن الاستئناس بقوله تعالى: «وَجَزَاءُ سَيِّئَةٍ سَيِّئَةٌ مِثْلُهَا، فَمَنْ عَفَا وَأَصْلَحَ فَأَجْرُهُ عَلَى اللَّهِ» (الشّورى: 40). أمّا الآراء الأخرى فتقوم على فهم خاطئ للنّصّ.", 0.5, "ar.comprehension.opinion")
-st("s16", "q4", "q4-e3", "fill_blank", "أكمل تعليل الرّأي القائل بأنّ موقف الشّاعر متوازن:",
-   {"text": "موقف متوازن، لأنّ الشّاعر لم يبدأ بـ____، بل قدّم ____ وجعل القوّة آخر الحلول دفاعًا عن ____.", "bank": ["العدوان", "الصّفح", "الكرامة", "الثّأر", "المال"]},
-   {"blanks": [["العدوان"], ["الصّفح"], ["الكرامة"]]}, "موقف متوازن، لأنّ الشّاعر لم يبدأ بالعدوان، بل قدّم الصّفح وجعل القوّة آخر الحلول دفاعًا عن الكرامة (ويُقبل كلّ رأي معلّل).", 0.5, "ar.comprehension.opinion", "b")
+deferred("s15", "q4", "q4-e3", "رأيك في موقف الشّاعر الّذي برّره بالحكمتين (ب8–9) — الرّأي المعلّل",
+         {"criterion": "الرّأي المعلّل", "indicator": "إبداء رأي واضح في موقف الشّاعر مع تعليله؛ يُقبل كلّ رأي معلّل"},
+         {"rubric": "يُقبل كلّ رأي معلّل", "model": "موقف متوازن، لأنّ الشّاعر لم يبدأ بالعدوان، بل قدّم الصّفح وجعل القوّة آخر الحلول دفاعًا عن الكرامة؛ ويمكن الاستئناس بقوله تعالى: «وَجَزَاءُ سَيِّئَةٍ سَيِّئَةٌ مِثْلُهَا، فَمَنْ عَفَا وَأَصْلَحَ فَأَجْرُهُ عَلَى اللَّهِ» (الشّورى: 40)"},
+         1, "ar.comprehension.opinion", "يُقبل كلّ رأي معلّل؛ يُصحَّح يدويًّا وفق سلّم التّنقيط. من الآراء المقبولة: موقف متوازن، لأنّ الشّاعر لم يبدأ بالعدوان، بل قدّم الصّفح وجعل القوّة آخر الحلول دفاعًا عن الكرامة.")
 st("s17", "q5", "q5-e1", "mcq", "بمَ يلتقي النّصّ مع وحدة «الإشادة بالصّلح والسّلام»؟",
    {"options": ["إيثار السّلم وحقن الدّماء ما أمكن، والعفو عن ذوي القربى رجاء الإصلاح (ب1–2)", "الفخر بالشّجاعة وشدّة البأس في القتال (ب5–7)", "وصف الأطلال والبكاء عليها", "مدح الملوك والتّكسّب بالشّعر"]},
    {"correct": 0}, "صلته بوحدة الصّلح والسّلام: إيثار السّلم وحقن الدّماء ما أمكن، والعفو عن ذوي القربى رجاء الإصلاح (ب1–2).", 0.5, "ar.literature.context")
@@ -282,14 +283,14 @@ doc = {
     "status": "NEEDS_HUMAN_REVIEW",
     "source": {
         "source_id": f"gdrive-{ORIG}",
-        "kind": "DEVOIR", "year": 2026, "level": "1AS", "streams": ["TC_LIT"], "subject": "AR", "term": 1, "paper": None,
+        "kind": "DEVOIR", "year": None, "level": "1AS", "streams": ["TC_LIT"], "subject": "AR", "term": 1, "paper": None,
         "title": "الفرض المحروس الأوّل – الفصل الأوّل (رقم 01) – اللّغة العربيّة وآدابها – جذع مشترك آداب – السّنة الأولى ثانوي",
         "original_url": f"https://drive.google.com/file/d/{ORIG}/view",
         "original_file_ref": f"gdrive:{ORIG} (الفرض 01 – الفصل الأول – جذع مشترك آداب.docx)",
         "correction_url": f"https://drive.google.com/file/d/{CORR}/view",
         "correction_file_ref": f"gdrive:{CORR} (حل الفرض 01 – الفصل الأول – جذع مشترك آداب.docx)",
         "trust": "owner_authored", "verified": False, "verified_by": None, "verified_at": None,
-        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ جاهليّ في الملكيّة العامّة (شرح ديوان الحماسة للمرزوقيّ، ص27–31). المجموع 20 = بناء فكريّ 10 + بناء لغويّ 10، ولا وضعيّة إدماجيّة. تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير، وحُدِّد من جدول الإعراب في الحلّ النّموذجيّ: «قَوْمًا» (ب2) و«سِوَى» (ب4) و«مِشْيَةَ» (ب5). س4: «الرّأي المعلّل» يقبل كلّ رأي معلّل؛ خطوتاه تدرّبان على الرّأي النّموذجيّ (موقف متوازن…) ومشتّتاتهما أفهام خاطئة للنّصّ لا آراء معلّلة أخرى (للمراجعة). البدائل المقبولة في الحلّ («الوصفيّ» نمطًا ثانويًّا، «كناية عن شدّة ظهور الشّرّ») لم تُستعمل مشتّتات. السّنة 2026 = الموسم 2026/2027، مستنتجة من تواريخ ملفّات Drive (2026-10-09).",
+        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ جاهليّ في الملكيّة العامّة (شرح ديوان الحماسة للمرزوقيّ، ص27–31). المجموع 20 = بناء فكريّ 10 + بناء لغويّ 10، ولا وضعيّة إدماجيّة. تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير، وحُدِّد من جدول الإعراب في الحلّ النّموذجيّ: «قَوْمًا» (ب2) و«سِوَى» (ب4) و«مِشْيَةَ» (ب5). س4: «الرّأي المعلّل» (1 ن) يقبل كلّ رأي معلّل، فهو مؤجّل (essay_builder) ومعه مثال الحلّ النّموذجيّ. البدائل المقبولة في الحلّ («الوصفيّ» نمطًا ثانويًّا، «كناية عن شدّة ظهور الشّرّ») لم تُستعمل مشتّتات. السّنة غير مذكورة في الورقة (year = null).",
     },
     "original_questions": Q,
     "steps": S,

@@ -14,7 +14,8 @@ Conversion notes / points for the owner's review:
   ⇒ two elements (حكمتان 1 + خاصّيّتان 1).
 - Alternatives accepted by the model answer are never used as distractors: «الحجاجيّ» (q5); for «سَيْرًا» the model accepts
   plain «مفعول مطلق منصوب», so no step grades its sub-type.
-- year 2026 = school year 2026/2027, inferred from Drive dates (owner's term-1 folder, October 2026).
+- Rule 12: captions are neutral (the poem caption no longer names the metre).
+- year = null (rule 13: the owner's devoirs carry no year; the paper does not state one).
 """
 import json, re, sys, unicodedata
 
@@ -42,7 +43,7 @@ TEXT_DOCS = [
     {"id": "d-intro", "kind": "text", "caption": "تقديم النّصّ", "text": intro},
     {"id": "d-par1", "kind": "text", "caption": "النّصّ – الفقرة الأولى (ف1)", "text": par1},
     {"id": "d-par2", "kind": "text", "caption": "النّصّ – الفقرة الثّانية (ف2)", "text": par2},
-    {"id": "d-poem", "kind": "table", "caption": "الأبيات (من مجزوء الكامل)", "table": poem},
+    {"id": "d-poem", "kind": "table", "caption": "الأبيات", "table": poem},
     {"id": "d-ref", "kind": "text", "caption": "توثيق النّصّ", "text": ref},
     {"id": "d-gloss", "kind": "text", "caption": "شرح المفردات", "text": glossary},
 ]
@@ -202,7 +203,7 @@ st("s36", "q9", "q9-e1", "fill_blank", "أكمل الكتابة العروضيّ
    {"blanks": [["نَكَبِنْنَدَى"], ["وَمْدُدْ"]]}, "الكتابة العروضيّة: «وَبْسُطْ يَمِيْ / نَكَبِنْنَدَى» — «وَمْدُدْ لَهَا / بَاعَنْ طَوِيْلَا».", 0.5, "ar.prosody")
 st("s37", "q9", "q9-e1", "mcq", "ما الكتابة العروضيّة الصّحيحة لـ«بَاعًا طَوِيلَا»؟",
    {"options": ["بَاعَنْ طَوِيْلَا", "بَاعًا طَوِيلَا", "بَاعَنْ طَوِيْلَ"]},
-   {"correct": 0}, "في الحلّ النّموذجيّ: «وَمْدُدْ لَهَا / بَاعَنْ طَوِيْلَا»؛ فالتّنوين في «بَاعًا» يُكتب عروضيًّا نونًا ساكنة.", 0.25, "ar.prosody", "b")
+   {"correct": 0}, "في الحلّ النّموذجيّ: «وَمْدُدْ لَهَا / بَاعَنْ طَوِيْلَا».", 0.25, "ar.prosody", "b")
 st("s38", "q9", "q9-e2", "mcq", "ما رموز صدر البيت السّادس «وَبْسُطْ يَمِيْ / نَكَبِنْنَدَى»؟",
    {"options": ["/0/0//0 ///0//0", "///0//0 ///0//0", "/0/0//0 /0/0//0", "/0/0//0 ///0//0/0"]},
    {"correct": 0}, "رموز الصّدر: /0/0//0 ///0//0.", 0.25, "ar.prosody")
@@ -269,14 +270,14 @@ doc = {
     "status": "NEEDS_HUMAN_REVIEW",
     "source": {
         "source_id": f"gdrive-{ORIG}",
-        "kind": "DEVOIR", "year": 2026, "level": "1AS", "streams": ["TC_SCI"], "subject": "AR", "term": 1, "paper": None,
+        "kind": "DEVOIR", "year": None, "level": "1AS", "streams": ["TC_SCI"], "subject": "AR", "term": 1, "paper": None,
         "title": "الفرض المحروس الثّاني – الفصل الأوّل (رقم 02) – اللّغة العربيّة وآدابها – جذع مشترك علوم وتكنولوجيا – السّنة الأولى ثانوي",
         "original_url": f"https://drive.google.com/file/d/{ORIG}/view",
         "original_file_ref": f"gdrive:{ORIG} (الفرض 02 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
         "correction_url": f"https://drive.google.com/file/d/{CORR}/view",
         "correction_file_ref": f"gdrive:{CORR} (حل الفرض 02 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
         "trust": "owner_authored", "verified": False, "verified_by": None, "verified_at": None,
-        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ جاهليّ في الملكيّة العامّة (الأغاني، ج3، ص95–96). المجموع 20 = بناء فكريّ 10 + بناء لغويّ 10، ولا وضعيّة إدماجيّة. تحويل آليّ من نصّ Drive؛ قُسّم النّثر إلى الفقرتين (ف1) و(ف2) كما في الورقة. التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير، وحُدِّد من جدول الإعراب في الحلّ النّموذجيّ: «يُحِبُّوكَ» (ف2) و«أَجَلًا» (ف2) و«سَيْرًا» (ب1). البديل المقبول «الحجاجيّ» لم يُستعمل مشتّتًا، ولا تُصحَّح خطوةٌ نوعَ المفعول المطلق لأنّ الحلّ يكتفي بـ«مفعول مطلق منصوب». السّنة 2026 = الموسم 2026/2027، مستنتجة من تواريخ ملفّات Drive.",
+        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ جاهليّ في الملكيّة العامّة (الأغاني، ج3، ص95–96). المجموع 20 = بناء فكريّ 10 + بناء لغويّ 10، ولا وضعيّة إدماجيّة. تحويل آليّ من نصّ Drive؛ قُسّم النّثر إلى الفقرتين (ف1) و(ف2) كما في الورقة. التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير، وحُدِّد من جدول الإعراب في الحلّ النّموذجيّ: «يُحِبُّوكَ» (ف2) و«أَجَلًا» (ف2) و«سَيْرًا» (ب1). البديل المقبول «الحجاجيّ» لم يُستعمل مشتّتًا، ولا تُصحَّح خطوةٌ نوعَ المفعول المطلق لأنّ الحلّ يكتفي بـ«مفعول مطلق منصوب». السّنة غير مذكورة في الورقة (year = null).",
     },
     "original_questions": Q,
     "steps": S,
