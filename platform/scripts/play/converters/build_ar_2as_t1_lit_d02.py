@@ -6,7 +6,8 @@ Notes / doubts:
 - The underlined words are invisible in the export; identified from the model answer's i'rab table:
   «أَيَّةَ» (ب1)، «امْرُؤٌ» (ب5). The bracketed sentences are visible in the poem.
 - Year not stated in the header nor in the Drive folder names ⇒ year = null.
-- Q5 «كيف تفسّر…» accepts any justified interpretation: steps teach the model's interpretation.
+- Q5 «كيف تفسّر…» accepts any justified interpretation (ويُقبل كلّ تفسير معلّل): «التّفسير» (1) is deferred as
+  essay_builder (CONVERSION_GUIDE rule 11); «الدّلالة» (0.5, its own mark-line part) stays interactive.
 - Q4 (Qur'anic influence) accepts several pairs; the matching step uses only the verses quoted in the model
   answer (no distractor verse was invented).
 - Prosodic symbols: matching steps (mcq options made only of '/' and '0' collapse under the engine's
@@ -77,6 +78,14 @@ def st(sid, qid, eid, typ, prompt, payload, answer, expl, pts, skill=None, varia
               "payload": {"type": typ, **payload}, "answer": {"type": typ, **answer}, "explanation": expl, "points": pts,
               "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_human_review"})
 
+
+def open_deferred(sid, qid, eid, prompt, criterion, model_example, accepts, rubric, pts, skill, expl):
+    """Open-answer element (CONVERSION_GUIDE rule 11): deferred as essay_builder, never an MCQ."""
+    S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": "a", "type": "essay_builder", "prompt": prompt,
+              "payload": {"type": "essay_builder", "spec": {"criterion": criterion, "model_example": model_example, "accepts": accepts}},
+              "answer": {"type": "essay_builder", "spec": {"rubric": rubric}}, "explanation": expl, "points": pts,
+              "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_engine_support"})
+
 # ── أوّلًا: البناء الفكريّ ──
 st("s01", "q1", "q1-e1", "mcq", "ما الفكرة العامّة لأبيات أبي نواس في الزّهد؟",
    {"options": ["الدّعوة — بعد موعظة الشّيب — إلى ترك اتّباع الهوى والإقبال على التّقوى والعمل الصّالح طلبًا لنعيم الآخرة", "الحنين إلى أيّام الشّباب واللّهو", "وصف مجالس الخمر والنّدماء", "التّغزّل بالحسان ووصف جمالهنّ"]},
@@ -118,12 +127,10 @@ st("s13", "q4", "q4-e2", "matching", "طابق كلّ عبارة من النّص
    {"lefts": ["«الْمَتْجَرُ الرَّابِحُ» (ب6)", "«الْحَوْرَاءَ» (ب5)", "«مِيزَانُهُ رَاجِحُ» (ب5)"],
     "rights": ["﴿يَرْجُونَ تِجَارَةً لَنْ تَبُورَ﴾ (فاطر: 29)", "﴿حُورٌ مَقْصُورَاتٌ فِي الْخِيَامِ﴾ (الرّحمن: 72)", "﴿فَأَمَّا مَنْ ثَقُلَتْ مَوَازِينُهُ * فَهُوَ فِي عِيشَةٍ رَاضِيَةٍ﴾ (القارعة: 6–7)"]},
    {"pairs": [0, 1, 2]}, "المتجر الرّابح ↔ ﴿يَرْجُونَ تِجَارَةً لَنْ تَبُورَ﴾ (وكذلك آية الصّفّ: 10)؛ الحوراء ↔ ﴿حُورٌ مَقْصُورَاتٌ فِي الْخِيَامِ﴾؛ ميزانه راجح ↔ ﴿فَأَمَّا مَنْ ثَقُلَتْ مَوَازِينُهُ…﴾.", 0.5, "ar.literature.intertext", "b")
-st("s14", "q5", "q5-e1", "mcq", "كيف تفسّر وجود أبيات الزّهد في ديوان أبي نواس المعروف بالمجون؟",
-   {"options": ["عاش شبابه في اللّهو والمجون، فلمّا علاه الشّيب وأحسّ بدنوّ الأجل مال إلى التّوبة والزّهد", "نظمها تكسّبًا ليمدح بها الخلفاء", "نظمها في شبابه قبل أن يعرف المجون", "قالها سخريةً من الزّهّاد والوعّاظ"]},
-   {"correct": 0}, "عاش أبو نواس شبابه في اللّهو والمجون، فلمّا علاه الشّيب وأحسّ بدنوّ الأجل مال إلى التّوبة والزّهد، والشّيب هو الّذي وعظه: «لِلَّهِ دَرُّ الشَّيْبِ مِنْ وَاعِظٍ» (ب2). ويُقبل كلّ تفسير معلّل.", 0.5, "ar.literature.context")
-st("s15", "q5", "q5-e1", "ordering", "رتّب مراحل تحوّل أبي نواس كما يفسّرها الحلّ النّموذجيّ.",
-   {"items": ["شباب في اللّهو والمجون", "علوّ الشّيب والإحساس بدنوّ الأجل", "الميل إلى التّوبة والزّهد"]},
-   {"order": [0, 1, 2]}, "عاش شبابه في اللّهو والمجون، ثمّ علاه الشّيب وأحسّ بدنوّ الأجل، فمال إلى التّوبة والزّهد.", 0.5, "ar.literature.context", "b")
+open_deferred("s14", "q5", "q5-e1", "عُرف أبو نواس بشعر الخمرة والمجون: كيف تفسّر وجود أبيات الزّهد هذه في ديوانه؟",
+              "التّفسير", "عاش أبو نواس شبابه في اللّهو والمجون، فلمّا علاه الشّيب وأحسّ بدنوّ الأجل مال إلى التّوبة والزّهد، والشّيب هو الّذي وعظه، كما في قوله: «لِلَّهِ دَرُّ الشَّيْبِ مِنْ وَاعِظٍ» (ب2).",
+              "ويُقبل كلّ تفسير معلّل.", "العلامة: 1.5 ن (1 التّفسير + 0.5 الدّلالة)", 1, "ar.comprehension.opinion",
+              "نموذج الحلّ: عاش أبو نواس شبابه في اللّهو والمجون، فلمّا علاه الشّيب وأحسّ بدنوّ الأجل مال إلى التّوبة والزّهد، والشّيب هو الّذي وعظه، كما في قوله: «لِلَّهِ دَرُّ الشَّيْبِ مِنْ وَاعِظٍ» (ب2). ويُقبل كلّ تفسير معلّل.")
 st("s16", "q5", "q5-e2", "mcq", "ما دلالة وجود هذه الأبيات في ديوان أبي نواس؟",
    {"options": ["تحوّل في حياته، وأنّ العصر العبّاسيّ عرف تيّار المجون وتيّار الزّهد معًا", "أنّ العصر العبّاسيّ لم يعرف إلّا تيّار المجون", "أنّ أبا نواس هجر الشّعر في آخر حياته", "أنّ الزّهد غرض جاهليّ قلّده الشّاعر"]},
    {"correct": 0}, "في ذلك دلالة على تحوّل في حياته، وعلى أنّ العصر العبّاسيّ عرف تيّار المجون وتيّار الزّهد معًا؛ بل إنّ طبعة ديوانه تفرد للزّهد بابًا كاملًا.", 0.5, "ar.literature.context")
@@ -233,13 +240,13 @@ doc = {
         "correction_url": "https://drive.google.com/file/d/1nVrxBtJQgGtzQ5PRfBaYW2JNP78zEbDy/view",
         "correction_file_ref": "gdrive:1nVrxBtJQgGtzQ5PRfBaYW2JNP78zEbDy (حل الفرض 02 – الفصل الأول – آداب.docx)",
         "trust": "owner_authored", "verified": False, "verified_by": None, "verified_at": None,
-        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (ديوان أبي نواس، ط 1898، ص 192؛ البيان والتّبيين، تح. هارون، ج3، ص 198–199). تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (أَيَّةَ، امْرُؤٌ). السّنة الدّراسيّة غير مذكورة. سؤالا التّفسير (س5) والتّأثّر بالقرآن (س4) يقبلان أكثر من إجابة: الخطوات مبنيّة على إجابات الحلّ النّموذجيّ وحدها، ولم تُضَف آية مشتّتة.",
+        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (ديوان أبي نواس، ط 1898، ص 192؛ البيان والتّبيين، تح. هارون، ج3، ص 198–199). تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (أَيَّةَ، امْرُؤٌ). السّنة الدّراسيّة غير مذكورة. سؤال التّفسير (س5) يقبل كلّ تفسير معلّل: عنصر «التّفسير» مؤجّل (essay_builder)، و«الدّلالة» تفاعليّة. سؤال التّأثّر بالقرآن (س4) يقبل أكثر من إجابة: الخطوات مبنيّة على إجابات الحلّ النّموذجيّ وحدها، ولم تُضَف آية مشتّتة.",
     },
     "original_questions": Q,
     "steps": S,
     "score_total": 20,
     "modes": ["PRACTICE", "EXAM"],
-    "review_log": [{"at": "2026-10-29T03:00:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."}],
+    "review_log": [{"at": "2026-10-29T03:00:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."}, {"at": "2026-10-29T02:20:00Z", "by": "claude", "action": "updated", "note": "open-answer element deferred per correction («ويُقبل كلّ تفسير معلّل»)"}],
 }
 json.dump(doc, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print(len(Q), "questions", len(S), "steps", sum(s["points"] for s in S), "points")

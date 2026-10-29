@@ -3,14 +3,16 @@ Original: gdrive 12XVJZHAQuzHzaeMpiHt5qKARss1zfrJw (الفرض 02 – الفصل
 Solution: gdrive 1r_EGLceog2yo56nykyvbMsKW851SLkSw (حل الفرض 02 – الفصل الثاني – علمي.docx)
 Verbatim texts copied from the Drive .docx export (markdown escapes \\[ \\] removed); every mark comes from the owner's سلّم التّنقيط.
 Notes / doubts:
-- Total 20 = البناء الفكريّ 10 + البناء اللّغويّ 10; no integration situation ⇒ no deferred steps.
+- Total 20 = البناء الفكريّ 10 + البناء اللّغويّ 10; no integration situation (open-answer elements are deferred, see below).
 - Underlined words are invisible in the export; identified from the model answer's i'rab table:
   «حُسْنًا»، «الشَّمْسَ» (ب1)، «لَذَلِيلَةٌ». The bracketed sentences (ب2، ب3) are visible in the poem.
 - The original keeps «تيهرت» and «تاهرت» side by side (as in the 1857 edition) — copied as is.
 - Q اللّغويّ 2 asks for «الضّبط التّامّ»: the engine's duplicate-option check strips diacritics, so case choices are
   worded explicitly («الخبر منصوب» / «مرفوع») instead of options differing only by vowel marks.
 - Q الفكريّ 3 «1.5 التّصوير: 0.5 لكلّ عنصر × 3 + 0.5 الشّعور» ⇒ elements 1.5 / 0.5.
-- Production items (توظيف مصدر الهيئة والمرّة في جملة) became recognition steps whose correct option is the model sentence.
+- Production items (توظيف مصدر الهيئة والمرّة في جملة مفيدة; the model gives its sentences as «مثل:») are deferred as
+  essay_builder (CONVERSION_GUIDE rule 11). The mark line «0.75 مصدر الهيئة مع الجملة» does not split the form from the
+  sentence, so each whole element (0.75) is deferred.
 - Year not stated in the header nor in the Drive folder names ⇒ year = null.
 """
 import json, sys
@@ -81,6 +83,14 @@ def st(sid, qid, eid, typ, prompt, payload, answer, expl, pts, skill=None, varia
     S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": variant, "type": typ, "prompt": prompt,
               "payload": {"type": typ, **payload}, "answer": {"type": typ, **answer}, "explanation": expl, "points": pts,
               "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_human_review"})
+
+
+def open_deferred(sid, qid, eid, prompt, criterion, model_example, accepts, rubric, pts, skill, expl):
+    """Open-answer element (CONVERSION_GUIDE rule 11): deferred as essay_builder, never an MCQ."""
+    S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": "a", "type": "essay_builder", "prompt": prompt,
+              "payload": {"type": "essay_builder", "spec": {"criterion": criterion, "model_example": model_example, "accepts": accepts}},
+              "answer": {"type": "essay_builder", "spec": {"rubric": rubric}}, "explanation": expl, "points": pts,
+              "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_engine_support"})
 
 # ── أوّلًا: البناء الفكريّ ──
 st("s01", "q1", "q1-e1", "mcq", "ما الفكرة العامّة لنصّ البكريّ عن تاهرت؟",
@@ -177,18 +187,14 @@ st("s30", "q9", "q9-e1", "mcq", "ما نوع المصدر «فَرْحَة» ف�
 st("s31", "q9", "q9-e1", "mcq", "ما وزن المصدر «فَرْحَة»؟",
    {"options": ["فَعْلَة (بفتح الفاء وسكون العين)", "فِعْلَة (بكسر الفاء)", "مَفْعَلَة", "فَعَالَة"]},
    {"correct": 0}, "على وزن «فَعْلَة» (بفتح الفاء) وزنِ مصدر المرّة من الثّلاثيّ؛ أمّا «فِعْلَة» (بكسر الفاء) فوزن مصدر الهيئة.", 0.25, "ar.morphology.masdar", "b")
-st("s32", "q9", "q9-e2", "mcq", "صُغ مصدر الهيئة من الفعل «نَظَرَ»:",
-   {"options": ["نِظْرَة (على وزن فِعْلَة)", "مَنْظَر (على وزن مَفْعَل)", "نَاظِر (على وزن فاعِل)", "نَظَّارَة (على وزن فَعَّالَة)"]},
-   {"correct": 0}, "مصدر الهيئة من «نَظَرَ»: «نِظْرَة» على وزن فِعْلَة.", 0.5, "ar.morphology.masdar")
-st("s33", "q9", "q9-e2", "mcq", "أيّ الجمل الآتية وُظّف فيها مصدر الهيئة من «نَظَرَ»؟",
-   {"options": ["نظر التّاهرتيّ إلى الشّمس نِظْرةَ المتحدّي", "نظر التّاهرتيّ إلى الشّمس مرّةً واحدة", "نظر التّاهرتيّ إلى الشّمس طويلًا", "كان منظر الشّمس بديعًا"]},
-   {"correct": 0}, "نموذج الحلّ: «نظر التّاهرتيّ إلى الشّمس نِظْرةَ المتحدّي». (يُقبل في الورقة كلّ جملة صحيحة.)", 0.25, "ar.morphology.masdar", "b")
-st("s34", "q9", "q9-e3", "mcq", "صُغ مصدر المرّة من الفعل «تَوَقَّدَ» (غير ثلاثيّ):",
-   {"options": ["تَوَقُّدَة (المصدر الأصليّ + التّاء)", "وَقْدَة (على وزن فَعْلَة)", "مُتَوَقِّد (اسم فاعل)", "تَوْقِيد (مصدر «وقّد»)"]},
-   {"correct": 0}, "مصدر المرّة من «تَوَقَّدَ» (غير ثلاثيّ): «تَوَقُّدَة»، أي المصدر الأصليّ + التّاء.", 0.5, "ar.morphology.masdar")
-st("s35", "q9", "q9-e3", "mcq", "أيّ الجمل الآتية وُظّف فيها مصدر المرّة من «تَوَقَّدَ»؟",
-   {"options": ["توقّدت الشّمس بالحجاز توقُّدةً أحرقت الوجوه", "توقّدت الشّمس بالحجاز توقُّدًا شديدًا", "اشتدّ توقّد الشّمس بالحجاز", "كانت الشّمس بالحجاز متوقّدة"]},
-   {"correct": 0}, "نموذج الحلّ: «توقّدت الشّمس بالحجاز توقُّدةً أحرقت الوجوه». (يُقبل في الورقة كلّ جملة صحيحة.)", 0.25, "ar.morphology.masdar", "b")
+open_deferred("s32", "q9", "q9-e2", "صُغْ مصدر الهيئة من الفعل «نَظَرَ»، ووظّفه في جملة مفيدة.",
+              "ب: مصدر الهيئة مع الجملة", "«نِظْرَة» (على وزن فِعْلَة)، مثل: نظر التّاهرتيّ إلى الشّمس نِظْرةَ المتحدّي.",
+              "الحلّ يقدّم الجملة مثالًا («مثل:»)؛ والسّؤال يطلب توظيف المصدر في جملة مفيدة.", "العلامة: 2 ن (0.5 نوع «فرحة» ووزنها + 0.75 مصدر الهيئة مع الجملة + 0.75 مصدر المرّة مع الجملة)", 0.75, "ar.writing.sentence",
+              "مصدر الهيئة من «نَظَرَ»: «نِظْرَة» (على وزن فِعْلَة)، مثل: نظر التّاهرتيّ إلى الشّمس نِظْرةَ المتحدّي.")
+open_deferred("s34", "q9", "q9-e3", "صُغْ مصدر المرّة من الفعل «تَوَقَّدَ»، ووظّفه في جملة مفيدة.",
+              "ب: مصدر المرّة مع الجملة", "«تَوَقُّدَة» (المصدر الأصليّ + التّاء)، مثل: توقّدت الشّمس بالحجاز توقُّدةً أحرقت الوجوه.",
+              "الحلّ يقدّم الجملة مثالًا («مثل:»)؛ والسّؤال يطلب توظيف المصدر في جملة مفيدة.", "العلامة: 2 ن (0.5 نوع «فرحة» ووزنها + 0.75 مصدر الهيئة مع الجملة + 0.75 مصدر المرّة مع الجملة)", 0.75, "ar.writing.sentence",
+              "مصدر المرّة من «تَوَقَّدَ» (غير ثلاثيّ): «تَوَقُّدَة» (المصدر الأصليّ + التّاء)، مثل: توقّدت الشّمس بالحجاز توقُّدةً أحرقت الوجوه.")
 st("s36", "q10", "q10-e1", "mcq", "حدّد نوع التّشبيه في قوله: «كَأَنَّهَا تُنْشَرُ مِنْ تَخْتِ» (ب2):",
    {"options": ["تشبيه تمثيليّ (ويُقبل: مرسل مجمل)", "تشبيه بليغ", "تشبيه ضمنيّ", "استعارة تصريحيّة"]},
    {"correct": 0}, "النّوع: تشبيه تمثيليّ (ويُقبل: تشبيه مرسل مجمل)، فوجه الشّبه صورة منتزعة من متعدّد.", 0.5, "ar.rhetoric.simile")
@@ -229,13 +235,13 @@ doc = {
         "correction_url": f"https://drive.google.com/file/d/{CORR}/view",
         "correction_file_ref": f"gdrive:{CORR} (حل الفرض 02 – الفصل الثاني – علمي.docx)",
         "trust": "owner_authored", "verified": False, "verified_by": None, "verified_at": None,
-        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (المغرب للبكريّ، نشرة دي سلان، الجزائر 1857، ص 66–67). تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (حُسْنًا، الشَّمْسَ، لَذَلِيلَةٌ). السّنة الدّراسيّة غير مذكورة في الورقة ولا في أسماء المجلّدات. سؤال النّفي «مع الضّبط التّامّ»: الخيارات تصرّح بحالة الخبر (منصوب/مرفوع) لأنّ المحرّك يتجاهل الحركات عند مقارنة الخيارات. توظيف المصدرين في جملتين حُوّل إلى اختيار جملة نموذج الحلّ.",
+        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (المغرب للبكريّ، نشرة دي سلان، الجزائر 1857، ص 66–67). تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (حُسْنًا، الشَّمْسَ، لَذَلِيلَةٌ). السّنة الدّراسيّة غير مذكورة في الورقة ولا في أسماء المجلّدات. سؤال النّفي «مع الضّبط التّامّ»: الخيارات تصرّح بحالة الخبر (منصوب/مرفوع) لأنّ المحرّك يتجاهل الحركات عند مقارنة الخيارات. عنصرا «مصدر الهيئة مع الجملة» و«مصدر المرّة مع الجملة» مؤجّلان (essay_builder) لأنّ الجملة من إنشاء التّلميذ ولا يفصل السّلّم علامة المصدر عن علامة الجملة.",
     },
     "original_questions": Q,
     "steps": S,
     "score_total": 20,
     "modes": ["PRACTICE", "EXAM"],
-    "review_log": [{"at": "2026-10-29T01:40:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."}],
+    "review_log": [{"at": "2026-10-29T01:40:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."}, {"at": "2026-10-29T02:20:00Z", "by": "claude", "action": "updated", "note": "open-answer element deferred per correction («مثل:» / «وظّف كلًّا منهما في جملة مفيدة»)"}],
 }
 json.dump(doc, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print(len(Q), "questions", len(S), "steps", sum(s["points"] for s in S), "points")

@@ -12,6 +12,8 @@ Conversion notes / points for the owner's review:
   «رَاتِعًا» مفعول به ثانٍ (if رأى قلبيّة); استعارة تصريحيّة in ب7; الحجاجيّ as the text type; طباق (with −0.25).
 - «0.5 لكلّ X × N» lines are kept as one element (as in the exemplar); «0.5 لكلّ خاصّيّة × 2 + 0.5 الشّطر» = elements 1 + 0.5.
 - Integration situation (4 pts) deferred as essay_builder, one step per criterion (needs_engine_support).
+- q1 «العنوان» (0.5): the model accepts any concise meaningful title («ويُقبل كلّ عنوان دالّ موجز») ⇒ deferred as
+  essay_builder (CONVERSION_GUIDE rule 11).
 - year 2026 = school year 2026/2027 (Drive file dates, term-1 folder), same convention as the exemplar.
 """
 import json, re, sys, unicodedata
@@ -85,6 +87,14 @@ def st(sid, qid, eid, typ, prompt, payload, answer, expl, pts, skill=None, varia
               "payload": {"type": typ, **payload}, "answer": {"type": typ, **answer}, "explanation": expl, "points": pts,
               "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_human_review"})
 
+
+def open_deferred(sid, qid, eid, prompt, criterion, model_example, accepts, rubric, pts, skill, expl):
+    """Open-answer element (CONVERSION_GUIDE rule 11): deferred as essay_builder, never an MCQ."""
+    S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": "a", "type": "essay_builder", "prompt": prompt,
+              "payload": {"type": "essay_builder", "spec": {"criterion": criterion, "model_example": model_example, "accepts": accepts}},
+              "answer": {"type": "essay_builder", "spec": {"rubric": rubric}}, "explanation": expl, "points": pts,
+              "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_engine_support"})
+
 # ── أوّلًا: البناء الفكريّ ──
 st("s01", "q1", "q1-e1", "mcq", "ما الفكرة العامّة الّتي تدور حولها أبيات المثقّب العبديّ؟",
    {"options": ["الدّعوة إلى مكارم الأخلاق: الوفاء بالوعد، وإكرام الجار، واجتناب الغيبة، والحلم والصّفح، وصون العِرض بالمال", "الفخر بالنّسب والقبيلة وأمجادها في الحروب", "وصف مجالس اللّهو والسّمر", "رثاء صديق أخلف وعده"]},
@@ -92,9 +102,10 @@ st("s01", "q1", "q1-e1", "mcq", "ما الفكرة العامّة الّتي ت�
 st("s02", "q1", "q1-e1", "multi", "أيّ هذه الأخلاق دعا إليها المثقّب العبديّ في أبياته؟ (اختر كلّ ما يصحّ)",
    {"options": ["الوفاء بالوعد وتجنّب إخلافه", "إكرام الجار", "اجتناب الغيبة", "الحلم والصّفح عن الجاهل", "صون العِرض بالمال", "مقابلة الإساءة بمثلها", "الإسراف في المال للمباهاة"]},
    {"correct": [0, 1, 2, 3, 4]}, "دعا إلى: الوفاء بالوعد، وإكرام الجار، واجتناب الغيبة، والحلم والصّفح عن الجاهل («وَلَبَعْضُ الصَّفْحِ… أَبْقَى» ب11)، وصون العِرض بالمال (ب12).", 0.5, "ar.comprehension.idea", "b")
-st("s03", "q1", "q1-e2", "mcq", "أيّ العناوين التّالية أنسب لأبيات المثقّب العبديّ؟",
-   {"options": ["في مكارم الأخلاق", "الحنين إلى الدّيار", "وصف الصّيد والفروسيّة", "الفخر بالانتصار في الحرب"]},
-   {"correct": 0}, "العنوان المقترح: «في مكارم الأخلاق» أو «الوفاء بالوعد وصون العِرض»، ويُقبل كلّ عنوان دالّ موجز.", 0.5, "ar.comprehension.idea")
+open_deferred("s03", "q1", "q1-e2", "اقترح عنوانًا مناسبًا لأبيات المثقّب العبديّ.",
+              "العنوان", "«في مكارم الأخلاق» أو «الوفاء بالوعد وصون العِرض»",
+              "ويُقبل كلّ عنوان دالّ موجز.", "العلامة: 1.5 ن (1 الفكرة + 0.5 العنوان)", 0.5, "ar.writing.title",
+              "العنوان المقترح: «في مكارم الأخلاق» أو «الوفاء بالوعد وصون العِرض»، ويُقبل كلّ عنوان دالّ موجز.")
 st("s04", "q2", "q2-e1", "mcq", "بمَ ينصح الشّاعر في الأبيات (1–5)؟",
    {"options": ["ألّا يَعِد المرء بما لا يريد إنجازه، وأن يبدأ بالرّفض إذا خاف النّدم، فإذا وعد صبر حتّى يُنجز", "أن يَعِد بكلّ ما يُطلب منه ثمّ ينظر في الوفاء", "أن يرفض كلّ طلب ليسلم من اللّوم", "أن يكثر من الوعود ليكسب مودّة النّاس"]},
    {"correct": 0}, "نصيحته: ألّا يَعِد المرء بما لا يريد إنجازه (ب1)، وأن يبدأ بالرّفض إذا خاف النّدم (ب3)، فإذا وعد صبر حتّى يُنجز (ب4).", 0.5, "ar.comprehension.details")
@@ -255,13 +266,13 @@ doc = {
         "correction_url": "https://drive.google.com/file/d/13UOvajjpTUHxaBoBxZo2DTYPIFL0TumU/view",
         "correction_file_ref": "gdrive:13UOvajjpTUHxaBoBxZo2DTYPIFL0TumU (حل اختبار الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
         "trust": "owner_authored", "verified": False, "verified_by": None, "verified_at": None,
-        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعتان). النّصّ شعر جاهليّ في الملكيّة العامّة (المفضّليّات، القصيدة 77). تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في النّصّ المصدَّر، وحُدِّد من جدول الإعراب في الحلّ النّموذجيّ: «قَوْلُ» (ب2) و«الْجَارَ» (ب6) و«رَاتِعًا» (ب7) و«خَشَاةً» (ب10). تنبيه: في البيت الثّاني «قَوْلُ» مرّتان؛ رُجّح الأوّل لقول الحلّ «حَسَنٌ خبر مقدّم» (والإعراب واحد فيهما). الوضعيّة الإدماجيّة مؤجّلة (essay_builder). السّنة 2026 = الموسم 2026/2027 (تاريخ الملفّ في Drive).",
+        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعتان). النّصّ شعر جاهليّ في الملكيّة العامّة (المفضّليّات، القصيدة 77). تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في النّصّ المصدَّر، وحُدِّد من جدول الإعراب في الحلّ النّموذجيّ: «قَوْلُ» (ب2) و«الْجَارَ» (ب6) و«رَاتِعًا» (ب7) و«خَشَاةً» (ب10). تنبيه: في البيت الثّاني «قَوْلُ» مرّتان؛ رُجّح الأوّل لقول الحلّ «حَسَنٌ خبر مقدّم» (والإعراب واحد فيهما). عنصر «العنوان» (س1) مؤجّل (essay_builder) لأنّ الحلّ يقبل كلّ عنوان دالّ موجز. الوضعيّة الإدماجيّة مؤجّلة (essay_builder). السّنة 2026 = الموسم 2026/2027 (تاريخ الملفّ في Drive).",
     },
     "original_questions": Q,
     "steps": S,
     "score_total": 20,
     "modes": ["PRACTICE", "EXAM"],
-    "review_log": [{"at": "2026-10-29T06:00:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."}],
+    "review_log": [{"at": "2026-10-29T06:00:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."}, {"at": "2026-10-29T02:20:00Z", "by": "claude", "action": "updated", "note": "open-answer element deferred per correction («ويُقبل كلّ عنوان دالّ موجز»)"}],
 }
 json.dump(doc, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print(len(Q), "questions", len(S), "steps", sum(s["points"] for s in S), "points")

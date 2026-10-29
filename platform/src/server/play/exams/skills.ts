@@ -52,7 +52,10 @@ export const SKILL_LABELS: Record<string, string> = {
   'ar.grammar.ikhtisas': 'الاختصاص',
   'ar.morphology.masdar': 'المصادر',
   'ar.morphology.mubalagha': 'صيغ المبالغة',
-  'ar.morphology.ala': 'اسم الآلة'
+  'ar.morphology.ala': 'اسم الآلة',
+  'ar.writing.title': 'وضع العنوان',
+  'ar.writing.sentence': 'تركيب الجمل',
+  'ar.writing.forms': 'صياغة الأساليب'
 }
 
 const FAMILY: Record<string, string> = { comprehension: 'الفهم والتّحليل', literature: 'التّحليل الأدبيّ', text: 'النّصّ ونمطه', grammar: 'النّحو والإعراب', morphology: 'الصّرف', rhetoric: 'البلاغة', prosody: 'العروض', cohesion: 'الاتّساق والانسجام', writing: 'الكتابة' }

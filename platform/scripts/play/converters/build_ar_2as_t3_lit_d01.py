@@ -13,7 +13,8 @@ Notes / doubts for the owner:
 - Year not stated ⇒ null. «رقم 07» is the owner's running number.
 - Q5 «0.5 لكلّ خاصّيّة × 2 + 0.5 لكلّ مثال × 2» ⇒ two elements (الخاصّيّتان 1 / المثالان 1).
 - Q6: the model says «وصفيّ (يتخلّله السّرد)» ⇒ «سرديّ» is not used as a distractor.
-- Q3-أ (التّنازع) asks for the student's own sentence: the step teaches the model's «تألّق وأشرق الوردُ»."""
+- Q3-أ (التّنازع) asks for the student's own sentence («يُقبل كلّ تركيب صحيح»): element «(أ) الجملة» (0.5) is
+  deferred as essay_builder (CONVERSION_GUIDE rule 11); the Basran/Kufan elements stay interactive on the model sentence."""
 import json, sys
 
 OUT = sys.argv[1]  # then run: python3 scripts/play/shuffle_exam_set.py <OUT>
@@ -88,6 +89,14 @@ def st(sid, qid, eid, typ, prompt, payload, answer, expl, pts, skill=None, varia
     S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": variant, "type": typ, "prompt": prompt,
               "payload": {"type": typ, **payload}, "answer": {"type": typ, **answer}, "explanation": expl, "points": pts,
               "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_human_review"})
+
+
+def open_deferred(sid, qid, eid, prompt, criterion, model_example, accepts, rubric, pts, skill, expl):
+    """Open-answer element (CONVERSION_GUIDE rule 11): deferred as essay_builder, never an MCQ."""
+    S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": "a", "type": "essay_builder", "prompt": prompt,
+              "payload": {"type": "essay_builder", "spec": {"criterion": criterion, "model_example": model_example, "accepts": accepts}},
+              "answer": {"type": "essay_builder", "spec": {"rubric": rubric}}, "explanation": expl, "points": pts,
+              "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_engine_support"})
 
 # ── أوّلًا: البناء الفكريّ ──
 st("s01", "q1", "q1-e1", "mcq", "ما المناسبة الّتي قال فيها ابن زيدون هذه الأبيات؟",
@@ -188,9 +197,10 @@ st("s29L1", "q8", "q8-e3", "matching", "(لغات أجنبيّة) صنّف كل�
 st("s29L2", "q8", "q8-e3", "matching", "(لغات أجنبيّة) طابق كلّ جمع بمفرده.",
    {"lefts": ["«أَصَائِل»", "«اللَّبَّات»", "«سُرَّاق»", "«أَعْيُن»"], "rights": ["«أَصِيل»", "«لَبَّة»", "«سَارِق»", "«عَيْن»", "«سَرِقَة»"]},
    {"pairs": [0, 1, 2, 3]}, "المفردات: «أَصِيل»، «لَبَّة»، «سَارِق»، «عَيْن».", 1, "ar.morphology", "b")
-st("s30", "q9", "q9-e1", "mcq", "(آداب وفلسفة) أيّ هذه الجمل فيها تنازع بين «تَأَلَّقَ» و«أَشْرَقَ» على «الوَرْد»؟",
-   {"options": ["«تألّق وأشرق الوردُ»", "«تألّق الوردُ وأشرق»", "«الوردُ تألّق وأشرق»", "«تألّق الوردُ وأشرق الوردُ»"]},
-   {"correct": 0}, "«تألّق وأشرق الوردُ»: المتنازَع فيه «الوردُ» (فاعل يطلبه الفعلان المتقدّمان). ويُقبل كلّ تركيب صحيح.", 0.5, "ar.grammar.rules")
+open_deferred("s30", "q9", "q9-e1", "(آداب وفلسفة) كوّن من الفعلين «تَأَلَّقَ» و«أَشْرَقَ» والاسم «الوَرْد» جملةً فيها تنازع.",
+              "(أ) آداب وفلسفة: الجملة", "«تألّق وأشرق الوردُ»: المتنازَع فيه «الوردُ» (فاعل يطلبه الفعلان).",
+              "(يُقبل كلّ تركيب صحيح.)", "العلامة: 1.5 ن (آداب: 0.5 الجملة + 0.5 رأي البصريّين + 0.5 رأي الكوفيّين / لغات: 0.5 لكلّ حكم مع التّعليل × 3)", 0.5, "ar.writing.sentence",
+              "نموذج الحلّ: «تألّق وأشرق الوردُ»: المتنازَع فيه «الوردُ» (فاعل يطلبه الفعلان). (يُقبل كلّ تركيب صحيح.)")
 st("s31", "q9", "q9-e2", "mcq", "(آداب وفلسفة) ما العامل في «الوردُ» عند البصريّين في «تألّق وأشرق الوردُ»، ولماذا؟",
    {"options": ["الفعل الثّاني «أشرق» لقربه منه، وفي الأوّل ضمير مستتر يعود على المتأخّر", "الفعل الأوّل «تألّق» لسبقه، ويُضمر في الثّاني فاعله", "الفعلان معًا يعملان فيه", "عامل محذوف تقديره «ظهر»"]},
    {"correct": 0}, "عند البصريّين: العامل فيه الفعل الثّاني «أشرق» لقربه منه، وفي الأوّل ضمير مستتر يعود على المتأخّر.", 0.5, "ar.grammar.rules")
@@ -252,13 +262,13 @@ doc = {
         "correction_url": "https://drive.google.com/file/d/1t90hDMneD5_Sc2WqwWpOSu2LCOs-LcVz/view",
         "correction_file_ref": "gdrive:1t90hDMneD5_Sc2WqwWpOSu2LCOs-LcVz (حل الفرض 01 – الفصل الثالث – آداب.docx)",
         "trust": "owner_authored", "verified": False, "verified_by": None, "verified_at": None,
-        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (نفح الطّيب للمقّريّ، ط ليدن 1859، ص 567). الورقة لشعبتي «آداب وفلسفة – لغات أجنبيّة»، والسّؤالان 2 و3 من البناء اللّغويّ لكلّ منهما شقّان بحسب الشّعبة: عناصر الشّقّين (أ) (المصادر، التّنازع) للآداب والفلسفة (LIT)، وعناصر الشّقّين (ب) (الجموع، تأنيث العامل) للّغات الأجنبيّة (LANG)، ولكلّ شعبة 20/20. التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (مُشْتَاقًا، إِشْفَاقَا، سُرَّاقَا). السّنة الدّراسيّة غير مذكورة.",
+        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (نفح الطّيب للمقّريّ، ط ليدن 1859، ص 567). الورقة لشعبتي «آداب وفلسفة – لغات أجنبيّة»، والسّؤالان 2 و3 من البناء اللّغويّ لكلّ منهما شقّان بحسب الشّعبة: عناصر الشّقّين (أ) (المصادر، التّنازع) للآداب والفلسفة (LIT)، وعناصر الشّقّين (ب) (الجموع، تأنيث العامل) للّغات الأجنبيّة (LANG)، ولكلّ شعبة 20/20. التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (مُشْتَاقًا، إِشْفَاقَا، سُرَّاقَا). السّنة الدّراسيّة غير مذكورة. جملة التّنازع من إنشاء التّلميذ (يُقبل كلّ تركيب صحيح): عنصرها مؤجّل (essay_builder).",
     },
     "original_questions": Q,
     "steps": S,
     "score_total": 20,
     "modes": ["PRACTICE", "EXAM"],
-    "review_log": [{"at": "2026-10-29T03:00:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة. الشّقوق (أ) و(ب) موسومة بشعبتيها."}],
+    "review_log": [{"at": "2026-10-29T03:00:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة. الشّقوق (أ) و(ب) موسومة بشعبتيها."}, {"at": "2026-10-29T02:20:00Z", "by": "claude", "action": "updated", "note": "open-answer element deferred per correction («يُقبل كلّ تركيب صحيح»)"}],
 }
 json.dump(doc, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print(len(Q), "questions", len(S), "steps", sum(s["points"] for s in S), "points")

@@ -4,7 +4,8 @@ Solution: gdrive 1aBcrZO_MHTylHvoIGJ3DU6ozDNtj9uMW (حل الفرض 01 – ال�
 Verbatim texts copied from the Drive .docx export (markdown escapes \\[ \\] \\! removed; the markdown hard break between the
 two paragraphs is kept as a newline); every mark comes from the owner's سلّم التّنقيط.
 Notes / doubts:
-- Total 20 = البناء الفكريّ 10 + البناء اللّغويّ 10; no integration situation ⇒ no deferred steps.
+- Total 20 = البناء الفكريّ 10 + البناء اللّغويّ 10; no integration situation. Q الفكريّ 1 «عنوانا الفقرتين» (1) accepts any
+  concise meaningful title (يُقبل كلّ عنوان دالّ موجز) ⇒ deferred as essay_builder (CONVERSION_GUIDE rule 11).
 - Underlined words are invisible in the export; identified from the model answer's i'rab table:
   «أَحَدٌ»، «حَالًا»، «جَائِزًا». The bracketed sentences are visible in the text.
 - set_id uses the per-term devoir number (d01); the header's year-wide number is «رقم 04».
@@ -78,6 +79,14 @@ def st(sid, qid, eid, typ, prompt, payload, answer, expl, pts, skill=None, varia
               "payload": {"type": typ, **payload}, "answer": {"type": typ, **answer}, "explanation": expl, "points": pts,
               "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_human_review"})
 
+
+def open_deferred(sid, qid, eid, prompt, criterion, model_example, accepts, rubric, pts, skill, expl):
+    """Open-answer element (CONVERSION_GUIDE rule 11): deferred as essay_builder, never an MCQ."""
+    S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": "a", "type": "essay_builder", "prompt": prompt,
+              "payload": {"type": "essay_builder", "spec": {"criterion": criterion, "model_example": model_example, "accepts": accepts}},
+              "answer": {"type": "essay_builder", "spec": {"rubric": rubric}}, "explanation": expl, "points": pts,
+              "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_engine_support"})
+
 # ── أوّلًا: البناء الفكريّ ──
 st("s01", "q1", "q1-e1", "mcq", "ما الفكرة العامّة لنصّ «الأدب الكبير»؟",
    {"options": ["تحذير أصحاب السّلطة من الإفراط في الغضب والرّضى، وبيان أنواع الحكم وأثر كلّ منها في الرّعيّة", "وصف مجالس الملوك وما يجري فيها من لهو وعطاء", "الدّعوة إلى الثّورة على الحكّام الظّالمين", "تفضيل ملك الحزم على ملك الدّين"]},
@@ -85,9 +94,10 @@ st("s01", "q1", "q1-e1", "mcq", "ما الفكرة العامّة لنصّ «ا�
 st("s02", "q1", "q1-e1", "fill_blank", "أكمل الفكرة العامّة:",
    {"text": "تحذير أصحاب السّلطة من الإفراط في ____ و____، وبيان أنواع ____ وأثر كلّ منها في الرّعيّة.", "bank": ["الغضب", "الرّضى", "الحكم", "العطاء", "الحزن", "الحرب"]},
    {"blanks": [["الغضب"], ["الرّضى"], ["الحكم"]]}, "الفكرة العامّة: تحذير أصحاب السّلطة من الإفراط في الغضب والرّضى، وبيان أنواع الحكم وأثر كلّ منها في الرّعيّة.", 0.5, "ar.comprehension.idea", "b")
-st("s03", "q1", "q1-e2", "matching", "اقترح عنوانًا لكلّ فقرة: طابق كلّ فقرة بعنوانها المناسب.",
-   {"lefts": ["الفقرة الأولى («اِعْلَمْ أَنَّ مِنَ النَّاسِ نَاسًا كَثِيرًا…»)", "الفقرة الثّانية («اِعْلَمْ أَنَّ الْمُلْكَ ثَلَاثَةٌ…»)"], "rights": ["خطر الإفراط في الغضب والرّضى", "أنواع المُلْك", "فضل العلم والأدب", "أعراض الجنون وعلاجه"]},
-   {"pairs": [0, 1]}, "عنوان الفقرة الأولى: «خطر الإفراط في الغضب والرّضى» (أو: الاعتدال في الغضب والرّضى)؛ والثّانية: «أنواع المُلْك» (أو: المُلْك بين الدّين والحزم والهوى). يُقبل كلّ عنوان دالّ موجز.", 1, "ar.comprehension.idea")
+open_deferred("s03", "q1", "q1-e2", "اقترح عنوانًا مناسبًا لكلّ فقرة من فقرتي النّصّ.",
+              "عنوانا الفقرتين (0.5 لكلّ عنوان × 2)", "الفقرة الأولى: «خطر الإفراط في الغضب والرّضى» أو «الاعتدال في الغضب والرّضى»؛ الفقرة الثّانية: «أنواع المُلْك» أو «المُلْك بين الدّين والحزم والهوى».",
+              "(يُقبل كلّ عنوان دالّ موجز.)", "العلامة: 2 ن (1 الفكرة العامّة + 0.5 لكلّ عنوان × 2)", 1, "ar.writing.title",
+              "العنوانان المقترحان: الفقرة الأولى: «خطر الإفراط في الغضب والرّضى» أو «الاعتدال في الغضب والرّضى»؛ الفقرة الثّانية: «أنواع المُلْك» أو «المُلْك بين الدّين والحزم والهوى». (يُقبل كلّ عنوان دالّ موجز.)")
 st("s04", "q2", "q2-e1", "multi", "أيّ هذه المظاهر من الإفراط في الغضب كما يصوّره الكاتب؟ (اختر كلّ ما يصحّ)",
    {"options": ["الكلوح والقطوب في وجه غير من أغضبه", "سوء اللّفظ لمن لا ذنب له", "العقوبة لمن لم يكن يهمّ بمعاقبته", "شدّة المعاقبة باللّسان واليد لمن لم يكن يستحقّ إلّا دون ذلك", "التّبرّع بالأمر العظيم لمن ليس أهلًا له", "إكرام من لا حقّ له ولا مودّة عنده"]},
    {"correct": [0, 1, 2, 3]}, "في الغضب: الكلوح والقطوب في وجه غير من أغضبه، وسوء اللّفظ لمن لا ذنب له، والعقوبة لمن لم يكن يهمّ بمعاقبته، وشدّة المعاقبة لمن لم يكن يستحقّ إلّا دون ذلك؛ أمّا التّبرّع والإكرام فمن الإفراط في الرّضى.", 1, "ar.comprehension.details")
@@ -219,13 +229,13 @@ doc = {
         "correction_url": f"https://drive.google.com/file/d/{CORR}/view",
         "correction_file_ref": f"gdrive:{CORR} (حل الفرض 01 – الفصل الثاني – علمي.docx)",
         "trust": "owner_authored", "verified": False, "verified_by": None, "verified_at": None,
-        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (الأدب الكبير، تحقيق أحمد زكي باشا، 1912، ص 17–19). تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (أَحَدٌ، حَالًا، جَائِزًا). الفاصل بين الفقرتين أُثبت سطرًا جديدًا. السّنة الدّراسيّة غير مذكورة في الورقة ولا في أسماء المجلّدات. العنوانان المقترحان حُوّلا إلى مطابقة بعنواني الحلّ النّموذجيّ مع أنّ السّلّم يقبل كلّ عنوان دالّ موجز.",
+        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (الأدب الكبير، تحقيق أحمد زكي باشا، 1912، ص 17–19). تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (أَحَدٌ، حَالًا، جَائِزًا). الفاصل بين الفقرتين أُثبت سطرًا جديدًا. السّنة الدّراسيّة غير مذكورة في الورقة ولا في أسماء المجلّدات. العنوانان المقترحان مؤجّلان (essay_builder) لأنّ الحلّ يقبل كلّ عنوان دالّ موجز.",
     },
     "original_questions": Q,
     "steps": S,
     "score_total": 20,
     "modes": ["PRACTICE", "EXAM"],
-    "review_log": [{"at": "2026-10-29T01:40:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."}],
+    "review_log": [{"at": "2026-10-29T01:40:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."}, {"at": "2026-10-29T02:20:00Z", "by": "claude", "action": "updated", "note": "open-answer element deferred per correction («يُقبل كلّ عنوان دالّ موجز»)"}],
 }
 json.dump(doc, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print(len(Q), "questions", len(S), "steps", sum(s["points"] for s in S), "points")

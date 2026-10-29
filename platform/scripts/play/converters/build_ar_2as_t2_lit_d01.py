@@ -12,7 +12,9 @@ Notes / doubts for the owner:
   «سَحْبَانِ». The bracketed sentences are visible in the text.
 - Year not stated in the header nor in the Drive folder names ⇒ year = null. «رقم 04» is the owner's running number.
 - Q5 «0.5 لكلّ خاصّيّة × 4» is split into its two asks (2 features vs poetry / 2 stylistic features), 1 pt each.
-- Q3 «لات» asks for a sentence of the student's own: the step teaches the model's sentence."""
+- Q3 «لات» asks for a sentence of the student's own («في جملة من إنشائك»): element «لات: الجملة مضبوطة» (0.5) is
+  deferred as essay_builder (CONVERSION_GUIDE rule 11); the «ما» sentence (a given sentence to negate) and both
+  conditions stay interactive."""
 import json, sys
 
 OUT = sys.argv[1]  # then run: python3 scripts/play/shuffle_exam_set.py <OUT>
@@ -74,6 +76,14 @@ def st(sid, qid, eid, typ, prompt, payload, answer, expl, pts, skill=None, varia
     S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": variant, "type": typ, "prompt": prompt,
               "payload": {"type": typ, **payload}, "answer": {"type": typ, **answer}, "explanation": expl, "points": pts,
               "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_human_review"})
+
+
+def open_deferred(sid, qid, eid, prompt, criterion, model_example, accepts, rubric, pts, skill, expl):
+    """Open-answer element (CONVERSION_GUIDE rule 11): deferred as essay_builder, never an MCQ."""
+    S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": "a", "type": "essay_builder", "prompt": prompt,
+              "payload": {"type": "essay_builder", "spec": {"criterion": criterion, "model_example": model_example, "accepts": accepts}},
+              "answer": {"type": "essay_builder", "spec": {"rubric": rubric}}, "explanation": expl, "points": pts,
+              "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_engine_support"})
 
 # ── أوّلًا: البناء الفكريّ ──
 st("s01", "q1", "q1-e1", "mcq", "مَن المخاطَب في نصّ الجاحظ؟",
@@ -190,9 +200,10 @@ st("s29", "q9", "q9-e1", "mcq", "انفِ «الْكِتَابُ جَلِيسٌ 
 st("s30", "q9", "q9-e2", "mcq", "ما شرط من شروط عمل «ما» عمل «ليس»؟",
    {"options": ["ألّا ينتقض نفيها بـ«إلّا»", "أن يتقدّم خبرها على اسمها", "أن تُزاد بعدها «إنْ»", "أن يكون اسمها وخبرها من أسماء الزّمان"]},
    {"correct": 0}, "من شروط عملها: ألّا ينتقض نفيها بـ«إلّا»، وألّا يتقدّم خبرها على اسمها، وألّا تُزاد بعدها «إنْ».", 0.25, "ar.grammar.rules")
-st("s31", "q9", "q9-e3", "mcq", "أيّ هذه الجمل تستعمل «لاتَ» استعمالًا صحيحًا لتنفي عن قارئ الكتاب الشّعور بالملل؟",
-   {"options": ["«أقبلَ القارئُ على الكتاب، ولاتَ حينَ مَلَلٍ»", "«أقبلَ القارئُ على الكتاب، ولاتَ القارئُ مَلولًا»", "«أقبلَ القارئُ على الكتاب، ولاتَ الحينُ حينَ مَلَلٍ»", "«أقبلَ القارئُ على الكتاب، ولاتَ مَلَلَ»"]},
-   {"correct": 0}, "«أقبلَ القارئُ على الكتاب، ولاتَ حينَ مَلَلٍ»: اسمها محذوف (والتّقدير: ولات الحينُ حينَ مللٍ)، و«حينَ» خبرها منصوب. ويُقبل كلّ جملة صحيحة من إنشاء التّلميذ.", 0.5, "ar.grammar.rules")
+open_deferred("s31", "q9", "q9-e3", "استعمل «لاتَ» في جملة من إنشائك تنفي بها عن قارئ الكتاب الشّعورَ بالملل، مع ضبط الاسم والخبر.",
+              "«لات»: الجملة مضبوطة", "«أقبلَ القارئُ على الكتاب، ولاتَ حينَ مَلَلٍ»: اسمها محذوف (والتّقدير: ولات الحينُ حينَ مللٍ)، و«حينَ» خبرها منصوب.",
+              "السّؤال يطلب «جملة من إنشائك»؛ ولا ينصّ الحلّ على صيغة قبول، ويقدّم جملة واحدة.", "العلامة: 1.5 ن (0.75 لكلّ أداة: 0.5 الجملة مضبوطة + 0.25 الشّرط)", 0.5, "ar.writing.sentence",
+              "نموذج الحلّ: «أقبلَ القارئُ على الكتاب، ولاتَ حينَ مَلَلٍ»: اسمها محذوف (والتّقدير: ولات الحينُ حينَ مللٍ)، و«حينَ» خبرها منصوب.")
 st("s32", "q9", "q9-e4", "mcq", "ما شرط من شروط عمل «لات»؟",
    {"options": ["أن يكون اسمها وخبرها من أسماء الزّمان (حين، ساعة، أوان)", "أن يُذكر اسمها وخبرها معًا", "أن يتقدّم خبرها على اسمها", "أن تقترن بـ«إنْ» الزّائدة"]},
    {"correct": 0}, "من شروط عمل «لات»: أن يكون اسمها وخبرها من أسماء الزّمان (حين، ساعة، أوان)، وأن يُحذف أحدهما والغالب حذف الاسم.", 0.25, "ar.grammar.rules")
@@ -241,13 +252,13 @@ doc = {
         "correction_url": "https://drive.google.com/file/d/1TD9M_K6Lp-azQs0Dbi5eRkGAi7LdpjM_/view",
         "correction_file_ref": "gdrive:1TD9M_K6Lp-azQs0Dbi5eRkGAi7LdpjM_ (حل الفرض 01 – الفصل الثاني – آداب.docx)",
         "trust": "owner_authored", "verified": False, "verified_by": None, "verified_at": None,
-        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (كتاب الحيوان للجاحظ، ط 1905، ج1، ص 19–20). الورقة لشعبتي «آداب وفلسفة – لغات أجنبيّة»، والسّؤال 2 من البناء اللّغويّ له شقّان بحسب الشّعبة: عناصر الشّقّ (أ) («إنّ») للآداب والفلسفة (LIT)، وعناصر الشّقّ (ب) (النّعت) للّغات الأجنبيّة (LANG)، ولكلّ شعبة 20/20. التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (عِلْمًا، أَبْيَنَ، سَحْبَانِ). السّنة الدّراسيّة غير مذكورة. سطر «0.5 لكلّ خاصّيّة × 4» (س5) قُسِّم على شقّي السّؤال (1 + 1).",
+        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (كتاب الحيوان للجاحظ، ط 1905، ج1، ص 19–20). الورقة لشعبتي «آداب وفلسفة – لغات أجنبيّة»، والسّؤال 2 من البناء اللّغويّ له شقّان بحسب الشّعبة: عناصر الشّقّ (أ) («إنّ») للآداب والفلسفة (LIT)، وعناصر الشّقّ (ب) (النّعت) للّغات الأجنبيّة (LANG)، ولكلّ شعبة 20/20. التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (عِلْمًا، أَبْيَنَ، سَحْبَانِ). السّنة الدّراسيّة غير مذكورة. سطر «0.5 لكلّ خاصّيّة × 4» (س5) قُسِّم على شقّي السّؤال (1 + 1). جملة «لات» من إنشاء التّلميذ: عنصرها مؤجّل (essay_builder).",
     },
     "original_questions": Q,
     "steps": S,
     "score_total": 20,
     "modes": ["PRACTICE", "EXAM"],
-    "review_log": [{"at": "2026-10-29T03:00:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة. الشّقّان (أ) و(ب) موسومان بشعبتيهما."}],
+    "review_log": [{"at": "2026-10-29T03:00:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة. الشّقّان (أ) و(ب) موسومان بشعبتيهما."}, {"at": "2026-10-29T02:20:00Z", "by": "claude", "action": "updated", "note": "open-answer element deferred per correction («استعمل «لاتَ» في جملة من إنشائك»)"}],
 }
 json.dump(doc, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print(len(Q), "questions", len(S), "steps", sum(s["points"] for s in S), "points")

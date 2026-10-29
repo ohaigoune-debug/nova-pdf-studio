@@ -3,15 +3,14 @@ Original: gdrive 1ECcdEmm5Fm9vgYcL_zhdfqZ-ALedr8UH (الفرض 02 – الفصل
 Solution: gdrive 1sh9OgESGLIdO2tL33l17-pZ4wws2AvnC (حل الفرض 02 – الفصل الثالث – علمي.docx)
 Verbatim texts copied from the Drive .docx export (markdown escapes \\[ \\] removed); every mark comes from the owner's سلّم التّنقيط.
 Notes / doubts:
-- Total 20 = البناء الفكريّ 10 + البناء اللّغويّ 10; no integration situation ⇒ no deferred steps.
+- Total 20 = البناء الفكريّ 10 + البناء اللّغويّ 10; no integration situation (open-answer elements are deferred, see below).
 - Underlined words are invisible in the export; identified from the model answer's i'rab table:
   «مَأْسُورَا» (ب1)، «قِطْمِيرَا» (ب2)، «مُمْتَثِلًا» (ب7). The bracketed sentences (ب4، ب8) are visible in the poem.
-- Q الفكريّ 5 «وهل تؤيّده فيها؟ علّل» accepts any justified opinion (يُقبل كلّ رأي معلّل): the two steps teach the
-  model's justified opinion; distractors are unjustified or irrelevantly justified opinions (flag for review —
-  alternatively defer this element as essay_builder).
+- Q الفكريّ 5 «وهل تؤيّده فيها؟ علّل» accepts any justified opinion (يُقبل كلّ رأي معلّل): element «الرّأي المعلّل» (1)
+  is deferred as essay_builder (CONVERSION_GUIDE rule 11; spec = criterion + the model's opinion).
 - Q اللّغويّ 2 «0.5 لكلّ حالة» is one element (2); Q اللّغويّ 3 «0.25 لكلّ صيغة × 4 + 0.5 الجملة» ⇒ 1 / 0.5;
   Q اللّغويّ 6 «0.25 لكلّ محسّن مع التّسمية × 2 + 0.5 الأثر» ⇒ 0.5 / 0.5.
-- The «مِفْعَال» sentence (من إنشائك) became a recognition step whose correct option is the model sentence.
+- The «مِفْعَال» sentence (من إنشائك; «يُقبل كلّ تركيب صحيح على وزن «مِفْعَال»») is deferred as essay_builder (rule 11).
 - Year not stated in the header nor in the Drive folder names ⇒ year = null.
 """
 import json, sys
@@ -86,6 +85,14 @@ def st(sid, qid, eid, typ, prompt, payload, answer, expl, pts, skill=None, varia
               "payload": {"type": typ, **payload}, "answer": {"type": typ, **answer}, "explanation": expl, "points": pts,
               "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_human_review"})
 
+
+def open_deferred(sid, qid, eid, prompt, criterion, model_example, accepts, rubric, pts, skill, expl):
+    """Open-answer element (CONVERSION_GUIDE rule 11): deferred as essay_builder, never an MCQ."""
+    S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": "a", "type": "essay_builder", "prompt": prompt,
+              "payload": {"type": "essay_builder", "spec": {"criterion": criterion, "model_example": model_example, "accepts": accepts}},
+              "answer": {"type": "essay_builder", "spec": {"rubric": rubric}}, "explanation": expl, "points": pts,
+              "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_engine_support"})
+
 # ── أوّلًا: البناء الفكريّ ──
 st("s01", "q1", "q1-e1", "mcq", "ما المناسبة الّتي قال فيها المعتمد بن عبّاد هذه الأبيات؟",
    {"options": ["أوّل عيد قضاه أسيرًا في أغمات بعد زوال ملكه، حين دخلت عليه بناته يسلّمن عليه في أطمار بالية حافيات", "عيد احتفل به في قصره بإشبيلية", "رثاء ابن له قُتل في المعركة", "خروجه من الأسر وعودته إلى ملكه"]},
@@ -126,12 +133,10 @@ st("s12", "q5", "q5-e1", "mcq", "ما العبرة الّتي يستخلصها �
 st("s13", "q5", "q5-e1", "matching", "طابق كلّ بيت بما يقرّره من العبرة.",
    {"lefts": ["البيت 7", "البيت 8"], "rights": ["الدّهر كان يطيع المعتمد فصار المعتمد مأمورًا منهيًّا", "كلّ من يغترّ بملكه بعده مخدوع بالأحلام", "الأعياد تعود بالخير على الأسرى"]},
    {"pairs": [0, 1]}, "ب7: كان الدّهر يطيع المعتمد فصار المعتمد مأمورًا منهيًّا؛ ب8: كلّ من يغترّ بملكه بعده مخدوع بالأحلام.", 0.5, "ar.comprehension.evidence", "b")
-st("s14", "q5", "q5-e2", "mcq", "أيّ الأجوبة الآتية رأيٌ معلّل مقبول في عبرة الشّاعر؟",
-   {"options": ["أؤيّده، لأنّ الأيّام دول، والملك لا يدوم لأحد، فالعاقل لا يغترّ بالنّعيم ولا ييأس في الشّدّة", "أؤيّده.", "لا أؤيّده، لأنّ العيد يوم فرح.", "أؤيّده، لأنّ المعتمد كان ملكًا شاعرًا."]},
-   {"correct": 0}, "نموذج الحلّ: «أؤيّده، لأنّ الأيّام دول، والملك لا يدوم لأحد، فالعاقل لا يغترّ بالنّعيم ولا ييأس في الشّدّة». يُقبل كلّ رأي معلّل؛ أمّا الرّأي بلا تعليل أو بتعليل لا صلة له بالعبرة فلا يُقبل.", 0.5, "ar.comprehension.opinion")
-st("s15", "q5", "q5-e2", "fill_blank", "أكمل تعليل الرّأي (نموذج الحلّ):",
-   {"text": "أؤيّده، لأنّ الأيّام ____، والملك لا ____ لأحد، فالعاقل لا يغترّ بـ____ ولا ييأس في الشّدّة.", "bank": ["دول", "يدوم", "النّعيم", "ثابتة", "يزول", "الفقر"]},
-   {"blanks": [["دول"], ["يدوم"], ["النّعيم"]]}, "«أؤيّده، لأنّ الأيّام دول، والملك لا يدوم لأحد، فالعاقل لا يغترّ بالنّعيم ولا ييأس في الشّدّة.» (يُقبل كلّ رأي معلّل.)", 0.5, "ar.comprehension.opinion", "b")
+open_deferred("s14", "q5", "q5-e2", "وهل تؤيّد الشّاعر في العبرة الّتي يستخلصها في البيتين الأخيرين؟ علّل.",
+              "الرّأي المعلّل", "أؤيّده، لأنّ الأيّام دول، والملك لا يدوم لأحد، فالعاقل لا يغترّ بالنّعيم ولا ييأس في الشّدّة.",
+              "يُقبل كلّ رأي معلّل.", "العلامة: 2 ن (1 العبرة + 1 الرّأي المعلّل)", 1, "ar.comprehension.opinion",
+              "الرّأي (نموذج): أؤيّده، لأنّ الأيّام دول، والملك لا يدوم لأحد، فالعاقل لا يغترّ بالنّعيم ولا ييأس في الشّدّة. (يُقبل كلّ رأي معلّل.)")
 st("s16", "q6", "q6-e1", "mcq", "كيف تندرج أبيات المعتمد ضمن رثاء الممالك والملوك؟",
    {"options": ["يرثي الشّاعر ملكه الزّائل وعزّه الذّاهب، ويرثي نفسه وأسرته بعد الأسر، فهو رثاء نابع من تجربة شخصيّة لملك فقد ملكه", "يرثي مدينة سقطت في يد العدوّ دون أن يذكر نفسه", "يرثي صديقًا مات في الحرب", "يمدح الملوك الأحياء ويدعو لهم بالبقاء"]},
    {"correct": 0}, "يرثي الشّاعر ملكه الزّائل وعزّه الذّاهب، ويرثي نفسه وأسرته بعد الأسر، فهو رثاء نابع من تجربة شخصيّة لملك فقد ملكه.", 0.5, "ar.literature.context")
@@ -184,9 +189,10 @@ st("s31", "q9", "q9-e1", "matching", "صُغ صيغة المبالغة على ا
 st("s32", "q9", "q9-e1", "fill_blank", "أكمل صيغتي المبالغة:",
    {"text": "«حَذِرَ» على وزن فَعِل ← ____؛ «سَمِعَ» على وزن فَعِيل ← ____.", "bank": ["حَذِر", "سَمِيع", "حَاذِر", "سَامِع", "مَحْذُور"]},
    {"blanks": [["حَذِر"], ["سَمِيع"]]}, "«حَذِرَ» ← حَذِر؛ «سَمِعَ» ← سَمِيع.", 0.5, "ar.morphology.mubalagha", "b")
-st("s33", "q9", "q9-e2", "mcq", "أيّ الجمل الآتية تصف المعتمد بصيغة مبالغة على وزن «مِفْعَال»؟",
-   {"options": ["كان المعتمد مِقْدَامًا في الحروب، مِعْطَاءً للشّعراء", "كان المعتمد كَرِيمًا مع الشّعراء", "كان المعتمد صَبُورًا في أسره", "كان المعتمد مُكْرِمًا للشّعراء"]},
-   {"correct": 0}, "نموذج الحلّ: «كان المعتمد مِقْدَامًا في الحروب، مِعْطَاءً للشّعراء». (يُقبل كلّ تركيب صحيح على وزن «مِفْعَال».)", 0.5, "ar.morphology.mubalagha")
+open_deferred("s33", "q9", "q9-e2", "صف المعتمد في جملة من إنشائك بصيغة مبالغة على وزن «مِفْعَال».",
+              "الجملة", "«كان المعتمد مِقْدَامًا في الحروب، مِعْطَاءً للشّعراء»",
+              "يُقبل كلّ تركيب صحيح على وزن «مِفْعَال».", "العلامة: 1.5 ن (0.25 لكلّ صيغة × 4 + 0.5 الجملة)", 0.5, "ar.writing.sentence",
+              "الجملة (نموذج): «كان المعتمد مِقْدَامًا في الحروب، مِعْطَاءً للشّعراء». (يُقبل كلّ تركيب صحيح على وزن «مِفْعَال».)")
 st("s34", "q10", "q10-e1", "mcq", "حدّد نوع الصّورة البيانيّة في «لَا خَدَّ إِلَّا تَشَكَّى الْجَدْبَ ظَاهِرُهُ» (ب5):",
    {"options": ["استعارة مكنيّة", "استعارة تصريحيّة", "تشبيه بليغ", "كناية عن صفة"]},
    {"correct": 0}, "النّوع: استعارة مكنيّة.", 0.5, "ar.rhetoric.metaphor")
@@ -233,13 +239,13 @@ doc = {
         "correction_url": f"https://drive.google.com/file/d/{CORR}/view",
         "correction_file_ref": f"gdrive:{CORR} (حل الفرض 02 – الفصل الثالث – علمي.docx)",
         "trust": "owner_authored", "verified": False, "verified_by": None, "verified_at": None,
-        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (نفح الطّيب للمقّريّ، ط ليدن 1859، ص 619). تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (مَأْسُورَا، قِطْمِيرَا، مُمْتَثِلًا). السّنة الدّراسيّة غير مذكورة في الورقة ولا في أسماء المجلّدات. سؤال «وهل تؤيّده فيها؟ علّل» يقبل كلّ رأي معلّل: الخطوتان تعلّمان رأي الحلّ النّموذجيّ والمشتّتات رأي بلا تعليل أو بتعليل لا صلة له. جملة «مِفْعَال» حُوّلت إلى اختيار جملة نموذج الحلّ.",
+        "notes": "من محاضرات الدّكتور حيقون أسامة (المدّة: ساعة واحدة). النّصّ في الملكيّة العامّة (نفح الطّيب للمقّريّ، ط ليدن 1859، ص 619). تحويل آليّ من نصّ Drive؛ التّسطير في «ما تحته خطّ» غير ظاهر في التّصدير وحُدِّد من الحلّ النّموذجيّ (مَأْسُورَا، قِطْمِيرَا، مُمْتَثِلًا). السّنة الدّراسيّة غير مذكورة في الورقة ولا في أسماء المجلّدات. سؤال «وهل تؤيّده فيها؟ علّل» يقبل كلّ رأي معلّل، وجملة «مِفْعَال» من إنشاء التّلميذ (يُقبل كلّ تركيب صحيح على وزن «مِفْعَال»): العنصران مؤجّلان (essay_builder).",
     },
     "original_questions": Q,
     "steps": S,
     "score_total": 20,
     "modes": ["PRACTICE", "EXAM"],
-    "review_log": [{"at": "2026-10-29T01:40:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."}],
+    "review_log": [{"at": "2026-10-29T01:40:00Z", "by": "claude", "action": "generated", "note": "تحويل من الملفّين الأصليّين في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الحلّ النّموذجيّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."}, {"at": "2026-10-29T02:20:00Z", "by": "claude", "action": "updated", "note": "open-answer element deferred per correction («يُقبل كلّ رأي معلّل» / «يُقبل كلّ تركيب صحيح على وزن «مِفْعَال»»)"}],
 }
 json.dump(doc, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print(len(Q), "questions", len(S), "steps", sum(s["points"] for s in S), "points")
