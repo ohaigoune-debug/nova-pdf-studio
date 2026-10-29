@@ -89,6 +89,9 @@ export function subjectName(code: string): string {
   return PLAY_SUBJECTS.find((s) => s.code === code)?.nameAr ?? code
 }
 
+/** المواد العلمية: معادلات بين $…$ تُعرض بـ KaTeX في مواضيعها (لا في غيرها حتى لا يُفسَّر رمز العملة $ معادلةً) */
+export const PLAY_MATH_SUBJECTS: readonly string[] = ['MATH', 'PHYS', 'SVT', 'TECH']
+
 /** أنواع الأسئلة/الألعاب */
 export const PLAY_QUESTION_TYPES = ['MCQ', 'FILL_BLANK', 'MATCHING', 'ORDERING'] as const
 export type PlayQuestionType = (typeof PLAY_QUESTION_TYPES)[number]

@@ -2,18 +2,34 @@
 
 import { ArrowDown, ArrowUp, BookOpenText, Check, ChevronLeft, ChevronRight, Eye, Flag, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useMemo, useState, useTransition } from 'react'
+import { createContext, useContext, useMemo, useState, useTransition } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { toast } from '@/components/ui/toast'
 import { cn } from '@/lib/utils'
 import { finishExamAttemptAction, submitExamStepAction } from '@/server/actions/play-exams.actions'
+import { PLAY_MATH_SUBJECTS } from '@/server/play/constants'
 import type { StepExcerpt } from '@/server/play/exams/excerpt'
 import type { PublicStep, SourceDocument, StepAnswer } from '@/server/play/exams/types'
 import type { AttemptView, StepFeedback } from '@/server/services/play-exams.service'
 import { DECK_BUTTON } from '../deck-ui'
+import { RichText } from '../rich-text'
 
 const LETTERS = ['أ', 'ب', 'ج', 'د', 'هـ', 'و', 'ز', 'ح']
 const fmt = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/0+$/, '').replace(/\.$/, ''))
+
+/** يُفعَّل في مواضيع المواد العلمية: نص فيه $…$ يُعرض معادلةً (KaTeX) */
+export const MathContext = createContext(false)
+
+function T({ text }: { text: string }) {
+  const math = useContext(MathContext)
+  return math && text.includes('$') ? <RichText text={text} /> : <>{text}</>
+}
+
+/** للصفحات الخادمية (النتيجة، مراجعة الإدارة): نطاق المعادلات + نص يحترمه */
+export function MathScope({ on, children }: { on: boolean; children: React.ReactNode }) {
+  return <MathContext.Provider value={on}>{children}</MathContext.Provider>
+}
+export { T as ExamText }
 
 /* ───────────────────────────── الوثائق ───────────────────────────── */
 
@@ -22,7 +38,11 @@ function DocumentView({ doc }: { doc: SourceDocument }) {
   return (
     <figure className="space-y-2">
       <figcaption className="text-xs font-bold text-[#5B6B88]">{doc.caption}</figcaption>
-      {doc.text ? <p className="whitespace-pre-line text-[0.98rem] leading-loose text-[#172B50]">{doc.text}</p> : null}
+      {doc.text ? (
+        <p className="whitespace-pre-line text-[0.98rem] leading-loose text-[#172B50]">
+          <T text={doc.text} />
+        </p>
+      ) : null}
       {doc.table && verse ? (
         <ol className="space-y-2" data-testid="exam-poem">
           {doc.table.map((r, i) => (
@@ -41,7 +61,7 @@ function DocumentView({ doc }: { doc: SourceDocument }) {
                 <tr key={i}>
                   {r.map((c, j) => (
                     <td key={j} className="border border-[#D3E0F5] px-2 py-1.5 text-[#172B50]">
-                      {c}
+                      <T text={c} />
                     </td>
                   ))}
                 </tr>
@@ -188,7 +208,9 @@ function OptionRow({ label, text, state, onClick, disabled, role, checked }: { l
       <span className={cn('flex size-7 shrink-0 items-center justify-center border-[1.5px] text-sm font-bold', role === 'checkbox' ? 'rounded-md' : 'rounded-full', state === 'correct' ? 'border-[#8FD4A0] bg-white text-[#15803D]' : state === 'wrong' ? 'border-[#EBA9A9] bg-white text-[#B91C1C]' : checked ? 'border-[#6E9DEB] bg-white text-[#1457C5]' : 'border-[#BFCDE6] text-[#3B4C6B]')}>
         {state === 'correct' ? <Check className="size-4" aria-hidden /> : state === 'wrong' ? <X className="size-4" aria-hidden /> : role === 'checkbox' && checked ? <Check className="size-4" aria-hidden /> : label}
       </span>
-      <span className="flex-1 text-[1rem] font-bold leading-relaxed text-[#172B50]">{text}</span>
+      <span className="flex-1 text-[1rem] font-bold leading-relaxed text-[#172B50]">
+        <T text={text} />
+      </span>
     </button>
   )
 }
@@ -243,7 +265,7 @@ function Interaction({ step, draft, setDraft, locked, feedback }: { step: Public
         <p className="text-[1.05rem] font-bold leading-[2.4] text-[#172B50]">
           {parts.map((part, i) => (
             <span key={i}>
-              {part}
+              <T text={part} />
               {i < parts.length - 1 ? (
                 <button
                   type="button"
@@ -265,7 +287,7 @@ function Interaction({ step, draft, setDraft, locked, feedback }: { step: Public
         <div className="flex flex-wrap gap-2" aria-label="بنك الكلمات">
           {p.bank.map((w, i) => (
             <button key={i} type="button" disabled={locked || used.has(w)} onClick={() => place(w)} className="min-h-10 rounded-full border-[1.5px] border-[#C9D7EE] bg-white px-4 text-[0.98rem] font-bold text-[#172B50] hover:border-[#8FAAFF] disabled:opacity-35">
-              {w}
+              <T text={w} />
             </button>
           ))}
         </div>
@@ -277,7 +299,9 @@ function Interaction({ step, draft, setDraft, locked, feedback }: { step: Public
       <div className="space-y-3">
         {p.lefts.map((l, i) => (
           <label key={i} className="block rounded-2xl border border-[#D3E0F5] bg-white p-3">
-            <span className="block text-[0.98rem] font-extrabold text-[#172B50]">{l}</span>
+            <span className="block text-[0.98rem] font-extrabold text-[#172B50]">
+              <T text={l} />
+            </span>
             <select
               disabled={locked}
               value={draft.pairs[i]}
@@ -313,7 +337,9 @@ function Interaction({ step, draft, setDraft, locked, feedback }: { step: Public
         {draft.order.map((itemIdx, pos) => (
           <li key={itemIdx} className="flex items-center gap-2 rounded-2xl border border-[#D3E0F5] bg-white p-2">
             <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#EEF4FF] text-sm font-extrabold text-[#1457C5]">{pos + 1}</span>
-            <span className="flex-1 text-[0.98rem] font-bold text-[#172B50]">{p.items[itemIdx]}</span>
+            <span className="flex-1 text-[0.98rem] font-bold text-[#172B50]">
+              <T text={p.items[itemIdx]!} />
+            </span>
             <button type="button" disabled={locked || pos === 0} onClick={() => move(pos, -1)} aria-label="إلى الأعلى" className="flex size-10 items-center justify-center rounded-full border border-[#C9D7EE] disabled:opacity-30">
               <ArrowUp className="size-4" aria-hidden />
             </button>
@@ -357,12 +383,12 @@ function FeedbackBox({ fb, lang }: { fb: StepFeedback; lang: AttemptView['set'][
         <p className="mt-2 text-sm font-bold text-[#172B50]">
           الإجابة الصحيحة:{' '}
           <bdi dir={dir} lang={lang} className="font-extrabold">
-            {fb.correctText}
+            <T text={fb.correctText} />
           </bdi>
         </p>
       ) : null}
       <p dir={dir} lang={lang} className="mt-2 text-sm font-medium leading-relaxed text-[#3B4C6B]">
-        {fb.explanation}
+        <T text={fb.explanation} />
       </p>
     </div>
   )
@@ -428,7 +454,8 @@ export function ExamRunner({ view }: { view: AttemptView }) {
     })
 
   return (
-    <div className="play-deck mx-auto max-w-xl space-y-4 pb-28">
+    <MathContext.Provider value={PLAY_MATH_SUBJECTS.includes(view.set.subjectCode)}>
+      <div className="play-deck mx-auto max-w-xl space-y-4 pb-28">
       <header className="rounded-2xl border border-[#D3E0F5] bg-white p-4">
         <p className="text-xs font-bold text-[#5B6B88]">
           {kindLabel} · {practice ? 'تدريب بتصحيح فوري' : 'محاكاة امتحان — التصحيح في النهاية'}
@@ -486,7 +513,7 @@ export function ExamRunner({ view }: { view: AttemptView }) {
               </button>
             </div>
             <p dir={dir} lang={view.set.lang} className="mt-2 whitespace-pre-line text-[0.85rem] leading-relaxed text-[#3B4C6B]">
-              {step.source_question.verbatim_text}
+              <T text={step.source_question.verbatim_text} />
             </p>
           </div>
 
@@ -496,7 +523,9 @@ export function ExamRunner({ view }: { view: AttemptView }) {
               <bdi dir="ltr">{fmt(step.points)}</bdi> ن
             </p>
             <div dir={dir} lang={view.set.lang}>
-              <h2 className="mt-2 text-[1.15rem] font-extrabold leading-relaxed text-[#172B50]">{step.prompt}</h2>
+              <h2 className="mt-2 text-[1.15rem] font-extrabold leading-relaxed text-[#172B50]">
+                <T text={step.prompt} />
+              </h2>
               <StepExcerptView excerpt={step.excerpt} />
               <div className="mt-4">
                 <Interaction step={step} draft={draft} setDraft={(d) => setDrafts((m) => ({ ...m, [step.id]: d }))} locked={!!answered[step.id] || pending} feedback={answered[step.id]?.feedback ?? null} />
@@ -546,6 +575,7 @@ export function ExamRunner({ view }: { view: AttemptView }) {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </MathContext.Provider>
   )
 }
