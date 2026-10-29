@@ -305,7 +305,8 @@ export function validateExamSet(doc: ExamSetDocument, opts: ValidateOptions = {}
     }
     rubricSum += q.rubric_total
     for (const d of q.documents ?? []) {
-      if ((d.kind === 'image' || d.kind === 'map') && d.media) {
+      // كل وثيقة تحمل صورة (صورة، خريطة، منحنى/رسم، جدول مصوّر): ملف حقيقي محلي + مصدر + ترخيص + إسناد + بصمة
+      if (d.media) {
         const probs = mediaProblems(d.media, publicRoot)
         if (probs.length) err('MEDIA', `document:${d.id}`, probs.join('، '))
       }

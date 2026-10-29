@@ -23,8 +23,9 @@ Sources (owner's Drive):
 Transcription rules (pilot rules + decisions for text-layer PDFs; owner to confirm):
 - A visible kashida stretch is written «ـــ» (three tatweels, the pilot's fixed rule), whatever the tatweel count of the text layer
   («سياســـات»، «الاقتصـــاديّ»، «البرازيـــل»، «المتّـــحدة»، «لسياســـة»، «بأنّـــه»، «أصبـــح»); a shadda stays on its consonant.
-- Tanween al-fath is written before the alif («انطلاقًا»، «طبيعيًّا»), except where the image shows it on a final alif after
-  lam-alif («مقالاً», topic 2 pages); shadda+tanween = U+064B U+0651 as in the text layer.
+- Tanween al-fath is written where the image puts it: over the preceding letter → before the alif («انطلاقًا»، «طبيعيًّا»); on a
+  lam-alif ligature its position is not decidable from the image (the text layer drops it here) → before the alif («مقالًا»);
+  shadda+tanween = U+064B U+0651 (canonical order).
 - Number ranges printed with a hyphen are written in reading order («ص 04-05»); dates with slashes as they appear («1956/10/22»);
   percentages keep the paper's spacing («0.5 %»، «38.2%»). Whitespace collapsed; the task number goes in `number`.
 - Underlining (the items to explain) cannot be represented in a text document: the underlined items are named in the element labels
@@ -50,8 +51,9 @@ Decisions beyond the pilot (to confirm):
 - Table rows (01 each): mcq per row, options in the format of the correction's own cell for that row; distractors = the other missing
   date + dates/events printed in the correction (topic 2 model answer), never a cell already printed in the paper's table.
 - «0.25×6» lines whose six indicators are listed = six elements, one per listed indicator (deferred essay_builder).
-- Map «الإنجاز (0.50 ن لكل دولة)» = one element per country of the model map (5 × 0.50) + العنوان + المفتاح; answer specs hold only
-  text printed in the correction (labels, title); the model map has no separate key box (model_key = null).
+- Map «الإنجاز (0.50 ن لكل دولة)» = one element per country of the model map (5 × 0.50) + العنوان + المفتاح; prompts and labels do
+  not name the countries (that is the answer); answer specs hold only text printed in the correction (labels, title); the model map
+  has no separate key box (model_key = null).
 - The curve to draw is deferred `function_plot` (3 rubric lines); the printed table is reproduced verbatim as a `table` document with
   its printed source line as a separate `text` document.
 - «(تقبل كلّ الإجابات الصحيحة الأخرى)» printed at the foot of every correction page is read as accepting other formulations; the
@@ -326,7 +328,7 @@ def topic2():
     # ── التاريخ — الجزء الثاني (ص3) ──
     para = ("بعد أن تأكّد للإدارة الاستعماريّة الفرنسيّة أنّ دعم ومساندة الشّعب الجزائريّ للثّورة هو أحد الأسباب الرّئيسيّة لصمودها "
             "وتوسّع نطاقها، سارعت إلى مضاعفة جهودها لإفراغ الثّورة من محتواها الشّعبي.")
-    verb = ("المطلوب: انطلاقًا من العبارة واعتمادًا على ما درست، اكتب مقالاً تاريخيًّا تُبيّن فيه:\n"
+    verb = ("المطلوب: انطلاقًا من العبارة واعتمادًا على ما درست، اكتب مقالًا تاريخيًّا تُبيّن فيه:\n"
             "1) مظاهر الدّعم الشّعبي للثّورة.\n2) ردّ فعل فرنسا على ذلك.")
     essay("q3", PH2, verb, para, "المقال التاريخي", "مقال تاريخي: مظاهر الدعم الشعبي للثورة ورد فعل فرنسا على ذلك",
           [("مظاهر الدّعم الشّعبي للثّورة", [0.25] * 6,
@@ -356,18 +358,18 @@ def topic2():
 
     countries = ["البرازيل", "روسيا", "الهند", "الصين", "جنوب افريقيا"]
     q("q5", "2", PG1, "وقّع على خريطة العالم المرفقة (صفحة 5 من 5) الدّول المؤسّسة لمجموعة البريكس (BRICS).", 3,
-      [el(f"q5-e{i+1}", f"الخريطة: الإنجاز — {c}", 0.5) for i, c in enumerate(countries)]
+      [el(f"q5-e{i+1}", f"الخريطة: الإنجاز (الدولة {i+1} من 5)", 0.5) for i in range(5)]
       + [el("q5-e6", "الخريطة: العنوان", 0.25), el("q5-e7", "الخريطة: المفتاح", 0.25)])
     map_lines("q5", "توقيع الدّول المؤسّسة لمجموعة البريكس على خريطة العالم", "خريطة العالم المرفقة بالموضوع (ص5 من 5)",
               ["الدّول المؤسّسة لمجموعة البريكس (BRICS)"],
-              [(f"q5-e{i+1}", f"الإنجاز (0.50 ن لكل دولة): {c}", {"model_label": c}, 0.5) for i, c in enumerate(countries)]
+              [(f"q5-e{i+1}", f"الإنجاز (0.50 ن لكل دولة): الدولة {i+1} من 5", {"model_label": c}, 0.5) for i, c in enumerate(countries)]
               + [("q5-e6", "العنوان", {"model_title": "خريطة تمثّل مجموعة البريكس"}, 0.25),
                  ("q5-e7", "المفتاح", {"model_key": None, "note": "لا يظهر مفتاح مستقلّ في خريطة الإجابة النموذجيّة (الأسماء مكتوبة على الدّول)؛ يُقيَّم وفق سلّم التنقيط"}, 0.25)],
               "geo.map", f"{CORR_TITLE}، ص5")
 
     # ── الجغرافيا — الجزء الثاني (ص4) ──
     para = ("ساهم تطور التّكنولوجيا ووسائل الإعلام بشكل كبير في تغيير واقع المبادلات في العالم وكرّس مصالح دول الشّمال على حساب دول الجنوب.")
-    verb = ("المطلوب: انطلاقًا من العبارة واعتمادًا على ما درست، اكتب مقالاً جغرافيًّا تُبيّن فيه:\n"
+    verb = ("المطلوب: انطلاقًا من العبارة واعتمادًا على ما درست، اكتب مقالًا جغرافيًّا تُبيّن فيه:\n"
             "1) دور التّكنولوجيا والإعلام في المبادلات العالميّة.\n"
             "2) تأثير تحكّم دول الشّمال في التّكنولوجيا والإعلام على المبادلات في دول عالم الجنوب.")
     essay("q6", PG2, verb, para, "المقال الجغرافي", "مقال جغرافي: دور التكنولوجيا والإعلام في المبادلات العالمية وتأثير تحكم دول الشمال فيهما على الجنوب",
@@ -396,7 +398,7 @@ COMMON_NOTES = (
     f"الإجابة النموذجيّة وسلّم التنقيط الرسميّان: gdrive:{CORR_ID} ({CORR_TITLE}، 6 صفحات؛ طبقة نصّها مشوّهة فقُرئت من الصور). "
     "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): طبقة نصّ PDF استُعملت مساعدةً فقط وطوبق كلّ سطر بصورة الصفحة (150 و300 نقطة)؛ "
     "كلّ الأرقام قُرئت من الصورة لأنّ خطّ الورقة يشوّه الأرقام في طبقة النصّ، وكذلك الشدّات والتنوين والهمزات التي تسقطها طبقة النصّ. "
-    "قواعد النسخ: كلّ تطويل ظاهر كُتب «ـــ» (قاعدة الدليل الثابتة) والشدّة على حرفها، وتنوين الفتح قبل الألف إلّا حيث تُظهر الصورة «مقالاً»، "
+    "قواعد النسخ: كلّ تطويل ظاهر كُتب «ـــ» (قاعدة الدليل الثابتة) والشدّة على حرفها، وتنوين الفتح قبل الألف («انطلاقًا»، «مقالًا»)، "
     "والنطاقات بالشرطة بترتيب قراءتها («ص 04-05»)، والمسافات وُحّدت، ورقم السؤال في number. التسطير لا يُمثَّل في وثيقة نصّيّة: العناصر المسطّرة "
     "مسمّاة في عناوين العناصر. الخيارات الصحيحة بنصّ الإجابة النموذجيّة (بلا العنصر المشروح أو اسم الشخصيّة)، والمشتّتات شروح عناصر أخرى من الإجابة "
     "النموذجيّة نفسها (الموضوعان) اختيرت يدويًّا لتجنّب المتقاربات. «تقبل كلّ الإجابات الصحيحة الأخرى» في ذيل الصفحات فُهمت قبولًا لصيغ أخرى؛ "

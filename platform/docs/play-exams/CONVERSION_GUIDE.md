@@ -140,3 +140,13 @@ Schema: `src/server/play/exams/types.ts` (`ExamSetDocument`). Exemplar: `content
 - Distractors must differ **in value** from the right answer (e^{-i2π/3} = e^{i4π/3}, ln(1/5) = −ln 5, 5/33 = 10/66 are the same answer).
 - No formulas in `fill_blank` banks or `matching`; no `$` in labels, captions or part titles. Run `node scripts/play/check_katex.mjs` (every `$…$` must render).
 - Arabic sentences with formulas: write them in reading order; the renderer ignores `$…$` when choosing the direction.
+
+### Decisions fixed by the physics pilot (phys-bac-2019-sci-p1/p2)
+- Graph readings: `numeric` in the graph's own axis unit; tolerance = one small grid division of the printed figure (±10 % for a student-drawn tangent). Computed results: tolerance = one unit of the correction's last printed digit, capped at 5 %; the builder asserts the exact recomputation lies inside. `numeric` units are plain text (no LaTeX).
+- «بيّن أنّ / أثبت»: one step per mark line on the correction's intermediate expression; when the last line only restates the given result, ask which operation/conclusion leads to it, never the result itself.
+- Chemical/nuclear equations: `mcq` with wrongly balanced / wrong side / wrong product distractors; progress tables deferred `table_fill` with the official table in `spec`.
+- Drawings: content the correction states in words (forces, direction of a vector) may be `mcq`; pure drawings (circuit schematic, curve to draw) are deferred (`bar_chart` with `spec.kind: "schematic"`, `function_plot`).
+- «n×0.25» of interchangeable items = one element with a `multi` step; distinct demands = one element each. When a printed exercise total disagrees with its per-line marks, follow the per-line marks and note it.
+- Decimal comma inside formulas `{,}`; decorative photos are not reproduced; every figure document carries a complete `media` (the validator now checks media on every document kind).
+- Never reproduce a correction typo; avoid numeric steps on lines whose printed value is wrong (note it).
+- Keep your scratch helpers in your own scratchpad subfolder (shared `tools/` files get overwritten by parallel agents).
