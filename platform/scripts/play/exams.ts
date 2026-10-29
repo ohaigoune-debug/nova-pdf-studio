@@ -79,13 +79,14 @@ export function progress(sets: LoadedSet[], failures: { path: string; error: str
   let discovered: { group_id: string; kind: string; level: string; title: string; converted_set: string | null }[] = []
   if (existsSync(invPath)) {
     try {
-      const inv = JSON.parse(readFileSync(invPath, 'utf-8')) as { units?: { group_id: string; kind: string; level: string; title: string; files?: { file_id: string }[] }[] }
+      const inv = JSON.parse(readFileSync(invPath, 'utf-8')) as { units?: { group_id: string; kind: string; level: string; title: string; is_solution?: boolean; files?: { file_id: string }[] }[] }
       const refs = new Map<string, string>()
       for (const s of real) for (const r of [s.doc.source.original_file_ref, s.doc.source.correction_file_ref]) {
         const m = r?.match(/gdrive:([\w-]+)/)
         if (m) refs.set(m[1]!, s.doc.set_id)
       }
-      discovered = (inv.units ?? []).map((u) => ({ group_id: u.group_id, kind: u.kind, level: u.level, title: u.title, converted_set: (u.files ?? []).map((f) => refs.get(f.file_id)).find(Boolean) ?? null }))
+      // وحدات الامتحان فقط (لا التصحيحات ولا التطبيقات): ما يقابل «موضوعًا» يمكن تحويله
+      discovered = (inv.units ?? []).filter((u) => ['BAC', 'TEST', 'DEVOIR'].includes(u.kind) && !u.is_solution).map((u) => ({ group_id: u.group_id, kind: u.kind, level: u.level, title: u.title, converted_set: (u.files ?? []).map((f) => refs.get(f.file_id)).find(Boolean) ?? null }))
     } catch {
       /* الجرد غير صالح: يُتجاهل */
     }
@@ -107,8 +108,8 @@ export function progress(sets: LoadedSet[], failures: { path: string; error: str
       sets_by_status: count(real.map((s) => s.doc.status)),
       sets_with_errors: real.filter((s) => s.validation.errors.length).length,
       publishable_sets: real.filter((s) => s.validation.publishable).length,
-      archive_units_discovered: discovered.length || null,
-      archive_units_converted: discovered.length ? discovered.filter((d) => d.converted_set).length : null
+      archive_exam_units_discovered: discovered.length || null,
+      archive_exam_units_converted: discovered.length ? discovered.filter((d) => d.converted_set).length : null
     },
     sets: sets.map((s) => ({
       set_id: s.doc.set_id,
