@@ -9,9 +9,11 @@
 ما يكتبه المحوِّل (Claude) يدويًا: الخطوات التفاعلية لعناصر fixed/alternatives في INTERACTIVE،
 والجواب الصحيح فيها من official_answer وحده.
 
-الاستعمال من ملف بناء لكل ورقة (يُنشئه scripts/play/new_from_record.py):
+الاستعمال من ملف بناء لكل ورقة (scripts/play/converters/build_<subj>_bac_<year>_<slug>.py، القدوة build_hg_bac_2020_lit.py):
     from source_record import build
-    build(RECORD, out_path, interactive=INTERACTIVE, refs=REFS, defer=DEFER)
+    build(RECORD, out_path, interactive=INTERACTIVE, refs=REFS, defer=DEFER, pdf=PAPER_PDF)
+السجلّات نفسها محفوظة في content/play-exams/records/<subj>/ (لا تُعدَّل: هي نقل ChatGPT كما وصل).
+خانة جدول (answer_type «table») لها جواب رسميّ ثابت (تاريخ حدث / حدث تاريخ) تصير تفاعليّة إذا وُضعت خطواتها في INTERACTIVE.
 """
 from __future__ import annotations
 
@@ -120,20 +122,45 @@ def _crop(pdf: Path, page: int, bbox: list[float], set_id: str, name: str) -> di
         out_dir = ROOT / 'public' / 'play-exams' / 'figures' / set_id
         out_dir.mkdir(parents=True, exist_ok=True)
         out = out_dir / f'{name}.png'
-        crop.save(out, optimize=True)
+        from PIL import ImageChops
+        r, g, b = crop.split()
+        gray = max(ImageChops.difference(r, g).getextrema()[1], ImageChops.difference(g, b).getextrema()[1]) < 40
+        # ورقة الديوان بالأبيض والأسود غالبًا: رماديّ بـ16 درجة يحفظ الخطوط ويصغّر الملفّ (≈ النصف)
+        (crop.convert('L').quantize(16) if gray else crop).save(out, optimize=True)
     data = out.read_bytes()
     return {'local_path': f'/play-exams/figures/{set_id}/{name}.png', 'sha256': hashlib.sha256(data).hexdigest(), 'width': crop.width, 'height': crop.height}
 
 
-def _deferred_step(e: dict, qid: str, subj: str) -> dict:
+GENERIC_LABEL = re.compile(r'^عنصر (?:الإجابة|الإجابه)\s*\d+$')
+
+
+def label_of(e: dict) -> str:
+    """تسمية العنصر الظاهرة: «عنصر الإجابة 2» العامّة تُستبدل بالبند (المصطلح/الشخصيّة/الحدث) إن وُجد — والبند ليس جوابًا."""
+    if GENERIC_LABEL.match(e['label'].strip()) and e.get('item'):
+        return e['item'].strip()
+    return e['label']
+
+
+def _deferred_skill(subj: str, part: str, typ: str, answer_type: str) -> str:
+    if subj == 'HIST':  # التاريخ والجغرافيا: الجذر من الجزء، والمهارة من نوع العمل (skills.ts)
+        root = 'geo' if 'الجغراف' in (part or '') else 'hist'
+        if typ == 'map_locate':
+            return f'{root}.map'
+        if typ == 'essay_builder':
+            return 'geo.data' if root == 'geo' and 'الأول' in (part or '') else f'{root}.essay'
+        return 'hist.dates' if root == 'hist' and answer_type == 'table' else f'{root}.data'
+    return f"{subj.lower()}.{'writing' if typ == 'essay_builder' else answer_type}"
+
+
+def _deferred_step(e: dict, qid: str, subj: str, part: str = '') -> dict:
     typ = DEFERRED[e['answer_type']]
     spec = {'criterion': e['label'], 'item': e.get('item'), 'official_answer': e.get('official_answer'), 'accepts': e.get('accepts'), 'marks_text': e.get('marks_text')}
     expl = f"يُصحَّح وفق الإجابة النموذجيّة: {e['official_answer']}" if e.get('official_answer') else f"يُصحَّح وفق سلّم التنقيط الرسميّ: {e['label']} — {e['marks']} ن."
     return {
         'source_question_id': qid, 'rubric_element_id': e['id'], 'variant': 'a', 'type': typ,
-        'prompt': e['label'] if not e.get('item') else f"{e['label']}: {e['item']}",
+        'prompt': e['label'] if not e.get('item') or e['item'].strip() == e['label'].strip() else f"{e['label']}: {e['item']}",
         'payload': {'type': typ, 'spec': spec}, 'answer': {'type': typ, 'spec': {'official_answer': e.get('official_answer'), 'accepts': e.get('accepts')}},
-        'explanation': expl, 'points': e['marks'], 'skill_id': f"{subj.lower()}.{'writing' if typ == 'essay_builder' else e['answer_type']}",
+        'explanation': expl, 'points': e['marks'], 'skill_id': _deferred_skill(subj, part, typ, e['answer_type']),
         'lesson_ref': None, 'is_verbatim_original': False, 'review_status': 'needs_engine_support',
     }
 
@@ -142,16 +169,52 @@ def set_id_for(record_path: Path, paper_no: int) -> str:
     return f'{record_path.stem}-p{paper_no}'
 
 
-def build(record_path: str | Path, out: str | Path, *, interactive: dict[str, list[dict]], refs: dict, defer: set[str] | None = None, pdf: str | Path | None = None) -> dict:
+def apply_fixes(rec: dict, fixes: list[tuple[str, str, str]]) -> None:
+    """تصحيح أخطاء النقل بعد مطابقتها لورقة الموضوع (طبقة النصّ + الصورة): (معرّف سؤال/وثيقة، القديم، الجديد).
+    القديم يجب أن يرد مرّة واحدة بالضبط في هدفه؛ لا يُمسّ ملفّ السجلّ نفسه."""
+    targets: dict[str, tuple[dict, str]] = {}
+    for t in rec['topics']:
+        for q in t['questions']:
+            targets[q['id']] = (q, 'text')
+        for d in t['documents']:
+            targets[d['id']] = (d, 'table' if d['kind'] == 'table' else 'text')
+    for tid, a, b in fixes:
+        if tid not in targets:
+            raise RecordError(f'تصحيح: هدف غير موجود {tid}')
+        obj, key = targets[tid]
+        if key == 'table':
+            hits = [(i, j) for i, row in enumerate(obj['table']) for j, c in enumerate(row) if a in c]
+            n = sum(obj['table'][i][j].count(a) for i, j in hits)
+            if n != 1:
+                raise RecordError(f'تصحيح {tid}: «{a}» يرد {n} مرّة')
+            i, j = hits[0]
+            obj['table'][i][j] = obj['table'][i][j].replace(a, b)
+        else:
+            n = (obj.get(key) or '').count(a)
+            if n != 1:
+                raise RecordError(f'تصحيح {tid}: «{a}» يرد {n} مرّة')
+            obj[key] = obj[key].replace(a, b)
+
+
+def build(record_path: str | Path, out: str | Path, *, interactive: dict[str, list[dict]], refs: dict, defer: set[str] | None = None, pdf: str | Path | None = None, fixes: list[tuple[str, str, str]] | None = None, note: str = '', figures: dict[str, tuple[int, list[float]]] | None = None) -> dict:
     """
     interactive: element_id → خطوات تفاعلية (dict بصيغة الخطوة دون id/source_question_id/rubric_element_id/variant/review_status)
     refs: {'paper_id','paper_title','correction_id','correction_title'} معرّفات Drive
     defer: عناصر fixed/alternatives يقرّر المحوِّل تأجيلها (مع سبب في notes)
     pdf: مسار نسخة ورقة الموضوع الرسمية (لقصّ الأشكال)
+    fixes: تصحيحات النقل (apply_fixes) بعد record_wordcheck.py ومراجعة صورة الصفحة
+    figures: {معرّف الشكل: (الصفحة، [x0,y0,x1,y1])} يحلّ محلّ إطار الناقل بعد رؤية القصّ
     """
     record_path = Path(record_path)
     out = Path(out)
     rec = load(record_path)
+    fixes = fixes or []
+    apply_fixes(rec, fixes)
+    for fid, (pg, bb) in (figures or {}).items():  # إطار الشكل بعد مراجعة القصّ بالعين (إطار الناقل يقطع الحافّة أو يضمّ الرأسيّة)
+        hit = [d for t in rec['topics'] for d in t['documents'] if d['id'] == fid and d['kind'] == 'figure']
+        if not hit:
+            raise RecordError(f'figures: لا شكل {fid}')
+        hit[0]['figure'] = {'page': pg, 'bbox': bb}
     defer = defer or set()
     m = re.search(r'-p([12])\.json$', out.name)
     if not m:
@@ -165,7 +228,12 @@ def build(record_path: str | Path, out: str | Path, *, interactive: dict[str, li
     set_id = out.stem
 
     docs: dict[str, dict] = {}
+    used = {i for q in topic['questions'] for i in q.get('documents') or []}
+    # وثيقة لا يحيل إليها أيّ سؤال = مادّة من التصحيح (خريطة/رسم نموذجيّ، فقرة جواب): لا تُعرض على التلميذ ولا تُقصّ
+    unused = [d['id'] for d in topic['documents'] if d['id'] not in used]
     for d in topic['documents']:
+        if d['id'] not in used:
+            continue
         caption = d.get('caption_on_paper') or {'text': 'النّصّ', 'table': 'جدول', 'figure': 'الشّكل'}[d['kind']]
         if d['kind'] == 'figure':
             if not pdf:
@@ -186,15 +254,26 @@ def build(record_path: str | Path, out: str | Path, *, interactive: dict[str, li
             docs[d['id']] = {'id': d['id'], 'kind': 'text', 'caption': caption, 'text': d['text']}
 
     questions, steps, missing = [], [], []
+    known = {e['id']: e for q in topic['questions'] for e in q['rubric']}
+    for k in [*interactive, *defer]:
+        if k in known:
+            continue
+        if not any(k == e['id'] for t in rec['topics'] for q in t['questions'] for e in q['rubric']):
+            raise RecordError(f'{k}: معرّف عنصر غير موجود في السجلّ')
+    for k in interactive:
+        if k in known and known[k]['answer_type'] in DEFERRED and not (known[k]['answer_type'] == 'table' and known[k].get('official_answer')):
+            raise RecordError(f"{k}: نوعه {known[k]['answer_type']} يبقى مؤجَّلًا (يُقبل تفاعليًّا من المؤجّل خانةُ جدول لها جواب رسميّ ثابت فقط)")
     for q in topic['questions']:
         elements = []
         for e in q['rubric']:
+            e = {**e, 'label': label_of(e)}
             el = {'id': e['id'], 'label': e['label'], 'max_points': e['marks'], 'verified': False}
             if e.get('streams'):
                 el['streams'] = e['streams']
             elements.append(el)
-            if e['answer_type'] in DEFERRED or e['id'] in defer:
-                st = _deferred_step({**e, 'answer_type': e['answer_type'] if e['answer_type'] in DEFERRED else 'open'}, q['id'], subj)
+            promoted = e['answer_type'] == 'table' and e['id'] in interactive
+            if (e['answer_type'] in DEFERRED and not promoted) or e['id'] in defer:
+                st = _deferred_step({**e, 'answer_type': e['answer_type'] if e['answer_type'] in DEFERRED else 'open'}, q['id'], subj, q['part'])
                 steps.append(st)
                 continue
             mine = interactive.get(e['id'])
@@ -223,6 +302,9 @@ def build(record_path: str | Path, out: str | Path, *, interactive: dict[str, li
         f"الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «{p['streams_header']}». "
         + (f"مشكلات سجّلها الناقل ({len(issues)}): " + ' | '.join(f"{i['type']} @ {i['where']}: {i.get('detail', '')}" for i in issues) if issues else 'لا مشكلات مسجّلة في النقل.')
         + (f" عناصر أُجّلت بقرار المحوِّل: {', '.join(sorted(defer))}." if defer else '')
+        + (f" وثائق في السجلّ لا يحيل إليها سؤال (من التصحيح) لم تُعرض: {', '.join(unused)}." if unused else '')
+        + (f' {note.strip()}' if note.strip() else '')
+        + (" تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): " + '؛ '.join(f'{t}: «{a}» ← «{b}»' for t, a, b in fixes if t.startswith(f'p{paper_no}-')) + '.' if any(t.startswith(f'p{paper_no}-') for t, _, _ in fixes) else '')
     )
     doc = {
         'schema_version': 1,
