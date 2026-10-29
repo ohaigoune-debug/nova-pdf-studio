@@ -1,0 +1,142 @@
+{
+ "base": "http://localhost:3210",
+ "at": "2026-10-29T01:47:55.473Z",
+ "results": [
+  {
+   "name": "mobile: login as student",
+   "status": "PASS",
+   "ms": 20742,
+   "note": "http://localhost:3210/student"
+  },
+  {
+   "name": "mobile: PLAY profile = 2AS / SCI",
+   "status": "PASS",
+   "ms": 22354,
+   "note": null
+  },
+  {
+   "name": "mobile: PLAY home shows access state and the four sections",
+   "status": "PASS",
+   "ms": 3633,
+   "note": "access=trial_active"
+  },
+  {
+   "name": "mobile: tests section lists the converted set by term",
+   "status": "PASS",
+   "ms": 3946,
+   "note": "5 set(s)"
+  },
+  {
+   "name": "mobile: practice mode — read first, answer, instant feedback",
+   "status": "PASS",
+   "ms": 12404,
+   "note": "answered 6, types mcq,matching,fill_blank,multi"
+  },
+  {
+   "name": "mobile: source text opens while answering",
+   "status": "PASS",
+   "ms": 655,
+   "note": null
+  },
+  {
+   "name": "mobile: finish → result with original-weight score and mistakes review",
+   "status": "PASS",
+   "ms": 11303,
+   "note": "score 0.75 / 16"
+  },
+  {
+   "name": "mobile: results & progress page",
+   "status": "PASS",
+   "ms": 6752,
+   "note": null
+  },
+  {
+   "name": "mobile: bac section",
+   "status": "PASS",
+   "ms": 5260,
+   "note": null
+  },
+  {
+   "name": "mobile: access banner after first play",
+   "status": "PASS",
+   "ms": 2996,
+   "note": "access=trial_active"
+  },
+  {
+   "name": "mobile: no broken or placeholder images on visited pages",
+   "status": "PASS",
+   "ms": 3,
+   "note": null
+  },
+  {
+   "name": "mobile: attempt url",
+   "status": "INFO",
+   "note": "http://localhost:3210/student/play/exam/b7de7795-34cc-4c30-bbb2-a798e9f6e5cc"
+  },
+  {
+   "name": "desktop: login as student",
+   "status": "PASS",
+   "ms": 3326,
+   "note": "http://localhost:3210/student"
+  },
+  {
+   "name": "desktop: PLAY home shows access state and the four sections",
+   "status": "PASS",
+   "ms": 4658,
+   "note": "access=trial_active"
+  },
+  {
+   "name": "desktop: tests section lists the converted set by term",
+   "status": "PASS",
+   "ms": 1019,
+   "note": "5 set(s)"
+  },
+  {
+   "name": "desktop: practice mode — read first, answer, instant feedback",
+   "status": "PASS",
+   "ms": 8448,
+   "note": "answered 6, types mcq,matching,fill_blank,multi"
+  },
+  {
+   "name": "desktop: source text opens while answering",
+   "status": "PASS",
+   "ms": 746,
+   "note": null
+  },
+  {
+   "name": "desktop: finish → result with original-weight score and mistakes review",
+   "status": "PASS",
+   "ms": 2291,
+   "note": "score 0.75 / 16"
+  },
+  {
+   "name": "desktop: results & progress page",
+   "status": "PASS",
+   "ms": 2466,
+   "note": null
+  },
+  {
+   "name": "desktop: bac section",
+   "status": "PASS",
+   "ms": 1974,
+   "note": null
+  },
+  {
+   "name": "desktop: access banner after first play",
+   "status": "PASS",
+   "ms": 2573,
+   "note": "access=trial_active"
+  },
+  {
+   "name": "desktop: no broken or placeholder images on visited pages",
+   "status": "PASS",
+   "ms": 2,
+   "note": null
+  },
+  {
+   "name": "desktop: attempt url",
+   "status": "INFO",
+   "note": "http://localhost:3210/student/play/exam/be4066eb-5b87-45c0-9d8f-2934d052bd66"
+  }
+ ]
+}

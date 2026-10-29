@@ -48,7 +48,13 @@ async function run(viewport, tag) {
   const ctx = await browser.newContext({ viewport, locale: 'ar-DZ', deviceScaleFactor: viewport.width < 500 ? 2 : 1, hasTouch: viewport.width < 500, isMobile: viewport.width < 500 })
   const page = await ctx.newPage()
   page.setDefaultTimeout(90_000)
-  const shot = (n) => page.screenshot({ path: path.join(OUT, `${tag}-${n}.png`), fullPage: true })
+  // لقطة الصفحة كاملة حتى 5000px (الصفحات الأطول تُقصّ: لقطة ضخمة قد تُسقط المتصفح على جهاز محدود الذاكرة)
+  const shot = async (n) => {
+    const h = await page.evaluate(() => document.documentElement.scrollHeight)
+    const opts = { path: path.join(OUT, `${tag}-${n}.png`), fullPage: true }
+    if (h > 5000) opts.clip = { x: 0, y: 0, width: viewport.width, height: 5000 }
+    await page.screenshot(opts)
+  }
 
   await step(`${tag}: login as student`, async () => {
     await page.goto(`${BASE}/login`)
