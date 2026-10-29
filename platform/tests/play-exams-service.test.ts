@@ -188,6 +188,22 @@ describe('access is enforced on exams too', () => {
     await expectCode(() => submitExamStep(h.db, b, attemptId, doc.steps[0]!.id, rightAnswer(doc.steps[0]!), T0), 'PLAY_EXAM_ATTEMPT_NOT_FOUND')
   })
 
+  it('the in-memory document cache never serves an edited set stale: a new checksum is read again', async () => {
+    const sci = await student('SCI')
+    const before = (await listExamSets(h.db, sci, { subjectCode: 'AR', kind: 'TESTS' })).items.find((i) => i.id === approvedId)!
+    expect(before.stepCount).toBe(35)
+    // تعديل المجموعة (كما يفعل import-approved): مستند جديد ببصمة جديدة
+    const [row] = await h.db.select({ document: playExamSets.document, checksum: playExamSets.checksum }).from(playExamSets).where(eq(playExamSets.id, approvedId))
+    const edited: ExamSetDocument = structuredClone(row!.document)
+    const dropped = edited.steps.findIndex((s) => s.type === 'mcq')
+    edited.steps.splice(dropped, 1)
+    await h.db.update(playExamSets).set({ document: edited, checksum: row!.checksum + '-edited' }).where(eq(playExamSets.id, approvedId))
+    const after = (await listExamSets(h.db, sci, { subjectCode: 'AR', kind: 'TESTS' })).items.find((i) => i.id === approvedId)!
+    expect(after.stepCount).toBe(34)
+    await h.db.update(playExamSets).set({ document: row!.document, checksum: row!.checksum }).where(eq(playExamSets.id, approvedId))
+    expect((await listExamSets(h.db, sci, { subjectCode: 'AR', kind: 'TESTS' })).items.find((i) => i.id === approvedId)!.stepCount).toBe(35)
+  })
+
   it('stored sets keep their checksum so results stay tied to the played version', async () => {
     const [row] = await h.db.select({ checksum: playExamSets.checksum }).from(playExamSets).where(eq(playExamSets.id, reviewId))
     expect(row!.checksum).toMatch(/^[0-9a-f]{64}$/)
