@@ -278,7 +278,7 @@ function Interaction({ step, draft, setDraft, locked, feedback }: { step: Public
                   aria-label={draft.blanks[i] ? `إزالة «${draft.blanks[i]}»` : `فراغ ${i + 1}`}
                   className={cn('mx-1 inline-flex min-h-9 min-w-[4.5rem] items-center justify-center rounded-lg border-b-2 px-2 align-middle', draft.blanks[i] ? 'border-[#1457C5] bg-[#D5E4FC] text-[#1B3F8F]' : 'border-[#8FAAFF] bg-[#F3F7FF] text-transparent')}
                 >
-                  {draft.blanks[i] ?? '…'}
+                  {draft.blanks[i] ? <T text={draft.blanks[i]!} /> : '…'}
                 </button>
               ) : null}
             </span>

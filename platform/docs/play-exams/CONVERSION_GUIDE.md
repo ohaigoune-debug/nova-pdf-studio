@@ -131,3 +131,12 @@ Schema: `src/server/play/exams/types.ts` (`ExamSetDocument`). Exemplar: `content
 - Element labels never contain the answer (the runner shows the label next to the step).
 - Written expression / production écrite with a choice of topics: one original question holding both topics, elements = the grid lines (merge lines that the two grids split differently and quote each grid's own lines in the step `spec`).
 - English/French steps that name a paragraph (§2, paragraph 3, le deuxième paragraphe) automatically show that paragraph under the question; keep the passage's paragraphs separated by `\n` in its `text` document.
+
+### Decisions fixed by the mathematics pilot (math-bac-2019-sci-p1/p2)
+- The Arabic text layer of math papers scrambles digits (04→40, 0.25→0725, 2019→9102) and drops symbols: **never take marks or digits from it**; transcribe from 200–500 dpi images. `pdftotext -bbox` (helper: `/tmp/claude-0/-home-claude/a5aba06e-b39f-548f-b9d6-cedbc51df36c/scratchpad/tools/bbox_lines.py`) maps the Symbol glyphs back to [ ] ∞ ∈ ∪ and settles bracket direction.
+- One element per printed mark line (keep «×n» in the label); an element may mix interactive and deferred steps when the line covers both.
+- A task whose result the correction does **not** print is deferred (`essay_builder` with `spec.official_result_missing: true`) — never computed by the converter.
+- Limits: one `mcq` per limit; asymptotes «choose all» as `multi`; fractions as `mcq` in the correction's exact form (10/66, not 5/33); printed integers/decimals as `numeric`.
+- Distractors must differ **in value** from the right answer (e^{-i2π/3} = e^{i4π/3}, ln(1/5) = −ln 5, 5/33 = 10/66 are the same answer).
+- No formulas in `fill_blank` banks or `matching`; no `$` in labels, captions or part titles. Run `node scripts/play/check_katex.mjs` (every `$…$` must render).
+- Arabic sentences with formulas: write them in reading order; the renderer ignores `$…$` when choosing the direction.

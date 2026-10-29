@@ -1,0 +1,1927 @@
+{
+ "schema_version": 1,
+ "set_id": "math-bac-2019-sci-p1",
+ "status": "NEEDS_HUMAN_REVIEW",
+ "source": {
+  "source_id": "gdrive-1E7zQH28AK454kN6vvemn94NScQGCqRpl-p1",
+  "kind": "BAC",
+  "year": 2019,
+  "level": "3AS",
+  "streams": [
+   "SCI"
+  ],
+  "subject": "MATH",
+  "term": null,
+  "paper": 1,
+  "title": "بكالوريا 2019 (الدورة العادية) – الرياضيات – شعبة علوم تجريبية – الموضوع الأول",
+  "original_url": "https://drive.google.com/file/d/1E7zQH28AK454kN6vvemn94NScQGCqRpl/view",
+  "original_file_ref": "gdrive:1E7zQH28AK454kN6vvemn94NScQGCqRpl (2019 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1Vg_5N6oNOd7UZnhbXGBRikNgU_BCfT08/view",
+  "correction_file_ref": "gdrive:1Vg_5N6oNOd7UZnhbXGBRikNgU_BCfT08 (2019 - الرياضيات - علوم تجريبية - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": false,
+  "verified_by": null,
+  "verified_at": null,
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الموضوع والتصحيح ملفّا PDF من الديوان الوطني للامتحانات والمسابقات (دورة 2019، الشعبة: علوم تجريبية؛ «الدورة العادية» من عنوان الملف في Drive). للملفّين طبقة نصّ من Word لكنها غير صالحة مصدرا: أرقام الخطّ العربي مقلوبة (04→40، 05→45، 07→70، 0.25→0725، 4)→0)، 2019→9102، 120→127)، والشدّات ساقطة (بيّن أنّ→بين أن)، والمعادلات رموز خطّ Symbol (أقواس المجالات و ℝ ℂ ℕ و² تسقط من النصّ المستخرَج أو تتشوّه)؛ فنُسخ كلّ نصّ وكلّ علامة من صور الصفحات (200 و300 نقطة/بوصة مع تكبير)، وقوبلت الأقواس وترتيب الصيغ بمواضع الرموز في الطبقة (pdftotext -bbox). اختلاف الصورة والطبقة: في صورة التصحيح (الموضوع الأول، التمرين4 س2) لا يظهر رمز «²» في f'(x) والطبقة تحويه: f'(x)=(x²−5x+4)/(x(x−2)²) وهو ما تقتضيه مجالات التغيّر في التصحيح نفسه. الصيغ بـ LaTeX بين $…$ كما طُبعت؛ الترتيب المنطقي لصيغ متعدّدة بينها كلمات عربية هو ترتيب القراءة من اليمين (النقط A ، B و C)؛ المسافات موحَّدة. لا شكل في هذه الورقة (لا قصّ). قواعد التحويل: عنصر لكل سطر علامة في السلّم (يبقى «×n» في التسمية)؛ الإجابات الصحيحة من الإجابة النموذجية بصيغتها، والمشتّتات من إعداد التحويل وتختلف عدديًّا عن الإجابة؛ numeric حين يطبع التصحيح عددا صحيحا (هامش 0)؛ «بيّن/برهن/استنتج أنّ» تفاعلية فقط عبر نتيجة وسيطة يكتبها التصحيح وإلا فـ essay_builder مؤجَّل؛ ما يذكره التصحيح بلا نتيجة مؤجَّل ولا يحسبه المحوِّل؛ الرسم function_plot وجدول التغيّرات variation_table. قرارات الموضوع الأول: التمرين1 س1أ «0.75×2» عنصر واحد (1.5) مؤجَّل كاملا لأنّ الإجابة لا تكتب نتيجة وسيطة للبرهان بالتراجع؛ س3 «تبيان u(n)=1+12/5^n» و س4 مؤجَّلان للسبب نفسه. التمرين2: «تبيان P(A)=31/66» (1 ن) مؤجَّل؛ سطر «025×3» في التصحيح يُقرأ 0.25×3 (قيم X)، وقيم X ثلاث (multi بعلامة جزئية 0.25 لكل قيمة) والاحتمالات الثلاثة بصيغة التصحيح (10/66 لا 5/33). التمرين3 س3ب: يقبل التصحيح أربع إجابات (تحاك نسبته −1، دوران زاويته π، تناظر مركزي، تشابه مباشر)؛ الخيار الصحيح هو الأوّل منها ولا يظهر غيره بين المشتّتات. التمرين4 س2: عبارة f'(x) مأخوذة من طبقة النصّ لأنّ رمز «²» لا يظهر في صورة التصحيح؛ سطر «إشارة f'(x)» (0.5) لا يكتب الإشارة فاستُنتجت من مجالات التغيّر المكتوبة في التصحيح نفسه (قرار يُراجَع). مؤجَّل: البرهان بالتراجع 1.5، تبيانات 0.25+0.25، تبيان P(A) 1، جدول التغيّرات 0.25، الرسم 0.5 = 3.75 ن."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1أ",
+   "part": "التمرين الأول: (04 نقاط)",
+   "verbatim_text": "برهن بالتراجع أنه: من أجل كل عدد طبيعي $n$ ، $u_n>1$ .",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$(u_n)$ المتتالية العددية المعرفة بـ : $u_0=13$ ومن أجل كل عدد طبيعي $n$، $u_{n+1}=\\dfrac{1}{5}u_n+\\dfrac{4}{5}$"
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "1أ) البرهان بالتراجع (0.75×2)",
+     "max_points": 1.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "1ب",
+   "part": "التمرين الأول: (04 نقاط)",
+   "verbatim_text": "أُدرس اتجاه تغير المتتالية $(u_n)$ واستنتج أنها متقاربة.",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$(u_n)$ المتتالية العددية المعرفة بـ : $u_0=13$ ومن أجل كل عدد طبيعي $n$، $u_{n+1}=\\dfrac{1}{5}u_n+\\dfrac{4}{5}$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "1ب) اتجاه تغيّر المتتالية",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q2-e2",
+     "label": "1ب) التقارب وتعليله",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "2",
+   "part": "التمرين الأول: (04 نقاط)",
+   "verbatim_text": "$(v_n)$ المتتالية العددية المعرفة على $\\mathbb{N}$ بـ : $v_n=\\ln(u_n-1)$ .\nأثبت أنّ المتتالية $(v_n)$ حسابية يطلب تعيين أساسها وحدها الأول.",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$(u_n)$ المتتالية العددية المعرفة بـ : $u_0=13$ ومن أجل كل عدد طبيعي $n$، $u_{n+1}=\\dfrac{1}{5}u_n+\\dfrac{4}{5}$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "2) الفرق بين حدّين متتابعين (الأساس)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q3-e2",
+     "label": "2) الحدّ الأول",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "3",
+   "part": "التمرين الأول: (04 نقاط)",
+   "verbatim_text": "اكتب $v_n$ بدلالة $n$ ثم بين أنه: من أجل كل عدد طبيعي $n$، $u_n=1+\\dfrac{12}{5^n}$ واحسب عندئذ $\\lim_{n\\to+\\infty}u_n$ .",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$(u_n)$ المتتالية العددية المعرفة بـ : $u_0=13$ ومن أجل كل عدد طبيعي $n$، $u_{n+1}=\\dfrac{1}{5}u_n+\\dfrac{4}{5}$"
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "3) كتابة v(n) بدلالة n",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q4-e2",
+     "label": "3) تبيان عبارة u(n)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q4-e3",
+     "label": "3) نهاية المتتالية",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "4",
+   "part": "التمرين الأول: (04 نقاط)",
+   "verbatim_text": "بيّن أنّه: من أجل كل عدد طبيعي $n$ ، $(u_0-1)(u_1-1)\\times\\ldots\\times(u_n-1)=\\left(\\dfrac{12}{5^{\\frac{n}{2}}}\\right)^{n+1}$ .",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$(u_n)$ المتتالية العددية المعرفة بـ : $u_0=13$ ومن أجل كل عدد طبيعي $n$، $u_{n+1}=\\dfrac{1}{5}u_n+\\dfrac{4}{5}$"
+    }
+   ],
+   "rubric_total": 0.25,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "4) تبيان مساواة الجداء",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "1",
+   "part": "التمرين الثاني: (04 نقاط)",
+   "verbatim_text": "بيّن أنّ احتمال الحادثة $A$ هو $P(A)=\\dfrac{31}{66}$ واحسب احتمال الحادثة $B$ .",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "يحتوي كيس على خمس كريات حمراء منها أربع كريات تحمل الرقم 1 وكرية واحدة تحمل الرقم 2 وسبع كريات خضراء منها أربع كريات تحمل الرقم 1 وثلاث كريات تحمل الرقم 2 (كل الكريات متماثلة لا نفرق بينها عند اللمس). نسحب عشوائيا كريتين من الكيس في آن واحد ونعتبر الحادثتين $A$ و $B$ حيث: $A$ : \" سحب كريتين من نفس اللون \" ، $B$ : \" سحب كريتين تحملان نفس الرقم \" ."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "1) تبيان احتمال الحادثة A",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q6-e2",
+     "label": "1) احتمال الحادثة B",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "2",
+   "part": "التمرين الثاني: (04 نقاط)",
+   "verbatim_text": "علما أنّ الكريتين المسحوبتين من نفس اللون، ما احتمال أن تحملا نفس الرقم؟",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "يحتوي كيس على خمس كريات حمراء منها أربع كريات تحمل الرقم 1 وكرية واحدة تحمل الرقم 2 وسبع كريات خضراء منها أربع كريات تحمل الرقم 1 وثلاث كريات تحمل الرقم 2 (كل الكريات متماثلة لا نفرق بينها عند اللمس). نسحب عشوائيا كريتين من الكيس في آن واحد ونعتبر الحادثتين $A$ و $B$ حيث: $A$ : \" سحب كريتين من نفس اللون \" ، $B$ : \" سحب كريتين تحملان نفس الرقم \" ."
+    }
+   ],
+   "rubric_total": 0.25,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "2) الاحتمال الشرطي",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "3",
+   "part": "التمرين الثاني: (04 نقاط)",
+   "verbatim_text": "ليكن $X$ المتغير العشوائي الذي يرفق بكل عملية سحب عدد الكريات الحمراء المتبقية في الكيس.\nعرف قانون الاحتمال للمتغير العشوائي $X$ واحسب أمله الرياضياتي $E(X)$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "يحتوي كيس على خمس كريات حمراء منها أربع كريات تحمل الرقم 1 وكرية واحدة تحمل الرقم 2 وسبع كريات خضراء منها أربع كريات تحمل الرقم 1 وثلاث كريات تحمل الرقم 2 (كل الكريات متماثلة لا نفرق بينها عند اللمس). نسحب عشوائيا كريتين من الكيس في آن واحد ونعتبر الحادثتين $A$ و $B$ حيث: $A$ : \" سحب كريتين من نفس اللون \" ، $B$ : \" سحب كريتين تحملان نفس الرقم \" ."
+    }
+   ],
+   "rubric_total": 1.75,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "3) قيم المتغير العشوائي X (0.25×3)",
+     "max_points": 0.75,
+     "verified": false
+    },
+    {
+     "id": "q8-e2",
+     "label": "3) احتمالات القيم (0.25×3)",
+     "max_points": 0.75,
+     "verified": false
+    },
+    {
+     "id": "q8-e3",
+     "label": "3) الأمل الرياضياتي",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "I",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "حل في مجموعة الأعداد المركبة $\\mathbb{C}$ المعادلة ذات المجهول $z$ التالية: $(z-i)(z^2-4z+5)=0$ .",
+   "documents": [],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "I) حلول المعادلة (0.5×3)",
+     "max_points": 1.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q10",
+   "number": "II-1",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "اكتب العدد المركب $\\dfrac{z_C-z_A}{z_C-z_B}$ على الشكل الأسي، ثم استنتج طبيعة المثلث $ABC$ .",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "معطيات الجزء II",
+     "text": "نعتبر في المستوي المركب المنسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$ ، النقط $A$ ، $B$ و $C$ التي لاحقاتها $i$ ، $2-i$ و $2+i$ على الترتيب."
+    }
+   ],
+   "rubric_total": 1.25,
+   "rubric_elements": [
+    {
+     "id": "q10-e1",
+     "label": "II-1) الشكل الأسي",
+     "max_points": 0.75,
+     "verified": false
+    },
+    {
+     "id": "q10-e2",
+     "label": "II-1) طبيعة المثلث ABC",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q11",
+   "number": "II-2أ",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "عين المجموعة $(E)$ للنقط $M$ من المستوي ذات اللاحقة $z$ التي تحقق: $|f(z)|=\\dfrac{1}{2}$",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "معطيات الجزء II",
+     "text": "نعتبر في المستوي المركب المنسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$ ، النقط $A$ ، $B$ و $C$ التي لاحقاتها $i$ ، $2-i$ و $2+i$ على الترتيب."
+    },
+    {
+     "id": "d-ex3-2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "من أجل كل عدد مركب $z$ يختلف عن $2+i$ نضع $f(z)=\\dfrac{iz-1-2i}{2z-4-2i}$"
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q11-e1",
+     "label": "II-2أ) المجموعة (E)",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q12",
+   "number": "II-2ب",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "بيّن أن العدد $\\left[f(i)\\right]^{1440}$ حقيقي موجب.",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "معطيات الجزء II",
+     "text": "نعتبر في المستوي المركب المنسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$ ، النقط $A$ ، $B$ و $C$ التي لاحقاتها $i$ ، $2-i$ و $2+i$ على الترتيب."
+    },
+    {
+     "id": "d-ex3-2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "من أجل كل عدد مركب $z$ يختلف عن $2+i$ نضع $f(z)=\\dfrac{iz-1-2i}{2z-4-2i}$"
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q12-e1",
+     "label": "II-2ب) f(i) على الشكل المثلثي والاستنتاج",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q13",
+   "number": "II-3أ",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "عيّن لاحقة $D$ صورة $B$ بالدوران $r$ وبيّن أنّ النقط $D$ ، $A$ و $C$ في استقامية.",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "معطيات الجزء II",
+     "text": "نعتبر في المستوي المركب المنسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$ ، النقط $A$ ، $B$ و $C$ التي لاحقاتها $i$ ، $2-i$ و $2+i$ على الترتيب."
+    },
+    {
+     "id": "d-ex3-3",
+     "kind": "text",
+     "caption": "معطيات السؤال 3",
+     "text": "نعتبر الدوران $r$ الذي مركزه $C$ و زاويته $\\dfrac{\\pi}{2}$ ."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q13-e1",
+     "label": "II-3أ) لاحقة D والاستقامية",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q14",
+   "number": "II-3ب",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "استنتج أنّ $D$ هي صورة النقطة $A$ بتحويل نقطي بسيط يطلب تحديد طبيعته وعناصره .",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "معطيات الجزء II",
+     "text": "نعتبر في المستوي المركب المنسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$ ، النقط $A$ ، $B$ و $C$ التي لاحقاتها $i$ ، $2-i$ و $2+i$ على الترتيب."
+    },
+    {
+     "id": "d-ex3-3",
+     "kind": "text",
+     "caption": "معطيات السؤال 3",
+     "text": "نعتبر الدوران $r$ الذي مركزه $C$ و زاويته $\\dfrac{\\pi}{2}$ ."
+    }
+   ],
+   "rubric_total": 0.25,
+   "rubric_elements": [
+    {
+     "id": "q14-e1",
+     "label": "II-3ب) طبيعة التحويل وعناصره",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q15",
+   "number": "1أ",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "احسب $\\lim_{x\\overset{>}{\\longrightarrow}0}f(x)$ ، $\\lim_{x\\overset{<}{\\longrightarrow}2}f(x)$ و $\\lim_{x\\overset{>}{\\longrightarrow}2}f(x)$ ثم فسِّر النتائج بيانيا.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة العددية المعرفة على $]0;2[\\cup]2;+\\infty[$ بـ : $f(x)=\\dfrac{1}{x-2}+\\ln x$ .\n$(C_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q15-e1",
+     "label": "1أ) النهايات الثلاث (0.5×3)",
+     "max_points": 1.5,
+     "verified": false
+    },
+    {
+     "id": "q15-e2",
+     "label": "1أ) التفسير الهندسي (0.25×2)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q16",
+   "number": "1ب",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "احسب $\\lim_{x\\to+\\infty}f(x)$ .",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة العددية المعرفة على $]0;2[\\cup]2;+\\infty[$ بـ : $f(x)=\\dfrac{1}{x-2}+\\ln x$ .\n$(C_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q16-e1",
+     "label": "1ب) النهاية عند +∞",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q17",
+   "number": "2",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "ادرس اتجاه تغيّر الدّالة $f$ على $]0;2[\\cup]2;+\\infty[$ وشكِّل جدول تغيُّراتها.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة العددية المعرفة على $]0;2[\\cup]2;+\\infty[$ بـ : $f(x)=\\dfrac{1}{x-2}+\\ln x$ .\n$(C_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$."
+    }
+   ],
+   "rubric_total": 1.75,
+   "rubric_elements": [
+    {
+     "id": "q17-e1",
+     "label": "2) الدالة المشتقة",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q17-e2",
+     "label": "2) إشارة الدالة المشتقة",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q17-e3",
+     "label": "2) اتجاه التغيّر وجدول التغيّرات (3×0.25)",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q18",
+   "number": "3أ",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "احسب $\\lim_{x\\to+\\infty}\\left(f(x)-\\ln x\\right)$ ثم فسِّر النَّتيجة بيانيا.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة العددية المعرفة على $]0;2[\\cup]2;+\\infty[$ بـ : $f(x)=\\dfrac{1}{x-2}+\\ln x$ .\n$(C_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$."
+    },
+    {
+     "id": "d-ex4-3",
+     "kind": "text",
+     "caption": "معطيات السؤال 3",
+     "text": "نسمي $(\\Gamma)$ المنحنى البياني للدّالة اللّوغاريتمية النّيبيرية \"ln\" في المعلم السابق."
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q18-e1",
+     "label": "3أ) النهاية",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q18-e2",
+     "label": "3أ) التفسير البياني",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q19",
+   "number": "3ب",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "ادرس وضعية المنحنى $(C_f)$ بالنِّسبة إلى المنحنى $(\\Gamma)$.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة العددية المعرفة على $]0;2[\\cup]2;+\\infty[$ بـ : $f(x)=\\dfrac{1}{x-2}+\\ln x$ .\n$(C_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$."
+    },
+    {
+     "id": "d-ex4-3",
+     "kind": "text",
+     "caption": "معطيات السؤال 3",
+     "text": "نسمي $(\\Gamma)$ المنحنى البياني للدّالة اللّوغاريتمية النّيبيرية \"ln\" في المعلم السابق."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q19-e1",
+     "label": "3ب) الوضعية النسبية",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q20",
+   "number": "4",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "ارسم بعناية المنحنى $(\\Gamma)$ ثمَّ المنحنى $(C_f)$.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة العددية المعرفة على $]0;2[\\cup]2;+\\infty[$ بـ : $f(x)=\\dfrac{1}{x-2}+\\ln x$ .\n$(C_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$."
+    },
+    {
+     "id": "d-ex4-3",
+     "kind": "text",
+     "caption": "معطيات السؤال 3",
+     "text": "نسمي $(\\Gamma)$ المنحنى البياني للدّالة اللّوغاريتمية النّيبيرية \"ln\" في المعلم السابق."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q20-e1",
+     "label": "4) الرسم",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q21",
+   "number": "5أ",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "باستعمال المكاملة بالتّجزئة، عيِّن عبارة $H(x)$ بدلالة $x$ .",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة العددية المعرفة على $]0;2[\\cup]2;+\\infty[$ بـ : $f(x)=\\dfrac{1}{x-2}+\\ln x$ .\n$(C_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$."
+    },
+    {
+     "id": "d-ex4-5",
+     "kind": "text",
+     "caption": "معطيات السؤال 5",
+     "text": "$H$ الدّالة المعرفة على المجال $[3;+\\infty[$ بـ: $H(x)=\\int_3^x\\ln(t)dt$ حيث $t$ متغيّر حقيقي موجب تماما."
+    }
+   ],
+   "rubric_total": 0.25,
+   "rubric_elements": [
+    {
+     "id": "q21-e1",
+     "label": "5أ) عبارة H(x)",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q22",
+   "number": "5ب",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "احسب $\\mathscr{A}$ مساحة الحيِّز المستوي المحدَّد بالمنحنى $(C_f)$ وحامل محور الفواصل والمستقيمين ذوي المعادلتين: $x=3$ و $x=4$ .",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة العددية المعرفة على $]0;2[\\cup]2;+\\infty[$ بـ : $f(x)=\\dfrac{1}{x-2}+\\ln x$ .\n$(C_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$."
+    },
+    {
+     "id": "d-ex4-5",
+     "kind": "text",
+     "caption": "معطيات السؤال 5",
+     "text": "$H$ الدّالة المعرفة على المجال $[3;+\\infty[$ بـ: $H(x)=\\int_3^x\\ln(t)dt$ حيث $t$ متغيّر حقيقي موجب تماما."
+    }
+   ],
+   "rubric_total": 0.25,
+   "rubric_elements": [
+    {
+     "id": "q22-e1",
+     "label": "5ب) المساحة",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q23",
+   "number": "6",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "$g$ الدّالة المعرَّفة على $]-\\infty;-1[\\cup]-1;0[$ بـ : $g(x)=f(-2x)$ .\nدون حساب عبارة $g(x)$ حدّد اتجاه تغيّر الدالة $g$ على مجموعة تعريفها.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة العددية المعرفة على $]0;2[\\cup]2;+\\infty[$ بـ : $f(x)=\\dfrac{1}{x-2}+\\ln x$ .\n$(C_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q23-e1",
+     "label": "6) عبارة g'(x)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q23-e2",
+     "label": "6) اتجاه تغيّر g",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "1أ) تحرير البرهان بالتراجع: من أجل كل عدد طبيعي $n$ ، $u_n>1$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "تبيان بالتراجع أنه من أجل كل عدد طبيعي n : u(n) > 1 (0.75×2)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$u_n>1$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "تبيان بالتراجع أنه من أجل كل عدد طبيعي n : u(n) > 1 (0.75×2)",
+     "official_result": "$u_n>1$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 1.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما اتجاه تغيّر المتتالية $(u_n)$ على مجموعة الأعداد الطبيعية؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(u_n)$ متزايدة تماما على $\\mathbb{N}$",
+     "$(u_n)$ متتالية ثابتة على $\\mathbb{N}$",
+     "$(u_n)$ متناقصة تماما على $\\mathbb{N}$",
+     "$(u_n)$ ليست رتيبة على $\\mathbb{N}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: $(u_n)$ متناقصة تماما على $\\mathbb{N}$.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "لماذا نستنتج أنّ المتتالية $(u_n)$ متقاربة؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "لأنّ $(u_n)$ متناقصة ومحدودة من الأسفل",
+     "لأنّ حدّها الأول $u_0=13$ موجب",
+     "لأنّ $(u_n)$ متزايدة ومحدودة من الأعلى",
+     "لأنّ $(u_n)$ متتالية حسابية"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "بما أنّ $(u_n)$ متناقصة ومحدودة من الأسفل فهي متقاربة.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "لإثبات أنّ $(v_n)$ حسابية نحسب الفرق بين حدّين متتابعين: ما قيمة $v_{n+1}-v_n$ من أجل كل عدد طبيعي $n$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$v_{n+1}-v_n=\\ln 5$",
+     "$v_{n+1}-v_n=-\\ln 4$",
+     "$v_{n+1}-v_n=\\dfrac{1}{5}$",
+     "$v_{n+1}-v_n=-\\ln 5$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "من أجل كل عدد طبيعي $n$: $v_{n+1}-v_n=-\\ln 5$ وهو عدد ثابت، إذن $(v_n)$ حسابية أساسها $-\\ln 5$.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما الحدّ الأول $v_0$ للمتتالية الحسابية $(v_n)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$v_0=\\ln(13)$",
+     "$v_0=\\ln(14)$",
+     "$v_0=\\ln(12)$",
+     "$v_0=12$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حدّها الأول: $v_0=\\ln(12)$.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "اكتب $v_n$ بدلالة $n$: أيّ العبارات الآتية هي الصحيحة؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$v_n=\\ln(12)+n\\ln 5$",
+     "$v_n=\\ln\\left(\\dfrac{12}{5^n}\\right)$",
+     "$v_n=\\ln\\left(\\dfrac{5^n}{12}\\right)$",
+     "$v_n=n\\ln\\left(\\dfrac{12}{5}\\right)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "$v_n=\\ln\\left(\\dfrac{12}{5^n}\\right)$",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "3) تحرير تبيان أنّ $u_n=1+\\dfrac{12}{5^n}$ من أجل كل عدد طبيعي $n$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "تبيان أن u(n) = 1 + 12/5^n (0.25)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$u_n=1+\\dfrac{12}{5^n}$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "تبيان أن u(n) = 1 + 12/5^n (0.25)",
+     "official_result": "$u_n=1+\\dfrac{12}{5^n}$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e3",
+   "variant": "a",
+   "type": "numeric",
+   "prompt": "احسب نهاية المتتالية $(u_n)$ عندما يؤول $n$ إلى $+\\infty$، ثم اكتب قيمتها العددية في الخانة.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 1,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "حساب نهاية المتتالية $(u_n)$: $\\lim_{n\\to+\\infty}u_n=1$.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "4) تحرير تبيان مساواة الجداء المعطاة في السؤال الرابع.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "تبيان أن (u0−1)(u1−1)×…×(un−1) = (12/5^(n/2))^(n+1) (0.25)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$(u_0-1)(u_1-1)\\times\\ldots\\times(u_n-1)=\\left(\\dfrac{12}{5^{\\frac{n}{2}}}\\right)^{n+1}$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "تبيان أن (u0−1)(u1−1)×…×(un−1) = (12/5^(n/2))^(n+1) (0.25)",
+     "official_result": "$(u_0-1)(u_1-1)\\times\\ldots\\times(u_n-1)=\\left(\\dfrac{12}{5^{\\frac{n}{2}}}\\right)^{n+1}$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "1) تحرير تبيان أنّ $P(A)=\\dfrac{31}{66}$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "تبيان أن P(A) = 31/66 (01)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$P(A)=\\dfrac{31}{66}$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "تبيان أن P(A) = 31/66 (01)",
+     "official_result": "$P(A)=\\dfrac{31}{66}$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 1,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما احتمال الحادثة $B$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$P(B)=\\dfrac{14}{33}$",
+     "$P(B)=\\dfrac{15}{66}$",
+     "$P(B)=\\dfrac{17}{33}$",
+     "$P(B)=\\dfrac{31}{66}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: $P(B)=\\dfrac{17}{33}$.",
+   "points": 1,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "علما أنّ الكريتين المسحوبتين من نفس اللون، ما احتمال أن تحملا نفس الرقم؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$P(B/A)=\\dfrac{17}{31}$",
+     "$P(B/A)=\\dfrac{15}{31}$",
+     "$P(B/A)=\\dfrac{31}{66}$",
+     "$P(B/A)=\\dfrac{15}{66}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "احتمال أن تحملا نفس الرقم علما أنّهما من نفس اللون: $P(B/A)=\\dfrac{P(A\\cap B)}{P(A)}=\\dfrac{15}{31}$.",
+   "points": 0.25,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": true,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "ما القيم الّتي يأخذها المتغير العشوائي $X$؟ اختر كلّ القيم الممكنة.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "$1$",
+     "$4$",
+     "$2$",
+     "$3$",
+     "$5$"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     1,
+     3,
+     4
+    ]
+   },
+   "explanation": "حسب الإجابة النموذجية، قيم المتغير العشوائي $X$ هي $3$ و $4$ و $5$.",
+   "points": 0.75,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما قيمة الاحتمال $P(X=3)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$\\dfrac{20}{66}$",
+     "$\\dfrac{10}{66}$",
+     "$\\dfrac{21}{66}$",
+     "$\\dfrac{35}{66}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "قانون الاحتمال حسب الإجابة النموذجية: $P(X=3)=\\dfrac{10}{66}$ ، $P(X=4)=\\dfrac{35}{66}$ ، $P(X=5)=\\dfrac{21}{66}$.",
+   "points": 0.25,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "ما قيمة الاحتمال $P(X=4)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$\\dfrac{25}{66}$",
+     "$\\dfrac{35}{66}$",
+     "$\\dfrac{21}{66}$",
+     "$\\dfrac{10}{66}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "قانون الاحتمال حسب الإجابة النموذجية: $P(X=3)=\\dfrac{10}{66}$ ، $P(X=4)=\\dfrac{35}{66}$ ، $P(X=5)=\\dfrac{21}{66}$.",
+   "points": 0.25,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "c",
+   "type": "mcq",
+   "prompt": "ما قيمة الاحتمال $P(X=5)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$\\dfrac{35}{66}$",
+     "$\\dfrac{21}{66}$",
+     "$\\dfrac{15}{66}$",
+     "$\\dfrac{10}{66}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "قانون الاحتمال حسب الإجابة النموذجية: $P(X=3)=\\dfrac{10}{66}$ ، $P(X=4)=\\dfrac{35}{66}$ ، $P(X=5)=\\dfrac{21}{66}$.",
+   "points": 0.25,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب الأمل الرياضياتي $E(X)$ للمتغير العشوائي $X$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$E(X)=\\dfrac{245}{66}$",
+     "$E(X)=\\dfrac{305}{66}$",
+     "$E(X)=4$",
+     "$E(X)=\\dfrac{275}{66}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "الأمل الرياضياتي: $E(X)=\\dfrac{275}{66}$.",
+   "points": 0.25,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "ما حلول المعادلة $(z-i)(z^2-4z+5)=0$ في $\\mathbb{C}$؟ اختر كلّ الحلول.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "$-2-i$",
+     "$2+i$",
+     "$2-i$",
+     "$-i$",
+     "$i$",
+     "$-2+i$"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     1,
+     2,
+     4
+    ]
+   },
+   "explanation": "حلول المعادلة هي: $i$ ، $2-i$ ، $2+i$.",
+   "points": 1.5,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "اكتب العدد المركب $\\dfrac{z_C-z_A}{z_C-z_B}$ على الشكل الأسي: أيّ كتابة صحيحة؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$-2i=2e^{-i\\frac{\\pi}{2}}$",
+     "$-i=e^{-i\\frac{\\pi}{2}}$",
+     "$i=e^{i\\frac{\\pi}{2}}$",
+     "$-1=e^{i\\pi}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "$\\dfrac{z_C-z_A}{z_C-z_B}=-i=e^{-i\\frac{\\pi}{2}}$",
+   "points": 0.75,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "استنتج طبيعة المثلث $ABC$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "متقايس الأضلاع",
+     "قائم في $C$ ومتساوي الساقين",
+     "متساوي الساقين رأسه $C$ وغير قائم",
+     "قائم في $A$ ومتساوي الساقين"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "المثلث $ABC$ قائم في $C$ ومتساوي الساقين.",
+   "points": 0.5,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q11",
+   "rubric_element_id": "q11-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما المجموعة $(E)$ للنقط $M$ ذات اللاحقة $z$ الّتي تحقق $|f(z)|=\\dfrac{1}{2}$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(E)$ هي محور القطعة $[BC]$",
+     "$(E)$ هي محور القطعة $[AB]$",
+     "$(E)$ هي المستقيم $(BC)$",
+     "$(E)$ هي الدائرة الّتي مركزها $C$ ونصف قطرها $\\dfrac{1}{2}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "المجموعة $(E)$ هي محور القطعة $[BC]$.",
+   "points": 0.75,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q12",
+   "rubric_element_id": "q12-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "لتبيان أنّ العدد $\\left[f(i)\\right]^{1440}$ حقيقي موجب نكتب $f(i)$ على الشكل المثلثي: أيّ كتابة هي الصحيحة؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f(i)=\\dfrac{\\sqrt{2}}{2}\\left(\\cos\\dfrac{\\pi}{2}+i\\sin\\dfrac{\\pi}{2}\\right)$",
+     "$f(i)=\\dfrac{\\sqrt{2}}{2}\\left(\\cos\\dfrac{3\\pi}{4}+i\\sin\\dfrac{3\\pi}{4}\\right)$",
+     "$f(i)=\\sqrt{2}\\left(\\cos\\dfrac{\\pi}{4}+i\\sin\\dfrac{\\pi}{4}\\right)$",
+     "$f(i)=\\dfrac{\\sqrt{2}}{2}\\left(\\cos\\dfrac{\\pi}{4}+i\\sin\\dfrac{\\pi}{4}\\right)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "$f(i)=\\dfrac{\\sqrt{2}}{2}\\left(\\cos\\dfrac{\\pi}{4}+i\\sin\\dfrac{\\pi}{4}\\right)\\quad\\left[f(i)\\right]^{1440}\\in\\mathbb{R}^+$",
+   "points": 0.75,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q13",
+   "rubric_element_id": "q13-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "عيّن لاحقة النقطة $D$ صورة النقطة $B$ بالدوران $r$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$z_D=2+3i$",
+     "$z_D=i$",
+     "$z_D=4-i$",
+     "$z_D=4+i$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "لاحقة النقطة $D$ هي $z_D=4+i$.",
+   "points": 0.25,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q13",
+   "rubric_element_id": "q13-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "لتبيان أنّ النقط $D$ ، $A$ و $C$ في استقامية نحسب النسبة $\\dfrac{z_C-z_A}{z_C-z_D}$: ما قيمتها؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$\\dfrac{z_C-z_A}{z_C-z_D}=1+i$",
+     "$\\dfrac{z_C-z_A}{z_C-z_D}=-1$",
+     "$\\dfrac{z_C-z_A}{z_C-z_D}=i$",
+     "$\\dfrac{z_C-z_A}{z_C-z_D}=-i$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "لدينا $\\dfrac{z_C-z_A}{z_C-z_D}=-1$ أي $\\overrightarrow{CD}=-\\overrightarrow{CA}$، إذن النقط في استقامية حسب الإجابة النموذجية.",
+   "points": 0.25,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q14",
+   "rubric_element_id": "q14-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "استنتج طبيعة التحويل النقطي البسيط الّذي يحوّل النقطة $A$ إلى النقطة $D$ وعناصره.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "دوران مركزه $C$ وزاويته $\\dfrac{\\pi}{2}$",
+     "تحاك مركزه $C$ ونسبته $2$",
+     "انسحاب شعاعه $\\vec{AC}$",
+     "تحاك مركزه $C$ ونسبته $-1$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "$D$ هي صورة $A$ بتحاك مركزه $C$ ونسبته $-1$، أو بدوران مركزه $C$ وزاويته $\\pi$، أو بتناظر مركزي بالنسبة لـ $C$، أو بتشابه مباشر نسبته 1 مركزه $C$ وزاويته $\\pi$.",
+   "points": 0.25,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q15",
+   "rubric_element_id": "q15-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب النهاية $\\lim_{x\\overset{>}{\\longrightarrow}0}f(x)$ واختر قيمتها من بين الخيارات.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$+\\infty$",
+     "$-\\infty$",
+     "$-\\dfrac{1}{2}$",
+     "$0$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "$\\lim_{x\\overset{>}{\\longrightarrow}0}f(x)=-\\infty$",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q15",
+   "rubric_element_id": "q15-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "احسب النهاية $\\lim_{x\\overset{<}{\\longrightarrow}2}f(x)$ واختر قيمتها من بين الخيارات.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$-\\infty$",
+     "$\\ln 2$",
+     "$+\\infty$",
+     "$0$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "$\\lim_{x\\overset{<}{\\longrightarrow}2}f(x)=-\\infty$",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q15",
+   "rubric_element_id": "q15-e1",
+   "variant": "c",
+   "type": "mcq",
+   "prompt": "احسب النهاية $\\lim_{x\\overset{>}{\\longrightarrow}2}f(x)$ واختر قيمتها من بين الخيارات.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$\\ln 2$",
+     "$0$",
+     "$+\\infty$",
+     "$-\\infty$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "$\\lim_{x\\overset{>}{\\longrightarrow}2}f(x)=+\\infty$",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s29",
+   "source_question_id": "q15",
+   "rubric_element_id": "q15-e2",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "فسِّر النتائج بيانيا: ما معادلات المستقيمات المقاربة للمنحنى $(C_f)$ الّتي تستنتجها من هذه النهايات؟ اختر كلّ المعادلات الصحيحة.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "$x=2$",
+     "$y=0$",
+     "$y=x$",
+     "$x=0$",
+     "$y=2$"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     3
+    ]
+   },
+   "explanation": "التفسير الهندسي: $x=0$ و $x=2$ معادلتا المستقيمين المقاربين للمنحنى $(C_f)$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s30",
+   "source_question_id": "q16",
+   "rubric_element_id": "q16-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب $\\lim_{x\\to+\\infty}f(x)$ ثم اختر النتيجة الصحيحة.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$0$",
+     "$1$",
+     "$-\\infty$",
+     "$+\\infty$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "$\\lim_{x\\to+\\infty}f(x)=+\\infty$",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s31",
+   "source_question_id": "q17",
+   "rubric_element_id": "q17-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما عبارة الدالة المشتقة $f'(x)$ على $]0;2[\\cup]2;+\\infty[$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f'(x)=\\dfrac{x^2-5x+4}{x(x-2)^2}$",
+     "$f'(x)=\\dfrac{x^2-5x+4}{(x-2)^2}$",
+     "$f'(x)=\\dfrac{x^2-3x+4}{x(x-2)^2}$",
+     "$f'(x)=\\dfrac{-x^2+5x-4}{x(x-2)^2}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "$f'(x)=\\dfrac{x^2-5x+4}{x(x-2)^2}$",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s32",
+   "source_question_id": "q17",
+   "rubric_element_id": "q17-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما إشارة الدالة المشتقة $f'(x)$ على مجموعة التعريف؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f'(x)>0$ على $]0;1[$ وعلى $]4;+\\infty[$، و $f'(x)<0$ على $]1;2[$ وعلى $]2;4[$",
+     "$f'(x)>0$ على المجال $]0;2[$، و $f'(x)<0$ على المجال $]2;+\\infty[$",
+     "$f'(x)>0$ على كامل المجال $]0;2[\\cup]2;+\\infty[$",
+     "$f'(x)<0$ على $]0;1[$ وعلى $]4;+\\infty[$، و $f'(x)>0$ على $]1;2[$ وعلى $]2;4[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "من تغيّرات $f$ الواردة في الإجابة النموذجية: $f'(x)>0$ على $]0;1[$ وعلى $]4;+\\infty[$، و $f'(x)<0$ على $]1;2[$ وعلى $]2;4[$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s33",
+   "source_question_id": "q17",
+   "rubric_element_id": "q17-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "على أيّ مجالين تكون الدالة $f$ متزايدة تماما؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المجالان $[1;2[$ و $]2;4]$",
+     "المجالان $]0;2[$ و $]2;+\\infty[$",
+     "المجالان $]0;1]$ و $]2;4]$",
+     "المجالان $]0;1]$ و $[4;+\\infty[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $f$ متزايدة تماما على كل من المجالين $]0;1]$ و $[4;+\\infty[$، ومتناقصة تماما على كل من المجالين $[1;2[$ و $]2;4]$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s34",
+   "source_question_id": "q17",
+   "rubric_element_id": "q17-e3",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "وعلى أيّ مجالين تكون الدالة $f$ متناقصة تماما؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المجالان $]0;2[$ و $]2;4]$",
+     "المجالان $[1;2[$ و $]2;4]$",
+     "المجالان $]0;1]$ و $[4;+\\infty[$",
+     "المجالان $[1;2[$ و $[4;+\\infty[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: $f$ متزايدة تماما على كل من المجالين $]0;1]$ و $[4;+\\infty[$، ومتناقصة تماما على كل من المجالين $[1;2[$ و $]2;4]$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s35",
+   "source_question_id": "q17",
+   "rubric_element_id": "q17-e3",
+   "variant": "c",
+   "type": "variation_table",
+   "prompt": "2) تشكيل جدول تغيّرات الدالة $f$.",
+   "payload": {
+    "type": "variation_table",
+    "spec": {
+     "official_correction": "وتشكيل جدول التغيرات (ضمن 3×0.25)",
+     "reason_deferred": "variation_table",
+     "function": "$f$",
+     "domain": "$]0;2[\\cup]2;+\\infty[$",
+     "derivative": "$f'(x)=\\dfrac{x^2-5x+4}{x(x-2)^2}$",
+     "increasing": [
+      "$]0;1]$",
+      "$[4;+\\infty[$"
+     ],
+     "decreasing": [
+      "$[1;2[$",
+      "$]2;4]$"
+     ],
+     "limits": [
+      "$\\lim_{x\\overset{>}{\\longrightarrow}0}f(x)=-\\infty$",
+      "$\\lim_{x\\overset{<}{\\longrightarrow}2}f(x)=-\\infty$",
+      "$\\lim_{x\\overset{>}{\\longrightarrow}2}f(x)=+\\infty$",
+      "$\\lim_{x\\to+\\infty}f(x)=+\\infty$"
+     ]
+    }
+   },
+   "answer": {
+    "type": "variation_table",
+    "spec": {
+     "rubric": "وتشكيل جدول التغيرات (ضمن 3×0.25)",
+     "official_result": null
+    }
+   },
+   "explanation": "جدول التغيّرات يُصحَّح بشبكة التنقيط الرسمية (محرّك الجداول غير متوفّر بعد).",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s36",
+   "source_question_id": "q18",
+   "rubric_element_id": "q18-e1",
+   "variant": "a",
+   "type": "numeric",
+   "prompt": "احسب النهاية $\\lim_{x\\to+\\infty}(f(x)-\\ln x)$ ثم اكتب قيمتها العددية في الخانة.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 0,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "$\\lim_{x\\to+\\infty}\\left(f(x)-\\ln x\\right)=0$",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s37",
+   "source_question_id": "q18",
+   "rubric_element_id": "q18-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما التفسير البياني لهذه النتيجة؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(\\Gamma)$ منحنى مقارب للمنحنى $(C_f)$ بجوار $+\\infty$",
+     "المستقيم ذو المعادلة $y=0$ مقارب للمنحنى $(C_f)$ بجوار $+\\infty$",
+     "المنحنيان $(C_f)$ و $(\\Gamma)$ متناظران بالنسبة إلى محور الفواصل",
+     "المستقيم ذو المعادلة $x=2$ مقارب للمنحنى $(\\Gamma)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "التفسير البياني: $(\\Gamma)$ منحنى مقارب للمنحنى $(C_f)$ بجوار $+\\infty$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s38",
+   "source_question_id": "q19",
+   "rubric_element_id": "q19-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "لدراسة الوضعية نحسب الفرق: ما عبارة $f(x)-\\ln x$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f(x)-\\ln x=\\dfrac{1}{x-2}$",
+     "$f(x)-\\ln x=\\dfrac{1}{x+2}$",
+     "$f(x)-\\ln x=\\ln(x-2)$",
+     "$f(x)-\\ln x=x-2$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "$f(x)-\\ln x=\\dfrac{1}{x-2}$",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s39",
+   "source_question_id": "q19",
+   "rubric_element_id": "q19-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "ما وضعية المنحنى $(C_f)$ بالنسبة إلى المنحنى $(\\Gamma)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المنحنى $(C_f)$ يقع تحت المنحنى $(\\Gamma)$ على كامل المجال $]0;2[\\cup]2;+\\infty[$",
+     "المنحنى $(C_f)$ يقع فوق المنحنى $(\\Gamma)$ على كامل المجال $]0;2[\\cup]2;+\\infty[$",
+     "على المجال $]0;2[$ المنحنى $(C_f)$ يقع فوق المنحنى $(\\Gamma)$، وعلى المجال $]2;+\\infty[$ المنحنى $(C_f)$ يقع تحت المنحنى $(\\Gamma)$",
+     "على المجال $]0;2[$ المنحنى $(C_f)$ يقع تحت المنحنى $(\\Gamma)$، وعلى المجال $]2;+\\infty[$ المنحنى $(C_f)$ يقع فوق المنحنى $(\\Gamma)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "إذن: على المجال $]0;2[$ المنحنى $(C_f)$ يقع تحت المنحنى $(\\Gamma)$، وعلى المجال $]2;+\\infty[$ المنحنى $(C_f)$ يقع فوق المنحنى $(\\Gamma)$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s40",
+   "source_question_id": "q20",
+   "rubric_element_id": "q20-e1",
+   "variant": "a",
+   "type": "function_plot",
+   "prompt": "4) رسم المنحنى $(\\Gamma)$ ثم المنحنى $(C_f)$.",
+   "payload": {
+    "type": "function_plot",
+    "spec": {
+     "official_correction": "الرسم (0.5)",
+     "reason_deferred": "drawing",
+     "curves": [
+      "$(\\Gamma)$",
+      "$(C_f)$"
+     ],
+     "frame": "$(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   },
+   "answer": {
+    "type": "function_plot",
+    "spec": {
+     "rubric": "الرسم (0.5)",
+     "official_result": null
+    }
+   },
+   "explanation": "الرسم يُصحَّح بشبكة التنقيط الرسمية (محرّك الرسم غير متوفّر بعد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s41",
+   "source_question_id": "q21",
+   "rubric_element_id": "q21-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "باستعمال المكاملة بالتجزئة، ما عبارة $H(x)$ بدلالة $x$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$H(x)=-x+3+x\\ln x-3\\ln 3$",
+     "$H(x)=-x+3+x\\ln x+3\\ln 3$",
+     "$H(x)=x\\ln x-x$",
+     "$H(x)=\\dfrac{1}{x}-\\dfrac{1}{3}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "$H(x)=\\int_3^x(\\ln t)dt=-x+3+x\\ln x-3\\ln 3$",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s42",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب المساحة $\\mathscr{A}$ للحيّز المحدّد بالمنحنى $(C_f)$ وحامل محور الفواصل والمستقيمين اللذين معادلتاهما $x=3$ و $x=4$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$\\mathscr{A}=(1+9\\ln 2-3\\ln 3)\\,(u.a)$",
+     "$\\mathscr{A}=(-1+9\\ln 2-3\\ln 3)\\,(u.a)$",
+     "$\\mathscr{A}=(-1+8\\ln 2-3\\ln 3)\\,(u.a)$",
+     "$\\mathscr{A}=\\ln 2\\,(u.a)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "$\\mathscr{A}=(-1+9\\ln 2-3\\ln 3)\\,(u.a)$",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s43",
+   "source_question_id": "q23",
+   "rubric_element_id": "q23-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "دون حساب عبارة $g(x)$: ما عبارة الدالة المشتقة $g'(x)$ بدلالة $f'$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$g'(x)=f'(-2x)$",
+     "$g'(x)=2f'(-2x)$",
+     "$g'(x)=-2f'(x)$",
+     "$g'(x)=-2f'(-2x)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "$g'(x)=-2f'(-2x)$",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s44",
+   "source_question_id": "q23",
+   "rubric_element_id": "q23-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما اتجاه تغيّر الدالة $g$ على مجموعة تعريفها؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "الدالة $g$ متزايدة تماما على $]-\\infty;-2[\\cup]-\\frac{1}{2};0[$ ومتناقصة تماما على $]-2;-1[\\cup]-1;-\\frac{1}{2}[$",
+     "الدالة $g$ متناقصة تماما على $]-\\infty;-2[\\cup]-\\frac{1}{2};0[$ ومتزايدة تماما على $]-2;-1[\\cup]-1;-\\frac{1}{2}[$",
+     "الدالة $g$ متناقصة تماما على $]-\\infty;-1[$ ومتزايدة تماما على $]-1;0[$",
+     "الدالة $g$ متزايدة تماما على كل من المجالين $]-\\infty;-1[$ و $]-1;0[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: الدالة $g$ متناقصة تماما على $]-\\infty;-2[\\cup]-\\frac{1}{2};0[$ ومتزايدة تماما على $]-2;-1[\\cup]-1;-\\frac{1}{2}[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T12:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل تجريبي للرياضيات من صور الموضوع والإجابة النموذجية الرسميّين في Drive؛ العلامات من سلّم التنقيط؛ الإجابات الصحيحة من الإجابة النموذجية؛ المشتّتات من إعداد التحويل وتحتاج مراجعة."
+  }
+ ]
+}
