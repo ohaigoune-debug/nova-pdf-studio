@@ -93,7 +93,7 @@ async function main() {
       if (!actor) throw new Error('جلسة غير صالحة')
       await setPlayProfile(db, actor, { gradeCode: '3AS', streamCode: stream })
       accounts.push({ token: s.token, stream })
-      if ((i + 1) % 50 === 0) console.log(`  ${i + 1}/${N} حساب`)
+      if ((i + 1) % Math.max(50, Math.round(N / 10)) === 0) console.log(`  ${i + 1}/${N} حساب`)
     }
     writeFileSync(OUT, JSON.stringify({ actions, accounts, sets }))
     console.log(`✔ قاعدة الاختبار جاهزة: ${accounts.length} حسابًا، ${sets.SCI!.length} موضوعًا (علوم) و${sets.LIT!.length} (آداب)`)

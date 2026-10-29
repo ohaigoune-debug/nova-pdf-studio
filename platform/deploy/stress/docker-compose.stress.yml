@@ -48,6 +48,8 @@ services:
       STRESS_LEVELS: ${STRESS_LEVELS:-50 100 200 400}
       STRESS_SECONDS: ${STRESS_SECONDS:-120}
       STRESS_PROD_URL: ${STRESS_PROD_URL:-https://madrasadz.com/login}
+      STRESS_THINK_MS: ${STRESS_THINK_MS:-2000-5000}
+      STRESS_RAMP_SECONDS: ${STRESS_RAMP_SECONDS:-10}
       NODE_OPTIONS: --max-old-space-size=1024
     volumes:
       - ../../scripts/stress:/app/scripts/stress:ro

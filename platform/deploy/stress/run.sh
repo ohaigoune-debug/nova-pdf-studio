@@ -10,7 +10,8 @@
 #      ويراقب الموقع الحقيقي كل 10 ثوانٍ: إن بطؤ يتوقف الاختبار فورًا.
 #   4) يحذف المشروع المؤقت كله مع قاعدته في النهاية (حتى لو أوقفته بـ Ctrl+C).
 #
-# خيارات (اختيارية): STRESS_LEVELS="50 100 200 400 800" STRESS_SECONDS=120 STRESS_ACCOUNTS=800 bash deploy/stress/run.sh
+# خيارات (اختيارية): STRESS_LEVELS="50 100 200 400 800" STRESS_SECONDS=120 bash deploy/stress/run.sh
+#   STRESS_MODE=real bash deploy/stress/run.sh   ⇐ 500 ← 1000 ← 2000 ← 3000 تلميذ واقعيّ (قراءة 15–30 ثانية بين الخطوات)
 set -euo pipefail
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -21,7 +22,13 @@ TOOLS_IMAGE="${TOOLS_IMAGE:-platform-tools:$TAG}"
 docker image inspect "$APP_IMAGE" >/dev/null || { echo "✖ الصورة $APP_IMAGE غير موجودة"; exit 1; }
 docker image inspect "$TOOLS_IMAGE" >/dev/null || { echo "✖ الصورة $TOOLS_IMAGE غير موجودة (تُبنى بـ docker build --target build)"; exit 1; }
 
-LEVELS="${STRESS_LEVELS:-50 100 200 400}"
+# STRESS_MODE=real: تلميذ واقعيّ يقرأ ويفكّر 15–30 ثانية بين كل خطوة وأخرى (لقياس آلاف التلاميذ الحقيقيين)
+if [ "${STRESS_MODE:-}" = real ]; then
+  LEVELS="${STRESS_LEVELS:-500 1000 2000 3000}"
+  export STRESS_THINK_MS="${STRESS_THINK_MS:-15000-30000}" STRESS_SECONDS="${STRESS_SECONDS:-240}" STRESS_RAMP_SECONDS="${STRESS_RAMP_SECONDS:-60}"
+else
+  LEVELS="${STRESS_LEVELS:-50 100 200 400}"
+fi
 MAXL=$(echo "$LEVELS" | tr ' ' '\n' | sort -n | tail -1)
 export STRESS_ACCOUNTS="${STRESS_ACCOUNTS:-$(( MAXL > 400 ? MAXL : 400 ))}"
 export STRESS_LEVELS="$LEVELS"
@@ -51,6 +58,8 @@ done
 [ "$st" = healthy ] || { echo "✖ نسخة الاختبار لم تجهز"; "${P[@]}" logs --tail 40 stress-app; exit 1; }
 
 docker run --rm --entrypoint cat "$APP_IMAGE" /app/.next/server/server-reference-manifest.json > "$STRESS_OUT_DIR/manifest.json"
+# جداول القاعدة الفارغة أولًا (التطبيق لا يُنشئها قبل أول طلب يحتاجها)
+"${P[@]}" run --rm tools npx tsx src/server/db/migrate.ts
 "${P[@]}" run --rm tools npx tsx scripts/play/exams.ts import-approved --confirm-host stress-db
 "${P[@]}" run --rm tools npx tsx scripts/stress/prepare.ts
 
