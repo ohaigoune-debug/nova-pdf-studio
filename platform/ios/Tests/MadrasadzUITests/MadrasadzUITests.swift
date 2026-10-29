@@ -544,7 +544,9 @@ final class MadrasadzUITests: XCTestCase {
         let barTop = centre - 36
         let barBottom = centre + 36
         XCTAssertGreaterThan(barTop, window.minY, "The header bar sits below the status bar")
-        XCTAssertEqual(app.buttons["shellLogo"].frame.midY, centre, accuracy: 1)
+        // The logo's accessibility frame follows the artwork image, which is moved
+        // 16 px of the asset (about 1.2 pt) inside the centred plate to centre it.
+        XCTAssertEqual(app.buttons["shellLogo"].frame.midY, centre, accuracy: 2)
         XCTAssertEqual(theme.frame.midY, centre, accuracy: 1)
         let headerEdge = colors(app, at: [CGPoint(x: window.width * 0.37, y: barTop + 2),
                                           CGPoint(x: window.width * 0.37, y: barBottom - 3),

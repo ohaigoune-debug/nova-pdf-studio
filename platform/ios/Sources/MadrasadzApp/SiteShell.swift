@@ -299,6 +299,58 @@ private struct ShellTabButton: View {
     }
 }
 
+// MARK: - Space for the bottom bar
+
+private struct ShellBarSpaceKey: EnvironmentKey {
+    static let defaultValue: CGFloat = 0
+}
+
+extension EnvironmentValues {
+    /// The bottom bar's height, for the screens inside the navigation stack.
+    var shellBarSpace: CGFloat {
+        get { self[ShellBarSpaceKey.self] }
+        set { self[ShellBarSpaceKey.self] = newValue }
+    }
+}
+
+/// A `safeAreaInset` on the NavigationStack places the bar but does not reach
+/// the screens the stack hosts (iPhone SE run 40804459778: the end of Home
+/// scrolled under the bar). Each root and pushed screen therefore reserves the
+/// bar's measured height itself, so scrolled content and the web view end
+/// above the bar and its raised button.
+private struct ShellBarSpaceInset: ViewModifier {
+    @Environment(\.shellBarSpace) private var space
+
+    func body(content: Content) -> some View {
+        content.safeAreaInset(edge: .bottom, spacing: 0) {
+            Color.clear
+                .frame(height: space)
+                .allowsHitTesting(false)
+                .accessibilityHidden(true)
+        }
+    }
+}
+
+extension View {
+    /// Writes this view's height (the bottom bar with its raised strip) to
+    /// `height` while it is shown, and 0 once it is hidden.
+    func measuresShellBar(into height: Binding<CGFloat>) -> some View {
+        background {
+            GeometryReader { proxy in
+                Color.clear
+                    .onAppear { height.wrappedValue = proxy.size.height }
+                    .onChange(of: proxy.size.height) { _, value in height.wrappedValue = value }
+            }
+        }
+        .onDisappear { height.wrappedValue = 0 }
+    }
+
+    /// Keeps this screen's content above the bottom bar.
+    func reservesShellBarSpace() -> some View {
+        modifier(ShellBarSpaceInset())
+    }
+}
+
 // MARK: - Chrome modifiers
 
 /// Root screen of a destination: the site header replaces the navigation bar.

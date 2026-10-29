@@ -16,6 +16,8 @@ struct StudyRootView: View {
     @StateObject private var capture = SceneCaptureState()
     @State private var showingAccount = false
     @State private var keyboardShown = false
+    /// Measured height of the bottom bar (with its raised strip); 0 while hidden.
+    @State private var barSpace: CGFloat = 0
     @AppStorage(AppAppearance.storageKey) private var appearance = AppAppearance.dark.rawValue
 
     init(model: AppModel) {
@@ -28,15 +30,18 @@ struct StudyRootView: View {
     var body: some View {
         NavigationStack(path: $native.path) {
             root
+                .reservesShellBarSpace()
                 .navigationDestination(for: LearnRoute.self) { route in
-                    destination(route).siteNavigationBar()
+                    destination(route).siteNavigationBar().reservesShellBarSpace()
                 }
         }
+        .environment(\.shellBarSpace, barSpace)
         .safeAreaInset(edge: .bottom, spacing: 0) {
             // Hidden while typing (the bar would ride on the keyboard) and
             // while the landscape player fills the display.
             if !keyboardShown && !model.fullScreenContent {
                 ShellBottomBar(selected: model.selectedTab) { model.selectTab($0) }
+                    .measuresShellBar(into: $barSpace)
             }
         }
         .background(Brand.background.ignoresSafeArea())
