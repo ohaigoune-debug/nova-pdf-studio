@@ -1,0 +1,32 @@
+# ضبط قاعدة البيانات لحجم الخادم (6 أنوية، 11 جيغابايت يتقاسمها موقعان آخران) — بدل الإعداد الافتراضي لخادم صغير
+# (shared_buffers=128MB). إعدادات فقط: لا ترحيل ولا تغيير بيانات. تحتاج إعادة تشغيل حاوية القاعدة (أقلّ من دقيقة).
+#
+# يُضاف -f هذا الملف إلى أمر compose المعتاد ثم:  ... up -d --no-deps db
+# الرجوع: الأمر نفسه دون هذا الملف.
+services:
+  db:
+    command:
+      - postgres
+      - -c
+      - shared_buffers=2GB
+      - -c
+      - effective_cache_size=5GB
+      - -c
+      - work_mem=16MB
+      - -c
+      - maintenance_work_mem=256MB
+      - -c
+      - max_connections=200
+      - -c
+      - random_page_cost=1.1
+      - -c
+      - effective_io_concurrency=200
+      - -c
+      - wal_buffers=16MB
+      - -c
+      - checkpoint_completion_target=0.9
+      - -c
+      - shared_preload_libraries=pg_stat_statements
+      - -c
+      - pg_stat_statements.track=top
+    shm_size: 256mb

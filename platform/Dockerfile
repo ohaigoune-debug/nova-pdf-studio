@@ -26,8 +26,10 @@ COPY --from=build --chown=app:app /app/.next/standalone ./
 COPY --from=build --chown=app:app /app/.next/static ./.next/static
 COPY --from=build --chown=app:app /app/public ./public
 COPY --from=build --chown=app:app /app/drizzle ./drizzle
+# عدّة عمليات على المنفذ نفسه حين يُضبط WEB_CONCURRENCY (افتراضيًّا 1 = server.js كما كان تمامًا)
+COPY --from=build --chown=app:app /app/deploy/cluster.cjs ./cluster.cjs
 RUN mkdir -p /app/data && chown app:app /app/data
 USER app
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD wget -qO- http://127.0.0.1:3000/login >/dev/null || exit 1
-CMD ["node", "server.js"]
+CMD ["node", "cluster.cjs"]

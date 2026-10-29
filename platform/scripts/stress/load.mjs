@@ -133,6 +133,27 @@ async function prodProbe(stopFlag, log) {
 
 const fmt = (ms) => (ms >= 1000 ? `${(ms / 1000).toFixed(2)} ث` : `${Math.round(ms)} م.ث`)
 const summary = []
+
+// كلفة كل صفحة بلا ضغط: تلميذ واحد، كل طلب 6 مرات متتالية (الأولى تملأ الذاكرة المؤقتة)
+{
+  const a = DATA.accounts[0]
+  const set = DATA.sets[a.stream][0]
+  const base = new Stats()
+  let attemptId = null
+  for (let i = 0; i < 6; i++) {
+    await timed(base, 'صفحة PLAY', () => page(a.token, '/student/play'))
+    await timed(base, 'قائمة البكالوريا', () => page(a.token, '/student/play/bac?subject=AR'))
+    await timed(base, 'بدء موضوع (إجراء)', async () => {
+      const r = await action(a.token, '/student/play/bac', DATA.actions.start, { setId: set.uuid, mode: 'PRACTICE' })
+      attemptId = r.text.match(/"attemptId":"([0-9a-f-]{36})"/)?.[1] ?? attemptId
+      return r.ok
+    })
+    if (attemptId) await timed(base, 'صفحة الموضوع', () => page(a.token, `/student/play/exam/${attemptId}`))
+  }
+  console.log('كلفة كل صفحة لتلميذ واحد بلا ضغط (الوسيط):')
+  for (const [name, s] of base.byName) console.log(`    ${name}: ${fmt(Stats.pct(s.lat, 50))}${s.err ? ` — أخطاء ${s.err}` : ''}`)
+  console.log('')
+}
 console.log(`اختبار الضغط على ${BASE} — المستويات: ${LEVELS.join('، ')} تلميذًا وهميًّا، ${SECONDS} ثانية لكل مستوى، انتظار ${THINK_MIN / 1000}–${THINK_MAX / 1000} ث بين الخطوات\n`)
 for (const n of LEVELS) {
   const stats = new Stats()
