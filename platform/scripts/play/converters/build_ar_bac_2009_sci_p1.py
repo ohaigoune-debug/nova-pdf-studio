@@ -8,8 +8,8 @@ NO 2009 DOCX EXISTS: the files given for this unit — gdrive 1v-CBr9F9mu6ecdYWz
 تجريبية.docx») and its PDF 1462CU2EwZYXHOuFdR4IbrHJFzW3d5A5c — are the BAC 2010 paper (توفيق الحكيم «فنّ الأدب» / مفدي زكرياء),
 whose headers read «بكالوريا 2010»; a Drive search found no other 2009 text export. The verbatim strings below were therefore
 TRANSCRIBED BY HAND from the ONEC scan (native 300-dpi page images, line crops enlarged ×3–4 for the diacritics), keeping the
-printed spelling, diacritics, punctuation and spacing of punctuation as far as the scan shows them («خُذ»، «دمنَةً خُبثُها»،
-«لَو السَّماء طَوَت عنَّا دَراريها؟»، «تُؤَاسيك ، أو»، «فيْ النّصّ»…). Residual risk: a hand transcription can differ from the
+printed spelling, diacritics, punctuation and spacing of punctuation as far as the scan shows them («خُذ»، «دمنَةً خُبثها»،
+«لَو السَّماء طَوَت عنَّا دَراريها؟»، «تُؤَاسيك ، أو»، «فيْ النَّصَّ»…). Residual risk: a hand transcription can differ from the
 original typing in invisible ways (order of stacked marks, tatweel vs dash in «ــ», number of spaces) — the owner should
 compare it once with the paper. The verses are not numbered on the paper; the row labels «1-»…«9-» are added only so the poem
 renders as numbered verses (the questions cite «البيت الثّاني» and the scheme cites verses by number). Underline from the
@@ -54,7 +54,7 @@ CORR_ID = "1iLHfDBvaBhyn9WUFi94_G24a-chknV0p"
 INTRO = "قال الشاعر إيليا أبو ماضي:"
 POEM = [
     ["1-", "خُذ ما (استطعت) من الدنيا وأهليها", "لكن تعلّم قليلا كيف تعطيها"],
-    ["2-", "كن وردة طيبها حتى لسارقها", "لا دمنَةً خُبثُها حتى لساقيها"],
+    ["2-", "كن وردة طيبها حتى لسارقها", "لا دمنَةً خُبثها حتى لساقيها"],
     ["3-", "أكان في الكون نور نستضيء به", "لَو السَّماء طَوَت عنَّا دَراريها؟"],
     ["4-", "يا عابد المال، قُل لي هل وجدت به", "روحا تُؤَاسيك ، أو روحا تؤاسيها؟"],
     ["5-", "حتّامَ يا صاح تُخفيه وتَطمره", "كأنّما هو سَوءَات تُواريها؟"],
@@ -77,7 +77,7 @@ QT = {
     7: "أعرب ما تحته سطر.",
     8: "بيّن المحلّ الإعرابيّ للجملة المحصورة بين قوسين.",
     9: "بمَ تفسّر غلبة أفعال الأمر في النّص؟",
-    10: "فيْ النّصّ نمطان تعبيريان. اذكرهما مبيّنا مؤشّرات كلٍّ منهما كما تجلّت في النّص.",
+    10: "فيْ النَّصَّ نمطان تعبيريان. اذكرهما مبيّنا مؤشّرات كلٍّ منهما كما تجلّت في النّص.",
     11: "استخرج الصورة البيانيّة الواردة في البيت الثاني ثم بيّن نوعها وبلاغتها.",
 }
 assert len(POEM) == 9 and "(استطعت)" in POEM[0][1] and POEM[6][1].endswith("منحبسٌ")
