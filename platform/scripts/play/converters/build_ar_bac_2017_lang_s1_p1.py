@@ -135,7 +135,7 @@ TEXT_DOCS = [
     {"id": "d-ref", "kind": "text", "caption": "توثيق النّصّ", "text": P1_REF},
 ]
 QP = P1_QP
-CRIT_DOCS = TEXT_DOCS + [{"id": "d-crit", "kind": "text", "caption": "تمهيد التّقويم النّقديّ", "text": QP[19]}]
+CRIT_DOCS = TEXT_DOCS + [{"id": "d-crit", "kind": "text", "caption": "العبارة", "text": QP[19]}]
 J = lambda *ix: "\n".join(QP[i] for i in ix)
 P1, P2, P3 = QP[0], QP[6], QP[18]
 
