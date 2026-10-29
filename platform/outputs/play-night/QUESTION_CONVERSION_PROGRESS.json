@@ -1,0 +1,7292 @@
+{
+ "generated_at": "2026-10-29T01:58:41.961Z",
+ "totals": {
+  "set_files": 27,
+  "fixtures": 0,
+  "real_sets": 27,
+  "unreadable_files": 0,
+  "original_questions": 302,
+  "rubric_elements": 840,
+  "training_steps": 1159,
+  "interactive_steps": 1115,
+  "deferred_steps": 44,
+  "steps_by_type": {
+   "mcq": 650,
+   "fill_blank": 173,
+   "multi": 125,
+   "matching": 149,
+   "essay_builder": 44,
+   "ordering": 18
+  },
+  "steps_by_review_status": {
+   "needs_human_review": 1115,
+   "needs_engine_support": 44
+  },
+  "sets_by_status": {
+   "NEEDS_HUMAN_REVIEW": 27
+  },
+  "sets_with_errors": 0,
+  "publishable_sets": 0,
+  "archive_exam_units_discovered": 887,
+  "archive_exam_units_converted": 26
+ },
+ "sets": [
+  {
+   "set_id": "ar-1as-t1-tclit-03",
+   "file": "content/play-exams/sets/1AS/AR/ar-1as-t1-tclit-03.json",
+   "checksum": "7713aa2d91b3d40b3cd9a788c11f37a91382a829035921d3839a91a8cfb2c846",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "TEST",
+   "level": "1AS",
+   "streams": [
+    "TC_LIT"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 1,
+   "paper": null,
+   "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – جذع مشترك آداب – السّنة الأولى ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1VtCvCAk-aXzYI1UX4A00S66U912fGep9 (اختبار الفصل الأول – جذع مشترك آداب.docx)",
+   "correction": "gdrive:1S7DhJM0rqXlgBoAE0id7z1xbSYQiS58a (حل اختبار الفصل الأول – جذع مشترك آداب.docx)",
+   "original_questions": 11,
+   "steps": 48,
+   "steps_by_type": {
+    "mcq": 25,
+    "fill_blank": 7,
+    "multi": 4,
+    "matching": 7,
+    "essay_builder": 5
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 15.5,
+   "deferred_points": 4.5,
+   "errors": 0,
+   "warnings": 43,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-1as-t1-tclit-d01",
+   "file": "content/play-exams/sets/1AS/AR/ar-1as-t1-tclit-d01.json",
+   "checksum": "edbebd318109807bcf5dcd086506a3d2f3fa32a963a75df2df36901360bfaa6d",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "streams": [
+    "TC_LIT"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 1,
+   "paper": null,
+   "title": "الفرض المحروس الأوّل – الفصل الأوّل (رقم 01) – اللّغة العربيّة وآدابها – جذع مشترك آداب – السّنة الأولى ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1reJBr-Lmzj-RxRPSymJQdRV0i3o-DMk9 (الفرض 01 – الفصل الأول – جذع مشترك آداب.docx)",
+   "correction": "gdrive:1ryB-M8JMXkfWpqnMeK0mWQLC7zhnDuK_ (حل الفرض 01 – الفصل الأول – جذع مشترك آداب.docx)",
+   "original_questions": 10,
+   "steps": 42,
+   "steps_by_type": {
+    "mcq": 28,
+    "ordering": 1,
+    "multi": 3,
+    "fill_blank": 7,
+    "matching": 3
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 35,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-1as-t1-tcsci-03",
+   "file": "content/play-exams/sets/1AS/AR/ar-1as-t1-tcsci-03.json",
+   "checksum": "3206b7e4487b6a58fd0d808910e0ebcee2fbc937236b7b56a716627d91928b76",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "TEST",
+   "level": "1AS",
+   "streams": [
+    "TC_SCI"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 1,
+   "paper": null,
+   "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – جذع مشترك علوم وتكنولوجيا – السّنة الأولى ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:124iMkeZa9ahmrEbe4utGpuyvHyZX_4gV (اختبار الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
+   "correction": "gdrive:13UOvajjpTUHxaBoBxZo2DTYPIFL0TumU (حل اختبار الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
+   "original_questions": 10,
+   "steps": 36,
+   "steps_by_type": {
+    "mcq": 19,
+    "multi": 4,
+    "matching": 6,
+    "fill_blank": 3,
+    "essay_builder": 4
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 16,
+   "deferred_points": 4,
+   "errors": 0,
+   "warnings": 35,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-1as-t1-tcsci-d01",
+   "file": "content/play-exams/sets/1AS/AR/ar-1as-t1-tcsci-d01.json",
+   "checksum": "a6c57ed9179b4de7f4a64b92f619a443b99923db35813ffefb06df165379dfcf",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "streams": [
+    "TC_SCI"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 1,
+   "paper": null,
+   "title": "الفرض المحروس الأوّل – الفصل الأوّل (رقم 01) – اللّغة العربيّة وآدابها – جذع مشترك علوم وتكنولوجيا – السّنة الأولى ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1iFtko234LFSOGudQn-no3Vi4ot6UV5V_ (الفرض 01 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
+   "correction": "gdrive:1GCGXeNFAzZDqyT9Nf7XMMK310mkC9GPG (حل الفرض 01 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
+   "original_questions": 9,
+   "steps": 40,
+   "steps_by_type": {
+    "mcq": 24,
+    "matching": 7,
+    "multi": 5,
+    "fill_blank": 4
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 29,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-1as-t1-tcsci-d02",
+   "file": "content/play-exams/sets/1AS/AR/ar-1as-t1-tcsci-d02.json",
+   "checksum": "80c46644bc952e8b1a45b50079afd7d8d64971408c729ff321cae3222f80f675",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "streams": [
+    "TC_SCI"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 1,
+   "paper": null,
+   "title": "الفرض المحروس الثّاني – الفصل الأوّل (رقم 02) – اللّغة العربيّة وآدابها – جذع مشترك علوم وتكنولوجيا – السّنة الأولى ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:10yS9MgD3q1CjB3DqB4iWj1vTLB_8geXB (الفرض 02 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
+   "correction": "gdrive:13bCgJX1nTFO7l5xlxi-xcx3LQySudkrA (حل الفرض 02 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
+   "original_questions": 9,
+   "steps": 41,
+   "steps_by_type": {
+    "mcq": 25,
+    "fill_blank": 6,
+    "multi": 5,
+    "matching": 5
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 29,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t1-lit-03",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-lit-03.json",
+   "checksum": "70b5b39c921baafaa80b663a0d54e494e35e3bc0d4d39cc94827f99a76acfd5e",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "TEST",
+   "level": "2AS",
+   "streams": [
+    "LIT",
+    "LANG"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 1,
+   "paper": null,
+   "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1vg6bh4eb58TMZTYsH7tTtJ6ZiPnsBh9U (اختبار الفصل الأول – آداب.docx)",
+   "correction": "gdrive:1fuF4HTA7xVp4hJ9KoXLiTw-13Ka-aRSm (حل اختبار الفصل الأول – آداب.docx)",
+   "original_questions": 11,
+   "steps": 46,
+   "steps_by_type": {
+    "mcq": 25,
+    "ordering": 1,
+    "multi": 4,
+    "fill_blank": 7,
+    "matching": 5,
+    "essay_builder": 4
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 16,
+   "deferred_points": 4,
+   "errors": 0,
+   "warnings": 42,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t1-lit-d01",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-lit-d01.json",
+   "checksum": "0c5678830e9410ee03eaa1d067cc3a056a7c6c53efa2d4354ea8ded726817e61",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "LIT",
+    "LANG"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 1,
+   "paper": null,
+   "title": "الفرض المحروس الأوّل – الفصل الأوّل (رقم 01) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1_CWs34ny7wZFClheNR1oeMsBhkvzPD-H (الفرض 01 – الفصل الأول – آداب.docx)",
+   "correction": "gdrive:1apho0JiNiSxLflcoYA1NyIa2wDnR7PWQ (حل الفرض 01 – الفصل الأول – آداب.docx)",
+   "original_questions": 9,
+   "steps": 41,
+   "steps_by_type": {
+    "mcq": 24,
+    "fill_blank": 8,
+    "multi": 4,
+    "matching": 4,
+    "ordering": 1
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 31,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t1-lit-d02",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-lit-d02.json",
+   "checksum": "84fc27b22999f68dc34a8db22c02be29a9958669c2df39c32452ba40354c775b",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "LIT",
+    "LANG"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 1,
+   "paper": null,
+   "title": "الفرض المحروس الثّاني – الفصل الأوّل (رقم 02) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:12XDfZXctGNmbeaVhOoLDh7clkz90Auxu (الفرض 02 – الفصل الأول – آداب.docx)",
+   "correction": "gdrive:1nVrxBtJQgGtzQ5PRfBaYW2JNP78zEbDy (حل الفرض 02 – الفصل الأول – آداب.docx)",
+   "original_questions": 10,
+   "steps": 46,
+   "steps_by_type": {
+    "mcq": 31,
+    "fill_blank": 8,
+    "multi": 2,
+    "matching": 4,
+    "ordering": 1
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 34,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t1-sci-03",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-sci-03.json",
+   "checksum": "02c613ea5b5f1b7b568dfedfd08082d0581c40b2753f88488028c22e832322a8",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "TEST",
+   "level": "2AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 1,
+   "paper": null,
+   "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1ZdeQO1RihCYPIJBrSEyC2_ikyrEciARw (اختبار الفصل الأول – علمي.docx)",
+   "correction": "gdrive:1CzpdhzyEYU3B5kcY9-sv_OPxtWViylxJ (حل اختبار الفصل الأول – علمي.docx)",
+   "original_questions": 11,
+   "steps": 39,
+   "steps_by_type": {
+    "mcq": 24,
+    "matching": 3,
+    "fill_blank": 4,
+    "multi": 4,
+    "essay_builder": 4
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 16,
+   "deferred_points": 4,
+   "errors": 0,
+   "warnings": 36,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t1-sci-d01",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-sci-d01.json",
+   "checksum": "857061c0aa744893f33050f4cebbfd45645a50f156197d0248996882f7fc5bcd",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 1,
+   "paper": null,
+   "title": "الفرض المحروس الأوّل – الفصل الأوّل (رقم 01) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1aLuUhSK9EEFTwhycs-lUyxUY8BOKWN9o (الفرض 01 – الفصل الأول – علمي.docx)",
+   "correction": "gdrive:1PjI2J5H08PG_hPCDUp9bIbNqja7dVkYW (حل الفرض 01 – الفصل الأول – علمي.docx)",
+   "original_questions": 10,
+   "steps": 38,
+   "steps_by_type": {
+    "mcq": 21,
+    "fill_blank": 5,
+    "multi": 7,
+    "matching": 4,
+    "ordering": 1
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 28,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t1-sci-d02",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-sci-d02.json",
+   "checksum": "398c7758a4c620928d34679c3b7e3421a4dd77817076a6c75b6e619f9c425103",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 1,
+   "paper": null,
+   "title": "الفرض المحروس الثّاني – الفصل الأوّل (رقم 02) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:19JhiUm_hfotFCNHyHWoYTe5lMsk-8hu7 (الفرض 02 – الفصل الأول – علمي.docx)",
+   "correction": "gdrive:1nSsi2DV0eoEOXYOn_jbBTPtkSr6d4MMu (حل الفرض 02 – الفصل الأول – علمي.docx)",
+   "original_questions": 10,
+   "steps": 45,
+   "steps_by_type": {
+    "mcq": 30,
+    "ordering": 1,
+    "fill_blank": 6,
+    "multi": 4,
+    "matching": 4
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 29,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t2-lit-06",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-lit-06.json",
+   "checksum": "0da594e29512c22faee4c9e1ff8c2cacc3065904d3d6c5ecaaefa592dac06901",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "TEST",
+   "level": "2AS",
+   "streams": [
+    "LIT",
+    "LANG"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 2,
+   "paper": null,
+   "title": "اختبار الفصل الثّاني (رقم 06) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1QAAF4sO4R-zruaBGs8ogrGrcel2fgEjt (اختبار الفصل الثاني – آداب.docx)",
+   "correction": "gdrive:1k7Arbj2wHoXPOMreok6u4rshHhta1TXb (حل اختبار الفصل الثاني – آداب.docx)",
+   "original_questions": 13,
+   "steps": 51,
+   "steps_by_type": {
+    "mcq": 25,
+    "fill_blank": 10,
+    "ordering": 1,
+    "multi": 6,
+    "matching": 5,
+    "essay_builder": 4
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 16,
+   "deferred_points": 4,
+   "errors": 0,
+   "warnings": 41,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t2-lit-d01",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-lit-d01.json",
+   "checksum": "5d8ca4fd125a9ec2f0532d7675fe152399a06ef4e15dd4dfaae91b530344eec7",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "LIT",
+    "LANG"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 2,
+   "paper": null,
+   "title": "الفرض المحروس الأوّل – الفصل الثّاني (رقم 04) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1PDo0YabNsK9DTtBv4rwzkElzENAlogpE (الفرض 01 – الفصل الثاني – آداب.docx)",
+   "correction": "gdrive:1TD9M_K6Lp-azQs0Dbi5eRkGAi7LdpjM_ (حل الفرض 01 – الفصل الثاني – آداب.docx)",
+   "original_questions": 11,
+   "steps": 48,
+   "steps_by_type": {
+    "mcq": 28,
+    "fill_blank": 6,
+    "multi": 6,
+    "matching": 8
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 35,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t2-lit-d02",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-lit-d02.json",
+   "checksum": "576768fe8578b8b31e3097ee02a94072f9574691269740f75b79b57d4b75a6f1",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "LIT",
+    "LANG"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 2,
+   "paper": null,
+   "title": "الفرض المحروس الثّاني – الفصل الثّاني (رقم 05) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1kH9CaSkqECfMW2BHSddZdQ3BJFoORg9- (الفرض 02 – الفصل الثاني – آداب.docx)",
+   "correction": "gdrive:1ylFOlBja36Ls_xkWyotQB0DwysHfs-Yd (حل الفرض 02 – الفصل الثاني – آداب.docx)",
+   "original_questions": 12,
+   "steps": 48,
+   "steps_by_type": {
+    "mcq": 29,
+    "fill_blank": 6,
+    "matching": 8,
+    "multi": 5
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 32,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t2-sci-06",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-sci-06.json",
+   "checksum": "faf6b651a0745df63d0b5012fd0b674c179d1a0de55fb75119b16583d91c2b7f",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "TEST",
+   "level": "2AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 2,
+   "paper": null,
+   "title": "اختبار الفصل الثّاني (رقم 06) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1oJMZViW6jKz_-f5P_p4PT78962M7Vm6X (اختبار الفصل الثاني – علمي.docx)",
+   "correction": "gdrive:1DWdMcPnN2JjkxSwfA9mbcdcSKgN9IUj8 (حل اختبار الفصل الثاني – علمي.docx)",
+   "original_questions": 13,
+   "steps": 43,
+   "steps_by_type": {
+    "mcq": 24,
+    "ordering": 1,
+    "fill_blank": 6,
+    "matching": 6,
+    "multi": 2,
+    "essay_builder": 4
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 16,
+   "deferred_points": 4,
+   "errors": 0,
+   "warnings": 34,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t2-sci-d01",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-sci-d01.json",
+   "checksum": "1eb422e447e581c7f1bb82cbdb64a4789900aab119b00121cff9ee943effcb0a",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 2,
+   "paper": null,
+   "title": "الفرض المحروس الأوّل – الفصل الثّاني (رقم 04) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1Br3k4NNR3WKqnsgwJ74UJ0jzRY1nN165 (الفرض 01 – الفصل الثاني – علمي.docx)",
+   "correction": "gdrive:1aBcrZO_MHTylHvoIGJ3DU6ozDNtj9uMW (حل الفرض 01 – الفصل الثاني – علمي.docx)",
+   "original_questions": 12,
+   "steps": 39,
+   "steps_by_type": {
+    "mcq": 21,
+    "fill_blank": 5,
+    "matching": 6,
+    "multi": 6,
+    "ordering": 1
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 30,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t2-sci-d02",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-sci-d02.json",
+   "checksum": "e2da67aa13f580ec173c58b0aa91c8e26524cbd88f5af01a06cfc40cffd05c91",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 2,
+   "paper": null,
+   "title": "الفرض المحروس الثّاني – الفصل الثّاني (رقم 05) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:12XVJZHAQuzHzaeMpiHt5qKARss1zfrJw (الفرض 02 – الفصل الثاني – علمي.docx)",
+   "correction": "gdrive:1r_EGLceog2yo56nykyvbMsKW851SLkSw (حل الفرض 02 – الفصل الثاني – علمي.docx)",
+   "original_questions": 11,
+   "steps": 41,
+   "steps_by_type": {
+    "mcq": 26,
+    "fill_blank": 4,
+    "multi": 5,
+    "matching": 5,
+    "ordering": 1
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 28,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t3-lit-09",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-lit-09.json",
+   "checksum": "03b50800ca51fefc2f2e086a7073be4555a8e8f1b6b23c919015153cafa56274",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "TEST",
+   "level": "2AS",
+   "streams": [
+    "LIT",
+    "LANG"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 3,
+   "paper": null,
+   "title": "اختبار الفصل الثّالث (رقم 09) – اللّغة العربيّة وآدابها – آداب وفلسفة – لغات أجنبيّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1MtDOX8DnWc9XkYzEe4IoikdLVn0HVznY (اختبار الفصل الثالث – آداب.docx)",
+   "correction": "gdrive:1BJ99rDBOOAEWRi6QqbPBOgfjCPIr6moD (حل اختبار الفصل الثالث – آداب.docx)",
+   "original_questions": 14,
+   "steps": 51,
+   "steps_by_type": {
+    "mcq": 24,
+    "ordering": 1,
+    "multi": 8,
+    "matching": 7,
+    "fill_blank": 7,
+    "essay_builder": 4
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 16,
+   "deferred_points": 4,
+   "errors": 0,
+   "warnings": 47,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t3-lit-d01",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-lit-d01.json",
+   "checksum": "5e7095572148414a32f1c1696ac600dd1085798aa1f57e91a6a5a062fc1c7ab4",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "LIT",
+    "LANG"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 3,
+   "paper": null,
+   "title": "الفرض المحروس الأوّل – الفصل الثّالث (رقم 07) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1-3C7sb8EzO97d9wZzxJ-_8jyLIMlGran (الفرض 01 – الفصل الثالث – آداب.docx)",
+   "correction": "gdrive:1t90hDMneD5_Sc2WqwWpOSu2LCOs-LcVz (حل الفرض 01 – الفصل الثالث – آداب.docx)",
+   "original_questions": 12,
+   "steps": 47,
+   "steps_by_type": {
+    "mcq": 27,
+    "fill_blank": 7,
+    "multi": 5,
+    "matching": 8
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 33,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t3-lit-d02",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-lit-d02.json",
+   "checksum": "168208c1a258da117f9180044428a1d05176ab2168db9afc2869cb2a35b5f149",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "LIT",
+    "LANG"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 3,
+   "paper": null,
+   "title": "الفرض المحروس الثّاني – الفصل الثّالث (رقم 08) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1AeK0QRIzE-K-iBZ24NByBK9r5EcgP6lP (الفرض 02 – الفصل الثالث – آداب.docx)",
+   "correction": "gdrive:18xURtAOORQu-Nlb98DRBOLp3kNteWg32 (حل الفرض 02 – الفصل الثالث – آداب.docx)",
+   "original_questions": 13,
+   "steps": 50,
+   "steps_by_type": {
+    "mcq": 28,
+    "fill_blank": 7,
+    "multi": 5,
+    "matching": 8,
+    "ordering": 2
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 34,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t3-sci-09",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-sci-09.json",
+   "checksum": "2f0f8cae3d069d6a24ce2c00de9d17ddc9597f04c4fc821eba10e2a89eb8365b",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "TEST",
+   "level": "2AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 3,
+   "paper": null,
+   "title": "اختبار الفصل الثّالث (رقم 09) – اللّغة العربيّة وآدابها – الشّعب العلميّة (ع.ت – ر – ت.ر – ت.ا) – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1QgqFZr3Vaz8YLj1dot9MpdYtpkwGY50C (اختبار الفصل الثالث – علمي.docx)",
+   "correction": "gdrive:1m_QJtSFXBsP6NpjEMcqWCfXnBWR04RQT (حل اختبار الفصل الثالث – علمي.docx)",
+   "original_questions": 14,
+   "steps": 39,
+   "steps_by_type": {
+    "mcq": 19,
+    "multi": 3,
+    "matching": 7,
+    "fill_blank": 5,
+    "ordering": 1,
+    "essay_builder": 4
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 16,
+   "deferred_points": 4,
+   "errors": 0,
+   "warnings": 36,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t3-sci-d01",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-sci-d01.json",
+   "checksum": "daabab68a88c683a3d6001a2d721944b6a48205f07a82712a4dd257107f5c4bd",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 3,
+   "paper": null,
+   "title": "الفرض المحروس الأوّل – الفصل الثّالث (رقم 07) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1-HIMwEZjOhC4BEdjU6PRJuzqAKoARpav (الفرض 01 – الفصل الثالث – علمي.docx)",
+   "correction": "gdrive:1nwzeVv37tIwgl2rzt4WuBzAgL6oB2S3S (حل الفرض 01 – الفصل الثالث – علمي.docx)",
+   "original_questions": 13,
+   "steps": 40,
+   "steps_by_type": {
+    "mcq": 20,
+    "fill_blank": 7,
+    "matching": 6,
+    "multi": 6,
+    "ordering": 1
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 28,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-2as-t3-sci-d02",
+   "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-sci-d02.json",
+   "checksum": "143892a68ae89029286e92806cd126ac168d6275d988e8c8608b9128b694c8e0",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": null,
+   "term": 3,
+   "paper": null,
+   "title": "الفرض المحروس الثّاني – الفصل الثّالث (رقم 08) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1ECcdEmm5Fm9vgYcL_zhdfqZ-ALedr8UH (الفرض 02 – الفصل الثالث – علمي.docx)",
+   "correction": "gdrive:1sh9OgESGLIdO2tL33l17-pZ4wws2AvnC (حل الفرض 02 – الفصل الثالث – علمي.docx)",
+   "original_questions": 12,
+   "steps": 41,
+   "steps_by_type": {
+    "mcq": 23,
+    "fill_blank": 6,
+    "matching": 8,
+    "multi": 4
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 28,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-3as-t1-litlang-03",
+   "file": "content/play-exams/sets/3AS/AR/ar-3as-t1-litlang-03.json",
+   "checksum": "61672c8b501122a0757e0dba75b3c1d6a1a79d992d1fc6a355f4718950bcc1b4",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "TEST",
+   "level": "3AS",
+   "streams": [
+    "LIT",
+    "LANG"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 1,
+   "paper": null,
+   "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّالثة ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1mdxU5ppZHjRVz8py5tJeOOAU6ZtnfXqq (اختبار الفصل الأول – آداب وفلسفة ولغات أجنبية.docx)",
+   "correction": "gdrive:1feeTunF33KQlV08dy1OCU7DWHnlfQQk6 (حل اختبار الفصل الأول – آداب وفلسفة ولغات أجنبية.docx)",
+   "original_questions": 13,
+   "steps": 46,
+   "steps_by_type": {
+    "ordering": 1,
+    "mcq": 23,
+    "multi": 6,
+    "fill_blank": 11,
+    "matching": 5
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 20,
+   "deferred_points": 0,
+   "errors": 0,
+   "warnings": 31,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-3as-t1-sci-03",
+   "file": "content/play-exams/sets/3AS/AR/ar-3as-t1-sci-03.json",
+   "checksum": "1aaefdba70ea87befeedd2f3a591a93d9420cb4d0efc7d65f11655bb8e28a0fd",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "TEST",
+   "level": "3AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": 2026,
+   "term": 1,
+   "paper": null,
+   "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّالثة ثانوي",
+   "trust": "owner_authored",
+   "source_verified": false,
+   "original": "gdrive:1yTkSNw4emECd8PeF2apOpKjqw69pLMQo (اختبار الفصل الأول – الشعب العلمية.docx)",
+   "correction": "gdrive:1uJ02YRRBvIVaMk6aNhcJK1wYX7sqPRD0 (حل اختبار الفصل الأول – الشعب العلمية.docx)",
+   "original_questions": 13,
+   "steps": 51,
+   "steps_by_type": {
+    "multi": 6,
+    "matching": 6,
+    "mcq": 26,
+    "fill_blank": 9,
+    "ordering": 2,
+    "essay_builder": 2
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 19,
+   "deferred_points": 1,
+   "errors": 0,
+   "warnings": 39,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-bac-2023-sci-p1",
+   "file": "content/play-exams/sets/3AS/AR/ar-bac-2023-sci-p1.json",
+   "checksum": "644adb162f0914f15832fed250424af7045b6dd51be2059045e7d7e09304df32",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "BAC",
+   "level": "3AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": 2023,
+   "term": null,
+   "paper": 1,
+   "title": "بكالوريا 2023 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (عبد الرّحمن شكري: اليتيم)",
+   "trust": "official_mirror",
+   "source_verified": false,
+   "original": "gdrive:1e6Cs7-O7k5r2CTBcjfidaJCHvEsRn6OJ (بكالوريا العربية 2023 شعبة علوم.docx)",
+   "correction": "gdrive:1yD3baTYtUoI0lzf7z27WnK1l0N-b5ZF- (02_التصحيح.pdf)",
+   "original_questions": 8,
+   "steps": 35,
+   "steps_by_type": {
+    "mcq": 16,
+    "fill_blank": 6,
+    "matching": 3,
+    "multi": 4,
+    "essay_builder": 6
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 17,
+   "deferred_points": 3,
+   "errors": 0,
+   "warnings": 35,
+   "publishable": false
+  },
+  {
+   "set_id": "ar-bac-2023-sci-p2",
+   "file": "content/play-exams/sets/3AS/AR/ar-bac-2023-sci-p2.json",
+   "checksum": "7b377b64f0b946ff10f19aeb4c8d2b0e2f230ace116546bcfffe33cc0445e13e",
+   "fixture": false,
+   "status": "NEEDS_HUMAN_REVIEW",
+   "kind": "BAC",
+   "level": "3AS",
+   "streams": [
+    "SCI",
+    "MATH",
+    "TM",
+    "GE"
+   ],
+   "subject": "AR",
+   "year": 2023,
+   "term": null,
+   "paper": 2,
+   "title": "بكالوريا 2023 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (أحمد أمين: حقّ التّعليم)",
+   "trust": "official_mirror",
+   "source_verified": false,
+   "original": "gdrive:1e6Cs7-O7k5r2CTBcjfidaJCHvEsRn6OJ (بكالوريا العربية 2023 شعبة علوم.docx)",
+   "correction": "gdrive:1yD3baTYtUoI0lzf7z27WnK1l0N-b5ZF- (02_التصحيح.pdf)",
+   "original_questions": 8,
+   "steps": 27,
+   "steps_by_type": {
+    "mcq": 15,
+    "fill_blank": 6,
+    "matching": 1,
+    "essay_builder": 3,
+    "multi": 2
+   },
+   "score_total": 20,
+   "points_total": 20,
+   "interactive_points": 17,
+   "deferred_points": 3,
+   "errors": 0,
+   "warnings": 29,
+   "publishable": false
+  }
+ ],
+ "unreadable": [],
+ "archive_units": [
+  {
+   "group_id": "U0018",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2008 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0019",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2008 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0020",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2009 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0021",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2010 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0022",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2010 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0023",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2011 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0024",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2011 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0025",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2012 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0026",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2012 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0027",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2009 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0028",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2011 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0029",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2008 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0030",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2009 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0031",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2012 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0032",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2013 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0033",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2013 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0034",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2013 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0035",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "بكالوريا العربية 2010 شعبة اللغات.docx",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0036",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2014 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0037",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2014 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0038",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2014 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0039",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2015 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0040",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2015 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0041",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2015 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0042",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2016 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0043",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2016 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0044",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2016 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0045",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2017 - الدورة 1 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0046",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2017 - الدورة 2 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0047",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2017 - الدورة 1 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0048",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2017 - الدورة 2 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0049",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2017 - الدورة 1 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0050",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2017 - الدورة 2 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0051",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2018 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0052",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2018 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0053",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2018 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0054",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2019 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0055",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2019 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0056",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2019 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0057",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2020 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0058",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2020 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0059",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2020 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0060",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2021 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0061",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2021 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0062",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2021 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0063",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2022 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0064",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2022 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0065",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2022 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0066",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2023 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": "ar-bac-2023-sci-p2"
+  },
+  {
+   "group_id": "U0067",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2023 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0068",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2023 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0070",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": ".اختبار اللغة العربية دورة 2018.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0071",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": ".اختبار اللغة العربية دورة 2018.pdf.docx",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0072",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "بكالوريا 2022 شعبة اداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0073",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "dzexams-bac-arabe-1258854.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0074",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "dzexams-bac-arabe-1215463.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0075",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2025 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0076",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "dzexams-bac-arabe-1398734.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0077",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "TEMP - BAC 2025 SCI full",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0078",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2025 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0079",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "TEMP - BAC 2024 SCI full",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0080",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2024 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0081",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "TEMP - BAC 2024 LP full",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0082",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2024 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0083",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "TEMP - BAC 2025 LE full",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0084",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2025 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0085",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "TEMP BAC 2009 LP",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0086",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "TEMP BAC 2009 LP COMPLETE",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0087",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2026 - اللغة العربية - الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0088",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2026 - اللغة العربية - آداب وفلسفة.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0089",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC 2026 - اللغة العربية - لغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0090",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2026-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0091",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2025-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0092",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2024-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0093",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2022-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0094",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2020-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0095",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2019-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0096",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2017-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0097",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2017-استثنائية-يحتاج-إعادة-بناء.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0098",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2015-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0099",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2013-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0100",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2010-عادية-يحتاج-إعادة-بناء.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0101",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2011-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0102",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2012-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0103",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "BAC-2026-عادية-الموضوع-والتصحيح.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0105",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0107",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0109",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0111",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0113",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0115",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0117",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0119",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0121",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0123",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0125",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0127",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0129",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0132",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0133",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0135",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0137",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0139",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0141",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0143",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - الاقتصاد والمناجمنت - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0204",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0206",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0208",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0210",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0212",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0214",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0216",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0218",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0220",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0222",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الثانية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0224",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0226",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0228",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0230",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0232",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0234",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0235",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0238",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0239",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0242",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0244",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0246",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0248",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0250",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0252",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0254",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0256",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الدورة_الأولى_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0258",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الدورة_الاستثنائية_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0260",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0262",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0264",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0266",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0268",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0270",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0271",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0274",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0275",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0278",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0279",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0282",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0283",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "01_الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0286",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0288",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0290",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0292",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0294",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0296",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0298",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0300",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0302",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0304",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0306",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0308",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0310",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0312",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0314",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0316",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0318",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0320",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0322",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0324",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0327",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0329",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0330",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0332",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0334",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0336",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0338",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0341",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0343",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0345",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0347",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0349",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0351",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0353",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0355",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0357",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0358",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0360",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0362",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0364",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0366",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0368",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0370",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0374",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0376",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0378",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0380",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0382",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0384",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0386",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0388",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0390",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0392",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0395",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0397",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0399",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0401",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0403",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0405",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0406",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0407",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0408",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0410",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0412",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0414",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0416",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الثانية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0418",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0421",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0423",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0424",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0426",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0428",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0430",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0432",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0434",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0436",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0438",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0441",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0442",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0444",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0446",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0448",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0449",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0451",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0453",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0455",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0456",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0458",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0460",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0462",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0464",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0466",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0468",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0470",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0472",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0474",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0476",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0478",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0480",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0482",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0484",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0486",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0488",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0490",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0492",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0494",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0496",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0498",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0500",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0502",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0504",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0506",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0508",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0510",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0512",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0514",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0516",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0518",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0520",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0522",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0524",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0526",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0528",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0530",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0532",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0534",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0536",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0538",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0540",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0542",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0544",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0546",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0548",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0550",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0552",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0554",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0556",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0558",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0560",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0562",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0564",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0566",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0568",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0570",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0571",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0573",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0575",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0577",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0579",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0581",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0583",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0585",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0587",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0589",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0591",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0593",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0595",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0597",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0599",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0601",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0603",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0605",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0607",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0609",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0611",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0613",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0615",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0617",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0619",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0621",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0623",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0625",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0627",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0629",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0632",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0634",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0636",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0638",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0640",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0642",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0644",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0646",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0648",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0650",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0652",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0654",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0656",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0658",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0660",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0662",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0664",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0666",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0668",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0670",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0672",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0674",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0676",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0678",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0680",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0682",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0684",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0686",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0688",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0690",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0692",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0694",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0697",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0699",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0701",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0703",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0705",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0707",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0709",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0711",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0713",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0715",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0717",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0719",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0721",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0723",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0725",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0727",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0729",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0731",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0733",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0735",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0737",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0739",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0741",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0747",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0752",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الإنجليزية - آداب وفلسفة - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0754",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0755",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0757",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0759",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0761",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0764",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0766",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0769",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الإنجليزية - آداب وفلسفة - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0772",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الإنجليزية - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0773",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0778",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0779",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0780",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0782",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0783",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0784",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0789",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0791",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الإنجليزية - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0792",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0793",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0794",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0796",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0797",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الإنجليزية - لغات أجنبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0799",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0805",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0806",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0808",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة الثانية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0810",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0811",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0813",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0815",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0816",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0819",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0823",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0824",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0827",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0829",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0836",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0837",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0838",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0840",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0841",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0842",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0843",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0844",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0849",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0852",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0853",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0854",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الفلسفة - رياضيات + علوم تجريبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0855",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0858",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0860",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الفلسفة - رياضيات + علوم تجريبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0863",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0865",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0868",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الفلسفة - رياضيات + علوم تجريبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0870",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0871",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0874",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0875",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0876",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0877",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الفلسفة - رياضيات + علوم تجريبية - الدورة الثانية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0878",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0879",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0880",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0882",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0887",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0888",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0891",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0893",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الفلسفة - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0894",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0895",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0897",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0898",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0899",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0901",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الفلسفة - لغات أجنبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0904",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0905",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0907",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0909",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - الفلسفة - رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0910",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0912",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0913",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الفلسفة - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0914",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0916",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0919",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0925",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0926",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الفلسفة - آداب وفلسفة - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0927",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الفلسفة - آداب وفلسفة - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0929",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0930",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0931",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0933",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0935",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0937",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0939",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0940",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الفلسفة - آداب وفلسفة - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0942",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0943",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0946",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0947",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0948",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0951",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0952",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0954",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0955",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0963",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0964",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0967",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0968",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - الفلسفة - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0970",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0971",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - الفلسفة - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0972",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0974",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0976",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة الثانية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0977",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0979",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0981",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0985",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0987",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - الفلسفة - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0990",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0991",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0995",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0996",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U0997",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1004",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1007",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1008",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1009",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - الفلسفة - تسيير واقتصاد + تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1010",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - القانون - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1011",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1013",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1018",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الألمانية - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1019",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الألمانية - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1020",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1023",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1025",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1026",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1028",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الألمانية - لغات أجنبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1030",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1031",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1033",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1034",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - العلوم الفيزيائية - علوم تجريبية - الدورة الثانية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1040",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1041",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1042",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1045",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1047",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1050",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1053",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1056",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1058",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1059",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1060",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - العلوم الفيزيائية - علوم تجريبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1063",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1067",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1068",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1071",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الإنجليزية - آداب وفلسفة - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1073",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - العلوم الإسلامية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1074",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1078",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1080",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1082",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1083",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1084",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1085",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الأمازيغية - جميع الشعب - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1087",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1088",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الأمازيغية - جميع الشعب - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1091",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1092",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الأمازيغية - جميع الشعب - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1094",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1096",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1099",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الرياضيات - رياضيات - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1101",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1102",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1105",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1107",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1109",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1110",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1111",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1113",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1115",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1116",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1117",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1120",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1123",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الرياضيات - رياضيات - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1124",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1126",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1127",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الرياضيات - رياضيات - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1128",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1131",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1137",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1138",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1140",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1141",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1143",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1145",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1146",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الرياضيات - تسيير واقتصاد - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1147",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1149",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1150",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1152",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1153",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1154",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1159",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1161",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1162",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1163",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1166",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1169",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1170",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1171",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1173",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1174",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1177",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1178",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الرياضيات - تسيير واقتصاد - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1182",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1183",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1184",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1187",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1188",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1189",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1190",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1195",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1197",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الرياضيات - علوم تجريبية - الدورة الثانية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1198",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1199",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الرياضيات - علوم تجريبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1200",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1202",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1205",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1206",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1207",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1208",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1212",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1213",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1217",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1219",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1221",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الرياضيات - علوم تجريبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1223",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1226",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1227",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1230",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1231",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1232",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1233",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1236",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1238",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1239",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1240",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1241",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1242",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1243",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - الرياضيات - تقني رياضي - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1245",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1247",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1248",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1252",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الرياضيات - تقني رياضي - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1258",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1259",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1261",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الإيطالية - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1263",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1267",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - اللغة الإيطالية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1268",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الإيطالية - لغات أجنبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1270",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1271",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الإيطالية - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1272",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1274",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - اللغة الإيطالية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1275",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - اللغة الإيطالية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1277",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1283",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - اللغة الإيطالية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1284",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1288",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1291",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - اللغة الإيطالية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1292",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1293",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1294",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - اللغة الإيطالية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1297",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الإسبانية - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1299",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الإسبانية - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1300",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1302",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1307",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1309",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الإسبانية - لغات أجنبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1311",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1312",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1313",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1314",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1316",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1317",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - اللغة الإيطالية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1318",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1320",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1324",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1330",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1334",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1335",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1336",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1337",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1338",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1342",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1344",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الفرنسية - آداب وفلسفة - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1346",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1347",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1348",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1352",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الفرنسية - لغات أجنبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1357",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1361",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1363",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الفرنسية - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1364",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الفرنسية - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1365",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الفرنسية - آداب وفلسفة - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1369",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1370",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1371",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1373",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1379",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1380",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1383",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1384",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1388",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1389",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1390",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1392",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1396",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1398",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة الثانية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1399",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1400",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1402",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1403",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1404",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1406",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1413",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1415",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1417",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1421",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2008 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1422",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - التاريخ والجغرافيا - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1424",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - التاريخ والجغرافيا - لغات أجنبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1425",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1426",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1428",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1431",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1432",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1433",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - التاريخ والجغرافيا - لغات أجنبية - الدورة الثانية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1435",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - التاريخ والجغرافيا - لغات أجنبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1436",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1437",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1439",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1440",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1442",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1447",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1448",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - هندسة الطرائق - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1451",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - هندسة الطرائق - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1452",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - هندسة الطرائق - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1454",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1455",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1457",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1458",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1459",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1462",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1464",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1465",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1468",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1470",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - هندسة الطرائق - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1471",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة الثانية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1474",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1477",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1478",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1479",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1481",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1483",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1484",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1486",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1488",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1491",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1493",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1495",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1496",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1497",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - العلوم الفيزيائية - تقني رياضي + رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1500",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1501",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1503",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1505",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1507",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1508",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1509",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2016 - العلوم الفيزيائية - علوم تجريبية - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1510",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1511",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1512",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1513",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2023 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1515",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1517",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1519",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1520",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2026 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1523",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - العلوم الفيزيائية - علوم تجريبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1524",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - اللغة الألمانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1526",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1528",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1529",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1530",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2020 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1533",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2019 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1534",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1537",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2018 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1539",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1541",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2021 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1543",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1545",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1547",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1549",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2022 - اللغة الأمازيغية - جميع الشعب - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1553",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1555",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1558",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1561",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - الرياضيات - آداب وفلسفة + لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1563",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1566",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الرياضيات - تسيير واقتصاد - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1568",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - الرياضيات - رياضيات - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1572",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1575",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1577",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1578",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1582",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الرياضيات - علوم تجريبية - الدورة الاستثنائية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1584",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - الرياضيات - تقني رياضي - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1586",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1587",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - الرياضيات - تقني رياضي - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1588",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - اللغة الإيطالية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1592",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1593",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1594",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2024 - اللغة الإيطالية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1595",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - اللغة الإيطالية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1596",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1597",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1599",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1601",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - اللغة الإسبانية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1603",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1605",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1606",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1607",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1608",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1609",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1610",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1612",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1613",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2017 - اللغة الفرنسية - آداب وفلسفة - الدورة الأولى - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1614",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1615",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1616",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2009 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1618",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1619",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1621",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1623",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1624",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1626",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1627",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2014 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1629",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1630",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1631",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - التاريخ والجغرافيا - تسيير واقتصاد - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1633",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2010 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1635",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2012 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1638",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2011 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1640",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2013 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1643",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2015 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1648",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1655",
+   "kind": "BAC",
+   "level": "3AS",
+   "title": "2025 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1702",
+   "kind": "TEST",
+   "level": "1AS",
+   "title": "امتحان السنة الاولى ثاوني",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1704",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "فرض الفصل الأول للشعب الأدبية 2022.docx",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1705",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "فرض الفصل الأول 2022 الشعب العلمية-.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1706",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "فرض الفصل الاول للسنة الثانية 2022 شعبة علوم.docx",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1707",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "فرض الفصل الاول للسنة الثانية 2019 شعبة اف و لغات.docx",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1708",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "فرض الفصل الأول للسنة الثانية 2022 شعبة لغات.docx",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1709",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "فرض الفصل الاول 2016 .2 الشعب العلمية (1).pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1710",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "فرض الفصل الاول 2019 الشعب العلمية (1).pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1711",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "فرض الفصل الاول 2016 الشعب العلمية (1).pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1712",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "فرض الفصل الاول 2017 الشعب العلمية (1).pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1713",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "فرض الفصل الاول 2018 الشعب العلمية (1).pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1714",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "فرض الفصل الاول 2020 الشعب العلمية (1).pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1715",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "devoir philo 2 2023.docx",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1716",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "devoire philo 1 2018.docx",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1717",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "devoir science 1 2022.docx",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1718",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "devoir science 1 2018.docx",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1719",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 01 – الفصل الأول – آداب.pdf",
+   "converted_set": "ar-2as-t1-lit-d01"
+  },
+  {
+   "group_id": "U1720",
+   "kind": "TEST",
+   "level": "2AS",
+   "title": "اختبار الفصل الأول – آداب.pdf",
+   "converted_set": "ar-2as-t1-lit-03"
+  },
+  {
+   "group_id": "U1721",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 02 – الفصل الأول – آداب.pdf",
+   "converted_set": "ar-2as-t1-lit-d02"
+  },
+  {
+   "group_id": "U1727",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 01 – الفصل الأول – علمي.pdf",
+   "converted_set": "ar-2as-t1-sci-d01"
+  },
+  {
+   "group_id": "U1728",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 02 – الفصل الأول – علمي.pdf",
+   "converted_set": "ar-2as-t1-sci-d02"
+  },
+  {
+   "group_id": "U1729",
+   "kind": "TEST",
+   "level": "2AS",
+   "title": "اختبار الفصل الأول – علمي.pdf",
+   "converted_set": "ar-2as-t1-sci-03"
+  },
+  {
+   "group_id": "U1731",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 01 – الفصل الثاني – آداب.pdf",
+   "converted_set": "ar-2as-t2-lit-d01"
+  },
+  {
+   "group_id": "U1734",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 02 – الفصل الثاني – آداب.pdf",
+   "converted_set": "ar-2as-t2-lit-d02"
+  },
+  {
+   "group_id": "U1735",
+   "kind": "TEST",
+   "level": "2AS",
+   "title": "اختبار الفصل الثاني – آداب.pdf",
+   "converted_set": "ar-2as-t2-lit-06"
+  },
+  {
+   "group_id": "U1739",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 02 – الفصل الثاني – علمي.pdf",
+   "converted_set": "ar-2as-t2-sci-d02"
+  },
+  {
+   "group_id": "U1740",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 01 – الفصل الثاني – علمي.pdf",
+   "converted_set": "ar-2as-t2-sci-d01"
+  },
+  {
+   "group_id": "U1741",
+   "kind": "TEST",
+   "level": "2AS",
+   "title": "اختبار الفصل الثاني – علمي.pdf",
+   "converted_set": "ar-2as-t2-sci-06"
+  },
+  {
+   "group_id": "U1744",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 01 – الفصل الثالث – آداب.pdf",
+   "converted_set": "ar-2as-t3-lit-d01"
+  },
+  {
+   "group_id": "U1745",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 02 – الفصل الثالث – آداب.pdf",
+   "converted_set": "ar-2as-t3-lit-d02"
+  },
+  {
+   "group_id": "U1747",
+   "kind": "TEST",
+   "level": "2AS",
+   "title": "اختبار الفصل الثالث – آداب.pdf",
+   "converted_set": "ar-2as-t3-lit-09"
+  },
+  {
+   "group_id": "U1750",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 01 – الفصل الثالث – علمي.pdf",
+   "converted_set": "ar-2as-t3-sci-d01"
+  },
+  {
+   "group_id": "U1752",
+   "kind": "DEVOIR",
+   "level": "2AS",
+   "title": "الفرض 02 – الفصل الثالث – علمي.pdf",
+   "converted_set": "ar-2as-t3-sci-d02"
+  },
+  {
+   "group_id": "U1754",
+   "kind": "TEST",
+   "level": "2AS",
+   "title": "اختبار الفصل الثالث – علمي.pdf",
+   "converted_set": "ar-2as-t3-sci-09"
+  },
+  {
+   "group_id": "U1755",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "الفرض 01 – الفصل الأول – جذع مشترك آداب.pdf",
+   "converted_set": "ar-1as-t1-tclit-d01"
+  },
+  {
+   "group_id": "U1758",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "الفرض 02 – الفصل الأول – جذع مشترك آداب.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1759",
+   "kind": "TEST",
+   "level": "1AS",
+   "title": "اختبار الفصل الأول – جذع مشترك آداب.pdf",
+   "converted_set": "ar-1as-t1-tclit-03"
+  },
+  {
+   "group_id": "U1761",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "الفرض 01 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.pdf",
+   "converted_set": "ar-1as-t1-tcsci-d01"
+  },
+  {
+   "group_id": "U1763",
+   "kind": "DEVOIR",
+   "level": "1AS",
+   "title": "الفرض 02 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.pdf",
+   "converted_set": "ar-1as-t1-tcsci-d02"
+  },
+  {
+   "group_id": "U1765",
+   "kind": "TEST",
+   "level": "1AS",
+   "title": "اختبار الفصل الأول – جذع مشترك علوم وتكنولوجيا.pdf",
+   "converted_set": "ar-1as-t1-tcsci-03"
+  },
+  {
+   "group_id": "U1767",
+   "kind": "DEVOIR",
+   "level": "3AS",
+   "title": "الفرض 01 – الفصل الأول – آداب وفلسفة ولغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1769",
+   "kind": "DEVOIR",
+   "level": "3AS",
+   "title": "الفرض 02 – الفصل الأول – آداب وفلسفة ولغات أجنبية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1771",
+   "kind": "TEST",
+   "level": "3AS",
+   "title": "اختبار الفصل الأول – آداب وفلسفة ولغات أجنبية.pdf",
+   "converted_set": "ar-3as-t1-litlang-03"
+  },
+  {
+   "group_id": "U1774",
+   "kind": "DEVOIR",
+   "level": "3AS",
+   "title": "الفرض 01 – الفصل الأول – الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1776",
+   "kind": "DEVOIR",
+   "level": "3AS",
+   "title": "الفرض 02 – الفصل الأول – الشعب العلمية.pdf",
+   "converted_set": null
+  },
+  {
+   "group_id": "U1777",
+   "kind": "TEST",
+   "level": "3AS",
+   "title": "اختبار الفصل الأول – الشعب العلمية.pdf",
+   "converted_set": "ar-3as-t1-sci-03"
+  },
+  {
+   "group_id": "U2123",
+   "kind": "TEST",
+   "level": "1AS",
+   "title": "نسخة الأستاذ Word - 1 ثانوي ج م آداب - الفصل الأول.zip",
+   "converted_set": null
+  },
+  {
+   "group_id": "U2124",
+   "kind": "TEST",
+   "level": "1AS",
+   "title": "نسخة الأستاذ Word - 1 ثانوي ج م ع ت - الفصل الأول.zip",
+   "converted_set": null
+  },
+  {
+   "group_id": "U2125",
+   "kind": "TEST",
+   "level": "3AS",
+   "title": "نسخة الأستاذ Word - 3 ثانوي آداب وفلسفة - الفصل الأول.zip",
+   "converted_set": null
+  },
+  {
+   "group_id": "U2126",
+   "kind": "TEST",
+   "level": "4AM",
+   "title": "نسخة الأستاذ Word - 4 متوسط - الفصل الأول.zip",
+   "converted_set": null
+  },
+  {
+   "group_id": "U2127",
+   "kind": "TEST",
+   "level": "3AS",
+   "title": "نسخة الأستاذ Word - 3 ثانوي لغات أجنبية - الفصل الأول.zip",
+   "converted_set": null
+  },
+  {
+   "group_id": "U2128",
+   "kind": "TEST",
+   "level": "3AS",
+   "title": "نسخة الأستاذ Word - 3 ثانوي تقني رياضي - الفصل الأول.zip",
+   "converted_set": null
+  },
+  {
+   "group_id": "U2129",
+   "kind": "TEST",
+   "level": "3AS",
+   "title": "نسخة الأستاذ Word - 3 ثانوي رياضيات - الفصل الأول.zip",
+   "converted_set": null
+  },
+  {
+   "group_id": "U2130",
+   "kind": "TEST",
+   "level": "3AS",
+   "title": "نسخة الأستاذ Word - 3 ثانوي علوم تجريبية - الفصل الأول.zip",
+   "converted_set": null
+  }
+ ]
+}
