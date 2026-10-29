@@ -1,0 +1,1834 @@
+{
+ "schema_version": 1,
+ "set_id": "fr-bac-2026-lang-p2",
+ "status": "NEEDS_HUMAN_REVIEW",
+ "source": {
+  "source_id": "gdrive-1bKLTk8-0yBX0N-hrtIsAVDqQmkug9iX0-p2",
+  "kind": "BAC",
+  "year": 2026,
+  "level": "3AS",
+  "streams": [
+   "LANG"
+  ],
+  "subject": "FR",
+  "term": null,
+  "paper": 2,
+  "title": "بكالوريا 2026 (الدورة العاديّة) – اللغة الفرنسية – شعبة لغات أجنبية – الموضوع الثّاني («Quand l’argent devient une névrose»، Dr. Etienne JALENQUES)",
+  "original_url": "https://drive.google.com/file/d/1bKLTk8-0yBX0N-hrtIsAVDqQmkug9iX0/view",
+  "original_file_ref": "gdrive:1bKLTk8-0yBX0N-hrtIsAVDqQmkug9iX0 (2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1QCiUu9WXfR6RdrGoIebyRgZf8Y0wr_4R/view",
+  "correction_file_ref": "gdrive:1QCiUu9WXfR6RdrGoIebyRgZf8Y0wr_4R (2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": false,
+  "verified_by": null,
+  "verified_at": null,
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word). الموضوع: gdrive:1bKLTk8-0yBX0N-hrtIsAVDqQmkug9iX0 (2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf) ص3–4؛ الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1QCiUu9WXfR6RdrGoIebyRgZf8Y0wr_4R (2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الحل.pdf) ص2 وص3 (الإنتاج الكتابيّ للموضوعين). الملفّان PDF رقميّان من الدّيوان الوطنيّ للامتحانات (لا مسح ضوئيّ): أُخذ النّصّ من طبقة النّصّ (pdftotext -raw) وقوبل كلّ سطر بصورة الصّفحة (150 نقطة)، وتحقّق سكربت من أنّ كلّ نصّ حرفيّ موجود في طبقة النّصّ. الشّعبة من رأس الورقة «الشعبة: لغات أجنبية» ⇒ LANG. «الدورة العادية» من اسم الملفّ في Drive (الورقة تطبع «الدورة: 2026»). المجموع: فهم المكتوب 12 + إنتاج كتابيّ 08؛ كلّ العلامات من عمودَي «مجزأة/مجموع» في الحلّ الرّسميّ. خلافات طبقة النّصّ مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس (السّنة «0302»، المدّة «30 سا و 03 د» والصّورة «03 سا و30 د»)؛ شرطات القوائم حرف خاصّ U+F02D في الطّبقة و«–» في الصّورة ⇒ «–»؛ إحالات الهوامش مرفوعة في الصّورة ⇒ ¹ ² ³؛ «1er/3ème» المرفوعة كُتبت عاديّة. حُفظ كما طُبع: الفاصلة العليا المستقيمة في «Ich'hadi» و«l'argent» (خيارا س1 الثّاني والثّالث في الموضوع الثّاني) و«jusqu'à l'ennui» و«quelqu'un». قرارات عامّة: «n×m» لبنود متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من النّصّ ⇒ عنصر واحد بخطوة multi. خيارا «Vrai/Faux» والتّصنيف الثّنائيّ يُخزَّنان معكوسين لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين. قاعدة «accepter» الموحَّدة: صيغة أخرى للجواب نفسه أو قائمة مغلقة ⇒ تفاعليّ (الصّحيح صيغة الحلّ الأولى، والصّيغ المقبولة في الشّرح ولا تكون مشتّتًا أبدًا)؛ الجواب المفتوح («toute autre réponse…»، «à titre indicatif») ⇒ essay_builder مؤجَّل. الإنتاج الكتابيّ = سؤال أصليّ واحد يضمّ الموضوعين، وتفاصيل شبكة كلّ موضوع في spec. المشتّتات من إعداد التّحويل وتحتاج مراجعة. س3: «Accepter aussi : il y en a autant qu’on veut.» صيغة أقصر للجواب نفسه ⇒ QCM تفاعليّ، الصّحيح الجملة كاملة، ولا تُعرض الصّيغة القصيرة مشتّتًا. س4 «0.5x2» ⇒ عنصر واحد (1) بخطوة multi (السّببان في الحلّ)؛ السّبب الثّالث المقبول «Nous ne sommes pas semblables…» لا يُعرض؛ المشتّتات يناقضها النّصّ (§4، §6). س6 «0.25x6» ⇒ ستّة عناصر ثنائيّة (Au bonheur / A l’angoisse كما في الورقة؛ الحلّ يكتب «Facteur de bonheur / Facteur d’angoisse»). س7: «vous» الصّحيح «les lecteurs» و«je» الصّحيح «l’auteur»؛ الصّيغ المقبولة الأخرى ليست مشتّتات. س8 (1) مؤجَّل: «Accepter toute autre réponse allant dans le même le sens» (كذا في الحلّ). س9: «0.5x4» ⇒ أربعة عناصر مؤجَّلة. الإنتاج الكتابيّ (8): نفس شبكة الموضوع الأوّل (13 عنصرًا)."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Dans ce texte, le sujet principal est :\n– l’attrait pour l’argent comme unique source de bonheur personnel.\n– l’attrait pour l'argent comme seul moteur de réussite sociale.\n– l’attrait pour l'argent comme facteur possible de déstabilisation psychique.\nRecopiez la bonne réponse.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Quand l’argent devient une névrose¹"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. Et pourtant, quelle belle chose que l’argent ! N’est-il pas le signe et la trace de l’énergie formidable que nous déployons tous à nous adapter au monde ?\nCertes, il en est de cette énergie comme de toutes les autres ; il faut la manier avec d’infinies précautions car, de motrice, elle devient destructrice. L’argent fait indifféremment le bien ou le mal. Mais dans un cas comme dans l’autre, n’oublions pas qu’il n’y est pour rien et que seul l’utilisateur est en cause. Ne jetons donc pas tout de suite l’argent aux orties². […]\nL’argent n’est qu’un moyen et, comme tel, il ne mérite pas de devenir tabou. Vous voulez en gagner le plus possible ? Allez-y, ne vous gênez pas. La vie nous fait un cadeau : pourquoi ne pas en profiter ? L’argent est comme l’air qu’on respire, il y en a autant qu’on veut. Car, contrairement à une idée très répandue de nos jours, j’avance que la richesse du monde est inépuisable.\nBien sûr, faire fortune n’est pas donné à tout le monde. Mais qui a dit que le monde était donné ? L’abondance est potentielle, à nous de fournir les efforts nécessaires pour la conquérir. Car je ne connais personne qui n’ait amassé de biens sans se donner les moyens d’y parvenir. […]\nCe qui rend la vie passionnante, c’est précisément que nous soyons tous différents, intellectuellement, physiquement et même matériellement. C’est parce que nous ne sommes pas semblables qu’il peut s’établir entre nous un jeu, des relations, des conflits, de l’amour. Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. […]\nSe reconnaître soi-même, c’est déjà reconnaître l’extraordinaire simplicité de nos besoins naturels : si tout fonctionne bien dans notre tête, nous pouvons être heureux avec un peu de nourriture, des vêtements et un toit. C’est parce que nous ne nous reconnaissons pas que nous courons après la voiture de luxe, le fauteuil du directeur ou le manteau de fourrure… Nous comptons sur les objets extérieurs pour dire qui nous sommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Dr. Etienne JALENQUES*, La thérapie du bonheur,\nEd. Marabout / Hachette Livre 2002, pp. 134-137."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Dr. E. JALENQUES : médecin psychiatre.\n1. Névrose : obsession, anxiété excessive liée à l’argent.\n2. Jeter aux orties : abandonner quelqu'un, ou quelque chose."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "Sujet principal du texte",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "« La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. »\nDans cette phrase, l’expression « répète jusqu’à la nausée » veut dire :\n– répète jusqu’à l’accord.\n– répète jusqu'à l'ennui.\n– répète jusqu’au refus.\nRecopiez la bonne réponse.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Quand l’argent devient une névrose¹"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. Et pourtant, quelle belle chose que l’argent ! N’est-il pas le signe et la trace de l’énergie formidable que nous déployons tous à nous adapter au monde ?\nCertes, il en est de cette énergie comme de toutes les autres ; il faut la manier avec d’infinies précautions car, de motrice, elle devient destructrice. L’argent fait indifféremment le bien ou le mal. Mais dans un cas comme dans l’autre, n’oublions pas qu’il n’y est pour rien et que seul l’utilisateur est en cause. Ne jetons donc pas tout de suite l’argent aux orties². […]\nL’argent n’est qu’un moyen et, comme tel, il ne mérite pas de devenir tabou. Vous voulez en gagner le plus possible ? Allez-y, ne vous gênez pas. La vie nous fait un cadeau : pourquoi ne pas en profiter ? L’argent est comme l’air qu’on respire, il y en a autant qu’on veut. Car, contrairement à une idée très répandue de nos jours, j’avance que la richesse du monde est inépuisable.\nBien sûr, faire fortune n’est pas donné à tout le monde. Mais qui a dit que le monde était donné ? L’abondance est potentielle, à nous de fournir les efforts nécessaires pour la conquérir. Car je ne connais personne qui n’ait amassé de biens sans se donner les moyens d’y parvenir. […]\nCe qui rend la vie passionnante, c’est précisément que nous soyons tous différents, intellectuellement, physiquement et même matériellement. C’est parce que nous ne sommes pas semblables qu’il peut s’établir entre nous un jeu, des relations, des conflits, de l’amour. Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. […]\nSe reconnaître soi-même, c’est déjà reconnaître l’extraordinaire simplicité de nos besoins naturels : si tout fonctionne bien dans notre tête, nous pouvons être heureux avec un peu de nourriture, des vêtements et un toit. C’est parce que nous ne nous reconnaissons pas que nous courons après la voiture de luxe, le fauteuil du directeur ou le manteau de fourrure… Nous comptons sur les objets extérieurs pour dire qui nous sommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Dr. Etienne JALENQUES*, La thérapie du bonheur,\nEd. Marabout / Hachette Livre 2002, pp. 134-137."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Dr. E. JALENQUES : médecin psychiatre.\n1. Névrose : obsession, anxiété excessive liée à l’argent.\n2. Jeter aux orties : abandonner quelqu'un, ou quelque chose."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "Sens de l’expression « répète jusqu’à la nausée »",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "« …la richesse du monde est inépuisable… »\nRelevez, du 3ème paragraphe, la phrase qui justifie cette affirmation.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Quand l’argent devient une névrose¹"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. Et pourtant, quelle belle chose que l’argent ! N’est-il pas le signe et la trace de l’énergie formidable que nous déployons tous à nous adapter au monde ?\nCertes, il en est de cette énergie comme de toutes les autres ; il faut la manier avec d’infinies précautions car, de motrice, elle devient destructrice. L’argent fait indifféremment le bien ou le mal. Mais dans un cas comme dans l’autre, n’oublions pas qu’il n’y est pour rien et que seul l’utilisateur est en cause. Ne jetons donc pas tout de suite l’argent aux orties². […]\nL’argent n’est qu’un moyen et, comme tel, il ne mérite pas de devenir tabou. Vous voulez en gagner le plus possible ? Allez-y, ne vous gênez pas. La vie nous fait un cadeau : pourquoi ne pas en profiter ? L’argent est comme l’air qu’on respire, il y en a autant qu’on veut. Car, contrairement à une idée très répandue de nos jours, j’avance que la richesse du monde est inépuisable.\nBien sûr, faire fortune n’est pas donné à tout le monde. Mais qui a dit que le monde était donné ? L’abondance est potentielle, à nous de fournir les efforts nécessaires pour la conquérir. Car je ne connais personne qui n’ait amassé de biens sans se donner les moyens d’y parvenir. […]\nCe qui rend la vie passionnante, c’est précisément que nous soyons tous différents, intellectuellement, physiquement et même matériellement. C’est parce que nous ne sommes pas semblables qu’il peut s’établir entre nous un jeu, des relations, des conflits, de l’amour. Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. […]\nSe reconnaître soi-même, c’est déjà reconnaître l’extraordinaire simplicité de nos besoins naturels : si tout fonctionne bien dans notre tête, nous pouvons être heureux avec un peu de nourriture, des vêtements et un toit. C’est parce que nous ne nous reconnaissons pas que nous courons après la voiture de luxe, le fauteuil du directeur ou le manteau de fourrure… Nous comptons sur les objets extérieurs pour dire qui nous sommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Dr. Etienne JALENQUES*, La thérapie du bonheur,\nEd. Marabout / Hachette Livre 2002, pp. 134-137."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Dr. E. JALENQUES : médecin psychiatre.\n1. Névrose : obsession, anxiété excessive liée à l’argent.\n2. Jeter aux orties : abandonner quelqu'un, ou quelque chose."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "Phrase du 3ème paragraphe qui justifie l’affirmation",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "« Pour que la vie soit passionnante, on ne doit pas courir uniquement après l’argent. »\nTrouvez, dans le texte, deux (02) raisons qui rendent la vie plus intéressante.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Quand l’argent devient une névrose¹"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. Et pourtant, quelle belle chose que l’argent ! N’est-il pas le signe et la trace de l’énergie formidable que nous déployons tous à nous adapter au monde ?\nCertes, il en est de cette énergie comme de toutes les autres ; il faut la manier avec d’infinies précautions car, de motrice, elle devient destructrice. L’argent fait indifféremment le bien ou le mal. Mais dans un cas comme dans l’autre, n’oublions pas qu’il n’y est pour rien et que seul l’utilisateur est en cause. Ne jetons donc pas tout de suite l’argent aux orties². […]\nL’argent n’est qu’un moyen et, comme tel, il ne mérite pas de devenir tabou. Vous voulez en gagner le plus possible ? Allez-y, ne vous gênez pas. La vie nous fait un cadeau : pourquoi ne pas en profiter ? L’argent est comme l’air qu’on respire, il y en a autant qu’on veut. Car, contrairement à une idée très répandue de nos jours, j’avance que la richesse du monde est inépuisable.\nBien sûr, faire fortune n’est pas donné à tout le monde. Mais qui a dit que le monde était donné ? L’abondance est potentielle, à nous de fournir les efforts nécessaires pour la conquérir. Car je ne connais personne qui n’ait amassé de biens sans se donner les moyens d’y parvenir. […]\nCe qui rend la vie passionnante, c’est précisément que nous soyons tous différents, intellectuellement, physiquement et même matériellement. C’est parce que nous ne sommes pas semblables qu’il peut s’établir entre nous un jeu, des relations, des conflits, de l’amour. Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. […]\nSe reconnaître soi-même, c’est déjà reconnaître l’extraordinaire simplicité de nos besoins naturels : si tout fonctionne bien dans notre tête, nous pouvons être heureux avec un peu de nourriture, des vêtements et un toit. C’est parce que nous ne nous reconnaissons pas que nous courons après la voiture de luxe, le fauteuil du directeur ou le manteau de fourrure… Nous comptons sur les objets extérieurs pour dire qui nous sommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Dr. Etienne JALENQUES*, La thérapie du bonheur,\nEd. Marabout / Hachette Livre 2002, pp. 134-137."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Dr. E. JALENQUES : médecin psychiatre.\n1. Névrose : obsession, anxiété excessive liée à l’argent.\n2. Jeter aux orties : abandonner quelqu'un, ou quelque chose."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "Deux raisons qui rendent la vie plus intéressante (0,5x2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "5",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Répondez par « vrai » ou « faux » :\na) L’énergie ne doit pas être utilisée avec beaucoup d’attention.\nb) La richesse dans le monde est une ressource abondante et disponible.\nc) La fortune est possible pour celui qui ne sait pas mettre les moyens.\nd) Pour être heureux, l’homme doit se satisfaire de ce qu’il possède.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Quand l’argent devient une névrose¹"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. Et pourtant, quelle belle chose que l’argent ! N’est-il pas le signe et la trace de l’énergie formidable que nous déployons tous à nous adapter au monde ?\nCertes, il en est de cette énergie comme de toutes les autres ; il faut la manier avec d’infinies précautions car, de motrice, elle devient destructrice. L’argent fait indifféremment le bien ou le mal. Mais dans un cas comme dans l’autre, n’oublions pas qu’il n’y est pour rien et que seul l’utilisateur est en cause. Ne jetons donc pas tout de suite l’argent aux orties². […]\nL’argent n’est qu’un moyen et, comme tel, il ne mérite pas de devenir tabou. Vous voulez en gagner le plus possible ? Allez-y, ne vous gênez pas. La vie nous fait un cadeau : pourquoi ne pas en profiter ? L’argent est comme l’air qu’on respire, il y en a autant qu’on veut. Car, contrairement à une idée très répandue de nos jours, j’avance que la richesse du monde est inépuisable.\nBien sûr, faire fortune n’est pas donné à tout le monde. Mais qui a dit que le monde était donné ? L’abondance est potentielle, à nous de fournir les efforts nécessaires pour la conquérir. Car je ne connais personne qui n’ait amassé de biens sans se donner les moyens d’y parvenir. […]\nCe qui rend la vie passionnante, c’est précisément que nous soyons tous différents, intellectuellement, physiquement et même matériellement. C’est parce que nous ne sommes pas semblables qu’il peut s’établir entre nous un jeu, des relations, des conflits, de l’amour. Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. […]\nSe reconnaître soi-même, c’est déjà reconnaître l’extraordinaire simplicité de nos besoins naturels : si tout fonctionne bien dans notre tête, nous pouvons être heureux avec un peu de nourriture, des vêtements et un toit. C’est parce que nous ne nous reconnaissons pas que nous courons après la voiture de luxe, le fauteuil du directeur ou le manteau de fourrure… Nous comptons sur les objets extérieurs pour dire qui nous sommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Dr. Etienne JALENQUES*, La thérapie du bonheur,\nEd. Marabout / Hachette Livre 2002, pp. 134-137."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Dr. E. JALENQUES : médecin psychiatre.\n1. Névrose : obsession, anxiété excessive liée à l’argent.\n2. Jeter aux orties : abandonner quelqu'un, ou quelque chose."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "Affirmation a) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e2",
+     "label": "Affirmation b) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e3",
+     "label": "Affirmation c) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e4",
+     "label": "Affirmation d) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "6",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Soit les expressions suivantes :\nénergie destructrice / acceptation de soi / fascination pour l’argent / énergie motrice / besoins superflus / simplicité des besoins.\nClassez-les selon qu’elles renvoient :\n– Au bonheur : ……………………………….…..…………………\n– A l’angoisse : …………….………………………...………………",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Quand l’argent devient une névrose¹"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. Et pourtant, quelle belle chose que l’argent ! N’est-il pas le signe et la trace de l’énergie formidable que nous déployons tous à nous adapter au monde ?\nCertes, il en est de cette énergie comme de toutes les autres ; il faut la manier avec d’infinies précautions car, de motrice, elle devient destructrice. L’argent fait indifféremment le bien ou le mal. Mais dans un cas comme dans l’autre, n’oublions pas qu’il n’y est pour rien et que seul l’utilisateur est en cause. Ne jetons donc pas tout de suite l’argent aux orties². […]\nL’argent n’est qu’un moyen et, comme tel, il ne mérite pas de devenir tabou. Vous voulez en gagner le plus possible ? Allez-y, ne vous gênez pas. La vie nous fait un cadeau : pourquoi ne pas en profiter ? L’argent est comme l’air qu’on respire, il y en a autant qu’on veut. Car, contrairement à une idée très répandue de nos jours, j’avance que la richesse du monde est inépuisable.\nBien sûr, faire fortune n’est pas donné à tout le monde. Mais qui a dit que le monde était donné ? L’abondance est potentielle, à nous de fournir les efforts nécessaires pour la conquérir. Car je ne connais personne qui n’ait amassé de biens sans se donner les moyens d’y parvenir. […]\nCe qui rend la vie passionnante, c’est précisément que nous soyons tous différents, intellectuellement, physiquement et même matériellement. C’est parce que nous ne sommes pas semblables qu’il peut s’établir entre nous un jeu, des relations, des conflits, de l’amour. Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. […]\nSe reconnaître soi-même, c’est déjà reconnaître l’extraordinaire simplicité de nos besoins naturels : si tout fonctionne bien dans notre tête, nous pouvons être heureux avec un peu de nourriture, des vêtements et un toit. C’est parce que nous ne nous reconnaissons pas que nous courons après la voiture de luxe, le fauteuil du directeur ou le manteau de fourrure… Nous comptons sur les objets extérieurs pour dire qui nous sommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Dr. Etienne JALENQUES*, La thérapie du bonheur,\nEd. Marabout / Hachette Livre 2002, pp. 134-137."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Dr. E. JALENQUES : médecin psychiatre.\n1. Névrose : obsession, anxiété excessive liée à l’argent.\n2. Jeter aux orties : abandonner quelqu'un, ou quelque chose."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "Classement de « énergie destructrice » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q6-e2",
+     "label": "Classement de « acceptation de soi » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q6-e3",
+     "label": "Classement de « fascination pour l’argent » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q6-e4",
+     "label": "Classement de « énergie motrice » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q6-e5",
+     "label": "Classement de « besoins superflus » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q6-e6",
+     "label": "Classement de « simplicité des besoins » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "7",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Déterminez à qui ou à quoi renvoie chacun des pronoms : « il », « elle », « vous », et « je » dans les énoncés ci-dessous :\n– « N’est-il pas le signe… » 1er paragraphe\n– « …elle devient destructrice. » 2ème paragraphe\n– « …ne vous gênez pas. » 3ème paragraphe\n– « car je ne connais personne… » 4ème paragraphe",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Quand l’argent devient une névrose¹"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. Et pourtant, quelle belle chose que l’argent ! N’est-il pas le signe et la trace de l’énergie formidable que nous déployons tous à nous adapter au monde ?\nCertes, il en est de cette énergie comme de toutes les autres ; il faut la manier avec d’infinies précautions car, de motrice, elle devient destructrice. L’argent fait indifféremment le bien ou le mal. Mais dans un cas comme dans l’autre, n’oublions pas qu’il n’y est pour rien et que seul l’utilisateur est en cause. Ne jetons donc pas tout de suite l’argent aux orties². […]\nL’argent n’est qu’un moyen et, comme tel, il ne mérite pas de devenir tabou. Vous voulez en gagner le plus possible ? Allez-y, ne vous gênez pas. La vie nous fait un cadeau : pourquoi ne pas en profiter ? L’argent est comme l’air qu’on respire, il y en a autant qu’on veut. Car, contrairement à une idée très répandue de nos jours, j’avance que la richesse du monde est inépuisable.\nBien sûr, faire fortune n’est pas donné à tout le monde. Mais qui a dit que le monde était donné ? L’abondance est potentielle, à nous de fournir les efforts nécessaires pour la conquérir. Car je ne connais personne qui n’ait amassé de biens sans se donner les moyens d’y parvenir. […]\nCe qui rend la vie passionnante, c’est précisément que nous soyons tous différents, intellectuellement, physiquement et même matériellement. C’est parce que nous ne sommes pas semblables qu’il peut s’établir entre nous un jeu, des relations, des conflits, de l’amour. Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. […]\nSe reconnaître soi-même, c’est déjà reconnaître l’extraordinaire simplicité de nos besoins naturels : si tout fonctionne bien dans notre tête, nous pouvons être heureux avec un peu de nourriture, des vêtements et un toit. C’est parce que nous ne nous reconnaissons pas que nous courons après la voiture de luxe, le fauteuil du directeur ou le manteau de fourrure… Nous comptons sur les objets extérieurs pour dire qui nous sommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Dr. Etienne JALENQUES*, La thérapie du bonheur,\nEd. Marabout / Hachette Livre 2002, pp. 134-137."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Dr. E. JALENQUES : médecin psychiatre.\n1. Névrose : obsession, anxiété excessive liée à l’argent.\n2. Jeter aux orties : abandonner quelqu'un, ou quelque chose."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "Référent de « il » (1er paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q7-e2",
+     "label": "Référent de « elle » (2ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q7-e3",
+     "label": "Référent de « vous » (3ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q7-e4",
+     "label": "Référent de « je » (4ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "8",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Formulez, en une phrase, la visée communicative de l’auteur.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Quand l’argent devient une névrose¹"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. Et pourtant, quelle belle chose que l’argent ! N’est-il pas le signe et la trace de l’énergie formidable que nous déployons tous à nous adapter au monde ?\nCertes, il en est de cette énergie comme de toutes les autres ; il faut la manier avec d’infinies précautions car, de motrice, elle devient destructrice. L’argent fait indifféremment le bien ou le mal. Mais dans un cas comme dans l’autre, n’oublions pas qu’il n’y est pour rien et que seul l’utilisateur est en cause. Ne jetons donc pas tout de suite l’argent aux orties². […]\nL’argent n’est qu’un moyen et, comme tel, il ne mérite pas de devenir tabou. Vous voulez en gagner le plus possible ? Allez-y, ne vous gênez pas. La vie nous fait un cadeau : pourquoi ne pas en profiter ? L’argent est comme l’air qu’on respire, il y en a autant qu’on veut. Car, contrairement à une idée très répandue de nos jours, j’avance que la richesse du monde est inépuisable.\nBien sûr, faire fortune n’est pas donné à tout le monde. Mais qui a dit que le monde était donné ? L’abondance est potentielle, à nous de fournir les efforts nécessaires pour la conquérir. Car je ne connais personne qui n’ait amassé de biens sans se donner les moyens d’y parvenir. […]\nCe qui rend la vie passionnante, c’est précisément que nous soyons tous différents, intellectuellement, physiquement et même matériellement. C’est parce que nous ne sommes pas semblables qu’il peut s’établir entre nous un jeu, des relations, des conflits, de l’amour. Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. […]\nSe reconnaître soi-même, c’est déjà reconnaître l’extraordinaire simplicité de nos besoins naturels : si tout fonctionne bien dans notre tête, nous pouvons être heureux avec un peu de nourriture, des vêtements et un toit. C’est parce que nous ne nous reconnaissons pas que nous courons après la voiture de luxe, le fauteuil du directeur ou le manteau de fourrure… Nous comptons sur les objets extérieurs pour dire qui nous sommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Dr. Etienne JALENQUES*, La thérapie du bonheur,\nEd. Marabout / Hachette Livre 2002, pp. 134-137."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Dr. E. JALENQUES : médecin psychiatre.\n1. Névrose : obsession, anxiété excessive liée à l’argent.\n2. Jeter aux orties : abandonner quelqu'un, ou quelque chose."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "Visée communicative de l’auteur (réponse ouverte)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "9",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "« Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. »\nPartagez-vous cet avis ? Justifiez, en deux à trois lignes, votre réponse.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Quand l’argent devient une névrose¹"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. Et pourtant, quelle belle chose que l’argent ! N’est-il pas le signe et la trace de l’énergie formidable que nous déployons tous à nous adapter au monde ?\nCertes, il en est de cette énergie comme de toutes les autres ; il faut la manier avec d’infinies précautions car, de motrice, elle devient destructrice. L’argent fait indifféremment le bien ou le mal. Mais dans un cas comme dans l’autre, n’oublions pas qu’il n’y est pour rien et que seul l’utilisateur est en cause. Ne jetons donc pas tout de suite l’argent aux orties². […]\nL’argent n’est qu’un moyen et, comme tel, il ne mérite pas de devenir tabou. Vous voulez en gagner le plus possible ? Allez-y, ne vous gênez pas. La vie nous fait un cadeau : pourquoi ne pas en profiter ? L’argent est comme l’air qu’on respire, il y en a autant qu’on veut. Car, contrairement à une idée très répandue de nos jours, j’avance que la richesse du monde est inépuisable.\nBien sûr, faire fortune n’est pas donné à tout le monde. Mais qui a dit que le monde était donné ? L’abondance est potentielle, à nous de fournir les efforts nécessaires pour la conquérir. Car je ne connais personne qui n’ait amassé de biens sans se donner les moyens d’y parvenir. […]\nCe qui rend la vie passionnante, c’est précisément que nous soyons tous différents, intellectuellement, physiquement et même matériellement. C’est parce que nous ne sommes pas semblables qu’il peut s’établir entre nous un jeu, des relations, des conflits, de l’amour. Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. […]\nSe reconnaître soi-même, c’est déjà reconnaître l’extraordinaire simplicité de nos besoins naturels : si tout fonctionne bien dans notre tête, nous pouvons être heureux avec un peu de nourriture, des vêtements et un toit. C’est parce que nous ne nous reconnaissons pas que nous courons après la voiture de luxe, le fauteuil du directeur ou le manteau de fourrure… Nous comptons sur les objets extérieurs pour dire qui nous sommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Dr. Etienne JALENQUES*, La thérapie du bonheur,\nEd. Marabout / Hachette Livre 2002, pp. 134-137."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Dr. E. JALENQUES : médecin psychiatre.\n1. Névrose : obsession, anxiété excessive liée à l’argent.\n2. Jeter aux orties : abandonner quelqu'un, ou quelque chose."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "Critère : Respect de la consigne (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e2",
+     "label": "Critère : Pertinence des idées (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e3",
+     "label": "Critère : Cohérence (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e4",
+     "label": "Critère : Correction de la langue (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q10",
+   "number": "—",
+   "part": "II. Production écrite : (08 points)",
+   "verbatim_text": "Traitez l’un des deux sujets suivants :\nSujet 1 :\nVotre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat.\nSujet 2 :\nEn votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Quand l’argent devient une névrose¹"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. Et pourtant, quelle belle chose que l’argent ! N’est-il pas le signe et la trace de l’énergie formidable que nous déployons tous à nous adapter au monde ?\nCertes, il en est de cette énergie comme de toutes les autres ; il faut la manier avec d’infinies précautions car, de motrice, elle devient destructrice. L’argent fait indifféremment le bien ou le mal. Mais dans un cas comme dans l’autre, n’oublions pas qu’il n’y est pour rien et que seul l’utilisateur est en cause. Ne jetons donc pas tout de suite l’argent aux orties². […]\nL’argent n’est qu’un moyen et, comme tel, il ne mérite pas de devenir tabou. Vous voulez en gagner le plus possible ? Allez-y, ne vous gênez pas. La vie nous fait un cadeau : pourquoi ne pas en profiter ? L’argent est comme l’air qu’on respire, il y en a autant qu’on veut. Car, contrairement à une idée très répandue de nos jours, j’avance que la richesse du monde est inépuisable.\nBien sûr, faire fortune n’est pas donné à tout le monde. Mais qui a dit que le monde était donné ? L’abondance est potentielle, à nous de fournir les efforts nécessaires pour la conquérir. Car je ne connais personne qui n’ait amassé de biens sans se donner les moyens d’y parvenir. […]\nCe qui rend la vie passionnante, c’est précisément que nous soyons tous différents, intellectuellement, physiquement et même matériellement. C’est parce que nous ne sommes pas semblables qu’il peut s’établir entre nous un jeu, des relations, des conflits, de l’amour. Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. […]\nSe reconnaître soi-même, c’est déjà reconnaître l’extraordinaire simplicité de nos besoins naturels : si tout fonctionne bien dans notre tête, nous pouvons être heureux avec un peu de nourriture, des vêtements et un toit. C’est parce que nous ne nous reconnaissons pas que nous courons après la voiture de luxe, le fauteuil du directeur ou le manteau de fourrure… Nous comptons sur les objets extérieurs pour dire qui nous sommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Dr. Etienne JALENQUES*, La thérapie du bonheur,\nEd. Marabout / Hachette Livre 2002, pp. 134-137."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Dr. E. JALENQUES : médecin psychiatre.\n1. Névrose : obsession, anxiété excessive liée à l’argent.\n2. Jeter aux orties : abandonner quelqu'un, ou quelque chose."
+    }
+   ],
+   "rubric_total": 8,
+   "rubric_elements": [
+    {
+     "id": "q10-e1",
+     "label": "Organisation : présentation du texte (mise en page, lisibilité)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q10-e2",
+     "label": "Organisation : cohérence — progression des informations",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q10-e3",
+     "label": "Organisation : cohérence — absence de répétitions",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q10-e4",
+     "label": "Organisation : cohérence — absence de contresens",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q10-e5",
+     "label": "Organisation : cohérence — emploi de connecteurs",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q10-e6",
+     "label": "Organisation : structure adéquate",
+     "max_points": 1.5,
+     "verified": false
+    },
+    {
+     "id": "q10-e7",
+     "label": "Planification : choix énonciatif en relation avec la consigne",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q10-e8",
+     "label": "Planification : choix et sélection des informations",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q10-e9",
+     "label": "Langue : correction des phrases au plan syntaxique",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q10-e10",
+     "label": "Langue : lexique approprié à la thématique",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q10-e11",
+     "label": "Langue : emploi correct des temps et des modes",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q10-e12",
+     "label": "Langue : utilisation adéquate des signes de ponctuation",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q10-e13",
+     "label": "Langue : orthographe",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Dans ce texte, le sujet principal est : (choisissez la bonne réponse)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "l’attrait pour l’argent comme unique source de bonheur personnel.",
+     "l’attrait pour l'argent comme seul moteur de réussite sociale.",
+     "l’attrait pour l'argent comme facteur possible de déstabilisation psychique."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « l’attrait pour l'argent comme facteur possible de déstabilisation psychique. »",
+   "points": 1,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« La sagesse populaire répète jusqu’à la nausée que l’argent ne fait pas le bonheur. » L’expression « répète jusqu’à la nausée » veut dire :",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "répète jusqu'à l'ennui.",
+     "répète jusqu’au refus.",
+     "répète jusqu’à l’accord."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « répète jusqu’à l’ennui. »",
+   "points": 0.5,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« …la richesse du monde est inépuisable… » Quelle phrase du 3ème paragraphe (§3) justifie cette affirmation ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "L’argent n’est qu’un moyen et, comme tel, il ne mérite pas de devenir tabou.",
+     "Allez-y, ne vous gênez pas.",
+     "Vous voulez en gagner le plus possible ?",
+     "L’argent est comme l’air qu’on respire, il y en a autant qu’on veut."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Corrigé : « L’argent est comme l’air qu’on respire, il y en a autant qu’on veut. » Accepter aussi : « il y en a autant qu’on veut. »",
+   "points": 1,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "« Pour que la vie soit passionnante, on ne doit pas courir uniquement après l’argent. » Sélectionnez les deux raisons qui, selon le texte, rendent la vie plus intéressante.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "Courir après la voiture de luxe et le fauteuil du directeur.",
+     "Compter sur les objets extérieurs pour dire qui nous sommes.",
+     "Amasser des biens sans fournir d’efforts.",
+     "Etre tous différents intellectuellement et/ou physiquement et/ou matériellement.",
+     "Se reconnaître soi-même comme unique."
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     3,
+     4
+    ]
+   },
+   "explanation": "Corrigé : « Etre tous différents intellectuellement et/ou physiquement et/ou matériellement. » ; « Se reconnaître soi-même comme unique. » (0,5 chacune). Accepter aussi : « Nous ne sommes pas semblables qu’il peut s’établir entre nous un jeu et/ou des relations et/ou des conflits et/ou de l’amour. »",
+   "points": 1,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « L’énergie ne doit pas être utilisée avec beaucoup d’attention. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : Faux. « il faut la manier avec d’infinies précautions » (§2). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « La richesse dans le monde est une ressource abondante et disponible. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : Vrai. « il y en a autant qu’on veut. […] la richesse du monde est inépuisable » (§3). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « La fortune est possible pour celui qui ne sait pas mettre les moyens. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : Faux. « je ne connais personne qui n’ait amassé de biens sans se donner les moyens d’y parvenir » (§4). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « Pour être heureux, l’homme doit se satisfaire de ce qu’il possède. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : Vrai. « nous pouvons être heureux avec un peu de nourriture, des vêtements et un toit » (§6). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « énergie destructrice » : cette expression renvoie…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Au bonheur",
+     "A l’angoisse"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Facteur de bonheur : acceptation de soi / énergie motrice / simplicité des besoins ; Facteur d’angoisse : énergie destructrice / fascination pour l’argent / besoins superflus.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « acceptation de soi » : cette expression renvoie…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Au bonheur",
+     "A l’angoisse"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Facteur de bonheur : acceptation de soi / énergie motrice / simplicité des besoins ; Facteur d’angoisse : énergie destructrice / fascination pour l’argent / besoins superflus.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « fascination pour l’argent » : cette expression renvoie…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Au bonheur",
+     "A l’angoisse"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Facteur de bonheur : acceptation de soi / énergie motrice / simplicité des besoins ; Facteur d’angoisse : énergie destructrice / fascination pour l’argent / besoins superflus.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « énergie motrice » : cette expression renvoie…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Au bonheur",
+     "A l’angoisse"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Facteur de bonheur : acceptation de soi / énergie motrice / simplicité des besoins ; Facteur d’angoisse : énergie destructrice / fascination pour l’argent / besoins superflus.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e5",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « besoins superflus » : cette expression renvoie…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Au bonheur",
+     "A l’angoisse"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Facteur de bonheur : acceptation de soi / énergie motrice / simplicité des besoins ; Facteur d’angoisse : énergie destructrice / fascination pour l’argent / besoins superflus.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e6",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « simplicité des besoins » : cette expression renvoie…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Au bonheur",
+     "A l’angoisse"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Facteur de bonheur : acceptation de soi / énergie motrice / simplicité des besoins ; Facteur d’angoisse : énergie destructrice / fascination pour l’argent / besoins superflus.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« N’est-il pas le signe… » (§1) : à quoi renvoie « il » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "l’argent",
+     "le monde",
+     "le signe",
+     "le bonheur"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « il » = l’argent.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« …elle devient destructrice. » (§2) : à quoi renvoie « elle » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "la sagesse populaire",
+     "cette énergie",
+     "la nausée",
+     "la vie"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : « elle » = cette énergie.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« …ne vous gênez pas. » (§3) : à qui renvoie « vous » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "l’auteur",
+     "la sagesse populaire",
+     "les objets extérieurs",
+     "les lecteurs"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Corrigé : « vous » = les lecteurs / destinataires / personnes attirées par l’argent.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« car je ne connais personne… » (§4) : à qui renvoie « je » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "la sagesse populaire",
+     "l’auteur",
+     "l’utilisateur",
+     "le lecteur"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : « Je » = l’auteur. (Accepter aussi : le médecin / le psychiatre / l’écrivain / le thérapeute / Dr. Etienne JALENQUES.)",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Formulez, en une phrase, la visée communicative de l’auteur (réponse rédigée)",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Formulez, en une phrase, la visée communicative de l’auteur.",
+     "criterion": "Visée communicative de l’auteur",
+     "model_answer": "L'auteur de ce texte conseille de ne pas se laisser obséder par l'argent. ou Il défend l’idée que le bonheur ne dépend pas de la richesse matérielle, mais de la reconnaissance de soi et de la satisfaction des besoins essentiels.",
+     "accepted": [
+      "Accepter toute autre réponse allant dans le même le sens."
+     ],
+     "deferred_because": "réponse ouverte : le corrigé accepte « toute autre réponse allant dans le même le sens »"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "- L'auteur de ce texte conseille de ne pas se laisser obséder par l'argent. ou - Il défend l’idée que le bonheur ne dépend pas de la richesse matérielle, mais de la reconnaissance de soi et de la satisfaction des besoins essentiels. (Accepter toute autre réponse allant dans le même le sens.)",
+     "model_answer": "L'auteur de ce texte conseille de ne pas se laisser obséder par l'argent. ou Il défend l’idée que le bonheur ne dépend pas de la richesse matérielle, mais de la reconnaissance de soi et de la satisfaction des besoins essentiels.",
+     "accepted": [
+      "Accepter toute autre réponse allant dans le même le sens."
+     ]
+    }
+   },
+   "explanation": "Corrigé : « L'auteur de ce texte conseille de ne pas se laisser obséder par l'argent. » ou « Il défend l’idée que le bonheur ne dépend pas de la richesse matérielle, mais de la reconnaissance de soi et de la satisfaction des besoins essentiels. » (Accepter toute autre réponse allant dans le même le sens.)",
+   "points": 1,
+   "skill_id": "fr.enonciation",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 9 — réponse rédigée en deux à trois lignes, critère : Respect de la consigne",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. »\nPartagez-vous cet avis ? Justifiez, en deux à trois lignes, votre réponse.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Respect de la consigne",
+     "indicator": "Respect de la consigne : prise de position avec justification et le nombre de lignes.",
+     "model_answer": "Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure.",
+     "acceptance": "exemple",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Respect de la consigne : prise de position avec justification et le nombre de lignes.",
+     "model_answer": "Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemple) : Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 9 — réponse rédigée en deux à trois lignes, critère : Pertinence des idées",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. »\nPartagez-vous cet avis ? Justifiez, en deux à trois lignes, votre réponse.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Pertinence des idées",
+     "indicator": "Pertinence des idées. Exemple. Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure.",
+     "model_answer": "Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure.",
+     "acceptance": "exemple",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Pertinence des idées. Exemple. Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure.",
+     "model_answer": "Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemple) : Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 9 — réponse rédigée en deux à trois lignes, critère : Cohérence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. »\nPartagez-vous cet avis ? Justifiez, en deux à trois lignes, votre réponse.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Cohérence",
+     "indicator": "Cohérence.",
+     "model_answer": "Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure.",
+     "acceptance": "exemple",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Cohérence.",
+     "model_answer": "Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemple) : Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 9 — réponse rédigée en deux à trois lignes, critère : Correction de la langue",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« Je crois que se reconnaître soi-même comme unique, c’est déjà supprimer une grande partie de notre attrait pour l’argent. »\nPartagez-vous cet avis ? Justifiez, en deux à trois lignes, votre réponse.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Correction de la langue",
+     "indicator": "Correction de la langue.",
+     "model_answer": "Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure.",
+     "acceptance": "exemple",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correction de la langue.",
+     "model_answer": "Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemple) : Reconnaître ses forces, faiblesses et aspirations permet de relativiser l’attrait pour l’argent. Ainsi, on cherchera moins le bonheur à travers l'accumulation des richesses, mais à travers la satisfaction intérieure.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Présentation du texte",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Présentation du texte",
+     "indicator": "Organisation : présentation du texte (mise en page, lisibilité)",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5 — Présentation du texte (mise en page, lisibilité)",
+      "Sujet 2 — grille « Production libre »": "0.5 — Présentation du texte (mise en page, lisibilité)."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : présentation du texte (mise en page, lisibilité)"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Progression des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Progression des informations",
+     "indicator": "Organisation : cohérence — progression des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.25 (0.25x 4 Cohérence du texte) — progression des informations",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — progression des informations"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — progression des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de répétitions",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Absence de répétitions",
+     "indicator": "Organisation : cohérence — absence de répétitions",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.25 (0.25x 4 Cohérence du texte) — absence de répétitions",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — absence de répétitions"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de répétitions"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de contresens",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Absence de contresens",
+     "indicator": "Organisation : cohérence — absence de contresens",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.25 (0.25x 4 Cohérence du texte) — absence de contresens",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — absence de contresens"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de contresens"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e5",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Emploi de connecteurs",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Emploi de connecteurs",
+     "indicator": "Organisation : cohérence — emploi de connecteurs",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.25 (0.25x 4 Cohérence du texte) — emploi de connecteurs",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — emploi de connecteurs"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — emploi de connecteurs"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s29",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e6",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Structure adéquate",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Structure adéquate",
+     "indicator": "Organisation : structure adéquate",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5x3 — Structure adéquate [accroche (0.5) - condensation (0.5) – critique (0.5)]",
+      "Sujet 2 — grille « Production libre »": "0.5x3 — Structure adéquate [Introduction - développement - conclusion]"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : structure adéquate"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s30",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e7",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix énonciatif",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Choix énonciatif",
+     "indicator": "Planification : choix énonciatif en relation avec la consigne",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "1 — Choix énonciatif en relation avec la consigne",
+      "Sujet 2 — grille « Production libre »": "1 — Choix énonciatif en relation avec la consigne"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix énonciatif en relation avec la consigne"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s31",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e8",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Choix des informations",
+     "indicator": "Planification : choix et sélection des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "1 — Sélection des informations essentielles (condensation et reformulation)",
+      "Sujet 2 — grille « Production libre »": "1 — Choix des informations (originalité et pertinence des idées)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix et sélection des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s32",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e9",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Correction syntaxique",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Correction syntaxique",
+     "indicator": "Langue : correction des phrases au plan syntaxique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "1 — Correction des phrases au plan syntaxique",
+      "Sujet 2 — grille « Production libre »": "1 — Correction des phrases au plan syntaxique"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : correction des phrases au plan syntaxique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s33",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e10",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Lexique approprié",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Lexique approprié",
+     "indicator": "Langue : lexique approprié à la thématique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5 — Emploi d’un lexique approprié à la thématique",
+      "Sujet 2 — grille « Production libre »": "0.5 — Emploi d’un lexique approprié à la thématique"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : lexique approprié à la thématique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s34",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e11",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Temps et modes",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Temps et modes",
+     "indicator": "Langue : emploi correct des temps et des modes",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5 — Emploi correct des temps et des modes",
+      "Sujet 2 — grille « Production libre »": "0.5 — Emploi correct des temps et des modes"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : emploi correct des temps et des modes"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s35",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e12",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Ponctuation",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Ponctuation",
+     "indicator": "Langue : utilisation adéquate des signes de ponctuation",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5 — Utilisation adéquate des signes de ponctuation",
+      "Sujet 2 — grille « Production libre »": "0.5 — Utilisation adéquate des signes de ponctuation"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : utilisation adéquate des signes de ponctuation"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s36",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e13",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Orthographe",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "Votre établissement organise un débat sur le thème « Argent et bonheur ». Vous êtes invité(e) à y participer. Ce texte vous a plu. Rédigez son compte rendu critique (150 mots environ) que vous partagerez avec les invités à ce débat."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "En votre qualité de membre du club de lecture, vous êtes sollicité(e) par l’administration de votre lycée pour l’aider à lutter contre le désintérêt de nombreux apprenants aux études : l’indiscipline, l’absentéisme, etc. Rédigez un appel (150 mots environ) pour encourager vos camarades à se réinvestir pleinement dans leurs apprentissages afin de garantir leur avenir. Votre texte sera publié sur le journal mural du lycée."
+      }
+     ],
+     "criterion": "Orthographe",
+     "indicator": "Langue : orthographe",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5 — Orthographe (pas plus de 10 erreurs)",
+      "Sujet 2 — grille « Production libre »": "0.5 — Orthographe (pas, plus de 10 erreurs)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : orthographe"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T22:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من ورقة البكالوريا الرّسميّة وإجابتها النّموذجيّة (PDF رقميّان في Drive، طبقة النّصّ مقابَلة بصور الصّفحات)؛ العلامات من سلّم التّنقيط الرّسميّ؛ الإجابات الصّحيحة من الحلّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  }
+ ]
+}

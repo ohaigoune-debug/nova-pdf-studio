@@ -1,0 +1,1665 @@
+{
+ "schema_version": 1,
+ "set_id": "fr-bac-2026-lang-p1",
+ "status": "NEEDS_HUMAN_REVIEW",
+ "source": {
+  "source_id": "gdrive-1bKLTk8-0yBX0N-hrtIsAVDqQmkug9iX0-p1",
+  "kind": "BAC",
+  "year": 2026,
+  "level": "3AS",
+  "streams": [
+   "LANG"
+  ],
+  "subject": "FR",
+  "term": null,
+  "paper": 1,
+  "title": "بكالوريا 2026 (الدورة العاديّة) – اللغة الفرنسية – شعبة لغات أجنبية – الموضوع الأوّل («SOUFFLE VIVANT DE LA RÉVOLUTION»، El Moudjahid)",
+  "original_url": "https://drive.google.com/file/d/1bKLTk8-0yBX0N-hrtIsAVDqQmkug9iX0/view",
+  "original_file_ref": "gdrive:1bKLTk8-0yBX0N-hrtIsAVDqQmkug9iX0 (2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1QCiUu9WXfR6RdrGoIebyRgZf8Y0wr_4R/view",
+  "correction_file_ref": "gdrive:1QCiUu9WXfR6RdrGoIebyRgZf8Y0wr_4R (2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": false,
+  "verified_by": null,
+  "verified_at": null,
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word). الموضوع: gdrive:1bKLTk8-0yBX0N-hrtIsAVDqQmkug9iX0 (2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf) ص1–2؛ الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1QCiUu9WXfR6RdrGoIebyRgZf8Y0wr_4R (2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الحل.pdf) ص1 وص3 (الإنتاج الكتابيّ للموضوعين). الملفّان PDF رقميّان من الدّيوان الوطنيّ للامتحانات (لا مسح ضوئيّ): أُخذ النّصّ من طبقة النّصّ (pdftotext -raw) وقوبل كلّ سطر بصورة الصّفحة (150 نقطة)، وتحقّق سكربت من أنّ كلّ نصّ حرفيّ موجود في طبقة النّصّ. الشّعبة من رأس الورقة «الشعبة: لغات أجنبية» ⇒ LANG. «الدورة العادية» من اسم الملفّ في Drive (الورقة تطبع «الدورة: 2026»). المجموع: فهم المكتوب 12 + إنتاج كتابيّ 08؛ كلّ العلامات من عمودَي «مجزأة/مجموع» في الحلّ الرّسميّ. خلافات طبقة النّصّ مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس (السّنة «0302»، المدّة «30 سا و 03 د» والصّورة «03 سا و30 د»)؛ شرطات القوائم حرف خاصّ U+F02D في الطّبقة و«–» في الصّورة ⇒ «–»؛ إحالات الهوامش مرفوعة في الصّورة ⇒ ¹ ² ³؛ «1er/3ème» المرفوعة كُتبت عاديّة. حُفظ كما طُبع: الفاصلة العليا المستقيمة في «Ich'hadi» و«l'argent» (خيارا س1 الثّاني والثّالث في الموضوع الثّاني) و«jusqu'à l'ennui» و«quelqu'un». قرارات عامّة: «n×m» لبنود متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من النّصّ ⇒ عنصر واحد بخطوة multi. خيارا «Vrai/Faux» والتّصنيف الثّنائيّ يُخزَّنان معكوسين لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين. قاعدة «accepter» الموحَّدة: صيغة أخرى للجواب نفسه أو قائمة مغلقة ⇒ تفاعليّ (الصّحيح صيغة الحلّ الأولى، والصّيغ المقبولة في الشّرح ولا تكون مشتّتًا أبدًا)؛ الجواب المفتوح («toute autre réponse…»، «à titre indicatif») ⇒ essay_builder مؤجَّل. الإنتاج الكتابيّ = سؤال أصليّ واحد يضمّ الموضوعين، وتفاصيل شبكة كلّ موضوع في spec. المشتّتات من إعداد التّحويل وتحتاج مراجعة. س2 «0.5 x 2» ⇒ عنصر واحد (1) بخطوة multi باختيارين صحيحين (عبارتا الحلّ)؛ «Accepter : un autre arsenal» لا يُعرض مشتّتًا؛ المشتّتات من الفقرة 1 لا تصف الأنشودة (des fusils، les villages encerclés، les camps de réfugiés) ولم يُعرض «des voix» لأنّه قابل للدّفاع. س3 «0.5x3» ⇒ عنصر واحد (1.5) بخطوة multi (ثلاثة صحيحة + مشتّتان منسوبان في النّصّ إلى أناشيد أخرى). س5د: الورقة «La poésie servait le chant patriotique.» والحلّ «…servait de chant patriotique. Vrai» ⇒ نُقلت صيغة الورقة في السّؤال. س6 «0.25x4» ⇒ عنصر واحد بخطوة matching (التّنقيط بحصّة الأزواج = 0.25 للزّوج)، بلا مشتّت إضافيّ. س7 «ses»: الخيار الصّحيح صيغة الحلّ الأولى «les paroles de Mohamed El Aïd Al Khalifa»، والصّيغ المقبولة الأخرى (Min jibalina، De nos montagnes…) ليست مشتّتات. س8 (1) مؤجَّل: «Accepter toute autre réponse allant dans le même sens». س9: «0.5x4» معايير ⇒ أربعة عناصر مؤجَّلة. الإنتاج الكتابيّ (8): شبكتا «Compte rendu critique» و«Production libre» متطابقتان في العلامات سطرًا بسطر ⇒ 13 عنصرًا؛ «Structure adéquate 0.5x3» عنصر واحد (1.5) لأنّ أجزاءه تختلف بين الموضوعين."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Dans ce texte, le sujet principal est :\n– le chant patriotique comme moyen de résistance.\n– le chant patriotique comme moyen de divertissement.\n– le chant patriotique comme moyen de démonstration artistique.\nRecopiez la bonne réponse.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "SOUFFLE VIVANT DE LA RÉVOLUTION"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant la guerre de Libération nationale (1954-1962), l’Algérie s’est battue avec des fusils certes, mais aussi avec des voix. Dans les maquis, les prisons, les villages encerclés et jusque dans les camps de réfugiés, un autre arsenal circulait de bouche à oreille : le chant patriotique. Ces mélodies furent le langage d’une révolte et la respiration d’un peuple.\nLe plus emblématique de ces chants reste Kassaman (Nous jurons), hymne national depuis 1963. En 1955, dans une cellule coloniale, le poète Moufdi Zakaria trace des vers sur les murs blanchis à la chaux : « Nous jurons par la foudre dévastatrice, par les flots ruisselants de sang pur. » Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir.\nBien avant la guerre, des chants annonçaient déjà la naissance d’une conscience nationale. En 1931, Mohamed El Aïd Al Khalifa compose Min jibalina (De nos montagnes). Ses paroles, exaltant la dignité et la jeunesse, ont formé une génération prête à défendre la patrie. Au lycée de Ben Aknoun durant les années 1940, le jeune Mohand Idir Aït Amrane compose Ekker a mmis umazigh (Debout, fils d’Amazigh), ode¹ en kabyle à la liberté et à la fierté ancestrale. […]\nEn 1931, Houari Hennani écrivait S’hab el baroud (Les compagnons de la poudre), dénonçant l’exposition² coloniale française comme une provocation et appelant à la révolte. Dans l’Ouest du pays, cette chanson se transmettait comme un poème clandestin, brûlant et indomptable. Dans les Aurès, le chant chaoui Tayara Safra (Avion jaune) faisait vibrer les montagnes insurgées. […] D’autres titres, souvent entonnés collectivement, accompagnaient les maquisards dans leurs combats. […] Dans Ich'hadi ya sama (Témoigne, ô ciel), la prière et la poésie se confondaient dans un même élan vers la liberté. La guerre, c’était aussi l’exil et la solitude. En 1959, derrière les barreaux, Akli Yahyaten compose Yal menfi (Le banni), inspiré d’un ancien chant kabyle de déportés³.\n[…] Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent. Elles rappellent que l’indépendance algérienne n’a pas été un hasard, mais une conquête arrachée par le courage et par le chant. Car en Algérie, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Sihem OUBRAHAM, El Moudjahid, du 01 novembre 2025."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. Ode : poème.\n2. Exposition : festivité pour célébrer le centenaire de la colonisation par les Français en 1930.\n3. Déportés : personnes déplacées de force loin de leur patrie."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "Sujet principal du texte",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Identifiez, dans le 1er paragraphe, les deux (02) expressions qui qualifient le chant patriotique.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "SOUFFLE VIVANT DE LA RÉVOLUTION"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant la guerre de Libération nationale (1954-1962), l’Algérie s’est battue avec des fusils certes, mais aussi avec des voix. Dans les maquis, les prisons, les villages encerclés et jusque dans les camps de réfugiés, un autre arsenal circulait de bouche à oreille : le chant patriotique. Ces mélodies furent le langage d’une révolte et la respiration d’un peuple.\nLe plus emblématique de ces chants reste Kassaman (Nous jurons), hymne national depuis 1963. En 1955, dans une cellule coloniale, le poète Moufdi Zakaria trace des vers sur les murs blanchis à la chaux : « Nous jurons par la foudre dévastatrice, par les flots ruisselants de sang pur. » Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir.\nBien avant la guerre, des chants annonçaient déjà la naissance d’une conscience nationale. En 1931, Mohamed El Aïd Al Khalifa compose Min jibalina (De nos montagnes). Ses paroles, exaltant la dignité et la jeunesse, ont formé une génération prête à défendre la patrie. Au lycée de Ben Aknoun durant les années 1940, le jeune Mohand Idir Aït Amrane compose Ekker a mmis umazigh (Debout, fils d’Amazigh), ode¹ en kabyle à la liberté et à la fierté ancestrale. […]\nEn 1931, Houari Hennani écrivait S’hab el baroud (Les compagnons de la poudre), dénonçant l’exposition² coloniale française comme une provocation et appelant à la révolte. Dans l’Ouest du pays, cette chanson se transmettait comme un poème clandestin, brûlant et indomptable. Dans les Aurès, le chant chaoui Tayara Safra (Avion jaune) faisait vibrer les montagnes insurgées. […] D’autres titres, souvent entonnés collectivement, accompagnaient les maquisards dans leurs combats. […] Dans Ich'hadi ya sama (Témoigne, ô ciel), la prière et la poésie se confondaient dans un même élan vers la liberté. La guerre, c’était aussi l’exil et la solitude. En 1959, derrière les barreaux, Akli Yahyaten compose Yal menfi (Le banni), inspiré d’un ancien chant kabyle de déportés³.\n[…] Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent. Elles rappellent que l’indépendance algérienne n’a pas été un hasard, mais une conquête arrachée par le courage et par le chant. Car en Algérie, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Sihem OUBRAHAM, El Moudjahid, du 01 novembre 2025."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. Ode : poème.\n2. Exposition : festivité pour célébrer le centenaire de la colonisation par les Français en 1930.\n3. Déportés : personnes déplacées de force loin de leur patrie."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "Deux expressions qualifiant le chant patriotique (§1) (0,5x2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Relevez, du texte, les trois (03) valeurs symboliques de l’hymne national durant la révolution.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "SOUFFLE VIVANT DE LA RÉVOLUTION"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant la guerre de Libération nationale (1954-1962), l’Algérie s’est battue avec des fusils certes, mais aussi avec des voix. Dans les maquis, les prisons, les villages encerclés et jusque dans les camps de réfugiés, un autre arsenal circulait de bouche à oreille : le chant patriotique. Ces mélodies furent le langage d’une révolte et la respiration d’un peuple.\nLe plus emblématique de ces chants reste Kassaman (Nous jurons), hymne national depuis 1963. En 1955, dans une cellule coloniale, le poète Moufdi Zakaria trace des vers sur les murs blanchis à la chaux : « Nous jurons par la foudre dévastatrice, par les flots ruisselants de sang pur. » Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir.\nBien avant la guerre, des chants annonçaient déjà la naissance d’une conscience nationale. En 1931, Mohamed El Aïd Al Khalifa compose Min jibalina (De nos montagnes). Ses paroles, exaltant la dignité et la jeunesse, ont formé une génération prête à défendre la patrie. Au lycée de Ben Aknoun durant les années 1940, le jeune Mohand Idir Aït Amrane compose Ekker a mmis umazigh (Debout, fils d’Amazigh), ode¹ en kabyle à la liberté et à la fierté ancestrale. […]\nEn 1931, Houari Hennani écrivait S’hab el baroud (Les compagnons de la poudre), dénonçant l’exposition² coloniale française comme une provocation et appelant à la révolte. Dans l’Ouest du pays, cette chanson se transmettait comme un poème clandestin, brûlant et indomptable. Dans les Aurès, le chant chaoui Tayara Safra (Avion jaune) faisait vibrer les montagnes insurgées. […] D’autres titres, souvent entonnés collectivement, accompagnaient les maquisards dans leurs combats. […] Dans Ich'hadi ya sama (Témoigne, ô ciel), la prière et la poésie se confondaient dans un même élan vers la liberté. La guerre, c’était aussi l’exil et la solitude. En 1959, derrière les barreaux, Akli Yahyaten compose Yal menfi (Le banni), inspiré d’un ancien chant kabyle de déportés³.\n[…] Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent. Elles rappellent que l’indépendance algérienne n’a pas été un hasard, mais une conquête arrachée par le courage et par le chant. Car en Algérie, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Sihem OUBRAHAM, El Moudjahid, du 01 novembre 2025."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. Ode : poème.\n2. Exposition : festivité pour célébrer le centenaire de la colonisation par les Français en 1930.\n3. Déportés : personnes déplacées de force loin de leur patrie."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "Trois valeurs symboliques de l’hymne national (0,5x3)",
+     "max_points": 1.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Trouvez, dans le texte, la phrase qui montre que les chants patriotiques sont restés dans la mémoire collective même après l’indépendance.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "SOUFFLE VIVANT DE LA RÉVOLUTION"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant la guerre de Libération nationale (1954-1962), l’Algérie s’est battue avec des fusils certes, mais aussi avec des voix. Dans les maquis, les prisons, les villages encerclés et jusque dans les camps de réfugiés, un autre arsenal circulait de bouche à oreille : le chant patriotique. Ces mélodies furent le langage d’une révolte et la respiration d’un peuple.\nLe plus emblématique de ces chants reste Kassaman (Nous jurons), hymne national depuis 1963. En 1955, dans une cellule coloniale, le poète Moufdi Zakaria trace des vers sur les murs blanchis à la chaux : « Nous jurons par la foudre dévastatrice, par les flots ruisselants de sang pur. » Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir.\nBien avant la guerre, des chants annonçaient déjà la naissance d’une conscience nationale. En 1931, Mohamed El Aïd Al Khalifa compose Min jibalina (De nos montagnes). Ses paroles, exaltant la dignité et la jeunesse, ont formé une génération prête à défendre la patrie. Au lycée de Ben Aknoun durant les années 1940, le jeune Mohand Idir Aït Amrane compose Ekker a mmis umazigh (Debout, fils d’Amazigh), ode¹ en kabyle à la liberté et à la fierté ancestrale. […]\nEn 1931, Houari Hennani écrivait S’hab el baroud (Les compagnons de la poudre), dénonçant l’exposition² coloniale française comme une provocation et appelant à la révolte. Dans l’Ouest du pays, cette chanson se transmettait comme un poème clandestin, brûlant et indomptable. Dans les Aurès, le chant chaoui Tayara Safra (Avion jaune) faisait vibrer les montagnes insurgées. […] D’autres titres, souvent entonnés collectivement, accompagnaient les maquisards dans leurs combats. […] Dans Ich'hadi ya sama (Témoigne, ô ciel), la prière et la poésie se confondaient dans un même élan vers la liberté. La guerre, c’était aussi l’exil et la solitude. En 1959, derrière les barreaux, Akli Yahyaten compose Yal menfi (Le banni), inspiré d’un ancien chant kabyle de déportés³.\n[…] Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent. Elles rappellent que l’indépendance algérienne n’a pas été un hasard, mais une conquête arrachée par le courage et par le chant. Car en Algérie, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Sihem OUBRAHAM, El Moudjahid, du 01 novembre 2025."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. Ode : poème.\n2. Exposition : festivité pour célébrer le centenaire de la colonisation par les Français en 1930.\n3. Déportés : personnes déplacées de force loin de leur patrie."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "Phrase sur la mémoire collective après l’indépendance",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "5",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Répondez par « vrai » ou « faux » :\na) Les chants patriotiques n’étaient entonnés que dans les villes.\nb) Kassaman a été écrit dans une prison.\nc) La conscience nationale est née après 1954.\nd) La poésie servait le chant patriotique.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "SOUFFLE VIVANT DE LA RÉVOLUTION"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant la guerre de Libération nationale (1954-1962), l’Algérie s’est battue avec des fusils certes, mais aussi avec des voix. Dans les maquis, les prisons, les villages encerclés et jusque dans les camps de réfugiés, un autre arsenal circulait de bouche à oreille : le chant patriotique. Ces mélodies furent le langage d’une révolte et la respiration d’un peuple.\nLe plus emblématique de ces chants reste Kassaman (Nous jurons), hymne national depuis 1963. En 1955, dans une cellule coloniale, le poète Moufdi Zakaria trace des vers sur les murs blanchis à la chaux : « Nous jurons par la foudre dévastatrice, par les flots ruisselants de sang pur. » Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir.\nBien avant la guerre, des chants annonçaient déjà la naissance d’une conscience nationale. En 1931, Mohamed El Aïd Al Khalifa compose Min jibalina (De nos montagnes). Ses paroles, exaltant la dignité et la jeunesse, ont formé une génération prête à défendre la patrie. Au lycée de Ben Aknoun durant les années 1940, le jeune Mohand Idir Aït Amrane compose Ekker a mmis umazigh (Debout, fils d’Amazigh), ode¹ en kabyle à la liberté et à la fierté ancestrale. […]\nEn 1931, Houari Hennani écrivait S’hab el baroud (Les compagnons de la poudre), dénonçant l’exposition² coloniale française comme une provocation et appelant à la révolte. Dans l’Ouest du pays, cette chanson se transmettait comme un poème clandestin, brûlant et indomptable. Dans les Aurès, le chant chaoui Tayara Safra (Avion jaune) faisait vibrer les montagnes insurgées. […] D’autres titres, souvent entonnés collectivement, accompagnaient les maquisards dans leurs combats. […] Dans Ich'hadi ya sama (Témoigne, ô ciel), la prière et la poésie se confondaient dans un même élan vers la liberté. La guerre, c’était aussi l’exil et la solitude. En 1959, derrière les barreaux, Akli Yahyaten compose Yal menfi (Le banni), inspiré d’un ancien chant kabyle de déportés³.\n[…] Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent. Elles rappellent que l’indépendance algérienne n’a pas été un hasard, mais une conquête arrachée par le courage et par le chant. Car en Algérie, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Sihem OUBRAHAM, El Moudjahid, du 01 novembre 2025."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. Ode : poème.\n2. Exposition : festivité pour célébrer le centenaire de la colonisation par les Français en 1930.\n3. Déportés : personnes déplacées de force loin de leur patrie."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "Affirmation a) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e2",
+     "label": "Affirmation b) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e3",
+     "label": "Affirmation c) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e4",
+     "label": "Affirmation d) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "6",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Soit les propositions suivantes :\nglorifier les origines et les racines / exprimer la douleur du déracinement / stimuler la fierté des jeunes / inciter à la lutte.\nAssociez chacune d’elles à la chanson engagée qui lui correspond.\n– Min jibalina : ………………………………………………..\n– S’hab el baroud : ……………………………………………\n– Ekker a mmis umazigh : ……………………………………\n– Yal menfi : ………………………………………………….",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "SOUFFLE VIVANT DE LA RÉVOLUTION"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant la guerre de Libération nationale (1954-1962), l’Algérie s’est battue avec des fusils certes, mais aussi avec des voix. Dans les maquis, les prisons, les villages encerclés et jusque dans les camps de réfugiés, un autre arsenal circulait de bouche à oreille : le chant patriotique. Ces mélodies furent le langage d’une révolte et la respiration d’un peuple.\nLe plus emblématique de ces chants reste Kassaman (Nous jurons), hymne national depuis 1963. En 1955, dans une cellule coloniale, le poète Moufdi Zakaria trace des vers sur les murs blanchis à la chaux : « Nous jurons par la foudre dévastatrice, par les flots ruisselants de sang pur. » Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir.\nBien avant la guerre, des chants annonçaient déjà la naissance d’une conscience nationale. En 1931, Mohamed El Aïd Al Khalifa compose Min jibalina (De nos montagnes). Ses paroles, exaltant la dignité et la jeunesse, ont formé une génération prête à défendre la patrie. Au lycée de Ben Aknoun durant les années 1940, le jeune Mohand Idir Aït Amrane compose Ekker a mmis umazigh (Debout, fils d’Amazigh), ode¹ en kabyle à la liberté et à la fierté ancestrale. […]\nEn 1931, Houari Hennani écrivait S’hab el baroud (Les compagnons de la poudre), dénonçant l’exposition² coloniale française comme une provocation et appelant à la révolte. Dans l’Ouest du pays, cette chanson se transmettait comme un poème clandestin, brûlant et indomptable. Dans les Aurès, le chant chaoui Tayara Safra (Avion jaune) faisait vibrer les montagnes insurgées. […] D’autres titres, souvent entonnés collectivement, accompagnaient les maquisards dans leurs combats. […] Dans Ich'hadi ya sama (Témoigne, ô ciel), la prière et la poésie se confondaient dans un même élan vers la liberté. La guerre, c’était aussi l’exil et la solitude. En 1959, derrière les barreaux, Akli Yahyaten compose Yal menfi (Le banni), inspiré d’un ancien chant kabyle de déportés³.\n[…] Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent. Elles rappellent que l’indépendance algérienne n’a pas été un hasard, mais une conquête arrachée par le courage et par le chant. Car en Algérie, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Sihem OUBRAHAM, El Moudjahid, du 01 novembre 2025."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. Ode : poème.\n2. Exposition : festivité pour célébrer le centenaire de la colonisation par les Français en 1930.\n3. Déportés : personnes déplacées de force loin de leur patrie."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "Association proposition ↔ chanson engagée (0,25x4)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "7",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Déterminez à qui ou à quoi renvoie chacun des pronoms : « ses », « elles » et « elle » dans les énoncés ci-dessous :\n– « Ses paroles, exaltant la dignité… » 3ème paragraphe\n– « Elles rappellent que l’indépendance… » 5ème paragraphe\n– « …, elle était déjà chantée. » 5ème paragraphe",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "SOUFFLE VIVANT DE LA RÉVOLUTION"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant la guerre de Libération nationale (1954-1962), l’Algérie s’est battue avec des fusils certes, mais aussi avec des voix. Dans les maquis, les prisons, les villages encerclés et jusque dans les camps de réfugiés, un autre arsenal circulait de bouche à oreille : le chant patriotique. Ces mélodies furent le langage d’une révolte et la respiration d’un peuple.\nLe plus emblématique de ces chants reste Kassaman (Nous jurons), hymne national depuis 1963. En 1955, dans une cellule coloniale, le poète Moufdi Zakaria trace des vers sur les murs blanchis à la chaux : « Nous jurons par la foudre dévastatrice, par les flots ruisselants de sang pur. » Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir.\nBien avant la guerre, des chants annonçaient déjà la naissance d’une conscience nationale. En 1931, Mohamed El Aïd Al Khalifa compose Min jibalina (De nos montagnes). Ses paroles, exaltant la dignité et la jeunesse, ont formé une génération prête à défendre la patrie. Au lycée de Ben Aknoun durant les années 1940, le jeune Mohand Idir Aït Amrane compose Ekker a mmis umazigh (Debout, fils d’Amazigh), ode¹ en kabyle à la liberté et à la fierté ancestrale. […]\nEn 1931, Houari Hennani écrivait S’hab el baroud (Les compagnons de la poudre), dénonçant l’exposition² coloniale française comme une provocation et appelant à la révolte. Dans l’Ouest du pays, cette chanson se transmettait comme un poème clandestin, brûlant et indomptable. Dans les Aurès, le chant chaoui Tayara Safra (Avion jaune) faisait vibrer les montagnes insurgées. […] D’autres titres, souvent entonnés collectivement, accompagnaient les maquisards dans leurs combats. […] Dans Ich'hadi ya sama (Témoigne, ô ciel), la prière et la poésie se confondaient dans un même élan vers la liberté. La guerre, c’était aussi l’exil et la solitude. En 1959, derrière les barreaux, Akli Yahyaten compose Yal menfi (Le banni), inspiré d’un ancien chant kabyle de déportés³.\n[…] Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent. Elles rappellent que l’indépendance algérienne n’a pas été un hasard, mais une conquête arrachée par le courage et par le chant. Car en Algérie, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Sihem OUBRAHAM, El Moudjahid, du 01 novembre 2025."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. Ode : poème.\n2. Exposition : festivité pour célébrer le centenaire de la colonisation par les Français en 1930.\n3. Déportés : personnes déplacées de force loin de leur patrie."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "Référent de « ses » (3ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q7-e2",
+     "label": "Référent de « Elles » (5ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q7-e3",
+     "label": "Référent de « elle » (5ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "8",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "Formulez, en une phrase, la visée communicative de la journaliste.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "SOUFFLE VIVANT DE LA RÉVOLUTION"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant la guerre de Libération nationale (1954-1962), l’Algérie s’est battue avec des fusils certes, mais aussi avec des voix. Dans les maquis, les prisons, les villages encerclés et jusque dans les camps de réfugiés, un autre arsenal circulait de bouche à oreille : le chant patriotique. Ces mélodies furent le langage d’une révolte et la respiration d’un peuple.\nLe plus emblématique de ces chants reste Kassaman (Nous jurons), hymne national depuis 1963. En 1955, dans une cellule coloniale, le poète Moufdi Zakaria trace des vers sur les murs blanchis à la chaux : « Nous jurons par la foudre dévastatrice, par les flots ruisselants de sang pur. » Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir.\nBien avant la guerre, des chants annonçaient déjà la naissance d’une conscience nationale. En 1931, Mohamed El Aïd Al Khalifa compose Min jibalina (De nos montagnes). Ses paroles, exaltant la dignité et la jeunesse, ont formé une génération prête à défendre la patrie. Au lycée de Ben Aknoun durant les années 1940, le jeune Mohand Idir Aït Amrane compose Ekker a mmis umazigh (Debout, fils d’Amazigh), ode¹ en kabyle à la liberté et à la fierté ancestrale. […]\nEn 1931, Houari Hennani écrivait S’hab el baroud (Les compagnons de la poudre), dénonçant l’exposition² coloniale française comme une provocation et appelant à la révolte. Dans l’Ouest du pays, cette chanson se transmettait comme un poème clandestin, brûlant et indomptable. Dans les Aurès, le chant chaoui Tayara Safra (Avion jaune) faisait vibrer les montagnes insurgées. […] D’autres titres, souvent entonnés collectivement, accompagnaient les maquisards dans leurs combats. […] Dans Ich'hadi ya sama (Témoigne, ô ciel), la prière et la poésie se confondaient dans un même élan vers la liberté. La guerre, c’était aussi l’exil et la solitude. En 1959, derrière les barreaux, Akli Yahyaten compose Yal menfi (Le banni), inspiré d’un ancien chant kabyle de déportés³.\n[…] Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent. Elles rappellent que l’indépendance algérienne n’a pas été un hasard, mais une conquête arrachée par le courage et par le chant. Car en Algérie, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Sihem OUBRAHAM, El Moudjahid, du 01 novembre 2025."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. Ode : poème.\n2. Exposition : festivité pour célébrer le centenaire de la colonisation par les Français en 1930.\n3. Déportés : personnes déplacées de force loin de leur patrie."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "Visée communicative de la journaliste (réponse ouverte)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "9",
+   "part": "I. Compréhension de l’écrit : (12 points)",
+   "verbatim_text": "« …, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée. »\nOutre les armes et les chants, les Algériens avaient-ils utilisé d’autres moyens pour résister au colonialisme ? Justifiez, en deux à trois lignes, votre réponse.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "SOUFFLE VIVANT DE LA RÉVOLUTION"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant la guerre de Libération nationale (1954-1962), l’Algérie s’est battue avec des fusils certes, mais aussi avec des voix. Dans les maquis, les prisons, les villages encerclés et jusque dans les camps de réfugiés, un autre arsenal circulait de bouche à oreille : le chant patriotique. Ces mélodies furent le langage d’une révolte et la respiration d’un peuple.\nLe plus emblématique de ces chants reste Kassaman (Nous jurons), hymne national depuis 1963. En 1955, dans une cellule coloniale, le poète Moufdi Zakaria trace des vers sur les murs blanchis à la chaux : « Nous jurons par la foudre dévastatrice, par les flots ruisselants de sang pur. » Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir.\nBien avant la guerre, des chants annonçaient déjà la naissance d’une conscience nationale. En 1931, Mohamed El Aïd Al Khalifa compose Min jibalina (De nos montagnes). Ses paroles, exaltant la dignité et la jeunesse, ont formé une génération prête à défendre la patrie. Au lycée de Ben Aknoun durant les années 1940, le jeune Mohand Idir Aït Amrane compose Ekker a mmis umazigh (Debout, fils d’Amazigh), ode¹ en kabyle à la liberté et à la fierté ancestrale. […]\nEn 1931, Houari Hennani écrivait S’hab el baroud (Les compagnons de la poudre), dénonçant l’exposition² coloniale française comme une provocation et appelant à la révolte. Dans l’Ouest du pays, cette chanson se transmettait comme un poème clandestin, brûlant et indomptable. Dans les Aurès, le chant chaoui Tayara Safra (Avion jaune) faisait vibrer les montagnes insurgées. […] D’autres titres, souvent entonnés collectivement, accompagnaient les maquisards dans leurs combats. […] Dans Ich'hadi ya sama (Témoigne, ô ciel), la prière et la poésie se confondaient dans un même élan vers la liberté. La guerre, c’était aussi l’exil et la solitude. En 1959, derrière les barreaux, Akli Yahyaten compose Yal menfi (Le banni), inspiré d’un ancien chant kabyle de déportés³.\n[…] Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent. Elles rappellent que l’indépendance algérienne n’a pas été un hasard, mais une conquête arrachée par le courage et par le chant. Car en Algérie, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Sihem OUBRAHAM, El Moudjahid, du 01 novembre 2025."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. Ode : poème.\n2. Exposition : festivité pour célébrer le centenaire de la colonisation par les Français en 1930.\n3. Déportés : personnes déplacées de force loin de leur patrie."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "Critère : Respect de la consigne (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e2",
+     "label": "Critère : Pertinence des idées (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e3",
+     "label": "Critère : Cohérence (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e4",
+     "label": "Critère : Correction de la langue (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q10",
+   "number": "—",
+   "part": "II. Production écrite : (08 points)",
+   "verbatim_text": "Traitez l’un des deux sujets suivants :\nSujet 1 :\nA l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents.\nSujet 2 :\nLa maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "SOUFFLE VIVANT DE LA RÉVOLUTION"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant la guerre de Libération nationale (1954-1962), l’Algérie s’est battue avec des fusils certes, mais aussi avec des voix. Dans les maquis, les prisons, les villages encerclés et jusque dans les camps de réfugiés, un autre arsenal circulait de bouche à oreille : le chant patriotique. Ces mélodies furent le langage d’une révolte et la respiration d’un peuple.\nLe plus emblématique de ces chants reste Kassaman (Nous jurons), hymne national depuis 1963. En 1955, dans une cellule coloniale, le poète Moufdi Zakaria trace des vers sur les murs blanchis à la chaux : « Nous jurons par la foudre dévastatrice, par les flots ruisselants de sang pur. » Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir.\nBien avant la guerre, des chants annonçaient déjà la naissance d’une conscience nationale. En 1931, Mohamed El Aïd Al Khalifa compose Min jibalina (De nos montagnes). Ses paroles, exaltant la dignité et la jeunesse, ont formé une génération prête à défendre la patrie. Au lycée de Ben Aknoun durant les années 1940, le jeune Mohand Idir Aït Amrane compose Ekker a mmis umazigh (Debout, fils d’Amazigh), ode¹ en kabyle à la liberté et à la fierté ancestrale. […]\nEn 1931, Houari Hennani écrivait S’hab el baroud (Les compagnons de la poudre), dénonçant l’exposition² coloniale française comme une provocation et appelant à la révolte. Dans l’Ouest du pays, cette chanson se transmettait comme un poème clandestin, brûlant et indomptable. Dans les Aurès, le chant chaoui Tayara Safra (Avion jaune) faisait vibrer les montagnes insurgées. […] D’autres titres, souvent entonnés collectivement, accompagnaient les maquisards dans leurs combats. […] Dans Ich'hadi ya sama (Témoigne, ô ciel), la prière et la poésie se confondaient dans un même élan vers la liberté. La guerre, c’était aussi l’exil et la solitude. En 1959, derrière les barreaux, Akli Yahyaten compose Yal menfi (Le banni), inspiré d’un ancien chant kabyle de déportés³.\n[…] Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent. Elles rappellent que l’indépendance algérienne n’a pas été un hasard, mais une conquête arrachée par le courage et par le chant. Car en Algérie, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Sihem OUBRAHAM, El Moudjahid, du 01 novembre 2025."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. Ode : poème.\n2. Exposition : festivité pour célébrer le centenaire de la colonisation par les Français en 1930.\n3. Déportés : personnes déplacées de force loin de leur patrie."
+    }
+   ],
+   "rubric_total": 8,
+   "rubric_elements": [
+    {
+     "id": "q10-e1",
+     "label": "Organisation : présentation du texte (mise en page, lisibilité)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q10-e2",
+     "label": "Organisation : cohérence — progression des informations",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q10-e3",
+     "label": "Organisation : cohérence — absence de répétitions",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q10-e4",
+     "label": "Organisation : cohérence — absence de contresens",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q10-e5",
+     "label": "Organisation : cohérence — emploi de connecteurs",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q10-e6",
+     "label": "Organisation : structure adéquate",
+     "max_points": 1.5,
+     "verified": false
+    },
+    {
+     "id": "q10-e7",
+     "label": "Planification : choix énonciatif en relation avec la consigne",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q10-e8",
+     "label": "Planification : choix et sélection des informations",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q10-e9",
+     "label": "Langue : correction des phrases au plan syntaxique",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q10-e10",
+     "label": "Langue : lexique approprié à la thématique",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q10-e11",
+     "label": "Langue : emploi correct des temps et des modes",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q10-e12",
+     "label": "Langue : utilisation adéquate des signes de ponctuation",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q10-e13",
+     "label": "Langue : orthographe",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Dans ce texte, le sujet principal est : (choisissez la bonne réponse)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "le chant patriotique comme moyen de démonstration artistique.",
+     "le chant patriotique comme moyen de résistance.",
+     "le chant patriotique comme moyen de divertissement."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : « le chant patriotique comme moyen de résistance. »",
+   "points": 1,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "Dans le premier paragraphe (§1), sélectionnez les deux expressions qui qualifient le chant patriotique.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "les villages encerclés",
+     "le langage d’une révolte",
+     "la respiration d’un peuple",
+     "des fusils",
+     "les camps de réfugiés"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     1,
+     2
+    ]
+   },
+   "explanation": "Corrigé : « le langage d’une révolte » ; « la respiration d’un peuple » (0,5 chacune). Accepter : « un autre arsenal ».",
+   "points": 1,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "Sélectionnez les trois valeurs symboliques de l’hymne national durant la révolution, relevées dans le texte.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "la promesse d’une indépendance",
+     "une ode à la fierté ancestrale",
+     "un cri de ralliement",
+     "un serment collectif",
+     "un chant de déportés"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     2,
+     3
+    ]
+   },
+   "explanation": "Corrigé : « un serment collectif - un cri de ralliement - la promesse d’une indépendance » (0,5 chacune) : « Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir. » (§2)",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Quelle phrase du texte montre que les chants patriotiques sont restés dans la mémoire collective même après l’indépendance ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Ces mélodies furent le langage d’une révolte et la respiration d’un peuple.",
+     "D’autres titres, souvent entonnés collectivement, accompagnaient les maquisards dans leurs combats.",
+     "Kassaman devint un serment collectif, un cri de ralliement dans les maquis, la promesse d’une indépendance à venir.",
+     "Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Corrigé : « Aujourd’hui encore, dans les écoles, les stades ou les commémorations, ces mélodies résonnent. »",
+   "points": 1,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « Les chants patriotiques n’étaient entonnés que dans les villes. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : Faux. « Dans les maquis, les prisons, les villages encerclés et jusque dans les camps de réfugiés, un autre arsenal circulait de bouche à oreille : le chant patriotique. » (§1) (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « Kassaman a été écrit dans une prison. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : Vrai. « En 1955, dans une cellule coloniale, le poète Moufdi Zakaria trace des vers sur les murs blanchis à la chaux » (§2). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « La conscience nationale est née après 1954. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : Faux. « Bien avant la guerre, des chants annonçaient déjà la naissance d’une conscience nationale. En 1931… » (§3). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « La poésie servait le chant patriotique. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : Vrai. Le corrigé écrit : « La poésie servait de chant patriotique. Vrai ». Kassaman : « le poète Moufdi Zakaria trace des vers » (§2). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "matching",
+   "prompt": "Associez chaque chanson engagée à la proposition qui lui correspond.",
+   "payload": {
+    "type": "matching",
+    "lefts": [
+     "Min jibalina",
+     "S’hab el baroud",
+     "Ekker a mmis umazigh",
+     "Yal menfi"
+    ],
+    "rights": [
+     "stimuler la fierté des jeunes",
+     "exprimer la douleur du déracinement",
+     "inciter à la lutte",
+     "glorifier les origines et les racines"
+    ]
+   },
+   "answer": {
+    "type": "matching",
+    "pairs": [
+     0,
+     2,
+     3,
+     1
+    ]
+   },
+   "explanation": "Corrigé : Min jibalina : stimuler la fierté des jeunes. S’hab el baroud : inciter à la lutte. Ekker a mmis umazigh : glorifier les origines et les racines. Yal menfi : exprimer la douleur du déracinement. (0,25 par association)",
+   "points": 1,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« Ses paroles, exaltant la dignité… » (§3) : à qui ou à quoi renvoie « ses » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "les paroles de Mohamed El Aïd Al Khalifa",
+     "les paroles de Moufdi Zakaria",
+     "les paroles de Houari Hennani",
+     "les paroles de Mohand Idir Aït Amrane"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « ses » = les paroles de Mohamed El Aïd Al Khalifa / les paroles de Min jibalina. (Accepter aussi : Mohamed El Aïd Al Khalifa / Min jibalina / De nos montagnes)",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« Elles rappellent que l’indépendance… » (§5) : à quoi renvoie « Elles » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "les montagnes insurgées",
+     "les camps de réfugiés",
+     "les stades",
+     "ces mélodies"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Corrigé : « Elles » = ces mélodies.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« …, elle était déjà chantée. » (§5) : à quoi renvoie « elle » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "la liberté",
+     "la solitude",
+     "la foudre",
+     "la guerre"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « elle » = la liberté. « avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée. »",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Formulez, en une phrase, la visée communicative de la journaliste (réponse rédigée)",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Formulez, en une phrase, la visée communicative de la journaliste.",
+     "criterion": "Visée communicative de la journaliste",
+     "model_answer": "Informer de l’apport des chants patriotiques à la résistance contre le colonialisme. ou Rendre hommage aux poètes et aux chanteurs pour leur contribution durant la lutte de libération.",
+     "accepted": [
+      "Accepter toute autre réponse allant dans le même sens."
+     ],
+     "deferred_because": "réponse ouverte : le corrigé accepte « toute autre réponse allant dans le même sens »"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "- Informer de l’apport des chants patriotiques à la résistance contre le colonialisme. ou - Rendre hommage aux poètes et aux chanteurs pour leur contribution durant la lutte de libération. (Accepter toute autre réponse allant dans le même sens.)",
+     "model_answer": "Informer de l’apport des chants patriotiques à la résistance contre le colonialisme. ou Rendre hommage aux poètes et aux chanteurs pour leur contribution durant la lutte de libération.",
+     "accepted": [
+      "Accepter toute autre réponse allant dans le même sens."
+     ]
+    }
+   },
+   "explanation": "Corrigé : « Informer de l’apport des chants patriotiques à la résistance contre le colonialisme. » ou « Rendre hommage aux poètes et aux chanteurs pour leur contribution durant la lutte de libération. » (Accepter toute autre réponse allant dans le même sens.)",
+   "points": 1,
+   "skill_id": "fr.enonciation",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 9 — réponse rédigée en deux à trois lignes, critère : Respect de la consigne",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« …, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée. »\nOutre les armes et les chants, les Algériens avaient-ils utilisé d’autres moyens pour résister au colonialisme ? Justifiez, en deux à trois lignes, votre réponse.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Respect de la consigne",
+     "indicator": "Respect de la consigne : prise de position avec justification et le nombre de lignes.",
+     "model_answer": "Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport...",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Respect de la consigne : prise de position avec justification et le nombre de lignes.",
+     "model_answer": "Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport..."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport...",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 9 — réponse rédigée en deux à trois lignes, critère : Pertinence des idées",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« …, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée. »\nOutre les armes et les chants, les Algériens avaient-ils utilisé d’autres moyens pour résister au colonialisme ? Justifiez, en deux à trois lignes, votre réponse.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Pertinence des idées",
+     "indicator": "Pertinence des idées : A titre indicatif, on cite l’exemple suivant : Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport...",
+     "model_answer": "Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport...",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Pertinence des idées : A titre indicatif, on cite l’exemple suivant : Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport...",
+     "model_answer": "Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport..."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport...",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 9 — réponse rédigée en deux à trois lignes, critère : Cohérence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« …, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée. »\nOutre les armes et les chants, les Algériens avaient-ils utilisé d’autres moyens pour résister au colonialisme ? Justifiez, en deux à trois lignes, votre réponse.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Cohérence",
+     "indicator": "Cohérence.",
+     "model_answer": "Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport...",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Cohérence.",
+     "model_answer": "Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport..."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport...",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 9 — réponse rédigée en deux à trois lignes, critère : Correction de la langue",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« …, avant même que la liberté ne s’écrive dans le sang, elle était déjà chantée. »\nOutre les armes et les chants, les Algériens avaient-ils utilisé d’autres moyens pour résister au colonialisme ? Justifiez, en deux à trois lignes, votre réponse.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Correction de la langue",
+     "indicator": "Correction de la langue.",
+     "model_answer": "Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport...",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correction de la langue.",
+     "model_answer": "Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport..."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Oui, les Algériens ont utilisé d’autres moyens pour résister au colonialisme : le boycott des produits français, les grèves générales, la préservation de leurs traditions et de leur culture, le théâtre, la littérature et le sport...",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Présentation du texte",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Présentation du texte",
+     "indicator": "Organisation : présentation du texte (mise en page, lisibilité)",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5 — Présentation du texte (mise en page, lisibilité)",
+      "Sujet 2 — grille « Production libre »": "0.5 — Présentation du texte (mise en page, lisibilité)."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : présentation du texte (mise en page, lisibilité)"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Progression des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Progression des informations",
+     "indicator": "Organisation : cohérence — progression des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.25 (0.25x 4 Cohérence du texte) — progression des informations",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — progression des informations"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — progression des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de répétitions",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Absence de répétitions",
+     "indicator": "Organisation : cohérence — absence de répétitions",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.25 (0.25x 4 Cohérence du texte) — absence de répétitions",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — absence de répétitions"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de répétitions"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de contresens",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Absence de contresens",
+     "indicator": "Organisation : cohérence — absence de contresens",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.25 (0.25x 4 Cohérence du texte) — absence de contresens",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — absence de contresens"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de contresens"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e5",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Emploi de connecteurs",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Emploi de connecteurs",
+     "indicator": "Organisation : cohérence — emploi de connecteurs",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.25 (0.25x 4 Cohérence du texte) — emploi de connecteurs",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — emploi de connecteurs"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — emploi de connecteurs"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e6",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Structure adéquate",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Structure adéquate",
+     "indicator": "Organisation : structure adéquate",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5x3 — Structure adéquate [accroche (0.5) - condensation (0.5) – critique (0.5)]",
+      "Sujet 2 — grille « Production libre »": "0.5x3 — Structure adéquate [Introduction - développement - conclusion]"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : structure adéquate"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e7",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix énonciatif",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Choix énonciatif",
+     "indicator": "Planification : choix énonciatif en relation avec la consigne",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "1 — Choix énonciatif en relation avec la consigne",
+      "Sujet 2 — grille « Production libre »": "1 — Choix énonciatif en relation avec la consigne"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix énonciatif en relation avec la consigne"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e8",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Choix des informations",
+     "indicator": "Planification : choix et sélection des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "1 — Sélection des informations essentielles (condensation et reformulation)",
+      "Sujet 2 — grille « Production libre »": "1 — Choix des informations (originalité et pertinence des idées)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix et sélection des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e9",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Correction syntaxique",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Correction syntaxique",
+     "indicator": "Langue : correction des phrases au plan syntaxique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "1 — Correction des phrases au plan syntaxique",
+      "Sujet 2 — grille « Production libre »": "1 — Correction des phrases au plan syntaxique"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : correction des phrases au plan syntaxique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e10",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Lexique approprié",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Lexique approprié",
+     "indicator": "Langue : lexique approprié à la thématique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5 — Emploi d’un lexique approprié à la thématique",
+      "Sujet 2 — grille « Production libre »": "0.5 — Emploi d’un lexique approprié à la thématique"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : lexique approprié à la thématique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e11",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Temps et modes",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Temps et modes",
+     "indicator": "Langue : emploi correct des temps et des modes",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5 — Emploi correct des temps et des modes",
+      "Sujet 2 — grille « Production libre »": "0.5 — Emploi correct des temps et des modes"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : emploi correct des temps et des modes"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s29",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e12",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Ponctuation",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Ponctuation",
+     "indicator": "Langue : utilisation adéquate des signes de ponctuation",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5 — Utilisation adéquate des signes de ponctuation",
+      "Sujet 2 — grille « Production libre »": "0.5 — Utilisation adéquate des signes de ponctuation"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : utilisation adéquate des signes de ponctuation"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s30",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e13",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Orthographe",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu critique",
+       "consigne": "A l’occasion de la journée nationale de l’artiste, le centre culturel de votre commune vous associe à faire découvrir aux jeunes de la ville les artistes qui ont participé à la lutte armée. Rédigez le compte rendu critique de ce texte (150 mots environ) que vous lirez aux invités présents."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La maison de culture de votre commune organise une journée sur le thème : « La place de l’artiste dans la société d’aujourd’hui. » Vous êtes invité(e) à y participer. Rédigez un texte (150 mots environ) en vue de convaincre l’opinion publique du rôle essentiel de l’artiste dans la représentation et la valorisation de notre patrimoine culturel. Vous lirez votre écrit lors de cette rencontre."
+      }
+     ],
+     "criterion": "Orthographe",
+     "indicator": "Langue : orthographe",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu critique »": "0.5 — Orthographe (pas plus de 10 erreurs)",
+      "Sujet 2 — grille « Production libre »": "0.5 — Orthographe (pas, plus de 10 erreurs)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : orthographe"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 3 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T22:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من ورقة البكالوريا الرّسميّة وإجابتها النّموذجيّة (PDF رقميّان في Drive، طبقة النّصّ مقابَلة بصور الصّفحات)؛ العلامات من سلّم التّنقيط الرّسميّ؛ الإجابات الصّحيحة من الحلّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  }
+ ]
+}
