@@ -179,8 +179,8 @@ struct ShellHeader: View {
         .padding(.horizontal, 16)
         .frame(maxWidth: .infinity)
         .frame(height: 72)
-        // The identified element is the visible 72 pt bar under the status
-        // bar; its colour also fills the status-bar area, as on the website.
+        // Container of the header controls (UI tests). The 72 pt bar sits under
+        // the status bar; its colour also fills the status-bar area, as on the site.
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("shellHeader")
         .background { Brand.header.ignoresSafeArea(edges: .top) }

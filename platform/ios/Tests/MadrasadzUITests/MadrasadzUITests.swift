@@ -94,7 +94,14 @@ final class MadrasadzUITests: XCTestCase {
             app.terminate()
         }
         let signIn = app.buttons["nativeSignIn"]
-        XCTAssertTrue(signIn.waitForExistence(timeout: 60), "Native welcome card did not appear (server capabilities or home API)")
+        guard signIn.waitForExistence(timeout: 60) else {
+            // Say what is on screen and what the no-account technical log recorded
+            // (codes only), since CI logs and attachments may be unreadable.
+            let shown = ["learningStarting", "nativeLoading", "nativeRetry", "retryPage", "openingPage", "shellHeader", "webBack"]
+                .filter { app.descendants(matching: .any)[$0].exists }
+            XCTFail("Native welcome card did not appear (server capabilities or home API). Shown: \(shown). Log: \(technicalLog(app))")
+            return
+        }
         XCTAssertTrue(labelled(app, "مرحبًا بك في مدرسة").exists)
         XCTAssertTrue(labelled(app, "مجانًا للجميع").exists)
         assertShellTabs(app, labels: arabicTabs)
@@ -316,6 +323,21 @@ final class MadrasadzUITests: XCTestCase {
         return (0..<3).contains { maximum[$0] - minimum[$0] > 12 }
     }
 
+    /// The native and navigation lines of the Debug technical log (codes only),
+    /// read from the ☰ menu; empty when the menu or the report cannot be opened.
+    @MainActor private func technicalLog(_ app: XCUIApplication) -> String {
+        let account = app.buttons["accountButton"]
+        guard account.waitForExistence(timeout: 5) else { return "no menu" }
+        account.tap()
+        let entry = app.buttons["foregroundDiagnostics"]
+        guard entry.waitForExistence(timeout: 10) else { return "no diagnostics entry" }
+        entry.tap()
+        let report = app.staticTexts["diagnosticsReport"]
+        guard report.waitForExistence(timeout: 10) else { return "no report" }
+        let lines = report.label.split(separator: "\n").filter { $0.contains("native.") || $0.contains("nav.") || $0.contains("web.") }
+        return lines.suffix(30).joined(separator: " | ")
+    }
+
     /// Debug-only native lifecycle log (codes and timings, no account is used).
     @MainActor private func attachForegroundDiagnostics(_ app: XCUIApplication) {
         let account = app.buttons["accountButton"]
@@ -513,15 +535,24 @@ final class MadrasadzUITests: XCTestCase {
         XCTAssertLessThan(frames[2].minY, frames[0].minY - 5, "«استكشف» is raised above the other items")
         XCTAssertEqual(frames[2].midX, window.midX, accuracy: 2, "«استكشف» is centred")
         XCTAssertGreaterThan(bar.frame.minY, window.height * 0.7, "The bar sits at the bottom")
-        // Header: a 72 pt bar under the status bar (☰, logo and theme centred in
-        // it); its colour continues behind the status bar (checked by pixels below).
-        // The accessibility frame may include that extension, so the bar is
-        // measured from its bottom edge and the controls' centres.
-        let barTop = header.frame.maxY - 72
+        // Header: ☰, logo and theme share one centre line, the middle of a 72 pt bar
+        // under the status bar. The container's accessibility frame is not the bar
+        // (it is the union of its children), so the bar is measured from the
+        // controls and from pixels: header colour 2 pt inside its top and bottom
+        // edges and behind the status bar, page background 3 pt below it.
+        let centre = app.buttons["accountButton"].frame.midY
+        let barTop = centre - 36
+        let barBottom = centre + 36
         XCTAssertGreaterThan(barTop, window.minY, "The header bar sits below the status bar")
-        XCTAssertEqual(app.buttons["accountButton"].frame.midY, header.frame.maxY - 36, accuracy: 1)
-        XCTAssertEqual(app.buttons["shellLogo"].frame.midY, header.frame.maxY - 36, accuracy: 1)
-        XCTAssertEqual(theme.frame.midY, header.frame.maxY - 36, accuracy: 1)
+        XCTAssertEqual(app.buttons["shellLogo"].frame.midY, centre, accuracy: 1)
+        XCTAssertEqual(theme.frame.midY, centre, accuracy: 1)
+        let headerEdge = colors(app, at: [CGPoint(x: window.width * 0.37, y: barTop + 2),
+                                          CGPoint(x: window.width * 0.37, y: barBottom - 3),
+                                          CGPoint(x: window.width * 0.37, y: barTop - 2),
+                                          CGPoint(x: window.width * 0.37, y: barBottom + 3)])
+        XCTAssertEqual(headerEdge.count, 4)
+        XCTAssertTrue(headerEdge.prefix(3).allSatisfy { $0.near(0x16213A) }, "header colour inside the bar and behind the status bar \(headerEdge)")
+        XCTAssertTrue(headerEdge.last?.near(0x0E1528) == true, "page background right under the 72 pt bar \(headerEdge)")
         // ☰ at the start (right) edge, logo centred, theme at the end edge.
         XCTAssertGreaterThan(app.buttons["accountButton"].frame.midX, window.midX)
         XCTAssertLessThan(theme.frame.midX, window.midX)
@@ -534,13 +565,13 @@ final class MadrasadzUITests: XCTestCase {
             scroll(app, by: 160)
         }
         XCTAssertLessThan(play.frame.maxY, bar.frame.minY)
-        XCTAssertGreaterThan(play.frame.minY, header.frame.maxY)
+        XCTAssertGreaterThan(play.frame.minY, barBottom)
         attachScreenshot(app, "Shell-home-grid-dark")
         // Colours of the site's dark palette (globals.css `.dark`).
         let homeTab = app.buttons["tab.home"].frame
         let lessonsTab = app.buttons["tab.lessons"].frame
         let tile = play.frame
-        var points = [CGPoint(x: window.midX, y: header.frame.maxY - 5),            // header: card 92 % #16213A
+        var points = [CGPoint(x: window.midX, y: barBottom - 5),                   // header: card 92 % #16213A
                       CGPoint(x: bar.frame.minX + 3, y: bar.frame.maxY - 3),         // bar: card #17223B
                       CGPoint(x: homeTab.midX + 17, y: homeTab.minY + 13.5),          // selected pill: secondary #26334F
                       CGPoint(x: lessonsTab.midX + 17, y: lessonsTab.minY + 13.5),    // unselected: card
@@ -554,12 +585,6 @@ final class MadrasadzUITests: XCTestCase {
         XCTAssertTrue(sampled[3].near(0x17223B), "unselected item \(sampled[3])")
         XCTAssertTrue(sampled[4].near(0x17223B), "home card \(sampled[4])")
         XCTAssertTrue(sampled[5...].contains { $0.near(0xD9FA63, tolerance: 20) }, "lime round PLAY icon")
-        // Header colour at the top of the 72 pt bar and just above it (behind the
-        // status bar), between the theme button and the logo.
-        let headerEdge = colors(app, at: [CGPoint(x: window.width * 0.25, y: barTop + 2),
-                                          CGPoint(x: window.width * 0.25, y: barTop - 4)])
-        XCTAssertEqual(headerEdge.count, 2)
-        XCTAssertTrue(headerEdge.allSatisfy { $0.near(0x16213A) }, "header colour at the bar top and behind the status bar \(headerEdge)")
         // The end of a screen is never under the bar or the raised button.
         for _ in 0..<8 { app.swipeUp() }
         RunLoop.current.run(until: Date().addingTimeInterval(1.5))
@@ -579,7 +604,7 @@ final class MadrasadzUITests: XCTestCase {
         theme.tap()
         XCTAssertEqual(theme.value as? String, "فاتح")
         RunLoop.current.run(until: Date().addingTimeInterval(0.8))
-        let light = colors(app, at: [CGPoint(x: window.midX, y: header.frame.maxY - 5)])
+        let light = colors(app, at: [CGPoint(x: window.midX, y: barBottom - 5)])
         XCTAssertTrue(light.first?.near(0xFEFEFD) == true, "light header \(String(describing: light.first))")
         attachScreenshot(app, "Shell-home-light")
         theme.tap()
