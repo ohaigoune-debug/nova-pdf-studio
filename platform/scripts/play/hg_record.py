@@ -55,15 +55,23 @@ def _norm(s: str) -> str:
     return re.sub(r'\s+', ' ', s).strip()
 
 
-def definition_step(rec: dict, eid: str, distractor_eids: list[str], skill: str, kind: str, name: str | None = None) -> dict:
-    """kind: 'term' (ما المقصود بـ«…»؟) أو 'person' (من هو …؟). name: الاسم كما في ورقة الموضوع إن خالف رسمُه التصحيحَ."""
+def definition_step(rec: dict, eid: str, distractor_eids: list[str], skill: str, kind: str, name: str | None = None, drop: list[str] | None = None) -> dict:
+    """kind: 'term' (ما المقصود بـ«…»؟) أو 'person' (من هو …؟). name: الاسم كما في ورقة الموضوع إن خالف رسمُه التصحيحَ.
+    مشتّتان أو ثلاثة (بعض التصحيحات لا تعرّف إلّا ثلاث شخصيّات). drop: عبارات تسمّي البند داخل تعريفه («صاحب مشروع ايزنهاور»)
+    تُحذف من الخيار الصحيح وحده (حذف فقط، كلّ عبارة ترد مرّة واحدة)، ويبقى التعريف كاملًا في الشرح."""
     E = elements(rec)
     e = E[eid]
     assert e['answer_type'] == 'fixed', (eid, e['answer_type'])
-    assert len(distractor_eids) == 3 and eid not in distractor_eids and len(set(distractor_eids)) == 3, eid
-    corr_name, right = split_definition(e['official_answer'])
+    assert len(distractor_eids) in (2, 3) and eid not in distractor_eids and len(set(distractor_eids)) == len(distractor_eids), eid
+    corr_name, full = split_definition(e['official_answer'])
     name = name or corr_name or (e.get('item') or '').strip()
-    assert name and right, eid
+    assert name and full, eid
+    right = full
+    for x in drop or []:
+        assert right.count(x) == 1, (eid, 'drop', x)
+        right = right.replace(x, '')
+    if drop:  # ما خلّفه الحذف من مسافة مضاعفة أو فاصلة يتيمة فقط
+        right = re.sub(r'\s{2,}', ' ', right).strip(' ،,')
     opts = [right]
     for d in distractor_eids:
         assert E[d]['answer_type'] == 'fixed', d
@@ -71,19 +79,27 @@ def definition_step(rec: dict, eid: str, distractor_eids: list[str], skill: str,
         assert dt and _norm(dt) not in {_norm(o) for o in opts}, (eid, d, 'duplicate option')
         opts.append(dt)
     prompt = f'ما المقصود بـ«{name}»؟' if kind == 'term' else f'من هو {name}؟'
-    return mcq(prompt, opts, 0, f'«{name}» في الإجابة النموذجيّة: {right}.', e['marks'], skill)
+    return mcq(prompt, opts, 0, f'«{name}» في الإجابة النموذجيّة: {full}.', e['marks'], skill)
 
 
-def table_step(rec: dict, eid: str, distractors: list[str], skill: str = 'hist.dates', asks: str = 'date') -> dict:
-    """خانة جدول: asks='date' (ما تاريخ «الحدث»؟) أو 'event' (ما الحدث الذي وقع في …؟). المشتّتات من التصحيح نفسه."""
+def table_step(rec: dict, eid: str, distractors: list[str], skill: str = 'hist.dates', asks: str = 'date', item: str | None = None, right: str | None = None) -> dict:
+    """خانة جدول: asks='date' (ما تاريخ «الحدث»؟) أو 'event' (ما الحدث الذي وقع في …؟). المشتّتات من التصحيح نفسه (2 أو 3).
+    item: البند كما في ورقة الموضوع إن خالف السجلّ؛ right: الجواب بصيغة العرض (شرطة عاديّة بدل –) دون تغيير مضمونه."""
     E = elements(rec)
     e = E[eid]
     assert e['answer_type'] == 'table' and e.get('official_answer') and e.get('item'), eid
-    item, right = e['item'].strip(), _TRAIL.sub('', e['official_answer'].strip())
-    assert len(distractors) == 3 and len({_norm(x) for x in [right, *distractors]}) == 4, (eid, 'duplicate option')
+    item = (item or e['item']).strip()
+    right = right or _TRAIL.sub('', e['official_answer'].strip())
+    assert len(distractors) in (2, 3) and len({_norm(x) for x in [right, *distractors]}) == len(distractors) + 1, (eid, 'duplicate option')
     prompt = f'ما تاريخ «{item}»؟' if asks == 'date' else f'ما الحدث الذي وقع في {item}؟'
     expl = f'في الإجابة النموذجيّة: {item} — {right}.'
     return mcq(prompt, [right, *distractors], 0, expl, e['marks'], skill)
+
+
+def comment_statements(answer: str) -> list[str]:
+    """عبارات التعليق في التصحيح: بنود ❖ أو • ؛ ما قبل أوّل بند عنوانٌ («2) التعليق على…:») لا عبارة."""
+    parts = re.split(r'[❖•]', answer)
+    return [_TRAIL.sub('', x.strip()) for x in parts[1:] if x.strip()] if len(parts) > 1 else [_TRAIL.sub('', answer.strip())]
 
 
 def comment_step(rec: dict, eid: str, false_statements: list[str], prompt: str, skill: str = 'geo.data') -> dict:
@@ -91,8 +107,8 @@ def comment_step(rec: dict, eid: str, false_statements: list[str], prompt: str, 
     E = elements(rec)
     e = E[eid]
     assert e['answer_type'] == 'alternatives', eid
-    rights = [_TRAIL.sub('', x.strip()) for x in re.split(r'❖', e['official_answer']) if x.strip()]
-    assert 2 <= len(rights) <= 5 and 2 <= len(false_statements) <= 3, (eid, len(rights))
+    rights = comment_statements(e['official_answer'])
+    assert 2 <= len(rights) <= 6 and 2 <= len(false_statements) <= 4, (eid, len(rights))
     opts = rights + [_TRAIL.sub('', x.strip()) for x in false_statements]  # بلا نقطة أخيرة مثل عبارات التصحيح
     assert len({_norm(o) for o in opts}) == len(opts), (eid, 'duplicate option')
     expl = 'التعليق في الإجابة النموذجيّة: ' + ' — '.join(rights) + '.'

@@ -170,18 +170,27 @@ def set_id_for(record_path: Path, paper_no: int) -> str:
 
 
 def apply_fixes(rec: dict, fixes: list[tuple[str, str, str]]) -> None:
-    """تصحيح أخطاء النقل بعد مطابقتها لورقة الموضوع (طبقة النصّ + الصورة): (معرّف سؤال/وثيقة، القديم، الجديد).
+    """تصحيح أخطاء النقل بعد مطابقتها لورقة الموضوع (طبقة النصّ + الصورة): (معرّف سؤال/وثيقة/عنصر، القديم، الجديد).
     القديم يجب أن يرد مرّة واحدة بالضبط في هدفه؛ لا يُمسّ ملفّ السجلّ نفسه."""
     targets: dict[str, tuple[dict, str]] = {}
     for t in rec['topics']:
         for q in t['questions']:
             targets[q['id']] = (q, 'text')
+            for e in q['rubric']:
+                targets[e['id']] = (e, 'element')
         for d in t['documents']:
             targets[d['id']] = (d, 'table' if d['kind'] == 'table' else 'text')
     for tid, a, b in fixes:
         if tid not in targets:
             raise RecordError(f'تصحيح: هدف غير موجود {tid}')
         obj, key = targets[tid]
+        if key == 'element':  # عنصر سلّم: البند (ورقة الموضوع) أو التسمية؛ في كلّ حقل يرد فيه
+            fields = [k for k in ('item', 'label') if a in (obj.get(k) or '')]
+            if not fields:
+                raise RecordError(f'تصحيح {tid}: «{a}» لا يرد في البند ولا في التسمية')
+            for k in fields:
+                obj[k] = obj[k].replace(a, b)
+            continue
         if key == 'table':
             hits = [(i, j) for i, row in enumerate(obj['table']) for j, c in enumerate(row) if a in c]
             n = sum(obj['table'][i][j].count(a) for i, j in hits)
