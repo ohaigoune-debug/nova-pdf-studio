@@ -201,7 +201,35 @@ function window(sentence: string, part: string): string {
   return `${lo > 0 ? '… ' : ''}${words.slice(lo, hi + 1).join(' ')}${hi < words.length - 1 ? ' …' : ''}`
 }
 
+/**
+ * ملء فراغ منقول من النص نفسه («أكمل … من البيتين»): عرض الأبيات فوقه ينسخ الجواب للتلميذ، فلا يُعرض.
+ * يكفي أن يقع ما حول الفراغات (6 أحرف فأكثر) أو ثلاث كلمات متتالية منه حرفيًا في المقتطف.
+ */
+function copiesExcerpt(payload: StepPayload, excerpt: StepExcerpt): boolean {
+  if (payload.type !== 'fill_blank') return false
+  const text = normalizeAr(excerpt.kind === 'verses' ? excerpt.rows.map((r) => `${r.a} ${r.b}`).join(' ') : excerpt.parts.join(' '))
+  return payload.text
+    .split(/_{2,}/)
+    .map(normalizeAr)
+    .filter((seg) => seg.replace(/\s/g, '').length >= 6)
+    .some((seg) => {
+      if (text.includes(seg)) return true
+      // نافذة من 3 كلمات متتالية منقولة من النص (8 أحرف فأكثر) تكفي: «رمت ____ الأيام فهو لهيد (ب10)»
+      const w = seg.split(' ')
+      for (let i = 0; i + 3 <= w.length; i++) {
+        const win = w.slice(i, i + 3).join(' ')
+        if (win.replace(/\s/g, '').length >= 8 && text.includes(win)) return true
+      }
+      return false
+    })
+}
+
 export function stepExcerpt(step: { prompt: string; payload: StepPayload }, question: Pick<OriginalQuestion, 'verbatim_text' | 'documents'>): StepExcerpt | null {
+  const ex = findExcerpt(step, question)
+  return ex && !copiesExcerpt(step.payload, ex) ? ex : null
+}
+
+function findExcerpt(step: { prompt: string; payload: StepPayload }, question: Pick<OriginalQuestion, 'verbatim_text' | 'documents'>): StepExcerpt | null {
   if (asksForLocation(step.prompt, step.payload)) return null
   const poem = poemOf(question.documents) ?? numberedLinesOf(question.documents)
   if (poem) {

@@ -69,6 +69,19 @@ describe('never reveals the answer', () => {
   })
 })
 
+describe('fill-in copied from the verse', () => {
+  it('no excerpt when the blanks are cut out of the very verse shown (it would hand over the answer)', () => {
+    const copy: StepPayload = { type: 'fill_blank', text: 'وَيَكْسُوانِ الرُّبَى ____ خُضْرًا', bank: ['حللا', 'ثيابا'] }
+    expect(stepExcerpt({ prompt: 'أكمل من البيت الرابع:', payload: copy }, q())).toBeNull()
+    const window3: StepPayload = { type: 'fill_blank', text: 'رمت ____ ويكسوان الربى حللا (ب4)', bank: ['أ', 'ب'] }
+    expect(stepExcerpt({ prompt: 'أكمل الشاهد (ب4):', payload: window3 }, q())).toBeNull()
+  })
+  it('an explanation to complete keeps the verse', () => {
+    const explain: StepPayload = { type: 'fill_blank', text: 'شبّه ____ بإنسان يكسو غيره، فحذف المشبّه به.', bank: ['الربيع', 'الدهر'] }
+    expect(nums(stepExcerpt({ prompt: 'أكمل شرح الصورة في البيت الرابع:', payload: explain }, q()))).toEqual([4])
+  })
+})
+
 describe('fallback to the original question', () => {
   it('uses explicit references of the original question when the step has none', () => {
     expect(nums(stepExcerpt({ prompt: 'ما نوع الصورة؟', payload: mcq }, q('استخرج من البيتين 4 و5 صورة بيانية.')))).toEqual([4, 5])
