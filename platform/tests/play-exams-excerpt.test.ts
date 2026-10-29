@@ -138,7 +138,7 @@ describe('English and French passages', () => {
 
 describe('all converted sets', () => {
   const root = 'content/play-exams/sets'
-  const files = readdirSync(root).flatMap((lvl) => readdirSync(join(root, lvl, 'AR')).map((f) => join(root, lvl, 'AR', f)))
+  const files = readdirSync(root).flatMap((lvl) => readdirSync(join(root, lvl)).flatMap((subj) => readdirSync(join(root, lvl, subj)).map((f) => join(root, lvl, subj, f))))
 
   it('every excerpt is copied from the set’s own documents, at most six verses', () => {
     let shown = 0
