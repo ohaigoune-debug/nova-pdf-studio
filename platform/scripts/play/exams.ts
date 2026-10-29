@@ -5,6 +5,7 @@
  *   npx tsx scripts/play/exams.ts progress            → outputs/play-night/QUESTION_CONVERSION_PROGRESS.json
  *   npx tsx scripts/play/exams.ts report              → outputs/play-night/VALIDATION_REPORT.md (قسم المحتوى)
  *   npx tsx scripts/play/exams.ts approve <set_id> --by "الاسم"   → قرار صاحب المنصة بعد مراجعة المجموعة: يعتمد المصدر والسلّم والخطوات
+ *   npx tsx scripts/play/exams.ts approve-all --by "الاسم" --note "…" → اعتماد جماعي بقرار صريح من صاحب المنصة (الملاحظة تُحفظ في سجل كل مجموعة)
  *                                                     التفاعلية (لا يُستعمل آليًا؛ الأنواع المؤجلة تبقى مؤجلة)
  *   DATABASE_URL=pglite://… npx tsx scripts/play/exams.ts import-dev --yes-dev
  *                                                     → رفع المجموعات إلى قاعدة تطوير فقط (pglite أو localhost)
@@ -273,26 +274,37 @@ async function main() {
     const out = rest[0] ? resolve(ROOT, rest[0]) : join(OUT, 'VALIDATION_CONTENT_SECTION.md')
     writeFileSync(out, reportMarkdown(sets, failures))
     console.log(`كُتب ${relative(ROOT, out)}`)
-  } else if (cmd === 'approve') {
-    const id = rest[0]
-    const byIdx = rest.indexOf('--by')
-    const by = byIdx >= 0 ? rest[byIdx + 1] : undefined
-    if (!id || !by) throw new Error('الاستعمال: approve <set_id> --by "الاسم"')
-    const s = sets.find((x) => x.doc.set_id === id)
-    if (!s) throw new Error(`مجموعة غير موجودة: ${id}`)
-    if (s.doc.fixture) throw new Error('لا تُعتمد مجموعات اختبار المحرك')
-    if (s.validation.errors.length) throw new Error(`لا اعتماد مع أخطاء التدقيق (${s.validation.errors.length})`)
-    if (!(s.doc.source.correction_file_ref || s.doc.source.correction_url)) throw new Error('لا اعتماد بلا تصحيح موثّق')
-    const at = new Date().toISOString()
-    const doc = s.doc
-    doc.status = 'APPROVED'
-    Object.assign(doc.source, { verified: true, verified_by: by, verified_at: at })
-    for (const q of doc.original_questions) for (const e of q.rubric_elements) e.verified = true
-    for (const st of doc.steps) if (!(QUEUED_STEP_TYPES as readonly string[]).includes(st.type) && st.review_status !== 'rejected') st.review_status = 'approved'
-    doc.review_log.push({ at, by, action: 'approved', note: 'اعتماد بعد المراجعة البشرية' })
-    const v = validateExamSet(doc, { publicRoot: join(ROOT, 'public') })
-    writeFileSync(s.path, JSON.stringify(doc, null, 1) + '\n')
-    console.log(`${id}: APPROVED — قابلة للنشر: ${v.publishable ? 'نعم' : 'لا'}${v.publishable ? '' : ` (${[...v.errors.map((e) => e.code), ...Object.entries(v.stepStatus).filter(([, x]) => x !== 'approved' && x !== 'needs_engine_support').map(([k, x]) => `${k}:${x}`)].join('، ')})`}`)
+  } else if (cmd === 'approve' || cmd === 'approve-all') {
+    const flag = (name: string) => {
+      const i = rest.indexOf(name)
+      return i >= 0 ? rest[i + 1] : undefined
+    }
+    const by = flag('--by')
+    // ملاحظة الاعتماد تُسجَّل كما هي: اعتماد بعد مراجعة كل خطوة، أو اعتماد جماعي بقرار المالك
+    const note = flag('--note') ?? 'اعتماد بعد المراجعة البشرية'
+    const ids = cmd === 'approve-all' ? sets.filter((x) => !x.doc.fixture && x.doc.status !== 'BLOCKED' && x.doc.status !== 'APPROVED').map((x) => x.doc.set_id) : [rest[0]]
+    if (!ids[0] || ids[0].startsWith('--') || !by) throw new Error('الاستعمال: approve <set_id> --by "الاسم" [--note "…"] | approve-all --by "الاسم" --note "…"')
+    if (cmd === 'approve-all' && !flag('--note')) throw new Error('approve-all يشترط --note يصف القرار (مثلًا: اعتماد جماعي بقرار المالك دون مراجعة كل خطوة)')
+    let ok = 0
+    for (const id of ids) {
+      const s = sets.find((x) => x.doc.set_id === id)
+      if (!s) throw new Error(`مجموعة غير موجودة: ${id}`)
+      if (s.doc.fixture) throw new Error('لا تُعتمد مجموعات اختبار المحرك')
+      if (s.validation.errors.length) throw new Error(`${id}: لا اعتماد مع أخطاء التدقيق (${s.validation.errors.length})`)
+      if (!(s.doc.source.correction_file_ref || s.doc.source.correction_url)) throw new Error(`${id}: لا اعتماد بلا تصحيح موثّق`)
+      const at = new Date().toISOString()
+      const doc = s.doc
+      doc.status = 'APPROVED'
+      Object.assign(doc.source, { verified: true, verified_by: by, verified_at: at })
+      for (const q of doc.original_questions) for (const e of q.rubric_elements) e.verified = true
+      for (const st of doc.steps) if (!(QUEUED_STEP_TYPES as readonly string[]).includes(st.type) && st.review_status !== 'rejected') st.review_status = 'approved'
+      doc.review_log.push({ at, by, action: 'approved', note })
+      const v = validateExamSet(doc, { publicRoot: join(ROOT, 'public') })
+      writeFileSync(s.path, JSON.stringify(doc, null, 1) + '\n')
+      if (v.publishable) ok++
+      console.log(`${id}: APPROVED — قابلة للنشر: ${v.publishable ? 'نعم' : 'لا'}${v.publishable ? '' : ` (${[...v.errors.map((e) => e.code), ...Object.entries(v.stepStatus).filter(([, x]) => x !== 'approved' && x !== 'needs_engine_support').map(([k, x]) => `${k}:${x}`)].join('، ')})`}`)
+    }
+    console.log(`\n${ids.length} معتمدة، ${ok} قابلة للنشر`)
   } else if (cmd === 'import-dev') {
     if (!rest.includes('--yes-dev')) throw new Error('أضف --yes-dev لتأكيد أن الهدف قاعدة تطوير')
     await importDev(sets)

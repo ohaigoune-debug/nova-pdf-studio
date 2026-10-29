@@ -9,6 +9,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { normalizeArabic } from '@/server/lib/arabic'
 import { PLAY_EXAM_KINDS, PLAY_EXAM_PUBLISHED_STATUSES, PLAY_EXAM_SET_STATUSES, PLAY_GRADES, PLAY_STREAMS, PLAY_SUBJECTS } from '../constants'
+import { stepExcerpt } from './excerpt'
 import { QUEUED_STEP_TYPES, SUPPORTED_STEP_TYPES, type ExamSetDocument, type MediaRef, type PublicStep, type StepAnswer, type StepAnswerKey, type StepPayload, type TrainingStep } from './types'
 
 /** هامش المقارنة العددية للأوزان */
@@ -419,7 +420,8 @@ export function publicSteps(doc: ExamSetDocument, stream: string | null = null):
         points: s.points,
         source_question: { id: q.id, number: q.number, part: q.part, verbatim_text: q.verbatim_text, documents: q.documents },
         rubric_label: labels.get(s.rubric_element_id) ?? '',
-        is_verbatim_original: s.is_verbatim_original
+        is_verbatim_original: s.is_verbatim_original,
+        excerpt: stepExcerpt(s, q)
       }
     })
 }

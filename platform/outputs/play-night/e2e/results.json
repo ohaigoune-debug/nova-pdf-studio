@@ -1,154 +1,154 @@
 {
  "base": "http://localhost:3210",
- "at": "2026-10-29T05:17:40.495Z",
+ "at": "2026-10-29T09:25:07.474Z",
  "results": [
   {
    "name": "mobile: login as student",
    "status": "PASS",
-   "ms": 23393,
+   "ms": 26914,
    "note": "http://localhost:3210/student"
   },
   {
    "name": "mobile: PLAY profile = 2AS / SCI",
    "status": "PASS",
-   "ms": 26501,
+   "ms": 20527,
    "note": null
   },
   {
    "name": "mobile: PLAY home shows access state and the four sections",
    "status": "PASS",
-   "ms": 2714,
+   "ms": 3606,
    "note": "access=trial_active"
   },
   {
    "name": "mobile: tests section lists the converted set by term",
    "status": "PASS",
-   "ms": 6169,
+   "ms": 9282,
    "note": "9 set(s)"
   },
   {
    "name": "mobile: practice mode — read first, answer, instant feedback",
    "status": "PASS",
-   "ms": 14340,
+   "ms": 25638,
    "note": "answered 6, types mcq,matching,fill_blank,multi"
   },
   {
    "name": "mobile: source text opens while answering",
    "status": "PASS",
-   "ms": 845,
+   "ms": 860,
    "note": null
   },
   {
    "name": "mobile: finish → result with original-weight score and mistakes review",
    "status": "PASS",
-   "ms": 9592,
+   "ms": 14789,
    "note": "score 0.25 / 16"
   },
   {
    "name": "mobile: results & progress page",
    "status": "PASS",
-   "ms": 6705,
+   "ms": 10978,
    "note": null
   },
   {
    "name": "mobile: bac section",
    "status": "PASS",
-   "ms": 8319,
+   "ms": 11200,
    "note": null
   },
   {
-   "name": "mobile: 3AS/SCI student — BAC by year and subject, practice two steps",
+   "name": "mobile: 3AS/SCI student — BAC by year and subject, practice with the referenced verses under the question",
    "status": "PASS",
-   "ms": 9762,
-   "note": "34 BAC set(s) listed; released-steps UI ok=true"
+   "ms": 17139,
+   "note": "34 BAC set(s) listed; released-steps UI ok=true; excerpt step 3: البيت المقصود 10 عــــــزاءَك، لا يُـــــلْمِم بــــك الضّيمُ، إنّنا يتـــــــــ"
   },
   {
    "name": "mobile: access banner after first play",
    "status": "PASS",
-   "ms": 3105,
+   "ms": 5903,
    "note": "access=trial_active"
   },
   {
    "name": "mobile: no broken or placeholder images on visited pages",
    "status": "PASS",
-   "ms": 4,
+   "ms": 3,
    "note": null
   },
   {
    "name": "mobile: attempt url",
    "status": "INFO",
-   "note": "http://localhost:3210/student/play/exam/f8d9e201-190c-4e16-b83a-096181cc5a87"
+   "note": "http://localhost:3210/student/play/exam/3219d7bf-bf06-44cf-ac25-a27a49ed23fb"
   },
   {
    "name": "admin: review list and one set with answers marked",
    "status": "PASS",
-   "ms": 103608,
+   "ms": 76969,
    "note": "131 sets listed"
   },
   {
    "name": "desktop: login as student",
    "status": "PASS",
-   "ms": 10472,
+   "ms": 8685,
    "note": "http://localhost:3210/student"
   },
   {
    "name": "desktop: PLAY home shows access state and the four sections",
    "status": "PASS",
-   "ms": 8515,
+   "ms": 7023,
    "note": "access=trial_active"
   },
   {
    "name": "desktop: tests section lists the converted set by term",
    "status": "PASS",
-   "ms": 3879,
+   "ms": 3778,
    "note": "3 set(s)"
   },
   {
    "name": "desktop: practice mode — read first, answer, instant feedback",
    "status": "PASS",
-   "ms": 13305,
+   "ms": 14699,
    "note": "answered 6, types multi,matching,mcq,fill_blank"
   },
   {
    "name": "desktop: source text opens while answering",
    "status": "PASS",
-   "ms": 1111,
+   "ms": 1274,
    "note": null
   },
   {
    "name": "desktop: finish → result with original-weight score and mistakes review",
    "status": "PASS",
-   "ms": 5041,
+   "ms": 10356,
    "note": "score 1.17 / 19"
   },
   {
    "name": "desktop: results & progress page",
    "status": "PASS",
-   "ms": 5826,
+   "ms": 6000,
    "note": null
   },
   {
    "name": "desktop: bac section",
    "status": "PASS",
-   "ms": 26465,
+   "ms": 6356,
    "note": null
   },
   {
    "name": "desktop: access banner after first play",
    "status": "PASS",
-   "ms": 3418,
+   "ms": 2917,
    "note": "access=trial_active"
   },
   {
    "name": "desktop: no broken or placeholder images on visited pages",
    "status": "PASS",
-   "ms": 70,
+   "ms": 7,
    "note": null
   },
   {
    "name": "desktop: attempt url",
    "status": "INFO",
-   "note": "http://localhost:3210/student/play/exam/8100d064-4fc5-4049-90ab-19e4c4c108b7"
+   "note": "http://localhost:3210/student/play/exam/d070dc9a-6ed2-4121-8fbf-a78d22ba9a53"
   }
  ]
 }

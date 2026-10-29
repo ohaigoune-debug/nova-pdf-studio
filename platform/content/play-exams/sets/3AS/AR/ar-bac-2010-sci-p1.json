@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "ar-bac-2010-sci-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1U-ucd85xNww3mWZCy5_tAHdAyoRwDnXF-p1",
   "kind": "BAC",
@@ -22,9 +22,9 @@
   "correction_url": "https://drive.google.com/file/d/1bp1dwK6BB9GZaQNN9OB2wsRAB2IrKdrw/view",
   "correction_file_ref": "gdrive:1bp1dwK6BB9GZaQNN9OB2wsRAB2IrKdrw (02_التصحيح.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T08:48:00.821Z",
   "notes": "نسخة من موضوع البكالوريا الرّسميّ (الدّيوان الوطنيّ للامتحانات والمسابقات، دورة جوان 2010، شعب: علوم تجريبيّة، رياضيات، تقني رياضي، تسيير واقتصاد) في Drive صاحب المنصّة؛ النّصّ الحرفيّ مولَّد من ملفّ docx ومقابَل بالموضوع الرّسميّ gdrive:1om7xSzhZiKOwnhKG-exFTpcNkcfNAGbn (01_الموضوع.pdf، ص1–2، صورة ممسوحة)، والنّسخة نفسها بصيغة PDF: gdrive:1l6WePwleEKBlR4I_U1xdqPuSgfA-Uio-. وُصلت أسطر كلّ فقرة (docx يحفظ النّصّ سطرًا سطرًا)، وصُوّب من الموضوع الرّسميّ: «حي نابضا» ← «حيًّا نابضا»، «إلا ّإذا» ← «إلاّ إذا». العلامات من الإجابة وسلّم التّنقيط الرّسميّين (ص1، صورة ممسوحة قُرئت مصوّرة). المجموع 20 = بناء فكريّ 12 + بناء لغويّ 8 (لا تقويم نقديّ في هذا الموضوع). س1: «2×0.75» للموضوع و«1.5» للهدف (ليبلغ مجموع البناء الفكريّ 12). مؤجَّل (essay_builder): إبداء الرّأي في س3 (1)."
  },
  "original_questions": [
@@ -59,19 +59,19 @@
      "id": "q1-e1",
      "label": "الموضوع: وظيفة الفنّ",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e2",
      "label": "الموضوع: تأثيره في القارئ",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e3",
      "label": "الهدف من إثارة الموضوع",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -106,13 +106,13 @@
      "id": "q2-e1",
      "label": "العلاقة: كلاهما يسمو بالإنسان في تفكيره",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e2",
      "label": "العلاقة: كلاهما يؤثّر فيه تأثيرًا إيجابيًّا",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -147,19 +147,19 @@
      "id": "q3-e1",
      "label": "نظرة الكاتب للفنّ",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e2",
      "label": "شرح هذه النّظرة",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e3",
      "label": "إبداء الرّأي",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -194,13 +194,13 @@
      "id": "q4-e1",
      "label": "رجل الفنّ ذو رسالة سامية نبيلة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e2",
      "label": "رسالة تتطلّب منه جهدًا وتفكيرًا واستقامة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -235,7 +235,7 @@
      "id": "q5-e1",
      "label": "سمات شخصيّة الحكيم الأدبيّة (2×0.75)",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -270,31 +270,31 @@
      "id": "q6-e1",
      "label": "النّمط الغالب",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e2",
      "label": "خاصّيّة: أساليب الشّرط",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e3",
      "label": "خاصّيّة: أساليب التّوكيد",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e4",
      "label": "خاصّيّة: المقارنة",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e5",
      "label": "خاصّيّة: التّعليل",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -329,7 +329,7 @@
      "id": "q7-e1",
      "label": "دور تكرار لفظة «الفنّ» في بناء النّصّ",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -364,7 +364,7 @@
      "id": "q8-e1",
      "label": "مدلول «لو»",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -399,37 +399,37 @@
      "id": "q9-e1",
      "label": "إعراب «إذا» (3×0.25)",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e2",
      "label": "إعراب «الشّعور»",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e3",
      "label": "(شأن الفنّ هنا أيضا شأن الدّين): نوع الجملة",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e4",
      "label": "(شأن الفنّ هنا أيضا شأن الدّين): محلّها مع التّعليل",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e5",
      "label": "(يهبط): نوع الجملة",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e6",
      "label": "(يهبط): محلّها مع التّعليل",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -464,19 +464,19 @@
      "id": "q10-e1",
      "label": "نوع الصّورة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e2",
      "label": "شرحها",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e3",
      "label": "أثرها البلاغيّ",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -507,7 +507,7 @@
    "skill_id": "ar.comprehension.idea",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s02",
@@ -542,7 +542,7 @@
    "skill_id": "ar.comprehension.idea",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s03",
@@ -569,7 +569,7 @@
    "skill_id": "ar.comprehension.purpose",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s04",
@@ -604,7 +604,7 @@
    "skill_id": "ar.comprehension.purpose",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s05",
@@ -631,7 +631,7 @@
    "skill_id": "ar.comprehension.link",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s06",
@@ -667,7 +667,7 @@
    "skill_id": "ar.comprehension.link",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s07",
@@ -694,7 +694,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s08",
@@ -727,7 +727,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s09",
@@ -784,7 +784,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s11",
@@ -817,7 +817,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s12",
@@ -848,7 +848,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s13",
@@ -885,7 +885,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s14",
@@ -912,7 +912,7 @@
    "skill_id": "ar.text.type",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s15",
@@ -939,7 +939,7 @@
    "skill_id": "ar.text.type",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s16",
@@ -970,7 +970,7 @@
    "skill_id": "ar.text.type",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s17",
@@ -997,7 +997,7 @@
    "skill_id": "ar.text.type",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s18",
@@ -1028,7 +1028,7 @@
    "skill_id": "ar.text.type",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s19",
@@ -1055,7 +1055,7 @@
    "skill_id": "ar.cohesion.effect",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s20",
@@ -1090,7 +1090,7 @@
    "skill_id": "ar.cohesion.effect",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s21",
@@ -1117,7 +1117,7 @@
    "skill_id": "ar.grammar.conditional",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s22",
@@ -1151,7 +1151,7 @@
    "skill_id": "ar.grammar.conditional",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s23",
@@ -1178,7 +1178,7 @@
    "skill_id": "ar.grammar.irab",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s24",
@@ -1213,7 +1213,7 @@
    "skill_id": "ar.grammar.irab",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s25",
@@ -1240,7 +1240,7 @@
    "skill_id": "ar.grammar.badal",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s26",
@@ -1266,7 +1266,7 @@
    "skill_id": "ar.grammar.sentence_case",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s27",
@@ -1293,7 +1293,7 @@
    "skill_id": "ar.grammar.sentence_case",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s28",
@@ -1319,7 +1319,7 @@
    "skill_id": "ar.grammar.sentence_case",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s29",
@@ -1346,7 +1346,7 @@
    "skill_id": "ar.grammar.sentence_case",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s30",
@@ -1373,7 +1373,7 @@
    "skill_id": "ar.rhetoric.metaphor",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s31",
@@ -1408,7 +1408,7 @@
    "skill_id": "ar.rhetoric.metaphor",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s32",
@@ -1435,7 +1435,7 @@
    "skill_id": "ar.rhetoric.effect",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   }
  ],
  "score_total": 20,
@@ -1449,6 +1449,12 @@
    "by": "claude",
    "action": "generated",
    "note": "تحويل من نسخة الموضوع (docx، مقابَلة بالموضوع الرّسميّ ومصوَّبة منه) والإجابة النّموذجيّة الرّسميّة (PDF ممسوح) في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الإجابة النّموذجيّة؛ المشتّتات والأمثلة النّصّيّة في أسئلة س6 من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T08:48:00.821Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر الفوري) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

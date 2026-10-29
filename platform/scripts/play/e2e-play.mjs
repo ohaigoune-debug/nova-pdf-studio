@@ -172,7 +172,7 @@ async function run(viewport, tag) {
   })
 
   if (tag === 'mobile') {
-    await step(`${tag}: 3AS/SCI student — BAC by year and subject, practice two steps`, async () => {
+    await step(`${tag}: 3AS/SCI student — BAC by year and subject, practice with the referenced verses under the question`, async () => {
       await page.goto(`${BASE}/student/play/setup`)
       await page.waitForLoadState('networkidle')
       await tap(page.getByRole('button', { name: 'السنة الثالثة ثانوي', exact: false }).first())
@@ -187,9 +187,16 @@ async function run(viewport, tag) {
       await page.waitForURL(/\/student\/play\/exam\//)
       await page.waitForLoadState('networkidle')
       if (await page.getByTestId('exam-begin').isVisible().catch(() => false)) await tap(page.getByTestId('exam-begin'))
-      for (let i = 0; i < 2; i++) {
+      // يجيب حتى تظهر خطوة فيها «الأبيات المقصودة» تحت السؤال (12 خطوة على الأكثر)
+      let excerpt = ''
+      for (let i = 0; i < 12 && !(excerpt && i >= 2); i++) {
         const card = page.getByTestId('exam-step')
         await card.waitFor()
+        if (!excerpt && (await page.getByTestId('exam-excerpt').isVisible().catch(() => false))) {
+          excerpt = `step ${i + 1}: ${(await page.getByTestId('exam-excerpt').innerText()).replace(/\s+/g, ' ').slice(0, 80)}`
+          await page.getByTestId('exam-excerpt').scrollIntoViewIfNeeded()
+          await page.screenshot({ path: path.join(OUT, `${tag}-13-bac-excerpt.png`) })
+        }
         const type = await card.getAttribute('data-step-type')
         if (type === 'mcq') await tap(card.getByRole('radio').first())
         else if (type === 'multi') await tap(card.getByRole('checkbox').first())
@@ -208,7 +215,8 @@ async function run(viewport, tag) {
       }
       // الإصدار المتدرّج: لا يُرسل للمتصفح إلا ما أُجيب عنه + الخطوة الحالية
       const released = await page.evaluate(() => document.body.innerText.includes('السؤال الأصلي'))
-      return `${n} BAC set(s) listed; released-steps UI ok=${released}`
+      if (!excerpt) throw new Error('no step showed the referenced verses (exam-excerpt) in 12 steps')
+      return `${n} BAC set(s) listed; released-steps UI ok=${released}; excerpt ${excerpt}`
     })
   }
 
