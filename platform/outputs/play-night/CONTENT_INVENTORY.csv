@@ -1,0 +1,188 @@
+source_kind,location,level,stream,subject,year,term,paper,type,count,with_correction,status,notes
+play_bank,content/play,1AS,ALL,AR,,,,FILL_BLANK,56,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,AR,,,,MCQ,83,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,AR,,,,MCQ,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,EN,,,,FILL_BLANK,35,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,EN,,,,MCQ,55,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,FR,,,,FILL_BLANK,36,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,FR,,,,MCQ,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,GEO,,,,FILL_BLANK,22,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,GEO,,,,MCQ,38,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,HIST,,,,FILL_BLANK,23,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,HIST,,,,FILL_BLANK,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,HIST,,,,MCQ,36,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,INFO,,,,FILL_BLANK,8,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,INFO,,,,MCQ,12,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,ISL,,,,FILL_BLANK,18,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,ISL,,,,MCQ,32,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,PHYS,,,,FILL_BLANK,46,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,PHYS,,,,MCQ,64,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,SVT,,,,FILL_BLANK,45,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,SVT,,,,MCQ,65,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_LIT,MATH,,,,FILL_BLANK,17,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_LIT,MATH,,,,MCQ,27,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_SCI,MATH,,,,FILL_BLANK,39,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_SCI,MATH,,,,MCQ,56,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_SCI,TECH,,,,FILL_BLANK,11,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_SCI,TECH,,,,MCQ,19,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,EN,,,,FILL_BLANK,43,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,EN,,,,MCQ,67,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,FR,,,,FILL_BLANK,40,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,FR,,,,MCQ,70,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,GEO,,,,FILL_BLANK,28,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,GEO,,,,FILL_BLANK,2,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,GEO,,,,MCQ,40,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,HIST,,,,FILL_BLANK,32,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,HIST,,,,FILL_BLANK,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,HIST,,,,MCQ,47,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,ISL,,,,FILL_BLANK,23,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,ISL,,,,FILL_BLANK,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,ISL,,,,MCQ,35,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,ISL,,,,MCQ,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,PHILO,,,,FILL_BLANK,36,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,PHILO,,,,MCQ,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,ACC,,,,FILL_BLANK,15,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,ACC,,,,MCQ,24,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,ACC,,,,MCQ,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,ECO,,,,FILL_BLANK,20,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,ECO,,,,MCQ,30,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,LAW,,,,FILL_BLANK,10,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,LAW,,,,MCQ,10,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,MATH,,,,FILL_BLANK,15,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,MATH,,,,MCQ,25,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,LIT+LANG,AR,,,,FILL_BLANK,43,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,LIT+LANG,AR,,,,MCQ,71,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,LIT+LANG,MATH,,,,FILL_BLANK,14,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,LIT+LANG,MATH,,,,MCQ,27,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM+GE,AR,,,,FILL_BLANK,33,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM+GE,AR,,,,MCQ,53,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM,MATH,,,,FILL_BLANK,35,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM,MATH,,,,MCQ,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM,PHYS,,,,FILL_BLANK,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM,PHYS,,,,MCQ,86,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH,SVT,,,,FILL_BLANK,52,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH,SVT,,,,FILL_BLANK,2,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH,SVT,,,,MCQ,76,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,TM,TECH,,,,FILL_BLANK,11,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,TM,TECH,,,,MCQ,19,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,AR,,,,MCQ,850,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,AR,,,,MCQ,120,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,EN,,,,FILL_BLANK,59,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,EN,,,,MCQ,91,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,FR,,,,FILL_BLANK,60,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,FR,,,,MCQ,90,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,GEO,,,,FILL_BLANK,38,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,GEO,,,,FILL_BLANK,2,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,GEO,,,,MCQ,70,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,HIST,,,,FILL_BLANK,56,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,HIST,,,,MCQ,84,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,ISL,,,,FILL_BLANK,37,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,ISL,,,,FILL_BLANK,3,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,ISL,,,,MCQ,55,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,ISL,,,,MCQ,5,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,ACC,,,,FILL_BLANK,20,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,ACC,,,,MCQ,30,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,ECO,,,,FILL_BLANK,25,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,ECO,,,,MCQ,45,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,LAW,,,,FILL_BLANK,8,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,LAW,,,,MCQ,12,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,MATH,,,,FILL_BLANK,20,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,MATH,,,,MCQ,31,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT+LANG,AR,,,,FILL_BLANK,68,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT+LANG,AR,,,,FILL_BLANK,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT+LANG,AR,,,,MCQ,95,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT+LANG,MATH,,,,FILL_BLANK,16,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT+LANG,MATH,,,,MCQ,30,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT,PHILO,,,,FILL_BLANK,32,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT,PHILO,,,,MCQ,65,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,MATH+TM,MATH,,,,FILL_BLANK,37,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,MATH+TM,MATH,,,,MCQ,56,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM+GE+LANG,PHILO,,,,FILL_BLANK,28,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM+GE+LANG,PHILO,,,,MCQ,45,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM+GE,AR,,,,FILL_BLANK,62,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM+GE,AR,,,,MCQ,94,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM,PHYS,,,,FILL_BLANK,85,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM,PHYS,,,,MCQ,145,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH,SVT,,,,FILL_BLANK,75,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH,SVT,,,,MCQ,125,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI,MATH,,,,FILL_BLANK,27,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI,MATH,,,,MCQ,43,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,TM,TECH,,,,FILL_BLANK,10,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,TM,TECH,,,,MCQ,20,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,AR,,,,FILL_BLANK,48,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,AR,,,,MCQ,72,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,CIV,,,,FILL_BLANK,15,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,CIV,,,,MCQ,25,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,EN,,,,FILL_BLANK,31,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,EN,,,,MCQ,49,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,FR,,,,FILL_BLANK,32,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,FR,,,,MCQ,48,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,GEO,,,,FILL_BLANK,24,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,GEO,,,,MCQ,36,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,HIST,,,,FILL_BLANK,23,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,HIST,,,,FILL_BLANK,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,HIST,,,,MCQ,35,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,HIST,,,,MCQ,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,ISL,,,,FILL_BLANK,24,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,ISL,,,,MCQ,35,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,ISL,,,,MCQ,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,MATH,,,,FILL_BLANK,44,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,MATH,,,,MCQ,76,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,PHYS,,,,FILL_BLANK,34,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,PHYS,,,,FILL_BLANK,2,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,PHYS,,,,MCQ,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,SVT,,,,FILL_BLANK,36,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,SVT,,,,MCQ,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_catalog_lessons,content/play/catalog.json,,,,,,,,837,,,ترتيب الدروس المعتمد في اللعبة
+lesson_documents,content/lessons,1AS,,AR,,,,LESSON,30,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,EN,,,,LESSON,16,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,FR,,,,LESSON,15,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,GEO,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,HIST,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,INFO,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,ISL,,,,LESSON,13,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,MATH,,,,LESSON,37,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,PHYS,,,,LESSON,17,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,SVT,,,,LESSON,15,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,TECH,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,ACC,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,AR,,,,LESSON,35,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,ECO,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,EN,,,,LESSON,16,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,FR,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,GEO,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,HIST,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,ISL,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,LAW,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,MATH,,,,LESSON,42,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,PHILO,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,PHYS,,,,LESSON,17,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,SVT,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,TECH,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,ACC,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,AR,,,,LESSON,37,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,ECO,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,EN,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,FR,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,GEO,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,HIST,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,ISL,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,LAW,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,MATH,,,,LESSON,56,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,PHILO,,,,LESSON,28,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,PHYS,,,,LESSON,15,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,SVT,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,TECH,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,AR,,,,LESSON,24,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,CIV,,,,LESSON,15,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,EN,,,,LESSON,18,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,FR,,,,LESSON,18,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,GEO,,,,LESSON,15,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,HIST,,,,LESSON,16,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,ISL,,,,LESSON,18,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,MATH,,,,LESSON,21,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,PHYS,,,,LESSON,20,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,SVT,,,,LESSON,22,,,HTML + PDF لكل درس
+legacy_qcm_sets,content/qcm,,,AR,,,,,21,,,988 سؤالاً
+exam_archive_files,repository,,,,,,,,0,,absent,لا يحتوي المستودع أي ملف بكالوريا أو فرض أو اختبار أو تصحيح؛ الأرشيف في قاعدة الإنتاج (bac_exams، resources، bank_questions، exam_documents) وفي مواقع المصدر
+exam_archive_db,database,,,,,,,,0,,not_accessible,لم تُفحص قاعدة البيانات (شغّل مع --db و DATABASE_URL للقراءة فقط)

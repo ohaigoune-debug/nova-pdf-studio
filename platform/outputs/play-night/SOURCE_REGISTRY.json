@@ -1,0 +1,1014 @@
+{
+ "generated_at": "2026-10-29T00:21:13.045Z",
+ "database": "لم تُفحص قاعدة البيانات (شغّل مع --db و DATABASE_URL للقراءة فقط)",
+ "sources": [
+  {
+   "source_id": "repo:content/play/1AS/AR/T018.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/AR/T018.json",
+   "sha256": "61be0d4dea51a5bb35c6b49654844c5b1d11bf2b250b1c80c893e1a5de765cc4",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/AR/T019.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/AR/T019.json",
+   "sha256": "77f808f44ec333e4e996d5f3331c5b9103336264744c6eba2a8310cb5f6ddfef",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/AR/T020.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/AR/T020.json",
+   "sha256": "3bc83413054cc2d22d8c50c0c7fe3b959d97bba80db1ceed7baf8997bb8bdb2f",
+   "items": 40,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/EN/T030.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/EN/T030.json",
+   "sha256": "3c32be35c5c23596c045617a2e8df9bba724465071b891e2e5eb3748a949d357",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/EN/T031.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/EN/T031.json",
+   "sha256": "953b6d8482878b4d8fd67ee691b9cd4ad5fa71c34eddb749a73dd34f64e3f7a1",
+   "items": 36,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/FR/T028.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/FR/T028.json",
+   "sha256": "fdbca636b19b72fba7834069bd2590fe4daacf17795b924bd50d72b366feaf7d",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/FR/T029.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/FR/T029.json",
+   "sha256": "f23ad809e3509a8ab500fecabc77376145f5587c0cddea82e517e1f16dce8a99",
+   "items": 36,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/GEO/T033.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/GEO/T033.json",
+   "sha256": "9c61043f318f11081b101460355ed63760050aca8c9f80766e96ed2485d4a16a",
+   "items": 60,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/HIST/T032.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/HIST/T032.json",
+   "sha256": "26f5f05c61c6c3f8dbb2acfef1030931d684c16d9263c172cd73c11d2801db35",
+   "items": 60,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/INFO/T036.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/INFO/T036.json",
+   "sha256": "482964b72f47019592c7e6c0afdb71f08d8deb4b9eb73864578b8f51d4bb6ce4",
+   "items": 20,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/ISL/T034.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/ISL/T034.json",
+   "sha256": "b821ad5dcebc9e50e199cfce6ebd73a288f1d4ae343d1428911bd36cf3cf44fc",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/MATH/T021.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/MATH/T021.json",
+   "sha256": "7cde10c5e6cff60bc0c8e6b3dc43dba484ee30577c9f8b859f4e9e88ab3f8e5f",
+   "items": 52,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/MATH/T022.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/MATH/T022.json",
+   "sha256": "5b4c693ed4f5265a0e34c57ecd8cfca661fce6cf70cc4190811629c86820a2c0",
+   "items": 43,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/MATH/T023.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/MATH/T023.json",
+   "sha256": "0042ace750b8ac140e23a5c4a8fae0e9ed5ae169b8e6b34d2f3fa7a53a277f10",
+   "items": 44,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/PHYS/T024.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/PHYS/T024.json",
+   "sha256": "e65c20f74da90ec30545511adc78c9aa83bbce59a63f9857ce50a6573f8330ac",
+   "items": 56,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/PHYS/T025.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/PHYS/T025.json",
+   "sha256": "8a662945584f93a067abd56d9c4d3d20fa9d63d72a25ee28b977048a0fe02057",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/SVT/T026.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/SVT/T026.json",
+   "sha256": "7d7fa0f22698d43897635ccba579837b87a59d575543ce9dc9d7e84f6844b626",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/SVT/T027.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/SVT/T027.json",
+   "sha256": "e617278137be2042caabe82661bfbbbf42ee8002f52b03944b737eeb63d75c2c",
+   "items": 56,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/1AS/TECH/T035.json",
+   "kind": "play_bank_file",
+   "path": "content/play/1AS/TECH/T035.json",
+   "sha256": "85ecaeee2ccc42c23d8b10b2c3dfcce574af607e1c6e567f86740b6018688cf6",
+   "items": 30,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/ACC/T062.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/ACC/T062.json",
+   "sha256": "75c3606b8bd6bd25b14a0aee955e305c52f63088d5ea4083ed5327e877a6d337",
+   "items": 40,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/AR/T037.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/AR/T037.json",
+   "sha256": "f3e8e82ab1275ab6ecd8905a1408c1802f0ea58600b79d5d71de33ef06299009",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/AR/T038.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/AR/T038.json",
+   "sha256": "725dcc3f3ba18d28b01c5fcaded5f8a6366ac786f296d4b5362bf7aebe423ea3",
+   "items": 32,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/AR/T039.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/AR/T039.json",
+   "sha256": "76c199a2f72e6721aff62024f615ede22774adbae031079eb6875d3f71336813",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/AR/T040.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/AR/T040.json",
+   "sha256": "593d036dd6856a9158a01f2551ee27238052ecde5afa4e70e0f685fb6c8ac0c3",
+   "items": 60,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/ECO/T061.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/ECO/T061.json",
+   "sha256": "b44c9296b71320059e77e826b8c98d6c75ebeceb00cf6d63b79a21bce3414800",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/EN/T053.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/EN/T053.json",
+   "sha256": "cf6eac2932cd9eee887c4c60abe916bfc48bde6b4a058138703395ad91519951",
+   "items": 56,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/EN/T054.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/EN/T054.json",
+   "sha256": "2b03fbae88932b9cdde3996e447d555eec69763d0a970816c77fdaff0f37d286",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/FR/T051.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/FR/T051.json",
+   "sha256": "76806bcf178f86892df5b086e1b25d6dd6b2b3219bac86354846d93a24eee653",
+   "items": 55,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/FR/T052.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/FR/T052.json",
+   "sha256": "42410eac7df23ea5603e1b354c15bd5533b9a454bfd8d03bdc0b149c579698f0",
+   "items": 55,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/GEO/T057.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/GEO/T057.json",
+   "sha256": "be2994ff36909b513bbbcbcf8c328efa0fadaa61c57d66ed591bb52fae08a1b6",
+   "items": 70,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/HIST/T055.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/HIST/T055.json",
+   "sha256": "4c386bdc67a45627f22bef5b6a1672ffbd2da92c01b2f9c75b079d81a14435b5",
+   "items": 52,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/HIST/T056.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/HIST/T056.json",
+   "sha256": "9829742ebdcdd0253d28e0c3d4e2f2710644a4f72b31b9d69ace165f3f30bcd5",
+   "items": 28,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/ISL/T058.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/ISL/T058.json",
+   "sha256": "0c4dd1ae8b4fef8c2b581a12df7b6f44cf3e204bf44942a7ac6cd0fdbc8588e7",
+   "items": 60,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/LAW/T063.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/LAW/T063.json",
+   "sha256": "19f07d2e76ba00625d44e95e0ee298af93b5f78475544353c5c2555c2b96f2e2",
+   "items": 20,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/MATH/T041.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/MATH/T041.json",
+   "sha256": "62b3f2480aa0d85fd6113485887606fa142eb583987b03426bd60ab73895318d",
+   "items": 53,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/MATH/T042.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/MATH/T042.json",
+   "sha256": "29df1c1de8428289878b7c9b134a42a614146c628341e8303feed6e1f6f82e49",
+   "items": 36,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/MATH/T043.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/MATH/T043.json",
+   "sha256": "35bbd04d74093b84ab108472ae134cfdc3c919519d171b6269848710e8dfa26d",
+   "items": 40,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/MATH/T044.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/MATH/T044.json",
+   "sha256": "2d1b658048136f733c18504d1cc97c44594b2de9bc11dec4af6828cf2db50880",
+   "items": 41,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/PHILO/T059.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/PHILO/T059.json",
+   "sha256": "c44e18e2149a2953b1ec08d7bfc7cb430122d05b8874b7ab40fc548c25a21de1",
+   "items": 55,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/PHILO/T060.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/PHILO/T060.json",
+   "sha256": "adcfbedb5ebbc716b90b9c0e2e4d2af9da20987a85f5faaa72b28abd3568d559",
+   "items": 35,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/PHYS/T045.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/PHYS/T045.json",
+   "sha256": "93d0934be7208d1017bb560912882142b9c0e4ae2e99e6b0ae20d97ee019ffab",
+   "items": 52,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/PHYS/T046.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/PHYS/T046.json",
+   "sha256": "e4670e3665b60074fc01a7c70d4c1f41ad44cc75f6c0b00db9b59b3e8da24ded",
+   "items": 56,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/PHYS/T047.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/PHYS/T047.json",
+   "sha256": "1091799b2bd57dc1b76c30fe6bc636e182735cece384f4d796923b5954b8d46e",
+   "items": 32,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/SVT/T048.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/SVT/T048.json",
+   "sha256": "bb9147ad18484a70615e9b8a6a66a35b7ac487d8712fa5a77ffdb1b18f261e81",
+   "items": 60,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/SVT/T049.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/SVT/T049.json",
+   "sha256": "1b38833bf891b264ab3c4255503d71459e77983c162a146ef200b790795a15cf",
+   "items": 70,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/2AS/TECH/T050.json",
+   "kind": "play_bank_file",
+   "path": "content/play/2AS/TECH/T050.json",
+   "sha256": "a1dc392f7fb4db5052c738c47010cb3bd66eb9128d40ce18d448bedc7f4fe48c",
+   "items": 30,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/ACC/T103.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/ACC/T103.json",
+   "sha256": "54905b5ae28543657d78d5559705ff97bcdc71c369dcaeb22689952869c389a9",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/BL-AUDIT-REPORT.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/BL-AUDIT-REPORT.json",
+   "sha256": "ab44f599c853d39d089dc36b8fdc96264cc93c70f56cb09b98027359f9a47e23",
+   "items": 0,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/BL-L1.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/BL-L1.json",
+   "sha256": "bfab65e54f536edbda459c34eabb485fb383b534fb11f830df50fbbf572f0fc3",
+   "items": 200,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/BL-L2.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/BL-L2.json",
+   "sha256": "e50dc6cd40632ca101a47fc2df2b8e6634b5a5e49abdf47c71e63ea2d6265292",
+   "items": 196,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/BL-L3.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/BL-L3.json",
+   "sha256": "4bd69ee4dc321bea6c49a319a1142bcdbf00a46e57f5109b1c5de39fcbcef16c",
+   "items": 199,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/BL-L4.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/BL-L4.json",
+   "sha256": "8701f786240a0e84fe9740ef2e8f3de1dc6d80c92cb1c832eb97d6722aecfae7",
+   "items": 184,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/BL-L5.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/BL-L5.json",
+   "sha256": "3d5f7a7cfaff4ee0d43b640c61dcab11ded2c2bf92b85d389281654acf3ad75c",
+   "items": 91,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/BL-L6.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/BL-L6.json",
+   "sha256": "e850bfaed2a8461ccfad422c75fceedb6b64aa6f0ce7c371c7393b001aec0258",
+   "items": 100,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/T064.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/T064.json",
+   "sha256": "cf9540f2324664204387fdb8446c709005b89e674576166ba5bc310ecfb95c48",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/T065.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/T065.json",
+   "sha256": "a4fc9777cdd34ebc30624a137b86a3835c2b16d428369834f60760bcab35cfaa",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/T066.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/T066.json",
+   "sha256": "9fc76efad0a7bd9a8d4d7d98d22f1652ddfd080c4835be92e9ea373a45679a72",
+   "items": 48,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/T067.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/T067.json",
+   "sha256": "a43ff0d57e9deb10f442e679aa331f06c85d29e602800810d37b3fadc95d453b",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/T068.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/T068.json",
+   "sha256": "c1357912947754375cc27a50d318f06bf40cbb84684eb50fd613f6e73240dac2",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/AR/T069.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/AR/T069.json",
+   "sha256": "f98969b22a5c950a0291b16070116c89e57e5afee64ade7fc2d75f305b06d07b",
+   "items": 56,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/ECO/T101.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/ECO/T101.json",
+   "sha256": "44ae7e7eb52a0a622103201a7f2ea2f6439f4f083c268c406728da4ca2ef8e0e",
+   "items": 52,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/ECO/T102.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/ECO/T102.json",
+   "sha256": "f1719f0306d2b1d51502fbd3000730ac7a2a6b8cb95bd784f67ca31005594a01",
+   "items": 18,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/EN/T088.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/EN/T088.json",
+   "sha256": "994b54ae9ecc1bcac7ec44854d4da8cc2aa5780e6f052b67366a4c35f82cbe51",
+   "items": 52,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/EN/T089.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/EN/T089.json",
+   "sha256": "e1495b056ae599aafa1cceef6cc6d73bc1bce72323367c8facad2007fd5d5235",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/EN/T090.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/EN/T090.json",
+   "sha256": "c4fb9fa065380301fb6be231b0a190f1d03cf504e8919fb8326407ecdc61e785",
+   "items": 48,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/FR/T085.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/FR/T085.json",
+   "sha256": "0a9933894689db5dada332efac40a67cf92ff5fc6fbc22cccccb51c7f403e2b3",
+   "items": 52,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/FR/T086.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/FR/T086.json",
+   "sha256": "cfc79f1659cb4f70622a2e1c86dfa8f8497804c44249242b6a378febc6421af3",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/FR/T087.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/FR/T087.json",
+   "sha256": "8efaacd2df52470bc009792c7030af6242f92aa4aeaf266a76a98fdc8a23e4fe",
+   "items": 48,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/GEO/T093.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/GEO/T093.json",
+   "sha256": "78f0e70c06bafbed5b2db4a09172bac9096e3379c612799b07d60d1c795f60f8",
+   "items": 55,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/GEO/T094.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/GEO/T094.json",
+   "sha256": "85a1eaaa2f8452e7157d9a9f39a8711f2389563aea2d3a9fd7967a57aa054a7a",
+   "items": 55,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/HIST/T091.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/HIST/T091.json",
+   "sha256": "09c16dc7f9e2cc4cedea56b7aa7a5202910d092cd3ac408d1df6104f0b67e5f6",
+   "items": 60,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/HIST/T091b.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/HIST/T091b.json",
+   "sha256": "27293ec5b1b191550a86ed0aeb7c8a68fd097cc357e7a737ca324bda9bc37172",
+   "items": 47,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/HIST/T092.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/HIST/T092.json",
+   "sha256": "44309be71111dc8523bcd38b7fd22f3c17a03558225d622a24515ccc7fcc847b",
+   "items": 33,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/ISL/T095.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/ISL/T095.json",
+   "sha256": "659a7a7965dae89c729c2b7a0b0fca99568cbdb85200fdc0b2e696d3e9911f77",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/ISL/T096.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/ISL/T096.json",
+   "sha256": "9b5dfbd6983ea919de69cf7c681ae2325898ea10fdf3df69b70bd03111f2b1ef",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/LAW/T104.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/LAW/T104.json",
+   "sha256": "cafe1bc83e8cd752359d19ad4f4f4657f828ed1f309cadd6deeb6a70673e23c5",
+   "items": 20,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/MATH/T070.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/MATH/T070.json",
+   "sha256": "64b722bbcd7052183e8acac9a98f2f3435966bb7cf2cc6f0675069213fd2ad53",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/MATH/T071.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/MATH/T071.json",
+   "sha256": "f6e02055be4ae5049c0d812623d635bd4ce59c52febc5305d6f29361d3774fc2",
+   "items": 20,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/MATH/T072.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/MATH/T072.json",
+   "sha256": "65fb527a57cf10ce6e4df8075f24a42b7de9eca9f762d3fb3baadb8db9893745",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/MATH/T073.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/MATH/T073.json",
+   "sha256": "09426c6bcbdee6eae496e0c8793ba3b3631f4356589d49917802aee337584b44",
+   "items": 43,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/MATH/T074.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/MATH/T074.json",
+   "sha256": "28ab4637ec7c9585f985c403ece1b15125f5ea2ce07988772e2b858b857def69",
+   "items": 51,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/MATH/T075.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/MATH/T075.json",
+   "sha256": "782269c7bc3e734ed683642ea2e14e8531ac228f9fb3332dcd364d19a4608697",
+   "items": 46,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/PHILO/T097.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/PHILO/T097.json",
+   "sha256": "200d07b3a67f683108ce7465be1372e1e1b38af856ad5415ecda7fbc28b2efef",
+   "items": 55,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/PHILO/T098.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/PHILO/T098.json",
+   "sha256": "dccdbe1b8f2f02858608556b39478dcee370b72d459d79596c88615c92ff9ee1",
+   "items": 55,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/PHILO/T099.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/PHILO/T099.json",
+   "sha256": "364c819250f3ee9cc544733cb5e071865687ff152be7256b08f5c2dfb56de803",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/PHILO/T100.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/PHILO/T100.json",
+   "sha256": "45f13141be7b7619b1460afc24aa0be0f2e80dd2d0e821f699c23f8ad984ce92",
+   "items": 6,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/PHYS/T076.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/PHYS/T076.json",
+   "sha256": "de492af0b0bf71d330eb6b29d1b72ca52fb5409d25a71ebbf76352ac0164a36b",
+   "items": 64,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/PHYS/T077.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/PHYS/T077.json",
+   "sha256": "0c9a4761d93e5dc0ead5a42e4255f426a5340bc7c004c6f7441831ba7efca4ea",
+   "items": 61,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/PHYS/T078.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/PHYS/T078.json",
+   "sha256": "d74cc5975d95e5732fa80779bfbbaf343b0d4038a7a44798e4577d30b9d26b65",
+   "items": 60,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/PHYS/T079.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/PHYS/T079.json",
+   "sha256": "58dff3b4f84b71d696de899f2be5f76920c70b9fc18f54f7560e032d65412859",
+   "items": 45,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/SVT/T080.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/SVT/T080.json",
+   "sha256": "bfec701aacc103106b3d45415c93353461189cfebcbc8c6d17f4f6fd785cf317",
+   "items": 56,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/SVT/T081.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/SVT/T081.json",
+   "sha256": "cea25d556af6ed9ff1457bc3a0681bbd629919570836500d6b87294be08e10b4",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/SVT/T083.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/SVT/T083.json",
+   "sha256": "9c17fad9fdf7855ebabb16d23bf18d4b13a81a22af38e606a0bba48512773c29",
+   "items": 36,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/SVT/T105.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/SVT/T105.json",
+   "sha256": "c12ed950be8e0e541ff97c009b74b6d4f7de8260b809a77091fdd5877b9a7ac9",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/3AS/TECH/T084.json",
+   "kind": "play_bank_file",
+   "path": "content/play/3AS/TECH/T084.json",
+   "sha256": "b7dd622ad2e440a8f50d7fc264d97124c1a9e4f642658d47e3273bb775bff23e",
+   "items": 30,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/AR/T001.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/AR/T001.json",
+   "sha256": "5f5bc8dddc76de407b62c4339e0b3b63851c6958d439993c938c52508001fc96",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/AR/T002.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/AR/T002.json",
+   "sha256": "c81c4b317f3e72a07d2af95d1c165d7751e41af8f4de074cb0a064f3ee2b0ce7",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/AR/T003.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/AR/T003.json",
+   "sha256": "0eefa122ee5d991dcba6bc8f8e03539395c0031f7ce228781b4677cee3940b33",
+   "items": 20,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/CIV/T017.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/CIV/T017.json",
+   "sha256": "569f55d5f9de336baebb8042539ffe16998c3bea403a10d214afa5b0feeae2d7",
+   "items": 40,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/EN/T012.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/EN/T012.json",
+   "sha256": "8f23f67418fe6e242d67c4c755e867b1171dff9d41e1d252d34d4a02cb6bebc1",
+   "items": 52,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/EN/T013.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/EN/T013.json",
+   "sha256": "155488eb9866d8e1da87fefccd24031099ff0d3f372d58a3fadc3e1c363a8b22",
+   "items": 28,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/FR/T010.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/FR/T010.json",
+   "sha256": "305ad0bc555d4f9952df645aa47fcbed27ece338dd3664c36c296d13e5f9f7f4",
+   "items": 52,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/FR/T011.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/FR/T011.json",
+   "sha256": "63848cd6c49a9a9cdeda0e29331d523f4daa38842a349c738761aaf5bd15e246",
+   "items": 28,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/GEO/T015.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/GEO/T015.json",
+   "sha256": "9e3be697db914f561fa6a7e0bd761a47385b277f4b51ef19c655e13f20015e5a",
+   "items": 60,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/HIST/T014.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/HIST/T014.json",
+   "sha256": "33a838071b39c4813490435503872392b1f4bdf59abb27cb47f4a4605828a5b3",
+   "items": 60,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/ISL/T016.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/ISL/T016.json",
+   "sha256": "aa6a7b23dcea30d63908754ea5d28983cd6393d723267167306e75c4a345d8f0",
+   "items": 60,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/MATH/T004.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/MATH/T004.json",
+   "sha256": "d20ff712fc8e10a3f166f82828e1dc6e109b06117f2d71daf191e4b09f50f965",
+   "items": 54,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/MATH/T005.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/MATH/T005.json",
+   "sha256": "6c9dfc603375a4f47002312642cb21d06cef1c68e37bd14b9accc3d81b5db876",
+   "items": 66,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/PHYS/T006.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/PHYS/T006.json",
+   "sha256": "4471299e28aeaa58f0c194386354b67fc85c1920143d8aed37c5bef637d40044",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/PHYS/T007.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/PHYS/T007.json",
+   "sha256": "75d2dc10d5c04e7263f6751e769cd6bc4d8e60271e1164aa3a6e69c265f7efd3",
+   "items": 40,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/SVT/T008.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/SVT/T008.json",
+   "sha256": "059f303c51be0efdf9286b40d45fb371778821ad9ac0204c7076ea649dcfca91",
+   "items": 50,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  },
+  {
+   "source_id": "repo:content/play/4AM/SVT/T009.json",
+   "kind": "play_bank_file",
+   "path": "content/play/4AM/SVT/T009.json",
+   "sha256": "e1674dd3c5b0d0ec37bb2334ad3b76a6bdff2074c9640b19f3ddde9a7a0b321f",
+   "items": 40,
+   "trust": "authored_in_repo",
+   "verified": "validator"
+  }
+ ]
+}
