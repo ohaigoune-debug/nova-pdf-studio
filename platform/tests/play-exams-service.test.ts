@@ -62,7 +62,7 @@ beforeAll(async () => {
   expect(v.publishable).toBe(true)
   const base = { kind: 'TEST', gradeCode: '2AS', streamCodes: d.source.streams, subjectCode: 'AR', year: d.source.year, term: 1, paper: null, scoreTotal: 20, stepCount: d.steps.length }
   const [a] = await h.db.insert(playExamSets).values({ ...base, setId: approved.set_id, title: approved.source.title, status: 'APPROVED', publishable: true, checksum: 'approved-' + checksum, document: approved }).returning()
-  const [r] = await h.db.insert(playExamSets).values({ ...base, setId: d.set_id, title: d.source.title, status: d.status, publishable: false, checksum, document: d }).returning()
+  const [r] = await h.db.insert(playExamSets).values({ ...base, setId: d.set_id, title: d.source.title, status: 'NEEDS_HUMAN_REVIEW', publishable: false, checksum, document: { ...d, status: 'NEEDS_HUMAN_REVIEW' } }).returning()
   approvedId = a!.id
   reviewId = r!.id
 })

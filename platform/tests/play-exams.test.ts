@@ -11,7 +11,16 @@ import type { ExamSetDocument, TrainingStep } from '@/server/play/exams/types'
 import { loadAll } from '../scripts/play/exams'
 
 const REAL = join(process.cwd(), 'content/play-exams/sets/2AS/AR/ar-2as-t1-sci-03.json')
-const fresh = (): ExamSetDocument => structuredClone(readExamSetFile(REAL).doc)
+/** نسخة «قبل المراجعة» من الموضوع الحقيقي (الملف في المستودع صار معتمدًا بقرار المالك في 29 أكتوبر) */
+function fresh(): ExamSetDocument {
+  const doc = structuredClone(readExamSetFile(REAL).doc)
+  doc.status = 'NEEDS_HUMAN_REVIEW'
+  Object.assign(doc.source, { verified: false, verified_by: null, verified_at: null })
+  for (const q of doc.original_questions) for (const e of q.rubric_elements) e.verified = false
+  for (const s of doc.steps) if (s.review_status === 'approved') s.review_status = 'needs_human_review'
+  doc.review_log = doc.review_log.filter((r) => r.action !== 'approved')
+  return doc
+}
 const codes = (doc: ExamSetDocument, opts = {}) => validateExamSet(doc, opts).errors.map((e) => e.code)
 
 function approve(doc: ExamSetDocument): ExamSetDocument {
@@ -280,7 +289,14 @@ describe('pipeline', () => {
       expect(s.checksum).toMatch(/^[0-9a-f]{64}$/)
       if (s.doc.status === 'BLOCKED') expect(s.doc.source.notes, s.doc.set_id).toBeTruthy()
       else expect(s.validation.errors, s.doc.set_id).toEqual([])
-      expect(s.validation.publishable, s.doc.set_id).toBe(false) // لا شيء معتمد قبل مراجعة صاحب المنصة
+      // لا يُنشر شيء إلا باعتماد مسجَّل من صاحب المنصة (اسمه وتاريخه وملاحظته في سجل المجموعة)
+      const approval = s.doc.review_log.find((r) => r.action === 'approved')
+      if (s.validation.publishable) {
+        expect(s.doc.status, s.doc.set_id).toBe('APPROVED')
+        expect(approval?.by, s.doc.set_id).toBe('د. حيقون أسامة')
+        expect(s.doc.source.verified_by, s.doc.set_id).toBe('د. حيقون أسامة')
+      } else expect(approval, s.doc.set_id).toBeUndefined()
+      if (s.doc.status === 'BLOCKED') expect(s.validation.publishable, s.doc.set_id).toBe(false)
     }
   })
 })

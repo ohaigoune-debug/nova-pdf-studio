@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
-import { Documents } from '@/components/play/exams/exam-runner'
+import { Documents, StepExcerptView } from '@/components/play/exams/exam-runner'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/misc'
@@ -8,14 +8,15 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { playExamSets } from '@/server/db/schema'
 import { answerText, validateExamSet } from '@/server/play/exams/engine'
+import { stepExcerpt } from '@/server/play/exams/excerpt'
 import { skillLabel } from '@/server/play/exams/skills'
-import type { TrainingStep } from '@/server/play/exams/types'
+import type { OriginalQuestion, TrainingStep } from '@/server/play/exams/types'
 
 export const dynamic = 'force-dynamic'
 
 const TYPE: Record<string, string> = { mcq: 'اختيار من متعدد', multi: 'اختيار متعدد', fill_blank: 'ملء فراغ', matching: 'مطابقة', ordering: 'ترتيب', numeric: 'عددي', short_text: 'إجابة قصيرة', portrait: 'صورة شخصية', essay_builder: 'إنتاج كتابي (مؤجّل)' }
 
-function StepCard({ st }: { st: TrainingStep }) {
+function StepCard({ st, q }: { st: TrainingStep; q: OriginalQuestion }) {
   const p = st.payload
   const a = st.answer
   return (
@@ -30,6 +31,7 @@ function StepCard({ st }: { st: TrainingStep }) {
         <Badge variant={st.review_status === 'approved' ? 'default' : 'secondary'}>{st.review_status}</Badge>
       </div>
       <p className="mt-2 font-semibold">{st.prompt}</p>
+      {st.type !== 'essay_builder' ? <StepExcerptView excerpt={stepExcerpt(st, q)} /> : null}
       {'options' in p ? (
         <ol className="mt-2 space-y-1">
           {p.options.map((o, i) => {
@@ -101,7 +103,7 @@ export default async function AdminPlayExamReviewPage({ params }: { params: Prom
                   {doc.steps
                     .filter((s) => s.rubric_element_id === e.id)
                     .map((s) => (
-                      <StepCard key={s.id} st={s} />
+                      <StepCard key={s.id} st={s} q={q} />
                     ))}
                 </div>
               ))}

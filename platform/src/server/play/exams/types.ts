@@ -4,6 +4,7 @@
  * لا يستورد هذا الملف شيئًا من الخادم حتى تستعمله الواجهة للأنواع فقط.
  */
 import type { PlayExamKind, PlayExamSetStatus } from '../constants'
+import type { StepExcerpt } from './excerpt'
 
 /** درجة الثقة في المصدر */
 /** owner_authored = من إعداد صاحب المنصة (فروضه واختباراته وحلوله النموذجية) */
@@ -178,4 +179,6 @@ export interface PublicStep {
   source_question: { id: string; number: string; part: string; verbatim_text: string; documents: SourceDocument[] }
   rubric_label: string
   is_verbatim_original: boolean
+  /** الأبيات أو الجمل التي يحيل إليها السؤال، من نصّ الموضوع نفسه (انظر excerpt.ts) */
+  excerpt: StepExcerpt | null
 }

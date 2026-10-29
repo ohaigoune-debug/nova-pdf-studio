@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { toast } from '@/components/ui/toast'
 import { cn } from '@/lib/utils'
 import { finishExamAttemptAction, submitExamStepAction } from '@/server/actions/play-exams.actions'
+import type { StepExcerpt } from '@/server/play/exams/excerpt'
 import type { PublicStep, SourceDocument, StepAnswer } from '@/server/play/exams/types'
 import type { AttemptView, StepFeedback } from '@/server/services/play-exams.service'
 import { DECK_BUTTON } from '../deck-ui'
@@ -60,6 +61,35 @@ function DocumentView({ doc }: { doc: SourceDocument }) {
         </div>
       ) : null}
     </figure>
+  )
+}
+
+/** الأبيات أو الجمل التي يحيل إليها السؤال — تحت السؤال مباشرة (يُحسب في الخادم من نصّ الموضوع) */
+export function StepExcerptView({ excerpt }: { excerpt: StepExcerpt | null }) {
+  if (!excerpt) return null
+  return (
+    <div className="mt-3 rounded-2xl border border-[#D3E0F5] bg-[#F5F8FF] p-3" data-testid="exam-excerpt">
+      <p className="mb-1.5 text-[0.72rem] font-bold text-[#5B6B88]">{excerpt.kind === 'verses' ? (excerpt.rows.length > 1 ? 'الأبيات المقصودة' : 'البيت المقصود') : 'من النصّ'}</p>
+      {excerpt.kind === 'verses' ? (
+        <ol className="space-y-1.5">
+          {excerpt.rows.map((r) => (
+            <li key={r.n} className="grid grid-cols-[1.5rem_1fr] items-start gap-2 sm:grid-cols-[1.5rem_1fr_1fr]">
+              <span className="pt-0.5 text-center text-xs font-extrabold text-[#1457C5]">{r.n}</span>
+              <span className="text-[0.98rem] font-bold leading-loose text-[#172B50]">{r.a}</span>
+              {r.b ? <span className="col-start-2 text-[0.98rem] font-bold leading-loose text-[#172B50] sm:col-start-3">{r.b}</span> : null}
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <div className="space-y-2">
+          {excerpt.parts.map((t, i) => (
+            <p key={i} className="text-[0.95rem] leading-loose text-[#172B50]">
+              {t}
+            </p>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -454,6 +484,7 @@ export function ExamRunner({ view }: { view: AttemptView }) {
               <bdi dir="ltr">{fmt(step.points)}</bdi> ن
             </p>
             <h2 className="mt-2 text-[1.15rem] font-extrabold leading-relaxed text-[#172B50]">{step.prompt}</h2>
+            <StepExcerptView excerpt={step.excerpt} />
             <div className="mt-4">
               <Interaction step={step} draft={draft} setDraft={(d) => setDrafts((m) => ({ ...m, [step.id]: d }))} locked={!!answered[step.id] || pending} feedback={answered[step.id]?.feedback ?? null} />
             </div>
