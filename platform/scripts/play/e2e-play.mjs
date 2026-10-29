@@ -9,7 +9,10 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { chromium } from 'playwright'
+import { createRequire } from 'node:module'
+
+// تحميل CommonJS ليجد Playwright المثبّت عامًّا في البيئة (استيراد ESM لا يقرأ مسارات الحزم العامة)
+const { chromium } = createRequire(import.meta.url)('playwright')
 
 const BASE = process.env.BASE || 'http://localhost:3210'
 const OUT = path.resolve(process.env.OUT || 'outputs/play-night/e2e')
