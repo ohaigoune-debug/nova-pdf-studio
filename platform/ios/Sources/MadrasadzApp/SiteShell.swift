@@ -179,11 +179,13 @@ struct ShellHeader: View {
         .padding(.horizontal, 16)
         .frame(maxWidth: .infinity)
         .frame(height: 72)
+        // The identified element is the visible 72 pt bar under the status
+        // bar; its colour also fills the status-bar area, as on the website.
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("shellHeader")
         .background { Brand.header.ignoresSafeArea(edges: .top) }
         .overlay(alignment: .bottom) { Brand.border.frame(height: 1) }
         .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
-        .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("shellHeader")
     }
 
     private func logo(_ width: CGFloat) -> some View {

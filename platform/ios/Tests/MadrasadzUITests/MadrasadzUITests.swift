@@ -513,8 +513,16 @@ final class MadrasadzUITests: XCTestCase {
         XCTAssertLessThan(frames[2].minY, frames[0].minY - 5, "«استكشف» is raised above the other items")
         XCTAssertEqual(frames[2].midX, window.midX, accuracy: 2, "«استكشف» is centred")
         XCTAssertGreaterThan(bar.frame.minY, window.height * 0.7, "The bar sits at the bottom")
-        // Header (72 pt): ☰ at the start (right) edge, logo centred, theme at the end edge.
-        XCTAssertEqual(header.frame.height, 72, accuracy: 1)
+        // Header: a 72 pt bar under the status bar (☰, logo and theme centred in
+        // it); its colour continues behind the status bar (checked by pixels below).
+        // The accessibility frame may include that extension, so the bar is
+        // measured from its bottom edge and the controls' centres.
+        let barTop = header.frame.maxY - 72
+        XCTAssertGreaterThan(barTop, window.minY, "The header bar sits below the status bar")
+        XCTAssertEqual(app.buttons["accountButton"].frame.midY, header.frame.maxY - 36, accuracy: 1)
+        XCTAssertEqual(app.buttons["shellLogo"].frame.midY, header.frame.maxY - 36, accuracy: 1)
+        XCTAssertEqual(theme.frame.midY, header.frame.maxY - 36, accuracy: 1)
+        // ☰ at the start (right) edge, logo centred, theme at the end edge.
         XCTAssertGreaterThan(app.buttons["accountButton"].frame.midX, window.midX)
         XCTAssertLessThan(theme.frame.midX, window.midX)
         XCTAssertEqual(app.buttons["shellLogo"].frame.midX, window.midX, accuracy: 2)
@@ -546,6 +554,12 @@ final class MadrasadzUITests: XCTestCase {
         XCTAssertTrue(sampled[3].near(0x17223B), "unselected item \(sampled[3])")
         XCTAssertTrue(sampled[4].near(0x17223B), "home card \(sampled[4])")
         XCTAssertTrue(sampled[5...].contains { $0.near(0xD9FA63, tolerance: 20) }, "lime round PLAY icon")
+        // Header colour at the top of the 72 pt bar and just above it (behind the
+        // status bar), between the theme button and the logo.
+        let headerEdge = colors(app, at: [CGPoint(x: window.width * 0.25, y: barTop + 2),
+                                          CGPoint(x: window.width * 0.25, y: barTop - 4)])
+        XCTAssertEqual(headerEdge.count, 2)
+        XCTAssertTrue(headerEdge.allSatisfy { $0.near(0x16213A) }, "header colour at the bar top and behind the status bar \(headerEdge)")
         // The end of a screen is never under the bar or the raised button.
         for _ in 0..<8 { app.swipeUp() }
         RunLoop.current.run(until: Date().addingTimeInterval(1.5))
