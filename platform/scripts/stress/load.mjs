@@ -24,8 +24,10 @@ const MAX_P95 = Number(process.env.STRESS_MAX_P95_MS ?? 4000)
 if (!/^http:\/\/stress[\w-]*(:\d+)?$/.test(BASE) && !(process.env.STRESS_LOCAL_TEST === '1' && /^http:\/\/localhost:\d+$/.test(BASE))) throw new Error(`رفض: ${BASE} ليست نسخة الاختبار (http://stress…)`)
 if (LEVELS.some((n) => !(n > 0)) || Math.max(...LEVELS) > DATA.accounts.length) throw new Error(`المستويات ${LEVELS.join(' ')} تتجاوز عدد الحسابات (${DATA.accounts.length})`)
 
+const [THINK_MIN, THINK_MAX] = (process.env.STRESS_THINK_MS ?? '2000-5000').split('-').map(Number)
+const RAMP_MS = Number(process.env.STRESS_RAMP_SECONDS ?? 10) * 1000
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
-const think = () => sleep(2000 + Math.random() * 3000)
+const think = () => sleep(THINK_MIN + Math.random() * (THINK_MAX - THINK_MIN))
 const pick = (a) => a[Math.floor(Math.random() * a.length)]
 
 class Stats {
@@ -131,15 +133,15 @@ async function prodProbe(stopFlag, log) {
 
 const fmt = (ms) => (ms >= 1000 ? `${(ms / 1000).toFixed(2)} ث` : `${Math.round(ms)} م.ث`)
 const summary = []
-console.log(`اختبار الضغط على ${BASE} — المستويات: ${LEVELS.join('، ')} تلميذًا وهميًّا، ${SECONDS} ثانية لكل مستوى\n`)
+console.log(`اختبار الضغط على ${BASE} — المستويات: ${LEVELS.join('، ')} تلميذًا وهميًّا، ${SECONDS} ثانية لكل مستوى، انتظار ${THINK_MIN / 1000}–${THINK_MAX / 1000} ث بين الخطوات\n`)
 for (const n of LEVELS) {
   const stats = new Stats()
   const flag = { done: false, prodSlow: false }
   const prodLog = []
   const until = Date.now() + SECONDS * 1000
   const probe = prodProbe(flag, prodLog)
-  // يدخل التلاميذ تدريجيًّا خلال 10 ثوانٍ، لا دفعة واحدة
-  const users = DATA.accounts.slice(0, n).map((a, i) => sleep(Math.floor((i / n) * 10_000)).then(() => student(a, stats, until, flag)))
+  // يدخل التلاميذ تدريجيًّا (10 ثوانٍ افتراضيًّا، دقيقة في الوضع الواقعيّ)، لا دفعة واحدة
+  const users = DATA.accounts.slice(0, n).map((a, i) => sleep(Math.floor((i / n) * RAMP_MS)).then(() => student(a, stats, until, flag)))
   await Promise.all(users)
   flag.done = true
   await probe
@@ -155,5 +157,5 @@ for (const n of LEVELS) {
 }
 const okRows = summary.filter((r) => r.errRate <= MAX_ERR && r.p95 <= 1500)
 console.log('\n══ الخلاصة ══')
-console.log(okRows.length ? `الخادم يخدم ${okRows.at(-1).n} تلميذًا نشطًا جدًا في اللحظة نفسها و95% من الطلبات أقل من ثانية ونصف.` : 'لم يبلغ أي مستوى معيار «95% أقل من ثانية ونصف».')
+console.log(okRows.length ? `الخادم يخدم ${okRows.at(-1).n} تلميذًا (انتظار ${THINK_MIN / 1000}–${THINK_MAX / 1000} ث بين الخطوات) في اللحظة نفسها و95% من الطلبات أقل من ثانية ونصف.` : 'لم يبلغ أي مستوى معيار «95% أقل من ثانية ونصف».')
 console.log(JSON.stringify({ summary }))
