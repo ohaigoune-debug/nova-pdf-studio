@@ -29,7 +29,8 @@ Transcription rules (pilot rules, plus):
   U+002D (an LTR run that prints exactly as in the scan, 1962 / 1964 on the left) — kept as typed. Real tatweel characters
   (U+0640) are kept exactly as in the text layer («فـي» in the p1 reference); visible stretches produced by Word
   justification (mapped to stray «ة» in the text layer) are not characters and are not transcribed.
-- Percent cells are kept in the text-layer order «% 2.9» (bidi embedding marks stripped, as the English pilot rule says).
+- Percent cells: the text layer gives digit runs in VISUAL order («% 2.9», % on the left); the runner renders table cells RTL,
+  so the cell is stored «2.9 %», the logical order that displays exactly as printed (a stored «% 2.9» would show «2.9 %»).
 - Item marks «– العربي بن مهيدي – جمال عبد الناصر» are written with «-» after a «\\n» (text layer code U+002D).
 
 Marks (official scheme, read from the image; all sums checked by _check()):
@@ -355,7 +356,7 @@ def topic2():
     term_mcq("q5", "q5-e2", "الاتّحاد الأوربي", GEO_TERMS, ["الرّسوم الجمركية", "العولمة", "السّندات"], 1, "geo.terms")
 
     countries = ["ألمانيا", "إيطاليا", "الصّين", "الهند", "روسيا", "البرازيل", "كندا"]
-    rates = ["% 2.9", "% 6.6", "% 8.1", "% 8.7", "% 4.7", "% 4.6", "% 4.5"]
+    rates = ["2.9 %", "6.6 %", "8.1 %", "8.7 %", "4.7 %", "4.6 %", "4.5 %"]
     G7, BR = "مجموعة السّبع الكبرى (G7)", "مجموعة بريكس (BRICS)"
     group = {"ألمانيا": G7, "إيطاليا": G7, "كندا": G7, "الصّين": BR, "الهند": BR, "روسيا": BR, "البرازيل": BR}
     q("q6", "2", PG1, ("إليك جدولا يمثّل نسب نمو النّاتج المحلّي لبعض دول العالم عام 2021.\nالمطلوب:\n"
@@ -443,7 +444,7 @@ COMMON_NOTES = (
     "من صور الصفحات (150 و300 نقطة في البوصة مع تكبير الأسطر والكلمات)، واستُعملت طبقة النصّ ونصّ read_file_content للتحقّق من الحروف فقط. "
     "قواعد النسخ: المسافات وُحّدت وعلامات الترقيم بمواضعها، ورقم السؤال في number؛ الوثيقة = النصّ المقتبس ثمّ سطر «المرجع» المطبوع، "
     "ومصدر الجدول وثيقة نصّية مستقلّة؛ ترتيب الرموز وعلامات الترقيم من طبقة النصّ بعد فكّ ترميز الأرقام الثابت (1954→«1691»، 1960→«1606»، 2016→«1610»): المراجع «1962-1830» و«(1964-1956)» كما كُتبت (تُطبع كما في الصورة)، والتطويل الحقيقيّ U+0640 كما في طبقة النصّ («فـي»)، أمّا مطّ الحروف الناتج عن ضبط السطر في Word فليس حرفًا ولا يُنسخ، "
-    "وخلايا النسب بترتيب طبقة النصّ «% 2.9». "
+    "وخلايا النسب «2.9 %» (الترتيب المنطقيّ الذي يُعرض في الخانة RTL كما طُبع «% 2.9»). "
     "الخيارات الصحيحة بنصّ الإجابة النموذجيّة (بلا اسم المصطلح أو الشخصيّة ولا نقاط الحذف في آخره)، والمشتّتات تعاريف مصطلحات وشخصيّات "
     "أخرى من الإجابة النموذجيّة نفسها (الموضوعان)؛ خيارات «أكمل الجدول» لا تعيد خانة مطبوعة في الجدول نفسه. أسطر التعليق التي تقرأ أرقام "
     "الجدول أو تقدّم الوثيقة تفاعليّة والمشتّتات تناقضها الورقة، وما كان معرفة خارج الجدول مؤجَّل essay_builder. "

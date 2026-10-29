@@ -21,7 +21,8 @@ Sources (owner's Drive, ONEC copies):
 Transcription rules (pilot + the GE 2023 builder): whitespace collapsed, punctuation as printed, task numbers in `number`;
 a document = quoted paragraph + «\\n» + its «المرجع» line(s) joined by a space; the source line under a table is a separate
 `text` document «مصدر الجدول»; numeric pairs typed as an LTR run are written as printed («1962-1830»، «(1991/1815)»،
-«2015/2014»); percent cells keep the text-layer order («%17.5», and «% 8.6» where a space is printed); the p1 scan has no text
+«2015/2014»); percent cells are stored in the logical order that the RTL runner displays as printed («%17.5» attached; the spaced cell
+printed «% 8.6» is stored «8.6 %»); the p1 scan has no text
 layer: its reference «تاريخ الجزائر 1962-1830» is written like the identical reference of the GE paper's text layer (same
 visual order), and no tatweel is transcribed on p1 (its stretches are justification, as on the text-layer pages).
 
@@ -216,7 +217,7 @@ def topic1():
     term_mcq("q4", "q4-e3", "منطقة اليورو", GEO_TERMS, ["التّبادل التّجاري", "الطّاقة", "مجموعة السّبع الكبرى"], 1, "geo.terms")
 
     areas = ["كندا", "المكسيك", "الاتّحاد الأوربي", "اليابان", "الصّين"]
-    exp = ["%17.5", "%15.8", "%15.5", "%4.3", "% 8.6"]
+    exp = ["%17.5", "%15.8", "%15.5", "%4.3", "8.6 %"]
     imp = ["%12.4", "%13.2", "%17.1", "%4.8", "%18.5"]
     q("q5", "2", PG1, ("إليك جدولا يمثّل أهمّ مناطق ودول التّبادل التّجاري للولايات المتّحدة الأمريكية عام 2021.\n"
                        "المطلوب: مثّل المعطيات الإحصائيّة الواردة في الجدول بأعمدة بيانيّة في مجال واحد.\n"
@@ -387,7 +388,7 @@ COMMON_NOTES = (
     "مقلوبة الترميز، «ة» زائدة مكان مطّ الضبط، لام ألف وحركات مكسورة)، فقُرئ كلّ نصّ حرفيّ وكلّ علامة من صور الصفحات (300 نقطة في البوصة "
     "مع تكبير الأسطر والكلمات)، واستُعملت طبقة النصّ لترتيب الرموز فقط: التطويل الحقيقيّ U+0640 بعدده فيها («الطّاقـة»، «التّبـادل التّجـاري»، "
     "«اليـورو»، «(آفــاق الاقتصاد العالمـــي)»، «مجموعـة بـريكس»، «مجموعــة السّــبع الكبــرى»)، وأزواج الأرقام كما كُتبت وطُبعت («1962-1830»، "
-    "«(1991/1815)»، «2015/2014»)، وخلايا النسب بترتيبها («%17.5»، «% 8.6»). الصفحة 1 بلا طبقة نصّ: لم يُنسخ فيها تطويل (مطّها ضبطُ سطر)، "
+    "«(1991/1815)»، «2015/2014»)، وخلايا النسب بالترتيب المنطقيّ الذي يُعرض كما طُبع («%17.5»، والخانة المطبوعة «% 8.6» مخزّنة «8.6 %»). الصفحة 1 بلا طبقة نصّ: لم يُنسخ فيها تطويل (مطّها ضبطُ سطر)، "
     "ومرجعها «تاريخ الجزائر 1962-1830» كمرجع ورقة تسيير واقتصاد المطابق. "
     "قواعد النسخ: المسافات وُحّدت وعلامات الترقيم بمواضعها، ورقم السؤال في number؛ الوثيقة = النصّ المقتبس ثمّ سطر «المرجع»، ومصدر الجدول "
     "وثيقة نصّية مستقلّة. الخيارات الصحيحة بنصّ الإجابة النموذجيّة (بلا اسم المصطلح أو الشخصيّة ولا نقاط الحذف في آخره)، والمشتّتات تعاريف "
