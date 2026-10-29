@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "ar-bac-2009-lang-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-14_ieafXTNAhSJNNjvpaJ6zhpx6Y8GuB5-p1",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1Ya6TzMEk96GuxLVjHCyiZIu8RRzQh3hy/view",
   "correction_file_ref": "gdrive:1Ya6TzMEk96GuxLVjHCyiZIu8RRzQh3hy (02_التصحيح.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T08:48:00.790Z",
   "notes": "نسخة من موضوع البكالوريا الرّسميّ (الدّيوان الوطنيّ للامتحانات والمسابقات، دورة جوان 2009، شعبة لغات أجنبيّة) في Drive صاحب المنصّة؛ النّصّ الحرفيّ مولَّد من ملفّ docx ومقابَل سطرًا سطرًا بالموضوع الرّسميّ gdrive:1AZvhhY5HIlsd9JddB3UOrML7NJO8tKVA (01_الموضوع.pdf، ص1–2)، والنّسخة نفسها بصيغة PDF: gdrive:1D9RGabxYDDVaF4uMCHcauHBo6PWoLlA5. صُوّب من الموضوع الرّسميّ: «بیانیتان» (ياء فارسيّة) ← «بيانيتان»، «الَّنقديّة» ← «النّقديّة». العلامات من الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّين (ص1، صورة ممسوحة قُرئت مصوّرة؛ رموز التّقطيع مكتوبة هنا من اليسار). البناء اللّغويّ س1: قُرئت العلامتان 0.5 + 0.5 لكلمتي «يرمي» و«صموتا» (مجموع المحور 06). المجموع 20 = بناء فكريّ 10 + بناء لغويّ 6 + تقويم نقديّ 4. مؤجَّل (essay_builder): نثر المقطع س4 (3×1) والتّقويم النّقديّ (1 + 2 + 1، معايير دون نموذج)."
  },
  "original_questions": [
@@ -56,13 +56,13 @@
      "id": "q1-e1",
      "label": "الموضوع الّذي استهوى الشّاعر",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e2",
      "label": "التّوضيح",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -97,13 +97,13 @@
      "id": "q2-e1",
      "label": "معنى «العيون الحمر»",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e2",
      "label": "معنى «الصّدور العري»",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -138,13 +138,13 @@
      "id": "q3-e1",
      "label": "المقصود بالحقيقة",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e2",
      "label": "سبب الرّبط بينها وبين يقظة الإنسان",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -179,19 +179,19 @@
      "id": "q4-e1",
      "label": "النّثر: تقنية نثر الأبيات",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e2",
      "label": "النّثر: دلالة المضمون",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e3",
      "label": "النّثر: سلامة اللّغة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -226,13 +226,13 @@
      "id": "q5-e1",
      "label": "إعراب «يرمي»",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e2",
      "label": "إعراب «صموتا»",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -267,7 +267,7 @@
      "id": "q6-e1",
      "label": "وظيفة «إذا»",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -302,7 +302,7 @@
      "id": "q7-e1",
      "label": "محلّ جملة «يأكل الغاب السّحيقة»",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -337,25 +337,25 @@
      "id": "q8-e1",
      "label": "«وإذا البارود عربد»: النّوع والشّرح",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e2",
      "label": "«وإذا البارود عربد»: الأثر في المعنى",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e3",
      "label": "«قدمي الدّامي دروب شائكات»: النّوع والشّرح",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e4",
      "label": "«قدمي الدّامي دروب شائكات»: الأثر في المعنى",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -390,13 +390,13 @@
      "id": "q9-e1",
      "label": "تقطيع السّطر الأوّل",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e2",
      "label": "البحر",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -431,19 +431,19 @@
      "id": "q10-e1",
      "label": "مفهوم الالتزام في الأدب الحديث",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e2",
      "label": "مدى التزام الأدباء المحدثين به",
      "max_points": 2,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e3",
      "label": "دعم الإجابة بالأمثلة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -474,7 +474,7 @@
    "skill_id": "ar.comprehension.idea",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s02",
@@ -509,7 +509,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s03",
@@ -536,7 +536,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s04",
@@ -563,7 +563,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s05",
@@ -598,7 +598,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s06",
@@ -625,7 +625,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s07",
@@ -656,7 +656,7 @@
    "skill_id": "ar.comprehension.explain",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s08",
@@ -683,7 +683,7 @@
    "skill_id": "ar.comprehension.link",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s09",
@@ -715,7 +715,7 @@
    "skill_id": "ar.comprehension.link",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s10",
@@ -835,7 +835,7 @@
    "skill_id": "ar.grammar.irab",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s14",
@@ -862,7 +862,7 @@
    "skill_id": "ar.grammar.irab",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s15",
@@ -889,7 +889,7 @@
    "skill_id": "ar.grammar.conditional",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s16",
@@ -916,7 +916,7 @@
    "skill_id": "ar.grammar.sentence_case",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s17",
@@ -943,7 +943,7 @@
    "skill_id": "ar.rhetoric.metaphor",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s18",
@@ -978,7 +978,7 @@
    "skill_id": "ar.rhetoric.metaphor",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s19",
@@ -1005,7 +1005,7 @@
    "skill_id": "ar.rhetoric.effect",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s20",
@@ -1032,7 +1032,7 @@
    "skill_id": "ar.rhetoric.simile",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s21",
@@ -1068,7 +1068,7 @@
    "skill_id": "ar.rhetoric.simile",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s22",
@@ -1095,7 +1095,7 @@
    "skill_id": "ar.rhetoric.effect",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s23",
@@ -1130,7 +1130,7 @@
    "skill_id": "ar.prosody",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s24",
@@ -1157,7 +1157,7 @@
    "skill_id": "ar.prosody",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s25",
@@ -1184,7 +1184,7 @@
    "skill_id": "ar.prosody",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s26",
@@ -1291,6 +1291,12 @@
    "by": "claude",
    "action": "generated",
    "note": "تحويل من نسخة الموضوع (docx، مقابَلة بالموضوع الرّسميّ ومصوَّبة منه) والإجابة النّموذجيّة الرّسميّة (PDF ممسوح) في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الإجابة النّموذجيّة؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T08:48:00.790Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر الفوري) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

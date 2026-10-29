@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-29T05:10:15.071Z",
+ "generated_at": "2026-10-29T08:49:32.258Z",
  "totals": {
   "set_files": 131,
   "fixtures": 0,
@@ -20,15 +20,16 @@
    "numeric": 1
   },
   "steps_by_review_status": {
-   "needs_human_review": 4582,
-   "needs_engine_support": 386
+   "approved": 4512,
+   "needs_engine_support": 386,
+   "needs_human_review": 70
   },
   "sets_by_status": {
-   "NEEDS_HUMAN_REVIEW": 129,
+   "APPROVED": 129,
    "BLOCKED": 2
   },
   "sets_with_errors": 0,
-  "publishable_sets": 0,
+  "publishable_sets": 129,
   "archive_exam_units_discovered": 887,
   "archive_exam_units_converted": 81
  },
@@ -36,9 +37,9 @@
   {
    "set_id": "ar-1as-t1-tclit-03",
    "file": "content/play-exams/sets/1AS/AR/ar-1as-t1-tclit-03.json",
-   "checksum": "f0e8d2d02e652f0b27b0c4abf9d207af0b2403873d9f156aaf12b023c85a305f",
+   "checksum": "5a477466442df3e328be0272ea25977055750603cba6809f209353737af48429",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "TEST",
    "level": "1AS",
    "streams": [
@@ -50,7 +51,7 @@
    "paper": null,
    "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – جذع مشترك آداب – السّنة الأولى ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1VtCvCAk-aXzYI1UX4A00S66U912fGep9 (اختبار الفصل الأول – جذع مشترك آداب.docx)",
    "correction": "gdrive:1S7DhJM0rqXlgBoAE0id7z1xbSYQiS58a (حل اختبار الفصل الأول – جذع مشترك آداب.docx)",
    "original_questions": 11,
@@ -67,15 +68,15 @@
    "interactive_points": 13.5,
    "deferred_points": 6.5,
    "errors": 0,
-   "warnings": 47,
-   "publishable": false
+   "warnings": 9,
+   "publishable": true
   },
   {
    "set_id": "ar-1as-t1-tclit-d01",
    "file": "content/play-exams/sets/1AS/AR/ar-1as-t1-tclit-d01.json",
-   "checksum": "b97c884a8c06251d58f0959e8fe0329cdf21c135689ef5c748d72149fe865b5c",
+   "checksum": "502f8f3ffd0b80444d8991beaeedc5cb89a887da081bb82a450d4abf278316df",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "1AS",
    "streams": [
@@ -87,7 +88,7 @@
    "paper": null,
    "title": "الفرض المحروس الأوّل – الفصل الأوّل (رقم 01) – اللّغة العربيّة وآدابها – جذع مشترك آداب – السّنة الأولى ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1reJBr-Lmzj-RxRPSymJQdRV0i3o-DMk9 (الفرض 01 – الفصل الأول – جذع مشترك آداب.docx)",
    "correction": "gdrive:1ryB-M8JMXkfWpqnMeK0mWQLC7zhnDuK_ (حل الفرض 01 – الفصل الأول – جذع مشترك آداب.docx)",
    "original_questions": 10,
@@ -105,15 +106,15 @@
    "interactive_points": 19,
    "deferred_points": 1,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-1as-t1-tclit-d02",
    "file": "content/play-exams/sets/1AS/AR/ar-1as-t1-tclit-d02.json",
-   "checksum": "5dc25f844ca9e626bf35bbe592e076df4ccea18b88b2d35342daddcb05e8d6e7",
+   "checksum": "e795fa0debdbbc6601e5a7b4945192e9a12f571dd7eea15fb10d5bc35fb0d58d",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "1AS",
    "streams": [
@@ -125,7 +126,7 @@
    "paper": null,
    "title": "الفرض المحروس الثّاني – الفصل الأوّل (رقم 02) – اللّغة العربيّة وآدابها – جذع مشترك آداب – السّنة الأولى ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1tMhtXW-0_n1EjxyhwRrdEHK9RL9QWA80 (الفرض 02 – الفصل الأول – جذع مشترك آداب.docx)",
    "correction": "gdrive:1IXTOK9ZyWMyBb_vCwNjbRERo4lbGWJGE (حل الفرض 02 – الفصل الأول – جذع مشترك آداب.docx)",
    "original_questions": 10,
@@ -142,15 +143,15 @@
    "interactive_points": 19,
    "deferred_points": 1,
    "errors": 0,
-   "warnings": 34,
-   "publishable": false
+   "warnings": 2,
+   "publishable": true
   },
   {
    "set_id": "ar-1as-t1-tcsci-03",
    "file": "content/play-exams/sets/1AS/AR/ar-1as-t1-tcsci-03.json",
-   "checksum": "421ea3f0a9f89ecb2b99fbed05621262979157443c578a16e54daebb920070bc",
+   "checksum": "12b2d5389cc3226532b1f16904315a1b85d2c07822808e011393cc4d3905e81a",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "TEST",
    "level": "1AS",
    "streams": [
@@ -162,7 +163,7 @@
    "paper": null,
    "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – جذع مشترك علوم وتكنولوجيا – السّنة الأولى ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:124iMkeZa9ahmrEbe4utGpuyvHyZX_4gV (اختبار الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
    "correction": "gdrive:13UOvajjpTUHxaBoBxZo2DTYPIFL0TumU (حل اختبار الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
    "original_questions": 10,
@@ -179,15 +180,15 @@
    "interactive_points": 15.5,
    "deferred_points": 4.5,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 5,
+   "publishable": true
   },
   {
    "set_id": "ar-1as-t1-tcsci-d01",
    "file": "content/play-exams/sets/1AS/AR/ar-1as-t1-tcsci-d01.json",
-   "checksum": "30eaf58938bfda2462cd5317f38c45c967fb72fdbb4f93221f0988149de90ac8",
+   "checksum": "bfb44b33896bde4341c3f81947987c5669d787d6a6fa5e77aa7e026e25e9bb26",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "1AS",
    "streams": [
@@ -199,7 +200,7 @@
    "paper": null,
    "title": "الفرض المحروس الأوّل – الفصل الأوّل (رقم 01) – اللّغة العربيّة وآدابها – جذع مشترك علوم وتكنولوجيا – السّنة الأولى ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1iFtko234LFSOGudQn-no3Vi4ot6UV5V_ (الفرض 01 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
    "correction": "gdrive:1GCGXeNFAzZDqyT9Nf7XMMK310mkC9GPG (حل الفرض 01 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
    "original_questions": 9,
@@ -215,15 +216,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 29,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-1as-t1-tcsci-d02",
    "file": "content/play-exams/sets/1AS/AR/ar-1as-t1-tcsci-d02.json",
-   "checksum": "c09e2759501077c49597b9e44aa55dcc1866da37a0d2a7e57f28d651aa602bf5",
+   "checksum": "e828b76628c6d17c80b6779dac09fdfc8bbfd20d63fbaf8715abc99b82f9fbdf",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "1AS",
    "streams": [
@@ -235,7 +236,7 @@
    "paper": null,
    "title": "الفرض المحروس الثّاني – الفصل الأوّل (رقم 02) – اللّغة العربيّة وآدابها – جذع مشترك علوم وتكنولوجيا – السّنة الأولى ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:10yS9MgD3q1CjB3DqB4iWj1vTLB_8geXB (الفرض 02 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
    "correction": "gdrive:13bCgJX1nTFO7l5xlxi-xcx3LQySudkrA (حل الفرض 02 – الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",
    "original_questions": 9,
@@ -251,15 +252,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 29,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t1-lit-03",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-lit-03.json",
-   "checksum": "9f9e48a212cb8f58feef9b99fd9b22e79bf09bbda6b3cb03792830c25c5e43e6",
+   "checksum": "b142436798e47f4fa492e2da285ed06eb3ff0c0e35c5b8dd9002c90b7e1c8da4",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "TEST",
    "level": "2AS",
    "streams": [
@@ -272,7 +273,7 @@
    "paper": null,
    "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1vg6bh4eb58TMZTYsH7tTtJ6ZiPnsBh9U (اختبار الفصل الأول – آداب.docx)",
    "correction": "gdrive:1fuF4HTA7xVp4hJ9KoXLiTw-13Ka-aRSm (حل اختبار الفصل الأول – آداب.docx)",
    "original_questions": 11,
@@ -290,15 +291,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 42,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t1-lit-d01",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-lit-d01.json",
-   "checksum": "6c72377a7f946d3e7d53832a7ff0a45df7b6baa1a6964b4b56acc57e3073cb62",
+   "checksum": "d4f3a5990cbd1df5c75f9cc8f6649d967ca0a15593a44894b1701b49db24d353",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -311,7 +312,7 @@
    "paper": null,
    "title": "الفرض المحروس الأوّل – الفصل الأوّل (رقم 01) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1_CWs34ny7wZFClheNR1oeMsBhkvzPD-H (الفرض 01 – الفصل الأول – آداب.docx)",
    "correction": "gdrive:1apho0JiNiSxLflcoYA1NyIa2wDnR7PWQ (حل الفرض 01 – الفصل الأول – آداب.docx)",
    "original_questions": 9,
@@ -329,15 +330,15 @@
    "interactive_points": 18,
    "deferred_points": 2,
    "errors": 0,
-   "warnings": 33,
-   "publishable": false
+   "warnings": 2,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t1-lit-d02",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-lit-d02.json",
-   "checksum": "e27abdf10d52ce9d879ecdf35a3c0eb27d261f14f4ae40d27fc3d772c9f5685e",
+   "checksum": "f90a64eb69964207f58b8c1248d55401724164a8f0cca7cf3d08a09dcaebef5e",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -350,7 +351,7 @@
    "paper": null,
    "title": "الفرض المحروس الثّاني – الفصل الأوّل (رقم 02) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:12XDfZXctGNmbeaVhOoLDh7clkz90Auxu (الفرض 02 – الفصل الأول – آداب.docx)",
    "correction": "gdrive:1nVrxBtJQgGtzQ5PRfBaYW2JNP78zEbDy (حل الفرض 02 – الفصل الأول – آداب.docx)",
    "original_questions": 10,
@@ -367,15 +368,15 @@
    "interactive_points": 19,
    "deferred_points": 1,
    "errors": 0,
-   "warnings": 35,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t1-sci-03",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-sci-03.json",
-   "checksum": "954fcc9af3686cd307aaabffcff6305eb628c0a5a57a0508a02c662756f4e940",
+   "checksum": "c064383a07dae8e642556c61607105585fd18fe1d53392fd9bfb606c51ab35da",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "TEST",
    "level": "2AS",
    "streams": [
@@ -390,7 +391,7 @@
    "paper": null,
    "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1ZdeQO1RihCYPIJBrSEyC2_ikyrEciARw (اختبار الفصل الأول – علمي.docx)",
    "correction": "gdrive:1CzpdhzyEYU3B5kcY9-sv_OPxtWViylxJ (حل اختبار الفصل الأول – علمي.docx)",
    "original_questions": 11,
@@ -407,15 +408,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t1-sci-d01",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-sci-d01.json",
-   "checksum": "857061c0aa744893f33050f4cebbfd45645a50f156197d0248996882f7fc5bcd",
+   "checksum": "1965ac3b3253378737250b3c20e30f554541991e17523219ad69992f7b4107e5",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -430,7 +431,7 @@
    "paper": null,
    "title": "الفرض المحروس الأوّل – الفصل الأوّل (رقم 01) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1aLuUhSK9EEFTwhycs-lUyxUY8BOKWN9o (الفرض 01 – الفصل الأول – علمي.docx)",
    "correction": "gdrive:1PjI2J5H08PG_hPCDUp9bIbNqja7dVkYW (حل الفرض 01 – الفصل الأول – علمي.docx)",
    "original_questions": 10,
@@ -447,15 +448,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 28,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t1-sci-d02",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t1-sci-d02.json",
-   "checksum": "b8db5350214e450d1b9f8d17cc95864511767dd383bf7a110507bc5eaae51335",
+   "checksum": "009d513442ae06268d26b37a942e7c14b4f71b2e5f043f7e2f5a9433deeca8bb",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -470,7 +471,7 @@
    "paper": null,
    "title": "الفرض المحروس الثّاني – الفصل الأوّل (رقم 02) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:19JhiUm_hfotFCNHyHWoYTe5lMsk-8hu7 (الفرض 02 – الفصل الأول – علمي.docx)",
    "correction": "gdrive:1nSsi2DV0eoEOXYOn_jbBTPtkSr6d4MMu (حل الفرض 02 – الفصل الأول – علمي.docx)",
    "original_questions": 10,
@@ -488,15 +489,15 @@
    "interactive_points": 18.5,
    "deferred_points": 1.5,
    "errors": 0,
-   "warnings": 32,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t2-lit-06",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-lit-06.json",
-   "checksum": "b5b591f2acad2cb312d013e96a654b04def66f74856c091c7d888fdda9ba8dc3",
+   "checksum": "0217e907ef5a76db473f1a9120eb50769c80290e99d7f7e074b528bc40902e56",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "TEST",
    "level": "2AS",
    "streams": [
@@ -509,7 +510,7 @@
    "paper": null,
    "title": "اختبار الفصل الثّاني (رقم 06) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1QAAF4sO4R-zruaBGs8ogrGrcel2fgEjt (اختبار الفصل الثاني – آداب.docx)",
    "correction": "gdrive:1k7Arbj2wHoXPOMreok6u4rshHhta1TXb (حل اختبار الفصل الثاني – آداب.docx)",
    "original_questions": 13,
@@ -527,15 +528,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 41,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t2-lit-d01",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-lit-d01.json",
-   "checksum": "4c7ecc5ca6a5843c46f8d7f6945b5c669ae4f53555f6491120a039d45a821374",
+   "checksum": "582c1825ef144794da1ecae10fc78be8815050e8c5b18ecbe46cd558d516b7c4",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -548,7 +549,7 @@
    "paper": null,
    "title": "الفرض المحروس الأوّل – الفصل الثّاني (رقم 04) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1PDo0YabNsK9DTtBv4rwzkElzENAlogpE (الفرض 01 – الفصل الثاني – آداب.docx)",
    "correction": "gdrive:1TD9M_K6Lp-azQs0Dbi5eRkGAi7LdpjM_ (حل الفرض 01 – الفصل الثاني – آداب.docx)",
    "original_questions": 11,
@@ -565,15 +566,15 @@
    "interactive_points": 19.5,
    "deferred_points": 0.5,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t2-lit-d02",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-lit-d02.json",
-   "checksum": "9f29a5f2ad62dfabf522bc970e310121e5911b463526833ba714012b5c8a79aa",
+   "checksum": "1cefb84547c358f050a2d515719412a3472b0442a9c6b00bea48370cdf2cd705",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -586,7 +587,7 @@
    "paper": null,
    "title": "الفرض المحروس الثّاني – الفصل الثّاني (رقم 05) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1kH9CaSkqECfMW2BHSddZdQ3BJFoORg9- (الفرض 02 – الفصل الثاني – آداب.docx)",
    "correction": "gdrive:1ylFOlBja36Ls_xkWyotQB0DwysHfs-Yd (حل الفرض 02 – الفصل الثاني – آداب.docx)",
    "original_questions": 12,
@@ -603,15 +604,15 @@
    "interactive_points": 19.5,
    "deferred_points": 0.5,
    "errors": 0,
-   "warnings": 35,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t2-sci-06",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-sci-06.json",
-   "checksum": "f4e0341331ee0cf193e3a4a3f76022b43b055152c14200b35ff26cec2d848842",
+   "checksum": "1431214486d87d441f8e73f8e01812049a830fde543a8bd8550935847e423327",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "TEST",
    "level": "2AS",
    "streams": [
@@ -626,7 +627,7 @@
    "paper": null,
    "title": "اختبار الفصل الثّاني (رقم 06) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1oJMZViW6jKz_-f5P_p4PT78962M7Vm6X (اختبار الفصل الثاني – علمي.docx)",
    "correction": "gdrive:1DWdMcPnN2JjkxSwfA9mbcdcSKgN9IUj8 (حل اختبار الفصل الثاني – علمي.docx)",
    "original_questions": 13,
@@ -644,15 +645,15 @@
    "interactive_points": 14,
    "deferred_points": 6,
    "errors": 0,
-   "warnings": 37,
-   "publishable": false
+   "warnings": 7,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t2-sci-d01",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-sci-d01.json",
-   "checksum": "33c0245f46b3a554e62b9d2bb2774bce0d5ec3a0b7d40568326f7da3532daccc",
+   "checksum": "76f85053f88a677173aa307425ae2931f1576697e11bbfe11d4a9a77129dba1f",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -667,7 +668,7 @@
    "paper": null,
    "title": "الفرض المحروس الأوّل – الفصل الثّاني (رقم 04) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1Br3k4NNR3WKqnsgwJ74UJ0jzRY1nN165 (الفرض 01 – الفصل الثاني – علمي.docx)",
    "correction": "gdrive:1aBcrZO_MHTylHvoIGJ3DU6ozDNtj9uMW (حل الفرض 01 – الفصل الثاني – علمي.docx)",
    "original_questions": 12,
@@ -685,15 +686,15 @@
    "interactive_points": 19,
    "deferred_points": 1,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t2-sci-d02",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t2-sci-d02.json",
-   "checksum": "54d5bb698b585041acc575ec8f13425884aa14bb313662789dc947205514777f",
+   "checksum": "5769923c0ad313fe46216efc53e03084d84d2fea324ca996db6e312d23e46c98",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -708,7 +709,7 @@
    "paper": null,
    "title": "الفرض المحروس الثّاني – الفصل الثّاني (رقم 05) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:12XVJZHAQuzHzaeMpiHt5qKARss1zfrJw (الفرض 02 – الفصل الثاني – علمي.docx)",
    "correction": "gdrive:1r_EGLceog2yo56nykyvbMsKW851SLkSw (حل الفرض 02 – الفصل الثاني – علمي.docx)",
    "original_questions": 11,
@@ -726,15 +727,15 @@
    "interactive_points": 18.5,
    "deferred_points": 1.5,
    "errors": 0,
-   "warnings": 30,
-   "publishable": false
+   "warnings": 2,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t3-lit-09",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-lit-09.json",
-   "checksum": "9fe4fa024b52989b223178705b41d33185a1afae7b4d942df0c5e9432a0db81f",
+   "checksum": "6efd651b43777c168bf2eaa9c835c1c22851b6b24413bb4b79b87bd9e68c530c",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "TEST",
    "level": "2AS",
    "streams": [
@@ -747,7 +748,7 @@
    "paper": null,
    "title": "اختبار الفصل الثّالث (رقم 09) – اللّغة العربيّة وآدابها – آداب وفلسفة – لغات أجنبيّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1MtDOX8DnWc9XkYzEe4IoikdLVn0HVznY (اختبار الفصل الثالث – آداب.docx)",
    "correction": "gdrive:1BJ99rDBOOAEWRi6QqbPBOgfjCPIr6moD (حل اختبار الفصل الثالث – آداب.docx)",
    "original_questions": 14,
@@ -765,15 +766,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 47,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t3-lit-d01",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-lit-d01.json",
-   "checksum": "dc8b71f5bb4abe5396c7da3d46fb3162689a415465b1532e100672406f048745",
+   "checksum": "c5439b67e9b32449ad8e75044ebca0abc44c5ab8111f3299434dc6141e7f15d9",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -786,7 +787,7 @@
    "paper": null,
    "title": "الفرض المحروس الأوّل – الفصل الثّالث (رقم 07) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1-3C7sb8EzO97d9wZzxJ-_8jyLIMlGran (الفرض 01 – الفصل الثالث – آداب.docx)",
    "correction": "gdrive:1t90hDMneD5_Sc2WqwWpOSu2LCOs-LcVz (حل الفرض 01 – الفصل الثالث – آداب.docx)",
    "original_questions": 12,
@@ -803,15 +804,15 @@
    "interactive_points": 19.5,
    "deferred_points": 0.5,
    "errors": 0,
-   "warnings": 34,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t3-lit-d02",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-lit-d02.json",
-   "checksum": "168208c1a258da117f9180044428a1d05176ab2168db9afc2869cb2a35b5f149",
+   "checksum": "6c049f81da457ddc5b00c5c160712e72333188a070c6292d296378cdd3efc295",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -824,7 +825,7 @@
    "paper": null,
    "title": "الفرض المحروس الثّاني – الفصل الثّالث (رقم 08) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1AeK0QRIzE-K-iBZ24NByBK9r5EcgP6lP (الفرض 02 – الفصل الثالث – آداب.docx)",
    "correction": "gdrive:18xURtAOORQu-Nlb98DRBOLp3kNteWg32 (حل الفرض 02 – الفصل الثالث – آداب.docx)",
    "original_questions": 13,
@@ -841,15 +842,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 34,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t3-sci-09",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-sci-09.json",
-   "checksum": "fea4177bb8d7669896990439150da4587982cc67600fdfe8c8356da17a8297f3",
+   "checksum": "154be7767b8a40e6ca9403cc43b32137b921835a3f3aa454dc741f8c7e318635",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "TEST",
    "level": "2AS",
    "streams": [
@@ -864,7 +865,7 @@
    "paper": null,
    "title": "اختبار الفصل الثّالث (رقم 09) – اللّغة العربيّة وآدابها – الشّعب العلميّة (ع.ت – ر – ت.ر – ت.ا) – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1QgqFZr3Vaz8YLj1dot9MpdYtpkwGY50C (اختبار الفصل الثالث – علمي.docx)",
    "correction": "gdrive:1m_QJtSFXBsP6NpjEMcqWCfXnBWR04RQT (حل اختبار الفصل الثالث – علمي.docx)",
    "original_questions": 14,
@@ -882,15 +883,15 @@
    "interactive_points": 15.25,
    "deferred_points": 4.75,
    "errors": 0,
-   "warnings": 38,
-   "publishable": false
+   "warnings": 6,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t3-sci-d01",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-sci-d01.json",
-   "checksum": "507bdec6ae2e412df803c3e011f70eb46965191ce6f96a2e0359bd1f4ac41fd0",
+   "checksum": "d9e669d29dadcc6d87d75f8c4234d825f45fffa2fbb17ff3d3c407a829793574",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -905,7 +906,7 @@
    "paper": null,
    "title": "الفرض المحروس الأوّل – الفصل الثّالث (رقم 07) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1-HIMwEZjOhC4BEdjU6PRJuzqAKoARpav (الفرض 01 – الفصل الثالث – علمي.docx)",
    "correction": "gdrive:1nwzeVv37tIwgl2rzt4WuBzAgL6oB2S3S (حل الفرض 01 – الفصل الثالث – علمي.docx)",
    "original_questions": 13,
@@ -922,15 +923,15 @@
    "interactive_points": 16.75,
    "deferred_points": 3.25,
    "errors": 0,
-   "warnings": 32,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-2as-t3-sci-d02",
    "file": "content/play-exams/sets/2AS/AR/ar-2as-t3-sci-d02.json",
-   "checksum": "e2af8020357f41aceb2913cf8ff41ea6ba9fe51b74be951065aedbc283396721",
+   "checksum": "50811478d4b41ea3dc933b76c663df280c5a2e9014a7d1bd714a2b6d3447fbe9",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "2AS",
    "streams": [
@@ -945,7 +946,7 @@
    "paper": null,
    "title": "الفرض المحروس الثّاني – الفصل الثّالث (رقم 08) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1ECcdEmm5Fm9vgYcL_zhdfqZ-ALedr8UH (الفرض 02 – الفصل الثالث – علمي.docx)",
    "correction": "gdrive:1sh9OgESGLIdO2tL33l17-pZ4wws2AvnC (حل الفرض 02 – الفصل الثالث – علمي.docx)",
    "original_questions": 12,
@@ -962,15 +963,15 @@
    "interactive_points": 18.5,
    "deferred_points": 1.5,
    "errors": 0,
-   "warnings": 30,
-   "publishable": false
+   "warnings": 2,
+   "publishable": true
   },
   {
    "set_id": "ar-3as-t1-litlang-03",
    "file": "content/play-exams/sets/3AS/AR/ar-3as-t1-litlang-03.json",
-   "checksum": "06594777866cfb2bcb47293de148d9cc0201a06b9a13ebc57150de96d2381c3d",
+   "checksum": "76d815576b30b7c5405970286c7d564b1f6dc6a90fa7471369151a9f047f15ff",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "TEST",
    "level": "3AS",
    "streams": [
@@ -983,7 +984,7 @@
    "paper": null,
    "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّالثة ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1mdxU5ppZHjRVz8py5tJeOOAU6ZtnfXqq (اختبار الفصل الأول – آداب وفلسفة ولغات أجنبية.docx)",
    "correction": "gdrive:1feeTunF33KQlV08dy1OCU7DWHnlfQQk6 (حل اختبار الفصل الأول – آداب وفلسفة ولغات أجنبية.docx)",
    "original_questions": 13,
@@ -1000,15 +1001,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-3as-t1-litlang-d01",
    "file": "content/play-exams/sets/3AS/AR/ar-3as-t1-litlang-d01.json",
-   "checksum": "b462335a2bbb31a7dbae54c2248e9e5484e070bb486d5e10eb6430fb12031557",
+   "checksum": "615325ea29f51b756802cb9f45b7981b25484c254becbd235d441266fe62c9eb",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "3AS",
    "streams": [
@@ -1021,7 +1022,7 @@
    "paper": null,
    "title": "الفرض المحروس الأوّل – الفصل الأوّل (رقم 01) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّالثة ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1cOKZ6yUolY6zNwQYLrpjWVx0WiHtdKmd (الفرض 01 – الفصل الأول – آداب وفلسفة ولغات أجنبية.docx)",
    "correction": "gdrive:1Uf0ElNyMKf82A6X1fTxxZC0k_bLgqDir (حل الفرض 01 – الفصل الأول – آداب وفلسفة ولغات أجنبية.docx)",
    "original_questions": 10,
@@ -1038,15 +1039,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 32,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-3as-t1-litlang-d02",
    "file": "content/play-exams/sets/3AS/AR/ar-3as-t1-litlang-d02.json",
-   "checksum": "02e796dc6169b0ae1e903aacac4d070699970addd7aaa94e82fdcd25a4126ea8",
+   "checksum": "32e6758672caef7b305cddd6fb2acf6b181032ee313c5776980e193510f5bf46",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "3AS",
    "streams": [
@@ -1059,7 +1060,7 @@
    "paper": null,
    "title": "الفرض المحروس الثّاني – الفصل الأوّل (رقم 02) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّالثة ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1uF-0_KgNvW_GpAodD7XndLW0pqSONnXl (الفرض 02 – الفصل الأول – آداب وفلسفة ولغات أجنبية.docx)",
    "correction": "gdrive:1AtNqqjnfENWg7Smabp-v3b664odhpHc8 (حل الفرض 02 – الفصل الأول – آداب وفلسفة ولغات أجنبية.docx)",
    "original_questions": 10,
@@ -1075,15 +1076,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-3as-t1-sci-03",
    "file": "content/play-exams/sets/3AS/AR/ar-3as-t1-sci-03.json",
-   "checksum": "163be6b72adfbfd528103068feeee3dea1f1c02ac85d9d584d2a4a59d283d2ef",
+   "checksum": "b5c6ef1f33f4163aec19800f67e3fa62febb6b4926ebf5894a2657344ad16024",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "TEST",
    "level": "3AS",
    "streams": [
@@ -1098,7 +1099,7 @@
    "paper": null,
    "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّالثة ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1yTkSNw4emECd8PeF2apOpKjqw69pLMQo (اختبار الفصل الأول – الشعب العلمية.docx)",
    "correction": "gdrive:1uJ02YRRBvIVaMk6aNhcJK1wYX7sqPRD0 (حل اختبار الفصل الأول – الشعب العلمية.docx)",
    "original_questions": 13,
@@ -1116,15 +1117,15 @@
    "interactive_points": 19,
    "deferred_points": 1,
    "errors": 0,
-   "warnings": 39,
-   "publishable": false
+   "warnings": 2,
+   "publishable": true
   },
   {
    "set_id": "ar-3as-t1-sci-d01",
    "file": "content/play-exams/sets/3AS/AR/ar-3as-t1-sci-d01.json",
-   "checksum": "1382c8c87322c758fed0302bc8723b11f0e1dd9c82abbb42fc88463240e7d0eb",
+   "checksum": "e686d99d80058e7d5b33389bfdbab83e039c8a35b835f4e288790d4b957c7e18",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "3AS",
    "streams": [
@@ -1139,7 +1140,7 @@
    "paper": null,
    "title": "الفرض المحروس الأوّل – الفصل الأوّل (رقم 01) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّالثة ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1arp3A0LFNKCD-GNm0GhQNh9vU_LMzwJz (الفرض 01 – الفصل الأول – الشعب العلمية.docx)",
    "correction": "gdrive:1pdgontBy4-n-hHEfgEy5Lyt1NbbJRA61 (حل الفرض 01 – الفصل الأول – الشعب العلمية.docx)",
    "original_questions": 10,
@@ -1156,15 +1157,15 @@
    "interactive_points": 19.25,
    "deferred_points": 0.75,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-3as-t1-sci-d02",
    "file": "content/play-exams/sets/3AS/AR/ar-3as-t1-sci-d02.json",
-   "checksum": "1ac43cd308273bb64529511eaf6de2b5ecc22435ccbee9024c4dec6371500a64",
+   "checksum": "b5b8e0debcf8e91d6e9cb3de9e3dd81f1879cae87af4fabafb990587cec3349a",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "DEVOIR",
    "level": "3AS",
    "streams": [
@@ -1179,7 +1180,7 @@
    "paper": null,
    "title": "الفرض المحروس الثّاني – الفصل الأوّل (رقم 02) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّالثة ثانوي",
    "trust": "owner_authored",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1WAiHVZpyeCn6y-witwE0OhPiFE0GlmtC (الفرض 02 – الفصل الأول – الشعب العلمية.docx)",
    "correction": "gdrive:1zeI3tsQavfZRHXwf6cwLeiLJRL7EM6Yr (حل الفرض 02 – الفصل الأول – الشعب العلمية.docx)",
    "original_questions": 11,
@@ -1197,15 +1198,15 @@
    "interactive_points": 19,
    "deferred_points": 1,
    "errors": 0,
-   "warnings": 34,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2008-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2008-lang-p1.json",
-   "checksum": "d7083b91922aee95a107f79a8fa4cf2ab8487d251de38722d0875731e1213895",
+   "checksum": "b01dc6431b751700064b52e21a20b374686131afe9888329d3dcf49309ff447c",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1217,7 +1218,7 @@
    "paper": 1,
    "title": "بكالوريا 2008 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (البارودي: تأوّب طيف)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1w07KJcwuwdHy57-7LM4YFjvJlKHTl-3L (اختبار دورة 2008 لغات.docx)",
    "correction": "gdrive:19y6tLEx8dK5wcqeKRAu6JB-EP2IGGgRy (02_التصحيح.pdf)",
    "original_questions": 10,
@@ -1233,15 +1234,15 @@
    "interactive_points": 14,
    "deferred_points": 6,
    "errors": 0,
-   "warnings": 29,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2008-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2008-lang-p2.json",
-   "checksum": "a8cb395335cc35c9f088dedf901f5a8f6a85629f84b6c7eaf6ee43f9f77e497e",
+   "checksum": "b45c57d5d082968699379e12bf728271ca9cafc2eb26a6c73463e79a835769ad",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1253,7 +1254,7 @@
    "paper": 2,
    "title": "بكالوريا 2008 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (ميخائيل نعيمة: صوت الإنسانيّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1w07KJcwuwdHy57-7LM4YFjvJlKHTl-3L (اختبار دورة 2008 لغات.docx)",
    "correction": "gdrive:19y6tLEx8dK5wcqeKRAu6JB-EP2IGGgRy (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -1270,15 +1271,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 18,
-   "publishable": false
+   "warnings": 2,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2008-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2008-lit-p1.json",
-   "checksum": "7355887a1ed0bd2f8ce7d12989b4b0585d237de7c25e3db108484b1f4f3aa012",
+   "checksum": "3beb39b0367d9451940929ebdfe601fb462d5d387b5d162fd9b17abe4d53f8d1",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1290,7 +1291,7 @@
    "paper": 1,
    "title": "بكالوريا 2008 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (إيليا أبو ماضي: كم تشتكي)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1Z48IhsfM18BggVDT782C0cBJ1iars5zr (.اختبار اللغة العربية دورة 2018.pdf.docx)",
    "correction": "gdrive:1ZoDy-bNz9hZnuUi_pOAgFtC7vFWx9-bu (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -1307,15 +1308,15 @@
    "interactive_points": 18,
    "deferred_points": 2,
    "errors": 0,
-   "warnings": 21,
-   "publishable": false
+   "warnings": 2,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2008-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2008-lit-p2.json",
-   "checksum": "83a6c81b711fb71000eeb63ec98387b14465ce21dc287d4a540c50aaab13a789",
+   "checksum": "a084e12e5e43b58abfbee917e2fd876f5b4757750709d0a95d8ae4c87606e124",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1327,7 +1328,7 @@
    "paper": 2,
    "title": "بكالوريا 2008 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (محمّد البشير الإبراهيميّ: نجوم متألّقة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1Z48IhsfM18BggVDT782C0cBJ1iars5zr (.اختبار اللغة العربية دورة 2018.pdf.docx)",
    "correction": "gdrive:1ZoDy-bNz9hZnuUi_pOAgFtC7vFWx9-bu (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -1345,15 +1346,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 24,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2008-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2008-sci-p1.json",
-   "checksum": "d60216cc3b4af8ae11390124647275bf4185141d2933687470588c84b1aa621c",
+   "checksum": "31eb31656cb64b81adceef515ebdd58d1e52a0d4dba67b74858d5fb6f2df8266",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1368,7 +1369,7 @@
    "paper": 1,
    "title": "بكالوريا 2008 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (إيليا أبو ماضي: أقبل العيد ولكن)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1jiQFft2dvpdd8TK-BrBcblmvPQQm3a3G (اختبار اللغة العربية 2008 علوم تجريبية.docx)",
    "correction": "gdrive:1kOohNk66gvjOX6_V7YKIeWy-YtLT0zeQ (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -1385,15 +1386,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 16,
-   "publishable": false
+   "warnings": 2,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2008-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2008-sci-p2.json",
-   "checksum": "800cfc206bc5d866c5c41ab02c1828a12b521c9aeb2674253b05bb5074f60265",
+   "checksum": "6e9b5487dd02c53449165f64a85fe356b649e09d16a84473b8997ab4c90b1428",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1408,7 +1409,7 @@
    "paper": 2,
    "title": "بكالوريا 2008 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (محمّد البشير الإبراهيميّ: هذا المعهد أمانة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1jiQFft2dvpdd8TK-BrBcblmvPQQm3a3G (اختبار اللغة العربية 2008 علوم تجريبية.docx)",
    "correction": "gdrive:1kOohNk66gvjOX6_V7YKIeWy-YtLT0zeQ (02_التصحيح.pdf)",
    "original_questions": 9,
@@ -1424,15 +1425,15 @@
    "interactive_points": 14,
    "deferred_points": 6,
    "errors": 0,
-   "warnings": 26,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2009-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2009-lang-p1.json",
-   "checksum": "2dec191bd87988219847556ce9f3ed0780006fa5575e9ac06ad9db2b0d5a3c92",
+   "checksum": "1b3bbbf81cb9f42e94bdb3868aab277a613a5c36c1a90a6c1db0c57b6bebcb43",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1444,7 +1445,7 @@
    "paper": 1,
    "title": "بكالوريا 2009 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (محمّد الصّالح باوية: ساعة الصّفر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:14_ieafXTNAhSJNNjvpaJ6zhpx6Y8GuB5 (بكالوريا العربية 2009 شعبة لغات..docx)",
    "correction": "gdrive:1Ya6TzMEk96GuxLVjHCyiZIu8RRzQh3hy (02_التصحيح.pdf)",
    "original_questions": 10,
@@ -1461,15 +1462,15 @@
    "interactive_points": 13,
    "deferred_points": 7,
    "errors": 0,
-   "warnings": 29,
-   "publishable": false
+   "warnings": 6,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2009-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2009-lang-p2.json",
-   "checksum": "c1a66d618b37efa0da1ce2d0716e9e93d9b644ff3e3ba0a5f4dce89b024a0593",
+   "checksum": "aed073d03777caa371bb833f961e1a6da43be716aca691e2410a0c78b6a2eebe",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1481,7 +1482,7 @@
    "paper": 2,
    "title": "بكالوريا 2009 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (طه حسين: خصام ونقد)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:14_ieafXTNAhSJNNjvpaJ6zhpx6Y8GuB5 (بكالوريا العربية 2009 شعبة لغات..docx)",
    "correction": "gdrive:1Ya6TzMEk96GuxLVjHCyiZIu8RRzQh3hy (02_التصحيح.pdf)",
    "original_questions": 9,
@@ -1498,8 +1499,8 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2009-lit-p1",
@@ -1578,9 +1579,9 @@
   {
    "set_id": "ar-bac-2009-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2009-sci-p1.json",
-   "checksum": "c60500be79a53e669054a29009f38941e719d206e8658039694e9ab80338aa83",
+   "checksum": "fe54a71f794d1172ac7b862f1ef2839df36be3e584c055dc555232b61ca379d7",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1595,7 +1596,7 @@
    "paper": 1,
    "title": "بكالوريا 2009 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (إيليا أبو ماضي: خذ ما استطعت)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1I3G9wriYDGwdRWNKio6GAOeatH5GJBQ3 (01_الموضوع.pdf)",
    "correction": "gdrive:1iLHfDBvaBhyn9WUFi94_G24a-chknV0p (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -1611,15 +1612,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2009-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2009-sci-p2.json",
-   "checksum": "58c363fd77ebdebd052ceaab9552d7a6fa22639a2df1fea68a26f5ecb55faa27",
+   "checksum": "bb61de688739c2277992930dffefa0e5a397b4c95301c03ef0b72afb281d8b74",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1634,7 +1635,7 @@
    "paper": 2,
    "title": "بكالوريا 2009 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (أحمد أمين: الحقّ والواجب)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1I3G9wriYDGwdRWNKio6GAOeatH5GJBQ3 (01_الموضوع.pdf)",
    "correction": "gdrive:1iLHfDBvaBhyn9WUFi94_G24a-chknV0p (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -1650,15 +1651,15 @@
    "interactive_points": 17.5,
    "deferred_points": 2.5,
    "errors": 0,
-   "warnings": 35,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2010-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2010-lang-p1.json",
-   "checksum": "97dc98f557fe99a418afe0275a71263230296569e6cd7ec2a145f14509425f07",
+   "checksum": "7e2e27e69c9c863ba386f3edc615503b66096027fdd1793ff307c53c05d76d02",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1670,7 +1671,7 @@
    "paper": 1,
    "title": "بكالوريا 2010 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (إيليا أبو ماضي: أنت للأرض أوّلا وأخيرا)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1fWdlC6P2Ot_NvyVugoPqTHE-blwHVist (بكالوريا العربية 2010 شعبة اللغات.docx)",
    "correction": "gdrive:1PePHLgVjGYt6BYv_FFVMVoWfESsTRqk- (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -1686,15 +1687,15 @@
    "interactive_points": 17.75,
    "deferred_points": 2.25,
    "errors": 0,
-   "warnings": 34,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2010-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2010-lit-p1.json",
-   "checksum": "2a4945c0b1a986b78e9bd97f3e35449aae6fdbcfc4cc661d8304c5543a8087d4",
+   "checksum": "f9a73f1d6f53e1fb3be0320f44d7edfc86912a8121c9d4e94bd9282c1255100b",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1706,7 +1707,7 @@
    "paper": 1,
    "title": "بكالوريا 2010 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (البوصيريّ: وافاك بالذّنب العظيم المذنب)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1tSmkVykpy9bgNa5W_uqyx9ZH_LMOE5Ol (بكالوريا العربية 2010 شعبة آداب وفلسفة.docx)",
    "correction": "gdrive:1EaBUuqauL2Kltkr-OctmAM7yR7_5fh55 (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -1723,15 +1724,15 @@
    "interactive_points": 17.75,
    "deferred_points": 2.25,
    "errors": 0,
-   "warnings": 41,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2010-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2010-lit-p2.json",
-   "checksum": "25276755373e56fd8a5026af7c5fdcfd51d654715c716979a9a608f3c1961109",
+   "checksum": "2f08f27bea74ca9f5c091bcb1f7d0c9aa84a741d54723092c7080594b9fd002b",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1743,7 +1744,7 @@
    "paper": 2,
    "title": "بكالوريا 2010 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (أحمد أمين: نعمة الخصومة على الأدب)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1tSmkVykpy9bgNa5W_uqyx9ZH_LMOE5Ol (بكالوريا العربية 2010 شعبة آداب وفلسفة.docx)",
    "correction": "gdrive:1EaBUuqauL2Kltkr-OctmAM7yR7_5fh55 (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -1759,15 +1760,15 @@
    "interactive_points": 17.5,
    "deferred_points": 2.5,
    "errors": 0,
-   "warnings": 40,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2010-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2010-sci-p1.json",
-   "checksum": "504265fb060d20ec2232ee38162f64689820e19327812e90a4b89fca266ba545",
+   "checksum": "90bda00120c5f1e43e48b04d93b1f1c13b63020bc60ec277a5fce59b9efe76c7",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1782,7 +1783,7 @@
    "paper": 1,
    "title": "بكالوريا 2010 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (توفيق الحكيم: فنّ الأدب)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1U-ucd85xNww3mWZCy5_tAHdAyoRwDnXF (بكالوريا لغة عربية 2010 علوم تجريبية.docx)",
    "correction": "gdrive:1bp1dwK6BB9GZaQNN9OB2wsRAB2IrKdrw (02_التصحيح.pdf)",
    "original_questions": 10,
@@ -1799,15 +1800,15 @@
    "interactive_points": 19,
    "deferred_points": 1,
    "errors": 0,
-   "warnings": 29,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2010-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2010-sci-p2.json",
-   "checksum": "1c77b6cfb9902c92deb2a4424f0fbb98826e0a9405248d029726b940878b9028",
+   "checksum": "bb2d29fe23198dbb23d6e40eb88e4613a66873702561fe7d39f9f72bd3d1ff9d",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1822,7 +1823,7 @@
    "paper": 2,
    "title": "بكالوريا 2010 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (مفدي زكرياء: إنّ الجزائر في الوجود رسالة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1U-ucd85xNww3mWZCy5_tAHdAyoRwDnXF (بكالوريا لغة عربية 2010 علوم تجريبية.docx)",
    "correction": "gdrive:1bp1dwK6BB9GZaQNN9OB2wsRAB2IrKdrw (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -1838,15 +1839,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 35,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2011-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2011-lang-p1.json",
-   "checksum": "918a6605af06b8d0055f9ce52ef5fa87384f54f29d598156a8e286f47176bb15",
+   "checksum": "8745794400d6b3a02ecf3350254e5188f469eb33c64e86d99e08bcfad96e13fb",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1858,7 +1859,7 @@
    "paper": 1,
    "title": "بكالوريا 2011 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (الشّاعر القرويّ رشيد سليم الخوري)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1ErJfXP3Ao9gzr-cisPcxgcEI5M2GqaVP (بكالوريا العربية 2011 شعبة لغات اجنبية.docx)",
    "correction": "gdrive:1pkS3g57wu2Bby93MxsXTpdWHiT6WHe_b (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -1875,15 +1876,15 @@
    "interactive_points": 18,
    "deferred_points": 2,
    "errors": 0,
-   "warnings": 35,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2011-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2011-lang-p2.json",
-   "checksum": "8d544a4603de58bda6fbe12c271133f7ee0dc24f143b08ba54f265cf8ef1d388",
+   "checksum": "a1f7913fcc1a0a2dac4f3277d68436c706f110b5906c6ace65d04fd0f64da768",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1895,7 +1896,7 @@
    "paper": 2,
    "title": "بكالوريا 2011 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (محمّد البشير الإبراهيمي: حقوق الجيل الآتي)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1ErJfXP3Ao9gzr-cisPcxgcEI5M2GqaVP (بكالوريا العربية 2011 شعبة لغات اجنبية.docx)",
    "correction": "gdrive:1pkS3g57wu2Bby93MxsXTpdWHiT6WHe_b (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -1912,15 +1913,15 @@
    "interactive_points": 13,
    "deferred_points": 7,
    "errors": 0,
-   "warnings": 47,
-   "publishable": false
+   "warnings": 8,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2011-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2011-lit-p1.json",
-   "checksum": "2fd4e92c9d472dffcf43769b0a35dbdad0b004c35b6c3cdfbe746e159d3d5cb9",
+   "checksum": "6382bc82decac22ecc0532ab7b2be4212c36c6d749333934230b9d4fdfc5b245",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1932,7 +1933,7 @@
    "paper": 1,
    "title": "بكالوريا 2011 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (عبد السّلام الحبيب: اليوم يومك يا جزائر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1FLlg4Sfbuq5dJA4tqgAtHzkw57UAwfvT (بكالوريا اللغة العربية 2011 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1Ug-xorDl4CNePg0ky_2QHUpRK_-wb1Ol (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -1949,15 +1950,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 41,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2011-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2011-lit-p2.json",
-   "checksum": "07802204bd81da2a6c6345c9a0ce9c2b8fbb7699b4b5ba8612429f6265d028de",
+   "checksum": "4703586a1d926171ba75d54c2f6d48b5ecf80de7f3e4b696f3e12875e8bc6639",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -1969,7 +1970,7 @@
    "paper": 2,
    "title": "بكالوريا 2011 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (فؤاد صرّوف: العلم ومشكلات الإنسانيّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1FLlg4Sfbuq5dJA4tqgAtHzkw57UAwfvT (بكالوريا اللغة العربية 2011 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1Ug-xorDl4CNePg0ky_2QHUpRK_-wb1Ol (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -1986,15 +1987,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 35,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2011-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2011-sci-p1.json",
-   "checksum": "80cf6f49beabc24e0ec05cfcb91ab74d9fa67c95f3506df1c73a409a58fe20ef",
+   "checksum": "4094fd30dd2585fb7bcaae03f35e1c82a3b3afaf011b1565ba356af0747e6733",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2009,7 +2010,7 @@
    "paper": 1,
    "title": "بكالوريا 2011 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (مفدي زكرياء: من إلياذة الجزائر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:13Q6AsygzJd1776IoqKu5vketLbJ0r_gl (بكالوريا اللغة العربية 2011 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1MXUAgE-PMm99eQSWyMod9r2kxJ9_b4hg (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -2027,15 +2028,15 @@
    "interactive_points": 18,
    "deferred_points": 2,
    "errors": 0,
-   "warnings": 34,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2011-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2011-sci-p2.json",
-   "checksum": "11092cde6f2021e592bb46e1fc11305a55f49002475b2d9d45488f57811ea242",
+   "checksum": "9f304d8c7c0bd52e89951cc8e9480f34c951b08daf6610643c763455ef5f64bc",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2050,7 +2051,7 @@
    "paper": 2,
    "title": "بكالوريا 2011 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (محمّد البشير الإبراهيمي: آثار الإبراهيمي)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:13Q6AsygzJd1776IoqKu5vketLbJ0r_gl (بكالوريا اللغة العربية 2011 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1MXUAgE-PMm99eQSWyMod9r2kxJ9_b4hg (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -2067,15 +2068,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 28,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2012-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2012-lang-p1.json",
-   "checksum": "2691181ff89dd70c43d02ab3b2314f61e74c80737387035295bc0a4aa05ced65",
+   "checksum": "76b42b988798e8449098f1625d796ee80abbd08b0ae32a29289833171037e476",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2087,7 +2088,7 @@
    "paper": 1,
    "title": "بكالوريا 2012 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (محمود درويش: قصيدة من السّجن)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1U1rgNlqW81UmuvHTcR5W2osVt7_8oeES (بكالوريا العربية 2012 شعبة لغات اجنبية.. .docx)",
    "correction": "gdrive:163UOwr81JdMgDGCMu_c-P4BTDxTSVK2V (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -2103,15 +2104,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 30,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2012-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2012-lang-p2.json",
-   "checksum": "00f812696ff091dac457488cb0284aa2c19d30b626fc97865e1462bdb8bb049a",
+   "checksum": "efb1a415198240b941a1885e341bf404d6df51bd5487e06adf6c924d67f55da1",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2123,7 +2124,7 @@
    "paper": 2,
    "title": "بكالوريا 2012 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (محمّد البشير الإبراهيميّ: الإنسانيّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1U1rgNlqW81UmuvHTcR5W2osVt7_8oeES (بكالوريا العربية 2012 شعبة لغات اجنبية.. .docx)",
    "correction": "gdrive:163UOwr81JdMgDGCMu_c-P4BTDxTSVK2V (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -2139,15 +2140,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 30,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2012-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2012-lit-p1.json",
-   "checksum": "7fed367282c39a86d3da9e44b12a1e169b6e55dcc3f0ba6e66f4f513c804d37f",
+   "checksum": "18993d8f917fc18a3ea9bfb918317164d9226ce36c8573c1c5c06b5a7595b6dc",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2159,7 +2160,7 @@
    "paper": 1,
    "title": "بكالوريا 2012 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (نزار قبّاني: قصيدة إلى أبي تمّام)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1s9ZKdhMIsQbTkfYtqWdcw2_dPp9N5J7F (بكالوريا 2012 العربية شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1lGzAgD2mxqOSl3jgzD55z33tpo0XZSp9 (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -2176,15 +2177,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2012-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2012-lit-p2.json",
-   "checksum": "a98d4c3aac16fda14a27cf9ed0aefb9d4b372d51cae1d149df70db353b018472",
+   "checksum": "a2dd45618756887f0b4fa3ad0198fba640bc0069bc635d7a0c48cd44354c269c",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2196,7 +2197,7 @@
    "paper": 2,
    "title": "بكالوريا 2012 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (أحمد أمين: الصّراع بين القديم والجديد)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1s9ZKdhMIsQbTkfYtqWdcw2_dPp9N5J7F (بكالوريا 2012 العربية شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1lGzAgD2mxqOSl3jgzD55z33tpo0XZSp9 (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -2213,15 +2214,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 35,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2012-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2012-sci-p1.json",
-   "checksum": "305c122a90602fa0f1e7e5741345bf7a327a7af2a9f185c7cc19dcf1c7e05d8e",
+   "checksum": "f4deee0c4cebc17995d2ab476db5560f570d8fc49e74bcac09821c93ea83a914",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2236,7 +2237,7 @@
    "paper": 1,
    "title": "بكالوريا 2012 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (محمود درويش: «عابرون في كلام عابر»)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1_BtZ00lmDpZWYdzKmmD4MAVXzUxSLLFm (بكالوريا 2012 العربية شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1QhQBWwWPG7h5YVFnMUqfE0Qxdm9WvbH0 (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -2252,15 +2253,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2012-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2012-sci-p2.json",
-   "checksum": "41305e4eded71c4a397c49221e659557d3d8aedf08d667179d2580adbc138b99",
+   "checksum": "034b7f6a2f45313e80da84a76343a6dc52faa284d988c69acc687880682deed5",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2275,7 +2276,7 @@
    "paper": 2,
    "title": "بكالوريا 2012 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (توفيق الحكيم: من «فنّ الأدب»)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1_BtZ00lmDpZWYdzKmmD4MAVXzUxSLLFm (بكالوريا 2012 العربية شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1QhQBWwWPG7h5YVFnMUqfE0Qxdm9WvbH0 (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -2292,15 +2293,15 @@
    "interactive_points": 15.5,
    "deferred_points": 4.5,
    "errors": 0,
-   "warnings": 33,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2013-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2013-lang-p1.json",
-   "checksum": "839fa4d9665cbb8d967c4fef71a9fd8da94cc34c01fc0bc81f72c85cd11948fa",
+   "checksum": "bd3414d14078ac63727f3c1a9cdff795c66959b174bd8e4d0c44a070673a2f03",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2312,7 +2313,7 @@
    "paper": 1,
    "title": "بكالوريا 2013 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (نزار قبّاني: يا وطني الحزين)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1h8lHebIdx9wqNc_1oyzogoBptc4iKaVD (بكالوريا العربية 2013 شعبة لغات اجنبية.docx)",
    "correction": "gdrive:1LM6stJOEJ8D1AXk6W-B38JOPcld-WTgs (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -2329,15 +2330,15 @@
    "interactive_points": 17.5,
    "deferred_points": 2.5,
    "errors": 0,
-   "warnings": 35,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2013-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2013-lang-p2.json",
-   "checksum": "c6afcf8a8f27ae3a28765becc9d35f4e8cc0cff58714dea110487ef6763a408f",
+   "checksum": "37c74a50b5e9cbcd389508278d8c16cc1ddba32b151ec75b740d3513cc76cc18",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2349,7 +2350,7 @@
    "paper": 2,
    "title": "بكالوريا 2013 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (محمّد البشير الإبراهيميّ: الأمّيّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1h8lHebIdx9wqNc_1oyzogoBptc4iKaVD (بكالوريا العربية 2013 شعبة لغات اجنبية.docx)",
    "correction": "gdrive:1LM6stJOEJ8D1AXk6W-B38JOPcld-WTgs (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -2366,15 +2367,15 @@
    "interactive_points": 16.5,
    "deferred_points": 3.5,
    "errors": 0,
-   "warnings": 42,
-   "publishable": false
+   "warnings": 5,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2013-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2013-lit-p1.json",
-   "checksum": "c91b5863145e2c06b82d0343ab9325e82ec3d3ed284960f7966206ff1244a812",
+   "checksum": "50cc815605c6f80eca316138ddaf8008eb542efc77d44bff5440bd98b09e799d",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2386,7 +2387,7 @@
    "paper": 1,
    "title": "بكالوريا 2013 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (الشّاعر القرويّ: قصور تُشيَّد فوق القصور)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1Ccdpghe_jqkSyPMIK6ZLZ4xpD78idSX_ (بكالوريا العربية 2013 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1xqlS4iCp0ZAFVbOGVXyigh1h_IgyIhyo (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -2403,15 +2404,15 @@
    "interactive_points": 17.5,
    "deferred_points": 2.5,
    "errors": 0,
-   "warnings": 34,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2013-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2013-lit-p2.json",
-   "checksum": "635c1617e891327fef315e6e3de57f4dd38f585c47124289f8e6ec96f7e6e15b",
+   "checksum": "15c283759999d945f4fae3ecfff3d60035752b690ab1d61bd13cfa97e62d304c",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2423,7 +2424,7 @@
    "paper": 2,
    "title": "بكالوريا 2013 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (البشير الإبراهيميّ: من عيون البصائر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1Ccdpghe_jqkSyPMIK6ZLZ4xpD78idSX_ (بكالوريا العربية 2013 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1xqlS4iCp0ZAFVbOGVXyigh1h_IgyIhyo (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -2440,15 +2441,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 32,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2013-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2013-sci-p1.json",
-   "checksum": "4ec874da4b95d867204b1c4a8f542fa0543db719cbc1017832dd9dbec29f70fe",
+   "checksum": "3198123d2a5f7b3f1cc2cc7a6f1fe3a49ca84b9eb1d91df93305bb9a31b7db87",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2463,7 +2464,7 @@
    "paper": 1,
    "title": "بكالوريا 2013 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (نزار قبّاني: أحمل بيروت)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1X0MOAy5MKGN4HlyM4AwsI1TTvYaV99EP (بكالوريا العربية 2013 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:11ot5GjpL76tQyBuRkaVVMpBaMCngiZn3 (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -2480,15 +2481,15 @@
    "interactive_points": 17.5,
    "deferred_points": 2.5,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2013-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2013-sci-p2.json",
-   "checksum": "5372ef12494e0adbcfa960a2c9a8bbc1f8ac536c2e5166925588877790533c31",
+   "checksum": "51d586169f117b0194bad6df33d90a7f53cd6e22fa11defd1c539bb3fe338304",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2503,7 +2504,7 @@
    "paper": 2,
    "title": "بكالوريا 2013 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (ميخائيل نعيمة: في ذكرى استقلال الجزائر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1X0MOAy5MKGN4HlyM4AwsI1TTvYaV99EP (بكالوريا العربية 2013 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:11ot5GjpL76tQyBuRkaVVMpBaMCngiZn3 (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -2520,15 +2521,15 @@
    "interactive_points": 17.5,
    "deferred_points": 2.5,
    "errors": 0,
-   "warnings": 37,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2014-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2014-lang-p1.json",
-   "checksum": "ac5ab19a97fe84a5eb73fa9d52a651de9db4c036a3d5b214090431ac1c4d05c9",
+   "checksum": "cf9fc6ba9d6f4ff3413334e5108eabb07adc1d843b6a498a258cfe4ce7c52fd3",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2540,7 +2541,7 @@
    "paper": 1,
    "title": "بكالوريا 2014 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (أحمد عبد المعطي حجازي: سلّة ليمون)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:17jJ_DC865rbddKGOYRwoJr0i7nMc_Pch (بكالوريا العربية 2014 شعبة لغات اجنبية.docx)",
    "correction": "gdrive:1HlxuFWzwAMga-_RcnuUV-1AKs7TnZizl (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -2555,15 +2556,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 32,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2014-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2014-lang-p2.json",
-   "checksum": "c61720a65d542fd972abcae816b102d85a5035ddbb2bc53a0255d4aaa6e39661",
+   "checksum": "42a67fe674ad21801370cfe58e5aea55590592d287f6059eb8c3f29b7a09e3e6",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2575,7 +2576,7 @@
    "paper": 2,
    "title": "بكالوريا 2014 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (توفيق الحكيم: فنّ الأدب)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:17jJ_DC865rbddKGOYRwoJr0i7nMc_Pch (بكالوريا العربية 2014 شعبة لغات اجنبية.docx)",
    "correction": "gdrive:1HlxuFWzwAMga-_RcnuUV-1AKs7TnZizl (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -2592,15 +2593,15 @@
    "interactive_points": 18,
    "deferred_points": 2,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2014-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2014-lit-p1.json",
-   "checksum": "ff155a16dd246818c6dda84f5b2181c2e7db0047801df5b8ee3b38f11689589a",
+   "checksum": "de85f24e457c6632ae576adebed1d626bea04e5e1f2080a01ae9c3f3b5de12c0",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2612,7 +2613,7 @@
    "paper": 1,
    "title": "بكالوريا 2014 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (محمّد بلقاسم خمّار: على لسان الجزائر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1kjzG1pt9R9hQilqMuk9qHjT2z0op_kxq (بكالوريا العربية 2014 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1LoBxYe1c6ScPuPSfQKvwX8-s78BeNhgh (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -2628,15 +2629,15 @@
    "interactive_points": 18,
    "deferred_points": 2,
    "errors": 0,
-   "warnings": 40,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2014-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2014-lit-p2.json",
-   "checksum": "ced1a4afeae039ae3a6199d9991a79225431b022f03868a707102818a3d9b154",
+   "checksum": "b316fe666372de4d36fef01cf7c23d8c301dad5503b143cdc4149cb9dc39f356",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2648,7 +2649,7 @@
    "paper": 2,
    "title": "بكالوريا 2014 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (النّويريّ: نهاية الأرب في فنون الأدب)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1kjzG1pt9R9hQilqMuk9qHjT2z0op_kxq (بكالوريا العربية 2014 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1LoBxYe1c6ScPuPSfQKvwX8-s78BeNhgh (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -2665,15 +2666,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 35,
-   "publishable": false
+   "warnings": 5,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2014-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2014-sci-p1.json",
-   "checksum": "7b5316ab25698600c643cfe0f26b6182a59f4b0565bd7a0d70a345dfba345bf2",
+   "checksum": "6e1de0a20ec23aa17e9dc6b801c4c8802ebf57b9b99e134ab896975b5c24a922",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2688,7 +2689,7 @@
    "paper": 1,
    "title": "بكالوريا 2014 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (مفدي زكرياء: هذي خواطر شاعر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1lGAfpKFy4ZVdzXngnmyrtpHc-7B-8tbM (بكالوريا العربية 2014 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1uU60n10RL2QFPGJoBt4kqpGQtQZtXGCF (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -2705,15 +2706,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2014-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2014-sci-p2.json",
-   "checksum": "b1ba98180c0761a0242bcf90a0f56640ad6207de9e2284e1b8ae22121024b5fc",
+   "checksum": "e4e7d52dafc5261a4c940054fca7fe354fc3624057b061c7dd1ee27dd086fb03",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2728,7 +2729,7 @@
    "paper": 2,
    "title": "بكالوريا 2014 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (أحمد أمين: المثل الأعلى والنّجاح)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1lGAfpKFy4ZVdzXngnmyrtpHc-7B-8tbM (بكالوريا العربية 2014 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1uU60n10RL2QFPGJoBt4kqpGQtQZtXGCF (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -2745,15 +2746,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 26,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2015-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2015-lang-p1.json",
-   "checksum": "ee302b5a3b8f06e5d315a7707efa7020a27ed841afce3f7afcfed7e8fb10221d",
+   "checksum": "5a7dd0a69249009a7202b3a7aec073bc535f877aa987144c0c67a8eaa7f3a9ec",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2765,7 +2766,7 @@
    "paper": 1,
    "title": "بكالوريا 2015 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (عبد الوهّاب البيّاتي: الموت في الظّهيرة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1nGcUcZWX56LyEun6s29WQqD3VvcfOgO0 (بكالوريا العربية 2015 شعبة لغات اجنبية.docx)",
    "correction": "gdrive:1cWxix73GjU2N3sz3rFbn-ucgsS6A119F (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -2781,15 +2782,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 30,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2015-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2015-lang-p2.json",
-   "checksum": "6b51c4acb28fb5f04b7b788132a820880aa7ca7828163de462c1a243a625a922",
+   "checksum": "a6508e82c89663388e9b322c95fd58aaa1a299e8198c7cf6ceee50a08b7a2e0b",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2801,7 +2802,7 @@
    "paper": 2,
    "title": "بكالوريا 2015 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (مفيد محمّد قميحة: الاتّجاه الإنسانيّ في الشّعر العربيّ المعاصر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1nGcUcZWX56LyEun6s29WQqD3VvcfOgO0 (بكالوريا العربية 2015 شعبة لغات اجنبية.docx)",
    "correction": "gdrive:1cWxix73GjU2N3sz3rFbn-ucgsS6A119F (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -2817,15 +2818,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 29,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2015-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2015-lit-p1.json",
-   "checksum": "4e59a40438ca5d34733504a9c31926af7e6326fd364509fb3761023e01857954",
+   "checksum": "6cb14e94c95fe2c31b8dd43872ecef9535fed118d90e346975d5482fa9f61fd4",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2837,7 +2838,7 @@
    "paper": 1,
    "title": "بكالوريا 2015 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (عبد الله الجبوري: قصيدة في الثّورة الجزائريّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1PNjmHWMx1Y55H9Q3E45KAsz2oizTfhun (بكالوريا العربية 2015 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1-3T-LvPWNh7JBsmE2LZIBBdUugU82lbu (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -2854,15 +2855,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 32,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2015-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2015-lit-p2.json",
-   "checksum": "9e1f44f88bbec561e4fffc524647a06da070a6b932180d5d61169879e8da5205",
+   "checksum": "e2bc6560428029928d26561cd5fdd440b1293d53aa6f71a89dc882c98e78ab3b",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2874,7 +2875,7 @@
    "paper": 2,
    "title": "بكالوريا 2015 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (مالك بن نبي: شروط النّهضة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1PNjmHWMx1Y55H9Q3E45KAsz2oizTfhun (بكالوريا العربية 2015 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1-3T-LvPWNh7JBsmE2LZIBBdUugU82lbu (02_التصحيح.pdf)",
    "original_questions": 16,
@@ -2891,15 +2892,15 @@
    "interactive_points": 17.25,
    "deferred_points": 2.75,
    "errors": 0,
-   "warnings": 33,
-   "publishable": false
+   "warnings": 2,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2015-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2015-sci-p1.json",
-   "checksum": "4a785e8ff805c7c5270cf462a11cc37e1a6648057d79ab10daf6c159fc9242b8",
+   "checksum": "82459d5c624367423761893f81d6be59a9ac462589453e5f983b0582b7ec2849",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2914,7 +2915,7 @@
    "paper": 1,
    "title": "بكالوريا 2015 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (قصيدة «شعراء الأرض المحتلّة»)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1lnB0EveGFULkEW1SYNHD-NWCTtVzBssq (بكالوريا العربية 2015 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1LDaYPTWwcuGXX4Awo8a1FDDMcccl5aa9 (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -2931,15 +2932,15 @@
    "interactive_points": 16.25,
    "deferred_points": 3.75,
    "errors": 0,
-   "warnings": 33,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2015-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2015-sci-p2.json",
-   "checksum": "56a09797c3b79ef2c07dc17ae5ae2f2cd0e92a0cd6f79f011c65593b6af589f1",
+   "checksum": "6ff18c14d818b658094c69113a7804dbb1d17a5393f50da40d53ed111146aae3",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2954,7 +2955,7 @@
    "paper": 2,
    "title": "بكالوريا 2015 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (أحمد أمين: البيت والأخلاق)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1lnB0EveGFULkEW1SYNHD-NWCTtVzBssq (بكالوريا العربية 2015 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1LDaYPTWwcuGXX4Awo8a1FDDMcccl5aa9 (02_التصحيح.pdf)",
    "original_questions": 10,
@@ -2971,15 +2972,15 @@
    "interactive_points": 17.75,
    "deferred_points": 2.25,
    "errors": 0,
-   "warnings": 22,
-   "publishable": false
+   "warnings": 2,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2016-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2016-lang-p1.json",
-   "checksum": "fd54fa0b8fee09c5d45676a61aa1c11eafc76deea287b033017fea65770a55a5",
+   "checksum": "5808065833234316ffc931bb65746bf93a131e91b79daad2bba0869c686d802e",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -2991,7 +2992,7 @@
    "paper": 1,
    "title": "بكالوريا 2016 – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (محمود سامي البارودي)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1cDvXvymcohRIm_YbUpcwg5mPp1Tp8NV0 (بكالوريا العربية 2016 شعبة لغات.docx)",
    "correction": "gdrive:1WXyJSZlfGaDINHCwWRNhqxYl_C-Zc-qP (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -3009,15 +3010,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2016-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2016-lang-p2.json",
-   "checksum": "8d178b02cd7c290109805064721174a6ccf624e87c9d28a3e03247bf08a57059",
+   "checksum": "52ebfc8b29faa38fc04abed25a61509e397c69ecc4e23b186e161aa32ef9f171",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3029,7 +3030,7 @@
    "paper": 2,
    "title": "بكالوريا 2016 – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (عبد الله الرّكيبيّ: القصّة القصيرة الجزائريّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1cDvXvymcohRIm_YbUpcwg5mPp1Tp8NV0 (بكالوريا العربية 2016 شعبة لغات.docx)",
    "correction": "gdrive:1WXyJSZlfGaDINHCwWRNhqxYl_C-Zc-qP (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -3046,15 +3047,15 @@
    "interactive_points": 18,
    "deferred_points": 2,
    "errors": 0,
-   "warnings": 27,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2016-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2016-lit-p1.json",
-   "checksum": "385644d27ea415c2ed91a473e1b536261a48dbd4de53c4b4f860ac155b5f7029",
+   "checksum": "df7e33942b04e8155e350edc88067af5c5e34ddd6a242083e07a6088fc26405e",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3066,7 +3067,7 @@
    "paper": 1,
    "title": "بكالوريا 2016 – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (محمّد الشّبّوكي: معركة الجرف)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1Fopc1iYl4g7aay6OGMi0UkIOcrFO1mZ9 (بكالوريا العربية 2016  شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1tujJiPLIxR87ordP9koFDgInty2VFVVn (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -3084,15 +3085,15 @@
    "interactive_points": 13.5,
    "deferred_points": 6.5,
    "errors": 0,
-   "warnings": 44,
-   "publishable": false
+   "warnings": 7,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2016-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2016-lit-p2.json",
-   "checksum": "680041b5debab5600889d34227290caa39ec970c3ef2a6f2b3720016a1d67f60",
+   "checksum": "279b57199db8f03a73c01116e6373abd5f4f34b6a3a86c3090a5ea4f2b35de30",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3104,7 +3105,7 @@
    "paper": 2,
    "title": "بكالوريا 2016 – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (طه حسين: الرّبوة المنسيّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1Fopc1iYl4g7aay6OGMi0UkIOcrFO1mZ9 (بكالوريا العربية 2016  شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1tujJiPLIxR87ordP9koFDgInty2VFVVn (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -3121,15 +3122,15 @@
    "interactive_points": 15.5,
    "deferred_points": 4.5,
    "errors": 0,
-   "warnings": 43,
-   "publishable": false
+   "warnings": 5,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2016-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2016-sci-p1.json",
-   "checksum": "eee8a5933ce9746cfb3153c4629830376aa684251d007c5e00bfb307d9073c54",
+   "checksum": "a9becb8544a96f5b05c48c986fb6aec5ff68697789d81cb2b92487ba7a366298",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3144,7 +3145,7 @@
    "paper": 1,
    "title": "بكالوريا 2016 – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (إيليا أبو ماضي)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1FIBkEumilFXL1mLb1CubrP7QVbbS41gr (بكالوريا العربية 2016 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1Dpzq5SxOGOTzNTzjUtN0IIdJUmcmljll (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -3161,15 +3162,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2016-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2016-sci-p2.json",
-   "checksum": "456635866d83cbc97fcb0b3f274bcccb838f1ee75771545f8cd95e07d26b8cc1",
+   "checksum": "31e3fddde217ec99a20ec6554fe3aa2f19e867664e6106847cbf401baf0926e0",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3184,7 +3185,7 @@
    "paper": 2,
    "title": "بكالوريا 2016 – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (عبد الحميد بن باديس)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1FIBkEumilFXL1mLb1CubrP7QVbbS41gr (بكالوريا العربية 2016 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1Dpzq5SxOGOTzNTzjUtN0IIdJUmcmljll (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -3201,15 +3202,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 32,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-lang-s1-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-lang-s1-p1.json",
-   "checksum": "9ac671591379865d0eda25ffdfc3222dd5a9978a421a4a9be273e6f638940c2e",
+   "checksum": "198ca1047bdc9b374741dee3f636ea77fe2a746351208ee93c441d6efaf51d3b",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3221,7 +3222,7 @@
    "paper": 1,
    "title": "بكالوريا 2017 (الدّورة الأولى) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (محمود درويش: معاناة المهجَّر الفلسطينيّ)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1c5CsuG4R4wf8cLo5FcEVboPmRmkOgmi_ (بكالوريا العربية 2017 لغات الدورة الاولى.docx)",
    "correction": "gdrive:17Ak_Qj--SvHW0DPJN6G6gHlqq6czOrGY (02_الدورة_الأولى_التصحيح.pdf)",
    "original_questions": 13,
@@ -3238,15 +3239,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 33,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-lang-s1-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-lang-s1-p2.json",
-   "checksum": "0fddde90dfb5e452dca90a6aa14d8474fd7b339a15d2f275c9606ccc4e475f8b",
+   "checksum": "5266659903476cf5277423cfe3eec1267d1732434ee8a96a3b6b41f3c47f1ad4",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3258,7 +3259,7 @@
    "paper": 2,
    "title": "بكالوريا 2017 (الدّورة الأولى) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (القلقشنديّ: أفضليّة النّثر على الشّعر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1c5CsuG4R4wf8cLo5FcEVboPmRmkOgmi_ (بكالوريا العربية 2017 لغات الدورة الاولى.docx)",
    "correction": "gdrive:17Ak_Qj--SvHW0DPJN6G6gHlqq6czOrGY (02_الدورة_الأولى_التصحيح.pdf)",
    "original_questions": 11,
@@ -3275,15 +3276,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 33,
-   "publishable": false
+   "warnings": 5,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-lang-s2-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-lang-s2-p1.json",
-   "checksum": "02d983d887afa99f6a4ad17457ecffd66bf375ad907f77973f2f46ba3ed2098b",
+   "checksum": "99d0f60ebee63307edf398bf7158b8184aff76ee28f540eb199583edb63a9697",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3295,7 +3296,7 @@
    "paper": 1,
    "title": "بكالوريا 2017 (الدّورة الثّانية) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (أمل دنقل: الحمامة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1Cc4IImtaTyVD3EVV-b76jj0WZND_xrWd (بكالوريا العربية 2017 لغات الدورة الثانية.docx)",
    "correction": "gdrive:1ULdLEzTy2Nc403wHjBQf_Nl9xlYlZlhI (02_الدورة_الاستثنائية_التصحيح.pdf)",
    "original_questions": 11,
@@ -3312,15 +3313,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-lang-s2-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-lang-s2-p2.json",
-   "checksum": "c18d03a0df2372fe1ac26ac144b9e431371db82030b388cc7c63dab483604b9f",
+   "checksum": "b89339e1a201860e481df32e9026ec216b0f1d9b3cbd1a9ef41c19e2660bf02c",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3332,7 +3333,7 @@
    "paper": 2,
    "title": "بكالوريا 2017 (الدّورة الثّانية) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (مي زيادة: حرّيّة، مساواة، إخاء)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1Cc4IImtaTyVD3EVV-b76jj0WZND_xrWd (بكالوريا العربية 2017 لغات الدورة الثانية.docx)",
    "correction": "gdrive:1ULdLEzTy2Nc403wHjBQf_Nl9xlYlZlhI (02_الدورة_الاستثنائية_التصحيح.pdf)",
    "original_questions": 11,
@@ -3349,15 +3350,15 @@
    "interactive_points": 16.5,
    "deferred_points": 3.5,
    "errors": 0,
-   "warnings": 40,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-lit-s1-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-lit-s1-p1.json",
-   "checksum": "fc9834491badfa41fea25fbf32936f025b9d4ed5f165058bcc2da0ba3c56b6fd",
+   "checksum": "87e5671d9bd77925bd57755f3d0537656d549ddd332c66443d8d3789cbd6f5f0",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3369,7 +3370,7 @@
    "paper": 1,
    "title": "بكالوريا 2017 (الدّورة الأولى) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (إيليا أبو ماضي: الغد لنا)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1P50JypcI5BF26Px0OGQeEo4xQ6J3NJ1Z (بكالوريا العربية 2017 اداب وفلسفة دورة 1.docx)",
    "correction": "gdrive:1G6G4dQpPrvNEYY2BjqfW87Lt0aHbq8sr (02_الدورة_الأولى_التصحيح.pdf)",
    "original_questions": 13,
@@ -3386,15 +3387,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 32,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-lit-s1-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-lit-s1-p2.json",
-   "checksum": "b1357d62facb97cd352c27d3fad2d2ff554079ded9ed170dea6e89bd12d96f82",
+   "checksum": "37ead0b991957d88bae2117e354cddf2a574570f56aacd62cef3fb5f330e9a5f",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3406,7 +3407,7 @@
    "paper": 2,
    "title": "بكالوريا 2017 (الدّورة الأولى) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (توفيق الحكيم: فنّ الأدب)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1P50JypcI5BF26Px0OGQeEo4xQ6J3NJ1Z (بكالوريا العربية 2017 اداب وفلسفة دورة 1.docx)",
    "correction": "gdrive:1G6G4dQpPrvNEYY2BjqfW87Lt0aHbq8sr (02_الدورة_الأولى_التصحيح.pdf)",
    "original_questions": 14,
@@ -3423,15 +3424,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-lit-s2-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-lit-s2-p1.json",
-   "checksum": "530dc6d916e6a7c2b00414e7a8d191fbb8d3a75ee51202fd48c747f96790f382",
+   "checksum": "9309a7a5c0165986f82151eadd6333ec4e75bd09bbb5e5eb76437ec15548905d",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3443,7 +3444,7 @@
    "paper": 1,
    "title": "بكالوريا 2017 (الدّورة الثّانية) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (صلاح عبد الصّبور: ثلاث صور من غزّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1btOuyzqJr4GTNHz1iIWZBq19gXyJKg9a (بكالوريا العربية 2017 اداب وفلسفة الدورة2 الثانية.docx)",
    "correction": "gdrive:13nBl4yr6QfT04o4ghL_ipZ50UWdvPdj_ (02_الدورة_الاستثنائية_التصحيح.pdf)",
    "original_questions": 12,
@@ -3459,15 +3460,15 @@
    "interactive_points": 15,
    "deferred_points": 5,
    "errors": 0,
-   "warnings": 45,
-   "publishable": false
+   "warnings": 6,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-lit-s2-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-lit-s2-p2.json",
-   "checksum": "5fddbabb0436089454af893dccd8f9cdb874cbcf096cf85a2c8cba3f87cf9803",
+   "checksum": "47e688e78313ddae9d9e31d6d93908c2abb7cf7d824a89c97e1311c65ae338b1",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3479,7 +3480,7 @@
    "paper": 2,
    "title": "بكالوريا 2017 (الدّورة الثّانية) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (ميخائيل نعيمة: المقاييس الأدبيّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1btOuyzqJr4GTNHz1iIWZBq19gXyJKg9a (بكالوريا العربية 2017 اداب وفلسفة الدورة2 الثانية.docx)",
    "correction": "gdrive:13nBl4yr6QfT04o4ghL_ipZ50UWdvPdj_ (02_الدورة_الاستثنائية_التصحيح.pdf)",
    "original_questions": 12,
@@ -3496,15 +3497,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 38,
-   "publishable": false
+   "warnings": 5,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-sci-s1-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-sci-s1-p1.json",
-   "checksum": "cce66e38b03af742e1518b6d0d94c98bdf985c952f8d253da9c2ec77837c6d4b",
+   "checksum": "28c15f327897b80ebd74257a9f69a019ee415d5732b5079200eefdcaa94a46ae",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3519,7 +3520,7 @@
    "paper": 1,
    "title": "بكالوريا 2017 (الدّورة الأولى) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (محمّد الأخضر السّائحيّ: نوفمبر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1sg9c_-J1kdMp5VMb33enbG8xoInOJock (بكالوريا العربية2017 شعبة علوم ت الدورة 1.docx)",
    "correction": "gdrive:1gKSF2iSy2aW7A9yOzhoAeHRTJULtx7kL (02_الدورة_الأولى_التصحيح.pdf)",
    "original_questions": 8,
@@ -3536,15 +3537,15 @@
    "interactive_points": 16.5,
    "deferred_points": 3.5,
    "errors": 0,
-   "warnings": 30,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-sci-s1-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-sci-s1-p2.json",
-   "checksum": "74dbc6632ba308a8e9c8245a20e05b5d59244e98f92cb90cbf10ecf4afda6984",
+   "checksum": "ca9a90af03fda980b5c0741d325be0fda777a41d4f1793f81ebd3fd93b804568",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3559,7 +3560,7 @@
    "paper": 2,
    "title": "بكالوريا 2017 (الدّورة الأولى) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (بغداد أحمد بلية: المسرح الجزائريّ)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1sg9c_-J1kdMp5VMb33enbG8xoInOJock (بكالوريا العربية2017 شعبة علوم ت الدورة 1.docx)",
    "correction": "gdrive:1gKSF2iSy2aW7A9yOzhoAeHRTJULtx7kL (02_الدورة_الأولى_التصحيح.pdf)",
    "original_questions": 8,
@@ -3576,15 +3577,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 27,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-sci-s2-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-sci-s2-p1.json",
-   "checksum": "8d71b0d28a066c2602b46c7a0eb4ddbff38b0b2325b641730e55a3869d7b8f26",
+   "checksum": "a04ec14fe4ae3e8a8d559f3e9cd73e0e45918ec52b87d12ce2d17d46bbbf640e",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3599,7 +3600,7 @@
    "paper": 1,
    "title": "بكالوريا 2017 (الدّورة الثّانية) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (محمّد بوزيدي: قم للجزائر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1yvUlkemdMO36y9O88TROEP1rYclLljCK (يكالوريا العربية 2017 شعبة علوم الدورة الثانية.docx)",
    "correction": "gdrive:1bYtR3zX_sV7wU5ej3cT52OihvVblnexU (02_الدورة_الاستثنائية_التصحيح.pdf)",
    "original_questions": 8,
@@ -3616,15 +3617,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 30,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2017-sci-s2-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2017-sci-s2-p2.json",
-   "checksum": "e4714e0d480604c970dce1456e2d20829d36168ab16a9c42887545885bc50302",
+   "checksum": "413a68ce6200465ae95bba2e45323900a7ef8a231e152b317625f813abc67286",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3639,7 +3640,7 @@
    "paper": 2,
    "title": "بكالوريا 2017 (الدّورة الثّانية) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (محمّد البشير الإبراهيميّ: فلسطين)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1yvUlkemdMO36y9O88TROEP1rYclLljCK (يكالوريا العربية 2017 شعبة علوم الدورة الثانية.docx)",
    "correction": "gdrive:1bYtR3zX_sV7wU5ej3cT52OihvVblnexU (02_الدورة_الاستثنائية_التصحيح.pdf)",
    "original_questions": 8,
@@ -3656,15 +3657,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 28,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2018-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2018-lang-p1.json",
-   "checksum": "9a87025887b6f518773806d2087d85df70ab4b6c2b057dc6a3d1782350769640",
+   "checksum": "723531c12012caedf6d72481736823e83d1483752db72bcd36a73ea0319be212",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3676,7 +3677,7 @@
    "paper": 1,
    "title": "بكالوريا 2018 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (أحمد شوقي: من الهمزيّة النّبويّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1pPJc0lCzbml_J2a_Odp3VA3BSfgi3cf6 (بكالوريا العربية 2018 شعبة لغات.docx)",
    "correction": "gdrive:1s9idg74qNQUWIU5IdFUos1HjULJXeb1e (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -3692,15 +3693,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2018-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2018-lang-p2.json",
-   "checksum": "a35ceef1358c2d56a91360c9f167010695af3ab2eeb76b67937b307e17af99b4",
+   "checksum": "5a8a0af056d424eb236b4fa7dfd7749fe0c752b680662a16de66276e5ae97b99",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3712,7 +3713,7 @@
    "paper": 2,
    "title": "بكالوريا 2018 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (أحمد أمين: ماذا يصنع المعلّم؟)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1pPJc0lCzbml_J2a_Odp3VA3BSfgi3cf6 (بكالوريا العربية 2018 شعبة لغات.docx)",
    "correction": "gdrive:1s9idg74qNQUWIU5IdFUos1HjULJXeb1e (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -3729,15 +3730,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 28,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2018-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2018-lit-p1.json",
-   "checksum": "e64c2994559e482bc2c6bab81cba337d6ccd2a1dda86a1dfc5319cb0e394de74",
+   "checksum": "3f2afdb7b18ca1fd410c8f46cfb5a093880d44d59709104024ba61d4d651fd09",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3749,7 +3750,7 @@
    "paper": 1,
    "title": "بكالوريا 2018 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (إبراهيم خطّاب الزّبيدي: تحيّة إلى الشّعب الجزائريّ)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1v1UiYKZww-2qHuLwZji9LiUCwWyrevp8 (بكالوريا العربية 2018 شعبة اداب وفلسة.docx)",
    "correction": "gdrive:1wrw4o3zQoc-ycgsMLfPgwhArtBPFfruh (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -3766,15 +3767,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2018-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2018-lit-p2.json",
-   "checksum": "37e90482c804ed655947e13f76ef603d7c857f76e0904858253a28c7e15619e7",
+   "checksum": "9ad8e53533eb283689816bc50f4686a7a09db6d0987e3e5dd2bee1c30f078804",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3786,7 +3787,7 @@
    "paper": 2,
    "title": "بكالوريا 2018 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (البشير الإبراهيميّ: رسالة الأدب والأديب)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1v1UiYKZww-2qHuLwZji9LiUCwWyrevp8 (بكالوريا العربية 2018 شعبة اداب وفلسة.docx)",
    "correction": "gdrive:1wrw4o3zQoc-ycgsMLfPgwhArtBPFfruh (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -3804,15 +3805,15 @@
    "interactive_points": 16.25,
    "deferred_points": 3.75,
    "errors": 0,
-   "warnings": 34,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2018-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2018-sci-p1.json",
-   "checksum": "c7a116edb476e46672f97f7d5e0753b3786b95ae10fbab103f96edca54050a43",
+   "checksum": "577f31e55e599d097ab9ac6f57680015e60c3bcd1e98a879fad3dcf8b2293f58",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3827,7 +3828,7 @@
    "paper": 1,
    "title": "بكالوريا 2018 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (مفدي زكريا: فلسطين)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1d9Damc4tpzOBpPQVuZfMatfr57PI4Kho (بكالوريا العربية 2018 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1HDY7-nfQJOy3zxB_ha0EIybsksOEln9H (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -3844,15 +3845,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 29,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2018-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2018-sci-p2.json",
-   "checksum": "87c38367491c242da3ab82022aa8be4da1b82c88f05a44b3e0600606e839db37",
+   "checksum": "3abd0c57f8213093ef417c18066f2558e639ae25fce2ff746bd3a2b070903889",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3867,7 +3868,7 @@
    "paper": 2,
    "title": "بكالوريا 2018 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (ابن باديس: الوطن الخاصّ)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1d9Damc4tpzOBpPQVuZfMatfr57PI4Kho (بكالوريا العربية 2018 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1HDY7-nfQJOy3zxB_ha0EIybsksOEln9H (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -3884,15 +3885,15 @@
    "interactive_points": 14,
    "deferred_points": 6,
    "errors": 0,
-   "warnings": 40,
-   "publishable": false
+   "warnings": 6,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2019-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2019-lang-p1.json",
-   "checksum": "f79c08a40f25a8e3424e2ef6314af4ef44f6831c7caae379404a2ca41df95e1a",
+   "checksum": "097cfeea575cd6ed02f35bb86f66e5462d2f922c7fad75fe4b456545b7938d5a",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3904,7 +3905,7 @@
    "paper": 1,
    "title": "بكالوريا 2019 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (نازك الملائكة: الغلام)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1vEFP2eO9tX-4aGYJbRRzhR1POIv2ZVit (بكالوريا العربية 2019 شعبة لغات.docx)",
    "correction": "gdrive:15EshNlI6DO8-o34Tks3znMKOE4kuNEoL (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -3920,15 +3921,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 25,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2019-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2019-lang-p2.json",
-   "checksum": "4061c0b82fa2999f57ba613a59fbad4fb8a4b93b158c47aa79ea4ddd3470af96",
+   "checksum": "4f17577c8ad1ea5703e4280a467adb89137041247041d26fb66e0c863ad3d345",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3940,7 +3941,7 @@
    "paper": 2,
    "title": "بكالوريا 2019 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (العقّاد: رسالة الأدب)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1vEFP2eO9tX-4aGYJbRRzhR1POIv2ZVit (بكالوريا العربية 2019 شعبة لغات.docx)",
    "correction": "gdrive:15EshNlI6DO8-o34Tks3znMKOE4kuNEoL (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -3957,15 +3958,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 35,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2019-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2019-lit-p1.json",
-   "checksum": "d755f369b441dbddaf0554e8b86083fe829d228432b1b4a0cdaa66226030edb4",
+   "checksum": "d496613ed5befc677d3f298c076195cf1275afb541ce3655ca381d207486d91d",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -3977,7 +3978,7 @@
    "paper": 1,
    "title": "بكالوريا 2019 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (سليمان العيسى: نتفرّج)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1G-67LqKesHvGWDjUDGzlaK3cCgfb21LH (بكالوريا العربية 2019 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1aLXDBz9Mg39gHPVxPnAk1-VWSEXjG7OO (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -3994,15 +3995,15 @@
    "interactive_points": 13,
    "deferred_points": 7,
    "errors": 0,
-   "warnings": 42,
-   "publishable": false
+   "warnings": 5,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2019-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2019-lit-p2.json",
-   "checksum": "1cdba667ebc114e2eaa7969985d6220e2d34de6905252bb8c356ccab3196dd60",
+   "checksum": "72b8c7d510f2dffaf817a406d3dc167f4b3b57fbb590703827991f1238b17a1b",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4014,7 +4015,7 @@
    "paper": 2,
    "title": "بكالوريا 2019 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (أحمد أمين: فيض الخاطر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1G-67LqKesHvGWDjUDGzlaK3cCgfb21LH (بكالوريا العربية 2019 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1aLXDBz9Mg39gHPVxPnAk1-VWSEXjG7OO (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -4030,15 +4031,15 @@
    "interactive_points": 16.5,
    "deferred_points": 3.5,
    "errors": 0,
-   "warnings": 39,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2019-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2019-sci-p1.json",
-   "checksum": "b55fe0161bd710960e2b70659a1076f5441265e72be4cda13f01759e70a7e104",
+   "checksum": "d094a593580ca58eeae363183a7f879f07f359ead0c7ededd72ce3c58ed1a8ce",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4053,7 +4054,7 @@
    "paper": 1,
    "title": "بكالوريا 2019 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (إيليا أبو ماضي: أيلول)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1dq9rWXm5_tH1FAenNytv0hXRBIoHYVws (بكالوريا العربية 2019 علوم تجريبية.docx)",
    "correction": "gdrive:1wl30Lc7mftCYHQBj851JXF3wTYVx3VyX (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -4070,15 +4071,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 5,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2019-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2019-sci-p2.json",
-   "checksum": "2c717a0fe12437ad473835dcaa7896b2c1bf97ac098ba1671264a9a5d692e6cc",
+   "checksum": "c4d7ec98a4ee67966f170826c1fa36f94baa49058c3edbfc5a43df68fc84dd35",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4093,7 +4094,7 @@
    "paper": 2,
    "title": "بكالوريا 2019 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (الفضيل الورتلانيّ: الجزائر الثّائرة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1dq9rWXm5_tH1FAenNytv0hXRBIoHYVws (بكالوريا العربية 2019 علوم تجريبية.docx)",
    "correction": "gdrive:1wl30Lc7mftCYHQBj851JXF3wTYVx3VyX (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -4111,15 +4112,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 29,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2020-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2020-lang-p1.json",
-   "checksum": "61c12139854d79aaeed86737830e93309b9ea22241d37fbbdb18718b540b9ae5",
+   "checksum": "671cb0741190d5ed3712a57ba583e0b0e1163bf965bfd180deb2e7146f117a45",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4131,7 +4132,7 @@
    "paper": 1,
    "title": "بكالوريا 2020 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (فدوى طوقان: شهادة الانتفاضة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1x2gHoOBaOcP2JCSa7yf3O-RG5jLcO6Ya (بكالوريا العربية 2020 شعبة لغات.docx)",
    "correction": "gdrive:1n6xKmNoEP93AkeriDHHKQTpghsf6P0Un (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -4148,15 +4149,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2020-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2020-lang-p2.json",
-   "checksum": "dab4f25f0b0bc5a583911a7590dd11fda6c51c0f5e19f36d500807cc960aea54",
+   "checksum": "eab372993f93d0ce5e60920a81a9049508eb95e5f08892fd5903e6223480aa45",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4168,7 +4169,7 @@
    "paper": 2,
    "title": "بكالوريا 2020 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (توفيق الحكيم: فنّ الأدب)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1x2gHoOBaOcP2JCSa7yf3O-RG5jLcO6Ya (بكالوريا العربية 2020 شعبة لغات.docx)",
    "correction": "gdrive:1n6xKmNoEP93AkeriDHHKQTpghsf6P0Un (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -4185,15 +4186,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 33,
-   "publishable": false
+   "warnings": 5,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2020-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2020-lit-p1.json",
-   "checksum": "49d8673d04a7d803fe18f1ebd02ea8fc7b2bc6fe7896f13a2915a1b347a4519c",
+   "checksum": "1c1901d5bd19df6dd7653f3d3513a4be4315810d485b454c4a8dc1730ed809d9",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4205,7 +4206,7 @@
    "paper": 1,
    "title": "بكالوريا 2020 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (علي الحلّي: في ذكرى الثّورة الجزائريّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:13ZPE8IP0fJOPVxW9-OLtFnzu4g1VGgOy (بكالوريا العربية 2020 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1gbVoOiJ7JzP7WyDcsbRpFgyxtzsZvsJE (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -4222,15 +4223,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 39,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2020-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2020-lit-p2.json",
-   "checksum": "00537f1c310c8c014e0c7726d7cd88cc23023b0f4642a73ac606fdf6fe9e408f",
+   "checksum": "2637710c6ecfc1e53f6c3411bf6106393da6911ad1559269868ea60bc0d17f3d",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4242,7 +4243,7 @@
    "paper": 2,
    "title": "بكالوريا 2020 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (ميخائيل نعيمة: الغربال)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:13ZPE8IP0fJOPVxW9-OLtFnzu4g1VGgOy (بكالوريا العربية 2020 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1gbVoOiJ7JzP7WyDcsbRpFgyxtzsZvsJE (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -4259,15 +4260,15 @@
    "interactive_points": 15.5,
    "deferred_points": 4.5,
    "errors": 0,
-   "warnings": 40,
-   "publishable": false
+   "warnings": 6,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2020-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2020-sci-p1.json",
-   "checksum": "5118d71c52db233eae91954f4901bb0584669b5276e289f2805a1416aa1903e3",
+   "checksum": "59eecbaeb2971e024a0d6c30eb5fe4b7f5904dcbf83d5737cab5bb97afaa9299",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4282,7 +4283,7 @@
    "paper": 1,
    "title": "بكالوريا 2020 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (معروف الرّصافيّ: في الحرّيّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1mZ2xNNO9R-cG_vaijUxlB0U9IdJCk4CC (بكالوريا العربية 2020 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1PKeZZXzoTEOK48w-y5eiDMRA1wefRQQz (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -4298,15 +4299,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 26,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2020-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2020-sci-p2.json",
-   "checksum": "b9d2d2b6d08251002b576611c131605144a279da30780e186e3debfed6f94144",
+   "checksum": "c9295dac7a7edfb3cee38b5604a726da73c5f4290cb9c16c997f513130da41c4",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4321,7 +4322,7 @@
    "paper": 2,
    "title": "بكالوريا 2020 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (ابن خلدون: المقدّمة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1mZ2xNNO9R-cG_vaijUxlB0U9IdJCk4CC (بكالوريا العربية 2020 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1PKeZZXzoTEOK48w-y5eiDMRA1wefRQQz (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -4338,15 +4339,15 @@
    "interactive_points": 18.5,
    "deferred_points": 1.5,
    "errors": 0,
-   "warnings": 27,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2021-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2021-lang-p1.json",
-   "checksum": "c78492452d483b95ae6c4e71f33c9b968f90ffa8d61ffcafb16794ac1f105fdc",
+   "checksum": "ec239b2eb8d8efc72610b01d99b9ef8ecd76d0a34a518e3d50cfbfe172ab115b",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4358,7 +4359,7 @@
    "paper": 1,
    "title": "بكالوريا 2021 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (معين بسيسو: غزّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1FBD_a5L394-F4Q6NslZBUsheLC_yaHPQ (بكالوريا العربية 2021 شعبة لغات.docx)",
    "correction": "gdrive:1mquOhd3GGEejji1U6c3goK8a0TdDjQVB (02_التصحيح.pdf)",
    "original_questions": 11,
@@ -4375,15 +4376,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 39,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2021-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2021-lang-p2.json",
-   "checksum": "92252d08aafb5c2dfedac84397acda9fc8d78e9a456874545bee82b158e3824c",
+   "checksum": "ba0dbfece33b2b8fec9af323097aed156edec6ef90ea6c2f3c22fec8e3f0816d",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4395,7 +4396,7 @@
    "paper": 2,
    "title": "بكالوريا 2021 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (شوقي ضيف: الأدب والحياة الاجتماعيّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1FBD_a5L394-F4Q6NslZBUsheLC_yaHPQ (بكالوريا العربية 2021 شعبة لغات.docx)",
    "correction": "gdrive:1mquOhd3GGEejji1U6c3goK8a0TdDjQVB (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -4412,15 +4413,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 37,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2021-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2021-lit-p1.json",
-   "checksum": "16e6060aef3784f584347d8e2f17df18046b7eddfebc35117e6993387f4901f3",
+   "checksum": "6aa0eb22a168c79a461a7e90c94d08d4ab2da45162d398e87a3721b32617dcfa",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4432,7 +4433,7 @@
    "paper": 1,
    "title": "بكالوريا 2021 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (علي محمود طه: فلسطين)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1B4rYjwahQceXgmpS0gaB2gtn7RV5W9RA (بكالوريا العربية 2021 شعبة اداب فلسفة.docx)",
    "correction": "gdrive:1j1q48ko_YfZ-DGZSlX0hiAUATSAvax1H (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -4450,15 +4451,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 36,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2021-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2021-lit-p2.json",
-   "checksum": "3627840035e1c05337776e18a907485deda3589a2989bee88b55eabb60ec4162",
+   "checksum": "7981fc7c717c8a615bae36a870b2425eddb8d49366ff8c39ad744f8853c501d9",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4470,7 +4471,7 @@
    "paper": 2,
    "title": "بكالوريا 2021 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (جودت الرّكابي: المعنى والمبنى)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1B4rYjwahQceXgmpS0gaB2gtn7RV5W9RA (بكالوريا العربية 2021 شعبة اداب فلسفة.docx)",
    "correction": "gdrive:1j1q48ko_YfZ-DGZSlX0hiAUATSAvax1H (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -4487,15 +4488,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 37,
-   "publishable": false
+   "warnings": 5,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2021-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2021-sci-p1.json",
-   "checksum": "3c2fcb5ca3f958778f667d2b9396657b940d8372fd5dbc933f31d1bea08faf6b",
+   "checksum": "4dea46523ba1a2dbb556e8e83262fe1213381f013debdff01427231dc94aefca",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4510,7 +4511,7 @@
    "paper": 1,
    "title": "بكالوريا 2021 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (أبو القاسم سعد الله: بلادي)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1xAyFX3L46_UEegGLix67c1basJsao-Z9 (بكالوريا العربية 2021 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1m7gxCg8sOoKIti3c6_3hfTC-OASU7MFL (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -4526,15 +4527,15 @@
    "interactive_points": 20,
    "deferred_points": 0,
    "errors": 0,
-   "warnings": 25,
-   "publishable": false
+   "warnings": 0,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2021-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2021-sci-p2.json",
-   "checksum": "41e164323f1e88aca163eedbd55fdcae7a5c54d8b06a527b4241a85a2aebcd09",
+   "checksum": "71934d9096a306fae02644adacb47ed91b1c3e703c1fce2ea25e486c10ebe9f8",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4549,7 +4550,7 @@
    "paper": 2,
    "title": "بكالوريا 2021 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (مصطفى لطفي المنفلوطيّ: الحسد)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1xAyFX3L46_UEegGLix67c1basJsao-Z9 (بكالوريا العربية 2021 شعبة علوم تجريبية.docx)",
    "correction": "gdrive:1m7gxCg8sOoKIti3c6_3hfTC-OASU7MFL (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -4566,15 +4567,15 @@
    "interactive_points": 18.5,
    "deferred_points": 1.5,
    "errors": 0,
-   "warnings": 22,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2022-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2022-lang-p1.json",
-   "checksum": "31fe38d6d16f95d8dde391372f236e72854deee4434538aa1e2f3ce4a72a0131",
+   "checksum": "09aea3fb2d1abc20921d33e5fef1d13f006b6a139e311e534738d607e2e89e95",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4586,7 +4587,7 @@
    "paper": 1,
    "title": "بكالوريا 2022 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (محمود سامي البارودي: غربة المنفى)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1Fd8gRV09aMH-dQ44zpiq9HPUgqami9em (بكالوريا العربية 2022 شعبة لغات اج.docx)",
    "correction": "gdrive:1I2EUDlty6I75WqtE6Tys0hvAXmHHZH7o (02_التصحيح.pdf)",
    "original_questions": 13,
@@ -4603,15 +4604,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 32,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2022-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2022-lang-p2.json",
-   "checksum": "110a82f958fb2b22961201e0799e8b22b5e151173c819ff03dbfefadd48cfd6d",
+   "checksum": "71ebaf7407cfe7b696cc6afad93ed5b6344b000b3c614039505b25ff6df6db82",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4623,7 +4624,7 @@
    "paper": 2,
    "title": "بكالوريا 2022 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (زكريا القزوينيّ: الفصول الأربعة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1Fd8gRV09aMH-dQ44zpiq9HPUgqami9em (بكالوريا العربية 2022 شعبة لغات اج.docx)",
    "correction": "gdrive:1I2EUDlty6I75WqtE6Tys0hvAXmHHZH7o (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -4640,15 +4641,15 @@
    "interactive_points": 17.5,
    "deferred_points": 2.5,
    "errors": 0,
-   "warnings": 47,
-   "publishable": false
+   "warnings": 6,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2022-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2022-lit-p1.json",
-   "checksum": "26d24ab7a8e6204f3935f41c7018c65187b1833c9d7ff88b804e9f660209ded6",
+   "checksum": "dcc369a0d8e2b8e5c36a8bc8112fb85f125112c72def334afcf3e9bd1ba2cc2a",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4660,7 +4661,7 @@
    "paper": 1,
    "title": "بكالوريا 2022 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (ابن نباتة المصريّ: مدحة نبويّة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1syqrSHGe6XHenSBnZYnxFkZyAXYeAeTp (بكالوريا العربية 2022 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:14m5gMrqyW-qAa5JRvujTAOXyju7ZOsk7 (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -4678,15 +4679,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 41,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2022-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2022-lit-p2.json",
-   "checksum": "6c4902f9561fb4c588fec7ff96ec1ad7c095bf4197c28293ff0f41b20327c09e",
+   "checksum": "b010ea0d1449b1a8500324eb878dd05fd0e658ca04b47ed54d199e3ec79f776a",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4698,7 +4699,7 @@
    "paper": 2,
    "title": "بكالوريا 2022 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (شوقي ضيف: الشّابّيّ والإحساس بالألم)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1syqrSHGe6XHenSBnZYnxFkZyAXYeAeTp (بكالوريا العربية 2022 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:14m5gMrqyW-qAa5JRvujTAOXyju7ZOsk7 (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -4715,15 +4716,15 @@
    "interactive_points": 19,
    "deferred_points": 1,
    "errors": 0,
-   "warnings": 40,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2022-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2022-sci-p1.json",
-   "checksum": "1e82af81fdaa33d1a31972f1dc55ca200a42d1bba1a20e2fe2cba1b202127bb4",
+   "checksum": "cd6e0450428b62507eb57e91f0636ec1b7043e65c8b32a4242424e278c4235ff",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4738,7 +4739,7 @@
    "paper": 1,
    "title": "بكالوريا 2022 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (مفدي زكريا: الأخلاق والشّباب)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1RKtyEt6jNA5qjbP7MMD0_A17R04xrwrM (بكالوريا العربية 2022 شعبة علوم.docx)",
    "correction": "gdrive:1c_gGnWqAMVdPQM6RDO4A_Y4LQFIH3WR3 (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -4755,15 +4756,15 @@
    "interactive_points": 16,
    "deferred_points": 4,
    "errors": 0,
-   "warnings": 31,
-   "publishable": false
+   "warnings": 4,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2022-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2022-sci-p2.json",
-   "checksum": "117449733baf97bed8ba09bd48458a2c3a6ed1d52bbe5d63f2506eb541e31dc0",
+   "checksum": "8436ac7ea3805673586495585d72750e2772b77faf90384dde04975354666298",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4778,7 +4779,7 @@
    "paper": 2,
    "title": "بكالوريا 2022 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (يوسف إدريس: أعظم معلّمة في عصرنا الحاضر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1RKtyEt6jNA5qjbP7MMD0_A17R04xrwrM (بكالوريا العربية 2022 شعبة علوم.docx)",
    "correction": "gdrive:1c_gGnWqAMVdPQM6RDO4A_Y4LQFIH3WR3 (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -4795,15 +4796,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 28,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2023-lang-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2023-lang-p1.json",
-   "checksum": "bcfeb0c37ed93781b553cc67fb258304fe0af13138c4cfd45cf67f7918b26d49",
+   "checksum": "c927e3404967f7fd75b8690018df012a29f4c3a77afb23e6d6f68532fc7994ec",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4815,7 +4816,7 @@
    "paper": 1,
    "title": "بكالوريا 2023 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الأوّل (عمر أبو ريشة: أمّتي)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:17_D3_EsfZgpLSNZHwYy8MtHuFZkVUp7t (بكالوريا العربية 2023 شعبة لغات اجنبية.docx)",
    "correction": "gdrive:1j1llr4nzDxsBz_s50nyDx5FGDt3Zi_kD (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -4832,15 +4833,15 @@
    "interactive_points": 19.5,
    "deferred_points": 0.5,
    "errors": 0,
-   "warnings": 38,
-   "publishable": false
+   "warnings": 2,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2023-lang-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2023-lang-p2.json",
-   "checksum": "3ec3efc1110a653651d01543b0915d27f25c48033b14259fa512589c637aca65",
+   "checksum": "c3ee19976643b59a33643fdcb312c1288ea5ababfbcc7079e81d0d1950b219e4",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4852,7 +4853,7 @@
    "paper": 2,
    "title": "بكالوريا 2023 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – لغات أجنبيّة – الموضوع الثّاني (مالك بن نبي: شروط النّهضة)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:17_D3_EsfZgpLSNZHwYy8MtHuFZkVUp7t (بكالوريا العربية 2023 شعبة لغات اجنبية.docx)",
    "correction": "gdrive:1j1llr4nzDxsBz_s50nyDx5FGDt3Zi_kD (02_التصحيح.pdf)",
    "original_questions": 12,
@@ -4869,15 +4870,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 43,
-   "publishable": false
+   "warnings": 6,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2023-lit-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2023-lit-p1.json",
-   "checksum": "ca30685202595d5f9b1e68565eb886c6e897a7e921eae2622ddaf56a21a5d7aa",
+   "checksum": "f2cc55259358211f2d74f1b12e22f5bee07bbef98e6c9177a121a8f3b5fd05a0",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4889,7 +4890,7 @@
    "paper": 1,
    "title": "بكالوريا 2023 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الأوّل (محمد التّهامي: أوراس)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1IykQR0ETeARGaEz9T_munKV2e3_uasdK (بكالوريا العربية 2023 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1odOENInhfQaBBsrSgS6TdQoXmUe3EYUF (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -4906,15 +4907,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 51,
-   "publishable": false
+   "warnings": 6,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2023-lit-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2023-lit-p2.json",
-   "checksum": "a9591b3c0b4ff2e154c30f18100bf7b1daf685581dbe00038889776c0d1eff1f",
+   "checksum": "1ca7a2671e47039dba963764fb810897898c7cceb641a22c8ed8d4d89bf6e520",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4926,7 +4927,7 @@
    "paper": 2,
    "title": "بكالوريا 2023 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – آداب وفلسفة – الموضوع الثّاني (أحمد أمين: فيض الخاطر)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1IykQR0ETeARGaEz9T_munKV2e3_uasdK (بكالوريا العربية 2023 شعبة اداب وفلسفة.docx)",
    "correction": "gdrive:1odOENInhfQaBBsrSgS6TdQoXmUe3EYUF (02_التصحيح.pdf)",
    "original_questions": 14,
@@ -4943,15 +4944,15 @@
    "interactive_points": 19.5,
    "deferred_points": 0.5,
    "errors": 0,
-   "warnings": 39,
-   "publishable": false
+   "warnings": 1,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2023-sci-p1",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2023-sci-p1.json",
-   "checksum": "2b43134d891052be433f765c1502fb78730fdd0a8966bc99f36d4a1d0f364204",
+   "checksum": "07201b4bf6eb1ed5393c1ae6297f9690689c952ddee4eabb366aae1e799b5e47",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -4966,7 +4967,7 @@
    "paper": 1,
    "title": "بكالوريا 2023 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الأوّل (عبد الرّحمن شكري: اليتيم)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1e6Cs7-O7k5r2CTBcjfidaJCHvEsRn6OJ (بكالوريا العربية 2023 شعبة علوم.docx)",
    "correction": "gdrive:1yD3baTYtUoI0lzf7z27WnK1l0N-b5ZF- (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -4983,15 +4984,15 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 35,
-   "publishable": false
+   "warnings": 6,
+   "publishable": true
   },
   {
    "set_id": "ar-bac-2023-sci-p2",
    "file": "content/play-exams/sets/3AS/AR/ar-bac-2023-sci-p2.json",
-   "checksum": "358eea8bcdfaea12ebfc197cdf63c0b5efdd9421269399d3219cf444ac90581d",
+   "checksum": "35fbd16ad51d9f80793aac72d15671c257b20939fa4a1160edb210f6bf6b61b2",
    "fixture": false,
-   "status": "NEEDS_HUMAN_REVIEW",
+   "status": "APPROVED",
    "kind": "BAC",
    "level": "3AS",
    "streams": [
@@ -5006,7 +5007,7 @@
    "paper": 2,
    "title": "بكالوريا 2023 (الدّورة العاديّة) – اللّغة العربيّة وآدابها – الشّعب العلميّة – الموضوع الثّاني (أحمد أمين: حقّ التّعليم)",
    "trust": "official_mirror",
-   "source_verified": false,
+   "source_verified": true,
    "original": "gdrive:1e6Cs7-O7k5r2CTBcjfidaJCHvEsRn6OJ (بكالوريا العربية 2023 شعبة علوم.docx)",
    "correction": "gdrive:1yD3baTYtUoI0lzf7z27WnK1l0N-b5ZF- (02_التصحيح.pdf)",
    "original_questions": 8,
@@ -5023,8 +5024,8 @@
    "interactive_points": 17,
    "deferred_points": 3,
    "errors": 0,
-   "warnings": 29,
-   "publishable": false
+   "warnings": 3,
+   "publishable": true
   }
  ],
  "unreadable": [],
