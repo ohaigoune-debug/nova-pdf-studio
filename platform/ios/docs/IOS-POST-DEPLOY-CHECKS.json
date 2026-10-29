@@ -1,0 +1,36 @@
+{
+  "checked_at": "2026-10-26T21:19:18.967848+00:00",
+  "method": "Independent unauthenticated HTTPS GET, verified TLS, study-only presentation header; no credentials, write endpoints or direct database access",
+  "checks": [
+    {
+      "path": "/ios",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "cache_control": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "elapsed_seconds": 6.27
+    },
+    {
+      "path": "/api/v1/ios/session",
+      "status": 401,
+      "content_type": "application/json",
+      "cache_control": "private, no-store",
+      "elapsed_seconds": 6.25,
+      "ok": false,
+      "error_code": "AUTH_REQUIRED"
+    }
+  ],
+  "scope": "Public endpoint/anonymous JSON contract only; not authenticated device testing. This environment has a different network path from the owner VPS.",
+  "owner_reported_vps_checks": [
+    {
+      "path": "/ios",
+      "status": 200,
+      "elapsed_seconds": 0.44676
+    },
+    {
+      "path": "/api/v1/ios/session",
+      "status": 401,
+      "elapsed_seconds": 0.056746
+    }
+  ],
+  "server_source": "65d1bb93969ff2fdf1628d79b7e46a4068151d49"
+}

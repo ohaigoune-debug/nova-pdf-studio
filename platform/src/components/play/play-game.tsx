@@ -44,7 +44,7 @@ const REASON_LABELS: Record<PlayReportReason, string> = {
   OTHER: 'سبب آخر'
 }
 
-function useBeep(enabled: boolean) {
+export function useBeep(enabled: boolean) {
   const ctx = useRef<AudioContext | null>(null)
   return useCallback(
     (kind: 'ok' | 'bad' | 'win') => {
@@ -119,6 +119,7 @@ export function PlayGame({ session, questions, prefs, subjectName, backHref }: P
       if (!r.ok) {
         if (r.error.code === 'PLAY_SESSION_EXPIRED') setExpired(true)
         else if (r.error.code === 'PLAY_ALREADY_ANSWERED' || r.error.code === 'PLAY_SESSION_CLOSED') router.refresh()
+        else if (r.error.code === 'PLAY_TRIAL_EXPIRED' || r.error.code === 'PLAY_TRIAL_REQUIRED') router.push('/student/play')
         toast('error', r.error.message)
         return
       }

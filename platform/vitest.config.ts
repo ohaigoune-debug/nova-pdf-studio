@@ -3,6 +3,8 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
   plugins: [tsconfigPaths()],
+  // مكوّنات .tsx في الاختبارات (tsconfig يترك JSX لـ Next): تحويل React 17+ التلقائي
+  esbuild: { jsx: 'automatic' },
   test: {
     environment: 'node',
     include: ['tests/**/*.test.ts', 'src/**/*.test.ts'],

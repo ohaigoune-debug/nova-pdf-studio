@@ -5,18 +5,9 @@ import { useEffect, useMemo } from 'react'
 import { Alert } from '@/components/ui/misc'
 import { Button } from '@/components/ui/button'
 import { t } from '@/i18n'
+import { deviceViewerKey } from './device-key'
 
-function viewerKey(): string {
-  try {
-    const k = sessionStorage.getItem('madrasa_viewer_key')
-    if (k) return k
-    const fresh = crypto.randomUUID().replace(/-/g, '').slice(0, 24)
-    sessionStorage.setItem('madrasa_viewer_key', fresh)
-    return fresh
-  } catch {
-    return Math.random().toString(36).slice(2, 26)
-  }
-}
+const viewerKey = deviceViewerKey
 
 /**
  * عارض PDF داخل التطبيق: الملف المُقدَّم مختوم في الخادم باسم/بريد المشاهد (لا نسخة نظيفة تصل المتصفح)،

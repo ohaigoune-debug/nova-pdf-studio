@@ -1,0 +1,36 @@
+name: iOS — export foreground failure diagnostics
+on:
+  push:
+    branches: [codex/ios-app-foundation]
+    paths: ['.github/workflows/ios-diagnostics.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  screenshots:
+    if: github.repository == 'ohaigoune-debug/nova-pdf-studio' && github.event.repository.private == false
+    runs-on: macos-26
+    timeout-minutes: 15
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Madrasadz-Simulator-diagnostics-9be0799c6ad83674fb149abb081500ac37709d7f
+          run-id: 40463010411
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/failed-simulator
+      - name: Export genuine failure attachments with Apple xcresulttool
+        run: |
+          mkdir -p "$RUNNER_TEMP/failure-screenshots"
+          find "$RUNNER_TEMP/failed-simulator" -name '*.xcresult' -type d -prune | while IFS= read -r result; do
+            name="$(basename "$result")"
+            xcrun xcresulttool export attachments --path "$result" --output-path "$RUNNER_TEMP/failure-screenshots/$name"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Madrasadz-foreground-failure-screenshots-40463010411
+          path: ${{ runner.temp }}/failure-screenshots/
+          retention-days: 1
+          if-no-files-found: error
+# Read-only extraction from an existing no-account Simulator run. No credentials,
+# signing, application rebuild, upload to Apple, account access or server changes.

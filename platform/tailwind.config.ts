@@ -37,6 +37,15 @@ const config: Config = {
           lime: 'hsl(var(--brand-lime) / <alpha-value>)',
           paper: 'hsl(var(--brand-paper) / <alpha-value>)'
         },
+        // لعبة البطاقات: رموز مرجع التصميم، معرّفة داخل .play-deck فقط (globals.css)
+        deck: {
+          bg: 'hsl(var(--deck-bg) / <alpha-value>)',
+          back: 'hsl(var(--deck-back) / <alpha-value>)',
+          'back-deep': 'hsl(var(--deck-back-deep) / <alpha-value>)',
+          line: 'hsl(var(--deck-line) / <alpha-value>)',
+          gold: 'hsl(var(--deck-gold) / <alpha-value>)',
+          'gold-ink': 'hsl(var(--deck-gold-ink) / <alpha-value>)'
+        },
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar))',
           foreground: 'hsl(var(--sidebar-foreground))',

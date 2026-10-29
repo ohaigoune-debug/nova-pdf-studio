@@ -1,0 +1,56 @@
+{
+  "checked_at": "2026-10-26T12:45:37.324789+00:00",
+  "method": "Public HTTPS GET via configured proxy, verified TLS, no authentication and no database access",
+  "checks": [
+    {
+      "url": "https://madrasadz.com",
+      "status": 200,
+      "final_url": "https://madrasadz.com",
+      "mailto_links": [],
+      "title": [
+        "مدرسة"
+      ]
+    },
+    {
+      "url": "https://madrasadz.com/privacy",
+      "status": 200,
+      "final_url": "https://madrasadz.com/privacy",
+      "mailto_links": [
+        "ohaigoune@gmail.com"
+      ],
+      "title": [
+        "سياسة الخصوصية · مدرسة"
+      ]
+    },
+    {
+      "url": "https://madrasadz.com/delete-account",
+      "status": 200,
+      "final_url": "https://madrasadz.com/delete-account",
+      "mailto_links": [
+        "ohaigoune@gmail.com"
+      ],
+      "title": [
+        "حذف الحساب · مدرسة"
+      ]
+    },
+    {
+      "url": "https://madrasadz.com/login",
+      "status": 200,
+      "final_url": "https://madrasadz.com/login",
+      "mailto_links": [],
+      "title": [
+        "تسجيل الدخول · مدرسة"
+      ]
+    },
+    {
+      "url": "https://madrasadz.com/student/support",
+      "status": 200,
+      "final_url": "https://madrasadz.com/login?next=%2Fstudent%2Fsupport",
+      "mailto_links": [],
+      "title": [
+        "تسجيل الدخول · مدرسة"
+      ]
+    }
+  ],
+  "scope_note": "Public page availability and redirects only; not proof of production commit, authenticated functionality, or iOS runtime readiness."
+}

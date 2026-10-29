@@ -286,3 +286,259 @@
   .student-bottom-nav { padding-bottom: env(safe-area-inset-bottom); }
   @media (min-width: 1024px) { .student-content { padding-bottom: 2rem; } }
 }
+
+/*
+ * MADRASADZ PLAY — حزمة الهوية البصرية المعتمدة (Madrasa_PLAY_Visual_Identity) مرجعًا ملزمًا.
+ * الألوان من 07-color-tokens: Primary #1457C5، Accent #8FAAFF، Background #F5F8FF، Rewards #F2B94B،
+ * Text #172B50، Surface #FFFFFF. اللعبة فاتحة دائمًا: تُثبَّت رموز السمة داخل .play-deck حتى في الوضع الداكن.
+ * القلب CSS فقط (transform/opacity)، ولا حركة مع prefers-reduced-motion.
+ */
+@layer components {
+  .play-deck {
+    --background: 222 100% 98%; /* #F5F8FF */
+    --foreground: 219 55% 20%; /* #172B50 */
+    --card: 0 0% 100%;
+    --card-foreground: 219 55% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 219 55% 20%;
+    --primary: 217 82% 43%; /* #1457C5 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 66% 94%; /* #E8EEF9 */
+    --secondary-foreground: 217 82% 33%;
+    --muted: 220 60% 95%;
+    --muted-foreground: 219 22% 42%;
+    --accent: 226 100% 78%; /* #8FAAFF */
+    --accent-foreground: 219 55% 20%;
+    --destructive: 0 58% 49%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 66% 33%;
+    --success-foreground: 0 0% 100%;
+    --warning: 36 90% 30%;
+    --warning-foreground: 0 0% 100%;
+    --border: 216 62% 89%; /* #D3E0F5 */
+    --input: 216 40% 70%;
+    --ring: 217 82% 43%;
+    --brand-blue-hover: 217 82% 37%;
+    --deck-bg: 222 100% 98%;
+    --deck-back: 217 82% 43%;
+    --deck-back-deep: 216 85% 33%;
+    --deck-line: 216 62% 89%;
+    --deck-gold: 40 87% 62%; /* #F2B94B */
+    --deck-gold-ink: 36 80% 32%;
+    --deck-flip-ms: 600ms;
+    color-scheme: light;
+    color: hsl(var(--foreground));
+    /* حواف البطاقة أثناء الدوران لا تُحدث تمريرًا أفقيًا (clip لا يجعلها حاوية تمرير، فيبقى sticky يعمل) */
+    overflow-x: clip;
+  }
+
+  /* شاشة اللعب كاملة على الهاتف واللوحي كما في المرجع: تختفي ترويسة الموقع وشريطه السفلي أثناء الجولة */
+  @media (max-width: 1023.98px) {
+    html.play-immersive .brand-header,
+    html.play-immersive .student-bottom-nav {
+      display: none;
+    }
+    html.play-immersive .student-content {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .deck-scene {
+    position: relative;
+    isolation: isolate;
+    perspective: 1400px;
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+  /* الرزمة البيضاء خلف البطاقة المغلقة (02، 03) */
+  .deck-scene[data-phase='covered']::before,
+  .deck-scene[data-phase='flipping']::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    z-index: -1;
+    width: min(74%, 16.5rem);
+    aspect-ratio: 4 / 5;
+    transform: translateX(calc(-50% + 6px));
+    border-radius: 18px;
+    background: linear-gradient(180deg, #ffffff, #f4f7fd);
+    box-shadow: 0 0 0 1px hsl(var(--deck-line)), 0 14px 28px -14px rgb(20 87 197 / 0.35);
+  }
+  .deck-scene[data-phase='next'] {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+
+  .deck-card {
+    position: relative;
+    display: grid;
+    margin-inline: auto;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    transition: transform var(--deck-flip-ms) ease-in-out;
+  }
+  .deck-card[data-settled='false'] {
+    width: min(74%, 16.5rem);
+    aspect-ratio: 4 / 5;
+  }
+  .deck-card[data-settled='true'] {
+    width: 100%;
+  }
+  /* الحافة اليمنى تقترب والوجه الأبيض يظهر كما في 03 */
+  .deck-card[data-flipped='true'] {
+    transform: rotateY(-180deg);
+  }
+  .deck-face {
+    grid-area: 1 / 1;
+    min-width: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .deck-face-back {
+    display: flex;
+    padding: 0;
+    border-radius: 18px;
+    cursor: pointer;
+  }
+  /* الوجه الآخر مُدار مسبقًا، فيظهر النص سليمًا (غير معكوس) بعد الدوران في RTL وLTR */
+  .deck-face-front {
+    transform: rotateY(180deg);
+    border-radius: 18px;
+  }
+  /* بعد اكتمال الدوران: لا تحويلات ثلاثية الأبعاد على المحتوى التفاعلي (المحصّلة واحدة، فلا قفزة) */
+  .deck-card[data-flipped][data-settled='true'],
+  .deck-card[data-settled='true'] > .deck-face-front {
+    transform: none;
+    transition: none;
+  }
+  .deck-card[data-motion='off'] {
+    transition: none;
+  }
+
+  /* ظهر البطاقة (02) */
+  .deck-back-frame {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 6px;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 0 0 1px hsl(var(--deck-line)), 0 16px 30px -12px rgb(20 87 197 / 0.45);
+  }
+  .deck-back-inner {
+    position: relative;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 13px;
+  }
+  /* الوجه الأبيض أثناء الدوران (03) */
+  .deck-front-blank {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #ffffff, #f6f8fe);
+    box-shadow: 0 0 0 1px hsl(var(--deck-line)), inset 0 0 0 7px #ffffff, inset 0 0 0 8px #e3eaf7, 0 16px 30px -12px rgb(20 87 197 / 0.35);
+  }
+  /* بطاقة السؤال (04) */
+  .deck-card[data-settled='true'] > .deck-face-front {
+    position: relative;
+    border-radius: 24px;
+    border: 1px solid hsl(var(--deck-line));
+    background: #ffffff;
+    box-shadow: 0 18px 36px -20px rgb(20 87 197 / 0.45);
+  }
+  /* حافة البطاقة التالية تحت بطاقة السؤال */
+  .deck-card[data-settled='true']::after {
+    content: '';
+    position: absolute;
+    inset-inline: 14px;
+    bottom: -8px;
+    z-index: -1;
+    height: 40px;
+    border-radius: 0 0 22px 22px;
+    border: 1px solid hsl(var(--deck-line));
+    border-top: 0;
+    background: #f7f9fe;
+  }
+  .deck-tab {
+    position: absolute;
+    top: -21px;
+    left: 50%;
+    display: flex;
+    width: 78px;
+    height: 46px;
+    justify-content: center;
+    padding-top: 8px;
+    transform: translateX(-50%);
+    border: 1px solid hsl(var(--deck-line));
+    border-bottom: 0;
+    border-radius: 20px 20px 0 0;
+    background: #ffffff;
+  }
+  .deck-tab::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: -3px;
+    height: 6px;
+    background: #ffffff;
+  }
+  .deck-flip-arrow {
+    position: absolute;
+    top: 50%;
+    left: max(0px, calc(50% - 10.5rem));
+    z-index: 2;
+    width: min(34%, 8rem);
+    pointer-events: none;
+    animation: deck-arrow var(--deck-flip-ms) ease-in-out both;
+  }
+  .deck-reveal {
+    animation: deck-reveal 260ms ease-out 120ms both;
+  }
+  .deck-dim {
+    filter: blur(2px);
+    opacity: 0.4;
+    user-select: none;
+  }
+  .deck-answered [aria-label='بنك الكلمات'] {
+    filter: blur(1.5px);
+    opacity: 0.45;
+  }
+  @keyframes deck-arrow {
+    0% {
+      opacity: 0;
+      transform: translate(-10px, -50%);
+    }
+    25%,
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(8px, -50%);
+    }
+  }
+  @keyframes deck-reveal {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .deck-scene,
+    .deck-card {
+      transition: none;
+    }
+    .deck-reveal,
+    .deck-flip-arrow {
+      animation: none;
+    }
+  }
+}

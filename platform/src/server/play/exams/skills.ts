@@ -1,0 +1,67 @@
+/** أسماء المهارات المعروضة في «نتائجي وتقدمي» (skill_id في خطوات المجموعات) */
+export const SKILL_LABELS: Record<string, string> = {
+  'ar.comprehension.link': 'فهم العلاقات بين الأفكار',
+  'ar.comprehension.evidence': 'الاستشهاد من النّصّ',
+  'ar.comprehension.purpose': 'تحديد الغرض',
+  'ar.comprehension.image': 'فهم الصّور في النّصّ',
+  'ar.comprehension.details': 'استخراج المضامين',
+  'ar.comprehension.explain': 'شرح الأبيات والعبارات',
+  'ar.comprehension.idea': 'الفكرة العامّة والأفكار الأساسيّة',
+  'ar.literature.tradition': 'مظاهر التّقليد',
+  'ar.literature.renewal': 'مظاهر التّجديد',
+  'ar.literature.context': 'السّياق الأدبيّ والتّاريخيّ',
+  'ar.text.type': 'نمط النّصّ ومؤشّراته',
+  'ar.grammar.irab': 'إعراب المفردات',
+  'ar.grammar.sentence_case': 'محلّ الجمل من الإعراب',
+  'ar.grammar.maqsur': 'المقصور والمنقوص والممدود',
+  'ar.grammar.mamnu': 'الممنوع من الصّرف',
+  'ar.grammar.rules': 'القواعد النّحويّة',
+  'ar.morphology': 'الصّرف',
+  'ar.rhetoric.metaphor': 'الاستعارة',
+  'ar.rhetoric.simile': 'التّشبيه',
+  'ar.rhetoric.metonymy': 'الكناية والمجاز',
+  'ar.rhetoric.effect': 'سرّ البلاغة',
+  'ar.rhetoric.badi': 'المحسّنات البديعيّة',
+  'ar.prosody': 'العروض والقافية',
+  'ar.cohesion.connectors': 'أدوات الرّبط',
+  'ar.cohesion.reference': 'الإحالة ومرجع الضّمير',
+  'ar.cohesion.effect': 'الاتّساق والانسجام',
+  'ar.writing.integration': 'الوضعيّة الإدماجيّة',
+  'ar.writing.summary': 'التّلخيص',
+  'ar.comprehension.emotion': 'العاطفة والمشاعر في النّصّ',
+  'ar.comprehension.opinion': 'إبداء الرّأي والتّعليل',
+  'ar.comprehension.values': 'القيم في النّصّ',
+  'ar.grammar.conditional': 'أسلوب الشّرط',
+  'ar.grammar.ighra': 'الإغراء والتّحذير',
+  'ar.grammar.styles': 'الأساليب النّحويّة',
+  'ar.grammar.taajjub': 'التّعجّب',
+  'ar.literature.features': 'خصائص النّصّ والعصر',
+  'ar.literature.genre': 'الفنّ الأدبيّ',
+  'ar.literature.hikma': 'شعر الحكمة',
+  'ar.literature.intertext': 'التّناصّ والاقتباس',
+  'ar.literature.prose': 'النّثر الفنّيّ',
+  'ar.literature.trend': 'المذاهب والاتّجاهات الأدبيّة',
+  'ar.rhetoric.insha': 'الأساليب الإنشائيّة',
+  'ar.rhetoric.itnab': 'الإيجاز والإطناب',
+  'ar.rhetoric.qasr': 'القصر',
+  'ar.rhetoric.style': 'الأسلوب الأدبيّ',
+  'ar.grammar.naat': 'النّعت',
+  'ar.grammar.badal': 'البدل',
+  'ar.grammar.nawasikh': 'النّواسخ',
+  'ar.grammar.tanith': 'تأنيث العامل وتذكيره',
+  'ar.grammar.ikhtisas': 'الاختصاص',
+  'ar.morphology.masdar': 'المصادر',
+  'ar.morphology.mubalagha': 'صيغ المبالغة',
+  'ar.morphology.ala': 'اسم الآلة',
+  'ar.writing.title': 'وضع العنوان',
+  'ar.writing.sentence': 'تركيب الجمل',
+  'ar.writing.forms': 'صياغة الأساليب'
+}
+
+const FAMILY: Record<string, string> = { comprehension: 'الفهم والتّحليل', literature: 'التّحليل الأدبيّ', text: 'النّصّ ونمطه', grammar: 'النّحو والإعراب', morphology: 'الصّرف', rhetoric: 'البلاغة', prosody: 'العروض', cohesion: 'الاتّساق والانسجام', writing: 'الكتابة' }
+
+/** اسم المهارة؛ لمعرّف جديد بلا اسم بعدُ يُعرض اسم عائلته (لا يظهر معرّف تقنيّ للتلميذ) */
+export function skillLabel(id: string | null | undefined): string {
+  if (!id) return 'مهارات أخرى'
+  return SKILL_LABELS[id] ?? FAMILY[id.split('.')[1] ?? ''] ?? 'مهارات أخرى'
+}

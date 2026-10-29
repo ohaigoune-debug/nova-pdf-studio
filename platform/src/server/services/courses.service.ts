@@ -3,6 +3,7 @@
  * في الفوج بمدة. كل ما يعمل على الأفواج (الدروس الموجّهة، الفيديو المحمي، القسم الافتراضي)
  * يعمل تلقائياً على الدورة؛ هنا فقط الإدارة، التفعيل، الانتهاء، والشروط.
  */
+import { buildCourseSections, type CourseSection } from '@/server/lib/course-sections'
 import { and, asc, desc, eq, gt, inArray, isNull, isNotNull, lt, ne, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import {
@@ -830,6 +831,8 @@ export type CourseHome =
       upcoming: { id: string; title: string; startsAt: Date; durationMinutes: number; provider: string }[]
       videos: CourseContentItem[]
       lessons: CourseContentItem[]
+      /** نفس العناصر مرتبة في أقسام: الحصص، الفيديوهات، الفروض، الاختبارات، الملفات (عرض فقط) */
+      sections: CourseSection<CourseContentItem>[]
       playHref: string
       classroomHref: string
     }
@@ -888,6 +891,7 @@ export async function courseHome(db: Db, actor: Actor, slug: string): Promise<Co
     upcoming,
     videos: items.filter((c) => c.type === 'VIDEO').map(toItem),
     lessons: items.filter((c) => c.type !== 'VIDEO').map(toItem),
+    sections: buildCourseSections(items.map(toItem)),
     playHref: playHrefForSubjectCode(row.subjectCode),
     classroomHref: `/student/classroom?group=${course.groupId}`
   }

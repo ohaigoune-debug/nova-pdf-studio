@@ -1,0 +1,44 @@
+name: iOS — Build 9 TestFlight upload
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/ios-app-foundation]
+    paths: ['.github/workflows/ios-testflight-upload.yml']
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: ios-testflight-build-9-upload
+  cancel-in-progress: false
+
+jobs:
+  upload:
+    if: github.repository == 'ohaigoune-debug/nova-pdf-studio' && github.ref == 'refs/heads/codex/ios-app-foundation' && github.event.repository.private == false
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Download the owner-approved successful signed IPA
+        uses: actions/download-artifact@v4
+        with:
+          name: Madrasadz-signed-IPA-30635ccf35e09d915f937f2595581fbd2c7b55bd
+          run-id: 40762419358
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/madrasadz-approved-ipa
+      - name: Validate and upload Build 9 to Apple
+        env:
+          MADRASADZ_ASC_PRIVATE_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_PRIVATE_KEY_BASE64 }}
+          MADRASADZ_ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_KEY_ID }}
+          MADRASADZ_ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
+        run: bash platform/ios/scripts/upload-testflight.sh "$RUNNER_TEMP/madrasadz-approved-ipa/Madrasadz.ipa"
+
+# Owner-approved internal replacement. Pinned signed Build 9 artifact 12848048222
+# (signed run 40762419358 on 30635cc). Unsigned run 40762419317 on the same source
+# passed Debug/Release, the public WebKit and public native tests in light and dark,
+# the core package (lesson model) and native UI including the lesson and collection
+# fixture tests. No rebuild, new invitation, App Review submission or release.

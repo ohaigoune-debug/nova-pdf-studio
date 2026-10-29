@@ -1,7 +1,7 @@
 import { Clock, Phone, PhoneCall, PhoneMissed } from 'lucide-react'
 import Link from 'next/link'
 import { CallConfirmForm } from '@/components/delivery/confirm-forms'
-import { OrderRowActions } from '@/components/domain/store-admin'
+import { OrderEditPanel, OrderRowActions } from '@/components/domain/store-admin'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,6 +14,7 @@ import type { OrderStatus } from '@/server/db/schema/enums'
 import { callPairingUrl, getCallConfirm, listCallEvents } from '@/server/services/call-confirm.service'
 import { ecotrackOperatorStatus, ecotrackStatus } from '@/server/services/ecotrack.service'
 import { ORDER_STATUS_AR } from '@/server/services/order-status.service'
+import { listStreams } from '@/server/services/reference.service'
 import { listConfirmationQueue, PAYMENT_AR, type PhoneHistory } from '@/server/services/store.service'
 
 export const dynamic = 'force-dynamic'
@@ -38,7 +39,8 @@ export default async function ConfirmQueuePage() {
   const actor = await requirePageActor('SUPER_ADMIN', 'CONFIRMER')
   const db = await getDb()
   const worker = actor.role === 'CONFIRMER'
-  const [queue, eco] = await Promise.all([listConfirmationQueue(db, actor), worker ? ecotrackOperatorStatus(db, actor) : ecotrackStatus(db)])
+  const [queue, eco, streamRows] = await Promise.all([listConfirmationQueue(db, actor), worker ? ecotrackOperatorStatus(db, actor) : ecotrackStatus(db), listStreams(db)])
+  const streamOptions = streamRows.map((r) => ({ id: r.id, name: r.nameAr }))
   const admin = worker ? null : await Promise.all([getCallConfirm(db), listCallEvents(db, actor, 30)])
   const cfg = admin?.[0]
   const events = admin?.[1] ?? []
@@ -102,9 +104,11 @@ export default async function ConfirmQueuePage() {
                     {o.totalDzd} دج · {PAYMENT_AR[o.paymentMethod as keyof typeof PAYMENT_AR]} · المحاولات {o.confirmAttempts}
                     {o.lastCallAt ? ` · آخر اتصال ${formatDateTime(o.lastCallAt)}` : ''}
                   </p>
+                  {o.streamName ? <p className="text-sm text-muted-foreground">الشعبة: {o.streamName}</p> : null}
                   <div className="mt-3">
                     <OrderRowActions id={o.id} status={o.status} needsShipping={o.needsShipping} ecotrack={eco.enabled} confirmer={worker} />
                   </div>
+                  <OrderEditPanel id={o.id} status={o.status} trackingId={o.deliveryTrackingId} streamId={o.streamId} subtotalDzd={o.subtotalDzd} shippingDzd={o.shippingDzd} streams={streamOptions} />
                 </li>
               ))}
             </ul>
@@ -141,6 +145,7 @@ export default async function ConfirmQueuePage() {
                     </TableCell>
                     <TableCell className="max-w-[260px] text-xs">
                       <span className="line-clamp-2">{o.itemsText || '—'}</span>
+                      {o.streamName ? <span className="block text-muted-foreground">الشعبة: {o.streamName}</span> : null}
                       {o.note ? <span className="block text-muted-foreground">ملاحظة: {o.note}</span> : null}
                     </TableCell>
                     <TableCell>
@@ -152,6 +157,7 @@ export default async function ConfirmQueuePage() {
                     </TableCell>
                     <TableCell>
                       <OrderRowActions id={o.id} status={o.status} needsShipping={o.needsShipping} ecotrack={eco.enabled} confirmer={worker} />
+                      <OrderEditPanel id={o.id} status={o.status} trackingId={o.deliveryTrackingId} streamId={o.streamId} subtotalDzd={o.subtotalDzd} shippingDzd={o.shippingDzd} streams={streamOptions} />
                     </TableCell>
                   </TableRow>
                 ))}

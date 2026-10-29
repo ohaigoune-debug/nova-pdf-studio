@@ -187,7 +187,8 @@ export function ShellClient({
             <Avatar name={actor.fullName} size="sm" />
           </div>
         </header>
-        <main className={cn("flex-1 px-4 py-6 lg:px-8 lg:py-8", actor.role === 'STUDENT' && "student-content")}>
+        {/* للتلميذ: الهامش السفلي من .student-content (100px فوق شريط التنقل الثابت في الهاتف)؛ py-6 كانت تلغيه فيُغطّي الشريط آخر عنصر في الصفحة */}
+        <main className={cn("flex-1 px-4 pt-6 lg:px-8 lg:pt-8", actor.role === 'STUDENT' ? "student-content" : "pb-6 lg:pb-8")}>
           <div className="mx-auto w-full max-w-7xl animate-fade-in">{children}</div>
         </main>
         {actor.role === 'STUDENT' ? (

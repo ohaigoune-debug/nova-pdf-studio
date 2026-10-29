@@ -8,6 +8,7 @@ import { ORDER_STATUSES, PRODUCT_STATUSES, PRODUCT_TYPES } from '@/server/db/sch
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
 import { uploadFile } from '@/server/services/files.service'
+import { adjustOrderAmount, banOrderCustomer, changeOrderStream } from '@/server/services/order-edit.service'
 import { attachProductFile, createProduct, deleteProduct, detachProductFile, downloadUrl, placeOrder, setOrderStatus, updateProduct, type ProductInput } from '@/server/services/store.service'
 
 const uuid = z.string().uuid()
@@ -142,14 +143,59 @@ export async function downloadUrlAction(orderId: string, productFileId: string):
   return runAction(async () => downloadUrl(await getDb(), await requireActor(), parsed.data.orderId, parsed.data.productFileId))
 }
 
-/** المشرف: كود تفعيل الدورة لطلب (حين لم يُفعِّل التسليمُ الدورةَ) — يُرسل بالـSMS للهاتف المختار ويُعرض للمشرف */
+/** المشرف والموظف: كود تفعيل الدورة لطلب (حين لم يُفعِّل التسليمُ الدورةَ) — يُرسل بالـSMS للهاتف المختار ويُعرض للمشرف */
 export async function sendActivationCodeAction(orderId: string, phone?: string | null): Promise<ActionResult<{ phone: string; codes: { courseTitle: string; code: string }[]; smsSent: boolean }>> {
   const parsed = z.object({ orderId: uuid, phone: z.string().trim().max(20).nullish() }).safeParse({ orderId, phone })
   if (!parsed.success) return failValidation(parsed.error)
   return runAction(async () => {
-    const actor = await requireRole('SUPER_ADMIN')
+    const actor = await requireRole('SUPER_ADMIN', 'CONFIRMER')
     const { sendActivationCode } = await import('@/server/services/course-activation.service')
     const r = await sendActivationCode(await getDb(), actor.userId, parsed.data.orderId, { phone: parsed.data.phone || null })
     return { phone: r.phone, codes: r.codes.map((c) => ({ courseTitle: c.courseTitle, code: c.code })), smsSent: r.smsSent }
   })
+}
+
+const reasonSchema = z.string().trim().min(3).max(300)
+
+/** المشرف والموظف: تغيير شعبة الطلب قبل الشحن */
+export async function changeOrderStreamAction(orderId: string, streamId: string): Promise<ActionResult> {
+  const parsed = z.object({ orderId: uuid, streamId: uuid }).safeParse({ orderId, streamId })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    await changeOrderStream(await getDb(), await requireRole('SUPER_ADMIN', 'CONFIRMER'), parsed.data.orderId, parsed.data.streamId)
+    return undefined
+  })
+  if (result.ok) revalidateOrders(orderId)
+  return result
+}
+
+/** المشرف والموظف: تغيير ثمن الطلب و/أو التوصيل قبل الشحن، بسبب إلزامي */
+export async function adjustOrderAmountAction(orderId: string, input: { subtotalDzd?: number | null; shippingDzd?: number | null; reason: string }): Promise<ActionResult> {
+  const amount = z.number().int().min(0).max(1_000_000).nullish()
+  const parsed = z.object({ orderId: uuid, subtotalDzd: amount, shippingDzd: amount, reason: reasonSchema }).safeParse({ orderId, ...input })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    await adjustOrderAmount(await getDb(), await requireRole('SUPER_ADMIN', 'CONFIRMER'), parsed.data.orderId, { subtotalDzd: parsed.data.subtotalDzd ?? null, shippingDzd: parsed.data.shippingDzd ?? null, reason: parsed.data.reason })
+    return undefined
+  })
+  if (result.ok) revalidateOrders(orderId)
+  return result
+}
+
+/** المشرف والموظف: حظر صاحب الطلب (إيقاف حسابه وإلغاء طلباته المفتوحة) */
+export async function banOrderCustomerAction(orderId: string, reason: string): Promise<ActionResult<{ cancelledOrders: number }>> {
+  const parsed = z.object({ orderId: uuid, reason: reasonSchema }).safeParse({ orderId, reason })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const r = await banOrderCustomer(await getDb(), await requireRole('SUPER_ADMIN', 'CONFIRMER'), parsed.data.orderId, parsed.data.reason)
+    return { cancelledOrders: r.cancelledOrders }
+  })
+  if (result.ok) revalidateOrders(orderId)
+  return result
+}
+
+function revalidateOrders(orderId: string) {
+  revalidatePath('/admin/store')
+  revalidatePath('/admin/store/confirm')
+  revalidatePath(`/store/orders/${orderId}`)
 }

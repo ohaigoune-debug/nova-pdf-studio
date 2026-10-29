@@ -114,6 +114,56 @@ export type PlayChallengeType = (typeof PLAY_CHALLENGE_TYPES)[number]
 export const PLAY_SESSION_STATUSES = ['ACTIVE', 'COMPLETED', 'ABANDONED', 'EXPIRED'] as const
 export type PlaySessionStatus = (typeof PLAY_SESSION_STATUSES)[number]
 
+/* ─────────── الفروض والاختبارات والبكالوريا (مجموعات تدريب مشتقة من مصادر أصلية) ─────────── */
+
+/** نوع المصدر الأصلي: بكالوريا، فرض، اختبار فصلي */
+export const PLAY_EXAM_KINDS = ['BAC', 'DEVOIR', 'TEST'] as const
+export type PlayExamKind = (typeof PLAY_EXAM_KINDS)[number]
+
+/**
+ * مسار التحويل (04_CONTENT_PIPELINE): discovered → extracted → linked → decomposed → generated → auto_validated
+ * → needs_human_review → approved → staged، و blocked عند فشل المصدر. لا يرى التلميذ إلا APPROVED/STAGED.
+ */
+export const PLAY_EXAM_SET_STATUSES = ['DISCOVERED', 'EXTRACTED', 'LINKED', 'DECOMPOSED', 'GENERATED', 'AUTO_VALIDATED', 'NEEDS_HUMAN_REVIEW', 'APPROVED', 'STAGED', 'BLOCKED'] as const
+export type PlayExamSetStatus = (typeof PLAY_EXAM_SET_STATUSES)[number]
+export const PLAY_EXAM_PUBLISHED_STATUSES: readonly PlayExamSetStatus[] = ['APPROVED', 'STAGED']
+
+/** تدريب بتغذية راجعة فورية، أو محاكاة امتحان بتصحيح مؤجل */
+export const PLAY_EXAM_MODES = ['PRACTICE', 'EXAM'] as const
+export type PlayExamMode = (typeof PLAY_EXAM_MODES)[number]
+
+export const PLAY_EXAM_ATTEMPT_STATUSES = ['ACTIVE', 'COMPLETED', 'ABANDONED'] as const
+export type PlayExamAttemptStatus = (typeof PLAY_EXAM_ATTEMPT_STATUSES)[number]
+
+/* ─────────── الوصول: مجاني لمشتركي الدورة الملائمة، وتجربة 72 ساعة لغيرهم ─────────── */
+
+/** مدة التجربة المجانية بالساعات، تبدأ من أول بدء لعب فعلي على الخادم، مرة واحدة لكل تلميذ */
+export const PLAY_TRIAL_HOURS = 72
+export const PLAY_TRIAL_MS = PLAY_TRIAL_HOURS * 3_600_000
+
+/**
+ * رموز مواد PLAY ← رموز مواد المنهاج (جدول subjects) لمطابقة الدورة بالمادة.
+ * التاريخ والجغرافيا مادة واحدة في المنهاج (HISTGEO) ومادتان في PLAY.
+ */
+export const PLAY_TO_CURRICULUM_SUBJECT: Readonly<Record<string, readonly string[]>> = {
+  AR: ['ARABIC'],
+  MATH: ['MATH'],
+  PHYS: ['PHYSICS'],
+  SVT: ['SCIENCES'],
+  FR: ['FRENCH'],
+  EN: ['ENGLISH'],
+  HIST: ['HISTGEO'],
+  GEO: ['HISTGEO'],
+  ISL: ['ISLAMIC'],
+  CIV: ['CIVIC'],
+  PHILO: ['PHILO'],
+  ECO: ['ECONOMICS'],
+  ACC: ['ACCOUNTING'],
+  LAW: ['LAW'],
+  TECH: ['TECHNOLOGY', 'TECH_CIVIL', 'TECH_MECA', 'TECH_ELEC', 'TECH_PROC', 'SCI_TECH'],
+  INFO: ['COMPUTING']
+}
+
 export const PLAY_REPORT_STATUSES = ['OPEN', 'RESOLVED', 'DISMISSED'] as const
 export type PlayReportStatus = (typeof PLAY_REPORT_STATUSES)[number]
 

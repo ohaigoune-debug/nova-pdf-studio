@@ -1,0 +1,38 @@
+{
+  "checked_at": "2026-10-26T19:10:41.286079+00:00",
+  "method": "Unauthenticated HTTPS GET, verified TLS, study-only request header; no direct database access",
+  "checks": [
+    {
+      "path": "/ios",
+      "status": 404,
+      "seconds": 6.95,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/api/v1/ios/session",
+      "status": 404,
+      "seconds": 6.731,
+      "content_type": "text/html; charset=utf-8"
+    }
+  ],
+  "scope": "Public endpoint presence only; elapsed times are observations from this environment, not an on-device performance benchmark. No write endpoints called.",
+  "source_reviewed": "9c1f89f9dfdcbd04ada13ff4e25d42a5183a9a48",
+  "ios_binary_source": "b3a268c27166c36fab858550ae4d124a686bcda1",
+  "baseline_checks_without_study_header": [
+    {
+      "path": "/ios",
+      "status": 404,
+      "seconds": 6.576
+    },
+    {
+      "path": "/api/v1/ios/session",
+      "status": 404,
+      "seconds": 7.267
+    },
+    {
+      "path": "/login",
+      "status": 200,
+      "seconds": 7.327
+    }
+  ]
+}

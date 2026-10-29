@@ -113,7 +113,8 @@ export interface ActivationCodeResult {
  * الطلب يجب أن يكون مسلَّماً (أو مؤكَّداً/في الطريق لمن دفع مسبقاً)؛ الملغى والمرتجع ممنوعان.
  */
 export async function sendActivationCode(db: Db, actorUserId: string, orderId: string, opts: { phone?: string | null } = {}): Promise<ActivationCodeResult> {
-  const [admin] = await db.select({ id: users.id }).from(users).where(and(eq(users.id, actorUserId), eq(users.role, 'SUPER_ADMIN'), eq(users.status, 'ACTIVE'), isNull(users.deletedAt))).limit(1)
+  // المشرف، وموظف التأكيد بقرار المالك (2026-10-28)؛ الحساب نشط وغير محذوف.
+  const [admin] = await db.select({ id: users.id }).from(users).where(and(eq(users.id, actorUserId), inArray(users.role, ['SUPER_ADMIN', 'CONFIRMER']), eq(users.status, 'ACTIVE'), isNull(users.deletedAt))).limit(1)
   if (!admin) throw new AppError('FORBIDDEN')
   const [order] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1)
   if (!order) throw new AppError('ORDER_NOT_FOUND')

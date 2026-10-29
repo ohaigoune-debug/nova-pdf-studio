@@ -21,11 +21,19 @@ import { addTimeline } from './timeline.service'
 
 export const MEDIA_URL_TTL_SECONDS = 4 * 3600
 export const ANON_VIEWER = 'anon'
-const DEVICE_WINDOW_MS = 10 * 60_000
+/**
+ * قرار المالك (2026-10-28): جهاز واحد فقط يشاهد في كل الأحوال، ولا يُغيَّر من البيئة.
+ * الجهاز يُعرَف بمفتاحه الثابت في المتصفح/التطبيق (لا بعنوان الشبكة)، فتغيّر الشبكة لا يحجبه،
+ * وجهاز ثانٍ على الشبكة نفسها لا يمرّ.
+ */
+export const MAX_CONCURRENT_DEVICES = 1
+/** جهاز توقّف عن النبض أكثر من دقيقتين يُعدّ مغلقًا (النبضة كل 15 ثانية أثناء المشاهدة) */
+export const DEVICE_WINDOW_MS = 2 * 60_000
+/** تقرير الأستاذ: أكثر من عنوانين مختلفين خلال 24 ساعة ⇒ اشتباه مشاركة (تغيّر شبكة الهاتف وحده طبيعي) */
+export const SHARING_FLAG_IPS = 2
 
 export function maxConcurrentDevices(): number {
-  const n = Number(process.env.MEDIA_MAX_DEVICES ?? 2)
-  return Number.isFinite(n) && n >= 1 ? Math.floor(n) : 2
+  return MAX_CONCURRENT_DEVICES
 }
 
 function secret() {
@@ -184,8 +192,8 @@ export async function recordMediaHeartbeat(db: Db, actor: Actor, input: Heartbea
     .select({ ip: mediaViews.ip, viewerKey: mediaViews.viewerKey })
     .from(mediaViews)
     .where(and(eq(mediaViews.userId, actor.userId), gt(mediaViews.lastSeenAt, new Date(now.getTime() - DEVICE_WINDOW_MS))))
-  const activeIps = new Set(recent.filter((r) => r.viewerKey !== viewerKey).map((r) => r.ip ?? 'unknown'))
-  if (ip && !activeIps.has(ip) && activeIps.size >= maxConcurrentDevices()) throw new AppError('MEDIA_TOO_MANY_DEVICES')
+  const otherDevices = new Set(recent.filter((r) => r.viewerKey !== viewerKey).map((r) => r.viewerKey))
+  if (otherDevices.size >= maxConcurrentDevices()) throw new AppError('MEDIA_TOO_MANY_DEVICES')
 
   const delta = Math.max(0, Math.min(Math.floor(input.delta), 120))
   const position = Math.max(0, Math.floor(input.position))
@@ -298,7 +306,7 @@ export async function listContentViews(db: Db, actor: Actor, contentId: string):
       completed: r.completed,
       distinctIps: r.distinctIps,
       lastSeenAt: new Date(r.lastSeenAt),
-      flagged: r.recentIps > maxConcurrentDevices()
+      flagged: r.recentIps > SHARING_FLAG_IPS
     }))
   }
 }

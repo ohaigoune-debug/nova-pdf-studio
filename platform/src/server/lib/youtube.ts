@@ -29,8 +29,10 @@ export function parseYoutubeId(input: string): string | null {
 }
 
 /** رابط التضمين بخصوصية معزّزة (بلا كوكيز تتبّع) وبلا اقتراحات فيديوهات خارجية */
-export function youtubeEmbedUrl(id: string): string {
+export function youtubeEmbedUrl(id: string, opts: { protectedPlayer?: boolean } = {}): string {
   const p = new URLSearchParams({ rel: '0', modestbranding: '1', playsinline: '1', iv_load_policy: '3', color: 'white' })
+  // المشغّل المحمي: بلا زر الشاشة الكاملة الأصلية (تُسقط العلامة المائية)؛ التكبير من زرّ المنصة
+  if (opts.protectedPlayer) p.set('fs', '0')
   return `https://www.youtube-nocookie.com/embed/${id}?${p.toString()}`
 }
 

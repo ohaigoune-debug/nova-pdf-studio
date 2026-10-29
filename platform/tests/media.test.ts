@@ -12,7 +12,7 @@ import { generateCodes } from '@/server/services/enrollment-codes.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 import { completeUpload, createUploadTicket, receiveUploadStream, uploadFile, verifyUploadSignature } from '@/server/services/files.service'
 import { createGroup } from '@/server/services/groups.service'
-import { listContentViews, recordMediaHeartbeat, resolveMediaAccess, signMediaUrl, stampPdf, verifyMediaSignature } from '@/server/services/media.service'
+import { DEVICE_WINDOW_MS, listContentViews, maxConcurrentDevices, recordMediaHeartbeat, resolveMediaAccess, signMediaUrl, stampPdf, verifyMediaSignature } from '@/server/services/media.service'
 import { makeAdmin, makeStudent, makeTeacher, setupDb } from './helpers'
 
 let h: DatabaseHandle
@@ -38,7 +38,6 @@ async function tinyPdf(): Promise<Buffer> {
 
 beforeAll(async () => {
   process.env.UPLOADS_DIR = `data/test-uploads-media-${Date.now()}`
-  process.env.MEDIA_MAX_DEVICES = '2'
   h = await setupDb()
   admin = await makeAdmin(h.db)
   teacher = await makeTeacher(h.db, admin, 'أستاذ الوسائط')
@@ -147,22 +146,31 @@ describe('الوسائط الخاصة: روابط موقّعة بهوية الم
     await updateContent(h.db, teacher, c.id, { allowDownload: false })
   })
 
-  it('نبضات المشاهدة: سجل لكل جهاز، الخط الزمني مرة واحدة، وحدّ الأجهزة المتزامنة', async () => {
+  it('نبضات المشاهدة: سجل لكل جهاز، الخط الزمني مرة واحدة، وجهاز واحد فقط في كل الأحوال', async () => {
+    expect(maxConcurrentDevices()).toBe(1)
+    process.env.MEDIA_MAX_DEVICES = '5' // لا تغيّره البيئة (قرار المالك)
+    expect(maxConcurrentDevices()).toBe(1)
+    delete process.env.MEDIA_MAX_DEVICES
     const t0 = new Date('2026-10-01T10:00:00Z')
+    const at = (ms: number) => new Date(t0.getTime() + ms)
     const r1 = await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-a-000001', position: 0, delta: 0, ip: '10.0.0.1', now: t0 })
     expect(r1.first).toBe(true)
-    await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-a-000001', position: 30, delta: 15, ip: '10.0.0.1', now: new Date(t0.getTime() + 15_000) })
-    await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-a-000001', position: 45, delta: 15, ip: '10.0.0.1', now: new Date(t0.getTime() + 30_000) })
-    // جهاز ثانٍ بعنوان آخر: مسموح (الحد 2)
-    await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-b-000002', position: 5, delta: 5, ip: '10.0.0.2', now: new Date(t0.getTime() + 40_000) })
-    // جهاز ثالث بعنوان ثالث خلال النافذة: مرفوض
-    await expectCode(() => recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-c-000003', position: 0, delta: 0, ip: '10.0.0.3', now: new Date(t0.getTime() + 50_000) }), 'MEDIA_TOO_MANY_DEVICES')
-    // نفس العنوان لجهاز ثالث (نفس الشبكة): مسموح
-    await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-d-000004', position: 0, delta: 0, ip: '10.0.0.1', now: new Date(t0.getTime() + 55_000) })
-    // بعد انقضاء النافذة يُقبل عنوان جديد
-    await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-c-000003', position: 0, delta: 0, ip: '10.0.0.3', now: new Date(t0.getTime() + 20 * 60_000) })
-    // الدلتا محدودة بـ 120 ثانية
-    await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-a-000001', position: 600, delta: 9999, ip: '10.0.0.1', completed: true, now: new Date(t0.getTime() + 21 * 60_000) })
+    await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-a-000001', position: 30, delta: 15, ip: '10.0.0.1', now: at(15_000) })
+    await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-a-000001', position: 45, delta: 15, ip: '10.0.0.1', now: at(30_000) })
+    // جهاز ثانٍ بعنوان آخر: مرفوض
+    await expectCode(() => recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-b-000002', position: 5, delta: 5, ip: '10.0.0.2', now: at(40_000) }), 'MEDIA_TOO_MANY_DEVICES')
+    // جهاز ثانٍ على الشبكة نفسها: مرفوض أيضًا (جهاز واحد في كل الأحوال)
+    await expectCode(() => recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-d-000004', position: 0, delta: 0, ip: '10.0.0.1', now: at(45_000) }), 'MEDIA_TOO_MANY_DEVICES')
+    // الجهاز نفسه بعد تغيّر شبكته (وايفاي ← 4G): مسموح
+    await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-a-000001', position: 50, delta: 0, ip: '10.0.0.9', now: at(55_000) })
+    // قبل مرور دقيقتين على آخر نبضة للجهاز الأول: ما زال مرفوضًا
+    await expectCode(() => recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-c-000003', position: 0, delta: 0, ip: '10.0.0.3', now: at(55_000 + DEVICE_WINDOW_MS - 1_000) }), 'MEDIA_TOO_MANY_DEVICES')
+    // بعد توقّف الجهاز الأول أكثر من دقيقتين: يُقبل جهاز آخر
+    await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-c-000003', position: 0, delta: 0, ip: '10.0.0.3', now: at(55_000 + DEVICE_WINDOW_MS + 1_000) })
+    // ...والجهاز الأول صار هو المرفوض ما دام الثاني يشاهد
+    await expectCode(() => recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-a-000001', position: 60, delta: 15, ip: '10.0.0.1', now: at(55_000 + DEVICE_WINDOW_MS + 20_000) }), 'MEDIA_TOO_MANY_DEVICES')
+    // الدلتا محدودة بـ 120 ثانية (بعد أن توقّف الجهاز الثاني)
+    await recordMediaHeartbeat(h.db, student, { contentId, viewerKey: 'device-a-000001', position: 600, delta: 9999, ip: '10.0.0.1', completed: true, now: at(21 * 60_000) })
     const rows = await h.db.select().from(mediaViews).where(eq(mediaViews.userId, student.userId))
     const a = rows.find((r) => r.viewerKey === 'device-a-000001')!
     expect(a.secondsWatched).toBe(15 + 15 + 120)
@@ -178,8 +186,9 @@ describe('الوسائط الخاصة: روابط موقّعة بهوية الم
     const report = await listContentViews(h.db, teacher, contentId)
     expect(report.title).toBe('فيديو خاص للفوج')
     expect(report.rows).toHaveLength(1)
-    expect(report.rows[0]?.sessions).toBe(4)
-    expect(report.rows[0]?.distinctIps).toBe(3)
+    expect(report.rows[0]?.sessions).toBe(2)
+    expect(report.rows[0]?.distinctIps).toBe(2)
+    expect(report.rows[0]?.flagged).toBe(false) // عنوانان فقط: تغيّر شبكة طبيعي
     expect(report.rows[0]?.completed).toBe(true)
     await expectCode(() => listContentViews(h.db, teacherB, contentId), 'CONTENT_NOT_FOUND')
     await expectCode(() => listContentViews(h.db, student, contentId), 'FORBIDDEN')

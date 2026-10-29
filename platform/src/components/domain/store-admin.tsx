@@ -1,12 +1,13 @@
 'use client'
 
-import { Archive, CheckCircle2, Clock, Eye, EyeOff, KeyRound, PackageCheck, PhoneMissed, RotateCcw, Send, Trash2, Truck, Undo2, XCircle } from 'lucide-react'
+import { Archive, Ban, CheckCircle2, Clock, Eye, EyeOff, KeyRound, PackageCheck, PencilLine, PhoneMissed, RotateCcw, Send, Trash2, Truck, Undo2, XCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button'
+import { Input, Select } from '@/components/ui/input'
 import { toast } from '@/components/ui/toast'
 import { sendToEcotrackAction } from '@/server/actions/ecotrack.actions'
-import { deleteProductAction, sendActivationCodeAction, setOrderStatusAction, setProductStatusAction } from '@/server/actions/store.actions'
+import { adjustOrderAmountAction, banOrderCustomerAction, changeOrderStreamAction, deleteProductAction, sendActivationCodeAction, setOrderStatusAction, setProductStatusAction } from '@/server/actions/store.actions'
 
 export function ProductRowActions({ id, status }: { id: string; status: string }) {
   const router = useRouter()
@@ -97,9 +98,9 @@ export function OrderRowActions({ id, status, needsShipping, ecotrack = false, p
           <Truck className="size-4" /> شُحن
         </Button>
       ) : null}
-      {!confirmer && (status === 'CONFIRMED' || status === 'SHIPPED') ? (
-        <Button size="sm" variant="outline" loading={pending} onClick={() => go('DELIVERED')} title="سُلِّم: يفعّل الدورة المرتبطة بالكتاب">
-          <PackageCheck className="size-4" /> سُلّم
+      {status === 'CONFIRMED' || status === 'SHIPPED' ? (
+        <Button size="sm" variant="outline" loading={pending} onClick={() => confirm('تأكيد التسليم واستلام المبلغ؟ تُفعَّل الدورة والملفات المرتبطة بالطلب.') && go('DELIVERED')} title="سُلِّم: استلام المبلغ وتفعيل الدورة المرتبطة">
+          <PackageCheck className="size-4" /> سُلّم وتفعيل
         </Button>
       ) : null}
       {!confirmer && status === 'SHIPPED' ? (
@@ -112,7 +113,7 @@ export function OrderRowActions({ id, status, needsShipping, ecotrack = false, p
           <XCircle className="size-4 text-destructive" />
         </Button>
       ) : null}
-      {!confirmer && (status === 'DELIVERED' || status === 'SHIPPED') ? (
+      {status === 'DELIVERED' || (!confirmer && status === 'SHIPPED') ? (
         <Button size="sm" variant="ghost" loading={pending} onClick={activationCode} title="لم تُفعَّل الدورة؟ أرسل كود تفعيل لهاتف التلميذ أو وليّه">
           <KeyRound className="size-4" /> كود تفعيل
         </Button>
@@ -123,5 +124,93 @@ export function OrderRowActions({ id, status, needsShipping, ecotrack = false, p
         </Button>
       ) : null}
     </div>
+  )
+}
+
+const EDITABLE = ['PENDING', 'NO_ANSWER', 'CALL_LATER', 'CONFIRMED']
+
+/**
+ * تعديل الطلب أثناء التأكيد (المشرف والموظف): الشعبة، والمبلغ بسبب إلزامي، وحظر صاحب الطلب.
+ * الخادم يعيد كل الفحوص (قبل الشحن، أدوار الزبائن، السبب)؛ هذه الواجهة لا تمنح صلاحية.
+ */
+export function OrderEditPanel({ id, status, trackingId, streamId, subtotalDzd, shippingDzd, streams }: { id: string; status: string; trackingId: string | null; streamId: string | null; subtotalDzd: number; shippingDzd: number; streams: { id: string; name: string }[] }) {
+  const router = useRouter()
+  const [pending, start] = useTransition()
+  const [stream, setStream] = useState(streamId ?? '')
+  const [subtotal, setSubtotal] = useState(String(subtotalDzd))
+  const [shipping, setShipping] = useState(String(shippingDzd))
+  const [reason, setReason] = useState('')
+  const editable = EDITABLE.includes(status) && !trackingId
+  const done = (r: { ok: boolean; error?: { message: string } }, message: string) => {
+    if (!r.ok) return toast('error', r.error!.message)
+    toast('success', message)
+    router.refresh()
+  }
+  const saveStream = () => start(async () => done(await changeOrderStreamAction(id, stream), 'حُدّثت شعبة الطلب'))
+  const saveAmount = () =>
+    start(async () => {
+      const s = Number(subtotal)
+      const sh = Number(shipping)
+      if (!Number.isInteger(s) || s < 0 || !Number.isInteger(sh) || sh < 0) return toast('error', 'أدخل مبلغًا صحيحًا بالدينار.')
+      if (reason.trim().length < 3) return toast('error', 'اكتب سبب تغيير المبلغ.')
+      const r = await adjustOrderAmountAction(id, { subtotalDzd: s, shippingDzd: sh, reason: reason.trim() })
+      if (r.ok) setReason('')
+      done(r, 'حُدّث مبلغ الطلب')
+    })
+  const ban = () =>
+    start(async () => {
+      const why = prompt('سبب الحظر (يُسجَّل، ويُلغي طلبات هذا الزبون التي لم تُشحن):')
+      if (why === null) return
+      if (!confirm('إيقاف حساب هذا الزبون؟ لن يستطيع الدخول أو الطلب حتى يرفع المشرف الحظر.')) return
+      const r = await banOrderCustomerAction(id, why)
+      if (!r.ok) return toast('error', r.error.message)
+      toast('success', `حُظر الزبون${r.data.cancelledOrders ? ` وأُلغي ${r.data.cancelledOrders} طلب مفتوح` : ''}`)
+      router.refresh()
+    })
+  const total = (Number(subtotal) || 0) + (Number(shipping) || 0)
+  return (
+    <details className="mt-2 rounded-md border bg-muted/40 px-3 py-2 text-sm">
+      <summary className="flex min-h-11 cursor-pointer items-center gap-2 font-semibold">
+        <PencilLine className="size-4" aria-hidden /> تعديل الطلب
+      </summary>
+      <div className="space-y-4 py-2">
+        {editable ? (
+          <>
+            <div className="flex flex-wrap items-end gap-2">
+              <label className="min-w-40 flex-1 space-y-1">
+                <span className="text-xs text-muted-foreground">الشعبة</span>
+                <Select value={stream} onChange={(e) => setStream(e.target.value)} aria-label="الشعبة">
+                  <option value="" disabled>اختر الشعبة</option>
+                  {streams.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+                </Select>
+              </label>
+              <Button size="sm" variant="outline" loading={pending} disabled={!stream || stream === streamId} onClick={saveStream}>حفظ الشعبة</Button>
+            </div>
+            <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-2">
+                <label className="space-y-1">
+                  <span className="text-xs text-muted-foreground">ثمن الطلب (دج)</span>
+                  <Input inputMode="numeric" dir="ltr" value={subtotal} onChange={(e) => setSubtotal(e.target.value.replace(/[^0-9]/g, ''))} aria-label="ثمن الطلب" />
+                </label>
+                <label className="space-y-1">
+                  <span className="text-xs text-muted-foreground">التوصيل (دج)</span>
+                  <Input inputMode="numeric" dir="ltr" value={shipping} onChange={(e) => setShipping(e.target.value.replace(/[^0-9]/g, ''))} aria-label="رسوم التوصيل" />
+                </label>
+              </div>
+              <Input value={reason} onChange={(e) => setReason(e.target.value)} placeholder="سبب التغيير (إلزامي)" maxLength={300} aria-label="سبب تغيير المبلغ" />
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs text-muted-foreground">الإجمالي الجديد: <b className="text-foreground">{total} دج</b></span>
+                <Button size="sm" variant="outline" loading={pending} onClick={saveAmount}>حفظ المبلغ</Button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <p className="text-xs text-muted-foreground">الشعبة والمبلغ لا يُعدَّلان بعد الشحن أو التسليم أو الإلغاء.</p>
+        )}
+        <Button size="sm" variant="ghost" className="text-destructive" loading={pending} onClick={ban} title="إيقاف حساب الزبون وإلغاء طلباته التي لم تُشحن">
+          <Ban className="size-4" /> حظر الزبون
+        </Button>
+      </div>
+    </details>
   )
 }

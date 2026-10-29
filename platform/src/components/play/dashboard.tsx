@@ -18,7 +18,7 @@ export function PlayDashboard({ data, studentName }: { data: Dashboard; studentN
   return (
     <div className="space-y-6">
       {/* البطاقة الرئيسية */}
-      <section className="relative overflow-hidden rounded-3xl border bg-gradient-to-br from-primary/15 via-card to-accent/10 p-5 shadow-sm sm:p-6">
+      <section id="play-standing" className="relative scroll-mt-24 overflow-hidden rounded-3xl border bg-gradient-to-br from-primary/15 via-card to-accent/10 p-5 shadow-sm sm:p-6">
         <div className="pointer-events-none absolute -end-10 -top-10 size-40 rounded-full bg-primary/10 blur-2xl" aria-hidden />
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
           <ProgressRing value={data.level.progressPct} size={112} stroke={11} tone="accent">
@@ -95,7 +95,7 @@ export function PlayDashboard({ data, studentName }: { data: Dashboard; studentN
       </section>
 
       {/* المواد */}
-      <section className="space-y-3">
+      <section id="play-stats" className="scroll-mt-24 space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-extrabold">موادك</h2>
           <TimedToggle value={timed} onChange={setTimed} />

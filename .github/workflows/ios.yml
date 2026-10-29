@@ -1,0 +1,70 @@
+name: iOS — unsigned validation
+
+# Standard macOS runners are free for public repositories. The job refuses private repos.
+# Only iOS branch changes trigger this workflow; nothing is merged, signed or distributed.
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/ios-app-foundation]
+    paths:
+      - '.github/workflows/ios.yml'
+      - 'platform/ios/**'
+      - '!platform/ios/docs/**'
+      - '!platform/ios/README.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  # Keep the reproduction run when a candidate fix is pushed; cancel only a
+  # duplicate validation of the same source commit.
+  group: ios-validation-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  simulator:
+    if: github.event.repository.private == false
+    runs-on: macos-26
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect installed Xcode
+        run: bash platform/ios/scripts/check-xcode.sh
+      - name: Build unsigned Debug Simulator application
+        run: bash platform/ios/scripts/build-unsigned.sh Debug
+      - name: Build unsigned Release Simulator application
+        run: bash platform/ios/scripts/build-unsigned.sh Release
+      - name: Test public WebKit foreground/login navigation without an account (light)
+        id: public_light
+        run: bash platform/ios/scripts/test-public-navigation.sh light
+      - name: Test public WebKit foreground/login navigation without an account (dark)
+        # Also run when the light case failed, to compare appearances.
+        if: always() && (steps.public_light.outcome == 'success' || steps.public_light.outcome == 'failure')
+        run: bash platform/ios/scripts/test-public-navigation.sh dark
+      - name: Test core package and native UI on an installed iPhone Simulator
+        if: always() && (steps.public_light.outcome == 'success' || steps.public_light.outcome == 'failure')
+        run: bash platform/ios/scripts/test-ios.sh auto Debug
+      - name: Export genuine Simulator screenshot attachments
+        if: always()
+        run: |
+          for result in platform/ios/build/*.xcresult; do
+            if [ -d "$result" ]; then
+              xcrun xcresulttool export attachments --path "$result" --output-path "$result-attachments"
+            fi
+          done
+      - name: Surface test failures and the no-account technical log as annotations
+        if: always()
+        run: python3 platform/ios/scripts/annotate-xcresults.py platform/ios/build
+      - name: Retain Simulator diagnostics and genuine screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Madrasadz-Simulator-diagnostics-${{ github.sha }}
+          path: |
+            platform/ios/build/*.xcresult
+            platform/ios/build/*-attachments/
+          retention-days: 1
+          if-no-files-found: ignore
+
+# No App Store Connect API keys, signing certificates, provisioning profiles, archive export,
+# TestFlight upload, App Store submission, deployment, or artifact-distribution step.

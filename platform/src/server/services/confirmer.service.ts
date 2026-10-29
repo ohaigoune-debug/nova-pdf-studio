@@ -1,4 +1,4 @@
-import { and, desc, eq, gte, sql } from 'drizzle-orm'
+import { and, desc, eq, gte, inArray, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { auditLogs, orders, profiles, users } from '@/server/db/schema'
 import { hashPassword, isStrongEnough } from '@/server/auth/password'
@@ -40,29 +40,47 @@ export async function listConfirmers(db: Db, actor: Actor) {
     .from(users).leftJoin(profiles, eq(profiles.userId, users.id)).where(eq(users.role, 'CONFIRMER')).orderBy(desc(users.createdAt))
 }
 
-/** كل تغيير حالة قام به موظف (من سجلّ التدقيق الذي يكتبه محرّك الحالات): من، متى، أي طلب، من أي حالة إلى أي حالة */
+/** إجراءات الموظف المسجَّلة في التدقيق: الحالة، وتعديلات الطلب (قرار المالك 2026-10-28)، وكود التفعيل */
+const ACTIVITY_ACTIONS = ['store.order_status', 'store.order_stream', 'store.order_amount', 'store.customer_ban', 'course.activation_code_sent'] as const
+export type ConfirmerActivityKind = 'status' | 'stream' | 'amount' | 'ban' | 'code'
+const KIND: Record<(typeof ACTIVITY_ACTIONS)[number], ConfirmerActivityKind> = { 'store.order_status': 'status', 'store.order_stream': 'stream', 'store.order_amount': 'amount', 'store.customer_ban': 'ban', 'course.activation_code_sent': 'code' }
+
+/** كل ما قام به موظف (من سجلّ التدقيق): من، متى، أي طلب، وما الذي تغيّر */
 export async function listConfirmerActivity(db: Db, actor: Actor, limit = 100) {
   assertRole(actor, 'SUPER_ADMIN')
   const rows = await db
-    .select({ id: auditLogs.id, at: auditLogs.createdAt, employeeId: users.id, employeeName: profiles.fullName, employeeEmail: users.email, orderId: auditLogs.entityId, orderNumber: orders.number, oldValue: auditLogs.oldValue, newValue: auditLogs.newValue })
+    .select({ id: auditLogs.id, at: auditLogs.createdAt, action: auditLogs.action, employeeId: users.id, employeeName: profiles.fullName, employeeEmail: users.email, entityId: auditLogs.entityId, orderNumber: orders.number, oldValue: auditLogs.oldValue, newValue: auditLogs.newValue })
     .from(auditLogs)
     .innerJoin(users, eq(users.id, auditLogs.actorUserId))
     .leftJoin(profiles, eq(profiles.userId, users.id))
     .leftJoin(orders, eq(orders.id, auditLogs.entityId))
-    .where(and(eq(auditLogs.action, 'store.order_status'), eq(users.role, 'CONFIRMER')))
+    .where(and(inArray(auditLogs.action, [...ACTIVITY_ACTIONS]), eq(users.role, 'CONFIRMER')))
     .orderBy(desc(auditLogs.createdAt))
     .limit(Math.min(Math.max(Math.trunc(limit), 1), 300))
-  return rows.map((r) => ({
-    id: r.id,
-    at: r.at,
-    employeeId: r.employeeId,
-    employee: r.employeeName ?? r.employeeEmail,
-    orderId: r.orderId,
-    orderNumber: r.orderNumber,
-    from: (r.oldValue as { status?: string } | null)?.status ?? null,
-    to: (r.newValue as { status?: string } | null)?.status ?? null,
-    reason: (r.newValue as { reason?: string | null } | null)?.reason ?? null
-  }))
+  return rows.map((r) => {
+    const oldV = (r.oldValue ?? {}) as Record<string, unknown>
+    const newV = (r.newValue ?? {}) as Record<string, unknown>
+    const kind = KIND[r.action as (typeof ACTIVITY_ACTIONS)[number]] ?? 'status'
+    const detail = kind === 'amount' ? `المبلغ ${String(oldV.totalDzd ?? '?')} ← ${String(newV.totalDzd ?? '?')} دج`
+      : kind === 'stream' ? 'تغيير الشعبة'
+        : kind === 'ban' ? 'حظر الزبون'
+          : kind === 'code' ? 'كود تفعيل الدورة'
+            : null
+    return {
+      id: r.id,
+      at: r.at,
+      kind,
+      employeeId: r.employeeId,
+      employee: r.employeeName ?? r.employeeEmail,
+      // الحظر يُسجَّل على حساب الزبون؛ رقم الطلب محفوظ في القيمة الجديدة
+      orderId: kind === 'ban' ? (typeof newV.orderId === 'string' ? newV.orderId : null) : r.entityId,
+      orderNumber: kind === 'ban' ? (typeof newV.orderNumber === 'string' ? newV.orderNumber : null) : r.orderNumber ?? (typeof newV.orderNumber === 'string' ? newV.orderNumber : null),
+      from: kind === 'status' ? ((oldV.status as string | undefined) ?? null) : null,
+      to: kind === 'status' ? ((newV.status as string | undefined) ?? null) : null,
+      detail,
+      reason: (newV.reason as string | null | undefined) ?? null
+    }
+  })
 }
 
 /** ملخّص كل موظف منذ تاريخ: عدد الطلبات التي أكّدها أو ألغاها أو سجّل فيها «لا يردّ/لاحقاً» */

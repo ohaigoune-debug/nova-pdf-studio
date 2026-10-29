@@ -1,0 +1,816 @@
+source_kind,location,level,stream,subject,year,term,paper,type,count,with_correction,status,notes
+play_bank,content/play,1AS,ALL,AR,,,,FILL_BLANK,56,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,AR,,,,MCQ,83,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,AR,,,,MCQ,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,EN,,,,FILL_BLANK,35,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,EN,,,,MCQ,55,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,FR,,,,FILL_BLANK,36,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,FR,,,,MCQ,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,GEO,,,,FILL_BLANK,22,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,GEO,,,,MCQ,38,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,HIST,,,,FILL_BLANK,23,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,HIST,,,,FILL_BLANK,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,HIST,,,,MCQ,36,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,INFO,,,,FILL_BLANK,8,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,INFO,,,,MCQ,12,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,ISL,,,,FILL_BLANK,18,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,ISL,,,,MCQ,32,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,PHYS,,,,FILL_BLANK,46,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,PHYS,,,,MCQ,64,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,SVT,,,,FILL_BLANK,45,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,ALL,SVT,,,,MCQ,65,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_LIT,MATH,,,,FILL_BLANK,17,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_LIT,MATH,,,,MCQ,27,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_SCI,MATH,,,,FILL_BLANK,39,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_SCI,MATH,,,,MCQ,56,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_SCI,TECH,,,,FILL_BLANK,11,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,1AS,TC_SCI,TECH,,,,MCQ,19,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,EN,,,,FILL_BLANK,43,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,EN,,,,MCQ,67,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,FR,,,,FILL_BLANK,40,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,FR,,,,MCQ,70,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,GEO,,,,FILL_BLANK,28,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,GEO,,,,FILL_BLANK,2,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,GEO,,,,MCQ,40,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,HIST,,,,FILL_BLANK,32,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,HIST,,,,FILL_BLANK,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,HIST,,,,MCQ,47,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,ISL,,,,FILL_BLANK,23,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,ISL,,,,FILL_BLANK,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,ISL,,,,MCQ,35,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,ISL,,,,MCQ,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,PHILO,,,,FILL_BLANK,36,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,ALL,PHILO,,,,MCQ,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,ACC,,,,FILL_BLANK,15,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,ACC,,,,MCQ,24,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,ACC,,,,MCQ,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,ECO,,,,FILL_BLANK,20,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,ECO,,,,MCQ,30,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,LAW,,,,FILL_BLANK,10,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,LAW,,,,MCQ,10,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,MATH,,,,FILL_BLANK,15,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,GE,MATH,,,,MCQ,25,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,LIT+LANG,AR,,,,FILL_BLANK,43,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,LIT+LANG,AR,,,,MCQ,71,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,LIT+LANG,MATH,,,,FILL_BLANK,14,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,LIT+LANG,MATH,,,,MCQ,27,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM+GE,AR,,,,FILL_BLANK,33,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM+GE,AR,,,,MCQ,53,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM,MATH,,,,FILL_BLANK,35,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM,MATH,,,,MCQ,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM,PHYS,,,,FILL_BLANK,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH+TM,PHYS,,,,MCQ,86,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH,SVT,,,,FILL_BLANK,52,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH,SVT,,,,FILL_BLANK,2,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,SCI+MATH,SVT,,,,MCQ,76,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,TM,TECH,,,,FILL_BLANK,11,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,2AS,TM,TECH,,,,MCQ,19,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,AR,,,,MCQ,850,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,AR,,,,MCQ,120,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,EN,,,,FILL_BLANK,59,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,EN,,,,MCQ,91,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,FR,,,,FILL_BLANK,60,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,FR,,,,MCQ,90,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,GEO,,,,FILL_BLANK,38,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,GEO,,,,FILL_BLANK,2,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,GEO,,,,MCQ,70,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,HIST,,,,FILL_BLANK,56,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,HIST,,,,MCQ,84,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,ISL,,,,FILL_BLANK,37,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,ISL,,,,FILL_BLANK,3,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,ISL,,,,MCQ,55,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,ALL,ISL,,,,MCQ,5,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,ACC,,,,FILL_BLANK,20,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,ACC,,,,MCQ,30,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,ECO,,,,FILL_BLANK,25,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,ECO,,,,MCQ,45,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,LAW,,,,FILL_BLANK,8,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,LAW,,,,MCQ,12,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,MATH,,,,FILL_BLANK,20,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,GE,MATH,,,,MCQ,31,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT+LANG,AR,,,,FILL_BLANK,68,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT+LANG,AR,,,,FILL_BLANK,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT+LANG,AR,,,,MCQ,95,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT+LANG,MATH,,,,FILL_BLANK,16,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT+LANG,MATH,,,,MCQ,30,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT,PHILO,,,,FILL_BLANK,32,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,LIT,PHILO,,,,MCQ,65,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,MATH+TM,MATH,,,,FILL_BLANK,37,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,MATH+TM,MATH,,,,MCQ,56,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM+GE+LANG,PHILO,,,,FILL_BLANK,28,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM+GE+LANG,PHILO,,,,MCQ,45,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM+GE,AR,,,,FILL_BLANK,62,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM+GE,AR,,,,MCQ,94,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM,PHYS,,,,FILL_BLANK,85,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH+TM,PHYS,,,,MCQ,145,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH,SVT,,,,FILL_BLANK,75,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI+MATH,SVT,,,,MCQ,125,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI,MATH,,,,FILL_BLANK,27,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,SCI,MATH,,,,MCQ,43,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,TM,TECH,,,,FILL_BLANK,10,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,3AS,TM,TECH,,,,MCQ,20,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,AR,,,,FILL_BLANK,48,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,AR,,,,MCQ,72,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,CIV,,,,FILL_BLANK,15,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,CIV,,,,MCQ,25,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,EN,,,,FILL_BLANK,31,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,EN,,,,MCQ,49,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,FR,,,,FILL_BLANK,32,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,FR,,,,MCQ,48,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,GEO,,,,FILL_BLANK,24,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,GEO,,,,MCQ,36,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,HIST,,,,FILL_BLANK,23,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,HIST,,,,FILL_BLANK,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,HIST,,,,MCQ,35,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,HIST,,,,MCQ,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,ISL,,,,FILL_BLANK,24,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,ISL,,,,MCQ,35,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,ISL,,,,MCQ,1,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,MATH,,,,FILL_BLANK,44,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,MATH,,,,MCQ,76,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,PHYS,,,,FILL_BLANK,34,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,PHYS,,,,FILL_BLANK,2,,NEEDS_REVIEW,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,PHYS,,,,MCQ,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,SVT,,,,FILL_BLANK,36,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_bank,content/play,4AM,ALL,SVT,,,,MCQ,54,,AUTO_VALIDATED,أسئلة دروس مؤلَّفة (ليست من امتحانات)
+play_catalog_lessons,content/play/catalog.json,,,,,,,,837,,,ترتيب الدروس المعتمد في اللعبة
+lesson_documents,content/lessons,1AS,,AR,,,,LESSON,30,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,EN,,,,LESSON,16,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,FR,,,,LESSON,15,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,GEO,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,HIST,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,INFO,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,ISL,,,,LESSON,13,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,MATH,,,,LESSON,37,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,PHYS,,,,LESSON,17,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,SVT,,,,LESSON,15,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,1AS,,TECH,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,ACC,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,AR,,,,LESSON,35,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,ECO,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,EN,,,,LESSON,16,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,FR,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,GEO,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,HIST,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,ISL,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,LAW,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,MATH,,,,LESSON,42,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,PHILO,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,PHYS,,,,LESSON,17,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,SVT,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,2AS,,TECH,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,ACC,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,AR,,,,LESSON,37,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,ECO,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,EN,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,FR,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,GEO,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,HIST,,,,LESSON,12,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,ISL,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,LAW,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,MATH,,,,LESSON,56,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,PHILO,,,,LESSON,28,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,PHYS,,,,LESSON,15,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,SVT,,,,LESSON,11,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,3AS,,TECH,,,,LESSON,10,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,AR,,,,LESSON,24,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,CIV,,,,LESSON,15,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,EN,,,,LESSON,18,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,FR,,,,LESSON,18,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,GEO,,,,LESSON,15,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,HIST,,,,LESSON,16,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,ISL,,,,LESSON,18,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,MATH,,,,LESSON,21,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,PHYS,,,,LESSON,20,,,HTML + PDF لكل درس
+lesson_documents,content/lessons,4AM,,SVT,,,,LESSON,22,,,HTML + PDF لكل درس
+legacy_qcm_sets,content/qcm,,,AR,,,,,21,,,988 سؤالاً
+exam_archive_files,repository,,,,,,,,0,,absent,لا يحتوي المستودع أي ملف بكالوريا أو فرض أو اختبار أو تصحيح؛ الأرشيف في قاعدة الإنتاج (bac_exams، resources، bank_questions، exam_documents) وفي مواقع المصدر
+drive_archive,Google Drive (المالك),3AS,unknown,unknown,unknown,,,BAC,6,0/6,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,unknown,2025,,,BAC,1,0/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,unknown,2025,,,BAC,1,0/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,unknown,2024,,,BAC,1,0/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,unknown,2024,,,BAC,1,0/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,unknown,2022,,,BAC,1,0/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,unknown,2017,,,BAC,1,0/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,unknown,2010,,,BAC,1,0/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,unknown,2009,,,BAC,2,0/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,الاقتصاد والمناجمنت,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الاقتصاد والمناجمنت,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2026,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2025,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2024,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2023,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2022,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2021,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2020,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2019,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2018,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2017,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2016,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2016,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2015,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2014,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2013,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2012,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2011,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2010,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2009,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,التاريخ والجغرافيا,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التاريخ والجغرافيا,2008,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,التاريخ والجغرافيا,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2012,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2011,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,التسيير المحاسبي والمالي,2008,,,BAC,2,1/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2026,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2025,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2024,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2023,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2022,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2021,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2020,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2019,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2018,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2017,,,BAC,8,8/8,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2016,,,BAC,5,5/5,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2015,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2014,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2013,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2012,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2011,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2010,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2009,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الرياضيات,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الرياضيات,2008,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2026,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2025,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2024,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2022,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2020,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2019,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2017,,,BAC,3,3/3,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2015,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2013,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2012,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2011,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,العلوم الإسلامية,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2026,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2025,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2024,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2023,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2022,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2021,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2020,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2019,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2018,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2017,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2016,,,BAC,3,3/3,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2015,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2014,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2013,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2012,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2011,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2010,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2009,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,العلوم الفيزيائية,2008,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2026,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2025,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2024,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2023,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2022,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2021,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2020,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2019,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2018,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2017,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2016,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2015,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2014,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2013,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2012,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2011,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2010,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2009,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,الفلسفة,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,الفلسفة,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الفلسفة,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,القانون,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الألمانية,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2025,,,BAC,1,0/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة الأمازيغية,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإسبانية,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2016,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الإنجليزية,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإنجليزية,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الإنجليزية,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الإيطالية,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة العربية وآدابها,unknown,,,BAC,2,0/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,unknown,اللغة العربية وآدابها,2018,,,BAC,2,0/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة العربية وآدابها,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة العربية وآدابها,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2016,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,اللغة الفرنسية,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,اللغة الفرنسية,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة الفرنسية,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الكهربائية,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2024,,,BAC,2,1/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2023,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2022,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2021,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2020,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2019,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2018,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2017,,,BAC,3,3/3,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2016,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2015,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2014,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2013,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2012,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2011,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2010,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2009,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة المدنية,2008,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2026,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2025,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2024,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2023,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2022,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2021,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2020,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2019,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2018,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2017,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2016,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2015,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2014,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2013,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2012,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2011,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2010,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2009,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,الهندسة الميكانيكية,2008,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2026,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2025,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2024,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2023,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2022,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2021,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2020,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2019,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2018,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2017,,,BAC,4,4/4,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2016,,,BAC,3,3/3,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2015,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2014,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2013,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2012,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2011,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2010,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2009,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,علوم الطبيعة والحياة,2008,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2026,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2025,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2024,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2023,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2022,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2021,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2020,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2019,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2018,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2017,,,BAC,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2016,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2015,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2014,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2013,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2012,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2011,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2010,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2009,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,هندسة الطرائق,2008,,,BAC,1,1/1,discovered,
+drive_archive,Google Drive (المالك),1AS,CS-LIT,unknown,,1,,DEVOIR,1,0/1,discovered,
+drive_archive,Google Drive (المالك),1AS,CS-SCI,unknown,,1,,DEVOIR,7,0/7,discovered,
+drive_archive,Google Drive (المالك),2AS,SCI,unknown,,1,,DEVOIR,1,0/1,discovered,
+drive_archive,Google Drive (المالك),2AS,LIT+LANG,unknown,,1,,DEVOIR,1,0/1,discovered,
+drive_archive,Google Drive (المالك),2AS,LANG,unknown,,1,,DEVOIR,1,0/1,discovered,
+drive_archive,Google Drive (المالك),1AS,CS-LIT,unknown,,3,,DEVOIR,2,0/2,discovered,
+drive_archive,Google Drive (المالك),1AS,CS-SCI,unknown,,3,,DEVOIR,2,0/2,discovered,
+drive_archive,Google Drive (المالك),2AS,LIT+LANG,اللغة العربية وآدابها,,1,,DEVOIR,2,2/2,discovered,
+drive_archive,Google Drive (المالك),2AS,SCI,اللغة العربية وآدابها,,1,,DEVOIR,2,2/2,discovered,
+drive_archive,Google Drive (المالك),2AS,LIT+LANG,اللغة العربية وآدابها,,2,,DEVOIR,2,2/2,discovered,
+drive_archive,Google Drive (المالك),2AS,SCI,اللغة العربية وآدابها,,2,,DEVOIR,2,2/2,discovered,
+drive_archive,Google Drive (المالك),2AS,LIT+LANG,اللغة العربية وآدابها,,3,,DEVOIR,2,2/2,discovered,
+drive_archive,Google Drive (المالك),2AS,SCI,اللغة العربية وآدابها,,3,,DEVOIR,2,2/2,discovered,
+drive_archive,Google Drive (المالك),1AS,CS-LIT,اللغة العربية وآدابها,,1,,DEVOIR,2,2/2,discovered,
+drive_archive,Google Drive (المالك),1AS,CS-SCI,اللغة العربية وآدابها,,1,,DEVOIR,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT+LANG,اللغة العربية وآدابها,,1,,DEVOIR,2,2/2,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,,1,,DEVOIR,2,2/2,discovered,
+drive_archive,Google Drive (المالك),1AS,unknown,unknown,,,,TEST,1,0/1,discovered,
+drive_archive,Google Drive (المالك),1AS,CS-LIT,unknown,,1,,TEST,1,0/1,discovered,
+drive_archive,Google Drive (المالك),1AS,CS-SCI,unknown,,1,,TEST,1,0/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT,unknown,,1,,TEST,1,0/1,discovered,
+drive_archive,Google Drive (المالك),4AM,unknown,unknown,,1,,TEST,1,0/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LANG,unknown,,1,,TEST,1,0/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,unknown,,1,,TEST,3,0/3,discovered,
+drive_archive,Google Drive (المالك),2AS,LIT+LANG,اللغة العربية وآدابها,,1,,TEST,1,1/1,discovered,
+drive_archive,Google Drive (المالك),2AS,SCI,اللغة العربية وآدابها,,1,,TEST,1,1/1,discovered,
+drive_archive,Google Drive (المالك),2AS,LIT+LANG,اللغة العربية وآدابها,,2,,TEST,1,1/1,discovered,
+drive_archive,Google Drive (المالك),2AS,SCI,اللغة العربية وآدابها,,2,,TEST,1,1/1,discovered,
+drive_archive,Google Drive (المالك),2AS,LIT+LANG,اللغة العربية وآدابها,,3,,TEST,1,1/1,discovered,
+drive_archive,Google Drive (المالك),2AS,SCI,اللغة العربية وآدابها,,3,,TEST,1,1/1,discovered,
+drive_archive,Google Drive (المالك),1AS,CS-LIT,اللغة العربية وآدابها,,1,,TEST,1,1/1,discovered,
+drive_archive,Google Drive (المالك),1AS,CS-SCI,اللغة العربية وآدابها,,1,,TEST,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,LIT+LANG,اللغة العربية وآدابها,,1,,TEST,1,1/1,discovered,
+drive_archive,Google Drive (المالك),3AS,SCI,اللغة العربية وآدابها,,1,,TEST,1,1/1,discovered,
+exam_archive_db,database,,,,,,,,0,,not_accessible,لم تُفحص قاعدة البيانات (شغّل مع --db و DATABASE_URL للقراءة فقط)
