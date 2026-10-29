@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "isl-bac-2008-p2",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1OI6h7IQuoHjWALqj5BU710U3HHmURt_i-p2",
   "kind": "BAC",
@@ -24,9 +24,9 @@
   "correction_url": "https://drive.google.com/file/d/1S1PAGrP7AXlx5PyKvHr_JHNedsmINXEe/view",
   "correction_file_ref": "gdrive:1S1PAGrP7AXlx5PyKvHr_JHNedsmINXEe (التصحيح.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.871Z",
   "notes": "موضوع البكالوريا الرّسميّ (الدّيوان الوطنيّ للامتحانات والمسابقات، دورة جوان 2008، «جميع الشّعب»، المدّة ساعتان ونصف) في Drive صاحب المنصّة: gdrive:1OI6h7IQuoHjWALqj5BU710U3HHmURt_i (الموضوع.pdf، ص2 = الموضوع الثّاني). الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان في ملفّ مستقلّ: gdrive:1S1PAGrP7AXlx5PyKvHr_JHNedsmINXEe (التصحيح.pdf، ص2). نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الملفّان مسح ضوئيّ بلا طبقة نصّ (96 نقطة في البوصة)، قُرئا مصوّرين بتكبير؛ نصّ OCR من Drive استُعمل مساعدًا فقط. الحديث منسوخ بكلّ ما يظهر من ضبط؛ التّمديد في الأسطر المضبوطة (وســـلم، عَطيّـــةً، فـــأمرتني، قـــال، فـــاتّقوا، واعـــدلوا بـــين) تمديد ضبط للسّطر من محرّر النّصوص لا حرف تطويل، فلم يُنقل؛ أمّا الشّرطات «ــ» المستقلّة فنُقلت. في «النّعمان» و«صلّى» و«إِنّي» و«بيّن» و«وبَيّن» و«عرّفْهُ» الشّدّة مقروءة والحركة معها غير مميّزة فنُقلت الشّدّة وحدها. فروق OCR/الصّورة: OCR أسقط معظم الضّبط («عن عامر، قال سمعت النعمان بن بشير» وفي الصّورة «عن عامرٍ، قال سمعتُ النّعمان بنَ بشيرٍ»، «أبي» وفي الصّورة «أبِي»، «إنّي أَعْطَيْتُ» وفي الصّورة «إِنّي أعْطَيْتُ»، «فرجع فرد عطيته» وفي الصّورة «فرجعَ فردَّ عطيّته»)، وأضاف مسافة بعد «أولادكم.» وليست في الصّورة، وأسقط شرطتي «ــ أخرجه البخاري ــ» و«ــ مع الدليل ــ»، وكتب «عرفه، وبين» وفي الصّورة «عرّفْهُ، وبَيّن». التّصحيح: علامات الصّفحة 2 في OCR مشوّهة («55»، «22-»، «བ་ | on»)، والصّورة واضحة: س1 «2×1 / 2 / 1» = 05؛ س2 «0.5 + 0.5 + 5×01» = 06؛ س3 «3×01» = 03؛ الجزء الثّاني «01 + 2×0.5 + 2×01 + 2×01» = 06؛ المجموع 20. «السدس» في التّصحيح باهتة (OCR: «السنس»). قرارات التّحويل: عنصر واحد لكلّ سطر علامة في عمود التّنقيط (سطر n×m عنصر واحد تقسم خطواته علامته)؛ «اشرح الحديث شرحا موجزا» تفاعليّ لأنّ التّصحيح يحدّد نقاط الشّرح ويعلّمها، ويمكن تحويله إلى essay_builder إن فضّل صاحب المنصّة؛ مشتّتات الدّليل جمل أخرى من الحديث لا تدلّ على الحكم (واستُبعدت «أعْطَيْتَ سائرَ ولدِك مثْلَ هذا؟» و«فرجعَ فردَّ عطيّته» لأنّهما قد تُعدّان دليلًا). لا عنصر مفتوحًا في هذا الموضوع: النّقاط المؤجَّلة 0."
  },
  "original_questions": [
@@ -55,19 +55,19 @@
      "id": "q1-e1",
      "label": "مشروعية منح الأولاد الهدايا والعطايا، وتوثيقها بالإشهاد عليها (2×1)",
      "max_points": 2,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e2",
      "label": "الأمر بتقوى الله عزّ وجلّ والعدل بين الأولاد",
      "max_points": 2,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e3",
      "label": "رجوع الوالد في عطيته لولده",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -96,19 +96,19 @@
      "id": "q2-e1",
      "label": "حكم العدل بين الأبناء",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e2",
      "label": "الدليل",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e3",
      "label": "مخاطر التفريق بين الأبناء (5×1)",
      "max_points": 5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -137,7 +137,7 @@
      "id": "q3-e1",
      "label": "ثلاث فوائد من الحديث (3×1)",
      "max_points": 3,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -153,25 +153,25 @@
      "id": "q4-e1",
      "label": "تعريف الإجماع",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e2",
      "label": "أنواع الإجماع (2×0.5)",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e3",
      "label": "بيان النوعين (2×1)",
      "max_points": 2,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e4",
      "label": "مثالان عن الإجماع (2×1)",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -202,7 +202,7 @@
    "skill_id": "isl.ruling",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s02",
@@ -229,7 +229,7 @@
    "skill_id": "isl.ruling",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s03",
@@ -256,7 +256,7 @@
    "skill_id": "isl.ruling",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s04",
@@ -283,7 +283,7 @@
    "skill_id": "isl.ruling",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s05",
@@ -310,7 +310,7 @@
    "skill_id": "isl.ruling",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s06",
@@ -337,7 +337,7 @@
    "skill_id": "isl.ruling",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s07",
@@ -364,7 +364,7 @@
    "skill_id": "isl.evidence",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s08",
@@ -401,7 +401,7 @@
    "skill_id": "isl.values",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s09",
@@ -449,7 +449,7 @@
    "skill_id": "isl.values",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s10",
@@ -482,7 +482,7 @@
    "skill_id": "isl.ruling",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s11",
@@ -522,7 +522,7 @@
    "skill_id": "isl.ruling",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s12",
@@ -549,7 +549,7 @@
    "skill_id": "isl.concept",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s13",
@@ -589,7 +589,7 @@
    "skill_id": "isl.concept",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s14",
@@ -619,7 +619,7 @@
    "skill_id": "isl.concept",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s15",
@@ -646,7 +646,7 @@
    "skill_id": "isl.concept",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s16",
@@ -673,7 +673,7 @@
    "skill_id": "isl.concept",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s17",
@@ -703,7 +703,7 @@
    "skill_id": "isl.concept",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s18",
@@ -738,7 +738,7 @@
    "skill_id": "isl.concept",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   }
  ],
  "score_total": 20,
@@ -752,6 +752,12 @@
    "by": "claude",
    "action": "generated",
    "note": "تحويل من صورتي الموضوع والإجابة النّموذجيّة الرّسميّين (PDF ممسوح) في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الإجابة النّموذجيّة؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة؛ ضبط الحديث المنسوخ يحتاج مقابلة بالورقة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.871Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

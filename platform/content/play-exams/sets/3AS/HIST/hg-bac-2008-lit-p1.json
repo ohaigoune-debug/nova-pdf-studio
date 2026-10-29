@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2008-lit-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1zDrETc1p5f66JPQFayj7SA9r7gzvr8Ls-p1",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1r3fDa-HctZF3KvAJHer0l0aayluMm6KF/view",
   "correction_file_ref": "gdrive:1r3fDa-HctZF3KvAJHer0l0aayluMm6KF (02_التصحيح.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.862Z",
   "notes": "موضوع البكالوريا الرسميّ (الديوان الوطنيّ للامتحانات والمسابقات، دورة جوان 2008، اختبار التاريخ والجغرافيا، الشعبة: آداب وفلسفة، المدة 04 ساعات ونصف): gdrive:1zDrETc1p5f66JPQFayj7SA9r7gzvr8Ls (01_الموضوع.pdf، 5 صفحات ممسوحة 300 نقطة في البوصة بلا طبقة نصّ، يضمّ الموضوعين والملاحق). الإجابة النموذجيّة وسلّم التنقيط الرسميّان: gdrive:1r3fDa-HctZF3KvAJHer0l0aayluMm6KF (02_التصحيح.pdf، 10 صفحات ممسوحة 96 نقطة في البوصة). نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): كلّ نصّ حرفيّ وكلّ علامة قُرئا من صور الصفحات المكبّرة؛ نصّ read_file_content (OCR) مساعد فقط. قواعد النسخ: كلّ تطويل ظاهر في المسح كُتب «ـــ» (ثلاث تطويلات؛ عددها في الأصل لا يظهر في الصورة)، والمسافات وُحّدت، وعلامات الترقيم بمواضعها، ورقم السؤال في number لا في النصّ. الإجابة النموذجيّة بدقّة 96 نقطة: الأسماء الأجنبيّة والهمزات كما ظهرت («ايزنهاور»، «البرستوريكا»، «ستيتين»، «ترياست»، «وستمنستر»، «ونستن تشرشل»)، ولم تُنقل أخطاء OCR («جعد»، «نقصي»، «فلد»، «مناصلي»، «عباسية»، «عقلية النسيير»، «وأسمالية»). الخيارات الصحيحة بنصّ الإجابة النموذجيّة (بلا اسم المصطلح أو الشخصيّة)، والمشتّتات تعاريف مصطلحات وشخصيّات أخرى من الإجابة النموذجيّة نفسها (الموضوعان) اختيرت يدويًّا لتجنّب المتقاربات. الخرائط والمنحنى والتعليق غير القابل لإعادة الإنتاج والجزء الثاني مؤجّلة (needs_engine_support) خطوةً لكلّ سطر من سلّم التنقيط، ومواصفاتها لا تحمل إلّا نصوص الإجابة النموذجيّة (عنوان الخريطة النموذجيّة، الأسماء، المفتاح، رقم الصفحة) دون وصف للخريطة. الموضوع الأوّل = تاريخ (جزء أوّل 6: مصطلحات 3×0.5، شخصيّات 3×0.5، ربط الحدث بتاريخه 0.25/0.50/0.25/0.50/0.25 حسب صفوف جدول الإجابة، خريطة بؤر التوتر: العنوان 0.25 + الإنجاز 01؛ جزء ثانٍ 4: 13 سطرًا) + جغرافيا (جزء أوّل 6: مصطلحات 0.75/0.5/0.5/0.75، خريطة و.م.أ: الإنجاز 1.25 + العنوان 0.25 + المفتاح 0.50، التعليق على الرسم 2×0.75؛ جزء ثانٍ 4: 8×0.5). قرارات: التعليق على رسم المديونية مؤجَّل essay_builder لأنّ الرسم أعمدة بلا أرقام مكتوبة لا يمكن نقلها بدقّة ولا يُعرض؛ خيارات ربط الحدث بتاريخه من تواريخ الجدول نفسه (جدول الورقة يضع 1945/08/06 أمام هيروشيما وهو تاريخها الصحيح في الإجابة النموذجيّة)؛ خريطة الإجابة النموذجيّة لو.م.أ بلا مفتاح مستقلّ (model_key = null). الفروق بين OCR والصورة: OCR أسقط «فرحـــات» («ات عباس») وفصل «ميقالوبوليس» عن أسئلة المصطلحات (هو المصطلح الرابع في الصورة)، وبعثر تواريخ الجدول بعد السؤال 4، وأسقط «2-» قبل «مظاهر هذه القوة»، وقرأ عنوان الجغرافيا «البغرافيا»؛ في الإجابة: «نقصي» = تقضي، «جعد» = بعد، «فلد» = قاد، «مناصلي» = مناضلي، «وأسمالية» = رأسمالية، «وتعالمية» = وتفاقمها، والعلامات منفصلة عن أسطرها (رُبطت من الصورة)."
  },
  "original_questions": [
@@ -37,19 +37,19 @@
      "id": "q1-e1",
      "label": "مفهوم «سياسة ملء الفراغ»",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e2",
      "label": "مفهوم «الانفراج الدولي»",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e3",
      "label": "مفهوم «تقرير المصير»",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -65,19 +65,19 @@
      "id": "q2-e1",
      "label": "التعريف بشي غيفارا",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e2",
      "label": "التعريف بفرحات عباس",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e3",
      "label": "التعريف بجمال عبد الناصر",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -125,31 +125,31 @@
      "id": "q3-e1",
      "label": "تاريخ «مؤتمر باريس ونهاية الحرب الباردة»",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e2",
      "label": "تاريخ «إلقاء القنبلة الذرية على هيروشيما»",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e3",
      "label": "تاريخ «مشروع مارشال»",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e4",
      "label": "تاريخ «مؤتمر الجزائر لحركة عدم الانحياز»",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e5",
      "label": "تاريخ «قيام دولة إسرائيل»",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -165,13 +165,13 @@
      "id": "q4-e1",
      "label": "الخريطة: العنوان",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e2",
      "label": "الخريطة: الإنجاز",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -194,79 +194,79 @@
      "id": "q5-e1",
      "label": "المقدمة",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e2",
      "label": "العرض 1- وسائل الصراع بين المعسكرين: الوسائل السياسية: المساعدات ودعم الحركات التحررية",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e3",
      "label": "العرض 1- وسائل الصراع بين المعسكرين: الوسائل السياسية: سياسة ملء الفراغ",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e4",
      "label": "العرض 1- وسائل الصراع بين المعسكرين: الوسائل الاقتصادية: المشاريع الاقتصادية",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e5",
      "label": "العرض 1- وسائل الصراع بين المعسكرين: الوسائل الاقتصادية: مشروع جدانوف والمساعدات المالية",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e6",
      "label": "العرض 1- وسائل الصراع بين المعسكرين: الوسائل العسكرية",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e7",
      "label": "العرض 1- وسائل الصراع بين المعسكرين: الدعاية والإعلام",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e8",
      "label": "العرض 2- حتمية التعايش بينهما: توازن الرعب النووي",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e9",
      "label": "العرض 2- حتمية التعايش بينهما: بروز حركة عدم الانحياز",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e10",
      "label": "العرض 2- حتمية التعايش بينهما: تأثير الرأي العام العالمي",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e11",
      "label": "العرض 2- حتمية التعايش بينهما: ارتفاع النفقات العسكرية",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e12",
      "label": "العرض 2- حتمية التعايش بينهما: الرغبة في التعايش",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e13",
      "label": "الخاتمة",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -282,25 +282,25 @@
      "id": "q6-e1",
      "label": "مفهوم «الشركات متعددة الجنسيات»",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e2",
      "label": "مفهوم «الموارد الطبيعية»",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e3",
      "label": "مفهوم «مناطق الاستقطاب»",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e4",
      "label": "مفهوم «ميقالوبوليس»",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -316,19 +316,19 @@
      "id": "q7-e1",
      "label": "الخريطة: الإنجاز",
      "max_points": 1.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q7-e2",
      "label": "الخريطة: العنوان",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q7-e3",
      "label": "الخريطة: المفتاح",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -344,13 +344,13 @@
      "id": "q8-e1",
      "label": "التعليق: الملاحظة الأولى",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e2",
      "label": "التعليق: الملاحظة الثانية",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -373,49 +373,49 @@
      "id": "q9-e1",
      "label": "المقدمة",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e2",
      "label": "العرض 1- عوامل القوة الاقتصادية الأمريكية: العوامل الطبيعية",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e3",
      "label": "العرض 1- عوامل القوة الاقتصادية الأمريكية: العوامل البشرية والمادية",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e4",
      "label": "العرض 1- عوامل القوة الاقتصادية الأمريكية: العوامل التاريخية والثقافية",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e5",
      "label": "العرض 2- مظاهر هذه القوة: ضخامة الإنتاج",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e6",
      "label": "العرض 2- مظاهر هذه القوة: السيطرة على الأسواق العالمية",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e7",
      "label": "العرض 2- مظاهر هذه القوة: السيطرة العسكرية",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e8",
      "label": "الخاتمة",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -446,7 +446,7 @@
    "skill_id": "hist.terms",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s02",
@@ -473,7 +473,7 @@
    "skill_id": "hist.terms",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s03",
@@ -500,7 +500,7 @@
    "skill_id": "hist.terms",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s04",
@@ -527,7 +527,7 @@
    "skill_id": "hist.figures",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s05",
@@ -554,7 +554,7 @@
    "skill_id": "hist.figures",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s06",
@@ -581,7 +581,7 @@
    "skill_id": "hist.figures",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s07",
@@ -608,7 +608,7 @@
    "skill_id": "hist.dates",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s08",
@@ -635,7 +635,7 @@
    "skill_id": "hist.dates",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s09",
@@ -662,7 +662,7 @@
    "skill_id": "hist.dates",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s10",
@@ -689,7 +689,7 @@
    "skill_id": "hist.dates",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s11",
@@ -716,7 +716,7 @@
    "skill_id": "hist.dates",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s12",
@@ -1238,7 +1238,7 @@
    "skill_id": "geo.terms",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s28",
@@ -1265,7 +1265,7 @@
    "skill_id": "geo.terms",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s29",
@@ -1292,7 +1292,7 @@
    "skill_id": "geo.terms",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s30",
@@ -1319,7 +1319,7 @@
    "skill_id": "geo.terms",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s31",
@@ -1758,6 +1758,12 @@
    "by": "claude",
    "action": "generated",
    "note": "تحويل تجريبيّ (أوّل مادّة تاريخ وجغرافيا) من صور الموضوع الرسميّ والإجابة النموذجيّة الرسميّة في Drive؛ العلامات من سلّم التنقيط؛ الإجابات الصحيحة من الإجابة النموذجيّة؛ المشتّتات من تعاريف أخرى في الإجابة نفسها أو من إعداد التحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.862Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

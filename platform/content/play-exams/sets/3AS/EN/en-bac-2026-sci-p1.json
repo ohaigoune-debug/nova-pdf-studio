@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "en-bac-2026-sci-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1MILoreEdmPjXdq6eR32TNYU3vEFFZ6ww-p1",
   "kind": "BAC",
@@ -22,9 +22,9 @@
   "correction_url": "https://drive.google.com/file/d/1MQeD_b-6oWSLlhcCXGHCJVSs3ilPI_E1/view",
   "correction_file_ref": "gdrive:1MQeD_b-6oWSLlhcCXGHCJVSs3ilPI_E1 (2026 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.798Z",
   "notes": "موضوع البكالوريا الرّسميّ (الدّيوان الوطنيّ للامتحانات والمسابقات، الدّورة: 2026، الشّعبة: علوم تجريبيّة، رياضيّات، تقني رياضيّ، تسيير واقتصاد، فنون، المدّة: 02 سا و30 د) في Drive صاحب المنصّة: gdrive:1MILoreEdmPjXdq6eR32TNYU3vEFFZ6ww (2026 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf، 4 صفحات: الموضوع الأوّل ص1–2، الثّاني ص3–4)؛ «الدّورة العاديّة» من اسم الملفّ. الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1MQeD_b-6oWSLlhcCXGHCJVSs3ilPI_E1 (ص1 «Scientists have illuminated the effects …»، ص2 «Space developments …»)؛ مجموع كلّ موضوع 20 (القراءة 15 = الفهم 08 + استكشاف النّصّ 07، التّعبير الكتابيّ 05). الشّعب: الرّأس يذكر «فنون» أيضًا ولا رمز لها في PLAY، فالشّعب SCI وMATH وTM وGE (اسم ملفّ Drive لا يذكر الفنون). نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الملفّ PDF رقميّ له طبقة نصّ أصليّة، فأُخذت الحروف منها (pdftotext -raw: علامات الاقتباس المنحنية، «…»، «§»، «NASA‘s» بعلامة افتتاح كما طُبعت، نقاط الفراغات) وطوبقت سطرًا سطرًا مع صور الصّفحات (150 نقطة)، وتُحقِّق بسكربت من أنّ كلّ نصّ حرفيّ وكلّ اقتباس في الخطوات جزء من طبقة النّصّ. خلاف طبقة النّصّ والصّورة: السّنة والمدّة في الرّأس العربيّ معكوسة («0302»، «02 … 03») وصوابها في الصّورة «2026» و«02 سا و30 د»؛ نقاط الملاحظات في طبقة النّصّ رمز خاصّ U+F0B7 وفي الصّورة «•» فكُتبت «•»؛ التّسطير لا يظهر في طبقة النّصّ وحُدّد من الصّورة. قرارات التّحويل (R1–R11 في محوّل التّجربة build_en_bac_2019_lit.py، وD1–D9 في رأسَي build_en_bac_2026_lang.py وهذا المحوّل): عنصر لكلّ بند يُنقَّط منفردًا؛ صح/خطأ ونعم/لا اختيار من خيارين مخزَّنان معكوسين؛ «نعم + علّل» عنصران كما في السّلّم؛ صيغ الحلّ المتعدّدة للإجابة نفسها تبقى تفاعليّة ولا تُعرض صيغة مقبولة مشتّتًا؛ الاشتقاق والأضداد اختيار من متعدّد لكلّ كلمة؛ إعادة التّرتيب: الجملة الافتتاحيّة وكلّ زوج منطقيّ (0.5 لكلّ منها)؛ التّعبير الكتابيّ مؤجَّل بمعايير الشّبكة الرّسميّة «Common streams» (الملاءمة 1، الانسجام الدّلاليّ 1، سلامة اللّغة 2، الإتقان 1). الموضوع الأوّل: المسطَّر They (§2 «They also suggested»)، It (§3 «“It has all the components…”»). س3أ: «Yes» (0.25) والتّعليل (0.75) عنصران؛ الحلّ يقبل ثلاثة تعليلات مقتبسة مختصرة بـ«…» فعُرض أوّلها صحيحًا بلفظ النّصّ كاملًا ولم يُعرض الآخران، والمشتّتات عبارات يناقضها النّصّ (الحلّ يكتب «Researchers say that what we eat» والنّصّ بلا «that»). س3ب: الحلّ «…because they eat less carbohydrate and more fruit.» فالخيار «Because they eat less carbohydrate and more fruit.». س B2: خانة اللاحقة لـ«intake» فارغة في الحلّ (بلا «//////»). س B3أ: الحلّ يقبل الصّيغتين (provided that في الوسط أو في البداية) فلم تُعرض الثّانية، ولم تُعرض «You enjoy … provided that you eat …» مشتّتًا لأنّها قابلة للدّفاع. إعادة التّرتيب b - d - c - a: الافتتاحيّة + الأزواج b–d، d–c، c–a. المجموع 20 = 8 + 7 + 5 (تفاعليّ 15، مؤجَّل 5)."
  },
  "original_questions": [
@@ -59,25 +59,25 @@
      "id": "q1-e1",
      "label": "Statement a (T/F)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e2",
      "label": "Statement b (T/F)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e3",
      "label": "Statement c (T/F)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e4",
      "label": "Statement d (T/F)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -112,13 +112,13 @@
      "id": "q2-e1",
      "label": "a. Paragraph of idea a",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e2",
      "label": "b. Paragraph of idea b",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -153,25 +153,25 @@
      "id": "q3-e1",
      "label": "a. Yes/No answer",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e2",
      "label": "a. Justification",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e3",
      "label": "b. Adults over 30",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e4",
      "label": "c. The Mediterranean diet",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -206,13 +206,13 @@
      "id": "q4-e1",
      "label": "a. They (§2)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e2",
      "label": "b. It (§3)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -247,19 +247,19 @@
      "id": "q5-e1",
      "label": "a. (§1)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e2",
      "label": "b. (§2)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e3",
      "label": "c. (§3)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -293,19 +293,19 @@
      "id": "q6-e1",
      "label": "researcher",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e2",
      "label": "eating",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e3",
      "label": "intake",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -321,13 +321,13 @@
      "id": "q7-e1",
      "label": "a. (provided that)",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q7-e2",
      "label": "b. (so … that…)",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -343,25 +343,25 @@
      "id": "q8-e1",
      "label": "Opening sentence",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e2",
      "label": "Logical pair 1",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e3",
      "label": "Logical pair 2",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e4",
      "label": "Logical pair 3",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -377,25 +377,25 @@
      "id": "q9-e1",
      "label": "Relevance",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e2",
      "label": "Semantic coherence",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e3",
      "label": "Correct use of English",
      "max_points": 2,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e4",
      "label": "Excellence (vocabulary and creativity)",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -424,7 +424,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s02",
@@ -449,7 +449,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s03",
@@ -474,7 +474,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s04",
@@ -499,7 +499,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s05",
@@ -525,7 +525,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s06",
@@ -551,7 +551,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s07",
@@ -576,7 +576,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s08",
@@ -603,7 +603,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s09",
@@ -630,7 +630,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s10",
@@ -657,7 +657,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s11",
@@ -684,7 +684,7 @@
    "skill_id": "en.discourse",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s12",
@@ -711,7 +711,7 @@
    "skill_id": "en.discourse",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s13",
@@ -738,7 +738,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s14",
@@ -765,7 +765,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s15",
@@ -792,7 +792,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s16",
@@ -819,7 +819,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s17",
@@ -846,7 +846,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s18",
@@ -873,7 +873,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s19",
@@ -900,7 +900,7 @@
    "skill_id": "en.grammar",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s20",
@@ -927,7 +927,7 @@
    "skill_id": "en.grammar",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s-r1",
@@ -954,7 +954,7 @@
    "skill_id": "en.discourse",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s-r2",
@@ -980,7 +980,7 @@
    "skill_id": "en.discourse",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s-r3",
@@ -1006,7 +1006,7 @@
    "skill_id": "en.discourse",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s-r4",
@@ -1032,7 +1032,7 @@
    "skill_id": "en.discourse",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s-we1",
@@ -1242,6 +1242,12 @@
    "by": "claude",
    "action": "generated",
    "note": "تحويل من الموضوع الرّسميّ (طبقة نصّ PDF مطابَقة بصور الصّفحات) والإجابة النّموذجيّة الرّسميّة في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الإجابة النّموذجيّة؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.798Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

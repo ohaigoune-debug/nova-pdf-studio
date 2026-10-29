@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "phys-bac-2019-sci-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1E_e2y8mJZ47xddeV1Ao1cyYxDtUTD2il-p1",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1uD7k9EUqMWaVnTO4R65CJFywOzKtQaZj/view",
   "correction_file_ref": "gdrive:1uD7k9EUqMWaVnTO4R65CJFywOzKtQaZj (2019 - العلوم الفيزيائية - علوم تجريبية - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.885Z",
   "notes": "موضوع البكالوريا الرسمي (الديوان الوطني للامتحانات والمسابقات، دورة 2019، الشعبة: علوم تجريبية، المدة 03 سا و30 د) — الموضوع الأول (ص1–4 من 8)؛ «الدورة العادية» من اسم الملف في Drive. نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): رُسمت الصفحات بـ pdftoppm -r 200 وقُرئت مكبّرة. طبقة النص في الـ PDF غير صالحة (أرقام خاطئة: «40» بدل 04، «72» بدل 27، «0» بدل 4؛ كلمات مقطّعة؛ حركات ساقطة) ونص OCR في Drive يشوّه الصيغ: لم يُعتمد أيّ منهما. الصيغ بـ LaTeX كما طُبعت؛ الفاصلة العشرية داخل الصيغ تُكتب {,}. الأشكال 1–8 مقصوصة من صورة الصفحة (scripts/play/crop_figure.py)؛ الصورتان الزخرفيتان (البرق، المتزحلق) لم تُنقلا. الإجابات والعلامات من «الإجابة النموذجية» الرسمية (ص1–4 من 9، صور). المجموع 20 = تمرين أول 6 + تمرين ثان 7 + تجريبي 7. اختلافات في التصحيح وُثّقت ولم تُنقل: (1) 1.4.1 كُتب «i(t=τ)=−0,37·I0=−0,74A» والصحيح −0,74×10⁴ A — لم تُستعمل القيمة؛ (2) 2.4.1 مقام C مقطوع «5·» — استُعمل R=5000 Ω من السطر نفسه؛ (3) 2.2 كُتب Π بدل π و4π²≈40؛ (4) التمرين الثاني 3.1: سطر HA3 كتب «10^{−pH2}» و«6,3×10⁻³» والصحيح 10^{−3,2}≈6,3×10⁻⁴ — الخطوة لا تطلب القيمة العددية؛ HA2 كُتب 1,25×10⁻³ (10^{−2,9}≈1,26×10⁻³) وأُبقي كما في التصحيح في نص الخطوة وشرحها (دون سؤال عددي)؛ (5) التجريبي: عمود «مجموع» يذكر 4.75 و2.25 بينما العلامات المجزأة 5 (المرحلة 1) و2 (المرحلة 2)؛ اتُّبعت المجزأة والمجموع 7 لا يتغيّر؛ (6) التصحيح يرمز بـ τ للمدة Δt=0,8 s في 2.1 التجريبي. قرارات: 1.1 (رسم الدارة 3×0.25) و3.1 التجريبي (رسم v=f(t) 2×0.25) مؤجلان؛ 5.1 (قواعد الحماية، قائمة مفتوحة) مؤجل essay_builder؛ 2.6.1 «4x0.25» قُسّمت على القيم الأربع (2,4؛ 4,8؛ 1,9؛ 3,8) — اجتهاد يُراجَع؛ 2.2.2 و1.2 (المرحلة 2) عنصر واحد لعناصر متبادلة (multi)؛ 1.6.1: علامة الرسم (0.25) دُرّبت بسؤال عن القوى الممثلة (P، R). هوامش القيم العددية: قراءة بيان = تدريجة صغرى (I0: 0,4×10³ A؛ τ: 0,5×10⁻⁵ s؛ T: 0,02 ms؛ تقاطعات الشكل 5: 0,1)؛ ميل مماس = 10% (v_acide)؛ قياس المسافات على الشكل 8 (1 mm = 0,4 m) ⇒ ±0,25 m·s⁻¹ للسرعات؛ a_G ±0,05؛ G0G8 ±0,5 m؛ الحسابات = رقم واحد من آخر خانة مطبوعة (بحدّ 5%)."
  },
  "original_questions": [
@@ -84,19 +84,19 @@
      "id": "q1-e1",
      "label": "تمثيل سهم توتر المكثفة",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e2",
      "label": "تمثيل سهم توتر الناقل الأومي",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e3",
      "label": "جهة التيار مع الإشارة i<0",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -159,25 +159,25 @@
      "id": "q2-e1",
      "label": "قانون جمع التوترات",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e2",
      "label": "التعويض بعبارتي التوترين",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e3",
      "label": "الاشتقاق بالنسبة للزمن",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e4",
      "label": "المعادلة التفاضلية",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -240,19 +240,19 @@
      "id": "q3-e1",
      "label": "مشتقة i(t) بالنسبة للزمن",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e2",
      "label": "التعويض في المعادلة التفاضلية (2×0.25)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e3",
      "label": "الاستنتاج",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -321,19 +321,19 @@
      "id": "q4-e1",
      "label": "قيمة I0",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e2",
      "label": "قيمة i عند t=τ",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e3",
      "label": "قيمة ثابت الزمن τ",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -402,25 +402,25 @@
      "id": "q5-e1",
      "label": "عبارة R",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e2",
      "label": "قيمة R",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e3",
      "label": "عبارة C",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e4",
      "label": "قيمة C",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -443,7 +443,7 @@
      "id": "q6-e1",
      "label": "قاعدتان للحماية على الأقل",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -489,13 +489,13 @@
      "id": "q7-e1",
      "label": "نمط الاهتزاز",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q7-e2",
      "label": "قيمة شبه الدور T",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -541,13 +541,13 @@
      "id": "q8-e1",
      "label": "عبارة L",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e2",
      "label": "قيمة L",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -587,7 +587,7 @@
      "id": "q9-e1",
      "label": "تعريف الحمض الضعيف",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -627,25 +627,25 @@
      "id": "q10-e1",
      "label": "التبرير",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e2",
      "label": "pH محلول HA1",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e3",
      "label": "pH محلول HA2",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e4",
      "label": "pH محلول HA3",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -685,25 +685,25 @@
      "id": "q11-e1",
      "label": "تركيز شوارد الهيدرونيوم بدلالة pH",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q11-e2",
      "label": "HA1 حمض قوي",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q11-e3",
      "label": "HA2 حمض ضعيف",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q11-e4",
      "label": "HA3 حمض ضعيف",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -743,7 +743,7 @@
      "id": "q12-e1",
      "label": "عبارة Ka",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -783,25 +783,25 @@
      "id": "q13-e1",
      "label": "إدخال اللوغاريتم على عبارة Ka",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q13-e2",
      "label": "تعويض تركيز A- بتركيز H3O+",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q13-e3",
      "label": "العلاقة بين pKa و pH",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q13-e4",
      "label": "عبارة pH",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -864,19 +864,19 @@
      "id": "q14-e1",
      "label": "التعليل",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q14-e2",
      "label": "المنحنى (2)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q14-e3",
      "label": "المنحنى (1)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -939,25 +939,25 @@
      "id": "q15-e1",
      "label": "تقاطع المنحنى (1) مع محور التراتيب",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q15-e2",
      "label": "pKa للمنحنى (1)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q15-e3",
      "label": "تقاطع المنحنى (2) مع محور التراتيب",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q15-e4",
      "label": "pKa للمنحنى (2)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -986,13 +986,13 @@
      "id": "q16-e1",
      "label": "الوظيفة الكيميائية",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q16-e2",
      "label": "اسم المركب",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -1044,19 +1044,19 @@
      "id": "q17-e1",
      "label": "رسم المماس وحساب الميل",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q17-e2",
      "label": "سرعة اختفاء الحمض",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q17-e3",
      "label": "سرعة التفاعل",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -1091,7 +1091,7 @@
      "id": "q18-e1",
      "label": "العاملان الحركيان (2×0.25)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -1160,7 +1160,7 @@
      "id": "q19-e1",
      "label": "تعريف المرجع الغاليلي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -1229,25 +1229,25 @@
      "id": "q20-e1",
      "label": "عبارة السرعة اللحظية v3",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q20-e2",
      "label": "قيمة v3",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q20-e3",
      "label": "قيمة v5",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q20-e4",
      "label": "قيمة v7",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -1316,7 +1316,7 @@
      "id": "q21-e1",
      "label": "رسم البيان v=f(t) (2×0.25)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -1385,13 +1385,13 @@
      "id": "q22-e1",
      "label": "قيمة التسارع",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q22-e2",
      "label": "طبيعة الحركة",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -1460,13 +1460,13 @@
      "id": "q23-e1",
      "label": "لحظة الموضع G8",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q23-e2",
      "label": "المسافة G0G8",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -1541,31 +1541,31 @@
      "id": "q24-e1",
      "label": "تمثيل القوى",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q24-e2",
      "label": "المعلم",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q24-e3",
      "label": "القانون الثاني لنيوتن",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q24-e4",
      "label": "عبارة التسارع",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q24-e5",
      "label": "قيمة التسارع",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -1640,13 +1640,13 @@
      "id": "q25-e1",
      "label": "مقارنة القيمتين",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q25-e2",
      "label": "التبرير",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -1698,7 +1698,7 @@
      "id": "q26-e1",
      "label": "إحصاء القوى (3×0.25)",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -1750,19 +1750,19 @@
      "id": "q27-e1",
      "label": "معادلة انحفاظ الطاقة (2×0.25)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q27-e2",
      "label": "العلاقة بين الطاقتين (2×0.25)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q27-e3",
      "label": "قيمة f",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -1880,7 +1880,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s05",
@@ -1907,7 +1907,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s06",
@@ -1934,7 +1934,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s07",
@@ -1961,7 +1961,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s08",
@@ -1988,7 +1988,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s09",
@@ -2015,7 +2015,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s10",
@@ -2042,7 +2042,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s11",
@@ -2066,7 +2066,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s12",
@@ -2093,7 +2093,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s13",
@@ -2117,7 +2117,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s14",
@@ -2144,7 +2144,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s15",
@@ -2168,7 +2168,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s16",
@@ -2195,7 +2195,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s17",
@@ -2219,7 +2219,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s18",
@@ -2279,7 +2279,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s20",
@@ -2303,7 +2303,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s21",
@@ -2330,7 +2330,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s22",
@@ -2354,7 +2354,7 @@
    "skill_id": "phys.electricity",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s23",
@@ -2381,7 +2381,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s24",
@@ -2408,7 +2408,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s25",
@@ -2434,7 +2434,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s26",
@@ -2460,7 +2460,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s27",
@@ -2486,7 +2486,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s28",
@@ -2513,7 +2513,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s29",
@@ -2540,7 +2540,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s30",
@@ -2567,7 +2567,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s31",
@@ -2594,7 +2594,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s32",
@@ -2621,7 +2621,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s33",
@@ -2648,7 +2648,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s34",
@@ -2675,7 +2675,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s35",
@@ -2702,7 +2702,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s36",
@@ -2729,7 +2729,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s37",
@@ -2756,7 +2756,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s38",
@@ -2782,7 +2782,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s39",
@@ -2808,7 +2808,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s40",
@@ -2832,7 +2832,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s41",
@@ -2856,7 +2856,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s42",
@@ -2880,7 +2880,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s43",
@@ -2904,7 +2904,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s44",
@@ -2931,7 +2931,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s45",
@@ -2958,7 +2958,7 @@
    "skill_id": "phys.chemistry",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s46",
@@ -2985,7 +2985,7 @@
    "skill_id": "phys.kinetics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s47",
@@ -3009,7 +3009,7 @@
    "skill_id": "phys.kinetics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s48",
@@ -3036,7 +3036,7 @@
    "skill_id": "phys.kinetics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s49",
@@ -3066,7 +3066,7 @@
    "skill_id": "phys.kinetics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s50",
@@ -3093,7 +3093,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s51",
@@ -3120,7 +3120,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s52",
@@ -3144,7 +3144,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s53",
@@ -3168,7 +3168,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s54",
@@ -3192,7 +3192,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s55",
@@ -3246,7 +3246,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s57",
@@ -3273,7 +3273,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s58",
@@ -3297,7 +3297,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s59",
@@ -3321,7 +3321,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s60",
@@ -3348,7 +3348,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s61",
@@ -3375,7 +3375,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s62",
@@ -3402,7 +3402,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s63",
@@ -3429,7 +3429,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s64",
@@ -3453,7 +3453,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s65",
@@ -3479,7 +3479,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s66",
@@ -3506,7 +3506,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s67",
@@ -3538,7 +3538,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s68",
@@ -3565,7 +3565,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s69",
@@ -3592,7 +3592,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s70",
@@ -3619,7 +3619,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s71",
@@ -3646,7 +3646,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s72",
@@ -3670,7 +3670,7 @@
    "skill_id": "phys.mechanics",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   }
  ],
  "score_total": 20,
@@ -3684,6 +3684,12 @@
    "by": "claude",
    "action": "generated",
    "note": "تحويل تجريبي (مادة الفيزياء) من صور الموضوع الرسمي والإجابة النموذجية في Drive؛ النصوص منسوخة من الصورة؛ العلامات من سلّم التنقيط؛ الإجابات الصحيحة من الإجابة النموذجية؛ المشتّتات والهوامش العددية من إعداد التحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.885Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

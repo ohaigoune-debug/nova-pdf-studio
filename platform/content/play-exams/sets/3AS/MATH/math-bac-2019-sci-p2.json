@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "math-bac-2019-sci-p2",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1E7zQH28AK454kN6vvemn94NScQGCqRpl-p2",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1Vg_5N6oNOd7UZnhbXGBRikNgU_BCfT08/view",
   "correction_file_ref": "gdrive:1Vg_5N6oNOd7UZnhbXGBRikNgU_BCfT08 (2019 - الرياضيات - علوم تجريبية - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.880Z",
   "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الموضوع والتصحيح ملفّا PDF من الديوان الوطني للامتحانات والمسابقات (دورة 2019، الشعبة: علوم تجريبية؛ «الدورة العادية» من عنوان الملف في Drive). للملفّين طبقة نصّ من Word لكنها غير صالحة مصدرا: أرقام الخطّ العربي مقلوبة (04→40، 05→45، 07→70، 0.25→0725، 4)→0)، 2019→9102، 120→127)، والشدّات ساقطة (بيّن أنّ→بين أن)، والمعادلات رموز خطّ Symbol (أقواس المجالات و ℝ ℂ ℕ و² تسقط من النصّ المستخرَج أو تتشوّه)؛ فنُسخ كلّ نصّ وكلّ علامة من صور الصفحات (200 و300 نقطة/بوصة مع تكبير)، وقوبلت الأقواس وترتيب الصيغ بمواضع الرموز في الطبقة (pdftotext -bbox). اختلاف الصورة والطبقة: في صورة التصحيح (الموضوع الأول، التمرين4 س2) لا يظهر رمز «²» في f'(x) والطبقة تحويه: f'(x)=(x²−5x+4)/(x(x−2)²) وهو ما تقتضيه مجالات التغيّر في التصحيح نفسه. الصيغ بـ LaTeX بين $…$ كما طُبعت؛ الترتيب المنطقي لصيغ متعدّدة بينها كلمات عربية هو ترتيب القراءة من اليمين (النقط A ، B و C)؛ المسافات موحَّدة. لا شكل في هذه الورقة (لا قصّ). قواعد التحويل: عنصر لكل سطر علامة في السلّم (يبقى «×n» في التسمية)؛ الإجابات الصحيحة من الإجابة النموذجية بصيغتها، والمشتّتات من إعداد التحويل وتختلف عدديًّا عن الإجابة؛ numeric حين يطبع التصحيح عددا صحيحا (هامش 0)؛ «بيّن/برهن/استنتج أنّ» تفاعلية فقط عبر نتيجة وسيطة يكتبها التصحيح وإلا فـ essay_builder مؤجَّل؛ ما يذكره التصحيح بلا نتيجة مؤجَّل ولا يحسبه المحوِّل؛ الرسم function_plot وجدول التغيّرات variation_table. قرارات الموضوع الثاني: سطر الرموز في التمرين الرابع مطبوع وعبارة g على اليمين فنُقل بترتيب القراءة «g(x)=… و f(x)=…». بنود يذكرها التصحيح بلا نتيجة فأُجِّلت (official_result_missing): احتمالات قانون X في التمرين1 (1 ن من سطر 1.5؛ القيم 0،1،2،4،8 مذكورة فصارت multi بـ0.5 — تقسيم 0.5/1 اجتهاد يُراجَع)، الشكل الأسي لـ zA (1)، حساب المجموع ذي القوّة 2019 (0.5)، zD (0.75)، اتجاه تغيّر g (0.5 من «0.5×2»)، h(x)+f(x) (0.25)، كيفية رسم (Γ) (0.25). براهين بلا نتيجة وسيطة (proof_without_intermediate): 7/24 (1)، f(x)∈[4;7[ (0.5)، عبارة f(x)−x وإشارتها (0.75)، التراجع (0.75)، التقارب (0.25 — التصحيح لا يكتب التعليل)، 4أ (0.25)، حصر 4ب (0.25)، زوجية h (0.25). التصحيح يكتب في التمرين4 س6 «A=∫[g(x)−f(x)]dx=∫(−½ex²+ex)dx» والمكامَل هو f−g (سهو في التصحيح)؛ استُعملت النتيجتان 2e/3 ua و 8e/3 cm² فقط. شرط n في التمرين3 س4 بصيغة التصحيح n=−3k حيث k∈ℤ₋ (أي k عدد صحيح سالب أو معدوم). مؤجَّل: 9.25 ن (منها رسم 0.75 وجدول تغيّرات 0.25)."
  },
  "original_questions": [
@@ -44,19 +44,19 @@
      "id": "q1-e1",
      "label": "1) عدد الإمكانيات",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e2",
      "label": "1) قانون الاحتمال: القيم واحتمالاتها",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e3",
      "label": "1) الأمل الرياضياتي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -79,7 +79,7 @@
      "id": "q2-e1",
      "label": "2) تبيان الاحتمال 7/24",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -102,7 +102,7 @@
      "id": "q3-e1",
      "label": "3) الاحتمال الشرطي (0.25×2)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -125,7 +125,7 @@
      "id": "q4-e1",
      "label": "1أ) الدالة المشتقة واتجاه التغيّر",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -148,7 +148,7 @@
      "id": "q5-e1",
      "label": "1ب) الاستنتاج",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -171,7 +171,7 @@
      "id": "q6-e1",
      "label": "2) البرهان والاستنتاج",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -200,7 +200,7 @@
      "id": "q7-e1",
      "label": "3أ) البرهان بالتراجع",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -229,13 +229,13 @@
      "id": "q8-e1",
      "label": "3ب) اتجاه تغيّر المتتالية",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e2",
      "label": "3ب) التقارب",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -264,7 +264,7 @@
      "id": "q9-e1",
      "label": "4أ) البرهان",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -293,13 +293,13 @@
      "id": "q10-e1",
      "label": "4ب) استنتاج الحصر",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e2",
      "label": "4ب) نهاية المتتالية",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -322,7 +322,7 @@
      "id": "q11-e1",
      "label": "1أ) الشكل الأسي لـ zA",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -345,7 +345,7 @@
      "id": "q12-e1",
      "label": "1ب) الحساب",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -368,7 +368,7 @@
      "id": "q13-e1",
      "label": "2أ) حساب zD",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -391,7 +391,7 @@
      "id": "q14-e1",
      "label": "2ب) طبيعة الرباعي ABDC",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -414,7 +414,7 @@
      "id": "q15-e1",
      "label": "3) الشكل الأسي لـ zC − zA",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -437,7 +437,7 @@
      "id": "q16-e1",
      "label": "4) قيم n",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -460,7 +460,7 @@
      "id": "q17-e1",
      "label": "5) المجموعة (E)",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -483,7 +483,7 @@
      "id": "q18-e1",
      "label": "1أ) دراسة اتجاه تغيّر g (0.5×2)",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -506,7 +506,7 @@
      "id": "q19-e1",
      "label": "1ب) القيمة الحدّية الصغرى وإشارة g(x) (0.5×2)",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -529,13 +529,13 @@
      "id": "q20-e1",
      "label": "2) عبارة f'(x)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q20-e2",
      "label": "2) اتجاه تغيّر f",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -558,19 +558,19 @@
      "id": "q21-e1",
      "label": "3) النهاية عند −∞",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q21-e2",
      "label": "3) النهاية عند +∞",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q21-e3",
      "label": "3) جدول التغيّرات",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -593,13 +593,13 @@
      "id": "q22-e1",
      "label": "4) عبارة f(x) − g(x)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q22-e2",
      "label": "4) الوضعية النسبية",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -622,13 +622,13 @@
      "id": "q23-e1",
      "label": "5) رسم المنحنى Cf",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q23-e2",
      "label": "5) رسم المنحنى Cg",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -651,13 +651,13 @@
      "id": "q24-e1",
      "label": "6) المساحة بوحدة المساحات",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q24-e2",
      "label": "6) المساحة بالسنتمتر المربع",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -686,7 +686,7 @@
      "id": "q25-e1",
      "label": "7أ) h دالة زوجية",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -715,19 +715,19 @@
      "id": "q26-e1",
      "label": "7ب) حساب h(x) + f(x)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q26-e2",
      "label": "7ب) استنتاج كيفية رسم (Γ)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q26-e3",
      "label": "7ب) الرسم",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -755,7 +755,7 @@
    "skill_id": "math.probability",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s02",
@@ -791,7 +791,7 @@
    "skill_id": "math.probability",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s03",
@@ -858,7 +858,7 @@
    "skill_id": "math.probability",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s05",
@@ -914,7 +914,7 @@
    "skill_id": "math.probability",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s07",
@@ -941,7 +941,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s08",
@@ -1055,7 +1055,7 @@
    "skill_id": "math.sequences",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s12",
@@ -1166,7 +1166,7 @@
    "skill_id": "math.sequences",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s16",
@@ -1277,7 +1277,7 @@
    "skill_id": "math.complex",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s20",
@@ -1304,7 +1304,7 @@
    "skill_id": "math.complex",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s21",
@@ -1331,7 +1331,7 @@
    "skill_id": "math.complex",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s22",
@@ -1358,7 +1358,7 @@
    "skill_id": "math.complex",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s23",
@@ -1385,7 +1385,7 @@
    "skill_id": "math.complex",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s24",
@@ -1412,7 +1412,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s25",
@@ -1467,7 +1467,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s27",
@@ -1494,7 +1494,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s28",
@@ -1521,7 +1521,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s29",
@@ -1548,7 +1548,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s30",
@@ -1575,7 +1575,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s31",
@@ -1602,7 +1602,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s32",
@@ -1667,7 +1667,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s34",
@@ -1693,7 +1693,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s35",
@@ -1719,7 +1719,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s36",
@@ -1745,7 +1745,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s37",
@@ -1840,7 +1840,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s40",
@@ -1867,7 +1867,7 @@
    "skill_id": "math.analysis",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s41",
@@ -1998,6 +1998,12 @@
    "by": "claude",
    "action": "generated",
    "note": "تحويل تجريبي للرياضيات من صور الموضوع والإجابة النموذجية الرسميّين في Drive؛ العلامات من سلّم التنقيط؛ الإجابات الصحيحة من الإجابة النموذجية؛ المشتّتات من إعداد التحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.880Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

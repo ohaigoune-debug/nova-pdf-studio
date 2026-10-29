@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "fr-bac-2026-lang-p2",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1bKLTk8-0yBX0N-hrtIsAVDqQmkug9iX0-p2",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1QCiUu9WXfR6RdrGoIebyRgZf8Y0wr_4R/view",
   "correction_file_ref": "gdrive:1QCiUu9WXfR6RdrGoIebyRgZf8Y0wr_4R (2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.825Z",
   "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word). الموضوع: gdrive:1bKLTk8-0yBX0N-hrtIsAVDqQmkug9iX0 (2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الموضوع.pdf) ص3–4؛ الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1QCiUu9WXfR6RdrGoIebyRgZf8Y0wr_4R (2026 - اللغة الفرنسية - لغات أجنبية - الدورة العادية - الحل.pdf) ص2 وص3 (الإنتاج الكتابيّ للموضوعين). الملفّان PDF رقميّان من الدّيوان الوطنيّ للامتحانات (لا مسح ضوئيّ): أُخذ النّصّ من طبقة النّصّ (pdftotext -raw) وقوبل كلّ سطر بصورة الصّفحة (150 نقطة)، وتحقّق سكربت من أنّ كلّ نصّ حرفيّ موجود في طبقة النّصّ. الشّعبة من رأس الورقة «الشعبة: لغات أجنبية» ⇒ LANG. «الدورة العادية» من اسم الملفّ في Drive (الورقة تطبع «الدورة: 2026»). المجموع: فهم المكتوب 12 + إنتاج كتابيّ 08؛ كلّ العلامات من عمودَي «مجزأة/مجموع» في الحلّ الرّسميّ. خلافات طبقة النّصّ مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس (السّنة «0302»، المدّة «30 سا و 03 د» والصّورة «03 سا و30 د»)؛ شرطات القوائم حرف خاصّ U+F02D في الطّبقة و«–» في الصّورة ⇒ «–»؛ إحالات الهوامش مرفوعة في الصّورة ⇒ ¹ ² ³؛ «1er/3ème» المرفوعة كُتبت عاديّة. حُفظ كما طُبع: الفاصلة العليا المستقيمة في «Ich'hadi» و«l'argent» (خيارا س1 الثّاني والثّالث في الموضوع الثّاني) و«jusqu'à l'ennui» و«quelqu'un». قرارات عامّة: «n×m» لبنود متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من النّصّ ⇒ عنصر واحد بخطوة multi. خيارا «Vrai/Faux» والتّصنيف الثّنائيّ يُخزَّنان معكوسين لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين. قاعدة «accepter» الموحَّدة: صيغة أخرى للجواب نفسه أو قائمة مغلقة ⇒ تفاعليّ (الصّحيح صيغة الحلّ الأولى، والصّيغ المقبولة في الشّرح ولا تكون مشتّتًا أبدًا)؛ الجواب المفتوح («toute autre réponse…»، «à titre indicatif») ⇒ essay_builder مؤجَّل. الإنتاج الكتابيّ = سؤال أصليّ واحد يضمّ الموضوعين، وتفاصيل شبكة كلّ موضوع في spec. المشتّتات من إعداد التّحويل وتحتاج مراجعة. س3: «Accepter aussi : il y en a autant qu’on veut.» صيغة أقصر للجواب نفسه ⇒ QCM تفاعليّ، الصّحيح الجملة كاملة، ولا تُعرض الصّيغة القصيرة مشتّتًا. س4 «0.5x2» ⇒ عنصر واحد (1) بخطوة multi (السّببان في الحلّ)؛ السّبب الثّالث المقبول «Nous ne sommes pas semblables…» لا يُعرض؛ المشتّتات يناقضها النّصّ (§4، §6). س6 «0.25x6» ⇒ ستّة عناصر ثنائيّة (Au bonheur / A l’angoisse كما في الورقة؛ الحلّ يكتب «Facteur de bonheur / Facteur d’angoisse»). س7: «vous» الصّحيح «les lecteurs» و«je» الصّحيح «l’auteur»؛ الصّيغ المقبولة الأخرى ليست مشتّتات. س8 (1) مؤجَّل: «Accepter toute autre réponse allant dans le même le sens» (كذا في الحلّ). س9: «0.5x4» ⇒ أربعة عناصر مؤجَّلة. الإنتاج الكتابيّ (8): نفس شبكة الموضوع الأوّل (13 عنصرًا)."
  },
  "original_questions": [
@@ -62,7 +62,7 @@
      "id": "q1-e1",
      "label": "Sujet principal du texte",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -103,7 +103,7 @@
      "id": "q2-e1",
      "label": "Sens de l’expression « répète jusqu’à la nausée »",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -144,7 +144,7 @@
      "id": "q3-e1",
      "label": "Phrase du 3ème paragraphe qui justifie l’affirmation",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -185,7 +185,7 @@
      "id": "q4-e1",
      "label": "Deux raisons qui rendent la vie plus intéressante (0,5x2)",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -226,25 +226,25 @@
      "id": "q5-e1",
      "label": "Affirmation a) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e2",
      "label": "Affirmation b) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e3",
      "label": "Affirmation c) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e4",
      "label": "Affirmation d) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -285,37 +285,37 @@
      "id": "q6-e1",
      "label": "Classement de « énergie destructrice » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e2",
      "label": "Classement de « acceptation de soi » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e3",
      "label": "Classement de « fascination pour l’argent » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e4",
      "label": "Classement de « énergie motrice » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e5",
      "label": "Classement de « besoins superflus » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e6",
      "label": "Classement de « simplicité des besoins » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -356,25 +356,25 @@
      "id": "q7-e1",
      "label": "Référent de « il » (1er paragraphe) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q7-e2",
      "label": "Référent de « elle » (2ème paragraphe) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q7-e3",
      "label": "Référent de « vous » (3ème paragraphe) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q7-e4",
      "label": "Référent de « je » (4ème paragraphe) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -415,7 +415,7 @@
      "id": "q8-e1",
      "label": "Visée communicative de l’auteur (réponse ouverte)",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -456,25 +456,25 @@
      "id": "q9-e1",
      "label": "Critère : Respect de la consigne (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e2",
      "label": "Critère : Pertinence des idées (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e3",
      "label": "Critère : Cohérence (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e4",
      "label": "Critère : Correction de la langue (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -515,79 +515,79 @@
      "id": "q10-e1",
      "label": "Organisation : présentation du texte (mise en page, lisibilité)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e2",
      "label": "Organisation : cohérence — progression des informations",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e3",
      "label": "Organisation : cohérence — absence de répétitions",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e4",
      "label": "Organisation : cohérence — absence de contresens",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e5",
      "label": "Organisation : cohérence — emploi de connecteurs",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e6",
      "label": "Organisation : structure adéquate",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e7",
      "label": "Planification : choix énonciatif en relation avec la consigne",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e8",
      "label": "Planification : choix et sélection des informations",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e9",
      "label": "Langue : correction des phrases au plan syntaxique",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e10",
      "label": "Langue : lexique approprié à la thématique",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e11",
      "label": "Langue : emploi correct des temps et des modes",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e12",
      "label": "Langue : utilisation adéquate des signes de ponctuation",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q10-e13",
      "label": "Langue : orthographe",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -617,7 +617,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s02",
@@ -643,7 +643,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s03",
@@ -670,7 +670,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s04",
@@ -701,7 +701,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s05",
@@ -726,7 +726,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s06",
@@ -751,7 +751,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s07",
@@ -776,7 +776,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s08",
@@ -801,7 +801,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s09",
@@ -826,7 +826,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s10",
@@ -851,7 +851,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s11",
@@ -876,7 +876,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s12",
@@ -901,7 +901,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s13",
@@ -926,7 +926,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s14",
@@ -951,7 +951,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s15",
@@ -978,7 +978,7 @@
    "skill_id": "fr.discours",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s16",
@@ -1005,7 +1005,7 @@
    "skill_id": "fr.discours",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s17",
@@ -1032,7 +1032,7 @@
    "skill_id": "fr.discours",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s18",
@@ -1059,7 +1059,7 @@
    "skill_id": "fr.discours",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s19",
@@ -1829,6 +1829,12 @@
    "by": "claude",
    "action": "generated",
    "note": "تحويل من ورقة البكالوريا الرّسميّة وإجابتها النّموذجيّة (PDF رقميّان في Drive، طبقة النّصّ مقابَلة بصور الصّفحات)؛ العلامات من سلّم التّنقيط الرّسميّ؛ الإجابات الصّحيحة من الحلّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.825Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

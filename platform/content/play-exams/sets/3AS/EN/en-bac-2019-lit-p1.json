@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "en-bac-2019-lit-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1cu4MAj44Jw_q0hRg51NNagHbMP1BGbaA-p1",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1cLYVJyFmuz_QhrHA9iPlp8MdYxFu_T_X/view",
   "correction_file_ref": "gdrive:1cLYVJyFmuz_QhrHA9iPlp8MdYxFu_T_X (2019 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.773Z",
   "notes": "موضوع البكالوريا الرّسميّ (الدّيوان الوطنيّ للامتحانات والمسابقات، دورة 2019، الشّعبة: آداب وفلسفة، المدّة: 02 سا و30 د) في Drive صاحب المنصّة: gdrive:1cu4MAj44Jw_q0hRg51NNagHbMP1BGbaA (2019 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf، 4 صفحات: الموضوع الأوّل ص1–2، الثّاني ص3–4)؛ «الدّورة العاديّة» من اسم الملفّ (الورقة تكتب «دورة: 2019» فقط). الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1cLYVJyFmuz_QhrHA9iPlp8MdYxFu_T_X (ص1 «Inca Civilization»، ص2 «Education»). نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الملفّ PDF رقميّ له طبقة نصّ أصليّة، فأُخذت الحروف منها (علامات الاقتباس المنحنية، «…»، «§»، نقاط الجدول) وطوبقت سطرًا سطرًا مع صور الصّفحات (150 نقطة، ومقاطع من الحلّ بـ300 نقطة). خلاف OCR (read_file_content) والصّورة: المدّة «20» في OCR و«30 د» في الصّورة؛ ترقيم الصّفحتين 2 و3 «0 من 4» في OCR؛ خلايا الجداول (جدول الاشتقاق وجدول المطابقة) مختلطة الأسطر في OCR وصُحّحت من الصّورة؛ التّسطير والخطّ الغامق والأسّ «st» لا يظهر في OCR؛ في الحلّ OCR «its t(§1) : mpireehe» و«:ro» وصوابهما في الصّورة «its (§1) : the empire» و«or:»، وأعمدة الجداول وعلامات «مجزأة» منفصلة عن أسطرها. التّسطير لا يُحفظ في النّصّ: الكلمات المسطّرة حُدّدت من الصّورة وتذكر كلّ خطوة الجملة الّتي فيها الكلمة. قرارات التّحويل (R1–R11 في رأس المحوّل): عنصر لكلّ بند يُنقَّط منفردًا؛ الأسئلة الثّنائيّة (صح/خطأ، نعم/لا) اختيار من خيارين؛ صيغ الحلّ المتعدّدة للإجابة نفسها تبقى تفاعليّة ولا تُعرض صيغة مقبولة مشتّتًا؛ التّعبير الكتابيّ مؤجَّل (essay_builder) بمعايير الشّبكة الرّسميّة (الملاءمة 1، الانسجام الدّلاليّ 1، سلامة اللّغة 2، الإتقان 1). الموضوع الأوّل: المسطَّر في النّصّ its (§1 «its lands extended»)، They (§2 «They lived in stone palaces»)، their (§4 «destroyed their temples»)؛ السّؤال يكتب «they (§2)» بحرف صغير والنّصّ «They». ترتيب الأفكار (0.25×4) وملء الفراغات (0.5×4) خطوة واحدة لكلّ منهما لأنّ التّنقيط الجزئيّ للمحرّك (لكلّ موضع/فراغ) يطابق السّلّم. جدول الاشتقاق: اختيار من متعدّد لكلّ خانة (0.25)، والصّيغ المقبولة كلّها في الشّرح (extension / extent، conquest / conqueror، conquered / conquerable، governmental / governing / governed / governable). القواعد: لم يُعرض «conquered» مشتّتًا بعد «After» لأنّه قابل للدّفاع. المجموع 20 = 7 + 8 + 5 (تفاعليّ 15، مؤجَّل 5)."
  },
  "original_questions": [
@@ -56,25 +56,25 @@
      "id": "q1-e1",
      "label": "Statement a (T/F)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e2",
      "label": "Statement b (T/F)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e3",
      "label": "Statement c (T/F)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q1-e4",
      "label": "Statement d (T/F)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -109,7 +109,7 @@
      "id": "q2-e1",
      "label": "Order of ideas (0.25×4)",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -144,19 +144,19 @@
      "id": "q3-e1",
      "label": "a. Controlling surrounding territories",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e2",
      "label": "b. The living god",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q3-e3",
      "label": "c. How the empire fell",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -191,19 +191,19 @@
      "id": "q4-e1",
      "label": "a. its (§1)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e2",
      "label": "b. they (§2)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e3",
      "label": "c. their (§4)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -238,19 +238,19 @@
      "id": "q5-e1",
      "label": "a. (§ 1)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e2",
      "label": "b. (§ 2)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e3",
      "label": "c. (§ 4)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -304,37 +304,37 @@
      "id": "q6-e1",
      "label": "Row «extended»: verb",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e2",
      "label": "Row «extended»: noun",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e3",
      "label": "Row «to conquer»: noun",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e4",
      "label": "Row «to conquer»: adjective",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e5",
      "label": "Row «government»: verb",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e6",
      "label": "Row «government»: adjective",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -357,25 +357,25 @@
      "id": "q7-e1",
      "label": "1. (conquer)",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q7-e2",
      "label": "2. (be)",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q7-e3",
      "label": "3. (take)",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q7-e4",
      "label": "4. (lead)",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -404,7 +404,7 @@
      "id": "q8-e1",
      "label": "Cloze passage (0.5×4)",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -420,25 +420,25 @@
      "id": "q9-e1",
      "label": "Relevance",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e2",
      "label": "Semantic coherence",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e3",
      "label": "Correct use of English",
      "max_points": 2,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e4",
      "label": "Excellence (vocabulary and creativity)",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -467,7 +467,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s02",
@@ -492,7 +492,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s03",
@@ -517,7 +517,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s04",
@@ -542,7 +542,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s05",
@@ -574,7 +574,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s06",
@@ -599,7 +599,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s07",
@@ -626,7 +626,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s08",
@@ -653,7 +653,7 @@
    "skill_id": "en.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s09",
@@ -680,7 +680,7 @@
    "skill_id": "en.discourse",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s10",
@@ -707,7 +707,7 @@
    "skill_id": "en.discourse",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s11",
@@ -733,7 +733,7 @@
    "skill_id": "en.discourse",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s12",
@@ -760,7 +760,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s13",
@@ -787,7 +787,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s14",
@@ -814,7 +814,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s15",
@@ -841,7 +841,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s16",
@@ -868,7 +868,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s17",
@@ -895,7 +895,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s18",
@@ -922,7 +922,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s19",
@@ -949,7 +949,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s20",
@@ -976,7 +976,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s21",
@@ -1003,7 +1003,7 @@
    "skill_id": "en.grammar",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s22",
@@ -1030,7 +1030,7 @@
    "skill_id": "en.grammar",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s23",
@@ -1057,7 +1057,7 @@
    "skill_id": "en.grammar",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s24",
@@ -1084,7 +1084,7 @@
    "skill_id": "en.grammar",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s25",
@@ -1127,7 +1127,7 @@
    "skill_id": "en.vocabulary",
    "lesson_ref": null,
    "is_verbatim_original": true,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s-we1",
@@ -1337,6 +1337,12 @@
    "by": "claude",
    "action": "generated",
    "note": "تحويل من الموضوع الرّسميّ (طبقة نصّ PDF مطابَقة بصور الصّفحات) والإجابة النّموذجيّة الرّسميّة في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الإجابة النّموذجيّة؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.773Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

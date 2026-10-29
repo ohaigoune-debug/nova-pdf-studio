@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "fr-bac-2019-lit-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1IWZ6Rbo7WoItvIqmkxNZJN9x7mKKkS2r-p1",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1CIoSlmjKO-65DB407pzzOYqUbMxt6ifY/view",
   "correction_file_ref": "gdrive:1CIoSlmjKO-65DB407pzzOYqUbMxt6ifY (2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.804Z",
   "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word). الموضوع: gdrive:1IWZ6Rbo7WoItvIqmkxNZJN9x7mKKkS2r (2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf) ص1–2؛ الحلّ وسلّم التّنقيط الرّسميّان: gdrive:1CIoSlmjKO-65DB407pzzOYqUbMxt6ifY (2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf) ص1–2. الملفّان PDF رقميّان من الدّيوان الوطنيّ للامتحانات (لا مسح ضوئيّ) بطبقة نصّ هي نفسها ما يُرجعه read_file_content؛ استُعملت مساعدًا فقط، وقوبل كلّ نصّ بصورة الصّفحة (150 نقطة، وتكبير 220–300 نقطة). الشّعبة من رأس الورقة «الشعبة: آداب وفلسفة» ⇒ LIT. «الدورة العادية» من اسم الملفّ في Drive (الورقة تطبع «دورة: 2019» فقط). الورقة لا تطبع علامة كلّ سؤال (13 + 7 فقط)؛ كلّ العلامات من عمودَي «مجزأة/مجموع» في الحلّ الرّسميّ. خلافات طبقة النّصّ/تصدير Drive مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس، المدّة «03 د» في الطّبقة و«30 د» في الصّورة، تذييل الصّفحة 3 «صفحة 0 من 4» في الطّبقة؛ إحالتا الهامش «dénégations1/ingurgiter2» مرفوعتان في الصّورة فكُتبتا ¹ و²؛ «1er/3ème» مرفوعة كُتبت عاديّة؛ استخراج الحروف يقطع بعض الكلمات («interr ogato ires»، «incu lpés») والصّورة سليمة. المسافات المزدوجة المكتوبة في الأصل (غير مرئيّة في الطّباعة، وتصدير Drive بمسافة واحدة) كُتبت مسافة واحدة. حُفظ كما طُبع: «brulée»، «des \"Roses,» بلا علامة إغلاق، «Evènements»، «suivants:-»، «Recopiez la bonne réponse» بلا نقطة في س7، «[…]Selon»، «bienfaits. .». قرارات عامّة: «n×m» لعناصر متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من قائمة ⇒ عنصر واحد. خيارا «Vrai/Faux» والتّصنيف الثّنائيّ يُخزَّنان معكوسين لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين، فيظهران بترتيب الورقة ولا يكشف الموضع الجواب. قاعدة «accepter… / toute réponse…» ⇒ essay_builder مؤجَّل. الإنتاج الكتابيّ «sujet au choix» = سؤال أصليّ واحد (7) بـ13 عنصرًا مشتركًا بين الشّبكتين، وتفاصيل شبكة كلّ موضوع في spec. المشتّتات من إعداد التّحويل وتحتاج مراجعة. س4: «celle-ci» مؤجَّل (essay_builder) لأنّ الحلّ يقول «Accepter : unité de parachutistes»؛ y وil تفاعليّان. س3: «0.5x4» على قائمة من عشرة عذابات مقبولة ⇒ عنصر واحد (2) بخطوتَي multi (1+1)، كلّ منهما أربعة عذابات من قائمة الحلّ ومشتّتان غير موجودين في النّصّ. الحلّ يكتب «chaire brûlée» فكُتب الشّرح «chair brûlée». س6: «0.25x6» على فراغات نصّ واحد ⇒ عنصر واحد (1.5) بخطوة fill_blank بستّة فراغات (التّنقيط بحصّة الفراغات = 0.25 للفراغ)؛ البنك = عبارات الورقة السّتّ + مشتّتان (le capitaine Martin، le Général Massu) خاطئان حسب الحلّ (س2). س8: «Réponse à titre indicatif… (Accepter toute réponse en relation avec l’idée)» + 0.5x4 ⇒ أربعة معايير مؤجَّلة. الإنتاج الكتابيّ: الحلّ يعطي شبكة «Compte-rendu» (0.5 تقديم + 0.25x4 + 0.50 بنية) وشبكة «Production libre» (0.25 تقديم + 0.25 عنوان + 0.25x4 + 0.25x2 بنية): دُمج 0.25+0.25 في عنصر «présentation» (0.5) و0.25x2 في عنصر «structure» (0.5)، وتفاصيل كلّ شبكة في spec الخطوة."
  },
  "original_questions": [
@@ -62,7 +62,7 @@
      "id": "q1-e1",
      "label": "Faits relatés par le texte",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -103,25 +103,25 @@
      "id": "q2-e1",
      "label": "Affirmation 1 : capitaine Martin (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e2",
      "label": "Affirmation 2 : « patient » (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e3",
      "label": "Affirmation 3 : lieutenant Le Pen (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q2-e4",
      "label": "Affirmation 4 : Général Massu (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -162,7 +162,7 @@
      "id": "q3-e1",
      "label": "Quatre supplices repérés dans le texte (0,5x4)",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -203,19 +203,19 @@
      "id": "q4-e1",
      "label": "Référent de « Celle-ci » (§1) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e2",
      "label": "Référent de « y » (§1) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q4-e3",
      "label": "Référent de « il » (§2) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -256,37 +256,37 @@
      "id": "q5-e1",
      "label": "Classement de « déshabiller la victime » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e2",
      "label": "Classement de « varier ces \"réjouissances\" » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e3",
      "label": "Classement de « le suspect » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e4",
      "label": "Classement de « bureaux d’interrogatoires » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e5",
      "label": "Classement de « douleur impitoyable » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e6",
      "label": "Classement de « personnes enlevées » (0,25)",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -327,7 +327,7 @@
      "id": "q6-e1",
      "label": "Énoncé à compléter : six mots ou expressions à placer (0,25x6)",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -368,7 +368,7 @@
      "id": "q7-e1",
      "label": "Intention de l’auteur",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -409,25 +409,25 @@
      "id": "q8-e1",
      "label": "Critère : Pertinence des idées (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e2",
      "label": "Critère : Cohérence (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e3",
      "label": "Critère : Correction de la langue (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e4",
      "label": "Critère : Nombre de lignes (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -468,79 +468,79 @@
      "id": "q9-e1",
      "label": "Organisation : présentation du texte (mise en page)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e2",
      "label": "Organisation : progression des informations",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e3",
      "label": "Organisation : absence de répétitions",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e4",
      "label": "Organisation : absence de contre-sens",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e5",
      "label": "Organisation : emploi des connecteurs",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e6",
      "label": "Organisation : structure adéquate",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e7",
      "label": "Planification : choix énonciatif (en relation avec la consigne)",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e8",
      "label": "Planification : choix des informations",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e9",
      "label": "Langue : correction des phrases au plan syntaxique",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e10",
      "label": "Langue : adéquation du lexique à la thématique",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e11",
      "label": "Langue : utilisation adéquate des signes de ponctuation",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e12",
      "label": "Langue : emploi correct des temps et des modes",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e13",
      "label": "Langue : orthographe",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -570,7 +570,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s02",
@@ -595,7 +595,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s03",
@@ -620,7 +620,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s04",
@@ -645,7 +645,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s05",
@@ -670,7 +670,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s06",
@@ -704,7 +704,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s07",
@@ -738,7 +738,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s08",
@@ -803,7 +803,7 @@
    "skill_id": "fr.discours",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s10",
@@ -830,7 +830,7 @@
    "skill_id": "fr.discours",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s11",
@@ -855,7 +855,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s12",
@@ -880,7 +880,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s13",
@@ -905,7 +905,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s14",
@@ -930,7 +930,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s15",
@@ -955,7 +955,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s16",
@@ -980,7 +980,7 @@
    "skill_id": "fr.vocabulaire",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s17",
@@ -1031,7 +1031,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s18",
@@ -1057,7 +1057,7 @@
    "skill_id": "fr.enonciation",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s19",
@@ -1787,6 +1787,12 @@
    "by": "claude",
    "action": "generated",
    "note": "تحويل تجريبيّ للفرنسيّة من ورقة البكالوريا الرّسميّة وحلّها (PDF رقميّان في Drive، قوبلا بصور الصّفحات)؛ العلامات من سلّم التّنقيط الرّسميّ؛ الإجابات الصّحيحة من الحلّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.804Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

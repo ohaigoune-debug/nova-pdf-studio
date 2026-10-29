@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "fr-bac-2026-lit-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1woINl5-mPvQbC6R70gGpandDe6YJ1WVm-p1",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1_h33axzYB2CPrQmfFUzxnF4-oKH4BStt/view",
   "correction_file_ref": "gdrive:1_h33axzYB2CPrQmfFUzxnF4-oKH4BStt (2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.834Z",
   "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word). الموضوع: gdrive:1woINl5-mPvQbC6R70gGpandDe6YJ1WVm (2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf) ص1–2؛ الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1_h33axzYB2CPrQmfFUzxnF4-oKH4BStt (2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf) ص1 وص3 (الإنتاج الكتابيّ للموضوعين). الملفّان PDF رقميّان من الدّيوان الوطنيّ للامتحانات (لا مسح ضوئيّ): أُخذ النّصّ من طبقة النّصّ (pdftotext -raw) وقوبل كلّ سطر بصورة الصّفحة (150 نقطة)، وتحقّق سكربت من أنّ كلّ نصّ حرفيّ موجود في طبقة النّصّ. الشّعبة من رأس الورقة «الشعبة: آداب وفلسفة» ⇒ LIT. «الدورة العادية» من اسم الملفّ في Drive (الورقة تطبع «الدورة: 2026»). المجموع: فهم المكتوب 13 + إنتاج كتابيّ 07؛ كلّ العلامات من عمودَي «مجزأة/مجموع» في الحلّ الرّسميّ. خلافات طبقة النّصّ مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس (السّنة «0302»، المدّة «02 سا و 03 د» والصّورة «02 سا و30 د»)، تذييل ص2 من الحلّ «صفحة 0 من 3» في الطّبقة؛ إحالات الهوامش مرفوعة ⇒ ¹ ² ³ ⁴ و«Conversation*»؛ «1er/3ème…» المرفوعة كُتبت عاديّة؛ «auto-/surveillance» و«15-/24» المقسومتان آخر السّطر وُصلتا. حُفظ كما طُبع: «45.000 Algériens» و«45 000 victimes»، «Ecrits»، «Casbah Editions»، «reconnaitre» في س6 من الموضوع الثّاني (والنّصّ «reconnaître»)، والفاصلة العليا المستقيمة في «l'indépendance» (س8 من الموضوع الأوّل) و«l'utilisation» و«l'ensemble». قرارات عامّة: «n×m» لبنود متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من النّصّ ⇒ عنصر واحد بخطوة multi. الخيارات الثّنائيّة تُخزَّن معكوسة لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين. قاعدة «accepter» الموحَّدة: صيغة أخرى للجواب نفسه ⇒ تفاعليّ (الصّحيح صيغة الحلّ الأولى، والصّيغ المقبولة في الشّرح ولا تكون مشتّتًا أبدًا)؛ الجواب المفتوح («Exemples») ⇒ essay_builder مؤجَّل. الإنتاج الكتابيّ = سؤال أصليّ واحد يضمّ الموضوعين، وتفاصيل شبكة كلّ موضوع في spec. المشتّتات من إعداد التّحويل وتحتاج مراجعة. الفقرة التّمهيديّة المائلة «L’auteur republie…» وثيقة مستقلّة «Présentation du document»، وفقرات النّصّ ستّ. س2: الخيار الصّحيح بلفظ الحلّ (بلا الفاصلة بعد «massacres» الموجودة في النّصّ)؛ الصّيغة القصيرة المقبولة وصيغة النّصّ ليستا مشتّتين؛ لم يُعرض «Le mouvement de Libération Nationale sut donc tirer la leçon…» ولا «les campagnes du Vietnam confirmèrent cette analyse» لأنّهما قابلتان للدّفاع. س3 «0.5x3» ⇒ عنصر واحد (1.5) بخطوة multi؛ «la discipline» و«unité du peuple algérien» المقبولتان ليستا مشتّتين. س5 «0.5×4» ⇒ أربعة عناصر ثنائيّة (8 mai 1945 / 8 mai 1959). س6 «lui»: الصّحيح «un corps expéditionnaire français de 750 000 hommes» والصّيغة القصيرة المقبولة ليست مشتّتًا. س8: «0.5x4» معايير ⇒ أربعة عناصر مؤجَّلة. الإنتاج الكتابيّ (7): (تقديم + بنية) عنصر واحد (1) لاختلاف تقسيمه بين الشّبكتين (0.5+0.25x2 / 0.25+0.25x3)، وباقي الأسطر بالعلامة نفسها ⇒ 12 عنصرًا."
  },
  "original_questions": [
@@ -62,7 +62,7 @@
      "id": "q1-e1",
      "label": "Sujet principal du texte",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -103,7 +103,7 @@
      "id": "q2-e1",
      "label": "Phrase du texte qui reprend la même idée",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -144,7 +144,7 @@
      "id": "q3-e1",
      "label": "Trois piliers relevés dans le 4ème paragraphe (0,5x3)",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -185,7 +185,7 @@
      "id": "q4-e1",
      "label": "Date qui correspond au mot « aujourd’hui »",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -226,25 +226,25 @@
      "id": "q5-e1",
      "label": "Classement de « le monde entier ignore la situation en Algérie » (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e2",
      "label": "Classement de « la cause algérienne gagne en visibilité dans le monde » (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e3",
      "label": "Classement de « les souffrances en Algérie n’ont pas suscité de réactions internationales » (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q5-e4",
      "label": "Classement de « l’Algérie bénéficie d’un large soutien international » (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -285,19 +285,19 @@
      "id": "q6-e1",
      "label": "Référent de « sa » (1er paragraphe) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e2",
      "label": "Référent de « il » (3ème paragraphe) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q6-e3",
      "label": "Référent de « lui » (5ème paragraphe) (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -338,7 +338,7 @@
      "id": "q7-e1",
      "label": "Visée communicative de l’auteur",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -379,25 +379,25 @@
      "id": "q8-e1",
      "label": "Critère : Respect de la consigne (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e2",
      "label": "Critère : Pertinence des idées (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e3",
      "label": "Critère : Cohérence (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q8-e4",
      "label": "Critère : Correction de la langue (0,5)",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -438,73 +438,73 @@
      "id": "q9-e1",
      "label": "Organisation : présentation du texte et structure adéquate",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e2",
      "label": "Organisation : cohérence — progression des informations",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e3",
      "label": "Organisation : cohérence — absence de répétitions",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e4",
      "label": "Organisation : cohérence — absence de contresens",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e5",
      "label": "Organisation : cohérence — emploi de connecteurs",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e6",
      "label": "Planification : choix énonciatif en relation avec la consigne",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e7",
      "label": "Planification : choix et sélection des informations",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e8",
      "label": "Langue : correction des phrases au plan syntaxique",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e9",
      "label": "Langue : lexique approprié à la thématique",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e10",
      "label": "Langue : emploi correct des temps et des modes",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e11",
      "label": "Langue : utilisation adéquate des signes de ponctuation",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "q9-e12",
      "label": "Langue : orthographe",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -534,7 +534,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s02",
@@ -561,7 +561,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s03",
@@ -593,7 +593,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s04",
@@ -620,7 +620,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s05",
@@ -645,7 +645,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s06",
@@ -670,7 +670,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s07",
@@ -695,7 +695,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s08",
@@ -720,7 +720,7 @@
    "skill_id": "fr.comprehension",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s09",
@@ -747,7 +747,7 @@
    "skill_id": "fr.discours",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s10",
@@ -774,7 +774,7 @@
    "skill_id": "fr.discours",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s11",
@@ -801,7 +801,7 @@
    "skill_id": "fr.discours",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s12",
@@ -827,7 +827,7 @@
    "skill_id": "fr.enonciation",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review"
+   "review_status": "approved"
   },
   {
    "id": "s13",
@@ -1517,6 +1517,12 @@
    "by": "claude",
    "action": "generated",
    "note": "تحويل من ورقة البكالوريا الرّسميّة وإجابتها النّموذجيّة (PDF رقميّان في Drive، طبقة النّصّ مقابَلة بصور الصّفحات)؛ العلامات من سلّم التّنقيط الرّسميّ؛ الإجابات الصّحيحة من الحلّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.834Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }
