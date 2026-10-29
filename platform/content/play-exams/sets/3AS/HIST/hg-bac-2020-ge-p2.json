@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2020-ge-p2",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1GpAeUfG8T2E7TDZ_CkxOOE1rnDUy1uBG-p2",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1cXAsq9QtMOcdKs6dDURgUJgjgfnKOyFj/view",
   "correction_file_ref": "gdrive:1cXAsq9QtMOcdKs6dDURgUJgjgfnKOyFj (2020 - التاريخ والجغرافيا - تسيير واقتصاد - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.541Z",
   "notes": "سجلّ المصدر: hist-bac-2020-ge.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: تسيير واقتصاد». مشكلات سجّلها الناقل (7): figure_needs_crop @ topics[0].documents[2].figure: الخريطة الموقعة من ملف التصحيح الصفحة 5؛ bbox نسبة إلى صفحة التصحيح. أصل السؤال من الموضوع الصفحة 3 في topics[0].documents[1]. | typo_in_correction @ topics[0].documents[2].figure: مفتاح خريطة التصحيح يرقم السويس (3)، لكن الملصق قرب مصر في الرسم مطبوع (2) وكذلك ملصق كوريا (2). لا يُعدل الرسم. | figure_needs_crop @ topics[0].documents[7].figure: الدائرة النسبية الرسمية من ملف التصحيح الصفحة 3؛ bbox نسبة إلى صفحة التصحيح الكاملة. | figure_needs_crop @ topics[1].documents[7].figure: الخريطة الرسمية من ملف التصحيح الصفحة 9، bbox نسبة إلى صفحة التصحيح. الخريطة غير الموقعة من الموضوع الصفحة 6 في topics[1].documents[6]. | other @ topics[1].questions[6].rubric[0]: السؤال يطلب توقيع ثلاث دول. التصحيح يذكر أربع دول بديلة ويعرض الأربع على الخريطة رغم عنوان «ثلاث دول»؛ نُقلت الخيارات والرسم كما طُبعا دون حذف أو إعادة رسم. | other @ topics[0].questions[2].rubric[0]: 02 في عمود التنقيط سطر واحد؛ تفاصيل العنوان والمفتاح والإنجاز داخل نص التصحيح. | other @ topics[0].questions[5].rubric[0]: 02 في عمود التنقيط سطر واحد؛ تفاصيل العنوان والمقياس والمفتاح والإنجاز وحساب الزوايا داخل نص التصحيح. نُقلت النتائج المطبوعة دون حساب. وثائق في السجلّ لا يحيل إليها سؤال (من التصحيح) لم تُعرض: p2-d8. أسماء البنود في الأسئلة كما في ورقة الموضوع، والأعداد المفصولة بخطّ مائل بترتيب عرضها في الورقة («1991/1815»، «2006/16»). في سطر «مشروع ايزنهاور» تاريخان من التصحيح نفسه كُتبا بصيغة الجدول: «24 أكتوبر 1945» ← 1945/10/24، و«18 و24 أفريل 1955» ← 1955/04/18. التعليق على الدائرة النسبيّة تفاعليّ لأنّ أرقامها مطبوعة في جدول السؤال؛ وعبارات التعليق على جدول البترول (عنصر لكلّ عبارة في السلّم) mcq لكلّ عنصر بعبارته الرسميّة وثلاث عبارات تنقضها أرقام الجدول. تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p2-d1: «التعايش السلمي» ← «التّعايش السّلمي»؛ p2-d1: «منظّمة الأمم المتحدة» ← «منظمة الأمم المتّحدة»؛ p2-d1: «التفاهم والتعاون» ← «التّفاهم والتّعاون»؛ p2-d1: «1815/1991» ← «1991/1815»؛ p2-d2: «مشروع إيزنهاور» ← «مشروع ايزنهاور»؛ p2-d3: «تحريرية» ← «تحررية»؛ p2-d3: «تدعم» ← «تدعّم»؛ p2-d3: «ديبلوماسي» ← «دبلوماسي»؛ p2-q4: «ديبلوماسية» ← «دبلوماسية»؛ p2-d4: «للسلع» ← «للسّلع»؛ p2-d4: «متعددة» ← «متعدّدة»؛ p2-d4: «هذا التطوّر» ← «هذا التّطور»؛ p2-d4: «هذه الشركات» ← «هذه الشّركات»؛ p2-d4: «نحو توحيد» ← «نحو تحديد»؛ p2-d4: «16/2006» ← «2006/16»؛ p2-q7: «منظّمة الأوبيك» ← «منظمة الأوبيك»؛ p2-d9: «المتحدة» ← «المتّحدة»؛ p2-q8: «اقتصاد الولايات المتحدة» ← «اقتصاد الولايات المتّحدة»."
  },
  "original_questions": [
@@ -44,13 +44,13 @@
      "id": "p2-q1-e1",
      "label": "منظّمة الأمم المتحدة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e2",
      "label": "الأزمات الدّولية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -66,13 +66,13 @@
      "id": "p2-q2-e1",
      "label": "جوزيف بروز تيتو",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e2",
      "label": "رونالد ريغن",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -108,13 +108,13 @@
      "id": "p2-q3-e1",
      "label": "مشروع إيزنهاور",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e2",
      "label": "19 ماي 1956",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -137,25 +137,25 @@
      "id": "p2-q4-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e2",
      "label": "المحور الأول للمقال التاريخي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e3",
      "label": "المحور الثاني للمقال التاريخي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e4",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -178,13 +178,13 @@
      "id": "p2-q5-e1",
      "label": "الاستثمارات",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q5-e2",
      "label": "الشّركات متعددة الجنسيات",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -234,19 +234,19 @@
      "id": "p2-q6-e1",
      "label": "عنصر الإجابة 1",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e2",
      "label": "عنصر الإجابة 2",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e3",
      "label": "عنصر الإجابة 3",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -280,7 +280,7 @@
      "id": "p2-q7-e1",
      "label": "توقيع الدول على الخريطة",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -303,25 +303,25 @@
      "id": "p2-q8-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e2",
      "label": "المحور الأول للمقال الجغرافي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e3",
      "label": "المحور الثاني للمقال الجغرافي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e4",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -333,7 +333,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«منظمة الأمم المتّحدة»؟",
    "payload": {
@@ -360,7 +360,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الأزمات الدّولية»؟",
    "payload": {
@@ -387,7 +387,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو جوزيف بروز تيتو؟",
    "payload": {
@@ -414,7 +414,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو رونالد ريغن؟",
    "payload": {
@@ -441,7 +441,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما تاريخ «مشروع ايزنهاور»؟",
    "payload": {
@@ -468,7 +468,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما الحدث الذي وقع في 19 ماي 1956؟",
    "payload": {
@@ -619,7 +619,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الاستثمارات»؟",
    "payload": {
@@ -646,7 +646,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الشّركات متعدّدة الجنسيات»؟",
    "payload": {
@@ -673,7 +673,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "أيّ العبارات التالية تصلح تعليقًا على معطيات الجدول؟",
    "payload": {
@@ -700,7 +700,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "أيّ العبارات التالية تصلح تعليقًا على معطيات الجدول؟",
    "payload": {
@@ -727,7 +727,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "أيّ العبارات التالية تصلح تعليقًا على معطيات الجدول؟",
    "payload": {
@@ -915,6 +915,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2020-ge.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.541Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

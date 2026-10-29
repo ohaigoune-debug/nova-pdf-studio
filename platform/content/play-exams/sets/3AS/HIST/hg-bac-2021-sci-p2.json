@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2021-sci-p2",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1Ym6nbWyiW7HMfMem1vYymyWzaT4qdZV_-p2",
   "kind": "BAC",
@@ -21,9 +21,9 @@
   "correction_url": "https://drive.google.com/file/d/1cV3yrQuvFp3wxRUiugMbSuWzLjVVdE1I/view",
   "correction_file_ref": "gdrive:1cV3yrQuvFp3wxRUiugMbSuWzLjVVdE1I (2021 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.572Z",
   "notes": "سجلّ المصدر: hist-bac-2021-sci.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: علوم تجريبية، رياضيات، تقني رياضي». مشكلات سجّلها الناقل (3): figure_needs_crop @ topics[0].documents[5].figure: الرسم الرسمي مع العمليات الحسابية في ملف التصحيح الصفحة 6، الجزء السفلي. bbox نسبة إلى صفحة التصحيح، لا ملف الموضوع. | other @ topics[0].questions[4].rubric[0]: 03 سطر واحد في عمود التنقيط، والتفاصيل والعمليات الحسابية ضمن نص التصحيح. نُقلت العمليات المطبوعة دون إعادة حساب. الرسم في topics[0].documents[5]. | typo_in_correction @ topics[1].questions[5].rubric[6].official_answer: عبارة الخاتمة في التصحيح الصفحة 6 مطبوعة «وتحكم الكبرى» دون كلمة بينهما. نُقلت كما طُبعت. ورقة الموضوع صور بلا طبقة نصّ: قوبل النقل كلّه بصورة الصفحة. تعريفات «مشروع مارشال» و«هاري ترومان» و«مظاهرات» تسمّي البند: حُذفت من الخيار الصحيح وحده «جورج مارشال» و«له مبدأ حمل اسمه (مبدأ ترومان1947)» و«(تظاهر الشّعب)» و«ظهر ذلك في مظاهرات 1960/12/11»، ويبقى التعريف كاملًا في الشرح. الشخصيّات ثلاث فقط في التصحيح: mcq بثلاثة خيارات. التعليق على جدول الآسيان ثلاثة عناصر بعبارة واحدة لكلّ منها: mcq لكلّ عنصر بمشتّتات تنقضها أرقام الجدول. تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p2-q3: «أسباب التوتر» ← «أسباب التّوتر»؛ p2-d4: «النمو المطّرد» ← «النّمو المُطَّرِد»."
  },
  "original_questions": [
@@ -46,19 +46,19 @@
      "id": "p2-q1-e1",
      "label": "مظاهرات",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e2",
      "label": "للكفاح المسلح",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e3",
      "label": "السيادة الوطنية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -98,19 +98,19 @@
      "id": "p2-q2-e1",
      "label": "1955/05/14",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e2",
      "label": "1956/08/20",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e3",
      "label": "إعلان مبدأ ترومان",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -133,31 +133,31 @@
      "id": "p2-q3-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e2",
      "label": "المعايير التاريخية",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e3",
      "label": "المعايير الاقتصادية",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e4",
      "label": "أسباب التوتر",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e5",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -180,19 +180,19 @@
      "id": "p2-q4-e1",
      "label": "العولمة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e2",
      "label": "تحرير التجارة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e3",
      "label": "للاستثمار",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -238,19 +238,19 @@
      "id": "p2-q5-e1",
      "label": "عنصر الإجابة 1",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q5-e2",
      "label": "عنصر الإجابة 2",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q5-e3",
      "label": "عنصر الإجابة 3",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -273,43 +273,43 @@
      "id": "p2-q6-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e2",
      "label": "عنصر الإجابة 2",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e3",
      "label": "عنصر الإجابة 3",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e4",
      "label": "عنصر الإجابة 4",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e5",
      "label": "عنصر الإجابة 5",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e6",
      "label": "العوامل المتحكمة في الأسعار",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e7",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -321,7 +321,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«مظاهرات»؟",
    "payload": {
@@ -348,7 +348,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الكفاح المسلح»؟",
    "payload": {
@@ -375,7 +375,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«السيادة الوطنية»؟",
    "payload": {
@@ -402,7 +402,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما الحدث الذي وقع في 1955/05/14؟",
    "payload": {
@@ -429,7 +429,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما الحدث الذي وقع في 1956/08/20؟",
    "payload": {
@@ -456,7 +456,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما تاريخ «إعلان مبدأ ترومان»؟",
    "payload": {
@@ -638,7 +638,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«العولمة»؟",
    "payload": {
@@ -665,7 +665,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«تحرير التجارة»؟",
    "payload": {
@@ -692,7 +692,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الاستثمار»؟",
    "payload": {
@@ -719,7 +719,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "أيّ العبارات التالية تصلح تعليقًا على معطيات الجدول؟",
    "payload": {
@@ -746,7 +746,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "أيّ العبارات التالية تصلح تعليقًا على معطيات الجدول؟",
    "payload": {
@@ -773,7 +773,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "أيّ العبارات التالية تصلح تعليقًا على معطيات الجدول؟",
    "payload": {
@@ -1023,6 +1023,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2021-sci.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.572Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

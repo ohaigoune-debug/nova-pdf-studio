@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2020-sci-p2",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1i4PJUrt8CPuO_17rDq1TyzCrS_ZqSe-G-p2",
   "kind": "BAC",
@@ -21,9 +21,9 @@
   "correction_url": "https://drive.google.com/file/d/1-7UUa_5NCdJUKX7V18MLRP9DzYGsxUl9/view",
   "correction_file_ref": "gdrive:1-7UUa_5NCdJUKX7V18MLRP9DzYGsxUl9 (2020 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.554Z",
   "notes": "سجلّ المصدر: hist-bac-2020-sci.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: علوم تجريبية، رياضيات، تقني رياضي». مشكلات سجّلها الناقل (3): figure_needs_crop @ topics[0].documents[5].figure: الأعمدة البيانية الرسمية من ملف التصحيح الصفحة 3؛ bbox نسبة إلى صفحة التصحيح الكاملة، لا ملف الموضوع. | other @ topics[0].questions[4].rubric[0]: 03 في عمود التنقيط سطر واحد؛ تفاصيل الإنجاز 02 والمفتاح 0.25 والمقياس 0.25 والعنوان 0.50 داخل النص. الرسم في topics[0].documents[5]. | other @ topics[0].questions[2].rubric[3]: نص خاتمة التاريخ مطبوع قبل عنوان الجغرافيا في الصفحة 2، وعلامته 0.50 في عمود التنقيط قرب فاصل القسمين؛ حُفظت علامة واحدة للخاتمة دون تكرار. الشخصيّات الثلاث (الموضوع الأوّل) وسطرا التاريخ في جدول الموضوع الثاني: mcq بثلاثة خيارات، إذ لا يوجد في التصحيح نفسه إلّا شخصيّتان أخريان وتاريخان آخران بالصيغة نفسها غير مطبوعين في الجدول. اسم المصطلح في السؤال كما في ورقة الموضوع (التصحيح يكتب «الاتحاد الاوربي»، «الاسواق»...). تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p2-d1: «الذرّية» ← «الذريّة»؛ p2-d2: «منظّمة» ← «منظمة»؛ p2-d3: «على الثّورة الجزائرية» ← «على الثورة الجزائرية»؛ p2-d3: «قوة» ← «قوّة»؛ p2-d3: «التصدي» ← «التصدّي»؛ p2-d4: «الهامة» ← «الهامّة»؛ p2-d4: «التنافس» ← «التّنافس»؛ p2-d4: «الصّراعات الدولية» ← «الصّراعات الدوليّة»؛ p2-d4: «الاقتصادية الدولية.\"» ← «الاقتصادية الدوليّة. \"»؛ p2-q5: «المبادلات التجارية للسلع» ← «المبادلات التّجارية للسّلع»؛ p2-d6: «منظّمة» ← «منظمة»؛ p2-d7: «دائرة التخلّف» ← «دائرة التخلف»."
  },
  "original_questions": [
@@ -46,19 +46,19 @@
      "id": "p2-q1-e1",
      "label": "حركة عدم الانحياز",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e2",
      "label": "الأحلاف العسكرية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e3",
      "label": "التوتّر الدّولي",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -98,19 +98,19 @@
      "id": "p2-q2-e1",
      "label": "تأسيس حلف شمال الاطلسي",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e2",
      "label": "1958/09/19",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e3",
      "label": "تأسيس منظّمة الكوميكون",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -133,25 +133,25 @@
      "id": "p2-q3-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e2",
      "label": "السياسة العسكرية",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e3",
      "label": "رد فعل الثورة",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e4",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -174,19 +174,19 @@
      "id": "p2-q4-e1",
      "label": "الموارد الاستراتيجية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e2",
      "label": "الأسواق",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e3",
      "label": "الدول النّامية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -234,7 +234,7 @@
      "id": "p2-q5-e1",
      "label": "التعليق على المعطيات الإحصائية",
      "max_points": 3,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -257,25 +257,25 @@
      "id": "p2-q6-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e2",
      "label": "المشاكل الاقتصادية",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e3",
      "label": "الحلول المقترحة",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e4",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -287,7 +287,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«حركة عدم الانحياز»؟",
    "payload": {
@@ -314,7 +314,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الأحلاف العسكرية»؟",
    "payload": {
@@ -341,7 +341,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«التوتّر الدّولي»؟",
    "payload": {
@@ -368,7 +368,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما تاريخ «تأسيس حلف شمال الاطلسي»؟",
    "payload": {
@@ -394,7 +394,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما الحدث الذي وقع في 1958/09/19؟",
    "payload": {
@@ -421,7 +421,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما تاريخ «تأسيس منظّمة الكوميكون»؟",
    "payload": {
@@ -571,7 +571,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الموارد الاستراتيجية»؟",
    "payload": {
@@ -598,7 +598,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الأسواق»؟",
    "payload": {
@@ -625,7 +625,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الدول النّامية»؟",
    "payload": {
@@ -652,7 +652,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "multi",
    "prompt": "اختر العبارات التي تصلح تعليقًا على معطيات الجدول (كلّ العبارات الصحيحة).",
    "payload": {
@@ -817,6 +817,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2020-sci.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.554Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

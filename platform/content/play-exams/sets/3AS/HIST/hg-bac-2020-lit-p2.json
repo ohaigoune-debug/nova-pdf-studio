@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2020-lit-p2",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1a-qea7FFxI0RwN6LtrvfjljJSMNMYZUX-p2",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/10TPEXcM6FKVaNKCb9FUHFn3q4M1Mbqxp/view",
   "correction_file_ref": "gdrive:10TPEXcM6FKVaNKCb9FUHFn3q4M1Mbqxp (2020 - التاريخ والجغرافيا - آداب وفلسفة - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.550Z",
   "notes": "سجلّ المصدر: hist-bac-2020-lit.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: آداب وفلسفة». مشكلات سجّلها الناقل (7): typo_in_correction @ topics[0].questions[2].rubric[2]: طُبع تاريخ قمة مالطا بالشكل 1989/12/04/03؛ نُقل كما هو دون إعادة ترتيب أو تصحيح. | figure_needs_crop @ topics[0].documents[8].figure: خريطة الإجابة الرسمية من ملف التصحيح الصفحة 4؛ bbox نسبة إلى صفحة التصحيح الكاملة. الصفحة مطبوعة بوضع جانبي. | other @ topics[0].questions[6].rubric[0]: الخريطة الرسمية تعرض الدول الست الواردة في الجدول، مع أن السؤال والعنوان يطلبان ثلاث دول؛ نُقلت دون حذف. في الخريطة وُسمت فرنسا (1) بينما المفتاح يذكر (5). | figure_needs_crop @ topics[1].documents[2].figure: خريطة الإجابة الرسمية من ملف التصحيح الصفحة 8؛ bbox نسبة إلى صفحة التصحيح الكاملة. | typo_in_correction @ topics[1].questions[2].rubric[0]: المفتاح يذكر «ج- رومانيا» بينما الموضع المرسوم للحرف ج لا يطابق رومانيا؛ لم يُعدّل الرسم أو المفتاح. | figure_needs_crop @ topics[1].documents[7].figure: الأعمدة البيانية الرسمية من ملف التصحيح الصفحة 9؛ bbox نسبة إلى صفحة التصحيح الكاملة. | other @ topics[1].questions[5].rubric[0]: 02 في عمود التنقيط سطر واحد؛ تفاصيل الإنجاز والمفتاح والمقياس والعنوان مطبوعة في متن التصحيح. الرسم في topics[1].documents[7]. عناصر أُجّلت بقرار المحوِّل: p1-q3-e3. وثائق في السجلّ لا يحيل إليها سؤال (من التصحيح) لم تُعرض: p2-d3, p2-d8. سطر «انعقاد قمة مالطا» في جدول الموضوع الأوّل مؤجَّل: التصحيح يطبع تاريخه «1989/12/04/03». اسم الشخصيّة في السؤال كما في ورقة الموضوع (التصحيح يكتب «كندي»). تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p2-q2: «إيزنهاور» ← «ايزنهاور»."
  },
  "original_questions": [
@@ -44,19 +44,19 @@
      "id": "p2-q1-e1",
      "label": "القطبين",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e2",
      "label": "الخلاف الإيديولوجي",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e3",
      "label": "حلف شمال الاطلسي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -72,19 +72,19 @@
      "id": "p2-q2-e1",
      "label": "ليونيد بريجنيف",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e2",
      "label": "دوايت إيزنهاور",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e3",
      "label": "مصطفى بن بولعيد",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -118,7 +118,7 @@
      "id": "p2-q3-e1",
      "label": "توقيع دول الحلفين",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -141,25 +141,25 @@
      "id": "p2-q4-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e2",
      "label": "أثر المجازر",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e3",
      "label": "المحطات الرئيسية للتحضير",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e4",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -182,19 +182,19 @@
      "id": "p2-q5-e1",
      "label": "المحروقات",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q5-e2",
      "label": "الدول الرأسمالية",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q5-e3",
      "label": "منظّمة الأوبيك",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -248,7 +248,7 @@
      "id": "p2-q6-e1",
      "label": "تمثيل كمية الإنتاج الزراعي",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -302,7 +302,7 @@
      "id": "p2-q7-e1",
      "label": "التعليق على المعطيات الإحصائية",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -325,25 +325,25 @@
      "id": "p2-q8-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e2",
      "label": "عوامل القوة الاقتصادية",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e3",
      "label": "معيقات الاتحاد الأوربي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e4",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -355,7 +355,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«القطبين»؟",
    "payload": {
@@ -382,7 +382,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الخلاف الأيديولوجي»؟",
    "payload": {
@@ -409,7 +409,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«حلف شمال الأطلسي»؟",
    "payload": {
@@ -436,7 +436,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو ليونيد بريجنيف؟",
    "payload": {
@@ -463,7 +463,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو دوايت ايزنهاور؟",
    "payload": {
@@ -490,7 +490,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو مصطفى بن بولعيد؟",
    "payload": {
@@ -672,7 +672,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«المحروقات»؟",
    "payload": {
@@ -699,7 +699,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الدّول الرّأسمالية»؟",
    "payload": {
@@ -726,7 +726,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«منظّمة الأوبيك»؟",
    "payload": {
@@ -784,7 +784,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "multi",
    "prompt": "اختر العبارات التي تصلح تعليقًا على معطيات الجدول (كلّ العبارات الصحيحة).",
    "payload": {
@@ -949,6 +949,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2020-lit.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.550Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

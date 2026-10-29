@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2021-lit-p2",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1gkW93H8IqLaiWxCV5qg0Tz7jn2MZManr-p2",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1maICX_ZGSLAL1WCdtFBEZfamO6VQVcVO/view",
   "correction_file_ref": "gdrive:1maICX_ZGSLAL1WCdtFBEZfamO6VQVcVO (2021 - التاريخ والجغرافيا - آداب وفلسفة - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.567Z",
   "notes": "سجلّ المصدر: hist-bac-2021-lit.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: آداب وفلسفة». مشكلات سجّلها الناقل (6): figure_needs_crop @ topics[0].documents[6].figure: الرسم الرسمي من ملف التصحيح الصفحة 8؛ bbox نسبة إلى صفحة التصحيح الكاملة، لا ملف الموضوع. | other @ topics[0].questions[5].rubric[0]: 02 في عمود التنقيط سطر واحد؛ تفاصيل العنوان والمفتاح والمقياس والإنجاز داخل النص. الرسم في topics[0].documents[6]. | typo_in_correction @ topics[0].questions[6]: التصحيح يرقم التعليق على الرسم البياني (3) بينما هو الفرع (ب) من السؤال (2) في الموضوع. حُفظ رقم الفرع من الموضوع. | figure_needs_crop @ topics[1].documents[7].figure: الخريطة الموقعة جواب رسمي من ملف التصحيح الصفحة 7؛ bbox نسبة إلى صفحة التصحيح. الخريطة غير الموقعة في ملف الموضوع الصفحة 5 مسجلة في topics[1].documents[6]. | other @ topics[1].questions[6].rubric[0]: 02 في عمود التنقيط سطر واحد؛ تفاصيل العنوان والمفتاح والتوقيع داخل نص التصحيح. الخريطة الرسمية في topics[1].documents[7]. | other @ topics[1].questions[7].rubric[6]: الخاتمة مطبوعة أعلى الصفحة 7 من التصحيح، وعلامة 0.50 في نهاية عمود الصفحة 6 بعد مجموعة المعايير الاجتماعية؛ حُفظ امتداد السطر عبر الصفحتين دون تكرار العلامة. وثائق في السجلّ لا يحيل إليها سؤال (من التصحيح) لم تُعرض: p2-d8. أسماء البنود في الأسئلة كما في ورقة الموضوع، والأعداد المفصولة بخطّ مائل بترتيب عرضها في الورقة («06/01 سبتمبر1961»، «92/91»، «(1955/1954)»)؛ عنوان عنصر سطر بلغراد يبقى «01/06 سبتمبر1961» كما في السجلّ (FIXES لا تبلغ عناوين العناصر). حُذف من نصّ الخيار الصحيح ما يسمّي البند: «(MTLD)»، «رابطة دول جنوب شرق آسيا،»، «صاحب مبدأ جدا نوف»، «(مشروع مارشال 1947)»؛ الشرح يعرض جواب التصحيح كاملًا. التعليق على الرسم البيانيّ (الموضوع الأوّل) تفاعليّ لأنّ أرقامه مطبوعة في جدول السؤال. تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p2-d1: «التنسيق» ← «التّنسيق»؛ p2-d3: «(1954/1955)» ← «(1955/1954)»؛ p2-q4: «بين(1954/1955)» ← «بين(1955/1954)»؛ p2-d4: «منظّمة» ← «منظمة»؛ p2-q8: «معايير التخلف» ← «معايير التّخلف»."
  },
  "original_questions": [
@@ -44,19 +44,19 @@
      "id": "p2-q1-e1",
      "label": "الحرب الباردة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e2",
      "label": "لسياسة الاحتواء",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e3",
      "label": "مجلس الأمن",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -72,19 +72,19 @@
      "id": "p2-q2-e1",
      "label": "محمد بوضياف",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e2",
      "label": "جمال عبد الناصر",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e3",
      "label": "جورج مارشال",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -124,19 +124,19 @@
      "id": "p2-q3-e1",
      "label": "تأسيس حلف بغداد",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e2",
      "label": "1955/08/20",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e3",
      "label": "توحيد الألمانيتين",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -159,31 +159,31 @@
      "id": "p2-q4-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e2",
      "label": "الاستراتيجية داخليا",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e3",
      "label": "الاستراتيجية خارجيا",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e4",
      "label": "مخططات الاستعمار",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e5",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -206,19 +206,19 @@
      "id": "p2-q5-e1",
      "label": "منظّمة التجارة العالمية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q5-e2",
      "label": "الدول النّامية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q5-e3",
      "label": "اقتصاد السوق",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -272,7 +272,7 @@
      "id": "p2-q6-e1",
      "label": "التعليق على المعطيات الإحصائية",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -306,7 +306,7 @@
      "id": "p2-q7-e1",
      "label": "توقيع الدول على الخريطة",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -329,43 +329,43 @@
      "id": "p2-q8-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e2",
      "label": "عنصر الإجابة 2",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e3",
      "label": "عنصر الإجابة 3",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e4",
      "label": "عنصر الإجابة 4",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e5",
      "label": "عنصر الإجابة 5",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e6",
      "label": "معايير التخلف الاجتماعية",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e7",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -377,7 +377,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الحرب الباردة»؟",
    "payload": {
@@ -404,7 +404,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«سياسة الاحتواء»؟",
    "payload": {
@@ -431,7 +431,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«مجلس الأمن»؟",
    "payload": {
@@ -458,7 +458,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو محمد بوضياف؟",
    "payload": {
@@ -485,7 +485,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو جمال عبد الناصر؟",
    "payload": {
@@ -512,7 +512,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو جورج مارشال؟",
    "payload": {
@@ -539,7 +539,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما تاريخ «تأسيس حلف بغداد»؟",
    "payload": {
@@ -566,7 +566,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما الحدث الذي وقع في 1955/08/20؟",
    "payload": {
@@ -593,7 +593,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما تاريخ «توحيد الألمانيتين»؟",
    "payload": {
@@ -775,7 +775,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«منظمة التجارة العالمية»؟",
    "payload": {
@@ -802,7 +802,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الدول النّامية»؟",
    "payload": {
@@ -829,7 +829,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«اقتصاد السوق»؟",
    "payload": {
@@ -856,7 +856,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "multi",
    "prompt": "اختر العبارات التي تصلح تعليقًا على معطيات الجدول (كلّ العبارات الصحيحة).",
    "payload": {
@@ -1150,6 +1150,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2021-lit.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.567Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

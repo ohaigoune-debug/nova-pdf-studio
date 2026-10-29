@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2022-lang-p2",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1LDEgjl7jYl5OXznlThOiG23V_4AS1tNn-p2",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1LThYrtwQc5vTjTXx5BisFa7ZZODTMskS/view",
   "correction_file_ref": "gdrive:1LThYrtwQc5vTjTXx5BisFa7ZZODTMskS (2022 - التاريخ والجغرافيا - لغات أجنبية - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.576Z",
   "notes": "سجلّ المصدر: hist-bac-2022-lang.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: لغات أجنبية». مشكلات سجّلها الناقل (3): typo_in_correction @ topics[0].questions[0]: التصحيح يضع شرح العالم الثالث تحت الرقم (2)، ثم التعريف بالشخصيات تحت الرقم (3)، بينما الموضوع يجمع المصطلحات الثلاثة في السؤال (1) ويضع الشخصيات في السؤال (2). تمت المطابقة بالمحتوى وبمواضع العلامات، وحُفظ ترقيم السؤال من الموضوع. | figure_needs_crop @ topics[0].documents[5].figure: هذا الشكل جواب رسمي من ملف التصحيح، الصفحة 5، وليس من ملف الموضوع. bbox نسبة إلى صفحة التصحيح الكاملة. يُقص الرسم الرسمي كما هو؛ لا يُعاد رسمه. المخطط لا يتضمن حقل مصدر داخل figure، لذا سُجّل مصدره هنا. | other @ topics[0].questions[4].rubric[0]: عمود العلامة يطبع 03 علامة إجمالية لهذا السطر. تفصيل العنوان 0.50 والمقياس 0.25 والمفتاح 0.25 والإنجاز 02 مطبوع داخل نص التصحيح؛ لذلك حُفظ السطر عنصرًا واحدًا بعلامة 3. الجواب الرسومي موجود في topics[0].documents[5]. الشخصيّات الثلاث (الموضوع الأوّل) mcq بثلاثة خيارات: لا شخصيّات أخرى في التصحيح. حُذفت من نصّ الخيار (لا من الشرح) جمل التعريف الرسميّ التي تسمّي البند: «بمدينة باندونغ»، «بواد الصومام»، «وصدر عنه ميثاق الصومام»، «صاحب مبدأ ترومان عام 1947»، «وهناك عدة أنواع من الأسواق…»، «وهناك تجارة داخلية وأخرى خارجية»، «(الأموال، النقود والسلع.)». مشتّتات جدول الموضوع الثاني من التصحيح نفسه، وتواريخها مكتوبة بصيغة الجدول. تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p2-d5: «% قطاع الزراعية» ← «قطاع الزراعية %»؛ p2-d5: «% قطاع الصناعية» ← «قطاع الصناعية %»؛ p2-d5: «% قطاع الخدمات» ← «قطاع الخدمات %»."
  },
  "original_questions": [
@@ -44,19 +44,19 @@
      "id": "p2-q1-e1",
      "label": "شرح المصطلح الأول",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e2",
      "label": "شرح المصطلح الثاني",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e3",
      "label": "شرح المصطلح الثالث",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -96,19 +96,19 @@
      "id": "p2-q2-e1",
      "label": "استكمال الخانة الأولى",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e2",
      "label": "استكمال الخانة الثانية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e3",
      "label": "استكمال الخانة الثالثة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -131,25 +131,25 @@
      "id": "p2-q3-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e2",
      "label": "المحور الأول للمقال التاريخي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e3",
      "label": "المحور الثاني للمقال التاريخي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e4",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -172,19 +172,19 @@
      "id": "p2-q4-e1",
      "label": "شرح المصطلح الأول",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e2",
      "label": "شرح المصطلح الثاني",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e3",
      "label": "شرح المصطلح الثالث",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -232,7 +232,7 @@
      "id": "p2-q5-e1",
      "label": "التعليق على المعطيات الإحصائية",
      "max_points": 3,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -255,25 +255,25 @@
      "id": "p2-q6-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e2",
      "label": "المحور الأول للمقال الجغرافي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e3",
      "label": "المحور الثاني للمقال الجغرافي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e4",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -285,7 +285,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«مؤتمر الصومام»؟",
    "payload": {
@@ -312,7 +312,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«المجلس الوطني للثّورة»؟",
    "payload": {
@@ -339,7 +339,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الثّورة الجزائرية»؟",
    "payload": {
@@ -366,7 +366,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما الحدث الذي وقع في 1956/08/20؟",
    "payload": {
@@ -393,7 +393,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما تاريخ «تأسيس حلف جنوب شرق آسيا»؟",
    "payload": {
@@ -420,7 +420,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما الحدث الذي وقع في 1954/03/23؟",
    "payload": {
@@ -571,7 +571,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الدّول النّامية»؟",
    "payload": {
@@ -598,7 +598,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الموارد الطبيعية»؟",
    "payload": {
@@ -625,7 +625,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«رؤوس الأموال»؟",
    "payload": {
@@ -652,7 +652,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "multi",
    "prompt": "اختر العبارات التي تصلح تعليقًا على معطيات الجدول (كلّ العبارات الصحيحة).",
    "payload": {
@@ -817,6 +817,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2022-lang.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.576Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2021-sci-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1Ym6nbWyiW7HMfMem1vYymyWzaT4qdZV_-p1",
   "kind": "BAC",
@@ -21,9 +21,9 @@
   "correction_url": "https://drive.google.com/file/d/1cV3yrQuvFp3wxRUiugMbSuWzLjVVdE1I/view",
   "correction_file_ref": "gdrive:1cV3yrQuvFp3wxRUiugMbSuWzLjVVdE1I (2021 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.570Z",
   "notes": "سجلّ المصدر: hist-bac-2021-sci.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: علوم تجريبية، رياضيات، تقني رياضي». مشكلات سجّلها الناقل (3): figure_needs_crop @ topics[0].documents[5].figure: الرسم الرسمي مع العمليات الحسابية في ملف التصحيح الصفحة 6، الجزء السفلي. bbox نسبة إلى صفحة التصحيح، لا ملف الموضوع. | other @ topics[0].questions[4].rubric[0]: 03 سطر واحد في عمود التنقيط، والتفاصيل والعمليات الحسابية ضمن نص التصحيح. نُقلت العمليات المطبوعة دون إعادة حساب. الرسم في topics[0].documents[5]. | typo_in_correction @ topics[1].questions[5].rubric[6].official_answer: عبارة الخاتمة في التصحيح الصفحة 6 مطبوعة «وتحكم الكبرى» دون كلمة بينهما. نُقلت كما طُبعت. وثائق في السجلّ لا يحيل إليها سؤال (من التصحيح) لم تُعرض: p1-d6. ورقة الموضوع صور بلا طبقة نصّ: قوبل النقل كلّه بصورة الصفحة. تعريفات «مشروع مارشال» و«هاري ترومان» و«مظاهرات» تسمّي البند: حُذفت من الخيار الصحيح وحده «جورج مارشال» و«له مبدأ حمل اسمه (مبدأ ترومان1947)» و«(تظاهر الشّعب)» و«ظهر ذلك في مظاهرات 1960/12/11»، ويبقى التعريف كاملًا في الشرح. الشخصيّات ثلاث فقط في التصحيح: mcq بثلاثة خيارات. التعليق على جدول الآسيان ثلاثة عناصر بعبارة واحدة لكلّ منها: mcq لكلّ عنصر بمشتّتات تنقضها أرقام الجدول. تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p1-q6-e2: «الرّين» ← «الرّاين»؛ p1-q6-e3: «الرّين» ← «الرّاين»؛ p1-d1: «اتّخذت» ← «اتخذت»؛ p1-d1: «واتّضح» ← «واتضح»؛ p1-d1: «إيناس» ← «ايناس»؛ p1-d1: «1945/1950» ← «1950/1945»؛ p1-d2: «بالتوقيع» ← «بالتّوقيع»؛ p1-d2: «إطلاق» ← «اطلاق»؛ p1-d3: «التنمية» ← «التّنمية»؛ p1-d3: «الناشئة» ← «النّاشئة»؛ p1-d3: «النامية» ← «النّامية»؛ p1-d4: «أفريقيا» ← «افريقيا»؛ p1-d7: «الرّين» ← «الرّاين»؛ p1-q6: «مكانة إقليم الرّين» ← «مكانة إقليم الرّاين»؛ p1-q6: «ساعدت إقليم الرّين» ← «ساعدت إقليم الرّاين»."
  },
  "original_questions": [
@@ -46,19 +46,19 @@
      "id": "p1-q1-e1",
      "label": "المدّ الشيوعي",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q1-e2",
      "label": "مشروع مارشال",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q1-e3",
      "label": "حلف شمال الأطلسي",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -74,19 +74,19 @@
      "id": "p1-q2-e1",
      "label": "ديدوش مراد",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q2-e2",
      "label": "نيكيتا خروتشوف",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q2-e3",
      "label": "هاري ترومان",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -109,61 +109,61 @@
      "id": "p1-q3-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e2",
      "label": "عنصر الإجابة 2",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e3",
      "label": "عنصر الإجابة 3",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e4",
      "label": "عنصر الإجابة 4",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e5",
      "label": "عنصر الإجابة 5",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e6",
      "label": "عنصر الإجابة 6",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e7",
      "label": "عنصر الإجابة 7",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e8",
      "label": "الاختيارات السياسية",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e9",
      "label": "الاختيارات الاقتصادية",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e10",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -186,19 +186,19 @@
      "id": "p1-q4-e1",
      "label": "لرؤوس الأموال",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e2",
      "label": "التنمية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e3",
      "label": "الدول المتقدمة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -244,7 +244,7 @@
      "id": "p1-q5-e1",
      "label": "تمثيل المعطيات الإحصائية",
      "max_points": 3,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -267,25 +267,25 @@
      "id": "p1-q6-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q6-e2",
      "label": "المحور الأول للمقال الجغرافي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q6-e3",
      "label": "المحور الثاني للمقال الجغرافي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q6-e4",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -297,7 +297,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«المدّ الشيوعي»؟",
    "payload": {
@@ -324,7 +324,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«مشروع مارشال»؟",
    "payload": {
@@ -351,7 +351,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«حلف شمال الأطلسي»؟",
    "payload": {
@@ -378,7 +378,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو ديدوش مراد؟",
    "payload": {
@@ -404,7 +404,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو نيكيتا خروتشوف؟",
    "payload": {
@@ -430,7 +430,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو هاري ترومان؟",
    "payload": {
@@ -766,7 +766,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«رؤوس الأموال»؟",
    "payload": {
@@ -793,7 +793,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«التّنمية»؟",
    "payload": {
@@ -820,7 +820,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الدول المتقدمة»؟",
    "payload": {
@@ -1008,6 +1008,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2021-sci.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.570Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2019-ge-p2",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1YTcJVrMWpXBtIV5EHCrs4utImh9oVchA-p2",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1s61DY1s-8GteT8aqpkxThoAyDgG_xRgm/view",
   "correction_file_ref": "gdrive:1s61DY1s-8GteT8aqpkxThoAyDgG_xRgm (2019 - التاريخ والجغرافيا - تسيير واقتصاد - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.536Z",
   "notes": "سجلّ المصدر: hist-bac-2019-ge.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: تسيير واقتصاد». مشكلات سجّلها الناقل (5): figure_needs_crop @ topics[0].documents[2].figure: خريطة التصحيح الرسمية، الصفحة 3 من ملف التصحيح؛ bbox نسبة إلى صفحة التصحيح الكاملة. | figure_needs_crop @ topics[0].documents[7].figure: الأعمدة البيانية الرسمية، الصفحة 4 من ملف التصحيح؛ bbox نسبة إلى صفحة التصحيح الكاملة. | ambiguous_mark_position @ topics[0].questions[5].rubric[0]: علامة 2.50 تقابل في التصحيح فقرة «طبيعة صادرات وواردات الولايات المتحدة الأمريكية»، بينما سؤال الموضوع يطلب رسم أعمدة. الرسم الرسمي موجود بالصفحة 4 دون علامة أخرى؛ حُفظت الفقرة وعلامتها والرسم دون تغيير. | other @ topics[1].questions[2].rubric[0]: سطر التنقيط المطبوع 2×01 عنصر واحد؛ أُبقي تاريخا الحدثين وترتيبهما كما في جدول التصحيح. | figure_needs_crop @ topics[1].documents[7].figure: خريطة الإجابة الرسمية، الصفحة 7 من ملف التصحيح؛ bbox نسبة إلى صفحة التصحيح الكاملة. وثائق في السجلّ لا يحيل إليها سؤال (من التصحيح) لم تُعرض: p2-d8. جدول أحداث الموضوع الثاني (عنصر واحد «2×01» لسطرين) مؤجَّل: جواب «معركة ديان بيان فو» مدى تاريخيّ لا مثيل لصيغته في التصحيح. العلامات الجزئيّة «(0.50 ن)» حُذفت من نصوص الخيارات فقط. عبد الناصر ونهرو (مؤسّسا حركة عدم الانحياز) لا يُعرض أحدهما للآخر: سؤالاهما بثلاثة خيارات. التعليق على جدول الشركاء (الموضوع الثاني): mcq لكلّ عبارة من التصحيح بعلامتها. تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p2-d1: «\"...بهدف» ← «\" ... بهدف»؛ p2-d1: «بريوني» ← «بيروني»؛ p2-d1: «السلاح» ← «السّلاح»؛ p2-q2: «بالشخصيات» ← «بالشّخصيات»؛ p2-d3: «تخفي» ← «تُخفي»؛ p2-d3: «تشكّل» ← «تُشكل»؛ p2-q4: «من العبارة واعتمادا» ← «من العبارة، واعتمادا»؛ p2-d4: «لتجبر» ← «لتُجبر»؛ p2-d4: «تدعّمها» ← «تُدعّمها»؛ p2-d4: «الأجنبي...\".» ← «الأجنبي...\"»؛ p2-d9: «قوة» ← «قوّة»؛ p2-q8: «من العبارة واعتمادا» ← «من العبارة، واعتمادا»."
  },
  "original_questions": [
@@ -44,13 +44,13 @@
      "id": "p2-q1-e1",
      "label": "الحياد الإيجابي",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e2",
      "label": "مؤتمر باندونغ",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -73,13 +73,13 @@
      "id": "p2-q2-e1",
      "label": "جمال عبد الناصر",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e2",
      "label": "جواهر لال نهرو",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -115,7 +115,7 @@
      "id": "p2-q3-e1",
      "label": "إكمال جدول الأحداث",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -138,55 +138,55 @@
      "id": "p2-q4-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e2",
      "label": "عنصر الإجابة 2",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e3",
      "label": "عنصر الإجابة 3",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e4",
      "label": "عنصر الإجابة 4",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e5",
      "label": "عنصر الإجابة 5",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e6",
      "label": "عنصر الإجابة 6",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e7",
      "label": "رد الفعل الأول",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e8",
      "label": "رد الفعل الثاني",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e9",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -209,13 +209,13 @@
      "id": "p2-q5-e1",
      "label": "الرسوم الجمركية",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q5-e2",
      "label": "لصندوق النّقد الدولي",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -267,25 +267,25 @@
      "id": "p2-q6-e1",
      "label": "عنصر الإجابة 1",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e2",
      "label": "عنصر الإجابة 2",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e3",
      "label": "عنصر الإجابة 3",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q6-e4",
      "label": "عنصر الإجابة 4",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -348,7 +348,7 @@
      "id": "p2-q7-e1",
      "label": "توقيع دول الاتحاد الأوربي",
      "max_points": 3,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -371,67 +371,67 @@
      "id": "p2-q8-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e2",
      "label": "عنصر الإجابة 2",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e3",
      "label": "عنصر الإجابة 3",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e4",
      "label": "عنصر الإجابة 4",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e5",
      "label": "عنصر الإجابة 5",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e6",
      "label": "عنصر الإجابة 6",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e7",
      "label": "عنصر الإجابة 7",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e8",
      "label": "عنصر الإجابة 8",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e9",
      "label": "عنصر الإجابة 9",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e10",
      "label": "عنصر الإجابة 10",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e11",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -443,7 +443,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الحياد الإيجابي»؟",
    "payload": {
@@ -470,7 +470,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«مؤتمر باندونغ»؟",
    "payload": {
@@ -497,7 +497,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو جمال عبد الناصر؟",
    "payload": {
@@ -523,7 +523,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو جواهر لال نهرو؟",
    "payload": {
@@ -859,7 +859,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الرسوم الجمركية»؟",
    "payload": {
@@ -886,7 +886,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«صندوق النّقد الدولي»؟",
    "payload": {
@@ -913,7 +913,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "أيّ العبارات التالية تصلح تعليقًا على معطيات الجدول؟",
    "payload": {
@@ -940,7 +940,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "أيّ العبارات التالية تصلح تعليقًا على معطيات الجدول؟",
    "payload": {
@@ -967,7 +967,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "أيّ العبارات التالية تصلح تعليقًا على معطيات الجدول؟",
    "payload": {
@@ -994,7 +994,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "أيّ العبارات التالية تصلح تعليقًا على معطيات الجدول؟",
    "payload": {
@@ -1399,6 +1399,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2019-ge.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.536Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

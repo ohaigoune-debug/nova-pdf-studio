@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2022-lit-p2",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-182Ug9ncPJfrURGo4DbzvBYSyk7n0XjzA-p2",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1MlwVUmQuWgUcfDuy-P-0arxG3J2LvCot/view",
   "correction_file_ref": "gdrive:1MlwVUmQuWgUcfDuy-P-0arxG3J2LvCot (2022 - التاريخ والجغرافيا - آداب وفلسفة - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.580Z",
   "notes": "سجلّ المصدر: hist-bac-2022-lit.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: آداب وفلسفة». مشكلات سجّلها الناقل (9): figure_needs_crop @ topics[0].documents[3].figure: من ملف التصحيح الصفحة 8؛ bbox نسبة إلى صفحة التصحيح. الخريطة الأصلية للسؤال من ملف الموضوع الصفحة 2 في topics[0].documents[2]. | figure_needs_crop @ topics[0].documents[8].figure: من ملف التصحيح الصفحة 7، وليس من ملف الموضوع؛ bbox نسبة إلى صفحة التصحيح. الرسم جواب رسمي يُقص كما هو. | figure_needs_crop @ topics[1].documents[7].figure: من ملف التصحيح الصفحة 9؛ bbox نسبة إلى صفحة التصحيح. الخريطة الأصلية للسؤال من ملف الموضوع الصفحة 6 في topics[1].documents[6]. | other @ topics[1].documents[9]: هذا نص الخاتمة المطبوع في التصحيح الصفحة 6 مع عبارتي القبول. حُفظ خارج rubric لأن العلامات في هذا الموضع منزاحة، ولا توجد علامة بمحاذاة نص الخاتمة نفسه. | ambiguous_mark_position @ topics[1].questions[7].rubric[2]: التصحيح الصفحة 6 يطبع 0.50 بمحاذاة عنوان المحور (2) قبل سطر الجواب الأول. لا يمكن الجزم بالجواب الذي تخصه؛ حُفظت العلامة في عنصر مستقل مع official_answer=null دون إزاحتها إلى سطر آخر. العلامات التالية 0.25 و0.25 و0.50 و0.50 تقع بمحاذاة أجوبة الانعكاسات الأربعة بالترتيب؛ لا توجد علامة بمحاذاة الخاتمة. المجاميع العددية مطابقة، لكن المطابقة الدلالية لهذا الموضع تحتاج مراجعة. | no_official_answer @ topics[1].questions[7].rubric[2]: لا يطبع التصحيح جوابًا بمحاذاة هذه العلامة؛ الموجود بمحاذاتها عنوان المحور فقط. لم يُخمن جواب أو تُنقل العلامة إلى الخاتمة. | other @ topics[0].questions[2].rubric[0]: 02 علامة واحدة في عمود التنقيط؛ تفاصيل التوقيع والعنوان والمفتاح والمنطقتين مطبوعة داخل نص التصحيح. حُفظت عنصرًا واحدًا. الخريطة الرسمية في topics[0].documents[3]. | other @ topics[0].questions[5].rubric[0]: 02 علامة واحدة في عمود التنقيط؛ تفاصيل الإنجاز والعنوان والمقياس والمفتاح مطبوعة داخل نص التصحيح. حُفظت عنصرًا واحدًا. الرسم الرسمي في topics[0].documents[8]. | other @ topics[1].questions[6].rubric[0]: 02 علامة واحدة في عمود التنقيط؛ تفاصيل العنوان والمفتاح وتوقيع الدول مطبوعة داخل نص التصحيح. حُفظت عنصرًا واحدًا. الخريطة الرسمية في topics[1].documents[7]. وثائق في السجلّ لا يحيل إليها سؤال (من التصحيح) لم تُعرض: p2-d8, p2-d10. الشخصيّات الثلاث (الموضوع الثاني) mcq بثلاثة خيارات: لا شخصيّات أخرى في التصحيح. «ملء الفراغ» (تعريفان بديلان): الصحيح التعريف الأوّل. حُذفت من نصّ الخيار (لا من الشرح) جمل التعريف الرسميّ التي تسمّي البند: «مما أدى إلى تقسيم كوريا…»، «(كفاح)»، «تسيير النقد الدّولي، و». جدولا الأحداث تفاعليّان كاملًا؛ تاريخا باندونغ وجودانوف (مدى أيّام) مشتّت كلٌّ منهما للآخر، بشرطة عاديّة كما في التصحيح. التعليق على جدول الشركاء التجاريّين: عبارة التصحيح الرابعة تطبع «الواردات 42.2 %» ومجموع الجدول 44.2 %، فعُرضت بلا الأرقام. سطر p2-q8-e3 (0.5، بلا جواب) مؤجَّل كما سجّله الناقل (ambiguous_mark_position). تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p2-d2: «جدانوف» ← «جودانوف»؛ p2-d5: «الصادرات %» ← «% الصادرات»؛ p2-d5: «الواردات %» ← «% الواردات»."
  },
  "original_questions": [
@@ -44,19 +44,19 @@
      "id": "p2-q1-e1",
      "label": "شرح المصطلح الأول",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e2",
      "label": "شرح المصطلح الثاني",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q1-e3",
      "label": "شرح المصطلح الثالث",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -96,19 +96,19 @@
      "id": "p2-q2-e1",
      "label": "استكمال الخانة الأولى",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e2",
      "label": "استكمال الخانة الثانية",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q2-e3",
      "label": "استكمال الخانة الثالثة",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -124,19 +124,19 @@
      "id": "p2-q3-e1",
      "label": "التعريف بالشخصية الأولى",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e2",
      "label": "التعريف بالشخصية الثانية",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q3-e3",
      "label": "التعريف بالشخصية الثالثة",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -159,25 +159,25 @@
      "id": "p2-q4-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e2",
      "label": "المحور الأول للمقال التاريخي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e3",
      "label": "المحور الثاني للمقال التاريخي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q4-e4",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -200,19 +200,19 @@
      "id": "p2-q5-e1",
      "label": "شرح المصطلح الأول",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q5-e2",
      "label": "شرح المصطلح الثاني",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q5-e3",
      "label": "شرح المصطلح الثالث",
      "max_points": 0.75,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -260,7 +260,7 @@
      "id": "p2-q6-e1",
      "label": "التعليق على المعطيات الإحصائية",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -294,7 +294,7 @@
      "id": "p2-q7-e1",
      "label": "توقيع الدول المصدرة والمستوردة",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -317,43 +317,43 @@
      "id": "p2-q8-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e2",
      "label": "المحور الأول للمقال الجغرافي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e3",
      "label": "سطر تنقيط غير محسوم",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e4",
      "label": "الانعكاس السلبي الأول",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e5",
      "label": "الانعكاس السلبي الثاني",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e6",
      "label": "الانعكاس السلبي الثالث",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p2-q8-e7",
      "label": "الانعكاس السلبي الرابع",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -365,7 +365,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«حوادث 8 ماي 1945»؟",
    "payload": {
@@ -392,7 +392,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الأحزاب الوطنية الجزائرية»؟",
    "payload": {
@@ -419,7 +419,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الكفاح المسلح»؟",
    "payload": {
@@ -446,7 +446,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما تاريخ «انعقاد مؤتمر باندونغ»؟",
    "payload": {
@@ -473,7 +473,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما تاريخ «إعلان مبدأ جودانوف»؟",
    "payload": {
@@ -500,7 +500,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما الحدث الذي وقع في 1961/10/17؟",
    "payload": {
@@ -527,7 +527,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو العربي بن مهيدي؟",
    "payload": {
@@ -553,7 +553,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو جورج بوش الأب؟",
    "payload": {
@@ -579,7 +579,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو هواري بومدين؟",
    "payload": {
@@ -729,7 +729,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«النظام الاشتراكي»؟",
    "payload": {
@@ -756,7 +756,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«صندوق النقد الدولي»؟",
    "payload": {
@@ -783,7 +783,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الميزان التجاري»؟",
    "payload": {
@@ -810,7 +810,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "multi",
    "prompt": "اختر العبارات التي تصلح تعليقًا على معطيات الجدول (كلّ العبارات الصحيحة).",
    "payload": {
@@ -1099,6 +1099,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2022-lit.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.580Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

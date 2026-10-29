@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2022-sci-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1ZL_bsMRQGuwsXEmixf9_FqlWj_p4Gjha-p1",
   "kind": "BAC",
@@ -21,9 +21,9 @@
   "correction_url": "https://drive.google.com/file/d/1SQuG8BI-0vkn_-eB8NpyQXZxyCGiT8Li/view",
   "correction_file_ref": "gdrive:1SQuG8BI-0vkn_-eB8NpyQXZxyCGiT8Li (2022 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.585Z",
   "notes": "سجلّ المصدر: hist-bac-2022-sci.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: علوم تجريبية، رياضيات، تقني رياضي». مشكلات سجّلها الناقل (3): figure_needs_crop @ topics[0].documents[5].figure: الشكل من ملف التصحيح، الصفحة 5، وليس من ملف الموضوع. bbox نسبة إلى صفحة التصحيح الكاملة. يُقص الرسم الرسمي كما هو؛ لا يُعاد رسمه. المخطط لا يتضمن حقل مصدر داخل figure، لذا سُجّل مصدره هنا. | other @ topics[0].questions[4].rubric[0]: عمود التنقيط يطبع 03 لهذا السطر؛ تفصيل العنوان 0.50 والمقياس 0.25 والمفتاح 0.25 والانجاز 02 مطبوع داخل نص التصحيح. حُفظ عنصر واحد بعلامة 3، والرسم الرسمي في topics[0].documents[5]. | typo_in_correction @ topics[1].questions[2].rubric[1].official_answer: في الصفحة 3 من التصحيح طُبع تاريخ إنشاء الحكومة المؤقتة 1958/19/19. نُقل كما طُبع دون تصحيح. وثائق في السجلّ لا يحيل إليها سؤال (من التصحيح) لم تُعرض: p1-d6. الشخصيّات الثلاث (الموضوع الأوّل) mcq بثلاثة خيارات: لا شخصيّات أخرى في التصحيح. حُذفت من نصّ الخيار (لا من الشرح) جمل التعريف الرسميّ التي تسمّي البند: «مثل: المفاوضات بين جبهة التحرير الوطني والحكومة الفرنسية»، «وتدعو إلى تحرير التجارة العالمية»، «يتحقق النمو بفضل…»، «وأهم البورصات: …». مشتّتات جدول الموضوع الثاني من التصحيح نفسه (لا يُستعمل تاريخ الحكومة المؤقتة «1958/19/19» المطبوع خطأً في التصحيح)."
  },
  "original_questions": [
@@ -46,19 +46,19 @@
      "id": "p1-q1-e1",
      "label": "شرح المصطلح الأول",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q1-e2",
      "label": "شرح المصطلح الثاني",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q1-e3",
      "label": "شرح المصطلح الثالث",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -74,19 +74,19 @@
      "id": "p1-q2-e1",
      "label": "التعريف بالشخصية الأولى",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q2-e2",
      "label": "التعريف بالشخصية الثانية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q2-e3",
      "label": "التعريف بالشخصية الثالثة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -109,25 +109,25 @@
      "id": "p1-q3-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e2",
      "label": "المحور الأول للمقال التاريخي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e3",
      "label": "المحور الثاني للمقال التاريخي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e4",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -150,19 +150,19 @@
      "id": "p1-q4-e1",
      "label": "شرح المصطلح الأول",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e2",
      "label": "شرح المصطلح الثاني",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e3",
      "label": "شرح المصطلح الثالث",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -210,7 +210,7 @@
      "id": "p1-q5-e1",
      "label": "تمثيل المعطيات الإحصائية",
      "max_points": 3,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -233,25 +233,25 @@
      "id": "p1-q6-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q6-e2",
      "label": "المحور الأول للمقال الجغرافي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q6-e3",
      "label": "المحور الثاني للمقال الجغرافي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q6-e4",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -263,7 +263,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«مفاوضات»؟",
    "payload": {
@@ -290,7 +290,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الاستقلال»؟",
    "payload": {
@@ -317,7 +317,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«هجوم 20 أوت 1955»؟",
    "payload": {
@@ -344,7 +344,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو محمد بوضياف؟",
    "payload": {
@@ -370,7 +370,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو جمال عبد الناصر؟",
    "payload": {
@@ -396,7 +396,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو جوزيف ستالين؟",
    "payload": {
@@ -546,7 +546,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«منظمة التجارة العالمية»؟",
    "payload": {
@@ -573,7 +573,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«النّمو الاقتصادي»؟",
    "payload": {
@@ -600,7 +600,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«التجارة الدّولية»؟",
    "payload": {
@@ -788,6 +788,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2022-sci.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.585Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

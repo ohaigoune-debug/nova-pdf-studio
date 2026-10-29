@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2020-sci-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1i4PJUrt8CPuO_17rDq1TyzCrS_ZqSe-G-p1",
   "kind": "BAC",
@@ -21,9 +21,9 @@
   "correction_url": "https://drive.google.com/file/d/1-7UUa_5NCdJUKX7V18MLRP9DzYGsxUl9/view",
   "correction_file_ref": "gdrive:1-7UUa_5NCdJUKX7V18MLRP9DzYGsxUl9 (2020 - التاريخ والجغرافيا - تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.552Z",
   "notes": "سجلّ المصدر: hist-bac-2020-sci.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: علوم تجريبية، رياضيات، تقني رياضي». مشكلات سجّلها الناقل (3): figure_needs_crop @ topics[0].documents[5].figure: الأعمدة البيانية الرسمية من ملف التصحيح الصفحة 3؛ bbox نسبة إلى صفحة التصحيح الكاملة، لا ملف الموضوع. | other @ topics[0].questions[4].rubric[0]: 03 في عمود التنقيط سطر واحد؛ تفاصيل الإنجاز 02 والمفتاح 0.25 والمقياس 0.25 والعنوان 0.50 داخل النص. الرسم في topics[0].documents[5]. | other @ topics[0].questions[2].rubric[3]: نص خاتمة التاريخ مطبوع قبل عنوان الجغرافيا في الصفحة 2، وعلامته 0.50 في عمود التنقيط قرب فاصل القسمين؛ حُفظت علامة واحدة للخاتمة دون تكرار. وثائق في السجلّ لا يحيل إليها سؤال (من التصحيح) لم تُعرض: p1-d6. الشخصيّات الثلاث (الموضوع الأوّل) وسطرا التاريخ في جدول الموضوع الثاني: mcq بثلاثة خيارات، إذ لا يوجد في التصحيح نفسه إلّا شخصيّتان أخريان وتاريخان آخران بالصيغة نفسها غير مطبوعين في الجدول. اسم المصطلح في السؤال كما في ورقة الموضوع (التصحيح يكتب «الاتحاد الاوربي»، «الاسواق»...). تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p1-d1: «بالثّورة» ← «بالثورة»؛ p1-d1: «الصمود» ← «الصّمود»؛ p1-d1: «لأصبح مخطّط» ← «لأصبح مخطط»؛ p1-d1: «الناجحة...\".» ← «النّاجحة...\"»؛ p1-q3: «النظام الدولي» ← «النظام الدّولي»؛ p1-d3: «تحقيق التكتّل» ← «تحقيق التّكتّل»؛ p1-d3: «الوحدة النقدية» ← «الوحدة النّقدية»؛ p1-d3: «أساسية» ← «أساسيّة»؛ p1-d3: «أهميته» ← «أهميّته»؛ p1-d3: «جل المعاملات» ← «جلّ المعاملات»؛ p1-d3: «بالاتحاد الأوروبي...» ← «بالاتحاد الأوربي ...»؛ p1-d7: «السوق» ← «السّوق»؛ p1-d7: «التجارية» ← «التّجارية»؛ p1-q6: «قوتها» ← «قوّتها»."
  },
  "original_questions": [
@@ -46,19 +46,19 @@
      "id": "p1-q1-e1",
      "label": "مخطّط شال",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q1-e2",
      "label": "وجبهة التحرير الوطني",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q1-e3",
      "label": "بالثّورة الجزائرية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -74,19 +74,19 @@
      "id": "p1-q2-e1",
      "label": "جورج مارشال",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q2-e2",
      "label": "ميخائيل غورباتشوف",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q2-e3",
      "label": "محمد العربي بن مهيدي",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -109,25 +109,25 @@
      "id": "p1-q3-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e2",
      "label": "ملامح النظام الدولي الجديد",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e3",
      "label": "الانعكاسات على العلاقات الدولية",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e4",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -150,19 +150,19 @@
      "id": "p1-q4-e1",
      "label": "التكتّل الاقتصادي",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e2",
      "label": "الاتّحاد الأوربي",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e3",
      "label": "التّجارة الدّاخلية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -210,7 +210,7 @@
      "id": "p1-q5-e1",
      "label": "تمثيل المعطيات الإحصائية",
      "max_points": 3,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -233,25 +233,25 @@
      "id": "p1-q6-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q6-e2",
      "label": "عوامل القوة الاقتصادية",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q6-e3",
      "label": "مظاهر القوة الاقتصادية",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q6-e4",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -263,7 +263,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«مخطّط شال»؟",
    "payload": {
@@ -290,7 +290,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«جبهة التحرير الوطني»؟",
    "payload": {
@@ -317,7 +317,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الثورة الجزائرية»؟",
    "payload": {
@@ -344,7 +344,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو جورج مارشال؟",
    "payload": {
@@ -370,7 +370,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو ميخائيل غورباتشوف؟",
    "payload": {
@@ -396,7 +396,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو محمد العربي بن مهيدي؟",
    "payload": {
@@ -546,7 +546,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«التّكتّل الاقتصادي»؟",
    "payload": {
@@ -573,7 +573,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الاتّحاد الأوربي»؟",
    "payload": {
@@ -600,7 +600,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«التّجارة الدّاخلية»؟",
    "payload": {
@@ -788,6 +788,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2020-sci.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.552Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

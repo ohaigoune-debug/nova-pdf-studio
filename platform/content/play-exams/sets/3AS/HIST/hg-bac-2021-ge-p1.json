@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2021-ge-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-13cQ0BJwd9Ow2cNJmoMChXyV66d_kxJfI-p1",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1NK0KTrDlexgZ-c1xymV0j1_0PSH50Thp/view",
   "correction_file_ref": "gdrive:1NK0KTrDlexgZ-c1xymV0j1_0PSH50Thp (2021 - التاريخ والجغرافيا - تسيير واقتصاد - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.556Z",
   "notes": "سجلّ المصدر: hist-bac-2021-ge.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: تسيير واقتصاد». مشكلات سجّلها الناقل (6): figure_needs_crop @ topics[0].documents[6].figure: الرسم جواب رسمي من ملف التصحيح، الصفحة 7. bbox نسبة إلى صفحة التصحيح، وليس إلى ملف الموضوع. لا يُعاد رسمه. | other @ topics[0].questions[5].rubric[0]: 02 في عمود التنقيط سطر واحد؛ تفاصيل 0.25 للعنوان و0.25 للمفتاح و0.25 للمقياس و01.25 للإنجاز داخل نص التصحيح. الرسم الرسمي في topics[0].documents[6]. | figure_needs_crop @ topics[1].documents[7].figure: الخريطة الموقعة جواب رسمي من ملف التصحيح الصفحة 8؛ bbox نسبة إلى صفحة التصحيح. الخريطة غير الموقعة من الموضوع الصفحة 5 في topics[1].documents[6]. | other @ topics[1].questions[6].rubric[0]: 02 في عمود التنقيط سطر واحد؛ تفاصيل العنوان والمفتاح والإنجاز داخل النص. الخريطة الرسمية في topics[1].documents[7]. | typo_in_correction @ topics[1].questions[3].rubric[5].official_answer: طبع التصحيح في الصفحة 5 تاريخ مظاهرات فرنسا بشرطتين متتاليتين: 1961//10/17. حُفظ كما طبع. | typo_in_correction @ topics[1].questions[7].rubric[2].official_answer: طبع التصحيح في آخر بند عبارة «الدّول التّقدمة». نُقلت كما طُبعت. عناصر أُجّلت بقرار المحوِّل: p1-q3-e1, p2-q3-e1. وثائق في السجلّ لا يحيل إليها سؤال (من التصحيح) لم تُعرض: p1-d7. ورقة الموضوع صور بلا طبقة نصّ: قوبل النقل كلّه بصورة الصفحة. مؤجَّل بقرار المحوِّل: تاريخ «تأسيس مكتب الكومنفورم» يطبعه التصحيح مجالًا «1947/10/06 - 05» (الصيغة الوحيدة من نوعها فتدلّ على الجواب)؛ تاريخ «انعقاد مؤتمر باندونغ» «18/24 أفريل 1955» (لا تاريخ آخر في التصحيح بهذه الصيغة)؛ تعريفا «دوايت ايزنهاور» و«القروض» يسمّيان البند: حُذفت من الخيار الصحيح وحده «مشروع ايزنهاور1957 و» و«طوال مدة القرض». تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p1-d1: «موفقا» ← «مُوفقا»؛ p1-q1: «النص.» ← «النّص.»؛ p1-d3: «التوتر والتأزم» ← «التّوتر والتّأزم»؛ p1-d4: «والتحوّل» ← «والتحول»؛ p1-d4: «أدّى» ← «أدى»؛ p1-d4: «أن المعاملات» ← «أنّ المعاملات»؛ p1-d8: «التنمية» ← «التّنمية»."
  },
  "original_questions": [
@@ -44,13 +44,13 @@
      "id": "p1-q1-e1",
      "label": "ميثاق الصومام",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q1-e2",
      "label": "جيش التحرير الوطني",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -66,13 +66,13 @@
      "id": "p1-q2-e1",
      "label": "دوايت ايزنهاور",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q2-e2",
      "label": "مصطفى بن بولعيد",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -108,13 +108,13 @@
      "id": "p1-q3-e1",
      "label": "تأسيس مكتب الكومنفورم",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q3-e2",
      "label": "1961/10/17",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -137,79 +137,79 @@
      "id": "p1-q4-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e2",
      "label": "عنصر الإجابة 2",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e3",
      "label": "عنصر الإجابة 3",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e4",
      "label": "عنصر الإجابة 4",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e5",
      "label": "عنصر الإجابة 5",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e6",
      "label": "عنصر الإجابة 6",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e7",
      "label": "عنصر الإجابة 7",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e8",
      "label": "عنصر الإجابة 8",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e9",
      "label": "عنصر الإجابة 9",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e10",
      "label": "عنصر الإجابة 10",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e11",
      "label": "عنصر الإجابة 11",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e12",
      "label": "عنصر الإجابة 12",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e13",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -232,13 +232,13 @@
      "id": "p1-q5-e1",
      "label": "الأسواق المالية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q5-e2",
      "label": "الناتج المحلي الإجمالي",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -283,7 +283,7 @@
      "id": "p1-q6-e1",
      "label": "تمثيل المعطيات الإحصائية",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -328,7 +328,7 @@
      "id": "p1-q7-e1",
      "label": "التعليق على الرسم البياني",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -351,43 +351,43 @@
      "id": "p1-q8-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q8-e2",
      "label": "المحور الأول للمقال الجغرافي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q8-e3",
      "label": "عنصر الإجابة 3",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q8-e4",
      "label": "عنصر الإجابة 4",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q8-e5",
      "label": "عنصر الإجابة 5",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q8-e6",
      "label": "عنصر الإجابة 6",
      "max_points": 0.25,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q8-e7",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -399,7 +399,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«ميثاق الصومام»؟",
    "payload": {
@@ -426,7 +426,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«جيش التحرير الوطني»؟",
    "payload": {
@@ -453,7 +453,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو دوايت ايزنهاور؟",
    "payload": {
@@ -480,7 +480,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو مصطفى بن بولعيد؟",
    "payload": {
@@ -538,7 +538,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما الحدث الذي وقع في 1961/10/17؟",
    "payload": {
@@ -968,7 +968,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الأسواق المالية»؟",
    "payload": {
@@ -995,7 +995,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الناتج المحلي الإجمالي»؟",
    "payload": {
@@ -1053,7 +1053,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "multi",
    "prompt": "اختر العبارات التي تصلح تعليقًا على الرسم البياني الممثِّل لمعطيات الجدول (كلّ العبارات الصحيحة).",
    "payload": {
@@ -1311,6 +1311,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2021-ge.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.556Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }

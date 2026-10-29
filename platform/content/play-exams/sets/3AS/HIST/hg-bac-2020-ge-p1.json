@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "set_id": "hg-bac-2020-ge-p1",
- "status": "NEEDS_HUMAN_REVIEW",
+ "status": "APPROVED",
  "source": {
   "source_id": "gdrive-1GpAeUfG8T2E7TDZ_CkxOOE1rnDUy1uBG-p1",
   "kind": "BAC",
@@ -19,9 +19,9 @@
   "correction_url": "https://drive.google.com/file/d/1cXAsq9QtMOcdKs6dDURgUJgjgfnKOyFj/view",
   "correction_file_ref": "gdrive:1cXAsq9QtMOcdKs6dDURgUJgjgfnKOyFj (2020 - التاريخ والجغرافيا - تسيير واقتصاد - الدورة العادية - الحل.pdf)",
   "trust": "official_mirror",
-  "verified": false,
-  "verified_by": null,
-  "verified_at": null,
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T18:58:38.539Z",
   "notes": "سجلّ المصدر: hist-bac-2020-ge.json (madrasa-play-source/1) — نقلُ ChatGPT للموضوع والتصحيح الرسميّين حرفيًّا وفق البرومبت الصارم؛ الخطوات التفاعليّة والمشتّتات من إعداد Claude وجوابها من official_answer وحده. سطر الشعبة في الرأس: «الشعبة: تسيير واقتصاد». مشكلات سجّلها الناقل (7): figure_needs_crop @ topics[0].documents[2].figure: الخريطة الموقعة من ملف التصحيح الصفحة 5؛ bbox نسبة إلى صفحة التصحيح. أصل السؤال من الموضوع الصفحة 3 في topics[0].documents[1]. | typo_in_correction @ topics[0].documents[2].figure: مفتاح خريطة التصحيح يرقم السويس (3)، لكن الملصق قرب مصر في الرسم مطبوع (2) وكذلك ملصق كوريا (2). لا يُعدل الرسم. | figure_needs_crop @ topics[0].documents[7].figure: الدائرة النسبية الرسمية من ملف التصحيح الصفحة 3؛ bbox نسبة إلى صفحة التصحيح الكاملة. | figure_needs_crop @ topics[1].documents[7].figure: الخريطة الرسمية من ملف التصحيح الصفحة 9، bbox نسبة إلى صفحة التصحيح. الخريطة غير الموقعة من الموضوع الصفحة 6 في topics[1].documents[6]. | other @ topics[1].questions[6].rubric[0]: السؤال يطلب توقيع ثلاث دول. التصحيح يذكر أربع دول بديلة ويعرض الأربع على الخريطة رغم عنوان «ثلاث دول»؛ نُقلت الخيارات والرسم كما طُبعا دون حذف أو إعادة رسم. | other @ topics[0].questions[2].rubric[0]: 02 في عمود التنقيط سطر واحد؛ تفاصيل العنوان والمفتاح والإنجاز داخل نص التصحيح. | other @ topics[0].questions[5].rubric[0]: 02 في عمود التنقيط سطر واحد؛ تفاصيل العنوان والمقياس والمفتاح والإنجاز وحساب الزوايا داخل نص التصحيح. نُقلت النتائج المطبوعة دون حساب. وثائق في السجلّ لا يحيل إليها سؤال (من التصحيح) لم تُعرض: p1-d3, p1-d8. أسماء البنود في الأسئلة كما في ورقة الموضوع، والأعداد المفصولة بخطّ مائل بترتيب عرضها في الورقة («1991/1815»، «2006/16»). في سطر «مشروع ايزنهاور» تاريخان من التصحيح نفسه كُتبا بصيغة الجدول: «24 أكتوبر 1945» ← 1945/10/24، و«18 و24 أفريل 1955» ← 1955/04/18. التعليق على الدائرة النسبيّة تفاعليّ لأنّ أرقامها مطبوعة في جدول السؤال؛ وعبارات التعليق على جدول البترول (عنصر لكلّ عبارة في السلّم) mcq لكلّ عنصر بعبارته الرسميّة وثلاث عبارات تنقضها أرقام الجدول. تصحيحات للنقل بعد مطابقة الورقة الرسميّة (طبقة النصّ والصورة): p1-d1: «اتخذته» ← «اتّخذته»؛ p1-d1: «بالتخلي والتنصّل منها» ← «بالتّخلي والتّنكر والتّحلّل منها»؛ p1-d1: «جزءا» ← «جزءًا»؛ p1-d1: «يتهيّأ» ← «يتهيأ»؛ p1-d1: «المسلّح\".» ← «المسلّح.\"»؛ p1-d1: «جمال قنان» ← «جمال قنّان»؛ p1-q3: «الأزمات الدولية» ← «الأزمات الدّولية»؛ p1-d4: «مناطق النفوذ» ← «مناطق النّفوذ»؛ p1-d4: «الاتحاد السوفياتي» ← «الاتّحاد السّوفياتي»؛ p1-d4: «المتحدة» ← «المتّحدة»؛ p1-d4: «الثالث» ← «الثّالث»؛ p1-d4: «التوتّر» ← «التّوتّر»؛ p1-d4: «هددت» ← «هدّدت»؛ p1-q4: «طبيعة الصراع» ← «طبيعة الصّراع»؛ p1-q4: «انعكاسات الصراع» ← «انعكاسات الصّراع»؛ p1-q4: «العالم الثالث» ← «العالم الثّالث»؛ p1-d5: «لإمكانات» ← «لإمكانيات»؛ p1-d5: «في السوق» ← «في السّوق»؛ p1-d5: «منظّمة التجارة» ← «منظمة التجارة»؛ p1-q6: «للاتحاد» ← «للاتّحاد»؛ p1-d9: «يميّزان» ← «يميزان»."
  },
  "original_questions": [
@@ -44,13 +44,13 @@
      "id": "p1-q1-e1",
      "label": "المنظّمة الخاصة",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q1-e2",
      "label": "الكفاح المسلّح",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -66,13 +66,13 @@
      "id": "p1-q2-e1",
      "label": "حسين آيت أحمد",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q2-e2",
      "label": "هاري ترومان",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -106,7 +106,7 @@
      "id": "p1-q3-e1",
      "label": "توقيع الأزمات على الخريطة",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -129,25 +129,25 @@
      "id": "p1-q4-e1",
      "label": "مقدمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e2",
      "label": "المحور الأول للمقال التاريخي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e3",
      "label": "المحور الثاني للمقال التاريخي",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q4-e4",
      "label": "خاتمة المقال التاريخي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -170,13 +170,13 @@
      "id": "p1-q5-e1",
      "label": "الحواجز الجمركية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q5-e2",
      "label": "منظّمة التجارة العالمية",
      "max_points": 1,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -222,7 +222,7 @@
      "id": "p1-q6-e1",
      "label": "تمثيل المعطيات الإحصائية",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -268,7 +268,7 @@
      "id": "p1-q7-e1",
      "label": "التعليق على الرسم البياني",
      "max_points": 2,
-     "verified": false
+     "verified": true
     }
    ]
   },
@@ -291,25 +291,25 @@
      "id": "p1-q8-e1",
      "label": "مقدمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q8-e2",
      "label": "مظاهر التقدم",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q8-e3",
      "label": "المشكلات",
      "max_points": 1.5,
-     "verified": false
+     "verified": true
     },
     {
      "id": "p1-q8-e4",
      "label": "خاتمة المقال الجغرافي",
      "max_points": 0.5,
-     "verified": false
+     "verified": true
     }
    ]
   }
@@ -321,7 +321,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«المنظّمة الخاصة»؟",
    "payload": {
@@ -348,7 +348,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الكفاح المسلّح»؟",
    "payload": {
@@ -375,7 +375,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو حسين آيت أحمد؟",
    "payload": {
@@ -402,7 +402,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "من هو هاري ترومان؟",
    "payload": {
@@ -584,7 +584,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«الحواجز الجمركية»؟",
    "payload": {
@@ -611,7 +611,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "mcq",
    "prompt": "ما المقصود بـ«منظمة التجارة العالمية»؟",
    "payload": {
@@ -669,7 +669,7 @@
    "variant": "a",
    "lesson_ref": null,
    "is_verbatim_original": false,
-   "review_status": "needs_human_review",
+   "review_status": "approved",
    "type": "multi",
    "prompt": "اختر العبارات التي تصلح تعليقًا على معطيات الجدول (كلّ العبارات الصحيحة).",
    "payload": {
@@ -834,6 +834,12 @@
    "by": "claude",
    "action": "generated",
    "note": "من سجلّ المصدر hist-bac-2020-ge.json"
+  },
+  {
+   "at": "2026-10-29T18:58:38.539Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 («انشر») لمواضيع التاريخ والجغرافيا 2019–2022 المبنية من سجلّات ChatGPT بعد مراجعة Claude (النقل على صورة الورقة، والتدقيق الآلي)، دون مراجعة المالك لكل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
   }
  ]
 }
