@@ -9,12 +9,13 @@
  *  - التصحيح في الخادم فقط؛ لا تُرسل مفاتيح الإجابة قبل الإجابة (تدريب) أو قبل الإنهاء (امتحان).
  *  - الإجابة الأولى لكل خطوة هي المحتسبة (لا تنقيط مزدوج).
  */
-import { and, desc, eq, inArray } from 'drizzle-orm'
+import { and, desc, eq, getTableColumns, inArray } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { playExamAttempts, playExamSets, type ExamStepRecord } from '@/server/db/schema'
 import { studentIdOf, type Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { PLAY_SUBJECTS, type PlayExamKind, type PlayExamMode, type PlayLanguage } from '@/server/play/constants'
+import { examDerived, examDocument, examDocuments } from '@/server/play/exams/doc-cache'
 import { answerText, gradeStep, pointsFor, publicSteps, stepsFor } from '@/server/play/exams/engine'
 import { skillLabel } from '@/server/play/exams/skills'
 import { QUEUED_STEP_TYPES, type ExamSetDocument, type PublicStep, type StepAnswer, type TrainingStep } from '@/server/play/exams/types'
@@ -31,6 +32,13 @@ const isQueued = (t: string) => (QUEUED_STEP_TYPES as readonly string[]).include
 const round2 = (n: number) => Math.round(n * 100) / 100
 
 type SetRow = typeof playExamSets.$inferSelect
+/** أعمدة الموضوع دون المستند نفسه: المستند يأتي من المخبأ (doc-cache.ts) ببصمته */
+const { document: _document, ...SET_LIGHT } = getTableColumns(playExamSets)
+type SetLight = Omit<SetRow, 'document'>
+
+/** الخطوات العامّة لشعبة (مع المقاطع تحت السؤال) — تُحسب مرّة لكلّ موضوع وبصمة وشعبة */
+const publicStepsCached = (set: Pick<SetRow, 'id' | 'checksum' | 'document'>, stream: string | null) => examDerived(set.id, set.checksum, `pub:${stream ?? '-'}`, () => publicSteps(set.document, stream))
+const myStepsCached = (set: Pick<SetRow, 'id' | 'checksum' | 'document'>, stream: string | null) => examDerived(set.id, set.checksum, `mine:${stream ?? '-'}`, () => stepsFor(set.document, stream))
 
 function visible(row: Pick<SetRow, 'publishable' | 'status'>): { ok: boolean; preview: boolean } {
   if (row.publishable) return { ok: true, preview: false }
@@ -90,8 +98,9 @@ export async function listExamSets(db: Db, actor: Actor, filter: { subjectCode: 
   const conds = [eq(playExamSets.gradeCode, profile.gradeCode), inArray(playExamSets.subjectCode, [...examSubjectsFor(filter.subjectCode)])]
   if (filter.kind === 'TESTS') conds.push(inArray(playExamSets.kind, ['TEST', 'DEVOIR']))
   else if (filter.kind) conds.push(eq(playExamSets.kind, filter.kind))
-  const rows = await db.select().from(playExamSets).where(and(...conds))
+  const rows = await db.select(SET_LIGHT).from(playExamSets).where(and(...conds))
   const shown = rows.filter((r) => visible(r).ok && (!r.streamCodes.length || !profile.streamCode || r.streamCodes.includes(profile.streamCode)))
+  const docs = await examDocuments(db, shown)
   const attempts = shown.length
     ? await db
         .select({ setId: playExamAttempts.setId, score: playExamAttempts.score, max: playExamAttempts.maxScore, status: playExamAttempts.status })
@@ -101,7 +110,12 @@ export async function listExamSets(db: Db, actor: Actor, filter: { subjectCode: 
   const items = shown.map((r): ExamListItem => {
     const mine = attempts.filter((a) => a.setId === r.id && a.status === 'COMPLETED')
     const best = mine.reduce<{ score: number; max: number } | null>((b, a) => (!b || a.score / (a.max || 1) > b.score / (b.max || 1) ? { score: a.score, max: a.max } : b), null)
-    const ip = interactivePoints(r.document, profile.streamCode)
+    const doc = docs.get(r.id)!
+    const card = examDerived(r.id, r.checksum, `card:${profile.streamCode ?? '-'}`, () => ({
+      ip: interactivePoints(doc, profile.streamCode),
+      steps: stepsFor(doc, profile.streamCode).filter((s) => !isQueued(s.type)).length
+    }))
+    const ip = card.ip
     return {
       id: r.id,
       setId: r.setId,
@@ -111,7 +125,7 @@ export async function listExamSets(db: Db, actor: Actor, filter: { subjectCode: 
       paper: r.paper,
       title: r.title,
       streamCodes: r.streamCodes,
-      stepCount: stepsFor(r.document, profile.streamCode).filter((s) => !isQueued(s.type)).length,
+      stepCount: card.steps,
       interactivePoints: round2(ip),
       deferredPoints: round2(r.scoreTotal - ip),
       scoreTotal: r.scoreTotal,
@@ -124,9 +138,9 @@ export async function listExamSets(db: Db, actor: Actor, filter: { subjectCode: 
   return { items, gradeCode: profile.gradeCode, streamCode: profile.streamCode, preview: examPreviewEnabled() }
 }
 
-async function loadVisibleSet(db: Db, setUuid: string): Promise<SetRow & { preview: boolean }> {
+async function loadVisibleSet(db: Db, setUuid: string): Promise<SetLight & { preview: boolean }> {
   assertUuid(setUuid, 'PLAY_EXAM_NOT_FOUND')
-  const [row] = await db.select().from(playExamSets).where(eq(playExamSets.id, setUuid)).limit(1)
+  const [row] = await db.select(SET_LIGHT).from(playExamSets).where(eq(playExamSets.id, setUuid)).limit(1)
   if (!row) throw new AppError('PLAY_EXAM_NOT_FOUND')
   const v = visible(row)
   if (!v.ok) throw new AppError('PLAY_EXAM_NOT_FOUND')
@@ -150,7 +164,7 @@ export async function startExamAttempt(db: Db, actor: Actor, setUuid: string, mo
   if (active) await db.update(playExamAttempts).set({ status: 'ABANDONED', updatedAt: now }).where(eq(playExamAttempts.id, active.id))
   const [created] = await db
     .insert(playExamAttempts)
-    .values({ studentId, setId: set.id, setChecksum: set.checksum, mode, status: 'ACTIVE', answers: {}, score: 0, maxScore: interactivePoints(set.document, profile.streamCode), startedAt: now })
+    .values({ studentId, setId: set.id, setChecksum: set.checksum, mode, status: 'ACTIVE', answers: {}, score: 0, maxScore: interactivePoints(await examDocument(db, set.id, set.checksum), profile.streamCode), startedAt: now })
     .returning({ id: playExamAttempts.id })
   return { attemptId: created!.id, resumed: false }
 }
@@ -159,13 +173,13 @@ async function loadAttempt(db: Db, actor: Actor, attemptId: string) {
   assertUuid(attemptId, 'PLAY_EXAM_ATTEMPT_NOT_FOUND')
   const studentId = studentIdOf(actor)
   const [row] = await db
-    .select({ attempt: playExamAttempts, set: playExamSets })
+    .select({ attempt: playExamAttempts, set: SET_LIGHT })
     .from(playExamAttempts)
     .innerJoin(playExamSets, eq(playExamSets.id, playExamAttempts.setId))
     .where(and(eq(playExamAttempts.id, attemptId), eq(playExamAttempts.studentId, studentId)))
     .limit(1)
   if (!row) throw new AppError('PLAY_EXAM_ATTEMPT_NOT_FOUND')
-  return row
+  return { attempt: row.attempt, set: { ...row.set, document: await examDocument(db, row.set.id, row.set.checksum) } }
 }
 
 export interface StepFeedback {
@@ -254,11 +268,11 @@ export async function getExamAttemptView(db: Db, actor: Actor, attemptId: string
       correctionRef: doc.source.correction_url,
       reviewed: doc.source.verified
     },
-    ...releasedSteps(publicSteps(doc, stream), attempt.answers ?? {}, attempt.status === 'COMPLETED'),
+    ...releasedSteps(publicStepsCached(set, stream), attempt.answers ?? {}, attempt.status === 'COMPLETED'),
     answered,
     score: reveal ? round2(attempt.score) : 0,
     maxScore: round2(attempt.maxScore),
-    deferred: deferredElements(doc, stream),
+    deferred: examDerived(set.id, set.checksum, `def:${stream ?? '-'}`, () => deferredElements(doc, stream)),
     stale: attempt.setChecksum !== set.checksum
   }
 }
@@ -287,11 +301,11 @@ export async function submitExamStep(db: Db, actor: Actor, attemptId: string, st
   const profile = await getPlayProfile(db, actor)
   await assertPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode: profile.streamCode, subjectCode: set.subjectCode }, now)
   // خطوات شعبة التلميذ فقط (الفروع البديلة لشعبة أخرى غير قابلة للإجابة)
-  const mine = stepsFor(set.document, profile.streamCode)
+  const mine = myStepsCached(set, profile.streamCode)
   const step = mine.find((s) => s.id === stepId)
   if (!step || isQueued(step.type)) throw new AppError('PLAY_STEP_NOT_FOUND')
   const total = mine.filter((s) => !isQueued(s.type)).length
-  const pub = publicSteps(set.document, profile.streamCode)
+  const pub = publicStepsCached(set, profile.streamCode)
   const nextOpen = (answers: Record<string, unknown>) => pub.find((s) => !answers[s.id]) ?? null
   return db.transaction(async (tx) => {
     const [row] = await tx.select().from(playExamAttempts).where(eq(playExamAttempts.id, attempt.id)).for('update')
@@ -339,7 +353,7 @@ export async function getExamResult(db: Db, actor: Actor, attemptId: string): Pr
   const { set } = await loadAttempt(db, actor, attemptId)
   const doc = set.document
   const stream = (await getPlayProfile(db, actor)).streamCode
-  const mineAll = stepsFor(doc, stream)
+  const mineAll = myStepsCached(set, stream)
   const byQuestion = doc.original_questions.map((q) => {
     const steps = mineAll.filter((s) => s.source_question_id === q.id)
     const max = steps.filter((s) => !isQueued(s.type)).reduce((a, s) => a + s.points, 0)
@@ -381,12 +395,13 @@ export interface ExamProgress {
 export async function getExamProgress(db: Db, actor: Actor): Promise<ExamProgress> {
   const studentId = studentIdOf(actor)
   const rows = await db
-    .select({ attempt: playExamAttempts, set: { id: playExamSets.id, title: playExamSets.title, kind: playExamSets.kind, document: playExamSets.document } })
+    .select({ attempt: playExamAttempts, set: { id: playExamSets.id, title: playExamSets.title, kind: playExamSets.kind, checksum: playExamSets.checksum } })
     .from(playExamAttempts)
     .innerJoin(playExamSets, eq(playExamSets.id, playExamAttempts.setId))
     .where(eq(playExamAttempts.studentId, studentId))
     .orderBy(desc(playExamAttempts.startedAt))
     .limit(200)
+  const progressDocs = await examDocuments(db, [...new Map(rows.map((r) => [r.set.id, r.set])).values()])
   const attempts = rows
     .filter((r) => r.attempt.status !== 'ABANDONED' || Object.keys(r.attempt.answers ?? {}).length > 0)
     .slice(0, 40)
@@ -413,7 +428,7 @@ export async function getExamProgress(db: Db, actor: Actor): Promise<ExamProgres
   const skills = new Map<string, { earned: number; max: number; answered: number }>()
   for (const r of rows) {
     if (r.attempt.mode === 'EXAM' && r.attempt.status !== 'COMPLETED') continue
-    const stepById = new Map(r.set.document.steps.map((s) => [s.id, s]))
+    const stepById = examDerived(r.set.id, r.set.checksum, 'byId', () => new Map((progressDocs.get(r.set.id)?.steps ?? []).map((s) => [s.id, s])))
     for (const [sid, rec] of Object.entries(r.attempt.answers ?? {})) {
       const key = stepById.get(sid)?.skill_id ?? 'other'
       const cur = skills.get(key) ?? { earned: 0, max: 0, answered: 0 }

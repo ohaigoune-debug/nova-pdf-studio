@@ -23,6 +23,7 @@ import {
 } from '@/server/db/schema'
 import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
+import { ttlDelete, ttlMemo } from '@/server/lib/ttl-cache'
 import {
   CHALLENGE_SIZES,
   DEFAULT_PLAY_RULES,
@@ -44,7 +45,12 @@ import type { PlayPublicPayload, PlayStudentAnswer } from '@/server/play/questio
 
 /* --------------------------------- القواعد -------------------------------- */
 
-export async function getPlayRules(db: Db): Promise<PlayRules> {
+/** قواعد اللعبة تُقرأ في كل صفحة: ذاكرة 30 ثانية (تُبطَل فورًا في العملية التي تعدّلها) */
+export function getPlayRules(db: Db): Promise<PlayRules> {
+  return ttlMemo('play:rules', 30_000, () => readPlayRules(db))
+}
+
+async function readPlayRules(db: Db): Promise<PlayRules> {
   const [row] = await db.select().from(appSettings).where(eq(appSettings.key, PLAY_SETTINGS_KEY)).limit(1)
   const v = (row?.value as Partial<PlayRules> | undefined) ?? {}
   return {
@@ -134,7 +140,12 @@ function servableFilter(rules: PlayRules) {
 }
 
 /** المواد المتاحة للطالب في سنته/شعبته مع عدد الأسئلة المتاحة */
-export async function listSubjectsFor(db: Db, gradeCode: string, streamCode: string | null) {
+/** المواد وعدد دروسها وأسئلتها لمستوى وشعبة — مشتركة بين كل التلاميذ: ذاكرة دقيقة واحدة */
+export function listSubjectsFor(db: Db, gradeCode: string, streamCode: string | null) {
+  return ttlMemo(`play:subjects:${gradeCode}:${streamCode ?? '-'}`, 60_000, () => querySubjectsFor(db, gradeCode, streamCode))
+}
+
+async function querySubjectsFor(db: Db, gradeCode: string, streamCode: string | null) {
   const rules = await getPlayRules(db)
   const rows = await db
     .select({
@@ -158,8 +169,23 @@ export async function listSubjectsFor(db: Db, gradeCode: string, streamCode: str
 
 /** الوحدات والدروس لمادة (مع عدد الأسئلة وتقدم الطالب إن وُجد) */
 export async function listLessonsFor(db: Db, gradeCode: string, streamCode: string | null, subjectCode: string, studentId?: string) {
+  // الدروس وعدد أسئلتها مشتركة بين كل التلاميذ (ذاكرة دقيقة واحدة)؛ تقدّم التلميذ يُقرأ له وحده
+  const rows = await ttlMemo(`play:lessons:${gradeCode}:${streamCode ?? '-'}:${subjectCode}`, 60_000, () => queryLessonRows(db, gradeCode, streamCode, subjectCode))
+  const progress = studentId && rows.length ? await db.select().from(playLessonProgress).where(and(eq(playLessonProgress.studentId, studentId), inArray(playLessonProgress.lessonId, rows.map((r) => r.id)))) : []
+  const pmap = new Map(progress.map((p) => [p.lessonId, p]))
+  const units = new Map<string, { unitCode: string; unitName: string; unitOrder: number; lessons: (typeof rows[number] & { masteryPct: number; mastered: boolean; answered: number })[] }>()
+  for (const r of rows) {
+    const u = units.get(r.unitCode) ?? { unitCode: r.unitCode, unitName: r.unitName, unitOrder: r.unitOrder, lessons: [] }
+    const p = pmap.get(r.id)
+    u.lessons.push({ ...r, masteryPct: p?.masteryPct ?? 0, mastered: !!p?.masteredAt, answered: p?.answered ?? 0 })
+    units.set(r.unitCode, u)
+  }
+  return [...units.values()].sort((a, b) => a.unitOrder - b.unitOrder)
+}
+
+async function queryLessonRows(db: Db, gradeCode: string, streamCode: string | null, subjectCode: string) {
   const rules = await getPlayRules(db)
-  const rows = await db
+  return db
     .select({
       id: playLessons.id,
       unitCode: playLessons.unitCode,
@@ -177,16 +203,6 @@ export async function listLessonsFor(db: Db, gradeCode: string, streamCode: stri
     .where(and(eq(playLessons.gradeCode, gradeCode), eq(playLessons.subjectCode, subjectCode), eq(playLessons.isActive, true), streamFilter(streamCode)))
     .groupBy(playLessons.id)
     .orderBy(asc(playLessons.unitOrder), asc(playLessons.lessonOrder))
-  const progress = studentId && rows.length ? await db.select().from(playLessonProgress).where(and(eq(playLessonProgress.studentId, studentId), inArray(playLessonProgress.lessonId, rows.map((r) => r.id)))) : []
-  const pmap = new Map(progress.map((p) => [p.lessonId, p]))
-  const units = new Map<string, { unitCode: string; unitName: string; unitOrder: number; lessons: (typeof rows[number] & { masteryPct: number; mastered: boolean; answered: number })[] }>()
-  for (const r of rows) {
-    const u = units.get(r.unitCode) ?? { unitCode: r.unitCode, unitName: r.unitName, unitOrder: r.unitOrder, lessons: [] }
-    const p = pmap.get(r.id)
-    u.lessons.push({ ...r, masteryPct: p?.masteryPct ?? 0, mastered: !!p?.masteredAt, answered: p?.answered ?? 0 })
-    units.set(r.unitCode, u)
-  }
-  return [...units.values()].sort((a, b) => a.unitOrder - b.unitOrder)
 }
 
 /* ------------------------------ اختيار الأسئلة ------------------------------ */
@@ -733,5 +749,6 @@ export async function updatePlayRules(db: Db, actor: Actor, patch: Partial<PlayR
     .insert(appSettings)
     .values({ key: PLAY_SETTINGS_KEY, value: next })
     .onConflictDoUpdate({ target: appSettings.key, set: { value: next, updatedAt: new Date() } })
+  ttlDelete('play:')
   return next
 }

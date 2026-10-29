@@ -10,6 +10,7 @@ import type { Db } from '@/server/db/connect'
 import { profiles, users } from '@/server/db/schema'
 import { smsStatus } from '@/server/lib/sms'
 import { getCallConfirm } from './call-confirm.service'
+import { ttlMemo } from '@/server/lib/ttl-cache'
 
 const DEFAULT_SINCE = '2026-10-24T14:00:00Z'
 
@@ -25,7 +26,12 @@ export interface PhoneChannels {
   callNumber: string | null
 }
 
-export async function phoneChannels(db: Db): Promise<PhoneChannels> {
+/** تُقرأ في كل صفحة للتلميذ (بوابة الهاتف): إعدادات لا تتغيّر إلّا من الإدارة، فذاكرة 30 ثانية */
+export function phoneChannels(db: Db): Promise<PhoneChannels> {
+  return ttlMemo('phone:channels', 30_000, () => readPhoneChannels(db))
+}
+
+async function readPhoneChannels(db: Db): Promise<PhoneChannels> {
   const [sms, call] = await Promise.all([smsStatus(db), getCallConfirm(db)])
   const smsReady = (sms.provider === 'suivisms' && sms.keySource !== 'none' && !sms.unusable) || (sms.provider === 'webhook' && Boolean(process.env.SMS_WEBHOOK_URL))
   return { sms: smsReady, callNumber: call.enabled && call.number ? call.number : null }
