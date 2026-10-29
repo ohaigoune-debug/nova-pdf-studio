@@ -590,7 +590,7 @@ def _value(opt):
     if s.count("$") != 2 or not (s.startswith("$") and s.endswith("$")):
         return None
     s = re.sub(r"^\(T\):", "", s[1:-1])
-    if re.search(r"[؀-ۿ]|\\(in|le|ge|cup|cap|equiv|overline|mathbb|lim|int|simeq|approx|overset|mapsto|vec|overrightarrow|Delta)\b|[;\[\]<>|:]|PGCD|PPCM|u\.a", s):
+    if re.search(r"[؀-ۿ]|\\(in|le|ge|cup|cap|equiv|overline|mathbb|lim|int|simeq|approx|overset|mapsto|vec|overrightarrow|Delta)(?![A-Za-z])|[;\[\]<>|:]|PGCD|PPCM|u\.a", s):
         return None
     parts = s.split("=")
     if len(parts) == 2:
@@ -713,7 +713,7 @@ def _check(total=20):
         assert abs(got.get(eid, 0) - e["max_points"]) < 1e-9, (eid, got.get(eid), e["max_points"])
     assert len({s["id"] for s in S}) == len(S), "duplicate step ids"
     fps = [(_norm(s["prompt"]), json.dumps(s["payload"], ensure_ascii=False)) for s in S]
-    assert len(set(fps)) == len(fps), "duplicate step content"
+    assert len(set(fps)) == len(fps), ("duplicate step content", [S[i]["id"] for i, x in enumerate(fps) if fps.count(x) > 1])
     assert not flips, "converter-written strings that text-dir.ts would render LTR:\n" + "\n".join(map(str, flips))
     for qq in Q:
         for t in [qq["verbatim_text"], *[d["text"] for d in qq["documents"] if d.get("text")]]:

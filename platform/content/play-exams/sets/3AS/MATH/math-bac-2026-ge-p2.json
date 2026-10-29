@@ -1,0 +1,2309 @@
+{
+ "schema_version": 1,
+ "set_id": "math-bac-2026-ge-p2",
+ "status": "NEEDS_HUMAN_REVIEW",
+ "source": {
+  "source_id": "gdrive-1J3UC842s9KXkDM7oXDxPmLAurptx9wzc-p2",
+  "kind": "BAC",
+  "year": 2026,
+  "level": "3AS",
+  "streams": [
+   "GE"
+  ],
+  "subject": "MATH",
+  "term": null,
+  "paper": 2,
+  "title": "بكالوريا 2026 (الدورة العادية) – الرياضيات – شعبة تسيير واقتصاد – الموضوع الثاني",
+  "original_url": "https://drive.google.com/file/d/1J3UC842s9KXkDM7oXDxPmLAurptx9wzc/view",
+  "original_file_ref": "gdrive:1J3UC842s9KXkDM7oXDxPmLAurptx9wzc (2026 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1eQQjeGh3p9WrjhwkMsEntRYEWf1eaViC/view",
+  "correction_file_ref": "gdrive:1eQQjeGh3p9WrjhwkMsEntRYEWf1eaViC (2026 - الرياضيات - تسيير واقتصاد - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": false,
+  "verified_by": null,
+  "verified_at": null,
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الموضوع والتصحيح ملفّا PDF من الديوان الوطني للامتحانات والمسابقات (دورة 2026، الشعبة: تسيير واقتصاد كما في رأس الورقة؛ «الدورة العادية» من عنوان الملف في Drive). للملفّين طبقة نصّ يونيكود لكنّ العربية فيها مقلوبة بأشكال العرض وتسقط منها حروف والرموز الرياضية رموز خطّ Symbol؛ فنُسخ كلّ نصّ وكلّ علامة من صور الصفحات (200 و300 نقطة/بوصة مع تكبير)، وقوبلت أقواس المجالات بمواضع الرموز في الطبقة (pdftotext -bbox). لم يُلحظ اختلاف بين الصورة والطبقة في الأرقام. علامة «-» في بداية السطر (تعداد) لم تُنسخ في النصّ الحرفي؛ خيارات أسئلة الاختيار من متعدّد المطبوعة منسوخة في النصّ الحرفي بحروفها (أ) ب) جـ)). الصيغ بـ LaTeX بين $…$ كما طُبعت؛ الفاصلة العشرية {,}؛ ترتيب الصيغ المتعدّدة بينها كلمات عربية هو ترتيب القراءة من اليمين. قواعد التحويل: عنصر لكلّ سطر علامة في السلّم (يبقى «×n» أو «a+b» في التسمية)؛ الإجابات الصحيحة من الإجابة النموذجية بصيغتها، والمشتّتات من إعداد التحويل وتختلف قيمتها عن الإجابة (فحص آلي للعبارات العددية)؛ numeric للأعداد الصحيحة المطبوعة (هامش 0) وللقيم المقرّبة «≃» (هامش دقّة التقريب)؛ «بيّن/أثبت/استنتج أنّ» تفاعلية فقط عبر نتيجة وسيطة يكتبها التصحيح وإلا فـ essay_builder مؤجَّل؛ الرسم function_plot وجدول التغيّرات variation_table. قرارات الموضوع الثاني: التمرين1 أسئلة اختيار من متعدّد مطبوعة؛ «0,5×2» لكلّ بند = الاقتراح (mcq بخيارات الورقة، 0.5) + التبرير (0.5): التبرير تفاعلي في البندين 3 و4 (مكتوب في التصحيح) ومؤجَّل في البندين 1 و2 (لا تبرير مكتوب). التمرين2 س2أ «0,25+0,5»: «(v_n) هندسية أساسها 3» معطاة فأُجِّلت (0.25) و v0=5/2 تفاعلي (0.5) — تقسيم داخلي يُراجَع. التمرين3: الشكل المطبوع مقصوص من صفحة الورقة (fig1)؛ الإشارتان من جدولي الإشارة في التصحيح؛ f(−1,6)≃−0,04 و f(−1,5)≃0,28 بهامش 0.01. التمرين4 س1 «0,5×2»: النهاية عند +∞ تفاعلية والنهاية المعطاة عند −∞ مؤجَّلة؛ س4 «0,25×4» أربع خطوات (الفرق، نقطة التقاطع، الوضعان). مؤجَّل: تبرير 0.5+0.5، تبيانات 0.25+0.5+0.5+1+0.5، جداول التغيّرات 0.5+0.5+0.5، الرسم 1 = 6.25 ن."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "التمرين الأوّل: (04 نقاط)",
+   "verbatim_text": "$(u_n)$ متتالية حسابية حدّها الأول $u_0$ وأساسها $r$ حيث: $u_2=5$ و $u_4=9$ ، لدينا:\nأ) $u_0=2$ ، $r=1$ ب) $u_0=1$ ، $r=2$ جـ) $u_0=1$ ، $r=4$",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "تعليمة التمرين",
+     "text": "عيّن الاقتراح الصّحيح الوحيد من بين الاقتراحات الثلاثة في كلّ حالة ممّا يأتي مع التبرير."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "1) الاقتراح الصحيح مع التبرير (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "التمرين الأوّل: (04 نقاط)",
+   "verbatim_text": "مجموعة الحلول في المجال $]0;+\\infty[$ للمعادلة $(\\ln x-1)(\\ln x-2)=0$ هي:\nأ) $\\{1;2\\}$ ب) $\\{2;e\\}$ جـ) $\\{e;e^2\\}$",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "تعليمة التمرين",
+     "text": "عيّن الاقتراح الصّحيح الوحيد من بين الاقتراحات الثلاثة في كلّ حالة ممّا يأتي مع التبرير."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "2) الاقتراح الصحيح مع التبرير (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "التمرين الأوّل: (04 نقاط)",
+   "verbatim_text": "القيمة المتوسطة على المجال $[-2;1]$ للدّالة $h$ المعرّفة بـ: $h(x)=3x^2+2x-1$ ، تساوي:\nأ) $-1$ ب) $1$ جـ) $3$",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "تعليمة التمرين",
+     "text": "عيّن الاقتراح الصّحيح الوحيد من بين الاقتراحات الثلاثة في كلّ حالة ممّا يأتي مع التبرير."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "3) الاقتراح الصحيح مع التبرير (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "التمرين الأوّل: (04 نقاط)",
+   "verbatim_text": "المستوي منسوب إلى معلم متعامد ومتجانس.\n$(c_k)$ التّمثيل البياني للدّالة $k$ المعرّفة على $\\mathbb{R}$ بـ: $k(x)=e^{1-x}$ و $(T)$ المستقيم ذو المعادلة: $y=-x+2$\nالمستقيم $(T)$ مماس لـ $(c_k)$ في النقطة $A$ ذات الفاصلة $x_0$ حيث:\nأ) $x_0=1$ ب) $x_0=0$ جـ) $x_0=-1$",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "تعليمة التمرين",
+     "text": "عيّن الاقتراح الصّحيح الوحيد من بين الاقتراحات الثلاثة في كلّ حالة ممّا يأتي مع التبرير."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "4) الاقتراح الصحيح مع التبرير (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "1أ",
+   "part": "التمرين الثّاني: (04 نقاط)",
+   "verbatim_text": "احسب $u_1$ ، $u_2$ و $u_3$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "معطيات السؤال 1",
+     "text": "$(u_n)$ المتتالية العددية المعرّفة بـ: $u_0=3$ ومن أجل كلّ عدد طبيعي $n$ ، $u_{n+1}=3u_n-1$"
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "1أ) حساب u1 ، u2 و u3 (0.25×3)",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "1ب",
+   "part": "التمرين الثّاني: (04 نقاط)",
+   "verbatim_text": "حدّد اتّجاه تغيّر الدّالة $x\\mapsto3x-1$ على $\\mathbb{R}$ ثمّ استنتج اتّجاه تغيّر المتتالية $(u_n)$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "معطيات السؤال 1",
+     "text": "$(u_n)$ المتتالية العددية المعرّفة بـ: $u_0=3$ ومن أجل كلّ عدد طبيعي $n$ ، $u_{n+1}=3u_n-1$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "1ب) اتجاه تغيّر الدالة والمتتالية (0.25×2)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "2أ",
+   "part": "التمرين الثّاني: (04 نقاط)",
+   "verbatim_text": "أثبت أنّ المتتالية $(v_n)$ هندسية أساسها 3 ، يُطلب تعيين حدّها الأول $v_0$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "معطيات السؤال 1",
+     "text": "$(u_n)$ المتتالية العددية المعرّفة بـ: $u_0=3$ ومن أجل كلّ عدد طبيعي $n$ ، $u_{n+1}=3u_n-1$"
+    },
+    {
+     "id": "d-ex2-2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "$(v_n)$ المتتالية العددية المعرّفة على $\\mathbb{N}$ بـ: $v_n=u_n-\\dfrac{1}{2}$"
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "2أ) طبيعة المتتالية وحدّها الأول (0.25+0.5)",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "2ب",
+   "part": "التمرين الثّاني: (04 نقاط)",
+   "verbatim_text": "عبّر عن $v_n$ بدلالة $n$ ثمّ استنتج أنّ: $u_n=\\dfrac{5}{2}\\times3^n+\\dfrac{1}{2}$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "معطيات السؤال 1",
+     "text": "$(u_n)$ المتتالية العددية المعرّفة بـ: $u_0=3$ ومن أجل كلّ عدد طبيعي $n$ ، $u_{n+1}=3u_n-1$"
+    },
+    {
+     "id": "d-ex2-2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "$(v_n)$ المتتالية العددية المعرّفة على $\\mathbb{N}$ بـ: $v_n=u_n-\\dfrac{1}{2}$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "2ب) عبارة v(n) واستنتاج عبارة u(n) (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "3أ",
+   "part": "التمرين الثّاني: (04 نقاط)",
+   "verbatim_text": "احسب $S_n$ بدلالة $n$ ثمّ بيّن أنّ: $T_n=\\dfrac{5}{4}\\times3^{n+1}+\\dfrac{1}{2}n-\\dfrac{3}{4}$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "معطيات السؤال 1",
+     "text": "$(u_n)$ المتتالية العددية المعرّفة بـ: $u_0=3$ ومن أجل كلّ عدد طبيعي $n$ ، $u_{n+1}=3u_n-1$"
+    },
+    {
+     "id": "d-ex2-2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "$(v_n)$ المتتالية العددية المعرّفة على $\\mathbb{N}$ بـ: $v_n=u_n-\\dfrac{1}{2}$"
+    },
+    {
+     "id": "d-ex2-3",
+     "kind": "text",
+     "caption": "معطيات السؤال 3",
+     "text": "نضع: من أجل كلّ $n$ من $\\mathbb{N}$ ، $S_n=v_0+v_1+\\cdots+v_n$ و $T_n=u_0+u_1+\\cdots+u_n$"
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "3أ) عبارة S(n)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e2",
+     "label": "3أ) تبيان عبارة T(n)",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q10",
+   "number": "3ب",
+   "part": "التمرين الثّاني: (04 نقاط)",
+   "verbatim_text": "عيّن قيمة العدد الطبيعي $n$ حتى يكون $4T_n-2n=1212$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "معطيات السؤال 1",
+     "text": "$(u_n)$ المتتالية العددية المعرّفة بـ: $u_0=3$ ومن أجل كلّ عدد طبيعي $n$ ، $u_{n+1}=3u_n-1$"
+    },
+    {
+     "id": "d-ex2-2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "$(v_n)$ المتتالية العددية المعرّفة على $\\mathbb{N}$ بـ: $v_n=u_n-\\dfrac{1}{2}$"
+    },
+    {
+     "id": "d-ex2-3",
+     "kind": "text",
+     "caption": "معطيات السؤال 3",
+     "text": "نضع: من أجل كلّ $n$ من $\\mathbb{N}$ ، $S_n=v_0+v_1+\\cdots+v_n$ و $T_n=u_0+u_1+\\cdots+u_n$"
+    }
+   ],
+   "rubric_total": 0.25,
+   "rubric_elements": [
+    {
+     "id": "q10-e1",
+     "label": "3ب) قيمة n",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q11",
+   "number": "1أ",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "حدّد إشارة $f'(x)$ واتّجاه تغيّر الدّالة $f$",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}^*$ بـ: $f(x)=x+\\dfrac{4}{x^2}$\n$(c_f)$ تمثيلها البياني و $(\\Delta)$ مستقيم مقارب مائل لـ $(c_f)$ عند $-\\infty$ وعند $+\\infty$ ، كما في الشّكل المقابل."
+    },
+    {
+     "id": "fig-ex3",
+     "kind": "graph",
+     "caption": "الشكل المقابل",
+     "media": {
+      "local_path": "/play-exams/figures/math-bac-2026-ge-p2/fig1.png",
+      "source_url": "https://drive.google.com/file/d/1J3UC842s9KXkDM7oXDxPmLAurptx9wzc/view",
+      "attribution": "الديوان الوطني للامتحانات والمسابقات — ورقة الموضوع الرسمية",
+      "license": "وثيقة امتحان رسمية منشورة — نسخة مطابقة للاستعمال التعليمي",
+      "image_verified_at": "2026-10-29T10:40:07Z",
+      "sha256": "94a0747bbc6894f263d38f8532fab4a16ffacd415732c48c5a7cf6279285e19d",
+      "width": 987,
+      "height": 940,
+      "depicts": "التمثيل البياني (c_f) والمستقيم المقارب المائل (Δ) في معلم مدرّج من −3 إلى 6 أفقيا ومن −3 إلى 6 عموديا، كما في التمرين الثالث من الموضوع الثاني",
+      "alt": "منحنى الدالة f ومستقيمها المقارب المائل كما في ورقة الموضوع"
+     }
+    },
+    {
+     "id": "d-ex3-1",
+     "kind": "text",
+     "caption": "تعليمة السؤال 1",
+     "text": "بقراءة بيانية:"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q11-e1",
+     "label": "1أ) إشارة f'(x)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q11-e2",
+     "label": "1أ) اتجاه تغيّر f (0.25×2)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q12",
+   "number": "1ب",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "جِد معادلة للمستقيم $(\\Delta)$",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}^*$ بـ: $f(x)=x+\\dfrac{4}{x^2}$\n$(c_f)$ تمثيلها البياني و $(\\Delta)$ مستقيم مقارب مائل لـ $(c_f)$ عند $-\\infty$ وعند $+\\infty$ ، كما في الشّكل المقابل."
+    },
+    {
+     "id": "fig-ex3",
+     "kind": "graph",
+     "caption": "الشكل المقابل",
+     "media": {
+      "local_path": "/play-exams/figures/math-bac-2026-ge-p2/fig1.png",
+      "source_url": "https://drive.google.com/file/d/1J3UC842s9KXkDM7oXDxPmLAurptx9wzc/view",
+      "attribution": "الديوان الوطني للامتحانات والمسابقات — ورقة الموضوع الرسمية",
+      "license": "وثيقة امتحان رسمية منشورة — نسخة مطابقة للاستعمال التعليمي",
+      "image_verified_at": "2026-10-29T10:40:07Z",
+      "sha256": "94a0747bbc6894f263d38f8532fab4a16ffacd415732c48c5a7cf6279285e19d",
+      "width": 987,
+      "height": 940,
+      "depicts": "التمثيل البياني (c_f) والمستقيم المقارب المائل (Δ) في معلم مدرّج من −3 إلى 6 أفقيا ومن −3 إلى 6 عموديا، كما في التمرين الثالث من الموضوع الثاني",
+      "alt": "منحنى الدالة f ومستقيمها المقارب المائل كما في ورقة الموضوع"
+     }
+    },
+    {
+     "id": "d-ex3-1",
+     "kind": "text",
+     "caption": "تعليمة السؤال 1",
+     "text": "بقراءة بيانية:"
+    }
+   ],
+   "rubric_total": 0.25,
+   "rubric_elements": [
+    {
+     "id": "q12-e1",
+     "label": "1ب) معادلة المستقيم (Δ)",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q13",
+   "number": "1ج",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "حلّ المعادلة: $f(x)=3$",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}^*$ بـ: $f(x)=x+\\dfrac{4}{x^2}$\n$(c_f)$ تمثيلها البياني و $(\\Delta)$ مستقيم مقارب مائل لـ $(c_f)$ عند $-\\infty$ وعند $+\\infty$ ، كما في الشّكل المقابل."
+    },
+    {
+     "id": "fig-ex3",
+     "kind": "graph",
+     "caption": "الشكل المقابل",
+     "media": {
+      "local_path": "/play-exams/figures/math-bac-2026-ge-p2/fig1.png",
+      "source_url": "https://drive.google.com/file/d/1J3UC842s9KXkDM7oXDxPmLAurptx9wzc/view",
+      "attribution": "الديوان الوطني للامتحانات والمسابقات — ورقة الموضوع الرسمية",
+      "license": "وثيقة امتحان رسمية منشورة — نسخة مطابقة للاستعمال التعليمي",
+      "image_verified_at": "2026-10-29T10:40:07Z",
+      "sha256": "94a0747bbc6894f263d38f8532fab4a16ffacd415732c48c5a7cf6279285e19d",
+      "width": 987,
+      "height": 940,
+      "depicts": "التمثيل البياني (c_f) والمستقيم المقارب المائل (Δ) في معلم مدرّج من −3 إلى 6 أفقيا ومن −3 إلى 6 عموديا، كما في التمرين الثالث من الموضوع الثاني",
+      "alt": "منحنى الدالة f ومستقيمها المقارب المائل كما في ورقة الموضوع"
+     }
+    },
+    {
+     "id": "d-ex3-1",
+     "kind": "text",
+     "caption": "تعليمة السؤال 1",
+     "text": "بقراءة بيانية:"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q13-e1",
+     "label": "1ج) حلّا المعادلة (0.25×2)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q14",
+   "number": "1د",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "شكّل جدول تغيّرات الدّالة $f$",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}^*$ بـ: $f(x)=x+\\dfrac{4}{x^2}$\n$(c_f)$ تمثيلها البياني و $(\\Delta)$ مستقيم مقارب مائل لـ $(c_f)$ عند $-\\infty$ وعند $+\\infty$ ، كما في الشّكل المقابل."
+    },
+    {
+     "id": "fig-ex3",
+     "kind": "graph",
+     "caption": "الشكل المقابل",
+     "media": {
+      "local_path": "/play-exams/figures/math-bac-2026-ge-p2/fig1.png",
+      "source_url": "https://drive.google.com/file/d/1J3UC842s9KXkDM7oXDxPmLAurptx9wzc/view",
+      "attribution": "الديوان الوطني للامتحانات والمسابقات — ورقة الموضوع الرسمية",
+      "license": "وثيقة امتحان رسمية منشورة — نسخة مطابقة للاستعمال التعليمي",
+      "image_verified_at": "2026-10-29T10:40:07Z",
+      "sha256": "94a0747bbc6894f263d38f8532fab4a16ffacd415732c48c5a7cf6279285e19d",
+      "width": 987,
+      "height": 940,
+      "depicts": "التمثيل البياني (c_f) والمستقيم المقارب المائل (Δ) في معلم مدرّج من −3 إلى 6 أفقيا ومن −3 إلى 6 عموديا، كما في التمرين الثالث من الموضوع الثاني",
+      "alt": "منحنى الدالة f ومستقيمها المقارب المائل كما في ورقة الموضوع"
+     }
+    },
+    {
+     "id": "d-ex3-1",
+     "kind": "text",
+     "caption": "تعليمة السؤال 1",
+     "text": "بقراءة بيانية:"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q14-e1",
+     "label": "1د) جدول التغيّرات",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q15",
+   "number": "2أ",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "بيّن أنّ المعادلة $f(x)=0$ تقبل حلّا وحيدا $\\alpha$ في المجال $]-1{,}6;-1{,}5[$",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}^*$ بـ: $f(x)=x+\\dfrac{4}{x^2}$\n$(c_f)$ تمثيلها البياني و $(\\Delta)$ مستقيم مقارب مائل لـ $(c_f)$ عند $-\\infty$ وعند $+\\infty$ ، كما في الشّكل المقابل."
+    },
+    {
+     "id": "fig-ex3",
+     "kind": "graph",
+     "caption": "الشكل المقابل",
+     "media": {
+      "local_path": "/play-exams/figures/math-bac-2026-ge-p2/fig1.png",
+      "source_url": "https://drive.google.com/file/d/1J3UC842s9KXkDM7oXDxPmLAurptx9wzc/view",
+      "attribution": "الديوان الوطني للامتحانات والمسابقات — ورقة الموضوع الرسمية",
+      "license": "وثيقة امتحان رسمية منشورة — نسخة مطابقة للاستعمال التعليمي",
+      "image_verified_at": "2026-10-29T10:40:07Z",
+      "sha256": "94a0747bbc6894f263d38f8532fab4a16ffacd415732c48c5a7cf6279285e19d",
+      "width": 987,
+      "height": 940,
+      "depicts": "التمثيل البياني (c_f) والمستقيم المقارب المائل (Δ) في معلم مدرّج من −3 إلى 6 أفقيا ومن −3 إلى 6 عموديا، كما في التمرين الثالث من الموضوع الثاني",
+      "alt": "منحنى الدالة f ومستقيمها المقارب المائل كما في ورقة الموضوع"
+     }
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q15-e1",
+     "label": "2أ) وجود الحلّ α (0.25×3)",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q16",
+   "number": "2ب",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "استنتج حسب قيم $x$ إشارة $f(x)$",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}^*$ بـ: $f(x)=x+\\dfrac{4}{x^2}$\n$(c_f)$ تمثيلها البياني و $(\\Delta)$ مستقيم مقارب مائل لـ $(c_f)$ عند $-\\infty$ وعند $+\\infty$ ، كما في الشّكل المقابل."
+    },
+    {
+     "id": "fig-ex3",
+     "kind": "graph",
+     "caption": "الشكل المقابل",
+     "media": {
+      "local_path": "/play-exams/figures/math-bac-2026-ge-p2/fig1.png",
+      "source_url": "https://drive.google.com/file/d/1J3UC842s9KXkDM7oXDxPmLAurptx9wzc/view",
+      "attribution": "الديوان الوطني للامتحانات والمسابقات — ورقة الموضوع الرسمية",
+      "license": "وثيقة امتحان رسمية منشورة — نسخة مطابقة للاستعمال التعليمي",
+      "image_verified_at": "2026-10-29T10:40:07Z",
+      "sha256": "94a0747bbc6894f263d38f8532fab4a16ffacd415732c48c5a7cf6279285e19d",
+      "width": 987,
+      "height": 940,
+      "depicts": "التمثيل البياني (c_f) والمستقيم المقارب المائل (Δ) في معلم مدرّج من −3 إلى 6 أفقيا ومن −3 إلى 6 عموديا، كما في التمرين الثالث من الموضوع الثاني",
+      "alt": "منحنى الدالة f ومستقيمها المقارب المائل كما في ورقة الموضوع"
+     }
+    }
+   ],
+   "rubric_total": 0.25,
+   "rubric_elements": [
+    {
+     "id": "q16-e1",
+     "label": "2ب) إشارة f(x)",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q17",
+   "number": "3",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "$g$ الدّالة المعرّفة على المجال $]0;+\\infty[$ بـ: $g(x)=\\ln(f(x))$\nشكّل جدول تغيّرات الدّالة $g$",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}^*$ بـ: $f(x)=x+\\dfrac{4}{x^2}$\n$(c_f)$ تمثيلها البياني و $(\\Delta)$ مستقيم مقارب مائل لـ $(c_f)$ عند $-\\infty$ وعند $+\\infty$ ، كما في الشّكل المقابل."
+    },
+    {
+     "id": "fig-ex3",
+     "kind": "graph",
+     "caption": "الشكل المقابل",
+     "media": {
+      "local_path": "/play-exams/figures/math-bac-2026-ge-p2/fig1.png",
+      "source_url": "https://drive.google.com/file/d/1J3UC842s9KXkDM7oXDxPmLAurptx9wzc/view",
+      "attribution": "الديوان الوطني للامتحانات والمسابقات — ورقة الموضوع الرسمية",
+      "license": "وثيقة امتحان رسمية منشورة — نسخة مطابقة للاستعمال التعليمي",
+      "image_verified_at": "2026-10-29T10:40:07Z",
+      "sha256": "94a0747bbc6894f263d38f8532fab4a16ffacd415732c48c5a7cf6279285e19d",
+      "width": 987,
+      "height": 940,
+      "depicts": "التمثيل البياني (c_f) والمستقيم المقارب المائل (Δ) في معلم مدرّج من −3 إلى 6 أفقيا ومن −3 إلى 6 عموديا، كما في التمرين الثالث من الموضوع الثاني",
+      "alt": "منحنى الدالة f ومستقيمها المقارب المائل كما في ورقة الموضوع"
+     }
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q17-e1",
+     "label": "3) عبارة g'(x)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q17-e2",
+     "label": "3) جدول التغيّرات",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q18",
+   "number": "1",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "احسب $\\lim_{x\\to+\\infty}f(x)$ وبيّن أنّ: $\\lim_{x\\to-\\infty}f(x)=+\\infty$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}$ بـ: $f(x)=x^2+2x+2xe^x$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q18-e1",
+     "label": "1) النهايتان (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q19",
+   "number": "2أ",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "بيّن أنّه: من أجل كلّ $x$ من $\\mathbb{R}$ ، $f'(x)=2(x+1)(e^x+1)$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}$ بـ: $f(x)=x^2+2x+2xe^x$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q19-e1",
+     "label": "2أ) تبيان عبارة f'(x) (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q20",
+   "number": "2ب",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "استنتج اتّجاه تغيّر الدّالة $f$ ثمّ شكّل جدول تغيّراتها.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}$ بـ: $f(x)=x^2+2x+2xe^x$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q20-e1",
+     "label": "2ب) إشارة f'(x)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q20-e2",
+     "label": "2ب) اتجاه تغيّر f (0.25×2)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q20-e3",
+     "label": "2ب) جدول التغيّرات",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q21",
+   "number": "3",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "عيّن معادلة لـ $(T)$ مماس المنحني $(c_f)$ عند النقطة ذات الفاصلة 0",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}$ بـ: $f(x)=x^2+2x+2xe^x$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q21-e1",
+     "label": "3) معادلة المماس (T)",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q22",
+   "number": "4",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "$g$ الدّالة المعرّفة على $\\mathbb{R}$ بـ: $g(x)=x^2$ و $(c_g)$ تمثيلها البياني.\nادرس الوضع النسبي لـ $(c_f)$ و $(c_g)$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}$ بـ: $f(x)=x^2+2x+2xe^x$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q22-e1",
+     "label": "4) الوضع النسبي (0.25×4)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q23",
+   "number": "5",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "احسب $f(-3)$ ، $f(-2)$ ، $f(1)$ ثمّ ارسم $(T)$ ، $(c_g)$ و $(c_f)$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}$ بـ: $f(x)=x^2+2x+2xe^x$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    },
+    {
+     "id": "d-ex4-4",
+     "kind": "text",
+     "caption": "معطيات السؤال 4",
+     "text": "$g$ الدّالة المعرّفة على $\\mathbb{R}$ بـ: $g(x)=x^2$ و $(c_g)$ تمثيلها البياني."
+    }
+   ],
+   "rubric_total": 1.75,
+   "rubric_elements": [
+    {
+     "id": "q23-e1",
+     "label": "5) حساب الصور الثلاث (0.25×3)",
+     "max_points": 0.75,
+     "verified": false
+    },
+    {
+     "id": "q23-e2",
+     "label": "5) رسم (T)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q23-e3",
+     "label": "5) رسم (c_g)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q23-e4",
+     "label": "5) رسم (c_f)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q24",
+   "number": "6أ",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "تحقّق أنّ الدّالة $H:x\\mapsto(x-1)e^x$ أصلية للدّالة $h:x\\mapsto xe^x$ على $\\mathbb{R}$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}$ بـ: $f(x)=x^2+2x+2xe^x$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q24-e1",
+     "label": "6أ) التحقّق من الدالة الأصلية",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q25",
+   "number": "6ب",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "استنتج حساب $\\mathscr{A}$ مساحة الحيّز المستوي المحدّد بالمنحنيين $(c_f)$ و $(c_g)$ والمستقيمين ذوَي المعادلتين:\n$x=0$ ، $x=1$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}$ بـ: $f(x)=x^2+2x+2xe^x$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    },
+    {
+     "id": "d-ex4-4",
+     "kind": "text",
+     "caption": "معطيات السؤال 4",
+     "text": "$g$ الدّالة المعرّفة على $\\mathbb{R}$ بـ: $g(x)=x^2$ و $(c_g)$ تمثيلها البياني."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q25-e1",
+     "label": "6ب) المساحة",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "$(u_n)$ متتالية حسابية حيث $u_2=5$ و $u_4=9$: اختر الاقتراح الصحيح.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$u_0=2$ ، $r=1$",
+     "$u_0=1$ ، $r=4$",
+     "$u_0=1$ ، $r=2$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: الاقتراح الصحيح هو ب) $u_0=1$ ، $r=2$.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "b",
+   "type": "essay_builder",
+   "prompt": "1) تحرير تبرير الاقتراح الصحيح (حساب الأساس والحدّ الأول).",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "ب) u0 = 1 ، r = 2 (من 0.5×2) — لا يكتب التصحيح التبرير",
+     "reason_deferred": "official_result_missing",
+     "statement": "$u_0=1$ ، $r=2$",
+     "official_result_missing": true
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "ب) u0 = 1 ، r = 2 (من 0.5×2) — لا يكتب التصحيح التبرير",
+     "official_result": "$u_0=1$ ، $r=2$"
+    }
+   },
+   "explanation": "الإجابة النموذجية الرسمية تذكر هذا البند وعلامته دون أن تكتب النتيجة: لا تُنشأ خطوة تفاعليّة قبل أن تتوفّر النتيجة الرسميّة.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "اختر الاقتراح الصحيح لمجموعة حلول المعادلة $(\\ln x-1)(\\ln x-2)=0$ في $]0;+\\infty[$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$\\{2;e\\}$",
+     "$\\{e;e^2\\}$",
+     "$\\{1;2\\}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: الاقتراح الصحيح هو جـ) $\\{e;e^2\\}$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "b",
+   "type": "essay_builder",
+   "prompt": "2) تحرير تبرير حلول المعادلة $(\\ln x-1)(\\ln x-2)=0$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "جـ) {e ; e²} (من 0.5×2) — لا يكتب التصحيح التبرير",
+     "reason_deferred": "official_result_missing",
+     "statement": "$\\{e;e^2\\}$",
+     "official_result_missing": true
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "جـ) {e ; e²} (من 0.5×2) — لا يكتب التصحيح التبرير",
+     "official_result": "$\\{e;e^2\\}$"
+    }
+   },
+   "explanation": "الإجابة النموذجية الرسمية تذكر هذا البند وعلامته دون أن تكتب النتيجة: لا تُنشأ خطوة تفاعليّة قبل أن تتوفّر النتيجة الرسميّة.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "اختر الاقتراح الصحيح للقيمة المتوسطة للدّالة $h$ على المجال $[-2;1]$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$-1$",
+     "$1$",
+     "$3$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: الاقتراح الصحيح هو ب) 1.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "ما الحساب الذي يبرّر القيمة المتوسطة للدّالة $h$ على المجال $[-2;1]$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$\\dfrac{1}{3}\\int_{-2}^{1}h(x)dx=1$",
+     "$\\dfrac{1}{2}\\int_{-2}^{1}h(x)dx=1$",
+     "$\\int_{-2}^{1}h(x)dx=1$",
+     "$\\dfrac{1}{3}\\int_{-2}^{1}h(x)dx=3$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "التبرير حسب الإجابة النموذجية: $\\dfrac{1}{3}\\int_{-2}^{1}h(x)dx=1$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "المستقيم $(T)$: $y=-x+2$ مماس لـ $(c_k)$ حيث $k(x)=e^{1-x}$: اختر الاقتراح الصحيح لفاصلة نقطة التماس.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$x_0=1$",
+     "$x_0=-1$",
+     "$x_0=0$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "حسب الإجابة النموذجية: الاقتراح الصحيح هو أ) $x_0=1$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "ما التبرير الصحيح لفاصلة نقطة التماس $x_0$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$k'(x)=-1$ معناه $x=1$",
+     "$k'(x)=-1$ معناه $x=-1$",
+     "$k'(x)=2$ معناه $x=1$",
+     "$k'(x)=-1$ معناه $x=0$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "التبرير حسب الإجابة النموذجية: $k'(x)=-1$ معناه $x=1$ ، $x_0=1$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "numeric",
+   "prompt": "احسب $u_1$ حيث $u_0=3$ و $u_{n+1}=3u_n-1$.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 8,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "حسب الإجابة النموذجية: $u_1=8$ ، $u_2=23$ و $u_3=68$.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "b",
+   "type": "numeric",
+   "prompt": "احسب $u_2$ حيث $u_0=3$ و $u_{n+1}=3u_n-1$.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 23,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "حسب الإجابة النموذجية: $u_1=8$ ، $u_2=23$ و $u_3=68$.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "c",
+   "type": "numeric",
+   "prompt": "احسب $u_3$ حيث $u_0=3$ و $u_{n+1}=3u_n-1$.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 68,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "حسب الإجابة النموذجية: $u_1=8$ ، $u_2=23$ و $u_3=68$.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما اتّجاه تغيّر الدّالة $x\\mapsto3x-1$ على $\\mathbb{R}$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "ثابتة على $\\mathbb{R}$",
+     "متزايدة تماما على $\\mathbb{R}$",
+     "متناقصة تماما على $\\mathbb{R}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: الدّالة $x\\mapsto3x-1$ متزايدة تماما على $\\mathbb{R}$.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "استنتج اتّجاه تغيّر المتتالية $(u_n)$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(u_n)$ ليست رتيبة",
+     "$(u_n)$ متزايدة تماما لأنّ $u_1-u_0>0$ والدّالة المرفقة متزايدة تماما",
+     "$(u_n)$ ثابتة لأنّ الدّالة المرفقة تآلفية",
+     "$(u_n)$ متناقصة تماما لأنّ $u_1-u_0<0$ والدّالة المرفقة متزايدة تماما"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: $(u_n)$ متزايدة تماما لأنّ $u_1-u_0>0$ والدّالة المرفقة متزايدة تماما.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "2أ) تحرير إثبات أنّ $(v_n)$ هندسية أساسها 3.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "(v_n) متتالية هندسية أساسها 3 (من 0.25+0.5) — النتيجة هي المعطاة في السؤال",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$(v_n)$ هندسية أساسها 3"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "(v_n) متتالية هندسية أساسها 3 (من 0.25+0.5) — النتيجة هي المعطاة في السؤال",
+     "official_result": "$(v_n)$ هندسية أساسها 3"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "ما الحدّ الأول $v_0$ للمتتالية $(v_n)$ حيث $v_n=u_n-\\dfrac{1}{2}$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$v_0=\\dfrac{5}{2}$",
+     "$v_0=\\dfrac{7}{2}$",
+     "$v_0=3$",
+     "$v_0=\\dfrac{1}{2}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "حسب الإجابة النموذجية: $(v_n)$ متتالية هندسية أساسها 3 ، $v_0=\\dfrac{5}{2}$.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "عبّر عن $v_n$ بدلالة $n$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$v_n=\\dfrac{5}{2}\\times3^{n+1}$",
+     "$v_n=\\dfrac{5}{2}+3n$",
+     "$v_n=3\\times\\left(\\dfrac{5}{2}\\right)^n$",
+     "$v_n=\\dfrac{5}{2}\\times3^n$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $v_n=\\dfrac{5}{2}\\times3^n$.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "b",
+   "type": "essay_builder",
+   "prompt": "2ب) تحرير استنتاج أنّ $u_n=\\dfrac{5}{2}\\times3^n+\\dfrac{1}{2}$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "u(n) = (5/2)×3^n + 1/2 (من 0.5×2)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$u_n=\\dfrac{5}{2}\\times3^n+\\dfrac{1}{2}$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "u(n) = (5/2)×3^n + 1/2 (من 0.5×2)",
+     "official_result": "$u_n=\\dfrac{5}{2}\\times3^n+\\dfrac{1}{2}$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب $S_n=v_0+v_1+\\cdots+v_n$ بدلالة $n$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$S_n=\\dfrac{5}{2}\\left(3^{n+1}-1\\right)$",
+     "$S_n=\\dfrac{5}{4}\\left(3^{n}-1\\right)$",
+     "$S_n=\\dfrac{5}{4}\\left(3^{n+1}+1\\right)$",
+     "$S_n=\\dfrac{5}{4}\\left(3^{n+1}-1\\right)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $S_n=\\dfrac{5}{4}\\left(3^{n+1}-1\\right)$.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "لتبيان عبارة $T_n$: ما العلاقة بين $T_n$ و $S_n$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$T_n=S_n+\\dfrac{1}{2}(n+1)$",
+     "$T_n=S_n+(n+1)$",
+     "$T_n=S_n-\\dfrac{1}{2}(n+1)$",
+     "$T_n=S_n+\\dfrac{1}{2}n$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "حسب الإجابة النموذجية: $T_n=S_n+\\dfrac{1}{2}(n+1)=\\dfrac{5}{4}\\times3^{n+1}+\\dfrac{1}{2}n-\\dfrac{3}{4}$.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e1",
+   "variant": "a",
+   "type": "numeric",
+   "prompt": "عيّن قيمة العدد الطبيعي $n$ التي يكون من أجلها $4T_n-2n=1212$.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 4,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "حسب الإجابة النموذجية: $4T_n-2n=1212$ من أجل $n=4$.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q11",
+   "rubric_element_id": "q11-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "بقراءة بيانية: ما إشارة $f'(x)$ على $\\mathbb{R}^*$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f'(x)>0$ على $\\mathbb{R}^*$",
+     "$f'(x)>0$ على $]-\\infty;0[$ وعلى $]2;+\\infty[$ ، و $f'(x)<0$ على $]0;2[$",
+     "$f'(x)>0$ على $]-\\infty;0[$ ، و $f'(x)<0$ على $]0;+\\infty[$",
+     "$f'(x)<0$ على $]-\\infty;0[$ وعلى $]2;+\\infty[$ ، و $f'(x)>0$ على $]0;2[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "من جدول إشارة $f'(x)$ في الإجابة النموذجية: $f'(x)>0$ على $]-\\infty;0[$ وعلى $]2;+\\infty[$ ، و $f'(x)<0$ على $]0;2[$ و $f'(2)=0$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q11",
+   "rubric_element_id": "q11-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "بقراءة بيانية: على أيّ مجالين تكون الدّالة $f$ متزايدة تماما؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المجالان $]-\\infty;-2]$ و $[2;+\\infty[$",
+     "المجالان $]-\\infty;0[$ و $]0;2]$",
+     "المجال $]0;+\\infty[$ فقط",
+     "المجالان $]-\\infty;0[$ و $[2;+\\infty[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $f$ متزايدة تماما على كلّ من $]-\\infty;0[$ و $[2;+\\infty[$ ، ومتناقصة تماما على $]0;2]$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q11",
+   "rubric_element_id": "q11-e2",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "بقراءة بيانية: على أيّ مجال تكون الدّالة $f$ متناقصة تماما؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المجال $[-2;0[$",
+     "المجال $[2;+\\infty[$",
+     "المجال $]-\\infty;0[$",
+     "المجال $]0;2]$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $f$ متزايدة تماما على كلّ من $]-\\infty;0[$ و $[2;+\\infty[$ ، ومتناقصة تماما على $]0;2]$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q12",
+   "rubric_element_id": "q12-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "بقراءة بيانية: ما معادلة المستقيم المقارب المائل $(\\Delta)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(\\Delta):y=x+1$",
+     "$(\\Delta):y=x-2$",
+     "$(\\Delta):y=2x$",
+     "$(\\Delta):y=x$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $(\\Delta):y=x$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q13",
+   "rubric_element_id": "q13-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "بقراءة بيانية: ما حلول المعادلة $f(x)=3$؟ اختر كلّ الحلول.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "$-1$",
+     "$2$",
+     "$-2$",
+     "$3$",
+     "$1$"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     1
+    ]
+   },
+   "explanation": "حسب الإجابة النموذجية: للمعادلة $f(x)=3$ حلّان هما $-1$ و $2$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q14",
+   "rubric_element_id": "q14-e1",
+   "variant": "a",
+   "type": "variation_table",
+   "prompt": "1د) تشكيل جدول تغيّرات الدّالة $f$.",
+   "payload": {
+    "type": "variation_table",
+    "spec": {
+     "official_correction": "جدول التغيّرات (0.5)",
+     "reason_deferred": "variation_table",
+     "function": "$f$",
+     "domain": "$\\mathbb{R}^*$",
+     "increasing": [
+      "$]-\\infty;0[$",
+      "$[2;+\\infty[$"
+     ],
+     "decreasing": [
+      "$]0;2]$"
+     ],
+     "official_values": [
+      "$f(2)=3$"
+     ]
+    }
+   },
+   "answer": {
+    "type": "variation_table",
+    "spec": {
+     "rubric": "جدول التغيّرات (0.5)",
+     "official_result": null
+    }
+   },
+   "explanation": "جدول التغيّرات يُصحَّح بشبكة التنقيط الرسمية (محرّك الجداول غير متوفّر بعد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q15",
+   "rubric_element_id": "q15-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "لإثبات وجود الحلّ $\\alpha$: ما خاصية الدّالة $f$ على المجال $[-1{,}6;-1{,}5]$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f$ مستمرة ومتزايدة تماما على $[-1{,}6;-1{,}5]$",
+     "$f$ ثابتة على $[-1{,}6;-1{,}5]$",
+     "$f$ مستمرة ومتناقصة تماما على $[-1{,}6;-1{,}5]$",
+     "$f$ غير مستمرة على $[-1{,}6;-1{,}5]$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "حسب الإجابة النموذجية: $f$ مستمرة ومتزايدة تماما على $[-1{,}6;-1{,}5]$ و $f(-1{,}6)\\simeq-0{,}04$ و $f(-1{,}5)\\simeq0{,}28$ ، ومنه للمعادلة $f(x)=0$ حلّ وحيد $\\alpha$ في المجال $]-1{,}6;-1{,}5[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q15",
+   "rubric_element_id": "q15-e1",
+   "variant": "b",
+   "type": "numeric",
+   "prompt": "احسب قيمة مقرّبة إلى $10^{-2}$ للعدد $f(-1{,}6)$ حيث $f(x)=x+\\dfrac{4}{x^2}$.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": -0.04,
+    "tolerance": 0.01,
+    "unit": null
+   },
+   "explanation": "حسب الإجابة النموذجية: $f$ مستمرة ومتزايدة تماما على $[-1{,}6;-1{,}5]$ و $f(-1{,}6)\\simeq-0{,}04$ و $f(-1{,}5)\\simeq0{,}28$ ، ومنه للمعادلة $f(x)=0$ حلّ وحيد $\\alpha$ في المجال $]-1{,}6;-1{,}5[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s29",
+   "source_question_id": "q15",
+   "rubric_element_id": "q15-e1",
+   "variant": "c",
+   "type": "numeric",
+   "prompt": "احسب قيمة مقرّبة إلى $10^{-2}$ للعدد $f(-1{,}5)$ حيث $f(x)=x+\\dfrac{4}{x^2}$.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 0.28,
+    "tolerance": 0.01,
+    "unit": null
+   },
+   "explanation": "حسب الإجابة النموذجية: $f$ مستمرة ومتزايدة تماما على $[-1{,}6;-1{,}5]$ و $f(-1{,}6)\\simeq-0{,}04$ و $f(-1{,}5)\\simeq0{,}28$ ، ومنه للمعادلة $f(x)=0$ حلّ وحيد $\\alpha$ في المجال $]-1{,}6;-1{,}5[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s30",
+   "source_question_id": "q16",
+   "rubric_element_id": "q16-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "استنتج إشارة $f(x)$ حسب قيم $x$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f(x)<0$ على $]-\\infty;0[$ ، و $f(x)>0$ على $]0;+\\infty[$",
+     "$f(x)>0$ على $\\mathbb{R}^*$",
+     "$f(x)>0$ على $]-\\infty;\\alpha[$ ، و $f(x)<0$ على $]\\alpha;0[$ وعلى $]0;+\\infty[$",
+     "$f(x)<0$ على $]-\\infty;\\alpha[$ ، و $f(x)>0$ على $]\\alpha;0[$ وعلى $]0;+\\infty[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "من جدول إشارة $f(x)$ في الإجابة النموذجية: $f(x)<0$ على $]-\\infty;\\alpha[$ و $f(\\alpha)=0$ و $f(x)>0$ على $]\\alpha;0[$ وعلى $]0;+\\infty[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s31",
+   "source_question_id": "q17",
+   "rubric_element_id": "q17-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "من أجل كلّ $x$ من $]0;+\\infty[$: ما عبارة $g'(x)$ حيث $g(x)=\\ln(f(x))$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$g'(x)=\\dfrac{f(x)}{f'(x)}$",
+     "$g'(x)=\\dfrac{1}{f(x)}$",
+     "$g'(x)=-\\dfrac{f'(x)}{(f(x))^2}$",
+     "$g'(x)=\\dfrac{f'(x)}{f(x)}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $g'(x)=\\dfrac{f'(x)}{f(x)}$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s32",
+   "source_question_id": "q17",
+   "rubric_element_id": "q17-e2",
+   "variant": "a",
+   "type": "variation_table",
+   "prompt": "3) تشكيل جدول تغيّرات الدّالة $g$.",
+   "payload": {
+    "type": "variation_table",
+    "spec": {
+     "official_correction": "جدول التغيّرات (0.5)",
+     "reason_deferred": "variation_table",
+     "function": "$g$",
+     "domain": "$]0;+\\infty[$",
+     "decreasing": [
+      "$]0;2]$"
+     ],
+     "increasing": [
+      "$[2;+\\infty[$"
+     ],
+     "official_values": [
+      "$g(2)=\\ln 3$"
+     ]
+    }
+   },
+   "answer": {
+    "type": "variation_table",
+    "spec": {
+     "rubric": "جدول التغيّرات (0.5)",
+     "official_result": null
+    }
+   },
+   "explanation": "جدول التغيّرات يُصحَّح بشبكة التنقيط الرسمية (محرّك الجداول غير متوفّر بعد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s33",
+   "source_question_id": "q18",
+   "rubric_element_id": "q18-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب $\\lim_{x\\to+\\infty}f(x)$ حيث $f(x)=x^2+2x+2xe^x$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$-\\infty$",
+     "$0$",
+     "$2$",
+     "$+\\infty$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $\\lim_{x\\to+\\infty}f(x)=+\\infty$ و $\\lim_{x\\to-\\infty}f(x)=+\\infty$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s34",
+   "source_question_id": "q18",
+   "rubric_element_id": "q18-e1",
+   "variant": "b",
+   "type": "essay_builder",
+   "prompt": "1) تحرير تبيان أنّ $\\lim_{x\\to-\\infty}f(x)=+\\infty$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "lim f(x) = +∞ عند −∞ (من 0.5×2)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$\\lim_{x\\to-\\infty}f(x)=+\\infty$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "lim f(x) = +∞ عند −∞ (من 0.5×2)",
+     "official_result": "$\\lim_{x\\to-\\infty}f(x)=+\\infty$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s35",
+   "source_question_id": "q19",
+   "rubric_element_id": "q19-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "2أ) تحرير تبيان أنّ $f'(x)=2(x+1)(e^x+1)$ من أجل كلّ $x$ من $\\mathbb{R}$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "f'(x) = 2(x+1)(e^x + 1) (0.5×2)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$f'(x)=2(x+1)(e^x+1)$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "f'(x) = 2(x+1)(e^x + 1) (0.5×2)",
+     "official_result": "$f'(x)=2(x+1)(e^x+1)$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 1,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s36",
+   "source_question_id": "q20",
+   "rubric_element_id": "q20-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما إشارة $f'(x)=2(x+1)(e^x+1)$ على $\\mathbb{R}$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f'(x)>0$ على $\\mathbb{R}$",
+     "$f'(x)<0$ على $]-\\infty;0[$ ، و $f'(x)>0$ على $]0;+\\infty[$",
+     "$f'(x)>0$ على $]-\\infty;-1[$ ، و $f'(x)<0$ على $]-1;+\\infty[$",
+     "$f'(x)<0$ على $]-\\infty;-1[$ ، و $f'(x)>0$ على $]-1;+\\infty[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "من سطر إشارة $f'(x)$ في جدول تغيّرات الإجابة النموذجية: $f'(x)<0$ على $]-\\infty;-1[$ و $f'(-1)=0$ و $f'(x)>0$ على $]-1;+\\infty[$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s37",
+   "source_question_id": "q20",
+   "rubric_element_id": "q20-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "على أيّ مجال تكون الدّالة $f$ متناقصة تماما؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المجال $[-1;0]$",
+     "المجال $[-1;+\\infty[$",
+     "المجال $]-\\infty;-1]$",
+     "المجال $]-\\infty;0]$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: $f$ متناقصة تماما على $]-\\infty;-1]$ ومتزايدة تماما على $[-1;+\\infty[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s38",
+   "source_question_id": "q20",
+   "rubric_element_id": "q20-e2",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "على أيّ مجال تكون الدّالة $f$ متزايدة تماما؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المجال $\\mathbb{R}$",
+     "المجال $]-\\infty;-1]$",
+     "المجال $[0;+\\infty[$",
+     "المجال $[-1;+\\infty[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $f$ متناقصة تماما على $]-\\infty;-1]$ ومتزايدة تماما على $[-1;+\\infty[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s39",
+   "source_question_id": "q20",
+   "rubric_element_id": "q20-e3",
+   "variant": "a",
+   "type": "variation_table",
+   "prompt": "2ب) تشكيل جدول تغيّرات الدّالة $f$.",
+   "payload": {
+    "type": "variation_table",
+    "spec": {
+     "official_correction": "جدول التغيّرات (0.5)",
+     "reason_deferred": "variation_table",
+     "function": "$f$",
+     "domain": "$\\mathbb{R}$",
+     "decreasing": [
+      "$]-\\infty;-1]$"
+     ],
+     "increasing": [
+      "$[-1;+\\infty[$"
+     ],
+     "official_values": [
+      "$f(-1)=-1-\\dfrac{2}{e}$",
+      "$\\lim_{x\\to-\\infty}f(x)=+\\infty$",
+      "$\\lim_{x\\to+\\infty}f(x)=+\\infty$"
+     ]
+    }
+   },
+   "answer": {
+    "type": "variation_table",
+    "spec": {
+     "rubric": "جدول التغيّرات (0.5)",
+     "official_result": null
+    }
+   },
+   "explanation": "جدول التغيّرات يُصحَّح بشبكة التنقيط الرسمية (محرّك الجداول غير متوفّر بعد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s40",
+   "source_question_id": "q21",
+   "rubric_element_id": "q21-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "عيّن معادلة لـ $(T)$ مماس المنحني $(c_f)$ عند النقطة ذات الفاصلة 0 حيث $f(x)=x^2+2x+2xe^x$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(T):y=4x+1$",
+     "$(T):y=3x$",
+     "$(T):y=4x$",
+     "$(T):y=2x$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: $(T):y=4x$.",
+   "points": 0.75,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s41",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "لدراسة الوضع النسبي: ما عبارة الفرق $f(x)-x^2$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f(x)-x^2=2x(1-e^x)$",
+     "$f(x)-x^2=2x+e^x$",
+     "$f(x)-x^2=2x(1+e^x)$",
+     "$f(x)-x^2=2(1+e^x)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: $f(x)-x^2=2x(1+e^x)$ ومنه $(c_f)$ و $(c_g)$ يتقاطعان في $O$ ؛ $(c_f)$ أسفل $(c_g)$ على $]-\\infty;0[$ و $(c_f)$ أعلى $(c_g)$ على $]0;+\\infty[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s42",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "في أيّ نقطة يتقاطع المنحنيان $(c_f)$ و $(c_g)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "في المبدأ $O$",
+     "لا يتقاطعان",
+     "في النقطة ذات الفاصلة $-1$",
+     "في النقطة ذات الفاصلة $1$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "حسب الإجابة النموذجية: $f(x)-x^2=2x(1+e^x)$ ومنه $(c_f)$ و $(c_g)$ يتقاطعان في $O$ ؛ $(c_f)$ أسفل $(c_g)$ على $]-\\infty;0[$ و $(c_f)$ أعلى $(c_g)$ على $]0;+\\infty[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s43",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e1",
+   "variant": "c",
+   "type": "mcq",
+   "prompt": "على المجال $]-\\infty;0[$: ما الوضع النسبي لـ $(c_f)$ و $(c_g)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(c_f)$ أعلى $(c_g)$",
+     "$(c_f)$ و $(c_g)$ منطبقان",
+     "$(c_f)$ أسفل $(c_g)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: $f(x)-x^2=2x(1+e^x)$ ومنه $(c_f)$ و $(c_g)$ يتقاطعان في $O$ ؛ $(c_f)$ أسفل $(c_g)$ على $]-\\infty;0[$ و $(c_f)$ أعلى $(c_g)$ على $]0;+\\infty[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s44",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e1",
+   "variant": "d",
+   "type": "mcq",
+   "prompt": "على المجال $]0;+\\infty[$: ما الوضع النسبي لـ $(c_f)$ و $(c_g)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(c_f)$ أعلى $(c_g)$",
+     "$(c_f)$ و $(c_g)$ منطبقان",
+     "$(c_f)$ أسفل $(c_g)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "حسب الإجابة النموذجية: $f(x)-x^2=2x(1+e^x)$ ومنه $(c_f)$ و $(c_g)$ يتقاطعان في $O$ ؛ $(c_f)$ أسفل $(c_g)$ على $]-\\infty;0[$ و $(c_f)$ أعلى $(c_g)$ على $]0;+\\infty[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s45",
+   "source_question_id": "q23",
+   "rubric_element_id": "q23-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب $f(-3)$ حيث $f(x)=x^2+2x+2xe^x$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f(-3)=3+6e^{-3}$",
+     "$f(-3)=-6e^{-3}$",
+     "$f(-3)=15-6e^{-3}$",
+     "$f(-3)=3-6e^{-3}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $f(-3)=3-6e^{-3}$ ، $f(-2)=-4e^{-2}$ ، $f(1)=3+2e$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s46",
+   "source_question_id": "q23",
+   "rubric_element_id": "q23-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "احسب $f(-2)$ حيث $f(x)=x^2+2x+2xe^x$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f(-2)=4e^{-2}$",
+     "$f(-2)=-4e^{-2}$",
+     "$f(-2)=-4e^{2}$",
+     "$f(-2)=8-4e^{-2}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: $f(-3)=3-6e^{-3}$ ، $f(-2)=-4e^{-2}$ ، $f(1)=3+2e$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s47",
+   "source_question_id": "q23",
+   "rubric_element_id": "q23-e1",
+   "variant": "c",
+   "type": "mcq",
+   "prompt": "احسب $f(1)$ حيث $f(x)=x^2+2x+2xe^x$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f(1)=1+2e$",
+     "$f(1)=3-2e$",
+     "$f(1)=3+e$",
+     "$f(1)=3+2e$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $f(-3)=3-6e^{-3}$ ، $f(-2)=-4e^{-2}$ ، $f(1)=3+2e$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s48",
+   "source_question_id": "q23",
+   "rubric_element_id": "q23-e2",
+   "variant": "a",
+   "type": "function_plot",
+   "prompt": "5) رسم المماس $(T)$.",
+   "payload": {
+    "type": "function_plot",
+    "spec": {
+     "official_correction": "رسم (T) (0.25)",
+     "reason_deferred": "drawing",
+     "curves": [
+      "$(T)$"
+     ],
+     "frame": "$(O;\\overrightarrow{i},\\overrightarrow{j})$",
+     "official_equation": "$(T):y=4x$"
+    }
+   },
+   "answer": {
+    "type": "function_plot",
+    "spec": {
+     "rubric": "رسم (T) (0.25)",
+     "official_result": null
+    }
+   },
+   "explanation": "الرسم يُصحَّح بشبكة التنقيط الرسمية (محرّك الرسم غير متوفّر بعد).",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s49",
+   "source_question_id": "q23",
+   "rubric_element_id": "q23-e3",
+   "variant": "a",
+   "type": "function_plot",
+   "prompt": "5) رسم المنحني $(c_g)$.",
+   "payload": {
+    "type": "function_plot",
+    "spec": {
+     "official_correction": "رسم (c_g) (0.25)",
+     "reason_deferred": "drawing",
+     "curves": [
+      "$(c_g)$"
+     ],
+     "frame": "$(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   },
+   "answer": {
+    "type": "function_plot",
+    "spec": {
+     "rubric": "رسم (c_g) (0.25)",
+     "official_result": null
+    }
+   },
+   "explanation": "الرسم يُصحَّح بشبكة التنقيط الرسمية (محرّك الرسم غير متوفّر بعد).",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s50",
+   "source_question_id": "q23",
+   "rubric_element_id": "q23-e4",
+   "variant": "a",
+   "type": "function_plot",
+   "prompt": "5) رسم المنحني $(c_f)$.",
+   "payload": {
+    "type": "function_plot",
+    "spec": {
+     "official_correction": "رسم (c_f) (0.5)",
+     "reason_deferred": "drawing",
+     "curves": [
+      "$(c_f)$"
+     ],
+     "frame": "$(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   },
+   "answer": {
+    "type": "function_plot",
+    "spec": {
+     "rubric": "رسم (c_f) (0.5)",
+     "official_result": null
+    }
+   },
+   "explanation": "الرسم يُصحَّح بشبكة التنقيط الرسمية (محرّك الرسم غير متوفّر بعد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s51",
+   "source_question_id": "q24",
+   "rubric_element_id": "q24-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "6أ) تحرير التحقّق من أنّ $H$ أصلية للدّالة $h$ على $\\mathbb{R}$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "من أجل كلّ x من ℝ ، H'(x) = h(x) (0.5)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$H'(x)=h(x)$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "من أجل كلّ x من ℝ ، H'(x) = h(x) (0.5)",
+     "official_result": "$H'(x)=h(x)$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s52",
+   "source_question_id": "q25",
+   "rubric_element_id": "q25-e1",
+   "variant": "a",
+   "type": "numeric",
+   "prompt": "احسب المساحة $\\mathscr{A}$ للحيّز المحدّد بـ $(c_f)$ و $(c_g)$ والمستقيمين $x=0$ و $x=1$ بوحدة المساحات.",
+   "payload": {
+    "type": "numeric",
+    "unit": "u.a"
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 3,
+    "tolerance": 0,
+    "unit": "u.a"
+   },
+   "explanation": "حسب الإجابة النموذجية: $\\mathscr{A}=\\int_0^1\\left(2x+2xe^x\\right)dx=\\left[x^2+2(x-1)e^x\\right]_0^1=3\\,u.a$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T12:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من صور الموضوع والإجابة النموذجية الرسميّين في Drive (نمط تجربة الرياضيات)؛ العلامات من سلّم التنقيط؛ الإجابات الصحيحة من الإجابة النموذجية؛ المشتّتات من إعداد التحويل وتحتاج مراجعة."
+  }
+ ]
+}
