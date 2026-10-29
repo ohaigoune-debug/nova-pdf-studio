@@ -1,15 +1,17 @@
 import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
-import { Documents, StepExcerptView } from '@/components/play/exams/exam-runner'
+import { Documents, ExamText, MathScope, StepExcerptView } from '@/components/play/exams/exam-runner'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/misc'
 import { requirePageActor } from '@/server/auth/current-user'
+import { PLAY_MATH_SUBJECTS } from '@/server/play/constants'
 import { getDb } from '@/server/db/client'
 import { playExamSets } from '@/server/db/schema'
 import { answerText, validateExamSet } from '@/server/play/exams/engine'
 import { stepExcerpt } from '@/server/play/exams/excerpt'
 import { skillLabel } from '@/server/play/exams/skills'
+import { subjectLanguage } from '@/server/services/play-exams.service'
 import type { OriginalQuestion, TrainingStep } from '@/server/play/exams/types'
 
 export const dynamic = 'force-dynamic'
@@ -30,7 +32,9 @@ function StepCard({ st, q }: { st: TrainingStep; q: OriginalQuestion }) {
         <span>{skillLabel(st.skill_id)}</span>
         <Badge variant={st.review_status === 'approved' ? 'default' : 'secondary'}>{st.review_status}</Badge>
       </div>
-      <p className="mt-2 font-semibold">{st.prompt}</p>
+      <p className="mt-2 font-semibold">
+        <ExamText text={st.prompt} />
+      </p>
       {st.type !== 'essay_builder' ? <StepExcerptView excerpt={stepExcerpt(st, q)} /> : null}
       {'options' in p ? (
         <ol className="mt-2 space-y-1">
@@ -39,7 +43,7 @@ function StepCard({ st, q }: { st: TrainingStep; q: OriginalQuestion }) {
             return (
               <li key={i} className={ok ? 'rounded bg-emerald-50 px-2 py-1 font-semibold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200' : 'px-2 py-1'}>
                 {ok ? '✓ ' : '· '}
-                {o}
+                <ExamText text={o} />
               </li>
             )
           })}
@@ -64,10 +68,13 @@ export default async function AdminPlayExamReviewPage({ params }: { params: Prom
   if (!row) notFound()
   const doc = row.document
   const v = validateExamSet(doc)
+  // الفرنسية والإنجليزية: محتوى الموضوع من اليسار إلى اليمين
+  const lang = subjectLanguage(doc.source.subject)
   return (
     <>
       <PageHeader title={doc.source.title} description={`${doc.set_id} · ${doc.status} · ${doc.source.trust} · الأصل: ${doc.source.original_file_ref ?? doc.source.original_url ?? '—'} · التصحيح: ${doc.source.correction_file_ref ?? doc.source.correction_url ?? '—'}`} />
-      <div className="space-y-4">
+      <MathScope on={PLAY_MATH_SUBJECTS.includes(doc.source.subject)}>
+      <div className="space-y-4" dir={lang === 'ar' ? undefined : 'ltr'} lang={lang}>
         {doc.source.notes ? (
           <Card>
             <CardContent className="p-4 text-sm leading-relaxed">ملاحظات التحويل: {doc.source.notes}</CardContent>
@@ -111,6 +118,7 @@ export default async function AdminPlayExamReviewPage({ params }: { params: Prom
           </Card>
         ))}
       </div>
+      </MathScope>
     </>
   )
 }

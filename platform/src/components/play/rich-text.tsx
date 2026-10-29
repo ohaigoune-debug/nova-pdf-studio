@@ -4,15 +4,9 @@ import katex from 'katex'
 import 'katex/dist/katex.min.css'
 import { useMemo } from 'react'
 import { cn } from '@/lib/utils'
+import { MATH_RE, textDir } from './text-dir'
 
-/** يكشف اتجاه النص: لاتيني ⇒ LTR، وإلا RTL */
-export function textDir(s: string): 'rtl' | 'ltr' {
-  const arabic = (s.match(/[؀-ۿ]/g) ?? []).length
-  const latin = (s.match(/[A-Za-z]/g) ?? []).length
-  return latin > arabic ? 'ltr' : 'rtl'
-}
-
-const MATH_RE = /\$\$([^$]+)\$\$|\$([^$\n]+)\$/g
+export { textDir } from './text-dir'
 
 /**
  * نص سؤال/خيار: يدعم معادلات بين $...$ (KaTeX) ويضبط الاتجاه تلقائياً للفرنسية/الإنجليزية والصيغ.

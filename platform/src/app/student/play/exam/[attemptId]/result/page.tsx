@@ -1,9 +1,11 @@
 import { Check, RotateCcw, X } from 'lucide-react'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
+import { ExamText, MathScope } from '@/components/play/exams/exam-runner'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
+import { PLAY_MATH_SUBJECTS } from '@/server/play/constants'
 import { getExamAttemptView, getExamResult } from '@/server/services/play-exams.service'
 
 export const dynamic = 'force-dynamic'
@@ -25,11 +27,14 @@ export default async function PlayExamResultPage({ params }: { params: Promise<{
     throw e
   }
   const { view } = result
+  const lang = view.set.lang
+  const dir = lang === 'ar' ? undefined : 'ltr'
   const back = view.set.kind === 'BAC' ? `/student/play/bac?subject=${view.set.subjectCode}` : `/student/play/exams?subject=${view.set.subjectCode}`
   const wrong = result.steps.filter((s) => s.feedback && !s.feedback.correct)
   const skipped = result.steps.filter((s) => !s.feedback)
   return (
-    <div className="play-deck mx-auto max-w-xl space-y-5 pb-16">
+    <MathScope on={PLAY_MATH_SUBJECTS.includes(view.set.subjectCode)}>
+      <div className="play-deck mx-auto max-w-xl space-y-5 pb-16">
       <section className="rounded-[1.75rem] border border-[#C9D7EE] bg-white p-5 text-center shadow-[0_18px_30px_-24px_rgba(20,87,197,0.7)]" data-testid="exam-result">
         <p className="text-xs font-bold text-[#5B6B88]">{view.mode === 'PRACTICE' ? 'تدريب' : 'محاكاة امتحان'}</p>
         <h1 className="mt-1 text-[1.1rem] font-extrabold leading-snug text-[#172B50]">{view.set.title}</h1>
@@ -78,13 +83,27 @@ export default async function PlayExamResultPage({ params }: { params: Promise<{
               </p>
               <p className="mt-1 flex items-start gap-2 text-sm font-bold text-[#172B50]">
                 {s.feedback?.correct ? <Check className="mt-0.5 size-4 shrink-0 text-[#15803D]" aria-hidden /> : <X className="mt-0.5 size-4 shrink-0 text-[#B91C1C]" aria-hidden />}
-                {s.prompt}
+                <span dir={dir} lang={lang}>
+                  <ExamText text={s.prompt} />
+                </span>
               </p>
               {s.feedback && !s.feedback.correct ? (
                 <div className="mt-2 space-y-1 text-[0.82rem] leading-relaxed">
-                  <p className="text-[#7C2D12]">إجابتك: {s.feedback.yourAnswer}</p>
-                  <p className="font-bold text-[#14532D]">الصحيح: {s.feedback.correctText}</p>
-                  <p className="text-[#3B4C6B]">{s.feedback.explanation}</p>
+                  <p className="text-[#7C2D12]">
+                    إجابتك:{' '}
+                    <bdi dir={dir} lang={lang}>
+                      <ExamText text={s.feedback.yourAnswer} />
+                    </bdi>
+                  </p>
+                  <p className="font-bold text-[#14532D]">
+                    الصحيح:{' '}
+                    <bdi dir={dir} lang={lang}>
+                      <ExamText text={s.feedback.correctText} />
+                    </bdi>
+                  </p>
+                  <p dir={dir} lang={lang} className="text-[#3B4C6B]">
+                    <ExamText text={s.feedback.explanation} />
+                  </p>
                 </div>
               ) : null}
             </li>
@@ -96,8 +115,17 @@ export default async function PlayExamResultPage({ params }: { params: Promise<{
             <ul className="mt-2 space-y-2">
               {skipped.map((s) => (
                 <li key={s.id} className="text-[0.82rem] leading-relaxed text-[#172B50]">
-                  <span className="font-bold">{s.prompt}</span>
-                  {s.correctText ? <span className="block text-[#14532D]">الصحيح: {s.correctText}</span> : null}
+                  <span dir={dir} lang={lang} className="block font-bold">
+                    <ExamText text={s.prompt} />
+                  </span>
+                  {s.correctText ? (
+                    <span className="block text-[#14532D]">
+                      الصحيح:{' '}
+                      <bdi dir={dir} lang={lang}>
+                        <ExamText text={s.correctText} />
+                      </bdi>
+                    </span>
+                  ) : null}
                 </li>
               ))}
             </ul>
@@ -113,6 +141,7 @@ export default async function PlayExamResultPage({ params }: { params: Promise<{
           نتائجي وتقدمي
         </Link>
       </div>
-    </div>
+      </div>
+    </MathScope>
   )
 }

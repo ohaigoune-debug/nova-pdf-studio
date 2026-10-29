@@ -1,0 +1,1798 @@
+{
+ "schema_version": 1,
+ "set_id": "fr-bac-2019-lit-p1",
+ "status": "APPROVED",
+ "source": {
+  "source_id": "gdrive-1IWZ6Rbo7WoItvIqmkxNZJN9x7mKKkS2r-p1",
+  "kind": "BAC",
+  "year": 2019,
+  "level": "3AS",
+  "streams": [
+   "LIT"
+  ],
+  "subject": "FR",
+  "term": null,
+  "paper": 1,
+  "title": "بكالوريا 2019 (الدورة العاديّة) – اللغة الفرنسية – شعبة آداب وفلسفة – الموضوع الأوّل («Le Pen, député à Paris … Tortionnaire à Alger.»)",
+  "original_url": "https://drive.google.com/file/d/1IWZ6Rbo7WoItvIqmkxNZJN9x7mKKkS2r/view",
+  "original_file_ref": "gdrive:1IWZ6Rbo7WoItvIqmkxNZJN9x7mKKkS2r (2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1CIoSlmjKO-65DB407pzzOYqUbMxt6ifY/view",
+  "correction_file_ref": "gdrive:1CIoSlmjKO-65DB407pzzOYqUbMxt6ifY (2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.804Z",
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word). الموضوع: gdrive:1IWZ6Rbo7WoItvIqmkxNZJN9x7mKKkS2r (2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf) ص1–2؛ الحلّ وسلّم التّنقيط الرّسميّان: gdrive:1CIoSlmjKO-65DB407pzzOYqUbMxt6ifY (2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf) ص1–2. الملفّان PDF رقميّان من الدّيوان الوطنيّ للامتحانات (لا مسح ضوئيّ) بطبقة نصّ هي نفسها ما يُرجعه read_file_content؛ استُعملت مساعدًا فقط، وقوبل كلّ نصّ بصورة الصّفحة (150 نقطة، وتكبير 220–300 نقطة). الشّعبة من رأس الورقة «الشعبة: آداب وفلسفة» ⇒ LIT. «الدورة العادية» من اسم الملفّ في Drive (الورقة تطبع «دورة: 2019» فقط). الورقة لا تطبع علامة كلّ سؤال (13 + 7 فقط)؛ كلّ العلامات من عمودَي «مجزأة/مجموع» في الحلّ الرّسميّ. خلافات طبقة النّصّ/تصدير Drive مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس، المدّة «03 د» في الطّبقة و«30 د» في الصّورة، تذييل الصّفحة 3 «صفحة 0 من 4» في الطّبقة؛ إحالتا الهامش «dénégations1/ingurgiter2» مرفوعتان في الصّورة فكُتبتا ¹ و²؛ «1er/3ème» مرفوعة كُتبت عاديّة؛ استخراج الحروف يقطع بعض الكلمات («interr ogato ires»، «incu lpés») والصّورة سليمة. المسافات المزدوجة المكتوبة في الأصل (غير مرئيّة في الطّباعة، وتصدير Drive بمسافة واحدة) كُتبت مسافة واحدة. حُفظ كما طُبع: «brulée»، «des \"Roses,» بلا علامة إغلاق، «Evènements»، «suivants:-»، «Recopiez la bonne réponse» بلا نقطة في س7، «[…]Selon»، «bienfaits. .». قرارات عامّة: «n×m» لعناصر متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من قائمة ⇒ عنصر واحد. خيارا «Vrai/Faux» والتّصنيف الثّنائيّ يُخزَّنان معكوسين لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين، فيظهران بترتيب الورقة ولا يكشف الموضع الجواب. قاعدة «accepter… / toute réponse…» ⇒ essay_builder مؤجَّل. الإنتاج الكتابيّ «sujet au choix» = سؤال أصليّ واحد (7) بـ13 عنصرًا مشتركًا بين الشّبكتين، وتفاصيل شبكة كلّ موضوع في spec. المشتّتات من إعداد التّحويل وتحتاج مراجعة. س4: «celle-ci» مؤجَّل (essay_builder) لأنّ الحلّ يقول «Accepter : unité de parachutistes»؛ y وil تفاعليّان. س3: «0.5x4» على قائمة من عشرة عذابات مقبولة ⇒ عنصر واحد (2) بخطوتَي multi (1+1)، كلّ منهما أربعة عذابات من قائمة الحلّ ومشتّتان غير موجودين في النّصّ. الحلّ يكتب «chaire brûlée» فكُتب الشّرح «chair brûlée». س6: «0.25x6» على فراغات نصّ واحد ⇒ عنصر واحد (1.5) بخطوة fill_blank بستّة فراغات (التّنقيط بحصّة الفراغات = 0.25 للفراغ)؛ البنك = عبارات الورقة السّتّ + مشتّتان (le capitaine Martin، le Général Massu) خاطئان حسب الحلّ (س2). س8: «Réponse à titre indicatif… (Accepter toute réponse en relation avec l’idée)» + 0.5x4 ⇒ أربعة معايير مؤجَّلة. الإنتاج الكتابيّ: الحلّ يعطي شبكة «Compte-rendu» (0.5 تقديم + 0.25x4 + 0.50 بنية) وشبكة «Production libre» (0.25 تقديم + 0.25 عنوان + 0.25x4 + 0.25x2 بنية): دُمج 0.25+0.25 في عنصر «présentation» (0.5) و0.25x2 في عنصر «structure» (0.5)، وتفاصيل كلّ شبكة في spec الخطوة."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "I- Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "Ce texte relate des faits relatifs aux :\n-tortures infligées par les algériens à Le Pen.\n-tortures infligées par Le Pen aux algériens.\n-tortures infligées par Le Pen à ses hommes.\nRecopiez la bonne réponse.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Le Pen, député à Paris … Tortionnaire à Alger."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant les mois de février, mars et début avril 1957, la villa des \"Roses\" à El-Biar abrita une unité de parachutistes étrangers commandée par le capitaine Martin. Celle-ci y avait installé ses bureaux d’interrogatoires : les locaux de torture.\nL’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen qui procédait aux enlèvements (…). Les personnes enlevées étaient séquestrées dans la villa durant des semaines. Le suspect était d’abord accueilli par les paras, Le Pen en tête, à coup de pied et de poing jusqu’à l’abrutissement complet. On commençait ainsi par le mettre en disposition de reconnaître sa participation à un attentat, sabotage ou action quelconque : s’il protestait de son innocence, on lui administrait alors le supplice des électrodes.\nLe Pen en assumait la direction : il déshabillait la victime, lui liait pieds et poings, l’aspergeait d’eau et lui bandait les yeux. C’est alors qu’il lui administrait plusieurs décharges électriques. Si le \"patient\" arrivait à supporter le choc et persistait dans ses dénégations¹, on lui plaçait sur la tête, pendant des heures, un casque relié par fil à une prise de courant. La douleur, absolument intolérable, faisait hurler ceux qui subissaient cette coiffure. Pour varier ces \" réjouissances \", Le Pen plaçait sur les oreilles de \"l’inculpé\" des électrodes, et les y laissait jusqu’à ce que chair fût complètement brulée.\nPuis l’on administrait à ceux, très rares, qui proclamaient encore à ce stade leur innocence, le supplice de l’eau, qu’on leur faisait ingurgiter² de force avec un tuyau. Ces tortures duraient des semaines, à raison de deux ou trois séances par jour. Dans l’intervalle des interrogatoires, les \"inculpés\" étaient jetés, les mains liées, dans une tranchée profonde. […]\nTels furent en Algérie, les hauts faits d’armes du député Le Pen, qui lui valurent une décoration des mains du Général Massu."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Résistance Algérienne,\nN°32, du 1er au 10 Juin 1957."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1- Actions de nier/ Actions de refuser.\n2- Boire."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "Faits relatés par le texte",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "I- Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "Répondez par vrai ou faux :\n-celui qui dirigeait les opérations de torture est le capitaine Martin.\n-celui qui dirigeait les opérations de torture est le \"patient\".\n-celui qui dirigeait les opérations de torture est le lieutenant Le Pen.\n-celui qui dirigeait les opérations de torture est le Général Massu.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Le Pen, député à Paris … Tortionnaire à Alger."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant les mois de février, mars et début avril 1957, la villa des \"Roses\" à El-Biar abrita une unité de parachutistes étrangers commandée par le capitaine Martin. Celle-ci y avait installé ses bureaux d’interrogatoires : les locaux de torture.\nL’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen qui procédait aux enlèvements (…). Les personnes enlevées étaient séquestrées dans la villa durant des semaines. Le suspect était d’abord accueilli par les paras, Le Pen en tête, à coup de pied et de poing jusqu’à l’abrutissement complet. On commençait ainsi par le mettre en disposition de reconnaître sa participation à un attentat, sabotage ou action quelconque : s’il protestait de son innocence, on lui administrait alors le supplice des électrodes.\nLe Pen en assumait la direction : il déshabillait la victime, lui liait pieds et poings, l’aspergeait d’eau et lui bandait les yeux. C’est alors qu’il lui administrait plusieurs décharges électriques. Si le \"patient\" arrivait à supporter le choc et persistait dans ses dénégations¹, on lui plaçait sur la tête, pendant des heures, un casque relié par fil à une prise de courant. La douleur, absolument intolérable, faisait hurler ceux qui subissaient cette coiffure. Pour varier ces \" réjouissances \", Le Pen plaçait sur les oreilles de \"l’inculpé\" des électrodes, et les y laissait jusqu’à ce que chair fût complètement brulée.\nPuis l’on administrait à ceux, très rares, qui proclamaient encore à ce stade leur innocence, le supplice de l’eau, qu’on leur faisait ingurgiter² de force avec un tuyau. Ces tortures duraient des semaines, à raison de deux ou trois séances par jour. Dans l’intervalle des interrogatoires, les \"inculpés\" étaient jetés, les mains liées, dans une tranchée profonde. […]\nTels furent en Algérie, les hauts faits d’armes du député Le Pen, qui lui valurent une décoration des mains du Général Massu."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Résistance Algérienne,\nN°32, du 1er au 10 Juin 1957."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1- Actions de nier/ Actions de refuser.\n2- Boire."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "Affirmation 1 : capitaine Martin (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q2-e2",
+     "label": "Affirmation 2 : « patient » (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q2-e3",
+     "label": "Affirmation 3 : lieutenant Le Pen (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q2-e4",
+     "label": "Affirmation 4 : Général Massu (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "I- Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "Les tortionnaires pratiquaient différents supplices. Repérez-en quatre. (Dans le texte).",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Le Pen, député à Paris … Tortionnaire à Alger."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant les mois de février, mars et début avril 1957, la villa des \"Roses\" à El-Biar abrita une unité de parachutistes étrangers commandée par le capitaine Martin. Celle-ci y avait installé ses bureaux d’interrogatoires : les locaux de torture.\nL’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen qui procédait aux enlèvements (…). Les personnes enlevées étaient séquestrées dans la villa durant des semaines. Le suspect était d’abord accueilli par les paras, Le Pen en tête, à coup de pied et de poing jusqu’à l’abrutissement complet. On commençait ainsi par le mettre en disposition de reconnaître sa participation à un attentat, sabotage ou action quelconque : s’il protestait de son innocence, on lui administrait alors le supplice des électrodes.\nLe Pen en assumait la direction : il déshabillait la victime, lui liait pieds et poings, l’aspergeait d’eau et lui bandait les yeux. C’est alors qu’il lui administrait plusieurs décharges électriques. Si le \"patient\" arrivait à supporter le choc et persistait dans ses dénégations¹, on lui plaçait sur la tête, pendant des heures, un casque relié par fil à une prise de courant. La douleur, absolument intolérable, faisait hurler ceux qui subissaient cette coiffure. Pour varier ces \" réjouissances \", Le Pen plaçait sur les oreilles de \"l’inculpé\" des électrodes, et les y laissait jusqu’à ce que chair fût complètement brulée.\nPuis l’on administrait à ceux, très rares, qui proclamaient encore à ce stade leur innocence, le supplice de l’eau, qu’on leur faisait ingurgiter² de force avec un tuyau. Ces tortures duraient des semaines, à raison de deux ou trois séances par jour. Dans l’intervalle des interrogatoires, les \"inculpés\" étaient jetés, les mains liées, dans une tranchée profonde. […]\nTels furent en Algérie, les hauts faits d’armes du député Le Pen, qui lui valurent une décoration des mains du Général Massu."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Résistance Algérienne,\nN°32, du 1er au 10 Juin 1957."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1- Actions de nier/ Actions de refuser.\n2- Boire."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "Quatre supplices repérés dans le texte (0,5x4)",
+     "max_points": 2,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "I- Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "A qui ou à quoi renvoient les pronoms suivants:- Celle-ci / y / il.\n- \"Celle-ci y avait installé ses bureaux …\" Paragraphe 1.\n-Celle-ci renvoie à …\n-Y renvoie à …\n- \"…S’il protestait de son innocence… \" Paragraphe 2.\n-Il renvoie à …",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Le Pen, député à Paris … Tortionnaire à Alger."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant les mois de février, mars et début avril 1957, la villa des \"Roses\" à El-Biar abrita une unité de parachutistes étrangers commandée par le capitaine Martin. Celle-ci y avait installé ses bureaux d’interrogatoires : les locaux de torture.\nL’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen qui procédait aux enlèvements (…). Les personnes enlevées étaient séquestrées dans la villa durant des semaines. Le suspect était d’abord accueilli par les paras, Le Pen en tête, à coup de pied et de poing jusqu’à l’abrutissement complet. On commençait ainsi par le mettre en disposition de reconnaître sa participation à un attentat, sabotage ou action quelconque : s’il protestait de son innocence, on lui administrait alors le supplice des électrodes.\nLe Pen en assumait la direction : il déshabillait la victime, lui liait pieds et poings, l’aspergeait d’eau et lui bandait les yeux. C’est alors qu’il lui administrait plusieurs décharges électriques. Si le \"patient\" arrivait à supporter le choc et persistait dans ses dénégations¹, on lui plaçait sur la tête, pendant des heures, un casque relié par fil à une prise de courant. La douleur, absolument intolérable, faisait hurler ceux qui subissaient cette coiffure. Pour varier ces \" réjouissances \", Le Pen plaçait sur les oreilles de \"l’inculpé\" des électrodes, et les y laissait jusqu’à ce que chair fût complètement brulée.\nPuis l’on administrait à ceux, très rares, qui proclamaient encore à ce stade leur innocence, le supplice de l’eau, qu’on leur faisait ingurgiter² de force avec un tuyau. Ces tortures duraient des semaines, à raison de deux ou trois séances par jour. Dans l’intervalle des interrogatoires, les \"inculpés\" étaient jetés, les mains liées, dans une tranchée profonde. […]\nTels furent en Algérie, les hauts faits d’armes du député Le Pen, qui lui valurent une décoration des mains du Général Massu."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Résistance Algérienne,\nN°32, du 1er au 10 Juin 1957."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1- Actions de nier/ Actions de refuser.\n2- Boire."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "Référent de « Celle-ci » (§1) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q4-e2",
+     "label": "Référent de « y » (§1) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q4-e3",
+     "label": "Référent de « il » (§2) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "5",
+   "part": "I- Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "Classez les mots et expressions ci-dessous selon qu’ils renvoient aux :\n- déshabiller la victime / varier ces \"réjouissances\" / le suspect / bureaux d’interrogatoires / douleur impitoyable / personnes enlevées.\n-Tortionnaire : ….………………………………………………………………………………..\n-Prisonnier : ……………………………………………………………………………………..",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Le Pen, député à Paris … Tortionnaire à Alger."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant les mois de février, mars et début avril 1957, la villa des \"Roses\" à El-Biar abrita une unité de parachutistes étrangers commandée par le capitaine Martin. Celle-ci y avait installé ses bureaux d’interrogatoires : les locaux de torture.\nL’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen qui procédait aux enlèvements (…). Les personnes enlevées étaient séquestrées dans la villa durant des semaines. Le suspect était d’abord accueilli par les paras, Le Pen en tête, à coup de pied et de poing jusqu’à l’abrutissement complet. On commençait ainsi par le mettre en disposition de reconnaître sa participation à un attentat, sabotage ou action quelconque : s’il protestait de son innocence, on lui administrait alors le supplice des électrodes.\nLe Pen en assumait la direction : il déshabillait la victime, lui liait pieds et poings, l’aspergeait d’eau et lui bandait les yeux. C’est alors qu’il lui administrait plusieurs décharges électriques. Si le \"patient\" arrivait à supporter le choc et persistait dans ses dénégations¹, on lui plaçait sur la tête, pendant des heures, un casque relié par fil à une prise de courant. La douleur, absolument intolérable, faisait hurler ceux qui subissaient cette coiffure. Pour varier ces \" réjouissances \", Le Pen plaçait sur les oreilles de \"l’inculpé\" des électrodes, et les y laissait jusqu’à ce que chair fût complètement brulée.\nPuis l’on administrait à ceux, très rares, qui proclamaient encore à ce stade leur innocence, le supplice de l’eau, qu’on leur faisait ingurgiter² de force avec un tuyau. Ces tortures duraient des semaines, à raison de deux ou trois séances par jour. Dans l’intervalle des interrogatoires, les \"inculpés\" étaient jetés, les mains liées, dans une tranchée profonde. […]\nTels furent en Algérie, les hauts faits d’armes du député Le Pen, qui lui valurent une décoration des mains du Général Massu."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Résistance Algérienne,\nN°32, du 1er au 10 Juin 1957."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1- Actions de nier/ Actions de refuser.\n2- Boire."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "Classement de « déshabiller la victime » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q5-e2",
+     "label": "Classement de « varier ces \"réjouissances\" » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q5-e3",
+     "label": "Classement de « le suspect » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q5-e4",
+     "label": "Classement de « bureaux d’interrogatoires » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q5-e5",
+     "label": "Classement de « douleur impitoyable » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q5-e6",
+     "label": "Classement de « personnes enlevées » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "6",
+   "part": "I- Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "Complétez l’énoncé ci-dessous par les mots ou expressions proposés dans la liste suivante :\n-la révolution algérienne / une action / des accusés / ses interrogatoires / opérations de torture / Le Pen.\nDans …………dans la villa des \"Roses, ………..dirigeait, durant ……………., des …………. à l’encontre ………… algériens pour les obliger à admettre avoir participé à ………………... quelconque.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Le Pen, député à Paris … Tortionnaire à Alger."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant les mois de février, mars et début avril 1957, la villa des \"Roses\" à El-Biar abrita une unité de parachutistes étrangers commandée par le capitaine Martin. Celle-ci y avait installé ses bureaux d’interrogatoires : les locaux de torture.\nL’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen qui procédait aux enlèvements (…). Les personnes enlevées étaient séquestrées dans la villa durant des semaines. Le suspect était d’abord accueilli par les paras, Le Pen en tête, à coup de pied et de poing jusqu’à l’abrutissement complet. On commençait ainsi par le mettre en disposition de reconnaître sa participation à un attentat, sabotage ou action quelconque : s’il protestait de son innocence, on lui administrait alors le supplice des électrodes.\nLe Pen en assumait la direction : il déshabillait la victime, lui liait pieds et poings, l’aspergeait d’eau et lui bandait les yeux. C’est alors qu’il lui administrait plusieurs décharges électriques. Si le \"patient\" arrivait à supporter le choc et persistait dans ses dénégations¹, on lui plaçait sur la tête, pendant des heures, un casque relié par fil à une prise de courant. La douleur, absolument intolérable, faisait hurler ceux qui subissaient cette coiffure. Pour varier ces \" réjouissances \", Le Pen plaçait sur les oreilles de \"l’inculpé\" des électrodes, et les y laissait jusqu’à ce que chair fût complètement brulée.\nPuis l’on administrait à ceux, très rares, qui proclamaient encore à ce stade leur innocence, le supplice de l’eau, qu’on leur faisait ingurgiter² de force avec un tuyau. Ces tortures duraient des semaines, à raison de deux ou trois séances par jour. Dans l’intervalle des interrogatoires, les \"inculpés\" étaient jetés, les mains liées, dans une tranchée profonde. […]\nTels furent en Algérie, les hauts faits d’armes du député Le Pen, qui lui valurent une décoration des mains du Général Massu."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Résistance Algérienne,\nN°32, du 1er au 10 Juin 1957."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1- Actions de nier/ Actions de refuser.\n2- Boire."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "Énoncé à compléter : six mots ou expressions à placer (0,25x6)",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "7",
+   "part": "I- Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "L’auteur de ce texte :\n-témoigne de ce qu’il a subi.\n-décrit les lieux de son incarcération.\n-dénonce les actes de torture.\nRecopiez la bonne réponse",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Le Pen, député à Paris … Tortionnaire à Alger."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant les mois de février, mars et début avril 1957, la villa des \"Roses\" à El-Biar abrita une unité de parachutistes étrangers commandée par le capitaine Martin. Celle-ci y avait installé ses bureaux d’interrogatoires : les locaux de torture.\nL’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen qui procédait aux enlèvements (…). Les personnes enlevées étaient séquestrées dans la villa durant des semaines. Le suspect était d’abord accueilli par les paras, Le Pen en tête, à coup de pied et de poing jusqu’à l’abrutissement complet. On commençait ainsi par le mettre en disposition de reconnaître sa participation à un attentat, sabotage ou action quelconque : s’il protestait de son innocence, on lui administrait alors le supplice des électrodes.\nLe Pen en assumait la direction : il déshabillait la victime, lui liait pieds et poings, l’aspergeait d’eau et lui bandait les yeux. C’est alors qu’il lui administrait plusieurs décharges électriques. Si le \"patient\" arrivait à supporter le choc et persistait dans ses dénégations¹, on lui plaçait sur la tête, pendant des heures, un casque relié par fil à une prise de courant. La douleur, absolument intolérable, faisait hurler ceux qui subissaient cette coiffure. Pour varier ces \" réjouissances \", Le Pen plaçait sur les oreilles de \"l’inculpé\" des électrodes, et les y laissait jusqu’à ce que chair fût complètement brulée.\nPuis l’on administrait à ceux, très rares, qui proclamaient encore à ce stade leur innocence, le supplice de l’eau, qu’on leur faisait ingurgiter² de force avec un tuyau. Ces tortures duraient des semaines, à raison de deux ou trois séances par jour. Dans l’intervalle des interrogatoires, les \"inculpés\" étaient jetés, les mains liées, dans une tranchée profonde. […]\nTels furent en Algérie, les hauts faits d’armes du député Le Pen, qui lui valurent une décoration des mains du Général Massu."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Résistance Algérienne,\nN°32, du 1er au 10 Juin 1957."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1- Actions de nier/ Actions de refuser.\n2- Boire."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "Intention de l’auteur",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "8",
+   "part": "I- Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "Malgré la torture, dites, en deux à trois lignes, quels sont les secrets ayant permis à la révolution algérienne de sortir victorieuse de cette guerre.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Le Pen, député à Paris … Tortionnaire à Alger."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant les mois de février, mars et début avril 1957, la villa des \"Roses\" à El-Biar abrita une unité de parachutistes étrangers commandée par le capitaine Martin. Celle-ci y avait installé ses bureaux d’interrogatoires : les locaux de torture.\nL’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen qui procédait aux enlèvements (…). Les personnes enlevées étaient séquestrées dans la villa durant des semaines. Le suspect était d’abord accueilli par les paras, Le Pen en tête, à coup de pied et de poing jusqu’à l’abrutissement complet. On commençait ainsi par le mettre en disposition de reconnaître sa participation à un attentat, sabotage ou action quelconque : s’il protestait de son innocence, on lui administrait alors le supplice des électrodes.\nLe Pen en assumait la direction : il déshabillait la victime, lui liait pieds et poings, l’aspergeait d’eau et lui bandait les yeux. C’est alors qu’il lui administrait plusieurs décharges électriques. Si le \"patient\" arrivait à supporter le choc et persistait dans ses dénégations¹, on lui plaçait sur la tête, pendant des heures, un casque relié par fil à une prise de courant. La douleur, absolument intolérable, faisait hurler ceux qui subissaient cette coiffure. Pour varier ces \" réjouissances \", Le Pen plaçait sur les oreilles de \"l’inculpé\" des électrodes, et les y laissait jusqu’à ce que chair fût complètement brulée.\nPuis l’on administrait à ceux, très rares, qui proclamaient encore à ce stade leur innocence, le supplice de l’eau, qu’on leur faisait ingurgiter² de force avec un tuyau. Ces tortures duraient des semaines, à raison de deux ou trois séances par jour. Dans l’intervalle des interrogatoires, les \"inculpés\" étaient jetés, les mains liées, dans une tranchée profonde. […]\nTels furent en Algérie, les hauts faits d’armes du député Le Pen, qui lui valurent une décoration des mains du Général Massu."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Résistance Algérienne,\nN°32, du 1er au 10 Juin 1957."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1- Actions de nier/ Actions de refuser.\n2- Boire."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "Critère : Pertinence des idées (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e2",
+     "label": "Critère : Cohérence (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e3",
+     "label": "Critère : Correction de la langue (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e4",
+     "label": "Critère : Nombre de lignes (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "—",
+   "part": "II- Production écrite : (07pts)",
+   "verbatim_text": "Traitez un sujet au choix :\nSujet 1 : A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée.\nSujet 2 : Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits.",
+   "documents": [
+    {
+     "id": "d-title",
+     "kind": "text",
+     "caption": "Titre du texte",
+     "text": "Le Pen, député à Paris … Tortionnaire à Alger."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Durant les mois de février, mars et début avril 1957, la villa des \"Roses\" à El-Biar abrita une unité de parachutistes étrangers commandée par le capitaine Martin. Celle-ci y avait installé ses bureaux d’interrogatoires : les locaux de torture.\nL’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen qui procédait aux enlèvements (…). Les personnes enlevées étaient séquestrées dans la villa durant des semaines. Le suspect était d’abord accueilli par les paras, Le Pen en tête, à coup de pied et de poing jusqu’à l’abrutissement complet. On commençait ainsi par le mettre en disposition de reconnaître sa participation à un attentat, sabotage ou action quelconque : s’il protestait de son innocence, on lui administrait alors le supplice des électrodes.\nLe Pen en assumait la direction : il déshabillait la victime, lui liait pieds et poings, l’aspergeait d’eau et lui bandait les yeux. C’est alors qu’il lui administrait plusieurs décharges électriques. Si le \"patient\" arrivait à supporter le choc et persistait dans ses dénégations¹, on lui plaçait sur la tête, pendant des heures, un casque relié par fil à une prise de courant. La douleur, absolument intolérable, faisait hurler ceux qui subissaient cette coiffure. Pour varier ces \" réjouissances \", Le Pen plaçait sur les oreilles de \"l’inculpé\" des électrodes, et les y laissait jusqu’à ce que chair fût complètement brulée.\nPuis l’on administrait à ceux, très rares, qui proclamaient encore à ce stade leur innocence, le supplice de l’eau, qu’on leur faisait ingurgiter² de force avec un tuyau. Ces tortures duraient des semaines, à raison de deux ou trois séances par jour. Dans l’intervalle des interrogatoires, les \"inculpés\" étaient jetés, les mains liées, dans une tranchée profonde. […]\nTels furent en Algérie, les hauts faits d’armes du député Le Pen, qui lui valurent une décoration des mains du Général Massu."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Résistance Algérienne,\nN°32, du 1er au 10 Juin 1957."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1- Actions de nier/ Actions de refuser.\n2- Boire."
+    }
+   ],
+   "rubric_total": 7,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "Organisation : présentation du texte (mise en page)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q9-e2",
+     "label": "Organisation : progression des informations",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e3",
+     "label": "Organisation : absence de répétitions",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e4",
+     "label": "Organisation : absence de contre-sens",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e5",
+     "label": "Organisation : emploi des connecteurs",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e6",
+     "label": "Organisation : structure adéquate",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q9-e7",
+     "label": "Planification : choix énonciatif (en relation avec la consigne)",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e8",
+     "label": "Planification : choix des informations",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e9",
+     "label": "Langue : correction des phrases au plan syntaxique",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e10",
+     "label": "Langue : adéquation du lexique à la thématique",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q9-e11",
+     "label": "Langue : utilisation adéquate des signes de ponctuation",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q9-e12",
+     "label": "Langue : emploi correct des temps et des modes",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q9-e13",
+     "label": "Langue : orthographe",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Ce texte relate des faits relatifs aux : (choisissez la bonne réponse)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "tortures infligées par Le Pen aux algériens.",
+     "tortures infligées par Le Pen à ses hommes.",
+     "tortures infligées par les algériens à Le Pen."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « b-tortures infligées par Le Pen aux Algériens. »",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « celui qui dirigeait les opérations de torture est le capitaine Martin. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : Faux. Le capitaine Martin commandait l’unité de parachutistes ; celui qui dirigeait la torture est le lieutenant Le Pen : « L’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen » (§2) ; « Le Pen en assumait la direction » (§3).",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « celui qui dirigeait les opérations de torture est le \"patient\". »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : faux. Le \"patient\" est la victime torturée (§3) ; celui qui dirigeait la torture est le lieutenant Le Pen : « L’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen » (§2) ; « Le Pen en assumait la direction » (§3).",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « celui qui dirigeait les opérations de torture est le lieutenant Le Pen. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : vrai. « L’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen » (§2) ; « Le Pen en assumait la direction » (§3).",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « celui qui dirigeait les opérations de torture est le Général Massu. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : faux. Le Général Massu a décoré le député Le Pen (dernier paragraphe) ; celui qui dirigeait la torture est le lieutenant Le Pen : « L’un des chefs qui dirigeaient la torture n’était autre que le lieutenant Le Pen » (§2) ; « Le Pen en assumait la direction » (§3).",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "Les tortionnaires pratiquaient différents supplices : sélectionnez les quatre supplices relevés dans le texte.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "bander (bandait) les yeux",
+     "décharges électriques",
+     "la pendaison",
+     "le supplice de l’eau",
+     "la privation de nourriture",
+     "séquestration"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     1,
+     3,
+     5
+    ]
+   },
+   "explanation": "Corrigé (quatre au choix) : séquestration / coups de pied et de poing / déshabiller (déshabillait) la victime / lier (liait) pieds et poings / bander (bandait) les yeux / décharges électriques / chair brûlée / le supplice de l’eau / jetés dans une tranchée profonde / douleur intolérable.",
+   "points": 1,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "b",
+   "type": "multi",
+   "prompt": "Sélectionnez quatre autres supplices relevés dans le texte.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "les coups de fouet",
+     "l’exil forcé",
+     "coups de pied et de poing",
+     "jetés dans une tranchée profonde",
+     "déshabiller (déshabillait) la victime",
+     "lier (liait) pieds et poings"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     2,
+     3,
+     4,
+     5
+    ]
+   },
+   "explanation": "Corrigé (quatre au choix) : séquestration / coups de pied et de poing / déshabiller (déshabillait) la victime / lier (liait) pieds et poings / bander (bandait) les yeux / décharges électriques / chair brûlée / le supplice de l’eau / jetés dans une tranchée profonde / douleur intolérable.",
+   "points": 1,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "« Celle-ci y avait installé ses bureaux … » (paragraphe 1) : à quoi renvoie « Celle-ci » ? (réponse rédigée)",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "-Celle-ci renvoie à …",
+     "context": "- \"Celle-ci y avait installé ses bureaux …\" Paragraphe 1.",
+     "criterion": "Référent de « Celle-ci »",
+     "indicator": "celle-ci : unité de parachutistes étrangers (Accepter : unité de parachutistes) §1",
+     "model_answer": "unité de parachutistes étrangers",
+     "accepted": [
+      "unité de parachutistes"
+     ],
+     "deferred_because": "le corrigé accepte une autre formulation (« Accepter : … »)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "celle-ci : unité de parachutistes étrangers (Accepter : unité de parachutistes) §1",
+     "model_answer": "unité de parachutistes étrangers",
+     "accepted": [
+      "unité de parachutistes"
+     ]
+    }
+   },
+   "explanation": "Corrigé : « celle-ci : unité de parachutistes étrangers (Accepter : unité de parachutistes) §1 ».",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« Celle-ci y avait installé ses bureaux … » (paragraphe 1) : à quoi renvoie « y » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "les locaux de torture",
+     "le capitaine Martin",
+     "la villa des roses",
+     "l’unité de parachutistes étrangers"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « y : la villa des roses. §1 »",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« …S’il protestait de son innocence… » (paragraphe 2) : à qui renvoie « il » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "le Général Massu",
+     "le capitaine Martin",
+     "Le Pen",
+     "le suspect"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Corrigé : « il : le suspect. § 2 »",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « déshabiller la victime » : ce mot ou cette expression renvoie au…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Tortionnaire",
+     "Prisonnier"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Tortionnaire : déshabiller la victime / réjouissances / bureaux d’interrogatoires ; Prisonnier : douleur impitoyable / personnes enlevées / le suspect.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « varier ces \"réjouissances\" » : ce mot ou cette expression renvoie au…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Tortionnaire",
+     "Prisonnier"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Tortionnaire : déshabiller la victime / réjouissances / bureaux d’interrogatoires ; Prisonnier : douleur impitoyable / personnes enlevées / le suspect.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « le suspect » : ce mot ou cette expression renvoie au…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Tortionnaire",
+     "Prisonnier"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Tortionnaire : déshabiller la victime / réjouissances / bureaux d’interrogatoires ; Prisonnier : douleur impitoyable / personnes enlevées / le suspect.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « bureaux d’interrogatoires » : ce mot ou cette expression renvoie au…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Tortionnaire",
+     "Prisonnier"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Tortionnaire : déshabiller la victime / réjouissances / bureaux d’interrogatoires ; Prisonnier : douleur impitoyable / personnes enlevées / le suspect.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e5",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « douleur impitoyable » : ce mot ou cette expression renvoie au…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Tortionnaire",
+     "Prisonnier"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Tortionnaire : déshabiller la victime / réjouissances / bureaux d’interrogatoires ; Prisonnier : douleur impitoyable / personnes enlevées / le suspect.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e6",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « personnes enlevées » : ce mot ou cette expression renvoie au…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Tortionnaire",
+     "Prisonnier"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Tortionnaire : déshabiller la victime / réjouissances / bureaux d’interrogatoires ; Prisonnier : douleur impitoyable / personnes enlevées / le suspect.",
+   "points": 0.25,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "fill_blank",
+   "prompt": "Complétez l’énoncé avec les mots ou expressions proposés.",
+   "payload": {
+    "type": "fill_blank",
+    "text": "Dans ____ dans la villa des \"Roses, ____ dirigeait, durant ____, des ____ à l’encontre ____ algériens pour les obliger à admettre avoir participé à ____ quelconque.",
+    "bank": [
+     "le Général Massu",
+     "opérations de torture",
+     "Le Pen",
+     "la révolution algérienne",
+     "une action",
+     "le capitaine Martin",
+     "des accusés",
+     "ses interrogatoires"
+    ]
+   },
+   "answer": {
+    "type": "fill_blank",
+    "blanks": [
+     [
+      "ses interrogatoires"
+     ],
+     [
+      "Le Pen"
+     ],
+     [
+      "la révolution algérienne"
+     ],
+     [
+      "opérations de torture"
+     ],
+     [
+      "des accusés"
+     ],
+     [
+      "une action"
+     ]
+    ]
+   },
+   "explanation": "Corrigé : « Dans ses interrogatoires dans la villa des \"Roses, Le Pen dirigeait, durant la révolution algérienne des opérations de torture à l’encontre des accusés algériens pour les obliger à admettre avoir participé à une action quelconque » (0,25 par mot ou expression).",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "L’auteur de ce texte : (choisissez la bonne réponse)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "témoigne de ce qu’il a subi.",
+     "décrit les lieux de son incarcération.",
+     "dénonce les actes de torture."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « L’auteur de ce texte : -dénonce les actes de torture. »",
+   "points": 1,
+   "skill_id": "fr.enonciation",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Pertinence des idées",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Malgré la torture, dites, en deux à trois lignes, quels sont les secrets ayant permis à la révolution algérienne de sortir victorieuse de cette guerre.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Pertinence des idées",
+     "indicator": "Pertinence des idées",
+     "model_answer": "« Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. »",
+     "acceptance": "Accepter toute réponse en relation avec l’idée",
+     "barème": "0.5x4 — Critères d’évaluation : Pertinence des idées / Cohérence / Correction de la langue / Nombre de lignes"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Pertinence des idées",
+     "model_answer": "« Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. »"
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Réponse à titre indicatif du corrigé : « Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. » (Accepter toute réponse en relation avec l’idée)",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Cohérence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Malgré la torture, dites, en deux à trois lignes, quels sont les secrets ayant permis à la révolution algérienne de sortir victorieuse de cette guerre.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Cohérence",
+     "indicator": "Cohérence",
+     "model_answer": "« Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. »",
+     "acceptance": "Accepter toute réponse en relation avec l’idée",
+     "barème": "0.5x4 — Critères d’évaluation : Pertinence des idées / Cohérence / Correction de la langue / Nombre de lignes"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Cohérence",
+     "model_answer": "« Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. »"
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Réponse à titre indicatif du corrigé : « Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. » (Accepter toute réponse en relation avec l’idée)",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Correction de la langue",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Malgré la torture, dites, en deux à trois lignes, quels sont les secrets ayant permis à la révolution algérienne de sortir victorieuse de cette guerre.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Correction de la langue",
+     "indicator": "Correction de la langue",
+     "model_answer": "« Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. »",
+     "acceptance": "Accepter toute réponse en relation avec l’idée",
+     "barème": "0.5x4 — Critères d’évaluation : Pertinence des idées / Cohérence / Correction de la langue / Nombre de lignes"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correction de la langue",
+     "model_answer": "« Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. »"
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Réponse à titre indicatif du corrigé : « Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. » (Accepter toute réponse en relation avec l’idée)",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Nombre de lignes",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Malgré la torture, dites, en deux à trois lignes, quels sont les secrets ayant permis à la révolution algérienne de sortir victorieuse de cette guerre.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Nombre de lignes",
+     "indicator": "Nombre de lignes (deux à trois lignes)",
+     "model_answer": "« Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. »",
+     "acceptance": "Accepter toute réponse en relation avec l’idée",
+     "barème": "0.5x4 — Critères d’évaluation : Pertinence des idées / Cohérence / Correction de la langue / Nombre de lignes"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Nombre de lignes (deux à trois lignes)",
+     "model_answer": "« Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. »"
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Réponse à titre indicatif du corrigé : « Tout ce qui est pris par la force ne peut être restitué que par la force. Le peuple algérien a cru en sa cause juste. Il s’est montré déterminé à payer le prix fort pour sa liberté : par des sacrifices, la solidarité entre toutes les couches de la société, en plus de l’union entre le politique et le militaire. De plus, il tolérait plus, les supplices de la torture, la maltraitance et l’injustice. » (Accepter toute réponse en relation avec l’idée)",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Présentation du texte",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Présentation du texte",
+     "indicator": "Organisation : présentation du texte (mise en page)",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "0.5 — Présentation du texte (mise en page)",
+      "Sujet 2 — grille « Production libre »": "0.25 — Présentation du texte (mise en page) + 0.25 — Présence de titre et de sous titres (rubrique « Présentation du texte (mise en page selon le type d’écrit demandé) »)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : présentation du texte (mise en page)"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Progression des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Progression des informations",
+     "indicator": "Organisation : progression des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "0.25 (0.25x4 Cohérence du texte) — Progression des informations",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — Progression des informations"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : progression des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de répétitions",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Absence de répétitions",
+     "indicator": "Organisation : absence de répétitions",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "0.25 (0.25x4 Cohérence du texte) — absence de répétitions",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — absence de répétitions"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : absence de répétitions"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de contre-sens",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Absence de contre-sens",
+     "indicator": "Organisation : absence de contre-sens",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "0.25 (0.25x4 Cohérence du texte) — absence de contre-sens",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — absence de contre sens"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : absence de contre-sens"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e5",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Emploi des connecteurs",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Emploi des connecteurs",
+     "indicator": "Organisation : emploi des connecteurs",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "0.25 (0.25x4 Cohérence du texte) — emploi des connecteurs",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — emploi de connecteurs"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : emploi des connecteurs"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e6",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Structure adéquate",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Structure adéquate",
+     "indicator": "Organisation : structure adéquate",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "0.50 — Structure adéquate : Accroche / condensation",
+      "Sujet 2 — grille « Production libre »": "0.25x2 — structure adéquate (accroche, condensation) / Structure adéquate (introduction- développement- conclusion)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : structure adéquate"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s29",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e7",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix énonciatif",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Choix énonciatif",
+     "indicator": "Planification : choix énonciatif (en relation avec la consigne)",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "1 — choix énonciatif (en relation avec la consigne)",
+      "Sujet 2 — grille « Production libre »": "1 — choix énonciatif (en relation avec la consigne)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix énonciatif (en relation avec la consigne)"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s30",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e8",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Choix des informations",
+     "indicator": "Planification : choix des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "1 — choix des informations sélection des informations essentielles)",
+      "Sujet 2 — grille « Production libre »": "1 — choix des informations (originalité et pertinence des idées)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s31",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e9",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Correction syntaxique",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Correction syntaxique",
+     "indicator": "Langue : correction des phrases au plan syntaxique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "1 — correction des phrases au plan syntaxique",
+      "Sujet 2 — grille « Production libre »": "1 — correction des phrases au plan syntaxique"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : correction des phrases au plan syntaxique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s32",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e10",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Adéquation du lexique",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Adéquation du lexique",
+     "indicator": "Langue : adéquation du lexique à la thématique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "0.5 — adéquation du lexique à la thématique",
+      "Sujet 2 — grille « Production libre »": "0.5 — adéquation du lexique à la thématique"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : adéquation du lexique à la thématique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s33",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e11",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Ponctuation",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Ponctuation",
+     "indicator": "Langue : utilisation adéquate des signes de ponctuation",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "0.5 — utilisation adéquate de signes de ponctuation",
+      "Sujet 2 — grille « Production libre »": "0.5 — utilisation adéquate de signes de ponctuation"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : utilisation adéquate des signes de ponctuation"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s34",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e12",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Temps et modes",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Temps et modes",
+     "indicator": "Langue : emploi correct des temps et des modes",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "0.5 — emploi correct des temps et des modes",
+      "Sujet 2 — grille « Production libre »": "0.5 — emploi correct des temps et des modes"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : emploi correct des temps et des modes"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s35",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e13",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Orthographe",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration de la fête de l’indépendance, rédigez le compte rendu objectif de ce texte qui sera publié dans la page « Histoire » du journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre",
+       "consigne": "Votre établissement scolaire décide d’organiser un concours du \"meilleur écrit\" sur l’un des héros de la révolution. Ces travaux seront publiés dans la rubrique \"Evènements historiques\" du journal de votre lycée.\n-Rédigez un texte, d’une douzaine de lignes, dans lequel vous présentez un héros et ses exploits."
+      }
+     ],
+     "criterion": "Orthographe",
+     "indicator": "Langue : orthographe",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte-rendu »": "0.5 — orthographe (pas plus de 10 fautes pour un texte de 150 mots environ).",
+      "Sujet 2 — grille « Production libre »": "0.5 — orthographe (pas plus de 10 fautes pour un texte de 150 mots environ)."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : orthographe"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T10:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل تجريبيّ للفرنسيّة من ورقة البكالوريا الرّسميّة وحلّها (PDF رقميّان في Drive، قوبلا بصور الصّفحات)؛ العلامات من سلّم التّنقيط الرّسميّ؛ الإجابات الصّحيحة من الحلّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.804Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
+  }
+ ]
+}

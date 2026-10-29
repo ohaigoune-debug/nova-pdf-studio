@@ -1,0 +1,1091 @@
+{
+ "schema_version": 1,
+ "set_id": "en-bac-2026-lit-p1",
+ "status": "APPROVED",
+ "source": {
+  "source_id": "gdrive-13EErSpgZpnjAUvKznTReohnogA1bgexg-p1",
+  "kind": "BAC",
+  "year": 2026,
+  "level": "3AS",
+  "streams": [
+   "LIT"
+  ],
+  "subject": "EN",
+  "term": null,
+  "paper": 1,
+  "title": "بكالوريا 2026 (الدّورة العاديّة) – اللّغة الإنجليزيّة – شعبة آداب وفلسفة – الموضوع الأوّل (In schools all over the world…)",
+  "original_url": "https://drive.google.com/file/d/13EErSpgZpnjAUvKznTReohnogA1bgexg/view",
+  "original_file_ref": "gdrive:13EErSpgZpnjAUvKznTReohnogA1bgexg (2026 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/13vKRHjDTGjKlQWYXBQXoSWDYpHYR-pkQ/view",
+  "correction_file_ref": "gdrive:13vKRHjDTGjKlQWYXBQXoSWDYpHYR-pkQ (2026 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.792Z",
+  "notes": "موضوع البكالوريا الرّسميّ (الدّيوان الوطنيّ للامتحانات والمسابقات، الدّورة: 2026، الشّعبة: آداب وفلسفة، المدّة: 02 سا و30 د) في Drive صاحب المنصّة: gdrive:13EErSpgZpnjAUvKznTReohnogA1bgexg (2026 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf، 4 صفحات: الموضوع الأوّل ص1–2، الثّاني ص3–4)؛ «الدّورة العاديّة» من اسم الملفّ. الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:13vKRHjDTGjKlQWYXBQXoSWDYpHYR-pkQ (ص1 «In schools all over the world…»، ص2 «Poverty and conflicts pose…»)؛ مجموع كلّ موضوع 20 (القراءة 15 = الفهم 07 + استكشاف النّصّ 08، التّعبير الكتابيّ 05). نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الملفّ PDF رقميّ له طبقة نصّ أصليّة، فأُخذت الحروف منها (pdftotext -raw: علامات الاقتباس المنحنية، «…»، «§»، «–»، نقاط الفراغات) وطوبقت سطرًا سطرًا مع صور الصّفحات (150 نقطة)، وتُحقِّق بسكربت من أنّ كلّ نصّ حرفيّ وكلّ اقتباس في الخطوات جزء من طبقة النّصّ. خلاف طبقة النّصّ والصّورة: السّنة والمدّة في الرّأس العربيّ معكوسة («0302»، «02 … 03») وصوابها في الصّورة «2026» و«02 سا و30 د»؛ «24th» بأسّ مرفوع في الصّورة؛ التّسطير والخطّ الغامق لا يظهران في طبقة النّصّ وحُدّدا من الصّورة. أخطاء الورقة محفوظة كما طُبعت («You Town Hall»، «Make the best use of following notes»، «Ojulu said,“I…»، «financial – uneducated»). قرارات التّحويل (R1–R11 في محوّل التّجربة build_en_bac_2019_lit.py، وD1–D13 في رؤوس محوّلات 2026): عنصر لكلّ بند يُنقَّط منفردًا؛ صح/خطأ ونعم/لا اختيار من خيارين مخزَّنان معكوسين؛ «نعم + علّل» عنصران كما في السّلّم؛ صيغ الحلّ المتعدّدة للإجابة نفسها تبقى تفاعليّة ولا تُعرض صيغة مقبولة مشتّتًا؛ الاشتقاق والأضداد اختيار من متعدّد لكلّ كلمة؛ إعادة التّرتيب: الجملة الافتتاحيّة وكلّ زوج منطقيّ (0.5 لكلّ منها)؛ التّعبير الكتابيّ مؤجَّل بمعايير الشّبكة الرّسميّة «LPH» (الملاءمة 1، الانسجام الدّلاليّ 1، سلامة اللّغة 2، الإتقان 1؛ الحلّ يكتب «Excellence Vocabulary and creativity)» بلا قوس افتتاح فصُحّح القوس في اسم العنصر فقط). الموضوع الأوّل: المسطَّر it (§1 «Yet, it has also exposed»)، their (§2 «retention for their subjects»)، it (§3 «make it less human»: الثّانية في الجملة، من الصّورة)، وفي B3 «the learning needs of their students» و«positively». س2أ: الحلّ يعدّد خمس إمكانات «(Accept minimum 2 possibilities.)» فهي قائمة مغلقة: اختيار متعدّد بإمكانين صحيحين (المذكورين في §1) ومشتّتين يناقضهما النّصّ، ولم تُعرض الإمكانات الثّلاث الأخرى (D10). س2ب: «Yes» (0.5) والتّعليل (1) عنصران؛ الخيار الصّحيح بلفظ الحلّ «there is the risk…» بحرف كبير. س2ج: الحلّ «We should use it wisely with a careful balance…/wisely/with a careful balance…» فالخيار يكمل «…» من النّصّ (between human and artificial intelligence). B3 علامتها 1.5×2. إعادة التّرتيب d - b - a - c: الافتتاحيّة + الأزواج d–b، b–a، a–c. المجموع 20 = 7 + 8 + 5 (تفاعليّ 15، مؤجَّل 5)."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "Part One: Reading (15 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Identify the type of the text.\nThe text is: a- a letter b- a web article c- a magazine article.",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities:"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "In schools all over the world, Artificial Intelligence (AI) is rewriting how knowledge is delivered to students and how their progress is measured. The gradual rise of AI in education has opened doors to new possibilities (personalised learning, efficient grading, etc.). Yet, it has also exposed concerns about dependency on AI sources.\nAI changed education to be more adaptive and personalised for students than ever before. In traditional classrooms, a single teacher is responsible for the learning needs of many students, each with different strengths and struggles in the subject. AI tools now have the ability to support students’ individual needs. The result of this personalised teaching is the students showing greater engagement and higher retention for their subjects.\nHowever, while AI can make learning more efficient, it can also make it less human and less enjoyable. As schools are increasingly using machines to give feedback, there is the risk that education has become too mechanical which reduces students’ abilities.\nThe careful balance between human and artificial intelligence will be a crucial factor in defining the next era of learning. Whether AI becomes a tool for positive change or dependency depends on how wisely we use it."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from: Eshwara Masina, www.medium.com, Oct 24th, 2025."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "Type of the text",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "Part One: Reading (15 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Answer the following questions according to the text.\na- What possibilities does AI offer in education?\nb- Is AI likely to harm students’ abilities? Justify.\nc- How should we use AI?",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities:"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "In schools all over the world, Artificial Intelligence (AI) is rewriting how knowledge is delivered to students and how their progress is measured. The gradual rise of AI in education has opened doors to new possibilities (personalised learning, efficient grading, etc.). Yet, it has also exposed concerns about dependency on AI sources.\nAI changed education to be more adaptive and personalised for students than ever before. In traditional classrooms, a single teacher is responsible for the learning needs of many students, each with different strengths and struggles in the subject. AI tools now have the ability to support students’ individual needs. The result of this personalised teaching is the students showing greater engagement and higher retention for their subjects.\nHowever, while AI can make learning more efficient, it can also make it less human and less enjoyable. As schools are increasingly using machines to give feedback, there is the risk that education has become too mechanical which reduces students’ abilities.\nThe careful balance between human and artificial intelligence will be a crucial factor in defining the next era of learning. Whether AI becomes a tool for positive change or dependency depends on how wisely we use it."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from: Eshwara Masina, www.medium.com, Oct 24th, 2025."
+    }
+   ],
+   "rubric_total": 3.5,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "a- Possibilities offered by AI",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q2-e2",
+     "label": "b- Yes/No answer",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q2-e3",
+     "label": "b- Justification",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q2-e4",
+     "label": "c- How we should use AI",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "Part One: Reading (15 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Find what or who the underlined words in the text refer to.\na- it (§1) b- their (§2) c- it (§3)",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities:"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "In schools all over the world, Artificial Intelligence (AI) is rewriting how knowledge is delivered to students and how their progress is measured. The gradual rise of AI in education has opened doors to new possibilities (personalised learning, efficient grading, etc.). Yet, it has also exposed concerns about dependency on AI sources.\nAI changed education to be more adaptive and personalised for students than ever before. In traditional classrooms, a single teacher is responsible for the learning needs of many students, each with different strengths and struggles in the subject. AI tools now have the ability to support students’ individual needs. The result of this personalised teaching is the students showing greater engagement and higher retention for their subjects.\nHowever, while AI can make learning more efficient, it can also make it less human and less enjoyable. As schools are increasingly using machines to give feedback, there is the risk that education has become too mechanical which reduces students’ abilities.\nThe careful balance between human and artificial intelligence will be a crucial factor in defining the next era of learning. Whether AI becomes a tool for positive change or dependency depends on how wisely we use it."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from: Eshwara Masina, www.medium.com, Oct 24th, 2025."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "a- it (§1)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q3-e2",
+     "label": "b- their (§2)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q3-e3",
+     "label": "c- it (§3)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "Part One: Reading (15 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Copy the title you think is the most appropriate.\na- AI in Education – A Blessing or a Curse?\nb- The Positive Side of Artificial Intelligence.\nc- The Importance of AI.",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities:"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "In schools all over the world, Artificial Intelligence (AI) is rewriting how knowledge is delivered to students and how their progress is measured. The gradual rise of AI in education has opened doors to new possibilities (personalised learning, efficient grading, etc.). Yet, it has also exposed concerns about dependency on AI sources.\nAI changed education to be more adaptive and personalised for students than ever before. In traditional classrooms, a single teacher is responsible for the learning needs of many students, each with different strengths and struggles in the subject. AI tools now have the ability to support students’ individual needs. The result of this personalised teaching is the students showing greater engagement and higher retention for their subjects.\nHowever, while AI can make learning more efficient, it can also make it less human and less enjoyable. As schools are increasingly using machines to give feedback, there is the risk that education has become too mechanical which reduces students’ abilities.\nThe careful balance between human and artificial intelligence will be a crucial factor in defining the next era of learning. Whether AI becomes a tool for positive change or dependency depends on how wisely we use it."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from: Eshwara Masina, www.medium.com, Oct 24th, 2025."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "The most appropriate title",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "1",
+   "part": "Part One: Reading (15 points) – B/ Text Exploration (08 points)",
+   "verbatim_text": "Match the following words with the corresponding definitions.",
+   "documents": [
+    {
+     "id": "d-match",
+     "kind": "table",
+     "caption": "Words and definitions",
+     "table": [
+      [
+       "1. Education",
+       "a- Of great importance"
+      ],
+      [
+       "2. Support",
+       "b- Give assistance to / help somebody"
+      ],
+      [
+       "3. Crucial",
+       "c- The process of receiving or giving instruction especially at a school"
+      ]
+     ]
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "Words and definitions (0.5×3)",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "2",
+   "part": "Part One: Reading (15 points) – B/ Text Exploration (08 points)",
+   "verbatim_text": "Give the opposites of the following words keeping the same root.\nbalance - responsible - use",
+   "documents": [],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "balance",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q6-e2",
+     "label": "responsible",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q6-e3",
+     "label": "use",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "3",
+   "part": "Part One: Reading (15 points) – B/ Text Exploration (08 points)",
+   "verbatim_text": "Ask questions that the underlined words answer.\na- Teachers are responsible for the learning needs of their students.\nb- AI changed education positively.",
+   "documents": [],
+   "rubric_total": 3,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "a- Question",
+     "max_points": 1.5,
+     "verified": true
+    },
+    {
+     "id": "q7-e2",
+     "label": "b- Question",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "4",
+   "part": "Part One: Reading (15 points) – B/ Text Exploration (08 points)",
+   "verbatim_text": "Reorder the following sentences to get a coherent paragraph.\na- However, they should not rely on it for all their work\nb- if it is used correctly and responsibly.\nc- because this can reduce their own thinking skills.\nd- Artificial intelligence can help students understand difficult topics",
+   "documents": [],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "Opening sentence",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e2",
+     "label": "Logical pair 1",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e3",
+     "label": "Logical pair 2",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e4",
+     "label": "Logical pair 3",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "—",
+   "part": "Part Two: Written Expression (05 points)",
+   "verbatim_text": "Choose only ONE of the following topics.\nTopic one:\nAt your school, some students use AI to do all their homework. At first, their grades improved, but soon they found it difficult to solve problems on their own. Write an article of about 80 to 120 words for your school magazine to raise awareness among your schoolmates to rely less on AI tools.\nMake the best use of following notes:\n- Use AI for help, not to copy.\n- Work with friends/ not with AI.\n- Spend less time using AI.\n- Think critically / not artificially.\nTopic two:\nYou Town Hall is organizing a visit to the National Museum. However, some of your friends said they would not participate because it was not interesting. Write an article of about 80 to 120 words for the local newspaper to convince them to take part in this event.",
+   "documents": [],
+   "rubric_total": 5,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "Relevance",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e2",
+     "label": "Semantic coherence",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e3",
+     "label": "Correct use of English",
+     "max_points": 2,
+     "verified": true
+    },
+    {
+     "id": "q9-e4",
+     "label": "Excellence (vocabulary and creativity)",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Identify the type of the text. The text is:",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "a letter",
+     "a web article",
+     "a magazine article"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: b- a web article (source: www.medium.com).",
+   "points": 1,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "What possibilities does AI offer in education? Choose the TWO possibilities mentioned in the text.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "personalised learning",
+     "more human and more enjoyable learning",
+     "a single teacher for the learning needs of many students",
+     "efficient grading"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     3
+    ]
+   },
+   "explanation": "Key (accept minimum 2 possibilities): personalised learning, efficient grading, adaptive education, supporting students’ individual needs; personalized teaching. “The gradual rise of AI in education has opened doors to new possibilities (personalised learning, efficient grading, etc.)” (§1). AI makes learning “less human and less enjoyable” (§3); the single teacher belongs to “traditional classrooms” (§2).",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Is AI likely to harm students’ abilities?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Yes, it is.",
+     "No, it is not."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: b- “Yes, it is / Yes.” (0.5 for yes).",
+   "points": 0.5,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Is AI likely to harm students’ abilities? Choose the sentence from the text that justifies the answer.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "AI changed education to be more adaptive and personalised for students than ever before.",
+     "There is the risk that education has become too mechanical which reduces students’ abilities.",
+     "AI tools now have the ability to support students’ individual needs.",
+     "The result of this personalised teaching is the students showing greater engagement and higher retention for their subjects."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: b- Justification: “…there is the risk that education has become too mechanical which reduces students’ abilities.” (1 for justification) — §3.",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "How should we use AI?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "We should use it wisely with a careful balance between human and artificial intelligence.",
+     "We should stop using it in schools.",
+     "We should use it to do all our homework.",
+     "We should use it instead of teachers to give all the feedback."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: c- “We should use it wisely with a careful balance…/wisely/with a careful balance…” — “The careful balance between human and artificial intelligence will be a crucial factor… depends on how wisely we use it.” (§4)",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "What does “it” refer to in “Yet, it has also exposed concerns about dependency on AI sources.” (§1)?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "education",
+     "the gradual rise of AI in education",
+     "knowledge",
+     "personalised learning"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: a- It (§1): The gradual rise of AI in education.",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "What does “their” refer to in “The result of this personalised teaching is the students showing greater engagement and higher retention for their subjects.” (§2)?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "traditional classrooms",
+     "teachers",
+     "AI tools",
+     "students"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: b- Their (§2): students.",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "What does the second “it” (in “make it less human”) refer to in “However, while AI can make learning more efficient, it can also make it less human and less enjoyable.” (§3)?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "feedback",
+     "learning",
+     "the risk",
+     "AI"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: c- It (§3): learning.",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Copy the title you think is the most appropriate.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "The Positive Side of Artificial Intelligence.",
+     "The Importance of AI.",
+     "AI in Education – A Blessing or a Curse?"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: a- AI in Education – A Blessing or a Curse?",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "matching",
+   "prompt": "Match the following words with the corresponding definitions.",
+   "payload": {
+    "type": "matching",
+    "lefts": [
+     "Education",
+     "Support",
+     "Crucial"
+    ],
+    "rights": [
+     "Give assistance to / help somebody",
+     "Of great importance",
+     "The process of receiving or giving instruction especially at a school"
+    ]
+   },
+   "answer": {
+    "type": "matching",
+    "pairs": [
+     2,
+     0,
+     1
+    ]
+   },
+   "explanation": "Key: 1) c 2) b 3) a (0.5 each).",
+   "points": 1.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": true,
+   "review_status": "approved"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the opposite of “balance” keeping the same root.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "inbalance",
+     "imbalance",
+     "ilbalance",
+     "irbalance"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: unbalance / imbalance (both accepted).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the opposite of “responsible” keeping the same root.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "inresponsible",
+     "imresponsible",
+     "disresponsible",
+     "irresponsible"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: irresponsible (prefix ir-).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the opposite of “use” keeping the same root.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "inuse",
+     "iruse",
+     "iluse",
+     "misuse"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: misuse / unuse / disuse (all accepted).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Ask the question which the underlined words answer: “Teachers are responsible for the learning needs of their students.” (underlined: “the learning needs of their students”)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "What are teachers responsible?",
+     "What teachers are responsible for?",
+     "What are teachers responsible for?",
+     "What do teachers responsible for?"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: a- What are teachers responsible for?",
+   "points": 1.5,
+   "skill_id": "en.grammar",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Ask the question which the underlined words answer: “AI changed education positively.” (underlined: “positively”)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "How AI changed education?",
+     "Why did AI change education?",
+     "How did AI changed education?",
+     "How did AI change education?"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: b- How did AI change education?",
+   "points": 1.5,
+   "skill_id": "en.grammar",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s-r1",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Reorder the sentences: which sentence opens the passage?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "b- if it is used correctly and responsibly.",
+     "d- Artificial intelligence can help students understand difficult topics",
+     "c- because this can reduce their own thinking skills.",
+     "a- However, they should not rely on it for all their work"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: the passage opens with “d- Artificial intelligence can help students understand difficult topics” (0.5 for the opening sentence).",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s-r2",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Reorder the sentences: which sentence comes right after “d- Artificial intelligence can help students understand difficult topics”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "b- if it is used correctly and responsibly.",
+     "c- because this can reduce their own thinking skills.",
+     "a- However, they should not rely on it for all their work"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: “d- Artificial intelligence can help students understand difficult topics” is followed by “b- if it is used correctly and responsibly.” (0.5 for each logical pair).",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s-r3",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Reorder the sentences: which sentence comes right after “b- if it is used correctly and responsibly.”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "d- Artificial intelligence can help students understand difficult topics",
+     "a- However, they should not rely on it for all their work",
+     "c- because this can reduce their own thinking skills."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: “b- if it is used correctly and responsibly.” is followed by “a- However, they should not rely on it for all their work” (0.5 for each logical pair).",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s-r4",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Reorder the sentences: which sentence comes right before “c- because this can reduce their own thinking skills.”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "b- if it is used correctly and responsibly.",
+     "d- Artificial intelligence can help students understand difficult topics",
+     "a- However, they should not rely on it for all their work"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: “a- However, they should not rely on it for all their work” is followed by “c- because this can reduce their own thinking skills.” (0.5 for each logical pair). Full order: d – b – a – c.",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s-we1",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Relevance",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "At your school, some students use AI to do all their homework. At first, their grades improved, but soon they found it difficult to solve problems on their own. Write an article of about 80 to 120 words for your school magazine to raise awareness among your schoolmates to rely less on AI tools.",
+       "notes": [
+        "- Use AI for help, not to copy.",
+        "- Work with friends/ not with AI.",
+        "- Spend less time using AI.",
+        "- Think critically / not artificially."
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You Town Hall is organizing a visit to the National Museum. However, some of your friends said they would not participate because it was not interesting. Write an article of about 80 to 120 words for the local newspaper to convince them to take part in this event.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: relevance | Semantic coherence | Correct use of English | Excellence Vocabulary and creativity) | Final score — LPH: 1 | 1 | 2 | 1 | 5 points",
+     "criterion": "Relevance",
+     "indicator": "Relevance"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Relevance: 1 pt (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 1,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we2",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Semantic coherence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "At your school, some students use AI to do all their homework. At first, their grades improved, but soon they found it difficult to solve problems on their own. Write an article of about 80 to 120 words for your school magazine to raise awareness among your schoolmates to rely less on AI tools.",
+       "notes": [
+        "- Use AI for help, not to copy.",
+        "- Work with friends/ not with AI.",
+        "- Spend less time using AI.",
+        "- Think critically / not artificially."
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You Town Hall is organizing a visit to the National Museum. However, some of your friends said they would not participate because it was not interesting. Write an article of about 80 to 120 words for the local newspaper to convince them to take part in this event.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: relevance | Semantic coherence | Correct use of English | Excellence Vocabulary and creativity) | Final score — LPH: 1 | 1 | 2 | 1 | 5 points",
+     "criterion": "Semantic coherence",
+     "indicator": "Semantic coherence"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Semantic coherence: 1 pt (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 1,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we3",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Correct use of English",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "At your school, some students use AI to do all their homework. At first, their grades improved, but soon they found it difficult to solve problems on their own. Write an article of about 80 to 120 words for your school magazine to raise awareness among your schoolmates to rely less on AI tools.",
+       "notes": [
+        "- Use AI for help, not to copy.",
+        "- Work with friends/ not with AI.",
+        "- Spend less time using AI.",
+        "- Think critically / not artificially."
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You Town Hall is organizing a visit to the National Museum. However, some of your friends said they would not participate because it was not interesting. Write an article of about 80 to 120 words for the local newspaper to convince them to take part in this event.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: relevance | Semantic coherence | Correct use of English | Excellence Vocabulary and creativity) | Final score — LPH: 1 | 1 | 2 | 1 | 5 points",
+     "criterion": "Correct use of English",
+     "indicator": "Correct use of English"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correct use of English: 2 pts (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 2,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we4",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Excellence (vocabulary and creativity)",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "At your school, some students use AI to do all their homework. At first, their grades improved, but soon they found it difficult to solve problems on their own. Write an article of about 80 to 120 words for your school magazine to raise awareness among your schoolmates to rely less on AI tools.",
+       "notes": [
+        "- Use AI for help, not to copy.",
+        "- Work with friends/ not with AI.",
+        "- Spend less time using AI.",
+        "- Think critically / not artificially."
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You Town Hall is organizing a visit to the National Museum. However, some of your friends said they would not participate because it was not interesting. Write an article of about 80 to 120 words for the local newspaper to convince them to take part in this event.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: relevance | Semantic coherence | Correct use of English | Excellence Vocabulary and creativity) | Final score — LPH: 1 | 1 | 2 | 1 | 5 points",
+     "criterion": "Excellence (vocabulary and creativity)",
+     "indicator": "Excellence (vocabulary and creativity)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Excellence (vocabulary and creativity): 1 pt (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 1,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T10:30:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من الموضوع الرّسميّ (طبقة نصّ PDF مطابَقة بصور الصّفحات) والإجابة النّموذجيّة الرّسميّة في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الإجابة النّموذجيّة؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.792Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
+  }
+ ]
+}

@@ -55,13 +55,63 @@ export const SKILL_LABELS: Record<string, string> = {
   'ar.morphology.ala': 'اسم الآلة',
   'ar.writing.title': 'وضع العنوان',
   'ar.writing.sentence': 'تركيب الجمل',
-  'ar.writing.forms': 'صياغة الأساليب'
+  'ar.writing.forms': 'صياغة الأساليب',
+  'hist.terms': 'المصطلحات التاريخية',
+  'hist.figures': 'الشخصيات التاريخية',
+  'hist.dates': 'الأحداث وتواريخها',
+  'hist.map': 'الخريطة التاريخية',
+  'hist.essay': 'المقال التاريخي',
+  'geo.terms': 'المصطلحات الجغرافية',
+  'geo.data': 'قراءة الجداول والمعطيات',
+  'geo.map': 'الخريطة الجغرافية',
+  'geo.essay': 'الموضوع الجغرافي',
+  'isl.vocab': 'معاني المفردات',
+  'isl.ruling': 'الأحكام الشرعية',
+  'isl.evidence': 'الأدلة والشواهد',
+  'isl.concept': 'المفاهيم الإسلامية',
+  'isl.values': 'القيم والتوجيهات',
+  'isl.writing': 'الوضعية الإدماجية',
+  'en.comprehension': 'Reading comprehension',
+  'en.vocabulary': 'Vocabulary',
+  'en.grammar': 'Grammar',
+  'en.phonology': 'Pronunciation',
+  'en.discourse': 'Discourse',
+  'en.writing': 'Written expression',
+  'fr.comprehension': 'Compréhension',
+  'fr.vocabulaire': 'Vocabulaire',
+  'fr.grammaire': 'Grammaire',
+  'fr.enonciation': 'Énonciation',
+  'fr.discours': 'Discours',
+  'fr.ecriture': 'Production écrite',
+  'math.analysis': 'الدوال والتحليل',
+  'math.sequences': 'المتتاليات',
+  'math.complex': 'الأعداد المركبة',
+  'math.geometry': 'الهندسة في الفضاء',
+  'math.probability': 'الاحتمالات',
+  'math.arithmetic': 'الحساب',
+  'phys.mechanics': 'الميكانيك',
+  'phys.electricity': 'الكهرباء',
+  'phys.nuclear': 'التحولات النووية',
+  'phys.kinetics': 'المتابعة الزمنية للتحول الكيميائي',
+  'phys.waves': 'الاهتزازات والأمواج',
+  'phys.chemistry': 'التحولات الكيميائية والتوازن',
+  'svt.proteins': 'تركيب البروتين',
+  'svt.enzymes': 'النشاط الإنزيمي',
+  'svt.immunity': 'المناعة',
+  'svt.nervous': 'الاتصال العصبي',
+  'svt.energy': 'تحويل الطاقة',
+  'svt.tectonics': 'التكتونية العامة',
+  'tech.mechanics': 'الهندسة الميكانيكية',
+  'tech.electricity': 'الهندسة الكهربائية',
+  'tech.civil': 'الهندسة المدنية',
+  'tech.process': 'هندسة الطرائق'
 }
 
-const FAMILY: Record<string, string> = { comprehension: 'الفهم والتّحليل', literature: 'التّحليل الأدبيّ', text: 'النّصّ ونمطه', grammar: 'النّحو والإعراب', morphology: 'الصّرف', rhetoric: 'البلاغة', prosody: 'العروض', cohesion: 'الاتّساق والانسجام', writing: 'الكتابة' }
+const FAMILY: Record<string, string> = { hist: 'التاريخ', geo: 'الجغرافيا', isl: 'العلوم الإسلامية', en: 'English', fr: 'Français', math: 'الرياضيات', phys: 'العلوم الفيزيائية', svt: 'علوم الطبيعة والحياة', tech: 'التكنولوجيا', comprehension: 'الفهم والتّحليل', literature: 'التّحليل الأدبيّ', text: 'النّصّ ونمطه', grammar: 'النّحو والإعراب', morphology: 'الصّرف', rhetoric: 'البلاغة', prosody: 'العروض', cohesion: 'الاتّساق والانسجام', writing: 'الكتابة' }
 
 /** اسم المهارة؛ لمعرّف جديد بلا اسم بعدُ يُعرض اسم عائلته (لا يظهر معرّف تقنيّ للتلميذ) */
 export function skillLabel(id: string | null | undefined): string {
   if (!id) return 'مهارات أخرى'
-  return SKILL_LABELS[id] ?? FAMILY[id.split('.')[1] ?? ''] ?? 'مهارات أخرى'
+  const [root, family] = id.split('.')
+  return SKILL_LABELS[id] ?? (root === 'ar' ? FAMILY[family ?? ''] : FAMILY[root ?? '']) ?? 'مهارات أخرى'
 }

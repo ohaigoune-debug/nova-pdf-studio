@@ -1,0 +1,1958 @@
+{
+ "schema_version": 1,
+ "set_id": "math-bac-2026-ge-p1",
+ "status": "NEEDS_HUMAN_REVIEW",
+ "source": {
+  "source_id": "gdrive-1J3UC842s9KXkDM7oXDxPmLAurptx9wzc-p1",
+  "kind": "BAC",
+  "year": 2026,
+  "level": "3AS",
+  "streams": [
+   "GE"
+  ],
+  "subject": "MATH",
+  "term": null,
+  "paper": 1,
+  "title": "بكالوريا 2026 (الدورة العادية) – الرياضيات – شعبة تسيير واقتصاد – الموضوع الأول",
+  "original_url": "https://drive.google.com/file/d/1J3UC842s9KXkDM7oXDxPmLAurptx9wzc/view",
+  "original_file_ref": "gdrive:1J3UC842s9KXkDM7oXDxPmLAurptx9wzc (2026 - الرياضيات - تسيير واقتصاد - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1eQQjeGh3p9WrjhwkMsEntRYEWf1eaViC/view",
+  "correction_file_ref": "gdrive:1eQQjeGh3p9WrjhwkMsEntRYEWf1eaViC (2026 - الرياضيات - تسيير واقتصاد - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": false,
+  "verified_by": null,
+  "verified_at": null,
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الموضوع والتصحيح ملفّا PDF من الديوان الوطني للامتحانات والمسابقات (دورة 2026، الشعبة: تسيير واقتصاد كما في رأس الورقة؛ «الدورة العادية» من عنوان الملف في Drive). للملفّين طبقة نصّ يونيكود لكنّ العربية فيها مقلوبة بأشكال العرض وتسقط منها حروف والرموز الرياضية رموز خطّ Symbol؛ فنُسخ كلّ نصّ وكلّ علامة من صور الصفحات (200 و300 نقطة/بوصة مع تكبير)، وقوبلت أقواس المجالات بمواضع الرموز في الطبقة (pdftotext -bbox). لم يُلحظ اختلاف بين الصورة والطبقة في الأرقام. علامة «-» في بداية السطر (تعداد) لم تُنسخ في النصّ الحرفي؛ خيارات أسئلة الاختيار من متعدّد المطبوعة منسوخة في النصّ الحرفي بحروفها (أ) ب) جـ)). الصيغ بـ LaTeX بين $…$ كما طُبعت؛ الفاصلة العشرية {,}؛ ترتيب الصيغ المتعدّدة بينها كلمات عربية هو ترتيب القراءة من اليمين. قواعد التحويل: عنصر لكلّ سطر علامة في السلّم (يبقى «×n» أو «a+b» في التسمية)؛ الإجابات الصحيحة من الإجابة النموذجية بصيغتها، والمشتّتات من إعداد التحويل وتختلف قيمتها عن الإجابة (فحص آلي للعبارات العددية)؛ numeric للأعداد الصحيحة المطبوعة (هامش 0) وللقيم المقرّبة «≃» (هامش دقّة التقريب)؛ «بيّن/أثبت/استنتج أنّ» تفاعلية فقط عبر نتيجة وسيطة يكتبها التصحيح وإلا فـ essay_builder مؤجَّل؛ الرسم function_plot وجدول التغيّرات variation_table. قرارات الموضوع الأول: التمرين1 أسئلة اختيار من متعدّد مطبوعة؛ «0,5×2» لكلّ بند = الاقتراح (mcq بخيارات الورقة الثلاثة، 0.5) + التبرير (0.5): تفاعلي حين يكتب التصحيح التبرير (البنود 1 و2 و3)، ومؤجَّل في البند 4 (لا تبرير مكتوب). التمرين2 س1 «0,25×3» خطوة multi واحدة (حلّان) بـ0.75؛ س2أ «0,25+0,5» = المعادلة q²+q−6=0 (0.25) + q>0 ومنه q=2 (0.5). التمرين3: جدول التغيّرات المطبوع مقصوص من صفحة الورقة (fig1)؛ الإشارتان من جدولي الإشارة في التصحيح. التمرين4 س6: يكتب التصحيح «متناظران بالنسبة إلى محور التراتيب من أجل x<3» مع g(x)=−f(x) (أي تناظر بالنسبة إلى محور الفواصل): الشطر التفاعلي عبارة g(x) فقط (0.25) والشرح مؤجَّل (0.25، official_result_inconsistent) لقرار صاحب المنصّة. «رسم (c_g)» (0.5) منقَّط في سطر 4ب من السلّم فأُبقي هناك. مؤجَّل: تبرير 0.5، تبيانات 0.5+0.5+0.75، جدولا التغيّرات 0.25+0.5، الرسم 1.25، شرح (c_g) 0.25 = 4.5 ن."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "التمرين الأوّل: (04 نقاط)",
+   "verbatim_text": "$(u_n)$ متتالية حسابية حدّها الأول $u_0$ وأساسها $r$ حيث: $u_0=3$ و $r=5$ ، عبارة $u_n$ هي:\nأ) $3\\times5^n$ ب) $5n+3$ جـ) $3n+5$",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "تعليمة التمرين",
+     "text": "عيّن الاقتراح الصّحيح الوحيد من بين الاقتراحات الثلاثة في كلّ حالة ممّا يأتي مع التبرير."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "1) الاقتراح الصحيح مع التبرير (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "التمرين الأوّل: (04 نقاط)",
+   "verbatim_text": "النهاية $\\lim_{x\\to-\\infty}\\left(\\dfrac{e^x-1}{e^x+1}\\right)$ تساوي: أ) $-1$ ب) $1$ جـ) $+\\infty$",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "تعليمة التمرين",
+     "text": "عيّن الاقتراح الصّحيح الوحيد من بين الاقتراحات الثلاثة في كلّ حالة ممّا يأتي مع التبرير."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "2) الاقتراح الصحيح مع التبرير (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "التمرين الأوّل: (04 نقاط)",
+   "verbatim_text": "مجموعة حلول المتراجحة $e^{-x}-e^2\\ge0$ في $\\mathbb{R}$ هي:\nأ) $]-\\infty;-2]$ ب) $[-2;2]$ جـ) $[-2;+\\infty[$",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "تعليمة التمرين",
+     "text": "عيّن الاقتراح الصّحيح الوحيد من بين الاقتراحات الثلاثة في كلّ حالة ممّا يأتي مع التبرير."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "3) الاقتراح الصحيح مع التبرير (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "التمرين الأوّل: (04 نقاط)",
+   "verbatim_text": "الدّالة المشتقة للدّالة $f$ المعرّفة على $\\mathbb{R}$ بـ: $f(x)=(1-x)e^x$ هي $f'$ حيث:\nأ) $f'(x)=1-xe^x$ ب) $f'(x)=(1-2x)e^x$ جـ) $f'(x)=-xe^x$",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "تعليمة التمرين",
+     "text": "عيّن الاقتراح الصّحيح الوحيد من بين الاقتراحات الثلاثة في كلّ حالة ممّا يأتي مع التبرير."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "4) الاقتراح الصحيح مع التبرير (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "1",
+   "part": "التمرين الثّاني: (04 نقاط)",
+   "verbatim_text": "حلّ في $\\mathbb{R}$ المعادلة: $x^2+x-6=0$",
+   "documents": [],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "1) حلّا المعادلة (0.25×3)",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "2أ",
+   "part": "التمرين الثّاني: (04 نقاط)",
+   "verbatim_text": "بيّن أنّ: $q=2$ ثمّ اكتب $u_n$ بدلالة $n$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "$(u_n)$ متتالية هندسية حدودها موجبة، حدّها الأول $u_0$ وأساسها $q$ حيث: $u_0=3$ و $u_1+u_2=18$"
+    }
+   ],
+   "rubric_total": 1.25,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "2أ) تبيان أنّ q = 2 (0.25+0.5)",
+     "max_points": 0.75,
+     "verified": false
+    },
+    {
+     "id": "q6-e2",
+     "label": "2أ) عبارة u(n)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "2ب",
+   "part": "التمرين الثّاني: (04 نقاط)",
+   "verbatim_text": "حدّد اتّجاه تغيّر المتتالية $(u_n)$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "$(u_n)$ متتالية هندسية حدودها موجبة، حدّها الأول $u_0$ وأساسها $q$ حيث: $u_0=3$ و $u_1+u_2=18$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "2ب) اتجاه تغيّر المتتالية",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "2ج",
+   "part": "التمرين الثّاني: (04 نقاط)",
+   "verbatim_text": "بيّن أنّ العدد 768 هو حدّ من حدود المتتالية $(u_n)$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "$(u_n)$ متتالية هندسية حدودها موجبة، حدّها الأول $u_0$ وأساسها $q$ حيث: $u_0=3$ و $u_1+u_2=18$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "2ج) رتبة الحدّ 768",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "3",
+   "part": "التمرين الثّاني: (04 نقاط)",
+   "verbatim_text": "نضع: من أجل كلّ عدد طبيعي $n$ ، $S_n=u_0+u_1+\\cdots+u_n$ و $P_n=u_0\\times u_1\\times\\cdots\\times u_n$\nاحسب $S_n$ بدلالة $n$ ثمّ بيّن أنّ: $P_n=3^{n+1}\\times2^{\\frac{1}{2}n(n+1)}$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "$(u_n)$ متتالية هندسية حدودها موجبة، حدّها الأول $u_0$ وأساسها $q$ حيث: $u_0=3$ و $u_1+u_2=18$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "3) عبارة S(n)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e2",
+     "label": "3) تبيان عبارة P(n)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q10",
+   "number": "1أ",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "احسب $f'(x)$ بدلالة $a$ و $b$",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "يمثّل الجدول المقابل تغيّرات الدّالة $f$ المعرّفة على $\\mathbb{R}$ بـ:\n$f(x)=\\ln(2x^2+ax+b)$ حيث $a$ و $b$ عددان حقيقيان"
+    },
+    {
+     "id": "fig-ex3",
+     "kind": "image",
+     "caption": "الجدول المقابل",
+     "media": {
+      "local_path": "/play-exams/figures/math-bac-2026-ge-p1/fig1.png",
+      "source_url": "https://drive.google.com/file/d/1J3UC842s9KXkDM7oXDxPmLAurptx9wzc/view",
+      "attribution": "الديوان الوطني للامتحانات والمسابقات — ورقة الموضوع الرسمية",
+      "license": "وثيقة امتحان رسمية منشورة — نسخة مطابقة للاستعمال التعليمي",
+      "image_verified_at": "2026-10-29T10:39:48Z",
+      "sha256": "fd7f519bfcba958d53ac0da6017eb126b8720413476f1a4673f5b909f8a823ed",
+      "width": 893,
+      "height": 397,
+      "depicts": "جدول تغيّرات الدّالة f المطبوع في التمرين الثالث من الموضوع الأول: السطر x بالقيم −∞ و −1/2 و +∞ وسطر f(x) بالأسهم والقيم +∞ و −ln2 و +∞",
+      "alt": "جدول تغيّرات الدالة f كما في ورقة الموضوع"
+     }
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q10-e1",
+     "label": "1أ) عبارة f'(x)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q11",
+   "number": "1ب",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "انطلاقا من جدول التغيّرات، عيّن العددين $a$ و $b$",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "يمثّل الجدول المقابل تغيّرات الدّالة $f$ المعرّفة على $\\mathbb{R}$ بـ:\n$f(x)=\\ln(2x^2+ax+b)$ حيث $a$ و $b$ عددان حقيقيان"
+    },
+    {
+     "id": "fig-ex3",
+     "kind": "image",
+     "caption": "الجدول المقابل",
+     "media": {
+      "local_path": "/play-exams/figures/math-bac-2026-ge-p1/fig1.png",
+      "source_url": "https://drive.google.com/file/d/1J3UC842s9KXkDM7oXDxPmLAurptx9wzc/view",
+      "attribution": "الديوان الوطني للامتحانات والمسابقات — ورقة الموضوع الرسمية",
+      "license": "وثيقة امتحان رسمية منشورة — نسخة مطابقة للاستعمال التعليمي",
+      "image_verified_at": "2026-10-29T10:39:48Z",
+      "sha256": "fd7f519bfcba958d53ac0da6017eb126b8720413476f1a4673f5b909f8a823ed",
+      "width": 893,
+      "height": 397,
+      "depicts": "جدول تغيّرات الدّالة f المطبوع في التمرين الثالث من الموضوع الأول: السطر x بالقيم −∞ و −1/2 و +∞ وسطر f(x) بالأسهم والقيم +∞ و −ln2 و +∞",
+      "alt": "جدول تغيّرات الدالة f كما في ورقة الموضوع"
+     }
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q11-e1",
+     "label": "1ب) العددان a و b (0.5×2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q12",
+   "number": "2أ",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "حلّ في $\\mathbb{R}$ المعادلة: $f(x)=0$",
+   "documents": [
+    {
+     "id": "d-ex3-2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "نفرض أنّ: $f(x)=\\ln(2x^2+2x+1)$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q12-e1",
+     "label": "2أ) حلّا المعادلة (0.25×2)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q13",
+   "number": "2ب",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "حدّد إشارة كلّ من $f'(x)$ و $f(x)$",
+   "documents": [
+    {
+     "id": "d-ex3-2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "نفرض أنّ: $f(x)=\\ln(2x^2+2x+1)$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q13-e1",
+     "label": "2ب) إشارة f'(x)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q13-e2",
+     "label": "2ب) إشارة f(x)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q14",
+   "number": "3",
+   "part": "التمرين الثّالث: (04 نقاط)",
+   "verbatim_text": "$g$ الدّالة المعرّفة على $]0;+\\infty[$ بـ: $g(x)=\\dfrac{1}{f(x)}$\nادرس اتّجاه تغيّر الدّالة $g$ ثمّ شكّل جدول تغيّراتها.",
+   "documents": [
+    {
+     "id": "d-ex3-2",
+     "kind": "text",
+     "caption": "معطيات السؤال 2",
+     "text": "نفرض أنّ: $f(x)=\\ln(2x^2+2x+1)$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q14-e1",
+     "label": "3) عبارة g'(x)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q14-e2",
+     "label": "3) اتجاه تغيّر g",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q14-e3",
+     "label": "3) جدول التغيّرات",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q15",
+   "number": "1أ",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "تحقّق أنّه: من أجل كلّ $x$ من $\\mathbb{R}-\\{3\\}$ ، $f(x)=x-2+\\dfrac{1}{x-3}$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}-\\{3\\}$ بـ: $f(x)=\\dfrac{x^2-5x+7}{x-3}$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q15-e1",
+     "label": "1أ) التحقّق من عبارة f(x)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q16",
+   "number": "1ب",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "احسب النهايات: $\\lim_{x\\to-\\infty}f(x)$ ، $\\lim_{x\\overset{<}{\\to}3}f(x)$ ، $\\lim_{x\\overset{>}{\\to}3}f(x)$ ، $\\lim_{x\\to+\\infty}f(x)$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}-\\{3\\}$ بـ: $f(x)=\\dfrac{x^2-5x+7}{x-3}$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q16-e1",
+     "label": "1ب) النهايات الأربع (0.25×4)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q17",
+   "number": "2أ",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "بيّن أنّ المستقيم $(\\Delta)$ ذا المعادلة: $y=x-2$ مقارب مائل لـ $(c_f)$ عند $-\\infty$ وعند $+\\infty$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}-\\{3\\}$ بـ: $f(x)=\\dfrac{x^2-5x+7}{x-3}$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q17-e1",
+     "label": "2أ) نهايتا الفرق (0.25×2)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q18",
+   "number": "2ب",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "ادرس الوضع النسبي لـ $(c_f)$ و $(\\Delta)$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}-\\{3\\}$ بـ: $f(x)=\\dfrac{x^2-5x+7}{x-3}$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q18-e1",
+     "label": "2ب) الوضع النسبي (0.25×2)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q19",
+   "number": "3أ",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "بيّن أنّه: من أجل كلّ $x$ من $\\mathbb{R}-\\{3\\}$ ، $f'(x)=\\dfrac{(x-2)(x-4)}{(x-3)^2}$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}-\\{3\\}$ بـ: $f(x)=\\dfrac{x^2-5x+7}{x-3}$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q19-e1",
+     "label": "3أ) تبيان عبارة f'(x)",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q20",
+   "number": "3ب",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "استنتج اتّجاه تغيّر الدّالة $f$ ثمّ شكّل جدول تغيّراتها.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}-\\{3\\}$ بـ: $f(x)=\\dfrac{x^2-5x+7}{x-3}$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q20-e1",
+     "label": "3ب) إشارة f'(x)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q20-e2",
+     "label": "3ب) اتجاه تغيّر f",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q20-e3",
+     "label": "3ب) جدول التغيّرات",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q21",
+   "number": "4أ",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "بيّن أنّ النقطة $A(3;1)$ مركز تناظر للمنحني $(c_f)$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}-\\{3\\}$ بـ: $f(x)=\\dfrac{x^2-5x+7}{x-3}$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q21-e1",
+     "label": "4أ) مركز التناظر",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q22",
+   "number": "4ب",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "ارسم $(\\Delta)$ و $(c_f)$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}-\\{3\\}$ بـ: $f(x)=\\dfrac{x^2-5x+7}{x-3}$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 1.25,
+   "rubric_elements": [
+    {
+     "id": "q22-e1",
+     "label": "4ب) رسم (Δ)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q22-e2",
+     "label": "4ب) رسم (c_f)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q22-e3",
+     "label": "4ب) رسم (c_g)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q23",
+   "number": "5",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "احسب $\\mathscr{A}$ مساحة الحيّز المستوي المحدّد بـ $(c_f)$ والمستقيمات التي معادلاتها:\n$y=x-2$ ، $x=4$ و $x=5$",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}-\\{3\\}$ بـ: $f(x)=\\dfrac{x^2-5x+7}{x-3}$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q23-e1",
+     "label": "5) المساحة",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q24",
+   "number": "6",
+   "part": "التمرين الرّابع: (08 نقاط)",
+   "verbatim_text": "$g$ الدّالة المعرّفة على $\\mathbb{R}-\\{3\\}$ بـ: $g(x)=\\dfrac{x^2-5x+7}{|x-3|}$ و $(c_g)$ تمثيلها البياني.\nاشرح كيف يمكن رسم $(c_g)$ انطلاقا من $(c_f)$ ثمّ ارسم $(c_g)$ في المعلم السّابق.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على $\\mathbb{R}-\\{3\\}$ بـ: $f(x)=\\dfrac{x^2-5x+7}{x-3}$ و $(c_f)$ تمثيلها البياني في المستوي المنسوب إلى المعلم المتعامد والمتجانس $(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q24-e1",
+     "label": "6) كيفية رسم (c_g) انطلاقا من (c_f)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "$(u_n)$ متتالية حسابية حدّها الأول $u_0=3$ وأساسها $r=5$: اختر الاقتراح الصحيح لعبارة $u_n$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$3\\times5^n$",
+     "$5n+3$",
+     "$3n+5$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: الاقتراح الصحيح هو ب).",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "ما التبرير الصحيح لعبارة $u_n$ في المتتالية الحسابية $(u_n)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$u_n=u_0\\times r^n=3\\times5^n$",
+     "$u_n=u_0+nr=5n+3$",
+     "$u_n=nu_0+r=3n+5$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "التبرير حسب الإجابة النموذجية: $u_n=u_0+nr=5n+3$.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "اختر الاقتراح الصحيح لقيمة النهاية $\\lim_{x\\to-\\infty}\\left(\\dfrac{e^x-1}{e^x+1}\\right)$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$1$",
+     "$-1$",
+     "$+\\infty$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: الاقتراح الصحيح هو أ) لأنّ $\\lim_{x\\to-\\infty}e^x=0$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "ما النهاية التي تبرّر قيمة $\\lim_{x\\to-\\infty}\\left(\\dfrac{e^x-1}{e^x+1}\\right)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$\\lim_{x\\to-\\infty}e^x=0$",
+     "$\\lim_{x\\to-\\infty}e^x=1$",
+     "$\\lim_{x\\to-\\infty}e^x=+\\infty$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "التبرير حسب الإجابة النموذجية: $\\lim_{x\\to-\\infty}\\left(\\dfrac{e^x-1}{e^x+1}\\right)=-1$ لأنّ $\\lim_{x\\to-\\infty}e^x=0$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "اختر الاقتراح الصحيح لمجموعة حلول المتراجحة $e^{-x}-e^2\\ge0$ في $\\mathbb{R}$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$]-\\infty;-2]$",
+     "$[-2;+\\infty[$",
+     "$[-2;2]$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "حسب الإجابة النموذجية: الاقتراح الصحيح هو أ).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "ما التبرير الصحيح لحلول المتراجحة $e^{-x}-e^2\\ge0$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$e^{-x}-e^2\\ge0$ تكافئ $x\\le-2$",
+     "$e^{-x}-e^2\\ge0$ تكافئ $-2\\le x\\le2$",
+     "$e^{-x}-e^2\\ge0$ تكافئ $x\\ge-2$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "التبرير حسب الإجابة النموذجية: $e^{-x}-e^2\\ge0$ تكافئ $x\\le-2$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "اختر الاقتراح الصحيح للدّالة المشتقة $f'$ حيث $f(x)=(1-x)e^x$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f'(x)=1-xe^x$",
+     "$f'(x)=(1-2x)e^x$",
+     "$f'(x)=-xe^x$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: الاقتراح الصحيح هو جـ) $f'(x)=-xe^x$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "b",
+   "type": "essay_builder",
+   "prompt": "4) تحرير تبرير الاقتراح الصحيح (حساب $f'(x)$).",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "جـ) f'(x) = −xe^x (من 0.5×2) — لا يكتب التصحيح التبرير",
+     "reason_deferred": "official_result_missing",
+     "statement": "$f'(x)=-xe^x$",
+     "official_result_missing": true
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "جـ) f'(x) = −xe^x (من 0.5×2) — لا يكتب التصحيح التبرير",
+     "official_result": "$f'(x)=-xe^x$"
+    }
+   },
+   "explanation": "الإجابة النموذجية الرسمية تذكر هذا البند وعلامته دون أن تكتب النتيجة: لا تُنشأ خطوة تفاعليّة قبل أن تتوفّر النتيجة الرسميّة.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "ما حلول المعادلة $x^2+x-6=0$ في $\\mathbb{R}$؟ اختر كلّ الحلول.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "$-2$",
+     "$6$",
+     "$2$",
+     "$3$",
+     "$-3$"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     2,
+     4
+    ]
+   },
+   "explanation": "حسب الإجابة النموذجية: للمعادلة $x^2+x-6=0$ حلّان: $-3$ و $2$.",
+   "points": 0.75,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "لتبيان أنّ $q=2$: الشرط $u_1+u_2=18$ مع $u_0=3$ يؤدّي إلى المعادلة:",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$q^2-q-6=0$",
+     "$q^2+q-6=0$",
+     "$q^2+q+6=0$",
+     "$q^2+q-18=0$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: $q^2+q-6=0$ و $q>0$ ومنه $q=2$.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "للمعادلة $q^2+q-6=0$ حلّان $-3$ و $2$: لماذا نأخذ $q=2$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "لأنّ $q>0$ (حدود المتتالية موجبة)",
+     "لأنّ $u_0=3$ عدد فردي",
+     "لأنّ $q<0$",
+     "لأنّ $u_1+u_2$ عدد زوجي"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "حسب الإجابة النموذجية: $q^2+q-6=0$ و $q>0$ ومنه $q=2$.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "اكتب $u_n$ بدلالة $n$ حيث $u_0=3$ و $q=2$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$u_n=3\\times2^n$",
+     "$u_n=3\\times2^{n+1}$",
+     "$u_n=2\\times3^n$",
+     "$u_n=3+2n$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "حسب الإجابة النموذجية: $u_n=3\\times2^n$.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما اتّجاه تغيّر المتتالية الهندسية $(u_n)$ حيث $u_n=3\\times2^n$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(u_n)$ ليست رتيبة",
+     "$(u_n)$ ثابتة",
+     "$(u_n)$ متزايدة تماما",
+     "$(u_n)$ متناقصة تماما"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: $(u_n)$ متزايدة تماما.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "numeric",
+   "prompt": "حلّ المعادلة $u_n=768$ حيث $u_n=3\\times2^n$ واكتب قيمة $n$.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 8,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "حسب الإجابة النموذجية: $u_n=768$ يعني $n=8$.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب $S_n=u_0+u_1+\\cdots+u_n$ بدلالة $n$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$S_n=3\\left(2^{n}-1\\right)$",
+     "$S_n=3\\left(2^{n+1}-1\\right)$",
+     "$S_n=6\\left(2^{n+1}-1\\right)$",
+     "$S_n=3\\left(2^{n+1}+1\\right)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: $S_n=3\\left(2^{n+1}-1\\right)$.",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "3) تحرير تبيان أنّ $P_n=3^{n+1}\\times2^{\\frac{1}{2}n(n+1)}$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "P(n) = 3^(n+1) × 2^(n(n+1)/2) (0.5)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$P_n=3^{n+1}\\times2^{\\frac{1}{2}n(n+1)}$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "P(n) = 3^(n+1) × 2^(n(n+1)/2) (0.5)",
+     "official_result": "$P_n=3^{n+1}\\times2^{\\frac{1}{2}n(n+1)}$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.5,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب $f'(x)$ بدلالة $a$ و $b$ حيث $f(x)=\\ln(2x^2+ax+b)$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f'(x)=\\dfrac{1}{2x^2+ax+b}$",
+     "$f'(x)=\\dfrac{4x+a}{(2x^2+ax+b)^2}$",
+     "$f'(x)=\\dfrac{2x+a}{2x^2+ax+b}$",
+     "$f'(x)=\\dfrac{4x+a}{2x^2+ax+b}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $f'(x)=\\dfrac{4x+a}{2x^2+ax+b}$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q11",
+   "rubric_element_id": "q11-e1",
+   "variant": "a",
+   "type": "numeric",
+   "prompt": "انطلاقا من جدول التغيّرات: ما قيمة العدد $a$؟",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 2,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "حسب الإجابة النموذجية: $a=2$ و $b=1$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q11",
+   "rubric_element_id": "q11-e1",
+   "variant": "b",
+   "type": "numeric",
+   "prompt": "انطلاقا من جدول التغيّرات: ما قيمة العدد $b$؟",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 1,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "حسب الإجابة النموذجية: $a=2$ و $b=1$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q12",
+   "rubric_element_id": "q12-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "ما حلول المعادلة $f(x)=0$ حيث $f(x)=\\ln(2x^2+2x+1)$؟ اختر كلّ الحلول.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "$0$",
+     "$2$",
+     "$-\\dfrac{1}{2}$",
+     "$1$",
+     "$-1$"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     4
+    ]
+   },
+   "explanation": "حسب الإجابة النموذجية: للمعادلة $f(x)=0$ حلّان هما: $-1$ و $0$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q13",
+   "rubric_element_id": "q13-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما إشارة $f'(x)$ حيث $f(x)=\\ln(2x^2+2x+1)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f'(x)>0$ على $\\left]-\\infty;-\\dfrac{1}{2}\\right[$ و $f'(x)<0$ على $\\left]-\\dfrac{1}{2};+\\infty\\right[$",
+     "$f'(x)>0$ على $\\mathbb{R}$",
+     "$f'(x)<0$ على $]-\\infty;0[$ و $f'(x)>0$ على $]0;+\\infty[$",
+     "$f'(x)<0$ على $\\left]-\\infty;-\\dfrac{1}{2}\\right[$ و $f'(x)>0$ على $\\left]-\\dfrac{1}{2};+\\infty\\right[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "من جدول إشارة $f'(x)$ في الإجابة النموذجية: $f'(x)<0$ قبل $-\\dfrac{1}{2}$ و $f'(x)>0$ بعدها و $f'\\left(-\\dfrac{1}{2}\\right)=0$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q13",
+   "rubric_element_id": "q13-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما إشارة $f(x)$ حيث $f(x)=\\ln(2x^2+2x+1)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f(x)>0$ على $\\mathbb{R}$",
+     "$f(x)>0$ على $\\left]-\\infty;-\\dfrac{1}{2}\\right[$ ، و $f(x)<0$ على $\\left]-\\dfrac{1}{2};+\\infty\\right[$",
+     "$f(x)>0$ على $]-\\infty;-1[$ وعلى $]0;+\\infty[$ ، و $f(x)<0$ على $]-1;0[$",
+     "$f(x)<0$ على $]-\\infty;-1[$ وعلى $]0;+\\infty[$ ، و $f(x)>0$ على $]-1;0[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "من جدول إشارة $f(x)$ في الإجابة النموذجية: $f(x)>0$ على $]-\\infty;-1[$ وعلى $]0;+\\infty[$ ، و $f(x)<0$ على $]-1;0[$ ، و $f(-1)=f(0)=0$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q14",
+   "rubric_element_id": "q14-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "من أجل كلّ $x$ من $]0;+\\infty[$: ما عبارة $g'(x)$ حيث $g(x)=\\dfrac{1}{f(x)}$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$g'(x)=\\dfrac{f'(x)}{(f(x))^2}$",
+     "$g'(x)=\\dfrac{1}{f'(x)}$",
+     "$g'(x)=-\\dfrac{1}{(f(x))^2}$",
+     "$g'(x)=-\\dfrac{f'(x)}{(f(x))^2}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $g'(x)=-\\dfrac{f'(x)}{(f(x))^2}$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q14",
+   "rubric_element_id": "q14-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما اتّجاه تغيّر الدّالة $g$ على $]0;+\\infty[$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$g$ ثابتة على $]0;+\\infty[$",
+     "$g$ متزايدة تماما على $]0;+\\infty[$",
+     "$g$ متناقصة ثمّ متزايدة على $]0;+\\infty[$",
+     "$g$ متناقصة تماما على $]0;+\\infty[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $g$ متناقصة تماما على $]0;+\\infty[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q14",
+   "rubric_element_id": "q14-e3",
+   "variant": "a",
+   "type": "variation_table",
+   "prompt": "3) تشكيل جدول تغيّرات الدّالة $g$.",
+   "payload": {
+    "type": "variation_table",
+    "spec": {
+     "official_correction": "جدول التغيّرات (0.25)",
+     "reason_deferred": "variation_table",
+     "function": "$g$",
+     "domain": "$]0;+\\infty[$",
+     "decreasing": [
+      "$]0;+\\infty[$"
+     ],
+     "official_values": [
+      "$+\\infty$",
+      "$0$"
+     ]
+    }
+   },
+   "answer": {
+    "type": "variation_table",
+    "spec": {
+     "rubric": "جدول التغيّرات (0.25)",
+     "official_result": null
+    }
+   },
+   "explanation": "جدول التغيّرات يُصحَّح بشبكة التنقيط الرسمية (محرّك الجداول غير متوفّر بعد).",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q15",
+   "rubric_element_id": "q15-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "1أ) تحرير التحقّق من أنّ $f(x)=x-2+\\dfrac{1}{x-3}$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "f(x) = x − 2 + 1/(x−3) (0.5)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$f(x)=x-2+\\dfrac{1}{x-3}$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "f(x) = x − 2 + 1/(x−3) (0.5)",
+     "official_result": "$f(x)=x-2+\\dfrac{1}{x-3}$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q16",
+   "rubric_element_id": "q16-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب النهاية $\\lim_{x\\to-\\infty}f(x)$ حيث $f(x)=\\dfrac{x^2-5x+7}{x-3}$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$0$",
+     "$+\\infty$",
+     "$1$",
+     "$-\\infty$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "النهايات حسب الإجابة النموذجية: $\\lim_{x\\to-\\infty}f(x)=-\\infty$ ، $\\lim_{x\\overset{<}{\\to}3}f(x)=-\\infty$ ، $\\lim_{x\\overset{>}{\\to}3}f(x)=+\\infty$ ، $\\lim_{x\\to+\\infty}f(x)=+\\infty$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q16",
+   "rubric_element_id": "q16-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "احسب النهاية $\\lim_{x\\overset{<}{\\to}3}f(x)$ حيث $f(x)=\\dfrac{x^2-5x+7}{x-3}$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$+\\infty$",
+     "$0$",
+     "$-\\infty$",
+     "$1$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "النهايات حسب الإجابة النموذجية: $\\lim_{x\\to-\\infty}f(x)=-\\infty$ ، $\\lim_{x\\overset{<}{\\to}3}f(x)=-\\infty$ ، $\\lim_{x\\overset{>}{\\to}3}f(x)=+\\infty$ ، $\\lim_{x\\to+\\infty}f(x)=+\\infty$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s29",
+   "source_question_id": "q16",
+   "rubric_element_id": "q16-e1",
+   "variant": "c",
+   "type": "mcq",
+   "prompt": "احسب النهاية $\\lim_{x\\overset{>}{\\to}3}f(x)$ حيث $f(x)=\\dfrac{x^2-5x+7}{x-3}$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$+\\infty$",
+     "$0$",
+     "$-\\infty$",
+     "$1$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "النهايات حسب الإجابة النموذجية: $\\lim_{x\\to-\\infty}f(x)=-\\infty$ ، $\\lim_{x\\overset{<}{\\to}3}f(x)=-\\infty$ ، $\\lim_{x\\overset{>}{\\to}3}f(x)=+\\infty$ ، $\\lim_{x\\to+\\infty}f(x)=+\\infty$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s30",
+   "source_question_id": "q16",
+   "rubric_element_id": "q16-e1",
+   "variant": "d",
+   "type": "mcq",
+   "prompt": "احسب النهاية $\\lim_{x\\to+\\infty}f(x)$ حيث $f(x)=\\dfrac{x^2-5x+7}{x-3}$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$+\\infty$",
+     "$0$",
+     "$-\\infty$",
+     "$1$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "النهايات حسب الإجابة النموذجية: $\\lim_{x\\to-\\infty}f(x)=-\\infty$ ، $\\lim_{x\\overset{<}{\\to}3}f(x)=-\\infty$ ، $\\lim_{x\\overset{>}{\\to}3}f(x)=+\\infty$ ، $\\lim_{x\\to+\\infty}f(x)=+\\infty$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s31",
+   "source_question_id": "q17",
+   "rubric_element_id": "q17-e1",
+   "variant": "a",
+   "type": "numeric",
+   "prompt": "احسب النهاية $\\lim_{x\\to+\\infty}(f(x)-(x-2))$ واكتب قيمتها.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 0,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "حسب الإجابة النموذجية: $\\lim_{x\\to+\\infty}(f(x)-(x-2))=0$ و $\\lim_{x\\to-\\infty}(f(x)-(x-2))=0$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s32",
+   "source_question_id": "q17",
+   "rubric_element_id": "q17-e1",
+   "variant": "b",
+   "type": "numeric",
+   "prompt": "وبجوار $-\\infty$: احسب النهاية $\\lim_{x\\to-\\infty}(f(x)-(x-2))$ واكتب قيمتها.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 0,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "حسب الإجابة النموذجية: $\\lim_{x\\to+\\infty}(f(x)-(x-2))=0$ و $\\lim_{x\\to-\\infty}(f(x)-(x-2))=0$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s33",
+   "source_question_id": "q18",
+   "rubric_element_id": "q18-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "على المجال $]-\\infty;3[$: ما الوضع النسبي لـ $(c_f)$ و $(\\Delta)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(c_f)$ أعلى $(\\Delta)$",
+     "$(c_f)$ يقطع $(\\Delta)$ في نقطة وحيدة",
+     "$(c_f)$ أسفل $(\\Delta)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: $(c_f)$ أسفل $(\\Delta)$ على $]-\\infty;3[$ و $(c_f)$ أعلى $(\\Delta)$ على $]3;+\\infty[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s34",
+   "source_question_id": "q18",
+   "rubric_element_id": "q18-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "على المجال $]3;+\\infty[$: ما الوضع النسبي لـ $(c_f)$ و $(\\Delta)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(c_f)$ أسفل $(\\Delta)$",
+     "$(c_f)$ أعلى $(\\Delta)$",
+     "$(c_f)$ يقطع $(\\Delta)$ في نقطة وحيدة"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: $(c_f)$ أسفل $(\\Delta)$ على $]-\\infty;3[$ و $(c_f)$ أعلى $(\\Delta)$ على $]3;+\\infty[$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s35",
+   "source_question_id": "q19",
+   "rubric_element_id": "q19-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "3أ) تحرير تبيان أنّ $f'(x)=\\dfrac{(x-2)(x-4)}{(x-3)^2}$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "f'(x) = (x−2)(x−4)/(x−3)² (0.75)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$f'(x)=\\dfrac{(x-2)(x-4)}{(x-3)^2}$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "f'(x) = (x−2)(x−4)/(x−3)² (0.75)",
+     "official_result": "$f'(x)=\\dfrac{(x-2)(x-4)}{(x-3)^2}$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.75,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s36",
+   "source_question_id": "q20",
+   "rubric_element_id": "q20-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما إشارة $f'(x)=\\dfrac{(x-2)(x-4)}{(x-3)^2}$ على $\\mathbb{R}-\\{3\\}$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f'(x)>0$ على $\\mathbb{R}-\\{3\\}$",
+     "$f'(x)>0$ على $]-\\infty;3[$ ، و $f'(x)<0$ على $]3;+\\infty[$",
+     "$f'(x)>0$ على $]-\\infty;2[$ وعلى $]4;+\\infty[$ ، و $f'(x)<0$ على $]2;3[$ وعلى $]3;4[$",
+     "$f'(x)<0$ على $]-\\infty;2[$ وعلى $]4;+\\infty[$ ، و $f'(x)>0$ على $]2;3[$ وعلى $]3;4[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "من سطر إشارة $f'(x)$ في جدول تغيّرات الإجابة النموذجية: $f'(x)>0$ على $]-\\infty;2[$ وعلى $]4;+\\infty[$ ، و $f'(x)<0$ على $]2;3[$ وعلى $]3;4[$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s37",
+   "source_question_id": "q20",
+   "rubric_element_id": "q20-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "على أيّ مجالين تكون الدّالة $f$ متزايدة تماما؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المجالان $[2;3[$ و $]3;4]$",
+     "المجالان $]-\\infty;4]$ و $[2;+\\infty[$",
+     "المجالان $]-\\infty;2]$ و $[4;+\\infty[$",
+     "المجالان $]-\\infty;3[$ و $]3;+\\infty[$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: $f$ متزايدة تماما على كلّ من $]-\\infty;2]$ و $[4;+\\infty[$ ، ومتناقصة تماما على كلّ من $[2;3[$ و $]3;4]$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s38",
+   "source_question_id": "q20",
+   "rubric_element_id": "q20-e2",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "على أيّ مجالين تكون الدّالة $f$ متناقصة تماما؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المجالان $]-\\infty;2]$ و $[4;+\\infty[$",
+     "المجالان $]-\\infty;3[$ و $]3;+\\infty[$",
+     "المجالان $[2;3[$ و $]3;4]$",
+     "المجالان $[1;3[$ و $]3;5]$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية: $f$ متزايدة تماما على كلّ من $]-\\infty;2]$ و $[4;+\\infty[$ ، ومتناقصة تماما على كلّ من $[2;3[$ و $]3;4]$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s39",
+   "source_question_id": "q20",
+   "rubric_element_id": "q20-e3",
+   "variant": "a",
+   "type": "variation_table",
+   "prompt": "3ب) تشكيل جدول تغيّرات الدّالة $f$.",
+   "payload": {
+    "type": "variation_table",
+    "spec": {
+     "official_correction": "جدول التغيّرات (0.5)",
+     "reason_deferred": "variation_table",
+     "function": "$f$",
+     "domain": "$\\mathbb{R}-\\{3\\}$",
+     "increasing": [
+      "$]-\\infty;2]$",
+      "$[4;+\\infty[$"
+     ],
+     "decreasing": [
+      "$[2;3[$",
+      "$]3;4]$"
+     ],
+     "official_values": [
+      "$f(2)=-1$",
+      "$f(4)=3$"
+     ]
+    }
+   },
+   "answer": {
+    "type": "variation_table",
+    "spec": {
+     "rubric": "جدول التغيّرات (0.5)",
+     "official_result": null
+    }
+   },
+   "explanation": "جدول التغيّرات يُصحَّح بشبكة التنقيط الرسمية (محرّك الجداول غير متوفّر بعد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s40",
+   "source_question_id": "q21",
+   "rubric_element_id": "q21-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "لتبيان أنّ النقطة $A(3;1)$ مركز تناظر للمنحني $(c_f)$: من أجل كلّ $x$ من $\\mathbb{R}-\\{3\\}$ ، أيّ مساواة صحيحة؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f(3-x)+f(3+x)=0$",
+     "$f(3-x)+f(3+x)=6$",
+     "$f(3-x)+f(3+x)=1$",
+     "$f(3-x)+f(3+x)=2$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $f(3-x)+f(3+x)=2$ ، فالنقطة $A(3;1)$ مركز تناظر للمنحني $(c_f)$.",
+   "points": 0.75,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s41",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e1",
+   "variant": "a",
+   "type": "function_plot",
+   "prompt": "4ب) رسم المستقيم $(\\Delta)$.",
+   "payload": {
+    "type": "function_plot",
+    "spec": {
+     "official_correction": "رسم (Δ) (0.25)",
+     "reason_deferred": "drawing",
+     "curves": [
+      "$(\\Delta)$"
+     ],
+     "frame": "$(O;\\overrightarrow{i},\\overrightarrow{j})$",
+     "official_equation": "$y=x-2$"
+    }
+   },
+   "answer": {
+    "type": "function_plot",
+    "spec": {
+     "rubric": "رسم (Δ) (0.25)",
+     "official_result": null
+    }
+   },
+   "explanation": "الرسم يُصحَّح بشبكة التنقيط الرسمية (محرّك الرسم غير متوفّر بعد).",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s42",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e2",
+   "variant": "a",
+   "type": "function_plot",
+   "prompt": "4ب) رسم المنحني $(c_f)$.",
+   "payload": {
+    "type": "function_plot",
+    "spec": {
+     "official_correction": "رسم (c_f) (0.5)",
+     "reason_deferred": "drawing",
+     "curves": [
+      "$(c_f)$"
+     ],
+     "frame": "$(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   },
+   "answer": {
+    "type": "function_plot",
+    "spec": {
+     "rubric": "رسم (c_f) (0.5)",
+     "official_result": null
+    }
+   },
+   "explanation": "الرسم يُصحَّح بشبكة التنقيط الرسمية (محرّك الرسم غير متوفّر بعد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s43",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e3",
+   "variant": "a",
+   "type": "function_plot",
+   "prompt": "4ب) رسم المنحني $(c_g)$ (المطلوب في السؤال 6 والمنقَّط في 4ب).",
+   "payload": {
+    "type": "function_plot",
+    "spec": {
+     "official_correction": "رسم (c_g) (0.5)",
+     "reason_deferred": "drawing",
+     "curves": [
+      "$(c_g)$"
+     ],
+     "frame": "$(O;\\overrightarrow{i},\\overrightarrow{j})$"
+    }
+   },
+   "answer": {
+    "type": "function_plot",
+    "spec": {
+     "rubric": "رسم (c_g) (0.5)",
+     "official_result": null
+    }
+   },
+   "explanation": "الرسم يُصحَّح بشبكة التنقيط الرسمية (محرّك الرسم غير متوفّر بعد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s44",
+   "source_question_id": "q23",
+   "rubric_element_id": "q23-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب المساحة $\\mathscr{A}$ للحيّز المحدّد بـ $(c_f)$ والمستقيمات $y=x-2$ ، $x=4$ و $x=5$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$\\mathscr{A}=(1+\\ln 2)\\,u.a$",
+     "$\\mathscr{A}=(2\\ln 2)\\,u.a$",
+     "$\\mathscr{A}=(\\ln 3)\\,u.a$",
+     "$\\mathscr{A}=(\\ln 2)\\,u.a$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "حسب الإجابة النموذجية: $\\mathscr{A}=\\int_4^5\\dfrac{1}{x-3}dx=(\\ln 2)\\,u.a$.",
+   "points": 0.75,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s45",
+   "source_question_id": "q24",
+   "rubric_element_id": "q24-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما عبارة $g(x)$ بدلالة $f(x)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$g(x)=-f(x)$ من أجل كلّ $x$ من $\\mathbb{R}-\\{3\\}$",
+     "$g(x)=f(x)$ من أجل $x>3$ و $g(x)=-f(x)$ من أجل $x<3$",
+     "$g(x)=f(x)$ من أجل كلّ $x$ من $\\mathbb{R}-\\{3\\}$",
+     "$g(x)=-f(x)$ من أجل $x>3$ و $g(x)=f(x)$ من أجل $x<3$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: $g(x)=f(x)$ من أجل $x>3$ و $g(x)=-f(x)$ من أجل $x<3$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s46",
+   "source_question_id": "q24",
+   "rubric_element_id": "q24-e1",
+   "variant": "b",
+   "type": "essay_builder",
+   "prompt": "6) تحرير شرح كيفية رسم $(c_g)$ انطلاقا من $(c_f)$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "(c_g) و (c_f) منطبقان من أجل x > 3 ؛ (c_g) و (c_f) متناظران بالنسبة إلى محور التراتيب من أجل x < 3 (من 0.5) — يناقض g(x) = −f(x) المكتوب في السطر نفسه (التناظر بالنسبة إلى محور الفواصل)",
+     "reason_deferred": "official_result_inconsistent",
+     "official_text": [
+      "(c_g) و (c_f) منطبقان من أجل x > 3",
+      "(c_g) و (c_f) متناظران بالنسبة إلى محور التراتيب من أجل x < 3"
+     ]
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "(c_g) و (c_f) منطبقان من أجل x > 3 ؛ (c_g) و (c_f) متناظران بالنسبة إلى محور التراتيب من أجل x < 3 (من 0.5) — يناقض g(x) = −f(x) المكتوب في السطر نفسه (التناظر بالنسبة إلى محور الفواصل)",
+     "official_result": null
+    }
+   },
+   "explanation": "الإجابة النموذجية تكتب في هذا البند عبارة تناقض نتيجتها نفسها (g(x)=−f(x) تناظر بالنسبة إلى محور الفواصل لا محور التراتيب): يُصحَّح يدويًّا ولا تُنشأ خطوة تفاعليّة قبل قرار صاحب المنصّة.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T12:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من صور الموضوع والإجابة النموذجية الرسميّين في Drive (نمط تجربة الرياضيات)؛ العلامات من سلّم التنقيط؛ الإجابات الصحيحة من الإجابة النموذجية؛ المشتّتات من إعداد التحويل وتحتاج مراجعة."
+  }
+ ]
+}

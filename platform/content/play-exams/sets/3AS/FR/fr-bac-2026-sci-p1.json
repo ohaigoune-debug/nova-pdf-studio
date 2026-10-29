@@ -1,0 +1,1541 @@
+{
+ "schema_version": 1,
+ "set_id": "fr-bac-2026-sci-p1",
+ "status": "APPROVED",
+ "source": {
+  "source_id": "gdrive-14yIT1KuV2m-3m0oa1hRNjTNeXguBGUZo-p1",
+  "kind": "BAC",
+  "year": 2026,
+  "level": "3AS",
+  "streams": [
+   "SCI",
+   "MATH",
+   "TM",
+   "GE"
+  ],
+  "subject": "FR",
+  "term": null,
+  "paper": 1,
+  "title": "بكالوريا 2026 (الدورة العاديّة) – اللغة الفرنسية – الشعب العلمية – الموضوع الأوّل (الذّكاء الاصطناعيّ وعالم الشّغل، Steven GUILBEAULT)",
+  "original_url": "https://drive.google.com/file/d/14yIT1KuV2m-3m0oa1hRNjTNeXguBGUZo/view",
+  "original_file_ref": "gdrive:14yIT1KuV2m-3m0oa1hRNjTNeXguBGUZo (2026 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1ZP6LJtXasHdkhsL4GAf_kYxJfqYCsOAy/view",
+  "correction_file_ref": "gdrive:1ZP6LJtXasHdkhsL4GAf_kYxJfqYCsOAy (2026 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.851Z",
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word). الموضوع: gdrive:14yIT1KuV2m-3m0oa1hRNjTNeXguBGUZo (2026 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf) ص1–2؛ الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1ZP6LJtXasHdkhsL4GAf_kYxJfqYCsOAy (2026 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الحل.pdf) ص1 وص3 (الإنتاج الكتابيّ للموضوعين). الملفّان PDF رقميّان من الدّيوان الوطنيّ للامتحانات (لا مسح ضوئيّ): أُخذ النّصّ من طبقة النّصّ (pdftotext -raw) وقوبل كلّ سطر بصورة الصّفحة (150 نقطة)، وتحقّق سكربت من أنّ كلّ نصّ حرفيّ موجود في طبقة النّصّ. الشّعبة من رأس الورقة «الشعبة: علوم تجريبية، رياضيات، تقني رياضي، تسيير واقتصاد، فنون» ⇒ SCI وMATH وTM وGE؛ شعبة «فنون» مذكورة في الرّأس لكن لا رمز لها في شعب PLAY فلم تُدرج. «الدورة العادية» من اسم الملفّ في Drive (الورقة تطبع «الدورة: 2026»). المجموع: فهم المكتوب 14 + إنتاج كتابيّ 06؛ كلّ العلامات من عمودَي «مجزأة/مجموع» في الحلّ الرّسميّ. خلافات طبقة النّصّ مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس (السّنة «0302»، المدّة «02 سا و 03 د» والصّورة «02 سا و30 د»)، تذييل ص2 من الحلّ «صفحة 0 من 3» في الطّبقة؛ إحالات الهوامش مرفوعة ⇒ ¹ ² ³؛ «1er/2ème…» المرفوعة كُتبت عاديّة. حُفظ كما طُبع: الفاصلة العليا المستقيمة «'» في النّصّين وفي بعض الاقتباسات (l'utilisation، n'en، l'avenir، qu'on…) والمنحنية «’» في أغلب الأسئلة، «30% de» في س6 مقابل «30 % de» في النّصّ، «promesse...»، وعلامة التّنصيص الملتصقة «…, في بداية اقتباس س8 من الموضوع الثّاني. قرارات عامّة: «n×m» لبنود متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من النّصّ ⇒ عنصر واحد بخطوة multi. الخيارات الثّنائيّة (Vrai/Faux، Défenseurs/Opposants، الطّرف الجزائريّ/الفرنسيّ) تُخزَّن معكوسة لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين. قاعدة «accepter» الموحَّدة: صيغة أخرى للجواب نفسه أو قائمة مغلقة ⇒ تفاعليّ (الصّحيح صيغة الحلّ الأولى، والصّيغ المقبولة في الشّرح ولا تكون مشتّتًا أبدًا)؛ الجواب المفتوح («à titre indicatif») ⇒ essay_builder مؤجَّل. الإنتاج الكتابيّ = سؤال أصليّ واحد يضمّ الموضوعين، وتفاصيل شبكة كلّ موضوع في spec. المشتّتات من إعداد التّحويل وتحتاج مراجعة. س1: الحلّ يكتب «marché de travail» والورقة «marché du travail» ⇒ الخيار الصّحيح بلفظ الورقة. س2 (2): الحلّ «Une société où le travail occuperait une place de moins en moins importante.» والمسطَّر فيه الجملة الموصولة «où le travail occuperait…» ⇒ الخيار الصّحيح هو المسطَّر (العبارة الكاملة صيغة مقبولة لا تُعرض مشتّتًا، ولو عُرضت لكشفت كلمةُ «société» الجواب)؛ المشتّتات قضايا أخرى من الفقرة 4 لا تصف «la Société des loisirs» (لم يُعرض «imaginée dans les années 1960» لأنّه قابل للدّفاع). س3 «0.5 x 2 + 0.5 x 2» ⇒ عنصران (إيجابيّ 1 / سلبيّ 1)، كلّ منهما multi باختيارين صحيحين؛ «la société a su s’adapter» المقبول لا يُعرض؛ الحلّ يكتب «l’écononomie» (خطأ مطبعيّ) فكُتب «l’économie». لم يُعرض «remplacés par une combinaison de robots» مشتّتًا للسّلبيّ لأنّه قابل للدّفاع. س4 «0.25 x 6» ⇒ ستّة عناصر ثنائيّة (Défenseurs / Opposants). س5: «en» الصّحيح «des tensions sociales» (المقبول «des millions de pertes d’emplois» ليس مشتّتًا)، «cela» «le fait de savoir s’adapter»، «nous» «l’auteur + toutes les sociétés» (المقبولات: tout le monde، toute l’humanité، les lecteurs ليست مشتّتات). س6 «1 + 0.5» حسب N.B. ⇒ عنصران: صيغة الفعل (1، الصّحيح «a remplacé» و«ont remplacé» المقبول ليس مشتّتًا) ومعاملة نائب الفاعل (0.5، «suppression de « par »»)؛ تسمية العنصرين محايدة حتى لا تكشف الجواب. س8: «0.5x4» معايير ⇒ أربعة عناصر مؤجَّلة. الإنتاج الكتابيّ (6): الشّبكتان تختلفان سطرًا بسطر ⇒ أدقّ شبكة مشتركة: (تقديم + بنية) 1، الانسجام 4×0.25، الاختيار التّلفّظيّ 1، اختيار المعلومات 1، (تركيب + معجم + ترقيم) 1.5، الأزمنة 0.25، الإملاء 0.25؛ أسطر كلّ شبكة بعلاماتها في spec."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "Dans ce texte, l’idée principale est :\n- les raisons pour lesquelles la technologie de l’IA transforme le marché du travail.\n- les conséquences de la technologie de l’IA sur le marché du travail.\n- les objectifs de la technologie de l’IA pour le marché du travail.\nRecopiez la bonne réponse.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "« Les robots vont détruire nos emplois, et nous ne sommes pas prêts », titrait le très respecté journal britannique The Guardian en janvier 2017 à propos de l'arrivée massive des technologies de l'IA¹ et de la robotisation. Quelles seront les répercussions², sur nos sociétés ainsi que sur le monde du travail, du développement de l'IA et de la robotisation généralisée ?\nD'après certains, les progrès rapides de ces technologies pourraient entraîner des millions de pertes d'emplois et provoquer des tensions sociales comme nous n'en avons pas vu depuis très longtemps. Depuis des centaines, voire des milliers d'années, l'humain se définit et s'accomplit en partie, parfois même en grande partie, par le travail. À quoi notre société ressemblera-t-elle dans 20 ans si 10, 20 ou même 30 % de nos emplois, qui sont actuellement occupés par des personnes en chair et en os, ont été remplacés par une combinaison de robots et d'ordinateurs utilisant l'IA ?\nPourtant, n'a-t-on pas connu de profondes transformations du marché de travail au cours des 150 dernières années ? À chacune de ces transformations, plus d'un prévoyait de grands bouleversements sociaux et économiques qui, avec du recul, ne se sont pas concrétisés ou, du moins, certainement pas comme on le laissait entendre. Dans tous ces cas, la société a su s'adapter et cela a mené à la création de nouveaux emplois et même, parfois, de nouveaux secteurs de l'économie.\nQue nous réserve l'avenir ? Allons-nous évoluer vers « la Société des loisirs » imaginée dans les années 1960, quand les futurologues prédisaient une société où le travail occuperait une place de moins en moins importante ? Si, depuis cette époque, c'est plutôt l'inverse qui s'est produit, certains affirment que les progrès technologiques actuels et à venir pourraient bien concrétiser cette promesse... avec quelques décennies de retard sur les prédictions des années 1960 !\nLe passé sera-t-il garant de l'avenir ?"
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Steven GUILBEAULT, Ou comment l’intelligence artificielle transforme nos vies,\nÉditions Druide Inc. 2019, pp. 21-22."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. IA : Intelligence Artificielle.\n2. Répercussions : retombées, conséquences, effets."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "Idée principale du texte",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "Trouvez, dans le 4ème paragraphe, la proposition qui caractérise « la Société des loisirs ».",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "« Les robots vont détruire nos emplois, et nous ne sommes pas prêts », titrait le très respecté journal britannique The Guardian en janvier 2017 à propos de l'arrivée massive des technologies de l'IA¹ et de la robotisation. Quelles seront les répercussions², sur nos sociétés ainsi que sur le monde du travail, du développement de l'IA et de la robotisation généralisée ?\nD'après certains, les progrès rapides de ces technologies pourraient entraîner des millions de pertes d'emplois et provoquer des tensions sociales comme nous n'en avons pas vu depuis très longtemps. Depuis des centaines, voire des milliers d'années, l'humain se définit et s'accomplit en partie, parfois même en grande partie, par le travail. À quoi notre société ressemblera-t-elle dans 20 ans si 10, 20 ou même 30 % de nos emplois, qui sont actuellement occupés par des personnes en chair et en os, ont été remplacés par une combinaison de robots et d'ordinateurs utilisant l'IA ?\nPourtant, n'a-t-on pas connu de profondes transformations du marché de travail au cours des 150 dernières années ? À chacune de ces transformations, plus d'un prévoyait de grands bouleversements sociaux et économiques qui, avec du recul, ne se sont pas concrétisés ou, du moins, certainement pas comme on le laissait entendre. Dans tous ces cas, la société a su s'adapter et cela a mené à la création de nouveaux emplois et même, parfois, de nouveaux secteurs de l'économie.\nQue nous réserve l'avenir ? Allons-nous évoluer vers « la Société des loisirs » imaginée dans les années 1960, quand les futurologues prédisaient une société où le travail occuperait une place de moins en moins importante ? Si, depuis cette époque, c'est plutôt l'inverse qui s'est produit, certains affirment que les progrès technologiques actuels et à venir pourraient bien concrétiser cette promesse... avec quelques décennies de retard sur les prédictions des années 1960 !\nLe passé sera-t-il garant de l'avenir ?"
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Steven GUILBEAULT, Ou comment l’intelligence artificielle transforme nos vies,\nÉditions Druide Inc. 2019, pp. 21-22."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. IA : Intelligence Artificielle.\n2. Répercussions : retombées, conséquences, effets."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "Proposition qui caractérise « la Société des loisirs » (4ème paragraphe)",
+     "max_points": 2,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "« L’auteur évoque des répercussions positives et négatives de l'utilisation massive de l'intelligence artificielle sur nos sociétés ainsi que sur le monde du travail. »\nRelevez, du texte, pour chaque aspect (positif et négatif), deux (02) expressions qui le montrent.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "« Les robots vont détruire nos emplois, et nous ne sommes pas prêts », titrait le très respecté journal britannique The Guardian en janvier 2017 à propos de l'arrivée massive des technologies de l'IA¹ et de la robotisation. Quelles seront les répercussions², sur nos sociétés ainsi que sur le monde du travail, du développement de l'IA et de la robotisation généralisée ?\nD'après certains, les progrès rapides de ces technologies pourraient entraîner des millions de pertes d'emplois et provoquer des tensions sociales comme nous n'en avons pas vu depuis très longtemps. Depuis des centaines, voire des milliers d'années, l'humain se définit et s'accomplit en partie, parfois même en grande partie, par le travail. À quoi notre société ressemblera-t-elle dans 20 ans si 10, 20 ou même 30 % de nos emplois, qui sont actuellement occupés par des personnes en chair et en os, ont été remplacés par une combinaison de robots et d'ordinateurs utilisant l'IA ?\nPourtant, n'a-t-on pas connu de profondes transformations du marché de travail au cours des 150 dernières années ? À chacune de ces transformations, plus d'un prévoyait de grands bouleversements sociaux et économiques qui, avec du recul, ne se sont pas concrétisés ou, du moins, certainement pas comme on le laissait entendre. Dans tous ces cas, la société a su s'adapter et cela a mené à la création de nouveaux emplois et même, parfois, de nouveaux secteurs de l'économie.\nQue nous réserve l'avenir ? Allons-nous évoluer vers « la Société des loisirs » imaginée dans les années 1960, quand les futurologues prédisaient une société où le travail occuperait une place de moins en moins importante ? Si, depuis cette époque, c'est plutôt l'inverse qui s'est produit, certains affirment que les progrès technologiques actuels et à venir pourraient bien concrétiser cette promesse... avec quelques décennies de retard sur les prédictions des années 1960 !\nLe passé sera-t-il garant de l'avenir ?"
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Steven GUILBEAULT, Ou comment l’intelligence artificielle transforme nos vies,\nÉditions Druide Inc. 2019, pp. 21-22."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. IA : Intelligence Artificielle.\n2. Répercussions : retombées, conséquences, effets."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "Aspect positif : deux expressions (0,5x2)",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q3-e2",
+     "label": "Aspect négatif : deux expressions (0,5x2)",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "Soit les expressions suivantes :\nperte de millions d’emplois / apparition de nouveaux secteurs d’économie / tensions sociales / remplacement de l’homme par des robots / capacité de la société à s’adapter à l’IA / création de nouveaux emplois.\nClassez-les selon qu’elles renvoient à :\n- Défenseurs de l’IA : ………………………………………………\n- Opposants de l’IA : ……………………………………………….",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "« Les robots vont détruire nos emplois, et nous ne sommes pas prêts », titrait le très respecté journal britannique The Guardian en janvier 2017 à propos de l'arrivée massive des technologies de l'IA¹ et de la robotisation. Quelles seront les répercussions², sur nos sociétés ainsi que sur le monde du travail, du développement de l'IA et de la robotisation généralisée ?\nD'après certains, les progrès rapides de ces technologies pourraient entraîner des millions de pertes d'emplois et provoquer des tensions sociales comme nous n'en avons pas vu depuis très longtemps. Depuis des centaines, voire des milliers d'années, l'humain se définit et s'accomplit en partie, parfois même en grande partie, par le travail. À quoi notre société ressemblera-t-elle dans 20 ans si 10, 20 ou même 30 % de nos emplois, qui sont actuellement occupés par des personnes en chair et en os, ont été remplacés par une combinaison de robots et d'ordinateurs utilisant l'IA ?\nPourtant, n'a-t-on pas connu de profondes transformations du marché de travail au cours des 150 dernières années ? À chacune de ces transformations, plus d'un prévoyait de grands bouleversements sociaux et économiques qui, avec du recul, ne se sont pas concrétisés ou, du moins, certainement pas comme on le laissait entendre. Dans tous ces cas, la société a su s'adapter et cela a mené à la création de nouveaux emplois et même, parfois, de nouveaux secteurs de l'économie.\nQue nous réserve l'avenir ? Allons-nous évoluer vers « la Société des loisirs » imaginée dans les années 1960, quand les futurologues prédisaient une société où le travail occuperait une place de moins en moins importante ? Si, depuis cette époque, c'est plutôt l'inverse qui s'est produit, certains affirment que les progrès technologiques actuels et à venir pourraient bien concrétiser cette promesse... avec quelques décennies de retard sur les prédictions des années 1960 !\nLe passé sera-t-il garant de l'avenir ?"
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Steven GUILBEAULT, Ou comment l’intelligence artificielle transforme nos vies,\nÉditions Druide Inc. 2019, pp. 21-22."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. IA : Intelligence Artificielle.\n2. Répercussions : retombées, conséquences, effets."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "Classement de « perte de millions d’emplois » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q4-e2",
+     "label": "Classement de « apparition de nouveaux secteurs d’économie » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q4-e3",
+     "label": "Classement de « tensions sociales » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q4-e4",
+     "label": "Classement de « remplacement de l’homme par des robots » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q4-e5",
+     "label": "Classement de « capacité de la société à s’adapter à l’IA » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q4-e6",
+     "label": "Classement de « création de nouveaux emplois » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "5",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "Déterminez à qui ou à quoi renvoie chacun des termes : « en », « cela », « nous » et « cette époque » dans les énoncés ci-dessous :\n- « … nous n'en avons pas vu … » 2ème paragraphe\n- « … et cela a mené à la création … » 3ème paragraphe\n- « Que nous réserve l'avenir ? » 4ème paragraphe\n- « … depuis cette époque … » 4ème paragraphe",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "« Les robots vont détruire nos emplois, et nous ne sommes pas prêts », titrait le très respecté journal britannique The Guardian en janvier 2017 à propos de l'arrivée massive des technologies de l'IA¹ et de la robotisation. Quelles seront les répercussions², sur nos sociétés ainsi que sur le monde du travail, du développement de l'IA et de la robotisation généralisée ?\nD'après certains, les progrès rapides de ces technologies pourraient entraîner des millions de pertes d'emplois et provoquer des tensions sociales comme nous n'en avons pas vu depuis très longtemps. Depuis des centaines, voire des milliers d'années, l'humain se définit et s'accomplit en partie, parfois même en grande partie, par le travail. À quoi notre société ressemblera-t-elle dans 20 ans si 10, 20 ou même 30 % de nos emplois, qui sont actuellement occupés par des personnes en chair et en os, ont été remplacés par une combinaison de robots et d'ordinateurs utilisant l'IA ?\nPourtant, n'a-t-on pas connu de profondes transformations du marché de travail au cours des 150 dernières années ? À chacune de ces transformations, plus d'un prévoyait de grands bouleversements sociaux et économiques qui, avec du recul, ne se sont pas concrétisés ou, du moins, certainement pas comme on le laissait entendre. Dans tous ces cas, la société a su s'adapter et cela a mené à la création de nouveaux emplois et même, parfois, de nouveaux secteurs de l'économie.\nQue nous réserve l'avenir ? Allons-nous évoluer vers « la Société des loisirs » imaginée dans les années 1960, quand les futurologues prédisaient une société où le travail occuperait une place de moins en moins importante ? Si, depuis cette époque, c'est plutôt l'inverse qui s'est produit, certains affirment que les progrès technologiques actuels et à venir pourraient bien concrétiser cette promesse... avec quelques décennies de retard sur les prédictions des années 1960 !\nLe passé sera-t-il garant de l'avenir ?"
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Steven GUILBEAULT, Ou comment l’intelligence artificielle transforme nos vies,\nÉditions Druide Inc. 2019, pp. 21-22."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. IA : Intelligence Artificielle.\n2. Répercussions : retombées, conséquences, effets."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "Référent de « en » (2ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q5-e2",
+     "label": "Référent de « cela » (3ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q5-e3",
+     "label": "Référent de « nous » (4ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q5-e4",
+     "label": "Référent de « cette époque » (4ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "6",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "« 30% de nos emplois occupés par des personnes en chair et en os ont été remplacés par une combinaison de robots et d’ordinateurs. »\nRéécrivez cette phrase en la commençant ainsi : « Une combinaison de robots et d’ordinateurs … »",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "« Les robots vont détruire nos emplois, et nous ne sommes pas prêts », titrait le très respecté journal britannique The Guardian en janvier 2017 à propos de l'arrivée massive des technologies de l'IA¹ et de la robotisation. Quelles seront les répercussions², sur nos sociétés ainsi que sur le monde du travail, du développement de l'IA et de la robotisation généralisée ?\nD'après certains, les progrès rapides de ces technologies pourraient entraîner des millions de pertes d'emplois et provoquer des tensions sociales comme nous n'en avons pas vu depuis très longtemps. Depuis des centaines, voire des milliers d'années, l'humain se définit et s'accomplit en partie, parfois même en grande partie, par le travail. À quoi notre société ressemblera-t-elle dans 20 ans si 10, 20 ou même 30 % de nos emplois, qui sont actuellement occupés par des personnes en chair et en os, ont été remplacés par une combinaison de robots et d'ordinateurs utilisant l'IA ?\nPourtant, n'a-t-on pas connu de profondes transformations du marché de travail au cours des 150 dernières années ? À chacune de ces transformations, plus d'un prévoyait de grands bouleversements sociaux et économiques qui, avec du recul, ne se sont pas concrétisés ou, du moins, certainement pas comme on le laissait entendre. Dans tous ces cas, la société a su s'adapter et cela a mené à la création de nouveaux emplois et même, parfois, de nouveaux secteurs de l'économie.\nQue nous réserve l'avenir ? Allons-nous évoluer vers « la Société des loisirs » imaginée dans les années 1960, quand les futurologues prédisaient une société où le travail occuperait une place de moins en moins importante ? Si, depuis cette époque, c'est plutôt l'inverse qui s'est produit, certains affirment que les progrès technologiques actuels et à venir pourraient bien concrétiser cette promesse... avec quelques décennies de retard sur les prédictions des années 1960 !\nLe passé sera-t-il garant de l'avenir ?"
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Steven GUILBEAULT, Ou comment l’intelligence artificielle transforme nos vies,\nÉditions Druide Inc. 2019, pp. 21-22."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. IA : Intelligence Artificielle.\n2. Répercussions : retombées, conséquences, effets."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "Réécriture : forme du verbe (1)",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q6-e2",
+     "label": "Réécriture : traitement du complément d’agent (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "7",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "Parmi les propositions ci-dessous, distinguez puis recopiez celle qui correspond à la visée communicative de l’auteur :\n- montrer la menace réelle de l’IA et de la robotisation sur le travail et la société.\n- expliquer les prédictions futuristes de l’IA et de la robotisation sur le travail et la société.\n- inciter à une réflexion sur l’impact de l’IA et de la robotisation sur le travail et la société.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "« Les robots vont détruire nos emplois, et nous ne sommes pas prêts », titrait le très respecté journal britannique The Guardian en janvier 2017 à propos de l'arrivée massive des technologies de l'IA¹ et de la robotisation. Quelles seront les répercussions², sur nos sociétés ainsi que sur le monde du travail, du développement de l'IA et de la robotisation généralisée ?\nD'après certains, les progrès rapides de ces technologies pourraient entraîner des millions de pertes d'emplois et provoquer des tensions sociales comme nous n'en avons pas vu depuis très longtemps. Depuis des centaines, voire des milliers d'années, l'humain se définit et s'accomplit en partie, parfois même en grande partie, par le travail. À quoi notre société ressemblera-t-elle dans 20 ans si 10, 20 ou même 30 % de nos emplois, qui sont actuellement occupés par des personnes en chair et en os, ont été remplacés par une combinaison de robots et d'ordinateurs utilisant l'IA ?\nPourtant, n'a-t-on pas connu de profondes transformations du marché de travail au cours des 150 dernières années ? À chacune de ces transformations, plus d'un prévoyait de grands bouleversements sociaux et économiques qui, avec du recul, ne se sont pas concrétisés ou, du moins, certainement pas comme on le laissait entendre. Dans tous ces cas, la société a su s'adapter et cela a mené à la création de nouveaux emplois et même, parfois, de nouveaux secteurs de l'économie.\nQue nous réserve l'avenir ? Allons-nous évoluer vers « la Société des loisirs » imaginée dans les années 1960, quand les futurologues prédisaient une société où le travail occuperait une place de moins en moins importante ? Si, depuis cette époque, c'est plutôt l'inverse qui s'est produit, certains affirment que les progrès technologiques actuels et à venir pourraient bien concrétiser cette promesse... avec quelques décennies de retard sur les prédictions des années 1960 !\nLe passé sera-t-il garant de l'avenir ?"
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Steven GUILBEAULT, Ou comment l’intelligence artificielle transforme nos vies,\nÉditions Druide Inc. 2019, pp. 21-22."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. IA : Intelligence Artificielle.\n2. Répercussions : retombées, conséquences, effets."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "Visée communicative de l’auteur",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "8",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "« … l'humain se définit et s'accomplit en grande partie par le travail. »\nExpliquez, en deux à trois lignes, le rôle du travail dans l’accomplissement de l’homme.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "« Les robots vont détruire nos emplois, et nous ne sommes pas prêts », titrait le très respecté journal britannique The Guardian en janvier 2017 à propos de l'arrivée massive des technologies de l'IA¹ et de la robotisation. Quelles seront les répercussions², sur nos sociétés ainsi que sur le monde du travail, du développement de l'IA et de la robotisation généralisée ?\nD'après certains, les progrès rapides de ces technologies pourraient entraîner des millions de pertes d'emplois et provoquer des tensions sociales comme nous n'en avons pas vu depuis très longtemps. Depuis des centaines, voire des milliers d'années, l'humain se définit et s'accomplit en partie, parfois même en grande partie, par le travail. À quoi notre société ressemblera-t-elle dans 20 ans si 10, 20 ou même 30 % de nos emplois, qui sont actuellement occupés par des personnes en chair et en os, ont été remplacés par une combinaison de robots et d'ordinateurs utilisant l'IA ?\nPourtant, n'a-t-on pas connu de profondes transformations du marché de travail au cours des 150 dernières années ? À chacune de ces transformations, plus d'un prévoyait de grands bouleversements sociaux et économiques qui, avec du recul, ne se sont pas concrétisés ou, du moins, certainement pas comme on le laissait entendre. Dans tous ces cas, la société a su s'adapter et cela a mené à la création de nouveaux emplois et même, parfois, de nouveaux secteurs de l'économie.\nQue nous réserve l'avenir ? Allons-nous évoluer vers « la Société des loisirs » imaginée dans les années 1960, quand les futurologues prédisaient une société où le travail occuperait une place de moins en moins importante ? Si, depuis cette époque, c'est plutôt l'inverse qui s'est produit, certains affirment que les progrès technologiques actuels et à venir pourraient bien concrétiser cette promesse... avec quelques décennies de retard sur les prédictions des années 1960 !\nLe passé sera-t-il garant de l'avenir ?"
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Steven GUILBEAULT, Ou comment l’intelligence artificielle transforme nos vies,\nÉditions Druide Inc. 2019, pp. 21-22."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. IA : Intelligence Artificielle.\n2. Répercussions : retombées, conséquences, effets."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "Critère : Respect de la consigne (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e2",
+     "label": "Critère : Pertinence des idées (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e3",
+     "label": "Critère : Cohérence (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e4",
+     "label": "Critère : Correction de la langue (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "—",
+   "part": "II. Production écrite : (06 points)",
+   "verbatim_text": "Traitez l’un des deux sujets suivants :\nSujet 1 :\nVous participez à une discussion sur une page Facebook qui s’intéresse à l’IA. Vous voulez contribuer à enrichir le débat. Rédigez le compte rendu objectif de ce texte (110 mots environ) que vous partagerez avec les abonnés à cette page.\nSujet 2 :\nLa formation à distance constitue une opportunité pour des milliers de jeunes qui n’ont pas eu la chance de terminer leurs études. Parmi ces jeunes, certains hésitent à suivre une formation à distance proposée par le Ministère de la formation professionnelle. Rédigez un texte (150 mots environ) dans lequel vous essayerez de convaincre ces jeunes hésitants de s’inscrire à cette formation. Vous partagerez ce texte sur votre page Facebook.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "« Les robots vont détruire nos emplois, et nous ne sommes pas prêts », titrait le très respecté journal britannique The Guardian en janvier 2017 à propos de l'arrivée massive des technologies de l'IA¹ et de la robotisation. Quelles seront les répercussions², sur nos sociétés ainsi que sur le monde du travail, du développement de l'IA et de la robotisation généralisée ?\nD'après certains, les progrès rapides de ces technologies pourraient entraîner des millions de pertes d'emplois et provoquer des tensions sociales comme nous n'en avons pas vu depuis très longtemps. Depuis des centaines, voire des milliers d'années, l'humain se définit et s'accomplit en partie, parfois même en grande partie, par le travail. À quoi notre société ressemblera-t-elle dans 20 ans si 10, 20 ou même 30 % de nos emplois, qui sont actuellement occupés par des personnes en chair et en os, ont été remplacés par une combinaison de robots et d'ordinateurs utilisant l'IA ?\nPourtant, n'a-t-on pas connu de profondes transformations du marché de travail au cours des 150 dernières années ? À chacune de ces transformations, plus d'un prévoyait de grands bouleversements sociaux et économiques qui, avec du recul, ne se sont pas concrétisés ou, du moins, certainement pas comme on le laissait entendre. Dans tous ces cas, la société a su s'adapter et cela a mené à la création de nouveaux emplois et même, parfois, de nouveaux secteurs de l'économie.\nQue nous réserve l'avenir ? Allons-nous évoluer vers « la Société des loisirs » imaginée dans les années 1960, quand les futurologues prédisaient une société où le travail occuperait une place de moins en moins importante ? Si, depuis cette époque, c'est plutôt l'inverse qui s'est produit, certains affirment que les progrès technologiques actuels et à venir pourraient bien concrétiser cette promesse... avec quelques décennies de retard sur les prédictions des années 1960 !\nLe passé sera-t-il garant de l'avenir ?"
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Steven GUILBEAULT, Ou comment l’intelligence artificielle transforme nos vies,\nÉditions Druide Inc. 2019, pp. 21-22."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. IA : Intelligence Artificielle.\n2. Répercussions : retombées, conséquences, effets."
+    }
+   ],
+   "rubric_total": 6,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "Organisation : présentation du texte et structure adéquate",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e2",
+     "label": "Organisation : cohérence — progression des informations",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e3",
+     "label": "Organisation : cohérence — absence de répétitions",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e4",
+     "label": "Organisation : cohérence — absence de contresens",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e5",
+     "label": "Organisation : cohérence — emploi de connecteurs",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e6",
+     "label": "Planification : choix énonciatif en relation avec la consigne",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e7",
+     "label": "Planification : choix et sélection des informations",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e8",
+     "label": "Langue : syntaxe, lexique et ponctuation",
+     "max_points": 1.5,
+     "verified": true
+    },
+    {
+     "id": "q9-e9",
+     "label": "Langue : emploi correct des temps et des modes",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e10",
+     "label": "Langue : orthographe",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Dans ce texte, l’idée principale est : (choisissez la bonne réponse)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "les conséquences de la technologie de l’IA sur le marché du travail.",
+     "les objectifs de la technologie de l’IA pour le marché du travail.",
+     "les raisons pour lesquelles la technologie de l’IA transforme le marché du travail."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « les conséquences de la technologie de l’IA sur le marché de travail. »",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Dans le quatrième paragraphe, quelle proposition caractérise « la Société des loisirs » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "où le travail occuperait une place de moins en moins importante",
+     "c'est plutôt l'inverse qui s'est produit",
+     "avec quelques décennies de retard sur les prédictions des années 1960",
+     "Que nous réserve l'avenir ?"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « Une société où le travail occuperait une place de moins en moins importante. » (la proposition soulignée dans le corrigé : « où le travail occuperait une place de moins en moins importante »)",
+   "points": 2,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "Sélectionnez deux expressions du texte qui montrent les répercussions POSITIVES de l’utilisation massive de l’intelligence artificielle.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "la création de nouveaux emplois",
+     "la création de nouveaux secteurs de l’économie",
+     "des personnes en chair et en os",
+     "de grands bouleversements sociaux et économiques",
+     "l’arrivée massive des technologies de l’IA"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     1
+    ]
+   },
+   "explanation": "Corrigé — Répercussions de l’utilisation massive de l’IA : aspects positifs : la création de nouveaux emplois – la création de nouveaux secteurs de l’économie (accepter aussi : la société a su s’adapter) ; aspects négatifs : millions de pertes d’emplois – tensions sociales. (0,5 par expression)",
+   "points": 1,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e2",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "Sélectionnez deux expressions du texte qui montrent les répercussions NÉGATIVES de l’utilisation massive de l’intelligence artificielle.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "millions de pertes d’emplois",
+     "tensions sociales",
+     "des personnes en chair et en os",
+     "les prédictions des années 1960",
+     "l’arrivée massive des technologies de l’IA"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     1
+    ]
+   },
+   "explanation": "Corrigé — Répercussions de l’utilisation massive de l’IA : aspects positifs : la création de nouveaux emplois – la création de nouveaux secteurs de l’économie (accepter aussi : la société a su s’adapter) ; aspects négatifs : millions de pertes d’emplois – tensions sociales. (0,5 par expression)",
+   "points": 1,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « perte de millions d’emplois » : cette expression renvoie aux…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Défenseurs de l’IA",
+     "Opposants de l’IA"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Défenseurs de l’IA : apparition de nouveaux secteurs d’économie / capacité de la société à s’adapter à l’IA / création de nouveaux emplois ; Opposants de l’IA : perte de millions d’emplois / tensions sociales / remplacement de l’homme par des robots.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « apparition de nouveaux secteurs d’économie » : cette expression renvoie aux…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Défenseurs de l’IA",
+     "Opposants de l’IA"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Défenseurs de l’IA : apparition de nouveaux secteurs d’économie / capacité de la société à s’adapter à l’IA / création de nouveaux emplois ; Opposants de l’IA : perte de millions d’emplois / tensions sociales / remplacement de l’homme par des robots.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « tensions sociales » : cette expression renvoie aux…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Défenseurs de l’IA",
+     "Opposants de l’IA"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Défenseurs de l’IA : apparition de nouveaux secteurs d’économie / capacité de la société à s’adapter à l’IA / création de nouveaux emplois ; Opposants de l’IA : perte de millions d’emplois / tensions sociales / remplacement de l’homme par des robots.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « remplacement de l’homme par des robots » : cette expression renvoie aux…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Défenseurs de l’IA",
+     "Opposants de l’IA"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Défenseurs de l’IA : apparition de nouveaux secteurs d’économie / capacité de la société à s’adapter à l’IA / création de nouveaux emplois ; Opposants de l’IA : perte de millions d’emplois / tensions sociales / remplacement de l’homme par des robots.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e5",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « capacité de la société à s’adapter à l’IA » : cette expression renvoie aux…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Défenseurs de l’IA",
+     "Opposants de l’IA"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Défenseurs de l’IA : apparition de nouveaux secteurs d’économie / capacité de la société à s’adapter à l’IA / création de nouveaux emplois ; Opposants de l’IA : perte de millions d’emplois / tensions sociales / remplacement de l’homme par des robots.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e6",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « création de nouveaux emplois » : cette expression renvoie aux…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Défenseurs de l’IA",
+     "Opposants de l’IA"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Défenseurs de l’IA : apparition de nouveaux secteurs d’économie / capacité de la société à s’adapter à l’IA / création de nouveaux emplois ; Opposants de l’IA : perte de millions d’emplois / tensions sociales / remplacement de l’homme par des robots.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« … nous n'en avons pas vu … » (§2) : à quoi renvoie « en » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "des tensions sociales",
+     "des robots",
+     "les futurologues",
+     "des milliers d’années"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « en » : des tensions sociales. (Accepter aussi : des millions de pertes d’emplois)",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« … et cela a mené à la création … » (§3) : à quoi renvoie « cela » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "de grands bouleversements sociaux et économiques",
+     "le recul",
+     "le fait de savoir s’adapter",
+     "la création de nouveaux emplois"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « cela » : le fait de savoir s’adapter. (la société a su s’adapter)",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« Que nous réserve l'avenir ? » (§4) : à qui renvoie « nous » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "les futurologues",
+     "les journalistes du Guardian",
+     "les robots et les ordinateurs",
+     "l’auteur + toutes les sociétés"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Corrigé : « nous » : l’auteur + (toutes les sociétés / tout le monde ou toute l’humanité). (Accepter aussi : l’auteur + les lecteurs)",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« … depuis cette époque … » (§4) : à quoi renvoie « cette époque » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "dans 20 ans",
+     "les 150 dernières années",
+     "janvier 2017",
+     "les années 1960"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Corrigé : « cette époque » : les années 1960.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« 30% de nos emplois occupés par des personnes en chair et en os ont été remplacés par une combinaison de robots et d’ordinateurs. » est réécrite en commençant par « Une combinaison de robots et d’ordinateurs … ». Quelle forme du verbe faut-il employer ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "a remplacé",
+     "a été remplacée",
+     "ont été remplacés",
+     "avait remplacé"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « Une combinaison de robots et d’ordinateurs a remplacé 30% de nos emplois occupés par des personnes en chair et en os. » – accent mis sur une combinaison. Accepter aussi : « Une combinaison de robots et d’ordinateurs ont remplacé 30% de nos emplois occupés par des personnes en chair et en os. » – accent mis sur robots et ordinateurs associés. N.B. : (conjugaison du verbe = 1 pt + suppression de « par » = 0.5 pt)",
+   "points": 1,
+   "skill_id": "fr.grammaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« 30% de nos emplois occupés par des personnes en chair et en os ont été remplacés par une combinaison de robots et d’ordinateurs. » est réécrite en commençant par « Une combinaison de robots et d’ordinateurs … ». Que devient le complément d’agent « par une combinaison de robots et d’ordinateurs » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Il devient le sujet du verbe, sans la préposition « par ».",
+     "Il devient complément d’objet direct, introduit par « par ».",
+     "Il reste complément d’agent, introduit par « par ».",
+     "Il devient complément circonstanciel, introduit par « avec »."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « Une combinaison de robots et d’ordinateurs a remplacé 30% de nos emplois occupés par des personnes en chair et en os. » – accent mis sur une combinaison. Accepter aussi : « Une combinaison de robots et d’ordinateurs ont remplacé 30% de nos emplois occupés par des personnes en chair et en os. » – accent mis sur robots et ordinateurs associés. N.B. : (conjugaison du verbe = 1 pt + suppression de « par » = 0.5 pt)",
+   "points": 0.5,
+   "skill_id": "fr.grammaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Parmi les propositions, laquelle correspond à la visée communicative de l’auteur ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "inciter à une réflexion sur l’impact de l’IA et de la robotisation sur le travail et la société.",
+     "expliquer les prédictions futuristes de l’IA et de la robotisation sur le travail et la société.",
+     "montrer la menace réelle de l’IA et de la robotisation sur le travail et la société."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « inciter à une réflexion sur l’impact de l’IA et de la robotisation sur le travail et la société. »",
+   "points": 1.5,
+   "skill_id": "fr.enonciation",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Respect de la consigne",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« … l'humain se définit et s'accomplit en grande partie par le travail. »\nExpliquez, en deux à trois lignes, le rôle du travail dans l’accomplissement de l’homme.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Respect de la consigne",
+     "indicator": "Respect de la consigne. Explication et le nombre de lignes.",
+     "model_answer": "Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Respect de la consigne. Explication et le nombre de lignes.",
+     "model_answer": "Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…"
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Pertinence des idées",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« … l'humain se définit et s'accomplit en grande partie par le travail. »\nExpliquez, en deux à trois lignes, le rôle du travail dans l’accomplissement de l’homme.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Pertinence des idées",
+     "indicator": "Pertinence des idées. A titre indicatif, on cite l’exemple suivant : Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…",
+     "model_answer": "Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Pertinence des idées. A titre indicatif, on cite l’exemple suivant : Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…",
+     "model_answer": "Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…"
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Cohérence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« … l'humain se définit et s'accomplit en grande partie par le travail. »\nExpliquez, en deux à trois lignes, le rôle du travail dans l’accomplissement de l’homme.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Cohérence",
+     "indicator": "Cohérence.",
+     "model_answer": "Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Cohérence.",
+     "model_answer": "Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…"
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Correction de la langue",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« … l'humain se définit et s'accomplit en grande partie par le travail. »\nExpliquez, en deux à trois lignes, le rôle du travail dans l’accomplissement de l’homme.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Correction de la langue",
+     "indicator": "Correction de la langue.",
+     "model_answer": "Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correction de la langue.",
+     "model_answer": "Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…"
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Bien plus qu'une simple activité économique : le travail est essentiel à l'épanouissement personnel, permettant à l'homme de se construire une identité, de se sentir utile et de contribuer à la société…",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Présentation du texte et structure adéquate",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Vous participez à une discussion sur une page Facebook qui s’intéresse à l’IA. Vous voulez contribuer à enrichir le débat. Rédigez le compte rendu objectif de ce texte (110 mots environ) que vous partagerez avec les abonnés à cette page."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La formation à distance constitue une opportunité pour des milliers de jeunes qui n’ont pas eu la chance de terminer leurs études. Parmi ces jeunes, certains hésitent à suivre une formation à distance proposée par le Ministère de la formation professionnelle. Rédigez un texte (150 mots environ) dans lequel vous essayerez de convaincre ces jeunes hésitants de s’inscrire à cette formation. Vous partagerez ce texte sur votre page Facebook."
+      }
+     ],
+     "criterion": "Présentation du texte et structure adéquate",
+     "indicator": "Organisation : présentation du texte et structure adéquate",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Présentation du texte (mise en page, lisibilité) + 0.25x2 — Structure adéquate [accroche (0.25) – condensation (0.25)]",
+      "Sujet 2 — grille « Production libre »": "0.25 — Présentation du texte (mise en page, lisibilité). + 0.75 — Structure adéquate [Introduction (0.25) – développement (0.25) conclusion (0.25)]"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : présentation du texte et structure adéquate"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Progression des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Vous participez à une discussion sur une page Facebook qui s’intéresse à l’IA. Vous voulez contribuer à enrichir le débat. Rédigez le compte rendu objectif de ce texte (110 mots environ) que vous partagerez avec les abonnés à cette page."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La formation à distance constitue une opportunité pour des milliers de jeunes qui n’ont pas eu la chance de terminer leurs études. Parmi ces jeunes, certains hésitent à suivre une formation à distance proposée par le Ministère de la formation professionnelle. Rédigez un texte (150 mots environ) dans lequel vous essayerez de convaincre ces jeunes hésitants de s’inscrire à cette formation. Vous partagerez ce texte sur votre page Facebook."
+      }
+     ],
+     "criterion": "Progression des informations",
+     "indicator": "Organisation : cohérence — progression des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4 Cohérence du texte) — Progression des informations",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — Progression des informations"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — progression des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de répétitions",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Vous participez à une discussion sur une page Facebook qui s’intéresse à l’IA. Vous voulez contribuer à enrichir le débat. Rédigez le compte rendu objectif de ce texte (110 mots environ) que vous partagerez avec les abonnés à cette page."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La formation à distance constitue une opportunité pour des milliers de jeunes qui n’ont pas eu la chance de terminer leurs études. Parmi ces jeunes, certains hésitent à suivre une formation à distance proposée par le Ministère de la formation professionnelle. Rédigez un texte (150 mots environ) dans lequel vous essayerez de convaincre ces jeunes hésitants de s’inscrire à cette formation. Vous partagerez ce texte sur votre page Facebook."
+      }
+     ],
+     "criterion": "Absence de répétitions",
+     "indicator": "Organisation : cohérence — absence de répétitions",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4 Cohérence du texte) — Absence de répétitions",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — Absence de répétitions"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de répétitions"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de contresens",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Vous participez à une discussion sur une page Facebook qui s’intéresse à l’IA. Vous voulez contribuer à enrichir le débat. Rédigez le compte rendu objectif de ce texte (110 mots environ) que vous partagerez avec les abonnés à cette page."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La formation à distance constitue une opportunité pour des milliers de jeunes qui n’ont pas eu la chance de terminer leurs études. Parmi ces jeunes, certains hésitent à suivre une formation à distance proposée par le Ministère de la formation professionnelle. Rédigez un texte (150 mots environ) dans lequel vous essayerez de convaincre ces jeunes hésitants de s’inscrire à cette formation. Vous partagerez ce texte sur votre page Facebook."
+      }
+     ],
+     "criterion": "Absence de contresens",
+     "indicator": "Organisation : cohérence — absence de contresens",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4 Cohérence du texte) — Absence de contresens",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — Absence de contresens"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de contresens"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e5",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Emploi de connecteurs",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Vous participez à une discussion sur une page Facebook qui s’intéresse à l’IA. Vous voulez contribuer à enrichir le débat. Rédigez le compte rendu objectif de ce texte (110 mots environ) que vous partagerez avec les abonnés à cette page."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La formation à distance constitue une opportunité pour des milliers de jeunes qui n’ont pas eu la chance de terminer leurs études. Parmi ces jeunes, certains hésitent à suivre une formation à distance proposée par le Ministère de la formation professionnelle. Rédigez un texte (150 mots environ) dans lequel vous essayerez de convaincre ces jeunes hésitants de s’inscrire à cette formation. Vous partagerez ce texte sur votre page Facebook."
+      }
+     ],
+     "criterion": "Emploi de connecteurs",
+     "indicator": "Organisation : cohérence — emploi de connecteurs",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4 Cohérence du texte) — Emploi de connecteurs",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — Emploi de connecteurs"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — emploi de connecteurs"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e6",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix énonciatif",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Vous participez à une discussion sur une page Facebook qui s’intéresse à l’IA. Vous voulez contribuer à enrichir le débat. Rédigez le compte rendu objectif de ce texte (110 mots environ) que vous partagerez avec les abonnés à cette page."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La formation à distance constitue une opportunité pour des milliers de jeunes qui n’ont pas eu la chance de terminer leurs études. Parmi ces jeunes, certains hésitent à suivre une formation à distance proposée par le Ministère de la formation professionnelle. Rédigez un texte (150 mots environ) dans lequel vous essayerez de convaincre ces jeunes hésitants de s’inscrire à cette formation. Vous partagerez ce texte sur votre page Facebook."
+      }
+     ],
+     "criterion": "Choix énonciatif",
+     "indicator": "Planification : choix énonciatif en relation avec la consigne",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Choix énonciatif en relation avec la consigne",
+      "Sujet 2 — grille « Production libre »": "1 — Choix énonciatif en relation avec la consigne"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix énonciatif en relation avec la consigne"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e7",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Vous participez à une discussion sur une page Facebook qui s’intéresse à l’IA. Vous voulez contribuer à enrichir le débat. Rédigez le compte rendu objectif de ce texte (110 mots environ) que vous partagerez avec les abonnés à cette page."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La formation à distance constitue une opportunité pour des milliers de jeunes qui n’ont pas eu la chance de terminer leurs études. Parmi ces jeunes, certains hésitent à suivre une formation à distance proposée par le Ministère de la formation professionnelle. Rédigez un texte (150 mots environ) dans lequel vous essayerez de convaincre ces jeunes hésitants de s’inscrire à cette formation. Vous partagerez ce texte sur votre page Facebook."
+      }
+     ],
+     "criterion": "Choix des informations",
+     "indicator": "Planification : choix et sélection des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Sélection des informations essentielles (condensation et reformulation)",
+      "Sujet 2 — grille « Production libre »": "1 — Choix des informations (originalité et pertinence des idées)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix et sélection des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s29",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e8",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Correction syntaxique, lexique et ponctuation",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Vous participez à une discussion sur une page Facebook qui s’intéresse à l’IA. Vous voulez contribuer à enrichir le débat. Rédigez le compte rendu objectif de ce texte (110 mots environ) que vous partagerez avec les abonnés à cette page."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La formation à distance constitue une opportunité pour des milliers de jeunes qui n’ont pas eu la chance de terminer leurs études. Parmi ces jeunes, certains hésitent à suivre une formation à distance proposée par le Ministère de la formation professionnelle. Rédigez un texte (150 mots environ) dans lequel vous essayerez de convaincre ces jeunes hésitants de s’inscrire à cette formation. Vous partagerez ce texte sur votre page Facebook."
+      }
+     ],
+     "criterion": "Correction syntaxique, lexique et ponctuation",
+     "indicator": "Langue : syntaxe, lexique et ponctuation",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Correction des phrases au plan syntaxique + 0.25 — Emploi d’un lexique approprié à la thématique + 0.25 — Utilisation adéquate des signes de ponctuation",
+      "Sujet 2 — grille « Production libre »": "0.5 — Correction des phrases au plan syntaxique + 0.5 — Emploi d’un lexique approprié à la thématique + 0.5 — Utilisation adéquate des signes de ponctuation"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : syntaxe, lexique et ponctuation"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 1.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s30",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e9",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Temps et modes",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Vous participez à une discussion sur une page Facebook qui s’intéresse à l’IA. Vous voulez contribuer à enrichir le débat. Rédigez le compte rendu objectif de ce texte (110 mots environ) que vous partagerez avec les abonnés à cette page."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La formation à distance constitue une opportunité pour des milliers de jeunes qui n’ont pas eu la chance de terminer leurs études. Parmi ces jeunes, certains hésitent à suivre une formation à distance proposée par le Ministère de la formation professionnelle. Rédigez un texte (150 mots environ) dans lequel vous essayerez de convaincre ces jeunes hésitants de s’inscrire à cette formation. Vous partagerez ce texte sur votre page Facebook."
+      }
+     ],
+     "criterion": "Temps et modes",
+     "indicator": "Langue : emploi correct des temps et des modes",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 — Emploi correct des temps et des modes",
+      "Sujet 2 — grille « Production libre »": "0.25 — Emploi correct des temps et des modes"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : emploi correct des temps et des modes"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s31",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e10",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Orthographe",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Vous participez à une discussion sur une page Facebook qui s’intéresse à l’IA. Vous voulez contribuer à enrichir le débat. Rédigez le compte rendu objectif de ce texte (110 mots environ) que vous partagerez avec les abonnés à cette page."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La formation à distance constitue une opportunité pour des milliers de jeunes qui n’ont pas eu la chance de terminer leurs études. Parmi ces jeunes, certains hésitent à suivre une formation à distance proposée par le Ministère de la formation professionnelle. Rédigez un texte (150 mots environ) dans lequel vous essayerez de convaincre ces jeunes hésitants de s’inscrire à cette formation. Vous partagerez ce texte sur votre page Facebook."
+      }
+     ],
+     "criterion": "Orthographe",
+     "indicator": "Langue : orthographe",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 — Orthographe (pas plus de 10 erreurs)",
+      "Sujet 2 — grille « Production libre »": "0.25 — Orthographe (pas plus de 10 erreurs)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : orthographe"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T22:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من ورقة البكالوريا الرّسميّة وإجابتها النّموذجيّة (PDF رقميّان في Drive، طبقة النّصّ مقابَلة بصور الصّفحات)؛ العلامات من سلّم التّنقيط الرّسميّ؛ الإجابات الصّحيحة من الحلّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.851Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
+  }
+ ]
+}

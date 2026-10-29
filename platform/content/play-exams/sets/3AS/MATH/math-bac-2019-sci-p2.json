@@ -1,0 +1,2009 @@
+{
+ "schema_version": 1,
+ "set_id": "math-bac-2019-sci-p2",
+ "status": "APPROVED",
+ "source": {
+  "source_id": "gdrive-1E7zQH28AK454kN6vvemn94NScQGCqRpl-p2",
+  "kind": "BAC",
+  "year": 2019,
+  "level": "3AS",
+  "streams": [
+   "SCI"
+  ],
+  "subject": "MATH",
+  "term": null,
+  "paper": 2,
+  "title": "بكالوريا 2019 (الدورة العادية) – الرياضيات – شعبة علوم تجريبية – الموضوع الثاني",
+  "original_url": "https://drive.google.com/file/d/1E7zQH28AK454kN6vvemn94NScQGCqRpl/view",
+  "original_file_ref": "gdrive:1E7zQH28AK454kN6vvemn94NScQGCqRpl (2019 - الرياضيات - علوم تجريبية - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1Vg_5N6oNOd7UZnhbXGBRikNgU_BCfT08/view",
+  "correction_file_ref": "gdrive:1Vg_5N6oNOd7UZnhbXGBRikNgU_BCfT08 (2019 - الرياضيات - علوم تجريبية - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.880Z",
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الموضوع والتصحيح ملفّا PDF من الديوان الوطني للامتحانات والمسابقات (دورة 2019، الشعبة: علوم تجريبية؛ «الدورة العادية» من عنوان الملف في Drive). للملفّين طبقة نصّ من Word لكنها غير صالحة مصدرا: أرقام الخطّ العربي مقلوبة (04→40، 05→45، 07→70، 0.25→0725، 4)→0)، 2019→9102، 120→127)، والشدّات ساقطة (بيّن أنّ→بين أن)، والمعادلات رموز خطّ Symbol (أقواس المجالات و ℝ ℂ ℕ و² تسقط من النصّ المستخرَج أو تتشوّه)؛ فنُسخ كلّ نصّ وكلّ علامة من صور الصفحات (200 و300 نقطة/بوصة مع تكبير)، وقوبلت الأقواس وترتيب الصيغ بمواضع الرموز في الطبقة (pdftotext -bbox). اختلاف الصورة والطبقة: في صورة التصحيح (الموضوع الأول، التمرين4 س2) لا يظهر رمز «²» في f'(x) والطبقة تحويه: f'(x)=(x²−5x+4)/(x(x−2)²) وهو ما تقتضيه مجالات التغيّر في التصحيح نفسه. الصيغ بـ LaTeX بين $…$ كما طُبعت؛ الترتيب المنطقي لصيغ متعدّدة بينها كلمات عربية هو ترتيب القراءة من اليمين (النقط A ، B و C)؛ المسافات موحَّدة. لا شكل في هذه الورقة (لا قصّ). قواعد التحويل: عنصر لكل سطر علامة في السلّم (يبقى «×n» في التسمية)؛ الإجابات الصحيحة من الإجابة النموذجية بصيغتها، والمشتّتات من إعداد التحويل وتختلف عدديًّا عن الإجابة؛ numeric حين يطبع التصحيح عددا صحيحا (هامش 0)؛ «بيّن/برهن/استنتج أنّ» تفاعلية فقط عبر نتيجة وسيطة يكتبها التصحيح وإلا فـ essay_builder مؤجَّل؛ ما يذكره التصحيح بلا نتيجة مؤجَّل ولا يحسبه المحوِّل؛ الرسم function_plot وجدول التغيّرات variation_table. قرارات الموضوع الثاني: سطر الرموز في التمرين الرابع مطبوع وعبارة g على اليمين فنُقل بترتيب القراءة «g(x)=… و f(x)=…». بنود يذكرها التصحيح بلا نتيجة فأُجِّلت (official_result_missing): احتمالات قانون X في التمرين1 (1 ن من سطر 1.5؛ القيم 0،1،2،4،8 مذكورة فصارت multi بـ0.5 — تقسيم 0.5/1 اجتهاد يُراجَع)، الشكل الأسي لـ zA (1)، حساب المجموع ذي القوّة 2019 (0.5)، zD (0.75)، اتجاه تغيّر g (0.5 من «0.5×2»)، h(x)+f(x) (0.25)، كيفية رسم (Γ) (0.25). براهين بلا نتيجة وسيطة (proof_without_intermediate): 7/24 (1)، f(x)∈[4;7[ (0.5)، عبارة f(x)−x وإشارتها (0.75)، التراجع (0.75)، التقارب (0.25 — التصحيح لا يكتب التعليل)، 4أ (0.25)، حصر 4ب (0.25)، زوجية h (0.25). التصحيح يكتب في التمرين4 س6 «A=∫[g(x)−f(x)]dx=∫(−½ex²+ex)dx» والمكامَل هو f−g (سهو في التصحيح)؛ استُعملت النتيجتان 2e/3 ua و 8e/3 cm² فقط. شرط n في التمرين3 س4 بصيغة التصحيح n=−3k حيث k∈ℤ₋ (أي k عدد صحيح سالب أو معدوم). مؤجَّل: 9.25 ن (منها رسم 0.75 وجدول تغيّرات 0.25)."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "التمرين الأوّل: (04 نقاط)",
+   "verbatim_text": "عرّف قانون الاحتمال للمتغير العشوائي $X$ ثم احسب أمله الرياضياتي $E(X)$ .",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "يحتوي صندوق على 10 كريات لا نفرق بينها عند اللّمس منها كريتان تحملان الرقم 0 وثلاث تحمل الرقم 1 والكريات الأخرى تحمل الرقم 2. نسحب عشوائياً وفي آنٍ واحدٍ ثلاث كريات من الصندوق.\nليكن $X$ المتغيّر العشوائي الذي يرفق بكل سحب، جداء الأرقام المسجّلة على الكريات المسحوبة."
+    }
+   ],
+   "rubric_total": 2.5,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "1) عدد الإمكانيات",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q1-e2",
+     "label": "1) قانون الاحتمال: القيم واحتمالاتها",
+     "max_points": 1.5,
+     "verified": true
+    },
+    {
+     "id": "q1-e3",
+     "label": "1) الأمل الرياضياتي",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "التمرين الأوّل: (04 نقاط)",
+   "verbatim_text": "بيّن أنّ احتمال الحصول على ثلاث كريات كل منها تحمل رقماً زوجياً هو $\\dfrac{7}{24}$ .",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "يحتوي صندوق على 10 كريات لا نفرق بينها عند اللّمس منها كريتان تحملان الرقم 0 وثلاث تحمل الرقم 1 والكريات الأخرى تحمل الرقم 2. نسحب عشوائياً وفي آنٍ واحدٍ ثلاث كريات من الصندوق.\nليكن $X$ المتغيّر العشوائي الذي يرفق بكل سحب، جداء الأرقام المسجّلة على الكريات المسحوبة."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "2) تبيان الاحتمال 7/24",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "التمرين الأوّل: (04 نقاط)",
+   "verbatim_text": "نسحب الآن من الصندوق كريتين على التوالي دون إرجاع.\nما احتمال الحصول على كريتين تحملان رقمين مجموعهما فردي علما أن جداءهما زوجي؟",
+   "documents": [
+    {
+     "id": "d-ex1",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "يحتوي صندوق على 10 كريات لا نفرق بينها عند اللّمس منها كريتان تحملان الرقم 0 وثلاث تحمل الرقم 1 والكريات الأخرى تحمل الرقم 2. نسحب عشوائياً وفي آنٍ واحدٍ ثلاث كريات من الصندوق.\nليكن $X$ المتغيّر العشوائي الذي يرفق بكل سحب، جداء الأرقام المسجّلة على الكريات المسحوبة."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "3) الاحتمال الشرطي (0.25×2)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "1أ",
+   "part": "التمرين الثاني: (04 نقاط)",
+   "verbatim_text": "بيّن أنّ الدالة $f$ متزايدة تماما على المجال $[4;7[$.",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على المجال $[4;7[$ بـ: $f(x)=\\sqrt{x+2}+4$ ."
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "1أ) الدالة المشتقة واتجاه التغيّر",
+     "max_points": 0.75,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "1ب",
+   "part": "التمرين الثاني: (04 نقاط)",
+   "verbatim_text": "استنتج أنَّه: من أجل كل عدد حقيقي $x$ من المجال $[4;7[$ فإنّ $f(x)\\in[4;7[$ .",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على المجال $[4;7[$ بـ: $f(x)=\\sqrt{x+2}+4$ ."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "1ب) الاستنتاج",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "2",
+   "part": "التمرين الثاني: (04 نقاط)",
+   "verbatim_text": "برهن أنَّه: من أجل كل عدد حقيقي $x$ من المجال $[4;7[$ فإنّ $f(x)-x=\\dfrac{-x^2+9x-14}{x-4+\\sqrt{x+2}}$ .\nثمّ استنتج أنّه: من أجل كل عدد حقيقي $x$ من المجال $[4;7[$ فإنّ $f(x)-x>0$",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على المجال $[4;7[$ بـ: $f(x)=\\sqrt{x+2}+4$ ."
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "2) البرهان والاستنتاج",
+     "max_points": 0.75,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "3أ",
+   "part": "التمرين الثاني: (04 نقاط)",
+   "verbatim_text": "برهن بالتّراجع أنّه: من أجل كل عدد طبيعي $n$ $4\\le u_n<7$ .",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على المجال $[4;7[$ بـ: $f(x)=\\sqrt{x+2}+4$ ."
+    },
+    {
+     "id": "d-ex2-3",
+     "kind": "text",
+     "caption": "معطيات السؤال 3",
+     "text": "$(u_n)$ المتتالية العددية المعرّفة بـ : $u_0=4$ ومن أجل كلّ عدد طبيعي $n$، $u_{n+1}=f(u_n)$ ."
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "3أ) البرهان بالتراجع",
+     "max_points": 0.75,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "3ب",
+   "part": "التمرين الثاني: (04 نقاط)",
+   "verbatim_text": "استنتج اتجاه تغيّر المتتالية $(u_n)$ ثمّ بيّن أنّها متقاربة.",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على المجال $[4;7[$ بـ: $f(x)=\\sqrt{x+2}+4$ ."
+    },
+    {
+     "id": "d-ex2-3",
+     "kind": "text",
+     "caption": "معطيات السؤال 3",
+     "text": "$(u_n)$ المتتالية العددية المعرّفة بـ : $u_0=4$ ومن أجل كلّ عدد طبيعي $n$، $u_{n+1}=f(u_n)$ ."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "3ب) اتجاه تغيّر المتتالية",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q8-e2",
+     "label": "3ب) التقارب",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "4أ",
+   "part": "التمرين الثاني: (04 نقاط)",
+   "verbatim_text": "بيّن أنّه: من أجل كلّ عدد طبيعي $n$ $7-u_{n+1}<\\frac{1}{4}(7-u_n)$ .",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على المجال $[4;7[$ بـ: $f(x)=\\sqrt{x+2}+4$ ."
+    },
+    {
+     "id": "d-ex2-3",
+     "kind": "text",
+     "caption": "معطيات السؤال 3",
+     "text": "$(u_n)$ المتتالية العددية المعرّفة بـ : $u_0=4$ ومن أجل كلّ عدد طبيعي $n$، $u_{n+1}=f(u_n)$ ."
+    }
+   ],
+   "rubric_total": 0.25,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "4أ) البرهان",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q10",
+   "number": "4ب",
+   "part": "التمرين الثاني: (04 نقاط)",
+   "verbatim_text": "استنتج أنّه: من أجل كلّ عدد طبيعي $n$ $0<7-u_n<3\\left(\\dfrac{1}{4}\\right)^n$ ، ثمَّ احسب نهاية المتتالية $(u_n)$ .",
+   "documents": [
+    {
+     "id": "d-ex2",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "$f$ الدّالة المعرّفة على المجال $[4;7[$ بـ: $f(x)=\\sqrt{x+2}+4$ ."
+    },
+    {
+     "id": "d-ex2-3",
+     "kind": "text",
+     "caption": "معطيات السؤال 3",
+     "text": "$(u_n)$ المتتالية العددية المعرّفة بـ : $u_0=4$ ومن أجل كلّ عدد طبيعي $n$، $u_{n+1}=f(u_n)$ ."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q10-e1",
+     "label": "4ب) استنتاج الحصر",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q10-e2",
+     "label": "4ب) نهاية المتتالية",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q11",
+   "number": "1أ",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "اكتب العدد المركب $z_A$ على الشكل الأسي .",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي المركب منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$.\nنعتبر النّقط $A$ ، $B$ و $C$ التي لاحقاتها $z_A$ ، $z_B$ و $z_C$ على التّرتيب حيث:\n$z_A=\\sqrt{2}+i\\sqrt{6}$ ، $z_B=\\overline{z_A}$ و $z_C=-2z_A$ ."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q11-e1",
+     "label": "1أ) الشكل الأسي لـ zA",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q12",
+   "number": "1ب",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "احسب العدد $\\left(\\dfrac{z_A}{2\\sqrt{2}}\\right)^{2019}+\\left(\\dfrac{z_B}{2\\sqrt{2}}\\right)^{2019}$ .",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي المركب منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$.\nنعتبر النّقط $A$ ، $B$ و $C$ التي لاحقاتها $z_A$ ، $z_B$ و $z_C$ على التّرتيب حيث:\n$z_A=\\sqrt{2}+i\\sqrt{6}$ ، $z_B=\\overline{z_A}$ و $z_C=-2z_A$ ."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q12-e1",
+     "label": "1ب) الحساب",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q13",
+   "number": "2أ",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "$T$ الانسحاب الذي يحوِّل $A$ إلى $C$ ، عيّن $z_D$ لاحقة النّقطة $D$ صورة $B$ بالانسحاب $T$ .",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي المركب منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$.\nنعتبر النّقط $A$ ، $B$ و $C$ التي لاحقاتها $z_A$ ، $z_B$ و $z_C$ على التّرتيب حيث:\n$z_A=\\sqrt{2}+i\\sqrt{6}$ ، $z_B=\\overline{z_A}$ و $z_C=-2z_A$ ."
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q13-e1",
+     "label": "2أ) حساب zD",
+     "max_points": 0.75,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q14",
+   "number": "2ب",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "استنتج طبيعة الرّباعي $ABDC$ .",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي المركب منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$.\nنعتبر النّقط $A$ ، $B$ و $C$ التي لاحقاتها $z_A$ ، $z_B$ و $z_C$ على التّرتيب حيث:\n$z_A=\\sqrt{2}+i\\sqrt{6}$ ، $z_B=\\overline{z_A}$ و $z_C=-2z_A$ ."
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q14-e1",
+     "label": "2ب) طبيعة الرباعي ABDC",
+     "max_points": 0.75,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q15",
+   "number": "3",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "اكتب العدد المركب $z_C-z_A$ على الشكل الأسي.",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي المركب منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$.\nنعتبر النّقط $A$ ، $B$ و $C$ التي لاحقاتها $z_A$ ، $z_B$ و $z_C$ على التّرتيب حيث:\n$z_A=\\sqrt{2}+i\\sqrt{6}$ ، $z_B=\\overline{z_A}$ و $z_C=-2z_A$ ."
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q15-e1",
+     "label": "3) الشكل الأسي لـ zC − zA",
+     "max_points": 0.75,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q16",
+   "number": "4",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "جد قيم العدد الطّبيعي $n$ التي يكون من أجلها العدد المركب $\\left(\\dfrac{-6\\sqrt{2}}{z_C-z_A}\\right)^n$ عددا حقيقيا.",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي المركب منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$.\nنعتبر النّقط $A$ ، $B$ و $C$ التي لاحقاتها $z_A$ ، $z_B$ و $z_C$ على التّرتيب حيث:\n$z_A=\\sqrt{2}+i\\sqrt{6}$ ، $z_B=\\overline{z_A}$ و $z_C=-2z_A$ ."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q16-e1",
+     "label": "4) قيم n",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q17",
+   "number": "5",
+   "part": "التمرين الثالث: (05 نقاط)",
+   "verbatim_text": "لتكن $M$ نقطة كيفيّة من المستوي لاحقتها $z$ حيث $M$ تختلف عن $A$ وتختلف عن $C$ .\nعيّن $(E)$ مجموعة النّقط $M$ التي من أجلها يكون $\\dfrac{z_A-z}{z_C-z}$ عددا حقيقيا موجبا تماما.",
+   "documents": [
+    {
+     "id": "d-ex3",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي المركب منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{u},\\vec{v})$.\nنعتبر النّقط $A$ ، $B$ و $C$ التي لاحقاتها $z_A$ ، $z_B$ و $z_C$ على التّرتيب حيث:\n$z_A=\\sqrt{2}+i\\sqrt{6}$ ، $z_B=\\overline{z_A}$ و $z_C=-2z_A$ ."
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q17-e1",
+     "label": "5) المجموعة (E)",
+     "max_points": 0.75,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q18",
+   "number": "1أ",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "ادرس اتجاه تغير الدالة $g$ .",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{i},\\vec{j})$. تُؤخذ وحدة الطول $2cm$\n$(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ التمثيلان البيانيان للدالتين $f$ و $g$ المعرّفتين على $\\mathbb{R}$ كما يلي:\n$g(x)=e^x-ex$ و $f(x)=e^x-\\dfrac{1}{2}ex^2$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q18-e1",
+     "label": "1أ) دراسة اتجاه تغيّر g (0.5×2)",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q19",
+   "number": "1ب",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "استنتج اشارة $g(x)$ حسب قيم $x$ الحقيقية.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{i},\\vec{j})$. تُؤخذ وحدة الطول $2cm$\n$(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ التمثيلان البيانيان للدالتين $f$ و $g$ المعرّفتين على $\\mathbb{R}$ كما يلي:\n$g(x)=e^x-ex$ و $f(x)=e^x-\\dfrac{1}{2}ex^2$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q19-e1",
+     "label": "1ب) القيمة الحدّية الصغرى وإشارة g(x) (0.5×2)",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q20",
+   "number": "2",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "ادرس اتجاه تغيّر الدالة $f$ .",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{i},\\vec{j})$. تُؤخذ وحدة الطول $2cm$\n$(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ التمثيلان البيانيان للدالتين $f$ و $g$ المعرّفتين على $\\mathbb{R}$ كما يلي:\n$g(x)=e^x-ex$ و $f(x)=e^x-\\dfrac{1}{2}ex^2$"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q20-e1",
+     "label": "2) عبارة f'(x)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q20-e2",
+     "label": "2) اتجاه تغيّر f",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q21",
+   "number": "3",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "احسب كلاً من $\\lim_{x\\to-\\infty}f(x)$ و $\\lim_{x\\to+\\infty}f(x)$ ؛ ثمّ شكّل جدول تغيّرات الدالة $f$ .",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{i},\\vec{j})$. تُؤخذ وحدة الطول $2cm$\n$(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ التمثيلان البيانيان للدالتين $f$ و $g$ المعرّفتين على $\\mathbb{R}$ كما يلي:\n$g(x)=e^x-ex$ و $f(x)=e^x-\\dfrac{1}{2}ex^2$"
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q21-e1",
+     "label": "3) النهاية عند −∞",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q21-e2",
+     "label": "3) النهاية عند +∞",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q21-e3",
+     "label": "3) جدول التغيّرات",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q22",
+   "number": "4",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "ادرس الوضع النسبي للمنحنيين $(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ على $\\mathbb{R}$ .",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{i},\\vec{j})$. تُؤخذ وحدة الطول $2cm$\n$(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ التمثيلان البيانيان للدالتين $f$ و $g$ المعرّفتين على $\\mathbb{R}$ كما يلي:\n$g(x)=e^x-ex$ و $f(x)=e^x-\\dfrac{1}{2}ex^2$"
+    }
+   ],
+   "rubric_total": 1.25,
+   "rubric_elements": [
+    {
+     "id": "q22-e1",
+     "label": "4) عبارة f(x) − g(x)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q22-e2",
+     "label": "4) الوضعية النسبية",
+     "max_points": 0.75,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q23",
+   "number": "5",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "ارسم على المجال $[0;2]$ المنحنيين $(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ في نفس المعلم $(O;\\vec{i},\\vec{j})$. (يُعطى $\\mathrm{e}^2-2e\\approx 2$)",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{i},\\vec{j})$. تُؤخذ وحدة الطول $2cm$\n$(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ التمثيلان البيانيان للدالتين $f$ و $g$ المعرّفتين على $\\mathbb{R}$ كما يلي:\n$g(x)=e^x-ex$ و $f(x)=e^x-\\dfrac{1}{2}ex^2$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q23-e1",
+     "label": "5) رسم المنحنى Cf",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q23-e2",
+     "label": "5) رسم المنحنى Cg",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q24",
+   "number": "6",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "احسب بالسنتمتر المربّع، مساحة الحيّز المستوي المحدّد بالمنحنيين $(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{i},\\vec{j})$. تُؤخذ وحدة الطول $2cm$\n$(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ التمثيلان البيانيان للدالتين $f$ و $g$ المعرّفتين على $\\mathbb{R}$ كما يلي:\n$g(x)=e^x-ex$ و $f(x)=e^x-\\dfrac{1}{2}ex^2$"
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q24-e1",
+     "label": "6) المساحة بوحدة المساحات",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q24-e2",
+     "label": "6) المساحة بالسنتمتر المربع",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q25",
+   "number": "7أ",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "بيّن أنّ $h$ دالة زوجية.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{i},\\vec{j})$. تُؤخذ وحدة الطول $2cm$\n$(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ التمثيلان البيانيان للدالتين $f$ و $g$ المعرّفتين على $\\mathbb{R}$ كما يلي:\n$g(x)=e^x-ex$ و $f(x)=e^x-\\dfrac{1}{2}ex^2$"
+    },
+    {
+     "id": "d-ex4-7",
+     "kind": "text",
+     "caption": "معطيات السؤال 7",
+     "text": "$h$ الدالة المعرّفة على المجال $[-2;2]$ كما يلي: $h(x)=\\dfrac{1}{2}ex^2-e^{|x|}$ و ليكن $(\\Gamma)$ تمثيلها البياني في المعلم السابق."
+    }
+   ],
+   "rubric_total": 0.25,
+   "rubric_elements": [
+    {
+     "id": "q25-e1",
+     "label": "7أ) h دالة زوجية",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q26",
+   "number": "7ب",
+   "part": "التمرين الرابع: (07 نقاط)",
+   "verbatim_text": "من أجل $x\\in[0;2]$ احسب $h(x)+f(x)$ ثم استنتج كيفية رسم $(\\Gamma)$ انطلاقا من $(\\mathscr{C}_f)$ ثم ارسمه.",
+   "documents": [
+    {
+     "id": "d-ex4",
+     "kind": "text",
+     "caption": "نصّ التمرين",
+     "text": "المستوي منسوب إلى المعلم المتعامد والمتجانس $(O;\\vec{i},\\vec{j})$. تُؤخذ وحدة الطول $2cm$\n$(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ التمثيلان البيانيان للدالتين $f$ و $g$ المعرّفتين على $\\mathbb{R}$ كما يلي:\n$g(x)=e^x-ex$ و $f(x)=e^x-\\dfrac{1}{2}ex^2$"
+    },
+    {
+     "id": "d-ex4-7",
+     "kind": "text",
+     "caption": "معطيات السؤال 7",
+     "text": "$h$ الدالة المعرّفة على المجال $[-2;2]$ كما يلي: $h(x)=\\dfrac{1}{2}ex^2-e^{|x|}$ و ليكن $(\\Gamma)$ تمثيلها البياني في المعلم السابق."
+    }
+   ],
+   "rubric_total": 0.75,
+   "rubric_elements": [
+    {
+     "id": "q26-e1",
+     "label": "7ب) حساب h(x) + f(x)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q26-e2",
+     "label": "7ب) استنتاج كيفية رسم (Γ)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q26-e3",
+     "label": "7ب) الرسم",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "numeric",
+   "prompt": "نسحب عشوائيا وفي آن واحد ثلاث كريات من الكريات العشر: ما عدد الإمكانيات (عدد السحبات الممكنة)؟",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 120,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "عدد الإمكانيات هو 120.",
+   "points": 0.5,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e2",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "ما القيم الّتي يأخذها المتغير العشوائي $X$؟ اختر كلّ القيم الممكنة.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "$6$",
+     "$1$",
+     "$4$",
+     "$3$",
+     "$8$",
+     "$2$",
+     "$0$"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     1,
+     2,
+     4,
+     5,
+     6
+    ]
+   },
+   "explanation": "قانون الاحتمال حسب الإجابة النموذجية: قيم $X$ هي $0$ ، $1$ ، $2$ ، $4$ ، $8$ مع احتمالاتها.",
+   "points": 0.5,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e2",
+   "variant": "b",
+   "type": "table_fill",
+   "prompt": "1) احتمالات القيم $0$ ، $1$ ، $2$ ، $4$ ، $8$ للمتغير العشوائي $X$.",
+   "payload": {
+    "type": "table_fill",
+    "spec": {
+     "official_correction": "قانون الاحتمال: قيم X هي 0، 1، 2، 4، 8 مع احتمالاتها (01.5) — لا يكتب التصحيح الاحتمالات",
+     "reason_deferred": "official_result_missing",
+     "columns": [
+      "$x_i$",
+      "$0$",
+      "$1$",
+      "$2$",
+      "$4$",
+      "$8$"
+     ],
+     "rows": [
+      "$P(X=x_i)$"
+     ],
+     "official_values": null
+    }
+   },
+   "answer": {
+    "type": "table_fill",
+    "spec": {
+     "rubric": "قانون الاحتمال: قيم X هي 0، 1، 2، 4، 8 مع احتمالاتها (01.5) — لا يكتب التصحيح الاحتمالات",
+     "official_result": null
+    }
+   },
+   "explanation": "الإجابة النموذجية الرسمية تذكر هذا البند وعلامته دون أن تكتب النتيجة: لا تُنشأ خطوة تفاعليّة قبل أن تتوفّر النتيجة الرسميّة.",
+   "points": 1,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب الأمل الرياضياتي $E(X)$ للمتغير العشوائي $X$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$E(X)=2$",
+     "$E(X)=\\dfrac{231}{120}$",
+     "$E(X)=\\dfrac{120}{231}$",
+     "$E(X)=\\dfrac{15}{8}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "الأمل الرياضياتي هو $E(X)=\\dfrac{231}{120}$.",
+   "points": 0.5,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "2) تحرير تبيان أنّ احتمال الحصول على ثلاث كريات تحمل أرقاما زوجية هو $\\dfrac{7}{24}$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "احتمال الحصول على 3 كريات تحمل كل منها رقما زوجيا 7/24 (01)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$\\dfrac{7}{24}$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "احتمال الحصول على 3 كريات تحمل كل منها رقما زوجيا 7/24 (01)",
+     "official_result": "$\\dfrac{7}{24}$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 1,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما احتمال الحصول على كريتين تحملان رقمين مجموعهما فردي علما أن جداءهما زوجي؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$\\dfrac{3}{7}$",
+     "$\\dfrac{14}{15}$",
+     "$\\dfrac{7}{15}$",
+     "$\\dfrac{1}{2}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "احتمال الحصول على كريتين تحملان رقمين مجموعهما فردي علما أنّ الجداء زوجي هو $\\dfrac{1}{2}$.",
+   "points": 0.5,
+   "skill_id": "math.probability",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "لتبيان أنّ الدالة $f$ متزايدة تماما على المجال $[4;7[$ نحسب مشتقتها: ما عبارة $f'(x)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f'(x)=\\dfrac{1}{2\\sqrt{x+2}}+4$",
+     "$f'(x)=\\dfrac{1}{\\sqrt{x+2}}$",
+     "$f'(x)=\\dfrac{1}{2\\sqrt{x+2}}$",
+     "$f'(x)=\\dfrac{-1}{2\\sqrt{x+2}}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "$f'(x)=\\dfrac{1}{2\\sqrt{x+2}}$ ومنه الدّالة $f$ متزايدة تماما على المجال $[4;7[$.",
+   "points": 0.75,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "1ب) تحرير الاستنتاج: من أجل كل $x$ من $[4;7[$ فإنّ $f(x)\\in[4;7[$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "من أجل كل عدد حقيقي x من المجال [4;7[ يكون: f(x) ∈ [4;7[ (0.5)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$f(x)\\in[4;7[$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "من أجل كل عدد حقيقي x من المجال [4;7[ يكون: f(x) ∈ [4;7[ (0.5)",
+     "official_result": "$f(x)\\in[4;7[$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "2) تحرير برهان عبارة الفرق المعطاة ثم استنتاج إشارته.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "f(x) − x = (−x²+9x−14)/(√(x+2)+x−4) ومن أجل كل x من المجال [4;7[ : f(x) − x > 0 (0.75)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$f(x)-x=\\dfrac{-x^2+9x-14}{x-4+\\sqrt{x+2}}$ ; $f(x)-x>0$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "f(x) − x = (−x²+9x−14)/(√(x+2)+x−4) ومن أجل كل x من المجال [4;7[ : f(x) − x > 0 (0.75)",
+     "official_result": "$f(x)-x=\\dfrac{-x^2+9x-14}{x-4+\\sqrt{x+2}}$ ; $f(x)-x>0$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.75,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "3أ) تحرير البرهان بالتراجع: من أجل كل عدد طبيعي $n$ ، $4\\le u_n<7$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "برهان بالتّراجع أنّه من أجل كلّ عدد طبيعي n : 4 ≤ u(n) < 7 (0.75)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$4\\le u_n<7$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "برهان بالتّراجع أنّه من أجل كلّ عدد طبيعي n : 4 ≤ u(n) < 7 (0.75)",
+     "official_result": "$4\\le u_n<7$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.75,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "لدينا $u_{n+1}-u_n=f(u_n)-u_n$: ما اتجاه تغيّر المتتالية $(u_n)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(u_n)$ متناقصة تماما",
+     "$(u_n)$ ليست رتيبة",
+     "$(u_n)$ متزايدة تماما",
+     "$(u_n)$ ثابتة"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "لدينا $u_{n+1}-u_n=f(u_n)-u_n$ إذن $u_{n+1}-u_n>0$ ومنه المتتالية $(u_n)$ متزايدة تماما.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "3ب) تحرير تبيان أنّ المتتالية $(u_n)$ متقاربة.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "(u_n) متقاربة (0.25) — دون تعليل مكتوب في التصحيح",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "متقاربة"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "(u_n) متقاربة (0.25) — دون تعليل مكتوب في التصحيح",
+     "official_result": "متقاربة"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "4أ) تحرير برهان المتباينة المعطاة في السؤال من أجل كل عدد طبيعي $n$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "برهان أنّه من أجل كلّ عدد طبيعي n : 7 − u(n+1) < ¼(7 − u(n)) (0.25)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$7-u_{n+1}<\\frac{1}{4}(7-u_n)$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "برهان أنّه من أجل كلّ عدد طبيعي n : 7 − u(n+1) < ¼(7 − u(n)) (0.25)",
+     "official_result": "$7-u_{n+1}<\\frac{1}{4}(7-u_n)$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "4ب) تحرير استنتاج الحصر المعطى في السؤال من أجل كل عدد طبيعي $n$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "استنتاج أنّه من أجل كلّ عدد طبيعي n : 0 < 7 − u(n) < 3/4^n (0.25)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$0<7-u_n<\\dfrac{3}{4^n}$"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "استنتاج أنّه من أجل كلّ عدد طبيعي n : 0 < 7 − u(n) < 3/4^n (0.25)",
+     "official_result": "$0<7-u_n<\\dfrac{3}{4^n}$"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e2",
+   "variant": "a",
+   "type": "numeric",
+   "prompt": "احسب نهاية المتتالية $(u_n)$ ثم اكتب قيمتها العددية في الخانة.",
+   "payload": {
+    "type": "numeric",
+    "unit": null
+   },
+   "answer": {
+    "type": "numeric",
+    "value": 7,
+    "tolerance": 0,
+    "unit": null
+   },
+   "explanation": "حسب مبرهنة الحصر تكون نهاية المتتالية: $\\lim_{n\\to+\\infty}u_n=7$.",
+   "points": 0.25,
+   "skill_id": "math.sequences",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q11",
+   "rubric_element_id": "q11-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "1أ) كتابة العدد المركب $z_A$ على الشكل الأسي.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "الشكل الآسي لـ zA . (01) — بلا نتيجة",
+     "reason_deferred": "official_result_missing"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "الشكل الآسي لـ zA . (01) — بلا نتيجة",
+     "official_result": null
+    }
+   },
+   "explanation": "الإجابة النموذجية الرسمية تذكر هذا البند وعلامته دون أن تكتب النتيجة: لا تُنشأ خطوة تفاعليّة قبل أن تتوفّر النتيجة الرسميّة.",
+   "points": 1,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q12",
+   "rubric_element_id": "q12-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "1ب) حساب العدد المطلوب في السؤال (مجموع القوّتين 2019).",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "حساب (zA/2√2)^2019 + (zB/2√2)^2019 (0.5) — بلا نتيجة",
+     "reason_deferred": "official_result_missing"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "حساب (zA/2√2)^2019 + (zB/2√2)^2019 (0.5) — بلا نتيجة",
+     "official_result": null
+    }
+   },
+   "explanation": "الإجابة النموذجية الرسمية تذكر هذا البند وعلامته دون أن تكتب النتيجة: لا تُنشأ خطوة تفاعليّة قبل أن تتوفّر النتيجة الرسميّة.",
+   "points": 0.5,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q13",
+   "rubric_element_id": "q13-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "2أ) حساب $z_D$ لاحقة صورة $B$ بالانسحاب $T$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "حساب zD صورة B بواسطة T (0.75) — بلا نتيجة",
+     "reason_deferred": "official_result_missing"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "حساب zD صورة B بواسطة T (0.75) — بلا نتيجة",
+     "official_result": null
+    }
+   },
+   "explanation": "الإجابة النموذجية الرسمية تذكر هذا البند وعلامته دون أن تكتب النتيجة: لا تُنشأ خطوة تفاعليّة قبل أن تتوفّر النتيجة الرسميّة.",
+   "points": 0.75,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q14",
+   "rubric_element_id": "q14-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "استنتج طبيعة الرباعي $ABDC$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "مستطيل",
+     "مربّع",
+     "معيّن",
+     "متوازي أضلاع"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "الرّباعي $ABDC$ متوازي أضلاع.",
+   "points": 0.75,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q15",
+   "rubric_element_id": "q15-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "اكتب العدد المركب $z_C-z_A$ على الشكل الأسي: أيّ كتابة هي الصحيحة؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$6\\sqrt{2}e^{i\\frac{4\\pi}{3}}$",
+     "$3\\sqrt{2}e^{i\\frac{4\\pi}{3}}$",
+     "$6\\sqrt{2}e^{i\\frac{\\pi}{3}}$",
+     "$6\\sqrt{2}e^{i\\frac{2\\pi}{3}}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "الشكل الأسّي للعدد المركب $z_C-z_A$ هو $6\\sqrt{2}e^{i\\frac{4\\pi}{3}}$.",
+   "points": 0.75,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q16",
+   "rubric_element_id": "q16-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "اكتب العدد المركب $\\left(\\dfrac{-6\\sqrt{2}}{z_C-z_A}\\right)^n$ على الشكل الأسي بدلالة العدد الطبيعي $n$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$e^{-in\\frac{\\pi}{3}}$",
+     "$e^{-in\\frac{2\\pi}{3}}$",
+     "$e^{in\\frac{\\pi}{3}}$",
+     "$2^ne^{-in\\frac{\\pi}{3}}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "$\\left(\\dfrac{-6\\sqrt{2}}{z_C-z_A}\\right)^n=e^{-in\\frac{\\pi}{3}}$",
+   "points": 0.25,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q16",
+   "rubric_element_id": "q16-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "ما قيم العدد الطبيعي $n$ الّتي يكون من أجلها هذا العدد حقيقيا؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "قيم $n$ هي الأعداد $n=-3k$ حيث $k$ عدد صحيح سالب أو معدوم ($k\\in\\mathbb{Z}_-$)",
+     "قيم $n$ هي الأعداد $n=-6k$ حيث $k$ عدد صحيح سالب أو معدوم ($k\\in\\mathbb{Z}_-$)",
+     "قيم $n$ هي الأعداد $n=-3k+1$ حيث $k$ عدد صحيح سالب أو معدوم ($k\\in\\mathbb{Z}_-$)",
+     "قيم $n$ هي الأعداد $n=-2k$ حيث $k$ عدد صحيح سالب أو معدوم ($k\\in\\mathbb{Z}_-$)"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "العدد $e^{-in\\frac{\\pi}{3}}$ حقيقي يعني أنّ $n=-3k$ حيث $k$ عدد صحيح سالب أو معدوم ($k\\in\\mathbb{Z}_-$).",
+   "points": 0.25,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q17",
+   "rubric_element_id": "q17-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "عيّن $(E)$ مجموعة النقط $M$ الّتي من أجلها يكون $\\dfrac{z_A-z}{z_C-z}$ عددا حقيقيا موجبا تماما.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$(E)$ هي القطعة المستقيمة $[AC]$ باستثناء النقطتين $A$ و $C$",
+     "$(E)$ هي المستقيم $(AC)$ باستثناء النقطتين $A$ و $C$",
+     "$(E)$ هي محور القطعة $[AC]$",
+     "$(E)$ هي المستقيم $(AC)$ باستثناء القطعة المستقيمة $[AC]$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "$(E)$ هي المستقيم $(AC)$ باستثناء القطعة المستقيمة $[AC]$ أي أنّ $(E)=(AC)-[AC]$.",
+   "points": 0.75,
+   "skill_id": "math.complex",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q18",
+   "rubric_element_id": "q18-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "من أجل كل عدد حقيقي $x$: ما عبارة الدالة المشتقة $g'(x)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$g'(x)=e^x-1$",
+     "$g'(x)=e^x-e$",
+     "$g'(x)=e^x$",
+     "$g'(x)=e^x-ex$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "من أجل كل عدد حقيقي $x$: $g'(x)=e^x-e$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q18",
+   "rubric_element_id": "q18-e1",
+   "variant": "b",
+   "type": "essay_builder",
+   "prompt": "1أ) دراسة إشارة $g'(x)$ واتجاه تغيّر الدالة $g$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "دراسة اتجاه تغيّر الدالة g (0.5×2): يكتب التصحيح g'(x) = e^x − e فقط، دون مجالات التغيّر",
+     "reason_deferred": "official_result_missing"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "دراسة اتجاه تغيّر الدالة g (0.5×2): يكتب التصحيح g'(x) = e^x − e فقط، دون مجالات التغيّر",
+     "official_result": null
+    }
+   },
+   "explanation": "الإجابة النموذجية الرسمية تذكر هذا البند وعلامته دون أن تكتب النتيجة: لا تُنشأ خطوة تفاعليّة قبل أن تتوفّر النتيجة الرسميّة.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q19",
+   "rubric_element_id": "q19-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "تقبل الدالة $g$ قيمة حدّية صغرى: ما هي؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$g(e)=0$",
+     "$g(1)=e^1-e=0$",
+     "$g(0)=1$",
+     "$g(1)=e$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "الدالة $g$ تقبل قيمة حدّية صغرى هي $g(1)=e^1-e=0$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q19",
+   "rubric_element_id": "q19-e1",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "استنتج إشارة $g(x)$ حسب قيم $x$ الحقيقية.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$g(x)>0$ من أجل كل عدد حقيقي $x$",
+     "$g(x)<0$ من أجل كل عدد حقيقي $x$ أصغر من 1، و $g(x)>0$ من أجل كل $x$ أكبر من 1",
+     "$g(x)\\ge 0$ من أجل كل عدد حقيقي $x$",
+     "$g(x)\\le 0$ من أجل كل عدد حقيقي $x$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "لدينا $g(1)=e^1-e=0$ إذن من أجل كل عدد حقيقي $x$: $g(x)\\ge 0$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q20",
+   "rubric_element_id": "q20-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "من أجل كل عدد حقيقي $x$: ما عبارة الدالة المشتقة $f'(x)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f'(x)=e^x-ex=g(x)$",
+     "$f'(x)=e^x-\\dfrac{1}{2}ex$",
+     "$f'(x)=e^x-ex^2$",
+     "$f'(x)=e^x-e=g'(x)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "من أجل كل عدد حقيقي $x$: $f'(x)=e^x-ex=g(x)$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s29",
+   "source_question_id": "q20",
+   "rubric_element_id": "q20-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "ما اتجاه تغيّر الدالة $f$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f$ متناقصة تماما على $\\mathbb{R}$",
+     "$f$ متزايدة على $]-\\infty;1]$ ومتناقصة على $[1;+\\infty[$",
+     "$f$ متناقصة على $]-\\infty;1]$ ومتزايدة على $[1;+\\infty[$",
+     "$f$ متزايدة تماما على $\\mathbb{R}$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "لدينا $f'(1)=g(1)=0$ ومن أجل $x\\in\\mathbb{R}-\\{1\\}$: $g(x)>0$ أي $f'(x)>0$، إذاً الدالة $f$ متزايدة تماما على $\\mathbb{R}$.",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s30",
+   "source_question_id": "q21",
+   "rubric_element_id": "q21-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب النهاية $\\lim_{x\\to-\\infty}f(x)$ واختر قيمتها من بين الخيارات.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$+\\infty$",
+     "$0$",
+     "$1$",
+     "$-\\infty$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "النهاية عند $-\\infty$ تساوي $-\\infty$، لأنّ نهاية $e^x$ عند $-\\infty$ هي $0$ ونهاية $-\\dfrac{1}{2}ex^2$ عند $-\\infty$ هي $-\\infty$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s31",
+   "source_question_id": "q21",
+   "rubric_element_id": "q21-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب النهاية $\\lim_{x\\to+\\infty}f(x)$ واختر قيمتها من بين الخيارات.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$1$",
+     "$-\\infty$",
+     "$+\\infty$",
+     "$0$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "حسب الإجابة النموذجية النهاية هي $+\\infty$؛ نحلّل $f(x)$ بإخراج $x^2$ عاملا مشتركا ثم نستعمل $\\lim_{x\\to+\\infty}\\dfrac{e^x}{x^2}=+\\infty$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s32",
+   "source_question_id": "q21",
+   "rubric_element_id": "q21-e3",
+   "variant": "a",
+   "type": "variation_table",
+   "prompt": "3) تشكيل جدول تغيّرات الدالة $f$.",
+   "payload": {
+    "type": "variation_table",
+    "spec": {
+     "official_correction": "جدول التغيرات (0.25)",
+     "reason_deferred": "variation_table",
+     "function": "$f$",
+     "domain": "$\\mathbb{R}$",
+     "derivative": "$f'(x)=e^x-ex=g(x)$",
+     "increasing": [
+      "$\\mathbb{R}$"
+     ],
+     "limits": [
+      "$\\lim_{x\\to-\\infty}f(x)=-\\infty$",
+      "$\\lim_{x\\to+\\infty}f(x)=+\\infty$"
+     ]
+    }
+   },
+   "answer": {
+    "type": "variation_table",
+    "spec": {
+     "rubric": "جدول التغيرات (0.25)",
+     "official_result": null
+    }
+   },
+   "explanation": "جدول التغيّرات يُصحَّح بشبكة التنقيط الرسمية (محرّك الجداول غير متوفّر بعد).",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s33",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "من أجل كل عدد حقيقي $x$: ما عبارة الفرق $f(x)-g(x)$؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$f(x)-g(x)=ex\\left(-\\dfrac{1}{2}x+1\\right)$",
+     "$f(x)-g(x)=ex\\left(\\dfrac{1}{2}x+1\\right)$",
+     "$f(x)-g(x)=-\\dfrac{1}{2}ex^2$",
+     "$f(x)-g(x)=ex\\left(-\\dfrac{1}{2}x-1\\right)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "$f(x)-g(x)=ex\\left(-\\dfrac{1}{2}x+1\\right)$",
+   "points": 0.5,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s34",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "من أجل $x\\in]-\\infty;0[\\cup]2;+\\infty[$: ما الوضع النسبي للمنحنيين؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المنحنى $(\\mathscr{C}_f)$ يقع فوق المنحنى $(\\mathscr{C}_g)$",
+     "المنحنى $(\\mathscr{C}_f)$ يقع تحت المنحنى $(\\mathscr{C}_g)$",
+     "المنحنيان $(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ يتقاطعان في نقط هذه المجموعة"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: من أجل $x\\in]-\\infty;0[\\cup]2;+\\infty[$ المنحنى $(\\mathscr{C}_f)$ يقع تحت المنحنى $(\\mathscr{C}_g)$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s35",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e2",
+   "variant": "b",
+   "type": "mcq",
+   "prompt": "من أجل $x\\in]0;2[$: ما الوضع النسبي للمنحنيين؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المنحنى $(\\mathscr{C}_f)$ يقع فوق المنحنى $(\\mathscr{C}_g)$",
+     "المنحنيان $(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ يتقاطعان في نقط هذه المجموعة",
+     "المنحنى $(\\mathscr{C}_f)$ يقع تحت المنحنى $(\\mathscr{C}_g)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "حسب الإجابة النموذجية: من أجل $x\\in]0;2[$ المنحنى $(\\mathscr{C}_f)$ يقع فوق المنحنى $(\\mathscr{C}_g)$.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s36",
+   "source_question_id": "q22",
+   "rubric_element_id": "q22-e2",
+   "variant": "c",
+   "type": "mcq",
+   "prompt": "من أجل $x\\in\\{0;2\\}$: ما الوضع النسبي للمنحنيين؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "المنحنى $(\\mathscr{C}_f)$ يقع فوق المنحنى $(\\mathscr{C}_g)$",
+     "المنحنيان $(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ يتقاطعان في نقط هذه المجموعة",
+     "المنحنى $(\\mathscr{C}_f)$ يقع تحت المنحنى $(\\mathscr{C}_g)$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "حسب الإجابة النموذجية: من أجل $x\\in\\{0;2\\}$ المنحنيان $(\\mathscr{C}_f)$ و $(\\mathscr{C}_g)$ يتقاطعان في نقط هذه المجموعة.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s37",
+   "source_question_id": "q23",
+   "rubric_element_id": "q23-e1",
+   "variant": "a",
+   "type": "function_plot",
+   "prompt": "5) رسم المنحنى $(\\mathscr{C}_f)$ على المجال $[0;2]$.",
+   "payload": {
+    "type": "function_plot",
+    "spec": {
+     "official_correction": "الرسم: (Cf) (0.25)",
+     "reason_deferred": "drawing",
+     "curves": [
+      "$(\\mathscr{C}_f)$"
+     ],
+     "interval": "$[0;2]$",
+     "given": "$\\mathrm{e}^2-2e\\approx 2$",
+     "unit": "2cm"
+    }
+   },
+   "answer": {
+    "type": "function_plot",
+    "spec": {
+     "rubric": "الرسم: (Cf) (0.25)",
+     "official_result": null
+    }
+   },
+   "explanation": "الرسم يُصحَّح بشبكة التنقيط الرسمية (محرّك الرسم غير متوفّر بعد).",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s38",
+   "source_question_id": "q23",
+   "rubric_element_id": "q23-e2",
+   "variant": "a",
+   "type": "function_plot",
+   "prompt": "5) رسم المنحنى $(\\mathscr{C}_g)$ على المجال $[0;2]$.",
+   "payload": {
+    "type": "function_plot",
+    "spec": {
+     "official_correction": "الرسم: (Cg) (0.25)",
+     "reason_deferred": "drawing",
+     "curves": [
+      "$(\\mathscr{C}_g)$"
+     ],
+     "interval": "$[0;2]$",
+     "given": "$\\mathrm{e}^2-2e\\approx 2$",
+     "unit": "2cm"
+    }
+   },
+   "answer": {
+    "type": "function_plot",
+    "spec": {
+     "rubric": "الرسم: (Cg) (0.25)",
+     "official_result": null
+    }
+   },
+   "explanation": "الرسم يُصحَّح بشبكة التنقيط الرسمية (محرّك الرسم غير متوفّر بعد).",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s39",
+   "source_question_id": "q24",
+   "rubric_element_id": "q24-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "احسب مساحة الحيّز المستوي المحدّد بالمنحنيين على المجال $[0;2]$ بوحدة المساحات $ua$.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$A=\\dfrac{e}{3}\\,ua$",
+     "$A=\\dfrac{8e}{3}\\,ua$",
+     "$A=\\dfrac{2e}{3}\\,ua$",
+     "$A=\\dfrac{4e}{3}\\,ua$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "$A=\\int_0^2\\left(-\\dfrac{1}{2}ex^2+ex\\right)dx=\\left[-\\dfrac{1}{6}ex^3+\\dfrac{1}{2}ex^2\\right]_0^2=\\dfrac{2e}{3}\\,ua$",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s40",
+   "source_question_id": "q24",
+   "rubric_element_id": "q24-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "وحدة الطول $2cm$: ما قيمة هذه المساحة بالسنتمتر المربّع؟",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "$A=\\dfrac{2e}{3}\\,cm^2$",
+     "$A=\\dfrac{16e}{3}\\,cm^2$",
+     "$A=\\dfrac{4e}{3}\\,cm^2$",
+     "$A=\\dfrac{8e}{3}\\,cm^2$"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "$A=\\dfrac{8e}{3}\\,cm^2$",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s41",
+   "source_question_id": "q25",
+   "rubric_element_id": "q25-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "7أ) تحرير تبيان أنّ $h$ دالة زوجية.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "h دالة زوجية (0.25)",
+     "reason_deferred": "proof_without_intermediate",
+     "statement": "$h$ دالة زوجية"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "h دالة زوجية (0.25)",
+     "official_result": "$h$ دالة زوجية"
+    }
+   },
+   "explanation": "النتيجة معطاة في نصّ السؤال والإجابة النموذجية لا تكتب نتيجة وسيطة لهذا البند: تحرير البرهان يُصحَّح يدويًّا (لا يُحوَّل إلى اختيار من متعدّد).",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s42",
+   "source_question_id": "q26",
+   "rubric_element_id": "q26-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "7ب) حساب $h(x)+f(x)$ من أجل $x\\in[0;2]$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "حساب h(x) + f(x) (0.25) — بلا نتيجة",
+     "reason_deferred": "official_result_missing"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "حساب h(x) + f(x) (0.25) — بلا نتيجة",
+     "official_result": null
+    }
+   },
+   "explanation": "الإجابة النموذجية الرسمية تذكر هذا البند وعلامته دون أن تكتب النتيجة: لا تُنشأ خطوة تفاعليّة قبل أن تتوفّر النتيجة الرسميّة.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s43",
+   "source_question_id": "q26",
+   "rubric_element_id": "q26-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "7ب) استنتاج كيفية رسم $(\\Gamma)$ انطلاقا من $(\\mathscr{C}_f)$.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "official_correction": "استنتاج كيفية رسم (Γ) انطلاقا من (Cf) (0.25) — بلا نتيجة",
+     "reason_deferred": "official_result_missing"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "استنتاج كيفية رسم (Γ) انطلاقا من (Cf) (0.25) — بلا نتيجة",
+     "official_result": null
+    }
+   },
+   "explanation": "الإجابة النموذجية الرسمية تذكر هذا البند وعلامته دون أن تكتب النتيجة: لا تُنشأ خطوة تفاعليّة قبل أن تتوفّر النتيجة الرسميّة.",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s44",
+   "source_question_id": "q26",
+   "rubric_element_id": "q26-e3",
+   "variant": "a",
+   "type": "function_plot",
+   "prompt": "7ب) رسم المنحنى $(\\Gamma)$.",
+   "payload": {
+    "type": "function_plot",
+    "spec": {
+     "official_correction": "الرسم (0.25)",
+     "reason_deferred": "drawing",
+     "curves": [
+      "$(\\Gamma)$"
+     ],
+     "interval": "$[-2;2]$"
+    }
+   },
+   "answer": {
+    "type": "function_plot",
+    "spec": {
+     "rubric": "الرسم (0.25)",
+     "official_result": null
+    }
+   },
+   "explanation": "الرسم يُصحَّح بشبكة التنقيط الرسمية (محرّك الرسم غير متوفّر بعد).",
+   "points": 0.25,
+   "skill_id": "math.analysis",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T12:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل تجريبي للرياضيات من صور الموضوع والإجابة النموذجية الرسميّين في Drive؛ العلامات من سلّم التنقيط؛ الإجابات الصحيحة من الإجابة النموذجية؛ المشتّتات من إعداد التحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.880Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
+  }
+ ]
+}

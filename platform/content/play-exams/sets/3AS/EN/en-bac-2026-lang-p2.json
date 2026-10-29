@@ -1,0 +1,1393 @@
+{
+ "schema_version": 1,
+ "set_id": "en-bac-2026-lang-p2",
+ "status": "APPROVED",
+ "source": {
+  "source_id": "gdrive-13ghQCb5hdsdF100hYTqK61CtPdigENSl-p2",
+  "kind": "BAC",
+  "year": 2026,
+  "level": "3AS",
+  "streams": [
+   "LANG"
+  ],
+  "subject": "EN",
+  "term": null,
+  "paper": 2,
+  "title": "بكالوريا 2026 (الدّورة العاديّة) – اللّغة الإنجليزيّة – شعبة لغات أجنبيّة – الموضوع الثّاني (Child labour refers to…)",
+  "original_url": "https://drive.google.com/file/d/13ghQCb5hdsdF100hYTqK61CtPdigENSl/view",
+  "original_file_ref": "gdrive:13ghQCb5hdsdF100hYTqK61CtPdigENSl (2026 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1KBVSOXSkEMLIXA6flC_96n4x8EAMGhra/view",
+  "correction_file_ref": "gdrive:1KBVSOXSkEMLIXA6flC_96n4x8EAMGhra (2026 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.788Z",
+  "notes": "موضوع البكالوريا الرّسميّ (الدّيوان الوطنيّ للامتحانات والمسابقات، الدّورة: 2026، الشّعبة: لغات أجنبيّة، المدّة: 03 سا و30 د) في Drive صاحب المنصّة: gdrive:13ghQCb5hdsdF100hYTqK61CtPdigENSl (2026 - اللغة الإنجليزية - لغات أجنبية - الدورة العادية - الموضوع.pdf، 4 صفحات: الموضوع الأوّل ص1–2، الثّاني ص3–4)؛ «الدّورة العاديّة» من اسم الملفّ. الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1KBVSOXSkEMLIXA6flC_96n4x8EAMGhra (ص1 «During the Roman period…»، ص2 «Child labour refers to…»)؛ مجموع كلّ موضوع 20 (القراءة 14 = الفهم 07 + استكشاف النّصّ 07، التّعبير الكتابيّ 06). نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الملفّ PDF رقميّ له طبقة نصّ أصليّة، فأُخذت الحروف منها (pdftotext -raw: علامات الاقتباس المنحنية، «…»، «§»، «–»، نقاط الفراغات) وطوبقت سطرًا سطرًا مع صور الصّفحات (150 نقطة، ورؤوس جداول النّطق بـ400 نقطة)، وتُحقِّق بسكربت من أنّ كلّ نصّ حرفيّ وكلّ اقتباس في الخطوات جزء من طبقة النّصّ. خلاف طبقة النّصّ والصّورة: السّنة والمدّة في الرّأس العربيّ معكوسة («0302»، «30 … 03») وصوابها في الصّورة «2026» و«03 سا و30 د»؛ رمز «/ɪd/» و«/ɪz/» مطبوع بحرف I كبير مصغَّر وطبقة النّصّ تكتبه «I» فحُفظ «/Id/» و«/Iz/» كما في الطّبقة؛ التّسطير والخطّ الغامق لا يظهران في طبقة النّصّ وحُدّدا من الصّورة. قرارات التّحويل (R1–R11 في محوّل التّجربة build_en_bac_2019_lit.py و D1–D7 في رأس هذا المحوّل): عنصر لكلّ بند يُنقَّط منفردًا؛ نعم/لا اختيار من خيارين مخزَّنان معكوسين؛ «نعم/لا + علّل» عنصران (0.25 + 0.75) كما في السّلّم؛ صيغ الحلّ المتعدّدة للإجابة نفسها تبقى تفاعليّة ولا تُعرض صيغة مقبولة مشتّتًا؛ جداول النّطق اختيار من متعدّد لكلّ كلمة (0.25) لأنّ كلمتين تقعان في العمود نفسه؛ إعادة التّرتيب: الجملة الافتتاحيّة وكلّ زوج منطقيّ (0.5 لكلّ منها)؛ ما يقبل فيه الحلّ «أيّ إجابة منطقيّة» (العنوان، الفكرة العامّة) مؤجَّل essay_builder؛ التّعبير الكتابيّ مؤجَّل بمعايير الشّبكة الرّسميّة «LE» (الملاءمة 1.5، الانسجام الدّلاليّ 1، سلامة اللّغة 2، الإتقان 1.5). الموضوع الثّاني: المسطَّر It (§1 «It includes tasks»)، where (§3 «factories, where they are exposed»). س3أ: «No» (0.25) والتّعليل (0.75) عنصران؛ التّعليل جملة النّصّ الّتي يختصرها الحلّ «…not all work is …can be beneficial.». س4ب: الحلّ يقبل «dangerous places / mines, farms or factories / dangerous places like mines, farms or factories» فعُرضت الصّيغة الثّالثة صحيحة ولم تُعرض الأخريان. س5 الفكرة العامّة: «Accept any logical answer» فمؤجَّلة مع جملة الحلّ نموذجًا. س B1 علامتها 0.25×2 وس A2 علامتها 0.25×2 كما في السّلّم. إعادة التّرتيب d - b - a - c: الافتتاحيّة + الأزواج d–b، b–a، a–c. المجموع 20 = 7 + 7 + 6 (تفاعليّ 13، مؤجَّل 7: الفكرة العامّة 1 + التّعبير 6)."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "Part One: Reading (14 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Choose the answer to complete each statement.\nA- Social and economic difficulties …….. children to work.\na- help b- oblige c- hinder\nB- Poor families survive thanks to the …….. salary.\na- adults’ b- people’s c- child’s\nC- Children often work in ………. settings.\na- harmful b- safe c- enjoyable",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "Child labour refers to work that children perform under the legal minimum working age or in conditions that harm their health, safety, or morals. It includes tasks that deprive them of their potential, dignity and education. Yet, not all work is considered child labour, age-appropriate chores or part-time jobs that do not interfere with schooling can be beneficial.\nDeep social and economic issues force children to work, with poverty as the main cause. Families in hardship may depend on a child’s income to survive, especially when adults cannot find decent work. Other factors include weak laws, cultural acceptance of child work, and crises like conflicts or disasters.\nChild labour causes lasting harm to children’s health, development, and future. Many work in dangerous places like mines, farms, or factories, where they are exposed to toxic chemicals, unsafe tools, and harsh conditions. This often leads to injuries, illness, or even death, with some children suffering permanent disabilities.\nThe damage is not just physical. Child labour also causes emotional trauma. Children may face abuse and stress leading to long-term mental health issues.\nDespite years of campaigns, child labour remains a major global issue. However, by tackling the root causes of child labour, reporting exploitation, and demanding accountability, we can ensure all children have the chance to learn, grow, and enjoy childhood free of exploitation."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from: https: //thefreedomhub.org/child-labour-the-reality."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "A",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q1-e2",
+     "label": "B",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q1-e3",
+     "label": "C",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "Part One: Reading (14 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Identify the paragraphs in which the following ideas are mentioned.\na- Factors that drive children to child labour.\nb- Actions which can be taken to put an end to child labour.",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "Child labour refers to work that children perform under the legal minimum working age or in conditions that harm their health, safety, or morals. It includes tasks that deprive them of their potential, dignity and education. Yet, not all work is considered child labour, age-appropriate chores or part-time jobs that do not interfere with schooling can be beneficial.\nDeep social and economic issues force children to work, with poverty as the main cause. Families in hardship may depend on a child’s income to survive, especially when adults cannot find decent work. Other factors include weak laws, cultural acceptance of child work, and crises like conflicts or disasters.\nChild labour causes lasting harm to children’s health, development, and future. Many work in dangerous places like mines, farms, or factories, where they are exposed to toxic chemicals, unsafe tools, and harsh conditions. This often leads to injuries, illness, or even death, with some children suffering permanent disabilities.\nThe damage is not just physical. Child labour also causes emotional trauma. Children may face abuse and stress leading to long-term mental health issues.\nDespite years of campaigns, child labour remains a major global issue. However, by tackling the root causes of child labour, reporting exploitation, and demanding accountability, we can ensure all children have the chance to learn, grow, and enjoy childhood free of exploitation."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from: https: //thefreedomhub.org/child-labour-the-reality."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "a- Paragraph of idea a",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q2-e2",
+     "label": "b- Paragraph of idea b",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "Part One: Reading (14 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Answer the following questions according to the text.\na- Are all jobs harmful for children? Justify\nb- What mental impact does child labour have on children?\nc- How can we fight child labour?",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "Child labour refers to work that children perform under the legal minimum working age or in conditions that harm their health, safety, or morals. It includes tasks that deprive them of their potential, dignity and education. Yet, not all work is considered child labour, age-appropriate chores or part-time jobs that do not interfere with schooling can be beneficial.\nDeep social and economic issues force children to work, with poverty as the main cause. Families in hardship may depend on a child’s income to survive, especially when adults cannot find decent work. Other factors include weak laws, cultural acceptance of child work, and crises like conflicts or disasters.\nChild labour causes lasting harm to children’s health, development, and future. Many work in dangerous places like mines, farms, or factories, where they are exposed to toxic chemicals, unsafe tools, and harsh conditions. This often leads to injuries, illness, or even death, with some children suffering permanent disabilities.\nThe damage is not just physical. Child labour also causes emotional trauma. Children may face abuse and stress leading to long-term mental health issues.\nDespite years of campaigns, child labour remains a major global issue. However, by tackling the root causes of child labour, reporting exploitation, and demanding accountability, we can ensure all children have the chance to learn, grow, and enjoy childhood free of exploitation."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from: https: //thefreedomhub.org/child-labour-the-reality."
+    }
+   ],
+   "rubric_total": 3,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "a- Yes/No answer",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q3-e2",
+     "label": "a- Justification",
+     "max_points": 0.75,
+     "verified": true
+    },
+    {
+     "id": "q3-e3",
+     "label": "b- Mental impact",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q3-e4",
+     "label": "c- How to fight child labour",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "Part One: Reading (14 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Find what or who the underlined words in the text refer to.\na- It (§1)…….. b- where (§3)……..",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "Child labour refers to work that children perform under the legal minimum working age or in conditions that harm their health, safety, or morals. It includes tasks that deprive them of their potential, dignity and education. Yet, not all work is considered child labour, age-appropriate chores or part-time jobs that do not interfere with schooling can be beneficial.\nDeep social and economic issues force children to work, with poverty as the main cause. Families in hardship may depend on a child’s income to survive, especially when adults cannot find decent work. Other factors include weak laws, cultural acceptance of child work, and crises like conflicts or disasters.\nChild labour causes lasting harm to children’s health, development, and future. Many work in dangerous places like mines, farms, or factories, where they are exposed to toxic chemicals, unsafe tools, and harsh conditions. This often leads to injuries, illness, or even death, with some children suffering permanent disabilities.\nThe damage is not just physical. Child labour also causes emotional trauma. Children may face abuse and stress leading to long-term mental health issues.\nDespite years of campaigns, child labour remains a major global issue. However, by tackling the root causes of child labour, reporting exploitation, and demanding accountability, we can ensure all children have the chance to learn, grow, and enjoy childhood free of exploitation."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from: https: //thefreedomhub.org/child-labour-the-reality."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "a- It (§1)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q4-e2",
+     "label": "b- where (§3)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "5",
+   "part": "Part One: Reading (14 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Give the general idea of the text.",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "Child labour refers to work that children perform under the legal minimum working age or in conditions that harm their health, safety, or morals. It includes tasks that deprive them of their potential, dignity and education. Yet, not all work is considered child labour, age-appropriate chores or part-time jobs that do not interfere with schooling can be beneficial.\nDeep social and economic issues force children to work, with poverty as the main cause. Families in hardship may depend on a child’s income to survive, especially when adults cannot find decent work. Other factors include weak laws, cultural acceptance of child work, and crises like conflicts or disasters.\nChild labour causes lasting harm to children’s health, development, and future. Many work in dangerous places like mines, farms, or factories, where they are exposed to toxic chemicals, unsafe tools, and harsh conditions. This often leads to injuries, illness, or even death, with some children suffering permanent disabilities.\nThe damage is not just physical. Child labour also causes emotional trauma. Children may face abuse and stress leading to long-term mental health issues.\nDespite years of campaigns, child labour remains a major global issue. However, by tackling the root causes of child labour, reporting exploitation, and demanding accountability, we can ensure all children have the chance to learn, grow, and enjoy childhood free of exploitation."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from: https: //thefreedomhub.org/child-labour-the-reality."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "The general idea",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "1",
+   "part": "Part One: Reading (14 points) – B/ Text Exploration (07 points)",
+   "verbatim_text": "Find in the text words or phrases that are closest in meaning to.\na- difficulty (§2) = ……….. b- guarantee (§5) =…………",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "Child labour refers to work that children perform under the legal minimum working age or in conditions that harm their health, safety, or morals. It includes tasks that deprive them of their potential, dignity and education. Yet, not all work is considered child labour, age-appropriate chores or part-time jobs that do not interfere with schooling can be beneficial.\nDeep social and economic issues force children to work, with poverty as the main cause. Families in hardship may depend on a child’s income to survive, especially when adults cannot find decent work. Other factors include weak laws, cultural acceptance of child work, and crises like conflicts or disasters.\nChild labour causes lasting harm to children’s health, development, and future. Many work in dangerous places like mines, farms, or factories, where they are exposed to toxic chemicals, unsafe tools, and harsh conditions. This often leads to injuries, illness, or even death, with some children suffering permanent disabilities.\nThe damage is not just physical. Child labour also causes emotional trauma. Children may face abuse and stress leading to long-term mental health issues.\nDespite years of campaigns, child labour remains a major global issue. However, by tackling the root causes of child labour, reporting exploitation, and demanding accountability, we can ensure all children have the chance to learn, grow, and enjoy childhood free of exploitation."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from: https: //thefreedomhub.org/child-labour-the-reality."
+    }
+   ],
+   "rubric_total": 0.5,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "a- difficulty (§2)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q6-e2",
+     "label": "b- guarantee (§5)",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "2",
+   "part": "Part One: Reading (14 points) – B/ Text Exploration (07 points)",
+   "verbatim_text": "Give the opposites of the following words keeping the same root.\nlegal - moral - lead",
+   "documents": [],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "legal",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q7-e2",
+     "label": "moral",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q7-e3",
+     "label": "lead",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "3",
+   "part": "Part One: Reading (14 points) – B/ Text Exploration (07 points)",
+   "verbatim_text": "Complete sentence (b) so that it means the same as (a).\n1- a- Child labour can cause emotional trauma.\nb- Emotional trauma …………………………………………..……\n2- a- Many families regret they forced their children to work.\nb- Many families wish ………………………………………………",
+   "documents": [],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "1- Emotional trauma …",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q8-e2",
+     "label": "2- Many families wish …",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "4",
+   "part": "Part One: Reading (14 points) – B/ Text Exploration (07 points)",
+   "verbatim_text": "Classify the following words according to the pronunciation of the final ‘s’.\nconditions - causes - conflicts - families",
+   "documents": [
+    {
+     "id": "d-table",
+     "kind": "table",
+     "caption": "Table",
+     "table": [
+      [
+       "/s/",
+       "/z/",
+       "/Iz/"
+      ],
+      [
+       "",
+       "",
+       ""
+      ]
+     ]
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "conditions",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e2",
+     "label": "causes",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e3",
+     "label": "conflicts",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e4",
+     "label": "families",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q10",
+   "number": "5",
+   "part": "Part One: Reading (14 points) – B/ Text Exploration (07 points)",
+   "verbatim_text": "Reorder the following sentences to get a coherent passage.\na- Besides, for parents who are struggling to keep their families afloat,\nb- Long strenuous workdays leave them exhausted and unable to attend classes.\nc- sending kids to school is a luxury they cannot afford.\nd- It is true that children who work do not often get a proper education.",
+   "documents": [],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q10-e1",
+     "label": "Opening sentence",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q10-e2",
+     "label": "Logical pair 1",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q10-e3",
+     "label": "Logical pair 2",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q10-e4",
+     "label": "Logical pair 3",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q11",
+   "number": "—",
+   "part": "Part Two: Written Expression (06 points)",
+   "verbatim_text": "Choose only ONE of the following topics.\nTopic One:\nYou watched a TV documentary on children under 15 who were exploited in sweatshops under harsh conditions. You were deeply moved by such a situation. You decided to react. Write an opinion article of about 80 to 120 words for the local newspaper to suggest possible actions to combat child labour.\nMake the best use of the following notes:\n- Laws / punish / child exploitation\n- Families / financial aid / social programmes\n- Report exploitation / raise public awareness\nTopic Two:\nYou recently read an article in a blog. Its author denied any contribution of the ancient civilizations for humanity. As a member of an archaeological association, you felt disappointed and decided to react. Write an article of about 80 to 120 words as a response to the author in which you highlight the major contributions of ancient civilizations to the development of mankind.",
+   "documents": [],
+   "rubric_total": 6,
+   "rubric_elements": [
+    {
+     "id": "q11-e1",
+     "label": "Relevance",
+     "max_points": 1.5,
+     "verified": true
+    },
+    {
+     "id": "q11-e2",
+     "label": "Semantic coherence",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q11-e3",
+     "label": "Correct use of English",
+     "max_points": 2,
+     "verified": true
+    },
+    {
+     "id": "q11-e4",
+     "label": "Excellence (vocabulary and creativity)",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Choose the answer to complete the statement: “Social and economic difficulties …….. children to work.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "help",
+     "oblige",
+     "hinder"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: A- b (oblige). “Deep social and economic issues force children to work”.",
+   "points": 0.5,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Choose the answer to complete the statement: “Poor families survive thanks to the …….. salary.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "people’s",
+     "child’s",
+     "adults’"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: B- c (child’s). Families “may depend on a child’s income to survive”.",
+   "points": 0.5,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Choose the answer to complete the statement: “Children often work in ………. settings.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "safe",
+     "enjoyable",
+     "harmful"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: C- a (harmful). “This often leads to injuries, illness, or even death…”.",
+   "points": 0.5,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "In which paragraph is this idea mentioned: “Factors that drive children to child labour.”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "§3",
+     "§2",
+     "§4",
+     "§1"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: a- § 2 — “Deep social and economic issues force children to work, with poverty as the main cause.”",
+   "points": 0.25,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "In which paragraph is this idea mentioned: “Actions which can be taken to put an end to child labour.”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "§2",
+     "§5",
+     "§3",
+     "§4"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: b- § 5 (the last paragraph: what “we can” do).",
+   "points": 0.25,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Are all jobs harmful for children?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Yes, they are.",
+     "No, not all jobs are."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: a- “No, not all jobs are. / No.” (0.25 for No).",
+   "points": 0.25,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Are all jobs harmful for children? Choose the sentence from the text that justifies the answer.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Many work in dangerous places like mines, farms, or factories, where they are exposed to toxic chemicals, unsafe tools, and harsh conditions.",
+     "Child labour also causes emotional trauma.",
+     "Despite years of campaigns, child labour remains a major global issue.",
+     "Yet, not all work is considered child labour, age-appropriate chores or part-time jobs that do not interfere with schooling can be beneficial."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: a- Justification: “…not all work is …can be beneficial.” (0.75 for justification) — §1.",
+   "points": 0.75,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "What mental impact does child labour have on children?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "It leads to injuries, illness or permanent disabilities.",
+     "It gives children the chance to learn, grow and enjoy childhood.",
+     "It helps children find decent work when they become adults.",
+     "Child labour causes emotional trauma; children may face abuse and stress leading to long term mental health issues."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: b. “Child labour causes emotional trauma; children may face abuse and stress leading to long term mental health issues.” (§4)",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "How can we fight child labour?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "By sending children to work in mines, farms or factories.",
+     "By tackling the root causes of child labour, reporting exploitation, and demanding accountability.",
+     "By letting families depend on a child’s income.",
+     "By accepting child work as part of the culture."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: c. “by tackling the root causes …and demanding accountability.” (§5)",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "What does “It” refer to in “It includes tasks that deprive them of their potential, dignity and education.” (§1)?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "safety",
+     "child labour",
+     "schooling",
+     "the legal minimum working age"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: a- It (§1): child labour.",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "What does “where” refer to in “Many work in dangerous places like mines, farms, or factories, where they are exposed to toxic chemicals, unsafe tools, and harsh conditions.” (§3)?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "dangerous places like mines, farms or factories",
+     "permanent disabilities",
+     "toxic chemicals",
+     "harsh conditions"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: b- where (§3): dangerous places / mines, farms or factories / dangerous places like mines, farms or factories.",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Give the general idea of the text.",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Give the general idea of the text.",
+     "criterion": "The general idea of the text",
+     "indicator": "The general idea of the text"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "The general idea of the text: 1 pt (official key: Accept any logical answer.)",
+     "model_answer": "Child labour has a serious impact on children’s lives and future."
+    }
+   },
+   "explanation": "Key (model answer): Child labour has a serious impact on children’s lives and future. — Accept any logical answer.",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": true,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Find in §2 the word that is closest in meaning to “difficulty”.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "income",
+     "hardship",
+     "laws",
+     "acceptance"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: a- hardship — “Families in hardship may depend on a child’s income to survive” (§2).",
+   "points": 0.25,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Find in §5 the word that is closest in meaning to “guarantee”.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "demanding",
+     "ensure",
+     "remains",
+     "tackling"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: b- ensure — “we can ensure all children have the chance to learn…” (§5).",
+   "points": 0.25,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the opposite of “legal” keeping the same root.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "illegal",
+     "imlegal",
+     "dislegal",
+     "inlegal"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: illegal (prefix il-).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the opposite of “moral” keeping the same root.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "irmoral",
+     "dismoral",
+     "immoral",
+     "inmoral"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: immoral (prefix im-).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the opposite of “lead” keeping the same root.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "inlead",
+     "imlead",
+     "mislead",
+     "dislead"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: mislead (prefix mis-).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Complete sentence (b) so that it means the same as (a): (a) “Child labour can cause emotional trauma.” → (b) “Emotional trauma …”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Emotional trauma can caused by child labour.",
+     "Emotional trauma can be causing by child labour.",
+     "Emotional trauma can be cause by child labour.",
+     "Emotional trauma can be caused by child labour."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: 1) b. “Emotional trauma can be caused by child labour.”",
+   "points": 1,
+   "skill_id": "en.grammar",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Complete sentence (b) so that it means the same as (a): (a) “Many families regret they forced their children to work.” → (b) “Many families wish …”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Many families wish they would not forced their children to work.",
+     "Many families wish they had not forced their children to work.",
+     "Many families wish they did not force their children to work.",
+     "Many families wish they have not forced their children to work."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: 2) b. “Many families wish they had not forced their children to work.”",
+   "points": 1,
+   "skill_id": "en.grammar",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classify “conditions” according to the pronunciation of the final ‘s’.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "/Iz/",
+     "/z/",
+     "/s/"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: conditions → /z/ (key: “Conditions /families”).",
+   "points": 0.25,
+   "skill_id": "en.phonology",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classify “causes” according to the pronunciation of the final ‘s’.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "/s/",
+     "/z/",
+     "/Iz/"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: causes → /Iz/.",
+   "points": 0.25,
+   "skill_id": "en.phonology",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classify “conflicts” according to the pronunciation of the final ‘s’.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "/z/",
+     "/Iz/",
+     "/s/"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: conflicts → /s/.",
+   "points": 0.25,
+   "skill_id": "en.phonology",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classify “families” according to the pronunciation of the final ‘s’.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "/s/",
+     "/z/",
+     "/Iz/"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: families → /z/ (key: “Conditions /families”).",
+   "points": 0.25,
+   "skill_id": "en.phonology",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s-r1",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Reorder the sentences: which sentence opens the passage?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "d- It is true that children who work do not often get a proper education.",
+     "a- Besides, for parents who are struggling to keep their families afloat,",
+     "c- sending kids to school is a luxury they cannot afford.",
+     "b- Long strenuous workdays leave them exhausted and unable to attend classes."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: the passage opens with “d- It is true that children who work do not often get a proper education.” (0.5 for the opening sentence).",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s-r2",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Reorder the sentences: which sentence comes right after “d- It is true that children who work do not often get a proper education.”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "a- Besides, for parents who are struggling to keep their families afloat,",
+     "b- Long strenuous workdays leave them exhausted and unable to attend classes.",
+     "c- sending kids to school is a luxury they cannot afford."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: “d- It is true that children who work do not often get a proper education.” is followed by “b- Long strenuous workdays leave them exhausted and unable to attend classes.” (0.5 for each logical pair).",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s-r3",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Reorder the sentences: which sentence comes right after “b- Long strenuous workdays leave them exhausted and unable to attend classes.”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "d- It is true that children who work do not often get a proper education.",
+     "a- Besides, for parents who are struggling to keep their families afloat,",
+     "c- sending kids to school is a luxury they cannot afford."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: “b- Long strenuous workdays leave them exhausted and unable to attend classes.” is followed by “a- Besides, for parents who are struggling to keep their families afloat,” (0.5 for each logical pair).",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s-r4",
+   "source_question_id": "q10",
+   "rubric_element_id": "q10-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Reorder the sentences: which sentence comes right before “c- sending kids to school is a luxury they cannot afford.”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "a- Besides, for parents who are struggling to keep their families afloat,",
+     "d- It is true that children who work do not often get a proper education.",
+     "b- Long strenuous workdays leave them exhausted and unable to attend classes."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: “a- Besides, for parents who are struggling to keep their families afloat,” is followed by “c- sending kids to school is a luxury they cannot afford.” (0.5 for each logical pair). Full order: d – b – a – c.",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s-we1",
+   "source_question_id": "q11",
+   "rubric_element_id": "q11-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Relevance",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "You watched a TV documentary on children under 15 who were exploited in sweatshops under harsh conditions. You were deeply moved by such a situation. You decided to react. Write an opinion article of about 80 to 120 words for the local newspaper to suggest possible actions to combat child labour.",
+       "notes": [
+        "- Laws / punish / child exploitation",
+        "- Families / financial aid / social programmes",
+        "- Report exploitation / raise public awareness"
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You recently read an article in a blog. Its author denied any contribution of the ancient civilizations for humanity. As a member of an archaeological association, you felt disappointed and decided to react. Write an article of about 80 to 120 words as a response to the author in which you highlight the major contributions of ancient civilizations to the development of mankind.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: Relevance | Semantic coherence | Correct use of English | Excellence (vocabulary and creativity) | Final score — LE: 1.5 | 01 | 02 | 1.5 | 06",
+     "criterion": "Relevance",
+     "indicator": "Relevance"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Relevance: 1.5 pts (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1.5 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1.5 = 6 pts.",
+   "points": 1.5,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we2",
+   "source_question_id": "q11",
+   "rubric_element_id": "q11-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Semantic coherence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "You watched a TV documentary on children under 15 who were exploited in sweatshops under harsh conditions. You were deeply moved by such a situation. You decided to react. Write an opinion article of about 80 to 120 words for the local newspaper to suggest possible actions to combat child labour.",
+       "notes": [
+        "- Laws / punish / child exploitation",
+        "- Families / financial aid / social programmes",
+        "- Report exploitation / raise public awareness"
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You recently read an article in a blog. Its author denied any contribution of the ancient civilizations for humanity. As a member of an archaeological association, you felt disappointed and decided to react. Write an article of about 80 to 120 words as a response to the author in which you highlight the major contributions of ancient civilizations to the development of mankind.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: Relevance | Semantic coherence | Correct use of English | Excellence (vocabulary and creativity) | Final score — LE: 1.5 | 01 | 02 | 1.5 | 06",
+     "criterion": "Semantic coherence",
+     "indicator": "Semantic coherence"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Semantic coherence: 1 pt (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1.5 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1.5 = 6 pts.",
+   "points": 1,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we3",
+   "source_question_id": "q11",
+   "rubric_element_id": "q11-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Correct use of English",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "You watched a TV documentary on children under 15 who were exploited in sweatshops under harsh conditions. You were deeply moved by such a situation. You decided to react. Write an opinion article of about 80 to 120 words for the local newspaper to suggest possible actions to combat child labour.",
+       "notes": [
+        "- Laws / punish / child exploitation",
+        "- Families / financial aid / social programmes",
+        "- Report exploitation / raise public awareness"
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You recently read an article in a blog. Its author denied any contribution of the ancient civilizations for humanity. As a member of an archaeological association, you felt disappointed and decided to react. Write an article of about 80 to 120 words as a response to the author in which you highlight the major contributions of ancient civilizations to the development of mankind.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: Relevance | Semantic coherence | Correct use of English | Excellence (vocabulary and creativity) | Final score — LE: 1.5 | 01 | 02 | 1.5 | 06",
+     "criterion": "Correct use of English",
+     "indicator": "Correct use of English"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correct use of English: 2 pts (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1.5 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1.5 = 6 pts.",
+   "points": 2,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we4",
+   "source_question_id": "q11",
+   "rubric_element_id": "q11-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Excellence (vocabulary and creativity)",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "You watched a TV documentary on children under 15 who were exploited in sweatshops under harsh conditions. You were deeply moved by such a situation. You decided to react. Write an opinion article of about 80 to 120 words for the local newspaper to suggest possible actions to combat child labour.",
+       "notes": [
+        "- Laws / punish / child exploitation",
+        "- Families / financial aid / social programmes",
+        "- Report exploitation / raise public awareness"
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You recently read an article in a blog. Its author denied any contribution of the ancient civilizations for humanity. As a member of an archaeological association, you felt disappointed and decided to react. Write an article of about 80 to 120 words as a response to the author in which you highlight the major contributions of ancient civilizations to the development of mankind.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: Relevance | Semantic coherence | Correct use of English | Excellence (vocabulary and creativity) | Final score — LE: 1.5 | 01 | 02 | 1.5 | 06",
+     "criterion": "Excellence (vocabulary and creativity)",
+     "indicator": "Excellence (vocabulary and creativity)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Excellence (vocabulary and creativity): 1.5 pts (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1.5 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1.5 = 6 pts.",
+   "points": 1.5,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T10:30:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من الموضوع الرّسميّ (طبقة نصّ PDF مطابَقة بصور الصّفحات) والإجابة النّموذجيّة الرّسميّة في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الإجابة النّموذجيّة؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.788Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
+  }
+ ]
+}

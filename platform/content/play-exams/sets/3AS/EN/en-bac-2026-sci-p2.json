@@ -1,0 +1,992 @@
+{
+ "schema_version": 1,
+ "set_id": "en-bac-2026-sci-p2",
+ "status": "APPROVED",
+ "source": {
+  "source_id": "gdrive-1MILoreEdmPjXdq6eR32TNYU3vEFFZ6ww-p2",
+  "kind": "BAC",
+  "year": 2026,
+  "level": "3AS",
+  "streams": [
+   "SCI",
+   "MATH",
+   "TM",
+   "GE"
+  ],
+  "subject": "EN",
+  "term": null,
+  "paper": 2,
+  "title": "بكالوريا 2026 (الدّورة العاديّة) – اللّغة الإنجليزيّة – الشّعب العلميّة وتسيير واقتصاد – الموضوع الثّاني (Space developments …)",
+  "original_url": "https://drive.google.com/file/d/1MILoreEdmPjXdq6eR32TNYU3vEFFZ6ww/view",
+  "original_file_ref": "gdrive:1MILoreEdmPjXdq6eR32TNYU3vEFFZ6ww (2026 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1MQeD_b-6oWSLlhcCXGHCJVSs3ilPI_E1/view",
+  "correction_file_ref": "gdrive:1MQeD_b-6oWSLlhcCXGHCJVSs3ilPI_E1 (2026 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.802Z",
+  "notes": "موضوع البكالوريا الرّسميّ (الدّيوان الوطنيّ للامتحانات والمسابقات، الدّورة: 2026، الشّعبة: علوم تجريبيّة، رياضيّات، تقني رياضيّ، تسيير واقتصاد، فنون، المدّة: 02 سا و30 د) في Drive صاحب المنصّة: gdrive:1MILoreEdmPjXdq6eR32TNYU3vEFFZ6ww (2026 - اللغة الإنجليزية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf، 4 صفحات: الموضوع الأوّل ص1–2، الثّاني ص3–4)؛ «الدّورة العاديّة» من اسم الملفّ. الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1MQeD_b-6oWSLlhcCXGHCJVSs3ilPI_E1 (ص1 «Scientists have illuminated the effects …»، ص2 «Space developments …»)؛ مجموع كلّ موضوع 20 (القراءة 15 = الفهم 08 + استكشاف النّصّ 07، التّعبير الكتابيّ 05). الشّعب: الرّأس يذكر «فنون» أيضًا ولا رمز لها في PLAY، فالشّعب SCI وMATH وTM وGE (اسم ملفّ Drive لا يذكر الفنون). نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الملفّ PDF رقميّ له طبقة نصّ أصليّة، فأُخذت الحروف منها (pdftotext -raw: علامات الاقتباس المنحنية، «…»، «§»، «NASA‘s» بعلامة افتتاح كما طُبعت، نقاط الفراغات) وطوبقت سطرًا سطرًا مع صور الصّفحات (150 نقطة)، وتُحقِّق بسكربت من أنّ كلّ نصّ حرفيّ وكلّ اقتباس في الخطوات جزء من طبقة النّصّ. خلاف طبقة النّصّ والصّورة: السّنة والمدّة في الرّأس العربيّ معكوسة («0302»، «02 … 03») وصوابها في الصّورة «2026» و«02 سا و30 د»؛ نقاط الملاحظات في طبقة النّصّ رمز خاصّ U+F0B7 وفي الصّورة «•» فكُتبت «•»؛ التّسطير لا يظهر في طبقة النّصّ وحُدّد من الصّورة. قرارات التّحويل (R1–R11 في محوّل التّجربة build_en_bac_2019_lit.py، وD1–D9 في رأسَي build_en_bac_2026_lang.py وهذا المحوّل): عنصر لكلّ بند يُنقَّط منفردًا؛ صح/خطأ ونعم/لا اختيار من خيارين مخزَّنان معكوسين؛ «نعم + علّل» عنصران كما في السّلّم؛ صيغ الحلّ المتعدّدة للإجابة نفسها تبقى تفاعليّة ولا تُعرض صيغة مقبولة مشتّتًا؛ الاشتقاق والأضداد اختيار من متعدّد لكلّ كلمة؛ إعادة التّرتيب: الجملة الافتتاحيّة وكلّ زوج منطقيّ (0.5 لكلّ منها)؛ التّعبير الكتابيّ مؤجَّل بمعايير الشّبكة الرّسميّة «Common streams» (الملاءمة 1، الانسجام الدّلاليّ 1، سلامة اللّغة 2، الإتقان 1). الموضوع الثّاني: لا كلمات مسطّرة في النّصّ؛ المسطَّر في B3 «to observe forests efficiently.» و«that climate change is happening quickly.». س2أ: «§ 4 (Accept the last paragraph)»؛ س2ب: لم تُعرض «§2» مشتّتًا (بيانات الأقمار في تقرير IPCC: قابل للدّفاع). س3أ: «Yes» (0.5) والتّعليل (1) عنصران؛ س3ج: الحلّ «because climate change intensifies… critical data.» فالخيار جملة النّصّ كاملة. س B3أ: الحلّ يقبل «What do we use satellites for?» و«Why do we use satellites?» فعُرضت الأولى ولم تُعرض الثّانية. ملء الفراغات (0.5×4) خطوة واحدة، وقائمة الورقة أربع كلمات لأربعة فراغات فبقي البنك كما في الورقة دون مشتّت مُضاف (D8). المطابقة (0.5×3) خطوة مطابقة واحدة. المجموع 20 = 8 + 7 + 5 (تفاعليّ 15، مؤجَّل 5)."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "Part One: Reading (15 points) – A/ Comprehension (08 points)",
+   "verbatim_text": "Identify the type of the text.\nThe text is: a. a conversation b. a letter c. a web article.",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "Space developments in the last two decades have greatly contributed to our understanding of our planet’s climate. Satellite imaging, space exploration, and new technologies give us an idea of the big picture and how we can adapt to address climate change. For example, satellites in space have played a critical role in our understanding of the causes of global warming by providing us with a large body of data to examine the variations in the Earth’s orbit.\nData from these satellites were essential inputs into the Intergovernmental Panel on Climate Change’s (IPCC) recent report. The report focused on how the physical science of climate change informs us about possible impacts under different emissions scenarios.\nThe report also found that climate change is happening quicker than we thought, making the need to reduce emissions imminent. To address this, space infrastructure such as positioning, navigation, and timing (PNT) can help identify efficient transportation routes and sources of emissions, ultimately aiding mitigation efforts.\nAs climate change intensifies, space exploration and Earth observation will become increasingly important to gathering critical data. We must meet the moment by investing in these missions and recognizing the important role of space technologies."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from www.nei.org By EMMA DERR September17, 2021"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "Type of the text",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "Part One: Reading (15 points) – A/ Comprehension (08 points)",
+   "verbatim_text": "Identify the paragraphs in which the following ideas are mentioned.\na. The writer expresses the need for putting money in space exploration.\nb. The importance of satellites in studying the origins of climate change.",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "Space developments in the last two decades have greatly contributed to our understanding of our planet’s climate. Satellite imaging, space exploration, and new technologies give us an idea of the big picture and how we can adapt to address climate change. For example, satellites in space have played a critical role in our understanding of the causes of global warming by providing us with a large body of data to examine the variations in the Earth’s orbit.\nData from these satellites were essential inputs into the Intergovernmental Panel on Climate Change’s (IPCC) recent report. The report focused on how the physical science of climate change informs us about possible impacts under different emissions scenarios.\nThe report also found that climate change is happening quicker than we thought, making the need to reduce emissions imminent. To address this, space infrastructure such as positioning, navigation, and timing (PNT) can help identify efficient transportation routes and sources of emissions, ultimately aiding mitigation efforts.\nAs climate change intensifies, space exploration and Earth observation will become increasingly important to gathering critical data. We must meet the moment by investing in these missions and recognizing the important role of space technologies."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from www.nei.org By EMMA DERR September17, 2021"
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "a. Paragraph of idea a",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q2-e2",
+     "label": "b. Paragraph of idea b",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "Part One: Reading (15 points) – A/ Comprehension (08 points)",
+   "verbatim_text": "Answer the following questions according to the text.\na. Have space technologies helped identify the causes of global warming? Justify.\nb. How can space research contribute in reducing emissions?\nc. Why do we need to invest in space technologies?",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "Space developments in the last two decades have greatly contributed to our understanding of our planet’s climate. Satellite imaging, space exploration, and new technologies give us an idea of the big picture and how we can adapt to address climate change. For example, satellites in space have played a critical role in our understanding of the causes of global warming by providing us with a large body of data to examine the variations in the Earth’s orbit.\nData from these satellites were essential inputs into the Intergovernmental Panel on Climate Change’s (IPCC) recent report. The report focused on how the physical science of climate change informs us about possible impacts under different emissions scenarios.\nThe report also found that climate change is happening quicker than we thought, making the need to reduce emissions imminent. To address this, space infrastructure such as positioning, navigation, and timing (PNT) can help identify efficient transportation routes and sources of emissions, ultimately aiding mitigation efforts.\nAs climate change intensifies, space exploration and Earth observation will become increasingly important to gathering critical data. We must meet the moment by investing in these missions and recognizing the important role of space technologies."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from www.nei.org By EMMA DERR September17, 2021"
+    }
+   ],
+   "rubric_total": 4,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "a. Yes/No answer",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q3-e2",
+     "label": "a. Justification",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q3-e3",
+     "label": "b. Reducing emissions",
+     "max_points": 1.5,
+     "verified": true
+    },
+    {
+     "id": "q3-e4",
+     "label": "c. Investing in space technologies",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "Part One: Reading (15 points) – A/ Comprehension (08 points)",
+   "verbatim_text": "Choose the most appropriate title to the text.\na. Understanding Climate Change via Space Technologies.\nb. The Impact of Space Technologies on Climate Change.\nc. Causes and Effects of Global Warming.",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully to do the activities."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "Space developments in the last two decades have greatly contributed to our understanding of our planet’s climate. Satellite imaging, space exploration, and new technologies give us an idea of the big picture and how we can adapt to address climate change. For example, satellites in space have played a critical role in our understanding of the causes of global warming by providing us with a large body of data to examine the variations in the Earth’s orbit.\nData from these satellites were essential inputs into the Intergovernmental Panel on Climate Change’s (IPCC) recent report. The report focused on how the physical science of climate change informs us about possible impacts under different emissions scenarios.\nThe report also found that climate change is happening quicker than we thought, making the need to reduce emissions imminent. To address this, space infrastructure such as positioning, navigation, and timing (PNT) can help identify efficient transportation routes and sources of emissions, ultimately aiding mitigation efforts.\nAs climate change intensifies, space exploration and Earth observation will become increasingly important to gathering critical data. We must meet the moment by investing in these missions and recognizing the important role of space technologies."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Adapted from www.nei.org By EMMA DERR September17, 2021"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "The most appropriate title",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "1",
+   "part": "Part One: Reading (15 points) – B/ Text Exploration (07 points)",
+   "verbatim_text": "Match the following words with the corresponding definitions.",
+   "documents": [
+    {
+     "id": "d-match",
+     "kind": "table",
+     "caption": "Words and definitions",
+     "table": [
+      [
+       "Words",
+       "Definitions"
+      ],
+      [
+       "1. to address",
+       "a. the regular pattern of weather conditions of a particular place."
+      ],
+      [
+       "2. global",
+       "b. to think about a problem and decide how to deal with it."
+      ],
+      [
+       "3. climate",
+       "c. covering or affecting the whole world."
+      ]
+     ]
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "Words and definitions (0.5×3)",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "2",
+   "part": "Part One: Reading (15 points) – B/ Text Exploration (07 points)",
+   "verbatim_text": "Give the opposites of the following words keeping the same roots.\nunderstanding - efficient - important",
+   "documents": [],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "understanding",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q6-e2",
+     "label": "efficient",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q6-e3",
+     "label": "important",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "3",
+   "part": "Part One: Reading (15 points) – B/ Text Exploration (07 points)",
+   "verbatim_text": "Ask questions which the underlined words answer.\na. We use satellites to observe forests efficiently.\nb. The report found that climate change is happening quickly.",
+   "documents": [],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "a. Question",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q7-e2",
+     "label": "b. Question",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "4",
+   "part": "Part One: Reading (15 points) – B/ Text Exploration (07 points)",
+   "verbatim_text": "Fill in the gaps with words from the list given.",
+   "documents": [
+    {
+     "id": "d-bank",
+     "kind": "text",
+     "caption": "Word list",
+     "text": "understanding - provide - processes - local"
+    },
+    {
+     "id": "d-cloze",
+     "kind": "text",
+     "caption": "Passage",
+     "text": "NASA‘s Earth Observation, the next generation of Earth science satellites that will be launched in the next decade, reflect the importance of Earth imaging. These satellites are designed to…(1)… information about our planet, ranging from the location of forest fires to the sea level rise to our agricultural …(2)…. They will be able to collect data at the regional and …(3)… levels and connect critical interactions between the atmosphere, land, oceans and ice, significantly supporting our …(4)… of the Earth’s climate."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "Gap filling (0.5×4)",
+     "max_points": 2,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "—",
+   "part": "Part Two: Written Expression (05 points)",
+   "verbatim_text": "Choose only ONE of the following topics.\nTopic One:\nDuring a TV debate on space exploration, a participant doubted the usefulness of spending huge amounts of money on exploring the outer space while there exist many challenges on Earth. As a member of an astronomy association, write an article of about 80 to 120 words for your local newspaper to explain the reasons for investing in space exploration.\nMake the best use of the following notes:\n• Expansion of knowledge / solar system and the universe.\n• Improvement / quality of life / Earth.\n• Detection /forest fires.\n• Identification / weather forecast/ communication.\nTopic Two:\nYou have recently bought a product online. You realised that it was a counterfeit while the seller pretended it was a genuine one. Write an opinion article of about 80 to 120 words to denounce such an unethical practice.",
+   "documents": [],
+   "rubric_total": 5,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "Relevance",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e2",
+     "label": "Semantic coherence",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e3",
+     "label": "Correct use of English",
+     "max_points": 2,
+     "verified": true
+    },
+    {
+     "id": "q9-e4",
+     "label": "Excellence (vocabulary and creativity)",
+     "max_points": 1,
+     "verified": true
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Identify the type of the text. The text is:",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "a web article",
+     "a letter",
+     "a conversation"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: c. a web article (source: www.nei.org).",
+   "points": 1,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "In which paragraph is this idea mentioned: “The writer expresses the need for putting money in space exploration.”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "§1",
+     "§2",
+     "§3",
+     "§4"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: a. § 4 (Accept the last paragraph) — “We must meet the moment by investing in these missions…”.",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "In which paragraph is this idea mentioned: “The importance of satellites in studying the origins of climate change.”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "§4",
+     "§3",
+     "§1"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: b § 1.",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Have space technologies helped identify the causes of global warming?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Yes, they have.",
+     "No, they have not."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: a. “Yes, they have. / Yes.” (0,5 for Yes).",
+   "points": 0.5,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Have space technologies helped identify the causes of global warming? Choose the statement that justifies the answer according to the text.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Space technologies have no role in our understanding of global warming.",
+     "Satellites in space have played a critical role in our understanding of the causes of global warming by providing us with a large body of data to examine the variations in the Earth’s orbit.",
+     "Satellites only help identify efficient transportation routes.",
+     "Climate change is happening slower than we thought."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: Justification: “…satellites in space have played … Earth’s orbit.” (1 for justification) — §1.",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "How can space research contribute in reducing emissions?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Satellite imaging which can stop the variations in the Earth’s orbit.",
+     "Space infrastructure such as positioning, navigation, and timing (PNT) which can help identify efficient transportation routes and sources of emissions, ultimately aiding mitigation efforts.",
+     "Space tourism which can take people away from the polluted Earth.",
+     "Space exploration which can replace all transportation on Earth."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: b. “Space infrastructure such as positioning, navigation, and timing (PNT) which can help identify efficient transportation routes and sources of emissions, ultimately aiding mitigation efforts.” (§3)",
+   "points": 1.5,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Why do we need to invest in space technologies?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Because space missions cost less than solving problems on Earth.",
+     "Because satellites are the main cause of global warming.",
+     "Because climate change has stopped.",
+     "Because as climate change intensifies, space exploration and Earth observation will become increasingly important to gathering critical data."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: c. “because climate change intensifies… critical data.” (§4)",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Choose the most appropriate title to the text.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "The Impact of Space Technologies on Climate Change.",
+     "Causes and Effects of Global Warming.",
+     "Understanding Climate Change via Space Technologies."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: a. Understanding Climate Change via Space Technologies",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "matching",
+   "prompt": "Match the following words with the corresponding definitions.",
+   "payload": {
+    "type": "matching",
+    "lefts": [
+     "to address",
+     "global",
+     "climate"
+    ],
+    "rights": [
+     "the regular pattern of weather conditions of a particular place.",
+     "covering or affecting the whole world.",
+     "to think about a problem and decide how to deal with it."
+    ]
+   },
+   "answer": {
+    "type": "matching",
+    "pairs": [
+     2,
+     1,
+     0
+    ]
+   },
+   "explanation": "Key: 1) b 2) c 3) a (0.5 each).",
+   "points": 1.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": true,
+   "review_status": "approved"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the opposite of “understanding” keeping the same root.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "disunderstanding",
+     "misunderstanding",
+     "ununderstanding",
+     "inunderstanding"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: misunderstanding (prefix mis-).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the opposite of “efficient” keeping the same root.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "irefficient",
+     "disefficient",
+     "inefficient",
+     "imefficient"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: inefficient (prefix in-).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the opposite of “important” keeping the same root.",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "disimportant",
+     "unimportant",
+     "misimportant",
+     "inimportant"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: unimportant (prefix un-).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Ask the question which the underlined words answer: “We use satellites to observe forests efficiently.” (underlined: “to observe forests efficiently”)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "What do we use satellites for?",
+     "Who do we use satellites for?",
+     "What did we use satellites for?",
+     "What we use satellites for?"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: 1) What do we use satellites for? OR: Why do we use satellites?",
+   "points": 1,
+   "skill_id": "en.grammar",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Ask the question which the underlined words answer: “The report found that climate change is happening quickly.” (underlined: “that climate change is happening quickly”)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "What did the report find?",
+     "What did the report found?",
+     "What the report found?",
+     "What does the report find?"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: 2) What did the report find?",
+   "points": 1,
+   "skill_id": "en.grammar",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "fill_blank",
+   "prompt": "Fill in the gaps with words from the list given.",
+   "payload": {
+    "type": "fill_blank",
+    "text": "NASA‘s Earth Observation, the next generation of Earth science satellites that will be launched in the next decade, reflect the importance of Earth imaging. These satellites are designed to (1) ____ information about our planet, ranging from the location of forest fires to the sea level rise to our agricultural (2) ____. They will be able to collect data at the regional and (3) ____ levels and connect critical interactions between the atmosphere, land, oceans and ice, significantly supporting our (4) ____ of the Earth’s climate.",
+    "bank": [
+     "provide",
+     "local",
+     "processes",
+     "understanding"
+    ]
+   },
+   "answer": {
+    "type": "fill_blank",
+    "blanks": [
+     [
+      "provide"
+     ],
+     [
+      "processes"
+     ],
+     [
+      "local"
+     ],
+     [
+      "understanding"
+     ]
+    ]
+   },
+   "explanation": "Key: 1) provide 2) processes 3) local 4) understanding (0.5 each).",
+   "points": 2,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": true,
+   "review_status": "approved"
+  },
+  {
+   "id": "s-we1",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Relevance",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "During a TV debate on space exploration, a participant doubted the usefulness of spending huge amounts of money on exploring the outer space while there exist many challenges on Earth. As a member of an astronomy association, write an article of about 80 to 120 words for your local newspaper to explain the reasons for investing in space exploration.",
+       "notes": [
+        "• Expansion of knowledge / solar system and the universe.",
+        "• Improvement / quality of life / Earth.",
+        "• Detection /forest fires.",
+        "• Identification / weather forecast/ communication."
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You have recently bought a product online. You realised that it was a counterfeit while the seller pretended it was a genuine one. Write an opinion article of about 80 to 120 words to denounce such an unethical practice.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: Relevance | Semantic Coherence | Correct use of English | Excellence (vocabulary and creativity) | Final score — Common streams: 1 | 1 | 2 | 1 | 05pts",
+     "criterion": "Relevance",
+     "indicator": "Relevance"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Relevance: 1 pt (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 1,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we2",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Semantic coherence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "During a TV debate on space exploration, a participant doubted the usefulness of spending huge amounts of money on exploring the outer space while there exist many challenges on Earth. As a member of an astronomy association, write an article of about 80 to 120 words for your local newspaper to explain the reasons for investing in space exploration.",
+       "notes": [
+        "• Expansion of knowledge / solar system and the universe.",
+        "• Improvement / quality of life / Earth.",
+        "• Detection /forest fires.",
+        "• Identification / weather forecast/ communication."
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You have recently bought a product online. You realised that it was a counterfeit while the seller pretended it was a genuine one. Write an opinion article of about 80 to 120 words to denounce such an unethical practice.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: Relevance | Semantic Coherence | Correct use of English | Excellence (vocabulary and creativity) | Final score — Common streams: 1 | 1 | 2 | 1 | 05pts",
+     "criterion": "Semantic coherence",
+     "indicator": "Semantic coherence"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Semantic coherence: 1 pt (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 1,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we3",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Correct use of English",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "During a TV debate on space exploration, a participant doubted the usefulness of spending huge amounts of money on exploring the outer space while there exist many challenges on Earth. As a member of an astronomy association, write an article of about 80 to 120 words for your local newspaper to explain the reasons for investing in space exploration.",
+       "notes": [
+        "• Expansion of knowledge / solar system and the universe.",
+        "• Improvement / quality of life / Earth.",
+        "• Detection /forest fires.",
+        "• Identification / weather forecast/ communication."
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You have recently bought a product online. You realised that it was a counterfeit while the seller pretended it was a genuine one. Write an opinion article of about 80 to 120 words to denounce such an unethical practice.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: Relevance | Semantic Coherence | Correct use of English | Excellence (vocabulary and creativity) | Final score — Common streams: 1 | 1 | 2 | 1 | 05pts",
+     "criterion": "Correct use of English",
+     "indicator": "Correct use of English"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correct use of English: 2 pts (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 2,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we4",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Excellence (vocabulary and creativity)",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose only ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "During a TV debate on space exploration, a participant doubted the usefulness of spending huge amounts of money on exploring the outer space while there exist many challenges on Earth. As a member of an astronomy association, write an article of about 80 to 120 words for your local newspaper to explain the reasons for investing in space exploration.",
+       "notes": [
+        "• Expansion of knowledge / solar system and the universe.",
+        "• Improvement / quality of life / Earth.",
+        "• Detection /forest fires.",
+        "• Identification / weather forecast/ communication."
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "You have recently bought a product online. You realised that it was a counterfeit while the seller pretended it was a genuine one. Write an opinion article of about 80 to 120 words to denounce such an unethical practice.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "grid": "Criteria: Relevance | Semantic Coherence | Correct use of English | Excellence (vocabulary and creativity) | Final score — Common streams: 1 | 1 | 2 | 1 | 05pts",
+     "criterion": "Excellence (vocabulary and creativity)",
+     "indicator": "Excellence (vocabulary and creativity)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Excellence (vocabulary and creativity): 1 pt (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 1,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T10:30:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من الموضوع الرّسميّ (طبقة نصّ PDF مطابَقة بصور الصّفحات) والإجابة النّموذجيّة الرّسميّة في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الإجابة النّموذجيّة؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.802Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
+  }
+ ]
+}

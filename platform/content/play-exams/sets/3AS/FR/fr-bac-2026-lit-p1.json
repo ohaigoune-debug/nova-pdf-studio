@@ -1,0 +1,1528 @@
+{
+ "schema_version": 1,
+ "set_id": "fr-bac-2026-lit-p1",
+ "status": "APPROVED",
+ "source": {
+  "source_id": "gdrive-1woINl5-mPvQbC6R70gGpandDe6YJ1WVm-p1",
+  "kind": "BAC",
+  "year": 2026,
+  "level": "3AS",
+  "streams": [
+   "LIT"
+  ],
+  "subject": "FR",
+  "term": null,
+  "paper": 1,
+  "title": "بكالوريا 2026 (الدورة العاديّة) – اللغة الفرنسية – شعبة آداب وفلسفة – الموضوع الأوّل (Ali HAROUN، LE SECOND FRONT: وثيقة 8 ماي 1959)",
+  "original_url": "https://drive.google.com/file/d/1woINl5-mPvQbC6R70gGpandDe6YJ1WVm/view",
+  "original_file_ref": "gdrive:1woINl5-mPvQbC6R70gGpandDe6YJ1WVm (2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1_h33axzYB2CPrQmfFUzxnF4-oKH4BStt/view",
+  "correction_file_ref": "gdrive:1_h33axzYB2CPrQmfFUzxnF4-oKH4BStt (2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.834Z",
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word). الموضوع: gdrive:1woINl5-mPvQbC6R70gGpandDe6YJ1WVm (2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf) ص1–2؛ الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1_h33axzYB2CPrQmfFUzxnF4-oKH4BStt (2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf) ص1 وص3 (الإنتاج الكتابيّ للموضوعين). الملفّان PDF رقميّان من الدّيوان الوطنيّ للامتحانات (لا مسح ضوئيّ): أُخذ النّصّ من طبقة النّصّ (pdftotext -raw) وقوبل كلّ سطر بصورة الصّفحة (150 نقطة)، وتحقّق سكربت من أنّ كلّ نصّ حرفيّ موجود في طبقة النّصّ. الشّعبة من رأس الورقة «الشعبة: آداب وفلسفة» ⇒ LIT. «الدورة العادية» من اسم الملفّ في Drive (الورقة تطبع «الدورة: 2026»). المجموع: فهم المكتوب 13 + إنتاج كتابيّ 07؛ كلّ العلامات من عمودَي «مجزأة/مجموع» في الحلّ الرّسميّ. خلافات طبقة النّصّ مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس (السّنة «0302»، المدّة «02 سا و 03 د» والصّورة «02 سا و30 د»)، تذييل ص2 من الحلّ «صفحة 0 من 3» في الطّبقة؛ إحالات الهوامش مرفوعة ⇒ ¹ ² ³ ⁴ و«Conversation*»؛ «1er/3ème…» المرفوعة كُتبت عاديّة؛ «auto-/surveillance» و«15-/24» المقسومتان آخر السّطر وُصلتا. حُفظ كما طُبع: «45.000 Algériens» و«45 000 victimes»، «Ecrits»، «Casbah Editions»، «reconnaitre» في س6 من الموضوع الثّاني (والنّصّ «reconnaître»)، والفاصلة العليا المستقيمة في «l'indépendance» (س8 من الموضوع الأوّل) و«l'utilisation» و«l'ensemble». قرارات عامّة: «n×m» لبنود متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من النّصّ ⇒ عنصر واحد بخطوة multi. الخيارات الثّنائيّة تُخزَّن معكوسة لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين. قاعدة «accepter» الموحَّدة: صيغة أخرى للجواب نفسه ⇒ تفاعليّ (الصّحيح صيغة الحلّ الأولى، والصّيغ المقبولة في الشّرح ولا تكون مشتّتًا أبدًا)؛ الجواب المفتوح («Exemples») ⇒ essay_builder مؤجَّل. الإنتاج الكتابيّ = سؤال أصليّ واحد يضمّ الموضوعين، وتفاصيل شبكة كلّ موضوع في spec. المشتّتات من إعداد التّحويل وتحتاج مراجعة. الفقرة التّمهيديّة المائلة «L’auteur republie…» وثيقة مستقلّة «Présentation du document»، وفقرات النّصّ ستّ. س2: الخيار الصّحيح بلفظ الحلّ (بلا الفاصلة بعد «massacres» الموجودة في النّصّ)؛ الصّيغة القصيرة المقبولة وصيغة النّصّ ليستا مشتّتين؛ لم يُعرض «Le mouvement de Libération Nationale sut donc tirer la leçon…» ولا «les campagnes du Vietnam confirmèrent cette analyse» لأنّهما قابلتان للدّفاع. س3 «0.5x3» ⇒ عنصر واحد (1.5) بخطوة multi؛ «la discipline» و«unité du peuple algérien» المقبولتان ليستا مشتّتين. س5 «0.5×4» ⇒ أربعة عناصر ثنائيّة (8 mai 1945 / 8 mai 1959). س6 «lui»: الصّحيح «un corps expéditionnaire français de 750 000 hommes» والصّيغة القصيرة المقبولة ليست مشتّتًا. س8: «0.5x4» معايير ⇒ أربعة عناصر مؤجَّلة. الإنتاج الكتابيّ (7): (تقديم + بنية) عنصر واحد (1) لاختلاف تقسيمه بين الشّبكتين (0.5+0.25x2 / 0.25+0.25x3)، وباقي الأسطر بالعلامة نفسها ⇒ 12 عنصرًا."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Dans ce texte, le sujet principal est :\n- les relations économiques entre la France et l’Algérie pendant la période coloniale.\n- la formation et l’évolution du mouvement de libération nationale algérien.\n- les massacres du colonialisme en Algérie et la lutte des Algériens pour l’indépendance.\nRecopiez la bonne réponse.",
+   "documents": [
+    {
+     "id": "d-intro",
+     "kind": "text",
+     "caption": "Présentation du document",
+     "text": "L’auteur republie, dans son ouvrage, le document n°121 de la Fédération de France du FLN produit le 08 mai 1959 à l’occasion de la commémoration du 08 mai 1945."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Il y a exactement quatorze ans, le 8 mai 1945, une répression sauvage s’abattait sur les Algériens désarmés et sans appui. Le gouvernement colonialiste français dont De Gaulle était, comme aujourd’hui, le chef suprême, donnait mission à ses troupes et à sa marine d’écraser avec la dernière énergie, le mouvement de libération algérien qui avait osé, à l’occasion du défilé du 1er mai, manifester pacifiquement sa présence au même titre que les divers groupements européens existant à l’époque en Algérie.\nL’armée française entra donc en action sur de nombreuses parties du territoire algérien. La flotte et l’aviation bombardèrent des villages entiers. En moins d’une semaine, les forces françaises avaient assassiné 45.000 Algériens. Isolée du reste du monde, notre cause demeura sans écho. L’opinion internationale resta muette. […]\nLes hommes qui se chargèrent du redoutable honneur de préparer la libération, comprirent après ces massacres, que le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force. Les années suivantes, les campagnes du Vietnam confirmèrent cette analyse. Le mouvement de Libération Nationale sut donc tirer la leçon de la tragédie du 8 mai 1945 et agit de telle sorte que les 45 000 victimes ne soient pas sacrifiées inutilement.\nAujourd’hui, l’unité du peuple algérien est complète et sans fissure. Toutes les énergies saines de notre Peuple se sont retrouvées au sein du FLN¹ et œuvrent dans l’union, la fraternité et la discipline révolutionnaire à la liquidation du système colonial.\nAujourd’hui, l’Armée de Libération Algérienne, soutenue et aidée par tout le peuple, tient en échec un corps expéditionnaire français de 750 000 hommes, lui infligeant des pertes sévères, le harcelant sans répit et gardant partout l’avantage et l’initiative.\nAujourd’hui, la cause de notre Peuple est connue dans le monde entier et bénéficie des sympathies et du soutien de la majeure partie de l’humanité. Le GPRA² est reconnu par un ensemble de pays dont la population se chiffre à près d’un milliard d’hommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Ali HAROUN, LE SECOND FRONT,\nEcrits et Documents de la Fédération de France du FLN 1954-1962,\nCasbah Editions, Alger 2021, pp. 255-256."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. FLN : Front de Libération Nationale.\n2. GPRA : Gouvernement Provisoire de la République Algérienne."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "Sujet principal du texte",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Relevez, du texte, la phrase qui reprend la même idée que : « Les militants du mouvement national ont compris que seule la lutte armée pouvait libérer le pays du joug colonial. »",
+   "documents": [
+    {
+     "id": "d-intro",
+     "kind": "text",
+     "caption": "Présentation du document",
+     "text": "L’auteur republie, dans son ouvrage, le document n°121 de la Fédération de France du FLN produit le 08 mai 1959 à l’occasion de la commémoration du 08 mai 1945."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Il y a exactement quatorze ans, le 8 mai 1945, une répression sauvage s’abattait sur les Algériens désarmés et sans appui. Le gouvernement colonialiste français dont De Gaulle était, comme aujourd’hui, le chef suprême, donnait mission à ses troupes et à sa marine d’écraser avec la dernière énergie, le mouvement de libération algérien qui avait osé, à l’occasion du défilé du 1er mai, manifester pacifiquement sa présence au même titre que les divers groupements européens existant à l’époque en Algérie.\nL’armée française entra donc en action sur de nombreuses parties du territoire algérien. La flotte et l’aviation bombardèrent des villages entiers. En moins d’une semaine, les forces françaises avaient assassiné 45.000 Algériens. Isolée du reste du monde, notre cause demeura sans écho. L’opinion internationale resta muette. […]\nLes hommes qui se chargèrent du redoutable honneur de préparer la libération, comprirent après ces massacres, que le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force. Les années suivantes, les campagnes du Vietnam confirmèrent cette analyse. Le mouvement de Libération Nationale sut donc tirer la leçon de la tragédie du 8 mai 1945 et agit de telle sorte que les 45 000 victimes ne soient pas sacrifiées inutilement.\nAujourd’hui, l’unité du peuple algérien est complète et sans fissure. Toutes les énergies saines de notre Peuple se sont retrouvées au sein du FLN¹ et œuvrent dans l’union, la fraternité et la discipline révolutionnaire à la liquidation du système colonial.\nAujourd’hui, l’Armée de Libération Algérienne, soutenue et aidée par tout le peuple, tient en échec un corps expéditionnaire français de 750 000 hommes, lui infligeant des pertes sévères, le harcelant sans répit et gardant partout l’avantage et l’initiative.\nAujourd’hui, la cause de notre Peuple est connue dans le monde entier et bénéficie des sympathies et du soutien de la majeure partie de l’humanité. Le GPRA² est reconnu par un ensemble de pays dont la population se chiffre à près d’un milliard d’hommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Ali HAROUN, LE SECOND FRONT,\nEcrits et Documents de la Fédération de France du FLN 1954-1962,\nCasbah Editions, Alger 2021, pp. 255-256."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. FLN : Front de Libération Nationale.\n2. GPRA : Gouvernement Provisoire de la République Algérienne."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "Phrase du texte qui reprend la même idée",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Trouvez, dans le 4ème paragraphe, les trois (03) piliers qui ont permis au peuple algérien de se libérer du système colonial.",
+   "documents": [
+    {
+     "id": "d-intro",
+     "kind": "text",
+     "caption": "Présentation du document",
+     "text": "L’auteur republie, dans son ouvrage, le document n°121 de la Fédération de France du FLN produit le 08 mai 1959 à l’occasion de la commémoration du 08 mai 1945."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Il y a exactement quatorze ans, le 8 mai 1945, une répression sauvage s’abattait sur les Algériens désarmés et sans appui. Le gouvernement colonialiste français dont De Gaulle était, comme aujourd’hui, le chef suprême, donnait mission à ses troupes et à sa marine d’écraser avec la dernière énergie, le mouvement de libération algérien qui avait osé, à l’occasion du défilé du 1er mai, manifester pacifiquement sa présence au même titre que les divers groupements européens existant à l’époque en Algérie.\nL’armée française entra donc en action sur de nombreuses parties du territoire algérien. La flotte et l’aviation bombardèrent des villages entiers. En moins d’une semaine, les forces françaises avaient assassiné 45.000 Algériens. Isolée du reste du monde, notre cause demeura sans écho. L’opinion internationale resta muette. […]\nLes hommes qui se chargèrent du redoutable honneur de préparer la libération, comprirent après ces massacres, que le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force. Les années suivantes, les campagnes du Vietnam confirmèrent cette analyse. Le mouvement de Libération Nationale sut donc tirer la leçon de la tragédie du 8 mai 1945 et agit de telle sorte que les 45 000 victimes ne soient pas sacrifiées inutilement.\nAujourd’hui, l’unité du peuple algérien est complète et sans fissure. Toutes les énergies saines de notre Peuple se sont retrouvées au sein du FLN¹ et œuvrent dans l’union, la fraternité et la discipline révolutionnaire à la liquidation du système colonial.\nAujourd’hui, l’Armée de Libération Algérienne, soutenue et aidée par tout le peuple, tient en échec un corps expéditionnaire français de 750 000 hommes, lui infligeant des pertes sévères, le harcelant sans répit et gardant partout l’avantage et l’initiative.\nAujourd’hui, la cause de notre Peuple est connue dans le monde entier et bénéficie des sympathies et du soutien de la majeure partie de l’humanité. Le GPRA² est reconnu par un ensemble de pays dont la population se chiffre à près d’un milliard d’hommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Ali HAROUN, LE SECOND FRONT,\nEcrits et Documents de la Fédération de France du FLN 1954-1962,\nCasbah Editions, Alger 2021, pp. 255-256."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. FLN : Front de Libération Nationale.\n2. GPRA : Gouvernement Provisoire de la République Algérienne."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "Trois piliers relevés dans le 4ème paragraphe (0,5x3)",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Précisez la date qui correspond au mot « aujourd’hui » dans le texte.",
+   "documents": [
+    {
+     "id": "d-intro",
+     "kind": "text",
+     "caption": "Présentation du document",
+     "text": "L’auteur republie, dans son ouvrage, le document n°121 de la Fédération de France du FLN produit le 08 mai 1959 à l’occasion de la commémoration du 08 mai 1945."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Il y a exactement quatorze ans, le 8 mai 1945, une répression sauvage s’abattait sur les Algériens désarmés et sans appui. Le gouvernement colonialiste français dont De Gaulle était, comme aujourd’hui, le chef suprême, donnait mission à ses troupes et à sa marine d’écraser avec la dernière énergie, le mouvement de libération algérien qui avait osé, à l’occasion du défilé du 1er mai, manifester pacifiquement sa présence au même titre que les divers groupements européens existant à l’époque en Algérie.\nL’armée française entra donc en action sur de nombreuses parties du territoire algérien. La flotte et l’aviation bombardèrent des villages entiers. En moins d’une semaine, les forces françaises avaient assassiné 45.000 Algériens. Isolée du reste du monde, notre cause demeura sans écho. L’opinion internationale resta muette. […]\nLes hommes qui se chargèrent du redoutable honneur de préparer la libération, comprirent après ces massacres, que le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force. Les années suivantes, les campagnes du Vietnam confirmèrent cette analyse. Le mouvement de Libération Nationale sut donc tirer la leçon de la tragédie du 8 mai 1945 et agit de telle sorte que les 45 000 victimes ne soient pas sacrifiées inutilement.\nAujourd’hui, l’unité du peuple algérien est complète et sans fissure. Toutes les énergies saines de notre Peuple se sont retrouvées au sein du FLN¹ et œuvrent dans l’union, la fraternité et la discipline révolutionnaire à la liquidation du système colonial.\nAujourd’hui, l’Armée de Libération Algérienne, soutenue et aidée par tout le peuple, tient en échec un corps expéditionnaire français de 750 000 hommes, lui infligeant des pertes sévères, le harcelant sans répit et gardant partout l’avantage et l’initiative.\nAujourd’hui, la cause de notre Peuple est connue dans le monde entier et bénéficie des sympathies et du soutien de la majeure partie de l’humanité. Le GPRA² est reconnu par un ensemble de pays dont la population se chiffre à près d’un milliard d’hommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Ali HAROUN, LE SECOND FRONT,\nEcrits et Documents de la Fédération de France du FLN 1954-1962,\nCasbah Editions, Alger 2021, pp. 255-256."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. FLN : Front de Libération Nationale.\n2. GPRA : Gouvernement Provisoire de la République Algérienne."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "Date qui correspond au mot « aujourd’hui »",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "5",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Soit les propositions suivantes :\nle monde entier ignore la situation en Algérie / la cause algérienne gagne en visibilité dans le monde / les souffrances en Algérie n’ont pas suscité de réactions internationales / l’Algérie bénéficie d’un large soutien international.\nClassez-les selon qu’elles renvoient à la période du :\n- 8 mai 1945 : ………………………………………………….\n- 8 mai 1959 : …………………………………………………..",
+   "documents": [
+    {
+     "id": "d-intro",
+     "kind": "text",
+     "caption": "Présentation du document",
+     "text": "L’auteur republie, dans son ouvrage, le document n°121 de la Fédération de France du FLN produit le 08 mai 1959 à l’occasion de la commémoration du 08 mai 1945."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Il y a exactement quatorze ans, le 8 mai 1945, une répression sauvage s’abattait sur les Algériens désarmés et sans appui. Le gouvernement colonialiste français dont De Gaulle était, comme aujourd’hui, le chef suprême, donnait mission à ses troupes et à sa marine d’écraser avec la dernière énergie, le mouvement de libération algérien qui avait osé, à l’occasion du défilé du 1er mai, manifester pacifiquement sa présence au même titre que les divers groupements européens existant à l’époque en Algérie.\nL’armée française entra donc en action sur de nombreuses parties du territoire algérien. La flotte et l’aviation bombardèrent des villages entiers. En moins d’une semaine, les forces françaises avaient assassiné 45.000 Algériens. Isolée du reste du monde, notre cause demeura sans écho. L’opinion internationale resta muette. […]\nLes hommes qui se chargèrent du redoutable honneur de préparer la libération, comprirent après ces massacres, que le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force. Les années suivantes, les campagnes du Vietnam confirmèrent cette analyse. Le mouvement de Libération Nationale sut donc tirer la leçon de la tragédie du 8 mai 1945 et agit de telle sorte que les 45 000 victimes ne soient pas sacrifiées inutilement.\nAujourd’hui, l’unité du peuple algérien est complète et sans fissure. Toutes les énergies saines de notre Peuple se sont retrouvées au sein du FLN¹ et œuvrent dans l’union, la fraternité et la discipline révolutionnaire à la liquidation du système colonial.\nAujourd’hui, l’Armée de Libération Algérienne, soutenue et aidée par tout le peuple, tient en échec un corps expéditionnaire français de 750 000 hommes, lui infligeant des pertes sévères, le harcelant sans répit et gardant partout l’avantage et l’initiative.\nAujourd’hui, la cause de notre Peuple est connue dans le monde entier et bénéficie des sympathies et du soutien de la majeure partie de l’humanité. Le GPRA² est reconnu par un ensemble de pays dont la population se chiffre à près d’un milliard d’hommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Ali HAROUN, LE SECOND FRONT,\nEcrits et Documents de la Fédération de France du FLN 1954-1962,\nCasbah Editions, Alger 2021, pp. 255-256."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. FLN : Front de Libération Nationale.\n2. GPRA : Gouvernement Provisoire de la République Algérienne."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "Classement de « le monde entier ignore la situation en Algérie » (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q5-e2",
+     "label": "Classement de « la cause algérienne gagne en visibilité dans le monde » (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q5-e3",
+     "label": "Classement de « les souffrances en Algérie n’ont pas suscité de réactions internationales » (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q5-e4",
+     "label": "Classement de « l’Algérie bénéficie d’un large soutien international » (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "6",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Déterminez à qui ou à quoi renvoie chacun des mots : « sa », « il » et « lui » dans les énoncés ci-dessous :\n- « … manifester pacifiquement sa présence… » 1er paragraphe\n- « … s’il n’y était contraint… » 3ème paragraphe\n- « …, lui infligeant des pertes sévères, … » 5ème paragraphe",
+   "documents": [
+    {
+     "id": "d-intro",
+     "kind": "text",
+     "caption": "Présentation du document",
+     "text": "L’auteur republie, dans son ouvrage, le document n°121 de la Fédération de France du FLN produit le 08 mai 1959 à l’occasion de la commémoration du 08 mai 1945."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Il y a exactement quatorze ans, le 8 mai 1945, une répression sauvage s’abattait sur les Algériens désarmés et sans appui. Le gouvernement colonialiste français dont De Gaulle était, comme aujourd’hui, le chef suprême, donnait mission à ses troupes et à sa marine d’écraser avec la dernière énergie, le mouvement de libération algérien qui avait osé, à l’occasion du défilé du 1er mai, manifester pacifiquement sa présence au même titre que les divers groupements européens existant à l’époque en Algérie.\nL’armée française entra donc en action sur de nombreuses parties du territoire algérien. La flotte et l’aviation bombardèrent des villages entiers. En moins d’une semaine, les forces françaises avaient assassiné 45.000 Algériens. Isolée du reste du monde, notre cause demeura sans écho. L’opinion internationale resta muette. […]\nLes hommes qui se chargèrent du redoutable honneur de préparer la libération, comprirent après ces massacres, que le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force. Les années suivantes, les campagnes du Vietnam confirmèrent cette analyse. Le mouvement de Libération Nationale sut donc tirer la leçon de la tragédie du 8 mai 1945 et agit de telle sorte que les 45 000 victimes ne soient pas sacrifiées inutilement.\nAujourd’hui, l’unité du peuple algérien est complète et sans fissure. Toutes les énergies saines de notre Peuple se sont retrouvées au sein du FLN¹ et œuvrent dans l’union, la fraternité et la discipline révolutionnaire à la liquidation du système colonial.\nAujourd’hui, l’Armée de Libération Algérienne, soutenue et aidée par tout le peuple, tient en échec un corps expéditionnaire français de 750 000 hommes, lui infligeant des pertes sévères, le harcelant sans répit et gardant partout l’avantage et l’initiative.\nAujourd’hui, la cause de notre Peuple est connue dans le monde entier et bénéficie des sympathies et du soutien de la majeure partie de l’humanité. Le GPRA² est reconnu par un ensemble de pays dont la population se chiffre à près d’un milliard d’hommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Ali HAROUN, LE SECOND FRONT,\nEcrits et Documents de la Fédération de France du FLN 1954-1962,\nCasbah Editions, Alger 2021, pp. 255-256."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. FLN : Front de Libération Nationale.\n2. GPRA : Gouvernement Provisoire de la République Algérienne."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "Référent de « sa » (1er paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q6-e2",
+     "label": "Référent de « il » (3ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q6-e3",
+     "label": "Référent de « lui » (5ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "7",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Parmi les propositions ci-dessous, distinguez puis recopiez celle qui correspond à la visée communicative de l’auteur :\n- décrire les aspects économiques de la colonisation française en Algérie avant 1954.\n- raconter l’histoire de la guerre d’Algérie et les batailles menées de 1954 à 1962.\n- informer de la répression coloniale et de la résistance des Algériens pour leur indépendance.",
+   "documents": [
+    {
+     "id": "d-intro",
+     "kind": "text",
+     "caption": "Présentation du document",
+     "text": "L’auteur republie, dans son ouvrage, le document n°121 de la Fédération de France du FLN produit le 08 mai 1959 à l’occasion de la commémoration du 08 mai 1945."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Il y a exactement quatorze ans, le 8 mai 1945, une répression sauvage s’abattait sur les Algériens désarmés et sans appui. Le gouvernement colonialiste français dont De Gaulle était, comme aujourd’hui, le chef suprême, donnait mission à ses troupes et à sa marine d’écraser avec la dernière énergie, le mouvement de libération algérien qui avait osé, à l’occasion du défilé du 1er mai, manifester pacifiquement sa présence au même titre que les divers groupements européens existant à l’époque en Algérie.\nL’armée française entra donc en action sur de nombreuses parties du territoire algérien. La flotte et l’aviation bombardèrent des villages entiers. En moins d’une semaine, les forces françaises avaient assassiné 45.000 Algériens. Isolée du reste du monde, notre cause demeura sans écho. L’opinion internationale resta muette. […]\nLes hommes qui se chargèrent du redoutable honneur de préparer la libération, comprirent après ces massacres, que le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force. Les années suivantes, les campagnes du Vietnam confirmèrent cette analyse. Le mouvement de Libération Nationale sut donc tirer la leçon de la tragédie du 8 mai 1945 et agit de telle sorte que les 45 000 victimes ne soient pas sacrifiées inutilement.\nAujourd’hui, l’unité du peuple algérien est complète et sans fissure. Toutes les énergies saines de notre Peuple se sont retrouvées au sein du FLN¹ et œuvrent dans l’union, la fraternité et la discipline révolutionnaire à la liquidation du système colonial.\nAujourd’hui, l’Armée de Libération Algérienne, soutenue et aidée par tout le peuple, tient en échec un corps expéditionnaire français de 750 000 hommes, lui infligeant des pertes sévères, le harcelant sans répit et gardant partout l’avantage et l’initiative.\nAujourd’hui, la cause de notre Peuple est connue dans le monde entier et bénéficie des sympathies et du soutien de la majeure partie de l’humanité. Le GPRA² est reconnu par un ensemble de pays dont la population se chiffre à près d’un milliard d’hommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Ali HAROUN, LE SECOND FRONT,\nEcrits et Documents de la Fédération de France du FLN 1954-1962,\nCasbah Editions, Alger 2021, pp. 255-256."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. FLN : Front de Libération Nationale.\n2. GPRA : Gouvernement Provisoire de la République Algérienne."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "Visée communicative de l’auteur",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "8",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Le Peuple algérien s’est pleinement mobilisé dans le combat de la libération nationale.\nExpliquez, en deux à trois lignes, pourquoi, selon vous, la mobilisation du peuple algérien était importante pour faire face à la répression coloniale et parvenir à l'indépendance.",
+   "documents": [
+    {
+     "id": "d-intro",
+     "kind": "text",
+     "caption": "Présentation du document",
+     "text": "L’auteur republie, dans son ouvrage, le document n°121 de la Fédération de France du FLN produit le 08 mai 1959 à l’occasion de la commémoration du 08 mai 1945."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Il y a exactement quatorze ans, le 8 mai 1945, une répression sauvage s’abattait sur les Algériens désarmés et sans appui. Le gouvernement colonialiste français dont De Gaulle était, comme aujourd’hui, le chef suprême, donnait mission à ses troupes et à sa marine d’écraser avec la dernière énergie, le mouvement de libération algérien qui avait osé, à l’occasion du défilé du 1er mai, manifester pacifiquement sa présence au même titre que les divers groupements européens existant à l’époque en Algérie.\nL’armée française entra donc en action sur de nombreuses parties du territoire algérien. La flotte et l’aviation bombardèrent des villages entiers. En moins d’une semaine, les forces françaises avaient assassiné 45.000 Algériens. Isolée du reste du monde, notre cause demeura sans écho. L’opinion internationale resta muette. […]\nLes hommes qui se chargèrent du redoutable honneur de préparer la libération, comprirent après ces massacres, que le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force. Les années suivantes, les campagnes du Vietnam confirmèrent cette analyse. Le mouvement de Libération Nationale sut donc tirer la leçon de la tragédie du 8 mai 1945 et agit de telle sorte que les 45 000 victimes ne soient pas sacrifiées inutilement.\nAujourd’hui, l’unité du peuple algérien est complète et sans fissure. Toutes les énergies saines de notre Peuple se sont retrouvées au sein du FLN¹ et œuvrent dans l’union, la fraternité et la discipline révolutionnaire à la liquidation du système colonial.\nAujourd’hui, l’Armée de Libération Algérienne, soutenue et aidée par tout le peuple, tient en échec un corps expéditionnaire français de 750 000 hommes, lui infligeant des pertes sévères, le harcelant sans répit et gardant partout l’avantage et l’initiative.\nAujourd’hui, la cause de notre Peuple est connue dans le monde entier et bénéficie des sympathies et du soutien de la majeure partie de l’humanité. Le GPRA² est reconnu par un ensemble de pays dont la population se chiffre à près d’un milliard d’hommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Ali HAROUN, LE SECOND FRONT,\nEcrits et Documents de la Fédération de France du FLN 1954-1962,\nCasbah Editions, Alger 2021, pp. 255-256."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. FLN : Front de Libération Nationale.\n2. GPRA : Gouvernement Provisoire de la République Algérienne."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "Critère : Respect de la consigne (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e2",
+     "label": "Critère : Pertinence des idées (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e3",
+     "label": "Critère : Cohérence (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e4",
+     "label": "Critère : Correction de la langue (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "—",
+   "part": "II. Production écrite : (07 points)",
+   "verbatim_text": "Traitez l’un des deux sujets suivants :\nSujet 1 :\nA l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours.\nSujet 2 :\nLes jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement.",
+   "documents": [
+    {
+     "id": "d-intro",
+     "kind": "text",
+     "caption": "Présentation du document",
+     "text": "L’auteur republie, dans son ouvrage, le document n°121 de la Fédération de France du FLN produit le 08 mai 1959 à l’occasion de la commémoration du 08 mai 1945."
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Il y a exactement quatorze ans, le 8 mai 1945, une répression sauvage s’abattait sur les Algériens désarmés et sans appui. Le gouvernement colonialiste français dont De Gaulle était, comme aujourd’hui, le chef suprême, donnait mission à ses troupes et à sa marine d’écraser avec la dernière énergie, le mouvement de libération algérien qui avait osé, à l’occasion du défilé du 1er mai, manifester pacifiquement sa présence au même titre que les divers groupements européens existant à l’époque en Algérie.\nL’armée française entra donc en action sur de nombreuses parties du territoire algérien. La flotte et l’aviation bombardèrent des villages entiers. En moins d’une semaine, les forces françaises avaient assassiné 45.000 Algériens. Isolée du reste du monde, notre cause demeura sans écho. L’opinion internationale resta muette. […]\nLes hommes qui se chargèrent du redoutable honneur de préparer la libération, comprirent après ces massacres, que le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force. Les années suivantes, les campagnes du Vietnam confirmèrent cette analyse. Le mouvement de Libération Nationale sut donc tirer la leçon de la tragédie du 8 mai 1945 et agit de telle sorte que les 45 000 victimes ne soient pas sacrifiées inutilement.\nAujourd’hui, l’unité du peuple algérien est complète et sans fissure. Toutes les énergies saines de notre Peuple se sont retrouvées au sein du FLN¹ et œuvrent dans l’union, la fraternité et la discipline révolutionnaire à la liquidation du système colonial.\nAujourd’hui, l’Armée de Libération Algérienne, soutenue et aidée par tout le peuple, tient en échec un corps expéditionnaire français de 750 000 hommes, lui infligeant des pertes sévères, le harcelant sans répit et gardant partout l’avantage et l’initiative.\nAujourd’hui, la cause de notre Peuple est connue dans le monde entier et bénéficie des sympathies et du soutien de la majeure partie de l’humanité. Le GPRA² est reconnu par un ensemble de pays dont la population se chiffre à près d’un milliard d’hommes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Ali HAROUN, LE SECOND FRONT,\nEcrits et Documents de la Fédération de France du FLN 1954-1962,\nCasbah Editions, Alger 2021, pp. 255-256."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Mots expliqués",
+     "text": "1. FLN : Front de Libération Nationale.\n2. GPRA : Gouvernement Provisoire de la République Algérienne."
+    }
+   ],
+   "rubric_total": 7,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "Organisation : présentation du texte et structure adéquate",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e2",
+     "label": "Organisation : cohérence — progression des informations",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e3",
+     "label": "Organisation : cohérence — absence de répétitions",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e4",
+     "label": "Organisation : cohérence — absence de contresens",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e5",
+     "label": "Organisation : cohérence — emploi de connecteurs",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e6",
+     "label": "Planification : choix énonciatif en relation avec la consigne",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e7",
+     "label": "Planification : choix et sélection des informations",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e8",
+     "label": "Langue : correction des phrases au plan syntaxique",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e9",
+     "label": "Langue : lexique approprié à la thématique",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q9-e10",
+     "label": "Langue : emploi correct des temps et des modes",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q9-e11",
+     "label": "Langue : utilisation adéquate des signes de ponctuation",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q9-e12",
+     "label": "Langue : orthographe",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Dans ce texte, le sujet principal est : (choisissez la bonne réponse)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "les relations économiques entre la France et l’Algérie pendant la période coloniale.",
+     "la formation et l’évolution du mouvement de libération nationale algérien.",
+     "les massacres du colonialisme en Algérie et la lutte des Algériens pour l’indépendance."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « les massacres du colonialisme en Algérie et la lutte des Algériens pour l’indépendance. »",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Quelle phrase du texte reprend la même idée que : « Les militants du mouvement national ont compris que seule la lutte armée pouvait libérer le pays du joug colonial. » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "L’opinion internationale resta muette.",
+     "Les hommes qui se chargèrent du redoutable honneur de préparer la libération, comprirent après ces massacres que le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force.",
+     "L’armée française entra donc en action sur de nombreuses parties du territoire algérien.",
+     "Isolée du reste du monde, notre cause demeura sans écho."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : « Les hommes qui se chargèrent du redoutable honneur de préparer la libération, comprirent après ces massacres que le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force. » Accepter aussi : « le colonialisme français ne lâcherait jamais sa proie s’il n’y était contraint par la force. »",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "Dans le quatrième paragraphe, sélectionnez les trois piliers qui ont permis au peuple algérien de se libérer du système colonial.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "l’opinion internationale",
+     "la fraternité",
+     "la discipline révolutionnaire",
+     "la liquidation du système colonial",
+     "l’union"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     1,
+     2,
+     4
+    ]
+   },
+   "explanation": "Corrigé : « l’union / la fraternité / la discipline révolutionnaire » (0,5 chacun). Accepter aussi : « la discipline » et, à la place de « l’union », « unité du peuple algérien ».",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "À quelle date correspond le mot « aujourd’hui » dans le texte ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "1er novembre 1954",
+     "1er mai 1945",
+     "08 mai 1959",
+     "8 mai 1945"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « La date : 08 mai 1959 » (le document a été « produit le 08 mai 1959 » ; « Il y a exactement quatorze ans, le 8 mai 1945 »).",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « le monde entier ignore la situation en Algérie » : cette proposition renvoie à la période du…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "8 mai 1945",
+     "8 mai 1959"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — 8 mai 1945 : le monde entier ignore la situation en Algérie / les souffrances en Algérie n’ont pas suscité de réactions internationales ; 8 mai 1959 : la cause algérienne gagne en visibilité dans le monde / l’Algérie bénéficie d’un large soutien international.",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « la cause algérienne gagne en visibilité dans le monde » : cette proposition renvoie à la période du…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "8 mai 1945",
+     "8 mai 1959"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — 8 mai 1945 : le monde entier ignore la situation en Algérie / les souffrances en Algérie n’ont pas suscité de réactions internationales ; 8 mai 1959 : la cause algérienne gagne en visibilité dans le monde / l’Algérie bénéficie d’un large soutien international.",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « les souffrances en Algérie n’ont pas suscité de réactions internationales » : cette proposition renvoie à la période du…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "8 mai 1945",
+     "8 mai 1959"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — 8 mai 1945 : le monde entier ignore la situation en Algérie / les souffrances en Algérie n’ont pas suscité de réactions internationales ; 8 mai 1959 : la cause algérienne gagne en visibilité dans le monde / l’Algérie bénéficie d’un large soutien international.",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « l’Algérie bénéficie d’un large soutien international » : cette proposition renvoie à la période du…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "8 mai 1945",
+     "8 mai 1959"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — 8 mai 1945 : le monde entier ignore la situation en Algérie / les souffrances en Algérie n’ont pas suscité de réactions internationales ; 8 mai 1959 : la cause algérienne gagne en visibilité dans le monde / l’Algérie bénéficie d’un large soutien international.",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« … manifester pacifiquement sa présence… » (§1) : à qui renvoie « sa » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "les divers groupements européens",
+     "le mouvement de libération algérien",
+     "De Gaulle",
+     "le gouvernement colonialiste français"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : « sa » = le mouvement de libération algérien.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« … s’il n’y était contraint… » (§3) : à quoi renvoie « il » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "le colonialisme français",
+     "le peuple algérien",
+     "le mouvement de Libération Nationale",
+     "le Vietnam"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « il » = le colonialisme français.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« …, lui infligeant des pertes sévères, … » (§5) : à qui renvoie « lui » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "l’Armée de Libération Algérienne",
+     "le GPRA",
+     "un corps expéditionnaire français de 750 000 hommes",
+     "le peuple algérien"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « lui » = un corps expéditionnaire français de 750 000 hommes. Accepter aussi : un corps expéditionnaire français.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Parmi les propositions, laquelle correspond à la visée communicative de l’auteur ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "décrire les aspects économiques de la colonisation française en Algérie avant 1954.",
+     "raconter l’histoire de la guerre d’Algérie et les batailles menées de 1954 à 1962.",
+     "informer de la répression coloniale et de la résistance des Algériens pour leur indépendance."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « informer de la répression coloniale et de la résistance des Algériens pour leur indépendance. »",
+   "points": 1.5,
+   "skill_id": "fr.enonciation",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Respect de la consigne",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Le Peuple algérien s’est pleinement mobilisé dans le combat de la libération nationale.\nExpliquez, en deux à trois lignes, pourquoi, selon vous, la mobilisation du peuple algérien était importante pour faire face à la répression coloniale et parvenir à l'indépendance.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Respect de la consigne",
+     "indicator": "Respect de la consigne. Explication avec implication directe ou indirecte du candidat et le nombre de lignes.",
+     "model_answer": "Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée.",
+     "acceptance": "exemples",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Respect de la consigne. Explication avec implication directe ou indirecte du candidat et le nombre de lignes.",
+     "model_answer": "Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemples) : Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Pertinence des idées",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Le Peuple algérien s’est pleinement mobilisé dans le combat de la libération nationale.\nExpliquez, en deux à trois lignes, pourquoi, selon vous, la mobilisation du peuple algérien était importante pour faire face à la répression coloniale et parvenir à l'indépendance.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Pertinence des idées",
+     "indicator": "Pertinence des idées. Exemples : Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée.",
+     "model_answer": "Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée.",
+     "acceptance": "exemples",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Pertinence des idées. Exemples : Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée.",
+     "model_answer": "Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemples) : Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Cohérence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Le Peuple algérien s’est pleinement mobilisé dans le combat de la libération nationale.\nExpliquez, en deux à trois lignes, pourquoi, selon vous, la mobilisation du peuple algérien était importante pour faire face à la répression coloniale et parvenir à l'indépendance.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Cohérence",
+     "indicator": "Cohérence.",
+     "model_answer": "Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée.",
+     "acceptance": "exemples",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Cohérence.",
+     "model_answer": "Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemples) : Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Correction de la langue",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Le Peuple algérien s’est pleinement mobilisé dans le combat de la libération nationale.\nExpliquez, en deux à trois lignes, pourquoi, selon vous, la mobilisation du peuple algérien était importante pour faire face à la répression coloniale et parvenir à l'indépendance.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Correction de la langue",
+     "indicator": "Correction de la langue.",
+     "model_answer": "Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée.",
+     "acceptance": "exemples",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correction de la langue.",
+     "model_answer": "Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemples) : Cette mobilisation a transformé une résistance clandestine en un mouvement populaire massif. / Cette mobilisation a affaibli le pouvoir colonial et créé les conditions nécessaires pour arracher l'indépendance par la lutte armée.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Présentation du texte et structure adéquate",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Présentation du texte et structure adéquate",
+     "indicator": "Organisation : présentation du texte et structure adéquate",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Présentation du texte (mise en page, lisibilité) + 0.25x2 — Structure adéquate [accroche (0.25) condensation (0.25)]",
+      "Sujet 2 — grille « Production libre »": "0.25 — Présentation du texte (mise en page, lisibilité). + 0.25x3 — Structure adéquate [Introduction (0.25) développement (0.25) conclusion (0.25)]"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : présentation du texte et structure adéquate"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Progression des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Progression des informations",
+     "indicator": "Organisation : cohérence — progression des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x 4 Cohérence du texte) — progression des informations",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — progression des informations"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — progression des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de répétitions",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Absence de répétitions",
+     "indicator": "Organisation : cohérence — absence de répétitions",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x 4 Cohérence du texte) — absence de répétitions",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — absence de répétitions"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de répétitions"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de contresens",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Absence de contresens",
+     "indicator": "Organisation : cohérence — absence de contresens",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x 4 Cohérence du texte) — absence de contresens",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — absence de contresens"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de contresens"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e5",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Emploi de connecteurs",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Emploi de connecteurs",
+     "indicator": "Organisation : cohérence — emploi de connecteurs",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x 4 Cohérence du texte) — emploi de connecteurs",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — emploi de connecteurs"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — emploi de connecteurs"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e6",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix énonciatif",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Choix énonciatif",
+     "indicator": "Planification : choix énonciatif en relation avec la consigne",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Choix énonciatif en relation avec la consigne",
+      "Sujet 2 — grille « Production libre »": "1 — Choix énonciatif en relation avec la consigne"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix énonciatif en relation avec la consigne"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e7",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Choix des informations",
+     "indicator": "Planification : choix et sélection des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Sélection des informations essentielles (condensation et reformulation)",
+      "Sujet 2 — grille « Production libre »": "1 — Choix des informations (originalité et pertinence des idées)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix et sélection des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e8",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Correction syntaxique",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Correction syntaxique",
+     "indicator": "Langue : correction des phrases au plan syntaxique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Correction des phrases au plan syntaxique",
+      "Sujet 2 — grille « Production libre »": "1 — Correction des phrases au plan syntaxique"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : correction des phrases au plan syntaxique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e9",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Lexique approprié",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Lexique approprié",
+     "indicator": "Langue : lexique approprié à la thématique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Emploi d’un lexique approprié à la thématique",
+      "Sujet 2 — grille « Production libre »": "0.5 — Emploi d’un lexique approprié à la thématique"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : lexique approprié à la thématique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e10",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Temps et modes",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Temps et modes",
+     "indicator": "Langue : emploi correct des temps et des modes",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Emploi correct des temps et des modes",
+      "Sujet 2 — grille « Production libre »": "0.5 — Emploi correct des temps et des modes"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : emploi correct des temps et des modes"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e11",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Ponctuation",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Ponctuation",
+     "indicator": "Langue : utilisation adéquate des signes de ponctuation",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Utilisation adéquate des signes de ponctuation",
+      "Sujet 2 — grille « Production libre »": "0.5 — Utilisation adéquate des signes de ponctuation"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : utilisation adéquate des signes de ponctuation"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e12",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Orthographe",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la commémoration du 08 mai 1945, votre lycée organise un concours du meilleur écrit à propos de la résistance héroïque du peuple algérien au colonialisme. Vous décidez d’y participer. Rédigez le compte rendu objectif de ce texte (100 mots environ) que vous présenterez aux membres du jury lors de ce concours."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Les jeunes algériens de l’époque coloniale avaient relevé le défi de libérer le pays. Les jeunes d’aujourd’hui font face à un nouveau défi, celui du développement national. En tant que jeune de cette nouvelle génération, rédigez un appel (150 mots environ) dans lequel vous inviterez vos camarades à participer activement à la construction de l’Algérie. Votre texte sera publié dans le journal mural de votre établissement."
+      }
+     ],
+     "criterion": "Orthographe",
+     "indicator": "Langue : orthographe",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Orthographe (pas plus de 10 erreurs)",
+      "Sujet 2 — grille « Production libre »": "0.5 — Orthographe (pas, plus de 10 erreurs)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : orthographe"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T22:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من ورقة البكالوريا الرّسميّة وإجابتها النّموذجيّة (PDF رقميّان في Drive، طبقة النّصّ مقابَلة بصور الصّفحات)؛ العلامات من سلّم التّنقيط الرّسميّ؛ الإجابات الصّحيحة من الحلّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.834Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
+  }
+ ]
+}

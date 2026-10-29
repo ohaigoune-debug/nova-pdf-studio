@@ -1,0 +1,1561 @@
+{
+ "schema_version": 1,
+ "set_id": "fr-bac-2026-sci-p2",
+ "status": "APPROVED",
+ "source": {
+  "source_id": "gdrive-14yIT1KuV2m-3m0oa1hRNjTNeXguBGUZo-p2",
+  "kind": "BAC",
+  "year": 2026,
+  "level": "3AS",
+  "streams": [
+   "SCI",
+   "MATH",
+   "TM",
+   "GE"
+  ],
+  "subject": "FR",
+  "term": null,
+  "paper": 2,
+  "title": "بكالوريا 2026 (الدورة العاديّة) – اللغة الفرنسية – الشعب العلمية – الموضوع الثّاني (اختطاف طائرة القادة الخمسة 22 أكتوبر 1956، Messaoud DJENNAS)",
+  "original_url": "https://drive.google.com/file/d/14yIT1KuV2m-3m0oa1hRNjTNeXguBGUZo/view",
+  "original_file_ref": "gdrive:14yIT1KuV2m-3m0oa1hRNjTNeXguBGUZo (2026 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1ZP6LJtXasHdkhsL4GAf_kYxJfqYCsOAy/view",
+  "correction_file_ref": "gdrive:1ZP6LJtXasHdkhsL4GAf_kYxJfqYCsOAy (2026 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": true,
+  "verified_by": "د. حيقون أسامة",
+  "verified_at": "2026-10-29T11:00:30.856Z",
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word). الموضوع: gdrive:14yIT1KuV2m-3m0oa1hRNjTNeXguBGUZo (2026 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الموضوع.pdf) ص3–4؛ الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1ZP6LJtXasHdkhsL4GAf_kYxJfqYCsOAy (2026 - اللغة الفرنسية - تسيير واقتصاد + تقني رياضي + رياضيات + علوم تجريبية - الدورة العادية - الحل.pdf) ص2 وص3 (الإنتاج الكتابيّ للموضوعين). الملفّان PDF رقميّان من الدّيوان الوطنيّ للامتحانات (لا مسح ضوئيّ): أُخذ النّصّ من طبقة النّصّ (pdftotext -raw) وقوبل كلّ سطر بصورة الصّفحة (150 نقطة)، وتحقّق سكربت من أنّ كلّ نصّ حرفيّ موجود في طبقة النّصّ. الشّعبة من رأس الورقة «الشعبة: علوم تجريبية، رياضيات، تقني رياضي، تسيير واقتصاد، فنون» ⇒ SCI وMATH وTM وGE؛ شعبة «فنون» مذكورة في الرّأس لكن لا رمز لها في شعب PLAY فلم تُدرج. «الدورة العادية» من اسم الملفّ في Drive (الورقة تطبع «الدورة: 2026»). المجموع: فهم المكتوب 14 + إنتاج كتابيّ 06؛ كلّ العلامات من عمودَي «مجزأة/مجموع» في الحلّ الرّسميّ. خلافات طبقة النّصّ مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس (السّنة «0302»، المدّة «02 سا و 03 د» والصّورة «02 سا و30 د»)، تذييل ص2 من الحلّ «صفحة 0 من 3» في الطّبقة؛ إحالات الهوامش مرفوعة ⇒ ¹ ² ³؛ «1er/2ème…» المرفوعة كُتبت عاديّة. حُفظ كما طُبع: الفاصلة العليا المستقيمة «'» في النّصّين وفي بعض الاقتباسات (l'utilisation، n'en، l'avenir، qu'on…) والمنحنية «’» في أغلب الأسئلة، «30% de» في س6 مقابل «30 % de» في النّصّ، «promesse...»، وعلامة التّنصيص الملتصقة «…, في بداية اقتباس س8 من الموضوع الثّاني. قرارات عامّة: «n×m» لبنود متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من النّصّ ⇒ عنصر واحد بخطوة multi. الخيارات الثّنائيّة (Vrai/Faux، Défenseurs/Opposants، الطّرف الجزائريّ/الفرنسيّ) تُخزَّن معكوسة لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين. قاعدة «accepter» الموحَّدة: صيغة أخرى للجواب نفسه أو قائمة مغلقة ⇒ تفاعليّ (الصّحيح صيغة الحلّ الأولى، والصّيغ المقبولة في الشّرح ولا تكون مشتّتًا أبدًا)؛ الجواب المفتوح («à titre indicatif») ⇒ essay_builder مؤجَّل. الإنتاج الكتابيّ = سؤال أصليّ واحد يضمّ الموضوعين، وتفاصيل شبكة كلّ موضوع في spec. المشتّتات من إعداد التّحويل وتحتاج مراجعة. س3 «1 + 1» على قائمة مغلقة (acte de pure piraterie aérienne / acte de brigandage / le coup dur + Accepter : un acte important certes, mais non décisif) ⇒ عنصر واحد (2) بخطوة multi باختيارين صحيحين؛ الصّيغتان المقبولتان الأخريان ليستا مشتّتين؛ لم يُعرض «l’arrestation des chefs rebelles» ولا «cet acte» لأنّهما قابلان للدّفاع. س5: الحلّ يرتّب العمودين «La partie française | La partie algérienne» والورقة «algérienne» أوّلًا ⇒ عُرض الزّوج بترتيب الورقة. س6: الصّحيح صيغة الحلّ الأولى (quatre chefs historiques… / le cerveau du mouvement révolutionnaire / le gouvernement français / la révolution) والصّيغ المقبولة الأخرى ليست مشتّتات؛ لم يُعرض «la délégation extérieure du FLN» مشتّتًا لـ«lui» لأنّه قابل للدّفاع. س7: الحلّ «informer de l’acte de piratage aérien et son impact…» والخيار الصّحيح بلفظ الورقة «informer de l’acte de piratage et de son impact…». س8: «0.5x4» معايير ⇒ أربعة عناصر مؤجَّلة. الإنتاج الكتابيّ (6): نفس الشّبكة المشتركة للموضوع الأوّل (10 عناصر)."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "Dans ce texte, l’événement évoqué est :\n- le détournement d’un avion par des dirigeants du FLN.\n- le détournement d’un avion transportant des dirigeants du FLN.\n- le crash de l’avion transportant des dirigeants du FLN.\nRecopiez la bonne réponse.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Le 22 octobre 1956 est un jour qui entra avec fracas dans l'Histoire. C'est le jour où le gouvernement français se rendit coupable d'un acte de pure piraterie aérienne : l'arraisonnement¹ de l'avion affrété² par le gouvernement marocain pour le transport de quatre chefs historiques de la révolution algérienne, Hocine Aït Ahmed, Ahmed Ben Bella, Mohammed Boudiaf et Mohammed Kheider, ainsi que leur conseiller, le professeur Mostefa Lacheraf. […]\nÀ Tunis, la délégation algérienne devait assister à une conférence pour la paix. Le thème en devait être l'évaluation des voies et moyens d'arrêter la guerre d'Algérie. Une fois de plus, la France venait de rater une bonne occasion de sortir honorablement du guêpier³ algérien. […] Le gouvernement français était persuadé que « les événements d'Algérie » allaient prendre fin avec l'arrestation des chefs rebelles. […]\nEn Algérie, la nouvelle de l'arraisonnement de l'avion, si elle provoqua l'enthousiasme délirant des ultras européens, fut, par contre, accueillie avec consternation et inquiétude par la population musulmane. La révolution est-elle décapitée ? Tous les sacrifices consentis jusque-là auraient-ils été vains ?\nLa réponse ne tarda pas à venir. Dans les semaines qui suivirent cet acte de brigandage, les combats allaient continuer de plus belle. Si la délégation extérieure du FLN a joué un rôle important dans le déclenchement du 1er novembre en approvisionnant les maquis en armes et en sensibilisant l'opinion mondiale à la cause algérienne, il devenait clair, cependant, que « le cerveau » du mouvement révolutionnaire et les forces vives qui le nourrissaient se trouvaient en Algérie même. […]\nL'arraisonnement de l'avion des quatre chefs historiques fut un acte, important certes, mais non décisif. […] Malgré le coup dur qu'on avait tenté de lui porter, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. Tel était notre état d'esprit en cette fin d'octobre 1956. La guerre allait donc continuer."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Messaoud DJENNAS*, LA GUERRE DE LIBÉRATION NATIONALE, telle que je l'ai vécue,\nCasbah Éditions 2016, pp. 84-85."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Messaoud DJENNAS : médecin, moudjahid et auteur algérien.\n1. Arraisonnement : action d’arrêter un avion pour un contrôle.\n2. Affrété : mis à la disposition.\n3. Guêpier : piège, situation compliquée."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "Événement évoqué dans le texte",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "« …les combats allaient continuer de plus belle. » Cette phrase veut dire :\n- les combats allaient s’arrêter progressivement.\n- les combats allaient se terminer rapidement.\n- les combats allaient se poursuivre intensivement.\nRecopiez la bonne réponse.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Le 22 octobre 1956 est un jour qui entra avec fracas dans l'Histoire. C'est le jour où le gouvernement français se rendit coupable d'un acte de pure piraterie aérienne : l'arraisonnement¹ de l'avion affrété² par le gouvernement marocain pour le transport de quatre chefs historiques de la révolution algérienne, Hocine Aït Ahmed, Ahmed Ben Bella, Mohammed Boudiaf et Mohammed Kheider, ainsi que leur conseiller, le professeur Mostefa Lacheraf. […]\nÀ Tunis, la délégation algérienne devait assister à une conférence pour la paix. Le thème en devait être l'évaluation des voies et moyens d'arrêter la guerre d'Algérie. Une fois de plus, la France venait de rater une bonne occasion de sortir honorablement du guêpier³ algérien. […] Le gouvernement français était persuadé que « les événements d'Algérie » allaient prendre fin avec l'arrestation des chefs rebelles. […]\nEn Algérie, la nouvelle de l'arraisonnement de l'avion, si elle provoqua l'enthousiasme délirant des ultras européens, fut, par contre, accueillie avec consternation et inquiétude par la population musulmane. La révolution est-elle décapitée ? Tous les sacrifices consentis jusque-là auraient-ils été vains ?\nLa réponse ne tarda pas à venir. Dans les semaines qui suivirent cet acte de brigandage, les combats allaient continuer de plus belle. Si la délégation extérieure du FLN a joué un rôle important dans le déclenchement du 1er novembre en approvisionnant les maquis en armes et en sensibilisant l'opinion mondiale à la cause algérienne, il devenait clair, cependant, que « le cerveau » du mouvement révolutionnaire et les forces vives qui le nourrissaient se trouvaient en Algérie même. […]\nL'arraisonnement de l'avion des quatre chefs historiques fut un acte, important certes, mais non décisif. […] Malgré le coup dur qu'on avait tenté de lui porter, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. Tel était notre état d'esprit en cette fin d'octobre 1956. La guerre allait donc continuer."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Messaoud DJENNAS*, LA GUERRE DE LIBÉRATION NATIONALE, telle que je l'ai vécue,\nCasbah Éditions 2016, pp. 84-85."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Messaoud DJENNAS : médecin, moudjahid et auteur algérien.\n1. Arraisonnement : action d’arrêter un avion pour un contrôle.\n2. Affrété : mis à la disposition.\n3. Guêpier : piège, situation compliquée."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "Sens de la phrase « …les combats allaient continuer de plus belle. »",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "Relevez, du texte, deux (02) expressions qui renvoient à « l’arraisonnement de l’avion ».",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Le 22 octobre 1956 est un jour qui entra avec fracas dans l'Histoire. C'est le jour où le gouvernement français se rendit coupable d'un acte de pure piraterie aérienne : l'arraisonnement¹ de l'avion affrété² par le gouvernement marocain pour le transport de quatre chefs historiques de la révolution algérienne, Hocine Aït Ahmed, Ahmed Ben Bella, Mohammed Boudiaf et Mohammed Kheider, ainsi que leur conseiller, le professeur Mostefa Lacheraf. […]\nÀ Tunis, la délégation algérienne devait assister à une conférence pour la paix. Le thème en devait être l'évaluation des voies et moyens d'arrêter la guerre d'Algérie. Une fois de plus, la France venait de rater une bonne occasion de sortir honorablement du guêpier³ algérien. […] Le gouvernement français était persuadé que « les événements d'Algérie » allaient prendre fin avec l'arrestation des chefs rebelles. […]\nEn Algérie, la nouvelle de l'arraisonnement de l'avion, si elle provoqua l'enthousiasme délirant des ultras européens, fut, par contre, accueillie avec consternation et inquiétude par la population musulmane. La révolution est-elle décapitée ? Tous les sacrifices consentis jusque-là auraient-ils été vains ?\nLa réponse ne tarda pas à venir. Dans les semaines qui suivirent cet acte de brigandage, les combats allaient continuer de plus belle. Si la délégation extérieure du FLN a joué un rôle important dans le déclenchement du 1er novembre en approvisionnant les maquis en armes et en sensibilisant l'opinion mondiale à la cause algérienne, il devenait clair, cependant, que « le cerveau » du mouvement révolutionnaire et les forces vives qui le nourrissaient se trouvaient en Algérie même. […]\nL'arraisonnement de l'avion des quatre chefs historiques fut un acte, important certes, mais non décisif. […] Malgré le coup dur qu'on avait tenté de lui porter, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. Tel était notre état d'esprit en cette fin d'octobre 1956. La guerre allait donc continuer."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Messaoud DJENNAS*, LA GUERRE DE LIBÉRATION NATIONALE, telle que je l'ai vécue,\nCasbah Éditions 2016, pp. 84-85."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Messaoud DJENNAS : médecin, moudjahid et auteur algérien.\n1. Arraisonnement : action d’arrêter un avion pour un contrôle.\n2. Affrété : mis à la disposition.\n3. Guêpier : piège, situation compliquée."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "Deux expressions qui renvoient à « l’arraisonnement de l’avion » (1+1)",
+     "max_points": 2,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "Répondez par « Vrai » ou « Faux ».\na. La délégation algérienne a été arrêtée à son retour de la conférence de Tunis.\nb. La population musulmane a réagi positivement à la nouvelle de l’arraisonnement.\nc. La population européenne a salué l’acte de l’arraisonnement.\nd. L’arrestation des dirigeants du FLN a mis fin à la guerre de libération.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Le 22 octobre 1956 est un jour qui entra avec fracas dans l'Histoire. C'est le jour où le gouvernement français se rendit coupable d'un acte de pure piraterie aérienne : l'arraisonnement¹ de l'avion affrété² par le gouvernement marocain pour le transport de quatre chefs historiques de la révolution algérienne, Hocine Aït Ahmed, Ahmed Ben Bella, Mohammed Boudiaf et Mohammed Kheider, ainsi que leur conseiller, le professeur Mostefa Lacheraf. […]\nÀ Tunis, la délégation algérienne devait assister à une conférence pour la paix. Le thème en devait être l'évaluation des voies et moyens d'arrêter la guerre d'Algérie. Une fois de plus, la France venait de rater une bonne occasion de sortir honorablement du guêpier³ algérien. […] Le gouvernement français était persuadé que « les événements d'Algérie » allaient prendre fin avec l'arrestation des chefs rebelles. […]\nEn Algérie, la nouvelle de l'arraisonnement de l'avion, si elle provoqua l'enthousiasme délirant des ultras européens, fut, par contre, accueillie avec consternation et inquiétude par la population musulmane. La révolution est-elle décapitée ? Tous les sacrifices consentis jusque-là auraient-ils été vains ?\nLa réponse ne tarda pas à venir. Dans les semaines qui suivirent cet acte de brigandage, les combats allaient continuer de plus belle. Si la délégation extérieure du FLN a joué un rôle important dans le déclenchement du 1er novembre en approvisionnant les maquis en armes et en sensibilisant l'opinion mondiale à la cause algérienne, il devenait clair, cependant, que « le cerveau » du mouvement révolutionnaire et les forces vives qui le nourrissaient se trouvaient en Algérie même. […]\nL'arraisonnement de l'avion des quatre chefs historiques fut un acte, important certes, mais non décisif. […] Malgré le coup dur qu'on avait tenté de lui porter, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. Tel était notre état d'esprit en cette fin d'octobre 1956. La guerre allait donc continuer."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Messaoud DJENNAS*, LA GUERRE DE LIBÉRATION NATIONALE, telle que je l'ai vécue,\nCasbah Éditions 2016, pp. 84-85."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Messaoud DJENNAS : médecin, moudjahid et auteur algérien.\n1. Arraisonnement : action d’arrêter un avion pour un contrôle.\n2. Affrété : mis à la disposition.\n3. Guêpier : piège, situation compliquée."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "Affirmation a. (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q4-e2",
+     "label": "Affirmation b. (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q4-e3",
+     "label": "Affirmation c. (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q4-e4",
+     "label": "Affirmation d. (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "5",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "Soit les expressions suivantes :\ncrainte et préoccupation / certitude d’avoir mis fin à la révolution / sentiment de joie / intention de participer à la conférence pour la paix / poursuite du combat libérateur / sabotage de la conférence pour la paix.\nClassez-les selon qu’elles renvoient à :\n- La partie algérienne : ………………………………………..\n- La partie française : ………………………………………....",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Le 22 octobre 1956 est un jour qui entra avec fracas dans l'Histoire. C'est le jour où le gouvernement français se rendit coupable d'un acte de pure piraterie aérienne : l'arraisonnement¹ de l'avion affrété² par le gouvernement marocain pour le transport de quatre chefs historiques de la révolution algérienne, Hocine Aït Ahmed, Ahmed Ben Bella, Mohammed Boudiaf et Mohammed Kheider, ainsi que leur conseiller, le professeur Mostefa Lacheraf. […]\nÀ Tunis, la délégation algérienne devait assister à une conférence pour la paix. Le thème en devait être l'évaluation des voies et moyens d'arrêter la guerre d'Algérie. Une fois de plus, la France venait de rater une bonne occasion de sortir honorablement du guêpier³ algérien. […] Le gouvernement français était persuadé que « les événements d'Algérie » allaient prendre fin avec l'arrestation des chefs rebelles. […]\nEn Algérie, la nouvelle de l'arraisonnement de l'avion, si elle provoqua l'enthousiasme délirant des ultras européens, fut, par contre, accueillie avec consternation et inquiétude par la population musulmane. La révolution est-elle décapitée ? Tous les sacrifices consentis jusque-là auraient-ils été vains ?\nLa réponse ne tarda pas à venir. Dans les semaines qui suivirent cet acte de brigandage, les combats allaient continuer de plus belle. Si la délégation extérieure du FLN a joué un rôle important dans le déclenchement du 1er novembre en approvisionnant les maquis en armes et en sensibilisant l'opinion mondiale à la cause algérienne, il devenait clair, cependant, que « le cerveau » du mouvement révolutionnaire et les forces vives qui le nourrissaient se trouvaient en Algérie même. […]\nL'arraisonnement de l'avion des quatre chefs historiques fut un acte, important certes, mais non décisif. […] Malgré le coup dur qu'on avait tenté de lui porter, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. Tel était notre état d'esprit en cette fin d'octobre 1956. La guerre allait donc continuer."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Messaoud DJENNAS*, LA GUERRE DE LIBÉRATION NATIONALE, telle que je l'ai vécue,\nCasbah Éditions 2016, pp. 84-85."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Messaoud DJENNAS : médecin, moudjahid et auteur algérien.\n1. Arraisonnement : action d’arrêter un avion pour un contrôle.\n2. Affrété : mis à la disposition.\n3. Guêpier : piège, situation compliquée."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "Classement de « crainte et préoccupation » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q5-e2",
+     "label": "Classement de « certitude d’avoir mis fin à la révolution » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q5-e3",
+     "label": "Classement de « sentiment de joie » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q5-e4",
+     "label": "Classement de « intention de participer à la conférence pour la paix » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q5-e5",
+     "label": "Classement de « poursuite du combat libérateur » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q5-e6",
+     "label": "Classement de « sabotage de la conférence pour la paix » (0,25)",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "6",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "Déterminez à qui ou à quoi renvoie chacun des pronoms : « leur », « le », « on » et « lui » dans les énoncés ci-dessous :\n- « …, ainsi que leur conseiller,… » 1er paragraphe\n- « … les forces vives qui le nourrissaient … » 4ème paragraphe\n- « … le coup dur qu'on avait tenté de lui porter, ... » 5ème paragraphe",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Le 22 octobre 1956 est un jour qui entra avec fracas dans l'Histoire. C'est le jour où le gouvernement français se rendit coupable d'un acte de pure piraterie aérienne : l'arraisonnement¹ de l'avion affrété² par le gouvernement marocain pour le transport de quatre chefs historiques de la révolution algérienne, Hocine Aït Ahmed, Ahmed Ben Bella, Mohammed Boudiaf et Mohammed Kheider, ainsi que leur conseiller, le professeur Mostefa Lacheraf. […]\nÀ Tunis, la délégation algérienne devait assister à une conférence pour la paix. Le thème en devait être l'évaluation des voies et moyens d'arrêter la guerre d'Algérie. Une fois de plus, la France venait de rater une bonne occasion de sortir honorablement du guêpier³ algérien. […] Le gouvernement français était persuadé que « les événements d'Algérie » allaient prendre fin avec l'arrestation des chefs rebelles. […]\nEn Algérie, la nouvelle de l'arraisonnement de l'avion, si elle provoqua l'enthousiasme délirant des ultras européens, fut, par contre, accueillie avec consternation et inquiétude par la population musulmane. La révolution est-elle décapitée ? Tous les sacrifices consentis jusque-là auraient-ils été vains ?\nLa réponse ne tarda pas à venir. Dans les semaines qui suivirent cet acte de brigandage, les combats allaient continuer de plus belle. Si la délégation extérieure du FLN a joué un rôle important dans le déclenchement du 1er novembre en approvisionnant les maquis en armes et en sensibilisant l'opinion mondiale à la cause algérienne, il devenait clair, cependant, que « le cerveau » du mouvement révolutionnaire et les forces vives qui le nourrissaient se trouvaient en Algérie même. […]\nL'arraisonnement de l'avion des quatre chefs historiques fut un acte, important certes, mais non décisif. […] Malgré le coup dur qu'on avait tenté de lui porter, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. Tel était notre état d'esprit en cette fin d'octobre 1956. La guerre allait donc continuer."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Messaoud DJENNAS*, LA GUERRE DE LIBÉRATION NATIONALE, telle que je l'ai vécue,\nCasbah Éditions 2016, pp. 84-85."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Messaoud DJENNAS : médecin, moudjahid et auteur algérien.\n1. Arraisonnement : action d’arrêter un avion pour un contrôle.\n2. Affrété : mis à la disposition.\n3. Guêpier : piège, situation compliquée."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "Référent de « leur » (1er paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q6-e2",
+     "label": "Référent de « le » (4ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q6-e3",
+     "label": "Référent de « on » (5ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q6-e4",
+     "label": "Référent de « lui » (5ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "7",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "Parmi les propositions ci-dessous, distinguez puis recopiez celle qui correspond à la visée communicative de l’auteur :\n- saluer l’arrestation des chefs de la révolution algérienne.\n- informer de l’acte de piratage et de son impact sur la révolution.\n- glorifier l’acte de piraterie aérienne du gouvernement français.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Le 22 octobre 1956 est un jour qui entra avec fracas dans l'Histoire. C'est le jour où le gouvernement français se rendit coupable d'un acte de pure piraterie aérienne : l'arraisonnement¹ de l'avion affrété² par le gouvernement marocain pour le transport de quatre chefs historiques de la révolution algérienne, Hocine Aït Ahmed, Ahmed Ben Bella, Mohammed Boudiaf et Mohammed Kheider, ainsi que leur conseiller, le professeur Mostefa Lacheraf. […]\nÀ Tunis, la délégation algérienne devait assister à une conférence pour la paix. Le thème en devait être l'évaluation des voies et moyens d'arrêter la guerre d'Algérie. Une fois de plus, la France venait de rater une bonne occasion de sortir honorablement du guêpier³ algérien. […] Le gouvernement français était persuadé que « les événements d'Algérie » allaient prendre fin avec l'arrestation des chefs rebelles. […]\nEn Algérie, la nouvelle de l'arraisonnement de l'avion, si elle provoqua l'enthousiasme délirant des ultras européens, fut, par contre, accueillie avec consternation et inquiétude par la population musulmane. La révolution est-elle décapitée ? Tous les sacrifices consentis jusque-là auraient-ils été vains ?\nLa réponse ne tarda pas à venir. Dans les semaines qui suivirent cet acte de brigandage, les combats allaient continuer de plus belle. Si la délégation extérieure du FLN a joué un rôle important dans le déclenchement du 1er novembre en approvisionnant les maquis en armes et en sensibilisant l'opinion mondiale à la cause algérienne, il devenait clair, cependant, que « le cerveau » du mouvement révolutionnaire et les forces vives qui le nourrissaient se trouvaient en Algérie même. […]\nL'arraisonnement de l'avion des quatre chefs historiques fut un acte, important certes, mais non décisif. […] Malgré le coup dur qu'on avait tenté de lui porter, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. Tel était notre état d'esprit en cette fin d'octobre 1956. La guerre allait donc continuer."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Messaoud DJENNAS*, LA GUERRE DE LIBÉRATION NATIONALE, telle que je l'ai vécue,\nCasbah Éditions 2016, pp. 84-85."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Messaoud DJENNAS : médecin, moudjahid et auteur algérien.\n1. Arraisonnement : action d’arrêter un avion pour un contrôle.\n2. Affrété : mis à la disposition.\n3. Guêpier : piège, situation compliquée."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "Visée communicative de l’auteur",
+     "max_points": 1.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "8",
+   "part": "I. Compréhension de l’écrit : (14 points)",
+   "verbatim_text": "«…, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. »\nExpliquez, en deux à trois lignes, pourquoi, selon vous, il était impossible d’arrêter la révolution algérienne.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Le 22 octobre 1956 est un jour qui entra avec fracas dans l'Histoire. C'est le jour où le gouvernement français se rendit coupable d'un acte de pure piraterie aérienne : l'arraisonnement¹ de l'avion affrété² par le gouvernement marocain pour le transport de quatre chefs historiques de la révolution algérienne, Hocine Aït Ahmed, Ahmed Ben Bella, Mohammed Boudiaf et Mohammed Kheider, ainsi que leur conseiller, le professeur Mostefa Lacheraf. […]\nÀ Tunis, la délégation algérienne devait assister à une conférence pour la paix. Le thème en devait être l'évaluation des voies et moyens d'arrêter la guerre d'Algérie. Une fois de plus, la France venait de rater une bonne occasion de sortir honorablement du guêpier³ algérien. […] Le gouvernement français était persuadé que « les événements d'Algérie » allaient prendre fin avec l'arrestation des chefs rebelles. […]\nEn Algérie, la nouvelle de l'arraisonnement de l'avion, si elle provoqua l'enthousiasme délirant des ultras européens, fut, par contre, accueillie avec consternation et inquiétude par la population musulmane. La révolution est-elle décapitée ? Tous les sacrifices consentis jusque-là auraient-ils été vains ?\nLa réponse ne tarda pas à venir. Dans les semaines qui suivirent cet acte de brigandage, les combats allaient continuer de plus belle. Si la délégation extérieure du FLN a joué un rôle important dans le déclenchement du 1er novembre en approvisionnant les maquis en armes et en sensibilisant l'opinion mondiale à la cause algérienne, il devenait clair, cependant, que « le cerveau » du mouvement révolutionnaire et les forces vives qui le nourrissaient se trouvaient en Algérie même. […]\nL'arraisonnement de l'avion des quatre chefs historiques fut un acte, important certes, mais non décisif. […] Malgré le coup dur qu'on avait tenté de lui porter, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. Tel était notre état d'esprit en cette fin d'octobre 1956. La guerre allait donc continuer."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Messaoud DJENNAS*, LA GUERRE DE LIBÉRATION NATIONALE, telle que je l'ai vécue,\nCasbah Éditions 2016, pp. 84-85."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Messaoud DJENNAS : médecin, moudjahid et auteur algérien.\n1. Arraisonnement : action d’arrêter un avion pour un contrôle.\n2. Affrété : mis à la disposition.\n3. Guêpier : piège, situation compliquée."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "Critère : Respect de la consigne (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e2",
+     "label": "Critère : Pertinence des idées (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e3",
+     "label": "Critère : Cohérence (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    },
+    {
+     "id": "q8-e4",
+     "label": "Critère : Correction de la langue (0,5)",
+     "max_points": 0.5,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "—",
+   "part": "II. Production écrite : (06 points)",
+   "verbatim_text": "Traitez l’un des deux sujets suivants :\nSujet 1 :\nA l’occasion de la célébration du 08 mai, l’association « Histoire de mon pays », dont vous êtes membre, organise une conférence sur le thème « Crimes et délits coloniaux ». Rédigez le compte rendu objectif de ce texte (120 mots environ) que vous lirez devant les personnes présentes à cette conférence.\nSujet 2 :\nA l’occasion de la journée mondiale du mot de passe, un magazine en ligne dont vous êtes abonné lance une campagne de sensibilisation dont le thème est : « Le piratage et les vols en masse de données personnelles sur le Net ». Rédigez un appel (150 mots environ) pour sensibiliser les internautes aux dangers du partage abusif des informations privées. Votre texte sera publié sur le forum de ce magazine.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Le 22 octobre 1956 est un jour qui entra avec fracas dans l'Histoire. C'est le jour où le gouvernement français se rendit coupable d'un acte de pure piraterie aérienne : l'arraisonnement¹ de l'avion affrété² par le gouvernement marocain pour le transport de quatre chefs historiques de la révolution algérienne, Hocine Aït Ahmed, Ahmed Ben Bella, Mohammed Boudiaf et Mohammed Kheider, ainsi que leur conseiller, le professeur Mostefa Lacheraf. […]\nÀ Tunis, la délégation algérienne devait assister à une conférence pour la paix. Le thème en devait être l'évaluation des voies et moyens d'arrêter la guerre d'Algérie. Une fois de plus, la France venait de rater une bonne occasion de sortir honorablement du guêpier³ algérien. […] Le gouvernement français était persuadé que « les événements d'Algérie » allaient prendre fin avec l'arrestation des chefs rebelles. […]\nEn Algérie, la nouvelle de l'arraisonnement de l'avion, si elle provoqua l'enthousiasme délirant des ultras européens, fut, par contre, accueillie avec consternation et inquiétude par la population musulmane. La révolution est-elle décapitée ? Tous les sacrifices consentis jusque-là auraient-ils été vains ?\nLa réponse ne tarda pas à venir. Dans les semaines qui suivirent cet acte de brigandage, les combats allaient continuer de plus belle. Si la délégation extérieure du FLN a joué un rôle important dans le déclenchement du 1er novembre en approvisionnant les maquis en armes et en sensibilisant l'opinion mondiale à la cause algérienne, il devenait clair, cependant, que « le cerveau » du mouvement révolutionnaire et les forces vives qui le nourrissaient se trouvaient en Algérie même. […]\nL'arraisonnement de l'avion des quatre chefs historiques fut un acte, important certes, mais non décisif. […] Malgré le coup dur qu'on avait tenté de lui porter, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. Tel était notre état d'esprit en cette fin d'octobre 1956. La guerre allait donc continuer."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "Messaoud DJENNAS*, LA GUERRE DE LIBÉRATION NATIONALE, telle que je l'ai vécue,\nCasbah Éditions 2016, pp. 84-85."
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Messaoud DJENNAS : médecin, moudjahid et auteur algérien.\n1. Arraisonnement : action d’arrêter un avion pour un contrôle.\n2. Affrété : mis à la disposition.\n3. Guêpier : piège, situation compliquée."
+    }
+   ],
+   "rubric_total": 6,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "Organisation : présentation du texte et structure adéquate",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e2",
+     "label": "Organisation : cohérence — progression des informations",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e3",
+     "label": "Organisation : cohérence — absence de répétitions",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e4",
+     "label": "Organisation : cohérence — absence de contresens",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e5",
+     "label": "Organisation : cohérence — emploi de connecteurs",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e6",
+     "label": "Planification : choix énonciatif en relation avec la consigne",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e7",
+     "label": "Planification : choix et sélection des informations",
+     "max_points": 1,
+     "verified": true
+    },
+    {
+     "id": "q9-e8",
+     "label": "Langue : syntaxe, lexique et ponctuation",
+     "max_points": 1.5,
+     "verified": true
+    },
+    {
+     "id": "q9-e9",
+     "label": "Langue : emploi correct des temps et des modes",
+     "max_points": 0.25,
+     "verified": true
+    },
+    {
+     "id": "q9-e10",
+     "label": "Langue : orthographe",
+     "max_points": 0.25,
+     "verified": true
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Dans ce texte, l’événement évoqué est : (choisissez la bonne réponse)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "le détournement d’un avion par des dirigeants du FLN.",
+     "le crash de l’avion transportant des dirigeants du FLN.",
+     "le détournement d’un avion transportant des dirigeants du FLN."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « le détournement d’un avion transportant des dirigeants du FLN. »",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« …les combats allaient continuer de plus belle. » Cette phrase veut dire : (choisissez la bonne réponse)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "les combats allaient s’arrêter progressivement.",
+     "les combats allaient se terminer rapidement.",
+     "les combats allaient se poursuivre intensivement."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « les combats allaient se poursuivre intensivement. »",
+   "points": 1.5,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "Sélectionnez deux expressions du texte qui renvoient à « l’arraisonnement de l’avion ».",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "acte de brigandage",
+     "l’enthousiasme délirant",
+     "le guêpier algérien",
+     "une conférence pour la paix",
+     "acte de pure piraterie aérienne"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     4
+    ]
+   },
+   "explanation": "Corrigé : acte de pure piraterie aérienne / acte de brigandage / le coup dur. (Accepter : un acte important certes, mais non décisif.) (1 point par expression)",
+   "points": 2,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « La délégation algérienne a été arrêtée à son retour de la conférence de Tunis. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : Faux. « À Tunis, la délégation algérienne devait assister à une conférence pour la paix. » (§2). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « La population musulmane a réagi positivement à la nouvelle de l’arraisonnement. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : Faux. La nouvelle fut « accueillie avec consternation et inquiétude par la population musulmane » (§3). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « La population européenne a salué l’acte de l’arraisonnement. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : Vrai. « elle provoqua l’enthousiasme délirant des ultras européens » (§3). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « L’arrestation des dirigeants du FLN a mis fin à la guerre de libération. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : Faux. « la révolution continuait […] La guerre allait donc continuer. » (§5) (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « crainte et préoccupation » : cette expression renvoie à…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "La partie algérienne",
+     "La partie française"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — La partie française : certitude d’avoir mis fin à la révolution / sentiment de joie / sabotage de la conférence pour la paix ; La partie algérienne : crainte et préoccupation / intention de participer à la conférence pour la paix / poursuite du combat libérateur.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « certitude d’avoir mis fin à la révolution » : cette expression renvoie à…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "La partie algérienne",
+     "La partie française"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — La partie française : certitude d’avoir mis fin à la révolution / sentiment de joie / sabotage de la conférence pour la paix ; La partie algérienne : crainte et préoccupation / intention de participer à la conférence pour la paix / poursuite du combat libérateur.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « sentiment de joie » : cette expression renvoie à…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "La partie algérienne",
+     "La partie française"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — La partie française : certitude d’avoir mis fin à la révolution / sentiment de joie / sabotage de la conférence pour la paix ; La partie algérienne : crainte et préoccupation / intention de participer à la conférence pour la paix / poursuite du combat libérateur.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « intention de participer à la conférence pour la paix » : cette expression renvoie à…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "La partie algérienne",
+     "La partie française"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — La partie française : certitude d’avoir mis fin à la révolution / sentiment de joie / sabotage de la conférence pour la paix ; La partie algérienne : crainte et préoccupation / intention de participer à la conférence pour la paix / poursuite du combat libérateur.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e5",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « poursuite du combat libérateur » : cette expression renvoie à…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "La partie algérienne",
+     "La partie française"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — La partie française : certitude d’avoir mis fin à la révolution / sentiment de joie / sabotage de la conférence pour la paix ; La partie algérienne : crainte et préoccupation / intention de participer à la conférence pour la paix / poursuite du combat libérateur.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e6",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « sabotage de la conférence pour la paix » : cette expression renvoie à…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "La partie algérienne",
+     "La partie française"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — La partie française : certitude d’avoir mis fin à la révolution / sentiment de joie / sabotage de la conférence pour la paix ; La partie algérienne : crainte et préoccupation / intention de participer à la conférence pour la paix / poursuite du combat libérateur.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« …, ainsi que leur conseiller,… » (§1) : à qui renvoie « leur » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "le professeur Mostefa Lacheraf",
+     "quatre chefs historiques de la révolution algérienne",
+     "le gouvernement français",
+     "le gouvernement marocain"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : « leur » = quatre chefs historiques de la révolution algérienne / Hocine Aït Ahmed, Ahmed Ben Bella, Mohammed Boudiaf et Mohammed Kheider.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« … les forces vives qui le nourrissaient … » (§4) : à quoi renvoie « le » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "le cerveau du mouvement révolutionnaire",
+     "le gouvernement marocain",
+     "le gouvernement français",
+     "le déclenchement du 1er novembre"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « le » = le cerveau du mouvement révolutionnaire. (Accepter : mouvement révolutionnaire.)",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« … le coup dur qu'on avait tenté de lui porter, ... » (§5) : à qui renvoie « on » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "le gouvernement français",
+     "la population musulmane",
+     "le gouvernement marocain",
+     "la délégation algérienne"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « on » = le gouvernement français / la France. (Accepter : les militaires français ou la France coloniale.)",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« … le coup dur qu'on avait tenté de lui porter, ... » (§5) : à quoi renvoie « lui » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "l’opinion mondiale",
+     "les ultras européens",
+     "la révolution",
+     "le gouvernement français"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « lui » = la révolution ou révolution algérienne.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Parmi les propositions, laquelle correspond à la visée communicative de l’auteur ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "glorifier l’acte de piraterie aérienne du gouvernement français.",
+     "saluer l’arrestation des chefs de la révolution algérienne.",
+     "informer de l’acte de piratage et de son impact sur la révolution."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « informer de l’acte de piratage aérien et son impact sur la révolution. »",
+   "points": 1.5,
+   "skill_id": "fr.enonciation",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "approved"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Respect de la consigne",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "«…, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. »\nExpliquez, en deux à trois lignes, pourquoi, selon vous, il était impossible d’arrêter la révolution algérienne.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Respect de la consigne",
+     "indicator": "Respect de la consigne. Explication avec implication directe ou indirecte du candidat et le nombre de lignes.",
+     "model_answer": "Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié.",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Respect de la consigne. Explication avec implication directe ou indirecte du candidat et le nombre de lignes.",
+     "model_answer": "Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Pertinence des idées",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "«…, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. »\nExpliquez, en deux à trois lignes, pourquoi, selon vous, il était impossible d’arrêter la révolution algérienne.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Pertinence des idées",
+     "indicator": "Pertinence des idées. A titre indicatif, on cite l’exemple suivant : Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié.",
+     "model_answer": "Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié.",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Pertinence des idées. A titre indicatif, on cite l’exemple suivant : Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié.",
+     "model_answer": "Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Cohérence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "«…, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. »\nExpliquez, en deux à trois lignes, pourquoi, selon vous, il était impossible d’arrêter la révolution algérienne.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Cohérence",
+     "indicator": "Cohérence.",
+     "model_answer": "Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié.",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Cohérence.",
+     "model_answer": "Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Correction de la langue",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "«…, la révolution continuait, comme un grand fleuve dont il est impossible de détourner le cours. »\nExpliquez, en deux à trois lignes, pourquoi, selon vous, il était impossible d’arrêter la révolution algérienne.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Correction de la langue",
+     "indicator": "Correction de la langue.",
+     "model_answer": "Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié.",
+     "acceptance": "à titre indicatif",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correction de la langue.",
+     "model_answer": "Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (à titre indicatif) : Je pense qu’il était impossible d'arrêter la révolution algérienne car elle était alimentée par un désir profond d'indépendance et de justice sociale, profondément ancré dans la population. L’adhésion du Peuple la transforma rapidement en un mouvement puissant comme un fleuve dont le cours ne peut être modifié.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Présentation du texte et structure adéquate",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration du 08 mai, l’association « Histoire de mon pays », dont vous êtes membre, organise une conférence sur le thème « Crimes et délits coloniaux ». Rédigez le compte rendu objectif de ce texte (120 mots environ) que vous lirez devant les personnes présentes à cette conférence."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "A l’occasion de la journée mondiale du mot de passe, un magazine en ligne dont vous êtes abonné lance une campagne de sensibilisation dont le thème est : « Le piratage et les vols en masse de données personnelles sur le Net ». Rédigez un appel (150 mots environ) pour sensibiliser les internautes aux dangers du partage abusif des informations privées. Votre texte sera publié sur le forum de ce magazine."
+      }
+     ],
+     "criterion": "Présentation du texte et structure adéquate",
+     "indicator": "Organisation : présentation du texte et structure adéquate",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Présentation du texte (mise en page, lisibilité) + 0.25x2 — Structure adéquate [accroche (0.25) – condensation (0.25)]",
+      "Sujet 2 — grille « Production libre »": "0.25 — Présentation du texte (mise en page, lisibilité). + 0.75 — Structure adéquate [Introduction (0.25) – développement (0.25) conclusion (0.25)]"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : présentation du texte et structure adéquate"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Progression des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration du 08 mai, l’association « Histoire de mon pays », dont vous êtes membre, organise une conférence sur le thème « Crimes et délits coloniaux ». Rédigez le compte rendu objectif de ce texte (120 mots environ) que vous lirez devant les personnes présentes à cette conférence."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "A l’occasion de la journée mondiale du mot de passe, un magazine en ligne dont vous êtes abonné lance une campagne de sensibilisation dont le thème est : « Le piratage et les vols en masse de données personnelles sur le Net ». Rédigez un appel (150 mots environ) pour sensibiliser les internautes aux dangers du partage abusif des informations privées. Votre texte sera publié sur le forum de ce magazine."
+      }
+     ],
+     "criterion": "Progression des informations",
+     "indicator": "Organisation : cohérence — progression des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4 Cohérence du texte) — Progression des informations",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — Progression des informations"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — progression des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de répétitions",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration du 08 mai, l’association « Histoire de mon pays », dont vous êtes membre, organise une conférence sur le thème « Crimes et délits coloniaux ». Rédigez le compte rendu objectif de ce texte (120 mots environ) que vous lirez devant les personnes présentes à cette conférence."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "A l’occasion de la journée mondiale du mot de passe, un magazine en ligne dont vous êtes abonné lance une campagne de sensibilisation dont le thème est : « Le piratage et les vols en masse de données personnelles sur le Net ». Rédigez un appel (150 mots environ) pour sensibiliser les internautes aux dangers du partage abusif des informations privées. Votre texte sera publié sur le forum de ce magazine."
+      }
+     ],
+     "criterion": "Absence de répétitions",
+     "indicator": "Organisation : cohérence — absence de répétitions",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4 Cohérence du texte) — Absence de répétitions",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — Absence de répétitions"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de répétitions"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de contresens",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration du 08 mai, l’association « Histoire de mon pays », dont vous êtes membre, organise une conférence sur le thème « Crimes et délits coloniaux ». Rédigez le compte rendu objectif de ce texte (120 mots environ) que vous lirez devant les personnes présentes à cette conférence."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "A l’occasion de la journée mondiale du mot de passe, un magazine en ligne dont vous êtes abonné lance une campagne de sensibilisation dont le thème est : « Le piratage et les vols en masse de données personnelles sur le Net ». Rédigez un appel (150 mots environ) pour sensibiliser les internautes aux dangers du partage abusif des informations privées. Votre texte sera publié sur le forum de ce magazine."
+      }
+     ],
+     "criterion": "Absence de contresens",
+     "indicator": "Organisation : cohérence — absence de contresens",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4 Cohérence du texte) — Absence de contresens",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — Absence de contresens"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de contresens"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e5",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Emploi de connecteurs",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration du 08 mai, l’association « Histoire de mon pays », dont vous êtes membre, organise une conférence sur le thème « Crimes et délits coloniaux ». Rédigez le compte rendu objectif de ce texte (120 mots environ) que vous lirez devant les personnes présentes à cette conférence."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "A l’occasion de la journée mondiale du mot de passe, un magazine en ligne dont vous êtes abonné lance une campagne de sensibilisation dont le thème est : « Le piratage et les vols en masse de données personnelles sur le Net ». Rédigez un appel (150 mots environ) pour sensibiliser les internautes aux dangers du partage abusif des informations privées. Votre texte sera publié sur le forum de ce magazine."
+      }
+     ],
+     "criterion": "Emploi de connecteurs",
+     "indicator": "Organisation : cohérence — emploi de connecteurs",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4 Cohérence du texte) — Emploi de connecteurs",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4 Cohérence du texte) — Emploi de connecteurs"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — emploi de connecteurs"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e6",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix énonciatif",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration du 08 mai, l’association « Histoire de mon pays », dont vous êtes membre, organise une conférence sur le thème « Crimes et délits coloniaux ». Rédigez le compte rendu objectif de ce texte (120 mots environ) que vous lirez devant les personnes présentes à cette conférence."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "A l’occasion de la journée mondiale du mot de passe, un magazine en ligne dont vous êtes abonné lance une campagne de sensibilisation dont le thème est : « Le piratage et les vols en masse de données personnelles sur le Net ». Rédigez un appel (150 mots environ) pour sensibiliser les internautes aux dangers du partage abusif des informations privées. Votre texte sera publié sur le forum de ce magazine."
+      }
+     ],
+     "criterion": "Choix énonciatif",
+     "indicator": "Planification : choix énonciatif en relation avec la consigne",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Choix énonciatif en relation avec la consigne",
+      "Sujet 2 — grille « Production libre »": "1 — Choix énonciatif en relation avec la consigne"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix énonciatif en relation avec la consigne"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s29",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e7",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration du 08 mai, l’association « Histoire de mon pays », dont vous êtes membre, organise une conférence sur le thème « Crimes et délits coloniaux ». Rédigez le compte rendu objectif de ce texte (120 mots environ) que vous lirez devant les personnes présentes à cette conférence."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "A l’occasion de la journée mondiale du mot de passe, un magazine en ligne dont vous êtes abonné lance une campagne de sensibilisation dont le thème est : « Le piratage et les vols en masse de données personnelles sur le Net ». Rédigez un appel (150 mots environ) pour sensibiliser les internautes aux dangers du partage abusif des informations privées. Votre texte sera publié sur le forum de ce magazine."
+      }
+     ],
+     "criterion": "Choix des informations",
+     "indicator": "Planification : choix et sélection des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Sélection des informations essentielles (condensation et reformulation)",
+      "Sujet 2 — grille « Production libre »": "1 — Choix des informations (originalité et pertinence des idées)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix et sélection des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s30",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e8",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Correction syntaxique, lexique et ponctuation",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration du 08 mai, l’association « Histoire de mon pays », dont vous êtes membre, organise une conférence sur le thème « Crimes et délits coloniaux ». Rédigez le compte rendu objectif de ce texte (120 mots environ) que vous lirez devant les personnes présentes à cette conférence."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "A l’occasion de la journée mondiale du mot de passe, un magazine en ligne dont vous êtes abonné lance une campagne de sensibilisation dont le thème est : « Le piratage et les vols en masse de données personnelles sur le Net ». Rédigez un appel (150 mots environ) pour sensibiliser les internautes aux dangers du partage abusif des informations privées. Votre texte sera publié sur le forum de ce magazine."
+      }
+     ],
+     "criterion": "Correction syntaxique, lexique et ponctuation",
+     "indicator": "Langue : syntaxe, lexique et ponctuation",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Correction des phrases au plan syntaxique + 0.25 — Emploi d’un lexique approprié à la thématique + 0.25 — Utilisation adéquate des signes de ponctuation",
+      "Sujet 2 — grille « Production libre »": "0.5 — Correction des phrases au plan syntaxique + 0.5 — Emploi d’un lexique approprié à la thématique + 0.5 — Utilisation adéquate des signes de ponctuation"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : syntaxe, lexique et ponctuation"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 1.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s31",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e9",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Temps et modes",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration du 08 mai, l’association « Histoire de mon pays », dont vous êtes membre, organise une conférence sur le thème « Crimes et délits coloniaux ». Rédigez le compte rendu objectif de ce texte (120 mots environ) que vous lirez devant les personnes présentes à cette conférence."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "A l’occasion de la journée mondiale du mot de passe, un magazine en ligne dont vous êtes abonné lance une campagne de sensibilisation dont le thème est : « Le piratage et les vols en masse de données personnelles sur le Net ». Rédigez un appel (150 mots environ) pour sensibiliser les internautes aux dangers du partage abusif des informations privées. Votre texte sera publié sur le forum de ce magazine."
+      }
+     ],
+     "criterion": "Temps et modes",
+     "indicator": "Langue : emploi correct des temps et des modes",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 — Emploi correct des temps et des modes",
+      "Sujet 2 — grille « Production libre »": "0.25 — Emploi correct des temps et des modes"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : emploi correct des temps et des modes"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s32",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e10",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Orthographe",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "A l’occasion de la célébration du 08 mai, l’association « Histoire de mon pays », dont vous êtes membre, organise une conférence sur le thème « Crimes et délits coloniaux ». Rédigez le compte rendu objectif de ce texte (120 mots environ) que vous lirez devant les personnes présentes à cette conférence."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "A l’occasion de la journée mondiale du mot de passe, un magazine en ligne dont vous êtes abonné lance une campagne de sensibilisation dont le thème est : « Le piratage et les vols en masse de données personnelles sur le Net ». Rédigez un appel (150 mots environ) pour sensibiliser les internautes aux dangers du partage abusif des informations privées. Votre texte sera publié sur le forum de ce magazine."
+      }
+     ],
+     "criterion": "Orthographe",
+     "indicator": "Langue : orthographe",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 — Orthographe (pas plus de 10 erreurs)",
+      "Sujet 2 — grille « Production libre »": "0.25 — Orthographe (pas plus de 10 erreurs)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : orthographe"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 2 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T22:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من ورقة البكالوريا الرّسميّة وإجابتها النّموذجيّة (PDF رقميّان في Drive، طبقة النّصّ مقابَلة بصور الصّفحات)؛ العلامات من سلّم التّنقيط الرّسميّ؛ الإجابات الصّحيحة من الحلّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  },
+  {
+   "at": "2026-10-29T11:00:30.856Z",
+   "by": "د. حيقون أسامة",
+   "action": "approved",
+   "note": "اعتماد جماعي بقرار المالك في 29 أكتوبر 2026 (طلب النشر والتجربة الفوريّة) دون مراجعة كل خطوة؛ المراجعة التفصيلية تبقى ممكنة من صفحة الإدارة"
+  }
+ ]
+}

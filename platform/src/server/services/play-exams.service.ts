@@ -14,7 +14,7 @@ import type { Db } from '@/server/db/connect'
 import { playExamAttempts, playExamSets, type ExamStepRecord } from '@/server/db/schema'
 import { studentIdOf, type Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
-import type { PlayExamKind, PlayExamMode } from '@/server/play/constants'
+import { PLAY_SUBJECTS, type PlayExamKind, type PlayExamMode, type PlayLanguage } from '@/server/play/constants'
 import { answerText, gradeStep, pointsFor, publicSteps, stepsFor } from '@/server/play/exams/engine'
 import { skillLabel } from '@/server/play/exams/skills'
 import { QUEUED_STEP_TYPES, type ExamSetDocument, type PublicStep, type StepAnswer, type TrainingStep } from '@/server/play/exams/types'
@@ -72,12 +72,22 @@ export interface ExamListItem {
   best: { score: number; max: number } | null
 }
 
+/**
+ * مواد تتقاسم ورقة امتحان واحدة: بكالوريا «التاريخ والجغرافيا» ورقة واحدة على 20 (رمزها HIST كرمز دورة HISTGEO)،
+ * فتظهر في قسمَي التاريخ والجغرافيا معًا.
+ */
+/** لغة محتوى المادة: نصوص الفرنسية والإنجليزية تُعرض من اليسار إلى اليمين داخل واجهة عربية */
+export const subjectLanguage = (subjectCode: string): PlayLanguage => PLAY_SUBJECTS.find((s) => s.code === subjectCode)?.language ?? 'ar'
+
+const SHARED_PAPER_SUBJECTS: Record<string, readonly string[]> = { HIST: ['HIST', 'GEO'], GEO: ['GEO', 'HIST'] }
+export const examSubjectsFor = (subjectCode: string): readonly string[] => SHARED_PAPER_SUBJECTS[subjectCode] ?? [subjectCode]
+
 /** مجموعات المستوى والمادة المتاحة للتلميذ (حسب شعبته) */
 export async function listExamSets(db: Db, actor: Actor, filter: { subjectCode: string; kind?: PlayExamKind | 'TESTS' }): Promise<{ items: ExamListItem[]; gradeCode: string | null; streamCode: string | null; preview: boolean }> {
   const studentId = studentIdOf(actor)
   const profile = await getPlayProfile(db, actor)
   if (!profile.gradeCode) return { items: [], gradeCode: null, streamCode: null, preview: examPreviewEnabled() }
-  const conds = [eq(playExamSets.gradeCode, profile.gradeCode), eq(playExamSets.subjectCode, filter.subjectCode)]
+  const conds = [eq(playExamSets.gradeCode, profile.gradeCode), inArray(playExamSets.subjectCode, [...examSubjectsFor(filter.subjectCode)])]
   if (filter.kind === 'TESTS') conds.push(inArray(playExamSets.kind, ['TEST', 'DEVOIR']))
   else if (filter.kind) conds.push(eq(playExamSets.kind, filter.kind))
   const rows = await db.select().from(playExamSets).where(and(...conds))
@@ -199,7 +209,7 @@ export interface AttemptView {
   mode: PlayExamMode
   status: string
   preview: boolean
-  set: { id: string; setId: string; kind: PlayExamKind; title: string; year: number | null; term: number | null; paper: number | null; subjectCode: string; gradeCode: string; streamCodes: string[]; scoreTotal: number; trust: string; originalRef: string | null; correctionRef: string | null; reviewed: boolean }
+  set: { id: string; setId: string; kind: PlayExamKind; title: string; year: number | null; term: number | null; paper: number | null; subjectCode: string; gradeCode: string; streamCodes: string[]; scoreTotal: number; trust: string; originalRef: string | null; correctionRef: string | null; reviewed: boolean; lang: PlayLanguage }
   /** الخطوات المكشوفة فقط: المجاب عنها + الخطوة التالية (لا تُرسل الخطوات اللاحقة قبل أوانها حتى لا تكشف إجابات سابقة) */
   steps: PublicStep[]
   totalSteps: number
@@ -235,6 +245,7 @@ export async function getExamAttemptView(db: Db, actor: Actor, attemptId: string
       term: set.term,
       paper: set.paper,
       subjectCode: set.subjectCode,
+      lang: subjectLanguage(set.subjectCode),
       gradeCode: set.gradeCode,
       streamCodes: set.streamCodes,
       scoreTotal: set.scoreTotal,
