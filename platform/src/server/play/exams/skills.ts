@@ -44,7 +44,15 @@ export const SKILL_LABELS: Record<string, string> = {
   'ar.rhetoric.insha': 'الأساليب الإنشائيّة',
   'ar.rhetoric.itnab': 'الإيجاز والإطناب',
   'ar.rhetoric.qasr': 'القصر',
-  'ar.rhetoric.style': 'الأسلوب الأدبيّ'
+  'ar.rhetoric.style': 'الأسلوب الأدبيّ',
+  'ar.grammar.naat': 'النّعت',
+  'ar.grammar.badal': 'البدل',
+  'ar.grammar.nawasikh': 'النّواسخ',
+  'ar.grammar.tanith': 'تأنيث العامل وتذكيره',
+  'ar.grammar.ikhtisas': 'الاختصاص',
+  'ar.morphology.masdar': 'المصادر',
+  'ar.morphology.mubalagha': 'صيغ المبالغة',
+  'ar.morphology.ala': 'اسم الآلة'
 }
 
 const FAMILY: Record<string, string> = { comprehension: 'الفهم والتّحليل', literature: 'التّحليل الأدبيّ', text: 'النّصّ ونمطه', grammar: 'النّحو والإعراب', morphology: 'الصّرف', rhetoric: 'البلاغة', prosody: 'العروض', cohesion: 'الاتّساق والانسجام', writing: 'الكتابة' }

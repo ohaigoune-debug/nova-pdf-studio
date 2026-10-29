@@ -23,6 +23,7 @@ export default async function PlayAdminPage() {
   const servable = (ov.byStatus.AUTO_VALIDATED ?? 0) + (ov.byStatus.APPROVED ?? 0) + (ov.byStatus.PUBLISHED ?? 0)
   const links = [
     { href: '/admin/play/questions', label: 'بنك الأسئلة', hint: 'تصفية، مراجعة جماعية، تصدير', icon: ListChecks },
+    { href: '/admin/play/exams', label: 'الفروض والاختبارات والبكالوريا', hint: 'مراجعة المواضيع المحوّلة قبل اعتمادها', icon: BookOpenCheck },
     { href: '/admin/play/reports', label: 'البلاغات', hint: `${ov.openReports} بلاغاً مفتوحاً`, icon: Flag },
     { href: '/admin/play/coverage', label: 'تغطية المنهاج', hint: `${coveragePct}% من الدروس لها أسئلة`, icon: Layers },
     { href: '/admin/play/settings', label: 'قواعد اللعبة', hint: 'XP، المستويات، الإتقان، الحالات المقدَّمة', icon: Settings2 }

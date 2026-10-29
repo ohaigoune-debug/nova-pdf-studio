@@ -63,7 +63,7 @@ function DocumentView({ doc }: { doc: SourceDocument }) {
   )
 }
 
-function Documents({ docs }: { docs: SourceDocument[] }) {
+export function Documents({ docs }: { docs: SourceDocument[] }) {
   if (!docs.length) return <p className="text-sm text-[#5B6B88]">لا وثيقة مرفقة بهذا السؤال.</p>
   return (
     <div className="space-y-5">
