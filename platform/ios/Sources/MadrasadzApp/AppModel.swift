@@ -53,7 +53,10 @@ final class AppModel: ObservableObject {
         didSet { native.identityDidChange() }
     }
     @Published var snapshot = StudySnapshot.empty
-    @Published var selectedTab = 0
+    /// The bottom-bar destination whose screen is the navigation root.
+    @Published private(set) var selectedTab: ShellTab = .home
+    /// A screen that fills the display (the landscape lesson player) hides the bar.
+    @Published var fullScreenContent = false
     @Published var notice: String?
     @Published var busy = false
 
@@ -320,18 +323,28 @@ final class AppModel: ObservableObject {
     func openBookmark(_ bookmark: Bookmark) {
         guard personalSpaceReady, snapshot.bookmarks.contains(where: { $0.id == bookmark.id && $0.relativeURL == bookmark.relativeURL }),
               let url = browser.policy.url(forBookmarkPath: bookmark.relativeURL) else { return }
-        selectedTab = 0
         if native.open(url: url) { return }
+        selectTab(.home)
         browser.open(url)
     }
 
     /// Opens a website page from a native control (menu, sign-in buttons): the
-    /// native screen when there is one, otherwise the page in the Study tab.
+    /// native screen when there is one, pushed on the current destination's
+    /// stack; otherwise the page in the web learning root (Home).
     func openWebsite(path: String) {
         guard let url = URL(string: path, relativeTo: browser.baseURL)?.absoluteURL else { return }
-        selectedTab = 0
         if native.open(url: url) { return }
+        selectTab(.home)
         browser.open(url)
+    }
+
+    /// A bottom-bar destination, as the website's links do: its root screen,
+    /// with anything pushed on the previous one closed (a web destination
+    /// included). Selecting the current destination returns to its root.
+    func selectTab(_ tab: ShellTab) {
+        if selectedTab != tab { selectedTab = tab }
+        if !native.path.isEmpty { native.path = [] }
+        fullScreenContent = false
     }
 
     /// Bookmark a native screen by the web path it stands for (same store rules).

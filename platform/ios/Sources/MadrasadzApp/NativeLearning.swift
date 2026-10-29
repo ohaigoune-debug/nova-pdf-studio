@@ -2,13 +2,17 @@ import SwiftUI
 import UIKit
 import MadrasadzCore
 
-/// Destinations pushed on the Study tab's stack when native learning is on.
+/// Destinations pushed on the shell's one navigation stack. Its root is the
+/// selected bottom-bar destination (`ShellTab`).
 enum LearnRoute: Hashable {
     case course(String)
     /// Native lesson page (Build 9) when the server offers the lesson endpoint.
     case lesson(String)
     /// One free-lessons collection from the home screen (its `FreeEntry.id`).
     case collection(String)
+    /// The personal space on this device, reached from «حسابي» (before the
+    /// site shell these were tabs of their own).
+    case saved, planner, downloads
     /// The one shared web view. At most once in the path, and always last.
     case web
 }
@@ -263,7 +267,8 @@ final class NativeLearningModel: ObservableObject {
     func show(_ route: NativeRoute) {
         switch route {
         case .home:
-            path = []
+            // The learning home is the «الرئيسية» destination of the bottom bar.
+            if let app { app.selectTab(.home) } else { path = [] }
         case .course(let slug):
             if let index = path.firstIndex(of: .course(slug)) {
                 path = Array(path[...index])

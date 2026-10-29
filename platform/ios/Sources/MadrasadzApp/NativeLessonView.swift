@@ -2,7 +2,7 @@ import SwiftUI
 import WebKit
 import MadrasadzCore
 
-private let lessonBlue = Color(red: 49/255, green: 85/255, blue: 245/255)
+private let lessonBlue = Brand.primary
 
 /// Native lesson page (plan phase 3, Build 9). Text is rendered natively; a YouTube
 /// lesson plays in a protected inline player (moving watermark, one-device heartbeat,
@@ -51,14 +51,17 @@ struct NativeLessonView: View {
             }
             .scrollDisabled(playerFills)
         }
-        .background(playerFills ? Color.black : Color(.systemGroupedBackground))
+        .background(playerFills ? Color.black : Brand.background)
         .ignoresSafeArea(edges: playerFills ? .all : [])
         .refreshable { await native.loadLesson(slug) }
         .task(id: native.accountKey) { await native.loadLessonIfNeeded(slug) }
         .navigationTitle(playerFills ? "" : (loaded?.title ?? ""))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(playerFills ? .hidden : .visible, for: .navigationBar)
-        .toolbar(playerFills ? .hidden : .visible, for: .tabBar)
+        // The shell's bottom bar steps aside while the player fills the display.
+        .onAppear { model.fullScreenContent = playerFills }
+        .onChange(of: playerFills) { _, fills in model.fullScreenContent = fills }
+        .onDisappear { model.fullScreenContent = false }
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 if model.personalSpaceReady, let lesson = loaded {
@@ -85,9 +88,9 @@ struct NativeLessonView: View {
             Text(L10n.text(failure == .offline || failure == .server ? "nativeLoadFailed" : "lessonUnavailable")).font(.headline)
             HStack(spacing: 12) {
                 if failure == .offline || failure == .server {
-                    Button(L10n.text("retry")) { Task { await native.loadLesson(slug) } }.buttonStyle(.borderedProminent)
+                    Button(L10n.text("retry")) { Task { await native.loadLesson(slug) } }.buttonStyle(SiteButtonStyle(kind: .primary))
                 }
-                Button(L10n.text("lessonFullPage")) { native.openWebLesson(slug: slug) }.buttonStyle(.bordered)
+                Button(L10n.text("lessonFullPage")) { native.openWebLesson(slug: slug) }.buttonStyle(SiteButtonStyle(kind: .outline))
             }
         }
         .frame(maxWidth: .infinity)
@@ -111,7 +114,7 @@ struct NativeLessonView: View {
                 Label(L10n.text("lessonFullPage"), systemImage: "safari")
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
+            .buttonStyle(SiteButtonStyle(kind: .outline, fullWidth: true))
             .accessibilityIdentifier("lessonWebPage")
             Text(L10n.text("lessonFullPageHint")).font(.footnote).foregroundStyle(.secondary)
         }
@@ -140,26 +143,26 @@ struct NativeLessonView: View {
                 Button { Task { await showPDF(contentID) } } label: {
                     Label(L10n.text("lessonShowPDF"), systemImage: "doc.richtext").frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.borderedProminent).controlSize(.large)
+                .buttonStyle(SiteButtonStyle(kind: .primary, fullWidth: true))
                 .disabled(preparingDocument)
                 .accessibilityIdentifier("lessonPDF")
             } else {
                 Button { native.openWebLesson(slug: lesson.slug) } label: {
                     Label(L10n.text("lessonOpenFile"), systemImage: "doc.richtext").frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.borderedProminent).controlSize(.large)
+                .buttonStyle(SiteButtonStyle(kind: .primary, fullWidth: true))
                 .accessibilityIdentifier("lessonPDF")
             }
         case .video:
             Button { native.openWebLesson(slug: lesson.slug) } label: {
                 Label(L10n.text("lessonPlayVideo"), systemImage: "play.rectangle.fill").frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent).controlSize(.large)
+            .buttonStyle(SiteButtonStyle(kind: .primary, fullWidth: true))
         case .external:
             Button { native.openWebLesson(slug: lesson.slug) } label: {
                 Label(L10n.text("lessonOpenLink"), systemImage: "link").frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent).controlSize(.large)
+            .buttonStyle(SiteButtonStyle(kind: .primary, fullWidth: true))
         }
     }
 
@@ -232,7 +235,7 @@ private struct LessonBody: View {
         .font(.body)
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .siteCard()
         .textSelection(.disabled)
         // Links in a teacher's text are shown but not opened from here.
         .environment(\.openURL, OpenURLAction { _ in .discarded })
@@ -298,7 +301,7 @@ private struct ProtectedYouTubePlayer: View {
                         Image(systemName: "lock.shield.fill").font(.largeTitle).foregroundStyle(.yellow)
                         Text(L10n.text("deviceBlockedTitle")).font(.headline)
                         Text(blocked).font(.footnote).multilineTextAlignment(.center)
-                        Button(L10n.text("retry")) { self.blocked = nil }.buttonStyle(.borderedProminent)
+                        Button(L10n.text("retry")) { self.blocked = nil }.buttonStyle(SiteButtonStyle(kind: .primary))
                     }
                     .foregroundStyle(.white)
                     .padding(20)

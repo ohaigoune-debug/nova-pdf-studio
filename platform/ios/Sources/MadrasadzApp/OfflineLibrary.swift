@@ -394,6 +394,7 @@ struct OfflineDownloadsView: View {
                             .swipeActions {
                                 Button(L10n.text("delete"), role: .destructive) { library.remove(document) }
                             }
+                            .listRowBackground(Brand.card)
                         }
                     } footer: {
                         Text(L10n.text("downloadsFooter"))

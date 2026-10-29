@@ -1,10 +1,11 @@
 import SwiftUI
 import MadrasadzCore
 
-// Native learning home and course screens (Build 8). Content comes from the iOS
-// API v1; lessons, tools and every other page open in the shared web view.
+// Native learning home and course screens (Build 8), in the site's look since
+// the site shell (IMG_6714). Content comes from the iOS API v1; tools and every
+// other page open in the shared web view.
 
-private let brandBlue = Color(red: 49/255, green: 85/255, blue: 245/255)
+private let brandBlue = Brand.primary
 
 // MARK: - Presentation
 
@@ -53,7 +54,7 @@ enum ContentKind {
     }
 }
 
-private enum NativeTool {
+enum NativeTool {
     static func style(_ id: String) -> (key: String, symbol: String, tint: Color)? {
         switch id {
         case "play": return ("tool.play", "gamecontroller.fill", .purple)
@@ -65,7 +66,7 @@ private enum NativeTool {
     }
 }
 
-private enum NativeDates {
+enum NativeDates {
     static func day(_ value: String?) -> String? {
         guard let value, value.count >= 10 else { return nil }
         let parser = DateFormatter()
@@ -95,31 +96,31 @@ struct MenuToolbarButton: View {
     }
 }
 
-private struct Card<Content: View>: View {
+struct Card<Content: View>: View {
     let content: Content
     init(@ViewBuilder content: () -> Content) { self.content = content() }
     var body: some View {
         content
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(16)
-            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .siteCard()
     }
 }
 
-private struct SectionTitle: View {
+struct SectionTitle: View {
     let text: String
     let symbol: String
-    var tint: Color = brandBlue
+    var tint: Color = Brand.primary
     var trailing: String?
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: symbol).foregroundStyle(tint).accessibilityHidden(true)
-            Text(text).font(.title3.bold())
+            Text(text).font(.title3.bold()).foregroundStyle(Brand.foreground)
             Spacer(minLength: 8)
             if let trailing {
-                Text(trailing).font(.footnote.weight(.semibold)).foregroundStyle(.secondary)
+                Text(trailing).font(.footnote.weight(.semibold)).foregroundStyle(Brand.mutedForeground)
                     .padding(.horizontal, 10).padding(.vertical, 4)
-                    .background(Color(.tertiarySystemFill), in: Capsule())
+                    .background(Brand.muted, in: Capsule())
             }
         }
         .accessibilityElement(children: .combine)
@@ -127,7 +128,7 @@ private struct SectionTitle: View {
     }
 }
 
-private struct IconTile: View {
+struct IconTile: View {
     let symbol: String
     let tint: Color
     var size: CGFloat = 46
@@ -146,9 +147,9 @@ private struct IconTile: View {
 struct NativeLoadingView: View {
     var body: some View {
         VStack(spacing: 14) {
-            RoundedRectangle(cornerRadius: 20).fill(Color(.secondarySystemGroupedBackground)).frame(height: 120)
+            RoundedRectangle(cornerRadius: 22).fill(Brand.card).frame(height: 120)
             ForEach(0..<3, id: \.self) { _ in
-                RoundedRectangle(cornerRadius: 18).fill(Color(.secondarySystemGroupedBackground)).frame(height: 76)
+                RoundedRectangle(cornerRadius: 18).fill(Brand.card).frame(height: 76)
             }
         }
         .overlay { ProgressView() }
@@ -159,14 +160,14 @@ struct NativeLoadingView: View {
 }
 
 /// A full-width message with actions (failure, sign-in, phone, terms…).
-private struct NoticeCard<Actions: View>: View {
+struct NoticeCard<Actions: View>: View {
     let symbol: String
     let tint: Color
     let title: String
     let message: String
     let actions: Actions
 
-    init(symbol: String, tint: Color = brandBlue, title: String, message: String, @ViewBuilder actions: () -> Actions) {
+    init(symbol: String, tint: Color = Brand.primary, title: String, message: String, @ViewBuilder actions: () -> Actions) {
         self.symbol = symbol
         self.tint = tint
         self.title = title
@@ -178,8 +179,8 @@ private struct NoticeCard<Actions: View>: View {
         Card {
             VStack(spacing: 14) {
                 IconTile(symbol: symbol, tint: tint, size: 58)
-                Text(title).font(.title3.bold()).multilineTextAlignment(.center)
-                Text(message).font(.subheadline).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                Text(title).font(.title3.bold()).foregroundStyle(Brand.foreground).multilineTextAlignment(.center)
+                Text(message).font(.subheadline).foregroundStyle(Brand.mutedForeground).multilineTextAlignment(.center)
                 actions
             }
             .frame(maxWidth: .infinity)
@@ -188,7 +189,7 @@ private struct NoticeCard<Actions: View>: View {
 }
 
 /// The failure states shared by the home and course screens.
-private struct FailureCard: View {
+struct FailureCard: View {
     let failure: NativeFailure
     @ObservedObject var model: AppModel
     @ObservedObject var native: NativeLearningModel
@@ -200,30 +201,30 @@ private struct FailureCard: View {
         case .signIn:
             NoticeCard(symbol: "person.badge.key.fill", title: L10n.text("signIn"), message: L10n.text("signInToContinue")) {
                 Button(L10n.text("signIn")) { native.openWeb(path: signInPath) }
-                    .buttonStyle(.borderedProminent).controlSize(.large)
+                    .buttonStyle(SiteButtonStyle(kind: .primary))
             }
         case .phone:
             NoticeCard(symbol: "phone.badge.checkmark", tint: .green, title: L10n.text("phoneTitle"), message: L10n.text("phoneBody")) {
                 Button(L10n.text("phoneAction")) { native.openWeb(path: "/ios") }
-                    .buttonStyle(.borderedProminent).controlSize(.large)
+                    .buttonStyle(SiteButtonStyle(kind: .primary))
             }
         case .role:
             NoticeCard(symbol: "graduationcap.fill", title: L10n.text("studentOnlyTitle"), message: L10n.text("studentOnlyBody")) {
                 Button(L10n.text("logout"), role: .destructive) { Task { await model.logout() } }
-                    .buttonStyle(.bordered).controlSize(.large).disabled(model.busy)
+                    .buttonStyle(SiteButtonStyle(kind: .outline)).disabled(model.busy)
             }
         case .ended:
             NoticeCard(symbol: "clock.badge.xmark", tint: .orange, title: L10n.text("courseEnded"), message: L10n.text("courseEndedBody")) {
-                Button(L10n.text("menuHome")) { native.show(.home) }.buttonStyle(.bordered)
+                Button(L10n.text("menuHome")) { native.show(.home) }.buttonStyle(SiteButtonStyle(kind: .outline))
             }
         case .notFound:
             NoticeCard(symbol: "questionmark.folder", tint: .secondary, title: L10n.text("courseMissingTitle"), message: L10n.text("courseMissing")) {
-                Button(L10n.text("menuHome")) { native.show(.home) }.buttonStyle(.bordered)
+                Button(L10n.text("menuHome")) { native.show(.home) }.buttonStyle(SiteButtonStyle(kind: .outline))
             }
         case .offline, .server:
             NoticeCard(symbol: "wifi.exclamationmark", tint: .orange, title: L10n.text("nativeLoadFailed"), message: L10n.text("nativeOfflineBody")) {
                 Button(L10n.text("retry")) { Task { await retry() } }
-                    .buttonStyle(.borderedProminent).controlSize(.large)
+                    .buttonStyle(SiteButtonStyle(kind: .primary))
                     .accessibilityIdentifier("nativeRetry")
             }
         }
@@ -232,10 +233,13 @@ private struct FailureCard: View {
 
 // MARK: - Home
 
+/// The student home of the website (`/student`, IMG_6714): the dashboard card
+/// with «متابعة التعلّم», «ماذا تريد أن تتعلم اليوم؟» with its four cards, the
+/// bac bank, «دوراتي» and the free lessons. Purchase links of the website are
+/// not shown in the app (study-only presentation, App Store guideline 3.1.1).
 struct NativeHomeView: View {
     @ObservedObject var model: AppModel
     @ObservedObject var native: NativeLearningModel
-    @Binding var showingAccount: Bool
 
     var body: some View {
         ScrollView {
@@ -251,49 +255,49 @@ struct NativeHomeView: View {
                     }
                 }
             }
-            .padding(16)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 24)
         }
-        .background(Color(.systemGroupedBackground))
+        .background(Brand.background)
         .refreshable { await native.retryHome() }
         .task(id: native.accountKey) { await native.loadHomeIfNeeded() }
-        .navigationTitle("مدرسة")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar { ToolbarItem(placement: .topBarTrailing) { MenuToolbarButton(showing: $showingAccount) } }
     }
 
     @ViewBuilder private func content(_ home: NativeHome) -> some View {
         if home.account == nil {
             welcome
         } else {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(L10n.text("nativeLearnTitle")).font(.title.bold())
-                Text(L10n.text("nativeLearnIntro")).font(.subheadline).foregroundStyle(.secondary)
-            }
-            courses(home.courses)
-            if !home.tools.isEmpty { tools(home.tools) }
+            dashboard(home)
         }
+        HomeLearnGrid(model: model, native: native, home: home)
+        Button { native.openWeb(path: "/bac") } label: {
+            Label(L10n.text("bacBank"), systemImage: "doc.on.doc")
+        }
+        .buttonStyle(SiteButtonStyle(kind: .outline))
+        .accessibilityIdentifier("homeBacBank")
+        if home.account != nil { courses(home.courses) }
         freeLessons(home.freeLessons)
     }
 
     private var welcome: some View {
         Card {
             VStack(spacing: 16) {
-                Image("BrandLogo").resizable().scaledToFit().frame(maxWidth: 150, maxHeight: 64)
+                BrandLogoPlate(width: 164)
                     .accessibilityHidden(true)
                 VStack(spacing: 6) {
-                    Text(L10n.text("nativeWelcome")).font(.title2.bold())
-                    Text(L10n.text("nativeWelcomeIntro")).foregroundStyle(.secondary)
+                    Text(L10n.text("nativeWelcome")).font(.title2.bold()).foregroundStyle(Brand.foreground)
+                    Text(L10n.text("nativeWelcomeIntro")).foregroundStyle(Brand.mutedForeground)
                 }
                 .multilineTextAlignment(.center)
                 Button { native.openWeb(path: "/login?next=/ios") } label: {
                     Label(L10n.text("signIn"), systemImage: "person.crop.circle.badge.checkmark")
-                        .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.borderedProminent).controlSize(.large)
+                .buttonStyle(SiteButtonStyle(kind: .primary, fullWidth: true))
                 .accessibilityIdentifier("nativeSignIn")
                 HStack(spacing: 4) {
-                    Text(L10n.text("nativeNoAccount")).foregroundStyle(.secondary)
-                    Button(L10n.text("register")) { native.openWeb(path: "/register") }.fontWeight(.semibold)
+                    Text(L10n.text("nativeNoAccount")).foregroundStyle(Brand.mutedForeground)
+                    Button(L10n.text("register")) { native.openWeb(path: "/register") }
+                        .fontWeight(.semibold).foregroundStyle(Brand.primary)
                 }
                 .font(.subheadline)
             }
@@ -301,47 +305,94 @@ struct NativeHomeView: View {
         }
     }
 
-    @ViewBuilder private func courses(_ courses: [NativeHome.Course]) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            SectionTitle(text: L10n.text("myCourses"), symbol: "books.vertical.fill")
-            if courses.isEmpty {
-                Card { Text(L10n.text("noCourses")).font(.subheadline).foregroundStyle(.secondary) }
+    /// The site's welcome section (`rounded-xl border bg-card p-5`). The iOS API
+    /// carries no name, so the heading is the learning space, not «مرحباً، …».
+    private func dashboard(_ home: NativeHome) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(L10n.text("studentDashboard")).font(.subheadline).foregroundStyle(Brand.mutedForeground)
+            Text(L10n.text("nativeLearnTitle")).font(.title.bold()).foregroundStyle(Brand.foreground)
+                .padding(.top, 4)
+                .accessibilityAddTraits(.isHeader)
+            // «متابعة التعلّم» only with a real link: the first active course.
+            if let course = home.courses.first(where: { $0.status == .active }) {
+                resume(course).padding(.top, 20)
             } else {
-                ForEach(courses) { course in
-                    if course.status == .active {
-                        NavigationLink(value: LearnRoute.course(course.slug)) { CourseCard(course: course) }
-                            .buttonStyle(.plain)
-                            .accessibilityIdentifier("courseCard")
-                    } else {
-                        CourseCard(course: course).opacity(0.65)
-                    }
-                }
+                Text(L10n.text("noCourses")).font(.subheadline).foregroundStyle(Brand.mutedForeground)
+                    .padding(.top, 20)
             }
+            // The site's «اكتشف الدورات» / «طلباتي» (store and orders) are
+            // replaced in the same place by study destinations of the app.
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 8) { shortcuts }
+                VStack(alignment: .leading, spacing: 8) { shortcuts }
+            }
+            .padding(.top, 16)
         }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .siteCard(radius: 22)
     }
 
-    private func tools(_ tools: [NativeHome.Tool]) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            SectionTitle(text: L10n.text("practiceTitle"), symbol: "figure.mind.and.body", tint: .purple)
-            LazyVGrid(columns: [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)], spacing: 12) {
-                ForEach(tools) { tool in
-                    if let style = NativeTool.style(tool.id) {
-                        Button { native.openWeb(path: tool.webPath) } label: {
-                            VStack(alignment: .leading, spacing: 14) {
-                                IconTile(symbol: style.symbol, tint: style.tint, size: 42)
-                                Text(L10n.text(style.key)).font(.subheadline.weight(.semibold))
-                                    .foregroundStyle(.primary).multilineTextAlignment(.leading)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                            .padding(14)
-                            .frame(maxWidth: .infinity, minHeight: 108, alignment: .topLeading)
-                            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-                        }
-                        .buttonStyle(.plain)
+    @ViewBuilder private var shortcuts: some View {
+        Button { model.selectTab(.explore) } label: { Label(L10n.text("exploreTools"), systemImage: "safari") }
+            .buttonStyle(SiteButtonStyle(kind: .outline, compact: true))
+            .accessibilityIdentifier("homeExplore")
+        NavigationLink(value: LearnRoute.planner) { Label(L10n.text("planner"), systemImage: "calendar") }
+            .buttonStyle(SiteButtonStyle(kind: .outline, compact: true))
+            .accessibilityIdentifier("homePlanner")
+    }
+
+    private func resume(_ course: NativeHome.Course) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(L10n.text("resumeTitle")).font(.subheadline.weight(.semibold)).foregroundStyle(Brand.onSecondary)
+            Text(course.title).font(.title3.weight(.semibold)).foregroundStyle(Brand.foreground).lineLimit(2)
+            let line = [course.teacherName, course.season].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " · ")
+            if !line.isEmpty { Text(line).font(.subheadline).foregroundStyle(Brand.mutedForeground) }
+            NavigationLink(value: LearnRoute.course(course.slug)) {
+                HStack(spacing: 8) {
+                    Text(L10n.text("resumeTitle"))
+                    Image(systemName: "arrow.forward").accessibilityHidden(true)
+                }
+            }
+            .buttonStyle(SiteButtonStyle(kind: .primary, fullWidth: true))
+            .accessibilityIdentifier("resumeCourse")
+            .padding(.top, 12)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Brand.secondary, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+    }
+
+    /// The site's «دوراتي» card: active courses with «دخول». Its «شراء دورة»
+    /// link becomes «عرض الكل», which opens the «دوراتي» destination.
+    private func courses(_ courses: [NativeHome.Course]) -> some View {
+        let active = courses.filter { $0.status == .active }
+        return VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text(L10n.text("myCourses")).font(.title3.bold()).foregroundStyle(Brand.foreground)
+                    .accessibilityAddTraits(.isHeader)
+                Spacer(minLength: 8)
+                Button(L10n.text("viewAll")) { model.selectTab(.courses) }
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Brand.primary)
+                    .frame(minHeight: 44)
+                    .accessibilityIdentifier("homeAllCourses")
+            }
+            if active.isEmpty {
+                Text(L10n.text("noCourses")).font(.subheadline).foregroundStyle(Brand.mutedForeground)
+            } else {
+                VStack(spacing: 0) {
+                    ForEach(Array(active.enumerated()), id: \.element.id) { index, course in
+                        NavigationLink(value: LearnRoute.course(course.slug)) { HomeCourseRow(course: course) }
+                            .buttonStyle(.plain)
+                            .accessibilityIdentifier("courseCard")
+                        if index < active.count - 1 { Brand.border.frame(height: 1) }
                     }
                 }
             }
         }
+        .padding(20)
+        .siteCard()
     }
 
     /// Owner request (Build 9): no long chip grids. Each series is one row that opens
@@ -350,39 +401,39 @@ struct NativeHomeView: View {
         let groups = entries.filter { if case .group = $0 { return true }; return false }
         let singles: [NativeHome.LessonLink] = entries.compactMap { if case .single(let link) = $0 { return link }; return nil }
         VStack(alignment: .leading, spacing: 12) {
-            SectionTitle(text: L10n.text("freeForAll"), symbol: "gift.fill", tint: .green)
+            SectionTitle(text: L10n.text("freeForAll"), symbol: "gift.fill", tint: Brand.success)
             if entries.isEmpty {
-                Card { Text(L10n.text("noFreeLessons")).font(.subheadline).foregroundStyle(.secondary) }
+                Card { Text(L10n.text("noFreeLessons")).font(.subheadline).foregroundStyle(Brand.mutedForeground) }
             }
             if !groups.isEmpty {
                 VStack(spacing: 0) {
                     ForEach(Array(groups.enumerated()), id: \.element.id) { index, entry in
                         if case .group(let heading, let detail, let items) = entry {
                             NavigationLink(value: LearnRoute.collection(entry.id)) {
-                                CollectionRow(symbol: "rectangle.stack.fill", tint: .green, title: heading, subtitle: detail,
+                                CollectionRow(symbol: "rectangle.stack.fill", tint: Brand.success, title: heading, subtitle: detail,
                                               count: items.count)
                             }
                             .buttonStyle(.plain)
                             .accessibilityIdentifier("freeCollection")
-                            if index < groups.count - 1 { Divider().padding(.leading, 66) }
+                            if index < groups.count - 1 { Brand.border.frame(height: 1).padding(.leading, 66) }
                         }
                     }
                 }
-                .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .siteCard()
             }
             if !singles.isEmpty {
                 VStack(spacing: 0) {
                     ForEach(singles.prefix(3)) { link in
                         Button { native.openLesson(slug: link.slug) } label: { LessonLinkRow(link: link) }
                             .buttonStyle(.plain)
-                        Divider().padding(.leading, 66)
+                        Brand.border.frame(height: 1).padding(.leading, 66)
                     }
                     NavigationLink(value: LearnRoute.collection(NativeCollection.singlesID)) {
                         HStack {
                             Text(String(format: L10n.text("showAllCount"), singles.count)).font(.subheadline.weight(.semibold))
-                                .foregroundStyle(brandBlue)
+                                .foregroundStyle(Brand.primary)
                             Spacer()
-                            Image(systemName: "chevron.forward").font(.footnote.bold()).foregroundStyle(.tertiary)
+                            Image(systemName: "chevron.forward").font(.footnote.bold()).foregroundStyle(Brand.mutedForeground)
                         }
                         .padding(.horizontal, 16).padding(.vertical, 14)
                         .contentShape(Rectangle())
@@ -390,9 +441,132 @@ struct NativeHomeView: View {
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("freeShowAll")
                 }
-                .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .siteCard()
             }
         }
+    }
+}
+
+private struct HomeCourseRow: View {
+    let course: NativeHome.Course
+
+    var body: some View {
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(course.title).font(.body.bold()).foregroundStyle(Brand.foreground).multilineTextAlignment(.leading)
+                let line = [course.teacherName, course.season].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " · ")
+                if !line.isEmpty { Text(line).font(.caption).foregroundStyle(Brand.mutedForeground) }
+            }
+            Spacer(minLength: 8)
+            Text(L10n.text("courseEnter"))
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Brand.foreground)
+                .padding(.horizontal, 14)
+                .frame(minHeight: 44)
+                .overlay { RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Brand.border, lineWidth: 1) }
+        }
+        .padding(.vertical, 12)
+        .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// «ماذا تريد أن تتعلم اليوم؟»: the website's four cards (`tiles` in
+/// `app/student/page.tsx`), each a real button. Counts only from the API.
+struct HomeLearnGrid: View {
+    @ObservedObject var model: AppModel
+    @ObservedObject var native: NativeLearningModel
+    let home: NativeHome
+
+    var body: some View {
+        let active = home.courses.filter { $0.status == .active }.count
+        VStack(alignment: .leading, spacing: 16) {
+            Text(L10n.text("homeQuestion"))
+                .font(.title2.bold())
+                .foregroundStyle(Brand.foreground)
+                .accessibilityAddTraits(.isHeader)
+                .accessibilityIdentifier("homeQuestion")
+            Grid(horizontalSpacing: 16, verticalSpacing: 16) {
+                GridRow {
+                    HomeTile(identifier: "homeTile.lessons", title: L10n.text("tile.lessons"), hint: L10n.text("tile.lessonsHint"), lime: false) {
+                        Image(systemName: "book")
+                    } action: { model.selectTab(.lessons) }
+                    HomeTile(identifier: "homeTile.courses", title: L10n.text("myCourses"),
+                             hint: active > 0 ? String(format: L10n.text("tile.coursesActive"), active) : L10n.text("tile.coursesHint"),
+                             lime: false) {
+                        Image(systemName: "book.closed")
+                    } action: { model.selectTab(.courses) }
+                }
+                GridRow {
+                    HomeTile(identifier: "homeTile.exams", title: L10n.text("tile.exams"), hint: L10n.text("tile.examsHint"), lime: false) {
+                        // lucide CheckCheck: two overlapping ticks.
+                        HStack(spacing: -14) {
+                            Image(systemName: "checkmark")
+                            Image(systemName: "checkmark")
+                        }
+                    } action: { native.openWeb(path: "/student/exams") }
+                    HomeTile(identifier: "homeTile.play", title: L10n.text("tile.play"), hint: L10n.text("tile.playHint"), lime: true) {
+                        Image(systemName: "gamecontroller")
+                    } action: { native.openWeb(path: "/student/play") }
+                }
+            }
+        }
+    }
+}
+
+/// One card of the grid: `min-h-36 rounded-lg border bg-card p-5`, a 56 pt
+/// round icon (secondary, or lime for PLAY), an 18 pt title and a 12 pt hint.
+struct HomeTile<Icon: View>: View {
+    let identifier: String
+    let title: String
+    let hint: String
+    let lime: Bool
+    let icon: Icon
+    let action: () -> Void
+    @ScaledMetric(relativeTo: .headline) private var titleSize: CGFloat = 18
+
+    init(identifier: String, title: String, hint: String, lime: Bool,
+         @ViewBuilder icon: () -> Icon, action: @escaping () -> Void) {
+        self.identifier = identifier
+        self.title = title
+        self.hint = hint
+        self.lime = lime
+        self.icon = icon()
+        self.action = action
+    }
+
+    var body: some View {
+        let shape = RoundedRectangle(cornerRadius: 18, style: .continuous)
+        Button(action: action) {
+            VStack(spacing: 0) {
+                icon
+                    .font(.system(size: 22, weight: .medium))
+                    .foregroundStyle(lime ? Brand.onAccent : Brand.onSecondary)
+                    .frame(width: 56, height: 56)
+                    .background(lime ? Brand.accent : Brand.secondary, in: Circle())
+                Text(title)
+                    .font(.system(size: titleSize, weight: .semibold))
+                    .foregroundStyle(Brand.foreground)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 8)
+                if !hint.isEmpty {
+                    Text(hint)
+                        .font(.caption)
+                        .foregroundStyle(Brand.mutedForeground)
+                        .multilineTextAlignment(.center)
+                }
+            }
+            .padding(20)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(minHeight: 144)
+            .background(Brand.card, in: shape)
+            .overlay { shape.strokeBorder(Brand.border, lineWidth: 1) }
+            .contentShape(shape)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(title)
+        .accessibilityValue(hint)
+        .accessibilityIdentifier(identifier)
     }
 }
 
@@ -415,7 +589,7 @@ enum NativeCollection {
     }
 }
 
-private struct CollectionRow: View {
+struct CollectionRow: View {
     let symbol: String
     let tint: Color
     let title: String
@@ -434,7 +608,7 @@ private struct CollectionRow: View {
             Spacer(minLength: 4)
             Text(String(format: L10n.text("lessonsCount"), count)).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
                 .padding(.horizontal, 8).padding(.vertical, 4)
-                .background(Color(.tertiarySystemFill), in: Capsule())
+                .background(Brand.muted, in: Capsule())
             Image(systemName: "chevron.forward").font(.footnote.bold()).foregroundStyle(.tertiary)
         }
         .padding(.horizontal, 12).padding(.vertical, 12)
@@ -443,7 +617,7 @@ private struct CollectionRow: View {
     }
 }
 
-private struct LessonLinkRow: View {
+struct LessonLinkRow: View {
     let link: NativeHome.LessonLink
 
     var body: some View {
@@ -480,7 +654,8 @@ struct NativeCollectionView: View {
         List {
             if let content {
                 if let detail = content.detail, !detail.isEmpty {
-                    Section { Text(detail).font(.subheadline).foregroundStyle(.secondary) }
+                    Section { Text(detail).font(.subheadline).foregroundStyle(Brand.mutedForeground) }
+                        .listRowBackground(Brand.card)
                 }
                 let needle = query.trimmingCharacters(in: .whitespaces)
                 let items = needle.isEmpty ? content.items : content.items.filter { $0.label.localizedCaseInsensitiveContains(needle) }
@@ -489,6 +664,7 @@ struct NativeCollectionView: View {
                         Button { native.openLesson(slug: link.slug) } label: { LessonLinkRow(link: link) }
                             .buttonStyle(.plain)
                             .listRowInsets(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4))
+                            .listRowBackground(Brand.card)
                             .accessibilityIdentifier("collectionLesson")
                     }
                 } footer: {
@@ -499,6 +675,7 @@ struct NativeCollectionView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .siteListBackground()
         .searchable(text: $query, prompt: L10n.text("searchLessons"))
         .navigationTitle(content?.title ?? "")
         .navigationBarTitleDisplayMode(.inline)
@@ -570,7 +747,7 @@ struct NativeCourseView: View {
                 .padding(16)
             }
         }
-        .background(Color(.systemGroupedBackground))
+        .background(Brand.background)
         .refreshable { await native.loadCourse(slug) }
         .task(id: native.accountKey) { await native.loadCourseIfNeeded(slug) }
         .navigationTitle(loaded?.course.title ?? "")
@@ -592,7 +769,7 @@ struct NativeCourseView: View {
         NoticeCard(symbol: "doc.text.magnifyingglass", title: L10n.text("termsTitle"), message: L10n.text("termsBody")) {
             Text(course.course.title).font(.headline).multilineTextAlignment(.center)
             Button(L10n.text("termsAction")) { native.openTerms(slug: slug) }
-                .buttonStyle(.borderedProminent).controlSize(.large)
+                .buttonStyle(SiteButtonStyle(kind: .primary))
                 .accessibilityIdentifier("nativeTerms")
         }
     }
@@ -690,7 +867,7 @@ struct NativeCourseView: View {
                     if index < section.items.count - 1 { Divider().padding(.leading, 66) }
                 }
             }
-            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .siteCard()
         }
     }
 }

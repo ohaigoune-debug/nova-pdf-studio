@@ -1,8 +1,13 @@
 import SwiftUI
+import UIKit
+import Combine
 import MadrasadzCore
 
-private let brandBlue = Color(red: 49/255, green: 85/255, blue: 245/255)
-
+/// The site shell (owner screenshots IMG_6713 / IMG_6714): one navigation
+/// stack whose root is the destination selected in the five-item bottom bar,
+/// the site header on root screens and the system bar on pushed screens.
+/// Pushed screens (courses, lessons, collections, the web view, the personal
+/// space) open on top of the current destination, as links do on the website.
 struct StudyRootView: View {
     @ObservedObject var model: AppModel
     @ObservedObject private var browser: BrowserController
@@ -10,6 +15,8 @@ struct StudyRootView: View {
     @ObservedObject private var native: NativeLearningModel
     @StateObject private var capture = SceneCaptureState()
     @State private var showingAccount = false
+    @State private var keyboardShown = false
+    @AppStorage(AppAppearance.storageKey) private var appearance = AppAppearance.dark.rawValue
 
     init(model: AppModel) {
         self.model = model
@@ -19,14 +26,24 @@ struct StudyRootView: View {
     }
 
     var body: some View {
-        TabView(selection: $model.selectedTab) {
-            learning.tabItem { Label(L10n.text("study"), systemImage: "book") }.tag(0)
-            NavigationStack { BookmarksView(model: model) }
-                .tabItem { Label(L10n.text("saved"), systemImage: "bookmark") }.tag(1)
-            NavigationStack { PlannerView(model: model) }
-                .tabItem { Label(L10n.text("planner"), systemImage: "calendar") }.tag(2)
+        NavigationStack(path: $native.path) {
+            root
+                .navigationDestination(for: LearnRoute.self) { route in
+                    destination(route).siteNavigationBar()
+                }
         }
-        .tint(brandBlue)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            // Hidden while typing (the bar would ride on the keyboard) and
+            // while the landscape player fills the display.
+            if !keyboardShown && !model.fullScreenContent {
+                ShellBottomBar(selected: model.selectedTab) { model.selectTab($0) }
+            }
+        }
+        .background(Brand.background.ignoresSafeArea())
+        .tint(Brand.primary)
+        .preferredColorScheme((AppAppearance(rawValue: appearance) ?? .dark).scheme)
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in keyboardShown = true }
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in keyboardShown = false }
         .environmentObject(capture)
         // Scene capture for native screens; a web page also has its own shield.
         .background { SceneCaptureProbe(state: capture).frame(width: 0, height: 0).accessibilityHidden(true) }
@@ -67,38 +84,61 @@ struct StudyRootView: View {
         } message: { Text(model.notice ?? browser.notice ?? downloads.notice ?? "") }
     }
 
-    /// Native home and course screens when the server offers them (Build 8);
-    /// otherwise, or until the server has answered once, the web learning pages.
-    @ViewBuilder private var learning: some View {
+    /// The root screen of the selected destination.
+    @ViewBuilder private var root: some View {
+        switch model.selectedTab {
+        case .home:
+            home
+        case .lessons:
+            LessonsTabView(model: model, native: native)
+                .shellRoot(model: model, showingAccount: $showingAccount, title: ShellTab.lessons.title)
+        case .explore:
+            ExploreTabView(model: model, native: native)
+                .shellRoot(model: model, showingAccount: $showingAccount, title: ShellTab.explore.title)
+        case .courses:
+            CoursesTabView(model: model, native: native)
+                .shellRoot(model: model, showingAccount: $showingAccount, title: ShellTab.courses.title)
+        case .account:
+            AccountTabView(model: model)
+                .shellRoot(model: model, showingAccount: $showingAccount, title: ShellTab.account.title)
+        }
+    }
+
+    /// Native home when the server offers it (Build 8); otherwise, or until the
+    /// server has answered once, the web learning pages (Build 7 behaviour).
+    @ViewBuilder private var home: some View {
         if native.rootIsNative {
-            NavigationStack(path: $native.path) {
-                NativeHomeView(model: model, native: native, showingAccount: $showingAccount)
-                    .navigationDestination(for: LearnRoute.self) { route in
-                        switch route {
-                        case .course(let slug):
-                            NativeCourseView(model: model, native: native, slug: slug, showingAccount: $showingAccount)
-                        case .lesson(let slug):
-                            NativeLessonView(model: model, native: native, slug: slug, showingAccount: $showingAccount)
-                        case .collection(let id):
-                            NativeCollectionView(native: native, id: id, showingAccount: $showingAccount)
-                        case .web:
-                            WebLearningScreen(model: model, destination: true, showingAccount: $showingAccount) { native.closeWeb() }
-                        }
-                    }
-            }
+            NativeHomeView(model: model, native: native)
+                .shellRoot(model: model, showingAccount: $showingAccount, title: ShellTab.home.title)
         } else if native.available == nil {
-            NavigationStack {
-                ProgressView(L10n.text("loading"))
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .accessibilityIdentifier("learningStarting")
-                    .navigationTitle("مدرسة")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar { ToolbarItem(placement: .topBarTrailing) { MenuToolbarButton(showing: $showingAccount) } }
-            }
+            ProgressView(L10n.text("loading"))
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Brand.background)
+                .accessibilityIdentifier("learningStarting")
+                .shellRoot(model: model, showingAccount: $showingAccount, title: ShellTab.home.title)
         } else {
-            NavigationStack {
-                WebLearningScreen(model: model, destination: false, showingAccount: $showingAccount) {}
-            }
+            // The web root keeps the system bar: it carries the page's back button.
+            WebLearningScreen(model: model, destination: false, showingAccount: $showingAccount) {}
+                .siteNavigationBar()
+        }
+    }
+
+    @ViewBuilder private func destination(_ route: LearnRoute) -> some View {
+        switch route {
+        case .course(let slug):
+            NativeCourseView(model: model, native: native, slug: slug, showingAccount: $showingAccount)
+        case .lesson(let slug):
+            NativeLessonView(model: model, native: native, slug: slug, showingAccount: $showingAccount)
+        case .collection(let id):
+            NativeCollectionView(native: native, id: id, showingAccount: $showingAccount)
+        case .saved:
+            BookmarksView(model: model).siteListBackground()
+        case .planner:
+            PlannerView(model: model).siteListBackground()
+        case .downloads:
+            OfflineDownloadsView(library: model.downloads).siteListBackground()
+        case .web:
+            WebLearningScreen(model: model, destination: true, showingAccount: $showingAccount) { native.closeWeb() }
         }
     }
 }
@@ -133,7 +173,7 @@ struct WebLearningScreen: View {
                 // Not the previous destination's page while the new one starts.
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(.background)
+                    .background(Brand.background)
                     .accessibilityIdentifier("openingPage")
             }
             if browser.restoring && !browser.failure {
@@ -142,7 +182,7 @@ struct WebLearningScreen: View {
                     Text(L10n.text("restoring")).font(.footnote).foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.background)
+                .background(Brand.background)
                 .accessibilityElement(children: .combine)
                 .accessibilityIdentifier("restoringPage")
             }
@@ -153,9 +193,9 @@ struct WebLearningScreen: View {
                     Text(L10n.text("connectionBody"))
                 } actions: {
                     Button(L10n.text("retry")) { browser.retry() }
-                        .buttonStyle(.borderedProminent)
+                        .buttonStyle(SiteButtonStyle(kind: .primary))
                         .accessibilityIdentifier("retryPage")
-                }.background(.background)
+                }.background(Brand.background)
             }
             if let value = downloads.progress {
                 DownloadProgressRing(value: value)
@@ -256,7 +296,8 @@ struct IdentityGate: View {
                 ProgressView(L10n.text("checking"))
                     .accessibilityIdentifier("checkingAccount")
                 Button(L10n.text("signIn")) { model.openWebsite(path: "/login") }
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(SiteButtonStyle(kind: .primary))
+                    .accessibilityIdentifier("identitySignIn")
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             ContentUnavailableView {
@@ -271,7 +312,8 @@ struct IdentityGate: View {
                 }
             } actions: {
                 Button(L10n.text("signIn")) { model.openWebsite(path: "/login") }
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(SiteButtonStyle(kind: .primary))
+                    .accessibilityIdentifier("identitySignIn")
                 Button(L10n.text("retry")) { Task { await model.refreshIdentity() } }
             }
         }
@@ -296,6 +338,7 @@ struct BookmarksView: View {
                         }.swipeActions {
                             Button(L10n.text("delete"), role: .destructive) { Task { await model.deleteBookmark(bookmark) } }
                         }
+                        .listRowBackground(Brand.card)
                     }
                 }
             }
