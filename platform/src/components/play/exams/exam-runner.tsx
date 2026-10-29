@@ -128,7 +128,15 @@ function toAnswer(d: Draft): StepAnswer | null {
   }
 }
 
-function OptionRow({ label, text, state, onClick, disabled, role, checked }: { label: string; text: string; state: 'idle' | 'picked' | 'locked'; onClick: () => void; disabled: boolean; role: 'radio' | 'checkbox'; checked: boolean }) {
+type RowState = 'idle' | 'picked' | 'locked' | 'correct' | 'wrong' | 'dim'
+
+/** حالة الخيار بعد التصحيح (كما في بطاقات PLAY): الصحيح أخضر، المختار الخاطئ أحمر، والباقي باهت */
+function rowState(text: string, picked: boolean, locked: boolean, correctSet: Set<string> | null): RowState {
+  if (correctSet) return correctSet.has(text) ? 'correct' : picked ? 'wrong' : 'dim'
+  return picked ? 'picked' : locked ? 'locked' : 'idle'
+}
+
+function OptionRow({ label, text, state, onClick, disabled, role, checked }: { label: string; text: string; state: RowState; onClick: () => void; disabled: boolean; role: 'radio' | 'checkbox'; checked: boolean }) {
   return (
     <button
       type="button"
@@ -138,20 +146,27 @@ function OptionRow({ label, text, state, onClick, disabled, role, checked }: { l
       onClick={onClick}
       className={cn(
         'flex min-h-12 w-full items-center gap-3 rounded-[1.4rem] border-[1.5px] px-3 py-2 text-start transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1457C5]/40 disabled:cursor-default',
-        state === 'picked' ? 'border-[#6E9DEB] bg-[#D5E4FC]' : 'border-[#C9D7EE] bg-white hover:border-[#8FAAFF] hover:bg-[#F3F7FF]',
-        state === 'locked' && 'opacity-70'
+        state === 'picked' && 'border-[#6E9DEB] bg-[#D5E4FC]',
+        (state === 'idle' || state === 'locked') && 'border-[#C9D7EE] bg-white hover:border-[#8FAAFF] hover:bg-[#F3F7FF]',
+        state === 'locked' && 'opacity-70',
+        state === 'correct' && 'border-[#8FD4A0] bg-[#E6F7EA]',
+        state === 'wrong' && 'border-[#EBA9A9] bg-[#FDEDED]',
+        state === 'dim' && 'border-[#DCE4F2] bg-white opacity-50'
       )}
+      data-state={state}
     >
-      <span className={cn('flex size-7 shrink-0 items-center justify-center border-[1.5px] text-sm font-bold', role === 'checkbox' ? 'rounded-md' : 'rounded-full', checked ? 'border-[#6E9DEB] bg-white text-[#1457C5]' : 'border-[#BFCDE6] text-[#3B4C6B]')}>
-        {role === 'checkbox' && checked ? <Check className="size-4" aria-hidden /> : label}
+      <span className={cn('flex size-7 shrink-0 items-center justify-center border-[1.5px] text-sm font-bold', role === 'checkbox' ? 'rounded-md' : 'rounded-full', state === 'correct' ? 'border-[#8FD4A0] bg-white text-[#15803D]' : state === 'wrong' ? 'border-[#EBA9A9] bg-white text-[#B91C1C]' : checked ? 'border-[#6E9DEB] bg-white text-[#1457C5]' : 'border-[#BFCDE6] text-[#3B4C6B]')}>
+        {state === 'correct' ? <Check className="size-4" aria-hidden /> : state === 'wrong' ? <X className="size-4" aria-hidden /> : role === 'checkbox' && checked ? <Check className="size-4" aria-hidden /> : label}
       </span>
       <span className="flex-1 text-[1rem] font-bold leading-relaxed text-[#172B50]">{text}</span>
     </button>
   )
 }
 
-function Interaction({ step, draft, setDraft, locked }: { step: PublicStep; draft: Draft; setDraft: (d: Draft) => void; locked: boolean }) {
+function Interaction({ step, draft, setDraft, locked, feedback }: { step: PublicStep; draft: Draft; setDraft: (d: Draft) => void; locked: boolean; feedback: StepFeedback | null }) {
   const p = step.payload
+  // في التدريب: بعد التصحيح تُلوَّن الاختيارات (نص الإجابة الصحيحة من الخادم بعد الإرسال فقط)
+  const correctSet = feedback ? new Set(p.type === 'multi' ? feedback.correctText.split(' ، ') : [feedback.correctText]) : null
   if ((p.type === 'mcq' || p.type === 'portrait') && (draft.type === 'mcq' || draft.type === 'portrait')) {
     return (
       <div className="space-y-3">
@@ -166,7 +181,7 @@ function Interaction({ step, draft, setDraft, locked }: { step: PublicStep; draf
         ) : null}
         <div className="space-y-2.5" role="radiogroup" aria-label="الاختيارات">
           {p.options.map((o, i) => (
-            <OptionRow key={i} label={LETTERS[i]!} text={o} role="radio" checked={draft.choice === i} state={draft.choice === i ? 'picked' : locked ? 'locked' : 'idle'} disabled={locked} onClick={() => setDraft({ ...draft, choice: i })} />
+            <OptionRow key={i} label={LETTERS[i]!} text={o} role="radio" checked={draft.choice === i} state={rowState(o, draft.choice === i, locked, correctSet)} disabled={locked} onClick={() => setDraft({ ...draft, choice: i })} />
           ))}
         </div>
       </div>
@@ -178,7 +193,7 @@ function Interaction({ step, draft, setDraft, locked }: { step: PublicStep; draf
         <p className="text-xs font-bold text-[#5B6B88]">اختر كل ما ينطبق</p>
         {p.options.map((o, i) => {
           const on = draft.choices.includes(i)
-          return <OptionRow key={i} label={LETTERS[i]!} text={o} role="checkbox" checked={on} state={on ? 'picked' : locked ? 'locked' : 'idle'} disabled={locked} onClick={() => setDraft({ type: 'multi', choices: on ? draft.choices.filter((c) => c !== i) : [...draft.choices, i] })} />
+          return <OptionRow key={i} label={LETTERS[i]!} text={o} role="checkbox" checked={on} state={rowState(o, on, locked, correctSet)} disabled={locked} onClick={() => setDraft({ type: 'multi', choices: on ? draft.choices.filter((c) => c !== i) : [...draft.choices, i] })} />
         })}
       </div>
     )
@@ -436,7 +451,7 @@ export function ExamRunner({ view }: { view: AttemptView }) {
             </p>
             <h2 className="mt-2 text-[1.15rem] font-extrabold leading-relaxed text-[#172B50]">{step.prompt}</h2>
             <div className="mt-4">
-              <Interaction step={step} draft={draft} setDraft={(d) => setDrafts((m) => ({ ...m, [step.id]: d }))} locked={!!answered[step.id] || pending} />
+              <Interaction step={step} draft={draft} setDraft={(d) => setDrafts((m) => ({ ...m, [step.id]: d }))} locked={!!answered[step.id] || pending} feedback={answered[step.id]?.feedback ?? null} />
             </div>
           </div>
 

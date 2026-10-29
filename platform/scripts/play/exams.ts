@@ -4,6 +4,8 @@
  *   npx tsx scripts/play/exams.ts validate            → تدقيق كل ملفات content/play-exams/{sets,fixtures}/**.json (خروج 1 عند الأخطاء)
  *   npx tsx scripts/play/exams.ts progress            → outputs/play-night/QUESTION_CONVERSION_PROGRESS.json
  *   npx tsx scripts/play/exams.ts report              → outputs/play-night/VALIDATION_REPORT.md (قسم المحتوى)
+ *   npx tsx scripts/play/exams.ts approve <set_id> --by "الاسم"   → قرار صاحب المنصة بعد مراجعة المجموعة: يعتمد المصدر والسلّم والخطوات
+ *                                                     التفاعلية (لا يُستعمل آليًا؛ الأنواع المؤجلة تبقى مؤجلة)
  *   DATABASE_URL=pglite://… npx tsx scripts/play/exams.ts import-dev --yes-dev
  *                                                     → رفع المجموعات إلى قاعدة تطوير فقط (pglite أو localhost)
  *
@@ -238,8 +240,10 @@ async function main() {
       for (const e of v.errors) console.log(`    ❌ ${e.code} ${e.where}: ${e.message}`)
     }
     for (const f of failures) console.log(`✗ ${f.path}: ${f.error}`)
-    const bad = sets.filter((s) => s.validation.errors.length).length + failures.length
-    console.log(`\n${sets.length} ملف، ${bad} بها أخطاء`)
+    // مجموعة «محجوبة» (BLOCKED) تحفظ ما قُرئ بيقين مع سبب الحجب: أخطاؤها متوقعة ولا تُفشل التدقيق، ولا تُستورد
+    const blocked = sets.filter((s) => s.doc.status === 'BLOCKED').length
+    const bad = sets.filter((s) => s.validation.errors.length && s.doc.status !== 'BLOCKED').length + failures.length
+    console.log(`\n${sets.length} ملف، ${bad} بها أخطاء${blocked ? `، ${blocked} محجوبة (سبب الحجب في source.notes)` : ''}`)
     process.exitCode = bad ? 1 : 0
   } else if (cmd === 'progress') {
     mkdirSync(OUT, { recursive: true })
@@ -250,6 +254,26 @@ async function main() {
     const out = rest[0] ? resolve(ROOT, rest[0]) : join(OUT, 'VALIDATION_CONTENT_SECTION.md')
     writeFileSync(out, reportMarkdown(sets, failures))
     console.log(`كُتب ${relative(ROOT, out)}`)
+  } else if (cmd === 'approve') {
+    const id = rest[0]
+    const byIdx = rest.indexOf('--by')
+    const by = byIdx >= 0 ? rest[byIdx + 1] : undefined
+    if (!id || !by) throw new Error('الاستعمال: approve <set_id> --by "الاسم"')
+    const s = sets.find((x) => x.doc.set_id === id)
+    if (!s) throw new Error(`مجموعة غير موجودة: ${id}`)
+    if (s.doc.fixture) throw new Error('لا تُعتمد مجموعات اختبار المحرك')
+    if (s.validation.errors.length) throw new Error(`لا اعتماد مع أخطاء التدقيق (${s.validation.errors.length})`)
+    if (!(s.doc.source.correction_file_ref || s.doc.source.correction_url)) throw new Error('لا اعتماد بلا تصحيح موثّق')
+    const at = new Date().toISOString()
+    const doc = s.doc
+    doc.status = 'APPROVED'
+    Object.assign(doc.source, { verified: true, verified_by: by, verified_at: at })
+    for (const q of doc.original_questions) for (const e of q.rubric_elements) e.verified = true
+    for (const st of doc.steps) if (!(QUEUED_STEP_TYPES as readonly string[]).includes(st.type) && st.review_status !== 'rejected') st.review_status = 'approved'
+    doc.review_log.push({ at, by, action: 'approved', note: 'اعتماد بعد المراجعة البشرية' })
+    const v = validateExamSet(doc, { publicRoot: join(ROOT, 'public') })
+    writeFileSync(s.path, JSON.stringify(doc, null, 1) + '\n')
+    console.log(`${id}: APPROVED — قابلة للنشر: ${v.publishable ? 'نعم' : 'لا'}${v.publishable ? '' : ` (${[...v.errors.map((e) => e.code), ...Object.entries(v.stepStatus).filter(([, x]) => x !== 'approved' && x !== 'needs_engine_support').map(([k, x]) => `${k}:${x}`)].join('، ')})`}`)
   } else if (cmd === 'import-dev') {
     if (!rest.includes('--yes-dev')) throw new Error('أضف --yes-dev لتأكيد أن الهدف قاعدة تطوير')
     await importDev(sets)

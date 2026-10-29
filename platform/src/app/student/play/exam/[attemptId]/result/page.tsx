@@ -69,8 +69,9 @@ export default async function PlayExamResultPage({ params }: { params: Promise<{
         <h2 id="mistakes" className="text-[1rem] font-extrabold text-[#1B4DB1]">
           مراجعة الأخطاء ({wrong.length}){skipped.length ? ` · دون إجابة (${skipped.length})` : ''}
         </h2>
+        {wrong.length === 0 ? <p className="mt-2 text-sm font-bold text-[#15803D]">لا أخطاء في الخطوات التي أجبت عنها.</p> : null}
         <ul className="mt-3 space-y-3">
-          {result.steps.map((s) => (
+          {wrong.map((s) => (
             <li key={s.id} className="rounded-xl border border-[#E3EBF8] p-3" data-correct={s.feedback?.correct ? '1' : '0'}>
               <p className="text-[0.7rem] font-bold text-[#5B6B88]">
                 السؤال {s.questionNumber} · {s.rubricLabel} · <bdi dir="ltr">{fmt(s.feedback?.earned ?? 0)}/{fmt(s.points)}</bdi> ن
@@ -89,6 +90,19 @@ export default async function PlayExamResultPage({ params }: { params: Promise<{
             </li>
           ))}
         </ul>
+        {skipped.length ? (
+          <details className="mt-4 rounded-xl bg-[#F5F8FF] p-3">
+            <summary className="cursor-pointer text-sm font-bold text-[#3B4C6B]">خطوات دون إجابة ({skipped.length}) — اعرض الإجابات الصحيحة</summary>
+            <ul className="mt-2 space-y-2">
+              {skipped.map((s) => (
+                <li key={s.id} className="text-[0.82rem] leading-relaxed text-[#172B50]">
+                  <span className="font-bold">{s.prompt}</span>
+                  {s.correctText ? <span className="block text-[#14532D]">الصحيح: {s.correctText}</span> : null}
+                </li>
+              ))}
+            </ul>
+          </details>
+        ) : null}
       </section>
 
       <div className="flex flex-wrap justify-center gap-2">

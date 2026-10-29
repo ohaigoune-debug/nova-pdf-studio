@@ -26,10 +26,31 @@ export const SKILL_LABELS: Record<string, string> = {
   'ar.cohesion.connectors': 'أدوات الرّبط',
   'ar.cohesion.reference': 'الإحالة ومرجع الضّمير',
   'ar.cohesion.effect': 'الاتّساق والانسجام',
-  'ar.writing.integration': 'الوضعيّة الإدماجيّة'
+  'ar.writing.integration': 'الوضعيّة الإدماجيّة',
+  'ar.writing.summary': 'التّلخيص',
+  'ar.comprehension.emotion': 'العاطفة والمشاعر في النّصّ',
+  'ar.comprehension.opinion': 'إبداء الرّأي والتّعليل',
+  'ar.comprehension.values': 'القيم في النّصّ',
+  'ar.grammar.conditional': 'أسلوب الشّرط',
+  'ar.grammar.ighra': 'الإغراء والتّحذير',
+  'ar.grammar.styles': 'الأساليب النّحويّة',
+  'ar.grammar.taajjub': 'التّعجّب',
+  'ar.literature.features': 'خصائص النّصّ والعصر',
+  'ar.literature.genre': 'الفنّ الأدبيّ',
+  'ar.literature.hikma': 'شعر الحكمة',
+  'ar.literature.intertext': 'التّناصّ والاقتباس',
+  'ar.literature.prose': 'النّثر الفنّيّ',
+  'ar.literature.trend': 'المذاهب والاتّجاهات الأدبيّة',
+  'ar.rhetoric.insha': 'الأساليب الإنشائيّة',
+  'ar.rhetoric.itnab': 'الإيجاز والإطناب',
+  'ar.rhetoric.qasr': 'القصر',
+  'ar.rhetoric.style': 'الأسلوب الأدبيّ'
 }
 
+const FAMILY: Record<string, string> = { comprehension: 'الفهم والتّحليل', literature: 'التّحليل الأدبيّ', text: 'النّصّ ونمطه', grammar: 'النّحو والإعراب', morphology: 'الصّرف', rhetoric: 'البلاغة', prosody: 'العروض', cohesion: 'الاتّساق والانسجام', writing: 'الكتابة' }
+
+/** اسم المهارة؛ لمعرّف جديد بلا اسم بعدُ يُعرض اسم عائلته (لا يظهر معرّف تقنيّ للتلميذ) */
 export function skillLabel(id: string | null | undefined): string {
   if (!id) return 'مهارات أخرى'
-  return SKILL_LABELS[id] ?? id
+  return SKILL_LABELS[id] ?? FAMILY[id.split('.')[1] ?? ''] ?? 'مهارات أخرى'
 }

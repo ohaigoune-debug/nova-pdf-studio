@@ -9,7 +9,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { normalizeArabic } from '@/server/lib/arabic'
 import { PLAY_EXAM_KINDS, PLAY_EXAM_PUBLISHED_STATUSES, PLAY_EXAM_SET_STATUSES, PLAY_GRADES, PLAY_STREAMS, PLAY_SUBJECTS } from '../constants'
-import { QUEUED_STEP_TYPES, SUPPORTED_STEP_TYPES, type ExamSetDocument, type MediaRef, type PublicStep, type StepAnswer, type StepAnswerKey, type TrainingStep } from './types'
+import { QUEUED_STEP_TYPES, SUPPORTED_STEP_TYPES, type ExamSetDocument, type MediaRef, type PublicStep, type StepAnswer, type StepAnswerKey, type StepPayload, type TrainingStep } from './types'
 
 /** هامش المقارنة العددية للأوزان */
 export const WEIGHT_EPSILON = 1e-6
@@ -20,9 +20,47 @@ const isQueued = (t: string): boolean => (QUEUED_STEP_TYPES as readonly string[]
 /* ─────────────────────────────── التصحيح ─────────────────────────────── */
 
 const norm = (s: string) => normalizeArabic(s).replace(/\s+/g, ' ').trim()
+/** مقارنة حرفية (مع التشكيل والرموز): الإعراب والعروض يختلفان بالحركات وحدها */
+const exact = (s: string) => s.normalize('NFC').replace(/\s+/g, ' ').trim()
+
+/** هل ينطبق عنصر السلّم على شعبة التلميذ؟ (null = كل الشعب) */
+export function elementApplies(el: { streams?: string[] } | undefined, stream: string | null | undefined): boolean {
+  return !el?.streams?.length || !stream || el.streams.includes(stream)
+}
+
+/** الشعب التي تختلف فيها الورقة (عناصر خاصة بشعبة)، وإلا ['*'] */
+export function streamVariants(doc: ExamSetDocument): string[] {
+  const special = doc.original_questions.some((q) => q.rubric_elements.some((e) => e.streams?.length))
+  return special && doc.source.streams.length ? [...doc.source.streams] : ['*']
+}
+
+/** الشعبة المعتمدة لعرض الورقة: شعبة التلميذ إن كانت من شعب الموضوع، وإلا الأولى */
+export function effectiveStream(doc: ExamSetDocument, stream: string | null | undefined): string | null {
+  const v = streamVariants(doc)
+  if (v[0] === '*') return null
+  return stream && v.includes(stream) ? stream : v[0]!
+}
+
+/** الخطوات المنطبقة على شعبة (بعناصرها) */
+export function stepsFor(doc: ExamSetDocument, stream: string | null | undefined): TrainingStep[] {
+  const s = effectiveStream(doc, stream)
+  const els = new Map(doc.original_questions.flatMap((q) => q.rubric_elements.map((e) => [e.id, e] as const)))
+  return doc.steps.filter((st) => elementApplies(els.get(st.rubric_element_id), s))
+}
+
+/** النقاط التفاعلية والمؤجلة لشعبة */
+export function pointsFor(doc: ExamSetDocument, stream: string | null | undefined): { interactive: number; deferred: number } {
+  let interactive = 0
+  let deferred = 0
+  for (const st of stepsFor(doc, stream)) {
+    if (isQueued(st.type)) deferred += st.points
+    else if (isSupported(st.type)) interactive += st.points
+  }
+  return { interactive, deferred }
+}
 
 /** درجة الخطوة من 0 إلى 1 (جزئية للأنواع المركّبة). إجابة من نوع آخر أو ناقصة = 0. */
-export function gradeStep(key: StepAnswerKey, answer: StepAnswer | null | undefined): number {
+export function gradeStep(key: StepAnswerKey, answer: StepAnswer | null | undefined, payload?: StepPayload): number {
   if (!answer || answer.type !== key.type) return 0
   switch (key.type) {
     case 'mcq':
@@ -43,10 +81,13 @@ export function gradeStep(key: StepAnswerKey, answer: StepAnswer | null | undefi
     }
     case 'fill_blank': {
       if (answer.type !== 'fill_blank') return 0
+      // الإجابة من بنك الكلمات: مطابقة حرفية؛ والتسامح (دون تشكيل) فقط إن لم يكن في البنك كلمتان تختلفان بالتشكيل وحده
+      const bank = payload?.type === 'fill_blank' ? payload.bank : []
+      const strict = new Set(bank.map(norm)).size !== bank.length
       let ok = 0
       key.blanks.forEach((alts, i) => {
         const v = answer.blanks[i]
-        if (typeof v === 'string' && alts.some((a) => norm(a) === norm(v))) ok++
+        if (typeof v === 'string' && alts.some((a) => exact(a) === exact(v) || (!strict && norm(a) === norm(v)))) ok++
       })
       return ok / Math.max(1, key.blanks.length)
     }
@@ -76,12 +117,12 @@ export function gradeStep(key: StepAnswerKey, answer: StepAnswer | null | undefi
 }
 
 /** Σ(w × s) على الخطوات المجابة؛ غير المجابة = 0 */
-export function scoreSteps(steps: Pick<TrainingStep, 'id' | 'points' | 'answer'>[], answers: Record<string, StepAnswer | null | undefined>): { score: number; max: number; perStep: Record<string, { s: number; w: number }> } {
+export function scoreSteps(steps: (Pick<TrainingStep, 'id' | 'points' | 'answer'> & { payload?: StepPayload })[], answers: Record<string, StepAnswer | null | undefined>): { score: number; max: number; perStep: Record<string, { s: number; w: number }> } {
   let score = 0
   let max = 0
   const perStep: Record<string, { s: number; w: number }> = {}
   for (const st of steps) {
-    const s = gradeStep(st.answer, answers[st.id])
+    const s = gradeStep(st.answer, answers[st.id], st.payload)
     perStep[st.id] = { s, w: st.points }
     score += st.points * s
     max += st.points
@@ -168,12 +209,13 @@ function answerShapeProblem(step: TrainingStep): string | null {
     case 'portrait': {
       const opts = 'options' in p ? p.options : []
       if (opts.length < 2) return 'خياران على الأقل'
-      if (new Set(opts.map(norm)).size !== opts.length) return 'خيارات مكررة'
+      if (new Set(opts.map(exact)).size !== opts.length) return 'خيارات مكررة'
       return Number.isInteger(k.correct) && k.correct >= 0 && k.correct < opts.length ? null : 'رقم الإجابة الصحيحة خارج الخيارات'
     }
     case 'multi': {
       const opts = 'options' in p ? p.options : []
       if (opts.length < 3) return 'ثلاثة خيارات على الأقل'
+      if (new Set(opts.map(exact)).size !== opts.length) return 'خيارات مكررة'
       return k.correct.length >= 1 && k.correct.every((i) => Number.isInteger(i) && i >= 0 && i < opts.length) ? null : 'إجابات خارج الخيارات'
     }
     case 'fill_blank': {
@@ -240,7 +282,8 @@ export function validateExamSet(doc: ExamSetDocument, opts: ValidateOptions = {}
 
   // الأسئلة الأصلية وعناصر السلّم
   const questions = new Map<string, ExamSetDocument['original_questions'][number]>()
-  const elements = new Map<string, { q: string; max: number }>()
+  const elements = new Map<string, { q: string; max: number; streams?: string[] }>()
+  const variants = streamVariants(doc)
   let rubricSum = 0
   for (const q of doc.original_questions ?? []) {
     if (questions.has(q.id)) err('DUPLICATE_ID', `question:${q.id}`, 'معرّف سؤال مكرر')
@@ -250,11 +293,15 @@ export function validateExamSet(doc: ExamSetDocument, opts: ValidateOptions = {}
     for (const e of q.rubric_elements ?? []) {
       if (elements.has(e.id)) err('DUPLICATE_ID', `element:${e.id}`, 'معرّف عنصر مكرر')
       if (!(e.max_points > 0)) err('RUBRIC', `element:${e.id}`, 'علامة العنصر يجب أن تكون موجبة')
-      elements.set(e.id, { q: q.id, max: e.max_points })
-      sum += e.max_points
+      elements.set(e.id, { q: q.id, max: e.max_points, streams: e.streams })
+      for (const st of e.streams ?? []) if (!src?.streams.includes(st)) err('SCHEMA', `element:${e.id}`, `شعبة العنصر ${st} ليست من شعب الموضوع`)
       if (!doc.fixture && !e.verified) warn('RUBRIC_UNVERIFIED', `element:${e.id}`, 'علامة العنصر لم تُطابَق بسلّم التصحيح الرسمي')
     }
-    if (Math.abs(sum - q.rubric_total) > WEIGHT_EPSILON) err('RUBRIC_TOTAL_MISMATCH', `question:${q.id}`, `مجموع العناصر ${sum} ≠ علامة السؤال ${q.rubric_total}`)
+    // لكل شعبة: مجموع العناصر المنطبقة = علامة السؤال (الفروع البديلة لا تُجمع معًا)
+    for (const v of variants) {
+      sum = (q.rubric_elements ?? []).filter((e) => elementApplies(e, v === '*' ? null : v)).reduce((a, e) => a + e.max_points, 0)
+      if (Math.abs(sum - q.rubric_total) > WEIGHT_EPSILON) err('RUBRIC_TOTAL_MISMATCH', `question:${q.id}`, `مجموع العناصر ${sum}${v === '*' ? '' : ` (شعبة ${v})`} ≠ علامة السؤال ${q.rubric_total}`)
+    }
     rubricSum += q.rubric_total
     for (const d of q.documents ?? []) {
       if ((d.kind === 'image' || d.kind === 'map') && d.media) {
@@ -314,11 +361,16 @@ export function validateExamSet(doc: ExamSetDocument, opts: ValidateOptions = {}
     if (w === 0) err('ELEMENT_NOT_COVERED', `element:${eid}`, 'عنصر سلّم بلا خطوات تدريبية (أو استثناء موثّق)')
     else if (Math.abs(w - e.max) > WEIGHT_EPSILON) err('WEIGHT_MISMATCH', `element:${eid}`, `مجموع أوزان الخطوات ${round(w)} ≠ علامة العنصر ${e.max}`)
   }
-  if (Math.abs(total - doc.score_total) > WEIGHT_EPSILON) err('TOTAL_MISMATCH', 'steps', `مجموع أوزان الخطوات ${round(total)} ≠ ${doc.score_total}`)
+  // لكل شعبة: مجموع أوزان خطواتها = العلامة الكاملة
+  for (const v of variants) {
+    const t = (doc.steps ?? []).filter((st) => elementApplies(elements.get(st.rubric_element_id), v === '*' ? null : v)).reduce((a, st) => a + st.points, 0)
+    if (Math.abs(t - doc.score_total) > WEIGHT_EPSILON) err('TOTAL_MISMATCH', 'steps', `مجموع أوزان الخطوات ${round(t)}${v === '*' ? '' : ` (شعبة ${v})`} ≠ ${doc.score_total}`)
+  }
+  if (variants[0] !== '*') total = (doc.steps ?? []).filter((st) => elementApplies(elements.get(st.rubric_element_id), variants[0])).reduce((a, st) => a + st.points, 0)
 
   // الخطوات المدعومة يجب أن تُعتمد كلها؛ أنواع الطابور لا تُعرض وتبقى «مؤجلة» بعلامتها (لا تُحوَّل قسرًا)
   const supported = (doc.steps ?? []).filter((st) => isSupported(st.type))
-  const deferredPoints = (doc.steps ?? []).filter((st) => isQueued(st.type)).reduce((a, st) => a + st.points, 0)
+  const deferredPoints = (doc.steps ?? []).filter((st) => isQueued(st.type) && elementApplies(elements.get(st.rubric_element_id), variants[0] === '*' ? null : variants[0])).reduce((a, st) => a + st.points, 0)
   const allApproved = supported.length > 0 && supported.every((st) => stepStatus[st.id] === 'approved')
   const publishable = !doc.fixture && errors.length === 0 && sourceTrusted && PLAY_EXAM_PUBLISHED_STATUSES.includes(doc.status) && allApproved
   return { setId: doc.set_id, errors, warnings, totalPoints: total, deferredPoints, stepStatus, publishable, fingerprints }
@@ -330,10 +382,11 @@ function round(n: number): number {
 
 /* ─────────────────────────────── العرض ─────────────────────────────── */
 
-export function publicSteps(doc: ExamSetDocument): PublicStep[] {
+/** الخطوات المعروضة للتلميذ (بلا مفاتيح الإجابة)، حسب شعبته عند وجود فروع خاصة بالشعب */
+export function publicSteps(doc: ExamSetDocument, stream: string | null = null): PublicStep[] {
   const qs = new Map(doc.original_questions.map((q) => [q.id, q]))
   const labels = new Map(doc.original_questions.flatMap((q) => q.rubric_elements.map((e) => [e.id, e.label] as const)))
-  return doc.steps
+  return stepsFor(doc, stream)
     .filter((s) => isSupported(s.type))
     .map((s, index) => {
       const q = qs.get(s.source_question_id)!

@@ -12,7 +12,9 @@ Audience: whoever converts (human or agent). Read fully before converting. Arabi
 6. **Derived ≠ original.** Steps are derived training (`is_verbatim_original: false`) unless the prompt is the original question text exactly.
 7. **Status.** Every set you produce: `"status": "NEEDS_HUMAN_REVIEW"`, every interactive step `"review_status": "needs_human_review"`, `source.verified: false`, rubric `verified: false`. Only the owner approves.
 8. **Unsupported interactions are deferred, not forced.** Essay / integration situation (الوضعية الإدماجية, المقال), table filling, graphs, maps, variation tables ⇒ steps of type `essay_builder`, `table_fill`, `bar_chart`, `map_locate`, `variation_table`, `function_plot` with `payload: {type, spec:{…}}`, `answer: {type, spec:{…}}`, `review_status: "needs_engine_support"`, one step per rubric criterion carrying that criterion's mark. Do not turn them into MCQ.
-9. **Images.** Never invent or describe an image as if shown. Portrait steps require a real local file in `public/` with `source_url`, `license`, `attribution`, `image_verified_at`, `sha256`; otherwise do not create the portrait step.
+9. **Stream-specific parts.** When a question has alternative parts per stream («أ) لشعبة آداب وفلسفة / ب) لشعبة لغات أجنبية»), put `"streams": ["LIT"]` on the (أ) rubric elements and `"streams": ["LANG"]` on the (ب) elements (codes must be among `source.streams`). For every stream, the applicable elements of the question must sum to its mark and all applicable steps must sum to `score_total`; students only see the steps of their stream.
+10. **Exact comparisons.** Options are compared character for character (diacritics and symbols count), so i'rab options that differ only by harakat, or prosody symbols like `//0/0` vs `/0//0`, are valid distinct options. Fill-blank grading is exact whenever two bank words differ only by diacritics.
+11. **Images.** Never invent or describe an image as if shown. Portrait steps require a real local file in `public/` with `source_url`, `license`, `attribution`, `image_verified_at`, `sha256`; otherwise do not create the portrait step.
 
 ## Interaction types available now
 

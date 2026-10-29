@@ -227,6 +227,60 @@ export async function databaseInventory(url: string): Promise<{ rows: InventoryR
   return { rows, gaps, sources, kind: handle.kind }
 }
 
+interface DriveUnit {
+  group_id: string
+  kind: string
+  is_solution: boolean
+  has_correction_inside: boolean
+  level: string
+  stream_group: string
+  term: string
+  year: string
+  session: string
+  subject: string
+  title: string
+  files: { file_id: string; format: string; duplicate_of: string }[]
+  solution_group_id: string
+}
+
+/** أرشيف Drive لصاحب المنصة (من outputs/play-night/DRIVE_ARCHIVE_INVENTORY.json إن وُجد): تجميع + فجوات + سجل مصادر */
+export function driveInventory(path = join(ROOT, 'outputs/play-night/DRIVE_ARCHIVE_INVENTORY.json')): { rows: InventoryRow[]; gaps: GapRow[]; sources: Record<string, unknown>[] } {
+  if (!existsSync(path)) return { rows: [], gaps: [], sources: [] }
+  const inv = JSON.parse(readFileSync(path, 'utf-8')) as { units: DriveUnit[] }
+  const exams = inv.units.filter((u) => ['BAC', 'TEST', 'DEVOIR'].includes(u.kind) && !u.is_solution)
+  const groups = new Map<string, { r: InventoryRow; n: number; c: number }>()
+  for (const u of exams) {
+    const corrected = !!u.solution_group_id || u.has_correction_inside
+    const key = [u.kind, u.level, u.stream_group, u.subject, u.kind === 'BAC' ? u.year : '', u.term].join('|')
+    const g = groups.get(key) ?? { r: row({ source_kind: 'drive_archive', location: 'Google Drive (المالك)', level: u.level, stream: u.stream_group, subject: u.subject, year: u.kind === 'BAC' ? u.year : '', term: u.term === 'unknown' ? '' : u.term, type: u.kind, count: 0, status: 'discovered' }), n: 0, c: 0 }
+    g.n++
+    if (corrected) g.c++
+    groups.set(key, g)
+  }
+  const rows = [...groups.values()].map((g) => ({ ...g.r, count: g.n, with_correction: `${g.c}/${g.n}` })).sort((a, b) => a.type.localeCompare(b.type) || a.subject.localeCompare(b.subject) || b.year.localeCompare(a.year))
+  const gaps: GapRow[] = []
+  for (const u of exams.filter((x) => !x.solution_group_id && !x.has_correction_inside)) gaps.push({ gap_kind: 'drive_exam_without_correction', level: u.level, stream: u.stream_group, subject: u.subject, unit: u.group_id, lesson: '', detail: `${u.kind} ${u.year !== 'unknown' ? u.year : ''} ${u.title}`.trim() })
+  for (const u of inv.units.filter((x) => x.is_solution && !inv.units.some((e) => e.solution_group_id === x.group_id))) gaps.push({ gap_kind: 'drive_solution_without_exam', level: u.level, stream: u.stream_group, subject: u.subject, unit: u.group_id, lesson: '', detail: u.title })
+  const sources = exams.map((u) => ({
+    source_id: `gdrive-unit-${u.group_id}`,
+    kind: u.kind,
+    level: u.level,
+    stream: u.stream_group,
+    subject: u.subject,
+    year: u.year,
+    term: u.term,
+    session: u.session,
+    title: u.title,
+    files: u.files.filter((f) => !f.duplicate_of).map((f) => `gdrive:${f.file_id} (${f.format})`),
+    solution_unit: u.solution_group_id || null,
+    correction_inside: u.has_correction_inside,
+    trust: 'owner_archive',
+    status: u.solution_group_id || u.has_correction_inside ? 'discovered' : 'blocked',
+    blocker: u.solution_group_id || u.has_correction_inside ? null : 'لا تصحيح مرتبط في Drive'
+  }))
+  return { rows, gaps, sources }
+}
+
 async function main() {
   const argv = process.argv.slice(2)
   const outIdx = argv.indexOf('--out')
@@ -241,12 +295,13 @@ async function main() {
     db = await databaseInventory(url)
     dbNote = `قاعدة البيانات (${db.kind}) فُحصت للقراءة فقط`
   }
-  const rows = [...repo.rows, ...(db?.rows ?? [])]
+  const drive = driveInventory()
+  const rows = [...repo.rows, ...(db?.rows ?? []), ...drive.rows]
   if (!db) rows.push(row({ source_kind: 'exam_archive_db', location: 'database', count: 0, status: 'not_accessible', notes: dbNote }))
-  const gaps = [...repo.gaps, ...(db?.gaps ?? [])]
+  const gaps = [...repo.gaps, ...(db?.gaps ?? []), ...drive.gaps]
   const candidatesPath = join(ROOT, 'content/play-exams/external-candidates.json')
   const candidates = existsSync(candidatesPath) ? (JSON.parse(readFileSync(candidatesPath, 'utf-8')) as Record<string, unknown>[]) : []
-  const registry = { generated_at: new Date().toISOString(), database: dbNote, sources: [...repo.sources, ...(db?.sources ?? []), ...candidates] }
+  const registry = { generated_at: new Date().toISOString(), database: dbNote, sources: [...repo.sources, ...(db?.sources ?? []), ...drive.sources, ...candidates] }
   writeFileSync(join(outDir, 'CONTENT_INVENTORY.csv'), toCsv(rows, ['source_kind', 'location', 'level', 'stream', 'subject', 'year', 'term', 'paper', 'type', 'count', 'with_correction', 'status', 'notes']))
   writeFileSync(join(outDir, 'CONTENT_GAPS.csv'), toCsv(gaps, ['gap_kind', 'level', 'stream', 'subject', 'unit', 'lesson', 'detail']))
   writeFileSync(join(outDir, 'SOURCE_REGISTRY.json'), JSON.stringify(registry, null, 1) + '\n')

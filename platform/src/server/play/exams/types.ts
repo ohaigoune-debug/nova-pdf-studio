@@ -42,6 +42,11 @@ export interface RubricElement {
   /** العلامة في سلّم التصحيح الأصلي */
   max_points: number
   verified: boolean
+  /**
+   * عنصر خاص ببعض الشعب (سؤال بفرعين: «أ) لشعبة آداب وفلسفة / ب) لشعبة لغات أجنبية»).
+   * غائب أو فارغ = لكل شعب الموضوع. لكل شعبة يجب أن يساوي مجموع عناصرها علامة السؤال.
+   */
+  streams?: string[]
 }
 
 export interface SourceDocument {

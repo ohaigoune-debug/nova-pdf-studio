@@ -6,7 +6,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { gradeStep, publicSteps, readExamSetFile, scoreSteps, stepFingerprint, validateExamSet } from '@/server/play/exams/engine'
+import { gradeStep, pointsFor, publicSteps, readExamSetFile, scoreSteps, stepFingerprint, validateExamSet } from '@/server/play/exams/engine'
 import type { ExamSetDocument, TrainingStep } from '@/server/play/exams/types'
 import { loadAll } from '../scripts/play/exams'
 
@@ -122,6 +122,50 @@ describe('scoring rules', () => {
   })
 })
 
+describe('alternative parts per stream (أ لشعبة / ب لشعبة أخرى)', () => {
+  function branched(mathPoints = 1): ExamSetDocument {
+    const doc = fresh()
+    const q2 = doc.original_questions.find((q) => q.id === 'q2')!
+    q2.rubric_elements[0]!.streams = ['SCI']
+    q2.rubric_elements.push({ id: 'q2-e2', label: 'فرع شعب الرياضيات والتقنيات', max_points: mathPoints, verified: false, streams: ['MATH', 'TM', 'GE'] })
+    const base = doc.steps.find((x) => x.id === 's04')!
+    doc.steps.push({ ...structuredClone(base), id: 's04m', rubric_element_id: 'q2-e2', prompt: 'سؤال فرع الشعب الأخرى', points: mathPoints })
+    return doc
+  }
+
+  it('each stream sums to 20 and sees only its own branch', () => {
+    const doc = branched()
+    const v = validateExamSet(doc)
+    expect(v.errors).toEqual([])
+    expect(publicSteps(doc, 'SCI').map((s) => s.id)).toEqual(expect.arrayContaining(['s04', 's05']))
+    expect(publicSteps(doc, 'SCI').map((s) => s.id)).not.toContain('s04m')
+    expect(publicSteps(doc, 'MATH').map((s) => s.id)).toContain('s04m')
+    expect(publicSteps(doc, 'MATH').map((s) => s.id)).not.toContain('s04')
+    expect(pointsFor(doc, 'SCI')).toEqual({ interactive: 16, deferred: 4 })
+    expect(pointsFor(doc, 'GE')).toEqual({ interactive: 16, deferred: 4 })
+  })
+
+  it('a branch worth less than the question mark is rejected for that stream', () => {
+    expect(validateExamSet(branched(0.5)).errors.map((e) => e.code)).toEqual(expect.arrayContaining(['RUBRIC_TOTAL_MISMATCH', 'TOTAL_MISMATCH']))
+  })
+})
+
+describe('exact comparisons where diacritics carry the answer', () => {
+  it('i\'rab options differing only by harakat are distinct; fill-blank grading becomes strict', () => {
+    const doc = fresh()
+    const st = doc.steps.find((x) => x.type === 'mcq')!
+    if (st.payload.type === 'mcq') st.payload.options = ['لا شجاعةَ أنفعُ', 'لا شجاعةٌ أنفعَ', 'لا شجاعةً أنفعَ']
+    if (st.answer.type === 'mcq') st.answer.correct = 0
+    expect(validateExamSet(doc).errors).toEqual([])
+    const payload = { type: 'fill_blank' as const, text: 'إنّ العلمَ ____', bank: ['نافعٌ', 'نافعًا', 'نافعٍ'] }
+    const key = { type: 'fill_blank' as const, blanks: [['نافعٌ']] }
+    expect(gradeStep(key, { type: 'fill_blank', blanks: ['نافعٌ'] }, payload)).toBe(1)
+    expect(gradeStep(key, { type: 'fill_blank', blanks: ['نافعًا'] }, payload)).toBe(0)
+    // بنك بلا تقارب: التسامح مع التشكيل مقبول
+    expect(gradeStep({ type: 'fill_blank', blanks: [['الفتحة']] }, { type: 'fill_blank', blanks: ['الفَتْحة'] }, { type: 'fill_blank', text: '____', bank: ['الفتحة', 'الكسرة'] })).toBe(1)
+  })
+})
+
 describe('portraits: real local image with source, licence and attribution, or blocked', () => {
   const portrait = (localPath: string): TrainingStep => ({
     id: 'p1',
@@ -224,7 +268,9 @@ describe('pipeline', () => {
     expect(sets.length).toBeGreaterThan(0)
     for (const s of sets) {
       expect(s.checksum).toMatch(/^[0-9a-f]{64}$/)
-      expect(s.validation.errors, s.doc.set_id).toEqual([])
+      if (s.doc.status === 'BLOCKED') expect(s.doc.source.notes, s.doc.set_id).toBeTruthy()
+      else expect(s.validation.errors, s.doc.set_id).toEqual([])
+      expect(s.validation.publishable, s.doc.set_id).toBe(false) // لا شيء معتمد قبل مراجعة صاحب المنصة
     }
   })
 })

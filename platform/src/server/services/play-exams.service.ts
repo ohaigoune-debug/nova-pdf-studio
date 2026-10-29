@@ -15,7 +15,7 @@ import { playExamAttempts, playExamSets, type ExamStepRecord } from '@/server/db
 import { studentIdOf, type Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import type { PlayExamKind, PlayExamMode } from '@/server/play/constants'
-import { answerText, gradeStep, publicSteps } from '@/server/play/exams/engine'
+import { answerText, gradeStep, pointsFor, publicSteps, stepsFor } from '@/server/play/exams/engine'
 import { skillLabel } from '@/server/play/exams/skills'
 import { QUEUED_STEP_TYPES, type ExamSetDocument, type PublicStep, type StepAnswer, type TrainingStep } from '@/server/play/exams/types'
 import { assertPlayAccess, beginPlayAccess } from './play-access.service'
@@ -38,14 +38,15 @@ function visible(row: Pick<SetRow, 'publishable' | 'status'>): { ok: boolean; pr
   return { ok: false, preview: false }
 }
 
-function interactivePoints(doc: ExamSetDocument): number {
-  return doc.steps.filter((s) => !isQueued(s.type)).reduce((a, s) => a + s.points, 0)
+/** النقاط التفاعلية لشعبة التلميذ (الفروع الخاصة بشعب أخرى لا تُحتسب) */
+function interactivePoints(doc: ExamSetDocument, stream: string | null): number {
+  return pointsFor(doc, stream).interactive
 }
 
-function deferredElements(doc: ExamSetDocument) {
+function deferredElements(doc: ExamSetDocument, stream: string | null) {
   const labels = new Map(doc.original_questions.flatMap((q) => q.rubric_elements.map((e) => [e.id, { label: e.label, part: q.part }] as const)))
   const out = new Map<string, { label: string; part: string; points: number }>()
-  for (const s of doc.steps.filter((x) => isQueued(x.type))) {
+  for (const s of stepsFor(doc, stream).filter((x) => isQueued(x.type))) {
     const l = labels.get(s.rubric_element_id)
     const prev = out.get(s.rubric_element_id)
     out.set(s.rubric_element_id, { label: l?.label ?? s.prompt, part: l?.part ?? '', points: (prev?.points ?? 0) + s.points })
@@ -90,7 +91,7 @@ export async function listExamSets(db: Db, actor: Actor, filter: { subjectCode: 
   const items = shown.map((r): ExamListItem => {
     const mine = attempts.filter((a) => a.setId === r.id && a.status === 'COMPLETED')
     const best = mine.reduce<{ score: number; max: number } | null>((b, a) => (!b || a.score / (a.max || 1) > b.score / (b.max || 1) ? { score: a.score, max: a.max } : b), null)
-    const ip = interactivePoints(r.document)
+    const ip = interactivePoints(r.document, profile.streamCode)
     return {
       id: r.id,
       setId: r.setId,
@@ -100,7 +101,7 @@ export async function listExamSets(db: Db, actor: Actor, filter: { subjectCode: 
       paper: r.paper,
       title: r.title,
       streamCodes: r.streamCodes,
-      stepCount: r.document.steps.filter((s) => !isQueued(s.type)).length,
+      stepCount: stepsFor(r.document, profile.streamCode).filter((s) => !isQueued(s.type)).length,
       interactivePoints: round2(ip),
       deferredPoints: round2(r.scoreTotal - ip),
       scoreTotal: r.scoreTotal,
@@ -139,7 +140,7 @@ export async function startExamAttempt(db: Db, actor: Actor, setUuid: string, mo
   if (active) await db.update(playExamAttempts).set({ status: 'ABANDONED', updatedAt: now }).where(eq(playExamAttempts.id, active.id))
   const [created] = await db
     .insert(playExamAttempts)
-    .values({ studentId, setId: set.id, setChecksum: set.checksum, mode, status: 'ACTIVE', answers: {}, score: 0, maxScore: interactivePoints(set.document), startedAt: now })
+    .values({ studentId, setId: set.id, setChecksum: set.checksum, mode, status: 'ACTIVE', answers: {}, score: 0, maxScore: interactivePoints(set.document, profile.streamCode), startedAt: now })
     .returning({ id: playExamAttempts.id })
   return { attemptId: created!.id, resumed: false }
 }
@@ -210,6 +211,7 @@ export interface AttemptView {
 export async function getExamAttemptView(db: Db, actor: Actor, attemptId: string): Promise<AttemptView> {
   const { attempt, set } = await loadAttempt(db, actor, attemptId)
   const doc = set.document
+  const stream = (await getPlayProfile(db, actor)).streamCode
   const byId = new Map(doc.steps.map((s) => [s.id, s]))
   const reveal = attempt.mode === 'PRACTICE' || attempt.status === 'COMPLETED'
   const answered: AttemptView['answered'] = {}
@@ -239,11 +241,11 @@ export async function getExamAttemptView(db: Db, actor: Actor, attemptId: string
       correctionRef: doc.source.correction_url,
       reviewed: doc.source.verified
     },
-    steps: publicSteps(doc),
+    steps: publicSteps(doc, stream),
     answered,
     score: reveal ? round2(attempt.score) : 0,
     maxScore: round2(attempt.maxScore),
-    deferred: deferredElements(doc),
+    deferred: deferredElements(doc, stream),
     stale: attempt.setChecksum !== set.checksum
   }
 }
@@ -262,9 +264,11 @@ export async function submitExamStep(db: Db, actor: Actor, attemptId: string, st
   if (attempt.status !== 'ACTIVE') throw new AppError('PLAY_EXAM_CLOSED')
   const profile = await getPlayProfile(db, actor)
   await assertPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode: profile.streamCode, subjectCode: set.subjectCode }, now)
-  const step = set.document.steps.find((s) => s.id === stepId)
+  // خطوات شعبة التلميذ فقط (الفروع البديلة لشعبة أخرى غير قابلة للإجابة)
+  const mine = stepsFor(set.document, profile.streamCode)
+  const step = mine.find((s) => s.id === stepId)
   if (!step || isQueued(step.type)) throw new AppError('PLAY_STEP_NOT_FOUND')
-  const total = set.document.steps.filter((s) => !isQueued(s.type)).length
+  const total = mine.filter((s) => !isQueued(s.type)).length
   return db.transaction(async (tx) => {
     const [row] = await tx.select().from(playExamAttempts).where(eq(playExamAttempts.id, attempt.id)).for('update')
     if (!row || row.status !== 'ACTIVE') throw new AppError('PLAY_EXAM_CLOSED')
@@ -274,7 +278,7 @@ export async function submitExamStep(db: Db, actor: Actor, attemptId: string, st
     if (prev) {
       return { stepId, answeredCount: Object.keys(answers).length, total, feedback: reveal ? feedbackFor(step, prev) : null, score: reveal ? round2(row.score) : null, alreadyAnswered: true }
     }
-    const s = gradeStep(step.answer, answer)
+    const s = gradeStep(step.answer, answer, step.payload)
     const rec: ExamStepRecord = { answer, s, w: step.points, at: now.toISOString() }
     answers[stepId] = rec
     const score = Object.values(answers).reduce((a, r) => a + r.s * r.w, 0)
@@ -301,7 +305,8 @@ export interface ExamResult {
   scaledTo20: number
   byQuestion: { id: string; number: string; part: string; text: string; earned: number; max: number; deferred: number }[]
   byPart: { part: string; earned: number; max: number; deferred: number }[]
-  steps: { id: string; prompt: string; questionNumber: string; part: string; rubricLabel: string; feedback: StepFeedback | null; points: number }[]
+  /** المحاولة منتهية: تُكشف الإجابة الصحيحة لكل خطوة، حتى غير المجابة */
+  steps: { id: string; prompt: string; questionNumber: string; part: string; rubricLabel: string; feedback: StepFeedback | null; points: number; correctText: string }[]
 }
 
 export async function getExamResult(db: Db, actor: Actor, attemptId: string): Promise<ExamResult> {
@@ -309,8 +314,10 @@ export async function getExamResult(db: Db, actor: Actor, attemptId: string): Pr
   if (view.status !== 'COMPLETED') throw new AppError('PLAY_EXAM_CLOSED')
   const { set } = await loadAttempt(db, actor, attemptId)
   const doc = set.document
+  const stream = (await getPlayProfile(db, actor)).streamCode
+  const mineAll = stepsFor(doc, stream)
   const byQuestion = doc.original_questions.map((q) => {
-    const steps = doc.steps.filter((s) => s.source_question_id === q.id)
+    const steps = mineAll.filter((s) => s.source_question_id === q.id)
     const max = steps.filter((s) => !isQueued(s.type)).reduce((a, s) => a + s.points, 0)
     const deferred = steps.filter((s) => isQueued(s.type)).reduce((a, s) => a + s.points, 0)
     const earned = steps.reduce((a, s) => a + (view.answered[s.id]?.earned ?? 0), 0)
@@ -333,7 +340,10 @@ export async function getExamResult(db: Db, actor: Actor, attemptId: string): Pr
     scaledTo20: view.maxScore ? round2((view.score / view.maxScore) * 20) : 0,
     byQuestion,
     byPart: [...parts.values()],
-    steps: view.steps.map((s) => ({ id: s.id, prompt: s.prompt, questionNumber: qById.get(s.source_question.id)?.number ?? '', part: s.source_question.part, rubricLabel: s.rubric_label, feedback: view.answered[s.id]?.feedback ?? null, points: s.points }))
+    steps: view.steps.map((s) => {
+      const full = doc.steps.find((x) => x.id === s.id)
+      return { id: s.id, prompt: s.prompt, questionNumber: qById.get(s.source_question.id)?.number ?? '', part: s.source_question.part, rubricLabel: s.rubric_label, feedback: view.answered[s.id]?.feedback ?? null, points: s.points, correctText: full ? answerText(full) : '' }
+    })
   }
 }
 
