@@ -39,6 +39,7 @@ import {
   type PlayRules
 } from '@/server/play/constants'
 import { correctAnswerText, gradePlayAnswer, hashToSeed, seededRandom, shufflePayloadForSession } from '@/server/play/engine'
+import { assertPlayAccess, beginPlayAccess, getPlayAccess, type PlayScope } from '@/server/services/play-access.service'
 import type { PlayPublicPayload, PlayStudentAnswer } from '@/server/play/question-types'
 
 /* --------------------------------- القواعد -------------------------------- */
@@ -264,6 +265,19 @@ export async function startPlaySession(db: Db, actor: Actor, input: StartSession
   const size = CHALLENGE_SIZES[input.challengeType]
   if (input.lessonId) assertUuid(input.lessonId, 'PLAY_LESSON_NOT_FOUND')
 
+  // الوصول (11_ACCESS_AND_TRIAL_POLICY): مشترك الدورة الملائمة مجانًا؛ وإلا تجربة 72 ساعة؛ وإلا دعوة للاشتراك.
+  // يُفحص قبل إغلاق الجلسة القديمة حتى لا يخسر من انتهت تجربته جلسته الجارية.
+  let accessSubject = input.subjectCode ?? null
+  if (!accessSubject && input.lessonId) {
+    const [l] = await db.select({ subjectCode: playLessons.subjectCode }).from(playLessons).where(eq(playLessons.id, input.lessonId)).limit(1)
+    accessSubject = l?.subjectCode ?? null
+  }
+  const accessScope: PlayScope = { gradeCode: grade.code, streamCode, subjectCode: accessSubject }
+  const access = await getPlayAccess(db, actor, accessScope, now)
+  if (access.state.kind === 'trial_expired') throw new AppError('PLAY_TRIAL_EXPIRED')
+  // جولة متعددة المواد لمشترك في بعض المواد فقط (دون تجربة نشطة): أسئلة مواد اشتراكه فقط
+  const allowedSubjects = access.state.kind === 'subscriber' && accessSubject === null && access.entitledSubjects !== 'ALL' ? access.entitledSubjects : null
+
   // إغلاق أي جلسة نشطة قديمة للطالب (جلسة واحدة نشطة)
   await db
     .update(playSessions)
@@ -276,6 +290,7 @@ export async function startPlaySession(db: Db, actor: Actor, input: StartSession
   if (input.subjectCode) conds.push(eq(playQuestions.subjectCode, input.subjectCode))
   if (input.unitCode) conds.push(eq(playQuestions.unitCode, input.unitCode))
   if (input.lessonId) conds.push(eq(playQuestions.lessonId, input.lessonId))
+  if (allowedSubjects) conds.push(inArray(playQuestions.subjectCode, allowedSubjects))
 
   let rows: { id: string; lessonId: string; difficulty: string }[]
   if (input.challengeType === 'MISTAKES') {
@@ -294,6 +309,8 @@ export async function startPlaySession(db: Db, actor: Actor, input: StartSession
       .limit(1500)
   }
   if (rows.length === 0) throw new AppError('PLAY_NO_QUESTIONS')
+  // أول بدء لعب فعلي: تبدأ التجربة ذريًّا (مرة واحدة)؛ المشترك لا تُنشأ له تجربة
+  await beginPlayAccess(db, actor, accessScope, now)
 
   const memory = await db
     .select({ questionId: playQuestionMemory.questionId, box: playQuestionMemory.box, dueAt: playQuestionMemory.dueAt, lastResult: playQuestionMemory.lastResult, lastSeenAt: playQuestionMemory.lastSeenAt })
@@ -450,6 +467,15 @@ export async function submitPlayAnswer(db: Db, actor: Actor, sessionId: string, 
   const studentId = studentIdOf(actor)
   assertUuid(sessionId, 'PLAY_SESSION_NOT_FOUND')
   assertUuid(questionId, 'PLAY_QUESTION_NOT_FOUND')
+  // الوصول عند كل إجابة (لا عند العرض فقط): مشترك أو تجربة نشطة بوقت الخادم
+  const [scopeRow] = await db
+    .select({ gradeCode: playSessions.gradeCode, streamCode: playSessions.streamCode, sessionSubject: playSessions.subjectCode, questionSubject: playQuestions.subjectCode })
+    .from(playSessions)
+    .leftJoin(playQuestions, eq(playQuestions.id, questionId))
+    .where(and(eq(playSessions.id, sessionId), eq(playSessions.studentId, studentId)))
+    .limit(1)
+  if (!scopeRow) throw new AppError('PLAY_SESSION_NOT_FOUND')
+  await assertPlayAccess(db, actor, { gradeCode: scopeRow.gradeCode, streamCode: scopeRow.streamCode, subjectCode: scopeRow.questionSubject ?? scopeRow.sessionSubject }, now)
   const rules = await getPlayRules(db)
   return db.transaction(async (tx) => {
     const [session] = await tx

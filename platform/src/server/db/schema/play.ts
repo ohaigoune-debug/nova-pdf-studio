@@ -3,13 +3,17 @@
  * بنك الأسئلة عام على مستوى المنصة (لا workspace)، والتقدم مرتبط بالطالب.
  */
 import { sql } from 'drizzle-orm'
-import { boolean, check, date, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
+import { boolean, check, date, doublePrecision, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
 import { id, inList, softDelete, timestamps } from './_common'
 import { users } from './auth'
 import { students } from './students'
 import {
   PLAY_CHALLENGE_TYPES,
   PLAY_DIFFICULTIES,
+  PLAY_EXAM_ATTEMPT_STATUSES,
+  PLAY_EXAM_KINDS,
+  PLAY_EXAM_MODES,
+  PLAY_EXAM_SET_STATUSES,
   PLAY_LANGUAGES,
   PLAY_QUESTION_TYPES,
   PLAY_REPORT_REASONS,
@@ -18,6 +22,7 @@ import {
   PLAY_SESSION_STATUSES,
   PLAY_SOURCES
 } from '@/server/play/constants'
+import type { ExamSetDocument, StepAnswer } from '@/server/play/exams/types'
 import type { PlayAnswerKey, PlayPublicPayload, PlayStudentAnswer } from '@/server/play/question-types'
 
 export const playSubjects = pgTable('play_subjects', {
@@ -305,5 +310,93 @@ export const playQuestionReports = pgTable(
     check('play_reports_status_check', inList(t.status, PLAY_REPORT_STATUSES)),
     index('play_reports_status_idx').on(t.status, t.createdAt),
     index('play_reports_question_idx').on(t.questionId)
+  ]
+)
+
+/* ─────────────── الوصول: تجربة PLAY المجانية (72 ساعة، مرة واحدة، الخادم مصدر الحقيقة) ─────────────── */
+
+export const playAccessTrials = pgTable(
+  'play_access_trials',
+  {
+    studentId: uuid('student_id')
+      .primaryKey()
+      .references(() => students.id, { onDelete: 'cascade' }),
+    /** أول بدء لعب فعلي (وقت الخادم)، لا وقت إنشاء الحساب */
+    startedAt: timestamp('started_at', { withTimezone: true }).notNull(),
+    endsAt: timestamp('ends_at', { withTimezone: true }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+  },
+  (t) => [check('play_access_trials_window_check', sql`${t.endsAt} > ${t.startedAt}`)]
+)
+
+/* ─────────────── الفروض والاختبارات والبكالوريا: مجموعات تدريب مشتقة من مصادر أصلية ─────────────── */
+
+export const playExamSets = pgTable(
+  'play_exam_sets',
+  {
+    id: id(),
+    /** معرّف ثابت من ملف المحتوى (content/play-exams/sets/**) */
+    setId: text('set_id').notNull().unique(),
+    kind: text('kind').notNull(),
+    gradeCode: text('grade_code').notNull(),
+    /** فارغة = كل شعب المستوى */
+    streamCodes: text('stream_codes').array().notNull().default([]),
+    subjectCode: text('subject_code').notNull(),
+    year: integer('year'),
+    term: integer('term'),
+    paper: integer('paper'),
+    title: text('title').notNull(),
+    status: text('status').notNull().default('NEEDS_HUMAN_REVIEW'),
+    /** نتيجة المدقق وقت الاستيراد: يُعرض للتلاميذ فقط ما كان قابلًا للنشر */
+    publishable: boolean('publishable').notNull().default(false),
+    scoreTotal: doublePrecision('score_total').notNull().default(20),
+    stepCount: integer('step_count').notNull().default(0),
+    checksum: text('checksum').notNull(),
+    document: jsonb('document').$type<ExamSetDocument>().notNull(),
+    ...timestamps
+  },
+  (t) => [
+    check('play_exam_sets_kind_check', inList(t.kind, PLAY_EXAM_KINDS)),
+    check('play_exam_sets_status_check', inList(t.status, PLAY_EXAM_SET_STATUSES)),
+    check('play_exam_sets_term_check', sql`${t.term} IS NULL OR ${t.term} BETWEEN 1 AND 3`),
+    check('play_exam_sets_paper_check', sql`${t.paper} IS NULL OR ${t.paper} IN (1, 2)`),
+    index('play_exam_sets_browse_idx').on(t.gradeCode, t.subjectCode, t.kind, t.publishable)
+  ]
+)
+
+export interface ExamStepRecord {
+  answer: StepAnswer
+  /** الدرجة 0..1 والوزن، محسوبان في الخادم */
+  s: number
+  w: number
+  at: string
+}
+
+export const playExamAttempts = pgTable(
+  'play_exam_attempts',
+  {
+    id: id(),
+    studentId: uuid('student_id')
+      .notNull()
+      .references(() => students.id, { onDelete: 'cascade' }),
+    setId: uuid('set_id')
+      .notNull()
+      .references(() => playExamSets.id, { onDelete: 'cascade' }),
+    /** نسخة المحتوى التي لُعبت (لا تتغير النتيجة إن عُدّلت المجموعة لاحقًا) */
+    setChecksum: text('set_checksum').notNull(),
+    mode: text('mode').notNull(),
+    status: text('status').notNull().default('ACTIVE'),
+    answers: jsonb('answers').$type<Record<string, ExamStepRecord>>().notNull().default({}),
+    score: doublePrecision('score').notNull().default(0),
+    maxScore: doublePrecision('max_score').notNull().default(20),
+    startedAt: timestamp('started_at', { withTimezone: true }).notNull().defaultNow(),
+    completedAt: timestamp('completed_at', { withTimezone: true }),
+    ...timestamps
+  },
+  (t) => [
+    check('play_exam_attempts_mode_check', inList(t.mode, PLAY_EXAM_MODES)),
+    check('play_exam_attempts_status_check', inList(t.status, PLAY_EXAM_ATTEMPT_STATUSES)),
+    index('play_exam_attempts_student_idx').on(t.studentId, t.startedAt),
+    index('play_exam_attempts_set_idx').on(t.setId)
   ]
 )

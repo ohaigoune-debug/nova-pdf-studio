@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-29T00:21:13.045Z",
+ "generated_at": "2026-10-29T00:35:33.975Z",
  "database": "لم تُفحص قاعدة البيانات (شغّل مع --db و DATABASE_URL للقراءة فقط)",
  "sources": [
   {
@@ -1009,6 +1009,60 @@
    "items": 40,
    "trust": "authored_in_repo",
    "verified": "validator"
+  },
+  {
+   "source_id": "ext:bac-2020-hg-sci:eddirasa",
+   "kind": "bac",
+   "year": 2020,
+   "level": "3AS",
+   "stream": "الشعب العلمية",
+   "subject": "التاريخ والجغرافيا",
+   "paper": "both",
+   "original_url": "https://eddirasa.com/bac-sci-his-geo-2020/",
+   "original_file": "https://eddirasa.com/wp-content/uploads/2020/09/eddirasa.com-bac-se-his-geo-2020.png",
+   "correction_url": "https://eddirasa.com/correction-bac-sci-his-geo-2020/",
+   "correction_file": "https://eddirasa.com/wp-content/uploads/2020/09/eddirasa.com-correction-bac-sc-his-geo-2020.png",
+   "trust": "third_party_mirror_of_official_exam",
+   "verified": false,
+   "status": "blocked",
+   "blocker": "الموضوع والتصحيح صورتان فقط؛ تعذّر تنزيلهما أو قراءتهما من بيئة العمل (الصفحة مقروءة، الصورة: خطأ في الجلب)",
+   "checked_at": "2026-10-29"
+  },
+  {
+   "source_id": "ext:bac-2020-hg-sci:a-onec",
+   "kind": "bac",
+   "year": 2020,
+   "level": "3AS",
+   "stream": "الشعب العلمية",
+   "subject": "التاريخ والجغرافيا",
+   "paper": "both",
+   "original_url": "https://www.a-onec.com/2020/09/bac-sci-his-geo-2020.html",
+   "original_file": "4 صور JPG على blogger.googleusercontent.com (bac-sc-his-geo-2020_1..4.jpg)",
+   "correction_url": "https://bac.a-onec.com/2020/09/correction-bac-sci-his-geo-2020.html",
+   "correction_file": null,
+   "trust": "third_party_mirror_of_official_exam",
+   "verified": false,
+   "status": "blocked",
+   "blocker": "الموضوع صور فقط؛ جلب الصور فشل من بيئة العمل",
+   "checked_at": "2026-10-29"
+  },
+  {
+   "source_id": "ext:bac-2020-hg-sci:h-onec",
+   "kind": "bac",
+   "year": 2020,
+   "level": "3AS",
+   "stream": "الشعب العلمية",
+   "subject": "التاريخ والجغرافيا",
+   "paper": "both",
+   "original_url": "https://www.h-onec.com/2020/09/bac-hisgeo-sci-correction-2020.html",
+   "original_file": "https://drive.google.com/uc?export=download&id=15_3otHib8I8tmO3yGeFq9xRxihe05a03",
+   "correction_url": "نفس ملف PDF (موضوع مع الحل حسب عنوان الصفحة)",
+   "correction_file": null,
+   "trust": "third_party_mirror_of_official_exam",
+   "verified": false,
+   "status": "blocked",
+   "blocker": "ملف PDF على Google Drive؛ الجلب مرفوض (robots) ولا وصول للشبكة من الطرفية",
+   "checked_at": "2026-10-29"
   }
  ]
 }
