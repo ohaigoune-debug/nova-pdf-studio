@@ -1,15 +1,15 @@
 /**
  * MADRASA PLAY — فحص طرفي على بيئة التطوير (لا الإنتاج): الدخول، حالة الوصول، الأقسام الأربعة، مشغّل الاختبار، النتيجة.
  *
- *   BASE=http://localhost:3210 OUT=outputs/play-night/e2e node scripts/play/e2e-play.cjs
+ *   BASE=http://localhost:3210 OUT=outputs/play-night/e2e node scripts/play/e2e-play.mjs
  *
  * يشترط خادم تطوير على قاعدة تطوير (PGlite) فيها حساب التلميذ التجريبي ومجموعة مستوردة بـ import-dev،
  * و PLAY_EXAM_PREVIEW=1 إن كانت المجموعة قيد المراجعة. يكتب لقطات PNG وملف results.json (PASS/FAIL لكل خطوة).
  * يفشل (خروج 1) إن فشلت أي خطوة، أو ظهرت صورة شخصية مكسورة/رمادية في سؤال مصوّر.
  */
-const { chromium } = require('playwright')
-const fs = require('node:fs')
-const path = require('node:path')
+import fs from 'node:fs'
+import path from 'node:path'
+import { chromium } from 'playwright'
 
 const BASE = process.env.BASE || 'http://localhost:3210'
 const OUT = path.resolve(process.env.OUT || 'outputs/play-night/e2e')
