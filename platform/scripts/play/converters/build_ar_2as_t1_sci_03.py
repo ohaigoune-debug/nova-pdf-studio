@@ -22,7 +22,7 @@ glossary = "شرح المفردات: مدّ الفرات: فيضانه وارت�
 
 TEXT_DOCS = [
     {"id": "d-intro", "kind": "text", "caption": "تقديم النّصّ", "text": intro},
-    {"id": "d-poem", "kind": "table", "caption": "النّصّ: أبيات البحتريّ (من الطّويل)", "table": poem},
+    {"id": "d-poem", "kind": "table", "caption": "النّصّ: أبيات البحتريّ", "table": poem},
     {"id": "d-ref", "kind": "text", "caption": "توثيق النّصّ", "text": ref},
     {"id": "d-gloss", "kind": "text", "caption": "شرح المفردات", "text": glossary},
 ]
@@ -183,7 +183,7 @@ doc = {
     "status": "NEEDS_HUMAN_REVIEW",
     "source": {
         "source_id": "gdrive-1ZdeQO1RihCYPIJBrSEyC2_ikyrEciARw",
-        "kind": "TEST", "year": 2026, "level": "2AS", "streams": ["SCI", "MATH", "TM", "GE"], "subject": "AR", "term": 1, "paper": None,
+        "kind": "TEST", "year": None, "level": "2AS", "streams": ["SCI", "MATH", "TM", "GE"], "subject": "AR", "term": 1, "paper": None,
         "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
         "original_url": "https://drive.google.com/file/d/1ZdeQO1RihCYPIJBrSEyC2_ikyrEciARw/view",
         "original_file_ref": "gdrive:1ZdeQO1RihCYPIJBrSEyC2_ikyrEciARw (اختبار الفصل الأول – علمي.docx)",

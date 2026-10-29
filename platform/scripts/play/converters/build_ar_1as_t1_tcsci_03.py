@@ -38,7 +38,7 @@ glossary = "شرح المفردات: بنجاح القول: بإنجاز ما و
 
 TEXT_DOCS = [
     {"id": "d-intro", "kind": "text", "caption": "تقديم النّصّ", "text": intro},
-    {"id": "d-poem", "kind": "table", "caption": "النّصّ: أبيات المثقّب العبديّ (من الرّمل)", "table": poem},
+    {"id": "d-poem", "kind": "table", "caption": "النّصّ: أبيات المثقّب العبديّ", "table": poem},
     {"id": "d-ref", "kind": "text", "caption": "توثيق النّصّ", "text": ref},
     {"id": "d-gloss", "kind": "text", "caption": "شرح المفردات", "text": glossary},
 ]
@@ -248,7 +248,7 @@ doc = {
     "status": "NEEDS_HUMAN_REVIEW",
     "source": {
         "source_id": "gdrive-124iMkeZa9ahmrEbe4utGpuyvHyZX_4gV",
-        "kind": "TEST", "year": 2026, "level": "1AS", "streams": ["TC_SCI"], "subject": "AR", "term": 1, "paper": None,
+        "kind": "TEST", "year": None, "level": "1AS", "streams": ["TC_SCI"], "subject": "AR", "term": 1, "paper": None,
         "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – جذع مشترك علوم وتكنولوجيا – السّنة الأولى ثانوي",
         "original_url": "https://drive.google.com/file/d/124iMkeZa9ahmrEbe4utGpuyvHyZX_4gV/view",
         "original_file_ref": "gdrive:124iMkeZa9ahmrEbe4utGpuyvHyZX_4gV (اختبار الفصل الأول – جذع مشترك علوم وتكنولوجيا.docx)",

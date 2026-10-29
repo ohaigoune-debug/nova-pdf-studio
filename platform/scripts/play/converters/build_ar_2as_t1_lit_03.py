@@ -36,7 +36,7 @@ glossary = "شرح المفردات: مجيد: عظيم الشّرف والكر�
 
 TEXT_DOCS = [
     {"id": "d-intro", "kind": "text", "caption": "تقديم النّصّ", "text": intro},
-    {"id": "d-poem", "kind": "table", "caption": "النّصّ: أبيات أبي العتاهية (من المتقارب)", "table": poem},
+    {"id": "d-poem", "kind": "table", "caption": "النّصّ: أبيات أبي العتاهية", "table": poem},
     {"id": "d-ref", "kind": "text", "caption": "توثيق النّصّ", "text": ref},
     {"id": "d-gloss", "kind": "text", "caption": "شرح المفردات", "text": glossary},
 ]
@@ -247,7 +247,7 @@ doc = {
     "status": "NEEDS_HUMAN_REVIEW",
     "source": {
         "source_id": "gdrive-1vg6bh4eb58TMZTYsH7tTtJ6ZiPnsBh9U",
-        "kind": "TEST", "year": 2026, "level": "2AS", "streams": ["LIT", "LANG"], "subject": "AR", "term": 1, "paper": None,
+        "kind": "TEST", "year": None, "level": "2AS", "streams": ["LIT", "LANG"], "subject": "AR", "term": 1, "paper": None,
         "title": "اختبار الفصل الأوّل (رقم 03) – اللّغة العربيّة وآدابها – آداب وفلسفة ولغات أجنبيّة – السّنة الثّانية ثانوي",
         "original_url": "https://drive.google.com/file/d/1vg6bh4eb58TMZTYsH7tTtJ6ZiPnsBh9U/view",
         "original_file_ref": "gdrive:1vg6bh4eb58TMZTYsH7tTtJ6ZiPnsBh9U (اختبار الفصل الأول – آداب.docx)",

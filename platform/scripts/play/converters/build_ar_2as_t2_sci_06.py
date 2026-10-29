@@ -36,7 +36,7 @@ glossary = "شرح المفردات: غامرت: اقتحمت المخاطر / �
 
 TEXT_DOCS = [
     {"id": "d-intro", "kind": "text", "caption": "تقديم النّصّ", "text": intro},
-    {"id": "d-poem", "kind": "table", "caption": "النّصّ: أبيات المتنبّي (من الوافر)", "table": poem},
+    {"id": "d-poem", "kind": "table", "caption": "النّصّ: أبيات المتنبّي", "table": poem},
     {"id": "d-ref", "kind": "text", "caption": "توثيق النّصّ", "text": ref},
     {"id": "d-gloss", "kind": "text", "caption": "شرح المفردات", "text": glossary},
 ]
@@ -241,7 +241,7 @@ doc = {
     "status": "NEEDS_HUMAN_REVIEW",
     "source": {
         "source_id": "gdrive-1oJMZViW6jKz_-f5P_p4PT78962M7Vm6X",
-        "kind": "TEST", "year": 2026, "level": "2AS", "streams": ["SCI", "MATH", "TM", "GE"], "subject": "AR", "term": 2, "paper": None,
+        "kind": "TEST", "year": None, "level": "2AS", "streams": ["SCI", "MATH", "TM", "GE"], "subject": "AR", "term": 2, "paper": None,
         "title": "اختبار الفصل الثّاني (رقم 06) – اللّغة العربيّة وآدابها – الشّعب العلميّة – السّنة الثّانية ثانوي",
         "original_url": "https://drive.google.com/file/d/1oJMZViW6jKz_-f5P_p4PT78962M7Vm6X/view",
         "original_file_ref": "gdrive:1oJMZViW6jKz_-f5P_p4PT78962M7Vm6X (اختبار الفصل الثاني – علمي.docx)",

@@ -34,7 +34,7 @@ glossary = "شرح المفردات: التّنائي: التّباعد / الت
 
 TEXT_DOCS = [
     {"id": "d-intro", "kind": "text", "caption": "تقديم النّصّ", "text": intro},
-    {"id": "d-poem", "kind": "table", "caption": "النّصّ: أبيات ابن زيدون (من البسيط)", "table": poem},
+    {"id": "d-poem", "kind": "table", "caption": "النّصّ: أبيات ابن زيدون", "table": poem},
     {"id": "d-ref", "kind": "text", "caption": "توثيق النّصّ", "text": ref},
     {"id": "d-gloss", "kind": "text", "caption": "شرح المفردات", "text": glossary},
 ]
@@ -212,7 +212,7 @@ doc = {
     "status": "NEEDS_HUMAN_REVIEW",
     "source": {
         "source_id": "gdrive-1QgqFZr3Vaz8YLj1dot9MpdYtpkwGY50C",
-        "kind": "TEST", "year": 2026, "level": "2AS", "streams": ["SCI", "MATH", "TM", "GE"], "subject": "AR", "term": 3, "paper": None,
+        "kind": "TEST", "year": None, "level": "2AS", "streams": ["SCI", "MATH", "TM", "GE"], "subject": "AR", "term": 3, "paper": None,
         "title": "اختبار الفصل الثّالث (رقم 09) – اللّغة العربيّة وآدابها – الشّعب العلميّة (ع.ت – ر – ت.ر – ت.ا) – السّنة الثّانية ثانوي",
         "original_url": "https://drive.google.com/file/d/1QgqFZr3Vaz8YLj1dot9MpdYtpkwGY50C/view",
         "original_file_ref": "gdrive:1QgqFZr3Vaz8YLj1dot9MpdYtpkwGY50C (اختبار الفصل الثالث – علمي.docx)",

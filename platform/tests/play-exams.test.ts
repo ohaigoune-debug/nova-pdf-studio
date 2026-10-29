@@ -166,6 +166,16 @@ describe('exact comparisons where diacritics carry the answer', () => {
   })
 })
 
+describe('captions added by the conversion must not give answers away', () => {
+  it('flags a caption revealing a correct option that the paper itself does not print', () => {
+    const doc = fresh()
+    const s26 = doc.steps.find((x) => x.id === 's26')!
+    const right = s26.payload.type === 'mcq' && s26.answer.type === 'mcq' ? s26.payload.options[s26.answer.correct]! : ''
+    for (const q of doc.original_questions) for (const d of q.documents) if (d.id === 'd-poem') d.caption = `النّصّ (فيه ${right})`
+    expect(codes(doc)).toContain('ANSWER_IN_CAPTION')
+  })
+})
+
 describe('portraits: real local image with source, licence and attribution, or blocked', () => {
   const portrait = (localPath: string): TrainingStep => ({
     id: 'p1',

@@ -312,6 +312,15 @@ export function validateExamSet(doc: ExamSetDocument, opts: ValidateOptions = {}
   }
   if (Math.abs(rubricSum - doc.score_total) > WEIGHT_EPSILON) err('TOTAL_MISMATCH', 'original_questions', `مجموع سلّم الأسئلة ${rubricSum} ≠ ${doc.score_total}`)
 
+  // العناوين التي يضيفها التحويل فوق الوثائق ليست من الورقة: لا يجوز أن تكشف إجابة (مثل «من الطّويل» وسؤال البحر)
+  const captions = (doc.original_questions ?? []).flatMap((q) => (q.documents ?? []).map((d) => norm(d.caption ?? ''))).filter(Boolean)
+  // ما في الورقة نفسها (نصوص الوثائق وجداولها ونصوص الأسئلة) ليس تسريبًا
+  const paper = norm(
+    (doc.original_questions ?? [])
+      .flatMap((q) => [q.verbatim_text, ...(q.documents ?? []).flatMap((d) => [d.text ?? '', ...(d.table ?? []).flat()])])
+      .join(' ')
+  )
+
   // الخطوات
   const ids = new Set<string>()
   const perElement = new Map<string, number>()
@@ -333,6 +342,17 @@ export function validateExamSet(doc: ExamSetDocument, opts: ValidateOptions = {}
     if (!st.explanation?.trim()) warn('EXPLANATION', where, 'لا شرح بعد الإجابة')
     if (st.is_verbatim_original && q && norm(st.prompt) !== norm(q.verbatim_text)) err('VERBATIM_CLAIM', where, 'خطوة معلَّمة «نص أصلي» لكن نصها يختلف عن الأصل')
 
+    if (isSupported(st.type) && captions.length) {
+      const k = st.answer
+      const keys: string[] =
+        k.type === 'mcq' || k.type === 'portrait' ? ['options' in st.payload ? (st.payload.options[k.correct] ?? '') : '']
+        : k.type === 'multi' ? ('options' in st.payload ? k.correct.map((i) => (st.payload as { options: string[] }).options[i] ?? '') : [])
+        : k.type === 'fill_blank' ? k.blanks.map((b) => b[0] ?? '')
+        : k.type === 'short_text' ? k.accepted.slice(0, 1)
+        : []
+      const leaked = keys.map(norm).find((a) => a.replace(/\s/g, '').length >= 4 && captions.some((c) => c.includes(a)) && !paper.includes(a))
+      if (leaked) err('ANSWER_IN_CAPTION', where, `عنوان وثيقة يكشف الإجابة «${leaked}»`)
+    }
     if (isQueued(st.type)) {
       status = 'needs_engine_support'
       warn('UNSUPPORTED_TYPE', where, `النوع ${st.type} في طابور العمل؛ لا يُنشر ولا يُحوَّل إلى اختيار من متعدد`)

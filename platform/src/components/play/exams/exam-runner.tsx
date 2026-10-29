@@ -336,7 +336,8 @@ function FeedbackBox({ fb }: { fb: StepFeedback }) {
 
 export function ExamRunner({ view }: { view: AttemptView }) {
   const router = useRouter()
-  const steps = view.steps
+  const [steps, setSteps] = useState(view.steps)
+  const totalSteps = view.totalSteps
   const [answered, setAnswered] = useState(view.answered)
   const [score, setScore] = useState(view.score)
   const firstOpen = Math.max(0, steps.findIndex((s) => !view.answered[s.id]))
@@ -372,7 +373,10 @@ export function ExamRunner({ view }: { view: AttemptView }) {
       }
       setAnswered((m) => ({ ...m, [step.id]: { earned: r.data.feedback?.earned ?? 0, w: step.points, feedback: r.data.feedback } }))
       if (r.data.score !== null) setScore(r.data.score)
-      if (!practice) setIndex((i) => Math.min(i + 1, steps.length - 1))
+      // الخادم يكشف الخطوة التالية بعد الإجابة فقط
+      const nx = r.data.next
+      if (nx) setSteps((list) => (list.some((x) => x.id === nx.id) ? list : [...list, nx]))
+      if (!practice) setIndex((i) => (nx ? i + 1 : i))
     })
   }
   const finish = () =>
@@ -398,12 +402,12 @@ export function ExamRunner({ view }: { view: AttemptView }) {
           </p>
         ) : null}
         <div className="mt-3 flex items-center gap-3">
-          <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-[#E3EBF8]" role="progressbar" aria-valuemin={0} aria-valuemax={steps.length} aria-valuenow={done} aria-label="التقدم">
-            <div className="h-full rounded-full bg-gradient-to-l from-[#3B83F0] to-[#1457C5] transition-[width]" style={{ width: `${(done / Math.max(1, steps.length)) * 100}%` }} />
+          <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-[#E3EBF8]" role="progressbar" aria-valuemin={0} aria-valuemax={totalSteps} aria-valuenow={done} aria-label="التقدم">
+            <div className="h-full rounded-full bg-gradient-to-l from-[#3B83F0] to-[#1457C5] transition-[width]" style={{ width: `${(done / Math.max(1, totalSteps)) * 100}%` }} />
           </div>
           <span className="text-xs font-extrabold text-[#1457C5]">
             <bdi dir="ltr">
-              {done}/{steps.length}
+              {done}/{totalSteps}
             </bdi>
           </span>
           {practice ? (
@@ -465,8 +469,8 @@ export function ExamRunner({ view }: { view: AttemptView }) {
               <button type="button" className={cn(DECK_BUTTON, 'flex-1')} onClick={submit} disabled={pending} data-testid="exam-check">
                 {practice ? 'تحقّق' : 'احفظ إجابتي'}
               </button>
-            ) : index < steps.length - 1 ? (
-              <button type="button" className={cn(DECK_BUTTON, 'flex-1')} onClick={() => setIndex((i) => i + 1)} data-testid="exam-next">
+            ) : index < steps.length - 1 || done < totalSteps ? (
+              <button type="button" className={cn(DECK_BUTTON, 'flex-1')} onClick={() => setIndex((i) => Math.min(i + 1, steps.length - 1))} data-testid="exam-next">
                 التالي <ChevronLeft className="size-6" strokeWidth={3} aria-hidden />
               </button>
             ) : (
@@ -474,13 +478,13 @@ export function ExamRunner({ view }: { view: AttemptView }) {
                 <Flag className="size-5" aria-hidden /> أنهِ واعرض النتيجة
               </button>
             )}
-            <button type="button" onClick={() => setIndex((i) => Math.min(steps.length - 1, i + 1))} disabled={index >= steps.length - 1} aria-label="الخطوة التالية" className="flex size-12 items-center justify-center rounded-full border border-[#C9D7EE] bg-white text-[#1457C5] disabled:opacity-30">
+            <button type="button" onClick={() => setIndex((i) => Math.min(steps.length - 1, i + 1))} disabled={index >= steps.length - 1 || !answered[step.id]} aria-label="الخطوة التالية" className="flex size-12 items-center justify-center rounded-full border border-[#C9D7EE] bg-white text-[#1457C5] disabled:opacity-30">
               <ChevronLeft className="size-6" aria-hidden />
             </button>
           </div>
-          {done > 0 && done < steps.length ? (
+          {done > 0 && done < totalSteps ? (
             <button type="button" onClick={finish} disabled={pending} className="mx-auto block min-h-11 rounded-full px-4 text-sm font-bold text-[#5B6B88] underline-offset-4 hover:underline">
-              إنهاء المحاولة الآن ({done}/{steps.length})
+              إنهاء المحاولة الآن ({done}/{totalSteps})
             </button>
           ) : null}
         </section>

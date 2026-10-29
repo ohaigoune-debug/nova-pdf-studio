@@ -102,7 +102,9 @@ describe('practice mode', () => {
     expect(resumed).toBe(false)
     expect((await startExamAttempt(h.db, s, approvedId, 'PRACTICE', T0)).attemptId).toBe(attemptId)
     const view = await getExamAttemptView(h.db, s, attemptId)
-    expect(view.steps).toHaveLength(35)
+    // إصدار متدرّج: الخطوة الأولى فقط قبل أي إجابة (لا تُرسل الخطوات اللاحقة فتكشف إجابات سابقة)
+    expect(view.totalSteps).toBe(35)
+    expect(view.steps).toHaveLength(1)
     expect(JSON.stringify(view.steps)).not.toContain('"correct"')
     expect(view.deferred.map((d) => d.label)).toEqual(['الوجاهة', 'سلامة اللّغة', 'الانسجام', 'الإتقان'])
 
@@ -110,6 +112,8 @@ describe('practice mode', () => {
     const first = steps[0]!
     const ok = await submitExamStep(h.db, s, attemptId, first.id, rightAnswer(first), T0)
     expect(ok.feedback).toMatchObject({ correct: true, earned: first.points })
+    expect(ok.next?.id).toBe(steps[1]!.id)
+    expect((await getExamAttemptView(h.db, s, attemptId)).steps.map((x) => x.id)).toEqual([first.id, steps[1]!.id])
     const again = await submitExamStep(h.db, s, attemptId, first.id, { type: 'mcq', choice: 99 }, T0)
     expect(again.alreadyAnswered).toBe(true)
     expect(again.score).toBe(first.points)

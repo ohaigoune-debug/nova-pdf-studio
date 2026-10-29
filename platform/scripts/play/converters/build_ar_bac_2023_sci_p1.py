@@ -98,7 +98,7 @@ def st(sid, qid, eid, typ, prompt, payload, answer, expl, pts, skill=None, varia
 
 def essay(sid, qid, eid, crit, ind, pts, spec, expl, skill):
     S.append({"id": sid, "source_question_id": qid, "rubric_element_id": eid, "variant": "a", "type": "essay_builder",
-              "prompt": f"التّلخيص — معيار {crit}", "payload": {"type": "essay_builder", "spec": {**spec, "criterion": crit, "indicator": ind}},
+              "prompt": f"تلخيص قصيدة عبد الرّحمن شكري في اليتيم — معيار {crit}", "payload": {"type": "essay_builder", "spec": {**spec, "criterion": crit, "indicator": ind}},
               "answer": {"type": "essay_builder", "spec": {"rubric": ind}}, "explanation": expl, "points": pts,
               "skill_id": skill, "lesson_ref": None, "is_verbatim_original": False, "review_status": "needs_engine_support"})
 
@@ -164,7 +164,7 @@ st("s15", "q3", "q3-e2", "fill_blank", "أكمل مؤشّر الأساليب ا�
     "bank": ["الاستفهام", "النّداء", "الدّاخليّ", "الأمر", "الخارجيّ", "النّهي"]},
    {"blanks": [["الاستفهام"], ["النّداء"], ["الدّاخليّ"]]}, "«استعمال الأساليب الانفعاليّة كالاستفهام لإفادة التّعجّب… وكالنّداء لإفادة التّحسّر… (الأساليب الانفعاليّة مؤشّر للوصف الدّاخليّ)».", 0.75, "ar.text.type", "c")
 # التّلخيص: يُحكم على إنتاج التّلميذ نفسه، فهو في طابور «محرّك الكتابة» (معيار لكلّ عنصر)
-SUM_SPEC = {"task": "تلخيص", "max_lines": 5}
+SUM_SPEC = {"task": "تلخيص", "text": "قصيدة عبد الرّحمن شكري في اليتيم (بكالوريا 2023، الشّعب العلميّة، الموضوع الأوّل)", "max_lines": 5}
 SUM_EXPL = "تُراعى تقنية التّلخيص بمعايير الحلّ: الإحاطة بمضمون النّصّ في حدود خمسة أسطر، وترتيب أفكار النّصّ كما وردت مع الحفاظ على النّمط، واستعمال الأسلوب الخاصّ باجتناب النّقل الحرفيّ مع سلامة التّعبير."
 for sid, eid, crit, ind in [("s16", "q4-e1", "الإحاطة بالمضمون", "الإحاطة بمضمون النّصّ"),
                             ("s17", "q4-e2", "الحجم", "في حدود خمسة أسطر"),

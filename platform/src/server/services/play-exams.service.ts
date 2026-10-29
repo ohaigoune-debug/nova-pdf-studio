@@ -200,7 +200,9 @@ export interface AttemptView {
   status: string
   preview: boolean
   set: { id: string; setId: string; kind: PlayExamKind; title: string; year: number | null; term: number | null; paper: number | null; subjectCode: string; gradeCode: string; streamCodes: string[]; scoreTotal: number; trust: string; originalRef: string | null; correctionRef: string | null; reviewed: boolean }
+  /** الخطوات المكشوفة فقط: المجاب عنها + الخطوة التالية (لا تُرسل الخطوات اللاحقة قبل أوانها حتى لا تكشف إجابات سابقة) */
   steps: PublicStep[]
+  totalSteps: number
   answered: Record<string, { earned: number; w: number; feedback: StepFeedback | null }>
   score: number
   maxScore: number
@@ -241,7 +243,7 @@ export async function getExamAttemptView(db: Db, actor: Actor, attemptId: string
       correctionRef: doc.source.correction_url,
       reviewed: doc.source.verified
     },
-    steps: publicSteps(doc, stream),
+    ...releasedSteps(publicSteps(doc, stream), attempt.answers ?? {}, attempt.status === 'COMPLETED'),
     answered,
     score: reveal ? round2(attempt.score) : 0,
     maxScore: round2(attempt.maxScore),
@@ -257,6 +259,15 @@ export interface ExamSubmitResult {
   feedback: StepFeedback | null
   score: number | null
   alreadyAnswered: boolean
+  /** الخطوة التالية غير المجابة (تُكشف الآن فقط) */
+  next: PublicStep | null
+}
+
+/** الإصدار المتدرّج للخطوات: كل ما قبل أول خطوة غير مجابة، ثم هي؛ وكلها بعد الإنهاء */
+function releasedSteps(all: PublicStep[], answers: Record<string, unknown>, completed: boolean): { steps: PublicStep[]; totalSteps: number } {
+  if (completed) return { steps: all, totalSteps: all.length }
+  const open = all.findIndex((s) => !answers[s.id])
+  return { steps: open < 0 ? all : all.slice(0, open + 1), totalSteps: all.length }
 }
 
 export async function submitExamStep(db: Db, actor: Actor, attemptId: string, stepId: string, answer: StepAnswer, now: Date = new Date()): Promise<ExamSubmitResult> {
@@ -269,6 +280,8 @@ export async function submitExamStep(db: Db, actor: Actor, attemptId: string, st
   const step = mine.find((s) => s.id === stepId)
   if (!step || isQueued(step.type)) throw new AppError('PLAY_STEP_NOT_FOUND')
   const total = mine.filter((s) => !isQueued(s.type)).length
+  const pub = publicSteps(set.document, profile.streamCode)
+  const nextOpen = (answers: Record<string, unknown>) => pub.find((s) => !answers[s.id]) ?? null
   return db.transaction(async (tx) => {
     const [row] = await tx.select().from(playExamAttempts).where(eq(playExamAttempts.id, attempt.id)).for('update')
     if (!row || row.status !== 'ACTIVE') throw new AppError('PLAY_EXAM_CLOSED')
@@ -276,14 +289,14 @@ export async function submitExamStep(db: Db, actor: Actor, attemptId: string, st
     const reveal = row.mode === 'PRACTICE'
     const prev = answers[stepId]
     if (prev) {
-      return { stepId, answeredCount: Object.keys(answers).length, total, feedback: reveal ? feedbackFor(step, prev) : null, score: reveal ? round2(row.score) : null, alreadyAnswered: true }
+      return { stepId, answeredCount: Object.keys(answers).length, total, feedback: reveal ? feedbackFor(step, prev) : null, score: reveal ? round2(row.score) : null, alreadyAnswered: true, next: nextOpen(answers) }
     }
     const s = gradeStep(step.answer, answer, step.payload)
     const rec: ExamStepRecord = { answer, s, w: step.points, at: now.toISOString() }
     answers[stepId] = rec
     const score = Object.values(answers).reduce((a, r) => a + r.s * r.w, 0)
     await tx.update(playExamAttempts).set({ answers, score, updatedAt: now }).where(eq(playExamAttempts.id, row.id))
-    return { stepId, answeredCount: Object.keys(answers).length, total, feedback: reveal ? feedbackFor(step, rec) : null, score: reveal ? round2(score) : null, alreadyAnswered: false }
+    return { stepId, answeredCount: Object.keys(answers).length, total, feedback: reveal ? feedbackFor(step, rec) : null, score: reveal ? round2(score) : null, alreadyAnswered: false, next: nextOpen(answers) }
   })
 }
 
