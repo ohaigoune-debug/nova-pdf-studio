@@ -191,6 +191,10 @@ async function importDev(sets: LoadedSet[]) {
   try {
     for (const s of sets) {
       if (s.doc.fixture) continue
+      if (s.validation.errors.length) {
+        console.log(`تخطّي ${s.doc.set_id}: ${s.validation.errors.length} خطأ في التدقيق`)
+        continue
+      }
       const row = {
         setId: s.doc.set_id,
         kind: s.doc.source.kind,

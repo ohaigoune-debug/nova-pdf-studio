@@ -183,6 +183,8 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
           dispatch({ type: 'SUBMIT_FAIL' })
           if (r.error.code === 'PLAY_SESSION_EXPIRED') setExpired(true)
           else if (r.error.code === 'PLAY_ALREADY_ANSWERED' || r.error.code === 'PLAY_SESSION_CLOSED') router.refresh()
+          // انتهت التجربة المجانية أثناء الجولة: الصفحة الرئيسية تعرض دعوة الاشتراك (الخادم رفض الإجابة)
+          else if (r.error.code === 'PLAY_TRIAL_EXPIRED' || r.error.code === 'PLAY_TRIAL_REQUIRED') router.push('/student/play')
           toast('error', r.error.message)
           return
         }
