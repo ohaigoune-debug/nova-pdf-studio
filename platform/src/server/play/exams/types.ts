@@ -6,7 +6,8 @@
 import type { PlayExamKind, PlayExamSetStatus } from '../constants'
 
 /** درجة الثقة في المصدر */
-export type ExamTrust = 'official' | 'official_mirror' | 'teacher_verified' | 'third_party' | 'synthetic_fixture'
+/** owner_authored = من إعداد صاحب المنصة (فروضه واختباراته وحلوله النموذجية) */
+export type ExamTrust = 'official' | 'official_mirror' | 'owner_authored' | 'teacher_verified' | 'third_party' | 'synthetic_fixture'
 
 export interface ExamSource {
   source_id: string

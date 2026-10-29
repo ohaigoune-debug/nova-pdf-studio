@@ -131,7 +131,9 @@ export interface ExamValidation {
   totalPoints: number
   /** حالة كل خطوة بعد التدقيق (قد تُخفَّض: وسائط ناقصة، نوع غير مدعوم…) */
   stepStatus: Record<string, TrainingStep['review_status']>
-  /** يجوز عرضها للتلاميذ: معتمدة، مصدر وتصحيح موثقان، بلا أخطاء، وكل خطواتها معتمدة */
+  /** علامات عناصر لا يصححها المحرك بعد (وضعية إدماجية، جدول…): تُعرض «مؤجلة» ولا تُحتسب آليًا */
+  deferredPoints: number
+  /** يجوز عرضها للتلاميذ: معتمدة، مصدر وتصحيح موثقان، بلا أخطاء، وكل خطواتها المدعومة معتمدة */
   publishable: boolean
   fingerprints: string[]
 }
@@ -314,9 +316,12 @@ export function validateExamSet(doc: ExamSetDocument, opts: ValidateOptions = {}
   }
   if (Math.abs(total - doc.score_total) > WEIGHT_EPSILON) err('TOTAL_MISMATCH', 'steps', `مجموع أوزان الخطوات ${round(total)} ≠ ${doc.score_total}`)
 
-  const allApproved = (doc.steps ?? []).length > 0 && Object.values(stepStatus).every((s) => s === 'approved')
+  // الخطوات المدعومة يجب أن تُعتمد كلها؛ أنواع الطابور لا تُعرض وتبقى «مؤجلة» بعلامتها (لا تُحوَّل قسرًا)
+  const supported = (doc.steps ?? []).filter((st) => isSupported(st.type))
+  const deferredPoints = (doc.steps ?? []).filter((st) => isQueued(st.type)).reduce((a, st) => a + st.points, 0)
+  const allApproved = supported.length > 0 && supported.every((st) => stepStatus[st.id] === 'approved')
   const publishable = !doc.fixture && errors.length === 0 && sourceTrusted && PLAY_EXAM_PUBLISHED_STATUSES.includes(doc.status) && allApproved
-  return { setId: doc.set_id, errors, warnings, totalPoints: total, stepStatus, publishable, fingerprints }
+  return { setId: doc.set_id, errors, warnings, totalPoints: total, deferredPoints, stepStatus, publishable, fingerprints }
 }
 
 function round(n: number): number {
