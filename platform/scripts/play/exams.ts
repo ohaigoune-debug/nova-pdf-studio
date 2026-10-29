@@ -8,9 +8,12 @@
  *                                                     التفاعلية (لا يُستعمل آليًا؛ الأنواع المؤجلة تبقى مؤجلة)
  *   DATABASE_URL=pglite://… npx tsx scripts/play/exams.ts import-dev --yes-dev
  *                                                     → رفع المجموعات إلى قاعدة تطوير فقط (pglite أو localhost)
+ *   DATABASE_URL=… npx tsx scripts/play/exams.ts import-approved --confirm-host <المضيف>
+ *                                                     → للمالك عند النشر: المعتمدة القابلة للنشر فقط، بلا هجرات
  *
  * لكل ملف بصمة sha256: تُعاد المعالجة فقط إن تغيّر المحتوى (نقطة استئناف)، ولا تُكرَّر الخطوات عبر الأرشيف.
- * لا يكتب هذا السكربت في قاعدة إنتاج أبدًا: import-dev يرفض أي عنوان غير pglite:// أو localhost.
+ * import-dev يرفض أي عنوان غير pglite:// أو localhost. الكتابة في قاعدة الإنتاج لا تكون إلا بـ import-approved
+ * يشغّله المالك بنفسه (المعتمد فقط، مع كتابة اسم المضيف)؛ لم يُشغَّل على الإنتاج في هذا العمل.
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
@@ -182,11 +185,26 @@ function assertDevDatabase(url: string | undefined): string {
   throw new Error(`رفض: ${host || 'عنوان غير معروف'} ليس قاعدة تطوير. import-dev يعمل فقط على pglite:// أو localhost.`)
 }
 
-async function importDev(sets: LoadedSet[]) {
-  const url = assertDevDatabase(process.env.DATABASE_URL)
+/**
+ * import-dev: كل المجموعات السليمة إلى قاعدة تطوير (مع الهجرات، PGlite).
+ * import-approved: للمالك وحده عند النشر — المجموعات المعتمدة القابلة للنشر فقط، بلا هجرات (الترحيل 0036 يُطبَّق قبلها
+ * وفق دليل النشر)، ويشترط كتابة اسم المضيف نفسه في --confirm-host حتى لا تُستهدف قاعدة بالخطأ.
+ */
+async function importDev(sets: LoadedSet[], mode: 'dev' | 'approved' = 'dev', confirmHost?: string) {
+  const raw = process.env.DATABASE_URL
+  let url: string
+  if (mode === 'dev') url = assertDevDatabase(raw)
+  else {
+    if (!raw) throw new Error('DATABASE_URL مطلوب')
+    const host = raw.startsWith('pglite://') ? 'pglite' : new URL(raw).hostname
+    if (!confirmHost || confirmHost !== host) throw new Error(`اكتب --confirm-host ${host} لتأكيد القاعدة المستهدفة`)
+    url = raw
+    sets = sets.filter((s) => s.validation.publishable)
+    console.log(`import-approved: ${sets.length} مجموعة معتمدة قابلة للنشر`)
+  }
   const { createDatabase } = await import('@/server/db/connect')
   const { playExamSets } = await import('@/server/db/schema')
-  const handle = await createDatabase(url)
+  const handle = await createDatabase(url, { migrate: mode === 'dev' })
   let inserted = 0
   let updated = 0
   let unchanged = 0
@@ -277,6 +295,9 @@ async function main() {
   } else if (cmd === 'import-dev') {
     if (!rest.includes('--yes-dev')) throw new Error('أضف --yes-dev لتأكيد أن الهدف قاعدة تطوير')
     await importDev(sets)
+  } else if (cmd === 'import-approved') {
+    const i = rest.indexOf('--confirm-host')
+    await importDev(sets, 'approved', i >= 0 ? rest[i + 1] : undefined)
   } else {
     throw new Error(`أمر غير معروف: ${cmd}`)
   }
