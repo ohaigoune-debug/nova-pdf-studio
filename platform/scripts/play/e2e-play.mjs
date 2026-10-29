@@ -168,6 +168,47 @@ async function run(viewport, tag) {
     await shot('09-bac')
   })
 
+  if (tag === 'mobile') {
+    await step(`${tag}: 3AS/SCI student — BAC by year and subject, practice two steps`, async () => {
+      await page.goto(`${BASE}/student/play/setup`)
+      await page.waitForLoadState('networkidle')
+      await tap(page.getByRole('button', { name: 'السنة الثالثة ثانوي', exact: false }).first())
+      await tap(page.getByRole('button', { name: STREAM }).first())
+      await Promise.all([page.waitForResponse((r) => r.request().method() === 'POST' && r.url().includes('/student/play')), tap(page.getByRole('button', { name: 'ابدأ اللعب' }))])
+      await page.goto(`${BASE}/student/play/bac?subject=AR`)
+      await page.waitForLoadState('networkidle')
+      await page.getByTestId('exam-card').first().waitFor({ timeout: 20_000 })
+      const n = await page.getByTestId('exam-card').count()
+      await shot('11-bac-list')
+      await tap(page.getByTestId('exam-start-practice').first())
+      await page.waitForURL(/\/student\/play\/exam\//)
+      await page.waitForLoadState('networkidle')
+      if (await page.getByTestId('exam-begin').isVisible().catch(() => false)) await tap(page.getByTestId('exam-begin'))
+      for (let i = 0; i < 2; i++) {
+        const card = page.getByTestId('exam-step')
+        await card.waitFor()
+        const type = await card.getAttribute('data-step-type')
+        if (type === 'mcq') await tap(card.getByRole('radio').first())
+        else if (type === 'multi') await tap(card.getByRole('checkbox').first())
+        else if (type === 'matching') {
+          const selects = card.locator('select')
+          for (let j = 0; j < (await selects.count()); j++) await selects.nth(j).selectOption({ index: j + 1 })
+        } else if (type === 'fill_blank') {
+          const bank = card.getByLabel('بنك الكلمات').getByRole('button')
+          const holes = await card.locator('p button').count()
+          for (let j = 0; j < holes; j++) await tap(bank.nth(j))
+        }
+        await tap(page.getByTestId('exam-check'))
+        await page.getByTestId('exam-feedback').waitFor()
+        if (i === 0) await shot('12-bac-feedback')
+        await tap(page.getByTestId('exam-next'))
+      }
+      // الإصدار المتدرّج: لا يُرسل للمتصفح إلا ما أُجيب عنه + الخطوة الحالية
+      const released = await page.evaluate(() => document.body.innerText.includes('السؤال الأصلي'))
+      return `${n} BAC set(s) listed; released-steps UI ok=${released}`
+    })
+  }
+
   await step(`${tag}: access banner after first play`, async () => {
     await page.goto(`${BASE}/student/play?subject=AR`)
     const st = await page.getByTestId('play-access').getAttribute('data-state')
@@ -185,8 +226,29 @@ async function run(viewport, tag) {
   await browser.close()
 }
 
+async function adminReview() {
+  const browser = await chromium.launch()
+  const page = await (await browser.newContext({ viewport: { width: 1280, height: 900 }, locale: 'ar-DZ' })).newPage()
+  page.setDefaultTimeout(90_000)
+  await step('admin: review list and one set with answers marked', async () => {
+    await page.goto(`${BASE}/login`)
+    await page.fill('#email', process.env.E2E_ADMIN_EMAIL || 'admin@madrasa.dz')
+    await page.fill('#password', process.env.E2E_ADMIN_PASSWORD || 'Admin@12345')
+    await Promise.all([page.waitForURL((u) => !u.pathname.startsWith('/login'), { timeout: 120_000 }), page.click('button[type=submit]')])
+    await page.goto(`${BASE}/admin/play/exams`)
+    const rows = await page.locator('tbody tr').count()
+    await page.screenshot({ path: path.join(OUT, 'admin-01-exams.png'), clip: { x: 0, y: 0, width: 1280, height: 2400 }, fullPage: true })
+    await page.locator('tbody tr a').first().click()
+    await page.waitForURL(/\/admin\/play\/exams\/.+/)
+    await page.screenshot({ path: path.join(OUT, 'admin-02-review.png'), clip: { x: 0, y: 0, width: 1280, height: 3000 }, fullPage: true })
+    return `${rows} sets listed`
+  })
+  await browser.close()
+}
+
 ;(async () => {
   await run({ width: 390, height: 844 }, 'mobile')
+  await adminReview()
   await run({ width: 1280, height: 900 }, 'desktop')
   fs.writeFileSync(path.join(OUT, 'results.json'), JSON.stringify({ base: BASE, at: new Date().toISOString(), results }, null, 1))
   const failed = results.filter((r) => r.status === 'FAIL').length
