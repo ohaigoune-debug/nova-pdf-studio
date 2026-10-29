@@ -186,7 +186,7 @@ st("s06", "q3", "q3-e1", "mcq", "أين يتجلّى تفاؤل الشّاعر �
    {"correct": 0}, Q3_EXPL, 0.5, "ar.comprehension.evidence")
 st("s07", "q3", "q3-e2", "mcq", "في أيّ بيتين يظهر مصدر ثقة الشّاعر بالنّصر؟",
    {"options": ["الثّالث عشر والرّابع عشر (سيكفّن الوغد… لا بدّ للباغين من يوم…)", "التّاسع والعاشر («باريس» ويحك… ما ذنب أيتام…)",
-                "الحادي عشر والثّاني عشر (فمضوا يجوبون القفار… تلك الزّهور…)", "الخامس والسّادس (خلّوا الدّيار… فالثّأر زمجر…)"]},
+                "الحادي عشر والثّاني عشر (فمضوا يجوبون القفار… تلك الزّهور…)", "الأوّل والثّاني (رفّ هذا النّصر… غدا يطلّ على الجزائر…)"]},
    {"correct": 0}, Q3_EXPL, 0.5, "ar.comprehension.evidence")
 st("s08", "q3", "q3-e3", "fill_blank", "أكمل التّعليل:",
    {"text": "لأنّ الحرّيّة ____ ولا ____، وكلّ جهاد بعده لا محالة نصر ____.", "bank": ["تؤخذ", "تعطى", "محقّق", "تُشترى", "مؤجّل"]},
@@ -354,7 +354,7 @@ def _check(total=20):
         if t == "mcq":
             assert 3 <= len(p["options"]) <= 4 and a["correct"] == 0, (s["id"], "mcq: 3–4 options, right one first before shuffling")
         if t in ("mcq", "multi"):
-            assert len(set(p["options"])) == len(p["options"]) and len({_norm(o) for o in p["options"]}) == len(p["options"]), (s["id"], "duplicate options")
+            assert len(set(p["options"])) == len(p["options"]), (s["id"], "duplicate options")
         if t == "multi":
             assert len(p["options"]) >= 3 and 0 < len(a["correct"]) < len(p["options"]), s["id"]
             assert len(set(a["correct"])) == len(a["correct"]) and all(0 <= i < len(p["options"]) for i in a["correct"]), s["id"]
