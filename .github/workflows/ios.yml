@@ -44,6 +44,9 @@ jobs:
       - name: Test core package and native UI on an installed iPhone Simulator
         if: always() && (steps.public_light.outcome == 'success' || steps.public_light.outcome == 'failure')
         run: bash platform/ios/scripts/test-ios.sh auto Debug
+      - name: Test the site shell on a small iPhone (iPhone SE, 375 x 667)
+        if: always() && (steps.public_light.outcome == 'success' || steps.public_light.outcome == 'failure')
+        run: bash platform/ios/scripts/test-shell-small.sh
       - name: Export genuine Simulator screenshot attachments
         if: always()
         run: |
