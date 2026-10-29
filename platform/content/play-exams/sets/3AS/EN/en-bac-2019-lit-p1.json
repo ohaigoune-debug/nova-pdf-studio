@@ -1,0 +1,1342 @@
+{
+ "schema_version": 1,
+ "set_id": "en-bac-2019-lit-p1",
+ "status": "NEEDS_HUMAN_REVIEW",
+ "source": {
+  "source_id": "gdrive-1cu4MAj44Jw_q0hRg51NNagHbMP1BGbaA-p1",
+  "kind": "BAC",
+  "year": 2019,
+  "level": "3AS",
+  "streams": [
+   "LIT"
+  ],
+  "subject": "EN",
+  "term": null,
+  "paper": 1,
+  "title": "بكالوريا 2019 (الدّورة العاديّة) – اللّغة الإنجليزيّة – شعبة آداب وفلسفة – الموضوع الأوّل (Inca Civilization)",
+  "original_url": "https://drive.google.com/file/d/1cu4MAj44Jw_q0hRg51NNagHbMP1BGbaA/view",
+  "original_file_ref": "gdrive:1cu4MAj44Jw_q0hRg51NNagHbMP1BGbaA (2019 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1cLYVJyFmuz_QhrHA9iPlp8MdYxFu_T_X/view",
+  "correction_file_ref": "gdrive:1cLYVJyFmuz_QhrHA9iPlp8MdYxFu_T_X (2019 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": false,
+  "verified_by": null,
+  "verified_at": null,
+  "notes": "موضوع البكالوريا الرّسميّ (الدّيوان الوطنيّ للامتحانات والمسابقات، دورة 2019، الشّعبة: آداب وفلسفة، المدّة: 02 سا و30 د) في Drive صاحب المنصّة: gdrive:1cu4MAj44Jw_q0hRg51NNagHbMP1BGbaA (2019 - اللغة الإنجليزية - آداب وفلسفة - الدورة العادية - الموضوع.pdf، 4 صفحات: الموضوع الأوّل ص1–2، الثّاني ص3–4)؛ «الدّورة العاديّة» من اسم الملفّ (الورقة تكتب «دورة: 2019» فقط). الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1cLYVJyFmuz_QhrHA9iPlp8MdYxFu_T_X (ص1 «Inca Civilization»، ص2 «Education»). نُسخ النص من صورة الورقة الرسمية (لا نسخة Word): الملفّ PDF رقميّ له طبقة نصّ أصليّة، فأُخذت الحروف منها (علامات الاقتباس المنحنية، «…»، «§»، نقاط الجدول) وطوبقت سطرًا سطرًا مع صور الصّفحات (150 نقطة، ومقاطع من الحلّ بـ300 نقطة). خلاف OCR (read_file_content) والصّورة: المدّة «20» في OCR و«30 د» في الصّورة؛ ترقيم الصّفحتين 2 و3 «0 من 4» في OCR؛ خلايا الجداول (جدول الاشتقاق وجدول المطابقة) مختلطة الأسطر في OCR وصُحّحت من الصّورة؛ التّسطير والخطّ الغامق والأسّ «st» لا يظهر في OCR؛ في الحلّ OCR «its t(§1) : mpireehe» و«:ro» وصوابهما في الصّورة «its (§1) : the empire» و«or:»، وأعمدة الجداول وعلامات «مجزأة» منفصلة عن أسطرها. التّسطير لا يُحفظ في النّصّ: الكلمات المسطّرة حُدّدت من الصّورة وتذكر كلّ خطوة الجملة الّتي فيها الكلمة. قرارات التّحويل (R1–R11 في رأس المحوّل): عنصر لكلّ بند يُنقَّط منفردًا؛ الأسئلة الثّنائيّة (صح/خطأ، نعم/لا) اختيار من خيارين؛ صيغ الحلّ المتعدّدة للإجابة نفسها تبقى تفاعليّة ولا تُعرض صيغة مقبولة مشتّتًا؛ التّعبير الكتابيّ مؤجَّل (essay_builder) بمعايير الشّبكة الرّسميّة (الملاءمة 1، الانسجام الدّلاليّ 1، سلامة اللّغة 2، الإتقان 1). الموضوع الأوّل: المسطَّر في النّصّ its (§1 «its lands extended»)، They (§2 «They lived in stone palaces»)، their (§4 «destroyed their temples»)؛ السّؤال يكتب «they (§2)» بحرف صغير والنّصّ «They». ترتيب الأفكار (0.25×4) وملء الفراغات (0.5×4) خطوة واحدة لكلّ منهما لأنّ التّنقيط الجزئيّ للمحرّك (لكلّ موضع/فراغ) يطابق السّلّم. جدول الاشتقاق: اختيار من متعدّد لكلّ خانة (0.25)، والصّيغ المقبولة كلّها في الشّرح (extension / extent، conquest / conqueror، conquered / conquerable، governmental / governing / governed / governable). القواعد: لم يُعرض «conquered» مشتّتًا بعد «After» لأنّه قابل للدّفاع. المجموع 20 = 7 + 8 + 5 (تفاعليّ 15، مؤجَّل 5)."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "Part one: Reading (15 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Are the following statements true or false? Write T or F next to the letter corresponding to the statement.\na. The Inca civilization lasted for almost a century.\nb. The Inca Empire had diverse social classes.\nc. The common people in the Inca Empire had many privileges.\nd. The Inca Empire lasted for centuries after the Spanish conquest.",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully then do the following activities:"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "The Empire of the Incas flourished for only about 100 years, but it was one of the largest and richest ancient civilizations in the Americas. In the late 1430s, the Incas began to conquer neighbouring tribes and put them under their control. At the peak of the empire's power, its lands extended nearly 2.500 miles along the western coast of South America.\nLife in the Inca Empire was organized by social rank. The emperor, called the Sapa Inca, ruled over everyone and was obeyed without question. He was believed to be a living god. Next in importance were the nobles. They were the government officials, building engineers, and military leaders. The Sapa Inca and the nobles had many privileges. They lived in stone palaces, had more than one wife, wore beautiful jewelry, and dressed in coloured, silky clothes. Most of the common people were farmers who cultivated the land and raised livestock.\nAlthough travel was by foot, the Incas constructed roads and made rope bridges that crossed over rivers, linking the empire together. The Incas also excelled in the crafts of weaving, pottery, and metalworking. Many objects were made from gold, which they called \"sweat of the sun\".\nIn the 1530s, the Spanish came to the empire in search of this gold. They conquered the Incas, destroyed their temples, and took their gold and silver wealth. The great empire vanished forever."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Jan Meyer. (2006). 25 Non-Fiction Passages. U.S.A: Scholastic. P. 46"
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "Statement a (T/F)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q1-e2",
+     "label": "Statement b (T/F)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q1-e3",
+     "label": "Statement c (T/F)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q1-e4",
+     "label": "Statement d (T/F)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "Part one: Reading (15 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Put the following ideas in the order they appear in the text:\na. The different classes of the Inca society.\nb. The fall of the Inca Empire.\nc. Inca's golden age.\nd. The remarkable skills of the Inca people.",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully then do the following activities:"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "The Empire of the Incas flourished for only about 100 years, but it was one of the largest and richest ancient civilizations in the Americas. In the late 1430s, the Incas began to conquer neighbouring tribes and put them under their control. At the peak of the empire's power, its lands extended nearly 2.500 miles along the western coast of South America.\nLife in the Inca Empire was organized by social rank. The emperor, called the Sapa Inca, ruled over everyone and was obeyed without question. He was believed to be a living god. Next in importance were the nobles. They were the government officials, building engineers, and military leaders. The Sapa Inca and the nobles had many privileges. They lived in stone palaces, had more than one wife, wore beautiful jewelry, and dressed in coloured, silky clothes. Most of the common people were farmers who cultivated the land and raised livestock.\nAlthough travel was by foot, the Incas constructed roads and made rope bridges that crossed over rivers, linking the empire together. The Incas also excelled in the crafts of weaving, pottery, and metalworking. Many objects were made from gold, which they called \"sweat of the sun\".\nIn the 1530s, the Spanish came to the empire in search of this gold. They conquered the Incas, destroyed their temples, and took their gold and silver wealth. The great empire vanished forever."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Jan Meyer. (2006). 25 Non-Fiction Passages. U.S.A: Scholastic. P. 46"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "Order of ideas (0.25×4)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "Part one: Reading (15 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "Answer the following questions according to the text:\na. Did the Inca Empire succeed in controlling surrounding territories?\nb. Who was considered as a living god for the Inca people?\nc. How did the Spanish conquest cause the Inca Empire to fall?",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully then do the following activities:"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "The Empire of the Incas flourished for only about 100 years, but it was one of the largest and richest ancient civilizations in the Americas. In the late 1430s, the Incas began to conquer neighbouring tribes and put them under their control. At the peak of the empire's power, its lands extended nearly 2.500 miles along the western coast of South America.\nLife in the Inca Empire was organized by social rank. The emperor, called the Sapa Inca, ruled over everyone and was obeyed without question. He was believed to be a living god. Next in importance were the nobles. They were the government officials, building engineers, and military leaders. The Sapa Inca and the nobles had many privileges. They lived in stone palaces, had more than one wife, wore beautiful jewelry, and dressed in coloured, silky clothes. Most of the common people were farmers who cultivated the land and raised livestock.\nAlthough travel was by foot, the Incas constructed roads and made rope bridges that crossed over rivers, linking the empire together. The Incas also excelled in the crafts of weaving, pottery, and metalworking. Many objects were made from gold, which they called \"sweat of the sun\".\nIn the 1530s, the Spanish came to the empire in search of this gold. They conquered the Incas, destroyed their temples, and took their gold and silver wealth. The great empire vanished forever."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Jan Meyer. (2006). 25 Non-Fiction Passages. U.S.A: Scholastic. P. 46"
+    }
+   ],
+   "rubric_total": 2.5,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "a. Controlling surrounding territories",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q3-e2",
+     "label": "b. The living god",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q3-e3",
+     "label": "c. How the empire fell",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "Part one: Reading (15 points) – A/ Comprehension (07 points)",
+   "verbatim_text": "WHO or WHAT do the underlined words refer to in the text?\na. its (§1) b. they (§2) c. their (§4)",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully then do the following activities:"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "The Empire of the Incas flourished for only about 100 years, but it was one of the largest and richest ancient civilizations in the Americas. In the late 1430s, the Incas began to conquer neighbouring tribes and put them under their control. At the peak of the empire's power, its lands extended nearly 2.500 miles along the western coast of South America.\nLife in the Inca Empire was organized by social rank. The emperor, called the Sapa Inca, ruled over everyone and was obeyed without question. He was believed to be a living god. Next in importance were the nobles. They were the government officials, building engineers, and military leaders. The Sapa Inca and the nobles had many privileges. They lived in stone palaces, had more than one wife, wore beautiful jewelry, and dressed in coloured, silky clothes. Most of the common people were farmers who cultivated the land and raised livestock.\nAlthough travel was by foot, the Incas constructed roads and made rope bridges that crossed over rivers, linking the empire together. The Incas also excelled in the crafts of weaving, pottery, and metalworking. Many objects were made from gold, which they called \"sweat of the sun\".\nIn the 1530s, the Spanish came to the empire in search of this gold. They conquered the Incas, destroyed their temples, and took their gold and silver wealth. The great empire vanished forever."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Jan Meyer. (2006). 25 Non-Fiction Passages. U.S.A: Scholastic. P. 46"
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "a. its (§1)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q4-e2",
+     "label": "b. they (§2)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q4-e3",
+     "label": "c. their (§4)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "1",
+   "part": "Part one: Reading (15 points) – B/ Text Exploration (08 points)",
+   "verbatim_text": "Find words in the text whose definitions follow:\na. To take control of a country and its people by force. (§ 1)\nb. Special rights or advantages that one person or group has. (§ 2)\nc. Disappeared suddenly and completely. (§ 4)",
+   "documents": [
+    {
+     "id": "d-instr",
+     "kind": "text",
+     "caption": "Instruction",
+     "text": "Read the text carefully then do the following activities:"
+    },
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "The text",
+     "text": "The Empire of the Incas flourished for only about 100 years, but it was one of the largest and richest ancient civilizations in the Americas. In the late 1430s, the Incas began to conquer neighbouring tribes and put them under their control. At the peak of the empire's power, its lands extended nearly 2.500 miles along the western coast of South America.\nLife in the Inca Empire was organized by social rank. The emperor, called the Sapa Inca, ruled over everyone and was obeyed without question. He was believed to be a living god. Next in importance were the nobles. They were the government officials, building engineers, and military leaders. The Sapa Inca and the nobles had many privileges. They lived in stone palaces, had more than one wife, wore beautiful jewelry, and dressed in coloured, silky clothes. Most of the common people were farmers who cultivated the land and raised livestock.\nAlthough travel was by foot, the Incas constructed roads and made rope bridges that crossed over rivers, linking the empire together. The Incas also excelled in the crafts of weaving, pottery, and metalworking. Many objects were made from gold, which they called \"sweat of the sun\".\nIn the 1530s, the Spanish came to the empire in search of this gold. They conquered the Incas, destroyed their temples, and took their gold and silver wealth. The great empire vanished forever."
+    },
+    {
+     "id": "d-src",
+     "kind": "text",
+     "caption": "Source",
+     "text": "Jan Meyer. (2006). 25 Non-Fiction Passages. U.S.A: Scholastic. P. 46"
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "a. (§ 1)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e2",
+     "label": "b. (§ 2)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e3",
+     "label": "c. (§ 4)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "2",
+   "part": "Part one: Reading (15 points) – B/ Text Exploration (08 points)",
+   "verbatim_text": "Complete the chart as shown in the example.",
+   "documents": [
+    {
+     "id": "d-chart",
+     "kind": "table",
+     "caption": "The chart",
+     "table": [
+      [
+       "",
+       "Verb",
+       "Noun",
+       "Adjective"
+      ],
+      [
+       "Example:",
+       "to civilize",
+       "civilization",
+       "civilized"
+      ],
+      [
+       "",
+       "……………….",
+       "……………….",
+       "extended"
+      ],
+      [
+       "",
+       "to conquer",
+       "……………….",
+       "………………."
+      ],
+      [
+       "",
+       "……………….",
+       "government",
+       "………………."
+      ]
+     ]
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "Row «extended»: verb",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q6-e2",
+     "label": "Row «extended»: noun",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q6-e3",
+     "label": "Row «to conquer»: noun",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q6-e4",
+     "label": "Row «to conquer»: adjective",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q6-e5",
+     "label": "Row «government»: verb",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q6-e6",
+     "label": "Row «government»: adjective",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "3",
+   "part": "Part one: Reading (15 points) – B/ Text Exploration (08 points)",
+   "verbatim_text": "Give the correct form of the verbs in brackets.",
+   "documents": [
+    {
+     "id": "d-grammar",
+     "kind": "text",
+     "caption": "Passage",
+     "text": "After the Spanish (conquer) the Inca Empire, they captured the Sapa Inca. It (be) the first step in a long campaign that (take) decades of fighting but ended in Spanish victory in 1572. The conquest of the Inca Empire (lead) to campaigns into present-day Chile and Colombia."
+    }
+   ],
+   "rubric_total": 3,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "1. (conquer)",
+     "max_points": 0.75,
+     "verified": false
+    },
+    {
+     "id": "q7-e2",
+     "label": "2. (be)",
+     "max_points": 0.75,
+     "verified": false
+    },
+    {
+     "id": "q7-e3",
+     "label": "3. (take)",
+     "max_points": 0.75,
+     "verified": false
+    },
+    {
+     "id": "q7-e4",
+     "label": "4. (lead)",
+     "max_points": 0.75,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "4",
+   "part": "Part one: Reading (15 points) – B/ Text Exploration (08 points)",
+   "verbatim_text": "Fill in the blanks with only FOUR (4) words from the list given.",
+   "documents": [
+    {
+     "id": "d-bank",
+     "kind": "text",
+     "caption": "Word list",
+     "text": "basis - started - ancient - life - express - origins"
+    },
+    {
+     "id": "d-cloze",
+     "kind": "text",
+     "caption": "Passage",
+     "text": "One of the major contributions of ancient Egypt to modern civilization is the art of writing. The …..(1)…… of writing are believed to have been …..(2)…….. by the ancient Egyptians in 3000 BC. The Egyptians were able to use pictures to…..(3)…….. what they were thinking or wanted to say. Eventually, they developed 24 alphabets which formed the …..(4)……. of their writing."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "Cloze passage (0.5×4)",
+     "max_points": 2,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "—",
+   "part": "Part two: Written Expression (05 points)",
+   "verbatim_text": "Choose ONE of the following topics:\nTopic one:\nMany students mistakenly believe that ancient civilizations made no contributions to modern societies. Use the following ideas to write an article of about 80 to 120 words, in which you explain and shed light on those contributions to your fellow students.\nThe following notes may help you:\n-Developing systems of writing\n-Improving agriculture and irrigation\n-Inventing tools and making discoveries\n-Organizing social life\nTopic two:\nCounterfeiting has become a common practice among a large number of people despite its negative impacts on both the society and the national economy. Write a composition of about 80 to 120 words in which you state your opinion. Give examples.",
+   "documents": [],
+   "rubric_total": 5,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "Relevance",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q9-e2",
+     "label": "Semantic coherence",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q9-e3",
+     "label": "Correct use of English",
+     "max_points": 2,
+     "verified": false
+    },
+    {
+     "id": "q9-e4",
+     "label": "Excellence (vocabulary and creativity)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "True or false? “The Inca civilization lasted for almost a century.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "True",
+     "False"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: a – T. The Empire of the Incas “flourished for only about 100 years” (§1).",
+   "points": 0.5,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "True or false? “The Inca Empire had diverse social classes.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "True",
+     "False"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: b – T. “Life in the Inca Empire was organized by social rank”: the emperor, the nobles and the common people (§2).",
+   "points": 0.5,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "True or false? “The common people in the Inca Empire had many privileges.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "True",
+     "False"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: c – F. “The Sapa Inca and the nobles had many privileges”; most of the common people were farmers (§2).",
+   "points": 0.5,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "True or false? “The Inca Empire lasted for centuries after the Spanish conquest.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "True",
+     "False"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: d – F. After the Spanish conquest “the great empire vanished forever” (§4).",
+   "points": 0.5,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "ordering",
+   "prompt": "Put the ideas in the order they appear in the text.",
+   "payload": {
+    "type": "ordering",
+    "items": [
+     "b. The fall of the Inca Empire.",
+     "c. Inca's golden age.",
+     "d. The remarkable skills of the Inca people.",
+     "a. The different classes of the Inca society."
+    ]
+   },
+   "answer": {
+    "type": "ordering",
+    "order": [
+     1,
+     3,
+     2,
+     0
+    ]
+   },
+   "explanation": "Key: 1 – c, 2 – a, 3 – d, 4 – b (0.25 for each idea in its place).",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Did the Inca Empire succeed in controlling surrounding territories?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Yes, it did.",
+     "No, it didn't."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: “Yes, it did / yes.” In the late 1430s the Incas “began to conquer neighbouring tribes and put them under their control” (§1).",
+   "points": 0.5,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Who was considered as a living god for the Inca people?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "The Spanish",
+     "The military leaders",
+     "The nobles",
+     "The emperor (the Sapa Inca)"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: “The emperor / Sapa Inca / the Sapa Inca”. “The emperor, called the Sapa Inca … was believed to be a living god” (§2).",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "How did the Spanish conquest cause the Inca Empire to fall?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "By destroying their temples and taking their gold and silver wealth.",
+     "By teaching the Incas weaving, pottery and metalworking.",
+     "By making the common people farmers who raised livestock.",
+     "By building roads and rope bridges across the empire."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: “by destroying their temples and taking their gold and silver wealth” (or: “The Spanish destroyed their temples and took …”) — §4.",
+   "points": 1,
+   "skill_id": "en.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "What does “its” refer to in “At the peak of the empire's power, its lands extended nearly 2.500 miles…” (§1)?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "the Americas",
+     "South America",
+     "the empire",
+     "the neighbouring tribes"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: its (§1): the empire.",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "What does “They” refer to in “They lived in stone palaces, had more than one wife…” (§2)?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "the common people",
+     "the neighbouring tribes",
+     "the Sapa Inca and the nobles",
+     "the Spanish"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: they (§2): the Sapa Inca and the nobles — “The Sapa Inca and the nobles had many privileges. They lived in stone palaces…”.",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "What does “their” refer to in “They conquered the Incas, destroyed their temples…” (§4)?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "the neighbouring tribes",
+     "the Incas",
+     "the Spanish"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: their (§4): the Incas.",
+   "points": 0.5,
+   "skill_id": "en.discourse",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Find in §1 the word that means: “To take control of a country and its people by force.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "civilizations",
+     "flourished",
+     "extended",
+     "conquer"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: a. conquer — “the Incas began to conquer neighbouring tribes” (§1).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Find in §2 the word that means: “Special rights or advantages that one person or group has.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "livestock",
+     "privileges",
+     "rank",
+     "officials"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: b. privileges — “The Sapa Inca and the nobles had many privileges” (§2).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Find in §4 the word that means: “Disappeared suddenly and completely.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "vanished",
+     "came",
+     "destroyed",
+     "conquered"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: c. vanished — “The great empire vanished forever” (§4).",
+   "points": 0.5,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Complete the chart (Example: to civilize – civilization – civilized): which verb goes with the adjective “extended”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "to extensive",
+     "to extension",
+     "to extend",
+     "to extense"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Key: verb → to extend.",
+   "points": 0.25,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Complete the chart (Example: to civilize – civilization – civilized): which noun goes with the adjective “extended”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "extendment",
+     "extendation",
+     "extensive",
+     "extension"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: noun → extension / extent (both accepted).",
+   "points": 0.25,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Complete the chart (Example: to civilize – civilization – civilized): which noun goes with the verb “to conquer”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "conquerance",
+     "conquerous",
+     "conquerment",
+     "conquest"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: noun → conquest / conqueror (both accepted).",
+   "points": 0.25,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Complete the chart (Example: to civilize – civilization – civilized): which adjective goes with the verb “to conquer”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "conquerful",
+     "conquered",
+     "conquerish",
+     "conquestive"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: adjective → conquered / conquerable (both accepted).",
+   "points": 0.25,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e5",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Complete the chart (Example: to civilize – civilization – civilized): which verb goes with the noun “government”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "to govern",
+     "to governance",
+     "to governate",
+     "to government"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: verb → to govern.",
+   "points": 0.25,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e6",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Complete the chart (Example: to civilize – civilization – civilized): which adjective goes with the noun “government”?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "governor",
+     "governmently",
+     "governance",
+     "governmental"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: adjective → governmental (also accepted: governing / governed / governable).",
+   "points": 0.25,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the correct form of the verb in brackets: “After the Spanish (conquer) the Inca Empire, they captured the Sapa Inca.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "conquers",
+     "will conquer",
+     "have conquered",
+     "had conquered"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: had conquered — “After the Spanish had conquered the Inca Empire, they captured the Sapa Inca.”",
+   "points": 0.75,
+   "skill_id": "en.grammar",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the correct form of the verb in brackets: “It (be) the first step in a long campaign…”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "was",
+     "been",
+     "were",
+     "is being"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Key: was — “It was the first step in a long campaign…”",
+   "points": 0.75,
+   "skill_id": "en.grammar",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the correct form of the verb in brackets: “…a long campaign that (take) decades of fighting but ended in Spanish victory in 1572.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "takes",
+     "will take",
+     "taken",
+     "took"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Key: took — “…a long campaign that took decades of fighting but ended in Spanish victory in 1572.”",
+   "points": 0.75,
+   "skill_id": "en.grammar",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Give the correct form of the verb in brackets: “The conquest of the Inca Empire (lead) to campaigns into present-day Chile and Colombia.”",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "lead",
+     "led",
+     "leading",
+     "leaded"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Key: led — “The conquest of the Inca Empire led to campaigns into present-day Chile and Colombia.”",
+   "points": 0.75,
+   "skill_id": "en.grammar",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "fill_blank",
+   "prompt": "Fill in the blanks with only FOUR (4) words from the list given.",
+   "payload": {
+    "type": "fill_blank",
+    "text": "One of the major contributions of ancient Egypt to modern civilization is the art of writing. The (1) ____ of writing are believed to have been (2) ____ by the ancient Egyptians in 3000 BC. The Egyptians were able to use pictures to (3) ____ what they were thinking or wanted to say. Eventually, they developed 24 alphabets which formed the (4) ____ of their writing.",
+    "bank": [
+     "started",
+     "express",
+     "life",
+     "origins",
+     "ancient",
+     "basis"
+    ]
+   },
+   "answer": {
+    "type": "fill_blank",
+    "blanks": [
+     [
+      "origins"
+     ],
+     [
+      "started"
+     ],
+     [
+      "express"
+     ],
+     [
+      "basis"
+     ]
+    ]
+   },
+   "explanation": "Key: 1. origins – 2. started – 3. express – 4. basis (0.5 each).",
+   "points": 2,
+   "skill_id": "en.vocabulary",
+   "lesson_ref": null,
+   "is_verbatim_original": true,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s-we1",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Relevance",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "Many students mistakenly believe that ancient civilizations made no contributions to modern societies. Use the following ideas to write an article of about 80 to 120 words, in which you explain and shed light on those contributions to your fellow students.",
+       "notes": [
+        "-Developing systems of writing",
+        "-Improving agriculture and irrigation",
+        "-Inventing tools and making discoveries",
+        "-Organizing social life"
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "Counterfeiting has become a common practice among a large number of people despite its negative impacts on both the society and the national economy. Write a composition of about 80 to 120 words in which you state your opinion. Give examples.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "criterion": "Relevance",
+     "indicator": "Relevance"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Relevance: 1 pt (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 1,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we2",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Semantic coherence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "Many students mistakenly believe that ancient civilizations made no contributions to modern societies. Use the following ideas to write an article of about 80 to 120 words, in which you explain and shed light on those contributions to your fellow students.",
+       "notes": [
+        "-Developing systems of writing",
+        "-Improving agriculture and irrigation",
+        "-Inventing tools and making discoveries",
+        "-Organizing social life"
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "Counterfeiting has become a common practice among a large number of people despite its negative impacts on both the society and the national economy. Write a composition of about 80 to 120 words in which you state your opinion. Give examples.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "criterion": "Semantic coherence",
+     "indicator": "Semantic coherence"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Semantic coherence: 1 pt (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 1,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we3",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Correct use of English",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "Many students mistakenly believe that ancient civilizations made no contributions to modern societies. Use the following ideas to write an article of about 80 to 120 words, in which you explain and shed light on those contributions to your fellow students.",
+       "notes": [
+        "-Developing systems of writing",
+        "-Improving agriculture and irrigation",
+        "-Inventing tools and making discoveries",
+        "-Organizing social life"
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "Counterfeiting has become a common practice among a large number of people despite its negative impacts on both the society and the national economy. Write a composition of about 80 to 120 words in which you state your opinion. Give examples.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "criterion": "Correct use of English",
+     "indicator": "Correct use of English"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correct use of English: 2 pts (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 2,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s-we4",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Written expression — criterion: Excellence (vocabulary and creativity)",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Choose ONE of the following topics.",
+     "topics": [
+      {
+       "id": "topic-1",
+       "text": "Many students mistakenly believe that ancient civilizations made no contributions to modern societies. Use the following ideas to write an article of about 80 to 120 words, in which you explain and shed light on those contributions to your fellow students.",
+       "notes": [
+        "-Developing systems of writing",
+        "-Improving agriculture and irrigation",
+        "-Inventing tools and making discoveries",
+        "-Organizing social life"
+       ]
+      },
+      {
+       "id": "topic-2",
+       "text": "Counterfeiting has become a common practice among a large number of people despite its negative impacts on both the society and the national economy. Write a composition of about 80 to 120 words in which you state your opinion. Give examples.",
+       "notes": []
+      }
+     ],
+     "words": [
+      80,
+      120
+     ],
+     "criterion": "Excellence (vocabulary and creativity)",
+     "indicator": "Excellence (vocabulary and creativity)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Excellence (vocabulary and creativity): 1 pt (official grid)"
+    }
+   },
+   "explanation": "Scored with the official grid: Relevance 1 – Semantic coherence 1 – Correct use of English 2 – Excellence (vocabulary and creativity) 1 = 5 pts.",
+   "points": 1,
+   "skill_id": "en.writing",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T20:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من الموضوع الرّسميّ (طبقة نصّ PDF مطابَقة بصور الصّفحات) والإجابة النّموذجيّة الرّسميّة في Drive؛ العلامات من سلّم التّنقيط؛ الإجابات الصّحيحة من الإجابة النّموذجيّة؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  }
+ ]
+}
