@@ -229,7 +229,37 @@ export function stepExcerpt(step: { prompt: string; payload: StepPayload }, ques
   return ex && !copiesExcerpt(step.payload, ex) ? ex : null
 }
 
+/* ── الإنجليزية والفرنسية: الفقرة المذكورة صراحة (§2، paragraph 3، le deuxième paragraphe) ── */
+const LATIN_ORD: Record<string, number> = { first: 1, second: 2, third: 3, fourth: 4, fifth: 5, sixth: 6, premier: 1, première: 1, deuxième: 2, troisième: 3, quatrième: 4, cinquième: 5, sixième: 6 }
+
+export function latinParagraphRefs(text: string, last: number): number[] {
+  const t = text.toLowerCase()
+  const out = new Set<number>()
+  for (const m of t.matchAll(/§\s?(\d{1,2})/g)) out.add(+m[1]!)
+  for (const m of t.matchAll(/\bparagraph(?:e)?\s+(\d{1,2})\b/g)) out.add(+m[1]!)
+  for (const m of t.matchAll(/\b(first|second|third|fourth|fifth|sixth|last)\s+paragraph\b/g)) out.add(m[1] === 'last' ? last : LATIN_ORD[m[1]!]!)
+  for (const m of t.matchAll(/\b(premier|première|deuxième|second|seconde|troisième|quatrième|cinquième|sixième|dernier)\s+paragraphe\b/g)) out.add(m[1] === 'dernier' ? last : m[1]!.startsWith('second') ? 2 : LATIN_ORD[m[1]!]!)
+  return [...out].filter((n) => n >= 1 && n <= last).sort((a, b) => a - b)
+}
+
+function latinExcerpt(step: { prompt: string; payload: StepPayload }, question: Pick<OriginalQuestion, 'verbatim_text' | 'documents'>): StepExcerpt | null {
+  // سؤال عن موضع الفقرة نفسه: لا مقتطف
+  if (/\bwhich paragraph\b|\bin which §|\bquel paragraphe\b|\bdans quel paragraphe\b|\bwhich §/i.test(step.prompt)) return null
+  const opts = 'options' in step.payload ? step.payload.options : 'items' in step.payload ? step.payload.items : 'rights' in step.payload ? [...step.payload.lefts, ...step.payload.rights] : []
+  if (opts.some((o) => /§|\bparagraph/i.test(o))) return null
+  const paras = proseOf(question.documents)
+  if (!paras) return null
+  let refs = latinParagraphRefs(step.prompt, paras.length)
+  if (!refs.length) refs = latinParagraphRefs(question.verbatim_text, paras.length)
+  if (refs.length !== 1) return null
+  const para = paras[refs[0]! - 1]!
+  return para.length <= MAX_PARAGRAPH * 2 ? { kind: 'prose', parts: [para] } : null
+}
+
+const isLatin = (s: string) => (s.match(/[A-Za-zÀ-ÿ]/g) ?? []).length > (s.match(/[\u0600-\u06FF]/g) ?? []).length
+
 function findExcerpt(step: { prompt: string; payload: StepPayload }, question: Pick<OriginalQuestion, 'verbatim_text' | 'documents'>): StepExcerpt | null {
+  if (isLatin(step.prompt)) return latinExcerpt(step, question)
   if (asksForLocation(step.prompt, step.payload)) return null
   const poem = poemOf(question.documents) ?? numberedLinesOf(question.documents)
   if (poem) {

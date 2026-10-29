@@ -1,0 +1,1705 @@
+{
+ "schema_version": 1,
+ "set_id": "fr-bac-2019-lit-p2",
+ "status": "NEEDS_HUMAN_REVIEW",
+ "source": {
+  "source_id": "gdrive-1IWZ6Rbo7WoItvIqmkxNZJN9x7mKKkS2r-p2",
+  "kind": "BAC",
+  "year": 2019,
+  "level": "3AS",
+  "streams": [
+   "LIT"
+  ],
+  "subject": "FR",
+  "term": null,
+  "paper": 2,
+  "title": "بكالوريا 2019 (الدورة العاديّة) – اللغة الفرنسية – شعبة آداب وفلسفة – الموضوع الثّاني (نصّ عن القيلولة في العمل، Dynamique Entrepreneuriale)",
+  "original_url": "https://drive.google.com/file/d/1IWZ6Rbo7WoItvIqmkxNZJN9x7mKKkS2r/view",
+  "original_file_ref": "gdrive:1IWZ6Rbo7WoItvIqmkxNZJN9x7mKKkS2r (2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1CIoSlmjKO-65DB407pzzOYqUbMxt6ifY/view",
+  "correction_file_ref": "gdrive:1CIoSlmjKO-65DB407pzzOYqUbMxt6ifY (2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": false,
+  "verified_by": null,
+  "verified_at": null,
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word). الموضوع: gdrive:1IWZ6Rbo7WoItvIqmkxNZJN9x7mKKkS2r (2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf) ص3–4؛ الحلّ وسلّم التّنقيط الرّسميّان: gdrive:1CIoSlmjKO-65DB407pzzOYqUbMxt6ifY (2019 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf) ص3–4. الملفّان PDF رقميّان من الدّيوان الوطنيّ للامتحانات (لا مسح ضوئيّ) بطبقة نصّ هي نفسها ما يُرجعه read_file_content؛ استُعملت مساعدًا فقط، وقوبل كلّ نصّ بصورة الصّفحة (150 نقطة، وتكبير 220–300 نقطة). الشّعبة من رأس الورقة «الشعبة: آداب وفلسفة» ⇒ LIT. «الدورة العادية» من اسم الملفّ في Drive (الورقة تطبع «دورة: 2019» فقط). الورقة لا تطبع علامة كلّ سؤال (13 + 7 فقط)؛ كلّ العلامات من عمودَي «مجزأة/مجموع» في الحلّ الرّسميّ. خلافات طبقة النّصّ/تصدير Drive مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس، المدّة «03 د» في الطّبقة و«30 د» في الصّورة، تذييل الصّفحة 3 «صفحة 0 من 4» في الطّبقة؛ إحالتا الهامش «dénégations1/ingurgiter2» مرفوعتان في الصّورة فكُتبتا ¹ و²؛ «1er/3ème» مرفوعة كُتبت عاديّة؛ استخراج الحروف يقطع بعض الكلمات («interr ogato ires»، «incu lpés») والصّورة سليمة. المسافات المزدوجة المكتوبة في الأصل (غير مرئيّة في الطّباعة، وتصدير Drive بمسافة واحدة) كُتبت مسافة واحدة. حُفظ كما طُبع: «brulée»، «des \"Roses,» بلا علامة إغلاق، «Evènements»، «suivants:-»، «Recopiez la bonne réponse» بلا نقطة في س7، «[…]Selon»، «bienfaits. .». قرارات عامّة: «n×m» لعناصر متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من قائمة ⇒ عنصر واحد. خيارا «Vrai/Faux» والتّصنيف الثّنائيّ يُخزَّنان معكوسين لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين، فيظهران بترتيب الورقة ولا يكشف الموضع الجواب. قاعدة «accepter… / toute réponse…» ⇒ essay_builder مؤجَّل. الإنتاج الكتابيّ «sujet au choix» = سؤال أصليّ واحد (7) بـ13 عنصرًا مشتركًا بين الشّبكتين، وتفاصيل شبكة كلّ موضوع في spec. المشتّتات من إعداد التّحويل وتحتاج مراجعة. س1 مؤجَّل كاملًا (1.5): الحلّ يقبل «Le manque de sieste au travail» بديلًا، فكلّ QCM بخيارات الورقة الأربعة يخطّئ إجابة مقبولة. س2 «0.5x4» ⇒ عنصران (كلمتان 1 / عبارتان 1)، كلّ منهما multi باختيارين صحيحين من قائمة الحلّ؛ مشتّتات الكلمات من الفقرة 4 لا تدلّ على القيلولة (téléphone، chaussures، lumière)، ومشتّتات العبارات من الفقرة 1 (le rythme actuel، la plupart des entreprises). س6 مؤجَّل (1.5): الحلّ يقبل جملة ثانية من الفقرة الثّانية («Accepter : Elle augmenterait…»). س7 «0.5x3» (تحت sont / présentés / par cette dernière) ⇒ ثلاثة عناصر، QCM لكلّ جزء (صيغة الحلّ + ثلاث صيغ خاطئة). س8: «Réponse à titre indicatif… (accepter toute réflexion en relation avec l’idée)» + 0.5x4 ⇒ أربعة معايير مؤجَّلة. الإنتاج الكتابيّ: شبكة «Production libre» تضع 0.25 أمام «Présentation du texte…» و0.25 أمام «Cohérence du texte.» (بلا سطر «titre et sous titres»)، وشبكة «Compte rendu objectif» 0.25 تقديم + 0.25 عنوان؛ دُمجا في عنصر «présentation» (0.5) — قراءة تحتاج تأكيد صاحب المنصّة."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "I) Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "Parmi les propositions suivantes ; relevez les deux (02) qui renvoient au thème du texte :\n- Le manque de la sieste au travail.\n- Les bienfaits de la sieste au travail.\n- La lutte contre la sieste au travail.\n- L’importance de la sieste au travail.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Vu le rythme actuel imposé dans la plupart des entreprises d’aujourd’hui, il n’y a pas de place pour la sieste. Pourtant, de récentes études scientifiques ont démontré que cette dernière présente plusieurs bienfaits. […]\nElle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé. Dans certains pays comme le Japon et la Chine, la sieste au travail est un droit qui fait partie de leur Constitution. […]\nLa sieste au travail est d’une importance certaine puisqu’elle permet au travailleur d’être plus productif et lui apporte également un bien-être certain. Une bonne sieste au travail est bénéfique tant pour le travailleur que pour l’entreprise. Ceci, puisqu’elle améliore la mémoire, elle accroît la créativité, alimente la concentration, réduit la fatigue et le stress et améliore le dynamisme du travailleur. Tous ces bienfaits de la sieste ne sont que bénéfiques pour l’entreprise. Le travailleur est en mesure de rester concentré, il pourrait donc contribuer à l’amélioration de la productivité de l’entreprise. Cependant, pour ne pas perturber votre cycle de sommeil et pour garder la forme, limitez votre sieste à quelques minutes.\nLa sieste de 20 minutes est l’idéal pour se ressourcer. Elle autorise le cerveau à se régénérer, à recharger les batteries, à récupérer le manque de sommeil et à évacuer les tensions. Pour qu’une sieste soit parfaite, installez-vous confortablement, soyez à l’aise, délassez ou enlevez vos chaussures et assurez-vous que personne ne viendra perturber cet instant de repos. Si possible, décrochez le téléphone, tamisez la lumière ou mettez un masque de sommeil. […]Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. C’est, en effet, un besoin biologique contre lequel on ne devrait pas lutter."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "L’équipe Dynamique Entrepreneuriale.\nwww.dynamique-mag.com/article/sieste-travail.6071\nDu 01 / 06 / 2017"
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "Deux propositions renvoyant au thème du texte (0,75x2)",
+     "max_points": 1.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "I) Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "Identifiez dans le quatrième paragraphe deux (02) mots et deux (02) expressions qui renvoient à \"sieste\".",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Vu le rythme actuel imposé dans la plupart des entreprises d’aujourd’hui, il n’y a pas de place pour la sieste. Pourtant, de récentes études scientifiques ont démontré que cette dernière présente plusieurs bienfaits. […]\nElle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé. Dans certains pays comme le Japon et la Chine, la sieste au travail est un droit qui fait partie de leur Constitution. […]\nLa sieste au travail est d’une importance certaine puisqu’elle permet au travailleur d’être plus productif et lui apporte également un bien-être certain. Une bonne sieste au travail est bénéfique tant pour le travailleur que pour l’entreprise. Ceci, puisqu’elle améliore la mémoire, elle accroît la créativité, alimente la concentration, réduit la fatigue et le stress et améliore le dynamisme du travailleur. Tous ces bienfaits de la sieste ne sont que bénéfiques pour l’entreprise. Le travailleur est en mesure de rester concentré, il pourrait donc contribuer à l’amélioration de la productivité de l’entreprise. Cependant, pour ne pas perturber votre cycle de sommeil et pour garder la forme, limitez votre sieste à quelques minutes.\nLa sieste de 20 minutes est l’idéal pour se ressourcer. Elle autorise le cerveau à se régénérer, à recharger les batteries, à récupérer le manque de sommeil et à évacuer les tensions. Pour qu’une sieste soit parfaite, installez-vous confortablement, soyez à l’aise, délassez ou enlevez vos chaussures et assurez-vous que personne ne viendra perturber cet instant de repos. Si possible, décrochez le téléphone, tamisez la lumière ou mettez un masque de sommeil. […]Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. C’est, en effet, un besoin biologique contre lequel on ne devrait pas lutter."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "L’équipe Dynamique Entrepreneuriale.\nwww.dynamique-mag.com/article/sieste-travail.6071\nDu 01 / 06 / 2017"
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "Deux mots renvoyant à « sieste » (0,5x2)",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q2-e2",
+     "label": "Deux expressions renvoyant à « sieste » (0,5x2)",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "I) Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "Avoir un bien être certain / être à l’aise / limiter la sieste à 20 minutes / réduire la fatigue et le stress / ne pas être perturbé / être productif.\nClassez les expressions ci-dessus selon qu’elles précisent l’idée :\n- D’une sieste parfaite : …………, ………….. , ………….\n- Des bienfaits de la sieste : …………, ………….. , ………….",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Vu le rythme actuel imposé dans la plupart des entreprises d’aujourd’hui, il n’y a pas de place pour la sieste. Pourtant, de récentes études scientifiques ont démontré que cette dernière présente plusieurs bienfaits. […]\nElle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé. Dans certains pays comme le Japon et la Chine, la sieste au travail est un droit qui fait partie de leur Constitution. […]\nLa sieste au travail est d’une importance certaine puisqu’elle permet au travailleur d’être plus productif et lui apporte également un bien-être certain. Une bonne sieste au travail est bénéfique tant pour le travailleur que pour l’entreprise. Ceci, puisqu’elle améliore la mémoire, elle accroît la créativité, alimente la concentration, réduit la fatigue et le stress et améliore le dynamisme du travailleur. Tous ces bienfaits de la sieste ne sont que bénéfiques pour l’entreprise. Le travailleur est en mesure de rester concentré, il pourrait donc contribuer à l’amélioration de la productivité de l’entreprise. Cependant, pour ne pas perturber votre cycle de sommeil et pour garder la forme, limitez votre sieste à quelques minutes.\nLa sieste de 20 minutes est l’idéal pour se ressourcer. Elle autorise le cerveau à se régénérer, à recharger les batteries, à récupérer le manque de sommeil et à évacuer les tensions. Pour qu’une sieste soit parfaite, installez-vous confortablement, soyez à l’aise, délassez ou enlevez vos chaussures et assurez-vous que personne ne viendra perturber cet instant de repos. Si possible, décrochez le téléphone, tamisez la lumière ou mettez un masque de sommeil. […]Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. C’est, en effet, un besoin biologique contre lequel on ne devrait pas lutter."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "L’équipe Dynamique Entrepreneuriale.\nwww.dynamique-mag.com/article/sieste-travail.6071\nDu 01 / 06 / 2017"
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "Classement de « Avoir un bien être certain » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q3-e2",
+     "label": "Classement de « être à l’aise » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q3-e3",
+     "label": "Classement de « limiter la sieste à 20 minutes » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q3-e4",
+     "label": "Classement de « réduire la fatigue et le stress » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q3-e5",
+     "label": "Classement de « ne pas être perturbé » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q3-e6",
+     "label": "Classement de « être productif » (0,25)",
+     "max_points": 0.25,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "I) Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "Répondez par vrai ou faux :\n- La sieste aide à évacuer les tensions.\n- La sieste réduit la concentration du travailleur.\n- La sieste ne doit pas être prolongée.\n- La sieste n’est pas un besoin naturel.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Vu le rythme actuel imposé dans la plupart des entreprises d’aujourd’hui, il n’y a pas de place pour la sieste. Pourtant, de récentes études scientifiques ont démontré que cette dernière présente plusieurs bienfaits. […]\nElle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé. Dans certains pays comme le Japon et la Chine, la sieste au travail est un droit qui fait partie de leur Constitution. […]\nLa sieste au travail est d’une importance certaine puisqu’elle permet au travailleur d’être plus productif et lui apporte également un bien-être certain. Une bonne sieste au travail est bénéfique tant pour le travailleur que pour l’entreprise. Ceci, puisqu’elle améliore la mémoire, elle accroît la créativité, alimente la concentration, réduit la fatigue et le stress et améliore le dynamisme du travailleur. Tous ces bienfaits de la sieste ne sont que bénéfiques pour l’entreprise. Le travailleur est en mesure de rester concentré, il pourrait donc contribuer à l’amélioration de la productivité de l’entreprise. Cependant, pour ne pas perturber votre cycle de sommeil et pour garder la forme, limitez votre sieste à quelques minutes.\nLa sieste de 20 minutes est l’idéal pour se ressourcer. Elle autorise le cerveau à se régénérer, à recharger les batteries, à récupérer le manque de sommeil et à évacuer les tensions. Pour qu’une sieste soit parfaite, installez-vous confortablement, soyez à l’aise, délassez ou enlevez vos chaussures et assurez-vous que personne ne viendra perturber cet instant de repos. Si possible, décrochez le téléphone, tamisez la lumière ou mettez un masque de sommeil. […]Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. C’est, en effet, un besoin biologique contre lequel on ne devrait pas lutter."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "L’équipe Dynamique Entrepreneuriale.\nwww.dynamique-mag.com/article/sieste-travail.6071\nDu 01 / 06 / 2017"
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "Affirmation 1 (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q4-e2",
+     "label": "Affirmation 2 (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q4-e3",
+     "label": "Affirmation 3 (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q4-e4",
+     "label": "Affirmation 4 (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "5",
+   "part": "I) Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "A qui ou à quoi renvoient les mots suivants : cette dernière / lui.\n-\"…cette dernière présente plusieurs bienfaits.\" 1er paragraphe\n- cette dernière renvoie à …………\n- \"… lui apporte également un bien-être certain \" 3ème paragraphe\n- lui renvoie à ………..",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Vu le rythme actuel imposé dans la plupart des entreprises d’aujourd’hui, il n’y a pas de place pour la sieste. Pourtant, de récentes études scientifiques ont démontré que cette dernière présente plusieurs bienfaits. […]\nElle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé. Dans certains pays comme le Japon et la Chine, la sieste au travail est un droit qui fait partie de leur Constitution. […]\nLa sieste au travail est d’une importance certaine puisqu’elle permet au travailleur d’être plus productif et lui apporte également un bien-être certain. Une bonne sieste au travail est bénéfique tant pour le travailleur que pour l’entreprise. Ceci, puisqu’elle améliore la mémoire, elle accroît la créativité, alimente la concentration, réduit la fatigue et le stress et améliore le dynamisme du travailleur. Tous ces bienfaits de la sieste ne sont que bénéfiques pour l’entreprise. Le travailleur est en mesure de rester concentré, il pourrait donc contribuer à l’amélioration de la productivité de l’entreprise. Cependant, pour ne pas perturber votre cycle de sommeil et pour garder la forme, limitez votre sieste à quelques minutes.\nLa sieste de 20 minutes est l’idéal pour se ressourcer. Elle autorise le cerveau à se régénérer, à recharger les batteries, à récupérer le manque de sommeil et à évacuer les tensions. Pour qu’une sieste soit parfaite, installez-vous confortablement, soyez à l’aise, délassez ou enlevez vos chaussures et assurez-vous que personne ne viendra perturber cet instant de repos. Si possible, décrochez le téléphone, tamisez la lumière ou mettez un masque de sommeil. […]Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. C’est, en effet, un besoin biologique contre lequel on ne devrait pas lutter."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "L’équipe Dynamique Entrepreneuriale.\nwww.dynamique-mag.com/article/sieste-travail.6071\nDu 01 / 06 / 2017"
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "Référent de « cette dernière » (1er paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e2",
+     "label": "Référent de « lui » (3ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "6",
+   "part": "I) Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "\"La sieste au travail est d’une importance certaine puisqu’elle permet au travailleur d’être plus productif et lui apporte également un bien-être certain \". Trouvez dans le deuxième paragraphe la phrase qui reprend la même idée.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Vu le rythme actuel imposé dans la plupart des entreprises d’aujourd’hui, il n’y a pas de place pour la sieste. Pourtant, de récentes études scientifiques ont démontré que cette dernière présente plusieurs bienfaits. […]\nElle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé. Dans certains pays comme le Japon et la Chine, la sieste au travail est un droit qui fait partie de leur Constitution. […]\nLa sieste au travail est d’une importance certaine puisqu’elle permet au travailleur d’être plus productif et lui apporte également un bien-être certain. Une bonne sieste au travail est bénéfique tant pour le travailleur que pour l’entreprise. Ceci, puisqu’elle améliore la mémoire, elle accroît la créativité, alimente la concentration, réduit la fatigue et le stress et améliore le dynamisme du travailleur. Tous ces bienfaits de la sieste ne sont que bénéfiques pour l’entreprise. Le travailleur est en mesure de rester concentré, il pourrait donc contribuer à l’amélioration de la productivité de l’entreprise. Cependant, pour ne pas perturber votre cycle de sommeil et pour garder la forme, limitez votre sieste à quelques minutes.\nLa sieste de 20 minutes est l’idéal pour se ressourcer. Elle autorise le cerveau à se régénérer, à recharger les batteries, à récupérer le manque de sommeil et à évacuer les tensions. Pour qu’une sieste soit parfaite, installez-vous confortablement, soyez à l’aise, délassez ou enlevez vos chaussures et assurez-vous que personne ne viendra perturber cet instant de repos. Si possible, décrochez le téléphone, tamisez la lumière ou mettez un masque de sommeil. […]Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. C’est, en effet, un besoin biologique contre lequel on ne devrait pas lutter."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "L’équipe Dynamique Entrepreneuriale.\nwww.dynamique-mag.com/article/sieste-travail.6071\nDu 01 / 06 / 2017"
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "Phrase du deuxième paragraphe qui reprend la même idée",
+     "max_points": 1.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "7",
+   "part": "I) Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "\" Cette dernière présente plusieurs bienfaits. .\" Réécrivez cette phrase en la commençant ainsi :\n\"Plusieurs bienfaits ……………………………………..\"",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Vu le rythme actuel imposé dans la plupart des entreprises d’aujourd’hui, il n’y a pas de place pour la sieste. Pourtant, de récentes études scientifiques ont démontré que cette dernière présente plusieurs bienfaits. […]\nElle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé. Dans certains pays comme le Japon et la Chine, la sieste au travail est un droit qui fait partie de leur Constitution. […]\nLa sieste au travail est d’une importance certaine puisqu’elle permet au travailleur d’être plus productif et lui apporte également un bien-être certain. Une bonne sieste au travail est bénéfique tant pour le travailleur que pour l’entreprise. Ceci, puisqu’elle améliore la mémoire, elle accroît la créativité, alimente la concentration, réduit la fatigue et le stress et améliore le dynamisme du travailleur. Tous ces bienfaits de la sieste ne sont que bénéfiques pour l’entreprise. Le travailleur est en mesure de rester concentré, il pourrait donc contribuer à l’amélioration de la productivité de l’entreprise. Cependant, pour ne pas perturber votre cycle de sommeil et pour garder la forme, limitez votre sieste à quelques minutes.\nLa sieste de 20 minutes est l’idéal pour se ressourcer. Elle autorise le cerveau à se régénérer, à recharger les batteries, à récupérer le manque de sommeil et à évacuer les tensions. Pour qu’une sieste soit parfaite, installez-vous confortablement, soyez à l’aise, délassez ou enlevez vos chaussures et assurez-vous que personne ne viendra perturber cet instant de repos. Si possible, décrochez le téléphone, tamisez la lumière ou mettez un masque de sommeil. […]Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. C’est, en effet, un besoin biologique contre lequel on ne devrait pas lutter."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "L’équipe Dynamique Entrepreneuriale.\nwww.dynamique-mag.com/article/sieste-travail.6071\nDu 01 / 06 / 2017"
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "Transformation : auxiliaire (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q7-e2",
+     "label": "Transformation : participe passé (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q7-e3",
+     "label": "Transformation : complément d’agent (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "8",
+   "part": "I) Compréhension de l’écrit : (13pts)",
+   "verbatim_text": "\" Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. \" En deux à trois lignes expliquez ce que l’auteur veut dire par cette phrase.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Vu le rythme actuel imposé dans la plupart des entreprises d’aujourd’hui, il n’y a pas de place pour la sieste. Pourtant, de récentes études scientifiques ont démontré que cette dernière présente plusieurs bienfaits. […]\nElle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé. Dans certains pays comme le Japon et la Chine, la sieste au travail est un droit qui fait partie de leur Constitution. […]\nLa sieste au travail est d’une importance certaine puisqu’elle permet au travailleur d’être plus productif et lui apporte également un bien-être certain. Une bonne sieste au travail est bénéfique tant pour le travailleur que pour l’entreprise. Ceci, puisqu’elle améliore la mémoire, elle accroît la créativité, alimente la concentration, réduit la fatigue et le stress et améliore le dynamisme du travailleur. Tous ces bienfaits de la sieste ne sont que bénéfiques pour l’entreprise. Le travailleur est en mesure de rester concentré, il pourrait donc contribuer à l’amélioration de la productivité de l’entreprise. Cependant, pour ne pas perturber votre cycle de sommeil et pour garder la forme, limitez votre sieste à quelques minutes.\nLa sieste de 20 minutes est l’idéal pour se ressourcer. Elle autorise le cerveau à se régénérer, à recharger les batteries, à récupérer le manque de sommeil et à évacuer les tensions. Pour qu’une sieste soit parfaite, installez-vous confortablement, soyez à l’aise, délassez ou enlevez vos chaussures et assurez-vous que personne ne viendra perturber cet instant de repos. Si possible, décrochez le téléphone, tamisez la lumière ou mettez un masque de sommeil. […]Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. C’est, en effet, un besoin biologique contre lequel on ne devrait pas lutter."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "L’équipe Dynamique Entrepreneuriale.\nwww.dynamique-mag.com/article/sieste-travail.6071\nDu 01 / 06 / 2017"
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "Critère : Pertinence des idées (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q8-e2",
+     "label": "Critère : Cohérence (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q8-e3",
+     "label": "Critère : Correction de la langue (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q8-e4",
+     "label": "Critère : Nombre de lignes (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "—",
+   "part": "II- Production écrite : (07pts)",
+   "verbatim_text": "Traitez un sujet au choix :\nSujet 1 : Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée.\nSujet 2 : La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Vu le rythme actuel imposé dans la plupart des entreprises d’aujourd’hui, il n’y a pas de place pour la sieste. Pourtant, de récentes études scientifiques ont démontré que cette dernière présente plusieurs bienfaits. […]\nElle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé. Dans certains pays comme le Japon et la Chine, la sieste au travail est un droit qui fait partie de leur Constitution. […]\nLa sieste au travail est d’une importance certaine puisqu’elle permet au travailleur d’être plus productif et lui apporte également un bien-être certain. Une bonne sieste au travail est bénéfique tant pour le travailleur que pour l’entreprise. Ceci, puisqu’elle améliore la mémoire, elle accroît la créativité, alimente la concentration, réduit la fatigue et le stress et améliore le dynamisme du travailleur. Tous ces bienfaits de la sieste ne sont que bénéfiques pour l’entreprise. Le travailleur est en mesure de rester concentré, il pourrait donc contribuer à l’amélioration de la productivité de l’entreprise. Cependant, pour ne pas perturber votre cycle de sommeil et pour garder la forme, limitez votre sieste à quelques minutes.\nLa sieste de 20 minutes est l’idéal pour se ressourcer. Elle autorise le cerveau à se régénérer, à recharger les batteries, à récupérer le manque de sommeil et à évacuer les tensions. Pour qu’une sieste soit parfaite, installez-vous confortablement, soyez à l’aise, délassez ou enlevez vos chaussures et assurez-vous que personne ne viendra perturber cet instant de repos. Si possible, décrochez le téléphone, tamisez la lumière ou mettez un masque de sommeil. […]Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. C’est, en effet, un besoin biologique contre lequel on ne devrait pas lutter."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "L’équipe Dynamique Entrepreneuriale.\nwww.dynamique-mag.com/article/sieste-travail.6071\nDu 01 / 06 / 2017"
+    }
+   ],
+   "rubric_total": 7,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "Organisation : présentation du texte (mise en page)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e2",
+     "label": "Organisation : progression des informations",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q9-e3",
+     "label": "Organisation : absence de répétitions",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q9-e4",
+     "label": "Organisation : absence de contre-sens",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q9-e5",
+     "label": "Organisation : emploi des connecteurs",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q9-e6",
+     "label": "Organisation : structure adéquate",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e7",
+     "label": "Planification : choix énonciatif (en relation avec la consigne)",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q9-e8",
+     "label": "Planification : choix des informations",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q9-e9",
+     "label": "Langue : correction des phrases au plan syntaxique",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q9-e10",
+     "label": "Langue : adéquation du lexique à la thématique",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e11",
+     "label": "Langue : utilisation adéquate des signes de ponctuation",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e12",
+     "label": "Langue : emploi correct des temps et des modes",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e13",
+     "label": "Langue : orthographe",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Parmi les quatre propositions, relevez les deux qui renvoient au thème du texte (réponse corrigée selon le barème)",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Parmi les propositions suivantes ; relevez les deux (02) qui renvoient au thème du texte :\n- Le manque de la sieste au travail.\n- Les bienfaits de la sieste au travail.\n- La lutte contre la sieste au travail.\n- L’importance de la sieste au travail.",
+     "criterion": "Deux propositions renvoyant au thème (0,75 chacune)",
+     "indicator": "Les deux bonnes réponses sont : - Les bienfaits de la sieste au travail. - L’importance de la sieste au travail.",
+     "model_answer": "Les bienfaits de la sieste au travail. / L’importance de la sieste au travail.",
+     "accepted": [
+      "Le manque de sieste au travail."
+     ],
+     "barème": "1.5 = 0.75x2",
+     "deferred_because": "le corrigé accepte une troisième proposition (« Accepter : - Le manque de sieste au travail. »), un QCM marquerait faux une réponse acceptée"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Les deux bonnes réponses sont : - Les bienfaits de la sieste au travail. - L’importance de la sieste au travail. Accepter : - Le manque de sieste au travail.",
+     "model_answer": "Les bienfaits de la sieste au travail. / L’importance de la sieste au travail.",
+     "accepted": [
+      "Le manque de sieste au travail."
+     ]
+    }
+   },
+   "explanation": "Corrigé : « Les bienfaits de la sieste au travail. » et « L’importance de la sieste au travail. » (0,75 chacune). Accepter : « Le manque de sieste au travail. »",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "Dans le quatrième paragraphe, sélectionnez deux mots qui renvoient à « sieste ».",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "sommeil",
+     "somnolence",
+     "lumière",
+     "chaussures",
+     "téléphone"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     1
+    ]
+   },
+   "explanation": "Corrigé — mots qui renvoient à \"sieste\" : sommeil, somnologue, somnolence, repos, récupérer.",
+   "points": 1,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e2",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "Dans le quatrième paragraphe, sélectionnez deux expressions qui renvoient à « sieste ».",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "le rythme actuel",
+     "la plupart des entreprises",
+     "recharger les batteries",
+     "instant de repos"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     2,
+     3
+    ]
+   },
+   "explanation": "Corrigé — expressions qui renvoient à \"sieste\" : instant de repos, besoin biologique, évacuer les tensions, recharger les batteries, régénérer le cerveau.",
+   "points": 1,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « Avoir un bien être certain » : cette expression précise l’idée…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "D’une sieste parfaite",
+     "Des bienfaits de la sieste"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Une sieste parfaite : être à l’aise / limiter la sieste à 20 mns / ne pas être perturbé ; Bienfaits de la sieste : avoir un bien être certain / réduire la fatigue et le stress / être productif.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « être à l’aise » : cette expression précise l’idée…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "D’une sieste parfaite",
+     "Des bienfaits de la sieste"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Une sieste parfaite : être à l’aise / limiter la sieste à 20 mns / ne pas être perturbé ; Bienfaits de la sieste : avoir un bien être certain / réduire la fatigue et le stress / être productif.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « limiter la sieste à 20 minutes » : cette expression précise l’idée…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "D’une sieste parfaite",
+     "Des bienfaits de la sieste"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Une sieste parfaite : être à l’aise / limiter la sieste à 20 mns / ne pas être perturbé ; Bienfaits de la sieste : avoir un bien être certain / réduire la fatigue et le stress / être productif.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « réduire la fatigue et le stress » : cette expression précise l’idée…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "D’une sieste parfaite",
+     "Des bienfaits de la sieste"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Une sieste parfaite : être à l’aise / limiter la sieste à 20 mns / ne pas être perturbé ; Bienfaits de la sieste : avoir un bien être certain / réduire la fatigue et le stress / être productif.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e5",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « ne pas être perturbé » : cette expression précise l’idée…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "D’une sieste parfaite",
+     "Des bienfaits de la sieste"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Une sieste parfaite : être à l’aise / limiter la sieste à 20 mns / ne pas être perturbé ; Bienfaits de la sieste : avoir un bien être certain / réduire la fatigue et le stress / être productif.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e6",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « être productif » : cette expression précise l’idée…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "D’une sieste parfaite",
+     "Des bienfaits de la sieste"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Une sieste parfaite : être à l’aise / limiter la sieste à 20 mns / ne pas être perturbé ; Bienfaits de la sieste : avoir un bien être certain / réduire la fatigue et le stress / être productif.",
+   "points": 0.25,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « La sieste aide à évacuer les tensions. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : Vrai. « Elle autorise le cerveau […] à évacuer les tensions » (§4).",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « La sieste réduit la concentration du travailleur. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : Faux. Au contraire, elle « alimente la concentration » et le travailleur « est en mesure de rester concentré » (§3).",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « La sieste ne doit pas être prolongée. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : Vrai. « limitez votre sieste à quelques minutes » (§3) ; « La sieste de 20 minutes est l’idéal » (§4).",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « La sieste n’est pas un besoin naturel. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : Faux. « la somnolence après le déjeuner est tout à fait naturelle. C’est, en effet, un besoin biologique » (§4).",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« …cette dernière présente plusieurs bienfaits. » (1er paragraphe) : à quoi renvoie « cette dernière » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "la place",
+     "de récentes études scientifiques",
+     "la plupart des entreprises",
+     "la sieste"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Corrigé : « cette dernière renvoie à : la sieste »",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« … lui apporte également un bien-être certain » (3ème paragraphe) : à qui renvoie « lui » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "le travailleur",
+     "l’entreprise",
+     "la sieste",
+     "le bien-être"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « lui renvoie à : le travailleur »",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Recopiez la phrase du deuxième paragraphe qui reprend la même idée (réponse corrigée selon le barème)",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "\"La sieste au travail est d’une importance certaine puisqu’elle permet au travailleur d’être plus productif et lui apporte également un bien-être certain \". Trouvez dans le deuxième paragraphe la phrase qui reprend la même idée.",
+     "criterion": "Phrase du deuxième paragraphe qui reprend la même idée",
+     "indicator": "La phrase qui reprend la même idée est : \" Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé.\"",
+     "model_answer": "\" Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé.\"",
+     "accepted": [
+      "« Elle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. »"
+     ],
+     "barème": "1.5",
+     "deferred_because": "le corrigé accepte une deuxième phrase du même paragraphe (« Accepter : … »), un QCM marquerait faux une réponse acceptée"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "\" Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé.\" Accepter : « Elle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. »",
+     "model_answer": "\" Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé.\"",
+     "accepted": [
+      "« Elle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. »"
+     ]
+    }
+   },
+   "explanation": "Corrigé : « Rien ne vaut la sieste pour stimuler notre productivité au travail, ainsi que notre santé. » Accepter : « Elle augmenterait la vigilance, améliore les capacités mentales et l’humeur et offre un meilleur sommeil durant la nuit. »",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "À la voix passive, « Cette dernière présente plusieurs bienfaits. » devient une phrase commençant par « Plusieurs bienfaits… ». Quel auxiliaire faut-il employer ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "ont",
+     "est",
+     "seront",
+     "sont"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Corrigé : « Plusieurs bienfaits sont présentés par cette dernière. » (0,5 pour « sont », 0,5 pour « présentés », 0,5 pour « par cette dernière »).",
+   "points": 0.5,
+   "skill_id": "fr.grammaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "À la voix passive, « Cette dernière présente plusieurs bienfaits. » devient une phrase commençant par « Plusieurs bienfaits… ». Quelle est la forme correcte du participe passé de « présenter » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "présentée",
+     "présentées",
+     "présentés",
+     "présenté"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « Plusieurs bienfaits sont présentés par cette dernière. » (0,5 pour « sont », 0,5 pour « présentés », 0,5 pour « par cette dernière »).",
+   "points": 0.5,
+   "skill_id": "fr.grammaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "À la voix passive, « Cette dernière présente plusieurs bienfaits. » devient une phrase commençant par « Plusieurs bienfaits… ». Comment le sujet « cette dernière » devient-il complément d’agent ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "par cette dernière",
+     "avec cette dernière",
+     "à cette dernière",
+     "pour cette dernière"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : « Plusieurs bienfaits sont présentés par cette dernière. » (0,5 pour « sont », 0,5 pour « présentés », 0,5 pour « par cette dernière »).",
+   "points": 0.5,
+   "skill_id": "fr.grammaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Pertinence des idées",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "\" Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. \" En deux à trois lignes expliquez ce que l’auteur veut dire par cette phrase.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Pertinence des idées",
+     "indicator": "Pertinence des idées",
+     "model_answer": "\"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\"",
+     "acceptance": "accepter toute réflexion en relation avec l’idée",
+     "barème": "0.5x4 — Critères d’évaluation : Pertinence des idées / Cohérence / Correction de la langue / Nombre de lignes"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Pertinence des idées",
+     "model_answer": "\"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\""
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Réponse à titre indicatif du corrigé : \"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\" (accepter toute réflexion en relation avec l’idée)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Cohérence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "\" Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. \" En deux à trois lignes expliquez ce que l’auteur veut dire par cette phrase.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Cohérence",
+     "indicator": "Cohérence",
+     "model_answer": "\"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\"",
+     "acceptance": "accepter toute réflexion en relation avec l’idée",
+     "barème": "0.5x4 — Critères d’évaluation : Pertinence des idées / Cohérence / Correction de la langue / Nombre de lignes"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Cohérence",
+     "model_answer": "\"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\""
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Réponse à titre indicatif du corrigé : \"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\" (accepter toute réflexion en relation avec l’idée)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Correction de la langue",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "\" Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. \" En deux à trois lignes expliquez ce que l’auteur veut dire par cette phrase.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Correction de la langue",
+     "indicator": "Correction de la langue",
+     "model_answer": "\"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\"",
+     "acceptance": "accepter toute réflexion en relation avec l’idée",
+     "barème": "0.5x4 — Critères d’évaluation : Pertinence des idées / Cohérence / Correction de la langue / Nombre de lignes"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correction de la langue",
+     "model_answer": "\"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\""
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Réponse à titre indicatif du corrigé : \"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\" (accepter toute réflexion en relation avec l’idée)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Nombre de lignes",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "\" Selon Éric Mullens, médecin somnologue, la somnolence après le déjeuner est tout à fait naturelle. \" En deux à trois lignes expliquez ce que l’auteur veut dire par cette phrase.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Nombre de lignes",
+     "indicator": "Nombre de lignes (deux à trois lignes)",
+     "model_answer": "\"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\"",
+     "acceptance": "accepter toute réflexion en relation avec l’idée",
+     "barème": "0.5x4 — Critères d’évaluation : Pertinence des idées / Cohérence / Correction de la langue / Nombre de lignes"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Nombre de lignes (deux à trois lignes)",
+     "model_answer": "\"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\""
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Réponse à titre indicatif du corrigé : \"Selon l’auteur, la sieste répond à une exigence de l’organisme au moment de la digestion. C’est un moment de détente et de repos qui nous permet de récupérer, d’être productif .Donc chacun de nous doit se procurer ce moment.\" (accepter toute réflexion en relation avec l’idée)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Présentation du texte",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Présentation du texte",
+     "indicator": "Organisation : présentation du texte (mise en page)",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 — Présentation du texte (mise en page). + 0.25 — Présence de titre et de sous titres.",
+      "Sujet 2 — grille « Production libre »": "0.25 — Présentation du texte (mise en page selon le type d’écrit demandé). + 0.25 imprimé en regard de « Cohérence du texte. » (pas de ligne « titre et sous-titres » dans cette grille ; les quatre lignes * portent le 0.25x4)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : présentation du texte (mise en page)"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Progression des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Progression des informations",
+     "indicator": "Organisation : progression des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4) — Progression des informations.",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4) — *Progression des informations."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : progression des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de répétitions",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Absence de répétitions",
+     "indicator": "Organisation : absence de répétitions",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4) — absence de répétitions.",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4) — *absence de répétitions."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : absence de répétitions"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de contre-sens",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Absence de contre-sens",
+     "indicator": "Organisation : absence de contre-sens",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4) — absence de contre sens.",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4) — *absence de contre sens."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : absence de contre-sens"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e5",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Emploi des connecteurs",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Emploi des connecteurs",
+     "indicator": "Organisation : emploi des connecteurs",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x4) — emploi de connecteurs.",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x4) — *emploi de connecteurs."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : emploi des connecteurs"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s29",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e6",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Structure adéquate",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Structure adéquate",
+     "indicator": "Organisation : structure adéquate",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25x2 — structure adéquate (accroche, condensation).",
+      "Sujet 2 — grille « Production libre »": "0.25x2 — structure adéquate (introduction, développement, conclusion)."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : structure adéquate"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s30",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e7",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix énonciatif",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Choix énonciatif",
+     "indicator": "Planification : choix énonciatif (en relation avec la consigne)",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Choix énonciatif en relation avec la consigne.",
+      "Sujet 2 — grille « Production libre »": "1 — Choix énonciatif en relation avec la consigne."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix énonciatif (en relation avec la consigne)"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s31",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e8",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Choix des informations",
+     "indicator": "Planification : choix des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Choix des informations (originalité et pertinence des idées).",
+      "Sujet 2 — grille « Production libre »": "1 — Choix des informations (originalité et pertinence des idées)."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s32",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e9",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Correction syntaxique",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Correction syntaxique",
+     "indicator": "Langue : correction des phrases au plan syntaxique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Correction des phrases au plan syntaxique.",
+      "Sujet 2 — grille « Production libre »": "1 — Correction des phrases au plan syntaxique."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : correction des phrases au plan syntaxique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s33",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e10",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Adéquation du lexique",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Adéquation du lexique",
+     "indicator": "Langue : adéquation du lexique à la thématique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Adéquation du lexique à la thématique.",
+      "Sujet 2 — grille « Production libre »": "0.5 — Adéquation du lexique à la thématique."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : adéquation du lexique à la thématique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s34",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e11",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Ponctuation",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Ponctuation",
+     "indicator": "Langue : utilisation adéquate des signes de ponctuation",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Utilisation adéquate des signes de ponctuation.",
+      "Sujet 2 — grille « Production libre »": "0.5 — Utilisation adéquate des signes de ponctuation ."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : utilisation adéquate des signes de ponctuation"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s35",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e12",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Temps et modes",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Temps et modes",
+     "indicator": "Langue : emploi correct des temps et des modes",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Emploi correct des temps et des modes.",
+      "Sujet 2 — grille « Production libre »": "0.5 — Emploi correct des temps et des modes."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : emploi correct des temps et des modes"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s36",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e13",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Orthographe",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez un sujet au choix",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Rédigez en une centaine de mots le compte rendu objectif de ce texte qui sera publié dans le journal de votre lycée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (texte argumentatif)",
+       "consigne": "La marche à pied est un sport complet qui contribue au bien-être de l’homme. Rédigez un texte argumentatif d’une douzaine de lignes, dans lequel vous présentez à vos camarades les bienfaits de ce sport."
+      }
+     ],
+     "criterion": "Orthographe",
+     "indicator": "Langue : orthographe",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Orthographe (pas plus de 10 fautes pour un texte de150motsenviron).",
+      "Sujet 2 — grille « Production libre »": "0.5 — Orthographe (pas plus de10 fautes pour un texte de150 mots environ)."
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : orthographe"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation 2 pts, planification 2 pts, utilisation de la langue 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T10:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل تجريبيّ للفرنسيّة من ورقة البكالوريا الرّسميّة وحلّها (PDF رقميّان في Drive، قوبلا بصور الصّفحات)؛ العلامات من سلّم التّنقيط الرّسميّ؛ الإجابات الصّحيحة من الحلّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  }
+ ]
+}

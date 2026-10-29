@@ -5,7 +5,7 @@ import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { publicSteps, readExamSetFile } from '@/server/play/exams/engine'
-import { normalizeAr, stepExcerpt, verseRefs, type StepExcerpt } from '@/server/play/exams/excerpt'
+import { latinParagraphRefs, normalizeAr, stepExcerpt, verseRefs, type StepExcerpt } from '@/server/play/exams/excerpt'
 import type { OriginalQuestion, SourceDocument, StepPayload } from '@/server/play/exams/types'
 
 const POEM: SourceDocument = {
@@ -116,6 +116,23 @@ describe('prose and free verse', () => {
   it('numbered free-verse lines behave like verses', () => {
     const lines: SourceDocument = { id: 'd-poem-1', kind: 'text', caption: 'النّصّ', text: Array.from({ length: 8 }, (_, i) => `${i + 1}- سطر رقم ${i + 1}`).join('\n') }
     expect(stepExcerpt({ prompt: 'ما نوع الأسلوب في السّطر الثّالث؟', payload: mcq }, q('', [lines]))).toEqual({ kind: 'verses', rows: [{ n: '3', a: 'سطر رقم 3', b: '' }] })
+  })
+})
+
+describe('English and French passages', () => {
+  const PASSAGE: SourceDocument = { id: 'd-text', kind: 'text', caption: 'Text', text: 'First paragraph about the Incas and their empire, long enough to count as prose.\nSecond paragraph: the Sapa Inca ruled from Cuzco with his nobles and priests.\nThird paragraph about the Spanish conquest and the gold they came to find in the Andes.' }
+  it.each([
+    ['Find in §2 the word that means “governed”.', 2],
+    ['What does “they” refer to in paragraph 3?', 3],
+    ['Relevez dans le deuxième paragraphe un mot de sens contraire.', 2],
+    ['In the last paragraph, what did the Spanish want?', 3]
+  ])('%s', (prompt, n) => {
+    const e = stepExcerpt({ prompt, payload: mcq }, q('', [PASSAGE]))
+    expect(e).toEqual({ kind: 'prose', parts: [PASSAGE.text!.split('\n')[n - 1]] })
+  })
+  it('no excerpt when the question asks which paragraph', () => {
+    expect(stepExcerpt({ prompt: 'In which paragraph is the conquest mentioned?', payload: mcq }, q('', [PASSAGE]))).toBeNull()
+    expect(latinParagraphRefs('Dans quel paragraphe…', 3)).toEqual([])
   })
 })
 
