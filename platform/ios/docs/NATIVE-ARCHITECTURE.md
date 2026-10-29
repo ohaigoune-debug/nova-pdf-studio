@@ -119,6 +119,36 @@ included. A private video (UPLOAD/BUNNY) is described as
 - Bookmarks, the ☰ menu and the sign-in buttons of the other tabs go through
   the same routing (`AppModel.openWebsite`).
 
+### 3.2a Site shell (as built, branch `claude/ios-site-match`)
+
+The owner's screenshots of madrasadz.com on iPhone (IMG_6713, IMG_6714) replace
+the three system tabs (Learn, Bookmarks, Revision plan) with the website's
+student shell. Element-by-element comparison and every adaptation:
+`IOS_VISUAL_COMPARISON.md`.
+
+- **One `NavigationStack(path: [LearnRoute])`.** Its root is the destination
+  selected in the custom five-item bottom bar (`ShellTab`: home, lessons,
+  explore, courses, account). Selecting a destination sets the root and clears
+  the path (a web destination is closed through the usual `path` observer), as
+  the website's links do; re-selecting returns to the root.
+- Pushed routes (`course`, `lesson`, `collection`, `web`, and the personal
+  space `saved`, `planner`, `downloads`) open on top of the current
+  destination. `NativeRoute.home` from a web page selects «الرئيسية».
+- Root screens hide the system bar and show `ShellHeader` (72 pt: ☰, centred
+  logo, notifications for a verified student, theme). Pushed screens keep the
+  system bar (back button) on the header colour. The Build 7 web root, used
+  when the server offers no native screens, keeps its system bar too.
+- `ShellBottomBar` is a `safeAreaInset` of the stack, including the raised
+  part of «استكشف», so content is never under it. It is hidden while the
+  keyboard is shown and while the landscape lesson player fills the screen
+  (`AppModel.fullScreenContent`).
+- Colours are the website's tokens (`Brand`, light and dark). The theme button
+  stores `madrasadz.appearance.v1` (dark by default) and applies
+  `preferredColorScheme`, which the web pages follow too.
+- Study-only presentation is unchanged: no store, catalogue, order, payment or
+  activation entry. «استكشف» opens the server's practice tools and the bac
+  bank instead of the catalogue.
+
 ### 3.3 Protection on native screens (as built)
 
 - The app-level `PrivacyProtectionCover` already covers everything while
