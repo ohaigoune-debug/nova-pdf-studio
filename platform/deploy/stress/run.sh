@@ -12,6 +12,7 @@
 #
 # خيارات (اختيارية): STRESS_LEVELS="50 100 200 400 800" STRESS_SECONDS=120 bash deploy/stress/run.sh
 #   STRESS_MODE=real bash deploy/stress/run.sh   ⇐ 500 ← 1000 ← 2000 ← 3000 تلميذ واقعيّ (قراءة 15–30 ثانية بين الخطوات)
+#   APP_IMAGE=platform-app:perf-xxxx TOOLS_IMAGE=platform-tools:perf-xxxx STRESS_WORKERS=4 …   ⇐ صورة مبنيّة للتجربة وعدّة عمليات
 set -euo pipefail
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -47,7 +48,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-echo "• الصورة: $APP_IMAGE — النتائج في $STRESS_OUT_DIR"
+echo "• الصورة: $APP_IMAGE — عمليات التطبيق: ${STRESS_WORKERS:-1} — النتائج في $STRESS_OUT_DIR"
 "${P[@]}" up -d stress-db stress-app
 echo "• انتظار جاهزية نسخة الاختبار…"
 for i in $(seq 1 90); do
@@ -60,8 +61,14 @@ done
 docker run --rm --entrypoint cat "$APP_IMAGE" /app/.next/server/server-reference-manifest.json > "$STRESS_OUT_DIR/manifest.json"
 # جداول القاعدة الفارغة أولًا (التطبيق لا يُنشئها قبل أول طلب يحتاجها)
 "${P[@]}" run --rm tools npx tsx src/server/db/migrate.ts
+"${P[@]}" exec -T stress-db psql -q -U stress -d stress -c 'create extension if not exists pg_stat_statements' >/dev/null
 "${P[@]}" run --rm tools npx tsx scripts/play/exams.ts import-approved --confirm-host stress-db
 "${P[@]}" run --rm tools npx tsx scripts/stress/prepare.ts
+# بنك أسئلة PLAY الحقيقي (صفحة PLAY الرئيسية تعدّ أسئلة كل مادة ودرس) — كما في الإنتاج
+echo "• استيراد بنك أسئلة PLAY…"
+"${P[@]}" run --rm tools npx tsx scripts/play/import.ts > "$STRESS_OUT_DIR/play-import.log" 2>&1 || echo "  (تعذّر استيراد البنك — انظر play-import.log؛ يكمل الاختبار دونه)"
+tail -2 "$STRESS_OUT_DIR/play-import.log" || true
+"${P[@]}" exec -T stress-db psql -q -U stress -d stress -c 'select pg_stat_statements_reset()' >/dev/null
 
 # مراقبة الذاكرة والمعالج لكل الحاويات (الحقيقية والمؤقتة) كل 5 ثوانٍ
 ( while true; do docker stats --no-stream --format '{{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}' >> "$STRESS_OUT_DIR/stats.tsv"; sleep 5; done ) &
@@ -71,6 +78,9 @@ STATS_PID=$!
 
 kill "$STATS_PID" 2>/dev/null || true
 STATS_PID=
+echo
+echo "══ أثقل الاستعلامات أثناء الاختبار (الوقت الكلّي) ══"
+"${P[@]}" exec -T stress-db psql -U stress -d stress -P pager=off -c "select round(total_exec_time::numeric/1000,1) as total_s, calls, round(mean_exec_time::numeric,1) as mean_ms, round(rows::numeric/greatest(calls,1),0) as rows_per_call, left(regexp_replace(query, '\s+', ' ', 'g'), 230) as query from pg_stat_statements where dbid = (select oid from pg_database where datname = 'stress') order by total_exec_time desc limit 12" | tee "$STRESS_OUT_DIR/queries.txt"
 echo
 echo "══ أعلى استهلاك أثناء الاختبار ══"
 awk -F'\t' 'function mib(v){ if (v ~ /GiB/) return v*1024; if (v ~ /KiB/) return v/1024; return v+0 } {gsub("%","",$2); split($3,m," / "); c=$2+0; x=mib(m[1]); if (c>cpu[$1]) cpu[$1]=c; if (x>mem[$1]) mem[$1]=x} END {for (k in cpu) printf "%-32s CPU حتى %6.1f%%   ذاكرة حتى %7.0f MiB\n", k, cpu[k], mem[k]}' "$STRESS_OUT_DIR/stats.tsv" | sort | tee "$STRESS_OUT_DIR/peak.txt"
