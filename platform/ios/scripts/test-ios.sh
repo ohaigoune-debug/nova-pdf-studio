@@ -28,7 +28,8 @@ fi
 result_path="$ios_root/build/SimulatorTests-$configuration-$(date -u +%Y%m%dT%H%M%SZ).xcresult"
 mkdir -p "$(dirname "$result_path")"
 echo "Testing $configuration on iPhone Simulator $simulator_id; results: $result_path"
-xcodebuild \
+test_log="$ios_root/build/xcodebuild-test-$configuration.log"
+if ! xcodebuild \
   -project "$ios_root/Madrasadz.xcodeproj" \
   -scheme Madrasadz \
   -configuration "$configuration" \
@@ -38,4 +39,8 @@ xcodebuild \
   -skip-testing:MadrasadzUITests/MadrasadzUITests/testPublicLearningNavigation \
   -skip-testing:MadrasadzUITests/MadrasadzUITests/testPublicNativeLearning \
   CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
-  test
+  test 2>&1 | tee "$test_log"; then
+  # Test failures are reported from the xcresult; this adds compile errors.
+  [[ -n "${GITHUB_ACTIONS:-}" ]] && python3 "$ios_root/scripts/annotate-build-log.py" "$test_log" "test build $configuration"
+  exit 1
+fi

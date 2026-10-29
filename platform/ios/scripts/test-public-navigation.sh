@@ -26,7 +26,8 @@ result_path="$ios_root/build/PublicNavigation-$appearance-$(date -u +%Y%m%dT%H%M
 mkdir -p "$(dirname "$result_path")"
 # Real public HTTPS pages only: no credentials, account creation, writes, TLS
 # exceptions, seeded entitlements or substituted backend responses.
-xcodebuild \
+test_log="$ios_root/build/xcodebuild-public-$appearance.log"
+if ! xcodebuild \
   -project "$ios_root/Madrasadz.xcodeproj" \
   -scheme Madrasadz -configuration Debug \
   -destination "platform=iOS Simulator,id=$simulator_id" \
@@ -34,4 +35,8 @@ xcodebuild \
   -resultBundlePath "$result_path" \
   -only-testing:MadrasadzUITests/MadrasadzUITests/testPublicLearningNavigation \
   -only-testing:MadrasadzUITests/MadrasadzUITests/testPublicNativeLearning \
-  CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO test
+  CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO test 2>&1 | tee "$test_log"; then
+  # Test failures are reported from the xcresult; this adds compile errors.
+  [[ -n "${GITHUB_ACTIONS:-}" ]] && python3 "$ios_root/scripts/annotate-build-log.py" "$test_log" "public test build $appearance"
+  exit 1
+fi
