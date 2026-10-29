@@ -419,7 +419,7 @@
     "type": "mcq",
     "correct": 0
    },
-   "explanation": "Key: a. T. “Scientists have illuminated the effects our diet has on our mental health.” (§1)",
+   "explanation": "Key: a. T. “a Mediterranean diet was as good for our brain as for our body”.",
    "points": 0.5,
    "skill_id": "en.comprehension",
    "lesson_ref": null,
@@ -444,7 +444,7 @@
     "type": "mcq",
     "correct": 1
    },
-   "explanation": "Key: b. F. “the link between our diet and diabetes, heart disease and obesity is well established” (§2).",
+   "explanation": "Key: b. F. “the link between our diet and diabetes, heart disease and obesity is well established”.",
    "points": 0.5,
    "skill_id": "en.comprehension",
    "lesson_ref": null,
@@ -469,7 +469,7 @@
     "type": "mcq",
     "correct": 1
    },
-   "explanation": "Key: c. F. “there is a lack of research on the influence our dietary intake has on mental health” (§2).",
+   "explanation": "Key: c. F. “there is a lack of research on the influence our dietary intake has on mental health”.",
    "points": 0.5,
    "skill_id": "en.comprehension",
    "lesson_ref": null,
@@ -494,7 +494,7 @@
     "type": "mcq",
     "correct": 0
    },
-   "explanation": "Key: d. T. “adults under 30 who ate fast food more than three times a week scored higher levels of anxiety and depression” (§3).",
+   "explanation": "Key: d. T. Adults under 30 “who ate fast food more than three times a week scored higher levels” of anxiety and depression.",
    "points": 0.5,
    "skill_id": "en.comprehension",
    "lesson_ref": null,
@@ -520,7 +520,7 @@
     "type": "mcq",
     "correct": 2
    },
-   "explanation": "Key: a. § 3 — “for adults over 30, the study found that eating less carbohydrate and more fruit reduced anxiety and depression.”",
+   "explanation": "Key: a. § 3 (Begdache’s findings about adults over 30).",
    "points": 1,
    "skill_id": "en.comprehension",
    "lesson_ref": null,

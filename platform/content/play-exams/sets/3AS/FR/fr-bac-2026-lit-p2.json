@@ -1,0 +1,1566 @@
+{
+ "schema_version": 1,
+ "set_id": "fr-bac-2026-lit-p2",
+ "status": "NEEDS_HUMAN_REVIEW",
+ "source": {
+  "source_id": "gdrive-1woINl5-mPvQbC6R70gGpandDe6YJ1WVm-p2",
+  "kind": "BAC",
+  "year": 2026,
+  "level": "3AS",
+  "streams": [
+   "LIT"
+  ],
+  "subject": "FR",
+  "term": null,
+  "paper": 2,
+  "title": "بكالوريا 2026 (الدورة العاديّة) – اللغة الفرنسية – شعبة آداب وفلسفة – الموضوع الثّاني (الشّبكات الاجتماعيّة والصّحّة النّفسيّة للشّباب، The Conversation)",
+  "original_url": "https://drive.google.com/file/d/1woINl5-mPvQbC6R70gGpandDe6YJ1WVm/view",
+  "original_file_ref": "gdrive:1woINl5-mPvQbC6R70gGpandDe6YJ1WVm (2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf)",
+  "correction_url": "https://drive.google.com/file/d/1_h33axzYB2CPrQmfFUzxnF4-oKH4BStt/view",
+  "correction_file_ref": "gdrive:1_h33axzYB2CPrQmfFUzxnF4-oKH4BStt (2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf)",
+  "trust": "official_mirror",
+  "verified": false,
+  "verified_by": null,
+  "verified_at": null,
+  "notes": "نُسخ النص من صورة الورقة الرسمية (لا نسخة Word). الموضوع: gdrive:1woINl5-mPvQbC6R70gGpandDe6YJ1WVm (2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الموضوع.pdf) ص3–4؛ الإجابة النّموذجيّة وسلّم التّنقيط الرّسميّان: gdrive:1_h33axzYB2CPrQmfFUzxnF4-oKH4BStt (2026 - اللغة الفرنسية - آداب وفلسفة - الدورة العادية - الحل.pdf) ص2 وص3 (الإنتاج الكتابيّ للموضوعين). الملفّان PDF رقميّان من الدّيوان الوطنيّ للامتحانات (لا مسح ضوئيّ): أُخذ النّصّ من طبقة النّصّ (pdftotext -raw) وقوبل كلّ سطر بصورة الصّفحة (150 نقطة)، وتحقّق سكربت من أنّ كلّ نصّ حرفيّ موجود في طبقة النّصّ. الشّعبة من رأس الورقة «الشعبة: آداب وفلسفة» ⇒ LIT. «الدورة العادية» من اسم الملفّ في Drive (الورقة تطبع «الدورة: 2026»). المجموع: فهم المكتوب 13 + إنتاج كتابيّ 07؛ كلّ العلامات من عمودَي «مجزأة/مجموع» في الحلّ الرّسميّ. خلافات طبقة النّصّ مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس (السّنة «0302»، المدّة «02 سا و 03 د» والصّورة «02 سا و30 د»)، تذييل ص2 من الحلّ «صفحة 0 من 3» في الطّبقة؛ إحالات الهوامش مرفوعة ⇒ ¹ ² ³ ⁴ و«Conversation*»؛ «1er/3ème…» المرفوعة كُتبت عاديّة؛ «auto-/surveillance» و«15-/24» المقسومتان آخر السّطر وُصلتا. حُفظ كما طُبع: «45.000 Algériens» و«45 000 victimes»، «Ecrits»، «Casbah Editions»، «reconnaitre» في س6 من الموضوع الثّاني (والنّصّ «reconnaître»)، والفاصلة العليا المستقيمة في «l'indépendance» (س8 من الموضوع الأوّل) و«l'utilisation» و«l'ensemble». قرارات عامّة: «n×m» لبنود متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من النّصّ ⇒ عنصر واحد بخطوة multi. الخيارات الثّنائيّة تُخزَّن معكوسة لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين. قاعدة «accepter» الموحَّدة: صيغة أخرى للجواب نفسه ⇒ تفاعليّ (الصّحيح صيغة الحلّ الأولى، والصّيغ المقبولة في الشّرح ولا تكون مشتّتًا أبدًا)؛ الجواب المفتوح («Exemples») ⇒ essay_builder مؤجَّل. الإنتاج الكتابيّ = سؤال أصليّ واحد يضمّ الموضوعين، وتفاصيل شبكة كلّ موضوع في spec. المشتّتات من إعداد التّحويل وتحتاج مراجعة. س2 «0.5x4» وس3 «0.5x3» ⇒ عنصر واحد لكلّ منهما بخطوة multi؛ المشتّتات غير مذكورة في النّصّ (لم يُعرض «angoisse» لأنّه مرادف لـ«anxiété»، ولا «reconnaître des symptômes» و«évaluer leur normalité» لأنّهما قابلان للدّفاع كمراقبة ذاتيّة). س5 «0.5x4» ⇒ أربعة عناصر ثنائيّة (Santé mentale / Trouble mental). س6 «eux»: الصّحيح «ces états»، و«la peur, le doute, l’imperfection» المقبولة ليست مشتّتات. الورقة تكتب «reconnaitre» في س6 والنّصّ «reconnaître». س8: «0.5x4» معايير ⇒ أربعة عناصر مؤجَّلة. الإنتاج الكتابيّ (7): نفس شبكة الموضوع الأوّل (12 عنصرًا)."
+ },
+ "original_questions": [
+  {
+   "id": "q1",
+   "number": "1",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Dans ce texte, le problème posé est :\n- l’impact des réseaux sociaux sur la santé mentale des jeunes.\n- l’impact des réseaux sociaux sur les résultats scolaires des jeunes.\n- l’impact des réseaux sociaux sur les données personnelles des jeunes.\nRecopiez la bonne réponse.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. Si ces discours permettent de sensibiliser à des enjeux de santé et de société, ils peuvent aussi inciter à une auto-surveillance, source de mal-être.\nSelon l’Organisation Mondiale de la Santé (OMS), près d’un jeune sur cinq souffre, aujourd’hui, d’un trouble mental : anxiété, troubles alimentaires, sentiment d’isolement, épuisement émotionnel. Les demandes d’aide explosent. En parallèle, le temps passé sur les réseaux sociaux ne cesse de croître : les 15-24 ans y consacrent plus de trois heures et demie par jour en moyenne.\nCette génération n’est pas seulement la plus connectée : elle est aussi la plus exposée à des discours permanents sur la santé mentale, le corps, l’identité et la performance. Cette exposition continue redéfinit la manière dont les jeunes perçoivent leurs émotions, interprètent leurs comportements et évaluent leur « normalité ». […] Les jeunes apprennent, jour après jour, à se scruter, à se diagnostiquer, mais surtout, à se comparer. Chaque émotion devient suspecte, chaque écart par rapport aux normes visibles sur les réseaux sociaux devient motif d’inquiétude. […]\nLe mal-être est donc devenu social et symbolique. Par le biais des réseaux sociaux, il devient diffus¹, constant et se renforce au gré de la visibilité des contenus numériques et de la comparaison sociale qu’ils sous-tendent². Ainsi, les jeunes ne fuient plus une menace extérieure, mais un jugement collectif permanent, celui des pairs et des algorithmes qui régulent leur image de soi. […]\nLes réseaux sociaux se transforment en outil d’auto-surveillance : les jeunes y apprennent à reconnaître des symptômes, mais aussi à s’y identifier. […] L’environnement numérique fonctionne alors comme un amplificateur de vigilance intérieure, qui transforme la régulation émotionnelle en source d’angoisse.\nPlutôt que d’éliminer le mal-être, il faut réhabiliter l’ambivalence³ : la peur, le doute, l’imperfection. La santé mentale ne consiste pas à supprimer ces états, mais à apprendre à vivre avec eux. […] C’est sans doute là, le véritable enjeu : dépathologiser⁴ l’expérience ordinaire, pour permettre aux jeunes de vivre avec eux-mêmes et non contre eux-mêmes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "C. ROUEN-MALLET, P. EZAN (universitaires) et S. MALLET (chercheur en IA),\nArticle publié in Conversation*, le 22 octobre 2025"
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Conversation : média académique en ligne.\n1. Diffus : qui est diffusé, répandu dans toutes les directions.\n2. Sous-tendent : constituent le fondement de quelque chose ; servent de base à un raisonnement.\n3. Ambivalence : état de ce qui offre deux aspects différents ou contraires ; ambiguïté.\n4. Dépathologiser : arrêter de considérer certains comportements comme maladie à traiter."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q1-e1",
+     "label": "Problème posé par le texte",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q2",
+   "number": "2",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Relevez, du texte, les quatre (04) troubles psychiques cités par l’OMS chez les jeunes.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. Si ces discours permettent de sensibiliser à des enjeux de santé et de société, ils peuvent aussi inciter à une auto-surveillance, source de mal-être.\nSelon l’Organisation Mondiale de la Santé (OMS), près d’un jeune sur cinq souffre, aujourd’hui, d’un trouble mental : anxiété, troubles alimentaires, sentiment d’isolement, épuisement émotionnel. Les demandes d’aide explosent. En parallèle, le temps passé sur les réseaux sociaux ne cesse de croître : les 15-24 ans y consacrent plus de trois heures et demie par jour en moyenne.\nCette génération n’est pas seulement la plus connectée : elle est aussi la plus exposée à des discours permanents sur la santé mentale, le corps, l’identité et la performance. Cette exposition continue redéfinit la manière dont les jeunes perçoivent leurs émotions, interprètent leurs comportements et évaluent leur « normalité ». […] Les jeunes apprennent, jour après jour, à se scruter, à se diagnostiquer, mais surtout, à se comparer. Chaque émotion devient suspecte, chaque écart par rapport aux normes visibles sur les réseaux sociaux devient motif d’inquiétude. […]\nLe mal-être est donc devenu social et symbolique. Par le biais des réseaux sociaux, il devient diffus¹, constant et se renforce au gré de la visibilité des contenus numériques et de la comparaison sociale qu’ils sous-tendent². Ainsi, les jeunes ne fuient plus une menace extérieure, mais un jugement collectif permanent, celui des pairs et des algorithmes qui régulent leur image de soi. […]\nLes réseaux sociaux se transforment en outil d’auto-surveillance : les jeunes y apprennent à reconnaître des symptômes, mais aussi à s’y identifier. […] L’environnement numérique fonctionne alors comme un amplificateur de vigilance intérieure, qui transforme la régulation émotionnelle en source d’angoisse.\nPlutôt que d’éliminer le mal-être, il faut réhabiliter l’ambivalence³ : la peur, le doute, l’imperfection. La santé mentale ne consiste pas à supprimer ces états, mais à apprendre à vivre avec eux. […] C’est sans doute là, le véritable enjeu : dépathologiser⁴ l’expérience ordinaire, pour permettre aux jeunes de vivre avec eux-mêmes et non contre eux-mêmes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "C. ROUEN-MALLET, P. EZAN (universitaires) et S. MALLET (chercheur en IA),\nArticle publié in Conversation*, le 22 octobre 2025"
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Conversation : média académique en ligne.\n1. Diffus : qui est diffusé, répandu dans toutes les directions.\n2. Sous-tendent : constituent le fondement de quelque chose ; servent de base à un raisonnement.\n3. Ambivalence : état de ce qui offre deux aspects différents ou contraires ; ambiguïté.\n4. Dépathologiser : arrêter de considérer certains comportements comme maladie à traiter."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q2-e1",
+     "label": "Quatre troubles psychiques cités par l’OMS (0,5x4)",
+     "max_points": 2,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q3",
+   "number": "3",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Trouvez, dans le 3ème paragraphe, les trois (03) actions qui illustrent l’auto-surveillance chez les jeunes.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. Si ces discours permettent de sensibiliser à des enjeux de santé et de société, ils peuvent aussi inciter à une auto-surveillance, source de mal-être.\nSelon l’Organisation Mondiale de la Santé (OMS), près d’un jeune sur cinq souffre, aujourd’hui, d’un trouble mental : anxiété, troubles alimentaires, sentiment d’isolement, épuisement émotionnel. Les demandes d’aide explosent. En parallèle, le temps passé sur les réseaux sociaux ne cesse de croître : les 15-24 ans y consacrent plus de trois heures et demie par jour en moyenne.\nCette génération n’est pas seulement la plus connectée : elle est aussi la plus exposée à des discours permanents sur la santé mentale, le corps, l’identité et la performance. Cette exposition continue redéfinit la manière dont les jeunes perçoivent leurs émotions, interprètent leurs comportements et évaluent leur « normalité ». […] Les jeunes apprennent, jour après jour, à se scruter, à se diagnostiquer, mais surtout, à se comparer. Chaque émotion devient suspecte, chaque écart par rapport aux normes visibles sur les réseaux sociaux devient motif d’inquiétude. […]\nLe mal-être est donc devenu social et symbolique. Par le biais des réseaux sociaux, il devient diffus¹, constant et se renforce au gré de la visibilité des contenus numériques et de la comparaison sociale qu’ils sous-tendent². Ainsi, les jeunes ne fuient plus une menace extérieure, mais un jugement collectif permanent, celui des pairs et des algorithmes qui régulent leur image de soi. […]\nLes réseaux sociaux se transforment en outil d’auto-surveillance : les jeunes y apprennent à reconnaître des symptômes, mais aussi à s’y identifier. […] L’environnement numérique fonctionne alors comme un amplificateur de vigilance intérieure, qui transforme la régulation émotionnelle en source d’angoisse.\nPlutôt que d’éliminer le mal-être, il faut réhabiliter l’ambivalence³ : la peur, le doute, l’imperfection. La santé mentale ne consiste pas à supprimer ces états, mais à apprendre à vivre avec eux. […] C’est sans doute là, le véritable enjeu : dépathologiser⁴ l’expérience ordinaire, pour permettre aux jeunes de vivre avec eux-mêmes et non contre eux-mêmes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "C. ROUEN-MALLET, P. EZAN (universitaires) et S. MALLET (chercheur en IA),\nArticle publié in Conversation*, le 22 octobre 2025"
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Conversation : média académique en ligne.\n1. Diffus : qui est diffusé, répandu dans toutes les directions.\n2. Sous-tendent : constituent le fondement de quelque chose ; servent de base à un raisonnement.\n3. Ambivalence : état de ce qui offre deux aspects différents ou contraires ; ambiguïté.\n4. Dépathologiser : arrêter de considérer certains comportements comme maladie à traiter."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q3-e1",
+     "label": "Trois actions d’auto-surveillance (3ème paragraphe) (0,5x3)",
+     "max_points": 1.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q4",
+   "number": "4",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Répondez par « vrai » ou « faux » :\na) Les contenus des réseaux constituent une référence pour les jeunes.\nb) Les jeunes contrôlent leurs émotions grâce au temps passé devant les écrans.\nc) Chaque écart par rapport au modèle devient source d’angoisse chez les jeunes.\nd) Le mal-être causé par les contenus numériques est un phénomène de société.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. Si ces discours permettent de sensibiliser à des enjeux de santé et de société, ils peuvent aussi inciter à une auto-surveillance, source de mal-être.\nSelon l’Organisation Mondiale de la Santé (OMS), près d’un jeune sur cinq souffre, aujourd’hui, d’un trouble mental : anxiété, troubles alimentaires, sentiment d’isolement, épuisement émotionnel. Les demandes d’aide explosent. En parallèle, le temps passé sur les réseaux sociaux ne cesse de croître : les 15-24 ans y consacrent plus de trois heures et demie par jour en moyenne.\nCette génération n’est pas seulement la plus connectée : elle est aussi la plus exposée à des discours permanents sur la santé mentale, le corps, l’identité et la performance. Cette exposition continue redéfinit la manière dont les jeunes perçoivent leurs émotions, interprètent leurs comportements et évaluent leur « normalité ». […] Les jeunes apprennent, jour après jour, à se scruter, à se diagnostiquer, mais surtout, à se comparer. Chaque émotion devient suspecte, chaque écart par rapport aux normes visibles sur les réseaux sociaux devient motif d’inquiétude. […]\nLe mal-être est donc devenu social et symbolique. Par le biais des réseaux sociaux, il devient diffus¹, constant et se renforce au gré de la visibilité des contenus numériques et de la comparaison sociale qu’ils sous-tendent². Ainsi, les jeunes ne fuient plus une menace extérieure, mais un jugement collectif permanent, celui des pairs et des algorithmes qui régulent leur image de soi. […]\nLes réseaux sociaux se transforment en outil d’auto-surveillance : les jeunes y apprennent à reconnaître des symptômes, mais aussi à s’y identifier. […] L’environnement numérique fonctionne alors comme un amplificateur de vigilance intérieure, qui transforme la régulation émotionnelle en source d’angoisse.\nPlutôt que d’éliminer le mal-être, il faut réhabiliter l’ambivalence³ : la peur, le doute, l’imperfection. La santé mentale ne consiste pas à supprimer ces états, mais à apprendre à vivre avec eux. […] C’est sans doute là, le véritable enjeu : dépathologiser⁴ l’expérience ordinaire, pour permettre aux jeunes de vivre avec eux-mêmes et non contre eux-mêmes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "C. ROUEN-MALLET, P. EZAN (universitaires) et S. MALLET (chercheur en IA),\nArticle publié in Conversation*, le 22 octobre 2025"
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Conversation : média académique en ligne.\n1. Diffus : qui est diffusé, répandu dans toutes les directions.\n2. Sous-tendent : constituent le fondement de quelque chose ; servent de base à un raisonnement.\n3. Ambivalence : état de ce qui offre deux aspects différents ou contraires ; ambiguïté.\n4. Dépathologiser : arrêter de considérer certains comportements comme maladie à traiter."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q4-e1",
+     "label": "Affirmation a) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q4-e2",
+     "label": "Affirmation b) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q4-e3",
+     "label": "Affirmation c) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q4-e4",
+     "label": "Affirmation d) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q5",
+   "number": "5",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Soit les expressions suivantes :\nacceptation de soi / sentiment de malaise / manque de confiance en soi / savoir vivre avec ses contradictions.\nClassez-les selon qu’elles renvoient à :\n- Santé mentale : ……………………………………………….\n- Trouble mental : ……………………………………………..",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. Si ces discours permettent de sensibiliser à des enjeux de santé et de société, ils peuvent aussi inciter à une auto-surveillance, source de mal-être.\nSelon l’Organisation Mondiale de la Santé (OMS), près d’un jeune sur cinq souffre, aujourd’hui, d’un trouble mental : anxiété, troubles alimentaires, sentiment d’isolement, épuisement émotionnel. Les demandes d’aide explosent. En parallèle, le temps passé sur les réseaux sociaux ne cesse de croître : les 15-24 ans y consacrent plus de trois heures et demie par jour en moyenne.\nCette génération n’est pas seulement la plus connectée : elle est aussi la plus exposée à des discours permanents sur la santé mentale, le corps, l’identité et la performance. Cette exposition continue redéfinit la manière dont les jeunes perçoivent leurs émotions, interprètent leurs comportements et évaluent leur « normalité ». […] Les jeunes apprennent, jour après jour, à se scruter, à se diagnostiquer, mais surtout, à se comparer. Chaque émotion devient suspecte, chaque écart par rapport aux normes visibles sur les réseaux sociaux devient motif d’inquiétude. […]\nLe mal-être est donc devenu social et symbolique. Par le biais des réseaux sociaux, il devient diffus¹, constant et se renforce au gré de la visibilité des contenus numériques et de la comparaison sociale qu’ils sous-tendent². Ainsi, les jeunes ne fuient plus une menace extérieure, mais un jugement collectif permanent, celui des pairs et des algorithmes qui régulent leur image de soi. […]\nLes réseaux sociaux se transforment en outil d’auto-surveillance : les jeunes y apprennent à reconnaître des symptômes, mais aussi à s’y identifier. […] L’environnement numérique fonctionne alors comme un amplificateur de vigilance intérieure, qui transforme la régulation émotionnelle en source d’angoisse.\nPlutôt que d’éliminer le mal-être, il faut réhabiliter l’ambivalence³ : la peur, le doute, l’imperfection. La santé mentale ne consiste pas à supprimer ces états, mais à apprendre à vivre avec eux. […] C’est sans doute là, le véritable enjeu : dépathologiser⁴ l’expérience ordinaire, pour permettre aux jeunes de vivre avec eux-mêmes et non contre eux-mêmes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "C. ROUEN-MALLET, P. EZAN (universitaires) et S. MALLET (chercheur en IA),\nArticle publié in Conversation*, le 22 octobre 2025"
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Conversation : média académique en ligne.\n1. Diffus : qui est diffusé, répandu dans toutes les directions.\n2. Sous-tendent : constituent le fondement de quelque chose ; servent de base à un raisonnement.\n3. Ambivalence : état de ce qui offre deux aspects différents ou contraires ; ambiguïté.\n4. Dépathologiser : arrêter de considérer certains comportements comme maladie à traiter."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q5-e1",
+     "label": "Classement de « acceptation de soi » (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e2",
+     "label": "Classement de « sentiment de malaise » (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e3",
+     "label": "Classement de « manque de confiance en soi » (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q5-e4",
+     "label": "Classement de « savoir vivre avec ses contradictions » (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q6",
+   "number": "6",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Déterminez à quoi renvoie chacun des mots : « il », « y » et « eux » dans les énoncés ci-dessous :\n- « …il devient diffus, … » 4ème paragraphe\n- « les jeunes y apprennent à reconnaitre… » 5ème paragraphe\n- « …mais à apprendre à vivre avec eux. » 6ème paragraphe",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. Si ces discours permettent de sensibiliser à des enjeux de santé et de société, ils peuvent aussi inciter à une auto-surveillance, source de mal-être.\nSelon l’Organisation Mondiale de la Santé (OMS), près d’un jeune sur cinq souffre, aujourd’hui, d’un trouble mental : anxiété, troubles alimentaires, sentiment d’isolement, épuisement émotionnel. Les demandes d’aide explosent. En parallèle, le temps passé sur les réseaux sociaux ne cesse de croître : les 15-24 ans y consacrent plus de trois heures et demie par jour en moyenne.\nCette génération n’est pas seulement la plus connectée : elle est aussi la plus exposée à des discours permanents sur la santé mentale, le corps, l’identité et la performance. Cette exposition continue redéfinit la manière dont les jeunes perçoivent leurs émotions, interprètent leurs comportements et évaluent leur « normalité ». […] Les jeunes apprennent, jour après jour, à se scruter, à se diagnostiquer, mais surtout, à se comparer. Chaque émotion devient suspecte, chaque écart par rapport aux normes visibles sur les réseaux sociaux devient motif d’inquiétude. […]\nLe mal-être est donc devenu social et symbolique. Par le biais des réseaux sociaux, il devient diffus¹, constant et se renforce au gré de la visibilité des contenus numériques et de la comparaison sociale qu’ils sous-tendent². Ainsi, les jeunes ne fuient plus une menace extérieure, mais un jugement collectif permanent, celui des pairs et des algorithmes qui régulent leur image de soi. […]\nLes réseaux sociaux se transforment en outil d’auto-surveillance : les jeunes y apprennent à reconnaître des symptômes, mais aussi à s’y identifier. […] L’environnement numérique fonctionne alors comme un amplificateur de vigilance intérieure, qui transforme la régulation émotionnelle en source d’angoisse.\nPlutôt que d’éliminer le mal-être, il faut réhabiliter l’ambivalence³ : la peur, le doute, l’imperfection. La santé mentale ne consiste pas à supprimer ces états, mais à apprendre à vivre avec eux. […] C’est sans doute là, le véritable enjeu : dépathologiser⁴ l’expérience ordinaire, pour permettre aux jeunes de vivre avec eux-mêmes et non contre eux-mêmes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "C. ROUEN-MALLET, P. EZAN (universitaires) et S. MALLET (chercheur en IA),\nArticle publié in Conversation*, le 22 octobre 2025"
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Conversation : média académique en ligne.\n1. Diffus : qui est diffusé, répandu dans toutes les directions.\n2. Sous-tendent : constituent le fondement de quelque chose ; servent de base à un raisonnement.\n3. Ambivalence : état de ce qui offre deux aspects différents ou contraires ; ambiguïté.\n4. Dépathologiser : arrêter de considérer certains comportements comme maladie à traiter."
+    }
+   ],
+   "rubric_total": 1.5,
+   "rubric_elements": [
+    {
+     "id": "q6-e1",
+     "label": "Référent de « il » (4ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q6-e2",
+     "label": "Référent de « y » (5ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q6-e3",
+     "label": "Référent de « eux » (6ème paragraphe) (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q7",
+   "number": "7",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "Parmi les propositions ci-dessous, distinguez puis recopiez celle qui correspond à la visée communicative des auteurs :\n- dénoncer le temps de connexion accordé par les jeunes aux réseaux sociaux.\n- sensibiliser aux dérives des contenus des réseaux sur l’image que le jeune se fait de soi.\n- encourager les jeunes à consulter fréquemment les contenus des réseaux sociaux.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. Si ces discours permettent de sensibiliser à des enjeux de santé et de société, ils peuvent aussi inciter à une auto-surveillance, source de mal-être.\nSelon l’Organisation Mondiale de la Santé (OMS), près d’un jeune sur cinq souffre, aujourd’hui, d’un trouble mental : anxiété, troubles alimentaires, sentiment d’isolement, épuisement émotionnel. Les demandes d’aide explosent. En parallèle, le temps passé sur les réseaux sociaux ne cesse de croître : les 15-24 ans y consacrent plus de trois heures et demie par jour en moyenne.\nCette génération n’est pas seulement la plus connectée : elle est aussi la plus exposée à des discours permanents sur la santé mentale, le corps, l’identité et la performance. Cette exposition continue redéfinit la manière dont les jeunes perçoivent leurs émotions, interprètent leurs comportements et évaluent leur « normalité ». […] Les jeunes apprennent, jour après jour, à se scruter, à se diagnostiquer, mais surtout, à se comparer. Chaque émotion devient suspecte, chaque écart par rapport aux normes visibles sur les réseaux sociaux devient motif d’inquiétude. […]\nLe mal-être est donc devenu social et symbolique. Par le biais des réseaux sociaux, il devient diffus¹, constant et se renforce au gré de la visibilité des contenus numériques et de la comparaison sociale qu’ils sous-tendent². Ainsi, les jeunes ne fuient plus une menace extérieure, mais un jugement collectif permanent, celui des pairs et des algorithmes qui régulent leur image de soi. […]\nLes réseaux sociaux se transforment en outil d’auto-surveillance : les jeunes y apprennent à reconnaître des symptômes, mais aussi à s’y identifier. […] L’environnement numérique fonctionne alors comme un amplificateur de vigilance intérieure, qui transforme la régulation émotionnelle en source d’angoisse.\nPlutôt que d’éliminer le mal-être, il faut réhabiliter l’ambivalence³ : la peur, le doute, l’imperfection. La santé mentale ne consiste pas à supprimer ces états, mais à apprendre à vivre avec eux. […] C’est sans doute là, le véritable enjeu : dépathologiser⁴ l’expérience ordinaire, pour permettre aux jeunes de vivre avec eux-mêmes et non contre eux-mêmes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "C. ROUEN-MALLET, P. EZAN (universitaires) et S. MALLET (chercheur en IA),\nArticle publié in Conversation*, le 22 octobre 2025"
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Conversation : média académique en ligne.\n1. Diffus : qui est diffusé, répandu dans toutes les directions.\n2. Sous-tendent : constituent le fondement de quelque chose ; servent de base à un raisonnement.\n3. Ambivalence : état de ce qui offre deux aspects différents ou contraires ; ambiguïté.\n4. Dépathologiser : arrêter de considérer certains comportements comme maladie à traiter."
+    }
+   ],
+   "rubric_total": 1,
+   "rubric_elements": [
+    {
+     "id": "q7-e1",
+     "label": "Visée communicative des auteurs",
+     "max_points": 1,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q8",
+   "number": "8",
+   "part": "I. Compréhension de l’écrit : (13 points)",
+   "verbatim_text": "« Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. »\nPensez-vous que c’est sage de discuter de sujets d’ordre personnel sur les réseaux sociaux ? Justifiez votre point de vue, en deux à trois lignes.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. Si ces discours permettent de sensibiliser à des enjeux de santé et de société, ils peuvent aussi inciter à une auto-surveillance, source de mal-être.\nSelon l’Organisation Mondiale de la Santé (OMS), près d’un jeune sur cinq souffre, aujourd’hui, d’un trouble mental : anxiété, troubles alimentaires, sentiment d’isolement, épuisement émotionnel. Les demandes d’aide explosent. En parallèle, le temps passé sur les réseaux sociaux ne cesse de croître : les 15-24 ans y consacrent plus de trois heures et demie par jour en moyenne.\nCette génération n’est pas seulement la plus connectée : elle est aussi la plus exposée à des discours permanents sur la santé mentale, le corps, l’identité et la performance. Cette exposition continue redéfinit la manière dont les jeunes perçoivent leurs émotions, interprètent leurs comportements et évaluent leur « normalité ». […] Les jeunes apprennent, jour après jour, à se scruter, à se diagnostiquer, mais surtout, à se comparer. Chaque émotion devient suspecte, chaque écart par rapport aux normes visibles sur les réseaux sociaux devient motif d’inquiétude. […]\nLe mal-être est donc devenu social et symbolique. Par le biais des réseaux sociaux, il devient diffus¹, constant et se renforce au gré de la visibilité des contenus numériques et de la comparaison sociale qu’ils sous-tendent². Ainsi, les jeunes ne fuient plus une menace extérieure, mais un jugement collectif permanent, celui des pairs et des algorithmes qui régulent leur image de soi. […]\nLes réseaux sociaux se transforment en outil d’auto-surveillance : les jeunes y apprennent à reconnaître des symptômes, mais aussi à s’y identifier. […] L’environnement numérique fonctionne alors comme un amplificateur de vigilance intérieure, qui transforme la régulation émotionnelle en source d’angoisse.\nPlutôt que d’éliminer le mal-être, il faut réhabiliter l’ambivalence³ : la peur, le doute, l’imperfection. La santé mentale ne consiste pas à supprimer ces états, mais à apprendre à vivre avec eux. […] C’est sans doute là, le véritable enjeu : dépathologiser⁴ l’expérience ordinaire, pour permettre aux jeunes de vivre avec eux-mêmes et non contre eux-mêmes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "C. ROUEN-MALLET, P. EZAN (universitaires) et S. MALLET (chercheur en IA),\nArticle publié in Conversation*, le 22 octobre 2025"
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Conversation : média académique en ligne.\n1. Diffus : qui est diffusé, répandu dans toutes les directions.\n2. Sous-tendent : constituent le fondement de quelque chose ; servent de base à un raisonnement.\n3. Ambivalence : état de ce qui offre deux aspects différents ou contraires ; ambiguïté.\n4. Dépathologiser : arrêter de considérer certains comportements comme maladie à traiter."
+    }
+   ],
+   "rubric_total": 2,
+   "rubric_elements": [
+    {
+     "id": "q8-e1",
+     "label": "Critère : Respect de la consigne (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q8-e2",
+     "label": "Critère : Pertinence des idées (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q8-e3",
+     "label": "Critère : Cohérence (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q8-e4",
+     "label": "Critère : Correction de la langue (0,5)",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "id": "q9",
+   "number": "—",
+   "part": "II. Production écrite : (07 points)",
+   "verbatim_text": "Traitez l’un des deux sujets suivants :\nSujet 1 :\nVotre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée.\nSujet 2 :\nVous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture.",
+   "documents": [
+    {
+     "id": "d-text",
+     "kind": "text",
+     "caption": "Texte",
+     "text": "Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. Si ces discours permettent de sensibiliser à des enjeux de santé et de société, ils peuvent aussi inciter à une auto-surveillance, source de mal-être.\nSelon l’Organisation Mondiale de la Santé (OMS), près d’un jeune sur cinq souffre, aujourd’hui, d’un trouble mental : anxiété, troubles alimentaires, sentiment d’isolement, épuisement émotionnel. Les demandes d’aide explosent. En parallèle, le temps passé sur les réseaux sociaux ne cesse de croître : les 15-24 ans y consacrent plus de trois heures et demie par jour en moyenne.\nCette génération n’est pas seulement la plus connectée : elle est aussi la plus exposée à des discours permanents sur la santé mentale, le corps, l’identité et la performance. Cette exposition continue redéfinit la manière dont les jeunes perçoivent leurs émotions, interprètent leurs comportements et évaluent leur « normalité ». […] Les jeunes apprennent, jour après jour, à se scruter, à se diagnostiquer, mais surtout, à se comparer. Chaque émotion devient suspecte, chaque écart par rapport aux normes visibles sur les réseaux sociaux devient motif d’inquiétude. […]\nLe mal-être est donc devenu social et symbolique. Par le biais des réseaux sociaux, il devient diffus¹, constant et se renforce au gré de la visibilité des contenus numériques et de la comparaison sociale qu’ils sous-tendent². Ainsi, les jeunes ne fuient plus une menace extérieure, mais un jugement collectif permanent, celui des pairs et des algorithmes qui régulent leur image de soi. […]\nLes réseaux sociaux se transforment en outil d’auto-surveillance : les jeunes y apprennent à reconnaître des symptômes, mais aussi à s’y identifier. […] L’environnement numérique fonctionne alors comme un amplificateur de vigilance intérieure, qui transforme la régulation émotionnelle en source d’angoisse.\nPlutôt que d’éliminer le mal-être, il faut réhabiliter l’ambivalence³ : la peur, le doute, l’imperfection. La santé mentale ne consiste pas à supprimer ces états, mais à apprendre à vivre avec eux. […] C’est sans doute là, le véritable enjeu : dépathologiser⁴ l’expérience ordinaire, pour permettre aux jeunes de vivre avec eux-mêmes et non contre eux-mêmes."
+    },
+    {
+     "id": "d-source",
+     "kind": "text",
+     "caption": "Source du texte",
+     "text": "C. ROUEN-MALLET, P. EZAN (universitaires) et S. MALLET (chercheur en IA),\nArticle publié in Conversation*, le 22 octobre 2025"
+    },
+    {
+     "id": "d-gloss",
+     "kind": "text",
+     "caption": "Notes",
+     "text": "*Conversation : média académique en ligne.\n1. Diffus : qui est diffusé, répandu dans toutes les directions.\n2. Sous-tendent : constituent le fondement de quelque chose ; servent de base à un raisonnement.\n3. Ambivalence : état de ce qui offre deux aspects différents ou contraires ; ambiguïté.\n4. Dépathologiser : arrêter de considérer certains comportements comme maladie à traiter."
+    }
+   ],
+   "rubric_total": 7,
+   "rubric_elements": [
+    {
+     "id": "q9-e1",
+     "label": "Organisation : présentation du texte et structure adéquate",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q9-e2",
+     "label": "Organisation : cohérence — progression des informations",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q9-e3",
+     "label": "Organisation : cohérence — absence de répétitions",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q9-e4",
+     "label": "Organisation : cohérence — absence de contresens",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q9-e5",
+     "label": "Organisation : cohérence — emploi de connecteurs",
+     "max_points": 0.25,
+     "verified": false
+    },
+    {
+     "id": "q9-e6",
+     "label": "Planification : choix énonciatif en relation avec la consigne",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q9-e7",
+     "label": "Planification : choix et sélection des informations",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q9-e8",
+     "label": "Langue : correction des phrases au plan syntaxique",
+     "max_points": 1,
+     "verified": false
+    },
+    {
+     "id": "q9-e9",
+     "label": "Langue : lexique approprié à la thématique",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e10",
+     "label": "Langue : emploi correct des temps et des modes",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e11",
+     "label": "Langue : utilisation adéquate des signes de ponctuation",
+     "max_points": 0.5,
+     "verified": false
+    },
+    {
+     "id": "q9-e12",
+     "label": "Langue : orthographe",
+     "max_points": 0.5,
+     "verified": false
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "id": "s01",
+   "source_question_id": "q1",
+   "rubric_element_id": "q1-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Dans ce texte, le problème posé est : (choisissez la bonne réponse)",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "l’impact des réseaux sociaux sur les résultats scolaires des jeunes.",
+     "l’impact des réseaux sociaux sur les données personnelles des jeunes.",
+     "l’impact des réseaux sociaux sur la santé mentale des jeunes."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « l’impact des réseaux sociaux sur la santé mentale des jeunes. »",
+   "points": 1,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s02",
+   "source_question_id": "q2",
+   "rubric_element_id": "q2-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "Sélectionnez les quatre troubles psychiques cités par l’OMS chez les jeunes.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "troubles alimentaires",
+     "dépendance aux écrans",
+     "sentiment d’isolement",
+     "épuisement émotionnel",
+     "anxiété",
+     "troubles du sommeil"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     2,
+     3,
+     4
+    ]
+   },
+   "explanation": "Corrigé : « anxiété – troubles alimentaires – sentiment d’isolement – épuisement émotionnel » (0,5 chacun) (§2).",
+   "points": 2,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s03",
+   "source_question_id": "q3",
+   "rubric_element_id": "q3-e1",
+   "variant": "a",
+   "type": "multi",
+   "prompt": "Dans le troisième paragraphe, sélectionnez les trois actions qui illustrent l’auto-surveillance chez les jeunes.",
+   "payload": {
+    "type": "multi",
+    "options": [
+     "se diagnostiquer",
+     "se comparer",
+     "se déconnecter",
+     "se divertir",
+     "se scruter"
+    ]
+   },
+   "answer": {
+    "type": "multi",
+    "correct": [
+     0,
+     1,
+     4
+    ]
+   },
+   "explanation": "Corrigé : « se scruter / se diagnostiquer / se comparer » (0,5 chacune) : « Les jeunes apprennent, jour après jour, à se scruter, à se diagnostiquer, mais surtout, à se comparer. »",
+   "points": 1.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s04",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « Les contenus des réseaux constituent une référence pour les jeunes. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : Vrai. Les jeunes « évaluent leur « normalité » » et « chaque écart par rapport aux normes visibles sur les réseaux sociaux devient motif d’inquiétude » (§3). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s05",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « Les jeunes contrôlent leurs émotions grâce au temps passé devant les écrans. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé : Faux. « L’environnement numérique […] transforme la régulation émotionnelle en source d’angoisse » (§5). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s06",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « Chaque écart par rapport au modèle devient source d’angoisse chez les jeunes. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : Vrai. « chaque écart par rapport aux normes visibles sur les réseaux sociaux devient motif d’inquiétude » (§3). (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s07",
+   "source_question_id": "q4",
+   "rubric_element_id": "q4-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Vrai ou faux : « Le mal-être causé par les contenus numériques est un phénomène de société. »",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Vrai",
+     "Faux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé : Vrai. « Le mal-être est donc devenu social et symbolique. » (§4) (Ne pas pénaliser le candidat qui ne recopie pas les propositions.)",
+   "points": 0.5,
+   "skill_id": "fr.comprehension",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s08",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « acceptation de soi » : cette expression renvoie à la…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Santé mentale",
+     "Trouble mental"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Santé mentale : acceptation de soi / savoir vivre avec ses contradictions ; Trouble mental : sentiment de malaise / manque de confiance en soi.",
+   "points": 0.5,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s09",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « sentiment de malaise » : cette expression renvoie à la…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Santé mentale",
+     "Trouble mental"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Santé mentale : acceptation de soi / savoir vivre avec ses contradictions ; Trouble mental : sentiment de malaise / manque de confiance en soi.",
+   "points": 0.5,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s10",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « manque de confiance en soi » : cette expression renvoie à la…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Santé mentale",
+     "Trouble mental"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 1
+   },
+   "explanation": "Corrigé — Santé mentale : acceptation de soi / savoir vivre avec ses contradictions ; Trouble mental : sentiment de malaise / manque de confiance en soi.",
+   "points": 0.5,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s11",
+   "source_question_id": "q5",
+   "rubric_element_id": "q5-e4",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Classez « savoir vivre avec ses contradictions » : cette expression renvoie à la…",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "Santé mentale",
+     "Trouble mental"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 0
+   },
+   "explanation": "Corrigé — Santé mentale : acceptation de soi / savoir vivre avec ses contradictions ; Trouble mental : sentiment de malaise / manque de confiance en soi.",
+   "points": 0.5,
+   "skill_id": "fr.vocabulaire",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s12",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« …il devient diffus, … » (§4) : à quoi renvoie « il » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "environnement numérique",
+     "débat public",
+     "jugement collectif",
+     "mal-être"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Corrigé : « il » : mal-être.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s13",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e2",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« les jeunes y apprennent à reconnaitre… » (§5) : à quoi renvoie « y » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "émotions",
+     "symptômes",
+     "demandes d’aide",
+     "réseaux sociaux"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 3
+   },
+   "explanation": "Corrigé : « y » : réseaux sociaux.",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s14",
+   "source_question_id": "q6",
+   "rubric_element_id": "q6-e3",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "« …mais à apprendre à vivre avec eux. » (§6) : à quoi renvoie « eux » ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "les contenus numériques",
+     "les jeunes",
+     "ces états",
+     "les algorithmes"
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « eux » : ces états. (Accepter aussi deux (02) ou trois (03) de ces états : la peur, le doute et l’imperfection)",
+   "points": 0.5,
+   "skill_id": "fr.discours",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s15",
+   "source_question_id": "q7",
+   "rubric_element_id": "q7-e1",
+   "variant": "a",
+   "type": "mcq",
+   "prompt": "Parmi les propositions, laquelle correspond à la visée communicative des auteurs ?",
+   "payload": {
+    "type": "mcq",
+    "options": [
+     "dénoncer le temps de connexion accordé par les jeunes aux réseaux sociaux.",
+     "encourager les jeunes à consulter fréquemment les contenus des réseaux sociaux.",
+     "sensibiliser aux dérives des contenus des réseaux sur l’image que le jeune se fait de soi."
+    ]
+   },
+   "answer": {
+    "type": "mcq",
+    "correct": 2
+   },
+   "explanation": "Corrigé : « sensibiliser aux dérives des contenus des réseaux sur l’image que le jeune se fait de soi. »",
+   "points": 1,
+   "skill_id": "fr.enonciation",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_human_review"
+  },
+  {
+   "id": "s16",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Respect de la consigne",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. »\nPensez-vous que c’est sage de discuter de sujets d’ordre personnel sur les réseaux sociaux ? Justifiez votre point de vue, en deux à trois lignes.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Respect de la consigne",
+     "indicator": "Respect de la consigne. prise de position avec justification et le nombre de lignes.",
+     "model_answer": "Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude.",
+     "acceptance": "exemples",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Respect de la consigne. prise de position avec justification et le nombre de lignes.",
+     "model_answer": "Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemples) : Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s17",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Pertinence des idées",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. »\nPensez-vous que c’est sage de discuter de sujets d’ordre personnel sur les réseaux sociaux ? Justifiez votre point de vue, en deux à trois lignes.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Pertinence des idées",
+     "indicator": "Pertinence des idées. Exemples : Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude.",
+     "model_answer": "Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude.",
+     "acceptance": "exemples",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Pertinence des idées. Exemples : Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude.",
+     "model_answer": "Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemples) : Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s18",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Cohérence",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. »\nPensez-vous que c’est sage de discuter de sujets d’ordre personnel sur les réseaux sociaux ? Justifiez votre point de vue, en deux à trois lignes.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Cohérence",
+     "indicator": "Cohérence.",
+     "model_answer": "Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude.",
+     "acceptance": "exemples",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Cohérence.",
+     "model_answer": "Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemples) : Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s19",
+   "source_question_id": "q8",
+   "rubric_element_id": "q8-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Question 8 — réponse rédigée en deux à trois lignes, critère : Correction de la langue",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "« Sur les réseaux sociaux, chaque sujet intime devient un thème de débat public. »\nPensez-vous que c’est sage de discuter de sujets d’ordre personnel sur les réseaux sociaux ? Justifiez votre point de vue, en deux à trois lignes.",
+     "lines": [
+      2,
+      3
+     ],
+     "criterion": "Correction de la langue",
+     "indicator": "Correction de la langue.",
+     "model_answer": "Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude.",
+     "acceptance": "exemples",
+     "barème": "0.5x4 — Critères d’évaluation : Respect de la consigne / Pertinence des idées / Cohérence / Correction de la langue",
+     "deferred_because": "réponse ouverte (le corrigé ne donne qu’un exemple à titre indicatif)"
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Correction de la langue.",
+     "model_answer": "Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude."
+    }
+   },
+   "explanation": "Réponse ouverte corrigée avec les critères officiels (0,5 chacun). Exemple du corrigé (exemples) : Partager des détails intimes peut rendre une personne plus vulnérable aux attaques et au harcèlement en ligne. / Partager des informations sensibles peut exposer une personne à des risques de vol d'identité ou de fraude.",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s20",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e1",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Présentation du texte et structure adéquate",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Présentation du texte et structure adéquate",
+     "indicator": "Organisation : présentation du texte et structure adéquate",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Présentation du texte (mise en page, lisibilité) + 0.25x2 — Structure adéquate [accroche (0.25) condensation (0.25)]",
+      "Sujet 2 — grille « Production libre »": "0.25 — Présentation du texte (mise en page, lisibilité). + 0.25x3 — Structure adéquate [Introduction (0.25) développement (0.25) conclusion (0.25)]"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : présentation du texte et structure adéquate"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s21",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e2",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Progression des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Progression des informations",
+     "indicator": "Organisation : cohérence — progression des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x 4 Cohérence du texte) — progression des informations",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — progression des informations"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — progression des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s22",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e3",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de répétitions",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Absence de répétitions",
+     "indicator": "Organisation : cohérence — absence de répétitions",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x 4 Cohérence du texte) — absence de répétitions",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — absence de répétitions"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de répétitions"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s23",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e4",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Absence de contresens",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Absence de contresens",
+     "indicator": "Organisation : cohérence — absence de contresens",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x 4 Cohérence du texte) — absence de contresens",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — absence de contresens"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — absence de contresens"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s24",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e5",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Emploi de connecteurs",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Emploi de connecteurs",
+     "indicator": "Organisation : cohérence — emploi de connecteurs",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.25 (0.25x 4 Cohérence du texte) — emploi de connecteurs",
+      "Sujet 2 — grille « Production libre »": "0.25 (0.25x 4 Cohérence du texte) — emploi de connecteurs"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Organisation : cohérence — emploi de connecteurs"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.25,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s25",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e6",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix énonciatif",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Choix énonciatif",
+     "indicator": "Planification : choix énonciatif en relation avec la consigne",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Choix énonciatif en relation avec la consigne",
+      "Sujet 2 — grille « Production libre »": "1 — Choix énonciatif en relation avec la consigne"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix énonciatif en relation avec la consigne"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s26",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e7",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Choix des informations",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Choix des informations",
+     "indicator": "Planification : choix et sélection des informations",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Sélection des informations essentielles (condensation et reformulation)",
+      "Sujet 2 — grille « Production libre »": "1 — Choix des informations (originalité et pertinence des idées)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Planification : choix et sélection des informations"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s27",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e8",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Correction syntaxique",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Correction syntaxique",
+     "indicator": "Langue : correction des phrases au plan syntaxique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "1 — Correction des phrases au plan syntaxique",
+      "Sujet 2 — grille « Production libre »": "1 — Correction des phrases au plan syntaxique"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : correction des phrases au plan syntaxique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 1,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s28",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e9",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Lexique approprié",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Lexique approprié",
+     "indicator": "Langue : lexique approprié à la thématique",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Emploi d’un lexique approprié à la thématique",
+      "Sujet 2 — grille « Production libre »": "0.5 — Emploi d’un lexique approprié à la thématique"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : lexique approprié à la thématique"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s29",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e10",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Temps et modes",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Temps et modes",
+     "indicator": "Langue : emploi correct des temps et des modes",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Emploi correct des temps et des modes",
+      "Sujet 2 — grille « Production libre »": "0.5 — Emploi correct des temps et des modes"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : emploi correct des temps et des modes"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s30",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e11",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Ponctuation",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Ponctuation",
+     "indicator": "Langue : utilisation adéquate des signes de ponctuation",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Utilisation adéquate des signes de ponctuation",
+      "Sujet 2 — grille « Production libre »": "0.5 — Utilisation adéquate des signes de ponctuation"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : utilisation adéquate des signes de ponctuation"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  },
+  {
+   "id": "s31",
+   "source_question_id": "q9",
+   "rubric_element_id": "q9-e12",
+   "variant": "a",
+   "type": "essay_builder",
+   "prompt": "Production écrite (un sujet au choix) — critère : Orthographe",
+   "payload": {
+    "type": "essay_builder",
+    "spec": {
+     "task": "Production écrite — traitez l’un des deux sujets suivants",
+     "sujets": [
+      {
+       "id": "Sujet 1",
+       "kind": "compte rendu objectif",
+       "consigne": "Votre établissement organise une journée de sensibilisation contre les dangers de l'utilisation excessive des réseaux sociaux. Le contenu de ce texte vous a convaincu. Rédigez son compte rendu objectif (120 mots environ) que vous partagerez avec l'ensemble de vos camarades du lycée lors de cette journée."
+      },
+      {
+       "id": "Sujet 2",
+       "kind": "production libre (appel)",
+       "consigne": "Vous êtes invité à participer à la journée de sensibilisation sur les dangers des réseaux sociaux organisée par la maison de culture de votre commune. Rédigez un appel (150 mots environ) pour inciter les jeunes à faire preuve de vigilance et de retenue pour protéger leurs données personnelles. Vous afficherez votre texte dans la salle d’exposition de la maison de culture."
+      }
+     ],
+     "criterion": "Orthographe",
+     "indicator": "Langue : orthographe",
+     "per_sujet": {
+      "Sujet 1 — grille « Compte rendu objectif »": "0.5 — Orthographe (pas plus de 10 erreurs)",
+      "Sujet 2 — grille « Production libre »": "0.5 — Orthographe (pas, plus de 10 erreurs)"
+     }
+    }
+   },
+   "answer": {
+    "type": "essay_builder",
+    "spec": {
+     "rubric": "Langue : orthographe"
+    }
+   },
+   "explanation": "La production écrite est corrigée avec la grille officielle du sujet choisi (organisation de la production 2 pts, planification de la production 2 pts, utilisation de la langue de façon appropriée 3 pts).",
+   "points": 0.5,
+   "skill_id": "fr.ecriture",
+   "lesson_ref": null,
+   "is_verbatim_original": false,
+   "review_status": "needs_engine_support"
+  }
+ ],
+ "score_total": 20,
+ "modes": [
+  "PRACTICE",
+  "EXAM"
+ ],
+ "review_log": [
+  {
+   "at": "2026-10-29T22:00:00Z",
+   "by": "claude",
+   "action": "generated",
+   "note": "تحويل من ورقة البكالوريا الرّسميّة وإجابتها النّموذجيّة (PDF رقميّان في Drive، طبقة النّصّ مقابَلة بصور الصّفحات)؛ العلامات من سلّم التّنقيط الرّسميّ؛ الإجابات الصّحيحة من الحلّ؛ المشتّتات من إعداد التّحويل وتحتاج مراجعة."
+  }
+ ]
+}

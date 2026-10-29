@@ -197,15 +197,15 @@ def paper1():
 
     # ── A. Comprehension ──
     tf("s01", "q1", "q1-e1", "There is a close relationship between food consumption and mental health.", True,
-       "Key: a. T. “Scientists have illuminated the effects our diet has on our mental health.” (§1)")
+       "Key: a. T. “a Mediterranean diet was as good for our brain as for our body”.")
     tf("s02", "q1", "q1-e2", "No physical illness is linked to diet.", False,
-       "Key: b. F. “the link between our diet and diabetes, heart disease and obesity is well established” (§2).")
+       "Key: b. F. “the link between our diet and diabetes, heart disease and obesity is well established”.")
     tf("s03", "q1", "q1-e3", "Enough research has been carried out on the effects of diet on mental health.", False,
-       "Key: c. F. “there is a lack of research on the influence our dietary intake has on mental health” (§2).")
+       "Key: c. F. “there is a lack of research on the influence our dietary intake has on mental health”.")
     tf("s04", "q1", "q1-e4", "Anxiety and depression are highly connected to excessive junk food consumption.", True,
-       "Key: d. T. “adults under 30 who ate fast food more than three times a week scored higher levels of anxiety and depression” (§3).")
+       "Key: d. T. Adults under 30 “who ate fast food more than three times a week scored higher levels” of anxiety and depression.")
     mcq("s05", "q2", "q2-e1", "In which paragraph is this idea mentioned: “Some types of food alleviate the feeling of unhappiness among the middle-aged.”?",
-        "§3", ["§1", "§2"], "Key: a. § 3 — “for adults over 30, the study found that eating less carbohydrate and more fruit reduced anxiety and depression.”",
+        "§3", ["§1", "§2"], "Key: a. § 3 (Begdache’s findings about adults over 30).",
         1, "en.comprehension")
     mcq("s06", "q2", "q2-e2", "In which paragraph is this idea mentioned: “Mental health boosts healthy physical practices.”?", "§2", ["§1", "§3"],
         "Key: b. § 2 — “They also suggested that mental well-being stimulated healthy eating, healthy practices, and exercising.”", 1, "en.comprehension")
@@ -327,7 +327,7 @@ def paper2():
     mcq("s02", "q2", "q2-e1", "In which paragraph is this idea mentioned: “The writer expresses the need for putting money in space exploration.”?",
         "§4", ["§1", "§2", "§3"], "Key: a. § 4 (Accept the last paragraph) — “We must meet the moment by investing in these missions…”.", 1, "en.comprehension")
     mcq("s03", "q2", "q2-e2", "In which paragraph is this idea mentioned: “The importance of satellites in studying the origins of climate change.”?",
-        "§1", ["§3", "§4"], "Key: b § 1 — “satellites in space have played a critical role in our understanding of the causes of global warming…”.",
+        "§1", ["§3", "§4"], "Key: b § 1.",
         1, "en.comprehension")
     FORMS["q3-e1"] = ["Yes, they have.", "Yes"]
     binary("s04", "q3", "q3-e1", "Have space technologies helped identify the causes of global warming?", "Yes, they have.", "No, they have not.", True,

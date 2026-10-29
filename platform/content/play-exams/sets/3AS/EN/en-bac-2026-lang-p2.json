@@ -474,7 +474,7 @@
     "type": "mcq",
     "correct": 1
    },
-   "explanation": "Key: A- b (oblige). “Deep social and economic issues force children to work” (§2).",
+   "explanation": "Key: A- b (oblige). “Deep social and economic issues force children to work”.",
    "points": 0.5,
    "skill_id": "en.comprehension",
    "lesson_ref": null,
@@ -500,7 +500,7 @@
     "type": "mcq",
     "correct": 1
    },
-   "explanation": "Key: B- c (child’s). “Families in hardship may depend on a child’s income to survive” (§2).",
+   "explanation": "Key: B- c (child’s). Families “may depend on a child’s income to survive”.",
    "points": 0.5,
    "skill_id": "en.comprehension",
    "lesson_ref": null,
@@ -526,7 +526,7 @@
     "type": "mcq",
     "correct": 2
    },
-   "explanation": "Key: C- a (harmful). “Many work in dangerous places like mines, farms, or factories” (§3).",
+   "explanation": "Key: C- a (harmful). “This often leads to injuries, illness, or even death…”.",
    "points": 0.5,
    "skill_id": "en.comprehension",
    "lesson_ref": null,
@@ -580,7 +580,7 @@
     "type": "mcq",
     "correct": 1
    },
-   "explanation": "Key: b- § 5 — “by tackling the root causes of child labour, reporting exploitation, and demanding accountability…”.",
+   "explanation": "Key: b- § 5 (the last paragraph: what “we can” do).",
    "points": 0.25,
    "skill_id": "en.comprehension",
    "lesson_ref": null,

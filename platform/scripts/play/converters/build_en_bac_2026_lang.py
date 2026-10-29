@@ -217,7 +217,7 @@ def paper1():
         "Key: a- an academic journal article (source: “Science, Education and Innovation in the Context of Modern Problems”, Issue 10, Vol. 8).",
         0.5, "en.discourse")
     mcq("s02", "q2", "q2-e1", "In which paragraph is this idea mentioned: “Rome used schools to spread its culture in Africa.”?", "§2", ["§1", "§3"],
-        "Key: a- §2 — “Through these schools, Rome sought to disseminate the ideals of the Roman cities…”.", 0.5, "en.comprehension")
+        "Key: a- §2 — “…serving as an instrument for the diffusion of Romanization among Africans.”", 0.5, "en.comprehension")
     mcq("s03", "q2", "q2-e2", "In which paragraph is this idea mentioned: “The schools of Thagaste and Madauros contributed to the excellence of African intellectuals.”?",
         "§1", ["§2", "§3"],
         "Key: b- §1 — “These institutions represented a fundamental cornerstone in shaping and refining the intellectual character of a number of "
@@ -349,15 +349,15 @@ def paper2():
 
     # ── A/ Comprehension ──
     mcq("s01", "q1", "q1-e1", "Choose the answer to complete the statement: “Social and economic difficulties …….. children to work.”", "oblige",
-        ["help", "hinder"], "Key: A- b (oblige). “Deep social and economic issues force children to work” (§2).", 0.5, "en.comprehension")
+        ["help", "hinder"], "Key: A- b (oblige). “Deep social and economic issues force children to work”.", 0.5, "en.comprehension")
     mcq("s02", "q1", "q1-e2", "Choose the answer to complete the statement: “Poor families survive thanks to the …….. salary.”", "child’s",
-        ["adults’", "people’s"], "Key: B- c (child’s). “Families in hardship may depend on a child’s income to survive” (§2).", 0.5, "en.comprehension")
+        ["adults’", "people’s"], "Key: B- c (child’s). Families “may depend on a child’s income to survive”.", 0.5, "en.comprehension")
     mcq("s03", "q1", "q1-e3", "Choose the answer to complete the statement: “Children often work in ………. settings.”", "harmful",
-        ["safe", "enjoyable"], "Key: C- a (harmful). “Many work in dangerous places like mines, farms, or factories” (§3).", 0.5, "en.comprehension")
+        ["safe", "enjoyable"], "Key: C- a (harmful). “This often leads to injuries, illness, or even death…”.", 0.5, "en.comprehension")
     mcq("s04", "q2", "q2-e1", "In which paragraph is this idea mentioned: “Factors that drive children to child labour.”?", "§2", ["§1", "§3", "§4"],
         "Key: a- § 2 — “Deep social and economic issues force children to work, with poverty as the main cause.”", 0.25, "en.comprehension")
     mcq("s05", "q2", "q2-e2", "In which paragraph is this idea mentioned: “Actions which can be taken to put an end to child labour.”?", "§5", ["§2", "§3", "§4"],
-        "Key: b- § 5 — “by tackling the root causes of child labour, reporting exploitation, and demanding accountability…”.", 0.25, "en.comprehension")
+        "Key: b- § 5 (the last paragraph: what “we can” do).", 0.25, "en.comprehension")
     FORMS["q3-e1"] = ["No, not all jobs are.", "No"]
     binary("s06", "q3", "q3-e1", "Are all jobs harmful for children?", "Yes, they are.", "No, not all jobs are.", False,
            "Key: a- “No, not all jobs are. / No.” (0.25 for No).", 0.25, "en.comprehension")

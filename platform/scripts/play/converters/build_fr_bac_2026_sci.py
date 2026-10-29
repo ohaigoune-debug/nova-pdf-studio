@@ -31,6 +31,9 @@ Conversion decisions (FR pilot fr-bac-2019-lit + guide Appendix A, unified «acc
   main wording; accepted forms never appear as distractors (FORMS + _check()): S1 Q3 (la société a su s’adapter), S1 Q5 «en» /
   «cela» / «nous», S1 Q6 («ont remplacé»), S2 Q3 (le coup dur; un acte important certes, mais non décisif), S2 Q6 «leur» / «le» /
   «on» / «lui».
+- S1 Q2: the right option is the proposition the corrigé underlines («où le travail occuperait une place de moins en moins
+  importante»); the corrigé's full line «Une société où …» is kept as an accepted form (as an option, «société» would echo the
+  question's «Société des loisirs» and give the answer away).
 - S1 Q6 «N.B. : (conjugaison du verbe = 1 pt + suppression de « par » = 0.5 pt)» ⇒ two elements (1 + 0.5), one mcq each; their
   labels stay neutral («forme du verbe», «traitement du complément d’agent») so that the label never gives the answer.
 - Open answers deferred: Q8 of both sujets (four criteria 0.5x4, «à titre indicatif»), production écrite (6 pts).
@@ -259,11 +262,12 @@ def build_p1():
          "les objectifs de la technologie de l’IA pour le marché du travail."],
         "Corrigé : « les conséquences de la technologie de l’IA sur le marché de travail. »", 1.5, "fr.comprehension")
     mcq("s02", "q2", "q2-e1", "Dans le quatrième paragraphe, quelle proposition caractérise « la Société des loisirs » ?",
-        "Une société où le travail occuperait une place de moins en moins importante.",
+        "où le travail occuperait une place de moins en moins importante",
         ["c'est plutôt l'inverse qui s'est produit", "Que nous réserve l'avenir ?",
          "avec quelques décennies de retard sur les prédictions des années 1960"],
         "Corrigé : « Une société où le travail occuperait une place de moins en moins importante. » (la proposition soulignée dans le "
-        "corrigé : « où le travail occuperait une place de moins en moins importante »)", 2, "fr.comprehension")
+        "corrigé : « où le travail occuperait une place de moins en moins importante »)", 2, "fr.comprehension",
+        forms=["Une société où le travail occuperait une place de moins en moins importante."])
     REP = ("Corrigé — Répercussions de l’utilisation massive de l’IA : aspects positifs : la création de nouveaux emplois – la création de "
            "nouveaux secteurs de l’économie (accepter aussi : la société a su s’adapter) ; aspects négatifs : millions de pertes d’emplois – "
            "tensions sociales. (0,5 par expression)")
@@ -320,7 +324,7 @@ def build_p1():
     production("q9", 22, P2, PE, SUJETS, docs)
     return ("بكالوريا 2026 (الدورة العاديّة) – اللغة الفرنسية – الشعب العلمية – الموضوع الأوّل (الذّكاء الاصطناعيّ وعالم الشّغل، Steven GUILBEAULT)",
             ["س1: الحلّ يكتب «marché de travail» والورقة «marché du travail» ⇒ الخيار الصّحيح بلفظ الورقة.",
-             "س2 (2): الحلّ «Une société où le travail occuperait une place de moins en moins importante.» (المسطَّر: الجملة الموصولة)؛ المشتّتات "
+             "س2 (2): الحلّ «Une société où le travail occuperait une place de moins en moins importante.» والمسطَّر فيه الجملة الموصولة «où le travail occuperait…» ⇒ الخيار الصّحيح هو المسطَّر (العبارة الكاملة صيغة مقبولة لا تُعرض مشتّتًا، ولو عُرضت لكشفت كلمةُ «société» الجواب)؛ المشتّتات "
              "قضايا أخرى من الفقرة 4 لا تصف «la Société des loisirs» (لم يُعرض «imaginée dans les années 1960» لأنّه قابل للدّفاع).",
              "س3 «0.5 x 2 + 0.5 x 2» ⇒ عنصران (إيجابيّ 1 / سلبيّ 1)، كلّ منهما multi باختيارين صحيحين؛ «la société a su s’adapter» المقبول لا يُعرض؛ "
              "الحلّ يكتب «l’écononomie» (خطأ مطبعيّ) فكُتب «l’économie». لم يُعرض «remplacés par une combinaison de robots» مشتّتًا للسّلبيّ لأنّه قابل للدّفاع.",
@@ -504,7 +508,7 @@ COMMON_NOTES = [
     "خلافات طبقة النّصّ مع الصّورة (الصّورة هي المرجع): رأس عربيّ معكوس (السّنة «0302»، المدّة «02 سا و 03 د» والصّورة «02 سا و30 د»)، تذييل ص2 "
     "من الحلّ «صفحة 0 من 3» في الطّبقة؛ إحالات الهوامش مرفوعة ⇒ ¹ ² ³؛ «1er/2ème…» المرفوعة كُتبت عاديّة. حُفظ كما طُبع: الفاصلة العليا "
     "المستقيمة «'» في النّصّين وفي بعض الاقتباسات (l'utilisation، n'en، l'avenir، qu'on…) والمنحنية «’» في أغلب الأسئلة، «30% de» في س6 مقابل "
-    "«30 % de» في النّصّ، «promesse...»، و««…,» بلا مسافة في س8 من الموضوع الثّاني.",
+    "«30 % de» في النّصّ، «promesse...»، وعلامة التّنصيص الملتصقة «…, في بداية اقتباس س8 من الموضوع الثّاني.",
     "قرارات عامّة: «n×m» لبنود متمايزة ⇒ عنصر لكلّ بند، ولاختيارات متبادلة من النّصّ ⇒ عنصر واحد بخطوة multi. الخيارات الثّنائيّة (Vrai/Faux، "
     "Défenseurs/Opposants، الطّرف الجزائريّ/الفرنسيّ) تُخزَّن معكوسة لأنّ shuffle_exam_set.py يقلب دائمًا قائمة من خيارين. قاعدة «accepter» الموحَّدة: "
     "صيغة أخرى للجواب نفسه أو قائمة مغلقة ⇒ تفاعليّ (الصّحيح صيغة الحلّ الأولى، والصّيغ المقبولة في الشّرح ولا تكون مشتّتًا أبدًا)؛ الجواب المفتوح "
