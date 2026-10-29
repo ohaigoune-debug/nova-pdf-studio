@@ -119,6 +119,19 @@ Schema: `src/server/play/exams/types.ts` (`ExamSetDocument`). Exemplar: `content
 - If you copy `_check()` from an Arabic builder, widen its skill regex from `ar\.` to `(ar|hist|geo|isl|en|fr|math|phys|svt|tech)\.`.
 - Slugs: `sci` = header lists the scientific streams (علوم تجريبية/رياضيات/تقني رياضي, with or without تسيير واقتصاد), `ge` = تسيير واقتصاد alone, `lit`, `lang`, `litlang` = one paper for both. 2017 had two sessions: add `-s1` (الدورة الأولى/العادية) or `-s2` (الاستثنائية) before `-p1|2`. Identical PDFs filed twice are converted once (say so in `notes`).
 
+### Converting from a ChatGPT source record (owner decision 2026-10-29: ChatGPT transcribes, Claude builds)
+- Records (`madrasa-play-source/1`, prompt in `CHATGPT_SOURCE_PROMPT_AR.md`) are stored unchanged in `content/play-exams/records/<subj>/`.
+  The builder is `scripts/play/source_record.py` (+ `hg_record.py` for history & geography); exemplar: `converters/build_hg_bac_2020_lit.py`.
+- Before building, run `scripts/play/record_wordcheck.py <record> <paper.pdf> --correction <correction.pdf>`: it rebuilds the ONEC text layer
+  from glyph positions and lists the record's words that the layer lacks. Check every listed word and every number on the page image
+  (the layer scrambles digits and drops some hamzas). Confirmed transcription mistakes go into the converter's `FIXES`
+  (the record file is never edited); the set's `source.notes` lists them.
+- Documents no question refers to are material from the correction (model maps/charts/paragraphs): never shown, never cropped.
+- Every used figure is looked at after cropping; a frame that clips the drawing or includes the page header is replaced in `FIGURES`.
+- Table rows with a fixed official answer may be interactive (`table_step`); a misprinted official answer (e.g. «1989/12/04/03») stays deferred.
+- «علّق على…» on a printed numeric table: one `multi` step (`comment_step`) — right = the correction's bullets, wrong = 2–3 statements
+  contradicted by the printed numbers, in the same spelling style; option endings are normalised so punctuation never gives the answer.
+
 ### Decisions fixed by the English pilot (en-bac-2019-lit-p1/p2) — apply to EN/FR and, where relevant, to all subjects
 - Run `pdffonts` first: when the PDF has a text layer, take verbatim text from `pdftotext -raw` (strip U+202B/U+202C; if Arabic comes out reversed, use the image) and tables from `pdftotext -layout`, and **still check every line against the page image** (underlines, bold and cell positions only show there); verify all verbatim strings are substrings of the text layer with a small script. No fonts ⇒ scan ⇒ transcribe from images. Marks always from the correction image.
 - One element per item the key marks separately; a single ordering/gap-fill/matching task may stay one element + one step only when the engine's partial grading reproduces the key's per-item marks exactly. When the key grades «the opening sentence + each logical pair», split into mcq steps (opening sentence; «which comes right after …») instead of one `ordering`.
