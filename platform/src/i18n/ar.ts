@@ -1273,6 +1273,7 @@ const ar = {
     course_lesson_move: 'تغيير ترتيب درس',
     uploader_create: 'إنشاء رافع محتوى',
     uploader_courses: 'إسناد دورات لرافع محتوى',
+    settings_student_menu: 'تعديل أقسام حساب التلميذ',
     course_codes_generate: 'ولّد أكواد تفعيل لدورة',
     course_codes_disable: 'عطّل دفعة أكواد تفعيل',
     course_code_redeem: 'فعّل دورة بكود',

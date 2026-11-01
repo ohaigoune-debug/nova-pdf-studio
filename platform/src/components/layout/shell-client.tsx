@@ -12,6 +12,8 @@ import { Button } from '@/components/ui/button'
 import { t, tEnum } from '@/i18n'
 import { cn } from '@/lib/utils'
 import { logoutAction } from '@/server/actions/auth.actions'
+import { HiddenPathsProvider } from '@/components/student/hidden-paths'
+import { isPathHidden } from '@/lib/student-menu'
 
 export interface ShellNavItem {
   href: string
@@ -47,11 +49,13 @@ export function ShellClient({
   actor,
   sections,
   unread,
+  hidden = [],
   children
 }: {
   actor: { fullName: string; email: string; role: string }
   sections: ShellSection[]
   unread: number
+  hidden?: string[]
   children: ReactNode
 }) {
   const pathname = usePathname()
@@ -189,22 +193,22 @@ export function ShellClient({
         </header>
         {/* للتلميذ: الهامش السفلي من .student-content (100px فوق شريط التنقل الثابت في الهاتف)؛ py-6 كانت تلغيه فيُغطّي الشريط آخر عنصر في الصفحة */}
         <main className={cn("flex-1 px-4 pt-6 lg:px-8 lg:pt-8", actor.role === 'STUDENT' ? "student-content" : "pb-6 lg:pb-8")}>
-          <div className="mx-auto w-full max-w-7xl animate-fade-in">{children}</div>
+          <div className="mx-auto w-full max-w-7xl animate-fade-in"><HiddenPathsProvider hidden={hidden}>{children}</HiddenPathsProvider></div>
         </main>
         {actor.role === 'STUDENT' ? (
           <nav aria-label="التنقل الرئيسي للتلميذ" className="student-bottom-nav no-print fixed inset-x-0 bottom-0 z-40 border-t bg-card shadow-soft lg:hidden">
-            <div className="mx-auto grid h-[68px] max-w-lg grid-cols-5 items-center px-2">
+            <div className="mx-auto grid h-[68px] max-w-lg grid-flow-col auto-cols-fr items-center px-2">
               {[
                 { href: '/student', label: 'الرئيسية', icon: Home },
                 { href: '/student/lessons', label: 'دروسي', icon: BookOpenText },
                 { href: '/student/courses/catalog', label: 'استكشف', icon: Compass },
                 { href: '/student/courses', label: 'دوراتي', icon: GraduationCap },
                 { href: '/student/profile', label: 'حسابي', icon: UserRound }
-              ].map((item, i) => {
+              ].filter((item) => !isPathHidden(item.href, hidden)).map((item) => {
                 const active = item.href === '/student' ? pathname === item.href : item.href === '/student/courses' ? matches(item.href, false) && !matches('/student/courses/catalog', false) : matches(item.href, false)
                 return (
                   <Link key={item.href} href={item.href} aria-current={active ? 'page' : undefined} className={cn('flex min-h-11 flex-col items-center justify-center gap-1 rounded-md text-[11px] font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring', active ? 'text-primary' : 'text-muted-foreground')}>
-                    <span className={cn('flex items-center justify-center', i === 2 && '-mt-5 size-12 rounded-full bg-primary text-primary-foreground shadow-soft ring-4 ring-card', i !== 2 && active && 'rounded-full bg-secondary px-3 py-0.5')}><item.icon className="size-5" /></span>
+                    <span className={cn('flex items-center justify-center', item.href === '/student/courses/catalog' && '-mt-5 size-12 rounded-full bg-primary text-primary-foreground shadow-soft ring-4 ring-card', item.href !== '/student/courses/catalog' && active && 'rounded-full bg-secondary px-3 py-0.5')}><item.icon className="size-5" /></span>
                     {item.label}
                   </Link>
                 )

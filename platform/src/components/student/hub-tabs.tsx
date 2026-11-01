@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { STUDENT_HUBS, type StudentHubKey } from '@/lib/student-hubs'
+import { isPathHidden } from '@/lib/student-menu'
+import { useHiddenPaths } from './hidden-paths'
 
 /**
  * شريط تبويبات «المجمّعات» في واجهة التلميذ: صفحات متشابهة دُمجت تحت مدخل واحد في القائمة
@@ -12,11 +14,12 @@ import { STUDENT_HUBS, type StudentHubKey } from '@/lib/student-hubs'
  */
 export function HubTabs({ hub }: { hub: StudentHubKey }) {
   const pathname = usePathname()
+  const hidden = useHiddenPaths()
   const def: { label: string; tabs: readonly { href: string; label: string; exact?: boolean }[] } = STUDENT_HUBS[hub]
   const isActive = (href: string, exact?: boolean) => (exact ? pathname === href : pathname === href || pathname.startsWith(href + '/'))
   return (
     <nav className="mb-5 -mx-1 flex gap-1 overflow-x-auto border-b px-1 pb-px" aria-label={def.label}>
-      {def.tabs.map((tab) => {
+      {def.tabs.filter((tab) => !isPathHidden(tab.href, hidden)).map((tab) => {
         const active = isActive(tab.href, tab.exact)
         return (
           <Link

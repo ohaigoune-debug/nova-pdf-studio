@@ -62,6 +62,7 @@ export function middleware(req: NextRequest) {
   requestHeaders.delete(IOS_PRESENTATION_HEADER)
   if (ios.enabled) requestHeaders.set(IOS_PRESENTATION_HEADER, IOS_PRESENTATION_VALUE)
   requestHeaders.set('x-nonce', nonce)
+  requestHeaders.set('x-pathname', pathname)
   requestHeaders.set('Content-Security-Policy', csp)
   const fromApp = req.nextUrl.searchParams.get('source') === APP_SOURCE
   const inApp = fromApp || req.cookies.get(APP_COOKIE)?.value === '1'

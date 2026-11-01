@@ -7,6 +7,8 @@ import { getDb } from '@/server/db/client'
 import type { Actor } from '@/server/lib/actor'
 import { unreadCount } from '@/server/services/notifications.service'
 import { navFor, type NavItem } from './nav'
+import { expandHidden, isPathHidden } from '@/lib/student-menu'
+import { getHiddenStudentEntries } from '@/server/services/student-menu.service'
 import { ShellClient, type ShellNavItem } from './shell-client'
 
 export async function AppShell({ actor, children }: { actor: Actor; children: ReactNode }) {
@@ -19,13 +21,16 @@ export async function AppShell({ actor, children }: { actor: Actor; children: Re
     href: i.href, label: i.label, exact: i.exact ?? false, iconKey: i.iconKey, also: i.also ?? [],
     children: i.children?.map(serializeItem)
   })
+  const hidden = actor.role === 'STUDENT' ? expandHidden(await getHiddenStudentEntries(await getDb())) : []
+  // مدخل مجمّع يختفي حين تُخفى كل تبويباته
+  const visible = (i: NavItem) => !isPathHidden(i.href, hidden) || (i.also ?? []).some((h) => !isPathHidden(h, hidden))
   const sections = navFor(actor.role).map((s) => ({
     title: s.title,
     collapsible: s.collapsible,
-    items: s.items.map(serializeItem)
-  }))
+    items: s.items.filter(visible).map((i) => ({ ...serializeItem(i), href: isPathHidden(i.href, hidden) ? ((i.also ?? []).find((h) => !isPathHidden(h, hidden)) ?? i.href) : i.href }))
+  })).filter((s) => s.items.length > 0)
   return (
-    <ShellClient actor={{ fullName: actor.fullName, email: actor.email, role: actor.role }} sections={sections} unread={unread}>
+    <ShellClient actor={{ fullName: actor.fullName, email: actor.email, role: actor.role }} sections={sections} unread={unread} hidden={hidden}>
       {children}
     </ShellClient>
   )
