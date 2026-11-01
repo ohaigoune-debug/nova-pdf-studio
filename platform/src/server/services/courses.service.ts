@@ -46,7 +46,7 @@ import { addTimeline } from './timeline.service'
 
 export const COURSE_STATUS_AR: Record<CourseStatus, string> = { DRAFT: 'مسودة', PUBLISHED: 'منشورة', ARCHIVED: 'مؤرشفة' }
 export const COURSE_PLAN_AR: Record<string, string> = { ANNUAL: 'اشتراك سنوي', TERM: 'اشتراك فصلي' }
-export const ENROLLMENT_SOURCE_AR: Record<EnrollmentSource, string> = { BOOK_ORDER: 'شراء الكتاب', MANUAL: 'تفعيل يدوي', GIFT: 'هدية', CLAIM: 'رمز مطالبة', CODE: 'كود الكتاب' }
+export const ENROLLMENT_SOURCE_AR: Record<EnrollmentSource, string> = { BOOK_ORDER: 'شراء الكتاب', MANUAL: 'تفعيل يدوي', GIFT: 'هدية', CLAIM: 'رمز مطالبة', CODE: 'كود الكتاب', ONLINE_PAYMENT: 'دفع إلكتروني' }
 export const ENROLLMENT_STATUS_AR: Record<string, string> = { ACTIVE: 'نشط', EXPIRED: 'منتهٍ', REVOKED: 'ملغى' }
 
 /** رمز مادة المنصة (subjects.code) → رمز مادة PLAY */

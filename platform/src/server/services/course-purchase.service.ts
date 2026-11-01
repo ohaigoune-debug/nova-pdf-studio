@@ -165,6 +165,8 @@ export interface PlaceCourseOrderInput {
   deliveryType?: 'HOME' | 'DESK' | null
   note?: string | null
   otpCode?: string | null
+  /** «ادفع الآن» بالبطاقة (Guiddini/SATIM): تُفعَّل الدورة فور تأكّد الخادم من الدفع */
+  payNow?: boolean
 }
 
 export interface PlacedCourseOrder {
@@ -175,6 +177,8 @@ export interface PlacedCourseOrder {
   priceDzd: number
   shippingDzd: number
   totalDzd: number
+  /** «ادفع الآن»: رابط صفحة SATIM التي يُحوَّل إليها الولي */
+  payUrl?: string
 }
 
 /** ملخّص السعر من الخادم (للعرض قبل التأكيد) */
@@ -225,12 +229,29 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
     .innerJoin(orders, eq(orders.id, orderItems.orderId))
     .where(and(eq(orderItems.courseId, c.id), eq(orders.userId, actor.userId), inArray(orders.status, OPEN)))
     .limit(1)
-  if (open) throw new AppError('COURSE_ORDER_OPEN', { number: open.number })
+  if (open) {
+    // دفع إلكتروني لم يكتمل لهذه الدورة: يُفحص الآن؛ إن بقي معلّقًا يُعاد رابطه نفسه بدل طلب ثانٍ
+    const { pendingPaymentForCourse, verifyPayment } = await import('./online-payment.service')
+    const pending = await pendingPaymentForCourse(db, actor.userId, c.id)
+    if (!pending) throw new AppError('COURSE_ORDER_OPEN', { number: open.number })
+    const v = await verifyPayment(db, pending.id).catch(() => null)
+    if (v?.status === 'PAID') throw new AppError('ALREADY_ENROLLED')
+    if (v?.status === 'PENDING' && input.payNow && pending.formUrl) return { id: pending.orderId, number: open.number, status: 'PENDING', bookTitle: state.book.title, priceDzd: state.book.priceDzd, shippingDzd: 0, totalDzd: pending.amountDzd, payUrl: pending.formUrl }
+    if (v?.status === 'PENDING') throw new AppError('COURSE_ORDER_OPEN', { number: open.number })
+  }
+  const payNow = Boolean(input.payNow)
+  if (payNow) {
+    const { onlinePaymentEnabled } = await import('@/server/lib/guiddini')
+    if (!(await onlinePaymentEnabled(db))) throw new AppError('PAYMENT_NOT_CONFIGURED')
+  }
 
   // كل طلب دورة يتأكد برمز جديد؛ تحقق التسجيل لا يستهلك تأكيد الطلب.
   const [policy, channels] = await Promise.all([storePolicy(db), import('./phone-gate.service').then((m) => m.phoneChannels(db))])
   let otpVerifiedAt: Date | null = null
-  if (channels.sms) {
+  // الدفع بالبطاقة يُثبت جدية الطلب بنفسه: لا رمز SMS
+  if (payNow) {
+    /* بلا رمز */
+  } else if (channels.sms) {
     if (!input.otpCode?.trim()) throw new AppError('ORDER_OTP_REQUIRED')
     await verifyOtp(db, { phone, purpose: 'ORDER', code: input.otpCode, userId: actor.userId })
     otpVerifiedAt = new Date()
@@ -256,12 +277,23 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
     if (!reserved) throw new AppError('OUT_OF_STOCK', { product: bookTitle })
     const [o] = await tx
       .insert(orders)
-      .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: 'COD', needsShipping: true, subtotalDzd: price, shippingDzd: shipping, totalDzd: total, customerName: (input.customerName?.trim() || actor.fullName).slice(0, 120), phone, wilayaId: input.wilayaId, streamId: st?.streamId ?? null, otpVerifiedAt, beneficiaryStudentId: studentId, address: input.address.trim().slice(0, 400), commune, deliveryType, note: [`دورة: ${c.title}`, input.note?.trim()].filter(Boolean).join(' — ').slice(0, 500) })
+      .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: payNow ? 'ONLINE' : 'COD', needsShipping: true, subtotalDzd: price, shippingDzd: shipping, totalDzd: total, customerName: (input.customerName?.trim() || actor.fullName).slice(0, 120), phone, wilayaId: input.wilayaId, streamId: st?.streamId ?? null, otpVerifiedAt, beneficiaryStudentId: studentId, address: input.address.trim().slice(0, 400), commune, deliveryType, note: [`دورة: ${c.title}`, payNow ? 'دفع إلكتروني' : null, input.note?.trim()].filter(Boolean).join(' — ').slice(0, 500) })
       .returning()
     await tx.insert(orderItems).values({ orderId: o!.id, productId: bookId, courseId: c.id, title: bookTitle, type: 'BOOK', unitPriceDzd: price, qty: 1, lineTotalDzd: price })
     return o!
   })
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'store.order_place', entityType: 'order', entityId: order.id, newValue: { number: order.number, courseId: c.id, bookId, price, shipping, total } })
+  if (payNow) {
+    const { startOrderPayment } = await import('./online-payment.service')
+    try {
+      const pay = await startOrderPayment(db, { orderId: order.id, userId: actor.userId, amountDzd: total })
+      return { id: order.id, number: order.number, status: order.status, bookTitle, priceDzd: price, shippingDzd: shipping, totalDzd: total, payUrl: pay.formUrl }
+    } catch (err) {
+      // البوابة رفضت أو لم تُجب: يُلغى الطلب فورًا ويعود الكتاب للمخزون
+      await transitionOrder(db, order.id, 'CANCELLED', { actorUserId: actor.userId, source: 'system', reason: 'تعذّر بدء الدفع الإلكتروني' }).catch(() => null)
+      throw err
+    }
+  }
   if (otpVerifiedAt) {
     const r = await transitionOrder(db, order.id, 'CONFIRMED', { actorUserId: actor.userId, source: 'sms' })
     return { id: order.id, number: order.number, status: r.order.status, bookTitle, priceDzd: price, shippingDzd: shipping, totalDzd: total }

@@ -222,7 +222,8 @@ export type DeliveryType = (typeof DELIVERY_TYPES)[number]
 export const CALL_EVENT_RESULTS = ['confirmed', 'already_confirmed', 'no_order', 'invalid_phone', 'disabled', 'phone_verified'] as const
 export type CallEventResult = (typeof CALL_EVENT_RESULTS)[number]
 /** الدفع عند الاستلام (مادي)، تحويل (CCP/BaridiMob يؤكّده المشرف)، مجاني */
-export const PAYMENT_METHODS = ['COD', 'TRANSFER', 'FREE'] as const
+/** ONLINE: الدفع الإلكتروني (Guiddini/SATIM) — 1 نوفمبر 2026 */
+export const PAYMENT_METHODS = ['COD', 'TRANSFER', 'FREE', 'ONLINE'] as const
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number]
 
 /* ───────────── سوق الأساتذة (Marketplace) ───────────── */
@@ -252,7 +253,7 @@ export type FeedbackStatus = (typeof FEEDBACK_STATUSES)[number]
 export const COURSE_STATUSES = ['DRAFT', 'PUBLISHED', 'ARCHIVED'] as const
 export type CourseStatus = (typeof COURSE_STATUSES)[number]
 /** مصدر الاشتراك: تسليم طلب كتاب، تفعيل يدوي من الإدارة، هدية/منحة، مطالبة بالرمز (وليّ الأمر) */
-export const ENROLLMENT_SOURCES = ['BOOK_ORDER', 'MANUAL', 'GIFT', 'CLAIM', 'CODE'] as const
+export const ENROLLMENT_SOURCES = ['BOOK_ORDER', 'MANUAL', 'GIFT', 'CLAIM', 'CODE', 'ONLINE_PAYMENT'] as const
 export type EnrollmentSource = (typeof ENROLLMENT_SOURCES)[number]
 export const COURSE_ENROLLMENT_STATUSES = ['ACTIVE', 'EXPIRED', 'REVOKED'] as const
 export type CourseEnrollmentStatus = (typeof COURSE_ENROLLMENT_STATUSES)[number]
