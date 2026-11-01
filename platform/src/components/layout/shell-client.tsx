@@ -1,9 +1,9 @@
 'use client'
 
-import { Compass, Home, GraduationCap, UserRound, Bell, BookOpenText, LogOut, Menu, Search, X } from 'lucide-react'
+import { ArrowRight, Compass, Home, GraduationCap, UserRound, Bell, BookOpenText, LogOut, Menu, Search, X } from 'lucide-react'
 import * as Icons from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState, type ReactNode } from 'react'
 import { Logo } from '@/components/brand/logo'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -59,6 +59,7 @@ export function ShellClient({
   children: ReactNode
 }) {
   const pathname = usePathname()
+  const router = useRouter()
   const [open, setOpen] = useState(false)
   const base = pathname.split('/')[1] ?? ''
   const notificationsHref = `/${base}/notifications`
@@ -158,6 +159,21 @@ export function ShellClient({
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="no-print sticky top-0 z-40 flex h-[72px] items-center gap-2 brand-header px-4 backdrop-blur-xl lg:px-8">
+          {/* رجوع ظاهر على الهاتف في كل صفحة غير الرئيسية (لا زر رجوع في الآيفون): السجل إن وُجد، وإلا الصفحة الأم */}
+          {pathname.split('/').filter(Boolean).length > 1 ? (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              aria-label="رجوع"
+              onClick={() => {
+                if (window.history.length > 1 && document.referrer.startsWith(window.location.origin)) router.back()
+                else router.push(pathname.split('/').slice(0, -1).join('/') || '/')
+              }}
+            >
+              <ArrowRight className="size-5 ltr:rotate-180" />
+            </Button>
+          ) : null}
           <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(true)} aria-label="القائمة">
             <Menu className="size-5" />
           </Button>
