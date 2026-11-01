@@ -20,8 +20,8 @@ const LEGACY_ENTRIES = [
   '/student/practice',
   '/student/grades',
   '/student/progress',
-  '/student/files',
-  '/student/videos'
+  '/student/files'
+  // /student/videos: مكتبة يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ الصفحة تحوّل إلى /student/lessons
 ]
 
 /** روابط الإشعارات التي يولّدها الخادم للتلميذ (notifications.service وغيرها) */

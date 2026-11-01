@@ -274,15 +274,9 @@ export async function saveCourseLesson(db: Db, actor: Actor, courseId: string, l
     if (!row) throw new AppError('INTERNAL')
     saved = row
   }
-  await writeAudit(db, {
-    actorUserId: actor.userId,
-    workspaceId: course.workspaceId,
-    action: current ? 'course.lesson_update' : 'course.lesson_create',
-    entityType: 'content',
-    entityId: saved.id,
-    oldValue: current ? { title: current.title, published: Boolean(current.publishedAt), fileId: current.fileId, video: current.videoProvider } : undefined,
-    newValue: { courseId: course.id, title, published: Boolean(saved.publishedAt), fileId: saved.fileId, video: saved.videoProvider, bunnyVideoId: saved.bunnyVideoId }
-  })
+  const newValue = { courseId: course.id, title, published: Boolean(saved.publishedAt), fileId: saved.fileId, video: saved.videoProvider, bunnyVideoId: saved.bunnyVideoId }
+  if (current) await writeAudit(db, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'course.lesson_update', entityType: 'content', entityId: saved.id, oldValue: { title: current.title, published: Boolean(current.publishedAt), fileId: current.fileId, video: current.videoProvider }, newValue })
+  else await writeAudit(db, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'course.lesson_create', entityType: 'content', entityId: saved.id, newValue })
   if (saved.publishedAt && !current?.publishedAt) await notifyCourseStudents(db, course, saved)
   return saved
 }
@@ -294,7 +288,8 @@ export async function setCourseLessonPublished(db: Db, actor: Actor, courseId: s
   if (published === Boolean(c.publishedAt)) return
   if (published && !c.fileId && !c.videoProvider && !c.externalUrl) throw new AppError('LESSON_EMPTY')
   const [row] = await db.update(content).set({ publishedAt: published ? new Date() : null, updatedAt: new Date() }).where(eq(content.id, c.id)).returning()
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: published ? 'course.lesson_publish' : 'course.lesson_unpublish', entityType: 'content', entityId: c.id, newValue: { courseId: course.id, title: c.title } })
+  if (published) await writeAudit(db, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'course.lesson_publish', entityType: 'content', entityId: c.id, newValue: { courseId: course.id, title: c.title } })
+  else await writeAudit(db, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'course.lesson_unpublish', entityType: 'content', entityId: c.id, newValue: { courseId: course.id, title: c.title } })
   if (published && row) await notifyCourseStudents(db, course, row)
 }
 
