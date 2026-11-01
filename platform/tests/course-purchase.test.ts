@@ -106,13 +106,43 @@ describe('1. الشراء يشمل الكتاب والإجمالي من الخا
     await expectCode(() => buy(s3, c.id), 'COURSE_NOT_PURCHASABLE')
   })
 
-  it('حارس النشر: دورة مدفوعة بلا كتاب لا تُنشر؛ الدورة المجانية تُنشر', async () => {
+  it('الكتاب اختياري (قرار المالك 1 نوفمبر 2026): دورة مدفوعة بلا كتاب تُنشر ولا تُطلب بالدفع عند الاستلام', async () => {
     const c = await createCourse(h.db, admin, { title: 'مدفوعة بلا كتاب', workspaceId, season: '2026/2027', status: 'DRAFT', priceDzd: 2000 })
-    await expectCode(() => setCourseStatus(h.db, admin, c.id, 'PUBLISHED'), 'COURSE_BOOK_REQUIRED')
-    await expectCode(() => createCourse(h.db, admin, { title: 'منشورة مباشرة', workspaceId, season: '2026/2027', status: 'PUBLISHED', priceDzd: 2000 }), 'COURSE_BOOK_REQUIRED')
-    const free = await createCourse(h.db, admin, { title: 'مجانية', workspaceId, season: '2026/2027', status: 'DRAFT' })
-    await setCourseStatus(h.db, admin, free.id, 'PUBLISHED')
-    await expect(assertCoursePublishable(h.db, { bookProductId: null, priceDzd: 0 })).resolves.toBeUndefined()
+    await setCourseStatus(h.db, admin, c.id, 'PUBLISHED')
+    const direct = await createCourse(h.db, admin, { title: 'منشورة مباشرة', workspaceId, season: '2026/2027', status: 'PUBLISHED', priceDzd: 2000 })
+    expect(direct.status).toBe('PUBLISHED')
+    await expect(assertCoursePublishable(h.db, { bookProductId: null, priceDzd: 2000 })).resolves.toBeUndefined()
+    // بلا كتاب: لا شراء بالدفع عند الاستلام (لا شيء يُسلَّم) — التفعيل بالأكواد أو يدويًّا
+    const nb = await makeStudent(h.db, 'بلا كتاب')
+    await expectCode(() => buy(nb, c.id), 'COURSE_NOT_PURCHASABLE')
+    // ولا تنبيه «الشراء متوقف» للإدارة: الدورة بلا كتاب اختيار مقصود
+    expect((await publishedCoursesBlocked(h.db)).some((x) => x.id === c.id)).toBe(false)
+  })
+
+  it('حارس النشر يرفض فقط كتابًا مرفقًا محذوفًا أو غير ورقي؛ الكتاب الموقوف لا يمنع النشر', async () => {
+    const c = await createCourse(h.db, admin, { title: 'كتاب موقوف', workspaceId, season: '2026/2027', status: 'DRAFT' })
+    await setCourseBook(h.db, admin, c.id, { title: 'كتاب موقوف', priceDzd: 1500, stock: null, active: false })
+    await setCourseStatus(h.db, admin, c.id, 'PUBLISHED')
+    expect((await courseBookStateById(h.db, c.id)).issue).toBe('BOOK_NOT_PUBLISHED')
+    const d = await createCourse(h.db, admin, { title: 'كتاب محذوف', workspaceId, season: '2026/2027', status: 'DRAFT' })
+    const st = await setCourseBook(h.db, admin, d.id, { title: 'كتاب سيُحذف', priceDzd: 1500, stock: null, active: true })
+    await h.db.update(products).set({ deletedAt: new Date() }).where(eq(products.id, st.book!.id))
+    await expectCode(() => setCourseStatus(h.db, admin, d.id, 'PUBLISHED'), 'COURSE_BOOK_REQUIRED')
+  })
+
+  it('إزالة الكتاب: الدورة تصبح بلا كتاب، والمنتج يتوقف بيعه ولا يُحذف، والطلبات القديمة تبقى', async () => {
+    const c = await paidCourse(1800, null)
+    const s = await makeStudent(h.db, 'قبل الإزالة')
+    const o = await buy(s, c.id)
+    const bookId = (await courseBookStateById(h.db, c.id)).book!.id
+    const { removeCourseBook } = await import('@/server/services/course-purchase.service')
+    const after = await removeCourseBook(h.db, admin, c.id)
+    expect(after.book).toBeNull()
+    const [p] = await h.db.select().from(products).where(eq(products.id, bookId))
+    expect(p!.status).toBe('DRAFT')
+    expect(p!.deletedAt).toBeNull()
+    await deliver(o.id)
+    expect((await enrollmentsOf(s.studentId!)).map((e) => e.courseId)).toEqual([c.id])
   })
 })
 
@@ -296,7 +326,8 @@ describe('6. الطلبات القديمة والاشتراكات الحالية
     await publishLegacyCourse(h.db, c.id)
     const old = await makeStudent(h.db, 'مشترك محفوظ')
     await enrollStudent(h.db, admin, { courseId: c.id, studentId: old.studentId!, source: 'MANUAL' })
-    expect((await publishedCoursesBlocked(h.db)).some((x) => x.id === c.id)).toBe(true)
+    // بلا كتاب = دورة رقمية مقصودة (1 نوفمبر 2026): لا تنبيه، والشراء بالدفع عند الاستلام غير متاح
+    expect((await publishedCoursesBlocked(h.db)).some((x) => x.id === c.id)).toBe(false)
     const s = await makeStudent(h.db, 'يريد الشراء')
     await expectCode(() => buy(s, c.id), 'COURSE_NOT_PURCHASABLE')
     expect((await h.db.select({ st: courses.status }).from(courses).where(eq(courses.id, c.id)))[0]!.st).toBe('PUBLISHED')

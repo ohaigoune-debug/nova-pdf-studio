@@ -71,6 +71,8 @@ async function reconcileClassification(db: Db, input: { curriculumNodeId?: strin
 
 /** يشتق حقول الفيديو من المدخلات: معرّف يوتيوب مُتحقَّق منه أو ملف مرفوع */
 function videoFields(input: Partial<ContentInput>): Partial<typeof content.$inferInsert> {
+  // درس الدورة (LESSON): فيديوه (Bunny/يوتيوب) يُدار من محرّر دروس الدورة؛ نموذج المحتوى العام لا يمسحه
+  if (input.type === 'LESSON') return {}
   if (input.type !== 'VIDEO') return { videoProvider: null, youtubeId: null, bunnyVideoId: null }
   const provider = input.videoProvider ?? (input.fileId ? 'UPLOAD' : 'YOUTUBE')
   if (provider === 'YOUTUBE') {

@@ -6,6 +6,7 @@ import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { COURSE_STATUSES, ENROLLMENT_SOURCES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
+import { AppError } from '@/server/lib/errors'
 import {
   acceptTerms,
   createCourse,
@@ -76,21 +77,43 @@ function fromForm(fd: FormData) {
   }
 }
 
-/** إنشاء/تعديل دورة من نموذج (مع غلاف اختياري) */
+/** كتاب اختياري عند إنشاء الدورة (قرار المالك 1 نوفمبر 2026): سعره هو سعر الدورة */
+const newBookSchema = z.object({
+  bookTitle: z.string().trim().min(2, 'اسم الكتاب').max(200),
+  bookStock: z.number().int().min(0, 'المخزون 0 أو أكثر').nullable(),
+  priceDzd: z.coerce.number().int().min(1, 'الدورة ذات الكتاب سعرها 1 دج على الأقل').max(1_000_000)
+})
+
+async function uploadImage(db: Awaited<ReturnType<typeof getDb>>, actor: Awaited<ReturnType<typeof requireRole>>, file: FormDataEntryValue | null): Promise<string | null> {
+  if (!(file instanceof File) || file.size === 0) return null
+  if (!file.type.startsWith('image/')) throw new AppError('FILE_TYPE_NOT_ALLOWED')
+  const f = await uploadFile(db, actor, { originalName: file.name, mimeType: file.type, bytes: Buffer.from(await file.arrayBuffer()) })
+  return f.id
+}
+
+/** إنشاء/تعديل دورة من نموذج (مع غلاف اختياري، وكتاب اختياري عند الإنشاء) */
 export async function saveCourseAction(_prev: ActionResult<{ id: string }> | null, fd: FormData): Promise<ActionResult<{ id: string }>> {
   const id = fd.get('id')
+  const isNew = !(typeof id === 'string' && id)
   const parsed = courseSchema.safeParse(fromForm(fd))
   if (!parsed.success) return failValidation(parsed.error)
+  const withBook = isNew && fd.get('withBook') === 'on'
+  const stockRaw = String(fd.get('bookStock') ?? '').trim()
+  const book = withBook ? newBookSchema.safeParse({ bookTitle: fd.get('bookTitle') ?? '', bookStock: stockRaw === '' ? null : Number(stockRaw), priceDzd: fd.get('priceDzd') ?? 0 }) : null
+  if (book && !book.success) return failValidation(book.error)
   const result = await runAction(async () => {
     const actor = await requireRole('SUPER_ADMIN')
     const db = await getDb()
     const input: CourseInput = { ...parsed.data }
-    const cover = fd.get('cover')
-    if (cover instanceof File && cover.size > 0) {
-      const f = await uploadFile(db, actor, { originalName: cover.name, mimeType: cover.type || 'application/octet-stream', bytes: Buffer.from(await cover.arrayBuffer()) })
-      input.coverFileId = f.id
+    const coverId = await uploadImage(db, actor, fd.get('cover'))
+    if (coverId) input.coverFileId = coverId
+    if (!isNew) return { id: (await updateCourse(db, actor, id as string, input)).id }
+    const bookCoverId = book?.success ? await uploadImage(db, actor, fd.get('bookCover')) : null
+    const row = await createCourse(db, actor, input)
+    if (book?.success) {
+      const { setCourseBook } = await import('@/server/services/course-purchase.service')
+      await setCourseBook(db, actor, row.id, { title: book.data.bookTitle, priceDzd: book.data.priceDzd, stock: book.data.bookStock, active: true, coverFileId: bookCoverId })
     }
-    const row = typeof id === 'string' && id ? await updateCourse(db, actor, id, input) : await createCourse(db, actor, input)
     return { id: row.id }
   })
   if (result.ok) revalidate(result.data.id)
@@ -248,7 +271,7 @@ export async function releaseCourseCodeAction(code: string, revokeEnrollment: bo
 
 /* ───────────── الكتاب المرفق بالدورة ───────────── */
 
-/** المشرف: إنشاء/تعديل الكتاب المرفق بالدورة (سعره = سعر الدورة) من صفحة الدورة */
+/** المشرف: إنشاء/تعديل الكتاب المرفق بالدورة (سعره = سعر الدورة) من صفحة الدورة، مع صورة غلاف اختيارية */
 export async function setCourseBookAction(_prev: ActionResult<{ purchasable: boolean }> | null, fd: FormData): Promise<ActionResult<{ purchasable: boolean }>> {
   const stockRaw = String(fd.get('stock') ?? '').trim()
   const parsed = z
@@ -257,7 +280,10 @@ export async function setCourseBookAction(_prev: ActionResult<{ purchasable: boo
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
     const { setCourseBook } = await import('@/server/services/course-purchase.service')
-    const s = await setCourseBook(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data.courseId, { title: parsed.data.title, priceDzd: parsed.data.priceDzd, stock: parsed.data.stock, active: parsed.data.active })
+    const actor = await requireRole('SUPER_ADMIN')
+    const db = await getDb()
+    const coverFileId = await uploadImage(db, actor, fd.get('cover'))
+    const s = await setCourseBook(db, actor, parsed.data.courseId, { title: parsed.data.title, priceDzd: parsed.data.priceDzd, stock: parsed.data.stock, active: parsed.data.active, coverFileId })
     return { purchasable: s.purchasable }
   })
   if (result.ok) {
@@ -277,5 +303,21 @@ export async function chooseCourseBookAction(courseId: string, productId: string
     return undefined
   })
   if (result.ok) revalidatePath(`/admin/courses/${courseId}`)
+  return result
+}
+
+/** المشرف: إزالة الكتاب من الدورة (تصبح بلا كتاب؛ المنتج يُوقف بيعه ولا يُحذف) */
+export async function removeCourseBookAction(courseId: string): Promise<ActionResult> {
+  const parsed = z.string().uuid().safeParse(courseId)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const { removeCourseBook } = await import('@/server/services/course-purchase.service')
+    await removeCourseBook(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data)
+    return undefined
+  })
+  if (result.ok) {
+    revalidatePath(`/admin/courses/${parsed.data}`)
+    revalidatePath('/admin/courses')
+  }
   return result
 }

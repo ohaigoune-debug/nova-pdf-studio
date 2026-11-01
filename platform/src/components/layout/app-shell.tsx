@@ -14,7 +14,7 @@ export async function AppShell({ actor, children }: { actor: Actor; children: Re
   if (actor.role === 'STUDENT' && (await headers()).get(IOS_PRESENTATION_HEADER) === IOS_PRESENTATION_VALUE) {
     return <div className="mx-auto min-h-dvh max-w-4xl px-4 py-5 sm:px-6"><header className="mb-5 border-b pb-4"><Link href="/ios"><Logo width={136} /></Link></header><main>{children}</main></div>
   }
-  const unread = actor.role === 'CONFIRMER' ? 0 : await unreadCount(await getDb(), actor.userId)
+  const unread = actor.role === 'CONFIRMER' || actor.role === 'CONTENT_UPLOADER' ? 0 : await unreadCount(await getDb(), actor.userId)
   const serializeItem = (i: NavItem): ShellNavItem => ({
     href: i.href, label: i.label, exact: i.exact ?? false, iconKey: i.iconKey, also: i.also ?? [],
     children: i.children?.map(serializeItem)

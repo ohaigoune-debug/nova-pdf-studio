@@ -13,7 +13,7 @@ const schema = z.object({ name: z.string().trim().min(1).max(200), mime: z.strin
 export async function POST(req: Request) {
   try {
     assertSameOrigin(req)
-    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    const actor = await requireRole('TEACHER', 'SUPER_ADMIN', 'CONTENT_UPLOADER')
     const parsed = schema.safeParse(await req.json())
     if (!parsed.success) throw new AppError('VALIDATION')
     const t = await createUploadTicket(await getDb(), actor, { originalName: parsed.data.name, mimeType: parsed.data.mime, sizeBytes: parsed.data.size })

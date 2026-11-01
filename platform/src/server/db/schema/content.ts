@@ -85,6 +85,8 @@ export const content = pgTable(
     bunnyVideoId: text('bunny_video_id'),
     /** PDF: السماح بالتنزيل الخام؛ الافتراضي عرض داخل التطبيق مع ختم مائي باسم الطالب */
     allowDownload: boolean('allow_download').notNull().default(false),
+    /** ترتيب الدرس داخل دورته (يدوي من محرّر الدروس)؛ فارغ = الترتيب القديم من العنوان وتاريخ النشر */
+    position: integer('position'),
     ...timestamps,
     ...softDelete
   },

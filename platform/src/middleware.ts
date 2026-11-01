@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { IOS_CLIENT_HEADER, IOS_PRESENTATION_COOKIE, IOS_PRESENTATION_HEADER, IOS_PRESENTATION_VALUE, iosPresentationRedirect, iosPresentationState } from '@/lib/ios-presentation'
 
 const SESSION_COOKIE = 'madrasa_session'
-const PROTECTED = ['/student', '/teacher', '/assistant', '/admin', '/print']
+const PROTECTED = ['/student', '/teacher', '/assistant', '/admin', '/studio', '/print']
 // تطبيق أندرويد يُطلق المنصة بـ ?source=android-app (strings.xml): يُتذكَّر في كوكي
 // فتُخفى أزرار «حمّل التطبيق» عمّن يستعمل التطبيق أصلاً
 const APP_COOKIE = 'madrasa_app'
@@ -20,7 +20,8 @@ function buildCsp(nonce: string): string {
     `style-src 'self' 'unsafe-inline'`,
     `font-src 'self' data:`,
     `img-src 'self' blob: data: https://i.ytimg.com`,
-    `connect-src 'self'${dev ? ' ws: wss:' : ''}`,
+    // رفع الفيديو مباشرة من المتصفح إلى Bunny (TUS) — لا يمرّ بخادمنا
+    `connect-src 'self' https://video.bunnycdn.com${dev ? ' ws: wss:' : ''}`,
     `worker-src 'self'`,
     `manifest-src 'self'`,
     `media-src 'self' blob:`,

@@ -14,7 +14,7 @@ export default async function NewCoursePage() {
   const [opts, workspaces] = await Promise.all([bankFormOptions(db, actor), listCourseWorkspaces(db, actor)])
   return (
     <>
-      <PageHeader title="دورة جديدة" description="يُنشأ فوج باسم الدورة في مساحة الأستاذ المختار؛ منه تُنشر الدروس والفيديوهات، وفيه يدخل المشتركون." />
+      <PageHeader title="دورة جديدة" description="املأ البيانات، وأرفق كتابًا إن شئت. بعد الإنشاء تنتقل إلى صفحة الدورة فتضيف دروسها من زر «أضف درسًا»." />
       <div className="max-w-3xl">
         <CourseForm options={{ workspaces, subjects: opts.subjects, levels: opts.levels, streams: opts.streams }} />
       </div>
