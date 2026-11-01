@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm'
-import { boolean, check, index, integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { boolean, check, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
 import { id, inList, softDelete, timestamps } from './_common'
 import { users } from './auth'
 import { files } from './content'
@@ -200,4 +200,37 @@ export const callEvents = pgTable(
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
   },
   (t) => [check('call_events_result_check', inList(t.result, CALL_EVENT_RESULTS)), index('call_events_phone_idx').on(t.phone, t.createdAt), index('call_events_created_idx').on(t.createdAt)]
+)
+
+/** محاولات الدفع الإلكتروني (Guiddini/SATIM): الحالة كما تحقّق منها الخادم عند البوابة، لا كما ادّعاها المتصفح */
+export const onlinePayments = pgTable(
+  'online_payments',
+  {
+    id: id(),
+    orderId: uuid('order_id')
+      .notNull()
+      .references(() => orders.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    provider: text('provider').notNull().default('GUIDDINI'),
+    amountDzd: integer('amount_dzd').notNull(),
+    /** PENDING ← PAID | FAILED | EXPIRED | MISMATCH (مبلغ مختلف: يراجعه المشرف) */
+    status: text('status').notNull().default('PENDING'),
+    /** معرّف المعاملة عند البوابة (order_number) */
+    gatewayRef: text('gateway_ref'),
+    formUrl: text('form_url'),
+    gatewayStatus: text('gateway_status'),
+    gatewayResponse: jsonb('gateway_response'),
+    checkCount: integer('check_count').notNull().default(0),
+    checkedAt: timestamp('checked_at', { withTimezone: true }),
+    paidAt: timestamp('paid_at', { withTimezone: true }),
+    ...timestamps
+  },
+  (t) => [
+    check('online_payments_status_check', sql`${t.status} IN ('PENDING', 'PAID', 'FAILED', 'EXPIRED', 'MISMATCH')`),
+    uniqueIndex('online_payments_gateway_ref_unique').on(t.provider, t.gatewayRef),
+    index('online_payments_pending_idx').on(t.status, t.createdAt),
+    index('online_payments_order_idx').on(t.orderId)
+  ]
 )

@@ -13,7 +13,7 @@ import { courseCommunesForWilaya, type CourseCommuneLookup } from '@/server/serv
  * شراء «الدورة مع كتابها»: المتصفح يرسل courseId وبيانات الاستلام فقط —
  * الكتاب والسعر والتوصيل والمخزون والتلميذ يحدّدها الخادم.
  */
-export async function placeCourseOrderAction(input: { courseId: string; phone: string; wilayaId: string; commune?: string | null; address: string; deliveryType?: 'HOME' | 'DESK' | null; note?: string | null; otpCode?: string | null }): Promise<ActionResult<PlacedCourseOrder>> {
+export async function placeCourseOrderAction(input: { courseId: string; phone: string; wilayaId: string; commune?: string | null; address: string; deliveryType?: 'HOME' | 'DESK' | null; note?: string | null; otpCode?: string | null; payNow?: boolean }): Promise<ActionResult<PlacedCourseOrder>> {
   const parsed = z
     .object({
       courseId: z.string().uuid(),
@@ -23,7 +23,8 @@ export async function placeCourseOrderAction(input: { courseId: string; phone: s
       address: z.string().trim().min(3, 'أدخل العنوان').max(400),
       deliveryType: z.enum(['HOME', 'DESK']).nullish(),
       note: z.string().trim().max(300).nullish(),
-      otpCode: z.string().trim().max(8).nullish()
+      otpCode: z.string().trim().max(8).nullish(),
+      payNow: z.boolean().optional()
     })
     .strict()
     .safeParse(input)

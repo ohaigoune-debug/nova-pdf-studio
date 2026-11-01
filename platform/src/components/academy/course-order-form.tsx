@@ -18,6 +18,8 @@ export interface CheckoutData {
   feeTable: Record<string, { home: number; desk: number }> | null
   shippingDzd: number
   smsReady: boolean
+  /** «ادفع الآن» بالبطاقة متاح (مفاتيح Guiddini مضبوطة ومفعّلة) */
+  onlinePay?: boolean
 }
 
 const PHONE_RE = /^0[5-7]\d{8}$/
@@ -34,6 +36,7 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
   const d = data.defaults
   const [who, setWho] = useState<'self' | 'guardian' | 'other'>(d.phone ? 'self' : d.guardianPhone ? 'guardian' : 'other')
   const [other, setOther] = useState('')
+  const [payNow, setPayNow] = useState(Boolean(data.onlinePay))
   const [f, setF] = useState({ wilayaId: d.wilayaId ?? '', commune: '', address: '', deliveryType: 'HOME' as 'HOME' | 'DESK', otpCode: '' })
   const [communeResult, setCommuneResult] = useState<{ wilayaId: string; lookup: CourseCommuneLookup } | null>(null)
   const communeLookup = communeResult?.wilayaId === f.wilayaId ? communeResult.lookup : null
@@ -66,7 +69,7 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
   const phone = norm(who === 'self' ? (d.phone ?? '') : who === 'guardian' ? (d.guardianPhone ?? '') : other)
   const phoneOk = PHONE_RE.test(phone)
   // تأكيد هاتف الحساب لا يستبدل تأكيد هذه الطلبية.
-  const needsOtp = data.smsReady
+  const needsOtp = data.smsReady && !payNow
   const fee = quote?.shippingDzd ?? 0
   const price = quote?.priceDzd ?? book.priceDzd
   const total = quote?.totalDzd ?? book.priceDzd
@@ -83,8 +86,13 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
 
   const submit = () =>
     start(async () => {
-      const r = await placeCourseOrderAction({ courseId, phone, wilayaId: f.wilayaId, commune: f.commune || null, address: f.address, deliveryType: f.deliveryType, otpCode: needsOtp ? f.otpCode : null })
+      const r = await placeCourseOrderAction({ courseId, phone, wilayaId: f.wilayaId, commune: f.commune || null, address: f.address, deliveryType: f.deliveryType, otpCode: needsOtp ? f.otpCode : null, payNow })
       if (!r.ok) return toast('error', r.error.message)
+      // «ادفع الآن»: إلى صفحة الدفع الرسمية (SATIM)، ثم يعود الولي فيتحقق الخادم من الدفع
+      if (r.data.payUrl) {
+        window.location.assign(r.data.payUrl)
+        return
+      }
       toast('success', r.data.status === 'CONFIRMED' ? `أُكّد طلبك ${r.data.number}: يصلك الكتاب وتُفعَّل الدورة عند التسليم` : `أُرسل طلبك ${r.data.number}`)
       router.push('/student/courses/orders')
     })
@@ -166,6 +174,25 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
       {needsOtp && phoneOk ? (
         <OtpVerifyCard key={phone} purpose="ORDER" phone={phone} editablePhone={false} collectOnly onCode={(c) => setF((s) => ({ ...s, otpCode: c }))} title="رمز التأكيد" description={`نرسل رمزاً إلى ${phone}؛ أدخله ثم أكّد الطلب.`} />
       ) : null}
+      {data.onlinePay ? (
+        <fieldset className="space-y-2 rounded-lg border p-4">
+          <legend className="px-1 font-heading text-base font-semibold">طريقة الدفع</legend>
+          <label className={`flex cursor-pointer items-start gap-3 rounded-md border p-3 ${payNow ? 'border-primary bg-primary/5' : ''}`}>
+            <input type="radio" name="pay" className="mt-1 size-4" checked={payNow} onChange={() => setPayNow(true)} />
+            <span>
+              <span className="block font-semibold">ادفع الآن بالبطاقة الذهبية أو CIB</span>
+              <span className="block text-xs text-muted-foreground">تُفعَّل الدورة فورًا بعد الدفع، ويصلك الكتاب لاحقًا. الدفع في صفحة SATIM الرسمية.</span>
+            </span>
+          </label>
+          <label className={`flex cursor-pointer items-start gap-3 rounded-md border p-3 ${!payNow ? 'border-primary bg-primary/5' : ''}`}>
+            <input type="radio" name="pay" className="mt-1 size-4" checked={!payNow} onChange={() => setPayNow(false)} />
+            <span>
+              <span className="block font-semibold">الدفع عند الاستلام</span>
+              <span className="block text-xs text-muted-foreground">تدفع لعامل التوصيل، وتُفعَّل الدورة عند تسليم الكتاب.</span>
+            </span>
+          </label>
+        </fieldset>
+      ) : null}
       <div className="space-y-2 rounded-lg border bg-card p-4 text-sm" aria-live="polite">
         <p className="font-heading text-base font-semibold">ملخص الطلب</p>
         <p className="flex justify-between gap-3">
@@ -177,25 +204,25 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
           <span className="shrink-0 whitespace-nowrap tabular-nums">{f.wilayaId ? `${fee} دج` : 'اختر الولاية'}</span>
         </p>
         <p className="flex justify-between border-t pt-2 text-base font-bold">
-          <span>الإجمالي (الدفع عند الاستلام)</span>
+          <span>{payNow ? 'الإجمالي (يُدفع الآن بالبطاقة)' : 'الإجمالي (الدفع عند الاستلام)'}</span>
           <span className="shrink-0 whitespace-nowrap tabular-nums text-primary">{total} دج</span>
         </p>
       </div>
       <Alert tone="info">
         <span className="flex items-center gap-2">
-          <Truck className="size-5 shrink-0" /> تُفعَّل الدورة بعد تأكيد شركة التوصيل تسليم الكتاب لحساب التلميذ نفسه.
+          <Truck className="size-5 shrink-0" /> {payNow ? 'تُفعَّل الدورة لحساب التلميذ فور تأكّد الدفع، ويُشحن الكتاب بعدها.' : 'تُفعَّل الدورة بعد تأكيد شركة التوصيل تسليم الكتاب لحساب التلميذ نفسه.'}
         </span>
       </Alert>
-      <Alert tone={data.smsReady ? 'warning' : 'info'}>
+      {payNow ? null : <Alert tone={data.smsReady ? 'warning' : 'info'}>
         {data.smsReady ? 'سيصلك رمز تأكيد على هذا الرقم. الطلبات الوهمية تُلغى ويُمنع صاحبها من الطلب.' : 'سنتصل بك على هذا الرقم لتأكيد الطلب قبل الإرسال.'}
-      </Alert>
+      </Alert>}
       {!ready && !pending && missing.length ? (
         <p id="order-missing" className="text-sm text-muted-foreground" aria-live="polite">
           لإكمال الطلب: {missing.join('، ')}.
         </p>
       ) : null}
       <Button className="w-full" size="lg" onClick={submit} loading={pending} disabled={!ready} aria-describedby={!ready && missing.length ? 'order-missing' : undefined}>
-        تأكيد الطلب — {total} دج
+        {payNow ? `ادفع الآن — ${total} دج` : `تأكيد الطلب — ${total} دج`}
       </Button>
     </div>
   )

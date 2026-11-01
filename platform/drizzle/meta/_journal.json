@@ -267,6 +267,13 @@
       "when": 1793700000000,
       "tag": "0037_course_staff_lesson_order",
       "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1793800000000,
+      "tag": "0038_online_payments",
+      "breakpoints": true
     }
   ]
 }

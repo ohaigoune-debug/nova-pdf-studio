@@ -149,6 +149,7 @@ export function navFor(role: UserRole): NavSection[] {
                 { href: '/admin/settings', label: 'الإعدادات العامة', iconKey: 'Settings', exact: true },
                 { href: '/admin/employees', label: 'الموظفون ورافعو المحتوى', iconKey: 'UsersRound' },
                 { href: '/admin/settings/video', label: 'الفيديو (Bunny)', iconKey: 'Video' },
+                { href: '/admin/settings/payment', label: 'الدفع الإلكتروني', iconKey: 'CreditCard' },
                 { href: '/admin/settings/student-menu', label: 'أقسام حساب التلميذ', iconKey: 'EyeOff' }
               ]
             }

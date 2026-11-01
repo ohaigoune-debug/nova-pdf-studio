@@ -25,7 +25,7 @@ import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
 
 export const PRODUCT_TYPE_AR: Record<ProductType, string> = { BOOK: 'كتاب ورقي', PDF: 'ملف PDF', PACK: 'حزمة (ورقي + رقمي)' }
 export { ORDER_STATUS_AR } from './order-status.service'
-export const PAYMENT_AR: Record<PaymentMethod, string> = { COD: 'الدفع عند الاستلام', TRANSFER: 'تحويل (CCP / BaridiMob)', FREE: 'مجاني' }
+export const PAYMENT_AR: Record<PaymentMethod, string> = { COD: 'الدفع عند الاستلام', TRANSFER: 'تحويل (CCP / BaridiMob)', FREE: 'مجاني', ONLINE: 'دفع إلكتروني (بطاقة)' }
 
 /** رسوم الشحن للطلبات المادية (دج) — من البيئة، صفر إن لم تُضبط */
 export const shippingFeeDzd = (): number => Math.max(0, Number(process.env.STORE_SHIPPING_DZD ?? 0) || 0)
@@ -502,7 +502,8 @@ async function confirmationQueueRows(db: Db, actor: Actor) {
     .from(orders)
     .leftJoin(wilayas, eq(wilayas.id, orders.wilayaId))
     .leftJoin(streams, eq(streams.id, orders.streamId))
-    .where(inArray(orders.status, [...CONFIRMATION_STATUSES]))
+    // الطلب المدفوع إلكترونيًّا لا ينتظر اتصالًا: غير المدفوع بعد لا يظهر في الطابور
+    .where(and(inArray(orders.status, [...CONFIRMATION_STATUSES]), sql`${orders.paymentMethod} <> 'ONLINE'`))
     .orderBy(asc(orders.createdAt))
     .limit(300)
 }
@@ -570,5 +571,5 @@ export async function customerDefaults(db: Db, actor: Actor): Promise<{ name: st
 /** كل ما تحتاجه استمارة «شراء الدورة» (المعلومات تُعبّأ من التسجيل مباشرة) */
 export async function courseCheckoutData(db: Db, actor: Actor) {
   const [defaults, ws, feeTable, channels] = await Promise.all([customerDefaults(db, actor), db.select({ id: wilayas.id, code: wilayas.code, nameAr: wilayas.nameAr }).from(wilayas).orderBy(asc(wilayas.code)), shippingFeeTable(db), import('./phone-gate.service').then((m) => m.phoneChannels(db))])
-  return { defaults, wilayas: ws.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` })), feeTable, shippingDzd: shippingFeeDzd(), smsReady: channels.sms }
+  return { defaults, wilayas: ws.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` })), feeTable, shippingDzd: shippingFeeDzd(), smsReady: channels.sms, onlinePay: await import('@/server/lib/guiddini').then((m) => m.onlinePaymentEnabled(db)) }
 }
