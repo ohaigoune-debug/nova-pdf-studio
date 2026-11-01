@@ -817,6 +817,8 @@ export interface CourseContentItem {
   summary: string | null
   publishedAt: Date | null
   videoProvider: string | null
+  /** ترتيب يدوي من محرّر الدروس (فارغ = الترتيب القديم) */
+  position: number | null
   href: string
 }
 
@@ -865,7 +867,7 @@ export async function courseHome(db: Db, actor: Actor, slug: string): Promise<Co
       .orderBy(asc(liveSessions.startsAt))
       .limit(10),
     db
-      .select({ id: content.id, slug: content.slug, title: content.title, type: content.type, summary: content.summary, publishedAt: content.publishedAt, videoProvider: content.videoProvider })
+      .select({ id: content.id, slug: content.slug, title: content.title, type: content.type, summary: content.summary, publishedAt: content.publishedAt, videoProvider: content.videoProvider, position: content.position })
       .from(contentTargets)
       .innerJoin(content, eq(content.id, contentTargets.contentId))
       .where(and(eq(contentTargets.groupId, course.groupId), isNull(content.deletedAt), isNotNull(content.publishedAt)))

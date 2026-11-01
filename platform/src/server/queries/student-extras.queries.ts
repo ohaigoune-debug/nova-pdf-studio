@@ -54,7 +54,7 @@ export async function listStudentContent(db: Db, actor: Actor, opts: { types?: s
         isNotNull(content.publishedAt),
         isNull(content.deletedAt),
         opts.types?.length ? inArray(content.type, opts.types) : undefined,
-        or(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), inArray(content.id, targeted))
+        /* فيديوهات يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ محتوى دوراته يبقى */ or(and(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), sql`coalesce(${content.videoProvider}, '') <> 'YOUTUBE'`), inArray(content.id, targeted))
       )
     )
     .orderBy(desc(content.publishedAt))
@@ -103,7 +103,7 @@ export async function listStudentFiles(db: Db, actor: Actor) {
     .select({ id: content.id, slug: content.slug, title: content.title, type: content.type, publishedAt: content.publishedAt, fileId: files.id, fileName: files.originalName, size: files.sizeBytes, mime: files.mimeType, allowDownload: content.allowDownload })
     .from(content)
     .innerJoin(files, eq(files.id, content.fileId))
-    .where(and(isNull(content.deletedAt), isNotNull(content.publishedAt), or(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), inArray(content.id, targeted))))
+    .where(and(isNull(content.deletedAt), isNotNull(content.publishedAt), /* فيديوهات يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ محتوى دوراته يبقى */ or(and(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), sql`coalesce(${content.videoProvider}, '') <> 'YOUTUBE'`), inArray(content.id, targeted))))
     .orderBy(desc(content.publishedAt))
 }
 

@@ -4,10 +4,11 @@ import { notFound } from 'next/navigation'
 import { LinkProductForm, ManualEnrollDialog, RevokeEnrollmentButton, UnlinkProductButton } from '@/components/courses/course-admin'
 import { CourseForm } from '@/components/courses/course-form'
 import { CourseBookCard } from '@/components/courses/course-book-card'
+import { CourseLessonsSection } from '@/components/courses/lesson-screens'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, EmptyState, PageHeader, StatCard } from '@/components/ui/misc'
+import { EmptyState, PageHeader, StatCard } from '@/components/ui/misc'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { formatDate, formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
@@ -72,6 +73,8 @@ export default async function AdminCourseDetailPage({ params }: { params: Promis
         }
       />
 
+      <CourseLessonsSection actor={actor} courseId={course.id} basePath={`/admin/courses/${course.id}`} />
+
       <CourseBookCard courseId={course.id} courseTitle={course.title} book={bookState.book} purchasable={bookState.purchasable} issueText={bookState.issue ? BOOK_ISSUE_AR[bookState.issue] : null} candidates={candidates} />
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
@@ -81,19 +84,6 @@ export default async function AdminCourseDetailPage({ params }: { params: Promis
         <StatCard label="ينتهي الوصول" value={course.accessEndsOn ? formatDate(course.accessEndsOn) : '—'} icon={BookOpen} />
       </div>
 
-      <Alert tone="info" title="انشر الدروس من صفحة الفوج">
-        <p>
-          محتوى الدورة (فيديوهات، ملفات، دروس) يُنشر كما يُنشر لأي فوج: من{' '}
-          <Link href="/admin/publish" className="font-semibold text-primary hover:underline">
-            صفحة النشر
-          </Link>{' '}
-          أو{' '}
-          <Link href="/admin/content" className="font-semibold text-primary hover:underline">
-            المحتوى
-          </Link>{' '}
-          مع استهداف فوج «{course.title}» (الظهور: الفوج فقط). المشتركون النشطون أعضاء في هذا الفوج تلقائياً.
-        </p>
-      </Alert>
 
       <Card>
         <CardHeader className="flex-row flex-wrap items-center justify-between gap-2">

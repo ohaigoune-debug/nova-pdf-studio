@@ -19,7 +19,13 @@ export default async function StudentLessonPage({ params }: { params: Promise<{ 
   const db = await getDb()
   let item
   try {
-    item = await getContentForStudent(db, actor, decodeURIComponent(slug))
+    let decoded = slug
+    try {
+      decoded = decodeURIComponent(slug)
+    } catch {
+      notFound()
+    }
+    item = await getContentForStudent(db, actor, decoded)
   } catch (e) {
     if (isAppError(e)) notFound()
     throw e
@@ -27,7 +33,7 @@ export default async function StudentLessonPage({ params }: { params: Promise<{ 
   // تحت الفيديو: اختبار QCM المرتبط + التعليقات (بموافقة الأستاذ)
   const [quiz, comments] = await Promise.all([lessonQuizForStudent(db, actor, item.id), listLessonComments(db, actor, item.id)])
   return (
-    <article className="mx-auto max-w-3xl">
+    <article className={`mx-auto ${item.fileMime === 'application/pdf' && (item.videoProvider === 'BUNNY' || item.videoProvider === 'YOUTUBE') ? 'max-w-6xl' : 'max-w-3xl'}`}>
       <Link href="/student/lessons" className="mb-6 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
         <ArrowRight className="size-4" /> الدروس
       </Link>

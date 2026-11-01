@@ -29,7 +29,7 @@ export default async function AdminCoursesPage() {
     <div className="space-y-6">
       <PageHeader
         title="الدورات المدفوعة"
-        description="كل دورة = فوج يملكه أستاذ المنصة؛ شراء الكتاب المرتبط يفعّل الاشتراك تلقائياً، ويمكن التفعيل يدوياً. المحتوى يُنشر من صفحة الفوج."
+        description="افتح الدورة لإضافة دروسها (PDF وفيديو) وترتيبها ونشرها. الكتاب اختياري: إن وُجد يفعّل تسليمُه الاشتراك، وإلا فبالأكواد أو يدويًّا."
         actions={
           <>
             <Button asChild variant="outline">
