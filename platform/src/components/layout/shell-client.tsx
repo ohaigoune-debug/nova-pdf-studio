@@ -157,7 +157,7 @@ export function ShellClient({
           <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(true)} aria-label="القائمة">
             <Menu className="size-5" />
           </Button>
-          <Link href={actor.role === 'CONFIRMER' ? '/admin/store/confirm' : `/${base}`} className="flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:hidden">
+          <Link href={actor.role === 'CONFIRMER' ? '/admin/store/confirm' : actor.role === 'CONTENT_UPLOADER' ? '/studio' : `/${base}`} className="flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:hidden">
             <Logo width={132} priority />
           </Link>
           <div className="flex-1">
@@ -172,7 +172,7 @@ export function ShellClient({
               </form>
             ) : null}
           </div>
-          {actor.role !== 'CONFIRMER' ? (
+          {actor.role !== 'CONFIRMER' && actor.role !== 'CONTENT_UPLOADER' ? (
           <Link href={notificationsHref} className="relative flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" aria-label={t('common.notifications')}>
             <Bell className="size-5" />
             {unread > 0 ? (

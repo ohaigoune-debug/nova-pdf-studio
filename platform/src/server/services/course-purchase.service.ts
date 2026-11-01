@@ -1,6 +1,8 @@
 /**
  * شراء «الدورة مع كتابها» مباشرة (قرار المالك 2026-10-24).
- *  - لكل دورة مدفوعة كتاب ورقي واحد (courses.book_product_id) يُدار من صفحة الدورة؛ سعره = سعر الدورة.
+ *  - الكتاب اختياري لكل دورة (قرار المالك 1 نوفمبر 2026): يُضاف عند إنشاء الدورة أو من صفحتها، أو لا يُضاف.
+ *    الدورة بلا كتاب تُفعَّل بأكواد التفعيل أو يدويًّا (لا طلب بالدفع عند الاستلام، فلا شيء يُسلَّم).
+ *  - الدورة ذات الكتاب: كتاب ورقي واحد (courses.book_product_id) سعره = سعر الدورة.
  *  - الشراء يأخذ courseId وحده: الخادم يحدّد الكتاب والسعر والمخزون والصلاحية والتوصيل، ولا يثق بسعر أو منتج
  *    أو تلميذ من المتصفح. السطر يحفظ الدورة والكتاب والسعر وقت الشراء (order_items.course_id).
  *  - التفعيل عند التسليم المؤكَّد فقط (محرّك الحالات ← course-activation.service).
@@ -32,7 +34,7 @@ export interface CourseBookState {
 }
 
 export const BOOK_ISSUE_AR: Record<CourseBookIssue, string> = {
-  NO_BOOK: 'لا كتاب مرفق بالدورة: الشراء الجديد متوقف. أضف الكتاب من صفحة الدورة.',
+  NO_BOOK: 'دورة بلا كتاب: تُفعَّل بأكواد التفعيل أو يدويًّا (لا طلب بالدفع عند الاستلام).',
   BOOK_DELETED: 'الكتاب المرفق محذوف: الشراء الجديد متوقف.',
   BOOK_NOT_PUBLISHED: 'الكتاب المرفق غير منشور: الشراء الجديد متوقف.',
   BOOK_NOT_PHYSICAL: 'المنتج المرفق ليس كتاباً ورقياً: الشراء الجديد متوقف.',
@@ -72,6 +74,8 @@ export interface CourseBookInput {
   stock: number | null
   /** منشور (قابل للشراء) أو موقوف */
   active: boolean
+  /** صورة غلاف الكتاب (ملف مرفوع)؛ غيابها يُبقي الغلاف الحالي */
+  coverFileId?: string | null
 }
 
 /**
@@ -91,11 +95,11 @@ export async function setCourseBook(db: Db, actor: Actor, courseId: string, inpu
     const [existing] = c.bookProductId ? await tx.select().from(products).where(and(eq(products.id, c.bookProductId), isNull(products.deletedAt))).limit(1) : []
     let id: string
     if (existing) {
-      await tx.update(products).set({ title, priceDzd: input.priceDzd, stock: input.stock, status, type: isPhysical(existing.type) ? existing.type : 'BOOK', updatedAt: now }).where(eq(products.id, existing.id))
+      await tx.update(products).set({ title, priceDzd: input.priceDzd, stock: input.stock, status, type: isPhysical(existing.type) ? existing.type : 'BOOK', ...(input.coverFileId ? { coverFileId: input.coverFileId } : {}), updatedAt: now }).where(eq(products.id, existing.id))
       id = existing.id
     } else {
       const slug = `course-book-${c.slug}-${Date.now().toString(36)}`.slice(0, 120)
-      const [p] = await tx.insert(products).values({ title, slug, type: 'BOOK', priceDzd: input.priceDzd, stock: input.stock, status, maxPerOrder: 1, levelId: c.levelId, subjectId: c.subjectId, createdByUserId: actor.userId }).returning({ id: products.id })
+      const [p] = await tx.insert(products).values({ title, slug, type: 'BOOK', priceDzd: input.priceDzd, stock: input.stock, status, maxPerOrder: 1, levelId: c.levelId, subjectId: c.subjectId, coverFileId: input.coverFileId ?? null, createdByUserId: actor.userId }).returning({ id: products.id })
       id = p!.id
     }
     await tx.insert(courseProducts).values({ courseId: c.id, productId: id }).onConflictDoNothing()
@@ -121,13 +125,31 @@ export async function chooseCourseBook(db: Db, actor: Actor, courseId: string, p
 }
 
 /**
- * حارس النشر: دورة مدفوعة لا تُنشر بلا كتاب ورقي صالح. الدورة المجانية (سعر 0 بلا كتاب) تُنشر.
- * الدورات المنشورة سابقاً بلا كتاب لا تُمسّ (تبقى منشورة، والشراء الجديد متوقف مع تنبيه في الإدارة).
+ * حارس النشر. الكتاب اختياري (قرار المالك 1 نوفمبر 2026): الدورة بلا كتاب تُنشر وتُفعَّل بالأكواد أو يدويًّا.
+ * يُرفض النشر فقط إن كان الكتاب المرفق محذوفًا أو ليس كتابًا ورقيًّا (خطأ في الربط يُصحَّح أو يُزال الكتاب).
+ * الكتاب الموقوف أو النافد لا يمنع النشر: الشراء الجديد وحده يتوقف مع تنبيه في الإدارة.
  */
 export async function assertCoursePublishable(db: Db, course: Pick<CourseRow, 'bookProductId' | 'priceDzd'>): Promise<void> {
-  if (!course.bookProductId && course.priceDzd === 0) return
+  if (!course.bookProductId) return
   const s = await courseBookState(db, { bookProductId: course.bookProductId, status: 'PUBLISHED' })
-  if (s.issue && s.issue !== 'OUT_OF_STOCK') throw new AppError('COURSE_BOOK_REQUIRED', { issue: s.issue })
+  if (s.issue === 'BOOK_DELETED' || s.issue === 'BOOK_NOT_PHYSICAL') throw new AppError('COURSE_BOOK_REQUIRED', { issue: s.issue })
+}
+
+/**
+ * إزالة الكتاب من الدورة (تصبح دورة بلا كتاب). لا يُحذف المنتج ولا ربطه القديم في course_products (الطلبات
+ * السابقة تبقى تمنح الدورة كما كانت)؛ يُوقف بيعه فقط حتى لا يُطلب من المتجر بعد الآن.
+ */
+export async function removeCourseBook(db: Db, actor: Actor, courseId: string): Promise<CourseBookState> {
+  assertRole(actor, 'SUPER_ADMIN')
+  const c = await loadCourse(db, courseId)
+  if (!c.bookProductId) return courseBookState(db, c)
+  const now = new Date()
+  await db.transaction(async (tx) => {
+    await tx.update(products).set({ status: 'DRAFT', updatedAt: now }).where(eq(products.id, c.bookProductId!))
+    await tx.update(courses).set({ bookProductId: null, updatedAt: now }).where(eq(courses.id, c.id))
+  })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'course.book_removed', entityType: 'course', entityId: c.id, oldValue: { bookProductId: c.bookProductId } })
+  return courseBookStateById(db, c.id)
 }
 
 /* ───────────── الشراء ───────────── */
@@ -249,12 +271,12 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
   return { id: order.id, number: order.number, status: order.status, bookTitle, priceDzd: price, shippingDzd: shipping, totalDzd: total }
 }
 
-/** دورات منشورة لا يمكن شراؤها الآن (بلا كتاب صالح أو نفد المخزون) — تنبيه للإدارة */
+/** دورات منشورة كتابها المرفق لا يُشترى الآن (موقوف، نفد، محذوف) — تنبيه للإدارة. الدورة بلا كتاب اختيار مقصود فلا تُنبَّه. */
 export async function publishedCoursesBlocked(db: Db): Promise<{ id: string; title: string; issue: CourseBookIssue }[]> {
   const rows = await db.select().from(courses).where(and(eq(courses.status, 'PUBLISHED'), isNull(courses.deletedAt)))
   const out: { id: string; title: string; issue: CourseBookIssue }[] = []
   for (const c of rows) {
-    if (!c.bookProductId && c.priceDzd === 0) continue
+    if (!c.bookProductId) continue
     const st = await courseBookState(db, c)
     if (st.issue) out.push({ id: c.id, title: c.title, issue: st.issue })
   }

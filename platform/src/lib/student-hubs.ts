@@ -37,7 +37,6 @@ export const STUDENT_HUBS = {
     href: '/student/lessons',
     tabs: [
       { href: '/student/lessons', label: 'دروسي' },
-      { href: '/student/videos', label: 'الفيديوهات' },
       { href: '/student/files', label: 'الملفات' }
     ]
   },

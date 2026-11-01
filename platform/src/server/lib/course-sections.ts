@@ -109,13 +109,15 @@ export type SectionItem<T> = T & { section: CourseSectionId; session: number | n
 export interface CourseSection<T> { id: CourseSectionId; label: string; items: SectionItem<T>[] }
 
 /** الأقسام بالترتيب الثابت، والفارغ يُحذف؛ داخل القسم: رقم الحصة، ثم تاريخ النشر تصاعديًا، ثم العنوان */
-export function buildCourseSections<T extends { title: string; type: string; publishedAt: Date | null }>(items: readonly T[]): CourseSection<T>[] {
+export function buildCourseSections<T extends { title: string; type: string; publishedAt: Date | null; position?: number | null }>(items: readonly T[]): CourseSection<T>[] {
   const enriched: SectionItem<T>[] = items.map((item) => {
     const session = parseSessionNumber(item.title)
     return { ...item, section: classifyContent(item), session, displayTitle: session === null ? item.title.trim() : displayTitle(item.title) }
   })
   const time = (d: Date | null) => (d ? d.getTime() : Number.POSITIVE_INFINITY)
+  // الترتيب اليدوي (محرّر دروس الدورة، 1 نوفمبر 2026) أولًا، ثم القديم
   enriched.sort((a, b) =>
+    (a.position ?? Number.POSITIVE_INFINITY) - (b.position ?? Number.POSITIVE_INFINITY) ||
     (a.session ?? Number.POSITIVE_INFINITY) - (b.session ?? Number.POSITIVE_INFINITY) ||
     time(a.publishedAt) - time(b.publishedAt) ||
     a.title.localeCompare(b.title, 'ar'))

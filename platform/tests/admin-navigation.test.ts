@@ -12,16 +12,18 @@ const PREVIOUS_DESTINATIONS = [
 ]
 
 describe('قائمة الإدارة المختصرة', () => {
-  it('ستة مداخل رئيسية بالترتيب المطلوب', () => {
+  it('خمسة مداخل رئيسية بالترتيب المطلوب (تبسيط 1 نوفمبر 2026)', () => {
     const main = navFor('SUPER_ADMIN')[0]!.items
-    expect(main.map((i) => i.label)).toEqual(['الرئيسية', 'الطلبات', 'التوصيل', 'الدورات', 'الموظفون', 'الإعدادات'])
-    expect(main.map((i) => i.href)).toEqual(['/admin', '/admin/store', '/admin/delivery', '/admin/courses', '/admin/employees', '/admin/settings'])
+    expect(main.map((i) => i.label)).toEqual(['الرئيسية', 'الدورات والدروس', 'التلاميذ', 'الطلبات', 'الإعدادات'])
+    expect(main.map((i) => i.href)).toEqual(['/admin', '/admin/courses', '/admin/students', '/admin/store', '/admin/settings'])
   })
 
-  it('الطلبات تجمع قائمة طلبات الدورات وطابور التأكيد', () => {
-    const orders = navFor('SUPER_ADMIN')[0]!.items.find((i) => i.href === '/admin/store')!
-    expect(orders.children?.map((i) => i.href)).toEqual(['/admin/store', '/admin/store/confirm'])
-    expect(orders.children?.map((i) => i.label)).toEqual(['طلبات الدورات', 'طابور التأكيد'])
+  it('الطلبات تجمع طلبات الدورات وطابور التأكيد والتوصيل؛ الإعدادات تجمع الموظفين والفيديو', () => {
+    const items = navFor('SUPER_ADMIN')[0]!.items
+    const orders = items.find((i) => i.href === '/admin/store')!
+    expect(orders.children?.map((i) => i.href)).toEqual(['/admin/store', '/admin/store/confirm', '/admin/delivery'])
+    expect(orders.children?.map((i) => i.label)).toEqual(['طلبات الدورات', 'طابور التأكيد', 'التوصيل'])
+    expect(items.find((i) => i.href === '/admin/settings')!.children?.map((i) => i.href)).toEqual(['/admin/settings', '/admin/employees', '/admin/settings/video'])
   })
 
   it('المزيد قابل للطي ويحافظ على كل الوجهات السابقة دون تكرار', () => {

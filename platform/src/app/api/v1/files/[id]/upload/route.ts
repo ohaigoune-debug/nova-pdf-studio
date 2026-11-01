@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 export async function PUT(req: Request, ctx: { params: Promise<{ id: string }> }) {
   try {
     assertSameOrigin(req)
-    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    const actor = await requireRole('TEACHER', 'SUPER_ADMIN', 'CONTENT_UPLOADER')
     const { id } = await ctx.params
     const url = new URL(req.url)
     if (!verifyUploadSignature(id, actor.userId, url.searchParams.get('exp'), url.searchParams.get('sig'))) throw new AppError('FILE_NOT_FOUND')

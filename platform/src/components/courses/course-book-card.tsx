@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { Alert } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
-import { chooseCourseBookAction, setCourseBookAction } from '@/server/actions/courses.actions'
+import { chooseCourseBookAction, removeCourseBookAction, setCourseBookAction } from '@/server/actions/courses.actions'
 
 export interface CourseBookCardProps {
   courseId: string
@@ -23,7 +23,7 @@ export interface CourseBookCardProps {
   candidates: { id: string; title: string; priceDzd: number }[]
 }
 
-/** الكتاب المرفق بالدورة: يُنشأ ويُعدَّل هنا (بلا صفحة متجر). سعره هو سعر الدورة. */
+/** الكتاب المرفق بالدورة (اختياري): يُنشأ ويُعدَّل ويُزال هنا (بلا صفحة متجر). سعره هو سعر الدورة. */
 export function CourseBookCard({ courseId, courseTitle, book, purchasable, issueText, candidates }: CourseBookCardProps) {
   const router = useRouter()
   const [state, action] = useActionState(setCourseBookAction, null)
@@ -34,6 +34,14 @@ export function CourseBookCard({ courseId, courseTitle, book, purchasable, issue
       router.refresh()
     }
   }, [state, router])
+  const remove = () =>
+    start(async () => {
+      if (!window.confirm('إزالة الكتاب من الدورة؟ يتوقف بيعه، والطلبات السابقة والاشتراكات لا تتأثر.')) return
+      const r = await removeCourseBookAction(courseId)
+      if (!r.ok) return toast('error', r.error.message)
+      toast('success', 'أُزيل الكتاب — الدورة الآن بلا كتاب')
+      router.refresh()
+    })
   const choose = (productId: string) =>
     start(async () => {
       const r = await chooseCourseBookAction(courseId, productId)
@@ -45,13 +53,17 @@ export function CourseBookCard({ courseId, courseTitle, book, purchasable, issue
     <Card className={purchasable ? '' : 'border-warning/60'}>
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center gap-2">
-          <BookOpen className="size-5 text-primary" /> الكتاب المرفق بالدورة
-          {purchasable ? <Badge variant="success">الشراء مفتوح</Badge> : <Badge variant="warning">الشراء متوقف</Badge>}
+          <BookOpen className="size-5 text-primary" /> الكتاب المرفق (اختياري)
+          {!book ? <Badge variant="secondary">بلا كتاب</Badge> : purchasable ? <Badge variant="success">الشراء مفتوح</Badge> : <Badge variant="warning">الشراء متوقف</Badge>}
         </CardTitle>
-        <CardDescription>كل دورة مدفوعة تشمل كتاباً ورقياً. سعر الكتاب هو سعر الدورة؛ التلميذ يشتري «الدورة مع الكتاب» وتُفعَّل عند التسليم.</CardDescription>
+        <CardDescription>
+          {book
+            ? 'سعر الكتاب هو سعر الدورة: يطلب التلميذ «الدورة مع الكتاب» ويدفع عند الاستلام، وتُفعَّل الدورة عند التسليم.'
+            : 'الدورة بلا كتاب: تُفعَّل بأكواد التفعيل أو يدويًّا. أضف كتابًا هنا إن أردت بيعها مع كتاب ورقي بالدفع عند الاستلام.'}
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {issueText ? <Alert tone="warning">{issueText} الاشتراكات الحالية لا تتأثر.</Alert> : null}
+        {issueText && book ? <Alert tone="warning">{issueText} الاشتراكات الحالية لا تتأثر.</Alert> : null}
         {!book && candidates.length ? (
           <div className="space-y-2 rounded-lg border p-3 text-sm">
             <p className="font-semibold">كتب مرتبطة سابقاً بهذه الدورة — اعتمد أحدها:</p>
@@ -78,10 +90,20 @@ export function CourseBookCard({ courseId, courseTitle, book, purchasable, issue
           <Field label="المخزون (فارغ = غير محدود)" htmlFor="book-stock" error={fieldError(state, 'stock')}>
             <Input id="book-stock" name="stock" type="number" min={0} defaultValue={book?.stock ?? ''} dir="ltr" />
           </Field>
-          <label className="flex items-center gap-2 text-sm sm:col-span-3">
+          <Field label="صورة الغلاف" htmlFor="book-cover" hint={book ? 'ارفع صورة لاستبدال الغلاف' : 'اختياري'} className="sm:col-span-2">
+            <Input id="book-cover" name="cover" type="file" accept="image/*" />
+          </Field>
+          <label className="flex items-center gap-2 text-sm sm:col-span-2">
             <input type="checkbox" name="active" className="size-4" defaultChecked={book ? book.status === 'PUBLISHED' : true} /> متاح للشراء
           </label>
-          <SubmitButton>{book ? 'حفظ الكتاب' : 'إضافة الكتاب'}</SubmitButton>
+          <div className="flex flex-wrap gap-2 sm:col-span-4">
+            <SubmitButton>{book ? 'حفظ الكتاب' : 'إضافة الكتاب'}</SubmitButton>
+            {book ? (
+              <Button type="button" variant="outline" loading={pending} onClick={remove}>
+                إزالة الكتاب
+              </Button>
+            ) : null}
+          </div>
           <div className="sm:col-span-4">
             <FormError state={state} />
           </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useActionState, useEffect } from 'react'
+import { useActionState, useEffect, useState } from 'react'
 import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bits'
 import { Input, Select, Textarea } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
@@ -21,7 +21,7 @@ const DEFAULT_TERMS = `## النظام الداخلي للدورة
 4. يُمنع تصوير أو تنزيل أو إعادة نشر أي محتوى من الدورة.
 5. الاحترام المتبادل في القسم الافتراضي شرط للبقاء في الدورة.`
 
-/** نموذج دورة مدفوعة (إنشاء/تعديل) — المشرف ينشئها لمساحة أستاذ */
+/** نموذج دورة (إنشاء/تعديل) — المشرف ينشئها لمساحة أستاذ. عند الإنشاء: كتاب ورقي اختياري في الشاشة نفسها. */
 export function CourseForm({
   course,
   options
@@ -31,6 +31,7 @@ export function CourseForm({
 }) {
   const router = useRouter()
   const [state, action] = useActionState(saveCourseAction, null)
+  const [withBook, setWithBook] = useState(false)
   useEffect(() => {
     if (state?.ok) {
       toast('success', 'حُفظت الدورة')
@@ -121,7 +122,7 @@ export function CourseForm({
         <Field label="آخر يوم للوصول إلى المحتوى" htmlFor="c-access" error={fieldError(state, 'accessEndsOn')} hint="بعده تختفي الفيديوهات (بعد البكالوريا). يُستعمل تاريخاً افتراضياً لانتهاء الاشتراكات.">
           <Input id="c-access" name="accessEndsOn" type="date" defaultValue={course?.accessEndsOn ?? ''} dir="ltr" />
         </Field>
-        <Field label="السعر (دج)" htmlFor="c-price" error={fieldError(state, 'priceDzd')} hint="يُستبدل تلقائياً بسعر الكتاب المرتبط حين تربط كتاباً من المتجر؛ يبقى هذا السعر للدورات بلا كتاب">
+        <Field label="سعر الدورة (دج)" htmlFor="c-price" error={fieldError(state, 'priceDzd')} hint={course ? 'إن كان للدورة كتاب فسعرها يُعدَّل من بطاقة «الكتاب المرفق» أعلى الصفحة' : 'إن أرفقت كتابًا أدناه فهذا سعر الدورة مع الكتاب'}>
           <Input id="c-price" name="priceDzd" type="number" min="0" step="1" defaultValue={course?.priceDzd ?? 0} dir="ltr" required />
         </Field>
         <Field label="الرابط (slug)" htmlFor="c-slug" hint="فارغ = من العنوان">
@@ -130,6 +131,30 @@ export function CourseForm({
         <Field label="صورة الغلاف" htmlFor="c-cover" hint={course?.coverFileId ? 'يوجد غلاف؛ ارفع صورة لاستبداله' : 'اختياري'}>
           <Input id="c-cover" name="cover" type="file" accept="image/*" />
         </Field>
+        {course ? null : (
+          <fieldset className="space-y-3 rounded-lg border p-3 sm:col-span-2">
+            <legend className="px-1 text-sm font-bold">الكتاب المرفق (اختياري)</legend>
+            <label className="flex items-center gap-2 text-sm">
+              <input type="checkbox" name="withBook" className="size-4" checked={withBook} onChange={(e) => setWithBook(e.target.checked)} />
+              هذه الدورة تُباع مع كتاب ورقي (الدفع عند الاستلام، وتُفعَّل الدورة عند التسليم)
+            </label>
+            {withBook ? (
+              <div className="grid gap-3 sm:grid-cols-3">
+                <Field label="اسم الكتاب" htmlFor="c-book-title" error={fieldError(state, 'bookTitle')} className="sm:col-span-3">
+                  <Input id="c-book-title" name="bookTitle" maxLength={200} required dir="auto" placeholder="مثال: كتاب الأدب العربي — بكالوريا 2027" />
+                </Field>
+                <Field label="صورة غلاف الكتاب" htmlFor="c-book-cover" hint="اختياري" className="sm:col-span-2">
+                  <Input id="c-book-cover" name="bookCover" type="file" accept="image/*" />
+                </Field>
+                <Field label="المخزون" htmlFor="c-book-stock" error={fieldError(state, 'bookStock')} hint="فارغ = غير محدود">
+                  <Input id="c-book-stock" name="bookStock" type="number" min={0} dir="ltr" />
+                </Field>
+              </div>
+            ) : (
+              <p className="text-xs text-muted-foreground">بلا كتاب: يدخل التلاميذ الدورة بأكواد التفعيل أو بالتفعيل اليدوي. يمكنك إضافة كتاب لاحقًا من صفحة الدورة.</p>
+            )}
+          </fieldset>
+        )}
         <Field label="الوصف" htmlFor="c-desc" className="sm:col-span-2">
           <Textarea id="c-desc" name="description" rows={3} defaultValue={course?.description ?? ''} maxLength={4000} dir="auto" />
         </Field>

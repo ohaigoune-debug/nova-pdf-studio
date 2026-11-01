@@ -79,7 +79,7 @@ const MAP_COUNTS_FROM = 50
 export default async function HomePage() {
   const actor = await getCurrentActor()
   // قرار المالك (2026-10-28): الموظف والمشرف والأستاذ والمساعد يدخلون لوحتهم مباشرة، لا الصفحة التسويقية.
-  if (actor && ['SUPER_ADMIN', 'CONFIRMER', 'TEACHER', 'ASSISTANT'].includes(actor.role)) redirect(homeFor(actor.role))
+  if (actor && ['SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'TEACHER', 'ASSISTANT'].includes(actor.role)) redirect(homeFor(actor.role))
   const student = actor?.role === 'STUDENT'
   const db = await getDb()
   const [latest, map, apk, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), studentsPerWilaya(db), appDownload(), getT()])

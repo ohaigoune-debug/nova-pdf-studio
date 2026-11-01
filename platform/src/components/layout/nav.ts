@@ -119,6 +119,9 @@ export function navFor(role: UserRole): NavSection[] {
           ]
         }
       ]
+    case 'CONTENT_UPLOADER':
+      // رافع المحتوى: دوراته المسندة فقط (طلب المالك 1 نوفمبر 2026)
+      return [{ items: [{ href: '/studio', label: 'دوراتي ودروسها', iconKey: 'GraduationCap' }] }]
     case 'CONFIRMER':
       return [{ items: [
         { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall', exact: true },
@@ -128,18 +131,26 @@ export function navFor(role: UserRole): NavSection[] {
       return [
         {
           items: [
+            // خمسة أقسام رئيسية (طلب التبسيط 1 نوفمبر 2026)؛ بقية الأدوات في «المزيد» بمساراتها نفسها
             { href: '/admin', label: 'الرئيسية', iconKey: 'LayoutDashboard', exact: true },
+            { href: '/admin/courses', label: 'الدورات والدروس', iconKey: 'GraduationCap' },
+            { href: '/admin/students', label: 'التلاميذ', iconKey: 'Users' },
             {
               href: '/admin/store', label: 'الطلبات', iconKey: 'ShoppingBag',
               children: [
                 { href: '/admin/store', label: 'طلبات الدورات', iconKey: 'ShoppingBag', exact: true },
-                { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall' }
+                { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall' },
+                { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' }
               ]
             },
-            { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' },
-            { href: '/admin/courses', label: 'الدورات', iconKey: 'GraduationCap' },
-            { href: '/admin/employees', label: 'الموظفون', iconKey: 'UsersRound' },
-            { href: '/admin/settings', label: 'الإعدادات', iconKey: 'Settings' }
+            {
+              href: '/admin/settings', label: 'الإعدادات', iconKey: 'Settings',
+              children: [
+                { href: '/admin/settings', label: 'الإعدادات العامة', iconKey: 'Settings', exact: true },
+                { href: '/admin/employees', label: 'الموظفون ورافعو المحتوى', iconKey: 'UsersRound' },
+                { href: '/admin/settings/video', label: 'الفيديو (Bunny)', iconKey: 'Video' }
+              ]
+            }
           ]
         },
         {
@@ -147,10 +158,9 @@ export function navFor(role: UserRole): NavSection[] {
           collapsible: true,
           items: [
             { href: '/admin/teachers', label: t('nav.teachers'), iconKey: 'GraduationCap' },
-            { href: '/admin/students', label: t('nav.students'), iconKey: 'Users' },
             { href: '/admin/users', label: t('nav.users'), iconKey: 'UserRound' },
             { href: '/admin/groups', label: t('common.groups'), iconKey: 'UsersRound' },
-            { href: '/admin/publish', label: 'نشر درس / فرض / اختبار', iconKey: 'Upload' },
+            { href: '/admin/publish', label: 'النشر في المكتبة العامة', iconKey: 'Upload' },
             { href: '/admin/curriculum', label: 'المنهاج والمكتبة', iconKey: 'Network' },
             { href: '/admin/bac-bank', label: 'بنك البكالوريا', iconKey: 'Database' },
             { href: '/admin/play', label: 'MADRASADZ PLAY', iconKey: 'Gamepad2' },

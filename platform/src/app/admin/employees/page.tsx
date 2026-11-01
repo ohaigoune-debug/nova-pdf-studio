@@ -12,6 +12,8 @@ import type { OrderStatus } from '@/server/db/schema/enums'
 import { confirmerStats, listConfirmerActivity, listConfirmers } from '@/server/services/confirmer.service'
 import { ORDER_STATUS_AR } from '@/server/services/order-status.service'
 import { EmployeeForm } from './employee-form'
+import { UploaderCoursesForm, UploaderForm } from './uploader-forms'
+import { listContentUploaders, listEditableCourses } from '@/server/services/course-staff.service'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,11 +24,23 @@ export default async function EmployeesPage() {
   const actor = await requirePageActor('SUPER_ADMIN')
   const db = await getDb()
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000)
-  const [employees, stats, activity] = await Promise.all([listConfirmers(db, actor), confirmerStats(db, actor, since), listConfirmerActivity(db, actor, 100)])
+  const [employees, stats, activity, uploaders, courseOpts] = await Promise.all([listConfirmers(db, actor), confirmerStats(db, actor, since), listConfirmerActivity(db, actor, 100), listContentUploaders(db, actor), listEditableCourses(db, actor)])
+  const courses = courseOpts.map((c) => ({ id: c.id, title: c.title }))
   return <div className="space-y-6">
-    <PageHeader title="موظفو تأكيد الطلبات" description="صلاحيات محددة لطابور التأكيد وطلبات التوصيل." />
-    <Card className="max-w-2xl"><CardHeader><CardTitle>حساب موظف جديد</CardTitle></CardHeader><CardContent><EmployeeForm /></CardContent></Card>
-    <Card><CardHeader><CardTitle>الموظفون</CardTitle><CardDescription>الأرقام لآخر 24 ساعة.</CardDescription></CardHeader><CardContent>
+    <PageHeader title="الموظفون ورافعو المحتوى" description="رافع المحتوى يرفع دروس الدورات المسندة إليه فقط؛ موظف التأكيد يعمل على الطلبات فقط." />
+    <div className="grid gap-6 lg:grid-cols-2">
+      <Card><CardHeader><CardTitle>رافع محتوى جديد</CardTitle><CardDescription>لا يرى المال ولا الأسعار ولا التلاميذ ولا الإعدادات.</CardDescription></CardHeader><CardContent><UploaderForm courses={courses} /></CardContent></Card>
+      <Card><CardHeader><CardTitle>رافعو المحتوى</CardTitle></CardHeader><CardContent className="space-y-4">
+        {uploaders.length === 0 ? <p className="text-sm text-muted-foreground">لا أحد بعد.</p> : uploaders.map((u) => (
+          <div key={u.id} className="space-y-2 rounded-lg border p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2"><span><span className="font-semibold">{u.fullName}</span> <span className="text-xs text-muted-foreground" dir="ltr">{u.email}</span></span><span className="flex items-center gap-2"><UserStatusBadge status={u.status} /><UserStatusButton userId={u.id} status={u.status} /></span></div>
+            <UploaderCoursesForm userId={u.id} courses={courses} selected={u.courses.map((c) => c.id)} />
+          </div>
+        ))}
+      </CardContent></Card>
+    </div>
+    <Card className="max-w-2xl"><CardHeader><CardTitle>موظف تأكيد طلبات جديد</CardTitle></CardHeader><CardContent><EmployeeForm /></CardContent></Card>
+    <Card><CardHeader><CardTitle>موظفو التأكيد</CardTitle><CardDescription>الأرقام لآخر 24 ساعة.</CardDescription></CardHeader><CardContent>
       {employees.length === 0 ? <p className="text-sm text-muted-foreground">لا موظفين بعد.</p> : <Table><TableHeader><TableRow><TableHead>الاسم</TableHead><TableHead>البريد</TableHead><TableHead>الهاتف</TableHead><TableHead>أكّد</TableHead><TableHead>ألغى</TableHead><TableHead>لا يردّ/لاحقاً</TableHead><TableHead>الحالة</TableHead><TableHead /></TableRow></TableHeader><TableBody>{employees.map((employee) => {
         const s = stats.get(employee.id)
         return <TableRow key={employee.id}><TableCell>{employee.fullName}</TableCell><TableCell dir="ltr">{employee.email}</TableCell><TableCell dir="ltr">{employee.phone}</TableCell><TableCell className="tabular">{s?.confirmed ?? 0}</TableCell><TableCell className="tabular">{s?.cancelled ?? 0}</TableCell><TableCell className="tabular">{s?.followUp ?? 0}</TableCell><TableCell><UserStatusBadge status={employee.status} /></TableCell><TableCell><UserStatusButton userId={employee.id} status={employee.status} /></TableCell></TableRow>

@@ -17,13 +17,13 @@ import { listConfirmationQueue } from '@/server/services/store.service'
 
 /** أوامر المشرف الأساسية في مربعات (قرار المالك 2026-10-28): الأكثر استعمالًا أولًا */
 const MAIN_TILES: Omit<RoleTile, 'badge'>[] = [
+  { href: '/admin/courses', label: 'الدورات والدروس', hint: 'أنشئ دورة وأضف دروسها: PDF وفيديو وترتيب ونشر', iconKey: 'GraduationCap' },
   { href: '/admin/store/confirm', label: 'طابور التأكيد', hint: 'اتصل بالزبائن وأكّد الطلبات', iconKey: 'PhoneCall' },
   { href: '/admin/store', label: 'طلبات الدورات', hint: 'كل الطلبات وحالاتها', iconKey: 'ShoppingBag' },
   { href: '/admin/delivery', label: 'التوصيل', hint: 'الطرود وشركات التوصيل', iconKey: 'Truck' },
-  { href: '/admin/courses', label: 'الدورات', hint: 'الدورات والأسعار والتفعيل', iconKey: 'GraduationCap' },
-  { href: '/admin/publish', label: 'نشر درس / فرض / اختبار', hint: 'محتوى جديد للتلاميذ', iconKey: 'Upload' },
   { href: '/admin/students', label: 'التلاميذ', hint: 'الحسابات والاشتراكات', iconKey: 'Users' },
-  { href: '/admin/employees', label: 'الموظفون', hint: 'الحسابات ونشاطهم', iconKey: 'UsersRound' },
+  { href: '/admin/employees', label: 'الموظفون ورافعو المحتوى', hint: 'حسابات التأكيد ورفع الدروس', iconKey: 'UsersRound' },
+  { href: '/admin/publish', label: 'النشر في المكتبة العامة', hint: 'دروس وفروض عامة خارج الدورات', iconKey: 'Upload' },
   { href: '/admin/settings', label: 'الإعدادات', hint: 'المنصة والفيديو والدفع', iconKey: 'Settings' }
 ]
 

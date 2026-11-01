@@ -319,7 +319,7 @@ export async function listStudentLessonsOrganized(db: Db, actor: Actor, scope: P
         isNotNull(content.publishedAt),
         isNull(content.deletedAt),
         inArray(content.type, types),
-        or(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), inArray(content.id, targeted)),
+        /* فيديوهات يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ محتوى دوراته يبقى */ or(and(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), sql`coalesce(${content.videoProvider}, '') <> 'YOUTUBE'`), inArray(content.id, targeted)),
         // المستوى/الشعبة/المادة: المحتوى غير المصنّف (قديم) يبقى ظاهراً؛ الشعبة تشمل أمّها
         scope.levelId ? or(isNull(content.levelId), eq(content.levelId, scope.levelId)) : undefined,
         family.length ? or(isNull(content.streamId), inArray(content.streamId, family)) : undefined,

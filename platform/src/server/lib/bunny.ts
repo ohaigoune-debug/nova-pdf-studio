@@ -150,6 +150,31 @@ export async function uploadVideoBytes(creds: Pick<BunnyCredentials, 'libraryId'
   if (!res.ok) throw new AppError('BUNNY_UNREACHABLE')
 }
 
+/** نقطة رفع TUS المباشر من المتصفح إلى Bunny (لا يمرّ الملف بخادمنا) */
+export const BUNNY_TUS_ENDPOINT = `${API_BASE}/tusupload`
+
+/**
+ * توقيع رفع TUS لفيديو واحد: sha256hex(libraryId + apiKey + expires + videoId) — حسب توثيق Bunny
+ * (https://bunny.net/docs/stream/tus-resumable-uploads). يصلح لهذا الفيديو وحده حتى expires؛ المفتاح لا يغادر الخادم.
+ */
+export function tusUploadSignature(creds: Pick<BunnyCredentials, 'libraryId' | 'apiKey'>, videoId: string, expires: number): string {
+  return createHash('sha256').update(`${creds.libraryId}${creds.apiKey}${expires}${videoId}`).digest('hex')
+}
+
+/** هل الفيديو موجود في مكتبتنا؟ (للتحقق من معرّف يُلصق يدويًّا قبل ربطه بدرس) */
+export async function bunnyVideoExists(creds: Pick<BunnyCredentials, 'libraryId' | 'apiKey'>, videoId: string, fetchImpl: typeof fetch = fetch): Promise<boolean> {
+  let res: Response
+  try {
+    res = await fetchImpl(uploadUrl(creds, videoId), { headers: apiHeaders(creds), signal: AbortSignal.timeout(10_000) })
+  } catch {
+    throw new AppError('BUNNY_UNREACHABLE')
+  }
+  if (res.status === 401 || res.status === 403) throw new AppError('BUNNY_KEY_INVALID')
+  if (res.status === 404 || res.status === 400) return false
+  if (!res.ok) throw new AppError('BUNNY_UNREACHABLE')
+  return true
+}
+
 /** رمز Bunny للتضمين الموقّع: sha256hex(tokenAuthKey + videoId + expires) — نقي */
 export function embedToken(tokenAuthKey: string, videoId: string, expires: number): string {
   return createHash('sha256').update(`${tokenAuthKey}${videoId}${expires}`).digest('hex')

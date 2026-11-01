@@ -93,6 +93,23 @@ export const courseProducts = pgTable(
   (t) => [uniqueIndex('course_products_unique').on(t.courseId, t.productId), index('course_products_product_idx').on(t.productId)]
 )
 
+/** الدورات المسندة لرافع المحتوى (CONTENT_UPLOADER): لا يرى ولا يعدّل غيرها — 1 نوفمبر 2026 */
+export const courseStaff = pgTable(
+  'course_staff',
+  {
+    id: id(),
+    courseId: uuid('course_id')
+      .notNull()
+      .references(() => courses.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    createdByUserId: uuid('created_by_user_id').references(() => users.id, { onDelete: 'set null' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+  },
+  (t) => [uniqueIndex('course_staff_unique').on(t.courseId, t.userId), index('course_staff_user_idx').on(t.userId)]
+)
+
 export const courseEnrollments = pgTable(
   'course_enrollments',
   {

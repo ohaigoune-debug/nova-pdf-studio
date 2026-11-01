@@ -55,7 +55,11 @@ export function CourseLandingView({ landing, purchase }: { landing: CourseLandin
           <CardTitle className="flex items-center gap-2">
             <BookMarked className="size-5 text-primary" /> كيف أشترك؟
           </CardTitle>
-          <CardDescription>اطلب الكتاب فهو طلب الدورة: يصلك الكتاب بالدفع عند الاستلام، وتُفعَّل الدورة على حسابك لحظة التسليم تلقائياً. وإن لم تُفعَّل، ترسل لك الإدارة كود تفعيل على هاتفك أو هاتف وليّك.</CardDescription>
+          <CardDescription>
+            {purchase?.book
+              ? 'اطلب الكتاب فهو طلب الدورة: يصلك الكتاب بالدفع عند الاستلام، وتُفعَّل الدورة على حسابك لحظة التسليم تلقائياً. وإن لم تُفعَّل، ترسل لك الإدارة كود تفعيل على هاتفك أو هاتف وليّك.'
+              : 'تُفعَّل هذه الدورة بكود التفعيل: أدخله من زر «لديّ كود تفعيل»، أو تواصل مع الدعم.'}
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           {purchase?.book && purchase.purchasable ? (
@@ -72,7 +76,7 @@ export function CourseLandingView({ landing, purchase }: { landing: CourseLandin
               </Button>
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">شراء هذه الدورة غير متاح حالياً. تواصل مع الدعم، أو أدخل كود التفعيل إن كان لديك.</p>
+            purchase?.book ? <p className="text-sm text-muted-foreground">شراء هذه الدورة غير متاح حالياً. تواصل مع الدعم، أو أدخل كود التفعيل إن كان لديك.</p> : null
           )}
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline">

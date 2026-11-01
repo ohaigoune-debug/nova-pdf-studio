@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 export async function POST(req: Request, ctx: { params: Promise<{ id: string }> }) {
   try {
     assertSameOrigin(req)
-    const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
+    const actor = await requireRole('TEACHER', 'SUPER_ADMIN', 'CONTENT_UPLOADER')
     const { id } = await ctx.params
     const f = await completeUpload(await getDb(), actor, id)
     return jsonOk({ id: f.id, name: f.originalName, size: f.sizeBytes, status: f.status })

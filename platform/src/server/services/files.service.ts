@@ -106,9 +106,11 @@ export function maxBytesFor(mime: string): number {
 
 /** يحجز صف ملف PENDING ويعطي رابط رفع (S3 مباشر إن أمكن، وإلا تيار عبر الخادم). */
 export async function createUploadTicket(db: Db, actor: Actor, input: { originalName: string; mimeType: string; sizeBytes: number }): Promise<UploadTicket> {
-  assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+  assertRole(actor, 'TEACHER', 'SUPER_ADMIN', 'CONTENT_UPLOADER')
   const mime = input.mimeType.toLowerCase()
   if (!ALLOWED_MIME.has(mime)) throw new AppError('FILE_TYPE_NOT_ALLOWED')
+  // رافع المحتوى يرفع ملفات PDF للدروس فقط (الفيديو يذهب إلى Bunny مباشرة)
+  if (actor.role === 'CONTENT_UPLOADER' && mime !== 'application/pdf') throw new AppError('FILE_TYPE_NOT_ALLOWED')
   const max = maxBytesFor(mime)
   if (!Number.isFinite(input.sizeBytes) || input.sizeBytes <= 0) throw new AppError('VALIDATION', { field: 'size' })
   if (input.sizeBytes > max) throw new AppError('FILE_TOO_LARGE')
@@ -130,7 +132,7 @@ export async function createUploadTicket(db: Db, actor: Actor, input: { original
 
 /** يستقبل جسم الطلب كتيار ويكتبه في التخزين (المسار غير المباشر). */
 export async function receiveUploadStream(db: Db, actor: Actor, fileId: string, body: ReadableStream<Uint8Array> | null) {
-  assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+  assertRole(actor, 'TEACHER', 'SUPER_ADMIN', 'CONTENT_UPLOADER')
   assertUuid(fileId, 'FILE_NOT_FOUND')
   const [f] = await db.select().from(files).where(and(eq(files.id, fileId), isNull(files.deletedAt))).limit(1)
   if (!f || f.ownerUserId !== actor.userId) throw new AppError('FILE_NOT_FOUND')
@@ -148,7 +150,7 @@ export async function receiveUploadStream(db: Db, actor: Actor, fileId: string, 
 
 /** يتحقق أن الكائن موجود بالحجم المعلن ثم يعلّم الملف READY. */
 export async function completeUpload(db: Db, actor: Actor, fileId: string) {
-  assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
+  assertRole(actor, 'TEACHER', 'SUPER_ADMIN', 'CONTENT_UPLOADER')
   assertUuid(fileId, 'FILE_NOT_FOUND')
   const [f] = await db.select().from(files).where(and(eq(files.id, fileId), isNull(files.deletedAt))).limit(1)
   if (!f || f.ownerUserId !== actor.userId) throw new AppError('FILE_NOT_FOUND')
