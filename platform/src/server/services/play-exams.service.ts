@@ -431,3 +431,65 @@ export async function getExamProgress(db: Db, actor: Actor): Promise<ExamProgres
       .sort((a, b) => a.pct - b.pct || b.answered - a.answered)
   }
 }
+
+/* ───────────── تطبيق الهاتف الأصيل: PLAY دون إنترنت (1 نوفمبر 2026) ───────────── */
+
+/** خطوة كاملة للتطبيق: كالعامة + مفتاح الإجابة والشرح، ليصحّح التطبيق دون إنترنت (تدريب، لا امتحان رسمي) */
+export interface OfflineStep extends PublicStep {
+  answer: TrainingStep['answer']
+  explanation: string
+  correctText: string
+}
+
+export interface OfflineExamPackage {
+  id: string
+  setId: string
+  checksum: string
+  kind: PlayExamKind
+  year: number | null
+  title: string
+  subjectCode: string
+  language: PlayLanguage
+  scoreTotal: number
+  maxScore: number
+  steps: OfflineStep[]
+}
+
+/**
+ * حزمة موضوع كاملة للتخزين في التطبيق. الصلاحية نفسها كبدء المحاولة على الموقع (التجربة أو الاشتراك).
+ * المفاتيح تصل إلى الجهاز عمدًا: PLAY تدريب، والمحاولة المرفوعة يعيد الخادم تصحيحها بمفاتيحه (syncOfflineAttempt).
+ */
+export async function offlineExamPackage(db: Db, actor: Actor, setUuid: string, now: Date = new Date()): Promise<OfflineExamPackage> {
+  studentIdOf(actor)
+  const set = await loadVisibleSet(db, setUuid)
+  const profile = await getPlayProfile(db, actor)
+  if (set.streamCodes.length && profile.streamCode && !set.streamCodes.includes(profile.streamCode)) throw new AppError('PLAY_EXAM_NOT_FOUND')
+  await beginPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode: profile.streamCode, subjectCode: set.subjectCode }, now)
+  const full = new Map(stepsFor(set.document, profile.streamCode).map((s) => [s.id, s]))
+  const steps = publicSteps(set.document, profile.streamCode).flatMap((p): OfflineStep[] => {
+    const s = full.get(p.id)
+    return s && !isQueued(s.type) ? [{ ...p, answer: s.answer, explanation: s.explanation, correctText: answerText(s) }] : []
+  })
+  return { id: set.id, setId: set.setId, checksum: set.checksum, kind: set.kind as PlayExamKind, year: set.year, title: set.title, subjectCode: set.subjectCode, language: subjectLanguage(set.subjectCode), scoreTotal: set.scoreTotal, maxScore: round2(interactivePoints(set.document, profile.streamCode)), steps }
+}
+
+/**
+ * محاولة أُنجزت في التطبيق (ربما دون إنترنت) تُرفع عند عودة الاتصال: الخادم لا يثق بعلامة التطبيق،
+ * بل يعيد التصحيح بمفاتيحه عبر المسار نفسه للموقع (بدء محاولة تدريب، إرسال كل خطوة، إنهاء).
+ */
+export async function syncOfflineAttempt(db: Db, actor: Actor, input: { setUuid: string; answers: Record<string, StepAnswer> }, now: Date = new Date()): Promise<{ attemptId: string; score: number; max: number; accepted: number }> {
+  const { attemptId } = await startExamAttempt(db, actor, input.setUuid, 'PRACTICE', now)
+  let accepted = 0
+  for (const [stepId, answer] of Object.entries(input.answers).slice(0, 500)) {
+    try {
+      await submitExamStep(db, actor, attemptId, stepId, answer, now)
+      accepted++
+    } catch (e) {
+      // خطوة لم تعد موجودة (موضوع عُدِّل بعد التنزيل) تُتجاهل، ولا تُفشل بقية المحاولة
+      if (!(e instanceof AppError) || e.code !== 'PLAY_STEP_NOT_FOUND') throw e
+    }
+  }
+  await finishExamAttempt(db, actor, attemptId, now)
+  const [row] = await db.select({ score: playExamAttempts.score, max: playExamAttempts.maxScore }).from(playExamAttempts).where(eq(playExamAttempts.id, attemptId)).limit(1)
+  return { attemptId, score: round2(row?.score ?? 0), max: round2(row?.max ?? 0), accepted }
+}
