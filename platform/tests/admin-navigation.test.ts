@@ -23,7 +23,7 @@ describe('قائمة الإدارة المختصرة', () => {
     const orders = items.find((i) => i.href === '/admin/store')!
     expect(orders.children?.map((i) => i.href)).toEqual(['/admin/store', '/admin/store/confirm', '/admin/delivery'])
     expect(orders.children?.map((i) => i.label)).toEqual(['طلبات الدورات', 'طابور التأكيد', 'التوصيل'])
-    expect(items.find((i) => i.href === '/admin/settings')!.children?.map((i) => i.href)).toEqual(['/admin/settings', '/admin/employees', '/admin/settings/video'])
+    expect(items.find((i) => i.href === '/admin/settings')!.children?.map((i) => i.href)).toEqual(['/admin/settings', '/admin/employees', '/admin/settings/video', '/admin/settings/student-menu'])
   })
 
   it('المزيد قابل للطي ويحافظ على كل الوجهات السابقة دون تكرار', () => {
