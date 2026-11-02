@@ -34,7 +34,7 @@ enum Fixtures {
         case ("GET", _) where path.hasPrefix("/api/v1/ios/lessons/"):
             json = path.hasSuffix("v1") ? lessonVideo : path.hasSuffix("p1") ? lessonPDF : lessonText
         case ("GET", "/api/v1/ios/play/subjects"):
-            json = #"{"ok":true,"data":{"gradeCode":"3AS","streamCode":"LIT","subjects":[{"code":"AR","nameAr":"اللغة العربية","color":"#1457C5","language":"ar"},{"code":"PHIL","nameAr":"الفلسفة","color":"#0C1F4A","language":"ar"}],"grades":[]}}"#
+            json = ##"{"ok":true,"data":{"gradeCode":"3AS","streamCode":"LIT","subjects":[{"code":"AR","nameAr":"اللغة العربية","color":"#1457C5","language":"ar"},{"code":"PHIL","nameAr":"الفلسفة","color":"#0C1F4A","language":"ar"}],"grades":[]}}"##
         case ("GET", "/api/v1/ios/play/sets"):
             json = #"{"ok":true,"data":{"items":[{"id":"\#(setID)","setId":"fixture-bac","kind":"BAC","year":2024,"term":null,"paper":1,"title":"بكالوريا تجريبية — الموضوع الأول","stepCount":5,"interactivePoints":5,"scoreTotal":20,"preview":false,"attempts":0,"best":null}],"preview":false,"gradeCode":"3AS","streamCode":"LIT"}}"#
         case ("GET", "/api/v1/ios/play/sets/" + setID):
