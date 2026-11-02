@@ -66,6 +66,7 @@ const en: DeepPartial<typeof ar> = {
     noAccount: "Don't have an account?",
     haveAccount: 'Already have an account?',
     forgot: 'Forgot your password?',
+    identifier: 'Email or phone number',
     loginButton: 'Log in',
     registerButton: 'Create account',
     passwordHint: 'At least 8 characters',

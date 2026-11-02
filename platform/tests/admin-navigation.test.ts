@@ -21,8 +21,8 @@ describe('قائمة الإدارة المختصرة', () => {
   it('الطلبات تجمع طلبات الدورات وطابور التأكيد والتوصيل؛ الإعدادات تجمع الموظفين والفيديو', () => {
     const items = navFor('SUPER_ADMIN')[0]!.items
     const orders = items.find((i) => i.href === '/admin/store')!
-    expect(orders.children?.map((i) => i.href)).toEqual(['/admin/store', '/admin/store/confirm', '/admin/delivery'])
-    expect(orders.children?.map((i) => i.label)).toEqual(['طلبات الدورات', 'طابور التأكيد', 'التوصيل'])
+    expect(orders.children?.map((i) => i.href)).toEqual(['/admin/store', '/admin/store/confirm', '/admin/delivery', '/admin/points-of-sale'])
+    expect(orders.children?.map((i) => i.label)).toEqual(['طلبات الدورات', 'طابور التأكيد', 'التوصيل', 'نقاط البيع'])
     expect(items.find((i) => i.href === '/admin/settings')!.children?.map((i) => i.href)).toEqual(['/admin/settings', '/admin/employees', '/admin/settings/video', '/admin/settings/payment', '/admin/settings/student-menu'])
   })
 

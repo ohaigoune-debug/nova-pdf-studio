@@ -96,6 +96,15 @@ export function CourseLandingView({ landing, purchase, digital }: { landing: Cou
               </Button>
             </div>
           ) : null}
+          {purchase?.book ? (
+            <p className="text-sm text-muted-foreground">
+              تفضّل الشراء نقدًا؟{' '}
+              <Link href="/points-of-sale" className="font-semibold text-primary underline">
+                اشترِ الباقة من أقرب مدرسة أو مكتبة شريكة
+              </Link>{' '}
+              بالسعر نفسه، وتأخذ الكتب فورًا مع كود التفعيل.
+            </p>
+          ) : null}
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline">
               <Link href="/claim">

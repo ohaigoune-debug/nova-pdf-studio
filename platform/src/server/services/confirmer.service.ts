@@ -14,8 +14,22 @@ export interface CreateConfirmerInput {
   phone: string
 }
 
+/** أدوار الموظفين التي ينشئها المشرف من صفحة الموظفين */
+export const STAFF_ROLES = ['CONFIRMER', 'MANAGER'] as const
+export type StaffRole = (typeof STAFF_ROLES)[number]
+export const STAFF_ROLE_AR: Record<StaffRole, string> = { CONFIRMER: 'موظف تأكيد', MANAGER: 'مدير العمليات' }
+
 /** حساب موظف الطلبات بلا مساحة أستاذ أو ملف تلميذ؛ الدور لا يؤخذ من المتصفح. */
 export async function createConfirmer(db: Db, actor: Actor, input: CreateConfirmerInput): Promise<{ userId: string }> {
+  return createStaffAccount(db, actor, { ...input, role: 'CONFIRMER' })
+}
+
+/**
+ * حساب موظف (موظف تأكيد أو «مدير العمليات»: المدارس والمسوّقون والمخزون والأكواد والأموال المستلَمة،
+ * بلا إعدادات تقنية ولا محتوى ولا أسعار ولا حسابات موظفين). الدخول بالبريد أو بالهاتف.
+ */
+export async function createStaffAccount(db: Db, actor: Actor, input: CreateConfirmerInput & { role: StaffRole }): Promise<{ userId: string }> {
+  if (!STAFF_ROLES.includes(input.role)) throw new AppError('VALIDATION', { field: 'role' })
   assertRole(actor, 'SUPER_ADMIN')
   const email = input.email.trim().toLowerCase()
   const fullName = input.fullName.trim()
@@ -26,18 +40,18 @@ export async function createConfirmer(db: Db, actor: Actor, input: CreateConfirm
   const [existing] = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1)
   if (existing) throw new AppError('EMAIL_TAKEN')
   return db.transaction(async (tx) => {
-    const [user] = await tx.insert(users).values({ email, passwordHash: hashPassword(input.password), role: 'CONFIRMER' }).returning({ id: users.id })
+    const [user] = await tx.insert(users).values({ email, passwordHash: hashPassword(input.password), role: input.role }).returning({ id: users.id })
     if (!user) throw new AppError('INTERNAL')
     await tx.insert(profiles).values({ userId: user.id, fullName, phone })
-    await writeAudit(tx, { actorUserId: actor.userId, workspaceId: null, action: 'confirmer.create', entityType: 'user', entityId: user.id, newValue: { role: 'CONFIRMER' } })
+    await writeAudit(tx, { actorUserId: actor.userId, workspaceId: null, action: 'confirmer.create', entityType: 'user', entityId: user.id, newValue: { role: input.role } })
     return { userId: user.id }
   })
 }
 
-export async function listConfirmers(db: Db, actor: Actor) {
+export async function listConfirmers(db: Db, actor: Actor, role: StaffRole = 'CONFIRMER') {
   assertRole(actor, 'SUPER_ADMIN')
   return db.select({ id: users.id, email: users.email, status: users.status, fullName: profiles.fullName, phone: profiles.phone, createdAt: users.createdAt })
-    .from(users).leftJoin(profiles, eq(profiles.userId, users.id)).where(eq(users.role, 'CONFIRMER')).orderBy(desc(users.createdAt))
+    .from(users).leftJoin(profiles, eq(profiles.userId, users.id)).where(eq(users.role, role)).orderBy(desc(users.createdAt))
 }
 
 /** إجراءات الموظف المسجَّلة في التدقيق: الحالة، وتعديلات الطلب (قرار المالك 2026-10-28)، وكود التفعيل */

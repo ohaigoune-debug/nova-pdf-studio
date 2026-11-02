@@ -6,7 +6,7 @@
  * منفصلة تماماً عن أكواد أفواج الأساتذة (enrollment_codes) فلا يُفتح بها فوج أستاذ أبداً.
  */
 import { randomUUID } from 'node:crypto'
-import { and, desc, eq, sql } from 'drizzle-orm'
+import { and, desc, eq, inArray, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { courseCodes, courseEnrollments, courses, profiles, students } from '@/server/db/schema'
 import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
@@ -19,6 +19,26 @@ import { enrollStudent } from './courses.service'
 export const isCourseCodeShape = (raw: string): boolean => /^\d{11}$/.test(normalizeEnrollmentCode(raw))
 /** بادئة في الـhash تفصل فضاء أكواد الدورات عن أكواد الأفواج */
 const hashCourseCode = (code: string) => hashEnrollmentCode(`course:${code}`)
+
+/**
+ * كود واحد يُولَّد داخل معاملة قائمة (نقطة بيع تبيع باقة): يعيد الكود الصريح ومعرّفه.
+ * extra: حقول نقطة البيع (posId، الكود مختومًا، السعر والعمولة وقت البيع).
+ */
+export async function insertSingleCourseCode(
+  tx: Db,
+  input: { courseId: string; batchId: string; batchLabel: string | null; createdByUserId: string; extra?: Partial<typeof courseCodes.$inferInsert>; makeExtra?: (code: string) => Partial<typeof courseCodes.$inferInsert> }
+): Promise<{ id: string; code: string }> {
+  for (let attempt = 0; attempt < 20; attempt++) {
+    const code = generateEnrollmentCode()
+    const [row] = await tx
+      .insert(courseCodes)
+      .values({ courseId: input.courseId, batchId: input.batchId, batchLabel: input.batchLabel, codeHash: hashCourseCode(code), codePrefix: codePrefix(code), createdByUserId: input.createdByUserId, ...input.extra, ...input.makeExtra?.(code) })
+      .onConflictDoNothing({ target: courseCodes.codeHash })
+      .returning({ id: courseCodes.id })
+    if (row) return { id: row.id, code }
+  }
+  throw new AppError('INTERNAL')
+}
 
 export interface GenerateCourseCodesInput {
   courseId: string
@@ -118,17 +138,18 @@ export async function redeemCourseCode(db: Db, actor: Actor, raw: string): Promi
       if (c.usedByStudentId === studentId) {
         const [crs] = await tx.select({ id: courses.id, title: courses.title, slug: courses.slug, workspaceId: courses.workspaceId, deletedAt: courses.deletedAt }).from(courses).where(eq(courses.id, c.courseId)).limit(1)
         if (!crs || crs.deletedAt) throw new AppError('COURSE_NOT_FOUND')
-        await enrollStudent(tx, null, { courseId: crs.id, studentId, source: 'CODE', activatedByUserId: actor.userId })
+        await enrollStudent(tx, null, { courseId: crs.id, studentId, source: c.posId ? 'POS' : 'CODE', activatedByUserId: actor.userId })
         return { course: crs, codeId: c.id, batchId: c.batchId }
       }
       throw new AppError('COURSE_CODE_USED', { usedAt: c.usedAt?.toISOString() ?? null })
     }
-    if (c.status === 'DISABLED') throw new AppError('CODE_DISABLED')
+    if (c.status === 'DISABLED') throw new AppError(c.cancelledAt ? 'POS_CODE_CANCELLED' : 'CODE_DISABLED')
     if (c.expiresAt && c.expiresAt.getTime() < Date.now()) throw new AppError('CODE_EXPIRED')
     const [crs] = await tx.select({ id: courses.id, title: courses.title, slug: courses.slug, workspaceId: courses.workspaceId, deletedAt: courses.deletedAt }).from(courses).where(eq(courses.id, c.courseId)).limit(1)
     if (!crs || crs.deletedAt) throw new AppError('COURSE_NOT_FOUND')
     await tx.update(courseCodes).set({ status: 'USED', usedAt: new Date(), usedByStudentId: studentId }).where(eq(courseCodes.id, c.id))
-    await enrollStudent(tx, null, { courseId: crs.id, studentId, source: 'CODE', activatedByUserId: actor.userId })
+    // كود باقة بيعت في نقطة بيع: مصدر الاشتراك POS (للإحصاء)، والتفعيل نفسه
+    await enrollStudent(tx, null, { courseId: crs.id, studentId, source: c.posId ? 'POS' : 'CODE', activatedByUserId: actor.userId })
     return { course: crs, codeId: c.id, batchId: c.batchId }
   })
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'course.code_redeem', entityType: 'course', entityId: course.id, newValue: { codeId, batchId } })
@@ -173,7 +194,7 @@ export async function releaseCourseCode(db: Db, actor: Actor, raw: string, opts:
   if (!c) throw new AppError('CODE_INVALID')
   if (c.status !== 'USED') return false
   if (opts.revokeEnrollment && c.usedByStudentId) {
-    await db.update(courseEnrollments).set({ status: 'REVOKED', revokedReason: 'تحرير كود التفعيل من الإدارة', updatedAt: new Date() }).where(and(eq(courseEnrollments.courseId, c.courseId), eq(courseEnrollments.studentId, c.usedByStudentId), eq(courseEnrollments.source, 'CODE')))
+    await db.update(courseEnrollments).set({ status: 'REVOKED', revokedReason: 'تحرير كود التفعيل من الإدارة', updatedAt: new Date() }).where(and(eq(courseEnrollments.courseId, c.courseId), eq(courseEnrollments.studentId, c.usedByStudentId), inArray(courseEnrollments.source, ['CODE', 'POS'])))
   }
   await db.update(courseCodes).set({ status: 'ACTIVE', usedAt: null, usedByStudentId: null }).where(eq(courseCodes.id, c.id))
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'course.code_release', entityType: 'course_code', entityId: c.id, oldValue: { usedByStudentId: c.usedByStudentId, usedAt: c.usedAt?.toISOString() ?? null }, newValue: { revokeEnrollment: Boolean(opts.revokeEnrollment) } })

@@ -15,7 +15,8 @@ import { changePassword, login, logout, registerStudent, requestPasswordReset, r
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 
 const loginSchema = z.object({
-  email: z.string().trim().email('أدخل بريداً صحيحاً'),
+  // البريد أو رقم الهاتف
+  email: z.string().trim().min(3, 'أدخل بريدك أو رقم هاتفك').max(254),
   password: z.string().min(1, 'أدخل كلمة السر'),
   next: z.string().optional()
 })

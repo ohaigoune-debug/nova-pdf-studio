@@ -22,8 +22,8 @@ export function LoginForm({ next, showDemo, resetDone = false }: { next?: string
   return (
     <form action={action} className="space-y-4">
       {next ? <input type="hidden" name="next" value={next} /> : null}
-      <Field label={t('common.email')} htmlFor="email" error={fieldError(state, 'email')}>
-        <Input id="email" name="email" type="email" autoComplete="email" required dir="ltr" />
+      <Field label={t('auth.identifier')} htmlFor="email" error={fieldError(state, 'email')}>
+        <Input id="email" name="email" type="text" inputMode="email" autoComplete="username" autoCapitalize="none" spellCheck={false} required dir="ltr" />
       </Field>
       <Field label={t('common.password')} htmlFor="password" error={fieldError(state, 'password')}>
         <Input id="password" name="password" type="password" autoComplete="current-password" required dir="ltr" />

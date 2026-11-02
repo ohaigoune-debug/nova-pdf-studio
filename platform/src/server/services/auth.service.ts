@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto'
-import { and, eq, isNull } from 'drizzle-orm'
+import { and, desc, eq, isNull } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { levels, otpCodes, passwordResets, profiles, streams, students, users } from '@/server/db/schema'
 import { hashPassword, isStrongEnough, verifyPassword } from '@/server/auth/password'
@@ -70,17 +70,27 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
   return { ...result, session }
 }
 
+/** رقم هاتف جزائري (05/06/07) بصيغه الشائعة، أو null */
+export function loginPhone(raw: string): string | null {
+  const p = raw.replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
+  return /^0[5-7]\d{8}$/.test(p) ? p : null
+}
+
+/**
+ * الدخول بالبريد أو بالهاتف (قرار المالك 2 نوفمبر 2026: حسابات المدارس والشركاء تُرسَل لهم برقم وكلمة سر).
+ * بالهاتف: كل حساب يحمل هذا الرقم في ملفه، ويُقبل منها الذي تطابق كلمة سرّه.
+ */
 export async function login(db: Db, input: { email: string; password: string }, meta: RequestMeta = {}) {
-  const email = input.email.trim().toLowerCase()
-  const rows = await db
-    .select({ id: users.id, passwordHash: users.passwordHash, status: users.status, role: users.role, deletedAt: users.deletedAt })
-    .from(users)
-    .where(eq(users.email, email))
-    .limit(1)
-  const user = rows[0]
+  const ident = input.email.trim()
+  const phone = ident.includes('@') ? null : loginPhone(ident)
+  const cols = { id: users.id, passwordHash: users.passwordHash, status: users.status, role: users.role, deletedAt: users.deletedAt }
+  const candidates = phone
+    ? await db.select(cols).from(users).innerJoin(profiles, eq(profiles.userId, users.id)).where(and(eq(profiles.phone, phone), isNull(users.deletedAt))).orderBy(desc(users.lastLoginAt)).limit(5)
+    : await db.select(cols).from(users).where(eq(users.email, ident.toLowerCase())).limit(1)
   // نُشغّل التحقق حتى عند غياب المستخدم لتقليل فرق التوقيت
-  const ok = user ? verifyPassword(input.password, user.passwordHash) : verifyPassword(input.password, DUMMY_HASH)
-  if (!user || !ok || user.deletedAt) throw new AppError('INVALID_CREDENTIALS')
+  if (candidates.length === 0) verifyPassword(input.password, DUMMY_HASH)
+  const user = candidates.find((c) => verifyPassword(input.password, c.passwordHash))
+  if (!user || user.deletedAt) throw new AppError('INVALID_CREDENTIALS')
   if (user.status !== 'ACTIVE') throw new AppError('ACCOUNT_DISABLED')
 
   await db.update(users).set({ lastLoginAt: new Date() }).where(eq(users.id, user.id))

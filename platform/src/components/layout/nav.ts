@@ -122,6 +122,12 @@ export function navFor(role: UserRole): NavSection[] {
     case 'CONTENT_UPLOADER':
       // رافع المحتوى: دوراته المسندة فقط (طلب المالك 1 نوفمبر 2026)
       return [{ items: [{ href: '/studio', label: 'دوراتي ودروسها', iconKey: 'GraduationCap' }] }]
+    case 'MANAGER':
+      // مدير العمليات: نقاط البيع ومخزونها وأكوادها والمال المستلَم منها (قرار المالك 2 نوفمبر 2026)
+      return [{ items: [
+        { href: '/admin/points-of-sale', label: 'نقاط البيع', iconKey: 'Store' },
+        { href: '/admin/notifications', label: 'الإشعارات', iconKey: 'BellRing' }
+      ] }]
     case 'CONFIRMER':
       return [{ items: [
         { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall', exact: true },
@@ -140,7 +146,8 @@ export function navFor(role: UserRole): NavSection[] {
               children: [
                 { href: '/admin/store', label: 'طلبات الدورات', iconKey: 'ShoppingBag', exact: true },
                 { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall' },
-                { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' }
+                { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' },
+                { href: '/admin/points-of-sale', label: 'نقاط البيع', iconKey: 'Store' }
               ]
             },
             {
