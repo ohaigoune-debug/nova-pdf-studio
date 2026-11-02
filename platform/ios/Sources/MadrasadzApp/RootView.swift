@@ -66,6 +66,9 @@ struct LoginView: View {
                         .accessibilityIdentifier("loginIdentifier")
                     SecureField(L10n.text("loginPassword"), text: $password)
                         .textContentType(.password)
+                        // Passwords on the site are typed in Latin letters: open the Latin keyboard
+                        // even when the phone's own keyboard is Arabic.
+                        .keyboardType(.asciiCapable)
                         .submitLabel(.go)
                         .focused($focus, equals: .password)
                         .onSubmit { Task { await submit() } }
@@ -276,6 +279,7 @@ struct DeleteAccountView: View {
                 Section {
                     SecureField(L10n.text("loginPassword"), text: $password)
                         .textContentType(.password)
+                        .keyboardType(.asciiCapable)
                         .accessibilityIdentifier("deletePassword")
                     Toggle(L10n.text("deleteAccountUnderstood"), isOn: $understood)
                         .accessibilityIdentifier("deleteUnderstood")
