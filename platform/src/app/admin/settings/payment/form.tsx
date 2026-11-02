@@ -14,7 +14,7 @@ export function GuiddiniForm({ view, defaultBase }: { view: { baseUrl: string; a
   const test = () =>
     start(async () => {
       const r = await testGuiddiniAction()
-      if (r.ok) toast('success', 'الاتصال بـ Guiddini ناجح', 'المفاتيح مقبولة')
+      if (r.ok) toast('success', 'الاتصال بـ eFawtara ناجح', 'المفاتيح مقبولة')
       else toast('error', r.error.message)
     })
   const clear = () =>
@@ -25,15 +25,16 @@ export function GuiddiniForm({ view, defaultBase }: { view: { baseUrl: string; a
     })
   return (
     <form action={action} className="space-y-4">
-      <Field label="x-app-key" htmlFor="g-key" hint={view ? `المحفوظ ينتهي بـ …${view.appKeyHint}` : 'من لوحة Guiddini'}>
-        <Input id="g-key" name="appKey" required dir="ltr" autoComplete="off" placeholder={view ? '(الصق المفتاح من جديد)' : ''} />
+      <Field label="App Key" htmlFor="g-key" hint={view ? `المحفوظ ينتهي بـ …${view.appKeyHint}` : 'يبدأ بـ APP- — من بطاقة «CIB & Edahabia · Délégué» في eFawtara'}>
+        <Input id="g-key" name="appKey" required dir="ltr" autoComplete="off" placeholder={view ? '(الصق المفتاح من جديد) APP-…' : 'APP-…'} />
       </Field>
-      <Field label="x-app-secret" htmlFor="g-secret" hint={view?.secretHint ? `محفوظ ومختوم (…${view.secretHint}). اتركه فارغًا لإبقائه.` : 'يُحفظ مختومًا ولا يظهر بعد الحفظ'}>
-        <Input id="g-secret" name="appSecret" type="password" dir="ltr" autoComplete="new-password" required={!view} />
+      <Field label="App Secret" htmlFor="g-secret" hint={view?.secretHint ? `محفوظ ومختوم (…${view.secretHint}). اتركه فارغًا لإبقائه.` : 'يبدأ بـ SEC- — يُحفظ مختومًا ولا يظهر بعد الحفظ'}>
+        <Input id="g-secret" name="appSecret" type="password" dir="ltr" autoComplete="new-password" required={!view} placeholder="SEC-…" />
       </Field>
       <details className="text-sm">
-        <summary className="cursor-pointer text-muted-foreground">عنوان البوابة (لا تغيّره إلا إن طلبت Guiddini ذلك)</summary>
+        <summary className="cursor-pointer text-muted-foreground">عنوان واجهة eFawtara (لا تغيّره إلا إن طلبت eFawtara ذلك)</summary>
         <Input className="mt-2" name="baseUrl" defaultValue={view?.baseUrl ?? defaultBase} dir="ltr" />
+        <p className="mt-1 text-xs text-muted-foreground">عنوان لوحة التحكم (app.efawtara.com) أو عنوان Guiddini القديم يُصحَّح تلقائيًّا إلى {defaultBase}. ورابط العودة يُرسَل تلقائيًّا مع كل طلب.</p>
       </details>
       <label className="flex items-center gap-2 text-sm font-semibold">
         <input type="checkbox" name="enabled" className="size-4" defaultChecked={view?.enabled ?? false} /> تفعيل «ادفع الآن» للتلاميذ

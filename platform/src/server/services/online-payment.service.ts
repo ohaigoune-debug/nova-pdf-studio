@@ -1,24 +1,54 @@
 /**
- * الدفع الإلكتروني للدورة (Guiddini/SATIM) — قرار المالك 1 نوفمبر 2026: «ادفع الآن وتُفعَّل الدورة فورًا».
+ * الدفع الإلكتروني للدورة (eFawtara/SATIM، كانت Guiddini) — قرار المالك 1 نوفمبر 2026: «ادفع الآن وتُفعَّل الدورة فورًا».
  *
  *  1) الطلب يُنشأ بطريقة ONLINE وحالة PENDING (الكتاب محجوز إن وُجد)، ثم تُنشأ المعاملة ويُحوَّل الولي إلى SATIM.
  *  2) عند العودة — أو آليًّا كل بضع دقائق لمن لم يعد — يسأل الخادم البوابة نفسها عن الحالة. لا يُصدَّق المتصفح أبدًا.
- *  3) «paid» بالمبلغ نفسه ⇒ الدورة تُفعَّل فورًا (ONLINE_PAYMENT) والطلب «مؤكَّد» فيُشحن الكتاب كالعادة.
- *     مبلغ مختلف ⇒ MISMATCH بلا تفعيل وتنبيه للمشرف. فشل ⇒ يُلغى الطلب ويعود المخزون.
+ *  3) «paid» وحدها تعني أن المال اقتُطع: بالمبلغ نفسه ⇒ الدورة تُفعَّل فورًا (ONLINE_PAYMENT) والطلب «مؤكَّد» فيُشحن الكتاب.
+ *     مبلغ مختلف ⇒ MISMATCH بلا تفعيل وتنبيه للمشرف. فشل (حالة فشل أو confirmation_status = failed) ⇒ يُلغى الطلب ويعود المخزون.
+ *     no_payment_attempted وrequires_verification ليستا حكمًا: تبقى الدفعة معلّقة حتى تنتهي المهلة.
  *  4) كل خطوة آمنة عند التكرار (عودة الولي + الفحص الآلي في اللحظة نفسها لا يفعّلان مرتين).
  */
 import { and, desc, eq, inArray, lt, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { onlinePayments, orderItems, orders, students, users } from '@/server/db/schema'
+import { auditLogs, onlinePayments, orderItems, orders, students, users } from '@/server/db/schema'
 import { writeAudit } from '@/server/lib/audit'
-import { AppError, assertUuid } from '@/server/lib/errors'
+import { AppError, assertUuid, isAppError } from '@/server/lib/errors'
 import { getGuiddiniConfig, guiddiniCheck, guiddiniInitiate } from '@/server/lib/guiddini'
 import { notifyMany } from './notifications.service'
 import { transitionOrder } from './order-status.service'
 
 type PaymentRow = typeof onlinePayments.$inferSelect
 
-const FAILED_STATUSES = new Set(['failed', 'declined', 'rejected', 'refused', 'canceled', 'cancelled', 'expired', 'error'])
+/** حالات الفشل في eFawtara (https://docs.efawtara.com/statuses)، ومعها كلمات الواجهة القديمة */
+export const FAILED_STATUSES = new Set([
+  'user_cancelled',
+  'time_limit_reached',
+  'timeout',
+  'no_attempts_left',
+  'insufficient_funds',
+  'card_limit_reached',
+  'card_expired',
+  'card_blocked',
+  'card_input_error',
+  'auth_failure',
+  'bank_rejection',
+  'payment_declined',
+  'gateway_error',
+  'gateway_denied',
+  'gateway_unreachable',
+  'network_error',
+  'failed',
+  'cancelled',
+  // الواجهة القديمة (Guiddini)
+  'canceled',
+  'declined',
+  'rejected',
+  'refused',
+  'expired',
+  'error'
+])
+/** فشل نهائي: حالة فشل، أو حكم التأكيد failed (يتحرك مرة واحدة فقط) */
+const isFailure = (r: { status: string; confirmationStatus: string }) => FAILED_STATUSES.has(r.status) || r.confirmationStatus === 'failed'
 /** بعدها تُعدّ المحاولة منتهية ويُلغى الطلب (صفحة SATIM لا تبقى مفتوحة يومًا كاملًا) */
 const EXPIRE_AFTER_MS = 24 * 3600 * 1000
 
@@ -26,7 +56,24 @@ const EXPIRE_AFTER_MS = 24 * 3600 * 1000
 export async function startOrderPayment(db: Db, input: { orderId: string; userId: string; amountDzd: number }, fetchImpl?: typeof fetch): Promise<{ paymentId: string; formUrl: string }> {
   const config = await getGuiddiniConfig(db)
   if (!config?.enabled) throw new AppError('PAYMENT_NOT_CONFIGURED')
-  const t = await guiddiniInitiate(config, input.amountDzd, fetchImpl)
+  let t: Awaited<ReturnType<typeof guiddiniInitiate>>
+  try {
+    t = await guiddiniInitiate(config, { amountDzd: input.amountDzd, orderId: input.orderId }, fetchImpl)
+  } catch (err) {
+    // سبب الرفض كما أعادته البوابة يُحفظ للمشرف (صفحة الدفع الإلكتروني) — لا يصل منه شيء إلى التلميذ
+    if (isAppError(err) && ['PAYMENT_GATEWAY_REJECTED', 'PAYMENT_KEYS_INVALID', 'PAYMENT_GATEWAY_UNREACHABLE'].includes(err.code)) {
+      const d = (err.details ?? {}) as Record<string, unknown>
+      await writeAudit(db, {
+        actorUserId: input.userId,
+        workspaceId: null,
+        action: 'payment.rejected',
+        entityType: 'order',
+        entityId: input.orderId,
+        newValue: { amountDzd: input.amountDzd, error: err.code, httpStatus: d.httpStatus ?? null, code: d.code ?? null, title: d.title ?? null, detail: d.detail ?? null, meta: d.meta ?? null }
+      }).catch(() => null)
+    }
+    throw err
+  }
   const [row] = await db
     .insert(onlinePayments)
     .values({ orderId: input.orderId, userId: input.userId, amountDzd: input.amountDzd, gatewayRef: t.ref, formUrl: t.formUrl, gatewayStatus: 'initiated', gatewayResponse: t.raw })
@@ -106,18 +153,19 @@ export async function verifyPayment(db: Db, paymentId: string, fetchImpl?: typeo
       await transitionOrder(db, p.orderId, 'CONFIRMED', { actorUserId: null, source: 'system', reason: 'دفع إلكتروني مؤكَّد' }).catch(() => null)
     }
     const courseIds = await activateForOrder(db, p.orderId)
-    await writeAudit(db, { actorUserId: null, workspaceId: null, action: 'payment.paid', entityType: 'order', entityId: p.orderId, newValue: { paymentId: p.id, amountDzd: p.amountDzd, courseIds } })
+    await writeAudit(db, { actorUserId: null, workspaceId: null, action: 'payment.paid', entityType: 'order', entityId: p.orderId, newValue: { paymentId: p.id, amountDzd: p.amountDzd, courseIds, receiptUrl: r.receiptUrl } })
     await notifyMany(db, [{ userId: p.userId, workspaceId: null, type: 'SYSTEM' as const, title: 'تمّ الدفع وفُعّلت الدورة', body: `الطلب ${o?.number ?? ''} · ${p.amountDzd} دج`, link: '/student/courses' }])
     await admins(`دفع إلكتروني ${o?.number ?? ''}`, `${p.amountDzd} دج · فُعّلت الدورة تلقائيًّا`)
     return { ...base, status: 'PAID', courseIds }
   }
 
   const expired = now.getTime() - p.createdAt.getTime() > EXPIRE_AFTER_MS
-  if (FAILED_STATUSES.has(r.status) || expired) {
-    const status = FAILED_STATUSES.has(r.status) ? 'FAILED' : 'EXPIRED'
+  const failed = isFailure(r)
+  if (failed || expired) {
+    const status = failed ? 'FAILED' : 'EXPIRED'
     if (await settle(status)) {
       if (o && o.status !== 'CANCELLED') await transitionOrder(db, p.orderId, 'CANCELLED', { actorUserId: null, source: 'system', reason: status === 'FAILED' ? 'لم يتمّ الدفع الإلكتروني' : 'انتهت مهلة الدفع الإلكتروني' }).catch(() => null)
-      await writeAudit(db, { actorUserId: null, workspaceId: null, action: 'payment.failed', entityType: 'order', entityId: p.orderId, newValue: { paymentId: p.id, gatewayStatus: r.status, status } })
+      await writeAudit(db, { actorUserId: null, workspaceId: null, action: 'payment.failed', entityType: 'order', entityId: p.orderId, newValue: { paymentId: p.id, gatewayStatus: r.status, confirmationStatus: r.confirmationStatus || null, status } })
     }
     return { ...base, status, courseIds: [] }
   }
@@ -169,10 +217,62 @@ export async function reconcilePendingPayments(db: Db, fetchImpl?: typeof fetch,
 /** للإدارة: آخر عمليات الدفع */
 export async function listRecentPayments(db: Db, limit = 50) {
   return db
-    .select({ id: onlinePayments.id, status: onlinePayments.status, amountDzd: onlinePayments.amountDzd, gatewayStatus: onlinePayments.gatewayStatus, createdAt: onlinePayments.createdAt, paidAt: onlinePayments.paidAt, orderNumber: orders.number, customerName: orders.customerName })
+    .select({
+      id: onlinePayments.id,
+      status: onlinePayments.status,
+      amountDzd: onlinePayments.amountDzd,
+      gatewayStatus: onlinePayments.gatewayStatus,
+      receiptUrl: sql<string | null>`${onlinePayments.gatewayResponse} -> 'data' -> 'links' ->> 'href'`,
+      createdAt: onlinePayments.createdAt,
+      paidAt: onlinePayments.paidAt,
+      orderNumber: orders.number,
+      customerName: orders.customerName
+    })
     .from(onlinePayments)
     .innerJoin(orders, eq(orders.id, onlinePayments.orderId))
     .where(inArray(onlinePayments.status, ['PENDING', 'PAID', 'FAILED', 'EXPIRED', 'MISMATCH']))
     .orderBy(desc(onlinePayments.createdAt))
     .limit(limit)
+}
+
+export interface PaymentRejection {
+  id: string
+  createdAt: Date
+  orderNumber: string | null
+  amountDzd: number | null
+  error: string | null
+  httpStatus: number | null
+  code: string | null
+  title: string | null
+  detail: string | null
+  meta: unknown
+}
+
+/** للإدارة: آخر أسباب رفض البوابة لإنشاء الدفع (سجلّ التدقيق payment.rejected) */
+export async function listRecentPaymentRejections(db: Db, limit = 5): Promise<PaymentRejection[]> {
+  const rows = await db
+    .select({ id: auditLogs.id, createdAt: auditLogs.createdAt, newValue: auditLogs.newValue, orderNumber: orders.number })
+    .from(auditLogs)
+    .leftJoin(orders, eq(orders.id, auditLogs.entityId))
+    .where(eq(auditLogs.action, 'payment.rejected'))
+    .orderBy(desc(auditLogs.createdAt))
+    .limit(limit)
+  const str = (v: unknown) => (typeof v === 'string' && v ? v : null)
+  return rows.map((r) => {
+    const v = r.newValue ?? {}
+    const http = Number(v.httpStatus)
+    const amount = Number(v.amountDzd)
+    return {
+      id: r.id,
+      createdAt: r.createdAt,
+      orderNumber: r.orderNumber,
+      amountDzd: Number.isFinite(amount) && v.amountDzd !== null ? amount : null,
+      error: str(v.error),
+      httpStatus: v.httpStatus !== null && Number.isFinite(http) ? http : null,
+      code: str(v.code),
+      title: str(v.title),
+      detail: str(v.detail),
+      meta: v.meta ?? null
+    }
+  })
 }

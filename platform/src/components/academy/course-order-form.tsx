@@ -18,7 +18,7 @@ export interface CheckoutData {
   feeTable: Record<string, { home: number; desk: number }> | null
   shippingDzd: number
   smsReady: boolean
-  /** «ادفع الآن» بالبطاقة متاح (مفاتيح Guiddini مضبوطة ومفعّلة) */
+  /** «ادفع الآن» بالبطاقة متاح (مفاتيح eFawtara مضبوطة ومفعّلة) */
   onlinePay?: boolean
 }
 

@@ -165,7 +165,7 @@ export interface PlaceCourseOrderInput {
   deliveryType?: 'HOME' | 'DESK' | null
   note?: string | null
   otpCode?: string | null
-  /** «ادفع الآن» بالبطاقة (Guiddini/SATIM): تُفعَّل الدورة فور تأكّد الخادم من الدفع */
+  /** «ادفع الآن» بالبطاقة (eFawtara/SATIM): تُفعَّل الدورة فور تأكّد الخادم من الدفع */
   payNow?: boolean
 }
 

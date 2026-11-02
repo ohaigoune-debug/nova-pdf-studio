@@ -12,7 +12,7 @@ export const metadata = { title: 'نتيجة الدفع' }
 type Q = { order_number?: string; orderNumber?: string; id?: string }
 
 /**
- * صفحة العودة من SATIM (تُضبط في لوحة Guiddini كرابط النجاح والفشل معًا).
+ * صفحة العودة من SATIM: يُرسَل رابطها مع كل طلب دفع إلى eFawtara (return_url)، وتعود إليه البوابة مضافًا إليه ?order_number=….
  * لا تثق بما في الرابط: تسأل البوابة عن الحالة الحقيقية ثم تعرضها. التحديث يعيد السؤال.
  */
 export default async function PaymentReturnPage({ searchParams }: { searchParams: Promise<Q> }) {
