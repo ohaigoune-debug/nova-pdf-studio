@@ -105,7 +105,8 @@ export async function iosApiLesson(db: Db, actor: Actor | null, slug: string) {
         kind,
         // معرّف المحتوى للفيديو: نبضات المشاهدة وحدّ الجهاز الواحد في المشغّل الأصلي (لا رابط ملف)
         ...(kind === 'youtube' ? { youtubeId: item.youtubeId, contentId: item.id } : {}),
-        ...(kind === 'video' ? { contentId: item.id } : {}),
+        // provider: BUNNY يُشغَّل في التطبيق برابط موقّع من /api/v1/ios/media/:contentId/player
+        ...(kind === 'video' ? { contentId: item.id, provider: item.videoProvider ?? null } : {}),
         // PDF: معرّف المحتوى ليستعمله مسار التصدير الحالي المحمي، لا رابط ملف
         ...(kind === 'pdf' ? { contentId: item.id, allowDownload: Boolean(item.allowDownload) } : {})
       },

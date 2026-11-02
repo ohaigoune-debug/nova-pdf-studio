@@ -8,7 +8,8 @@ import { jsonError, jsonOk } from '../../_lib'
 
 export const dynamic = 'force-dynamic'
 
-const schema = z.object({ email: z.string().email(), password: z.string().min(1), deviceName: z.string().optional() })
+// «email» يقبل البريد أو رقم الهاتف كما في نموذج الدخول على الموقع (login في auth.service)
+const schema = z.object({ email: z.string().trim().min(3).max(200), password: z.string().min(1).max(200), deviceName: z.string().max(120).optional() })
 
 /** POST /api/v1/auth/login — يرجع Bearer token لتطبيقات الجوال */
 export async function POST(req: Request) {
@@ -20,7 +21,7 @@ export async function POST(req: Request) {
     const emailKey = sha256(parsed.data.email.trim().toLowerCase())
     await checkRateLimit(db, { scope: 'login-ip', subject: ip, ...RATE_LIMITS.loginIp })
     await checkRateLimit(db, { scope: 'login-email', subject: emailKey, ...RATE_LIMITS.loginEmail })
-    const r = await login(db, { email: parsed.data.email, password: parsed.data.password }, { userAgent: req.headers.get('user-agent'), ip })
+    const r = await login(db, { email: parsed.data.email, password: parsed.data.password }, { userAgent: req.headers.get('user-agent'), ip: ip === 'unknown' ? null : ip })
     await resetRateLimit(db, 'login-email', emailKey)
     return jsonOk({ token: r.session.token, expiresAt: r.session.expiresAt.toISOString(), role: r.role })
   } catch (err) {
