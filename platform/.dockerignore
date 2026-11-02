@@ -10,5 +10,6 @@ coverage
 tests
 docs
 android
+android-confirm
 .git
 backups

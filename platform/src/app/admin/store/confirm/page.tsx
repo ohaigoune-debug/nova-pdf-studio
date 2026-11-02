@@ -14,6 +14,7 @@ import { getDb } from '@/server/db/client'
 import type { OrderStatus } from '@/server/db/schema/enums'
 import { callPairingUrl, getCallConfirm, listCallEvents } from '@/server/services/call-confirm.service'
 import { queueSummary } from '@/server/services/confirm-reservations.service'
+import { CONFIRM_APK_FILENAME, apkInfo } from '@/server/lib/android-apk'
 import { ecotrackOperatorStatus, ecotrackStatus } from '@/server/services/ecotrack.service'
 import { ORDER_STATUS_AR } from '@/server/services/order-status.service'
 import { listStreams } from '@/server/services/reference.service'
@@ -50,7 +51,7 @@ export default async function ConfirmQueuePage() {
   const actor = await requirePageActor('SUPER_ADMIN', 'CONFIRMER')
   const db = await getDb()
   const worker = actor.role === 'CONFIRMER'
-  const [queue, eco, streamRows, res] = await Promise.all([listConfirmationQueue(db, actor), worker ? ecotrackOperatorStatus(db, actor) : ecotrackStatus(db), listStreams(db), queueSummary(db, actor)])
+  const [queue, eco, streamRows, res, phoneApp] = await Promise.all([listConfirmationQueue(db, actor), worker ? ecotrackOperatorStatus(db, actor) : ecotrackStatus(db), listStreams(db), queueSummary(db, actor), apkInfo(CONFIRM_APK_FILENAME)])
   const reserving = res.policy.enabled
   const streamOptions = streamRows.map((r) => ({ id: r.id, name: r.nameAr }))
   const admin = worker ? null : await Promise.all([getCallConfirm(db), listCallEvents(db, actor, 30)])
@@ -67,9 +68,14 @@ export default async function ConfirmQueuePage() {
         title="طابور التأكيد"
         description={`${worker && reserving ? 'احجز دفعة من الطلبات ثم اتصل بأصحابها: ما تحجزه يختفي من طوابير زملائك. ' : ''}«تأكيد» يرسل الطلب إلى التوصيل (أو تلقائياً إلى EcoTrack)، «لا يردّ» و«لاحقاً» تسجّلان المحاولة. الزبون الذي أكّد برمز SMS أو اتصل بالرقم المعلَن يُؤكَّد طلبه وحده.`}
         actions={
-          <Button asChild variant="outline">
-            <Link href="/admin/store">كل الطلبات</Link>
-          </Button>
+          <>
+            <Button asChild variant="outline">
+              <Link href="/worker">واجهة الهاتف</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/admin/store">كل الطلبات</Link>
+            </Button>
+          </>
         }
       />
       {worker && reserving ? <ReservationBar held={res.mine} max={res.policy.maxHeld} free={res.free} until={res.mineUntil ? res.mineUntil.toISOString() : null} holdMinutes={res.policy.holdMinutes} /> : null}
@@ -194,6 +200,16 @@ export default async function ConfirmQueuePage() {
           </CardHeader>
           <CardContent>
             <ReservationAdmin policy={res.policy} free={res.free} byConfirmer={res.byConfirmer.map((c) => ({ ...c, until: c.until ? c.until.toISOString() : null }))} />
+            <p className="mt-4 border-t pt-4 text-sm text-muted-foreground">
+              تطبيق أندرويد لعمّال التأكيد (حجوزاتهم، «اتصل»، والنتيجة):{' '}
+              {phoneApp ? (
+                <a href="/download/confirm-app" className="font-semibold text-primary hover:underline" dir="ltr">
+                  madrasadz.com/download/confirm-app
+                </a>
+              ) : (
+                <>لم يُبنَ بعد — على الخادم: <code dir="ltr">bash scripts/build-android-confirm.sh</code>. وتعمل الواجهة نفسها الآن من متصفح الهاتف على <span dir="ltr">madrasadz.com/worker</span>.</>
+              )}
+            </p>
           </CardContent>
         </Card>
       ) : null}
