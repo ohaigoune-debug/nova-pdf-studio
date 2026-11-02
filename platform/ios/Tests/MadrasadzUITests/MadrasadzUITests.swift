@@ -26,7 +26,9 @@ final class MadrasadzUITests: XCTestCase {
     @MainActor private func visible(_ app: XCUIApplication) -> String {
         let texts = app.staticTexts.allElementsBoundByIndex.prefix(20).map(\.label)
         let buttons = app.buttons.allElementsBoundByIndex.prefix(20).map { $0.identifier.isEmpty ? $0.label : $0.identifier }
-        return "texts=\(texts) buttons=\(buttons)"
+        let fields = (app.textFields.allElementsBoundByIndex + app.secureTextFields.allElementsBoundByIndex)
+            .map { "\($0.elementType.rawValue):\($0.identifier)=\(String(describing: $0.value ?? "nil")).count(\(String(describing: $0.value ?? "")).count)" }
+        return "texts=\(texts) buttons=\(buttons) fields=\(fields)"
     }
 
     @MainActor private func snapshot(_ app: XCUIApplication, _ name: String) {
@@ -37,14 +39,20 @@ final class MadrasadzUITests: XCTestCase {
     }
 
     @MainActor private func signIn(_ app: XCUIApplication, password value: String) {
-        let identifier = find(app, "loginIdentifier")
-        XCTAssertTrue(identifier.waitForExistence(timeout: 15))
+        let identifier = app.textFields["loginIdentifier"]
+        XCTAssertTrue(identifier.waitForExistence(timeout: 15), visible(app))
         identifier.tap()
         identifier.typeText("0661234567")
-        let password = find(app, "loginPassword")
+        let password = app.secureTextFields["loginPassword"]
+        XCTAssertTrue(password.waitForExistence(timeout: 5), visible(app))
         password.tap()
         password.typeText(value)
-        find(app, "loginSubmit").tap()
+        let typedID = (identifier.value as? String) ?? ""
+        XCTAssertTrue(typedID.contains("0661234567"), "identifier not typed: \(visible(app))")
+        let typedPassword = (password.value as? String) ?? ""
+        XCTAssertEqual(typedPassword.filter { $0 == "•" }.count, value.count, "password not typed: \(visible(app))")
+        // Return on the password field submits the form, like a student would.
+        password.typeText("\n")
     }
 
     @MainActor func testNativeSignIn() throws {
