@@ -118,6 +118,13 @@ export const orders = pgTable(
     confirmAttempts: integer('confirm_attempts').notNull().default(0),
     lastCallAt: timestamp('last_call_at', { withTimezone: true }),
     returnedAt: timestamp('returned_at', { withTimezone: true }),
+    /**
+     * حجز طابور التأكيد (قرار المالك 2 نوفمبر 2026): الموظف الذي حجز الطلب ليتصل به، ومتى ينتهي حجزه.
+     * الحجز المنتهي (reserved_until ≤ الآن) كأنه غير موجود: يعود الطلب إلى الطابور العام.
+     */
+    reservedByUserId: uuid('reserved_by_user_id').references(() => users.id, { onDelete: 'set null' }),
+    reservedAt: timestamp('reserved_at', { withTimezone: true }),
+    reservedUntil: timestamp('reserved_until', { withTimezone: true }),
     ...timestamps
   },
   (t) => [
@@ -127,7 +134,8 @@ export const orders = pgTable(
     check('orders_credit_check', sql`${t.creditDzd} >= 0`),
     index('orders_user_idx').on(t.userId, t.createdAt),
     index('orders_status_idx').on(t.status, t.createdAt),
-    index('orders_tracking_idx').on(t.deliveryProvider, t.deliveryTrackingId)
+    index('orders_tracking_idx').on(t.deliveryProvider, t.deliveryTrackingId),
+    index('orders_reserved_idx').on(t.reservedByUserId, t.reservedUntil)
   ]
 )
 

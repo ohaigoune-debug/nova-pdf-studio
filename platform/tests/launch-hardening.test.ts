@@ -12,6 +12,7 @@ import { sha256 } from '@/server/lib/codes'
 import { setMailerForTests, type MailMessage } from '@/server/lib/mailer'
 import { checkRateLimit } from '@/server/lib/rate-limit'
 import { setSmsSenderForTests, type SmsMessage } from '@/server/lib/sms'
+import { setReservationPolicy } from '@/server/services/confirm-reservations.service'
 import { createConfirmer } from '@/server/services/confirmer.service'
 import { placeCourseOrder, setCourseBook } from '@/server/services/course-purchase.service'
 import { createCourse, setCourseStatus } from '@/server/services/courses.service'
@@ -48,6 +49,8 @@ beforeAll(async () => {
   workspaceId = await workspaceIdOfTeacher(h.db, await makeTeacher(h.db, admin))
   wilayaId = (await refIds(h.db)).wilayaId!
   confirmer = await actorOf(h.db, (await createConfirmer(h.db, admin, { email: uniq('emp') + '@test.dz', password: 'Worker@12345', fullName: 'موظف', phone: '0661234567' })).userId)
+  // الطابور المشترك؛ الحجز بين الموظفين مختبَر في confirm-reservations.test.ts
+  await setReservationPolicy(h.db, admin, { enabled: false })
   memorySms()
   setMailerForTests({ name: 'memory', send: async (m) => void emails.push(m) })
 })

@@ -2,6 +2,7 @@
 import { afterAll, beforeAll, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
 import type { Actor } from '@/server/lib/actor'
+import { setReservationPolicy } from '@/server/services/confirm-reservations.service'
 import { confirmerStats, createConfirmer, listConfirmerActivity } from '@/server/services/confirmer.service'
 import { createProduct, listConfirmationQueue, phoneOrderHistory, placeOrder, setOrderStatus } from '@/server/services/store.service'
 import { actorOf, makeAdmin, makeStudent, refIds, setupDb, uniq } from './helpers'
@@ -19,6 +20,8 @@ beforeAll(async () => {
   student = await makeStudent(h.db)
   const employee = await createConfirmer(h.db, admin, { email: uniq('employee') + '@test.dz', password: 'Worker@12345', fullName: 'موظفة التأكيد', phone: '0661234567' })
   confirmer = await actorOf(h.db, employee.userId)
+  // الطابور المشترك؛ الحجز بين الموظفين مختبَر في confirm-reservations.test.ts
+  await setReservationPolicy(h.db, admin, { enabled: false })
   wilayaId = (await refIds(h.db)).wilayaId!
   bookId = (await createProduct(h.db, admin, { title: 'كتاب تجريبي', type: 'BOOK', priceDzd: 1500, stock: 50, status: 'PUBLISHED' })).id
 })
