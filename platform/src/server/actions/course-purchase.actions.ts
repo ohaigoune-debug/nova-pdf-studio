@@ -6,7 +6,7 @@ import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { checkRateLimit } from '@/server/lib/rate-limit'
-import { courseQuote, placeCourseOrder, type PlacedCourseOrder } from '@/server/services/course-purchase.service'
+import { courseQuote, placeCourseOrder, placeDigitalCourseOrder, type PlacedCourseOrder, type PlacedDigitalOrder } from '@/server/services/course-purchase.service'
 import { courseCommunesForWilaya, type CourseCommuneLookup } from '@/server/services/delivery-communes.service'
 
 /**
@@ -42,13 +42,33 @@ export async function placeCourseOrderAction(input: { courseId: string; phone: s
   return result
 }
 
-/** سعر الدورة + التوصيل + الإجمالي كما يحسبه الخادم (للاستمارة قبل التأكيد) */
-export async function courseQuoteAction(courseId: string, wilayaId: string | null, deliveryType: 'HOME' | 'DESK'): Promise<ActionResult<{ priceDzd: number; shippingDzd: number; totalDzd: number; bookTitle: string } | null>> {
+/**
+ * شراء النسخة الرقمية (دون كتاب): المتصفح يرسل courseId وتأكيد «فهمت أنها دون كتاب» فقط —
+ * السعر والدورة يحدّدهما الخادم، والجواب رابط صفحة SATIM.
+ */
+export async function placeDigitalCourseOrderAction(input: { courseId: string; acceptNoBook: boolean }): Promise<ActionResult<PlacedDigitalOrder>> {
+  const parsed = z.object({ courseId: z.string().uuid(), acceptNoBook: z.boolean() }).strict().safeParse(input)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const actor = await requireRole('STUDENT')
+    const db = await getDb()
+    await checkRateLimit(db, { scope: 'course-order', subject: actor.userId, limit: 10, windowSeconds: 3600 })
+    return placeDigitalCourseOrder(db, actor, parsed.data)
+  })
+  if (result.ok) {
+    revalidatePath('/student/courses/orders')
+    revalidatePath('/admin/store')
+  }
+  return result
+}
+
+/** سعر الدورة + التوصيل + الإجمالي كما يحسبه الخادم (للاستمارة قبل التأكيد). مشترك النسخة الرقمية يرى «الفرق» فقط. */
+export async function courseQuoteAction(courseId: string, wilayaId: string | null, deliveryType: 'HOME' | 'DESK'): Promise<ActionResult<{ priceDzd: number; shippingDzd: number; totalDzd: number; bookTitle: string; upgrade: boolean } | null>> {
   const parsed = z.object({ courseId: z.string().uuid(), wilayaId: z.string().uuid().nullable(), deliveryType: z.enum(['HOME', 'DESK']) }).safeParse({ courseId, wilayaId: wilayaId || null, deliveryType })
   if (!parsed.success) return failValidation(parsed.error)
   return runAction(async () => {
-    await requireRole('STUDENT')
-    return courseQuote(await getDb(), parsed.data.courseId, parsed.data.wilayaId, parsed.data.deliveryType)
+    const actor = await requireRole('STUDENT')
+    return courseQuote(await getDb(), parsed.data.courseId, parsed.data.wilayaId, parsed.data.deliveryType, actor)
   })
 }
 

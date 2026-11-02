@@ -17,7 +17,7 @@ import { courseLanding } from '@/server/services/academy-catalog.service'
 import type { CourseSectionId, SectionItem } from '@/server/lib/course-sections'
 import { courseHome, type CourseContentItem } from '@/server/services/courses.service'
 import { upcomingForStudent } from '@/server/services/live.service'
-import { courseBookStateById } from '@/server/services/course-purchase.service'
+import { bookUpgradeOffer, courseBookStateById, courseDigitalStateById } from '@/server/services/course-purchase.service'
 
 export const dynamic = 'force-dynamic'
 
@@ -78,8 +78,8 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
     if (isAppError(err) && (err.code === 'COURSE_NOT_FOUND' || err.code === 'COURSE_NOT_ENROLLED')) {
       try {
         const landing = await courseLanding(db, actor, slug)
-        const purchase = await courseBookStateById(db, landing.course.id)
-        return <CourseLandingView landing={landing} purchase={purchase} />
+        const [purchase, digital] = await Promise.all([courseBookStateById(db, landing.course.id), courseDigitalStateById(db, landing.course.id)])
+        return <CourseLandingView landing={landing} purchase={purchase} digital={digital.purchasable && digital.priceDzd ? { priceDzd: digital.priceDzd } : null} />
       } catch (e2) {
         if (isAppError(e2) && e2.code === 'COURSE_NOT_FOUND') notFound()
         throw e2
@@ -98,7 +98,13 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
   }
 
   const { course, nextLive, upcoming, sections, playHref, classroomHref, expiresAt } = home
-  const liveNext = (await upcomingForStudent(db, actor).catch(() => [])).find((l) => l.courseId === course.id) ?? null
+  const [liveNext, upgrade] = await Promise.all([
+    upcomingForStudent(db, actor)
+      .catch(() => [])
+      .then((ls) => ls.find((l) => l.courseId === course.id) ?? null),
+    // اشترى النسخة الرقمية: يمكنه طلب الكتاب الورقي بدفع الفرق فقط
+    bookUpgradeOffer(db, actor, course.id).catch(() => null)
+  ])
   return (
     <div className="space-y-6">
       <PageHeader
@@ -127,6 +133,21 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
         <img src={course.coverUrl} alt="" className="max-h-56 w-full rounded-xl border object-cover" />
       ) : null}
       {course.description ? <p className="text-sm leading-relaxed text-muted-foreground">{course.description}</p> : null}
+
+      {upgrade ? (
+        <Alert tone="info" title="تريد الكتاب الورقي أيضًا؟">
+          <span className="flex flex-wrap items-center justify-between gap-3">
+            <span>
+              اشتركت بالنسخة الرقمية. اطلب كتاب «{upgrade.bookTitle}» وادفع الفرق فقط: <strong className="tabular-nums">{upgrade.priceDzd} دج</strong> + التوصيل.
+            </span>
+            <Button asChild size="sm">
+              <Link href={`/student/courses/${encodeURIComponent(course.slug)}/order`}>
+                <BookOpen className="size-4" /> اطلب الكتاب
+              </Link>
+            </Button>
+          </span>
+        </Alert>
+      ) : null}
 
       {/* الحصة المباشرة القادمة لهذه الدورة: عدّ تنازلي + زر «انضم» (يُفتح قبل الموعد بـ15 دقيقة) */}
       {liveNext ? (

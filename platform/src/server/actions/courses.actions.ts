@@ -101,6 +101,10 @@ export async function saveCourseAction(_prev: ActionResult<{ id: string }> | nul
   const stockRaw = String(fd.get('bookStock') ?? '').trim()
   const book = withBook ? newBookSchema.safeParse({ bookTitle: fd.get('bookTitle') ?? '', bookStock: stockRaw === '' ? null : Number(stockRaw), priceDzd: fd.get('priceDzd') ?? 0 }) : null
   if (book && !book.success) return failValidation(book.error)
+  // النسخة الرقمية اختيارية عند الإنشاء (فارغ = لا نسخة رقمية)
+  const digitalRaw = isNew ? String(fd.get('digitalPriceDzd') ?? '').trim() : ''
+  const digital = digitalRaw ? z.object({ digitalPriceDzd: z.number().int('السعر عدد صحيح').min(50, 'سعر النسخة الرقمية 50 دج على الأقل').max(1_000_000) }).safeParse({ digitalPriceDzd: Number(digitalRaw) }) : null
+  if (digital && !digital.success) return failValidation(digital.error)
   const result = await runAction(async () => {
     const actor = await requireRole('SUPER_ADMIN')
     const db = await getDb()
@@ -113,6 +117,10 @@ export async function saveCourseAction(_prev: ActionResult<{ id: string }> | nul
     if (book?.success) {
       const { setCourseBook } = await import('@/server/services/course-purchase.service')
       await setCourseBook(db, actor, row.id, { title: book.data.bookTitle, priceDzd: book.data.priceDzd, stock: book.data.bookStock, active: true, coverFileId: bookCoverId })
+    }
+    if (digital?.success) {
+      const { setCourseDigitalPrice } = await import('@/server/services/course-purchase.service')
+      await setCourseDigitalPrice(db, actor, row.id, digital.data.digitalPriceDzd)
     }
     return { id: row.id }
   })
@@ -290,6 +298,22 @@ export async function setCourseBookAction(_prev: ActionResult<{ purchasable: boo
     revalidatePath(`/admin/courses/${parsed.data.courseId}`)
     revalidatePath('/admin/courses')
   }
+  return result
+}
+
+/** المشرف: سعر النسخة الرقمية للدورة (فارغ = إيقافها). الشراء بالبطاقة فقط، وتُفتح الدورة فور الدفع. */
+export async function setCourseDigitalPriceAction(_prev: ActionResult<{ purchasable: boolean; issue: string | null }> | null, fd: FormData): Promise<ActionResult<{ purchasable: boolean; issue: string | null }>> {
+  const raw = String(fd.get('digitalPriceDzd') ?? '').trim()
+  const parsed = z
+    .object({ courseId: z.string().uuid(), digitalPriceDzd: z.number().int('السعر عدد صحيح').min(50, 'السعر 50 دج على الأقل').max(1_000_000).nullable() })
+    .safeParse({ courseId: fd.get('courseId') ?? '', digitalPriceDzd: raw === '' ? null : Number(raw) })
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const { setCourseDigitalPrice } = await import('@/server/services/course-purchase.service')
+    const s = await setCourseDigitalPrice(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data.courseId, parsed.data.digitalPriceDzd)
+    return { purchasable: s.purchasable, issue: s.issue }
+  })
+  if (result.ok) revalidate(parsed.data.courseId)
   return result
 }
 

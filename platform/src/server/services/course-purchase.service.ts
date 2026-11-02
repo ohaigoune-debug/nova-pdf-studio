@@ -5,7 +5,10 @@
  *  - الدورة ذات الكتاب: كتاب ورقي واحد (courses.book_product_id) سعره = سعر الدورة.
  *  - الشراء يأخذ courseId وحده: الخادم يحدّد الكتاب والسعر والمخزون والصلاحية والتوصيل، ولا يثق بسعر أو منتج
  *    أو تلميذ من المتصفح. السطر يحفظ الدورة والكتاب والسعر وقت الشراء (order_items.course_id).
- *  - التفعيل عند التسليم المؤكَّد فقط (محرّك الحالات ← course-activation.service).
+ *  - التفعيل عند التسليم المؤكَّد فقط (محرّك الحالات ← course-activation.service)، أو فور تأكّد الدفع بالبطاقة.
+ *  - النسخة الرقمية (قرار المالك 2 نوفمبر 2026): بطاقة مستقلة في الكتالوج بسعرها (courses.digital_price_dzd)
+ *    تفتح الدورة نفسها دون كتاب ولا توصيل، بالبطاقة فقط، فور تأكّد الخادم من الدفع. ومن اشتراها ثم أراد
+ *    الكتاب الورقي يطلبه من صفحة الطلب ويدفع الفرق فقط (سعر الدورة مع الكتاب − ما دفعه) + التوصيل.
  */
 import { and, eq, inArray, isNull, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
@@ -89,6 +92,8 @@ export async function setCourseBook(db: Db, actor: Actor, courseId: string, inpu
   if (title.length < 2 || title.length > 200) throw new AppError('VALIDATION', { field: 'title' })
   if (!Number.isInteger(input.priceDzd) || input.priceDzd < 1 || input.priceDzd > 1_000_000) throw new AppError('VALIDATION', { field: 'priceDzd' })
   if (input.stock !== null && (!Number.isInteger(input.stock) || input.stock < 0)) throw new AppError('VALIDATION', { field: 'stock' })
+  // سعر الدورة مع الكتاب أكبر من سعر نسختها الرقمية دائمًا (وإلا لا معنى لـ«ادفع الفرق»)
+  if (c.digitalPriceDzd !== null && input.priceDzd <= c.digitalPriceDzd) throw new AppError('BOOK_PRICE_BELOW_DIGITAL', { digitalPriceDzd: c.digitalPriceDzd })
   const status = input.active ? 'PUBLISHED' : 'DRAFT'
   const now = new Date()
   const bookId = await db.transaction(async (tx) => {
@@ -118,6 +123,7 @@ export async function chooseCourseBook(db: Db, actor: Actor, courseId: string, p
   const [p] = await db.select().from(products).where(and(eq(products.id, productId), isNull(products.deletedAt))).limit(1)
   if (!p) throw new AppError('PRODUCT_NOT_FOUND')
   if (!isPhysical(p.type)) throw new AppError('VALIDATION', { field: 'productId' })
+  if (c.digitalPriceDzd !== null && p.priceDzd <= c.digitalPriceDzd) throw new AppError('BOOK_PRICE_BELOW_DIGITAL', { digitalPriceDzd: c.digitalPriceDzd })
   await db.insert(courseProducts).values({ courseId: c.id, productId: p.id }).onConflictDoNothing()
   await db.update(courses).set({ bookProductId: p.id, priceDzd: p.priceDzd, updatedAt: new Date() }).where(eq(courses.id, c.id))
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'course.book_set', entityType: 'course', entityId: c.id, newValue: { bookProductId: p.id, priceDzd: p.priceDzd, chosen: true } })
@@ -152,6 +158,193 @@ export async function removeCourseBook(db: Db, actor: Actor, courseId: string): 
   return courseBookStateById(db, c.id)
 }
 
+/* ───────────── النسخة الرقمية (دون كتاب) ───────────── */
+
+/** أقل مبلغ تقبله eFawtara لطلب دفع */
+export const DIGITAL_MIN_DZD = 50
+
+export type CourseDigitalIssue = 'NO_DIGITAL' | 'COURSE_NOT_PUBLISHED' | 'PAYMENT_OFF'
+
+export interface CourseDigitalState {
+  /** سعر النسخة الرقمية، أو null إن لم تُفعَّل لهذه الدورة */
+  priceDzd: number | null
+  /** تظهر بطاقتها ويمكن شراؤها الآن */
+  purchasable: boolean
+  issue: CourseDigitalIssue | null
+}
+
+export const DIGITAL_ISSUE_AR: Record<CourseDigitalIssue, string> = {
+  NO_DIGITAL: 'لا نسخة رقمية لهذه الدورة.',
+  COURSE_NOT_PUBLISHED: 'الدورة غير منشورة: لا تظهر النسخة الرقمية بعد.',
+  PAYMENT_OFF: 'الدفع الإلكتروني غير مفعّل: النسخة الرقمية لا تظهر للتلاميذ حتى تفعّله.'
+}
+
+/** حالة النسخة الرقمية: سعر مضبوط + دورة منشورة + دفع إلكتروني مفعّل (لا دفع عند الاستلام لشيء لا يُسلَّم) */
+export async function courseDigitalState(db: Db, course: Pick<CourseRow, 'digitalPriceDzd' | 'status'>, paymentOn?: boolean): Promise<CourseDigitalState> {
+  const priceDzd = course.digitalPriceDzd ?? null
+  if (!priceDzd) return { priceDzd: null, purchasable: false, issue: 'NO_DIGITAL' }
+  if (course.status !== 'PUBLISHED') return { priceDzd, purchasable: false, issue: 'COURSE_NOT_PUBLISHED' }
+  const on = paymentOn ?? (await import('@/server/lib/guiddini').then((m) => m.onlinePaymentEnabled(db)))
+  if (!on) return { priceDzd, purchasable: false, issue: 'PAYMENT_OFF' }
+  return { priceDzd, purchasable: true, issue: null }
+}
+
+export async function courseDigitalStateById(db: Db, courseId: string): Promise<CourseDigitalState> {
+  return courseDigitalState(db, await loadCourse(db, courseId))
+}
+
+/**
+ * المشرف: سعر النسخة الرقمية (null = إيقافها). 50 دج على الأقل، وأقل من سعر الدورة مع الكتاب إن كان لها كتاب.
+ * الطلبات السابقة لا تتأثر (السعر مجمَّد في سطر الطلب).
+ */
+export async function setCourseDigitalPrice(db: Db, actor: Actor, courseId: string, priceDzd: number | null): Promise<CourseDigitalState> {
+  assertRole(actor, 'SUPER_ADMIN')
+  const c = await loadCourse(db, courseId)
+  if (priceDzd !== null) {
+    if (!Number.isInteger(priceDzd) || priceDzd < DIGITAL_MIN_DZD || priceDzd > 1_000_000) throw new AppError('DIGITAL_PRICE_INVALID')
+    const b = await courseBookState(db, c)
+    if (b.book && priceDzd >= b.book.priceDzd) throw new AppError('DIGITAL_PRICE_INVALID', { bookPriceDzd: b.book.priceDzd })
+  }
+  await db.update(courses).set({ digitalPriceDzd: priceDzd, updatedAt: new Date() }).where(eq(courses.id, c.id))
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'course.digital_price_set', entityType: 'course', entityId: c.id, oldValue: { digitalPriceDzd: c.digitalPriceDzd }, newValue: { digitalPriceDzd: priceDzd } })
+  return courseDigitalState(db, { ...c, digitalPriceDzd: priceDzd })
+}
+
+/** طلب الدورة الرقمية مدفوع (مؤكَّد أو مكتمل) لهذا الحساب وهذه الدورة: ما دُفع فيه */
+async function paidDigitalPurchase(db: Db, userId: string, courseId: string): Promise<{ orderId: string; paidDzd: number } | null> {
+  const [row] = await db
+    .select({ orderId: orders.id, paid: orderItems.lineTotalDzd })
+    .from(orderItems)
+    .innerJoin(orders, eq(orders.id, orderItems.orderId))
+    .where(and(eq(orderItems.courseId, courseId), eq(orderItems.type, 'COURSE'), eq(orders.userId, userId), inArray(orders.status, ['CONFIRMED', 'DELIVERED'])))
+    .orderBy(sql`${orders.createdAt} desc`)
+    .limit(1)
+  return row ? { orderId: row.orderId, paidDzd: row.paid } : null
+}
+
+/**
+ * «أضف الكتاب الورقي» لمن اشترى النسخة الرقمية ودورته سارية ولم يطلب كتابها بعد:
+ * يدفع الفرق فقط (سعر الدورة مع الكتاب − ما دفعه في النسخة الرقمية، ولا أقل من 0) + التوصيل. null = غير مؤهَّل.
+ */
+export async function bookUpgradeFor(db: Db, actor: Actor, course: Pick<CourseRow, 'id'>, book: { priceDzd: number }): Promise<{ priceDzd: number; paidDigitalDzd: number } | null> {
+  if (actor.role !== 'STUDENT' || !actor.studentId) return null
+  const [active] = await db
+    .select({ id: courseEnrollments.id })
+    .from(courseEnrollments)
+    .where(and(eq(courseEnrollments.courseId, course.id), eq(courseEnrollments.studentId, actor.studentId), eq(courseEnrollments.status, 'ACTIVE'), sql`(${courseEnrollments.expiresAt} is null or ${courseEnrollments.expiresAt} > now())`))
+    .limit(1)
+  if (!active) return null
+  const digital = await paidDigitalPurchase(db, actor.userId, course.id)
+  if (!digital) return null
+  // طلب كتاب سابق لهذه الدورة (مفتوح أو مسلَّم) ⇒ لا ثانٍ
+  const [book0] = await db
+    .select({ id: orders.id })
+    .from(orderItems)
+    .innerJoin(orders, eq(orders.id, orderItems.orderId))
+    .where(and(eq(orderItems.courseId, course.id), sql`${orderItems.type} <> 'COURSE'`, eq(orders.userId, actor.userId), sql`${orders.status} not in ('CANCELLED', 'RETURNED')`))
+    .limit(1)
+  if (book0) return null
+  return { priceDzd: Math.max(book.priceDzd - digital.paidDzd, 0), paidDigitalDzd: digital.paidDzd }
+}
+
+/** عرض «أضف الكتاب الورقي» لصفحات التلميذ: الكتاب متاح للشراء الآن وهو مؤهَّل، وإلا null */
+export async function bookUpgradeOffer(db: Db, actor: Actor, courseId: string): Promise<{ priceDzd: number; bookTitle: string } | null> {
+  const c = await loadCourse(db, courseId)
+  const s = await courseBookState(db, c)
+  if (!s.purchasable || !s.book) return null
+  const up = await bookUpgradeFor(db, actor, c, s.book)
+  return up ? { priceDzd: up.priceDzd, bookTitle: s.book.title } : null
+}
+
+export interface PlacedDigitalOrder {
+  id: string
+  number: string
+  status: string
+  totalDzd: number
+  /** صفحة SATIM التي يُحوَّل إليها التلميذ */
+  payUrl: string
+}
+
+/** يمنع الشراء لتلميذ من شعبة أخرى (دورة بلا شعب = لكل الشعب) */
+async function assertCourseStream(db: Db, c: CourseRow, studentId: string, label: string): Promise<string | null> {
+  const [st] = await db.select({ streamId: students.streamId }).from(students).where(eq(students.id, studentId)).limit(1)
+  if (c.streamIds.length) {
+    const family = await streamFamily(db, st?.streamId ?? null)
+    if (!c.streamIds.some((sid) => family.includes(sid))) throw new AppError('ORDER_STREAM_MISMATCH', { product: label })
+  }
+  return st?.streamId ?? null
+}
+
+async function hasActiveEnrollment(db: Db, courseId: string, studentId: string): Promise<boolean> {
+  const [active] = await db
+    .select({ id: courseEnrollments.id })
+    .from(courseEnrollments)
+    .where(and(eq(courseEnrollments.courseId, courseId), eq(courseEnrollments.studentId, studentId), eq(courseEnrollments.status, 'ACTIVE'), sql`(${courseEnrollments.expiresAt} is null or ${courseEnrollments.expiresAt} > now())`))
+    .limit(1)
+  return Boolean(active)
+}
+
+/** طلب مفتوح لهذا الحساب وهذه الدورة: رقمه وهل هو طلب رقمي (بلا شحن) */
+async function openCourseOrder(db: Db, userId: string, courseId: string): Promise<{ number: string; digital: boolean } | null> {
+  const [open] = await db
+    .select({ number: orders.number, needsShipping: orders.needsShipping })
+    .from(orderItems)
+    .innerJoin(orders, eq(orders.id, orderItems.orderId))
+    .where(and(eq(orderItems.courseId, courseId), eq(orders.userId, userId), inArray(orders.status, OPEN)))
+    .limit(1)
+  return open ? { number: open.number, digital: !open.needsShipping } : null
+}
+
+/**
+ * شراء النسخة الرقمية: بالبطاقة فقط، بلا عنوان ولا توصيل ولا رمز SMS (الدفع بالبطاقة يُثبت الجدية).
+ * التلميذ يؤكّد صراحةً أنه فهم أنها دون كتاب ورقي. الخادم يحدّد السعر والدورة، ويُحوَّل التلميذ إلى SATIM؛
+ * تُفتح الدورة فور تأكّد الخادم من «paid» (online-payment.service) ويُغلق الطلب «مكتملًا».
+ */
+export async function placeDigitalCourseOrder(db: Db, actor: Actor, input: { courseId: string; acceptNoBook: boolean }, fetchImpl?: typeof fetch): Promise<PlacedDigitalOrder> {
+  const studentId = studentIdOf(actor)
+  if (!input.acceptNoBook) throw new AppError('DIGITAL_ACK_REQUIRED')
+  const c = await loadCourse(db, input.courseId)
+  const state = await courseDigitalState(db, c)
+  if (state.issue === 'PAYMENT_OFF') throw new AppError('PAYMENT_NOT_CONFIGURED')
+  if (!state.purchasable || !state.priceDzd) throw new AppError('COURSE_NOT_PURCHASABLE', { issue: state.issue })
+  const streamId = await assertCourseStream(db, c, studentId, c.title)
+  if (await hasActiveEnrollment(db, c.id, studentId)) throw new AppError('ALREADY_ENROLLED')
+
+  const open = await openCourseOrder(db, actor.userId, c.id)
+  if (open) {
+    // دفع رقمي لم يكتمل لهذه الدورة: يُفحص الآن؛ إن بقي معلّقًا يُعاد رابطه نفسه بدل طلب ثانٍ
+    const { pendingPaymentForCourse, verifyPayment } = await import('./online-payment.service')
+    const pending = open.digital ? await pendingPaymentForCourse(db, actor.userId, c.id) : null
+    if (!pending) throw new AppError('COURSE_ORDER_OPEN', { number: open.number })
+    const v = await verifyPayment(db, pending.id, fetchImpl).catch(() => null)
+    if (v?.status === 'PAID') throw new AppError('ALREADY_ENROLLED')
+    if (v?.status === 'PENDING' && pending.formUrl) return { id: pending.orderId, number: open.number, status: 'PENDING', totalDzd: pending.amountDzd, payUrl: pending.formUrl }
+    if (v?.status === 'PENDING') throw new AppError('COURSE_ORDER_OPEN', { number: open.number })
+  }
+
+  const { customerDefaults } = await import('./store.service')
+  const d = await customerDefaults(db, actor)
+  const price = state.priceDzd
+  const title = `${c.title} — النسخة الرقمية`
+  const order = await db.transaction(async (tx) => {
+    const [o] = await tx
+      .insert(orders)
+      .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: 'ONLINE', needsShipping: false, subtotalDzd: price, shippingDzd: 0, totalDzd: price, customerName: actor.fullName.slice(0, 120), phone: d.phone ?? d.guardianPhone ?? '', wilayaId: d.wilayaId, streamId, beneficiaryStudentId: studentId, note: `دورة رقمية (دون كتاب): ${c.title}`.slice(0, 500) })
+      .returning()
+    await tx.insert(orderItems).values({ orderId: o!.id, productId: null, courseId: c.id, title, type: 'COURSE', unitPriceDzd: price, qty: 1, lineTotalDzd: price })
+    return o!
+  })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'store.order_place', entityType: 'order', entityId: order.id, newValue: { number: order.number, courseId: c.id, digital: true, total: price } })
+  const { startOrderPayment } = await import('./online-payment.service')
+  try {
+    const pay = await startOrderPayment(db, { orderId: order.id, userId: actor.userId, amountDzd: price }, fetchImpl)
+    return { id: order.id, number: order.number, status: order.status, totalDzd: price, payUrl: pay.formUrl }
+  } catch (err) {
+    await transitionOrder(db, order.id, 'CANCELLED', { actorUserId: actor.userId, source: 'system', reason: 'تعذّر بدء الدفع الإلكتروني', silent: true }).catch(() => null)
+    throw err
+  }
+}
+
 /* ───────────── الشراء ───────────── */
 
 export interface PlaceCourseOrderInput {
@@ -182,11 +375,15 @@ export interface PlacedCourseOrder {
 }
 
 /** ملخّص السعر من الخادم (للعرض قبل التأكيد) */
-export async function courseQuote(db: Db, courseId: string, wilayaId: string | null, deliveryType: 'HOME' | 'DESK'): Promise<{ priceDzd: number; shippingDzd: number; totalDzd: number; bookTitle: string } | null> {
-  const s = await courseBookStateById(db, courseId)
+export async function courseQuote(db: Db, courseId: string, wilayaId: string | null, deliveryType: 'HOME' | 'DESK', actor?: Actor | null): Promise<{ priceDzd: number; shippingDzd: number; totalDzd: number; bookTitle: string; upgrade: boolean } | null> {
+  const c = await loadCourse(db, courseId)
+  const s = await courseBookState(db, c)
   if (!s.book) return null
+  // مشترك في النسخة الرقمية يطلب الكتاب: يدفع الفرق فقط
+  const up = actor ? await bookUpgradeFor(db, actor, c, s.book) : null
+  const priceDzd = up ? up.priceDzd : s.book.priceDzd
   const shippingDzd = await shippingFeeFor(db, wilayaId, deliveryType)
-  return { priceDzd: s.book.priceDzd, shippingDzd, totalDzd: s.book.priceDzd + shippingDzd, bookTitle: s.book.title }
+  return { priceDzd, shippingDzd, totalDzd: priceDzd + shippingDzd, bookTitle: s.book.title, upgrade: Boolean(up) }
 }
 
 export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseOrderInput, fetchImpl?: typeof fetch): Promise<PlacedCourseOrder> {
@@ -211,28 +408,18 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
   }
 
   // الشعبة: من ملف التلميذ (لا من المتصفح)؛ دورة بلا شعب = لكل الشعب
-  const [st] = await db.select({ streamId: students.streamId }).from(students).where(eq(students.id, studentId)).limit(1)
-  if (c.streamIds.length) {
-    const family = await streamFamily(db, st?.streamId ?? null)
-    if (!c.streamIds.some((sid) => family.includes(sid))) throw new AppError('ORDER_STREAM_MISMATCH', { product: state.book.title })
+  const streamId = await assertCourseStream(db, c, studentId, state.book.title)
+  // مشترك نشط ⇒ لا شراء ثانٍ، إلا من اشترى النسخة الرقمية ويطلب كتابها (يدفع الفرق)؛ طلب مفتوح للدورة نفسها ⇒ لا طلب ثانٍ
+  let upgrade: Awaited<ReturnType<typeof bookUpgradeFor>> = null
+  if (await hasActiveEnrollment(db, c.id, studentId)) {
+    upgrade = await bookUpgradeFor(db, actor, c, state.book)
+    if (!upgrade) throw new AppError('ALREADY_ENROLLED')
   }
-  // مشترك نشط ⇒ لا شراء ثانٍ؛ طلب مفتوح للدورة نفسها ⇒ لا طلب ثانٍ
-  const [active] = await db
-    .select({ id: courseEnrollments.id })
-    .from(courseEnrollments)
-    .where(and(eq(courseEnrollments.courseId, c.id), eq(courseEnrollments.studentId, studentId), eq(courseEnrollments.status, 'ACTIVE'), sql`(${courseEnrollments.expiresAt} is null or ${courseEnrollments.expiresAt} > now())`))
-    .limit(1)
-  if (active) throw new AppError('ALREADY_ENROLLED')
-  const [open] = await db
-    .select({ number: orders.number })
-    .from(orderItems)
-    .innerJoin(orders, eq(orders.id, orderItems.orderId))
-    .where(and(eq(orderItems.courseId, c.id), eq(orders.userId, actor.userId), inArray(orders.status, OPEN)))
-    .limit(1)
+  const open = await openCourseOrder(db, actor.userId, c.id)
   if (open) {
-    // دفع إلكتروني لم يكتمل لهذه الدورة: يُفحص الآن؛ إن بقي معلّقًا يُعاد رابطه نفسه بدل طلب ثانٍ
+    // دفع إلكتروني لم يكتمل لطلب كتاب هذه الدورة: يُفحص الآن؛ إن بقي معلّقًا يُعاد رابطه نفسه بدل طلب ثانٍ
     const { pendingPaymentForCourse, verifyPayment } = await import('./online-payment.service')
-    const pending = await pendingPaymentForCourse(db, actor.userId, c.id)
+    const pending = open.digital ? null : await pendingPaymentForCourse(db, actor.userId, c.id)
     if (!pending) throw new AppError('COURSE_ORDER_OPEN', { number: open.number })
     const v = await verifyPayment(db, pending.id).catch(() => null)
     if (v?.status === 'PAID') throw new AppError('ALREADY_ENROLLED')
@@ -262,7 +449,7 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
     else throw new AppError('ORDER_OTP_REQUIRED')
   }
 
-  const price = state.book.priceDzd
+  const price = upgrade ? upgrade.priceDzd : state.book.priceDzd
   const shipping = await shippingFeeFor(db, input.wilayaId, deliveryType)
   const total = price + shipping
   const bookId = state.book.id
@@ -277,12 +464,12 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
     if (!reserved) throw new AppError('OUT_OF_STOCK', { product: bookTitle })
     const [o] = await tx
       .insert(orders)
-      .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: payNow ? 'ONLINE' : 'COD', needsShipping: true, subtotalDzd: price, shippingDzd: shipping, totalDzd: total, customerName: (input.customerName?.trim() || actor.fullName).slice(0, 120), phone, wilayaId: input.wilayaId, streamId: st?.streamId ?? null, otpVerifiedAt, beneficiaryStudentId: studentId, address: input.address.trim().slice(0, 400), commune, deliveryType, note: [`دورة: ${c.title}`, payNow ? 'دفع إلكتروني' : null, input.note?.trim()].filter(Boolean).join(' — ').slice(0, 500) })
+      .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: payNow ? 'ONLINE' : 'COD', needsShipping: true, subtotalDzd: price, shippingDzd: shipping, totalDzd: total, customerName: (input.customerName?.trim() || actor.fullName).slice(0, 120), phone, wilayaId: input.wilayaId, streamId, otpVerifiedAt, beneficiaryStudentId: studentId, address: input.address.trim().slice(0, 400), commune, deliveryType, note: [`دورة: ${c.title}`, upgrade ? `الكتاب لمشترك في النسخة الرقمية (دفع ${upgrade.paidDigitalDzd} دج)` : null, payNow ? 'دفع إلكتروني' : null, input.note?.trim()].filter(Boolean).join(' — ').slice(0, 500) })
       .returning()
     await tx.insert(orderItems).values({ orderId: o!.id, productId: bookId, courseId: c.id, title: bookTitle, type: 'BOOK', unitPriceDzd: price, qty: 1, lineTotalDzd: price })
     return o!
   })
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'store.order_place', entityType: 'order', entityId: order.id, newValue: { number: order.number, courseId: c.id, bookId, price, shipping, total } })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'store.order_place', entityType: 'order', entityId: order.id, newValue: { number: order.number, courseId: c.id, bookId, price, shipping, total, upgrade: Boolean(upgrade) } })
   if (payNow) {
     const { startOrderPayment } = await import('./online-payment.service')
     try {

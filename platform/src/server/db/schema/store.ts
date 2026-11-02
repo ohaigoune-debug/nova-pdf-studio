@@ -136,10 +136,10 @@ export const orderItems = pgTable(
     orderId: uuid('order_id')
       .notNull()
       .references(() => orders.id, { onDelete: 'cascade' }),
-    productId: uuid('product_id')
-      .notNull()
-      .references(() => products.id),
+    /** المنتج المشترى؛ null لسطر «الدورة الرقمية» (type = COURSE) الذي لا منتج له — الدورة في course_id */
+    productId: uuid('product_id').references(() => products.id),
     title: text('title').notNull(),
+    /** BOOK | PDF | PACK كنوع المنتج، أو COURSE للدورة الرقمية (بلا كتاب ولا شحن) */
     type: text('type').notNull(),
     unitPriceDzd: integer('unit_price_dzd').notNull(),
     qty: integer('qty').notNull().default(1),

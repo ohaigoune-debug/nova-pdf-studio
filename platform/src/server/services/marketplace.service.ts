@@ -200,7 +200,10 @@ export async function grantPurchasesForOrder(db: Db, orderId: string): Promise<{
   if (!o) return { granted: 0 }
   const items = await db.select().from(orderItems).where(eq(orderItems.orderId, orderId))
   if (items.length === 0) return { granted: 0 }
-  const ls = await db.select().from(listings).where(and(inArray(listings.productId, items.map((i) => i.productId)), isNull(listings.deletedAt)))
+  // سطر «الدورة الرقمية» بلا منتج: لا عرض في السوق يخصّه
+  const productIds = items.map((i) => i.productId).filter((p): p is string => Boolean(p))
+  if (productIds.length === 0) return { granted: 0 }
+  const ls = await db.select().from(listings).where(and(inArray(listings.productId, productIds), isNull(listings.deletedAt)))
   if (ls.length === 0) return { granted: 0 }
   const [buyer] = await db.select({ id: users.id, role: users.role, fullName: profiles.fullName }).from(users).leftJoin(profiles, eq(profiles.userId, users.id)).where(eq(users.id, o.userId)).limit(1)
   const [buyerWs] = buyer?.role === 'TEACHER' ? await db.select({ id: teacherWorkspaces.id }).from(teacherWorkspaces).where(eq(teacherWorkspaces.ownerUserId, o.userId)).limit(1) : []

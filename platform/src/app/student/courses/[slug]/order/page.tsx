@@ -13,7 +13,7 @@ import { getDb } from '@/server/db/client'
 import { products } from '@/server/db/schema'
 import { isAppError } from '@/server/lib/errors'
 import { courseLanding } from '@/server/services/academy-catalog.service'
-import { courseBookStateById } from '@/server/services/course-purchase.service'
+import { bookUpgradeOffer, courseBookStateById, courseDigitalStateById } from '@/server/services/course-purchase.service'
 import { courseCheckoutData } from '@/server/services/store.service'
 
 export const dynamic = 'force-dynamic'
@@ -54,8 +54,11 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
   }
   const { course } = landing
   const courseHref = `/student/courses/${encodeURIComponent(course.slug)}`
-  if (course.enrollment === 'ACTIVE') redirect(courseHref)
-  const [purchase, checkout] = await Promise.all([courseBookStateById(db, course.id), courseCheckoutData(db, actor)])
+  // المشترك يُعاد إلى دورته، إلا من اشترى النسخة الرقمية ويطلب الكتاب الورقي (يدفع الفرق فقط)
+  const upgrade = course.enrollment === 'ACTIVE' ? await bookUpgradeOffer(db, actor, course.id) : null
+  if (course.enrollment === 'ACTIVE' && !upgrade) redirect(courseHref)
+  const [purchase, checkout, digital] = await Promise.all([courseBookStateById(db, course.id), courseCheckoutData(db, actor), courseDigitalStateById(db, course.id)])
+  const price = upgrade ? upgrade.priceDzd : (purchase.book?.priceDzd ?? 0)
   const [cover] = purchase.book ? await db.select({ url: products.coverUrl }).from(products).where(eq(products.id, purchase.book.id)).limit(1) : []
   const bookCover = cover?.url ?? null
 
@@ -70,7 +73,7 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
       <section className="bg-ink bg-pattern overflow-hidden rounded-xl text-white">
         <div className="grid items-center gap-6 p-6 sm:p-8 md:grid-cols-[1fr_auto]">
           <div className="space-y-3">
-            <Badge className="border-white/20 bg-white/10 text-white">الدورة + الكتاب</Badge>
+            <Badge className="border-white/20 bg-white/10 text-white">{upgrade ? 'الكتاب الورقي لمشترك النسخة الرقمية' : 'الدورة + الكتاب الورقي'}</Badge>
             <h1 className="font-display text-3xl font-bold leading-snug sm:text-4xl">{course.title}</h1>
             <p className="text-white/75">
               {course.teacherName} · {course.season}
@@ -78,7 +81,7 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
             </p>
             {purchase.book ? (
               <p className="text-4xl font-extrabold tabular-nums">
-                {purchase.book.priceDzd} <span className="text-lg font-bold text-white/75">دج + التوصيل</span>
+                {price} <span className="text-lg font-bold text-white/75">دج + التوصيل</span>
               </p>
             ) : null}
           </div>
@@ -92,6 +95,16 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
+      {upgrade ? <Alert tone="info" title="تدفع الفرق فقط">أنت مشترك في النسخة الرقمية: يُخصم ما دفعته من سعر الدورة مع الكتاب. دورتك تبقى مفتوحة كما هي.</Alert> : null}
+      {!upgrade && digital.purchasable && digital.priceDzd ? (
+        <p className="text-sm text-muted-foreground">
+          لا تحتاج الكتاب الورقي؟{' '}
+          <Link href={`${courseHref}/digital`} className="font-semibold text-primary underline">
+            النسخة الرقمية بـ {digital.priceDzd} دج
+          </Link>{' '}
+          — عرض منفصل، بالبطاقة، دون كتاب.
+        </p>
+      ) : null}
       {course.enrollment === 'EXPIRED' ? <Alert tone="warning" title="انتهت مدة اشتراكك السابق">اطلب الدورة مع الكتاب من جديد لتجديد الوصول.</Alert> : null}
       {course.enrollment === 'REVOKED' ? <Alert tone="destructive" title="اشتراكك في هذه الدورة موقوف">تواصل مع الإدارة من صفحة الدعم والشكاوى قبل طلب جديد.</Alert> : null}
 
@@ -136,12 +149,12 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
 
         <Card id="order" className="order-first border-primary/30 lg:order-none">
           <CardHeader>
-            <CardTitle>اطلب الدورة</CardTitle>
-            {purchase.book ? <p className="text-sm text-muted-foreground">يصلك كتاب «{purchase.book.title}» وتُفعَّل الدورة على حسابك عند التسليم.</p> : null}
+            <CardTitle>{upgrade ? 'اطلب الكتاب الورقي' : 'اطلب الدورة مع الكتاب'}</CardTitle>
+            {purchase.book ? <p className="text-sm text-muted-foreground">{upgrade ? `يصلك كتاب «${purchase.book.title}» إلى البيت أو مكتب التوصيل.` : `يصلك كتاب «${purchase.book.title}» وتُفعَّل الدورة على حسابك عند التسليم.`}</p> : null}
           </CardHeader>
           <CardContent>
             {purchase.purchasable && purchase.book ? (
-              <CourseOrderForm courseId={course.id} book={purchase.book} data={checkout} />
+              <CourseOrderForm courseId={course.id} book={{ title: purchase.book.title, priceDzd: price }} data={checkout} />
             ) : (
               <Alert tone="warning" title="الطلب غير متاح حالياً">
                 شراء هذه الدورة متوقف مؤقتاً. راجعنا من{' '}

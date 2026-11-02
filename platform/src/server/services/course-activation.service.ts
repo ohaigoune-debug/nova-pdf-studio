@@ -43,11 +43,13 @@ export async function coursesOfOrder(db: Db, orderId: string): Promise<{ courseI
     // شراء «الدورة مع كتابها»: الحقّ هو الدورة المشتراة وحدها — لا دورات أخرى تشترك في الكتاب، ولا تتغيّر بتغيّر الربط
     return db.select({ courseId: courses.id, title: courses.title, workspaceId: courses.workspaceId }).from(courses).where(inArray(courses.id, explicit))
   }
+  const productIds = [...new Set(items.map((i) => i.productId).filter((p): p is string => Boolean(p)))]
+  if (productIds.length === 0) return []
   const links = await db
     .select({ courseId: courseProducts.courseId, title: courses.title, workspaceId: courses.workspaceId })
     .from(courseProducts)
     .innerJoin(courses, eq(courses.id, courseProducts.courseId))
-    .where(inArray(courseProducts.productId, [...new Set(items.map((i) => i.productId))]))
+    .where(inArray(courseProducts.productId, productIds))
   return [...new Map(links.map((l) => [l.courseId, l])).values()]
 }
 

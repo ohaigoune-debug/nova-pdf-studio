@@ -23,7 +23,8 @@ export function iosPresentationRedirect(pathname: string): string | null {
   const matchPath = path.toLowerCase()
   if (['/store', '/track', '/claim', '/activate-code', '/student/store', '/student/cart', '/student/orders', '/student/codes', '/student/activate', '/student/activate-code', '/student/enroll'].some((prefix) => under(matchPath, prefix))
     || under(matchPath, '/student/courses/catalog') || under(matchPath, '/student/courses/orders')
-    || /^\/student\/courses\/[^/]+\/order(?:\/|$)/.test(matchPath)) return '/ios?unavailable=commerce'
+    // صفحتا الشراء («الدورة مع الكتاب» و«النسخة الرقمية»): لا بيع داخل تطبيق آيفون
+    || /^\/student\/courses\/[^/]+\/(?:order|digital)(?:\/|$)/.test(matchPath)) return '/ios?unavailable=commerce'
   // Owner decision (2026-10-27): the teacher-led virtual classroom is available in the
   // internal iPhone build. The open forum and group directory stay out of scope.
   // App Review still requires report/block/filter/contact safeguards (guideline 1.2).

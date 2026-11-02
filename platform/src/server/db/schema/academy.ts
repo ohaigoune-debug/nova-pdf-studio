@@ -55,6 +55,11 @@ export const courses = pgTable(
     accessEndsOn: date('access_ends_on'),
     priceDzd: integer('price_dzd').notNull().default(0),
     /**
+     * النسخة الرقمية (قرار المالك 2026-11-02): سعر الدورة دون كتاب، بالبطاقة فقط، تُفتح فور تأكّد الدفع.
+     * تظهر في الكتالوج بطاقةً مستقلة تفتح الدورة نفسها. null = لا نسخة رقمية.
+     */
+    digitalPriceDzd: integer('digital_price_dzd'),
+    /**
      * الكتاب الورقي المرفق بالدورة (قرار المالك 2026-10-24: كل دورة مدفوعة تشمل كتاباً).
      * سعره هو سعر الدورة؛ يُدار من صفحة الدورة. null = دورة قديمة غير مكتملة (لا شراء جديد) أو مجانية.
      */
@@ -72,6 +77,7 @@ export const courses = pgTable(
     check('courses_status_check', inList(t.status, COURSE_STATUSES)),
     check('courses_plan_check', sql`${t.plan} IN ('ANNUAL', 'TERM')`),
     check('courses_price_check', sql`${t.priceDzd} >= 0`),
+    check('courses_digital_price_check', sql`${t.digitalPriceDzd} IS NULL OR ${t.digitalPriceDzd} >= 50`),
     uniqueIndex('courses_group_unique').on(t.groupId),
     index('courses_status_idx').on(t.status, t.season)
   ]

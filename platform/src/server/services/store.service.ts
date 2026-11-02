@@ -395,7 +395,7 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
 
 export interface OrderView {
   order: OrderRow & { wilayaName: string | null; customerEmail: string | null }
-  items: { id: string; productId: string; title: string; type: string; unitPriceDzd: number; qty: number; lineTotalDzd: number; slug: string | null; files: { id: string; fileId: string; label: string | null; name: string }[] }[]
+  items: { id: string; productId: string | null; title: string; type: string; unitPriceDzd: number; qty: number; lineTotalDzd: number; slug: string | null; files: { id: string; fileId: string; label: string | null; name: string }[] }[]
   /** هل تُتاح التنزيلات الرقمية (مؤكَّد فما فوق) */
   canDownload: boolean
 }
@@ -413,12 +413,13 @@ export async function getOrder(db: Db, actor: Actor, id: string): Promise<OrderV
     .limit(1)
   if (!row) throw new AppError('ORDER_NOT_FOUND')
   const items = await db.select({ it: orderItems, slug: products.slug }).from(orderItems).leftJoin(products, eq(products.id, orderItems.productId)).where(eq(orderItems.orderId, id)).orderBy(asc(orderItems.createdAt))
-  const pf = items.length
+  const productIds = items.map((i) => i.it.productId).filter((p): p is string => Boolean(p))
+  const pf = productIds.length
     ? await db
         .select({ productId: productFiles.productId, id: productFiles.id, fileId: productFiles.fileId, label: productFiles.label, name: files.originalName })
         .from(productFiles)
         .innerJoin(files, eq(files.id, productFiles.fileId))
-        .where(inArray(productFiles.productId, items.map((i) => i.it.productId)))
+        .where(inArray(productFiles.productId, productIds))
         .orderBy(asc(productFiles.sortOrder))
     : []
   return {
@@ -540,7 +541,7 @@ export async function downloadUrl(db: Db, actor: Actor, orderId: string, product
   if (!v.canDownload) throw new AppError('DOWNLOAD_NOT_ALLOWED')
   for (const it of v.items) {
     const f = it.files.find((x) => x.id === productFileId)
-    if (f) {
+    if (f && it.productId) {
       await db.insert(downloads).values({ userId: actor.userId, orderId, productId: it.productId, fileId: f.fileId })
       await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'store.download', entityType: 'order', entityId: orderId, newValue: { productId: it.productId, fileId: f.fileId } })
       return { url: signFileUrl(f.fileId, 600), name: f.name }
