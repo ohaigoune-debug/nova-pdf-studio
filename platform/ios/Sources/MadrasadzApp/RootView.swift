@@ -125,7 +125,8 @@ struct LoginView: View {
         working = true
         error = await model.login(identifier: identifier, password: password)
         working = false
-        if error == nil { password = "" }
+        // Cleared after every attempt: a refused password is typed again from scratch.
+        password = ""
     }
 }
 

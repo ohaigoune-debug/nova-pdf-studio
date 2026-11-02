@@ -36,29 +36,42 @@ final class MadrasadzUITests: XCTestCase {
         add(shot)
     }
 
+    @MainActor private func signIn(_ app: XCUIApplication, password value: String) {
+        let identifier = find(app, "loginIdentifier")
+        XCTAssertTrue(identifier.waitForExistence(timeout: 15))
+        identifier.tap()
+        identifier.typeText("0661234567")
+        let password = find(app, "loginPassword")
+        password.tap()
+        password.typeText(value)
+        find(app, "loginSubmit").tap()
+    }
+
     @MainActor func testNativeSignIn() throws {
         #if !DEBUG
         throw XCTSkip("Fixtures exist in Debug only.")
         #else
         let app = launch(signedIn: false)
-        let identifier = find(app, "loginIdentifier")
-        XCTAssertTrue(identifier.waitForExistence(timeout: 15))
+        XCTAssertTrue(find(app, "loginIdentifier").waitForExistence(timeout: 15))
         XCTAssertEqual(app.webViews.count, 0, "The sign-in screen is native")
         snapshot(app, "01-sign-in")
-        identifier.tap()
-        identifier.typeText("0661234567")
-        let password = find(app, "loginPassword")
-        password.tap()
-        password.typeText("wrong")
-        find(app, "loginSubmit").tap()
-        XCTAssertTrue(find(app, "loginError").waitForExistence(timeout: 10))
-        // The sample server refuses only the exact password "wrong".
-        password.tap()
-        password.typeText("secret")
-        find(app, "loginSubmit").tap()
+        signIn(app, password: "secret")
         // Signed in: the tab bar of the native app appears.
         XCTAssertTrue(app.tabBars.buttons["PLAY"].waitForExistence(timeout: 20), visible(app))
         snapshot(app, "02-home")
+        #endif
+    }
+
+    @MainActor func testWrongPasswordIsRefused() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = launch(signedIn: false)
+        // The sample server refuses only the exact password "wrong".
+        signIn(app, password: "wrong")
+        XCTAssertTrue(find(app, "loginError").waitForExistence(timeout: 10), visible(app))
+        XCTAssertFalse(app.tabBars.buttons["PLAY"].exists)
+        snapshot(app, "01b-sign-in-refused")
         #endif
     }
 
