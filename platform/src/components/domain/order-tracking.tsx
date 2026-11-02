@@ -1,6 +1,6 @@
 'use client'
 
-import { CheckCircle2, CircleAlert, Circle, Search, XCircle } from 'lucide-react'
+import { CheckCircle2, CircleAlert, Circle, FileText, Search, XCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { Badge } from '@/components/ui/badge'
@@ -92,6 +92,13 @@ export function TrackedOrderCard({ o, onChanged }: { o: TrackedOrderView; onChan
             </li>
           ))}
         </ol>
+        {o.receiptUrl ? (
+          <Button asChild size="sm" variant="outline">
+            <a href={o.receiptUrl} target="_blank" rel="noopener noreferrer">
+              <FileText className="size-4" /> إيصال الدفع (PDF)
+            </a>
+          </Button>
+        ) : null}
         {o.canCancel ? <CancelBox orderId={o.id} onDone={() => onChanged?.()} /> : null}
       </CardContent>
     </Card>

@@ -24,6 +24,7 @@ export interface TrackedOrderView {
   canCancel: boolean
   wilayaName: string | null
   commune: string | null
+  receiptUrl: string | null
 }
 
 /** التتبّع العام بالهاتف: 12 بحثاً / 10 دقائق لكل عنوان، و10 / ساعة لكل هاتف */

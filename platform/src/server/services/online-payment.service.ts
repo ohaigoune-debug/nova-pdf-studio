@@ -178,6 +178,37 @@ export async function verifyPayment(db: Db, paymentId: string, fetchImpl?: typeo
   return { ...base, status: 'PENDING', courseIds: [] }
 }
 
+/**
+ * رابط إيصال الدفع (PDF) كما أعادته eFawtara عند «paid» في data.links.href: رابط موقَّع يُفتح بلا مفاتيح ولا ينتهي.
+ * يُقرأ من ردّ البوابة المحفوظ، ولا يُعرض إلا لصاحب الدفعة أو للمشرف.
+ */
+export function receiptUrlOf(raw: unknown): string | null {
+  const href = (raw as { data?: { links?: { href?: unknown } } } | null)?.data?.links?.href
+  return typeof href === 'string' && /^https:\/\//.test(href) ? href : null
+}
+
+/** دفعة بمعرّفها (بعد التحقق، لقراءة حالتها وإيصالها كما حُفظت) */
+export async function paymentById(db: Db, paymentId: string): Promise<PaymentRow | null> {
+  assertUuid(paymentId, 'PAYMENT_NOT_FOUND')
+  const [p] = await db.select().from(onlinePayments).where(eq(onlinePayments.id, paymentId)).limit(1)
+  return p ?? null
+}
+
+/** إيصالات الدفعات المدفوعة لطلبات معيّنة (orderId ⇒ رابط الإيصال) */
+export async function paidReceiptsForOrders(db: Db, orderIds: string[]): Promise<Map<string, string>> {
+  const out = new Map<string, string>()
+  if (orderIds.length === 0) return out
+  const rows = await db
+    .select({ orderId: onlinePayments.orderId, raw: onlinePayments.gatewayResponse })
+    .from(onlinePayments)
+    .where(and(inArray(onlinePayments.orderId, orderIds), eq(onlinePayments.status, 'PAID')))
+  for (const r of rows) {
+    const url = receiptUrlOf(r.raw)
+    if (url) out.set(r.orderId, url)
+  }
+  return out
+}
+
 /** دفعة الولي العائد من SATIM: بمعرّف البوابة إن أُرسل، وإلا آخر دفعة معلّقة لهذا الحساب */
 export async function paymentForReturn(db: Db, userId: string, ref: string | null): Promise<PaymentRow | null> {
   const where = ref ? and(eq(onlinePayments.userId, userId), eq(onlinePayments.gatewayRef, ref)) : eq(onlinePayments.userId, userId)

@@ -1,10 +1,10 @@
-import { CheckCircle2, Clock, XCircle } from 'lucide-react'
+import { CheckCircle2, Clock, FileText, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
-import { paymentForReturn, verifyPayment } from '@/server/services/online-payment.service'
+import { paymentById, paymentForReturn, receiptUrlOf, verifyPayment } from '@/server/services/online-payment.service'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'نتيجة الدفع' }
@@ -23,6 +23,8 @@ export default async function PaymentReturnPage({ searchParams }: { searchParams
   const p = await paymentForReturn(db, actor.userId, ref)
   const out = p ? await verifyPayment(db, p.id).catch(() => ({ status: p.status })) : null
   const status = out?.status ?? null
+  // الإيصال يُقرأ بعد التحقق (الدفعة المحفوظة الآن تحمل ردّ «paid» ورابطه)
+  const receiptUrl = p && status === 'PAID' ? receiptUrlOf((await paymentById(db, p.id))?.gatewayResponse ?? null) : null
   const view =
     status === 'PAID'
       ? { icon: CheckCircle2, tone: 'text-success', title: 'تمّ الدفع وفُعّلت الدورة', body: 'يمكنك الدخول إلى دورتك الآن. ويُشحن الكتاب إن كان معها.' }
@@ -42,7 +44,16 @@ export default async function PaymentReturnPage({ searchParams }: { searchParams
           {p ? <p className="text-xs text-muted-foreground tabular-nums">{p.amountDzd} دج</p> : null}
           <div className="mt-2 flex flex-wrap justify-center gap-2">
             {status === 'PAID' ? (
-              <Button asChild><Link href="/student/courses">دوراتي</Link></Button>
+              <>
+                <Button asChild><Link href="/student/courses">دوراتي</Link></Button>
+                {receiptUrl ? (
+                  <Button asChild variant="outline">
+                    <a href={receiptUrl} target="_blank" rel="noopener noreferrer">
+                      <FileText className="size-4" /> إيصال الدفع (PDF)
+                    </a>
+                  </Button>
+                ) : null}
+              </>
             ) : status === 'PENDING' ? (
               <Button asChild><Link href={`/student/payments/return${ref ? `?order_number=${encodeURIComponent(ref)}` : ''}`}>تحديث</Link></Button>
             ) : (

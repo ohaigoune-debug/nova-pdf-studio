@@ -39,6 +39,8 @@ export interface TrackedOrder {
   canCancel: boolean
   wilayaName: string | null
   commune: string | null
+  /** إيصال الدفع الإلكتروني (PDF من eFawtara) — لصاحب الطلب في حسابه فقط، لا في التتبّع العام بالهاتف */
+  receiptUrl: string | null
 }
 
 const PROVIDER_AR: Record<string, string> = { ecotrack: 'EcoTrack', yalidine: 'Yalidine', generic: 'شركة التوصيل' }
@@ -73,6 +75,7 @@ async function buildTimelines(db: Db, rows: (typeof orders.$inferSelect)[]): Pro
 
 async function toTracked(db: Db, rows: (typeof orders.$inferSelect)[], includeLocation = false): Promise<TrackedOrder[]> {
   const timelines = await buildTimelines(db, rows)
+  const receipts = includeLocation ? await import('./online-payment.service').then((m) => m.paidReceiptsForOrders(db, rows.filter((r) => r.paymentMethod === 'ONLINE').map((r) => r.id))) : new Map<string, string>()
   const wilayaIds = includeLocation ? [...new Set(rows.map((o) => o.wilayaId).filter((id): id is string => Boolean(id)))] : []
   const locations = wilayaIds.length ? await db.select({ id: wilayas.id, name: wilayas.nameAr }).from(wilayas).where(inArray(wilayas.id, wilayaIds)) : []
   const wilayaById = new Map(locations.map((w) => [w.id, w.name]))
@@ -98,7 +101,8 @@ async function toTracked(db: Db, rows: (typeof orders.$inferSelect)[], includeLo
     timeline: timelines.get(o.id) ?? [],
     canCancel: canCustomerCancel(o),
     wilayaName: includeLocation && o.wilayaId ? wilayaById.get(o.wilayaId) ?? null : null,
-    commune: includeLocation ? o.commune : null
+    commune: includeLocation ? o.commune : null,
+    receiptUrl: receipts.get(o.id) ?? null
   }))
 }
 
@@ -108,7 +112,7 @@ export async function trackByPhone(db: Db, rawPhone: string): Promise<TrackedOrd
   const since = new Date(Date.now() - 180 * 86_400_000)
   const rows = await db.select().from(orders).where(and(eq(orders.phone, phone), gte(orders.createdAt, since))).orderBy(desc(orders.createdAt)).limit(5)
   // التتبّع العام لا يُلغي: الإلغاء من حساب صاحب الطلب فقط
-  return (await toTracked(db, rows)).map((o) => ({ ...o, canCancel: false }))
+  return (await toTracked(db, rows)).map((o) => ({ ...o, canCancel: false, receiptUrl: null }))
 }
 
 /** طلبات التلميذ بحسابه مع الخط الزمني وإمكانية الإلغاء */

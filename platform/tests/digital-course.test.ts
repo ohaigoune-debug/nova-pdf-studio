@@ -19,7 +19,8 @@ import {
   setCourseDigitalPrice
 } from '@/server/services/course-purchase.service'
 import { createCourse, setCourseStatus } from '@/server/services/courses.service'
-import { verifyPayment } from '@/server/services/online-payment.service'
+import { receiptUrlOf, verifyPayment } from '@/server/services/online-payment.service'
+import { myTrackedOrders, trackByPhone } from '@/server/services/order-tracking.service'
 import { listConfirmationQueue } from '@/server/services/store.service'
 import { makeAdmin, makeStudent, makeTeacher, refIds, setupDb, workspaceIdOfTeacher } from './helpers'
 
@@ -144,6 +145,22 @@ describe('النسخة الرقمية للدورة', () => {
     expect((await h.db.select({ stock: products.stock }).from(products).where(eq(products.id, book.id)))[0]!.stock).toBe(book.stock)
     // مشترك الآن: لا شراء رقمي ثانٍ
     await expectCode(() => buyDigital(s, c.id), 'ALREADY_ENROLLED')
+  })
+
+  it('إيصال الدفع يظهر لصاحب الطلب في «طلباتي» فقط، لا في التتبّع العام بالهاتف', async () => {
+    const c = await course({ digital: 1400 })
+    const s = await makeStudent(h.db, 'يريد الإيصال')
+    const o = await buyDigital(s, c.id)
+    expect((await myTrackedOrders(h.db, s)).find((x) => x.id === o.id)!.receiptUrl).toBeNull()
+    gateway = { status: 'paid', amount: '1400.00', deposit: '1400.00' }
+    await verifyPayment(h.db, (await paymentOf(o.id)).id)
+    const mine = (await myTrackedOrders(h.db, s)).find((x) => x.id === o.id)!
+    expect(mine.receiptUrl).toBe('https://epay.efawtara.com/r/x')
+    expect(mine.statusAr).toBe('مكتمل')
+    const phone = (await orderRow(o.id)).phone
+    if (phone) expect((await trackByPhone(h.db, phone)).every((x) => x.receiptUrl === null)).toBe(true)
+    expect(receiptUrlOf({ data: { links: { href: 'http://insecure' } } })).toBeNull()
+    expect(receiptUrlOf(null)).toBeNull()
   })
 
   it('فشل الدفع ⇒ يُلغى الطلب الرقمي ولا تُفتح الدورة', async () => {
