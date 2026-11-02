@@ -405,7 +405,7 @@ struct ExamRunner: View {
                     check()
                 } label: { Text(L10n.text("check")).fontWeight(.bold).frame(maxWidth: .infinity) }
                     .buttonStyle(.borderedProminent)
-                    .disabled(drafts[step.id]?.answer == nil)
+                    .disabled((drafts[step.id] ?? Draft(step: step)).answer == nil)
                     .accessibilityIdentifier("playCheck")
             } else {
                 Button {
@@ -427,7 +427,7 @@ struct ExamRunner: View {
     }
 
     private func check() {
-        guard let answer = drafts[step.id]?.answer else { return }
+        guard let answer = (drafts[step.id] ?? Draft(step: step)).answer else { return }
         answers[step.id] = answer
         let grade = Play.grade(step, answer: answer)
         withAnimation { checked[step.id] = grade }
