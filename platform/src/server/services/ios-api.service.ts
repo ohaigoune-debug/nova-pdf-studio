@@ -109,7 +109,9 @@ export async function iosApiLesson(db: Db, actor: Actor | null, slug: string) {
         // provider: BUNNY يُشغَّل في التطبيق برابط موقّع من /api/v1/ios/media/:contentId/player
         ...(kind === 'video' ? { contentId: item.id, provider: item.videoProvider ?? null } : {}),
         // PDF: معرّف المحتوى ليستعمله مسار التصدير الحالي المحمي، لا رابط ملف
-        ...(kind === 'pdf' ? { contentId: item.id, allowDownload: Boolean(item.allowDownload) } : {})
+        ...(kind === 'pdf' ? { contentId: item.id, allowDownload: Boolean(item.allowDownload) } : {}),
+        // رابط خارجي (https فقط) يفتحه التطبيق الأصيل في Safari
+        ...(kind === 'external' ? { url: /^https:\/\//i.test(item.externalUrl ?? '') ? item.externalUrl : null } : {})
       },
       webPath: `/ios/lesson/${encodeURIComponent(item.slug)}`
     },

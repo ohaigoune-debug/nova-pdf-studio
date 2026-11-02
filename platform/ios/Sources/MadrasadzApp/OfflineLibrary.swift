@@ -184,7 +184,7 @@ final class OfflineLibrary: ObservableObject {
         try? saveIndex()
     }
 
-    func download(contentID: UUID, browser: BrowserController,
+    func download(contentID: UUID, api: APIClient,
                   currentAccount: @escaping @MainActor () -> String?) async {
         guard !downloading, let account = currentAccount()?.lowercased(), UUID(uuidString: account) != nil else { return }
         if let owner, owner != account { purgeAll() }
@@ -203,7 +203,7 @@ final class OfflineLibrary: ObservableObject {
             }
         }
         do {
-            let fetched = try await fetch(contentID: contentID, browser: browser, account: account) { [weak self] value in
+            let fetched = try await fetch(contentID: contentID, api: api, account: account) { [weak self] value in
                 guard let self, self.generation == revision else { return }
                 self.progress = value
             }
@@ -220,7 +220,7 @@ final class OfflineLibrary: ObservableObject {
     /// Re-check files older than a day while the account is verified and online.
     /// A server refusal removes the file; offline or transient errors keep it
     /// within the 30-day validity window.
-    func recheck(browser: BrowserController, currentAccount: @escaping @MainActor () -> String?) async {
+    func recheck(api: APIClient, currentAccount: @escaping @MainActor () -> String?) async {
         guard !rechecking, !downloading, let account = currentAccount()?.lowercased() else { return }
         if let owner, owner != account {
             purgeAll()
@@ -235,7 +235,7 @@ final class OfflineLibrary: ObservableObject {
         for document in stale {
             guard generation == revision, currentAccount()?.lowercased() == account else { return }
             do {
-                let fetched = try await fetch(contentID: document.id, browser: browser, account: account) { _ in }
+                let fetched = try await fetch(contentID: document.id, api: api, account: account) { _ in }
                 defer { try? FileManager.default.removeItem(at: fetched.file) }
                 guard generation == revision, currentAccount()?.lowercased() == account else { return }
                 try store(fetched, contentID: document.id, account: account)
@@ -271,29 +271,16 @@ final class OfflineLibrary: ObservableObject {
         try saveIndex()
     }
 
-    private func fetch(contentID: UUID, browser: BrowserController, account: String,
+    private func fetch(contentID: UUID, api: APIClient, account: String,
                        progress: @escaping @MainActor (Double) -> Void) async throws -> FetchedPDF {
-        guard browser.baseURL.scheme == "https", browser.baseURL.host == "madrasadz.com" else {
-            throw OfflineFetchError.invalid
-        }
-        let cookies: [HTTPCookie] = await withCheckedContinuation { continuation in
-            browser.webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { continuation.resume(returning: $0) }
-        }
-        let sessionCookies = cookies.filter {
-            $0.name == "madrasa_session" && $0.isSecure && $0.isHTTPOnly && $0.path == "/"
-            && $0.domain.trimmingCharacters(in: CharacterSet(charactersIn: ".")).lowercased() == "madrasadz.com"
-            && ($0.expiresDate == nil || $0.expiresDate! > Date())
-        }
-        guard sessionCookies.count == 1,
-              let url = URL(string: "/api/v1/ios/materials/\(contentID.uuidString.lowercased())/export",
-                            relativeTo: browser.baseURL)?.absoluteURL else {
+        // The app's own session (Keychain), sent as the site's session cookie.
+        guard var request = api.request(path: "/api/v1/ios/materials/\(contentID.uuidString.lowercased())/export") else {
             throw OfflineFetchError.unauthenticated
         }
-        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
+        let url = request.url!
+        request.timeoutInterval = 60
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         request.setValue("application/pdf", forHTTPHeaderField: "Accept")
-        for (name, value) in HTTPCookie.requestHeaderFields(with: sessionCookies) {
-            request.setValue(value, forHTTPHeaderField: name)
-        }
         let configuration = URLSessionConfiguration.ephemeral
         configuration.httpShouldSetCookies = false
         configuration.httpCookieStorage = nil
@@ -311,7 +298,7 @@ final class OfflineLibrary: ObservableObject {
         guard let http = response as? HTTPURLResponse else { throw OfflineFetchError.invalid }
         if http.statusCode == 401 { throw OfflineFetchError.unauthenticated }
         if http.statusCode == 403 || http.statusCode == 404 { throw OfflineFetchError.denied }
-        guard http.statusCode == 200, http.url?.host == "madrasadz.com", http.url?.scheme == "https",
+        guard http.statusCode == 200, http.url?.host == api.baseURL.host, http.url?.scheme == api.baseURL.scheme,
               http.url?.path == url.path, http.mimeType == "application/pdf",
               http.value(forHTTPHeaderField: "X-Madrasadz-Account")?.lowercased() == account else {
             throw OfflineFetchError.invalid

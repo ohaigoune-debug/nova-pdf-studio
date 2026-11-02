@@ -203,16 +203,24 @@ public struct NativeCourse: Decodable, Equatable, Sendable {
         public let durationMinutes: Int?
     }
 
+    /// Pending course terms, accepted in the app (`POST /api/v1/ios/courses/{slug}/terms`).
+    public struct Terms: Decodable, Equatable, Sendable {
+        public let text: String
+        public let version: Int
+    }
+
     public let needsTerms: Bool
+    public let terms: Terms?
     public let course: Info
     public let sections: [Section]
     public let upcoming: [Upcoming]
     public let webPath: String
 
-    private enum CodingKeys: String, CodingKey { case needsTerms, course, sections, upcoming, webPath }
+    private enum CodingKeys: String, CodingKey { case needsTerms, terms, course, sections, upcoming, webPath }
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         needsTerms = (try? c.decode(Bool.self, forKey: .needsTerms)) ?? false
+        terms = (try? c.decodeIfPresent(Terms.self, forKey: .terms)) ?? nil
         course = try c.decode(Info.self, forKey: .course)
         // An unknown section id maps to files; merge so each kind appears once.
         var merged: [SectionKind: [Item]] = [:]
@@ -237,13 +245,25 @@ extension NativeCourse.Section {
 /// `GET /api/v1/ios/lessons/{slug}`: the lesson and, for a signed-in student, the
 /// code shown in the native watermark. Unknown or malformed media opens the web page.
 public struct NativeLesson: Decodable, Equatable, Sendable {
+    /// `GET /api/v1/ios/media/{contentId}/player`: a signed Bunny embed link (two hours)
+    /// and the watermark lines drawn above the frame.
+    public struct Player: Decodable, Equatable, Sendable {
+        public let provider: String
+        public let url: URL
+        public let expires: Int
+        public let watermark: [String]
+    }
+
     public enum Media: Equatable, Sendable {
         case none
         case youtube(id: String, contentID: UUID?)
         case pdf(contentID: UUID, allowDownload: Bool)
-        /// Private video (uploaded or Bunny): played by the protected web page.
-        case video(contentID: UUID?)
-        /// External link or anything this build does not play natively.
+        /// Private video. `provider` "BUNNY" plays from a signed link
+        /// (`/api/v1/ios/media/{contentId}/player`); other providers are not played in the app.
+        case video(contentID: UUID?, provider: String?)
+        /// An https link the teacher attached, opened in Safari.
+        case link(URL)
+        /// Anything this build does not show natively.
         case external
     }
 
@@ -264,7 +284,7 @@ public struct NativeLesson: Decodable, Equatable, Sendable {
 
     private enum Keys: String, CodingKey { case lesson, viewer }
     private enum LessonKeys: String, CodingKey { case slug, title, summary, type, bodyMarkdown, media, webPath }
-    private enum MediaKeys: String, CodingKey { case kind, youtubeId, contentId, allowDownload }
+    private enum MediaKeys: String, CodingKey { case kind, youtubeId, contentId, allowDownload, provider, url }
     private enum ViewerKeys: String, CodingKey { case name, code }
 
     public init(from decoder: Decoder) throws {
@@ -298,7 +318,10 @@ public struct NativeLesson: Decodable, Equatable, Sendable {
         case "pdf":
             guard let content else { return .external }
             return .pdf(contentID: content, allowDownload: (try? m.decode(Bool.self, forKey: .allowDownload)) ?? false)
-        case "video": return .video(contentID: content)
+        case "external":
+            if let raw = (try? m.decodeIfPresent(String.self, forKey: .url)) ?? nil, let url = URL(string: raw), url.scheme == "https" { return .link(url) }
+            return .external
+        case "video": return .video(contentID: content, provider: ((try? m.decodeIfPresent(String.self, forKey: .provider)) ?? nil)?.uppercased())
         default: return .external
         }
     }
