@@ -66,6 +66,7 @@ export function navFor(role: UserRole): NavSection[] {
           title: 'الحساب',
           items: [
             { href: '/student/notifications', label: t('common.notifications'), iconKey: 'BellRing' },
+            { href: '/student/invite', label: 'ادعُ زميلك ورصيدي', iconKey: 'Gift' },
             { href: '/student/support', label: 'الدعم والشكاوى', iconKey: 'LifeBuoy' },
             { href: '/student/profile', label: t('common.profile'), iconKey: 'UserRound' }
           ]
@@ -123,9 +124,10 @@ export function navFor(role: UserRole): NavSection[] {
       // رافع المحتوى: دوراته المسندة فقط (طلب المالك 1 نوفمبر 2026)
       return [{ items: [{ href: '/studio', label: 'دوراتي ودروسها', iconKey: 'GraduationCap' }] }]
     case 'MANAGER':
-      // مدير العمليات: نقاط البيع ومخزونها وأكوادها والمال المستلَم منها (قرار المالك 2 نوفمبر 2026)
+      // مدير العمليات: نقاط البيع، المسوّقون وطلبات الشراكة، والمال المستلَم والمدفوع (قرار المالك 2 نوفمبر 2026)
       return [{ items: [
         { href: '/admin/points-of-sale', label: 'نقاط البيع', iconKey: 'Store' },
+        { href: '/admin/affiliates', label: 'المسوّقون وطلبات الشراكة', iconKey: 'Megaphone' },
         { href: '/admin/notifications', label: 'الإشعارات', iconKey: 'BellRing' }
       ] }]
     case 'CONFIRMER':
@@ -147,7 +149,8 @@ export function navFor(role: UserRole): NavSection[] {
                 { href: '/admin/store', label: 'طلبات الدورات', iconKey: 'ShoppingBag', exact: true },
                 { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall' },
                 { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' },
-                { href: '/admin/points-of-sale', label: 'نقاط البيع', iconKey: 'Store' }
+                { href: '/admin/points-of-sale', label: 'نقاط البيع', iconKey: 'Store' },
+                { href: '/admin/affiliates', label: 'المسوّقون', iconKey: 'Megaphone' }
               ]
             },
             {

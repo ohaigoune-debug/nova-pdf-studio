@@ -22,6 +22,7 @@ import { notifyMany } from './notifications.service'
 import { transitionOrder } from './order-status.service'
 import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
 import { orderNumber, shippingFeeFor, storePolicy } from './store.service'
+import { applyCreditToOrder, creditPreview } from './referrals.service'
 
 const isPhysical = (type: string) => type === 'BOOK' || type === 'PACK'
 /** طلب مفتوح لم يُحسم بعد (لا يُفتح طلب ثانٍ للدورة نفسها) */
@@ -261,8 +262,12 @@ export interface PlacedDigitalOrder {
   number: string
   status: string
   totalDzd: number
-  /** صفحة SATIM التي يُحوَّل إليها التلميذ */
+  /** صفحة SATIM التي يُحوَّل إليها التلميذ (أو صفحة دوراته إن دُفع كاملًا بالرصيد) */
   payUrl: string
+  /** ما خُصم من الرصيد */
+  creditDzd: number
+  /** دُفع كاملًا بالرصيد: فُتحت الدورة دون بوابة الدفع */
+  paidWithCredit: boolean
 }
 
 /** يمنع الشراء لتلميذ من شعبة أخرى (دورة بلا شعب = لكل الشعب) */
@@ -300,7 +305,7 @@ async function openCourseOrder(db: Db, userId: string, courseId: string): Promis
  * التلميذ يؤكّد صراحةً أنه فهم أنها دون كتاب ورقي. الخادم يحدّد السعر والدورة، ويُحوَّل التلميذ إلى SATIM؛
  * تُفتح الدورة فور تأكّد الخادم من «paid» (online-payment.service) ويُغلق الطلب «مكتملًا».
  */
-export async function placeDigitalCourseOrder(db: Db, actor: Actor, input: { courseId: string; acceptNoBook: boolean }, fetchImpl?: typeof fetch): Promise<PlacedDigitalOrder> {
+export async function placeDigitalCourseOrder(db: Db, actor: Actor, input: { courseId: string; acceptNoBook: boolean; useCredit?: boolean }, fetchImpl?: typeof fetch): Promise<PlacedDigitalOrder> {
   const studentId = studentIdOf(actor)
   if (!input.acceptNoBook) throw new AppError('DIGITAL_ACK_REQUIRED')
   const c = await loadCourse(db, input.courseId)
@@ -318,7 +323,7 @@ export async function placeDigitalCourseOrder(db: Db, actor: Actor, input: { cou
     if (!pending) throw new AppError('COURSE_ORDER_OPEN', { number: open.number })
     const v = await verifyPayment(db, pending.id, fetchImpl).catch(() => null)
     if (v?.status === 'PAID') throw new AppError('ALREADY_ENROLLED')
-    if (v?.status === 'PENDING' && pending.formUrl) return { id: pending.orderId, number: open.number, status: 'PENDING', totalDzd: pending.amountDzd, payUrl: pending.formUrl }
+    if (v?.status === 'PENDING' && pending.formUrl) return { id: pending.orderId, number: open.number, status: 'PENDING', totalDzd: pending.amountDzd, payUrl: pending.formUrl, creditDzd: 0, paidWithCredit: false }
     if (v?.status === 'PENDING') throw new AppError('COURSE_ORDER_OPEN', { number: open.number })
   }
 
@@ -332,13 +337,20 @@ export async function placeDigitalCourseOrder(db: Db, actor: Actor, input: { cou
       .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: 'ONLINE', needsShipping: false, subtotalDzd: price, shippingDzd: 0, totalDzd: price, customerName: actor.fullName.slice(0, 120), phone: d.phone ?? d.guardianPhone ?? '', wilayaId: d.wilayaId, streamId, beneficiaryStudentId: studentId, note: `دورة رقمية (دون كتاب): ${c.title}`.slice(0, 500) })
       .returning()
     await tx.insert(orderItems).values({ orderId: o!.id, productId: null, courseId: c.id, title, type: 'COURSE', unitPriceDzd: price, qty: 1, lineTotalDzd: price })
-    return o!
+    const credit = input.useCredit ? await applyCreditToOrder(tx, o!, { online: true }) : 0
+    return { ...o!, creditDzd: credit, totalDzd: price - credit }
   })
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'store.order_place', entityType: 'order', entityId: order.id, newValue: { number: order.number, courseId: c.id, digital: true, total: price } })
-  const { startOrderPayment } = await import('./online-payment.service')
+  const total = order.totalDzd
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'store.order_place', entityType: 'order', entityId: order.id, newValue: { number: order.number, courseId: c.id, digital: true, total, credit: order.creditDzd } })
+  const { settleCreditOnlyOrder, startOrderPayment } = await import('./online-payment.service')
+  if (total === 0) {
+    // الرصيد غطّى الثمن كله: لا بوابة دفع، تُفتح الدورة الآن
+    await settleCreditOnlyOrder(db, order.id, actor.userId)
+    return { id: order.id, number: order.number, status: 'DELIVERED', totalDzd: 0, payUrl: '/student/courses', creditDzd: order.creditDzd, paidWithCredit: true }
+  }
   try {
-    const pay = await startOrderPayment(db, { orderId: order.id, userId: actor.userId, amountDzd: price }, fetchImpl)
-    return { id: order.id, number: order.number, status: order.status, totalDzd: price, payUrl: pay.formUrl }
+    const pay = await startOrderPayment(db, { orderId: order.id, userId: actor.userId, amountDzd: total }, fetchImpl)
+    return { id: order.id, number: order.number, status: order.status, totalDzd: total, payUrl: pay.formUrl, creditDzd: order.creditDzd, paidWithCredit: false }
   } catch (err) {
     await transitionOrder(db, order.id, 'CANCELLED', { actorUserId: actor.userId, source: 'system', reason: 'تعذّر بدء الدفع الإلكتروني', silent: true }).catch(() => null)
     throw err
@@ -360,6 +372,8 @@ export interface PlaceCourseOrderInput {
   otpCode?: string | null
   /** «ادفع الآن» بالبطاقة (eFawtara/SATIM): تُفعَّل الدورة فور تأكّد الخادم من الدفع */
   payNow?: boolean
+  /** يُخصم من رصيد التلميذ (لا يتجاوز ثمن الدورة؛ التوصيل يُدفع دائمًا) */
+  useCredit?: boolean
 }
 
 export interface PlacedCourseOrder {
@@ -370,12 +384,26 @@ export interface PlacedCourseOrder {
   priceDzd: number
   shippingDzd: number
   totalDzd: number
+  /** ما خُصم من الرصيد */
+  creditDzd: number
   /** «ادفع الآن»: رابط صفحة SATIM التي يُحوَّل إليها الولي */
   payUrl?: string
 }
 
 /** ملخّص السعر من الخادم (للعرض قبل التأكيد) */
-export async function courseQuote(db: Db, courseId: string, wilayaId: string | null, deliveryType: 'HOME' | 'DESK', actor?: Actor | null): Promise<{ priceDzd: number; shippingDzd: number; totalDzd: number; bookTitle: string; upgrade: boolean } | null> {
+export interface CourseQuote {
+  priceDzd: number
+  shippingDzd: number
+  /** قبل الرصيد */
+  totalDzd: number
+  bookTitle: string
+  upgrade: boolean
+  /** رصيد التلميذ المتاح، وما سيُخصم منه لهذا الطلب إن اختار استعماله */
+  creditBalanceDzd: number
+  creditDzd: number
+}
+
+export async function courseQuote(db: Db, courseId: string, wilayaId: string | null, deliveryType: 'HOME' | 'DESK', actor?: Actor | null, opts: { online?: boolean } = {}): Promise<CourseQuote | null> {
   const c = await loadCourse(db, courseId)
   const s = await courseBookState(db, c)
   if (!s.book) return null
@@ -383,7 +411,8 @@ export async function courseQuote(db: Db, courseId: string, wilayaId: string | n
   const up = actor ? await bookUpgradeFor(db, actor, c, s.book) : null
   const priceDzd = up ? up.priceDzd : s.book.priceDzd
   const shippingDzd = await shippingFeeFor(db, wilayaId, deliveryType)
-  return { priceDzd, shippingDzd, totalDzd: priceDzd + shippingDzd, bookTitle: s.book.title, upgrade: Boolean(up) }
+  const credit = actor?.role === 'STUDENT' ? await creditPreview(db, actor.userId, { priceDzd, totalDzd: priceDzd + shippingDzd, online: Boolean(opts.online) }) : { balanceDzd: 0, applyDzd: 0 }
+  return { priceDzd, shippingDzd, totalDzd: priceDzd + shippingDzd, bookTitle: s.book.title, upgrade: Boolean(up), creditBalanceDzd: credit.balanceDzd, creditDzd: credit.applyDzd }
 }
 
 export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseOrderInput, fetchImpl?: typeof fetch): Promise<PlacedCourseOrder> {
@@ -423,7 +452,7 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
     if (!pending) throw new AppError('COURSE_ORDER_OPEN', { number: open.number })
     const v = await verifyPayment(db, pending.id).catch(() => null)
     if (v?.status === 'PAID') throw new AppError('ALREADY_ENROLLED')
-    if (v?.status === 'PENDING' && input.payNow && pending.formUrl) return { id: pending.orderId, number: open.number, status: 'PENDING', bookTitle: state.book.title, priceDzd: state.book.priceDzd, shippingDzd: 0, totalDzd: pending.amountDzd, payUrl: pending.formUrl }
+    if (v?.status === 'PENDING' && input.payNow && pending.formUrl) return { id: pending.orderId, number: open.number, status: 'PENDING', bookTitle: state.book.title, priceDzd: state.book.priceDzd, shippingDzd: 0, totalDzd: pending.amountDzd, creditDzd: 0, payUrl: pending.formUrl }
     if (v?.status === 'PENDING') throw new AppError('COURSE_ORDER_OPEN', { number: open.number })
   }
   const payNow = Boolean(input.payNow)
@@ -467,14 +496,21 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
       .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: payNow ? 'ONLINE' : 'COD', needsShipping: true, subtotalDzd: price, shippingDzd: shipping, totalDzd: total, customerName: (input.customerName?.trim() || actor.fullName).slice(0, 120), phone, wilayaId: input.wilayaId, streamId, otpVerifiedAt, beneficiaryStudentId: studentId, address: input.address.trim().slice(0, 400), commune, deliveryType, note: [`دورة: ${c.title}`, upgrade ? `الكتاب لمشترك في النسخة الرقمية (دفع ${upgrade.paidDigitalDzd} دج)` : null, payNow ? 'دفع إلكتروني' : null, input.note?.trim()].filter(Boolean).join(' — ').slice(0, 500) })
       .returning()
     await tx.insert(orderItems).values({ orderId: o!.id, productId: bookId, courseId: c.id, title: bookTitle, type: 'BOOK', unitPriceDzd: price, qty: 1, lineTotalDzd: price })
-    return o!
+    const credit = input.useCredit ? await applyCreditToOrder(tx, o!, { online: payNow }) : 0
+    return { ...o!, creditDzd: credit, totalDzd: total - credit }
   })
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'store.order_place', entityType: 'order', entityId: order.id, newValue: { number: order.number, courseId: c.id, bookId, price, shipping, total, upgrade: Boolean(upgrade) } })
+  const credit = order.creditDzd
+  const due = order.totalDzd
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'store.order_place', entityType: 'order', entityId: order.id, newValue: { number: order.number, courseId: c.id, bookId, price, shipping, total: due, credit, upgrade: Boolean(upgrade) } })
   if (payNow) {
-    const { startOrderPayment } = await import('./online-payment.service')
+    const { settleCreditOnlyOrder, startOrderPayment } = await import('./online-payment.service')
+    if (due === 0) {
+      await settleCreditOnlyOrder(db, order.id, actor.userId)
+      return { id: order.id, number: order.number, status: 'CONFIRMED', bookTitle, priceDzd: price, shippingDzd: shipping, totalDzd: 0, creditDzd: credit }
+    }
     try {
-      const pay = await startOrderPayment(db, { orderId: order.id, userId: actor.userId, amountDzd: total })
-      return { id: order.id, number: order.number, status: order.status, bookTitle, priceDzd: price, shippingDzd: shipping, totalDzd: total, payUrl: pay.formUrl }
+      const pay = await startOrderPayment(db, { orderId: order.id, userId: actor.userId, amountDzd: due })
+      return { id: order.id, number: order.number, status: order.status, bookTitle, priceDzd: price, shippingDzd: shipping, totalDzd: due, creditDzd: credit, payUrl: pay.formUrl }
     } catch (err) {
       // البوابة رفضت أو لم تُجب: يُلغى الطلب فورًا ويعود الكتاب للمخزون
       await transitionOrder(db, order.id, 'CANCELLED', { actorUserId: actor.userId, source: 'system', reason: 'تعذّر بدء الدفع الإلكتروني' }).catch(() => null)
@@ -483,11 +519,11 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
   }
   if (otpVerifiedAt) {
     const r = await transitionOrder(db, order.id, 'CONFIRMED', { actorUserId: actor.userId, source: 'sms' })
-    return { id: order.id, number: order.number, status: r.order.status, bookTitle, priceDzd: price, shippingDzd: shipping, totalDzd: total }
+    return { id: order.id, number: order.number, status: r.order.status, bookTitle, priceDzd: price, shippingDzd: shipping, totalDzd: due, creditDzd: credit }
   }
   const admins = await db.select({ id: users.id }).from(users).where(eq(users.role, 'SUPER_ADMIN'))
-  await notifyMany(db, admins.map((a) => ({ userId: a.id, workspaceId: null, type: 'SYSTEM' as const, title: `طلب دورة جديد ${order.number}`, body: `${c.title} · ${order.customerName} · ${total} دج`, link: '/admin/store/confirm' })))
-  return { id: order.id, number: order.number, status: order.status, bookTitle, priceDzd: price, shippingDzd: shipping, totalDzd: total }
+  await notifyMany(db, admins.map((a) => ({ userId: a.id, workspaceId: null, type: 'SYSTEM' as const, title: `طلب دورة جديد ${order.number}`, body: `${c.title} · ${order.customerName} · ${due} دج${credit ? ` (بعد ${credit} دج رصيد)` : ''}`, link: '/admin/store/confirm' })))
+  return { id: order.id, number: order.number, status: order.status, bookTitle, priceDzd: price, shippingDzd: shipping, totalDzd: due, creditDzd: credit }
 }
 
 /** دورات منشورة كتابها المرفق لا يُشترى الآن (موقوف، نفد، محذوف) — تنبيه للإدارة. الدورة بلا كتاب اختيار مقصود فلا تُنبَّه. */

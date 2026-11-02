@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { IOS_CLIENT_HEADER, IOS_PRESENTATION_COOKIE, IOS_PRESENTATION_HEADER, IOS_PRESENTATION_VALUE, iosPresentationRedirect, iosPresentationState } from '@/lib/ios-presentation'
 
 const SESSION_COOKIE = 'madrasa_session'
-const PROTECTED = ['/student', '/teacher', '/assistant', '/admin', '/studio', '/print']
+const PROTECTED = ['/student', '/teacher', '/assistant', '/admin', '/studio', '/print', '/pos', '/affiliate']
 // تطبيق أندرويد يُطلق المنصة بـ ?source=android-app (strings.xml): يُتذكَّر في كوكي
 // فتُخفى أزرار «حمّل التطبيق» عمّن يستعمل التطبيق أصلاً
 const APP_COOKIE = 'madrasa_app'

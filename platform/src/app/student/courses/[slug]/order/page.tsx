@@ -3,6 +3,7 @@ import { ArrowRight, BookOpen, CheckCircle2, FileText, Gamepad2, PackageCheck, P
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { CourseOrderForm } from '@/components/academy/course-order-form'
+import { ReferralCodeBox } from '@/components/partners/partners-client'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,6 +15,7 @@ import { products } from '@/server/db/schema'
 import { isAppError } from '@/server/lib/errors'
 import { courseLanding } from '@/server/services/academy-catalog.service'
 import { bookUpgradeOffer, courseBookStateById, courseDigitalStateById } from '@/server/services/course-purchase.service'
+import { referralEligibility, referralPolicy } from '@/server/services/referrals.service'
 import { courseCheckoutData } from '@/server/services/store.service'
 
 export const dynamic = 'force-dynamic'
@@ -57,7 +59,7 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
   // المشترك يُعاد إلى دورته، إلا من اشترى النسخة الرقمية ويطلب الكتاب الورقي (يدفع الفرق فقط)
   const upgrade = course.enrollment === 'ACTIVE' ? await bookUpgradeOffer(db, actor, course.id) : null
   if (course.enrollment === 'ACTIVE' && !upgrade) redirect(courseHref)
-  const [purchase, checkout, digital] = await Promise.all([courseBookStateById(db, course.id), courseCheckoutData(db, actor), courseDigitalStateById(db, course.id)])
+  const [purchase, checkout, digital, refEl, refPolicy] = await Promise.all([courseBookStateById(db, course.id), courseCheckoutData(db, actor), courseDigitalStateById(db, course.id), referralEligibility(db, actor.userId), referralPolicy(db)])
   const price = upgrade ? upgrade.priceDzd : (purchase.book?.priceDzd ?? 0)
   const [cover] = purchase.book ? await db.select({ url: products.coverUrl }).from(products).where(eq(products.id, purchase.book.id)).limit(1) : []
   const bookCover = cover?.url ?? null
@@ -154,7 +156,10 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
           </CardHeader>
           <CardContent>
             {purchase.purchasable && purchase.book ? (
-              <CourseOrderForm courseId={course.id} book={{ title: purchase.book.title, priceDzd: price }} data={checkout} />
+              <div className="space-y-5">
+                {refEl.eligible ? <ReferralCodeBox source="CHECKOUT" welcomeCreditDzd={refPolicy.welcomeCreditDzd} /> : null}
+                <CourseOrderForm courseId={course.id} book={{ title: purchase.book.title, priceDzd: price }} data={checkout} />
+              </div>
             ) : (
               <Alert tone="warning" title="الطلب غير متاح حالياً">
                 شراء هذه الدورة متوقف مؤقتاً. راجعنا من{' '}

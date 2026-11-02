@@ -2,6 +2,7 @@ import { ArrowRight, CheckCircle2, CreditCard, FileText, Gamepad2, MonitorPlay, 
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { DigitalCheckout } from '@/components/academy/digital-checkout'
+import { ReferralCodeBox } from '@/components/partners/partners-client'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -12,6 +13,7 @@ import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { courseLanding } from '@/server/services/academy-catalog.service'
 import { courseBookStateById, courseDigitalStateById } from '@/server/services/course-purchase.service'
+import { creditPreview, referralEligibility, referralPolicy } from '@/server/services/referrals.service'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'النسخة الرقمية' }
@@ -57,6 +59,7 @@ export default async function CourseDigitalPage({ params }: { params: Promise<{ 
   if (course.enrollment === 'ACTIVE') redirect(courseHref)
   const [digital, book] = await Promise.all([courseDigitalStateById(db, course.id), courseBookStateById(db, course.id)])
   if (!digital.priceDzd) notFound()
+  const [credit, refEl, refPolicy] = await Promise.all([creditPreview(db, actor.userId, { priceDzd: digital.priceDzd, totalDzd: digital.priceDzd, online: true }), referralEligibility(db, actor.userId), referralPolicy(db)])
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
@@ -152,7 +155,10 @@ export default async function CourseDigitalPage({ params }: { params: Promise<{ 
           </CardHeader>
           <CardContent>
             {digital.purchasable ? (
-              <DigitalCheckout courseId={course.id} priceDzd={digital.priceDzd} />
+              <div className="space-y-4">
+                {refEl.eligible ? <ReferralCodeBox source="CHECKOUT" welcomeCreditDzd={refPolicy.welcomeCreditDzd} /> : null}
+                <DigitalCheckout courseId={course.id} priceDzd={digital.priceDzd} credit={credit} />
+              </div>
             ) : (
               <Alert tone="warning" title="الشراء غير متاح حالياً">
                 النسخة الرقمية متوقفة مؤقتاً. راجعنا من{' '}

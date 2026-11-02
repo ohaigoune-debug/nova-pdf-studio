@@ -7,6 +7,7 @@ export function homeFor(role: UserRole): string {
     case 'CONTENT_UPLOADER': return '/studio'
     case 'MANAGER': return '/admin/points-of-sale'
     case 'POINT_OF_SALE': return '/pos'
+    case 'AFFILIATE': return '/affiliate'
     case 'TEACHER': return '/teacher'
     case 'ASSISTANT': return '/assistant'
     case 'STUDENT': return '/student'

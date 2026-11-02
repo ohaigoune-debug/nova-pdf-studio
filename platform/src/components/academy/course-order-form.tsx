@@ -55,24 +55,26 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
     })
     return () => { alive = false }
   }, [f.wilayaId])
-  const [quote, setQuote] = useState<{ priceDzd: number; shippingDzd: number; totalDzd: number } | null>(null)
-  // الإجمالي من الخادم: يتغيّر بالولاية ونوع التسليم
+  const [quote, setQuote] = useState<{ priceDzd: number; shippingDzd: number; totalDzd: number; creditBalanceDzd: number; creditDzd: number } | null>(null)
+  const [useCredit, setUseCredit] = useState(true)
+  // الإجمالي من الخادم: يتغيّر بالولاية ونوع التسليم وطريقة الدفع (الرصيد لا يُنزل الدفع بالبطاقة تحت 50 دج)
   useEffect(() => {
     let alive = true
-    void courseQuoteAction(courseId, f.wilayaId || null, f.deliveryType).then((r) => {
+    void courseQuoteAction(courseId, f.wilayaId || null, f.deliveryType, payNow).then((r) => {
       if (alive && r.ok && r.data) setQuote(r.data)
     })
     return () => {
       alive = false
     }
-  }, [courseId, f.wilayaId, f.deliveryType])
+  }, [courseId, f.wilayaId, f.deliveryType, payNow])
   const phone = norm(who === 'self' ? (d.phone ?? '') : who === 'guardian' ? (d.guardianPhone ?? '') : other)
   const phoneOk = PHONE_RE.test(phone)
   // تأكيد هاتف الحساب لا يستبدل تأكيد هذه الطلبية.
   const needsOtp = data.smsReady && !payNow
   const fee = quote?.shippingDzd ?? 0
   const price = quote?.priceDzd ?? book.priceDzd
-  const total = quote?.totalDzd ?? book.priceDzd
+  const credit = useCredit ? (quote?.creditDzd ?? 0) : 0
+  const total = (quote?.totalDzd ?? book.priceDzd) - credit
   const ready = phoneOk && Boolean(f.wilayaId) && !communesLoading && Boolean(f.commune.trim()) && (communeLookup?.mode !== 'select' || Boolean(selectedCommune)) && Boolean(f.address.trim()) && (!needsOtp || f.otpCode.length >= 4)
   // ما ينقص لتفعيل زر التأكيد — الشروط نفسها أعلاه، بالترتيب الظاهر في النموذج (الزر الباهت لا يبقى لغزاً)
   const missing = [
@@ -86,7 +88,7 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
 
   const submit = () =>
     start(async () => {
-      const r = await placeCourseOrderAction({ courseId, phone, wilayaId: f.wilayaId, commune: f.commune || null, address: f.address, deliveryType: f.deliveryType, otpCode: needsOtp ? f.otpCode : null, payNow })
+      const r = await placeCourseOrderAction({ courseId, phone, wilayaId: f.wilayaId, commune: f.commune || null, address: f.address, deliveryType: f.deliveryType, otpCode: needsOtp ? f.otpCode : null, payNow, useCredit: credit > 0 })
       if (!r.ok) return toast('error', r.error.message)
       // «ادفع الآن»: إلى صفحة الدفع الرسمية (SATIM)، ثم يعود الولي فيتحقق الخادم من الدفع
       if (r.data.payUrl) {
@@ -203,6 +205,15 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
           <span>التوصيل</span>
           <span className="shrink-0 whitespace-nowrap tabular-nums">{f.wilayaId ? `${fee} دج` : 'اختر الولاية'}</span>
         </p>
+        {quote && quote.creditDzd > 0 ? (
+          <label className="flex cursor-pointer items-center justify-between gap-3 text-success">
+            <span className="flex items-center gap-2">
+              <input type="checkbox" className="size-4" checked={useCredit} onChange={(e) => setUseCredit(e.target.checked)} />
+              استعمل رصيدي ({quote.creditBalanceDzd} دج)
+            </span>
+            <span className="shrink-0 whitespace-nowrap tabular-nums">−{quote.creditDzd} دج</span>
+          </label>
+        ) : null}
         <p className="flex justify-between border-t pt-2 text-base font-bold">
           <span>{payNow ? 'الإجمالي (يُدفع الآن بالبطاقة)' : 'الإجمالي (الدفع عند الاستلام)'}</span>
           <span className="shrink-0 whitespace-nowrap tabular-nums text-primary">{total} دج</span>

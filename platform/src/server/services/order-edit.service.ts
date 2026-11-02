@@ -69,7 +69,7 @@ export async function changeOrderStream(db: Db, actor: Actor, orderId: string, s
 }
 
 /**
- * تغيير مبلغ الطلب: ثمن السلع و/أو رسوم التوصيل، والإجمالي = الثمن + التوصيل دائمًا
+ * تغيير مبلغ الطلب: ثمن السلع و/أو رسوم التوصيل، والإجمالي = الثمن + التوصيل − الرصيد المخصوم دائمًا
  * (محرّك الحالات يعيد حسابه بالطريقة نفسها). السبب إلزامي ويُحفظ في سجلّ التدقيق.
  */
 export async function adjustOrderAmount(db: Db, actor: Actor, orderId: string, input: { subtotalDzd?: number | null; shippingDzd?: number | null; reason: string }): Promise<OrderRow> {
@@ -84,7 +84,8 @@ export async function adjustOrderAmount(db: Db, actor: Actor, orderId: string, i
     const subtotalDzd = input.subtotalDzd ?? order.subtotalDzd
     const shippingDzd = input.shippingDzd ?? order.shippingDzd
     if (subtotalDzd === order.subtotalDzd && shippingDzd === order.shippingDzd) return order
-    const [row] = await tx.update(orders).set({ subtotalDzd, shippingDzd, totalDzd: subtotalDzd + shippingDzd, updatedAt: new Date() }).where(eq(orders.id, order.id)).returning()
+    const totalDzd = Math.max(0, subtotalDzd + shippingDzd - order.creditDzd)
+    const [row] = await tx.update(orders).set({ subtotalDzd, shippingDzd, totalDzd, updatedAt: new Date() }).where(eq(orders.id, order.id)).returning()
     await writeAudit(tx, {
       actorUserId: actor.userId,
       workspaceId: null,
@@ -92,7 +93,7 @@ export async function adjustOrderAmount(db: Db, actor: Actor, orderId: string, i
       entityType: 'order',
       entityId: order.id,
       oldValue: { subtotalDzd: order.subtotalDzd, shippingDzd: order.shippingDzd, totalDzd: order.totalDzd },
-      newValue: { subtotalDzd, shippingDzd, totalDzd: subtotalDzd + shippingDzd, reason }
+      newValue: { subtotalDzd, shippingDzd, totalDzd, creditDzd: order.creditDzd, reason }
     })
     return row!
   })

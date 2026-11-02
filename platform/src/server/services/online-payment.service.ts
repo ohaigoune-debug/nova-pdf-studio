@@ -105,6 +105,22 @@ async function activateForOrder(db: Db, orderId: string): Promise<string[]> {
   return done
 }
 
+/**
+ * طلب غطّاه رصيد التلميذ كله (لا مبلغ يُرسَل إلى البوابة): يُؤكَّد وتُفتح دورته الآن كما لو دُفع؛
+ * الطلب الرقمي يكتمل فورًا، وطلب الكتاب يُشحن.
+ */
+export async function settleCreditOnlyOrder(db: Db, orderId: string, actorUserId: string): Promise<string[]> {
+  const [o] = await db.select({ number: orders.number, userId: orders.userId, total: orders.totalDzd, credit: orders.creditDzd, needsShipping: orders.needsShipping }).from(orders).where(eq(orders.id, orderId)).limit(1)
+  if (!o || o.total !== 0 || o.credit <= 0) throw new AppError('VALIDATION', { field: 'credit' })
+  const digital = !o.needsShipping
+  await transitionOrder(db, orderId, 'CONFIRMED', { actorUserId, source: 'system', reason: 'دُفع كاملًا بالرصيد', silent: digital })
+  const courseIds = await activateForOrder(db, orderId)
+  if (digital) await transitionOrder(db, orderId, 'DELIVERED', { actorUserId, source: 'system', reason: 'دورة رقمية: دُفعت بالرصيد', silent: true })
+  await writeAudit(db, { actorUserId, workspaceId: null, action: 'payment.credit', entityType: 'order', entityId: orderId, newValue: { creditDzd: o.credit, courseIds } })
+  await notifyMany(db, [{ userId: o.userId, workspaceId: null, type: 'SYSTEM' as const, title: 'فُعّلت الدورة — دُفعت برصيدك', body: `الطلب ${o.number} · ${o.credit} دج من رصيدك`, link: '/student/courses' }])
+  return courseIds
+}
+
 export interface PaymentOutcome {
   paymentId: string
   orderId: string

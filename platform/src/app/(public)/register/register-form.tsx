@@ -9,7 +9,7 @@ import { registerAction } from '@/server/actions/auth.actions'
 
 type Opt = { id: string; name: string }
 
-export function RegisterForm({ wilayas, levels, streams }: { wilayas: Opt[]; levels: (Opt & { secondary?: boolean })[]; streams: Opt[] }) {
+export function RegisterForm({ wilayas, levels, streams, referral }: { wilayas: Opt[]; levels: (Opt & { secondary?: boolean })[]; streams: Opt[]; referral?: { defaultCode: string; welcomeCreditDzd: number } | null }) {
   const t = useT()
   const [state, action] = useActionState(registerAction, null)
   const [levelId, setLevelId] = useState('')
@@ -65,6 +65,16 @@ export function RegisterForm({ wilayas, levels, streams }: { wilayas: Opt[]; lev
           ))}
         </Select>
       </Field>
+      {referral ? (
+        <Field
+          label="كود الدعوة (اختياري)"
+          htmlFor="refCode"
+          error={fieldError(state, 'refCode')}
+          hint={referral.welcomeCreditDzd ? `من زميلك أو من صفحة تتابعها: ${referral.welcomeCreditDzd} دج هدية في رصيدك بعد استلام أول دورة` : 'من زميلك أو من صفحة تتابعها'}
+        >
+          <Input id="refCode" name="refCode" defaultValue={referral.defaultCode} dir="ltr" autoCapitalize="characters" autoComplete="off" maxLength={24} placeholder="ABCD12" />
+        </Field>
+      ) : null}
       <FormError state={state} />
       <SubmitButton className="w-full" size="lg">
         {t('auth.registerButton')}

@@ -74,7 +74,7 @@ it('صفحة الموظف وقائمته تقتصران على التأكيد و
 it('كل صفحات الإدارة الأخرى ومسارات التصدير تحتفظ بحراسة المشرف ولو أُعيد استعمال Layout', () => {
   const allowed = new Set(['store/page.tsx', 'store/confirm/page.tsx'])
   // مدير العمليات (2 نوفمبر 2026): نقاط البيع وإشعاراته فقط — بحراسة صريحة لهذين الدورين
-  const managerPages = new Set(['points-of-sale/page.tsx', 'points-of-sale/[id]/page.tsx', 'notifications/page.tsx'])
+  const managerPages = new Set(['points-of-sale/page.tsx', 'points-of-sale/[id]/page.tsx', 'affiliates/page.tsx', 'affiliates/[id]/page.tsx', 'notifications/page.tsx'])
   const walk = (dir: string): string[] => readdirSync(dir, { withFileTypes: true }).flatMap((entry) => entry.isDirectory() ? walk(join(dir, entry.name)) : [join(dir, entry.name)])
   const pages = walk('src/app/admin').filter((p) => p.endsWith('/page.tsx'))
   expect(pages.length).toBeGreaterThan(35)

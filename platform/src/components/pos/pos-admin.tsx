@@ -95,12 +95,18 @@ export function PosForm({ wilayas, values, isAdmin }: { wilayas: Opt[]; values?:
 }
 
 /** بطاقة الحساب المولَّد: الرقم وكلمة السر مرة واحدة، وزر واتساب جاهز */
-function CredentialsBox({ creds, onClose }: { creds: { phone: string; password: string; whatsappUrl: string }; onClose: () => void }) {
+export function CredentialsBox({ creds, onClose, to = 'للنقطة' }: { creds: { phone: string; password: string; whatsappUrl: string; code?: string }; onClose: () => void; to?: string }) {
   return (
     <div className="space-y-2 rounded-lg border border-success/50 bg-success/5 p-3 text-sm">
-      <p className="font-semibold">أرسل هذه البيانات للنقطة (لن تظهر كلمة السر مرة أخرى):</p>
+      <p className="font-semibold">أرسل هذه البيانات {to} (لن تظهر كلمة السر مرة أخرى):</p>
       <p>
         الهاتف: <span dir="ltr" className="font-mono font-bold">{creds.phone}</span> — كلمة السر: <span dir="ltr" className="select-all font-mono font-bold">{creds.password}</span>
+        {creds.code ? (
+          <>
+            {' '}
+            — الكود: <span dir="ltr" className="font-mono font-bold">{creds.code}</span>
+          </>
+        ) : null}
       </p>
       <div className="flex flex-wrap gap-2">
         <Button asChild size="sm">
