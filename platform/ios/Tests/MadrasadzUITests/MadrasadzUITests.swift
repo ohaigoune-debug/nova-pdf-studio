@@ -22,6 +22,13 @@ final class MadrasadzUITests: XCTestCase {
         app.descendants(matching: .any).matching(identifier: id).firstMatch
     }
 
+    /// Visible labels, put in the failure message (CI logs and screenshots are not always readable).
+    @MainActor private func visible(_ app: XCUIApplication) -> String {
+        let texts = app.staticTexts.allElementsBoundByIndex.prefix(20).map(\.label)
+        let buttons = app.buttons.allElementsBoundByIndex.prefix(20).map { $0.identifier.isEmpty ? $0.label : $0.identifier }
+        return "texts=\(texts) buttons=\(buttons)"
+    }
+
     @MainActor private func snapshot(_ app: XCUIApplication, _ name: String) {
         let shot = XCTAttachment(screenshot: app.screenshot())
         shot.name = name
@@ -49,7 +56,8 @@ final class MadrasadzUITests: XCTestCase {
         password.tap()
         password.typeText("secret")
         find(app, "loginSubmit").tap()
-        XCTAssertTrue(find(app, "homeGreeting").waitForExistence(timeout: 15))
+        // Signed in: the tab bar of the native app appears.
+        XCTAssertTrue(app.tabBars.buttons["PLAY"].waitForExistence(timeout: 20), visible(app))
         snapshot(app, "02-home")
         #endif
     }
