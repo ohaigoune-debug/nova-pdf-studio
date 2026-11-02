@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="brand">#1D8F7F</color>
-    <color name="brand_dark">#14655A</color>
-    <color name="background">#F5F8FB</color>
-    <color name="launcher_background">#1D8F7F</color>
+    <color name="brand">#3155F5</color>
+    <color name="brand_dark">#2646D6</color>
+    <color name="background">#F6F5F0</color>
+    <color name="launcher_background">#3155F5</color>
 </resources>

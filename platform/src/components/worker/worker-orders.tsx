@@ -68,7 +68,7 @@ function useResult(onDone?: () => void) {
     start(async () => {
       const r = await setOrderStatusAction(o.id, next, { reason: reason ?? null })
       if (!r.ok) return toast('error', r.error.message)
-      const msg: Record<string, string> = { CONFIRMED: 'أُكِّد الطلب', NO_ANSWER: 'سُجِّل: لا يردّ', CALL_LATER: 'سُجِّل: اتصل لاحقًا', CANCELLED: 'أُلغي الطلب', DELIVERED: 'سُلِّم وفُعِّلت الدورة' }
+      const msg: Record<string, string> = { CONFIRMED: 'أُكِّد الطلب', NO_ANSWER: 'سُجِّل: لا يردّ', CALL_LATER: 'سُجِّل: اتصل لاحقًا', CANCELLED: 'أُلغي الطلب', DELIVERED: 'سُجِّل التسليم' }
       toast('success', msg[next] ?? 'تمّ')
       writeLastCall(null)
       onDone?.()
@@ -151,7 +151,7 @@ function AfterConfirmActions({ order, ecotrack }: { order: WorkerOrder; ecotrack
       {deliverable ? (
         sure ? (
           <div className="space-y-2 rounded-lg border border-success/30 bg-success/5 p-3 text-sm">
-            <p>استلم الزبون الطرد ودفع؟ تُفعَّل الدورة في حسابه فورًا.</p>
+            <p>{order.hasCourse ? 'استلم الزبون الطرد ودفع؟ تُفعَّل الدورة في حسابه فورًا.' : 'استلم الزبون الطرد ودفع؟'}</p>
             <div className="grid grid-cols-2 gap-2">
               <Button variant="success" className="h-12" loading={pending} onClick={() => send(order, 'DELIVERED')}>
                 نعم، سُلِّم
@@ -163,7 +163,7 @@ function AfterConfirmActions({ order, ecotrack }: { order: WorkerOrder; ecotrack
           </div>
         ) : (
           <Button variant="success" className="h-12 w-full" onClick={() => setSure(true)}>
-            <PackageCheck className="size-5" /> سُلِّم وتفعيل الدورة
+            <PackageCheck className="size-5" /> {order.hasCourse ? 'سُلِّم وتفعيل الدورة' : 'سُلِّم'}
           </Button>
         )
       ) : null}

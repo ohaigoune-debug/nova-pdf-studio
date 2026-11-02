@@ -42,9 +42,9 @@ public class MainActivity extends Activity {
     private static final String OFFLINE_HTML =
             "<!doctype html><html lang='ar' dir='rtl'><head><meta charset='utf-8'>"
             + "<meta name='viewport' content='width=device-width,initial-scale=1'>"
-            + "<style>body{font-family:sans-serif;background:#f5f8fb;color:#0b1220;display:flex;min-height:100vh;"
+            + "<style>body{font-family:sans-serif;background:#f6f5f0;color:#0b1220;display:flex;min-height:100vh;"
             + "align-items:center;justify-content:center;margin:0;text-align:center;padding:24px}"
-            + "a{display:inline-block;margin-top:16px;background:#1d8f7f;color:#fff;padding:14px 28px;border-radius:12px;"
+            + "a{display:inline-block;margin-top:16px;background:#3155f5;color:#fff;padding:14px 28px;border-radius:12px;"
             + "text-decoration:none;font-weight:bold;font-size:18px}</style></head><body><div>"
             + "<h2>تعذّر الاتصال بالمنصة</h2><p>تأكّد من الإنترنت ثم أعد المحاولة.</p>"
             + "<a href='%s'>أعد المحاولة</a></div></body></html>";
@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         FrameLayout root = new FrameLayout(this);
-        root.setBackgroundColor(Color.parseColor("#F5F8FB"));
+        root.setBackgroundColor(Color.parseColor("#F6F5F0"));
         web = new WebView(this);
         root.addView(web, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         progress = new ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal);
