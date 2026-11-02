@@ -1,13 +1,14 @@
 -- نقاط البيع (قرار المالك 2 نوفمبر 2026): مدارس ومكتبات شريكة تستلم باقات (كتب + دورة سنوية)،
 -- وتولّد كود التفعيل لحظة بيع كل باقة من صفحة بسيطة على الهاتف. إضافة فقط.
---   1) دور POINT_OF_SALE لحسابات أصحاب نقاط البيع وموظفيهم (دخول بالهاتف ورقم سري).
+--   1) دور POINT_OF_SALE لحسابات أصحاب نقاط البيع وموظفيهم (دخول بالهاتف وكلمة سر)،
+--      ودور PARTNER_MANAGER لموظف «مسؤول الشركاء» الذي يضيف المدارس ويرسل لها حساباتها.
 --   2) points_of_sale وأعضاؤها، وحركات مخزون الباقات لكل دورة، وما سدّدته كل نقطة.
 --   3) course_codes: الكود المولَّد في نقطة بيع يُنسب إليها وإلى من ولّده، بسعره وعمولته وقت البيع،
 --      ومختومًا (لا يُخزَّن صريحًا) ليُعاد عرضه لصاحب النقطة إن أضاعه التلميذ.
 --   4) مصدر اشتراك POS.
 DO $$ BEGIN
   ALTER TABLE "users" DROP CONSTRAINT "users_role_check";
-  ALTER TABLE "users" ADD CONSTRAINT "users_role_check" CHECK ("role" IN ('SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'POINT_OF_SALE', 'TEACHER', 'ASSISTANT', 'STUDENT', 'PUBLIC', 'PARENT'));
+  ALTER TABLE "users" ADD CONSTRAINT "users_role_check" CHECK ("role" IN ('SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'PARTNER_MANAGER', 'POINT_OF_SALE', 'TEACHER', 'ASSISTANT', 'STUDENT', 'PUBLIC', 'PARENT'));
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
