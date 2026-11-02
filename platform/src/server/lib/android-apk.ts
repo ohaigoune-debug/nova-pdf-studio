@@ -8,14 +8,16 @@ import path from 'node:path'
 import { headers } from 'next/headers'
 
 export const APK_FILENAME = 'madrasa.apk'
+/** تطبيق عامل التأكيد (scripts/build-android-confirm.sh) — منفصل عن تطبيق التلاميذ */
+export const CONFIRM_APK_FILENAME = 'madrasa-confirm.apk'
 
-export function apkPath(): string {
-  return path.resolve(process.cwd(), process.env.DOWNLOADS_DIR ?? 'data/downloads', APK_FILENAME)
+export function apkPath(name: string = APK_FILENAME): string {
+  return path.resolve(process.cwd(), process.env.DOWNLOADS_DIR ?? 'data/downloads', name)
 }
 
-export async function apkInfo(): Promise<{ size: number; updatedAt: Date } | null> {
+export async function apkInfo(name: string = APK_FILENAME): Promise<{ size: number; updatedAt: Date } | null> {
   try {
-    const st = await fs.stat(apkPath())
+    const st = await fs.stat(apkPath(name))
     return st.isFile() && st.size > 0 ? { size: st.size, updatedAt: st.mtime } : null
   } catch {
     return null

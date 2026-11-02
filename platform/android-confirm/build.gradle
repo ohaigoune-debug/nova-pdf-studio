@@ -1,0 +1,8 @@
+// نفس إصدار أدوات البناء في android/ فتُستعمل الأدوات المخزّنة على الخادم نفسها
+plugins {
+    id 'com.android.application' version '8.9.1' apply false
+}
+
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
+}

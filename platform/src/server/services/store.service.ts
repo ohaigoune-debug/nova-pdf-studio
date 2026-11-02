@@ -464,6 +464,31 @@ export async function listOrdersAdmin(db: Db, actor: Actor, f: { status?: OrderS
     .limit(300)
 }
 
+/**
+ * تطبيق عامل التأكيد — «بحث وتفعيل»: طلبات رقم هاتف أو رقم طلب، بكل حالاتها (للتفعيل بعد التسليم،
+ * وكود التفعيل، والإرسال إلى الناقل). طلب في مرحلة التأكيد محجوز لزميل لا يظهر للموظف.
+ */
+export async function searchOrdersForWorker(db: Db, actor: Actor, raw: string, now = new Date()) {
+  assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
+  const q = raw.trim()
+  if (q.length < 4) return []
+  const digits = q.replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
+  const byPhone = /^0[5-7]\d{8}$/.test(digits)
+  const needle = q.replace(/[%_\\]/g, '')
+  if (!byPhone && needle.length < 4) return []
+  const hideOthers = actor.role === 'CONFIRMER' && (await reservationPolicy(db)).enabled
+  const rows = await db
+    .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaName: wilayas.nameAr, commune: orders.commune, note: orders.note, confirmAttempts: orders.confirmAttempts, lastCallAt: orders.lastCallAt, createdAt: orders.createdAt, deliveryProvider: orders.deliveryProvider, itemsText: sql<string>`(select coalesce(string_agg(i.title || case when i.qty > 1 then ' ×' || i.qty else '' end, ' + ' order by i.created_at), '') from order_items i where i.order_id = orders.id)`, ...orderEditFields, ...reservationFields(now) })
+    .from(orders)
+    .leftJoin(wilayas, eq(wilayas.id, orders.wilayaId))
+    .leftJoin(streams, eq(streams.id, orders.streamId))
+    .where(and(byPhone ? eq(orders.phone, digits) : sql`${orders.number} ilike ${'%' + needle + '%'}`, hideOthers ? sql`not ${heldByOther(actor.userId, now)}` : undefined))
+    .orderBy(desc(orders.createdAt))
+    .limit(20)
+  const history = await phoneOrderHistory(db, rows.map((r) => r.phone))
+  return rows.map((r) => ({ ...r, history: history.get(r.phone) ?? { delivered: 0, returned: 0, cancelled: 0 } }))
+}
+
 export interface PhoneHistory {
   delivered: number
   returned: number

@@ -29,7 +29,7 @@ export function iosPresentationRedirect(pathname: string): string | null {
   // internal iPhone build. The open forum and group directory stay out of scope.
   // App Review still requires report/block/filter/contact safeguards (guideline 1.2).
   if (['/forum', '/student/forum', '/student/groups'].some((prefix) => under(matchPath, prefix))) return '/ios?unavailable=community'
-  if (['/admin', '/teacher', '/assistant', '/print'].some((prefix) => under(matchPath, prefix))) return '/ios?unavailable=role'
+  if (['/admin', '/teacher', '/assistant', '/print', '/worker'].some((prefix) => under(matchPath, prefix))) return '/ios?unavailable=role'
   if (['/', '/student', '/student/courses', '/student/lessons', '/lessons'].includes(matchPath)) return '/ios'
   const course = path.match(/^\/student\/courses\/([^/]+)$/i)
   if (course) return `/ios/course/${encodeURIComponent(course[1]!)}`

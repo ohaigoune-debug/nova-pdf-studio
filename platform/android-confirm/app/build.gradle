@@ -1,0 +1,64 @@
+plugins {
+    id 'com.android.application'
+}
+
+/*
+ * تطبيق عامل التأكيد: نشاط واحد بـ WebView يفتح صفحات /worker في المنصة (الدخول بالهاتف وكلمة السر،
+ * الحجوزات، «اتصل»، النتيجة، البحث والتفعيل). كل منطق العمل في الخادم، فأي تحديث يصل فورًا بلا APK جديد.
+ * التطبيق يضيف ما لا يقدر عليه المتصفح: اتصال مباشر بلمسة (CALL_PHONE)، ولوحة النتيجة عند الرجوع من المكالمة.
+ */
+def appId = project.property('confirmAppId')
+
+// التوقيع: من متغيّرات البيئة (scripts/build-android-confirm.sh) — مفتاح منفصل عن تطبيق التلاميذ.
+def storePath = System.getenv('ANDROID_KEYSTORE_PATH')
+def storePass = System.getenv('ANDROID_KEYSTORE_PASSWORD')
+def keyAliasName = System.getenv('ANDROID_KEY_ALIAS')
+def keyPass = System.getenv('ANDROID_KEY_PASSWORD')
+def hasSigning = storePath != null && file(storePath).exists() && storePass != null && keyAliasName != null
+
+android {
+    namespace 'dz.madrasa.confirm'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId appId
+        minSdk 26
+        targetSdk 36
+        versionCode project.property('confirmVersionCode').toInteger()
+        versionName project.property('confirmVersionName')
+        buildConfigField 'String', 'START_URL', "\"${project.property('confirmStartUrl')}\""
+        buildConfigField 'String', 'HOST', "\"${project.property('confirmHost')}\""
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    signingConfigs {
+        release {
+            if (hasSigning) {
+                storeFile file(storePath)
+                storePassword storePass
+                keyAlias keyAliasName
+                keyPassword keyPass ?: storePass
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (hasSigning) signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
