@@ -1,17 +1,19 @@
 import { Clock, Phone, PhoneCall, PhoneMissed } from 'lucide-react'
 import Link from 'next/link'
 import { CallConfirmForm } from '@/components/delivery/confirm-forms'
+import { ReleaseOrderButton, ReservationAdmin, ReservationBar } from '@/components/delivery/queue-reservations'
 import { OrderEditPanel, OrderRowActions } from '@/components/domain/store-admin'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { EmptyState, PageHeader, StatCard } from '@/components/ui/misc'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { formatDateTime } from '@/lib/utils'
+import { formatDateTime, formatTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import type { OrderStatus } from '@/server/db/schema/enums'
 import { callPairingUrl, getCallConfirm, listCallEvents } from '@/server/services/call-confirm.service'
+import { queueSummary } from '@/server/services/confirm-reservations.service'
 import { ecotrackOperatorStatus, ecotrackStatus } from '@/server/services/ecotrack.service'
 import { ORDER_STATUS_AR } from '@/server/services/order-status.service'
 import { listStreams } from '@/server/services/reference.service'
@@ -34,12 +36,22 @@ function PhoneHistoryBadges({ h }: { h: PhoneHistory }) {
   )
 }
 
+/** للمشرف: من حجز الطلب وحتى متى */
+function ReservedBadge({ name, until }: { name: string | null; until: Date | null }) {
+  return (
+    <span className="mt-1 block">
+      <Badge variant="secondary">محجوز: {name ?? 'موظف'}{until ? ` · حتى ${formatTime(until)}` : ''}</Badge>
+    </span>
+  )
+}
+
 /** طابور التأكيد الهاتفي (نسق NOVA): الطلبات التي تنتظر مكالمة، بأزرار «تأكيد / لا يردّ / لاحقاً / إلغاء»، وإعداد التأكيد بالمكالمة الفائتة */
 export default async function ConfirmQueuePage() {
   const actor = await requirePageActor('SUPER_ADMIN', 'CONFIRMER')
   const db = await getDb()
   const worker = actor.role === 'CONFIRMER'
-  const [queue, eco, streamRows] = await Promise.all([listConfirmationQueue(db, actor), worker ? ecotrackOperatorStatus(db, actor) : ecotrackStatus(db), listStreams(db)])
+  const [queue, eco, streamRows, res] = await Promise.all([listConfirmationQueue(db, actor), worker ? ecotrackOperatorStatus(db, actor) : ecotrackStatus(db), listStreams(db), queueSummary(db, actor)])
+  const reserving = res.policy.enabled
   const streamOptions = streamRows.map((r) => ({ id: r.id, name: r.nameAr }))
   const admin = worker ? null : await Promise.all([getCallConfirm(db), listCallEvents(db, actor, 30)])
   const cfg = admin?.[0]
@@ -53,13 +65,14 @@ export default async function ConfirmQueuePage() {
     <div className="space-y-6">
       <PageHeader
         title="طابور التأكيد"
-        description="اتصل بالزبون من هنا: «تأكيد» يرسل الطلب إلى التوصيل (أو تلقائياً إلى EcoTrack)، «لا يردّ» و«لاحقاً» تسجّلان المحاولة. الزبون الذي أكّد برمز SMS أو اتصل بالرقم المعلَن يُؤكَّد طلبه وحده."
+        description={`${worker && reserving ? 'احجز دفعة من الطلبات ثم اتصل بأصحابها: ما تحجزه يختفي من طوابير زملائك. ' : ''}«تأكيد» يرسل الطلب إلى التوصيل (أو تلقائياً إلى EcoTrack)، «لا يردّ» و«لاحقاً» تسجّلان المحاولة. الزبون الذي أكّد برمز SMS أو اتصل بالرقم المعلَن يُؤكَّد طلبه وحده.`}
         actions={
           <Button asChild variant="outline">
             <Link href="/admin/store">كل الطلبات</Link>
           </Button>
         }
       />
+      {worker && reserving ? <ReservationBar held={res.mine} max={res.policy.maxHeld} free={res.free} until={res.mineUntil ? res.mineUntil.toISOString() : null} holdMinutes={res.policy.holdMinutes} /> : null}
       <div className="grid grid-cols-3 gap-3 sm:gap-4">
         <StatCard label="جديدة" value={pending} icon={PhoneCall} tone={pending ? 'warning' : 'default'} />
         <StatCard label="لا يردّ" value={noAnswer} icon={PhoneMissed} />
@@ -68,12 +81,12 @@ export default async function ConfirmQueuePage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>الطلبات التي تنتظر التأكيد</CardTitle>
+          <CardTitle>{worker && reserving ? 'حجوزاتي' : 'الطلبات التي تنتظر التأكيد'}</CardTitle>
           <CardDescription>الأقدم أولاً. اضغط رقم الهاتف للاتصال مباشرة من الجوال.</CardDescription>
         </CardHeader>
         <CardContent>
           {queue.length === 0 ? (
-            <EmptyState icon={PhoneCall} title="لا طلبات تنتظر التأكيد" />
+            <EmptyState icon={PhoneCall} title={worker && reserving ? (res.free ? 'لا حجوزات عندك: اضغط «احجز 10» لتبدأ' : 'لا طلبات تنتظر التأكيد') : 'لا طلبات تنتظر التأكيد'} />
           ) : (
             <>
             {/* الهاتف: بطاقة لكل طلب بالبيانات والإجراءات نفسها (لا عمود ولا صلاحية جديدة) */}
@@ -87,6 +100,7 @@ export default async function ConfirmQueuePage() {
                     </div>
                     <Badge variant={STATUS_VARIANT[o.status] ?? 'secondary'}>{ORDER_STATUS_AR[o.status as OrderStatus]}</Badge>
                   </div>
+                  {!worker && o.reservedById ? <ReservedBadge name={o.reservedByName} until={o.reservedUntil} /> : null}
                   <div className="mt-3 space-y-1">
                     <p className="font-semibold">{o.customerName}</p>
                     <a href={tel(o.phone)} className="inline-flex min-h-11 items-center gap-1.5 text-base font-semibold text-primary hover:underline" dir="ltr">
@@ -105,8 +119,9 @@ export default async function ConfirmQueuePage() {
                     {o.lastCallAt ? ` · آخر اتصال ${formatDateTime(o.lastCallAt)}` : ''}
                   </p>
                   {o.streamName ? <p className="text-sm text-muted-foreground">الشعبة: {o.streamName}</p> : null}
-                  <div className="mt-3">
+                  <div className="mt-3 flex flex-wrap justify-end gap-1">
                     <OrderRowActions id={o.id} status={o.status} needsShipping={o.needsShipping} ecotrack={eco.enabled} confirmer={worker} />
+                    {reserving && o.reservedById ? <ReleaseOrderButton orderId={o.id} admin={!worker} /> : null}
                   </div>
                   <OrderEditPanel id={o.id} status={o.status} trackingId={o.deliveryTrackingId} streamId={o.streamId} subtotalDzd={o.subtotalDzd} shippingDzd={o.shippingDzd} streams={streamOptions} />
                 </li>
@@ -150,6 +165,7 @@ export default async function ConfirmQueuePage() {
                     </TableCell>
                     <TableCell>
                       <Badge variant={STATUS_VARIANT[o.status] ?? 'secondary'}>{ORDER_STATUS_AR[o.status as OrderStatus]}</Badge>
+                      {!worker && o.reservedById ? <ReservedBadge name={o.reservedByName} until={o.reservedUntil} /> : null}
                     </TableCell>
                     <TableCell className="text-xs">
                       <span className="tabular font-semibold">{o.confirmAttempts}</span>
@@ -157,6 +173,7 @@ export default async function ConfirmQueuePage() {
                     </TableCell>
                     <TableCell>
                       <OrderRowActions id={o.id} status={o.status} needsShipping={o.needsShipping} ecotrack={eco.enabled} confirmer={worker} />
+                      {reserving && o.reservedById ? <div className="mt-1 flex justify-end"><ReleaseOrderButton orderId={o.id} admin={!worker} /></div> : null}
                       <OrderEditPanel id={o.id} status={o.status} trackingId={o.deliveryTrackingId} streamId={o.streamId} subtotalDzd={o.subtotalDzd} shippingDzd={o.shippingDzd} streams={streamOptions} />
                     </TableCell>
                   </TableRow>
@@ -168,6 +185,18 @@ export default async function ConfirmQueuePage() {
           )}
         </CardContent>
       </Card>
+
+      {!worker ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>حجز الطلبات بين الموظفين</CardTitle>
+            <CardDescription>كل موظف يحجز دفعة (10 أو 20) من أقدم الطلبات فتختفي من طوابير زملائه؛ ما لا يُنهيه في المدة يعود إلى الطابور العام. إجراءاتك أنت لا تُقيَّد.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ReservationAdmin policy={res.policy} free={res.free} byConfirmer={res.byConfirmer.map((c) => ({ ...c, until: c.until ? c.until.toISOString() : null }))} />
+          </CardContent>
+        </Card>
+      ) : null}
 
       {cfgView ? <div className="grid gap-6 lg:grid-cols-2">
         <Card>

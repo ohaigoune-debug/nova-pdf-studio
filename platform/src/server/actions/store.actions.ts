@@ -8,6 +8,7 @@ import { ORDER_STATUSES, PRODUCT_STATUSES, PRODUCT_TYPES } from '@/server/db/sch
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
 import { uploadFile } from '@/server/services/files.service'
+import { claimOrders, releaseOrders, setReservationPolicy } from '@/server/services/confirm-reservations.service'
 import { adjustOrderAmount, banOrderCustomer, changeOrderStream } from '@/server/services/order-edit.service'
 import { attachProductFile, createProduct, deleteProduct, detachProductFile, downloadUrl, placeOrder, setOrderStatus, updateProduct, type ProductInput } from '@/server/services/store.service'
 
@@ -198,4 +199,47 @@ function revalidateOrders(orderId: string) {
   revalidatePath('/admin/store')
   revalidatePath('/admin/store/confirm')
   revalidatePath(`/store/orders/${orderId}`)
+}
+
+/* ───── حجز طابور التأكيد (قرار المالك 2 نوفمبر 2026) ───── */
+
+function revalidateQueue() {
+  revalidatePath('/admin/store/confirm')
+  revalidatePath('/admin/store')
+}
+
+/** الموظف: «احجز 10» أو «احجز 20» */
+export async function claimOrdersAction(size: number): Promise<ActionResult<{ claimed: number; held: number }>> {
+  const parsed = z.union([z.literal(10), z.literal(20)]).safeParse(size)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const r = await claimOrders(await getDb(), await requireRole('CONFIRMER'), parsed.data)
+    return { claimed: r.claimed, held: r.held }
+  })
+  if (result.ok) revalidateQueue()
+  return result
+}
+
+/** الموظف: إعادة طلب أو كل حجوزاته إلى الطابور. المشرف: أي طلب، أو كل حجوزات موظف، أو الكل */
+export async function releaseOrdersAction(input: { orderIds?: string[] | null; forUserId?: string | null }): Promise<ActionResult<{ released: number }>> {
+  const parsed = z.object({ orderIds: z.array(uuid).min(1).max(300).nullish(), forUserId: optUuid }).safeParse(input)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    const released = await releaseOrders(await getDb(), await requireRole('SUPER_ADMIN', 'CONFIRMER'), { orderIds: parsed.data.orderIds ?? null, forUserId: parsed.data.forUserId ?? null })
+    return { released }
+  })
+  if (result.ok) revalidateQueue()
+  return result
+}
+
+/** المشرف: تفعيل الحجز ومدته وحدّه الأقصى */
+export async function setReservationPolicyAction(input: { enabled: boolean; holdMinutes: number; maxHeld: number }): Promise<ActionResult> {
+  const parsed = z.object({ enabled: z.boolean(), holdMinutes: z.number().int().min(10, 'المدة 10 دقائق على الأقل').max(1440, 'المدة 24 ساعة على الأكثر'), maxHeld: z.number().int().min(1, 'الحد الأقصى 1 على الأقل').max(200) }).safeParse(input)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    await setReservationPolicy(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data)
+    return undefined
+  })
+  if (result.ok) revalidateQueue()
+  return result
 }

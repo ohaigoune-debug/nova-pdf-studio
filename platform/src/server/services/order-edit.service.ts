@@ -15,6 +15,7 @@ import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { streamFamily } from './academy-catalog.service'
 import { transitionOrder, type OrderRow } from './order-status.service'
+import { takeForAction, takeOrderForAction } from './confirm-reservations.service'
 
 /** أدوار الزبائن الذين يجوز للموظف حظرهم؛ حسابات الطاقم لا تُحظر من هنا أبدًا. */
 const CUSTOMER_ROLES = ['STUDENT', 'PARENT', 'PUBLIC'] as const
@@ -45,6 +46,7 @@ export async function changeOrderStream(db: Db, actor: Actor, orderId: string, s
   assertUuid(streamId, 'VALIDATION')
   return db.transaction(async (tx) => {
     const order = await lockEditable(tx, orderId)
+    await takeForAction(tx, actor, order)
     const [stream] = await tx.select({ id: streams.id }).from(streams).where(eq(streams.id, streamId)).limit(1)
     if (!stream) throw new AppError('VALIDATION', { field: 'streamId' })
     if (order.streamId === streamId) return order
@@ -81,6 +83,7 @@ export async function adjustOrderAmount(db: Db, actor: Actor, orderId: string, i
   if (input.subtotalDzd == null && input.shippingDzd == null) throw new AppError('VALIDATION', { field: 'subtotalDzd' })
   return db.transaction(async (tx) => {
     const order = await lockEditable(tx, orderId)
+    await takeForAction(tx, actor, order)
     const subtotalDzd = input.subtotalDzd ?? order.subtotalDzd
     const shippingDzd = input.shippingDzd ?? order.shippingDzd
     if (subtotalDzd === order.subtotalDzd && shippingDzd === order.shippingDzd) return order
@@ -112,6 +115,8 @@ export async function banOrderCustomer(db: Db, actor: Actor, orderId: string, re
   const [customer] = await db.select({ id: users.id, role: users.role, status: users.status }).from(users).where(eq(users.id, order.userId)).limit(1)
   if (!customer) throw new AppError('ORDER_NOT_FOUND')
   if (!(CUSTOMER_ROLES as readonly string[]).includes(customer.role) || customer.id === actor.userId) throw new AppError('FORBIDDEN')
+  // حجز الطابور: لا يحظر الموظف زبونَ طلبٍ محجوز لزميله
+  await takeOrderForAction(db, actor, order.id)
   await db.transaction(async (tx) => {
     if (customer.status !== 'DISABLED') {
       await tx.update(users).set({ status: 'DISABLED' }).where(eq(users.id, customer.id))

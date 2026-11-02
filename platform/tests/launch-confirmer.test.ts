@@ -9,6 +9,7 @@ import type { DatabaseHandle } from '@/server/db/connect'
 import { auditLogs, courseEnrollments, orders, profiles, sessions, streams, students, users } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { createConfirmer, listConfirmers } from '@/server/services/confirmer.service'
+import { setReservationPolicy } from '@/server/services/confirm-reservations.service'
 import { createCourse, setCourseStatus } from '@/server/services/courses.service'
 import { placeCourseOrder, setCourseBook } from '@/server/services/course-purchase.service'
 import { adjustOrderAmount, banOrderCustomer, changeOrderStream } from '@/server/services/order-edit.service'
@@ -46,6 +47,8 @@ beforeAll(async () => {
   bookId = (await createProduct(h.db, admin, { title: 'كتاب تجريبي', type: 'BOOK', priceDzd: 1500, stock: 30, status: 'PUBLISHED' })).id
   digitalId = (await createProduct(h.db, admin, { title: 'ملف تجريبي', type: 'PDF', priceDzd: 100, status: 'PUBLISHED' })).id
   await saveEcotrackSettings(h.db, admin, { baseUrl: 'confirmer-test.ecotrack.dz', apiToken: 'test-only-confirmer-token', enabled: true, autoSend: false }, fakeFetch)
+  // صلاحيات الموظف على الطابور المشترك؛ الحجز بين الموظفين مختبَر في confirm-reservations.test.ts
+  await setReservationPolicy(h.db, admin, { enabled: false })
 })
 afterAll(async () => { await h?.close() })
 

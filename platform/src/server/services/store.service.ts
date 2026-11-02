@@ -5,7 +5,7 @@
  * الملفات الرقمية تُنزَّل بعد التأكيد فقط عبر روابط موقّعة قصيرة العمر، وكل تنزيل يُسجَّل.
  */
 import { randomBytes } from 'node:crypto'
-import { and, asc, desc, eq, inArray, isNull, or, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, gt, inArray, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { appSettings, courseProducts, courses, downloads, files, levels, listings, orderItems, orders, productFiles, products, profiles, streams, students, subjects, teacherWorkspaces, users, wilayas, type OrderRow, type ProductRow } from '@/server/db/schema'
 import type { OrderStatus, PaymentMethod, ProductStatus, ProductType } from '@/server/db/schema/enums'
@@ -21,6 +21,7 @@ import { streamFamily } from './academy-catalog.service'
 import { activateCoursesForOrder } from './course-activation.service'
 import { ecotrackFeeFor, listEcotrackFees } from './ecotrack.service'
 import { transitionOrder } from './order-status.service'
+import { heldByOther, inConfirmQueue, reservationPolicy, takeForAction } from './confirm-reservations.service'
 import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
 
 export const PRODUCT_TYPE_AR: Record<ProductType, string> = { BOOK: 'كتاب ورقي', PDF: 'ملف PDF', PACK: 'حزمة (ورقي + رقمي)' }
@@ -448,15 +449,17 @@ const orderEditFields = {
   hasCourse: sql<boolean>`exists (select 1 from order_items i where i.order_id = orders.id and (i.course_id is not null or exists (select 1 from course_products cp where cp.product_id = i.product_id)))`
 }
 
-export async function listOrdersAdmin(db: Db, actor: Actor, f: { status?: OrderStatus | null } = {}) {
+export async function listOrdersAdmin(db: Db, actor: Actor, f: { status?: OrderStatus | null } = {}, now = new Date()) {
   assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
+  // حجز الطابور: طلب في مرحلة التأكيد محجوز لزميل يختفي من قائمة الموظف
+  const hideOthers = actor.role === 'CONFIRMER' && (await reservationPolicy(db)).enabled
   return db
-    .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaName: wilayas.nameAr, commune: orders.commune, createdAt: orders.createdAt, items: sql<number>`(select coalesce(sum(i.qty), 0)::int from order_items i where i.order_id = orders.id)`, ...orderEditFields })
+    .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaName: wilayas.nameAr, commune: orders.commune, createdAt: orders.createdAt, items: sql<number>`(select coalesce(sum(i.qty), 0)::int from order_items i where i.order_id = orders.id)`, ...orderEditFields, ...reservationFields(now) })
     .from(orders)
     .leftJoin(wilayas, eq(wilayas.id, orders.wilayaId))
     .leftJoin(streams, eq(streams.id, orders.streamId))
     // قرار المالك 2026-10-28: الموظف يدير كل الطلبات (كتب، دورات، ملفات، تحويلات) كالمشرف.
-    .where(f.status ? eq(orders.status, f.status) : undefined)
+    .where(and(f.status ? eq(orders.status, f.status) : undefined, hideOthers ? sql`not ${heldByOther(actor.userId, now)}` : undefined))
     .orderBy(desc(orders.createdAt))
     .limit(300)
 }
@@ -490,24 +493,33 @@ export async function phoneOrderHistory(db: Db, phones: readonly string[]): Prom
 }
 
 /** طابور التأكيد الهاتفي: الطلبات التي تنتظر مكالمة، الأقدم أولاً، مع سجلّ رقم كل زبون */
-export async function listConfirmationQueue(db: Db, actor: Actor) {
-  const rows = await confirmationQueueRows(db, actor)
+export async function listConfirmationQueue(db: Db, actor: Actor, now = new Date()) {
+  const rows = await confirmationQueueRows(db, actor, now)
   const history = await phoneOrderHistory(db, rows.map((r) => r.phone))
   return rows.map((r) => ({ ...r, history: history.get(r.phone) ?? { delivered: 0, returned: 0, cancelled: 0 } }))
 }
 
-async function confirmationQueueRows(db: Db, actor: Actor) {
+async function confirmationQueueRows(db: Db, actor: Actor, now: Date) {
   assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
+  // حجز الطابور (قرار المالك 2 نوفمبر 2026): الموظف يرى حجوزاته السارية فقط؛ المشرف يرى الكل ومن حجز
+  const mineOnly = actor.role === 'CONFIRMER' && (await reservationPolicy(db)).enabled
   return db
-    .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaName: wilayas.nameAr, commune: orders.commune, address: orders.address, note: orders.note, otpVerifiedAt: orders.otpVerifiedAt, confirmAttempts: orders.confirmAttempts, lastCallAt: orders.lastCallAt, createdAt: orders.createdAt, itemsText: sql<string>`(select coalesce(string_agg(i.title || case when i.qty > 1 then ' ×' || i.qty else '' end, ' + ' order by i.created_at), '') from order_items i where i.order_id = orders.id)`, ...orderEditFields })
+    .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaName: wilayas.nameAr, commune: orders.commune, address: orders.address, note: orders.note, otpVerifiedAt: orders.otpVerifiedAt, confirmAttempts: orders.confirmAttempts, lastCallAt: orders.lastCallAt, createdAt: orders.createdAt, itemsText: sql<string>`(select coalesce(string_agg(i.title || case when i.qty > 1 then ' ×' || i.qty else '' end, ' + ' order by i.created_at), '') from order_items i where i.order_id = orders.id)`, ...orderEditFields, ...reservationFields(now) })
     .from(orders)
     .leftJoin(wilayas, eq(wilayas.id, orders.wilayaId))
     .leftJoin(streams, eq(streams.id, orders.streamId))
     // الطلب المدفوع إلكترونيًّا لا ينتظر اتصالًا: غير المدفوع بعد لا يظهر في الطابور
-    .where(and(inArray(orders.status, [...CONFIRMATION_STATUSES]), sql`${orders.paymentMethod} <> 'ONLINE'`))
+    .where(and(inConfirmQueue(), mineOnly ? and(eq(orders.reservedByUserId, actor.userId), gt(orders.reservedUntil, now)) : undefined))
     .orderBy(asc(orders.createdAt))
     .limit(300)
 }
+
+/** من حجز الطلب ومتى ينتهي حجزه (null إن لم يكن محجوزًا الآن) */
+const reservationFields = (now: Date) => ({
+  reservedById: sql<string | null>`case when ${orders.reservedUntil} > ${now} then ${orders.reservedByUserId} end`,
+  reservedUntil: sql<Date | null>`case when ${orders.reservedUntil} > ${now} then ${orders.reservedUntil} end`.mapWith(orders.reservedUntil),
+  reservedByName: sql<string | null>`case when ${orders.reservedUntil} > ${now} then (select p.full_name from profiles p where p.user_id = ${orders.reservedByUserId}) end`
+})
 
 /** تغيير حالة الطلب (المشرف): يمرّ من محرّك الحالات الموحّد (مخزون، تفعيل الدورة، إشعارات) */
 export async function setOrderStatus(db: Db, actor: Actor, id: string, next: OrderStatus, opts: { reason?: string | null; adminNote?: string | null; shippingDzd?: number | null } = {}): Promise<OrderRow> {
@@ -521,6 +533,8 @@ export async function setOrderStatus(db: Db, actor: Actor, id: string, next: Ord
       if (!['CONFIRMED', 'NO_ANSWER', 'CALL_LATER', 'CANCELLED', 'DELIVERED'].includes(next) || opts.shippingDzd != null || opts.adminNote != null) throw new AppError('FORBIDDEN')
       const [order] = await tx.select().from(orders).where(eq(orders.id, id)).for('update').limit(1)
       if (!order) throw new AppError('ORDER_NOT_FOUND')
+      // محجوز لزميل ⇒ مرفوض؛ غير محجوز ⇒ يُحجز لهذا الموظف (لا تداخل عبر «كل الطلبات»)
+      await takeForAction(tx, actor, order)
       if (next === 'DELIVERED') {
         // «سُلِّم» = استلام الدفع وتفعيل الدورة/الملفات؛ من «مؤكَّد» أو «في الطريق» فقط.
         if (order.status !== 'CONFIRMED' && order.status !== 'SHIPPED') throw new AppError('FORBIDDEN')
