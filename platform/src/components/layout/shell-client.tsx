@@ -177,7 +177,7 @@ export function ShellClient({
           <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(true)} aria-label="القائمة">
             <Menu className="size-5" />
           </Button>
-          <Link href={actor.role === 'CONFIRMER' ? '/admin/store/confirm' : actor.role === 'CONTENT_UPLOADER' ? '/studio' : `/${base}`} className="flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:hidden">
+          <Link href={actor.role === 'CONFIRMER' ? '/admin/store/confirm' : actor.role === 'MANAGER' ? '/admin/points-of-sale' : actor.role === 'CONTENT_UPLOADER' ? '/studio' : `/${base}`} className="flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:hidden">
             <Logo width={132} priority />
           </Link>
           <div className="flex-1">

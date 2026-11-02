@@ -60,7 +60,7 @@ describe('fixed iOS presentation, separate from authorization', () => {
   })
 
   it('redirects fixed commerce, activation, community and staff paths for every iOS account', () => {
-    for (const path of ['/store', '/store/book', '/student/courses/catalog', '/student/courses/math/order', '/student/courses/math/digital', '/student/courses/orders', '/activate-code', '/claim', '/student/activate', '/forum/thread', '/student/groups', '/student/groups/example', '/admin/store', '/teacher/content', '/assistant']) {
+    for (const path of ['/store', '/store/book', '/student/courses/catalog', '/student/courses/math/order', '/student/courses/math/digital', '/pos', '/points-of-sale', '/student/courses/orders', '/activate-code', '/claim', '/student/activate', '/forum/thread', '/student/groups', '/student/groups/example', '/admin/store', '/teacher/content', '/assistant']) {
       const response = middleware(request(path, { cookie }))
       expect(response.status).toBe(307)
       expect(new URL(response.headers.get('location')!).pathname).toBe('/ios')

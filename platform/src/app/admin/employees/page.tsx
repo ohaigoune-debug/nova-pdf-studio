@@ -24,7 +24,7 @@ export default async function EmployeesPage() {
   const actor = await requirePageActor('SUPER_ADMIN')
   const db = await getDb()
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000)
-  const [employees, stats, activity, uploaders, courseOpts] = await Promise.all([listConfirmers(db, actor), confirmerStats(db, actor, since), listConfirmerActivity(db, actor, 100), listContentUploaders(db, actor), listEditableCourses(db, actor)])
+  const [employees, stats, activity, uploaders, courseOpts, managers] = await Promise.all([listConfirmers(db, actor), confirmerStats(db, actor, since), listConfirmerActivity(db, actor, 100), listContentUploaders(db, actor), listEditableCourses(db, actor), listConfirmers(db, actor, 'MANAGER')])
   const courses = courseOpts.map((c) => ({ id: c.id, title: c.title }))
   return <div className="space-y-6">
     <PageHeader title="الموظفون ورافعو المحتوى" description="رافع المحتوى يرفع دروس الدورات المسندة إليه فقط؛ موظف التأكيد يعمل على الطلبات فقط." />
@@ -39,7 +39,10 @@ export default async function EmployeesPage() {
         ))}
       </CardContent></Card>
     </div>
-    <Card className="max-w-2xl"><CardHeader><CardTitle>موظف تأكيد طلبات جديد</CardTitle></CardHeader><CardContent><EmployeeForm /></CardContent></Card>
+    <Card className="max-w-2xl"><CardHeader><CardTitle>موظف جديد</CardTitle><CardDescription>موظف تأكيد الطلبات، أو «مدير العمليات» لنقاط البيع.</CardDescription></CardHeader><CardContent><EmployeeForm /></CardContent></Card>
+    <Card><CardHeader><CardTitle>مديرو العمليات</CardTitle><CardDescription>نقاط البيع، والباقات، والأكواد، والمال المستلَم منها. كل حركة في سجلّ التدقيق باسمه.</CardDescription></CardHeader><CardContent>
+      {managers.length === 0 ? <p className="text-sm text-muted-foreground">لا أحد بعد.</p> : <Table><TableHeader><TableRow><TableHead>الاسم</TableHead><TableHead>البريد</TableHead><TableHead>الهاتف</TableHead><TableHead>الحالة</TableHead><TableHead /></TableRow></TableHeader><TableBody>{managers.map((m) => <TableRow key={m.id}><TableCell>{m.fullName}</TableCell><TableCell dir="ltr">{m.email}</TableCell><TableCell dir="ltr">{m.phone}</TableCell><TableCell><UserStatusBadge status={m.status} /></TableCell><TableCell><UserStatusButton userId={m.id} status={m.status} /></TableCell></TableRow>)}</TableBody></Table>}
+    </CardContent></Card>
     <Card><CardHeader><CardTitle>موظفو التأكيد</CardTitle><CardDescription>الأرقام لآخر 24 ساعة.</CardDescription></CardHeader><CardContent>
       {employees.length === 0 ? <p className="text-sm text-muted-foreground">لا موظفين بعد.</p> : <Table><TableHeader><TableRow><TableHead>الاسم</TableHead><TableHead>البريد</TableHead><TableHead>الهاتف</TableHead><TableHead>أكّد</TableHead><TableHead>ألغى</TableHead><TableHead>لا يردّ/لاحقاً</TableHead><TableHead>الحالة</TableHead><TableHead /></TableRow></TableHeader><TableBody>{employees.map((employee) => {
         const s = stats.get(employee.id)

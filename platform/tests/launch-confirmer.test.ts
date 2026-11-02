@@ -73,11 +73,15 @@ it('صفحة الموظف وقائمته تقتصران على التأكيد و
 
 it('كل صفحات الإدارة الأخرى ومسارات التصدير تحتفظ بحراسة المشرف ولو أُعيد استعمال Layout', () => {
   const allowed = new Set(['store/page.tsx', 'store/confirm/page.tsx'])
+  // مدير العمليات (2 نوفمبر 2026): نقاط البيع وإشعاراته فقط — بحراسة صريحة لهذين الدورين
+  const managerPages = new Set(['points-of-sale/page.tsx', 'points-of-sale/[id]/page.tsx', 'notifications/page.tsx'])
   const walk = (dir: string): string[] => readdirSync(dir, { withFileTypes: true }).flatMap((entry) => entry.isDirectory() ? walk(join(dir, entry.name)) : [join(dir, entry.name)])
   const pages = walk('src/app/admin').filter((p) => p.endsWith('/page.tsx'))
   expect(pages.length).toBeGreaterThan(35)
   for (const path of pages) {
-    if (!allowed.has(relative('src/app/admin', path))) expect(readFileSync(path, 'utf8'), path).toContain("requirePageActor('SUPER_ADMIN')")
+    const rel = relative('src/app/admin', path)
+    if (managerPages.has(rel)) expect(readFileSync(path, 'utf8'), path).toContain("requirePageActor('SUPER_ADMIN', 'MANAGER')")
+    else if (!allowed.has(rel)) expect(readFileSync(path, 'utf8'), path).toContain("requirePageActor('SUPER_ADMIN')")
   }
   for (const path of walk('src/app/admin').filter((p) => p.endsWith('/route.ts'))) expect(readFileSync(path, 'utf8'), path).toContain("requireRole('SUPER_ADMIN')")
 })
