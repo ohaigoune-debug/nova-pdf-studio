@@ -187,8 +187,8 @@ describe('native app: in-app view and identity stamp (2 Nov 2026)', () => {
     const real = Buffer.from(await doc.save({ useObjectStreams: false }))
     const adapter: StorageAdapter = {
       ...storage(),
-      getRange: async () => ({ size: real.length, stream: new ReadableStream({ start(c) { c.enqueue(new Uint8Array(real)); c.close() } }) })
-    } as StorageAdapter
+      getRange: async () => ({ size: real.length, start: 0, end: real.length - 1, stream: new ReadableStream({ start(c) { c.enqueue(new Uint8Array(real)); c.close() } }) })
+    } as unknown as StorageAdapter
     await h.db.update(files).set({ sizeBytes: real.length }).where(eq(files.id, pdf.id))
     try {
       const out = await exportIosPdf(h.db, student, lesson.id, adapter)

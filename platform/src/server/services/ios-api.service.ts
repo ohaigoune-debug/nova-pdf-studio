@@ -56,7 +56,8 @@ export async function iosApiCourse(db: Db, actor: Actor | null, slug: string) {
   assertStudentOrGuest(actor)
   const home = await iosCourseHome(db, actor, slug)
   const webPath = `/ios/course/${encodeURIComponent(home.course.slug)}`
-  if (home.needsTerms) return { needsTerms: true as const, course: { slug: home.course.slug, title: home.course.title }, webPath }
+  // نص الشروط ونسختها ليقبلها التلميذ داخل التطبيق الأصيل (POST /api/v1/ios/courses/:slug/terms)
+  if (home.needsTerms) return { needsTerms: true as const, course: { slug: home.course.slug, title: home.course.title }, terms: { text: home.course.termsText, version: home.course.termsVersion }, webPath }
   return {
     needsTerms: false as const,
     course: {
