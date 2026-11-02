@@ -62,7 +62,7 @@ async function buildTimelines(db: Db, rows: (typeof orders.$inferSelect)[]): Pro
       if (e.status === 'CREATED' || !label) continue
       steps.push({ label: `التوصيل: ${label}`, at: e.receivedAt, tone: e.status === 'FAILED_ATTEMPT' || e.status === 'RETURNED' ? 'bad' : 'info' })
     }
-    if (o.deliveredAt) steps.push({ label: 'سُلِّم — تُفعَّل الدورة المرتبطة بالكتاب', at: o.deliveredAt, tone: 'done' })
+    if (o.deliveredAt) steps.push({ label: o.needsShipping ? 'سُلِّم — تُفعَّل الدورة المرتبطة بالكتاب' : 'اكتمل — فُتحت الدورة على حسابك', at: o.deliveredAt, tone: 'done' })
     if (o.returnedAt) steps.push({ label: 'أُعيد الطرد', at: o.returnedAt, tone: 'bad' })
     if (o.cancelledAt) steps.push({ label: `أُلغي${o.cancelReason ? `: ${o.cancelReason}` : ''}`, at: o.cancelledAt, tone: 'bad' })
     steps.sort((a, b) => a.at.getTime() - b.at.getTime())
@@ -87,7 +87,8 @@ async function toTracked(db: Db, rows: (typeof orders.$inferSelect)[], includeLo
     id: o.id,
     number: o.number,
     status: o.status as OrderStatus,
-    statusAr: ORDER_STATUS_AR[o.status as OrderStatus] ?? o.status,
+    // الطلب الرقمي لا يُسلَّم: «مكتمل» بدل «سُلِّم»
+    statusAr: !o.needsShipping && o.status === 'DELIVERED' ? 'مكتمل' : (ORDER_STATUS_AR[o.status as OrderStatus] ?? o.status),
     createdAt: o.createdAt,
     totalDzd: o.totalDzd,
     itemsText: text(o.id),

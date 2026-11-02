@@ -158,6 +158,10 @@ export interface CatalogCourse {
   streamNames: string[]
   subjectName: string | null
   priceDzd: number
+  /** للدورة كتاب ورقي منشور: بطاقة «الدورة مع الكتاب» */
+  bookOffer: boolean
+  /** سعر النسخة الرقمية (دون كتاب، بالبطاقة)، أو null — تظهر بطاقتها المستقلة فقط إن كان الدفع الإلكتروني مفعّلًا */
+  digitalPriceDzd: number | null
   accessEndsOn: string | null
   coverUrl: string | null
   /** حالة التلميذ المتصفّح تجاه الدورة (لا تمنح شيئاً؛ للعرض فقط) */
@@ -209,6 +213,8 @@ export async function listCourseCatalog(db: Db, actor: Actor | null, scope: Part
       plan: courses.plan,
       // سعر الدورة = سعر كتابها المرفق (مصدر واحد)؛ للدورات القديمة: أرخص كتاب مرتبط، ثم سعر الدورة نفسها
       priceDzd: sql<number>`coalesce((select p.price_dzd from products p where p.id = ${courses.bookProductId} and p.deleted_at is null), (select min(p.price_dzd) from course_products cp join products p on p.id = cp.product_id where cp.course_id = ${courses.id} and p.status = 'PUBLISHED' and p.deleted_at is null), ${courses.priceDzd})::int`,
+      bookOffer: sql<boolean>`exists (select 1 from products p where p.id = ${courses.bookProductId} and p.deleted_at is null and p.status = 'PUBLISHED')`,
+      digitalPriceDzd: courses.digitalPriceDzd,
       accessEndsOn: courses.accessEndsOn,
       coverFileId: courses.coverFileId,
       streamIds: courses.streamIds,
@@ -242,6 +248,8 @@ export async function listCourseCatalog(db: Db, actor: Actor | null, scope: Part
     streamNames: r.streamIds.map((id) => names.get(id)).filter((n): n is string => Boolean(n)),
     subjectName: r.subjectName,
     priceDzd: r.priceDzd,
+    bookOffer: Boolean(r.bookOffer),
+    digitalPriceDzd: r.digitalPriceDzd ?? null,
     accessEndsOn: r.accessEndsOn,
     coverUrl: r.coverFileId ? signFileUrl(r.coverFileId, 3600) : null,
     enrollment: enrollmentState(r.enrollStatus, r.enrollExpires, now),

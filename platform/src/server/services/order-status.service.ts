@@ -63,6 +63,8 @@ export interface TransitionOptions {
   deliveryTrackingId?: string | null
   /** تجاهل جدول الانتقالات (webhook يبلّغ «سُلِّم» لطلب ما زال مؤكَّداً مثلاً) — يبقى ممنوعاً الخروج من الحالات النهائية */
   force?: boolean
+  /** بلا إشعار للزبون ولا للمشرف (السجلّ يُكتب دائمًا): لخطوات النظام التي يُبلِّغ عنها مسارها بنفسه، كالدورة الرقمية */
+  silent?: boolean
 }
 
 export interface TransitionResult {
@@ -75,6 +77,7 @@ export interface TransitionResult {
 async function restock(tx: Db, orderId: string): Promise<void> {
   const items = await tx.select().from(orderItems).where(eq(orderItems.orderId, orderId))
   for (const it of items) {
+    if (!it.productId) continue // الدورة الرقمية: لا منتج ولا مخزون
     if (isPhysical(it.type)) await tx.update(products).set({ stock: sql`case when ${products.stock} is null then null else ${products.stock} + ${it.qty} end` }).where(eq(products.id, it.productId))
     await tx.update(products).set({ salesCount: sql`greatest(0, ${products.salesCount} - ${it.qty})` }).where(eq(products.id, it.productId))
   }
@@ -84,6 +87,7 @@ async function restock(tx: Db, orderId: string): Promise<void> {
 async function reserveAgain(tx: Db, orderId: string): Promise<void> {
   const items = await tx.select().from(orderItems).where(eq(orderItems.orderId, orderId))
   for (const it of items) {
+    if (!it.productId) continue
     if (isPhysical(it.type)) await tx.update(products).set({ stock: sql`case when ${products.stock} is null then null else greatest(0, ${products.stock} - ${it.qty}) end` }).where(eq(products.id, it.productId))
     await tx.update(products).set({ salesCount: sql`${products.salesCount} + ${it.qty}` }).where(eq(products.id, it.productId))
   }
@@ -188,6 +192,7 @@ export async function transitionOrder(db: Db, orderId: string, next: OrderStatus
     }
   }
 
+  if (opts.silent) return { order: row, changed: true, activation }
   const msg = CUSTOMER_MESSAGE[next]?.(row, opts)
   if (msg) await notify(db, { userId: row.userId, workspaceId: null, type: 'SYSTEM', title: `طلب ${row.number}: ${ORDER_STATUS_AR[next]}`, body: msg, link: `/store/orders/${row.id}` })
 

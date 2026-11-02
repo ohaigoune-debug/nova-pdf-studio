@@ -137,7 +137,9 @@ export async function verifyPayment(db: Db, paymentId: string, fetchImpl?: typeo
     const rows = await db.select({ id: users.id }).from(users).where(eq(users.role, 'SUPER_ADMIN'))
     await notifyMany(db, rows.map((a) => ({ userId: a.id, workspaceId: null, type: 'SYSTEM' as const, title, body, link: '/admin/store' })))
   }
-  const [o] = await db.select({ number: orders.number, status: orders.status, total: orders.totalDzd }).from(orders).where(eq(orders.id, p.orderId)).limit(1)
+  const [o] = await db.select({ number: orders.number, status: orders.status, total: orders.totalDzd, needsShipping: orders.needsShipping }).from(orders).where(eq(orders.id, p.orderId)).limit(1)
+  // الدورة الرقمية (لا شحن): لا رسائل «سيُرسَل إليك» ولا «سُلِّم»؛ هذا المسار يُبلِّغ بنفسه
+  const digital = Boolean(o && !o.needsShipping)
 
   if (r.status === 'paid') {
     if (!amountMatches(r.amount, p.amountDzd)) {
@@ -149,13 +151,15 @@ export async function verifyPayment(db: Db, paymentId: string, fetchImpl?: typeo
     }
     if (!(await settle('PAID'))) return { ...base, status: 'PAID', courseIds: [] }
     if (o && o.status !== 'CONFIRMED') {
-      if (o.status === 'CANCELLED') await transitionOrder(db, p.orderId, 'PENDING', { actorUserId: null, source: 'system', reason: 'دفع إلكتروني مؤكَّد بعد الإلغاء' }).catch(() => null)
-      await transitionOrder(db, p.orderId, 'CONFIRMED', { actorUserId: null, source: 'system', reason: 'دفع إلكتروني مؤكَّد' }).catch(() => null)
+      if (o.status === 'CANCELLED') await transitionOrder(db, p.orderId, 'PENDING', { actorUserId: null, source: 'system', reason: 'دفع إلكتروني مؤكَّد بعد الإلغاء', silent: digital }).catch(() => null)
+      await transitionOrder(db, p.orderId, 'CONFIRMED', { actorUserId: null, source: 'system', reason: 'دفع إلكتروني مؤكَّد', silent: digital }).catch(() => null)
     }
     const courseIds = await activateForOrder(db, p.orderId)
+    // لا شيء يُشحن: الطلب الرقمي يكتمل فور الدفع والتفعيل (لا يبقى في «مؤكَّد» بانتظار التوصيل)
+    if (digital) await transitionOrder(db, p.orderId, 'DELIVERED', { actorUserId: null, source: 'system', reason: 'دورة رقمية: فُتحت فور الدفع', silent: true }).catch(() => null)
     await writeAudit(db, { actorUserId: null, workspaceId: null, action: 'payment.paid', entityType: 'order', entityId: p.orderId, newValue: { paymentId: p.id, amountDzd: p.amountDzd, courseIds, receiptUrl: r.receiptUrl } })
     await notifyMany(db, [{ userId: p.userId, workspaceId: null, type: 'SYSTEM' as const, title: 'تمّ الدفع وفُعّلت الدورة', body: `الطلب ${o?.number ?? ''} · ${p.amountDzd} دج`, link: '/student/courses' }])
-    await admins(`دفع إلكتروني ${o?.number ?? ''}`, `${p.amountDzd} دج · فُعّلت الدورة تلقائيًّا`)
+    await admins(`دفع إلكتروني ${o?.number ?? ''}${digital ? ' (نسخة رقمية)' : ''}`, `${p.amountDzd} دج · فُعّلت الدورة تلقائيًّا`)
     return { ...base, status: 'PAID', courseIds }
   }
 

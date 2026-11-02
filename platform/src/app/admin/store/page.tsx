@@ -101,6 +101,7 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
                         {o.number}
                       </Link>
                       <span className="block text-[11px] text-muted-foreground">{o.items} عنصر</span>
+                      {!o.needsShipping ? <Badge variant="muted" className="mt-1">رقمي</Badge> : null}
                     </TableCell>
                     <TableCell>
                       <span className="font-semibold">{o.customerName}</span>

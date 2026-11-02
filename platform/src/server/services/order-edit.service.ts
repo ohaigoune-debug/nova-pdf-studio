@@ -50,11 +50,12 @@ export async function changeOrderStream(db: Db, actor: Actor, orderId: string, s
     if (order.streamId === streamId) return order
     const items = await tx.select({ productId: orderItems.productId, courseId: orderItems.courseId }).from(orderItems).where(eq(orderItems.orderId, order.id))
     const explicit = items.map((i) => i.courseId).filter((c): c is string => Boolean(c))
+    const productIds = items.map((i) => i.productId).filter((p): p is string => Boolean(p))
     const linked = explicit.length
       ? await tx.select({ streamIds: courses.streamIds }).from(courses).where(inArray(courses.id, explicit))
-      : items.length
+      : productIds.length
         ? await tx.select({ streamIds: courses.streamIds }).from(courseProducts).innerJoin(courses, eq(courses.id, courseProducts.courseId))
-          .where(and(inArray(courseProducts.productId, items.map((i) => i.productId)), isNull(courses.deletedAt)))
+          .where(and(inArray(courseProducts.productId, productIds), isNull(courses.deletedAt)))
         : []
     if (linked.length) {
       const family = await streamFamily(tx, streamId)

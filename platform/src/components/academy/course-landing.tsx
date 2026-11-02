@@ -1,4 +1,4 @@
-import { BookMarked, Clock, KeyRound, ShoppingBag } from 'lucide-react'
+import { BookMarked, Clock, KeyRound, MonitorPlay, ShoppingBag } from 'lucide-react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -9,7 +9,7 @@ import type { CourseLanding } from '@/server/services/academy-catalog.service'
 import { priceLabel } from './course-catalog-card'
 
 /** صفحة تعريف الدورة لغير المشترك: ما هي، لمن، بكم، وكيف يُفعَّل الاشتراك. لا محتوى هنا. */
-export function CourseLandingView({ landing, purchase }: { landing: CourseLanding; purchase?: { book: { title: string; priceDzd: number } | null; purchasable: boolean } | null }) {
+export function CourseLandingView({ landing, purchase, digital }: { landing: CourseLanding; purchase?: { book: { title: string; priceDzd: number } | null; purchasable: boolean } | null; digital?: { priceDzd: number } | null }) {
   const { course } = landing
   return (
     <div className="space-y-6">
@@ -56,9 +56,13 @@ export function CourseLandingView({ landing, purchase }: { landing: CourseLandin
             <BookMarked className="size-5 text-primary" /> كيف أشترك؟
           </CardTitle>
           <CardDescription>
-            {purchase?.book
-              ? 'اطلب الكتاب فهو طلب الدورة: يصلك الكتاب بالدفع عند الاستلام، وتُفعَّل الدورة على حسابك لحظة التسليم تلقائياً. وإن لم تُفعَّل، ترسل لك الإدارة كود تفعيل على هاتفك أو هاتف وليّك.'
-              : 'تُفعَّل هذه الدورة بكود التفعيل: أدخله من زر «لديّ كود تفعيل»، أو تواصل مع الدعم.'}
+            {purchase?.book && digital
+              ? 'عرضان منفصلان، اختر أحدهما: الدورة مع الكتاب الورقي (يصلك الكتاب وتُفعَّل الدورة)، أو النسخة الرقمية دون كتاب (تُفتح فور الدفع بالبطاقة).'
+              : purchase?.book
+                ? 'اطلب الكتاب فهو طلب الدورة: يصلك الكتاب بالدفع عند الاستلام، وتُفعَّل الدورة على حسابك لحظة التسليم تلقائياً. وإن لم تُفعَّل، ترسل لك الإدارة كود تفعيل على هاتفك أو هاتف وليّك.'
+                : digital
+                  ? 'النسخة الرقمية: ادفع بالبطاقة (CIB أو الذهبية) وتُفتح الدورة على حسابك فورًا. لا كتاب ورقي.'
+                  : 'تُفعَّل هذه الدورة بكود التفعيل: أدخله من زر «لديّ كود تفعيل»، أو تواصل مع الدعم.'}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -78,6 +82,20 @@ export function CourseLandingView({ landing, purchase }: { landing: CourseLandin
           ) : (
             purchase?.book ? <p className="text-sm text-muted-foreground">شراء هذه الدورة غير متاح حالياً. تواصل مع الدعم، أو أدخل كود التفعيل إن كان لديك.</p> : null
           )}
+          {digital ? (
+            <div className="flex flex-col gap-3 rounded-lg border border-secondary/40 bg-secondary/10 p-4 sm:flex-row sm:items-center sm:justify-between">
+              <span>
+                <span className="block text-sm text-muted-foreground">النسخة الرقمية — دون كتاب ورقي</span>
+                <span className="block text-2xl font-extrabold">{priceLabel(digital.priceDzd)}</span>
+                <span className="block text-xs text-muted-foreground">بالبطاقة فقط · تُفتح الدورة فورًا · لا توصيل</span>
+              </span>
+              <Button asChild size="lg" variant="secondary">
+                <Link href={`/student/courses/${encodeURIComponent(course.slug)}/digital`}>
+                  <MonitorPlay className="size-4" /> اشترِ النسخة الرقمية
+                </Link>
+              </Button>
+            </div>
+          ) : null}
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline">
               <Link href="/claim">

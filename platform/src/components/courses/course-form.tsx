@@ -155,6 +155,14 @@ export function CourseForm({
             )}
           </fieldset>
         )}
+        {course ? null : (
+          <fieldset className="space-y-3 rounded-lg border p-3 sm:col-span-2">
+            <legend className="px-1 text-sm font-bold">النسخة الرقمية — دون كتاب (اختيارية)</legend>
+            <Field label="سعر النسخة الرقمية (دج)" htmlFor="c-digital" error={fieldError(state, 'digitalPriceDzd')} hint="فارغ = لا نسخة رقمية. 50 دج على الأقل، وأقل من سعر الدورة مع الكتاب. تظهر بطاقةً مستقلة في الكتالوج، بالبطاقة فقط، وتُفتح الدورة فور الدفع.">
+              <Input id="c-digital" name="digitalPriceDzd" type="number" min={50} dir="ltr" />
+            </Field>
+          </fieldset>
+        )}
         <Field label="الوصف" htmlFor="c-desc" className="sm:col-span-2">
           <Textarea id="c-desc" name="description" rows={3} defaultValue={course?.description ?? ''} maxLength={4000} dir="auto" />
         </Field>
