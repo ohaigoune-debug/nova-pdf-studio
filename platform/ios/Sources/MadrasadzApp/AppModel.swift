@@ -191,7 +191,7 @@ final class AppModel: ObservableObject {
     }
 
     /// Arabic-Indic digits and spaces in a phone number become plain digits.
-    static func normalizedIdentifier(_ value: String) -> String {
+    nonisolated static func normalizedIdentifier(_ value: String) -> String {
         guard !value.contains("@") else { return value }
         let mapped = value.unicodeScalars.map { scalar -> String in
             switch scalar.value {
