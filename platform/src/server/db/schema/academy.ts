@@ -18,11 +18,12 @@ import {
   LIVE_PROVIDERS,
   LIVE_SESSION_STATUSES,
   OTP_PURPOSES,
+  POS_STATUSES,
   SUPPORT_KINDS,
   SUPPORT_STATUSES
 } from './enums'
 import { groups } from './groups'
-import { levels, subjects } from './reference'
+import { levels, subjects, wilayas } from './reference'
 import { orders, products } from './store'
 import { students } from './students'
 import { teacherWorkspaces } from './tenancy'
@@ -170,9 +171,96 @@ export const courseCodes = pgTable(
     usedByStudentId: uuid('used_by_student_id').references(() => students.id, { onDelete: 'set null' }),
     usedAt: timestamp('used_at', { withTimezone: true }),
     createdByUserId: uuid('created_by_user_id').references(() => users.id, { onDelete: 'set null' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    /** كود وُلِّد في نقطة بيع لحظة بيع باقة (0040): النقطة، والكود مختومًا ليُعاد عرضه لها، والسعر والعمولة وقت البيع */
+    posId: uuid('pos_id').references(() => pointsOfSale.id, { onDelete: 'restrict' }),
+    codeSealed: text('code_sealed'),
+    salePriceDzd: integer('sale_price_dzd'),
+    commissionDzd: integer('commission_dzd'),
+    /** ألغته نقطة البيع قبل استعماله (خلال 48 ساعة): الباقة تعود إلى عدّادها */
+    cancelledAt: timestamp('cancelled_at', { withTimezone: true })
+  },
+  (t) => [check('course_codes_status_check', sql`${t.status} IN ('ACTIVE', 'USED', 'DISABLED')`), index('course_codes_course_idx').on(t.courseId, t.batchId), index('course_codes_pos_idx').on(t.posId, t.createdAt)]
+)
+
+/**
+ * نقاط البيع (قرار المالك 2026-11-02): مدارس ومكتبات شريكة تستلم باقات (كتب + دورة) وتولّد كود التفعيل
+ * لحظة بيع كل باقة. عمولتها مبلغ ثابت عن كل باقة، والباقي تسدّده للمنصة.
+ */
+export const pointsOfSale = pgTable(
+  'points_of_sale',
+  {
+    id: id(),
+    name: text('name').notNull(),
+    wilayaId: uuid('wilaya_id').references(() => wilayas.id, { onDelete: 'set null' }),
+    address: text('address'),
+    /** هاتف النقطة الظاهر للتلاميذ في صفحة «نقاط البيع» */
+    phone: text('phone'),
+    commissionDzd: integer('commission_dzd').notNull().default(1000),
+    /** تنبيه المشرف حين يبلغ المتبقي هذا العدد */
+    lowStockAlert: integer('low_stock_alert').notNull().default(5),
+    status: text('status').notNull().default('ACTIVE'),
+    /** تظهر في صفحة «نقاط البيع» العامة */
+    listed: boolean('listed').notNull().default(true),
+    note: text('note'),
+    ...timestamps
+  },
+  (t) => [
+    check('points_of_sale_status_check', inList(t.status, POS_STATUSES)),
+    check('points_of_sale_commission_check', sql`${t.commissionDzd} >= 0`),
+    check('points_of_sale_low_stock_check', sql`${t.lowStockAlert} >= 0`)
+  ]
+)
+
+/** حسابات نقطة البيع (صاحبها وموظفوها): حساب واحد لنقطة واحدة */
+export const posMembers = pgTable(
+  'pos_members',
+  {
+    id: id(),
+    posId: uuid('pos_id')
+      .notNull()
+      .references(() => pointsOfSale.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
   },
-  (t) => [check('course_codes_status_check', sql`${t.status} IN ('ACTIVE', 'USED', 'DISABLED')`), index('course_codes_course_idx').on(t.courseId, t.batchId)]
+  (t) => [uniqueIndex('pos_members_user_unique').on(t.userId), index('pos_members_pos_idx').on(t.posId)]
+)
+
+/** حركات مخزون الباقات: + إرسال باقات، − استرجاع ما لم يُبع. المتبقي = المجموع − الأكواد المولَّدة غير الملغاة */
+export const posStockMoves = pgTable(
+  'pos_stock_moves',
+  {
+    id: id(),
+    posId: uuid('pos_id')
+      .notNull()
+      .references(() => pointsOfSale.id, { onDelete: 'cascade' }),
+    courseId: uuid('course_id')
+      .notNull()
+      .references(() => courses.id, { onDelete: 'cascade' }),
+    qty: integer('qty').notNull(),
+    note: text('note'),
+    createdByUserId: uuid('created_by_user_id').references(() => users.id, { onDelete: 'set null' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+  },
+  (t) => [check('pos_stock_moves_qty_check', sql`${t.qty} <> 0`), index('pos_stock_moves_pos_idx').on(t.posId, t.courseId)]
+)
+
+/** ما سدّدته نقطة البيع للمنصة */
+export const posPayments = pgTable(
+  'pos_payments',
+  {
+    id: id(),
+    posId: uuid('pos_id')
+      .notNull()
+      .references(() => pointsOfSale.id, { onDelete: 'cascade' }),
+    amountDzd: integer('amount_dzd').notNull(),
+    note: text('note'),
+    createdByUserId: uuid('created_by_user_id').references(() => users.id, { onDelete: 'set null' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
+  },
+  (t) => [check('pos_payments_amount_check', sql`${t.amountDzd} > 0`), index('pos_payments_pos_idx').on(t.posId, t.createdAt)]
 )
 
 export const courseClaims = pgTable(

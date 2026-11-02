@@ -4,7 +4,7 @@
  */
 
 /** CONTENT_UPLOADER: رافع محتوى يرى الدورات المسندة إليه فقط (course_staff) — 1 نوفمبر 2026 */
-export const USER_ROLES = ['SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'TEACHER', 'ASSISTANT', 'STUDENT', 'PUBLIC', 'PARENT'] as const
+export const USER_ROLES = ['SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'POINT_OF_SALE', 'TEACHER', 'ASSISTANT', 'STUDENT', 'PUBLIC', 'PARENT'] as const
 export type UserRole = (typeof USER_ROLES)[number]
 
 /** حالة عضوية مساعد الأستاذ في مساحة العمل */
@@ -253,7 +253,10 @@ export type FeedbackStatus = (typeof FEEDBACK_STATUSES)[number]
 export const COURSE_STATUSES = ['DRAFT', 'PUBLISHED', 'ARCHIVED'] as const
 export type CourseStatus = (typeof COURSE_STATUSES)[number]
 /** مصدر الاشتراك: تسليم طلب كتاب، تفعيل يدوي من الإدارة، هدية/منحة، مطالبة بالرمز (وليّ الأمر) */
-export const ENROLLMENT_SOURCES = ['BOOK_ORDER', 'MANUAL', 'GIFT', 'CLAIM', 'CODE', 'ONLINE_PAYMENT'] as const
+export const ENROLLMENT_SOURCES = ['BOOK_ORDER', 'MANUAL', 'GIFT', 'CLAIM', 'CODE', 'ONLINE_PAYMENT', 'POS'] as const
+/** نقطة بيع (مدرسة/مكتبة شريكة): فعّالة أو موقوفة (لا توليد أكواد) */
+export const POS_STATUSES = ['ACTIVE', 'SUSPENDED'] as const
+export type PosStatus = (typeof POS_STATUSES)[number]
 export type EnrollmentSource = (typeof ENROLLMENT_SOURCES)[number]
 export const COURSE_ENROLLMENT_STATUSES = ['ACTIVE', 'EXPIRED', 'REVOKED'] as const
 export type CourseEnrollmentStatus = (typeof COURSE_ENROLLMENT_STATUSES)[number]

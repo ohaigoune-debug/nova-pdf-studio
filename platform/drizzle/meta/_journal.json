@@ -281,6 +281,13 @@
       "when": 1793900000000,
       "tag": "0039_course_digital_offer",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1794000000000,
+      "tag": "0040_points_of_sale",
+      "breakpoints": true
     }
   ]
 }
