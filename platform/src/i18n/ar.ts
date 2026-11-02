@@ -1292,6 +1292,7 @@ const ar = {
     pos_code_generate: 'بيع باقة في نقطة بيع (كود تفعيل)',
     pos_code_cancel: 'إلغاء كود نقطة بيع',
     pos_payment: 'تسديد من نقطة بيع',
+    pos_restock_request: 'طلب باقات جديدة من نقطة بيع',
     course_lesson_create: 'إضافة درس للدورة',
     course_lesson_update: 'تعديل درس الدورة',
     course_lesson_publish: 'نشر درس الدورة',

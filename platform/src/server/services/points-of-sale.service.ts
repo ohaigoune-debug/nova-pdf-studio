@@ -6,7 +6,9 @@
  *  - لا تتجاوز النقطة مخزونها: المتبقي = الباقات المرسَلة − الأكواد المولَّدة غير الملغاة.
  *  - كل كود مولَّد بيعٌ مسجَّل على النقطة: سعر الباقة وقت البيع − عمولتها = ما تدين به للمنصة.
  *  - إلغاء كود لم يُستعمل خلال 48 ساعة يُعيد الباقة إلى العدّاد.
- *  - المشرف و«مسؤول الشركاء» يضيفان النقاط وحساباتها ويرسلانها عبر واتساب؛ العمولة والتسديدات والإيقاف للمشرف وحده.
+ *  - المشرف و«مدير العمليات» (MANAGER) يضيفان النقاط وحساباتها ويرسلانها عبر واتساب، ويرسلان الباقات،
+ *    ويفتحان/يغلقان التوليد، ويولّدان كودًا نيابة عن نقطة أو يلغيان كودًا لم يُستعمل، ويسجّلان المال المستلَم.
+ *    العمولة للمشرف وحده. كل حركة في سجلّ التدقيق باسم صاحبها، والقيد المالي لا يُحذف.
  */
 import { randomInt, randomUUID } from 'node:crypto'
 import { and, asc, desc, eq, inArray, isNull, sql } from 'drizzle-orm'
@@ -28,10 +30,11 @@ const isPhysical = (type: string) => type === 'BOOK' || type === 'PACK'
 
 type PosRow = typeof pointsOfSale.$inferSelect
 
-/** المشرف أو «مسؤول الشركاء» */
+/** المشرف أو «مدير العمليات» */
 function assertPartnerStaff(actor: Actor): void {
-  assertRole(actor, 'SUPER_ADMIN', 'PARTNER_MANAGER')
+  assertRole(actor, 'SUPER_ADMIN', 'MANAGER')
 }
+const assertPartnerViewer = assertPartnerStaff
 
 async function loadPos(db: Db, posId: string): Promise<PosRow> {
   assertUuid(posId, 'NOT_FOUND')
@@ -92,7 +95,7 @@ function moneyFields(input: PosInput): { commissionDzd?: number; lowStockAlert?:
   return out
 }
 
-/** تعديل البيانات؛ العمولة وحدّ التنبيه للمشرف وحده (يُتجاهلان لمسؤول الشركاء) */
+/** تعديل البيانات؛ العمولة وحدّ التنبيه للمشرف وحده (يُتجاهلان لمدير العمليات) */
 export async function updatePointOfSale(db: Db, actor: Actor, posId: string, input: PosInput): Promise<PosRow> {
   assertPartnerStaff(actor)
   const cur = await loadPos(db, posId)
@@ -103,9 +106,9 @@ export async function updatePointOfSale(db: Db, actor: Actor, posId: string, inp
   return row!
 }
 
-/** إيقاف نقطة (لا توليد أكواد) أو إعادتها — للمشرف وحده */
+/** إغلاق توليد الأكواد لنقطة أو فتحه — للمشرف ومدير العمليات */
 export async function setPosStatus(db: Db, actor: Actor, posId: string, status: 'ACTIVE' | 'SUSPENDED'): Promise<void> {
-  assertRole(actor, 'SUPER_ADMIN')
+  assertPartnerStaff(actor)
   const cur = await loadPos(db, posId)
   await db.update(pointsOfSale).set({ status, updatedAt: new Date() }).where(eq(pointsOfSale.id, cur.id))
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'pos.status', entityType: 'point_of_sale', entityId: cur.id, oldValue: { status: cur.status }, newValue: { status } })
@@ -262,6 +265,16 @@ function shareTextFor(code: string, courseTitle: string): string {
  */
 export async function generatePosCode(db: Db, actor: Actor, courseId: string): Promise<GeneratedPosCode> {
   const pos = await posOfMember(db, actor)
+  return generateFor(db, actor, pos, courseId)
+}
+
+/** المشرف أو مدير العمليات يولّد كودًا نيابة عن نقطة (اتصلت المدرسة هاتفيًّا): يُحسب بيعًا عليها كالعادة */
+export async function generatePosCodeFor(db: Db, actor: Actor, posId: string, courseId: string): Promise<GeneratedPosCode> {
+  assertPartnerStaff(actor)
+  return generateFor(db, actor, await loadPos(db, posId), courseId)
+}
+
+async function generateFor(db: Db, actor: Actor, pos: PosRow, courseId: string): Promise<GeneratedPosCode> {
   if (pos.status !== 'ACTIVE') throw new AppError('POS_SUSPENDED')
   assertUuid(courseId, 'COURSE_NOT_FOUND')
   const bundle = await bundlePriceOf(db, courseId)
@@ -283,7 +296,7 @@ export async function generatePosCode(db: Db, actor: Actor, courseId: string): P
   })
   // تنبيه عند بلوغ حدّ التنبيه أو النفاد (مرة عند كل عتبة)
   if (out.remaining === out.alertAt || out.remaining === 0) {
-    const staff = await db.select({ id: users.id }).from(users).where(and(inArray(users.role, ['SUPER_ADMIN', 'PARTNER_MANAGER']), eq(users.status, 'ACTIVE'), isNull(users.deletedAt)))
+    const staff = await db.select({ id: users.id }).from(users).where(and(inArray(users.role, ['SUPER_ADMIN', 'MANAGER']), eq(users.status, 'ACTIVE'), isNull(users.deletedAt)))
     await notifyMany(db, staff.map((u) => ({ userId: u.id, workspaceId: null, type: 'SYSTEM' as const, title: out.remaining === 0 ? `نفدت باقات «${out.name}»` : `بقي ${out.remaining} باقات عند «${out.name}»`, body: `${bundle.title} — أرسل دفعة جديدة.`, link: `/admin/points-of-sale/${pos.id}` }))).catch(() => null)
   }
   return { codeId: out.id, code: out.code, courseTitle: bundle.title, priceDzd: bundle.priceDzd, remaining: out.remaining, shareText: shareTextFor(out.code, bundle.title) }
@@ -324,7 +337,7 @@ export async function listPosCodes(db: Db, actor: Actor, posId: string, limit = 
   if (actor.role === 'POINT_OF_SALE') {
     const pos = await posOfMember(db, actor)
     if (pos.id !== posId) throw new AppError('FORBIDDEN')
-  } else assertPartnerStaff(actor)
+  } else assertPartnerViewer(actor)
   const rows = await db
     .select({ c: courseCodes, courseTitle: courses.title, soldBy: profiles.fullName })
     .from(courseCodes)
@@ -333,7 +346,7 @@ export async function listPosCodes(db: Db, actor: Actor, posId: string, limit = 
     .where(eq(courseCodes.posId, posId))
     .orderBy(desc(courseCodes.createdAt))
     .limit(Math.min(Math.max(limit, 1), 500))
-  const staff = actor.role !== 'POINT_OF_SALE'
+  const staff = actor.role === 'SUPER_ADMIN' || actor.role === 'MANAGER'
   return rows.map((r) => {
     const status = r.c.cancelledAt ? 'CANCELLED' : r.c.status === 'USED' ? 'USED' : 'ACTIVE'
     return {
@@ -398,9 +411,9 @@ export async function posSummary(db: Db, posId: string): Promise<PosSummary> {
   }
 }
 
-/** تسديد من النقطة للمنصة — للمشرف وحده */
+/** مال مستلَم من النقطة — للمشرف ومدير العمليات. القيد لا يُحذف ولا يُعدَّل. */
 export async function recordPosPayment(db: Db, actor: Actor, posId: string, input: { amountDzd: number; note?: string | null }): Promise<void> {
-  assertRole(actor, 'SUPER_ADMIN')
+  assertPartnerStaff(actor)
   const pos = await loadPos(db, posId)
   if (!Number.isInteger(input.amountDzd) || input.amountDzd <= 0 || input.amountDzd > 100_000_000) throw new AppError('VALIDATION', { field: 'amountDzd' })
   await db.insert(posPayments).values({ posId: pos.id, amountDzd: input.amountDzd, note: input.note?.trim().slice(0, 300) || null, createdByUserId: actor.userId })
@@ -408,7 +421,7 @@ export async function recordPosPayment(db: Db, actor: Actor, posId: string, inpu
 }
 
 export async function listPosPayments(db: Db, actor: Actor, posId: string) {
-  assertPartnerStaff(actor)
+  assertPartnerViewer(actor)
   return db.select({ id: posPayments.id, amountDzd: posPayments.amountDzd, note: posPayments.note, createdAt: posPayments.createdAt }).from(posPayments).where(eq(posPayments.posId, posId)).orderBy(desc(posPayments.createdAt)).limit(100)
 }
 
@@ -429,7 +442,7 @@ export interface PosListItem {
 }
 
 export async function listPointsOfSale(db: Db, actor: Actor): Promise<PosListItem[]> {
-  assertPartnerStaff(actor)
+  assertPartnerViewer(actor)
   const rows = await db
     .select({ p: pointsOfSale, wilayaName: wilayas.nameAr, wilayaCode: wilayas.code })
     .from(pointsOfSale)
@@ -444,7 +457,7 @@ export async function listPointsOfSale(db: Db, actor: Actor): Promise<PosListIte
 }
 
 export async function getPointOfSale(db: Db, actor: Actor, posId: string) {
-  assertPartnerStaff(actor)
+  assertPartnerViewer(actor)
   const pos = await loadPos(db, posId)
   const [summary, members, [w]] = await Promise.all([
     posSummary(db, pos.id),
@@ -479,6 +492,17 @@ export async function publicPointsOfSale(db: Db): Promise<{ wilaya: string; item
 export async function hasPublicPointsOfSale(db: Db): Promise<boolean> {
   const [r] = await db.select({ id: pointsOfSale.id }).from(pointsOfSale).where(and(eq(pointsOfSale.status, 'ACTIVE'), eq(pointsOfSale.listed, true))).limit(1)
   return Boolean(r)
+}
+
+/** «اطلب باقات جديدة»: تنبيه للمشرف ولمديري العمليات برقم المتبقي */
+export async function requestRestock(db: Db, actor: Actor, input: { courseId?: string | null; qty?: number | null; note?: string | null }): Promise<void> {
+  const pos = await posOfMember(db, actor)
+  const s = await posSummary(db, pos.id)
+  const qty = input.qty && Number.isInteger(input.qty) && input.qty > 0 && input.qty <= 1000 ? input.qty : null
+  const line = s.stock.find((x) => x.courseId === input.courseId) ?? s.stock[0]
+  const staff = await db.select({ id: users.id }).from(users).where(and(inArray(users.role, ['SUPER_ADMIN', 'MANAGER']), eq(users.status, 'ACTIVE'), isNull(users.deletedAt)))
+  await notifyMany(db, staff.map((u) => ({ userId: u.id, workspaceId: null, type: 'SYSTEM' as const, title: `«${pos.name}» تطلب باقات جديدة${qty ? ` (${qty})` : ''}`, body: [line ? `${line.courseTitle}: بقي ${line.remaining}` : null, input.note?.trim().slice(0, 200) || null].filter(Boolean).join(' — '), link: `/admin/points-of-sale/${pos.id}` })))
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'pos.restock_request', entityType: 'point_of_sale', entityId: pos.id, newValue: { courseId: line?.courseId ?? null, qty } })
 }
 
 /** واجهة نقطة البيع: النقطة، مخزونها، ملخّصها، وأكوادها */

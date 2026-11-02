@@ -4,7 +4,7 @@
  */
 
 /** CONTENT_UPLOADER: رافع محتوى يرى الدورات المسندة إليه فقط (course_staff) — 1 نوفمبر 2026 */
-export const USER_ROLES = ['SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'PARTNER_MANAGER', 'POINT_OF_SALE', 'TEACHER', 'ASSISTANT', 'STUDENT', 'PUBLIC', 'PARENT'] as const
+export const USER_ROLES = ['SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'MANAGER', 'POINT_OF_SALE', 'TEACHER', 'ASSISTANT', 'STUDENT', 'PUBLIC', 'PARENT'] as const
 export type UserRole = (typeof USER_ROLES)[number]
 
 /** حالة عضوية مساعد الأستاذ في مساحة العمل */

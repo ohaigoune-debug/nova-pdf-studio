@@ -5,7 +5,7 @@
 -- يتوقف إن وُجدت أكواد مولَّدة في نقاط البيع أو حسابات لها أو اشتراكات مصدرها POS (سجلّ مالي لا يُحذف آليًّا).
 DO $$ BEGIN
   IF EXISTS (SELECT 1 FROM "course_codes" WHERE "pos_id" IS NOT NULL)
-     OR EXISTS (SELECT 1 FROM "users" WHERE "role" IN ('POINT_OF_SALE', 'PARTNER_MANAGER'))
+     OR EXISTS (SELECT 1 FROM "users" WHERE "role" IN ('POINT_OF_SALE', 'MANAGER'))
      OR EXISTS (SELECT 1 FROM "course_enrollments" WHERE "source" = 'POS') THEN
     RAISE EXCEPTION 'Points of sale data exists: keep migration 0040';
   END IF;
