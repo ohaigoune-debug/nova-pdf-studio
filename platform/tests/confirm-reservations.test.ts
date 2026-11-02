@@ -176,7 +176,7 @@ describe('حجز طابور التأكيد', () => {
   it('التراجع عن 0042 يزيل الأعمدة', async () => {
     const tmp = await setupDb()
     await tmp.db.execute(sql.raw(readFileSync('drizzle/down/0042_confirm_reservations.down.sql', 'utf8')))
-    const cols = await tmp.db.execute(sql`select column_name from information_schema.columns where table_name = 'orders' and column_name like 'reserved%'`)
+    const cols = (await tmp.db.execute(sql`select column_name from information_schema.columns where table_name = 'orders' and column_name like 'reserved%'`)) as unknown as { rows: unknown[] }
     expect(cols.rows).toEqual([])
     await tmp.close()
   })
