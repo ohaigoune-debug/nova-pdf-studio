@@ -6,14 +6,14 @@ import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { checkRateLimit } from '@/server/lib/rate-limit'
-import { courseQuote, placeCourseOrder, placeDigitalCourseOrder, type PlacedCourseOrder, type PlacedDigitalOrder } from '@/server/services/course-purchase.service'
+import { courseQuote, placeCourseOrder, placeDigitalCourseOrder, type CourseQuote, type PlacedCourseOrder, type PlacedDigitalOrder } from '@/server/services/course-purchase.service'
 import { courseCommunesForWilaya, type CourseCommuneLookup } from '@/server/services/delivery-communes.service'
 
 /**
  * شراء «الدورة مع كتابها»: المتصفح يرسل courseId وبيانات الاستلام فقط —
  * الكتاب والسعر والتوصيل والمخزون والتلميذ يحدّدها الخادم.
  */
-export async function placeCourseOrderAction(input: { courseId: string; phone: string; wilayaId: string; commune?: string | null; address: string; deliveryType?: 'HOME' | 'DESK' | null; note?: string | null; otpCode?: string | null; payNow?: boolean }): Promise<ActionResult<PlacedCourseOrder>> {
+export async function placeCourseOrderAction(input: { courseId: string; phone: string; wilayaId: string; commune?: string | null; address: string; deliveryType?: 'HOME' | 'DESK' | null; note?: string | null; otpCode?: string | null; payNow?: boolean; useCredit?: boolean }): Promise<ActionResult<PlacedCourseOrder>> {
   const parsed = z
     .object({
       courseId: z.string().uuid(),
@@ -24,7 +24,8 @@ export async function placeCourseOrderAction(input: { courseId: string; phone: s
       deliveryType: z.enum(['HOME', 'DESK']).nullish(),
       note: z.string().trim().max(300).nullish(),
       otpCode: z.string().trim().max(8).nullish(),
-      payNow: z.boolean().optional()
+      payNow: z.boolean().optional(),
+      useCredit: z.boolean().optional()
     })
     .strict()
     .safeParse(input)
@@ -46,8 +47,8 @@ export async function placeCourseOrderAction(input: { courseId: string; phone: s
  * شراء النسخة الرقمية (دون كتاب): المتصفح يرسل courseId وتأكيد «فهمت أنها دون كتاب» فقط —
  * السعر والدورة يحدّدهما الخادم، والجواب رابط صفحة SATIM.
  */
-export async function placeDigitalCourseOrderAction(input: { courseId: string; acceptNoBook: boolean }): Promise<ActionResult<PlacedDigitalOrder>> {
-  const parsed = z.object({ courseId: z.string().uuid(), acceptNoBook: z.boolean() }).strict().safeParse(input)
+export async function placeDigitalCourseOrderAction(input: { courseId: string; acceptNoBook: boolean; useCredit?: boolean }): Promise<ActionResult<PlacedDigitalOrder>> {
+  const parsed = z.object({ courseId: z.string().uuid(), acceptNoBook: z.boolean(), useCredit: z.boolean().optional() }).strict().safeParse(input)
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
     const actor = await requireRole('STUDENT')
@@ -63,12 +64,12 @@ export async function placeDigitalCourseOrderAction(input: { courseId: string; a
 }
 
 /** سعر الدورة + التوصيل + الإجمالي كما يحسبه الخادم (للاستمارة قبل التأكيد). مشترك النسخة الرقمية يرى «الفرق» فقط. */
-export async function courseQuoteAction(courseId: string, wilayaId: string | null, deliveryType: 'HOME' | 'DESK'): Promise<ActionResult<{ priceDzd: number; shippingDzd: number; totalDzd: number; bookTitle: string; upgrade: boolean } | null>> {
-  const parsed = z.object({ courseId: z.string().uuid(), wilayaId: z.string().uuid().nullable(), deliveryType: z.enum(['HOME', 'DESK']) }).safeParse({ courseId, wilayaId: wilayaId || null, deliveryType })
+export async function courseQuoteAction(courseId: string, wilayaId: string | null, deliveryType: 'HOME' | 'DESK', online = false): Promise<ActionResult<CourseQuote | null>> {
+  const parsed = z.object({ courseId: z.string().uuid(), wilayaId: z.string().uuid().nullable(), deliveryType: z.enum(['HOME', 'DESK']), online: z.boolean() }).safeParse({ courseId, wilayaId: wilayaId || null, deliveryType, online })
   if (!parsed.success) return failValidation(parsed.error)
   return runAction(async () => {
     const actor = await requireRole('STUDENT')
-    return courseQuote(await getDb(), parsed.data.courseId, parsed.data.wilayaId, parsed.data.deliveryType, actor)
+    return courseQuote(await getDb(), parsed.data.courseId, parsed.data.wilayaId, parsed.data.deliveryType, actor, { online: parsed.data.online })
   })
 }
 

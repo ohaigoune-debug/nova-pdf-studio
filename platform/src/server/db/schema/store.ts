@@ -89,6 +89,8 @@ export const orders = pgTable(
     subtotalDzd: integer('subtotal_dzd').notNull().default(0),
     shippingDzd: integer('shipping_dzd').notNull().default(0),
     totalDzd: integer('total_dzd').notNull().default(0),
+    /** ما خُصم من الطلب برصيد التلميذ (دعوة الزملاء / الرصيد الترحيبي): الإجمالي = المجموع + التوصيل − الرصيد */
+    creditDzd: integer('credit_dzd').notNull().default(0),
     customerName: text('customer_name').notNull(),
     phone: text('phone').notNull(),
     wilayaId: uuid('wilaya_id').references(() => wilayas.id),
@@ -122,6 +124,7 @@ export const orders = pgTable(
     check('orders_status_check', inList(t.status, ORDER_STATUSES)),
     check('orders_delivery_type_check', inList(t.deliveryType, DELIVERY_TYPES)),
     check('orders_payment_check', inList(t.paymentMethod, PAYMENT_METHODS)),
+    check('orders_credit_check', sql`${t.creditDzd} >= 0`),
     index('orders_user_idx').on(t.userId, t.createdAt),
     index('orders_status_idx').on(t.status, t.createdAt),
     index('orders_tracking_idx').on(t.deliveryProvider, t.deliveryTrackingId)

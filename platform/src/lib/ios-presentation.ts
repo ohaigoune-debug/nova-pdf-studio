@@ -21,7 +21,7 @@ export function iosPresentationRedirect(pathname: string): string | null {
   catch { return '/ios?unavailable=route' }
   if (!path.startsWith('/') || path.startsWith('//') || /[\\\x00-\x1f]/.test(path)) return '/ios?unavailable=route'
   const matchPath = path.toLowerCase()
-  if (['/store', '/track', '/claim', '/pos', '/points-of-sale', '/activate-code', '/student/store', '/student/cart', '/student/orders', '/student/codes', '/student/activate', '/student/activate-code', '/student/enroll'].some((prefix) => under(matchPath, prefix))
+  if (['/store', '/track', '/claim', '/pos', '/points-of-sale', '/affiliate', '/partners', '/r', '/student/invite', '/activate-code', '/student/store', '/student/cart', '/student/orders', '/student/codes', '/student/activate', '/student/activate-code', '/student/enroll'].some((prefix) => under(matchPath, prefix))
     || under(matchPath, '/student/courses/catalog') || under(matchPath, '/student/courses/orders')
     // صفحتا الشراء («الدورة مع الكتاب» و«النسخة الرقمية»): لا بيع داخل تطبيق آيفون
     || /^\/student\/courses\/[^/]+\/(?:order|digital)(?:\/|$)/.test(matchPath)) return '/ios?unavailable=commerce'

@@ -15,6 +15,7 @@ import { activateCoursesForOrder, type ActivationSummary } from './course-activa
 import { grantPurchasesForOrder } from './marketplace.service'
 import { revokeEnrollmentsForReturnedOrder } from './courses.service'
 import { notify, notifyMany } from './notifications.service'
+import { onOrderDelivered, onOrderReturned, refundCreditForOrder, respendCreditForOrder } from './referrals.service'
 
 export type OrderRow = typeof orders.$inferSelect
 
@@ -109,6 +110,15 @@ export async function notifyAdmins(db: Db, input: { title: string; body?: string
   if (input.telegram !== false) await sendTelegram(db, [input.title, input.body ?? ''].filter(Boolean).join('\n'))
 }
 
+/** مكافأة الدعوة/المسوّق عند أول طلب دورة يُسلَّم — فشلها لا يُفشل التسليم */
+async function rewardReferral(db: Db, orderId: string): Promise<void> {
+  try {
+    await onOrderDelivered(db, orderId)
+  } catch (e) {
+    if (process.env.NODE_ENV !== 'test') console.error('[order-status] referral reward failed', e)
+  }
+}
+
 const CUSTOMER_MESSAGE: Partial<Record<OrderStatus, (o: OrderRow, opts: TransitionOptions) => string>> = {
   CONFIRMED: (o) => (o.needsShipping ? 'أُكّد طلبك وسيُرسَل إليك مع شركة التوصيل قريباً.' : 'أُكّد طلبك: ملفاتك جاهزة للتنزيل من «طلباتي».'),
   SHIPPED: (o, opts) => `طلبك في الطريق إليك${opts.deliveryTrackingId || o.deliveryTrackingId ? ` — رقم التتبّع ${opts.deliveryTrackingId ?? o.deliveryTrackingId}` : ''}.`,
@@ -141,7 +151,8 @@ export async function transitionOrder(db: Db, orderId: string, next: OrderStatus
       .set({
         status: next,
         shippingDzd: shipping,
-        totalDzd: o.subtotalDzd + shipping,
+        // الرصيد المخصوم يبقى مخصومًا (لا يتجاوز المجموع + التوصيل)
+        totalDzd: Math.max(0, o.subtotalDzd + shipping - o.creditDzd),
         adminNote: opts.adminNote !== undefined ? opts.adminNote?.trim() || null : o.adminNote,
         deliveryProvider: opts.deliveryProvider ?? o.deliveryProvider,
         deliveryTrackingId: opts.deliveryTrackingId ?? o.deliveryTrackingId,
@@ -157,8 +168,15 @@ export async function transitionOrder(db: Db, orderId: string, next: OrderStatus
       })
       .where(eq(orders.id, orderId))
       .returning()
-    if (next === 'CANCELLED' || next === 'RETURNED') await restock(tx, orderId)
-    if (from === 'CANCELLED' && next === 'PENDING') await reserveAgain(tx, orderId)
+    if (next === 'CANCELLED' || next === 'RETURNED') {
+      await restock(tx, orderId)
+      // الرصيد المخصوم من الطلب يعود إلى صاحبه
+      await refundCreditForOrder(tx, orderId, now)
+    }
+    if (from === 'CANCELLED' && next === 'PENDING') {
+      await reserveAgain(tx, orderId)
+      await respendCreditForOrder(tx, r!, now)
+    }
     if (next === 'RETURNED') {
       await revokeEnrollmentsForReturnedOrder(tx, orderId, opts.actorUserId)
       await tx.update(courseClaims).set({ expiresAt: now }).where(and(eq(courseClaims.orderId, orderId), isNull(courseClaims.claimedAt)))
@@ -169,6 +187,7 @@ export async function transitionOrder(db: Db, orderId: string, next: OrderStatus
   const { order: row } = result
   if (!result.changed) {
     const activation = next === 'DELIVERED' ? await activateCoursesForOrder(db, row.id) : null
+    if (next === 'DELIVERED') await rewardReferral(db, row.id)
     return { order: row, changed: false, activation }
   }
 
@@ -189,6 +208,15 @@ export async function transitionOrder(db: Db, orderId: string, next: OrderStatus
       // التسليم سُجّل؛ فشل التفعيل يُبلَّغ للمشرف ليُفعِّل يدوياً ولا يُخفى
       if (process.env.NODE_ENV !== 'test') console.error('[order-status] activation failed', e)
       await notifyAdmins(db, { title: `⚠️ تعذّر تفعيل دورة الطلب ${row.number}`, body: e instanceof Error ? e.message.slice(0, 200) : 'خطأ غير معروف', link: `/admin/store?status=DELIVERED` })
+    }
+  }
+
+  if (next === 'DELIVERED') await rewardReferral(db, orderId)
+  if (next === 'RETURNED') {
+    try {
+      await onOrderReturned(db, orderId)
+    } catch (e) {
+      if (process.env.NODE_ENV !== 'test') console.error('[order-status] referral reversal failed', e)
     }
   }
 

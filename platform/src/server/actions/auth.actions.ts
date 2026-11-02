@@ -1,5 +1,6 @@
 'use server'
 
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { revokeSessionById } from '@/server/auth/session'
@@ -13,6 +14,8 @@ import { RATE_LIMITS, checkRateLimit, resetRateLimit } from '@/server/lib/rate-l
 import { deleteOwnAccount } from '@/server/services/account-deletion.service'
 import { changePassword, login, logout, registerStudent, requestPasswordReset, resetPassword } from '@/server/services/auth.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
+import { attachReferralForNewAccount, checkCodeForSignup } from '@/server/services/referrals.service'
+import { REF_COOKIE } from '@/lib/referral'
 
 const loginSchema = z.object({
   // البريد أو رقم الهاتف
@@ -61,7 +64,9 @@ const registerSchema = z
     password: z.string().min(8, 'كلمة السر 8 أحرف على الأقل'),
     wilayaId: z.string().uuid('اختر الولاية'),
     levelId: z.string().uuid('اختر المستوى'),
-    streamId: z.string().uuid().optional().or(z.literal(''))
+    streamId: z.string().uuid().optional().or(z.literal('')),
+    /** كود دعوة زميل أو مسوّق (اختياري) */
+    refCode: z.string().trim().max(24).optional()
   })
 
 export async function registerAction(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
@@ -72,6 +77,8 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
   const d = parsed.data
   const result = await runAction(async () => {
     await checkRateLimit(db, { scope: 'register-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.registerIp })
+    // الكود يُفحص قبل إنشاء الحساب: خطأ فيه يظهر للتلميذ ولا يُنشأ حساب
+    const ref = d.refCode?.trim() ? await checkCodeForSignup(db, d.refCode, d.phone) : null
     const r = await registerStudent(
       db,
       {
@@ -87,6 +94,10 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
       meta
     )
     await setSessionCookie(r.session.token, r.session.expiresAt)
+    if (ref) {
+      const fromLink = (await cookies()).get(REF_COOKIE)?.value === ref.code
+      await attachReferralForNewAccount(db, r.userId, ref.code, fromLink ? 'LINK' : 'REGISTER').catch(() => null)
+    }
     return r
   })
   if (!result.ok) return result

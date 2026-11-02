@@ -4,7 +4,7 @@
  */
 
 /** CONTENT_UPLOADER: رافع محتوى يرى الدورات المسندة إليه فقط (course_staff) — 1 نوفمبر 2026 */
-export const USER_ROLES = ['SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'MANAGER', 'POINT_OF_SALE', 'TEACHER', 'ASSISTANT', 'STUDENT', 'PUBLIC', 'PARENT'] as const
+export const USER_ROLES = ['SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'MANAGER', 'POINT_OF_SALE', 'AFFILIATE', 'TEACHER', 'ASSISTANT', 'STUDENT', 'PUBLIC', 'PARENT'] as const
 export type UserRole = (typeof USER_ROLES)[number]
 
 /** حالة عضوية مساعد الأستاذ في مساحة العمل */
@@ -257,6 +257,22 @@ export const ENROLLMENT_SOURCES = ['BOOK_ORDER', 'MANUAL', 'GIFT', 'CLAIM', 'COD
 /** نقطة بيع (مدرسة/مكتبة شريكة): فعّالة أو موقوفة (لا توليد أكواد) */
 export const POS_STATUSES = ['ACTIVE', 'SUSPENDED'] as const
 export type PosStatus = (typeof POS_STATUSES)[number]
+
+/* المسوّقون ودعوة الزملاء والرصيد (قرار المالك 2026-11-02) */
+export const PARTNER_APPLICATION_KINDS = ['AFFILIATE', 'POINT_OF_SALE', 'TEACHER'] as const
+export type PartnerApplicationKind = (typeof PARTNER_APPLICATION_KINDS)[number]
+export const PARTNER_APPLICATION_STATUSES = ['NEW', 'APPROVED', 'REJECTED'] as const
+export const AFFILIATE_STATUSES = ['ACTIVE', 'SUSPENDED'] as const
+export const PROMO_CODE_KINDS = ['AFFILIATE', 'STUDENT'] as const
+export type PromoCodeKind = (typeof PROMO_CODE_KINDS)[number]
+export const REFERRAL_SOURCES = ['REGISTER', 'LINK', 'CHECKOUT', 'PAGE'] as const
+export type ReferralSource = (typeof REFERRAL_SOURCES)[number]
+export const REFERRAL_STATUSES = ['PENDING', 'QUALIFIED', 'REVERSED', 'VOID'] as const
+export type ReferralStatus = (typeof REFERRAL_STATUSES)[number]
+export const REFERRAL_REWARD_KINDS = ['AFFILIATE_CASH', 'REFERRER_CREDIT', 'WELCOME_CREDIT'] as const
+export type ReferralRewardKind = (typeof REFERRAL_REWARD_KINDS)[number]
+export const REFERRAL_REWARD_STATUSES = ['EARNED', 'REVERSED'] as const
+export const CREDIT_LOT_SOURCES = ['REFERRAL', 'WELCOME', 'ADJUST'] as const
 export type EnrollmentSource = (typeof ENROLLMENT_SOURCES)[number]
 export const COURSE_ENROLLMENT_STATUSES = ['ACTIVE', 'EXPIRED', 'REVOKED'] as const
 export type CourseEnrollmentStatus = (typeof COURSE_ENROLLMENT_STATUSES)[number]
