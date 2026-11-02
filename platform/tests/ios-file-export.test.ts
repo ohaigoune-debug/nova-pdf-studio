@@ -161,3 +161,43 @@ describe('authorized iOS PDF export', () => {
     await h.db.update(courseEnrollments).set({ status: 'ACTIVE' }).where(eq(courseEnrollments.courseId, course.id))
   })
 })
+
+describe('native app: in-app view and identity stamp (2 Nov 2026)', () => {
+  it('view mode opens a PDF the teacher did not allow saving, inline; download mode still refuses it', async () => {
+    const { GET: VIEW } = await import('@/app/api/v1/ios/materials/[contentId]/view/route')
+    await h.db.update(content).set({ allowDownload: false }).where(eq(content.id, lesson.id))
+    try {
+      const viewed = await VIEW(new NextRequest(`https://madrasadz.com/api/v1/ios/materials/${lesson.id}/view`, { headers: { cookie: `${SESSION_COOKIE}=${token}` } }), { params: Promise.resolve({ contentId: lesson.id }) })
+      expect(viewed.status).toBe(200)
+      expect(viewed.headers.get('content-disposition')).toMatch(/^inline;/)
+      expect(viewed.headers.get('cache-control')).toBe('private, no-store')
+      expect((await response(token)).status).toBe(403)
+      const session = await createSession(h.db, { userId: other.userId })
+      const denied = await VIEW(new NextRequest(`https://madrasadz.com/api/v1/ios/materials/${lesson.id}/view`, { headers: { cookie: `${SESSION_COOKIE}=${session.token}` } }), { params: Promise.resolve({ contentId: lesson.id }) })
+      expect(denied.status).toBe(403)
+    } finally {
+      await h.db.update(content).set({ allowDownload: true }).where(eq(content.id, lesson.id))
+    }
+  })
+
+  it('stamps a real PDF with the student account code and date', async () => {
+    const { PDFDocument } = await import('pdf-lib')
+    const doc = await PDFDocument.create()
+    doc.addPage([300, 400])
+    const real = Buffer.from(await doc.save({ useObjectStreams: false }))
+    const adapter: StorageAdapter = {
+      ...storage(),
+      getRange: async () => ({ size: real.length, stream: new ReadableStream({ start(c) { c.enqueue(new Uint8Array(real)); c.close() } }) })
+    } as StorageAdapter
+    await h.db.update(files).set({ sizeBytes: real.length }).where(eq(files.id, pdf.id))
+    try {
+      const out = await exportIosPdf(h.db, student, lesson.id, adapter)
+      expect(out.bytes.subarray(0, 5).toString('ascii')).toBe('%PDF-')
+      expect(out.bytes.equals(real)).toBe(false)
+      const stamped = await PDFDocument.load(out.bytes)
+      expect(stamped.getPageCount()).toBe(1)
+    } finally {
+      await h.db.update(files).set({ sizeBytes: pdfBytes.length }).where(eq(files.id, pdf.id))
+    }
+  })
+})
