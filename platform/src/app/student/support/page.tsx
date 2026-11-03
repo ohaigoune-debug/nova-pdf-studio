@@ -1,3 +1,4 @@
+import { HubTabs } from '@/components/student/hub-tabs'
 import { LifeBuoy, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { NewTicketForm } from '@/components/support/ticket-forms'
@@ -25,6 +26,7 @@ export default async function StudentSupportPage({ searchParams }: { searchParam
   const defaultKind = SUPPORT_KINDS.includes(sp.kind as SupportKind) ? (sp.kind as SupportKind) : undefined
   return (
     <>
+      <HubTabs hub="account" />
       <PageHeader
         title="الدعم والشكاوى"
         description="مشكلة في طلب أو توصيل أو دورة؟ افتح تذكرة وسيردّ عليك فريق المنصة."

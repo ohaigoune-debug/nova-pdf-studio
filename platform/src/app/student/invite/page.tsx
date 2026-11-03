@@ -1,3 +1,4 @@
+import { HubTabs } from '@/components/student/hub-tabs'
 import { Gift, Users, Wallet } from 'lucide-react'
 import { ReferralCodeBox, ShareCodeCard } from '@/components/partners/partners-client'
 import { Badge } from '@/components/ui/badge'
@@ -21,6 +22,7 @@ export default async function StudentInvitePage() {
   const shareText = home.code && home.link ? `سجّل في منصة مدرسة بكودي ${home.code} وتحصل على ${policy.welcomeCreditDzd} دج هدية في رصيدك بعد أول دورة:\n${home.link}` : ''
   return (
     <div className="space-y-6">
+      <HubTabs hub="account" />
       <PageHeader title="ادعُ زميلك ورصيدي" description={`ادعُ زميلك: حين يستلم أول دورة، تحصل على ${policy.referrerCreditDzd} دج ويحصل هو على ${policy.welcomeCreditDzd} دج. الرصيد لشراء الدورات، صالح ${policy.creditMonths} شهرًا.`} />
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <StatCard label="رصيدي المتاح" value={`${balance.availableDzd} دج`} icon={Wallet} tone={balance.availableDzd > 0 ? 'success' : 'default'} hint={balance.nextExpiry ? `أقرب انتهاء: ${formatDate(balance.nextExpiry)}` : undefined} />

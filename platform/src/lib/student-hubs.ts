@@ -19,56 +19,47 @@ export interface StudentHub {
 }
 
 export const STUDENT_HUBS = {
+  // ثلاثة أبواب فقط (قرار المالك 3 نوفمبر 2026): دوراتي، PLAY، حسابي — مع «اليوم» في الرئيسية.
+  // كل الصفحات القديمة باقية بمساراتها كتبويبات داخل بابها، فلا ينكسر رابط ولا إشعار.
   courses: {
     key: 'courses',
-    label: 'الدورات',
+    label: 'دوراتي',
     iconKey: 'BookMarked',
     href: '/student/courses',
     tabs: [
       { href: '/student/courses', label: 'دوراتي', exact: true },
+      { href: '/student/assignments', label: 'واجباتي' },
+      { href: '/student/lessons', label: 'دروس مجانية' },
+      { href: '/student/files', label: 'الملفات' },
       { href: '/student/courses/catalog', label: 'شراء دورة' },
       { href: '/student/courses/orders', label: 'طلباتي' }
     ]
   },
-  lessons: {
-    key: 'lessons',
-    label: 'الدروس',
-    iconKey: 'BookOpen',
-    href: '/student/lessons',
-    tabs: [
-      { href: '/student/lessons', label: 'دروسي' },
-      { href: '/student/files', label: 'الملفات' }
-    ]
-  },
   train: {
     key: 'train',
-    label: 'تدرّب',
+    label: 'PLAY',
     iconKey: 'Gamepad2',
     href: '/student/play',
     tabs: [
       { href: '/student/play', label: 'MADRASADZ PLAY' },
+      { href: '/student/exams', label: 'فروض واختبارات' },
+      { href: '/bac', label: 'بنك البكالوريات' },
       { href: '/student/quizzes', label: 'اختبارات أستاذي' },
       { href: '/student/practice', label: 'تدريب حرّ' }
     ]
   },
-  exams: {
-    key: 'exams',
-    label: 'الفروض',
-    iconKey: 'FileText',
-    href: '/student/exams',
+  account: {
+    key: 'account',
+    label: 'حسابي',
+    iconKey: 'UserRound',
+    href: '/student/profile',
     tabs: [
-      { href: '/student/exams', label: 'فروض واختبارات مجانية' },
-      { href: '/student/assignments', label: 'واجباتي' }
-    ]
-  },
-  progress: {
-    key: 'progress',
-    label: 'تقدّمي',
-    iconKey: 'TrendingUp',
-    href: '/student/progress',
-    tabs: [
-      { href: '/student/progress', label: 'التقدم' },
-      { href: '/student/grades', label: 'العلامات' }
+      { href: '/student/profile', label: 'الملف الشخصي' },
+      { href: '/student/progress', label: 'تقدّمي' },
+      { href: '/student/grades', label: 'العلامات' },
+      { href: '/student/notifications', label: 'الإشعارات' },
+      { href: '/student/invite', label: 'ادعُ زميلك ورصيدي' },
+      { href: '/student/support', label: 'الدعم والشكاوى' }
     ]
   }
 } as const satisfies Record<string, StudentHub>

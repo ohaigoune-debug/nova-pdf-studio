@@ -23,7 +23,7 @@ export default async function StudentProgressPage() {
   const avgGrade = grades.length ? (grades.reduce((s, g) => s + (Number(g.score) / Number(g.maxScore)) * 20, 0) / grades.length) : null
   return (
     <>
-      <HubTabs hub="progress" />
+      <HubTabs hub="account" />
       <PageHeader title={t('nav.progress')} />
       <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4">
         <StatCard label={t('groups.averageScore')} value={avgGrade !== null ? `${Math.round(avgGrade * 10) / 10}/20` : '—'} hint={`${grades.length} تقييم`} />

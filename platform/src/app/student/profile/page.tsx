@@ -1,8 +1,7 @@
+import { HubTabs } from '@/components/student/hub-tabs'
 import { OtpVerifyCard } from '@/components/domain/otp-verify-card'
 import { phoneChannels } from '@/server/services/phone-gate.service'
 import { GuardianContactCard } from '@/components/domain/guardian-contact-card'
-import Link from 'next/link'
-import { BookMarked, ShoppingBag, Bell, LifeBuoy } from 'lucide-react'
 import { ChangePasswordCard } from '@/components/domain/change-password-card'
 import { DeleteAccountCard } from '@/components/domain/delete-account-card'
 import { DevicesList } from '@/components/domain/devices-list'
@@ -33,15 +32,8 @@ export default async function StudentProfilePage() {
   ]
   return (
     <>
+      <HubTabs hub="account" />
       <PageHeader title={t('studentPages.profile')} />
-      <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {[
-          { href: '/student/courses', label: 'دوراتي', icon: BookMarked },
-          { href: '/student/courses/orders', label: 'طلباتي', icon: ShoppingBag },
-          { href: '/student/notifications', label: 'الإشعارات', icon: Bell },
-          { href: '/student/support', label: 'الدعم والمساعدة', icon: LifeBuoy }
-        ].map((item) => <Link key={item.href} href={item.href} className="flex min-h-28 flex-col items-center justify-center gap-3 rounded-lg border bg-card p-4 font-semibold shadow-soft hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><item.icon className="size-6 text-primary" />{item.label}</Link>)}
-      </div>
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardContent className="p-6">

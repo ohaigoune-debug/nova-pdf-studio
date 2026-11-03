@@ -30,7 +30,7 @@ export default async function StudentLessonsPage({ searchParams }: { searchParam
   const total = sections.reduce((n, s) => n + s.lessons.length, 0)
   return (
     <div className="space-y-6">
-      <HubTabs hub="lessons" />
+      <HubTabs hub="courses" />
       <TeacherBanner about={about} greeting={t('nav.myLessons')} subtitle="دروسك وملفات PDF، بترتيب الوحدات والدروس." />
       <ScopePicker base="/student/lessons" value={scope} options={options} fromProfile={scope.fromProfile} />
       {total === 0 ? (

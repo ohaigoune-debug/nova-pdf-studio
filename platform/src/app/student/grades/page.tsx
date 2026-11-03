@@ -13,7 +13,7 @@ export default async function StudentGradesPage() {
   const items = await listStudentGrades(await getDb(), actor)
   return (
     <>
-      <HubTabs hub="progress" />
+      <HubTabs hub="account" />
       <PageHeader title={t('nav.grades')} description="تظهر العلامات بعد اعتمادها من الأستاذ فقط." />
       <PhaseNote phase={5} />
       {items.length === 0 ? (
