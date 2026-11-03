@@ -55,9 +55,11 @@ export async function listConfirmers(db: Db, actor: Actor, role: StaffRole = 'CO
 }
 
 /** إجراءات الموظف المسجَّلة في التدقيق: الحالة، وتعديلات الطلب (قرار المالك 2026-10-28)، وكود التفعيل */
-const ACTIVITY_ACTIONS = ['store.order_status', 'store.order_stream', 'store.order_amount', 'store.customer_ban', 'course.activation_code_sent'] as const
-export type ConfirmerActivityKind = 'status' | 'stream' | 'amount' | 'ban' | 'code'
-const KIND: Record<(typeof ACTIVITY_ACTIONS)[number], ConfirmerActivityKind> = { 'store.order_status': 'status', 'store.order_stream': 'stream', 'store.order_amount': 'amount', 'store.customer_ban': 'ban', 'course.activation_code_sent': 'code' }
+const ACTIVITY_ACTIONS = ['store.order_status', 'store.order_stream', 'store.order_amount', 'store.order_customer', 'store.customer_ban', 'course.activation_code_sent'] as const
+export type ConfirmerActivityKind = 'status' | 'stream' | 'amount' | 'customer' | 'ban' | 'code'
+const KIND: Record<(typeof ACTIVITY_ACTIONS)[number], ConfirmerActivityKind> = { 'store.order_status': 'status', 'store.order_stream': 'stream', 'store.order_amount': 'amount', 'store.order_customer': 'customer', 'store.customer_ban': 'ban', 'course.activation_code_sent': 'code' }
+
+const CUSTOMER_FIELD_AR: Record<string, string> = { customerName: 'الاسم', phone: 'الهاتف', wilayaId: 'الولاية', commune: 'البلدية', address: 'العنوان' }
 
 /** كل ما قام به موظف (من سجلّ التدقيق): من، متى، أي طلب، وما الذي تغيّر */
 export async function listConfirmerActivity(db: Db, actor: Actor, limit = 100) {
@@ -77,6 +79,7 @@ export async function listConfirmerActivity(db: Db, actor: Actor, limit = 100) {
     const kind = KIND[r.action as (typeof ACTIVITY_ACTIONS)[number]] ?? 'status'
     const detail = kind === 'amount' ? `المبلغ ${String(oldV.totalDzd ?? '?')} ← ${String(newV.totalDzd ?? '?')} دج`
       : kind === 'stream' ? 'تغيير الشعبة'
+        : kind === 'customer' ? `تعديل بيانات الزبون: ${Object.keys(newV).map((k) => CUSTOMER_FIELD_AR[k] ?? k).join('، ')}`
         : kind === 'ban' ? 'حظر الزبون'
           : kind === 'code' ? 'كود تفعيل الدورة'
             : null

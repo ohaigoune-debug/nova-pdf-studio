@@ -11,12 +11,17 @@ interface Row {
   paymentMethod: string
   needsShipping: boolean
   totalDzd: number
+  subtotalDzd: number
+  shippingDzd: number
   customerName: string
   phone: string
+  wilayaId: string | null
   wilayaName: string | null
   commune: string | null
+  address: string | null
   note: string | null
   itemsText: string
+  streamId: string | null
   streamName: string | null
   hasCourse: boolean
   deliveryTrackingId: string | null
@@ -36,10 +41,16 @@ export function toWorkerOrder(r: Row, actor: Actor): WorkerOrder {
     customerName: r.customerName,
     phone: r.phone,
     place: [r.wilayaName, r.commune].filter(Boolean).join(' · ') || '—',
+    wilayaId: r.wilayaId,
+    commune: r.commune,
+    address: r.address,
     itemsText: r.itemsText,
     note: r.note,
+    streamId: r.streamId,
     streamName: r.streamName,
     totalDzd: r.totalDzd,
+    subtotalDzd: r.subtotalDzd,
+    shippingDzd: r.shippingDzd,
     paymentLabel: PAYMENT_AR[r.paymentMethod as PaymentMethod] ?? r.paymentMethod,
     needsShipping: r.needsShipping,
     hasCourse: Boolean(r.hasCourse),

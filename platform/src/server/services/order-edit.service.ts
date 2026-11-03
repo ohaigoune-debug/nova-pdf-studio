@@ -8,7 +8,7 @@
 import { and, eq, inArray, isNull } from 'drizzle-orm'
 import { revokeAllSessions } from '@/server/auth/session'
 import type { Db } from '@/server/db/connect'
-import { courseProducts, courses, orderItems, orders, streams, users } from '@/server/db/schema'
+import { courseProducts, courses, orderItems, orders, streams, users, wilayas } from '@/server/db/schema'
 import { CONFIRMATION_STATUSES, type OrderStatus } from '@/server/db/schema/enums'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
@@ -16,6 +16,7 @@ import { AppError, assertUuid } from '@/server/lib/errors'
 import { streamFamily } from './academy-catalog.service'
 import { transitionOrder, type OrderRow } from './order-status.service'
 import { takeForAction, takeOrderForAction } from './confirm-reservations.service'
+import { normalizePhone } from './otp.service'
 
 /** أدوار الزبائن الذين يجوز للموظف حظرهم؛ حسابات الطاقم لا تُحظر من هنا أبدًا. */
 const CUSTOMER_ROLES = ['STUDENT', 'PARENT', 'PUBLIC'] as const
@@ -97,6 +98,57 @@ export async function adjustOrderAmount(db: Db, actor: Actor, orderId: string, i
       entityId: order.id,
       oldValue: { subtotalDzd: order.subtotalDzd, shippingDzd: order.shippingDzd, totalDzd: order.totalDzd },
       newValue: { subtotalDzd, shippingDzd, totalDzd, creditDzd: order.creditDzd, reason }
+    })
+    return row!
+  })
+}
+
+export interface OrderCustomerPatch {
+  customerName?: string | null
+  phone?: string | null
+  wilayaId?: string | null
+  commune?: string | null
+  address?: string | null
+}
+
+/**
+ * «تعديل» في بطاقة تطبيق التأكيد (قرار المالك 4 نوفمبر 2026): الموظف يصحّح أثناء المكالمة اسم الزبون
+ * وهاتفه وولايته وبلديته وعنوانه قبل الشحن. رسوم التوصيل لا تتغيّر تلقائيًا بتغيّر الولاية — تُعدَّل من
+ * «المبلغ» بسبب مسجَّل. القيمة القديمة والجديدة في سجلّ التدقيق.
+ */
+export async function updateOrderCustomer(db: Db, actor: Actor, orderId: string, patch: OrderCustomerPatch): Promise<OrderRow> {
+  assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
+  const next: Partial<Pick<OrderRow, 'customerName' | 'phone' | 'wilayaId' | 'commune' | 'address'>> = {}
+  if (patch.customerName != null) {
+    const name = patch.customerName.trim().replace(/\s+/g, ' ')
+    if (name.length < 2 || name.length > 120) throw new AppError('VALIDATION', { field: 'customerName' })
+    next.customerName = name
+  }
+  if (patch.phone != null) next.phone = normalizePhone(patch.phone)
+  if (patch.wilayaId !== undefined) {
+    if (patch.wilayaId) {
+      assertUuid(patch.wilayaId, 'VALIDATION')
+      const [w] = await db.select({ id: wilayas.id }).from(wilayas).where(eq(wilayas.id, patch.wilayaId)).limit(1)
+      if (!w) throw new AppError('VALIDATION', { field: 'wilayaId' })
+    }
+    next.wilayaId = patch.wilayaId || null
+  }
+  if (patch.commune !== undefined) next.commune = patch.commune?.trim().slice(0, 120) || null
+  if (patch.address !== undefined) next.address = patch.address?.trim().slice(0, 300) || null
+  return db.transaction(async (tx) => {
+    const order = await lockEditable(tx, orderId)
+    await takeForAction(tx, actor, order)
+    const changed = (Object.keys(next) as (keyof typeof next)[]).filter((k) => next[k] !== order[k])
+    if (!changed.length) return order
+    const [row] = await tx.update(orders).set({ ...next, updatedAt: new Date() }).where(eq(orders.id, order.id)).returning()
+    await writeAudit(tx, {
+      actorUserId: actor.userId,
+      workspaceId: null,
+      action: 'store.order_customer',
+      entityType: 'order',
+      entityId: order.id,
+      oldValue: Object.fromEntries(changed.map((k) => [k, order[k]])),
+      newValue: Object.fromEntries(changed.map((k) => [k, next[k]]))
     })
     return row!
   })

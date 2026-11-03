@@ -478,7 +478,7 @@ export async function searchOrdersForWorker(db: Db, actor: Actor, raw: string, n
   if (!byPhone && needle.length < 4) return []
   const hideOthers = actor.role === 'CONFIRMER' && (await reservationPolicy(db)).enabled
   const rows = await db
-    .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaName: wilayas.nameAr, commune: orders.commune, note: orders.note, confirmAttempts: orders.confirmAttempts, lastCallAt: orders.lastCallAt, createdAt: orders.createdAt, deliveryProvider: orders.deliveryProvider, itemsText: sql<string>`(select coalesce(string_agg(i.title || case when i.qty > 1 then ' ×' || i.qty else '' end, ' + ' order by i.created_at), '') from order_items i where i.order_id = orders.id)`, ...orderEditFields, ...reservationFields(now) })
+    .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaId: orders.wilayaId, wilayaName: wilayas.nameAr, commune: orders.commune, address: orders.address, note: orders.note, confirmAttempts: orders.confirmAttempts, lastCallAt: orders.lastCallAt, createdAt: orders.createdAt, deliveryProvider: orders.deliveryProvider, itemsText: sql<string>`(select coalesce(string_agg(i.title || case when i.qty > 1 then ' ×' || i.qty else '' end, ' + ' order by i.created_at), '') from order_items i where i.order_id = orders.id)`, ...orderEditFields, ...reservationFields(now) })
     .from(orders)
     .leftJoin(wilayas, eq(wilayas.id, orders.wilayaId))
     .leftJoin(streams, eq(streams.id, orders.streamId))
@@ -529,7 +529,7 @@ async function confirmationQueueRows(db: Db, actor: Actor, now: Date) {
   // حجز الطابور (قرار المالك 2 نوفمبر 2026): الموظف يرى حجوزاته السارية فقط؛ المشرف يرى الكل ومن حجز
   const mineOnly = actor.role === 'CONFIRMER' && (await reservationPolicy(db)).enabled
   return db
-    .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaName: wilayas.nameAr, commune: orders.commune, address: orders.address, note: orders.note, otpVerifiedAt: orders.otpVerifiedAt, confirmAttempts: orders.confirmAttempts, lastCallAt: orders.lastCallAt, createdAt: orders.createdAt, itemsText: sql<string>`(select coalesce(string_agg(i.title || case when i.qty > 1 then ' ×' || i.qty else '' end, ' + ' order by i.created_at), '') from order_items i where i.order_id = orders.id)`, ...orderEditFields, ...reservationFields(now) })
+    .select({ id: orders.id, number: orders.number, status: orders.status, paymentMethod: orders.paymentMethod, needsShipping: orders.needsShipping, totalDzd: orders.totalDzd, customerName: orders.customerName, phone: orders.phone, wilayaId: orders.wilayaId, wilayaName: wilayas.nameAr, commune: orders.commune, address: orders.address, note: orders.note, otpVerifiedAt: orders.otpVerifiedAt, confirmAttempts: orders.confirmAttempts, lastCallAt: orders.lastCallAt, createdAt: orders.createdAt, itemsText: sql<string>`(select coalesce(string_agg(i.title || case when i.qty > 1 then ' ×' || i.qty else '' end, ' + ' order by i.created_at), '') from order_items i where i.order_id = orders.id)`, ...orderEditFields, ...reservationFields(now) })
     .from(orders)
     .leftJoin(wilayas, eq(wilayas.id, orders.wilayaId))
     .leftJoin(streams, eq(streams.id, orders.streamId))
@@ -572,6 +572,27 @@ export async function setOrderStatus(db: Db, actor: Actor, id: string, next: Ord
     const r = await transitionOrder(tx, id, next, { actorUserId: actor.userId, source: 'admin', reason: opts.reason ?? null, adminNote: opts.adminNote, shippingDzd: opts.shippingDzd ?? null })
     return r.order
   })
+}
+
+/**
+ * «تفعيل» في بطاقة تطبيق التأكيد: طلب فيه دورة يُفعَّل فورًا — يُسجَّل مؤكَّدًا ثم مُسلَّمًا عبر محرّك الحالات
+ * نفسه (فتُفتح الدورة في حساب التلميذ). للحالات التي استلم فيها الزبون كتابه أو دفع بطريقة أخرى.
+ * الموظف يقدر على الخطوتين أصلًا من «بحث وتفعيل»؛ هذا يجمعهما بلمسة واحدة بعد تأكيد صريح.
+ */
+export async function activateOrderNow(db: Db, actor: Actor, orderId: string): Promise<OrderRow> {
+  assertRole(actor, 'SUPER_ADMIN', 'CONFIRMER')
+  assertUuid(orderId, 'ORDER_NOT_FOUND')
+  const [order] = await db.select({ id: orders.id, status: orders.status, deliveryTrackingId: orders.deliveryTrackingId }).from(orders).where(eq(orders.id, orderId)).limit(1)
+  if (!order) throw new AppError('ORDER_NOT_FOUND')
+  const items = await db.select({ productId: orderItems.productId, courseId: orderItems.courseId }).from(orderItems).where(eq(orderItems.orderId, order.id))
+  const productIds = items.map((i) => i.productId).filter((p): p is string => Boolean(p))
+  const viaProduct = productIds.length
+    ? await db.select({ id: courseProducts.courseId }).from(courseProducts).innerJoin(courses, eq(courses.id, courseProducts.courseId)).where(and(inArray(courseProducts.productId, productIds), isNull(courses.deletedAt))).limit(1)
+    : []
+  if (!items.some((i) => i.courseId) && !viaProduct.length) throw new AppError('ORDER_NO_COURSE')
+  // ترتيب الخطوتين ثابت؛ كلّ واحدة تعيد فحص الحجز والصلاحيات وحالة الطرد في الخادم
+  if ((CONFIRMATION_STATUSES as readonly string[]).includes(order.status)) await setOrderStatus(db, actor, order.id, 'CONFIRMED')
+  return setOrderStatus(db, actor, order.id, 'DELIVERED')
 }
 
 /** رابط تنزيل موقّع قصير العمر لملف من طلب مؤكَّد لصاحبه (أو المشرف)، مع تسجيل التنزيل */

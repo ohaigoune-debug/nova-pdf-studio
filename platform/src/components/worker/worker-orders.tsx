@@ -1,15 +1,15 @@
 'use client'
 
-import { CheckCircle2, Clock, Hand, KeyRound, PackageCheck, Phone, PhoneMissed, RefreshCw, Send, Undo2, X, XCircle } from 'lucide-react'
+import { CheckCircle2, Clock, KeyRound, PackageCheck, Phone, PhoneMissed, Send, Undo2, XCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState, useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/toast'
 import { formatTime } from '@/lib/utils'
 import { sendToEcotrackAction } from '@/server/actions/ecotrack.actions'
-import { claimOrdersAction, releaseOrdersAction, sendActivationCodeAction, setOrderStatusAction } from '@/server/actions/store.actions'
+import { releaseOrdersAction, sendActivationCodeAction, setOrderStatusAction } from '@/server/actions/store.actions'
 
 export interface WorkerOrder {
   id: string
@@ -19,10 +19,16 @@ export interface WorkerOrder {
   customerName: string
   phone: string
   place: string
+  wilayaId: string | null
+  commune: string | null
+  address: string | null
   itemsText: string
   note: string | null
+  streamId: string | null
   streamName: string | null
   totalDzd: number
+  subtotalDzd: number
+  shippingDzd: number
   paymentLabel: string
   needsShipping: boolean
   hasCourse: boolean
@@ -35,30 +41,12 @@ export interface WorkerOrder {
 
 type Result = 'CONFIRMED' | 'NO_ANSWER' | 'CALL_LATER' | 'CANCELLED'
 const IN_QUEUE = ['PENDING', 'NO_ANSWER', 'CALL_LATER']
-const LAST_CALL_KEY = 'worker:lastCall'
 /** أسباب جاهزة للإلغاء — تصل إلى الزبون كما هي */
 const CANCEL_REASONS = ['ألغى الزبون الطلب', 'طلب مكرّر', 'الزبون لم يطلب هذا', 'تعذّر الوصول إلى الزبون']
 const STATUS_TONE: Record<string, 'warning' | 'secondary' | 'success' | 'muted' | 'destructive'> = { PENDING: 'warning', NO_ANSWER: 'secondary', CALL_LATER: 'secondary', CONFIRMED: 'success', SHIPPED: 'success', DELIVERED: 'success', CANCELLED: 'muted', RETURNED: 'destructive' }
 
 /** «0661 11 22 33» — يُقرأ ويُملى بسهولة */
 const spaced = (p: string) => (p.length === 10 ? `${p.slice(0, 4)} ${p.slice(4, 6)} ${p.slice(6, 8)} ${p.slice(8)}` : p)
-
-function readLastCall(): { id: string; name: string; at: number } | null {
-  try {
-    const v = JSON.parse(sessionStorage.getItem(LAST_CALL_KEY) ?? 'null') as { id: string; name: string; at: number } | null
-    return v && Date.now() - v.at < 60 * 60_000 ? v : null
-  } catch {
-    return null
-  }
-}
-function writeLastCall(v: { id: string; name: string; at: number } | null) {
-  try {
-    if (v) sessionStorage.setItem(LAST_CALL_KEY, JSON.stringify(v))
-    else sessionStorage.removeItem(LAST_CALL_KEY)
-  } catch {
-    /* تخزين الجلسة غير متاح: تبقى الأزرار في البطاقة */
-  }
-}
 
 /** نتيجة المكالمة: تأكيد / لا يردّ / لاحقًا / إلغاء بسبب — كلها عبر محرّك الحالات في الخادم */
 function useResult(onDone?: () => void) {
@@ -70,7 +58,6 @@ function useResult(onDone?: () => void) {
       if (!r.ok) return toast('error', r.error.message)
       const msg: Record<string, string> = { CONFIRMED: 'أُكِّد الطلب', NO_ANSWER: 'سُجِّل: لا يردّ', CALL_LATER: 'سُجِّل: اتصل لاحقًا', CANCELLED: 'أُلغي الطلب', DELIVERED: 'سُجِّل التسليم' }
       toast('success', msg[next] ?? 'تمّ')
-      writeLastCall(null)
       onDone?.()
       router.refresh()
     })
@@ -212,10 +199,6 @@ export function WorkerOrderCard({ order, ecotrack = false }: { order: WorkerOrde
       toast('success', 'أُعيد الطلب إلى الطابور')
       router.refresh()
     })
-  const call = () => {
-    writeLastCall({ id: order.id, name: order.customerName, at: Date.now() })
-    window.location.href = `tel:${order.phone}`
-  }
   return (
     <li className="space-y-3 rounded-xl border bg-card p-4 shadow-sm">
       <div className="flex items-start justify-between gap-3">
@@ -245,8 +228,10 @@ export function WorkerOrderCard({ order, ecotrack = false }: { order: WorkerOrde
           </div>
         ) : null}
       </div>
-      <Button className="h-14 w-full text-lg" onClick={call}>
-        <Phone className="size-5" /> اتصل <span dir="ltr" className="font-mono tracking-wide">{spaced(order.phone)}</span>
+      <Button asChild className="h-14 w-full text-lg">
+        <a href={`tel:${order.phone}`}>
+          <Phone className="size-5" /> اتصل <span dir="ltr" className="font-mono tracking-wide">{spaced(order.phone)}</span>
+        </a>
       </Button>
       {inQueue ? <ResultButtons order={order} /> : <AfterConfirmActions order={order} ecotrack={ecotrack} />}
       {inQueue && order.reservedByMe ? (
@@ -255,118 +240,5 @@ export function WorkerOrderCard({ order, ecotrack = false }: { order: WorkerOrde
         </button>
       ) : null}
     </li>
-  )
-}
-
-/** بعد الرجوع من المكالمة: لوحة سفلية كبيرة «كيف كانت المكالمة؟» */
-function AfterCallSheet({ order, onClose }: { order: WorkerOrder; onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 z-40 flex items-end bg-black/40" role="dialog" aria-modal="true" aria-label="نتيجة المكالمة">
-      <div className="w-full space-y-3 rounded-t-2xl bg-card p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] shadow-xl">
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-base font-bold">نتيجة المكالمة مع {order.customerName}</p>
-          <button type="button" onClick={onClose} className="flex size-11 items-center justify-center rounded-full hover:bg-muted" aria-label="إغلاق">
-            <X className="size-5" />
-          </button>
-        </div>
-        <p className="text-sm text-muted-foreground">{order.itemsText}</p>
-        <ResultButtons order={order} big onDone={onClose} />
-      </div>
-    </div>
-  )
-}
-
-/** شريط الحجز أعلى «حجوزاتي» */
-function ClaimBar({ held, max, free, until }: { held: number; max: number; free: number; until: string | null }) {
-  const router = useRouter()
-  const [pending, start] = useTransition()
-  const room = Math.max(0, max - held)
-  const claim = (size: 10 | 20) =>
-    start(async () => {
-      const r = await claimOrdersAction(size)
-      if (!r.ok) return toast('error', r.error.message)
-      toast(r.data.claimed ? 'success' : 'info', r.data.claimed ? `حُجز لك ${r.data.claimed} طلبًا` : 'لا طلبات غير محجوزة الآن')
-      router.refresh()
-    })
-  return (
-    <div className="space-y-3 rounded-xl border bg-card p-4">
-      <div className="flex items-center justify-between gap-2 text-sm">
-        <p>
-          حجوزاتي <span className="text-lg font-bold tabular-nums">{held}</span>/<span className="tabular-nums">{max}</span>
-          {until ? <span className="text-muted-foreground"> · تنتهي {formatTime(until)}</span> : null}
-        </p>
-        <p className="text-muted-foreground">
-          متاح <span className="font-bold text-foreground tabular-nums">{free}</span>
-        </p>
-      </div>
-      <div className="grid grid-cols-2 gap-2">
-        <Button className="h-12" loading={pending} disabled={!room || !free} onClick={() => claim(10)}>
-          <Hand className="size-5" /> احجز 10
-        </Button>
-        <Button variant="outline" className="h-12" loading={pending} disabled={!room || !free} onClick={() => claim(20)}>
-          احجز 20
-        </Button>
-      </div>
-    </div>
-  )
-}
-
-/**
- * «حجوزاتي»: شريط الحجز، ثم بطاقة لكل طلب. بعد «اتصل» والعودة إلى التطبيق تظهر لوحة النتيجة.
- * تتحدّث القائمة كل دقيقة ما دامت الشاشة ظاهرة.
- */
-export function WorkerQueue({ orders, claim }: { orders: WorkerOrder[]; claim: { held: number; max: number; free: number; until: string | null } | null }) {
-  const router = useRouter()
-  const [sheet, setSheet] = useState<WorkerOrder | null>(null)
-  const [refreshing, start] = useTransition()
-  const reopen = useCallback(() => {
-    if (document.visibilityState !== 'visible') return
-    const last = readLastCall()
-    if (!last) return
-    const o = orders.find((x) => x.id === last.id)
-    if (o && IN_QUEUE.includes(o.status)) setSheet(o)
-    else writeLastCall(null)
-  }, [orders])
-  useEffect(() => {
-    // التطبيق يرسل madrasa:resume عند العودة من المكالمة؛ المتصفح يكتفي بـ visibilitychange
-    document.addEventListener('visibilitychange', reopen)
-    window.addEventListener('madrasa:resume', reopen)
-    window.addEventListener('focus', reopen)
-    return () => {
-      document.removeEventListener('visibilitychange', reopen)
-      window.removeEventListener('madrasa:resume', reopen)
-      window.removeEventListener('focus', reopen)
-    }
-  }, [reopen])
-  useEffect(() => {
-    const t = window.setInterval(() => {
-      if (document.visibilityState === 'visible' && !sheet) router.refresh()
-    }, 60_000)
-    return () => window.clearInterval(t)
-  }, [router, sheet])
-  const close = () => {
-    writeLastCall(null)
-    setSheet(null)
-  }
-  return (
-    <div className="space-y-3">
-      {claim ? <ClaimBar {...claim} /> : null}
-      <div className="flex items-center justify-between">
-        <h1 className="text-base font-bold">{claim ? 'حجوزاتي' : 'الطلبات التي تنتظر التأكيد'}</h1>
-        <Button variant="ghost" size="sm" loading={refreshing} onClick={() => start(() => router.refresh())}>
-          <RefreshCw className="size-4" /> تحديث
-        </Button>
-      </div>
-      {orders.length === 0 ? (
-        <p className="rounded-xl border border-dashed bg-card p-8 text-center text-muted-foreground">{claim ? (claim.free ? 'لا حجوزات عندك. اضغط «احجز 10» لتبدأ.' : 'لا طلبات تنتظر التأكيد الآن.') : 'لا طلبات تنتظر التأكيد الآن.'}</p>
-      ) : (
-        <ul className="space-y-3">
-          {orders.map((o) => (
-            <WorkerOrderCard key={o.id} order={o} />
-          ))}
-        </ul>
-      )}
-      {sheet ? <AfterCallSheet order={sheet} onClose={close} /> : null}
-    </div>
   )
 }
