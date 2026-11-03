@@ -9,6 +9,11 @@ enum Fixtures {
     /// The signed-in account still has to confirm its phone (until a right code is sent).
     static let needsPhone = ProcessInfo.processInfo.arguments.contains("--madrasadz-fixture-phone")
     static var phoneConfirmed = false
+    static let ticketID = "77777777-7777-4777-8777-777777777777"
+    /// Support tickets of the sample account: (id, number, kind, subject, status, messages as (mine, body)).
+    static var tickets: [(id: String, number: Int, kind: String, subject: String, status: String, messages: [(mine: Bool, body: String)])] = [
+        (ticketID, 7, "DELIVERY", "تأخّر كتاب الرياضيات", "WAITING_USER", [(true, "لم يصلني الكتاب بعد."), (false, "الكتاب عند شركة التوصيل، يصلك غدًا إن شاء الله.")])
+    ]
     static let bacID = "66666666-6666-4666-8666-666666666666"
     static let accountID = "00000000-0000-4000-8000-000000000001"
     static let setID = "11111111-2222-4333-8444-555555555555"
@@ -87,6 +92,37 @@ enum Fixtures {
             json = #"{"ok":true,"data":{"loggedOut":true}}"#
         case ("POST", "/api/v1/ios/account/delete"):
             json = #"{"ok":true,"data":{"deleted":true}}"#
+        case ("GET", "/api/v1/ios/orders"):
+            json = orders
+        case ("GET", "/api/v1/ios/support"):
+            json = ticketList()
+        case ("POST", "/api/v1/ios/support"):
+            let body = request.httpBody.flatMap { try? JSONSerialization.jsonObject(with: $0) as? [String: Any] } ?? [:]
+            let id = "88888888-8888-4888-8888-\(String(format: "%012d", tickets.count + 1))"
+            tickets.insert((id, 8 + tickets.count, body["kind"] as? String ?? "OTHER", body["subject"] as? String ?? "", "OPEN", [(true, body["body"] as? String ?? "")]), at: 0)
+            json = #"{"ok":true,"data":{"id":"\#(id)","number":\#(8 + tickets.count - 1)}}"#
+        case ("POST", _) where path.hasPrefix("/api/v1/ios/support/") && path.hasSuffix("/reply"):
+            let id = path.split(separator: "/").dropLast().last.map(String.init) ?? ""
+            let body = request.httpBody.flatMap { try? JSONSerialization.jsonObject(with: $0) as? [String: Any] } ?? [:]
+            if let i = tickets.firstIndex(where: { $0.id == id }) {
+                tickets[i].messages.append((true, body["body"] as? String ?? ""))
+                tickets[i].status = "OPEN"
+            }
+            json = #"{"ok":true,"data":{"id":"m-new"}}"#
+        case ("POST", _) where path.hasPrefix("/api/v1/ios/support/") && path.hasSuffix("/close"):
+            let id = path.split(separator: "/").dropLast().last.map(String.init) ?? ""
+            if let i = tickets.firstIndex(where: { $0.id == id }) { tickets[i].status = "CLOSED" }
+            json = #"{"ok":true,"data":{"closed":true}}"#
+        case ("GET", _) where path.hasPrefix("/api/v1/ios/support/"):
+            let id = String(path.dropFirst("/api/v1/ios/support/".count))
+            if let ticket = tickets.first(where: { $0.id == id }) {
+                json = thread(ticket)
+            } else {
+                status = 404
+                json = #"{"ok":false,"error":{"code":"TICKET_NOT_FOUND","message":"التذكرة غير موجودة."}}"#
+            }
+        case ("POST", "/api/v1/ios/push"), ("DELETE", "/api/v1/ios/push"):
+            json = #"{"ok":true,"data":{"registered":true,"removed":true,"active":false}}"#
         case ("POST", "/api/v1/media/heartbeat"):
             json = #"{"ok":true,"data":{}}"#
         default:
@@ -96,6 +132,32 @@ enum Fixtures {
         let response = HTTPURLResponse(url: url, statusCode: status, httpVersion: "HTTP/1.1",
                                        headerFields: ["Content-Type": "application/json", "X-Madrasadz-Account": accountID])!
         return (Data(json.utf8), response)
+    }
+
+    static let orders = #"""
+    {"ok":true,"data":{"orders":[
+     {"id":"o-1","number":"MD-1042","status":"SHIPPED","statusText":"في الطريق","createdAt":"2026-11-01T09:15:00.000Z","items":"كتاب الرياضيات ×2","deliveryProvider":"Yalidine","trackingId":"YAL-778812","timeline":[{"label":"استُلم الطلب","at":"2026-11-01T09:15:00.000Z","tone":"done"},{"label":"أُكّد الطلب","at":"2026-11-01T14:00:00.000Z","tone":"done"},{"label":"سُلّم لشركة التوصيل (Yalidine)","at":"2026-11-02T10:00:00.000Z","tone":"done"}]},
+     {"id":"o-2","number":"MD-0990","status":"DELIVERED","statusText":"مكتمل","createdAt":"2026-10-01T09:15:00.000Z","items":"دورة الفلسفة — بكالوريا تجريبية","deliveryProvider":null,"trackingId":null,"timeline":[{"label":"استُلم الطلب","at":"2026-10-01T09:15:00.000Z","tone":"done"},{"label":"اكتمل — فُتحت الدورة على حسابك","at":"2026-10-01T12:00:00.000Z","tone":"done"}]}
+    ]}}
+    """#
+
+    private static func escaped(_ text: String) -> String {
+        let data = (try? JSONSerialization.data(withJSONObject: [text])) ?? Data("[\"\"]".utf8)
+        return String(String(data: data, encoding: .utf8)!.dropFirst().dropLast())
+    }
+
+    static func ticketList() -> String {
+        let rows = tickets.map { t in
+            #"{"id":"\#(t.id)","number":\#(t.number),"kind":"\#(t.kind)","subject":\#(escaped(t.subject)),"status":"\#(t.status)","lastMessageAt":"2026-11-03T10:00:00.000Z","messages":\#(t.messages.count)}"#
+        }
+        return #"{"ok":true,"data":{"tickets":[\#(rows.joined(separator: ","))]}}"#
+    }
+
+    static func thread(_ t: (id: String, number: Int, kind: String, subject: String, status: String, messages: [(mine: Bool, body: String)])) -> String {
+        let messages = t.messages.enumerated().map { i, m in
+            #"{"id":"m\#(i)","mine":\#(m.mine),"staff":\#(!m.mine),"author":\#(m.mine ? "\"تلميذ تجريبي\"" : "null"),"body":\#(escaped(m.body)),"createdAt":"2026-11-0\#(min(i + 1, 9))T10:00:00.000Z"}"#
+        }
+        return #"{"ok":true,"data":{"id":"\#(t.id)","number":\#(t.number),"kind":"\#(t.kind)","subject":\#(escaped(t.subject)),"status":"\#(t.status)","createdAt":"2026-11-01T10:00:00.000Z","orderNumber":\#(t.kind == "DELIVERY" ? "\"MD-1042\"" : "null"),"courseTitle":null,"messages":[\#(messages.joined(separator: ","))]}}"#
     }
 
     static let home = #"""

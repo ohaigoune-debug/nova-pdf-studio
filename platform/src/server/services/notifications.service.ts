@@ -3,7 +3,7 @@ import type { Db } from '@/server/db/connect'
 import { notifications } from '@/server/db/schema'
 import type { NotificationType } from '@/server/db/schema/enums'
 import { enqueueJob } from '@/server/jobs/queue'
-import { isPushConfigured } from './push.service'
+import { isAnyPushConfigured } from './push.service'
 
 export interface NotifyInput {
   userId: string
@@ -15,9 +15,9 @@ export interface NotifyInput {
   meta?: Record<string, unknown>
 }
 
-/** بعد إدراج الإشعارات: مهمة دفع واحدة للدفعة (فقط إن كانت مفاتيح VAPID مضبوطة) */
+/** بعد إدراج الإشعارات: مهمة إرسال واحدة للدفعة (فقط إن كانت مفاتيح VAPID أو APNs مضبوطة) */
 async function queuePush(db: Db, ids: string[]) {
-  if (ids.length === 0 || !isPushConfigured()) return
+  if (ids.length === 0 || !isAnyPushConfigured()) return
   await enqueueJob(db, { type: 'PUSH_DISPATCH', payload: { notificationIds: ids }, maxAttempts: 2 })
 }
 

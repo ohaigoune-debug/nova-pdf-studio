@@ -2,13 +2,17 @@ import SwiftUI
 
 @main
 struct MadrasadzApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @StateObject private var model = AppModel()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
             RootView(model: model)
-                .task { await model.start() }
+                .task {
+                    delegate.model = model
+                    await model.start()
+                }
                 // A plain opaque cover in the app switcher; no web view, no redaction of the whole app.
                 .overlay {
                     if scenePhase == .background { PrivacyCover() }

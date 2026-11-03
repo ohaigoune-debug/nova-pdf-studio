@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 import Network
 import UserNotifications
 import MadrasadzCore
@@ -48,6 +49,10 @@ final class AppModel: ObservableObject {
     @Published private(set) var snapshot = StudySnapshot.empty
     @Published var selectedTab: AppTab = .home
     @Published var notice: String?
+    /// «حسابي» navigation (orders, support, one ticket), opened by platform notifications too.
+    @Published var accountPath: [AccountRoute] = []
+    /// Support tickets waiting for the student's answer (badge on «حسابي»).
+    @Published var supportWaiting = 0
 
     let api = APIClient()
     let downloads = OfflineLibrary()
@@ -61,6 +66,10 @@ final class AppModel: ObservableObject {
     private var reminderTail: Task<Void, Never>?
     private var generation = 0
     private var started = false
+    /// The APNs device token of this iPhone, and the account it was last sent for.
+    private var pushToken: String?
+    private var pushSentFor: String?
+    private var pendingLink: String??
 
     init() {
         let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
@@ -126,6 +135,11 @@ final class AppModel: ObservableObject {
         await play.activate(account: saved.accountID)
         phase = .ready
         if let study = studySession { _ = await synchronizeReminders(state: snapshot, session: study, revision: generation) }
+        if let link = pendingLink {
+            pendingLink = nil
+            openNotification(link: link)
+        }
+        Task { await enablePlatformPush(ask: false) }
     }
 
     /// Confirms the saved session with the server; refreshes the name and phone gate.
@@ -148,6 +162,7 @@ final class AppModel: ObservableObject {
                 }
             }
             await play.sync()
+            await refreshSupportBadge()
             await downloads.recheck(api: api, currentAccount: { [weak self] in self?.verifiedAccountID })
         } catch APIFailure.unauthorized {
             await signOutLocally(notice: L10n.text("sessionExpired"))
@@ -331,6 +346,8 @@ final class AppModel: ObservableObject {
     func logout() async {
         guard !busy, phase == .ready else { return }
         busy = true
+        // This iPhone stops receiving the account's notifications before the session ends.
+        await forgetPushToken()
         await revokeCurrentToken()
         busy = false
         await signOutLocally(notice: L10n.text("logoutSuccess"))
@@ -368,6 +385,9 @@ final class AppModel: ObservableObject {
         studySession = nil
         snapshot = .empty
         phoneVerificationRequired = false
+        accountPath = []
+        supportWaiting = 0
+        pushSentFor = nil
         notifications.removeAllPendingNotificationRequests()
         notifications.removeAllDeliveredNotifications()
         downloads.purgeAll()
@@ -642,5 +662,117 @@ final class AppModel: ObservableObject {
             let trigger = UNCalendarNotificationTrigger(dateMatching: calendar.dateComponents([.year, .month, .day, .hour, .minute], from: morning), repeats: false)
             try? await notifications.add(UNNotificationRequest(identifier: "madrasadz.revision.daily.\(key)", content: content, trigger: trigger))
         }
+    }
+}
+
+// MARK: - Orders, support and platform notifications (Build 15)
+
+extension AppModel {
+    /// Opens a support ticket; returns its id. Asks once for notifications so the reply reaches the student.
+    func openTicket(_ draft: Support.NewTicket) async -> Result<String, PhoneError> {
+        struct Reply: Decodable { let id: String; let number: Int }
+        do {
+            let reply = try await api.post(Reply.self, "/api/v1/ios/support", body: draft)
+            Task { await enablePlatformPush(ask: true) }
+            return .success(reply.id)
+        } catch let failure as APIFailure {
+            handle(failure)
+            return .failure(PhoneError(failure.message))
+        } catch {
+            return .failure(PhoneError(L10n.text("error")))
+        }
+    }
+
+    /// Returns an error message, or nil once the reply is saved.
+    func replyTicket(id: String, body: String) async -> String? {
+        struct Body: Encodable { let body: String }
+        struct Reply: Decodable { let id: String }
+        do {
+            _ = try await api.post(Reply.self, "/api/v1/ios/support/\(id)/reply", body: Body(body: body.trimmingCharacters(in: .whitespacesAndNewlines)))
+            return nil
+        } catch let failure as APIFailure {
+            handle(failure)
+            return failure.message
+        } catch {
+            return L10n.text("error")
+        }
+    }
+
+    func closeTicket(id: String) async -> String? {
+        struct Reply: Decodable { let closed: Bool }
+        do {
+            _ = try await api.post(Reply.self, "/api/v1/ios/support/\(id)/close", body: Empty())
+            await refreshSupportBadge()
+            return nil
+        } catch let failure as APIFailure {
+            handle(failure)
+            return failure.message
+        } catch {
+            return L10n.text("error")
+        }
+    }
+
+    func refreshSupportBadge() async {
+        guard phase == .ready, let list = try? await api.get(Support.List.self, "/api/v1/ios/support").value else { return }
+        supportWaiting = list.waiting
+    }
+
+    /// A tapped platform notification: its website link opens the matching screen.
+    func openNotification(link: String?) {
+        guard phase == .ready else {
+            pendingLink = .some(link)
+            return
+        }
+        switch NotificationLink(link: link) {
+        case .ticket(let id):
+            selectedTab = .account
+            accountPath = [.support, .ticket(id)]
+        case .orders:
+            selectedTab = .account
+            accountPath = [.orders]
+        case .home:
+            break
+        }
+    }
+
+    /// Registers this iPhone with Apple once notifications are allowed (asked only after a ticket is sent).
+    func enablePlatformPush(ask: Bool) async {
+        guard phase == .ready else { return }
+        #if DEBUG
+        if Fixtures.enabled { return }
+        #endif
+        let settings = await notifications.notificationSettings()
+        var allowed = ([.authorized, .provisional, .ephemeral] as [UNAuthorizationStatus]).contains(settings.authorizationStatus)
+        if !allowed, ask, settings.authorizationStatus == .notDetermined {
+            allowed = (try? await notifications.requestAuthorization(options: [.alert, .sound])) ?? false
+        }
+        if allowed { UIApplication.shared.registerForRemoteNotifications() }
+    }
+
+    func pushTokenArrived(_ data: Data) {
+        pushToken = data.map { String(format: "%02x", $0) }.joined()
+        Task { await sendPushToken() }
+    }
+
+    private func sendPushToken() async {
+        guard phase == .ready, let token = pushToken, let account = session?.accountID else { return }
+        let key = "\(account.lowercased()):\(token)"
+        guard pushSentFor != key else { return }
+        struct Body: Encodable { let token: String; let environment: String }
+        struct Reply: Decodable { let registered: Bool }
+        #if DEBUG
+        let environment = "sandbox"
+        #else
+        let environment = "production"
+        #endif
+        if (try? await api.post(Reply.self, "/api/v1/ios/push", body: Body(token: token, environment: environment))) != nil, session?.accountID == account {
+            pushSentFor = key
+        }
+    }
+
+    private func forgetPushToken() async {
+        guard let token = pushToken, let body = try? JSONEncoder.api.encode(["token": token]),
+              let request = api.request(path: "/api/v1/ios/push", method: "DELETE", body: body) else { return }
+        _ = try? await api.send(request)
     }
 }

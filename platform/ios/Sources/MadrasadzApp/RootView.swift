@@ -179,8 +179,9 @@ struct MainTabs: View {
             NavigationStack { PlannerView(model: model) }
                 .tabItem { Label(L10n.text("tabPlanner"), systemImage: "calendar.badge.clock") }
                 .tag(AppTab.planner)
-            NavigationStack { AccountView(model: model) }
+            NavigationStack(path: $model.accountPath) { AccountView(model: model) }
                 .tabItem { Label(L10n.text("tabAccount"), systemImage: "person.crop.circle") }
+                .badge(model.supportWaiting)
                 .tag(AppTab.account)
         }
     }
@@ -236,8 +237,16 @@ struct AccountView: View {
                 .accessibilityIdentifier("appearancePicker")
             }
             Section {
+                NavigationLink(value: AccountRoute.orders) {
+                    AccountRow(title: L10n.text("myOrders"), detail: L10n.text("myOrdersHint"), icon: "shippingbox.fill", tint: .orange)
+                }
+                .accessibilityIdentifier("accountOrders")
+                NavigationLink(value: AccountRoute.support) {
+                    AccountRow(title: L10n.text("supportTitle"), detail: L10n.text("supportRowHint"), icon: "bubble.left.and.bubble.right.fill", tint: Brand.blue, badge: model.supportWaiting)
+                }
+                .accessibilityIdentifier("accountSupport")
                 NavigationLink { OfflineDownloadsView(library: model.downloads) } label: {
-                    Label(L10n.text("savedFilesTitle"), systemImage: "folder.fill")
+                    AccountRow(title: L10n.text("savedFilesTitle"), detail: nil, icon: "folder.fill", tint: Brand.success)
                 }
                 .accessibilityIdentifier("accountSavedFiles")
             }
@@ -274,6 +283,13 @@ struct AccountView: View {
             }
         }
         .navigationTitle(L10n.text("tabAccount"))
+        .navigationDestination(for: AccountRoute.self) { route in
+            switch route {
+            case .orders: OrdersView(model: model)
+            case .support: SupportListView(model: model)
+            case .ticket(let id): TicketThreadView(model: model, id: id)
+            }
+        }
         .confirmationDialog(L10n.text("logout"), isPresented: $confirmLogout, titleVisibility: .visible) {
             Button(L10n.text("logout"), role: .destructive) { Task { await model.logout() } }
             Button(L10n.text("cancel"), role: .cancel) {}
@@ -348,5 +364,37 @@ struct DeleteAccountView: View {
                 ToolbarItem(placement: .cancellationAction) { Button(L10n.text("cancel")) { dismiss() } }
             }
         }
+    }
+}
+
+/// One row of «حسابي»: a coloured icon, a title and one line.
+struct AccountRow: View {
+    let title: String
+    let detail: String?
+    let icon: String
+    let tint: Color
+    var badge = 0
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.body.weight(.semibold))
+                .foregroundStyle(.white)
+                .frame(width: 34, height: 34)
+                .background(tint, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).font(.body.weight(.semibold))
+                if let detail { Text(detail).font(.caption).foregroundStyle(.secondary).lineLimit(2) }
+            }
+            Spacer(minLength: 4)
+            if badge > 0 {
+                Text("\(badge)")
+                    .font(.caption.bold())
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 8).padding(.vertical, 3)
+                    .background(Color.red, in: Capsule())
+            }
+        }
+        .padding(.vertical, 2)
     }
 }
