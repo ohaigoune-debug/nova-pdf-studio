@@ -1170,6 +1170,7 @@ const ar = {
     confirmer_create: 'أنشأ حساب موظف تأكيد طلبات',
     teacher_create: 'أنشأ حساب أستاذ',
     user_status: 'غيّر حالة مستخدم',
+    leak_trace: 'بحث في كشف التسريب',
     assignment_create: 'أنشأ واجباً',
     assignment_update: 'عدّل واجباً',
     assignment_delete: 'حذف واجباً',
