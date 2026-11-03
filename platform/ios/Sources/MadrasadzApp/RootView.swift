@@ -105,14 +105,23 @@ struct LoginView: View {
                     .tint(Brand.blue)
                     .disabled(working)
                     .accessibilityIdentifier("loginSubmit")
-                    Text(L10n.text("loginHint")).font(.footnote).foregroundStyle(.secondary)
                     HStack {
+                        Text(L10n.text("loginHint")).font(.footnote).foregroundStyle(.secondary)
+                        Spacer(minLength: 8)
                         Button(L10n.text("forgotPassword")) { open("/forgot-password") }
-                        Spacer()
-                        Button(L10n.text("register")) { signingUp = true }
-                            .accessibilityIdentifier("openSignup")
+                            .font(.footnote.weight(.semibold))
                     }
-                    .font(.footnote.weight(.semibold))
+                    Divider().padding(.vertical, 2)
+                    Button {
+                        signingUp = true
+                    } label: {
+                        Label(L10n.text("register"), systemImage: "person.crop.circle.badge.plus")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity, minHeight: 46)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(Brand.blue)
+                    .accessibilityIdentifier("openSignup")
                 }
                 .card()
                 .padding(.horizontal, 16)

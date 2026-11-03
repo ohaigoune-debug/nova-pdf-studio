@@ -90,65 +90,154 @@ struct BacBankView: View {
     @StateObject private var bank = BacBankModel()
 
     var body: some View {
-        List {
-            Section { filters }
-            if !bank.items.isEmpty {
-                Section {
-                    ForEach(bank.items) { item in
-                        NavigationLink { BacPaperView(model: model, item: item) } label: { BacRow(item: item) }
-                            .accessibilityIdentifier("bac-\(item.id)")
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                hero
+                filters
+                if bank.savedAt != nil || !model.online { OfflineBanner(savedAt: bank.savedAt) }
+                if !bank.items.isEmpty {
+                    LazyVStack(spacing: 10) {
+                        ForEach(bank.items) { item in
+                            NavigationLink { BacPaperView(model: model, item: item) } label: { BacRow(item: item) }
+                                .buttonStyle(.plain)
+                                .accessibilityIdentifier("bac-\(item.id)")
+                        }
                     }
                     if bank.nextCursor != nil {
                         Button {
                             Task { await bank.loadMore(model) }
                         } label: {
-                            HStack {
-                                Text(L10n.text("bacMore"))
-                                if bank.loading { Spacer(); ProgressView() }
+                            HStack(spacing: 8) {
+                                if bank.loading { ProgressView() }
+                                Text(L10n.text("bacMore")).font(.subheadline.weight(.semibold))
                             }
+                            .frame(maxWidth: .infinity, minHeight: 44)
                         }
+                        .buttonStyle(.bordered)
+                        .tint(Brand.blue)
                         .disabled(bank.loading)
                         .accessibilityIdentifier("bacMore")
                     }
-                } header: {
-                    Text(String(format: L10n.text("bacCount"), bank.total))
+                } else if bank.loading {
+                    LoadingView().frame(minHeight: 220)
+                } else if let failure = bank.failure {
+                    FailureView(message: failure.message) { Task { await bank.reload(model) } }
+                } else {
+                    ContentUnavailableView(L10n.text("bacEmpty"), systemImage: "doc.text.magnifyingglass")
+                        .accessibilityIdentifier("bacEmpty")
                 }
-            } else if bank.loading {
-                Section { LoadingView() }
-            } else if let failure = bank.failure {
-                Section { FailureView(message: failure.message) { Task { await bank.reload(model) } } }
-            } else {
-                Section { Text(L10n.text("bacEmpty")).foregroundStyle(.secondary).accessibilityIdentifier("bacEmpty") }
             }
-            if bank.savedAt != nil || !model.online {
-                Section { OfflineBanner(savedAt: bank.savedAt).listRowInsets(EdgeInsets()) }
-            }
+            .padding(16)
         }
+        .background(Brand.page)
         .navigationTitle(L10n.text("bacBank"))
+        .navigationBarTitleDisplayMode(.inline)
         .refreshable { await bank.reload(model) }
         .task { await bank.start(model) }
     }
 
-    @ViewBuilder
+    private var hero: some View {
+        HStack(spacing: 14) {
+            Image(systemName: "doc.text.magnifyingglass")
+                .font(.title2.weight(.semibold))
+                .foregroundStyle(Brand.navy)
+                .frame(width: 52, height: 52)
+                .background(.white, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+            VStack(alignment: .leading, spacing: 4) {
+                Text(L10n.text("bacBank")).font(.title3.bold()).foregroundStyle(.white)
+                Text(L10n.text("bacBankHint")).font(.subheadline).foregroundStyle(.white.opacity(0.88))
+                if bank.total > 0 {
+                    Text(String(format: L10n.text("bacCount"), bank.total))
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(Brand.navy)
+                        .padding(.horizontal, 10).padding(.vertical, 4)
+                        .background(Brand.sky, in: Capsule())
+                        .padding(.top, 2)
+                }
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(18)
+        .background(LinearGradient(colors: [Brand.blue, Brand.navy], startPoint: .topLeading, endPoint: .bottomTrailing),
+                    in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+    }
+
+    /// Three filter chips; a chosen filter turns blue.
     private var filters: some View {
-        Picker(L10n.text("bacStreamLabel"), selection: Binding(get: { bank.stream }, set: { value in Task { await bank.setStream(value, model) } })) {
-            Text(L10n.text("bacAllStreams")).tag(String?.none)
-            ForEach(bank.facets.streams) { stream in Text(verbatim: "\(stream.name) (\(stream.count))").tag(String?.some(stream.id)) }
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                FilterChip(title: bank.facets.streams.first(where: { $0.id == bank.stream })?.name ?? L10n.text("bacAllStreams"),
+                           icon: "person.3.fill", active: bank.stream != nil) {
+                    Button { Task { await bank.setStream(nil, model) } } label: { choice(L10n.text("bacAllStreams"), bank.stream == nil) }
+                    ForEach(bank.facets.streams) { stream in
+                        Button { Task { await bank.setStream(stream.id, model) } } label: { choice("\(stream.name) (\(stream.count))", bank.stream == stream.id) }
+                    }
+                }
+                .accessibilityIdentifier("bacStream")
+                FilterChip(title: bank.facets.subjects.first(where: { $0.id == bank.subject })?.name ?? L10n.text("bacAllSubjects"),
+                           icon: "book.closed.fill", active: bank.subject != nil) {
+                    Button { Task { await bank.setSubject(nil, model) } } label: { choice(L10n.text("bacAllSubjects"), bank.subject == nil) }
+                    ForEach(bank.facets.subjects) { subject in
+                        Button { Task { await bank.setSubject(subject.id, model) } } label: { choice("\(subject.name) (\(subject.count))", bank.subject == subject.id) }
+                    }
+                }
+                .accessibilityIdentifier("bacSubject")
+                FilterChip(title: bank.year.map { String($0) } ?? L10n.text("bacAllYears"), icon: "calendar", active: bank.year != nil) {
+                    Button { Task { await bank.setYear(nil, model) } } label: { choice(L10n.text("bacAllYears"), bank.year == nil) }
+                    ForEach(bank.facets.years) { year in
+                        Button { Task { await bank.setYear(year.year, model) } } label: { choice("\(year.year) (\(year.count))", bank.year == year.year) }
+                    }
+                }
+                .accessibilityIdentifier("bacYear")
+            }
+            .padding(.vertical, 2)
         }
-        .pickerStyle(.menu)
-        .accessibilityIdentifier("bacStream")
-        Picker(L10n.text("bacSubjectLabel"), selection: Binding(get: { bank.subject }, set: { value in Task { await bank.setSubject(value, model) } })) {
-            Text(L10n.text("bacAllSubjects")).tag(String?.none)
-            ForEach(bank.facets.subjects) { subject in Text(verbatim: "\(subject.name) (\(subject.count))").tag(String?.some(subject.id)) }
+    }
+
+    @ViewBuilder
+    private func choice(_ title: String, _ selected: Bool) -> some View {
+        if selected { Label(title, systemImage: "checkmark") } else { Text(verbatim: title) }
+    }
+}
+
+/// A rounded filter button that opens its choices.
+private struct FilterChip<Items: View>: View {
+    let title: String
+    let icon: String
+    let active: Bool
+    @ViewBuilder let items: () -> Items
+
+    var body: some View {
+        Menu {
+            items()
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: icon).font(.caption)
+                Text(verbatim: title).font(.subheadline.weight(.semibold)).lineLimit(1)
+                Image(systemName: "chevron.down").font(.caption2.weight(.bold))
+            }
+            .padding(.horizontal, 14).padding(.vertical, 9)
+            .foregroundStyle(active ? Color.white : Color.primary)
+            .background(active ? Brand.blue : Brand.card, in: Capsule())
+            .overlay(Capsule().stroke(active ? Color.clear : Color.secondary.opacity(0.18), lineWidth: 1))
         }
-        .pickerStyle(.menu)
-        .accessibilityIdentifier("bacSubject")
-        Picker(L10n.text("bacYearLabel"), selection: Binding(get: { bank.year }, set: { value in Task { await bank.setYear(value, model) } })) {
-            Text(L10n.text("bacAllYears")).tag(Int?.none)
-            ForEach(bank.facets.years) { year in Text(verbatim: "\(year.year) (\(year.count))").tag(Int?.some(year.year)) }
+    }
+}
+
+/// The year in a tile, like the cover of a paper.
+private struct YearTile: View {
+    let year: Int?
+    var size: CGFloat = 58
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Text(verbatim: "BAC").font(.caption2.weight(.heavy)).opacity(0.75)
+            Text(verbatim: year.map { String($0) } ?? "—").font(size > 60 ? .title2.bold() : .headline.bold())
         }
-        .pickerStyle(.menu)
-        .accessibilityIdentifier("bacYear")
+        .foregroundStyle(Brand.blue)
+        .frame(width: size, height: size)
+        .background(Brand.sky, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .environment(\.layoutDirection, .leftToRight)
     }
 }
 
@@ -156,23 +245,43 @@ private struct BacRow: View {
     let item: Bac.Item
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(item.title).font(.subheadline.bold()).multilineTextAlignment(.leading)
-            HStack(spacing: 6) {
-                if let year = item.year {
-                    Text(verbatim: "BAC \(year)")
-                        .font(.caption2.bold())
-                        .padding(.horizontal, 7).padding(.vertical, 2)
-                        .background(Brand.blue.opacity(0.12), in: Capsule())
-                        .foregroundStyle(Brand.blue)
+        HStack(spacing: 14) {
+            YearTile(year: item.year)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(item.title)
+                    .font(.subheadline.bold())
+                    .foregroundStyle(.primary)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+                if !item.detail.isEmpty {
+                    Text(item.detail).font(.caption).foregroundStyle(.secondary).lineLimit(1)
                 }
-                if !item.detail.isEmpty { Text(item.detail).font(.caption).foregroundStyle(.secondary).lineLimit(1) }
+                HStack(spacing: 6) {
+                    if let topic = item.topic { Badge(text: String(format: L10n.text("bacTopic"), topic), tint: Brand.navy) }
+                    if item.hasSolution { Badge(text: L10n.text("bacSolution"), tint: Brand.success, icon: "checkmark.seal.fill") }
+                }
             }
-            if item.hasSolution {
-                Label(L10n.text("bacSolution"), systemImage: "checkmark.seal.fill").font(.caption2.weight(.semibold)).foregroundStyle(Brand.success)
-            }
+            Spacer(minLength: 0)
+            Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary)
         }
-        .padding(.vertical, 2)
+        .card()
+    }
+}
+
+private struct Badge: View {
+    let text: String
+    let tint: Color
+    var icon: String?
+
+    var body: some View {
+        HStack(spacing: 4) {
+            if let icon { Image(systemName: icon) }
+            Text(text)
+        }
+        .font(.caption2.weight(.bold))
+        .foregroundStyle(tint)
+        .padding(.horizontal, 8).padding(.vertical, 3)
+        .background(tint.opacity(0.12), in: Capsule())
     }
 }
 
@@ -188,24 +297,14 @@ struct BacPaperView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(item.title).font(.title3.bold())
-                    if !item.detail.isEmpty { Text(item.detail).font(.subheadline).foregroundStyle(.secondary) }
-                    if item.official {
-                        Label(L10n.text("bacOfficial"), systemImage: "checkmark.shield.fill").font(.caption.weight(.semibold)).foregroundStyle(Brand.blue)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .card()
-
+                header
                 if let paper = loader.value {
                     files(paper)
                 } else if let failure = loader.failure {
                     FailureView(message: failure.message) { Task { await loader.load(path, model: model, force: true) } }
                 } else {
-                    LoadingView()
+                    LoadingView().frame(minHeight: 160)
                 }
-
                 if let fileError {
                     Label(fileError, systemImage: "exclamationmark.circle.fill")
                         .font(.footnote.weight(.semibold))
@@ -225,48 +324,50 @@ struct BacPaperView: View {
 
     private var path: String { "/api/v1/ios/bac/\(item.id)" }
 
-    @ViewBuilder
-    private func files(_ paper: Bac.Paper) -> some View {
-        VStack(spacing: 12) {
-            if let link = paper.paper {
-                fileButton(L10n.text("bacPaper"), icon: "doc.text.fill", link: link, id: "bacOpenPaper", prominent: true)
+    private var header: some View {
+        HStack(alignment: .top, spacing: 14) {
+            YearTile(year: item.year, size: 72)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(item.title).font(.headline).fixedSize(horizontal: false, vertical: true)
+                if !item.detail.isEmpty { Text(item.detail).font(.subheadline).foregroundStyle(.secondary) }
+                HStack(spacing: 6) {
+                    if item.official { Badge(text: L10n.text("bacOfficial"), tint: Brand.blue, icon: "checkmark.shield.fill") }
+                    if let topic = item.topic { Badge(text: String(format: L10n.text("bacTopic"), topic), tint: Brand.navy) }
+                }
             }
-            if let link = paper.solution {
-                fileButton(L10n.text("bacSolution"), icon: "checkmark.seal.fill", link: link, id: "bacOpenSolution", prominent: false)
-            } else {
-                Text(L10n.text("bacNoSolution")).font(.footnote).foregroundStyle(.secondary).frame(maxWidth: .infinity, alignment: .leading)
-            }
-            if paper.paper == nil && paper.solution == nil {
-                Text(L10n.text("bacFileUnavailable")).font(.footnote).foregroundStyle(.secondary).frame(maxWidth: .infinity, alignment: .leading)
-            }
-            if [paper.paper, paper.solution].contains(where: { $0 != nil && $0?.inApp == false }) {
-                Text(L10n.text("bacOpensBrowser")).font(.caption).foregroundStyle(.secondary).frame(maxWidth: .infinity, alignment: .leading)
-            }
-            if let source = paper.source {
-                Text(String(format: L10n.text("bacSource"), source.name)).font(.caption).foregroundStyle(.secondary).frame(maxWidth: .infinity, alignment: .leading)
-            }
+            Spacer(minLength: 0)
         }
+        .card()
     }
 
     @ViewBuilder
-    private func fileButton(_ title: String, icon: String, link: Bac.Link, id: String, prominent: Bool) -> some View {
-        let button = Button {
-            Task { await open(link, title: title) }
-        } label: {
-            HStack(spacing: 10) {
-                if opening == link.url { ProgressView() } else { Image(systemName: link.inApp ? icon : "safari") }
-                Text(title).font(.headline)
-                Spacer(minLength: 0)
+    private func files(_ paper: Bac.Paper) -> some View {
+        HStack(spacing: 12) {
+            if let link = paper.paper {
+                FileTile(title: L10n.text("bacPaper"), icon: "doc.text.fill", tint: Brand.blue, browser: !link.inApp, busy: opening == link.url) {
+                    Task { await open(link, title: L10n.text("bacPaper")) }
+                }
+                .disabled(opening != nil)
+                .accessibilityIdentifier("bacOpenPaper")
             }
-            .frame(maxWidth: .infinity, minHeight: 44)
+            if let link = paper.solution {
+                FileTile(title: L10n.text("bacSolution"), icon: "checkmark.seal.fill", tint: Brand.success, browser: !link.inApp, busy: opening == link.url) {
+                    Task { await open(link, title: L10n.text("bacSolution")) }
+                }
+                .disabled(opening != nil)
+                .accessibilityIdentifier("bacOpenSolution")
+            }
         }
-        .disabled(opening != nil)
-        .accessibilityIdentifier(id)
-        if prominent {
-            button.buttonStyle(.borderedProminent).tint(Brand.blue)
-        } else {
-            button.buttonStyle(.bordered)
+        VStack(alignment: .leading, spacing: 6) {
+            if paper.solution == nil { note(L10n.text("bacNoSolution"), icon: "info.circle") }
+            if paper.paper == nil && paper.solution == nil { note(L10n.text("bacFileUnavailable"), icon: "exclamationmark.circle") }
+            if [paper.paper, paper.solution].contains(where: { $0 != nil && $0?.inApp == false }) { note(L10n.text("bacOpensBrowser"), icon: "safari") }
+            if let source = paper.source { note(String(format: L10n.text("bacSource"), source.name), icon: "building.columns") }
         }
+    }
+
+    private func note(_ text: String, icon: String) -> some View {
+        Label(text, systemImage: icon).font(.caption).foregroundStyle(.secondary)
     }
 
     private func open(_ link: Bac.Link, title: String) async {
@@ -288,6 +389,35 @@ struct BacPaperView: View {
         } catch {
             fileError = L10n.text("bacFileUnavailable")
         }
+    }
+}
+
+/// A large, square button: the paper or its solution.
+private struct FileTile: View {
+    let title: String
+    let icon: String
+    let tint: Color
+    let browser: Bool
+    let busy: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 10) {
+                ZStack {
+                    Circle().fill(tint.opacity(0.14)).frame(width: 60, height: 60)
+                    if busy { ProgressView() } else { Image(systemName: icon).font(.title2).foregroundStyle(tint) }
+                }
+                Text(title).font(.headline).foregroundStyle(.primary)
+                Label(browser ? "Safari" : "PDF", systemImage: browser ? "safari" : "doc.richtext")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, minHeight: 150)
+            .background(Brand.card, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).stroke(tint.opacity(0.25), lineWidth: 1))
+        }
+        .buttonStyle(.plain)
     }
 }
 
