@@ -46,10 +46,84 @@ public actor PlayStore {
         }
     }
 
+    /// A card lesson kept on the phone.
+    public struct CardLesson: Codable, Equatable, Identifiable, Sendable {
+        public let id: String
+        public let lessonName: String
+        public let subjectCode: String
+        public let checksum: String
+        public let downloadedAt: Date
+    }
+
+    /// One answered card of a round.
+    public struct CardAnswer: Codable, Equatable, Sendable {
+        public let questionId: String
+        public let answer: Cards.Answer
+        public let timeMs: Int?
+        public let correct: Bool
+        public init(questionId: String, answer: Cards.Answer, timeMs: Int?, correct: Bool) {
+            self.questionId = questionId
+            self.answer = answer
+            self.timeMs = timeMs
+            self.correct = correct
+        }
+    }
+
+    /// What the server said about a synced round.
+    public struct CardResult: Codable, Equatable, Sendable {
+        public let correctCount: Int
+        public let total: Int
+        public let xpEarned: Int
+        public let xpTotal: Int
+        public let levelTitle: String?
+        public let lessonMastered: Bool
+        public init(correctCount: Int, total: Int, xpEarned: Int, xpTotal: Int, levelTitle: String?, lessonMastered: Bool) {
+            self.correctCount = correctCount
+            self.total = total
+            self.xpEarned = xpEarned
+            self.xpTotal = xpTotal
+            self.levelTitle = levelTitle
+            self.lessonMastered = lessonMastered
+        }
+    }
+
+    /// A finished card round; pending until the server re-grades it.
+    public struct CardRound: Codable, Equatable, Identifiable, Sendable {
+        public let id: UUID
+        public let lessonId: String
+        public let lessonName: String
+        public let answers: [CardAnswer]
+        public let estimatedXP: Int
+        public let finishedAt: Date
+        public var server: CardResult?
+        public var rejected: Bool
+
+        public var pending: Bool { server == nil && !rejected }
+        public var localCorrect: Int { answers.filter(\.correct).count }
+    }
+
     private struct Index: Codable {
         var downloaded: [Downloaded] = []
         var attempts: [Attempt] = []
+        var cardLessons: [CardLesson] = []
+        var cardRounds: [CardRound] = []
+        /// Last local result of each card question (true = right): picks the next rounds.
+        var cardMemory: [String: Bool] = [:]
+
+        init() {}
+
+        // An index written by an older build has no card fields: keep what it has.
+        init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            downloaded = (try? c.decodeIfPresent([Downloaded].self, forKey: .downloaded)) ?? []
+            attempts = (try? c.decodeIfPresent([Attempt].self, forKey: .attempts)) ?? []
+            cardLessons = (try? c.decodeIfPresent([CardLesson].self, forKey: .cardLessons)) ?? []
+            cardRounds = (try? c.decodeIfPresent([CardRound].self, forKey: .cardRounds)) ?? []
+            cardMemory = (try? c.decodeIfPresent([String: Bool].self, forKey: .cardMemory)) ?? [:]
+        }
     }
+
+    public static let maximumCardRounds = 300
 
     public static let maximumPackages = 300
     public static let maximumAttempts = 500
@@ -186,6 +260,78 @@ public actor PlayStore {
         let account = try requireAccount()
         guard let i = index.attempts.firstIndex(where: { $0.id == id }) else { return }
         index.attempts[i].rejected = true
+        try save(account)
+    }
+
+    // MARK: Cards
+
+    private func cardURL(_ id: String, account: String) -> URL {
+        directory(for: account).appendingPathComponent("lesson-" + Self.safe(id) + ".json")
+    }
+
+    /// Validates and keeps a lesson pack exactly as the server sent it.
+    @discardableResult
+    public func saveCardPack(_ data: Data) throws -> Cards.Pack {
+        let account = try requireAccount()
+        guard data.count <= Self.maximumPackageBytes else { throw CocoaError(.fileReadTooLarge) }
+        let pack = try JSONDecoder().decode(Cards.Pack.self, from: data)
+        guard !pack.questions.isEmpty else { throw CocoaError(.fileReadCorruptFile) }
+        if !index.cardLessons.contains(where: { $0.id == pack.id }), index.cardLessons.count >= Self.maximumPackages {
+            throw CocoaError(.fileWriteOutOfSpace)
+        }
+        try prepare(account)
+        try data.write(to: cardURL(pack.id, account: account), options: [.atomic, .completeFileProtection])
+        index.cardLessons.removeAll { $0.id == pack.id }
+        index.cardLessons.insert(CardLesson(id: pack.id, lessonName: pack.lesson.lessonName, subjectCode: pack.lesson.subjectCode,
+                                            checksum: pack.checksum, downloadedAt: Date()), at: 0)
+        try save(account)
+        return pack
+    }
+
+    public func cardPack(id: String) throws -> Cards.Pack? {
+        let account = try requireAccount()
+        guard index.cardLessons.contains(where: { $0.id == id }),
+              let data = try? Data(contentsOf: cardURL(id, account: account)) else { return nil }
+        return try? JSONDecoder().decode(Cards.Pack.self, from: data)
+    }
+
+    public func cardLessons() -> [CardLesson] { index.cardLessons }
+    public func cardMemory() -> [String: Bool] { index.cardMemory }
+    public func cardRounds() -> [CardRound] { index.cardRounds }
+    public func pendingCardRounds() -> [CardRound] { index.cardRounds.filter(\.pending).reversed() }
+
+    @discardableResult
+    public func addCardRound(lessonId: String, lessonName: String, answers: [CardAnswer], estimatedXP: Int, finishedAt: Date = Date()) throws -> CardRound {
+        let account = try requireAccount()
+        let round = CardRound(id: UUID(), lessonId: lessonId, lessonName: lessonName, answers: answers, estimatedXP: estimatedXP,
+                              finishedAt: finishedAt, server: nil, rejected: false)
+        index.cardRounds.insert(round, at: 0)
+        for a in answers { index.cardMemory[a.questionId] = a.correct }
+        while index.cardRounds.count > Self.maximumCardRounds, let last = index.cardRounds.lastIndex(where: { !$0.pending }) {
+            index.cardRounds.remove(at: last)
+        }
+        try save(account)
+        return round
+    }
+
+    public func markCardSynced(_ id: UUID, result: CardResult) throws {
+        let account = try requireAccount()
+        guard let i = index.cardRounds.firstIndex(where: { $0.id == id }) else { return }
+        index.cardRounds[i].server = result
+        try save(account)
+    }
+
+    public func markCardRejected(_ id: UUID) throws {
+        let account = try requireAccount()
+        guard let i = index.cardRounds.firstIndex(where: { $0.id == id }) else { return }
+        index.cardRounds[i].rejected = true
+        try save(account)
+    }
+
+    public func removeCardPack(id: String) throws {
+        let account = try requireAccount()
+        try? FileManager.default.removeItem(at: cardURL(id, account: account))
+        index.cardLessons.removeAll { $0.id == id }
         try save(account)
     }
 

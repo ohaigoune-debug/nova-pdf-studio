@@ -8,6 +8,7 @@ enum Fixtures {
     static let signedIn = ProcessInfo.processInfo.arguments.contains("--madrasadz-fixture-signed-in")
     static let accountID = "00000000-0000-4000-8000-000000000001"
     static let setID = "11111111-2222-4333-8444-555555555555"
+    static let lessonID = "44444444-4444-4444-8444-444444444444"
 
     static func respond(to request: URLRequest) throws -> (Data, HTTPURLResponse) {
         let url = request.url ?? URL(string: "https://madrasadz.com/")!
@@ -39,6 +40,12 @@ enum Fixtures {
             json = #"{"ok":true,"data":{"items":[{"id":"\#(setID)","setId":"fixture-bac","kind":"BAC","year":2024,"term":null,"paper":1,"title":"بكالوريا تجريبية — الموضوع الأول","stepCount":5,"interactivePoints":5,"scoreTotal":20,"preview":false,"attempts":0,"best":null}],"preview":false,"gradeCode":"3AS","streamCode":"LIT"}}"#
         case ("GET", "/api/v1/ios/play/sets/" + setID):
             json = package
+        case ("GET", "/api/v1/ios/play/lessons"):
+            json = cardLessons
+        case ("GET", "/api/v1/ios/play/lessons/" + lessonID):
+            json = cardPack
+        case ("POST", "/api/v1/ios/play/cards/sync"):
+            json = #"{"ok":true,"data":{"sessionId":"s","accepted":3,"correctCount":1,"total":3,"xpEarned":40,"xpTotal":140,"level":{"index":0,"title":"مبتدئ","progressPct":70},"newBadges":[],"lessonMastered":false}}"#
         case ("POST", "/api/v1/ios/play/sync"):
             json = #"{"ok":true,"data":{"attemptId":"a","score":5,"max":5,"accepted":5}}"#
         case ("POST", "/api/v1/ios/logout"):
@@ -91,6 +98,22 @@ enum Fixtures {
       {"id":"s3","index":2,"type":"fill_blank","prompt":"أكمل","payload":{"type":"fill_blank","text":"الفعل ____ مبني على ____","bank":["الماضي","الفتح","الضم"]},"points":1,"answer":{"type":"fill_blank","blanks":[["الماضي"],["الفتح"]]},"explanation":"","correctText":"الماضي ، الفتح"},
       {"id":"s4","index":3,"type":"ordering","prompt":"رتّب","payload":{"type":"ordering","items":["أولًا","ثانيًا","ثالثًا"]},"points":1,"answer":{"type":"ordering","order":[0,1,2]},"explanation":"","correctText":"أولًا ← ثانيًا ← ثالثًا"},
       {"id":"s5","index":4,"type":"matching","prompt":"صِل","payload":{"type":"matching","lefts":["الطباق","الجناس"],"rights":["تضاد","تشابه لفظي"]},"points":1,"answer":{"type":"matching","pairs":[0,1]},"explanation":"","correctText":"الطباق ← تضاد"}]}}
+    """#
+
+    static let cardLessons = #"""
+    {"ok":true,"data":{"subject":{"code":"AR","nameAr":"اللغة العربية"},"units":[{"unitCode":"U1","unitName":"البلاغة","lessons":[
+      {"id":"44444444-4444-4444-8444-444444444444","lessonName":"الصور البيانية","objective":null,"questions":3,"masteryPct":40,"mastered":false,"answered":5},
+      {"id":"55555555-5555-4555-8555-555555555555","lessonName":"المحسنات البديعية","objective":null,"questions":0,"masteryPct":0,"mastered":false,"answered":0}]}],
+     "stats":{"xpTotal":100,"streakDays":2,"level":{"index":0,"title":"مبتدئ","minXp":0,"nextMinXp":200,"progressPct":50}}}}
+    """#
+
+    static let cardPack = #"""
+    {"ok":true,"data":{"lesson":{"id":"44444444-4444-4444-8444-444444444444","subjectCode":"AR","unitCode":"U1","unitName":"البلاغة","lessonName":"الصور البيانية","objective":null,"language":"ar"},
+     "checksum":"c1","roundSize":12,"xp":{"correct":10,"correctHard":15,"sessionComplete":30,"lessonMastery":100,"repeatMastered":2},
+     "questions":[
+      {"id":"q1","type":"MCQ","difficulty":"EASY","language":"ar","questionText":"ما نوع الصورة في «ابتسم الصباح»؟","payload":{"type":"MCQ","options":[{"key":"a","text":"تشبيه بليغ"},{"key":"b","text":"استعارة مكنية"},{"key":"c","text":"كناية"},{"key":"d","text":"مجاز مرسل"}]},"answerKey":{"type":"MCQ","correct":"b"},"explanation":"شُبّه الصباح بإنسان يبتسم وحُذف المشبه به.","correctText":"استعارة مكنية"},
+      {"id":"q2","type":"FILL_BLANK","difficulty":"MEDIUM","language":"ar","questionText":"الاستعارة ____ يُحذف فيها المشبه به.","payload":{"type":"FILL_BLANK","segments":[{"t":"الاستعارة "},{"b":0},{"t":" يُحذف فيها المشبه به."}],"blanks":1,"bank":["المكنية","التصريحية"]},"answerKey":{"type":"FILL_BLANK","answers":[["المكنية"]]},"explanation":"في المكنية يُحذف المشبه به.","correctText":"المكنية"},
+      {"id":"q3","type":"ORDERING","difficulty":"HARD","language":"ar","questionText":"رتّب خطوات تحليل الصورة","payload":{"type":"ORDERING","items":[{"key":"o0","text":"تحديد الصورة"},{"key":"o1","text":"شرحها"},{"key":"o2","text":"بيان نوعها"}]},"answerKey":{"type":"ORDERING","order":["o0","o1","o2"]},"explanation":"نحدد الصورة ثم نشرحها ثم نسميها.","correctText":"1. تحديد الصورة 2. شرحها 3. بيان نوعها"}]}}
     """#
 }
 #endif

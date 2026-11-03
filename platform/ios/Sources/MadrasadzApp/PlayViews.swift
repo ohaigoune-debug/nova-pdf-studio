@@ -218,46 +218,69 @@ struct SubjectSetsView: View {
     @ObservedObject var model: AppModel
     @ObservedObject var play: PlayModel
     let subject: Play.Subject
-    @State private var kind: Play.Kind = .bac
+    /// Lessons (card game, as on the website) first; then BAC, homework and tests.
+    @State private var mode: Mode = .lessons
     @StateObject private var loader = Loader<Play.SetList>()
+    @StateObject private var lessons = Loader<Cards.LessonList>()
 
-    private var path: String { "/api/v1/ios/play/sets?subject=\(subject.code)&kind=\(kind.rawValue)" }
+    enum Mode: Hashable { case lessons, exams(Play.Kind) }
+
+    private var setsPath: String? {
+        if case .exams(let kind) = mode { return "/api/v1/ios/play/sets?subject=\(subject.code)&kind=\(kind.rawValue)" }
+        return nil
+    }
+    private var lessonsPath: String { "/api/v1/ios/play/lessons?subject=\(subject.code)" }
 
     var body: some View {
         List {
             Section {
-                Picker(L10n.text("playKind"), selection: $kind) {
-                    Text(L10n.text("kindBac")).tag(Play.Kind.bac)
-                    Text(L10n.text("kindDevoir")).tag(Play.Kind.devoir)
-                    Text(L10n.text("kindTest")).tag(Play.Kind.test)
+                Picker(L10n.text("playKind"), selection: $mode) {
+                    Text(L10n.text("kindLessons")).tag(Mode.lessons)
+                    Text(L10n.text("kindBac")).tag(Mode.exams(.bac))
+                    Text(L10n.text("kindDevoir")).tag(Mode.exams(.devoir))
+                    Text(L10n.text("kindTest")).tag(Mode.exams(.test))
                 }
                 .pickerStyle(.segmented)
                 .listRowBackground(Color.clear)
                 .listRowInsets(EdgeInsets())
             }
-            if loader.value != nil, loader.savedAt != nil || !model.online {
-                OfflineBanner(savedAt: loader.savedAt).listRowBackground(Color.clear).listRowInsets(EdgeInsets())
-            }
-            if let list = loader.value {
-                if list.items.isEmpty {
-                    Text(L10n.text("playNoSets")).foregroundStyle(.secondary)
-                } else {
-                    ForEach(list.items) { item in
-                        NavigationLink { ExamLauncher(model: model, play: play, setID: item.id, title: item.title) } label: { SetRow(item: item, saved: play.isDownloaded(item.id)) }
-                            .accessibilityIdentifier("set-\(item.setId)")
-                    }
-                }
-            } else if let failure = loader.failure {
-                FailureView(message: failure.message) { Task { await loader.load(path, model: model, force: true) } }
-                    .listRowBackground(Color.clear)
+            if mode == .lessons {
+                LessonCardsSection(model: model, play: play, loader: lessons) { Task { await lessons.load(lessonsPath, model: model, force: true) } }
             } else {
-                LoadingView().listRowBackground(Color.clear)
+                sets
             }
         }
         .navigationTitle(subject.nameAr)
         .navigationBarTitleDisplayMode(.inline)
-        .refreshable { await loader.load(path, model: model, force: true) }
-        .task(id: kind) { await loader.load(path, model: model) }
+        .refreshable { await reload(force: true) }
+        .task(id: mode) { await reload(force: false) }
+    }
+
+    private func reload(force: Bool) async {
+        if let setsPath { await loader.load(setsPath, model: model, force: force) }
+        else { await lessons.load(lessonsPath, model: model, force: force) }
+    }
+
+    @ViewBuilder
+    private var sets: some View {
+        if loader.value != nil, loader.savedAt != nil || !model.online {
+            OfflineBanner(savedAt: loader.savedAt).listRowBackground(Color.clear).listRowInsets(EdgeInsets())
+        }
+        if let list = loader.value {
+            if list.items.isEmpty {
+                Text(L10n.text("playNoSets")).foregroundStyle(.secondary)
+            } else {
+                ForEach(list.items) { item in
+                    NavigationLink { ExamLauncher(model: model, play: play, setID: item.id, title: item.title) } label: { SetRow(item: item, saved: play.isDownloaded(item.id)) }
+                        .accessibilityIdentifier("set-\(item.setId)")
+                }
+            }
+        } else if let failure = loader.failure {
+            FailureView(message: failure.message) { Task { if let setsPath { await loader.load(setsPath, model: model, force: true) } } }
+                .listRowBackground(Color.clear)
+        } else {
+            LoadingView().listRowBackground(Color.clear)
+        }
     }
 }
 

@@ -120,16 +120,16 @@ export async function setPlayPrefs(db: Db, actor: Actor, prefs: { sound?: boolea
 
 /* -------------------------------- المنهاج -------------------------------- */
 
-function streamFilter(streamCode: string | null) {
+export function streamFilter(streamCode: string | null) {
   // أسئلة/دروس عامة (مصفوفة فارغة) أو تحوي شعبة الطالب
   return streamCode ? sql`(cardinality(${playLessons.streamCodes}) = 0 OR ${streamCode} = ANY(${playLessons.streamCodes}))` : sql`TRUE`
 }
 
-function questionStreamFilter(streamCode: string | null) {
+export function questionStreamFilter(streamCode: string | null) {
   return streamCode ? sql`(cardinality(${playQuestions.streamCodes}) = 0 OR ${streamCode} = ANY(${playQuestions.streamCodes}))` : sql`TRUE`
 }
 
-function servableFilter(rules: PlayRules) {
+export function servableFilter(rules: PlayRules) {
   return and(isNull(playQuestions.deletedAt), eq(playQuestions.isSuspended, false), inArray(playQuestions.reviewStatus, rules.servableStatuses))
 }
 
