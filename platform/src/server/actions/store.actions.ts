@@ -9,8 +9,8 @@ import { failValidation, runAction, type ActionResult } from '@/server/lib/actio
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
 import { uploadFile } from '@/server/services/files.service'
 import { claimOrders, releaseOrders, setReservationPolicy } from '@/server/services/confirm-reservations.service'
-import { adjustOrderAmount, banOrderCustomer, changeOrderStream } from '@/server/services/order-edit.service'
-import { attachProductFile, createProduct, deleteProduct, detachProductFile, downloadUrl, placeOrder, setOrderStatus, updateProduct, type ProductInput } from '@/server/services/store.service'
+import { adjustOrderAmount, banOrderCustomer, changeOrderStream, updateOrderCustomer } from '@/server/services/order-edit.service'
+import { activateOrderNow, attachProductFile, createProduct, deleteProduct, detachProductFile, downloadUrl, placeOrder, setOrderStatus, updateProduct, type ProductInput } from '@/server/services/store.service'
 
 const uuid = z.string().uuid()
 const optUuid = z.string().uuid().nullish()
@@ -192,6 +192,33 @@ export async function banOrderCustomerAction(orderId: string, reason: string): P
     return { cancelledOrders: r.cancelledOrders }
   })
   if (result.ok) revalidateOrders(orderId)
+  return result
+}
+
+/** المشرف والموظف: تصحيح بيانات الزبون (الاسم، الهاتف، الولاية، البلدية، العنوان) قبل الشحن */
+export async function editOrderCustomerAction(orderId: string, input: { customerName?: string | null; phone?: string | null; wilayaId?: string | null; commune?: string | null; address?: string | null }): Promise<ActionResult> {
+  const parsed = z
+    .object({ orderId: uuid, customerName: z.string().max(120).nullish(), phone: z.string().max(20).nullish(), wilayaId: z.union([uuid, z.literal('')]).nullish(), commune: z.string().max(120).nullish(), address: z.string().max(300).nullish() })
+    .safeParse({ orderId, ...input })
+  if (!parsed.success) return failValidation(parsed.error)
+  const { orderId: id, ...patch } = parsed.data
+  const result = await runAction(async () => {
+    await updateOrderCustomer(await getDb(), await requireRole('SUPER_ADMIN', 'CONFIRMER'), id, patch)
+    return undefined
+  })
+  if (result.ok) revalidateOrders(id)
+  return result
+}
+
+/** المشرف والموظف: «تفعيل» طلب فيه دورة بلمسة واحدة (مؤكَّد ثم مُسلَّم — تُفتح الدورة فورًا) */
+export async function activateOrderNowAction(orderId: string): Promise<ActionResult> {
+  const parsed = uuid.safeParse(orderId)
+  if (!parsed.success) return failValidation(parsed.error)
+  const result = await runAction(async () => {
+    await activateOrderNow(await getDb(), await requireRole('SUPER_ADMIN', 'CONFIRMER'), parsed.data)
+    return undefined
+  })
+  if (result.ok) revalidateOrders(parsed.data)
   return result
 }
 
