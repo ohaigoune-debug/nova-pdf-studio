@@ -121,6 +121,10 @@ final class MadrasadzUITests: XCTestCase {
         XCTAssertTrue(subject.waitForExistence(timeout: 10))
         snapshot(app, "07-play-home")
         subject.tap()
+        // Lessons (cards) open first; the BAC papers are the second tab.
+        let bac = app.buttons["بكالوريا"]
+        XCTAssertTrue(bac.waitForExistence(timeout: 10), visible(app))
+        bac.tap()
         let set = find(app, "set-fixture-bac")
         XCTAssertTrue(set.waitForExistence(timeout: 10))
         snapshot(app, "08-play-sets")
@@ -141,6 +145,49 @@ final class MadrasadzUITests: XCTestCase {
         }
         XCTAssertTrue(find(app, "playScore").waitForExistence(timeout: 10))
         snapshot(app, "10-play-result")
+        #endif
+    }
+
+    @MainActor func testNativeCardGame() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = launch(signedIn: true)
+        let tab = app.tabBars.buttons["PLAY"]
+        XCTAssertTrue(tab.waitForExistence(timeout: 15))
+        tab.tap()
+        let subject = find(app, "subject-AR")
+        XCTAssertTrue(subject.waitForExistence(timeout: 10))
+        subject.tap()
+        let lesson = find(app, "lesson-44444444-4444-4444-8444-444444444444")
+        XCTAssertTrue(lesson.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "13-play-lessons")
+        lesson.tap()
+        // Three cards: easy (MCQ) first, then medium (fill-in), then hard (ordering).
+        let back = find(app, "cardBack")
+        XCTAssertTrue(back.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "14-card-back")
+        back.tap()
+        let option = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "استعارة مكنية")).firstMatch
+        XCTAssertTrue(option.waitForExistence(timeout: 5), visible(app))
+        snapshot(app, "15-card-front")
+        option.tap()
+        find(app, "cardCheck").tap()
+        XCTAssertTrue(find(app, "cardFeedback").waitForExistence(timeout: 5), visible(app))
+        snapshot(app, "16-card-feedback")
+        find(app, "cardNext").tap()
+        for _ in 0..<2 {
+            let next = find(app, "cardBack")
+            XCTAssertTrue(next.waitForExistence(timeout: 5), visible(app))
+            next.tap()
+            let skip = find(app, "cardSkip")
+            XCTAssertTrue(skip.waitForExistence(timeout: 5), visible(app))
+            skip.tap()
+        }
+        let score = find(app, "cardsScore")
+        XCTAssertTrue(score.waitForExistence(timeout: 10), visible(app))
+        XCTAssertTrue(app.staticTexts["1 / 3"].exists, visible(app))
+        snapshot(app, "17-card-result")
         #endif
     }
 

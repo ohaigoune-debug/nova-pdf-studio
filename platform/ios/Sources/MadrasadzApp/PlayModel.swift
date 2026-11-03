@@ -9,6 +9,8 @@ final class PlayModel: ObservableObject {
     @Published private(set) var attempts: [PlayStore.Attempt] = []
     @Published private(set) var syncing = false
     @Published private(set) var downloading: String?
+    @Published private(set) var cardLessons: [PlayStore.CardLesson] = []
+    @Published private(set) var cardRounds: [PlayStore.CardRound] = []
 
     private let store: PlayStore
     private weak var app: AppModel?
@@ -20,16 +22,20 @@ final class PlayModel: ObservableObject {
 
     func attach(_ app: AppModel) { self.app = app }
 
-    var pendingCount: Int { attempts.filter(\.pending).count }
+    var pendingCount: Int { attempts.filter(\.pending).count + cardRounds.filter(\.pending).count }
 
     func activate(account: String) async {
         self.account = account.lowercased()
         if let state = try? await store.activate(account: account.lowercased()) {
             downloaded = state.downloaded
             attempts = state.attempts
+            cardLessons = await store.cardLessons()
+            cardRounds = await store.cardRounds()
         } else {
             downloaded = []
             attempts = []
+            cardLessons = []
+            cardRounds = []
         }
     }
 
@@ -38,6 +44,8 @@ final class PlayModel: ObservableObject {
         self.account = nil
         downloaded = []
         attempts = []
+        cardLessons = []
+        cardRounds = []
     }
 
     func isDownloaded(_ id: String) -> Bool { downloaded.contains { $0.id == id } }
@@ -84,9 +92,84 @@ final class PlayModel: ObservableObject {
         return attempt
     }
 
+    // MARK: Cards
+
+    func isCardLessonSaved(_ id: String) -> Bool { cardLessons.contains { $0.id == id } }
+
+    func cardMemory() async -> [String: Bool] { await store.cardMemory() }
+
+    /// Downloads (or refreshes) a lesson pack; offline, the saved copy opens.
+    func openLesson(id: String) async throws -> Cards.Pack {
+        guard let app else { throw APIFailure.invalid }
+        downloading = id
+        defer { downloading = nil }
+        do {
+            let path = "/api/v1/ios/play/lessons/" + (id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? id)
+            guard let request = app.api.request(path: path) else { throw APIFailure.unauthorized }
+            let (raw, response) = try await app.api.send(request)
+            _ = try app.api.decode(Cards.Pack.self, data: raw, response: response)
+            guard let data = envelopeData(raw) else { throw APIFailure.invalid }
+            let pack = try await store.saveCardPack(data)
+            cardLessons = await store.cardLessons()
+            return pack
+        } catch let failure as APIFailure {
+            if failure == .offline, let stored = try? await store.cardPack(id: id) { return stored }
+            app.handle(failure)
+            throw failure
+        }
+    }
+
+    func storedLesson(id: String) async -> Cards.Pack? { try? await store.cardPack(id: id) }
+
+    /// Keeps a finished round on the phone, then tries to sync it.
+    @discardableResult
+    func finishRound(_ pack: Cards.Pack, answers: [PlayStore.CardAnswer], estimatedXP: Int) async -> PlayStore.CardRound? {
+        guard account != nil, !answers.isEmpty else { return nil }
+        let round = try? await store.addCardRound(lessonId: pack.id, lessonName: pack.lesson.lessonName, answers: answers, estimatedXP: estimatedXP)
+        cardRounds = await store.cardRounds()
+        Task { await sync() }
+        return round
+    }
+
+    /// Uploads pending card rounds; the server re-grades them and awards XP.
+    private func syncCards(_ app: AppModel) async -> Bool {
+        struct Item: Encodable { let questionId: String; let answer: Cards.Answer; let timeMs: Int? }
+        struct Body: Encodable { let lessonId: String; let answers: [Item] }
+        struct Level: Decodable { let title: String? }
+        struct Reply: Decodable { let correctCount: Int; let total: Int; let xpEarned: Int; let xpTotal: Int; let level: Level?; let lessonMastered: Bool? }
+        let rounds = await store.pendingCardRounds()
+        for round in rounds {
+            guard account != nil else { return false }
+            do {
+                let reply = try await app.api.post(Reply.self, "/api/v1/ios/play/cards/sync",
+                                                   body: Body(lessonId: round.lessonId, answers: round.answers.map { Item(questionId: $0.questionId, answer: $0.answer, timeMs: $0.timeMs) }))
+                try? await store.markCardSynced(round.id, result: .init(correctCount: reply.correctCount, total: reply.total, xpEarned: reply.xpEarned,
+                                                                        xpTotal: reply.xpTotal, levelTitle: reply.level?.title, lessonMastered: reply.lessonMastered ?? false))
+            } catch let failure as APIFailure {
+                switch failure {
+                case .offline, .invalid: return false
+                case .unauthorized: app.handle(failure); return false
+                case .server(let code, _, _, let status):
+                    if status >= 500 || code == "RATE_LIMITED" || code == "SERVER" { return false }
+                    try? await store.markCardRejected(round.id)
+                }
+            } catch {
+                return false
+            }
+        }
+        return true
+    }
+
     /// Uploads pending attempts, oldest first. Offline or server trouble keeps them pending.
     func sync() async {
         guard let app, !syncing, account != nil, app.phase == .ready else { return }
+        let pendingCards = await store.pendingCardRounds()
+        if !pendingCards.isEmpty {
+            syncing = true
+            _ = await syncCards(app)
+            cardRounds = await store.cardRounds()
+            syncing = false
+        }
         let pending = await store.pendingAttempts()
         guard !pending.isEmpty else { return }
         syncing = true
