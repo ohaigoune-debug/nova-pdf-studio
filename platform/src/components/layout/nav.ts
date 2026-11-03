@@ -185,6 +185,7 @@ export function navFor(role: UserRole): NavSection[] {
             { href: '/admin/ai', label: t('nav.ai'), iconKey: 'Cpu' },
             { href: '/admin/storage', label: t('nav.storage'), iconKey: 'HardDrive' },
             { href: '/admin/security', label: t('nav.security'), iconKey: 'Shield' },
+            { href: '/admin/security/leaks', label: 'كشف التسريب', iconKey: 'ScanSearch' },
             { href: '/admin/logs', label: t('nav.logs'), iconKey: 'ScrollText' },
             { href: '/admin/notifications', label: t('common.notifications'), iconKey: 'BellRing' }
           ]
