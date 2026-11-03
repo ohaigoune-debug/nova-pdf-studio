@@ -1,8 +1,17 @@
 import SwiftUI
 import MadrasadzCore
 
+/// The student's choice of appearance, kept on this phone: follow the iPhone, light or dark.
+enum Appearance: String, CaseIterable, Identifiable {
+    case system, light, dark
+    var id: String { rawValue }
+    var scheme: ColorScheme? { self == .light ? .light : self == .dark ? .dark : nil }
+    var title: String { L10n.text(self == .system ? "appearanceSystem" : self == .light ? "appearanceLight" : "appearanceDark") }
+}
+
 struct RootView: View {
     @ObservedObject var model: AppModel
+    @AppStorage("appearance") private var appearance = Appearance.system.rawValue
 
     var body: some View {
         Group {
@@ -19,6 +28,7 @@ struct RootView: View {
             }
         }
         .tint(Brand.blue)
+        .preferredColorScheme(Appearance(rawValue: appearance)?.scheme)
         .alert(L10n.text("notice"), isPresented: Binding(get: { model.notice != nil }, set: { if !$0 { model.notice = nil } })) {
             Button(L10n.text("ok"), role: .cancel) { model.notice = nil }
         } message: {
@@ -184,6 +194,7 @@ struct IdentityGate: View {
 struct AccountView: View {
     @ObservedObject var model: AppModel
     @ObservedObject private var play: PlayModel
+    @AppStorage("appearance") private var appearance = Appearance.system.rawValue
     @State private var confirmLogout = false
     @State private var deleting = false
     @Environment(\.openURL) private var openURL
@@ -206,6 +217,13 @@ struct AccountView: View {
                     }
                 }
                 .padding(.vertical, 6)
+            }
+            Section(L10n.text("appearance")) {
+                Picker(L10n.text("appearance"), selection: $appearance) {
+                    ForEach(Appearance.allCases) { Text($0.title).tag($0.rawValue) }
+                }
+                .pickerStyle(.segmented)
+                .accessibilityIdentifier("appearancePicker")
             }
             Section(L10n.text("offlineSection")) {
                 LabeledContent(L10n.text("connectionStatus"), value: model.online ? L10n.text("onlineNow") : L10n.text("offlineNow"))
