@@ -113,6 +113,8 @@ struct PlannerView: View {
     @State private var editing: RevisionTask?
     @State private var template: RevisionPlanTemplate?
     @State private var showingDone = false
+    @State private var timetable = false
+    @AppStorage("dailySummary") private var dailySummary = true
 
     var body: some View {
         Group {
@@ -125,6 +127,7 @@ struct PlannerView: View {
         .toolbar {
             if model.personalSpaceReady {
                 Menu {
+                    Button { timetable = true } label: { Label(L10n.text("timetableTitle"), systemImage: "calendar.badge.clock") }
                     Button { adding = true } label: { Label(L10n.text("newSession"), systemImage: "plus.circle") }
                     Section(L10n.text("suggestedPlans")) {
                         ForEach(RevisionPlanTemplate.all) { plan in
@@ -139,13 +142,22 @@ struct PlannerView: View {
         .sheet(isPresented: $adding) { NewRevisionView(model: model) }
         .sheet(item: $editing) { task in NewRevisionView(model: model, task: task) }
         .sheet(item: $template) { plan in PlanTemplateView(model: model, template: plan) }
-        .onChange(of: model.verifiedAccountID) { _, _ in adding = false; editing = nil; template = nil }
+        .sheet(isPresented: $timetable) { WeeklyTimetableView(model: model) }
+        .onChange(of: model.verifiedAccountID) { _, _ in adding = false; editing = nil; template = nil; timetable = false }
+        .onChange(of: dailySummary) { _, _ in Task { await model.refreshReminders() } }
     }
 
     private var planner: some View {
         let tasks = model.snapshot.tasks
         return TimelineView(.periodic(from: .now, by: 60)) { context in
             List {
+                Section {
+                    Button { timetable = true } label: { timetableCard }
+                        .buttonStyle(.plain)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .accessibilityIdentifier("suggestTimetable")
+                }
                 if tasks.isEmpty {
                     Section { emptyHero }
                 } else {
@@ -187,9 +199,35 @@ struct PlannerView: View {
                 } footer: {
                     Text(L10n.text("suggestedPlansFooter"))
                 }
+                Section {
+                    Toggle(isOn: $dailySummary) { Label(L10n.text("dailySummary"), systemImage: "sun.horizon.fill") }
+                        .accessibilityIdentifier("dailySummaryToggle")
+                } footer: {
+                    Text(L10n.text("dailySummaryFooter"))
+                }
             }
             .listStyle(.insetGrouped)
         }
+    }
+
+    /// The suggested week: the first thing of the planner.
+    private var timetableCard: some View {
+        HStack(spacing: 14) {
+            Image(systemName: "calendar.badge.clock")
+                .font(.title2.weight(.semibold))
+                .foregroundStyle(Brand.navy)
+                .frame(width: 52, height: 52)
+                .background(.white, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+            VStack(alignment: .leading, spacing: 3) {
+                Text(L10n.text("timetableTitle")).font(.headline).foregroundStyle(.white)
+                Text(L10n.text("timetableCardHint")).font(.caption).foregroundStyle(.white.opacity(0.88)).multilineTextAlignment(.leading)
+            }
+            Spacer(minLength: 0)
+            Image(systemName: "chevron.forward").foregroundStyle(.white.opacity(0.8))
+        }
+        .padding(16)
+        .background(LinearGradient(colors: [Brand.blue, Brand.navy], startPoint: .topLeading, endPoint: .bottomTrailing),
+                    in: RoundedRectangle(cornerRadius: 20, style: .continuous))
     }
 
     private var emptyHero: some View {
@@ -637,6 +675,132 @@ struct PlanTemplateView: View {
         .onAppear { editorAccount = model.verifiedAccountID }
         .onChange(of: model.verifiedAccountID) { _, account in
             if account != editorAccount { lesson = ""; dismiss() }
+        }
+    }
+}
+
+// MARK: - Suggested weekly timetable
+
+extension StudyStream {
+    var name: String { L10n.text("stream." + rawValue) }
+}
+
+/// A week outside school hours for the student's stream, heavier subjects more often;
+/// the student adjusts it, then it becomes ordinary sessions of the planner with reminders.
+struct WeeklyTimetableView: View {
+    @ObservedObject var model: AppModel
+    @Environment(\.dismiss) private var dismiss
+    @AppStorage("timetableStream") private var streamID = StudyStream.literature.rawValue
+    @State private var options = TimetableOptions()
+    @State private var reminders = true
+    @State private var saving = false
+    @State private var editorAccount: String?
+
+    private var stream: StudyStream { StudyStream(rawValue: streamID) ?? .literature }
+
+    private func build() -> [RevisionTask] {
+        WeeklyTimetable.build(stream: stream, now: Date(), options: options, reminders: reminders) { subject, activity in
+            activity.name + " — " + subject.name
+        }
+    }
+
+    private var morning: Binding<Date> {
+        Binding {
+            Calendar.current.date(bySettingHour: options.morningHour, minute: options.morningMinute, second: 0, of: Date()) ?? Date()
+        } set: { value in
+            let parts = Calendar.current.dateComponents([.hour, .minute], from: value)
+            options.morningHour = parts.hour ?? 6
+            options.morningMinute = parts.minute ?? 0
+        }
+    }
+
+    var body: some View {
+        let preview = build()
+        NavigationStack {
+            Form {
+                Section {
+                    FormBanner(icon: "calendar.badge.clock", title: L10n.text("timetableTitle"), text: L10n.text("timetableIntro"))
+                }
+                .listRowBackground(LinearGradient(colors: [Brand.blue, Brand.navy], startPoint: .topLeading, endPoint: .bottomTrailing))
+                Section(L10n.text("timetableStream")) {
+                    Picker(selection: $streamID) {
+                        ForEach(StudyStream.allCases) { item in Text(item.name).tag(item.rawValue) }
+                    } label: {
+                        Label(L10n.text("timetableStreamLabel"), systemImage: "person.3.fill")
+                    }
+                    .pickerStyle(.navigationLink)
+                    .accessibilityIdentifier("timetableStream")
+                }
+                Section {
+                    Toggle(isOn: $options.morning) { Label(L10n.text("timetableMorning"), systemImage: "sunrise.fill") }
+                    if options.morning {
+                        DatePicker(L10n.text("timetableMorningTime"), selection: morning, displayedComponents: .hourAndMinute)
+                    }
+                    Stepper(value: $options.eveningSessions, in: 1...4) {
+                        Label(String(format: L10n.text("timetableEvening"), options.eveningSessions), systemImage: "moon.stars.fill")
+                    }
+                    Stepper(value: $options.weekendSessions, in: 0...4) {
+                        Label(String(format: L10n.text("timetableWeekend"), options.weekendSessions), systemImage: "sun.max.fill")
+                    }
+                } header: {
+                    Text(L10n.text("timetableWhen"))
+                } footer: {
+                    Text(L10n.text(options.morning && options.morningHour < 6 ? "timetableSleepWarning" : "timetableSleep"))
+                        .foregroundStyle(options.morning && options.morningHour < 6 ? Brand.danger : .secondary)
+                }
+                Section {
+                    Toggle(isOn: $reminders) { Label(L10n.text("timetableRemind"), systemImage: "bell.badge.fill") }
+                        .accessibilityIdentifier("timetableRemindToggle")
+                } footer: { Text(L10n.text("reminderPrivacy")) }
+                Section(String(format: L10n.text("timetablePreview"), preview.count)) {
+                    ForEach(Array(preview.enumerated()), id: \.offset) { _, task in
+                        HStack(spacing: 12) {
+                            SubjectBadge(subject: task.subject, activity: task.activity, size: 36)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(task.subject?.name ?? task.title).font(.subheadline.weight(.semibold)).lineLimit(1)
+                                HStack(spacing: 4) {
+                                    Text(task.date, format: .dateTime.weekday(.wide).hour().minute())
+                                    if let minutes = task.durationMinutes { Text("· " + minutesText(minutes)) }
+                                    if let activity = task.activity { Text("· " + activity.name).lineLimit(1) }
+                                }
+                                .font(.caption).foregroundStyle(.secondary)
+                            }
+                        }
+                        .accessibilityElement(children: .combine)
+                    }
+                }
+            }
+            .navigationTitle(L10n.text("timetableTitle"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) { Button(L10n.text("cancel")) { dismiss() } }
+            }
+            .safeAreaInset(edge: .bottom) {
+                Button {
+                    saving = true
+                    Task {
+                        let success = await model.addWeeklyTimetable(build())
+                        saving = false
+                        if success { dismiss() }
+                    }
+                } label: {
+                    Text(String(format: L10n.text("timetableAdd"), preview.count))
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 30)
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                .tint(Brand.blue)
+                .disabled(saving || preview.isEmpty || !model.personalSpaceReady)
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+                .background(.bar)
+                .accessibilityIdentifier("timetableAdd")
+            }
+        }
+        .onAppear { editorAccount = model.verifiedAccountID }
+        .onChange(of: model.verifiedAccountID) { _, account in
+            if account != editorAccount { dismiss() }
         }
     }
 }

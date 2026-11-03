@@ -66,7 +66,7 @@ final class MadrasadzUITests: XCTestCase {
         snapshot(app, "01-sign-in")
         signIn(app, password: "secret")
         // Signed in: the tab bar of the native app appears.
-        XCTAssertTrue(app.tabBars.buttons["PLAY"].waitForExistence(timeout: 20), visible(app))
+        XCTAssertTrue(app.tabBars.buttons["العب"].waitForExistence(timeout: 20), visible(app))
         snapshot(app, "02-home")
         #endif
     }
@@ -79,7 +79,7 @@ final class MadrasadzUITests: XCTestCase {
         // The sample server refuses only the exact password "wrong".
         signIn(app, password: "wrong")
         XCTAssertTrue(find(app, "loginError").waitForExistence(timeout: 10), visible(app))
-        XCTAssertFalse(app.tabBars.buttons["PLAY"].exists)
+        XCTAssertFalse(app.tabBars.buttons["العب"].exists)
         snapshot(app, "01b-sign-in-refused")
         #endif
     }
@@ -89,9 +89,13 @@ final class MadrasadzUITests: XCTestCase {
         throw XCTSkip("Fixtures exist in Debug only.")
         #else
         let app = launch(signedIn: true)
+        let door = find(app, "homeTile-courses")
+        XCTAssertTrue(door.waitForExistence(timeout: 15), visible(app))
+        snapshot(app, "03-home")
+        door.tap()
         let course = find(app, "course-fixture-ar")
-        XCTAssertTrue(course.waitForExistence(timeout: 15))
-        snapshot(app, "03-home-courses")
+        XCTAssertTrue(course.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "03b-my-courses")
         course.tap()
         let lesson = find(app, "item-t1")
         XCTAssertTrue(lesson.waitForExistence(timeout: 10))
@@ -115,7 +119,7 @@ final class MadrasadzUITests: XCTestCase {
         throw XCTSkip("Fixtures exist in Debug only.")
         #else
         let app = launch(signedIn: true)
-        let tab = app.tabBars.buttons["PLAY"]
+        let tab = app.tabBars.buttons["العب"]
         XCTAssertTrue(tab.waitForExistence(timeout: 15))
         tab.tap()
         let subject = find(app, "subject-AR")
@@ -197,19 +201,77 @@ final class MadrasadzUITests: XCTestCase {
         throw XCTSkip("Fixtures exist in Debug only.")
         #else
         let app = launch(signedIn: true)
-        let tab = app.tabBars.buttons["PLAY"]
-        XCTAssertTrue(tab.waitForExistence(timeout: 15))
-        tab.tap()
-        let entry = find(app, "bacBankEntry")
-        XCTAssertTrue(entry.waitForExistence(timeout: 10), visible(app))
-        entry.tap()
+        let door = find(app, "homeTile-bac")
+        XCTAssertTrue(door.waitForExistence(timeout: 15), visible(app))
+        door.tap()
+        let subject = find(app, "bacSubject-sub-ar")
+        XCTAssertTrue(subject.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "19-bac-subjects")
+        subject.tap()
         let paper = find(app, "bac-66666666-6666-4666-8666-666666666666")
         XCTAssertTrue(paper.waitForExistence(timeout: 10), visible(app))
-        snapshot(app, "19-bac-bank")
+        snapshot(app, "19b-bac-years")
         paper.tap()
         XCTAssertTrue(find(app, "bacOpenPaper").waitForExistence(timeout: 10), visible(app))
         XCTAssertTrue(find(app, "bacOpenSolution").exists)
+        XCTAssertTrue(find(app, "paperPlay").exists, "The interactive version opens from the paper")
         snapshot(app, "20-bac-paper")
+        #endif
+    }
+
+    @MainActor func testTestsBankStepByStep() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = launch(signedIn: true)
+        let door = find(app, "homeTile-tests")
+        XCTAssertTrue(door.waitForExistence(timeout: 15), visible(app))
+        door.tap()
+        let term = find(app, "testsTerm-1")
+        XCTAssertTrue(term.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "21-tests-terms")
+        term.tap()
+        let level = find(app, "testsLevel-3AS")
+        XCTAssertTrue(level.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "22-tests-years")
+        level.tap()
+        let subject = find(app, "testsSubject-sub-ar")
+        XCTAssertTrue(subject.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "23-tests-subjects")
+        subject.tap()
+        XCTAssertTrue(find(app, "testsPlay-11111111-2222-4333-8444-555555555555").waitForExistence(timeout: 10), visible(app))
+        let paper = find(app, "testsPaper-88888888-8888-4888-8888-888888888888")
+        XCTAssertTrue(paper.exists)
+        snapshot(app, "24-tests-list")
+        paper.tap()
+        XCTAssertTrue(find(app, "bacOpenPaper").waitForExistence(timeout: 10), visible(app))
+        XCTAssertTrue(find(app, "paperPlay").exists)
+        snapshot(app, "25-tests-paper")
+        #endif
+    }
+
+    @MainActor func testSuggestedWeekInThePlanner() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = launch(signedIn: true)
+        let tab = app.tabBars.buttons["منظّمي"]
+        XCTAssertTrue(tab.waitForExistence(timeout: 15), visible(app))
+        tab.tap()
+        let suggest = find(app, "suggestTimetable")
+        XCTAssertTrue(suggest.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "26-planner")
+        suggest.tap()
+        let add = find(app, "timetableAdd")
+        XCTAssertTrue(add.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "27-timetable")
+        // No system permission prompt in the test: the reminders are switched off first.
+        let remind = app.switches["timetableRemindToggle"]
+        XCTAssertTrue(remind.waitForExistence(timeout: 5), visible(app))
+        remind.tap()
+        add.tap()
+        XCTAssertTrue(add.waitForNonExistence(timeout: 10), "The week is added and the sheet closes")
+        snapshot(app, "28-planner-week")
         #endif
     }
 
@@ -218,7 +280,7 @@ final class MadrasadzUITests: XCTestCase {
         throw XCTSkip("Fixtures exist in Debug only.")
         #else
         let app = launch(signedIn: true)
-        let tab = app.tabBars.buttons["PLAY"]
+        let tab = app.tabBars.buttons["العب"]
         XCTAssertTrue(tab.waitForExistence(timeout: 15))
         tab.tap()
         let subject = find(app, "subject-AR")
@@ -261,9 +323,10 @@ final class MadrasadzUITests: XCTestCase {
         throw XCTSkip("Fixtures exist in Debug only.")
         #else
         let app = launch(signedIn: true)
-        let tab = app.tabBars.buttons.element(boundBy: 4)
+        let tab = app.tabBars.buttons.element(boundBy: 3)
         XCTAssertTrue(tab.waitForExistence(timeout: 15))
         tab.tap()
+        XCTAssertTrue(find(app, "accountSavedFiles").waitForExistence(timeout: 10), "Saved files live in My account")
         let delete = find(app, "deleteAccountButton")
         XCTAssertTrue(delete.waitForExistence(timeout: 10))
         snapshot(app, "11-account")

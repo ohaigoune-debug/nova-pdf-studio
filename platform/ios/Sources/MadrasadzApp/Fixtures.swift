@@ -59,6 +59,10 @@ enum Fixtures {
             json = bacPage
         case ("GET", "/api/v1/ios/bac/" + bacID):
             json = bacPaper
+        case ("GET", "/api/v1/ios/tests"):
+            json = testsPage
+        case ("GET", _) where path.hasPrefix("/api/v1/ios/papers/"):
+            json = testsPaper
         case ("GET", "/api/v1/ios/home"):
             json = home
         case ("GET", _) where path.hasPrefix("/api/v1/ios/courses/"):
@@ -140,7 +144,23 @@ enum Fixtures {
 
     static let bacPaper = #"""
     {"ok":true,"data":{"id":"66666666-6666-4666-8666-666666666666","title":"موضوع اللغة العربية شعبة آداب وفلسفة — بكالوريا 2024","year":2024,"session":"NORMAL","official":true,"subjectName":"اللغة العربية","streamName":"آداب وفلسفة","source":{"name":"مصدر تجريبي","attribution":"للاختبار"},
-     "paper":{"url":"https://example.com/bac-2024.pdf","inApp":false},"solution":{"url":"https://example.com/bac-2024-corrige.pdf","inApp":false}}}
+     "paper":{"url":"https://example.com/bac-2024.pdf","inApp":false},"solution":{"url":"https://example.com/bac-2024-corrige.pdf","inApp":false},
+     "play":{"id":"11111111-2222-4333-8444-555555555555","title":"بكالوريا تجريبية — الموضوع الأول"}}}
+    """#
+
+    static let testsPage = #"""
+    {"ok":true,"data":{"terms":[{"term":1,"count":3},{"term":2,"count":1},{"term":3,"count":0}],
+     "levels":[{"id":"lv-3as","name":"الثالثة ثانوي","code":"3AS","count":3},{"id":"lv-2as","name":"الثانية ثانوي","code":"2AS","count":1}],"myLevelId":"lv-3as",
+     "subjects":[{"id":"sub-ar","name":"اللغة العربية","count":2},{"id":"sub-philo","name":"الفلسفة","count":1}],
+     "papers":[{"id":"88888888-8888-4888-8888-888888888888","title":"الفرض الأول في اللغة العربية — الفصل الأول","typeLabel":"فرض","year":2025,"hasSolution":true,"hasFile":true}],
+     "nextCursor":null,
+     "interactive":[{"id":"11111111-2222-4333-8444-555555555555","title":"الفرض الأول — تفاعلي","kind":"DEVOIR","year":2025}]}}
+    """#
+
+    static let testsPaper = #"""
+    {"ok":true,"data":{"id":"88888888-8888-4888-8888-888888888888","title":"الفرض الأول في اللغة العربية — الفصل الأول","year":2025,"term":1,"official":false,"subjectName":"اللغة العربية","streamName":null,
+     "source":{"name":"مدرسة","attribution":null},"paper":{"url":"https://example.com/devoir.pdf","inApp":false},"solution":{"url":"https://example.com/devoir-corrige.pdf","inApp":false},
+     "play":{"id":"11111111-2222-4333-8444-555555555555","title":"الفرض الأول — تفاعلي"}}}
     """#
 
     static let cardLessons = #"""

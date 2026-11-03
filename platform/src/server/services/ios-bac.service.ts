@@ -8,9 +8,8 @@ import { eq } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { students } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
-import { signFileUrl } from '@/server/lib/storage'
-import { archiveDocument, archiveFacets, listArchive, type ArchiveFilter } from './exam-engine.service'
-import { publicResourceFile } from './library.service'
+import { archiveFacets, listArchive, type ArchiveFilter } from './exam-engine.service'
+import { iosPaper } from './ios-tests.service'
 
 const PAGE = 30
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -20,12 +19,6 @@ export interface IosBacQuery {
   subjectId?: string | null
   year?: number | null
   cursor?: string | null
-}
-
-export interface IosBacLink {
-  url: string
-  /** true: PDF عندنا يُعرض داخل التطبيق؛ false: صفحة أو ملف عند المصدر يُفتح في متصفح داخلي */
-  inApp: boolean
 }
 
 function filterOf(q: IosBacQuery): ArchiveFilter {
@@ -65,29 +58,5 @@ export async function iosBacList(db: Db, actor: Actor | null, q: IosBacQuery) {
   }
 }
 
-function linkOf(f: { fileId: string | null; url: string | null } | null): IosBacLink | null {
-  if (!f) return null
-  if (f.fileId) return { url: signFileUrl(f.fileId, 1800), inApp: true }
-  return f.url && /^https:\/\//i.test(f.url) ? { url: f.url, inApp: false } : null
-}
-
-export async function iosBacPaper(db: Db, actor: Actor | null, id: string) {
-  const d = await archiveDocument(db, id)
-  const viewer = { studentId: actor?.studentId ?? null, userId: actor?.userId ?? null }
-  const [paper, solution] = await Promise.all([
-    publicResourceFile(db, id, 'file', viewer).catch(() => null),
-    publicResourceFile(db, id, 'solution', viewer).catch(() => null)
-  ])
-  return {
-    id: d.resource.id,
-    title: d.resource.title,
-    year: d.resource.year,
-    session: d.resource.session,
-    official: d.resource.official,
-    subjectName: d.subjectName,
-    streamName: d.streamName,
-    source: d.source ? { name: d.source.name, attribution: d.source.attribution } : null,
-    paper: linkOf(paper),
-    solution: linkOf(solution)
-  }
-}
+/** صفحة موضوع البكالوريا: الصفحة العامة نفسها لكل الملفات (مع «العبه تفاعليًا» إن وُجد في PLAY) */
+export const iosBacPaper = iosPaper

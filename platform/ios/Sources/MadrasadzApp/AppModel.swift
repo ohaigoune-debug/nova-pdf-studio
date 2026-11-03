@@ -3,7 +3,7 @@ import Network
 import UserNotifications
 import MadrasadzCore
 
-enum AppTab: Hashable { case home, play, library, planner, account }
+enum AppTab: Hashable { case home, play, planner, account }
 
 /// A refusal shown as is (SMS code request, phone confirmation).
 struct PhoneError: Error, Equatable {
@@ -530,6 +530,39 @@ final class AppModel: ObservableObject {
         }
     }
 
+    /// The suggested week of the planner: replaces the earlier suggested week still to come
+    /// (done sessions and the student's own tasks stay), then adds the new one.
+    @discardableResult
+    func addWeeklyTimetable(_ tasks: [RevisionTask]) async -> Bool {
+        guard let session = studySession, personalSpaceReady, !studyWriteBusy, !tasks.isEmpty else { return false }
+        let revision = generation
+        let now = Date()
+        let old = snapshot.tasks.filter { ($0.planID ?? "").hasPrefix("weekly-") && !$0.completed && $0.date > now }
+        if !old.isEmpty {
+            studyWriteBusy = true
+            do {
+                for task in old { try await store.removeTask(id: task.id, session: session) }
+                guard isCurrent(session, revision: revision) else { studyWriteBusy = false; return false }
+                snapshot = try await store.snapshot(using: session)
+            } catch {
+                studyWriteBusy = false
+                if isCurrent(session, revision: revision) { notice = L10n.text("error") }
+                return false
+            }
+            studyWriteBusy = false
+        }
+        return await addPlan(tasks)
+    }
+
+    /// Re-creates the reminders after a reminder setting changed (the morning summary).
+    func refreshReminders() async {
+        guard let session = studySession, personalSpaceReady else { return }
+        if UserDefaults.standard.object(forKey: "dailySummary") as? Bool ?? true {
+            _ = try? await notifications.requestAuthorization(options: [.alert, .sound])
+        }
+        _ = await synchronizeReminders(state: snapshot, session: session, revision: generation)
+    }
+
     func deleteTask(_ task: RevisionTask) async {
         guard let session = studySession, personalSpaceReady, !studyWriteBusy,
               snapshot.tasks.contains(where: { $0.id == task.id }) else { return }
@@ -572,13 +605,16 @@ final class AppModel: ObservableObject {
         var count = 0
         for task in state.tasks where task.reminderEnabled && !task.completed {
             guard current() else { return }
-            guard allowed, count < 50, (reminderMinute(task.date) ?? .distantPast) > Date(),
+            // Sessions of the suggested week ring ten minutes before they start.
+            let early = (task.planID ?? "").hasPrefix("weekly-")
+            let ring = early ? task.date.addingTimeInterval(-600) : task.date
+            guard allowed, count < 50, (reminderMinute(ring) ?? .distantPast) > Date(),
                   let id = StudyReminders.identifier(accountID: session.accountID, taskID: task.id) else { continue }
             let content = UNMutableNotificationContent()
             content.title = "Madrasadz — مدرسة"
-            content.body = L10n.text("reminderBody")
+            content.body = L10n.text(early ? "reminderSoon" : "reminderBody")
             content.sound = .default
-            let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: task.date)
+            let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: ring)
             let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
             guard let fire = trigger.nextTriggerDate(), fire > Date() else { continue }
             do {
@@ -587,6 +623,24 @@ final class AppModel: ObservableObject {
             } catch {
                 continue
             }
+        }
+        // The morning summary (07:00) of each of the next seven days that has sessions.
+        guard allowed, UserDefaults.standard.object(forKey: "dailySummary") as? Bool ?? true else { return }
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        for offset in 0..<7 {
+            guard current(), let day = calendar.date(byAdding: .day, value: offset, to: today),
+                  let morning = calendar.date(bySettingHour: 7, minute: 0, second: 0, of: day), morning > Date() else { continue }
+            let sessions = state.tasks.filter { !$0.completed && calendar.isDate($0.date, inSameDayAs: day) && $0.date > morning }.count
+            guard sessions > 0 else { continue }
+            let content = UNMutableNotificationContent()
+            content.title = "Madrasadz — مدرسة"
+            content.body = String(format: L10n.text("dailySummaryBody"), sessions)
+            content.sound = .default
+            let parts = calendar.dateComponents([.year, .month, .day], from: day)
+            let key = String(format: "%04d%02d%02d", parts.year ?? 0, parts.month ?? 0, parts.day ?? 0)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: calendar.dateComponents([.year, .month, .day, .hour, .minute], from: morning), repeats: false)
+            try? await notifications.add(UNNotificationRequest(identifier: "madrasadz.revision.daily.\(key)", content: content, trigger: trigger))
         }
     }
 }
