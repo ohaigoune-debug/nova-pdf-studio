@@ -8,14 +8,15 @@ import { createSession, SESSION_COOKIE } from '@/server/auth/session'
 import { getDb } from '@/server/db/client'
 import type { DatabaseHandle } from '@/server/db/connect'
 import { seedCurriculum } from '@/server/db/seed-curriculum'
-import { levels, playExamSets, resources, streams, students, subjects } from '@/server/db/schema'
+import { content, levels, playExamSets, resources, streams, students, subjects } from '@/server/db/schema'
 import { readExamSetFile, validateExamSet } from '@/server/play/exams/engine'
 import type { ExamSetDocument } from '@/server/play/exams/types'
 import { setPlayProfile } from '@/server/services/play.service'
 import { upsertResource } from '@/server/services/resources.service'
 import { GET as testsRoute } from '@/app/api/v1/ios/tests/route'
 import { GET as paperRoute } from '@/app/api/v1/ios/papers/[id]/route'
-import { makeStudent, setupDb } from './helpers'
+import { termOfTitle, levelCodeOfTitle } from '@/server/services/ios-tests.service'
+import { makeAdmin, makeStudent, setupDb } from './helpers'
 
 vi.mock('@/server/db/client', () => ({ getDb: vi.fn() }))
 
@@ -26,6 +27,7 @@ let arabic: string
 let hw1: string
 let t2: string
 let setUuid: string
+let seriesId: string
 
 const get = async (query: string) => {
   const res = await testsRoute(new NextRequest(`https://madrasadz.com/api/v1/ios/tests${query}`, { headers: { cookie } }))
@@ -68,6 +70,15 @@ beforeAll(async () => {
     .values({ kind: 'DEVOIR', gradeCode: '2AS', streamCodes: doc.source.streams, subjectCode: 'AR', year: 2025, term: 1, paper: null, scoreTotal: 20, stepCount: doc.steps.length, setId: approved.set_id, title: 'الفرض الأول — تفاعلي', status: 'APPROVED', publishable: true, checksum: 'ios-tests', document: approved })
     .returning()
   setUuid = row!.id
+
+  // سلسلة المالك المنشورة درسًا عامًا: الفصل والسنة من العنوان، والمادة العربية حين لا تُحدَّد
+  const admin = await makeAdmin(h.db)
+  const [series] = await h.db
+    .insert(content)
+    .values({ authorUserId: admin.userId, type: 'PDF', title: 'سلسلة الفروض والاختبارات — السنة الثانية ثانوي — علوم تجريبية — الفصل الثالث', slug: 'series-2as-t3', visibility: 'PUBLIC', publishedAt: new Date(), externalUrl: 'https://drive.test/series-2as-t3.pdf' })
+    .returning()
+  seriesId = series!.id
+  await h.db.insert(content).values({ authorUserId: admin.userId, type: 'PDF', title: 'ملخص درس الاستعارة', slug: 'not-a-test', visibility: 'PUBLIC', publishedAt: new Date(), externalUrl: 'https://drive.test/x.pdf' })
 })
 afterAll(async () => h.close())
 
@@ -75,7 +86,8 @@ describe('بنك الفروض والاختبارات', () => {
   it('الفصول بأعدادها لسنة التلميذ، وسنته أولًا', async () => {
     const { status, body } = await get('')
     expect(status).toBe(200)
-    expect(body.data.terms).toEqual([{ term: 1, count: 1 }, { term: 2, count: 1 }, { term: 3, count: 0 }])
+    // الفصل 1: فرض المكتبة + نسخته في PLAY؛ الفصل 2: اختبار المكتبة؛ الفصل 3: سلسلة المنصة
+    expect(body.data.terms).toEqual([{ term: 1, count: 2 }, { term: 2, count: 1 }, { term: 3, count: 1 }])
     expect(body.data.myLevelId).toBe(l2)
     expect(body.data.levels[0]).toMatchObject({ id: l2, code: '2AS' })
     expect(body.data.subjects).toEqual([])
@@ -83,7 +95,7 @@ describe('بنك الفروض والاختبارات', () => {
 
   it('الفصل ← السنة ← المادة ← القائمة مع النسخة التفاعلية للفصل نفسه', async () => {
     const subjectsStep = (await get(`?term=1&level=${l2}`)).body.data
-    expect(subjectsStep.subjects).toEqual([expect.objectContaining({ id: arabic, count: 1 })])
+    expect(subjectsStep.subjects).toEqual([expect.objectContaining({ id: arabic, count: 2 })])
     const t1 = (await get(`?term=1&level=${l2}&subject=${arabic}`)).body.data
     expect(t1.papers.map((p: { id: string }) => p.id)).toEqual([hw1])
     expect(t1.papers[0]).toMatchObject({ hasSolution: true, hasFile: true })
@@ -91,6 +103,9 @@ describe('بنك الفروض والاختبارات', () => {
     const t2list = (await get(`?term=2&level=${l2}&subject=${arabic}`)).body.data
     expect(t2list.papers.map((p: { id: string }) => p.id)).toEqual([t2])
     expect(t2list.interactive).toEqual([])
+    const t3 = (await get(`?term=3&level=${l2}&subject=${arabic}`)).body.data
+    expect(t3.papers).toEqual([expect.objectContaining({ id: seriesId, typeLabel: 'سلسلة' })])
+    expect((await get(`?term=3&level=${l2}`)).body.data.subjects).toEqual([expect.objectContaining({ id: arabic, count: 1 })])
     expect((await get('?term=4')).status).toBe(422)
     expect((await get('?level=x')).status).toBe(422)
   })
@@ -102,5 +117,19 @@ describe('بنك الفروض والاختبارات', () => {
     const noPlay = await paperRoute(new NextRequest(`https://madrasadz.com/api/v1/ios/papers/${t2}`, { headers: { cookie } }), { params: Promise.resolve({ id: t2 }) })
     expect((await noPlay.json()).data).toMatchObject({ play: null, solution: null })
     expect((await paperRoute(new NextRequest('https://madrasadz.com/api/v1/ios/papers/nope'), { params: Promise.resolve({ id: 'nope' }) })).status).toBe(404)
+    const lesson = await paperRoute(new NextRequest(`https://madrasadz.com/api/v1/ios/papers/${seriesId}`, { headers: { cookie } }), { params: Promise.resolve({ id: seriesId }) })
+    expect((await lesson.json()).data).toMatchObject({ term: 3, paper: { url: 'https://drive.test/series-2as-t3.pdf', inApp: false }, solution: null, play: null })
+  })
+})
+
+describe('قراءة الفصل والسنة من العنوان', () => {
+  it('الفصل والسنة كما يكتبهما المالك', () => {
+    expect(termOfTitle('سلسلة الفروض والاختبارات — السنة الثالثة ثانوي — لغات أجنبية — الفصل الأول')).toBe(1)
+    expect(termOfTitle('اختبار الفصل الثاني في الفلسفة')).toBe(2)
+    expect(termOfTitle('فرض الفصل 3')).toBe(3)
+    expect(termOfTitle('فرض المراقبة المستمرة')).toBeNull()
+    expect(levelCodeOfTitle('سلسلة الفروض — السنة الثالثة ثانوي — الفصل الأول')).toBe('3AS')
+    expect(levelCodeOfTitle('فرض الرابعة متوسط')).toBe('4AM')
+    expect(levelCodeOfTitle('فرض بلا سنة')).toBeNull()
   })
 })
