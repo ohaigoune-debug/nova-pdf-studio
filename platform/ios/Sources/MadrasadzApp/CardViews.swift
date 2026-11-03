@@ -254,6 +254,8 @@ struct CardGame: View {
         .background(Color(.systemBackground), in: RoundedRectangle(cornerRadius: 22, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous).stroke(Brand.sky, lineWidth: 1.5))
         .shadow(color: Brand.blue.opacity(0.18), radius: 16, y: 10)
+        // A container: the options, blanks and feedback inside keep their own identifiers.
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("cardFront")
     }
 
