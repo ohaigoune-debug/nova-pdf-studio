@@ -27,7 +27,11 @@ const LEGACY_ENTRIES = [
 /** روابط الإشعارات التي يولّدها الخادم للتلميذ (notifications.service وغيرها) */
 const NOTIFICATION_LINKS = ['/student/assignments', '/student/classroom', '/student/courses', '/student/groups', '/student/lessons', '/student/quizzes']
 
-const pageFile = (href: string) => join(process.cwd(), 'src/app', href.replace(/^\//, ''), 'page.tsx')
+const pageFile = (href: string) => {
+  const rel = href.replace(/^\//, '')
+  const inPublic = join(process.cwd(), 'src/app/(public)', rel, 'page.tsx')
+  return existsSync(inPublic) ? inPublic : join(process.cwd(), 'src/app', rel, 'page.tsx')
+}
 
 describe('قائمة التلميذ بعد الدمج', () => {
   const sections = navFor('STUDENT')
@@ -40,14 +44,21 @@ describe('قائمة التلميذ بعد الدمج', () => {
     expect(new Set(labels).size).toBe(labels.length)
   })
 
-  it('قرار 2026-10-24: الرئيسية + الأقسام الخمسة فقط (الدروس، الفروض، بنك البكالوريات، تدرّب، الدورات)', () => {
+  it('قرار 2026-11-03: «اليوم» + ثلاثة أبواب فقط (دوراتي، PLAY، حسابي)', () => {
+    expect(sections).toHaveLength(1)
     const main = sections[0]!
-    expect(main.items.map((i) => i.href)).toEqual(['/student', STUDENT_HUBS.lessons.href, STUDENT_HUBS.exams.href, '/bac', STUDENT_HUBS.train.href, STUDENT_HUBS.courses.href])
-    expect(main.items.slice(1).map((i) => i.label)).toEqual(['الدروس', 'الفروض', 'بنك البكالوريات السابقة', 'تدرّب', 'الدورات'])
-    for (const key of ['lessons', 'exams', 'train', 'courses'] as StudentHubKey[]) {
+    expect(main.items.map((i) => i.href)).toEqual(['/student', STUDENT_HUBS.courses.href, STUDENT_HUBS.train.href, STUDENT_HUBS.account.href])
+    expect(main.items.map((i) => i.label)).toEqual(['اليوم', 'دوراتي', 'PLAY', 'حسابي'])
+    for (const key of ['courses', 'train', 'account'] as StudentHubKey[]) {
       const item = main.items.find((i) => i.href === STUDENT_HUBS[key].href)!
       expect(item.also).toEqual(hubPaths(key))
     }
+  })
+
+  it('لا صفحة في بابين، وكل تبويب له صفحة فعلية', () => {
+    const all = (Object.keys(STUDENT_HUBS) as StudentHubKey[]).flatMap((k) => hubPaths(k))
+    expect(new Set(all).size).toBe(all.length)
+    for (const href of all) expect(existsSync(pageFile(href)), href).toBe(true)
   })
 
   it('الحضور والأفواج لم يعودا في قائمة التلميذ (الصفحات باقية بمساراتها)', () => {
@@ -72,9 +83,10 @@ describe('قائمة التلميذ بعد الدمج', () => {
     }
   })
 
-  it('الواجب الشخصي والفرض العام تبويبان منفصلان في مجمّع واحد (صلاحيات مختلفة)', () => {
-    expect(STUDENT_HUBS.exams.tabs.map((t) => t.href)).toEqual(['/student/exams', '/student/assignments'])
-    expect(STUDENT_HUBS.train.tabs.map((t) => t.href)).toEqual(['/student/play', '/student/quizzes', '/student/practice'])
+  it('كل باب يجمع ما يخصّه: الدراسة، التدرّب، الحساب', () => {
+    expect(STUDENT_HUBS.courses.tabs.map((t) => t.href)).toEqual(['/student/courses', '/student/assignments', '/student/lessons', '/student/files', '/student/courses/catalog', '/student/courses/orders'])
+    expect(STUDENT_HUBS.train.tabs.map((t) => t.href)).toEqual(['/student/play', '/student/exams', '/bac', '/student/quizzes', '/student/practice'])
+    expect(STUDENT_HUBS.account.tabs.map((t) => t.href)).toEqual(['/student/profile', '/student/progress', '/student/grades', '/student/notifications', '/student/invite', '/student/support'])
   })
 
   it('روابط إشعارات الخادم تشير إلى صفحات قائمة', () => {

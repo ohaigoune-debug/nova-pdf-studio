@@ -29,7 +29,7 @@ export default async function StudentExamsPage({ searchParams }: { searchParams:
   const [cards, options] = await Promise.all([assessmentCards(db, scope, { studentId: actor.studentId, levelCode: levelRow?.code ?? null }), browseOptions(db, scope)])
   return (
     <>
-      <HubTabs hub="exams" />
+      <HubTabs hub="train" />
       <PageHeader
         title="الفروض والاختبارات"
         description="فروض واختبارات الفصول الثلاثة المنشورة مجاناً بحسب مستواك وشعبتك ومادتك. واجبات أستاذك الموجّهة لفوجك في صفحة «الواجبات»."

@@ -16,7 +16,7 @@ export default async function StudentFilesPage() {
   const items = await listStudentFiles(await getDb(), actor)
   return (
     <>
-      <HubTabs hub="lessons" />
+      <HubTabs hub="courses" />
       <PageHeader title={t('nav.files')} description="الملفات المرفقة بالدروس المتاحة لك. ملفات PDF والفيديو المحمية تُفتح داخل المنصة؛ وروابط التنزيل موقّعة وتنتهي بعد 10 دقائق." />
       {items.length === 0 ? (
         <EmptyState icon={FolderOpen} title="لا توجد ملفات مشتركة معك بعد." />

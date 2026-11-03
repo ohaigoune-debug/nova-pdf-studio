@@ -1,6 +1,5 @@
 import type { UserRole } from '@/server/db/schema/enums'
 import { t } from '@/i18n'
-import { MAIN_SECTIONS } from '@/lib/sections'
 import { STUDENT_HUBS, hubPaths, type StudentHubKey } from '@/lib/student-hubs'
 
 /** iconKey = اسم أيقونة lucide (PascalCase) يُحلّ في العميل */
@@ -49,26 +48,15 @@ export const TEACHER_TOOLS: (NavItem & { group: string })[] = [
 export function navFor(role: UserRole): NavSection[] {
   switch (role) {
     case 'STUDENT':
-      // قرار المالك (2026-10-24): خمسة أقسام فقط — الدروس، الفروض، بنك البكالوريات، تدرّب، الدورات.
-      // الحضور (البطاقة والسجل) والأفواج مخفية؛ صفحاتها القديمة تبقى بمساراتها فلا ينكسر رابط قديم.
+      // قرار المالك (3 نوفمبر 2026): ثلاثة أبواب فقط بعد «اليوم» — دوراتي، PLAY، حسابي.
+      // الصفحات القديمة (الدروس، الفروض، بنك البكالوريات، الإشعارات…) تبويبات داخل أبوابها بمساراتها نفسها.
       return [
         {
           items: [
-            { href: '/student', label: t('nav.home'), iconKey: 'Home', exact: true },
-            hubItem('lessons'),
-            hubItem('exams'),
-            ...MAIN_SECTIONS.filter((s) => s.href === '/bac').map((s) => ({ href: s.href, label: s.label, iconKey: s.iconKey })),
+            { href: '/student', label: 'اليوم', iconKey: 'Sun', exact: true },
+            hubItem('courses'),
             hubItem('train'),
-            hubItem('courses')
-          ]
-        },
-        {
-          title: 'الحساب',
-          items: [
-            { href: '/student/notifications', label: t('common.notifications'), iconKey: 'BellRing' },
-            { href: '/student/invite', label: 'ادعُ زميلك ورصيدي', iconKey: 'Gift' },
-            { href: '/student/support', label: 'الدعم والشكاوى', iconKey: 'LifeBuoy' },
-            { href: '/student/profile', label: t('common.profile'), iconKey: 'UserRound' }
+            hubItem('account')
           ]
         }
       ]

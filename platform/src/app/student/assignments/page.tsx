@@ -23,7 +23,7 @@ export default async function StudentAssignmentsPage() {
   const items = await listAssignmentsForStudent(await getDb(), actor)
   return (
     <>
-      <HubTabs hub="exams" />
+      <HubTabs hub="courses" />
       <PageHeader title={t('nav.assignments')} />
       {items.length === 0 ? (
         <EmptyState icon={ClipboardList} title="لا توجد واجبات مسندة إليك حالياً." />

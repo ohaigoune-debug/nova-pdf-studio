@@ -15,22 +15,28 @@ export interface HideableEntry {
 const hub = (k: StudentHubKey, group: string, label?: string): HideableEntry => ({ href: STUDENT_HUBS[k].href, label: label ?? `${STUDENT_HUBS[k].label} (القسم كله)`, covers: STUDENT_HUBS[k].tabs.map((t) => t.href), group })
 const tab = (href: string, label: string, group: string): HideableEntry => ({ href, label, covers: [href], group })
 
-/** ما يمكن إخفاؤه. «الرئيسية» و«حسابي» لا تُخفيان أبدًا. */
+/**
+ * ما يمكن إخفاؤه. «الرئيسية» و«حسابي» لا تُخفيان أبدًا (إلا تبويبات منه).
+ * المسارات المخزّنة قبل الأبواب الثلاثة تبقى صالحة: «/student/lessons» يخفي الدروس والملفات معًا كما كان،
+ * و«/student/exams» يخفي الفروض والواجبات معًا كما كان، و«/student/play» يخفي PLAY بكل تبويباته.
+ */
 export const HIDEABLE_STUDENT_ENTRIES: HideableEntry[] = [
-  hub('lessons', 'الدروس'),
-  tab('/student/files', 'تبويب «الملفات»', 'الدروس'),
-  hub('exams', 'الفروض'),
-  tab('/student/exams', 'تبويب «فروض واختبارات مجانية»', 'الفروض'),
-  tab('/student/assignments', 'تبويب «واجباتي»', 'الفروض'),
-  tab('/bac', 'بنك البكالوريات السابقة', 'البكالوريا'),
-  hub('train', 'تدرّب'),
-  tab('/student/quizzes', 'تبويب «اختبارات أستاذي»', 'تدرّب'),
-  tab('/student/practice', 'تبويب «تدريب حرّ»', 'تدرّب'),
-  hub('courses', 'الدورات'),
-  tab('/student/courses/catalog', 'تبويب «شراء دورة» (و«استكشف» في الهاتف)', 'الدورات'),
-  tab('/student/courses/orders', 'تبويب «طلباتي»', 'الدورات'),
-  tab('/student/notifications', 'الإشعارات', 'الحساب'),
-  tab('/student/support', 'الدعم والشكاوى', 'الحساب')
+  hub('courses', 'دوراتي'),
+  tab('/student/assignments', 'تبويب «واجباتي»', 'دوراتي'),
+  { href: '/student/lessons', label: 'تبويبا «دروس مجانية» و«الملفات»', covers: ['/student/lessons', '/student/files'], group: 'دوراتي' },
+  tab('/student/files', 'تبويب «الملفات» وحده', 'دوراتي'),
+  tab('/student/courses/catalog', 'تبويب «شراء دورة» (و«استكشف» في الهاتف)', 'دوراتي'),
+  tab('/student/courses/orders', 'تبويب «طلباتي»', 'دوراتي'),
+  hub('train', 'PLAY'),
+  { href: '/student/exams', label: 'تبويب «فروض واختبارات» (ومعه «واجباتي»)', covers: ['/student/exams', '/student/assignments'], group: 'PLAY' },
+  tab('/bac', 'بنك البكالوريات السابقة', 'PLAY'),
+  tab('/student/quizzes', 'تبويب «اختبارات أستاذي»', 'PLAY'),
+  tab('/student/practice', 'تبويب «تدريب حرّ»', 'PLAY'),
+  tab('/student/progress', 'تبويب «تقدّمي»', 'حسابي'),
+  tab('/student/grades', 'تبويب «العلامات»', 'حسابي'),
+  tab('/student/notifications', 'الإشعارات', 'حسابي'),
+  tab('/student/invite', 'ادعُ زميلك ورصيدي', 'حسابي'),
+  tab('/student/support', 'الدعم والشكاوى', 'حسابي')
 ]
 
 const ALLOWED = new Set(HIDEABLE_STUDENT_ENTRIES.map((e) => e.href))

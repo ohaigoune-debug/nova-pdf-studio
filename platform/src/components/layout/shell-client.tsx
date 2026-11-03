@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight, Compass, Home, GraduationCap, UserRound, Bell, BookOpenText, LogOut, Menu, Search, X } from 'lucide-react'
+import { ArrowRight, BookMarked, Gamepad2, Sun, UserRound, Bell, LogOut, Menu, Search, X } from 'lucide-react'
 import * as Icons from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils'
 import { logoutAction } from '@/server/actions/auth.actions'
 import { HiddenPathsProvider } from '@/components/student/hidden-paths'
 import { isPathHidden } from '@/lib/student-menu'
+import { STUDENT_HUBS, hubPaths } from '@/lib/student-hubs'
 
 export interface ShellNavItem {
   href: string
@@ -215,16 +216,16 @@ export function ShellClient({
           <nav aria-label="التنقل الرئيسي للتلميذ" className="student-bottom-nav no-print fixed inset-x-0 bottom-0 z-40 border-t bg-card shadow-soft lg:hidden">
             <div className="mx-auto grid h-[68px] max-w-lg grid-flow-col auto-cols-fr items-center px-2">
               {[
-                { href: '/student', label: 'الرئيسية', icon: Home },
-                { href: '/student/lessons', label: 'دروسي', icon: BookOpenText },
-                { href: '/student/courses/catalog', label: 'استكشف', icon: Compass },
-                { href: '/student/courses', label: 'دوراتي', icon: GraduationCap },
-                { href: '/student/profile', label: 'حسابي', icon: UserRound }
+                { href: '/student', label: 'اليوم', icon: Sun, paths: [] as string[] },
+                { href: STUDENT_HUBS.courses.href, label: STUDENT_HUBS.courses.label, icon: BookMarked, paths: hubPaths('courses') },
+                { href: STUDENT_HUBS.train.href, label: STUDENT_HUBS.train.label, icon: Gamepad2, paths: hubPaths('train') },
+                { href: STUDENT_HUBS.account.href, label: STUDENT_HUBS.account.label, icon: UserRound, paths: hubPaths('account') }
               ].filter((item) => !isPathHidden(item.href, hidden)).map((item) => {
-                const active = item.href === '/student' ? pathname === item.href : item.href === '/student/courses' ? matches(item.href, false) && !matches('/student/courses/catalog', false) : matches(item.href, false)
+                // الأبواب الثلاثة: الباب نشط في كل تبويباته (الواجبات تحت «دوراتي»، الفروض تحت PLAY…)
+                const active = item.href === '/student' ? pathname === item.href : item.paths.some((h) => matches(h, false))
                 return (
                   <Link key={item.href} href={item.href} aria-current={active ? 'page' : undefined} className={cn('flex min-h-11 flex-col items-center justify-center gap-1 rounded-md text-[11px] font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring', active ? 'text-primary' : 'text-muted-foreground')}>
-                    <span className={cn('flex items-center justify-center', item.href === '/student/courses/catalog' && '-mt-5 size-12 rounded-full bg-primary text-primary-foreground shadow-soft ring-4 ring-card', item.href !== '/student/courses/catalog' && active && 'rounded-full bg-secondary px-3 py-0.5')}><item.icon className="size-5" /></span>
+                    <span className={cn('flex items-center justify-center', active && 'rounded-full bg-secondary px-3 py-0.5')}><item.icon className="size-5" /></span>
                     {item.label}
                   </Link>
                 )
