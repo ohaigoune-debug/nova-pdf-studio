@@ -483,12 +483,13 @@ export async function offlineExamPackage(db: Db, actor: Actor, setUuid: string, 
   const profile = await getPlayProfile(db, actor)
   if (set.streamCodes.length && profile.streamCode && !set.streamCodes.includes(profile.streamCode)) throw new AppError('PLAY_EXAM_NOT_FOUND')
   await beginPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode: profile.streamCode, subjectCode: set.subjectCode }, now)
-  const full = new Map(stepsFor(set.document, profile.streamCode).map((s) => [s.id, s]))
-  const steps = publicSteps(set.document, profile.streamCode).flatMap((p): OfflineStep[] => {
+  const document = await examDocument(db, set.id, set.checksum)
+  const full = new Map(stepsFor(document, profile.streamCode).map((s) => [s.id, s]))
+  const steps = publicSteps(document, profile.streamCode).flatMap((p): OfflineStep[] => {
     const s = full.get(p.id)
     return s && !isQueued(s.type) ? [{ ...p, answer: s.answer, explanation: s.explanation, correctText: answerText(s) }] : []
   })
-  return { id: set.id, setId: set.setId, checksum: set.checksum, kind: set.kind as PlayExamKind, year: set.year, title: set.title, subjectCode: set.subjectCode, language: subjectLanguage(set.subjectCode), scoreTotal: set.scoreTotal, maxScore: round2(interactivePoints(set.document, profile.streamCode)), steps }
+  return { id: set.id, setId: set.setId, checksum: set.checksum, kind: set.kind as PlayExamKind, year: set.year, title: set.title, subjectCode: set.subjectCode, language: subjectLanguage(set.subjectCode), scoreTotal: set.scoreTotal, maxScore: round2(interactivePoints(document, profile.streamCode)), steps }
 }
 
 /**

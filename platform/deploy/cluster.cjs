@@ -17,12 +17,14 @@ if (n === 1 || !cluster.isPrimary) {
   require(entry)
 } else {
   console.log(`[cluster] ${n} عمليات على المنفذ ${process.env.PORT || 3000}`)
-  for (let i = 0; i < n; i++) cluster.fork()
+  // الهجرات تطبّقها خدمة bootstrap قبل التطبيق: لا تتسابق عليها العمليات
+  const env = { AUTO_MIGRATE: '0' }
+  for (let i = 0; i < n; i++) cluster.fork(env)
   let stopping = false
   cluster.on('exit', (w, code, signal) => {
     if (stopping) return
     console.error(`[cluster] توقّفت العملية ${w.process.pid} (${signal || code}) — تُعاد`)
-    setTimeout(() => cluster.fork(), 1000)
+    setTimeout(() => cluster.fork(env), 1000)
   })
   for (const sig of ['SIGTERM', 'SIGINT']) {
     process.on(sig, () => {

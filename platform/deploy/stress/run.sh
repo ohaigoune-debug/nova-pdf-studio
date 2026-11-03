@@ -11,21 +11,32 @@
 #   4) يحذف المشروع المؤقت كله مع قاعدته في النهاية (حتى لو أوقفته بـ Ctrl+C).
 #
 # خيارات (اختيارية): STRESS_LEVELS="50 100 200 400 800" STRESS_SECONDS=120 bash deploy/stress/run.sh
-#   STRESS_MODE=real bash deploy/stress/run.sh   ⇐ 500 ← 1000 ← 2000 ← 3000 تلميذ واقعيّ (قراءة 15–30 ثانية بين الخطوات)
+#   STRESS_MODE=real bash deploy/stress/run.sh   ⇐ 1000 ← 2000 ← 3000 ← 5000 تلميذ واقعيّ (قراءة 15–30 ثانية بين الخطوات)
 #   APP_IMAGE=platform-app:perf-xxxx TOOLS_IMAGE=platform-tools:perf-xxxx STRESS_WORKERS=4 …   ⇐ صورة مبنيّة للتجربة وعدّة عمليات
 set -euo pipefail
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
-APP_IMAGE="${APP_IMAGE:-$(docker ps --format '{{.Image}}' | grep -o 'platform-app:[^ ]*' | head -1)}"
+# صورة التطبيق الشغّالة الآن («platform-app» أو «platform-app:وسم»)
+APP_IMAGE="${APP_IMAGE:-$(docker ps --format '{{.Image}}' | grep -E '^platform-app(:|$)' | head -1)}"
 [ -n "$APP_IMAGE" ] || { echo "✖ لم أجد صورة platform-app شغّالة"; exit 1; }
+case "$APP_IMAGE" in *:*) ;; *) APP_IMAGE="$APP_IMAGE:latest" ;; esac
 TAG="${APP_IMAGE#platform-app:}"
 TOOLS_IMAGE="${TOOLS_IMAGE:-platform-tools:$TAG}"
 docker image inspect "$APP_IMAGE" >/dev/null || { echo "✖ الصورة $APP_IMAGE غير موجودة"; exit 1; }
-docker image inspect "$TOOLS_IMAGE" >/dev/null || { echo "✖ الصورة $TOOLS_IMAGE غير موجودة (تُبنى بـ docker build --target build)"; exit 1; }
+# أدوات التجهيز (مرحلة build من Dockerfile نفسه): تُبنى مرة واحدة من ذاكرة Docker، في دقائق قليلة
+if ! docker image inspect "$TOOLS_IMAGE" >/dev/null 2>&1; then
+  echo "• بناء أدوات الاختبار ($TOOLS_IMAGE)…"
+  docker build --target build -t "$TOOLS_IMAGE" "$DIR/../.." >/dev/null || { echo "✖ تعذّر بناء أدوات الاختبار"; exit 1; }
+fi
+# أربع عمليات للتطبيق حين تحمل الصورة cluster.cjs (الصور الجديدة)، وإلا عملية واحدة
+if [ -z "${STRESS_WORKERS:-}" ]; then
+  if docker run --rm --entrypoint ls "$APP_IMAGE" /app/cluster.cjs >/dev/null 2>&1; then STRESS_WORKERS=4; else STRESS_WORKERS=1; fi
+fi
+export STRESS_WORKERS
 
 # STRESS_MODE=real: تلميذ واقعيّ يقرأ ويفكّر 15–30 ثانية بين كل خطوة وأخرى (لقياس آلاف التلاميذ الحقيقيين)
 if [ "${STRESS_MODE:-}" = real ]; then
-  LEVELS="${STRESS_LEVELS:-500 1000 2000 3000}"
+  LEVELS="${STRESS_LEVELS:-1000 2000 3000 5000}"
   export STRESS_THINK_MS="${STRESS_THINK_MS:-15000-30000}" STRESS_SECONDS="${STRESS_SECONDS:-240}" STRESS_RAMP_SECONDS="${STRESS_RAMP_SECONDS:-60}"
 else
   LEVELS="${STRESS_LEVELS:-50 100 200 400}"
