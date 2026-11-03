@@ -91,3 +91,26 @@ describe('سنة PLAY من التطبيق', () => {
     expect(after.data.streamCode).toBe('LIT')
   })
 })
+
+describe('أجزاء الدرس في التطبيق (درس الدورة: فيديو + PDF)', () => {
+  it('تُستنتج من مزوّد الفيديو والملف كما في صفحة الموقع، لا من نوع المحتوى', async () => {
+    const { lessonParts } = await import('@/server/services/ios-api.service')
+    const base = { id: 'c1', type: 'LESSON', videoProvider: null, youtubeId: null, fileId: null, fileMime: null, fileStatus: null, allowDownload: false, externalUrl: null }
+    // درس الدورة الجديد: نوعه LESSON، فيه Bunny وPDF معًا
+    expect(lessonParts({ ...base, videoProvider: 'BUNNY', fileId: 'f1', fileMime: 'application/pdf', fileStatus: 'READY', allowDownload: true })).toEqual([
+      { kind: 'video', contentId: 'c1', provider: 'BUNNY' },
+      { kind: 'pdf', contentId: 'c1', allowDownload: true }
+    ])
+    expect(lessonParts({ ...base, videoProvider: 'YOUTUBE', youtubeId: 'dQw4w9WgXcQ', fileId: 'f1', fileMime: 'application/pdf', fileStatus: 'READY' })).toEqual([
+      { kind: 'youtube', youtubeId: 'dQw4w9WgXcQ', contentId: 'c1' },
+      { kind: 'pdf', contentId: 'c1', allowDownload: false }
+    ])
+    // PDF وحده، وملف غير جاهز لا يظهر، ودرس نصّي بلا أجزاء
+    expect(lessonParts({ ...base, fileId: 'f1', fileMime: 'application/pdf', fileStatus: 'READY' })).toEqual([{ kind: 'pdf', contentId: 'c1', allowDownload: false }])
+    expect(lessonParts({ ...base, fileId: 'f1', fileMime: 'application/pdf', fileStatus: 'PENDING' })).toEqual([])
+    expect(lessonParts(base)).toEqual([])
+    // النوع القديم VIDEO مع ملف فيديو مرفوع، ورابط خارجي https فقط
+    expect(lessonParts({ ...base, type: 'VIDEO', videoProvider: 'UPLOAD', fileId: 'f2', fileMime: 'video/mp4', fileStatus: 'READY' })).toEqual([{ kind: 'video', contentId: 'c1', provider: 'UPLOAD' }])
+    expect(lessonParts({ ...base, type: 'LINK', externalUrl: 'http://x.dz' })).toEqual([{ kind: 'external', url: null }])
+  })
+})

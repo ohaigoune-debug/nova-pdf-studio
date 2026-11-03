@@ -406,8 +406,12 @@ struct LessonView: View {
                     if loader.savedAt != nil || !model.online { OfflineBanner(savedAt: loader.savedAt) }
                     Text(lesson.title).font(.title2.bold()).accessibilityIdentifier("lessonTitle")
                     if let summary = lesson.summary { Text(summary).font(.callout).foregroundStyle(.secondary) }
-                    media(lesson)
+                    ForEach(Array(lesson.parts.enumerated()), id: \.offset) { _, part in media(part, lesson: lesson) }
                     if let body = lesson.bodyMarkdown { LessonBody(markdown: body) }
+                    if lesson.parts.isEmpty && lesson.bodyMarkdown == nil && lesson.summary == nil {
+                        Label(L10n.text("lessonEmpty"), systemImage: "doc.text").font(.subheadline).foregroundStyle(.secondary).card()
+                            .accessibilityIdentifier("lessonEmpty")
+                    }
                 } else if let failure = loader.failure {
                     FailureView(message: failure.code == "FORBIDDEN" || failure.code?.hasSuffix("NOT_FOUND") == true ? L10n.text("lessonUnavailable") : failure.message) {
                         Task { await loader.load(path, model: model, force: true) }
@@ -416,6 +420,7 @@ struct LessonView: View {
                     LoadingView()
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(16)
         }
         .background(Brand.page)
@@ -428,8 +433,8 @@ struct LessonView: View {
     }
 
     @ViewBuilder
-    private func media(_ lesson: NativeLesson) -> some View {
-        switch lesson.media {
+    private func media(_ part: NativeLesson.Media, lesson: NativeLesson) -> some View {
+        switch part {
         case .none:
             EmptyView()
         case .youtube(let id, let contentID):

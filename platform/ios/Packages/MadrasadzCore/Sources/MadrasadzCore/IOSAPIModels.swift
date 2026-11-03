@@ -279,11 +279,14 @@ public struct NativeLesson: Decodable, Equatable, Sendable {
     public let type: String
     public let bodyMarkdown: String?
     public let media: Media
+    /// Every part of the lesson in order (video, PDF, link). A course lesson can hold a
+    /// video and a PDF together; an older server sends only `media`, used as the one part.
+    public let parts: [Media]
     public let webPath: String
     public let viewer: Viewer?
 
     private enum Keys: String, CodingKey { case lesson, viewer }
-    private enum LessonKeys: String, CodingKey { case slug, title, summary, type, bodyMarkdown, media, webPath }
+    private enum LessonKeys: String, CodingKey { case slug, title, summary, type, bodyMarkdown, media, parts, webPath }
     private enum MediaKeys: String, CodingKey { case kind, youtubeId, contentId, allowDownload, provider, url }
     private enum ViewerKeys: String, CodingKey { case name, code }
 
@@ -297,6 +300,17 @@ public struct NativeLesson: Decodable, Equatable, Sendable {
         bodyMarkdown = ((try? c.decodeIfPresent(String.self, forKey: .bodyMarkdown)) ?? nil).flatMap { $0.isEmpty ? nil : $0 }
         webPath = try c.decode(String.self, forKey: .webPath)
         media = Self.media(from: try? c.nestedContainer(keyedBy: MediaKeys.self, forKey: .media))
+        if var list = try? c.nestedUnkeyedContainer(forKey: .parts) {
+            var decoded: [Media] = []
+            while !list.isAtEnd {
+                guard let part = try? list.nestedContainer(keyedBy: MediaKeys.self) else { break }
+                let value = Self.media(from: part)
+                if value != .none, !decoded.contains(value) { decoded.append(value) }
+            }
+            parts = decoded
+        } else {
+            parts = media == .none ? [] : [media]
+        }
         if let v = try? root.nestedContainer(keyedBy: ViewerKeys.self, forKey: .viewer),
            let code = (try? v.decode(String.self, forKey: .code))?.lowercased(),
            code.count == 8, code.allSatisfy({ $0.isHexDigit }) {

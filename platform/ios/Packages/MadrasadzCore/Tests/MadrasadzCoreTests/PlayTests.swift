@@ -216,4 +216,23 @@ final class PlayTests: XCTestCase {
         XCTAssertTrue(course.needsTerms)
         XCTAssertEqual(course.terms, NativeCourse.Terms(text: "شروط", version: 3))
     }
+
+    func testCourseLessonCarriesVideoAndPDFTogether() throws {
+        let id = "a3a44d91-0705-48fd-95ea-545859a4acfe"
+        let both = try JSONDecoder().decode(IOSAPI.Envelope<NativeLesson>.self, from: Data(#"""
+        {"ok":true,"data":{"lesson":{"slug":"d1","title":"الدرس الأول","type":"LESSON","media":{"kind":"video","contentId":"\#(id)","provider":"BUNNY"},
+         "parts":[{"kind":"video","contentId":"\#(id)","provider":"BUNNY"},{"kind":"pdf","contentId":"\#(id)","allowDownload":true},{"kind":"hologram"}],"webPath":"/ios/lesson/d1"}}}
+        """#.utf8)).data
+        let lesson = try XCTUnwrap(both)
+        XCTAssertEqual(lesson.parts, [.video(contentID: UUID(uuidString: id), provider: "BUNNY"), .pdf(contentID: UUID(uuidString: id)!, allowDownload: true), .external])
+        // A server without parts: the single media is the one part; "none" means no part.
+        let old = try XCTUnwrap(try JSONDecoder().decode(IOSAPI.Envelope<NativeLesson>.self, from: Data(#"""
+        {"ok":true,"data":{"lesson":{"slug":"d1","title":"T","type":"PDF","media":{"kind":"pdf","contentId":"\#(id)","allowDownload":false},"webPath":"/ios/lesson/d1"}}}
+        """#.utf8)).data)
+        XCTAssertEqual(old.parts, [.pdf(contentID: UUID(uuidString: id)!, allowDownload: false)])
+        let empty = try XCTUnwrap(try JSONDecoder().decode(IOSAPI.Envelope<NativeLesson>.self, from: Data(#"""
+        {"ok":true,"data":{"lesson":{"slug":"d1","title":"T","type":"LESSON","media":{"kind":"none"},"webPath":"/ios/lesson/d1"}}}
+        """#.utf8)).data)
+        XCTAssertTrue(empty.parts.isEmpty)
+    }
 }

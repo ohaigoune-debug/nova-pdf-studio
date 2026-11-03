@@ -298,6 +298,7 @@ struct ExamLauncher: View {
     let title: String
     @State private var package: Play.Package?
     @State private var failure: String?
+    @State private var trialEnded = false
     @State private var attempt = UUID()
 
     var body: some View {
@@ -305,6 +306,14 @@ struct ExamLauncher: View {
             if let package {
                 ExamRunner(play: play, package: package, baseURL: model.api.baseURL) { attempt = UUID() }
                     .id(attempt)
+            } else if trialEnded {
+                // Not an error and nothing to retry: the account's free PLAY trial is over.
+                ContentUnavailableView {
+                    Label(L10n.text("playTrialEndedTitle"), systemImage: "hourglass.bottomhalf.filled")
+                } description: {
+                    Text(L10n.text("playTrialEnded"))
+                }
+                .accessibilityIdentifier("playTrialEnded")
             } else if let failure {
                 ContentUnavailableView {
                     Label(L10n.text("nativeLoadFailed"), systemImage: "exclamationmark.triangle")
@@ -322,13 +331,16 @@ struct ExamLauncher: View {
 
     private func load() async {
         failure = nil
+        trialEnded = false
         // A saved copy opens at once; online, the latest version replaces it.
         if package == nil, let stored = await play.package(id: setID) { package = stored }
         do {
             let fresh = try await play.open(setID: setID)
             if package == nil || package?.checksum != fresh.checksum { package = fresh }
         } catch let error as APIFailure {
-            if package == nil { failure = error == .offline ? L10n.text("setNeedsInternet") : error.message }
+            guard package == nil else { return }
+            if error.code == "PLAY_TRIAL_EXPIRED" { trialEnded = true; return }
+            failure = error == .offline ? L10n.text("setNeedsInternet") : error.message
         } catch {
             if package == nil { failure = L10n.text("error") }
         }
