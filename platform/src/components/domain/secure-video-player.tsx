@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button'
 import { t } from '@/i18n'
 import { deviceViewerKey } from './device-key'
 
-const HEARTBEAT_MS = 15_000
+// كل 45 ثانية (كانت 15): ثلث الطلبات على الخادم، ونافذة الجهاز الواحد (دقيقتان) تبقى أطول من نبضتين
+const HEARTBEAT_MS = 45_000
 
 const makeViewerKey = deviceViewerKey
 

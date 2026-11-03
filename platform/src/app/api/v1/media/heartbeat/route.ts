@@ -15,7 +15,7 @@ const schema = z.object({
   completed: z.boolean().optional()
 })
 
-/** POST /api/v1/media/heartbeat — نبضة مشاهدة (كل 15 ثانية أثناء التشغيل) + كشف تعدّد الأجهزة */
+/** POST /api/v1/media/heartbeat — نبضة مشاهدة (كل 45 ثانية في الموقع أثناء التشغيل) + كشف تعدّد الأجهزة */
 export async function POST(req: Request) {
   try {
     assertSameOrigin(req)

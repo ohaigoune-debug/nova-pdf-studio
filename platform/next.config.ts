@@ -30,7 +30,13 @@ const nextConfig: NextConfig = {
           ...(process.env.NODE_ENV === 'production' ? [{ key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' }] : [])
         ]
       },
-      { source: '/sw.js', headers: [{ key: 'Cache-Control', value: 'no-cache' }, { key: 'Service-Worker-Allowed', value: '/' }] }
+      { source: '/sw.js', headers: [{ key: 'Cache-Control', value: 'no-cache' }, { key: 'Service-Worker-Allowed', value: '/' }] },
+      // صور ثابتة لا تتغيّر إلّا نادرًا (أشكال المواضيع والصور، الشعار، الخطوط، KaTeX): يحفظها المتصفح و Cloudflare يومًا
+      // فلا تمرّ بالخادم في كل صفحة. (ملفات /_next/static يضبطها Next.js مسبقًا كدائمة.)
+      ...['/play-exams/:path*', '/brand/:path*', '/fonts/:path*', '/katex/:path*'].map((source) => ({
+        source,
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' }]
+      }))
     ]
   }
 }

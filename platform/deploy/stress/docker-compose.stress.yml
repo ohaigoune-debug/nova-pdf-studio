@@ -1,0 +1,65 @@
+# اختبار الضغط — نسخة منفصلة تمامًا عن الموقع الحقيقي (مشروع Docker مستقل: madrasa-stress).
+# قاعدة فارغة خاصة بها، بلا منفذ مفتوح على الإنترنت، وبلا بريد ولا رسائل SMS (لا مفاتيح خدمات فيها).
+# يشغّلها run.sh وحده، ويحذفها مع بياناتها في آخره.
+name: madrasa-stress
+
+services:
+  stress-db:
+    image: postgres:16-alpine
+    # الإعدادات نفسها المقترحة للإنتاج (deploy/postgres-tuning.override.yml) + سجلّ الاستعلامات لتقرير أثقلها
+    command: [postgres, -c, shared_buffers=2GB, -c, effective_cache_size=5GB, -c, work_mem=16MB, -c, maintenance_work_mem=256MB, -c, max_connections=200, -c, random_page_cost=1.1, -c, effective_io_concurrency=200, -c, shared_preload_libraries=pg_stat_statements, -c, pg_stat_statements.track=top]
+    shm_size: 256mb
+    environment:
+      POSTGRES_USER: stress
+      POSTGRES_PASSWORD: stress
+      POSTGRES_DB: stress
+    volumes:
+      - stress_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U stress -d stress']
+      interval: 3s
+      timeout: 3s
+      retries: 40
+
+  stress-app:
+    image: ${APP_IMAGE:?APP_IMAGE}
+    depends_on:
+      stress-db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://stress:stress@stress-db:5432/stress
+      AUTO_MIGRATE: '0'
+      NODE_ENV: production
+      # عدد عمليات التطبيق (cluster.cjs في الصور الجديدة؛ الصور القديمة تتجاهله)
+      WEB_CONCURRENCY: ${STRESS_WORKERS:-1}
+      DATABASE_POOL_MAX: ${STRESS_POOL:-10}
+      APP_URL: http://stress-app:3000
+      SESSION_SECRET: ${STRESS_SESSION_SECRET:?secret}
+      QR_TOKEN_SECRET: ${STRESS_QR_SECRET:?secret}
+      JOBS_INLINE_WORKER: '0'
+      MAIL_PROVIDER: console
+    # لا ports: لا يُفتح شيء على الخادم؛ مولّد الزيارات يصل إليها داخل شبكة المشروع فقط
+
+  tools:
+    image: ${TOOLS_IMAGE:?TOOLS_IMAGE}
+    profiles: ['tools']
+    working_dir: /app
+    environment:
+      DATABASE_URL: postgres://stress:stress@stress-db:5432/stress
+      STRESS_DATA: /out/accounts.json
+      STRESS_OUT: /out/accounts.json
+      STRESS_MANIFEST: /out/manifest.json
+      STRESS_BASE: http://stress-app:3000
+      STRESS_ACCOUNTS: ${STRESS_ACCOUNTS:-400}
+      STRESS_LEVELS: ${STRESS_LEVELS:-50 100 200 400}
+      STRESS_SECONDS: ${STRESS_SECONDS:-120}
+      STRESS_PROD_URL: ${STRESS_PROD_URL:-https://madrasadz.com/login}
+      STRESS_THINK_MS: ${STRESS_THINK_MS:-2000-5000}
+      STRESS_RAMP_SECONDS: ${STRESS_RAMP_SECONDS:-10}
+      NODE_OPTIONS: --max-old-space-size=1024
+    volumes:
+      - ../../scripts/stress:/app/scripts/stress:ro
+      - ${STRESS_OUT_DIR:?out}:/out
+
+volumes:
+  stress_pg:
