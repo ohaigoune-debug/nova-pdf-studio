@@ -38,6 +38,9 @@ function visible(row: Pick<SetRow, 'publishable' | 'status'>): { ok: boolean; pr
   return { ok: false, preview: false }
 }
 
+/** مجموعة قابلة للعرض للتلاميذ (نفس شرط القوائم) — لربط ملف موضوع بنسخته التفاعلية */
+export const isServableSet = (row: Pick<SetRow, 'publishable' | 'status'>): boolean => visible(row).ok
+
 /** النقاط التفاعلية لشعبة التلميذ (الفروع الخاصة بشعب أخرى لا تُحتسب) */
 function interactivePoints(doc: ExamSetDocument, stream: string | null): number {
   return pointsFor(doc, stream).interactive

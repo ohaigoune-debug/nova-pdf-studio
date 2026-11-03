@@ -167,19 +167,17 @@ struct MainTabs: View {
     }
 
     var body: some View {
+        // Four doors (owner, 3 Nov 2026): Home, Play, My planner, My account.
         TabView(selection: $model.selectedTab) {
             NavigationStack { HomeView(model: model) }
                 .tabItem { Label(L10n.text("tabHome"), systemImage: "house.fill") }
                 .tag(AppTab.home)
             NavigationStack { PlayHomeView(model: model, play: play) }
-                .tabItem { Label("PLAY", systemImage: "gamecontroller.fill") }
+                .tabItem { Label(L10n.text("tabPlay"), systemImage: "gamecontroller.fill") }
                 .badge(play.pendingCount)
                 .tag(AppTab.play)
-            NavigationStack { OfflineDownloadsView(library: model.downloads) }
-                .tabItem { Label(L10n.text("tabFiles"), systemImage: "folder.fill") }
-                .tag(AppTab.library)
             NavigationStack { PlannerView(model: model) }
-                .tabItem { Label(L10n.text("tabPlan"), systemImage: "calendar") }
+                .tabItem { Label(L10n.text("tabPlanner"), systemImage: "calendar.badge.clock") }
                 .tag(AppTab.planner)
             NavigationStack { AccountView(model: model) }
                 .tabItem { Label(L10n.text("tabAccount"), systemImage: "person.crop.circle") }
@@ -236,6 +234,12 @@ struct AccountView: View {
                 }
                 .pickerStyle(.segmented)
                 .accessibilityIdentifier("appearancePicker")
+            }
+            Section {
+                NavigationLink { OfflineDownloadsView(library: model.downloads) } label: {
+                    Label(L10n.text("savedFilesTitle"), systemImage: "folder.fill")
+                }
+                .accessibilityIdentifier("accountSavedFiles")
             }
             Section(L10n.text("offlineSection")) {
                 LabeledContent(L10n.text("connectionStatus"), value: model.online ? L10n.text("onlineNow") : L10n.text("offlineNow"))

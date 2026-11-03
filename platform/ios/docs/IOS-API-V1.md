@@ -150,3 +150,24 @@ number, and the confirmation channels.
 
 `{phone}` sends a 6-digit SMS code (`{"cooldown":60}`); `{phone,code}` checks it and marks the
 phone confirmed (`{"verified":true}`), the same services and rate limits as the website.
+
+## Build 14 additions (3 November 2026)
+
+### `GET /api/v1/ios/tests?term=1..3&level=&subject=&cursor=` — guest or student, free
+
+The tests bank, step by step: term → school year → subject → list, the same papers as the
+website's `/exams` (homework, tests and exams, without the official BAC papers).
+
+```
+{"terms":[{"term","count"}],            // for the student's year (or the chosen one)
+ "levels":[{"id","name","code","count"}], "myLevelId":"uuid"|null,   // the student's year first
+ "subjects":[{"id","name","count"}],     // with term and level
+ "papers":[{"id","title","typeLabel","year","hasSolution","hasFile"}], "nextCursor",   // with subject too
+ "interactive":[{"id","title","kind":"DEVOIR"|"TEST","year"}]}      // PLAY versions of that term, the student's PLAY year only
+```
+
+### `GET /api/v1/ios/papers/{id}` — guest or student
+
+One paper of any kind, as `/api/v1/ios/bac/{id}` (which now returns the same answer), plus
+`term`, `topic` and `play: {"id","title"}|null`, the interactive version in PLAY for the
+student's year and stream (opened with the offline exam package `/api/v1/ios/play/sets/{id}`).
