@@ -1,4 +1,4 @@
-name: iOS — Build 9 TestFlight upload
+name: iOS — Build 10 TestFlight upload
 
 on:
   workflow_dispatch:
@@ -11,12 +11,12 @@ permissions:
   actions: read
 
 concurrency:
-  group: ios-testflight-build-9-upload
+  group: ios-testflight-build-10-upload
   cancel-in-progress: false
 
 jobs:
   upload:
-    if: github.repository == 'ohaigoune-debug/nova-pdf-studio' && github.ref == 'refs/heads/codex/ios-app-foundation' && github.event.repository.private == false
+    if: github.repository == 'ohaigoune-debug/nova-pdf-studio' && (github.ref == 'refs/heads/codex/ios-app-foundation' || github.ref == 'refs/heads/claude/native-ios-full') && github.event.repository.private == false
     runs-on: macos-26
     timeout-minutes: 30
     steps:
@@ -26,19 +26,19 @@ jobs:
       - name: Download the owner-approved successful signed IPA
         uses: actions/download-artifact@v4
         with:
-          name: Madrasadz-signed-IPA-30635ccf35e09d915f937f2595581fbd2c7b55bd
-          run-id: 40762419358
+          name: Madrasadz-signed-IPA-9b036a54228e7fff4063b7e2f8cf7c1565cfa4ef
+          run-id: 41592124581
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/madrasadz-approved-ipa
-      - name: Validate and upload Build 9 to Apple
+      - name: Validate and upload Build 10 to Apple
         env:
           MADRASADZ_ASC_PRIVATE_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_PRIVATE_KEY_BASE64 }}
           MADRASADZ_ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_KEY_ID }}
           MADRASADZ_ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
         run: bash platform/ios/scripts/upload-testflight.sh "$RUNNER_TEMP/madrasadz-approved-ipa/Madrasadz.ipa"
 
-# Owner-approved internal replacement. Pinned signed Build 9 artifact 12848048222
-# (signed run 40762419358 on 30635cc). Unsigned run 40762419317 on the same source
-# passed Debug/Release, the public WebKit and public native tests in light and dark,
-# the core package (lesson model) and native UI including the lesson and collection
-# fixture tests. No rebuild, new invitation, App Review submission or release.
+# Owner-approved internal replacement (owner's request, 3 Nov 2026). Pinned signed
+# Build 10 (signed run 41592124581 on 9b036a5): the fully native app. The same source
+# passed unsigned validation on macOS 26 (run 41550405112: Debug/Release, core package,
+# native UI tests) and on macOS 15 (ios-native-check.yml). Owner-only internal group;
+# no new invitation, App Review submission or release.
