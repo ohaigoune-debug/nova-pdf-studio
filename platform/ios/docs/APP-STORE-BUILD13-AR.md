@@ -88,6 +88,11 @@ with a video and a PDF, phone already confirmed.
 New accounts confirm their Algerian mobile number with an SMS code; outside Algeria the SMS
 may not arrive, so please use the demo account for the course screens.
 
+Account tab ("حسابي") → "طلباتي" (My orders): read-only delivery tracking of orders placed outside
+the app (status, steps and the courier's tracking number; no prices, no payment, no ordering).
+Account tab → "الدعم والشكاوى" (Support): the student writes to our support team and reads the replies.
+Notifications (optional, asked after a first support message): replies from support and order updates.
+
 Account deletion: Account tab ("حسابي") → Delete account (password required).
 Sign in with Apple is not offered: the app uses only its own accounts (no third-party login).
 ```
@@ -106,6 +111,8 @@ Sign in with Apple is not offered: the app uses only its own accounts (no third-
 | Usage Data → Product Interaction | مشاهدة الفيديوهات (أي درس ومدة المشاهدة) |
 | User Content → Other User Content | إجابات PLAY ونتائجها |
 | Other Data | الولاية والمستوى والشعبة |
+| User Content → Customer Support | رسائل «الدعم والشكاوى» (Build 15) |
+| Purchases → Purchase History | «طلباتي» تعرض حالة طلبات التلميذ المقدَّمة خارج التطبيق، بلا مبالغ (Build 15) |
 
 ليس عندنا: الموقع الجغرافي، وجهات الاتصال، والصور، والصحة، والمالية، والمشتريات داخل التطبيق، وسجل التصفح، وبيانات التشخيص.
 
