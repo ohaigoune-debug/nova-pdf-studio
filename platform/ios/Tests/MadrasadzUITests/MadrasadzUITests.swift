@@ -9,10 +9,11 @@ final class MadrasadzUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    @MainActor private func launch(signedIn: Bool, language: String = "ar", locale: String = "ar_DZ") -> XCUIApplication {
+    @MainActor private func launch(signedIn: Bool, language: String = "ar", locale: String = "ar_DZ", extra: [String] = []) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments += ["-AppleLanguages", "(\(language))", "-AppleLocale", locale, "--madrasadz-fixture"]
         if signedIn { app.launchArguments.append("--madrasadz-fixture-signed-in") }
+        app.launchArguments += extra
         app.launch()
         return app
     }
@@ -145,6 +146,70 @@ final class MadrasadzUITests: XCTestCase {
         }
         XCTAssertTrue(find(app, "playScore").waitForExistence(timeout: 10))
         snapshot(app, "10-play-result")
+        #endif
+    }
+
+    @MainActor func testSignupInsideTheApp() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = launch(signedIn: false)
+        let open = find(app, "openSignup")
+        XCTAssertTrue(open.waitForExistence(timeout: 15), visible(app))
+        open.tap()
+        // The website's form, native: no web page, no purchase, no invitation code.
+        XCTAssertTrue(find(app, "signup-fullName").waitForExistence(timeout: 10), visible(app))
+        XCTAssertTrue(find(app, "signup-guardianPhone").exists)
+        XCTAssertEqual(app.webViews.count, 0)
+        snapshot(app, "15-signup")
+        let submit = find(app, "signupSubmit")
+        if !submit.isHittable { app.swipeUp() }
+        submit.tap()
+        XCTAssertTrue(find(app, "signupError").waitForExistence(timeout: 5), visible(app))
+        snapshot(app, "16-signup-check")
+        #endif
+    }
+
+    @MainActor func testPhoneConfirmationInsideTheApp() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = launch(signedIn: true, extra: ["--madrasadz-fixture-phone"])
+        let action = find(app, "phoneAction")
+        XCTAssertTrue(action.waitForExistence(timeout: 15), visible(app))
+        action.tap()
+        let send = find(app, "phone-send")
+        XCTAssertTrue(send.waitForExistence(timeout: 10), visible(app))
+        send.tap()
+        let code = find(app, "phone-code")
+        XCTAssertTrue(code.waitForExistence(timeout: 10), visible(app))
+        code.tap()
+        code.typeText("123456")
+        snapshot(app, "17-phone-code")
+        find(app, "phone-confirm").tap()
+        XCTAssertTrue(find(app, "phoneDone").waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "18-phone-done")
+        #endif
+    }
+
+    @MainActor func testBacBankIsFree() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = launch(signedIn: true)
+        let tab = app.tabBars.buttons["PLAY"]
+        XCTAssertTrue(tab.waitForExistence(timeout: 15))
+        tab.tap()
+        let entry = find(app, "bacBankEntry")
+        XCTAssertTrue(entry.waitForExistence(timeout: 10), visible(app))
+        entry.tap()
+        let paper = find(app, "bac-66666666-6666-4666-8666-666666666666")
+        XCTAssertTrue(paper.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "19-bac-bank")
+        paper.tap()
+        XCTAssertTrue(find(app, "bacOpenPaper").waitForExistence(timeout: 10), visible(app))
+        XCTAssertTrue(find(app, "bacOpenSolution").exists)
+        snapshot(app, "20-bac-paper")
         #endif
     }
 

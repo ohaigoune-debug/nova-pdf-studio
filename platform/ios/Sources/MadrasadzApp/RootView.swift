@@ -45,6 +45,7 @@ struct LoginView: View {
     @State private var password = ""
     @State private var error: String?
     @State private var working = false
+    @State private var signingUp = false
     @FocusState private var focus: Field?
     @Environment(\.openURL) private var openURL
 
@@ -104,13 +105,23 @@ struct LoginView: View {
                     .tint(Brand.blue)
                     .disabled(working)
                     .accessibilityIdentifier("loginSubmit")
-                    Text(L10n.text("loginHint")).font(.footnote).foregroundStyle(.secondary)
                     HStack {
+                        Text(L10n.text("loginHint")).font(.footnote).foregroundStyle(.secondary)
+                        Spacer(minLength: 8)
                         Button(L10n.text("forgotPassword")) { open("/forgot-password") }
-                        Spacer()
-                        Button(L10n.text("register")) { open("/register") }
+                            .font(.footnote.weight(.semibold))
                     }
-                    .font(.footnote.weight(.semibold))
+                    Divider().padding(.vertical, 2)
+                    Button {
+                        signingUp = true
+                    } label: {
+                        Label(L10n.text("register"), systemImage: "person.crop.circle.badge.plus")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity, minHeight: 46)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(Brand.blue)
+                    .accessibilityIdentifier("openSignup")
                 }
                 .card()
                 .padding(.horizontal, 16)
@@ -125,9 +136,10 @@ struct LoginView: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .background(LinearGradient(colors: [Brand.navy, Brand.blue], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .sheet(isPresented: $signingUp) { NavigationStack { SignupView(model: model) } }
     }
 
-    /// Account creation and password reset stay on the website, opened in Safari.
+    /// The password reset page and the privacy policy open in Safari; accounts are created here.
     private func open(_ path: String) {
         if let url = model.api.url(path) { openURL(url) }
     }

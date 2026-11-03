@@ -3,6 +3,7 @@
  *  1. تلميذ له اشتراك فعّال في دورة ملائمة (المستوى + المادة + الشعبة) ⇒ PLAY مجاني طوال صلاحية الاشتراك.
  *  2. وإلا: 72 ساعة كاملة من أول بدء لعب فعلي (وقت الخادم)، مرة واحدة لكل تلميذ، حتى للحسابات القديمة.
  *  3. بعدها: دعوة للاشتراك في الدورة من متجر مدرسة الحالي، لا اشتراك PLAY مستقل.
+ *  4. تطبيق الآيفون (actor.channel = 'ios-app'): مجانية كاملة، بلا تجربة ولا إقفال.
  * الخادم وحده مصدر الحقيقة: لا localStorage ولا ساعة الهاتف. يُفحص عند كل طلب حساس (بدء جولة، إرسال إجابة).
  */
 import { and, eq, isNull, sql } from 'drizzle-orm'
@@ -112,6 +113,8 @@ export async function getPlayAccess(db: Db, actor: Actor, scope: PlayScope, now:
     const relevant = levelCourses.filter((c) => covers(c.subjects, scope.subjectCode))
     return { state: { kind: 'subscriber', courses: relevant, subjects: entitledSubjects }, levelCourses, entitledSubjects, canPlay: true }
   }
+  // تطبيق الآيفون: PLAY مجانية كاملة بلا تجربة (قرار المالك 3 نوفمبر 2026)، ولا يُكتب صف تجربة فتبقى تجربة الموقع كما هي
+  if (actor.channel === 'ios-app') return { state: { kind: 'subscriber', courses: [], subjects: 'ALL' }, levelCourses, entitledSubjects: 'ALL', canPlay: true }
   const [trial] = await db.select().from(playAccessTrials).where(eq(playAccessTrials.studentId, studentId)).limit(1)
   if (!trial) return { state: { kind: 'trial_available' }, levelCourses, entitledSubjects, canPlay: true }
   const remainingMs = trial.endsAt.getTime() - now.getTime()

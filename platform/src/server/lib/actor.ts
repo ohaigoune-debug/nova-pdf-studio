@@ -16,6 +16,16 @@ export interface Actor {
   workspaceId: string | null
   teacherId: string | null
   studentId: string | null
+  /**
+   * قناة الطلب. «ios-app»: طلب من تطبيق الآيفون الأصيل (تضعه مسارات /api/v1/ios وحدها).
+   * قرار المالك 3 نوفمبر 2026: PLAY مجانية بالكامل في تطبيق الآيفون، فلا تجربة ولا إقفال هناك.
+   */
+  channel?: 'ios-app'
+}
+
+/** يعلّم الحساب بأنه آتٍ من تطبيق الآيفون (لا يمنح صلاحية غير PLAY المجانية) */
+export function asIosApp<T extends Actor | null>(actor: T): T {
+  return (actor ? { ...actor, channel: 'ios-app' as const } : actor) as T
 }
 
 export function assertRole(actor: Actor, ...roles: UserRole[]): void {

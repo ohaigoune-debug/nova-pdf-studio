@@ -50,6 +50,7 @@ struct HomeView: View {
     @ObservedObject var model: AppModel
     @StateObject private var loader = Loader<NativeHome>()
     @Environment(\.openURL) private var openURL
+    @State private var confirmingPhone = false
 
     var body: some View {
         ScrollView {
@@ -73,6 +74,13 @@ struct HomeView: View {
         .navigationTitle(L10n.text("appName"))
         .refreshable { await loader.load("/api/v1/ios/home", model: model, force: true) }
         .task { await loader.load("/api/v1/ios/home", model: model) }
+        .sheet(isPresented: $confirmingPhone, onDismiss: { Task { await loader.load("/api/v1/ios/home", model: model, force: true) } }) {
+            NavigationStack { PhoneVerifyView(model: model) }
+        }
+        // A new account: the phone confirmation opens by itself once the server asks for it.
+        .onChange(of: model.phoneVerificationRequired) { _, required in
+            if required, model.takePhonePrompt() { confirmingPhone = true }
+        }
     }
 
     private var greeting: some View {
@@ -92,8 +100,10 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 8) {
             Label(L10n.text("phoneTitle"), systemImage: "phone.badge.checkmark").font(.headline)
             Text(L10n.text("phoneBody")).font(.subheadline).foregroundStyle(.secondary)
-            Button(L10n.text("phoneAction")) { if let url = model.api.url("/student") { openURL(url) } }
-                .buttonStyle(.bordered)
+            Button(L10n.text("phoneAction")) { confirmingPhone = true }
+                .buttonStyle(.borderedProminent)
+                .tint(Brand.blue)
+                .accessibilityIdentifier("phoneAction")
         }
         .card()
     }
@@ -582,7 +592,7 @@ struct PDFReader: View {
     }
 }
 
-private struct PDFKitRepresentable: UIViewRepresentable {
+struct PDFKitRepresentable: UIViewRepresentable {
     let source: PDFSource
 
     func makeUIView(context: Context) -> PDFView {
