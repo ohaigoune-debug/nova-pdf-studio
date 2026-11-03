@@ -5,7 +5,7 @@
  *  1. lessonCards: دروس المادة بوحداتها وتقدّم التلميذ (نفس listLessonsFor).
  *  2. lessonPack: كل أسئلة الدرس الصالحة لشعبة التلميذ مع مفاتيحها وشروحها، للتخزين والتصحيح على الهاتف.
  *     الصلاحية نفسها كبدء جولة في الموقع (beginPlayAccess: الاشتراك أو التجربة).
- *  3. syncCardRound: الجولة المنجزة تُرفع، فتُنشأ لها جلسة LESSON_MASTERY ويُرسل كل جواب عبر submitPlayAnswer
+ *  3. syncCardRound: الجولة المنجزة تُرفع، فتُنشأ لها جلسة LESSON_MASTERY وتُسجَّل كل أجوبتها في معاملة واحدة (submitPlayAnswers)
  *     نفسها — الخادم يعيد التصحيح بمفاتيحه، ويحسب XP والإتقان والذاكرة والشارات كما في الموقع تمامًا.
  */
 import { and, asc, eq, inArray } from 'drizzle-orm'
@@ -17,7 +17,7 @@ import { CHALLENGE_SIZES, PLAY_SUBJECTS } from '@/server/play/constants'
 import { correctAnswerText, hashToSeed } from '@/server/play/engine'
 import type { PlayAnswerKey, PlayPublicPayload, PlayStudentAnswer } from '@/server/play/question-types'
 import { beginPlayAccess } from './play-access.service'
-import { getPlayProfile, getPlayRules, levelFor, listLessonsFor, questionStreamFilter, servableFilter, streamFilter, submitPlayAnswer } from './play.service'
+import { getPlayProfile, getPlayRules, levelFor, listLessonsFor, questionStreamFilter, servableFilter, streamFilter, submitPlayAnswers } from './play.service'
 
 /** أقصى عدد أسئلة في حزمة درس، وفي جولة مرفوعة */
 export const CARD_PACK_MAX = 300
@@ -138,14 +138,9 @@ export async function syncCardRound(db: Db, actor: Actor, input: { lessonId: str
     })
     .returning({ id: playSessions.id })
   if (!session) throw new AppError('INTERNAL')
-  let last: Awaited<ReturnType<typeof submitPlayAnswer>> | null = null
-  const newBadges: { code: string; nameAr: string; icon: string }[] = []
-  let lessonMastered = false
-  for (const a of answers) {
-    last = await submitPlayAnswer(db, actor, session.id, a.questionId, a.answer, a.timeMs, now)
-    newBadges.push(...last.newBadges)
-    lessonMastered ||= last.lessonMastered
-  }
+  // كل البطاقات في معاملة واحدة بالقواعد نفسها للإجابة المفردة (applyPlayAnswers)
+  const batch = await submitPlayAnswers(db, actor, session.id, answers.map((a) => ({ questionId: a.questionId, answer: a.answer, timeMs: a.timeMs })), now)
+  const last = batch.last
   return {
     sessionId: session.id,
     accepted: answers.length,
@@ -154,7 +149,7 @@ export async function syncCardRound(db: Db, actor: Actor, input: { lessonId: str
     xpEarned: last?.sessionXp ?? 0,
     xpTotal: last?.xpTotal ?? profile.xpTotal,
     level: last?.level ?? levelFor(rules, profile.xpTotal),
-    newBadges,
-    lessonMastered
+    newBadges: batch.newBadges,
+    lessonMastered: batch.lessonMastered
   }
 }

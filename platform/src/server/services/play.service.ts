@@ -41,7 +41,7 @@ import {
 } from '@/server/play/constants'
 import { correctAnswerText, gradePlayAnswer, hashToSeed, seededRandom, shufflePayloadForSession } from '@/server/play/engine'
 import { assertPlayAccess, beginPlayAccess, getPlayAccess, type PlayScope } from '@/server/services/play-access.service'
-import type { PlayPublicPayload, PlayStudentAnswer } from '@/server/play/question-types'
+import type { PlayAnswerKey, PlayPublicPayload, PlayStudentAnswer } from '@/server/play/question-types'
 
 /* --------------------------------- القواعد -------------------------------- */
 
@@ -389,9 +389,14 @@ export interface SessionQuestionView {
   payload: PlayPublicPayload
   /** النتيجة إن كانت مُجابة (لاستئناف الجلسة) */
   answered: { isCorrect: boolean; correctText: string; explanation: string; xp: number } | null
+  /**
+   * اللعب في المتصفح (4 نوفمبر 2026، كتطبيق الآيفون): مفتاح السؤال ونقاطه إن أُجيب صحيحًا، ليصحّح المتصفح
+   * فورًا ويرسل الإجابات دفعات. للجولات بلا مؤقّت فقط (المؤقّت يفرضه الخادم عند كل إجابة).
+   */
+  local?: { key: PlayAnswerKey; correctText: string; explanation: string; xp: number }
 }
 
-export async function getSessionView(db: Db, actor: Actor, sessionId: string) {
+export async function getSessionView(db: Db, actor: Actor, sessionId: string, opts: { local?: boolean } = {}) {
   const studentId = studentIdOf(actor)
   assertUuid(sessionId, 'PLAY_SESSION_NOT_FOUND')
   const [session] = await db.select().from(playSessions).where(and(eq(playSessions.id, sessionId), eq(playSessions.studentId, studentId))).limit(1)
@@ -415,6 +420,16 @@ export async function getSessionView(db: Db, actor: Actor, sessionId: string) {
   const answers = await db.select().from(playAnswers).where(eq(playAnswers.sessionId, session.id))
   const amap = new Map(answers.map((a) => [a.questionId, a]))
   const byId = new Map(qs.map((q) => [q.id, q]))
+  // اللعب المحلّي: نقاط الإجابة الصحيحة كما سيحسبها الخادم (سؤال متقن سابقًا = نقاط المراجعة)
+  const local = opts.local && session.status === 'ACTIVE' && !session.timed
+  const rules = local ? await getPlayRules(db) : null
+  const mastered = local
+    ? new Set(
+        (await db.select({ questionId: playQuestionMemory.questionId, box: playQuestionMemory.box }).from(playQuestionMemory).where(and(eq(playQuestionMemory.studentId, studentId), inArray(playQuestionMemory.questionId, session.questionIds))))
+          .filter((m) => m.box >= LEITNER_MASTERED_BOX)
+          .map((m) => m.questionId)
+      )
+    : null
   const questions: SessionQuestionView[] = session.questionIds
     .map((id, i) => {
       const q = byId.get(id)
@@ -431,7 +446,8 @@ export async function getSessionView(db: Db, actor: Actor, sessionId: string) {
         language: q.language,
         questionText: q.questionText,
         payload,
-        answered: a ? { isCorrect: a.isCorrect, correctText: correctAnswerText(payload, q.answerKey), explanation: q.explanation, xp: a.xpAwarded } : null
+        answered: a ? { isCorrect: a.isCorrect, correctText: correctAnswerText(payload, q.answerKey), explanation: q.explanation, xp: a.xpAwarded } : null,
+        ...(rules && mastered && !a ? { local: { key: q.answerKey, correctText: correctAnswerText(payload, q.answerKey), explanation: q.explanation, xp: mastered.has(q.id) ? rules.xp.repeatMastered : q.difficulty === 'HARD' ? rules.xp.correctHard : rules.xp.correct } } : {})
       }
     })
     .filter((x): x is SessionQuestionView => x !== null)
@@ -480,18 +496,35 @@ function todayStr(d: Date): string {
 }
 
 export async function submitPlayAnswer(db: Db, actor: Actor, sessionId: string, questionId: string, answer: PlayStudentAnswer | null, timeMs: number | null, now: Date = new Date()): Promise<SubmitResult> {
+  const [r] = await applyPlayAnswers(db, actor, sessionId, [{ questionId, answer, timeMs }], now, false)
+  if (!r) throw new AppError('INTERNAL')
+  return r
+}
+
+type PlayAnswerItem = { questionId: string; answer: PlayStudentAnswer | null; timeMs: number | null }
+
+/**
+ * تصحيح وتسجيل إجابة أو أكثر في جولة واحدة — مصدر واحد للقواعد (الإجابة المفردة، دفعات المتصفح، مزامنة الآيفون).
+ * كل القراءات مرة واحدة وكل الكتابات مجمّعة في معاملة واحدة (4 نوفمبر 2026)، والحساب نفسه كأن الإجابات أُرسلت
+ * واحدةً بعد أخرى بترتيبها: النقاط، الذاكرة (لايتنر)، إتقان الدرس، إكمال الجولة، السلسلة، إحصاءات المادة، الشارات.
+ * skipAnswered: المجاب سابقًا يُتجاهل (دفعة أُعيد إرسالها) بدل PLAY_ALREADY_ANSWERED.
+ */
+async function applyPlayAnswers(db: Db, actor: Actor, sessionId: string, input: PlayAnswerItem[], now: Date, skipAnswered: boolean): Promise<(SubmitResult & { questionId: string })[]> {
   const studentId = studentIdOf(actor)
   assertUuid(sessionId, 'PLAY_SESSION_NOT_FOUND')
-  assertUuid(questionId, 'PLAY_QUESTION_NOT_FOUND')
-  // الوصول عند كل إجابة (لا عند العرض فقط): مشترك أو تجربة نشطة بوقت الخادم
-  const [scopeRow] = await db
-    .select({ gradeCode: playSessions.gradeCode, streamCode: playSessions.streamCode, sessionSubject: playSessions.subjectCode, questionSubject: playQuestions.subjectCode })
+  const items = [...new Map(input.map((i) => [i.questionId, i])).values()]
+  for (const i of items) assertUuid(i.questionId, 'PLAY_QUESTION_NOT_FOUND')
+  if (!items.length) return []
+  // الوصول عند كل إجابة (لا عند العرض فقط): مشترك أو تجربة نشطة بوقت الخادم — لكل مادة في الدفعة
+  const [scope] = await db
+    .select({ gradeCode: playSessions.gradeCode, streamCode: playSessions.streamCode, subjectCode: playSessions.subjectCode })
     .from(playSessions)
-    .leftJoin(playQuestions, eq(playQuestions.id, questionId))
     .where(and(eq(playSessions.id, sessionId), eq(playSessions.studentId, studentId)))
     .limit(1)
-  if (!scopeRow) throw new AppError('PLAY_SESSION_NOT_FOUND')
-  await assertPlayAccess(db, actor, { gradeCode: scopeRow.gradeCode, streamCode: scopeRow.streamCode, subjectCode: scopeRow.questionSubject ?? scopeRow.sessionSubject }, now)
+  if (!scope) throw new AppError('PLAY_SESSION_NOT_FOUND')
+  const qSubjects = await db.select({ id: playQuestions.id, subjectCode: playQuestions.subjectCode }).from(playQuestions).where(inArray(playQuestions.id, items.map((i) => i.questionId)))
+  const subjectsToCheck = new Set(items.map((i) => qSubjects.find((q) => q.id === i.questionId)?.subjectCode ?? scope.subjectCode))
+  for (const subjectCode of subjectsToCheck) await assertPlayAccess(db, actor, { gradeCode: scope.gradeCode, streamCode: scope.streamCode, subjectCode }, now)
   const rules = await getPlayRules(db)
   return db.transaction(async (tx) => {
     const [session] = await tx
@@ -506,133 +539,196 @@ export async function submitPlayAnswer(db: Db, actor: Actor, sessionId: string, 
       await tx.update(playSessions).set({ status: 'EXPIRED', completedAt: now }).where(eq(playSessions.id, session.id))
       throw new AppError('PLAY_SESSION_EXPIRED')
     }
-    const position = session.questionIds.indexOf(questionId)
-    if (position < 0) throw new AppError('PLAY_QUESTION_NOT_FOUND')
-    const [existing] = await tx.select({ id: playAnswers.id }).from(playAnswers).where(and(eq(playAnswers.sessionId, session.id), eq(playAnswers.questionId, questionId))).limit(1)
-    if (existing) throw new AppError('PLAY_ALREADY_ANSWERED')
-    const [q] = await tx.select().from(playQuestions).where(eq(playQuestions.id, questionId)).limit(1)
-    if (!q) throw new AppError('PLAY_QUESTION_NOT_FOUND')
-
-    const outcome = gradePlayAnswer(q.answerKey, answer)
-    // الذاكرة
-    const [memRow] = await tx.select().from(playQuestionMemory).where(and(eq(playQuestionMemory.studentId, studentId), eq(playQuestionMemory.questionId, questionId))).limit(1)
-    const wasMastered = !!memRow && memRow.box >= LEITNER_MASTERED_BOX
-    let xp = 0
-    if (outcome.isCorrect) xp = wasMastered ? rules.xp.repeatMastered : q.difficulty === 'HARD' ? rules.xp.correctHard : rules.xp.correct
-
-    await tx.insert(playAnswers).values({ sessionId: session.id, questionId, studentId, position, answer, isCorrect: outcome.isCorrect, xpAwarded: xp, timeMs, answeredAt: now })
-
-    const newBox = outcome.isCorrect ? Math.min(LEITNER_INTERVALS_DAYS.length - 1, (memRow?.box ?? 0) + 1) : 0
-    const dueAt = new Date(now.getTime() + (outcome.isCorrect ? LEITNER_INTERVALS_DAYS[newBox]! : 1) * 86400000)
-    if (memRow) {
-      await tx
-        .update(playQuestionMemory)
-        .set({ box: newBox, dueAt, lastResult: outcome.isCorrect, wrongCount: memRow.wrongCount + (outcome.isCorrect ? 0 : 1), correctStreak: outcome.isCorrect ? memRow.correctStreak + 1 : 0, seenCount: memRow.seenCount + 1, lastSeenAt: now })
-        .where(eq(playQuestionMemory.id, memRow.id))
-    } else {
-      await tx.insert(playQuestionMemory).values({ studentId, questionId, lessonId: q.lessonId, box: newBox, dueAt, lastResult: outcome.isCorrect, wrongCount: outcome.isCorrect ? 0 : 1, correctStreak: outcome.isCorrect ? 1 : 0, seenCount: 1, lastSeenAt: now })
-    }
-    await tx
-      .update(playQuestions)
-      .set(outcome.isCorrect ? { timesCorrect: sql`${playQuestions.timesCorrect} + 1` } : { timesWrong: sql`${playQuestions.timesWrong} + 1` })
-      .where(eq(playQuestions.id, questionId))
-
-    // تقدم الدرس (نافذة آخر 20 إجابة)
-    const [lp] = await tx.select().from(playLessonProgress).where(and(eq(playLessonProgress.studentId, studentId), eq(playLessonProgress.lessonId, q.lessonId))).limit(1)
-    const recent = ((lp?.recent ?? '') + (outcome.isCorrect ? '1' : '0')).slice(-20)
-    const masteryPct = Math.round((recent.split('').filter((c) => c === '1').length / recent.length) * 100)
-    const answeredLesson = (lp?.answered ?? 0) + 1
-    const nowMastered = !lp?.masteredAt && answeredLesson >= rules.mastery.minAnswered && masteryPct >= rules.mastery.minPct
-    if (lp) {
-      await tx
-        .update(playLessonProgress)
-        .set({ answered: answeredLesson, correct: lp.correct + (outcome.isCorrect ? 1 : 0), masteryPct, recent, lastPlayedAt: now, masteredAt: nowMastered ? now : lp.masteredAt })
-        .where(eq(playLessonProgress.id, lp.id))
-    } else {
-      await tx.insert(playLessonProgress).values({ studentId, lessonId: q.lessonId, answered: 1, correct: outcome.isCorrect ? 1 : 0, masteryPct, recent, lastPlayedAt: now, masteredAt: nowMastered ? now : null })
-    }
-    if (nowMastered) xp += rules.xp.lessonMastery
-
-    // الجلسة
-    const answeredCount = session.answeredCount + 1
-    const correctCount = session.correctCount + (outcome.isCorrect ? 1 : 0)
-    const completed = answeredCount >= session.questionIds.length
-    if (completed) xp += rules.xp.sessionComplete
-    const sessionXp = session.xpEarned + xp
-    await tx
-      .update(playSessions)
-      .set({ answeredCount, correctCount, xpEarned: sessionXp, status: completed ? 'COMPLETED' : 'ACTIVE', completedAt: completed ? now : null })
-      .where(eq(playSessions.id, session.id))
-
-    // إحصاءات الطالب
+    for (const i of items) if (session.questionIds.indexOf(i.questionId) < 0) throw new AppError('PLAY_QUESTION_NOT_FOUND')
+    const ids = items.map((i) => i.questionId)
+    const answeredIds = new Set((await tx.select({ questionId: playAnswers.questionId }).from(playAnswers).where(and(eq(playAnswers.sessionId, session.id), inArray(playAnswers.questionId, ids)))).map((a) => a.questionId))
+    if (answeredIds.size && !skipAnswered) throw new AppError('PLAY_ALREADY_ANSWERED')
+    const todo = items.filter((i) => !answeredIds.has(i.questionId))
+    if (!todo.length) return []
+    const qrows = new Map((await tx.select().from(playQuestions).where(inArray(playQuestions.id, todo.map((i) => i.questionId)))).map((q) => [q.id, q]))
+    for (const i of todo) if (!qrows.has(i.questionId)) throw new AppError('PLAY_QUESTION_NOT_FOUND')
+    const memory = new Map((await tx.select().from(playQuestionMemory).where(and(eq(playQuestionMemory.studentId, studentId), inArray(playQuestionMemory.questionId, todo.map((i) => i.questionId))))).map((m) => [m.questionId, m]))
+    const lessonIds = [...new Set(todo.map((i) => qrows.get(i.questionId)!.lessonId))]
+    const progress = new Map((await tx.select().from(playLessonProgress).where(and(eq(playLessonProgress.studentId, studentId), inArray(playLessonProgress.lessonId, lessonIds)))).map((lp) => [lp.lessonId, lp]))
     const stats = await ensureStats(tx, studentId)
+    const subjRows = await tx.select().from(playSubjectStats).where(eq(playSubjectStats.studentId, studentId))
+    const owned = new Set((await tx.select({ code: playStudentBadges.badgeCode }).from(playStudentBadges).where(eq(playStudentBadges.studentId, studentId))).map((b) => b.code))
+
+    // الحال الجارية في الذاكرة، تُحدَّث إجابةً بعد إجابة كما في المسار المتتابع
     const today = todayStr(now)
     let streak = stats.streakDays
     if (stats.lastActiveDate !== today) {
       const yesterday = todayStr(new Date(now.getTime() - 86400000))
       streak = stats.lastActiveDate === yesterday ? stats.streakDays + 1 : 1
     }
-    const xpTotal = stats.xpTotal + xp
-    const lvl = levelFor(rules, xpTotal)
-    const lessonsMastered = stats.lessonsMastered + (nowMastered ? 1 : 0)
-    const correctTotal = stats.correctTotal + (outcome.isCorrect ? 1 : 0)
-    const hardCorrectTotal = stats.hardCorrectTotal + (outcome.isCorrect && q.difficulty === 'HARD' ? 1 : 0)
-    const sessionsCompleted = stats.sessionsCompleted + (completed ? 1 : 0)
+    let xpTotal = stats.xpTotal
+    let answeredTotal = stats.answeredTotal
+    let correctTotal = stats.correctTotal
+    let hardCorrectTotal = stats.hardCorrectTotal
+    let lessonsMastered = stats.lessonsMastered
+    let sessionsCompleted = stats.sessionsCompleted
+    let answeredCount = session.answeredCount
+    let correctCount = session.correctCount
+    let sessionXp = session.xpEarned
+    let completed = false
+    type SubjRow = { id: string | null; gradeCode: string; subjectCode: string; xp: number; answered: number; correct: number }
+    const subj = new Map<string, SubjRow>(subjRows.map((r) => [`${r.gradeCode}|${r.subjectCode}`, { id: r.id, gradeCode: r.gradeCode, subjectCode: r.subjectCode, xp: r.xp, answered: r.answered, correct: r.correct }]))
+    const touchedSubj = new Set<string>()
+    type LpRow = { id: string | null; answered: number; correct: number; masteryPct: number; recent: string; masteredAt: Date | null }
+    const lps = new Map<string, LpRow>([...progress.values()].map((lp) => [lp.lessonId, { id: lp.id, answered: lp.answered, correct: lp.correct, masteryPct: lp.masteryPct, recent: lp.recent ?? '', masteredAt: lp.masteredAt }]))
+    const touchedLessons = new Set<string>()
+    const answerRows: (typeof playAnswers.$inferInsert)[] = []
+    const memInserts: (typeof playQuestionMemory.$inferInsert)[] = []
+    const memUpdates: { id: string; set: Partial<typeof playQuestionMemory.$inferInsert> }[] = []
+    const correctIds: string[] = []
+    const wrongIds: string[] = []
+    const badgeInserts: (typeof playStudentBadges.$inferInsert)[] = []
+    const results: (SubmitResult & { questionId: string })[] = []
+
+    for (const item of todo) {
+      const q = qrows.get(item.questionId)!
+      const outcome = gradePlayAnswer(q.answerKey, item.answer)
+      const ok = outcome.isCorrect
+      const memRow = memory.get(q.id)
+      const wasMastered = !!memRow && memRow.box >= LEITNER_MASTERED_BOX
+      let xp = 0
+      if (ok) xp = wasMastered ? rules.xp.repeatMastered : q.difficulty === 'HARD' ? rules.xp.correctHard : rules.xp.correct
+      answerRows.push({ sessionId: session.id, questionId: q.id, studentId, position: session.questionIds.indexOf(q.id), answer: item.answer, isCorrect: ok, xpAwarded: xp, timeMs: item.timeMs, answeredAt: now })
+
+      // الذاكرة
+      const newBox = ok ? Math.min(LEITNER_INTERVALS_DAYS.length - 1, (memRow?.box ?? 0) + 1) : 0
+      const dueAt = new Date(now.getTime() + (ok ? LEITNER_INTERVALS_DAYS[newBox]! : 1) * 86400000)
+      if (memRow) memUpdates.push({ id: memRow.id, set: { box: newBox, dueAt, lastResult: ok, wrongCount: memRow.wrongCount + (ok ? 0 : 1), correctStreak: ok ? memRow.correctStreak + 1 : 0, seenCount: memRow.seenCount + 1, lastSeenAt: now } })
+      else memInserts.push({ studentId, questionId: q.id, lessonId: q.lessonId, box: newBox, dueAt, lastResult: ok, wrongCount: ok ? 0 : 1, correctStreak: ok ? 1 : 0, seenCount: 1, lastSeenAt: now })
+      ;(ok ? correctIds : wrongIds).push(q.id)
+
+      // تقدم الدرس (نافذة آخر 20 إجابة)
+      const lp = lps.get(q.lessonId) ?? { id: null, answered: 0, correct: 0, masteryPct: 0, recent: '', masteredAt: null }
+      const recent = (lp.recent + (ok ? '1' : '0')).slice(-20)
+      const masteryPct = Math.round((recent.split('').filter((c) => c === '1').length / recent.length) * 100)
+      const answeredLesson = lp.answered + 1
+      const nowMastered = !lp.masteredAt && answeredLesson >= rules.mastery.minAnswered && masteryPct >= rules.mastery.minPct
+      lps.set(q.lessonId, { id: lp.id, answered: answeredLesson, correct: lp.correct + (ok ? 1 : 0), masteryPct, recent, masteredAt: nowMastered ? now : lp.masteredAt })
+      touchedLessons.add(q.lessonId)
+      if (nowMastered) xp += rules.xp.lessonMastery
+
+      // الجلسة
+      answeredCount += 1
+      correctCount += ok ? 1 : 0
+      const completesNow = !completed && answeredCount >= session.questionIds.length
+      if (completesNow) {
+        completed = true
+        xp += rules.xp.sessionComplete
+      }
+      sessionXp += xp
+
+      // إحصاءات الطالب
+      xpTotal += xp
+      answeredTotal += 1
+      if (nowMastered) lessonsMastered += 1
+      if (ok) correctTotal += 1
+      if (ok && q.difficulty === 'HARD') hardCorrectTotal += 1
+      if (completesNow) sessionsCompleted += 1
+      const lvl = levelFor(rules, xpTotal)
+
+      // إحصاءات المادة
+      const sk = `${q.gradeCode}|${q.subjectCode}`
+      const ss = subj.get(sk) ?? { id: null, gradeCode: q.gradeCode, subjectCode: q.subjectCode, xp: 0, answered: 0, correct: 0 }
+      subj.set(sk, { ...ss, xp: ss.xp + xp, answered: ss.answered + 1, correct: ss.correct + (ok ? 1 : 0) })
+      touchedSubj.add(sk)
+
+      // الشارات
+      const subjectCorrect = new Map<string, number>()
+      for (const r of subj.values()) subjectCorrect.set(r.subjectCode, (subjectCorrect.get(r.subjectCode) ?? 0) + r.correct)
+      const newBadges: { code: string; nameAr: string; icon: string }[] = []
+      for (const b of PLAY_BADGES) {
+        if (owned.has(b.code)) continue
+        const r = b.rule
+        let earned = false
+        if (r.kind === 'SESSIONS') earned = sessionsCompleted >= r.count
+        else if (r.kind === 'STREAK_DAYS') earned = streak >= r.days
+        else if (r.kind === 'TOTAL_CORRECT') earned = correctTotal >= r.count
+        else if (r.kind === 'LESSON_MASTERED') earned = lessonsMastered >= r.count
+        else if (r.kind === 'HARD_CORRECT') earned = hardCorrectTotal >= r.count
+        else if (r.kind === 'SUBJECT_CORRECT') earned = r.subject.split('+').reduce((acc, code) => acc + (subjectCorrect.get(code) ?? 0), 0) >= r.count
+        if (earned) {
+          owned.add(b.code)
+          badgeInserts.push({ studentId, badgeCode: b.code, earnedAt: now })
+          newBadges.push({ code: b.code, nameAr: b.nameAr, icon: b.icon })
+        }
+      }
+
+      const payload = shufflePayloadForSession(q.payload, hashToSeed(String(session.seed), q.id))
+      results.push({
+        questionId: q.id,
+        isCorrect: ok,
+        score: outcome.score,
+        correctText: correctAnswerText(payload, q.answerKey),
+        explanation: q.explanation,
+        xp,
+        sessionCompleted: completed,
+        sessionXp,
+        correctCount,
+        answeredCount,
+        total: session.questionIds.length,
+        newBadges,
+        lessonMastered: nowMastered,
+        level: lvl,
+        xpTotal
+      })
+    }
+
+    // الكتابة مجمّعة
+    await tx.insert(playAnswers).values(answerRows)
+    if (memInserts.length) await tx.insert(playQuestionMemory).values(memInserts)
+    for (const u of memUpdates) await tx.update(playQuestionMemory).set(u.set).where(eq(playQuestionMemory.id, u.id))
+    if (correctIds.length) await tx.update(playQuestions).set({ timesCorrect: sql`${playQuestions.timesCorrect} + 1` }).where(inArray(playQuestions.id, correctIds))
+    if (wrongIds.length) await tx.update(playQuestions).set({ timesWrong: sql`${playQuestions.timesWrong} + 1` }).where(inArray(playQuestions.id, wrongIds))
+    for (const lessonId of touchedLessons) {
+      const lp = lps.get(lessonId)!
+      const values = { answered: lp.answered, correct: lp.correct, masteryPct: lp.masteryPct, recent: lp.recent, lastPlayedAt: now, masteredAt: lp.masteredAt }
+      if (lp.id) await tx.update(playLessonProgress).set(values).where(eq(playLessonProgress.id, lp.id))
+      else await tx.insert(playLessonProgress).values({ studentId, lessonId, ...values })
+    }
+    await tx
+      .update(playSessions)
+      .set({ answeredCount, correctCount, xpEarned: sessionXp, status: completed ? 'COMPLETED' : 'ACTIVE', completedAt: completed ? now : null })
+      .where(eq(playSessions.id, session.id))
     await tx
       .update(playStudentStats)
-      .set({ xpTotal, levelIndex: lvl.index, streakDays: streak, lastActiveDate: today, answeredTotal: stats.answeredTotal + 1, correctTotal, hardCorrectTotal, lessonsMastered, sessionsCompleted })
+      .set({ xpTotal, levelIndex: levelFor(rules, xpTotal).index, streakDays: streak, lastActiveDate: today, answeredTotal, correctTotal, hardCorrectTotal, lessonsMastered, sessionsCompleted })
       .where(eq(playStudentStats.studentId, studentId))
-
-    // إحصاءات المادة
-    const [ss] = await tx
-      .select()
-      .from(playSubjectStats)
-      .where(and(eq(playSubjectStats.studentId, studentId), eq(playSubjectStats.gradeCode, q.gradeCode), eq(playSubjectStats.subjectCode, q.subjectCode)))
-      .limit(1)
-    const subjCorrect = (ss?.correct ?? 0) + (outcome.isCorrect ? 1 : 0)
-    if (ss) await tx.update(playSubjectStats).set({ xp: ss.xp + xp, answered: ss.answered + 1, correct: subjCorrect, lastPlayedAt: now }).where(eq(playSubjectStats.id, ss.id))
-    else await tx.insert(playSubjectStats).values({ studentId, gradeCode: q.gradeCode, subjectCode: q.subjectCode, xp, answered: 1, correct: subjCorrect, lastPlayedAt: now })
-
-    // الشارات
-    const subjectCorrect = new Map<string, number>()
-    const allSubj = await tx.select({ code: playSubjectStats.subjectCode, correct: playSubjectStats.correct }).from(playSubjectStats).where(eq(playSubjectStats.studentId, studentId))
-    for (const s of allSubj) subjectCorrect.set(s.code, (subjectCorrect.get(s.code) ?? 0) + s.correct)
-    const owned = new Set((await tx.select({ code: playStudentBadges.badgeCode }).from(playStudentBadges).where(eq(playStudentBadges.studentId, studentId))).map((b) => b.code))
-    const newBadges: { code: string; nameAr: string; icon: string }[] = []
-    for (const b of PLAY_BADGES) {
-      if (owned.has(b.code)) continue
-      const r = b.rule
-      let ok = false
-      if (r.kind === 'SESSIONS') ok = sessionsCompleted >= r.count
-      else if (r.kind === 'STREAK_DAYS') ok = streak >= r.days
-      else if (r.kind === 'TOTAL_CORRECT') ok = correctTotal >= r.count
-      else if (r.kind === 'LESSON_MASTERED') ok = lessonsMastered >= r.count
-      else if (r.kind === 'HARD_CORRECT') ok = hardCorrectTotal >= r.count
-      else if (r.kind === 'SUBJECT_CORRECT') ok = r.subject.split('+').reduce((acc, s) => acc + (subjectCorrect.get(s) ?? 0), 0) >= r.count
-      if (ok) {
-        await tx.insert(playStudentBadges).values({ studentId, badgeCode: b.code, earnedAt: now }).onConflictDoNothing()
-        newBadges.push({ code: b.code, nameAr: b.nameAr, icon: b.icon })
-      }
+    for (const sk of touchedSubj) {
+      const r = subj.get(sk)!
+      if (r.id) await tx.update(playSubjectStats).set({ xp: r.xp, answered: r.answered, correct: r.correct, lastPlayedAt: now }).where(eq(playSubjectStats.id, r.id))
+      else await tx.insert(playSubjectStats).values({ studentId, gradeCode: r.gradeCode, subjectCode: r.subjectCode, xp: r.xp, answered: r.answered, correct: r.correct, lastPlayedAt: now })
     }
-
-    const payload = shufflePayloadForSession(q.payload, hashToSeed(String(session.seed), q.id))
-    return {
-      isCorrect: outcome.isCorrect,
-      score: outcome.score,
-      correctText: correctAnswerText(payload, q.answerKey),
-      explanation: q.explanation,
-      xp,
-      sessionCompleted: completed,
-      sessionXp,
-      correctCount,
-      answeredCount,
-      total: session.questionIds.length,
-      newBadges,
-      lessonMastered: nowMastered,
-      level: lvl,
-      xpTotal
-    }
+    if (badgeInserts.length) await tx.insert(playStudentBadges).values(badgeInserts).onConflictDoNothing()
+    return results
   })
+}
+
+export interface BatchSubmitResult {
+  results: { questionId: string; isCorrect: boolean; xp: number }[]
+  /** الحال بعد آخر إجابة محفوظة (أو null إن لم يُحفظ شيء جديد) */
+  last: Pick<SubmitResult, 'sessionCompleted' | 'sessionXp' | 'correctCount' | 'answeredCount' | 'total' | 'level' | 'xpTotal'> | null
+  newBadges: SubmitResult['newBadges']
+  lessonMastered: boolean
+}
+
+/**
+ * إجابات جولة بطاقات من المتصفح دفعةً واحدة: كل إجابة بالمسار نفسه للإجابة المفردة (التصحيح بمفاتيح الخادم،
+ * الذاكرة، إتقان الدرس، النقاط، الشارات)، لكن في طلب واحد. الإجابة المكرّرة تُتجاهل.
+ */
+export async function submitPlayAnswers(db: Db, actor: Actor, sessionId: string, items: PlayAnswerItem[], now: Date = new Date()): Promise<BatchSubmitResult> {
+  const results = await applyPlayAnswers(db, actor, sessionId, items.slice(0, 60), now, true)
+  const last = results.at(-1)
+  return {
+    results: results.map((r) => ({ questionId: r.questionId, isCorrect: r.isCorrect, xp: r.xp })),
+    last: last ? { sessionCompleted: last.sessionCompleted, sessionXp: last.sessionXp, correctCount: last.correctCount, answeredCount: last.answeredCount, total: last.total, level: last.level, xpTotal: last.xpTotal } : null,
+    newBadges: results.flatMap((r) => r.newBadges),
+    lessonMastered: results.some((r) => r.lessonMastered)
+  }
 }
 
 export async function abandonSession(db: Db, actor: Actor, sessionId: string) {

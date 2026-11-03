@@ -7,7 +7,8 @@ import { AppError } from '@/server/lib/errors'
 import { gradePlayAnswer, normalizeContentQuestion, safeEvalArithmetic, shufflePayloadForSession, validateContentQuestion } from '@/server/play/engine'
 import { importQuestions, syncCatalog } from '@/server/play/importer'
 import type { PlayContentQuestion, PlayStudentAnswer } from '@/server/play/question-types'
-import { abandonSession, getMistakesOverview, getPlayDashboard, getSessionView, listLessonsFor, listSubjectsFor, pickBalanced, reportQuestion, setPlayProfile, startPlaySession, submitPlayAnswer } from '@/server/services/play.service'
+import { abandonSession, getMistakesOverview, getPlayDashboard, getSessionView, listLessonsFor, listSubjectsFor, pickBalanced, reportQuestion, setPlayProfile, startPlaySession, submitPlayAnswer, submitPlayAnswers } from '@/server/services/play.service'
+import { gradePlayAnswer as gradeInBrowser } from '@/server/play/grade'
 import { listQuestionsAdmin, playAdminOverview, setReviewStatus } from '@/server/services/play-admin.service'
 import { makeAdmin, makeStudent, setupDb } from './helpers'
 
@@ -188,6 +189,39 @@ describe('import + play loop', () => {
     const mem = await h.db.select().from(playQuestionMemory).where(eq(playQuestionMemory.studentId, student.studentId!))
     expect(mem.length).toBe(10)
     expect(mem.filter((m) => m.lastResult === false).length).toBeGreaterThanOrEqual(0)
+  })
+
+  it('browser play (4 Nov 2026): keys only for local untimed rounds; the browser grade and XP match the server; one request saves many cards', async () => {
+    const s = await startPlaySession(h.db, student, { challengeType: 'QUICK10', subjectCode: 'AR' })
+    // the default view and the classic page still carry no key
+    expect(JSON.stringify(await getSessionView(h.db, student, s.id))).not.toContain('answerKey')
+    const view = await getSessionView(h.db, student, s.id, { local: true })
+    expect(view.questions.every((q) => q.local)).toBe(true)
+    const items = view.questions.map((vq) => ({
+      questionId: vq.id,
+      answer: (vq.payload.type === 'MCQ' ? { type: 'MCQ', key: vq.payload.options.find((o) => o.text === 'استعارة مكنية')!.key } : { type: 'FILL_BLANK', blanks: ['نافعًا'] }) as PlayStudentAnswer,
+      timeMs: 900
+    }))
+    const local = items.map((it) => {
+      const k = view.questions.find((q) => q.id === it.questionId)!.local!
+      const ok = gradeInBrowser(k.key, it.answer).isCorrect
+      return { questionId: it.questionId, isCorrect: ok, xp: ok ? k.xp : 0 }
+    })
+    const first = await submitPlayAnswers(h.db, student, s.id, items.slice(0, 5))
+    expect(first.results).toEqual(local.slice(0, 5))
+    expect(first.last).toMatchObject({ answeredCount: 5, sessionCompleted: false })
+    // a resent card is ignored, the rest is saved; completion bonuses come from the server
+    const second = await submitPlayAnswers(h.db, student, s.id, items.slice(4))
+    expect(second.results.map((r) => r.questionId)).toEqual(items.slice(5).map((i) => i.questionId))
+    expect(second.last).toMatchObject({ answeredCount: 10, sessionCompleted: true })
+    const done = await getSessionView(h.db, student, s.id, { local: true })
+    expect(done.session.status).toBe('COMPLETED')
+    expect(done.questions.some((q) => q.local)).toBe(false)
+    expect(done.session.correctCount).toBe(local.filter((l) => l.isCorrect).length)
+    // timed rounds stay answer-by-answer: the server enforces the clock
+    const timed = await startPlaySession(h.db, student, { challengeType: 'QUICK10', subjectCode: 'AR', timed: true })
+    expect((await getSessionView(h.db, student, timed.id, { local: true })).questions.some((q) => q.local)).toBe(false)
+    await abandonSession(h.db, student, timed.id)
   })
 
   it('rejects answering a question outside the session and double answers inside an active one', async () => {

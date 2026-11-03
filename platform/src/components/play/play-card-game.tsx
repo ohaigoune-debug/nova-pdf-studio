@@ -10,6 +10,7 @@ import { toast } from '@/components/ui/toast'
 import { cn } from '@/lib/utils'
 import { abandonPlaySessionAction, setPlayPrefsAction, submitPlayAnswerAction } from '@/server/actions/play.actions'
 import { CHALLENGE_NAMES, type PlayChallengeType } from '@/server/play/constants'
+import { gradePlayAnswer } from '@/server/play/grade'
 import type { PlayStudentAnswer } from '@/server/play/question-types'
 import type { SessionQuestionView } from '@/server/services/play.service'
 import { answerReady, canSubmit, cardReducer, createSubmitGate, initialCardState, LEAVE_MS, longestStreak, resumeIndex } from './card-machine'
@@ -75,6 +76,34 @@ function useOnline(): boolean {
   )
 }
 
+/**
+ * اللعب في المتصفح (4 نوفمبر 2026، كتطبيق الآيفون): في الجولات بلا مؤقّت تُصحَّح البطاقة على الجهاز فورًا،
+ * وتُحفظ الإجابات في الخادم دفعةً كل بضع بطاقات وفي آخر الجولة وعند مغادرة الصفحة. الخادم يعيد التصحيح
+ * ويحسب النقاط والإتقان والشارات بمفاتيحه، ويصحّح العدّاد بعد كل دفعة. ما لم يُرسل يبقى في المتصفح.
+ */
+const CARD_FLUSH_EVERY = 5
+type UnsentCard = { questionId: string; answer: PlayStudentAnswer | null; timeMs: number | null }
+const cardsKey = (sessionId: string) => `madrasa-cards:${sessionId}`
+function readUnsent(sessionId: string): UnsentCard[] {
+  try {
+    const v = JSON.parse(localStorage.getItem(cardsKey(sessionId)) ?? '[]') as unknown
+    return Array.isArray(v) ? (v as UnsentCard[]) : []
+  } catch {
+    return []
+  }
+}
+function writeUnsent(sessionId: string, items: UnsentCard[]) {
+  try {
+    if (items.length) localStorage.setItem(cardsKey(sessionId), JSON.stringify(items))
+    else localStorage.removeItem(cardsKey(sessionId))
+  } catch {
+    // تخزين المتصفح غير متاح: الحفظ يبقى دفعات أثناء الجلسة
+  }
+}
+type CardBatchReply =
+  | { ok: true; data: { last: { sessionCompleted: boolean; sessionXp: number; correctCount: number; answeredCount: number; level: { title: string; progressPct: number; nextMinXp: number | null }; xpTotal: number } | null; newBadges: { code: string; nameAr: string; icon: string }[]; lessonMastered: boolean } }
+  | { ok: false; error: { code: string; message: string } }
+
 const clock = (sec: number) => `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`
 
 /**
@@ -118,6 +147,80 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
   const questionRef = useRef<HTMLDivElement>(null)
   const actionRef = useRef<HTMLDivElement>(null)
   const focusBackOnLoad = useRef(false)
+  const localMode = !session.timed && questions.some((q) => q.local)
+  const unsent = useRef<UnsentCard[]>([])
+  const flushing = useRef<Promise<'ok' | 'offline' | 'refused'> | null>(null)
+
+  /** يرسل البطاقات غير المحفوظة في طلب واحد، ويضبط النقاط والمستوى والشارات من ردّ الخادم */
+  const flush = useCallback(
+    async (keepalive = false): Promise<'ok' | 'offline' | 'refused'> => {
+      while (flushing.current) await flushing.current
+      const batch = [...unsent.current]
+      if (!batch.length) return 'ok'
+      const run = (async (): Promise<'ok' | 'offline' | 'refused'> => {
+        try {
+          const res = await fetch(`/api/v1/play/sessions/${session.id}/answers`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ answers: batch }), keepalive, credentials: 'same-origin' })
+          const r = (await res.json()) as CardBatchReply
+          if (!r.ok) {
+            toast('error', r.error.message)
+            if (r.error.code === 'PLAY_TRIAL_EXPIRED' || r.error.code === 'PLAY_TRIAL_REQUIRED') router.push('/student/play')
+            else if (r.error.code === 'PLAY_SESSION_CLOSED' || r.error.code === 'PLAY_SESSION_EXPIRED') {
+              unsent.current = []
+              writeUnsent(session.id, [])
+              router.refresh()
+            }
+            return 'refused'
+          }
+          const sent = new Set(batch.map((b) => b.questionId))
+          unsent.current = unsent.current.filter((u) => !sent.has(u.questionId))
+          writeUnsent(session.id, unsent.current)
+          const d = r.data
+          if (d.last) {
+            const l = d.last
+            setTally((t) => ({ correct: Math.max(t.correct, l.correctCount), answered: Math.max(t.answered, l.answeredCount), xp: l.sessionXp }))
+            setStanding({ level: { title: l.level.title, progressPct: l.level.progressPct, nextMinXp: l.level.nextMinXp }, xpTotal: l.xpTotal })
+          }
+          if (d.newBadges.length) setNewBadges((b) => [...b, ...d.newBadges])
+          if (d.lessonMastered) toast('success', 'أتقنت هذا الدرس! أُضيفت نقاط الإتقان إلى رصيدك.')
+          return 'ok'
+        } catch {
+          return 'offline'
+        }
+      })()
+      flushing.current = run
+      try {
+        return await run
+      } finally {
+        flushing.current = null
+      }
+    },
+    [router, session.id]
+  )
+
+  // عودة إلى جولة بقيت بطاقات منها في المتصفح: تُرسل ثم تُعرض الجولة كما حفظها الخادم
+  useEffect(() => {
+    if (!localMode) return
+    const saved = readUnsent(session.id).filter((u) => questions.some((q) => q.id === u.questionId && !q.answered))
+    if (!saved.length) {
+      writeUnsent(session.id, [])
+      return
+    }
+    unsent.current = saved
+    void flush().then((r) => {
+      if (r === 'ok') router.refresh()
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // مغادرة الصفحة أو تبديل التطبيق: ما لم يُحفظ يُرسل (keepalive يكمل الطلب بعد الإغلاق)
+  useEffect(() => {
+    if (!localMode) return
+    const onHide = () => {
+      if (document.visibilityState === 'hidden' && unsent.current.length) void flush(true)
+    }
+    document.addEventListener('visibilitychange', onHide)
+    return () => document.removeEventListener('visibilitychange', onHide)
+  }, [flush, localMode])
 
   const finished = index >= questions.length || session.status === 'COMPLETED' || expired
   // حالة البطاقة المعروضة: بطاقة جديدة تبدأ مغلقة حتى لو لم يصل LOAD بعد
@@ -173,9 +276,33 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
   const flipEnd = useCallback(() => dispatch({ type: 'FLIP_END' }), [])
 
   const submit = (given: PlayStudentAnswer | null = answer) => {
-    if (!current || !online || !canSubmit(card, answerReady(current.payload, given)) || !gate.current.tryEnter()) return
+    if (!current || (!online && !current.local) || !canSubmit(card, answerReady(current.payload, given)) || !gate.current.tryEnter()) return
     dispatch({ type: 'SUBMIT' })
     const questionId = current.id
+    if (current.local && localMode) {
+      // تصحيح فوري على الجهاز؛ الحفظ في الخادم دفعات (يعمل حتى دون إنترنت لحظيًّا)
+      const k = current.local
+      const ok = gradePlayAnswer(k.key, given).isCorrect
+      const xp = ok ? k.xp : 0
+      setResult({ isCorrect: ok, correctText: k.correctText, explanation: k.explanation, xp, lessonMastered: false })
+      setOutcomes((o) => ({ ...o, [questionId]: ok }))
+      setTally((t) => ({ correct: t.correct + (ok ? 1 : 0), answered: t.answered + 1, xp: t.xp + xp }))
+      setStanding((st) => ({ ...st, xpTotal: st.xpTotal + xp }))
+      setFrozenAt(Date.now())
+      dispatch({ type: 'SUBMIT_OK' })
+      setAnnounce(ok ? `إجابة صحيحة${xp > 0 ? `، ‎+${xp} نقطة` : ''}` : `إجابة خاطئة. ${k.correctText ? `الإجابة الصحيحة: ${k.correctText}` : ''}`)
+      beep(ok ? 'ok' : 'bad')
+      unsent.current = [...unsent.current.filter((u) => u.questionId !== questionId), { questionId, answer: given, timeMs: Math.min(3_600_000, Date.now() - startedAt.current) }]
+      writeUnsent(session.id, unsent.current)
+      const last = index + 1 >= questions.length
+      if (unsent.current.length >= CARD_FLUSH_EVERY || last) {
+        void flush().then((r) => {
+          if (r === 'ok' && last) setTimeout(() => beep('win'), 300)
+        })
+      }
+      gate.current.leave()
+      return
+    }
     void (async () => {
       try {
         const r = await submitPlayAnswerAction({ sessionId: session.id, questionId, answer: given, timeMs: Math.min(3_600_000, Date.now() - startedAt.current) })
@@ -220,17 +347,31 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
   const next = () => {
     if (phase !== 'answered' || advancing.current) return
     advancing.current = true
-    dispatch({ type: 'NEXT' })
-    focusBackOnLoad.current = true
-    setAnnounce('')
-    const go = () => {
-      if (index + 1 >= questions.length) {
-        setIndex(questions.length)
-        router.refresh()
-      } else setIndex(index + 1)
+    const advance = () => {
+      dispatch({ type: 'NEXT' })
+      focusBackOnLoad.current = true
+      setAnnounce('')
+      const go = () => {
+        if (index + 1 >= questions.length) {
+          setIndex(questions.length)
+          router.refresh()
+        } else setIndex(index + 1)
+      }
+      if (motion) setTimeout(go, LEAVE_MS)
+      else go()
     }
-    if (motion) setTimeout(go, LEAVE_MS)
-    else go()
+    // آخر بطاقة: نتيجة الجولة من الخادم بعد حفظ ما بقي (وإلا تبقى البطاقة حتى يعود الاتصال)
+    if (localMode && index + 1 >= questions.length && unsent.current.length) {
+      void flush().then((r) => {
+        if (r === 'ok') advance()
+        else {
+          advancing.current = false
+          if (r === 'offline') toast('error', 'تعذّر حفظ الجولة. إجاباتك محفوظة في هذا الجهاز؛ تحقّق من الإنترنت ثم اضغط «التالي».')
+        }
+      })
+      return
+    }
+    advance()
   }
 
   const toggleSound = () => {
@@ -242,7 +383,8 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
   const endChallenge = () => {
     if (leaving) return
     setLeaving(true)
-    void abandonPlaySessionAction(session.id)
+    void flush()
+      .then(() => abandonPlaySessionAction(session.id))
       .then(() => router.push('/student/play'))
       .catch(() => {
         setLeaving(false)
@@ -297,7 +439,7 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
               <Button variant="outline" onClick={() => setPauseOpen(false)}>
                 متابعة اللعب
               </Button>
-              <Button variant="secondary" onClick={() => router.push('/student/play')}>
+              <Button variant="secondary" onClick={() => void flush().then(() => router.push('/student/play'))}>
                 حفظ والعودة
               </Button>
               <Button variant="destructive" loading={leaving} onClick={endChallenge}>

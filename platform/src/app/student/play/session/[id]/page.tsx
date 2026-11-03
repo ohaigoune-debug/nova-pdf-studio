@@ -20,7 +20,8 @@ export default async function PlaySessionPage({ params, searchParams }: { params
   const db = await getDb()
   let view
   try {
-    view = await getSessionView(db, actor, id)
+    // البطاقات: تصحيح فوري في المتصفح وحفظ دفعات (كتطبيق الآيفون)؛ الواجهة الكلاسيكية تبقى إجابةً بإجابة
+    view = await getSessionView(db, actor, id, { local: viewParam !== 'classic' })
   } catch (e) {
     if (e instanceof AppError) notFound()
     throw e
