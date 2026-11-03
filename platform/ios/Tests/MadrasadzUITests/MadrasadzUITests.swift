@@ -32,6 +32,15 @@ final class MadrasadzUITests: XCTestCase {
         return "texts=\(texts) buttons=\(buttons) fields=\(fields)"
     }
 
+    /// Lists draw only what is on screen: swipe up until the element exists.
+    @MainActor private func scrollTo(_ app: XCUIApplication, _ element: XCUIElement, swipes: Int = 6) {
+        var left = swipes
+        while !element.exists && left > 0 {
+            app.swipeUp()
+            left -= 1
+        }
+    }
+
     @MainActor private func snapshot(_ app: XCUIApplication, _ name: String) {
         let shot = XCTAttachment(screenshot: app.screenshot())
         shot.name = name
@@ -267,6 +276,7 @@ final class MadrasadzUITests: XCTestCase {
         snapshot(app, "27-timetable")
         // No system permission prompt in the test: the reminders are switched off first.
         let remind = app.switches["timetableRemindToggle"]
+        scrollTo(app, remind)
         XCTAssertTrue(remind.waitForExistence(timeout: 5), visible(app))
         remind.tap()
         add.tap()
@@ -327,8 +337,6 @@ final class MadrasadzUITests: XCTestCase {
         XCTAssertTrue(tab.waitForExistence(timeout: 15))
         tab.tap()
         XCTAssertTrue(find(app, "accountSavedFiles").waitForExistence(timeout: 10), "Saved files live in My account")
-        let delete = find(app, "deleteAccountButton")
-        XCTAssertTrue(delete.waitForExistence(timeout: 10))
         snapshot(app, "11-account")
         // Appearance: light and dark from inside the app, then back to automatic.
         let picker = find(app, "appearancePicker")
@@ -338,6 +346,9 @@ final class MadrasadzUITests: XCTestCase {
         app.buttons["ليلي"].tap()
         snapshot(app, "11c-account-dark")
         app.buttons["تلقائي"].tap()
+        let delete = find(app, "deleteAccountButton")
+        scrollTo(app, delete)
+        XCTAssertTrue(delete.waitForExistence(timeout: 5), visible(app))
         delete.tap()
         let confirm = find(app, "deleteConfirm")
         XCTAssertTrue(confirm.waitForExistence(timeout: 10))
