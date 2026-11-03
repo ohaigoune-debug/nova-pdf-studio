@@ -93,12 +93,25 @@ export interface ImportReport {
   updated: number
   skippedInvalid: number
   skippedNoLesson: number
+  /** صفوف إضافية ربطت أسئلة عامة بنسخ الدرس في مناهج الشعب الأخرى */
+  linkedCopies: number
   errors: { key: string; errors: string[] }[]
 }
 
 /**
  * يحلّ الدرس بالسنة/المادة/الوحدة/الدرس. إن حمل السؤال شعباً محددة يُفضَّل درس بالشعب نفسها، وإلا درس عام أو أي درس بالرموز نفسها.
  */
+export interface ResolvedLesson {
+  id: string
+  /** نسخ الدرس نفسه في مناهج شعب أخرى، يُربط بها السؤال أيضًا (صفّ لكل نسخة) */
+  extra: { id: string; streamCodes: string[] }[]
+}
+
+/** مفتاح نسخة السؤال المربوطة بنسخة الدرس في منهاج شعبة أخرى (الأصل يبقى بمفتاحه) */
+export function linkedCopyKey(key: string, streamCodes: string[]): string {
+  return `${key}~${[...streamCodes].sort().join('-')}`
+}
+
 async function lessonIndex(db: Db) {
   const rows = await db.select({ id: playLessons.id, gradeCode: playLessons.gradeCode, subjectCode: playLessons.subjectCode, unitCode: playLessons.unitCode, lessonCode: playLessons.lessonCode, streamCodes: playLessons.streamCodes }).from(playLessons)
   const map = new Map<string, { id: string; streamCodes: string[] }[]>()
@@ -108,21 +121,25 @@ async function lessonIndex(db: Db) {
     arr.push({ id: r.id, streamCodes: r.streamCodes })
     map.set(k, arr)
   }
-  return (grade: string, subject: string, unit: string, lesson: string, streams: string[]): string | null => {
+  return (grade: string, subject: string, unit: string, lesson: string, streams: string[]): ResolvedLesson | null => {
     const arr = map.get(`${grade}|${subject}|${unit}|${lesson}`)
     if (!arr?.length) return null
+    let primary: { id: string; streamCodes: string[] } | undefined
     if (streams.length) {
-      const exact = arr.find((x) => x.streamCodes.length === streams.length && streams.every((s) => x.streamCodes.includes(s)))
-      if (exact) return exact.id
-      const overlapping = arr.find((x) => x.streamCodes.some((s) => streams.includes(s)))
-      if (overlapping) return overlapping.id
+      primary =
+        arr.find((x) => x.streamCodes.length === streams.length && streams.every((s) => x.streamCodes.includes(s))) ??
+        arr.find((x) => x.streamCodes.some((s) => streams.includes(s)))
     }
-    const generic = arr.find((x) => x.streamCodes.length === 0)
-    return (generic ?? arr[0])!.id
+    primary ??= arr.find((x) => x.streamCodes.length === 0) ?? arr[0]!
+    // الدرس نفسه قد يوجد في منهاجين (الشعب العلمية، وآداب/لغات) بالرمز نفسه. السؤال العام (بلا شعب) يُربط بكل
+    // نسخ الدرس، والسؤال الموجّه لشعب يُربط بكل نسخة تشترك معه في شعبة. كان يُربط بالنسخة الأولى وحدها،
+    // فلا يراه تلاميذ الشعب الأخرى في «مراجعة الدروس».
+    const p = primary
+    const extra = arr.filter((x) => x.id !== p.id && x.streamCodes.length > 0 && (streams.length === 0 || x.streamCodes.some((s) => streams.includes(s))))
+    return { id: p.id, extra }
   }
 }
 
-/** الحالة الابتدائية عند الاستيراد: AUTO_VALIDATED إذا اجتاز الفحص بلا تحذيرات، NEEDS_REVIEW إذا وُجدت تحذيرات أو طُلب ذلك */
 export function initialStatus(q: PlayContentQuestion, warnings: string[]): PlayReviewStatus {
   if (q.reviewStatus === 'NEEDS_REVIEW' || q.reviewStatus === 'REJECTED' || q.reviewStatus === 'DRAFT') return q.reviewStatus
   if (warnings.length > 0) return 'NEEDS_REVIEW'
@@ -133,10 +150,9 @@ const MANUAL_STATUSES: PlayReviewStatus[] = ['APPROVED', 'PUBLISHED', 'REJECTED'
 
 export async function importQuestions(db: Db, questions: PlayContentQuestion[], opts: { dryRun?: boolean } = {}): Promise<ImportReport> {
   const resolveLesson = await lessonIndex(db)
-  const report: ImportReport = { total: questions.length, inserted: 0, updated: 0, skippedInvalid: 0, skippedNoLesson: 0, errors: [] }
-  const keys = questions.map((q) => q.key)
-  const existingRows = keys.length ? await db.select({ id: playQuestions.id, key: playQuestions.key, reviewStatus: playQuestions.reviewStatus, contentHash: playQuestions.contentHash }).from(playQuestions).where(inArray(playQuestions.key, keys)) : []
-  const existing = new Map(existingRows.map((r) => [r.key, r]))
+  const report: ImportReport = { total: questions.length, inserted: 0, updated: 0, skippedInvalid: 0, skippedNoLesson: 0, linkedCopies: 0, errors: [] }
+  type Planned = { q: PlayContentQuestion; warnings: string[]; targets: { key: string; lessonId: string }[] }
+  const planned: Planned[] = []
   for (const q of questions) {
     const v = validateContentQuestion(q)
     if (v.errors.length) {
@@ -144,52 +160,68 @@ export async function importQuestions(db: Db, questions: PlayContentQuestion[], 
       report.errors.push({ key: q.key, errors: v.errors })
       continue
     }
-    const lessonId = resolveLesson(q.grade, q.subject, q.unit, q.lesson, q.streams ?? [])
-    if (!lessonId) {
+    const resolved = resolveLesson(q.grade, q.subject, q.unit, q.lesson, q.streams ?? [])
+    if (!resolved) {
       report.skippedNoLesson++
       report.errors.push({ key: q.key, errors: [`الدرس غير موجود في المنهاج: ${q.grade}/${q.subject}/${q.unit}/${q.lesson}`] })
       continue
     }
+    planned.push({ q, warnings: v.warnings, targets: [{ key: q.key, lessonId: resolved.id }, ...resolved.extra.map((x) => ({ key: linkedCopyKey(q.key, x.streamCodes), lessonId: x.id }))] })
+  }
+  const allKeys = planned.flatMap((p) => p.targets.map((t) => t.key))
+  const existing = new Map<string, { id: string; key: string; reviewStatus: string; contentHash: string }>()
+  for (let i = 0; i < allKeys.length; i += 1000) {
+    const chunk = allKeys.slice(i, i + 1000)
+    const rows = await db.select({ id: playQuestions.id, key: playQuestions.key, reviewStatus: playQuestions.reviewStatus, contentHash: playQuestions.contentHash }).from(playQuestions).where(inArray(playQuestions.key, chunk))
+    for (const r of rows) existing.set(r.key, r)
+  }
+  for (const { q, warnings, targets } of planned) {
     const n = normalizeContentQuestion(q)
-    const status = initialStatus(q, v.warnings)
-    const prev = existing.get(q.key)
-    if (opts.dryRun) {
-      if (prev) report.updated++
-      else report.inserted++
-      continue
-    }
-    const base = {
-      type: n.type,
-      gradeCode: n.gradeCode,
-      streamCodes: n.streamCodes,
-      subjectCode: n.subjectCode,
-      lessonId,
-      unitCode: n.unitCode,
-      lessonCode: n.lessonCode,
-      objective: n.objective,
-      difficulty: n.difficulty,
-      language: n.language,
-      questionText: n.questionText,
-      payload: n.payload,
-      answerKey: n.answerKey,
-      explanation: n.explanation,
-      tags: n.tags,
-      contentHash: n.contentHash,
-      source: n.source,
-      qualityFlags: v.warnings,
-      note: n.note
-    }
-    if (prev) {
-      // لا نُسقط حالة قرّرها مراجع بشري إلا إذا تغيّر المحتوى
-      const keepManual = MANUAL_STATUSES.includes(prev.reviewStatus as PlayReviewStatus) && prev.contentHash === n.contentHash
-      await db
-        .update(playQuestions)
-        .set({ ...base, reviewStatus: keepManual ? prev.reviewStatus : status, updatedAt: new Date(), deletedAt: null })
-        .where(eq(playQuestions.id, prev.id))
-      report.updated++
-    } else {
-      await db.insert(playQuestions).values({ key: n.key, ...base, reviewStatus: status })
-      report.inserted++
+    const status = initialStatus(q, warnings)
+    report.linkedCopies += targets.length - 1
+    for (const [ti, target] of targets.entries()) {
+      const prev = existing.get(target.key)
+      const primary = ti === 0
+      if (opts.dryRun) {
+        if (primary) {
+          if (prev) report.updated++
+          else report.inserted++
+        }
+        continue
+      }
+      const base = {
+        type: n.type,
+        gradeCode: n.gradeCode,
+        streamCodes: n.streamCodes,
+        subjectCode: n.subjectCode,
+        lessonId: target.lessonId,
+        unitCode: n.unitCode,
+        lessonCode: n.lessonCode,
+        objective: n.objective,
+        difficulty: n.difficulty,
+        language: n.language,
+        questionText: n.questionText,
+        payload: n.payload,
+        answerKey: n.answerKey,
+        explanation: n.explanation,
+        tags: n.tags,
+        contentHash: n.contentHash,
+        source: n.source,
+        qualityFlags: warnings,
+        note: n.note
+      }
+      if (prev) {
+        // لا نُسقط حالة قرّرها مراجع بشري إلا إذا تغيّر المحتوى
+        const keepManual = MANUAL_STATUSES.includes(prev.reviewStatus as PlayReviewStatus) && prev.contentHash === n.contentHash
+        await db
+          .update(playQuestions)
+          .set({ ...base, reviewStatus: keepManual ? prev.reviewStatus : status, updatedAt: new Date(), deletedAt: null })
+          .where(eq(playQuestions.id, prev.id))
+        if (primary) report.updated++
+      } else {
+        await db.insert(playQuestions).values({ key: target.key, ...base, reviewStatus: status })
+        if (primary) report.inserted++
+      }
     }
   }
   return report

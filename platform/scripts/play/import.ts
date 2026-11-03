@@ -54,7 +54,7 @@ export async function runImport(db: Db, opts: CliOptions = {}): Promise<CliRepor
   const root = join(process.cwd(), 'content', 'play')
   const log = opts.log ?? (() => {})
   const dryRun = Boolean(opts.dryRun)
-  const out: CliReport = { dryRun, catalog: null, files: [], totals: { total: 0, inserted: 0, updated: 0, skippedInvalid: 0, skippedNoLesson: 0, errors: [] }, failedFiles: [] }
+  const out: CliReport = { dryRun, catalog: null, files: [], totals: { total: 0, inserted: 0, updated: 0, skippedInvalid: 0, skippedNoLesson: 0, linkedCopies: 0, errors: [] }, failedFiles: [] }
 
   if (opts.catalog !== false && !dryRun) {
     const catalog = JSON.parse(readFileSync(join(root, 'catalog.json'), 'utf-8')) as PlayCatalog
@@ -85,9 +85,10 @@ export async function runImport(db: Db, opts: CliOptions = {}): Promise<CliRepor
       out.totals.updated += report.updated
       out.totals.skippedInvalid += report.skippedInvalid
       out.totals.skippedNoLesson += report.skippedNoLesson
+      out.totals.linkedCopies += report.linkedCopies
       out.totals.errors.push(...report.errors.map((e) => ({ key: e.key, errors: e.errors })))
       const bad = report.skippedInvalid + report.skippedNoLesson
-      log(`${bad ? '⚠' : '✔'} ${rel}: ${report.total} سؤالاً — ${report.inserted} جديد، ${report.updated} محدَّث${bad ? `، ${bad} مرفوض` : ''}`)
+      log(`${bad ? '⚠' : '✔'} ${rel}: ${report.total} سؤالاً — ${report.inserted} جديد، ${report.updated} محدَّث${report.linkedCopies ? `، ${report.linkedCopies} نسخة لمنهاج شعبة أخرى` : ''}${bad ? `، ${bad} مرفوض` : ''}`)
     } catch (e) {
       out.failedFiles.push({ file: rel, error: (e as Error).message })
       log(`✖ ${rel}: ${(e as Error).message}`)
