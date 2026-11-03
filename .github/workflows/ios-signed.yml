@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   sign:
-    if: github.repository == 'ohaigoune-debug/nova-pdf-studio' && (github.ref == 'refs/heads/codex/ios-app-foundation' || github.ref == 'refs/heads/claude/native-ios-full') && github.event.repository.private == false
+    if: github.repository == 'ohaigoune-debug/nova-pdf-studio' && (github.ref == 'refs/heads/codex/ios-app-foundation' || github.ref == 'refs/heads/claude/native-ios-full' || github.ref == 'refs/heads/claude/ios-build15-sign') && github.event.repository.private == false
     runs-on: macos-26
     timeout-minutes: 35
     steps:
