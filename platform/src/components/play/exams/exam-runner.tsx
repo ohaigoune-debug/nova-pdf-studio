@@ -2,13 +2,14 @@
 
 import { ArrowDown, ArrowUp, BookOpenText, Check, ChevronLeft, ChevronRight, Eye, Flag, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { createContext, useContext, useMemo, useState, useTransition } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { toast } from '@/components/ui/toast'
 import { cn } from '@/lib/utils'
 import { finishExamAttemptAction, submitExamStepAction } from '@/server/actions/play-exams.actions'
 import { PLAY_MATH_SUBJECTS } from '@/server/play/constants'
 import type { StepExcerpt } from '@/server/play/exams/excerpt'
+import { gradeStep, studentAnswerText } from '@/server/play/exams/grade'
 import type { PublicStep, SourceDocument, StepAnswer } from '@/server/play/exams/types'
 import type { AttemptView, StepFeedback } from '@/server/services/play-exams.service'
 import { DECK_BUTTON } from '../deck-ui'
@@ -396,6 +397,32 @@ function FeedbackBox({ fb, lang }: { fb: StepFeedback; lang: AttemptView['set'][
 
 /* ───────────────────────────── المشغّل ───────────────────────────── */
 
+/**
+ * اللعب في المتصفح (4 نوفمبر 2026، كتطبيق الآيفون): التدريب يُصحَّح على الجهاز فورًا، والإجابات تُحفظ
+ * في الخادم دفعةً كل بضع خطوات وعند الإنهاء وعند مغادرة الصفحة — طلب واحد بدل طلب لكل خطوة.
+ * ما لم يُرسل بعد يبقى في هذا المتصفح (localStorage) ويُرسل عند العودة. الخادم يعيد التصحيح بمفاتيحه.
+ */
+const FLUSH_EVERY = 5
+const round2 = (n: number) => Math.round(n * 100) / 100
+const pendingKey = (attemptId: string) => `madrasa-exam:${attemptId}`
+function readPending(attemptId: string): Record<string, StepAnswer> {
+  try {
+    const v = JSON.parse(localStorage.getItem(pendingKey(attemptId)) ?? '{}') as unknown
+    return v && typeof v === 'object' && !Array.isArray(v) ? (v as Record<string, StepAnswer>) : {}
+  } catch {
+    return {}
+  }
+}
+function writePending(attemptId: string, pending: Record<string, StepAnswer>) {
+  try {
+    if (Object.keys(pending).length) localStorage.setItem(pendingKey(attemptId), JSON.stringify(pending))
+    else localStorage.removeItem(pendingKey(attemptId))
+  } catch {
+    // تخزين المتصفح غير متاح (نافذة خاصة): الحفظ يبقى دفعات أثناء الجلسة
+  }
+}
+type BatchReply = { ok: true; data: { score: number | null; completed: boolean } } | { ok: false; error: { code: string; message: string } }
+
 export function ExamRunner({ view }: { view: AttemptView }) {
   /** الفرنسية والإنجليزية: المحتوى من اليسار إلى اليمين، والواجهة عربية */
   const dir = view.set.lang === 'ar' ? undefined : 'ltr'
@@ -419,12 +446,108 @@ export function ExamRunner({ view }: { view: AttemptView }) {
     return [...seen.values()]
   }, [steps])
   const kindLabel = view.set.kind === 'BAC' ? 'بكالوريا' : view.set.kind === 'TEST' ? 'اختبار' : 'فرض'
+  const local = Boolean(view.local)
+  const unsent = useRef<Record<string, StepAnswer>>({})
+  const flushing = useRef<Promise<'ok' | 'offline' | 'refused'> | null>(null)
+
+  const refused = useCallback(
+    (error: { code: string; message: string }) => {
+      toast('error', error.message)
+      if (error.code === 'PLAY_TRIAL_EXPIRED' || error.code === 'PLAY_TRIAL_REQUIRED') router.push(view.set.kind === 'BAC' ? '/student/play/bac' : '/student/play/exams')
+      else if (error.code === 'PLAY_EXAM_CLOSED') router.refresh()
+    },
+    [router, view.set.kind]
+  )
+
+  /** يرسل ما لم يُحفظ بعد (وينهي المحاولة إن طُلب)؛ طلب واحد في كل مرة */
+  const flush = useCallback(
+    async (finish = false, keepalive = false): Promise<'ok' | 'offline' | 'refused'> => {
+      while (flushing.current) await flushing.current
+      const batch = { ...unsent.current }
+      if (!finish && !Object.keys(batch).length) return 'ok'
+      const run = (async (): Promise<'ok' | 'offline' | 'refused'> => {
+        try {
+          const res = await fetch(`/api/v1/play/attempts/${view.attemptId}/answers`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ answers: batch, finish }), keepalive, credentials: 'same-origin' })
+          const r = (await res.json()) as BatchReply
+          if (!r.ok) {
+            refused(r.error)
+            return 'refused'
+          }
+          for (const k of Object.keys(batch)) delete unsent.current[k]
+          writePending(view.attemptId, unsent.current)
+          return 'ok'
+        } catch {
+          return 'offline'
+        }
+      })()
+      flushing.current = run
+      try {
+        return await run
+      } finally {
+        flushing.current = null
+      }
+    },
+    [refused, view.attemptId]
+  )
+
+  const feedbackFor = useCallback(
+    (s: PublicStep, a: StepAnswer): StepFeedback | null => {
+      const key = view.keys?.[s.id]
+      if (!key) return null
+      const g = gradeStep(key.answer, a, s.payload)
+      return { s: g, w: s.points, earned: round2(g * s.points), correct: g >= 0.999, correctText: key.correctText, explanation: key.explanation, yourAnswer: studentAnswerText(s, a) }
+    },
+    [view.keys]
+  )
+
+  // عودة إلى الصفحة: إجابات بقيت في المتصفح ولم تصل إلى الخادم تُعرض ثم تُرسل
+  useEffect(() => {
+    if (!local) return
+    const saved = readPending(view.attemptId)
+    const restored = Object.entries(saved).filter(([id]) => !view.answered[id] && view.steps.some((s) => s.id === id))
+    if (!restored.length) return
+    unsent.current = Object.fromEntries(restored)
+    setAnswered((m) => {
+      const next = { ...m }
+      for (const [id, a] of restored) {
+        const s = view.steps.find((x) => x.id === id)!
+        const fb = practice ? feedbackFor(s, a) : null
+        next[id] = { earned: fb?.earned ?? 0, w: s.points, feedback: fb }
+      }
+      return next
+    })
+    if (practice) setScore((v) => round2(restored.reduce((acc, [id, a]) => acc + (feedbackFor(view.steps.find((x) => x.id === id)!, a)?.earned ?? 0), v)))
+    // يكمل من أول خطوة لم يُجب عنها بدل شاشة «اقرأ النصّ أولًا»
+    setIndex((i) => (i < 0 ? Math.max(0, view.steps.findIndex((s) => !view.answered[s.id] && !saved[s.id])) : i))
+    void flush()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // مغادرة الصفحة أو تبديل التطبيق: ما لم يُحفظ يُرسل (keepalive يكمل الطلب بعد إغلاق الصفحة)
+  useEffect(() => {
+    if (!local) return
+    const onHide = () => {
+      if (document.visibilityState === 'hidden' && Object.keys(unsent.current).length) void flush(false, true)
+    }
+    document.addEventListener('visibilitychange', onHide)
+    return () => document.removeEventListener('visibilitychange', onHide)
+  }, [flush, local])
 
   const submit = () => {
     if (!step || !draft) return
     const a = toAnswer(draft)
     if (!a) {
       toast('error', 'أكمل إجابتك أولًا')
+      return
+    }
+    if (local) {
+      const fb = practice ? feedbackFor(step, a) : null
+      setAnswered((m) => ({ ...m, [step.id]: { earned: fb?.earned ?? 0, w: step.points, feedback: fb } }))
+      if (fb) setScore((v) => round2(v + fb.earned))
+      unsent.current = { ...unsent.current, [step.id]: a }
+      writePending(view.attemptId, unsent.current)
+      if (Object.keys(unsent.current).length >= FLUSH_EVERY) void flush()
+      if (!practice) setIndex((i) => Math.min(i + 1, steps.length - 1))
       return
     }
     start(async () => {
@@ -445,6 +568,12 @@ export function ExamRunner({ view }: { view: AttemptView }) {
   }
   const finish = () =>
     start(async () => {
+      if (local) {
+        const r = await flush(true)
+        if (r === 'ok') router.push(`/student/play/exam/${view.attemptId}/result`)
+        else if (r === 'offline') toast('error', 'تعذّر الاتصال بالخادم. إجاباتك محفوظة في هذا الجهاز؛ تحقّق من الإنترنت ثم أعد المحاولة.')
+        return
+      }
       const r = await finishExamAttemptAction(view.attemptId)
       if (!r.ok) {
         toast('error', r.error.message)

@@ -3,6 +3,8 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // الضغط يتولّاه Caddy (encode zstd gzip) في عمليته: كان gzip داخل Node يأخذ قرابة 7% من معالج التطبيق (قياس 3 نوفمبر 2026)
+  compress: false,
   // بناء مستقل لـ Docker (server.js + الحد الأدنى من node_modules)
   output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   outputFileTracingRoot: __dirname,
