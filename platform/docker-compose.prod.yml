@@ -119,6 +119,10 @@ services:
       VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
       VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
       VAPID_SUBJECT: ${VAPID_SUBJECT:-}
+      # إشعارات تطبيق الآيفون (APNs): مفتاح .p8 من حساب Apple Developer. بدونها لا يُرسل شيء إلى الآيفون
+      APNS_KEY_ID: ${APNS_KEY_ID:-}
+      APNS_TEAM_ID: ${APNS_TEAM_ID:-}
+      APNS_PRIVATE_KEY: ${APNS_PRIVATE_KEY:-}
       # تطبيق أندرويد: بلا البصمة يعيد /.well-known/assetlinks.json رمز 404 ويظهر شريط المتصفح
       ANDROID_PACKAGE_NAME: ${ANDROID_PACKAGE_NAME:-dz.madrasa.app}
       ANDROID_CERT_FINGERPRINTS: ${ANDROID_CERT_FINGERPRINTS:-}

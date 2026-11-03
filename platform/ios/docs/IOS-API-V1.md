@@ -171,3 +171,37 @@ website's `/exams` (homework, tests and exams, without the official BAC papers).
 One paper of any kind, as `/api/v1/ios/bac/{id}` (which now returns the same answer), plus
 `term`, `topic` and `play: {"id","title"}|null`, the interactive version in PLAY for the
 student's year and stream (opened with the offline exam package `/api/v1/ios/play/sets/{id}`).
+
+## Build 15 additions (3 November 2026)
+
+All four are for a signed-in **student**. Mutations require `X-Madrasadz-Client: ios`.
+
+### `GET /api/v1/ios/orders` — «طلباتي», tracking only
+
+`{orders: [{id, number, status, statusText, createdAt, items, deliveryProvider, trackingId, timeline: [{label, at, tone: done|info|bad}]}]}` — the 30 newest.
+No amount, payment method, receipt, cancel action or address is sent (the query does not read them).
+`statusText` is the student's wording: `NO_ANSWER` and `CALL_LATER` read «بانتظار التأكيد».
+
+### `GET /api/v1/ios/support` · `POST /api/v1/ios/support`
+
+List: `{tickets: [{id, number, kind, subject, status, lastMessageAt, messages}]}`.
+Open: `{kind, subject (3–200), body (2–5000), orderId?}` → `{id, number}`; 10 per hour (same limit as the website).
+`kind` ∈ `DELIVERY ACCESS CONTENT TECHNICAL TEACHER OTHER` — `ORDER` («طلب شراء») is refused from the app.
+`orderId` must be one of the student's orders (404 otherwise).
+
+### `GET /api/v1/ios/support/{id}` · `POST …/{id}/reply` · `POST …/{id}/close`
+
+Thread: `{id, number, kind, subject, status, createdAt, orderNumber, courseTitle, messages: [{id, mine, staff, author, body, createdAt}]}`.
+Internal staff notes never appear; a staff message has `author: null` and is shown as «فريق مدرسة».
+Reply `{body}` (60 per hour) reopens a ticket waiting for the student; replying to a closed ticket → `TICKET_CLOSED`.
+Another student's ticket → 404.
+
+### `POST /api/v1/ios/push` · `DELETE /api/v1/ios/push` — platform notifications
+
+`{token (APNs hex), environment: production|sandbox}` → `{registered, active}` (`active`: the server has its APNs key).
+The app deletes its token before signing out. Every website notification of the student is also sent to the iPhone,
+except those mentioning a price, payment or purchase, and admin links (`iosPushAllowed`). The payload carries the
+website `link`; the app opens a support thread (`/student/support/{id}`) or «طلباتي» (`/store/orders/…`).
+Server settings (`.env`, never Git): `APNS_KEY_ID`, `APNS_TEAM_ID`, `APNS_PRIVATE_KEY` (the `.p8` file's contents).
+Without them nothing is sent and nothing changes. The signed build turns push on only when the App Store profile
+carries `aps-environment` (Push Notifications enabled on the App ID, profile regenerated).

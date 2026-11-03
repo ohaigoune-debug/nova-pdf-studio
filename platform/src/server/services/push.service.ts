@@ -4,12 +4,18 @@ import { notifications, pushSubscriptions } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { sendWebPush, vapidConfigFromEnv, type PushMessage } from '@/server/lib/web-push'
+import { isApnsConfigured, sendApnsToUser } from './ios-push.service'
 
 /**
  * اشتراكات إشعارات الدفع وإرسالها. الإرسال يتم داخل مهمة PUSH_DISPATCH فقط (لا HTTP داخل المعاملات).
  */
 export function isPushConfigured(): boolean {
   return vapidConfigFromEnv() !== null
+}
+
+/** إشعارات المتصفح أو الآيفون: يكفي أحدهما لتُنشأ مهمة الإرسال */
+export function isAnyPushConfigured(): boolean {
+  return isPushConfigured() || isApnsConfigured()
 }
 
 export function pushPublicKey(): string | null {
@@ -89,14 +95,20 @@ export async function sendPushToUser(db: Db, userId: string, message: PushMessag
 /** معالج مهمة PUSH_DISPATCH: يرسل الإشعارات المذكورة في الحمولة لأصحابها */
 export async function runPushDispatchJob(db: Db, payload: Record<string, unknown>): Promise<Record<string, unknown>> {
   const ids = Array.isArray(payload.notificationIds) ? payload.notificationIds.filter((x): x is string => typeof x === 'string').slice(0, 500) : []
-  if (ids.length === 0 || !isPushConfigured()) return { sent: 0, skipped: true }
+  if (ids.length === 0 || !isAnyPushConfigured()) return { sent: 0, skipped: true }
   const rows = await db.select().from(notifications).where(inArray(notifications.id, ids))
   const total: PushSummary = { sent: 0, removed: 0, failed: 0 }
+  const ios = { sent: 0, removed: 0, failed: 0, skipped: 0 }
   for (const n of rows) {
     const r = await sendPushToUser(db, n.userId, { title: n.title, body: n.body, url: n.link ?? '/', tag: n.type })
     total.sent += r.sent
     total.removed += r.removed
     total.failed += r.failed
+    const a = await sendApnsToUser(db, n.userId, { title: n.title, body: n.body, link: n.link, thread: n.type })
+    ios.sent += a.sent
+    ios.removed += a.removed
+    ios.failed += a.failed
+    ios.skipped += a.skipped
   }
-  return { ...total, notifications: rows.length }
+  return { ...total, ios, notifications: rows.length }
 }

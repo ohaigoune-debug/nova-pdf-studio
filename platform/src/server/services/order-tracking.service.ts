@@ -121,6 +121,12 @@ export async function myTrackedOrders(db: Db, actor: Actor): Promise<TrackedOrde
   return toTracked(db, rows, true)
 }
 
+/** طلبات التلميذ لتطبيق الآيفون: التتبّع فقط — لا يُستعلم عن العنوان ولا عن إيصال الدفع أصلًا */
+export async function myOrdersForApp(db: Db, actor: Actor): Promise<TrackedOrder[]> {
+  const rows = await db.select().from(orders).where(eq(orders.userId, actor.userId)).orderBy(desc(orders.createdAt)).limit(30)
+  return toTracked(db, rows, false)
+}
+
 /** الزبون يلغي طلبه قبل الشحن؛ المخزون يعود والمشرف يُخطر (محرّك الحالات) */
 export async function cancelMyOrder(db: Db, actor: Actor, orderId: string, reason: CancelReason, note?: string | null): Promise<void> {
   assertUuid(orderId, 'ORDER_NOT_FOUND')

@@ -68,6 +68,8 @@ assert re.fullmatch(r'[0-9a-fA-F-]{36}', p['UUID']), 'Invalid profile UUID'
 assert len(p['DeveloperCertificates']) == 1, 'Expected one distribution certificate'
 identity = hashlib.sha1(p['DeveloperCertificates'][0]).hexdigest().upper()
 (root / 'profile-uuid').write_text(p['UUID'])
+# Platform notifications (APNs) only when the profile allows them; otherwise the app builds without push.
+(root / 'push').write_text('1' if e.get('aps-environment') == 'production' else '0')
 (root / 'identity').write_text(identity)
 with (root / 'ExportOptions.plist').open('wb') as f:
     plistlib.dump({'method': 'app-store-connect', 'destination': 'export', 'teamID': 'VN2768K4UH',
@@ -77,6 +79,13 @@ with (root / 'ExportOptions.plist').open('wb') as f:
 PY
 profile_uuid="$(cat "$work/profile-uuid")"
 identity="$(cat "$work/identity")"
+push_settings=()
+if [[ "$(cat "$work/push")" == 1 ]]; then
+  push_settings=(CODE_SIGN_ENTITLEMENTS="$ios_root/Configuration/Madrasadz-Push.entitlements")
+  echo 'Push notifications: on (profile carries aps-environment).'
+else
+  echo 'Push notifications: off (enable Push Notifications on the App ID and regenerate the profile to turn them on).'
+fi
 profile_directory="$HOME/Library/MobileDevice/Provisioning Profiles"
 mkdir -p "$profile_directory"
 target_profile="$profile_directory/$profile_uuid.mobileprovision"
@@ -94,7 +103,7 @@ xcodebuild -project "$ios_root/Madrasadz.xcodeproj" -scheme Madrasadz \
   -configuration Release -destination 'generic/platform=iOS' \
   -derivedDataPath "$ios_root/DerivedDataSigned" -archivePath "$output/Madrasadz.xcarchive" \
   DEVELOPMENT_TEAM=VN2768K4UH CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="$identity" \
-  PROVISIONING_PROFILE_SPECIFIER="$profile_uuid" archive
+  PROVISIONING_PROFILE_SPECIFIER="$profile_uuid" ${push_settings[@]+"${push_settings[@]}"} archive
 codesign --verify --deep --strict "$output/Madrasadz.xcarchive/Products/Applications/Madrasadz.app"
 xcodebuild -exportArchive -archivePath "$output/Madrasadz.xcarchive" \
   -exportPath "$output/IPA" -exportOptionsPlist "$work/ExportOptions.plist"

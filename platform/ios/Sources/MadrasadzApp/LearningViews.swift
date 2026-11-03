@@ -620,7 +620,8 @@ struct ProtectedPlayer: View {
                     blocked = message
                     return
                 }
-                try? await Task.sleep(nanoseconds: 15_000_000_000)
+                // Every 45 s like the website (owner, 3 Nov 2026): the one-device window is 2 minutes.
+                try? await Task.sleep(nanoseconds: 45_000_000_000)
             }
         }
         .task {

@@ -368,6 +368,85 @@ final class MadrasadzUITests: XCTestCase {
         #endif
     }
 
+    @MainActor private func openAccountRow(_ app: XCUIApplication, _ id: String) -> XCUIApplication {
+        answerSystemAlert(timeout: 1)
+        let tab = app.tabBars.buttons.element(boundBy: 3)
+        XCTAssertTrue(tab.waitForExistence(timeout: 15))
+        tab.tap()
+        let row = find(app, id)
+        XCTAssertTrue(row.waitForExistence(timeout: 10), visible(app))
+        row.tap()
+        return app
+    }
+
+    @MainActor func testOrdersAreForTrackingOnly() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = openAccountRow(launch(signedIn: true), "accountOrders")
+        let card = find(app, "orderCard-MD-1042")
+        XCTAssertTrue(card.waitForExistence(timeout: 10), visible(app))
+        XCTAssertTrue(find(app, "orderCard-MD-0990").exists, "Finished orders are listed too")
+        // Tracking only: no price, payment or re-order anywhere.
+        for word in ["دج", "DZD", "دفع", "شراء", "اشتر"] {
+            XCTAssertEqual(app.staticTexts.containing(NSPredicate(format: "label CONTAINS %@", word)).count, 0, word)
+        }
+        snapshot(app, "23-orders")
+        card.tap()
+        XCTAssertTrue(find(app, "orderTracking").waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "24-order-detail")
+        let problem = find(app, "orderProblem")
+        scrollTo(app, problem)
+        problem.tap()
+        let send = find(app, "ticketSend")
+        XCTAssertTrue(send.waitForExistence(timeout: 10), visible(app))
+        send.tap()
+        XCTAssertTrue(find(app, "ticketError").waitForExistence(timeout: 5), "An empty message is refused before it is sent")
+        let body = find(app, "ticketBody")
+        body.tap()
+        body.typeText("The parcel has not arrived yet")
+        snapshot(app, "25-order-ticket")
+        send.tap()
+        XCTAssertTrue(find(app, "myMessage").waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "26-order-ticket-sent")
+        #endif
+    }
+
+    @MainActor func testSupportConversation() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = openAccountRow(launch(signedIn: true), "accountSupport")
+        let row = find(app, "ticketRow-7")
+        XCTAssertTrue(row.waitForExistence(timeout: 10), visible(app))
+        XCTAssertTrue(find(app, "supportNew").exists)
+        snapshot(app, "27-support")
+        row.tap()
+        XCTAssertTrue(find(app, "staffMessage").waitForExistence(timeout: 10), "The team's reply is shown, signed as the team")
+        XCTAssertTrue(find(app, "staffMessage").label.contains("فريق مدرسة"), visible(app))
+        let field = find(app, "replyField")
+        XCTAssertTrue(field.waitForExistence(timeout: 5), visible(app))
+        field.tap()
+        field.typeText("Thank you, it arrived")
+        find(app, "replySend").tap()
+        let mine = app.descendants(matching: .any).matching(identifier: "myMessage")
+        let deadline = Date().addingTimeInterval(10)
+        while mine.count < 2 && Date() < deadline { _ = mine.firstMatch.waitForExistence(timeout: 0.5) }
+        XCTAssertEqual(mine.count, 2, visible(app))
+        snapshot(app, "28-support-reply")
+        find(app, "ticketMenu").tap()
+        // The menu item, then the confirmation dialog, both carry the action's title.
+        let closing = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "أغلق المحادثة"))
+        XCTAssertTrue(closing.firstMatch.waitForExistence(timeout: 5), visible(app))
+        closing.firstMatch.tap()
+        XCTAssertTrue(closing.firstMatch.waitForExistence(timeout: 5), visible(app))
+        closing.allElementsBoundByIndex.last?.tap()
+        XCTAssertTrue(find(app, "ticketClosedNote").waitForExistence(timeout: 10), visible(app))
+        XCTAssertFalse(find(app, "replyField").exists, "A closed conversation takes no reply")
+        snapshot(app, "29-support-closed")
+        #endif
+    }
+
     @MainActor func testFrenchAndEnglishSignInScreens() throws {
         #if !DEBUG
         throw XCTSkip("Fixtures exist in Debug only.")

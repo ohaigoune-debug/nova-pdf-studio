@@ -110,6 +110,23 @@ export const pushSubscriptions = pgTable(
   (t) => [index('push_subscriptions_user_idx').on(t.userId)]
 )
 
+/** أجهزة تطبيق الآيفون لإشعارات Apple (APNs): رمز الجهاز وبيئته (production لـ TestFlight والمتجر) */
+export const iosPushDevices = pgTable(
+  'ios_push_devices',
+  {
+    id: id(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    token: text('token').notNull().unique(),
+    environment: text('environment').notNull().default('production'),
+    failures: integer('failures').notNull().default(0),
+    lastUsedAt: timestamp('last_used_at', { withTimezone: true }),
+    ...timestamps
+  },
+  (t) => [index('ios_push_devices_user_idx').on(t.userId)]
+)
+
 export const appSettings = pgTable('settings', {
   key: text('key').primaryKey(),
   value: jsonb('value').$type<unknown>().notNull(),
