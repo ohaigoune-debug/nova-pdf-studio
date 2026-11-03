@@ -3,10 +3,16 @@
  * الفصل ← السنة (المستوى) ← المادة ← القائمة. القائمة: ملفات الفروض والاختبارات (نفس /exams في الموقع،
  * بلا البكالوريا الرسمية)، ونسخها التفاعلية في PLAY للفصل نفسه حين تكون السنة سنةَ التلميذ.
  * وصفحة الموضوع عامة لكل ملف (فرض، اختبار، بكالوريا): الموضوع والحلّ و«العبه تفاعليًا» إن وُجد.
+ *
+ * ثلاثة مصادر تُعدّ معًا في كل خطوة:
+ *  1. ملفات المكتبة (فرض/اختبار بفصل مسجّل).
+ *  2. دروس المنصة العامة التي عنوانها فرض أو اختبار مع فصله، مثل «سلسلة الفروض والاختبارات — السنة الثالثة ثانوي
+ *     — لغات أجنبية — الفصل الأول» (سلاسل المالك): الفصل والسنة من الحقول أو من العنوان، والمادة العربية إن لم تُحدَّد.
+ *  3. نسخ PLAY التفاعلية (فرض/اختبار) لسنة التلميذ في PLAY وشعبته.
  */
-import { and, asc, eq, inArray, isNotNull, sql } from 'drizzle-orm'
+import { and, asc, eq, ilike, inArray, isNotNull, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { contentSources, examDocuments, levels, playExamSets, resources, streams, students, subjects } from '@/server/db/schema'
+import { content, contentSources, examDocuments, levels, playExamSets, resources, streams, students, subjects } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { signFileUrl } from '@/server/lib/storage'
@@ -35,6 +41,85 @@ function playCodesFor(subjectCode: string | null | undefined): string[] {
   return Object.entries(PLAY_TO_CURRICULUM_SUBJECT)
     .filter(([, codes]) => codes.includes(subjectCode))
     .map(([play]) => play)
+}
+
+const TERM_WORDS: Record<string, number> = { 'الأول': 1, 'الاول': 1, '1': 1, 'الثاني': 2, '2': 2, 'الثالث': 3, '3': 3 }
+
+/** «الفصل الأول» ← 1 (من العنوان؛ لا يُخمَّن غير ذلك) */
+export function termOfTitle(title: string): number | null {
+  const m = /الفصل\s*(الأول|الاول|الثاني|الثالث|[123])(?![\p{L}])/u.exec(title)
+  return m ? (TERM_WORDS[m[1]!] ?? null) : null
+}
+
+const LEVEL_WORDS: [RegExp, string][] = [
+  [/الأولى\s+ثانوي|الاولى\s+ثانوي/, '1AS'],
+  [/الثانية\s+ثانوي/, '2AS'],
+  [/الثالثة\s+ثانوي/, '3AS'],
+  [/الأولى\s+متوسط|الاولى\s+متوسط/, '1AM'],
+  [/الثانية\s+متوسط/, '2AM'],
+  [/الثالثة\s+متوسط/, '3AM'],
+  [/الرابعة\s+متوسط/, '4AM']
+]
+
+/** «السنة الثالثة ثانوي» ← 3AS */
+export function levelCodeOfTitle(title: string): string | null {
+  return LEVEL_WORDS.find(([re]) => re.test(title))?.[1] ?? null
+}
+
+interface Extra {
+  term: number
+  levelId: string
+  subjectId: string
+  /** درس المنصة (يظهر في القائمة) أو نسخة PLAY (تظهر في «العبه تفاعليًا») */
+  kind: 'lesson' | 'play'
+  lesson?: { id: string; title: string }
+}
+
+/** المصدران 2 و3: دروس الفروض العامة ونسخ PLAY، بفصلها وسنتها ومادتها */
+async function extraEntries(db: Db, actor: Actor | null): Promise<Extra[]> {
+  const levelRows = await db.select({ id: levels.id, code: levels.code }).from(levels)
+  const levelByCode = new Map(levelRows.map((l) => [l.code, l.id]))
+  const subjectRows = await db.select({ id: subjects.id, code: subjects.code }).from(subjects)
+  const subjectByCode = new Map(subjectRows.map((x) => [x.code, x.id]))
+  const arabic = subjectByCode.get('ARABIC') ?? null
+  const out: Extra[] = []
+
+  const lessons = await db
+    .select({ id: content.id, title: content.title, levelId: content.levelId, subjectId: content.subjectId })
+    .from(content)
+    .where(
+      and(
+        eq(content.visibility, 'PUBLIC'),
+        isNotNull(content.publishedAt),
+        isNull(content.deletedAt),
+        or(isNotNull(content.fileId), isNotNull(content.externalUrl)),
+        or(ilike(content.title, '%فرض%'), ilike(content.title, '%فروض%'), ilike(content.title, '%اختبار%'))
+      )
+    )
+    .limit(500)
+  for (const l of lessons) {
+    const term = termOfTitle(l.title)
+    const levelId = l.levelId ?? levelByCode.get(levelCodeOfTitle(l.title) ?? '') ?? null
+    const subjectId = l.subjectId ?? arabic
+    if (term && levelId && subjectId) out.push({ term, levelId, subjectId, kind: 'lesson', lesson: { id: l.id, title: l.title } })
+  }
+
+  if (actor?.studentId) {
+    const profile = await getPlayProfile(db, actor).catch(() => null)
+    if (profile?.gradeCode) {
+      const levelId = levelByCode.get(profile.gradeCode)
+      const sets = await db
+        .select({ term: playExamSets.term, subjectCode: playExamSets.subjectCode, streamCodes: playExamSets.streamCodes, status: playExamSets.status, publishable: playExamSets.publishable })
+        .from(playExamSets)
+        .where(and(eq(playExamSets.gradeCode, profile.gradeCode), inArray(playExamSets.kind, ['DEVOIR', 'TEST']), isNotNull(playExamSets.term)))
+      for (const set of sets) {
+        if (!isServableSet(set) || (set.streamCodes.length && profile.streamCode && !set.streamCodes.includes(profile.streamCode))) continue
+        const subjectId = subjectByCode.get(PLAY_TO_CURRICULUM_SUBJECT[set.subjectCode]?.[0] ?? '')
+        if (levelId && subjectId && set.term) out.push({ term: set.term, levelId, subjectId, kind: 'play' })
+      }
+    }
+  }
+  return out
 }
 
 async function studentScope(db: Db, actor: Actor | null): Promise<{ levelId: string | null; streamId: string | null }> {
@@ -68,6 +153,10 @@ export async function iosTestsBank(db: Db, actor: Actor | null, q: IosTestsQuery
     .leftJoin(resources, and(eq(resources.levelId, levels.id), base(term ? [eq(resources.schoolTerm, term)] : [])))
     .groupBy(levels.id, levels.nameAr, levels.code, levels.sortOrder)
     .orderBy(asc(levels.sortOrder))
+  const extra = await extraEntries(db, actor)
+  const extraFor = (f: Partial<Pick<Extra, 'term' | 'levelId' | 'subjectId'>>) =>
+    extra.filter((e) => (!f.term || e.term === f.term) && (!f.levelId || e.levelId === f.levelId) && (!f.subjectId || e.subjectId === f.subjectId))
+  for (const l of levelRows) l.n += extraFor({ term: term ?? undefined, levelId: l.id }).length
   const levelList = levelRows
     .filter((l) => l.n > 0 || l.id === mine.levelId)
     .sort((a, b) => Number(b.id === mine.levelId) - Number(a.id === mine.levelId) || a.sort - b.sort)
@@ -80,7 +169,7 @@ export async function iosTestsBank(db: Db, actor: Actor | null, q: IosTestsQuery
     .from(resources)
     .where(base(termLevel ? [eq(resources.levelId, termLevel)] : []))
     .groupBy(resources.schoolTerm)
-  const terms = [1, 2, 3].map((t) => ({ term: t, count: termRows.find((r) => r.term === t)?.n ?? 0 }))
+  const terms = [1, 2, 3].map((t) => ({ term: t, count: (termRows.find((r) => r.term === t)?.n ?? 0) + extraFor({ term: t, levelId: termLevel ?? undefined }).length }))
 
   let subjectList: { id: string; name: string; count: number }[] = []
   if (term && levelId) {
@@ -91,7 +180,17 @@ export async function iosTestsBank(db: Db, actor: Actor | null, q: IosTestsQuery
       .where(base([eq(resources.schoolTerm, term), eq(resources.levelId, levelId)]))
       .groupBy(subjects.id, subjects.nameAr, subjects.sortOrder)
       .orderBy(asc(subjects.sortOrder))
-    subjectList = rows.map((r) => ({ id: r.id, name: r.name, count: r.n }))
+    const counts = new Map(rows.map((r) => [r.id, { id: r.id, name: r.name, sort: r.sort, count: r.n }]))
+    const more = extraFor({ term, levelId })
+    const missing = [...new Set(more.map((e) => e.subjectId))].filter((id) => !counts.has(id))
+    if (missing.length) {
+      for (const x of await db.select({ id: subjects.id, name: subjects.nameAr, sort: subjects.sortOrder }).from(subjects).where(inArray(subjects.id, missing))) counts.set(x.id, { ...x, count: 0 })
+    }
+    for (const e of more) {
+      const c = counts.get(e.subjectId)
+      if (c) c.count += 1
+    }
+    subjectList = [...counts.values()].filter((c) => c.count > 0).sort((a, b) => a.sort - b.sort).map(({ id, name, count }) => ({ id, name, count }))
   }
 
   let papers: { id: string; title: string; typeLabel: string; year: number | null; hasSolution: boolean; hasFile: boolean }[] = []
@@ -100,6 +199,11 @@ export async function iosTestsBank(db: Db, actor: Actor | null, q: IosTestsQuery
   if (term && levelId && subjectId) {
     const list = await listResourceCards(db, { levelId, subjectId, streamIds: family, term, excludeBac: true, studentId, types: TEST_TYPES }, { cursor: q.cursor ?? null, limit: PAGE })
     papers = list.items.map((it) => ({ id: it.id, title: it.title, typeLabel: it.typeLabel, year: it.year, hasSolution: it.hasSolution, hasFile: it.hasFile }))
+    // سلاسل المنصة أولًا (تُفتح من صفحة الموضوع نفسها)
+    if (!q.cursor) {
+      const series = extraFor({ term, levelId, subjectId }).filter((e) => e.kind === 'lesson' && e.lesson)
+      papers = [...series.map((e) => ({ id: e.lesson!.id, title: e.lesson!.title, typeLabel: 'سلسلة', year: null, hasSolution: false, hasFile: true })), ...papers]
+    }
     nextCursor = list.nextCursor
     // النسخ التفاعلية في PLAY: لسنة التلميذ في PLAY فقط (حزم المواضيع تتبع سنته)
     const [lv] = await db.select({ code: levels.code }).from(levels).where(eq(levels.id, levelId)).limit(1)
@@ -179,7 +283,7 @@ export async function iosPaper(db: Db, actor: Actor | null, id: string) {
     .leftJoin(examDocuments, eq(examDocuments.resourceId, resources.id))
     .where(and(eq(resources.id, id), visibleResources(viewer.studentId)))
     .limit(1)
-  if (!x) throw new AppError('NOT_FOUND')
+  if (!x) return lessonPaper(db, id)
   const topic = x.topic ?? topicNumberOf(x.r.title)
   const [paper, solution, play] = await Promise.all([
     publicResourceFile(db, id, 'file', viewer).catch(() => null),
@@ -200,5 +304,32 @@ export async function iosPaper(db: Db, actor: Actor | null, id: string) {
     paper: linkOf(paper),
     solution: linkOf(solution),
     play
+  }
+}
+
+/** سلسلة فروض منشورة درسًا عامًا: نفس صفحة الموضوع (الملف عندنا برابط موقّع، أو رابطه https) */
+async function lessonPaper(db: Db, id: string) {
+  const [l] = await db
+    .select({ id: content.id, title: content.title, fileId: content.fileId, externalUrl: content.externalUrl, subjectName: subjects.nameAr, streamName: streams.nameAr, publishedAt: content.publishedAt })
+    .from(content)
+    .leftJoin(subjects, eq(subjects.id, content.subjectId))
+    .leftJoin(streams, eq(streams.id, content.streamId))
+    .where(and(eq(content.id, id), eq(content.visibility, 'PUBLIC'), isNotNull(content.publishedAt), isNull(content.deletedAt)))
+    .limit(1)
+  if (!l) throw new AppError('NOT_FOUND')
+  return {
+    id: l.id,
+    title: l.title,
+    year: null,
+    session: null,
+    term: termOfTitle(l.title),
+    topic: null,
+    official: false,
+    subjectName: l.subjectName,
+    streamName: l.streamName,
+    source: { name: 'مدرسة', attribution: null },
+    paper: linkOf({ fileId: l.fileId, url: l.externalUrl }),
+    solution: null,
+    play: null
   }
 }

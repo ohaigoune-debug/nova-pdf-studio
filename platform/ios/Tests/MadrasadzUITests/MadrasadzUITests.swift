@@ -32,6 +32,23 @@ final class MadrasadzUITests: XCTestCase {
         return "texts=\(texts) buttons=\(buttons) fields=\(fields)"
     }
 
+    /// The notification permission belongs to the system: answer it if it is on screen.
+    @MainActor private func answerSystemAlert(timeout: TimeInterval = 3) {
+        let alert = XCUIApplication(bundleIdentifier: "com.apple.springboard").alerts.firstMatch
+        guard alert.waitForExistence(timeout: timeout) else { return }
+        let buttons = alert.buttons
+        if buttons.count > 0 { buttons.element(boundBy: buttons.count - 1).tap() }
+    }
+
+    /// Lists draw only what is on screen: swipe up until the element exists.
+    @MainActor private func scrollTo(_ app: XCUIApplication, _ element: XCUIElement, swipes: Int = 6) {
+        var left = swipes
+        while !element.exists && left > 0 {
+            app.swipeUp()
+            left -= 1
+        }
+    }
+
     @MainActor private func snapshot(_ app: XCUIApplication, _ name: String) {
         let shot = XCTAttachment(screenshot: app.screenshot())
         shot.name = name
@@ -267,9 +284,12 @@ final class MadrasadzUITests: XCTestCase {
         snapshot(app, "27-timetable")
         // No system permission prompt in the test: the reminders are switched off first.
         let remind = app.switches["timetableRemindToggle"]
+        scrollTo(app, remind)
         XCTAssertTrue(remind.waitForExistence(timeout: 5), visible(app))
         remind.tap()
         add.tap()
+        // If the reminders stayed on, iOS asks for permission once: answer it.
+        answerSystemAlert(timeout: 5)
         XCTAssertTrue(add.waitForNonExistence(timeout: 10), "The week is added and the sheet closes")
         snapshot(app, "28-planner-week")
         #endif
@@ -323,12 +343,11 @@ final class MadrasadzUITests: XCTestCase {
         throw XCTSkip("Fixtures exist in Debug only.")
         #else
         let app = launch(signedIn: true)
+        answerSystemAlert(timeout: 1)
         let tab = app.tabBars.buttons.element(boundBy: 3)
         XCTAssertTrue(tab.waitForExistence(timeout: 15))
         tab.tap()
         XCTAssertTrue(find(app, "accountSavedFiles").waitForExistence(timeout: 10), "Saved files live in My account")
-        let delete = find(app, "deleteAccountButton")
-        XCTAssertTrue(delete.waitForExistence(timeout: 10))
         snapshot(app, "11-account")
         // Appearance: light and dark from inside the app, then back to automatic.
         let picker = find(app, "appearancePicker")
@@ -338,6 +357,9 @@ final class MadrasadzUITests: XCTestCase {
         app.buttons["ليلي"].tap()
         snapshot(app, "11c-account-dark")
         app.buttons["تلقائي"].tap()
+        let delete = find(app, "deleteAccountButton")
+        scrollTo(app, delete)
+        XCTAssertTrue(delete.waitForExistence(timeout: 5), visible(app))
         delete.tap()
         let confirm = find(app, "deleteConfirm")
         XCTAssertTrue(confirm.waitForExistence(timeout: 10))
