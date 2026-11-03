@@ -17,6 +17,9 @@ struct PlayHomeView: View {
                 header
                 if loader.value != nil, loader.savedAt != nil || !model.online { OfflineBanner(savedAt: loader.savedAt) }
                 if play.pendingCount > 0 { syncCard }
+                NavigationLink { BacBankView(model: model) } label: { bacCard }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("bacBankEntry")
                 if let subjects = loader.value {
                     if subjects.needsProfile {
                         ProfilePicker(model: model, grades: subjects.grades) { await loader.load(path, model: model, force: true) }
@@ -60,6 +63,24 @@ struct PlayHomeView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(LinearGradient(colors: [Brand.blue, Brand.navy], startPoint: .topLeading, endPoint: .bottomTrailing),
                     in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+    }
+
+    /// The past BAC papers bank: free, next to the game.
+    private var bacCard: some View {
+        HStack(spacing: 14) {
+            Image(systemName: "doc.text.magnifyingglass")
+                .font(.title2)
+                .foregroundStyle(Brand.blue)
+                .frame(width: 46, height: 46)
+                .background(Brand.blue.opacity(0.12), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+            VStack(alignment: .leading, spacing: 3) {
+                Text(L10n.text("bacBank")).font(.headline).foregroundStyle(.primary)
+                Text(L10n.text("bacBankHint")).font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.leading)
+            }
+            Spacer(minLength: 0)
+            Image(systemName: "chevron.forward").foregroundStyle(.tertiary)
+        }
+        .card()
     }
 
     private var syncCard: some View {

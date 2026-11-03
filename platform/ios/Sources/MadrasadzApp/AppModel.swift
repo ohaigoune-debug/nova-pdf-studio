@@ -5,6 +5,12 @@ import MadrasadzCore
 
 enum AppTab: Hashable { case home, play, library, planner, account }
 
+/// A refusal shown as is (SMS code request, phone confirmation).
+struct PhoneError: Error, Equatable {
+    let message: String
+    init(_ message: String) { self.message = message }
+}
+
 /// The whole app state: the native session (Keychain), the read-only content
 /// cache, offline PDFs, offline PLAY and the personal revision plan.
 /// Every screen is native; the website is only an API.
@@ -83,6 +89,7 @@ final class AppModel: ObservableObject {
         if Fixtures.enabled {
             if Fixtures.signedIn {
                 await activate(SavedSession(token: "fixture", expiresAt: nil, accountID: Fixtures.accountID, role: "STUDENT", name: "تلميذ تجريبي", email: "student@example.com"))
+                if Fixtures.needsPhone { Task { await validate() } }
             } else {
                 phase = .signedOut
             }
@@ -162,21 +169,7 @@ final class AppModel: ObservableObject {
             let reply = try await api.post(LoginReply.self, "/api/v1/auth/login",
                                            body: Body(email: Self.normalizedIdentifier(ident), password: password, deviceName: "تطبيق مدرسة — iPhone"),
                                            requireSession: false)
-            api.use(token: reply.token, account: nil)
-            guard reply.role == "STUDENT" else {
-                await revokeCurrentToken()
-                api.use(token: nil, account: nil)
-                return L10n.text("studentOnly")
-            }
-            let me = try await api.get(Me.self, "/api/v1/auth/me").value
-            let saved = SavedSession(token: reply.token, expiresAt: reply.expiresAt, accountID: me.userId.lowercased(), role: me.role,
-                                     name: me.fullName, email: me.email)
-            Keychain.session = saved
-            busy = false
-            await activate(saved)
-            selectedTab = .home
-            Task { await validate() }
-            return nil
+            return try await completeSignIn(reply)
         } catch let failure as APIFailure {
             api.use(token: nil, account: nil)
             if case .server(let code, let message, _, _) = failure {
@@ -188,6 +181,133 @@ final class AppModel: ObservableObject {
             api.use(token: nil, account: nil)
             return L10n.text("error")
         }
+    }
+
+    /// The token of a fresh login or a new account opens the app: the server says who it
+    /// belongs to, the session is kept in the Keychain and the personal space opens.
+    private func completeSignIn(_ reply: LoginReply) async throws -> String? {
+        api.use(token: reply.token, account: nil)
+        guard reply.role == "STUDENT" else {
+            await revokeCurrentToken()
+            api.use(token: nil, account: nil)
+            return L10n.text("studentOnly")
+        }
+        let me = try await api.get(Me.self, "/api/v1/auth/me").value
+        let saved = SavedSession(token: reply.token, expiresAt: reply.expiresAt, accountID: me.userId.lowercased(), role: me.role,
+                                 name: me.fullName, email: me.email)
+        Keychain.session = saved
+        busy = false
+        await activate(saved)
+        selectedTab = .home
+        Task { await validate() }
+        return nil
+    }
+
+    /// Set by a new account: Home opens the phone confirmation once, by itself.
+    private var phonePromptPending = false
+
+    func takePhonePrompt() -> Bool {
+        defer { phonePromptPending = false }
+        return phonePromptPending
+    }
+
+    struct SignupFailure: Equatable {
+        let field: Signup.Field?
+        let message: String
+    }
+
+    /// Creates a student account inside the app, then signs in with it. nil on success.
+    func register(_ form: Signup.Form, levels: [Signup.Level]) async -> SignupFailure? {
+        if let field = form.firstInvalidField(levels: levels) {
+            return SignupFailure(field: field, message: L10n.text("signupField.\(field.rawValue)"))
+        }
+        guard !busy else { return nil }
+        busy = true
+        defer { busy = false }
+        do {
+            api.use(token: nil, account: nil)
+            let reply = try await api.post(LoginReply.self, "/api/v1/ios/register", body: form.payload(levels: levels), requireSession: false)
+            phonePromptPending = true
+            if let message = try await completeSignIn(reply) {
+                phonePromptPending = false
+                return SignupFailure(field: nil, message: message)
+            }
+            return nil
+        } catch let failure as APIFailure {
+            api.use(token: nil, account: nil)
+            if case .server(let code, let message, _, _) = failure {
+                if code == "EMAIL_TAKEN" { return SignupFailure(field: .email, message: L10n.text("signupEmailTaken")) }
+                if code == "WEAK_PASSWORD" { return SignupFailure(field: .password, message: message ?? L10n.text("signupField.password")) }
+                if code == "RATE_LIMITED" { return SignupFailure(field: nil, message: L10n.text("signupLater")) }
+                return SignupFailure(field: nil, message: message ?? L10n.text("error"))
+            }
+            return SignupFailure(field: nil, message: failure.message)
+        } catch {
+            api.use(token: nil, account: nil)
+            return SignupFailure(field: nil, message: L10n.text("error"))
+        }
+    }
+
+    // MARK: Phone confirmation (as on the website: an SMS code, or a call to the platform's number)
+
+    struct PhoneStatus: Decodable, Equatable {
+        let required: Bool
+        let phone: String?
+        let sms: Bool
+        let callNumber: String?
+    }
+
+    func phoneStatus() async throws -> PhoneStatus {
+        do {
+            return try await api.get(PhoneStatus.self, "/api/v1/ios/phone").value
+        } catch let failure as APIFailure {
+            handle(failure)
+            throw failure
+        }
+    }
+
+    /// Sends a code by SMS. Returns the seconds to wait before another code, or an error message.
+    func requestPhoneCode(phone: String) async -> Result<Int, PhoneError> {
+        guard let normalized = Signup.normalizedPhone(phone) else { return .failure(PhoneError(L10n.text("signupField.phone"))) }
+        struct Body: Encodable { let phone: String }
+        struct Reply: Decodable { let cooldown: Int }
+        do {
+            let reply = try await api.post(Reply.self, "/api/v1/ios/phone/request", body: Body(phone: normalized))
+            return .success(reply.cooldown)
+        } catch let failure as APIFailure {
+            handle(failure)
+            return .failure(PhoneError(failure.message))
+        } catch {
+            return .failure(PhoneError(L10n.text("error")))
+        }
+    }
+
+    /// Checks the code; on success the phone gate opens at once. nil on success.
+    func verifyPhone(phone: String, code: String) async -> String? {
+        guard let normalized = Signup.normalizedPhone(phone) else { return L10n.text("signupField.phone") }
+        let digits = Self.normalizedIdentifier(code)
+        guard (4...8).contains(digits.count) else { return L10n.text("phoneCodeInvalid") }
+        struct Body: Encodable { let phone: String; let code: String }
+        struct Reply: Decodable { let verified: Bool }
+        do {
+            let reply = try await api.post(Reply.self, "/api/v1/ios/phone/verify", body: Body(phone: normalized, code: digits))
+            guard reply.verified else { return L10n.text("phoneCodeInvalid") }
+            phoneVerificationRequired = false
+            Task { await validate() }
+            return nil
+        } catch let failure as APIFailure {
+            handle(failure)
+            return failure.message
+        } catch {
+            return L10n.text("error")
+        }
+    }
+
+    /// After a call to the platform's number: asks the server whether the phone is now confirmed.
+    func refreshPhoneGate() async -> Bool {
+        guard let status = try? await phoneStatus() else { return !phoneVerificationRequired }
+        phoneVerificationRequired = status.required
+        return !status.required
     }
 
     /// Arabic-Indic digits and spaces in a phone number become plain digits.

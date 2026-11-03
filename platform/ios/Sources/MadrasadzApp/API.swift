@@ -214,8 +214,8 @@ final class APIClient {
         return value
     }
 
-    func get<T: Decodable>(_ type: T.Type, _ path: String) async throws -> (value: T, raw: Data) {
-        guard let request = request(path: path) else { throw APIFailure.unauthorized }
+    func get<T: Decodable>(_ type: T.Type, _ path: String, requireSession: Bool = true) async throws -> (value: T, raw: Data) {
+        guard let request = request(path: path, requireSession: requireSession) else { throw APIFailure.unauthorized }
         let (data, response) = try await send(request)
         return (try decode(type, data: data, response: response), data)
     }

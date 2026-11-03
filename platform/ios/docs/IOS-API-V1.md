@@ -97,3 +97,56 @@ The app shows native screens only if this succeeds with `apiVersion >= 1`.
 - `viewer` (signed-in students only) feeds the native moving watermark: the
   student's own name and the first 8 characters of the account id, the same
   code the web watermark shows. No email or phone.
+
+## Build 13 additions (3 November 2026)
+
+PLAY is free in the app: every `/api/v1/ios/*` request marks its account as coming from
+the iPhone app (`actor.channel = 'ios-app'`), and the PLAY access check lets it play with
+no trial and no lock. No trial row is written, so the website's 72-hour trial is unchanged.
+Other permissions (courses, PDFs, videos) are exactly the website's.
+
+### `GET /api/v1/ios/bac?stream=&subject=&year=&cursor=` — public, free
+
+The past BAC papers bank, as on `/bac`. `stream`/`subject` are uuids, `year` four digits,
+`cursor` the previous `nextCursor`. Anything else is 422.
+
+```
+{"items":[{"id","title","year","session","subjectName","streamName","topic","official","hasPaper","hasSolution"}],
+ "nextCursor":"…"|null,
+ "facets":{"streams":[{"id","name","count"}],"subjects":[…],"years":[{"year","count"}]},
+ "total":n, "myStreamId":"uuid"|null}
+```
+
+### `GET /api/v1/ios/bac/{id}` — public, free
+
+```
+{"id","title","year","session","official","subjectName","streamName","source":{"name","attribution"}|null,
+ "paper":{"url","inApp"}|null, "solution":{"url","inApp"}|null}
+```
+
+`inApp: true` — a signed `/api/v1/files/…` path (30 minutes) the app downloads and shows in
+PDFKit. `inApp: false` — an `https` page or file at the source, opened in the browser.
+A non-https source link is never returned.
+
+### `GET /api/v1/ios/register` — public
+
+Registration choices: `{"wilayas":[{"id","name"}],"levels":[{"id","name","secondary"}],"streams":[{"id","name"}]}`.
+
+### `POST /api/v1/ios/register` — public, `X-Madrasadz-Client: ios`
+
+Body `{fullName,email,phone,guardianPhone,password,wilayaId,levelId,streamId?}` with the
+website's rules (Algerian mobiles, 8-character password, stream required for secondary).
+No invitation code (it concerns credit for purchases, which the app never mentions).
+Success: `{"token","expiresAt","role":"STUDENT"}` exactly like the login. A field error is
+422 `{"code":"VALIDATION","message","field"}`; `EMAIL_TAKEN`, `WEAK_PASSWORD`, `RATE_LIMITED`
+as on the website.
+
+### `GET /api/v1/ios/phone` — student
+
+`{"required","phone","sms","callNumber"}`: whether the phone gate applies, the account's own
+number, and the confirmation channels.
+
+### `POST /api/v1/ios/phone/request` and `/api/v1/ios/phone/verify` — student, `X-Madrasadz-Client: ios`
+
+`{phone}` sends a 6-digit SMS code (`{"cooldown":60}`); `{phone,code}` checks it and marks the
+phone confirmed (`{"verified":true}`), the same services and rate limits as the website.

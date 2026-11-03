@@ -9,7 +9,7 @@ import { createSession, SESSION_COOKIE } from '@/server/auth/session'
 import { getDb } from '@/server/db/client'
 import type { DatabaseHandle } from '@/server/db/connect'
 import { playAccessTrials, playLessons, playSessions, playStudentStats } from '@/server/db/schema'
-import type { Actor } from '@/server/lib/actor'
+import { asIosApp, type Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { PLAY_TRIAL_MS } from '@/server/play/constants'
 import { importQuestions, syncCatalog } from '@/server/play/importer'
@@ -98,6 +98,27 @@ describe('دروس المادة وحزمة الدرس', () => {
     const past = new Date(Date.now() - PLAY_TRIAL_MS - 3_600_000)
     await h.db.insert(playAccessTrials).values({ studentId: s.studentId!, startedAt: past, endsAt: new Date(past.getTime() + PLAY_TRIAL_MS) })
     await expect(lessonPack(h.db, s, lessonId)).rejects.toSatisfy((e) => e instanceof AppError && e.code === 'PLAY_TRIAL_EXPIRED')
+  })
+
+  it('تطبيق الآيفون: PLAY مجانية — لا تجربة تبدأ، والتجربة المنتهية في الموقع لا تمنع (3 نوفمبر 2026)', async () => {
+    const fresh = await student()
+    expect((await lessonPack(h.db, asIosApp(fresh), lessonId)).questions).toHaveLength(15)
+    expect(await h.db.select().from(playAccessTrials).where(eq(playAccessTrials.studentId, fresh.studentId!))).toHaveLength(0)
+
+    const expired = await student()
+    const past = new Date(Date.now() - PLAY_TRIAL_MS - 3_600_000)
+    await h.db.insert(playAccessTrials).values({ studentId: expired.studentId!, startedAt: past, endsAt: new Date(past.getTime() + PLAY_TRIAL_MS) })
+    const pack = await lessonPack(h.db, asIosApp(expired), lessonId)
+    const q = pack.questions[0]!
+    const r = await syncCardRound(h.db, asIosApp(expired), { lessonId, answers: [{ questionId: q.id, answer: right(q), timeMs: 3000 }] })
+    expect(r).toMatchObject({ accepted: 1, correctCount: 1 })
+    // والموقع يبقى على سياسته
+    await expect(lessonPack(h.db, expired, lessonId)).rejects.toSatisfy((e) => e instanceof AppError && e.code === 'PLAY_TRIAL_EXPIRED')
+
+    // عبر مسار التطبيق نفسه بكوكي الجلسة
+    const token = (await createSession(h.db, { userId: expired.userId })).token
+    const res = await packRoute(new NextRequest(`https://madrasadz.com/api/v1/ios/play/lessons/${lessonId}`, { headers: { cookie: `${SESSION_COOKIE}=${token}` } }), { params: Promise.resolve({ id: lessonId }) })
+    expect(res.status).toBe(200)
   })
 })
 

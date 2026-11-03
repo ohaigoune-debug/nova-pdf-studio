@@ -6,6 +6,10 @@ import Foundation
 enum Fixtures {
     static let enabled = ProcessInfo.processInfo.arguments.contains("--madrasadz-fixture")
     static let signedIn = ProcessInfo.processInfo.arguments.contains("--madrasadz-fixture-signed-in")
+    /// The signed-in account still has to confirm its phone (until a right code is sent).
+    static let needsPhone = ProcessInfo.processInfo.arguments.contains("--madrasadz-fixture-phone")
+    static var phoneConfirmed = false
+    static let bacID = "66666666-6666-4666-8666-666666666666"
     static let accountID = "00000000-0000-4000-8000-000000000001"
     static let setID = "11111111-2222-4333-8444-555555555555"
     static let lessonID = "44444444-4444-4444-8444-444444444444"
@@ -27,7 +31,34 @@ enum Fixtures {
         case ("GET", "/api/v1/auth/me"):
             json = #"{"ok":true,"data":{"userId":"\#(accountID)","role":"STUDENT","fullName":"تلميذ تجريبي","email":"student@example.com"}}"#
         case ("GET", "/api/v1/ios/session"):
-            json = #"{"ok":true,"data":{"authenticated":true,"user":{"id":"\#(accountID)","role":"STUDENT"},"requiresPhoneVerification":false}}"#
+            json = #"{"ok":true,"data":{"authenticated":true,"user":{"id":"\#(accountID)","role":"STUDENT"},"requiresPhoneVerification":\#(needsPhone && !phoneConfirmed)}}"#
+        case ("GET", "/api/v1/ios/register"):
+            json = #"{"ok":true,"data":{"wilayas":[{"id":"w28","name":"28 — المسيلة"},{"id":"w16","name":"16 — الجزائر"}],"levels":[{"id":"l3","name":"الثالثة ثانوي","secondary":true},{"id":"m4","name":"الرابعة متوسط","secondary":false}],"streams":[{"id":"s-lit","name":"آداب وفلسفة"},{"id":"s-sci","name":"علوم تجريبية"}]}}"#
+        case ("POST", "/api/v1/ios/register"):
+            let body = request.httpBody.flatMap { String(data: $0, encoding: .utf8) } ?? ""
+            if body.contains("taken@") {
+                status = 409
+                json = #"{"ok":false,"error":{"code":"EMAIL_TAKEN","message":"هذا البريد مستعمل."}}"#
+            } else {
+                json = #"{"ok":true,"data":{"token":"fixture-token","expiresAt":"2030-01-01T00:00:00Z","role":"STUDENT"}}"#
+            }
+        case ("GET", "/api/v1/ios/phone"):
+            json = #"{"ok":true,"data":{"required":\#(needsPhone && !phoneConfirmed),"phone":"0661234567","sms":true,"callNumber":"0550 00 00 00"}}"#
+        case ("POST", "/api/v1/ios/phone/request"):
+            json = #"{"ok":true,"data":{"cooldown":60}}"#
+        case ("POST", "/api/v1/ios/phone/verify"):
+            let body = request.httpBody.flatMap { String(data: $0, encoding: .utf8) } ?? ""
+            if body.contains("123456") {
+                phoneConfirmed = true
+                json = #"{"ok":true,"data":{"verified":true}}"#
+            } else {
+                status = 400
+                json = #"{"ok":false,"error":{"code":"OTP_INVALID","message":"الرمز غير صحيح."}}"#
+            }
+        case ("GET", "/api/v1/ios/bac"):
+            json = bacPage
+        case ("GET", "/api/v1/ios/bac/" + bacID):
+            json = bacPaper
         case ("GET", "/api/v1/ios/home"):
             json = home
         case ("GET", _) where path.hasPrefix("/api/v1/ios/courses/"):
@@ -98,6 +129,18 @@ enum Fixtures {
       {"id":"s3","index":2,"type":"fill_blank","prompt":"أكمل","payload":{"type":"fill_blank","text":"الفعل ____ مبني على ____","bank":["الماضي","الفتح","الضم"]},"points":1,"answer":{"type":"fill_blank","blanks":[["الماضي"],["الفتح"]]},"explanation":"","correctText":"الماضي ، الفتح"},
       {"id":"s4","index":3,"type":"ordering","prompt":"رتّب","payload":{"type":"ordering","items":["أولًا","ثانيًا","ثالثًا"]},"points":1,"answer":{"type":"ordering","order":[0,1,2]},"explanation":"","correctText":"أولًا ← ثانيًا ← ثالثًا"},
       {"id":"s5","index":4,"type":"matching","prompt":"صِل","payload":{"type":"matching","lefts":["الطباق","الجناس"],"rights":["تضاد","تشابه لفظي"]},"points":1,"answer":{"type":"matching","pairs":[0,1]},"explanation":"","correctText":"الطباق ← تضاد"}]}}
+    """#
+
+    static let bacPage = #"""
+    {"ok":true,"data":{"items":[
+      {"id":"66666666-6666-4666-8666-666666666666","title":"موضوع اللغة العربية شعبة آداب وفلسفة — بكالوريا 2024","year":2024,"session":"NORMAL","subjectName":"اللغة العربية","streamName":"آداب وفلسفة","topic":1,"official":true,"hasPaper":true,"hasSolution":true},
+      {"id":"77777777-7777-4777-8777-777777777777","title":"موضوع اللغة العربية شعبة آداب وفلسفة — بكالوريا 2023","year":2023,"session":"NORMAL","subjectName":"اللغة العربية","streamName":"آداب وفلسفة","topic":2,"official":true,"hasPaper":true,"hasSolution":false}],
+     "nextCursor":null,"facets":{"streams":[{"id":"s-lit","name":"آداب وفلسفة","count":2}],"subjects":[{"id":"sub-ar","name":"اللغة العربية","count":2}],"years":[{"year":2024,"count":1},{"year":2023,"count":1}]},"total":2,"myStreamId":null}}
+    """#
+
+    static let bacPaper = #"""
+    {"ok":true,"data":{"id":"66666666-6666-4666-8666-666666666666","title":"موضوع اللغة العربية شعبة آداب وفلسفة — بكالوريا 2024","year":2024,"session":"NORMAL","official":true,"subjectName":"اللغة العربية","streamName":"آداب وفلسفة","source":{"name":"مصدر تجريبي","attribution":"للاختبار"},
+     "paper":{"url":"https://example.com/bac-2024.pdf","inApp":false},"solution":{"url":"https://example.com/bac-2024-corrige.pdf","inApp":false}}}
     """#
 
     static let cardLessons = #"""

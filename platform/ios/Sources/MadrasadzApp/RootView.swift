@@ -45,6 +45,7 @@ struct LoginView: View {
     @State private var password = ""
     @State private var error: String?
     @State private var working = false
+    @State private var signingUp = false
     @FocusState private var focus: Field?
     @Environment(\.openURL) private var openURL
 
@@ -108,7 +109,8 @@ struct LoginView: View {
                     HStack {
                         Button(L10n.text("forgotPassword")) { open("/forgot-password") }
                         Spacer()
-                        Button(L10n.text("register")) { open("/register") }
+                        Button(L10n.text("register")) { signingUp = true }
+                            .accessibilityIdentifier("openSignup")
                     }
                     .font(.footnote.weight(.semibold))
                 }
@@ -125,9 +127,10 @@ struct LoginView: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .background(LinearGradient(colors: [Brand.navy, Brand.blue], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .sheet(isPresented: $signingUp) { NavigationStack { SignupView(model: model) } }
     }
 
-    /// Account creation and password reset stay on the website, opened in Safari.
+    /// The password reset page and the privacy policy open in Safari; accounts are created here.
     private func open(_ path: String) {
         if let url = model.api.url(path) { openURL(url) }
     }

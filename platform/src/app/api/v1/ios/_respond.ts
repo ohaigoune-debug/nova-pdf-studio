@@ -3,7 +3,7 @@ import { errorMessage } from '@/i18n'
 import { resolveActor, SESSION_COOKIE } from '@/server/auth/session'
 import { getDb } from '@/server/db/client'
 import type { Db } from '@/server/db/connect'
-import type { Actor } from '@/server/lib/actor'
+import { asIosApp, type Actor } from '@/server/lib/actor'
 import { isAppError, toAppError } from '@/server/lib/errors'
 import { iosNoStore } from '@/server/services/ios-session.service'
 
@@ -16,6 +16,11 @@ export function iosApiError(err: unknown) {
   return NextResponse.json({ ok: false, error: { code: e.code, message: errorMessage(e.code), ...(reason ? { reason } : {}) } }, { status })
 }
 
+/** حساب الطلب من كوكي الجلسة، معلَّمًا بأنه من تطبيق الآيفون (PLAY مجانية فيه) */
+export async function resolveIosActor(db: Db, req: NextRequest): Promise<Actor | null> {
+  return asIosApp(await resolveActor(db, req.cookies.get(SESSION_COOKIE)?.value))
+}
+
 /**
  * GET للقراءة فقط بكوكي جلسة الموقع نفسها. الرد خاص وغير مخزَّن، ولا ترويسات CORS.
  * الرد المصادَق عليه يحمل X-Madrasadz-Account ليرفض التطبيق ردًّا يخص حسابًا آخر (نفس عقد تصدير PDF).
@@ -23,7 +28,7 @@ export function iosApiError(err: unknown) {
 export async function iosApiGet<T>(req: NextRequest, run: (db: Db, actor: Actor | null) => Promise<T>): Promise<Response> {
   try {
     const db = await getDb()
-    const actor = await resolveActor(db, req.cookies.get(SESSION_COOKIE)?.value)
+    const actor = await resolveIosActor(db, req)
     const data = await run(db, actor)
     const response = NextResponse.json({ ok: true, data })
     if (actor) response.headers.set('X-Madrasadz-Account', actor.userId)
