@@ -159,13 +159,22 @@ describe('courses/[slug]', () => {
     expect((await call('course', teacher, course.slug)).body.error).toMatchObject({ code: 'FORBIDDEN', reason: 'ROLE' })
   })
 
-  it('الشروط تبقى في الويب', async () => {
+  it('الشروط تُعرض وتُقبل في التطبيق الأصيل', async () => {
     const workspaceId = await workspaceIdOfTeacher(h.db, teacher)
     const terms = await createCourse(h.db, admin, { title: 'دورة بشروط', workspaceId, season: '2026/2027', termsText: 'شروط' })
     await publishLegacyCourse(h.db, terms.id)
     await enrollStudent(h.db, admin, { studentId: student.studentId!, courseId: terms.id, source: 'MANUAL' })
     const r = await call('course', student, terms.slug)
-    expect(r.body.data).toEqual({ needsTerms: true, course: { slug: terms.slug, title: 'دورة بشروط' }, webPath: `/ios/course/${encodeURIComponent(terms.slug)}` })
+    expect(r.body.data).toMatchObject({ needsTerms: true, course: { slug: terms.slug, title: 'دورة بشروط' }, webPath: `/ios/course/${encodeURIComponent(terms.slug)}` })
+    expect(Object.keys(r.body.data).sort()).toEqual(['course', 'needsTerms', 'terms', 'webPath'])
+    expect((r.body.data as unknown as { terms: { text: string; version: number } }).terms).toMatchObject({ text: 'شروط' })
+    const { POST } = await import('@/app/api/v1/ios/courses/[slug]/terms/route')
+    const session = await createSession(h.db, { userId: student.userId })
+    const version = (r.body.data as unknown as { terms: { version: number } }).terms.version
+    const post = (v: number) => POST(new NextRequest(`https://madrasadz.com/api/v1/ios/courses/${encodeURIComponent(terms.slug)}/terms`, { method: 'POST', headers: { cookie: `${SESSION_COOKIE}=${session.token}`, 'x-madrasadz-client': 'ios', 'content-type': 'application/json' }, body: JSON.stringify({ version: v }) }), { params: Promise.resolve({ slug: encodeURIComponent(terms.slug) }) })
+    expect((await post(version + 1)).status).toBe(422)
+    expect((await post(version)).status).toBe(200)
+    expect((await call('course', student, terms.slug)).body.data).toMatchObject({ needsTerms: false })
   })
 })
 

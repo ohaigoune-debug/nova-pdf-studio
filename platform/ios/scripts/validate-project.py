@@ -151,8 +151,13 @@ def main():
         assert not options.require_generated_app_icon, 'Run scripts/prepare-assets.sh on macOS first'
 
     if not options.allow_pending_sources:
-        for filename in ('MadrasadzApp.swift', 'AppModel.swift', 'BrowserController.swift', 'StudyViews.swift'):
+        for filename in ('MadrasadzApp.swift', 'AppModel.swift', 'API.swift', 'RootView.swift', 'LearningViews.swift', 'PlayViews.swift', 'PlayModel.swift'):
             assert (ROOT / 'Sources/MadrasadzApp' / filename).is_file(), f'Missing app source: {filename}'
+        # Fully native app (November 2026): no website page inside the app. A web view
+        # exists only for the video player frame (YouTube / signed Bunny embed).
+        for source in (ROOT / 'Sources/MadrasadzApp').glob('*.swift'):
+            if 'WKWebView' in source.read_text():
+                assert source.name == 'LearningViews.swift', f'Web view outside the video player: {source.name}'
         assert (ROOT / 'Tests/MadrasadzUITests/MadrasadzUITests.swift').is_file()
     print(f'PASS: OpenStep project parsed; {len(objects)} references resolved; scheme/plists/storyboard/assets valid.')
     if not generated.exists():

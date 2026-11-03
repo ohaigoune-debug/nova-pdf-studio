@@ -56,7 +56,8 @@ export async function iosApiCourse(db: Db, actor: Actor | null, slug: string) {
   assertStudentOrGuest(actor)
   const home = await iosCourseHome(db, actor, slug)
   const webPath = `/ios/course/${encodeURIComponent(home.course.slug)}`
-  if (home.needsTerms) return { needsTerms: true as const, course: { slug: home.course.slug, title: home.course.title }, webPath }
+  // نص الشروط ونسختها ليقبلها التلميذ داخل التطبيق الأصيل (POST /api/v1/ios/courses/:slug/terms)
+  if (home.needsTerms) return { needsTerms: true as const, course: { slug: home.course.slug, title: home.course.title }, terms: { text: home.course.termsText, version: home.course.termsVersion }, webPath }
   return {
     needsTerms: false as const,
     course: {
@@ -86,14 +87,37 @@ export async function iosApiCourse(db: Db, actor: Actor | null, slug: string) {
 
 type MediaKind = 'none' | 'youtube' | 'pdf' | 'video' | 'external'
 
+type LessonPart =
+  | { kind: 'youtube'; youtubeId: string; contentId: string }
+  | { kind: 'video'; contentId: string; provider: string | null }
+  | { kind: 'pdf'; contentId: string; allowDownload: boolean }
+  | { kind: 'external'; url: string | null }
+
+/**
+ * أجزاء الدرس بالقاعدة نفسها لصفحة الدرس في الموقع (LessonMedia)، لا بنوع المحتوى وحده:
+ * درس الدورة (1 نوفمبر 2026) نوعه LESSON ويحمل فيديو (يوتيوب أو Bunny) وملف PDF معًا.
+ * الفيديو أولًا ثم الملف. ملف غير جاهز أو غير PDF مع فيديو لا يُعرض، كما في الموقع.
+ */
+export function lessonParts(item: { id: string; type: string; videoProvider: string | null; youtubeId: string | null; fileId: string | null; fileMime?: string | null; fileStatus?: string | null; allowDownload: boolean | null; externalUrl: string | null }): LessonPart[] {
+  const parts: LessonPart[] = []
+  const hasVideo = item.videoProvider === 'YOUTUBE' || item.videoProvider === 'BUNNY'
+  if (item.videoProvider === 'YOUTUBE' && item.youtubeId) parts.push({ kind: 'youtube', youtubeId: item.youtubeId, contentId: item.id })
+  else if (item.videoProvider === 'BUNNY') parts.push({ kind: 'video', contentId: item.id, provider: 'BUNNY' })
+  const fileReady = Boolean(item.fileId) && (!item.fileStatus || item.fileStatus === 'READY')
+  const mime = item.fileMime ?? (item.type === 'PDF' ? 'application/pdf' : null)
+  if (fileReady && mime === 'application/pdf') parts.push({ kind: 'pdf', contentId: item.id, allowDownload: Boolean(item.allowDownload) })
+  else if (fileReady && !hasVideo && mime?.startsWith('video/')) parts.push({ kind: 'video', contentId: item.id, provider: item.videoProvider ?? 'UPLOAD' })
+  if (item.externalUrl && item.videoProvider !== 'YOUTUBE') parts.push({ kind: 'external', url: /^https:\/\//i.test(item.externalUrl) ? item.externalUrl : null })
+  return parts
+}
+
 export async function iosApiLesson(db: Db, actor: Actor | null, slug: string) {
   assertStudentOrGuest(actor)
   const item = await iosLesson(db, actor, slug)
-  const kind: MediaKind =
-    item.type === 'VIDEO' ? (item.videoProvider === 'YOUTUBE' && item.youtubeId ? 'youtube' : 'video')
-      : item.type === 'PDF' && item.fileId ? 'pdf'
-        : item.externalUrl ? 'external'
-          : 'none'
+  const parts = lessonParts(item)
+  // media: الجزء الأول، للنسخ السابقة من التطبيق التي تعرض جزءًا واحدًا (Build 10 وما قبلها)
+  const first = parts[0]
+  const media: { kind: MediaKind } & Record<string, unknown> = first ? { ...first } : { kind: 'none' }
   return {
     lesson: {
       slug: item.slug,
@@ -101,14 +125,9 @@ export async function iosApiLesson(db: Db, actor: Actor | null, slug: string) {
       summary: item.summary ?? null,
       type: item.type,
       bodyMarkdown: item.body ?? null,
-      media: {
-        kind,
-        // معرّف المحتوى للفيديو: نبضات المشاهدة وحدّ الجهاز الواحد في المشغّل الأصلي (لا رابط ملف)
-        ...(kind === 'youtube' ? { youtubeId: item.youtubeId, contentId: item.id } : {}),
-        ...(kind === 'video' ? { contentId: item.id } : {}),
-        // PDF: معرّف المحتوى ليستعمله مسار التصدير الحالي المحمي، لا رابط ملف
-        ...(kind === 'pdf' ? { contentId: item.id, allowDownload: Boolean(item.allowDownload) } : {})
-      },
+      media,
+      // كل أجزاء الدرس بالترتيب (فيديو ثم PDF ثم رابط) — Build 11 وما بعدها
+      parts,
       webPath: `/ios/lesson/${encodeURIComponent(item.slug)}`
     },
     // العلامة المائية في المشغّل الأصلي: اسم التلميذ نفسه ورمز حسابه (أول 8 خانات، مثل الموقع) — لا بريد ولا هاتف

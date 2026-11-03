@@ -1,0 +1,89 @@
+name: iOS — native app check (Xcode 16 fallback)
+
+# Compile and test check of the native iPhone app on the more available macOS 15
+# runners (Xcode 16), used when macOS 26 runners are out of capacity. Distribution
+# builds still use ios.yml / ios-signed.yml on macOS 26.
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/native-ios-full]
+    paths:
+      - '.github/workflows/ios-native-check.yml'
+      - 'platform/ios/**'
+      - '!platform/ios/docs/**'
+      - '!platform/ios/README.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-native-check-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  simulator:
+    if: github.event.repository.private == false
+    runs-on: macos-15
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: platform/ios
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xcode in use
+        run: xcodebuild -version && xcrun simctl list runtimes | head -20
+      - name: Prepare assets and validate the project
+        run: |
+          bash scripts/prepare-assets.sh
+          python3 scripts/validate-project.py --require-generated-app-icon
+      - name: Core package tests
+        run: |
+          set -o pipefail
+          if ! swift test --package-path Packages/MadrasadzCore 2>&1 | tee build-swift-test.log; then
+            grep -E "error:|failed \(" build-swift-test.log | head -30 | sed -e 's/%/%25/g' -e 's/^/::error title=swift test::/'
+            exit 1
+          fi
+      - name: Build Debug for the Simulator
+        run: |
+          set -o pipefail
+          if ! xcodebuild -project Madrasadz.xcodeproj -scheme Madrasadz -configuration Debug \
+              -destination 'generic/platform=iOS Simulator' -derivedDataPath DerivedData \
+              CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build 2>&1 | tee build-debug.log; then
+            grep -E "error:" build-debug.log | sort -u | head -40 | sed -e 's/%/%25/g' -e 's/^/::error title=compile Debug::/'
+            exit 1
+          fi
+      - name: Build Release for the Simulator
+        run: |
+          set -o pipefail
+          if ! xcodebuild -project Madrasadz.xcodeproj -scheme Madrasadz -configuration Release \
+              -destination 'generic/platform=iOS Simulator' -derivedDataPath DerivedData \
+              CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build 2>&1 | tee build-release.log; then
+            grep -E "error:" build-release.log | sort -u | head -40 | sed -e 's/%/%25/g' -e 's/^/::error title=compile Release::/'
+            exit 1
+          fi
+      - name: UI tests on an iPhone Simulator (Debug sample server)
+        run: |
+          set -o pipefail
+          simulator_id="$(xcrun simctl list devices available --json | python3 scripts/select-simulator.py)"
+          mkdir -p build
+          if ! xcodebuild -project Madrasadz.xcodeproj -scheme Madrasadz -configuration Debug \
+              -destination "platform=iOS Simulator,id=$simulator_id" -derivedDataPath DerivedData \
+              -resultBundlePath build/NativeUITests.xcresult \
+              CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO test 2>&1 | tee build-uitest.log; then
+            grep -E "error:|Test Case .* failed|XCTAssert" build-uitest.log | sort -u | head -40 | sed -e 's/%/%25/g' -e 's/^/::error title=UI test::/'
+            exit 1
+          fi
+      - name: Export screenshots
+        if: always()
+        run: |
+          if [ -d build/NativeUITests.xcresult ]; then
+            xcrun xcresulttool export attachments --path build/NativeUITests.xcresult --output-path build/screenshots || true
+          fi
+      - name: Keep screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Madrasadz-native-screenshots-${{ github.sha }}
+          path: platform/ios/build/screenshots/
+          retention-days: 7
+          if-no-files-found: ignore

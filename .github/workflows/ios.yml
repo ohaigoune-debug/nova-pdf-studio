@@ -34,15 +34,9 @@ jobs:
         run: bash platform/ios/scripts/build-unsigned.sh Debug
       - name: Build unsigned Release Simulator application
         run: bash platform/ios/scripts/build-unsigned.sh Release
-      - name: Test public WebKit foreground/login navigation without an account (light)
-        id: public_light
-        run: bash platform/ios/scripts/test-public-navigation.sh light
-      - name: Test public WebKit foreground/login navigation without an account (dark)
-        # Also run when the light case failed, to compare appearances.
-        if: always() && (steps.public_light.outcome == 'success' || steps.public_light.outcome == 'failure')
-        run: bash platform/ios/scripts/test-public-navigation.sh dark
+      # Fully native app (November 2026): no website pages to navigate; the UI tests
+      # run every screen against the Debug-only sample server, offline.
       - name: Test core package and native UI on an installed iPhone Simulator
-        if: always() && (steps.public_light.outcome == 'success' || steps.public_light.outcome == 'failure')
         run: bash platform/ios/scripts/test-ios.sh auto Debug
       - name: Export genuine Simulator screenshot attachments
         if: always()

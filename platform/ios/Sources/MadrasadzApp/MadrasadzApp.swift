@@ -7,33 +7,24 @@ struct MadrasadzApp: App {
 
     var body: some Scene {
         WindowGroup {
-            StudyRootView(model: model)
-                .task {
-                    model.browser.updateSceneActivity(scenePhase == .active)
-                    await model.start()
-                }
-                // No app-wide privacySensitive(): on iOS 27 its .privacy redaction on
-                // every resign made SwiftUI rebuild the web host and carry the shared
-                // WKWebView off screen (device log, Build 4). The opaque cover below,
-                // the native shield and the per-view markers on personal lists remain.
+            RootView(model: model)
+                .task { await model.start() }
+                // A plain opaque cover in the app switcher; no web view, no redaction of the whole app.
                 .overlay {
-                    if scenePhase != .active {
-                        PrivacyProtectionCover(messageKey: "privacyInactive")
-                    }
+                    if scenePhase == .background { PrivacyCover() }
                 }
-                .onChange(of: scenePhase) { previous, phase in
-                    model.browser.diagnostics.record("scene.phase", "\(previous)->\(phase) privacyCover=\(phase != .active)")
-                    if previous == .active && phase != .active { model.browser.sceneWillResignActive() }
-                    model.browser.updateSceneActivity(phase == .active)
-                    // Do not invalidate an in-progress notification-permission
-                    // dialog merely because it temporarily makes us inactive.
-                    if phase == .background { model.browser.enterBackground() }
-                    if phase == .active, model.browser.restoreAfterBackground() {
-                        Task { await model.refreshIdentity(superseding: true) }
-                    }
-                    // Re-ask the server about native screens at most every 10 minutes.
-                    if phase == .active { model.native.sceneBecameActive() }
+                .onChange(of: scenePhase) { _, phase in
+                    if phase == .active { model.becameActive() }
                 }
+        }
+    }
+}
+
+struct PrivacyCover: View {
+    var body: some View {
+        ZStack {
+            Brand.navy.ignoresSafeArea()
+            Image("BrandLogo").resizable().scaledToFit().frame(width: 210, height: 70).accessibilityHidden(true)
         }
     }
 }
