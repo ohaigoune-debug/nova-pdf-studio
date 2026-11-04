@@ -49,6 +49,14 @@ final class MadrasadzUITests: XCTestCase {
         }
     }
 
+    /// Taps an element once it is on screen and not covered (the keyboard closing, a list settling).
+    @MainActor private func tapWhenReady(_ element: XCUIElement, timeout: TimeInterval = 5) {
+        XCTAssertTrue(element.waitForExistence(timeout: timeout))
+        let deadline = Date().addingTimeInterval(timeout)
+        while !element.isHittable && Date() < deadline { _ = element.waitForExistence(timeout: 0.3) }
+        if element.isHittable { element.tap() } else { element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap() }
+    }
+
     @MainActor private func snapshot(_ app: XCUIApplication, _ name: String) {
         let shot = XCTAttachment(screenshot: app.screenshot())
         shot.name = name
@@ -474,7 +482,8 @@ final class MadrasadzUITests: XCTestCase {
         find(app, "commentSend-\(postID)").tap()
         XCTAssertTrue(find(app, "myComment").waitForExistence(timeout: 10), visible(app))
         // Report another student's comment (Apple 1.2): the alert, then the confirmation notice
-        find(app, "commentMenu-c-1").tap()
+        app.swipeDown()
+        tapWhenReady(find(app, "commentMenu-c-1"))
         let report = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "إبلاغ")).firstMatch
         XCTAssertTrue(report.waitForExistence(timeout: 5), visible(app))
         report.tap()
@@ -487,7 +496,7 @@ final class MadrasadzUITests: XCTestCase {
         XCTAssertTrue(notice.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "وصل بلاغك")).count > 0, visible(app))
         notice.buttons.firstMatch.tap()
         // Hide that student's comments on this phone, then show them again
-        find(app, "commentMenu-c-1").tap()
+        tapWhenReady(find(app, "commentMenu-c-1"))
         let hide = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "إخفاء تعليقات")).firstMatch
         XCTAssertTrue(hide.waitForExistence(timeout: 5), visible(app))
         hide.tap()
