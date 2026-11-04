@@ -1,5 +1,5 @@
 import { Clock, Gift, Lock, Sparkles } from 'lucide-react'
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import type { PlayAccess } from '@/server/services/play-access.service'
 import { remainingLabel } from '@/server/services/play-access.service'
 

@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { STUDENT_HUBS, type StudentHubKey } from '@/lib/student-hubs'

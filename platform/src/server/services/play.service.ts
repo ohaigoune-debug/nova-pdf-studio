@@ -742,51 +742,93 @@ export async function abandonSession(db: Db, actor: Actor, sessionId: string) {
 
 /* ------------------------------- لوحة الطالب ------------------------------- */
 
+type DashboardRows = {
+  active: { id: string; challengeType: string; answeredCount: number; total: number; subjectCode: string | null } | null
+  subjStats: { subjectCode: string; xp: number; answered: number; correct: number }[]
+  badges: { badgeCode: string; earnedAt: string }[]
+  due: number
+  mastered: { lessonName: string; subjectCode: string; masteredAt: string | null }[]
+  dailyDone: boolean
+  recentSessions: { id: string; challengeType: string; subjectCode: string | null; correctCount: number; total: number; xpEarned: number; completedAt: string | null; status: string }[]
+}
+
+/**
+ * كل ما تحتاجه لوحة اللعب عن التلميذ في طلب واحد إلى القاعدة (كانت 7 طلبات متتالية).
+ * القاعدة نفسها تجمع النتائج في JSON، فيقلّ عمل الخادم والقاعدة معًا في كل فتح للصفحة.
+ */
+async function dashboardRows(db: Db, studentId: string, gradeCode: string, now: Date): Promise<DashboardRows> {
+  const today = todayStr(now)
+  const raw = await db.execute<Record<keyof DashboardRows, unknown>>(sql`
+    select
+      (select json_build_object('id', ${playSessions.id}, 'challengeType', ${playSessions.challengeType}, 'answeredCount', ${playSessions.answeredCount},
+                                'total', cardinality(${playSessions.questionIds}), 'subjectCode', ${playSessions.subjectCode})
+         from ${playSessions} where ${playSessions.studentId} = ${studentId} and ${playSessions.status} = 'ACTIVE'
+         order by ${playSessions.startedAt} desc limit 1) as "active",
+      (select coalesce(json_agg(json_build_object('subjectCode', ${playSubjectStats.subjectCode}, 'xp', ${playSubjectStats.xp},
+                                'answered', ${playSubjectStats.answered}, 'correct', ${playSubjectStats.correct})), '[]'::json)
+         from ${playSubjectStats} where ${playSubjectStats.studentId} = ${studentId} and ${playSubjectStats.gradeCode} = ${gradeCode}) as "subjStats",
+      (select coalesce(json_agg(json_build_object('badgeCode', ${playStudentBadges.badgeCode}, 'earnedAt', ${playStudentBadges.earnedAt})), '[]'::json)
+         from ${playStudentBadges} where ${playStudentBadges.studentId} = ${studentId}) as "badges",
+      (select count(*)::int from ${playQuestionMemory}
+         where ${playQuestionMemory.studentId} = ${studentId} and ${playQuestionMemory.box} <= 1 and ${playQuestionMemory.dueAt} <= ${now.toISOString()}::timestamptz) as "due",
+      (select coalesce(json_agg(json_build_object('lessonName', m.lesson_name, 'subjectCode', m.subject_code, 'masteredAt', m.mastered_at) order by m.mastered_at desc), '[]'::json)
+         from (select ${playLessons.lessonName} as lesson_name, ${playLessons.subjectCode} as subject_code, ${playLessonProgress.masteredAt} as mastered_at
+                 from ${playLessonProgress} inner join ${playLessons} on ${playLessons.id} = ${playLessonProgress.lessonId}
+                where ${playLessonProgress.studentId} = ${studentId} and ${playLessonProgress.masteredAt} is not null
+                order by ${playLessonProgress.masteredAt} desc limit 12) m) as "mastered",
+      exists (select 1 from ${playSessions} where ${playSessions.studentId} = ${studentId} and ${playSessions.challengeType} = 'DAILY'
+                and ${playSessions.status} = 'COMPLETED' and ${playSessions.completedAt} >= ${today}::date) as "dailyDone",
+      (select coalesce(json_agg(json_build_object('id', r.id, 'challengeType', r.challenge_type, 'subjectCode', r.subject_code, 'correctCount', r.correct_count,
+                                'total', r.total, 'xpEarned', r.xp_earned, 'completedAt', r.completed_at, 'status', r.status) order by r.started_at desc), '[]'::json)
+         from (select ${playSessions.id} as id, ${playSessions.challengeType} as challenge_type, ${playSessions.subjectCode} as subject_code,
+                      ${playSessions.correctCount} as correct_count, cardinality(${playSessions.questionIds}) as total, ${playSessions.xpEarned} as xp_earned,
+                      ${playSessions.completedAt} as completed_at, ${playSessions.status} as status, ${playSessions.startedAt} as started_at
+                 from ${playSessions} where ${playSessions.studentId} = ${studentId} and ${playSessions.status} in ('COMPLETED', 'EXPIRED')
+                order by ${playSessions.startedAt} desc limit 8) r) as "recentSessions"
+  `)
+  const [row] = (Array.isArray(raw) ? raw : (raw as { rows: Record<keyof DashboardRows, unknown>[] }).rows) as Record<keyof DashboardRows, unknown>[]
+  // pg وPGlite يعيدان JSON كائنات؛ نصٌّ احتياطًا إن أعاده مشغّل آخر
+  const json = <T>(v: unknown, empty: T): T => (v == null ? empty : typeof v === 'string' ? (JSON.parse(v) as T) : (v as T))
+  return {
+    active: json(row?.active, null),
+    subjStats: json(row?.subjStats, []),
+    badges: json(row?.badges, []),
+    due: Number(row?.due ?? 0),
+    mastered: json(row?.mastered, []),
+    dailyDone: row?.dailyDone === true || row?.dailyDone === 't',
+    recentSessions: json(row?.recentSessions, [])
+  }
+}
+
+const asDate = (v: string | null): Date | null => (v ? new Date(v) : null)
+
 export async function getPlayDashboard(db: Db, actor: Actor, now: Date = new Date()) {
   const studentId = studentIdOf(actor)
   const profile = await getPlayProfile(db, actor)
   const rules = await getPlayRules(db)
   const level = levelFor(rules, profile.xpTotal)
-  const [active] = await db.select().from(playSessions).where(and(eq(playSessions.studentId, studentId), eq(playSessions.status, 'ACTIVE'))).orderBy(desc(playSessions.startedAt)).limit(1)
-  const subjects = profile.gradeCode ? await listSubjectsFor(db, profile.gradeCode, profile.streamCode) : []
-  const subjStats = await db.select().from(playSubjectStats).where(and(eq(playSubjectStats.studentId, studentId), eq(playSubjectStats.gradeCode, profile.gradeCode ?? '')))
-  const smap = new Map(subjStats.map((s) => [s.subjectCode, s]))
-  const badges = await db.select().from(playStudentBadges).where(eq(playStudentBadges.studentId, studentId))
-  const [dueRow] = await db
-    .select({ due: sql<number>`count(*)`.mapWith(Number) })
-    .from(playQuestionMemory)
-    .where(and(eq(playQuestionMemory.studentId, studentId), lte(playQuestionMemory.box, 1), lte(playQuestionMemory.dueAt, now)))
-  const due = dueRow?.due ?? 0
-  const mastered = await db
-    .select({ lessonName: playLessons.lessonName, subjectCode: playLessons.subjectCode, masteredAt: playLessonProgress.masteredAt })
-    .from(playLessonProgress)
-    .innerJoin(playLessons, eq(playLessons.id, playLessonProgress.lessonId))
-    .where(and(eq(playLessonProgress.studentId, studentId), sql`${playLessonProgress.masteredAt} IS NOT NULL`))
-    .orderBy(desc(playLessonProgress.masteredAt))
-    .limit(12)
-  const today = todayStr(now)
-  const [dailyDone] = await db
-    .select({ id: playSessions.id })
-    .from(playSessions)
-    .where(and(eq(playSessions.studentId, studentId), eq(playSessions.challengeType, 'DAILY'), eq(playSessions.status, 'COMPLETED'), sql`${playSessions.completedAt} >= ${today}::date`))
-    .limit(1)
-  const recentSessions = await db
-    .select({ id: playSessions.id, challengeType: playSessions.challengeType, subjectCode: playSessions.subjectCode, correctCount: playSessions.correctCount, total: sql<number>`cardinality(${playSessions.questionIds})`.mapWith(Number), xpEarned: playSessions.xpEarned, completedAt: playSessions.completedAt, status: playSessions.status })
-    .from(playSessions)
-    .where(and(eq(playSessions.studentId, studentId), inArray(playSessions.status, ['COMPLETED', 'EXPIRED'])))
-    .orderBy(desc(playSessions.startedAt))
-    .limit(8)
+  const [subjects, rows] = await Promise.all([
+    profile.gradeCode ? listSubjectsFor(db, profile.gradeCode, profile.streamCode) : Promise.resolve([]),
+    dashboardRows(db, studentId, profile.gradeCode ?? '', now)
+  ])
+  const active = rows.active
+  const smap = new Map(rows.subjStats.map((s) => [s.subjectCode, s]))
+  const badges = rows.badges.map((b) => ({ badgeCode: b.badgeCode, earnedAt: new Date(b.earnedAt) }))
+  const due = rows.due
+  const mastered = rows.mastered.map((m) => ({ lessonName: m.lessonName, subjectCode: m.subjectCode, masteredAt: asDate(m.masteredAt) }))
+  const dailyDone = rows.dailyDone
+  const recentSessions = rows.recentSessions.map((r) => ({ ...r, completedAt: asDate(r.completedAt) }))
   return {
     profile: { gradeCode: profile.gradeCode, streamCode: profile.streamCode, prefs: profile.prefs },
     grade: profile.gradeCode ? (gradeByCode(profile.gradeCode) ?? null) : null,
     stats: { xpTotal: profile.xpTotal, streakDays: profile.streakDays, answeredTotal: profile.answeredTotal, correctTotal: profile.correctTotal, sessionsCompleted: profile.sessionsCompleted, lessonsMastered: profile.lessonsMastered },
     level,
-    activeSession: active ? { id: active.id, challengeType: active.challengeType, answeredCount: active.answeredCount, total: active.questionIds.length, subjectCode: active.subjectCode } : null,
+    activeSession: active ? { id: active.id, challengeType: active.challengeType, answeredCount: active.answeredCount, total: active.total, subjectCode: active.subjectCode } : null,
     subjects: subjects.map((s) => ({ ...s, xp: smap.get(s.code)?.xp ?? 0, answered: smap.get(s.code)?.answered ?? 0, correct: smap.get(s.code)?.correct ?? 0 })),
     badges: PLAY_BADGES.map((b) => ({ code: b.code, nameAr: b.nameAr, descriptionAr: b.descriptionAr, icon: b.icon, earnedAt: badges.find((x) => x.badgeCode === b.code)?.earnedAt ?? null })),
     mistakesDue: due,
     masteredLessons: mastered,
-    dailyDone: !!dailyDone,
+    dailyDone,
     recentSessions,
     grades: PLAY_GRADES.filter((g) => g.isActive)
   }

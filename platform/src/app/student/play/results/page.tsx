@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { redirect } from 'next/navigation'
 import { PlaySectionShell } from '@/components/play/exams/page-shell'
 import { requirePageActor } from '@/server/auth/current-user'

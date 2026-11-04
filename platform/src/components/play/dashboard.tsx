@@ -1,7 +1,7 @@
 'use client'
 
 import { Award, BookOpenCheck, CalendarDays, ChevronLeft, Flame, PlayCircle, RotateCcw, Settings2, Sparkles, Target, Zap } from 'lucide-react'
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { Button } from '@/components/ui/button'
 import { cn, formatShortDate } from '@/lib/utils'
 import { CHALLENGE_NAMES, type PlayChallengeType, streamName, subjectName } from '@/server/play/constants'

@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { redirect } from 'next/navigation'
 import { TestsByTerm } from '@/components/play/exams/exam-list'
 import { PlaySectionShell } from '@/components/play/exams/page-shell'
@@ -23,7 +23,7 @@ export default async function PlayExamsPage({ searchParams }: { searchParams: Pr
   const wanted = typeof subject === 'string' ? subject.toUpperCase() : null
   const subjectCode = (wanted && subjects.some((s) => s.code === wanted) ? wanted : null) ?? subjects.find((s) => s.code === 'AR')?.code ?? subjects[0]?.code ?? 'AR'
   const [list, access, ios] = await Promise.all([
-    listExamSets(db, actor, { subjectCode, kind: 'TESTS' }),
+    listExamSets(db, actor, { subjectCode, kind: 'TESTS' }, profile),
     getPlayAccess(db, actor, { gradeCode: profile.gradeCode, streamCode: profile.streamCode, subjectCode }),
     isIosStudyOnly()
   ])

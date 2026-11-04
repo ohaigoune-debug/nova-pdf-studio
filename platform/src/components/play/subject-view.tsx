@@ -1,7 +1,7 @@
 'use client'
 
 import { BookOpen, CheckCircle2, ChevronLeft, Layers, Zap } from 'lucide-react'
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { cn } from '@/lib/utils'
 import type { listLessonsFor } from '@/server/services/play.service'
 import { StartButton, TimedToggle, useTimedPref } from './challenge-launcher'

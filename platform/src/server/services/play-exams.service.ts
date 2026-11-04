@@ -14,6 +14,7 @@ import type { Db } from '@/server/db/connect'
 import { playExamAttempts, playExamSets, type ExamStepRecord } from '@/server/db/schema'
 import { studentIdOf, type Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
+import { ttlMemo } from '@/server/lib/ttl-cache'
 import { PLAY_SUBJECTS, type PlayExamKind, type PlayExamMode, type PlayLanguage } from '@/server/play/constants'
 import { examDerived, examDocument, examDocuments } from '@/server/play/exams/doc-cache'
 import { answerText, gradeStep, pointsFor, publicSteps, stepsFor, studentAnswerText } from '@/server/play/exams/engine'
@@ -93,15 +94,34 @@ export const subjectLanguage = (subjectCode: string): PlayLanguage => PLAY_SUBJE
 const SHARED_PAPER_SUBJECTS: Record<string, readonly string[]> = { HIST: ['HIST', 'GEO'], GEO: ['GEO', 'HIST'] }
 export const examSubjectsFor = (subjectCode: string): readonly string[] => SHARED_PAPER_SUBJECTS[subjectCode] ?? [subjectCode]
 
-/** مجموعات المستوى والمادة المتاحة للتلميذ (حسب شعبته) */
-export async function listExamSets(db: Db, actor: Actor, filter: { subjectCode: string; kind?: PlayExamKind | 'TESTS' }): Promise<{ items: ExamListItem[]; gradeCode: string | null; streamCode: string | null; preview: boolean }> {
+/**
+ * قائمة المواضيع (بلا محتواها) مشتركة بين كل تلاميذ السنة والمادة: تُقرأ مرة كل 30 ثانية لكل عملية
+ * بدل مرة لكل تلميذ. النشر أو السحب يظهر للتلاميذ خلال 30 ثانية على الأكثر، وبدء الموضوع يقرأ حالته من القاعدة دائمًا.
+ */
+function examSetRows(db: Db, gradeCode: string, filter: { subjectCode: string; kind?: PlayExamKind | 'TESTS' }): Promise<SetLight[]> {
+  const subjects = [...examSubjectsFor(filter.subjectCode)]
+  return ttlMemo(`play:examsets:${gradeCode}:${subjects.join(',')}:${filter.kind ?? '*'}`, 30_000, async () => {
+    const conds = [eq(playExamSets.gradeCode, gradeCode), inArray(playExamSets.subjectCode, subjects)]
+    if (filter.kind === 'TESTS') conds.push(inArray(playExamSets.kind, ['TEST', 'DEVOIR']))
+    else if (filter.kind) conds.push(eq(playExamSets.kind, filter.kind))
+    return db.select(SET_LIGHT).from(playExamSets).where(and(...conds))
+  })
+}
+
+/**
+ * مجموعات المستوى والمادة المتاحة للتلميذ (حسب شعبته)
+ * @param known ملف اللعب إن كانت الصفحة قد قرأته في الطلب نفسه (يوفّر قراءة ثانية للصف نفسه)
+ */
+export async function listExamSets(
+  db: Db,
+  actor: Actor,
+  filter: { subjectCode: string; kind?: PlayExamKind | 'TESTS' },
+  known?: { gradeCode: string | null; streamCode: string | null }
+): Promise<{ items: ExamListItem[]; gradeCode: string | null; streamCode: string | null; preview: boolean }> {
   const studentId = studentIdOf(actor)
-  const profile = await getPlayProfile(db, actor)
+  const profile = known ?? (await getPlayProfile(db, actor))
   if (!profile.gradeCode) return { items: [], gradeCode: null, streamCode: null, preview: examPreviewEnabled() }
-  const conds = [eq(playExamSets.gradeCode, profile.gradeCode), inArray(playExamSets.subjectCode, [...examSubjectsFor(filter.subjectCode)])]
-  if (filter.kind === 'TESTS') conds.push(inArray(playExamSets.kind, ['TEST', 'DEVOIR']))
-  else if (filter.kind) conds.push(eq(playExamSets.kind, filter.kind))
-  const rows = await db.select(SET_LIGHT).from(playExamSets).where(and(...conds))
+  const rows = await examSetRows(db, profile.gradeCode, filter)
   const shown = rows.filter((r) => visible(r).ok && (!r.streamCodes.length || !profile.streamCode || r.streamCodes.includes(profile.streamCode)))
   const docs = await examDocuments(db, shown)
   const attempts = shown.length

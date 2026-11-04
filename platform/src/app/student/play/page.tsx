@@ -4,6 +4,7 @@ import { PlayDashboard } from '@/components/play/dashboard'
 import { PlayAccessBanner } from '@/components/play/exams/access-banner'
 import { PlaySectionsNav } from '@/components/play/exams/sections-nav'
 import { PlayHome } from '@/components/play/play-home'
+import { AfterMount } from '@/components/ui/after-mount'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isIosStudyOnly } from '@/server/lib/ios-study'
@@ -37,7 +38,10 @@ export default async function PlayHomePage({ searchParams }: { searchParams: Pro
         <PlayAccessBanner access={access} subjectName={subjectCode ? subjectName(subjectCode) : null} iosStudyOnly={ios} />
         <PlayHome key={subjectCode ?? 'none'} data={data} subjectCode={subjectCode} units={units} />
         <PlaySectionsNav active="lessons" subjectCode={subjectCode} />
-        <PlayDashboard data={data} studentName={actor.fullName} />
+        {/* لوحة اللعبة أسفل الصفحة: يرسمها الهاتف لا الخادم (نحو ثلث HTML الصفحة)؛ المرساتان تبقيان لروابط «إحصائيات» و«الترتيب» */}
+        <AfterMount fallback={<><div id="play-standing" /><div id="play-stats" /></>}>
+          <PlayDashboard data={data} studentName={actor.fullName} />
+        </AfterMount>
       </div>
     </>
   )
