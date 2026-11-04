@@ -1,7 +1,7 @@
 'use client'
 
 import { Check, ChevronRight, Play, PlayCircle } from 'lucide-react'
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState, useTransition } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'

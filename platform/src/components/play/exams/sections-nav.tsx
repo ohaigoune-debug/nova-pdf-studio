@@ -1,5 +1,5 @@
 import { BarChart3, BookOpen, ClipboardList, GraduationCap } from 'lucide-react'
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { cn } from '@/lib/utils'
 
 export type PlaySection = 'lessons' | 'tests' | 'bac' | 'results'

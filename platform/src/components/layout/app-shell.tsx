@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { headers } from 'next/headers'
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { IOS_PRESENTATION_HEADER, IOS_PRESENTATION_VALUE } from '@/lib/ios-presentation'
 import { Logo } from '@/components/brand/logo'
 import { getDb } from '@/server/db/client'

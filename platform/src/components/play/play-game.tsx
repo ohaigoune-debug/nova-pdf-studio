@@ -1,7 +1,7 @@
 'use client'
 
 import { AlertTriangle, ArrowLeft, CheckCircle2, Clock, Flag, Home, RotateCcw, Sparkles, Trophy, Volume2, VolumeX, XCircle, Zap } from 'lucide-react'
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button'

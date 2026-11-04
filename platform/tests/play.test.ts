@@ -1,7 +1,7 @@
-import { eq } from 'drizzle-orm'
+import { and, desc, eq, inArray, lte, sql } from 'drizzle-orm'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
-import { playQuestionMemory, playQuestions, playSessions, playStudentStats } from '@/server/db/schema'
+import { playLessonProgress, playLessons, playQuestionMemory, playQuestions, playSessions, playStudentBadges, playStudentStats, playSubjectStats } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { gradePlayAnswer, normalizeContentQuestion, safeEvalArithmetic, shufflePayloadForSession, validateContentQuestion } from '@/server/play/engine'
@@ -263,6 +263,51 @@ describe('import + play loop', () => {
     const page = await listQuestionsAdmin(h.db, admin, { grade: '3AS', subject: 'AR', page: 1, pageSize: 5 })
     expect(page.total).toBe(13)
     expect(page.items.length).toBe(5)
+  })
+
+  it('dashboard (4 Nov 2026): the single query returns exactly what the seven separate queries returned', async () => {
+    const sid = student.studentId!
+    // درس متقَن لاختبار الربط مع الدروس والترتيب
+    const [lesson] = await h.db.select({ id: playLessons.id }).from(playLessons).limit(1)
+    await h.db.insert(playLessonProgress).values({ studentId: sid, lessonId: lesson!.id, answered: 20, correct: 19, masteryPct: 95, masteredAt: new Date('2026-11-01T09:30:00.123Z') }).onConflictDoNothing()
+    const now = new Date(Date.now() + 2 * 86400000)
+    const dash = await getPlayDashboard(h.db, student, now)
+
+    // المرجع: الاستعلامات السابقة كما كانت
+    const [active] = await h.db.select().from(playSessions).where(and(eq(playSessions.studentId, sid), eq(playSessions.status, 'ACTIVE'))).orderBy(desc(playSessions.startedAt)).limit(1)
+    const stats = await h.db.select().from(playSubjectStats).where(and(eq(playSubjectStats.studentId, sid), eq(playSubjectStats.gradeCode, '3AS')))
+    const badges = await h.db.select().from(playStudentBadges).where(eq(playStudentBadges.studentId, sid))
+    const [dueRow] = await h.db.select({ due: sql<number>`count(*)`.mapWith(Number) }).from(playQuestionMemory).where(and(eq(playQuestionMemory.studentId, sid), lte(playQuestionMemory.box, 1), lte(playQuestionMemory.dueAt, now)))
+    const mastered = await h.db
+      .select({ lessonName: playLessons.lessonName, subjectCode: playLessons.subjectCode, masteredAt: playLessonProgress.masteredAt })
+      .from(playLessonProgress)
+      .innerJoin(playLessons, eq(playLessons.id, playLessonProgress.lessonId))
+      .where(and(eq(playLessonProgress.studentId, sid), sql`${playLessonProgress.masteredAt} IS NOT NULL`))
+      .orderBy(desc(playLessonProgress.masteredAt))
+      .limit(12)
+    const recent = await h.db
+      .select({ id: playSessions.id, challengeType: playSessions.challengeType, subjectCode: playSessions.subjectCode, correctCount: playSessions.correctCount, total: sql<number>`cardinality(${playSessions.questionIds})`.mapWith(Number), xpEarned: playSessions.xpEarned, completedAt: playSessions.completedAt, status: playSessions.status })
+      .from(playSessions)
+      .where(and(eq(playSessions.studentId, sid), inArray(playSessions.status, ['COMPLETED', 'EXPIRED'])))
+      .orderBy(desc(playSessions.startedAt))
+      .limit(8)
+
+    expect(active).toBeTruthy()
+    expect(dash.activeSession).toEqual({ id: active!.id, challengeType: active!.challengeType, answeredCount: active!.answeredCount, total: active!.questionIds.length, subjectCode: active!.subjectCode })
+    for (const s of dash.subjects) {
+      const st = stats.find((x) => x.subjectCode === s.code)
+      expect([s.xp, s.answered, s.correct]).toEqual([st?.xp ?? 0, st?.answered ?? 0, st?.correct ?? 0])
+    }
+    expect(dash.subjects.some((s) => s.xp > 0)).toBe(true)
+    for (const b of dash.badges) expect(b.earnedAt?.getTime() ?? null).toBe(badges.find((x) => x.badgeCode === b.code)?.earnedAt.getTime() ?? null)
+    expect(dash.badges.some((b) => b.earnedAt instanceof Date)).toBe(true)
+    expect(dash.mistakesDue).toBe(dueRow!.due)
+    expect(dash.mistakesDue).toBeGreaterThan(0)
+    expect(dash.masteredLessons).toEqual(mastered)
+    expect(dash.masteredLessons[0]?.masteredAt).toBeInstanceOf(Date)
+    expect(dash.recentSessions).toEqual(recent)
+    expect(dash.recentSessions.length).toBeGreaterThan(1)
+    expect(dash.dailyDone).toBe(false)
   })
 
   it('does not let a student call admin functions', async () => {

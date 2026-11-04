@@ -1,7 +1,7 @@
 'use client'
 
 import { ChevronRight, Flag, Flame, Pause, Sparkles, Timer, Volume2, VolumeX, WifiOff } from 'lucide-react'
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useReducer, useRef, useState, useSyncExternalStore, type ReactNode } from 'react'
 import { Button } from '@/components/ui/button'

@@ -1,8 +1,9 @@
 import { Archive } from 'lucide-react'
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { redirect } from 'next/navigation'
 import { ExamCard } from '@/components/play/exams/exam-list'
 import { PlaySectionShell } from '@/components/play/exams/page-shell'
+import { AfterMount } from '@/components/ui/after-mount'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isIosStudyOnly } from '@/server/lib/ios-study'
@@ -12,6 +13,9 @@ import { listExamSets } from '@/server/services/play-exams.service'
 import { getPlayProfile, listSubjectsFor } from '@/server/services/play.service'
 
 export const dynamic = 'force-dynamic'
+
+/** السنوات التي يرسمها الخادم في أعلى القائمة (ما يراه التلميذ أولًا)؛ الباقي يرسمه الهاتف */
+const SERVER_YEARS = 2
 
 /** القسم الثالث: البكالوريا — السنة ← (شعبة التلميذ) ← المادة ← الموضوع الأول/الثاني */
 export default async function PlayBacPage({ searchParams }: { searchParams: Promise<{ subject?: string | string[] }> }) {
@@ -25,11 +29,28 @@ export default async function PlayBacPage({ searchParams }: { searchParams: Prom
   const subjectCode = (wanted && subjects.some((s) => s.code === wanted) ? wanted : null) ?? subjects.find((s) => s.code === 'AR')?.code ?? subjects[0]?.code ?? 'AR'
   const is3AS = profile.gradeCode === '3AS'
   const [list, access, ios] = await Promise.all([
-    is3AS ? listExamSets(db, actor, { subjectCode, kind: 'BAC' }) : Promise.resolve({ items: [] }),
+    is3AS ? listExamSets(db, actor, { subjectCode, kind: 'BAC' }, profile) : Promise.resolve({ items: [] }),
     getPlayAccess(db, actor, { gradeCode: profile.gradeCode, streamCode: profile.streamCode, subjectCode }),
     isIosStudyOnly()
   ])
   const years = [...new Set(list.items.map((i) => i.year ?? 0))].sort((a, b) => b - a)
+  const yearSection = (y: number) => (
+    <section key={y} aria-labelledby={`bac-${y}`}>
+      <h2 id={`bac-${y}`} className="mb-3 text-[1.1rem] font-extrabold text-[#1B4DB1]">
+        بكالوريا {y || '—'}
+      </h2>
+      <div className="space-y-3">
+        {list.items
+          .filter((i) => (i.year ?? 0) === y)
+          .map((i) => (
+            <div key={i.id}>
+              <p className="mb-1.5 text-sm font-bold text-[#5B6B88]">{i.paper === 2 ? 'الموضوع الثاني' : 'الموضوع الأول'}</p>
+              <ExamCard item={i} canPlay={access.canPlay} />
+            </div>
+          ))}
+      </div>
+    </section>
+  )
   return (
     <PlaySectionShell section="bac" subjectCode={subjectCode} access={access} iosStudyOnly={ios}>
       <h1 className="text-[1.5rem] font-extrabold text-[#1B4DB1]">البكالوريا</h1>
@@ -46,23 +67,9 @@ export default async function PlayBacPage({ searchParams }: { searchParams: Prom
         </nav>
       ) : null}
       <div className="mt-5 space-y-6">
-        {years.map((y) => (
-          <section key={y} aria-labelledby={`bac-${y}`}>
-            <h2 id={`bac-${y}`} className="mb-3 text-[1.1rem] font-extrabold text-[#1B4DB1]">
-              بكالوريا {y || '—'}
-            </h2>
-            <div className="space-y-3">
-              {list.items
-                .filter((i) => (i.year ?? 0) === y)
-                .map((i) => (
-                  <div key={i.id}>
-                    <p className="mb-1.5 text-sm font-bold text-[#5B6B88]">{i.paper === 2 ? 'الموضوع الثاني' : 'الموضوع الأول'}</p>
-                    <ExamCard item={i} canPlay={access.canPlay} />
-                  </div>
-                ))}
-            </div>
-          </section>
-        ))}
+        {years.slice(0, SERVER_YEARS).map(yearSection)}
+        {/* السنوات الأقدم أسفل الصفحة: يرسمها الهاتف لا الخادم (كانت أغلب HTML الصفحة) */}
+        {years.length > SERVER_YEARS ? <AfterMount>{years.slice(SERVER_YEARS).map(yearSection)}</AfterMount> : null}
         {is3AS && !list.items.length ? (
           <p className="rounded-2xl border border-dashed border-[#C9D7EE] bg-white/70 p-4 text-sm font-medium text-[#5B6B88]">
             لا توجد بعد مواضيع بكالوريا معتمدة في {subjectName(subjectCode)} لشعبتك. تُضاف المواضيع بعد تحويلها ومراجعة تصحيحها.

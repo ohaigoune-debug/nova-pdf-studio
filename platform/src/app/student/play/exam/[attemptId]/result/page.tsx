@@ -1,5 +1,5 @@
 import { Check, RotateCcw, X } from 'lucide-react'
-import Link from 'next/link'
+import Link from '@/components/ui/link'
 import { notFound, redirect } from 'next/navigation'
 import { ExamText, MathScope } from '@/components/play/exams/exam-runner'
 import { requirePageActor } from '@/server/auth/current-user'
