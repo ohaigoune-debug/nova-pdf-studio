@@ -158,6 +158,8 @@ public struct NativeCourse: Decodable, Equatable, Sendable {
         public let season: String?
         public let description: String?
         public let accessEndsOn: String?
+        /// The course's group: its virtual classroom («القسم الافتراضي»), Build 16.
+        public let groupId: String?
     }
 
     public struct Item: Decodable, Equatable, Identifiable, Sendable {

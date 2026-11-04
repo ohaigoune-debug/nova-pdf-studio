@@ -92,6 +92,10 @@ Account tab ("حسابي") → "طلباتي" (My orders): read-only delivery tr
 the app (status, steps and the courier's tracking number; no prices, no payment, no ordering).
 Account tab → "الدعم والشكاوى" (Support): the student writes to our support team and reads the replies.
 Notifications (optional, asked after a first support message): replies from support and order updates.
+Course → "القسم الافتراضي" (virtual classroom, Build 16): the teacher's posts for the student's own course group,
+with comments by the students of that group. Every comment by another student can be reported (sent to our
+moderators and to the teacher, who can delete it) or hidden on the device ("إخفاء تعليقات هذا التلميذ").
+Only enrolled students of the same group can read or write there; there is no public posting and no direct messaging.
 
 Account deletion: Account tab ("حسابي") → Delete account (password required).
 Sign in with Apple is not offered: the app uses only its own accounts (no third-party login).
@@ -112,6 +116,7 @@ Sign in with Apple is not offered: the app uses only its own accounts (no third-
 | User Content → Other User Content | إجابات PLAY ونتائجها |
 | Other Data | الولاية والمستوى والشعبة |
 | User Content → Customer Support | رسائل «الدعم والشكاوى» (Build 15) |
+| User Content → Other User Content | تعليقات القسم الافتراضي (Build 16) |
 | Purchases → Purchase History | «طلباتي» تعرض حالة طلبات التلميذ المقدَّمة خارج التطبيق، بلا مبالغ (Build 15) |
 
 ليس عندنا: الموقع الجغرافي، وجهات الاتصال، والصور، والصحة، والمالية، والمشتريات داخل التطبيق، وسجل التصفح، وبيانات التشخيص.
@@ -122,7 +127,7 @@ Sign in with Apple is not offered: the app uses only its own accounts (no third-
 
 ## تصنيف العمر
 
-الأجوبة المتوقعة في استبيان Apple: لا عنف، لا محتوى جنسي، لا قمار، لا مخدرات، لا إعلانات، لا محتوى ينشره المستخدمون للآخرين (المنتدى والقسم الافتراضي غير موجودين في التطبيق)، لا محادثة، لا متصفح ويب مفتوح (روابط مصادر البكالوريا تُفتح في Safari). النتيجة المتوقعة: 4+. لا تختر «Made for Kids».
+الأجوبة المتوقعة في استبيان Apple: لا عنف، لا محتوى جنسي، لا قمار، لا مخدرات، لا إعلانات، **محتوى ينشره المستخدمون: نعم منذ Build 16** (تعليقات تلاميذ الفوج في القسم الافتراضي، مع بلاغ وحجب وحذف من الأستاذ؛ لا منتدى عام ولا رسائل خاصة)، لا محادثة، لا متصفح ويب مفتوح (روابط مصادر البكالوريا تُفتح في Safari). كانت النتيجة المتوقعة 4+؛ وجواب «المحتوى الذي ينشره المستخدمون» قد يرفعها، والتصنيف النهائي يحسبه App Store Connect من الأجوبة. لا تختر «Made for Kids».
 
 ## ما يفعله المالك قبل الإرسال
 

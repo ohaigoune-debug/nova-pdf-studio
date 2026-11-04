@@ -1,7 +1,8 @@
 /**
  * Permanent learning-only iOS portal. This is an additional presentation of
  * existing server permissions, never an entitlement derived from a device flag.
- * Commerce, activation codes and user-generated discussions are not exposed here.
+ * Commerce and activation codes are not exposed here. The virtual classroom (teacher posts and student
+ * comments) is served by ios-classroom.service with reporting and blocking (Build 16, owner's request).
  */
 import type { Db } from '@/server/db/connect'
 import { assertRole, type Actor } from '@/server/lib/actor'

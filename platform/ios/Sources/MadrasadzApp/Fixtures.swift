@@ -10,6 +10,13 @@ enum Fixtures {
     static let needsPhone = ProcessInfo.processInfo.arguments.contains("--madrasadz-fixture-phone")
     static var phoneConfirmed = false
     static let ticketID = "77777777-7777-4777-8777-777777777777"
+    static let classGroupID = "99999999-9999-4999-8999-999999999999"
+    static let classPostID = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+    /// Classroom comments of the sample post: (id, body, author, teacher, mine, key).
+    static var classComments: [(id: String, body: String, author: String, teacher: Bool, mine: Bool, key: String?)] = [
+        ("c-1", "Which verse shows the metaphor?", "كريم", false, false, "aaaaaaaaaaaaaaaaaaaa"),
+        ("c-2", "سأشرحه في الحصة القادمة.", "أستاذ تجريبي", true, false, "bbbbbbbbbbbbbbbbbbbb")
+    ]
     /// Support tickets of the sample account: (id, number, kind, subject, status, messages as (mine, body)).
     static var tickets: [(id: String, number: Int, kind: String, subject: String, status: String, messages: [(mine: Bool, body: String)])] = [
         (ticketID, 7, "DELIVERY", "تأخّر كتاب الرياضيات", "WAITING_USER", [(true, "لم يصلني الكتاب بعد."), (false, "الكتاب عند شركة التوصيل، يصلك غدًا إن شاء الله.")])
@@ -121,6 +128,18 @@ enum Fixtures {
                 status = 404
                 json = #"{"ok":false,"error":{"code":"TICKET_NOT_FOUND","message":"التذكرة غير موجودة."}}"#
             }
+        case ("GET", "/api/v1/ios/classroom"):
+            json = classroom()
+        case ("POST", "/api/v1/ios/classroom/posts/" + classPostID + "/comments"):
+            let body = request.httpBody.flatMap { try? JSONSerialization.jsonObject(with: $0) as? [String: Any] } ?? [:]
+            classComments.append(("c-\(classComments.count + 1)", body["body"] as? String ?? "", "تلميذ تجريبي", false, true, nil))
+            json = #"{"ok":true,"data":{"id":"c-new"}}"#
+        case ("POST", _) where path.hasPrefix("/api/v1/ios/classroom/comments/") && path.hasSuffix("/delete"):
+            let id = path.split(separator: "/").dropLast().last.map(String.init) ?? ""
+            classComments.removeAll { $0.id == id && $0.mine }
+            json = #"{"ok":true,"data":{"deleted":true}}"#
+        case ("POST", _) where path.hasPrefix("/api/v1/ios/classroom/comments/") && path.hasSuffix("/report"):
+            json = #"{"ok":true,"data":{"reported":true,"ticketNumber":9}}"#
         case ("POST", "/api/v1/ios/push"), ("DELETE", "/api/v1/ios/push"):
             json = #"{"ok":true,"data":{"registered":true,"removed":true,"active":false}}"#
         case ("POST", "/api/v1/media/heartbeat"):
@@ -146,6 +165,13 @@ enum Fixtures {
         return String(String(data: data, encoding: .utf8)!.dropFirst().dropLast())
     }
 
+    static func classroom() -> String {
+        let comments = classComments.map { c in
+            #"{"id":"\#(c.id)","body":\#(escaped(c.body)),"createdAt":"2026-11-04T08:10:00.000Z","authorName":\#(escaped(c.author)),"teacher":\#(c.teacher),"mine":\#(c.mine),"authorKey":\#(c.key.map { "\"\($0)\"" } ?? "null")}"#
+        }
+        return #"{"ok":true,"data":{"groups":[{"id":"\#(classGroupID)","name":"فوج الدورة"}],"posts":[{"id":"\#(classPostID)","body":"واجب الأسبوع: حلّل القصيدة واذكر صورتين بيانيتين.","linkUrl":null,"file":null,"pinned":true,"allowComments":true,"createdAt":"2026-11-04T08:00:00.000Z","groupName":"فوج الدورة","authorName":"أستاذ تجريبي","comments":[\#(comments.joined(separator: ","))]}]}}"#
+    }
+
     static func ticketList() -> String {
         let rows = tickets.map { t in
             #"{"id":"\#(t.id)","number":\#(t.number),"kind":"\#(t.kind)","subject":\#(escaped(t.subject)),"status":"\#(t.status)","lastMessageAt":"2026-11-03T10:00:00.000Z","messages":\#(t.messages.count)}"#
@@ -168,7 +194,7 @@ enum Fixtures {
     """#
 
     static let course = #"""
-    {"ok":true,"data":{"needsTerms":false,"course":{"slug":"fixture-ar","title":"اللغة العربية — بكالوريا تجريبية","teacherName":"أستاذ تجريبي","season":"2026/2027","description":"دورة تجريبية للاختبار.","accessEndsOn":"2027-06-30"},
+    {"ok":true,"data":{"needsTerms":false,"course":{"slug":"fixture-ar","title":"اللغة العربية — بكالوريا تجريبية","teacherName":"أستاذ تجريبي","season":"2026/2027","description":"دورة تجريبية للاختبار.","accessEndsOn":"2027-06-30","groupId":"\#(classGroupID)"},
      "sections":[{"id":"lessons","items":[{"slug":"t1","title":"الحصة 1 — المدخل","displayTitle":"المدخل","session":1,"type":"LESSON","videoProvider":null,"publishedAt":"2026-10-28T15:53:15.778Z"}]},
                  {"id":"videos","items":[{"slug":"v1","title":"شرح الحصة 1","displayTitle":"شرح","session":1,"type":"VIDEO","videoProvider":"YOUTUBE","publishedAt":"2026-10-28T15:53:15.787Z"}]},
                  {"id":"files","items":[{"slug":"p1","title":"ملخص الدرس","displayTitle":"ملخص الدرس","session":null,"type":"PDF","videoProvider":null,"publishedAt":"2026-10-28T15:53:15.806Z"}]}],

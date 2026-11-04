@@ -226,16 +226,20 @@ public enum Support {
 public enum NotificationLink: Equatable, Sendable {
     case ticket(String)
     case orders
+    /// A new post or comment in the virtual classroom (`/student/classroom#post-…`).
+    case classroom
     case home
 
     public init(link: String?) {
-        let path = (link ?? "").split(separator: "?").first.map(String.init) ?? ""
+        let path = (link ?? "").split(separator: "#").first.flatMap { $0.split(separator: "?").first }.map(String.init) ?? ""
         var parts = path.split(separator: "/").map(String.init)
         if parts.first == "student" { parts.removeFirst() }
         if parts.count == 2, parts[0] == "support", UUID(uuidString: parts[1]) != nil {
             self = .ticket(parts[1].lowercased())
         } else if parts.first == "orders" || (parts.first == "store" && parts.dropFirst().first == "orders") {
             self = .orders
+        } else if parts.first == "classroom" {
+            self = .classroom
         } else {
             self = .home
         }

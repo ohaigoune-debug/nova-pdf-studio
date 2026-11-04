@@ -53,6 +53,10 @@ final class AppModel: ObservableObject {
     @Published var accountPath: [AccountRoute] = []
     /// Support tickets waiting for the student's answer (badge on «حسابي»).
     @Published var supportWaiting = 0
+    /// Classmates whose classroom comments this student hid on this phone (Build 16).
+    @Published private(set) var hiddenClassmateKeys: Set<String> = []
+    /// A classroom notification was tapped: the classroom opens over the tabs.
+    @Published var classroomOpen = false
 
     let api = APIClient()
     let downloads = OfflineLibrary()
@@ -122,6 +126,7 @@ final class AppModel: ObservableObject {
     private func activate(_ saved: SavedSession) async {
         generation += 1
         session = saved
+        hiddenClassmateKeys = Set(UserDefaults.standard.stringArray(forKey: Self.hiddenKey(saved.accountID)) ?? [])
         api.use(token: saved.token, account: saved.accountID)
         downloads.accountVerified(saved.accountID.lowercased())
         do {
@@ -387,6 +392,8 @@ final class AppModel: ObservableObject {
         phoneVerificationRequired = false
         accountPath = []
         supportWaiting = 0
+        hiddenClassmateKeys = []
+        classroomOpen = false
         pushSentFor = nil
         notifications.removeAllPendingNotificationRequests()
         notifications.removeAllDeliveredNotifications()
@@ -730,6 +737,8 @@ extension AppModel {
         case .orders:
             selectedTab = .account
             accountPath = [.orders]
+        case .classroom:
+            classroomOpen = true
         case .home:
             break
         }
@@ -774,5 +783,57 @@ extension AppModel {
         guard let token = pushToken, let body = try? JSONEncoder.api.encode(["token": token]),
               let request = api.request(path: "/api/v1/ios/push", method: "DELETE", body: body) else { return }
         _ = try? await api.send(request)
+    }
+}
+
+// MARK: - Virtual classroom (Build 16)
+
+extension AppModel {
+    static func hiddenKey(_ account: String) -> String { "classroom.hidden.\(account.lowercased())" }
+
+    var hiddenClassmates: Int { hiddenClassmateKeys.count }
+
+    /// Hides a classmate's comments on this phone (their key is meaningful for this account only).
+    func hideClassmate(_ key: String) {
+        guard let account = session?.accountID else { return }
+        hiddenClassmateKeys.insert(key)
+        UserDefaults.standard.set(Array(hiddenClassmateKeys), forKey: Self.hiddenKey(account))
+    }
+
+    func showHiddenClassmates() {
+        guard let account = session?.accountID else { return }
+        hiddenClassmateKeys = []
+        UserDefaults.standard.removeObject(forKey: Self.hiddenKey(account))
+    }
+
+    /// Returns an error message, or nil once the comment is saved.
+    func addClassComment(postId: String, body: String) async -> String? {
+        struct Body: Encodable { let body: String }
+        struct Reply: Decodable { let id: String }
+        return await classroomCall { _ = try await self.api.post(Reply.self, "/api/v1/ios/classroom/posts/\(postId)/comments", body: Body(body: body.trimmingCharacters(in: .whitespacesAndNewlines))) }
+    }
+
+    func deleteClassComment(id: String) async -> String? {
+        struct Reply: Decodable { let deleted: Bool }
+        return await classroomCall { _ = try await self.api.post(Reply.self, "/api/v1/ios/classroom/comments/\(id)/delete", body: Empty()) }
+    }
+
+    func reportClassComment(id: String, reason: String) async -> String? {
+        struct Body: Encodable { let reason: String? }
+        struct Reply: Decodable { let reported: Bool }
+        let text = reason.trimmingCharacters(in: .whitespacesAndNewlines)
+        return await classroomCall { _ = try await self.api.post(Reply.self, "/api/v1/ios/classroom/comments/\(id)/report", body: Body(reason: text.isEmpty ? nil : text)) }
+    }
+
+    private func classroomCall(_ run: () async throws -> Void) async -> String? {
+        do {
+            try await run()
+            return nil
+        } catch let failure as APIFailure {
+            handle(failure)
+            return failure.message
+        } catch {
+            return L10n.text("error")
+        }
     }
 }

@@ -121,6 +121,14 @@ struct CourseView: View {
                     OfflineBanner(savedAt: loader.savedAt).listRowBackground(Color.clear).listRowInsets(EdgeInsets())
                 }
                 header(course)
+                if !course.needsTerms, let groupId = course.course.groupId {
+                    Section {
+                        NavigationLink { ClassroomView(model: model, groupId: groupId) } label: {
+                            AccountRow(title: L10n.text("classroom"), detail: L10n.text("classroomHint"), icon: "bubble.left.and.text.bubble.right.fill", tint: Brand.blue)
+                        }
+                        .accessibilityIdentifier("courseClassroom")
+                    }
+                }
                 if course.needsTerms {
                     terms(course)
                 } else if course.sections.isEmpty {
