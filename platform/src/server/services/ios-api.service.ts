@@ -66,7 +66,9 @@ export async function iosApiCourse(db: Db, actor: Actor | null, slug: string) {
       teacherName: home.course.teacherName,
       season: home.course.season,
       description: home.course.description,
-      accessEndsOn: home.course.accessEndsOn ?? null
+      accessEndsOn: home.course.accessEndsOn ?? null,
+      // فوج الدورة: يفتح «القسم الافتراضي» في التطبيق (Build 16)
+      groupId: home.course.groupId
     },
     sections: home.sections.map((section) => ({
       id: section.id,

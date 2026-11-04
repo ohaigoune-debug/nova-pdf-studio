@@ -144,6 +144,8 @@ describe('courses/[slug]', () => {
     expect(r.headers.get('x-madrasadz-account')).toBe(student.userId)
     const data = r.body.data
     expect(data).toMatchObject({ needsTerms: false, course: { slug: course.slug, title: 'دورة الواجهة' }, webPath: `/ios/course/${encodeURIComponent(course.slug)}` })
+    // فوج الدورة يصل إلى التطبيق: منه يُفتح «القسم الافتراضي» (Build 16)
+    expect(data.course.groupId).toMatch(/^[0-9a-f-]{36}$/)
     expect(data.sections.map((s) => s.id)).toEqual(['lessons', 'videos', 'homework', 'tests'])
     expect(data.sections[0]!.items.map((i) => [i.session, i.displayTitle])).toEqual([[1, 'مدخل'], [2, 'البلاغة']])
     expect(data.sections[1]!.items[0]).toMatchObject({ type: 'VIDEO', videoProvider: 'YOUTUBE', session: 1 })
