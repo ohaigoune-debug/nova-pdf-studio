@@ -118,6 +118,7 @@ struct ClassroomView: View {
             }
         }
         .card()
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("post-\(post.id)")
     }
 
@@ -153,6 +154,8 @@ struct ClassroomView: View {
             }
         }
         .padding(.vertical, 2)
+        // Its own container: the identifier stays on the row and the menu inside stays reachable
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier(comment.mine ? "myComment" : "comment-\(comment.id)")
     }
 

@@ -452,6 +452,7 @@ final class MadrasadzUITests: XCTestCase {
         throw XCTSkip("Fixtures exist in Debug only.")
         #else
         let app = launch(signedIn: true)
+        answerSystemAlert(timeout: 1)
         let door = find(app, "homeTile-courses")
         XCTAssertTrue(door.waitForExistence(timeout: 15), visible(app))
         door.tap()
@@ -463,7 +464,8 @@ final class MadrasadzUITests: XCTestCase {
         entry.tap()
         let postID = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
         XCTAssertTrue(find(app, "post-\(postID)").waitForExistence(timeout: 10), visible(app))
-        XCTAssertTrue(find(app, "comment-c-1").exists)
+        XCTAssertTrue(app.staticTexts["Which verse shows the metaphor?"].waitForExistence(timeout: 5), visible(app))
+        XCTAssertTrue(find(app, "comment-c-1").exists, visible(app))
         snapshot(app, "30-classroom")
         // Comment
         let field = find(app, "commentField-\(postID)")
@@ -493,11 +495,11 @@ final class MadrasadzUITests: XCTestCase {
         XCTAssertTrue(confirm.firstMatch.waitForExistence(timeout: 5), visible(app))
         confirm.allElementsBoundByIndex.last?.tap()
         XCTAssertTrue(find(app, "classroomShowHidden").waitForExistence(timeout: 5), visible(app))
-        XCTAssertFalse(find(app, "comment-c-1").exists, "Hidden on this phone")
+        XCTAssertFalse(app.staticTexts["Which verse shows the metaphor?"].exists, "Hidden on this phone")
         XCTAssertTrue(find(app, "comment-c-2").exists, "The teacher's reply stays")
         snapshot(app, "32-classroom-hidden")
         find(app, "classroomShowHidden").tap()
-        XCTAssertTrue(find(app, "comment-c-1").waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Which verse shows the metaphor?"].waitForExistence(timeout: 5))
         #endif
     }
 
