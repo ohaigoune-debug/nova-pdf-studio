@@ -95,7 +95,9 @@ Notifications (optional, asked after a first support message): replies from supp
 Course → "القسم الافتراضي" (virtual classroom, Build 16): the teacher's posts for the student's own course group,
 with comments by the students of that group. Every comment by another student can be reported (sent to our
 moderators and to the teacher, who can delete it) or hidden on the device ("إخفاء تعليقات هذا التلميذ").
-Only enrolled students of the same group can read or write there; there is no public posting and no direct messaging.
+Only enrolled students of the same group can read or write there; there is no direct messaging.
+Home → "القسم العام" (general classroom, Build 17): posts by teachers and the platform for every registered
+student; students can only comment (same report and hide), and other students' names are shortened.
 
 Account deletion: Account tab ("حسابي") → Delete account (password required).
 Sign in with Apple is not offered: the app uses only its own accounts (no third-party login).

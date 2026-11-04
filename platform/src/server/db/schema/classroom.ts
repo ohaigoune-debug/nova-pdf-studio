@@ -44,10 +44,12 @@ export const classPosts = pgTable(
     fileId: uuid('file_id').references(() => files.id),
     pinned: boolean('pinned').notNull().default(false),
     allowComments: boolean('allow_comments').notNull().default(true),
+    /** «القسم العام» (4 نوفمبر 2026): يراه كل التلاميذ المسجّلين، والتلاميذ يعلّقون فقط (groupId فارغ) */
+    isPublic: boolean('is_public').notNull().default(false),
     ...timestamps,
     ...softDelete
   },
-  (t) => [index('class_posts_workspace_idx').on(t.workspaceId, t.createdAt), index('class_posts_group_idx').on(t.groupId, t.createdAt)]
+  (t) => [index('class_posts_workspace_idx').on(t.workspaceId, t.createdAt), index('class_posts_group_idx').on(t.groupId, t.createdAt), index('class_posts_public_idx').on(t.isPublic, t.createdAt)]
 )
 
 /** تعليق تلميذ (أو الأستاذ) على منشور */

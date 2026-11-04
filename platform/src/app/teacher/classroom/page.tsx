@@ -18,9 +18,9 @@ export default async function TeacherClassroomPage({ searchParams }: { searchPar
   const posts = await teacherStream(db, actor, current)
   return (
     <>
-      <PageHeader title="القسم الافتراضي" description="ساحة لكل فوج: تنشر فيها، ويعلّق تلاميذك ويتناقشون. منشور «كل الأفواج» يظهر في كل ساحة." />
+      <PageHeader title="القسم الافتراضي" description="القسم العام يراه كل تلاميذ المنصة ويعلّقون فيه؛ وقسم كل دورة لتلاميذ فوجها وحدهم. التلاميذ يعلّقون ولا يفتحون منشورات." />
       <div className="mx-auto max-w-3xl space-y-4">
-        <GroupTabs groups={opts.groups} current={current} basePath="/teacher/classroom" />
+        <GroupTabs groups={opts.groups} current={current} basePath="/teacher/classroom" allLabel="كل منشوراتي" />
         <ClassComposer groups={opts.groups} files={opts.files} defaultGroup={current} />
         <ClassStream posts={posts} role="TEACHER" />
       </div>

@@ -541,5 +541,8 @@ enum L10n {
         "hideClassmate": ["إخفاء تعليقات هذا التلميذ", "Masquer les commentaires de cet élève", "Hide this student's comments"],
         "hideClassmateMessage": ["لن تظهر لك تعليقات %@ في القسم على هذا الهاتف. تستطيع إظهارها من أسفل الصفحة.", "Les commentaires de %@ ne s’afficheront plus sur ce téléphone.", "%@'s comments won't show on this phone. You can show them again at the bottom."],
         "classroomShowHidden": ["إظهار تعليقات التلاميذ المخفيين (%d)", "Afficher les élèves masqués (%d)", "Show hidden students (%d)"],
+        "generalClassroom": ["القسم العام", "Espace général", "General classroom"],
+        "generalClassroomHint": ["منشورات الأساتذة والإدارة لكل التلاميذ — اقرأ وعلّق", "Les messages des enseignants pour tous — lisez et commentez", "Posts by teachers for every student — read and comment"],
+        "generalClassroomEmptyHint": ["حين ينشر الأساتذة أو الإدارة شيئًا لكل التلاميذ يظهر هنا.", "Les messages pour tous les élèves apparaîtront ici.", "Posts for every student will appear here."],
     ]
 }

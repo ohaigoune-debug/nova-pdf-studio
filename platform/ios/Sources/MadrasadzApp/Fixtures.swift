@@ -129,7 +129,8 @@ enum Fixtures {
                 json = #"{"ok":false,"error":{"code":"TICKET_NOT_FOUND","message":"التذكرة غير موجودة."}}"#
             }
         case ("GET", "/api/v1/ios/classroom"):
-            json = classroom()
+            // ?group= قسم الدورة، وبلا group القسم العام
+            json = (url.query ?? "").contains("group=") ? classroom() : generalClassroom
         case ("POST", "/api/v1/ios/classroom/posts/" + classPostID + "/comments"):
             let body = request.httpBody.flatMap { try? JSONSerialization.jsonObject(with: $0) as? [String: Any] } ?? [:]
             classComments.append(("c-\(classComments.count + 1)", body["body"] as? String ?? "", "تلميذ تجريبي", false, true, nil))
@@ -171,6 +172,11 @@ enum Fixtures {
         }
         return #"{"ok":true,"data":{"groups":[{"id":"\#(classGroupID)","name":"فوج الدورة"}],"posts":[{"id":"\#(classPostID)","body":"واجب الأسبوع: حلّل القصيدة واذكر صورتين بيانيتين.","linkUrl":null,"file":null,"pinned":true,"allowComments":true,"createdAt":"2026-11-04T08:00:00.000Z","groupName":"فوج الدورة","authorName":"أستاذ تجريبي","comments":[\#(comments.joined(separator: ","))]}]}}"#
     }
+
+    static let generalClassroom = #"""
+    {"ok":true,"data":{"groups":[{"id":"99999999-9999-4999-8999-999999999999","name":"فوج الدورة"}],"posts":[{"id":"bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb","body":"مراجعة عامة لكل تلاميذ البكالوريا: منهجية المقالة.","linkUrl":null,"file":null,"pinned":false,"allowComments":true,"createdAt":"2026-11-04T09:00:00.000Z","groupName":null,"authorName":"إدارة مدرسة",
+     "comments":[{"id":"g-1","body":"Thank you","createdAt":"2026-11-04T09:10:00.000Z","authorName":"سارة ع.","teacher":false,"mine":false,"authorKey":"cccccccccccccccccccc"}]}]}}
+    """#
 
     static func ticketList() -> String {
         let rows = tickets.map { t in

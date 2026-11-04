@@ -25,6 +25,7 @@ export const HIDEABLE_STUDENT_ENTRIES: HideableEntry[] = [
   tab('/student/assignments', 'تبويب «واجباتي»', 'دوراتي'),
   { href: '/student/lessons', label: 'تبويبا «دروس مجانية» و«الملفات»', covers: ['/student/lessons', '/student/files'], group: 'دوراتي' },
   tab('/student/files', 'تبويب «الملفات» وحده', 'دوراتي'),
+  tab('/student/classroom', 'القسم العام والأقسام الافتراضية للدورات', 'دوراتي'),
   tab('/student/courses/catalog', 'تبويب «شراء دورة» (و«استكشف» في الهاتف)', 'دوراتي'),
   tab('/student/courses/orders', 'تبويب «طلباتي»', 'دوراتي'),
   hub('train', 'PLAY'),

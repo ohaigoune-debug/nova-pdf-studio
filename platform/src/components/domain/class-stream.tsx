@@ -52,7 +52,7 @@ function PostCard({ post, role }: { post: StreamPost; role: 'TEACHER' | 'STUDENT
             <p className="flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
               {formatDateTime(post.createdAt)}
               <Badge variant="secondary" className="gap-1 px-1.5 py-0 text-[10px]">
-                <UsersRound className="size-3" /> {post.groupName ?? 'كل الأفواج'}
+                <UsersRound className="size-3" /> {post.isPublic ? 'القسم العام' : (post.groupName ?? 'كل أفواجي')}
               </Badge>
               {post.pinned ? (
                 <Badge variant="warning" className="gap-1 px-1.5 py-0 text-[10px]">

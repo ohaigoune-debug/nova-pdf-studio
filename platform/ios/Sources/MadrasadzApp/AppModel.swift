@@ -57,6 +57,8 @@ final class AppModel: ObservableObject {
     @Published private(set) var hiddenClassmateKeys: Set<String> = []
     /// A classroom notification was tapped: the classroom opens over the tabs.
     @Published var classroomOpen = false
+    /// The course group of that notification (nil: the general classroom).
+    @Published var classroomGroup: String?
 
     let api = APIClient()
     let downloads = OfflineLibrary()
@@ -737,7 +739,8 @@ extension AppModel {
         case .orders:
             selectedTab = .account
             accountPath = [.orders]
-        case .classroom:
+        case .classroom(let group):
+            classroomGroup = group
             classroomOpen = true
         case .home:
             break

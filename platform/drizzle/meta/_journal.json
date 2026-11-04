@@ -309,6 +309,13 @@
       "when": 1794300000000,
       "tag": "0043_ios_push_devices",
       "breakpoints": true
+    },
+    {
+      "idx": 44,
+      "version": "7",
+      "when": 1794400000000,
+      "tag": "0044_class_posts_public",
+      "breakpoints": true
     }
   ]
 }

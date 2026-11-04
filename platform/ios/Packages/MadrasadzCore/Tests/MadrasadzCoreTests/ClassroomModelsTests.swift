@@ -35,7 +35,8 @@ final class ClassroomModelsTests: XCTestCase {
     func testCourseCarriesItsGroupAndClassroomNotificationsOpenIt() throws {
         let course = try decode(NativeCourse.self, #"{"ok":true,"data":{"needsTerms":false,"course":{"slug":"s","title":"t","groupId":"g1"},"sections":[],"upcoming":[],"webPath":"/x"}}"#)
         XCTAssertEqual(course.course.groupId, "g1")
-        XCTAssertEqual(NotificationLink(link: "/student/classroom#post-8f2c7a10-1234-4abc-8def-0123456789ab"), .classroom)
-        XCTAssertEqual(NotificationLink(link: "/student/classroom?group=g1"), .classroom)
+        XCTAssertEqual(NotificationLink(link: "/student/classroom#post-8f2c7a10-1234-4abc-8def-0123456789ab"), .classroom(group: nil))
+        XCTAssertEqual(NotificationLink(link: "/student/classroom?group=8F2C7A10-1234-4ABC-8DEF-0123456789AB#post-x"), .classroom(group: "8f2c7a10-1234-4abc-8def-0123456789ab"))
+        XCTAssertEqual(NotificationLink(link: "/student/classroom?group=not-an-id"), .classroom(group: nil))
     }
 }

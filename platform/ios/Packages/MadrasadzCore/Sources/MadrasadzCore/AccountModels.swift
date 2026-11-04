@@ -226,12 +226,14 @@ public enum Support {
 public enum NotificationLink: Equatable, Sendable {
     case ticket(String)
     case orders
-    /// A new post or comment in the virtual classroom (`/student/classroom#post-…`).
-    case classroom
+    /// A post in a course classroom (`/student/classroom?group=…`), or the general one without a group.
+    case classroom(group: String?)
     case home
 
     public init(link: String?) {
-        let path = (link ?? "").split(separator: "#").first.flatMap { $0.split(separator: "?").first }.map(String.init) ?? ""
+        let beforeFragment = (link ?? "").split(separator: "#").first.map(String.init) ?? ""
+        let path = beforeFragment.split(separator: "?").first.map(String.init) ?? ""
+        let group = URLComponents(string: beforeFragment)?.queryItems?.first(where: { $0.name == "group" })?.value.flatMap { UUID(uuidString: $0) != nil ? $0.lowercased() : nil }
         var parts = path.split(separator: "/").map(String.init)
         if parts.first == "student" { parts.removeFirst() }
         if parts.count == 2, parts[0] == "support", UUID(uuidString: parts[1]) != nil {
@@ -239,7 +241,7 @@ public enum NotificationLink: Equatable, Sendable {
         } else if parts.first == "orders" || (parts.first == "store" && parts.dropFirst().first == "orders") {
             self = .orders
         } else if parts.first == "classroom" {
-            self = .classroom
+            self = .classroom(group: group)
         } else {
             self = .home
         }

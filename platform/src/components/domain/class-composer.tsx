@@ -9,13 +9,13 @@ import { createPostAction } from '@/server/actions/classroom.actions'
 
 type Opt = { id: string; name: string }
 
-/** كتابة منشور في القسم: لفوج أو لكل الأفواج، مع رابط أو ملف اختياريين */
+/** كتابة منشور: في القسم العام (يراه كل التلاميذ ويعلّقون) أو في قسم فوج دورة، مع رابط أو ملف اختياريين */
 export function ClassComposer({ groups, files, defaultGroup }: { groups: Opt[]; files: Opt[]; defaultGroup: string | null }) {
   const [state, action] = useActionState(createPostAction, null)
   const ref = useRef<HTMLFormElement>(null)
   useEffect(() => {
     if (state?.ok) {
-      toast('success', 'نُشر المنشور ووصل التلاميذ إشعار به')
+      toast('success', 'نُشر المنشور')
       ref.current?.reset()
     }
   }, [state])
@@ -23,11 +23,11 @@ export function ClassComposer({ groups, files, defaultGroup }: { groups: Opt[]; 
     <form ref={ref} action={action} className="space-y-3 rounded-lg border bg-card p-4 shadow-soft">
       <Textarea name="body" rows={3} maxLength={5000} required placeholder="اكتب لتلاميذك: إعلان، سؤال للنقاش، تذكير بموعد…" />
       <div className="grid gap-2 sm:grid-cols-3">
-        <Select name="groupId" defaultValue={defaultGroup ?? ''} aria-label="الفوج">
-          <option value="">كل الأفواج</option>
+        <Select name="groupId" defaultValue={defaultGroup ?? 'public'} aria-label="أين يُنشر">
+          <option value="public">القسم العام — يراه كل التلاميذ</option>
           {groups.map((g) => (
             <option key={g.id} value={g.id}>
-              {g.name}
+              قسم الدورة: {g.name}
             </option>
           ))}
         </Select>
