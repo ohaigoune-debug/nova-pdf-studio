@@ -35,7 +35,8 @@ const cookies = new Map<string, string>()
 
 const cookieOf = (a: Actor) => cookies.get(a.userId)!
 const get = (a: Actor, q = '') => classroomRoute(new NextRequest(`https://madrasadz.com/api/v1/ios/classroom${q}`, { headers: { cookie: cookieOf(a) } }))
-const post = (route: typeof commentRoute, a: Actor, id: string, body: unknown, ios = true) =>
+type Route = (req: NextRequest, ctx: { params: Promise<{ id: string }> }) => Promise<Response>
+const post = (route: Route, a: Actor, id: string, body: unknown, ios = true) =>
   route(new NextRequest(`https://madrasadz.com/api/v1/ios/classroom/x/${id}`, { method: 'POST', headers: { 'content-type': 'application/json', cookie: cookieOf(a), ...(ios ? { 'x-madrasadz-client': 'ios' } : {}) }, body: JSON.stringify(body) }), { params: Promise.resolve({ id }) })
 
 async function join(student: Actor, groupId: string, owner: Actor) {
