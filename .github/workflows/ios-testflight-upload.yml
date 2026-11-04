@@ -30,12 +30,21 @@ jobs:
           run-id: 41811347937
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/madrasadz-approved-ipa
-      - name: Validate and upload Build 17 to Apple
+      - name: Add the uploaded Build 17 to the owner-only group
         env:
           MADRASADZ_ASC_PRIVATE_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_PRIVATE_KEY_BASE64 }}
           MADRASADZ_ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_KEY_ID }}
           MADRASADZ_ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
-        run: bash platform/ios/scripts/upload-testflight.sh "$RUNNER_TEMP/madrasadz-approved-ipa/Madrasadz.ipa"
+        # Build 17 was already uploaded by run 41811729760 (delivery 2386862c…, "UPLOAD SUCCEEDED");
+        # Apple's processing outlasted the wait, so this run only adds it to the owner-only group.
+        run: |
+          set -euo pipefail
+          key_path="$(mktemp -d)/AuthKey_$MADRASADZ_ASC_KEY_ID.p8"
+          trap 'rm -f -- "$key_path"' EXIT
+          python3 -c 'import base64,os,pathlib,sys; p=pathlib.Path(sys.argv[1]); p.write_bytes(base64.b64decode(os.environ["MADRASADZ_ASC_PRIVATE_KEY_BASE64"], validate=True)); p.chmod(0o600)' "$key_path"
+          unset MADRASADZ_ASC_PRIVATE_KEY_BASE64
+          openssl pkey -in "$key_path" -check -noout >/dev/null
+          python3 platform/ios/scripts/enable-internal-build.py "$key_path"
 
 # Owner-approved internal replacement (owner's word «ادمج وارفع 17», 4 Nov 2026). Pinned signed Build 17
 # (signed run 41811347937 on 2cb885d): Build 16 plus a classroom per course (that course group only)

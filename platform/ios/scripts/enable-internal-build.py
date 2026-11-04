@@ -65,7 +65,7 @@ def main():
     key = Path(sys.argv[1])
     assert key.is_file()
     build = None
-    for _ in range(20):
+    for _ in range(40):
         result = request(key, f'/v1/builds?filter[app]={APP}&filter[version]=17&limit=10')
         assert len(result['data']) <= 1, 'Ambiguous build selection'
         if result['data']:
