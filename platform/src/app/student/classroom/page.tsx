@@ -10,20 +10,16 @@ export const dynamic = 'force-dynamic'
 export default async function StudentClassroomPage({ searchParams }: { searchParams: Promise<{ group?: string }> }) {
   const actor = await requirePageActor('STUDENT')
   const { group } = await searchParams
-  const { groups, posts } = await studentStream(await getDb(), actor, group ?? null)
+  // ?group= قسم الدورة (منشورات فوجها وحدها)، وبلا group القسم العام لكل التلاميذ
+  const { groups, posts: all } = await studentStream(await getDb(), actor, group ?? null)
   const current = group && groups.some((g) => g.id === group) ? group : null
+  const posts = group && !current ? [] : all
   return (
     <>
-      <PageHeader title="القسم الافتراضي" description="منشورات أستاذك لفوجك — اقرأ وعلّق واسأل." />
+      <PageHeader title={current ? 'قسم الدورة' : 'القسم العام'} description={current ? 'منشورات أستاذك لفوج هذه الدورة — اقرأ وعلّق واسأل.' : 'منشورات الأساتذة والإدارة لكل تلاميذ المنصة — اقرأ وعلّق.'} />
       <div className="mx-auto max-w-3xl space-y-4">
-        {groups.length === 0 ? (
-          <EmptyState title="لست في أي فوج بعد" description="أدخل كود أستاذك لتنضمّ إلى فوجك فتظهر ساحته هنا." />
-        ) : (
-          <>
-            {groups.length > 1 ? <GroupTabs groups={groups} current={current} basePath="/student/classroom" /> : null}
-            <ClassStream posts={posts} role="STUDENT" />
-          </>
-        )}
+        {groups.length ? <GroupTabs groups={groups} current={current} basePath="/student/classroom" allLabel="القسم العام" /> : null}
+        {posts.length ? <ClassStream posts={posts} role="STUDENT" /> : <EmptyState title="لا منشورات بعد" description={current ? 'حين ينشر أستاذك شيئًا لفوج هذه الدورة يظهر هنا.' : 'حين ينشر الأساتذة أو الإدارة في القسم العام يظهر هنا.'} />}
       </div>
     </>
   )

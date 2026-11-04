@@ -56,6 +56,8 @@ export async function createPostAction(_prev: ActionResult<{ id: string }> | nul
     const post = await createPost(await getDb(), actor, {
       body: parsed.data.body,
       groupId: uuid(parsed.data.groupId),
+      // «القسم العام»: لكل التلاميذ المسجّلين، بلا فوج
+      isPublic: parsed.data.groupId === 'public',
       linkUrl: parsed.data.linkUrl,
       fileId: uuid(parsed.data.fileId),
       allowComments: parsed.data.allowComments === 'on'

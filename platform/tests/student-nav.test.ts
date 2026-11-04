@@ -84,7 +84,7 @@ describe('قائمة التلميذ بعد الدمج', () => {
   })
 
   it('كل باب يجمع ما يخصّه: الدراسة، التدرّب، الحساب', () => {
-    expect(STUDENT_HUBS.courses.tabs.map((t) => t.href)).toEqual(['/student/courses', '/student/assignments', '/student/lessons', '/student/files', '/student/courses/catalog', '/student/courses/orders'])
+    expect(STUDENT_HUBS.courses.tabs.map((t) => t.href)).toEqual(['/student/courses', '/student/assignments', '/student/lessons', '/student/classroom', '/student/files', '/student/courses/catalog', '/student/courses/orders'])
     expect(STUDENT_HUBS.train.tabs.map((t) => t.href)).toEqual(['/student/play', '/student/exams', '/bac', '/student/quizzes', '/student/practice'])
     expect(STUDENT_HUBS.account.tabs.map((t) => t.href)).toEqual(['/student/profile', '/student/progress', '/student/grades', '/student/notifications', '/student/invite', '/student/support'])
   })

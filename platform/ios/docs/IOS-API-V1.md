@@ -222,3 +222,12 @@ Comments: 20 per minute (the website's limit). `COMMENTS_CLOSED` when the teache
 Report (Apple 1.2): a `CONTENT` support ticket for the platform with the comment, its author and the reason,
 plus a notification to the post's teacher, who can delete any comment in their space. Reporting one's own comment → 422.
 Hiding a classmate is local to the phone (`classroom.hidden.<account>`), by `authorKey`.
+
+## Build 17 (4 November 2026) — the general classroom
+
+`GET /api/v1/ios/classroom` without `group` is now **«القسم العام»**: posts marked public by teachers (or the
+platform) for every registered student, with or without a course, plus older "all my groups" posts for that
+teacher's students. With `?group=` it is the course classroom: that group's posts only. Students only comment
+(report and hide as in Build 16); in the general classroom another student's name shows shortened («سارة ع.»).
+Public posts send no mass notification. A course post's notification link carries `?group=`, and the app opens
+that course's classroom.

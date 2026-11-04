@@ -184,10 +184,10 @@ struct MainTabs: View {
                 .badge(model.supportWaiting)
                 .tag(AppTab.account)
         }
-        // A classroom notification opens the student's classrooms (all their groups) over the tabs
+        // A classroom notification opens that course's classroom (or the general one) over the tabs
         .sheet(isPresented: $model.classroomOpen) {
             NavigationStack {
-                ClassroomView(model: model, groupId: nil)
+                ClassroomView(model: model, groupId: model.classroomGroup)
                     .toolbar { ToolbarItem(placement: .cancellationAction) { Button(L10n.text("close")) { model.classroomOpen = false } } }
             }
         }

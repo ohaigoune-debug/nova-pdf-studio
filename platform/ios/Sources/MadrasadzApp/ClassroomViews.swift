@@ -2,6 +2,7 @@ import SwiftUI
 import MadrasadzCore
 
 /// «القسم الافتراضي» (Build 16): the teacher's posts for the course group and the students' comments.
+/// Without a group (Build 17) it is «القسم العام»: posts by teachers and the platform for every student.
 /// Another student's comment can be reported (a ticket to the platform and a notice to the teacher) or
 /// hidden on this phone, as Apple asks of apps that show what users write (1.2).
 struct ClassroomView: View {
@@ -33,7 +34,7 @@ struct ClassroomView: View {
                 }
                 if let page = loader.value {
                     if page.posts.isEmpty {
-                        ContentUnavailableView(L10n.text("classroomEmpty"), systemImage: "bubble.left.and.text.bubble.right", description: Text(L10n.text("classroomEmptyHint")))
+                        ContentUnavailableView(L10n.text("classroomEmpty"), systemImage: "bubble.left.and.text.bubble.right", description: Text(L10n.text(groupId == nil ? "generalClassroomEmptyHint" : "classroomEmptyHint")))
                             .accessibilityIdentifier("classroomEmpty")
                     }
                     ForEach(page.posts) { post in postCard(post) }
@@ -52,7 +53,7 @@ struct ClassroomView: View {
             .padding(16)
         }
         .background(Brand.page)
-        .navigationTitle(L10n.text("classroom"))
+        .navigationTitle(L10n.text(groupId == nil ? "generalClassroom" : "classroom"))
         .navigationBarTitleDisplayMode(.inline)
         .task { await loader.load(path, model: model, force: true) }
         .refreshable { await loader.load(path, model: model, force: true) }

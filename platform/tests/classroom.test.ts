@@ -74,19 +74,47 @@ describe('الإشعارات: رسالة الأستاذ للجميع أو لأف
 })
 
 describe('القسم الافتراضي', () => {
-  it('منشور الفوج لتلاميذه وحدهم، ومنشور «كل الأفواج» للجميع، مع إشعار', async () => {
+  it('قسم الدورة لمنشورات فوجها وحدها؛ و«لكل أفواجي» في القسم العام لتلاميذ الأستاذ وحدهم، مع إشعار', async () => {
     const pa = await createPost(h.db, teacher, { groupId: groupA.id, body: 'ناقشوا: ما الفرق بين التشبيه والاستعارة؟' })
     const all = await createPost(h.db, teacher, { groupId: null, body: 'مرحباً بالجميع في القسم', linkUrl: 'https://drive.google.com/x' })
-    const seenA = (await studentStream(h.db, a1)).posts.map((p) => p.id)
-    const seenB = (await studentStream(h.db, b1)).posts.map((p) => p.id)
-    expect(seenA).toEqual(expect.arrayContaining([pa.id, all.id]))
-    expect(seenB).toEqual([all.id])
+    // قسم دورة الفوج أ: منشوره وحده (قرار المالك 4 نوفمبر 2026)
+    expect((await studentStream(h.db, a1, groupA.id)).posts.map((p) => p.id)).toEqual([pa.id])
+    expect((await studentStream(h.db, b1, groupB.id)).posts).toHaveLength(0)
+    // فوج ليس فوجه: لا شيء
+    expect((await studentStream(h.db, b1, groupA.id)).posts).toHaveLength(0)
+    // القسم العام: «لكل أفواجي» لتلاميذ الأستاذ، لا لغيرهم
+    expect((await studentStream(h.db, a1)).posts.map((p) => p.id)).toEqual([all.id])
+    expect((await studentStream(h.db, b1)).posts.map((p) => p.id)).toEqual([all.id])
     expect((await studentStream(h.db, outsider)).posts).toHaveLength(0)
     expect(await notes(a1.userId, 'CLASS_POST')).toHaveLength(2)
     expect(await notes(b1.userId, 'CLASS_POST')).toHaveLength(1)
-    // ساحة فوج ب عند الأستاذ: منشورات ب والعامّة
-    expect((await teacherStream(h.db, teacher, groupB.id)).map((p) => p.id)).toEqual([all.id])
+    // ساحة فوج ب عند الأستاذ: منشوراته وحدها؛ وكل منشوراته بلا فوج
+    expect((await teacherStream(h.db, teacher, groupB.id)).map((p) => p.id)).toEqual([])
+    expect((await teacherStream(h.db, teacher)).map((p) => p.id)).toEqual(expect.arrayContaining([pa.id, all.id]))
     await expect(teacherStream(h.db, otherTeacher, groupA.id)).rejects.toBeTruthy()
+  })
+
+  it('القسم العام: يراه كل تلميذ مسجّل ولو بلا فوج، ويعلّق عليه، واسمه يظهر لغيره مختصرًا، بلا إشعار جماعي', async () => {
+    const before = (await notes(a1.userId, 'CLASS_POST')).length
+    const pub = await createPost(h.db, otherTeacher, { groupId: null, isPublic: true, body: 'مراجعة عامة لكل تلاميذ البكالوريا' })
+    expect(pub.isPublic).toBe(true)
+    const loner = await makeStudent(h.db, 'سارة بن علي')
+    for (const s of [a1, b1, outsider, loner]) expect((await studentStream(h.db, s)).posts.map((p) => p.id)).toContain(pub.id)
+    // لا يدخل أي قسم دورة
+    expect((await studentStream(h.db, a1, groupA.id)).posts.map((p) => p.id)).not.toContain(pub.id)
+    expect((await notes(a1.userId, 'CLASS_POST')).length).toBe(before)
+    await addComment(h.db, loner, pub.id, 'شكرًا أستاذ')
+    const seenByOther = (await studentStream(h.db, a1)).posts.find((p) => p.id === pub.id)!.comments[0]!
+    expect(seenByOther.authorName).toBe('سارة ع.')
+    const seenByHer = (await studentStream(h.db, loner)).posts.find((p) => p.id === pub.id)!.comments[0]!
+    expect(seenByHer).toMatchObject({ authorName: 'سارة بن علي', mine: true })
+    // الأستاذ صاحب المنشور يرى الاسم كاملًا ويحذف التعليق
+    const forTeacher = (await teacherStream(h.db, otherTeacher)).find((p) => p.id === pub.id)!.comments[0]!
+    expect(forTeacher.authorName).toBe('سارة بن علي')
+    await deleteComment(h.db, otherTeacher, forTeacher.id)
+    // منشور بفوج لا يصير عامًّا
+    const g = await createPost(h.db, teacher, { groupId: groupA.id, isPublic: true, body: 'لفوجي فقط' })
+    expect(g.isPublic).toBe(false)
   })
 
   it('التعليقات: التلميذ يعلّق ويحذف تعليقه لا غيره، والأستاذ يُبلَّغ ويحذف أي تعليق، والإغلاق يمنع', async () => {
@@ -105,6 +133,6 @@ describe('القسم الافتراضي', () => {
     await expect(addComment(h.db, a1, post.id, 'بعد الإغلاق')).rejects.toMatchObject({ code: 'COMMENTS_CLOSED' })
     await expect(addComment(h.db, teacher, post.id, 'الأستاذ يردّ دائماً')).resolves.toBeTruthy()
     // المثبّت أولاً
-    expect((await studentStream(h.db, a1)).posts[0]?.id).toBe(post.id)
+    expect((await studentStream(h.db, a1, groupA.id)).posts[0]?.id).toBe(post.id)
   })
 })

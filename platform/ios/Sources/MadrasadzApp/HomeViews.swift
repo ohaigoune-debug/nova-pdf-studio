@@ -40,6 +40,27 @@ struct HomeView: View {
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("homeTile-lessons")
                 }
+                // «القسم العام» (4 نوفمبر 2026): منشورات الأساتذة والإدارة لكل التلاميذ، والتلاميذ يعلّقون
+                NavigationLink { ClassroomView(model: model, groupId: nil) } label: {
+                    HStack(spacing: 14) {
+                        Image(systemName: "bubble.left.and.text.bubble.right.fill")
+                            .font(.title2.weight(.semibold))
+                            .foregroundStyle(.white)
+                            .frame(width: 50, height: 50)
+                            .background(.white.opacity(0.18), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(L10n.text("generalClassroom")).font(.headline).foregroundStyle(.white)
+                            Text(L10n.text("generalClassroomHint")).font(.caption).foregroundStyle(.white.opacity(0.88)).lineLimit(2)
+                        }
+                        Spacer(minLength: 0)
+                        Image(systemName: "chevron.forward").foregroundStyle(.white.opacity(0.8))
+                    }
+                    .padding(16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(LinearGradient(colors: [Color(red: 0.42, green: 0.25, blue: 0.75), Color(red: 0.55, green: 0.36, blue: 0.86)], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("homeTile-classroom")
                 NextTaskCard(model: model)
             }
             .padding(16)

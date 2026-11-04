@@ -512,6 +512,23 @@ final class MadrasadzUITests: XCTestCase {
         #endif
     }
 
+    @MainActor func testGeneralClassroomFromHome() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = launch(signedIn: true)
+        answerSystemAlert(timeout: 1)
+        let tile = find(app, "homeTile-classroom")
+        XCTAssertTrue(tile.waitForExistence(timeout: 15), visible(app))
+        scrollTo(app, tile)
+        tapWhenReady(tile)
+        XCTAssertTrue(find(app, "post-bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb").waitForExistence(timeout: 10), "The general classroom opens from Home")
+        XCTAssertTrue(app.staticTexts["سارة ع."].exists, "Another student's name is shortened there")
+        XCTAssertTrue(find(app, "commentMenu-g-1").exists, "Report and hide exist there too")
+        snapshot(app, "33-general-classroom")
+        #endif
+    }
+
     @MainActor func testFrenchAndEnglishSignInScreens() throws {
         #if !DEBUG
         throw XCTSkip("Fixtures exist in Debug only.")
