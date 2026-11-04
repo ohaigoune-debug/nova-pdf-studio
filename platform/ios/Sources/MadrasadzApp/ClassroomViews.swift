@@ -15,6 +15,7 @@ struct ClassroomView: View {
     @State private var hiding: Classroom.Comment?
     @State private var deleting: Classroom.Comment?
     @State private var error: String?
+    @FocusState private var typingIn: String?
     @Environment(\.openURL) private var openURL
 
     private var path: String {
@@ -167,6 +168,7 @@ struct ClassroomView: View {
                 .lineLimit(1...4)
                 .padding(.horizontal, 12).padding(.vertical, 8)
                 .background(Color(.tertiarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .focused($typingIn, equals: post.id)
                 .accessibilityIdentifier("commentField-\(post.id)")
             Button {
                 Task { await send(post) }
@@ -195,6 +197,7 @@ struct ClassroomView: View {
         } else {
             drafts[post.id] = nil
             error = nil
+            typingIn = nil
             await loader.load(path, model: model, force: true)
         }
     }
