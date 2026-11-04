@@ -205,3 +205,20 @@ website `link`; the app opens a support thread (`/student/support/{id}`) or «ط
 Server settings (`.env`, never Git): `APNS_KEY_ID`, `APNS_TEAM_ID`, `APNS_PRIVATE_KEY` (the `.p8` file's contents).
 Without them nothing is sent and nothing changes. The signed build turns push on only when the App Store profile
 carries `aps-environment` (Push Notifications enabled on the App ID, profile regenerated).
+
+## Build 16 additions (4 November 2026) — the virtual classroom
+
+Student only; mutations require `X-Madrasadz-Client: ios`. Same permissions as `/student/classroom`.
+
+### `GET /api/v1/ios/classroom?group=`
+
+`{groups: [{id, name}], posts: [{id, body, linkUrl, file: {name, url}|null, pinned, allowComments, createdAt, groupName, authorName, comments: [{id, body, createdAt, authorName, teacher, mine, authorKey}]}]}`.
+`group` = the course's `course.groupId` (also in `GET /api/v1/ios/courses/{slug}`); without it, all the student's groups.
+`authorKey` is a hash of (viewer, author): stable for this viewer only, never an account id; `null` on one's own comments.
+
+### `POST …/posts/{id}/comments` `{body (1–1500)}` · `POST …/comments/{id}/delete` · `POST …/comments/{id}/report` `{reason?}`
+
+Comments: 20 per minute (the website's limit). `COMMENTS_CLOSED` when the teacher closed them. A student deletes only their own.
+Report (Apple 1.2): a `CONTENT` support ticket for the platform with the comment, its author and the reason,
+plus a notification to the post's teacher, who can delete any comment in their space. Reporting one's own comment → 422.
+Hiding a classmate is local to the phone (`classroom.hidden.<account>`), by `authorKey`.

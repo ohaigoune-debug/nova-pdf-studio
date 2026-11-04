@@ -447,6 +447,60 @@ final class MadrasadzUITests: XCTestCase {
         #endif
     }
 
+    @MainActor func testVirtualClassroomInTheCourse() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = launch(signedIn: true)
+        let door = find(app, "homeTile-courses")
+        XCTAssertTrue(door.waitForExistence(timeout: 15), visible(app))
+        door.tap()
+        let course = find(app, "course-fixture-ar")
+        XCTAssertTrue(course.waitForExistence(timeout: 10), visible(app))
+        course.tap()
+        let entry = find(app, "courseClassroom")
+        XCTAssertTrue(entry.waitForExistence(timeout: 10), "The course shows its virtual classroom")
+        entry.tap()
+        let postID = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa"
+        XCTAssertTrue(find(app, "post-\(postID)").waitForExistence(timeout: 10), visible(app))
+        XCTAssertTrue(find(app, "comment-c-1").exists)
+        snapshot(app, "30-classroom")
+        // Comment
+        let field = find(app, "commentField-\(postID)")
+        field.tap()
+        field.typeText("Thank you, teacher")
+        find(app, "commentSend-\(postID)").tap()
+        XCTAssertTrue(find(app, "myComment").waitForExistence(timeout: 10), visible(app))
+        // Report another student's comment (Apple 1.2): the alert, then the confirmation notice
+        find(app, "commentMenu-c-1").tap()
+        let report = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "إبلاغ")).firstMatch
+        XCTAssertTrue(report.waitForExistence(timeout: 5), visible(app))
+        report.tap()
+        let alert = app.alerts.firstMatch
+        XCTAssertTrue(alert.waitForExistence(timeout: 5), visible(app))
+        snapshot(app, "31-classroom-report")
+        alert.buttons.matching(NSPredicate(format: "label CONTAINS %@", "إبلاغ")).firstMatch.tap()
+        let notice = app.alerts.firstMatch
+        XCTAssertTrue(notice.waitForExistence(timeout: 5), visible(app))
+        XCTAssertTrue(notice.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "وصل بلاغك")).count > 0, visible(app))
+        notice.buttons.firstMatch.tap()
+        // Hide that student's comments on this phone, then show them again
+        find(app, "commentMenu-c-1").tap()
+        let hide = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "إخفاء تعليقات")).firstMatch
+        XCTAssertTrue(hide.waitForExistence(timeout: 5), visible(app))
+        hide.tap()
+        let confirm = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "إخفاء تعليقات"))
+        XCTAssertTrue(confirm.firstMatch.waitForExistence(timeout: 5), visible(app))
+        confirm.allElementsBoundByIndex.last?.tap()
+        XCTAssertTrue(find(app, "classroomShowHidden").waitForExistence(timeout: 5), visible(app))
+        XCTAssertFalse(find(app, "comment-c-1").exists, "Hidden on this phone")
+        XCTAssertTrue(find(app, "comment-c-2").exists, "The teacher's reply stays")
+        snapshot(app, "32-classroom-hidden")
+        find(app, "classroomShowHidden").tap()
+        XCTAssertTrue(find(app, "comment-c-1").waitForExistence(timeout: 5))
+        #endif
+    }
+
     @MainActor func testFrenchAndEnglishSignInScreens() throws {
         #if !DEBUG
         throw XCTSkip("Fixtures exist in Debug only.")
