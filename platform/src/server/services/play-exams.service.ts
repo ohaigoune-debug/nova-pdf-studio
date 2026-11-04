@@ -16,7 +16,7 @@ import { studentIdOf, type Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { PLAY_SUBJECTS, type PlayExamKind, type PlayExamMode, type PlayLanguage } from '@/server/play/constants'
 import { examDerived, examDocument, examDocuments } from '@/server/play/exams/doc-cache'
-import { answerText, gradeStep, pointsFor, publicSteps, stepsFor } from '@/server/play/exams/engine'
+import { answerText, gradeStep, pointsFor, publicSteps, stepsFor, studentAnswerText } from '@/server/play/exams/engine'
 import { skillLabel } from '@/server/play/exams/skills'
 import { QUEUED_STEP_TYPES, type ExamSetDocument, type PublicStep, type StepAnswer, type TrainingStep } from '@/server/play/exams/types'
 import { assertPlayAccess, beginPlayAccess } from './play-access.service'
@@ -199,28 +199,6 @@ function feedbackFor(step: TrainingStep, rec: ExamStepRecord): StepFeedback {
   return { s: rec.s, w: rec.w, earned: round2(rec.s * rec.w), correct: rec.s >= 0.999, correctText: answerText(step), explanation: step.explanation, yourAnswer: studentAnswerText(step, rec.answer) }
 }
 
-export function studentAnswerText(step: Pick<TrainingStep, 'payload'>, a: StepAnswer | null | undefined): string {
-  if (!a) return '—'
-  const p = step.payload
-  switch (a.type) {
-    case 'mcq':
-    case 'portrait':
-      return 'options' in p ? (p.options[a.choice] ?? '—') : '—'
-    case 'multi':
-      return 'options' in p ? a.choices.map((i) => p.options[i]).filter(Boolean).join(' ، ') || '—' : '—'
-    case 'fill_blank':
-      return a.blanks.join(' ، ') || '—'
-    case 'ordering':
-      return 'items' in p ? a.order.map((i) => p.items[i]).join(' ← ') : '—'
-    case 'matching':
-      return 'lefts' in p ? p.lefts.map((l, i) => `${l} ← ${p.rights[a.pairs[i]!] ?? '؟'}`).join(' | ') : '—'
-    case 'numeric':
-      return String(a.value)
-    case 'short_text':
-      return a.text || '—'
-  }
-}
-
 export interface AttemptView {
   attemptId: string
   mode: PlayExamMode
@@ -235,9 +213,22 @@ export interface AttemptView {
   maxScore: number
   deferred: { label: string; part: string; points: number }[]
   stale: boolean
+  /**
+   * اللعب في المتصفح (4 نوفمبر 2026، كتطبيق الآيفون): مفاتيح التصحيح لكل خطوة في وضع التدريب فقط،
+   * فيصحّح المتصفح فورًا ويرسل الإجابات دفعات (submitExamSteps) — والخادم يعيد التصحيح بمفاتيحه.
+   */
+  keys?: Record<string, LocalStepKey>
+  /** اللعب في المتصفح مع الحفظ دفعات (الصفحة تطلبه دائمًا؛ غيابه = الطريقة السابقة خطوةً بخطوة) */
+  local?: boolean
 }
 
-export async function getExamAttemptView(db: Db, actor: Actor, attemptId: string): Promise<AttemptView> {
+export interface LocalStepKey {
+  answer: TrainingStep['answer']
+  explanation: string
+  correctText: string
+}
+
+export async function getExamAttemptView(db: Db, actor: Actor, attemptId: string, opts: { local?: boolean } = {}): Promise<AttemptView> {
   const { attempt, set } = await loadAttempt(db, actor, attemptId)
   const doc = set.document
   const stream = (await getPlayProfile(db, actor)).streamCode
@@ -271,13 +262,22 @@ export async function getExamAttemptView(db: Db, actor: Actor, attemptId: string
       correctionRef: doc.source.correction_url,
       reviewed: doc.source.verified
     },
-    ...releasedSteps(publicStepsCached(set, stream), attempt.answers ?? {}, attempt.status === 'COMPLETED'),
+    // اللعب المحلّي: كل الخطوات من البداية (ورقة الامتحان نفسها)، ومفاتيحها في التدريب فقط
+    ...releasedSteps(publicStepsCached(set, stream), attempt.answers ?? {}, attempt.status === 'COMPLETED' || Boolean(opts.local)),
+    ...(opts.local ? { local: true } : {}),
+    ...(opts.local && attempt.mode === 'PRACTICE' && attempt.status === 'ACTIVE' ? { keys: localKeys(set, stream) } : {}),
     answered,
     score: reveal ? round2(attempt.score) : 0,
     maxScore: round2(attempt.maxScore),
     deferred: examDerived(set.id, set.checksum, `def:${stream ?? '-'}`, () => deferredElements(doc, stream)),
     stale: attempt.setChecksum !== set.checksum
   }
+}
+
+function localKeys(set: Pick<SetRow, 'id' | 'checksum' | 'document'>, stream: string | null): Record<string, LocalStepKey> {
+  return examDerived(set.id, set.checksum, `keys:${stream ?? '-'}`, () =>
+    Object.fromEntries(myStepsCached(set, stream).filter((s) => !isQueued(s.type)).map((s) => [s.id, { answer: s.answer, explanation: s.explanation, correctText: answerText(s) }]))
+  )
 }
 
 export interface ExamSubmitResult {
@@ -326,6 +326,54 @@ export async function submitExamStep(db: Db, actor: Actor, attemptId: string, st
     await tx.update(playExamAttempts).set({ answers, score, updatedAt: now }).where(eq(playExamAttempts.id, row.id))
     return { stepId, answeredCount: Object.keys(answers).length, total, feedback: reveal ? feedbackFor(step, rec) : null, score: reveal ? round2(score) : null, alreadyAnswered: false, next: nextOpen(answers) }
   })
+}
+
+export interface ExamBatchResult {
+  saved: number
+  answeredCount: number
+  total: number
+  /** null في المحاكاة (لا تُكشف العلامة قبل الإنهاء) */
+  score: number | null
+  completed: boolean
+}
+
+/**
+ * دفعة إجابات من المتصفح في طلب واحد ومعاملة واحدة (بدل طلب لكل خطوة): تُصحَّح بمفاتيح الخادم،
+ * والخطوة المجابة سابقًا أو غير الموجودة لشعبة التلميذ تُتجاهل. finish ينهي المحاولة بعد الحفظ.
+ */
+export async function submitExamSteps(db: Db, actor: Actor, attemptId: string, input: Record<string, StepAnswer>, opts: { finish?: boolean } = {}, now: Date = new Date()): Promise<ExamBatchResult> {
+  const { attempt, set } = await loadAttempt(db, actor, attemptId)
+  if (attempt.status !== 'ACTIVE') {
+    if (attempt.status === 'COMPLETED' && opts.finish) return { saved: 0, answeredCount: Object.keys(attempt.answers ?? {}).length, total: 0, score: null, completed: true }
+    throw new AppError('PLAY_EXAM_CLOSED')
+  }
+  const profile = await getPlayProfile(db, actor)
+  const entries = Object.entries(input).slice(0, 500)
+  if (entries.length) await assertPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode: profile.streamCode, subjectCode: set.subjectCode }, now)
+  const mine = new Map(myStepsCached(set, profile.streamCode).filter((s) => !isQueued(s.type)).map((s) => [s.id, s]))
+  const total = mine.size
+  const result = await db.transaction(async (tx) => {
+    const [row] = await tx.select().from(playExamAttempts).where(eq(playExamAttempts.id, attempt.id)).for('update')
+    if (!row || row.status !== 'ACTIVE') throw new AppError('PLAY_EXAM_CLOSED')
+    const answers = { ...(row.answers ?? {}) }
+    let saved = 0
+    for (const [stepId, answer] of entries) {
+      const step = mine.get(stepId)
+      if (!step || answers[stepId]) continue
+      answers[stepId] = { answer, s: gradeStep(step.answer, answer, step.payload), w: step.points, at: now.toISOString() } satisfies ExamStepRecord
+      saved++
+    }
+    const score = Object.values(answers).reduce((a, r) => a + r.s * r.w, 0)
+    const done = Boolean(opts.finish)
+    if (saved || done) {
+      await tx
+        .update(playExamAttempts)
+        .set({ answers, score, updatedAt: now, ...(done ? { status: 'COMPLETED', completedAt: now } : {}) })
+        .where(eq(playExamAttempts.id, row.id))
+    }
+    return { saved, answeredCount: Object.keys(answers).length, total, score: row.mode === 'PRACTICE' || done ? round2(score) : null, completed: done }
+  })
+  return result
 }
 
 export async function finishExamAttempt(db: Db, actor: Actor, attemptId: string, now: Date = new Date()): Promise<{ attemptId: string }> {

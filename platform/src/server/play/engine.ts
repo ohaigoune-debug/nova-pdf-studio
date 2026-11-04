@@ -5,7 +5,11 @@
 import { createHash } from 'node:crypto'
 import { normalizeArabic } from '@/server/lib/arabic'
 import { PLAY_DIFFICULTIES, PLAY_LANGUAGES, PLAY_QUESTION_TYPES, PLAY_REVIEW_STATUSES, PLAY_SOURCES, gradeByCode, type PlayLanguage } from './constants'
-import type { FillSegment, GradeOutcome, NormalizedPlayQuestion, PlayAnswerKey, PlayContentQuestion, PlayPublicPayload, PlayStudentAnswer } from './question-types'
+import type { FillSegment, NormalizedPlayQuestion, PlayAnswerKey, PlayContentQuestion, PlayPublicPayload } from './question-types'
+import { exactToken } from './grade'
+
+// التصحيح نفسه في الخادم والمتصفح (grade.ts بلا Node)
+export { exactToken, gradePlayAnswer } from './grade'
 
 export const OPTION_KEYS = ['a', 'b', 'c', 'd', 'e', 'f'] as const
 const BLANK_RE = /_{3,}/g
@@ -15,10 +19,6 @@ export interface ValidationResult {
   warnings: string[]
 }
 
-/** مقارنة دقيقة لكلمات الفراغ: التشكيل مهم (نافعٌ ≠ نافعًا) لذلك لا نستعمل normalizeArabic هنا */
-export function exactToken(s: string): string {
-  return s.normalize('NFKC').replace(/ـ/g, '').replace(/\s+/g, ' ').trim()
-}
 
 /** بصمة المحتوى لكشف التكرار (غير حساسة للتشكيل والترقيم) */
 export function contentHash(q: Pick<PlayContentQuestion, 'question' | 'options' | 'blanks' | 'pairs' | 'order'>): string {
@@ -301,40 +301,6 @@ export function normalizeContentQuestion(q: PlayContentQuestion): Omit<Normalize
     reviewStatus: q.reviewStatus ?? 'DRAFT',
     qualityFlags: [],
     note: q.note?.trim() || null
-  }
-}
-
-/** التصحيح على الخادم */
-export function gradePlayAnswer(key: PlayAnswerKey, answer: PlayStudentAnswer | null | undefined): GradeOutcome {
-  if (!answer || answer.type !== key.type) return { isCorrect: false, score: 0 }
-  switch (key.type) {
-    case 'MCQ': {
-      const ok = (answer as { key: string }).key === key.correct
-      return { isCorrect: ok, score: ok ? 1 : 0 }
-    }
-    case 'FILL_BLANK': {
-      const given = (answer as { blanks: string[] }).blanks ?? []
-      let hit = 0
-      key.answers.forEach((alts, i) => {
-        const g = exactToken(given[i] ?? '')
-        if (g && alts.includes(g)) hit++
-      })
-      const score = key.answers.length ? hit / key.answers.length : 0
-      return { isCorrect: hit === key.answers.length && key.answers.length > 0, score }
-    }
-    case 'MATCHING': {
-      const m = (answer as { matches: Record<string, string> }).matches ?? {}
-      const entries = Object.entries(key.pairs)
-      const hit = entries.filter(([l, r]) => m[l] === r).length
-      return { isCorrect: hit === entries.length, score: entries.length ? hit / entries.length : 0 }
-    }
-    case 'ORDERING': {
-      const o = (answer as { order: string[] }).order ?? []
-      const ok = o.length === key.order.length && o.every((k, i) => k === key.order[i])
-      // درجة جزئية: نسبة العناصر في موضعها الصحيح
-      const hit = key.order.filter((k, i) => o[i] === k).length
-      return { isCorrect: ok, score: key.order.length ? hit / key.order.length : 0 }
-    }
   }
 }
 

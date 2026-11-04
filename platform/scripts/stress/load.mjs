@@ -97,16 +97,21 @@ async function student(account, stats, until, flag) {
     })
     if (!attemptId) { await think(); continue }
     await timed(stats, 'صفحة الموضوع', () => page(account.token, `/student/play/exam/${attemptId}`))
+    // منذ 4 نوفمبر 2026 يصحّح المتصفح التدريب بنفسه (كتطبيق الآيفون) ويحفظ الإجابات دفعةً واحدة:
+    // ثلاث خطوات «يفكّر» فيها التلميذ دون أي طلب، ثم طلب واحد يحفظها وينهي المحاولة
+    const answers = {}
     for (let k = 0; k < 3 && live(); k++) {
       await think()
       const i = progress.get(attemptId) ?? 0
       const step = set.steps[i % set.steps.length]
       progress.set(attemptId, i + 1)
-      const answer = step.type === 'multi' ? { type: 'multi', choices: [0] } : { type: 'mcq', choice: Math.floor(Math.random() * Math.max(1, step.n)) }
-      // خطوة سبق إرسالها تُرفض بلطف (ok:false) — تُحسب طلبًا ناجحًا ما دام الخادم أجاب بلا خطأ
-      await timed(stats, 'إرسال إجابة (إجراء)', async () => {
-        const r = await action(account.token, `/student/play/exam/${attemptId}`, DATA.actions.submit, { attemptId, stepId: step.id, answer })
-        return r.ok || /"ok":false/.test(r.text)
+      answers[step.id] = step.type === 'multi' ? { type: 'multi', choices: [0] } : { type: 'mcq', choice: Math.floor(Math.random() * Math.max(1, step.n)) }
+    }
+    if (live()) {
+      await timed(stats, 'حفظ الإجابات (دفعة)', async () => {
+        const r = await fetch(`${BASE}/api/v1/play/attempts/${attemptId}/answers`, { method: 'POST', headers: headers(account.token, { 'content-type': 'application/json', origin: BASE }), body: JSON.stringify({ answers, finish: true }), redirect: 'manual' })
+        const text = await r.text()
+        return r.status === 200 && text.includes('"ok":true')
       })
     }
     await think()

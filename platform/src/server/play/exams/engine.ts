@@ -7,22 +7,20 @@
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { normalizeArabic } from '@/server/lib/arabic'
 import { PLAY_EXAM_KINDS, PLAY_EXAM_PUBLISHED_STATUSES, PLAY_EXAM_SET_STATUSES, PLAY_GRADES, PLAY_STREAMS, PLAY_SUBJECTS } from '../constants'
 import { stepExcerpt } from './excerpt'
-import { QUEUED_STEP_TYPES, SUPPORTED_STEP_TYPES, type ExamSetDocument, type MediaRef, type PublicStep, type StepAnswer, type StepAnswerKey, type StepPayload, type TrainingStep } from './types'
+import { QUEUED_STEP_TYPES, SUPPORTED_STEP_TYPES, type ExamSetDocument, type MediaRef, type PublicStep, type StepAnswer, type StepPayload, type TrainingStep } from './types'
 
-/** هامش المقارنة العددية للأوزان */
-export const WEIGHT_EPSILON = 1e-6
+import { exact, gradeStep, norm, WEIGHT_EPSILON } from './grade'
+
+// التصحيح نفسه في الخادم والمتصفح (grade.ts بلا اعتماد على Node): الخادم يعيد التصحيح دائمًا بمفاتيحه
+export { answerText, gradeStep, studentAnswerText, WEIGHT_EPSILON } from './grade'
 
 const isSupported = (t: string): boolean => (SUPPORTED_STEP_TYPES as readonly string[]).includes(t)
 const isQueued = (t: string): boolean => (QUEUED_STEP_TYPES as readonly string[]).includes(t)
 
 /* ─────────────────────────────── التصحيح ─────────────────────────────── */
 
-const norm = (s: string) => normalizeArabic(s).replace(/\s+/g, ' ').trim()
-/** مقارنة حرفية (مع التشكيل والرموز): الإعراب والعروض يختلفان بالحركات وحدها */
-const exact = (s: string) => s.normalize('NFC').replace(/\s+/g, ' ').trim()
 
 /** هل ينطبق عنصر السلّم على شعبة التلميذ؟ (null = كل الشعب) */
 export function elementApplies(el: { streams?: string[] } | undefined, stream: string | null | undefined): boolean {
@@ -60,63 +58,6 @@ export function pointsFor(doc: ExamSetDocument, stream: string | null | undefine
   return { interactive, deferred }
 }
 
-/** درجة الخطوة من 0 إلى 1 (جزئية للأنواع المركّبة). إجابة من نوع آخر أو ناقصة = 0. */
-export function gradeStep(key: StepAnswerKey, answer: StepAnswer | null | undefined, payload?: StepPayload): number {
-  if (!answer || answer.type !== key.type) return 0
-  switch (key.type) {
-    case 'mcq':
-      return answer.type === 'mcq' && answer.choice === key.correct ? 1 : 0
-    case 'portrait':
-      return answer.type === 'portrait' && answer.choice === key.correct ? 1 : 0
-    case 'multi': {
-      if (answer.type !== 'multi') return 0
-      const want = new Set(key.correct)
-      const got = new Set(answer.choices)
-      let hit = 0
-      let wrong = 0
-      for (const c of got) {
-        if (want.has(c)) hit++
-        else wrong++
-      }
-      return Math.max(0, Math.min(1, (hit - wrong) / Math.max(1, want.size)))
-    }
-    case 'fill_blank': {
-      if (answer.type !== 'fill_blank') return 0
-      // الإجابة من بنك الكلمات: مطابقة حرفية؛ والتسامح (دون تشكيل) فقط إن لم يكن في البنك كلمتان تختلفان بالتشكيل وحده
-      const bank = payload?.type === 'fill_blank' ? payload.bank : []
-      const strict = new Set(bank.map(norm)).size !== bank.length
-      let ok = 0
-      key.blanks.forEach((alts, i) => {
-        const v = answer.blanks[i]
-        if (typeof v === 'string' && alts.some((a) => exact(a) === exact(v) || (!strict && norm(a) === norm(v)))) ok++
-      })
-      return ok / Math.max(1, key.blanks.length)
-    }
-    case 'ordering': {
-      if (answer.type !== 'ordering' || answer.order.length !== key.order.length) return 0
-      let ok = 0
-      key.order.forEach((v, i) => {
-        if (answer.order[i] === v) ok++
-      })
-      return ok / Math.max(1, key.order.length)
-    }
-    case 'matching': {
-      if (answer.type !== 'matching' || answer.pairs.length !== key.pairs.length) return 0
-      let ok = 0
-      key.pairs.forEach((v, i) => {
-        if (answer.pairs[i] === v) ok++
-      })
-      return ok / Math.max(1, key.pairs.length)
-    }
-    case 'numeric':
-      return answer.type === 'numeric' && Number.isFinite(answer.value) && Math.abs(answer.value - key.value) <= key.tolerance + WEIGHT_EPSILON ? 1 : 0
-    case 'short_text':
-      return answer.type === 'short_text' && key.accepted.some((a) => norm(a) === norm(answer.text)) ? 1 : 0
-    default:
-      return 0
-  }
-}
-
 /** Σ(w × s) على الخطوات المجابة؛ غير المجابة = 0 */
 export function scoreSteps(steps: (Pick<TrainingStep, 'id' | 'points' | 'answer'> & { payload?: StepPayload })[], answers: Record<string, StepAnswer | null | undefined>): { score: number; max: number; perStep: Record<string, { s: number; w: number }> } {
   let score = 0
@@ -129,31 +70,6 @@ export function scoreSteps(steps: (Pick<TrainingStep, 'id' | 'points' | 'answer'
     max += st.points
   }
   return { score, max, perStep }
-}
-
-/** نص الإجابة الصحيحة للعرض بعد المحاولة */
-export function answerText(step: Pick<TrainingStep, 'payload' | 'answer'>): string {
-  const k = step.answer
-  const p = step.payload
-  switch (k.type) {
-    case 'mcq':
-    case 'portrait':
-      return 'options' in p ? (p.options[k.correct] ?? '') : ''
-    case 'multi':
-      return 'options' in p ? k.correct.map((i) => p.options[i]).join(' ، ') : ''
-    case 'fill_blank':
-      return k.blanks.map((b) => b[0]).join(' ، ')
-    case 'ordering':
-      return 'items' in p ? k.order.map((i) => p.items[i]).join(' ← ') : ''
-    case 'matching':
-      return 'lefts' in p ? p.lefts.map((l, i) => `${l} ← ${p.rights[k.pairs[i]!] ?? ''}`).join(' | ') : ''
-    case 'numeric':
-      return `${k.value}${k.unit ? ` ${k.unit}` : ''}`
-    case 'short_text':
-      return k.accepted[0] ?? ''
-    default:
-      return ''
-  }
 }
 
 /* ─────────────────────────────── التدقيق ─────────────────────────────── */

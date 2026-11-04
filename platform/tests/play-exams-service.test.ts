@@ -10,7 +10,8 @@ import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { readExamSetFile, validateExamSet } from '@/server/play/exams/engine'
 import type { ExamSetDocument, StepAnswer, TrainingStep } from '@/server/play/exams/types'
-import { finishExamAttempt, getExamAttemptView, getExamProgress, getExamResult, listExamSets, startExamAttempt, submitExamStep } from '@/server/services/play-exams.service'
+import { finishExamAttempt, getExamAttemptView, getExamProgress, getExamResult, listExamSets, startExamAttempt, submitExamStep, submitExamSteps } from '@/server/services/play-exams.service'
+import { gradeStep, studentAnswerText } from '@/server/play/exams/grade'
 import { setPlayProfile } from '@/server/services/play.service'
 import { makeStudent, setupDb } from './helpers'
 
@@ -167,6 +168,71 @@ describe('exam mode', () => {
     const p = await getExamProgress(h.db, s)
     expect(p.byKind.find((k) => k.kind === 'TEST')!.completed).toBe(1)
     expect(p.skills.length).toBeGreaterThan(0)
+  })
+})
+
+describe('playing in the browser (4 Nov 2026): local grading, saved in batches', () => {
+  it('practice: all steps and their keys up front; the browser grades exactly like the server; one request saves many steps', async () => {
+    const s = await student('SCI')
+    const { attemptId } = await startExamAttempt(h.db, s, approvedId, 'PRACTICE', T0)
+    const view = await getExamAttemptView(h.db, s, attemptId, { local: true })
+    expect(view.local).toBe(true)
+    expect(view.steps).toHaveLength(35)
+    expect(Object.keys(view.keys!)).toHaveLength(35)
+    const steps = doc.steps.filter((x) => x.type !== 'essay_builder')
+    // the browser's grade (from view.keys + public payload) equals the server's
+    const answers: Record<string, StepAnswer> = {}
+    for (const st of steps.slice(0, 6)) answers[st.id] = rightAnswer(st)
+    const wrongStep = steps[6]!
+    answers[wrongStep.id] = wrongStep.answer.type === 'matching' ? { type: 'matching', pairs: [...wrongStep.answer.pairs].reverse() } : { type: 'mcq', choice: -1 }
+    for (const pub of view.steps.filter((x) => answers[x.id])) {
+      const key = view.keys![pub.id]!
+      expect(gradeStep(key.answer, answers[pub.id], pub.payload)).toBe(gradeStep(steps.find((x) => x.id === pub.id)!.answer, answers[pub.id], steps.find((x) => x.id === pub.id)!.payload))
+      expect(studentAnswerText(pub, answers[pub.id])).not.toBe('—')
+    }
+    const first = await submitExamSteps(h.db, s, attemptId, answers, {}, T0)
+    expect(first).toMatchObject({ saved: 7, answeredCount: 7, total: 35, completed: false })
+    // duplicates, unknown steps and another stream's steps are ignored; nothing is graded twice
+    const again = await submitExamSteps(h.db, s, attemptId, { [steps[0]!.id]: { type: 'mcq', choice: 99 }, s999: { type: 'mcq', choice: 0 } }, {}, T0)
+    expect(again.saved).toBe(0)
+    expect(again.score).toBe(first.score)
+    const rest: Record<string, StepAnswer> = {}
+    for (const st of steps.slice(7)) rest[st.id] = rightAnswer(st)
+    const done = await submitExamSteps(h.db, s, attemptId, rest, { finish: true }, T0)
+    expect(done).toMatchObject({ saved: 28, answeredCount: 35, completed: true })
+    const r = await getExamResult(h.db, s, attemptId)
+    expect(r.view.status).toBe('COMPLETED')
+    expect(r.earned).toBeCloseTo(done.score!)
+    // finishing twice (a retried request) is harmless; a closed attempt takes no more answers
+    expect((await submitExamSteps(h.db, s, attemptId, {}, { finish: true }, T0)).completed).toBe(true)
+    await expectCode(() => submitExamSteps(h.db, s, attemptId, rest, {}, T0), 'PLAY_EXAM_CLOSED')
+  })
+
+  it('exam mode: no keys reach the browser and the score stays hidden until the end', async () => {
+    const s = await student('SCI')
+    const { attemptId } = await startExamAttempt(h.db, s, approvedId, 'EXAM', T0)
+    const view = await getExamAttemptView(h.db, s, attemptId, { local: true })
+    expect(view.keys).toBeUndefined()
+    expect(view.steps).toHaveLength(35)
+    expect(JSON.stringify(view.steps)).not.toContain('"correct"')
+    const st = doc.steps[0]!
+    const mid = await submitExamSteps(h.db, s, attemptId, { [st.id]: rightAnswer(st) }, {}, T0)
+    expect(mid.score).toBeNull()
+    const end = await submitExamSteps(h.db, s, attemptId, {}, { finish: true }, T0)
+    expect(end.score).toBe(st.points)
+    // without local the view still releases steps one by one, keyless (tabs opened before the update)
+    const t = await student('SCI')
+    const { attemptId: old } = await startExamAttempt(h.db, t, approvedId, 'PRACTICE', T0)
+    const legacy = await getExamAttemptView(h.db, t, old)
+    expect(legacy.steps).toHaveLength(1)
+    expect(legacy.keys).toBeUndefined()
+  })
+
+  it('batches respect the trial like single answers', async () => {
+    const s = await student('SCI')
+    const { attemptId } = await startExamAttempt(h.db, s, approvedId, 'PRACTICE', T0)
+    const st = doc.steps[1]!
+    await expectCode(() => submitExamSteps(h.db, s, attemptId, { [st.id]: rightAnswer(st) }, {}, new Date(T0.getTime() + 72 * H)), 'PLAY_TRIAL_EXPIRED')
   })
 })
 

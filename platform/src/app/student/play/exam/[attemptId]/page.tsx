@@ -12,7 +12,8 @@ export default async function PlayExamAttemptPage({ params }: { params: Promise<
   const actor = await requirePageActor('STUDENT')
   let view
   try {
-    view = await getExamAttemptView(await getDb(), actor, attemptId)
+    // اللعب في المتصفح: التصحيح فوري على الجهاز والحفظ دفعات (كتطبيق الآيفون) — أخفّ كثيرًا على الخادم
+    view = await getExamAttemptView(await getDb(), actor, attemptId, { local: true })
   } catch (e) {
     if (e instanceof AppError) notFound()
     throw e
