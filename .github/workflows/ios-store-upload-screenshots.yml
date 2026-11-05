@@ -1,0 +1,45 @@
+name: iOS — upload App Store screenshots
+
+# Owner's request (5 Nov 2026): put the six 6.9-inch screenshots on the version being
+# prepared in App Store Connect. Screenshots only — no build, tester, text or price
+# change, and never a submission for review.
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/store-screenshots]
+    paths: ['.github/workflows/ios-store-upload-screenshots.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-store-upload-screenshots
+  cancel-in-progress: false
+
+jobs:
+  upload:
+    if: github.repository == 'ohaigoune-debug/nova-pdf-studio'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Upload the screenshots
+        env:
+          MADRASADZ_ASC_PRIVATE_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_PRIVATE_KEY_BASE64 }}
+          MADRASADZ_ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_KEY_ID }}
+          MADRASADZ_ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
+        working-directory: platform/ios
+        run: |
+          set -euo pipefail
+          umask 077
+          key="$RUNNER_TEMP/AuthKey.p8"
+          trap 'rm -f "$key"' EXIT
+          printf '%s' "$MADRASADZ_ASC_PRIVATE_KEY_BASE64" | base64 -d > "$key"
+          unset MADRASADZ_ASC_PRIVATE_KEY_BASE64
+          openssl pkey -in "$key" -check -noout >/dev/null
+          d=store-screenshots/6.9
+          python3 scripts/upload-store-screenshots.py "$key" \
+            "$d/03-home.png" "$d/07-play-home.png" "$d/16-card-feedback.png" \
+            "$d/09-play-feedback.png" "$d/20-bac-paper.png" "$d/28-planner-week.png"
