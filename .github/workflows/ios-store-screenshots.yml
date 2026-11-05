@@ -1,0 +1,97 @@
+name: iOS — App Store screenshots (6.9-inch)
+
+# Runs the native UI tests (Debug sample server, no account, no network) on an
+# iPhone 16 Pro Max Simulator — 1320 × 2868, the 6.9-inch size App Store Connect
+# asks for — and commits the screenshots back to this branch only.
+# Nothing is merged, signed, uploaded to Apple or submitted for review.
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/store-screenshots]
+    paths:
+      - '.github/workflows/ios-store-screenshots.yml'
+      - 'platform/ios/Sources/**'
+      - 'platform/ios/Tests/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ios-store-screenshots
+  cancel-in-progress: true
+
+jobs:
+  screenshots:
+    if: github.event.repository.private == false
+    runs-on: macos-15
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: platform/ios
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare assets and validate the project
+        run: |
+          bash scripts/prepare-assets.sh
+          python3 scripts/validate-project.py --require-generated-app-icon
+      - name: Boot an iPhone 16 Pro Max with a clean status bar
+        run: |
+          id="$(xcrun simctl list devices available --json | python3 -c '
+          import json, re, sys
+          data = json.load(sys.stdin)["devices"]
+          best = None
+          for runtime, devices in data.items():
+              m = re.search(r"iOS-(\d+)-(\d+)", runtime)
+              if not m:
+                  continue
+              version = (int(m.group(1)), int(m.group(2)))
+              for d in devices:
+                  if d.get("isAvailable") and d.get("name") == "iPhone 16 Pro Max":
+                      if best is None or version > best[0]:
+                          best = (version, d["udid"])
+          if best is None:
+              sys.exit("iPhone 16 Pro Max Simulator not installed on this runner")
+          print(best[1])
+          ')"
+          echo "SIM_ID=$id" >> "$GITHUB_ENV"
+          xcrun simctl boot "$id" || true
+          xcrun simctl bootstatus "$id" -b
+          xcrun simctl status_bar "$id" override --time 9:41 --dataNetwork wifi --wifiMode active --wifiBars 3 --cellularMode active --cellularBars 4 --batteryState charged --batteryLevel 100
+      - name: UI tests (they take the screenshots)
+        run: |
+          set -o pipefail
+          mkdir -p build
+          xcodebuild -project Madrasadz.xcodeproj -scheme Madrasadz -configuration Debug \
+            -destination "platform=iOS Simulator,id=$SIM_ID" -derivedDataPath DerivedData \
+            -resultBundlePath build/Store.xcresult \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO test 2>&1 | tail -40 || echo "::warning::some UI tests failed; screenshots taken so far are kept"
+      - name: Export and name the screenshots
+        run: |
+          rm -rf build/raw store-screenshots/6.9
+          mkdir -p build/raw store-screenshots/6.9
+          xcrun xcresulttool export attachments --path build/Store.xcresult --output-path build/raw
+          python3 - <<'PY'
+          import json, pathlib, re, shutil, subprocess
+          raw = pathlib.Path('build/raw')
+          out = pathlib.Path('store-screenshots/6.9')
+          manifest = json.loads((raw / 'manifest.json').read_text())
+          count = 0
+          for test in manifest:
+              for a in test.get('attachments', []):
+                  name = a.get('suggestedHumanReadableName') or a.get('exportedFileName')
+                  name = re.sub(r'_\d+_[0-9A-F-]{36}', '', name)
+                  name = re.sub(r'[^\w.-]+', '-', name)
+                  if not name.endswith('.png'):
+                      name += '.png'
+                  shutil.copy(raw / a['exportedFileName'], out / name)
+                  count += 1
+          print('exported', count)
+          PY
+          for f in store-screenshots/6.9/*.png; do sips -g pixelWidth -g pixelHeight "$f" | tail -2 | tr '\n' ' '; echo " $f"; done | sort | uniq -c | head -60
+      - name: Commit the screenshots to this branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898237+github-actions[bot]@users.noreply.github.com'
+          git add store-screenshots
+          git commit -m "store: 6.9-inch App Store screenshots from the UI tests (${GITHUB_SHA::7})" || exit 0
+          git push origin HEAD:claude/store-screenshots
