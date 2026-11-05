@@ -544,5 +544,18 @@ enum L10n {
         "generalClassroom": ["القسم العام", "Espace général", "General classroom"],
         "generalClassroomHint": ["منشورات الأساتذة والإدارة لكل التلاميذ — اقرأ وعلّق", "Les messages des enseignants pour tous — lisez et commentez", "Posts by teachers for every student — read and comment"],
         "generalClassroomEmptyHint": ["حين ينشر الأساتذة أو الإدارة شيئًا لكل التلاميذ يظهر هنا.", "Les messages pour tous les élèves apparaîtront ici.", "Posts for every student will appear here."],
+        // Google and Apple (owner, 5 Nov 2026)
+        "continueGoogle": ["المتابعة بحساب Google", "Continuer avec Google", "Continue with Google"],
+        "socialOr": ["أو بالهاتف أو البريد", "ou par téléphone ou e-mail", "or with phone or e-mail"],
+        "socialFailed": ["تعذّر الدخول. أعد المحاولة.", "Connexion impossible. Réessayez.", "Could not sign in. Try again."],
+        "socialPasswordOnly": ["هذا الحساب يدخل بالبريد أو الهاتف وكلمة السر فقط.", "Ce compte se connecte uniquement avec e-mail ou téléphone et mot de passe.", "This account signs in with e-mail or phone and password only."],
+        "socialDisabled": ["هذا الحساب معطّل. تواصل مع الإدارة.", "Ce compte est désactivé. Contactez l’administration.", "This account is disabled. Contact the administration."],
+        "socialUnavailable": ["هذه الطريقة غير مفعّلة الآن. ادخل بهاتفك أو بريدك.", "Cette méthode n’est pas disponible. Utilisez votre téléphone ou e-mail.", "This option is not available right now. Use your phone or e-mail."],
+        "socialExpired": ["انتهت المهلة. اضغط زر Google أو Apple من جديد.", "Délai dépassé. Appuyez à nouveau sur Google ou Apple.", "Time ran out. Tap Google or Apple again."],
+        "socialEmailTaken": ["هذا البريد له حساب في مدرسة. ادخل بكلمة السر ثم استعمل Google لاحقًا.", "Cet e-mail a déjà un compte. Connectez-vous avec le mot de passe.", "This e-mail already has an account. Sign in with its password."],
+        "socialSignupTitle": ["خطوة أخيرة", "Dernière étape", "One last step"],
+        "socialSignupIntro": ["تحقّقنا من حسابك. أكمل بياناتك لننشئ حسابك في مدرسة، ثم نؤكّد هاتفك برمز.", "Compte vérifié. Complétez vos informations, puis nous confirmons votre téléphone par un code.", "Account verified. Complete your details, then we confirm your phone with a code."],
+        "deleteWordPrompt": ["اكتب كلمة «حذف» للتأكيد", "Tapez « حذف » pour confirmer", "Type «حذف» to confirm"],
+        "deleteWordWrong": ["اكتب كلمة «حذف» كما هي.", "Tapez « حذف » exactement.", "Type «حذف» exactly."],
     ]
 }

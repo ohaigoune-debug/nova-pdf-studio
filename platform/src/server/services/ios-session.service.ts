@@ -3,12 +3,15 @@ import type { Db } from '@/server/db/connect'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { logout } from './auth.service'
 import { phoneGateFor } from './phone-gate.service'
+import { deletionNeedsPassword } from './account-deletion.service'
 
 export interface IosSessionSnapshot {
   authenticated: true
   /** Existing account identifier; a local-data namespace, never an access credential. */
   user: { id: string; role: 'STUDENT' }
   requiresPhoneVerification: boolean
+  /** false: حساب أُنشئ بـ Google أو Apple؛ يؤكَّد حذفه بكلمة «حذف» لا بكلمة سر */
+  hasPassword: boolean
 }
 
 /** Resolve the same HttpOnly browser session used by the website, without returning credentials or contact data. */
@@ -17,11 +20,12 @@ export async function iosSessionSnapshot(db: Db, cookieToken: string | null | un
   if (!actor) throw new AppError('AUTH_REQUIRED')
   if (actor.role !== 'STUDENT' || !actor.studentId) throw new AppError('FORBIDDEN')
   assertUuid(actor.userId, 'FORBIDDEN')
-  const gate = await phoneGateFor(db, actor.userId)
+  const [gate, hasPassword] = await Promise.all([phoneGateFor(db, actor.userId), deletionNeedsPassword(db, actor.userId)])
   return {
     authenticated: true,
     user: { id: actor.userId, role: 'STUDENT' },
-    requiresPhoneVerification: gate.required
+    requiresPhoneVerification: gate.required,
+    hasPassword
   }
 }
 

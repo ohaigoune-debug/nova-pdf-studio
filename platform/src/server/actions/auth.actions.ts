@@ -15,6 +15,8 @@ import { deleteOwnAccount } from '@/server/services/account-deletion.service'
 import { changePassword, login, logout, registerStudent, requestPasswordReset, resetPassword } from '@/server/services/auth.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 import { attachReferralForNewAccount, checkCodeForSignup } from '@/server/services/referrals.service'
+import { completeOAuthSignup } from '@/server/services/oauth.service'
+import { OAUTH_SIGNUP_COOKIE } from '@/server/auth/oauth-flow'
 import { REF_COOKIE } from '@/lib/referral'
 
 const loginSchema = z.object({
@@ -105,6 +107,47 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
   redirect('/student?verify=1')
 }
 
+/** إكمال حساب بدأ بـ Google أو Apple: نفس حقول التسجيل دون البريد وكلمة السر */
+const oauthCompleteSchema = z.object({
+  fullName: z.string().trim().min(3, 'أدخل الاسم الكامل').max(120),
+  phone: dzPhone('أدخل رقم هاتفك (05 / 06 / 07 — 10 أرقام)'),
+  guardianPhone: dzPhone('أدخل رقم هاتف الولي (05 / 06 / 07 — 10 أرقام)'),
+  wilayaId: z.string().uuid('اختر الولاية'),
+  levelId: z.string().uuid('اختر المستوى'),
+  streamId: z.string().uuid().optional().or(z.literal('')),
+  refCode: z.string().trim().max(24).optional()
+})
+
+export async function completeOAuthSignupAction(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const parsed = oauthCompleteSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) return failValidation(parsed.error)
+  const db = await getDb()
+  const meta = await requestMeta()
+  const d = parsed.data
+  const jar = await cookies()
+  const token = jar.get(OAUTH_SIGNUP_COOKIE)?.value ?? ''
+  const result = await runAction(async () => {
+    await checkRateLimit(db, { scope: 'register-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.registerIp })
+    const ref = d.refCode?.trim() ? await checkCodeForSignup(db, d.refCode, d.phone) : null
+    const r = await completeOAuthSignup(
+      db,
+      token,
+      { fullName: d.fullName, phone: d.phone, guardianPhone: d.guardianPhone, wilayaId: d.wilayaId, levelId: d.levelId, streamId: d.streamId || null },
+      meta
+    )
+    await setSessionCookie(r.session.token, r.session.expiresAt)
+    jar.delete(OAUTH_SIGNUP_COOKIE)
+    if (ref) {
+      const fromLink = jar.get(REF_COOKIE)?.value === ref.code
+      await attachReferralForNewAccount(db, r.userId, ref.code, fromLink ? 'LINK' : 'REGISTER').catch(() => null)
+    }
+    return r
+  })
+  if (!result.ok) return result
+  // كالتسجيل العادي: تأكيد الهاتف برمز قبل أي شيء
+  redirect('/student?verify=1')
+}
+
 export async function logoutAction(): Promise<void> {
   const token = await currentSessionToken()
   if (token) await logout(await getDb(), token)
@@ -181,6 +224,7 @@ export async function changePasswordAction(_prev: ActionResult | null, formData:
 }
 
 const deleteSchema = z.object({
+  // كلمة السر، أو «حذف» لحساب Google / Apple
   password: z.string().min(1, 'أدخل كلمة السر'),
   understood: z.literal('on', { errorMap: () => ({ message: 'أكّد أنك تفهم أن الحذف نهائي' }) })
 })

@@ -7,10 +7,11 @@
  */
 import { randomBytes } from 'node:crypto'
 import { and, eq, inArray } from 'drizzle-orm'
-import { hashPassword, verifyPassword } from '@/server/auth/password'
+import { hasUsablePassword, hashPassword, verifyPassword } from '@/server/auth/password'
 import { revokeAllSessions } from '@/server/auth/session'
 import type { Db } from '@/server/db/connect'
-import { groupStudents, passwordResets, profiles, pushSubscriptions, students, users } from '@/server/db/schema'
+import { groupStudents, oauthIdentities, oauthTickets, passwordResets, profiles, pushSubscriptions, students, users } from '@/server/db/schema'
+import { revokeAppleToken } from '@/server/auth/oauth-tokens'
 import { writeActivity } from '@/server/lib/audit'
 import { AppError } from '@/server/lib/errors'
 
@@ -21,12 +22,29 @@ export function deletedEmail(userId: string): string {
   return `deleted-${userId}@deleted.invalid`
 }
 
-export async function deleteOwnAccount(db: Db, userId: string, password: string): Promise<void> {
+/** كلمة التأكيد لحساب أُنشئ بـ Google أو Apple ولا كلمة سر له */
+export const DELETE_CONFIRM_WORD = 'حذف'
+
+/** هل يُطلب لحذف الحساب كلمة السر (true) أم كلمة التأكيد «حذف» (false)؟ */
+export async function deletionNeedsPassword(db: Db, userId: string): Promise<boolean> {
+  const [row] = await db.select({ passwordHash: users.passwordHash }).from(users).where(eq(users.id, userId)).limit(1)
+  return row ? hasUsablePassword(row.passwordHash) : true
+}
+
+/** secret: كلمة السر، أو «حذف» لحساب بلا كلمة سر (Google / Apple) */
+export async function deleteOwnAccount(db: Db, userId: string, secret: string): Promise<void> {
   const rows = await db.select({ role: users.role, passwordHash: users.passwordHash }).from(users).where(eq(users.id, userId)).limit(1)
   const row = rows[0]
-  if (!row || !verifyPassword(password, row.passwordHash)) throw new AppError('INVALID_CREDENTIALS')
+  if (!row) throw new AppError('INVALID_CREDENTIALS')
+  const confirmed = hasUsablePassword(row.passwordHash) ? verifyPassword(secret, row.passwordHash) : secret.trim() === DELETE_CONFIRM_WORD
+  if (!confirmed) throw new AppError('INVALID_CREDENTIALS')
   // الأستاذ والمشرف والمساعد يديرون بيانات غيرهم: حذف حساباتهم عبر الإدارة لا بزرّ
   if (row.role !== 'STUDENT') throw new AppError('FORBIDDEN')
+  const appleTokens = (
+    await db.select({ refreshToken: oauthIdentities.refreshToken }).from(oauthIdentities).where(and(eq(oauthIdentities.userId, userId), eq(oauthIdentities.provider, 'APPLE')))
+  )
+    .map((r) => r.refreshToken)
+    .filter((t): t is string => Boolean(t))
 
   await db.transaction(async (tx) => {
     const now = new Date()
@@ -49,7 +67,12 @@ export async function deleteOwnAccount(db: Db, userId: string, password: string)
     }
     await tx.delete(pushSubscriptions).where(eq(pushSubscriptions.userId, userId))
     await tx.delete(passwordResets).where(eq(passwordResets.userId, userId))
+    // فكّ ربط Google وApple: الدخول بهما بعد الحذف ينشئ حسابًا جديدًا لا يعود إلى هذا
+    await tx.delete(oauthIdentities).where(eq(oauthIdentities.userId, userId))
+    await tx.delete(oauthTickets).where(eq(oauthTickets.userId, userId))
     await revokeAllSessions(tx, userId)
     await writeActivity(tx, { userId, event: 'auth.account.delete' })
   })
+  // شرط Apple: إلغاء إذن «الدخول بـ Apple» عند حذف الحساب. فشل الشبكة لا يُرجع الحذف.
+  for (const token of appleTokens) await revokeAppleToken(token)
 }

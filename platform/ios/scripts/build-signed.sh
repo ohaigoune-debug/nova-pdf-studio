@@ -68,8 +68,16 @@ assert re.fullmatch(r'[0-9a-fA-F-]{36}', p['UUID']), 'Invalid profile UUID'
 assert len(p['DeveloperCertificates']) == 1, 'Expected one distribution certificate'
 identity = hashlib.sha1(p['DeveloperCertificates'][0]).hexdigest().upper()
 (root / 'profile-uuid').write_text(p['UUID'])
-# Platform notifications (APNs) only when the profile allows them; otherwise the app builds without push.
-(root / 'push').write_text('1' if e.get('aps-environment') == 'production' else '0')
+# Capabilities only when the profile allows them; otherwise the app builds without them:
+# platform notifications (APNs) and «Sign in with Apple» (owner, 5 Nov 2026).
+granted = {}
+if e.get('aps-environment') == 'production':
+    granted['aps-environment'] = 'production'
+if 'Default' in (e.get('com.apple.developer.applesignin') or []):
+    granted['com.apple.developer.applesignin'] = ['Default']
+(root / 'push').write_text('1' if 'aps-environment' in granted else '0')
+(root / 'applesignin').write_text('1' if 'com.apple.developer.applesignin' in granted else '0')
+(root / 'app.entitlements').write_bytes(plistlib.dumps(granted))
 (root / 'identity').write_text(identity)
 with (root / 'ExportOptions.plist').open('wb') as f:
     plistlib.dump({'method': 'app-store-connect', 'destination': 'export', 'teamID': 'VN2768K4UH',
@@ -81,10 +89,17 @@ profile_uuid="$(cat "$work/profile-uuid")"
 identity="$(cat "$work/identity")"
 push_settings=()
 if [[ "$(cat "$work/push")" == 1 ]]; then
-  push_settings=(CODE_SIGN_ENTITLEMENTS="$ios_root/Configuration/Madrasadz-Push.entitlements")
   echo 'Push notifications: on (profile carries aps-environment).'
 else
   echo 'Push notifications: off (enable Push Notifications on the App ID and regenerate the profile to turn them on).'
+fi
+if [[ "$(cat "$work/applesignin")" == 1 ]]; then
+  echo 'Sign in with Apple: on (profile carries com.apple.developer.applesignin).'
+else
+  echo 'Sign in with Apple: off (enable Sign in with Apple on the App ID and regenerate the profile to turn it on).'
+fi
+if [[ "$(cat "$work/push")" == 1 || "$(cat "$work/applesignin")" == 1 ]]; then
+  push_settings=(CODE_SIGN_ENTITLEMENTS="$work/app.entitlements")
 fi
 profile_directory="$HOME/Library/MobileDevice/Provisioning Profiles"
 mkdir -p "$profile_directory"

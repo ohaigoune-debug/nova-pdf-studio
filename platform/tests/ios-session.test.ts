@@ -54,7 +54,7 @@ describe('iOS session: existing account, minimal data, cookie scope and phone ve
     const { actor, session } = await accountSession()
     const response = await GET(request('session', session.token))
     expect(response.status).toBe(200)
-    expect(await response.json()).toEqual({ ok: true, data: { authenticated: true, user: { id: actor.userId, role: 'STUDENT' }, requiresPhoneVerification: false } })
+    expect(await response.json()).toEqual({ ok: true, data: { authenticated: true, user: { id: actor.userId, role: 'STUDENT' }, requiresPhoneVerification: false, hasPassword: true } })
     expectNoStore(response)
   })
 

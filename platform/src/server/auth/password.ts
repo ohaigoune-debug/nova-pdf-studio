@@ -26,3 +26,15 @@ export function verifyPassword(password: string, stored: string): boolean {
 export function isStrongEnough(password: string): boolean {
   return password.length >= 8
 }
+
+/**
+ * حساب أُنشئ بـ Google أو Apple لا كلمة سر له: قيمة عشوائية لا تطابق أي كلمة سر (verifyPassword يرفضها)،
+ * ويمكن للتلميذ أن يضع كلمة سر لاحقًا عبر «نسيت كلمة السر» أو استعادة الهاتف.
+ */
+export function unusablePasswordHash(): string {
+  return `oauth$${randomBytes(24).toString('base64url')}`
+}
+
+export function hasUsablePassword(stored: string): boolean {
+  return stored.startsWith('scrypt$')
+}

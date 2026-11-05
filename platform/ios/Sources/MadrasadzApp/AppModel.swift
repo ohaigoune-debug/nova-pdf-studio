@@ -1,5 +1,7 @@
 import SwiftUI
 import UIKit
+import AuthenticationServices
+import CryptoKit
 import Network
 import UserNotifications
 import MadrasadzCore
@@ -24,6 +26,8 @@ final class AppModel: ObservableObject {
         let authenticated: Bool
         let user: User?
         let requiresPhoneVerification: Bool?
+        /// false: an account made with Google or Apple; deleting it asks for the word «حذف».
+        let hasPassword: Bool?
     }
 
     private struct Me: Decodable {
@@ -44,6 +48,12 @@ final class AppModel: ObservableObject {
     @Published private(set) var phase: Phase = .launching
     @Published private(set) var session: SavedSession?
     @Published private(set) var phoneVerificationRequired = false
+    /// false for an account made with Google or Apple (no password to type).
+    @Published private(set) var hasPassword = true
+    /// The sign-in buttons the server has turned on.
+    @Published private(set) var signInOptions = SocialSignIn.Options.none
+    /// A Google or Apple account that is new to Madrasa: its details are completed in a sheet.
+    @Published var pendingSocialSignup: SocialSignIn.PendingSignup?
     @Published private(set) var online = true
     @Published private(set) var busy = false
     @Published private(set) var snapshot = StudySnapshot.empty
@@ -159,6 +169,7 @@ final class AppModel: ObservableObject {
                 return
             }
             phoneVerificationRequired = info.requiresPhoneVerification ?? false
+            hasPassword = info.hasPassword ?? true
             if let me = try? await api.get(Me.self, "/api/v1/auth/me").value, me.userId.lowercased() == current.accountID.lowercased() {
                 var updated = current
                 updated.name = me.fullName
@@ -270,6 +281,142 @@ final class AppModel: ObservableObject {
         }
     }
 
+    // MARK: Google and Apple (owner, 5 Nov 2026)
+
+    /// Which of the two buttons to show. Offline or an older server: none.
+    func loadSignInOptions() async {
+        do {
+            let caps = try await api.get(SocialSignIn.Capabilities.self, "/api/v1/ios/capabilities", requireSession: false).value
+            signInOptions = caps.signIn ?? .none
+        } catch {
+            signInOptions = .none
+        }
+    }
+
+    /// A fresh random value for one Apple request; Apple receives its SHA-256, the server the value itself.
+    nonisolated static func newNonce() -> String {
+        var bytes = [UInt8](repeating: 0, count: 32)
+        _ = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
+        return Data(bytes).base64EncodedString().replacingOccurrences(of: "+", with: "-").replacingOccurrences(of: "/", with: "_").replacingOccurrences(of: "=", with: "")
+    }
+
+    nonisolated static func sha256(_ value: String) -> String {
+        SHA256.hash(data: Data(value.utf8)).map { String(format: "%02x", $0) }.joined()
+    }
+
+    /// After the native Apple button. Returns an error message, or nil (signed in, or a new account to complete).
+    func signInWithApple(_ credential: ASAuthorizationAppleIDCredential, rawNonce: String) async -> String? {
+        guard let tokenData = credential.identityToken, let identityToken = String(data: tokenData, encoding: .utf8) else { return L10n.text("socialFailed") }
+        guard !busy else { return nil }
+        busy = true
+        defer { busy = false }
+        struct Body: Encodable { let identityToken: String; let authorizationCode: String?; let nonce: String; let fullName: String? }
+        let code = credential.authorizationCode.flatMap { String(data: $0, encoding: .utf8) }
+        // Apple gives the name to the app on the first sign-in only.
+        let name = credential.fullName.map { PersonNameComponentsFormatter.localizedString(from: $0, style: .default) }?.trimmingCharacters(in: .whitespacesAndNewlines)
+        do {
+            api.use(token: nil, account: nil)
+            let reply = try await api.post(SocialSignIn.Reply.self, "/api/v1/ios/auth/apple",
+                                           body: Body(identityToken: identityToken, authorizationCode: code, nonce: rawNonce, fullName: name?.isEmpty == false ? name : nil),
+                                           requireSession: false)
+            return try await finishSocial(reply)
+        } catch {
+            api.use(token: nil, account: nil)
+            return socialMessage(error)
+        }
+    }
+
+    /// After the Google sheet came back to `madrasadz-auth://oauth?…`.
+    func finishGoogle(callback url: URL) async -> String? {
+        guard let callback = SocialSignIn.parse(callback: url) else { return L10n.text("socialFailed") }
+        switch callback {
+        case .failure(let code):
+            return socialMessage(code: code)
+        case .signup(let pending):
+            pendingSocialSignup = pending
+            return nil
+        case .ticket(let ticket):
+            guard !busy else { return nil }
+            busy = true
+            defer { busy = false }
+            struct Body: Encodable { let ticket: String }
+            do {
+                api.use(token: nil, account: nil)
+                let reply = try await api.post(SocialSignIn.Reply.self, "/api/v1/ios/auth/ticket", body: Body(ticket: ticket), requireSession: false)
+                return try await finishSocial(reply)
+            } catch {
+                api.use(token: nil, account: nil)
+                return socialMessage(error)
+            }
+        }
+    }
+
+    /// The details of a new Google or Apple account, then the session; the phone code follows as after sign-up.
+    func completeSocialSignup(_ form: Signup.Form, levels: [Signup.Level], pending: SocialSignIn.PendingSignup) async -> SignupFailure? {
+        if let field = form.firstInvalidProfileField(levels: levels) {
+            return SignupFailure(field: field, message: L10n.text("signupField.\(field.rawValue)"))
+        }
+        guard !busy else { return nil }
+        busy = true
+        defer { busy = false }
+        do {
+            api.use(token: nil, account: nil)
+            let reply = try await api.post(SocialSignIn.Reply.self, "/api/v1/ios/auth/complete", body: form.profilePayload(levels: levels, signupToken: pending.token), requireSession: false)
+            guard let token = reply.token, let role = reply.role else { return SignupFailure(field: nil, message: L10n.text("error")) }
+            phonePromptPending = true
+            if let message = try await completeSignIn(LoginReply(token: token, expiresAt: reply.expiresAt, role: role)) {
+                phonePromptPending = false
+                return SignupFailure(field: nil, message: message)
+            }
+            pendingSocialSignup = nil
+            return nil
+        } catch let failure as APIFailure {
+            api.use(token: nil, account: nil)
+            if case .server(let code, let message, _, _) = failure {
+                if code == "OAUTH_TICKET_EXPIRED" {
+                    pendingSocialSignup = nil
+                    return SignupFailure(field: nil, message: L10n.text("socialExpired"))
+                }
+                if code == "EMAIL_TAKEN" { return SignupFailure(field: nil, message: L10n.text("socialEmailTaken")) }
+                if code == "RATE_LIMITED" { return SignupFailure(field: nil, message: L10n.text("signupLater")) }
+                return SignupFailure(field: nil, message: message ?? L10n.text("error"))
+            }
+            return SignupFailure(field: nil, message: failure.message)
+        } catch {
+            api.use(token: nil, account: nil)
+            return SignupFailure(field: nil, message: L10n.text("error"))
+        }
+    }
+
+    private func finishSocial(_ reply: SocialSignIn.Reply) async throws -> String? {
+        if let pending = reply.pending {
+            pendingSocialSignup = pending
+            return nil
+        }
+        guard let token = reply.token, let role = reply.role else { return L10n.text("socialFailed") }
+        busy = false
+        return try await completeSignIn(LoginReply(token: token, expiresAt: reply.expiresAt, role: role))
+    }
+
+    private func socialMessage(_ error: Error) -> String {
+        if let failure = error as? APIFailure {
+            if case .server(let code, let message, _, _) = failure { return socialMessage(code: code, fallback: message) }
+            return failure.message
+        }
+        return L10n.text("error")
+    }
+
+    private func socialMessage(code: String, fallback: String? = nil) -> String {
+        switch code {
+        case "OAUTH_PASSWORD_ONLY": return L10n.text("socialPasswordOnly")
+        case "ACCOUNT_DISABLED": return L10n.text("socialDisabled")
+        case "OAUTH_NOT_CONFIGURED": return L10n.text("socialUnavailable")
+        case "OAUTH_TICKET_EXPIRED": return L10n.text("socialExpired")
+        case "RATE_LIMITED": return L10n.text("signupLater")
+        default: return fallback ?? L10n.text("socialFailed")
+        }
+    }
+
     // MARK: Phone confirmation (as on the website: an SMS code, or a call to the platform's number)
 
     struct PhoneStatus: Decodable, Equatable {
@@ -375,7 +522,7 @@ final class AppModel: ObservableObject {
             await signOutLocally(notice: L10n.text("accountDeleted"))
             return nil
         } catch let failure as APIFailure {
-            if case .server(let code, _, _, _) = failure, code == "INVALID_CREDENTIALS" { return L10n.text("passwordWrong") }
+            if case .server(let code, _, _, _) = failure, code == "INVALID_CREDENTIALS" { return L10n.text(hasPassword ? "passwordWrong" : "deleteWordWrong") }
             return failure.message
         } catch {
             return L10n.text("error")
@@ -392,6 +539,8 @@ final class AppModel: ObservableObject {
         studySession = nil
         snapshot = .empty
         phoneVerificationRequired = false
+        hasPassword = true
+        pendingSocialSignup = nil
         accountPath = []
         supportWaiting = 0
         hiddenClassmateKeys = []

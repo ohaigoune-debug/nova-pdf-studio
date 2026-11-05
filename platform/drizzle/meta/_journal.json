@@ -316,6 +316,13 @@
       "when": 1794400000000,
       "tag": "0044_class_posts_public",
       "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "7",
+      "when": 1794500000000,
+      "tag": "0045_oauth_sign_in",
+      "breakpoints": true
     }
   ]
 }

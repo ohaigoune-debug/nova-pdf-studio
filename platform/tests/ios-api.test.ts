@@ -87,7 +87,8 @@ describe('capabilities', () => {
   it('عامة وغير مخزَّنة', async () => {
     const res = (await routes.capabilities()).GET()
     expect(res.headers.get('cache-control')).toBe('private, no-store')
-    expect(await res.json()).toEqual({ ok: true, data: { apiVersion: 1, features: ['home', 'course', 'lesson'], minAppBuild: 1 } })
+    // signIn: أزرار Google وApple؛ دون مفاتيح على الخادم كلاهما مُطفأ
+    expect(await res.json()).toEqual({ ok: true, data: { apiVersion: 1, features: ['home', 'course', 'lesson'], minAppBuild: 1, signIn: { google: false, apple: false } } })
   })
 })
 

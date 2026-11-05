@@ -4,6 +4,7 @@
  * فالدور وبوابة الهاتف والتسجيل والشروط والانتهاء والظهور هي نفسها. لا روابط ملفات موقّعة،
  * ولا بيانات حسابات أخرى، ولا بريد ولا هاتف. العقد موثّق في platform/ios/docs/IOS-API-V1.md.
  */
+import { oauthAvailability } from '@/server/auth/oauth-tokens'
 import { groupLessons } from '@/server/lib/group-lessons'
 import type { Db } from '@/server/db/connect'
 import type { Actor } from '@/server/lib/actor'
@@ -13,7 +14,9 @@ import { iosCourseHome, iosLearningHome, iosLesson } from './ios-learning.servic
 export const IOS_API_VERSION = 1
 
 export function iosCapabilities() {
-  return { apiVersion: IOS_API_VERSION, features: ['home', 'course', 'lesson'] as const, minAppBuild: 1 }
+  const oauth = oauthAvailability()
+  // signIn: أزرار الدخول المفعّلة على الخادم (التطبيق يُخفي ما ليس مفعّلًا)
+  return { apiVersion: IOS_API_VERSION, features: ['home', 'course', 'lesson'] as const, minAppBuild: 1, signIn: { google: oauth.google, apple: oauth.appleIos } }
 }
 
 /** حسابات الطاقم لا تستعمل البوابة: 403 مع سبب صريح يعرض له التطبيق بطاقة «للتلاميذ» */

@@ -54,6 +54,10 @@ enum Fixtures {
             } else {
                 json = #"{"ok":true,"data":{"token":"fixture-token","expiresAt":"2030-01-01T00:00:00Z","role":"STUDENT"}}"#
             }
+        case ("GET", "/api/v1/ios/capabilities"):
+            json = #"{"ok":true,"data":{"apiVersion":1,"features":["home","course","lesson"],"minAppBuild":1,"signIn":{"google":true,"apple":true}}}"#
+        case ("POST", "/api/v1/ios/auth/complete"), ("POST", "/api/v1/ios/auth/ticket"):
+            json = #"{"ok":true,"data":{"status":"signed_in","token":"fixture-token","expiresAt":"2030-01-01T00:00:00Z","role":"STUDENT"}}"#
         case ("GET", "/api/v1/ios/phone"):
             json = #"{"ok":true,"data":{"required":\#(needsPhone && !phoneConfirmed),"phone":"0661234567","sms":true,"callNumber":"0550 00 00 00"}}"#
         case ("POST", "/api/v1/ios/phone/request"):

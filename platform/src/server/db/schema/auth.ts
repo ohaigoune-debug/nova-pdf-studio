@@ -1,4 +1,4 @@
-import { check, index, inet, integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { boolean, check, index, inet, integer, pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core'
 import { id, inList, softDelete, timestamps } from './_common'
 import { USER_ROLES, USER_STATUSES } from './enums'
 
@@ -83,4 +83,62 @@ export const passwordResets = pgTable(
     ...timestamps
   },
   (t) => [index('password_resets_user_idx').on(t.userId), index('password_resets_expires_idx').on(t.expiresAt)]
+)
+
+/** مزوّدو الدخول الخارجي (5 نوفمبر 2026): Google وApple (iCloud) */
+export const OAUTH_PROVIDERS = ['GOOGLE', 'APPLE'] as const
+export type OAuthProvider = (typeof OAUTH_PROVIDERS)[number]
+
+/**
+ * ربط حساب بهوية Google أو Apple: المعرّف الثابت (sub) لا البريد، لأن Apple قد يعطي بريدًا وسيطًا
+ * ولأن بريد الحساب قد يتغيّر. refreshToken لـ Apple وحده: يُلغى به الإذن عند حذف الحساب (شرط Apple).
+ */
+export const oauthIdentities = pgTable(
+  'oauth_identities',
+  {
+    id: id(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    provider: text('provider').notNull(),
+    subject: text('subject').notNull(),
+    email: text('email'),
+    refreshToken: text('refresh_token'),
+    lastUsedAt: timestamp('last_used_at', { withTimezone: true }),
+    ...timestamps
+  },
+  (t) => [
+    check('oauth_identities_provider_check', inList(t.provider, OAUTH_PROVIDERS)),
+    unique('oauth_identities_provider_subject_unique').on(t.provider, t.subject),
+    index('oauth_identities_user_idx').on(t.userId)
+  ]
+)
+
+/**
+ * تذاكر قصيرة العمر بعد التحقق من هوية خارجية (يُخزَّن تجزيء الرمز فقط):
+ *  - SIGNUP: هوية جديدة تنتظر إكمال الحساب (الهاتف والولي والمستوى والشعبة والولاية) — 30 دقيقة.
+ *  - LOGIN: تسليم الدخول من المتصفح إلى تطبيق الآيفون (Google) — دقيقتان، مرة واحدة.
+ */
+export const oauthTickets = pgTable(
+  'oauth_tickets',
+  {
+    id: id(),
+    tokenHash: text('token_hash').notNull().unique(),
+    kind: text('kind').notNull(),
+    provider: text('provider').notNull(),
+    subject: text('subject').notNull(),
+    email: text('email'),
+    emailVerified: boolean('email_verified').notNull().default(false),
+    fullName: text('full_name'),
+    userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
+    refreshToken: text('refresh_token'),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    consumedAt: timestamp('consumed_at', { withTimezone: true }),
+    ...timestamps
+  },
+  (t) => [
+    check('oauth_tickets_kind_check', inList(t.kind, ['SIGNUP', 'LOGIN'])),
+    check('oauth_tickets_provider_check', inList(t.provider, OAUTH_PROVIDERS)),
+    index('oauth_tickets_expires_idx').on(t.expiresAt)
+  ]
 )

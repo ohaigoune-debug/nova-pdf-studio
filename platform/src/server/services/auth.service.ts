@@ -28,9 +28,24 @@ export interface RequestMeta {
 
 /** تسجيل حساب طالب جديد (نوع FREE حتى يستعمل كود فوج). */
 export async function registerStudent(db: Db, input: RegisterInput, meta: RequestMeta = {}) {
-  const email = input.email.trim().toLowerCase()
   if (!isStrongEnough(input.password)) throw new AppError('WEAK_PASSWORD')
+  return createStudentAccount(db, input, hashPassword(input.password), meta)
+}
 
+type Tx = Parameters<Parameters<Db['transaction']>[0]>[0]
+
+/**
+ * إنشاء حساب تلميذ بكلمة سر مجزّأة جاهزة (التسجيل العادي) أو بقيمة غير صالحة للدخول (Google / Apple).
+ * withinTx: خطوة إضافية في المعاملة نفسها (ربط الهوية الخارجية) فلا يبقى حساب نصف مُنشأ.
+ */
+export async function createStudentAccount(
+  db: Db,
+  input: Omit<RegisterInput, 'password'>,
+  passwordHash: string,
+  meta: RequestMeta = {},
+  withinTx?: (tx: Tx, userId: string) => Promise<void>
+) {
+  const email = input.email.trim().toLowerCase()
   const existing = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1)
   if (existing.length > 0) throw new AppError('EMAIL_TAKEN')
   // الشعبة إلزامية للثانوي (رموز المستويات …AS): تحدّد الكتب والدورات المسموح بطلبها
@@ -47,7 +62,7 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
   const result = await db.transaction(async (tx) => {
     const [user] = await tx
       .insert(users)
-      .values({ email, passwordHash: hashPassword(input.password), role: 'STUDENT', lastLoginAt: new Date() })
+      .values({ email, passwordHash, role: 'STUDENT', lastLoginAt: new Date() })
       .returning({ id: users.id })
     if (!user) throw new AppError('INTERNAL')
     await tx.insert(profiles).values({ userId: user.id, fullName: input.fullName.trim(), phone: input.phone ?? null })
@@ -62,6 +77,7 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
         guardianPhone: input.guardianPhone ?? null
       })
       .returning({ id: students.id })
+    if (withinTx) await withinTx(tx, user.id)
     await writeActivity(tx, { userId: user.id, event: 'auth.register' })
     return { userId: user.id, studentId: student?.id ?? null }
   })

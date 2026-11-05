@@ -4,6 +4,7 @@ import { phoneChannels } from '@/server/services/phone-gate.service'
 import { GuardianContactCard } from '@/components/domain/guardian-contact-card'
 import { ChangePasswordCard } from '@/components/domain/change-password-card'
 import { DeleteAccountCard } from '@/components/domain/delete-account-card'
+import { deletionNeedsPassword } from '@/server/services/account-deletion.service'
 import { DevicesList } from '@/components/domain/devices-list'
 import { EnrollmentStatusBadge } from '@/components/domain/status-badges'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -18,7 +19,7 @@ import { getStudentProfile } from '@/server/services/students.service'
 export default async function StudentProfilePage() {
   const actor = await requirePageActor('STUDENT')
   const db = await getDb()
-  const [p, devices, channels] = await Promise.all([getStudentProfile(db, actor, actor.studentId!), listUserSessions(db, actor.userId), phoneChannels(db)])
+  const [p, devices, channels, hasPassword] = await Promise.all([getStudentProfile(db, actor, actor.studentId!), listUserSessions(db, actor.userId), phoneChannels(db), deletionNeedsPassword(db, actor.userId)])
   const rows: [string, string][] = [
     [t('common.email'), p.email],
     [t('common.phone'), p.phone ?? '—'],
@@ -73,14 +74,30 @@ export default async function StudentProfilePage() {
         <GuardianContactCard phone={p.guardianPhone} />
       </section>
       <section className="mt-6">
-        <ChangePasswordCard />
+        {hasPassword ? (
+          <ChangePasswordCard />
+        ) : (
+          // حساب Google / Apple: لا كلمة سر حالية تُغيَّر؛ يضعها برابط «نسيت كلمة السر» إن أراد الدخول بها أيضًا
+          <Card>
+            <CardHeader>
+              <CardTitle>كلمة السر</CardTitle>
+            </CardHeader>
+            <CardContent className="text-sm text-muted-foreground">
+              تدخل بحساب Google أو Apple. إن أردت الدخول بالبريد أو الهاتف أيضًا، ضع كلمة سر من{' '}
+              <a href="/forgot-password" className="font-semibold text-primary hover:underline">
+                «نسيت كلمة السر»
+              </a>
+              .
+            </CardContent>
+          </Card>
+        )}
       </section>
       <section className="mt-6">
         <h2 className="mb-3 text-lg font-extrabold">{t('teacherPages.devicesTitle')}</h2>
         <DevicesList devices={devices} />
       </section>
       <section className="mt-10">
-        <DeleteAccountCard />
+        <DeleteAccountCard needsPassword={hasPassword} />
       </section>
     </>
   )

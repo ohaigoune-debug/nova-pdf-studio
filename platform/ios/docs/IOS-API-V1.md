@@ -231,3 +231,19 @@ teacher's students. With `?group=` it is the course classroom: that group's post
 (report and hide as in Build 16); in the general classroom another student's name shows shortened («سارة ع.»).
 Public posts send no mass notification. A course post's notification link carries `?group=`, and the app opens
 that course's classroom.
+
+## الدخول بـ Google وApple (5 نوفمبر 2026)
+
+`GET /api/v1/ios/capabilities` يحمل `signIn: { google, apple }`: الأزرار المفعّلة على الخادم (يُخفي التطبيق غيرها).
+
+| المسار | الطلب | الرد |
+|---|---|---|
+| `POST /api/v1/ios/auth/apple` | `identityToken`، `authorizationCode`، `nonce` (الخام؛ Apple يستلم SHA-256 له)، `fullName` | `signed_in` أو `needs_profile` |
+| نافذة النظام: `/api/auth/oauth/google/start?app=ios` | — | تعود إلى `madrasadz-auth://oauth?ticket=…` أو `?signup=…&name=…&email=…` أو `?error=CODE` |
+| `POST /api/v1/ios/auth/ticket` | `ticket` (دقيقتان، مرة واحدة) | `signed_in` |
+| `POST /api/v1/ios/auth/complete` | `signupToken` + `fullName`، `phone`، `guardianPhone`، `wilayaId`، `levelId`، `streamId` | `signed_in` (ثم تأكيد الهاتف كما بعد التسجيل) |
+
+`signed_in` = `{ status, token, expiresAt, role }` مثل `/api/v1/auth/login`.
+`needs_profile` = `{ status, signupToken, fullName, email }` (البريد الوسيط من Apple لا يُرسل).
+`GET /api/v1/ios/session` يحمل `hasPassword`: `false` لحساب Google/Apple، فيُطلب لحذفه كتابة «حذف».
+كلها تشترط ترويسة `X-Madrasadz-Client: ios`.

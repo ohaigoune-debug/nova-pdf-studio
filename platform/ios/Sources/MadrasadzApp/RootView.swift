@@ -1,4 +1,5 @@
 import SwiftUI
+import AuthenticationServices
 import MadrasadzCore
 
 /// The student's choice of appearance, kept on this phone: follow the iPhone, light or dark.
@@ -48,6 +49,10 @@ struct LoginView: View {
     @State private var signingUp = false
     @FocusState private var focus: Field?
     @Environment(\.openURL) private var openURL
+    @Environment(\.webAuthenticationSession) private var webAuthenticationSession
+    @Environment(\.colorScheme) private var colorScheme
+    /// The raw value behind the Apple request in flight (Apple receives its SHA-256).
+    @State private var appleNonce = ""
 
     private enum Field { case identifier, password }
 
@@ -64,6 +69,7 @@ struct LoginView: View {
 
                 VStack(alignment: .leading, spacing: 14) {
                     Text(L10n.text("signIn")).font(.title2.bold())
+                    if model.signInOptions.apple || model.signInOptions.google { socialButtons }
                     TextField(L10n.text("loginIdentifier"), text: $identifier)
                         .textContentType(.username)
                         .keyboardType(.emailAddress)
@@ -137,6 +143,87 @@ struct LoginView: View {
         .scrollDismissesKeyboard(.interactively)
         .background(LinearGradient(colors: [Brand.navy, Brand.blue], startPoint: .top, endPoint: .bottom).ignoresSafeArea())
         .sheet(isPresented: $signingUp) { NavigationStack { SignupView(model: model) } }
+        .background {
+            // A new Google or Apple account: its details are completed here, then the phone code.
+            Color.clear.sheet(item: $model.pendingSocialSignup) { pending in
+                NavigationStack { SocialSignupView(model: model, pending: pending) }
+            }
+        }
+        .task { await model.loadSignInOptions() }
+    }
+
+    /// «Continue with Apple» (native, first) and «Continue with Google» (system browser sheet).
+    /// They sign in an existing account or start a new one; nothing here is bought.
+    private var socialButtons: some View {
+        VStack(spacing: 10) {
+            if model.signInOptions.apple {
+                SignInWithAppleButton(.continue) { request in
+                    let nonce = AppModel.newNonce()
+                    appleNonce = nonce
+                    request.requestedScopes = [.fullName, .email]
+                    request.nonce = AppModel.sha256(nonce)
+                } onCompletion: { result in
+                    Task { await appleFinished(result) }
+                }
+                .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
+                .frame(height: 50)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .disabled(working)
+                .accessibilityIdentifier("signInApple")
+            }
+            if model.signInOptions.google {
+                Button {
+                    Task { await continueWithGoogle() }
+                } label: {
+                    Text(L10n.text("continueGoogle"))
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 46)
+                }
+                .buttonStyle(.bordered)
+                .tint(Brand.navy)
+                .disabled(working)
+                .accessibilityIdentifier("signInGoogle")
+            }
+            HStack(spacing: 10) {
+                Rectangle().fill(Color.secondary.opacity(0.3)).frame(height: 1)
+                Text(L10n.text("socialOr")).font(.footnote).foregroundStyle(.secondary).fixedSize()
+                Rectangle().fill(Color.secondary.opacity(0.3)).frame(height: 1)
+            }
+            .padding(.top, 4)
+            .accessibilityHidden(true)
+        }
+    }
+
+    private func appleFinished(_ result: Result<ASAuthorization, Error>) async {
+        switch result {
+        case .success(let authorization):
+            guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
+                error = L10n.text("socialFailed")
+                return
+            }
+            working = true
+            error = await model.signInWithApple(credential, rawNonce: appleNonce)
+            working = false
+        case .failure(let failure):
+            // The student closed Apple's sheet: nothing to say.
+            if (failure as? ASAuthorizationError)?.code == .canceled { return }
+            error = L10n.text("socialFailed")
+        }
+    }
+
+    private func continueWithGoogle() async {
+        guard !working, let url = model.api.url(SocialSignIn.googleStartPath) else { return }
+        error = nil
+        do {
+            // Not ephemeral: a student already signed in to Google in Safari picks the account at once.
+            let callback = try await webAuthenticationSession.authenticate(using: url, callbackURLScheme: SocialSignIn.callbackScheme)
+            working = true
+            error = await model.finishGoogle(callback: callback)
+            working = false
+        } catch let failure {
+            if (failure as? ASWebAuthenticationSessionError)?.code == .canceledLogin { return }
+            error = L10n.text("socialFailed")
+        }
     }
 
     /// The password reset page and the privacy policy open in Safari; accounts are created here.
@@ -334,10 +421,18 @@ struct DeleteAccountView: View {
                     Text(L10n.text("deleteAccountBody")).font(.callout)
                 }
                 Section {
-                    SecureField(L10n.text("loginPassword"), text: $password)
-                        .textContentType(.password)
-                        .keyboardType(.asciiCapable)
-                        .accessibilityIdentifier("deletePassword")
+                    if model.hasPassword {
+                        SecureField(L10n.text("loginPassword"), text: $password)
+                            .textContentType(.password)
+                            .keyboardType(.asciiCapable)
+                            .accessibilityIdentifier("deletePassword")
+                    } else {
+                        // An account made with Google or Apple has no password: the word «حذف» confirms.
+                        TextField(L10n.text("deleteWordPrompt"), text: $password)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .accessibilityIdentifier("deletePassword")
+                    }
                     Toggle(L10n.text("deleteAccountUnderstood"), isOn: $understood)
                         .accessibilityIdentifier("deleteUnderstood")
                     if let error {

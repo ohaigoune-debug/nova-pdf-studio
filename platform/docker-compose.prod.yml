@@ -128,6 +128,14 @@ services:
       # تطبيق أندرويد: بلا البصمة يعيد /.well-known/assetlinks.json رمز 404 ويظهر شريط المتصفح
       ANDROID_PACKAGE_NAME: ${ANDROID_PACKAGE_NAME:-dz.madrasa.app}
       ANDROID_CERT_FINGERPRINTS: ${ANDROID_CERT_FINGERPRINTS:-}
+      # الدخول بـ Google وApple (iCloud). بدونها لا تظهر الأزرار. الخطوات: docs/OAUTH-SETUP-AR.md
+      GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID:-}
+      GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET:-}
+      APPLE_TEAM_ID: ${APPLE_TEAM_ID:-}
+      APPLE_SIGNIN_KEY_ID: ${APPLE_SIGNIN_KEY_ID:-}
+      APPLE_SIGNIN_PRIVATE_KEY: ${APPLE_SIGNIN_PRIVATE_KEY:-}
+      APPLE_BUNDLE_ID: ${APPLE_BUNDLE_ID:-com.madrasadz.student}
+      APPLE_SERVICES_ID: ${APPLE_SERVICES_ID:-}
     volumes:
       - uploads:/app/data
     expose:

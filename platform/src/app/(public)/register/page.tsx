@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { REF_COOKIE } from '@/lib/referral'
 import { AuthCard } from '@/components/domain/auth-card'
+import { OAuthButtons } from '@/components/domain/oauth-buttons'
 import { getT } from '@/i18n/server'
 import { getCurrentActor, homeFor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
@@ -44,12 +45,15 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
         </>
       }
     >
+      <OAuthButtons dividerLabel="أو أنشئ حسابًا ببريدك" />
+      <div className="mt-4">
       <RegisterForm
         wilayas={wilayas.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` }))}
         levels={levels.map((l) => ({ id: l.id, name: l.nameAr, secondary: /AS$/i.test(l.code) }))}
         streams={streams.map((s) => ({ id: s.id, name: s.nameAr }))}
         referral={policy.enabled ? { defaultCode: defaultRef, welcomeCreditDzd: policy.welcomeCreditDzd } : null}
       />
+      </div>
     </AuthCard>
   )
 }

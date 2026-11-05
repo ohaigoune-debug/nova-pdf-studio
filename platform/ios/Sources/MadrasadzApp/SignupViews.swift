@@ -153,6 +153,152 @@ struct SignupView: View {
     }
 }
 
+// MARK: - Complete a Google or Apple account
+
+/// A Google or Apple account new to Madrasa: the same details as the sign-up form, without
+/// e-mail and password (the provider gave them). Then the phone code, as after sign-up.
+struct SocialSignupView: View {
+    @ObservedObject var model: AppModel
+    let pending: SocialSignIn.PendingSignup
+    @Environment(\.dismiss) private var dismiss
+    @State private var options: Signup.Options?
+    @State private var loadFailure: String?
+    @State private var form = Signup.Form()
+    @State private var failure: AppModel.SignupFailure?
+    @State private var working = false
+    @FocusState private var focus: Signup.Field?
+
+    private var levels: [Signup.Level] { options?.levels ?? [] }
+    private var needsStream: Bool { levels.first(where: { $0.id == form.levelID })?.secondary ?? false }
+
+    var body: some View {
+        Group {
+            if let options {
+                formView(options)
+            } else if let loadFailure {
+                FailureView(message: loadFailure) { Task { await loadOptions() } }
+            } else {
+                LoadingView()
+            }
+        }
+        .navigationTitle(L10n.text("socialSignupTitle"))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar { ToolbarItem(placement: .cancellationAction) { Button(L10n.text("close")) { model.pendingSocialSignup = nil; dismiss() } } }
+        .task {
+            if form.fullName.isEmpty, let name = pending.fullName { form.fullName = name }
+            if options == nil { await loadOptions() }
+        }
+    }
+
+    private func formView(_ options: Signup.Options) -> some View {
+        Form {
+            Section {
+                FormBanner(icon: "checkmark.shield.fill", title: L10n.text("socialSignupTitle"), text: L10n.text("socialSignupIntro"))
+            }
+            .listRowBackground(LinearGradient(colors: [Brand.blue, Brand.navy], startPoint: .topLeading, endPoint: .bottomTrailing))
+            Section(L10n.text("signupContact")) {
+                if let email = pending.email {
+                    HStack(spacing: 12) {
+                        FieldIcon(name: "envelope.fill", alert: false)
+                        Text(email).foregroundStyle(.secondary).environment(\.layoutDirection, .leftToRight)
+                    }
+                    .accessibilityIdentifier("social-email")
+                }
+                field(.fullName, L10n.text("signupFullName"), icon: "person.fill", text: $form.fullName, content: .name, keyboard: .default)
+                field(.phone, L10n.text("signupPhone"), icon: "iphone", text: $form.phone, content: .telephoneNumber, keyboard: .phonePad)
+                field(.guardianPhone, L10n.text("signupGuardianPhone"), icon: "person.2.fill", text: $form.guardianPhone, content: nil, keyboard: .phonePad)
+            }
+            Section(L10n.text("signupStudies")) {
+                Picker(selection: $form.wilayaID) {
+                    Text(L10n.text("signupChoose")).tag("")
+                    ForEach(options.wilayas) { wilaya in Text(wilaya.name).tag(wilaya.id) }
+                } label: {
+                    PickerLabel(title: L10n.text("signupWilaya"), icon: "map.fill", alert: failure?.field == .wilayaId)
+                }
+                .pickerStyle(.navigationLink)
+                .accessibilityIdentifier("social-wilaya")
+                Picker(selection: $form.levelID) {
+                    Text(L10n.text("signupChoose")).tag("")
+                    ForEach(options.levels) { level in Text(level.name).tag(level.id) }
+                } label: {
+                    PickerLabel(title: L10n.text("signupLevel"), icon: "graduationcap.fill", alert: failure?.field == .levelId)
+                }
+                .pickerStyle(.navigationLink)
+                .accessibilityIdentifier("social-level")
+                if needsStream {
+                    Picker(selection: $form.streamID) {
+                        Text(L10n.text("signupChoose")).tag("")
+                        ForEach(options.streams) { stream in Text(stream.name).tag(stream.id) }
+                    } label: {
+                        PickerLabel(title: L10n.text("signupStream"), icon: "books.vertical.fill", alert: failure?.field == .streamId)
+                    }
+                    .pickerStyle(.navigationLink)
+                    .accessibilityIdentifier("social-stream")
+                }
+            }
+            if let failure {
+                Section {
+                    Label(failure.message, systemImage: "exclamationmark.circle.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Brand.danger)
+                        .accessibilityIdentifier("socialSignupError")
+                }
+            }
+            Section {
+                Button {
+                    Task { await submit() }
+                } label: {
+                    HStack(spacing: 8) {
+                        if working { ProgressView().tint(.white) }
+                        Text(L10n.text("signupSubmit")).font(.headline)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 52)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(Brand.blue)
+                .disabled(working)
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
+                .accessibilityIdentifier("socialSignupSubmit")
+            }
+        }
+        .scrollDismissesKeyboard(.interactively)
+    }
+
+    private func field(_ key: Signup.Field, _ title: String, icon: String, text: Binding<String>, content: UITextContentType?, keyboard: UIKeyboardType) -> some View {
+        HStack(spacing: 12) {
+            FieldIcon(name: icon, alert: failure?.field == key)
+            TextField(title, text: text)
+                .textContentType(content)
+                .keyboardType(keyboard)
+                .autocorrectionDisabled()
+                .focused($focus, equals: key)
+                .accessibilityIdentifier("social-\(key.rawValue)")
+        }
+    }
+
+    private func loadOptions() async {
+        loadFailure = nil
+        do {
+            options = try await model.api.get(Signup.Options.self, "/api/v1/ios/register", requireSession: false).value
+        } catch let failure as APIFailure {
+            loadFailure = failure.message
+        } catch {
+            loadFailure = L10n.text("error")
+        }
+    }
+
+    private func submit() async {
+        guard !working else { return }
+        focus = nil
+        working = true
+        failure = await model.completeSocialSignup(form, levels: levels, pending: pending)
+        working = false
+        let typed: [Signup.Field] = [.fullName, .phone, .guardianPhone]
+        if let field = failure?.field, typed.contains(field) { focus = field }
+    }
+}
+
 /// The blue banner at the top of the account forms.
 struct FormBanner: View {
     let icon: String

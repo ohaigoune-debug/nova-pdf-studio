@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- Push notifications from the platform. Used by scripts/build-signed.sh only when the
-     App Store profile carries aps-environment (Push Notifications enabled on the App ID). -->
+<!-- Reference only. scripts/build-signed.sh writes the real entitlements from the App Store
+     profile: aps-environment (Push Notifications) and com.apple.developer.applesignin
+     (Sign in with Apple), each only when enabled on the App ID. -->
 <plist version="1.0">
 <dict>
 	<key>aps-environment</key>

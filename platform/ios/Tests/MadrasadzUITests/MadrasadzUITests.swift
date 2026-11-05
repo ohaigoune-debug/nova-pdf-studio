@@ -185,6 +185,7 @@ final class MadrasadzUITests: XCTestCase {
         let app = launch(signedIn: false)
         let open = find(app, "openSignup")
         XCTAssertTrue(open.waitForExistence(timeout: 15), visible(app))
+        if !open.isHittable { app.swipeUp() }
         open.tap()
         // The website's form, native: no web page, no purchase, no invitation code.
         XCTAssertTrue(find(app, "signup-fullName").waitForExistence(timeout: 10), visible(app))
@@ -196,6 +197,20 @@ final class MadrasadzUITests: XCTestCase {
         submit.tap()
         XCTAssertTrue(find(app, "signupError").waitForExistence(timeout: 5), visible(app))
         snapshot(app, "16-signup-check")
+        #endif
+    }
+
+    /// «Continue with Apple / Google» on the sign-in screen when the server turns them on (5 Nov 2026).
+    @MainActor func testGoogleAndAppleButtonsOnSignIn() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = launch(signedIn: false)
+        XCTAssertTrue(find(app, "signInApple").waitForExistence(timeout: 15), visible(app))
+        XCTAssertTrue(find(app, "signInGoogle").exists, visible(app))
+        XCTAssertTrue(find(app, "loginIdentifier").exists)
+        XCTAssertEqual(app.webViews.count, 0)
+        snapshot(app, "13b-sign-in-google-apple")
         #endif
     }
 
