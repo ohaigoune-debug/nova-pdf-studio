@@ -15,6 +15,8 @@ object Fixtures {
     fun install(context: Context) {
         this.context = context.applicationContext
         enabled = true
+        FixtureHook.account = ACCOUNT
+        FixtureHook.respond = { method, path, body -> respond(method, path, body) }
     }
 
     private fun asset(name: String): String =

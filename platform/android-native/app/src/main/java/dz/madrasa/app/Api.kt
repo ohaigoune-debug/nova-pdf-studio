@@ -92,7 +92,7 @@ class Api(val baseUrl: String) {
     }
 
     private fun fixture(request: Request): Response? {
-        if (!Fixtures.enabled) return null
+        val hook = FixtureHook.respond ?: return null
         val body = try {
             val buffer = okio.Buffer()
             request.body?.writeTo(buffer)
@@ -101,14 +101,16 @@ class Api(val baseUrl: String) {
             ""
         }
         val path = request.url.encodedPath + (request.url.encodedQuery?.let { "?$it" } ?: "")
-        val (code, text) = Fixtures.respond(request.method, path, body) ?: return null
+        val answer: Pair<Int, String> = hook(request.method, path, body) ?: return null
+        val code = answer.first
+        val text = answer.second
         return Response.Builder()
             .request(request)
             .protocol(okhttp3.Protocol.HTTP_1_1)
             .code(code)
             .message("fixture")
             .header("Content-Type", "application/json")
-            .header("X-Madrasadz-Account", Fixtures.ACCOUNT)
+            .header("X-Madrasadz-Account", FixtureHook.account)
             .body(text.toResponseBody("application/json".toMediaType()))
             .build()
     }
@@ -221,4 +223,15 @@ class Api(val baseUrl: String) {
             data
         }
     }
+}
+
+/**
+ * نقطة ربط للخادم التجريبي في نسخة debug فقط (اختبارات الواجهة). في نسخة المتجر لا يضبطها شيء فتبقى null.
+ */
+object FixtureHook {
+    @Volatile
+    var respond: ((method: String, path: String, body: String) -> Pair<Int, String>?)? = null
+
+    @Volatile
+    var account: String = ""
 }
