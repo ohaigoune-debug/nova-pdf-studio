@@ -151,6 +151,11 @@ class ScreensTour {
             tap(T("lessonShowPDF"))
             Thread.sleep(2500)
             shot("pdf-view")
+            back()
+            tap(T("lessonSavePDF"))
+            Thread.sleep(2500)
+            shot("pdf-saved")
+            try { tap(T("ok")) } catch (_: Throwable) {}
         }
         step("bac-bank") {
             root("tabHome")
@@ -243,6 +248,10 @@ class ScreensTour {
             tap(T("supportTitle"))
             waitText("تأخّر كتاب")
             shot("support")
+            back()
+            tap(T("savedFilesTitle"))
+            waitText("ملخص الدرس")
+            shot("saved-files")
             back()
         }
 
