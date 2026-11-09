@@ -91,3 +91,24 @@ jobs:
           name: madrasa-android-screens
           path: platform/android-native/shots/
           if-no-files-found: warn
+
+      - name: طباعة اللقطات في السجل (للمراجعة دون تنزيل)
+        if: always()
+        working-directory: platform/android-native
+        run: |
+          pip install --quiet pillow
+          python3 - <<'PY'
+          import base64, io, os, glob
+          from PIL import Image
+          files = sorted(glob.glob('shots/**/*.png', recursive=True))
+          for f in glob.glob('shots/**/report.txt', recursive=True):
+              print('REPORT-BEGIN'); print(open(f, encoding='utf-8').read()); print('REPORT-END')
+          for f in files:
+              im = Image.open(f).convert('RGB')
+              im.thumbnail((540, 1200))
+              buf = io.BytesIO(); im.save(buf, 'JPEG', quality=72)
+              data = base64.b64encode(buf.getvalue()).decode()
+              name = os.path.basename(f)
+              for i in range(0, len(data), 4000):
+                  print(f'SHOT {name} {i // 4000:04d} {data[i:i+4000]}')
+          PY
