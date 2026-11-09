@@ -8,11 +8,6 @@ fun ClassroomScreen(group: String?) {
 }
 
 @Composable
-fun CardGameScreen(id: String) {
-    Screen("CardGameScreen") { }
-}
-
-@Composable
 fun OrdersScreen() {
     Screen("OrdersScreen") { }
 }
