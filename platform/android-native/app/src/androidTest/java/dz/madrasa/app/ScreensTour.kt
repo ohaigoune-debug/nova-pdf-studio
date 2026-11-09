@@ -5,6 +5,7 @@ import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -43,7 +44,9 @@ class ScreensTour {
 
     private fun tap(text: String, index: Int = 0) {
         waitText(text)
-        rule.onAllNodesWithText(text, substring = true)[index].performClick()
+        val node = rule.onAllNodesWithText(text, substring = true)[index]
+        try { node.performScrollTo() } catch (_: Throwable) {}
+        node.performClick()
         rule.waitForIdle()
     }
 
@@ -77,7 +80,8 @@ class ScreensTour {
             Thread.sleep(1500)
             shot("signup-wilayas-real")
             back()
-            back()
+            tap(T("cancel"))
+            waitText(T("register"))
         }
 
         // الخادم التجريبي لبقية الجولة
