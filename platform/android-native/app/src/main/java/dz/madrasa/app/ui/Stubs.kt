@@ -3,16 +3,6 @@ package dz.madrasa.app.ui
 import androidx.compose.runtime.Composable
 
 @Composable
-fun CourseScreen(slug: String) {
-    Screen("CourseScreen") { }
-}
-
-@Composable
-fun LessonScreen(slug: String) {
-    Screen("LessonScreen") { }
-}
-
-@Composable
 fun BacBankScreen() {
     Screen("BacBankScreen") { }
 }
