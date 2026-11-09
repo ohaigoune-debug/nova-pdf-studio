@@ -11,6 +11,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.Response
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -90,7 +91,29 @@ class Api(val baseUrl: String) {
         return b
     }
 
-    private suspend fun execute(request: Request): Response = suspendCancellableCoroutine { cont ->
+    private fun fixture(request: Request): Response? {
+        if (!Fixtures.enabled) return null
+        val body = try {
+            val buffer = okio.Buffer()
+            request.body?.writeTo(buffer)
+            buffer.readUtf8()
+        } catch (e: Exception) {
+            ""
+        }
+        val path = request.url.encodedPath + (request.url.encodedQuery?.let { "?$it" } ?: "")
+        val (code, text) = Fixtures.respond(request.method, path, body) ?: return null
+        return Response.Builder()
+            .request(request)
+            .protocol(okhttp3.Protocol.HTTP_1_1)
+            .code(code)
+            .message("fixture")
+            .header("Content-Type", "application/json")
+            .header("X-Madrasadz-Account", Fixtures.ACCOUNT)
+            .body(text.toResponseBody("application/json".toMediaType()))
+            .build()
+    }
+
+    private suspend fun execute(request: Request): Response = fixture(request) ?: suspendCancellableCoroutine { cont ->
         val call = client.newCall(request)
         cont.invokeOnCancellation { call.cancel() }
         call.enqueue(object : Callback {

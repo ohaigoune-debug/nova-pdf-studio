@@ -1,0 +1,1 @@
+{"ok": true, "data": {"lesson": {"slug": "t1", "title": "المدخل", "summary": "درس تجريبي", "type": "LESSON", "bodyMarkdown": "# مقدمة\nهذا **نص** درس تجريبي.\n- النقطة الأولى\n- النقطة الثانية", "media": {"kind": "none"}, "webPath": "/ios/lesson/t1"}, "viewer": {"name": "تلميذ تجريبي", "code": "00000000"}}}
