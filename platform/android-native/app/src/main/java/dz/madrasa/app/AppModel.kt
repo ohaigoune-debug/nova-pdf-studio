@@ -93,7 +93,7 @@ class AppModel(val context: Context) {
         phase = Phase.READY
     }
 
-    fun setAppearance(value: String) {
+    fun chooseAppearance(value: String) {
         vault.appearance = value
         appearance = value
     }

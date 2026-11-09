@@ -1,5 +1,6 @@
 package dz.madrasa.app.ui
 
+import android.content.res.Configuration
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.background
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
@@ -92,7 +94,8 @@ private fun MainTabs(app: AppModel) {
     val entry by controller.currentBackStackEntryAsState()
     val destination = entry?.destination
     val route = destination?.route ?: ""
-    val immersive = route.contains("/run/") || route.contains("/cardlesson/") || route.contains("/video/")
+    val landscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+    val immersive = route.contains("/run/") || route.contains("/cardlesson/") || (landscape && route.contains("/lesson/"))
 
     fun open(tab: String) {
         controller.navigate("tab_$tab") {
