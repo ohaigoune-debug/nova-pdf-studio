@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -518,7 +519,7 @@ fun RunnerScreen(id: String) {
         }
     }
     val p = pkg
-    Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+    Surface(Modifier.fillMaxSize().statusBarsPadding(), color = MaterialTheme.colorScheme.background) {
         when {
             error != null -> Column(Modifier.padding(16.dp)) { FailureView(error!!) { nav.back() } }
             p == null -> LoadingView(T("preparingSet"))

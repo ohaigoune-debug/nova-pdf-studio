@@ -5,6 +5,7 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -115,6 +116,8 @@ private fun MainTabs(app: AppModel) {
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
+        // كل شاشة تتكفّل بحافّة الشاشة العليا (شريطها العلوي)، والشريط السفلي بحافّة التنقّل
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
             if (!immersive) NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
                 tabs.forEach { tab ->
