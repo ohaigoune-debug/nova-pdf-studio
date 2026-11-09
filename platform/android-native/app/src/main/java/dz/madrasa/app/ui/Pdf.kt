@@ -189,14 +189,18 @@ fun DownloadsScreen() {
             if (files.isEmpty()) item { EmptyView(T("downloadsEmpty"), T("downloadsEmptyBody"), Icons.Filled.DownloadForOffline) }
             items(files) { f ->
                 RowItem(
-                    f.title, formatDate(f.savedAt) + " · " + "%.1f MB".format(java.util.Locale.ROOT, f.size / 1_048_576.0),
+                    f.title, formatDate(f.savedAt) + " · " + sizeText(f.size),
                     Icons.Filled.Description, Brand.teal,
                     trailing = {
                         IconButton(onClick = { app.downloads.remove(f.key) }) { Icon(Icons.Filled.Delete, T("deleteFile"), tint = Brand.danger) }
                     }
                 ) { nav.go("pdf?key=${enc(f.key)}&title=${enc(f.title)}&path=&save=0") }
             }
-            if (files.isNotEmpty()) item { Text(T("downloadsFooter"), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            if (files.isNotEmpty()) item { Text(T("downloadsFooterAndroid"), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant) }
         }
     }
 }
+
+private fun sizeText(bytes: Long): String =
+    if (bytes >= 1_048_576) "%.1f MB".format(java.util.Locale.ROOT, bytes / 1_048_576.0)
+    else "%d KB".format(java.util.Locale.ROOT, maxOf(1L, bytes / 1024))
