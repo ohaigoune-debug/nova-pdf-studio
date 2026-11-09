@@ -437,7 +437,7 @@ fun ProtectedPlayer(frame: String, contentId: String?, watermark: List<String>, 
         LaunchedEffect(Unit) {
             while (isActive) {
                 delay(7_000)
-                mark = Random.nextDouble(0.04, 0.55).toFloat() to Random.nextDouble(0.06, 0.75).toFloat()
+                mark = Random.nextDouble(0.03, 0.45).toFloat() to Random.nextDouble(0.06, 0.75).toFloat()
             }
         }
         if (blocked == null) {
@@ -491,16 +491,20 @@ fun ProtectedPlayer(frame: String, contentId: String?, watermark: List<String>, 
             }
         }
         if (watermark.isNotEmpty() && blocked == null) {
+            // العلامة بالاتجاه اللاتيني ومن الزاوية اليسرى، فتبقى داخل الإطار مهما كان اتجاه الواجهة
             androidx.compose.runtime.CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+              Box(Modifier.fillMaxSize()) {
                 Column(
                     Modifier
+                        .align(Alignment.TopStart)
                         .offset(x = w * mark.first, y = h * mark.second)
                         .clip(RoundedCornerShape(4.dp))
                         .background(Color.Black.copy(alpha = 0.35f))
                         .padding(horizontal = 6.dp, vertical = 3.dp)
                 ) {
-                    watermark.forEach { Text(it, color = Color.White.copy(alpha = 0.8f), fontSize = 11.sp, fontFamily = FontFamily.Monospace) }
+                    watermark.forEach { Text(it, color = Color.White.copy(alpha = 0.8f), fontSize = 11.sp, fontFamily = FontFamily.Monospace, maxLines = 1) }
                 }
+              }
             }
         }
     }

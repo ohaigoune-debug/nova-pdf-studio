@@ -64,6 +64,7 @@ object Fixtures {
             p.startsWith("/api/v1/ios/support/") -> 200 to ok("""{"id":"m-new","closed":true}""")
             p == "/api/v1/ios/classroom" -> 200 to envelope("generalClassroom")
             p.startsWith("/api/v1/ios/classroom/") -> 200 to ok("""{"id":"c-new","deleted":true,"reported":true,"ticketNumber":9}""")
+            p.startsWith("/api/v1/ios/materials/") -> 200 to asset("sample.pdf")
             p.startsWith("/api/v1/ios/media/") -> 200 to ok("""{"provider":"bunny","url":"https://iframe.mediadelivery.net/embed/1/fixture","expires":0,"watermark":["تلميذ تجريبي","…4567 · 2026-11-10"]}""")
             p == "/api/v1/media/heartbeat" -> 200 to ok("{}")
             p == "/api/v1/ios/logout" -> 200 to ok("""{"loggedOut":true}""")
