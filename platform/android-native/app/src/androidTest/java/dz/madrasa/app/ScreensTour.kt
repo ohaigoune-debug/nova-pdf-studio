@@ -25,7 +25,7 @@ class ScreensTour {
     val rule = createAndroidComposeRule<MainActivity>()
 
     private val target = InstrumentationRegistry.getInstrumentation().targetContext
-    private val dir = File(target.getExternalFilesDir(null), "shots").apply { deleteRecursively(); mkdirs() }
+    private val dir = File(target.filesDir, "shots").apply { deleteRecursively(); mkdirs() }
     private val report = StringBuilder()
     private var n = 0
 

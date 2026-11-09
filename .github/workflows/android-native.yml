@@ -82,7 +82,8 @@ jobs:
             adb install -r app/build/outputs/apk/debug/app-debug.apk
             adb install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
             adb shell am instrument -w -e class dz.madrasa.app.ScreensTour dz.madrasa.app.debug.test/androidx.test.runner.AndroidJUnitRunner || true
-            mkdir -p shots && adb pull /sdcard/Android/data/dz.madrasa.app.debug/files/shots shots/ || true
+            mkdir -p shots && adb exec-out run-as dz.madrasa.app.debug tar -cf - files/shots > shots/shots.tar || true
+            tar -xf shots/shots.tar -C shots || true
             adb logcat -d -t 400 > shots/logcat.txt || true
 
       - uses: actions/upload-artifact@v4
