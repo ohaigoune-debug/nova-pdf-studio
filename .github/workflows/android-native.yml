@@ -1,0 +1,46 @@
+name: أندرويد — التطبيق الأصيل (فحص وبناء)
+
+# يُفحص ويُبنى التطبيق الأصيل مع كل دفعة على فرعه. لا مفاتيح توقيع هنا أبدًا:
+# يخرج APK تجريبي (dz.madrasa.app.debug، يُثبَّت بجانب نسخة المتجر) وملف AAB غير موقّع للتحقق فقط.
+# الملف الموقّع للمتجر يُبنى على الخادم بمفتاح المالك (platform/android-native/scripts/build-aab-on-server.sh).
+on:
+  push:
+    branches: [android-parity]
+    paths:
+      - 'platform/android-native/**'
+      - '.github/workflows/android-native.yml'
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: platform/android-native
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: اختبارات التصحيح (مطابقة الخادم وتطبيق الآيفون)
+        run: chmod +x gradlew && ./gradlew --no-daemon --console=plain testDebugUnitTest
+
+      - name: بناء النسخة التجريبية وملف الإصدار غير الموقّع
+        run: ./gradlew --no-daemon --console=plain assembleDebug bundleRelease
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: madrasa-android-native
+          path: |
+            platform/android-native/app/build/outputs/apk/debug/*.apk
+            platform/android-native/app/build/outputs/bundle/release/*.aab
+            platform/android-native/app/build/reports/tests/
+          if-no-files-found: warn
