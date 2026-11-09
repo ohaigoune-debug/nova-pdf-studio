@@ -8,26 +8,6 @@ fun ClassroomScreen(group: String?) {
 }
 
 @Composable
-fun PlayHomeScreen() {
-    Screen("PlayHomeScreen") { }
-}
-
-@Composable
-fun SubjectScreen(code: String, name: String, lang: String) {
-    Screen("SubjectScreen") { }
-}
-
-@Composable
-fun SetScreen(id: String) {
-    Screen("SetScreen") { }
-}
-
-@Composable
-fun RunnerScreen(id: String) {
-    Screen("RunnerScreen") { }
-}
-
-@Composable
 fun CardGameScreen(id: String) {
     Screen("CardGameScreen") { }
 }
