@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -49,6 +50,9 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -343,9 +347,14 @@ fun SubjectScreen(code: String, name: String, lang: String) {
     Screen(name.ifEmpty { code }) { padding ->
         RefreshList(padding, load.loading && data != null, { load.load(path, force = true) }) {
             item {
-                Row(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.fillMaxWidth()) {
-                    listOf("LESSONS" to T("kindLessons"), "BAC" to T("kindBac"), "DEVOIR" to T("kindDevoir"), "TEST" to T("kindTest")).forEach { (k, label) ->
-                        FilterChip(selected = mode == k, onClick = { mode = k }, label = { Text(label, fontSize = 13.sp) }, modifier = Modifier.weight(1f))
+                val modes = listOf("LESSONS" to T("kindLessons"), "BAC" to T("kindBac"), "DEVOIR" to T("kindDevoir"), "TEST" to T("kindTest"))
+                SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+                    modes.forEachIndexed { i, (k, label) ->
+                        SegmentedButton(
+                            selected = mode == k, onClick = { mode = k },
+                            shape = SegmentedButtonDefaults.itemShape(i, modes.size),
+                            icon = {}
+                        ) { Text(label, fontSize = 12.sp, maxLines = 1, softWrap = false) }
                     }
                 }
             }
@@ -532,7 +541,6 @@ fun RunnerScreen(id: String) {
 private fun ExamRunner(pkg: PlayPackage, onClose: () -> Unit, restart: () -> Unit) {
     val app = LocalApp.current
     var index by remember { mutableIntStateOf(0) }
-    val drafts = remember { mutableStateMapOf<String, Draft>() }
     val answers = remember { mutableStateMapOf<String, StepAnswer>() }
     val checked = remember { mutableStateMapOf<String, Double>() }
     var finished by remember { mutableStateOf<PlayAttempt?>(null) }
@@ -548,7 +556,7 @@ private fun ExamRunner(pkg: PlayPackage, onClose: () -> Unit, restart: () -> Uni
         return
     }
     val step = pkg.steps[index.coerceAtMost(pkg.steps.size - 1)]
-    val draft = drafts.getOrPut(step.id) { Draft() }
+    val draft = remember(step.id) { Draft() }
     val grade = checked[step.id]
 
     fun advance() {
@@ -601,7 +609,7 @@ private fun ExamRunner(pkg: PlayPackage, onClose: () -> Unit, restart: () -> Uni
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             if (grade == null) {
-                OutlinedButton(onClick = { advance() }, modifier = Modifier.heightIn(min = 50.dp)) { Text(T("skip")) }
+                OutlinedButton(onClick = { advance() }, modifier = Modifier.heightIn(min = 50.dp).widthIn(min = 96.dp)) { Text(T("skip"), maxLines = 1, softWrap = false) }
                 Button(
                     onClick = {
                         val a = draft.answer(step) ?: return@Button

@@ -1,7 +1,10 @@
 package dz.madrasa.app
 
 import android.graphics.Bitmap
+import androidx.compose.ui.test.hasScrollToNodeAction
 import androidx.compose.ui.test.hasSetTextAction
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.performClick
@@ -42,7 +45,28 @@ class ScreensTour {
         rule.waitUntil(timeout) { rule.onAllNodesWithText(text, substring = true).fetchSemanticsNodes().isNotEmpty() }
     }
 
+    private fun exists(text: String) = rule.onAllNodesWithText(text, substring = true).fetchSemanticsNodes().isNotEmpty()
+
+    /** يمرّر القوائم الكسولة حتى يظهر النص (العناصر خارج الشاشة لا تُرسم فيها) */
+    private fun reveal(text: String) {
+        try { rule.waitUntil(3_000) { exists(text) }; return } catch (_: Throwable) {}
+        val lists = rule.onAllNodes(hasScrollToNodeAction())
+        for (i in 0 until lists.fetchSemanticsNodes().size) {
+            try { lists[i].performScrollToNode(hasText(text, substring = true)); return } catch (_: Throwable) {}
+        }
+    }
+
+    /** يرجع إلى أول شاشة في التبويب (الضغط مرتين: يفتح التبويب ثم يعود إلى جذره) */
+    private fun root(tab: String) {
+        repeat(2) {
+            rule.onAllNodesWithText(T(tab))[0].performClick()
+            rule.waitForIdle()
+            Thread.sleep(300)
+        }
+    }
+
     private fun tap(text: String, index: Int = 0) {
+        reveal(text)
         waitText(text)
         val node = rule.onAllNodesWithText(text, substring = true)[index]
         try { node.performScrollTo() } catch (_: Throwable) {}
@@ -96,6 +120,7 @@ class ScreensTour {
             shot("home")
         }
         step("my-courses") {
+            root("tabHome")
             tap(T("myCourses"))
             waitText("بكالوريا تجريبية")
             shot("courses")
@@ -110,18 +135,25 @@ class ScreensTour {
             back()
         }
         step("lesson-video") {
+            root("tabHome")
+            tap(T("myCourses")); tap("بكالوريا تجريبية")
             tap("شرح")
             Thread.sleep(3000)
             shot("lesson-video")
             back()
         }
         step("lesson-pdf") {
+            root("tabHome")
+            tap(T("myCourses")); tap("بكالوريا تجريبية")
             tap("ملخص الدرس")
             waitText(T("lessonShowPDF"))
             shot("lesson-pdf")
-            back(); back(); back()
+            tap(T("lessonShowPDF"))
+            Thread.sleep(2500)
+            shot("pdf-view")
         }
         step("bac-bank") {
+            root("tabHome")
             tap(T("bacBankShort"))
             waitText("بكالوريا 2024")
             shot("bac-bank")
@@ -131,6 +163,7 @@ class ScreensTour {
             back(); back()
         }
         step("tests-bank") {
+            root("tabHome")
             tap(T("testsBank"))
             waitText(T("chooseTerm"))
             shot("tests-terms")
@@ -146,12 +179,14 @@ class ScreensTour {
             back(); back(); back(); back()
         }
         step("free-lessons") {
+            root("tabHome")
             tap(T("freeLessons"))
             waitText("منهجية المقالة")
             shot("free-lessons")
             back()
         }
         step("classroom") {
+            root("tabHome")
             tap(T("generalClassroom"))
             waitText("منهجية المقالة")
             shot("classroom")

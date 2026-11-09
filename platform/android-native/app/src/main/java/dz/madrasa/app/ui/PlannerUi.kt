@@ -63,6 +63,7 @@ import dz.madrasa.app.RevisionTask
 import dz.madrasa.app.StudyStream
 import dz.madrasa.app.T
 import dz.madrasa.app.Tf
+import dz.madrasa.app.str
 import dz.madrasa.app.Timetable
 import dz.madrasa.app.TimetableOptions
 import java.util.Calendar
@@ -212,7 +213,7 @@ fun TimetableScreen() {
     val app = LocalApp.current
     val nav = LocalNav.current
     val context = LocalContext.current
-    var stream by remember { mutableStateOf(StudyStream.from(app.planner.streamId) ?: StudyStream.LITERATURE) }
+    var stream by remember { mutableStateOf(StudyStream.from(app.planner.streamId) ?: streamFromPlay(app)) }
     var options by remember { mutableStateOf(app.planner.options) }
     var remind by remember { mutableStateOf(true) }
     val preview = Timetable.build(stream, System.currentTimeMillis(), 7, options, remind)
@@ -370,5 +371,20 @@ fun TaskEditScreen(id: String?) {
                 }
             }
         }
+    }
+}
+
+/** الشعبة المقترحة من ملف PLAY المحفوظ (السنة والشعبة التي اختارها التلميذ) */
+private fun streamFromPlay(app: AppModel): StudyStream {
+    val profile = app.cached("/api/v1/ios/play/subjects")?.first
+    val grade = profile.str("gradeCode") ?: ""
+    if (grade.endsWith("AM")) return StudyStream.MIDDLE
+    return when (profile.str("streamCode")) {
+        "SCI", "TC_SCI" -> StudyStream.SCIENCES
+        "MATH" -> StudyStream.MATHEMATICS
+        "TM" -> StudyStream.TECHNICAL
+        "GE" -> StudyStream.MANAGEMENT
+        "LANG" -> StudyStream.LANGUAGES
+        else -> StudyStream.LITERATURE
     }
 }
