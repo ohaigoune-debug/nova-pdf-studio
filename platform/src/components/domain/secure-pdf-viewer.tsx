@@ -6,12 +6,19 @@ import { Alert } from '@/components/ui/misc'
 import { Button } from '@/components/ui/button'
 import { t } from '@/i18n'
 import { deviceViewerKey } from './device-key'
+import { PdfPages } from './pdf-pages'
 
 const viewerKey = deviceViewerKey
 
+/** دروس الدورات قد تكون ملخصات طويلة: الصفحات تُرسم عند الاقتراب منها فقط، فالسقف العالي لا يكلّف شيئًا */
+const LESSON_MAX_PAGES = 400
+
 /**
  * عارض PDF داخل التطبيق: الملف المُقدَّم مختوم في الخادم باسم/بريد المشاهد (لا نسخة نظيفة تصل المتصفح)،
- * شريط الأدوات مخفي، ولا رابط تنزيل إلا إن سمح الأستاذ. يرسل نبضة مشاهدة عند الفتح ثم كل 30 ثانية.
+ * ولا رابط تنزيل إلا إن سمح الأستاذ. يرسل نبضة مشاهدة عند الفتح ثم كل 30 ثانية.
+ *
+ * الصفحات تُرسم داخل الصفحة (PdfPages) لا في إطار: كروم أندرويد (وهو محرّك تطبيق أندرويد) وSafari على
+ * الهاتف لا يعرضان PDF داخل iframe، فكان التلميذ يرى فراغًا أو يُنزَّل الملف إلى هاتفه.
  */
 export function SecurePdfViewer({ src, contentId, allowDownload, watermark, track = true }: { src: string; contentId: string; allowDownload: boolean; watermark: string[]; track?: boolean }) {
   const key = useMemo(() => viewerKey(), [])
@@ -34,7 +41,7 @@ export function SecurePdfViewer({ src, contentId, allowDownload, watermark, trac
   return (
     <div className="space-y-2">
       <div className="relative overflow-hidden rounded-xl border bg-muted" onContextMenu={(e) => e.preventDefault()}>
-        <iframe src={viewSrc} title="PDF" className="h-[75vh] w-full bg-white" />
+        <PdfPages src={src} openHref={viewSrc} maxPages={LESSON_MAX_PAGES} />
         <div className="pointer-events-none absolute end-3 top-3 rounded bg-black/40 px-2 py-1 font-mono text-[11px] text-white/85" dir="ltr">
           {watermark.join(' · ')}
         </div>
