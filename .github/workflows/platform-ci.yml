@@ -1,0 +1,59 @@
+name: فحص منصة مدرسة
+
+# يشغّل فحص الأنواع و lint والاختبارات والبناء على كل Pull Request يمسّ platform/،
+# وعلى كل دفع إلى work. الهدف: ألّا يصل انكسار إلى الإنتاج دون إنذار.
+on:
+  pull_request:
+    paths:
+      - 'platform/**'
+      - '.github/workflows/platform-ci.yml'
+  push:
+    branches: [work]
+    paths:
+      - 'platform/**'
+      - '.github/workflows/platform-ci.yml'
+  workflow_dispatch:
+
+# دفعٌ جديد على الفرع نفسه يلغي الفحص الجاري القديم
+concurrency:
+  group: platform-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: platform
+
+jobs:
+  checks:
+    name: أنواع + lint + اختبارات + بناء
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: platform/package-lock.json
+
+      - name: تثبيت الاعتماديات
+        run: npm ci --no-audit --no-fund
+
+      - name: فحص الأنواع
+        run: npm run typecheck
+
+      - name: lint
+        run: npm run lint
+
+      # الاختبارات تعمل على قاعدة pglite في الذاكرة (vitest.config.ts): لا خدمات خارجية ولا أسرار
+      - name: الاختبارات
+        run: npm test
+
+      - name: البناء
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
+        run: npm run build
