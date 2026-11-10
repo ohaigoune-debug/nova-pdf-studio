@@ -19,6 +19,13 @@ const eslintConfig = [
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }]
     }
+  },
+  {
+    // ملفات CommonJS الصريحة (deploy/cluster.cjs يشغّله Node مباشرة): require هو الصيغة الصحيحة فيها
+    files: ['**/*.cjs'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off'
+    }
   }
 ]
 
