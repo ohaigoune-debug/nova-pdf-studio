@@ -31,5 +31,5 @@ COPY --from=build --chown=app:app /app/deploy/cluster.cjs ./cluster.cjs
 RUN mkdir -p /app/data && chown app:app /app/data
 USER app
 EXPOSE 3000
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD wget -qO- http://127.0.0.1:3000/login >/dev/null || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD wget -qO- http://127.0.0.1:3000/api/v1/health >/dev/null || exit 1
 CMD ["node", "cluster.cjs"]
