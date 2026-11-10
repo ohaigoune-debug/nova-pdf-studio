@@ -147,7 +147,7 @@ export async function joinAsAssistant(db: Db, input: JoinAssistantInput, meta: R
       if (!isStrongEnough(input.password)) throw new AppError('WEAK_PASSWORD')
       const [u] = await tx
         .insert(users)
-        .values({ email, passwordHash: hashPassword(input.password), role: 'ASSISTANT', lastLoginAt: new Date() })
+        .values({ email, passwordHash: await hashPassword(input.password), role: 'ASSISTANT', lastLoginAt: new Date() })
         .returning({ id: users.id })
       if (!u) throw new AppError('INTERNAL')
       await tx.insert(profiles).values({ userId: u.id, fullName })
@@ -156,7 +156,7 @@ export async function joinAsAssistant(db: Db, input: JoinAssistantInput, meta: R
     } else {
       if (existing.role !== 'ASSISTANT' || existing.deletedAt) throw new AppError('ASSISTANT_EMAIL_TAKEN')
       if (existing.status !== 'ACTIVE') throw new AppError('ACCOUNT_DISABLED')
-      if (!verifyPassword(input.password, existing.passwordHash)) throw new AppError('INVALID_CREDENTIALS')
+      if (!(await verifyPassword(input.password, existing.passwordHash))) throw new AppError('INVALID_CREDENTIALS')
       const [active] = await tx
         .select({ id: teacherAssistants.id })
         .from(teacherAssistants)

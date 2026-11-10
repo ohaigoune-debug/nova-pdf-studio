@@ -105,7 +105,7 @@ export async function resetPasswordByPhone(db: Db, input: { phone: string; code:
       throw error
     }
     const now = new Date()
-    await tx.update(users).set({ passwordHash: hashPassword(input.password), updatedAt: now }).where(eq(users.id, userId))
+    await tx.update(users).set({ passwordHash: await hashPassword(input.password), updatedAt: now }).where(eq(users.id, userId))
     await revokeAllSessions(tx, userId)
     // رابط بريد صدر قبل استعادة الهاتف لا يبقى طريقًا لتغيير السر بعدها.
     await tx.update(passwordResets).set({ usedAt: now }).where(and(eq(passwordResets.userId, userId), isNull(passwordResets.usedAt)))

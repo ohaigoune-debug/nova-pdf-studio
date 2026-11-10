@@ -44,7 +44,7 @@ export async function createContentUploader(db: Db, actor: Actor, input: CreateU
   const [existing] = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1)
   if (existing) throw new AppError('EMAIL_TAKEN')
   return db.transaction(async (tx) => {
-    const [user] = await tx.insert(users).values({ email, passwordHash: hashPassword(input.password), role: 'CONTENT_UPLOADER' }).returning({ id: users.id })
+    const [user] = await tx.insert(users).values({ email, passwordHash: await hashPassword(input.password), role: 'CONTENT_UPLOADER' }).returning({ id: users.id })
     if (!user) throw new AppError('INTERNAL')
     await tx.insert(profiles).values({ userId: user.id, fullName, phone })
     if (courseIds.length) await tx.insert(courseStaff).values(courseIds.map((courseId) => ({ courseId, userId: user.id, createdByUserId: actor.userId })))
