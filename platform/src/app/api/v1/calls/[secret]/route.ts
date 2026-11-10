@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { getDb } from '@/server/db/client'
 import { checkRateLimit } from '@/server/lib/rate-limit'
 import { authorizeCallSecret, handleIncomingCall, touchCallApp } from '@/server/services/call-confirm.service'
+import { clientIp } from '@/server/lib/client-ip'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 15
@@ -52,7 +53,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ secret: string 
 export async function POST(req: Request, ctx: { params: Promise<{ secret: string }> }) {
   const { secret } = await ctx.params
   const db = await getDb()
-  const ip = (req.headers.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'unknown'
+  const ip = clientIp(req.headers) ?? 'unknown'
   try {
     await checkRateLimit(db, { scope: 'call-confirm', subject: ip, limit: 120, windowSeconds: 60 })
   } catch {

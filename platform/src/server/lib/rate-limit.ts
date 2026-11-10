@@ -16,13 +16,24 @@ export interface RateLimitRule {
   windowSeconds: number
 }
 
+/**
+ * حدود العنوان (IP) سقف واسع لا قفل: شبكات الهاتف النقال في الجزائر تضع آلاف المشتركين خلف عناوين قليلة
+ * (CGNAT)، فحدّ ضيّق على العنوان يحجب تلاميذ حقيقيين وقت الذروة (بعد منشور مثلًا). القفل الحقيقي على
+ * الهوية: البريد في الدخول، ورقم الهاتف في التسجيل والاسترجاع، ورمز SMS يثبت ملكية الرقم.
+ */
 export const RATE_LIMITS = {
-  loginIp: { limit: 20, windowSeconds: 15 * 60 },
+  loginIp: { limit: 300, windowSeconds: 15 * 60 },
   loginEmail: { limit: 8, windowSeconds: 15 * 60 },
-  registerIp: { limit: 10, windowSeconds: 60 * 60 },
+  registerIp: { limit: 300, windowSeconds: 60 * 60 },
+  /** محاولات تسجيل بالرقم نفسه: تكرار يدلّ على عبث لا على تلميذ */
+  registerPhone: { limit: 5, windowSeconds: 60 * 60 },
   activateCode: { limit: 10, windowSeconds: 10 * 60 },
   scan: { limit: 240, windowSeconds: 60 },
+  /** لكل بريد أو رقم (هوية واحدة) */
   passwordReset: { limit: 5, windowSeconds: 60 * 60 },
+  /** لكل عنوان: سقف واسع للسبب أعلاه */
+  passwordResetIp: { limit: 100, windowSeconds: 60 * 60 },
+  phoneResetVerifyIp: { limit: 300, windowSeconds: 10 * 60 },
   aiRequest: { limit: 60, windowSeconds: 60 * 60 }
 } as const
 
@@ -50,6 +61,15 @@ export async function checkRateLimit(db: Db, rule: RateLimitRule, now: Date = ne
   const count = row?.count ?? 1
   if (count > rule.limit) throw new AppError('RATE_LIMITED', { scope: rule.scope })
   return { remaining: rule.limit - count }
+}
+
+/**
+ * حدود التسجيل (الموقع وتطبيق آيفون معًا): سقف واسع للعنوان ثم قفل ضيّق على رقم الهاتف.
+ * `phoneKey` بصمة الرقم بعد توحيده (sha256)، لا الرقم نفسه.
+ */
+export async function checkRegisterLimits(db: Db, input: { ip: string | null; phoneKey: string }, now: Date = new Date()): Promise<void> {
+  await checkRateLimit(db, { scope: 'register-ip', subject: input.ip ?? 'unknown', ...RATE_LIMITS.registerIp }, now)
+  await checkRateLimit(db, { scope: 'register-phone', subject: input.phoneKey, ...RATE_LIMITS.registerPhone }, now)
 }
 
 /** قراءة فقط: هل بلغ العدّاد حدّه في النافذة الحالية؟ (لا يزيده — للأقفال التي تُعدّ الإخفاقات وحدها) */

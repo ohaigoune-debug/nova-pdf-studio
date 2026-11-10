@@ -5,6 +5,7 @@ import { AppError } from '@/server/lib/errors'
 import { RATE_LIMITS, checkRateLimit, resetRateLimit } from '@/server/lib/rate-limit'
 import { login } from '@/server/services/auth.service'
 import { jsonError, jsonOk } from '../../_lib'
+import { clientIp } from '@/server/lib/client-ip'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
     const parsed = schema.safeParse(await req.json())
     if (!parsed.success) throw new AppError('VALIDATION')
     const db = await getDb()
-    const ip = (req.headers.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || 'unknown'
+    const ip = clientIp(req.headers) ?? 'unknown'
     const emailKey = sha256(parsed.data.email.trim().toLowerCase())
     await checkRateLimit(db, { scope: 'login-ip', subject: ip, ...RATE_LIMITS.loginIp })
     await checkRateLimit(db, { scope: 'login-email', subject: emailKey, ...RATE_LIMITS.loginEmail })

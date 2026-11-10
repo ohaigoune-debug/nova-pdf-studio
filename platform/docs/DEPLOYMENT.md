@@ -79,6 +79,31 @@ ADMIN_EMAIL=you@madrasadz.com ADMIN_PASSWORD=… npm run db:bootstrap
 
 > **مهم:** اجعل السحابة **رمادية (DNS only) لا برتقالية**. مع الوكيل البرتقالي ووضع SSL الافتراضي (Flexible) تدخل في حلقة إعادة توجيه لا تنتهي، ولن يتمكّن Caddy من إصدار شهادته. إن أردت وكيل Cloudflare لاحقاً فاضبط SSL/TLS على **Full (strict)** بعد نجاح الشهادة.
 
+#### تفعيل وساطة Cloudflare (السحابة البرتقالية) لاحقًا
+
+الوساطة تخفّف الحمل عن الخادم وتخفي عنوانه، لكن بعدها يصل كل طلب من عناوين Cloudflare لا من التلميذ. المنصة تقرأ عنوان الزائر من `X-Real-IP` الذي يكتبه Caddy (`src/server/lib/client-ip.ts`)، فيجب أن يعرف Caddy عناوين Cloudflare **قبل** تحويل السحابة إلى برتقالية، وإلا تقاسم كل التلاميذ حدود المحاولات نفسها. الترتيب:
+
+1. في Cloudflare ← SSL/TLS اختر **Full (strict)** (لا Flexible: يسبّب حلقة إعادة توجيه).
+2. في Caddyfile الوكيل، أضف في الكتلة العامة أعلى الملف (القائمة الحالية في <https://www.cloudflare.com/ips/>):
+   ```
+   {
+   	servers {
+   		trusted_proxies static 173.245.48.0/20 103.21.244.0/22 103.22.200.0/22 103.31.4.0/22 141.101.64.0/18 108.162.192.0/18 190.93.240.0/20 188.114.96.0/20 197.234.240.0/22 198.41.128.0/17 162.158.0.0/15 104.16.0.0/13 104.24.0.0/14 172.64.0.0/13 131.0.72.0/22 2400:cb00::/32 2606:4700::/32 2803:f800::/32 2405:b500::/32 2405:8100::/32 2a06:98c0::/29 2c0f:f248::/32
+   		client_ip_headers CF-Connecting-IP
+   	}
+   }
+   ```
+3. في كتلة `madrasadz.com` غيّر `header_up X-Real-IP {remote_host}` إلى `header_up X-Real-IP {client_ip}`.
+4. تحقّق ثم أعد التحميل: `caddy validate --config /etc/caddy/Caddyfile` ثم `caddy reload` (داخل حاوية الوكيل).
+5. حوّل السحابة إلى برتقالية، ثم تأكّد من أن المنصة ترى عنوانك أنت: سجّل الدخول من هاتفك، ثم اعرض عنوان آخر جلسة:
+   ```sh
+   docker compose -f docker-compose.prod.yml exec db psql -U madrasa -d madrasa -c "select ip, created_at from sessions order by created_at desc limit 1"
+   ```
+   يجب أن يظهر عنوان شبكتك (قارنه بما يعرضه موقع مثل ifconfig.me على الهاتف)، لا عنوان من نطاقات Cloudflare أعلاه.
+
+يتطلب `{client_ip}` و`client_ip_headers` نسخة Caddy 2.7 أو أحدث (`caddy version`). التراجع: أعد السحابة رمادية؛ إعدادات Caddy أعلاه لا تضرّ بلا وساطة.
+
+
 تحقّق قبل المتابعة: `dig +short madrasadz.com` يجب أن يعيد عنوان خادمك.
 
 ### ب) على الخادم

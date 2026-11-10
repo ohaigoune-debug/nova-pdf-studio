@@ -5,6 +5,7 @@ import { otpCodes, profiles, users } from '@/server/db/schema'
 import { createSession, resolveActor } from '@/server/auth/session'
 import { verifyPassword } from '@/server/auth/password'
 import { setMailerForTests, type MailMessage } from '@/server/lib/mailer'
+import { RATE_LIMITS } from '@/server/lib/rate-limit'
 import { setSmsSenderForTests, SmsError, type SmsMessage } from '@/server/lib/sms'
 import { changePassword, requestPasswordReset, resetPassword, verifyPasswordResetToken } from '@/server/services/auth.service'
 import { OTP_MAX_ATTEMPTS, requestOtp } from '@/server/services/otp.service'
@@ -110,10 +111,10 @@ describe('استعادة كلمة السر عبر هاتف موثّق — قاع
   })
 
   it('حد طلبات IP نفسه يطبّق قبل معرفة الحساب', async () => {
+    // سقف العنوان واسع (شبكات النقال تجمع التلاميذ خلف عنوان واحد) لكنه قائم: أرقام مختلفة من عنوان واحد
     const ip = meta()
-    const phone = phoneNumber()
-    for (let i = 0; i < 5; i++) await requestPhonePasswordReset(h.db, phone, ip)
-    await expect(requestPhonePasswordReset(h.db, phone, ip)).rejects.toMatchObject({ code: 'RATE_LIMITED' })
+    for (let i = 0; i < RATE_LIMITS.passwordResetIp.limit; i++) await requestPhonePasswordReset(h.db, phoneNumber(), ip)
+    await expect(requestPhonePasswordReset(h.db, phoneNumber(), ip)).rejects.toMatchObject({ code: 'RATE_LIMITED' })
   })
 
   it('رمز REGISTER أو ORDER لا يستعمل لاستعادة كلمة السر', async () => {

@@ -4,6 +4,7 @@ import { AppError } from '@/server/lib/errors'
 import { checkRateLimit } from '@/server/lib/rate-limit'
 import { isDeliveryProvider, recordDeliveryEvent, verifyDeliveryWebhook } from '@/server/services/delivery.service'
 import { jsonError, jsonOk } from '../../_lib'
+import { clientIp } from '@/server/lib/client-ip'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 30
@@ -20,7 +21,7 @@ export async function POST(req: Request) {
     const url = new URL(req.url)
     const provider = url.searchParams.get('provider') ?? 'generic'
     if (!isDeliveryProvider(provider)) throw new AppError('VALIDATION', { field: 'provider' })
-    const ip = (req.headers.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'unknown'
+    const ip = clientIp(req.headers) ?? 'unknown'
     const db = await getDb()
     await checkRateLimit(db, { scope: 'delivery-webhook', subject: ip, limit: 120, windowSeconds: 60 })
     const rawBody = await req.text()
