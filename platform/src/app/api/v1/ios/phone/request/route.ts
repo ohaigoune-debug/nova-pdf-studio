@@ -6,6 +6,7 @@ import { checkRateLimit } from '@/server/lib/rate-limit'
 import { iosNoStore } from '@/server/services/ios-session.service'
 import { OTP_RESEND_COOLDOWN_S, requestOtp } from '@/server/services/otp.service'
 import { iosApiError, resolveIosActor } from '../../_respond'
+import { clientIp } from '@/server/lib/client-ip'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
     const parsed = schema.safeParse(await req.json().catch(() => null))
     if (!parsed.success) throw new AppError('VALIDATION', { field: 'phone' })
     await checkRateLimit(db, { scope: 'otp-user', subject: actor.userId, limit: 10, windowSeconds: 60 * 60 })
-    const ip = (req.headers.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || null
+    const ip = clientIp(req.headers)
     await requestOtp(db, { phone: parsed.data.phone, purpose: 'REGISTER', userId: actor.userId, ip })
     return iosNoStore(NextResponse.json({ ok: true, data: { cooldown: OTP_RESEND_COOLDOWN_S } }))
   } catch (err) {

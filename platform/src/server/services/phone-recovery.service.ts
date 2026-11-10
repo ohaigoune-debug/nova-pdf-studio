@@ -48,7 +48,7 @@ export interface PhoneResetOptions {
 /** لا يُعاد userId أو devCode أو وجود الحساب حتى عند فشل المزوّد أو تجاوز حد الهاتف. */
 export async function requestPhonePasswordReset(db: Db, rawPhone: string, meta: RequestMeta = {}, opts: PhoneResetOptions = {}): Promise<{ cooldown: number }> {
   const phone = normalizePhone(rawPhone)
-  await checkRateLimit(db, { scope: 'phone-reset-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.passwordReset })
+  await checkRateLimit(db, { scope: 'phone-reset-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.passwordResetIp })
   const [accounts, channels] = await Promise.all([accountByPhone(db, phone), phoneChannels(db)])
   try {
     // سقف يومي لكل هاتف قبل أي إرسال، بالرد العام نفسه للرقم المعروف والمجهول
@@ -81,7 +81,7 @@ const OTP_FAILURES = ['OTP_INVALID', 'OTP_EXPIRED', 'OTP_TOO_MANY_ATTEMPTS']
 export async function resetPasswordByPhone(db: Db, input: { phone: string; code: string; password: string }, meta: RequestMeta = {}): Promise<void> {
   const phone = normalizePhone(input.phone)
   if (!isStrongEnough(input.password)) throw new AppError('WEAK_PASSWORD')
-  await checkRateLimit(db, { scope: 'phone-reset-verify-ip', subject: meta.ip ?? 'unknown', limit: 30, windowSeconds: 10 * 60 })
+  await checkRateLimit(db, { scope: 'phone-reset-verify-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.phoneResetVerifyIp })
   await checkRateLimit(db, { scope: 'phone-reset-verify-phone', subject: sha256(phone), limit: 30, windowSeconds: 10 * 60 })
   // بعد 5 إخفاقات في اليوم لا يُقبل أي رمز لهذا الهاتف، ولو كان صحيحاً
   if (await isRateLimited(db, failRule(phone))) throw new AppError('OTP_TOO_MANY_ATTEMPTS')

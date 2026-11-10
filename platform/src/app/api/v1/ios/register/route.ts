@@ -2,11 +2,13 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
-import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
+import { sha256 } from '@/server/lib/codes'
+import { checkRegisterLimits } from '@/server/lib/rate-limit'
 import { registerStudent } from '@/server/services/auth.service'
 import { iosNoStore } from '@/server/services/ios-session.service'
 import { listLevels, listStreams, listWilayas } from '@/server/services/reference.service'
 import { iosApiError, iosApiGet } from '../_respond'
+import { clientIp } from '@/server/lib/client-ip'
 
 export const dynamic = 'force-dynamic'
 
@@ -67,8 +69,8 @@ export async function POST(req: NextRequest) {
     if (!parsed.success) return fieldError(String(parsed.error.issues[0]?.path[0] ?? ''))
     const d = parsed.data
     const db = await getDb()
-    const ip = (req.headers.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || null
-    await checkRateLimit(db, { scope: 'register-ip', subject: ip ?? 'unknown', ...RATE_LIMITS.registerIp })
+    const ip = clientIp(req.headers)
+    await checkRegisterLimits(db, { ip, phoneKey: sha256(d.phone) })
     try {
       const r = await registerStudent(
         db,

@@ -8,6 +8,7 @@ import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { homeFor } from '@/lib/role-home'
 import { resolveActor, SESSION_COOKIE } from './session'
+import { clientIp } from '@/server/lib/client-ip'
 
 /** الفاعل الحالي من كوكي الجلسة (مع cache لكل طلب). */
 export const getCurrentActor = cache(async (): Promise<Actor | null> => {
@@ -49,7 +50,7 @@ export async function requestMeta() {
   const h = await headers()
   return {
     userAgent: h.get('user-agent'),
-    ip: (h.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || null
+    ip: clientIp(h)
   }
 }
 

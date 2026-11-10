@@ -10,7 +10,7 @@ import type { UserRole } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { sha256 } from '@/server/lib/codes'
 import { safeNextPath } from '@/server/lib/safe-next'
-import { RATE_LIMITS, checkRateLimit, resetRateLimit } from '@/server/lib/rate-limit'
+import { RATE_LIMITS, checkRateLimit, checkRegisterLimits, resetRateLimit } from '@/server/lib/rate-limit'
 import { deleteOwnAccount } from '@/server/services/account-deletion.service'
 import { changePassword, login, logout, registerStudent, requestPasswordReset, resetPassword } from '@/server/services/auth.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
@@ -76,7 +76,7 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
   const meta = await requestMeta()
   const d = parsed.data
   const result = await runAction(async () => {
-    await checkRateLimit(db, { scope: 'register-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.registerIp })
+    await checkRegisterLimits(db, { ip: meta.ip, phoneKey: sha256(d.phone) })
     // الكود يُفحص قبل إنشاء الحساب: خطأ فيه يظهر للتلميذ ولا يُنشأ حساب
     const ref = d.refCode?.trim() ? await checkCodeForSignup(db, d.refCode, d.phone) : null
     const r = await registerStudent(
@@ -135,7 +135,7 @@ export async function forgotPasswordAction(_prev: ActionResult<{ done: true }> |
   const db = await getDb()
   const meta = await requestMeta()
   return runAction(async () => {
-    await checkRateLimit(db, { scope: 'reset-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.passwordReset })
+    await checkRateLimit(db, { scope: 'reset-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.passwordResetIp })
     await checkRateLimit(db, { scope: 'reset-email', subject: sha256(parsed.data.email.toLowerCase()), ...RATE_LIMITS.passwordReset })
     await requestPasswordReset(db, parsed.data.email, meta)
     return { done: true as const }
