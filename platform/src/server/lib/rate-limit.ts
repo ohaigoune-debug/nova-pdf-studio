@@ -22,9 +22,9 @@ export interface RateLimitRule {
  * الهوية: البريد في الدخول، ورقم الهاتف في التسجيل والاسترجاع، ورمز SMS يثبت ملكية الرقم.
  */
 export const RATE_LIMITS = {
-  loginIp: { limit: 300, windowSeconds: 15 * 60 },
+  loginIp: { limit: 1000, windowSeconds: 15 * 60 },
   loginEmail: { limit: 8, windowSeconds: 15 * 60 },
-  registerIp: { limit: 300, windowSeconds: 60 * 60 },
+  registerIp: { limit: 1000, windowSeconds: 60 * 60 },
   /** محاولات تسجيل بالرقم نفسه: تكرار يدلّ على عبث لا على تلميذ */
   registerPhone: { limit: 5, windowSeconds: 60 * 60 },
   activateCode: { limit: 10, windowSeconds: 10 * 60 },
