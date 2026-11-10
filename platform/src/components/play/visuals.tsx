@@ -1,6 +1,7 @@
 'use client'
 
-import * as Icons from 'lucide-react'
+import { BookOpen } from 'lucide-react'
+import { iconByName } from '@/components/icon-registry'
 import { cn } from '@/lib/utils'
 
 /** ألوان المواد (أسماء Tailwind الثابتة حتى يلتقطها المصرّف) */
@@ -29,8 +30,8 @@ export function tone(color: string) {
 }
 
 export function LucideIcon({ name, className }: { name: string; className?: string }) {
-  const Cmp = (Icons as unknown as Record<string, Icons.LucideIcon>)[name]
-  if (!Cmp) return <Icons.BookOpen className={className} />
+  const Cmp = iconByName(name)
+  if (!Cmp) return <BookOpen className={className} />
   return <Cmp className={className} />
 }
 

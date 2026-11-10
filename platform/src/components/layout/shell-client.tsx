@@ -1,7 +1,7 @@
 'use client'
 
-import { ArrowRight, BookMarked, Gamepad2, Sun, UserRound, Bell, LogOut, Menu, Search, X } from 'lucide-react'
-import * as Icons from 'lucide-react'
+import { ArrowRight, BookMarked, ChevronDown, Gamepad2, MoreHorizontal, Sun, UserRound, Bell, LogOut, Menu, Search, X } from 'lucide-react'
+import { iconByName } from '@/components/icon-registry'
 import Link from '@/components/ui/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState, type ReactNode } from 'react'
@@ -31,7 +31,7 @@ interface ShellSection {
 }
 
 function Icon({ name, className }: { name: string; className?: string }) {
-  const Cmp = (Icons as unknown as Record<string, Icons.LucideIcon>)[name]
+  const Cmp = iconByName(name)
   if (!Cmp) return <span className={className} />
   return <Cmp className={className} />
 }
@@ -79,7 +79,7 @@ export function ShellClient({
       <li key={item.href}>
         <details className="group/nav" open={active}>
           <summary className={cn(classes, 'cursor-pointer list-none [&::-webkit-details-marker]:hidden')}>
-            {contents}<Icons.ChevronDown className="ms-auto size-4 transition-transform group-open/nav:rotate-180" />
+            {contents}<ChevronDown className="ms-auto size-4 transition-transform group-open/nav:rotate-180" />
           </summary>
           <ul className="ms-4 mt-1 space-y-0.5 border-s border-sidebar-border ps-2">{item.children.map(renderItem)}</ul>
         </details>
@@ -100,7 +100,7 @@ export function ShellClient({
       {sections.map((s, i) => s.collapsible ? (
         <details key={i} className="group/section" open={s.items.some(isActive)}>
           <summary className="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2.5 text-sm font-semibold text-sidebar-foreground/70 hover:bg-white/[0.05] [&::-webkit-details-marker]:hidden">
-            <Icons.MoreHorizontal className="size-[18px]" /><span>{s.title}</span><Icons.ChevronDown className="ms-auto size-4 transition-transform group-open/section:rotate-180" />
+            <MoreHorizontal className="size-[18px]" /><span>{s.title}</span><ChevronDown className="ms-auto size-4 transition-transform group-open/section:rotate-180" />
           </summary>
           <ul className="mt-1 space-y-0.5">{s.items.map(renderItem)}</ul>
         </details>

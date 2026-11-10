@@ -1,4 +1,4 @@
-import * as Icons from 'lucide-react'
+import { iconByName } from '@/components/icon-registry'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
@@ -14,7 +14,7 @@ export interface RoleTile {
 }
 
 function TileIcon({ name, className }: { name: string; className?: string }) {
-  const Cmp = (Icons as unknown as Record<string, Icons.LucideIcon>)[name]
+  const Cmp = iconByName(name)
   return Cmp ? <Cmp className={className} aria-hidden /> : <span className={className} aria-hidden />
 }
 
