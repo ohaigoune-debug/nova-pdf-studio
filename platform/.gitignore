@@ -10,4 +10,5 @@ data
 next-env.d.ts
 coverage
 backups
+rclone
 import

@@ -168,6 +168,23 @@ services:
     entrypoint: ['sh', '/backup.sh']
     restart: unless-stopped
 
+  # نسخ النسخ الاحتياطية خارج الخادم (Google Drive عبر rclone). بلا إعداد تنتظر بهدوء ولا تُفشل النشر.
+  # الإعداد مرة واحدة: docs/DEPLOYMENT.md ← «النسخ خارج الخادم». مجلد ./rclone فيه رمز الوصول: لا يُرفع إلى Git.
+  offsite:
+    image: rclone/rclone:latest
+    environment:
+      OFFSITE_REMOTE: ${OFFSITE_REMOTE:-}
+      OFFSITE_KEEP_DB: ${OFFSITE_KEEP_DB:-14}
+      OFFSITE_KEEP_UPLOADS: ${OFFSITE_KEEP_UPLOADS:-2}
+      OFFSITE_INTERVAL_HOURS: ${OFFSITE_INTERVAL_HOURS:-6}
+    volumes:
+      - ./scripts/offsite-backup.sh:/offsite-backup.sh:ro
+      - ./backups:/backups:ro
+      # للكتابة: rclone يجدّد رمز الوصول في الملف نفسه
+      - ./rclone:/config/rclone
+    entrypoint: ['sh', '/offsite-backup.sh']
+    restart: unless-stopped
+
   cron:
     image: curlimages/curl:8.10.1
     depends_on:
