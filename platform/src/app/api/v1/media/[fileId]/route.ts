@@ -1,8 +1,9 @@
 import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
+import { etagMatches, getOrCreateStamped, stampCacheKey } from '@/server/lib/pdf-stamp-cache'
 import { storage } from '@/server/lib/storage'
-import { ANON_VIEWER, resolveMediaAccess, stampPdf, verifyMediaSignature } from '@/server/services/media.service'
+import { ANON_VIEWER, PDF_STAMP_VERSION, pdfPrivateRevalidateEnabled, resolveMediaAccess, stampPdf, verifyMediaSignature } from '@/server/services/media.service'
 import { jsonError } from '../../_lib'
 
 export const dynamic = 'force-dynamic'
@@ -14,7 +15,10 @@ const MAX_CHUNK = 4 * 1024 * 1024
  * بثّ الوسائط الخاصة: التوقيع مرتبط بهوية المشاهد الحالية (من الجلسة) فلا يعمل الرابط لغيره.
  * - فيديو/صوت/صورة: Range (206) بمقاطع بلا تحميل الملف كله في الذاكرة.
  * - PDF بلا سماح تنزيل: نسخة مختومة باسم/بريد المشاهد على كل صفحة، عرض داخلي فقط.
- * - لا كاش أبداً (private, no-store) ولا Content-Disposition: attachment.
+ *   الختم يُحفظ في كاش على القرص بمفتاح (الملف ونسخته + المشاهد + نص الختم)، ولا يُسأل الكاش إلا بعد
+ *   اكتمال التحقق من الصلاحية أدناه — الكاش لا يمنح وصولاً.
+ * - لا كاش في المتصفح (private, no-store) ولا Content-Disposition: attachment.
+ *   استثناء اختياري مُطفأ افتراضياً (PDF_PRIVATE_REVALIDATE=1): PDF المختوم بـ private, no-cache + ETag و304.
  */
 export async function GET(req: Request, ctx: { params: Promise<{ fileId: string }> }) {
   try {
@@ -41,9 +45,28 @@ export async function GET(req: Request, ctx: { params: Promise<{ fileId: string 
     }
 
     if (file.mimeType === 'application/pdf' && !access.content.allowDownload) {
-      const original = await storage().get(file.storageKey)
-      const stamped = await stampPdf(original, access.watermark)
-      return new Response(new Uint8Array(stamped), { headers: { ...baseHeaders, 'Content-Length': String(stamped.length) } })
+      // كل ما سبق (التوقيع، الجلسة، الصلاحية، حالة الملف) اكتمل؛ الآن فقط يُحسب المفتاح ويُسأل الكاش
+      const s = storage()
+      const key = stampCacheKey({
+        fileId: file.id,
+        storageKey: file.storageKey,
+        checksum: file.checksum,
+        sizeBytes: file.sizeBytes,
+        updatedAt: file.updatedAt,
+        storedSize: await s.size(file.storageKey),
+        viewerId: access.viewerId,
+        watermark: access.watermark,
+        stampVersion: PDF_STAMP_VERSION
+      })
+      const headers = { ...baseHeaders }
+      if (pdfPrivateRevalidateEnabled()) {
+        const etag = `"${key}"`
+        headers['Cache-Control'] = 'private, no-cache'
+        headers.ETag = etag
+        if (etagMatches(req.headers.get('if-none-match'), etag)) return new Response(null, { status: 304, headers })
+      }
+      const stamped = await getOrCreateStamped(key, async () => stampPdf(await s.get(file.storageKey), access.watermark))
+      return new Response(stamped.body as BodyInit, { headers: { ...headers, 'Content-Length': String(stamped.size) } })
     }
 
     const range = req.headers.get('range')
