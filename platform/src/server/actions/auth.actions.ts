@@ -35,7 +35,8 @@ export async function loginAction(_prev: ActionResult | null, formData: FormData
     await checkRateLimit(db, { scope: 'login-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.loginIp })
     await checkRateLimit(db, { ...identity, ...(identity.scope === 'login-phone' ? RATE_LIMITS.loginPhone : RATE_LIMITS.loginEmail) })
     const r = await login(db, { email: parsed.data.email, password: parsed.data.password }, meta)
-    await resetRateLimit(db, identity.scope, identity.subject)
+    // الرقم المشترك بين حسابات لا يُصفَّر عدّاده بدخول أحدها (انظر login)
+    if (!r.sharedIdentity) await resetRateLimit(db, identity.scope, identity.subject)
     await setSessionCookie(r.session.token, r.session.expiresAt)
     return r.role as UserRole
   })

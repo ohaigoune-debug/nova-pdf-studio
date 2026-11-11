@@ -127,7 +127,8 @@ export async function login(db: Db, input: { email: string; password: string }, 
   await db.update(users).set({ lastLoginAt: new Date() }).where(eq(users.id, user.id))
   await writeActivity(db, { userId: user.id, event: 'auth.login' })
   const session = await createSession(db, { userId: user.id, ...meta })
-  return { userId: user.id, role: user.role, session }
+  // رقم يحمله أكثر من حساب: من يدخل بحسابه لا يُصفَّر له عدّاد الرقم، وإلا خمّن به كلمة سر الحساب الآخر بلا قفل
+  return { userId: user.id, role: user.role, session, sharedIdentity: candidates.length > 1 }
 }
 
 export async function logout(db: Db, token: string): Promise<void> {

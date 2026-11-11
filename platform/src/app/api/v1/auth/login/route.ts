@@ -23,7 +23,8 @@ export async function POST(req: Request) {
     await checkRateLimit(db, { scope: 'login-ip', subject: ip, ...RATE_LIMITS.loginIp })
     await checkRateLimit(db, { ...identity, ...(identity.scope === 'login-phone' ? RATE_LIMITS.loginPhone : RATE_LIMITS.loginEmail) })
     const r = await login(db, { email: parsed.data.email, password: parsed.data.password }, { userAgent: req.headers.get('user-agent'), ip: ip === 'unknown' ? null : ip })
-    await resetRateLimit(db, identity.scope, identity.subject)
+    // الرقم المشترك بين حسابات لا يُصفَّر عدّاده بدخول أحدها (انظر login)
+    if (!r.sharedIdentity) await resetRateLimit(db, identity.scope, identity.subject)
     return jsonOk({ token: r.session.token, expiresAt: r.session.expiresAt.toISOString(), role: r.role })
   } catch (err) {
     return jsonError(err)

@@ -260,6 +260,24 @@ describe('الدخول برقم الهاتف', () => {
     expect((await api(a.phone, PASSWORD)).status).toBe(200)
     expect(await h.db.select().from(rateLimits).where(eq(rateLimits.key, key))).toHaveLength(0)
   })
+
+  it('رقم يتقاسمه حسابان: دخول أحدهما لا يصفّر عدّاد الرقم، فلا يخمّن به كلمة سر الآخر بلا قفل', async () => {
+    // الضحية ببريد ورقم مؤكَّد؛ المهاجم يسجّل ببريد آخر وبالرقم نفسه (مسموح: قرار 2 نوفمبر)
+    const phone = nextPhone()
+    const victim = await registerStudent(h.db, { email: `victim-${phone}@example.dz`, password: 'Victim-secret-2027', fullName: 'الضحية', phone, guardianPhone: guardian, wilayaId, levelId, streamId })
+    await verifyPhone(victim.userId)
+    await registerStudent(h.db, { email: `attacker-${phone}@example.dz`, password: 'Attacker-pass-2027', fullName: 'المهاجم', phone, guardianPhone: guardian, wilayaId, levelId, streamId })
+    const statuses: number[] = []
+    for (let round = 0; round < 3; round++) {
+      // تخمينات على كلمة سر الضحية ثم دخول صحيح بحساب المهاجم — من المسارين
+      for (let i = 0; i < 3; i++) statuses.push((await api(phone, `guess-${round}-${i}-wrong`)).status)
+      if (round % 2 === 0) statuses.push((await api(phone, 'Attacker-pass-2027')).status)
+      else await loginAction(null, form({ email: phone, password: 'Attacker-pass-2027' })).then((r) => statuses.push(r?.ok === false && r.error.code === 'RATE_LIMITED' ? 429 : 0), () => statuses.push(200))
+    }
+    // 12 محاولة على رقم واحد في نافذة واحدة: ما بعد الثامنة يُقفل، ولو تخلّلها دخول ناجح بالحساب الآخر
+    expect(statuses.slice(0, RATE_LIMITS.loginPhone.limit)).not.toContain(429)
+    expect(statuses.slice(RATE_LIMITS.loginPhone.limit)).toEqual([429, 429, 429, 429])
+  })
 })
 
 describe('استعادة كلمة السر والبريد لحساب بلا بريد', () => {
