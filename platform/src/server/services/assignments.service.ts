@@ -14,7 +14,8 @@ import {
   students,
   submissionMessages,
   teachers,
-  users
+  users,
+  userEmailText
 } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
 import { assertRole, studentIdOf, workspaceOf, type Actor } from '@/server/lib/actor'
@@ -215,7 +216,7 @@ export async function getAssignmentForTeacher(db: Db, actor: Actor, id: string):
         .select({
           studentId: students.id,
           fullName: profiles.fullName,
-          email: users.email,
+          email: userEmailText,
           submissionId: assignmentSubmissions.id,
           status: assignmentSubmissions.status,
           submittedAt: assignmentSubmissions.submittedAt,
@@ -522,7 +523,7 @@ export async function getSubmissionForTeacher(db: Db, actor: Actor, submissionId
   assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
   const ctx = await loadSubmissionCtx(db, actor, submissionId)
   const [st] = await db
-    .select({ id: students.id, fullName: profiles.fullName, email: users.email })
+    .select({ id: students.id, fullName: profiles.fullName, email: userEmailText })
     .from(students)
     .innerJoin(users, eq(users.id, students.userId))
     .leftJoin(profiles, eq(profiles.userId, users.id))

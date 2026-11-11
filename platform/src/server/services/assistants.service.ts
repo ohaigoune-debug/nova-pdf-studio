@@ -2,7 +2,7 @@ import { and, desc, eq, inArray } from 'drizzle-orm'
 import { hashPassword, isStrongEnough, verifyPassword } from '@/server/auth/password'
 import { createSession, revokeAllSessions } from '@/server/auth/session'
 import type { Db } from '@/server/db/connect'
-import { assistantCodes, profiles, teacherAssistants, teacherWorkspaces, teachers, users } from '@/server/db/schema'
+import { assistantCodes, profiles, teacherAssistants, teacherWorkspaces, teachers, users, userEmailText } from '@/server/db/schema'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeActivity, writeAudit } from '@/server/lib/audit'
 import { codePrefix, generateEnrollmentCode, hashEnrollmentCode, isValidCodeShape, normalizeEnrollmentCode } from '@/server/lib/codes'
@@ -234,7 +234,7 @@ export async function listAssistants(db: Db, actor: Actor): Promise<{ assistants
       id: teacherAssistants.id,
       userId: teacherAssistants.userId,
       fullName: profiles.fullName,
-      email: users.email,
+      email: userEmailText,
       status: teacherAssistants.status,
       joinedAt: teacherAssistants.createdAt,
       revokedAt: teacherAssistants.revokedAt

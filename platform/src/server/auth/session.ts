@@ -90,8 +90,9 @@ export async function resolveActor(db: Db, token: string | undefined | null): Pr
   return {
     userId: row.userId,
     role: row.role as UserRole,
-    email: row.email,
-    fullName: row.fullName ?? row.email,
+    // الحساب المسجَّل بالهاتف وحده لا بريد له: نص فارغ، لا null
+    email: row.email ?? '',
+    fullName: row.fullName ?? row.email ?? '',
     teacherId: row.teacherId ?? null,
     workspaceId: row.workspaceId ?? (row.role === 'ASSISTANT' ? (row.assistantWorkspaceId ?? null) : null),
     studentId: row.studentId ?? null

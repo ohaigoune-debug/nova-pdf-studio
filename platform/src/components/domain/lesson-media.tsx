@@ -38,7 +38,7 @@ function VideoPart({ item, actor }: { item: LessonMediaItem; actor: Actor | null
     // تلميذ أو أستاذ مسجّل: علامة مائية وحدّ جهاز واحد وسجل مشاهدة؛ الزائر يرى الدرس العام كما هو.
     if (!actor) return <YouTubeEmbed youtubeId={item.youtubeId} title={item.title} />
     const date = new Date().toISOString().slice(0, 10)
-    const marks = [actor.email, `${date} · ${actor.userId.slice(0, 8)}`]
+    const marks = [actor.email || actor.fullName, `${date} · ${actor.userId.slice(0, 8)}`]
     return <SecureYouTubePlayer src={youtubeEmbedUrl(item.youtubeId, { protectedPlayer: true })} contentId={item.id} watermark={marks} title={item.title} />
   }
   if (item.videoProvider === 'BUNNY') return <BunnyMedia contentId={item.id} actor={actor} />
@@ -51,7 +51,7 @@ function FilePart({ item, actor }: { item: LessonMediaItem; actor: Actor | null 
   const viewerId = actor?.userId ?? ANON_VIEWER
   const src = signMediaUrl(item.fileId, item.id, viewerId)
   const date = new Date().toISOString().slice(0, 10)
-  const watermark = actor ? [actor.email, `${date} · ${actor.userId.slice(0, 8)}`] : ['madrasa · public', date]
+  const watermark = actor ? [actor.email || actor.fullName, `${date} · ${actor.userId.slice(0, 8)}`] : ['madrasa · public', date]
   const track = !!actor
   const protectedBadge = (
     <Badge variant="success" className="mb-2 inline-flex items-center gap-1">

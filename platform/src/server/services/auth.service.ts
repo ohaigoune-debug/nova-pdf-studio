@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto'
-import { and, desc, eq, isNull } from 'drizzle-orm'
+import { and, desc, eq, isNotNull, isNull, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { levels, otpCodes, passwordResets, profiles, streams, students, users } from '@/server/db/schema'
 import { hashPassword, isStrongEnough, verifyPassword } from '@/server/auth/password'
@@ -10,7 +10,8 @@ import { AppError } from '@/server/lib/errors'
 import { getMailer } from '@/server/lib/mailer'
 
 export interface RegisterInput {
-  email: string
+  /** اختياري (قرار المالك 10 نوفمبر 2026): من سجّل بلا بريد يدخل برقم هاتفه. الفارغ = لا بريد. */
+  email?: string | null
   password: string
   fullName: string
   phone?: string | null
@@ -28,11 +29,30 @@ export interface RequestMeta {
 
 /** تسجيل حساب طالب جديد (نوع FREE حتى يستعمل كود فوج). */
 export async function registerStudent(db: Db, input: RegisterInput, meta: RequestMeta = {}) {
-  const email = input.email.trim().toLowerCase()
+  // لا يُكتب بريد وهمي أبدًا: الغائب يُخزَّن NULL (القيد الفريد يسمح بعدة NULL)
+  const email = input.email?.trim().toLowerCase() || null
+  // بلا بريد يصير الهاتف هو المعرّف الوحيد للدخول والاستعادة
+  if (!email && !input.phone) throw new AppError('VALIDATION', { field: 'phone' })
   if (!isStrongEnough(input.password)) throw new AppError('WEAK_PASSWORD')
 
-  const existing = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1)
-  if (existing.length > 0) throw new AppError('EMAIL_TAKEN')
+  if (email) {
+    const existing = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1)
+    if (existing.length > 0) throw new AppError('EMAIL_TAKEN')
+  }
+  if (input.phone) {
+    /**
+     * رقم مؤكَّد (برمز SMS) هو المعرّف الوحيد لحساب بلا بريد ⇒ لا يتقاسمه حسابان، وإلا تعذّرت استعادة كلمة السر بالهاتف
+     * (الاستعادة ترفض الرقم المشترك). الرقم غير المؤكَّد لا يحجز شيئًا: من كتب رقم غيره لا يمنع صاحبه من التسجيل،
+     * ومن لم يكمل تسجيله الأول يعيده. حسابان ببريدين يتقاسمان رقمًا: كما كان قبل هذا التغيير.
+     */
+    const holders = await db
+      .select({ email: users.email })
+      .from(profiles)
+      .innerJoin(users, eq(users.id, profiles.userId))
+      .where(and(eq(profiles.phone, input.phone), isNotNull(profiles.phoneVerifiedAt), isNull(users.deletedAt)))
+      .limit(20)
+    if (holders.some((h) => !email || !h.email)) throw new AppError('PHONE_TAKEN')
+  }
   // الشعبة إلزامية للثانوي (رموز المستويات …AS): تحدّد الكتب والدورات المسموح بطلبها
   if (input.levelId) {
     const [lv] = await db.select({ code: levels.code }).from(levels).where(eq(levels.id, input.levelId)).limit(1)
@@ -70,22 +90,33 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
   return { ...result, session }
 }
 
-/** رقم هاتف جزائري (05/06/07) بصيغه الشائعة، أو null */
+/** رقم هاتف جزائري (05/06/07) بصيغه الشائعة (ومنها الأرقام الهندية ٠-٩ كما يقبلها تسجيل التطبيق)، أو null */
 export function loginPhone(raw: string): string | null {
-  const p = raw.replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
+  const p = raw.replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x660)).replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
   return /^0[5-7]\d{8}$/.test(p) ? p : null
 }
 
 /**
+ * هوية قفل محاولات الدخول: الرقم بعد توحيده (فلا تُفتح عدّادات جديدة بكتابة الرقم نفسه بصيغ مختلفة)، أو البريد.
+ * المفتاح بصمة (sha256)، لا الهوية نفسها. الحدّان متساويان (RATE_LIMITS.loginPhone = loginEmail).
+ */
+export function loginIdentity(raw: string): { scope: 'login-phone' | 'login-email'; subject: string } {
+  const ident = raw.trim()
+  const phone = ident.includes('@') ? null : loginPhone(ident)
+  return phone ? { scope: 'login-phone', subject: sha256(phone) } : { scope: 'login-email', subject: sha256(ident.toLowerCase()) }
+}
+
+/**
  * الدخول بالبريد أو بالهاتف (قرار المالك 2 نوفمبر 2026: حسابات المدارس والشركاء تُرسَل لهم برقم وكلمة سر).
- * بالهاتف: كل حساب يحمل هذا الرقم في ملفه، ويُقبل منها الذي تطابق كلمة سرّه.
+ * بالهاتف: كل حساب يحمل هذا الرقم في ملفه، ويُقبل منها الذي تطابق كلمة سرّه. من أكّد الرقم يُفحص أولًا:
+ * الحساب المسجَّل بالهاتف وحده لا طريق آخر له، فلا تزيحه حسابات غير مؤكَّدة كُتب فيها رقمه.
  */
 export async function login(db: Db, input: { email: string; password: string }, meta: RequestMeta = {}) {
   const ident = input.email.trim()
   const phone = ident.includes('@') ? null : loginPhone(ident)
   const cols = { id: users.id, passwordHash: users.passwordHash, status: users.status, role: users.role, deletedAt: users.deletedAt }
   const candidates = phone
-    ? await db.select(cols).from(users).innerJoin(profiles, eq(profiles.userId, users.id)).where(and(eq(profiles.phone, phone), isNull(users.deletedAt))).orderBy(desc(users.lastLoginAt)).limit(5)
+    ? await db.select(cols).from(users).innerJoin(profiles, eq(profiles.userId, users.id)).where(and(eq(profiles.phone, phone), isNull(users.deletedAt))).orderBy(sql`${profiles.phoneVerifiedAt} is null`, desc(users.lastLoginAt)).limit(5)
     : await db.select(cols).from(users).where(eq(users.email, ident.toLowerCase())).limit(1)
   // نُشغّل التحقق حتى عند غياب المستخدم لتقليل فرق التوقيت
   if (candidates.length === 0) verifyPassword(input.password, DUMMY_HASH)
@@ -108,6 +139,7 @@ const RESET_TTL_MS = 30 * 60 * 1000
 /**
  * طلب إعادة تعيين كلمة السر: يُرسل رابطاً برمز عشوائي (يُخزَّن مجزّأً) صالحاً 30 دقيقة.
  * لا يكشف وجود البريد: النتيجة واحدة دائماً. الحدّ من المحاولات يتم في طبقة الـAction.
+ * الحساب المسجَّل بالهاتف وحده لا بريد له فلا يطابقه أي عنوان: نفس الرد ولا رسالة، واستعادته بالهاتف (phone-recovery).
  */
 export async function requestPasswordReset(db: Db, email: string, meta: RequestMeta = {}, now: Date = new Date()): Promise<{ sent: boolean }> {
   const normalized = email.trim().toLowerCase()

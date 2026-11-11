@@ -10,7 +10,7 @@
  */
 import { and, desc, eq, gte, ilike, inArray, isNull, lt, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { content, courseEnrollments, courses, mediaViews, profiles, sessions, students, users } from '@/server/db/schema'
+import { content, courseEnrollments, courses, mediaViews, profiles, sessions, students, users, userEmailText } from '@/server/db/schema'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError } from '@/server/lib/errors'
@@ -69,7 +69,7 @@ function dayRange(date: string): { from: Date; to: Date } {
 
 export async function traceLeak(db: Db, actor: Actor, query: LeakQuery, now: Date = new Date()): Promise<{ query: LeakQuery; matches: LeakMatch[]; truncated: boolean }> {
   assertRole(actor, 'SUPER_ADMIN')
-  const cols = { id: users.id, email: users.email, role: users.role, status: users.status, createdAt: users.createdAt, lastLoginAt: users.lastLoginAt, fullName: profiles.fullName, phone: profiles.phone }
+  const cols = { id: users.id, email: userEmailText, role: users.role, status: users.status, createdAt: users.createdAt, lastLoginAt: users.lastLoginAt, fullName: profiles.fullName, phone: profiles.phone }
   const where =
     query.kind === 'code' ? sql`${users.id}::text like ${query.value + '%'}`
       : query.kind === 'phone' ? sql`regexp_replace(coalesce(${profiles.phone}, ''), '\\D', '', 'g') like ${'%' + query.value}`

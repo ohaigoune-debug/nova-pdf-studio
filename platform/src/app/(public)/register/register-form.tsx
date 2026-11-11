@@ -19,8 +19,8 @@ export function RegisterForm({ wilayas, levels, streams, referral }: { wilayas: 
       <Field label={t('auth.fullName')} htmlFor="fullName" error={fieldError(state, 'fullName')}>
         <Input id="fullName" name="fullName" autoComplete="name" required />
       </Field>
-      <Field label={t('common.email')} htmlFor="email" error={fieldError(state, 'email')}>
-        <Input id="email" name="email" type="email" autoComplete="email" required dir="ltr" />
+      <Field label={`${t('common.email')} (${t('common.optional')})`} htmlFor="email" error={fieldError(state, 'email')} hint={t('auth.emailOptionalHint')}>
+        <Input id="email" name="email" type="email" autoComplete="email" dir="ltr" />
       </Field>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="هاتفك" htmlFor="phone" error={fieldError(state, 'phone')} hint="05 / 06 / 07 — يصلك عليه رمز تأكيد">

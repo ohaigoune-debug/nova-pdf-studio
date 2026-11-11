@@ -6,7 +6,7 @@
  */
 import { and, asc, desc, eq, inArray, isNull } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { courseStaff, courses, profiles, teacherWorkspaces, teachers, users } from '@/server/db/schema'
+import { courseStaff, courses, profiles, teacherWorkspaces, teachers, users, userEmailText } from '@/server/db/schema'
 import { hashPassword, isStrongEnough } from '@/server/auth/password'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
@@ -81,7 +81,7 @@ export interface UploaderRow {
 export async function listContentUploaders(db: Db, actor: Actor): Promise<UploaderRow[]> {
   assertRole(actor, 'SUPER_ADMIN')
   const rows = await db
-    .select({ id: users.id, email: users.email, status: users.status, fullName: profiles.fullName, phone: profiles.phone, createdAt: users.createdAt })
+    .select({ id: users.id, email: userEmailText, status: users.status, fullName: profiles.fullName, phone: profiles.phone, createdAt: users.createdAt })
     .from(users)
     .leftJoin(profiles, eq(profiles.userId, users.id))
     .where(eq(users.role, 'CONTENT_UPLOADER'))
@@ -101,7 +101,7 @@ export async function courseUploaders(db: Db, actor: Actor, courseId: string): P
   assertRole(actor, 'SUPER_ADMIN')
   assertUuid(courseId, 'COURSE_NOT_FOUND')
   return db
-    .select({ id: users.id, fullName: profiles.fullName, email: users.email })
+    .select({ id: users.id, fullName: profiles.fullName, email: userEmailText })
     .from(courseStaff)
     .innerJoin(users, eq(users.id, courseStaff.userId))
     .leftJoin(profiles, eq(profiles.userId, users.id))

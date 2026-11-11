@@ -1,9 +1,8 @@
 import { z } from 'zod'
 import { getDb } from '@/server/db/client'
-import { sha256 } from '@/server/lib/codes'
 import { AppError } from '@/server/lib/errors'
 import { RATE_LIMITS, checkRateLimit, resetRateLimit } from '@/server/lib/rate-limit'
-import { login } from '@/server/services/auth.service'
+import { login, loginIdentity } from '@/server/services/auth.service'
 import { jsonError, jsonOk } from '../../_lib'
 import { clientIp } from '@/server/lib/client-ip'
 
@@ -19,11 +18,12 @@ export async function POST(req: Request) {
     if (!parsed.success) throw new AppError('VALIDATION')
     const db = await getDb()
     const ip = clientIp(req.headers) ?? 'unknown'
-    const emailKey = sha256(parsed.data.email.trim().toLowerCase())
+    // قفل الهوية: بالرقم الموحَّد لمن يدخل بهاتفه، وبالبريد لغيره — بالحدّ نفسه
+    const identity = loginIdentity(parsed.data.email)
     await checkRateLimit(db, { scope: 'login-ip', subject: ip, ...RATE_LIMITS.loginIp })
-    await checkRateLimit(db, { scope: 'login-email', subject: emailKey, ...RATE_LIMITS.loginEmail })
+    await checkRateLimit(db, { ...identity, ...(identity.scope === 'login-phone' ? RATE_LIMITS.loginPhone : RATE_LIMITS.loginEmail) })
     const r = await login(db, { email: parsed.data.email, password: parsed.data.password }, { userAgent: req.headers.get('user-agent'), ip: ip === 'unknown' ? null : ip })
-    await resetRateLimit(db, 'login-email', emailKey)
+    await resetRateLimit(db, identity.scope, identity.subject)
     return jsonOk({ token: r.session.token, expiresAt: r.session.expiresAt.toISOString(), role: r.role })
   } catch (err) {
     return jsonError(err)
