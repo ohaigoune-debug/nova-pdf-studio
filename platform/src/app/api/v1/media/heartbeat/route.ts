@@ -12,10 +12,14 @@ const schema = z.object({
   viewerKey: z.string().min(8).max(64),
   position: z.number().min(0).max(24 * 3600),
   delta: z.number().min(0).max(120),
-  completed: z.boolean().optional()
+  completed: z.boolean().optional(),
+  refreshEmbed: z.boolean().optional()
 })
 
-/** POST /api/v1/media/heartbeat — نبضة مشاهدة (كل 45 ثانية في الموقع أثناء التشغيل) + كشف تعدّد الأجهزة */
+/**
+ * POST /api/v1/media/heartbeat — نبضة مشاهدة (كل 45 ثانية في الموقع أثناء التشغيل) + كشف تعدّد الأجهزة.
+ * مع refreshEmbed: true يُرجع أيضًا `embed: { url, expires }` (رابط Bunny جديد لخمس دقائق) إن كان الفيديو من Bunny.
+ */
 export async function POST(req: Request) {
   try {
     assertSameOrigin(req)
