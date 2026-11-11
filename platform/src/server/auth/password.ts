@@ -36,8 +36,11 @@ export async function verifyPassword(password: string, stored: string): Promise<
   let actual: Buffer
   try {
     actual = await derive(password, salt, expected.length, { N: n, r, p })
-  } catch {
-    // معاملات مخزّنة تالفة (N ليس قوة 2، قيم غير رقمية…): رفض لا خطأ خادم
+  } catch (err) {
+    // معاملات مخزّنة تالفة (N ليس قوة 2، قيم غير رقمية…) أو فشل داخلي في scrypt: رفض دائماً، لا قبول أبداً.
+    // يُسجَّل السبب (بلا كلمة السر ولا التجزئة) كي لا يظهر عطل داخلي على أنه «كلمة سر خاطئة» بصمت.
+    const e = err as { code?: string; message?: string }
+    console.error('[password] تعذّر التحقق (scrypt):', e?.code ?? '', e?.message ?? String(err))
     return false
   }
   return actual.length === expected.length && timingSafeEqual(actual, expected)

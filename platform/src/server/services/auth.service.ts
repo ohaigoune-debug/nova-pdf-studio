@@ -44,10 +44,13 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
     if (!st) throw new AppError('VALIDATION', { field: 'streamId' })
   }
 
+  // التجزئة قبل فتح المعاملة: scrypt غير المتزامن ينتظر خيوط libuv (4)، ولو انتظر داخل المعاملة لبقي
+  // اتصال من المجمّع (10) محجوزاً خاملاً طوال الانتظار، فتستنزف موجة تسجيلات كل الاتصالات.
+  const passwordHash = await hashPassword(input.password)
   const result = await db.transaction(async (tx) => {
     const [user] = await tx
       .insert(users)
-      .values({ email, passwordHash: await hashPassword(input.password), role: 'STUDENT', lastLoginAt: new Date() })
+      .values({ email, passwordHash, role: 'STUDENT', lastLoginAt: new Date() })
       .returning({ id: users.id })
     if (!user) throw new AppError('INTERNAL')
     await tx.insert(profiles).values({ userId: user.id, fullName: input.fullName.trim(), phone: input.phone ?? null })
