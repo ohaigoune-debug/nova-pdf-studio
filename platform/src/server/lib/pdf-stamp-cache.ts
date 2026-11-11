@@ -142,7 +142,7 @@ export async function getOrCreateStamped(key: string, produce: () => Promise<Buf
         await writeAtomic(key, out)
         bytesSinceSweep += out.length
         // السقف لا ينتظر مهمة الصيانة اليومية: كلما كُتب 1/16 منه يُفحص الحجم في الخلفية
-        if (bytesSinceSweep >= max / 16) void sweepStampCache().catch(() => {})
+        if (bytesSinceSweep >= max / 16) scheduleSweep()
       } catch (err) {
         if (!warned) {
           warned = true
@@ -156,6 +156,28 @@ export async function getOrCreateStamped(key: string, produce: () => Promise<Buf
   }
   const out = await job
   return { size: out.length, body: new Uint8Array(out), hit: false }
+}
+
+/**
+ * تنظيف في الخلفية تطلبه الكتابة: جولة واحدة جارية على الأكثر. كتابات تكتمل أثناء جولة جارية لا تصفّ
+ * جولة لكلٍّ منها (كانت تنطلق كلها معاً فتمسح المجلد مئات المرات وتشغل خيوط libuv، ويتجاوز الكاش سقفه
+ * أضعافاً)؛ بل تُعاد جولة واحدة بعد انتهاء الجارية إن كُتب خلالها ما يبلغ العتبة.
+ */
+let sweepScheduled = false
+function scheduleSweep(): void {
+  if (sweepScheduled) return
+  sweepScheduled = true
+  void (async () => {
+    try {
+      do {
+        await sweepStampCache()
+      } while (bytesSinceSweep >= stampCacheMaxBytes() / 16)
+    } catch {
+      /* يُعاد عند الكتابة القادمة أو في مهمة الصيانة اليومية */
+    } finally {
+      sweepScheduled = false
+    }
+  })()
 }
 
 export interface StampCacheSweep {
