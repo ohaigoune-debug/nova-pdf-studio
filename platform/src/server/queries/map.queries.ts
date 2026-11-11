@@ -1,6 +1,7 @@
 import { count, eq, isNull } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { students, users, wilayas } from '@/server/db/schema'
+import { ttlMemo } from '@/server/lib/ttl-cache'
 
 export interface WilayaCount {
   code: string
@@ -24,4 +25,13 @@ export async function studentsPerWilaya(db: Db): Promise<WilayaCount[]> {
   ])
   const byId = new Map(counts.map((c) => [c.wilayaId, Number(c.n)]))
   return all.map((w) => ({ code: w.code, name: w.name, students: byId.get(w.id) ?? 0 })).sort((a, b) => a.code.localeCompare(b.code))
+}
+
+/**
+ * الخريطة في الصفحة الرئيسية العامة: الأعداد نفسها لكل زائر (مجاميع بلا أسماء ولا معرّفات تلاميذ)، وكانت تُحسب
+ * بعدّ كل التلاميذ عند كل زيارة. تُحفظ دقيقة في كل عملية: عدّاد الصفحة الرئيسية قد يتأخّر دقيقة واحدة على الأكثر.
+ * لوحة المشرف تبقى على studentsPerWilaya مباشرةً (أرقام فورية).
+ */
+export async function publicStudentsPerWilaya(db: Db): Promise<WilayaCount[]> {
+  return [...(await ttlMemo('public:wilaya-map', 60_000, () => studentsPerWilaya(db)))]
 }

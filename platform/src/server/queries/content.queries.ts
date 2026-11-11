@@ -2,6 +2,7 @@ import { and, desc, eq, ilike, inArray, isNotNull, isNull, or } from 'drizzle-or
 import type { Db } from '@/server/db/connect'
 import { content, files, levels, profiles, users } from '@/server/db/schema'
 import type { ContentType } from '@/server/db/schema/enums'
+import { ttlMemo } from '@/server/lib/ttl-cache'
 
 export interface ContentCard {
   id: string
@@ -51,6 +52,18 @@ export async function listPublicContent(db: Db, opts: { types?: ContentType[]; s
     )
     .orderBy(desc(content.publishedAt))
     .limit(opts.limit ?? 60)
+}
+
+/** عدد بطاقات «أحدث الدروس» في الصفحة الرئيسية */
+export const HOME_LATEST_LIMIT = 6
+
+/**
+ * «أحدث الدروس» في الصفحة الرئيسية العامة: المنشور للعموم فقط (الشرط نفسه في listPublicContent)، والقائمة نفسها
+ * لكل زائر، فتُحفظ دقيقة في كل عملية بدل استعلام بأربعة جداول عند كل زيارة. درس نُشر أو سُحب يظهر أثره في
+ * الصفحة الرئيسية خلال دقيقة على الأكثر؛ صفحة الدرس نفسها تقرأ القاعدة دائمًا (المسحوب لا يُفتح).
+ */
+export async function latestPublicContent(db: Db): Promise<ContentCard[]> {
+  return [...(await ttlMemo(`public:latest:${HOME_LATEST_LIMIT}`, 60_000, () => listPublicContent(db, { limit: HOME_LATEST_LIMIT })))]
 }
 
 export async function getPublicContentBySlug(db: Db, slug: string) {

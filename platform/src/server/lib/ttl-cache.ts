@@ -15,7 +15,8 @@ export function ttlMemo<T>(key: string, ttlMs: number, compute: () => Promise<T>
   const now = Date.now()
   const hit = store.get(key)
   if (hit && now - hit.at < ttlMs) return hit.value as Promise<T>
-  const value = compute()
+  // Promise.resolve: استعلام drizzle «thenable» يُنفَّذ من جديد عند كل await — يُحفظ وعدٌ حقيقيّ بنتيجته مرة واحدة
+  const value = Promise.resolve(compute())
   store.set(key, { at: now, value })
   value.catch(() => {
     if (store.get(key)?.value === value) store.delete(key)

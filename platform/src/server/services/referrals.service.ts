@@ -20,6 +20,7 @@ import type { PromoCodeKind, ReferralRewardKind, ReferralSource } from '@/server
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
+import { ttlDelete, ttlMemo } from '@/server/lib/ttl-cache'
 import { notify } from './notifications.service'
 
 /* ───────────── سياسة البرنامج (يضبطها المشرف) ───────────── */
@@ -60,6 +61,16 @@ export async function referralPolicy(db: Db): Promise<ReferralPolicy> {
   }
 }
 
+const POLICY_DISPLAY_KEY = 'public:referral-policy'
+
+/**
+ * للعرض فقط في صفحة التسجيل (هل البرنامج مفعّل، وكم رصيد الترحيب): إعداد واحد لكل الزوّار، يُحفظ 30 ثانية
+ * ويُبطَل فور تعديله في العملية نفسها. كل قرار ماليّ (قبول الكود، منح الرصيد) يقرأ referralPolicy من القاعدة مباشرةً.
+ */
+export function referralPolicyForDisplay(db: Db): Promise<ReferralPolicy> {
+  return ttlMemo(POLICY_DISPLAY_KEY, 30_000, () => referralPolicy(db))
+}
+
 /** المبالغ والمدد للمشرف وحده (لا لمدير العمليات) */
 export async function setReferralPolicy(db: Db, actor: Actor, input: Partial<ReferralPolicy>): Promise<ReferralPolicy> {
   assertRole(actor, 'SUPER_ADMIN')
@@ -82,6 +93,7 @@ export async function setReferralPolicy(db: Db, actor: Actor, input: Partial<Ref
     .insert(appSettings)
     .values({ key: POLICY_KEY, value: next })
     .onConflictDoUpdate({ target: appSettings.key, set: { value: next, updatedAt: new Date() } })
+  ttlDelete(POLICY_DISPLAY_KEY)
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'settings.referral_policy', entityType: 'settings', entityId: null, oldValue: { ...prev }, newValue: { ...next } })
   return next
 }
