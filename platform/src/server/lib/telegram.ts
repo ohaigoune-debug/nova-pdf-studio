@@ -44,8 +44,8 @@ export async function telegramConfig(db: Db): Promise<TelegramConfig> {
 
 export class TelegramError extends Error {}
 
-async function api<T = unknown>(token: string, method: string, body: Record<string, unknown>, fetchImpl: typeof fetch = fetch): Promise<T> {
-  const res = await fetchImpl(`${API}/bot${token}/${method}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(15_000) })
+async function api<T = unknown>(token: string, method: string, body: Record<string, unknown>, fetchImpl: typeof fetch = fetch, timeoutMs = 15_000): Promise<T> {
+  const res = await fetchImpl(`${API}/bot${token}/${method}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(timeoutMs) })
   const json = (await res.json().catch(() => null)) as { ok?: boolean; result?: T; description?: string } | null
   if (!res.ok || !json?.ok) throw new TelegramError(json?.description ?? `Telegram HTTP ${res.status}`)
   return json.result as T
@@ -95,4 +95,25 @@ export async function sendTelegram(db: Db, text: string, opts: { fetchImpl?: typ
     if (process.env.NODE_ENV !== 'test') console.error('[telegram]', e instanceof Error ? e.message : e)
     return false
   }
+}
+
+/** بيانات الإرسال كما هي محفوظة (الرمز مختوم): تُحفظ في ذاكرة العملية ليُرسَل تنبيه حتى والقاعدة متوقفة */
+export interface TelegramCredentials {
+  chatId: string
+  tokenSealed: string
+}
+
+/** null إن كان البوت غير مفعّل أو ناقص الإعداد. يرمي إن تعذّرت قراءة القاعدة. */
+export async function loadTelegramCredentials(db: Db): Promise<TelegramCredentials | null> {
+  const s = await readStored(db)
+  if (!s?.enabled || !s.tokenSealed || !s.chatId) return null
+  return { chatId: s.chatId, tokenSealed: s.tokenSealed }
+}
+
+/** إرسال ببيانات محمَّلة مسبقاً، بلا قراءة من القاعدة وبمهلة قصيرة. يرمي عند الفشل (المستدعي يبتلع). */
+export async function sendTelegramWith(creds: TelegramCredentials, text: string, opts: { fetchImpl?: typeof fetch; timeoutMs?: number } = {}): Promise<boolean> {
+  const token = unseal(creds.tokenSealed, SEAL_PURPOSE)
+  if (!token) return false
+  await api(token, 'sendMessage', { chat_id: creds.chatId, text: text.slice(0, 4000), disable_web_page_preview: true }, opts.fetchImpl, opts.timeoutMs ?? 5_000)
+  return true
 }
