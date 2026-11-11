@@ -68,12 +68,17 @@ export interface ServerErrorEvent {
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
+/** أقصى ما يُفحص من الرسالة (الناتج 160 حرفاً على الأكثر) */
+const SCRUB_INPUT_MAX = 1000
+
 /** يحذف ما قد يكون بياناً شخصياً أو سرّاً من نص حرّ، ثم يقصّه */
 export function scrubText(input: unknown, max = 160): string {
   let s = typeof input === 'string' ? input : ''
   // Drizzle يُلحق قيم الاستعلام بالرسالة («params: …») وقد تحوي هواتف وعناوين بريد
   const p = s.search(/\bparams\s*:/i)
   if (p >= 0) s = s.slice(0, p)
+  // سقف قبل التعابير النمطية: كلفتها تربيعية على نص طويل بلا فراغات، وهذه الدالة تُستدعى داخل الطلب (toAppError)
+  if (s.length > SCRUB_INPUT_MAX) s = s.slice(0, SCRUB_INPUT_MAX)
   s = s
     .replace(/[\r\n\t]+/g, ' ')
     .replace(/[a-z][a-z0-9+.-]*:\/\/\S+/gi, '[url]')

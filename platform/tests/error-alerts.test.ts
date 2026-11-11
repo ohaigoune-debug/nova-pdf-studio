@@ -238,6 +238,19 @@ describe('error alerts: no sensitive data', () => {
 })
 
 describe('error alerts: the alert path never breaks a request', () => {
+  it('scrubbing a very long error message does not block the request (bounded work, still redacted)', () => {
+    // toAppError يستدعي المصبّ داخل الطلب نفسه: التنقية يجب أن تبقى خطّية مهما طالت الرسالة
+    for (const blob of ['x'.repeat(300_000), '7'.repeat(300_000), 'x'.repeat(150_000) + '@' + 'y'.repeat(150_000) + '.dz']) {
+      const t = performance.now()
+      const out = scrubText(`upstream said ${blob}`)
+      expect(performance.now() - t).toBeLessThan(500)
+      expect(out.length).toBeLessThanOrEqual(160)
+      expect(out).not.toMatch(/x{24}|7{8}/)
+    }
+    // ما بعد «params:» يُحذف حتى إن جاء بعد نص استعلام طويل
+    expect(scrubText(`Failed query: select ${'col, '.repeat(2000)}\nparams: student@example.dz,0555123456`)).not.toMatch(/student|0555/)
+  })
+
   it('a throwing sender does not propagate, and the alert is retried after a minute instead of a full cool-down', async () => {
     let calls = 0
     setErrorAlertSenderForTests(async () => {
