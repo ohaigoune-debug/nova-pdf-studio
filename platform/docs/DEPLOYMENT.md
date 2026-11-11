@@ -199,10 +199,39 @@ docker compose -f docker-compose.prod.yml logs backup     # سجلّ الخدم�
 
 لا تُعتمد نسخة إلا بعد التحقق من اكتمالها (علامة نهاية `pg_dump` وقراءة الأرشيف كاملاً)، ولا يُحذف القديم إلا بعد نجاح الجديد. فشل النسخ يترك ما عندك سليماً ويُسجّل السبب.
 
-> **انسخها خارج الخادم.** نسخة على نفس القرص تحميك من الخطأ البشري وبطلان الهجرة، لا من تلف القرص:
-> ```sh
-> rsync -az backups/ you@somewhere:/backups/madrasa/     # أو rclone إلى R2/Drive
-> ```
+#### النسخ خارج الخادم (Google Drive)
+
+نسخة على القرص نفسه تحميك من الخطأ البشري وبطلان الهجرة، لا من تلف القرص أو فقدان الخادم. خدمة `offsite` ترفع أحدث النسخ إلى Google Drive كل 6 ساعات: آخر 14 نسخة من القاعدة وآخر نسختين من المرفوعات (المرفوعات كبيرة، وDrive المجاني 15 غيغا). الإعداد مرة واحدة:
+
+1. **على حاسوبك** (لا على الخادم، لأن الربط يفتح متصفحًا): ثبّت [rclone](https://rclone.org/downloads/) ثم نفّذ `rclone config`، واختر `n` (وجهة جديدة)، الاسم `gdrive`، النوع `drive`، واترك الباقي على الافتراضي، ووافق في المتصفح بحساب Google الذي تريد النسخ إليه.
+2. اعرض مكان ملف الإعداد بـ `rclone config file`، وانسخ هذا الملف إلى الخادم:
+   ```sh
+   scp rclone.conf root@SERVER:/opt/madrasa/platform/rclone/rclone.conf
+   ```
+   الملف فيه رمز وصول إلى حسابك: مجلد `rclone/` مستثنى من Git، ولا يُرسَل لأحد.
+3. **على الخادم** أضف إلى `.env`:
+   ```sh
+   OFFSITE_REMOTE=gdrive:madrasa-backups
+   ```
+4. شغّل الخدمة وجرّب دورة واحدة:
+   ```sh
+   docker compose -f docker-compose.prod.yml up -d offsite
+   docker compose -f docker-compose.prod.yml run --rm offsite --once
+   ```
+   يجب أن ينتهي السجل بسطر `✔ الوجهة محدَّثة`، وأن يظهر مجلد `madrasa-backups` في Drive وفيه ملف `db-….sql.gz` وملف `uploads-….tar.gz`.
+
+المتابعة: `docker compose -f docker-compose.prod.yml logs --tail 20 offsite`. بلا إعداد تكتب الخدمة «غير مُعَدّ» وتنتظر، ولا تُفشل النشر. لا يُحذف شيء من Drive إلا بعد نجاح رفع الجديد.
+
+#### تنظيف مخلّفات Docker
+
+كل نشر يترك ذاكرة بناء (build cache) تتراكم حتى تملأ القرص: بلغت 83 غيغا في نوفمبر 2026. أضف إلى crontab الخادم (`crontab -e`) تنظيفًا أسبوعيًا يُبقي ذاكرة آخر أسبوع فيبقى النشر سريعًا:
+
+```sh
+# كل أحد 04:00 — يحذف ذاكرة البناء الأقدم من 7 أيام فقط؛ لا يمسّ الحاويات ولا الصور المستعملة ولا البيانات
+0 4 * * 0 docker builder prune -af --filter until=168h >/var/log/docker-prune.log 2>&1
+```
+
+لا تستعمل `docker system prune -a` ولا `--volumes`: الأول يحذف صور الرجوع، والثاني قد يحذف البيانات.
 
 ### الاستعادة — جرّبها مرة قبل أن تحتاجها
 

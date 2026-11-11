@@ -153,7 +153,7 @@ export async function addPosMember(db: Db, actor: Actor, posId: string, input: {
   const password = generateReadablePassword()
   const email = `pos-${randomUUID()}@accounts.madrasadz.com`
   const userId = await db.transaction(async (tx) => {
-    const [u] = await tx.insert(users).values({ email, passwordHash: hashPassword(password), role: 'POINT_OF_SALE' }).returning({ id: users.id })
+    const [u] = await tx.insert(users).values({ email, passwordHash: await hashPassword(password), role: 'POINT_OF_SALE' }).returning({ id: users.id })
     if (!u) throw new AppError('INTERNAL')
     await tx.insert(profiles).values({ userId: u.id, fullName, phone })
     await tx.insert(posMembers).values({ posId: pos.id, userId: u.id })
@@ -170,7 +170,7 @@ export async function resetPosMemberPassword(db: Db, actor: Actor, userId: strin
   const [m] = await db.select({ posId: posMembers.posId, posName: pointsOfSale.name, phone: profiles.phone }).from(posMembers).innerJoin(pointsOfSale, eq(pointsOfSale.id, posMembers.posId)).leftJoin(profiles, eq(profiles.userId, posMembers.userId)).where(eq(posMembers.userId, userId)).limit(1)
   if (!m || !m.phone) throw new AppError('NOT_FOUND')
   const password = generateReadablePassword()
-  await db.update(users).set({ passwordHash: hashPassword(password), status: 'ACTIVE', updatedAt: new Date() }).where(eq(users.id, userId))
+  await db.update(users).set({ passwordHash: await hashPassword(password), status: 'ACTIVE', updatedAt: new Date() }).where(eq(users.id, userId))
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'pos.member_reset', entityType: 'point_of_sale', entityId: m.posId, newValue: { userId } })
   return { userId, phone: m.phone, password, whatsappUrl: credentialsWhatsapp({ posName: m.posName, phone: m.phone, password }) }
 }

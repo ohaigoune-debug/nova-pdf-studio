@@ -2,7 +2,7 @@ import { ShieldCheck } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { t } from '@/i18n'
 import type { Actor } from '@/server/lib/actor'
-import { ANON_VIEWER, signMediaUrl } from '@/server/services/media.service'
+import { ANON_VIEWER, signMediaUrl, signPdfMediaUrl } from '@/server/services/media.service'
 import { BunnyMedia } from './bunny-media'
 import { SecurePdfViewer } from './secure-pdf-viewer'
 import { SecureVideoPlayer, SecureYouTubePlayer } from './secure-video-player'
@@ -49,7 +49,7 @@ function FilePart({ item, actor }: { item: LessonMediaItem; actor: Actor | null 
   if (!item.fileId || !item.fileMime) return null
   if (item.fileStatus && item.fileStatus !== 'READY') return <p className="text-sm text-muted-foreground">{t('errors.MEDIA_NOT_READY')}</p>
   const viewerId = actor?.userId ?? ANON_VIEWER
-  const src = signMediaUrl(item.fileId, item.id, viewerId)
+  const src = item.fileMime === 'application/pdf' ? signPdfMediaUrl(item.fileId, item.id, viewerId) : signMediaUrl(item.fileId, item.id, viewerId)
   const date = new Date().toISOString().slice(0, 10)
   const watermark = actor ? [actor.email || actor.fullName, `${date} · ${actor.userId.slice(0, 8)}`] : ['madrasa · public', date]
   const track = !!actor

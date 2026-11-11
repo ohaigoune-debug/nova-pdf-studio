@@ -28,7 +28,7 @@ export async function seedReference(db: Db) {
 
 export async function makeAdmin(db: Db): Promise<Actor> {
   const email = uniq('admin') + '@test.dz'
-  const [u] = await db.insert(users).values({ email, passwordHash: hashPassword('Admin@12345'), role: 'SUPER_ADMIN' }).returning()
+  const [u] = await db.insert(users).values({ email, passwordHash: await hashPassword('Admin@12345'), role: 'SUPER_ADMIN' }).returning()
   if (!u) throw new Error('admin insert failed')
   await db.insert(profiles).values({ userId: u.id, fullName: 'المشرف العام' })
   return actorOf(db, u.id)

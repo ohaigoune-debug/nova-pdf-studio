@@ -9,8 +9,8 @@ import { homeFor } from '@/lib/role-home'
 import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
-import { listPublicContent } from '@/server/queries/content.queries'
-import { studentsPerWilaya } from '@/server/queries/map.queries'
+import { latestPublicContent } from '@/server/queries/content.queries'
+import { publicStudentsPerWilaya } from '@/server/queries/map.queries'
 
 export const dynamic = 'force-dynamic'
 
@@ -82,7 +82,7 @@ export default async function HomePage() {
   if (actor && ['SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'TEACHER', 'ASSISTANT'].includes(actor.role)) redirect(homeFor(actor.role))
   const student = actor?.role === 'STUDENT'
   const db = await getDb()
-  const [latest, map, apk, { t, locale }] = await Promise.all([listPublicContent(db, { limit: 6 }), studentsPerWilaya(db), appDownload(), getT()])
+  const [latest, map, apk, { t, locale }] = await Promise.all([latestPublicContent(db), publicStudentsPerWilaya(db), appDownload(), getT()])
   const reached = map.filter((w) => w.students > 0).length
   const totalStudents = map.reduce((sum, w) => sum + w.students, 0)
   const features = [

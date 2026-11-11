@@ -2,6 +2,7 @@ import { and, eq, isNotNull, lt, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { jobs, passwordResets, qrNonces, sessions } from '@/server/db/schema'
 import { enqueueJob } from '@/server/jobs/queue'
+import { sweepStampCache } from '@/server/lib/pdf-stamp-cache'
 import { purgeRateLimits } from '@/server/lib/rate-limit'
 
 /**
@@ -16,6 +17,8 @@ export interface CleanupSummary {
   resets: number
   rateLimits: number
   jobs: number
+  /** نسخ PDF المختومة المحذوفة من الكاش (لم تُفتح منذ 30 يوماً أو فوق السقف) */
+  stampCache: number
 }
 
 export async function runCleanupJob(db: Db, now: Date = new Date()): Promise<CleanupSummary> {
@@ -31,7 +34,9 @@ export async function runCleanupJob(db: Db, now: Date = new Date()): Promise<Cle
     .delete(jobs)
     .where(and(sql`${jobs.status} in ('COMPLETED','FAILED')`, lt(jobs.createdAt, new Date(now.getTime() - 30 * day)), sql`${jobs.type} <> 'REPORT_EXPORT'`))
     .returning({ id: jobs.id })
-  return { sessions: s.length, nonces: n.length, resets: r.length, rateLimits: rl, jobs: j.length }
+  // كاش ختم PDF على القرص: فشله لا يُفشل تنظيف قاعدة البيانات
+  const sc = await sweepStampCache(now.getTime()).catch(() => null)
+  return { sessions: s.length, nonces: n.length, resets: r.length, rateLimits: rl, jobs: j.length, stampCache: sc?.removed ?? 0 }
 }
 
 /** يُدرج مهمة CLEANUP إن لم تُنفَّذ خلال آخر 24 ساعة ولم تكن في الطابور */

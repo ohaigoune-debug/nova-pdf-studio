@@ -76,7 +76,7 @@ export async function seedReferenceData(db: Db) {
 export async function ensureSuperAdmin(db: Db, email: string, password: string, fullName = 'مالك المنصة') {
   const [u] = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1)
   if (u) return u.id
-  const [row] = await db.insert(users).values({ email, passwordHash: hashPassword(password), role: 'SUPER_ADMIN' }).returning({ id: users.id })
+  const [row] = await db.insert(users).values({ email, passwordHash: await hashPassword(password), role: 'SUPER_ADMIN' }).returning({ id: users.id })
   if (!row) throw new Error('admin')
   await db.insert(profiles).values({ userId: row.id, fullName })
   return row.id

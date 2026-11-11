@@ -108,7 +108,7 @@ export async function createAffiliate(db: Db, actor: Actor, input: AffiliateInpu
   const password = generateReadablePassword()
   const email = `aff-${randomUUID()}@accounts.madrasadz.com`
   const out = await db.transaction(async (tx) => {
-    const [u] = await tx.insert(users).values({ email, passwordHash: hashPassword(password), role: 'AFFILIATE' }).returning({ id: users.id })
+    const [u] = await tx.insert(users).values({ email, passwordHash: await hashPassword(password), role: 'AFFILIATE' }).returning({ id: users.id })
     if (!u) throw new AppError('INTERNAL')
     await tx.insert(profiles).values({ userId: u.id, fullName, phone })
     const [a] = await tx
@@ -150,7 +150,7 @@ export async function resetAffiliatePassword(db: Db, actor: Actor, id: string): 
   if (!p?.phone) throw new AppError('NOT_FOUND')
   const code = (await createPromoCode(db, { ownerUserId: a.userId, kind: 'AFFILIATE' })).code
   const password = generateReadablePassword()
-  await db.update(users).set({ passwordHash: hashPassword(password), status: 'ACTIVE', updatedAt: new Date() }).where(eq(users.id, a.userId))
+  await db.update(users).set({ passwordHash: await hashPassword(password), status: 'ACTIVE', updatedAt: new Date() }).where(eq(users.id, a.userId))
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'affiliate.reset', entityType: 'affiliate', entityId: a.id, newValue: { userId: a.userId } })
   return { affiliateId: a.id, userId: a.userId, phone: p.phone, password, code, whatsappUrl: affiliateCredentialsWhatsapp({ name: p.name, phone: p.phone, password, code }) }
 }

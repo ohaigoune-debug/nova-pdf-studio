@@ -289,5 +289,12 @@ export function toAppError(err: unknown): AppError {
   if (process.env.NODE_ENV !== 'test') {
     console.error('[unhandled]', err)
   }
+  // المراقبة: ما يُبتلع هنا (الإجراءات ومسارات API) لا يمرّ بـ onRequestError، فيُبلَّغ عدّاد التنبيه من هنا.
+  // مصبّ على globalThis لا استيراد: هذا الملف يُستورد من كل مكان، والعدّاد يُركَّب عند إقلاع الخادم فقط.
+  try {
+    ;(globalThis as { __madrasaErrorSink?: (e: unknown) => void }).__madrasaErrorSink?.(err)
+  } catch {
+    /* المراقبة لا تُفشل الطلب */
+  }
   return new AppError('INTERNAL')
 }

@@ -24,7 +24,7 @@ export function deletedEmail(userId: string): string {
 export async function deleteOwnAccount(db: Db, userId: string, password: string): Promise<void> {
   const rows = await db.select({ role: users.role, passwordHash: users.passwordHash }).from(users).where(eq(users.id, userId)).limit(1)
   const row = rows[0]
-  if (!row || !verifyPassword(password, row.passwordHash)) throw new AppError('INVALID_CREDENTIALS')
+  if (!row || !(await verifyPassword(password, row.passwordHash))) throw new AppError('INVALID_CREDENTIALS')
   // الأستاذ والمشرف والمساعد يديرون بيانات غيرهم: حذف حساباتهم عبر الإدارة لا بزرّ
   if (row.role !== 'STUDENT') throw new AppError('FORBIDDEN')
 
@@ -32,7 +32,7 @@ export async function deleteOwnAccount(db: Db, userId: string, password: string)
     const now = new Date()
     await tx
       .update(users)
-      .set({ email: deletedEmail(userId), passwordHash: hashPassword(randomBytes(32).toString('hex')), status: 'DISABLED', emailVerifiedAt: null, deletedAt: now })
+      .set({ email: deletedEmail(userId), passwordHash: await hashPassword(randomBytes(32).toString('hex')), status: 'DISABLED', emailVerifiedAt: null, deletedAt: now })
       .where(eq(users.id, userId))
     await tx.update(profiles).set({ fullName: DELETED_NAME, phone: null, avatarUrl: null }).where(eq(profiles.userId, userId))
     const st = await tx
