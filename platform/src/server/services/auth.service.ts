@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto'
-import { and, desc, eq, isNotNull, isNull, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, isNotNull, isNull, ne, type SQL } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { levels, otpCodes, passwordResets, profiles, streams, students, users } from '@/server/db/schema'
 import { hashPassword, isStrongEnough, verifyPassword } from '@/server/auth/password'
@@ -8,6 +8,7 @@ import { writeActivity } from '@/server/lib/audit'
 import { sha256 } from '@/server/lib/codes'
 import { AppError } from '@/server/lib/errors'
 import { getMailer } from '@/server/lib/mailer'
+import { isPhoneVerifiedElsewhere } from './phone-ownership.service'
 
 export interface RegisterInput {
   /** اختياري (قرار المالك 10 نوفمبر 2026): من سجّل بلا بريد يدخل برقم هاتفه. الفارغ = لا بريد. */
@@ -41,17 +42,11 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
   }
   if (input.phone) {
     /**
-     * رقم مؤكَّد (برمز SMS) هو المعرّف الوحيد لحساب بلا بريد ⇒ لا يتقاسمه حسابان، وإلا تعذّرت استعادة كلمة السر بالهاتف
-     * (الاستعادة ترفض الرقم المشترك). الرقم غير المؤكَّد لا يحجز شيئًا: من كتب رقم غيره لا يمنع صاحبه من التسجيل،
-     * ومن لم يكمل تسجيله الأول يعيده. حسابان ببريدين يتقاسمان رقمًا: كما كان قبل هذا التغيير.
+     * قرار المالك 11 نوفمبر 2026: «الرقم الموثَّق لحساب واحد». رقم مؤكَّد لحساب ⇒ لا يُسجَّل به حساب آخر، ببريد أو بدونه.
+     * الرقم غير المؤكَّد لا يحجز شيئًا: من كتب رقم غيره لا يمنع صاحبه من التسجيل (وصاحبه يثبته برمز SMS)،
+     * ومن لم يكمل تسجيله الأول يعيده.
      */
-    const holders = await db
-      .select({ email: users.email })
-      .from(profiles)
-      .innerJoin(users, eq(users.id, profiles.userId))
-      .where(and(eq(profiles.phone, input.phone), isNotNull(profiles.phoneVerifiedAt), isNull(users.deletedAt)))
-      .limit(20)
-    if (holders.some((h) => !email || !h.email)) throw new AppError('PHONE_TAKEN')
+    if (await isPhoneVerifiedElsewhere(db, input.phone)) throw new AppError('PHONE_TAKEN')
   }
   // الشعبة إلزامية للثانوي (رموز المستويات …AS): تحدّد الكتب والدورات المسموح بطلبها
   if (input.levelId) {
@@ -109,18 +104,36 @@ export function loginIdentity(raw: string): { scope: 'login-phone' | 'login-emai
   return phone ? { scope: 'login-phone', subject: sha256(phone) } : { scope: 'login-email', subject: sha256(ident.toLowerCase()) }
 }
 
+/** أقصى عدد حسابات تُجرَّب كلمة السر عليها من كل فئة في دخول واحد بالهاتف (كل تجربة = حساب scrypt) */
+const PHONE_LOGIN_GROUP_LIMIT = 5
+
+const loginCols = { id: users.id, passwordHash: users.passwordHash, status: users.status, role: users.role, deletedAt: users.deletedAt }
+
+/**
+ * الحسابات التي يفتحها رقم هاتف (قرار المالك 11 نوفمبر 2026: «الرقم يُفتح به حساب واحد فقط»):
+ *   1. الحساب الذي أكّد الرقم هو المرشّح الوحيد من حسابات التلاميذ: لا يُجرَّب بعده حساب تلميذ كتب الرقم ولم يؤكّده،
+ *      فلا تفتح كلمة سرّ حساب آخر هذا الرقم. (بيانات قديمة برقم مؤكَّد لحسابين: يبقيان مرشّحَين كما كانا، الأحدث دخولًا أولًا.)
+ *   2. لا حساب أكّده: حسابات التلاميذ غير المؤكَّدة، الأقدم إنشاءً أولًا وبحدّ ثابت — من سجّل ولم يُدخل رمز SMS يعود بكلمة سرّه،
+ *      ومن يسجّل حسابات لاحقة بالرقم نفسه لا يزيح حسابًا أقدم منه (الترتيب لا يتبع آخر دخول). الحدّ يثبّت كلفة scrypt.
+ *   3. حسابات الشركاء والموظفين (تنشئها الإدارة وتُرسَل برقم وكلمة سر — قرار 2 نوفمبر) تبقى مرشّحة دائمًا كما كانت:
+ *      لا ينشئها زائر، فلا تُزاحِم ولا تُقفل بتأكيد تلميذ للرقم نفسه.
+ */
+async function phoneLoginCandidates(db: Db, phone: string) {
+  const onPhone = (where: SQL | undefined) => db.select(loginCols).from(users).innerJoin(profiles, eq(profiles.userId, users.id)).where(and(eq(profiles.phone, phone), isNull(users.deletedAt), where))
+  const verified = await onPhone(isNotNull(profiles.phoneVerifiedAt)).orderBy(desc(users.lastLoginAt), asc(users.id)).limit(PHONE_LOGIN_GROUP_LIMIT)
+  const staff = await onPhone(and(isNull(profiles.phoneVerifiedAt), ne(users.role, 'STUDENT'))).orderBy(asc(users.createdAt), asc(users.id)).limit(PHONE_LOGIN_GROUP_LIMIT)
+  const unverified = verified.length ? [] : await onPhone(and(isNull(profiles.phoneVerifiedAt), eq(users.role, 'STUDENT'))).orderBy(asc(users.createdAt), asc(users.id)).limit(PHONE_LOGIN_GROUP_LIMIT)
+  return [...verified, ...staff, ...unverified]
+}
+
 /**
  * الدخول بالبريد أو بالهاتف (قرار المالك 2 نوفمبر 2026: حسابات المدارس والشركاء تُرسَل لهم برقم وكلمة سر).
- * بالهاتف: كل حساب يحمل هذا الرقم في ملفه، ويُقبل منها الذي تطابق كلمة سرّه. من أكّد الرقم يُفحص أولًا:
- * الحساب المسجَّل بالهاتف وحده لا طريق آخر له، فلا تزيحه حسابات غير مؤكَّدة كُتب فيها رقمه.
+ * بالهاتف: المرشّحون من phoneLoginCandidates، ويُقبل منهم الذي تطابق كلمة سرّه.
  */
 export async function login(db: Db, input: { email: string; password: string }, meta: RequestMeta = {}) {
   const ident = input.email.trim()
   const phone = ident.includes('@') ? null : loginPhone(ident)
-  const cols = { id: users.id, passwordHash: users.passwordHash, status: users.status, role: users.role, deletedAt: users.deletedAt }
-  const candidates = phone
-    ? await db.select(cols).from(users).innerJoin(profiles, eq(profiles.userId, users.id)).where(and(eq(profiles.phone, phone), isNull(users.deletedAt))).orderBy(sql`${profiles.phoneVerifiedAt} is null`, desc(users.lastLoginAt)).limit(5)
-    : await db.select(cols).from(users).where(eq(users.email, ident.toLowerCase())).limit(1)
+  const candidates = phone ? await phoneLoginCandidates(db, phone) : await db.select(loginCols).from(users).where(eq(users.email, ident.toLowerCase())).limit(1)
   // نُشغّل التحقق حتى عند غياب المستخدم لتقليل فرق التوقيت
   if (candidates.length === 0) await verifyPassword(input.password, await DUMMY_HASH)
   // بالتتابع ويتوقف عند أول تطابق — كما كان find المتزامن: العدد نفسه من حسابات scrypt

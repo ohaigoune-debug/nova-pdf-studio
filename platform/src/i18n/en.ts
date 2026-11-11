@@ -163,7 +163,7 @@ const en: DeepPartial<typeof ar> = {
     VALIDATION: 'Please check the entered data.',
     RATE_LIMITED: 'Too many attempts. Try again later.',
     EMAIL_TAKEN: 'This email is already in use.',
-    PHONE_TAKEN: 'This phone number already has an account. Log in with it, or recover the password by phone.',
+    PHONE_TAKEN: 'This phone number is already confirmed for another account. If that account is yours, log in with it or recover its password by phone; otherwise use a different number.',
     INVALID_CREDENTIALS: 'Incorrect email, phone number or password.',
     ACCOUNT_DISABLED: 'This account is disabled. Contact the administration.',
     WEAK_PASSWORD: 'The password must be at least 8 characters.',

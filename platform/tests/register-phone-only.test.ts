@@ -153,12 +153,13 @@ describe('التسجيل دون بريد — نموذج الموقع', () => {
     expect(await byPhone(a.phone)).toHaveLength(1)
   })
 
-  it('رقم مؤكَّد لحساب له بريد: لا يُسجَّل به حساب بلا بريد، وحساب ببريد آخر يبقى مسموحًا كما كان', async () => {
+  it('رقم مؤكَّد لحساب له بريد: لا يُسجَّل به حساب آخر، بلا بريد أو ببريد (قرار 11 نوفمبر: الرقم الموثَّق لحساب واحد)', async () => {
     const phone = nextPhone()
     const first = await registerStudent(h.db, { email: 'holder@example.dz', password: PASSWORD, fullName: 'صاحب الرقم', phone })
     await verifyPhone(first.userId)
     await expect(registerStudent(h.db, { password: PASSWORD, fullName: 'بلا بريد', phone })).rejects.toMatchObject({ code: 'PHONE_TAKEN' })
-    await expect(registerStudent(h.db, { email: 'sibling@example.dz', password: PASSWORD, fullName: 'أخوه', phone })).resolves.toMatchObject({ userId: expect.any(String) })
+    await expect(registerStudent(h.db, { email: 'sibling@example.dz', password: PASSWORD, fullName: 'أخوه', phone })).rejects.toMatchObject({ code: 'PHONE_TAKEN' })
+    expect(await byPhone(phone)).toHaveLength(1)
   })
 
   it('رقم غير مؤكَّد لا يحجز شيئًا: صاحب الرقم الحقيقي يسجّل ولو كتب غيره رقمه قبله', async () => {
@@ -262,10 +263,9 @@ describe('الدخول برقم الهاتف', () => {
   })
 
   it('رقم يتقاسمه حسابان: دخول أحدهما لا يصفّر عدّاد الرقم، فلا يخمّن به كلمة سر الآخر بلا قفل', async () => {
-    // الضحية ببريد ورقم مؤكَّد؛ المهاجم يسجّل ببريد آخر وبالرقم نفسه (مسموح: قرار 2 نوفمبر)
+    // حسابان غير مؤكَّدين بالرقم نفسه (الرقم غير المؤكَّد لا يحجز شيئًا): الضحية لم تُدخل رمز SMS بعد
     const phone = nextPhone()
-    const victim = await registerStudent(h.db, { email: `victim-${phone}@example.dz`, password: 'Victim-secret-2027', fullName: 'الضحية', phone, guardianPhone: guardian, wilayaId, levelId, streamId })
-    await verifyPhone(victim.userId)
+    await registerStudent(h.db, { email: `victim-${phone}@example.dz`, password: 'Victim-secret-2027', fullName: 'الضحية', phone, guardianPhone: guardian, wilayaId, levelId, streamId })
     await registerStudent(h.db, { email: `attacker-${phone}@example.dz`, password: 'Attacker-pass-2027', fullName: 'المهاجم', phone, guardianPhone: guardian, wilayaId, levelId, streamId })
     const statuses: number[] = []
     for (let round = 0; round < 3; round++) {
@@ -288,7 +288,7 @@ describe('استعادة كلمة السر والبريد لحساب بلا بر
     expect(code).toMatch(/^\d{6}$/)
     await resetPasswordByPhone(h.db, { phone: a.phone, code: code!, password: 'New-password-2027' }, { ip: '192.0.2.10' })
     const [row] = await byPhone(a.phone)
-    expect(verifyPassword('New-password-2027', row!.hash)).toBe(true)
+    expect(await verifyPassword('New-password-2027', row!.hash)).toBe(true)
     expect((await login(h.db, { email: a.phone, password: 'New-password-2027' })).userId).toBe(a.userId)
     // إشعار «تغيّرت كلمة السر» يُرسل بالبريد لمن له بريد فقط: هنا يُتخطّى بصمت
     expect(emails).toHaveLength(0)
