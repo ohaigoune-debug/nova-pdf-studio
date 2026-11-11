@@ -1,6 +1,6 @@
 import { and, eq, ilike, isNull, or } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { assignments, content, groupStudents, groups, profiles, students, users } from '@/server/db/schema'
+import { assignments, content, groupStudents, groups, profiles, students, users, userEmailText } from '@/server/db/schema'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 
@@ -20,7 +20,7 @@ export async function searchWorkspace(db: Db, actor: Actor, q: string): Promise<
   if (q.trim().length < 2) return { students: [], groups: [], content: [], assignments: [] }
 
   const studentRows = await db
-    .selectDistinct({ id: students.id, fullName: profiles.fullName, email: users.email })
+    .selectDistinct({ id: students.id, fullName: profiles.fullName, email: userEmailText })
     .from(groupStudents)
     .innerJoin(students, eq(students.id, groupStudents.studentId))
     .innerJoin(users, eq(users.id, students.userId))

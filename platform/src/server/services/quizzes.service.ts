@@ -1,6 +1,6 @@
 import { and, asc, count, desc, eq, inArray, isNotNull, isNull, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { answers, grades, groupStudents, groups, levels, profiles, questionOptions, questions, quizAttempts, quizTargets, quizzes, skills, students, teachers, users } from '@/server/db/schema'
+import { answers, grades, groupStudents, groups, levels, profiles, questionOptions, questions, quizAttempts, quizTargets, quizzes, skills, students, teachers, users, userEmailText } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
 import { assertRole, studentIdOf, workspaceOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
@@ -218,7 +218,7 @@ export async function getQuizForTeacher(db: Db, actor: Actor, id: string) {
   const edit = await getQuizForEdit(db, actor, id)
   const eligible = await targetedStudentIds(db, id)
   const attempts = await db
-    .select({ id: quizAttempts.id, studentId: quizAttempts.studentId, fullName: profiles.fullName, email: users.email, status: quizAttempts.status, startedAt: quizAttempts.startedAt, submittedAt: quizAttempts.submittedAt, autoScore: quizAttempts.autoScore, finalScore: quizAttempts.finalScore, needsReview: quizAttempts.needsReview })
+    .select({ id: quizAttempts.id, studentId: quizAttempts.studentId, fullName: profiles.fullName, email: userEmailText, status: quizAttempts.status, startedAt: quizAttempts.startedAt, submittedAt: quizAttempts.submittedAt, autoScore: quizAttempts.autoScore, finalScore: quizAttempts.finalScore, needsReview: quizAttempts.needsReview })
     .from(quizAttempts)
     .innerJoin(students, eq(students.id, quizAttempts.studentId))
     .innerJoin(users, eq(users.id, students.userId))
@@ -472,7 +472,7 @@ export async function getAttemptForTeacher(db: Db, actor: Actor, attemptId: stri
   assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
   const v = await loadAttempt(db, attemptId, true)
   if (actor.role === 'TEACHER' && v.quiz.workspaceId !== actor.workspaceId) throw new AppError('ATTEMPT_NOT_FOUND')
-  const [st] = await db.select({ id: students.id, fullName: profiles.fullName, email: users.email }).from(students).innerJoin(users, eq(users.id, students.userId)).leftJoin(profiles, eq(profiles.userId, users.id)).where(eq(students.id, v.attempt.studentId))
+  const [st] = await db.select({ id: students.id, fullName: profiles.fullName, email: userEmailText }).from(students).innerJoin(users, eq(users.id, students.userId)).leftJoin(profiles, eq(profiles.userId, users.id)).where(eq(students.id, v.attempt.studentId))
   return { ...v, student: st ? { id: st.id, fullName: st.fullName ?? st.email } : null }
 }
 

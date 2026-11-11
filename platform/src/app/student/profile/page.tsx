@@ -20,7 +20,7 @@ export default async function StudentProfilePage() {
   const db = await getDb()
   const [p, devices, channels] = await Promise.all([getStudentProfile(db, actor, actor.studentId!), listUserSessions(db, actor.userId), phoneChannels(db)])
   const rows: [string, string][] = [
-    [t('common.email'), p.email],
+    [t('common.email'), p.email || '—'],
     [t('common.phone'), p.phone ?? '—'],
     ['هاتف الأب أو ولي الأمر', p.guardianPhone ?? '—'],
     [t('common.wilaya'), p.wilayaName ?? '—'],

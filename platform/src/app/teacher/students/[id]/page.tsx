@@ -38,7 +38,7 @@ export default async function TeacherStudentProfilePage({ params }: { params: Pr
   const [skills, analysis, nodes] = await Promise.all([skillMap(db, p.studentId), latestStudentAnalysis(db, actor, p.studentId), nodeProgressFor(db, actor, p.studentId).catch(() => [])])
   const info: [string, string][] = [
     [t('common.phone'), p.phone ?? '—'],
-    [t('common.email'), p.email],
+    [t('common.email'), p.email || '—'],
     ['هاتف الولي', p.guardianPhone ?? '—'],
     [t('common.wilaya'), p.wilayaName ?? '—'],
     [t('common.school'), p.schoolName ?? '—'],

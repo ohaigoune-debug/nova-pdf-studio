@@ -11,7 +11,8 @@ import {
   streams,
   students,
   users,
-  wilayas
+  wilayas,
+  userEmailText
 } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
 import { staffWorkspaceOf, type Actor } from '@/server/lib/actor'
@@ -44,7 +45,7 @@ export async function listTeacherStudents(
       studentId: students.id,
       userId: users.id,
       fullName: profiles.fullName,
-      email: users.email,
+      email: userEmailText,
       phone: profiles.phone,
       studentType: students.studentType,
       levelName: levels.nameAr,
@@ -138,7 +139,7 @@ export async function getStudentProfile(db: Db, actor: Actor, studentId: string)
       studentId: students.id,
       userId: users.id,
       fullName: profiles.fullName,
-      email: users.email,
+      email: userEmailText,
       phone: profiles.phone,
       guardianPhone: students.guardianPhone,
       studentType: students.studentType,

@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto'
-import { and, desc, eq, isNull } from 'drizzle-orm'
+import { and, asc, desc, eq, isNotNull, isNull, ne, type SQL } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { levels, otpCodes, passwordResets, profiles, streams, students, users } from '@/server/db/schema'
 import { hashPassword, isStrongEnough, verifyPassword } from '@/server/auth/password'
@@ -8,9 +8,11 @@ import { writeActivity } from '@/server/lib/audit'
 import { sha256 } from '@/server/lib/codes'
 import { AppError } from '@/server/lib/errors'
 import { getMailer } from '@/server/lib/mailer'
+import { isPhoneVerifiedElsewhere } from './phone-ownership.service'
 
 export interface RegisterInput {
-  email: string
+  /** اختياري (قرار المالك 10 نوفمبر 2026): من سجّل بلا بريد يدخل برقم هاتفه. الفارغ = لا بريد. */
+  email?: string | null
   password: string
   fullName: string
   phone?: string | null
@@ -28,11 +30,24 @@ export interface RequestMeta {
 
 /** تسجيل حساب طالب جديد (نوع FREE حتى يستعمل كود فوج). */
 export async function registerStudent(db: Db, input: RegisterInput, meta: RequestMeta = {}) {
-  const email = input.email.trim().toLowerCase()
+  // لا يُكتب بريد وهمي أبدًا: الغائب يُخزَّن NULL (القيد الفريد يسمح بعدة NULL)
+  const email = input.email?.trim().toLowerCase() || null
+  // بلا بريد يصير الهاتف هو المعرّف الوحيد للدخول والاستعادة
+  if (!email && !input.phone) throw new AppError('VALIDATION', { field: 'phone' })
   if (!isStrongEnough(input.password)) throw new AppError('WEAK_PASSWORD')
 
-  const existing = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1)
-  if (existing.length > 0) throw new AppError('EMAIL_TAKEN')
+  if (email) {
+    const existing = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1)
+    if (existing.length > 0) throw new AppError('EMAIL_TAKEN')
+  }
+  if (input.phone) {
+    /**
+     * قرار المالك 11 نوفمبر 2026: «الرقم الموثَّق لحساب واحد». رقم مؤكَّد لحساب ⇒ لا يُسجَّل به حساب آخر، ببريد أو بدونه.
+     * الرقم غير المؤكَّد لا يحجز شيئًا: من كتب رقم غيره لا يمنع صاحبه من التسجيل (وصاحبه يثبته برمز SMS)،
+     * ومن لم يكمل تسجيله الأول يعيده.
+     */
+    if (await isPhoneVerifiedElsewhere(db, input.phone)) throw new AppError('PHONE_TAKEN')
+  }
   // الشعبة إلزامية للثانوي (رموز المستويات …AS): تحدّد الكتب والدورات المسموح بطلبها
   if (input.levelId) {
     const [lv] = await db.select({ code: levels.code }).from(levels).where(eq(levels.id, input.levelId)).limit(1)
@@ -73,23 +88,52 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
   return { ...result, session }
 }
 
-/** رقم هاتف جزائري (05/06/07) بصيغه الشائعة، أو null */
+/** رقم هاتف جزائري (05/06/07) بصيغه الشائعة (ومنها الأرقام الهندية ٠-٩ كما يقبلها تسجيل التطبيق)، أو null */
 export function loginPhone(raw: string): string | null {
-  const p = raw.replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
+  const p = raw.replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x660)).replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
   return /^0[5-7]\d{8}$/.test(p) ? p : null
 }
 
 /**
+ * هوية قفل محاولات الدخول: الرقم بعد توحيده (فلا تُفتح عدّادات جديدة بكتابة الرقم نفسه بصيغ مختلفة)، أو البريد.
+ * المفتاح بصمة (sha256)، لا الهوية نفسها. الحدّان متساويان (RATE_LIMITS.loginPhone = loginEmail).
+ */
+export function loginIdentity(raw: string): { scope: 'login-phone' | 'login-email'; subject: string } {
+  const ident = raw.trim()
+  const phone = ident.includes('@') ? null : loginPhone(ident)
+  return phone ? { scope: 'login-phone', subject: sha256(phone) } : { scope: 'login-email', subject: sha256(ident.toLowerCase()) }
+}
+
+/** أقصى عدد حسابات تُجرَّب كلمة السر عليها من كل فئة في دخول واحد بالهاتف (كل تجربة = حساب scrypt) */
+const PHONE_LOGIN_GROUP_LIMIT = 5
+
+const loginCols = { id: users.id, passwordHash: users.passwordHash, status: users.status, role: users.role, deletedAt: users.deletedAt }
+
+/**
+ * الحسابات التي يفتحها رقم هاتف (قرار المالك 11 نوفمبر 2026: «الرقم يُفتح به حساب واحد فقط»):
+ *   1. الحساب الذي أكّد الرقم هو المرشّح الوحيد من حسابات التلاميذ: لا يُجرَّب بعده حساب تلميذ كتب الرقم ولم يؤكّده،
+ *      فلا تفتح كلمة سرّ حساب آخر هذا الرقم. (بيانات قديمة برقم مؤكَّد لحسابين: يبقيان مرشّحَين كما كانا، الأحدث دخولًا أولًا.)
+ *   2. لا حساب أكّده: حسابات التلاميذ غير المؤكَّدة، الأقدم إنشاءً أولًا وبحدّ ثابت — من سجّل ولم يُدخل رمز SMS يعود بكلمة سرّه،
+ *      ومن يسجّل حسابات لاحقة بالرقم نفسه لا يزيح حسابًا أقدم منه (الترتيب لا يتبع آخر دخول). الحدّ يثبّت كلفة scrypt.
+ *   3. حسابات الشركاء والموظفين (تنشئها الإدارة وتُرسَل برقم وكلمة سر — قرار 2 نوفمبر) تبقى مرشّحة دائمًا كما كانت:
+ *      لا ينشئها زائر، فلا تُزاحِم ولا تُقفل بتأكيد تلميذ للرقم نفسه.
+ */
+async function phoneLoginCandidates(db: Db, phone: string) {
+  const onPhone = (where: SQL | undefined) => db.select(loginCols).from(users).innerJoin(profiles, eq(profiles.userId, users.id)).where(and(eq(profiles.phone, phone), isNull(users.deletedAt), where))
+  const verified = await onPhone(isNotNull(profiles.phoneVerifiedAt)).orderBy(desc(users.lastLoginAt), asc(users.id)).limit(PHONE_LOGIN_GROUP_LIMIT)
+  const staff = await onPhone(and(isNull(profiles.phoneVerifiedAt), ne(users.role, 'STUDENT'))).orderBy(asc(users.createdAt), asc(users.id)).limit(PHONE_LOGIN_GROUP_LIMIT)
+  const unverified = verified.length ? [] : await onPhone(and(isNull(profiles.phoneVerifiedAt), eq(users.role, 'STUDENT'))).orderBy(asc(users.createdAt), asc(users.id)).limit(PHONE_LOGIN_GROUP_LIMIT)
+  return [...verified, ...staff, ...unverified]
+}
+
+/**
  * الدخول بالبريد أو بالهاتف (قرار المالك 2 نوفمبر 2026: حسابات المدارس والشركاء تُرسَل لهم برقم وكلمة سر).
- * بالهاتف: كل حساب يحمل هذا الرقم في ملفه، ويُقبل منها الذي تطابق كلمة سرّه.
+ * بالهاتف: المرشّحون من phoneLoginCandidates، ويُقبل منهم الذي تطابق كلمة سرّه.
  */
 export async function login(db: Db, input: { email: string; password: string }, meta: RequestMeta = {}) {
   const ident = input.email.trim()
   const phone = ident.includes('@') ? null : loginPhone(ident)
-  const cols = { id: users.id, passwordHash: users.passwordHash, status: users.status, role: users.role, deletedAt: users.deletedAt }
-  const candidates = phone
-    ? await db.select(cols).from(users).innerJoin(profiles, eq(profiles.userId, users.id)).where(and(eq(profiles.phone, phone), isNull(users.deletedAt))).orderBy(desc(users.lastLoginAt)).limit(5)
-    : await db.select(cols).from(users).where(eq(users.email, ident.toLowerCase())).limit(1)
+  const candidates = phone ? await phoneLoginCandidates(db, phone) : await db.select(loginCols).from(users).where(eq(users.email, ident.toLowerCase())).limit(1)
   // نُشغّل التحقق حتى عند غياب المستخدم لتقليل فرق التوقيت
   if (candidates.length === 0) await verifyPassword(input.password, await DUMMY_HASH)
   // بالتتابع ويتوقف عند أول تطابق — كما كان find المتزامن: العدد نفسه من حسابات scrypt
@@ -106,7 +150,8 @@ export async function login(db: Db, input: { email: string; password: string }, 
   await db.update(users).set({ lastLoginAt: new Date() }).where(eq(users.id, user.id))
   await writeActivity(db, { userId: user.id, event: 'auth.login' })
   const session = await createSession(db, { userId: user.id, ...meta })
-  return { userId: user.id, role: user.role, session }
+  // رقم يحمله أكثر من حساب: من يدخل بحسابه لا يُصفَّر له عدّاد الرقم، وإلا خمّن به كلمة سر الحساب الآخر بلا قفل
+  return { userId: user.id, role: user.role, session, sharedIdentity: candidates.length > 1 }
 }
 
 export async function logout(db: Db, token: string): Promise<void> {
@@ -118,6 +163,7 @@ const RESET_TTL_MS = 30 * 60 * 1000
 /**
  * طلب إعادة تعيين كلمة السر: يُرسل رابطاً برمز عشوائي (يُخزَّن مجزّأً) صالحاً 30 دقيقة.
  * لا يكشف وجود البريد: النتيجة واحدة دائماً. الحدّ من المحاولات يتم في طبقة الـAction.
+ * الحساب المسجَّل بالهاتف وحده لا بريد له فلا يطابقه أي عنوان: نفس الرد ولا رسالة، واستعادته بالهاتف (phone-recovery).
  */
 export async function requestPasswordReset(db: Db, email: string, meta: RequestMeta = {}, now: Date = new Date()): Promise<{ sent: boolean }> {
   const normalized = email.trim().toLowerCase()

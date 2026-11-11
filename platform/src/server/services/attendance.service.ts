@@ -9,7 +9,8 @@ import {
   qrNonces,
   scannerSessions,
   students,
-  users
+  users,
+  userEmailText
 } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
 import type { AttendanceStatus } from '@/server/db/schema/enums'
@@ -108,7 +109,7 @@ export async function scanAttendanceToken(
     }
 
     const [gs] = await tx
-      .select({ id: groupStudents.id, status: groupStudents.status, fullName: profiles.fullName, email: users.email, userId: users.id })
+      .select({ id: groupStudents.id, status: groupStudents.status, fullName: profiles.fullName, email: userEmailText, userId: users.id })
       .from(groupStudents)
       .innerJoin(students, eq(students.id, groupStudents.studentId))
       .innerJoin(users, eq(users.id, students.userId))
@@ -343,7 +344,7 @@ export async function listSessionAttendance(db: Db, actor: Actor, sessionId: str
       groupStudentId: groupStudents.id,
       studentId: groupStudents.studentId,
       fullName: profiles.fullName,
-      email: users.email,
+      email: userEmailText,
       status: attendanceRecords.status,
       source: attendanceRecords.source,
       recordedAt: attendanceRecords.recordedAt,

@@ -1,6 +1,6 @@
 import { and, count, eq, gte, inArray, lt, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { attendanceRecords, groupStudents, groups, profiles, students, users } from '@/server/db/schema'
+import { attendanceRecords, groupStudents, groups, profiles, students, users, userEmailText } from '@/server/db/schema'
 import { assertAttendanceStaff, type Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { listSessions, type SessionListItem } from '@/server/services/class-sessions.service'
@@ -58,7 +58,7 @@ export async function assistantDashboard(db: Db, actor: Actor): Promise<Assistan
     .select({
       studentId: groupStudents.studentId,
       fullName: profiles.fullName,
-      email: users.email,
+      email: userEmailText,
       groupName: groups.name,
       unexcused: groupStudents.unexcusedAbsencesCount,
       max: groups.maxUnexcusedAbsences,

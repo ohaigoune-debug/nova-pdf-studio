@@ -1,6 +1,6 @@
 import { and, desc, eq, inArray, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { assignmentSubmissions, assignments, files, grades, groups, jobs, profiles, quizAttempts, quizzes, skills, studentSkills, students, users } from '@/server/db/schema'
+import { assignmentSubmissions, assignments, files, grades, groups, jobs, profiles, quizAttempts, quizzes, skills, studentSkills, students, users, userEmailText } from '@/server/db/schema'
 import { enqueueJob } from '@/server/jobs/queue'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
@@ -68,7 +68,7 @@ async function buildAttendance(db: Db, actor: Actor, groupId: string) {
 
 async function buildGrades(db: Db, workspaceId: string, groupId: string) {
   const members = await db
-    .select({ studentId: students.id, fullName: profiles.fullName, email: users.email })
+    .select({ studentId: students.id, fullName: profiles.fullName, email: userEmailText })
     .from(sql`group_students gs`)
     .innerJoin(students, sql`${students.id} = gs.student_id`)
     .innerJoin(users, eq(users.id, students.userId))
@@ -111,7 +111,7 @@ async function buildGrades(db: Db, workspaceId: string, groupId: string) {
 
 async function buildSkills(db: Db, workspaceId: string, groupId: string) {
   const rows = await db
-    .select({ fullName: profiles.fullName, email: users.email, skill: skills.nameAr, category: skills.category, score: studentSkills.score, confidence: studentSkills.confidence, attempts: studentSkills.attempts })
+    .select({ fullName: profiles.fullName, email: userEmailText, skill: skills.nameAr, category: skills.category, score: studentSkills.score, confidence: studentSkills.confidence, attempts: studentSkills.attempts })
     .from(sql`group_students gs`)
     .innerJoin(studentSkills, sql`${studentSkills.studentId} = gs.student_id`)
     .innerJoin(skills, eq(skills.id, studentSkills.skillId))
@@ -140,7 +140,7 @@ export async function runReportJob(db: Db, payload: Record<string, unknown>): Pr
   assertUuid(workspaceId, 'NOT_FOUND')
   assertUuid(userId, 'NOT_FOUND')
   if (!REPORT_KINDS.includes(kind)) throw new AppError('VALIDATION')
-  const [p] = await db.select({ fullName: profiles.fullName, email: users.email }).from(users).leftJoin(profiles, eq(profiles.userId, users.id)).where(eq(users.id, userId)).limit(1)
+  const [p] = await db.select({ fullName: profiles.fullName, email: userEmailText }).from(users).leftJoin(profiles, eq(profiles.userId, users.id)).where(eq(users.id, userId)).limit(1)
   const actor: Actor = { userId, role: 'TEACHER', fullName: p?.fullName ?? '', email: p?.email ?? '', workspaceId, teacherId: null, studentId: null }
 
   let built: { header: string[]; rows: unknown[][] }

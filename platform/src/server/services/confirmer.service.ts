@@ -1,6 +1,6 @@
 import { and, desc, eq, gte, inArray, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { auditLogs, orders, profiles, users } from '@/server/db/schema'
+import { auditLogs, orders, profiles, users, userEmailText } from '@/server/db/schema'
 import { hashPassword, isStrongEnough } from '@/server/auth/password'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
@@ -50,7 +50,7 @@ export async function createStaffAccount(db: Db, actor: Actor, input: CreateConf
 
 export async function listConfirmers(db: Db, actor: Actor, role: StaffRole = 'CONFIRMER') {
   assertRole(actor, 'SUPER_ADMIN')
-  return db.select({ id: users.id, email: users.email, status: users.status, fullName: profiles.fullName, phone: profiles.phone, createdAt: users.createdAt })
+  return db.select({ id: users.id, email: userEmailText, status: users.status, fullName: profiles.fullName, phone: profiles.phone, createdAt: users.createdAt })
     .from(users).leftJoin(profiles, eq(profiles.userId, users.id)).where(eq(users.role, role)).orderBy(desc(users.createdAt))
 }
 

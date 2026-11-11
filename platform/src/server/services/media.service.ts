@@ -2,7 +2,7 @@ import { createHmac, timingSafeEqual } from 'node:crypto'
 import { and, desc, eq, gt, inArray, isNotNull, isNull, or, sql } from 'drizzle-orm'
 import { PDFDocument, StandardFonts, degrees, rgb } from 'pdf-lib'
 import type { Db } from '@/server/db/connect'
-import { content, contentTargets, files, mediaViews, profiles, users } from '@/server/db/schema'
+import { content, contentTargets, files, mediaViews, profiles, users, userEmailText } from '@/server/db/schema'
 import { reachableGroupIds } from '@/server/lib/course-access'
 import type { Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
@@ -135,7 +135,7 @@ export async function resolveMediaAccess(db: Db, actor: Actor | null, contentId:
   }
   const viewerId = actor?.userId ?? ANON_VIEWER
   const date = new Date().toISOString().slice(0, 10)
-  const watermark = actor ? [actor.email, `${date} · ${actor.userId.slice(0, 8)}`] : ['madrasa · public', date]
+  const watermark = actor ? [actor.email || actor.fullName, `${date} · ${actor.userId.slice(0, 8)}`] : ['madrasa · public', date]
   return { content: c, file, viewerId, studentId, watermark, displayName: actor?.fullName ?? '' }
 }
 
@@ -310,7 +310,7 @@ export async function listContentViews(db: Db, actor: Actor, contentId: string):
       userId: mediaViews.userId,
       studentId: mediaViews.studentId,
       fullName: profiles.fullName,
-      email: users.email,
+      email: userEmailText,
       sessions: sql<number>`count(*)::int`,
       secondsWatched: sql<number>`coalesce(sum(${mediaViews.secondsWatched}), 0)::int`,
       maxPosition: sql<number>`coalesce(max(${mediaViews.maxPosition}), 0)::int`,

@@ -80,7 +80,7 @@ async function adminActor(db: Db): Promise<Actor> {
     .limit(1)
   const u = rows[0]
   if (!u) throw new Error('لا مشرف عام في القاعدة — شغّل db:bootstrap أولاً')
-  return { userId: u.id, role: 'SUPER_ADMIN', fullName: u.fullName ?? 'المشرف العام', email: u.email, workspaceId: null, teacherId: null, studentId: null }
+  return { userId: u.id, role: 'SUPER_ADMIN', fullName: u.fullName ?? 'المشرف العام', email: u.email ?? '', workspaceId: null, teacherId: null, studentId: null }
 }
 
 async function subjectIdOf(db: Db, code: string | null): Promise<string | null> {

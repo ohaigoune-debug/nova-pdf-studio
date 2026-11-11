@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm'
 import { check, index, inet, integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { id, inList, softDelete, timestamps } from './_common'
 import { USER_ROLES, USER_STATUSES } from './enums'
@@ -6,7 +7,8 @@ export const users = pgTable(
   'users',
   {
     id: id(),
-    email: text('email').notNull().unique(),
+    /** اختياري منذ 0045 (قرار المالك 10 نوفمبر 2026): التلميذ يسجّل بهاتفه دون بريد. الفريد يسمح بعدة NULL. */
+    email: text('email').unique(),
     passwordHash: text('password_hash').notNull(),
     role: text('role').notNull().default('PUBLIC'),
     status: text('status').notNull().default('ACTIVE'),
@@ -21,6 +23,12 @@ export const users = pgTable(
     index('users_role_idx').on(t.role)
   ]
 )
+
+/**
+ * البريد للعرض في القوائم والتصدير: نص فارغ للحساب المسجَّل بالهاتف وحده (لا null ولا «undefined» في الجداول وملفات CSV).
+ * للبحث والمطابقة والإرسال يُستعمل users.email نفسه.
+ */
+export const userEmailText = sql<string>`coalesce(${users.email}, '')`
 
 export const profiles = pgTable('profiles', {
   id: id(),

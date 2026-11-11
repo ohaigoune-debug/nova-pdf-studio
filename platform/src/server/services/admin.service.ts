@@ -12,7 +12,8 @@ import {
   students,
   teacherWorkspaces,
   teachers,
-  users
+  users,
+  userEmailText
 } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
 import { hashPassword, isStrongEnough } from '@/server/auth/password'
@@ -106,7 +107,7 @@ export async function listTeachers(db: Db, actor: Actor) {
     .select({
       teacherId: teachers.id,
       userId: users.id,
-      email: users.email,
+      email: userEmailText,
       status: users.status,
       fullName: profiles.fullName,
       phone: profiles.phone,
@@ -132,13 +133,14 @@ export async function listUsers(db: Db, actor: Actor, opts: { search?: string; r
     isNull(users.deletedAt),
     opts.role ? eq(users.role, opts.role) : undefined,
     opts.search
-      ? or(ilike(users.email, `%${opts.search}%`), ilike(profiles.fullName, `%${opts.search}%`))
+      ? // الهاتف في البحث: هو معرّف الحساب المسجَّل بلا بريد
+        or(ilike(users.email, `%${opts.search}%`), ilike(profiles.fullName, `%${opts.search}%`), ilike(profiles.phone, `%${opts.search}%`))
       : undefined
   )
   const rows = await db
     .select({
       id: users.id,
-      email: users.email,
+      email: userEmailText,
       role: users.role,
       status: users.status,
       fullName: profiles.fullName,
@@ -162,7 +164,7 @@ export async function listAllStudents(db: Db, actor: Actor, opts: { search?: str
     .select({
       studentId: students.id,
       userId: users.id,
-      email: users.email,
+      email: userEmailText,
       status: users.status,
       fullName: profiles.fullName,
       phone: profiles.phone,
@@ -173,7 +175,7 @@ export async function listAllStudents(db: Db, actor: Actor, opts: { search?: str
     .from(students)
     .innerJoin(users, eq(users.id, students.userId))
     .leftJoin(profiles, eq(profiles.userId, users.id))
-    .where(opts.search ? or(ilike(users.email, `%${opts.search}%`), ilike(profiles.fullName, `%${opts.search}%`)) : undefined)
+    .where(opts.search ? or(ilike(users.email, `%${opts.search}%`), ilike(profiles.fullName, `%${opts.search}%`), ilike(profiles.phone, `%${opts.search}%`)) : undefined)
     .orderBy(desc(users.createdAt))
     .limit(opts.limit ?? 100)
 }

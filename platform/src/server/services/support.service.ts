@@ -5,7 +5,7 @@
  */
 import { and, desc, eq, inArray, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { courses, orders, profiles, supportMessages, supportTickets, users, type SupportTicketRow } from '@/server/db/schema'
+import { courses, orders, profiles, supportMessages, supportTickets, users, type SupportTicketRow, userEmailText } from '@/server/db/schema'
 import type { SupportKind, SupportStatus } from '@/server/db/schema/enums'
 import { SUPPORT_KINDS, SUPPORT_STATUSES } from '@/server/db/schema/enums'
 import type { Actor } from '@/server/lib/actor'
@@ -178,7 +178,7 @@ export async function getTicket(db: Db, actor: Actor, ticketId: string): Promise
   const t = await loadTicket(db, ticketId)
   if (!canView(actor, t)) throw new AppError('TICKET_NOT_FOUND')
   const staff = isStaff(actor)
-  const [owner] = await db.select({ name: profiles.fullName, email: users.email, role: users.role }).from(users).leftJoin(profiles, eq(profiles.userId, users.id)).where(eq(users.id, t.userId)).limit(1)
+  const [owner] = await db.select({ name: profiles.fullName, email: userEmailText, role: users.role }).from(users).leftJoin(profiles, eq(profiles.userId, users.id)).where(eq(users.id, t.userId)).limit(1)
   const assignee = t.assignedToUserId ? (await db.select({ name: profiles.fullName }).from(profiles).where(eq(profiles.userId, t.assignedToUserId)).limit(1))[0] : null
   const course = t.courseId ? (await db.select({ title: courses.title }).from(courses).where(eq(courses.id, t.courseId)).limit(1))[0] : null
   const order = t.orderId ? (await db.select({ number: orders.number }).from(orders).where(eq(orders.id, t.orderId)).limit(1))[0] : null
@@ -221,7 +221,7 @@ export async function listTicketsAdmin(db: Db, actor: Actor, f: { status?: Suppo
   const assigneeIds = [...new Set(rows.map((r) => r.assignedToUserId).filter((x): x is string => !!x))]
   const names = assigneeIds.length ? await db.select({ userId: profiles.userId, name: profiles.fullName }).from(profiles).where(inArray(profiles.userId, assigneeIds)) : []
   const nameOf = new Map(names.map((n) => [n.userId, n.name]))
-  return rows.map((r) => ({ ...(r as unknown as TicketListRow), ownerName: r.ownerName ?? '—', ownerEmail: r.ownerEmail, assignedToUserId: r.assignedToUserId, assigneeName: r.assignedToUserId ? (nameOf.get(r.assignedToUserId) ?? null) : null }))
+  return rows.map((r) => ({ ...(r as unknown as TicketListRow), ownerName: r.ownerName ?? '—', ownerEmail: r.ownerEmail ?? '', assignedToUserId: r.assignedToUserId, assigneeName: r.assignedToUserId ? (nameOf.get(r.assignedToUserId) ?? null) : null }))
 }
 
 export async function supportStats(db: Db, actor: Actor) {

@@ -29,7 +29,8 @@ import {
   teachers,
   users,
   type CourseEnrollmentRow,
-  type CourseRow
+  type CourseRow,
+  userEmailText
 } from '@/server/db/schema'
 import { COURSE_STATUSES, ENROLLMENT_SOURCES, type CourseStatus, type EnrollmentSource } from '@/server/db/schema/enums'
 import { qcol } from '@/server/db/sql-helpers'
@@ -356,7 +357,7 @@ export async function getCourseAdmin(db: Db, actor: Actor, id: string) {
         id: courseEnrollments.id,
         studentId: courseEnrollments.studentId,
         fullName: profiles.fullName,
-        email: users.email,
+        email: userEmailText,
         phone: profiles.phone,
         source: courseEnrollments.source,
         status: courseEnrollments.status,
@@ -443,7 +444,7 @@ export async function searchStudents(db: Db, actor: Actor, query: string, limit 
   if (q.length < 2) return []
   const like = `%${q}%`
   return db
-    .select({ studentId: students.id, fullName: profiles.fullName, email: users.email, phone: profiles.phone })
+    .select({ studentId: students.id, fullName: profiles.fullName, email: userEmailText, phone: profiles.phone })
     .from(students)
     .innerJoin(users, eq(users.id, students.userId))
     .leftJoin(profiles, eq(profiles.userId, users.id))

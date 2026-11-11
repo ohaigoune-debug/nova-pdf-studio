@@ -31,10 +31,11 @@ const dzPhone = z
   .transform((v) => v.replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x660)).replace(/[\s\-().]/g, '').replace(/^\+?213/, '0'))
   .refine((v) => DZ_MOBILE.test(v))
 
-/** نفس قواعد التسجيل في الموقع (auth.actions: registerSchema)، دون كود الدعوة (يخصّ الرصيد والشراء، ولا شيء منهما في التطبيق) */
+/** نفس قواعد التسجيل في الموقع (auth.actions: registerSchema: البريد اختياري، الهاتفان إلزاميان)، دون كود الدعوة (يخصّ الرصيد والشراء، ولا شيء منهما في التطبيق) */
 const schema = z.object({
   fullName: z.string().trim().min(3).max(120),
-  email: z.string().trim().email().max(200),
+  // اختياري (قرار المالك 2026-11-10): غائب أو null أو فارغ = لا بريد؛ يُفحص شكله حين يُكتب فقط
+  email: z.string().trim().pipe(z.union([z.literal(''), z.string().email().max(200)])).nullish(),
   phone: dzPhone,
   guardianPhone: dzPhone,
   password: z.string().min(8).max(200),
@@ -74,7 +75,7 @@ export async function POST(req: NextRequest) {
     try {
       const r = await registerStudent(
         db,
-        { email: d.email, password: d.password, fullName: d.fullName, phone: d.phone, guardianPhone: d.guardianPhone, wilayaId: d.wilayaId, levelId: d.levelId, streamId: d.streamId || null },
+        { email: d.email || null, password: d.password, fullName: d.fullName, phone: d.phone, guardianPhone: d.guardianPhone, wilayaId: d.wilayaId, levelId: d.levelId, streamId: d.streamId || null },
         { userAgent: req.headers.get('user-agent'), ip }
       )
       return iosNoStore(NextResponse.json({ ok: true, data: { token: r.session.token, expiresAt: r.session.expiresAt.toISOString(), role: 'STUDENT' } }))

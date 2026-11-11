@@ -16,6 +16,7 @@ import { AppError, assertUuid } from '@/server/lib/errors'
 import { checkRateLimit } from '@/server/lib/rate-limit'
 import { getSmsSender, sendSms } from '@/server/lib/sms'
 import { alertSmsBudget, isSmsBudgetExhausted, reserveSmsBudget, type SmsBudgetAlert } from '@/server/lib/sms-budget'
+import { claimVerifiedPhone, isPhoneVerifiedElsewhere } from './phone-ownership.service'
 
 export const OTP_TTL_MS = 5 * 60 * 1000
 export const OTP_MAX_ATTEMPTS = 5
@@ -62,6 +63,8 @@ export async function requestOtp(db: Db, input: RequestOtpInput, now: Date = new
   assertPurpose(input.purpose)
   const phone = normalizePhone(input.phone)
   if (input.userId) assertUuid(input.userId, 'VALIDATION')
+  // رقم مؤكَّد لحساب آخر لا يُؤكَّد لغيره: يُرفض قبل إرسال أي رسالة (لا تُستهلك حصة ولا رصيد)
+  if (input.purpose === 'REGISTER' && input.userId && (await isPhoneVerifiedElsewhere(db, phone, input.userId))) throw new AppError('PHONE_TAKEN')
   const code = String(randomInt(0, 1_000_000)).padStart(6, '0')
   const expiresAt = new Date(now.getTime() + OTP_TTL_MS)
   const { row, budgetAlert } = await db.transaction(async (tx) => {
@@ -172,7 +175,13 @@ export async function verifyOtp(db: Db, input: VerifyOtpInput): Promise<{ ok: tr
   const userId = input.userId ?? row.userId ?? null
   if (input.purpose === 'REGISTER' && userId) {
     assertUuid(userId, 'VALIDATION')
-    await db.update(profiles).set({ phone, phoneVerifiedAt: now, updatedAt: now }).where(eq(profiles.userId, userId))
+    // الرقم الموثَّق لحساب واحد: قفل على الرقم ثم فحص ثم كتابة. مؤكَّد لحساب آخر ⇒ PHONE_TAKEN ولا يتغيّر الملف.
+    try {
+      await claimVerifiedPhone(db, { userId, phone, at: now })
+    } catch (e) {
+      if (e instanceof AppError && e.code === 'PHONE_TAKEN') await writeAudit(db, { actorUserId: userId, workspaceId: null, action: 'otp.verify', entityType: 'otp', entityId: row.id, newValue: { purpose: input.purpose, ok: false, phoneTaken: true } })
+      throw e
+    }
   }
   await writeAudit(db, { actorUserId: userId, workspaceId: null, action: 'otp.verify', entityType: 'otp', entityId: row.id, newValue: { purpose: input.purpose, ok: true } })
   return { ok: true }

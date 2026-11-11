@@ -44,6 +44,7 @@ export function PhoneGate({ phone, sms, callNumber }: { phone: string | null; sm
               {callNumber}
             </a>
             <p className="text-xs text-muted-foreground">يُقطع الاتصال وحده بعد رنّة، ويُفتح حسابك خلال ثوانٍ (هذه الصفحة تتحدّث تلقائياً).</p>
+            {sms ? <p className="text-xs text-muted-foreground">إن لم يُفتح حسابك خلال دقيقة بعد الاتصال، فأكّد الرقم برمز الرسالة القصيرة أسفله.</p> : null}
           </CardContent>
         </Card>
       ) : null}

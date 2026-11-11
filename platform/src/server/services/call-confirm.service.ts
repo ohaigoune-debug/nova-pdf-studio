@@ -5,15 +5,16 @@
  * العنوان: POST /api/v1/calls/<secret> — سرّ عشوائي في المسار (كما في NOVA) يُنشأ عند أول حفظ.
  */
 import { randomBytes, timingSafeEqual } from 'node:crypto'
-import { and, desc, eq, gte, inArray, isNull, lte } from 'drizzle-orm'
+import { and, desc, eq, gt, gte, inArray, isNull, lte } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { appSettings, callEvents, orders, profiles } from '@/server/db/schema'
+import { appSettings, callEvents, orders, profiles, sessions, users } from '@/server/db/schema'
 import { CONFIRMATION_STATUSES, type CallEventResult } from '@/server/db/schema/enums'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError } from '@/server/lib/errors'
 import { notifyAdmins, transitionOrder } from './order-status.service'
 import { normalizePhone } from './otp.service'
+import { claimVerifiedPhone, isPhoneVerifiedElsewhere, lockPhone } from './phone-ownership.service'
 
 export const CALL_CONFIRM_KEY = 'confirm.call'
 
@@ -99,6 +100,47 @@ export interface IncomingCallResult {
   reject: boolean
 }
 
+/** الحساب «ينتظر عند بوّابة الهاتف» إن كانت له جلسة قائمة لمسها خلال هذه المدة (last_seen يُحدَّث مرة يوميًا على الأكثر) */
+const CALL_VERIFY_LIVE_MS = 48 * 3_600_000
+
+/**
+ * الحساب الجديد يؤكّد هاتفه بمكالمة فائتة مجانية (بوّابة التسجيل). المكالمة تثبت أن المتصل يملك الرقم،
+ * لا أيَّ حساب هو — فلا تؤكِّد إلا حين لا لبس (قرار المالك 11 نوفمبر 2026: الرقم الموثَّق لحساب واحد):
+ *   - الرقم مؤكَّد لحساب ⇒ لا شيء؛
+ *   - حساب تلميذ واحد بالضبط يحمل الرقم غير مؤكَّد وله جلسة قائمة حديثة ⇒ يُؤكَّد هو وحده؛
+ *   - أكثر من واحد ⇒ لا أحد (من كتب رقم غيره لا يُمنح الرقم باتصال صاحبه): يؤكّدون برمز SMS المرتبط بالحساب.
+ * حسابات الشركاء والموظفين لا بوّابة لها فلا تُؤكَّد ولا تُحسب.
+ */
+async function verifyCallerProfile(db: Db, phone: string, at: Date): Promise<{ userId: string; fullName: string }[]> {
+  return db.transaction(async (tx) => {
+    await lockPhone(tx, phone)
+    if (await isPhoneVerifiedElsewhere(tx, phone)) return []
+    const now = new Date()
+    const waiting = await tx
+      .selectDistinct({ userId: profiles.userId, fullName: profiles.fullName })
+      .from(profiles)
+      .innerJoin(users, eq(users.id, profiles.userId))
+      .innerJoin(sessions, eq(sessions.userId, users.id))
+      .where(
+        and(
+          eq(profiles.phone, phone),
+          isNull(profiles.phoneVerifiedAt),
+          isNull(users.deletedAt),
+          eq(users.status, 'ACTIVE'),
+          eq(users.role, 'STUDENT'),
+          isNull(sessions.revokedAt),
+          gt(sessions.expiresAt, now),
+          gt(sessions.lastSeenAt, new Date(now.getTime() - CALL_VERIFY_LIVE_MS))
+        )
+      )
+      .limit(2)
+    if (waiting.length !== 1) return []
+    // القفل نفسه الذي يأخذه التأكيد برمز SMS (معاملة داخلية = نقطة حفظ؛ القفل مأخوذ من قبل)
+    const done = await claimVerifiedPhone(tx, { userId: waiting[0]!.userId, phone, at, onlyIfUnverified: true })
+    return done ? waiting : []
+  })
+}
+
 /** الطلبات المنشأة بعد اللحظة المبلَّغ عنها بقليل تُحسب أيضاً (الساعات والطوابير ليست دقيقة) */
 const AT_SLACK_MS = 2 * 60_000
 
@@ -119,12 +161,7 @@ export async function handleIncomingCall(db: Db, rawPhone: string, opts: { chann
     await db.insert(callEvents).values({ createdAt: at, phone: rawPhone.slice(0, 32), result: 'invalid_phone', channel, text })
     return { result: 'invalid_phone', reject: false }
   }
-  // الحساب الجديد يؤكّد هاتفه بمكالمة فائتة مجانية (بوّابة التسجيل): نُعلِّم كل ملف غير مؤكَّد بهذا الرقم
-  const verified = await db
-    .update(profiles)
-    .set({ phoneVerifiedAt: at, updatedAt: new Date() })
-    .where(and(eq(profiles.phone, phone), isNull(profiles.phoneVerifiedAt)))
-    .returning({ userId: profiles.userId, fullName: profiles.fullName })
+  const verified = await verifyCallerProfile(db, phone, at)
   const since = new Date(at.getTime() - cfg.windowHours * 3_600_000)
   const until = new Date(at.getTime() + AT_SLACK_MS)
   const [order] = await db

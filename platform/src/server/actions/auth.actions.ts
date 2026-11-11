@@ -12,7 +12,7 @@ import { sha256 } from '@/server/lib/codes'
 import { safeNextPath } from '@/server/lib/safe-next'
 import { RATE_LIMITS, checkRateLimit, checkRegisterLimits, resetRateLimit } from '@/server/lib/rate-limit'
 import { deleteOwnAccount } from '@/server/services/account-deletion.service'
-import { changePassword, login, logout, registerStudent, requestPasswordReset, resetPassword } from '@/server/services/auth.service'
+import { changePassword, login, loginIdentity, logout, registerStudent, requestPasswordReset, resetPassword } from '@/server/services/auth.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 import { attachReferralForNewAccount, checkCodeForSignup } from '@/server/services/referrals.service'
 import { REF_COOKIE } from '@/lib/referral'
@@ -30,11 +30,13 @@ export async function loginAction(_prev: ActionResult | null, formData: FormData
   const db = await getDb()
   const meta = await requestMeta()
   const result = await runAction(async () => {
-    const emailKey = sha256(parsed.data.email.trim().toLowerCase())
+    // قفل الهوية: بالرقم الموحَّد لمن يدخل بهاتفه، وبالبريد لغيره — بالحدّ نفسه
+    const identity = loginIdentity(parsed.data.email)
     await checkRateLimit(db, { scope: 'login-ip', subject: meta.ip ?? 'unknown', ...RATE_LIMITS.loginIp })
-    await checkRateLimit(db, { scope: 'login-email', subject: emailKey, ...RATE_LIMITS.loginEmail })
+    await checkRateLimit(db, { ...identity, ...(identity.scope === 'login-phone' ? RATE_LIMITS.loginPhone : RATE_LIMITS.loginEmail) })
     const r = await login(db, { email: parsed.data.email, password: parsed.data.password }, meta)
-    await resetRateLimit(db, 'login-email', emailKey)
+    // الرقم المشترك بين حسابات لا يُصفَّر عدّاده بدخول أحدها (انظر login)
+    if (!r.sharedIdentity) await resetRateLimit(db, identity.scope, identity.subject)
     await setSessionCookie(r.session.token, r.session.expiresAt)
     return r.role as UserRole
   })
@@ -54,11 +56,12 @@ const dzPhone = (msg: string) =>
 /**
  * التسجيل (قرار المالك 2026-10-24): الهاتف وهاتف الولي إلزاميان (رقم جزائري حقيقي 05/06/07)،
  * والمستوى إلزامي، والشعبة إلزامية للثانوي — لا يُطلب بعدها كتاب لشعبة أخرى.
+ * البريد اختياري (قرار المالك 2026-11-10): الحقل الفارغ = لا بريد، ويُفحص شكله حين يُكتب فقط.
  */
 const registerSchema = z
   .object({
     fullName: z.string().trim().min(3, 'أدخل الاسم الكامل'),
-    email: z.string().trim().email('أدخل بريداً صحيحاً'),
+    email: z.string().trim().pipe(z.union([z.literal(''), z.string().email('أدخل بريداً صحيحاً').max(254)])).optional(),
     phone: dzPhone('أدخل رقم هاتفك (05 / 06 / 07 — 10 أرقام)'),
     guardianPhone: dzPhone('أدخل رقم هاتف الولي (05 / 06 / 07 — 10 أرقام)'),
     password: z.string().min(8, 'كلمة السر 8 أحرف على الأقل'),
@@ -82,7 +85,7 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
     const r = await registerStudent(
       db,
       {
-        email: d.email,
+        email: d.email || null,
         password: d.password,
         fullName: d.fullName,
         phone: d.phone,

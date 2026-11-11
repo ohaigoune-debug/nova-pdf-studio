@@ -17,7 +17,8 @@ import {
   students,
   teachers,
   users,
-  wilayas
+  wilayas,
+  userEmailText
 } from '@/server/db/schema'
 import { qcol } from '@/server/db/sql-helpers'
 import type { GroupStatus } from '@/server/db/schema/enums'
@@ -283,7 +284,7 @@ export async function listGroupMembers(db: Db, actor: Actor, groupId: string): P
       studentId: students.id,
       userId: users.id,
       fullName: profiles.fullName,
-      email: users.email,
+      email: userEmailText,
       phone: profiles.phone,
       studentType: students.studentType,
       status: groupStudents.status,
