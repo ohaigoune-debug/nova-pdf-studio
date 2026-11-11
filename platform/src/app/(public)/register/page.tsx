@@ -7,7 +7,7 @@ import { getT } from '@/i18n/server'
 import { getCurrentActor, homeFor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listLevels, listStreams, listWilayas } from '@/server/services/reference.service'
-import { normalizePromoCode, referralPolicy } from '@/server/services/referrals.service'
+import { normalizePromoCode, referralPolicyForDisplay } from '@/server/services/referrals.service'
 import { RegisterForm } from './register-form'
 
 export async function generateMetadata() {
@@ -21,7 +21,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
   const actor = await getCurrentActor()
   if (actor) redirect(homeFor(actor.role))
   const db = await getDb()
-  const [wilayas, levels, streams, policy] = await Promise.all([listWilayas(db), listLevels(db), listStreams(db), referralPolicy(db)])
+  const [wilayas, levels, streams, policy] = await Promise.all([listWilayas(db), listLevels(db), listStreams(db), referralPolicyForDisplay(db)])
   // الكود من رابط الدعوة (/r/CODE) أو من ?ref=
   const defaultRef = normalizePromoCode((await searchParams).ref) ?? normalizePromoCode((await cookies()).get(REF_COOKIE)?.value) ?? ''
   return (

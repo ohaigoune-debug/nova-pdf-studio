@@ -4,17 +4,25 @@ import { academicYears, levels, schools, skills, streams, wilayas } from '@/serv
 import type { SchoolType } from '@/server/db/schema/enums'
 import { assertRole, workspaceOf, type Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
+import { ttlMemo } from '@/server/lib/ttl-cache'
+
+/**
+ * الولايات والمستويات والشعب: بيانات مرجعية واحدة لكل الزوّار (لا تتعلّق بمن يسأل) ولا تُكتب إلا عند تهيئة القاعدة.
+ * تُقرأ في كل فتح لصفحة التسجيل (ثلاثة استعلامات)، فتُحفظ دقيقة في كل عملية. تُعاد نسخة من القائمة حتى لا يغيّر
+ * مستدعٍ ترتيب القائمة المحفوظة. (async: استعلام drizzle يُنفَّذ من جديد عند كل await، فيُحفظ وعدٌ حقيقيّ بنتيجته.)
+ */
+const REFERENCE_TTL_MS = 60_000
 
 export async function listWilayas(db: Db) {
-  return db.select().from(wilayas).orderBy(asc(wilayas.code))
+  return [...(await ttlMemo('ref:wilayas', REFERENCE_TTL_MS, async () => db.select().from(wilayas).orderBy(asc(wilayas.code))))]
 }
 
 export async function listLevels(db: Db) {
-  return db.select().from(levels).orderBy(asc(levels.sortOrder))
+  return [...(await ttlMemo('ref:levels', REFERENCE_TTL_MS, async () => db.select().from(levels).orderBy(asc(levels.sortOrder))))]
 }
 
 export async function listStreams(db: Db) {
-  return db.select().from(streams).orderBy(asc(streams.sortOrder))
+  return [...(await ttlMemo('ref:streams', REFERENCE_TTL_MS, async () => db.select().from(streams).orderBy(asc(streams.sortOrder))))]
 }
 
 export async function listSkills(db: Db) {
