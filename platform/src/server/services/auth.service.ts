@@ -44,10 +44,13 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
     if (!st) throw new AppError('VALIDATION', { field: 'streamId' })
   }
 
+  // التجزئة قبل فتح المعاملة: scrypt غير المتزامن ينتظر خيوط libuv (4)، ولو انتظر داخل المعاملة لبقي
+  // اتصال من المجمّع (10) محجوزاً خاملاً طوال الانتظار، فتستنزف موجة تسجيلات كل الاتصالات.
+  const passwordHash = await hashPassword(input.password)
   const result = await db.transaction(async (tx) => {
     const [user] = await tx
       .insert(users)
-      .values({ email, passwordHash: hashPassword(input.password), role: 'STUDENT', lastLoginAt: new Date() })
+      .values({ email, passwordHash, role: 'STUDENT', lastLoginAt: new Date() })
       .returning({ id: users.id })
     if (!user) throw new AppError('INTERNAL')
     await tx.insert(profiles).values({ userId: user.id, fullName: input.fullName.trim(), phone: input.phone ?? null })
@@ -88,8 +91,15 @@ export async function login(db: Db, input: { email: string; password: string }, 
     ? await db.select(cols).from(users).innerJoin(profiles, eq(profiles.userId, users.id)).where(and(eq(profiles.phone, phone), isNull(users.deletedAt))).orderBy(desc(users.lastLoginAt)).limit(5)
     : await db.select(cols).from(users).where(eq(users.email, ident.toLowerCase())).limit(1)
   // نُشغّل التحقق حتى عند غياب المستخدم لتقليل فرق التوقيت
-  if (candidates.length === 0) verifyPassword(input.password, DUMMY_HASH)
-  const user = candidates.find((c) => verifyPassword(input.password, c.passwordHash))
+  if (candidates.length === 0) await verifyPassword(input.password, await DUMMY_HASH)
+  // بالتتابع ويتوقف عند أول تطابق — كما كان find المتزامن: العدد نفسه من حسابات scrypt
+  let user: (typeof candidates)[number] | undefined
+  for (const c of candidates) {
+    if (await verifyPassword(input.password, c.passwordHash)) {
+      user = c
+      break
+    }
+  }
   if (!user || user.deletedAt) throw new AppError('INVALID_CREDENTIALS')
   if (user.status !== 'ACTIVE') throw new AppError('ACCOUNT_DISABLED')
 
@@ -146,7 +156,7 @@ export async function resetPassword(db: Db, token: string, newPassword: string, 
   if (!isStrongEnough(newPassword)) throw new AppError('WEAK_PASSWORD')
   const row = await verifyPasswordResetToken(db, token, now)
   await db.transaction(async (tx) => {
-    await tx.update(users).set({ passwordHash: hashPassword(newPassword) }).where(eq(users.id, row.userId))
+    await tx.update(users).set({ passwordHash: await hashPassword(newPassword) }).where(eq(users.id, row.userId))
     await tx.update(passwordResets).set({ usedAt: now }).where(eq(passwordResets.id, row.id))
     await revokeAllSessions(tx, row.userId)
     await invalidatePhoneRecoveryCodes(tx, row.userId, now)
@@ -160,9 +170,9 @@ export async function changePassword(db: Db, userId: string, current: string, ne
   if (!isStrongEnough(next)) throw new AppError('WEAK_PASSWORD')
   const rows = await db.select({ passwordHash: users.passwordHash }).from(users).where(eq(users.id, userId)).limit(1)
   const row = rows[0]
-  if (!row || !verifyPassword(current, row.passwordHash)) throw new AppError('INVALID_CREDENTIALS')
+  if (!row || !(await verifyPassword(current, row.passwordHash))) throw new AppError('INVALID_CREDENTIALS')
   await db.transaction(async (tx) => {
-    await tx.update(users).set({ passwordHash: hashPassword(next) }).where(eq(users.id, userId))
+    await tx.update(users).set({ passwordHash: await hashPassword(next) }).where(eq(users.id, userId))
     await revokeAllSessions(tx, userId)
     await invalidatePhoneRecoveryCodes(tx, userId, new Date())
     await writeActivity(tx, { userId, event: 'auth.password.change' })
@@ -174,4 +184,5 @@ async function invalidatePhoneRecoveryCodes(db: Db, userId: string, now: Date): 
   await db.update(otpCodes).set({ consumedAt: now }).where(and(eq(otpCodes.userId, userId), eq(otpCodes.purpose, 'RECOVER'), isNull(otpCodes.consumedAt)))
 }
 
-const DUMMY_HASH = hashPassword('dummy-password-for-timing')
+// Promise يُحسب مرة عند تحميل الوحدة ويُنتظر عند الاستعمال
+const DUMMY_HASH: Promise<string> = hashPassword('dummy-password-for-timing')

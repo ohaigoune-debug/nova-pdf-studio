@@ -49,7 +49,7 @@ export async function createTeacher(db: Db, actor: Actor, input: CreateTeacherIn
   return db.transaction(async (tx) => {
     const [user] = await tx
       .insert(users)
-      .values({ email, passwordHash: hashPassword(input.password), role: 'TEACHER' })
+      .values({ email, passwordHash: await hashPassword(input.password), role: 'TEACHER' })
       .returning({ id: users.id })
     if (!user) throw new AppError('INTERNAL')
     await tx.insert(profiles).values({ userId: user.id, fullName: input.fullName.trim(), phone: input.phone ?? null })
