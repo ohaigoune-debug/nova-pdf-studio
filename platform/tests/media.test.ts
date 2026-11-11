@@ -135,9 +135,12 @@ describe('الوسائط الخاصة: روابط موقّعة بهوية الم
     expect(stamped.equals(original)).toBe(false)
     const doc = await PDFDocument.load(stamped)
     expect(doc.getPageCount()).toBe(2)
-    // تيارات المحتوى مضغوطة، لكن قاموس الخط المضاف (Helvetica-Bold) ظاهر — والأصل لا يحويه
-    expect(stamped.toString('latin1')).toContain('Helvetica-Bold')
-    expect(original.toString('latin1')).not.toContain('Helvetica-Bold')
+    // الناتج محفوظ بتيارات كائنات مضغوطة (لا شيء يُقرأ من البايتات الخام): يُستخرج النص صفحةً صفحة
+    const { extractText, getDocumentProxy } = await import('unpdf')
+    const pages = (await extractText(await getDocumentProxy(new Uint8Array(stamped)), { mergePages: false })).text
+    expect(pages).toHaveLength(2)
+    for (const page of pages) expect(page).toContain(student.email)
+    expect((await extractText(await getDocumentProxy(new Uint8Array(original)), { mergePages: true })).text).not.toContain(student.email)
     // الأصل في التخزين لم يُمس
     expect((await storage().get(access.file!.storageKey)).equals(original)).toBe(true)
     // السماح بالتنزيل يُحفظ كإعداد

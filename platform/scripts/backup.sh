@@ -4,6 +4,7 @@
 set -eu
 
 OUT=/backups
+UPLOADS_SRC=${BACKUP_UPLOADS_SRC:-/uploads}
 KEEP=${BACKUP_KEEP:-14}
 INTERVAL_HOURS=${BACKUP_INTERVAL_HOURS:-24}
 
@@ -24,7 +25,12 @@ dump_db() {
 
 dump_uploads() {
   tmp="$1.part"
-  tar czf "$tmp" -C /uploads . 2>/dev/null || true
+  # كاش النسخ المختومة من PDF (.stamp-cache) يُعاد توليده من الأصل عند الطلب: لا يدخل النسخة الاحتياطية
+  tar czf "$tmp" --exclude='.stamp-cache' -C "$UPLOADS_SRC" . 2>/dev/null || true
+  # tar لا يعرف --exclude (نسخة قديمة)؟ نسخة كاملة أفضل من لا نسخة
+  if ! tar tzf "$tmp" >/dev/null 2>&1; then
+    tar czf "$tmp" -C "$UPLOADS_SRC" . 2>/dev/null || true
+  fi
   # قراءة الأرشيف كاملاً تكشف الانقطاع في منتصفه
   if ! tar tzf "$tmp" >/dev/null 2>&1; then
     rm -f "$tmp"

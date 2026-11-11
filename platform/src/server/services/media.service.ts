@@ -20,6 +20,24 @@ import { addTimeline } from './timeline.service'
  */
 
 export const MEDIA_URL_TTL_SECONDS = 4 * 3600
+/**
+ * نسخة إعدادات ختم PDF: تدخل في مفتاح كاش النسخ المختومة.
+ * غيّرها عند أي تعديل في stampPdf (الخط، الموضع، اللون، طريقة الحفظ) كي لا تُخدَم نسخة قديمة.
+ */
+export const PDF_STAMP_VERSION = '2-objstreams'
+/** مع إعادة التحقق (PDF_PRIVATE_REVALIDATE) يثبت رابط PDF داخل نافذة ساعة كي يتعرّف عليه كاش المتصفح */
+export const PDF_URL_STABLE_WINDOW_SECONDS = 3600
+
+/**
+ * قرار أمني للمالك، مُطفأ افتراضياً (السلوك الحالي: private, no-store).
+ * عند التفعيل (PDF_PRIVATE_REVALIDATE=1): PDF المختوم يُرسل بـ private, no-cache + ETag، والمتصفح يسأل
+ * الخادم في كل فتح (تحقق كامل من الصلاحية) فيجيب 304 بلا إعادة تنزيل. الثمن: النسخة المختومة تبقى في
+ * كاش المتصفح الخاص على جهاز التلميذ.
+ */
+export function pdfPrivateRevalidateEnabled(): boolean {
+  const v = (process.env.PDF_PRIVATE_REVALIDATE ?? '').trim().toLowerCase()
+  return v === '1' || v === 'true' || v === 'on'
+}
 export const ANON_VIEWER = 'anon'
 /**
  * قرار المالك (2026-10-28): جهاز واحد فقط يشاهد في كل الأحوال، ولا يُغيَّر من البيئة.
@@ -45,6 +63,18 @@ function secret() {
 /** رابط بثّ موقّع بهوية المشاهد؛ يُستهلك من نفس الجلسة فقط */
 export function signMediaUrl(fileId: string, contentId: string, viewerId: string, ttlSeconds = MEDIA_URL_TTL_SECONDS, now = Date.now()): string {
   const exp = Math.floor(now / 1000) + ttlSeconds
+  const sig = createHmac('sha256', secret()).update(`media.${fileId}.${contentId}.${viewerId}.${exp}`).digest('base64url')
+  return `/api/v1/media/${fileId}?c=${contentId}&exp=${exp}&sig=${sig}`
+}
+
+/**
+ * رابط PDF: مطابق لـ signMediaUrl ما لم تُفعَّل إعادة التحقق؛ عندها يُقرَّب الانتهاء إلى رأس الساعة التالية
+ * (صلاحية بين 4 و5 ساعات بدل 4 بالضبط) فيبقى الرابط نفسه خلال الساعة ويعمل ETag/304. الفيديو لا يمرّ من هنا.
+ */
+export function signPdfMediaUrl(fileId: string, contentId: string, viewerId: string, now = Date.now()): string {
+  if (!pdfPrivateRevalidateEnabled()) return signMediaUrl(fileId, contentId, viewerId, MEDIA_URL_TTL_SECONDS, now)
+  const w = PDF_URL_STABLE_WINDOW_SECONDS
+  const exp = Math.ceil((Math.floor(now / 1000) + MEDIA_URL_TTL_SECONDS) / w) * w
   const sig = createHmac('sha256', secret()).update(`media.${fileId}.${contentId}.${viewerId}.${exp}`).digest('base64url')
   return `/api/v1/media/${fileId}?c=${contentId}&exp=${exp}&sig=${sig}`
 }
@@ -111,7 +141,9 @@ export async function resolveMediaAccess(db: Db, actor: Actor | null, contentId:
 
 /**
  * ختم PDF في الخادم: نص مائل شبه شفاف في وسط كل صفحة + سطر صغير أسفلها.
- * يعمل على نسخة من الملف الأصلي في كل طلب؛ الأصل لا يُعدَّل.
+ * يعمل على نسخة من الملف الأصلي؛ الأصل لا يُعدَّل. المسار يحفظ الناتج في كاش (pdf-stamp-cache) فلا يُعاد الختم في كل فتح.
+ * الحفظ بتيارات الكائنات (object streams) يصغّر الناتج، وقارئ الصفحات (unpdf/pdf.js) يفتحه — مُختبر في tests/pdf-stamp-cache.test.ts.
+ * أي تعديل هنا ⇒ غيّر PDF_STAMP_VERSION.
  */
 export async function stampPdf(bytes: Buffer, lines: string[]): Promise<Buffer> {
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false })
@@ -132,7 +164,7 @@ export async function stampPdf(bytes: Buffer, lines: string[]): Promise<Buffer> 
     })
     page.drawText(text, { x: 18, y: 12, size: 8, font, color: rgb(0.35, 0.35, 0.35), opacity: 0.7 })
   }
-  return Buffer.from(await doc.save({ useObjectStreams: false }))
+  return Buffer.from(await doc.save({ useObjectStreams: true }))
 }
 
 export const BUNNY_EMBED_TTL_SECONDS = 2 * 3600
