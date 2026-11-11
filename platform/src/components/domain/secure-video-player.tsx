@@ -12,6 +12,9 @@ const HEARTBEAT_MS = 45_000
 
 const makeViewerKey = deviceViewerKey
 
+/** نتيجة نبضة المشاهدة: مقبولة، مرفوضة لأن جهازًا آخر يشاهد، أو تعذّر السؤال (الشبكة) */
+type HeartbeatResult = 'ok' | 'blocked' | 'error'
+
 /**
  * تكبير يحفظ العلامة المائية: الشاشة الكاملة الأصلية للفيديو (مشغّل iPhone) تعرض الفيديو وحده
  * فتختفي العلامة. هنا يُكبَّر الإطار كله (الفيديو + العلامة): شاشة كاملة حقيقية حيث يدعمها المتصفح
@@ -53,12 +56,16 @@ function useProtectedFullscreen(ref: RefObject<HTMLElement | null>) {
   return { expanded, enter, exit }
 }
 
-/** الغلاف والإطار 16:9 في الوضعين: الأصناف تتغيّر فقط، فلا يُعاد تحميل المشغّل عند التكبير */
+/**
+ * الأصناف والأبعاد تتغيّر فقط، فلا يُعاد تحميل المشغّل عند التكبير.
+ * عند التكبير يملأ الإطار الشاشة كلها (لا 16:9): المشغّل نفسه يوسّط الصورة داخله، ففيديو مصوَّر بالطول
+ * يأخذ ارتفاع الهاتف كاملًا. بإطار 16:9 كان «التكبير» على هاتف بالطول لا يكبّر شيئًا.
+ */
 function frameClasses(expanded: boolean) {
   return {
     wrapper: expanded ? 'fixed inset-0 z-[70] flex items-center justify-center bg-black' : '',
     box: expanded ? 'relative select-none overflow-hidden bg-black' : 'relative select-none overflow-hidden rounded-xl border bg-black',
-    boxStyle: expanded ? { aspectRatio: '16 / 9', width: 'min(100vw, calc(100dvh * 16 / 9))' } : { aspectRatio: '16 / 9' }
+    boxStyle: expanded ? { width: '100vw', height: '100dvh' } : { aspectRatio: '16 / 9' }
   }
 }
 
@@ -89,14 +96,15 @@ export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: 
   const frame = frameClasses(expanded)
   const viewerKey = useMemo(() => makeViewerKey(), [])
   const [blocked, setBlocked] = useState<string | null>(null)
+  const [checking, setChecking] = useState(false)
   const [paused, setPaused] = useState<string | null>(null)
   const [wmPos, setWmPos] = useState({ top: 12, left: 10 })
   const lastTick = useRef<number>(0)
 
   const heartbeat = useCallback(
-    async (completed = false) => {
+    async (completed = false): Promise<HeartbeatResult> => {
       const v = videoRef.current
-      if (!v) return
+      if (!v) return 'error'
       const now = Date.now()
       const delta = lastTick.current ? Math.min(120, Math.round((now - lastTick.current) / 1000)) : 0
       lastTick.current = now
@@ -110,13 +118,24 @@ export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: 
         if (!j.ok && j.error?.code === 'MEDIA_TOO_MANY_DEVICES') {
           v.pause()
           setBlocked(j.error.message)
+          return 'blocked'
         }
+        return j.ok ? 'ok' : 'error'
       } catch {
         /* الشبكة: لا نوقف التشغيل */
+        return 'error'
       }
     },
     [contentId, viewerKey]
   )
+
+  // الحجب لا يُرفع إلا بموافقة الخادم: كان الزر يرفعه محليًّا فيعود التشغيل لحظات قبل النبضة التالية
+  const retry = useCallback(async () => {
+    setChecking(true)
+    const result = await heartbeat()
+    setChecking(false)
+    if (result === 'ok') setBlocked(null)
+  }, [heartbeat])
 
   // نبضة دورية أثناء التشغيل
   useEffect(() => {
@@ -203,8 +222,8 @@ export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: 
             <ShieldCheck className="size-10 text-amber-300" />
             <p className="text-lg font-bold">{t('media.playerBlocked')}</p>
             <p className="text-sm text-white/80">{blocked}</p>
-            <Button variant="secondary" onClick={() => setBlocked(null)}>
-              {t('media.resume')}
+            <Button variant="secondary" disabled={checking} onClick={() => void retry()}>
+              {checking ? t('media.retryChecking') : t('media.retry')}
             </Button>
           </div>
         ) : paused ? (
@@ -235,11 +254,12 @@ export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, a
   const { expanded, enter, exit } = useProtectedFullscreen(frameRef)
   const frame = frameClasses(expanded)
   const [blocked, setBlocked] = useState<string | null>(null)
+  const [checking, setChecking] = useState(false)
   const [expired, setExpired] = useState(false)
   const elapsed = useRef(0)
   const lastTick = useRef<number>(0)
 
-  const heartbeat = useCallback(async () => {
+  const heartbeat = useCallback(async (): Promise<HeartbeatResult> => {
     const now = Date.now()
     const delta = lastTick.current ? Math.min(120, Math.round((now - lastTick.current) / 1000)) : 0
     lastTick.current = now
@@ -251,11 +271,25 @@ export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, a
         body: JSON.stringify({ contentId, viewerKey, position: Math.min(24 * 3600, elapsed.current), delta, completed: false })
       })
       const j = await r.json()
-      if (!j.ok && j.error?.code === 'MEDIA_TOO_MANY_DEVICES') setBlocked(j.error.message)
+      if (!j.ok && j.error?.code === 'MEDIA_TOO_MANY_DEVICES') {
+        setBlocked(j.error.message)
+        return 'blocked'
+      }
+      return j.ok ? 'ok' : 'error'
     } catch {
       /* الشبكة: لا نوقف العرض */
+      return 'error'
     }
   }, [contentId, viewerKey])
+
+  // الحجب لا يُرفع إلا بموافقة الخادم: الإطار لا يُعاد تركيبه (ولا يشتغل الفيديو لحظة) ما دام الجهاز الآخر يشاهد
+  const retry = useCallback(async () => {
+    setChecking(true)
+    lastTick.current = 0
+    const result = await heartbeat()
+    setChecking(false)
+    if (result === 'ok') setBlocked(null)
+  }, [heartbeat])
 
   useEffect(() => {
     if (blocked) return
@@ -314,8 +348,8 @@ export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, a
             <ShieldCheck className="size-10 text-amber-300" />
             <p className="text-lg font-bold">{t('media.playerBlocked')}</p>
             <p className="text-sm text-white/80">{blocked}</p>
-            <Button variant="secondary" onClick={() => setBlocked(null)}>
-              {t('media.resume')}
+            <Button variant="secondary" disabled={checking} onClick={() => void retry()}>
+              {checking ? t('media.retryChecking') : t('media.retry')}
             </Button>
           </div>
         ) : expired ? (
