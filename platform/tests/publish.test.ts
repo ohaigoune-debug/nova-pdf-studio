@@ -1,7 +1,7 @@
 import { mkdtemp } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { eq } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 import JSZip from 'jszip'
 import { PDFDocument } from 'pdf-lib'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
@@ -180,7 +180,7 @@ describe('صفحة «نشر» للأستاذ والمشرف', () => {
     expect(await titles(member.studentId)).not.toContain('فرض خاص')
   })
 
-  it('المشرف يفكّ سلسلة منشورة في «الدروس» وينقلها، فتُسحب من الدروس', async () => {
+  it('المشرف يفكّ سلسلة منشورة في «الدروس»: المواضيع تُضاف إلى الفروض، والكتاب يبقى في الدروس', async () => {
     setAiProviderForTests(splitter)
     const fileId = await up(admin, 'سلسلة الفروض والاختبارات 4 متوسط.pdf', await pdf(6))
     const c = await createContent(h.db, admin, { type: 'PDF', title: 'سلسلة الفروض والاختبارات — السنة الرابعة متوسط — الفصل الأول (نسخة مجانية)', fileId, levelId: am4, visibility: 'PUBLIC', publish: true })
@@ -192,7 +192,27 @@ describe('صفحة «نشر» للأستاذ والمشرف', () => {
     const r = await publishBatch(h.db, admin, b.id)
     expect(r.sections.exams).toBe(3)
     const [after] = await h.db.select().from(content).where(eq(content.id, c.id))
-    expect(after!.publishedAt).toBeNull()
+    expect(after!.publishedAt).not.toBeNull() // الكتاب لم يُسحب
+    const published = await h.db.select().from(resources).where(sql`${resources.metadata}->>'batchId' = ${b.id}`)
+    expect(published.filter((x) => x.type !== 'SOLUTION').map((x) => [x.type, x.schoolTerm])).toEqual(expect.arrayContaining([['HOMEWORK', 1], ['TEST', 1]]))
+    setAiProviderForTests(null)
+  })
+
+  it('تفكيك ناقص (عنصر بلا فصل أو بلا صفحات أو بلا مادة) يُرفض قبل أي نشر', async () => {
+    setAiProviderForTests(splitter)
+    const fileId = await up(admin, 'سلسلة ثانية.pdf', await pdf(6))
+    const c = await createContent(h.db, admin, { type: 'PDF', title: 'سلسلة الفروض والاختبارات — الرابعة متوسط — نسخة 2', fileId, levelId: am4, visibility: 'PUBLIC', publish: true })
+    const b = await createBatchFromContent(h.db, admin, c.id)
+    await processQueuedJobs(h.db, { lane: 'slow', limit: 5 })
+    const [batch] = await h.db.select().from(uploadBatches).where(eq(uploadBatches.id, b.id))
+    const first = batch!.items[0]!
+    for (const broken of [{ term: null }, { fromPage: null, toPage: null }, { subjectId: null }]) {
+      await h.db.update(uploadBatches).set({ items: batch!.items.map((i) => (i.key === first.key ? { ...i, ...broken } : i)) }).where(eq(uploadBatches.id, b.id))
+      expect(await code(() => publishBatch(h.db, admin, b.id))).toBe('VALIDATION')
+    }
+    expect((await h.db.select().from(resources).where(sql`${resources.metadata}->>'batchId' = ${b.id}`)).length).toBe(0)
+    const [still] = await h.db.select().from(content).where(eq(content.id, c.id))
+    expect(still!.publishedAt).not.toBeNull()
     setAiProviderForTests(null)
   })
 })

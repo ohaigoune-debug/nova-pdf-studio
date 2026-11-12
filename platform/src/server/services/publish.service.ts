@@ -295,6 +295,12 @@ export async function publishBatch(db: Db, actor: Actor, id: string): Promise<{ 
   await assertGroups(db, actor, d)
   const chosen = b.items.filter((i) => i.include)
   if (!chosen.length) throw new AppError('VALIDATION', { field: 'items' })
+  // تفكيك كتاب سلسلة: كل عنصر يجب أن يكون موضوعاً محدّداً (صفحاته + مادته + فصله) وإلا لا يظهر في بطاقته الصحيحة.
+  // حادثة 2026-10-23: نُشرت دفعات ناقصة التقسيم فاختلطت المواضيع؛ الآن يُرفض النشر ويُشار إلى العنصر الناقص.
+  if (b.sourceContentId) {
+    const bad = chosen.find((i) => !i.fromPage || !i.toPage || !i.subjectId || !i.levelId || (i.type !== 'SOLUTION' && !i.term) || (i.type === 'SOLUTION' && !i.solutionFor))
+    if (bad) throw new AppError('VALIDATION', { field: 'items', item: bad.key, title: bad.title, reason: 'series_item_incomplete' })
+  }
   const lvlRows = await db.select({ id: levels.id, stageId: levels.stageId }).from(levels)
   const stageOf = new Map(lvlRows.map((l) => [l.id, l.stageId]))
   const fileRows = await db.select().from(files).where(inArray(files.id, [...new Set(chosen.map((i) => i.fileId))]))
@@ -344,8 +350,7 @@ export async function publishBatch(db: Db, actor: Actor, id: string): Promise<{ 
   }
   const items = b.items.map((i) => ({ ...i, resourceId: resourceOf.get(i.key) ?? null }))
   await db.update(uploadBatches).set({ status: 'PUBLISHED', items, publishedAt: new Date(), updatedAt: new Date() }).where(eq(uploadBatches.id, b.id))
-  // سلسلة منقولة من «الدروس والموارد»: تُسحب من هناك (تبقى في القاعدة، تُعاد بنشرها)
-  if (b.sourceContentId) await db.update(content).set({ publishedAt: null, updatedAt: new Date() }).where(eq(content.id, b.sourceContentId))
+  // الكتاب الكامل يبقى منشوراً في «الدروس والموارد» (قرار المالك): التفكيك يضيف المواضيع ولا يسحب الكتاب
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: b.workspaceId, action: 'resources.publish', entityType: 'upload_batch', entityId: b.id, newValue: { published: resourceOf.size, audience: d.audience } })
   return { published: resourceOf.size, sections }
 }
@@ -409,7 +414,7 @@ export async function listSeriesCandidates(db: Db, actor: Actor): Promise<Series
   return rows.map((r) => ({ id: r.id, title: r.title, levelName: r.levelName, published: Boolean(r.publishedAt), batchId: batches.find((b) => b.src === r.id)?.id ?? null }))
 }
 
-/** يفكّ سلسلة منشورة في «الدروس» إلى وثائق منفصلة (اقتراح يُراجَع، ثم تُسحب السلسلة من الدروس عند النشر) */
+/** يفكّ سلسلة منشورة في «الدروس» إلى مواضيع منفصلة (اقتراح يُراجَع)؛ الكتاب الكامل يبقى في «الدروس» */
 export async function createBatchFromContent(db: Db, actor: Actor, contentId: string): Promise<{ id: string }> {
   assertRole(actor, 'SUPER_ADMIN')
   if (!UUID.test(contentId)) throw new AppError('NOT_FOUND')
