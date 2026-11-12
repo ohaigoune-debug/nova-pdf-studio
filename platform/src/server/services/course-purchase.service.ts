@@ -464,9 +464,14 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
   // كل طلب دورة يتأكد برمز جديد؛ تحقق التسجيل لا يستهلك تأكيد الطلب.
   const [policy, channels] = await Promise.all([storePolicy(db), import('./phone-gate.service').then((m) => m.phoneChannels(db))])
   let otpVerifiedAt: Date | null = null
+  /** أُعفي الطلب من الرمز لأن هاتف الاستلام هو هاتف الحساب المؤكَّد (إعداد في اللوحة، معطَّل افتراضيًا) */
+  let viaAccountPhone = false
   // الدفع بالبطاقة يُثبت جدية الطلب بنفسه: لا رمز SMS
   if (payNow) {
     /* بلا رمز */
+  } else if (channels.sms && policy.skipOtpForVerifiedPhone && (await isPhoneVerified(db, actor.userId).then((pv) => pv.verified && pv.phone === phone))) {
+    otpVerifiedAt = new Date()
+    viaAccountPhone = true
   } else if (channels.sms) {
     if (!input.otpCode?.trim()) throw new AppError('ORDER_OTP_REQUIRED')
     await verifyOtp(db, { phone, purpose: 'ORDER', code: input.otpCode, userId: actor.userId })
@@ -518,7 +523,7 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
     }
   }
   if (otpVerifiedAt) {
-    const r = await transitionOrder(db, order.id, 'CONFIRMED', { actorUserId: actor.userId, source: 'sms' })
+    const r = await transitionOrder(db, order.id, 'CONFIRMED', viaAccountPhone ? { actorUserId: actor.userId, source: 'system', reason: 'هاتف الحساب مؤكَّد سلفًا' } : { actorUserId: actor.userId, source: 'sms' })
     return { id: order.id, number: order.number, status: r.order.status, bookTitle, priceDzd: price, shippingDzd: shipping, totalDzd: due, creditDzd: credit }
   }
   const admins = await db.select({ id: users.id }).from(users).where(eq(users.role, 'SUPER_ADMIN'))

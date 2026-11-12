@@ -54,8 +54,8 @@ export async function phoneVerificationStatusAction(): Promise<ActionResult<{ ve
 
 /* ------------------------------ إعدادات المشرف ------------------------------ */
 
-export async function setStorePolicyAction(input: { requireOtp: boolean }): Promise<ActionResult<{ requireOtp: boolean }>> {
-  const parsed = z.object({ requireOtp: z.boolean() }).safeParse(input)
+export async function setStorePolicyAction(input: { requireOtp?: boolean; skipOtpForVerifiedPhone?: boolean }): Promise<ActionResult<{ requireOtp: boolean; skipOtpForVerifiedPhone: boolean }>> {
+  const parsed = z.object({ requireOtp: z.boolean().optional(), skipOtpForVerifiedPhone: z.boolean().optional() }).safeParse(input)
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => setStorePolicy(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data))
   if (result.ok) {
