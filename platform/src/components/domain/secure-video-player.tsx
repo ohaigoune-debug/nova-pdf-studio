@@ -5,6 +5,7 @@ import { type RefObject, useCallback, useEffect, useMemo, useRef, useState } fro
 import { Alert } from '@/components/ui/misc'
 import { Button } from '@/components/ui/button'
 import { t } from '@/i18n'
+import { EMBED_REFRESH_BEFORE_SECONDS } from '@/lib/media-embed'
 import { deviceViewerKey } from './device-key'
 
 // كل 45 ثانية (كانت 15): ثلث الطلبات على الخادم، ونافذة الجهاز الواحد (دقيقتان) تبقى أطول من نبضتين
@@ -246,7 +247,9 @@ export function SecureVideoPlayer({ src, contentId, watermark, poster }: { src: 
  * - علامة مائية فوق الإطار تتحرك ببطء (اسم التلميذ/بريده + معرّف + التاريخ) — لا تُزال من المشغّل.
  * - نبضات مشاهدة كل 15 ثانية ما دامت الصفحة ظاهرة (الإطار لا يكشف موضع التشغيل، فيُحتسب الزمن المنقضي).
  * - جهاز واحد فقط: عند رفض الخادم يُزال الإطار فيتوقف التشغيل.
- * - رابط Bunny مؤقّت (ساعتان): عند انتهائه يُطلب إعادة تحميل الصفحة.
+ * - رابط Bunny قصير العمر (خمس دقائق): Bunny يفحصه عند تحميل الإطار فقط، فالمشاهدة التي بدأت لا تُقطع عند انتهائه.
+ *   النبضة تطلب رابطًا جديدًا قبل انتهائه، ويُستعمل في كل تركيب لاحق للإطار (بعد رفع الحجب، أو إن لم يُحمَّل بعد).
+ *   فرابط منسوخ من الصفحة لا يفتح بعد دقائق. لا يُطلب «أعد تحميل الصفحة» إلا إن انتهى الرابط قبل تحميل الإطار وتعذّر تجديده.
  */
 export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, allow, hint }: { src: string; expires?: number; contentId: string; watermark: string[]; title: string; allow: string; hint: string }) {
   const viewerKey = useMemo(() => makeViewerKey(), [])
@@ -256,24 +259,41 @@ export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, a
   const [blocked, setBlocked] = useState<string | null>(null)
   const [checking, setChecking] = useState(false)
   const [expired, setExpired] = useState(false)
+  // الرابط الذي يُركَّب به الإطار، وأحدث رابط سلّمه الخادم، وهل حمّل الإطار رابطه (بعدها لا يُلمس حتى لا تنقطع المشاهدة)
+  const [frameSrc, setFrameSrc] = useState(src)
+  const latest = useRef<{ url: string; expires?: number }>({ url: src, expires })
+  const frameLoaded = useRef(false)
+  // الإطار يُركَّب في المتصفح عند اقترابه من الشاشة (بدل loading="lazy"):
+  // إطار مرسوم من الخادم قد يكتمل تحميله قبل ربط onLoad، فلا نعرف أنه يعرض الفيديو ونعيد تحميله خطأً
+  const boxRef = useRef<HTMLDivElement>(null)
+  const [nearView, setNearView] = useState(false)
   const elapsed = useRef(0)
   const lastTick = useRef<number>(0)
 
-  const heartbeat = useCallback(async (): Promise<HeartbeatResult> => {
+  const heartbeat = useCallback(async (forceRefresh = false): Promise<HeartbeatResult> => {
     const now = Date.now()
     const delta = lastTick.current ? Math.min(120, Math.round((now - lastTick.current) / 1000)) : 0
     lastTick.current = now
     elapsed.current += delta
+    const exp = latest.current.expires
+    const refreshEmbed = exp !== undefined && (forceRefresh || exp - now / 1000 < EMBED_REFRESH_BEFORE_SECONDS)
     try {
       const r = await fetch('/api/v1/media/heartbeat', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ contentId, viewerKey, position: Math.min(24 * 3600, elapsed.current), delta, completed: false })
+        body: JSON.stringify({ contentId, viewerKey, position: Math.min(24 * 3600, elapsed.current), delta, completed: false, ...(refreshEmbed ? { refreshEmbed: true } : {}) })
       })
       const j = await r.json()
       if (!j.ok && j.error?.code === 'MEDIA_TOO_MANY_DEVICES') {
+        frameLoaded.current = false
         setBlocked(j.error.message)
         return 'blocked'
+      }
+      const fresh = j.ok ? j.data?.embed : undefined
+      if (fresh && typeof fresh.url === 'string' && typeof fresh.expires === 'number') {
+        latest.current = { url: fresh.url, expires: fresh.expires }
+        // إطار لم يُحمَّل بعد (أو أُزيل بالحجب) يأخذ الرابط الجديد؛ إطار يعرض الفيديو لا يُعاد تحميله
+        if (!frameLoaded.current) setFrameSrc(fresh.url)
       }
       return j.ok ? 'ok' : 'error'
     } catch {
@@ -282,11 +302,37 @@ export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, a
     }
   }, [contentId, viewerKey])
 
+  useEffect(() => {
+    const el = boxRef.current
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setNearView(true)
+      return
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setNearView(true)
+          io.disconnect()
+        }
+      },
+      { rootMargin: '300px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
+  // قبل تركيب الإطار: رابط يقترب انتهاؤه يُجدَّد أولًا
+  useEffect(() => {
+    if (!nearView) return
+    const exp = latest.current.expires
+    if (exp !== undefined && exp - Date.now() / 1000 < EMBED_REFRESH_BEFORE_SECONDS) void heartbeat(true)
+  }, [nearView, heartbeat])
+
   // الحجب لا يُرفع إلا بموافقة الخادم: الإطار لا يُعاد تركيبه (ولا يشتغل الفيديو لحظة) ما دام الجهاز الآخر يشاهد
   const retry = useCallback(async () => {
     setChecking(true)
     lastTick.current = 0
-    const result = await heartbeat()
+    const result = await heartbeat(true)
     setChecking(false)
     if (result === 'ok') setBlocked(null)
   }, [heartbeat])
@@ -295,33 +341,48 @@ export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, a
     if (blocked) return
     lastTick.current = Date.now()
     void heartbeat()
+    const tick = async () => {
+      // النبضة نفسها تجدّد الرابط إن اقترب انتهاؤه (أو انتهى)؛ لا يُطلب إعادة التحميل إلا إن تعذّر التجديد
+      const result = await heartbeat()
+      const exp = latest.current.expires
+      if (result !== 'blocked' && exp !== undefined && !frameLoaded.current && Date.now() / 1000 >= exp) {
+        // انتهى الرابط قبل أن يُحمَّل الإطار ولم يتجدّد (انقطاع الشبكة): يُطلب إعادة التحميل
+        setExpired(true)
+      }
+    }
     const iv = setInterval(() => {
       if (document.hidden) {
         lastTick.current = 0
         return
       }
-      if (expires && Date.now() / 1000 >= expires) {
-        setExpired(true)
-        return
-      }
-      void heartbeat()
+      void tick()
     }, HEARTBEAT_MS)
-    return () => clearInterval(iv)
-  }, [heartbeat, expires, blocked])
+    // عند العودة إلى الصفحة: نبضة فورية تجدّد الرابط قبل أن يُحمَّل الإطار الكسول برابط قديم
+    const onVisible = () => {
+      if (!document.hidden) void tick()
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => {
+      clearInterval(iv)
+      document.removeEventListener('visibilitychange', onVisible)
+    }
+  }, [heartbeat, blocked])
 
   return (
     <div className="space-y-2">
       <div ref={frameRef} className={frame.wrapper}>
-      <div className={frame.box} onContextMenu={(e) => e.preventDefault()} style={frame.boxStyle}>
+      <div ref={boxRef} className={frame.box} onContextMenu={(e) => e.preventDefault()} style={frame.boxStyle}>
         {/* بلا allowFullScreen: الشاشة الكاملة الأصلية للمشغّل تُسقط العلامة؛ التكبير من زرّنا */}
-        {!expired && !blocked ? (
+        {nearView && !expired && !blocked ? (
           <iframe
-            src={src}
+            src={frameSrc}
             title={title}
-            loading="lazy"
             className="absolute inset-0 h-full w-full border-0"
             allow={allow}
             referrerPolicy="strict-origin-when-cross-origin"
+            onLoad={() => {
+              frameLoaded.current = true
+            }}
           />
         ) : null}
         <ExpandButton expanded={expanded} onToggle={expanded ? exit : enter} />
@@ -369,7 +430,7 @@ export function SecureEmbedPlayer({ src, expires, contentId, watermark, title, a
   )
 }
 
-/** مشغّل Bunny Stream: إطار تضمين برابط موقّع مؤقّت (ساعتان) يولّده الخادم بعد التحقق من الأحقية. */
+/** مشغّل Bunny Stream: إطار تضمين برابط موقّع قصير العمر يولّده الخادم بعد التحقق من الأحقية ويجدّده عبر النبضة. */
 export function SecureBunnyPlayer({ src, expires, contentId, watermark, title }: { src: string; expires: number; contentId: string; watermark: string[]; title: string }) {
   return (
     <SecureEmbedPlayer src={src} expires={expires} contentId={contentId} watermark={watermark} title={title}

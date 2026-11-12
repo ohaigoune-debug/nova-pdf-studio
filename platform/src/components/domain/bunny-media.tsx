@@ -8,7 +8,7 @@ import { bunnyEmbedForViewer } from '@/server/services/media.service'
 import { SecureBunnyPlayer } from './secure-video-player'
 
 /**
- * فيديو Bunny داخل الدرس: الخادم يتحقق من الأحقية ويوقّع رابط التضمين (ساعتان) لهذا المشاهد،
+ * فيديو Bunny داخل الدرس: الخادم يتحقق من الأحقية ويوقّع رابط التضمين (خمس دقائق، والمشغّل يجدّده عبر النبضة) لهذا المشاهد،
  * ثم يرسم المشغّل مع العلامة المائية الشخصية. الزائر لا يرى إلا المحتوى العام.
  */
 export async function BunnyMedia({ contentId, actor }: { contentId: string; actor: Actor | null }) {

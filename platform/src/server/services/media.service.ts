@@ -7,6 +7,7 @@ import { reachableGroupIds } from '@/server/lib/course-access'
 import type { Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { getBunnyCredentials, isBunnyVideoId, signedEmbedUrl } from '@/server/lib/bunny'
+import { BUNNY_EMBED_TTL_SECONDS } from '@/lib/media-embed'
 import { addTimeline } from './timeline.service'
 
 /**
@@ -167,7 +168,7 @@ export async function stampPdf(bytes: Buffer, lines: string[]): Promise<Buffer> 
   return Buffer.from(await doc.save({ useObjectStreams: true }))
 }
 
-export const BUNNY_EMBED_TTL_SECONDS = 2 * 3600
+export { BUNNY_EMBED_APP_TTL_SECONDS, BUNNY_EMBED_TTL_SECONDS } from '@/lib/media-embed'
 
 export interface BunnyEmbed {
   url: string
@@ -179,16 +180,17 @@ export interface BunnyEmbed {
 }
 
 /**
- * رابط تضمين Bunny موقّع (ساعتان) — لا يُسلَّم إلا بعد أن تقرّ resolveMediaAccess الأحقية.
+ * رابط تضمين Bunny موقّع — لا يُسلَّم إلا بعد أن تقرّ resolveMediaAccess الأحقية.
  * الزائر لا يحصل عليه إلا لمحتوى PUBLIC (وهذا ما تفعله resolveMediaAccess أصلاً).
+ * العمر الافتراضي خمس دقائق (الموقع، والمشغّل يجدّده عبر النبضة)؛ تطبيق الآيفون يمرّر BUNNY_EMBED_APP_TTL_SECONDS.
  */
-export async function bunnyEmbedForViewer(db: Db, actor: Actor | null, contentId: string, now = Date.now()): Promise<BunnyEmbed> {
+export async function bunnyEmbedForViewer(db: Db, actor: Actor | null, contentId: string, now = Date.now(), opts: { ttlSeconds?: number } = {}): Promise<BunnyEmbed> {
   const access = await resolveMediaAccess(db, actor, contentId)
   if (access.content.videoProvider !== 'BUNNY' || !isBunnyVideoId(access.content.bunnyVideoId)) throw new AppError('CONTENT_NOT_FOUND')
   const creds = await getBunnyCredentials(db)
   if (!creds) throw new AppError('BUNNY_NOT_CONFIGURED')
   const viewerLabel = actor ? actor.userId.slice(0, 8) : ANON_VIEWER
-  const signed = signedEmbedUrl(creds, { videoId: access.content.bunnyVideoId, expiresInSeconds: BUNNY_EMBED_TTL_SECONDS, viewerLabel, now })
+  const signed = signedEmbedUrl(creds, { videoId: access.content.bunnyVideoId, expiresInSeconds: opts.ttlSeconds ?? BUNNY_EMBED_TTL_SECONDS, viewerLabel, now })
   const date = new Date(now).toISOString().slice(0, 10)
   let phoneLast4: string | null = null
   if (actor) {
@@ -208,11 +210,22 @@ export interface HeartbeatInput {
   ip?: string | null
   userAgent?: string | null
   now?: Date
+  /** المشغّل يطلب رابط Bunny جديدًا (رابطه يقترب من الانتهاء، أو سيُعاد تركيب الإطار) */
+  refreshEmbed?: boolean
+}
+
+/** رابط Bunny جديد قصير العمر لمحتوى أُقرّت أحقيته مسبقًا؛ null إن لم يكن المحتوى من Bunny أو لم تُضبط الاعتمادات */
+async function freshBunnyEmbed(db: Db, actor: Actor, c: { videoProvider: string | null; bunnyVideoId: string | null }, now: number): Promise<{ url: string; expires: number } | null> {
+  if (c.videoProvider !== 'BUNNY' || !isBunnyVideoId(c.bunnyVideoId)) return null
+  const creds = await getBunnyCredentials(db)
+  if (!creds) return null
+  return signedEmbedUrl(creds, { videoId: c.bunnyVideoId, expiresInSeconds: BUNNY_EMBED_TTL_SECONDS, viewerLabel: actor.userId.slice(0, 8), now })
 }
 
 /**
  * نبضة مشاهدة: تُنشئ/تحدّث سجل المشاهدة لهذا الجهاز، وترفض عند تجاوز عدد الأجهزة المتزامنة
  * (عناوين IP مختلفة لنفس الحساب خلال 10 دقائق) ⇒ إشارة مشاركة حساب.
+ * مع refreshEmbed تُرجع رابط Bunny جديدًا، ولا يحصل عليه إلا جهاز اجتاز قاعدة «جهاز واحد» في النبضة نفسها.
  */
 export async function recordMediaHeartbeat(db: Db, actor: Actor, input: HeartbeatInput) {
   const access = await resolveMediaAccess(db, actor, input.contentId)
@@ -226,6 +239,8 @@ export async function recordMediaHeartbeat(db: Db, actor: Actor, input: Heartbea
     .where(and(eq(mediaViews.userId, actor.userId), gt(mediaViews.lastSeenAt, new Date(now.getTime() - DEVICE_WINDOW_MS))))
   const otherDevices = new Set(recent.filter((r) => r.viewerKey !== viewerKey).map((r) => r.viewerKey))
   if (otherDevices.size >= maxConcurrentDevices()) throw new AppError('MEDIA_TOO_MANY_DEVICES')
+  const fresh = input.refreshEmbed ? await freshBunnyEmbed(db, actor, access.content, now.getTime()) : null
+  const embed = fresh ? { embed: fresh } : {}
 
   const delta = Math.max(0, Math.min(Math.floor(input.delta), 120))
   const position = Math.max(0, Math.floor(input.position))
@@ -245,7 +260,7 @@ export async function recordMediaHeartbeat(db: Db, actor: Actor, input: Heartbea
         completed: existing.completed || !!input.completed
       })
       .where(eq(mediaViews.id, existing.id))
-    return { viewId: existing.id, secondsWatched: existing.secondsWatched + delta, first: false }
+    return { viewId: existing.id, secondsWatched: existing.secondsWatched + delta, first: false, ...embed }
   }
   const [prior] = await db
     .select({ id: mediaViews.id })
@@ -280,7 +295,7 @@ export async function recordMediaHeartbeat(db: Db, actor: Actor, input: Heartbea
       occurredAt: now
     })
   }
-  return { viewId: row?.id ?? '', secondsWatched: delta, first: !prior }
+  return { viewId: row?.id ?? '', secondsWatched: delta, first: !prior, ...embed }
 }
 
 export interface ContentViewRow {
