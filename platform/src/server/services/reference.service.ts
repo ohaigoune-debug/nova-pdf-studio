@@ -1,6 +1,6 @@
 import { and, asc, eq, isNull, or } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { academicYears, levels, schools, skills, streams, wilayas } from '@/server/db/schema'
+import { academicYears, gradeStreams, levels, schools, skills, streams, wilayas } from '@/server/db/schema'
 import type { SchoolType } from '@/server/db/schema/enums'
 import { assertRole, workspaceOf, type Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
@@ -23,6 +23,23 @@ export async function listLevels(db: Db) {
 
 export async function listStreams(db: Db) {
   return [...(await ttlMemo('ref:streams', REFERENCE_TTL_MS, async () => db.select().from(streams).orderBy(asc(streams.sortOrder))))]
+}
+
+/**
+ * شعب كل مستوى (1AS: الجذعان المشتركان؛ 2AS و3AS: الشعب وخيارات تقني رياضي) من جدول `grade_streams`.
+ * مستوى بلا صفوف فيه = كل الشعب مقبولة (السلوك القديم)، حتى لا يُمنع تسجيل إن لم يُزرع الجدول.
+ */
+export async function streamsByLevel(db: Db): Promise<Map<string, string[]>> {
+  const rows = await ttlMemo('ref:grade-streams', REFERENCE_TTL_MS, async () => db.select({ levelId: gradeStreams.levelId, streamId: gradeStreams.streamId }).from(gradeStreams))
+  const map = new Map<string, string[]>()
+  for (const r of rows) map.set(r.levelId, [...(map.get(r.levelId) ?? []), r.streamId])
+  return map
+}
+
+/** هل الشعبة من شعب المستوى؟ (مستوى بلا شعب مسجّلة: نعم) */
+export async function streamFitsLevel(db: Db, levelId: string, streamId: string): Promise<boolean> {
+  const allowed = (await streamsByLevel(db)).get(levelId)
+  return !allowed?.length || allowed.includes(streamId)
 }
 
 export async function listSkills(db: Db) {
