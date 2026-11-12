@@ -44,8 +44,8 @@ describe('القيم قبل أي حفظ: كما كان الخادم يعمل', (
   })
 
   it('قيمة بيئة غير صالحة تُهمَل', () => {
-    expect(commercialDefaults({ STORE_SHIPPING_DZD: 'abc', MARKETPLACE_TEACHER_SHARE_PCT: '150' } as NodeJS.ProcessEnv)).toEqual({ shippingFallbackDzd: 0, marketplaceTeacherSharePct: 70, playTrialHours: 72 })
-    expect(commercialDefaults({ STORE_SHIPPING_DZD: '-5' } as NodeJS.ProcessEnv).shippingFallbackDzd).toBe(0)
+    expect(commercialDefaults({ STORE_SHIPPING_DZD: 'abc', MARKETPLACE_TEACHER_SHARE_PCT: '150' })).toEqual({ shippingFallbackDzd: 0, marketplaceTeacherSharePct: 70, playTrialHours: 72 })
+    expect(commercialDefaults({ STORE_SHIPPING_DZD: '-5' }).shippingFallbackDzd).toBe(0)
   })
 })
 

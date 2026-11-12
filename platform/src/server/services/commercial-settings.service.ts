@@ -53,7 +53,7 @@ const AUDIT_ACTION = 'settings.commercial'
 const inBounds = (k: CommercialKey, v: unknown): v is number => typeof v === 'number' && Number.isInteger(v) && v >= COMMERCIAL_BOUNDS[k][0] && v <= COMMERCIAL_BOUNDS[k][1]
 
 /** القيم قبل أي حفظ في اللوحة: ما كان يعمل به الخادم حتى الآن */
-export function commercialDefaults(env: NodeJS.ProcessEnv = process.env): CommercialSettings {
+export function commercialDefaults(env: Record<string, string | undefined> = process.env): CommercialSettings {
   const num = (raw: string | undefined, k: CommercialKey, fallback: number) => {
     const v = Math.round(Number(raw))
     return raw !== undefined && raw !== '' && inBounds(k, v) ? v : fallback
