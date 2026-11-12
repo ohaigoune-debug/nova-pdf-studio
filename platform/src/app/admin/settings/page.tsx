@@ -1,6 +1,7 @@
 import { AboutSettingsForm } from '@/components/domain/about-settings-form'
 import { ChangePasswordCard } from '@/components/domain/change-password-card'
 import { TelegramSettingsForm } from '@/components/delivery/ecotrack-forms'
+import { CommercialSettingsForm } from '@/components/domain/commercial-settings-form'
 import { StoreSmsSettings } from '@/components/domain/store-sms-settings'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/misc'
@@ -11,12 +12,13 @@ import { listSettings } from '@/server/queries/admin-extras.queries'
 import { getAboutSettings } from '@/server/services/about.service'
 import { smsStatus } from '@/server/lib/sms'
 import { telegramConfig } from '@/server/lib/telegram'
+import { commercialSettings, commercialSettingsHistory } from '@/server/services/commercial-settings.service'
 import { storePolicy } from '@/server/services/store.service'
 
 export default async function AdminSettingsPage() {
   const actor = await requirePageActor('SUPER_ADMIN')
   const db = await getDb()
-  const [settings, about, policy, sms, telegram] = await Promise.all([listSettings(db, actor), getAboutSettings(db), storePolicy(db), smsStatus(db), telegramConfig(db)])
+  const [settings, about, policy, sms, telegram, commercial, commercialHistory] = await Promise.all([listSettings(db, actor), getAboutSettings(db), storePolicy(db), smsStatus(db), telegramConfig(db), commercialSettings(db), commercialSettingsHistory(db, actor, 5)])
   const env: [string, string][] = [
     ['DATABASE_URL', (process.env.DATABASE_URL ?? 'pglite://./data/pglite').replace(/:\/\/.*@/, '://***@')],
     ['QR_TOKEN_TTL_SECONDS', process.env.QR_TOKEN_TTL_SECONDS ?? '60'],
@@ -45,6 +47,14 @@ export default async function AdminSettingsPage() {
         <ChangePasswordCard />
       </div>
       <div className="mb-6 grid gap-6 lg:grid-cols-2">
+        <Card id="commercial">
+          <CardHeader>
+            <CardTitle>الإعدادات التجارية</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CommercialSettingsForm value={commercial} history={commercialHistory} />
+          </CardContent>
+        </Card>
         <StoreSmsSettings policy={policy} sms={sms} />
         <Card>
           <CardHeader>

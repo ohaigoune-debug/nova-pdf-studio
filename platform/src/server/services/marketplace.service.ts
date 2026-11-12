@@ -16,12 +16,15 @@ import { copyExamToWorkspace, getExam, getExamUnchecked, type ExamView } from '.
 import { notify } from './notifications.service'
 import { copyQuestionsToWorkspace } from './question-bank.service'
 import { slugify } from './store.service'
+import { commercialSettings } from './commercial-settings.service'
 
 export const LISTING_KIND_AR: Record<ListingKind, string> = { EXAM: 'امتحان جاهز', EXERCISE_SET: 'مجموعة تمارين', SUMMARY: 'ملخّص (PDF)', QUESTION_BANK: 'حزمة أسئلة للبنك' }
 export const LISTING_STATUS_AR: Record<ListingStatus, string> = { DRAFT: 'مسودة', PENDING_REVIEW: 'بانتظار المراجعة', PUBLISHED: 'منشور', REJECTED: 'مرفوض', ARCHIVED: 'مؤرشف' }
 
-/** نصيب الأستاذ من كل بيع (%) — من البيئة، 70 افتراضياً */
-export const teacherSharePct = (): number => Math.max(0, Math.min(100, Number(process.env.MARKETPLACE_TEACHER_SHARE_PCT ?? 70) || 70))
+/** نصيب الأستاذ من كل بيع (%) — من الإعدادات التجارية في اللوحة (كان MARKETPLACE_TEACHER_SHARE_PCT، 70 افتراضياً) */
+export async function teacherSharePct(db: Db): Promise<number> {
+  return (await commercialSettings(db)).marketplaceTeacherSharePct
+}
 
 const ws = (actor: Actor): string => {
   assertRole(actor, 'TEACHER')
@@ -75,7 +78,7 @@ export async function createListing(db: Db, actor: Actor, input: ListingInput): 
   await validateSource(db, actor, workspaceId, input)
   const [row] = await db
     .insert(listings)
-    .values({ workspaceId, teacherUserId: actor.userId, kind: input.kind, title: input.title.trim(), description: input.description?.trim() || null, priceDzd: input.priceDzd, subjectId: input.subjectId ?? null, levelId: input.levelId ?? null, streamId: input.streamId ?? null, examId: input.kind === 'EXAM' ? input.examId : null, fileId: input.kind === 'SUMMARY' ? input.fileId : null, questionIds: input.kind === 'EXERCISE_SET' || input.kind === 'QUESTION_BANK' ? [...new Set(input.questionIds ?? [])] : [], teachersOnly: teachersOnlyFor(input.kind), rightsConfirmed: Boolean(input.rightsConfirmed), teacherSharePct: teacherSharePct() })
+    .values({ workspaceId, teacherUserId: actor.userId, kind: input.kind, title: input.title.trim(), description: input.description?.trim() || null, priceDzd: input.priceDzd, subjectId: input.subjectId ?? null, levelId: input.levelId ?? null, streamId: input.streamId ?? null, examId: input.kind === 'EXAM' ? input.examId : null, fileId: input.kind === 'SUMMARY' ? input.fileId : null, questionIds: input.kind === 'EXERCISE_SET' || input.kind === 'QUESTION_BANK' ? [...new Set(input.questionIds ?? [])] : [], teachersOnly: teachersOnlyFor(input.kind), rightsConfirmed: Boolean(input.rightsConfirmed), teacherSharePct: await teacherSharePct(db) })
     .returning()
   await writeAudit(db, { actorUserId: actor.userId, workspaceId, action: 'market.listing_create', entityType: 'listing', entityId: row!.id, newValue: { kind: row!.kind, title: row!.title, priceDzd: row!.priceDzd } })
   return row!
@@ -181,7 +184,7 @@ export async function reviewListing(db: Db, actor: Actor, id: string, decision: 
   }
   const [row] = await db
     .update(listings)
-    .set({ status: decision.approve ? 'PUBLISHED' : 'REJECTED', reviewNote: decision.note?.trim() || null, productId, publishedAt: decision.approve ? new Date() : cur.publishedAt, teacherSharePct: decision.approve ? teacherSharePct() : cur.teacherSharePct, updatedAt: new Date() })
+    .set({ status: decision.approve ? 'PUBLISHED' : 'REJECTED', reviewNote: decision.note?.trim() || null, productId, publishedAt: decision.approve ? new Date() : cur.publishedAt, teacherSharePct: decision.approve ? await teacherSharePct(db) : cur.teacherSharePct, updatedAt: new Date() })
     .where(eq(listings.id, id))
     .returning()
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: cur.workspaceId, action: 'market.listing_review', entityType: 'listing', entityId: id, newValue: { approve: decision.approve, note: decision.note ?? null } })
@@ -279,7 +282,7 @@ export async function teacherEarnings(db: Db, actor: Actor) {
   ])
   const paid = payouts.filter((p) => p.status === 'PAID').reduce((s, p) => s + p.amountDzd, 0)
   const pending = payouts.filter((p) => p.status === 'PENDING').reduce((s, p) => s + p.amountDzd, 0)
-  return { sales: sums?.sales ?? 0, earnedDzd: sums?.earned ?? 0, grossDzd: sums?.gross ?? 0, paidDzd: paid, pendingDzd: pending, balanceDzd: (sums?.earned ?? 0) - paid - pending, payouts, recent, sharePct: teacherSharePct() }
+  return { sales: sums?.sales ?? 0, earnedDzd: sums?.earned ?? 0, grossDzd: sums?.gross ?? 0, paidDzd: paid, pendingDzd: pending, balanceDzd: (sums?.earned ?? 0) - paid - pending, payouts, recent, sharePct: await teacherSharePct(db) }
 }
 
 /** المشرف: ما يستحقه كل أستاذ (المكتسب − المدفوع − المعلّق) */
@@ -329,7 +332,7 @@ export async function marketStats(db: Db, actor: Actor) {
     db.select({ sales: sql<number>`count(*)::int`, gross: sql<number>`coalesce(sum(${listingPurchases.priceDzd}), 0)::int`, platform: sql<number>`coalesce(sum(${listingPurchases.platformShareDzd}), 0)::int`, teachers: sql<number>`coalesce(sum(${listingPurchases.teacherShareDzd}), 0)::int` }).from(listingPurchases)
   ])
   const s = Object.fromEntries(byStatus.map((x) => [x.status, x.n])) as Partial<Record<ListingStatus, number>>
-  return { pending: s.PENDING_REVIEW ?? 0, published: s.PUBLISHED ?? 0, rejected: s.REJECTED ?? 0, sales: sums?.sales ?? 0, grossDzd: sums?.gross ?? 0, platformDzd: sums?.platform ?? 0, teachersDzd: sums?.teachers ?? 0, sharePct: teacherSharePct() }
+  return { pending: s.PENDING_REVIEW ?? 0, published: s.PUBLISHED ?? 0, rejected: s.REJECTED ?? 0, sales: sums?.sales ?? 0, grossDzd: sums?.gross ?? 0, platformDzd: sums?.platform ?? 0, teachersDzd: sums?.teachers ?? 0, sharePct: await teacherSharePct(db) }
 }
 
 /** مصادر العرض المتاحة للأستاذ: امتحاناته بعناصر، وملفاته PDF */

@@ -27,15 +27,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   await gateStoreBrowsing()
   const { slug } = await params
+  const db = await getDb()
   let p
   try {
-    p = await getProduct(await getDb(), decodeURIComponent(slug))
+    p = await getProduct(db, decodeURIComponent(slug))
   } catch (e) {
     if (e instanceof AppError) notFound()
     throw e
   }
   const Icon = p.type === 'BOOK' ? BookOpen : p.type === 'PDF' ? FileText : Package
-  const fee = shippingFeeDzd()
+  const fee = await shippingFeeDzd(db)
   return (
     <div className="container py-10">
       <PageHeader

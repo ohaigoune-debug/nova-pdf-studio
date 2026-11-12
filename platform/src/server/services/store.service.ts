@@ -23,22 +23,25 @@ import { ecotrackFeeFor, listEcotrackFees } from './ecotrack.service'
 import { transitionOrder } from './order-status.service'
 import { heldByOther, inConfirmQueue, reservationPolicy, takeForAction } from './confirm-reservations.service'
 import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
+import { commercialSettings } from './commercial-settings.service'
 
 export const PRODUCT_TYPE_AR: Record<ProductType, string> = { BOOK: 'كتاب ورقي', PDF: 'ملف PDF', PACK: 'حزمة (ورقي + رقمي)' }
 export { ORDER_STATUS_AR } from './order-status.service'
 export const PAYMENT_AR: Record<PaymentMethod, string> = { COD: 'الدفع عند الاستلام', TRANSFER: 'تحويل (CCP / BaridiMob)', FREE: 'مجاني', ONLINE: 'دفع إلكتروني (بطاقة)' }
 
-/** رسوم الشحن للطلبات المادية (دج) — من البيئة، صفر إن لم تُضبط */
-export const shippingFeeDzd = (): number => Math.max(0, Number(process.env.STORE_SHIPPING_DZD ?? 0) || 0)
+/** رسم التوصيل الاحتياطي (دج) حين لا جدول EcoTrack للولاية — من الإعدادات التجارية في اللوحة (كان STORE_SHIPPING_DZD) */
+export async function shippingFeeDzd(db: Db): Promise<number> {
+  return (await commercialSettings(db)).shippingFallbackDzd
+}
 
-/** رسم التوصيل: جدول EcoTrack للولاية إن كان محفوظاً، وإلا الرسم الثابت من البيئة */
+/** رسم التوصيل: جدول EcoTrack للولاية إن كان محفوظاً، وإلا الرسم الاحتياطي من الإعدادات التجارية */
 export async function shippingFeeFor(db: Db, wilayaId: string | null, deliveryType: 'HOME' | 'DESK'): Promise<number> {
   if (wilayaId) {
     const [w] = await db.select({ code: wilayas.code }).from(wilayas).where(eq(wilayas.id, wilayaId)).limit(1)
     const fee = w ? await ecotrackFeeFor(db, w.code, deliveryType) : null
     if (fee != null) return fee
   }
-  return shippingFeeDzd()
+  return shippingFeeDzd(db)
 }
 
 /** خريطة الرسوم لكل ولاية (للسلة): null حين لا جدول EcoTrack محفوظ */
@@ -632,5 +635,5 @@ export async function customerDefaults(db: Db, actor: Actor): Promise<{ name: st
 /** كل ما تحتاجه استمارة «شراء الدورة» (المعلومات تُعبّأ من التسجيل مباشرة) */
 export async function courseCheckoutData(db: Db, actor: Actor) {
   const [defaults, ws, feeTable, channels] = await Promise.all([customerDefaults(db, actor), db.select({ id: wilayas.id, code: wilayas.code, nameAr: wilayas.nameAr }).from(wilayas).orderBy(asc(wilayas.code)), shippingFeeTable(db), import('./phone-gate.service').then((m) => m.phoneChannels(db))])
-  return { defaults, wilayas: ws.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` })), feeTable, shippingDzd: shippingFeeDzd(), smsReady: channels.sms, onlinePay: await import('@/server/lib/guiddini').then((m) => m.onlinePaymentEnabled(db)) }
+  return { defaults, wilayas: ws.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` })), feeTable, shippingDzd: await shippingFeeDzd(db), smsReady: channels.sms, onlinePay: await import('@/server/lib/guiddini').then((m) => m.onlinePaymentEnabled(db)) }
 }

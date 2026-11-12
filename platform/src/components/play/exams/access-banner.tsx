@@ -1,10 +1,12 @@
 import { Clock, Gift, Lock, Sparkles } from 'lucide-react'
 import Link from '@/components/ui/link'
+import { hoursAr, spanAr } from '@/lib/arabic-count'
 import type { PlayAccess } from '@/server/services/play-access.service'
 import { remainingLabel } from '@/server/services/play-access.service'
 
 /**
  * حالة الوصول إلى PLAY (11_ACCESS_AND_TRIAL_POLICY) — الخادم مصدر الحقيقة، وهذا عرض فقط.
+ * مدة التجربة من الإعدادات التجارية في اللوحة (الافتراضي PLAY_TRIAL_HOURS).
  * داخل تطبيق iPhone (دراسة فقط) لا يظهر أي رابط شراء أو متجر.
  */
 export function PlayAccessBanner({ access, subjectName, iosStudyOnly }: { access: PlayAccess; subjectName: string | null; iosStudyOnly: boolean }) {
@@ -24,9 +26,9 @@ export function PlayAccessBanner({ access, subjectName, iosStudyOnly }: { access
     return (
       <div data-testid="play-access" data-state="trial_available" className="play-deck mx-auto max-w-xl rounded-2xl border border-[#BFD2F5] bg-white px-4 py-4 shadow-[0_10px_24px_-18px_rgba(20,87,197,0.6)]">
         <p className="flex items-center gap-2 text-[1.15rem] font-extrabold text-[#1B4DB1]">
-          <span aria-hidden>🎮</span> جرّب الآن — العب مجانًا 3 أيام
+          <span aria-hidden>🎮</span> جرّب الآن — العب مجانًا {spanAr(st.trialHours)}
         </p>
-        <p className="mt-1 text-sm font-medium leading-relaxed text-[#3B4C6B]">تبدأ تجربتك عند أول جولة تلعبها فعلًا، وتدوم 72 ساعة كاملة: مراجعة الدروس، والفروض والاختبارات، والبكالوريا.</p>
+        <p className="mt-1 text-sm font-medium leading-relaxed text-[#3B4C6B]">تبدأ تجربتك عند أول جولة تلعبها فعلًا، وتدوم {hoursAr(st.trialHours)} كاملة: مراجعة الدروس، والفروض والاختبارات، والبكالوريا.</p>
       </div>
     )
   }

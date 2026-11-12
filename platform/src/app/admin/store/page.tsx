@@ -34,11 +34,12 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
   const [stats, orders, products, eco, streamRows] = await Promise.all([storeStats(db, actor), listOrdersAdmin(db, actor, { status }), listProductsAdmin(db, actor), ecotrackStatus(db), listStreams(db)])
   const streamOptions = streamRows.map((r) => ({ id: r.id, name: r.nameAr }))
   const shipping = await shippingInfoFor(db, actor, orders.map((o) => o.id))
+  const fallbackFee = await shippingFeeDzd(db)
   return (
     <div className="space-y-6">
       <PageHeader
         title="طلبات الدورات"
-        description={eco.feesCount ? `رسوم التوصيل من جدول EcoTrack لكل ولاية (${eco.feesCount} ولاية)؛ الرسم الاحتياطي ${shippingFeeDzd()} دج · الدفع عند الاستلام للورقي، وتحويل يؤكَّد يدوياً للرقمي.` : `رسوم الشحن الحالية: ${shippingFeeDzd()} دج (STORE_SHIPPING_DZD في البيئة؛ أو اجلب جدول EcoTrack من صفحة التوصيل) · الدفع عند الاستلام للورقي، وتحويل يؤكَّد يدوياً للرقمي.`}
+        description={eco.feesCount ? `رسوم التوصيل من جدول EcoTrack لكل ولاية (${eco.feesCount} ولاية)؛ الرسم الاحتياطي ${fallbackFee} دج (من الإعدادات التجارية) · الدفع عند الاستلام للورقي، وتحويل يؤكَّد يدوياً للرقمي.` : `رسوم الشحن الحالية: ${fallbackFee} دج (تُغيَّر من الإعدادات ← الإعدادات التجارية؛ أو اجلب جدول EcoTrack من صفحة التوصيل) · الدفع عند الاستلام للورقي، وتحويل يؤكَّد يدوياً للرقمي.`}
         actions={
           <>
             <Button asChild variant={stats.pending ? 'default' : 'outline'}>
