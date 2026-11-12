@@ -35,7 +35,7 @@ export default async function AdminSettingsPage() {
   return (
     <>
       <PageHeader title={t('admin.settingsTitle')} />
-      <div className="mb-6 grid gap-6 lg:grid-cols-2">
+      <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>{t('about.title')}</CardTitle>
@@ -46,7 +46,7 @@ export default async function AdminSettingsPage() {
         </Card>
         <ChangePasswordCard />
       </div>
-      <div className="mb-6 grid gap-6 lg:grid-cols-2">
+      <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card id="commercial">
           <CardHeader>
             <CardTitle>الإعدادات التجارية</CardTitle>
@@ -65,7 +65,7 @@ export default async function AdminSettingsPage() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>البيئة</CardTitle>
@@ -73,9 +73,9 @@ export default async function AdminSettingsPage() {
           <CardContent>
             <dl className="space-y-2 text-sm">
               {env.map(([k, v]) => (
-                <div key={k} className="flex justify-between gap-4 border-b py-1 last:border-0">
-                  <dt className="font-mono text-xs">{k}</dt>
-                  <dd className="truncate font-mono text-xs" dir="ltr">
+                <div key={k} className="flex min-w-0 justify-between gap-4 border-b py-1 last:border-0">
+                  <dt className="shrink-0 font-mono text-xs">{k}</dt>
+                  <dd className="min-w-0 truncate font-mono text-xs" dir="ltr">
                     {v}
                   </dd>
                 </div>
@@ -93,9 +93,9 @@ export default async function AdminSettingsPage() {
             ) : (
               <dl className="space-y-2 text-sm">
                 {settings.map((s) => (
-                  <div key={s.key} className="flex justify-between gap-4 border-b py-1 last:border-0">
-                    <dt className="font-mono text-xs">{s.key}</dt>
-                    <dd className="truncate font-mono text-xs" dir="ltr">
+                  <div key={s.key} className="flex min-w-0 justify-between gap-4 border-b py-1 last:border-0">
+                    <dt className="shrink-0 font-mono text-xs">{s.key}</dt>
+                    <dd className="min-w-0 truncate font-mono text-xs" dir="ltr">
                       {typeof s.value === 'object' && s.value !== null && 'key' in s.value ? `{sealed · …${String((s.value as { hint?: string }).hint ?? '')}}` : JSON.stringify(s.value)}
                     </dd>
                   </div>
