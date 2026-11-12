@@ -20,3 +20,9 @@ madrasadz.com {
 www.madrasadz.com {
 	redir https://madrasadz.com{uri} permanent
 }
+
+# النطاق الجزائري: تحويل دائم إلى النطاق الرئيسي (لا تطبيق ثانٍ، ولا تغيير في الجلسات أو الروابط).
+# في Cloudflare: سجلّا A للجذر وwww نحو عنوان الخادم، بوضع «DNS only» (السحابة الرمادية) ليصدر Caddy الشهادة.
+madrasadz.com.dz, www.madrasadz.com.dz {
+	redir https://madrasadz.com{uri} permanent
+}
