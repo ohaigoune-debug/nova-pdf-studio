@@ -254,25 +254,29 @@ export interface PlaceOrderInput {
 /* ------------------------------- سياسة المتجر ------------------------------- */
 
 const STORE_POLICY_KEY = 'store.requireOtp'
+/** البند ب4: إعفاء هاتف الحساب المؤكَّد من رمز تأكيد طلب الدورة (افتراضي: لا، أي رمز لكل طلب كما كان) */
+const SKIP_VERIFIED_OTP_KEY = 'store.orderOtp.skipVerifiedPhone'
 
 export interface StorePolicy {
   /** يُطلب رمز تحقق بالهاتف قبل إرسال الطلب (افتراضي: لا) */
   requireOtp: boolean
+  /** طلب دورة إلى هاتف الحساب المؤكَّد لا يحتاج رمزًا جديدًا (افتراضي: لا) */
+  skipOtpForVerifiedPhone: boolean
 }
 
 export async function storePolicy(db: Db): Promise<StorePolicy> {
-  const [row] = await db.select({ value: appSettings.value }).from(appSettings).where(eq(appSettings.key, STORE_POLICY_KEY)).limit(1)
-  return { requireOtp: row?.value === true }
+  const rows = await db.select({ key: appSettings.key, value: appSettings.value }).from(appSettings).where(inArray(appSettings.key, [STORE_POLICY_KEY, SKIP_VERIFIED_OTP_KEY]))
+  const on = (key: string) => rows.find((r) => r.key === key)?.value === true
+  return { requireOtp: on(STORE_POLICY_KEY), skipOtpForVerifiedPhone: on(SKIP_VERIFIED_OTP_KEY) }
 }
 
 export async function setStorePolicy(db: Db, actor: Actor, input: Partial<StorePolicy>): Promise<StorePolicy> {
   assertRole(actor, 'SUPER_ADMIN')
   const previous = await storePolicy(db)
-  const next: StorePolicy = { requireOtp: input.requireOtp ?? previous.requireOtp }
-  await db
-    .insert(appSettings)
-    .values({ key: STORE_POLICY_KEY, value: next.requireOtp })
-    .onConflictDoUpdate({ target: appSettings.key, set: { value: next.requireOtp, updatedAt: new Date() } })
+  const next: StorePolicy = { requireOtp: input.requireOtp ?? previous.requireOtp, skipOtpForVerifiedPhone: input.skipOtpForVerifiedPhone ?? previous.skipOtpForVerifiedPhone }
+  for (const [key, value] of [[STORE_POLICY_KEY, next.requireOtp], [SKIP_VERIFIED_OTP_KEY, next.skipOtpForVerifiedPhone]] as const) {
+    await db.insert(appSettings).values({ key, value }).onConflictDoUpdate({ target: appSettings.key, set: { value, updatedAt: new Date() } })
+  }
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'settings.store_policy', entityType: 'settings', entityId: null, oldValue: { ...previous }, newValue: { ...next } })
   return next
 }
@@ -629,8 +633,20 @@ export async function customerDefaults(db: Db, actor: Actor): Promise<{ name: st
   return { name: actor.fullName, phone: p?.phone ?? null, phoneVerified: Boolean(p?.verifiedAt), guardianPhone: st?.guardianPhone ?? null, wilayaId: st?.wilayaId ?? null, streamId: st?.streamId ?? null }
 }
 
-/** كل ما تحتاجه استمارة «شراء الدورة» (المعلومات تُعبّأ من التسجيل مباشرة) */
+/** عنوان آخر طلب شحن للحساب (البند ب4): الطلب الثاني لا يُكتب فيه شيء من جديد */
+export async function lastShippingAddress(db: Db, userId: string): Promise<{ wilayaId: string; commune: string | null; address: string; deliveryType: 'HOME' | 'DESK' } | null> {
+  const [o] = await db
+    .select({ wilayaId: orders.wilayaId, commune: orders.commune, address: orders.address, deliveryType: orders.deliveryType })
+    .from(orders)
+    .where(and(eq(orders.userId, userId), eq(orders.needsShipping, true), sql`${orders.wilayaId} is not null`, sql`coalesce(${orders.address}, '') <> ''`))
+    .orderBy(desc(orders.createdAt))
+    .limit(1)
+  if (!o?.wilayaId || !o.address) return null
+  return { wilayaId: o.wilayaId, commune: o.commune ?? null, address: o.address, deliveryType: o.deliveryType === 'DESK' ? 'DESK' : 'HOME' }
+}
+
+/** كل ما تحتاجه استمارة «شراء الدورة» (المعلومات تُعبّأ من التسجيل ومن آخر طلب) */
 export async function courseCheckoutData(db: Db, actor: Actor) {
-  const [defaults, ws, feeTable, channels] = await Promise.all([customerDefaults(db, actor), db.select({ id: wilayas.id, code: wilayas.code, nameAr: wilayas.nameAr }).from(wilayas).orderBy(asc(wilayas.code)), shippingFeeTable(db), import('./phone-gate.service').then((m) => m.phoneChannels(db))])
-  return { defaults, wilayas: ws.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` })), feeTable, shippingDzd: shippingFeeDzd(), smsReady: channels.sms, onlinePay: await import('@/server/lib/guiddini').then((m) => m.onlinePaymentEnabled(db)) }
+  const [defaults, ws, feeTable, channels, policy, last] = await Promise.all([customerDefaults(db, actor), db.select({ id: wilayas.id, code: wilayas.code, nameAr: wilayas.nameAr }).from(wilayas).orderBy(asc(wilayas.code)), shippingFeeTable(db), import('./phone-gate.service').then((m) => m.phoneChannels(db)), storePolicy(db), lastShippingAddress(db, actor.userId)])
+  return { defaults, last, wilayas: ws.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` })), feeTable, shippingDzd: shippingFeeDzd(), smsReady: channels.sms, skipOtpForVerifiedPhone: policy.skipOtpForVerifiedPhone, onlinePay: await import('@/server/lib/guiddini').then((m) => m.onlinePaymentEnabled(db)) }
 }

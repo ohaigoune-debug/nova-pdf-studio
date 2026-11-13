@@ -17,6 +17,7 @@ import { courseLanding } from '@/server/services/academy-catalog.service'
 import { bookUpgradeOffer, courseBookStateById, courseDigitalStateById } from '@/server/services/course-purchase.service'
 import { referralEligibility, referralPolicy } from '@/server/services/referrals.service'
 import { courseCheckoutData } from '@/server/services/store.service'
+import { recordCourseOrderView } from '@/server/services/course-order-funnel.service'
 
 export const dynamic = 'force-dynamic'
 
@@ -61,6 +62,8 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
   if (course.enrollment === 'ACTIVE' && !upgrade) redirect(courseHref)
   const [purchase, checkout, digital, refEl, refPolicy] = await Promise.all([courseBookStateById(db, course.id), courseCheckoutData(db, actor), courseDigitalStateById(db, course.id), referralEligibility(db, actor.userId), referralPolicy(db)])
   const price = upgrade ? upgrade.priceDzd : (purchase.book?.priceDzd ?? 0)
+  // لقياس إتمام الطلب في لوحة الإدارة (البند ب4)
+  if (purchase.purchasable && purchase.book) await recordCourseOrderView(db, actor.userId, course.id)
   const [cover] = purchase.book ? await db.select({ url: products.coverUrl }).from(products).where(eq(products.id, purchase.book.id)).limit(1) : []
   const bookCover = cover?.url ?? null
 

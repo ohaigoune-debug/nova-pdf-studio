@@ -1,4 +1,4 @@
-import { Package, PhoneCall, Plus, ShoppingBag, Truck, Undo2, Wallet } from 'lucide-react'
+import { Gauge, Package, PhoneCall, Plus, ShoppingBag, Truck, Undo2, Wallet } from 'lucide-react'
 import Link from 'next/link'
 import { ShippingForm } from '@/components/delivery/delivery-forms'
 import { ConfirmerOrders } from '@/components/domain/confirmer-orders'
@@ -13,6 +13,7 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { ORDER_STATUSES, type OrderStatus } from '@/server/db/schema/enums'
 import { shippingInfoFor } from '@/server/services/delivery.service'
+import { courseOrderFunnel } from '@/server/services/course-order-funnel.service'
 import { ecotrackOperatorStatus, ecotrackStatus } from '@/server/services/ecotrack.service'
 import { listStreams } from '@/server/services/reference.service'
 import { listOrdersAdmin, listProductsAdmin, ORDER_STATUS_AR, PAYMENT_AR, PRODUCT_TYPE_AR, shippingFeeDzd, storeStats } from '@/server/services/store.service'
@@ -31,7 +32,7 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
     const [orders, eco, streamRows] = await Promise.all([listOrdersAdmin(db, actor, { status }), ecotrackOperatorStatus(db, actor), listStreams(db)])
     return <ConfirmerOrders orders={orders} ecotrack={eco.enabled} streams={streamRows.map((r) => ({ id: r.id, name: r.nameAr }))} />
   }
-  const [stats, orders, products, eco, streamRows] = await Promise.all([storeStats(db, actor), listOrdersAdmin(db, actor, { status }), listProductsAdmin(db, actor), ecotrackStatus(db), listStreams(db)])
+  const [stats, orders, products, eco, streamRows, funnel] = await Promise.all([storeStats(db, actor), listOrdersAdmin(db, actor, { status }), listProductsAdmin(db, actor), ecotrackStatus(db), listStreams(db), courseOrderFunnel(db)])
   const streamOptions = streamRows.map((r) => ({ id: r.id, name: r.nameAr }))
   const shipping = await shippingInfoFor(db, actor, orders.map((o) => o.id))
   return (
@@ -54,13 +55,14 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
           </>
         }
       />
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-6">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-7">
         <StatCard label="بانتظار التأكيد" value={stats.pending} icon={ShoppingBag} tone={stats.pending ? 'warning' : 'default'} />
         <StatCard label="مؤكَّدة / في الطريق" value={stats.confirmed + stats.shipped} icon={Truck} />
         <StatCard label="سُلّمت" value={stats.delivered} icon={Package} tone="success" />
         <StatCard label="مرتجعة" value={stats.returned} icon={Undo2} tone={stats.returned ? 'destructive' : 'default'} />
         <StatCard label="إيراد المسلَّم" value={`${stats.revenueDzd} دج`} icon={Wallet} />
         <StatCard label="المنتجات" value={stats.products} hint={`${stats.published} منشور · ${stats.downloads} تنزيلاً`} icon={Package} />
+        <StatCard label="إتمام صفحة الطلب" value={funnel.pct === null ? '—' : `${funnel.pct}%`} hint={`${funnel.placed} من ${funnel.viewed} تلميذًا فتحوها · آخر ${funnel.days} أيام`} icon={Gauge} />
       </div>
 
       <Card>

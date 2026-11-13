@@ -14,6 +14,10 @@ import { courseCommunesAction, courseQuoteAction, placeCourseOrderAction } from 
 
 export interface CheckoutData {
   defaults: { name: string; phone: string | null; phoneVerified: boolean; guardianPhone: string | null; wilayaId: string | null }
+  /** عنوان آخر طلب شحن للحساب: يُعبّأ به النموذج فلا يُكتب من جديد (البند ب4) */
+  last?: { wilayaId: string; commune: string | null; address: string; deliveryType: 'HOME' | 'DESK' } | null
+  /** إعداد اللوحة: طلب إلى هاتف الحساب المؤكَّد لا يحتاج رمزًا جديدًا */
+  skipOtpForVerifiedPhone?: boolean
   wilayas: { id: string; name: string }[]
   feeTable: Record<string, { home: number; desk: number }> | null
   shippingDzd: number
@@ -28,7 +32,8 @@ const norm = (p: string) => p.replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
 /**
  * نموذج «اطلب الدورة» داخل صفحة الطلب (نسق صفحات الهبوط في NOVA): المستلم والهاتف والولاية والبلدية والعنوان
  * ومنزل/مكتب، والسعر والتوصيل والإجمالي كما يحسبها الخادم. الطلب يُرسل courseId فقط (لا سعر ولا منتج).
- * لكل طلب رمز تأكيد جديد يصل إلى الهاتف المختار. تُفعَّل الدورة عند تسليم الكتاب.
+ * لكل طلب رمز تأكيد جديد يصل إلى الهاتف المختار، إلا إن فعّل المشرف إعفاء هاتف الحساب المؤكَّد. تُفعَّل الدورة عند تسليم الكتاب.
+ * البلدية والعنوان وطريقة الاستلام تُعبّأ من آخر طلب، والزر والمبلغ يبقيان ظاهرين أسفل الشاشة في الهاتف.
  */
 export function CourseOrderForm({ courseId, book, data }: { courseId: string; book: { title: string; priceDzd: number }; data: CheckoutData }) {
   const router = useRouter()
@@ -37,12 +42,23 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
   const [who, setWho] = useState<'self' | 'guardian' | 'other'>(d.phone ? 'self' : d.guardianPhone ? 'guardian' : 'other')
   const [other, setOther] = useState('')
   const [payNow, setPayNow] = useState(Boolean(data.onlinePay))
-  const [f, setF] = useState({ wilayaId: d.wilayaId ?? '', commune: '', address: '', deliveryType: 'HOME' as 'HOME' | 'DESK', otpCode: '' })
+  const last = data.last ?? null
+  const [f, setF] = useState({ wilayaId: last?.wilayaId ?? d.wilayaId ?? '', commune: last?.commune ?? '', address: last?.address ?? '', deliveryType: (last?.deliveryType ?? 'HOME') as 'HOME' | 'DESK', otpCode: '' })
   const [communeResult, setCommuneResult] = useState<{ wilayaId: string; lookup: CourseCommuneLookup } | null>(null)
   const communeLookup = communeResult?.wilayaId === f.wilayaId ? communeResult.lookup : null
   const communesLoading = Boolean(f.wilayaId) && !communeLookup
   const selectedCommune = communeLookup?.communes.find((c) => c.name === f.commune)
   const deskAvailable = communeLookup?.mode === 'manual' || Boolean(selectedCommune?.hasDesk)
+  // عنوان من طلب سابق: بلدية لم تعد في القائمة أو بلا مكتب ⇒ يُطلب اختيارها/التوصيل إلى المنزل، لا خطأ عند الإرسال
+  useEffect(() => {
+    if (communeLookup?.mode !== 'select') return
+    setF((s) => {
+      const c = communeLookup.communes.find((x) => x.name === s.commune)
+      if (s.commune && !c) return { ...s, commune: '', deliveryType: 'HOME' }
+      if (s.deliveryType === 'DESK' && !c?.hasDesk) return { ...s, deliveryType: 'HOME' }
+      return s
+    })
+  }, [communeLookup])
   useEffect(() => {
     if (!f.wilayaId) return
     let alive = true
@@ -69,8 +85,9 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
   }, [courseId, f.wilayaId, f.deliveryType, payNow])
   const phone = norm(who === 'self' ? (d.phone ?? '') : who === 'guardian' ? (d.guardianPhone ?? '') : other)
   const phoneOk = PHONE_RE.test(phone)
-  // تأكيد هاتف الحساب لا يستبدل تأكيد هذه الطلبية.
-  const needsOtp = data.smsReady && !payNow
+  // تأكيد هاتف الحساب لا يستبدل تأكيد هذه الطلبية، إلا إن فعّل المشرف الإعفاء والاستلام على هاتف الحساب المؤكَّد نفسه
+  const accountPhoneOk = Boolean(data.skipOtpForVerifiedPhone && d.phoneVerified && who === 'self' && d.phone && phone === norm(d.phone))
+  const needsOtp = data.smsReady && !payNow && !accountPhoneOk
   const fee = quote?.shippingDzd ?? 0
   const price = quote?.priceDzd ?? book.priceDzd
   const credit = useCredit ? (quote?.creditDzd ?? 0) : 0
@@ -169,7 +186,7 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
           {deskAvailable ? <option value="DESK">من مكتب شركة التوصيل{f.wilayaId && data.feeTable?.[f.wilayaId] ? ` — ${data.feeTable[f.wilayaId]!.desk} دج` : ''}</option> : null}
         </Select>
       </Field>
-      <Field label="العنوان" htmlFor="order-address">
+      <Field label="العنوان" htmlFor="order-address" hint={last && f.address === last.address ? 'من طلبك السابق — غيّره إن تغيّر' : undefined}>
         <Textarea id="order-address" rows={2} value={f.address} onChange={(e) => setF((s) => ({ ...s, address: e.target.value }))} dir="auto" />
       </Field>
       {needsOtp && phoneOk ? <h3 className="font-heading text-lg font-semibold">3. التأكيد بالهاتف</h3> : null}
@@ -225,16 +242,19 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
         </span>
       </Alert>
       {payNow ? null : <Alert tone={data.smsReady ? 'warning' : 'info'}>
-        {data.smsReady ? 'سيصلك رمز تأكيد على هذا الرقم. الطلبات الوهمية تُلغى ويُمنع صاحبها من الطلب.' : 'سنتصل بك على هذا الرقم لتأكيد الطلب قبل الإرسال.'}
+        {data.smsReady ? (accountPhoneOk ? 'هاتفك مؤكَّد، فيُؤكَّد طلبك مباشرة. الطلبات الوهمية تُلغى ويُمنع صاحبها من الطلب.' : 'سيصلك رمز تأكيد على هذا الرقم. الطلبات الوهمية تُلغى ويُمنع صاحبها من الطلب.') : 'سنتصل بك على هذا الرقم لتأكيد الطلب قبل الإرسال.'}
       </Alert>}
-      {!ready && !pending && missing.length ? (
-        <p id="order-missing" className="text-sm text-muted-foreground" aria-live="polite">
-          لإكمال الطلب: {missing.join('، ')}.
-        </p>
-      ) : null}
-      <Button className="w-full" size="lg" onClick={submit} loading={pending} disabled={!ready} aria-describedby={!ready && missing.length ? 'order-missing' : undefined}>
-        {payNow ? `ادفع الآن — ${total} دج` : `تأكيد الطلب — ${total} دج`}
-      </Button>
+      {/* في الهاتف: الزر والمبلغ ثابتان فوق شريط التنقل حتى لا يبحث التلميذ عنهما أسفل النموذج */}
+      <div data-order-submit className="sticky bottom-[calc(76px+env(safe-area-inset-bottom))] z-30 space-y-2 rounded-lg border bg-card/95 p-3 shadow-soft backdrop-blur lg:static lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none lg:backdrop-blur-none">
+        {!ready && !pending && missing.length ? (
+          <p id="order-missing" className="text-sm text-muted-foreground" aria-live="polite">
+            لإكمال الطلب: {missing.join('، ')}.
+          </p>
+        ) : null}
+        <Button className="w-full" size="lg" onClick={submit} loading={pending} disabled={!ready} aria-describedby={!ready && missing.length ? 'order-missing' : undefined}>
+          {payNow ? `ادفع الآن — ${total} دج` : `تأكيد الطلب — ${total} دج`}
+        </Button>
+      </div>
     </div>
   )
 }
