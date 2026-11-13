@@ -1,4 +1,4 @@
-import { ArrowLeft, BookOpen, ClipboardCheck, ClipboardList, TrendingUp, Clock, FileText, FolderOpen, Gamepad2, MessagesSquare, PlayCircle, Radio, type LucideIcon } from 'lucide-react'
+import { ArrowLeft, BookOpen, ClipboardCheck, TrendingUp, Clock, FileText, FolderOpen, Gamepad2, MessagesSquare, PlayCircle, Radio, type LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CourseLandingView } from '@/components/academy/course-landing'
@@ -14,7 +14,8 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { courseLanding } from '@/server/services/academy-catalog.service'
-import type { CourseSectionId, SectionItem } from '@/server/lib/course-sections'
+import type { SectionItem } from '@/server/lib/course-sections'
+import { COURSE_DOOR_LABELS_AR, groupIntoDoors, type ContentDoorId } from '@/server/lib/course-doors'
 import { courseHome, type CourseContentItem } from '@/server/services/courses.service'
 import { upcomingForStudent } from '@/server/services/live.service'
 import { isPathHidden } from '@/lib/student-menu'
@@ -23,13 +24,13 @@ import { bookUpgradeOffer, courseBookStateById, courseDigitalStateById } from '@
 
 export const dynamic = 'force-dynamic'
 
-const SECTION_UI: Record<CourseSectionId, { icon: LucideIcon; tone: string; hint: string }> = {
-  lessons: { icon: BookOpen, tone: 'bg-success/10 text-success', hint: 'بترتيب الحصص' },
-  videos: { icon: PlayCircle, tone: 'bg-warning/10 text-warning', hint: 'تسجيلات وشروح' },
-  homework: { icon: ClipboardList, tone: 'bg-primary/10 text-primary', hint: 'فروض ومواضيع' },
-  tests: { icon: ClipboardCheck, tone: 'bg-destructive/10 text-destructive', hint: 'اختبارات وامتحانات' },
-  files: { icon: FolderOpen, tone: 'bg-cyan/10 text-cyan', hint: 'ملفات ووثائق' }
+/** الأبواب الثلاثة ذات المحتوى (الأبواب الخمسة: قرار المالك 2026-11-13) */
+const DOOR_UI: Record<ContentDoorId, { icon: LucideIcon; tone: string; hint: string; empty: string }> = {
+  recorded: { icon: PlayCircle, tone: 'bg-warning/10 text-warning', hint: 'دروس وتسجيلات', empty: 'لا حصص مسجلة بعد. تظهر هنا الدروس وتسجيلات الحصص المباشرة.' },
+  files: { icon: FolderOpen, tone: 'bg-cyan/10 text-cyan', hint: 'ملفات ووثائق', empty: 'لا ملفات بعد.' },
+  practice: { icon: ClipboardCheck, tone: 'bg-success/10 text-success', hint: 'فروض واختبارات', empty: 'لا فروض ولا اختبارات بعد. نتائجك وتقدّمك في الزر أدناه.' }
 }
+
 
 /** قائمة قسم: شارة برقم الحصة إن وُجد، وإلا أيقونة النوع */
 function SectionList({ items }: { items: SectionItem<CourseContentItem>[] }) {
@@ -109,6 +110,14 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
     studentHiddenPaths(db)
   ])
   const showPlay = !isPathHidden('/student/play', hidden)
+  const doors = groupIntoDoors(sections)
+  const count = (id: ContentDoorId) => doors.find((d) => d.id === id)?.count ?? 0
+  const liveHint = liveNext ? formatDateTime(liveNext.startsAt) : upcoming.length > 0 ? `${upcoming.length} · مجدولة` : 'لا حصص مجدولة'
+  const tiles: Array<{ href: string; label: string; hint: string; icon: LucideIcon; tone: string }> = [
+    { href: '#live', label: COURSE_DOOR_LABELS_AR.live, hint: liveHint, icon: Radio, tone: 'bg-primary/10 text-primary' },
+    ...(['recorded', 'files', 'practice'] as const).map((id) => ({ href: `#${id}`, label: COURSE_DOOR_LABELS_AR[id], hint: `${count(id)} · ${DOOR_UI[id].hint}`, icon: DOOR_UI[id].icon, tone: DOOR_UI[id].tone })),
+    { href: classroomHref, label: COURSE_DOOR_LABELS_AR.classroom, hint: 'أسئلة ومناقشات', icon: MessagesSquare, tone: 'bg-destructive/10 text-destructive' }
+  ]
   return (
     <div className="space-y-6">
       <PageHeader
@@ -167,15 +176,10 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
         </Alert>
       ) : null}
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
-        {[
-          { href: '#live', label: 'الحصص المباشرة', hint: 'مواعيد الدورة', icon: Radio, tone: 'bg-primary/10 text-primary' },
-          ...sections.map((section) => ({ href: `#${section.id}`, label: section.label, hint: `${section.items.length} · ${SECTION_UI[section.id].hint}`, icon: SECTION_UI[section.id].icon, tone: SECTION_UI[section.id].tone })),
-          ...(showPlay ? [{ href: playHref, label: 'التدريب PLAY', hint: 'تدرّب واختبر نفسك', icon: Gamepad2, tone: 'bg-purple/10 text-purple' }] : []),
-          { href: classroomHref, label: 'القسم الافتراضي', hint: 'أسئلة ومناقشات', icon: MessagesSquare, tone: 'bg-destructive/10 text-destructive' },
-          { href: '/student/progress', label: 'تقدمي', hint: 'إنجازاتي ومهاراتي', icon: TrendingUp, tone: 'bg-cyan/10 text-cyan' }
-        ].map((item) => (
-          <Link key={item.href} href={item.href} className="flex min-h-36 flex-col items-center justify-center gap-3 rounded-lg border bg-card p-5 text-center shadow-soft transition-colors hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+      {/* الأبواب الخمسة: المباشرة، المسجلة، الملفات، تماريني ونتائجي، القسم الافتراضي */}
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        {tiles.map((item) => (
+          <Link key={item.href} href={item.href} className="flex min-h-36 flex-col items-center justify-center gap-3 rounded-lg border bg-card p-5 text-center shadow-soft transition-colors last:col-span-2 hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:last:col-span-1">
             <span className={`flex size-14 items-center justify-center rounded-full ${item.tone}`}><item.icon className="size-6" /></span>
             <span className="font-bold">{item.label}</span>
             <span className="text-xs text-muted-foreground">{item.hint}</span>
@@ -183,35 +187,10 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
         ))}
       </div>
 
-      {sections.length === 0 ? (
-        <p className="rounded-lg border bg-card p-5 text-sm text-muted-foreground">لا محتوى منشور في هذه الدورة بعد — ستظهر هنا الحصص والفيديوهات والفروض والاختبارات والملفات.</p>
-      ) : (
-        <div className="grid gap-6 lg:grid-cols-2">
-          {sections.map((section) => {
-            const Icon = SECTION_UI[section.id].icon
-            return (
-              <Card key={section.id} id={section.id}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Icon className="size-5 text-primary" /> {section.label}
-                    <Badge variant="secondary">{section.items.length}</Badge>
-                  </CardTitle>
-                  {section.id === 'videos' ? <CardDescription>تُشاهَد داخل المنصة فقط وتختفي بعد انتهاء الدورة.</CardDescription> : null}
-                  {section.id === 'lessons' ? <CardDescription>بترتيب الحصص: الحصة 1 ثم 2 ثم 3…</CardDescription> : null}
-                </CardHeader>
-                <CardContent>
-                  <SectionList items={section.items} />
-                </CardContent>
-              </Card>
-            )
-          })}
-        </div>
-      )}
-
       <Card id="live">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Radio className="size-5 text-primary" /> الحصص المباشرة القادمة
+            <Radio className="size-5 text-primary" /> {COURSE_DOOR_LABELS_AR.live}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -234,6 +213,51 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
           )}
         </CardContent>
       </Card>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        {doors.map((d) => {
+          const ui = DOOR_UI[d.id]
+          return (
+            <Card key={d.id} id={d.id} className={d.id === 'recorded' ? 'lg:col-span-2' : undefined}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ui.icon className="size-5 text-primary" /> {d.label}
+                  <Badge variant="secondary">{d.count}</Badge>
+                </CardTitle>
+                {d.id === 'recorded' ? <CardDescription>بترتيب الحصص: الحصة 1 ثم 2 ثم 3… تُشاهَد داخل المنصة فقط وتختفي بعد انتهاء الدورة.</CardDescription> : null}
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {d.count === 0 ? (
+                  <p className="text-sm text-muted-foreground">{ui.empty}</p>
+                ) : (
+                  d.groups.map((g) => (
+                    <div key={g.id} className="space-y-2">
+                      {d.groups.length > 1 ? <h3 className="text-sm font-semibold text-muted-foreground">{g.label}</h3> : null}
+                      <SectionList items={g.items} />
+                    </div>
+                  ))
+                )}
+                {d.id === 'practice' ? (
+                  <div className="flex flex-wrap gap-2">
+                    <Button asChild variant="outline" size="sm">
+                      <Link href="/student/progress">
+                        <TrendingUp className="size-4" /> نتائجي وتقدمي
+                      </Link>
+                    </Button>
+                    {showPlay ? (
+                      <Button asChild variant="outline" size="sm">
+                        <Link href={playHref}>
+                          <Gamepad2 className="size-4" /> التدريب PLAY
+                        </Link>
+                      </Button>
+                    ) : null}
+                  </div>
+                ) : null}
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
     </div>
   )
 }
