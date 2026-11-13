@@ -18,7 +18,7 @@ export default async function StoreCartPage() {
   return (
     <div className="container py-10">
       <PageHeader title="السلّة والطلب" />
-      <CartPage loggedIn={Boolean(actor)} defaults={defaults} wilayas={wilayas.map((w) => ({ id: w.id, name: w.nameAr }))} streams={streams.map((s) => ({ id: s.id, name: s.nameAr }))} shippingDzd={shippingFeeDzd()} feeTable={await shippingFeeTable(db)} policy={policy} verifiedPhone={phoneV?.verified ? phoneV.phone : null} />
+      <CartPage loggedIn={Boolean(actor)} defaults={defaults} wilayas={wilayas.map((w) => ({ id: w.id, name: w.nameAr }))} streams={streams.map((s) => ({ id: s.id, name: s.nameAr }))} shippingDzd={await shippingFeeDzd(db)} feeTable={await shippingFeeTable(db)} policy={policy} verifiedPhone={phoneV?.verified ? phoneV.phone : null} />
     </div>
   )
 }

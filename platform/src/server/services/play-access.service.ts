@@ -11,7 +11,8 @@ import type { Db } from '@/server/db/connect'
 import { courseEnrollments, courses, levels, playAccessTrials, streams, subjects } from '@/server/db/schema'
 import { studentIdOf, type Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
-import { PLAY_TO_CURRICULUM_SUBJECT, PLAY_TRIAL_MS } from '@/server/play/constants'
+import { PLAY_TO_CURRICULUM_SUBJECT } from '@/server/play/constants'
+import { commercialSettings, commercialSettingsForDisplay } from './commercial-settings.service'
 
 export interface PlayScope {
   /** مستوى PLAY (3AS…) */
@@ -32,7 +33,7 @@ export interface EntitledCourse {
 
 export type PlayAccessState =
   | { kind: 'subscriber'; courses: EntitledCourse[]; subjects: 'ALL' | string[] }
-  | { kind: 'trial_available' }
+  | { kind: 'trial_available'; trialHours: number }
   | { kind: 'trial_active'; startedAt: string; endsAt: string; remainingMs: number }
   | { kind: 'trial_expired'; startedAt: string; endsAt: string }
 
@@ -116,7 +117,7 @@ export async function getPlayAccess(db: Db, actor: Actor, scope: PlayScope, now:
   // تطبيق الآيفون: PLAY مجانية كاملة بلا تجربة (قرار المالك 3 نوفمبر 2026)، ولا يُكتب صف تجربة فتبقى تجربة الموقع كما هي
   if (actor.channel === 'ios-app') return { state: { kind: 'subscriber', courses: [], subjects: 'ALL' }, levelCourses, entitledSubjects: 'ALL', canPlay: true }
   const [trial] = await db.select().from(playAccessTrials).where(eq(playAccessTrials.studentId, studentId)).limit(1)
-  if (!trial) return { state: { kind: 'trial_available' }, levelCourses, entitledSubjects, canPlay: true }
+  if (!trial) return { state: { kind: 'trial_available', trialHours: (await commercialSettingsForDisplay(db)).playTrialHours }, levelCourses, entitledSubjects, canPlay: true }
   const remainingMs = trial.endsAt.getTime() - now.getTime()
   if (remainingMs > 0) return { state: { kind: 'trial_active', startedAt: trial.startedAt.toISOString(), endsAt: trial.endsAt.toISOString(), remainingMs }, levelCourses, entitledSubjects, canPlay: true }
   return { state: { kind: 'trial_expired', startedAt: trial.startedAt.toISOString(), endsAt: trial.endsAt.toISOString() }, levelCourses, entitledSubjects, canPlay: false }
@@ -138,7 +139,8 @@ export async function beginPlayAccess(db: Db, actor: Actor, scope: PlayScope, no
   if (access.state.kind === 'trial_available') {
     await db
       .insert(playAccessTrials)
-      .values({ studentId, startedAt: now, endsAt: new Date(now.getTime() + PLAY_TRIAL_MS) })
+      // المدة من الإعدادات التجارية (القرار المالي يقرأ القاعدة مباشرة)؛ التجارب القائمة لا تتغيّر
+      .values({ studentId, startedAt: now, endsAt: new Date(now.getTime() + (await commercialSettings(db)).playTrialHours * 3_600_000) })
       .onConflictDoNothing()
     access = await getPlayAccess(db, actor, scope, now)
   }

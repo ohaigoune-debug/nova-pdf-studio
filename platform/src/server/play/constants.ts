@@ -141,6 +141,7 @@ export type PlayExamAttemptStatus = (typeof PLAY_EXAM_ATTEMPT_STATUSES)[number]
 /* ─────────── الوصول: مجاني لمشتركي الدورة الملائمة، وتجربة 72 ساعة لغيرهم ─────────── */
 
 /** مدة التجربة المجانية بالساعات، تبدأ من أول بدء لعب فعلي على الخادم، مرة واحدة لكل تلميذ */
+/** المدة الافتراضية فقط: المدة النافذة من الإعدادات التجارية في اللوحة (commercial-settings.service) */
 export const PLAY_TRIAL_HOURS = 72
 export const PLAY_TRIAL_MS = PLAY_TRIAL_HOURS * 3_600_000
 
