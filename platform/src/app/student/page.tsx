@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/misc'
 import { t } from '@/i18n'
-import { expandHidden, isPathHidden } from '@/lib/student-menu'
+import { isPathHidden } from '@/lib/student-menu'
 import { formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
@@ -15,7 +15,7 @@ import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
 import { listStudentContent } from '@/server/queries/student-extras.queries'
 import { upcomingForStudent } from '@/server/services/live.service'
 import { isPhoneVerified } from '@/server/services/otp.service'
-import { getHiddenStudentEntries } from '@/server/services/student-menu.service'
+import { studentHiddenPaths } from '@/server/services/ios-only.service'
 import { studentToday, type TodayCourse } from '@/server/services/student-today.service'
 
 export const metadata = { title: 'اليوم' }
@@ -102,14 +102,13 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
   const q = await searchParams
   const db = await getDb()
   const now = new Date()
-  const [today, apk, phoneV, hiddenRaw, upcoming] = await Promise.all([
+  const [today, apk, phoneV, hidden, upcoming] = await Promise.all([
     studentToday(db, actor, now),
     appDownload({ onlyAndroid: true }),
     isPhoneVerified(db, actor.userId),
-    getHiddenStudentEntries(db),
+    studentHiddenPaths(db),
     upcomingForStudent(db, actor).catch(() => [])
   ])
-  const hidden = expandHidden(hiddenRaw)
   const show = (path: string) => !isPathHidden(path, hidden)
   const nextLive = upcoming[0] ?? null
   const suggested = !today.hasCourses && show('/student/lessons') ? await listStudentContent(db, actor, { limit: 3 }) : []

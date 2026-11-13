@@ -10,6 +10,8 @@ import { getDb } from '@/server/db/client'
 import { levels } from '@/server/db/schema'
 import { eq } from 'drizzle-orm'
 import { assessmentCards, browseOptions, browseScope } from '@/server/services/academy-catalog.service'
+import { isPathHidden } from '@/lib/student-menu'
+import { studentHiddenPaths } from '@/server/services/ios-only.service'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'الفروض والاختبارات' }
@@ -26,7 +28,7 @@ export default async function StudentExamsPage({ searchParams }: { searchParams:
   const db = await getDb()
   const scope = await browseScope(db, actor, sp)
   const [levelRow] = scope.levelId ? await db.select({ code: levels.code }).from(levels).where(eq(levels.id, scope.levelId)).limit(1) : []
-  const [cards, options] = await Promise.all([assessmentCards(db, scope, { studentId: actor.studentId, levelCode: levelRow?.code ?? null }), browseOptions(db, scope)])
+  const [cards, options, hidden] = await Promise.all([assessmentCards(db, scope, { studentId: actor.studentId, levelCode: levelRow?.code ?? null }), browseOptions(db, scope), studentHiddenPaths(db)])
   return (
     <>
       <HubTabs hub="train" />
@@ -52,7 +54,7 @@ export default async function StudentExamsPage({ searchParams }: { searchParams:
           </Link>
         ))}
       </div>
-      <p className="mt-4 text-xs text-muted-foreground">التصنيف بالفصل من بيانات المورد نفسه عند نشره، لا من عنوانه. مواضيع البكالوريا الرسمية في «بنك البكالوريات».</p>
+      <p className="mt-4 text-xs text-muted-foreground">التصنيف بالفصل من بيانات المورد نفسه عند نشره، لا من عنوانه.{isPathHidden('/bac', hidden) ? null : ' مواضيع البكالوريا الرسمية في «بنك البكالوريات».'}</p>
     </>
   )
 }

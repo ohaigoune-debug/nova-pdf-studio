@@ -17,6 +17,8 @@ import { courseLanding } from '@/server/services/academy-catalog.service'
 import type { CourseSectionId, SectionItem } from '@/server/lib/course-sections'
 import { courseHome, type CourseContentItem } from '@/server/services/courses.service'
 import { upcomingForStudent } from '@/server/services/live.service'
+import { isPathHidden } from '@/lib/student-menu'
+import { studentHiddenPaths } from '@/server/services/ios-only.service'
 import { bookUpgradeOffer, courseBookStateById, courseDigitalStateById } from '@/server/services/course-purchase.service'
 
 export const dynamic = 'force-dynamic'
@@ -98,13 +100,15 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
   }
 
   const { course, nextLive, upcoming, sections, playHref, classroomHref, expiresAt } = home
-  const [liveNext, upgrade] = await Promise.all([
+  const [liveNext, upgrade, hidden] = await Promise.all([
     upcomingForStudent(db, actor)
       .catch(() => [])
       .then((ls) => ls.find((l) => l.courseId === course.id) ?? null),
     // اشترى النسخة الرقمية: يمكنه طلب الكتاب الورقي بدفع الفرق فقط
-    bookUpgradeOffer(db, actor, course.id).catch(() => null)
+    bookUpgradeOffer(db, actor, course.id).catch(() => null),
+    studentHiddenPaths(db)
   ])
+  const showPlay = !isPathHidden('/student/play', hidden)
   return (
     <div className="space-y-6">
       <PageHeader
@@ -167,7 +171,7 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
         {[
           { href: '#live', label: 'الحصص المباشرة', hint: 'مواعيد الدورة', icon: Radio, tone: 'bg-primary/10 text-primary' },
           ...sections.map((section) => ({ href: `#${section.id}`, label: section.label, hint: `${section.items.length} · ${SECTION_UI[section.id].hint}`, icon: SECTION_UI[section.id].icon, tone: SECTION_UI[section.id].tone })),
-          { href: playHref, label: 'التدريب PLAY', hint: 'تدرّب واختبر نفسك', icon: Gamepad2, tone: 'bg-purple/10 text-purple' },
+          ...(showPlay ? [{ href: playHref, label: 'التدريب PLAY', hint: 'تدرّب واختبر نفسك', icon: Gamepad2, tone: 'bg-purple/10 text-purple' }] : []),
           { href: classroomHref, label: 'القسم الافتراضي', hint: 'أسئلة ومناقشات', icon: MessagesSquare, tone: 'bg-destructive/10 text-destructive' },
           { href: '/student/progress', label: 'تقدمي', hint: 'إنجازاتي ومهاراتي', icon: TrendingUp, tone: 'bg-cyan/10 text-cyan' }
         ].map((item) => (

@@ -9,11 +9,15 @@ import { registerAction } from '@/server/actions/auth.actions'
 
 type Opt = { id: string; name: string }
 
-export function RegisterForm({ wilayas, levels, streams, referral }: { wilayas: Opt[]; levels: (Opt & { secondary?: boolean })[]; streams: Opt[]; referral?: { defaultCode: string; welcomeCreditDzd: number } | null }) {
+export function RegisterForm({ wilayas, levels, streams, referral }: { wilayas: Opt[]; levels: (Opt & { secondary?: boolean; streamIds?: string[] })[]; streams: Opt[]; referral?: { defaultCode: string; welcomeCreditDzd: number } | null }) {
   const t = useT()
   const [state, action] = useActionState(registerAction, null)
   const [levelId, setLevelId] = useState('')
-  const needsStream = Boolean(levels.find((l) => l.id === levelId)?.secondary)
+  const level = levels.find((l) => l.id === levelId)
+  const needsStream = Boolean(level?.secondary)
+  // شعب المستوى المختار فقط (1 ثانوي: الجذعان المشتركان)، فلا يُسجَّل تلميذ بشعبة ليست في سنته
+  const levelStreams = level?.streamIds?.length ? streams.filter((s) => level.streamIds!.includes(s.id)) : streams
+  const [streamId, setStreamId] = useState('')
   return (
     <form action={action} className="space-y-4">
       <Field label={t('auth.fullName')} htmlFor="fullName" error={fieldError(state, 'fullName')}>
@@ -35,7 +39,7 @@ export function RegisterForm({ wilayas, levels, streams, referral }: { wilayas: 
       </Field>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label={t('common.level')} htmlFor="levelId" error={fieldError(state, 'levelId')}>
-          <Select id="levelId" name="levelId" value={levelId} onChange={(e) => setLevelId(e.target.value)} required>
+          <Select id="levelId" name="levelId" value={levelId} onChange={(e) => { setLevelId(e.target.value); setStreamId('') }} required>
             <option value="">—</option>
             {levels.map((l) => (
               <option key={l.id} value={l.id}>
@@ -45,9 +49,9 @@ export function RegisterForm({ wilayas, levels, streams, referral }: { wilayas: 
           </Select>
         </Field>
         <Field label={t('common.stream')} htmlFor="streamId" error={fieldError(state, 'streamId')} hint={needsStream ? 'لا يمكن طلب كتاب أو دورة لشعبة أخرى' : undefined}>
-          <Select id="streamId" name="streamId" defaultValue="" required={needsStream} disabled={Boolean(levelId) && !needsStream}>
+          <Select id="streamId" name="streamId" value={streamId} onChange={(e) => setStreamId(e.target.value)} required={needsStream} disabled={Boolean(levelId) && !needsStream}>
             <option value="">—</option>
-            {streams.map((s) => (
+            {levelStreams.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name}
               </option>

@@ -14,7 +14,7 @@ import { formatDateTime } from '@/lib/utils'
 import { clearSmsKeyAction, saveSmsKeyAction, setStorePolicyAction, testSmsAction } from '@/server/actions/otp.actions'
 
 interface Props {
-  policy: { requireOtp: boolean }
+  policy: { requireOtp: boolean; skipOtpForVerifiedPhone: boolean }
   sms: { provider: string; keySource: 'admin' | 'env' | 'none'; hint: string | null; sender: string | null; updatedAt: string | null; unusable: boolean }
 }
 
@@ -24,6 +24,7 @@ const SOURCE: Record<Props['sms']['keySource'], string> = { admin: 'مفتاح �
 export function StoreSmsSettings({ policy, sms }: Props) {
   const router = useRouter()
   const [requireOtp, setRequireOtp] = useState(policy.requireOtp)
+  const [skipVerified, setSkipVerified] = useState(policy.skipOtpForVerifiedPhone)
   const [testPhone, setTestPhone] = useState('')
   const [pending, start] = useTransition()
   const [state, action] = useActionState(saveSmsKeyAction, null)
@@ -46,6 +47,18 @@ export function StoreSmsSettings({ policy, sms }: Props) {
         return toast('error', r.error.message)
       }
       toast('success', v ? 'صار التحقق بالهاتف مطلوباً عند الطلب' : 'أُلغي التحقق بالهاتف عند الطلب')
+    })
+  }
+
+  const toggleSkipVerified = (v: boolean) => {
+    setSkipVerified(v)
+    start(async () => {
+      const r = await setStorePolicyAction({ skipOtpForVerifiedPhone: v })
+      if (!r.ok) {
+        setSkipVerified(!v)
+        return toast('error', r.error.message)
+      }
+      toast('success', v ? 'طلب الدورة إلى هاتف الحساب المؤكَّد لم يعد يحتاج رمزًا' : 'صار كل طلب دورة يحتاج رمز تأكيد جديدًا')
     })
   }
 
@@ -83,6 +96,16 @@ export function StoreSmsSettings({ policy, sms }: Props) {
               <ShieldCheck className="size-4" /> طلب رمز تحقق بالهاتف قبل إرسال الطلب
             </span>
             <span className="block text-xs text-muted-foreground">من أكّد هاتفه في حسابه سلفاً يُعفى. مُعطَّل افتراضياً حتى يُضبط مزوّد الرسائل.</span>
+          </span>
+        </label>
+
+        <label className="flex items-start gap-3 rounded-lg border p-3">
+          <input type="checkbox" className="mt-1 size-4" checked={skipVerified} onChange={(e) => toggleSkipVerified(e.target.checked)} disabled={pending} />
+          <span>
+            <span className="flex items-center gap-1 font-semibold">
+              <ShieldCheck className="size-4" /> طلب الدورة إلى هاتف الحساب المؤكَّد دون رمز جديد
+            </span>
+            <span className="block text-xs text-muted-foreground">يختصر الطلب خطوة للتلميذ الذي أكّد هاتفه عند التسجيل، ويُؤكَّد الطلب مباشرة. الطلب إلى هاتف الولي أو رقم آخر يبقى برمز. مُعطَّل افتراضياً.</span>
           </span>
         </label>
 
