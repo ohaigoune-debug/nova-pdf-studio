@@ -4,7 +4,7 @@ import Link from '@/components/ui/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { STUDENT_HUBS, type StudentHubKey } from '@/lib/student-hubs'
-import { isPathHidden } from '@/lib/student-menu'
+import { hubEntry, isPathHidden } from '@/lib/student-menu'
 import { useHiddenPaths } from './hidden-paths'
 
 /**
@@ -18,7 +18,7 @@ export function HubTabs({ hub }: { hub: StudentHubKey }) {
   const def: { label: string; tabs: readonly { href: string; label: string; exact?: boolean }[] } = STUDENT_HUBS[hub]
   const isActive = (href: string, exact?: boolean) => (exact ? pathname === href : pathname === href || pathname.startsWith(href + '/'))
   return (
-    <nav className="mb-5 -mx-1 flex gap-1 overflow-x-auto border-b px-1 pb-px" aria-label={def.label}>
+    <nav className="mb-5 -mx-1 flex gap-1 overflow-x-auto border-b px-1 pb-px" aria-label={hubEntry(hub, hidden)?.label ?? def.label}>
       {def.tabs.filter((tab) => !isPathHidden(tab.href, hidden)).map((tab) => {
         const active = isActive(tab.href, tab.exact)
         return (

@@ -4,7 +4,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { PageHeader } from '@/components/ui/misc'
+import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { playBacHiddenHere } from '@/server/services/ios-only.service'
 import { librarySections, subjectsOverview, type LibrarySectionKey } from '@/server/services/library.service'
 
 export const dynamic = 'force-dynamic'
@@ -15,7 +17,8 @@ const SECTION_ICON: Record<LibrarySectionKey, typeof BookOpen> = { lessons: Book
 /** واجهة المكتبة (المرحلة 9): بحث موحّد، أقسام بالأعداد، ومراكز المواد */
 export default async function LibraryPage() {
   const db = await getDb()
-  const [secs, subjects] = await Promise.all([librarySections(db), subjectsOverview(db)])
+  const [secs, subjects, actor] = await Promise.all([librarySections(db), subjectsOverview(db), getCurrentActor()])
+  const bacHidden = await playBacHiddenHere(db, actor?.role)
   const live = subjects.filter((s) => s.resources + s.questions > 0)
   return (
     <div className="container py-10">
@@ -40,11 +43,13 @@ export default async function LibraryPage() {
             </Link>
           )
         })}
-        <Link href="/bac" className="rounded-xl border bg-card p-4 transition-colors hover:border-primary/50">
-          <FileText className="mb-2 size-5 text-success" />
-          <p className="text-sm font-semibold">بكالوريات رسمية</p>
-          <p className="tabular text-2xl font-extrabold">{secs.officialExams}</p>
-        </Link>
+        {bacHidden ? null : (
+          <Link href="/bac" className="rounded-xl border bg-card p-4 transition-colors hover:border-primary/50">
+            <FileText className="mb-2 size-5 text-success" />
+            <p className="text-sm font-semibold">بكالوريات رسمية</p>
+            <p className="tabular text-2xl font-extrabold">{secs.officialExams}</p>
+          </Link>
+        )}
       </div>
 
       <h2 className="mb-3 text-xl font-extrabold">المواد</h2>

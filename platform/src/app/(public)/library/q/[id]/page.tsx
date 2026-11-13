@@ -6,7 +6,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/misc'
 import { DIFF_AR, KIND_AR } from '@/lib/bank-labels'
+import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { playBacHiddenHere } from '@/server/services/ios-only.service'
 import { AppError } from '@/server/lib/errors'
 import { ARABIC_LETTERS, hasMath, renderBody } from '@/server/lib/exam-render'
 import { ORIGIN_AR } from '@/lib/exam-engine-labels'
@@ -18,14 +20,16 @@ export const metadata = { title: 'سؤال من البنك' }
 /** عرض عام لسؤال/تمرين من البنك: النصّ والاختيارات والفرعيات والحلّ — بلا كشف الصحيح في الاختيارات */
 export default async function PublicQuestionPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
+  const db = await getDb()
   let r
   try {
-    r = await publicQuestion(await getDb(), id)
+    r = await publicQuestion(db, id)
   } catch (e) {
     if (e instanceof AppError) notFound()
     throw e
   }
   const q = r.q
+  const bacHidden = await playBacHiddenHere(db, (await getCurrentActor())?.role)
   const math = hasMath([q.body, q.solution, ...r.children.map((c) => c.body)])
   return (
     <div className="container max-w-3xl py-10">
@@ -35,7 +39,7 @@ export default async function PublicQuestionPage({ params }: { params: Promise<{
         description={[r.subjectName, r.levelName, r.streamName, r.nodeTitle].filter(Boolean).join(' · ')}
         actions={
           <span className="flex flex-wrap gap-2">
-            {r.originalResourceId ? (
+            {r.originalResourceId && !bacHidden ? (
               <Button asChild size="sm">
                 <Link href={`/bac/${r.originalResourceId}`}>
                   <FileText className="size-4" /> عرض الامتحان الأصلي

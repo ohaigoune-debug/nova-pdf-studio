@@ -2,7 +2,7 @@
  * إخفاء أقسام حساب التلميذ من الإدارة بلا برمجة (طلب المالك 1 نوفمبر 2026).
  * المخزَّن: قائمة مسارات مخفية. إخفاء مجمّع (الفروض مثلًا) يخفي كل تبويباته. دوال نقية تُختبر وحدها.
  */
-import { STUDENT_HUBS, type StudentHubKey } from './student-hubs'
+import { STUDENT_HUBS, type StudentHub, type StudentHubKey } from './student-hubs'
 
 export interface HideableEntry {
   href: string
@@ -57,4 +57,21 @@ export function expandHidden(hidden: readonly string[]): string[] {
 /** هل هذا المسار مخفي؟ (المسار نفسه أو صفحة داخله). «/student/courses» المخفي كقسم لا يُخفي صفحة دورة يملكها التلميذ. */
 export function isPathHidden(path: string, expanded: readonly string[]): boolean {
   return expanded.some((h) => path === h || (h !== '/student/courses' && path.startsWith(h + '/')))
+}
+
+/**
+ * مدخل المجمّع كما يراه التلميذ: يفتح أول تبويب ظاهر، ويأخذ اسمه البديل إن خُفي تبويبه الأول
+ * (PLAY مخفي ← «تدرّب» يفتح «فروض واختبارات»). null: كل تبويباته مخفية.
+ */
+export function hubEntry(key: StudentHubKey, hidden: readonly string[]): { href: string; label: string; iconKey: string } | null {
+  const h: StudentHub = STUDENT_HUBS[key]
+  const first = h.tabs.find((t) => !isPathHidden(t.href, hidden))
+  if (!first) return null
+  const alt = first.href !== h.tabs[0]?.href ? h.whenFirstHidden : undefined
+  return { href: first.href, label: alt?.label ?? h.label, iconKey: alt?.iconKey ?? h.iconKey }
+}
+
+/** المجمّع الذي يبدأ بهذا المسار (مدخله في القائمة) */
+export function hubKeyByHref(href: string): StudentHubKey | null {
+  return (Object.keys(STUDENT_HUBS) as StudentHubKey[]).find((k) => STUDENT_HUBS[k].href === href) ?? null
 }
