@@ -2,12 +2,16 @@ import { Gamepad2, Sparkles, Target, Trophy } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { getCurrentActor } from '@/server/auth/current-user'
+import { getDb } from '@/server/db/client'
+import { playBacHiddenHere } from '@/server/services/ios-only.service'
 import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
 export default async function PublicPlayPage() {
   const actor = await getCurrentActor()
+  // PLAY في تطبيق آيفون وحده ما لم يُظهره المشرف
+  if (await playBacHiddenHere(await getDb(), actor?.role)) redirect(actor?.role === 'STUDENT' ? '/student' : '/')
   if (actor?.role === 'STUDENT') redirect('/student/play')
   return (
     <div className="container py-10">

@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight, BookMarked, ChevronDown, Gamepad2, MoreHorizontal, Sun, UserRound, Bell, LogOut, Menu, Search, X } from 'lucide-react'
+import { ArrowRight, BookMarked, ChevronDown, MoreHorizontal, Sun, Bell, LogOut, Menu, Search, X } from 'lucide-react'
 import { iconByName } from '@/components/icon-registry'
 import Link from '@/components/ui/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -13,8 +13,8 @@ import { t, tEnum } from '@/i18n'
 import { cn } from '@/lib/utils'
 import { logoutAction } from '@/server/actions/auth.actions'
 import { HiddenPathsProvider } from '@/components/student/hidden-paths'
-import { isPathHidden } from '@/lib/student-menu'
-import { STUDENT_HUBS, hubPaths } from '@/lib/student-hubs'
+import { hubEntry } from '@/lib/student-menu'
+import { hubPaths, type StudentHubKey } from '@/lib/student-hubs'
 
 export interface ShellNavItem {
   href: string
@@ -217,10 +217,12 @@ export function ShellClient({
             <div className="mx-auto grid h-[68px] max-w-lg grid-flow-col auto-cols-fr items-center px-2">
               {[
                 { href: '/student', label: 'اليوم', icon: Sun, paths: [] as string[] },
-                { href: STUDENT_HUBS.courses.href, label: STUDENT_HUBS.courses.label, icon: BookMarked, paths: hubPaths('courses') },
-                { href: STUDENT_HUBS.train.href, label: STUDENT_HUBS.train.label, icon: Gamepad2, paths: hubPaths('train') },
-                { href: STUDENT_HUBS.account.href, label: STUDENT_HUBS.account.label, icon: UserRound, paths: hubPaths('account') }
-              ].filter((item) => !isPathHidden(item.href, hidden)).map((item) => {
+                // كل باب يفتح أول تبويب ظاهر فيه، ويختفي إن خُفيت تبويباته كلها («تدرّب» حين يُخفى PLAY)
+                ...(['courses', 'train', 'account'] as StudentHubKey[]).flatMap((key) => {
+                  const entry = hubEntry(key, hidden)
+                  return entry ? [{ href: entry.href, label: entry.label, icon: iconByName(entry.iconKey) ?? BookMarked, paths: hubPaths(key) }] : []
+                })
+              ].map((item) => {
                 // الأبواب الثلاثة: الباب نشط في كل تبويباته (الواجبات تحت «دوراتي»، الفروض تحت PLAY…)
                 const active = item.href === '/student' ? pathname === item.href : item.paths.some((h) => matches(h, false))
                 return (

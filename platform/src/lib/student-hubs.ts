@@ -16,6 +16,8 @@ export interface StudentHub {
   /** المسار الذي يفتحه مدخل القائمة (= التبويب الأول) */
   href: string
   tabs: HubTab[]
+  /** اسم المدخل وأيقونته حين يُخفى تبويبه الأول (PLAY خارج آيفون مثلًا) */
+  whenFirstHidden?: { label: string; iconKey: string }
 }
 
 export const STUDENT_HUBS = {
@@ -41,6 +43,7 @@ export const STUDENT_HUBS = {
     label: 'PLAY',
     iconKey: 'Gamepad2',
     href: '/student/play',
+    whenFirstHidden: { label: 'تدرّب', iconKey: 'Target' },
     tabs: [
       { href: '/student/play', label: 'MADRASADZ PLAY' },
       { href: '/student/exams', label: 'فروض واختبارات' },

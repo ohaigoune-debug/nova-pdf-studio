@@ -1341,6 +1341,7 @@ const ar = {
     uploader_create: 'إنشاء رافع محتوى',
     uploader_courses: 'إسناد دورات لرافع محتوى',
     settings_student_menu: 'تعديل أقسام حساب التلميذ',
+    settings_play_bac_ios_only: 'تعديل ظهور PLAY وبنك البكالوريات (آيفون وحده)',
     payment_initiate: 'بدء دفع إلكتروني',
     payment_paid: 'دفع إلكتروني مؤكَّد',
     payment_failed: 'دفع إلكتروني لم يتمّ',

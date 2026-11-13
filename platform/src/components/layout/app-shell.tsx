@@ -7,8 +7,8 @@ import { getDb } from '@/server/db/client'
 import type { Actor } from '@/server/lib/actor'
 import { unreadCount } from '@/server/services/notifications.service'
 import { navFor, type NavItem } from './nav'
-import { expandHidden, isPathHidden } from '@/lib/student-menu'
-import { getHiddenStudentEntries } from '@/server/services/student-menu.service'
+import { hubEntry, hubKeyByHref, isPathHidden } from '@/lib/student-menu'
+import { studentHiddenPaths } from '@/server/services/ios-only.service'
 import { ShellClient, type ShellNavItem } from './shell-client'
 
 export async function AppShell({ actor, children }: { actor: Actor; children: ReactNode }) {
@@ -21,13 +21,21 @@ export async function AppShell({ actor, children }: { actor: Actor; children: Re
     href: i.href, label: i.label, exact: i.exact ?? false, iconKey: i.iconKey, also: i.also ?? [],
     children: i.children?.map(serializeItem)
   })
-  const hidden = actor.role === 'STUDENT' ? expandHidden(await getHiddenStudentEntries(await getDb())) : []
+  const hidden = actor.role === 'STUDENT' ? await studentHiddenPaths(await getDb()) : []
   // مدخل مجمّع يختفي حين تُخفى كل تبويباته
   const visible = (i: NavItem) => !isPathHidden(i.href, hidden) || (i.also ?? []).some((h) => !isPathHidden(h, hidden))
+  const place = (i: NavItem): ShellNavItem => {
+    const item = serializeItem(i)
+    // مدخل مجمّع للتلميذ: أول تبويب ظاهر، واسمه البديل إن خُفي تبويبه الأول («تدرّب» بدل PLAY)
+    const hub = actor.role === 'STUDENT' ? hubKeyByHref(i.href) : null
+    const entry = hub ? hubEntry(hub, hidden) : null
+    if (entry) return { ...item, ...entry }
+    return { ...item, href: isPathHidden(i.href, hidden) ? ((i.also ?? []).find((h) => !isPathHidden(h, hidden)) ?? i.href) : i.href }
+  }
   const sections = navFor(actor.role).map((s) => ({
     title: s.title,
     collapsible: s.collapsible,
-    items: s.items.filter(visible).map((i) => ({ ...serializeItem(i), href: isPathHidden(i.href, hidden) ? ((i.also ?? []).find((h) => !isPathHidden(h, hidden)) ?? i.href) : i.href }))
+    items: s.items.filter(visible).map(place)
   })).filter((s) => s.items.length > 0)
   return (
     <ShellClient actor={{ fullName: actor.fullName, email: actor.email, role: actor.role }} sections={sections} unread={unread} hidden={hidden}>
