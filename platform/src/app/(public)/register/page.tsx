@@ -6,7 +6,7 @@ import { AuthCard } from '@/components/domain/auth-card'
 import { getT } from '@/i18n/server'
 import { getCurrentActor, homeFor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
-import { listLevels, listStreams, listWilayas } from '@/server/services/reference.service'
+import { listLevels, listStreams, listWilayas, streamsByLevel } from '@/server/services/reference.service'
 import { normalizePromoCode, referralPolicyForDisplay } from '@/server/services/referrals.service'
 import { RegisterForm } from './register-form'
 
@@ -21,7 +21,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
   const actor = await getCurrentActor()
   if (actor) redirect(homeFor(actor.role))
   const db = await getDb()
-  const [wilayas, levels, streams, policy] = await Promise.all([listWilayas(db), listLevels(db), listStreams(db), referralPolicyForDisplay(db)])
+  const [wilayas, levels, streams, policy, levelStreams] = await Promise.all([listWilayas(db), listLevels(db), listStreams(db), referralPolicyForDisplay(db), streamsByLevel(db)])
   // الكود من رابط الدعوة (/r/CODE) أو من ?ref=
   const defaultRef = normalizePromoCode((await searchParams).ref) ?? normalizePromoCode((await cookies()).get(REF_COOKIE)?.value) ?? ''
   return (
@@ -46,7 +46,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
     >
       <RegisterForm
         wilayas={wilayas.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` }))}
-        levels={levels.map((l) => ({ id: l.id, name: l.nameAr, secondary: /AS$/i.test(l.code) }))}
+        levels={levels.map((l) => ({ id: l.id, name: l.nameAr, secondary: /AS$/i.test(l.code), streamIds: levelStreams.get(l.id) ?? [] }))}
         streams={streams.map((s) => ({ id: s.id, name: s.nameAr }))}
         referral={policy.enabled ? { defaultCode: defaultRef, welcomeCreditDzd: policy.welcomeCreditDzd } : null}
       />

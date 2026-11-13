@@ -3,6 +3,7 @@
  * لا تثق بأي حساب نقاط من المتصفح؛ مفاتيح الإجابة لا تغادر الخادم قبل التصحيح.
  */
 import { and, asc, desc, eq, inArray, isNull, lte, sql } from 'drizzle-orm'
+import { alias } from 'drizzle-orm/pg-core'
 import type { Db } from '@/server/db/connect'
 import {
   appSettings,
@@ -39,6 +40,7 @@ import {
   type PlayReportReason,
   type PlayRules
 } from '@/server/play/constants'
+import { playProfileFromAccount, type AccountPlayProfile } from '@/server/play/profile-from-account'
 import { correctAnswerText, gradePlayAnswer, hashToSeed, seededRandom, shufflePayloadForSession } from '@/server/play/engine'
 import { assertPlayAccess, beginPlayAccess, getPlayAccess, type PlayScope } from '@/server/services/play-access.service'
 import type { PlayAnswerKey, PlayPublicPayload, PlayStudentAnswer } from '@/server/play/question-types'
@@ -87,22 +89,35 @@ export async function getPlayProfile(db: Db, actor: Actor) {
   const studentId = studentIdOf(actor)
   const stats = await ensureStats(db, studentId)
   if (!stats.gradeCode) {
-    // محاولة الاستنتاج من ملف الحساب (level/stream)
-    const [s] = await db.select({ levelId: students.levelId, streamId: students.streamId }).from(students).where(eq(students.id, studentId)).limit(1)
-    if (s?.levelId) {
-      const [lv] = await db.select({ code: levels.code }).from(levels).where(eq(levels.id, s.levelId)).limit(1)
-      const [st] = s.streamId ? await db.select({ code: streams.code }).from(streams).where(eq(streams.id, s.streamId)).limit(1) : [null]
-      const grade = lv ? gradeByCode(lv.code) : undefined
-      if (grade) {
-        const streamCode = st && grade.streams.includes(st.code) ? st.code : null
-        if (grade.streams.length === 0 || streamCode) {
-          await db.update(playStudentStats).set({ gradeCode: grade.code, streamCode }).where(eq(playStudentStats.studentId, studentId))
-          return { ...stats, gradeCode: grade.code, streamCode }
-        }
-      }
+    // من الحساب: السنة والشعبة اللتان أعطاهما التلميذ عند التسجيل (لا نسأله ثانية)
+    const fromAccount = await accountPlayProfile(db, studentId)
+    if (fromAccount.kind === 'full') {
+      const { gradeCode, streamCode } = fromAccount
+      await db.update(playStudentStats).set({ gradeCode, streamCode }).where(eq(playStudentStats.studentId, studentId))
+      return { ...stats, gradeCode, streamCode }
     }
   }
   return stats
+}
+
+/** ما يُستنتج لـ PLAY من حساب التلميذ (المستوى والشعبة وأمّ الشعبة) — انظر `playProfileFromAccount` */
+async function accountPlayProfile(db: Db, studentId: string): Promise<AccountPlayProfile> {
+  const parent = alias(streams, 'parent_stream')
+  const [row] = await db
+    .select({ levelCode: levels.code, streamCode: streams.code, parentStreamCode: parent.code })
+    .from(students)
+    .leftJoin(levels, eq(levels.id, students.levelId))
+    .leftJoin(streams, eq(streams.id, students.streamId))
+    .leftJoin(parent, eq(parent.id, streams.parentId))
+    .where(eq(students.id, studentId))
+    .limit(1)
+  return playProfileFromAccount({ levelCode: row?.levelCode ?? null, streamCode: row?.streamCode ?? null, parentStreamCode: row?.parentStreamCode ?? null })
+}
+
+/** لشاشة الإعداد: السنة المختارة سلفًا من الحساب حين لا تُعرف الشعبة (التلميذ يختار الشعبة فقط) */
+export async function suggestedPlayGrade(db: Db, actor: Actor): Promise<string | null> {
+  const fromAccount = await accountPlayProfile(db, studentIdOf(actor))
+  return fromAccount.kind === 'none' ? null : fromAccount.gradeCode
 }
 
 export async function setPlayProfile(db: Db, actor: Actor, input: { gradeCode: string; streamCode: string | null }) {
