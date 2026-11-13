@@ -1,15 +1,19 @@
 'use client'
 
 import { useEffect } from 'react'
+import { isStaleDeployError, reloadOnceForStaleDeploy } from '@/lib/stale-deploy'
 
 /**
  * عطل في التخطيط الجذري نفسه (layout.tsx): هذه الصفحة تستبدل <html> كله، فلا تعتمد على
  * globals.css ولا على أي مزوّد سياق — أنماط مضمّنة فقط (CSP يسمح بها في style-src).
  */
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  // صفحة من نسخة سابقة بعد نشر جديد: إعادة تحميل تلقائية مرة واحدة
+  const stale = isStaleDeployError(error)
   useEffect(() => {
     console.error(error)
-  }, [error])
+    if (stale) reloadOnceForStaleDeploy()
+  }, [error, stale])
 
   return (
     <html lang="ar" dir="rtl">
@@ -36,7 +40,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
           <button
             type="button"
-            onClick={() => reset()}
+            onClick={() => (stale ? window.location.reload() : reset())}
             style={{ border: 0, borderRadius: 8, padding: '12px 20px', fontSize: 14, fontWeight: 600, background: '#3155F5', color: '#FFFFFF', cursor: 'pointer' }}
           >
             أعد المحاولة
