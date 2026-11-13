@@ -1,18 +1,13 @@
-import { ArrowRight, ExternalLink, Paperclip } from 'lucide-react'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { LessonComments, LessonQuizButton } from '@/components/domain/lesson-extras'
-import { LessonMedia } from '@/components/domain/lesson-media'
-import { Markdown } from '@/components/domain/markdown'
-import { Badge } from '@/components/ui/badge'
-import { tEnum } from '@/i18n'
-import { formatDate } from '@/lib/utils'
+import { LessonView } from '@/components/domain/lesson-view'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { getContentForStudent } from '@/server/services/content.service'
 import { lessonQuizForStudent, listLessonComments } from '@/server/services/lesson-extras.service'
 
+/** درس التلميذ: الصفحة الواحدة (LessonView) ومعها اختبار الدرس والتعليقات */
 export default async function StudentLessonPage({ params }: { params: Promise<{ slug: string }> }) {
   const actor = await requirePageActor('STUDENT')
   const { slug } = await params
@@ -30,48 +25,16 @@ export default async function StudentLessonPage({ params }: { params: Promise<{ 
     if (isAppError(e)) notFound()
     throw e
   }
-  // تحت الفيديو: اختبار QCM المرتبط + التعليقات (بموافقة الأستاذ)
+  // تحت الوسائط: اختبار QCM المرتبط + التعليقات (بموافقة الأستاذ)
   const [quiz, comments] = await Promise.all([lessonQuizForStudent(db, actor, item.id), listLessonComments(db, actor, item.id)])
   return (
-    <article className={`mx-auto ${item.fileMime === 'application/pdf' && (item.videoProvider === 'BUNNY' || item.videoProvider === 'YOUTUBE') ? 'max-w-6xl' : 'max-w-3xl'}`}>
-      <Link href="/student/lessons" className="mb-6 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-        <ArrowRight className="size-4" /> الدروس
-      </Link>
-      <div className="mb-2 flex flex-wrap gap-2">
-        <Badge>{tEnum('contentTypes', item.type)}</Badge>
-        {item.levelName ? <Badge variant="muted">{item.levelName}</Badge> : null}
-        {item.topic ? <Badge variant="secondary">{item.topic}</Badge> : null}
-      </div>
-      <h1 className="text-3xl font-extrabold leading-tight">{item.title}</h1>
-      <p className="mt-2 text-sm text-muted-foreground">
-        {item.authorName ? `${item.authorName} · ` : ''}
-        {formatDate(item.publishedAt)}
-      </p>
-      {item.summary ? <p className="mt-6 rounded-lg border-s-4 border-primary bg-primary/5 p-4 text-muted-foreground">{item.summary}</p> : null}
-      <div className="mt-6">
-        <LessonMedia item={item} actor={actor} />
-      </div>
-      <div className="mt-4 flex flex-wrap gap-3">
-        {item.externalUrl && item.videoProvider !== 'YOUTUBE' ? (
-          <a href={item.externalUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm text-primary hover:underline">
-            <ExternalLink className="size-4" /> فتح الرابط
-          </a>
-        ) : null}
-        {item.fileId && item.fileName && item.allowDownload && item.fileMime !== 'application/pdf' && !item.fileMime?.startsWith('video/') ? (
-          <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-            <Paperclip className="size-4" /> {item.fileName}
-          </span>
-        ) : null}
-      </div>
-      {quiz ? (
-        <div className="mt-6">
-          <LessonQuizButton quiz={quiz} />
-        </div>
-      ) : null}
-      <div className="mt-6">{item.body ? <Markdown body={item.body} /> : null}</div>
-      <div className="mt-8">
-        <LessonComments slug={item.slug} comments={comments.map((c) => ({ ...c, createdAt: c.createdAt.toISOString() }))} />
-      </div>
-    </article>
+    <LessonView
+      item={item}
+      actor={actor}
+      surface="student"
+      back={{ href: '/student/lessons', label: 'الدروس' }}
+      extras={quiz ? <LessonQuizButton quiz={quiz} /> : null}
+      footer={<LessonComments slug={item.slug} comments={comments.map((c) => ({ ...c, createdAt: c.createdAt.toISOString() }))} />}
+    />
   )
 }
