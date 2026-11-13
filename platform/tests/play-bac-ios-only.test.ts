@@ -120,7 +120,7 @@ describe('حراس في الشيفرة', () => {
   it('أي صفحة للتلميذ أو للزوار تربط إلى PLAY أو البنك تسأل الإعداد أولًا', () => {
     const files = [...walk('app/student'), ...walk('app/(public)')]
       .filter((p) => !/^app\/student\/play\/|^app\/\(public\)\/(bac|play|past-bac|archive)\//.test(p))
-      .filter((p) => /href[=:]\s*\{?\s*[`'"](\/bac|\/student\/play)(?![\w-])|href:\s*playHref/.test(read(p)))
+      .filter((p) => /href[=:]\s*\{?\s*[`'"](\/bac|\/student\/play)(?![\w-])|href(:\s*|=\{)playHref/.test(read(p)))
     // المكتبة، وسؤال المكتبة، والرئيسية، وصفحة الدورة على الأقل
     expect(files.length).toBeGreaterThanOrEqual(4)
     console.info('صفحات تربط إلى PLAY أو البنك:', files.join('، '))
