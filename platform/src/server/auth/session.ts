@@ -63,6 +63,7 @@ export async function resolveActor(db: Db, token: string | undefined | null): Pr
       teacherId: teachers.id,
       workspaceId: teachers.workspaceId,
       assistantWorkspaceId: teacherAssistants.workspaceId,
+      assistantScope: teacherAssistants.scope,
       studentId: students.id
     })
     .from(sessions)
@@ -95,7 +96,8 @@ export async function resolveActor(db: Db, token: string | undefined | null): Pr
     fullName: row.fullName ?? row.email ?? '',
     teacherId: row.teacherId ?? null,
     workspaceId: row.workspaceId ?? (row.role === 'ASSISTANT' ? (row.assistantWorkspaceId ?? null) : null),
-    studentId: row.studentId ?? null
+    studentId: row.studentId ?? null,
+    ...(row.role === 'ASSISTANT' ? { assistantScope: row.assistantScope === 'CLASSROOM' ? ('CLASSROOM' as const) : ('FULL' as const) } : {})
   }
 }
 

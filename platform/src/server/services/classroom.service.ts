@@ -7,11 +7,14 @@
  *  - القسم العام: المنشورات العامة (isPublic) يراها كل التلاميذ المسجّلين ويعلّقون عليها (النشر للأساتذة
  *    والإدارة فقط)، ومعها المنشورات القديمة «لكل أفواجي» لتلاميذ أستاذها وحدهم.
  * في القسم العام يظهر اسم التلميذ المعلّق للتلاميذ الآخرين مختصرًا (أمينة ب.) لأن جمهوره المنصة كلها.
+ *
+ * «الأستاذ المساعد» (مساعد نطاقه CLASSROOM، قرار المالك 13-14 نوفمبر 2026): يرى منشورات مساحة أستاذه
+ * كما يراها الأستاذ، ويردّ في التعليقات، ويُخفي تعليقات التلاميذ غير اللائقة. لا ينشر ولا يثبّت ولا يغلق التعليقات.
  */
 import { and, asc, desc, eq, inArray, isNull, or, type SQL } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { classComments, classPosts, files, groups, groupStudents, profiles, users } from '@/server/db/schema'
-import { assertRole, type Actor } from '@/server/lib/actor'
+import { classComments, classPosts, files, groups, groupStudents, profiles, teacherAssistants, users } from '@/server/db/schema'
+import { assertRole, isClassroomAssistant, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { signFileUrl } from '@/server/lib/storage'
@@ -77,8 +80,9 @@ async function loadPost(db: Db, postId: string): Promise<PostRow> {
 }
 
 async function assertPostAccess(db: Db, actor: Actor, post: PostRow): Promise<void> {
-  if (actor.role === 'TEACHER') {
-    if (post.workspaceId !== actor.workspaceId) throw new AppError('POST_NOT_FOUND')
+  // الأستاذ و«الأستاذ المساعد»: منشورات مساحة الأستاذ وحدها
+  if (actor.role === 'TEACHER' || isClassroomAssistant(actor)) {
+    if (!actor.workspaceId || post.workspaceId !== actor.workspaceId) throw new AppError('POST_NOT_FOUND')
     return
   }
   if (actor.role !== 'STUDENT') throw new AppError('FORBIDDEN')
@@ -115,6 +119,7 @@ async function hydrate(db: Db, actor: Actor, posts: PostRow[]): Promise<StreamPo
   const groupName = new Map(groupRows.map((g) => [g.id, g.name]))
   const fileName = new Map(fileRows.map((f) => [f.id, f.name]))
   const isTeacher = actor.role === 'TEACHER'
+  const isHelper = isClassroomAssistant(actor)
   return posts.map((p) => ({
     id: p.id,
     isPublic: p.isPublic,
@@ -136,7 +141,8 @@ async function hydrate(db: Db, actor: Actor, posts: PostRow[]): Promise<StreamPo
         authorName: p.isPublic && actor.role === 'STUDENT' && c.role === 'STUDENT' && c.c.authorUserId !== actor.userId ? shortName(c.name ?? '—') : (c.name ?? '—'),
         authorRole: c.role,
         mine: c.c.authorUserId === actor.userId,
-        canDelete: isTeacher || c.c.authorUserId === actor.userId
+        // الأستاذ يحذف أي تعليق؛ «الأستاذ المساعد» يُخفي تعليقات التلاميذ وحدها؛ وكلٌّ يحذف تعليقه
+        canDelete: isTeacher || c.c.authorUserId === actor.userId || (isHelper && c.role === 'STUDENT')
       }))
   }))
 }
@@ -148,6 +154,33 @@ export async function teacherStream(db: Db, actor: Actor, groupId?: string | nul
   assertRole(actor, 'TEACHER')
   if (!actor.workspaceId) throw new AppError('FORBIDDEN')
   if (groupId) await assertGroupAccess(db, actor, groupId)
+  const posts = await db
+    .select()
+    .from(classPosts)
+    .where(and(eq(classPosts.workspaceId, actor.workspaceId), isNull(classPosts.deletedAt), groupId ? eq(classPosts.groupId, groupId) : undefined))
+    .orderBy(...order)
+    .limit(100)
+  return hydrate(db, actor, posts)
+}
+
+/** أفواج مساحة أستاذ «الأستاذ المساعد» (لتصفية ساحته بقسم دورة) */
+export async function assistantClassGroups(db: Db, actor: Actor): Promise<{ id: string; name: string }[]> {
+  if (!isClassroomAssistant(actor) || !actor.workspaceId) throw new AppError('FORBIDDEN')
+  return db
+    .select({ id: groups.id, name: groups.name })
+    .from(groups)
+    .where(and(eq(groups.workspaceId, actor.workspaceId), isNull(groups.deletedAt)))
+    .orderBy(asc(groups.name))
+}
+
+/** ساحة «الأستاذ المساعد»: منشورات مساحة أستاذه كما يراها الأستاذ، أو قسم دورة واحدة منها */
+export async function assistantStream(db: Db, actor: Actor, groupId?: string | null): Promise<StreamPost[]> {
+  if (!isClassroomAssistant(actor) || !actor.workspaceId) throw new AppError('FORBIDDEN')
+  if (groupId) {
+    assertUuid(groupId, 'POST_NOT_FOUND')
+    const [g] = await db.select({ id: groups.id }).from(groups).where(and(eq(groups.id, groupId), eq(groups.workspaceId, actor.workspaceId), isNull(groups.deletedAt))).limit(1)
+    if (!g) return []
+  }
   const posts = await db
     .select()
     .from(classPosts)
@@ -224,7 +257,7 @@ export async function deletePost(db: Db, actor: Actor, postId: string) {
 }
 
 export async function addComment(db: Db, actor: Actor, postId: string, text: string) {
-  assertRole(actor, 'TEACHER', 'STUDENT')
+  assertRole(actor, 'TEACHER', 'STUDENT', 'ASSISTANT')
   const post = await loadPost(db, postId)
   await assertPostAccess(db, actor, post)
   if (!post.allowComments && actor.role !== 'TEACHER') throw new AppError('COMMENTS_CLOSED')
@@ -241,12 +274,28 @@ export async function addComment(db: Db, actor: Actor, postId: string, text: str
       body: body.length > 140 ? `${body.slice(0, 140)}…` : body,
       link: `/teacher/classroom${post.groupId ? `?group=${post.groupId}` : ''}#post-${post.id}`
     })
+    // و«الأستاذ المساعد» يعلم أيضًا، ليجيب في غياب الأستاذ
+    const helpers = await db
+      .select({ userId: teacherAssistants.userId })
+      .from(teacherAssistants)
+      .where(and(eq(teacherAssistants.workspaceId, post.workspaceId), eq(teacherAssistants.status, 'ACTIVE'), eq(teacherAssistants.scope, 'CLASSROOM')))
+    await notifyMany(
+      db,
+      helpers.map((h) => ({
+        userId: h.userId,
+        workspaceId: post.workspaceId,
+        type: 'CLASS_COMMENT' as const,
+        title: `سؤال من ${actor.fullName}`,
+        body: body.length > 140 ? `${body.slice(0, 140)}…` : body,
+        link: `/assistant/classroom${post.groupId ? `?group=${post.groupId}` : ''}#post-${post.id}`
+      }))
+    )
   }
   return c!
 }
 
 export async function deleteComment(db: Db, actor: Actor, commentId: string) {
-  assertRole(actor, 'TEACHER', 'STUDENT')
+  assertRole(actor, 'TEACHER', 'STUDENT', 'ASSISTANT')
   assertUuid(commentId, 'POST_NOT_FOUND')
   const [c] = await db.select().from(classComments).where(and(eq(classComments.id, commentId), isNull(classComments.deletedAt))).limit(1)
   if (!c) throw new AppError('POST_NOT_FOUND')
@@ -254,7 +303,15 @@ export async function deleteComment(db: Db, actor: Actor, commentId: string) {
   await assertPostAccess(db, actor, post)
   // التلميذ يحذف تعليقه وحده؛ الأستاذ يحذف أي تعليق في مساحته
   if (actor.role === 'STUDENT' && c.authorUserId !== actor.userId) throw new AppError('FORBIDDEN')
+  // «الأستاذ المساعد»: تعليقه، أو تعليق تلميذ غير لائق؛ لا يمسّ تعليق الأستاذ ولا مساعدٍ آخر
+  if (actor.role === 'ASSISTANT' && c.authorUserId !== actor.userId) {
+    const [author] = await db.select({ role: users.role }).from(users).where(eq(users.id, c.authorUserId)).limit(1)
+    if (author?.role !== 'STUDENT') throw new AppError('FORBIDDEN')
+  }
   await db.update(classComments).set({ deletedAt: new Date() }).where(eq(classComments.id, c.id))
+  if (actor.role === 'ASSISTANT' && c.authorUserId !== actor.userId) {
+    await writeAudit(db, { actorUserId: actor.userId, workspaceId: post.workspaceId, action: 'class.comment_hide_by_assistant', entityType: 'class_comment', entityId: c.id, oldValue: { body: c.body.slice(0, 200) } })
+  }
   if (actor.role === 'TEACHER' && c.authorUserId !== actor.userId) {
     await writeAudit(db, { actorUserId: actor.userId, workspaceId: post.workspaceId, action: 'class.comment_delete', entityType: 'class_comment', entityId: c.id, oldValue: { body: c.body.slice(0, 200) } })
   }

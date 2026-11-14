@@ -1,4 +1,4 @@
-import type { UserRole } from '@/server/db/schema/enums'
+import type { AssistantScope, UserRole } from '@/server/db/schema/enums'
 import { AppError } from './errors'
 
 /**
@@ -16,6 +16,12 @@ export interface Actor {
   workspaceId: string | null
   teacherId: string | null
   studentId: string | null
+  /**
+   * نطاق المساعد (للدور ASSISTANT وحده، من عضويته النشطة): FULL = مساعد الحضور،
+   * CLASSROOM = «الأستاذ المساعد» في القسم الافتراضي فقط، فلا يدخل الحضور ولا قوائم الطلاب.
+   * غيابه عند المساعد يعني FULL (السلوك القديم).
+   */
+  assistantScope?: AssistantScope
   /**
    * قناة الطلب. «ios-app»: طلب من تطبيق الآيفون الأصيل (تضعه مسارات /api/v1/ios وحدها).
    * قرار المالك 3 نوفمبر 2026: PLAY مجانية بالكامل في تطبيق الآيفون، فلا تجربة ولا إقفال هناك.
@@ -57,6 +63,8 @@ export const ATTENDANCE_STAFF_ROLES: readonly UserRole[] = ['TEACHER', 'ASSISTAN
 
 export function assertAttendanceStaff(actor: Actor): void {
   assertRole(actor, ...ATTENDANCE_STAFF_ROLES)
+  // «الأستاذ المساعد» لا يرى إلا القسم الافتراضي: لا حصص ولا حضور ولا قوائم طلاب
+  if (isClassroomAssistant(actor)) throw new AppError('FORBIDDEN')
   if (actor.role !== 'SUPER_ADMIN' && !actor.workspaceId) throw new AppError('ASSISTANT_NO_WORKSPACE')
 }
 
@@ -80,4 +88,9 @@ export function studentIdOf(actor: Actor): string {
 /** جذر لوحة الفاعل (لإعادة التوجيه بعد الإجراءات المشتركة بين الأستاذ ومساعده). */
 export function portalBase(role: UserRole): string {
   return role === 'ASSISTANT' ? '/assistant' : '/teacher'
+}
+
+/** «الأستاذ المساعد»: مساعد نطاقه القسم الافتراضي وحده */
+export function isClassroomAssistant(actor: Pick<Actor, 'role' | 'assistantScope'>): boolean {
+  return actor.role === 'ASSISTANT' && actor.assistantScope === 'CLASSROOM'
 }

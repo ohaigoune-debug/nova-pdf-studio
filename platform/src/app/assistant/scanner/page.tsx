@@ -3,7 +3,7 @@ import { ScannerConsole } from '@/components/domain/scanner-console'
 import { StartSessionDialog } from '@/components/domain/start-session-dialog'
 import { EmptyState, PageHeader } from '@/components/ui/misc'
 import { t } from '@/i18n'
-import { requirePageActor } from '@/server/auth/current-user'
+import { requireAttendanceAssistantPage } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listSessionAttendance } from '@/server/services/attendance.service'
 import { listSessions } from '@/server/services/class-sessions.service'
@@ -11,7 +11,7 @@ import { listGroups } from '@/server/services/groups.service'
 
 /** سكانر المساعد: نفس وحدة التحكم التي يستعملها الأستاذ، داخل مساحة الأستاذ فقط. */
 export default async function AssistantScannerPage({ searchParams }: { searchParams: Promise<{ session?: string }> }) {
-  const actor = await requirePageActor('ASSISTANT')
+  const actor = await requireAttendanceAssistantPage()
   const { session } = await searchParams
   const db = await getDb()
   const [openSessions, groups] = await Promise.all([listSessions(db, actor, { status: ['OPEN'], limit: 20 }), listGroups(db, actor)])

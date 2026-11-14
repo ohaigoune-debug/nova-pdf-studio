@@ -6,14 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, Avatar, PageHeader, Progress, StatCard } from '@/components/ui/misc'
 import { t } from '@/i18n'
 import { formatDate, percent } from '@/lib/utils'
-import { requirePageActor } from '@/server/auth/current-user'
+import { requireAttendanceAssistantPage } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { getStudentProfile } from '@/server/services/students.service'
 
 /** ملف الطالب من منظور المساعد: الحضور والتسجيلات فقط (لا علامات، لا هاتف، لا تحليلات). */
 export default async function AssistantStudentPage({ params }: { params: Promise<{ id: string }> }) {
-  const actor = await requirePageActor('ASSISTANT')
+  const actor = await requireAttendanceAssistantPage()
   const { id } = await params
   const db = await getDb()
   let p

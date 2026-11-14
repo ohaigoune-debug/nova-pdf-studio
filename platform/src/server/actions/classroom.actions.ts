@@ -13,6 +13,7 @@ const uuidList = (fd: FormData, k: string) => fd.getAll(k).map(String).filter((v
 const refresh = () => {
   revalidatePath('/teacher/classroom')
   revalidatePath('/student/classroom')
+  revalidatePath('/assistant/classroom')
 }
 
 const announcementSchema = z.object({

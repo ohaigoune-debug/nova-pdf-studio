@@ -19,7 +19,9 @@ import {
 
 const createSchema = z.object({
   email: z.string().trim().email('أدخل بريداً صحيحاً'),
-  expiresDays: z.coerce.number().int().min(0).max(365).optional()
+  expiresDays: z.coerce.number().int().min(0).max(365).optional(),
+  // FULL = مساعد الحضور؛ CLASSROOM = «الأستاذ المساعد» في القسم الافتراضي وحده
+  scope: z.enum(['FULL', 'CLASSROOM']).default('FULL')
 })
 
 export async function createAssistantCodeAction(_prev: ActionResult<AssistantCodeResult> | null, formData: FormData): Promise<ActionResult<AssistantCodeResult>> {
@@ -29,7 +31,7 @@ export async function createAssistantCodeAction(_prev: ActionResult<AssistantCod
   const result = await runAction(async () => {
     const actor = await requireRole('TEACHER')
     const expiresAt = d.expiresDays && d.expiresDays > 0 ? new Date(Date.now() + d.expiresDays * 86_400_000) : null
-    return createAssistantCode(await getDb(), actor, { email: d.email, expiresAt })
+    return createAssistantCode(await getDb(), actor, { email: d.email, expiresAt, scope: d.scope })
   })
   if (result.ok) revalidatePath('/teacher/assistants')
   return result

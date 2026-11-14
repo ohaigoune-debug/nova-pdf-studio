@@ -10,6 +10,13 @@ export type UserRole = (typeof USER_ROLES)[number]
 /** حالة عضوية مساعد الأستاذ في مساحة العمل */
 export const ASSISTANT_STATUSES = ['ACTIVE', 'REVOKED'] as const
 export type AssistantStatus = (typeof ASSISTANT_STATUSES)[number]
+/**
+ * نطاق المساعد (قرار المالك 13-14 نوفمبر 2026):
+ * - FULL: مساعد الحضور كما كان (الحصص، السكانر، قوائم الطلاب).
+ * - CLASSROOM: «الأستاذ المساعد» في القسم الافتراضي وحده: يقرأ ويردّ في التعليقات ويُخفي غير اللائق، ولا يرى شيئًا غيره.
+ */
+export const ASSISTANT_SCOPES = ['FULL', 'CLASSROOM'] as const
+export type AssistantScope = (typeof ASSISTANT_SCOPES)[number]
 
 export const USER_STATUSES = ['ACTIVE', 'DISABLED'] as const
 export type UserStatus = (typeof USER_STATUSES)[number]
