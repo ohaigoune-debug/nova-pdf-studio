@@ -6,7 +6,7 @@ import { notifications, teacherAssistants } from '@/server/db/schema'
 import { assertAttendanceStaff, isClassroomAssistant, type Actor } from '@/server/lib/actor'
 import { createAssistantCode, joinAsAssistant, listAssistants } from '@/server/services/assistants.service'
 import { listSessions } from '@/server/services/class-sessions.service'
-import { addComment, assistantClassGroups, assistantStream, createPost, deleteComment, studentStream, updatePost } from '@/server/services/classroom.service'
+import { addComment, approveComment, assistantClassGroups, assistantStream, createPost, deleteComment, studentStream, updatePost } from '@/server/services/classroom.service'
 import { generateCodes } from '@/server/services/enrollment-codes.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 import { createGroup } from '@/server/services/groups.service'
@@ -91,9 +91,17 @@ describe('«الأستاذ المساعد» في القسم الافتراضي',
     // مساعد الحضور لا يُبلَّغ
     expect(await notes(attendanceHelper.userId)).toHaveLength(0)
 
+    // يراه منتظِرًا فيعتمده، فيظهر لبقية التلاميذ
+    const q = (await assistantStream(h.db, helper, groupA.id)).find((p) => p.id === post.id)!.comments[0]!
+    expect(q).toMatchObject({ pending: true, canApprove: true })
+    await approveComment(h.db, helper, q.id)
+    await expect(approveComment(h.db, attendanceHelper, q.id)).rejects.toMatchObject({ code: 'FORBIDDEN' })
     await addComment(h.db, helper, post.id, 'الكناية لفظ أُريد به لازم معناه مع جواز إرادة المعنى الأصلي')
     const seen = (await studentStream(h.db, a1, groupA.id)).posts.find((p) => p.id === post.id)!
-    expect(seen.comments.at(-1)?.authorRole).toBe('ASSISTANT')
+    expect(seen.comments.map((c) => [c.authorRole, c.pending])).toEqual([
+      ['STUDENT', false],
+      ['ASSISTANT', false]
+    ])
 
     await expect(createPost(h.db, helper, { groupId: groupA.id, body: 'منشور' })).rejects.toMatchObject({ code: 'FORBIDDEN' })
     await expect(updatePost(h.db, helper, post.id, { pinned: true })).rejects.toMatchObject({ code: 'FORBIDDEN' })

@@ -1,7 +1,8 @@
-import { boolean, index, integer, jsonb, pgTable, text, uuid } from 'drizzle-orm/pg-core'
-import { id, softDelete, timestamps } from './_common'
+import { boolean, check, index, integer, jsonb, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { id, inList, softDelete, timestamps } from './_common'
 import { users } from './auth'
 import { files } from './content'
+import { CLASS_COMMENT_STATUSES } from './enums'
 import { groups } from './groups'
 import { teacherWorkspaces } from './tenancy'
 
@@ -64,8 +65,16 @@ export const classComments = pgTable(
       .notNull()
       .references(() => users.id),
     body: text('body').notNull(),
+    /** PENDING: تعليق تلميذ ينتظر الاعتماد، يراه كاتبه والأستاذ ومساعده وحدهم؛ APPROVED: يراه الجميع */
+    status: text('status').notNull().default('APPROVED'),
+    reviewedByUserId: uuid('reviewed_by_user_id').references(() => users.id),
+    reviewedAt: timestamp('reviewed_at', { withTimezone: true }),
     ...timestamps,
     ...softDelete
   },
-  (t) => [index('class_comments_post_idx').on(t.postId, t.createdAt)]
+  (t) => [
+    index('class_comments_post_idx').on(t.postId, t.createdAt),
+    index('class_comments_post_status_idx').on(t.postId, t.status),
+    check('class_comments_status_check', inList(t.status, CLASS_COMMENT_STATUSES))
+  ]
 )

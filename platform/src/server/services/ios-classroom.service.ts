@@ -6,7 +6,7 @@
  * والأستاذ يحذف أي تعليق في مساحته؛ وحجب كاتب تعليق يتم في التطبيق بمفتاح ثابت لا يكشف حسابه (authorKey).
  */
 import { createHash } from 'node:crypto'
-import { and, eq, inArray, isNull } from 'drizzle-orm'
+import { and, eq, inArray, isNull, or } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { classComments, classPosts, profiles } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
@@ -47,6 +47,8 @@ export async function iosClassroom(db: Db, actor: Actor | null, groupId: string 
         authorName: c.authorName,
         teacher: c.authorRole === 'TEACHER' || c.authorRole === 'ASSISTANT',
         mine: c.mine,
+        // تعليقه ينتظر اعتماد الأستاذ (لا يراه غيره بعد)
+        pending: c.pending,
         authorKey: c.mine ? null : authorKeyFor(student.userId, authorIds.get(c.id) ?? c.id)
       }))
     }))
@@ -74,7 +76,7 @@ export async function iosReportComment(db: Db, actor: Actor | null, commentId: s
     .from(classComments)
     .innerJoin(classPosts, eq(classPosts.id, classComments.postId))
     .leftJoin(profiles, eq(profiles.userId, classComments.authorUserId))
-    .where(and(eq(classComments.id, commentId), isNull(classComments.deletedAt), isNull(classPosts.deletedAt)))
+    .where(and(eq(classComments.id, commentId), or(eq(classComments.status, 'APPROVED'), eq(classComments.authorUserId, student.userId)), isNull(classComments.deletedAt), isNull(classPosts.deletedAt)))
     .limit(1)
   if (!row) throw new AppError('POST_NOT_FOUND')
   // يرى التلميذ هذا المنشور؟ (الصلاحية نفسها لقراءة القسم)

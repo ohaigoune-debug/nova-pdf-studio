@@ -1,6 +1,6 @@
 'use client'
 
-import { ExternalLink, FileDown, Lock, LockOpen, MessageSquare, Pin, PinOff, Send, Trash2, UsersRound } from 'lucide-react'
+import { Check, ExternalLink, FileDown, Lock, LockOpen, MessageSquare, Pin, PinOff, Send, Trash2, UsersRound } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { Badge } from '@/components/ui/badge'
@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/input'
 import { Avatar, EmptyState } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
 import { formatDateTime } from '@/lib/utils'
-import { addCommentAction, deleteCommentAction, deletePostAction, updatePostAction } from '@/server/actions/classroom.actions'
+import { addCommentAction, approveCommentAction, deleteCommentAction, deletePostAction, updatePostAction } from '@/server/actions/classroom.actions'
 import type { StreamPost } from '@/server/services/classroom.service'
 
 /** ساحة القسم الافتراضي: المنشورات وتعليقاتها — للأستاذ أدوات الإدارة، وللتلميذ التعليق */
@@ -109,9 +109,19 @@ function PostCard({ post, role }: { post: StreamPost; role: 'TEACHER' | 'STUDENT
                   </Badge>
                 ) : null}
                 <span className="text-muted-foreground">{formatDateTime(c.createdAt)}</span>
+                {c.pending ? (
+                  <Badge variant="warning" className="px-1.5 py-0 text-[10px]">
+                    {c.mine ? 'بانتظار موافقة الأستاذ' : 'بانتظار الاعتماد'}
+                  </Badge>
+                ) : null}
               </p>
               <p className="mt-0.5 whitespace-pre-wrap text-sm">{c.body}</p>
             </div>
+            {c.canApprove ? (
+              <Button type="button" size="sm" variant="outline" title="اعتماد التعليق ليظهر للتلاميذ" onClick={() => run(() => approveCommentAction(c.id))} disabled={pending}>
+                <Check className="size-3.5" /> اعتماد
+              </Button>
+            ) : null}
             {c.canDelete ? (
               <Button type="button" size="sm" variant="ghost" title={role === 'ASSISTANT' && !c.mine ? 'إخفاء التعليق' : 'حذف التعليق'} onClick={() => confirm(role === 'ASSISTANT' && !c.mine ? 'إخفاء هذا التعليق عن التلاميذ؟ يبقى مسجّلًا عند الإدارة.' : 'حذف التعليق؟') && run(() => deleteCommentAction(c.id))} disabled={pending}>
                 <Trash2 className="size-3.5 text-muted-foreground" />
@@ -124,7 +134,15 @@ function PostCard({ post, role }: { post: StreamPost; role: 'TEACHER' | 'STUDENT
             className="flex items-end gap-2"
             onSubmit={(e) => {
               e.preventDefault()
-              if (comment.trim()) run(() => addCommentAction(post.id, comment), () => setComment(''))
+              if (comment.trim())
+                run(
+                  () => addCommentAction(post.id, comment),
+                  () => {
+                    setComment('')
+                    // تعليق التلميذ ينتظر الاعتماد قبل أن يراه غيره
+                    if (role === 'STUDENT') toast('success', 'وصل تعليقك، ويظهر للجميع بعد موافقة الأستاذ.')
+                  }
+                )
             }}
           >
             <Textarea value={comment} onChange={(e) => setComment(e.target.value)} rows={1} maxLength={1500} placeholder={teacher || role === 'ASSISTANT' ? 'ردّ على التلاميذ…' : 'أضف تعليقاً…'} className="min-h-10 flex-1 resize-y" />

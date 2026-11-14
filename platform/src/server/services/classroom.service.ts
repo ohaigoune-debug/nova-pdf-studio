@@ -10,6 +10,9 @@
  *
  * «الأستاذ المساعد» (مساعد نطاقه CLASSROOM، قرار المالك 13-14 نوفمبر 2026): يرى منشورات مساحة أستاذه
  * كما يراها الأستاذ، ويردّ في التعليقات، ويُخفي تعليقات التلاميذ غير اللائقة. لا ينشر ولا يثبّت ولا يغلق التعليقات.
+ *
+ * مراجعة التعليقات (قرار المالك 14 نوفمبر 2026): تعليق التلميذ يُحفظ «بانتظار المراجعة» فلا يراه إلا كاتبه
+ * والأستاذ ومساعده، حتى يعتمده أحدهما فيظهر للجميع. تعليقات الأستاذ والمساعد معتمدة مباشرة.
  */
 import { and, asc, desc, eq, inArray, isNull, or, type SQL } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
@@ -35,6 +38,10 @@ export interface StreamComment {
   authorRole: string
   mine: boolean
   canDelete: boolean
+  /** ينتظر الاعتماد (يراه كاتبه والأستاذ ومساعده وحدهم) */
+  pending: boolean
+  /** الأستاذ أو «الأستاذ المساعد» أمام تعليق ينتظر */
+  canApprove: boolean
 }
 
 export interface StreamPost {
@@ -133,7 +140,8 @@ async function hydrate(db: Db, actor: Actor, posts: PostRow[]): Promise<StreamPo
     groupName: p.groupId ? (groupName.get(p.groupId) ?? null) : null,
     authorName: authorName.get(p.authorUserId) ?? 'الأستاذ',
     comments: comments
-      .filter((c) => c.c.postId === p.id)
+      // التلميذ لا يرى تعليق غيره قبل اعتماده؛ ويرى تعليقه المنتظِر ليعرف أنه وصل
+      .filter((c) => c.c.postId === p.id && (isTeacher || isHelper || c.c.status === 'APPROVED' || c.c.authorUserId === actor.userId))
       .map((c) => ({
         id: c.c.id,
         body: c.c.body,
@@ -142,7 +150,9 @@ async function hydrate(db: Db, actor: Actor, posts: PostRow[]): Promise<StreamPo
         authorRole: c.role,
         mine: c.c.authorUserId === actor.userId,
         // الأستاذ يحذف أي تعليق؛ «الأستاذ المساعد» يُخفي تعليقات التلاميذ وحدها؛ وكلٌّ يحذف تعليقه
-        canDelete: isTeacher || c.c.authorUserId === actor.userId || (isHelper && c.role === 'STUDENT')
+        canDelete: isTeacher || c.c.authorUserId === actor.userId || (isHelper && c.role === 'STUDENT'),
+        pending: c.c.status === 'PENDING',
+        canApprove: c.c.status === 'PENDING' && (isTeacher || isHelper)
       }))
   }))
 }
@@ -263,14 +273,19 @@ export async function addComment(db: Db, actor: Actor, postId: string, text: str
   if (!post.allowComments && actor.role !== 'TEACHER') throw new AppError('COMMENTS_CLOSED')
   const body = text.trim()
   if (body.length < 1 || body.length > MAX_COMMENT) throw new AppError('VALIDATION', { field: 'body' })
-  const [c] = await db.insert(classComments).values({ postId: post.id, authorUserId: actor.userId, body }).returning()
+  // تعليق التلميذ ينتظر اعتماد الأستاذ أو مساعده؛ تعليقهما معتمد مباشرة
+  const status = actor.role === 'STUDENT' ? 'PENDING' : 'APPROVED'
+  const [c] = await db
+    .insert(classComments)
+    .values({ postId: post.id, authorUserId: actor.userId, body, status, ...(status === 'APPROVED' ? { reviewedByUserId: actor.userId, reviewedAt: new Date() } : {}) })
+    .returning()
   // الأستاذ يعلم بكل تعليق تلميذ على منشوره
   if (actor.role === 'STUDENT' && post.authorUserId !== actor.userId) {
     await notify(db, {
       userId: post.authorUserId,
       workspaceId: post.workspaceId,
       type: 'CLASS_COMMENT',
-      title: `تعليق من ${actor.fullName}`,
+      title: `تعليق ينتظر اعتمادك من ${actor.fullName}`,
       body: body.length > 140 ? `${body.slice(0, 140)}…` : body,
       link: `/teacher/classroom${post.groupId ? `?group=${post.groupId}` : ''}#post-${post.id}`
     })
@@ -285,7 +300,7 @@ export async function addComment(db: Db, actor: Actor, postId: string, text: str
         userId: h.userId,
         workspaceId: post.workspaceId,
         type: 'CLASS_COMMENT' as const,
-        title: `سؤال من ${actor.fullName}`,
+        title: `سؤال ينتظر المراجعة من ${actor.fullName}`,
         body: body.length > 140 ? `${body.slice(0, 140)}…` : body,
         link: `/assistant/classroom${post.groupId ? `?group=${post.groupId}` : ''}#post-${post.id}`
       }))
@@ -315,4 +330,20 @@ export async function deleteComment(db: Db, actor: Actor, commentId: string) {
   if (actor.role === 'TEACHER' && c.authorUserId !== actor.userId) {
     await writeAudit(db, { actorUserId: actor.userId, workspaceId: post.workspaceId, action: 'class.comment_delete', entityType: 'class_comment', entityId: c.id, oldValue: { body: c.body.slice(0, 200) } })
   }
+}
+
+/**
+ * اعتماد تعليق تلميذ (الأستاذ أو «الأستاذ المساعد»): يظهر بعده لكل من يرى المنشور.
+ * اعتماد المعتمد لا يغيّر شيئًا.
+ */
+export async function approveComment(db: Db, actor: Actor, commentId: string) {
+  if (actor.role !== 'TEACHER' && !isClassroomAssistant(actor)) throw new AppError('FORBIDDEN')
+  assertUuid(commentId, 'POST_NOT_FOUND')
+  const [c] = await db.select().from(classComments).where(and(eq(classComments.id, commentId), isNull(classComments.deletedAt))).limit(1)
+  if (!c) throw new AppError('POST_NOT_FOUND')
+  const post = await loadPost(db, c.postId)
+  await assertPostAccess(db, actor, post)
+  if (c.status === 'APPROVED') return
+  await db.update(classComments).set({ status: 'APPROVED', reviewedByUserId: actor.userId, reviewedAt: new Date() }).where(eq(classComments.id, c.id))
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: post.workspaceId, action: 'class.comment_approve', entityType: 'class_comment', entityId: c.id })
 }

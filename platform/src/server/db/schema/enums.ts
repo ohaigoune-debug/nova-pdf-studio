@@ -17,6 +17,12 @@ export type AssistantStatus = (typeof ASSISTANT_STATUSES)[number]
  */
 export const ASSISTANT_SCOPES = ['FULL', 'CLASSROOM'] as const
 export type AssistantScope = (typeof ASSISTANT_SCOPES)[number]
+/**
+ * تعليق القسم الافتراضي (قرار المالك 14 نوفمبر 2026): تعليق التلميذ لا يظهر لغيره حتى يعتمده
+ * الأستاذ أو «الأستاذ المساعد». تعليقات الأستاذ والمساعد معتمدة مباشرة.
+ */
+export const CLASS_COMMENT_STATUSES = ['PENDING', 'APPROVED'] as const
+export type ClassCommentStatus = (typeof CLASS_COMMENT_STATUSES)[number]
 
 export const USER_STATUSES = ['ACTIVE', 'DISABLED'] as const
 export type UserStatus = (typeof USER_STATUSES)[number]

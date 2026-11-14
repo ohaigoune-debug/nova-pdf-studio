@@ -11,3 +11,21 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE "teacher_assistants" ADD CONSTRAINT "teacher_assistants_scope_check" CHECK ("teacher_assistants"."scope" in ('FULL', 'CLASSROOM'));
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+--> statement-breakpoint
+-- مراجعة تعليقات القسم الافتراضي (قرار المالك، 14 نوفمبر 2026): تعليق التلميذ ينتظر اعتماد الأستاذ أو مساعده.
+-- التعليقات القائمة تبقى ظاهرة (APPROVED).
+ALTER TABLE "class_comments" ADD COLUMN IF NOT EXISTS "status" text DEFAULT 'APPROVED' NOT NULL;
+--> statement-breakpoint
+ALTER TABLE "class_comments" ADD COLUMN IF NOT EXISTS "reviewed_by_user_id" uuid;
+--> statement-breakpoint
+ALTER TABLE "class_comments" ADD COLUMN IF NOT EXISTS "reviewed_at" timestamp with time zone;
+--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "class_comments" ADD CONSTRAINT "class_comments_reviewed_by_user_id_users_id_fk" FOREIGN KEY ("reviewed_by_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+  ALTER TABLE "class_comments" ADD CONSTRAINT "class_comments_status_check" CHECK ("class_comments"."status" in ('PENDING', 'APPROVED'));
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "class_comments_post_status_idx" ON "class_comments" USING btree ("post_id","status");
