@@ -1,7 +1,8 @@
-import { ArrowLeft, BookOpen, Brain, CheckCircle2, GraduationCap, QrCode, ShieldCheck, Smartphone, Sparkles, WifiOff, Youtube } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { AlgeriaMap } from '@/components/domain/algeria-map'
+import { HomeHero } from '@/components/marketing/home-hero'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { Button } from '@/components/ui/button'
 import { getT } from '@/i18n/server'
@@ -13,65 +14,6 @@ import { latestPublicContent } from '@/server/queries/content.queries'
 import { publicStudentsPerWilaya } from '@/server/queries/map.queries'
 
 export const dynamic = 'force-dynamic'
-
-/** معاينة ثابتة لثلاث شاشات من المنصة — تُظهر ما سيجده الطالب دون صور خارجية */
-function Preview({ t }: { t: (k: never) => string }) {
-  const tt = t as unknown as (k: string) => string
-  return (
-    <div className="bg-ink relative mx-auto w-full max-w-md overflow-hidden rounded-xl p-5 shadow-lift sm:p-6 lg:max-w-none" aria-hidden>
-      <div className="relative grid gap-4">
-        <div className="glass animate-float rounded-lg p-5 shadow-lift" style={{ animationDelay: '0s' }}>
-          <div className="flex items-center gap-3">
-            <span className="flex size-11 items-center justify-center rounded-md bg-gradient-to-br from-accent to-accent/70 text-accent-foreground">
-              <QrCode className="size-5" />
-            </span>
-            <div>
-              <p className="font-bold text-white">{tt('public.previewAttendance')}</p>
-              <p className="text-xs text-white/60">{tt('public.previewAttendanceD')}</p>
-            </div>
-          </div>
-          <div className="mt-4 grid grid-cols-8 gap-1">
-            {Array.from({ length: 24 }).map((_, i) => (
-              <span key={i} className={i % 3 === 0 || i % 7 === 0 ? 'h-2 rounded-sm bg-white/80' : 'h-2 rounded-sm bg-white/15'} />
-            ))}
-          </div>
-        </div>
-
-        <div className="glass animate-float rounded-lg p-5 shadow-lift lg:ms-10" style={{ animationDelay: '1.2s' }}>
-          <div className="flex items-center gap-3">
-            <span className="flex size-11 items-center justify-center rounded-md bg-gradient-to-br from-primary to-primary/70 text-white">
-              <Sparkles className="size-5" />
-            </span>
-            <div>
-              <p className="font-bold text-white">{tt('public.previewSkills')}</p>
-              <p className="text-xs text-white/60">{tt('public.previewSkillsD')}</p>
-            </div>
-          </div>
-          <div className="mt-4 space-y-2">
-            {[82, 64, 91].map((v, i) => (
-              <div key={i} className="h-1.5 overflow-hidden rounded-full bg-white/10">
-                <div className="h-full rounded-full bg-gradient-to-l from-accent to-primary" style={{ width: `${v}%` }} />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="glass animate-float rounded-lg p-5 shadow-lift" style={{ animationDelay: '2.4s' }}>
-          <div className="flex items-center gap-3">
-            <span className="flex size-11 items-center justify-center rounded-md bg-white/10 text-accent">
-              <Brain className="size-5" />
-            </span>
-            <div>
-              <p className="font-bold text-white">{tt('public.previewAi')}</p>
-              <p className="text-xs text-white/60">{tt('public.previewAiD')}</p>
-            </div>
-            <span className="ms-auto rounded-full bg-success/20 px-2.5 py-1 text-[11px] font-bold text-emerald-300">14.5 / 20</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 /** أرقام صغيرة في بداية المنصة تُضعف الواجهة: تظهر العدّادات من هذا الحدّ، وقبله جملة الخريطة */
 const MAP_COUNTS_FROM = 50
@@ -85,106 +27,21 @@ export default async function HomePage() {
   const [latest, map, apk, { t, locale }] = await Promise.all([latestPublicContent(db), publicStudentsPerWilaya(db), appDownload(), getT()])
   const reached = map.filter((w) => w.students > 0).length
   const totalStudents = map.reduce((sum, w) => sum + w.students, 0)
-  const features = [
-    { icon: BookOpen, title: t('public.f1'), text: t('public.f1d') },
-    { icon: GraduationCap, title: t('public.f2'), text: t('public.f2d') },
-    { icon: QrCode, title: t('public.f3'), text: t('public.f3d') },
-    { icon: Brain, title: t('public.f4'), text: t('public.f4d') }
-  ]
-  const trust = [
-    { icon: ShieldCheck, text: t('public.trust1') },
-    { icon: WifiOff, text: t('public.trust2') },
-    { icon: Youtube, text: t('public.trust3') }
-  ]
   const steps = [
     { title: t('public.step1'), text: t('public.step1d') },
     { title: t('public.step2'), text: t('public.step2d') },
     { title: t('public.step3'), text: t('public.step3d') }
   ]
-  const title = t('public.heroTitle')
-  const highlight = t('public.heroHighlight')
-  const [before, after] = title.includes(highlight) ? title.split(highlight) : [title, '']
 
   return (
     <>
-      {/* البطل: سطح فاتح، عنوان كحلي بكلمة زرقاء، إجراء أزرق واحد، والعبارة؛ المساحة الزرقاء للمعاينة */}
-      <section className="relative overflow-hidden border-b bg-background">
-        <div className="container grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:py-24">
-          <div className="space-y-6 animate-rise-in">
-            <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-3.5 py-1.5 text-xs font-semibold text-secondary-foreground">
-              <Sparkles className="size-3.5" /> {t('public.heroEyebrow')}
-            </span>
-            <h1 className="font-heading text-balance text-[34px] font-bold leading-[1.35] sm:text-5xl lg:text-6xl">
-              {before}
-              {after !== '' || title.includes(highlight) ? <span className="text-primary">{highlight}</span> : null}
-              {after}
-            </h1>
-            <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">{t('public.heroSubtitle')}</p>
-            <p className="font-heading text-xl font-semibold text-foreground">نفهم. نتقدّم. نتفوّق.</p>
-            <div className="flex flex-wrap items-center gap-3">
-              <Button asChild size="lg">
-                <Link href={student ? '/student' : '/register'}>{student ? t('nav.dashboard') : t('public.ctaStudent')}</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link href="/lessons">
-                  {t('public.browseLessons')} <ArrowLeft className="size-4 rtl:rotate-0 ltr:rotate-180" />
-                </Link>
-              </Button>
-            </div>
-            {/* لمن له حساب: الدخول ظاهر في البطل أيضًا لا في الترويسة وحدها */}
-            {actor ? null : (
-              <p className="text-sm text-muted-foreground">
-                {t('auth.haveAccount')}{' '}
-                <Link href="/login" className="font-semibold text-primary underline underline-offset-4">
-                  {t('nav.login')}
-                </Link>
-              </p>
-            )}
-            {/* يظهر ما دام التطبيق مبنياً ومنشوراً على الخادم (scripts/build-android.sh) */}
-            {apk ? (
-              <a
-                href="/download/android"
-                className="inline-flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-2.5 transition-colors hover:border-primary/50"
-              >
-                <Smartphone className="size-6 text-primary" />
-                <span className="leading-tight">
-                  <span className="block font-bold">{t('public.androidApp')}</span>
-                  <span className="block text-xs text-muted-foreground">{t('public.androidAppD', { size: apkSizeMb(apk.size) })}</span>
-                </span>
-              </a>
-            ) : null}
-            <ul className="flex flex-wrap gap-x-6 gap-y-2 pt-1 text-sm text-muted-foreground">
-              {trust.map((x) => (
-                <li key={x.text} className="flex items-center gap-2">
-                  <x.icon className="size-4 text-primary" /> {x.text}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="animate-rise-in [animation-delay:150ms]">
-            <Preview t={t as never} />
-          </div>
-        </div>
-      </section>
-
-      {/* المزايا */}
-      <section className="container py-16 lg:py-20">
-        <div className="mb-10 max-w-2xl">
-          <h2 className="font-heading text-[28px] font-bold sm:text-4xl">{t('public.featuresTitle')}</h2>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((f, i) => (
-            <div key={f.title} className="relative rounded-lg border border-border bg-card p-6 shadow-soft transition-colors duration-150 hover:border-primary/40">
-              <span className="flex size-12 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
-                <f.icon className="size-6" />
-              </span>
-              <p className="mt-5 font-heading text-lg font-semibold">{f.title}</p>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.text}</p>
-              <span className="sr-only">{i + 1}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* أعلى الصفحة (قرار المالك 14 نوفمبر 2026): صورة الأستاذ وأرقامه وتكريماته، ثم الأبواب الخمسة */}
+      <HomeHero
+        ctaHref={student ? '/student' : '/register'}
+        ctaLabel={student ? t('nav.dashboard') : 'أنا طالب — ابدأ الآن'}
+        loginLine={actor ? null : { prompt: t('auth.haveAccount'), label: t('nav.login') }}
+        android={apk ? { title: t('public.androidApp'), detail: t('public.androidAppD', { size: apkSizeMb(apk.size) }) } : null}
+      />
 
       {/* بيت شعر: اللغة العربية تتكلّم */}
       <section className="border-y bg-card">
