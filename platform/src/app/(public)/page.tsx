@@ -131,6 +131,15 @@ export default async function HomePage() {
                 </Link>
               </Button>
             </div>
+            {/* لمن له حساب: الدخول ظاهر في البطل أيضًا لا في الترويسة وحدها */}
+            {actor ? null : (
+              <p className="text-sm text-muted-foreground">
+                {t('auth.haveAccount')}{' '}
+                <Link href="/login" className="font-semibold text-primary underline underline-offset-4">
+                  {t('nav.login')}
+                </Link>
+              </p>
+            )}
             {/* يظهر ما دام التطبيق مبنياً ومنشوراً على الخادم (scripts/build-android.sh) */}
             {apk ? (
               <a

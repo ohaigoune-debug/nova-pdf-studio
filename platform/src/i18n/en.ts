@@ -51,6 +51,8 @@ const en: DeepPartial<typeof ar> = {
     quizzes: 'Quizzes',
     login: 'Log in',
     register: 'Sign up',
+    loginShort: 'Log in',
+    registerShort: 'Sign up',
     activateCode: 'Activate a code',
     dashboard: 'Dashboard',
     attendanceCard: 'Attendance card'
