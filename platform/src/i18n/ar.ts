@@ -93,6 +93,8 @@ const ar = {
     quizzes: 'الاختبارات',
     login: 'تسجيل الدخول',
     register: 'إنشاء حساب',
+    loginShort: 'دخول',
+    registerShort: 'حساب جديد',
     activateCode: 'تفعيل كود',
     dashboard: 'لوحة التحكم',
     myGroups: 'أفواجي',

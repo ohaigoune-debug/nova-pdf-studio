@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { headers } from 'next/headers'
+import { LogIn, UserPlus } from 'lucide-react'
 import { Suspense, type ReactNode } from 'react'
 import { Logo } from '@/components/brand/logo'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -47,25 +48,38 @@ export default async function PublicLayout({ children }: { children: ReactNode }
           <span className="hidden sm:inline-flex">
             <LocaleSwitcher />
           </span>
-          <ThemeToggle />
+          {/* على الهاتف ينزل زر السمة إلى السطر الثاني ليتّسع المكان لزرّي الدخول والتسجيل */}
+          <span className="hidden sm:inline-flex">
+            <ThemeToggle />
+          </span>
           {actor ? (
             <Button asChild>
               <Link href={homeFor(actor.role)}>{t('nav.dashboard')}</Link>
             </Button>
           ) : (
-            <div className="flex shrink-0 items-center gap-2">
-              <Button asChild variant="ghost" className="hidden sm:inline-flex">
-                <Link href="/login">{t('nav.login')}</Link>
+            // زرّان واضحان على كل الشاشات (قرار المالك 14 نوفمبر 2026): الدخول بإطار، وإنشاء الحساب ممتلئ
+            <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+              <Button asChild variant="outline" size="sm" className="border-primary/40 px-3 font-semibold text-primary sm:h-10 sm:px-4">
+                <Link href="/login">
+                  <LogIn className="hidden size-4 sm:inline" />
+                  <span className="sm:hidden">{t('nav.loginShort')}</span>
+                  <span className="hidden sm:inline">{t('nav.login')}</span>
+                </Link>
               </Button>
-              <Button asChild size="sm" className="px-3 sm:px-4">
-                <Link href="/register">{t('nav.register')}</Link>
+              <Button asChild size="sm" className="px-3 font-semibold sm:h-10 sm:px-4">
+                <Link href="/register">
+                  <UserPlus className="hidden size-4 sm:inline" />
+                  <span className="sm:hidden">{t('nav.registerShort')}</span>
+                  <span className="hidden sm:inline">{t('nav.register')}</span>
+                </Link>
               </Button>
             </div>
           )}
         </div>
         <nav className="container flex items-center gap-1.5 overflow-x-auto pb-2.5 min-[1720px]:hidden" aria-label="أقسام المنصة">
-          <span className="inline-flex shrink-0 sm:hidden">
+          <span className="inline-flex shrink-0 items-center gap-1 sm:hidden">
             <LocaleSwitcher />
+            <ThemeToggle />
           </span>
           <Suspense fallback={null}>
             <LevelPicker saved={saved} className="shrink-0" />
