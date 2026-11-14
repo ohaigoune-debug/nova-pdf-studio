@@ -10,7 +10,7 @@ import { getDb } from '@/server/db/client'
 import type { DatabaseHandle } from '@/server/db/connect'
 import { notifications, supportMessages, supportTickets } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
-import { addComment, createPost } from '@/server/services/classroom.service'
+import { addComment, approveComment, createPost } from '@/server/services/classroom.service'
 import { generateCodes } from '@/server/services/enrollment-codes.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 import { createGroup } from '@/server/services/groups.service'
@@ -62,6 +62,8 @@ beforeAll(async () => {
   openPost = (await createPost(h.db, teacher, { groupId: group.id, body: 'واجب الأسبوع: حلّل القصيدة', allowComments: true })).id
   closedPost = (await createPost(h.db, teacher, { groupId: group.id, body: 'إعلان: لا تعليقات', allowComments: false })).id
   a2Comment = (await addComment(h.db, a2, openPost, 'سؤال عن البيت الثالث')).id
+  // تعليق التلميذ ينتظر الاعتماد (قرار المالك 14 نوفمبر 2026)؛ نعتمده ليراه زملاؤه
+  await approveComment(h.db, teacher, a2Comment)
   await addComment(h.db, teacher, openPost, 'سأشرحه في الحصة')
 })
 afterAll(async () => h?.close())
@@ -101,7 +103,7 @@ describe('القسم الافتراضي في التطبيق', () => {
     const mineId = (await ok.json()).data.id
     expect((await (await post(commentRoute, a1, closedPost, { body: 'تعليق' })).json()).error.code).toBe('COMMENTS_CLOSED')
     const { data } = await (await get(a1, `?group=${group.id}`)).json()
-    expect(data.posts.find((x: { id: string }) => x.id === openPost).comments.find((c: { id: string }) => c.id === mineId)).toMatchObject({ mine: true, authorKey: null })
+    expect(data.posts.find((x: { id: string }) => x.id === openPost).comments.find((c: { id: string }) => c.id === mineId)).toMatchObject({ mine: true, authorKey: null, pending: true })
     expect((await post(deleteRoute, a1, a2Comment, {})).status).toBe(403)
     expect((await post(deleteRoute, a1, mineId, {})).status).toBe(200)
   })

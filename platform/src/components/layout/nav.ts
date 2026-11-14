@@ -1,4 +1,4 @@
-import type { UserRole } from '@/server/db/schema/enums'
+import type { AssistantScope, UserRole } from '@/server/db/schema/enums'
 import { t } from '@/i18n'
 import { STUDENT_HUBS, hubPaths, type StudentHubKey } from '@/lib/student-hubs'
 
@@ -45,7 +45,7 @@ export const TEACHER_TOOLS: (NavItem & { group: string })[] = [
   { group: 'المتابعة', href: '/teacher/ai-insights', label: t('nav.aiInsights'), iconKey: 'Brain' }
 ]
 
-export function navFor(role: UserRole): NavSection[] {
+export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope } = {}): NavSection[] {
   switch (role) {
     case 'STUDENT':
       // قرار المالك (3 نوفمبر 2026): ثلاثة أبواب فقط بعد «اليوم» — دوراتي، PLAY، حسابي.
@@ -93,6 +93,18 @@ export function navFor(role: UserRole): NavSection[] {
         }
       ]
     case 'ASSISTANT':
+      // «الأستاذ المساعد» (قرار المالك 13-14 نوفمبر 2026): القسم الافتراضي وحده، ثم حسابه
+      if (opts.assistantScope === 'CLASSROOM')
+        return [
+          { items: [{ href: '/assistant/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' }] },
+          {
+            title: 'الحساب',
+            items: [
+              { href: '/assistant/notifications', label: t('common.notifications'), iconKey: 'BellRing' },
+              { href: '/assistant/settings', label: t('nav.settings'), iconKey: 'Settings' }
+            ]
+          }
+        ]
       return [
         {
           items: [

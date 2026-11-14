@@ -4,6 +4,7 @@ import { createSession, revokeAllSessions } from '@/server/auth/session'
 import type { Db } from '@/server/db/connect'
 import { assistantCodes, profiles, teacherAssistants, teacherWorkspaces, teachers, users, userEmailText } from '@/server/db/schema'
 import { assertRole, type Actor } from '@/server/lib/actor'
+import type { AssistantScope } from '@/server/db/schema/enums'
 import { writeActivity, writeAudit } from '@/server/lib/audit'
 import { codePrefix, generateEnrollmentCode, hashEnrollmentCode, isValidCodeShape, normalizeEnrollmentCode } from '@/server/lib/codes'
 import { AppError, assertUuid } from '@/server/lib/errors'
@@ -40,7 +41,9 @@ export interface AssistantCodeResult {
 }
 
 /** الأستاذ يولّد كود دعوة لمساعد ببريد محدّد. كود واحد نشط لكل بريد في المساحة. */
-export async function createAssistantCode(db: Db, actor: Actor, input: { email: string; expiresAt?: Date | null }): Promise<AssistantCodeResult> {
+export async function createAssistantCode(db: Db, actor: Actor, input: { email: string; expiresAt?: Date | null; scope?: AssistantScope }): Promise<AssistantCodeResult> {
+  // FULL = مساعد الحضور (كما كان)؛ CLASSROOM = «الأستاذ المساعد» في القسم الافتراضي وحده
+  const scope: AssistantScope = input.scope === 'CLASSROOM' ? 'CLASSROOM' : 'FULL'
   const { teacherId, workspaceId } = teacherOf(actor)
   const email = normalizeEmail(input.email)
   if (email === actor.email.toLowerCase()) throw new AppError('VALIDATION', { field: 'email' })
@@ -71,6 +74,7 @@ export async function createAssistantCode(db: Db, actor: Actor, input: { email: 
           workspaceId,
           teacherId,
           email,
+          scope,
           codeHash: hashEnrollmentCode(code),
           codePrefix: codePrefix(code),
           expiresAt: input.expiresAt ?? null,
@@ -86,7 +90,7 @@ export async function createAssistantCode(db: Db, actor: Actor, input: { email: 
         action: 'assistant.code_create',
         entityType: 'assistant_code',
         entityId: row.id,
-        newValue: { email, expiresAt: input.expiresAt?.toISOString() ?? null }
+        newValue: { email, scope, expiresAt: input.expiresAt?.toISOString() ?? null }
       })
       return { id: row.id, code, email, expiresAt: input.expiresAt ?? null }
     }
@@ -170,7 +174,7 @@ export async function joinAsAssistant(db: Db, input: JoinAssistantInput, meta: R
 
     const [membership] = await tx
       .insert(teacherAssistants)
-      .values({ workspaceId: c.workspaceId, teacherId: c.teacherId, userId, status: 'ACTIVE', joinedViaCodeId: c.id })
+      .values({ workspaceId: c.workspaceId, teacherId: c.teacherId, userId, status: 'ACTIVE', scope: c.scope === 'CLASSROOM' ? 'CLASSROOM' : 'FULL', joinedViaCodeId: c.id })
       .returning({ id: teacherAssistants.id })
     if (!membership) throw new AppError('INTERNAL')
 
@@ -180,16 +184,16 @@ export async function joinAsAssistant(db: Db, input: JoinAssistantInput, meta: R
       userId: teacher.userId,
       workspaceId: c.workspaceId,
       type: 'SYSTEM',
-      title: `انضم ${fullName} كمساعد لك`,
-      body: 'يمكنه الآن متابعة الحضور والغياب واستعمال السكانر.',
+      title: c.scope === 'CLASSROOM' ? `انضم ${fullName} أستاذًا مساعدًا في القسم الافتراضي` : `انضم ${fullName} كمساعد لك`,
+      body: c.scope === 'CLASSROOM' ? 'يمكنه الآن الردّ على أسئلة التلاميذ في القسم الافتراضي وإخفاء غير اللائق.' : 'يمكنه الآن متابعة الحضور والغياب واستعمال السكانر.',
       link: '/teacher/assistants'
     })
     await notify(tx, {
       userId,
       workspaceId: c.workspaceId,
       type: 'SYSTEM',
-      title: `أصبحت مساعداً للأستاذ ${teacher.displayName}`,
-      body: 'من لوحتك يمكنك متابعة الحضور والغياب وفتح السكانر.',
+      title: c.scope === 'CLASSROOM' ? `أصبحت أستاذًا مساعدًا للأستاذ ${teacher.displayName}` : `أصبحت مساعداً للأستاذ ${teacher.displayName}`,
+      body: c.scope === 'CLASSROOM' ? 'من لوحتك تردّ على أسئلة التلاميذ في القسم الافتراضي.' : 'من لوحتك يمكنك متابعة الحضور والغياب وفتح السكانر.',
       link: '/assistant'
     })
     await writeAudit(tx, {
@@ -198,7 +202,7 @@ export async function joinAsAssistant(db: Db, input: JoinAssistantInput, meta: R
       action: 'assistant.join',
       entityType: 'teacher_assistant',
       entityId: membership.id,
-      newValue: { codeId: c.id, teacherId: c.teacherId }
+      newValue: { codeId: c.id, teacherId: c.teacherId, scope: c.scope }
     })
     return { userId, membershipId: membership.id, teacherName: teacher.displayName, workspaceName: teacher.workspaceName }
   })
@@ -213,6 +217,7 @@ export interface AssistantListItem {
   fullName: string
   email: string
   status: string
+  scope: string
   joinedAt: Date
   revokedAt: Date | null
 }
@@ -222,6 +227,7 @@ export interface PendingAssistantCode {
   email: string
   codePrefix: string
   status: string
+  scope: string
   expiresAt: Date | null
   createdAt: Date
 }
@@ -236,6 +242,7 @@ export async function listAssistants(db: Db, actor: Actor): Promise<{ assistants
       fullName: profiles.fullName,
       email: userEmailText,
       status: teacherAssistants.status,
+      scope: teacherAssistants.scope,
       joinedAt: teacherAssistants.createdAt,
       revokedAt: teacherAssistants.revokedAt
     })
@@ -250,6 +257,7 @@ export async function listAssistants(db: Db, actor: Actor): Promise<{ assistants
       email: assistantCodes.email,
       codePrefix: assistantCodes.codePrefix,
       status: assistantCodes.status,
+      scope: assistantCodes.scope,
       expiresAt: assistantCodes.expiresAt,
       createdAt: assistantCodes.createdAt
     })

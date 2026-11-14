@@ -2,7 +2,7 @@ import { sql } from 'drizzle-orm'
 import { check, index, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
 import { id, inList, timestamps } from './_common'
 import { users } from './auth'
-import { ASSISTANT_STATUSES, CODE_STATUSES } from './enums'
+import { ASSISTANT_SCOPES, ASSISTANT_STATUSES, CODE_STATUSES } from './enums'
 import { teacherWorkspaces, teachers } from './tenancy'
 
 /**
@@ -24,6 +24,8 @@ export const assistantCodes = pgTable(
     codeHash: text('code_hash').notNull().unique(),
     codePrefix: text('code_prefix').notNull(),
     status: text('status').notNull().default('ACTIVE'),
+    /** النطاق الذي يأخذه المساعد حين ينضم بهذا الكود */
+    scope: text('scope').notNull().default('FULL'),
     expiresAt: timestamp('expires_at', { withTimezone: true }),
     usedAt: timestamp('used_at', { withTimezone: true }),
     usedByUserId: uuid('used_by_user_id').references(() => users.id),
@@ -35,6 +37,7 @@ export const assistantCodes = pgTable(
   },
   (t) => [
     check('assistant_codes_status_check', inList(t.status, CODE_STATUSES)),
+    check('assistant_codes_scope_check', inList(t.scope, ASSISTANT_SCOPES)),
     index('assistant_codes_workspace_status_idx').on(t.workspaceId, t.status),
     index('assistant_codes_email_idx').on(t.email)
   ]
@@ -55,6 +58,8 @@ export const teacherAssistants = pgTable(
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     status: text('status').notNull().default('ACTIVE'),
+    /** FULL = مساعد الحضور؛ CLASSROOM = الأستاذ المساعد في القسم الافتراضي وحده */
+    scope: text('scope').notNull().default('FULL'),
     joinedViaCodeId: uuid('joined_via_code_id').references(() => assistantCodes.id, { onDelete: 'set null' }),
     revokedAt: timestamp('revoked_at', { withTimezone: true }),
     revokedByUserId: uuid('revoked_by_user_id').references(() => users.id),
@@ -62,6 +67,7 @@ export const teacherAssistants = pgTable(
   },
   (t) => [
     check('teacher_assistants_status_check', inList(t.status, ASSISTANT_STATUSES)),
+    check('teacher_assistants_scope_check', inList(t.scope, ASSISTANT_SCOPES)),
     uniqueIndex('teacher_assistants_active_user_unique').on(t.userId).where(sql`${t.status} = 'ACTIVE'`),
     index('teacher_assistants_workspace_idx').on(t.workspaceId, t.status),
     index('teacher_assistants_user_idx').on(t.userId)

@@ -32,7 +32,7 @@ export async function AppShell({ actor, children }: { actor: Actor; children: Re
     if (entry) return { ...item, ...entry }
     return { ...item, href: isPathHidden(i.href, hidden) ? ((i.also ?? []).find((h) => !isPathHidden(h, hidden)) ?? i.href) : i.href }
   }
-  const sections = navFor(actor.role).map((s) => ({
+  const sections = navFor(actor.role, { assistantScope: actor.assistantScope }).map((s) => ({
     title: s.title,
     collapsible: s.collapsible,
     items: s.items.filter(visible).map(place)

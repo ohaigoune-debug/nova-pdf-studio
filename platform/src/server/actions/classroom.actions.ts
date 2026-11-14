@@ -7,12 +7,13 @@ import { getDb } from '@/server/db/client'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { RATE_LIMITS, checkRateLimit } from '@/server/lib/rate-limit'
 import { sendAnnouncement } from '@/server/services/announcements.service'
-import { addComment, createPost, deleteComment, deletePost, MAX_COMMENT, MAX_POST, updatePost } from '@/server/services/classroom.service'
+import { addComment, approveComment, createPost, deleteComment, deletePost, MAX_COMMENT, MAX_POST, updatePost } from '@/server/services/classroom.service'
 
 const uuidList = (fd: FormData, k: string) => fd.getAll(k).map(String).filter((v) => /^[0-9a-f-]{36}$/.test(v))
 const refresh = () => {
   revalidatePath('/teacher/classroom')
   revalidatePath('/student/classroom')
+  revalidatePath('/assistant/classroom')
 }
 
 const announcementSchema = z.object({
@@ -106,6 +107,17 @@ export async function deleteCommentAction(commentId: string): Promise<ActionResu
   const result = await runAction(async () => {
     const actor = await requireActor()
     await deleteComment(await getDb(), actor, commentId)
+    return undefined
+  })
+  if (result.ok) refresh()
+  return result
+}
+
+/** اعتماد تعليق تلميذ (الأستاذ أو «الأستاذ المساعد») */
+export async function approveCommentAction(commentId: string): Promise<ActionResult> {
+  const result = await runAction(async () => {
+    const actor = await requireActor()
+    await approveComment(await getDb(), actor, commentId)
     return undefined
   })
   if (result.ok) refresh()

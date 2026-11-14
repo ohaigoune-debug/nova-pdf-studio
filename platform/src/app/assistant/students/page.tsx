@@ -6,7 +6,7 @@ import { Input, Select } from '@/components/ui/input'
 import { Avatar, EmptyState, PageHeader } from '@/components/ui/misc'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { t, tEnum } from '@/i18n'
-import { requirePageActor } from '@/server/auth/current-user'
+import { requireAttendanceAssistantPage } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { ENROLLMENT_STATUSES } from '@/server/db/schema/enums'
 import { listGroups } from '@/server/services/groups.service'
@@ -14,7 +14,7 @@ import { listTeacherStudents } from '@/server/services/students.service'
 
 /** طلاب الأستاذ من منظور المساعد: الاسم، الفوج، الحالة، وعدد الغيابات غير المبررة. لا هاتف ولا علامات. */
 export default async function AssistantStudentsPage({ searchParams }: { searchParams: Promise<{ q?: string; groupId?: string; status?: string }> }) {
-  const actor = await requirePageActor('ASSISTANT')
+  const actor = await requireAttendanceAssistantPage()
   const sp = await searchParams
   const db = await getDb()
   const [students, groups] = await Promise.all([listTeacherStudents(db, actor, { search: sp.q, groupId: sp.groupId, status: sp.status }), listGroups(db, actor, { includeArchived: true })])

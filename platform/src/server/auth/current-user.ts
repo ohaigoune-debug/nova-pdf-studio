@@ -44,6 +44,16 @@ export async function requirePageActor(...roles: UserRole[]): Promise<Actor> {
   return actor
 }
 
+/**
+ * صفحات مساعد الحضور (الحصص، السكانر، قوائم الطلاب): «الأستاذ المساعد» لا يدخلها،
+ * فيُحوَّل إلى القسم الافتراضي. الخدمات تمنعه أيضًا (assertAttendanceStaff)، وهذا الحاجز الأول.
+ */
+export async function requireAttendanceAssistantPage(): Promise<Actor> {
+  const actor = await requirePageActor('ASSISTANT')
+  if (actor.assistantScope === 'CLASSROOM') redirect('/assistant/classroom')
+  return actor
+}
+
 export { homeFor } from '@/lib/role-home'
 
 export async function requestMeta() {

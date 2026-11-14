@@ -8,13 +8,13 @@ import { EmptyState, PageHeader } from '@/components/ui/misc'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { t } from '@/i18n'
 import { formatDateTime } from '@/lib/utils'
-import { requirePageActor } from '@/server/auth/current-user'
+import { requireAttendanceAssistantPage } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listSessions } from '@/server/services/class-sessions.service'
 import { listGroups } from '@/server/services/groups.service'
 
 export default async function AssistantSessionsPage({ searchParams }: { searchParams: Promise<{ groupId?: string; status?: string }> }) {
-  const actor = await requirePageActor('ASSISTANT')
+  const actor = await requireAttendanceAssistantPage()
   const sp = await searchParams
   const db = await getDb()
   const [sessions, groups] = await Promise.all([listSessions(db, actor, { groupId: sp.groupId, status: sp.status ? [sp.status] : undefined, limit: 100 }), listGroups(db, actor)])

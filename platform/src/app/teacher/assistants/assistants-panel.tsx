@@ -84,6 +84,12 @@ export function AssistantsPanel({ assistants, pendingCodes, origin }: { assistan
               <Field label={t('assistant.email')} htmlFor="email" error={fieldError(state, 'email')}>
                 <Input id="email" name="email" type="email" placeholder={t('assistant.emailPlaceholder')} required dir="ltr" autoComplete="off" />
               </Field>
+              <Field label="دوره" htmlFor="scope">
+                <Select id="scope" name="scope" defaultValue="FULL">
+                  <option value="FULL">مساعد الحضور: الحصص والسكانر وقوائم التلاميذ</option>
+                  <option value="CLASSROOM">أستاذ مساعد: القسم الافتراضي وحده، يردّ على التلاميذ</option>
+                </Select>
+              </Field>
               <Field label={t('assistant.expiresIn')} htmlFor="expiresDays">
                 <Select id="expiresDays" name="expiresDays" defaultValue="7">
                   <option value="1">{t('assistant.days', { n: 1 })}</option>
@@ -126,7 +132,14 @@ export function AssistantsPanel({ assistants, pendingCodes, origin }: { assistan
                         <div className="flex items-center gap-2">
                           <Avatar name={a.fullName} size="sm" />
                           <span>
-                            <span className="block font-semibold">{a.fullName}</span>
+                            <span className="block font-semibold">
+                              {a.fullName}
+                              {a.scope === 'CLASSROOM' ? (
+                                <Badge variant="secondary" className="ms-1.5 px-1.5 py-0 text-[10px]">
+                                  أستاذ مساعد
+                                </Badge>
+                              ) : null}
+                            </span>
                             <span className="block text-[11px] text-muted-foreground" dir="ltr">
                               {a.email}
                             </span>

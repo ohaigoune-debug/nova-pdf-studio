@@ -1363,6 +1363,8 @@ const ar = {
     support_status: 'غيّر حالة تذكرة دعم',
     support_assign: 'أسند تذكرة دعم',
     class_comment_delete: 'حذف تعليق في القسم',
+    class_comment_approve: 'اعتماد تعليق في القسم',
+    class_comment_hide_by_assistant: 'إخفاء تعليق من الأستاذ المساعد',
     ai_quiz_request: 'طلب توليد اختبار من المصادر',
     drive_source_link: 'ربط مجلد Drive مصدراً للتمارين',
     drive_source_unlink: 'فكّ ربط مجلد Drive',

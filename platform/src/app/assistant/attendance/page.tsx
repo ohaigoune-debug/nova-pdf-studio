@@ -5,13 +5,13 @@ import { EmptyState, PageHeader, Progress } from '@/components/ui/misc'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { t } from '@/i18n'
 import { formatDateTime, percent } from '@/lib/utils'
-import { requirePageActor } from '@/server/auth/current-user'
+import { requireAttendanceAssistantPage } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { attendanceOverview } from '@/server/queries/teacher-extras.queries'
 import { listSessions } from '@/server/services/class-sessions.service'
 
 export default async function AssistantAttendancePage() {
-  const actor = await requirePageActor('ASSISTANT')
+  const actor = await requireAttendanceAssistantPage()
   const db = await getDb()
   const [overview, recent] = await Promise.all([attendanceOverview(db, actor), listSessions(db, actor, { status: ['CLOSED', 'OPEN'], limit: 15 })])
   return (

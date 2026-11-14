@@ -4,7 +4,7 @@ import type { DatabaseHandle } from '@/server/db/connect'
 import { notifications } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { listAnnouncements, sendAnnouncement } from '@/server/services/announcements.service'
-import { addComment, createPost, deleteComment, studentStream, teacherStream, updatePost } from '@/server/services/classroom.service'
+import { addComment, approveComment, createPost, deleteComment, studentStream, teacherStream, updatePost } from '@/server/services/classroom.service'
 import { generateCodes } from '@/server/services/enrollment-codes.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 import { createGroup } from '@/server/services/groups.service'
@@ -103,7 +103,10 @@ describe('القسم الافتراضي', () => {
     // لا يدخل أي قسم دورة
     expect((await studentStream(h.db, a1, groupA.id)).posts.map((p) => p.id)).not.toContain(pub.id)
     expect((await notes(a1.userId, 'CLASS_POST')).length).toBe(before)
-    await addComment(h.db, loner, pub.id, 'شكرًا أستاذ')
+    const thanks = await addComment(h.db, loner, pub.id, 'شكرًا أستاذ')
+    // ينتظر الاعتماد: لا يراه غير كاتبه حتى يعتمده الأستاذ
+    expect((await studentStream(h.db, a1)).posts.find((p) => p.id === pub.id)!.comments).toHaveLength(0)
+    await approveComment(h.db, otherTeacher, thanks.id)
     const seenByOther = (await studentStream(h.db, a1)).posts.find((p) => p.id === pub.id)!.comments[0]!
     expect(seenByOther.authorName).toBe('سارة ع.')
     const seenByHer = (await studentStream(h.db, loner)).posts.find((p) => p.id === pub.id)!.comments[0]!
@@ -134,5 +137,36 @@ describe('القسم الافتراضي', () => {
     await expect(addComment(h.db, teacher, post.id, 'الأستاذ يردّ دائماً')).resolves.toBeTruthy()
     // المثبّت أولاً
     expect((await studentStream(h.db, a1, groupA.id)).posts[0]?.id).toBe(post.id)
+  })
+})
+
+describe('مراجعة التعليقات قبل ظهورها', () => {
+  it('تعليق التلميذ ينتظر: يراه كاتبه والأستاذ وحدهما، ويظهر للجميع بعد الاعتماد؛ والتلميذ لا يعتمد', async () => {
+    const post = await createPost(h.db, teacher, { groupId: groupA.id, body: 'أسئلة المراجعة' })
+    const q = await addComment(h.db, a1, post.id, 'هل يدخل الشعر الحر في البكالوريا؟')
+    expect(q.status).toBe('PENDING')
+
+    const forOther = (await studentStream(h.db, a2, groupA.id)).posts.find((p) => p.id === post.id)!
+    expect(forOther.comments).toHaveLength(0)
+    const forAuthor = (await studentStream(h.db, a1, groupA.id)).posts.find((p) => p.id === post.id)!
+    expect(forAuthor.comments[0]).toMatchObject({ id: q.id, mine: true, pending: true, canApprove: false })
+    const forTeacher = (await teacherStream(h.db, teacher, groupA.id)).find((p) => p.id === post.id)!
+    expect(forTeacher.comments[0]).toMatchObject({ id: q.id, pending: true, canApprove: true })
+
+    await expect(approveComment(h.db, a2, q.id)).rejects.toMatchObject({ code: 'FORBIDDEN' })
+    await expect(approveComment(h.db, otherTeacher, q.id)).rejects.toMatchObject({ code: 'POST_NOT_FOUND' })
+
+    // ردّ الأستاذ يظهر مباشرة
+    const answer = await addComment(h.db, teacher, post.id, 'نعم، في محور الشعر الحديث')
+    expect(answer.status).toBe('APPROVED')
+    expect((await studentStream(h.db, a2, groupA.id)).posts.find((p) => p.id === post.id)!.comments.map((c) => c.id)).toEqual([answer.id])
+
+    await approveComment(h.db, teacher, q.id)
+    await approveComment(h.db, teacher, q.id) // مرة ثانية لا تغيّر شيئًا
+    const after = (await studentStream(h.db, a2, groupA.id)).posts.find((p) => p.id === post.id)!
+    expect(after.comments.map((c) => [c.id, c.pending])).toEqual([
+      [q.id, false],
+      [answer.id, false]
+    ])
   })
 })

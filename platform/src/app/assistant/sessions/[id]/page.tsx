@@ -8,14 +8,14 @@ import { Button } from '@/components/ui/button'
 import { PageHeader, StatCard } from '@/components/ui/misc'
 import { t } from '@/i18n'
 import { formatDateTime } from '@/lib/utils'
-import { requirePageActor } from '@/server/auth/current-user'
+import { requireAttendanceAssistantPage } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { listSessionAttendance } from '@/server/services/attendance.service'
 import { getSessionDetail } from '@/server/services/class-sessions.service'
 
 export default async function AssistantSessionDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const actor = await requirePageActor('ASSISTANT')
+  const actor = await requireAttendanceAssistantPage()
   const { id } = await params
   const db = await getDb()
   let s
