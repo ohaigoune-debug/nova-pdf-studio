@@ -35,6 +35,9 @@ describe('Bunny Stream: التوقيع النقي', () => {
     expect(u.searchParams.get('token')).toBe(embedToken(KEY, VIDEO, expires))
     expect(u.searchParams.get('expires')).toBe(String(expires))
     expect(u.searchParams.get('autoplay')).toBe('false')
+    // لا مشغّل آيفون الأصلي: ملء الشاشة فيه يُسقط العلامة المائية
+    expect(u.searchParams.get('playsinline')).toBe('true')
+    expect(u.searchParams.get('disableIosPlayer')).toBe('true')
     expect(u.searchParams.get('v')).toBe('abcd1234')
     // نفس المدخلات ⇒ نفس الرابط (حتمي)
     expect(signedEmbedUrl(CREDS, { videoId: VIDEO, expiresInSeconds: 7200, viewerLabel: 'abcd1234', now }).url).toBe(url)
