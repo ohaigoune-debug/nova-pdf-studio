@@ -2,7 +2,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/misc'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
-import { iosAppLink } from '@/server/services/ios-app.service'
+import { loadIosAppLink } from '@/server/services/ios-app.service'
 import { IosAppLinkForm } from './form'
 
 export const dynamic = 'force-dynamic'
@@ -10,7 +10,7 @@ export const metadata = { title: 'تطبيق الآيفون' }
 
 export default async function IosAppSettingsPage() {
   await requirePageActor('SUPER_ADMIN')
-  const link = await iosAppLink(await getDb())
+  const link = await loadIosAppLink(await getDb())
   return (
     <div className="max-w-2xl space-y-4">
       <PageHeader

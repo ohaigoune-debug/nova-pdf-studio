@@ -11,15 +11,18 @@ import { isAppleMobile, parseAppStoreLink, type IosAppLink } from '@/lib/ios-app
 
 const KEY = 'web.ios_app_store_url'
 
+/** القيمة المحفوظة الآن، بلا ذاكرة: لصفحة الإعداد حتى يرى المشرف ما حفظه فورًا */
+export async function loadIosAppLink(db: Db): Promise<IosAppLink | null> {
+  const [row] = await db.select({ value: appSettings.value }).from(appSettings).where(eq(appSettings.key, KEY)).limit(1)
+  return typeof row?.value === 'string' ? parseAppStoreLink(row.value) : null
+}
+
 /**
  * رابط تطبيق الآيفون في App Store كما حفظه المشرف (فارغ = لا زرّ ولا شريط).
- * يُقرأ في الصفحة الرئيسية وصفحة التلميذ: 60 ثانية في كل عملية، ويُبطَل فور تعديله.
+ * يُقرأ في الصفحة الرئيسية وصفحة التلميذ: 60 ثانية في الذاكرة، فيظهر التعديل للتلاميذ خلال دقيقة على الأكثر.
  */
 export async function iosAppLink(db: Db): Promise<IosAppLink | null> {
-  return ttlMemo(KEY, 60_000, async () => {
-    const [row] = await db.select({ value: appSettings.value }).from(appSettings).where(eq(appSettings.key, KEY)).limit(1)
-    return typeof row?.value === 'string' ? parseAppStoreLink(row.value) : null
-  })
+  return ttlMemo(KEY, 60_000, () => loadIosAppLink(db))
 }
 
 /** المشرف: يلصق رابط App Store (أو رقم التطبيق)، أو يتركه فارغًا لإخفاء الزر */
@@ -28,7 +31,7 @@ export async function setIosAppLink(db: Db, actor: Actor, raw: string): Promise<
   const value = raw.trim()
   const next = value ? parseAppStoreLink(value) : null
   if (value && !next) throw new AppError('VALIDATION')
-  const before = await iosAppLink(db)
+  const before = await loadIosAppLink(db)
   const stored = next?.url ?? ''
   await db.insert(appSettings).values({ key: KEY, value: stored }).onConflictDoUpdate({ target: appSettings.key, set: { value: stored, updatedAt: new Date() } })
   ttlDelete(KEY)
