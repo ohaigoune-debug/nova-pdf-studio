@@ -11,6 +11,7 @@ import { getPublicContentBySlug, listPublicContent } from '@/server/queries/cont
 import { getContentForStudent } from './content.service'
 import { courseHome, myCourses } from './courses.service'
 import { phoneGateFor } from './phone-gate.service'
+import { studentScopeOf } from './student-scope.service'
 
 export async function requireIosLearningStudent(db: Db, actor: Actor | null): Promise<Actor> {
   if (!actor) throw new AppError('AUTH_REQUIRED')
@@ -22,8 +23,10 @@ export async function requireIosLearningStudent(db: Db, actor: Actor | null): Pr
 
 export async function iosLearningHome(db: Db, actor: Actor | null) {
   if (actor) await requireIosLearningStudent(db, actor)
+  // التلميذ المسجَّل: الدروس المجانية لمستواه وشعبته فقط (والمشتركة بين شعب مستواه) — الزائر يرى الكل كما كان
+  const scope = await studentScopeOf(db, actor)
   const [publicLessons, courses] = await Promise.all([
-    listPublicContent(db, { types: ['LESSON', 'PDF', 'VIDEO', 'ARTICLE', 'AUDIO', 'EXERCISE', 'IMAGE'], limit: 40 }),
+    listPublicContent(db, { types: ['LESSON', 'PDF', 'VIDEO', 'ARTICLE', 'AUDIO', 'EXERCISE', 'IMAGE'], levelId: scope?.levelId ?? null, streamIds: scope?.streamFamily ?? [], limit: 40 }),
     actor ? myCourses(db, actor) : Promise.resolve([])
   ])
   return {
