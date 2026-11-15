@@ -194,7 +194,9 @@ export function signedEmbedUrl(creds: Pick<BunnyCredentials, 'libraryId' | 'toke
   const now = input.now ?? Date.now()
   const expires = Math.floor(now / 1000) + Math.max(60, Math.floor(input.expiresInSeconds))
   const token = embedToken(creds.tokenAuthKey, input.videoId, expires)
-  const q = new URLSearchParams({ token, expires: String(expires), autoplay: 'false' })
+  // مشغّل آيفون الأصلي في وضع ملء الشاشة يُخرج الفيديو من الصفحة فتسقط العلامة المائية المرسومة فوق الإطار
+  // (ملاحظة المالك 15 نوفمبر 2026). هذان المعاملان يُبقيان التشغيل داخل الإطار دائمًا، في الموقع وفي تطبيق آيفون المنشور معًا.
+  const q = new URLSearchParams({ token, expires: String(expires), autoplay: 'false', playsinline: 'true', disableIosPlayer: 'true' })
   if (input.viewerLabel) q.set('v', input.viewerLabel.slice(0, 64))
   return { url: `${BUNNY_EMBED_BASE}/${encodeURIComponent(creds.libraryId)}/${input.videoId}?${q.toString()}`, expires }
 }
