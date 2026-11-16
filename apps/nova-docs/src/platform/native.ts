@@ -105,6 +105,16 @@ export const NovaScanner = registerPlugin<NovaScannerPlugin>('NovaScanner', {
 export const NovaOcr = registerPlugin<NovaOcrPlugin>('NovaOcr', {
   web: () => import('./web/ocr').then((m) => new m.WebOcr())
 })
+// ------------------------------------------------------------------ قفل التطبيق (LocalAuthentication)
+export interface NovaLockPlugin {
+  status(): Promise<{ available: boolean; biometry: 'faceID' | 'touchID' | 'opticID' | 'none' }>
+  authenticate(options: { reason: string; fallbackTitle?: string }): Promise<{ success: boolean }>
+}
+export const NovaLock = registerPlugin<NovaLockPlugin>('NovaLock', {
+  // في المتصفح لا يوجد قفل نظام: القفل غير متاح (لا نتظاهر بالأمان)
+  web: () => ({ status: async () => ({ available: false, biometry: 'none' as const }), authenticate: async () => { throw Object.assign(new Error('unavailable'), { code: 'UNAVAILABLE' }) } }) as unknown as NovaLockPlugin
+})
+
 export const NovaDocuments = registerPlugin<NovaDocumentsPlugin>('NovaDocuments', {
   web: () => import('./web/documents').then((m) => new m.WebDocuments())
 })

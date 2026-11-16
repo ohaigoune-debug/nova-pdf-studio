@@ -12,6 +12,7 @@ interface Prefs {
   theme: Theme
   ocrLanguages: OcrLanguage[]
   signatures: string[]          // PNG data URLs (أقصى 4)
+  appLock: boolean              // قفل التطبيق بـ Face ID / Touch ID / رمز الجهاز
   loaded: boolean
   load(): Promise<void>
   setLanguage(l: Language): Promise<void>
@@ -19,11 +20,12 @@ interface Prefs {
   setOcrLanguages(l: OcrLanguage[]): void
   addSignature(dataUrl: string): void
   removeSignature(index: number): void
+  setAppLock(on: boolean): void
 }
 
 const KEY = 'nova.prefs.v1'
 
-async function persist(p: Pick<Prefs, 'language' | 'theme' | 'ocrLanguages' | 'signatures'>) {
+async function persist(p: Pick<Prefs, 'language' | 'theme' | 'ocrLanguages' | 'signatures' | 'appLock'>) {
   await Preferences.set({ key: KEY, value: JSON.stringify(p) }).catch(() => undefined)
 }
 
@@ -32,6 +34,7 @@ export const usePrefs = create<Prefs>((set, get) => ({
   theme: 'system',
   ocrLanguages: ['ara', 'fra', 'eng'],
   signatures: [],
+  appLock: false,
   loaded: false,
   async load() {
     try {
@@ -42,7 +45,8 @@ export const usePrefs = create<Prefs>((set, get) => ({
           language: saved.language ?? get().language,
           theme: saved.theme ?? 'system',
           ocrLanguages: saved.ocrLanguages?.length ? saved.ocrLanguages : get().ocrLanguages,
-          signatures: Array.isArray(saved.signatures) ? saved.signatures.slice(0, 4) : []
+          signatures: Array.isArray(saved.signatures) ? saved.signatures.slice(0, 4) : [],
+          appLock: saved.appLock === true
         })
       }
     } catch {
@@ -71,12 +75,16 @@ export const usePrefs = create<Prefs>((set, get) => ({
   removeSignature(index) {
     set({ signatures: get().signatures.filter((_, i) => i !== index) })
     void persist(snapshot())
+  },
+  setAppLock(appLock) {
+    set({ appLock })
+    void persist(snapshot())
   }
 }))
 
 function snapshot() {
-  const { language, theme, ocrLanguages, signatures } = usePrefs.getState()
-  return { language, theme, ocrLanguages, signatures }
+  const { language, theme, ocrLanguages, signatures, appLock } = usePrefs.getState()
+  return { language, theme, ocrLanguages, signatures, appLock }
 }
 
 export function applyTheme(theme: Theme): void {

@@ -14,6 +14,7 @@ import { usePrefs, applyTheme } from './stores/prefs'
 import { usePro } from './stores/proInstance'
 import { useLibrary } from './stores/library'
 import { DialogHost, ToastHost, toast } from './ui/overlays'
+import { AppLockGate } from './features/AppLock'
 import { Spinner, useMediaQuery } from './ui/kit'
 import { LogoMark } from './brand/Logo'
 import { Paywall } from './features/Paywall'
@@ -174,6 +175,7 @@ export default function App() {
       </div>
       <Paywall />
       <DialogHost />
+      <AppLockGate />
       <ToastHost />
     </div>
   )

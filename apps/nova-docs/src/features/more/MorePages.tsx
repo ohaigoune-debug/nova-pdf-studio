@@ -1,6 +1,6 @@
 /** صفحات «المزيد»: الإعدادات، ملف المؤسسة وأصول الهوية، اللغة، النسخ الاحتياطي، الدعم، الخصوصية/الشروط، حول. */
 import { Check, Mail } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LANGUAGES, type CompanyProfile } from '@shared/settings'
 import { getSettings, updateSettings } from '@modules/settings/main/repository'
@@ -16,8 +16,9 @@ import { legalDoc } from '../../lib/legal'
 import { APP_VERSION, SUPPORT_EMAIL } from '../../lib/version'
 import { pickFilesBytes, shareBytes } from '../../lib/docs'
 import { bytesToBase64 } from '../../platform/bytes'
+import { NovaLock } from '../../platform/native'
 import { LogoMark } from '../../brand/Logo'
-import { Button, Field, NavBar, Row, Section, Segmented } from '../../ui/kit'
+import { Button, Field, NavBar, Row, Section, Segmented, Toggle } from '../../ui/kit'
 import { confirmDialog, errorText, toast } from '../../ui/overlays'
 import { WithDatabase } from '../invoices/shared'
 import { normalizeImages } from '../scan/images'
@@ -44,6 +45,7 @@ function SettingsPage() {
       <Section header={t('ios.settings.appearance')}>
         <div className="p-3"><Segmented value={theme} onChange={(v: Theme) => setTheme(v)} options={[{ value: 'system', label: t('ios.settings.system') }, { value: 'light', label: t('ios.settings.light') }, { value: 'dark', label: t('ios.settings.dark') }]} /></div>
       </Section>
+      <LockSection />
       <Section header={t('ios.tabs.invoices')} footer={t('ios.settings.companyHint')}>
         <Row title={t('ios.settings.company')} chevron onClick={() => push({ name: 'company' })} />
         <label className="flex min-h-[48px] items-center gap-3 px-4">
@@ -59,6 +61,35 @@ function SettingsPage() {
           : <Row title={t('ios.settings.loadDemo')} onClick={() => { loadDemoData(); setDemo(true); toast(t('ios.common.done')) }} />}
       </Section>
     </Page>
+  )
+}
+
+function LockSection() {
+  const { t } = useTranslation()
+  const { appLock, setAppLock } = usePrefs()
+  const [status, setStatus] = useState<{ available: boolean; biometry: string } | null>(null)
+  useEffect(() => {
+    void NovaLock.status().then(setStatus).catch(() => setStatus({ available: false, biometry: 'none' }))
+  }, [])
+  if (!status) return null
+  const method = status.biometry === 'faceID' ? 'Face ID' : status.biometry === 'touchID' ? 'Touch ID' : status.biometry === 'opticID' ? 'Optic ID' : t('ios.lock.passcode')
+  const toggle = async (on: boolean) => {
+    if (!on) return setAppLock(false)
+    try {
+      // تفعيل القفل يتطلب إثبات الهوية أولًا
+      await NovaLock.authenticate({ reason: t('ios.lock.reason') })
+      setAppLock(true)
+    } catch (e) {
+      if ((e as { code?: string })?.code === 'UNAVAILABLE') toast(t('ios.lock.unavailable'), 'info')
+    }
+  }
+  return (
+    <Section header={t('ios.lock.section')} footer={status.available ? t('ios.lock.settingDesc', { method }) : t('ios.lock.unavailable')}>
+      <label className="flex min-h-[48px] items-center gap-3 px-4">
+        <span className="flex-1 text-[17px]">{t('ios.lock.setting', { method })}</span>
+        <Toggle checked={appLock} disabled={!status.available} onChange={(v) => void toggle(v)} label={t('ios.lock.setting', { method })} />
+      </label>
+    </Section>
   )
 }
 

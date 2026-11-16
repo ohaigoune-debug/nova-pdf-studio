@@ -98,6 +98,8 @@
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>NOVA Docs uses Face ID to lock your documents and invoices so only you can open them.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>NOVA Docs uses the camera to scan paper documents into PDF on your device. Images never leave your iPhone or iPad.</string>
 	<key>UIApplicationSceneManifest</key>

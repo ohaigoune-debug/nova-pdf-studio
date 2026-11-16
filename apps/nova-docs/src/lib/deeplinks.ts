@@ -5,7 +5,7 @@
  *   novadocs://demo-invoices   يحمّل بيانات الفواتير التجريبية من نسخة Windows
  *   novadocs://invoice         يفتح أول فاتورة تجريبية
  *   novadocs://annotated       مستند تجريبي عليه تظليل ونص وكتابة يدوية وتعليق (لقطات المتجر)
- *   novadocs://lang/ar · theme/dark · paywall
+ *   novadocs://lang/ar · theme/dark · paywall · settings
  * ويمكن تمرير عدة مسارات مفصولة بفواصل عبر window.novaOpen('lang/ar,sample') (نسخة Debug في CI).
  */
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
@@ -63,6 +63,10 @@ export async function handleDeepLink(url: string): Promise<void> {
     await usePrefs.getState().setLanguage(arg as Language)
   } else if (kind === 'theme' && (arg === 'dark' || arg === 'light' || arg === 'system')) {
     usePrefs.getState().setTheme(arg)
+  } else if (kind === 'settings') {
+    nav.popToRoot('more')
+    nav.setTab('more')
+    nav.push({ name: 'settings' }, 'more')
   } else if (kind === 'paywall') {
     usePro.getState().openPaywall(null)
   } else if (kind === 'invoice') {

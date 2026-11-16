@@ -10,6 +10,7 @@ class NovaBridgeViewController: CAPBridgeViewController {
         bridge?.registerPluginInstance(NovaScannerPlugin())
         bridge?.registerPluginInstance(NovaOcrPlugin())
         bridge?.registerPluginInstance(NovaDocumentsPlugin())
+        bridge?.registerPluginInstance(NovaLockPlugin())
         #if DEBUG
         // للّقطات الآلية في CI فقط (نسخة Debug): NOVA_ROUTE="lang/ar,sample" يُمرَّر إلى الواجهة قبل تحميلها،
         // فتفتح الشاشة المطلوبة بنفسها عندما تكون جاهزة (بلا مؤقّت تخميني وبلا نافذة تأكيد الروابط).
