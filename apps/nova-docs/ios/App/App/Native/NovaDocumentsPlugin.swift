@@ -218,8 +218,14 @@ public class NovaDocumentsPlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerD
 
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         guard webView === renderWebView else { return }
-        // مهلة قصيرة حتى تكتمل الخطوط والصور المضمّنة (data URLs)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in self?.finishRender(webView) }
+        // مهلة قصيرة حتى تكتمل الخطوط والصور المضمّنة (data URLs)، ثم نقرأ عدد صفحات القالب الفعلية (.page):
+        // تجاوز ارتفاع الصفحة بكسرٍ من البكسل كان يضيف صفحة بيضاء زائدة (رُصد على محاكي iOS).
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+            webView.evaluateJavaScript("document.querySelectorAll('.page').length") { value, _ in
+                let declared = (value as? NSNumber)?.intValue ?? 0
+                self?.finishRender(webView, declaredPages: declared)
+            }
+        }
     }
 
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -242,7 +248,7 @@ public class NovaDocumentsPlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerD
         takeRenderCall()?.reject("HTML render failed: \(error.localizedDescription)", "RENDER_FAILED", error)
     }
 
-    private func finishRender(_ webView: WKWebView) {
+    private func finishRender(_ webView: WKWebView, declaredPages: Int) {
         guard let call = takeRenderCall(), let output = renderOutput else { return }
         let renderer = UIPrintPageRenderer()
         renderer.addPrintFormatter(webView.viewPrintFormatter(), startingAtPageAt: 0)
@@ -254,7 +260,9 @@ public class NovaDocumentsPlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerD
         UIGraphicsBeginPDFContextToData(data, paper, nil)
         renderer.prepare(forDrawingPages: NSRange(location: 0, length: renderer.numberOfPages))
         let bounds = UIGraphicsGetPDFContextBounds()
-        for page in 0..<max(renderer.numberOfPages, 1) {
+        let available = max(renderer.numberOfPages, 1)
+        let pageCount = declaredPages > 0 ? min(declaredPages, available) : available
+        for page in 0..<pageCount {
             UIGraphicsBeginPDFPage()
             renderer.drawPage(at: page, in: bounds)
         }
@@ -263,7 +271,7 @@ public class NovaDocumentsPlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerD
         do {
             try data.write(to: output, options: .atomic)
             var result = describe(output)
-            result["pages"] = renderer.numberOfPages
+            result["pages"] = pageCount
             call.resolve(result)
         } catch {
             call.reject("Unable to write PDF: \(error.localizedDescription)", "WRITE_FAILED", error)

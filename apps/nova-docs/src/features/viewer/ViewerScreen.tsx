@@ -13,7 +13,7 @@ import { usePro } from '../../stores/proInstance'
 import { useLibrary } from '../../stores/library'
 import { readLibraryFile, writeLibraryFile } from '../../platform/library'
 import { formatBytes } from '../../platform/bytes'
-import { dropThumbnail, exportToFiles, loadEngine, pickFilesBytes, printLibraryFile, shareLibraryFile } from '../../lib/docs'
+import { dropThumbnail, exportToFiles, loadEngine, looksScanned, pickFilesBytes, printLibraryFile, shareLibraryFile } from '../../lib/docs'
 import { ocrPdf } from '../../lib/ocrDocument'
 import { Button, IconButton, NavBar, Spinner, useElementWidth } from '../../ui/kit'
 import { ActionSheet, confirmDialog, errorText, promptDialog, toast } from '../../ui/overlays'
@@ -148,7 +148,7 @@ export default function ViewerScreen({ file, startPage = 0, startEditing = false
 
   useEffect(() => {
     if (!engine) return
-    void engine.isScanned(current).then(setScanned).catch(() => setScanned(false))
+    void looksScanned(engine, current).then(setScanned).catch(() => setScanned(false))
   }, [engine, current])
 
   // ---------------------------------------------------------------- البحث

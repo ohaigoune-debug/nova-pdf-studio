@@ -4,6 +4,7 @@ import { Share } from '@capacitor/share'
 import { isNative, NovaDocuments, readNativeFile, type NativeFile } from '../platform/native'
 import { libraryFileUri, readLibraryFile, writeLibraryFile, writeTempFile } from '../platform/library'
 import { PdfEngine } from '@modules/pdf/renderer/pdfEngine'
+import { OPS } from 'pdfjs-dist'
 
 export const PDFJS_OPTIONS = { cMapUrl: './pdfjs/cmaps/', cMapPacked: true, standardFontDataUrl: './pdfjs/standard_fonts/' }
 
@@ -116,3 +117,16 @@ export function thumbnail(name: string, modifiedAt: number, width = 180): Promis
 export function dropThumbnail(name: string): void {
   for (const key of [...thumbs.keys()]) if (key.startsWith(`${name}@`)) thumbs.delete(key)
 }
+
+/**
+ * «الصفحة ممسوحة؟» — بلا نص تقريبًا **وفيها صورة**. صفحة بيضاء أو أشكال فقط لا تستدعي اقتراح OCR
+ * (كان الاقتراح يظهر على الصفحات الفارغة).
+ */
+export async function looksScanned(engine: PdfEngine, index: number): Promise<boolean> {
+  if (!(await engine.isScanned(index))) return false
+  const page = await engine.page(index)
+  const { fnArray } = await page.getOperatorList()
+  return fnArray.some((fn) => IMAGE_OPS.has(fn))
+}
+const IMAGE_OPS = new Set<number>([OPS.paintImageXObject, OPS.paintInlineImageXObject, OPS.paintImageMaskXObject, OPS.paintImageXObjectRepeat, OPS.paintInlineImageXObjectGroup])
+
