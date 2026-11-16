@@ -175,7 +175,7 @@ async function shot(page, path) {
     await page.getByText('All pro tools are unlocked', { exact: false }).waitFor({ timeout: 5000 })
     await shot(page, `${OUT}/iphone-11-more.png`)
   })
-  await step('spreadsheets: create sheet, formulas recalc, formatting, persist', async () => {
+  await step('spreadsheets: create sheet, formulas recalc, formatting, width, merge, persist', async () => {
     await page.getByText('Spreadsheets', { exact: true }).click()
     await page.getByRole('button', { name: 'New spreadsheet' }).first().click()
     await page.locator('input').last().fill('Budget')
@@ -194,6 +194,14 @@ async function shot(page, path) {
     await styled.waitFor({ timeout: 5000 })
     const bg = await styled.evaluate((el) => getComputedStyle(el).backgroundColor)
     if (!/255, 243, 176/.test(bg)) throw new Error(`fill not applied: ${bg}`)
+    // عرض العمود + الدمج
+    const thBefore = await page.locator('thead th').nth(1 + (await styled.evaluate((el) => el.cellIndex - 1))).evaluate((el) => el.getBoundingClientRect().width)
+    await page.getByRole('button', { name: 'Wider column' }).click()
+    await page.getByRole('button', { name: 'Merge with the cell to the right' }).click()
+    const merged = page.locator('td[colspan="2"]', { hasText: /1,?999\.50/ }).first()
+    await merged.waitFor({ timeout: 5000 })
+    const thAfter = await page.locator('thead th').nth(1 + (await merged.evaluate((el) => el.cellIndex - 1))).evaluate((el) => el.getBoundingClientRect().width)
+    if (!(thAfter > thBefore + 10)) throw new Error(`column not wider: ${thBefore} → ${thAfter}`)
     await shot(page, `${OUT}/iphone-12-sheet.png`)
     await page.getByTestId('nav-back').first().click()
     await page.getByText('Budget').first().waitFor({ timeout: 5000 })

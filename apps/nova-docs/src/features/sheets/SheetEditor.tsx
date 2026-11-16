@@ -1,10 +1,10 @@
 /** محرر الجدول باللمس: شريط صيغة، شبكة برؤوس ثابتة، أوراق متعددة، تراجع، تصدير Excel/CSV — بمحرك الصيغ الأصلي. */
 import clsx from 'clsx'
-import { AlignCenter, AlignLeft, AlignRight, Bold, Columns3, Download, Italic, Plus, Redo2, Rows3, Undo2 } from 'lucide-react'
+import { AlignCenter, AlignLeft, AlignRight, Bold, Columns3, Download, Italic, Plus, Redo2, Rows3, TableCellsMerge, TableCellsSplit, Undo2 } from 'lucide-react'
 import { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getSpreadsheet, saveSpreadsheet } from '@modules/spreadsheet/main/repository'
-import { type CellStyle, type History, type NumberFormat, type Workbook, deleteCols, deleteRows, formatCellValue, insertCols, insertRows, newSheet, pushHistory, recalc, redoHistory, setCellInput, setCellStyle, undoHistory } from '@modules/spreadsheet/shared/sheetModel'
+import { type CellStyle, type History, type NumberFormat, type Workbook, deleteCols, deleteRows, formatCellValue, insertCols, insertRows, mergeCells, newSheet, unmergeAt, pushHistory, recalc, redoHistory, setCellInput, setCellStyle, undoHistory } from '@modules/spreadsheet/shared/sheetModel'
 import { colToLetters, refKey } from '@modules/spreadsheet/shared/formula'
 import { workbookToBytes } from '@modules/spreadsheet/shared/xlsx'
 import { useNav } from '../../stores/nav'
@@ -74,6 +74,17 @@ function Editor({ id }: { id: number }) {
   const style = cell?.style ?? {}
   const toggleStyle = (patch: Partial<CellStyle>) => replaceSheet((sh) => setCellStyle(sh, [sel], patch))
   const currency = useMemo(() => getSettings().invoice.defaultCurrency, [])
+  const colW = (c: number) => sheet.colWidths[c] ?? COL_W
+  const setColWidth = (delta: number) => replaceSheet((sh) => ({ ...sh, colWidths: { ...sh.colWidths, [sel.col]: Math.max(48, Math.min(400, (sh.colWidths[sel.col] ?? COL_W) + delta)) } }))
+  const mergeAtSel = sheet.merges.find((m) => m.col === sel.col && m.row === sel.row)
+  const merge = (dir: 'right' | 'down') =>
+    replaceSheet((sh) => mergeCells(sh, { col: sel.col, row: sel.row, cols: (mergeAtSel?.cols ?? 1) + (dir === 'right' ? 1 : 0), rows: (mergeAtSel?.rows ?? 1) + (dir === 'down' ? 1 : 0) }))
+  // خلايا مغطاة بدمج (غير المرساة) لا تُرسم؛ المرساة تمتد بـ colSpan/rowSpan
+  const covered = useMemo(() => {
+    const set = new Set<string>()
+    for (const m of sheet.merges) for (let c = m.col; c < m.col + m.cols; c++) for (let r = m.row; r < m.row + m.rows; r++) if (c !== m.col || r !== m.row) set.add(`${c}:${r}`)
+    return set
+  }, [sheet.merges])
   const toInvoice = () => {
     if (!usePro.getState().require('invoices')) return
     const { input, skipped } = sheetToInvoiceInput(sheet, currency, currencyInfo(currency).decimals, id)
@@ -122,17 +133,23 @@ function Editor({ id }: { id: number }) {
             className={clsx('mx-0.5 h-7 w-7 shrink-0 rounded-full border hairline', (style.background ?? null) === c && 'ring-2 ring-accent')} style={{ background: c ?? 'transparent' }} />
         ))}
         <span className="mx-1 h-6 w-px shrink-0 bg-[var(--hairline)]" />
+        <button aria-label={t('ios.sheets.colNarrower')} onClick={() => setColWidth(-24)} className="h-9 shrink-0 rounded-[8px] px-2 text-[14px] font-semibold text-muted">↔−</button>
+        <button aria-label={t('ios.sheets.colWider')} onClick={() => setColWidth(24)} className="h-9 shrink-0 rounded-[8px] px-2 text-[14px] font-semibold text-muted">↔+</button>
+        <IconButton label={t('ios.sheets.mergeRight')} onClick={() => merge('right')}><TableCellsMerge className="h-5 w-5" /></IconButton>
+        <IconButton label={t('ios.sheets.mergeDown')} onClick={() => merge('down')}><TableCellsMerge className="h-5 w-5 rotate-90" /></IconButton>
+        {mergeAtSel && <IconButton label={t('ios.sheets.unmerge')} onClick={() => replaceSheet((sh) => unmergeAt(sh, sel))}><TableCellsSplit className="h-5 w-5" /></IconButton>}
+        <span className="mx-1 h-6 w-px shrink-0 bg-[var(--hairline)]" />
         <IconButton label={t('ios.sheets.insertRow')} onClick={() => replaceSheet((sh) => insertRows(sh, sel.row))}><Rows3 className="h-5 w-5" /></IconButton>
         <IconButton label={t('ios.sheets.insertCol')} onClick={() => replaceSheet((sh) => insertCols(sh, sel.col))}><Columns3 className="h-5 w-5" /></IconButton>
         <button aria-label={t('ios.sheets.deleteRow')} onClick={() => replaceSheet((sh) => deleteRows(sh, sel.row))} className="h-9 shrink-0 rounded-[8px] px-2 text-[13px] font-medium text-danger">−{t('ios.sheets.deleteRow')}</button>
         <button aria-label={t('ios.sheets.deleteCol')} onClick={() => replaceSheet((sh) => deleteCols(sh, sel.col))} className="h-9 shrink-0 rounded-[8px] px-2 text-[13px] font-medium text-danger">−{t('ios.sheets.deleteCol')}</button>
       </div>
       <div className="ios-scroll min-h-0 flex-1 overflow-auto bg-surface" dir="ltr">
-        <table className="border-separate border-spacing-0 text-[14px]" style={{ width: 44 + cols * COL_W }}>
+        <table className="border-separate border-spacing-0 text-[14px]" style={{ width: 44 + Array.from({ length: cols }, (_, c) => colW(c)).reduce((a, b) => a + b, 0) }}>
           <thead>
             <tr>
               <th className="sticky left-0 top-0 z-20 h-7 w-11 border-b border-r hairline bg-surface-2" />
-              {Array.from({ length: cols }, (_, c) => <th key={c} className={clsx('sticky top-0 z-10 h-7 border-b border-r hairline bg-surface-2 text-[12px] font-semibold text-muted', sel.col === c && 'bg-accent/20 text-accent')} style={{ width: sheet.colWidths[c] ?? COL_W, minWidth: COL_W }}>{colToLetters(c)}</th>)}
+              {Array.from({ length: cols }, (_, c) => <th key={c} className={clsx('sticky top-0 z-10 h-7 border-b border-r hairline bg-surface-2 text-[12px] font-semibold text-muted', sel.col === c && 'bg-accent/20 text-accent')} style={{ width: colW(c), minWidth: colW(c) }}>{colToLetters(c)}</th>)}
             </tr>
           </thead>
           <tbody>
@@ -141,13 +158,16 @@ function Editor({ id }: { id: number }) {
                 <td className={clsx('sticky left-0 z-10 w-11 border-b border-r hairline bg-surface-2 text-center text-[12px] text-muted tabular', sel.row === r && 'bg-accent/20 text-accent')} style={{ height: ROW_H }}>{r + 1}</td>
                 {Array.from({ length: cols }, (_, c) => {
                   const k = `${c}:${r}`
+                  if (covered.has(k)) return null
+                  const m = sheet.merges.find((x) => x.col === c && x.row === r)
+                  const span = m ? Array.from({ length: m.cols }, (_, i) => colW(c + i)).reduce((a, b) => a + b, 0) : colW(c)
                   const v = sheet.cells[k]
                   const active = sel.col === c && sel.row === r
                   const num = typeof v?.value === 'number'
                   return (
-                    <td key={c} onClick={() => { commit(); setSel({ col: c, row: r }); setDraft(null); setTimeout(() => inputRef.current?.focus(), 0) }}
+                    <td key={c} colSpan={m?.cols} rowSpan={m?.rows} onClick={() => { commit(); setSel({ col: c, row: r }); setDraft(null); setTimeout(() => inputRef.current?.focus(), 0) }}
                       className={clsx('truncate border-b border-r hairline px-1.5', num && 'tabular', active && 'outline outline-2 -outline-offset-2 outline-accent', v?.style?.bold && 'font-bold', v?.style?.italic && 'italic')}
-                      style={{ maxWidth: COL_W, height: ROW_H, background: v?.style?.background, textAlign: v?.style?.align === 'center' ? 'center' : v?.style?.align === 'end' ? 'right' : v?.style?.align === 'start' ? 'left' : num ? 'right' : 'left' }}>
+                      style={{ maxWidth: span, width: span, height: ROW_H * (m?.rows ?? 1), background: v?.style?.background, textAlign: v?.style?.align === 'center' ? 'center' : v?.style?.align === 'end' ? 'right' : v?.style?.align === 'start' ? 'left' : num ? 'right' : 'left' }}>
                       {v ? formatCellValue(v, language, v.style?.currency ?? currency) : ''}
                     </td>
                   )
