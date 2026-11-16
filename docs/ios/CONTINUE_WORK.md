@@ -39,7 +39,7 @@ cd ios/App && xcodebuild test -project App.xcodeproj -scheme App -destination 'p
 2. **Sandbox** بعد Paid Apps Agreement والمنتج في App Store Connect.
 3. ممكن على Linux + CI:
    - قياس زمن مرشحات المسح داخل WKWebView على المحاكي (أضف التوقيت إلى مشهد `scan-demo`)، وتسريعها إن تجاوزت ~1.5 ث للصفحة (معالجة المعاينة بدقة أقل).
-   - قفل التطبيق (Face ID/رمز الجهاز عبر LocalAuthentication + `NSFaceIDUsageDescription` بـ14 لغة) — يقابل قفل PIN في Windows.
+   - قفل التطبيق: **مبني** (`NovaLockPlugin.swift`، `features/AppLock.tsx`) — يبقى اختباره على جهاز.
    - الجداول: دمج الخلايا وتغيير عرض الأعمدة (النموذج المشترك يدعمهما).
    - استيراد الفواتير القديمة: رسم مناطق يدوي كما في Windows.
    - طبقة البحث للنص العربي المضاف على الصفحات المدوّرة.
