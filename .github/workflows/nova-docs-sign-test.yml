@@ -5,11 +5,12 @@
 # (المستودع عام) — يُنشر تقرير التحقق النصي المنقّح فقط (نوع الشهادة، بلا اسم الحساب ولا Team ID).
 #
 # الأسرار (Repository secrets): APPLE_TEAM_ID، ASC_KEY_ID، ASC_ISSUER_ID، و ASC_KEY_P8_BASE64 أو ASC_KEY_P8.
-# التشغيل: دفع وسم يبدأ بـ nova-docs-sign-test- (يعمل من الفرع دون دمج)، أو Run workflow إن كان الملف على main.
+# التشغيل: إيداع على feature/nova-docs-ios رسالته تحوي [sign-test]، أو وسم nova-docs-sign-test-*، أو Run workflow من main.
 name: NOVA Docs → signing test (IPA export, no upload)
 
 on:
   push:
+    branches: [feature/nova-docs-ios]
     tags: ['nova-docs-sign-test-*']
   workflow_dispatch:
 
@@ -18,6 +19,8 @@ permissions:
 
 jobs:
   sign-test:
+    # يعمل على push فقط إذا احتوت رسالة الإيداع على [sign-test] (بيئة العمل لا تستطيع دفع الوسوم)، أو بوسم، أو يدويًا
+    if: github.event_name != 'push' || startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[sign-test]')
     runs-on: macos-15
     timeout-minutes: 60
     env:

@@ -6,11 +6,12 @@
 #   ASC_KEY_P8               محتوى ملف AuthKey_XXXX.p8 كما هو (افتحه بالمفكرة وانسخ كل الأسطر) — أو بديلًا عنه:
 #   ASC_KEY_P8_BASE64        المحتوى نفسه بترميز base64
 #   NOVA_SUPPORT_EMAIL       (اختياري) بريد الدعم المعروض داخل التطبيق
-# التشغيل: دفع وسم يبدأ بـ nova-docs-testflight- (يعمل من أي فرع)، أو Run workflow إن كان الملف على الفرع الافتراضي.
+# التشغيل: إيداع على feature/nova-docs-ios رسالته تحوي [testflight]، أو وسم nova-docs-testflight-*، أو Run workflow من main.
 name: NOVA Docs → TestFlight (manual)
 
 on:
   push:
+    branches: [feature/nova-docs-ios]
     tags: ['nova-docs-testflight-*']
   workflow_dispatch:
     inputs:
@@ -21,6 +22,8 @@ on:
 
 jobs:
   testflight:
+    # يعمل على push فقط إذا احتوت رسالة الإيداع على [testflight] (بيئة العمل لا تستطيع دفع الوسوم)، أو بوسم، أو يدويًا
+    if: github.event_name != 'push' || startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[testflight]')
     runs-on: macos-15
     timeout-minutes: 60
     environment: apple-release
