@@ -82,7 +82,16 @@ export async function handleDeepLink(url: string): Promise<void> {
 /** نقطة دخول للأتمتة (CI): عدة مسارات مفصولة بفواصل تُنفَّذ بالترتيب. */
 export async function openRoutes(routes: string): Promise<void> {
   for (const r of routes.split(',').map((x) => x.trim()).filter(Boolean)) {
-    await handleDeepLink(`novadocs://${r}`)
+    try {
+      await handleDeepLink(`novadocs://${r}`)
+      console.log(`[nova-route] ok ${r}`)
+    } catch (e) {
+      // يظهر في سجل التطبيق وفي اللقطة نفسها لتشخيص أي فشل على iOS الحقيقي
+      const err = e as { message?: string; code?: string; stack?: string }
+      console.error(`[nova-route] FAILED ${r}: ${err?.code ?? ''} ${err?.message ?? String(e)}\n${err?.stack ?? ''}`)
+      const { toast } = await import('../ui/overlays')
+      toast(`route ${r}: ${err?.message ?? String(e)}`, 'error')
+    }
     await new Promise((res) => setTimeout(res, 400))
   }
 }

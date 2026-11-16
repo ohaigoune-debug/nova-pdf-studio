@@ -72,7 +72,9 @@ export async function readLibraryFile(name: string): Promise<Uint8Array> {
 /** حفظ ذرّي: كتابة ملف مؤقت ثم إعادة تسميته فوق الأصل (لا يفسد الملف إن انقطع التطبيق أثناء الحفظ). */
 export async function writeLibraryFile(name: string, bytes: Uint8Array, options: { overwrite?: boolean } = {}): Promise<string> {
   const target = options.overwrite ? sanitizeName(name) : await uniqueName(name)
-  const temp = `${META}-tmp-${Date.now()}`
+  // مهم على iOS: IONFilesystemLib يعامل المسار غير الموجود بلا امتداد كمجلد (يضيف «/») فتفشل الكتابة؛
+  // لذلك يحمل الملف المؤقت امتدادًا صريحًا.
+  const temp = `${META}-tmp-${Date.now()}.part`
   await Filesystem.writeFile({ path: temp, directory: DIR, data: bytesToBase64(bytes) })
   try {
     if (options.overwrite && (await exists(target))) await Filesystem.deleteFile({ path: target, directory: DIR })

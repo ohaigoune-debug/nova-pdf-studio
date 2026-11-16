@@ -175,6 +175,19 @@ async function shot(page, path) {
     await page.getByText('All pro tools are unlocked', { exact: false }).waitFor({ timeout: 5000 })
     await shot(page, `${OUT}/iphone-11-more.png`)
   })
+  await step('spreadsheets: create sheet, formulas recalc, persist', async () => {
+    await page.getByText('Spreadsheets', { exact: true }).click()
+    await page.getByRole('button', { name: 'New spreadsheet' }).first().click()
+    await page.locator('input').last().fill('Budget')
+    await page.getByRole('button', { name: 'OK' }).click()
+    const formula = page.getByPlaceholder('Formula or value')
+    await formula.waitFor({ timeout: 10000 })
+    for (const v of ['1250', '749.5', '=SUM(A1:A2)']) { await formula.fill(v); await formula.press('Enter') }
+    await page.locator('td', { hasText: /^1,?999\.5$/ }).first().waitFor({ timeout: 5000 })
+    await shot(page, `${OUT}/iphone-12-sheet.png`)
+    await page.getByTestId('nav-back').first().click()
+    await page.getByText('Budget').first().waitFor({ timeout: 5000 })
+  })
   await ctx.close()
 }
 

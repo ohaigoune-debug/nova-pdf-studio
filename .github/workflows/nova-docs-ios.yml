@@ -123,8 +123,8 @@ jobs:
             echo "$SCENES" | while IFS='|' read -r NAME ROUTE; do
               NAME=$(echo "$NAME" | xargs)
               xcrun simctl terminate "$UDID" com.haigoune.novadocs 2>/dev/null || true
-              SIMCTL_CHILD_NOVA_ROUTE="$ROUTE" xcrun simctl launch "$UDID" com.haigoune.novadocs
-              sleep 9
+              SIMCTL_CHILD_NOVA_ROUTE="$ROUTE" xcrun simctl launch --terminate-running-process --stdout="$PWD/shots/${SLUG}-${NAME}-console.txt" --stderr="$PWD/shots/${SLUG}-${NAME}-console.txt" "$UDID" com.haigoune.novadocs
+              sleep 12
               xcrun simctl io "$UDID" screenshot "shots/${SLUG}-${NAME}.png"
             done
             xcrun simctl spawn "$UDID" log show --last 5m --predicate 'process == "App"' --style compact 2>/dev/null | grep -iE "error|nova|capacitor" | tail -80 > "shots/${SLUG}-app-log.txt" || true
