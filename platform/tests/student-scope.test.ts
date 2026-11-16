@@ -15,9 +15,12 @@ import { createContent, getContentForStudent } from '@/server/services/content.s
 import { uploadFile } from '@/server/services/files.service'
 import { iosApiHome, iosApiLesson } from '@/server/services/ios-api.service'
 import { resolveMediaAccess } from '@/server/services/media.service'
-import { contentInScope, saveStudentLevelStream, studentScope, studentScopeOf } from '@/server/services/student-scope.service'
+import { cancelMyScopeRequest, contentInScope, decideScopeRequest, listScopeRequests, myLatestScopeRequest, requestScopeChange, saveStudentLevelStream, studentScope, studentScopeOf } from '@/server/services/student-scope.service'
+import { createConfirmer } from '@/server/services/confirmer.service'
+import { notifications } from '@/server/db/schema'
+import { eq } from 'drizzle-orm'
 import { resolveCodes } from '@/server/services/taxonomy.service'
-import { makeAdmin, makeStudent, setupDb } from './helpers'
+import { actorOf, makeAdmin, makeStudent, setupDb, uniq } from './helpers'
 
 let h: DatabaseHandle
 let admin: Actor
@@ -179,5 +182,59 @@ describe('تطبيقا آيفون وأندرويد (الواجهة /api/v1/ios)'
     const slugs = (await listPublicContent(h.db, { levelId: own.levelId, streamIds: own.streamFamily })).map((c) => c.slug)
     expect(slugs).toEqual(expect.arrayContaining([C.common.slug, C.sci.slug, C.old.slug]))
     expect(slugs).not.toContain(C.lit.slug)
+  })
+})
+
+describe('تغيير الشعبة بطلب يراجعه عون التأكيد (16 نوفمبر 2026)', () => {
+  it('بعد الاختيار الأول لا يغيّر التلميذ مستواه أو شعبته بنفسه', async () => {
+    const sci = await resolveCodes(h.db, { level: '3AS', stream: 'SCI' })
+    await expect(saveStudentLevelStream(h.db, adab, { levelId: sci.levelId!, streamId: sci.streamId })).rejects.toSatisfy((e) => e instanceof AppError && e.code === 'FORBIDDEN' && e.details?.reason === 'SCOPE_CHANGE_NEEDS_REQUEST')
+    expect((await studentScope(h.db, adab.studentId!)).label).toBe('السنة الثالثة ثانوي · آداب وفلسفة')
+  })
+
+  it('الطلب: لا لنفس الشعبة، طلب معلَّق واحد، ويُسحب', async () => {
+    const lit = await resolveCodes(h.db, { level: '3AS', stream: 'LIT' })
+    const sci = await resolveCodes(h.db, { level: '3AS', stream: 'SCI' })
+    await expect(requestScopeChange(h.db, adab, { levelId: lit.levelId!, streamId: lit.streamId })).rejects.toSatisfy((e) => e instanceof AppError && e.details?.reason === 'SAME_SCOPE')
+    await expect(requestScopeChange(h.db, adab, { levelId: sci.levelId!, streamId: null })).rejects.toSatisfy((e) => e instanceof AppError && e.details?.field === 'streamId')
+    const r = await requestScopeChange(h.db, adab, { levelId: sci.levelId!, streamId: sci.streamId, reason: 'سجّلت بشعبة خاطئة' })
+    expect(r.status).toBe('PENDING')
+    expect(r.fromLabel).toBe('السنة الثالثة ثانوي · آداب وفلسفة')
+    expect(r.toLabel).toBe('السنة الثالثة ثانوي · علوم تجريبية')
+    await expect(requestScopeChange(h.db, adab, { levelId: sci.levelId!, streamId: sci.streamId })).rejects.toSatisfy((e) => e instanceof AppError && e.details?.reason === 'ALREADY_PENDING')
+    await cancelMyScopeRequest(h.db, adab)
+    expect((await myLatestScopeRequest(h.db, adab))!.status).toBe('CANCELLED')
+    // الشعبة لم تتغيّر بمجرد الطلب
+    expect((await studentScope(h.db, adab.studentId!)).streamId).toBe(lit.streamId)
+  })
+
+  it('عون التأكيد يؤكّد ⇒ تتغيّر الشعبة والدروس ويُشعَر التلميذ؛ الرفض بسبب لا يغيّر شيئًا', async () => {
+    const employee = await createConfirmer(h.db, admin, { email: uniq('confirm') + '@test.dz', password: 'Worker@12345', fullName: 'عون التأكيد', phone: '0661234599' })
+    const confirmer = await actorOf(h.db, employee.userId)
+    const lit = await resolveCodes(h.db, { level: '3AS', stream: 'LIT' })
+    const sci = await resolveCodes(h.db, { level: '3AS', stream: 'SCI' })
+    // التلميذ وغير عون التأكيد لا يقرّران
+    const r1 = await requestScopeChange(h.db, ulum, { levelId: lit.levelId!, streamId: lit.streamId })
+    await expectCode(() => decideScopeRequest(h.db, ulum, r1.id, { approve: true }), 'FORBIDDEN')
+    await expectCode(() => listScopeRequests(h.db, ulum), 'FORBIDDEN')
+    expect((await listScopeRequests(h.db, confirmer)).map((x) => x.id)).toContain(r1.id)
+    // الرفض يحتاج سببًا
+    await expect(decideScopeRequest(h.db, confirmer, r1.id, { approve: false })).rejects.toSatisfy((e) => e instanceof AppError && e.details?.field === 'note')
+    await decideScopeRequest(h.db, confirmer, r1.id, { approve: false, note: 'الثانوية تؤكد أنك في علوم تجريبية' })
+    expect((await studentScope(h.db, ulum.studentId!)).streamId).toBe(sci.streamId)
+    expect((await myLatestScopeRequest(h.db, ulum))!.decisionNote).toContain('علوم تجريبية')
+    await expect(decideScopeRequest(h.db, confirmer, r1.id, { approve: true })).rejects.toSatisfy((e) => e instanceof AppError && e.details?.reason === 'NOT_PENDING')
+    // طلب جديد يُؤكَّد
+    const r2 = await requestScopeChange(h.db, ulum, { levelId: lit.levelId!, streamId: lit.streamId })
+    const done = await decideScopeRequest(h.db, confirmer, r2.id, { approve: true })
+    expect(done.status).toBe('APPROVED')
+    expect((await studentScope(h.db, ulum.studentId!)).label).toBe('السنة الثالثة ثانوي · آداب وفلسفة')
+    // دروسه تتبع الشعبة الجديدة فورًا
+    expect((await getContentForStudent(h.db, ulum, C.lit.slug)).id).toBe(C.lit.id)
+    await expectCode(() => getContentForStudent(h.db, ulum, C.sci.slug), 'LESSON_OUT_OF_SCOPE')
+    const notes = await h.db.select({ title: notifications.title }).from(notifications).where(eq(notifications.userId, ulum.userId))
+    expect(notes.some((n) => n.title.includes('قُبل طلب تغيير شعبتك'))).toBe(true)
+    expect((await listScopeRequests(h.db, confirmer)).map((x) => x.id)).not.toContain(r2.id)
+    expect((await listScopeRequests(h.db, admin, 'DECIDED')).map((x) => x.id)).toEqual(expect.arrayContaining([r1.id, r2.id]))
   })
 })

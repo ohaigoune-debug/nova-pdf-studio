@@ -14,13 +14,13 @@ import { listUserSessions } from '@/server/auth/session'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { getStudentProfile } from '@/server/services/students.service'
-import { levelStreamOptions, studentScope } from '@/server/services/student-scope.service'
-import { LevelStreamForm } from '@/components/student/level-stream-form'
+import { levelStreamOptions, myLatestScopeRequest, studentScope } from '@/server/services/student-scope.service'
+import { ScopeAccountCard } from '@/components/student/scope-account-card'
 
 export default async function StudentProfilePage() {
   const actor = await requirePageActor('STUDENT')
   const db = await getDb()
-  const [p, devices, channels, scope, scopeOptions] = await Promise.all([getStudentProfile(db, actor, actor.studentId!), listUserSessions(db, actor.userId), phoneChannels(db), studentScope(db, actor.studentId!), levelStreamOptions(db)])
+  const [p, devices, channels, scope, scopeOptions, scopeRequest] = await Promise.all([getStudentProfile(db, actor, actor.studentId!), listUserSessions(db, actor.userId), phoneChannels(db), studentScope(db, actor.studentId!), levelStreamOptions(db), myLatestScopeRequest(db, actor)])
   const rows: [string, string][] = [
     [t('common.email'), p.email || '—'],
     [t('common.phone'), p.phone ?? '—'],
@@ -72,15 +72,7 @@ export default async function StudentProfilePage() {
       </div>
       {/* «تغيير» في «دروسي» يصل هنا (#level): المستوى والشعبة يحدّدان الدروس التي يراها التلميذ ويفتحها */}
       <section id="level" className="mt-6 scroll-mt-24">
-        <Card>
-          <CardHeader>
-            <CardTitle>مستواي وشعبتي</CardTitle>
-            <p className="text-sm text-muted-foreground">تحدّد الدروس التي تظهر لك في «دروسي» (دروس مستواك وشعبتك والدروس المشتركة بين شعب مستواك).</p>
-          </CardHeader>
-          <CardContent>
-            <LevelStreamForm options={scopeOptions} levelId={scope.levelId} streamId={scope.streamId} submitLabel="حفظ المستوى والشعبة" savedText="تم الحفظ. «دروسي» تعرض الآن دروس مستواك وشعبتك." />
-          </CardContent>
-        </Card>
+        <ScopeAccountCard scope={scope} request={scopeRequest} options={scopeOptions} />
       </section>
       {channels.sms ? <section className="mt-6"><OtpVerifyCard purpose="REGISTER" phone={p.phone} refreshOnVerified title="تعديل هاتفي والتحقق منه" description="يُحفظ رقمك الجديد بعد التحقق برمز SMS. يبقى رقمك الحالي حتى نجاح التحقق." /></section> : null}
       <section className="mt-6">

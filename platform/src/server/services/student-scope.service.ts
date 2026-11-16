@@ -1,17 +1,21 @@
 /**
  * نطاق التلميذ (قرار المالك 15 نوفمبر 2026): التلميذ المسجَّل يرى دروس مستواه وشعبته فقط، مع الدروس المشتركة
- * بين كل شعب مستواه (درس بلا شعبة)، والدروس القديمة غير المصنّفة (بلا مستوى). لا يغيّر النطاقَ إلا هو نفسه
- * من «حسابي» — لا رابط ولا مرشّح في الصفحة.
+ * بين كل شعب مستواه (درس بلا شعبة)، والدروس القديمة غير المصنّفة (بلا مستوى). لا مرشّح في الصفحة ولا رابط يغيّره:
+ * يختار التلميذ مستواه وشعبته مرة واحدة، وبعدها يغيّرهما بطلب من «حسابي» يراجعه عون التأكيد (16 نوفمبر 2026).
  *
  * الشرط نفسه يُطبَّق في القوائم وفي فتح الدرس (الخادم)، فتغيير الرابط لا يفتح درسًا من مستوى أو شعبة أخرى.
  * المحتوى الموجَّه لأفواج التلميذ أو له شخصيًا (محتوى دوراته) يبقى خارج هذا الشرط: حقّ الوصول إليه من الاشتراك.
  */
-import { and, eq, inArray, isNull, or, type SQL } from 'drizzle-orm'
+import { and, asc, desc, eq, inArray, isNull, or, sql, type SQL } from 'drizzle-orm'
+import { alias } from 'drizzle-orm/pg-core'
 import type { Db } from '@/server/db/connect'
-import { content, levels, streams, students } from '@/server/db/schema'
+import { content, levels, profiles, scopeChangeRequests, streams, students, users, type ScopeChangeRequestRow, type ScopeRequestStatus } from '@/server/db/schema'
+import { CHANGE_SCOPE_HREF } from '@/lib/student-scope'
+import { writeAudit } from '@/server/lib/audit'
 import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
-import { AppError } from '@/server/lib/errors'
+import { AppError, assertUuid } from '@/server/lib/errors'
 import { streamFamily } from './stream-family'
+import { notify, notifyMany } from './notifications.service'
 import { listLevels, listStreams, streamFitsLevel, streamsByLevel } from './reference.service'
 
 export interface StudentScope {
@@ -87,25 +91,167 @@ export function contentInScope(scope: StudentScope | null, row: { levelId: strin
   return true
 }
 
+/** يتحقق من المستوى والشعبة بقواعد التسجيل: الشعبة إلزامية للثانوي ومن شعب سنته؛ المتوسط بلا شعبة */
+async function validLevelStream(db: Db, input: { levelId: string; streamId?: string | null }): Promise<{ levelId: string; streamId: string | null }> {
+  if (!input.levelId || !UUID_RE.test(input.levelId)) throw new AppError('VALIDATION', { field: 'levelId' })
+  const [lv] = await db.select({ id: levels.id, code: levels.code }).from(levels).where(eq(levels.id, input.levelId)).limit(1)
+  if (!lv) throw new AppError('VALIDATION', { field: 'levelId' })
+  if (!isSecondary(lv.code)) return { levelId: lv.id, streamId: null }
+  if (!input.streamId || !UUID_RE.test(input.streamId)) throw new AppError('VALIDATION', { field: 'streamId' })
+  const [st] = await db.select({ id: streams.id }).from(streams).where(eq(streams.id, input.streamId)).limit(1)
+  if (!st || !(await streamFitsLevel(db, lv.id, st.id))) throw new AppError('VALIDATION', { field: 'streamId' })
+  return { levelId: lv.id, streamId: st.id }
+}
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 /**
- * يحفظ التلميذ مستواه وشعبته في حسابه (أول مرة من «دروسي»، أو تغييرًا من «حسابي»). نفس قواعد التسجيل:
- * الشعبة إلزامية للثانوي ومن شعب سنته؛ المتوسط بلا شعبة.
+ * الاختيار الأول فقط (قرار المالك 16 نوفمبر 2026): التلميذ الذي لا مستوى له (أو ثانوي بلا شعبة) يختارهما مرة واحدة.
+ * بعدها لا يغيّرهما بنفسه: يرسل طلبًا (requestScopeChange) يراجعه عون التأكيد.
  */
 export async function saveStudentLevelStream(db: Db, actor: Actor, input: { levelId: string; streamId?: string | null }): Promise<StudentScope> {
   assertRole(actor, 'STUDENT')
   const studentId = studentIdOf(actor)
-  const [lv] = await db.select({ id: levels.id, code: levels.code }).from(levels).where(eq(levels.id, input.levelId)).limit(1)
-  if (!lv) throw new AppError('VALIDATION', { field: 'levelId' })
-  let streamId: string | null = null
-  if (isSecondary(lv.code)) {
-    if (!input.streamId) throw new AppError('VALIDATION', { field: 'streamId' })
-    const [st] = await db.select({ id: streams.id }).from(streams).where(eq(streams.id, input.streamId)).limit(1)
-    if (!st || !(await streamFitsLevel(db, lv.id, st.id))) throw new AppError('VALIDATION', { field: 'streamId' })
-    streamId = st.id
-  }
-  const updated = await db.update(students).set({ levelId: lv.id, streamId }).where(and(eq(students.id, studentId), eq(students.userId, actor.userId))).returning({ id: students.id })
+  if ((await studentScope(db, studentId)).complete) throw new AppError('FORBIDDEN', { reason: 'SCOPE_CHANGE_NEEDS_REQUEST' })
+  const v = await validLevelStream(db, input)
+  const updated = await db.update(students).set({ levelId: v.levelId, streamId: v.streamId }).where(and(eq(students.id, studentId), eq(students.userId, actor.userId))).returning({ id: students.id })
   if (!updated.length) throw new AppError('FORBIDDEN')
   return studentScope(db, studentId)
+}
+
+/* ------------------------- طلب تغيير المستوى/الشعبة ------------------------- */
+
+export interface ScopeRequestView {
+  id: string
+  status: ScopeRequestStatus
+  fromLabel: string | null
+  toLabel: string
+  reason: string | null
+  decisionNote: string | null
+  createdAt: Date
+  decidedAt: Date | null
+}
+
+async function scopeLabel(db: Db, levelId: string | null, streamId: string | null): Promise<string | null> {
+  if (!levelId) return null
+  const [lv] = await db.select({ name: levels.nameAr }).from(levels).where(eq(levels.id, levelId)).limit(1)
+  const [st] = streamId ? await db.select({ name: streams.nameAr }).from(streams).where(eq(streams.id, streamId)).limit(1) : []
+  return [lv ? shortLevelName(lv.name) : null, st?.name ?? null].filter(Boolean).join(' · ') || null
+}
+
+async function toView(db: Db, r: ScopeChangeRequestRow): Promise<ScopeRequestView> {
+  return {
+    id: r.id,
+    status: r.status as ScopeRequestStatus,
+    fromLabel: await scopeLabel(db, r.fromLevelId, r.fromStreamId),
+    toLabel: (await scopeLabel(db, r.toLevelId, r.toStreamId)) ?? '—',
+    reason: r.reason,
+    decisionNote: r.decisionNote,
+    createdAt: r.createdAt,
+    decidedAt: r.decidedAt
+  }
+}
+
+/** آخر طلب للتلميذ (المعلَّق، أو آخر قرار) — يُعرض في «حسابي» */
+export async function myLatestScopeRequest(db: Db, actor: Actor): Promise<ScopeRequestView | null> {
+  const studentId = studentIdOf(actor)
+  const [r] = await db.select().from(scopeChangeRequests).where(eq(scopeChangeRequests.studentId, studentId)).orderBy(desc(scopeChangeRequests.createdAt)).limit(1)
+  return r ? toView(db, r) : null
+}
+
+/** التلميذ يطلب تغيير مستواه/شعبته: طلب واحد معلَّق على الأكثر، ولا طلب لنفس ما هو عليه */
+export async function requestScopeChange(db: Db, actor: Actor, input: { levelId: string; streamId?: string | null; reason?: string | null }): Promise<ScopeRequestView> {
+  assertRole(actor, 'STUDENT')
+  const studentId = studentIdOf(actor)
+  const v = await validLevelStream(db, input)
+  const cur = await studentScope(db, studentId)
+  if (cur.levelId === v.levelId && (cur.streamId ?? null) === v.streamId) throw new AppError('VALIDATION', { field: 'streamId', reason: 'SAME_SCOPE' })
+  const [pending] = await db.select({ id: scopeChangeRequests.id }).from(scopeChangeRequests).where(and(eq(scopeChangeRequests.studentId, studentId), eq(scopeChangeRequests.status, 'PENDING'))).limit(1)
+  if (pending) throw new AppError('VALIDATION', { field: 'pending', reason: 'ALREADY_PENDING' })
+  const [row] = await db
+    .insert(scopeChangeRequests)
+    .values({ studentId, fromLevelId: cur.levelId, fromStreamId: cur.streamId, toLevelId: v.levelId, toStreamId: v.streamId, reason: input.reason?.trim().slice(0, 300) || null })
+    .returning()
+  const view = await toView(db, row!)
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'student.scope_request', entityType: 'scope_change_request', entityId: row!.id, newValue: { from: view.fromLabel, to: view.toLabel } })
+  const admins = await db.select({ id: users.id }).from(users).where(eq(users.role, 'SUPER_ADMIN'))
+  await notifyMany(db, admins.map((a) => ({ userId: a.id, workspaceId: null, type: 'SYSTEM' as const, title: `طلب تغيير شعبة: ${actor.fullName}`, body: `${view.fromLabel ?? '—'} ← ${view.toLabel}`, link: '/admin/scope-requests' })))
+  return view
+}
+
+/** التلميذ يسحب طلبه المعلَّق */
+export async function cancelMyScopeRequest(db: Db, actor: Actor): Promise<void> {
+  assertRole(actor, 'STUDENT')
+  const studentId = studentIdOf(actor)
+  await db.update(scopeChangeRequests).set({ status: 'CANCELLED', decidedAt: new Date(), updatedAt: new Date() }).where(and(eq(scopeChangeRequests.studentId, studentId), eq(scopeChangeRequests.status, 'PENDING')))
+}
+
+export interface ScopeRequestRow extends ScopeRequestView {
+  studentName: string
+  phone: string | null
+  decidedBy: string | null
+}
+
+/** طابور عون التأكيد (والمشرف): المعلَّقة أولًا بالأقدم، ثم آخر القرارات */
+export async function listScopeRequests(db: Db, actor: Actor, status: 'PENDING' | 'DECIDED' = 'PENDING'): Promise<ScopeRequestRow[]> {
+  assertRole(actor, 'CONFIRMER', 'SUPER_ADMIN')
+  const decider = alias(profiles, 'decider')
+  const rows = await db
+    .select({ r: scopeChangeRequests, name: profiles.fullName, phone: profiles.phone, decidedBy: decider.fullName })
+    .from(scopeChangeRequests)
+    .innerJoin(students, eq(students.id, scopeChangeRequests.studentId))
+    .leftJoin(profiles, eq(profiles.userId, students.userId))
+    .leftJoin(decider, eq(decider.userId, scopeChangeRequests.decidedByUserId))
+    .where(status === 'PENDING' ? eq(scopeChangeRequests.status, 'PENDING') : inArray(scopeChangeRequests.status, ['APPROVED', 'REJECTED']))
+    .orderBy(status === 'PENDING' ? asc(scopeChangeRequests.createdAt) : desc(scopeChangeRequests.decidedAt))
+    .limit(status === 'PENDING' ? 200 : 50)
+  return Promise.all(rows.map(async (x) => ({ ...(await toView(db, x.r)), studentName: x.name ?? '—', phone: x.phone, decidedBy: x.decidedBy })))
+}
+
+export async function pendingScopeRequestsCount(db: Db): Promise<number> {
+  const [r] = await db.select({ n: sql<number>`count(*)::int` }).from(scopeChangeRequests).where(eq(scopeChangeRequests.status, 'PENDING'))
+  return Number(r?.n ?? 0)
+}
+
+/**
+ * عون التأكيد يقبل الطلب (يُطبَّق المستوى والشعبة على الحساب فورًا) أو يرفضه (بسبب إلزامي).
+ * طلب غير معلَّق (قُرّر أو سُحب) لا يتغيّر.
+ */
+export async function decideScopeRequest(db: Db, actor: Actor, id: string, decision: { approve: boolean; note?: string | null }): Promise<ScopeRequestView> {
+  assertRole(actor, 'CONFIRMER', 'SUPER_ADMIN')
+  assertUuid(id, 'NOT_FOUND')
+  const note = decision.note?.trim().slice(0, 300) || null
+  if (!decision.approve && !note) throw new AppError('VALIDATION', { field: 'note' })
+  const result = await db.transaction(async (tx) => {
+    const [r] = await tx.select().from(scopeChangeRequests).where(eq(scopeChangeRequests.id, id)).for('update').limit(1)
+    if (!r) throw new AppError('NOT_FOUND')
+    if (r.status !== 'PENDING') throw new AppError('VALIDATION', { field: 'status', reason: 'NOT_PENDING' })
+    if (decision.approve) {
+      // يُعاد التحقق: قد تتغيّر شعب السنة بين الطلب والقرار
+      const v = await validLevelStream(tx, { levelId: r.toLevelId, streamId: r.toStreamId })
+      await tx.update(students).set({ levelId: v.levelId, streamId: v.streamId }).where(eq(students.id, r.studentId))
+    }
+    const [u] = await tx
+      .update(scopeChangeRequests)
+      .set({ status: decision.approve ? 'APPROVED' : 'REJECTED', decidedByUserId: actor.userId, decidedAt: new Date(), decisionNote: note, updatedAt: new Date() })
+      .where(eq(scopeChangeRequests.id, id))
+      .returning()
+    await writeAudit(tx, { actorUserId: actor.userId, workspaceId: null, action: 'student.scope_decide', entityType: 'scope_change_request', entityId: id, newValue: { approve: decision.approve, note } })
+    return u!
+  })
+  const view = await toView(db, result)
+  const [st] = await db.select({ userId: students.userId }).from(students).where(eq(students.id, result.studentId)).limit(1)
+  if (st) {
+    await notify(db, {
+      userId: st.userId,
+      workspaceId: null,
+      type: 'SYSTEM',
+      title: decision.approve ? `قُبل طلب تغيير شعبتك: ${view.toLabel}` : 'لم يُقبل طلب تغيير شعبتك',
+      body: decision.approve ? 'تظهر لك الآن دروس مستواك وشعبتك الجديدين في «دروسي».' : note,
+      link: CHANGE_SCOPE_HREF
+    })
+  }
+  return view
 }
 
 /** خيارات نموذج المستوى والشعبة: نفس قوائم التسجيل (شعب كل سنة من grade_streams) */

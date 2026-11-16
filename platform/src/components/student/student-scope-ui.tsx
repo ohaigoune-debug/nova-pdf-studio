@@ -24,7 +24,7 @@ export function ChooseScopeCard({ options, levelId, streamId }: { options: Level
     <Card className="border-primary/40" data-testid="choose-scope">
       <CardHeader>
         <CardTitle>اختر مستواك وشعبتك</CardTitle>
-        <p className="text-sm text-muted-foreground">مرة واحدة فقط: نحفظهما في حسابك ونعرض لك دروسك والدروس المشتركة بين شعب مستواك. تغيّرهما متى شئت من «حسابي».</p>
+        <p className="text-sm text-muted-foreground">مرة واحدة فقط: نحفظهما في حسابك ونعرض لك دروسك والدروس المشتركة بين شعب مستواك. اخترهما بعناية: تغييرهما بعد ذلك بطلب من «حسابي» يراجعه عون التأكيد.</p>
       </CardHeader>
       <CardContent>
         <LevelStreamForm options={options} levelId={levelId} streamId={streamId} submitLabel="احفظ واعرض دروسي" />
@@ -50,7 +50,7 @@ export function OutOfScopeNotice({ label }: { label: string | null }) {
             <Link href="/student/lessons">دروسي</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link href={CHANGE_SCOPE_HREF}>تغيير المستوى والشعبة</Link>
+            <Link href={CHANGE_SCOPE_HREF}>طلب تغيير الشعبة</Link>
           </Button>
         </div>
       </CardContent>

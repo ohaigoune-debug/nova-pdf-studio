@@ -2,9 +2,9 @@
 
 import { useActionState, useState } from 'react'
 import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bits'
-import { Select } from '@/components/ui/input'
+import { Select, Textarea } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
-import { saveMyLevelStreamAction } from '@/server/actions/student-scope.actions'
+import { requestScopeChangeAction, saveMyLevelStreamAction } from '@/server/actions/student-scope.actions'
 
 export interface LevelStreamOptions {
   levels: { id: string; name: string; secondary: boolean; streamIds: string[] }[]
@@ -12,11 +12,11 @@ export interface LevelStreamOptions {
 }
 
 /**
- * اختيار المستوى والشعبة وحفظهما في حساب التلميذ (نفس قواعد التسجيل: الشعبة إلزامية للثانوي ومن شعب سنته).
- * يُستعمل مرة واحدة في «دروسي» لمن لا مستوى له، وفي «حسابي» للتغيير.
+ * اختيار المستوى والشعبة (نفس قواعد التسجيل: الشعبة إلزامية للثانوي ومن شعب سنته).
+ * mode="save": الاختيار الأول، يُحفظ مباشرة (مرة واحدة). mode="request": طلب تغيير يراجعه عون التأكيد.
  */
-export function LevelStreamForm({ options, levelId: initialLevel, streamId: initialStream, submitLabel, savedText }: { options: LevelStreamOptions; levelId?: string | null; streamId?: string | null; submitLabel: string; savedText?: string }) {
-  const [state, action] = useActionState(saveMyLevelStreamAction, null)
+export function LevelStreamForm({ options, levelId: initialLevel, streamId: initialStream, submitLabel, savedText, mode = 'save' }: { options: LevelStreamOptions; levelId?: string | null; streamId?: string | null; submitLabel: string; savedText?: string; mode?: 'save' | 'request' }) {
+  const [state, action] = useActionState(mode === 'request' ? requestScopeChangeAction : saveMyLevelStreamAction, null)
   const [levelId, setLevelId] = useState(initialLevel ?? '')
   const [streamId, setStreamId] = useState(initialStream ?? '')
   const level = options.levels.find((l) => l.id === levelId)
@@ -46,6 +46,11 @@ export function LevelStreamForm({ options, levelId: initialLevel, streamId: init
           </Select>
         </Field>
       </div>
+      {mode === 'request' ? (
+        <Field label="السبب (اختياري)" htmlFor="scope-reason" hint="مثال: سجّلت بشعبة خاطئة، أو غيّرت شعبتي في الثانوية.">
+          <Textarea id="scope-reason" name="reason" rows={2} maxLength={300} />
+        </Field>
+      ) : null}
       <FormError state={state} />
       {state?.ok && savedText ? <p role="status" className="text-sm font-semibold">{savedText}</p> : null}
       <SubmitButton>{submitLabel}</SubmitButton>
