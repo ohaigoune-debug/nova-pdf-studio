@@ -98,7 +98,8 @@ const TRUTH_KEY: Record<string, string> = { 'ocr-ar.png': 'ar', 'ocr-fr.png': 'f
 
 describe('offline OCR accuracy (Tesseract, bundled language packs)', () => {
   for (const [name, file, langs, maxCer] of CASES) {
-    it(`${name}: CER ≤ ${maxCer * 100}% (multi-scale pipeline)`, async () => {
+    const title = name.startsWith('phone') ? `${name}: raw photo, no enhancement — measured only (threshold applies after enhancement, next test)` : `${name}: CER ≤ ${maxCer * 100}% (multi-scale pipeline)`
+    it(title, async () => {
       const single = await ocr(file, langs)
       const res = await robustOcr(file, langs)
       const cer = characterErrorRate(truth[TRUTH_KEY[file]], res.text)
@@ -134,5 +135,9 @@ describe('offline OCR accuracy (Tesseract, bundled language packs)', () => {
     report['searchable pdf'] = { extracted }
     expect(extracted).toMatch(/Librairie|Client/)
     expect(extracted).toMatch(/[؀-ۿ]{3,}/)
+    // الأرقام داخل سطر عربي تُستخرج بترتيبها الصحيح (كانت تخرج 00521 و6202 قبل الإصلاح)
+    expect(extracted).toContain('12500')
+    expect(extracted).toContain('2026')
+    expect(extracted).not.toContain('00521')
   })
 })
