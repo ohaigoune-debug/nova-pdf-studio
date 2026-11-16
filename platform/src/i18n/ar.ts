@@ -1088,6 +1088,7 @@ const ar = {
     ASSISTANT_ALREADY_ACTIVE: 'هذا المساعد مرتبط حالياً بأستاذ. يجب إلغاء ارتباطه أولاً.',
     ASSISTANT_NOT_FOUND: 'المساعد غير موجود.',
     ASSISTANT_NO_WORKSPACE: 'حسابك كمساعد غير مرتبط بأي أستاذ حالياً.',
+    INVOICE_NOT_FOUND: 'الفاتورة غير موجودة.',
     INTERNAL: 'حدث خطأ غير متوقع. حاول مرة أخرى.'
   },
   ai: {
@@ -1160,6 +1161,9 @@ const ar = {
    * صفحات المشرف تعرض المفتاح الخام عمداً: سجلّ التدقيق يحتاج الدقة لا الصياغة.
    */
   activity: {
+    invoice_issue: 'أصدر فاتورة',
+    invoice_cancel: 'ألغى فاتورة',
+    settings_invoice: 'عدّل بيانات الفاتورة',
     session_start: 'بدأ حصة',
     session_close: 'أنهى حصة',
     session_cancel: 'ألغى حصة',

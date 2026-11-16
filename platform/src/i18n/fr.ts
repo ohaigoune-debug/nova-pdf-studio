@@ -184,6 +184,7 @@ const fr: DeepPartial<typeof ar> = {
     ASSISTANT_ALREADY_ACTIVE: 'Cet assistant est déjà rattaché à un enseignant.',
     ASSISTANT_NOT_FOUND: 'Assistant introuvable.',
     ASSISTANT_NO_WORKSPACE: "Votre compte assistant n'est rattaché à aucun enseignant.",
+    INVOICE_NOT_FOUND: 'Facture introuvable.',
     INTERNAL: 'Une erreur inattendue est survenue. Réessayez.'
   }
 }

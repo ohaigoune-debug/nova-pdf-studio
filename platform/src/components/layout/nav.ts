@@ -150,7 +150,8 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
                 { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall' },
                 { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' },
                 { href: '/admin/points-of-sale', label: 'نقاط البيع', iconKey: 'Store' },
-                { href: '/admin/affiliates', label: 'المسوّقون', iconKey: 'Megaphone' }
+                { href: '/admin/affiliates', label: 'المسوّقون', iconKey: 'Megaphone' },
+                { href: '/admin/invoices', label: 'الفواتير', iconKey: 'Receipt' }
               ]
             },
             {
