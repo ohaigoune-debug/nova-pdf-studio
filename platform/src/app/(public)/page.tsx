@@ -1,4 +1,5 @@
 import { CheckCircle2 } from 'lucide-react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { AlgeriaMap } from '@/components/domain/algeria-map'
@@ -10,10 +11,17 @@ import { homeFor } from '@/lib/role-home'
 import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
+import { iosAppDownload, iosAppLink } from '@/server/services/ios-app.service'
 import { latestPublicContent } from '@/server/queries/content.queries'
 import { publicStudentsPerWilaya } from '@/server/queries/map.queries'
 
 export const dynamic = 'force-dynamic'
+
+/** شريط Safari الذكي (apple-itunes-app): يقترح تطبيق الآيفون — أو «فتح» إن كان مثبّتًا — متى حفظ المشرف رابطه */
+export async function generateMetadata(): Promise<Metadata> {
+  const link = await iosAppLink(await getDb())
+  return link ? { itunes: { appId: link.id } } : {}
+}
 
 /** أرقام صغيرة في بداية المنصة تُضعف الواجهة: تظهر العدّادات من هذا الحدّ، وقبله جملة الخريطة */
 const MAP_COUNTS_FROM = 50
@@ -24,7 +32,7 @@ export default async function HomePage() {
   if (actor && ['SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'TEACHER', 'ASSISTANT'].includes(actor.role)) redirect(homeFor(actor.role))
   const student = actor?.role === 'STUDENT'
   const db = await getDb()
-  const [latest, map, apk, { t, locale }] = await Promise.all([latestPublicContent(db), publicStudentsPerWilaya(db), appDownload(), getT()])
+  const [latest, map, apk, ios, { t, locale }] = await Promise.all([latestPublicContent(db), publicStudentsPerWilaya(db), appDownload(), iosAppDownload(db), getT()])
   const reached = map.filter((w) => w.students > 0).length
   const totalStudents = map.reduce((sum, w) => sum + w.students, 0)
   const steps = [
@@ -41,6 +49,7 @@ export default async function HomePage() {
         ctaLabel={student ? t('nav.dashboard') : 'أنا طالب — ابدأ الآن'}
         loginLine={actor ? null : { prompt: t('auth.haveAccount'), label: t('nav.login') }}
         android={apk ? { title: t('public.androidApp'), detail: t('public.androidAppD', { size: apkSizeMb(apk.size) }) } : null}
+        ios={ios ? { title: t('public.iosApp'), detail: t('public.iosAppD'), url: ios.url } : null}
       />
 
       {/* بيت شعر: اللغة العربية تتكلّم */}
