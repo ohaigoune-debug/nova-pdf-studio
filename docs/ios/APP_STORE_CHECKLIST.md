@@ -41,6 +41,7 @@ open ios/App/App.xcodeproj   # Signing & Capabilities ← Team ← Product ← A
 4. App Store Connect ← Users and Access ← Integrations ← App Store Connect API ← Team Keys ← مفتاح بدور **Admin** (دور App Manager يُرفض في التوقيع السحابي للتوزيع). نزّل ملف `.p8` (مرة واحدة فقط)، وسجّل Key ID وIssuer ID، وTeam ID من Membership.
 5. GitHub ← Settings ← Secrets and variables ← Actions: `APPLE_TEAM_ID`، `ASC_KEY_ID`، `ASC_ISSUER_ID`، و**`ASC_KEY_P8`** = نص ملف `.p8` كما هو (افتحه بالمفكرة وانسخ كل الأسطر) — أو بديلًا عنه `ASC_KEY_P8_BASE64` (و`NOVA_SUPPORT_EMAIL` اختياريًا). تحويل base64 إن اخترته، في PowerShell:
    `[Convert]::ToBase64String([IO.File]::ReadAllBytes("$HOME\Downloads\AuthKey_XXXX.p8")) | Set-Clipboard`
+5b. **اختبار التوقيع قبل الرفع (اختياري، موصى به):** `.github/workflows/nova-docs-sign-test.yml` يوقّع Release ويصدّر IPA على خادم macOS فقط (`destination=export`)، ويتحقق من Bundle ID والإصدار وصحة التوقيع وأن الشهادة Apple Distribution وأن ملف التزويد App Store بلا أجهزة. **لا يرفع شيئًا إلى Apple**، ولا ينشر ملف IPA (المستودع عام). التشغيل بوسم `nova-docs-sign-test-<n>`.
 6. التشغيل: دفع وسم `nova-docs-testflight-<n>` (يعمل من الفرع دون دمج في main). رقم البناء = رقم التشغيل.
 7. بعد المعالجة (10–30 دقيقة): TestFlight ← Internal Testing ← مجموعة + إضافة نفسك ← تطبيق TestFlight على iPhone/iPad. الاختبار الداخلي لا يمر بمراجعة Beta ولا يُنشر للعامة.
 8. شراء Pro داخل TestFlight يحتاج Paid Apps Agreement + المنتج `nova.docs.pro.lifetime`؛ دونهما يعمل التطبيق وتعرض شاشة Pro «App Store غير متاح». مشتريات TestFlight مجانية (بيئة Sandbox).
