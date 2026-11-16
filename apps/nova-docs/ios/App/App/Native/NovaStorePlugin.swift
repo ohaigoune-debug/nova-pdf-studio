@@ -23,7 +23,7 @@ public class NovaStorePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "canMakePayments", returnType: CAPPluginReturnPromise)
     ]
 
-    static let proProductId = "nova.docs.pro.lifetime"
+    static let proProductId = NovaEntitlements.proProductId
     private var updatesTask: Task<Void, Never>?
 
     public override func load() {
@@ -90,18 +90,13 @@ public class NovaStorePlugin: CAPPlugin, CAPBridgedPlugin {
 
     /// الاستحقاقات الحالية الموثّقة فقط.
     static func entitlementsPayload() async -> [String: Any] {
-        var active: [[String: Any]] = []
-        var isPro = false
-        for await result in Transaction.currentEntitlements {
-            guard case .verified(let t) = result, t.revocationDate == nil else { continue }
-            active.append(describe(t))
-            if t.productID == proProductId { isPro = true }
-        }
-        return ["isPro": isPro, "entitlements": active, "checkedAt": iso(Date())]
+        let active = await NovaEntitlements.currentVerified()
+        let isPro = active.contains { $0.productID == proProductId }
+        return ["isPro": isPro, "entitlements": active.map(describe), "checkedAt": iso(Date())]
     }
 
     static func isProActive() async -> Bool {
-        (await entitlementsPayload()["isPro"] as? Bool) ?? false
+        await NovaEntitlements.isProActive()
     }
 
     @objc func canMakePayments(_ call: CAPPluginCall) {
@@ -144,24 +139,19 @@ public class NovaStorePlugin: CAPPlugin, CAPBridgedPlugin {
                 } else {
                     result = try await product.purchase()
                 }
-                switch result {
-                case .success(let verification):
-                    switch verification {
-                    case .verified(let transaction):
-                        await transaction.finish()
-                        let payload = await Self.entitlementsPayload()
-                        call.resolve(["status": "purchased", "transaction": Self.describe(transaction), "isPro": payload["isPro"] ?? false])
-                        self.emit("entitlementsChanged", payload)
-                    case .unverified(_, let error):
-                        call.resolve(["status": "unverified", "message": error.localizedDescription, "isPro": false])
-                    }
-                case .pending:
-                    // Ask to Buy أو تحقق إضافي من البنك: لا نمنح شيئًا حتى تصل المعاملة عبر Transaction.updates
-                    call.resolve(["status": "pending", "isPro": false])
-                case .userCancelled:
-                    call.resolve(["status": "cancelled", "isPro": false])
-                @unknown default:
-                    call.resolve(["status": "unknown", "isPro": false])
+                let settled = await NovaEntitlements.settle(result)
+                switch settled.outcome {
+                case .purchased:
+                    let payload = await Self.entitlementsPayload()
+                    var data: [String: Any] = ["status": "purchased", "isPro": payload["isPro"] ?? false]
+                    if let transaction = settled.transaction { data["transaction"] = Self.describe(transaction) }
+                    call.resolve(data)
+                    self.emit("entitlementsChanged", payload)
+                case .unverified:
+                    call.resolve(["status": "unverified", "message": settled.message ?? "", "isPro": false])
+                default:
+                    // pending (Ask to Buy / SCA) · cancelled · unknown: لا يُمنح شيء
+                    call.resolve(["status": settled.outcome.rawValue, "isPro": false])
                 }
             } catch {
                 call.reject("Purchase failed: \(error.localizedDescription)", "PURCHASE_FAILED", error)

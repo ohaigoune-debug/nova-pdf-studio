@@ -39,7 +39,7 @@ def insert_in_section(section: str, text: str):
 def add_to_list(owner_id: str, key: str, entry: str):
     """يضيف عنصرًا إلى قائمة (children/files) لكائن معيّن."""
     global s
-    m = re.search(re.escape(owner_id) + r' /\*[^*]*\*/ = \{.*?' + key + r' = \((.*?)\);', s, re.S)
+    m = re.search(re.escape(owner_id) + r'(?: /\*[^*]*\*/)? = \{.*?' + key + r' = \((.*?)\);', s, re.S)
     if not m:
         raise SystemExit(f'cannot find {key} of {owner_id}')
     if entry.split(' ')[0] in m.group(1):
@@ -104,12 +104,75 @@ if missing:
     s = s[:m.end(1)] + add + '\t\t\t' + s[m.end(1):].lstrip()
     changed.append('knownRegions')
 
+# ---------------------------------------------------------------- AppTests: StoreKit Testing (SKTestSession) unit tests
+# هدف اختبار مستضاف داخل التطبيق؛ يُبنى فقط عند `xcodebuild test` (ليس ضمن الأرشفة/TestFlight).
+PROJECT_ID = '504EC2FC1FED79650016851F'
+PRODUCTS_GROUP = '504EC3051FED79650016851F'
+MAIN_GROUP = re.search(r'mainGroup = (\w+);', s).group(1)
+TEST_TARGET = uid('target:AppTests')
+tests_dir = os.path.join(IOS, 'AppTests')
+test_sources = sorted(f for f in os.listdir(tests_dir) if f.endswith('.swift')) if os.path.isdir(tests_dir) else []
+if test_sources and TEST_TARGET not in s:
+    product_ref = uid('ref:AppTests.xctest')
+    tgroup = uid('group:AppTests')
+    src_phase, res_phase, fw_phase = uid('phase:tests:sources'), uid('phase:tests:resources'), uid('phase:tests:frameworks')
+    proxy, dep = uid('proxy:tests->app'), uid('dep:tests->app')
+    cfg_list, cfg_debug, cfg_release = uid('cfglist:tests'), uid('cfg:tests:debug'), uid('cfg:tests:release')
+    # ملفات الاختبار + الملف المشترك مع التطبيق + ملف StoreKit كمورد
+    kids = ''
+    for f in test_sources:
+        ref = uid('ref:tests:' + f)
+        insert_in_section('PBXFileReference', f'\t\t{ref} /* {f} */ = {{isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = {f}; sourceTree = "<group>"; }};\n')
+        kids += f'\t\t\t\t{ref} /* {f} */,\n'
+    insert_in_section('PBXFileReference', f'\t\t{product_ref} /* AppTests.xctest */ = {{isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; }};\n')
+    insert_in_section('PBXGroup', f'\t\t{tgroup} /* AppTests */ = {{\n\t\t\tisa = PBXGroup;\n\t\t\tchildren = (\n{kids}\t\t\t);\n\t\t\tpath = AppTests;\n\t\t\tsourceTree = "<group>";\n\t\t}};\n')
+    add_to_list(MAIN_GROUP, 'children', f'{tgroup} /* AppTests */')
+    add_to_list(PRODUCTS_GROUP, 'children', f'{product_ref} /* AppTests.xctest */')
+    src_files = ''
+    for f in test_sources:
+        b = uid('build:tests:' + f)
+        insert_in_section('PBXBuildFile', f'\t\t{b} /* {f} in Sources */ = {{isa = PBXBuildFile; fileRef = {uid("ref:tests:" + f)} /* {f} */; }};\n')
+        src_files += f'\t\t\t\t{b} /* {f} in Sources */,\n'
+    shared = 'NovaEntitlements.swift'
+    b = uid('build:tests:' + shared)
+    insert_in_section('PBXBuildFile', f'\t\t{b} /* {shared} in Sources */ = {{isa = PBXBuildFile; fileRef = {uid("ref:" + shared)} /* {shared} */; }};\n')
+    src_files += f'\t\t\t\t{b} /* {shared} in Sources */,\n'
+    sk = uid('build:tests:storekit')
+    insert_in_section('PBXBuildFile', f'\t\t{sk} /* NovaDocs.storekit in Resources */ = {{isa = PBXBuildFile; fileRef = {uid("ref:storekit")} /* NovaDocs.storekit */; }};\n')
+    insert_in_section('PBXSourcesBuildPhase', f'\t\t{src_phase} /* Sources */ = {{\n\t\t\tisa = PBXSourcesBuildPhase;\n\t\t\tbuildActionMask = 2147483647;\n\t\t\tfiles = (\n{src_files}\t\t\t);\n\t\t\trunOnlyForDeploymentPostprocessing = 0;\n\t\t}};\n')
+    insert_in_section('PBXResourcesBuildPhase', f'\t\t{res_phase} /* Resources */ = {{\n\t\t\tisa = PBXResourcesBuildPhase;\n\t\t\tbuildActionMask = 2147483647;\n\t\t\tfiles = (\n\t\t\t\t{sk} /* NovaDocs.storekit in Resources */,\n\t\t\t);\n\t\t\trunOnlyForDeploymentPostprocessing = 0;\n\t\t}};\n')
+    insert_in_section('PBXFrameworksBuildPhase', f'\t\t{fw_phase} /* Frameworks */ = {{\n\t\t\tisa = PBXFrameworksBuildPhase;\n\t\t\tbuildActionMask = 2147483647;\n\t\t\tfiles = (\n\t\t\t);\n\t\t\trunOnlyForDeploymentPostprocessing = 0;\n\t\t}};\n')
+    insert_in_section('PBXContainerItemProxy', f'\t\t{proxy} /* PBXContainerItemProxy */ = {{\n\t\t\tisa = PBXContainerItemProxy;\n\t\t\tcontainerPortal = {PROJECT_ID} /* Project object */;\n\t\t\tproxyType = 1;\n\t\t\tremoteGlobalIDString = {TARGET_ID};\n\t\t\tremoteInfo = App;\n\t\t}};\n')
+    insert_in_section('PBXTargetDependency', f'\t\t{dep} /* PBXTargetDependency */ = {{\n\t\t\tisa = PBXTargetDependency;\n\t\t\ttarget = {TARGET_ID} /* App */;\n\t\t\ttargetProxy = {proxy} /* PBXContainerItemProxy */;\n\t\t}};\n')
+    def cfg(cid, name):
+        return (f'\t\t{cid} /* {name} */ = {{\n\t\t\tisa = XCBuildConfiguration;\n\t\t\tbuildSettings = {{\n'
+                f'\t\t\t\tBUNDLE_LOADER = "$(TEST_HOST)";\n'
+                f'\t\t\t\tCODE_SIGN_STYLE = Automatic;\n'
+                f'\t\t\t\tCURRENT_PROJECT_VERSION = {BUILD};\n'
+                f'\t\t\t\tGENERATE_INFOPLIST_FILE = YES;\n'
+                f'\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = {DEPLOYMENT};\n'
+                f'\t\t\t\tMARKETING_VERSION = {VERSION};\n'
+                f'\t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = {BUNDLE_ID}.storekittests;\n'
+                f'\t\t\t\tPRODUCT_NAME = "$(TARGET_NAME)";\n'
+                f'\t\t\t\tSDKROOT = iphoneos;\n'
+                f'\t\t\t\tSWIFT_EMIT_LOC_STRINGS = NO;\n'
+                f'\t\t\t\tSWIFT_VERSION = 5.0;\n'
+                f'\t\t\t\tTARGETED_DEVICE_FAMILY = "1,2";\n'
+                f'\t\t\t\tTEST_HOST = "$(BUILT_PRODUCTS_DIR)/App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/App";\n'
+                f'\t\t\t}};\n\t\t\tname = {name};\n\t\t}};\n')
+    insert_in_section('XCBuildConfiguration', cfg(cfg_debug, 'Debug') + cfg(cfg_release, 'Release'))
+    insert_in_section('XCConfigurationList', f'\t\t{cfg_list} /* Build configuration list for PBXNativeTarget "AppTests" */ = {{\n\t\t\tisa = XCConfigurationList;\n\t\t\tbuildConfigurations = (\n\t\t\t\t{cfg_debug} /* Debug */,\n\t\t\t\t{cfg_release} /* Release */,\n\t\t\t);\n\t\t\tdefaultConfigurationIsVisible = 0;\n\t\t\tdefaultConfigurationName = Release;\n\t\t}};\n')
+    insert_in_section('PBXNativeTarget', f'\t\t{TEST_TARGET} /* AppTests */ = {{\n\t\t\tisa = PBXNativeTarget;\n\t\t\tbuildConfigurationList = {cfg_list} /* Build configuration list for PBXNativeTarget "AppTests" */;\n\t\t\tbuildPhases = (\n\t\t\t\t{src_phase} /* Sources */,\n\t\t\t\t{fw_phase} /* Frameworks */,\n\t\t\t\t{res_phase} /* Resources */,\n\t\t\t);\n\t\t\tbuildRules = (\n\t\t\t);\n\t\t\tdependencies = (\n\t\t\t\t{dep} /* PBXTargetDependency */,\n\t\t\t);\n\t\t\tname = AppTests;\n\t\t\tproductName = AppTests;\n\t\t\tproductReference = {product_ref} /* AppTests.xctest */;\n\t\t\tproductType = "com.apple.product-type.bundle.unit-test";\n\t\t}};\n')
+    add_to_list(PROJECT_ID, 'targets', f'{TEST_TARGET} /* AppTests */')
+    changed.append('AppTests target (%d test files)' % len(test_sources))
+
 # ---------------------------------------------------------------- build settings
 before = s
 s = re.sub(r'IPHONEOS_DEPLOYMENT_TARGET = [\d.]+;', f'IPHONEOS_DEPLOYMENT_TARGET = {DEPLOYMENT};', s)
 s = re.sub(r'MARKETING_VERSION = [\d.]+;', f'MARKETING_VERSION = {VERSION};', s)
 s = re.sub(r'CURRENT_PROJECT_VERSION = \d+;', f'CURRENT_PROJECT_VERSION = {BUILD};', s)
-s = re.sub(r'PRODUCT_BUNDLE_IDENTIFIER = [\w.\-]+;', f'PRODUCT_BUNDLE_IDENTIFIER = {BUNDLE_ID};', s)
+s = re.sub(r'PRODUCT_BUNDLE_IDENTIFIER = (?![\w.\-]*\.storekittests;)[\w.\-]+;', f'PRODUCT_BUNDLE_IDENTIFIER = {BUNDLE_ID};', s)
+s = re.sub(r'PRODUCT_BUNDLE_IDENTIFIER = [\w.\-]*\.storekittests;', f'PRODUCT_BUNDLE_IDENTIFIER = {BUNDLE_ID}.storekittests;', s)
 s = s.replace('\t\t\t\tSDKROOT = iphoneos;\n\t\t\t\tSDKROOT = iphoneos;\n', '\t\t\t\tSDKROOT = iphoneos;\n')
 if s != before:
     changed.append('build settings')
@@ -126,6 +189,20 @@ buildable = f'''<BuildableReference
                BlueprintName = "App"
                ReferencedContainer = "container:App.xcodeproj">
             </BuildableReference>'''
+testables = ''
+if test_sources:
+    testables = f'''<Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "{TEST_TARGET}"
+               BuildableName = "AppTests.xctest"
+               BlueprintName = "AppTests"
+               ReferencedContainer = "container:App.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>'''
 scheme = f'''<?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1600"
@@ -149,6 +226,7 @@ scheme = f'''<?xml version="1.0" encoding="UTF-8"?>
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      {testables}
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

@@ -131,6 +131,20 @@ jobs:
             xcrun simctl shutdown "$UDID" || true
           done
           ls -la shots
+      - name: StoreKit purchase tests — Apple StoreKit Testing (local; no Apple account, no real payment)
+        working-directory: apps/nova-docs/ios/App
+        run: |
+          set +e
+          xcodebuild test -project App.xcodeproj -scheme App -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro Max' -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO > storekit-tests.log 2>&1
+          code=$?
+          grep -E "Test Case .*(passed|failed)|error:|\*\* TEST|Executed [0-9]+ test" storekit-tests.log | sort -u | tee storekit-tests-summary.txt
+          if [ $code -ne 0 ]; then
+            tail -80 storekit-tests.log
+            grep -E "error:|failed" storekit-tests.log | sort -u | head -40 | while IFS= read -r l; do echo "::error::${l:0:900}"; done
+            exit $code
+          fi
       - name: Publish results to branch ci/nova-docs-ios-results
         if: always()
         env:
@@ -142,6 +156,8 @@ jobs:
           cp xcode-errors.txt $R/ 2>/dev/null || true
           [ -f xcodebuild.log ] && tail -400 xcodebuild.log > $R/xcodebuild-tail.log
           [ -f xcodebuild-release.log ] && tail -200 xcodebuild-release.log > $R/xcodebuild-release-tail.log
+          cp storekit-tests-summary.txt $R/ 2>/dev/null || true
+          [ -f storekit-tests.log ] && tail -300 storekit-tests.log > $R/storekit-tests-tail.log
           xcodebuild -version > $R/xcode-version.txt 2>&1 || true
           echo "${GITHUB_SHA} ${{ job.status }}" > $R/RESULT.txt
           cd $R && git init -q && git checkout -q -b ci/nova-docs-ios-results && git add -A

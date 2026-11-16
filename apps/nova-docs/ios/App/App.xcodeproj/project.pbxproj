@@ -23,6 +23,10 @@
 		84F142E2762C1E5DC6D8656D /* NovaOcrPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8600B278A8954A3BC8479164 /* NovaOcrPlugin.swift */; };
 		C2BEFD61334F8344169EB63B /* NovaScannerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0E17E0D1B31180F590017E /* NovaScannerPlugin.swift */; };
 		6827DC9A011A213F6AC299C9 /* NovaStorePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F61E2870AB8AA6B5D68F5A /* NovaStorePlugin.swift */; };
+		CE505B964F8CBB1471FD8C4B /* NovaEntitlements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E7E6DEAA416D196797C3E4 /* NovaEntitlements.swift */; };
+		D734112EBD33207344B64575 /* StoreKitFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E4024B779A61B2571A089F /* StoreKitFlowTests.swift */; };
+		601E66E93026998C66238728 /* NovaEntitlements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E7E6DEAA416D196797C3E4 /* NovaEntitlements.swift */; };
+		BFF5A620513518FC75A03806 /* NovaDocs.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 7D383F7A24BA834C664CC676 /* NovaDocs.storekit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +62,9 @@
 		8600B278A8954A3BC8479164 /* NovaOcrPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovaOcrPlugin.swift; sourceTree = "<group>"; };
 		ED0E17E0D1B31180F590017E /* NovaScannerPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovaScannerPlugin.swift; sourceTree = "<group>"; };
 		56F61E2870AB8AA6B5D68F5A /* NovaStorePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovaStorePlugin.swift; sourceTree = "<group>"; };
+		63E7E6DEAA416D196797C3E4 /* NovaEntitlements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovaEntitlements.swift; sourceTree = "<group>"; };
+		24E4024B779A61B2571A089F /* StoreKitFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitFlowTests.swift; sourceTree = "<group>"; };
+		814DEF1ECEDEE6D09BF4B9CB /* AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +73,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D22ABE92AF431CB00220026 /* CapApp-SPM in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		59F9B0F22AE831309AA19344 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +92,7 @@
 				958DCC722DB07C7200EA8C5F /* debug.xcconfig */,
 				504EC3061FED79650016851F /* App */,
 				504EC3051FED79650016851F /* Products */,
+							4C95646A4034669AAB6610D7 /* AppTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				504EC3041FED79650016851F /* App.app */,
+							814DEF1ECEDEE6D09BF4B9CB /* AppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,8 +133,17 @@
 				8600B278A8954A3BC8479164 /* NovaOcrPlugin.swift */,
 				ED0E17E0D1B31180F590017E /* NovaScannerPlugin.swift */,
 				56F61E2870AB8AA6B5D68F5A /* NovaStorePlugin.swift */,
+							63E7E6DEAA416D196797C3E4 /* NovaEntitlements.swift */,
 			);
 			path = Native;
+			sourceTree = "<group>";
+		};
+		4C95646A4034669AAB6610D7 /* AppTests */ = {
+			isa = PBXGroup;
+			children = (
+				24E4024B779A61B2571A089F /* StoreKitFlowTests.swift */,
+			);
+			path = AppTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,6 +168,24 @@
 			productName = App;
 			productReference = 504EC3041FED79650016851F /* App.app */;
 			productType = "com.apple.product-type.application";
+		};
+		29A7E69A227E4926C183744F /* AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0664785E8BF3D42989446605 /* Build configuration list for PBXNativeTarget "AppTests" */;
+			buildPhases = (
+				C52F9AE00C99FD4A9CAB57E1 /* Sources */,
+				59F9B0F22AE831309AA19344 /* Frameworks */,
+				22D68B366AB183EABC9CE77B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8E6D08A62BB1E44617D04E4F /* PBXTargetDependency */,
+			);
+			name = AppTests;
+			productName = AppTests;
+			productReference = 814DEF1ECEDEE6D09BF4B9CB /* AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -190,6 +233,7 @@
 			projectRoot = "";
 			targets = (
 				504EC3031FED79650016851F /* App */,
+							29A7E69A227E4926C183744F /* AppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -210,6 +254,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		22D68B366AB183EABC9CE77B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFF5A620513518FC75A03806 /* NovaDocs.storekit in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -224,10 +276,38 @@
 							84F142E2762C1E5DC6D8656D /* NovaOcrPlugin.swift in Sources */,
 							C2BEFD61334F8344169EB63B /* NovaScannerPlugin.swift in Sources */,
 							6827DC9A011A213F6AC299C9 /* NovaStorePlugin.swift in Sources */,
+							CE505B964F8CBB1471FD8C4B /* NovaEntitlements.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C52F9AE00C99FD4A9CAB57E1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D734112EBD33207344B64575 /* StoreKitFlowTests.swift in Sources */,
+				601E66E93026998C66238728 /* NovaEntitlements.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXContainerItemProxy section */
+		C188B2213FE551D79B2C3E36 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 504EC2FC1FED79650016851F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 504EC3031FED79650016851F;
+			remoteInfo = App;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+		8E6D08A62BB1E44617D04E4F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 504EC3031FED79650016851F /* App */;
+			targetProxy = C188B2213FE551D79B2C3E36 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		504EC30B1FED79650016851F /* Main.storyboard */ = {
@@ -423,6 +503,44 @@
 			};
 			name = Release;
 		};
+		B7790941BB91A9AE57DA331E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haigoune.novadocs.storekittests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/App";
+			};
+			name = Debug;
+		};
+		B91CAEBB716F481610331928 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.haigoune.novadocs.storekittests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/App";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -440,6 +558,15 @@
 			buildConfigurations = (
 				504EC3171FED79650016851F /* Debug */,
 				504EC3181FED79650016851F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0664785E8BF3D42989446605 /* Build configuration list for PBXNativeTarget "AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7790941BB91A9AE57DA331E /* Debug */,
+				B91CAEBB716F481610331928 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
