@@ -14,12 +14,12 @@ import { NASKH_FAMILY, ensureFamilyLoaded } from './editorFonts'
 
 const ARABIC = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/
 
-interface FontObj { name?: string; missingFile?: boolean; isType3Font?: boolean; bold?: boolean; black?: boolean; italic?: boolean }
+interface FontObj { name?: string; loadedName?: string; missingFile?: boolean; isType3Font?: boolean; bold?: boolean; black?: boolean; italic?: boolean; systemFontInfo?: { loadedName?: string; css?: string } | null }
 interface TextItemLike { str: string; dir: string; transform: number[]; width: number; height: number; fontName: string }
 type PageProxy = Awaited<ReturnType<PdfEngine['page']>>
 
 export interface Substitute { family: string; bold: boolean; italic: boolean; original: string }
-export interface RepairPlan { targets: Map<string, Substitute>; items: TextItemLike[] }
+export interface RepairPlan { targets: Map<string, Substitute>; items: TextItemLike[]; /** أسماء العائلات التي يضعها pdf.js في ctx.font لهذه الخطوط */ cssNames: string[] }
 
 const BUNDLED = ['Amiri', 'Scheherazade New', 'Lateef', 'Markazi Text', 'Noto Kufi Arabic', 'Reem Kufi', 'Cairo', 'Tajawal', 'Almarai', 'Changa', 'El Messiri', 'Aref Ruqaa', NASKH_FAMILY]
 const squash = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '')
@@ -75,8 +75,14 @@ export function repairPlan(engine: PdfEngine, index: number): Promise<RepairPlan
       const arabicFonts = new Set(items.filter((it) => ARABIC.test(it.str)).map((it) => it.fontName))
       if (!arabicFonts.size) return null
       const targets = new Map<string, Substitute>()
-      for (const id of arabicFonts) targets.set(id, substituteFor(missing.get(id)!))
-      return { targets, items: items.filter((it) => targets.has(it.fontName) && it.str.trim()) }
+      const cssNames = new Set<string>()
+      for (const id of arabicFonts) {
+        const f = missing.get(id)!
+        targets.set(id, substituteFor(f))
+        // pdf.js يضع في ctx.font إما "<loadedName>" أو systemFontInfo.css = "<الاسم>",<loadedName النظام>,…
+        for (const n of [id, f.loadedName, f.systemFontInfo?.loadedName]) if (n) cssNames.add(n)
+      }
+      return { targets, items: items.filter((it) => targets.has(it.fontName) && it.str.trim()), cssNames: [...cssNames] }
     })().catch(() => null)
     byPage.set(index, p)
   }
@@ -89,8 +95,15 @@ interface Glyph { x: number; y: number; color: string }
  * وسيط على سياق Canvas: يمرّر كل شيء كما هو، إلا رسم حروف الخطوط المستهدفة فيحجبه ويسجّل موضعه (بالبكسل) ولونه.
  * pdf.js يضبط ctx.font = `… "<loadedName>", <fallback>` قبل رسم كل مقطع.
  */
-function suppressingContext(ctx: CanvasRenderingContext2D, ids: string[], glyphs: Glyph[]): CanvasRenderingContext2D {
-  const hit = (font: string) => ids.some((id) => font.includes(id))
+export function fontMatcher(names: string[]): (font: string) => boolean {
+  const esc = names.map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  // اسم كامل فقط (g_d0_s1 لا يطابق g_d0_s10)؛ WebKit قد يعيد ctx.font بلا علامات اقتباس
+  const re = new RegExp(`(^|[\\s,"'])(${esc.join('|')})(?=[\\s,"']|$)`)
+  return (font) => re.test(font)
+}
+
+function suppressingContext(ctx: CanvasRenderingContext2D, names: string[], glyphs: Glyph[]): CanvasRenderingContext2D {
+  const hit = fontMatcher(names)
   const record = (x: number, y: number) => {
     const p = ctx.getTransform().transformPoint(new DOMPoint(x, y))
     glyphs.push({ x: p.x, y: p.y, color: typeof ctx.fillStyle === 'string' ? ctx.fillStyle : '#000000' })
@@ -137,7 +150,7 @@ export async function renderPageRepaired(engine: PdfEngine, index: number, canva
   const subs = [...plan.targets.values()]
   // الخطوط البديلة تُحمَّل بالتوازي مع التصيير
   const fontsReady = Promise.all(subs.map((s) => ensureFamilyLoaded(s.family, s.bold))).catch(() => undefined)
-  const task = page.render({ canvasContext: suppressingContext(ctx, [...plan.targets.keys()], glyphs), viewport })
+  const task = page.render({ canvasContext: suppressingContext(ctx, plan.cssNames, glyphs), viewport })
   const done = task.promise.then(async () => {
     await fontsReady
     drawItems(ctx, plan, viewport.transform, scale, dpr, glyphs)

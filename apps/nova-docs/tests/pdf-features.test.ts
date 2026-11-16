@@ -263,3 +263,24 @@ describe('document font detection (write with the document font)', () => {
     expect(fonts[0].uses).toBeGreaterThan(3)
   })
 })
+
+describe('Arabic repair: canvas font matching', () => {
+  it('matches pdf.js font strings exactly, with or without quotes', async () => {
+    const { fontMatcher } = await import('../src/lib/arabicRepair')
+    const m = fontMatcher(['g_d0_f1', 'g_d0_s1'])
+    expect(m('normal normal 16px "TraditionalArabic",g_d0_s1,sans-serif')).toBe(true)
+    expect(m('16px TraditionalArabic, g_d0_s1, sans-serif')).toBe(true)
+    expect(m('16px "g_d0_f1", sans-serif')).toBe(true)
+    expect(m('16px "g_d0_s10", sans-serif')).toBe(false)
+    expect(m('16px "g_d0_f12", serif')).toBe(false)
+  })
+  it('records the system-font name pdf.js uses for the missing font', async () => {
+    const { readFileSync } = await import('node:fs')
+    const { resolve } = await import('node:path')
+    const { repairPlan } = await import('../src/lib/arabicRepair')
+    const data = new Uint8Array(readFileSync(resolve(__dirname, '../src/lib/selftest-fixtures/arabic-nonembedded.pdf')))
+    const doc = await pdfjs.getDocument({ data, useSystemFonts: true, isEvalSupported: false, verbosity: 0 }).promise
+    const plan = (await repairPlan({ pageCount: 1, page: () => doc.getPage(1) } as never, 0))!
+    expect(plan.cssNames.some((n) => /_sf?\d+$/.test(n))).toBe(true)
+  })
+})
