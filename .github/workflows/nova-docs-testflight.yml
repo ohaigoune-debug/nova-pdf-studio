@@ -1,0 +1,70 @@
+# رفع يدوي إلى TestFlight فقط (لا يرسل للمراجعة العامة ولا يطلق المبيعات).
+# يتطلب أسرار المستودع (تُضاف من Settings → Secrets → Actions، لا تُكتب في الشيفرة أبدًا):
+#   APPLE_TEAM_ID            معرّف الفريق في Apple Developer
+#   ASC_KEY_ID               App Store Connect API Key ID (دور App Manager)
+#   ASC_ISSUER_ID            Issuer ID
+#   ASC_KEY_P8_BASE64        محتوى ملف AuthKey_XXXX.p8 بترميز base64
+name: NOVA Docs → TestFlight (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: 'CFBundleVersion (يجب أن يزيد في كل رفع)'
+        required: true
+        default: '1'
+
+jobs:
+  testflight:
+    runs-on: macos-15
+    timeout-minutes: 60
+    environment: apple-release
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Check secrets
+        env:
+          TEAM: ${{ secrets.APPLE_TEAM_ID }}
+          KEY: ${{ secrets.ASC_KEY_ID }}
+        run: |
+          if [ -z "$TEAM" ] || [ -z "$KEY" ]; then echo "::error::Apple secrets are not configured"; exit 1; fi
+      - name: Select newest Xcode
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | sort -V | tail -1)" && xcodebuild -version
+      - name: Build web app & sync
+        working-directory: apps/nova-docs
+        env: { NOVA_BUILD_NUMBER: '${{ github.event.inputs.build_number }}' }
+        run: |
+          npm ci --no-audit --no-fund
+          node scripts/copy-assets.mjs
+          npm run build
+          npx cap sync ios
+          python3 scripts/patch-xcode-project.py
+      - name: Archive & export (automatic signing via App Store Connect API key)
+        working-directory: apps/nova-docs/ios/App
+        env:
+          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -o pipefail
+          mkdir -p ~/.appstoreconnect/private_keys
+          echo "$ASC_KEY_P8_BASE64" | base64 --decode > ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8
+          AUTH="-allowProvisioningUpdates -authenticationKeyPath $HOME/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8 -authenticationKeyID $ASC_KEY_ID -authenticationKeyIssuerID $ASC_ISSUER_ID"
+          xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
+            -archivePath build/NovaDocs.xcarchive DEVELOPMENT_TEAM=$TEAM_ID CODE_SIGN_STYLE=Automatic $AUTH archive | tail -60
+          cat > ExportOptions.plist <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>$TEAM_ID</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>uploadSymbols</key><true/>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          PLIST
+          xcodebuild -exportArchive -archivePath build/NovaDocs.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build/export $AUTH | tail -40
+          rm -f ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8

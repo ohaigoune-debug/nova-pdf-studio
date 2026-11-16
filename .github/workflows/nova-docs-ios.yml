@@ -1,0 +1,113 @@
+# NOVA Docs (iOS) — اختبارات الويب + بناء Xcode حقيقي على macOS + لقطات من محاكي iPhone/iPad.
+# لا يوقّع ولا يرفع شيئًا إلى Apple (انظر nova-docs-testflight.yml للرفع اليدوي إلى TestFlight).
+name: NOVA Docs iOS
+
+on:
+  push:
+    branches: [feature/nova-docs-ios]
+    paths: ['apps/nova-docs/**', 'src/shared/**', 'src/modules/**', 'resources/**', '.github/workflows/nova-docs-ios.yml']
+  pull_request:
+    paths: ['apps/nova-docs/**', 'src/shared/**', 'src/modules/**']
+  workflow_dispatch:
+
+concurrency:
+  group: nova-docs-ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Typecheck · unit tests · OCR accuracy · Windows untouched
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Windows app — install & checks (must stay green)
+        env: { ELECTRON_SKIP_BINARY_DOWNLOAD: '1' }
+        run: |
+          npm ci --no-audit --no-fund
+          npm run typecheck
+          npm test
+      - name: iOS app — install
+        working-directory: apps/nova-docs
+        run: npm ci --no-audit --no-fund
+      - name: iOS app — typecheck, tests, build
+        working-directory: apps/nova-docs
+        run: |
+          npm run typecheck
+          npm test
+          node scripts/copy-assets.mjs
+          npm run build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ocr-accuracy
+          path: apps/nova-docs/test-results/
+
+  ios:
+    name: Xcode build (simulator) + screenshots
+    runs-on: macos-15
+    needs: web
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Select newest Xcode
+        run: |
+          ls -d /Applications/Xcode*.app
+          XC=$(ls -d /Applications/Xcode_*.app | sort -V | tail -1)
+          sudo xcode-select -s "$XC"
+          xcodebuild -version
+      - name: Install & build web app
+        working-directory: apps/nova-docs
+        run: |
+          npm ci --no-audit --no-fund
+          node scripts/copy-assets.mjs
+          npm run build
+          npx cap sync ios
+          python3 scripts/patch-xcode-project.py
+      - name: xcodebuild (iphonesimulator, no signing)
+        working-directory: apps/nova-docs/ios/App
+        run: |
+          set -o pipefail
+          xcodebuild -project App.xcodeproj -scheme App -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build CODE_SIGNING_ALLOWED=NO build 2>&1 | tee xcodebuild.log | tail -80
+      - name: Release build (device, unsigned) — compiles optimized Swift
+        working-directory: apps/nova-docs/ios/App
+        run: |
+          set -o pipefail
+          xcodebuild -project App.xcodeproj -scheme App -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build-release \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build 2>&1 | tail -40
+      - name: Simulator screenshots (iPhone 6.9" + iPad 13")
+        working-directory: apps/nova-docs/ios/App
+        run: |
+          mkdir -p shots
+          APP=$(find build/Build/Products -name 'App.app' -path '*iphonesimulator*' | head -1)
+          for DEV in "iPhone 16 Pro Max" "iPad Pro 13-inch (M4)"; do
+            UDID=$(xcrun simctl list devices available -j | python3 -c "import json,sys; d=json.load(sys.stdin)['devices']; print(next((x['udid'] for v in d.values() for x in v if x['name']=='$DEV'), ''))")
+            if [ -z "$UDID" ]; then echo "no $DEV"; continue; fi
+            xcrun simctl boot "$UDID" || true
+            xcrun simctl bootstatus "$UDID" -b
+            xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --cellularBars 4 || true
+            xcrun simctl install "$UDID" "$APP"
+            xcrun simctl launch "$UDID" com.haigoune.novadocs
+            sleep 8
+            SLUG=$(echo "$DEV" | tr ' ()"' '____')
+            xcrun simctl io "$UDID" screenshot "shots/${SLUG}-01-launch.png"
+            for STEP in tab/tools tab/scan sample demo-invoices tab/more; do
+              xcrun simctl openurl "$UDID" "novadocs://$STEP"; sleep 5
+              xcrun simctl io "$UDID" screenshot "shots/${SLUG}-$(echo $STEP | tr '/' '-').png"
+            done
+            xcrun simctl shutdown "$UDID" || true
+          done
+          ls -la shots
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-build
+          path: |
+            apps/nova-docs/ios/App/xcodebuild.log
+            apps/nova-docs/ios/App/shots/

@@ -20,6 +20,7 @@ import { Paywall } from './features/Paywall'
 import { DocumentsScreen } from './features/documents/DocumentsScreen'
 import { NovaDocuments } from './platform/native'
 import { importIntoLibrary } from './lib/docs'
+import { handleDeepLink } from './lib/deeplinks'
 
 const ViewerScreen = lazy(() => import('./features/viewer/ViewerScreen'))
 const ToolsScreen = lazy(() => import('./features/tools/ToolsScreen'))
@@ -92,6 +93,10 @@ export default function App() {
     void SplashScreen.hide().catch(() => undefined)
     // «فتح في NOVA Docs» من تطبيق الملفات أو Mail أو Safari
     const sub = CapApp.addListener('appUrlOpen', async ({ url }) => {
+      if (url.startsWith('novadocs://')) {
+        await handleDeepLink(url)
+        return
+      }
       if (!url.startsWith('file:')) return
       try {
         const file = await NovaDocuments.importUrl({ url })

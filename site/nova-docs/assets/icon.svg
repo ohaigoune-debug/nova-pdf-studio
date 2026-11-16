@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- NOVA Docs — أيقونة: حرف N هندسي من صفحتين وشريط زمردي قطري، مع ركن صفحة مطوي -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1B5A4F"/>
+      <stop offset="1" stop-color="#0E302A"/>
+    </linearGradient>
+    <linearGradient id="em" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2FD3A8"/>
+      <stop offset="1" stop-color="#17B890"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.3" cy="0.2" r="0.9">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#glow)"/>
+  <path d="M300 250h150v524H300z" fill="#FFFFFF"/>
+  <path d="M574 250h150v524H574z" fill="#FFFFFF"/>
+  <path d="M300 250h150l274 436v88H574L300 338z" fill="url(#em)"/>
+  <path d="M574 250h96l54 54H574z" fill="#CFEFE5"/>
+  <path d="M670 250l54 54h-54z" fill="#9ADCC9"/>
+</svg>
