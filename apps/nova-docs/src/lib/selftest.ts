@@ -79,3 +79,40 @@ export async function runOcrSelfTest(): Promise<Record<string, unknown>> {
   console.log(`[nova-selftest] ${JSON.stringify(result)}`)
   return result
 }
+
+/**
+ * اختبار ذاتي لتصدير الفاتورة PDF على iOS (WKWebView + UIPrintPageRenderer الأصلي) — نسخة Debug فقط.
+ * ثم «رحلة العودة»: نستورد الملف الناتج بمستخرج الفواتير القديمة ونقارن المجموع ورقم الفاتورة.
+ */
+export async function runInvoicePdfSelfTest(): Promise<Record<string, unknown>> {
+  const t0 = performance.now()
+  const { ensureDatabase } = await import('../platform/db')
+  await ensureDatabase()
+  const { demoStatus, loadDemoData } = await import('@modules/database/main/demo-data')
+  if (!demoStatus().loaded) loadDemoData()
+  const { getInvoice, listInvoices } = await import('@modules/invoices/main/repository')
+  const row = listInvoices({ limit: 20, sort: 'date_desc' }).rows.find((r) => r.status !== 'cancelled') ?? listInvoices({ limit: 1 }).rows[0]
+  const invoice = getInvoice(row.id)!
+  const { invoicePdf, extractInvoiceFromPdf } = await import('./invoicing')
+  const { usePrefs } = await import('../stores/prefs')
+  const pdf = await invoicePdf(invoice, usePrefs.getState().language)
+  const engine = await loadEngine(pdf.bytes)
+  const pages = engine.pageCount
+  const text = (await engine.pageText(0)).replace(/\s+/g, ' ')
+  engine.destroy()
+  const back = await extractInvoiceFromPdf(pdf.bytes, invoice.currency)
+  const name = await writeLibraryFile(`Invoice self-test ${invoice.number}.pdf`, pdf.bytes)
+  await useLibrary.getState().refresh()
+  const result = {
+    invoice: invoice.number,
+    pdfKB: Math.round(pdf.bytes.length / 1024),
+    pages,
+    textHasNumber: text.includes(invoice.number),
+    grandTotalMinor: invoice.grandTotalMinor,
+    reimport: { number: back.input.number, items: back.found, totalMinor: back.totalMinor, totalMatches: back.totalMinor === invoice.grandTotalMinor },
+    file: name,
+    ms: Math.round(performance.now() - t0)
+  }
+  console.log(`[nova-selftest] ${JSON.stringify(result)}`)
+  return result
+}

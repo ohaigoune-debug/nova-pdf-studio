@@ -83,13 +83,14 @@ export async function handleDeepLink(url: string): Promise<void> {
 export async function openRoutes(routes: string): Promise<void> {
   for (const r of routes.split(',').map((x) => x.trim()).filter(Boolean)) {
     try {
-      if (r === 'ocr-selftest') {
+      if (r === 'ocr-selftest' || r === 'invoice-pdf-selftest') {
         // نسخة Debug فقط: العلم يضعه NovaBridgeViewController داخل #if DEBUG؛ لا يصل إليه أي رابط خارجي
         if (!window.__NOVA_DEBUG__) throw new Error('self-test is available in Debug builds only')
-        const { runOcrSelfTest } = await import('./selftest')
-        const res = await runOcrSelfTest()
+        const st = await import('./selftest')
+        const res = r === 'ocr-selftest' ? await st.runOcrSelfTest() : await st.runInvoicePdfSelfTest()
+        if (r === 'invoice-pdf-selftest') useNav.getState().push({ name: 'viewer', file: String(res.file) }, 'documents')
         const { confirmDialog } = await import('../ui/overlays')
-        void confirmDialog('OCR self-test · Tesseract WASM in WKWebView', { message: JSON.stringify(res, null, 1) })
+        void confirmDialog(r === 'ocr-selftest' ? 'OCR self-test · Tesseract WASM in WKWebView' : 'Invoice PDF self-test · native WebKit export', { message: JSON.stringify(res, null, 1) })
         console.log(`[nova-route] ok ${r}`)
         continue
       }
