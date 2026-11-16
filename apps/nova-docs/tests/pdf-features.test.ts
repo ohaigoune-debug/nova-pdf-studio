@@ -176,3 +176,28 @@ describe('editing rotated pages (/Rotate) in display coordinates', () => {
     await pdf.destroy()
   })
 })
+
+describe('Arabic editor text on a rotated page is searchable and placed where the user put it', () => {
+  it('rotated 90°: hidden text layer in display coordinates', async () => {
+    const { degrees } = await import('pdf-lib')
+    const { readFileSync } = await import('node:fs')
+    const { resolve } = await import('node:path')
+    const { addSearchableTextForObjects } = await import('../src/lib/textLayer')
+    const doc = await PDFDocument.create()
+    doc.addPage([595.28, 841.89]).setRotation(degrees(90))
+    const objects: EditLayer['objects'] = [{ id: 'a', kind: 'text', page: 0, x: 120, y: 200, width: 300, height: 30, text: 'تمت الموافقة', fontSize: 18, fontFamily: 'sans', bold: false, italic: false, underline: false, align: 'right', color: '#000000', background: null, direction: 'rtl' }]
+    const out = await addSearchableTextForObjects(await doc.save(), objects, readFileSync(resolve(__dirname, '../../../resources/fonts/NotoNaskhArabic-Regular.ttf')))
+    const pdf = await pdfjs.getDocument({ data: out, isEvalSupported: false, standardFontDataUrl: 'node_modules/pdfjs-dist/standard_fonts/' }).promise
+    const page = await pdf.getPage(1)
+    const vp = page.getViewport({ scale: 1 })
+    const items = (await page.getTextContent()).items.filter((it) => 'str' in it && it.str.trim()) as { str: string; transform: number[] }[]
+    const text = items.map((i) => i.str).join(' ')
+    expect(text).toContain('الموافقة')
+    const m = pdfjs.Util.transform(vp.transform, items[0].transform)
+    expect(Math.abs(m[1])).toBeLessThan(0.01) // أفقي على الشاشة
+    expect(m[4]).toBeGreaterThan(110)
+    expect(m[4]).toBeLessThan(430)
+    expect(Math.abs(m[5] - 218)).toBeLessThan(8) // خط القاعدة قرب y=200+18
+    await pdf.destroy()
+  })
+})

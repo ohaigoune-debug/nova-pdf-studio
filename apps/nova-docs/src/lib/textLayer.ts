@@ -6,6 +6,7 @@
 import { PDFDocument } from 'pdf-lib'
 import { addInvisibleTextLayer, type TextLayerPage } from '@modules/ocr/renderer/searchablePdf'
 import { isStandardFontSafe, type EditObject, type TextObject } from '@modules/pdf/shared/editModel'
+import { displaySize, normalizeRotation } from '@modules/pdf/shared/pageSpace'
 
 export async function addSearchableTextForObjects(bytes: Uint8Array, objects: EditObject[], arabicFont: Uint8Array | null): Promise<Uint8Array> {
   const texts = objects.filter((o): o is TextObject => o.kind === 'text' && !!o.text.trim() && !isStandardFontSafe(o.text) && !o.rotation)
@@ -15,9 +16,9 @@ export async function addSearchableTextForObjects(bytes: Uint8Array, objects: Ed
   for (const o of texts) {
     if (o.page >= doc.getPageCount()) continue
     const page = doc.getPage(o.page)
-    // الطبقة الخفية لا تدعم الصفحات المدوّرة بعد (نفس قيد التحرير على الصفحات المدوّرة)
-    if (page.getRotation().angle % 360 !== 0) continue
-    const { width, height } = page.getSize()
+    // إحداثيات العرض (كما في المحرر): الصفحة المدوّرة تُعالج بمصفوفة داخل addInvisibleTextLayer
+    const turn = normalizeRotation(page.getRotation().angle)
+    const { width, height } = displaySize(turn, page.getSize().width, page.getSize().height)
     const entry = byPage.get(o.page) ?? { index: o.page, spans: [], pageWidthPt: width, pageHeightPt: height }
     const lineHeight = o.fontSize * 1.25
     o.text.split('\n').forEach((line, i) => {
@@ -27,5 +28,5 @@ export async function addSearchableTextForObjects(bytes: Uint8Array, objects: Ed
     byPage.set(o.page, entry)
   }
   if (!byPage.size) return bytes
-  return addInvisibleTextLayer(bytes, [...byPage.values()], arabicFont)
+  return addInvisibleTextLayer(bytes, [...byPage.values()], arabicFont, { coordinateSpace: 'display' })
 }
