@@ -18,6 +18,8 @@ import { StatusChip, WithDatabase, useMoney } from './shared'
 
 type Seg = 'invoices' | 'customers' | 'products'
 
+const PAGE = 200
+
 function Lists() {
   const { t } = useTranslation()
   const push = useNav((s) => s.push)
@@ -25,6 +27,8 @@ function Lists() {
   const [seg, setSeg] = useState<Seg>('invoices')
   const [query, setQuery] = useState('')
   const [invoices, setInvoices] = useState<InvoiceListRow[]>([])
+  const [invoiceTotal, setInvoiceTotal] = useState(0)
+  const [limit, setLimit] = useState(PAGE)
   const [customers, setCustomers] = useState<CustomerSummary[]>([])
   const [products, setProducts] = useState<Product[]>([])
   const [menu, setMenu] = useState(false)
@@ -32,10 +36,12 @@ function Lists() {
 
   useEffect(() => {
     const q = query.trim() || undefined
-    setInvoices(listInvoices({ query: q, limit: 300, sort: 'date_desc' }).rows)
+    const page = listInvoices({ query: q, limit, sort: 'date_desc' })
+    setInvoices(page.rows)
+    setInvoiceTotal(page.total)
     setCustomers(listCustomers({ query: q }))
     setProducts(listProducts({ query: q }))
-  }, [query, seg, stackDepth])
+  }, [query, seg, stackDepth, limit])
 
   const importPdf = async () => {
     if (!usePro.getState().require('invoices')) return
@@ -95,6 +101,13 @@ function Lists() {
               </button>
             </li>
           ))}
+          {invoiceTotal > invoices.length && (
+            <li>
+              <button onClick={() => setLimit((l) => l + PAGE)} className="pressable w-full px-4 py-3 text-center text-[15px] font-semibold text-accent">
+                {t('ios.inv.showMore', { shown: invoices.length, total: invoiceTotal })}
+              </button>
+            </li>
+          )}
         </ul>
       ))}
 

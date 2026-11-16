@@ -37,7 +37,7 @@
   },
   "ocr": { "engineVision": "Apple Vision", "engineTesseract": "Built-in engine (offline)", "done": "Recognized {{pages}} page(s)", "copy": "Copy text", "copied": "Copied", "empty": "No text found", "run": "Run OCR" },
   "inv": {
-    "invoices": "Invoices", "customers": "Customers", "products": "Products", "emptyInvoices": "No invoices yet", "emptyInvoicesDesc": "Create your first invoice — totals, taxes and discounts are calculated exactly.",
+    "invoices": "Invoices", "customers": "Customers", "products": "Products", "emptyInvoices": "No invoices yet", "emptyInvoicesDesc": "Create your first invoice — totals, taxes and discounts are calculated exactly.", "showMore": "Show more ({{shown}} of {{total}})",
     "emptyCustomers": "No customers yet", "emptyProducts": "No products yet", "newInvoice": "New invoice", "newCustomer": "New customer", "newProduct": "New product",
     "customer": "Customer", "chooseCustomer": "Choose customer", "noCustomer": "No customer", "items": "Items", "addItem": "Add item", "item": "Item", "qty": "Qty", "price": "Unit price",
     "discount": "Discount %", "tax": "Tax %", "currency": "Currency", "issueDate": "Issue date", "dueDate": "Due date", "notes": "Notes", "shipping": "Shipping",

@@ -37,7 +37,7 @@
   },
   "ocr": { "engineVision": "Apple Vision", "engineTesseract": "Moteur intégré (hors ligne)", "done": "{{pages}} page(s) reconnue(s)", "copy": "Copier le texte", "copied": "Copié", "empty": "Aucun texte trouvé", "run": "Lancer l’OCR" },
   "inv": {
-    "invoices": "Factures", "customers": "Clients", "products": "Produits", "emptyInvoices": "Aucune facture", "emptyInvoicesDesc": "Créez votre première facture — totaux, taxes et remises calculés au centime près.",
+    "invoices": "Factures", "customers": "Clients", "products": "Produits", "emptyInvoices": "Aucune facture", "emptyInvoicesDesc": "Créez votre première facture — totaux, taxes et remises calculés au centime près.", "showMore": "Afficher plus ({{shown}} sur {{total}})",
     "emptyCustomers": "Aucun client", "emptyProducts": "Aucun produit", "newInvoice": "Nouvelle facture", "newCustomer": "Nouveau client", "newProduct": "Nouveau produit",
     "customer": "Client", "chooseCustomer": "Choisir un client", "noCustomer": "Aucun client", "items": "Lignes", "addItem": "Ajouter une ligne", "item": "Article", "qty": "Qté", "price": "Prix unitaire",
     "discount": "Remise %", "tax": "TVA %", "currency": "Devise", "issueDate": "Date d’émission", "dueDate": "Échéance", "notes": "Notes", "shipping": "Livraison",

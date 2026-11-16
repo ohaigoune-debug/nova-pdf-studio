@@ -37,7 +37,7 @@
   },
   "ocr": { "engineVision": "Apple Vision", "engineTesseract": "المحرك المدمج (دون إنترنت)", "done": "تم التعرّف على {{pages}} صفحة", "copy": "نسخ النص", "copied": "تم النسخ", "empty": "لم يُعثر على نص", "run": "تشغيل OCR" },
   "inv": {
-    "invoices": "الفواتير", "customers": "العملاء", "products": "المنتجات", "emptyInvoices": "لا توجد فواتير بعد", "emptyInvoicesDesc": "أنشئ فاتورتك الأولى — تُحسب المجاميع والضرائب والخصومات بدقة تامة.",
+    "invoices": "الفواتير", "customers": "العملاء", "products": "المنتجات", "emptyInvoices": "لا توجد فواتير بعد", "emptyInvoicesDesc": "أنشئ فاتورتك الأولى — تُحسب المجاميع والضرائب والخصومات بدقة تامة.", "showMore": "عرض المزيد ({{shown}} من {{total}})",
     "emptyCustomers": "لا يوجد عملاء بعد", "emptyProducts": "لا توجد منتجات بعد", "newInvoice": "فاتورة جديدة", "newCustomer": "عميل جديد", "newProduct": "منتج جديد",
     "customer": "العميل", "chooseCustomer": "اختر العميل", "noCustomer": "بلا عميل", "items": "البنود", "addItem": "إضافة بند", "item": "البند", "qty": "الكمية", "price": "سعر الوحدة",
     "discount": "الخصم %", "tax": "الضريبة %", "currency": "العملة", "issueDate": "تاريخ الإصدار", "dueDate": "تاريخ الاستحقاق", "notes": "ملاحظات", "shipping": "الشحن",
