@@ -189,9 +189,6 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
       return
     }
     if (!allowed(tool)) return
-    if (info.rotation !== 0) {
-      toast(t('ios.viewer.layerNote'), 'info')
-    }
 
     if (tool === 'pen') {
       gesture.current = { mode: 'draw', startX: p.x, startY: p.y, points: [[p.x, p.y]] }

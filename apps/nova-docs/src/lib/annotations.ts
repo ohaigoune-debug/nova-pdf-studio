@@ -4,6 +4,7 @@
  */
 import { PDFDocument, PDFHexString, PDFName, PDFNumber, PDFString } from 'pdf-lib'
 import { hexToRgb01 } from '@modules/pdf/shared/editModel'
+import { applyMatrix, displaySize, displayToUserMatrix, normalizeRotation } from '@modules/pdf/shared/pageSpace'
 
 export interface NoteAnnotation {
   id: string
@@ -30,12 +31,18 @@ export async function addNoteAnnotations(bytes: Uint8Array, notes: NoteAnnotatio
   for (const n of valid) {
     if (n.page < 0 || n.page >= doc.getPageCount()) continue
     const page = doc.getPage(n.page)
-    const h = page.getHeight()
+    const { width: pw, height: ph } = page.getSize()
+    const turn = normalizeRotation(page.getRotation().angle)
+    const h = displaySize(turn, pw, ph).height
+    // مستطيل الأيقونة بإحداثيات العرض ← فضاء المستخدم (للصفحات المدوّرة)
+    const m = displayToUserMatrix(turn, pw, ph)
+    const [ax, ay] = applyMatrix(m, n.x, h - n.y - NOTE_SIZE)
+    const [bx, by] = applyMatrix(m, n.x + NOTE_SIZE, h - n.y)
     const [r, g, b] = hexToRgb01(n.color ?? '#F5C518')
     const annot = doc.context.obj({
       Type: 'Annot',
       Subtype: 'Text',
-      Rect: [n.x, h - n.y - NOTE_SIZE, n.x + NOTE_SIZE, h - n.y],
+      Rect: [Math.min(ax, bx), Math.min(ay, by), Math.max(ax, bx), Math.max(ay, by)],
       Contents: PDFHexString.fromText(n.text),
       T: PDFHexString.fromText(n.author ?? 'NOVA Docs'),
       Name: 'Comment',

@@ -134,3 +134,45 @@ describe('Arabic text added in the editor is searchable', () => {
     for (const w of ['تمت', 'الموافقة', 'العقد', 'بوسعادة', '2026-11-16', 'Page 1']) expect(text, text).toContain(w)
   })
 })
+
+describe('editing rotated pages (/Rotate) in display coordinates', () => {
+  for (const turn of [90, 180, 270] as const) {
+    it(`page rotated ${turn}°: text lands where the user placed it and reads upright`, async () => {
+      const { degrees } = await import('pdf-lib')
+      const { applyInk } = await import('../src/lib/ink')
+      const doc = await PDFDocument.create()
+      doc.addPage([595.28, 841.89]).setRotation(degrees(turn))
+      const src = await doc.save()
+      const disp = turn === 180 ? { w: 595.28, h: 841.89 } : { w: 841.89, h: 595.28 }
+      const objects: EditLayer['objects'] = [{ id: 't', kind: 'text', page: 0, x: 100, y: 150, width: 300, height: 24, text: 'Rotated OK', fontSize: 18, fontFamily: 'sans', bold: false, italic: false, underline: false, align: 'left', color: '#000000', background: null, direction: 'ltr' }]
+      let out = await applyEdits(src, { objects }, { coordinateSpace: 'display' })
+      out = await applyInk(out, [{ id: 'i', page: 0, points: [[50, 50], [80, 60], [120, 55]], color: '#1D4ED8', width: 2, opacity: 1 }])
+      const pdf = await pdfjs.getDocument({ data: out, isEvalSupported: false, standardFontDataUrl: 'node_modules/pdfjs-dist/standard_fonts/' }).promise
+      const page = await pdf.getPage(1)
+      const vp = page.getViewport({ scale: 1 })
+      expect([Math.round(vp.width), Math.round(vp.height)]).toEqual([Math.round(disp.w), Math.round(disp.h)])
+      const item = (await page.getTextContent()).items.find((it) => 'str' in it && it.str.includes('Rotated')) as { str: string; transform: number[] }
+      expect(item).toBeTruthy()
+      const m = pdfjs.Util.transform(vp.transform, item.transform)
+      // اتجاه النص على الشاشة: أفقي من اليسار إلى اليمين
+      expect(m[0]).toBeGreaterThan(0)
+      expect(Math.abs(m[1])).toBeLessThan(0.01)
+      // الموضع: بداية النص عند x=100 وخط القاعدة قرب y=150+18
+      expect(Math.abs(m[4] - 100)).toBeLessThan(1)
+      expect(Math.abs(m[5] - 168)).toBeLessThan(1)
+      await pdf.destroy()
+    })
+  }
+  it('default (Windows) behaviour is unchanged: unrotated coordinates', async () => {
+    const { degrees } = await import('pdf-lib')
+    const doc = await PDFDocument.create()
+    doc.addPage([595.28, 841.89]).setRotation(degrees(90))
+    const out = await applyEdits(await doc.save(), { objects: [{ id: 't', kind: 'text', page: 0, x: 100, y: 150, width: 300, height: 24, text: 'Legacy', fontSize: 18, fontFamily: 'sans', bold: false, italic: false, underline: false, align: 'left', color: '#000000', background: null, direction: 'ltr' }] })
+    const pdf = await pdfjs.getDocument({ data: out, isEvalSupported: false, standardFontDataUrl: 'node_modules/pdfjs-dist/standard_fonts/' }).promise
+    const item = (await (await pdf.getPage(1)).getTextContent()).items.find((it) => 'str' in it && it.str === 'Legacy') as { transform: number[] }
+    // فضاء المستخدم غير المدوّر: x=100 وخط القاعدة = 841.89 − 150 − 18
+    expect(Math.abs(item.transform[4] - 100)).toBeLessThan(1)
+    expect(Math.abs(item.transform[5] - (841.89 - 168))).toBeLessThan(1)
+    await pdf.destroy()
+  })
+})

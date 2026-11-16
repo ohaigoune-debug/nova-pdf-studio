@@ -2,8 +2,9 @@
  * الكتابة اليدوية (إصبع / Apple Pencil): خطوط متجهية حقيقية تُدمج في الصفحة عند الحفظ (ليست صورة).
  * الإحداثيات بالنقاط من أعلى-يسار الصفحة غير المدوّرة — نفس نظام طبقة التعديل الأصلية (editModel).
  */
-import { LineCapStyle, PDFDocument, rgb } from 'pdf-lib'
+import { concatTransformationMatrix, LineCapStyle, PDFDocument, popGraphicsState, pushGraphicsState, rgb } from 'pdf-lib'
 import { hexToRgb01 } from '@modules/pdf/shared/editModel'
+import { displaySize, displayToUserMatrix, normalizeRotation } from '@modules/pdf/shared/pageSpace'
 
 export interface InkStroke {
   id: string
@@ -54,14 +55,19 @@ export async function applyInk(bytes: Uint8Array, strokes: InkStroke[]): Promise
     if (s.page < 0 || s.page >= count || s.points.length === 0) continue
     const page = doc.getPage(s.page)
     const [r, g, b] = hexToRgb01(s.color)
+    // النقاط بإحداثيات العرض: الصفحة المدوّرة (/Rotate) تُحوَّل بمصفوفة حتى يقع الخط حيث رسمه المستخدم
+    const { width, height } = page.getSize()
+    const turn = normalizeRotation(page.getRotation().angle)
+    if (turn) page.pushOperators(pushGraphicsState(), concatTransformationMatrix(...displayToUserMatrix(turn, width, height)))
     page.drawSvgPath(strokeToSvgPath(simplify(s.points)), {
       x: 0,
-      y: page.getHeight(),
+      y: displaySize(turn, width, height).height,
       borderColor: rgb(r, g, b),
       borderWidth: s.width,
       borderOpacity: s.opacity,
       borderLineCap: LineCapStyle.Round
     })
+    if (turn) page.pushOperators(popGraphicsState())
   }
   doc.setModificationDate(new Date())
   return doc.save({ useObjectStreams: true, addDefaultPage: false })

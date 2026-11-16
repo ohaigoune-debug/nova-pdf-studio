@@ -10,7 +10,7 @@ import type { Snapshot } from './editorState'
 export async function bakeEdits(bytes: Uint8Array, snap: Snapshot): Promise<Uint8Array> {
   let out = bytes
   if (snap.objects.length) {
-    out = await applyEdits(out, { objects: snap.objects }, { rasterizeText, rasterScale: 3 })
+    out = await applyEdits(out, { objects: snap.objects }, { rasterizeText, rasterScale: 3, coordinateSpace: 'display' })
     // النص العربي المرسوم صورةً يصبح قابلًا للبحث والنسخ (طبقة خفية)
     try {
       out = await addSearchableTextForObjects(out, snap.objects, await loadArabicFont())
