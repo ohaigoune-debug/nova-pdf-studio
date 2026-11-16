@@ -62,6 +62,7 @@ export function CourseCatalogCard({ c, offer }: { c: CatalogCourse; offer?: 'boo
             {digital ? 'الدفع بالبطاقة (CIB أو الذهبية) وتُفتح الدورة فورًا. لا يصلك كتاب.' : `${BOOK_DELIVERY_LINE[c.shippingIncluded]} الدفع عند الاستلام أو بالبطاقة.`}
           </p>
         ) : null}
+        {!offer && !active && c.bookOffer && c.shippingIncluded !== 'NONE' ? <p className="text-xs font-semibold text-success">{BOOK_DELIVERY_LINE[c.shippingIncluded]}</p> : null}
         {c.accessEndsOn ? (
           <p className="inline-flex items-center gap-1 text-xs text-muted-foreground">
             <Clock className="size-3.5" /> الوصول حتى {formatDate(c.accessEndsOn)}

@@ -2,7 +2,7 @@
 
 import { BookOpen } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useActionState, useEffect, useTransition } from 'react'
+import { useActionState, useEffect, useState, useTransition } from 'react'
 import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bits'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -119,13 +119,14 @@ export function CourseBookCard({ courseId, courseTitle, book, purchasable, issue
 
 /** «التوصيل في السعر»: لا يشمل / شامل للمكتب / شامل للمنزل — في شاشة إنشاء الدورة وبطاقة كتابها */
 export function ShippingIncludedField({ id, defaultValue, className = 'sm:col-span-4' }: { id: string; defaultValue: CourseShippingIncluded; className?: string }) {
+  const [value, setValue] = useState<CourseShippingIncluded>(defaultValue)
   const options = Object.keys(SHIPPING_INCLUDED_LABELS) as CourseShippingIncluded[]
   return (
-    <Field label="التوصيل في السعر" htmlFor={id} className={className}>
-      <Select id={id} name="shippingIncluded" defaultValue={defaultValue}>
+    <Field label="التوصيل في السعر" htmlFor={id} hint={SHIPPING_INCLUDED_HINTS[value]} className={className}>
+      <Select id={id} name="shippingIncluded" value={value} onChange={(e) => setValue(e.target.value as CourseShippingIncluded)}>
         {options.map((o) => (
           <option key={o} value={o}>
-            {SHIPPING_INCLUDED_LABELS[o]} — {SHIPPING_INCLUDED_HINTS[o]}
+            {SHIPPING_INCLUDED_LABELS[o]}
           </option>
         ))}
       </Select>
