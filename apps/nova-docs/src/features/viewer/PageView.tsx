@@ -15,6 +15,7 @@ import { NOTE_SIZE } from '../../lib/annotations'
 import { Capacitor } from '@capacitor/core'
 import { NovaPdfRender, nativeRenderAvailable } from '../../platform/native'
 import { usePrefs } from '../../stores/prefs'
+import { renderPageRepaired } from '../../lib/arabicRepair'
 import { newId, useEditor } from './editorState'
 import { usePro } from '../../stores/proInstance'
 import { confirmDialog, promptDialog, toast } from '../../ui/overlays'
@@ -35,8 +36,9 @@ interface Props {
 
 const TOOL_FEATURE: Record<string, Feature> = { text: 'editText', highlight: 'highlight', pen: 'ink', image: 'editImage', shape: 'shapes', note: 'comments', whiteout: 'whiteout', signature: 'signature' }
 
-function ObjectView({ o, scale, selected }: { o: EditObject; scale: number; selected: boolean }) {
-  const style: React.CSSProperties = { left: o.x * scale, top: o.y * scale, width: o.width * scale, height: o.height * scale, transform: o.rotation ? `rotate(${o.rotation}deg)` : undefined }
+function ObjectView({ o, scale, selected, editing }: { o: EditObject; scale: number; selected: boolean; editing: boolean }) {
+  // أثناء التحرير: لمس الكائن يسحبه هو وحده ولا يمرّر الصفحة (touch-action: none) — اكتُشف على iPhone حقيقي
+  const style: React.CSSProperties = { left: o.x * scale, top: o.y * scale, width: o.width * scale, height: o.height * scale, transform: o.rotation ? `rotate(${o.rotation}deg)` : undefined, touchAction: editing ? 'none' : undefined }
   const ring = selected ? 'outline outline-2 outline-offset-2 outline-accent' : ''
   switch (o.kind) {
     case 'text':
@@ -100,6 +102,7 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
 
   // ---- محرك iOS (PDFKit) اختياري من الإعدادات؛ pdf.js هو الافتراضي والاحتياط (الويب، الملفات المشفّرة، أي فشل)
   const wantNative = usePrefs((st) => st.nativeRender) && !!fileUri && nativeRenderAvailable()
+  const repairArabic = usePrefs((st) => st.repairArabic)
   const [nativeSrc, setNativeSrc] = useState<string | null>(null)
   const [nativeFailed, setNativeFailed] = useState(false)
   const useNative = wantNative && !nativeFailed
@@ -138,7 +141,8 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
     let alive = true
     const timer = setTimeout(async () => {
       try {
-        const task = await engine.render(info.index, canvasRef.current!, scale)
+        // إصلاح العربية في الملفات بلا خطوط مضمّنة (عرض فقط؛ الملف لا يتغيّر)
+        const task = repairArabic ? await renderPageRepaired(engine, info.index, canvasRef.current!, scale) : await engine.render(info.index, canvasRef.current!, scale)
         cancel = task.cancel
         await task.done
         if (alive) setRendered(scale)
@@ -152,7 +156,7 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
       cancel?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible, scale, engine, info.index, useNative])
+  }, [visible, scale, engine, info.index, useNative, repairArabic])
 
   useEffect(() => {
     if (!visible) return
@@ -349,7 +353,7 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
         onPointerCancel={onPointerUp}
         onDoubleClick={(e) => void onDoubleClick(e)}
       >
-        {objects.map((o) => <ObjectView key={o.id} o={o} scale={scale} selected={editing && o.id === editor.selectedId} />)}
+        {objects.map((o) => <ObjectView key={o.id} o={o} scale={scale} selected={editing && o.id === editor.selectedId} editing={editing} />)}
         <svg className="pointer-events-none absolute inset-0" width={W} height={H} viewBox={`0 0 ${info.widthPt} ${info.heightPt}`}>
           {ink.map((s) => (
             <path key={s.id} d={strokeToSvgPath(s.points)} fill="none" stroke={s.color} strokeWidth={s.width} strokeLinecap="round" strokeLinejoin="round" opacity={s.opacity} className={editor.selectedId === s.id ? 'drop-shadow-[0_0_2px_#17B890]' : ''} />

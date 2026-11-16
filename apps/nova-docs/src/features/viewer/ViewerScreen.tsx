@@ -164,6 +164,7 @@ export default function ViewerScreen({ file, startPage = 0, startEditing = false
 
   // خطوط غير مضمّنة في الملف: السبب الأشيع لظهور العربية مقطّعة على iPhone (اكتُشف على جهاز حقيقي)
   const [missingFonts, setMissingFonts] = useState<string[]>([])
+  const repairArabic = usePrefs((st) => st.repairArabic)
   const [fontsChecked, setFontsChecked] = useState(false)
   const [fontsDismissed, setFontsDismissed] = useState(false)
   useEffect(() => {
@@ -359,7 +360,7 @@ export default function ViewerScreen({ file, startPage = 0, startEditing = false
       {missingFonts.length > 0 && !fontsDismissed && !editing && (
         <div role="status" className="flex items-start gap-3 bg-[#F5C518]/15 px-4 py-2 text-[13.5px]">
           <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#b38f00] dark:text-[#F5C518]" />
-          <span className="flex-1">{t('ios.viewer.fontsMissing', { fonts: missingFonts.slice(0, 3).join('، ') })}</span>
+          <span className="flex-1">{t(repairArabic ? 'ios.viewer.fontsRepaired' : 'ios.viewer.fontsMissing', { fonts: missingFonts.slice(0, 3).join('، ') })}</span>
           <button aria-label={t('common.close')} onClick={() => setFontsDismissed(true)} className="grid h-7 w-7 place-items-center text-muted"><X className="h-4 w-4" /></button>
         </div>
       )}

@@ -219,3 +219,33 @@ describe('font embedding report (Arabic PDF shown broken on iPhone, 16 Nov)', ()
     expect(bad.missing).toEqual(['TraditionalArabic'])
   })
 })
+
+describe('Arabic repair plan for PDFs without embedded fonts', () => {
+  const engineFor = async (file: string) => {
+    const { readFileSync } = await import('node:fs')
+    const { resolve } = await import('node:path')
+    const data = new Uint8Array(readFileSync(resolve(__dirname, '../src/lib/selftest-fixtures', file)))
+    const doc = await pdfjs.getDocument({ data, useSystemFonts: true, isEvalSupported: false, verbosity: 0 }).promise
+    return { pageCount: doc.numPages, page: (i: number) => doc.getPage(i + 1) } as never
+  }
+  it('targets only missing fonts that carry Arabic, with logical-order text and a close bundled font', async () => {
+    const { repairPlan } = await import('../src/lib/arabicRepair')
+    expect(await repairPlan(await engineFor('arabic-embedded.pdf'), 0)).toBeNull()
+    const plan = (await repairPlan(await engineFor('arabic-nonembedded.pdf'), 0))!
+    expect(plan).not.toBeNull()
+    expect([...plan.targets.values()].map((s) => s.family)).toEqual(['Amiri'])
+    const text = plan.items.map((i) => i.str).join('\n')
+    expect(text).toContain('البناء الفكري')
+    expect(text).toContain('الدكتور حيقون أسامة')
+  })
+  it('maps common document fonts to the closest bundled font', async () => {
+    const { closestFont } = await import('../src/lib/arabicRepair')
+    expect(closestFont('ABCDEF+Cairo-Bold')).toEqual({ family: 'Cairo', exact: true })
+    expect(closestFont('SakkalMajalla').family).toBe('Amiri')
+    expect(closestFont('Traditional Arabic,Bold').family).toBe('Amiri')
+    expect(closestFont('Simplified Arabic').family).toBe('Noto Naskh Arabic')
+    expect(closestFont('DroidArabicKufi').family).toBe('Noto Kufi Arabic')
+    expect(closestFont('HacenTunisia').family).toBe('Cairo')
+    expect(closestFont('Unknown Font').exact).toBe(false)
+  })
+})

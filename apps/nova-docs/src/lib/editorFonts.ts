@@ -119,3 +119,14 @@ export async function ensureFontLoaded(o: TextObject): Promise<void> {
 export function preloadEditorFonts(): void {
   void registerNaskh()
 }
+
+/** يحمّل عائلة خط (عربي + لاتيني) قبل الرسم على Canvas. */
+export async function ensureFamilyLoaded(family: string, bold = false): Promise<void> {
+  if (typeof document === 'undefined' || !document.fonts) return
+  if (family === NASKH_FAMILY) await registerNaskh()
+  try {
+    await document.fonts.load(`${bold ? '700' : '400'} 16px "${family}"`, 'أبجد هوز Aa')
+  } catch {
+    /* احتياط النظام */
+  }
+}

@@ -230,11 +230,19 @@ export async function runArabicRenderSelfTest(): Promise<{ file: string; report:
     const name = await writeLibraryFile(`NOVA arabic ${label}.pdf`, bytes, { overwrite: true })
     const engine = await loadEngine(bytes)
     report[label] = await fontReport(engine)
-    // pdf.js
+    const toPng = async (c: HTMLCanvasElement) => new Uint8Array(await (await new Promise<Blob | null>((r) => c.toBlob(r, 'image/png')))!.arrayBuffer())
+    // pdf.js كما هو
     const canvas = document.createElement('canvas')
     const task = await engine.render(0, canvas, 1.2)
     await task.done
-    const pdfjsPng = new Uint8Array(await (await new Promise<Blob | null>((r) => canvas.toBlob(r, 'image/png')))!.arrayBuffer())
+    const pdfjsPng = await toPng(canvas)
+    // pdf.js + إصلاح العربية
+    const { renderPageRepaired } = await import('./arabicRepair')
+    const canvas2 = document.createElement('canvas')
+    const task2 = await renderPageRepaired(engine, 0, canvas2, 1.2)
+    await task2.done
+    report[`${label}-repaired`] = task2.repaired
+    const repairedPng = await toPng(canvas2)
     engine.destroy()
     // iOS PDFKit
     let nativeImg: Uint8Array | null = null
@@ -246,14 +254,16 @@ export async function runArabicRenderSelfTest(): Promise<{ file: string; report:
       report[`${label}-native-error`] = String((e as Error)?.message ?? e)
     }
     const top = 1190 - 40 - row * 580
-    page.drawText(`${label}: pdf.js (WKWebView)`, { x: 20, y: top, size: 14, font: helv })
-    page.drawText(`${label}: iOS PDFKit`, { x: 431, y: top, size: 14, font: helv })
-    const a = await out.embedPng(pdfjsPng)
-    const boxW = 391
-    page.drawImage(a, { x: 20, y: top - 20 - boxW * (a.height / a.width), width: boxW, height: boxW * (a.height / a.width) })
-    if (nativeImg) {
-      const b = await out.embedJpg(nativeImg)
-      page.drawImage(b, { x: 431, y: top - 20 - boxW * (b.height / b.width), width: boxW, height: boxW * (b.height / b.width) })
+    const boxW = 262
+    const cols: [string, Uint8Array | null, 'png' | 'jpg'][] = [['pdf.js', pdfjsPng, 'png'], ['pdf.js + repair', repairedPng, 'png'], ['iOS PDFKit', nativeImg, 'jpg']]
+    for (let k = 0; k < cols.length; k++) {
+      const [title, img, kind] = cols[k]
+      const x = 20 + k * (boxW + 8)
+      page.drawText(`${label}: ${title}`, { x, y: top, size: 12, font: helv })
+      if (!img) continue
+      const em = kind === 'png' ? await out.embedPng(img) : await out.embedJpg(img)
+      const h = boxW * (em.height / em.width)
+      page.drawImage(em, { x, y: top - 16 - h, width: boxW, height: h })
     }
     row++
   }

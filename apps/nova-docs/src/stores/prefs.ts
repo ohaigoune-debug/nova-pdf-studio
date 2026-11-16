@@ -15,6 +15,8 @@ interface Prefs {
   appLock: boolean              // قفل التطبيق بـ Face ID / Touch ID / رمز الجهاز
   /** محرك عرض بديل: iOS PDFKit بدل pdf.js (اختياري؛ لا يُستعمل مع الخطوط غير المضمّنة لأنه يرسمها رموزًا) */
   nativeRender: boolean
+  /** إعادة رسم النص العربي بخط مضمّن حين يخلو الملف من خطوطه (عرض فقط) */
+  repairArabic: boolean
   loaded: boolean
   load(): Promise<void>
   setLanguage(l: Language): Promise<void>
@@ -24,11 +26,12 @@ interface Prefs {
   removeSignature(index: number): void
   setAppLock(on: boolean): void
   setNativeRender(on: boolean): void
+  setRepairArabic(on: boolean): void
 }
 
 const KEY = 'nova.prefs.v1'
 
-async function persist(p: Pick<Prefs, 'language' | 'theme' | 'ocrLanguages' | 'signatures' | 'appLock' | 'nativeRender'>) {
+async function persist(p: Pick<Prefs, 'language' | 'theme' | 'ocrLanguages' | 'signatures' | 'appLock' | 'nativeRender' | 'repairArabic'>) {
   await Preferences.set({ key: KEY, value: JSON.stringify(p) }).catch(() => undefined)
 }
 
@@ -39,6 +42,7 @@ export const usePrefs = create<Prefs>((set, get) => ({
   signatures: [],
   appLock: false,
   nativeRender: false,
+  repairArabic: true,
   loaded: false,
   async load() {
     try {
@@ -51,7 +55,8 @@ export const usePrefs = create<Prefs>((set, get) => ({
           ocrLanguages: saved.ocrLanguages?.length ? saved.ocrLanguages : get().ocrLanguages,
           signatures: Array.isArray(saved.signatures) ? saved.signatures.slice(0, 4) : [],
           appLock: saved.appLock === true,
-          nativeRender: saved.nativeRender === true
+          nativeRender: saved.nativeRender === true,
+          repairArabic: saved.repairArabic !== false
         })
       }
     } catch {
@@ -88,12 +93,16 @@ export const usePrefs = create<Prefs>((set, get) => ({
   setNativeRender(nativeRender) {
     set({ nativeRender })
     void persist(snapshot())
+  },
+  setRepairArabic(repairArabic) {
+    set({ repairArabic })
+    void persist(snapshot())
   }
 }))
 
 function snapshot() {
-  const { language, theme, ocrLanguages, signatures, appLock, nativeRender } = usePrefs.getState()
-  return { language, theme, ocrLanguages, signatures, appLock, nativeRender }
+  const { language, theme, ocrLanguages, signatures, appLock, nativeRender, repairArabic } = usePrefs.getState()
+  return { language, theme, ocrLanguages, signatures, appLock, nativeRender, repairArabic }
 }
 
 export function applyTheme(theme: Theme): void {

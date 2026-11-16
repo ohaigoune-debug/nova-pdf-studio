@@ -37,7 +37,7 @@ function Page({ title, children }: { title: string; children: React.ReactNode })
 
 function SettingsPage() {
   const { t } = useTranslation()
-  const { theme, setTheme, nativeRender, setNativeRender } = usePrefs()
+  const { theme, setTheme, nativeRender, setNativeRender, repairArabic, setRepairArabic } = usePrefs()
   const push = useNav((s) => s.push)
   const [currency, setCurrency] = useState(getSettings().invoice.defaultCurrency)
   const [demo, setDemo] = useState(demoStatus().loaded)
@@ -45,6 +45,12 @@ function SettingsPage() {
     <Page title={t('ios.more.settings')}>
       <Section header={t('ios.settings.appearance')}>
         <div className="p-3"><Segmented value={theme} onChange={(v: Theme) => setTheme(v)} options={[{ value: 'system', label: t('ios.settings.system') }, { value: 'light', label: t('ios.settings.light') }, { value: 'dark', label: t('ios.settings.dark') }]} /></div>
+      </Section>
+      <Section footer={t('ios.settings.repairArabicHint')}>
+        <label className="flex min-h-[48px] items-center gap-3 px-4">
+          <span className="flex-1 text-[17px]">{t('ios.settings.repairArabic')}</span>
+          <Toggle checked={repairArabic} onChange={setRepairArabic} label={t('ios.settings.repairArabic')} />
+        </label>
       </Section>
       {nativeRenderAvailable() && (
         <Section footer={t('ios.settings.nativeRenderHint')}>
