@@ -1,0 +1,50 @@
+# ضبط قاعدة البيانات للخادم بعد الترقية (13 نوفمبر 2026): Cloud VPS 16 — 16 نواة، 62 جيغابايت ظاهرة،
+# يتقاسمها مع موقعين آخرين (novalane.uk وaqlitrade.com). بديل لـ postgres-tuning.override.yml (المحسوب لـ 6 أنوية و11 جيغا).
+# إعدادات فقط: لا ترحيل ولا تغيير بيانات. تحتاج إعادة تشغيل حاوية القاعدة (أقلّ من دقيقة، يُفضَّل ليلًا).
+#
+# التطبيق (من /opt/madrasa/platform) — الأمر المعتاد مع هذا الملف بدل الملف القديم:
+#   docker compose -f docker-compose.prod.yml -f deploy/postgres-tuning-16core.override.yml up -d --no-deps db
+# التحقق:  docker compose -f docker-compose.prod.yml exec db psql -U madrasa -c 'show shared_buffers'   ⇐ 8GB
+# الرجوع: الأمر نفسه بالملف القديم (أو دونه).
+#
+# الحساب: shared_buffers ربع الذاكرة تقريبًا مع ترك مكان للموقعين الآخرين وعمليات Node؛ effective_cache_size نصفها.
+# max_connections=250: 8 عمليات Node × 10 اتصالات + العامل + النسخ الاحتياطي + اختبار الضغط = أقل من 120 بكثير.
+services:
+  db:
+    command:
+      - postgres
+      - -c
+      - shared_buffers=8GB
+      - -c
+      - effective_cache_size=28GB
+      - -c
+      - work_mem=24MB
+      - -c
+      - maintenance_work_mem=1GB
+      - -c
+      - max_connections=250
+      - -c
+      - random_page_cost=1.1
+      - -c
+      - effective_io_concurrency=200
+      - -c
+      - wal_buffers=64MB
+      - -c
+      - min_wal_size=1GB
+      - -c
+      - max_wal_size=4GB
+      - -c
+      - checkpoint_completion_target=0.9
+      - -c
+      - max_worker_processes=16
+      - -c
+      - max_parallel_workers=8
+      - -c
+      - max_parallel_workers_per_gather=4
+      - -c
+      - max_parallel_maintenance_workers=4
+      - -c
+      - shared_preload_libraries=pg_stat_statements
+      - -c
+      - pg_stat_statements.track=top
+    shm_size: 2gb
