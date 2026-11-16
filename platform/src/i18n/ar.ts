@@ -1381,6 +1381,8 @@ const ar = {
     live_update: 'عدّل حصة مباشرة',
     live_status: 'غيّر حالة حصة مباشرة',
     live_join: 'انضم إلى حصة مباشرة',
+    live_zoom_sdk_save: 'حفظ اعتمادات Zoom Meeting SDK',
+    live_zoom_sdk_clear: 'حذف اعتمادات Zoom Meeting SDK',
     live_reminders: 'أُرسل تذكير بحصة مباشرة',
     video_bunny_save: 'حفظ اعتمادات Bunny Stream',
     video_bunny_clear: 'حذف اعتمادات Bunny Stream',
