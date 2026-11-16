@@ -208,3 +208,56 @@ export async function runFontsSelfTest(): Promise<{ file: string; fonts: number;
   await useLibrary.getState().refresh()
   return { file, fonts: EDITOR_FONTS.length, loaded, ms: Math.round(performance.now() - t0) }
 }
+
+/**
+ * عرض العربية: ملف بخط مضمّن (مثل Word) وآخر بخط غير مضمّن، كلٌّ بمحرّكين (pdf.js داخل WKWebView / iOS PDFKit).
+ * يُركَّب الناتج في PDF واحد يُفتح في العارض، مع تقرير الخطوط. Debug فقط.
+ */
+export async function runArabicRenderSelfTest(): Promise<{ file: string; report: Record<string, unknown> }> {
+  const embeddedUrl = (await import('./selftest-fixtures/arabic-embedded.pdf?url')).default
+  const missingUrl = (await import('./selftest-fixtures/arabic-nonembedded.pdf?url')).default
+  const { NovaPdfRender } = await import('../platform/native')
+  const { libraryFileUri } = await import('../platform/library')
+  const { fontReport } = await import('./fontReport')
+  const out = await PDFDocument.create()
+  const page = out.addPage([842, 1190])
+  const helv = await out.embedFont((await import('pdf-lib')).StandardFonts.Helvetica)
+  const report: Record<string, unknown> = {}
+  const cases: [string, string][] = [['embedded', embeddedUrl], ['non-embedded', missingUrl]]
+  let row = 0
+  for (const [label, url] of cases) {
+    const bytes = new Uint8Array(await (await fetch(url)).arrayBuffer())
+    const name = await writeLibraryFile(`NOVA arabic ${label}.pdf`, bytes, { overwrite: true })
+    const engine = await loadEngine(bytes)
+    report[label] = await fontReport(engine)
+    // pdf.js
+    const canvas = document.createElement('canvas')
+    const task = await engine.render(0, canvas, 1.2)
+    await task.done
+    const pdfjsPng = new Uint8Array(await (await new Promise<Blob | null>((r) => canvas.toBlob(r, 'image/png')))!.arrayBuffer())
+    engine.destroy()
+    // iOS PDFKit
+    let nativeImg: Uint8Array | null = null
+    try {
+      const r = await NovaPdfRender.renderPage({ path: await libraryFileUri(name), page: 0, width: 720 })
+      const { Capacitor } = await import('@capacitor/core')
+      nativeImg = new Uint8Array(await (await fetch(r.webPath ?? Capacitor.convertFileSrc(r.path))).arrayBuffer())
+    } catch (e) {
+      report[`${label}-native-error`] = String((e as Error)?.message ?? e)
+    }
+    const top = 1190 - 40 - row * 580
+    page.drawText(`${label}: pdf.js (WKWebView)`, { x: 20, y: top, size: 14, font: helv })
+    page.drawText(`${label}: iOS PDFKit`, { x: 431, y: top, size: 14, font: helv })
+    const a = await out.embedPng(pdfjsPng)
+    const boxW = 391
+    page.drawImage(a, { x: 20, y: top - 20 - boxW * (a.height / a.width), width: boxW, height: boxW * (a.height / a.width) })
+    if (nativeImg) {
+      const b = await out.embedJpg(nativeImg)
+      page.drawImage(b, { x: 431, y: top - 20 - boxW * (b.height / b.width), width: boxW, height: boxW * (b.height / b.width) })
+    }
+    row++
+  }
+  const file = await writeLibraryFile('NOVA arabic render self-test.pdf', await out.save(), { overwrite: true })
+  await useLibrary.getState().refresh()
+  return { file, report }
+}

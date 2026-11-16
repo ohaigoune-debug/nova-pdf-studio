@@ -15,7 +15,7 @@ import { legalDoc } from '../../lib/legal'
 import { SUPPORT_EMAIL, useAppVersion } from '../../lib/version'
 import { pickFilesBytes, shareBytes } from '../../lib/docs'
 import { bytesToBase64 } from '../../platform/bytes'
-import { NovaLock } from '../../platform/native'
+import { NovaLock, nativeRenderAvailable } from '../../platform/native'
 import { LogoMark } from '../../brand/Logo'
 import { Button, Field, NavBar, Row, Section, Segmented, Toggle } from '../../ui/kit'
 import { confirmDialog, errorText, toast } from '../../ui/overlays'
@@ -37,7 +37,7 @@ function Page({ title, children }: { title: string; children: React.ReactNode })
 
 function SettingsPage() {
   const { t } = useTranslation()
-  const { theme, setTheme } = usePrefs()
+  const { theme, setTheme, nativeRender, setNativeRender } = usePrefs()
   const push = useNav((s) => s.push)
   const [currency, setCurrency] = useState(getSettings().invoice.defaultCurrency)
   const [demo, setDemo] = useState(demoStatus().loaded)
@@ -46,6 +46,14 @@ function SettingsPage() {
       <Section header={t('ios.settings.appearance')}>
         <div className="p-3"><Segmented value={theme} onChange={(v: Theme) => setTheme(v)} options={[{ value: 'system', label: t('ios.settings.system') }, { value: 'light', label: t('ios.settings.light') }, { value: 'dark', label: t('ios.settings.dark') }]} /></div>
       </Section>
+      {nativeRenderAvailable() && (
+        <Section footer={t('ios.settings.nativeRenderHint')}>
+          <label className="flex min-h-[48px] items-center gap-3 px-4">
+            <span className="flex-1 text-[17px]">{t('ios.settings.nativeRender')}</span>
+            <Toggle checked={nativeRender} onChange={setNativeRender} label={t('ios.settings.nativeRender')} />
+          </label>
+        </Section>
+      )}
       <LockSection />
       <Section header={t('ios.tabs.invoices')} footer={t('ios.settings.companyHint')}>
         <Row title={t('ios.settings.company')} chevron onClick={() => push({ name: 'company' })} />

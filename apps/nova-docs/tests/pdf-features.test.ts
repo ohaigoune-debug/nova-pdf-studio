@@ -201,3 +201,21 @@ describe('Arabic editor text on a rotated page is searchable and placed where th
     await pdf.destroy()
   })
 })
+
+describe('font embedding report (Arabic PDF shown broken on iPhone, 16 Nov)', () => {
+  const load = async (file: string) => {
+    const { readFileSync } = await import('node:fs')
+    const { resolve } = await import('node:path')
+    const data = new Uint8Array(readFileSync(resolve(__dirname, '../src/lib/selftest-fixtures', file)))
+    const doc = await pdfjs.getDocument({ data, useSystemFonts: true, isEvalSupported: false, verbosity: 0 }).promise
+    return { pageCount: doc.numPages, page: (i: number) => doc.getPage(i + 1) }
+  }
+  it('flags non-embedded Arabic fonts and accepts embedded ones', async () => {
+    const { fontReport } = await import('../src/lib/fontReport')
+    const ok = await fontReport(await load('arabic-embedded.pdf'))
+    expect(ok.fonts.length).toBe(1)
+    expect(ok.missing).toEqual([])
+    const bad = await fontReport(await load('arabic-nonembedded.pdf'))
+    expect(bad.missing).toEqual(['TraditionalArabic'])
+  })
+})

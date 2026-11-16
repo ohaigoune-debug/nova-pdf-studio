@@ -12,6 +12,9 @@ import { isRtlText } from '@modules/pdf/shared/editModel'
 import { editorCssFont } from '../../lib/editorFonts'
 import { strokeToSvgPath, type InkStroke } from '../../lib/ink'
 import { NOTE_SIZE } from '../../lib/annotations'
+import { Capacitor } from '@capacitor/core'
+import { NovaPdfRender, nativeRenderAvailable } from '../../platform/native'
+import { usePrefs } from '../../stores/prefs'
 import { newId, useEditor } from './editorState'
 import { usePro } from '../../stores/proInstance'
 import { confirmDialog, promptDialog, toast } from '../../ui/overlays'
@@ -26,6 +29,8 @@ interface Props {
   editing: boolean
   hits: HitRect[]
   onVisible: (index: number) => void
+  /** مسار الملف في صندوق التطبيق: يتيح العرض بمحرك iOS (PDFKit) */
+  fileUri?: string | null
 }
 
 const TOOL_FEATURE: Record<string, Feature> = { text: 'editText', highlight: 'highlight', pen: 'ink', image: 'editImage', shape: 'shapes', note: 'comments', whiteout: 'whiteout', signature: 'signature' }
@@ -60,7 +65,7 @@ function inkBounds(s: InkStroke) {
   return { x: Math.min(...xs), y: Math.min(...ys), x1: Math.max(...xs), y1: Math.max(...ys) }
 }
 
-export const PageView = memo(function PageView({ engine, info, scale, editing, hits, onVisible }: Props) {
+export const PageView = memo(function PageView({ engine, info, scale, editing, hits, onVisible, fileUri }: Props) {
   const { t } = useTranslation()
   const wrapRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -93,7 +98,34 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
     return () => io.disconnect()
   }, [info.index, onVisible])
 
+  // ---- العرض بمحرك iOS (PDFKit) أولًا؛ pdf.js احتياطًا (الويب، الملفات المشفّرة، أي فشل)
+  const wantNative = usePrefs((st) => st.nativeRender) && !!fileUri && nativeRenderAvailable()
+  const [nativeSrc, setNativeSrc] = useState<string | null>(null)
+  const [nativeFailed, setNativeFailed] = useState(false)
+  const useNative = wantNative && !nativeFailed
   useEffect(() => {
+    if (!useNative) return
+    if (!visible) {
+      setNativeSrc(null)
+      return
+    }
+    let alive = true
+    // عرض بكسلي مُكمَّم (مضاعفات 160) كي يعيد التكبير المتقارب استعمال الصورة المخزّنة
+    const px = Math.min(4096, Math.max(320, Math.ceil((W * Math.min(window.devicePixelRatio || 2, 3)) / 160) * 160))
+    const timer = setTimeout(() => {
+      NovaPdfRender.renderPage({ path: fileUri!, page: info.index, width: px })
+        .then((r) => alive && setNativeSrc(r.webPath ?? Capacitor.convertFileSrc(r.path)))
+        .catch(() => alive && setNativeFailed(true))
+    }, nativeSrc ? 120 : 0)
+    return () => {
+      alive = false
+      clearTimeout(timer)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [useNative, visible, W, fileUri, info.index, engine])
+
+  useEffect(() => {
+    if (useNative) return
     if (!visible || !canvasRef.current) {
       if (!visible && canvasRef.current && rendered) {
         canvasRef.current.width = 1
@@ -120,7 +152,7 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
       cancel?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible, scale, engine, info.index])
+  }, [visible, scale, engine, info.index, useNative])
 
   useEffect(() => {
     if (!visible) return
@@ -302,7 +334,9 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
 
   return (
     <div ref={wrapRef} data-page={info.index} className="pdf-page relative mx-auto mb-4" style={{ width: W, height: H }}>
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+      {useNative
+        ? nativeSrc && <img src={nativeSrc} alt="" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full select-none" data-renderer="ios" />
+        : <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" data-renderer="pdfjs" />}
       {hits.map((h, i) => (
         <div key={i} className={clsx('pointer-events-none absolute rounded-sm', h.active ? 'bg-[#FF9F0A]/55' : 'bg-[#FFE066]/50')} style={{ left: h.x * scale, top: h.y * scale, width: h.width * scale, height: h.height * scale }} />
       ))}

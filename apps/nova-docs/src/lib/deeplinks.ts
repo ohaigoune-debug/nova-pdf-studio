@@ -108,6 +108,23 @@ export async function openRoutes(routes: string): Promise<void> {
         void confirmDialog('Scan filter timing · WKWebView', { message: JSON.stringify(res, null, 1) })
         continue
       }
+      if (r === 'arabic-render-selftest') {
+        if (!window.__NOVA_DEBUG__) throw new Error('self-test is available in Debug builds only')
+        const res = await (await import('./selftest')).runArabicRenderSelfTest()
+        // الصفحة المركّبة تُعرض بـ pdf.js كي لا يتدخّل المحرك الأصلي في المقارنة نفسها
+        usePrefs.setState({ nativeRender: false })
+        useNav.getState().push({ name: 'viewer', file: res.file }, 'documents')
+        console.log(`[nova-route] ok ${r} ${JSON.stringify(res.report)}`)
+        continue
+      }
+      if (r === 'arabic-banner') {
+        // يفتح ملف الاختبار ذا الخط غير المضمّن (كتبه arabic-render-selftest) بالمحرك الأصلي: يظهر تنبيه الخطوط
+        if (!window.__NOVA_DEBUG__) throw new Error('self-test is available in Debug builds only')
+        await useLibrary.getState().refresh()
+        useNav.getState().push({ name: 'viewer', file: 'NOVA arabic non-embedded.pdf' }, 'documents')
+        console.log(`[nova-route] ok ${r}`)
+        continue
+      }
       if (r === 'fonts-selftest') {
         if (!window.__NOVA_DEBUG__) throw new Error('self-test is available in Debug builds only')
         const res = await (await import('./selftest')).runFontsSelfTest()

@@ -13,7 +13,7 @@
     "pages": "Pages", "info": "Infos", "page": "Page {{n}} sur {{total}}", "passwordTitle": "PDF protégé", "passwordHint": "Saisissez le mot de passe pour ouvrir ce document.",
     "unsaved": "Modifications non enregistrées.", "discard": "Ignorer les modifications", "keepEditing": "Continuer", "saveAs": "Enregistrer les modifications",
     "layerNote": "Les modifications sont ajoutées en calques sur la page : le texte existant est masqué et remplacé, pas réécrit dans le PDF d’origine.",
-    "scannedNotice": "Cette page semble numérisée. Lancez l’OCR pour rendre son texte cherchable.", "openFailed": "Impossible d’ouvrir ce fichier."
+    "scannedNotice": "Cette page semble numérisée. Lancez l’OCR pour rendre son texte cherchable.", "fontsMissing": "Ce fichier ne contient pas ses polices ({{fonts}}) : le texte arabe peut s’afficher mal sur iPhone et sur tout appareil sans ces polices. Solution : réexportez-le depuis Word avec « Incorporer les polices dans le fichier ».", "openFailed": "Impossible d’ouvrir ce fichier."
   },
   "edit": {
     "select": "Sélection", "text": "Texte", "highlight": "Surligner", "pen": "Stylo", "signature": "Signer", "image": "Image", "shape": "Forme", "note": "Commentaire", "whiteout": "Effacer",
@@ -63,7 +63,7 @@
     "loadingPrice": "Chargement du prix depuis l’App Store…", "retry": "Réessayer", "testerBuild": "Version de test interne — Pro est débloqué pour les essais, sans achat.", "lockedFeature": "Fonction NOVA Pro", "legal": "Le paiement est débité de votre identifiant Apple et traité par Apple."
   },
   "settings": {
-    "appearance": "Apparence", "system": "Système", "light": "Clair", "dark": "Sombre", "company": "Profil de l’entreprise", "companyHint": "Imprimé sur chaque facture.", "defaultCurrency": "Devise par défaut",
+    "appearance": "Apparence", "system": "Système", "light": "Clair", "dark": "Sombre", "company": "Profil de l’entreprise", "nativeRender": "Afficher les pages avec le moteur iOS", "nativeRenderHint": "Affiche les fichiers comme l’app Fichiers (plus fidèle pour les polices arabes). À désactiver seulement si une page s’affiche mal.", "companyHint": "Imprimé sur chaque facture.", "defaultCurrency": "Devise par défaut",
     "brand": "Logo, signature et cachet", "logo": "Logo", "signature": "Signature", "stamp": "Cachet", "choose": "Choisir une image", "remove": "Retirer", "demo": "Données d’exemple", "loadDemo": "Charger des factures d’exemple", "clearDemo": "Supprimer les exemples", "invoiceLanguage": "Langue des factures", "data": "Données"
   },
   "backup": {

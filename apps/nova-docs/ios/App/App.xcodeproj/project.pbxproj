@@ -28,6 +28,7 @@
 		601E66E93026998C66238728 /* NovaEntitlements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E7E6DEAA416D196797C3E4 /* NovaEntitlements.swift */; };
 		BFF5A620513518FC75A03806 /* NovaDocs.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 7D383F7A24BA834C664CC676 /* NovaDocs.storekit */; };
 		F11E9CFB8828CEA2AB5E7A0E /* NovaLockPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62FC636D3552B066E5A3FF9D /* NovaLockPlugin.swift */; };
+		E8C95C422F38878B166271E4 /* NovaPdfRenderPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35235455596C5FE886AC9ED7 /* NovaPdfRenderPlugin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		24E4024B779A61B2571A089F /* StoreKitFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitFlowTests.swift; sourceTree = "<group>"; };
 		814DEF1ECEDEE6D09BF4B9CB /* AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		62FC636D3552B066E5A3FF9D /* NovaLockPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovaLockPlugin.swift; sourceTree = "<group>"; };
+		35235455596C5FE886AC9ED7 /* NovaPdfRenderPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovaPdfRenderPlugin.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 				56F61E2870AB8AA6B5D68F5A /* NovaStorePlugin.swift */,
 							63E7E6DEAA416D196797C3E4 /* NovaEntitlements.swift */,
 							62FC636D3552B066E5A3FF9D /* NovaLockPlugin.swift */,
+							35235455596C5FE886AC9ED7 /* NovaPdfRenderPlugin.swift */,
 			);
 			path = Native;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 							6827DC9A011A213F6AC299C9 /* NovaStorePlugin.swift in Sources */,
 							CE505B964F8CBB1471FD8C4B /* NovaEntitlements.swift in Sources */,
 							F11E9CFB8828CEA2AB5E7A0E /* NovaLockPlugin.swift in Sources */,
+							E8C95C422F38878B166271E4 /* NovaPdfRenderPlugin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,7 @@ import { useNav } from '../../stores/nav'
 import { usePrefs } from '../../stores/prefs'
 import { usePro } from '../../stores/proInstance'
 import { useLibrary } from '../../stores/library'
-import { readLibraryFile, writeLibraryFile } from '../../platform/library'
+import { libraryFileUri, readLibraryFile, writeLibraryFile } from '../../platform/library'
 import { formatBytes } from '../../platform/bytes'
 import { dropThumbnail, exportToFiles, loadEngine, looksScanned, pickFilesBytes, printLibraryFile, shareLibraryFile } from '../../lib/docs'
 import { ocrPdf } from '../../lib/ocrDocument'
@@ -25,6 +25,7 @@ import { type Tool, useEditor } from './editorState'
 import { bakeEdits } from './saveDocument'
 import { normalizeImages } from '../scan/images'
 import { bytesToBase64 } from '../../platform/bytes'
+import { fontReport } from '../../lib/fontReport'
 
 export default function ViewerScreen({ file, startPage = 0, startEditing = false }: { file: string; startPage?: number; startEditing?: boolean }) {
   const { t } = useTranslation()
@@ -97,6 +98,16 @@ export default function ViewerScreen({ file, startPage = 0, startEditing = false
 
   useEffect(() => () => engine?.destroy(), [engine])
 
+  // مسار الملف لمحرك العرض الأصلي (يتجدد بعد كل حفظ لأن المفتاح يشمل حجم الملف وتاريخه)
+  const [fileUri, setFileUri] = useState<string | null>(null)
+  useEffect(() => {
+    let alive = true
+    void libraryFileUri(name).then((u) => alive && setFileUri(u)).catch(() => alive && setFileUri(null))
+    return () => {
+      alive = false
+    }
+  }, [name, bytes])
+
   // ---------------------------------------------------------------- المقياس
   const maxW = useMemo(() => infos.reduce((m, i) => Math.max(m, i.widthPt), 0) || 595, [infos])
   const fit = width ? Math.min((width - 24) / maxW, 2.2) : 0
@@ -150,6 +161,21 @@ export default function ViewerScreen({ file, startPage = 0, startEditing = false
     if (!engine) return
     void looksScanned(engine, current).then(setScanned).catch(() => setScanned(false))
   }, [engine, current])
+
+  // خطوط غير مضمّنة في الملف: السبب الأشيع لظهور العربية مقطّعة على iPhone (اكتُشف على جهاز حقيقي)
+  const [missingFonts, setMissingFonts] = useState<string[]>([])
+  const [fontsDismissed, setFontsDismissed] = useState(false)
+  useEffect(() => {
+    if (!engine) return
+    let alive = true
+    setFontsDismissed(false)
+    void fontReport(engine)
+      .then((r) => alive && setMissingFonts(r.missing))
+      .catch(() => alive && setMissingFonts([]))
+    return () => {
+      alive = false
+    }
+  }, [engine])
 
   // ---------------------------------------------------------------- البحث
   useEffect(() => {
@@ -328,6 +354,13 @@ export default function ViewerScreen({ file, startPage = 0, startEditing = false
         )}
       </NavBar>
 
+      {missingFonts.length > 0 && !fontsDismissed && !editing && (
+        <div role="status" className="flex items-start gap-3 bg-[#F5C518]/15 px-4 py-2 text-[13.5px]">
+          <Info className="mt-0.5 h-5 w-5 shrink-0 text-[#b38f00] dark:text-[#F5C518]" />
+          <span className="flex-1">{t('ios.viewer.fontsMissing', { fonts: missingFonts.slice(0, 3).join('، ') })}</span>
+          <button aria-label={t('common.close')} onClick={() => setFontsDismissed(true)} className="grid h-7 w-7 place-items-center text-muted"><X className="h-4 w-4" /></button>
+        </div>
+      )}
       {scanned && !editing && !ocrState && (
         <div className="flex items-center gap-3 bg-accent/12 px-4 py-2 text-[14px]">
           <ScanText className="h-5 w-5 shrink-0 text-accent" />
@@ -342,7 +375,7 @@ export default function ViewerScreen({ file, startPage = 0, startEditing = false
         ) : (
           <div ref={pagesRef} className="px-3 py-4" style={{ width: Math.max(width, maxW * scale + 24), transform: pinchScale !== 1 ? `scale(${pinchScale})` : undefined, transformOrigin: 'top center' }}>
             {infos.map((info) => (
-              <PageView key={`${info.index}-${bytes?.length}`} engine={engine} info={info} scale={scale} editing={editing} hits={hitRects[info.index] ?? []} onVisible={onVisible} />
+              <PageView key={`${info.index}-${bytes?.length}`} engine={engine} info={info} scale={scale} editing={editing} hits={hitRects[info.index] ?? []} onVisible={onVisible} fileUri={fileUri} />
             ))}
           </div>
         )}

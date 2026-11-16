@@ -117,6 +117,17 @@ export const NovaLock = registerPlugin<NovaLockPlugin>('NovaLock', {
   web: () => ({ status: async () => ({ available: false, biometry: 'none' as const }), authenticate: async () => { throw Object.assign(new Error('unavailable'), { code: 'UNAVAILABLE' }) } }) as unknown as NovaLockPlugin
 })
 
+// ------------------------------------------------------------------ عرض الصفحات بمحرك iOS (PDFKit)
+export interface NovaPdfRenderPlugin {
+  renderPage(options: { path: string; page: number; width: number }): Promise<{ path: string; webPath?: string; width: number; height: number }>
+  clearCache(): Promise<void>
+}
+export const NovaPdfRender = registerPlugin<NovaPdfRenderPlugin>('NovaPdfRender', {
+  // في المتصفح لا محرك أصلي: يرجع العارض إلى pdf.js
+  web: () => ({ renderPage: async () => { throw Object.assign(new Error('unavailable'), { code: 'UNAVAILABLE' }) }, clearCache: async () => undefined }) as unknown as NovaPdfRenderPlugin
+})
+export const nativeRenderAvailable = (): boolean => Capacitor.isNativePlatform() && Capacitor.isPluginAvailable('NovaPdfRender')
+
 export const NovaDocuments = registerPlugin<NovaDocumentsPlugin>('NovaDocuments', {
   web: () => import('./web/documents').then((m) => new m.WebDocuments())
 })
