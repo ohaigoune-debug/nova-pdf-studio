@@ -156,3 +156,11 @@ macOS-15 على GitHub، **Xcode 26.3 (17C529)**:
 - الطباعة **AirPrint**، ورقة المشاركة، منتقي «الملفات/iCloud» على الجهاز، «فتح في NOVA Docs» من تطبيق آخر.
 - **Sandbox** وTestFlight.
 - الأداء والذاكرة على iPhone قديم (iOS 16) وملفات ضخمة (مئات الصفحات المصوّرة).
+
+
+## 8c) عرض العربية — ملف بخط مضمّن مقابل خط غير مضمّن (CI على `29d205d`، محاكي iPhone 16 Pro Max)
+- الملفان مولَّدان بـ `scripts/make-arabic-fixtures.py` (fpdf2 + HarfBuzz، خط CID TrueType مثل Word؛ والنسخة الثانية بلا FontFile2 وباسم TraditionalArabic).
+- **مضمّن:** pdf.js (WKWebView) ✓ سليم · iOS PDFKit ✓ سليم.
+- **غير مضمّن:** pdf.js ✗ حروف منفصلة جزئيًا وحركات مزاحة (يطابق لقطة جهاز المالك) · iOS PDFKit ✗ رموز لاتينية لا معنى لها.
+- `fontReport` (اختبار وحدة): يكتشف `TraditionalArabic` غير مضمّن ولا يبلّغ عن الملف المضمّن. التنبيه ظاهر في لقطة 21-arabic-fonts-banner.
+- القرار: pdf.js يبقى المحرك الافتراضي؛ PDFKit اختياري ولا يُستعمل مع الخطوط الناقصة.

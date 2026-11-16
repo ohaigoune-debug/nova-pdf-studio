@@ -63,7 +63,7 @@
     "loadingPrice": "جارٍ تحميل السعر من App Store…", "retry": "إعادة المحاولة", "testerBuild": "نسخة اختبار داخلية — Pro مفتوح للتجربة دون شراء.", "lockedFeature": "هذه ميزة من NOVA Pro", "legal": "يُخصم المبلغ من حساب Apple الخاص بك وتعالج Apple عملية الشراء."
   },
   "settings": {
-    "appearance": "المظهر", "system": "حسب النظام", "light": "فاتح", "dark": "داكن", "company": "ملف المؤسسة", "nativeRender": "عرض الصفحات بمحرك iOS", "nativeRenderHint": "يعرض الملفات كما تظهر في تطبيق «الملفات» (أدق للخطوط العربية). أوقفه فقط إن ظهرت صفحة بشكل غير صحيح.", "companyHint": "يُطبع في كل فاتورة.", "defaultCurrency": "العملة الافتراضية",
+    "appearance": "المظهر", "system": "حسب النظام", "light": "فاتح", "dark": "داكن", "company": "ملف المؤسسة", "nativeRender": "محرك iOS للعرض (بديل)", "nativeRenderHint": "محرك عرض بديل. جرّبه فقط إن ظهرت صفحة بشكل غير صحيح. لا يُستعمل مع الملفات التي لا تحتوي خطوطها.", "companyHint": "يُطبع في كل فاتورة.", "defaultCurrency": "العملة الافتراضية",
     "brand": "الشعار والتوقيع والختم", "logo": "الشعار", "signature": "التوقيع", "stamp": "الختم", "choose": "اختيار صورة", "remove": "إزالة", "demo": "بيانات تجريبية", "loadDemo": "تحميل فواتير تجريبية", "clearDemo": "حذف البيانات التجريبية", "invoiceLanguage": "لغة الفاتورة", "data": "البيانات"
   },
   "backup": {

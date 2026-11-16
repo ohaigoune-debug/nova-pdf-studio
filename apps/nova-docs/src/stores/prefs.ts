@@ -13,7 +13,7 @@ interface Prefs {
   ocrLanguages: OcrLanguage[]
   signatures: string[]          // PNG data URLs (أقصى 4)
   appLock: boolean              // قفل التطبيق بـ Face ID / Touch ID / رمز الجهاز
-  /** عرض الصفحات بمحرك iOS (PDFKit) بدل pdf.js — افتراضي على iPhone/iPad */
+  /** محرك عرض بديل: iOS PDFKit بدل pdf.js (اختياري؛ لا يُستعمل مع الخطوط غير المضمّنة لأنه يرسمها رموزًا) */
   nativeRender: boolean
   loaded: boolean
   load(): Promise<void>
@@ -38,7 +38,7 @@ export const usePrefs = create<Prefs>((set, get) => ({
   ocrLanguages: ['ara', 'fra', 'eng'],
   signatures: [],
   appLock: false,
-  nativeRender: true,
+  nativeRender: false,
   loaded: false,
   async load() {
     try {
@@ -51,7 +51,7 @@ export const usePrefs = create<Prefs>((set, get) => ({
           ocrLanguages: saved.ocrLanguages?.length ? saved.ocrLanguages : get().ocrLanguages,
           signatures: Array.isArray(saved.signatures) ? saved.signatures.slice(0, 4) : [],
           appLock: saved.appLock === true,
-          nativeRender: saved.nativeRender !== false
+          nativeRender: saved.nativeRender === true
         })
       }
     } catch {

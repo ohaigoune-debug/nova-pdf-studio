@@ -63,7 +63,7 @@
     "loadingPrice": "Chargement du prix depuis l’App Store…", "retry": "Réessayer", "testerBuild": "Version de test interne — Pro est débloqué pour les essais, sans achat.", "lockedFeature": "Fonction NOVA Pro", "legal": "Le paiement est débité de votre identifiant Apple et traité par Apple."
   },
   "settings": {
-    "appearance": "Apparence", "system": "Système", "light": "Clair", "dark": "Sombre", "company": "Profil de l’entreprise", "nativeRender": "Afficher les pages avec le moteur iOS", "nativeRenderHint": "Affiche les fichiers comme l’app Fichiers (plus fidèle pour les polices arabes). À désactiver seulement si une page s’affiche mal.", "companyHint": "Imprimé sur chaque facture.", "defaultCurrency": "Devise par défaut",
+    "appearance": "Apparence", "system": "Système", "light": "Clair", "dark": "Sombre", "company": "Profil de l’entreprise", "nativeRender": "Moteur d’affichage iOS (alternatif)", "nativeRenderHint": "Moteur d’affichage alternatif. À essayer seulement si une page s’affiche mal. Non utilisé pour les fichiers sans leurs polices.", "companyHint": "Imprimé sur chaque facture.", "defaultCurrency": "Devise par défaut",
     "brand": "Logo, signature et cachet", "logo": "Logo", "signature": "Signature", "stamp": "Cachet", "choose": "Choisir une image", "remove": "Retirer", "demo": "Données d’exemple", "loadDemo": "Charger des factures d’exemple", "clearDemo": "Supprimer les exemples", "invoiceLanguage": "Langue des factures", "data": "Données"
   },
   "backup": {

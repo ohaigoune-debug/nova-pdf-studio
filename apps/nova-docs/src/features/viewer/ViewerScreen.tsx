@@ -164,13 +164,15 @@ export default function ViewerScreen({ file, startPage = 0, startEditing = false
 
   // خطوط غير مضمّنة في الملف: السبب الأشيع لظهور العربية مقطّعة على iPhone (اكتُشف على جهاز حقيقي)
   const [missingFonts, setMissingFonts] = useState<string[]>([])
+  const [fontsChecked, setFontsChecked] = useState(false)
   const [fontsDismissed, setFontsDismissed] = useState(false)
   useEffect(() => {
     if (!engine) return
     let alive = true
     setFontsDismissed(false)
+    setFontsChecked(false)
     void fontReport(engine)
-      .then((r) => alive && setMissingFonts(r.missing))
+      .then((r) => alive && (setMissingFonts(r.missing), setFontsChecked(true)))
       .catch(() => alive && setMissingFonts([]))
     return () => {
       alive = false
@@ -375,7 +377,7 @@ export default function ViewerScreen({ file, startPage = 0, startEditing = false
         ) : (
           <div ref={pagesRef} className="px-3 py-4" style={{ width: Math.max(width, maxW * scale + 24), transform: pinchScale !== 1 ? `scale(${pinchScale})` : undefined, transformOrigin: 'top center' }}>
             {infos.map((info) => (
-              <PageView key={`${info.index}-${bytes?.length}`} engine={engine} info={info} scale={scale} editing={editing} hits={hitRects[info.index] ?? []} onVisible={onVisible} fileUri={fileUri} />
+              <PageView key={`${info.index}-${bytes?.length}`} engine={engine} info={info} scale={scale} editing={editing} hits={hitRects[info.index] ?? []} onVisible={onVisible} fileUri={fontsChecked && missingFonts.length === 0 ? fileUri : null} />
             ))}
           </div>
         )}

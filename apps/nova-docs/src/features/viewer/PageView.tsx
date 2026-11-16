@@ -29,7 +29,7 @@ interface Props {
   editing: boolean
   hits: HitRect[]
   onVisible: (index: number) => void
-  /** مسار الملف في صندوق التطبيق: يتيح العرض بمحرك iOS (PDFKit) */
+  /** مسار الملف في صندوق التطبيق: يتيح العرض بمحرك iOS (PDFKit) — يُمرَّر فقط حين تكون كل الخطوط مضمّنة */
   fileUri?: string | null
 }
 
@@ -98,7 +98,7 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
     return () => io.disconnect()
   }, [info.index, onVisible])
 
-  // ---- العرض بمحرك iOS (PDFKit) أولًا؛ pdf.js احتياطًا (الويب، الملفات المشفّرة، أي فشل)
+  // ---- محرك iOS (PDFKit) اختياري من الإعدادات؛ pdf.js هو الافتراضي والاحتياط (الويب، الملفات المشفّرة، أي فشل)
   const wantNative = usePrefs((st) => st.nativeRender) && !!fileUri && nativeRenderAvailable()
   const [nativeSrc, setNativeSrc] = useState<string | null>(null)
   const [nativeFailed, setNativeFailed] = useState(false)
