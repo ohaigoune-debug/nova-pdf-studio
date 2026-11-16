@@ -84,7 +84,7 @@ function LockSection() {
     }
   }
   return (
-    <Section header={t('ios.lock.section')} footer={status.available ? t('ios.lock.settingDesc', { method }) : t('ios.lock.unavailable')}>
+    <Section header={t('ios.lock.section')} footer={!status.available ? t('ios.lock.unavailable') : status.biometry === 'none' ? t('ios.lock.settingDescPasscode') : t('ios.lock.settingDesc', { method })}>
       <label className="flex min-h-[48px] items-center gap-3 px-4">
         <span className="flex-1 text-[17px]">{t('ios.lock.setting', { method })}</span>
         <Toggle checked={appLock} disabled={!status.available} onChange={(v) => void toggle(v)} label={t('ios.lock.setting', { method })} />
