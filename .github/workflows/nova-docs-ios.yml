@@ -111,7 +111,8 @@ jobs:
           07-pro|paywall
           08-ar-documents|lang/ar,tab/documents
           09-ar-invoices|lang/ar,demo-invoices
-          10-ar-dark-tools|lang/ar,theme/dark,tab/tools"
+          10-ar-dark-tools|lang/ar,theme/dark,tab/tools
+          11-ocr-selftest|lang/en,theme/light,ocr-selftest|45"
           for DEV in "iPhone 16 Pro Max" "iPad Pro 13-inch (M4)"; do
             UDID=$(xcrun simctl list devices available -j | python3 -c "import json,sys; d=json.load(sys.stdin)['devices']; print(next((x['udid'] for v in d.values() for x in v if x['name']=='$DEV'), ''))")
             if [ -z "$UDID" ]; then echo "::warning::no simulator $DEV"; continue; fi
@@ -120,11 +121,11 @@ jobs:
             xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3 || true
             xcrun simctl install "$UDID" "$APP"
             SLUG=$(echo "$DEV" | tr ' ()"' '____')
-            echo "$SCENES" | while IFS='|' read -r NAME ROUTE; do
+            echo "$SCENES" | while IFS='|' read -r NAME ROUTE WAIT; do
               NAME=$(echo "$NAME" | xargs)
               xcrun simctl terminate "$UDID" com.haigoune.novadocs 2>/dev/null || true
               SIMCTL_CHILD_NOVA_ROUTE="$ROUTE" xcrun simctl launch --terminate-running-process --stdout="$PWD/shots/${SLUG}-${NAME}-stdout.txt" --stderr="$PWD/shots/${SLUG}-${NAME}-stderr.txt" "$UDID" com.haigoune.novadocs
-              sleep 14
+              sleep "${WAIT:-14}"
               xcrun simctl io "$UDID" screenshot "shots/${SLUG}-${NAME}.png"
             done
             xcrun simctl spawn "$UDID" log show --last 5m --predicate 'process == "App"' --style compact 2>/dev/null | grep -iE "error|nova|capacitor" | tail -80 > "shots/${SLUG}-app-log.txt" || true

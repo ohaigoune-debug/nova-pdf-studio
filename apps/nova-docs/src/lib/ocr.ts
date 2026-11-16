@@ -115,8 +115,8 @@ export async function releaseOcr(): Promise<void> {
  * التعرّف «المتين» المستعمل في التطبيق: تمريرة أولى، ثم إن بقيت أشرطة نص دون قراءة نعيد بمقياس يعيد ارتفاع
  * السطر إلى ~30 بكسل وندمج (نفس الخوارزمية المختبرة في tests/ocr-accuracy.test.ts).
  */
-export async function recognizeRobust(image: Uint8Array, size: { width: number; height: number }, langs: OcrLanguage[], onProgress?: (p: number) => void): Promise<OcrOutcome> {
-  const first = await recognizeImage(image, size, langs, onProgress)
+export async function recognizeRobust(image: Uint8Array, size: { width: number; height: number }, langs: OcrLanguage[], onProgress?: (p: number) => void, opts: { tesseractOnly?: boolean } = {}): Promise<OcrOutcome> {
+  const first = opts.tesseractOnly ? await recognizeTesseract(image, langs, size) : await recognizeImage(image, size, langs, onProgress)
   if (first.engine === 'vision') return first
   const bitmap = await createImageBitmap(blobOf(image))
   const canvas = document.createElement('canvas')

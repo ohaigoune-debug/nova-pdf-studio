@@ -6,7 +6,7 @@ import { usePrefs, applyTheme } from './stores/prefs'
 import App from './App'
 
 declare global {
-  interface Window { novaOpen?: (routes: string) => Promise<void>; __NOVA_ROUTE__?: string }
+  interface Window { novaOpen?: (routes: string) => Promise<void>; __NOVA_ROUTE__?: string; __NOVA_DEBUG__?: boolean }
 }
 window.novaOpen = (routes: string) => import('./lib/deeplinks').then((m) => m.openRoutes(routes))
 

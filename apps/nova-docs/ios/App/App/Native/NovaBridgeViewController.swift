@@ -15,7 +15,7 @@ class NovaBridgeViewController: CAPBridgeViewController {
         // فتفتح الشاشة المطلوبة بنفسها عندما تكون جاهزة (بلا مؤقّت تخميني وبلا نافذة تأكيد الروابط).
         if let route = ProcessInfo.processInfo.environment["NOVA_ROUTE"], !route.isEmpty {
             let safe = route.filter { $0.isLetter || $0.isNumber || "/,-_".contains($0) }
-            let script = WKUserScript(source: "window.__NOVA_ROUTE__ = '\(safe)';", injectionTime: .atDocumentStart, forMainFrameOnly: true)
+            let script = WKUserScript(source: "window.__NOVA_ROUTE__ = '\(safe)'; window.__NOVA_DEBUG__ = true;", injectionTime: .atDocumentStart, forMainFrameOnly: true)
             webView?.configuration.userContentController.addUserScript(script)
         }
         #endif
