@@ -39,8 +39,10 @@ open ios/App/App.xcodeproj   # Signing & Capabilities ← Team ← Product ← A
 2. developer.apple.com ← Identifiers ← App ID من نوع App بمعرّف صريح `com.haigoune.novadocs` (الشراء داخل التطبيق مفعّل افتراضيًا).
 3. App Store Connect ← Apps ← New App: iOS، الاسم «NOVA Docs: PDF & Invoices»، المعرّف أعلاه، SKU `NOVADOCS-IOS-001`.
 4. App Store Connect ← Users and Access ← Integrations ← App Store Connect API ← Team Keys ← مفتاح بدور **Admin** (دور App Manager يُرفض في التوقيع السحابي للتوزيع). نزّل ملف `.p8` (مرة واحدة فقط)، وسجّل Key ID وIssuer ID، وTeam ID من Membership.
-5. GitHub ← Settings ← Secrets and variables ← Actions: `APPLE_TEAM_ID`، `ASC_KEY_ID`، `ASC_ISSUER_ID`، `ASC_KEY_P8_BASE64` (و`NOVA_SUPPORT_EMAIL` اختياريًا). تحويل المفتاح في PowerShell:
+5. GitHub ← Settings ← Secrets and variables ← Actions: `APPLE_TEAM_ID`، `ASC_KEY_ID`، `ASC_ISSUER_ID`، و**`ASC_KEY_P8`** = نص ملف `.p8` كما هو (افتحه بالمفكرة وانسخ كل الأسطر) — أو بديلًا عنه `ASC_KEY_P8_BASE64` (و`NOVA_SUPPORT_EMAIL` اختياريًا). تحويل base64 إن اخترته، في PowerShell:
    `[Convert]::ToBase64String([IO.File]::ReadAllBytes("$HOME\Downloads\AuthKey_XXXX.p8")) | Set-Clipboard`
 6. التشغيل: دفع وسم `nova-docs-testflight-<n>` (يعمل من الفرع دون دمج في main). رقم البناء = رقم التشغيل.
 7. بعد المعالجة (10–30 دقيقة): TestFlight ← Internal Testing ← مجموعة + إضافة نفسك ← تطبيق TestFlight على iPhone/iPad. الاختبار الداخلي لا يمر بمراجعة Beta ولا يُنشر للعامة.
 8. شراء Pro داخل TestFlight يحتاج Paid Apps Agreement + المنتج `nova.docs.pro.lifetime`؛ دونهما يعمل التطبيق وتعرض شاشة Pro «App Store غير متاح». مشتريات TestFlight مجانية (بيئة Sandbox).
+
+**الحالة حسب تقرير المالك (16 نوفمبر، 12:30):** العضوية فعّالة · المعرّف `com.haigoune.novadocs` مسجّل · التطبيق أُنشئ في App Store Connect باسم «NOVA Docs: PDF & Invoices» · مجموعة TestFlight الداخلية «Owner» جاهزة · السرّان `APPLE_TEAM_ID` و`ASC_ISSUER_ID` مضافان. **الناقص:** مفتاح API بدور Admin + السرّان `ASC_KEY_ID` و`ASC_KEY_P8`. (لا أستطيع التحقق من حساب Apple ولا من أسرار GitHub من بيئة العمل؛ واجهة الأسرار محجوبة.)
