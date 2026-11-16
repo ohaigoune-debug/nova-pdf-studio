@@ -34,10 +34,26 @@ export async function closeDatabase(): Promise<void> {
   instance = null
 }
 
+/** جداول لا بد أن توجد في أي نسخة احتياطية من NOVA (Windows أو iOS). */
+const REQUIRED_TABLES = ['invoices', 'customers', 'products']
+
+/**
+ * استعادة نسخة احتياطية بأمان: إن لم يكن الملف قاعدة NOVA صالحة (ملف SQLite آخر، تالف…) نُرجع البيانات
+ * الحالية كما كانت ونرمي خطأ — لا تُفقد بيانات المستخدم أبدًا بسبب ملف خاطئ.
+ */
 export function replaceDatabase(bytes: Uint8Array): void {
   const db = getDatabase()
-  db.replaceWith(bytes)
-  runMigrations(db as never)
+  const previous = db.exportBytes()
+  try {
+    db.replaceWith(bytes)
+    const tables = new Set(db.all<{ name: string }>("SELECT name FROM sqlite_master WHERE type='table'").map((r) => r.name))
+    const missing = REQUIRED_TABLES.filter((t) => !tables.has(t))
+    if (missing.length) throw Object.assign(new Error(`not a NOVA backup (missing: ${missing.join(', ')})`), { messageKey: 'ios.backup.invalid' })
+    runMigrations(db as never)
+  } catch (e) {
+    db.replaceWith(previous)
+    throw e
+  }
 }
 
 export function nowIso(): string {
