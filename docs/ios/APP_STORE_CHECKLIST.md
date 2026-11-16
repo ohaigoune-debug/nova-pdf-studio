@@ -47,3 +47,5 @@ open ios/App/App.xcodeproj   # Signing & Capabilities ← Team ← Product ← A
 8. شراء Pro داخل TestFlight يحتاج Paid Apps Agreement + المنتج `nova.docs.pro.lifetime`؛ دونهما يعمل التطبيق وتعرض شاشة Pro «App Store غير متاح». مشتريات TestFlight مجانية (بيئة Sandbox).
 
 **الحالة حسب تقرير المالك (16 نوفمبر، 12:30):** العضوية فعّالة · المعرّف `com.haigoune.novadocs` مسجّل · التطبيق أُنشئ في App Store Connect باسم «NOVA Docs: PDF & Invoices» · مجموعة TestFlight الداخلية «Owner» جاهزة · السرّان `APPLE_TEAM_ID` و`ASC_ISSUER_ID` مضافان. **الناقص:** مفتاح API بدور Admin + السرّان `ASC_KEY_ID` و`ASC_KEY_P8`. (لا أستطيع التحقق من حساب Apple ولا من أسرار GitHub من بيئة العمل؛ واجهة الأسرار محجوبة.)
+
+**16 نوفمبر 13:07:** مفتاح API والأسرار الأربعة جاهزة · اختبار التوقيع نجح (التشغيل 2) · **البناء 1.0.0 (3) رُفع إلى App Store Connect**. التشغيل من بيئة العمل يتم بإيداع على الفرع رسالته تحوي الكلمة المفتاحية (دفع الوسوم مرفوض من بيئة العمل).
