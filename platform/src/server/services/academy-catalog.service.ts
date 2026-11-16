@@ -34,26 +34,14 @@ import { PICKER_LEVELS } from '@/lib/levels'
 import { signFileUrl } from '@/server/lib/storage'
 import { bacExclusionClauses, notAttachedSolution, PRACTICE_KINDS, visibleResources } from './library.service'
 import { subjectsFor } from './taxonomy.service'
+import { streamFamily } from './stream-family'
+import { contentScopeClause, studentScope } from './student-scope.service'
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const uuidOrNull = (v: string | null | undefined) => (v && UUID.test(v) ? v : null)
 
-/**
- * عائلة الشعبة: الشعبة نفسها وأمّها (وجدّتها إن وُجدت). «تقني رياضي — هندسة مدنية» يرى أيضًا ما صُنّف
- * للشعبة الأم «تقني رياضي». يعود [] إن لم تُحدَّد شعبة (= كل الشعب).
- */
-export async function streamFamily(db: Db, streamId: string | null | undefined): Promise<string[]> {
-  if (!streamId) return []
-  const out: string[] = []
-  let cur: string | null = streamId
-  for (let i = 0; cur && i < 4; i++) {
-    const [row] = await db.select({ id: streams.id, parentId: streams.parentId }).from(streams).where(eq(streams.id, cur)).limit(1)
-    if (!row) break
-    out.push(row.id)
-    cur = row.parentId
-  }
-  return out
-}
+/** عائلة الشعبة (نُقلت إلى stream-family لتفادي حلقة استيراد مع student-scope) — تُصدَّر من هنا كما كانت */
+export { streamFamily }
 
 /* ------------------------------- نطاق التلميذ ------------------------------- */
 
@@ -310,8 +298,8 @@ export interface LessonSection {
  */
 export async function listStudentLessonsOrganized(db: Db, actor: Actor, scope: Partial<BrowseScope> = {}, types: string[] = ['LESSON', 'ARTICLE', 'EXERCISE', 'VIDEO', 'PDF', 'AUDIO', 'IMAGE']): Promise<LessonSection[]> {
   const studentId = studentIdOf(actor)
-  const gids = await reachableGroupIds(db, studentId)
-  const family = await streamFamily(db, scope.streamId)
+  // نطاق الحساب (مستواه وشعبته) يُطبَّق دائمًا على المحتوى العام: مرشّحات الرابط تضيّق ولا توسّع
+  const [gids, family, own] = await Promise.all([reachableGroupIds(db, studentId), streamFamily(db, scope.streamId), studentScope(db, studentId)])
   const targeted = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)
@@ -332,7 +320,7 @@ export async function listStudentLessonsOrganized(db: Db, actor: Actor, scope: P
         isNotNull(content.publishedAt),
         isNull(content.deletedAt),
         inArray(content.type, types),
-        /* فيديوهات يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ محتوى دوراته يبقى */ or(and(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), sql`coalesce(${content.videoProvider}, '') <> 'YOUTUBE'`), inArray(content.id, targeted)),
+        /* فيديوهات يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ محتوى دوراته يبقى */ or(and(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), sql`coalesce(${content.videoProvider}, '') <> 'YOUTUBE'`, contentScopeClause(own)), inArray(content.id, targeted)),
         // المستوى/الشعبة/المادة: المحتوى غير المصنّف (قديم) يبقى ظاهراً؛ الشعبة تشمل أمّها
         scope.levelId ? or(isNull(content.levelId), eq(content.levelId, scope.levelId)) : undefined,
         family.length ? or(isNull(content.streamId), inArray(content.streamId, family)) : undefined,

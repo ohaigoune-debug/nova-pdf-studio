@@ -12,6 +12,7 @@ import { writeAudit } from '@/server/lib/audit'
 import { AppError } from '@/server/lib/errors'
 import { sendTelegram } from '@/server/lib/telegram'
 import { activateCoursesForOrder, type ActivationSummary } from './course-activation.service'
+import { cancelInvoiceForOrder, issueInvoiceForOrder } from './invoices.service'
 import { grantPurchasesForOrder } from './marketplace.service'
 import { revokeEnrollmentsForReturnedOrder } from './courses.service'
 import { notify, notifyMany } from './notifications.service'
@@ -110,6 +111,19 @@ export async function notifyAdmins(db: Db, input: { title: string; body?: string
   if (input.telegram !== false) await sendTelegram(db, [input.title, input.body ?? ''].filter(Boolean).join('\n'))
 }
 
+/**
+ * الفاتورة: تُصدر عند التسليم وتُلغى عند الإرجاع (قرار المالك 16 نوفمبر 2026). idempotent، وفشلها لا يُفشل
+ * التسليم — «أصدر الفواتير الناقصة» في صفحة الفواتير يلتقط ما فات.
+ */
+async function syncInvoice(db: Db, orderId: string, next: OrderStatus, opts: TransitionOptions): Promise<void> {
+  try {
+    if (next === 'DELIVERED') await issueInvoiceForOrder(db, orderId)
+    if (next === 'RETURNED') await cancelInvoiceForOrder(db, orderId, `إرجاع الطلب${opts.reason ? `: ${opts.reason}` : ''}`, opts.actorUserId)
+  } catch (e) {
+    if (process.env.NODE_ENV !== 'test') console.error('[order-status] invoice sync failed', e)
+  }
+}
+
 /** مكافأة الدعوة/المسوّق عند أول طلب دورة يُسلَّم — فشلها لا يُفشل التسليم */
 async function rewardReferral(db: Db, orderId: string): Promise<void> {
   try {
@@ -188,6 +202,7 @@ export async function transitionOrder(db: Db, orderId: string, next: OrderStatus
   if (!result.changed) {
     const activation = next === 'DELIVERED' ? await activateCoursesForOrder(db, row.id) : null
     if (next === 'DELIVERED') await rewardReferral(db, row.id)
+    await syncInvoice(db, row.id, next, opts)
     return { order: row, changed: false, activation }
   }
 
@@ -212,6 +227,7 @@ export async function transitionOrder(db: Db, orderId: string, next: OrderStatus
   }
 
   if (next === 'DELIVERED') await rewardReferral(db, orderId)
+  await syncInvoice(db, orderId, next, opts)
   if (next === 'RETURNED') {
     try {
       await onOrderReturned(db, orderId)

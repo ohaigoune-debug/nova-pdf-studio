@@ -18,6 +18,7 @@ import { resolveMediaAccess } from '@/server/services/media.service'
 import { upsertResource } from '@/server/services/resources.service'
 import { createProduct } from '@/server/services/store.service'
 import { resolveCodes } from '@/server/services/taxonomy.service'
+import { saveStudentLevelStream } from '@/server/services/student-scope.service'
 import { listStudentContent, listStudentFiles } from '@/server/queries/student-extras.queries'
 import { getCourseAccessMode, reachableGroupIds, setCourseAccessMode } from '@/server/lib/course-access'
 import { makeAdmin, makeStudent, makeTeacher, publishLegacyCourse, setupDb, workspaceIdOfTeacher } from './helpers'
@@ -356,9 +357,13 @@ describe('مراجعة PR #2 — الملاحظات الأربع', () => {
     // درس عام للشعبة الأم، ودرس خاص بفوج للشعبة الأم: الأول يظهر للفرع، الثاني لا (الصلاحيات)
     const pub = await createContent(h.db, teacher, { type: 'LESSON', title: 'درس TM عام', visibility: 'PUBLIC', body: 'x', publish: true, levelId: tm.levelId, streamId: tm.streamId, subjectId: tm.subjectId })
     const priv = await createContent(h.db, teacher, { type: 'LESSON', title: 'درس TM خاص', visibility: 'GROUP_ONLY', groupIds: [tmCourse.groupId], body: 'x', publish: true, levelId: tm.levelId, streamId: tm.streamId, subjectId: tm.subjectId })
-    const seen = (await listStudentLessonsOrganized(h.db, noGroup, { levelId: tm.levelId, streamId: civil.streamId, subjectId: tm.subjectId }, ['LESSON'])).flatMap((s) => s.lessons.map((l) => l.id))
+    // منذ 15 نوفمبر 2026 النطاق من حساب التلميذ (لا من الرابط): تلميذ «هندسة مدنية» في حسابه، وnoGroup «علوم تجريبية»
+    const civilStudent = await makeStudent(h.db, 'تلميذ هندسة مدنية')
+    await saveStudentLevelStream(h.db, civilStudent, { levelId: civil.levelId!, streamId: civil.streamId })
+    const seen = (await listStudentLessonsOrganized(h.db, civilStudent, { levelId: tm.levelId, streamId: civil.streamId, subjectId: tm.subjectId }, ['LESSON'])).flatMap((s) => s.lessons.map((l) => l.id))
     expect(seen).toContain(pub.id)
     expect(seen).not.toContain(priv.id)
+    expect((await getContentForStudent(h.db, civilStudent, pub.slug)).id).toBe(pub.id)
     const seenSci = (await listStudentLessonsOrganized(h.db, noGroup, { levelId: tm.levelId, streamId: sci.streamId, subjectId: tm.subjectId }, ['LESSON'])).flatMap((s) => s.lessons.map((l) => l.id))
     expect(seenSci).not.toContain(pub.id)
     // الموارد والبطاقات: مورد الشعبة الأم يُحتسب لفرعها

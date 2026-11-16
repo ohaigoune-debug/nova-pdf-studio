@@ -95,9 +95,11 @@ export interface HomeHeroProps {
   loginLine?: { prompt: string; label: string } | null
   /** تطبيق أندرويد إن كان منشورًا على الخادم */
   android?: { title: string; detail: string } | null
+  /** تطبيق الآيفون إن حفظ المشرف رابطه في App Store */
+  ios?: { title: string; detail: string; url: string } | null
 }
 
-export function HomeHero({ ctaHref, ctaLabel, loginLine, android }: HomeHeroProps) {
+export function HomeHero({ ctaHref, ctaLabel, loginLine, android, ios }: HomeHeroProps) {
   return (
     <>
       <section className="relative overflow-hidden border-b bg-background" aria-labelledby="hero-title">
@@ -143,14 +145,27 @@ export function HomeHero({ ctaHref, ctaLabel, loginLine, android }: HomeHeroProp
               </p>
             ) : null}
             <p className="mt-4 text-[11px] text-muted-foreground lg:mt-5 lg:text-[13px]">دكتوراه في الأدب العربي القديم ونقده</p>
-            {android ? (
-              <a href="/download/android" className="mt-5 inline-flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-2.5 text-start transition-colors hover:border-primary/50">
-                <Smartphone className="size-6 text-primary" aria-hidden />
-                <span className="leading-tight">
-                  <span className="block font-bold">{android.title}</span>
-                  <span className="block text-xs text-muted-foreground">{android.detail}</span>
-                </span>
-              </a>
+            {android || ios ? (
+              <div className="mt-5 flex flex-wrap justify-center gap-2.5 lg:justify-start">
+                {ios ? (
+                  <a href={ios.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-2.5 text-start transition-colors hover:border-primary/50">
+                    <Smartphone className="size-6 text-primary" aria-hidden />
+                    <span className="leading-tight">
+                      <span className="block font-bold">{ios.title}</span>
+                      <span className="block text-xs text-muted-foreground">{ios.detail}</span>
+                    </span>
+                  </a>
+                ) : null}
+                {android ? (
+                  <a href="/download/android" className="inline-flex items-center gap-3 rounded-lg border border-border bg-card px-4 py-2.5 text-start transition-colors hover:border-primary/50">
+                    <Smartphone className="size-6 text-primary" aria-hidden />
+                    <span className="leading-tight">
+                      <span className="block font-bold">{android.title}</span>
+                      <span className="block text-xs text-muted-foreground">{android.detail}</span>
+                    </span>
+                  </a>
+                ) : null}
+              </div>
             ) : null}
           </div>
         </div>

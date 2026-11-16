@@ -335,7 +335,21 @@
       "idx": 47,
       "version": "7",
       "when": 1794700000000,
-      "tag": "0047_course_shipping_included",
+      "tag": "0047_scope_change_requests",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1794800000000,
+      "tag": "0048_invoices",
+      "breakpoints": true
+    },
+    {
+      "idx": 49,
+      "version": "7",
+      "when": 1794900000000,
+      "tag": "0049_course_shipping_included",
       "breakpoints": true
     }
   ]

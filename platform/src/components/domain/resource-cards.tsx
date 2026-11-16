@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input, Select } from '@/components/ui/input'
 import type { ResourceCard } from '@/server/services/library.service'
+import { CHANGE_SCOPE_HREF } from '@/lib/student-scope'
 
 /** بطاقات موارد المكتبة (فروض، اختبارات، دروس…) — زرّ واحد يفتح الملف عندنا أو عند مصدره، والمصدر مذكور دائماً */
 export function ResourceCards({ items }: { items: ResourceCard[] }) {
@@ -70,7 +71,7 @@ export function ResourceCards({ items }: { items: ResourceCard[] }) {
 }
 
 /** شريط المرشّحات المشترك: المستوى (من «مستواك» أعلى الموقع) + المادة + بحث */
-export function LevelSubjectBar({ action, levelLabel, subjects, subjectId, q, hidden = {}, placeholder = 'ابحث بالعنوان…' }: { action: string; levelLabel: string | null; subjects: { id: string; name: string }[]; subjectId: string | null; q?: string | null; hidden?: Record<string, string | undefined>; placeholder?: string }) {
+export function LevelSubjectBar({ action, levelLabel, lockedLabel, subjects, subjectId, q, hidden = {}, placeholder = 'ابحث بالعنوان…' }: { action: string; levelLabel: string | null; /** تلميذ مسجَّل: مستواه وشعبته من حسابه، بلا «كل المستويات» */ lockedLabel?: string | null; subjects: { id: string; name: string }[]; subjectId: string | null; q?: string | null; hidden?: Record<string, string | undefined>; placeholder?: string }) {
   return (
     <form action={action} className="mb-5 space-y-2 rounded-xl border bg-card p-3">
       {Object.entries(hidden).map(([k, v]) => (v ? <input key={k} type="hidden" name={k} value={v} /> : null))}
@@ -93,7 +94,14 @@ export function LevelSubjectBar({ action, levelLabel, subjects, subjectId, q, hi
       </div>
       <p className="text-xs leading-relaxed text-muted-foreground">
         <GraduationCap className="me-1 inline size-4 align-text-bottom text-primary" />
-        {levelLabel ? (
+        {lockedLabel ? (
+          <>
+            <span className="font-bold text-foreground">{lockedLabel}</span>{' '}
+            <Link href={CHANGE_SCOPE_HREF} className="text-primary underline">
+              تغيير
+            </Link>
+          </>
+        ) : levelLabel ? (
           <>
             المستوى: <span className="font-bold text-foreground">{levelLabel}</span> — غيّره من «مستواك» أعلى الصفحة، أو{' '}
             <Link href={`${action}?level=all`} className="text-primary underline">

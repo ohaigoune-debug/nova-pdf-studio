@@ -332,6 +332,8 @@ const ar = {
     verseAuthor: 'أحمد شوقي',
     androidApp: 'حمّل تطبيق أندرويد',
     androidAppD: 'مجاني للتلاميذ — {size} ميغابايت',
+    iosApp: 'حمّل تطبيق الآيفون',
+    iosAppD: 'مجاني للتلاميذ — من App Store',
     privacy: 'سياسة الخصوصية',
     deleteAccount: 'حذف الحساب'
   },
@@ -1088,6 +1090,8 @@ const ar = {
     ASSISTANT_ALREADY_ACTIVE: 'هذا المساعد مرتبط حالياً بأستاذ. يجب إلغاء ارتباطه أولاً.',
     ASSISTANT_NOT_FOUND: 'المساعد غير موجود.',
     ASSISTANT_NO_WORKSPACE: 'حسابك كمساعد غير مرتبط بأي أستاذ حالياً.',
+    LESSON_OUT_OF_SCOPE: 'هذا الدرس ليس لمستواك وشعبتك. غيّرهما من «حسابي» إن كانا غير صحيحين.',
+    INVOICE_NOT_FOUND: 'الفاتورة غير موجودة.',
     INTERNAL: 'حدث خطأ غير متوقع. حاول مرة أخرى.'
   },
   ai: {
@@ -1160,6 +1164,11 @@ const ar = {
    * صفحات المشرف تعرض المفتاح الخام عمداً: سجلّ التدقيق يحتاج الدقة لا الصياغة.
    */
   activity: {
+    student_scope_request: 'طلب تغيير الشعبة',
+    student_scope_decide: 'قرّر في طلب تغيير شعبة',
+    invoice_issue: 'أصدر فاتورة',
+    invoice_cancel: 'ألغى فاتورة',
+    settings_invoice: 'عدّل بيانات الفاتورة',
     session_start: 'بدأ حصة',
     session_close: 'أنهى حصة',
     session_cancel: 'ألغى حصة',
@@ -1344,6 +1353,7 @@ const ar = {
     uploader_courses: 'إسناد دورات لرافع محتوى',
     settings_student_menu: 'تعديل أقسام حساب التلميذ',
     settings_play_bac_ios_only: 'تعديل ظهور PLAY وبنك البكالوريات (آيفون وحده)',
+    settings_ios_app_link: 'تعديل رابط تطبيق الآيفون في App Store',
     payment_initiate: 'بدء دفع إلكتروني',
     payment_paid: 'دفع إلكتروني مؤكَّد',
     payment_failed: 'دفع إلكتروني لم يتمّ',

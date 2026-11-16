@@ -9,6 +9,7 @@ import { AppError, assertUuid } from '@/server/lib/errors'
 import { getBunnyCredentials, isBunnyVideoId, signedEmbedUrl } from '@/server/lib/bunny'
 import { BUNNY_EMBED_TTL_SECONDS } from '@/lib/media-embed'
 import { addTimeline } from './timeline.service'
+import { contentInScope, studentScope } from './student-scope.service'
 
 /**
  * حماية الوسائط الخاصة (فيديو مرفوع / PDF):
@@ -116,8 +117,11 @@ export async function resolveMediaAccess(db: Db, actor: Actor | null, contentId:
   else if (actor.role === 'TEACHER' || actor.role === 'ASSISTANT') allowed = c.visibility === 'PUBLIC' || (!!actor.workspaceId && c.workspaceId === actor.workspaceId)
   else if (actor.role === 'STUDENT' && actor.studentId) {
     studentId = actor.studentId
-    if (c.visibility === 'PUBLIC' || c.visibility === 'STUDENTS_ONLY') allowed = true
-    else if (c.visibility === 'GROUP_ONLY' || c.visibility === 'SPECIFIC_STUDENTS') {
+    // العام لمستوى التلميذ وشعبته فقط (أو مشترك/غير مصنّف) — نفس شرط فتح الدرس؛ ما خرج عنه يُقبل إن كان موجَّهًا له
+    const open = c.visibility === 'PUBLIC' || c.visibility === 'STUDENTS_ONLY'
+    const outOfScope = open && !contentInScope(await studentScope(db, studentId), c)
+    if (open && !outOfScope) allowed = true
+    else if (outOfScope || c.visibility === 'GROUP_ONLY' || c.visibility === 'SPECIFIC_STUDENTS') {
       const gids = await reachableGroupIds(db, studentId)
       const [t] = await db
         .select({ id: contentTargets.id })
@@ -125,6 +129,7 @@ export async function resolveMediaAccess(db: Db, actor: Actor | null, contentId:
         .where(and(eq(contentTargets.contentId, c.id), or(gids.length ? inArray(contentTargets.groupId, gids) : sql`false`, eq(contentTargets.studentId, studentId))))
         .limit(1)
       allowed = !!t
+      if (!allowed && outOfScope) throw new AppError('LESSON_OUT_OF_SCOPE')
     }
   } else allowed = c.visibility === 'PUBLIC'
   if (!allowed) throw new AppError('CONTENT_NOT_FOUND')
