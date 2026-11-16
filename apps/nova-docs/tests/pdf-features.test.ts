@@ -116,3 +116,21 @@ describe('PDF tools on iOS (pdf-lib, same functions as Windows)', () => {
     expect(Math.round(doc.getPage(0).getWidth())).toBe(595)
   })
 })
+
+describe('Arabic text added in the editor is searchable', () => {
+  it('raster Arabic text gets an invisible text layer that pdf.js extracts', async () => {
+    const { readFileSync } = await import('node:fs')
+    const { resolve } = await import('node:path')
+    const { addSearchableTextForObjects } = await import('../src/lib/textLayer')
+    // راستر وهمي (في التطبيق: Canvas داخل WKWebView) — الاختبار يخص طبقة النص لا الرسم
+    const png = Uint8Array.from(Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64'))
+    const objects: EditLayer['objects'] = [
+      { id: 'a', kind: 'text', page: 0, x: 72, y: 300, width: 300, height: 40, text: 'تمت الموافقة على العقد\nبوسعادة 2026-11-16', fontSize: 16, fontFamily: 'sans', bold: false, italic: false, underline: false, align: 'right', color: '#123D36', background: null, direction: 'rtl' }
+    ]
+    let out = await applyEdits(await samplePdf(1), { objects }, { rasterizeText: async (o) => ({ png, widthPt: o.width, heightPt: 40 }), rasterScale: 1 })
+    expect((await textOf(out))[0]).not.toContain('الموافقة')
+    out = await addSearchableTextForObjects(out, objects, readFileSync(resolve(__dirname, '../../../resources/fonts/NotoNaskhArabic-Regular.ttf')))
+    const text = (await textOf(out))[0]
+    for (const w of ['تمت', 'الموافقة', 'العقد', 'بوسعادة', '2026-11-16', 'Page 1']) expect(text, text).toContain(w)
+  })
+})
