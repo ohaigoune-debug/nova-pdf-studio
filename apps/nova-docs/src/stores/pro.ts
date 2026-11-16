@@ -28,6 +28,9 @@ export interface ProState {
   require(feature: Feature): boolean
 }
 
+/** مهلة عرض السعر قبل إظهار «App Store غير متاح» (الطلب يستمر في الخلفية). */
+export const PRODUCT_TIMEOUT_MS = 10_000
+
 export function createProStore(plugin: NovaStorePlugin) {
   let listening = false
   return create<ProState>((set, get) => {
@@ -64,13 +67,20 @@ export function createProStore(plugin: NovaStorePlugin) {
       },
       async refreshProduct() {
         set({ productState: 'loading' })
+        // StoreKit قد لا يرد أبدًا دون اتصال/حساب (شوهد على المحاكي): بعد المهلة نعرض «غير متاح» + إعادة المحاولة،
+        // ويبقى الطلب الأصلي قائمًا فإن وصل السعر لاحقًا يظهر تلقائيًا.
+        const timer = setTimeout(() => {
+          if (get().productState === 'loading') set({ productState: 'unavailable' })
+        }, PRODUCT_TIMEOUT_MS)
         try {
           const { products } = await plugin.getProducts({ productIds: [PRO_PRODUCT_ID] })
           const product = products.find((p) => p.id === PRO_PRODUCT_ID) ?? null
           // قائمة فارغة = المنتج غير متاح من App Store (لم يُعتمد بعد، أو لا اتصال): لا نترك الزر «جارٍ التحميل» إلى الأبد
-          set({ product, productState: product ? 'ready' : 'unavailable' })
+          if (product || !get().product) set({ product, productState: product ? 'ready' : 'unavailable' })
         } catch (e) {
-          set({ product: null, productState: 'unavailable', error: String((e as Error)?.message ?? e) })
+          if (!get().product) set({ product: null, productState: 'unavailable', error: String((e as Error)?.message ?? e) })
+        } finally {
+          clearTimeout(timer)
         }
       },
       async purchase() {

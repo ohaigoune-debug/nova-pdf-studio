@@ -1,6 +1,6 @@
 /** منطق الاستحقاق حول StoreKit (بإضافة أصلية وهمية تحاكي سلوك StoreKit 2). */
 import { describe, expect, it, vi } from 'vitest'
-import { createProStore } from '../src/stores/pro'
+import { PRODUCT_TIMEOUT_MS, createProStore } from '../src/stores/pro'
 import { FREE_FEATURES, PRO_FEATURES, isFeatureAllowed } from '../src/lib/features'
 import type { EntitlementsPayload, NovaStorePlugin } from '../src/platform/native'
 
@@ -68,6 +68,27 @@ describe('Pro entitlement store (StoreKit 2 contract)', () => {
     await vi.waitFor(() => expect(store.getState().productState).toBe('ready'))
     expect(store.getState().product?.displayPrice).toBe('600,00 DA')
     expect(store.getState().isPro).toBe(false)
+  })
+
+  it('StoreKit never answering → "unavailable" after the timeout; a late answer still shows the price', async () => {
+    vi.useFakeTimers()
+    try {
+      const { plugin } = fakeStore(false)
+      let answer: (v: { products: unknown[] }) => void = () => undefined
+      const ok = await plugin.getProducts({ productIds: [] })
+      plugin.getProducts.mockImplementationOnce(() => new Promise((r) => { answer = r as typeof answer }) as never)
+      const store = createProStore(plugin)
+      const pending = store.getState().refreshProduct()
+      expect(store.getState().productState).toBe('loading')
+      await vi.advanceTimersByTimeAsync(PRODUCT_TIMEOUT_MS + 1)
+      expect(store.getState().productState).toBe('unavailable')
+      answer(ok)
+      await pending
+      expect(store.getState().productState).toBe('ready')
+      expect(store.getState().product?.displayPrice).toBe('600,00 DA')
+    } finally {
+      vi.useRealTimers()
+    }
   })
 
   it('require() blocks a pro feature and opens the paywall', async () => {
