@@ -91,6 +91,12 @@ export default function App() {
   useEffect(() => {
     void usePro.getState().init()
     void SplashScreen.hide().catch(() => undefined)
+    // نسخة Debug على المحاكي فقط: مسار تمرّره اللقطات الآلية (NovaBridgeViewController). لا يوجد في نسخة Release.
+    const pending = window.__NOVA_ROUTE__
+    if (pending) {
+      window.__NOVA_ROUTE__ = undefined
+      window.setTimeout(() => void window.novaOpen?.(pending), 1200)
+    }
     // «فتح في NOVA Docs» من تطبيق الملفات أو Mail أو Safari
     const sub = CapApp.addListener('appUrlOpen', async ({ url }) => {
       if (url.startsWith('novadocs://')) {

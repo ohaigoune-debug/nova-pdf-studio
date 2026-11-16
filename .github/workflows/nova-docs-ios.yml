@@ -123,7 +123,7 @@ jobs:
             echo "$SCENES" | while IFS='|' read -r NAME ROUTE; do
               NAME=$(echo "$NAME" | xargs)
               xcrun simctl terminate "$UDID" com.haigoune.novadocs 2>/dev/null || true
-              SIMCTL_CHILD_NOVA_ROUTE="$ROUTE" xcrun simctl launch --terminate-running-process --stdout="$PWD/shots/${SLUG}-${NAME}-console.txt" --stderr="$PWD/shots/${SLUG}-${NAME}-console.txt" "$UDID" com.haigoune.novadocs
+              SIMCTL_CHILD_NOVA_ROUTE="$ROUTE" xcrun simctl launch --terminate-running-process --stdout="$PWD/shots/${SLUG}-${NAME}-stdout.txt" --stderr="$PWD/shots/${SLUG}-${NAME}-stderr.txt" "$UDID" com.haigoune.novadocs
               sleep 12
               xcrun simctl io "$UDID" screenshot "shots/${SLUG}-${NAME}.png"
             done

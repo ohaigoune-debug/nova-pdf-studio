@@ -1,4 +1,5 @@
 import UIKit
+import WebKit
 @preconcurrency import Capacitor
 
 /// يسجّل الإضافات الأصلية الخاصة بـ NOVA Docs (Swift) داخل جسر Capacitor.
@@ -9,6 +10,15 @@ class NovaBridgeViewController: CAPBridgeViewController {
         bridge?.registerPluginInstance(NovaScannerPlugin())
         bridge?.registerPluginInstance(NovaOcrPlugin())
         bridge?.registerPluginInstance(NovaDocumentsPlugin())
+        #if DEBUG
+        // للّقطات الآلية في CI فقط (نسخة Debug): NOVA_ROUTE="lang/ar,sample" يُمرَّر إلى الواجهة قبل تحميلها،
+        // فتفتح الشاشة المطلوبة بنفسها عندما تكون جاهزة (بلا مؤقّت تخميني وبلا نافذة تأكيد الروابط).
+        if let route = ProcessInfo.processInfo.environment["NOVA_ROUTE"], !route.isEmpty {
+            let safe = route.filter { $0.isLetter || $0.isNumber || "/,-_".contains($0) }
+            let script = WKUserScript(source: "window.__NOVA_ROUTE__ = '\(safe)';", injectionTime: .atDocumentStart, forMainFrameOnly: true)
+            webView?.configuration.userContentController.addUserScript(script)
+        }
+        #endif
     }
 
     override func viewDidLoad() {
@@ -22,18 +32,4 @@ class NovaBridgeViewController: CAPBridgeViewController {
         webView?.scrollView.bounces = false
         webView?.allowsLinkPreview = false
     }
-
-    #if DEBUG
-    private var routed = false
-    /// للّقطات الآلية في CI فقط (نسخة Debug): NOVA_ROUTE="lang/ar,sample" يفتح الشاشة المطلوبة دون نافذة تأكيد.
-    override open func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        guard !routed, let route = ProcessInfo.processInfo.environment["NOVA_ROUTE"], !route.isEmpty else { return }
-        routed = true
-        let safe = route.filter { $0.isLetter || $0.isNumber || "/,-_".contains($0) }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-            self?.webView?.evaluateJavaScript("window.novaOpen && window.novaOpen('\(safe)')", completionHandler: nil)
-        }
-    }
-    #endif
 }
