@@ -13,7 +13,7 @@
 |---|---|
 | هل التطبيق جاهز للتقديم إلى App Store؟ | **لا.** ينقص: حساب Apple جاهز (اتفاقية التطبيقات المدفوعة، البنك، الضرائب)، منتج Pro في App Store Connect، توقيع وTestFlight، اختبار على جهاز حقيقي، ونشر روابط الخصوصية والدعم. |
 | الجاهزية الإجمالية | **≈ 65%** (الجدول في §9.8). الجزء الهندسي الممكن دون حسابك وجهازك: **≈ 89%**. |
-| بناء iOS | **BUILD SUCCEEDED** — Xcode 26.3 (17C529)، Debug للمحاكي وRelease للجهاز (دون توقيع)؛ آخر تأكيد على `8d651e0`. |
+| بناء iOS | **BUILD SUCCEEDED** — Xcode 26.3 (17C529)، Debug للمحاكي وRelease للجهاز (دون توقيع)؛ آخر تأكيد على `a17596f`. |
 | التشغيل على iOS | محاكي iPhone 16 Pro Max وiPad Pro 13": **30 / 30 لقطة صحيحة** (15 مشهدًا لكل جهاز)، والحفظ يبقى بعد إعادة التشغيل. |
 | StoreKit 2 | **7 / 7** اختبارات شراء حقيقية في بيئة StoreKit Testing من Apple. Sandbox: **BLOCKED**. |
 | TestFlight | **BLOCKED** — سير العمل جاهز، تنقصه أسرار حسابك. |
@@ -65,10 +65,11 @@
 | بناء Xcode | Debug + Release: ناجح |
 | المحاكي الحقيقي | 20 / 20 مشهدًا + اختباران ذاتيان: OCR داخل WKWebView (فرنسي 0%، إنجليزي 0%، عربي 4%) وتصدير الفاتورة PDF أصليًا (إعادة الاستيراد: المجموع مطابق) |
 | StoreKit Testing | 7 / 7 |
-| الأداء (Node): 600 صفحة دمجًا، 1000 فاتورة | كلها < 1 ث (الجهاز غير مقاس) |
+| الأداء (Node): 600 صفحة دمجًا، 1000 فاتورة | كلها < 1 ث |
+| زمن مرشح «محسّن» داخل WKWebView على المحاكي (صفحة 1800×2400) | 473 ms (الجهاز الحقيقي غير مقاس) |
 
 ## 6) حالة بناء iOS
-**ناجح.** macOS-15 على GitHub، Xcode 26.3 (17C529)، SDK المحاكي iOS 26.2، هدف النشر iOS 16.0. آخر بناء مؤكد: `8d651e0` (يشمل إضافة قفل التطبيق الأصلية). الدليل: فحوص PR #95 والفرع `ci/nova-docs-ios-results` (`xcode-version.txt`، `xcodebuild-tail.log`).
+**ناجح.** macOS-15 على GitHub، Xcode 26.3 (17C529)، SDK المحاكي iOS 26.2، هدف النشر iOS 16.0. آخر بناء مؤكد: `a17596f` (يشمل إضافة قفل التطبيق الأصلية). الدليل: فحوص PR #95 والفرع `ci/nova-docs-ios-results` (`xcode-version.txt`، `xcodebuild-tail.log`).
 
 ## 7) حالة TestFlight
 **BLOCKED — لم يُرفع أي بناء.** الجاهز: سير العمل `nova-docs-testflight.yml` (يدوي، Environment `apple-release`، توقيع تلقائي بمفتاح App Store Connect API). الناقص: الأسرار `APPLE_TEAM_ID`، `ASC_KEY_ID`، `ASC_ISSUER_ID`، `ASC_KEY_P8_BASE64` + تسجيل التطبيق في App Store Connect. الخطوات في `APP_STORE_CHECKLIST.md`.

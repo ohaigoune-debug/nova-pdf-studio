@@ -38,7 +38,7 @@ cd ios/App && xcodebuild test -project App.xcodeproj -scheme App -destination 'p
 1. **على جهاز حقيقي (يحتاج المالك/TestFlight):** الماسح VisionKit، Apple Pencil، المشاركة، AirPrint، «فتح في»، دقة Apple Vision OCR، الأداء والذاكرة.
 2. **Sandbox** بعد Paid Apps Agreement والمنتج في App Store Connect.
 3. ممكن على Linux + CI:
-   - قراءة نتيجة مشهد CI رقم 16 (زمن المرشحات داخل WKWebView) وتسريع المعاينة بدقة أقل إن تجاوزت ~1.5 ث للصفحة.
+   - زمن المرشحات داخل WKWebView على المحاكي ~0.5 ث للصفحة (مشهد 16)؛ أعد القياس على iPhone حقيقي عبر TestFlight.
    - قفل التطبيق: **مبني** (`NovaLockPlugin.swift`، `features/AppLock.tsx`) — يبقى اختباره على جهاز.
    - الجداول: تحديد نطاق متعدد الخلايا باللمس، وارتفاع الصفوف.
    - استيراد الفواتير القديمة: رسم مناطق يدوي كما في Windows.
