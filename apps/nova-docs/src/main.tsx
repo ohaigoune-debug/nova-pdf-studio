@@ -5,6 +5,11 @@ import { initI18n } from './i18n'
 import { usePrefs, applyTheme } from './stores/prefs'
 import App from './App'
 
+declare global {
+  interface Window { novaOpen?: (routes: string) => Promise<void> }
+}
+window.novaOpen = (routes: string) => import('./lib/deeplinks').then((m) => m.openRoutes(routes))
+
 async function boot() {
   await usePrefs.getState().load()
   const { language, theme } = usePrefs.getState()

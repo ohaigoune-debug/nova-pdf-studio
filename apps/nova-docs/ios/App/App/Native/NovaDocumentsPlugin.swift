@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import Capacitor
+@preconcurrency import Capacitor
 import WebKit
 import UniformTypeIdentifiers
 
@@ -74,9 +74,13 @@ public class NovaDocumentsPlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerD
         if kinds.contains("pdf") { types.append(.pdf) }
         if kinds.contains("image") { types.append(contentsOf: [.jpeg, .png, .heic, .image]) }
         if kinds.contains("spreadsheet") {
-            types.append(contentsOf: [UTType(filenameExtension: "xlsx"), UTType(filenameExtension: "xls"), .commaSeparatedText].compactMap { $0 })
+            let sheetTypes: [UTType?] = [UTType(filenameExtension: "xlsx"), UTType(filenameExtension: "xls"), UTType.commaSeparatedText]
+            types.append(contentsOf: sheetTypes.compactMap { $0 })
         }
-        if kinds.contains("backup") { types.append(contentsOf: [UTType(filenameExtension: "novabackup"), .data].compactMap { $0 }) }
+        if kinds.contains("backup") {
+            let backupTypes: [UTType?] = [UTType(filenameExtension: "novabackup"), UTType.data]
+            types.append(contentsOf: backupTypes.compactMap { $0 })
+        }
         if types.isEmpty { types = [.pdf] }
         bridge?.saveCall(call)
         pickerCallId = call.callbackId
@@ -136,7 +140,11 @@ public class NovaDocumentsPlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerD
 
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         guard let call = takePickerCall() else { return }
-        call.resolve(pickerMode == .export ? ["saved": false] : ["files": [], "cancelled": true])
+        if pickerMode == .export {
+            call.resolve(["saved": false])
+        } else {
+            call.resolve(["files": [[String: Any]](), "cancelled": true])
+        }
     }
 
     // MARK: - «فتح في NOVA Docs»

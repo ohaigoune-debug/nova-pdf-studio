@@ -96,26 +96,38 @@ jobs:
             grep -E "error:" xcodebuild-release.log | sort -u | head -40 | while IFS= read -r l; do echo "::error::${l:0:900}"; done
             exit $code
           fi
-      - name: Simulator screenshots (iPhone 6.9" + iPad 13")
+      - name: Simulator screenshots (iPhone 6.9" + iPad 13") — real iOS runtime
         working-directory: apps/nova-docs/ios/App
         run: |
           mkdir -p shots
           APP=$(find build/Build/Products -name 'App.app' -path '*iphonesimulator*' | head -1)
+          # NOVA_ROUTE (نسخة Debug فقط) يفتح الشاشة المطلوبة داخل التطبيق دون نافذة تأكيد الروابط
+          SCENES="01-annotated|lang/en,theme/light,annotated
+          02-documents|tab/documents
+          03-tools|tab/tools
+          04-scan|tab/scan
+          05-invoices|demo-invoices
+          06-invoice|invoice
+          07-pro|paywall
+          08-ar-documents|lang/ar,tab/documents
+          09-ar-invoices|lang/ar,demo-invoices
+          10-ar-dark-tools|lang/ar,theme/dark,tab/tools"
           for DEV in "iPhone 16 Pro Max" "iPad Pro 13-inch (M4)"; do
             UDID=$(xcrun simctl list devices available -j | python3 -c "import json,sys; d=json.load(sys.stdin)['devices']; print(next((x['udid'] for v in d.values() for x in v if x['name']=='$DEV'), ''))")
-            if [ -z "$UDID" ]; then echo "no $DEV"; continue; fi
+            if [ -z "$UDID" ]; then echo "::warning::no simulator $DEV"; continue; fi
             xcrun simctl boot "$UDID" || true
             xcrun simctl bootstatus "$UDID" -b
-            xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --cellularBars 4 || true
+            xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3 || true
             xcrun simctl install "$UDID" "$APP"
-            xcrun simctl launch "$UDID" com.haigoune.novadocs
-            sleep 8
             SLUG=$(echo "$DEV" | tr ' ()"' '____')
-            xcrun simctl io "$UDID" screenshot "shots/${SLUG}-01-launch.png"
-            for STEP in tab/tools tab/scan sample demo-invoices tab/more; do
-              xcrun simctl openurl "$UDID" "novadocs://$STEP"; sleep 5
-              xcrun simctl io "$UDID" screenshot "shots/${SLUG}-$(echo $STEP | tr '/' '-').png"
+            echo "$SCENES" | while IFS='|' read -r NAME ROUTE; do
+              NAME=$(echo "$NAME" | xargs)
+              xcrun simctl terminate "$UDID" com.haigoune.novadocs 2>/dev/null || true
+              SIMCTL_CHILD_NOVA_ROUTE="$ROUTE" xcrun simctl launch "$UDID" com.haigoune.novadocs
+              sleep 9
+              xcrun simctl io "$UDID" screenshot "shots/${SLUG}-${NAME}.png"
             done
+            xcrun simctl spawn "$UDID" log show --last 5m --predicate 'process == "App"' --style compact 2>/dev/null | grep -iE "error|nova|capacitor" | tail -80 > "shots/${SLUG}-app-log.txt" || true
             xcrun simctl shutdown "$UDID" || true
           done
           ls -la shots

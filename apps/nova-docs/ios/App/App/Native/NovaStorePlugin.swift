@@ -1,5 +1,5 @@
 import Foundation
-import Capacitor
+@preconcurrency import Capacitor
 import StoreKit
 
 /// StoreKit 2 — المصدر الوحيد للمدفوعات داخل iOS.

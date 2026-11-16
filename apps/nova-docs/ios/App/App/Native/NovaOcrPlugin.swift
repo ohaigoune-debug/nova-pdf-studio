@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import Capacitor
+@preconcurrency import Capacitor
 import Vision
 
 /// OCR أصلي عبر Apple Vision (على الجهاز، دون إنترنت).
@@ -80,7 +80,7 @@ public class NovaOcrPlugin: CAPPlugin, CAPBridgedPlugin {
                         "text": candidate.string,
                         "confidence": Double(candidate.confidence) * 100,
                         "x0": Double(x0), "y0": Double(y0), "x1": Double(x1), "y1": Double(y1),
-                        "words": []
+                        "words": [Any]()
                     ])
                     texts.append(candidate.string)
                     confidenceSum += candidate.confidence

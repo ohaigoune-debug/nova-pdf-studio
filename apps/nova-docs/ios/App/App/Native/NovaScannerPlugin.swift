@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import Capacitor
+@preconcurrency import Capacitor
 import VisionKit
 
 /// ماسح المستندات الأصلي من Apple (VisionKit):
@@ -83,7 +83,7 @@ public class NovaScannerPlugin: CAPPlugin, CAPBridgedPlugin, VNDocumentCameraVie
 
     public func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
         controller.dismiss(animated: true)
-        takeCall()?.resolve(["pages": [], "cancelled": true])
+        takeCall()?.resolve(["pages": [[String: Any]](), "cancelled": true])
     }
 
     public func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
