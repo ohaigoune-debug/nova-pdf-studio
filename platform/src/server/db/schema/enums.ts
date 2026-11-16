@@ -264,6 +264,9 @@ export type FeedbackStatus = (typeof FEEDBACK_STATUSES)[number]
 
 /* ───────────── الأكاديمية المدفوعة (M8) ───────────── */
 export const COURSE_STATUSES = ['DRAFT', 'PUBLISHED', 'ARCHIVED'] as const
+/** التوصيل في سعر الدورة مع كتابها (16 نوفمبر 2026): لا يشمل، شامل للمكتب (المنزل يدفع الفرق)، شامل للمنزل */
+export const COURSE_SHIPPING_INCLUDED = ['NONE', 'DESK', 'HOME'] as const
+export type CourseShippingIncluded = (typeof COURSE_SHIPPING_INCLUDED)[number]
 export type CourseStatus = (typeof COURSE_STATUSES)[number]
 /** مصدر الاشتراك: تسليم طلب كتاب، تفعيل يدوي من الإدارة، هدية/منحة، مطالبة بالرمز (وليّ الأمر) */
 export const ENROLLMENT_SOURCES = ['BOOK_ORDER', 'MANUAL', 'GIFT', 'CLAIM', 'CODE', 'ONLINE_PAYMENT', 'POS'] as const

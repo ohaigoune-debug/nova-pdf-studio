@@ -18,6 +18,7 @@ import type { CourseStatus, EnrollmentSource } from '@/server/db/schema/enums'
 import { isAppError } from '@/server/lib/errors'
 import { bankFormOptions } from '@/server/queries/bank-options'
 import { BOOK_ISSUE_AR, DIGITAL_ISSUE_AR, courseBookState, courseDigitalState } from '@/server/services/course-purchase.service'
+import { asShippingIncluded } from '@/lib/course-shipping'
 import { COURSE_STATUS_AR, ENROLLMENT_SOURCE_AR, ENROLLMENT_STATUS_AR, getCourseAdmin, listCourseWorkspaces, listLinkableProducts } from '@/server/services/courses.service'
 
 export const dynamic = 'force-dynamic'
@@ -76,7 +77,7 @@ export default async function AdminCourseDetailPage({ params }: { params: Promis
 
       <CourseLessonsSection actor={actor} courseId={course.id} basePath={`/admin/courses/${course.id}`} />
 
-      <CourseBookCard courseId={course.id} courseTitle={course.title} book={bookState.book} purchasable={bookState.purchasable} issueText={bookState.issue ? BOOK_ISSUE_AR[bookState.issue] : null} candidates={candidates} />
+      <CourseBookCard courseId={course.id} courseTitle={course.title} book={bookState.book} purchasable={bookState.purchasable} issueText={bookState.issue ? BOOK_ISSUE_AR[bookState.issue] : null} candidates={candidates} shippingIncluded={asShippingIncluded(course.shippingIncluded)} />
 
       <CourseDigitalCard courseId={course.id} priceDzd={digitalState.priceDzd} bookPriceDzd={bookState.book?.priceDzd ?? null} purchasable={digitalState.purchasable} issueText={digitalState.issue && digitalState.issue !== 'NO_DIGITAL' ? DIGITAL_ISSUE_AR[digitalState.issue] : null} />
 

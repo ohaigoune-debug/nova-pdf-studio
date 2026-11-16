@@ -21,7 +21,8 @@ import { courseCommunesForWilaya } from './delivery-communes.service'
 import { notifyMany } from './notifications.service'
 import { transitionOrder } from './order-status.service'
 import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
-import { orderNumber, shippingFeeFor, storePolicy } from './store.service'
+import { orderNumber, shippingFeesFor, storePolicy } from './store.service'
+import { asShippingIncluded, courseShippingDzd, type CourseShippingIncluded } from '@/lib/course-shipping'
 import { applyCreditToOrder, creditPreview } from './referrals.service'
 
 const isPhysical = (type: string) => type === 'BOOK' || type === 'PACK'
@@ -55,6 +56,13 @@ async function loadCourse(db: Db, courseId: string): Promise<CourseRow> {
   return c
 }
 
+/** رسم التوصيل الذي يدفعه التلميذ لكتاب هذه الدورة: حسب «السعر شامل التوصيل» فيها (16 نوفمبر 2026) */
+export async function courseShippingFor(db: Db, course: Pick<CourseRow, 'shippingIncluded'>, wilayaId: string | null, deliveryType: 'HOME' | 'DESK'): Promise<number> {
+  const included = asShippingIncluded(course.shippingIncluded)
+  if (included === 'HOME') return 0
+  return courseShippingDzd(included, await shippingFeesFor(db, wilayaId), deliveryType)
+}
+
 /** حالة الكتاب المرفق وقابلية الشراء — مصدر واحد للصفحة والإدارة والشراء */
 export async function courseBookState(db: Db, course: Pick<CourseRow, 'bookProductId' | 'status'>): Promise<CourseBookState> {
   if (!course.bookProductId) return { book: null, purchasable: false, issue: 'NO_BOOK' }
@@ -80,6 +88,8 @@ export interface CourseBookInput {
   active: boolean
   /** صورة غلاف الكتاب (ملف مرفوع)؛ غيابها يُبقي الغلاف الحالي */
   coverFileId?: string | null
+  /** التوصيل في السعر (لا يشمل / شامل للمكتب / شامل للمنزل)؛ غيابه يُبقي الخيار الحالي */
+  shippingIncluded?: CourseShippingIncluded
 }
 
 /**
@@ -109,10 +119,10 @@ export async function setCourseBook(db: Db, actor: Actor, courseId: string, inpu
       id = p!.id
     }
     await tx.insert(courseProducts).values({ courseId: c.id, productId: id }).onConflictDoNothing()
-    await tx.update(courses).set({ bookProductId: id, priceDzd: input.priceDzd, updatedAt: now }).where(eq(courses.id, c.id))
+    await tx.update(courses).set({ bookProductId: id, priceDzd: input.priceDzd, ...(input.shippingIncluded ? { shippingIncluded: asShippingIncluded(input.shippingIncluded) } : {}), updatedAt: now }).where(eq(courses.id, c.id))
     return id
   })
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'course.book_set', entityType: 'course', entityId: c.id, newValue: { bookProductId: bookId, priceDzd: input.priceDzd, stock: input.stock, active: input.active } })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: c.workspaceId, action: 'course.book_set', entityType: 'course', entityId: c.id, oldValue: { priceDzd: c.priceDzd, shippingIncluded: c.shippingIncluded }, newValue: { bookProductId: bookId, priceDzd: input.priceDzd, stock: input.stock, active: input.active, shippingIncluded: input.shippingIncluded ?? c.shippingIncluded } })
   return courseBookStateById(db, c.id)
 }
 
@@ -394,6 +404,8 @@ export interface PlacedCourseOrder {
 export interface CourseQuote {
   priceDzd: number
   shippingDzd: number
+  /** «السعر شامل التوصيل» في الدورة — لتوضيح سطر التوصيل في الملخّص */
+  shippingIncluded: CourseShippingIncluded
   /** قبل الرصيد */
   totalDzd: number
   bookTitle: string
@@ -410,9 +422,9 @@ export async function courseQuote(db: Db, courseId: string, wilayaId: string | n
   // مشترك في النسخة الرقمية يطلب الكتاب: يدفع الفرق فقط
   const up = actor ? await bookUpgradeFor(db, actor, c, s.book) : null
   const priceDzd = up ? up.priceDzd : s.book.priceDzd
-  const shippingDzd = await shippingFeeFor(db, wilayaId, deliveryType)
+  const shippingDzd = await courseShippingFor(db, c, wilayaId, deliveryType)
   const credit = actor?.role === 'STUDENT' ? await creditPreview(db, actor.userId, { priceDzd, totalDzd: priceDzd + shippingDzd, online: Boolean(opts.online) }) : { balanceDzd: 0, applyDzd: 0 }
-  return { priceDzd, shippingDzd, totalDzd: priceDzd + shippingDzd, bookTitle: s.book.title, upgrade: Boolean(up), creditBalanceDzd: credit.balanceDzd, creditDzd: credit.applyDzd }
+  return { priceDzd, shippingDzd, shippingIncluded: asShippingIncluded(c.shippingIncluded), totalDzd: priceDzd + shippingDzd, bookTitle: s.book.title, upgrade: Boolean(up), creditBalanceDzd: credit.balanceDzd, creditDzd: credit.applyDzd }
 }
 
 export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseOrderInput, fetchImpl?: typeof fetch): Promise<PlacedCourseOrder> {
@@ -484,7 +496,7 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
   }
 
   const price = upgrade ? upgrade.priceDzd : state.book.priceDzd
-  const shipping = await shippingFeeFor(db, input.wilayaId, deliveryType)
+  const shipping = await courseShippingFor(db, c, input.wilayaId, deliveryType)
   const total = price + shipping
   const bookId = state.book.id
   const bookTitle = state.book.title

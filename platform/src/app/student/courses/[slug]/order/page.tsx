@@ -161,7 +161,7 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
             {purchase.purchasable && purchase.book ? (
               <div className="space-y-5">
                 {refEl.eligible ? <ReferralCodeBox source="CHECKOUT" welcomeCreditDzd={refPolicy.welcomeCreditDzd} /> : null}
-                <CourseOrderForm courseId={course.id} book={{ title: purchase.book.title, priceDzd: price }} data={checkout} />
+                <CourseOrderForm courseId={course.id} book={{ title: purchase.book.title, priceDzd: price }} data={checkout} shippingIncluded={course.shippingIncluded} />
               </div>
             ) : (
               <Alert tone="warning" title="الطلب غير متاح حالياً">

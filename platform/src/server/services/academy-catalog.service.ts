@@ -7,6 +7,7 @@
  *
  * الأفواج تبقى كما هي: الدورة = فوج خلفي، والتفعيل = عضوية فيه (courses.service). هنا قراءة فقط.
  */
+import { asShippingIncluded, type CourseShippingIncluded } from '@/lib/course-shipping'
 import { and, asc, desc, eq, inArray, isNotNull, isNull, or, sql, type SQL } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import {
@@ -162,6 +163,8 @@ export interface CatalogCourse {
   bookOffer: boolean
   /** سعر النسخة الرقمية (دون كتاب، بالبطاقة)، أو null — تظهر بطاقتها المستقلة فقط إن كان الدفع الإلكتروني مفعّلًا */
   digitalPriceDzd: number | null
+  /** التوصيل في سعر «الدورة مع الكتاب»: NONE / DESK / HOME (16 نوفمبر 2026) */
+  shippingIncluded: CourseShippingIncluded
   accessEndsOn: string | null
   coverUrl: string | null
   /** حالة التلميذ المتصفّح تجاه الدورة (لا تمنح شيئاً؛ للعرض فقط) */
@@ -215,6 +218,7 @@ export async function listCourseCatalog(db: Db, actor: Actor | null, scope: Part
       priceDzd: sql<number>`coalesce((select p.price_dzd from products p where p.id = ${courses.bookProductId} and p.deleted_at is null), (select min(p.price_dzd) from course_products cp join products p on p.id = cp.product_id where cp.course_id = ${courses.id} and p.status = 'PUBLISHED' and p.deleted_at is null), ${courses.priceDzd})::int`,
       bookOffer: sql<boolean>`exists (select 1 from products p where p.id = ${courses.bookProductId} and p.deleted_at is null and p.status = 'PUBLISHED')`,
       digitalPriceDzd: courses.digitalPriceDzd,
+      shippingIncluded: courses.shippingIncluded,
       accessEndsOn: courses.accessEndsOn,
       coverFileId: courses.coverFileId,
       streamIds: courses.streamIds,
@@ -250,6 +254,7 @@ export async function listCourseCatalog(db: Db, actor: Actor | null, scope: Part
     priceDzd: r.priceDzd,
     bookOffer: Boolean(r.bookOffer),
     digitalPriceDzd: r.digitalPriceDzd ?? null,
+    shippingIncluded: asShippingIncluded(r.shippingIncluded),
     accessEndsOn: r.accessEndsOn,
     coverUrl: r.coverFileId ? signFileUrl(r.coverFileId, 3600) : null,
     enrollment: enrollmentState(r.enrollStatus, r.enrollExpires, now),

@@ -7,11 +7,12 @@ import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bit
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
+import { Input, Select } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { Alert } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
 import { chooseCourseBookAction, removeCourseBookAction, setCourseBookAction } from '@/server/actions/courses.actions'
+import { SHIPPING_INCLUDED_HINTS, SHIPPING_INCLUDED_LABELS, type CourseShippingIncluded } from '@/lib/course-shipping'
 
 export interface CourseBookCardProps {
   courseId: string
@@ -21,10 +22,12 @@ export interface CourseBookCardProps {
   issueText: string | null
   /** كتب مرتبطة سابقاً (دورات قديمة) يمكن اعتماد أحدها */
   candidates: { id: string; title: string; priceDzd: number }[]
+  /** التوصيل في سعر الدورة (16 نوفمبر 2026) */
+  shippingIncluded: CourseShippingIncluded
 }
 
 /** الكتاب المرفق بالدورة (اختياري): يُنشأ ويُعدَّل ويُزال هنا (بلا صفحة متجر). سعره هو سعر الدورة. */
-export function CourseBookCard({ courseId, courseTitle, book, purchasable, issueText, candidates }: CourseBookCardProps) {
+export function CourseBookCard({ courseId, courseTitle, book, purchasable, issueText, candidates, shippingIncluded }: CourseBookCardProps) {
   const router = useRouter()
   const [state, action] = useActionState(setCourseBookAction, null)
   const [pending, start] = useTransition()
@@ -90,6 +93,7 @@ export function CourseBookCard({ courseId, courseTitle, book, purchasable, issue
           <Field label="المخزون (فارغ = غير محدود)" htmlFor="book-stock" error={fieldError(state, 'stock')}>
             <Input id="book-stock" name="stock" type="number" min={0} defaultValue={book?.stock ?? ''} dir="ltr" />
           </Field>
+          <ShippingIncludedField id="book-shipping" defaultValue={shippingIncluded} />
           <Field label="صورة الغلاف" htmlFor="book-cover" hint={book ? 'ارفع صورة لاستبدال الغلاف' : 'اختياري'} className="sm:col-span-2">
             <Input id="book-cover" name="cover" type="file" accept="image/*" />
           </Field>
@@ -110,5 +114,21 @@ export function CourseBookCard({ courseId, courseTitle, book, purchasable, issue
         </form>
       </CardContent>
     </Card>
+  )
+}
+
+/** «التوصيل في السعر»: لا يشمل / شامل للمكتب / شامل للمنزل — في شاشة إنشاء الدورة وبطاقة كتابها */
+export function ShippingIncludedField({ id, defaultValue, className = 'sm:col-span-4' }: { id: string; defaultValue: CourseShippingIncluded; className?: string }) {
+  const options = Object.keys(SHIPPING_INCLUDED_LABELS) as CourseShippingIncluded[]
+  return (
+    <Field label="التوصيل في السعر" htmlFor={id} className={className}>
+      <Select id={id} name="shippingIncluded" defaultValue={defaultValue}>
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {SHIPPING_INCLUDED_LABELS[o]} — {SHIPPING_INCLUDED_HINTS[o]}
+          </option>
+        ))}
+      </Select>
+    </Field>
   )
 }

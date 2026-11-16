@@ -11,6 +11,7 @@ import { Alert } from '@/components/ui/misc'
 import { toast } from '@/components/ui/toast'
 import type { CourseCommuneLookup } from '@/server/services/delivery-communes.service'
 import { courseCommunesAction, courseQuoteAction, placeCourseOrderAction } from '@/server/actions/course-purchase.actions'
+import { courseShippingDzd, type CourseShippingIncluded } from '@/lib/course-shipping'
 
 export interface CheckoutData {
   defaults: { name: string; phone: string | null; phoneVerified: boolean; guardianPhone: string | null; wilayaId: string | null }
@@ -35,7 +36,7 @@ const norm = (p: string) => p.replace(/[\s\-().]/g, '').replace(/^\+?213/, '0')
  * لكل طلب رمز تأكيد جديد يصل إلى الهاتف المختار، إلا إن فعّل المشرف إعفاء هاتف الحساب المؤكَّد. تُفعَّل الدورة عند تسليم الكتاب.
  * البلدية والعنوان وطريقة الاستلام تُعبّأ من آخر طلب، والزر والمبلغ يبقيان ظاهرين أسفل الشاشة في الهاتف.
  */
-export function CourseOrderForm({ courseId, book, data }: { courseId: string; book: { title: string; priceDzd: number }; data: CheckoutData }) {
+export function CourseOrderForm({ courseId, book, data, shippingIncluded = 'NONE' }: { courseId: string; book: { title: string; priceDzd: number }; data: CheckoutData; shippingIncluded?: CourseShippingIncluded }) {
   const router = useRouter()
   const [pending, start] = useTransition()
   const d = data.defaults
@@ -71,7 +72,7 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
     })
     return () => { alive = false }
   }, [f.wilayaId])
-  const [quote, setQuote] = useState<{ priceDzd: number; shippingDzd: number; totalDzd: number; creditBalanceDzd: number; creditDzd: number } | null>(null)
+  const [quote, setQuote] = useState<{ priceDzd: number; shippingDzd: number; shippingIncluded?: CourseShippingIncluded; totalDzd: number; creditBalanceDzd: number; creditDzd: number } | null>(null)
   const [useCredit, setUseCredit] = useState(true)
   // الإجمالي من الخادم: يتغيّر بالولاية ونوع التسليم وطريقة الدفع (الرصيد لا يُنزل الدفع بالبطاقة تحت 50 دج)
   useEffect(() => {
@@ -89,6 +90,16 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
   const accountPhoneOk = Boolean(data.skipOtpForVerifiedPhone && d.phoneVerified && who === 'self' && d.phone && phone === norm(d.phone))
   const needsOtp = data.smsReady && !payNow && !accountPhoneOk
   const fee = quote?.shippingDzd ?? 0
+  // «التوصيل في السعر» (16 نوفمبر 2026): ما يدفعه التلميذ لكل طريقة استلام — الخادم يحسب بالقاعدة نفسها
+  const included = quote?.shippingIncluded ?? shippingIncluded
+  const optionFee = (type: 'HOME' | 'DESK') => {
+    const fees = f.wilayaId ? data.feeTable?.[f.wilayaId] : undefined
+    const free = included === 'HOME' || (included === 'DESK' && type === 'DESK')
+    if (free) return ' — مجاني'
+    if (!fees) return ''
+    const due = courseShippingDzd(included, fees, type)
+    return included === 'DESK' ? ` — +${due} دج فقط` : ` — ${due} دج`
+  }
   const price = quote?.priceDzd ?? book.priceDzd
   const credit = useCredit ? (quote?.creditDzd ?? 0) : 0
   const total = (quote?.totalDzd ?? book.priceDzd) - credit
@@ -182,8 +193,8 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
       </div>
       <Field label="طريقة الاستلام" htmlFor="order-type">
         <Select id="order-type" value={f.deliveryType} onChange={(e) => setF((s) => ({ ...s, deliveryType: e.target.value === 'DESK' ? 'DESK' : 'HOME' }))}>
-          <option value="HOME">إلى المنزل{f.wilayaId && data.feeTable?.[f.wilayaId] ? ` — ${data.feeTable[f.wilayaId]!.home} دج` : ''}</option>
-          {deskAvailable ? <option value="DESK">من مكتب شركة التوصيل{f.wilayaId && data.feeTable?.[f.wilayaId] ? ` — ${data.feeTable[f.wilayaId]!.desk} دج` : ''}</option> : null}
+          <option value="HOME">إلى المنزل{optionFee('HOME')}</option>
+          {deskAvailable ? <option value="DESK">من مكتب شركة التوصيل{optionFee('DESK')}</option> : null}
         </Select>
       </Field>
       <Field label="العنوان" htmlFor="order-address" hint={last && f.address === last.address ? 'من طلبك السابق — غيّره إن تغيّر' : undefined}>
@@ -219,8 +230,8 @@ export function CourseOrderForm({ courseId, book, data }: { courseId: string; bo
           <span className="shrink-0 whitespace-nowrap tabular-nums">{price} دج</span>
         </p>
         <p className="flex justify-between">
-          <span>التوصيل</span>
-          <span className="shrink-0 whitespace-nowrap tabular-nums">{f.wilayaId ? `${fee} دج` : 'اختر الولاية'}</span>
+          <span>{included === 'DESK' && f.deliveryType === 'HOME' && fee > 0 ? 'فرق التوصيل إلى المنزل' : 'التوصيل'}</span>
+          <span className="shrink-0 whitespace-nowrap tabular-nums">{included === 'HOME' || (included === 'DESK' && f.deliveryType === 'DESK') ? <span className="font-semibold text-success">مجاني — مشمول في السعر</span> : f.wilayaId ? `${fee} دج` : 'اختر الولاية'}</span>
         </p>
         {quote && quote.creditDzd > 0 ? (
           <label className="flex cursor-pointer items-center justify-between gap-3 text-success">

@@ -6,6 +6,13 @@ import { Card, CardContent } from '@/components/ui/card'
 import { formatDate } from '@/lib/utils'
 import type { CatalogCourse } from '@/server/services/academy-catalog.service'
 
+/** سطر التوصيل في بطاقة «الدورة + الكتاب» حسب «التوصيل في السعر» (16 نوفمبر 2026) */
+const BOOK_DELIVERY_LINE: Record<CatalogCourse['shippingIncluded'], string> = {
+  NONE: 'يصلك الكتاب إلى البيت أو مكتب التوصيل (+ التوصيل).',
+  DESK: 'التوصيل إلى مكتب شركة التوصيل مجاني، وإلى البيت بفرق بسيط.',
+  HOME: 'التوصيل إلى البيت مجاني — مشمول في السعر.'
+}
+
 export const priceLabel = (dzd: number) => (dzd === 0 ? 'مجانية' : `${dzd.toLocaleString('ar-DZ')} دج`)
 
 /**
@@ -52,7 +59,7 @@ export function CourseCatalogCard({ c, offer }: { c: CatalogCourse; offer?: 'boo
         </div>
         {offer && !active ? (
           <p className="text-xs text-muted-foreground">
-            {digital ? 'الدفع بالبطاقة (CIB أو الذهبية) وتُفتح الدورة فورًا. لا يصلك كتاب.' : 'يصلك الكتاب إلى البيت أو مكتب التوصيل (+ التوصيل). الدفع عند الاستلام أو بالبطاقة.'}
+            {digital ? 'الدفع بالبطاقة (CIB أو الذهبية) وتُفتح الدورة فورًا. لا يصلك كتاب.' : `${BOOK_DELIVERY_LINE[c.shippingIncluded]} الدفع عند الاستلام أو بالبطاقة.`}
           </p>
         ) : null}
         {c.accessEndsOn ? (
