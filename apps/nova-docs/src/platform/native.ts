@@ -31,6 +31,8 @@ export interface StoreEntitlement {
 
 export interface EntitlementsPayload {
   isPro: boolean
+  /** بناء اختبار داخلي (NOVA_TESTER_PRO): Pro مفتوح دون شراء — لا يوجد في البناءات العادية */
+  tester?: boolean
   entitlements: StoreEntitlement[]
   checkedAt: string | null
   syncError?: string

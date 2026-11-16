@@ -91,8 +91,8 @@ public class NovaStorePlugin: CAPPlugin, CAPBridgedPlugin {
     /// الاستحقاقات الحالية الموثّقة فقط.
     static func entitlementsPayload() async -> [String: Any] {
         let active = await NovaEntitlements.currentVerified()
-        let isPro = active.contains { $0.productID == proProductId }
-        return ["isPro": isPro, "entitlements": active.map(describe), "checkedAt": iso(Date())]
+        let isPro = NovaEntitlements.testerUnlock || active.contains { $0.productID == proProductId }
+        return ["isPro": isPro, "tester": NovaEntitlements.testerUnlock, "entitlements": active.map(describe), "checkedAt": iso(Date())]
     }
 
     static func isProActive() async -> Bool {

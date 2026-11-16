@@ -13,7 +13,7 @@ import { APP_VERSION } from '../../lib/version'
 
 export default function MoreScreen() {
   const { t } = useTranslation()
-  const { isPro, product, busy, restore, openPaywall } = usePro()
+  const { isPro, tester, product, busy, restore, openPaywall } = usePro()
   const push = useNav((s) => s.push)
   const language = usePrefs((s) => s.language)
   const onRestore = async () => {
@@ -23,6 +23,7 @@ export default function MoreScreen() {
   return (
     <div className="ios-scroll h-full pb-10">
       <NavBar title={t('ios.more.title')} large />
+      {tester && <div role="status" className="mx-4 mb-3 rounded-[12px] border border-[#F5C518]/50 bg-[#F5C518]/15 px-4 py-3 text-[14px] font-medium text-[#8a6d00] dark:text-[#F5C518]">{t('ios.pro.testerBuild')}</div>}
       <div className="mx-4 mb-6 mt-2 overflow-hidden rounded-card bg-gradient-to-br from-[#123D36] to-[#0B2621] p-5 text-white shadow-card">
         <div className="flex items-center gap-3">
           <LogoMark size={52} />

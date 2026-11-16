@@ -177,3 +177,21 @@ describe('Pro entitlement store (StoreKit 2 contract)', () => {
     expect(f.plugin.purchase).toHaveBeenCalledTimes(1)
   })
 })
+
+describe('internal tester build', () => {
+  it('tester payload unlocks Pro and is flagged for the banner; normal payload is not', async () => {
+    const mk = (tester: boolean) => ({
+      getProducts: vi.fn(async () => ({ products: [] })),
+      getEntitlements: vi.fn(async () => ({ isPro: tester, tester, entitlements: [], checkedAt: null })),
+      addListener: vi.fn(async () => ({ remove: async () => undefined }))
+    })
+    const t = createProStore(mk(true) as never)
+    await t.getState().init()
+    expect(t.getState().isPro).toBe(true)
+    expect(t.getState().tester).toBe(true)
+    const n = createProStore(mk(false) as never)
+    await n.getState().init()
+    expect(n.getState().isPro).toBe(false)
+    expect(n.getState().tester).toBe(false)
+  })
+})

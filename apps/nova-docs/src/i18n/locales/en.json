@@ -60,7 +60,7 @@
     "f4": "Pro tools: split, extract, reorder, watermark, page numbers, compress", "f5": "Scanner enhancement filters and spreadsheets", "f6": "Everything stays on your device",
     "pending": "Your purchase is waiting for approval. Pro unlocks automatically once approved.", "cancelled": "Purchase cancelled.", "failed": "The purchase could not be completed.",
     "thanks": "Welcome to NOVA Pro!", "unavailable": "The App Store is not reachable right now. Please try again later.", "paymentsDisabled": "In-app purchases are disabled on this device (Screen Time).",
-    "loadingPrice": "Loading price from the App Store…", "retry": "Try again", "lockedFeature": "This is a NOVA Pro feature", "legal": "Payment is charged to your Apple ID. Purchases are processed by Apple."
+    "loadingPrice": "Loading price from the App Store…", "retry": "Try again", "testerBuild": "Internal test build — Pro is unlocked for testing, no purchase needed.", "lockedFeature": "This is a NOVA Pro feature", "legal": "Payment is charged to your Apple ID. Purchases are processed by Apple."
   },
   "settings": {
     "appearance": "Appearance", "system": "System", "light": "Light", "dark": "Dark", "company": "Company profile", "companyHint": "Printed on every invoice.", "defaultCurrency": "Default currency",

@@ -23,10 +23,14 @@ on:
 jobs:
   testflight:
     # يعمل على push فقط إذا احتوت رسالة الإيداع على [testflight] (بيئة العمل لا تستطيع دفع الوسوم)، أو بوسم، أو يدويًا
-    if: github.event_name != 'push' || startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[testflight]')
+    if: github.event_name != 'push' || startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[testflight]') || contains(github.event.head_commit.message, '[testflight-tester]')
     runs-on: macos-15
     timeout-minutes: 60
     environment: apple-release
+    env:
+      # [testflight-tester]: بناء اختبار داخلي — Pro مفتوح دون شراء (شرط التجميع NOVA_TESTER_PRO)، بإصدار 0.9.0
+      # كي لا يمكن اختياره عند تقديم الإصدار 1.0 للمراجعة. البناءات العادية لا تحمل هذا الشرط أبدًا.
+      TESTER_BUILD: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, '[testflight-tester]') && '1' || '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -81,11 +85,20 @@ jobs:
           AUTH="-allowProvisioningUpdates -authenticationKeyPath $HOME/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8 -authenticationKeyID $ASC_KEY_ID -authenticationKeyIssuerID $ASC_ISSUER_ID"
           # أرشفة غير موقّعة (لا جهاز مسجّل في الحساب لملف «تطوير»)؛ التوقيع Apple Distribution + ملف App Store عند التصدير —
           # الطريقة نفسها التي نجحت في اختبار التوقيع (nova-docs-sign-test.yml، التشغيل 2)
+          EXTRA=()
+          if [ "$TESTER_BUILD" = "1" ]; then
+            EXTRA=(MARKETING_VERSION=0.9.0 'SWIFT_ACTIVE_COMPILATION_CONDITIONS=$(inherited) NOVA_TESTER_PRO')
+            echo "::warning::Internal tester build: Pro unlocked without purchase, version 0.9.0 — never submit this build for review"
+          fi
           xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
             -archivePath build/NovaDocs.xcarchive DEVELOPMENT_TEAM=$TEAM_ID CODE_SIGN_STYLE=Automatic \
-            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" archive > archive.log 2>&1 \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" "${EXTRA[@]}" archive > archive.log 2>&1 \
             || { tail -80 archive.log; grep -E "error:|Error Domain|No profiles|signing" archive.log | sort -u | head -30 | while IFS= read -r l; do echo "::error::${l:0:900}"; done; exit 1; }
           tail -15 archive.log
+          V=$(/usr/libexec/PlistBuddy -c 'Print :ApplicationProperties:CFBundleShortVersionString' build/NovaDocs.xcarchive/Info.plist)
+          echo "Archived version: $V"
+          if [ "$TESTER_BUILD" = "1" ] && [ "$V" != "0.9.0" ]; then echo "::error::Tester build must be 0.9.0, got $V"; exit 1; fi
+          if [ "$TESTER_BUILD" != "1" ] && [ "$V" = "0.9.0" ]; then echo "::error::Release build must not be 0.9.0"; exit 1; fi
           cat > ExportOptions.plist <<PLIST
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -101,5 +114,5 @@ jobs:
           xcodebuild -exportArchive -archivePath build/NovaDocs.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build/export $AUTH > export.log 2>&1 \
             || { tail -80 export.log; grep -E "error:|Error Domain|permission|ITMS-" export.log | sort -u | head -30 | while IFS= read -r l; do echo "::error::${l:0:900}"; done; rm -f ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8; exit 1; }
           tail -25 export.log
-          grep -q "Upload succeeded\|EXPORT SUCCEEDED" export.log && echo "::notice::Uploaded to App Store Connect — processing in TestFlight takes ~10–30 min (build ${NOVA_BUILD_NUMBER:-?})"
+          grep -q "Upload succeeded\|EXPORT SUCCEEDED" export.log && echo "::notice::Uploaded to App Store Connect — version $V build ${NOVA_BUILD_NUMBER:-?}${TESTER_BUILD:+ (INTERNAL TESTER BUILD — Pro unlocked, do not submit)} — processing in TestFlight takes ~10–30 min"
           rm -f ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8

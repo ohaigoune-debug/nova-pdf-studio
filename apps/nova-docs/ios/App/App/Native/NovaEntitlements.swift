@@ -21,8 +21,17 @@ enum NovaEntitlements {
         return out
     }
 
+    /// بناء «اختبار داخلي» فقط: يُفعَّل بشرط التجميع NOVA_TESTER_PRO من سير عمل TestFlight عند الطلب الصريح،
+    /// ويحمل إصدارًا 0.9.x لا يمكن اختياره عند تقديم الإصدار 1.0 للمراجعة. لا يوجد في أي بناء عادي (ولا في AppTests).
+    #if NOVA_TESTER_PRO
+    static let testerUnlock = true
+    #else
+    static let testerUnlock = false
+    #endif
+
     static func isProActive() async -> Bool {
-        await currentVerified().contains { $0.productID == proProductId }
+        if testerUnlock { return true }
+        return await currentVerified().contains { $0.productID == proProductId }
     }
 
     /// يحوّل نتيجة الشراء إلى حالة، ويُنهي المعاملة الموثّقة. غير الموثّقة لا تمنح شيئًا.

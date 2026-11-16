@@ -10,6 +10,8 @@ import { PRO_PRODUCT_ID, isFeatureAllowed, type Feature } from '../lib/features'
 export interface ProState {
   ready: boolean
   isPro: boolean
+  /** بناء اختبار داخلي: Pro مفتوح للتجربة (يُعرض شريط تنبيه) */
+  tester: boolean
   product: StoreProduct | null
   /** loading: الطلب جارٍ · ready: السعر من App Store · unavailable: تعذّر الوصول أو المنتج غير متاح (يُعرض زر إعادة المحاولة) */
   productState: 'loading' | 'ready' | 'unavailable'
@@ -34,10 +36,11 @@ export const PRODUCT_TIMEOUT_MS = 10_000
 export function createProStore(plugin: NovaStorePlugin) {
   let listening = false
   return create<ProState>((set, get) => {
-    const apply = (p: EntitlementsPayload) => set({ isPro: !!p.isPro, ready: true })
+    const apply = (p: EntitlementsPayload) => set({ isPro: !!p.isPro, tester: !!p.tester, ready: true })
     return {
       ready: false,
       isPro: false,
+      tester: false,
       product: null,
       productState: 'loading',
       canMakePayments: true,
