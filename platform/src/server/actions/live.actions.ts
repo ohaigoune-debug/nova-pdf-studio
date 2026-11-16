@@ -19,7 +19,13 @@ const sessionSchema = z.object({
   durationMinutes: z.coerce.number().int().min(10).max(600).default(90),
   provider: z.enum(LIVE_PROVIDERS).default('ZOOM'),
   joinUrl: z.string().trim().url('رابط غير صحيح').optional().or(z.literal('')),
-  providerMeetingId: z.string().trim().max(100).optional()
+  providerMeetingId: z.string().trim().max(100).optional(),
+  passcode: z
+    .string()
+    .trim()
+    .max(10, 'رمز الدخول 10 خانات على الأكثر')
+    .regex(/^[A-Za-z0-9@*_-]*$/, 'رمز الدخول: حروف لاتينية وأرقام و@ - _ * فقط')
+    .optional()
 })
 
 function revalidate() {
@@ -33,7 +39,7 @@ export async function createLiveSessionAction(_prev: ActionResult<{ id: string }
   const d = parsed.data
   const r = await runAction(async () => {
     const actor = await requireRole('SUPER_ADMIN', 'TEACHER')
-    const s = await createLiveSession(await getDb(), actor, { ...d, startsAt: new Date(d.startsAt), joinUrl: d.joinUrl || null, description: d.description || null, providerMeetingId: d.providerMeetingId || null })
+    const s = await createLiveSession(await getDb(), actor, { ...d, startsAt: new Date(d.startsAt), joinUrl: d.joinUrl || null, description: d.description || null, providerMeetingId: d.providerMeetingId || null, passcode: d.passcode || null })
     return { id: s.id }
   })
   if (r.ok) revalidate()
@@ -56,7 +62,9 @@ export async function updateLiveSessionAction(id: string, _prev: ActionResult<{ 
       durationMinutes: d.durationMinutes,
       provider: d.provider,
       ...(keepUrl ? {} : { joinUrl: d.joinUrl || null }),
-      providerMeetingId: d.providerMeetingId || null
+      providerMeetingId: d.providerMeetingId || null,
+      // الحقل يُعرض بقيمته المحفوظة في صفحة التعديل: تفريغه يزيل الرمز
+      passcode: d.passcode || null
     })
     return { id: s.id }
   })
@@ -98,7 +106,7 @@ export async function attachRecordingAction(_prev: ActionResult | null, fd: Form
 }
 
 /** التلميذ: رابط الانضمام (يُسجَّل حضوره)؛ يُرفض خارج النافذة أو بلا اشتراك نشط/شروط */
-export async function joinLiveAction(payload: { sessionId: string }): Promise<ActionResult<{ url: string; provider: string; title: string }>> {
+export async function joinLiveAction(payload: { sessionId: string }): Promise<ActionResult<{ url: string; provider: string; title: string; inPlatform: boolean }>> {
   const parsed = z.object({ sessionId: uuid }).safeParse(payload)
   if (!parsed.success) return failValidation(parsed.error)
   return runAction(async () => {

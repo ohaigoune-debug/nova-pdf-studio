@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { IOS_CLIENT_HEADER, IOS_PRESENTATION_COOKIE, IOS_PRESENTATION_HEADER, IOS_PRESENTATION_VALUE, iosPresentationRedirect, iosPresentationState } from '@/lib/ios-presentation'
+import { buildLiveRoomCsp, isLiveRoomPath } from '@/lib/live-room'
 
 const SESSION_COOKIE = 'madrasa_session'
 const PROTECTED = ['/student', '/teacher', '/assistant', '/admin', '/studio', '/print', '/pos', '/affiliate']
@@ -55,7 +56,8 @@ export function middleware(req: NextRequest) {
   }
 
   const nonce = btoa(crypto.randomUUID())
-  const csp = buildCsp(nonce)
+  // صفحة الحصة المباشرة (Zoom Meeting SDK) وحدها لها سياسة خاصة: صفحة HTML مستقلة بلا سكربتات المنصة
+  const csp = isLiveRoomPath(pathname) ? buildLiveRoomCsp() : buildCsp(nonce)
   const requestHeaders = new Headers(req.headers)
   // Ignore forged internal headers; only the persisted presentation preference
   // (or its explicit /ios bootstrap) supplies this server rendering hint.

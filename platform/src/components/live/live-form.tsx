@@ -22,6 +22,7 @@ export interface LiveFormDefaults {
   joinUrl?: string | null
   hasJoinUrl?: boolean
   providerMeetingId?: string | null
+  passcode?: string | null
 }
 
 /** قيمة datetime-local بالتوقيت المحلي للمتصفح */
@@ -77,11 +78,20 @@ export function LiveSessionForm({ id, defaults = {}, courses }: { id?: string; d
             ))}
           </Select>
         </Field>
-        <Field label="معرّف الاجتماع (اختياري)" htmlFor="l-meeting" error={fieldError(state, 'providerMeetingId')}>
-          <Input id="l-meeting" name="providerMeetingId" defaultValue={defaults.providerMeetingId ?? ''} dir="ltr" />
+        <Field label="رقم اجتماع Zoom" htmlFor="l-meeting" hint="مثال: 845 1234 5678" error={fieldError(state, 'providerMeetingId')}>
+          <Input id="l-meeting" name="providerMeetingId" defaultValue={defaults.providerMeetingId ?? ''} dir="ltr" inputMode="numeric" />
+        </Field>
+        <Field
+          label="رمز الدخول (Passcode)"
+          htmlFor="l-passcode"
+          hint="مع رقم الاجتماع: يدخل التلميذ الحصة داخل المنصة باسمه، دون أن يرى الرابط ولا الرمز (يلزم ضبط Zoom Meeting SDK في صفحة البث المباشر)."
+          error={fieldError(state, 'passcode')}
+          className="sm:col-span-2"
+        >
+          <Input id="l-passcode" name="passcode" defaultValue={defaults.passcode ?? ''} dir="ltr" maxLength={10} autoComplete="off" spellCheck={false} />
         </Field>
         <Field label="رابط الانضمام" htmlFor="l-url" hint={id && defaults.hasJoinUrl ? 'اتركه فارغاً مع تفعيل «الإبقاء على الرابط» للاحتفاظ بالرابط المحفوظ.' : 'يُحفظ مشفّراً ولا يُعرض للتلميذ إلا داخل نافذة الحصة.'} error={fieldError(state, 'joinUrl')} className="sm:col-span-2">
-          <Input id="l-url" name="joinUrl" type="url" defaultValue={defaults.joinUrl ?? ''} dir="ltr" placeholder="https://zoom.us/j/…" />
+          <Input id="l-url" name="joinUrl" type="url" defaultValue={defaults.joinUrl ?? ''} dir="ltr" placeholder="https://zoom.us/j/… (اختياري إن أُدخل رقم الاجتماع والرمز)" />
         </Field>
         {id && defaults.hasJoinUrl ? (
           <label className="flex items-center gap-2 text-sm sm:col-span-2">

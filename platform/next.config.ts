@@ -32,6 +32,9 @@ const nextConfig: NextConfig = {
           ...(process.env.NODE_ENV === 'production' ? [{ key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' }] : [])
         ]
       },
+      // صفحة الحصة المباشرة (Zoom Meeting SDK) وحدها تسمح بالميكروفون والكاميرا ليتكلّم التلميذ إذا أذن له الأستاذ.
+      // تأتي بعد القاعدة العامة فتعلوها (القيمة نفسها في src/lib/live-room.ts — يتحقق منها اختبار live-zoom-sdk).
+      { source: '/student/live/:id', headers: [{ key: 'Permissions-Policy', value: 'camera=(self), microphone=(self), display-capture=(self), fullscreen=(self), geolocation=()' }] },
       { source: '/sw.js', headers: [{ key: 'Cache-Control', value: 'no-cache' }, { key: 'Service-Worker-Allowed', value: '/' }] },
       // صور ثابتة لا تتغيّر إلّا نادرًا (أشكال المواضيع والصور، الشعار، الخطوط، KaTeX): يحفظها المتصفح و Cloudflare يومًا
       // فلا تمرّ بالخادم في كل صفحة. (ملفات /_next/static يضبطها Next.js مسبقًا كدائمة.)
