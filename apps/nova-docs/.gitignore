@@ -8,6 +8,7 @@ public/tessdata
 public/tesseract
 public/sqljs
 public/fonts
+public/pdfjs
 # مخرجات Xcode/Capacitor المولَّدة
 ios/App/App/public
 ios/App/build

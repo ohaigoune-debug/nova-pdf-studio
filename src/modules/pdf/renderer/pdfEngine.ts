@@ -62,9 +62,13 @@ export class PdfEngine {
     return this.ocrSpans.has(index)
   }
 
-  static async load(bytes: Uint8Array, password?: string): Promise<PdfEngine> {
+  /**
+   * @param extra خيارات pdf.js إضافية اختيارية (مثل cMapUrl/standardFontDataUrl في تطبيق iOS)؛
+   *              نسخة Windows تستدعيها دون هذا المعامل فيبقى سلوكها كما هو.
+   */
+  static async load(bytes: Uint8Array, password?: string, extra?: { cMapUrl?: string; cMapPacked?: boolean; standardFontDataUrl?: string }): Promise<PdfEngine> {
     try {
-      const task = pdfjs.getDocument({ data: bytes.slice(), password, useSystemFonts: true, isEvalSupported: false })
+      const task = pdfjs.getDocument({ data: bytes.slice(), password, useSystemFonts: true, isEvalSupported: false, ...(extra ?? {}) })
       const doc = await task.promise
       return new PdfEngine(doc, bytes)
     } catch (error) {

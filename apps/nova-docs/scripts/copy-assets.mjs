@@ -22,6 +22,9 @@ copy(join(app, 'node_modules/tesseract.js/dist/worker.min.js'), join(pub, 'tesse
 for (const f of ['tesseract-core-lstm.wasm.js', 'tesseract-core-simd-lstm.wasm.js']) {
   copy(join(app, 'node_modules/tesseract.js-core', f), join(pub, 'tesseract', f))
 }
+// pdf.js: خرائط الأحرف CMaps والخطوط القياسية (ملفات PDF الآسيوية والخطوط غير المضمّنة)
+copy(join(app, 'node_modules/pdfjs-dist/cmaps'), join(pub, 'pdfjs/cmaps'))
+copy(join(app, 'node_modules/pdfjs-dist/standard_fonts'), join(pub, 'pdfjs/standard_fonts'))
 // sql.js
 copy(join(app, 'node_modules/sql.js/dist/sql-wasm.wasm'), join(pub, 'sqljs/sql-wasm.wasm'))
 // الخط العربي المستعمل في طبقة النص الخفية وفي رسم النص العربي
