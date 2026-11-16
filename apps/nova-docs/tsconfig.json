@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "types": ["vite/client", "node"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowImportingTsExtensions": false,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["../../src/shared/*"],
+      "@modules/database/main": ["src/platform/shims/database-main.ts"],
+      "@modules/*": ["../../src/modules/*"],
+      "@main/logger": ["src/platform/shims/logger.ts"],
+      "@app/*": ["src/*"],
+      "pdf-lib": ["node_modules/pdf-lib"],
+      "@pdf-lib/fontkit": ["node_modules/@pdf-lib/fontkit"],
+      "pdfjs-dist": ["node_modules/pdfjs-dist"],
+      "pdfjs-dist/*": ["node_modules/pdfjs-dist/*"],
+      "xlsx": ["node_modules/xlsx"],
+      "sql.js": ["node_modules/@types/sql.js"],
+      "tesseract.js": ["node_modules/tesseract.js"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts", "vite.config.ts", "vitest.config.ts", "capacitor.config.ts"]
+}
