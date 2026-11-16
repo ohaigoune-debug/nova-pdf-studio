@@ -9,13 +9,15 @@
 cd apps/nova-docs
 npm ci
 node scripts/copy-assets.mjs        # WASM + حزم OCR + الخط العربي + pdf.js cmaps
-npm run typecheck && npm test       # 45 اختبارًا (منها دقة OCR الحقيقية)
+npm run typecheck && npm test       # 57 اختبارًا (منها دقة OCR والأداء)
 npm run build && npx vite preview --port 4173 &
-node e2e/smoke.mjs                  # 12 خطوة واجهة في Chrome (يتطلب google-chrome)
+node e2e/smoke.mjs                  # 13 خطوة واجهة في Chrome (يتطلب google-chrome)
 
 # macOS فقط
 npx cap sync ios && python3 scripts/patch-xcode-project.py
 open ios/App/App.xcodeproj
+# اختبارات StoreKit الحقيقية (StoreKit Testing، بلا حساب):
+cd ios/App && xcodebuild test -project App.xcodeproj -scheme App -destination 'platform=iOS Simulator,name=iPhone 16 Pro Max' CODE_SIGNING_ALLOWED=NO
 ```
 
 ## إعادة توليد الأصول
@@ -25,17 +27,19 @@ open ios/App/App.xcodeproj
 - صور اختبار OCR: `python3 tests/fixtures/make_fixtures.py`.
 
 ## CI
-- `NOVA Docs iOS` يعمل تلقائيًا على كل push للفرع: فحوص Windows + اختبارات التطبيق + بناء Xcode حقيقي + لقطات محاكٍ (NOVA_ROUTE في نسخة Debug فقط).
+- `NOVA Docs iOS` يعمل تلقائيًا على كل push للفرع: فحوص Windows + اختبارات التطبيق + بناء Xcode حقيقي (Debug محاكٍ + Release جهاز) + لقطات محاكٍ (NOVA_ROUTE عبر WKUserScript في نسخة Debug فقط) + 7 اختبارات StoreKit.
+- حالة التشغيل: `gh api repos/ohaigoune-debug/nova-pdf-studio/commits/<sha>/check-runs` (واجهة Actions API محجوبة في بيئة العمل؛ check-runs تعمل).
 - النتائج واللقطات تُنشر في فرع `ci/nova-docs-ios-results` (و Artifacts).
 - TestFlight: سير العمل اليدوي `NOVA Docs → TestFlight (manual)` بعد إضافة الأسرار.
 
 ## الأولويات التالية (مرتبة)
 1. على جهاز حقيقي: الماسح (VisionKit)، Apple Pencil، المشاركة، AirPrint، «فتح في»، تصدير الفاتورة PDF.
-2. Sandbox: شراء/إلغاء/معلّق/استعادة/استرداد (بعد Paid Apps Agreement).
+2. Sandbox: شراء/إلغاء/معلّق/استعادة/استرداد (بعد Paid Apps Agreement). منطقها مختبر في StoreKit Testing 7/7.
+2b. تشغيل OCR (Tesseract WASM) داخل WKWebView على المحاكي ضمن CI (مشهد آلي).
 3. تحرير صفحات مدوّرة بدقة؛ كتابة العربية المضافة كنص حقيقي (خط مضمّن + تشكيل) بدل الصورة.
 4. الجداول: تنسيق الخلايا، «فاتورة من جدول».
 5. استيراد الفواتير القديمة: رسم مناطق يدوي كما في Windows.
-6. اختبارات e2e إضافية للجداول والنسخ الاحتياطي.
+6. اختبار e2e للنسخ الاحتياطي والاسترجاع.
 7. نشر `site/nova-docs` على نطاق تختاره (بموافقتك) وتعبئة روابط الدعم/الخصوصية في App Store Connect.
 
 ## قواعد ثابتة

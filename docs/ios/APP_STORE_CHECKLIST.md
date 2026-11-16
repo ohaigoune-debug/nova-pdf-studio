@@ -11,10 +11,10 @@
 | 7 | Privacy Manifest | COMPLETE | `PrivacyInfo.xcprivacy` |
 | 8 | أذونات (الكاميرا) بـ14 لغة | COMPLETE | `xx.lproj/InfoPlist.strings` |
 | 9 | Export compliance | COMPLETE | `ITSAppUsesNonExemptEncryption = NO` |
-| 10 | منتج StoreKit + ملف اختبار | COMPLETE (شيفرة) / BLOCKED (App Store Connect) | |
+| 10 | منتج StoreKit + ملف اختبار | COMPLETE (شيفرة + 7/7 اختبارات StoreKit Testing) / BLOCKED (App Store Connect) | المنتج يجب أن يُنشأ في App Store Connect بالمعرّف نفسه حرفيًا |
 | 11 | وصف المتجر والكلمات المفتاحية ar/fr/en | COMPLETE | `APP_STORE_METADATA.md` (الأطوال محسوبة) |
 | 12 | سياسة الخصوصية + الشروط + الدعم | COMPLETE (محتوى) / BLOCKED (نشر) | `site/nova-docs/` — يحتاج استضافة بموافقتك |
-| 13 | لقطات iPhone 6.9" وiPad 13" حقيقية | PARTIAL | تُلتقط آليًا من المحاكي في CI (فرع `ci/nova-docs-ios-results`). راجعها قبل الرفع. |
+| 13 | لقطات iPhone 6.9" وiPad 13" حقيقية | PARTIAL | 6 لكل جهاز من المحاكي الحقيقي بالمقاسات المقبولة (1320×2868 و2064×2752) في `docs/ios/screenshots/`. **راجعها قبل الرفع**: بيانات الفواتير التجريبية مأخوذة من نسخة Windows وفيها اسم «ليلى مراد» (اسم فنانة معروفة) — يُفضَّل استبداله؛ ولا توجد لقطة للمسح بالكاميرا (المحاكي بلا كاميرا) ولا لشاشة Pro بسعر حقيقي. |
 | 14 | التوقيع (Signing) | BLOCKED | يحتاج Team ID وشهادة (أو مفتاح App Store Connect API للتوقيع التلقائي) |
 | 15 | IPA / Release Archive | BLOCKED | سير العمل `nova-docs-testflight.yml` جاهز ويحتاج الأسرار الأربعة |
 | 16 | TestFlight | BLOCKED | نفس ما سبق + تسجيل التطبيق في App Store Connect |
