@@ -14,7 +14,7 @@ import { strokeToSvgPath, type InkStroke } from '../../lib/ink'
 import { NOTE_SIZE } from '../../lib/annotations'
 import { newId, useEditor } from './editorState'
 import { usePro } from '../../stores/proInstance'
-import { promptDialog, toast } from '../../ui/overlays'
+import { confirmDialog, promptDialog, toast } from '../../ui/overlays'
 import type { Feature } from '../../lib/features'
 
 export interface HitRect { x: number; y: number; width: number; height: number; active: boolean }
@@ -68,6 +68,8 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
   const [rendered, setRendered] = useState(0)
   const [draft, setDraft] = useState<{ x: number; y: number; w: number; h: number } | null>(null)
   const [livePoints, setLivePoints] = useState<[number, number][] | null>(null)
+  // تعليقات PDF الموجودة في الملف (Sticky notes) — يرسمها pdf.js في طبقة HTML لا على الـ canvas، فنعرضها بأنفسنا
+  const [fileNotes, setFileNotes] = useState<{ x: number; y: number; text: string; author: string }[]>([])
   const pencilSeen = useRef(false)
   const gesture = useRef<{ mode: 'draw' | 'rect' | 'move' | 'resize'; startX: number; startY: number; id?: string; ox?: number; oy?: number; ow?: number; oh?: number; points?: [number, number][] } | null>(null)
 
@@ -119,6 +121,30 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible, scale, engine, info.index])
+
+  useEffect(() => {
+    if (!visible) return
+    let alive = true
+    void (async () => {
+      try {
+        const page = await engine.page(info.index)
+        const vp = page.getViewport({ scale: 1 })
+        const annots = (await page.getAnnotations()) as { subtype: string; rect: number[]; contentsObj?: { str: string }; titleObj?: { str: string } }[]
+        const notes = annots
+          .filter((a) => a.subtype === 'Text' && a.contentsObj?.str)
+          .map((a) => {
+            const [x1, y1] = vp.convertToViewportPoint(a.rect[0], a.rect[3])
+            return { x: x1, y: y1, text: a.contentsObj!.str, author: a.titleObj?.str ?? '' }
+          })
+        if (alive) setFileNotes(notes)
+      } catch {
+        /* ملف بلا تعليقات */
+      }
+    })()
+    return () => {
+      alive = false
+    }
+  }, [visible, engine, info.index])
 
   const toPt = useCallback((e: { clientX: number; clientY: number }) => {
     const r = wrapRef.current!.getBoundingClientRect()
@@ -300,9 +326,15 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
           {livePoints && <path d={strokeToSvgPath(livePoints)} fill="none" stroke={editor.color} strokeWidth={editor.strokeWidth} strokeLinecap="round" strokeLinejoin="round" />}
         </svg>
         {notes.map((n) => (
-          <div key={n.id} title={n.text} className={clsx('absolute grid place-items-center rounded-[4px] bg-[#F5C518] text-[#4a3800] shadow', editor.selectedId === n.id && 'outline outline-2 outline-accent')} style={{ left: n.x * scale, top: n.y * scale, width: NOTE_SIZE * scale, height: NOTE_SIZE * scale }}>
+          <div key={n.id} title={n.text} className={clsx('absolute grid place-items-center rounded-[4px] bg-[#F5C518] text-[#4a3800] shadow', editor.selectedId === n.id && 'outline outline-2 outline-accent')} style={{ left: n.x * scale, top: n.y * scale, width: Math.max(NOTE_SIZE * scale, 26), height: Math.max(NOTE_SIZE * scale, 26) }}>
             <MessageSquareText style={{ width: NOTE_SIZE * scale * 0.7, height: NOTE_SIZE * scale * 0.7 }} />
           </div>
+        ))}
+        {fileNotes.map((n, i) => (
+          <button key={`f${i}`} aria-label={n.text} title={n.text} onClick={(e) => { e.stopPropagation(); void confirmDialog(n.author || t('ios.edit.note'), { message: n.text }) }}
+            className="absolute grid place-items-center rounded-[4px] bg-[#F5C518] text-[#4a3800] shadow" style={{ left: n.x * scale, top: n.y * scale, width: Math.max(NOTE_SIZE * scale, 26), height: Math.max(NOTE_SIZE * scale, 26) }}>
+            <MessageSquareText style={{ width: NOTE_SIZE * scale * 0.7, height: NOTE_SIZE * scale * 0.7 }} />
+          </button>
         ))}
         {draft && <div className={clsx('pointer-events-none absolute border-2 border-dashed', editor.tool === 'whiteout' ? 'border-muted bg-white' : editor.tool === 'highlight' ? 'border-transparent bg-[#FFE066]/50' : 'border-accent')} style={{ left: draft.x * scale, top: draft.y * scale, width: draft.w * scale, height: draft.h * scale }} />}
         {editing && selected && editor.tool === 'select' && (
