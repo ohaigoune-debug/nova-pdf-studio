@@ -33,9 +33,17 @@ export default async function AdminHomePage() {
   const [s, storage, logs, map, queue] = await Promise.all([platformStats(db, actor), storageStats(db, actor), listAuditLogs(db, actor, 10), studentsPerWilaya(db), listConfirmationQueue(db, actor)])
   const awaiting = queue.filter((o) => o.status === 'PENDING').length
   const tiles: RoleTile[] = MAIN_TILES.map((tile) => (tile.href === '/admin/store/confirm' ? { ...tile, badge: awaiting } : tile))
-  // بقية أوامر القائمة الجانبية («المزيد») روابط صغيرة تحت المربعات، من المصدر نفسه فلا تختلف عنه
+  // بقية أوامر القائمة الجانبية (مداخل الأبواب الفرعية) روابط صغيرة تحت المربعات، من المصدر نفسه فلا تختلف عنه
   const mainHrefs = new Set(MAIN_TILES.map((x) => x.href))
-  const more = navFor('SUPER_ADMIN').flatMap((section) => section.items).filter((item) => item.href !== '/admin' && !mainHrefs.has(item.href)).map((item) => ({ href: item.href, label: item.label, iconKey: item.iconKey }))
+  const more = Array.from(
+    new Map(
+      navFor('SUPER_ADMIN')
+        .flatMap((section) => section.items)
+        .flatMap((item) => [item, ...(item.children ?? [])])
+        .filter((item) => item.href !== '/admin' && !mainHrefs.has(item.href))
+        .map((item) => [item.href, { href: item.href, label: item.label, iconKey: item.iconKey }] as const)
+    ).values()
+  )
   const topWilayas = map.filter((w) => w.students > 0).sort((a, b) => b.students - a.students).slice(0, 8)
   return (
     <div className="space-y-6">

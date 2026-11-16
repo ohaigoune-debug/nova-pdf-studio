@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { navFor, type NavItem } from '@/components/layout/nav'
+import { ADMIN_TOOLS, navFor, type NavItem } from '@/components/layout/nav'
 
 const leaves = (items: NavItem[]): NavItem[] => items.flatMap((item) => item.children?.length ? leaves(item.children) : [item])
 
@@ -18,22 +18,41 @@ describe('قائمة الإدارة المختصرة', () => {
     expect(main.map((i) => i.href)).toEqual(['/admin', '/admin/courses', '/admin/students', '/admin/store', '/admin/settings'])
   })
 
-  it('الطلبات تجمع طلبات الدورات وطابور التأكيد والتوصيل؛ الإعدادات تجمع الموظفين والفيديو', () => {
+  it('الطلبات تجمع طلبات الدورات وطابور التأكيد والتوصيل؛ الإعدادات تجمع الموظفين والفيديو والأمان', () => {
     const items = navFor('SUPER_ADMIN')[0]!.items
     const orders = items.find((i) => i.href === '/admin/store')!
     expect(orders.children?.map((i) => i.href)).toEqual(['/admin/store', '/admin/store/confirm', '/admin/delivery', '/admin/points-of-sale', '/admin/affiliates', '/admin/scope-requests', '/admin/invoices'])
     expect(orders.children?.map((i) => i.label)).toEqual(['طلبات الدورات', 'طابور التأكيد', 'التوصيل', 'نقاط البيع', 'المسوّقون', 'طلبات تغيير الشعبة', 'الفواتير'])
-    expect(items.find((i) => i.href === '/admin/settings')!.children?.map((i) => i.href)).toEqual(['/admin/settings', '/admin/employees', '/admin/settings/video', '/admin/settings/payment', '/admin/settings/student-menu'])
+    expect(items.find((i) => i.href === '/admin/settings')!.children?.map((i) => i.href)).toEqual([
+      '/admin/settings', '/admin/employees', '/admin/settings/video', '/admin/settings/payment', '/admin/settings/student-menu',
+      '/admin/settings/apps', '/admin/security', '/admin/storage', '/admin/ai', '/admin/tools'
+    ])
   })
 
-  it('المزيد قابل للطي ويحافظ على كل الوجهات السابقة دون تكرار', () => {
+  it('الحصص المباشرة داخل الدورات، والشكاوى وكشف التسريب داخل التلاميذ (16 نوفمبر 2026)', () => {
+    const items = navFor('SUPER_ADMIN')[0]!.items
+    expect(items.find((i) => i.href === '/admin/courses')!.children?.map((i) => i.href)).toEqual(['/admin/courses', '/admin/live'])
+    expect(items.find((i) => i.href === '/admin/students')!.children?.map((i) => i.href)).toEqual(['/admin/students', '/admin/support', '/admin/security/leaks'])
+  })
+
+  it('لا «مزيد» في القائمة: قسم واحد بخمسة أبواب، وكل الوجهات السابقة محفوظة في القائمة أو في أدوات متقدمة', () => {
     const sections = navFor('SUPER_ADMIN')
-    const more = sections.find((s) => s.title === 'المزيد')
-    expect(more?.collapsible).toBe(true)
-    const all = leaves(sections.flatMap((s) => s.items)).map((i) => i.href)
-    expect(new Set(all).size).toBe(all.length)
-    for (const href of PREVIOUS_DESTINATIONS) expect(all).toContain(href)
-    expect(all).toContain('/admin/employees')
+    expect(sections).toHaveLength(1)
+    expect(sections.some((s) => s.collapsible)).toBe(false)
+    const inMenu = leaves(sections.flatMap((s) => s.items)).map((i) => i.href)
+    expect(new Set(inMenu).size).toBe(inMenu.length)
+    const tools = ADMIN_TOOLS.map((x) => x.href)
+    expect(new Set(tools).size).toBe(tools.length)
+    for (const href of tools) expect(inMenu, href).not.toContain(href)
+    for (const href of PREVIOUS_DESTINATIONS) expect([...inMenu, ...tools], href).toContain(href)
+    for (const href of ['/admin/play', '/admin/exam-engine', '/admin/educators', '/admin/market']) expect(inMenu).not.toContain(href)
+    expect(inMenu).toContain('/admin/employees')
+  })
+
+  it('«أدوات متقدمة» تبقى مضاءة في كل صفحة من صفحاتها', () => {
+    const settings = navFor('SUPER_ADMIN')[0]!.items.find((i) => i.href === '/admin/settings')!
+    const tools = settings.children!.find((i) => i.href === '/admin/tools')!
+    expect(tools.also).toEqual(ADMIN_TOOLS.map((x) => x.href))
   })
 
   it('لا يغير قائمة التلميذ والأستاذ والمساعد', () => {
