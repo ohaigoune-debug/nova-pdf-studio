@@ -2,6 +2,7 @@ import { BookOpen, Library } from 'lucide-react'
 import Link from 'next/link'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { LevelSubjectBar, ResourceCards } from '@/components/domain/resource-cards'
+import { ChooseScopeCard } from '@/components/student/student-scope-ui'
 import { Button } from '@/components/ui/button'
 import { EmptyState, PageHeader } from '@/components/ui/misc'
 import { cn } from '@/lib/utils'
@@ -11,6 +12,7 @@ import { getDb } from '@/server/db/client'
 import { currentLevel, subjectsForLevel } from '@/server/queries/level-scope'
 import { listPublicContent, listTopics } from '@/server/queries/content.queries'
 import { LESSON_RESOURCE_TYPES, listResourceCards } from '@/server/services/library.service'
+import { levelStreamOptions, studentScopeOf } from '@/server/services/student-scope.service'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'الدروس والموارد' }
@@ -25,15 +27,21 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
   const sp = await searchParams
   const db = await getDb()
   const { locale } = await getT()
-  const [level, actor] = await Promise.all([currentLevel(db, sp.level), getCurrentActor()])
+  const actor = await getCurrentActor()
   const studentId = actor?.studentId ?? null
+  // التلميذ المسجَّل بمستواه وشعبته: الصفحة على نطاق حسابه (لا «كل المستويات» ولا ?level=)؛ الزائر والمشرف والأستاذ كما كانوا
+  const own = await studentScopeOf(db, actor)
+  const locked = own?.complete ? own : null
+  const picked = locked ? null : await currentLevel(db, sp.level)
+  const level = locked ? { id: locked.levelId!, label: locked.label! } : picked ? { id: picked.id, label: picked.label } : null
   const subjectId = sp.subject && /^[0-9a-f-]{36}$/i.test(sp.subject) ? sp.subject : null
-  const [academy, topics, library, subjectOpts] = await Promise.all([
-    // دروس المنصة لا تحمل مادة: تُرشَّح بالمستوى والبحث، وتُخفى حين يختار الزائر مادة بعينها من المكتبة
-    subjectId ? Promise.resolve([]) : listPublicContent(db, { types: ['LESSON', 'ARTICLE', 'VIDEO', 'PDF', 'AUDIO', 'IMAGE', 'LINK'], search: sp.q, topic: sp.topic, levelId: level?.id ?? null }),
+  const [academy, topics, library, subjectOpts, scopeOptions] = await Promise.all([
+    // دروس المنصة لا تحمل مادة: تُرشَّح بالمستوى (والشعبة للتلميذ) والبحث، وتُخفى حين يختار الزائر مادة بعينها من المكتبة
+    subjectId ? Promise.resolve([]) : listPublicContent(db, { types: ['LESSON', 'ARTICLE', 'VIDEO', 'PDF', 'AUDIO', 'IMAGE', 'LINK'], search: sp.q, topic: sp.topic, levelId: level?.id ?? null, streamIds: locked?.streamFamily ?? [] }),
     listTopics(db),
     listResourceCards(db, { levelId: level?.id ?? null, subjectId, types: LESSON_RESOURCE_TYPES, q: sp.q ?? null, studentId }, { cursor: sp.cursor ?? null, limit: 24 }),
-    subjectsForLevel(db, level?.id ?? null)
+    subjectsForLevel(db, level?.id ?? null),
+    own && !own.complete ? levelStreamOptions(db) : Promise.resolve(null)
   ])
   const link = (patch: Partial<Q>) => {
     const p = new URLSearchParams(Object.entries({ ...sp, cursor: undefined, ...patch }).filter((e): e is [string, string] => Boolean(e[1])))
@@ -44,7 +52,12 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
   return (
     <div className="container py-10">
       <PageHeader title="الدروس والموارد" description={`دروس مصوّرة ومكتوبة وملخّصات ووثائق${level ? ` — ${level.label}` : ' لكل المستويات'}، والمصدر مذكور تحت كل مورد.`} />
-      <LevelSubjectBar action="/lessons" levelLabel={level?.label ?? null} subjects={subjectOpts} subjectId={subjectId} q={sp.q} hidden={{ topic: sp.topic, level: sp.level }} placeholder="ابحث: الدوال، إعراب البدل، الصور البيانية…" />
+      {own && scopeOptions ? (
+        <div className="mb-6">
+          <ChooseScopeCard options={scopeOptions} levelId={own.levelId} streamId={own.streamId} />
+        </div>
+      ) : null}
+      <LevelSubjectBar action="/lessons" levelLabel={level?.label ?? null} lockedLabel={locked?.label ?? null} subjects={subjectOpts} subjectId={subjectId} q={sp.q} hidden={{ topic: sp.topic, level: locked ? undefined : sp.level }} placeholder="ابحث: الدوال، إعراب البدل، الصور البيانية…" />
 
       {!subjectId ? (
         <section className="mb-10">

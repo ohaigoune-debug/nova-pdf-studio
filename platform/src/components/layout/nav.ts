@@ -133,7 +133,8 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
     case 'CONFIRMER':
       return [{ items: [
         { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall', exact: true },
-        { href: '/admin/store', label: 'الطلبات', iconKey: 'ShoppingBag', exact: true }
+        { href: '/admin/store', label: 'الطلبات', iconKey: 'ShoppingBag', exact: true },
+        { href: '/admin/scope-requests', label: 'طلبات تغيير الشعبة', iconKey: 'Shuffle' }
       ] }]
     case 'SUPER_ADMIN':
       return [
@@ -151,6 +152,7 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
                 { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' },
                 { href: '/admin/points-of-sale', label: 'نقاط البيع', iconKey: 'Store' },
                 { href: '/admin/affiliates', label: 'المسوّقون', iconKey: 'Megaphone' },
+                { href: '/admin/scope-requests', label: 'طلبات تغيير الشعبة', iconKey: 'Shuffle' },
                 { href: '/admin/invoices', label: 'الفواتير', iconKey: 'Receipt' }
               ]
             },

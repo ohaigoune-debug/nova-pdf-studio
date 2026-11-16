@@ -11,6 +11,7 @@ import { reachableGroupIds } from '@/server/lib/course-access'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { assertGroupAccess } from './groups.service'
 import { notifyMany } from './notifications.service'
+import { contentScopeClause, studentScope } from './student-scope.service'
 
 export interface ContentInput {
   type: ContentType
@@ -252,7 +253,8 @@ export async function getContentForEdit(db: Db, actor: Actor, id: string) {
 export async function getContentForStudent(db: Db, actor: Actor, slug: string) {
   const studentId = studentIdOf(actor)
   // الأفواج التي يصل إليها الآن: اشتراك الدورة المنتهي يُستبعد عند كل طلب لا عند مهمة الانتهاء فقط
-  const gids = await reachableGroupIds(db, studentId)
+  // ونطاق الحساب (مستواه وشعبته): الدرس العام من مستوى أو شعبة أخرى لا يُفتح بتغيير الرابط
+  const [gids, scope] = await Promise.all([reachableGroupIds(db, studentId), studentScope(db, studentId)])
   const targeted = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)
@@ -288,10 +290,21 @@ export async function getContentForStudent(db: Db, actor: Actor, slug: string) {
         eq(content.slug, slug),
         isNotNull(content.publishedAt),
         isNull(content.deletedAt),
-        or(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), inArray(content.id, targeted))
+        or(and(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), contentScopeClause(scope)), inArray(content.id, targeted))
       )
     )
     .limit(1)
-  if (!row) throw new AppError('CONTENT_NOT_FOUND')
+  if (!row) {
+    // درس منشور لكنه لمستوى أو شعبة أخرى: رسالة واضحة بدل «غير موجود» (لا يُعاد شيء من محتواه)
+    if (scope.levelId) {
+      const [other] = await db
+        .select({ id: content.id })
+        .from(content)
+        .where(and(eq(content.slug, slug), isNotNull(content.publishedAt), isNull(content.deletedAt), inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY'])))
+        .limit(1)
+      if (other) throw new AppError('LESSON_OUT_OF_SCOPE')
+    }
+    throw new AppError('CONTENT_NOT_FOUND')
+  }
   return row
 }

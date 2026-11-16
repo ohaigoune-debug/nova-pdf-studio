@@ -19,7 +19,7 @@ export interface ContentCard {
   youtubeId?: string | null
 }
 
-export async function listPublicContent(db: Db, opts: { types?: ContentType[]; search?: string; topic?: string; levelId?: string | null; limit?: number } = {}): Promise<ContentCard[]> {
+export async function listPublicContent(db: Db, opts: { types?: ContentType[]; search?: string; topic?: string; levelId?: string | null; streamIds?: string[]; limit?: number } = {}): Promise<ContentCard[]> {
   return db
     .select({
       id: content.id,
@@ -47,6 +47,8 @@ export async function listPublicContent(db: Db, opts: { types?: ContentType[]; s
         opts.topic ? eq(content.topic, opts.topic) : undefined,
         // درس بلا مستوى محدّد يبقى ظاهراً لكل المستويات
         opts.levelId ? or(eq(content.levelId, opts.levelId), isNull(content.levelId)) : undefined,
+        // شعبة التلميذ وأمّها، أو درس بلا شعبة (مشترك بين شعب المستوى)
+        opts.streamIds?.length ? or(isNull(content.streamId), inArray(content.streamId, opts.streamIds)) : undefined,
         opts.search ? or(ilike(content.title, `%${opts.search}%`), ilike(content.summary, `%${opts.search}%`), ilike(content.topic, `%${opts.search}%`)) : undefined
       )
     )
@@ -85,7 +87,10 @@ export async function getPublicContentBySlug(db: Db, slug: string) {
       fileStatus: files.status,
       videoProvider: content.videoProvider,
       youtubeId: content.youtubeId,
-      allowDownload: content.allowDownload
+      allowDownload: content.allowDownload,
+      // تصنيف الدرس: صفحة الدرس العامة تمنع التلميذ المسجَّل من درس ليس لمستواه وشعبته
+      levelId: content.levelId,
+      streamId: content.streamId
     })
     .from(content)
     .leftJoin(files, eq(files.id, content.fileId))

@@ -184,6 +184,7 @@ const en: DeepPartial<typeof ar> = {
     ASSISTANT_ALREADY_ACTIVE: 'This assistant is already attached to a teacher.',
     ASSISTANT_NOT_FOUND: 'Assistant not found.',
     ASSISTANT_NO_WORKSPACE: 'Your assistant account is not attached to any teacher.',
+    LESSON_OUT_OF_SCOPE: 'This lesson is not for your level and stream. Change them from “My account” if they are wrong.',
     INVOICE_NOT_FOUND: 'Invoice not found.',
     INTERNAL: 'An unexpected error occurred. Please try again.'
   }
