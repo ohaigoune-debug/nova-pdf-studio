@@ -3,6 +3,8 @@ package dz.madrasa.app.ui
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.graphics.Color as AColor
+import android.webkit.PermissionRequest
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -74,7 +76,9 @@ import dz.madrasa.app.ApiException
 import dz.madrasa.app.Heartbeat
 import dz.madrasa.app.T
 import dz.madrasa.app.Tf
+import dz.madrasa.app.VideoGuard
 import dz.madrasa.app.bool
+import dz.madrasa.app.findActivity
 import dz.madrasa.app.int
 import dz.madrasa.app.obj
 import dz.madrasa.app.objs
@@ -387,12 +391,19 @@ private fun isYouTube(h: String): Boolean =
 /**
  * مشغّل محمي: صفحة محلية ثابتة فيها إطار المشغّل وحده (يوتيوب أو Bunny الموقّع)، فلا يغادر الإطار الرئيسي
  * أبدًا ولا تُفتح نوافذ. فوقه علامة مائية متحرّكة باسم التلميذ ورمز حسابه، ونبضة كل 45 ثانية كالموقع
- * تفرض جهازًا واحدًا لكل حساب. لا حماية تسوّد الشاشة: حماية Bunny نفسها هي المعتمدة.
+ * تفرض جهازًا واحدًا لكل حساب. الشاشة لا تسودّ للتلميذ أبدًا؛ لكن ما دام المشغّل ظاهرًا تخرج لقطة الشاشة
+ * وتسجيلها سوداوين (FLAG_SECURE — قرار المالك 16 نوفمبر 2026)، ويُمنح WebView إذن «المحتوى المحمي»
+ * لمشغّل Bunny كي يعمل مع MediaCage Enterprise DRM. انظر VideoGuard.kt.
  */
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun ProtectedPlayer(frame: String, contentId: String?, watermark: List<String>, modifier: Modifier) {
     val app = LocalApp.current
+    val activity = LocalContext.current.findActivity()
+    DisposableEffect(activity) {
+        VideoGuard.acquireSecure(activity)
+        onDispose { VideoGuard.releaseSecure(activity) }
+    }
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     var blocked by remember(frame) { mutableStateOf<String?>(null) }
     var resumed by remember { mutableStateOf(true) }
@@ -453,6 +464,10 @@ fun ProtectedPlayer(frame: String, contentId: String?, watermark: List<String>, 
                         settings.allowContentAccess = false
                         settings.setSupportMultipleWindows(false)
                         settings.javaScriptCanOpenWindowsAutomatically = false
+                        // MediaCage Enterprise DRM (Widevine): بلا هذا الإذن يرفض WebView تشغيل فيديو Bunny المشفّر
+                        webChromeClient = object : WebChromeClient() {
+                            override fun onPermissionRequest(request: PermissionRequest) = VideoGuard.handlePermission(request)
+                        }
                         webViewClient = object : WebViewClient() {
                             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                                 // الإطار الرئيسي لا يغادر الصفحة المحلية؛ إطار المشغّل يتنقّل داخل مزوّده فقط
