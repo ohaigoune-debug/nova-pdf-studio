@@ -12,6 +12,7 @@ import { formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
+import { iosAppDownload } from '@/server/services/ios-app.service'
 import { listStudentContent } from '@/server/queries/student-extras.queries'
 import { upcomingForStudent } from '@/server/services/live.service'
 import { isPhoneVerified } from '@/server/services/otp.service'
@@ -102,9 +103,10 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
   const q = await searchParams
   const db = await getDb()
   const now = new Date()
-  const [today, apk, phoneV, hidden, upcoming] = await Promise.all([
+  const [today, apk, ios, phoneV, hidden, upcoming] = await Promise.all([
     studentToday(db, actor, now),
     appDownload({ onlyAndroid: true }),
+    iosAppDownload(db, { onlyAppleMobile: true }),
     isPhoneVerified(db, actor.userId),
     studentHiddenPaths(db),
     upcomingForStudent(db, actor).catch(() => [])
@@ -263,6 +265,16 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
           </div>
           <ContentGrid items={suggested} basePath="/student/lessons" />
         </section>
+      ) : null}
+
+      {ios ? (
+        <a href={ios.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-lg border border-primary/25 bg-primary/5 p-4 transition-colors hover:bg-primary/10">
+          <Smartphone className="size-7 shrink-0 text-primary" />
+          <span className="min-w-0 leading-tight">
+            <span className="block font-bold">{t('public.iosApp')}</span>
+            <span className="block text-xs text-muted-foreground">{t('public.iosAppD')}</span>
+          </span>
+        </a>
       ) : null}
 
       {apk ? (

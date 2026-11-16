@@ -332,6 +332,8 @@ const ar = {
     verseAuthor: 'أحمد شوقي',
     androidApp: 'حمّل تطبيق أندرويد',
     androidAppD: 'مجاني للتلاميذ — {size} ميغابايت',
+    iosApp: 'حمّل تطبيق الآيفون',
+    iosAppD: 'مجاني للتلاميذ — من App Store',
     privacy: 'سياسة الخصوصية',
     deleteAccount: 'حذف الحساب'
   },
@@ -1347,6 +1349,7 @@ const ar = {
     uploader_courses: 'إسناد دورات لرافع محتوى',
     settings_student_menu: 'تعديل أقسام حساب التلميذ',
     settings_play_bac_ios_only: 'تعديل ظهور PLAY وبنك البكالوريات (آيفون وحده)',
+    settings_ios_app_link: 'تعديل رابط تطبيق الآيفون في App Store',
     payment_initiate: 'بدء دفع إلكتروني',
     payment_paid: 'دفع إلكتروني مؤكَّد',
     payment_failed: 'دفع إلكتروني لم يتمّ',

@@ -155,6 +155,8 @@ const fr: DeepPartial<typeof ar> = {
     verseAuthor: 'Ahmed Chawqi',
     androidApp: "Télécharger l'application Android",
     androidAppD: 'Gratuite pour les élèves — {size} Mo',
+    iosApp: "Télécharger l'application iPhone",
+    iosAppD: "Gratuite pour les élèves — sur l'App Store",
     privacy: 'Confidentialité',
     deleteAccount: 'Supprimer le compte'
   },
