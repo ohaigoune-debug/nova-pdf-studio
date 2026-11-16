@@ -66,7 +66,9 @@ jobs:
           npx cap sync ios
           python3 scripts/patch-xcode-project.py
 
-      - name: Archive (automatic signing via App Store Connect API key)
+      # أرشفة غير موقّعة: التوقيع التلقائي وقت الأرشفة يطلب ملف تزويد «تطوير»، وهذا يتطلب جهازًا مسجّلًا في الحساب
+      # (فشل التشغيل 1: «Your team has no devices»). التوقيع الحقيقي (Apple Distribution + ملف App Store) يتم عند التصدير.
+      - name: Archive (unsigned — distribution signing happens at export)
         working-directory: apps/nova-docs/ios/App
         env:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
@@ -82,7 +84,7 @@ jobs:
           chmod 600 "$K"
           xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
             -archivePath build/NovaDocs.xcarchive DEVELOPMENT_TEAM="$TEAM_ID" CODE_SIGN_STYLE=Automatic \
-            -allowProvisioningUpdates -authenticationKeyPath "$K" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
             archive > archive.log 2>&1 \
             || { tail -80 archive.log; grep -E "error:|Error Domain|No profiles|signing|certificate" archive.log | sort -u | head -30 | while IFS= read -r l; do echo "::error::${l:0:900}"; done; rm -f "$K"; exit 1; }
           tail -12 archive.log
