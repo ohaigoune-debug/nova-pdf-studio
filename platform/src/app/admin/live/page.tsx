@@ -1,5 +1,6 @@
 import { Plus, Radio } from 'lucide-react'
 import Link from 'next/link'
+import { ZoomSettingsCard } from '@/components/live/zoom-settings-card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -8,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { cn, formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { getZoomSdkView } from '@/server/lib/zoom'
 import { LIVE_PROVIDER_AR, LIVE_STATUS_AR, coursesForLiveForm, listLiveAdmin } from '@/server/services/live.service'
 import type { LiveProvider, LiveSessionStatus } from '@/server/db/schema/enums'
 
@@ -21,7 +23,7 @@ export default async function AdminLivePage({ searchParams }: { searchParams: Pr
   const sp = await searchParams
   const courseId = sp.course && /^[0-9a-f-]{36}$/i.test(sp.course) ? sp.course : null
   const db = await getDb()
-  const [sessions, courses] = await Promise.all([listLiveAdmin(db, actor, { courseId }), coursesForLiveForm(db, actor)])
+  const [sessions, courses, zoom] = await Promise.all([listLiveAdmin(db, actor, { courseId }), coursesForLiveForm(db, actor), getZoomSdkView(db)])
   const now = Date.now()
   const upcoming = sessions.filter((s) => s.status === 'SCHEDULED' && s.startsAt.getTime() >= now).length
   const live = sessions.filter((s) => s.status === 'LIVE').length
@@ -29,7 +31,7 @@ export default async function AdminLivePage({ searchParams }: { searchParams: Pr
     <div className="space-y-6">
       <PageHeader
         title="البث المباشر"
-        description="حصص Zoom/Meet داخل الدورات المدفوعة. الرابط مشفّر ولا يُفتح للتلميذ إلا قبل الموعد بـ15 دقيقة وبعد قبول الشروط؛ كل انضمام يُسجَّل حضوراً. تذكير تلقائي قبل 30 دقيقة."
+        description="حصص Zoom/Meet داخل الدورات المدفوعة. الرابط مشفّر ولا يُفتح للتلميذ إلا قبل الموعد بـ15 دقيقة وبعد قبول الشروط؛ كل انضمام يُسجَّل حضوراً. تذكير تلقائي قبل 30 دقيقة. مع Zoom Meeting SDK يدخل التلميذ الحصة داخل المنصة باسمه."
         actions={
           <Button asChild>
             <Link href="/admin/live/new">
@@ -44,6 +46,7 @@ export default async function AdminLivePage({ searchParams }: { searchParams: Pr
         <StatCard label="الكل" value={sessions.length} />
         <StatCard label="الدورات" value={courses.length} />
       </div>
+      <ZoomSettingsCard saved={zoom} />
       <Card>
         <CardHeader className="flex-row flex-wrap items-center justify-between gap-2">
           <CardTitle>الحصص</CardTitle>

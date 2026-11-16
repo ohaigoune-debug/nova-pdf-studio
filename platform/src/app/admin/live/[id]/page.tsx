@@ -53,6 +53,7 @@ export default async function LiveDetailPage({ params }: { params: Promise<{ id:
             <span>{s.courseTitle}</span>
             <span dir="ltr">· {formatDateTime(s.startsAt)}</span>
             <span className="text-xs">نافذة الانضمام: {formatDateTime(w.opensAt)} → {formatDateTime(w.closesAt)}</span>
+            {s.inPlatform ? <Badge variant="success">داخل المنصة (Zoom SDK)</Badge> : s.provider === 'ZOOM' ? <Badge variant="muted">رابط خارجي — أدخل رقم الاجتماع ورمز الدخول للدخول من المنصة</Badge> : null}
           </span>
         }
         actions={<LiveStatusButtons id={s.id} status={s.status} />}

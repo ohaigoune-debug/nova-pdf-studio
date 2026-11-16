@@ -38,7 +38,7 @@ function countdown(ms: number): string {
 
 /**
  * لافتة الحصة المباشرة القادمة للتلميذ: عدّ تنازلي + زر «انضم» يطلب الرابط من الخادم (يُسجَّل الحضور)
- * ثم يفتحه في نافذة جديدة. لا يُرسم شيء إن لم تكن حصة قادمة. صفحات الدورة قد تستورده لاحقاً.
+ * ثم يفتحه في نافذة جديدة — أو يدخل صفحة الحصة داخل المنصة إن كانت Zoom مهيّأة لذلك. لا يُرسم شيء إن لم تكن حصة قادمة. صفحات الدورة قد تستورده لاحقاً.
  */
 export function NextLiveBanner({ session }: { session: NextLiveBannerSession | null }) {
   const [now, setNow] = useState(() => Date.now())
@@ -59,6 +59,11 @@ export function NextLiveBanner({ session }: { session: NextLiveBannerSession | n
       const r = await joinLiveAction({ sessionId: session.id })
       if (!r.ok) {
         toast('error', r.error.message)
+        return
+      }
+      // حصة Zoom داخل المنصة: صفحتنا نفسها (/student/live/…) في النافذة الحالية؛ غيرها رابط خارجي في نافذة جديدة
+      if (r.data.inPlatform) {
+        window.location.assign(r.data.url)
         return
       }
       const w = window.open(r.data.url, '_blank', 'noopener,noreferrer')
