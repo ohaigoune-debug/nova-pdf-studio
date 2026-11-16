@@ -35,7 +35,7 @@ jobs:
         working-directory: apps/nova-docs
         run: |
           npm run typecheck
-          npm test
+          npx vitest run --reporter=default --reporter=github-actions
           node scripts/copy-assets.mjs
           npm run build
       - uses: actions/upload-artifact@v4
@@ -49,6 +49,8 @@ jobs:
     runs-on: macos-15
     needs: web
     timeout-minutes: 60
+    permissions:
+      contents: write   # لنشر نتائج البناء واللقطات في فرع ci/nova-docs-ios-results للمراجعة
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -70,17 +72,30 @@ jobs:
       - name: xcodebuild (iphonesimulator, no signing)
         working-directory: apps/nova-docs/ios/App
         run: |
-          set -o pipefail
+          set +e
           xcodebuild -project App.xcodeproj -scheme App -configuration Debug \
             -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
-            -derivedDataPath build CODE_SIGNING_ALLOWED=NO build 2>&1 | tee xcodebuild.log | tail -80
+            -derivedDataPath build CODE_SIGNING_ALLOWED=NO build > xcodebuild.log 2>&1
+          code=$?
+          tail -60 xcodebuild.log
+          grep -E "error:|\*\* BUILD" xcodebuild.log | sort -u | head -60 > xcode-errors.txt
+          if [ $code -ne 0 ]; then
+            grep -E "error:" xcodebuild.log | sort -u | head -40 | while IFS= read -r l; do echo "::error::${l:0:900}"; done
+            exit $code
+          fi
       - name: Release build (device, unsigned) — compiles optimized Swift
         working-directory: apps/nova-docs/ios/App
         run: |
-          set -o pipefail
+          set +e
           xcodebuild -project App.xcodeproj -scheme App -configuration Release \
             -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build-release \
-            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build 2>&1 | tail -40
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build > xcodebuild-release.log 2>&1
+          code=$?
+          tail -30 xcodebuild-release.log
+          if [ $code -ne 0 ]; then
+            grep -E "error:" xcodebuild-release.log | sort -u | head -40 | while IFS= read -r l; do echo "::error::${l:0:900}"; done
+            exit $code
+          fi
       - name: Simulator screenshots (iPhone 6.9" + iPad 13")
         working-directory: apps/nova-docs/ios/App
         run: |
@@ -104,6 +119,22 @@ jobs:
             xcrun simctl shutdown "$UDID" || true
           done
           ls -la shots
+      - name: Publish results to branch ci/nova-docs-ios-results
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          R=/tmp/ci-results; rm -rf $R; mkdir -p $R
+          cd apps/nova-docs/ios/App
+          cp -r shots $R/ 2>/dev/null || true
+          cp xcode-errors.txt $R/ 2>/dev/null || true
+          [ -f xcodebuild.log ] && tail -400 xcodebuild.log > $R/xcodebuild-tail.log
+          [ -f xcodebuild-release.log ] && tail -200 xcodebuild-release.log > $R/xcodebuild-release-tail.log
+          xcodebuild -version > $R/xcode-version.txt 2>&1 || true
+          echo "${GITHUB_SHA} ${{ job.status }}" > $R/RESULT.txt
+          cd $R && git init -q && git checkout -q -b ci/nova-docs-ios-results && git add -A
+          git -c user.name="nova-ci" -c user.email="nova-ci@users.noreply.github.com" commit -qm "iOS CI results for ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" ci/nova-docs-ios-results || echo "::warning::could not publish results branch"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
