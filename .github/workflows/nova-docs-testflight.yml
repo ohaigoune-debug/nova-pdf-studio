@@ -63,7 +63,7 @@ jobs:
           npm run build
           npx cap sync ios
           python3 scripts/patch-xcode-project.py
-      - name: Archive & export (automatic signing via App Store Connect API key)
+      - name: Archive (unsigned) & export with cloud signing → upload to App Store Connect (TestFlight)
         working-directory: apps/nova-docs/ios/App
         env:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
@@ -71,6 +71,7 @@ jobs:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          NOVA_BUILD_NUMBER: ${{ github.event.inputs.build_number || github.run_number }}
         run: |
           set -o pipefail
           mkdir -p ~/.appstoreconnect/private_keys
@@ -78,8 +79,11 @@ jobs:
           else echo "$ASC_KEY_P8_BASE64" | base64 --decode > ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8; fi
           chmod 600 ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8
           AUTH="-allowProvisioningUpdates -authenticationKeyPath $HOME/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8 -authenticationKeyID $ASC_KEY_ID -authenticationKeyIssuerID $ASC_ISSUER_ID"
+          # أرشفة غير موقّعة (لا جهاز مسجّل في الحساب لملف «تطوير»)؛ التوقيع Apple Distribution + ملف App Store عند التصدير —
+          # الطريقة نفسها التي نجحت في اختبار التوقيع (nova-docs-sign-test.yml، التشغيل 2)
           xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
-            -archivePath build/NovaDocs.xcarchive DEVELOPMENT_TEAM=$TEAM_ID CODE_SIGN_STYLE=Automatic $AUTH archive > archive.log 2>&1 \
+            -archivePath build/NovaDocs.xcarchive DEVELOPMENT_TEAM=$TEAM_ID CODE_SIGN_STYLE=Automatic \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" archive > archive.log 2>&1 \
             || { tail -80 archive.log; grep -E "error:|Error Domain|No profiles|signing" archive.log | sort -u | head -30 | while IFS= read -r l; do echo "::error::${l:0:900}"; done; exit 1; }
           tail -15 archive.log
           cat > ExportOptions.plist <<PLIST
