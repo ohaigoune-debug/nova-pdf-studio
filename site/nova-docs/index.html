@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NOVA Docs — PDF & Invoices</title>
+<meta name="description" content="NOVA Docs: محرر PDF وماسح ضوئي مع OCR عربي/فرنسي/إنجليزي وفواتير ذكية — يعمل دون إنترنت على iPhone وiPad وWindows." />
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+<style>
+  :root { --green:#123D36; --em:#17B890; --bg:#F5F7F6; --fg:#0E1F1B; --muted:#5F6F6B; }
+  * { box-sizing:border-box } body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI","Noto Naskh Arabic",Tahoma,sans-serif; background:var(--bg); color:var(--fg); line-height:1.6 }
+  a { color:var(--em) } .wrap { max-width:1100px; margin:auto; padding:0 20px }
+  header { background:linear-gradient(135deg,#1B5A4F,#0B2621); color:#fff; padding:28px 0 72px }
+  nav { display:flex; align-items:center; gap:12px } nav img { width:44px; height:44px; border-radius:11px } nav b { font-size:20px } nav .sp { flex:1 }
+  .lang button { background:rgba(255,255,255,.12); color:#fff; border:0; border-radius:20px; padding:6px 12px; margin-inline-start:6px; cursor:pointer; font:inherit; font-size:14px }
+  .lang button.on { background:var(--em) }
+  .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center; margin-top:48px }
+  h1 { font-size:46px; line-height:1.15; margin:0 0 12px } .tag { color:#7FE3C8; font-size:20px; margin:0 0 24px }
+  .cta { display:flex; flex-wrap:wrap; gap:12px } .btn { display:inline-flex; align-items:center; gap:8px; padding:14px 22px; border-radius:14px; font-weight:700; text-decoration:none }
+  .btn.p { background:var(--em); color:#fff } .btn.s { background:rgba(255,255,255,.12); color:#fff } .btn.d { background:#ffffff22; color:#cfe; cursor:default }
+  .phones { display:flex; gap:16px; justify-content:center } .phones img { width:46%; max-width:240px; border-radius:28px; box-shadow:0 30px 60px rgba(0,0,0,.35); border:6px solid #0b1513 }
+  .phones img:nth-child(2) { margin-top:40px }
+  section { padding:64px 0 } h2 { font-size:32px; color:var(--green); margin:0 0 8px } .sub { color:var(--muted); margin:0 0 32px }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:18px }
+  .card { background:#fff; border-radius:18px; padding:22px; box-shadow:0 1px 2px rgba(18,61,54,.06),0 8px 24px rgba(18,61,54,.06) } .card h3 { margin:0 0 6px; color:var(--green) } .card p { margin:0; color:var(--muted); font-size:15px }
+  .shots { display:flex; gap:18px; overflow-x:auto; padding-bottom:12px } .shots img { width:220px; border-radius:22px; box-shadow:0 10px 30px rgba(0,0,0,.15) }
+  .pro { background:var(--green); color:#fff; border-radius:28px; padding:36px; display:grid; grid-template-columns:1fr 1fr; gap:28px } .pro h2 { color:#fff } .pro ul { margin:0; padding-inline-start:20px }
+  footer { padding:36px 0; color:var(--muted); font-size:14px; border-top:1px solid #dde5e2 } footer a { margin-inline-end:16px }
+  .note { font-size:13px; color:var(--muted) }
+  @media (max-width:800px) { .hero,.pro { grid-template-columns:1fr } h1 { font-size:34px } }
+  [data-l] { display:none } html[lang=ar] [data-l=ar], html[lang=fr] [data-l=fr], html[lang=en] [data-l=en] { display:revert }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav><img src="assets/icon-512.png" alt="NOVA Docs" /><b>NOVA Docs</b><span class="sp"></span>
+      <span class="lang"><button data-set="ar">العربية</button><button data-set="fr">Français</button><button data-set="en">English</button></span></nav>
+    <div class="hero">
+      <div>
+        <h1><span data-l="ar">مستنداتك. تحت سيطرتك.</span><span data-l="fr">Vos documents. Votre contrôle.</span><span data-l="en">Your Documents. Your Control.</span></h1>
+        <p class="tag"><span data-l="ar">محرر PDF، ماسح ضوئي مع OCR، وفواتير ذكية — يعمل دون إنترنت ولا يرفع ملفاتك.</span><span data-l="fr">Éditeur PDF, scanner avec OCR et factures intelligentes — hors ligne, sans envoi de vos fichiers.</span><span data-l="en">PDF editor, OCR scanner and smart invoices — offline, your files never leave your device.</span></p>
+        <div class="cta">
+          <span class="btn d" title="App Store"><span data-l="ar">App Store — قريبًا</span><span data-l="fr">App Store — bientôt</span><span data-l="en">App Store — coming soon</span></span>
+          <a class="btn s" href="https://github.com/ohaigoune-debug/nova-pdf-studio/releases/latest"><span data-l="ar">تنزيل نسخة Windows (مجانية)</span><span data-l="fr">Télécharger pour Windows (gratuit)</span><span data-l="en">Download for Windows (free)</span></a>
+        </div>
+      </div>
+      <div class="phones"><img src="assets/screens/edit.jpg" alt="" /><img src="assets/screens/invoice.jpg" alt="" /></div>
+    </div>
+  </div>
+</header>
+
+<section><div class="wrap">
+  <h2><span data-l="ar">كل ما تحتاجه لمستنداتك</span><span data-l="fr">Tout pour vos documents</span><span data-l="en">Everything for your documents</span></h2>
+  <p class="sub"><span data-l="ar">على iPhone وiPad وWindows، بالعربية وبـ13 لغة أخرى.</span><span data-l="fr">Sur iPhone, iPad et Windows, en arabe et 13 autres langues.</span><span data-l="en">On iPhone, iPad and Windows, in Arabic and 13 more languages.</span></p>
+  <div class="grid">
+    <div class="card"><h3><span data-l="ar">محرر PDF</span><span data-l="fr">Éditeur PDF</span><span data-l="en">PDF editor</span></h3><p><span data-l="ar">نص، صور، توقيع، تظليل، تعليقات، كتابة بـ Apple Pencil.</span><span data-l="fr">Texte, images, signature, surlignage, commentaires, Apple Pencil.</span><span data-l="en">Text, images, signatures, highlights, comments, Apple Pencil.</span></p></div>
+    <div class="card"><h3><span data-l="ar">أدوات PDF</span><span data-l="fr">Outils PDF</span><span data-l="en">PDF tools</span></h3><p><span data-l="ar">دمج، تقسيم، استخراج، ترتيب، تدوير، علامة مائية، ترقيم، ضغط.</span><span data-l="fr">Fusion, division, extraction, réorganisation, rotation, filigrane, numérotation, compression.</span><span data-l="en">Merge, split, extract, reorder, rotate, watermark, numbers, compress.</span></p></div>
+    <div class="card"><h3><span data-l="ar">ماسح + OCR</span><span data-l="fr">Scanner + OCR</span><span data-l="en">Scanner + OCR</span></h3><p><span data-l="ar">كشف الحواف وتصحيح المنظور، وOCR عربي/فرنسي/إنجليزي إلى PDF قابل للبحث.</span><span data-l="fr">Bords et perspective automatiques, OCR arabe/français/anglais vers PDF cherchable.</span><span data-l="en">Auto edges and perspective, Arabic/French/English OCR to searchable PDF.</span></p></div>
+    <div class="card"><h3><span data-l="ar">فواتير ذكية</span><span data-l="fr">Factures intelligentes</span><span data-l="en">Smart invoices</span></h3><p><span data-l="ar">حسابات دقيقة بالسنتيم، ضرائب وخصومات ومدفوعات جزئية وقوالب بشعارك وختمك.</span><span data-l="fr">Calculs exacts au centime, TVA, remises, paiements partiels, modèles avec logo et cachet.</span><span data-l="en">Exact to the cent: taxes, discounts, partial payments, templates with your logo and stamp.</span></p></div>
+    <div class="card"><h3><span data-l="ar">جداول</span><span data-l="fr">Tableurs</span><span data-l="en">Spreadsheets</span></h3><p><span data-l="ar">صيغ وأوراق متعددة واستيراد/تصدير Excel وCSV.</span><span data-l="fr">Formules, feuilles multiples, Excel et CSV.</span><span data-l="en">Formulas, multiple sheets, Excel and CSV.</span></p></div>
+    <div class="card"><h3><span data-l="ar">خصوصية تامة</span><span data-l="fr">Confidentialité totale</span><span data-l="en">Private by design</span></h3><p><span data-l="ar">بلا حساب ولا إعلانات ولا تتبّع. كل شيء على جهازك.</span><span data-l="fr">Sans compte, sans publicité, sans suivi.</span><span data-l="en">No account, no ads, no tracking.</span></p></div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="shots"><img src="assets/screens/edit.jpg" alt="" /><img src="assets/screens/tools.jpg" alt="" /><img src="assets/screens/scan.jpg" alt="" /><img src="assets/screens/invoice.jpg" alt="" /><img src="assets/screens/pro.jpg" alt="" /></div>
+  <p class="note"><span data-l="ar">لقطات من واجهة التطبيق الفعلية (معاينة الويب). تُستبدل بلقطات iPhone/iPad من المحاكي قبل الإطلاق.</span><span data-l="fr">Captures de l’interface réelle (aperçu web), remplacées par des captures iPhone/iPad avant le lancement.</span><span data-l="en">Screens of the real app UI (web preview); replaced with iPhone/iPad simulator captures before launch.</span></p>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap"><div class="pro">
+  <div><h2>NOVA Pro</h2><p><span data-l="ar">شراء لمرة واحدة عبر App Store — بلا اشتراك.</span><span data-l="fr">Achat unique via l’App Store — sans abonnement.</span><span data-l="en">One-time purchase through the App Store — no subscription.</span></p></div>
+  <div><ul>
+    <li><span data-l="ar">تحرير متقدم وOCR والفواتير والجداول</span><span data-l="fr">Édition avancée, OCR, factures, tableurs</span><span data-l="en">Advanced editing, OCR, invoices, spreadsheets</span></li>
+    <li><span data-l="ar">السعر المحلي يظهر داخل التطبيق من Apple</span><span data-l="fr">Prix local affiché dans l’app par Apple</span><span data-l="en">Local price shown in the app by Apple</span></li>
+    <li><span data-l="ar">استعادة المشتريات على كل أجهزتك</span><span data-l="fr">Restauration sur tous vos appareils</span><span data-l="en">Restore on all your devices</span></li>
+  </ul></div>
+</div></div></section>
+
+<footer><div class="wrap">
+  <a href="privacy.html"><span data-l="ar">سياسة الخصوصية</span><span data-l="fr">Confidentialité</span><span data-l="en">Privacy</span></a>
+  <a href="terms.html"><span data-l="ar">شروط الاستخدام</span><span data-l="fr">Conditions</span><span data-l="en">Terms</span></a>
+  <a href="support.html"><span data-l="ar">الدعم</span><span data-l="fr">Assistance</span><span data-l="en">Support</span></a>
+  <div style="margin-top:10px">© 2026 NOVA Docs</div>
+</div></footer>
+<script>
+  const set = (l) => { document.documentElement.lang = l; document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr'; document.querySelectorAll('[data-set]').forEach(b => b.classList.toggle('on', b.dataset.set === l)); try { localStorage.setItem('nova-lang', l) } catch {} }
+  document.querySelectorAll('[data-set]').forEach(b => b.addEventListener('click', () => set(b.dataset.set)))
+  let saved = null; try { saved = localStorage.getItem('nova-lang') } catch {}
+  set(saved || (navigator.language || 'ar').slice(0, 2).replace(/^(?!ar|fr|en).*/, 'en'))
+</script>
+</body>
+</html>
