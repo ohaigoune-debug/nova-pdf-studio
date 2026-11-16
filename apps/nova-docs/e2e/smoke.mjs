@@ -175,7 +175,7 @@ async function shot(page, path) {
     await page.getByText('All pro tools are unlocked', { exact: false }).waitFor({ timeout: 5000 })
     await shot(page, `${OUT}/iphone-11-more.png`)
   })
-  await step('spreadsheets: create sheet, formulas recalc, persist', async () => {
+  await step('spreadsheets: create sheet, formulas recalc, formatting, persist', async () => {
     await page.getByText('Spreadsheets', { exact: true }).click()
     await page.getByRole('button', { name: 'New spreadsheet' }).first().click()
     await page.locator('input').last().fill('Budget')
@@ -183,7 +183,17 @@ async function shot(page, path) {
     const formula = page.getByPlaceholder('Formula or value')
     await formula.waitFor({ timeout: 10000 })
     for (const v of ['1250', '749.5', '=SUM(A1:A2)']) { await formula.fill(v); await formula.press('Enter') }
-    await page.locator('td', { hasText: /^1,?999\.5$/ }).first().waitFor({ timeout: 5000 })
+    const sumCell = page.locator('td', { hasText: /^1,?999\.5$/ }).first()
+    await sumCell.waitFor({ timeout: 5000 })
+    // تنسيق: عريض + عملة + تعبئة على خلية المجموع
+    await sumCell.click()
+    await page.getByRole('button', { name: 'Bold', exact: true }).click()
+    await page.getByRole('button', { name: 'Currency', exact: true }).click()
+    await page.getByRole('button', { name: 'Fill colour' }).nth(1).click()
+    const styled = page.locator('td.font-bold', { hasText: /1,?999\.50/ }).first()
+    await styled.waitFor({ timeout: 5000 })
+    const bg = await styled.evaluate((el) => getComputedStyle(el).backgroundColor)
+    if (!/255, 243, 176/.test(bg)) throw new Error(`fill not applied: ${bg}`)
     await shot(page, `${OUT}/iphone-12-sheet.png`)
     await page.getByTestId('nav-back').first().click()
     await page.getByText('Budget').first().waitFor({ timeout: 5000 })

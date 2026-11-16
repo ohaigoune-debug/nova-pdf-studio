@@ -13,6 +13,8 @@
 | السعر | مجاني + شراء داخل التطبيق: NOVA Pro (Non-Consumable) = Tier 4.99 USD |
 | الأجهزة | iPhone + iPad (iOS/iPadOS 16.0+) |
 
+> **مراجعة الادعاءات (Guideline 2.3.1):** حُذفت عبارتان لم تُختبرا بعد (فتح التعليقات في Preview/Acrobat، ورفض راحة اليد). أعد قراءة الوصف بعد اختبار الجهاز الحقيقي.
+
 ## العنوان الفرعي
 - EN (25): `Edit, Scan, OCR & Invoice`
 - FR (30): `Éditer, scanner, OCR, factures`
@@ -34,8 +36,8 @@ NOVA Docs brings a complete PDF, scanner and invoicing studio to your iPhone and
 PDF EDITOR
 • Open PDFs from Files, iCloud Drive or any app
 • Add text, images, signatures, shapes and highlights
-• Handwriting with your finger or Apple Pencil (palm-friendly)
-• Real PDF comments that open in Preview and Acrobat
+• Handwriting with your finger or Apple Pencil
+• Real PDF comments (standard sticky-note annotations)
 • Replace text by layer (cover + new text), white-out
 • Search, share, print with AirPrint, save to Files
 
