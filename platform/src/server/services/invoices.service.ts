@@ -16,6 +16,7 @@ import {
   invoiceCounters,
   invoices,
   INVOICE_PAYMENT_METHODS,
+  onlinePayments,
   orderItems,
   orders,
   profiles,
@@ -33,19 +34,23 @@ import { AppError, assertUuid } from '@/server/lib/errors'
 /* --------------------------------- الإعدادات --------------------------------- */
 
 export interface InvoiceSettings {
+  /** اسم البائع كما يُطبع (قرار المالك: «حيقون أسامة») */
   sellerName: string
-  sellerAddress: string
-  /** أسطر قانونية حرّة: رقم بطاقة المقاول الذاتي، NIF، NIS… سطر لكل رقم */
-  sellerLegal: string
+  /** رقم التعريف الجبائي NIF */
+  nif: string
+  /** رقم الحساب البنكي (RIB) أو البريدي */
+  bankAccount: string
   footer: string
   /** بادئة الرقم: حروف لاتينية وأرقام (F، MDZ…) */
   prefix: string
 }
 
 const SETTINGS_KEY = 'invoice.settings'
-export const INVOICE_SETTINGS_DEFAULTS: InvoiceSettings = { sellerName: 'مدرسة — madrasadz.com', sellerAddress: '', sellerLegal: '', footer: 'شكرًا لثقتكم.', prefix: 'F' }
-const LIMITS: Record<keyof InvoiceSettings, number> = { sellerName: 120, sellerAddress: 300, sellerLegal: 600, footer: 300, prefix: 8 }
+export const INVOICE_SETTINGS_DEFAULTS: InvoiceSettings = { sellerName: 'حيقون أسامة', nif: '', bankAccount: '', footer: 'شكرًا لثقتكم.', prefix: 'F' }
+const LIMITS: Record<keyof InvoiceSettings, number> = { sellerName: 120, nif: 30, bankAccount: 40, footer: 300, prefix: 8 }
 const PREFIX_RE = /^[A-Z0-9]{1,8}$/
+/** أرقام ومسافات فقط (NIF)، وأرقام وحروف لاتينية ومسافات وشرطات (RIB / CCP «… clé …») */
+const FORMAT: Partial<Record<keyof InvoiceSettings, RegExp>> = { nif: /^[0-9 ]*$/, bankAccount: /^[0-9A-Za-z \-]*$/ }
 
 export async function invoiceSettings(db: Db): Promise<InvoiceSettings> {
   const [row] = await db.select({ value: appSettings.value }).from(appSettings).where(eq(appSettings.key, SETTINGS_KEY)).limit(1)
@@ -64,7 +69,9 @@ export async function setInvoiceSettings(db: Db, actor: Actor, input: Partial<Re
     const v = input[k]
     if (v === undefined) continue
     if (typeof v !== 'string' || v.trim().length > LIMITS[k]) throw new AppError('VALIDATION', { field: k })
-    next[k] = v.trim()
+    const t = v.trim().replace(/\s+/g, ' ')
+    if (FORMAT[k] && !FORMAT[k]!.test(t)) throw new AppError('VALIDATION', { field: k })
+    next[k] = k === 'footer' ? v.trim() : t
   }
   next.prefix = next.prefix.toUpperCase()
   if (!PREFIX_RE.test(next.prefix)) throw new AppError('VALIDATION', { field: 'prefix' })
@@ -74,7 +81,7 @@ export async function setInvoiceSettings(db: Db, actor: Actor, input: Partial<Re
   return next
 }
 
-const sellerOf = (s: InvoiceSettings): InvoiceSeller => ({ name: s.sellerName, address: s.sellerAddress, legal: s.sellerLegal, footer: s.footer })
+const sellerOf = (s: InvoiceSettings): InvoiceSeller => ({ name: s.sellerName, nif: s.nif, bankAccount: s.bankAccount, footer: s.footer })
 
 /* ---------------------------------- الإصدار ---------------------------------- */
 
@@ -103,6 +110,8 @@ interface IssueInput {
   shippingDzd: number
   discountDzd: number
   paymentMethod: InvoicePaymentMethod
+  paymentRef?: string | null
+  paymentReceiptUrl?: string | null
   note?: string | null
   issuedAt: Date
   createdByUserId: string | null
@@ -134,6 +143,8 @@ async function insertInvoice(db: Db, input: IssueInput): Promise<InvoiceRow> {
         discountDzd: Math.min(input.discountDzd, subtotal + input.shippingDzd),
         totalDzd: total,
         paymentMethod: input.paymentMethod,
+        paymentRef: input.paymentRef?.trim() || null,
+        paymentReceiptUrl: input.paymentReceiptUrl ?? null,
         seller: sellerOf(settings),
         note: input.note?.trim() || null,
         issuedAt: input.issuedAt,
@@ -158,6 +169,22 @@ async function studentForOrder(db: Db, o: { userId: string; beneficiaryStudentId
 }
 
 /**
+ * الدفع بالبطاقة يمرّ بنظام فوترة eFawtara (Guiddini): الفاتورة تحمل رقم المعاملة عنده ورابط إيصاله الموقَّع
+ * (لا ينتهي ويُفتح بلا مفاتيح) — من آخر دفعة «مدفوعة» تحقّق منها الخادم عند البوابة.
+ */
+async function eFawtaraProof(db: Db, orderId: string): Promise<{ ref: string | null; receiptUrl: string | null }> {
+  const [p] = await db
+    .select({ ref: onlinePayments.gatewayRef, raw: onlinePayments.gatewayResponse })
+    .from(onlinePayments)
+    .where(and(eq(onlinePayments.orderId, orderId), eq(onlinePayments.status, 'PAID')))
+    .orderBy(desc(onlinePayments.paidAt))
+    .limit(1)
+  if (!p) return { ref: null, receiptUrl: null }
+  const href = (p.raw as { data?: { links?: { href?: unknown } } } | null)?.data?.links?.href
+  return { ref: p.ref, receiptUrl: typeof href === 'string' && /^https:\/\//.test(href) ? href : null }
+}
+
+/**
  * فاتورة الطلب المُسلَّم (تلقائيًا من محرّك حالات الطلب، أو من «أصدر الفواتير الناقصة»).
  * idempotent: للطلب فاتورة ⇒ تُعاد كما هي. طلب غير مُسلَّم أو مجموعه 0 ⇒ null.
  */
@@ -169,6 +196,7 @@ export async function issueInvoiceForOrder(db: Db, orderId: string): Promise<Inv
   const items = await db.select().from(orderItems).where(eq(orderItems.orderId, orderId)).orderBy(asc(orderItems.createdAt))
   const student = await studentForOrder(db, o)
   const method = (INVOICE_PAYMENT_METHODS as readonly string[]).includes(o.paymentMethod) ? (o.paymentMethod as InvoicePaymentMethod) : 'OTHER'
+  const proof = method === 'ONLINE' ? await eFawtaraProof(db, o.id) : { ref: null, receiptUrl: null }
   try {
     return await insertInvoice(db, {
       source: 'ORDER',
@@ -182,6 +210,8 @@ export async function issueInvoiceForOrder(db: Db, orderId: string): Promise<Inv
       shippingDzd: o.shippingDzd,
       discountDzd: o.creditDzd,
       paymentMethod: method,
+      paymentRef: proof.ref,
+      paymentReceiptUrl: proof.receiptUrl,
       issuedAt: o.deliveredAt ?? new Date(),
       createdByUserId: null
     })
@@ -217,6 +247,8 @@ export interface ManualInvoiceInput {
   shippingDzd?: number
   discountDzd?: number
   paymentMethod: InvoicePaymentMethod
+  /** رقم المعاملة عند eFawtara إن دُفعت بالبطاقة خارج طلب المنصة */
+  paymentRef?: string | null
   note?: string | null
 }
 
@@ -232,6 +264,8 @@ export async function createManualInvoice(db: Db, actor: Actor, input: ManualInv
   const discount = input.discountDzd ?? 0
   if (!intIn(shipping, 0, 1_000_000)) throw new AppError('VALIDATION', { field: 'shippingDzd' })
   if (!intIn(discount, 0, 10_000_000)) throw new AppError('VALIDATION', { field: 'discountDzd' })
+  const paymentRef = input.paymentRef?.trim() || null
+  if (paymentRef && (paymentRef.length > 60 || !/^[0-9A-Za-z_\-]+$/.test(paymentRef))) throw new AppError('VALIDATION', { field: 'paymentRef' })
   let student: { id: string; userId: string; fullName: string | null; phone: string | null } | null = null
   if (input.studentId) {
     assertUuid(input.studentId, 'VALIDATION')
@@ -259,6 +293,7 @@ export async function createManualInvoice(db: Db, actor: Actor, input: ManualInv
     shippingDzd: shipping,
     discountDzd: discount,
     paymentMethod: input.paymentMethod,
+    paymentRef,
     note: input.note,
     issuedAt: new Date(),
     createdByUserId: actor.userId

@@ -8,7 +8,8 @@ const day = (d: Date) => new Intl.DateTimeFormat('ar-DZ-u-nu-latn', { timeZone: 
  * الفاتورة بصيغة A4 (تُطبع أو تُحفظ PDF من المتصفّح، فتبقى العربية سليمة الاتجاه والتشكيل).
  * كل ما فيها من نسخة الإصدار المجمَّدة: الأسطر والمبالغ وبيانات البائع.
  */
-export function InvoiceSheet({ invoice }: { invoice: InvoiceRow }) {
+export function InvoiceSheet({ invoice, receiptQrSvg = null }: { invoice: InvoiceRow; receiptQrSvg?: string | null }) {
+  const efawtara = invoice.paymentMethod === 'ONLINE' && (invoice.paymentRef || invoice.paymentReceiptUrl)
   const cancelled = invoice.status === 'CANCELLED'
   return (
     <article dir="rtl" className="relative mx-auto my-6 w-[210mm] max-w-full bg-white p-[14mm] text-[13px] leading-relaxed text-black shadow print:my-0 print:w-auto print:p-0 print:shadow-none" data-testid="invoice-sheet">
@@ -20,8 +21,16 @@ export function InvoiceSheet({ invoice }: { invoice: InvoiceRow }) {
       <header className="flex items-start justify-between gap-6 border-b-2 border-[#0b2a6b] pb-4">
         <div className="space-y-1">
           <p className="text-lg font-extrabold text-[#0b2a6b]">{invoice.seller.name}</p>
-          {invoice.seller.address ? <p className="whitespace-pre-line">{invoice.seller.address}</p> : null}
-          {invoice.seller.legal ? <p className="whitespace-pre-line text-[12px] text-neutral-700">{invoice.seller.legal}</p> : null}
+          {invoice.seller.nif ? (
+            <p>
+              رقم التعريف الجبائي (NIF): <span dir="ltr" className="font-mono">{invoice.seller.nif}</span>
+            </p>
+          ) : null}
+          {invoice.seller.bankAccount ? (
+            <p>
+              الحساب البنكي: <span dir="ltr" className="font-mono">{invoice.seller.bankAccount}</span>
+            </p>
+          ) : null}
         </div>
         <div className="shrink-0 text-left">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -87,6 +96,29 @@ export function InvoiceSheet({ invoice }: { invoice: InvoiceRow }) {
           <Row label="طريقة الدفع" value={PAYMENT_METHOD_AR[invoice.paymentMethod as InvoicePaymentMethod] ?? invoice.paymentMethod} />
         </dl>
       </section>
+
+      {efawtara ? (
+        <section className="mt-6 flex items-center justify-between gap-4 rounded-md border border-[#0b2a6b]/30 p-3" data-testid="invoice-efawtara">
+          <div className="space-y-1">
+            <p className="font-bold text-[#0b2a6b]">دفع إلكتروني عبر eFawtara (Guiddini) — بوابة SATIM</p>
+            {invoice.paymentRef ? (
+              <p>
+                رقم المعاملة: <span dir="ltr" className="font-mono">{invoice.paymentRef}</span>
+              </p>
+            ) : null}
+            {invoice.paymentReceiptUrl ? (
+              <p className="text-[12px] text-neutral-700">
+                الإيصال الموقَّع من eFawtara:{' '}
+                <a href={invoice.paymentReceiptUrl} target="_blank" rel="noopener noreferrer" className="text-[#0b2a6b] underline print:no-underline">
+                  افتحه
+                </a>{' '}
+                أو امسح الرمز.
+              </p>
+            ) : null}
+          </div>
+          {receiptQrSvg ? <span className="block size-24 shrink-0 [&>svg]:size-full" aria-label="رمز الإيصال" dangerouslySetInnerHTML={{ __html: receiptQrSvg }} /> : null}
+        </section>
+      ) : null}
 
       {invoice.note ? <p className="mt-6 whitespace-pre-line rounded-md bg-neutral-100 p-3">{invoice.note}</p> : null}
       <footer className="mt-10 border-t border-neutral-300 pt-3 text-center text-[12px] text-neutral-600">

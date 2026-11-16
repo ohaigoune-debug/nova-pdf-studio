@@ -26,11 +26,11 @@ export interface InvoiceLine {
   totalDzd: number
 }
 
-/** بيانات البائع كما كانت في الإعدادات لحظة الإصدار */
+/** بيانات البائع كما كانت في الإعدادات لحظة الإصدار (قرار المالك 16 نوفمبر 2026: الاسم وNIF والحساب البنكي فقط) */
 export interface InvoiceSeller {
   name: string
-  address: string
-  legal: string
+  nif: string
+  bankAccount: string
   footer: string
 }
 
@@ -60,6 +60,9 @@ export const invoices = pgTable(
     discountDzd: integer('discount_dzd').notNull().default(0),
     totalDzd: integer('total_dzd').notNull(),
     paymentMethod: text('payment_method').notNull(),
+    /** الدفع بالبطاقة عبر eFawtara (Guiddini): رقم المعاملة عند البوابة (order_number) ورابط إيصالها الموقَّع */
+    paymentRef: text('payment_ref'),
+    paymentReceiptUrl: text('payment_receipt_url'),
     seller: jsonb('seller').$type<InvoiceSeller>().notNull(),
     note: text('note'),
     status: text('status').notNull().default('ISSUED'),

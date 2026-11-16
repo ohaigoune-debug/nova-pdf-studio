@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import QRCode from 'qrcode'
 import { notFound } from 'next/navigation'
 import { PrintButton } from '@/components/domain/print-button'
 import { InvoiceSheet } from '@/components/domain/invoice-sheet'
@@ -25,6 +26,8 @@ export default async function InvoicePrintPage({ params }: { params: Promise<{ i
     throw e
   }
   const admin = actor.role === 'SUPER_ADMIN'
+  // إيصال eFawtara الموقَّع (الدفع بالبطاقة): رمز QR يُولَّد في الخادم بلا سكربت
+  const receiptQrSvg = invoice.paymentReceiptUrl ? await QRCode.toString(invoice.paymentReceiptUrl, { type: 'svg', margin: 0, errorCorrectionLevel: 'M' }) : null
   return (
     <>
       <div className="no-print mx-auto flex w-[210mm] max-w-full flex-wrap items-center justify-between gap-2 px-2 pt-4">
@@ -35,7 +38,7 @@ export default async function InvoicePrintPage({ params }: { params: Promise<{ i
         </Button>
         <PrintButton />
       </div>
-      <InvoiceSheet invoice={invoice} />
+      <InvoiceSheet invoice={invoice} receiptQrSvg={receiptQrSvg} />
       {admin && invoice.status === 'ISSUED' ? (
         <div className="no-print mx-auto mb-10 w-[210mm] max-w-full px-2">
           <CancelInvoiceForm id={invoice.id} />

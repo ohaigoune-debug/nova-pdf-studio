@@ -12,14 +12,14 @@ export function InvoiceSettingsForm({ value }: { value: InvoiceSettings }) {
   const [state, action] = useActionState(saveInvoiceSettingsAction, null)
   return (
     <form action={action} className="space-y-4">
-      <Field label="اسم البائع" htmlFor="sellerName" error={fieldError(state, 'sellerName')} hint="كما يظهر في أعلى الفاتورة (اسمك التجاري أو اسم المنصة).">
+      <Field label="اسم البائع" htmlFor="sellerName" error={fieldError(state, 'sellerName')} hint="كما يظهر في أعلى الفاتورة.">
         <Input id="sellerName" name="sellerName" defaultValue={value.sellerName} maxLength={120} required />
       </Field>
-      <Field label="العنوان" htmlFor="sellerAddress" error={fieldError(state, 'sellerAddress')}>
-        <Textarea id="sellerAddress" name="sellerAddress" defaultValue={value.sellerAddress} rows={2} maxLength={300} />
+      <Field label="رقم التعريف الجبائي (NIF)" htmlFor="nif" error={fieldError(state, 'nif')} hint="أرقام فقط.">
+        <Input id="nif" name="nif" defaultValue={value.nif} maxLength={30} dir="ltr" inputMode="numeric" />
       </Field>
-      <Field label="الأرقام القانونية" htmlFor="sellerLegal" error={fieldError(state, 'sellerLegal')} hint="سطر لكل رقم، مثل: رقم بطاقة المقاول الذاتي، NIF، NIS. تُطبع كما تكتبها.">
-        <Textarea id="sellerLegal" name="sellerLegal" defaultValue={value.sellerLegal} rows={3} maxLength={600} dir="auto" />
+      <Field label="رقم الحساب البنكي (RIB)" htmlFor="bankAccount" error={fieldError(state, 'bankAccount')} hint="أو رقم الحساب البريدي. أرقام وحروف لاتينية فقط.">
+        <Input id="bankAccount" name="bankAccount" defaultValue={value.bankAccount} maxLength={40} dir="ltr" />
       </Field>
       <Field label="تذييل الفاتورة" htmlFor="footer" error={fieldError(state, 'footer')}>
         <Textarea id="footer" name="footer" defaultValue={value.footer} rows={2} maxLength={300} />

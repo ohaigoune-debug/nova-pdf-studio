@@ -5,7 +5,7 @@
 import { eq } from 'drizzle-orm'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
-import { invoices, orders, wilayas } from '@/server/db/schema'
+import { invoices, onlinePayments, orders, wilayas } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { transitionOrder } from '@/server/services/order-status.service'
@@ -73,8 +73,12 @@ describe('الترقيم والإعدادات', () => {
     expect((await invoiceSettings(h.db)).prefix).toBe('F')
     await expectCode(() => setInvoiceSettings(h.db, buyer, { sellerName: 'x' }), 'FORBIDDEN')
     await expect(setInvoiceSettings(h.db, admin, { prefix: 'ف' })).rejects.toSatisfy((e) => e instanceof AppError && e.details?.field === 'prefix')
-    const s = await setInvoiceSettings(h.db, admin, { sellerName: 'مدرسة — اختبار', sellerAddress: 'بوسعادة', sellerLegal: 'NIF: 000', prefix: 'mdz' })
+    expect((await invoiceSettings(h.db)).sellerName).toBe('حيقون أسامة')
+    await expect(setInvoiceSettings(h.db, admin, { nif: 'NIF-12' })).rejects.toSatisfy((e) => e instanceof AppError && e.details?.field === 'nif')
+    const s = await setInvoiceSettings(h.db, admin, { sellerName: 'مدرسة — اختبار', nif: '1990 2801 2345 678', bankAccount: '00799999 0001234567 89', prefix: 'mdz' })
     expect(s.prefix).toBe('MDZ')
+    expect(s.nif).toBe('1990 2801 2345 678')
+    expect(Object.keys(s).sort()).toEqual(['bankAccount', 'footer', 'nif', 'prefix', 'sellerName'])
   })
 })
 
@@ -127,6 +131,23 @@ describe('الإصدار التلقائي عند التسليم', () => {
     expect(after!.cancelReason).toContain('إرجاع')
   })
 
+  it('الدفع بالبطاقة: الفاتورة تحمل رقم معاملة eFawtara (Guiddini) ورابط إيصالها الموقَّع', async () => {
+    const o = await placeOrder(h.db, buyer, { items: [{ productId: bookId, qty: 1 }], customerName: 'تلميذ الفاتورة', phone: '0555112233', wilayaId, address: 'x' })
+    await h.db.update(orders).set({ paymentMethod: 'ONLINE' }).where(eq(orders.id, o.id))
+    await h.db.insert(onlinePayments).values({ orderId: o.id, userId: buyer.userId, amountDzd: 2500, status: 'PAID', gatewayRef: 'EF-778899', paidAt: new Date(), gatewayResponse: { data: { links: { href: 'https://epay.efawtara.com/receipts/EF-778899?signature=abc' } } } })
+    await setOrderStatus(h.db, admin, o.id, 'CONFIRMED')
+    await setOrderStatus(h.db, admin, o.id, 'SHIPPED')
+    await setOrderStatus(h.db, admin, o.id, 'DELIVERED')
+    const [inv] = await h.db.select().from(invoices).where(eq(invoices.orderId, o.id))
+    expect(inv!.paymentMethod).toBe('ONLINE')
+    expect(inv!.paymentRef).toBe('EF-778899')
+    expect(inv!.paymentReceiptUrl).toBe('https://epay.efawtara.com/receipts/EF-778899?signature=abc')
+    expect(inv!.seller).toEqual({ name: 'اسم جديد', nif: '1990 2801 2345 678', bankAccount: '00799999 0001234567 89', footer: 'شكرًا لثقتكم.' })
+    // الدفع عند الاستلام: بلا مرجع eFawtara
+    const cod = (await h.db.select().from(invoices).where(eq(invoices.paymentMethod, 'COD')))[0]!
+    expect(cod.paymentRef).toBeNull()
+  })
+
   it('«أصدر الفواتير الناقصة»: طلب سُلِّم قبل الميزة يأخذ فاتورته مرة واحدة', async () => {
     const o = await deliveredOrder(other, 'تلميذ آخر')
     await h.db.delete(invoices).where(eq(invoices.orderId, o.id)) // محاكاة طلب سابق للميزة
@@ -142,6 +163,8 @@ describe('الإصدار التلقائي عند التسليم', () => {
 describe('الفاتورة اليدوية والإلغاء', () => {
   it('المشرف يصدر فاتورة لتلميذ (الاسم والهاتف من حسابه) أو لزبون باسمه؛ غير المشرف ممنوع', async () => {
     await expectCode(() => createManualInvoice(h.db, buyer, { customerName: 'x', lines: [{ title: 'y', qty: 1, unitDzd: 1 }], paymentMethod: 'CASH' }), 'FORBIDDEN')
+    await expect(createManualInvoice(h.db, admin, { customerName: 'x', lines: [{ title: 'y', qty: 1, unitDzd: 100 }], paymentMethod: 'ONLINE', paymentRef: 'رقم؟' })).rejects.toSatisfy((e) => e instanceof AppError && e.details?.field === 'paymentRef')
+    expect((await createManualInvoice(h.db, admin, { customerName: 'x', lines: [{ title: 'y', qty: 1, unitDzd: 100 }], paymentMethod: 'ONLINE', paymentRef: 'EF-1' })).paymentRef).toBe('EF-1')
     const inv = await createManualInvoice(h.db, admin, { studentId: buyer.studentId, lines: [{ title: 'دورة الأدب العربي — نسخة رقمية', qty: 1, unitDzd: 3900 }], discountDzd: 400, paymentMethod: 'POS', note: 'بيع في مدرسة شريكة' })
     expect(inv.source).toBe('MANUAL')
     expect(inv.customerName).toBe('تلميذ الفاتورة')

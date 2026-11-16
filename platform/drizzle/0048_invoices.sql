@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS "invoices" (
 	"discount_dzd" integer DEFAULT 0 NOT NULL,
 	"total_dzd" integer NOT NULL,
 	"payment_method" text NOT NULL,
+	"payment_ref" text,
+	"payment_receipt_url" text,
 	"seller" jsonb NOT NULL,
 	"note" text,
 	"status" text DEFAULT 'ISSUED' NOT NULL,

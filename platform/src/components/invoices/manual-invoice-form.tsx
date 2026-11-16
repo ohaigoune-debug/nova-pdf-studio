@@ -22,6 +22,7 @@ export function ManualInvoiceForm() {
   const [lines, setLines] = useState<Line[]>([{ key: 1, title: '', qty: '1', price: '' }])
   const [shipping, setShipping] = useState('')
   const [discount, setDiscount] = useState('')
+  const [method, setMethod] = useState('CASH')
   const total = Math.max(0, lines.reduce((s, l) => s + (Number(l.qty) || 0) * (Number(l.price) || 0), 0) + (Number(shipping) || 0) - (Number(discount) || 0))
   const search = () => start(async () => setHits(q.trim().length >= 2 ? await searchInvoiceStudentsAction(q) : []))
   const patch = (key: number, p: Partial<Line>) => setLines((ls) => ls.map((l) => (l.key === key ? { ...l, ...p } : l)))
@@ -94,7 +95,7 @@ export function ManualInvoiceForm() {
             <Input id="discountDzd" name="discountDzd" type="number" min={0} value={discount} onChange={(e) => setDiscount(e.target.value)} />
           </Field>
           <Field label="طريقة الدفع" htmlFor="paymentMethod" error={fieldError(state, 'paymentMethod')}>
-            <Select id="paymentMethod" name="paymentMethod" defaultValue="CASH">
+            <Select id="paymentMethod" name="paymentMethod" value={method} onChange={(e) => setMethod(e.target.value)}>
               {MANUAL_PAYMENT_METHODS.map((m) => (
                 <option key={m} value={m}>
                   {PAYMENT_METHOD_AR[m]}
@@ -103,6 +104,11 @@ export function ManualInvoiceForm() {
             </Select>
           </Field>
         </div>
+        {method === 'ONLINE' ? (
+          <Field label="رقم المعاملة في eFawtara (Guiddini)" htmlFor="paymentRef" error={fieldError(state, 'paymentRef')} hint="يُطبع على الفاتورة مرجعًا للدفع بالبطاقة.">
+            <Input id="paymentRef" name="paymentRef" dir="ltr" maxLength={60} />
+          </Field>
+        ) : null}
         <p className="text-base font-extrabold">
           الإجمالي: <span className="tabular-nums">{total} دج</span>
         </p>

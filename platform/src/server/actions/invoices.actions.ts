@@ -11,8 +11,9 @@ import { cancelInvoice, createManualInvoice, findStudentsForInvoice, issueMissin
 
 const FIELD_MSG: Record<string, string> = {
   sellerName: 'اكتب اسم البائع (120 حرفًا على الأكثر)',
-  sellerAddress: 'العنوان طويل جدًا (300 حرف على الأكثر)',
-  sellerLegal: 'الأرقام القانونية طويلة جدًا (600 حرف على الأكثر)',
+  nif: 'NIF: أرقام فقط (30 على الأكثر)',
+  bankAccount: 'الحساب البنكي: أرقام وحروف لاتينية فقط (40 على الأكثر)',
+  paymentRef: 'رقم المعاملة: أرقام وحروف لاتينية فقط',
   footer: 'التذييل طويل جدًا (300 حرف على الأكثر)',
   prefix: 'البادئة: حروف لاتينية كبيرة وأرقام فقط (1 إلى 8)، مثل F أو MDZ',
   customerName: 'اكتب اسم الزبون أو اختر تلميذًا',
@@ -42,7 +43,7 @@ const str = (form: FormData, k: string) => String(form.get(k) ?? '')
 export async function saveInvoiceSettingsAction(_prev: ActionResult | null, form: FormData): Promise<ActionResult> {
   const actor = await requireActor()
   const r = await guarded(async () => {
-    await setInvoiceSettings(await getDb(), actor, { sellerName: str(form, 'sellerName'), sellerAddress: str(form, 'sellerAddress'), sellerLegal: str(form, 'sellerLegal'), footer: str(form, 'footer'), prefix: str(form, 'prefix') })
+    await setInvoiceSettings(await getDb(), actor, { sellerName: str(form, 'sellerName'), nif: str(form, 'nif'), bankAccount: str(form, 'bankAccount'), footer: str(form, 'footer'), prefix: str(form, 'prefix') })
   })
   if (r.ok) revalidatePath('/admin/invoices/settings')
   return r.ok ? ok(undefined) : r
@@ -72,6 +73,7 @@ export async function createManualInvoiceAction(_prev: ActionResult | null, form
       shippingDzd: toInt(form.get('shippingDzd')),
       discountDzd: toInt(form.get('discountDzd')),
       paymentMethod: method as InvoicePaymentMethod,
+      paymentRef: method === 'ONLINE' ? str(form, 'paymentRef') : null,
       note: str(form, 'note')
     })
   )
