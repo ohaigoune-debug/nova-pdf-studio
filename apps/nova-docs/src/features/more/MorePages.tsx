@@ -12,7 +12,7 @@ import { usePrefs, type Theme } from '../../stores/prefs'
 import { usePro } from '../../stores/proInstance'
 import { brandAsset, setBrandAsset, type BrandKind } from '../../lib/invoicing'
 import { legalDoc } from '../../lib/legal'
-import { APP_VERSION, SUPPORT_EMAIL } from '../../lib/version'
+import { SUPPORT_EMAIL, useAppVersion } from '../../lib/version'
 import { pickFilesBytes, shareBytes } from '../../lib/docs'
 import { bytesToBase64 } from '../../platform/bytes'
 import { NovaLock } from '../../platform/native'
@@ -182,10 +182,11 @@ function BackupPage() {
 
 function SupportPage() {
   const { t } = useTranslation()
+  const version = useAppVersion()
   return (
     <Page title={t('ios.support.title')}>
       <p className="px-8 pb-4 text-[14px] text-muted">{t('ios.support.desc')}</p>
-      {SUPPORT_EMAIL && <Section><Row icon={<Mail className="h-4 w-4" />} title={t('ios.support.email')} detail={SUPPORT_EMAIL} onClick={() => window.open(`mailto:${SUPPORT_EMAIL}?subject=NOVA%20Docs%20${APP_VERSION}`)} /></Section>}
+      {SUPPORT_EMAIL && <Section><Row icon={<Mail className="h-4 w-4" />} title={t('ios.support.email')} detail={SUPPORT_EMAIL} onClick={() => window.open(`mailto:${SUPPORT_EMAIL}?subject=NOVA%20Docs%20${encodeURIComponent(version)}`)} /></Section>}
       <Section><div className="space-y-3 p-4 text-[15px]"><p>{t('ios.support.faqOffline')}</p><p>{t('ios.support.faqPrivacy')}</p></div></Section>
     </Page>
   )
@@ -203,13 +204,14 @@ function LegalPage({ doc }: { doc: 'privacy' | 'terms' }) {
 
 function AboutPage() {
   const { t } = useTranslation()
+  const version = useAppVersion()
   return (
     <Page title={t('ios.more.about')}>
       <div className="flex flex-col items-center px-8 text-center">
         <LogoMark size={96} />
         <h2 className="mt-4 text-[24px] font-bold text-brand">NOVA Docs: PDF & Invoices</h2>
         <p className="text-muted">{t('ios.brand.tagline')}</p>
-        <p className="mt-2 text-[13px] text-muted">{t('ios.more.version', { v: APP_VERSION })}</p>
+        <p className="mt-2 text-[13px] text-muted">{t('ios.more.version', { v: version })}</p>
         <p className="mt-6 text-[13px] text-muted">pdf.js · pdf-lib · Tesseract.js · SQLite (sql.js) · SheetJS · Capacitor</p>
       </div>
     </Page>

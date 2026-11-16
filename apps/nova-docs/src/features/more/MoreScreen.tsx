@@ -9,11 +9,12 @@ import { NovaStore } from '../../platform/native'
 import { LogoMark } from '../../brand/Logo'
 import { NavBar, ProBadge, Row, Section, Spinner } from '../../ui/kit'
 import { errorText, toast } from '../../ui/overlays'
-import { APP_VERSION } from '../../lib/version'
+import { useAppVersion } from '../../lib/version'
 
 export default function MoreScreen() {
   const { t } = useTranslation()
   const { isPro, tester, product, busy, restore, openPaywall } = usePro()
+  const version = useAppVersion()
   const push = useNav((s) => s.push)
   const language = usePrefs((s) => s.language)
   const onRestore = async () => {
@@ -52,7 +53,7 @@ export default function MoreScreen() {
         <Row icon={<CircleHelp className="h-4 w-4" />} iconBg="bg-[#0091FF]" title={t('ios.more.support')} chevron onClick={() => push({ name: 'support' })} />
         <Row icon={<Shield className="h-4 w-4" />} iconBg="bg-[#123D36]" title={t('ios.more.privacy')} chevron onClick={() => push({ name: 'legal', doc: 'privacy' })} />
         <Row icon={<ScrollText className="h-4 w-4" />} iconBg="bg-[#123D36]" title={t('ios.more.terms')} chevron onClick={() => push({ name: 'legal', doc: 'terms' })} />
-        <Row icon={<Info className="h-4 w-4" />} iconBg="bg-[#8E9A97]" title={t('ios.more.about')} detail={APP_VERSION} chevron onClick={() => push({ name: 'about' })} />
+        <Row icon={<Info className="h-4 w-4" />} iconBg="bg-[#8E9A97]" title={t('ios.more.about')} detail={version} chevron onClick={() => push({ name: 'about' })} />
       </Section>
       <p className="px-8 text-center text-[12px] text-muted">NOVA Docs: PDF & Invoices · {t('ios.brand.tagline')}</p>
     </div>
