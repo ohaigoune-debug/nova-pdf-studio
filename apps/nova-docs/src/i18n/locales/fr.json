@@ -60,7 +60,7 @@
     "f4": "Outils pro : diviser, extraire, réorganiser, filigrane, numérotation, compression", "f5": "Filtres d’amélioration du scan et tableurs", "f6": "Tout reste sur votre appareil",
     "pending": "Votre achat attend une approbation. Pro se débloquera automatiquement.", "cancelled": "Achat annulé.", "failed": "L’achat n’a pas pu aboutir.",
     "thanks": "Bienvenue dans NOVA Pro !", "unavailable": "L’App Store est injoignable. Réessayez plus tard.", "paymentsDisabled": "Les achats intégrés sont désactivés sur cet appareil (Temps d’écran).",
-    "loadingPrice": "Chargement du prix depuis l’App Store…", "lockedFeature": "Fonction NOVA Pro", "legal": "Le paiement est débité de votre identifiant Apple et traité par Apple."
+    "loadingPrice": "Chargement du prix depuis l’App Store…", "retry": "Réessayer", "lockedFeature": "Fonction NOVA Pro", "legal": "Le paiement est débité de votre identifiant Apple et traité par Apple."
   },
   "settings": {
     "appearance": "Apparence", "system": "Système", "light": "Clair", "dark": "Sombre", "company": "Profil de l’entreprise", "companyHint": "Imprimé sur chaque facture.", "defaultCurrency": "Devise par défaut",

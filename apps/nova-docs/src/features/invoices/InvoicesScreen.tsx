@@ -90,7 +90,7 @@ function Lists() {
                 </span>
                 <span className="text-end">
                   <span className="block text-[16px] font-semibold tabular">{money(r.grandTotalMinor, r.currency)}</span>
-                  {r.remainingMinor > 0 && r.status !== 'draft' && <span className="block text-[12px] text-danger tabular">{t('ios.inv.remaining')}: {money(r.remainingMinor, r.currency)}</span>}
+                  {r.remainingMinor > 0 && r.status !== 'draft' && r.status !== 'cancelled' && <span className="block text-[12px] text-danger tabular">{t('ios.inv.remaining')}: {money(r.remainingMinor, r.currency)}</span>}
                 </span>
               </button>
             </li>

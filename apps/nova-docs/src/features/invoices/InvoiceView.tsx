@@ -78,7 +78,7 @@ function View({ id }: { id: number }) {
         <div className="mx-4 mt-3 grid grid-cols-3 gap-2">
           <Button variant="tinted" size="sm" disabled={!!busy} onClick={() => void withPdf('share', (p) => shareBytes(p.name, p.bytes))}>{busy === 'share' ? <Spinner /> : <FileDown className="h-4 w-4" />}{t('ios.inv.exportPdf')}</Button>
           <Button variant="tinted" size="sm" disabled={!!busy} onClick={() => void withPdf('print', (p) => printBytes(p.name, p.bytes))}>{busy === 'print' ? <Spinner /> : <Printer className="h-4 w-4" />}{t('ios.common.print')}</Button>
-          <Button variant="tinted" size="sm" onClick={() => { setAmount(minorToDecimalString(invoice.remainingMinor, currencyInfo(invoice.currency).decimals)); setPayOpen(true) }} disabled={invoice.remainingMinor <= 0}><Banknote className="h-4 w-4" />{t('ios.inv.addPayment')}</Button>
+          <Button variant="tinted" size="sm" onClick={() => { setAmount(minorToDecimalString(invoice.remainingMinor, currencyInfo(invoice.currency).decimals)); setPayOpen(true) }} disabled={invoice.remainingMinor <= 0 || invoice.status === 'cancelled'}><Banknote className="h-4 w-4" />{t('ios.inv.addPayment')}</Button>
         </div>
 
         <div className="mt-4 flex justify-center" style={{ height: pxH * scale + 8 }}>
@@ -101,7 +101,7 @@ function View({ id }: { id: number }) {
         { label: t('ios.common.share'), icon: <Share2 className="h-5 w-5" />, onSelect: () => void withPdf('share', (p) => shareBytes(p.name, p.bytes)) },
         { label: t('ios.docs.title'), icon: <FileDown className="h-5 w-5" />, onSelect: () => void withPdf('lib', async (p) => { const n = await writeLibraryFile(p.name, p.bytes); await useLibrary.getState().refresh(); toast(t('ios.tools.resultSaved', { name: n })) }) },
         { label: t('ios.inv.markSent'), icon: <Send className="h-5 w-5" />, hidden: invoice.status !== 'draft', onSelect: () => { setInvoiceStatus(invoice.id, 'sent'); setTick((x) => x + 1) } },
-        { label: t('ios.inv.markPaid'), icon: <Banknote className="h-5 w-5" />, hidden: invoice.remainingMinor <= 0, onSelect: () => { addPayment({ invoiceId: invoice.id, paidAt: todayIso(), amountMinor: invoice.remainingMinor, method: 'cash' }); setTick((x) => x + 1) } },
+        { label: t('ios.inv.markPaid'), icon: <Banknote className="h-5 w-5" />, hidden: invoice.remainingMinor <= 0 || invoice.status === 'cancelled', onSelect: () => { addPayment({ invoiceId: invoice.id, paidAt: todayIso(), amountMinor: invoice.remainingMinor, method: 'cash' }); setTick((x) => x + 1) } },
         { label: t('ios.inv.duplicate'), icon: <Copy className="h-5 w-5" />, onSelect: () => { const d = duplicateInvoice(invoice.id); replace({ name: 'invoiceView', id: d.id }) } },
         { label: t('common.delete'), icon: <Trash2 className="h-5 w-5" />, destructive: true, onSelect: async () => { if (await confirmDialog(t('ios.inv.confirmDelete', { number: invoice.number }), { destructive: true })) { trashInvoice(invoice.id); pop() } } }
       ]} />

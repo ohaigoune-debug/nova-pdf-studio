@@ -51,6 +51,25 @@ describe('Pro entitlement store (StoreKit 2 contract)', () => {
     expect(store.getState().product?.displayPrice).toBe('600,00 DA')
   })
 
+  it('product not returned by the App Store → "unavailable" with retry, never an endless spinner', async () => {
+    const { plugin } = fakeStore(false)
+    const ok = await plugin.getProducts({ productIds: [] })
+    plugin.getProducts.mockResolvedValueOnce({ products: [] }) // كما حدث فعلًا على محاكي iOS بلا ملف StoreKit
+    const store = createProStore(plugin)
+    await store.getState().refreshProduct()
+    expect(store.getState().productState).toBe('unavailable')
+    expect(store.getState().product).toBeNull()
+    plugin.getProducts.mockRejectedValueOnce(new Error('network'))
+    await store.getState().refreshProduct()
+    expect(store.getState().productState).toBe('unavailable')
+    // فتح شاشة الترقية يعيد المحاولة تلقائيًا
+    plugin.getProducts.mockResolvedValueOnce(ok)
+    store.getState().openPaywall('ocr')
+    await vi.waitFor(() => expect(store.getState().productState).toBe('ready'))
+    expect(store.getState().product?.displayPrice).toBe('600,00 DA')
+    expect(store.getState().isPro).toBe(false)
+  })
+
   it('require() blocks a pro feature and opens the paywall', async () => {
     const { plugin } = fakeStore(false)
     const store = createProStore(plugin)

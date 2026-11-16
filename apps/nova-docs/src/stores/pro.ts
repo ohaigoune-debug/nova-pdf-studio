@@ -11,6 +11,8 @@ export interface ProState {
   ready: boolean
   isPro: boolean
   product: StoreProduct | null
+  /** loading: الطلب جارٍ · ready: السعر من App Store · unavailable: تعذّر الوصول أو المنتج غير متاح (يُعرض زر إعادة المحاولة) */
+  productState: 'loading' | 'ready' | 'unavailable'
   canMakePayments: boolean
   busy: 'purchase' | 'restore' | null
   lastStatus: PurchaseStatus | 'restored' | 'nothing_to_restore' | null
@@ -34,6 +36,7 @@ export function createProStore(plugin: NovaStorePlugin) {
       ready: false,
       isPro: false,
       product: null,
+      productState: 'loading',
       canMakePayments: true,
       busy: null,
       lastStatus: null,
@@ -60,11 +63,14 @@ export function createProStore(plugin: NovaStorePlugin) {
         void get().refreshProduct()
       },
       async refreshProduct() {
+        set({ productState: 'loading' })
         try {
           const { products } = await plugin.getProducts({ productIds: [PRO_PRODUCT_ID] })
-          set({ product: products.find((p) => p.id === PRO_PRODUCT_ID) ?? null })
+          const product = products.find((p) => p.id === PRO_PRODUCT_ID) ?? null
+          // قائمة فارغة = المنتج غير متاح من App Store (لم يُعتمد بعد، أو لا اتصال): لا نترك الزر «جارٍ التحميل» إلى الأبد
+          set({ product, productState: product ? 'ready' : 'unavailable' })
         } catch (e) {
-          set({ product: null, error: String((e as Error)?.message ?? e) })
+          set({ product: null, productState: 'unavailable', error: String((e as Error)?.message ?? e) })
         }
       },
       async purchase() {
@@ -101,6 +107,7 @@ export function createProStore(plugin: NovaStorePlugin) {
       },
       openPaywall(feature) {
         set({ paywallFor: feature ?? 'editText', lastStatus: null, error: null })
+        if (get().productState === 'unavailable') void get().refreshProduct()
       },
       closePaywall() {
         set({ paywallFor: null })

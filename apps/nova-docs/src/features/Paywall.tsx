@@ -8,7 +8,7 @@ import { LogoMark } from '../brand/Logo'
 
 export function Paywall() {
   const { t } = useTranslation()
-  const { paywallFor, closePaywall, product, purchase, restore, busy, isPro, canMakePayments, lastStatus, error } = usePro()
+  const { paywallFor, closePaywall, product, productState, refreshProduct, purchase, restore, busy, isPro, canMakePayments, lastStatus } = usePro()
   const open = paywallFor !== null && !isPro
   const features = [
     { icon: <FileSignature className="h-5 w-5" />, text: t('ios.pro.f1') },
@@ -51,14 +51,20 @@ export function Paywall() {
       <div className="mx-6 mt-8 space-y-3">
         {!canMakePayments && <p className="rounded-ios bg-warning/15 p-3 text-[14px]">{t('ios.pro.paymentsDisabled')}</p>}
         {lastStatus === 'pending' && <p className="rounded-ios bg-accent/12 p-3 text-[14px]">{t('ios.pro.pending')}</p>}
-        <Button size="lg" className="w-full" disabled={!!busy || !canMakePayments || !product} onClick={() => void onBuy()}>
-          {busy === 'purchase' ? <Spinner /> : product ? t('ios.pro.buy', { price: product.displayPrice }) : t('ios.pro.loadingPrice')}
-        </Button>
+        {productState === 'unavailable' && !product ? (
+          <>
+            <p className="text-center text-[14px] text-danger" role="alert">{t('ios.pro.unavailable')}</p>
+            <Button size="lg" variant="tinted" className="w-full" onClick={() => void refreshProduct()}>{t('ios.pro.retry')}</Button>
+          </>
+        ) : (
+          <Button size="lg" className="w-full" disabled={!!busy || !canMakePayments || !product} onClick={() => void onBuy()}>
+            {busy === 'purchase' ? <Spinner /> : product ? t('ios.pro.buy', { price: product.displayPrice }) : t('ios.pro.loadingPrice')}
+          </Button>
+        )}
         <p className="text-center text-[13px] text-muted">{t('ios.pro.lifetime')}</p>
         <Button variant="plain" className="w-full" disabled={!!busy} onClick={() => void onRestore()}>
           {busy === 'restore' ? <Spinner /> : t('ios.more.restore')}
         </Button>
-        {error && !product && <p className="text-center text-[13px] text-danger">{t('ios.pro.unavailable')}</p>}
         <p className="flex items-center justify-center gap-1 pb-4 text-center text-[12px] text-muted"><Check className="h-3.5 w-3.5" />{t('ios.pro.legal')}</p>
       </div>
       <Wand2 className="hidden" />
