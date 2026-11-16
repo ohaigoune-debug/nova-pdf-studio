@@ -116,3 +116,47 @@ export async function runInvoicePdfSelfTest(): Promise<Record<string, unknown>> 
   console.log(`[nova-selftest] ${JSON.stringify(result)}`)
   return result
 }
+
+/** صورة «ورقة مصوّرة بالهاتف» (ظل، إضاءة غير متساوية، ضجيج) لعرض شاشة مراجعة المسح على المحاكي — نسخة Debug فقط. */
+export async function runScanDemo(): Promise<void> {
+  const w = 1200
+  const h = 1600
+  const c = document.createElement('canvas')
+  c.width = w
+  c.height = h
+  const ctx = c.getContext('2d')!
+  ctx.fillStyle = '#f4f1ea'
+  ctx.fillRect(0, 0, w, h)
+  ctx.fillStyle = '#123D36'
+  ctx.font = 'bold 54px -apple-system, "Helvetica Neue", Arial, sans-serif'
+  ctx.fillText('FACTURE N° 2026-015', 90, 170)
+  ctx.font = '36px -apple-system, "Helvetica Neue", Arial, sans-serif'
+  ctx.fillStyle = '#222'
+  const lines = ['Librairie En-Nour — Bou Saada', 'Date : 16/11/2026', '', 'Ramette A4 80 g      3 × 750,50', 'Livraison               1 × 500,00', '', 'Total HT             2 751,50 DA', 'TVA 19 %                 522,79 DA', 'Total TTC            3 274,29 DA']
+  lines.forEach((l, i) => ctx.fillText(l, 90, 300 + i * 70))
+  const naskh = new FontFace('NovaNaskhDemo', 'url(./fonts/NotoNaskhArabic-Regular.ttf)')
+  await naskh.load()
+  document.fonts.add(naskh)
+  ctx.font = '44px NovaNaskhDemo'
+  ctx.direction = 'rtl'
+  ctx.textAlign = 'right'
+  ctx.fillText('شكرًا لثقتكم — مكتبة النور', w - 90, 1050)
+  // ظل مائل وإضاءة غير متساوية كصورة هاتف حقيقية
+  const g = ctx.createLinearGradient(0, 0, w, h)
+  g.addColorStop(0, 'rgba(0,0,0,0)')
+  g.addColorStop(0.55, 'rgba(0,0,0,0.12)')
+  g.addColorStop(1, 'rgba(0,0,0,0.45)')
+  ctx.fillStyle = g
+  ctx.fillRect(0, 0, w, h)
+  const img = ctx.getImageData(0, 0, w, h)
+  for (let i = 0; i < img.data.length; i += 4) {
+    const n = (Math.random() - 0.5) * 18
+    img.data[i] += n
+    img.data[i + 1] += n
+    img.data[i + 2] += n
+  }
+  ctx.putImageData(img, 0, 0)
+  const blob: Blob = await new Promise((res) => c.toBlob((b) => res(b!), 'image/jpeg', 0.9))
+  const { injectScanPagesForDebug } = await import('../features/scan/ScanScreen')
+  await injectScanPagesForDebug([new Uint8Array(await blob.arrayBuffer())], 'enhanced')
+}

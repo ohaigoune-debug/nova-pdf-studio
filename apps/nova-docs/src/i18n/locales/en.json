@@ -6,7 +6,7 @@
     "title": "Documents", "search": "Search documents", "emptyTitle": "No documents yet", "emptyDesc": "Import a PDF from Files or iCloud Drive, or scan a paper document.",
     "import": "Import", "importFiles": "From Files / iCloud", "fromImages": "Images → PDF", "newScan": "Scan document", "renamePrompt": "New name",
     "duplicate": "Duplicate", "confirmDelete": "Delete “{{name}}”? This cannot be undone.", "saveToFiles": "Save to Files", "imported": "Imported {{count}} file(s)",
-    "pages": "{{count}} pages", "filesNote": "Your documents are stored on this device in the NOVA Docs folder of the Files app.", "deleted": "Deleted", "savedToFiles": "Saved to Files"
+    "pages": "{{count}} pages", "pages_one": "{{count}} page", "filesNote": "Your documents are stored on this device in the NOVA Docs folder of the Files app.", "deleted": "Deleted", "savedToFiles": "Saved to Files"
   },
   "viewer": {
     "edit": "Edit", "save": "Save", "saving": "Saving…", "saved": "Saved", "search": "Search", "searchPlaceholder": "Search in document", "results": "{{count}} results", "noResults": "No results",
@@ -30,7 +30,7 @@
   },
   "scan": {
     "title": "Scan", "subtitle": "Automatic edge detection, perspective correction and cropping by Apple VisionKit.", "start": "Scan document", "importPhotos": "Import photos",
-    "unsupported": "The document camera is not available here. You can import photos instead.", "pages": "{{count}} pages", "addMore": "Add pages",
+    "unsupported": "The document camera is not available here. You can import photos instead.", "pages": "{{count}} pages", "pages_one": "{{count}} page", "addMore": "Add pages",
     "filters": { "original": "Original", "enhanced": "Enhanced", "grayscale": "Grayscale", "bw": "B&W" },
     "searchable": "Searchable text (OCR)", "searchableHint": "Recognize text so you can search and copy it.", "languages": "Languages",
     "save": "Save PDF", "saving": "Creating PDF…", "ocrProgress": "Recognizing page {{page}} of {{total}}…", "saved": "Saved “{{name}}”", "defaultName": "Scan {{date}}", "discard": "Discard scan"

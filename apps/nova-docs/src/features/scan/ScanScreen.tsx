@@ -37,6 +37,12 @@ interface ScanSession {
 const useScan = create<ScanSession>((set) => ({ pages: [], filter: 'original', ocr: false, set: (p) => set(p) }))
 let seq = 0
 
+/** نسخة Debug فقط (لقطات CI): يضع صورًا في جلسة المسح كما لو جاءت من الكاميرا. */
+export async function injectScanPagesForDebug(images: Uint8Array[], filter: ScanFilter): Promise<void> {
+  const norm = await normalizeImages(images, 3000)
+  useScan.getState().set({ pages: norm.map((n) => ({ id: `p${++seq}`, original: n.bytes, width: n.width, height: n.height })), filter })
+}
+
 async function render(page: ScanPage, filter: ScanFilter): Promise<NonNullable<ScanPage['rendered']>> {
   if (page.rendered?.filter === filter) return page.rendered
   const out = await filterImageBytes(page.original, filter)

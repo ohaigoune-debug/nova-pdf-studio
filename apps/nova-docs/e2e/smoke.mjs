@@ -138,7 +138,7 @@ async function shot(page, path) {
     await page.locator('nav button:has-text("Scan")').click()
     const [chooser] = await Promise.all([page.waitForEvent('filechooser'), page.getByRole('button', { name: 'Import photos' }).click()])
     await chooser.setFiles(resolve('tests/fixtures/scan-photo-fr.jpg'))
-    await page.getByText('1 pages').waitFor({ timeout: 15000 })
+    await page.getByText('1 page', { exact: true }).waitFor({ timeout: 15000 })
     await page.getByRole('tab', { name: 'Enhanced' }).click()
     await page.waitForTimeout(1500)
     await page.getByRole('switch').click()

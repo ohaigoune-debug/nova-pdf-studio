@@ -83,6 +83,15 @@ export async function handleDeepLink(url: string): Promise<void> {
 export async function openRoutes(routes: string): Promise<void> {
   for (const r of routes.split(',').map((x) => x.trim()).filter(Boolean)) {
     try {
+      if (r === 'scan-demo') {
+        if (!window.__NOVA_DEBUG__) throw new Error('self-test is available in Debug builds only')
+        const { runScanDemo } = await import('./selftest')
+        await runScanDemo()
+        useNav.getState().popToRoot('scan')
+        useNav.getState().setTab('scan')
+        console.log(`[nova-route] ok ${r}`)
+        continue
+      }
       if (r === 'ocr-selftest' || r === 'invoice-pdf-selftest') {
         // نسخة Debug فقط: العلم يضعه NovaBridgeViewController داخل #if DEBUG؛ لا يصل إليه أي رابط خارجي
         if (!window.__NOVA_DEBUG__) throw new Error('self-test is available in Debug builds only')

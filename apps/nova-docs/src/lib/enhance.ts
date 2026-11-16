@@ -1,7 +1,7 @@
 import { blobOf } from '../platform/bytes'
 /**
  * تحسين صور المسح (بعد أن يكشف VisionKit الحدود ويصحح المنظور ويقص):
- *   - enhanced : تصحيح الإضاءة غير المتساوية (إزالة الظلال) بقسمة الصورة على تقدير الخلفية + مدّ المستويات
+ *   - enhanced : تصحيح الإضاءة غير المتساوية (إزالة الظلال) بقسمة كل قناة على لون الورق المقدَّر، ثم تبييض الورق وتعميق الحبر
  *   - grayscale: رمادي مع تصحيح الإضاءة
  *   - bw       : أبيض/أسود بعتبة تكيّفية (Bradley) لوضوح النص عند الطباعة والـ OCR
  * دوال نقية على بكسلات RGBA (قابلة للاختبار دون متصفح).
@@ -43,23 +43,6 @@ function grayOf(p: Pixels): Float32Array {
   return g
 }
 
-/**
- * تقدير الإضاءة: متوسط محلي واسع لكن «مُنحاز للورق» — نأخذ أقصى قيمة بين المتوسط المحلي ومتوسط أكبر،
- * فلا يُحسب الحبر الكثيف كخلفية مظلمة.
- */
-function background(gray: Float32Array, w: number, h: number): Float32Array {
-  const ii = integral(gray, w, h)
-  const r1 = Math.max(4, Math.round(Math.min(w, h) / 24))
-  const r2 = r1 * 3
-  const bg = new Float32Array(w * h)
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      bg[y * w + x] = Math.max(boxMean(ii, w, h, x, y, r1), boxMean(ii, w, h, x, y, r2) * 0.97, 1)
-    }
-  }
-  return bg
-}
-
 function percentile(values: Float32Array, p: number): number {
   const hist = new Uint32Array(256)
   for (let i = 0; i < values.length; i++) hist[Math.max(0, Math.min(255, Math.round(values[i])))]++
@@ -94,26 +77,101 @@ export function applyScanFilter(src: Pixels, filter: ScanFilter): Pixels {
     return { data: out, width: w, height: h }
   }
 
-  const bg = background(gray, w, h)
-  // بعد التطبيع تصبح الورقة ≈ 255؛ نمدّ المستويات بين نسبة 2% (حبر) و 99.5% (ورق)
-  const norm = new Float32Array(w * h)
-  for (let i = 0; i < norm.length; i++) norm[i] = Math.min(255, (gray[i] / bg[i]) * 255)
-  const lo = percentile(norm, 0.02)
-  const hi = Math.max(lo + 1, percentile(norm, 0.995))
-  const stretch = (v: number) => Math.max(0, Math.min(255, ((v - lo) / (hi - lo)) * 255))
-
-  for (let i = 0, j = 0; i < gray.length; i++, j += 4) {
+  // خلفية الورق لكل قناة (تقليص ← توسيع «max» يمحو الحبر ← تنعيم ← تكبير): بلا هالات حول النص
+  const paper = paperBackground(src)
+  const norm = new Float32Array(w * h * 3)
+  for (let i = 0, j = 0; i < w * h; i++, j += 4) {
+    for (let c = 0; c < 3; c++) norm[i * 3 + c] = Math.min(255, (src.data[j + c] / Math.max(1, paper[i * 3 + c])) * 255)
+  }
+  // مستوى الحبر: نسبة 2% من الإضاءة بعد التطبيع؛ الورق يُبيَّض فوق ~90% (يمحو الضجيج والصبغة الصفراء)
+  const l = new Float32Array(w * h)
+  for (let i = 0; i < l.length; i++) l[i] = lum(norm[i * 3], norm[i * 3 + 1], norm[i * 3 + 2])
+  const lo = Math.min(140, percentile(l, 0.02))
+  const white = 232
+  const curve = (v: number) => {
+    const t = Math.max(0, Math.min(1, (v - lo) / (white - lo)))
+    return 255 * Math.pow(t, 1.15) // تعميق خفيف للحبر
+  }
+  for (let i = 0, j = 0; i < w * h; i++, j += 4) {
     if (filter === 'grayscale') {
-      const v = stretch(norm[i])
-      out[j] = out[j + 1] = out[j + 2] = v
+      out[j] = out[j + 1] = out[j + 2] = curve(l[i])
     } else {
-      // enhanced: نطبّق كسب الإضاءة نفسه على القنوات الثلاث فنحافظ على الألوان (أختام، توقيعات بالأزرق)
-      const gain = 255 / bg[i]
-      for (let c = 0; c < 3; c++) out[j + c] = stretch(Math.min(255, src.data[j + c] * gain))
+      // enhanced: الألوان محفوظة (أختام، توقيع بالأزرق)، والورق أبيض
+      for (let c = 0; c < 3; c++) out[j + c] = curve(norm[i * 3 + c])
     }
     out[j + 3] = 255
   }
   return { data: out, width: w, height: h }
+}
+
+/**
+ * تقدير لون الورق في كل بكسل (RGB): متوسط كتل صغيرة ← توسيع (أعلى قيمة في الجوار) يحذف الحبر لأنه أغمق
+ * ← تنعيم ← تكبير خطي. ينتج إضاءة/ظلًا متدرجًا ناعمًا دون أن «يرى» الحروف.
+ */
+function paperBackground(src: Pixels): Float32Array {
+  const { width: w, height: h, data } = src
+  const f = Math.max(2, Math.round(Math.min(w, h) / 160))
+  const sw = Math.ceil(w / f)
+  const sh = Math.ceil(h / f)
+  const small = new Float32Array(sw * sh * 3)
+  const counts = new Float32Array(sw * sh)
+  for (let y = 0; y < h; y++) {
+    const sy = Math.floor(y / f)
+    for (let x = 0; x < w; x++) {
+      const k = sy * sw + Math.floor(x / f)
+      const j = (y * w + x) * 4
+      small[k * 3] += data[j]
+      small[k * 3 + 1] += data[j + 1]
+      small[k * 3 + 2] += data[j + 2]
+      counts[k]++
+    }
+  }
+  for (let k = 0; k < counts.length; k++) for (let c = 0; c < 3; c++) small[k * 3 + c] /= counts[k] || 1
+  const dilated = filter2(small, sw, sh, 3, 'max')
+  const smooth = filter2(dilated, sw, sh, 4, 'mean')
+  // تكبير خطي إلى المقاس الأصلي
+  const out = new Float32Array(w * h * 3)
+  for (let y = 0; y < h; y++) {
+    const fy = Math.min(sh - 1, Math.max(0, (y + 0.5) / f - 0.5))
+    const y0 = Math.floor(fy), y1 = Math.min(sh - 1, y0 + 1), ty = fy - y0
+    for (let x = 0; x < w; x++) {
+      const fx = Math.min(sw - 1, Math.max(0, (x + 0.5) / f - 0.5))
+      const x0 = Math.floor(fx), x1 = Math.min(sw - 1, x0 + 1), tx = fx - x0
+      for (let c = 0; c < 3; c++) {
+        const a = smooth[(y0 * sw + x0) * 3 + c] * (1 - tx) + smooth[(y0 * sw + x1) * 3 + c] * tx
+        const b = smooth[(y1 * sw + x0) * 3 + c] * (1 - tx) + smooth[(y1 * sw + x1) * 3 + c] * tx
+        out[(y * w + x) * 3 + c] = a * (1 - ty) + b * ty
+      }
+    }
+  }
+  return out
+}
+
+/** مرشح مربع منفصل (أفقي ثم عمودي) على صورة RGB صغيرة: max أو mean. */
+function filter2(src: Float32Array, w: number, h: number, r: number, mode: 'max' | 'mean'): Float32Array {
+  const pass = (input: Float32Array, horizontal: boolean) => {
+    const out = new Float32Array(input.length)
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        for (let c = 0; c < 3; c++) {
+          let acc = mode === 'max' ? 0 : 0
+          let n = 0
+          for (let d = -r; d <= r; d++) {
+            const xx = horizontal ? x + d : x
+            const yy = horizontal ? y : y + d
+            if (xx < 0 || yy < 0 || xx >= w || yy >= h) continue
+            const v = input[(yy * w + xx) * 3 + c]
+            if (mode === 'max') acc = Math.max(acc, v)
+            else acc += v
+            n++
+          }
+          out[(y * w + x) * 3 + c] = mode === 'max' ? acc : acc / n
+        }
+      }
+    }
+    return out
+  }
+  return pass(pass(src, true), false)
 }
 
 /** في الواجهة: يطبّق المرشح على صورة ويعيد JPEG. */

@@ -6,7 +6,7 @@
     "title": "المستندات", "search": "ابحث في المستندات", "emptyTitle": "لا توجد مستندات بعد", "emptyDesc": "استورد ملف PDF من تطبيق الملفات أو iCloud Drive، أو امسح مستندًا ورقيًا.",
     "import": "استيراد", "importFiles": "من الملفات / iCloud", "fromImages": "صور ← PDF", "newScan": "مسح مستند", "renamePrompt": "الاسم الجديد",
     "duplicate": "تكرار", "confirmDelete": "حذف «{{name}}»؟ لا يمكن التراجع عن ذلك.", "saveToFiles": "حفظ في الملفات", "imported": "تم استيراد {{count}} ملف",
-    "pages": "{{count}} صفحة", "filesNote": "تُحفظ مستنداتك على هذا الجهاز في مجلد NOVA Docs داخل تطبيق «الملفات».", "deleted": "تم الحذف", "savedToFiles": "تم الحفظ في الملفات"
+    "pages": "{{count}} صفحة", "pages_one": "صفحة واحدة", "pages_two": "صفحتان", "pages_few": "{{count}} صفحات", "filesNote": "تُحفظ مستنداتك على هذا الجهاز في مجلد NOVA Docs داخل تطبيق «الملفات».", "deleted": "تم الحذف", "savedToFiles": "تم الحفظ في الملفات"
   },
   "viewer": {
     "edit": "تحرير", "save": "حفظ", "saving": "جارٍ الحفظ…", "saved": "تم الحفظ", "search": "بحث", "searchPlaceholder": "ابحث داخل المستند", "results": "{{count}} نتيجة", "noResults": "لا نتائج",
@@ -30,7 +30,7 @@
   },
   "scan": {
     "title": "المسح", "subtitle": "كشف تلقائي لحدود الورقة وتصحيح المنظور والقص عبر Apple VisionKit.", "start": "مسح مستند", "importPhotos": "استيراد صور",
-    "unsupported": "كاميرا المستندات غير متاحة هنا. يمكنك استيراد صور بدلًا منها.", "pages": "{{count}} صفحة", "addMore": "إضافة صفحات",
+    "unsupported": "كاميرا المستندات غير متاحة هنا. يمكنك استيراد صور بدلًا منها.", "pages": "{{count}} صفحة", "pages_one": "صفحة واحدة", "pages_two": "صفحتان", "pages_few": "{{count}} صفحات", "addMore": "إضافة صفحات",
     "filters": { "original": "الأصل", "enhanced": "محسّن", "grayscale": "رمادي", "bw": "أبيض وأسود" },
     "searchable": "نص قابل للبحث (OCR)", "searchableHint": "التعرّف على النص لتتمكن من البحث فيه ونسخه.", "languages": "اللغات",
     "save": "حفظ PDF", "saving": "جارٍ إنشاء PDF…", "ocrProgress": "جارٍ التعرّف على الصفحة {{page}} من {{total}}…", "saved": "تم حفظ «{{name}}»", "defaultName": "مسح {{date}}", "discard": "تجاهل المسح"

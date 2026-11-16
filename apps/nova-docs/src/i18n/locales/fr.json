@@ -6,7 +6,7 @@
     "title": "Documents", "search": "Rechercher", "emptyTitle": "Aucun document", "emptyDesc": "Importez un PDF depuis Fichiers ou iCloud Drive, ou scannez un document papier.",
     "import": "Importer", "importFiles": "Depuis Fichiers / iCloud", "fromImages": "Images → PDF", "newScan": "Scanner un document", "renamePrompt": "Nouveau nom",
     "duplicate": "Dupliquer", "confirmDelete": "Supprimer « {{name}} » ? Action irréversible.", "saveToFiles": "Enregistrer dans Fichiers", "imported": "{{count}} fichier(s) importé(s)",
-    "pages": "{{count}} pages", "filesNote": "Vos documents sont stockés sur cet appareil, dans le dossier NOVA Docs de l’app Fichiers.", "deleted": "Supprimé", "savedToFiles": "Enregistré dans Fichiers"
+    "pages": "{{count}} pages", "pages_one": "{{count}} page", "filesNote": "Vos documents sont stockés sur cet appareil, dans le dossier NOVA Docs de l’app Fichiers.", "deleted": "Supprimé", "savedToFiles": "Enregistré dans Fichiers"
   },
   "viewer": {
     "edit": "Modifier", "save": "Enregistrer", "saving": "Enregistrement…", "saved": "Enregistré", "search": "Rechercher", "searchPlaceholder": "Rechercher dans le document", "results": "{{count}} résultats", "noResults": "Aucun résultat",
@@ -30,7 +30,7 @@
   },
   "scan": {
     "title": "Scanner", "subtitle": "Détection des bords, correction de perspective et recadrage automatiques par Apple VisionKit.", "start": "Scanner un document", "importPhotos": "Importer des photos",
-    "unsupported": "La caméra document n’est pas disponible ici. Vous pouvez importer des photos.", "pages": "{{count}} pages", "addMore": "Ajouter des pages",
+    "unsupported": "La caméra document n’est pas disponible ici. Vous pouvez importer des photos.", "pages": "{{count}} pages", "pages_one": "{{count}} page", "addMore": "Ajouter des pages",
     "filters": { "original": "Original", "enhanced": "Amélioré", "grayscale": "Niveaux de gris", "bw": "Noir et blanc" },
     "searchable": "Texte cherchable (OCR)", "searchableHint": "Reconnaître le texte pour le rechercher et le copier.", "languages": "Langues",
     "save": "Enregistrer le PDF", "saving": "Création du PDF…", "ocrProgress": "Reconnaissance de la page {{page}} sur {{total}}…", "saved": "« {{name}} » enregistré", "defaultName": "Scan {{date}}", "discard": "Abandonner"

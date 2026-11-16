@@ -113,7 +113,9 @@ jobs:
           09-ar-invoices|lang/ar,demo-invoices
           10-ar-dark-tools|lang/ar,theme/dark,tab/tools
           11-ocr-selftest|lang/en,theme/light,ocr-selftest|45
-          12-invoice-pdf|lang/en,theme/light,invoice-pdf-selftest|30"
+          12-invoice-pdf|lang/en,theme/light,invoice-pdf-selftest|30
+          13-scan-review|lang/en,theme/light,scan-demo|20
+          14-ar-scan-review|lang/ar,theme/light,scan-demo|20"
           for DEV in "iPhone 16 Pro Max" "iPad Pro 13-inch (M4)"; do
             UDID=$(xcrun simctl list devices available -j | python3 -c "import json,sys; d=json.load(sys.stdin)['devices']; print(next((x['udid'] for v in d.values() for x in v if x['name']=='$DEV'), ''))")
             if [ -z "$UDID" ]; then echo "::warning::no simulator $DEV"; continue; fi
