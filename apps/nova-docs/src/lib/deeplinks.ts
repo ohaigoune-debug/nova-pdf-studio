@@ -96,6 +96,13 @@ export async function openRoutes(routes: string): Promise<void> {
         console.log(`[nova-route] ok ${r}`)
         continue
       }
+      if (r === 'filter-timing') {
+        if (!window.__NOVA_DEBUG__) throw new Error('self-test is available in Debug builds only')
+        const res = await (await import('./selftest')).runFilterTiming()
+        const { confirmDialog } = await import('../ui/overlays')
+        void confirmDialog('Scan filter timing · WKWebView', { message: JSON.stringify(res, null, 1) })
+        continue
+      }
       if (r === 'ocr-selftest' || r === 'invoice-pdf-selftest') {
         // نسخة Debug فقط: العلم يضعه NovaBridgeViewController داخل #if DEBUG؛ لا يصل إليه أي رابط خارجي
         if (!window.__NOVA_DEBUG__) throw new Error('self-test is available in Debug builds only')

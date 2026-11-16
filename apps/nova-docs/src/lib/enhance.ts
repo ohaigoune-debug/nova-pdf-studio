@@ -43,25 +43,13 @@ function grayOf(p: Pixels): Float32Array {
   return g
 }
 
-function percentile(values: Float32Array, p: number): number {
-  const hist = new Uint32Array(256)
-  for (let i = 0; i < values.length; i++) hist[Math.max(0, Math.min(255, Math.round(values[i])))]++
-  const target = values.length * p
-  let acc = 0
-  for (let v = 0; v < 256; v++) {
-    acc += hist[v]
-    if (acc >= target) return v
-  }
-  return 255
-}
-
 export function applyScanFilter(src: Pixels, filter: ScanFilter): Pixels {
   if (filter === 'original') return src
   const { width: w, height: h } = src
   const out = new Uint8ClampedArray(src.data.length)
-  const gray = grayOf(src)
 
   if (filter === 'bw') {
+    const gray = grayOf(src)
     // Bradley: البكسل أسود إن كان أغمق بنسبة t من متوسط جواره
     const ii = integral(gray, w, h)
     const r = Math.max(6, Math.round(Math.min(w, h) / 40))
@@ -77,38 +65,76 @@ export function applyScanFilter(src: Pixels, filter: ScanFilter): Pixels {
     return { data: out, width: w, height: h }
   }
 
-  // خلفية الورق لكل قناة (تقليص ← توسيع «max» يمحو الحبر ← تنعيم ← تكبير): بلا هالات حول النص
-  const paper = paperBackground(src)
-  const norm = new Float32Array(w * h * 3)
-  for (let i = 0, j = 0; i < w * h; i++, j += 4) {
-    for (let c = 0; c < 3; c++) norm[i * 3 + c] = Math.min(255, (src.data[j + c] / Math.max(1, paper[i * 3 + c])) * 255)
+  // خلفية الورق لكل قناة على شبكة صغيرة (تقليص ← توسيع «max» يمحو الحبر ← تنعيم)، تُكبَّر خطيًا أثناء المرور:
+  // لا هالات حول النص، ولا مصفوفات إضافية بحجم الصورة (مهم لذاكرة WKWebView على iPhone مع صفحات كثيرة)
+  const { grid, sw, sh, f } = paperGrid(src)
+  const x0s = new Int32Array(w), x1s = new Int32Array(w), txs = new Float32Array(w)
+  for (let x = 0; x < w; x++) {
+    const fx = Math.min(sw - 1, Math.max(0, (x + 0.5) / f - 0.5))
+    x0s[x] = Math.floor(fx)
+    x1s[x] = Math.min(sw - 1, x0s[x] + 1)
+    txs[x] = fx - x0s[x]
+  }
+  // المرور 1: تطبيع كل قناة على لون الورق داخل out + مدرج الإضاءة
+  const hist = new Uint32Array(256)
+  const data = src.data
+  for (let y = 0; y < h; y++) {
+    const fy = Math.min(sh - 1, Math.max(0, (y + 0.5) / f - 0.5))
+    const y0 = Math.floor(fy), y1 = Math.min(sh - 1, y0 + 1), ty = fy - y0
+    const r0 = y0 * sw, r1 = y1 * sw
+    for (let x = 0; x < w; x++) {
+      const a = (r0 + x0s[x]) * 3, b = (r0 + x1s[x]) * 3, c2 = (r1 + x0s[x]) * 3, d = (r1 + x1s[x]) * 3
+      const tx = txs[x]
+      const j = (y * w + x) * 4
+      let lumAcc = 0
+      for (let c = 0; c < 3; c++) {
+        const top = grid[a + c] + (grid[b + c] - grid[a + c]) * tx
+        const bottom = grid[c2 + c] + (grid[d + c] - grid[c2 + c]) * tx
+        const bg = top + (bottom - top) * ty
+        const v = Math.min(255, (data[j + c] * 255) / (bg > 1 ? bg : 1))
+        out[j + c] = v
+        lumAcc += v * (c === 0 ? 0.299 : c === 1 ? 0.587 : 0.114)
+      }
+      hist[Math.min(255, Math.round(lumAcc))]++
+      out[j + 3] = 255
+    }
   }
   // مستوى الحبر: نسبة 2% من الإضاءة بعد التطبيع؛ الورق يُبيَّض فوق ~90% (يمحو الضجيج والصبغة الصفراء)
-  const l = new Float32Array(w * h)
-  for (let i = 0; i < l.length; i++) l[i] = lum(norm[i * 3], norm[i * 3 + 1], norm[i * 3 + 2])
-  const lo = Math.min(140, percentile(l, 0.02))
+  const lo = Math.min(140, histPercentile(hist, w * h, 0.02))
   const white = 232
-  const curve = (v: number) => {
+  const lut = new Uint8ClampedArray(256)
+  for (let v = 0; v < 256; v++) {
     const t = Math.max(0, Math.min(1, (v - lo) / (white - lo)))
-    return 255 * Math.pow(t, 1.15) // تعميق خفيف للحبر
+    lut[v] = 255 * Math.pow(t, 1.15) // تعميق خفيف للحبر
   }
-  for (let i = 0, j = 0; i < w * h; i++, j += 4) {
+  // المرور 2: المنحنى عبر جدول (enhanced يحفظ الألوان — أختام، توقيع بالأزرق — والرمادي يوحّد القنوات)
+  for (let j = 0; j < out.length; j += 4) {
     if (filter === 'grayscale') {
-      out[j] = out[j + 1] = out[j + 2] = curve(l[i])
+      out[j] = out[j + 1] = out[j + 2] = lut[Math.round(lum(out[j], out[j + 1], out[j + 2]))]
     } else {
-      // enhanced: الألوان محفوظة (أختام، توقيع بالأزرق)، والورق أبيض
-      for (let c = 0; c < 3; c++) out[j + c] = curve(norm[i * 3 + c])
+      out[j] = lut[out[j]]
+      out[j + 1] = lut[out[j + 1]]
+      out[j + 2] = lut[out[j + 2]]
     }
-    out[j + 3] = 255
   }
   return { data: out, width: w, height: h }
 }
 
+function histPercentile(hist: Uint32Array, total: number, p: number): number {
+  const target = total * p
+  let acc = 0
+  for (let v = 0; v < 256; v++) {
+    acc += hist[v]
+    if (acc >= target) return v
+  }
+  return 255
+}
+
 /**
- * تقدير لون الورق في كل بكسل (RGB): متوسط كتل صغيرة ← توسيع (أعلى قيمة في الجوار) يحذف الحبر لأنه أغمق
- * ← تنعيم ← تكبير خطي. ينتج إضاءة/ظلًا متدرجًا ناعمًا دون أن «يرى» الحروف.
+ * تقدير لون الورق (RGB) على شبكة صغيرة: متوسط كتل ← توسيع (أعلى قيمة في الجوار) يحذف الحبر لأنه أغمق
+ * ← تنعيم. يُكبَّر خطيًا أثناء المرور على البكسلات، فينتج إضاءة/ظلًا متدرجًا ناعمًا دون أن «يرى» الحروف.
  */
-function paperBackground(src: Pixels): Float32Array {
+function paperGrid(src: Pixels): { grid: Float32Array; sw: number; sh: number; f: number } {
   const { width: w, height: h, data } = src
   const f = Math.max(2, Math.round(Math.min(w, h) / 160))
   const sw = Math.ceil(w / f)
@@ -116,9 +142,9 @@ function paperBackground(src: Pixels): Float32Array {
   const small = new Float32Array(sw * sh * 3)
   const counts = new Float32Array(sw * sh)
   for (let y = 0; y < h; y++) {
-    const sy = Math.floor(y / f)
+    const row = Math.floor(y / f) * sw
     for (let x = 0; x < w; x++) {
-      const k = sy * sw + Math.floor(x / f)
+      const k = row + Math.floor(x / f)
       const j = (y * w + x) * 4
       small[k * 3] += data[j]
       small[k * 3 + 1] += data[j + 1]
@@ -128,23 +154,7 @@ function paperBackground(src: Pixels): Float32Array {
   }
   for (let k = 0; k < counts.length; k++) for (let c = 0; c < 3; c++) small[k * 3 + c] /= counts[k] || 1
   const dilated = filter2(small, sw, sh, 3, 'max')
-  const smooth = filter2(dilated, sw, sh, 4, 'mean')
-  // تكبير خطي إلى المقاس الأصلي
-  const out = new Float32Array(w * h * 3)
-  for (let y = 0; y < h; y++) {
-    const fy = Math.min(sh - 1, Math.max(0, (y + 0.5) / f - 0.5))
-    const y0 = Math.floor(fy), y1 = Math.min(sh - 1, y0 + 1), ty = fy - y0
-    for (let x = 0; x < w; x++) {
-      const fx = Math.min(sw - 1, Math.max(0, (x + 0.5) / f - 0.5))
-      const x0 = Math.floor(fx), x1 = Math.min(sw - 1, x0 + 1), tx = fx - x0
-      for (let c = 0; c < 3; c++) {
-        const a = smooth[(y0 * sw + x0) * 3 + c] * (1 - tx) + smooth[(y0 * sw + x1) * 3 + c] * tx
-        const b = smooth[(y1 * sw + x0) * 3 + c] * (1 - tx) + smooth[(y1 * sw + x1) * 3 + c] * tx
-        out[(y * w + x) * 3 + c] = a * (1 - ty) + b * ty
-      }
-    }
-  }
-  return out
+  return { grid: filter2(dilated, sw, sh, 4, 'mean'), sw, sh, f }
 }
 
 /** مرشح مربع منفصل (أفقي ثم عمودي) على صورة RGB صغيرة: max أو mean. */
