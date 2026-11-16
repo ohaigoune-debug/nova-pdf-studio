@@ -14,6 +14,9 @@ import { IconButton, NavBar } from '../../ui/kit'
 import { ActionSheet, errorText, toast } from '../../ui/overlays'
 import { WithDatabase } from '../invoices/shared'
 import { getSettings } from '@modules/settings/main/repository'
+import { sheetToInvoiceInput } from '../../lib/sheetToInvoice'
+import { currencyInfo } from '../../lib/invoicing'
+import { usePro } from '../../stores/proInstance'
 
 const COL_W = 96
 const ROW_H = 36
@@ -30,6 +33,7 @@ const FORMATS: { f: NumberFormat; key: string; label: string }[] = [
 function Editor({ id }: { id: number }) {
   const { t } = useTranslation()
   const pop = useNav((s) => s.pop)
+  const push = useNav((s) => s.push)
   const language = usePrefs((s) => s.language)
   const record = useMemo(() => getSpreadsheet(id), [id])
   const [hist, setHist] = useState<History<Workbook>>(() => ({ past: [], present: record ? (JSON.parse(record.data) as Workbook) : { sheets: [newSheet('Sheet1')], activeSheet: 0 }, future: [] }))
@@ -70,6 +74,16 @@ function Editor({ id }: { id: number }) {
   const style = cell?.style ?? {}
   const toggleStyle = (patch: Partial<CellStyle>) => replaceSheet((sh) => setCellStyle(sh, [sel], patch))
   const currency = useMemo(() => getSettings().invoice.defaultCurrency, [])
+  const toInvoice = () => {
+    if (!usePro.getState().require('invoices')) return
+    const { input, skipped } = sheetToInvoiceInput(sheet, currency, currencyInfo(currency).decimals, id)
+    if (!input.items.length) {
+      toast(t('ios.sheets.toInvoiceNothing'), 'info')
+      return
+    }
+    if (skipped) toast(t('ios.sheets.toInvoiceSkipped', { count: skipped }), 'info')
+    push({ name: 'invoiceEdit', prefill: input }, 'invoices')
+  }
   const exportAs = async (type: 'xlsx' | 'csv') => {
     try {
       await shareBytes(`${record?.title ?? 'Sheet'}.${type}`, workbookToBytes(wb, type))
@@ -151,7 +165,8 @@ function Editor({ id }: { id: number }) {
       </div>
       <ActionSheet open={menu} onClose={() => setMenu(false)} actions={[
         { label: t('ios.sheets.exportXlsx'), onSelect: () => void exportAs('xlsx') },
-        { label: t('ios.sheets.exportCsv'), onSelect: () => void exportAs('csv') }
+        { label: t('ios.sheets.exportCsv'), onSelect: () => void exportAs('csv') },
+        { label: t('ios.sheets.toInvoice'), onSelect: toInvoice }
       ]} />
     </div>
   )
