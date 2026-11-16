@@ -1,3 +1,4 @@
+import { blobOf } from '../platform/bytes'
 /**
  * محرك OCR في التطبيق:
  *   1) Apple Vision (أصلي، سريع) إن دعم الجهاز كل اللغات المطلوبة.
@@ -7,7 +8,7 @@
 import type { OcrLine, OcrResult } from '@shared/ocr'
 import { isNative, NovaOcr } from '../platform/native'
 import { bytesToBase64 } from '../platform/bytes'
-import { VISION_CODES, type OcrLanguage } from './ocrCore'
+import { VISION_CODES, grayFromRgba, mergeOcrLines, needsRetry, retryScale, textBands, type OcrLanguage } from './ocrCore'
 
 export type OcrEngine = 'vision' | 'tesseract'
 
@@ -67,7 +68,7 @@ interface TessLine { text: string; confidence: number; bbox: { x0: number; y0: n
 async function recognizeTesseract(image: Uint8Array, langs: OcrLanguage[], size: { width: number; height: number }): Promise<OcrOutcome> {
   const started = performance.now()
   const w = await tesseractWorker(langs)
-  const res = await w.recognize(new Blob([image]), {}, { text: true, blocks: true })
+  const res = await w.recognize(blobOf(image), {}, { text: true, blocks: true })
   const data = res.data as unknown as { text: string; confidence: number; blocks?: { paragraphs: { lines: TessLine[] }[] }[] }
   const lines: OcrLine[] = []
   for (const b of data.blocks ?? []) for (const p of b.paragraphs) for (const l of p.lines) {
@@ -108,4 +109,37 @@ export async function recognizeImage(
 export async function releaseOcr(): Promise<void> {
   if (worker) await worker.w.terminate().catch(() => undefined)
   worker = null
+}
+
+/**
+ * التعرّف «المتين» المستعمل في التطبيق: تمريرة أولى، ثم إن بقيت أشرطة نص دون قراءة نعيد بمقياس يعيد ارتفاع
+ * السطر إلى ~30 بكسل وندمج (نفس الخوارزمية المختبرة في tests/ocr-accuracy.test.ts).
+ */
+export async function recognizeRobust(image: Uint8Array, size: { width: number; height: number }, langs: OcrLanguage[], onProgress?: (p: number) => void): Promise<OcrOutcome> {
+  const first = await recognizeImage(image, size, langs, onProgress)
+  if (first.engine === 'vision') return first
+  const bitmap = await createImageBitmap(blobOf(image))
+  const canvas = document.createElement('canvas')
+  canvas.width = bitmap.width
+  canvas.height = bitmap.height
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })!
+  ctx.drawImage(bitmap, 0, 0)
+  const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height)
+  const bands = textBands(grayFromRgba(data, canvas.width, canvas.height), canvas.width, canvas.height)
+  if (!needsRetry(first.lines, bands)) {
+    bitmap.close()
+    return first
+  }
+  const scale = retryScale(bands)
+  const scaled = document.createElement('canvas')
+  scaled.width = Math.round(bitmap.width * scale)
+  scaled.height = Math.round(bitmap.height * scale)
+  const sctx = scaled.getContext('2d')!
+  sctx.imageSmoothingQuality = 'high'
+  sctx.drawImage(bitmap, 0, 0, scaled.width, scaled.height)
+  bitmap.close()
+  const blob = await new Promise<Blob | null>((r) => scaled.toBlob(r, 'image/png'))
+  const second = await recognizeTesseract(new Uint8Array(await blob!.arrayBuffer()), langs, { width: scaled.width, height: scaled.height })
+  const lines = mergeOcrLines(first.lines, second.lines, scale)
+  return { ...first, lines, text: lines.map((l) => l.text).join('\n'), durationMs: first.durationMs + second.durationMs }
 }

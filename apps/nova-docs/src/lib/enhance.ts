@@ -1,3 +1,4 @@
+import { blobOf } from '../platform/bytes'
 /**
  * تحسين صور المسح (بعد أن يكشف VisionKit الحدود ويصحح المنظور ويقص):
  *   - enhanced : تصحيح الإضاءة غير المتساوية (إزالة الظلال) بقسمة الصورة على تقدير الخلفية + مدّ المستويات
@@ -117,7 +118,7 @@ export function applyScanFilter(src: Pixels, filter: ScanFilter): Pixels {
 
 /** في الواجهة: يطبّق المرشح على صورة ويعيد JPEG. */
 export async function filterImageBytes(bytes: Uint8Array, filter: ScanFilter, maxSide = 2400, quality = 0.86): Promise<{ bytes: Uint8Array; width: number; height: number }> {
-  const bitmap = await createImageBitmap(new Blob([bytes]))
+  const bitmap = await createImageBitmap(blobOf(bytes))
   const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height))
   const w = Math.round(bitmap.width * scale)
   const h = Math.round(bitmap.height * scale)

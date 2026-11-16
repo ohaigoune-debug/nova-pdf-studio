@@ -26,7 +26,7 @@ for (const f of ['tesseract-core-lstm.wasm.js', 'tesseract-core-simd-lstm.wasm.j
 copy(join(app, 'node_modules/pdfjs-dist/cmaps'), join(pub, 'pdfjs/cmaps'))
 copy(join(app, 'node_modules/pdfjs-dist/standard_fonts'), join(pub, 'pdfjs/standard_fonts'))
 // sql.js
-copy(join(app, 'node_modules/sql.js/dist/sql-wasm.wasm'), join(pub, 'sqljs/sql-wasm.wasm'))
+for (const f of ['sql-wasm.wasm', 'sql-wasm-browser.wasm']) copy(join(app, 'node_modules/sql.js/dist', f), join(pub, 'sqljs', f))
 // الخط العربي المستعمل في طبقة النص الخفية وفي رسم النص العربي
 copy(join(repo, 'resources/fonts/NotoNaskhArabic-Regular.ttf'), join(pub, 'fonts/NotoNaskhArabic-Regular.ttf'))
 console.log('assets copied to public/')

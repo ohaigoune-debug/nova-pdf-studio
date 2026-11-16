@@ -37,6 +37,8 @@ export const sharedAliases = [
   // الترتيب مهم: البدائل المحددة قبل الاسم المستعار العام @modules
   { find: /^@modules\/database\/main$/, replacement: shim('database-main.ts') },
   { find: /^@main\/logger$/, replacement: shim('logger.ts') },
+  // وحدات Node التي تستوردها بعض مستودعات Windows ولا تُستعمل على iOS
+  { find: /^node:(fs|fs\/promises|path|crypto)$/, replacement: resolve(__dirname, 'src/platform/shims/node-unavailable.ts') },
   { find: '@shared', replacement: resolve(repo, 'src/shared') },
   { find: '@modules', replacement: resolve(repo, 'src/modules') },
   { find: '@app', replacement: resolve(__dirname, 'src') },

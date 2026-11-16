@@ -1,0 +1,75 @@
+{
+  "tabs": { "documents": "Documents", "tools": "PDF Tools", "scan": "Scan", "invoices": "Invoices", "more": "More" },
+  "brand": { "name": "NOVA Docs", "tagline": "Your Documents. Your Control." },
+  "common": { "done": "Done", "untitled": "Untitled", "error": "Something went wrong", "saveCopy": "Save as copy", "replace": "Replace original", "rename": "Rename", "name": "Name", "optional": "Optional", "processing": "Processing…", "free": "Free", "pro": "PRO", "select": "Select", "selectAll": "Select all", "share": "Share", "print": "Print", "open": "Open", "close": "Close", "more": "More", "today": "Today", "learnMore": "Learn more", "offline": "Works offline", "ok": "OK" },
+  "docs": {
+    "title": "Documents", "search": "Search documents", "emptyTitle": "No documents yet", "emptyDesc": "Import a PDF from Files or iCloud Drive, or scan a paper document.",
+    "import": "Import", "importFiles": "From Files / iCloud", "fromImages": "Images → PDF", "newScan": "Scan document", "renamePrompt": "New name",
+    "duplicate": "Duplicate", "confirmDelete": "Delete “{{name}}”? This cannot be undone.", "saveToFiles": "Save to Files", "imported": "Imported {{count}} file(s)",
+    "pages": "{{count}} pages", "filesNote": "Your documents are stored on this device in the NOVA Docs folder of the Files app.", "deleted": "Deleted", "savedToFiles": "Saved to Files"
+  },
+  "viewer": {
+    "edit": "Edit", "save": "Save", "saving": "Saving…", "saved": "Saved", "search": "Search", "searchPlaceholder": "Search in document", "results": "{{count}} results", "noResults": "No results",
+    "pages": "Pages", "info": "Info", "page": "Page {{n}} of {{total}}", "passwordTitle": "Protected PDF", "passwordHint": "Enter the password to open this document.",
+    "unsaved": "You have unsaved changes.", "discard": "Discard changes", "keepEditing": "Keep editing", "saveAs": "Save changes",
+    "layerNote": "Edits are added as layers on top of the page. Existing text is covered and replaced, not rewritten inside the original PDF.",
+    "scannedNotice": "This page looks scanned. Run OCR to make its text searchable.", "openFailed": "This file could not be opened."
+  },
+  "edit": {
+    "select": "Select", "text": "Text", "highlight": "Highlight", "pen": "Pen", "signature": "Sign", "image": "Image", "shape": "Shape", "note": "Comment", "whiteout": "White-out",
+    "undo": "Undo", "redo": "Redo", "delete": "Delete", "color": "Color", "size": "Size", "enterText": "Type your text", "enterNote": "Write a comment",
+    "tapToPlace": "Tap the page to place it", "dragToDraw": "Drag on the page", "drawWithPencil": "Draw with your finger or Apple Pencil"
+  },
+  "sign": { "title": "Signature", "drawHere": "Sign here", "clear": "Clear", "use": "Use signature", "saved": "Saved signatures", "new": "New signature", "remove": "Remove" },
+  "pages": { "title": "Pages", "rotate": "Rotate", "delete": "Delete", "extract": "Extract", "moveBack": "Move back", "moveForward": "Move forward", "selected": "{{count}} selected", "applied": "Pages updated" },
+  "tools": {
+    "title": "PDF Tools", "subtitle": "Everything runs on your iPhone or iPad — nothing is uploaded.", "fromLibrary": "From Documents", "fromFiles": "From Files / iCloud",
+    "run": "Run", "resultSaved": "Saved “{{name}}”", "outputName": "Output name", "selectFiles": "Choose files", "selectFile": "Choose a file", "chosen": "{{count}} selected",
+    "needTwo": "Choose at least two files", "ocrTitle": "OCR · Searchable PDF", "ocrDesc": "Recognize Arabic, French and English text and make scanned PDFs searchable.",
+    "toTextTitle": "PDF → Text", "toTextDesc": "Extract all text into a .txt file.", "imagesHint": "Choose photos or images", "openResult": "Open"
+  },
+  "scan": {
+    "title": "Scan", "subtitle": "Automatic edge detection, perspective correction and cropping by Apple VisionKit.", "start": "Scan document", "importPhotos": "Import photos",
+    "unsupported": "The document camera is not available here. You can import photos instead.", "pages": "{{count}} pages", "addMore": "Add pages",
+    "filters": { "original": "Original", "enhanced": "Enhanced", "grayscale": "Grayscale", "bw": "B&W" },
+    "searchable": "Searchable text (OCR)", "searchableHint": "Recognize text so you can search and copy it.", "languages": "Languages",
+    "save": "Save PDF", "saving": "Creating PDF…", "ocrProgress": "Recognizing page {{page}} of {{total}}…", "saved": "Saved “{{name}}”", "defaultName": "Scan {{date}}", "discard": "Discard scan"
+  },
+  "ocr": { "engineVision": "Apple Vision", "engineTesseract": "Built-in engine (offline)", "done": "Recognized {{pages}} page(s)", "copy": "Copy text", "copied": "Copied", "empty": "No text found", "run": "Run OCR" },
+  "inv": {
+    "invoices": "Invoices", "customers": "Customers", "products": "Products", "emptyInvoices": "No invoices yet", "emptyInvoicesDesc": "Create your first invoice — totals, taxes and discounts are calculated exactly.",
+    "emptyCustomers": "No customers yet", "emptyProducts": "No products yet", "newInvoice": "New invoice", "newCustomer": "New customer", "newProduct": "New product",
+    "customer": "Customer", "chooseCustomer": "Choose customer", "noCustomer": "No customer", "items": "Items", "addItem": "Add item", "item": "Item", "qty": "Qty", "price": "Unit price",
+    "discount": "Discount %", "tax": "Tax %", "currency": "Currency", "issueDate": "Issue date", "dueDate": "Due date", "notes": "Notes", "shipping": "Shipping",
+    "subtotal": "Subtotal", "discountTotal": "Discount", "taxTotal": "Tax", "total": "Total", "paid": "Paid", "remaining": "Remaining",
+    "preview": "Preview", "exportPdf": "Export PDF", "addPayment": "Record payment", "amount": "Amount", "method": "Method", "markPaid": "Mark as paid", "markSent": "Mark as sent",
+    "duplicate": "Duplicate", "confirmDelete": "Move invoice {{number}} to trash?", "saved": "Invoice {{number}} saved", "status": "Status", "type": "Type",
+    "importPdf": "Import old invoice (PDF)", "importPdfDesc": "Reads number, dates, customer, items and totals from an existing PDF invoice.", "importFound": "Found {{items}} items and total {{total}}",
+    "importNothing": "No invoice data found. For scanned invoices run OCR first.", "company": "Company", "sku": "SKU", "unit": "Unit", "phone": "Phone", "email": "Email", "address": "Address", "city": "City", "companyName": "Company name", "firstName": "First name", "lastName": "Last name", "taxId": "Tax ID",
+    "pdfUnavailable": "PDF export of invoices is available in the iOS app.", "payments": "Payments", "edit": "Edit"
+  },
+  "more": {
+    "title": "More", "proActive": "NOVA Pro is active", "proActiveDesc": "Thank you! All pro tools are unlocked on this Apple ID.", "upgrade": "Upgrade to NOVA Pro", "upgradeDesc": "One-time purchase · No subscription",
+    "restore": "Restore purchases", "restoring": "Restoring…", "restored": "Purchases restored", "nothingToRestore": "No previous purchase found for this Apple ID",
+    "spreadsheets": "Spreadsheets", "settings": "Settings", "languages": "Language", "backup": "Backup", "support": "Support", "privacy": "Privacy policy", "terms": "Terms of use", "about": "About", "version": "Version {{v}}",
+    "refund": "Request a refund", "refundSubmitted": "Refund request sent to Apple"
+  },
+  "pro": {
+    "title": "NOVA Pro", "subtitle": "One purchase. Yours forever.", "buy": "Unlock for {{price}}", "buyNoPrice": "Unlock NOVA Pro", "lifetime": "One-time purchase · No subscription · Family devices on the same Apple ID",
+    "f1": "Advanced PDF editing: text, images, shapes, highlights, comments and handwriting", "f2": "OCR in Arabic, French and English · searchable PDF", "f3": "Smart invoices: customers, products, taxes, payments, templates",
+    "f4": "Pro tools: split, extract, reorder, watermark, page numbers, compress", "f5": "Scanner enhancement filters and spreadsheets", "f6": "Everything stays on your device",
+    "pending": "Your purchase is waiting for approval. Pro unlocks automatically once approved.", "cancelled": "Purchase cancelled.", "failed": "The purchase could not be completed.",
+    "thanks": "Welcome to NOVA Pro!", "unavailable": "The App Store is not reachable right now. Please try again later.", "paymentsDisabled": "In-app purchases are disabled on this device (Screen Time).",
+    "loadingPrice": "Loading price from the App Store…", "lockedFeature": "This is a NOVA Pro feature", "legal": "Payment is charged to your Apple ID. Purchases are processed by Apple."
+  },
+  "settings": {
+    "appearance": "Appearance", "system": "System", "light": "Light", "dark": "Dark", "company": "Company profile", "companyHint": "Printed on every invoice.", "defaultCurrency": "Default currency",
+    "brand": "Logo, signature and stamp", "logo": "Logo", "signature": "Signature", "stamp": "Stamp", "choose": "Choose image", "remove": "Remove", "demo": "Sample data", "loadDemo": "Load sample invoices", "clearDemo": "Remove sample data", "invoiceLanguage": "Invoice language", "data": "Data"
+  },
+  "backup": {
+    "title": "Backup", "desc": "Export invoices, customers, products and spreadsheets to one file. PDF documents already live in the Files app.", "export": "Export backup", "import": "Restore from backup",
+    "confirmImport": "Replace all current invoices and data with the backup?", "exported": "Backup saved", "imported": "Backup restored", "invalid": "This file is not a NOVA backup."
+  },
+  "support": { "title": "Support", "email": "Email support", "desc": "We usually answer within 48 hours, in Arabic, French or English.", "faqOffline": "Does NOVA Docs need internet? No — editing, OCR and invoices work fully offline.", "faqPrivacy": "Are my files uploaded? Never. Documents stay on your device or your own iCloud Drive." },
+  "sheets": { "title": "Spreadsheets", "new": "New spreadsheet", "empty": "No spreadsheets yet", "import": "Import Excel / CSV", "exportXlsx": "Export Excel", "exportCsv": "Export CSV", "addSheet": "Add sheet", "saved": "Saved", "formula": "Formula or value", "toInvoice": "Create invoice from rows" }
+}

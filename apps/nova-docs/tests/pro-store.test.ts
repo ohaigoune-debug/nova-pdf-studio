@@ -12,7 +12,7 @@ function fakeStore(initialPro = false) {
     canMakePayments: vi.fn(async () => ({ canMakePayments: true })),
     getProducts: vi.fn(async () => ({ products: [{ id: 'nova.docs.pro.lifetime', displayName: 'NOVA Pro', description: '', displayPrice: '600,00 DA', price: 600, currencyCode: 'DZD', type: 'nonConsumable' }] })),
     getEntitlements: vi.fn(async () => payload()),
-    purchase: vi.fn(async () => ({ status: 'purchased' as const, isPro: (pro = true) })),
+    purchase: vi.fn(async (): Promise<{ status: 'purchased' | 'pending' | 'cancelled' | 'unverified'; isPro: boolean }> => ({ status: 'purchased', isPro: (pro = true) })),
     restore: vi.fn(async () => payload()),
     requestRefund: vi.fn(async () => ({ status: 'submitted' as const })),
     addListener: vi.fn(async (_e: string, cb: (p: EntitlementsPayload) => void) => {

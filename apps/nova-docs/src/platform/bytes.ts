@@ -21,3 +21,8 @@ export function formatBytes(n: number): string {
   if (n < 1024 * 1024) return `${(n / 1024).toFixed(0)} KB`
   return `${(n / 1024 / 1024).toFixed(1)} MB`
 }
+
+/** Blob من بايتات (تجاوز صرامة أنواع TS 5.9 بين ArrayBuffer وSharedArrayBuffer). */
+export function blobOf(bytes: Uint8Array, type?: string): Blob {
+  return new Blob([bytes as unknown as BlobPart], type ? { type } : undefined)
+}
