@@ -1,18 +1,22 @@
-# رفع يدوي إلى TestFlight فقط (لا يرسل للمراجعة العامة ولا يطلق المبيعات).
-# يتطلب أسرار المستودع (تُضاف من Settings → Secrets → Actions، لا تُكتب في الشيفرة أبدًا):
-#   APPLE_TEAM_ID            معرّف الفريق في Apple Developer
-#   ASC_KEY_ID               App Store Connect API Key ID (دور App Manager)
-#   ASC_ISSUER_ID            Issuer ID
+# رفع إلى TestFlight فقط (لا يرسل للمراجعة العامة ولا يطلق المبيعات).
+# يتطلب أسرار المستودع (Settings → Secrets and variables → Actions، لا تُكتب في الشيفرة أبدًا):
+#   APPLE_TEAM_ID            معرّف الفريق في Apple Developer (Membership details → Team ID)
+#   ASC_KEY_ID               App Store Connect API Key ID — **دور Admin** (التوقيع السحابي للتوزيع يرفض App Manager)
+#   ASC_ISSUER_ID            Issuer ID (يظهر فوق قائمة المفاتيح)
 #   ASC_KEY_P8_BASE64        محتوى ملف AuthKey_XXXX.p8 بترميز base64
+#   NOVA_SUPPORT_EMAIL       (اختياري) بريد الدعم المعروض داخل التطبيق
+# التشغيل: دفع وسم يبدأ بـ nova-docs-testflight- (يعمل من أي فرع)، أو Run workflow إن كان الملف على الفرع الافتراضي.
 name: NOVA Docs → TestFlight (manual)
 
 on:
+  push:
+    tags: ['nova-docs-testflight-*']
   workflow_dispatch:
     inputs:
       build_number:
-        description: 'CFBundleVersion (يجب أن يزيد في كل رفع)'
-        required: true
-        default: '1'
+        description: 'CFBundleVersion (يجب أن يزيد في كل رفع؛ فارغ = رقم التشغيل)'
+        required: false
+        default: ''
 
 jobs:
   testflight:
@@ -27,13 +31,23 @@ jobs:
         env:
           TEAM: ${{ secrets.APPLE_TEAM_ID }}
           KEY: ${{ secrets.ASC_KEY_ID }}
+          ISSUER: ${{ secrets.ASC_ISSUER_ID }}
+          P8: ${{ secrets.ASC_KEY_P8_BASE64 }}
         run: |
-          if [ -z "$TEAM" ] || [ -z "$KEY" ]; then echo "::error::Apple secrets are not configured"; exit 1; fi
+          missing=""
+          [ -z "$TEAM" ] && missing="$missing APPLE_TEAM_ID"
+          [ -z "$KEY" ] && missing="$missing ASC_KEY_ID"
+          [ -z "$ISSUER" ] && missing="$missing ASC_ISSUER_ID"
+          [ -z "$P8" ] && missing="$missing ASC_KEY_P8_BASE64"
+          if [ -n "$missing" ]; then echo "::error::Missing Apple secrets:$missing"; exit 1; fi
+          echo "$P8" | base64 --decode 2>/dev/null | grep -q "BEGIN PRIVATE KEY" || { echo "::error::ASC_KEY_P8_BASE64 is not a base64-encoded .p8 key"; exit 1; }
       - name: Select newest Xcode
         run: sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | sort -V | tail -1)" && xcodebuild -version
       - name: Build web app & sync
         working-directory: apps/nova-docs
-        env: { NOVA_BUILD_NUMBER: '${{ github.event.inputs.build_number }}' }
+        env:
+          NOVA_BUILD_NUMBER: ${{ github.event.inputs.build_number || github.run_number }}
+          VITE_SUPPORT_EMAIL: ${{ secrets.NOVA_SUPPORT_EMAIL }}
         run: |
           npm ci --no-audit --no-fund
           node scripts/copy-assets.mjs
@@ -53,7 +67,9 @@ jobs:
           echo "$ASC_KEY_P8_BASE64" | base64 --decode > ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8
           AUTH="-allowProvisioningUpdates -authenticationKeyPath $HOME/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8 -authenticationKeyID $ASC_KEY_ID -authenticationKeyIssuerID $ASC_ISSUER_ID"
           xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
-            -archivePath build/NovaDocs.xcarchive DEVELOPMENT_TEAM=$TEAM_ID CODE_SIGN_STYLE=Automatic $AUTH archive | tail -60
+            -archivePath build/NovaDocs.xcarchive DEVELOPMENT_TEAM=$TEAM_ID CODE_SIGN_STYLE=Automatic $AUTH archive > archive.log 2>&1 \
+            || { tail -80 archive.log; grep -E "error:|Error Domain|No profiles|signing" archive.log | sort -u | head -30 | while IFS= read -r l; do echo "::error::${l:0:900}"; done; exit 1; }
+          tail -15 archive.log
           cat > ExportOptions.plist <<PLIST
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -66,5 +82,8 @@ jobs:
             <key>manageAppVersionAndBuildNumber</key><false/>
           </dict></plist>
           PLIST
-          xcodebuild -exportArchive -archivePath build/NovaDocs.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build/export $AUTH | tail -40
+          xcodebuild -exportArchive -archivePath build/NovaDocs.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build/export $AUTH > export.log 2>&1 \
+            || { tail -80 export.log; grep -E "error:|Error Domain|permission|ITMS-" export.log | sort -u | head -30 | while IFS= read -r l; do echo "::error::${l:0:900}"; done; rm -f ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8; exit 1; }
+          tail -25 export.log
+          grep -q "Upload succeeded\|EXPORT SUCCEEDED" export.log && echo "::notice::Uploaded to App Store Connect — processing in TestFlight takes ~10–30 min (build ${NOVA_BUILD_NUMBER:-?})"
           rm -f ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8

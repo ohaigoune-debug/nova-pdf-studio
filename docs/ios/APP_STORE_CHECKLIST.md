@@ -33,3 +33,14 @@
 cd apps/nova-docs && npm ci && node scripts/copy-assets.mjs && npm run build && npx cap sync ios && python3 scripts/patch-xcode-project.py
 open ios/App/App.xcodeproj   # Signing & Capabilities ← Team ← Product ← Archive ← Distribute ← TestFlight
 ```
+
+## TestFlight — الخطوات بالترتيب (16 نوفمبر)
+1. عضوية Apple Developer Program فعّالة.
+2. developer.apple.com ← Identifiers ← App ID من نوع App بمعرّف صريح `com.haigoune.novadocs` (الشراء داخل التطبيق مفعّل افتراضيًا).
+3. App Store Connect ← Apps ← New App: iOS، الاسم «NOVA Docs: PDF & Invoices»، المعرّف أعلاه، SKU `NOVADOCS-IOS-001`.
+4. App Store Connect ← Users and Access ← Integrations ← App Store Connect API ← Team Keys ← مفتاح بدور **Admin** (دور App Manager يُرفض في التوقيع السحابي للتوزيع). نزّل ملف `.p8` (مرة واحدة فقط)، وسجّل Key ID وIssuer ID، وTeam ID من Membership.
+5. GitHub ← Settings ← Secrets and variables ← Actions: `APPLE_TEAM_ID`، `ASC_KEY_ID`، `ASC_ISSUER_ID`، `ASC_KEY_P8_BASE64` (و`NOVA_SUPPORT_EMAIL` اختياريًا). تحويل المفتاح في PowerShell:
+   `[Convert]::ToBase64String([IO.File]::ReadAllBytes("$HOME\Downloads\AuthKey_XXXX.p8")) | Set-Clipboard`
+6. التشغيل: دفع وسم `nova-docs-testflight-<n>` (يعمل من الفرع دون دمج في main). رقم البناء = رقم التشغيل.
+7. بعد المعالجة (10–30 دقيقة): TestFlight ← Internal Testing ← مجموعة + إضافة نفسك ← تطبيق TestFlight على iPhone/iPad. الاختبار الداخلي لا يمر بمراجعة Beta ولا يُنشر للعامة.
+8. شراء Pro داخل TestFlight يحتاج Paid Apps Agreement + المنتج `nova.docs.pro.lifetime`؛ دونهما يعمل التطبيق وتعرض شاشة Pro «App Store غير متاح». مشتريات TestFlight مجانية (بيئة Sandbox).
