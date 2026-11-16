@@ -51,8 +51,10 @@ public class NovaDocumentsPlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerD
     }
 
     private func uniqueCopy(of source: URL) throws -> URL {
-        let target = inboxDirectory().appendingPathComponent("\(Int(Date().timeIntervalSince1970 * 1000))-\(source.lastPathComponent)")
-        if FileManager.default.fileExists(atPath: target.path) { try FileManager.default.removeItem(at: target) }
+        // مجلد فرعي فريد لكل نسخة: يبقى اسم الملف الأصلي كما هو («الخباش_الجزء_الأول.pdf») بلا رقم وقت في أوله
+        let folder = inboxDirectory().appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        let target = folder.appendingPathComponent(source.lastPathComponent)
         try FileManager.default.copyItem(at: source, to: target)
         return target
     }

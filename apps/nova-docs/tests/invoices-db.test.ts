@@ -90,3 +90,28 @@ describe('iOS database layer + original repositories', () => {
     expect(storage.bytes!.length).toBeGreaterThan(10_000)
   })
 })
+
+describe('world currencies (all ISO 4217, offline)', () => {
+  it('lists every active currency once, with ISO minor units', async () => {
+    const { WORLD_CURRENCY_CODES, currencyDecimals, currencyOptions } = await import('../src/lib/worldCurrencies')
+    expect(WORLD_CURRENCY_CODES.length).toBeGreaterThan(150)
+    expect(new Set(WORLD_CURRENCY_CODES).size).toBe(WORLD_CURRENCY_CODES.length)
+    expect(currencyDecimals('JPY')).toBe(0)
+    expect(currencyDecimals('KWD')).toBe(3)
+    expect(currencyDecimals('DZD')).toBe(2)
+    const { common, others } = currencyOptions('ar-DZ')
+    expect(common[0].code).toBe('DZD')
+    expect(common.length + others.length).toBe(WORLD_CURRENCY_CODES.length)
+    expect(common[0].label).toMatch(/^DZD — /)
+  })
+
+  it('adds a newly chosen currency to the database so invoices use its decimals', async () => {
+    const { ensureCurrency } = await import('../src/lib/worldCurrencies')
+    const { getCurrency } = await import('@modules/settings/main/taxes-currencies')
+    expect(getCurrency('KWD')).toBeNull()
+    ensureCurrency('KWD')
+    ensureCurrency('KWD')
+    expect(getCurrency('KWD')).toMatchObject({ code: 'KWD', decimals: 3 })
+    expect(getCurrency('EUR')?.symbol).toBe('€')
+  })
+})

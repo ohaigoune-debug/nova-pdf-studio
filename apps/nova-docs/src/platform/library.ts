@@ -29,9 +29,34 @@ export function sanitizeName(name: string): string {
   return cleaned || 'Document'
 }
 
+/** نسخ iOS 1.0.0 (3) كانت تُلحق رقم وقت بأول اسم الملف المستورد ("1794842840625-الخباش.pdf"): نحذفه. */
+const IMPORT_STAMP = /^1[6-9]\d{11}-(?=.)/
+export function cleanImportedName(name: string): string {
+  return name.replace(IMPORT_STAMP, '')
+}
+
+let stampsMigrated = false
+async function migrateImportStamps(names: string[]): Promise<boolean> {
+  if (stampsMigrated) return false
+  stampsMigrated = true
+  let changed = false
+  for (const name of names) {
+    if (!IMPORT_STAMP.test(name)) continue
+    try {
+      const to = await uniqueName(cleanImportedName(name))
+      await Filesystem.rename({ from: name, to, directory: DIR, toDirectory: DIR })
+      changed = true
+    } catch {
+      /* يبقى الاسم كما هو */
+    }
+  }
+  return changed
+}
+
 export async function listLibrary(): Promise<LibraryItem[]> {
   try {
-    const res = await Filesystem.readdir({ path: '', directory: DIR })
+    let res = await Filesystem.readdir({ path: '', directory: DIR })
+    if (await migrateImportStamps(res.files.filter((f) => f.type === 'file').map((f) => f.name))) res = await Filesystem.readdir({ path: '', directory: DIR })
     return res.files
       .filter((f) => f.type === 'file' && !f.name.startsWith('.'))
       .map((f) => ({ name: f.name, size: f.size, modifiedAt: Number(f.mtime) || 0, kind: kindOf(f.name) }))

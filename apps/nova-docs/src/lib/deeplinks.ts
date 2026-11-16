@@ -74,6 +74,11 @@ export async function handleDeepLink(url: string): Promise<void> {
     const { listInvoices } = await import('@modules/invoices/main/repository')
     const first = listInvoices({ limit: 1, sort: 'date_desc' }).rows[0]
     if (first) nav.push({ name: 'invoiceView', id: first.id }, 'invoices')
+  } else if (kind === 'tool' && arg) {
+    nav.popToRoot('tools')
+    nav.setTab('tools')
+    const { useToolSheet } = await import('../features/tools/ToolsScreen')
+    useToolSheet.getState().open(arg as never)
   } else if (kind === 'demo-invoices') {
     await ensureDatabase()
     const { demoStatus, loadDemoData } = await import('@modules/database/main/demo-data')
@@ -101,6 +106,13 @@ export async function openRoutes(routes: string): Promise<void> {
         const res = await (await import('./selftest')).runFilterTiming()
         const { confirmDialog } = await import('../ui/overlays')
         void confirmDialog('Scan filter timing · WKWebView', { message: JSON.stringify(res, null, 1) })
+        continue
+      }
+      if (r === 'fonts-selftest') {
+        if (!window.__NOVA_DEBUG__) throw new Error('self-test is available in Debug builds only')
+        const res = await (await import('./selftest')).runFontsSelfTest()
+        useNav.getState().push({ name: 'viewer', file: res.file }, 'documents')
+        console.log(`[nova-route] ok ${r} ${JSON.stringify(res)}`)
         continue
       }
       if (r === 'ocr-selftest' || r === 'invoice-pdf-selftest') {

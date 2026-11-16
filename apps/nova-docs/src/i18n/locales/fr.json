@@ -17,7 +17,7 @@
   },
   "edit": {
     "select": "Sélection", "text": "Texte", "highlight": "Surligner", "pen": "Stylo", "signature": "Signer", "image": "Image", "shape": "Forme", "note": "Commentaire", "whiteout": "Effacer",
-    "undo": "Annuler", "redo": "Rétablir", "delete": "Supprimer", "color": "Couleur", "size": "Taille", "enterText": "Saisissez le texte", "enterNote": "Écrivez un commentaire",
+    "undo": "Annuler", "font": "Police", "systemFont": "Police système (par défaut)", "fontsNote": "Polices gratuites intégrées (licence OFL), disponibles hors ligne.", "redo": "Rétablir", "delete": "Supprimer", "color": "Couleur", "size": "Taille", "enterText": "Saisissez le texte", "enterNote": "Écrivez un commentaire",
     "tapToPlace": "Touchez la page pour le placer", "dragToDraw": "Glissez sur la page", "drawWithPencil": "Dessinez au doigt ou avec l’Apple Pencil"
   },
   "sign": { "title": "Signature", "drawHere": "Signez ici", "clear": "Effacer", "use": "Utiliser", "saved": "Signatures enregistrées", "new": "Nouvelle signature", "remove": "Retirer" },
@@ -39,8 +39,8 @@
   "inv": {
     "invoices": "Factures", "customers": "Clients", "products": "Produits", "emptyInvoices": "Aucune facture", "emptyInvoicesDesc": "Créez votre première facture — totaux, taxes et remises calculés au centime près.", "showMore": "Afficher plus ({{shown}} sur {{total}})",
     "emptyCustomers": "Aucun client", "emptyProducts": "Aucun produit", "newInvoice": "Nouvelle facture", "newCustomer": "Nouveau client", "newProduct": "Nouveau produit",
-    "customer": "Client", "chooseCustomer": "Choisir un client", "noCustomer": "Aucun client", "items": "Lignes", "addItem": "Ajouter une ligne", "item": "Article", "qty": "Qté", "price": "Prix unitaire",
-    "discount": "Remise %", "tax": "TVA %", "currency": "Devise", "issueDate": "Date d’émission", "dueDate": "Échéance", "notes": "Notes", "shipping": "Livraison",
+    "customer": "Client", "chooseCustomer": "Choisir un client", "seller": "Vendeur (vos coordonnées)", "sellerAdd": "Ajouter les infos du vendeur", "sellerMissing": "Votre nom ou entreprise, téléphone, adresse, NIF… imprimés sur chaque facture", "sellerHint": "Ces informations apparaissent en tête de chaque facture. Logo, cachet et signature : Plus → Réglages → Profil de l’entreprise.", "noCustomer": "Aucun client", "items": "Lignes", "addItem": "Ajouter une ligne", "item": "Article", "qty": "Qté", "price": "Prix unitaire",
+    "discount": "Remise %", "tax": "TVA %", "currency": "Devise", "currencyCommon": "Les plus utilisées", "currencyAll": "Toutes les devises", "issueDate": "Date d’émission", "dueDate": "Échéance", "notes": "Notes", "shipping": "Livraison",
     "subtotal": "Sous-total", "discountTotal": "Remise", "taxTotal": "TVA", "total": "Total", "paid": "Payé", "remaining": "Reste à payer",
     "preview": "Aperçu", "exportPdf": "Exporter en PDF", "addPayment": "Enregistrer un paiement", "amount": "Montant", "method": "Mode", "markPaid": "Marquer payée", "markSent": "Marquer envoyée",
     "duplicate": "Dupliquer", "confirmDelete": "Mettre la facture {{number}} à la corbeille ?", "saved": "Facture {{number}} enregistrée", "status": "Statut", "type": "Type",

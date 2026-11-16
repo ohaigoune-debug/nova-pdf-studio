@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { ArrowDownUp, CheckCircle2, Circle, Combine, Droplets, FileMinus2, FileOutput, FileSearch, FileText, FolderInput, Hash, Images, Minimize2, RotateCw, Scissors } from 'lucide-react'
 import { type ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { create } from 'zustand'
 import { addPageNumbers, addWatermark, compress, deletePages, extractPages, imagesToPdf, merge, parsePageRange, pageCount, reorderPages, rotatePages, split } from '@modules/pdf/shared/pdfTools'
 import { useLibrary } from '../../stores/library'
 import { useNav } from '../../stores/nav'
@@ -173,7 +174,14 @@ function ToolSheet({ tool, onClose }: { tool: ToolDef | null; onClose: () => voi
 
   const needsRange = tool.id === 'extract' || tool.id === 'delete' || tool.id === 'reorder' || tool.id === 'rotate'
   return (
-    <Sheet open onClose={onClose} full title={t(TITLE[tool.id][0])} trailing={<button className="text-accent" onClick={onClose}>{t('common.cancel')}</button>}>
+    <Sheet
+      open
+      onClose={onClose}
+      full
+      title={t(TITLE[tool.id][0])}
+      trailing={<button className="text-accent" onClick={onClose}>{t('common.cancel')}</button>}
+      footer={<Button size="lg" className="w-full" disabled={!!busy} onClick={() => void run()}>{busy ? <><Spinner />{busy}</> : t('ios.tools.run')}</Button>}
+    >
       <p className="px-6 pb-4 text-center text-[14px] text-muted">{t(TITLE[tool.id][1])}</p>
       {tool.images ? (
         <Section header={t('ios.tools.imagesHint')}>
@@ -187,7 +195,7 @@ function ToolSheet({ tool, onClose }: { tool: ToolDef | null; onClose: () => voi
             {items.map((it) => (
               <button key={it.name} onClick={() => toggle(it.name)} className="flex min-h-[48px] w-full items-center gap-3 border-b hairline px-4 text-start last:border-0">
                 {picked.includes(it.name) ? <CheckCircle2 className="h-6 w-6 shrink-0 text-accent" /> : <Circle className="h-6 w-6 shrink-0 text-muted/50" />}
-                <span className="flex-1 truncate text-[16px]">{base(it.name)}</span>
+                <span className="line-clamp-2 flex-1 break-words py-2 text-[16px]">{base(it.name)}</span>
                 {tool.multi && picked.includes(it.name) && <span className="text-[13px] font-semibold text-accent tabular">{picked.indexOf(it.name) + 1}</span>}
               </button>
             ))}
@@ -208,17 +216,19 @@ function ToolSheet({ tool, onClose }: { tool: ToolDef | null; onClose: () => voi
         </Section>
       )}
       {tool.id === 'watermark' && <p className="-mt-4 mb-4 px-8 text-[12px] text-muted">Latin text · {t('tools.watermark.desc')}</p>}
-      <div className="px-4">
-        <Button size="lg" className="w-full" disabled={!!busy} onClick={() => void run()}>{busy ? <><Spinner />{busy}</> : t('ios.tools.run')}</Button>
-      </div>
     </Sheet>
   )
 }
 
+/** الأداة المفتوحة (مخزن صغير ليفتحها رابط الأتمتة في CI: tool/merge) */
+export const useToolSheet = create<{ id: ToolId | null; open(id: ToolId | null): void }>((set) => ({ id: null, open: (id) => set({ id }) }))
+
 export default function ToolsScreen() {
   const { t } = useTranslation()
   const isPro = usePro((s) => s.isPro)
-  const [active, setActive] = useState<ToolDef | null>(null)
+  const activeId = useToolSheet((s) => s.id)
+  const active = TOOLS.find((x) => x.id === activeId) ?? null
+  const setActive = (tool: ToolDef | null) => useToolSheet.getState().open(tool?.id ?? null)
   const refresh = useLibrary((s) => s.refresh)
   useEffect(() => void refresh(), [refresh])
   return (

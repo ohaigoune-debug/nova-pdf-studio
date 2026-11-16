@@ -183,3 +183,28 @@ export async function runFilterTiming(): Promise<Record<string, unknown>> {
   console.log(`[nova-selftest] ${JSON.stringify(result)}`)
   return result
 }
+
+/** خطوط المحرّر داخل WKWebView: كل خط يُحمَّل ويُرسم في PDF حقيقي عبر مسار الحفظ نفسه (bakeEdits). Debug فقط. */
+export async function runFontsSelfTest(): Promise<{ file: string; fonts: number; loaded: number; ms: number }> {
+  const t0 = performance.now()
+  const { EDITOR_FONTS, ensureFontLoaded, editorCssFont } = await import('./editorFonts')
+  const { bakeEdits } = await import('../features/viewer/saveDocument')
+  const doc = await PDFDocument.create()
+  doc.addPage([595, 842])
+  const bytes = await doc.save()
+  const objects = EDITOR_FONTS.map((f, i) => ({
+    id: `f${i}`, kind: 'text' as const, page: 0, x: 40, y: 40 + i * 56, width: 515, height: 40,
+    text: `${f.label.split(' — ')[1]}: بسم الله الرحمن الرحيم · ${f.family}`, fontSize: 18, fontFamily: 'sans' as const,
+    bold: i % 4 === 3, italic: false, underline: false, align: 'right' as 'left' | 'right', color: '#123D36', background: null, direction: 'auto' as const, fontName: f.family
+  }))
+  objects.push({ ...objects[1], id: 'latin', y: 40 + EDITOR_FONTS.length * 56, text: 'Latin text in Amiri — 2026', align: 'left' })
+  let loaded = 0
+  for (const o of objects) {
+    await ensureFontLoaded(o)
+    if (document.fonts.check(editorCssFont(o, 1), o.text)) loaded++
+  }
+  const out = await bakeEdits(bytes, { objects, ink: [], notes: [] } as never)
+  const file = await writeLibraryFile('NOVA fonts self-test.pdf', out, { overwrite: true })
+  await useLibrary.getState().refresh()
+  return { file, fonts: EDITOR_FONTS.length, loaded, ms: Math.round(performance.now() - t0) }
+}

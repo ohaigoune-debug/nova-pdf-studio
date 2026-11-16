@@ -33,6 +33,8 @@ interface EditorState {
   color: string
   strokeWidth: number
   fontSize: number
+  /** خط المحرّر المختار للنص الجديد (null = خط النظام) */
+  fontName: string | null
   selectedId: string | null
   pending: PendingPlacement | null
   dirty: boolean
@@ -41,6 +43,7 @@ interface EditorState {
   setColor(c: string): void
   setStrokeWidth(w: number): void
   setFontSize(s: number): void
+  setFontName(name: string | null): void
   select(id: string | null): void
   setPending(p: PendingPlacement | null): void
   commit(next: Snapshot): void
@@ -65,6 +68,7 @@ export const useEditor = create<EditorState>((set, get) => ({
   color: '#1D4ED8',
   strokeWidth: 2.5,
   fontSize: 14,
+  fontName: null,
   selectedId: null,
   pending: null,
   dirty: false,
@@ -85,7 +89,12 @@ export const useEditor = create<EditorState>((set, get) => ({
     const o = get().present.objects.find((x) => x.id === get().selectedId)
     if (o?.kind === 'text') get().updateObject(o.id, { fontSize } as Partial<EditObject>)
   },
-  select: (selectedId) => set({ selectedId }),
+  setFontName: (fontName) => {
+    set({ fontName })
+    const o = get().present.objects.find((x) => x.id === get().selectedId)
+    if (o?.kind === 'text') get().updateObject(o.id, { fontName: fontName ?? undefined } as Partial<EditObject>)
+  },
+    select: (selectedId) => set({ selectedId }),
   setPending: (pending) => set({ pending }),
   commit: (next) => set((s) => ({ past: [...s.past.slice(-99), s.present], present: next, future: [], dirty: true })),
   preview: (next) => set({ present: next }),

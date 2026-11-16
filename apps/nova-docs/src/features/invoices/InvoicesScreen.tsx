@@ -1,5 +1,5 @@
 /** قسم «الفواتير»: الفواتير والعملاء والمنتجات فوق مستودعات نسخة Windows نفسها (SQLite على الجهاز). */
-import { FileInput, Package, Plus, ReceiptText, Users } from 'lucide-react'
+import { FileInput, Package, Plus, ReceiptText, Store, Users } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { listInvoices } from '@modules/invoices/main/repository'
@@ -15,6 +15,7 @@ import { pickFilesBytes } from '../../lib/docs'
 import { Button, Empty, IconButton, NavBar, SearchField, Segmented } from '../../ui/kit'
 import { ActionSheet, errorText, toast } from '../../ui/overlays'
 import { StatusChip, WithDatabase, useMoney } from './shared'
+import { SellerRow, SellerSheet, isSellerMissing } from './Seller'
 
 type Seg = 'invoices' | 'customers' | 'products'
 
@@ -32,6 +33,9 @@ function Lists() {
   const [customers, setCustomers] = useState<CustomerSummary[]>([])
   const [products, setProducts] = useState<Product[]>([])
   const [menu, setMenu] = useState(false)
+  const [seller, setSeller] = useState(() => getSettings().company)
+  const [sellerOpen, setSellerOpen] = useState(false)
+  const sellerMissing = isSellerMissing(seller)
   const stackDepth = useNav((s) => s.stacks.invoices.length)
 
   useEffect(() => {
@@ -74,6 +78,7 @@ function Lists() {
         large
         trailing={
           <>
+            <IconButton label={t('ios.inv.seller')} onClick={() => setSellerOpen(true)}><Store className="h-[22px] w-[22px]" /></IconButton>
             <IconButton label={t('ios.inv.importPdf')} onClick={() => setMenu(true)}><FileInput className="h-[22px] w-[22px]" /></IconButton>
             <IconButton label={t('common.add')} onClick={add}><Plus className="h-6 w-6" /></IconButton>
           </>
@@ -83,6 +88,12 @@ function Lists() {
         <SearchField value={query} onChange={setQuery} placeholder={t('common.search')} />
       </NavBar>
 
+      {seg === 'invoices' && sellerMissing && (
+        <div className="mx-4 mt-2 mb-1 overflow-hidden rounded-ios bg-surface">
+          <SellerRow c={seller} onClick={() => setSellerOpen(true)} />
+        </div>
+      )}
+      {sellerOpen && <SellerSheet open onClose={() => setSellerOpen(false)} onSaved={setSeller} />}
       {seg === 'invoices' && (invoices.length === 0 ? (
         <Empty icon={<ReceiptText className="h-10 w-10" />} title={t('ios.inv.emptyInvoices')} desc={t('ios.inv.emptyInvoicesDesc')} action={<Button onClick={add}><Plus className="h-5 w-5" />{t('ios.inv.newInvoice')}</Button>} />
       ) : (

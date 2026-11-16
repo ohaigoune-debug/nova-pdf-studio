@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import type { PdfEngine, PageInfo, TextSpan } from '@modules/pdf/renderer/pdfEngine'
 import type { EditObject, TextObject } from '@modules/pdf/shared/editModel'
 import { isRtlText } from '@modules/pdf/shared/editModel'
-import { cssFont } from '@modules/pdf/renderer/rasterizeText'
+import { editorCssFont } from '../../lib/editorFonts'
 import { strokeToSvgPath, type InkStroke } from '../../lib/ink'
 import { NOTE_SIZE } from '../../lib/annotations'
 import { newId, useEditor } from './editorState'
@@ -36,7 +36,7 @@ function ObjectView({ o, scale, selected }: { o: EditObject; scale: number; sele
   switch (o.kind) {
     case 'text':
       return (
-        <div data-oid={o.id} className={clsx('absolute whitespace-pre-wrap break-words leading-[1.25]', ring)} style={{ ...style, height: 'auto', minHeight: style.height, font: cssFont(o as TextObject, scale), color: o.color, background: o.background ?? undefined, direction: o.direction === 'auto' ? (isRtlText(o.text) ? 'rtl' : 'ltr') : o.direction, textAlign: o.align === 'right' ? 'right' : o.align === 'center' ? 'center' : 'left', textDecoration: o.underline ? 'underline' : undefined }}>
+        <div data-oid={o.id} className={clsx('absolute whitespace-pre-wrap break-words leading-[1.25]', ring)} style={{ ...style, height: 'auto', minHeight: style.height, font: editorCssFont(o as TextObject, scale), color: o.color, background: o.background ?? undefined, direction: o.direction === 'auto' ? (isRtlText(o.text) ? 'rtl' : 'ltr') : o.direction, textAlign: o.align === 'right' ? 'right' : o.align === 'center' ? 'center' : 'left', textDecoration: o.underline ? 'underline' : undefined }}>
           {o.text}
         </div>
       )
@@ -227,7 +227,7 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
       } else {
         const fs = editor.fontSize
         const width = Math.min(260, info.widthPt - p.x - 8)
-        editor.addObject({ id: newId('tx'), kind: 'text', page: info.index, x: p.x, y: p.y - fs * 0.6, width: Math.max(60, width), height: fs * 1.3 * value.split('\n').length, text: value, fontSize: fs, fontFamily: 'sans', bold: false, italic: false, underline: false, align: isRtlText(value) ? 'right' : 'left', color: editor.color, background: null, direction: 'auto' })
+        editor.addObject({ id: newId('tx'), kind: 'text', page: info.index, x: p.x, y: p.y - fs * 0.6, width: Math.max(60, width), height: fs * 1.3 * value.split('\n').length, text: value, fontSize: fs, fontFamily: 'sans', bold: false, italic: false, underline: false, align: isRtlText(value) ? 'right' : 'left', color: editor.color, background: null, direction: 'auto', ...(editor.fontName ? { fontName: editor.fontName } : {}) } as EditObject)
       }
       editor.setTool('select')
       return

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { deleteProduct, getProduct, saveProduct } from '@modules/products/main/repository'
-import { listCurrencies, listTaxes } from '@modules/settings/main/taxes-currencies'
+import { listTaxes } from '@modules/settings/main/taxes-currencies'
 import { getSettings } from '@modules/settings/main/repository'
 import { minorToDecimalString, parseMinor } from '@shared/money'
 import { useNav } from '../../stores/nav'
@@ -9,6 +9,7 @@ import { currencyInfo } from '../../lib/invoicing'
 import { Button, Field, NavBar, Section } from '../../ui/kit'
 import { confirmDialog, errorText, toast } from '../../ui/overlays'
 import { WithDatabase } from './shared'
+import { CurrencySelect } from './CurrencySelect'
 
 function Form({ id }: { id?: number }) {
   const { t } = useTranslation()
@@ -41,7 +42,7 @@ function Form({ id }: { id?: number }) {
           <Field label={t('ios.inv.price')} value={price} onChange={setPrice} inputMode="decimal" dir="ltr" />
           <label className="flex min-h-[48px] items-center gap-3 border-b hairline px-4">
             <span className="w-[38%] text-[15px] text-muted">{t('ios.inv.currency')}</span>
-            <select value={currency} onChange={(e) => setCurrency(e.target.value)} className="h-12 flex-1 bg-transparent text-[17px] outline-none" dir="ltr">{listCurrencies().map((c) => <option key={c.code} value={c.code}>{c.code}</option>)}</select>
+            <CurrencySelect value={currency} onChange={setCurrency} />
           </label>
           <label className="flex min-h-[48px] items-center gap-3 px-4">
             <span className="w-[38%] text-[15px] text-muted">{t('ios.inv.tax')}</span>

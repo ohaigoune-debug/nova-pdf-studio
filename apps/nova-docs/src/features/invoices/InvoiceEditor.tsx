@@ -6,7 +6,7 @@ import { calcTotals } from '@modules/invoices/shared/calc'
 import { getInvoice, previewNextNumber, saveInvoice } from '@modules/invoices/main/repository'
 import { listCustomers, saveCustomer } from '@modules/customers/main/repository'
 import { searchProducts } from '@modules/products/main/repository'
-import { listCurrencies, listTaxes } from '@modules/settings/main/taxes-currencies'
+import { listTaxes } from '@modules/settings/main/taxes-currencies'
 import { getSettings } from '@modules/settings/main/repository'
 import { minorToDecimalString, parseMinor, parsePercent, parseQuantity } from '@shared/money'
 import { type CustomerSnapshot, customerDisplayName, type InvoiceInput, type Product } from '@shared/invoicing'
@@ -15,6 +15,8 @@ import { currencyInfo } from '../../lib/invoicing'
 import { Button, Field, IconButton, NavBar, Row, SearchField, Section } from '../../ui/kit'
 import { Sheet, errorText, toast } from '../../ui/overlays'
 import { WithDatabase, addDays, todayIso, useMoney } from './shared'
+import { SellerRow, SellerSheet } from './Seller'
+import { CurrencySelect } from './CurrencySelect'
 
 interface ItemDraft { key: number; productId: number | null; name: string; qty: string; price: string; discount: string; tax: string }
 let keySeq = 0
@@ -93,6 +95,8 @@ function Editor({ id, prefill }: { id?: number; prefill?: InvoiceInput }) {
   }
 
   const customerName = snapshot?.displayName || ''
+  const [seller, setSeller] = useState(() => getSettings().company)
+  const [sellerOpen, setSellerOpen] = useState(false)
   const [cq, setCq] = useState('')
   const customers = pickCustomer ? listCustomers({ query: cq.trim() || undefined, limit: 50 }) : []
 
@@ -100,6 +104,9 @@ function Editor({ id, prefill }: { id?: number; prefill?: InvoiceInput }) {
     <div className="flex h-full flex-col">
       <NavBar title={existing?.number ?? (prefill?.number || previewNextNumber('invoice', issueDate))} onBack={pop} backLabel={t('ios.tabs.invoices')} trailing={<Button size="sm" onClick={save} disabled={saving}>{t('common.save')}</Button>} />
       <div className="ios-scroll min-h-0 flex-1 pt-4 pb-10">
+        <Section header={t('ios.inv.seller')}>
+          <SellerRow c={seller} onClick={() => setSellerOpen(true)} />
+        </Section>
         <Section header={t('ios.inv.customer')}>
           <Row icon={<UserRound className="h-4 w-4" />} title={customerName || t('ios.inv.chooseCustomer')} subtitle={snapshot?.phone} onClick={() => setPickCustomer(true)} chevron
             trailing={customerName ? <button aria-label={t('common.clear')} onClick={(e) => { e.stopPropagation(); setCustomerId(null); setSnapshot(null) }} className="grid h-7 w-7 place-items-center rounded-full bg-surface-2 text-muted"><X className="h-4 w-4" /></button> : undefined} />
@@ -110,9 +117,7 @@ function Editor({ id, prefill }: { id?: number; prefill?: InvoiceInput }) {
           <Field label={t('ios.inv.dueDate')} type="date" value={dueDate ?? ''} onChange={setDueDate} dir="ltr" />
           <label className="flex min-h-[48px] items-center gap-3 px-4">
             <span className="w-[38%] text-[15px] text-muted">{t('ios.inv.currency')}</span>
-            <select value={currency} onChange={(e) => setCurrency(e.target.value)} className="h-12 flex-1 bg-transparent text-[17px] outline-none" dir="ltr">
-              {listCurrencies().map((c) => <option key={c.code} value={c.code}>{c.code} · {c.symbol}</option>)}
-            </select>
+            <CurrencySelect value={currency} onChange={setCurrency} />
           </label>
         </Section>
 
@@ -183,6 +188,7 @@ function Editor({ id, prefill }: { id?: number; prefill?: InvoiceInput }) {
           ))}
         </Section>
       </Sheet>
+      {sellerOpen && <SellerSheet open onClose={() => setSellerOpen(false)} onSaved={setSeller} />}
     </div>
   )
 }

@@ -17,7 +17,7 @@
   },
   "edit": {
     "select": "تحديد", "text": "نص", "highlight": "تظليل", "pen": "قلم", "signature": "توقيع", "image": "صورة", "shape": "شكل", "note": "تعليق", "whiteout": "تبييض",
-    "undo": "تراجع", "redo": "إعادة", "delete": "حذف", "color": "اللون", "size": "الحجم", "enterText": "اكتب النص", "enterNote": "اكتب تعليقًا",
+    "undo": "تراجع", "font": "الخط", "systemFont": "خط النظام (افتراضي)", "fontsNote": "خطوط مجانية مضمّنة في التطبيق (ترخيص OFL) وتعمل دون إنترنت.", "redo": "إعادة", "delete": "حذف", "color": "اللون", "size": "الحجم", "enterText": "اكتب النص", "enterNote": "اكتب تعليقًا",
     "tapToPlace": "المس الصفحة لوضعه", "dragToDraw": "اسحب على الصفحة", "drawWithPencil": "ارسم بإصبعك أو بقلم Apple Pencil"
   },
   "sign": { "title": "التوقيع", "drawHere": "وقّع هنا", "clear": "مسح", "use": "استخدام التوقيع", "saved": "التوقيعات المحفوظة", "new": "توقيع جديد", "remove": "إزالة" },
@@ -39,8 +39,8 @@
   "inv": {
     "invoices": "الفواتير", "customers": "العملاء", "products": "المنتجات", "emptyInvoices": "لا توجد فواتير بعد", "emptyInvoicesDesc": "أنشئ فاتورتك الأولى — تُحسب المجاميع والضرائب والخصومات بدقة تامة.", "showMore": "عرض المزيد ({{shown}} من {{total}})",
     "emptyCustomers": "لا يوجد عملاء بعد", "emptyProducts": "لا توجد منتجات بعد", "newInvoice": "فاتورة جديدة", "newCustomer": "عميل جديد", "newProduct": "منتج جديد",
-    "customer": "العميل", "chooseCustomer": "اختر العميل", "noCustomer": "بلا عميل", "items": "البنود", "addItem": "إضافة بند", "item": "البند", "qty": "الكمية", "price": "سعر الوحدة",
-    "discount": "الخصم %", "tax": "الضريبة %", "currency": "العملة", "issueDate": "تاريخ الإصدار", "dueDate": "تاريخ الاستحقاق", "notes": "ملاحظات", "shipping": "الشحن",
+    "customer": "العميل", "chooseCustomer": "اختر العميل", "seller": "البائع (بياناتك)", "sellerAdd": "أضف بيانات البائع", "sellerMissing": "اسمك أو مؤسستك، الهاتف، العنوان، NIF… يُطبع في كل فاتورة", "sellerHint": "تظهر هذه البيانات في رأس كل فاتورة تصدرها. الشعار والختم والتوقيع من «المزيد» ← «الإعدادات» ← «ملف المؤسسة».", "noCustomer": "بلا عميل", "items": "البنود", "addItem": "إضافة بند", "item": "البند", "qty": "الكمية", "price": "سعر الوحدة",
+    "discount": "الخصم %", "tax": "الضريبة %", "currency": "العملة", "currencyCommon": "الأكثر استعمالًا", "currencyAll": "كل العملات", "issueDate": "تاريخ الإصدار", "dueDate": "تاريخ الاستحقاق", "notes": "ملاحظات", "shipping": "الشحن",
     "subtotal": "المجموع الفرعي", "discountTotal": "الخصم", "taxTotal": "الضريبة", "total": "المجموع", "paid": "المدفوع", "remaining": "المتبقي",
     "preview": "معاينة", "exportPdf": "تصدير PDF", "addPayment": "تسجيل دفعة", "amount": "المبلغ", "method": "الطريقة", "markPaid": "تعيين كمدفوعة", "markSent": "تعيين كمرسلة",
     "duplicate": "تكرار", "confirmDelete": "نقل الفاتورة {{number}} إلى سلة المحذوفات؟", "saved": "تم حفظ الفاتورة {{number}}", "status": "الحالة", "type": "النوع",

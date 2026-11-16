@@ -14,6 +14,7 @@ import { pageSizeMm } from '@shared/templates'
 import { NovaDocuments, isNative, readNativeFile } from '../platform/native'
 import { loadEngine } from './docs'
 import { ensureDatabase } from '../platform/db'
+import { currencyDecimals } from './worldCurrencies'
 
 export type BrandKind = 'logo' | 'signature' | 'stamp'
 
@@ -26,7 +27,7 @@ export function setBrandAsset(kind: BrandKind, dataUrl: string | null): void {
 
 export function currencyInfo(code: string): CurrencyInfo {
   const c = listCurrencies(true).find((x) => x.code === code)
-  return c ? { code: c.code, symbol: c.symbol, decimals: c.decimals, position: c.position } : { code, symbol: code, decimals: 2, position: 'after' }
+  return c ? { code: c.code, symbol: c.symbol, decimals: c.decimals, position: c.position } : { code, symbol: code, decimals: currencyDecimals(code), position: 'after' }
 }
 
 export function invoiceHtml(invoice: Invoice, language: Language): string {

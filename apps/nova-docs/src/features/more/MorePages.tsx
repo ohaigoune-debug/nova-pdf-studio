@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LANGUAGES, type CompanyProfile } from '@shared/settings'
 import { getSettings, updateSettings } from '@modules/settings/main/repository'
-import { listCurrencies } from '@modules/settings/main/taxes-currencies'
 import { clearDemoData, demoStatus, loadDemoData } from '@modules/database/main/demo-data'
 import { getDatabase, replaceDatabase } from '../../platform/shims/database-main'
 import type { Route } from '../../stores/nav'
@@ -22,6 +21,8 @@ import { Button, Field, NavBar, Row, Section, Segmented, Toggle } from '../../ui
 import { confirmDialog, errorText, toast } from '../../ui/overlays'
 import { WithDatabase } from '../invoices/shared'
 import { normalizeImages } from '../scan/images'
+import { SellerFields } from '../invoices/Seller'
+import { CurrencySelect } from '../invoices/CurrencySelect'
 
 function Page({ title, children }: { title: string; children: React.ReactNode }) {
   const { t } = useTranslation()
@@ -50,9 +51,7 @@ function SettingsPage() {
         <Row title={t('ios.settings.company')} chevron onClick={() => push({ name: 'company' })} />
         <label className="flex min-h-[48px] items-center gap-3 px-4">
           <span className="flex-1 text-[17px]">{t('ios.settings.defaultCurrency')}</span>
-          <select value={currency} onChange={(e) => { setCurrency(e.target.value); const s = getSettings(); updateSettings({ invoice: { ...s.invoice, defaultCurrency: e.target.value } }) }} className="h-12 bg-transparent text-[17px] text-muted outline-none" dir="ltr">
-            {listCurrencies().map((c) => <option key={c.code} value={c.code}>{c.code}</option>)}
-          </select>
+          <CurrencySelect value={currency} onChange={(code) => { setCurrency(code); const s = getSettings(); updateSettings({ invoice: { ...s.invoice, defaultCurrency: code } }) }} className="h-12 max-w-[55%] bg-transparent text-end text-[17px] text-muted outline-none" />
         </label>
       </Section>
       <Section header={t('ios.settings.demo')}>
@@ -112,22 +111,7 @@ function CompanyPage() {
   }
   return (
     <Page title={t('ios.settings.company')}>
-      <Section>
-        <Field label={t('settings.company.name')} value={c.name} onChange={f('name')} />
-        <Field label={t('settings.company.firstName')} value={c.firstName} onChange={f('firstName')} />
-        <Field label={t('settings.company.lastName')} value={c.lastName} onChange={f('lastName')} />
-        <Field label={t('settings.company.address')} value={c.address} onChange={f('address')} />
-        <Field label={t('settings.company.city')} value={c.city} onChange={f('city')} />
-        <Field label={t('settings.company.phone')} value={c.phone} onChange={f('phone')} dir="ltr" inputMode="tel" />
-        <Field label={t('settings.company.email')} value={c.email} onChange={f('email')} dir="ltr" inputMode="email" />
-      </Section>
-      <Section>
-        <Field label={t('settings.company.rc')} value={c.rc} onChange={f('rc')} dir="ltr" />
-        <Field label={t('settings.company.nif')} value={c.nif} onChange={f('nif')} dir="ltr" />
-        <Field label={t('settings.company.nis')} value={c.nis} onChange={f('nis')} dir="ltr" />
-        <Field label={t('settings.company.ai')} value={c.ai} onChange={f('ai')} dir="ltr" />
-        <Field label={t('settings.company.iban')} value={c.iban} onChange={f('iban')} dir="ltr" />
-      </Section>
+      <SellerFields c={c} set={f} />
       <Section header={t('ios.settings.brand')}>
         {(['logo', 'signature', 'stamp'] as BrandKind[]).map((k) => (
           <Row key={k} title={t(`ios.settings.${k}`)} trailing={assets[k] ? <img src={assets[k]!} alt="" className="h-9 w-14 rounded bg-white object-contain" /> : undefined}

@@ -2,7 +2,7 @@ import { blobOf } from '../platform/bytes'
 /** عمليات المستندات المشتركة بين الشاشات: استيراد، مشاركة، طباعة، تصدير إلى «الملفات»، مصغرات. */
 import { Share } from '@capacitor/share'
 import { isNative, NovaDocuments, readNativeFile, type NativeFile } from '../platform/native'
-import { libraryFileUri, readLibraryFile, writeLibraryFile, writeTempFile } from '../platform/library'
+import { cleanImportedName, libraryFileUri, readLibraryFile, writeLibraryFile, writeTempFile } from '../platform/library'
 import { PdfEngine } from '@modules/pdf/renderer/pdfEngine'
 import { OPS } from 'pdfjs-dist'
 
@@ -17,7 +17,7 @@ export async function importIntoLibrary(files: NativeFile[]): Promise<string[]> 
   const names: string[] = []
   for (const f of files) {
     const bytes = await readNativeFile(f)
-    names.push(await writeLibraryFile(f.name || 'Document.pdf', bytes))
+    names.push(await writeLibraryFile(cleanImportedName(f.name || '') || 'Document.pdf', bytes))
   }
   return names
 }

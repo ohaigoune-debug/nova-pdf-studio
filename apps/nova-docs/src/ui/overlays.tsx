@@ -1,11 +1,18 @@
 /** أوراق منبثقة (Sheet) وقوائم إجراءات (Action Sheet) وتنبيهات وإشعارات مؤقتة — بأسلوب iOS. */
 import clsx from 'clsx'
 import { type ReactNode, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { create } from 'zustand'
 import { useTranslation } from 'react-i18next'
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics'
 
-export function Sheet({ open, onClose, title, children, trailing, full = false, leading }: {
+/**
+ * الطبقات المنبثقة تُرسم في document.body (Portal): داخل حاوية الشاشة كان WebKit على iPhone يرسم شريط التبويبات
+ * فوقها فيُخفي زر التنفيذ أسفل الورقة (اكتُشف على الجهاز عبر TestFlight، 16 نوفمبر).
+ */
+const toBody = (node: ReactNode) => (typeof document === 'undefined' ? node : createPortal(node, document.body))
+
+export function Sheet({ open, onClose, title, children, trailing, full = false, leading, footer }: {
   open: boolean
   onClose: () => void
   title?: ReactNode
@@ -13,6 +20,8 @@ export function Sheet({ open, onClose, title, children, trailing, full = false, 
   trailing?: ReactNode
   leading?: ReactNode
   full?: boolean
+  /** شريط ثابت أسفل الورقة (زر التنفيذ) يبقى ظاهرًا مهما طالت القائمة */
+  footer?: ReactNode
 }) {
   useEffect(() => {
     if (!open) return
@@ -21,7 +30,7 @@ export function Sheet({ open, onClose, title, children, trailing, full = false, 
     return () => window.removeEventListener('keydown', onKey)
   }, [open, onClose])
   if (!open) return null
-  return (
+  return toBody(
     <div className="fixed inset-0 z-50 flex items-end justify-center md:items-center" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-black/35 animate-fade-in" onClick={onClose} />
       <div
@@ -39,7 +48,8 @@ export function Sheet({ open, onClose, title, children, trailing, full = false, 
             <div className="flex min-w-[64px] justify-end">{trailing}</div>
           </div>
         )}
-        <div className="ios-scroll flex-1 pb-4">{children}</div>
+        <div className="ios-scroll min-h-0 flex-1 pb-4">{children}</div>
+        {footer && <div className="shrink-0 border-t hairline bg-bg px-4 pb-2 pt-3">{footer}</div>}
       </div>
     </div>
   )
@@ -57,7 +67,7 @@ export interface ActionItem {
 export function ActionSheet({ open, onClose, title, actions }: { open: boolean; onClose: () => void; title?: ReactNode; actions: ActionItem[] }) {
   const { t } = useTranslation()
   if (!open) return null
-  return (
+  return toBody(
     <div className="fixed inset-0 z-50 flex items-end justify-center p-2 md:items-center" style={{ paddingBottom: 'calc(var(--safe-bottom) + 8px)' }}>
       <div className="absolute inset-0 bg-black/35 animate-fade-in" onClick={onClose} />
       <div className="relative w-full max-w-[420px] animate-sheet-up md:animate-pop-in">
@@ -110,7 +120,7 @@ export function DialogHost() {
     close()
     dialog.resolve(v)
   }
-  return (
+  return toBody(
     <div className="fixed inset-0 z-[60] grid place-items-center p-8">
       <div className="absolute inset-0 bg-black/35 animate-fade-in" />
       <div className="relative w-full max-w-[290px] overflow-hidden rounded-[14px] glass text-center animate-pop-in">

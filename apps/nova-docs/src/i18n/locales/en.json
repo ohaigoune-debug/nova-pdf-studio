@@ -17,7 +17,7 @@
   },
   "edit": {
     "select": "Select", "text": "Text", "highlight": "Highlight", "pen": "Pen", "signature": "Sign", "image": "Image", "shape": "Shape", "note": "Comment", "whiteout": "White-out",
-    "undo": "Undo", "redo": "Redo", "delete": "Delete", "color": "Color", "size": "Size", "enterText": "Type your text", "enterNote": "Write a comment",
+    "undo": "Undo", "font": "Font", "systemFont": "System font (default)", "fontsNote": "Free fonts built into the app (OFL license), available offline.", "redo": "Redo", "delete": "Delete", "color": "Color", "size": "Size", "enterText": "Type your text", "enterNote": "Write a comment",
     "tapToPlace": "Tap the page to place it", "dragToDraw": "Drag on the page", "drawWithPencil": "Draw with your finger or Apple Pencil"
   },
   "sign": { "title": "Signature", "drawHere": "Sign here", "clear": "Clear", "use": "Use signature", "saved": "Saved signatures", "new": "New signature", "remove": "Remove" },
@@ -39,8 +39,8 @@
   "inv": {
     "invoices": "Invoices", "customers": "Customers", "products": "Products", "emptyInvoices": "No invoices yet", "emptyInvoicesDesc": "Create your first invoice — totals, taxes and discounts are calculated exactly.", "showMore": "Show more ({{shown}} of {{total}})",
     "emptyCustomers": "No customers yet", "emptyProducts": "No products yet", "newInvoice": "New invoice", "newCustomer": "New customer", "newProduct": "New product",
-    "customer": "Customer", "chooseCustomer": "Choose customer", "noCustomer": "No customer", "items": "Items", "addItem": "Add item", "item": "Item", "qty": "Qty", "price": "Unit price",
-    "discount": "Discount %", "tax": "Tax %", "currency": "Currency", "issueDate": "Issue date", "dueDate": "Due date", "notes": "Notes", "shipping": "Shipping",
+    "customer": "Customer", "chooseCustomer": "Choose customer", "seller": "Seller (your details)", "sellerAdd": "Add seller details", "sellerMissing": "Your name or business, phone, address, tax IDs… printed on every invoice", "sellerHint": "These details appear at the top of every invoice. Logo, stamp and signature: More → Settings → Company profile.", "noCustomer": "No customer", "items": "Items", "addItem": "Add item", "item": "Item", "qty": "Qty", "price": "Unit price",
+    "discount": "Discount %", "tax": "Tax %", "currency": "Currency", "currencyCommon": "Most used", "currencyAll": "All currencies", "issueDate": "Issue date", "dueDate": "Due date", "notes": "Notes", "shipping": "Shipping",
     "subtotal": "Subtotal", "discountTotal": "Discount", "taxTotal": "Tax", "total": "Total", "paid": "Paid", "remaining": "Remaining",
     "preview": "Preview", "exportPdf": "Export PDF", "addPayment": "Record payment", "amount": "Amount", "method": "Method", "markPaid": "Mark as paid", "markSent": "Mark as sent",
     "duplicate": "Duplicate", "confirmDelete": "Move invoice {{number}} to trash?", "saved": "Invoice {{number}} saved", "status": "Status", "type": "Type",
