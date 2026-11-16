@@ -17,7 +17,7 @@
   },
   "edit": {
     "select": "تحديد", "text": "نص", "highlight": "تظليل", "pen": "قلم", "signature": "توقيع", "image": "صورة", "shape": "شكل", "note": "تعليق", "whiteout": "تبييض",
-    "undo": "تراجع", "font": "الخط", "systemFont": "خط النظام (افتراضي)", "fontsNote": "خطوط مجانية مضمّنة في التطبيق (ترخيص OFL) وتعمل دون إنترنت.", "redo": "إعادة", "delete": "حذف", "color": "اللون", "size": "الحجم", "enterText": "اكتب النص", "enterNote": "اكتب تعليقًا",
+    "undo": "تراجع", "font": "الخط", "systemFont": "خط النظام (افتراضي)", "fontsNote": "خطوط مجانية مضمّنة في التطبيق (ترخيص OFL) وتعمل دون إنترنت.", "format": "تنسيق النص", "smaller": "تصغير", "larger": "تكبير", "bold": "عريض", "italic": "مائل", "underline": "تسطير", "align": "المحاذاة", "align_right": "محاذاة لليمين", "align_center": "توسيط", "align_left": "محاذاة لليسار", "docFonts": "خطوط هذا المستند", "fontExact": "الخط نفسه متوفر", "fontClosest": "غير متوفر — الأقرب: {{font}}", "allFonts": "كل الخطوط", "redo": "إعادة", "delete": "حذف", "color": "اللون", "size": "الحجم", "enterText": "اكتب النص", "enterNote": "اكتب تعليقًا",
     "tapToPlace": "المس الصفحة لوضعه", "dragToDraw": "اسحب على الصفحة", "drawWithPencil": "ارسم بإصبعك أو بقلم Apple Pencil"
   },
   "sign": { "title": "التوقيع", "drawHere": "وقّع هنا", "clear": "مسح", "use": "استخدام التوقيع", "saved": "التوقيعات المحفوظة", "new": "توقيع جديد", "remove": "إزالة" },

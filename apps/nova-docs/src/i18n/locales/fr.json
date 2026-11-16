@@ -17,7 +17,7 @@
   },
   "edit": {
     "select": "Sélection", "text": "Texte", "highlight": "Surligner", "pen": "Stylo", "signature": "Signer", "image": "Image", "shape": "Forme", "note": "Commentaire", "whiteout": "Effacer",
-    "undo": "Annuler", "font": "Police", "systemFont": "Police système (par défaut)", "fontsNote": "Polices gratuites intégrées (licence OFL), disponibles hors ligne.", "redo": "Rétablir", "delete": "Supprimer", "color": "Couleur", "size": "Taille", "enterText": "Saisissez le texte", "enterNote": "Écrivez un commentaire",
+    "undo": "Annuler", "font": "Police", "systemFont": "Police système (par défaut)", "fontsNote": "Polices gratuites intégrées (licence OFL), disponibles hors ligne.", "format": "Format du texte", "smaller": "Plus petit", "larger": "Plus grand", "bold": "Gras", "italic": "Italique", "underline": "Souligné", "align": "Alignement", "align_right": "Aligner à droite", "align_center": "Centrer", "align_left": "Aligner à gauche", "docFonts": "Polices de ce document", "fontExact": "Même police disponible", "fontClosest": "Indisponible — la plus proche : {{font}}", "allFonts": "Toutes les polices", "redo": "Rétablir", "delete": "Supprimer", "color": "Couleur", "size": "Taille", "enterText": "Saisissez le texte", "enterNote": "Écrivez un commentaire",
     "tapToPlace": "Touchez la page pour le placer", "dragToDraw": "Glissez sur la page", "drawWithPencil": "Dessinez au doigt ou avec l’Apple Pencil"
   },
   "sign": { "title": "Signature", "drawHere": "Signez ici", "clear": "Effacer", "use": "Utiliser", "saved": "Signatures enregistrées", "new": "Nouvelle signature", "remove": "Retirer" },

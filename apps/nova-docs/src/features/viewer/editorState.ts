@@ -3,9 +3,10 @@
  * بتاريخ تراجع/إعادة موحّد (لقطات كاملة صغيرة الحجم).
  */
 import { create } from 'zustand'
-import { type EditObject, newId } from '@modules/pdf/shared/editModel'
+import { type EditObject, type TextObject, newId } from '@modules/pdf/shared/editModel'
 import type { InkStroke } from '../../lib/ink'
 import type { NoteAnnotation } from '../../lib/annotations'
+import type { DocFont } from '../../lib/fontReport'
 
 export type Tool = 'select' | 'text' | 'highlight' | 'pen' | 'signature' | 'image' | 'shape' | 'note' | 'whiteout'
 
@@ -35,6 +36,12 @@ interface EditorState {
   fontSize: number
   /** خط المحرّر المختار للنص الجديد (null = خط النظام) */
   fontName: string | null
+  /** تنسيق النص الجديد (ويُطبَّق على النص المحدد) */
+  textStyle: TextStyle
+  /** خطوط المستند المكتشفة (للاقتراح «اكتب بخط المستند») */
+  docFonts: DocFont[]
+  formatOpen: boolean
+  setFormatOpen(open: boolean): void
   selectedId: string | null
   pending: PendingPlacement | null
   dirty: boolean
@@ -44,6 +51,8 @@ interface EditorState {
   setStrokeWidth(w: number): void
   setFontSize(s: number): void
   setFontName(name: string | null): void
+  setTextStyle(patch: Partial<TextStyle>): void
+  setDocFonts(f: DocFont[]): void
   select(id: string | null): void
   setPending(p: PendingPlacement | null): void
   commit(next: Snapshot): void
@@ -58,6 +67,8 @@ interface EditorState {
   redo(): void
 }
 
+export interface TextStyle { bold: boolean; italic: boolean; underline: boolean; align: 'auto' | 'left' | 'center' | 'right' }
+
 export const PALETTE = ['#111111', '#1D4ED8', '#E5484D', '#17B890', '#123D36', '#F5A524', '#FFE066', '#FFFFFF']
 
 export const useEditor = create<EditorState>((set, get) => ({
@@ -69,10 +80,14 @@ export const useEditor = create<EditorState>((set, get) => ({
   strokeWidth: 2.5,
   fontSize: 14,
   fontName: null,
+  textStyle: { bold: false, italic: false, underline: false, align: 'auto' },
+  docFonts: [],
+  formatOpen: false,
+  setFormatOpen: (formatOpen) => set({ formatOpen }),
   selectedId: null,
   pending: null,
   dirty: false,
-  reset: () => set({ present: EMPTY, past: [], future: [], tool: 'select', selectedId: null, pending: null, dirty: false }),
+  reset: () => set({ present: EMPTY, past: [], future: [], tool: 'select', selectedId: null, pending: null, dirty: false, formatOpen: false }),
   setTool: (tool) => set({ tool, selectedId: null, pending: tool === 'signature' || tool === 'image' ? get().pending : null }),
   setColor: (color) => {
     set({ color })
@@ -89,6 +104,18 @@ export const useEditor = create<EditorState>((set, get) => ({
     const o = get().present.objects.find((x) => x.id === get().selectedId)
     if (o?.kind === 'text') get().updateObject(o.id, { fontSize } as Partial<EditObject>)
   },
+  setTextStyle: (patch) => {
+    set({ textStyle: { ...get().textStyle, ...patch } })
+    const o = get().present.objects.find((x) => x.id === get().selectedId)
+    if (o?.kind !== 'text') return
+    const p: Partial<TextObject> = {}
+    if (patch.bold !== undefined) p.bold = patch.bold
+    if (patch.italic !== undefined) p.italic = patch.italic
+    if (patch.underline !== undefined) p.underline = patch.underline
+    if (patch.align && patch.align !== 'auto') p.align = patch.align
+    get().updateObject(o.id, p as Partial<EditObject>)
+  },
+  setDocFonts: (docFonts) => set({ docFonts }),
   setFontName: (fontName) => {
     set({ fontName })
     const o = get().present.objects.find((x) => x.id === get().selectedId)

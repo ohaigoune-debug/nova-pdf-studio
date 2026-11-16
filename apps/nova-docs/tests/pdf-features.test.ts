@@ -249,3 +249,17 @@ describe('Arabic repair plan for PDFs without embedded fonts', () => {
     expect(closestFont('Unknown Font').exact).toBe(false)
   })
 })
+
+describe('document font detection (write with the document font)', () => {
+  it('lists the fonts used with the closest bundled font', async () => {
+    const { readFileSync } = await import('node:fs')
+    const { resolve } = await import('node:path')
+    const { documentFonts } = await import('../src/lib/fontReport')
+    const data = new Uint8Array(readFileSync(resolve(__dirname, '../src/lib/selftest-fixtures/arabic-embedded.pdf')))
+    const doc = await pdfjs.getDocument({ data, useSystemFonts: true, isEvalSupported: false, verbosity: 0 }).promise
+    const fonts = await documentFonts({ pageCount: doc.numPages, page: (i: number) => doc.getPage(i + 1) } as never)
+    expect(fonts).toHaveLength(1)
+    expect(fonts[0]).toMatchObject({ name: 'NotoNaskhArabic', embedded: true, match: { family: 'Noto Naskh Arabic', exact: true } })
+    expect(fonts[0].uses).toBeGreaterThan(3)
+  })
+})

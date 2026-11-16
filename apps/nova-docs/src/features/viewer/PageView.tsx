@@ -252,18 +252,20 @@ export const PageView = memo(function PageView({ engine, info, scale, editing, h
       const value = await promptDialog(t('ios.edit.enterText'), span?.text ?? '')
       if (!value) return
       if (span) {
+        const docFont = editor.docFonts.find((f) => f.id === span.fontName)
         editor.commit({
           ...editor.present,
           objects: [
             ...editor.present.objects,
             { id: newId('wo'), kind: 'redact', page: info.index, x: span.x - 1, y: span.y - 1, width: span.width + 2, height: span.height + 2, color: '#ffffff' },
-            { id: newId('tx'), kind: 'text', page: info.index, x: span.x, y: span.y, width: Math.max(span.width + 20, 60), height: span.height, text: value, fontSize: Math.max(6, span.fontSize * 0.95), fontFamily: 'sans', bold: false, italic: false, underline: false, align: span.dir === 'rtl' ? 'right' : 'left', color: '#111111', background: null, direction: 'auto', replaces: { spanText: span.text } }
+            // الكتابة بخط المستند نفسه (أو أقرب خط متاح) — يمكن تغييره من لوحة التنسيق
+            { id: newId('tx'), kind: 'text', page: info.index, x: span.x, y: span.y, width: Math.max(span.width + 20, 60), height: span.height, text: value, fontSize: Math.max(6, span.fontSize * 0.95), fontFamily: 'sans', bold: !!docFont?.bold, italic: false, underline: false, align: span.dir === 'rtl' ? 'right' : 'left', color: '#111111', background: null, direction: 'auto', replaces: { spanText: span.text }, ...(docFont ? { fontName: docFont.match.family } : {}) } as EditObject
           ]
         })
       } else {
         const fs = editor.fontSize
         const width = Math.min(260, info.widthPt - p.x - 8)
-        editor.addObject({ id: newId('tx'), kind: 'text', page: info.index, x: p.x, y: p.y - fs * 0.6, width: Math.max(60, width), height: fs * 1.3 * value.split('\n').length, text: value, fontSize: fs, fontFamily: 'sans', bold: false, italic: false, underline: false, align: isRtlText(value) ? 'right' : 'left', color: editor.color, background: null, direction: 'auto', ...(editor.fontName ? { fontName: editor.fontName } : {}) } as EditObject)
+        editor.addObject({ id: newId('tx'), kind: 'text', page: info.index, x: p.x, y: p.y - fs * 0.6, width: Math.max(60, width), height: fs * 1.3 * value.split('\n').length, text: value, fontSize: fs, fontFamily: 'sans', bold: editor.textStyle.bold, italic: editor.textStyle.italic, underline: editor.textStyle.underline, align: editor.textStyle.align !== 'auto' ? editor.textStyle.align : isRtlText(value) ? 'right' : 'left', color: editor.color, background: null, direction: 'auto', ...(editor.fontName ? { fontName: editor.fontName } : {}) } as EditObject)
       }
       editor.setTool('select')
       return

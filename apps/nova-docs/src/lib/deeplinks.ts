@@ -125,6 +125,18 @@ export async function openRoutes(routes: string): Promise<void> {
         console.log(`[nova-route] ok ${r}`)
         continue
       }
+      if (r === 'edit-format') {
+        // لوحة تنسيق النص فوق ملف عربي (كتبه arabic-render-selftest): خطوط المستند المكتشفة أولًا
+        if (!window.__NOVA_DEBUG__) throw new Error('self-test is available in Debug builds only')
+        await useLibrary.getState().refresh()
+        useNav.getState().push({ name: 'viewer', file: 'NOVA arabic non-embedded.pdf', edit: true }, 'documents')
+        const { useEditor } = await import('../features/viewer/editorState')
+        for (let i = 0; i < 40 && !useEditor.getState().docFonts.length; i++) await new Promise((res) => setTimeout(res, 250))
+        useEditor.getState().setTool('text')
+        useEditor.getState().setFormatOpen(true)
+        console.log(`[nova-route] ok ${r} docFonts=${JSON.stringify(useEditor.getState().docFonts.map((f) => [f.name, f.match.family]))}`)
+        continue
+      }
       if (r === 'fonts-selftest') {
         if (!window.__NOVA_DEBUG__) throw new Error('self-test is available in Debug builds only')
         const res = await (await import('./selftest')).runFontsSelfTest()

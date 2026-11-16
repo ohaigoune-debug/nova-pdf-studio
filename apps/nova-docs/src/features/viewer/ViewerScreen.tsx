@@ -25,7 +25,7 @@ import { type Tool, useEditor } from './editorState'
 import { bakeEdits } from './saveDocument'
 import { normalizeImages } from '../scan/images'
 import { bytesToBase64 } from '../../platform/bytes'
-import { fontReport } from '../../lib/fontReport'
+import { documentFonts, fontReport } from '../../lib/fontReport'
 
 export default function ViewerScreen({ file, startPage = 0, startEditing = false }: { file: string; startPage?: number; startEditing?: boolean }) {
   const { t } = useTranslation()
@@ -175,6 +175,10 @@ export default function ViewerScreen({ file, startPage = 0, startEditing = false
     void fontReport(engine)
       .then((r) => alive && (setMissingFonts(r.missing), setFontsChecked(true)))
       .catch(() => alive && setMissingFonts([]))
+    useEditor.getState().setDocFonts([])
+    void documentFonts(engine)
+      .then((f) => alive && useEditor.getState().setDocFonts(f))
+      .catch(() => undefined)
     return () => {
       alive = false
     }

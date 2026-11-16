@@ -17,7 +17,7 @@
   },
   "edit": {
     "select": "Select", "text": "Text", "highlight": "Highlight", "pen": "Pen", "signature": "Sign", "image": "Image", "shape": "Shape", "note": "Comment", "whiteout": "White-out",
-    "undo": "Undo", "font": "Font", "systemFont": "System font (default)", "fontsNote": "Free fonts built into the app (OFL license), available offline.", "redo": "Redo", "delete": "Delete", "color": "Color", "size": "Size", "enterText": "Type your text", "enterNote": "Write a comment",
+    "undo": "Undo", "font": "Font", "systemFont": "System font (default)", "fontsNote": "Free fonts built into the app (OFL license), available offline.", "format": "Text format", "smaller": "Smaller", "larger": "Larger", "bold": "Bold", "italic": "Italic", "underline": "Underline", "align": "Alignment", "align_right": "Align right", "align_center": "Center", "align_left": "Align left", "docFonts": "Fonts in this document", "fontExact": "Same font available", "fontClosest": "Not available — closest: {{font}}", "allFonts": "All fonts", "redo": "Redo", "delete": "Delete", "color": "Color", "size": "Size", "enterText": "Type your text", "enterNote": "Write a comment",
     "tapToPlace": "Tap the page to place it", "dragToDraw": "Drag on the page", "drawWithPencil": "Draw with your finger or Apple Pencil"
   },
   "sign": { "title": "Signature", "drawHere": "Sign here", "clear": "Clear", "use": "Use signature", "saved": "Saved signatures", "new": "New signature", "remove": "Remove" },

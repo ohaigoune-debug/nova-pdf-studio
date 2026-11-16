@@ -1,13 +1,12 @@
 /** شريط أدوات التحرير السفلي (مناسب للإبهام) + لوحة الخيارات (اللون/الحجم) للأداة المختارة. */
 import clsx from 'clsx'
 import { Eraser, Highlighter, ImagePlus, MessageSquarePlus, MousePointer2, PenLine, Redo2, Signature, Square, Trash2, Type, Undo2 } from 'lucide-react'
-import { type ReactNode, useState } from 'react'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PALETTE, type Tool, useEditor } from './editorState'
 import { usePro } from '../../stores/proInstance'
 import { isFeatureAllowed, type Feature } from '../../lib/features'
-import { EDITOR_FONTS, fontNameOf, preloadEditorFonts } from '../../lib/editorFonts'
-import { Sheet } from '../../ui/overlays'
+import { TextFormatSheet, TextQuickBar } from './TextFormat'
 
 const TOOLS: { id: Tool; icon: ReactNode; feature?: Feature }[] = [
   { id: 'select', icon: <MousePointer2 className="h-[22px] w-[22px]" /> },
@@ -25,10 +24,8 @@ export function EditToolbar({ onTool }: { onTool: (tool: Tool) => void }) {
   const { t } = useTranslation()
   const ed = useEditor()
   const isPro = usePro((s) => s.isPro)
-  const [fontsOpen, setFontsOpen] = useState(false)
   const selected = ed.present.objects.find((o) => o.id === ed.selectedId)
   const textMode = ed.tool === 'text' || (ed.tool === 'select' && selected?.kind === 'text')
-  const currentFont = selected?.kind === 'text' ? fontNameOf(selected) ?? null : ed.fontName
   const showOptions = ed.tool === 'pen' || ed.tool === 'text' || ed.tool === 'shape' || (ed.tool === 'select' && !!ed.selectedId)
   const hint = ed.tool === 'pen' ? t('ios.edit.drawWithPencil') : ed.tool === 'highlight' || ed.tool === 'whiteout' || ed.tool === 'shape' ? t('ios.edit.dragToDraw') : ed.tool === 'text' || ed.tool === 'note' || ed.pending ? t('ios.edit.tapToPlace') : null
   return (
@@ -36,37 +33,23 @@ export function EditToolbar({ onTool }: { onTool: (tool: Tool) => void }) {
       {hint && <div className="pt-1.5 text-center text-[12px] text-muted">{hint}</div>}
       {showOptions && (
         <div className="flex items-center gap-2 overflow-x-auto px-3 pt-2">
-          {PALETTE.map((c) => (
-            <button key={c} aria-label={`${t('ios.edit.color')} ${c}`} onClick={() => ed.setColor(c)} className={clsx('h-7 w-7 shrink-0 rounded-full border', ed.color === c ? 'ring-2 ring-accent ring-offset-2 ring-offset-bg' : 'border-black/10')} style={{ background: c }} />
-          ))}
-          <span className="mx-1 h-6 w-px bg-line/20" />
-          {textMode && (
-            <button onClick={() => { preloadEditorFonts(); setFontsOpen(true) }} className="flex h-7 max-w-[150px] shrink-0 items-center gap-1 rounded-full bg-surface-2 px-3 text-[13px] font-semibold" style={currentFont ? { fontFamily: `"${currentFont}"` } : undefined}>
-              <span className="truncate">{currentFont ? EDITOR_FONTS.find((f) => f.family === currentFont)?.label.split(' — ')[1] ?? currentFont : t('ios.edit.font')}</span>
-            </button>
+          {textMode ? (
+            <TextQuickBar onOpenFormat={() => ed.setFormatOpen(true)} />
+          ) : (
+            <>
+              {PALETTE.map((c) => (
+                <button key={c} aria-label={`${t('ios.edit.color')} ${c}`} onClick={() => ed.setColor(c)} className={clsx('h-7 w-7 shrink-0 rounded-full border', ed.color === c ? 'ring-2 ring-accent ring-offset-2 ring-offset-bg' : 'border-black/10')} style={{ background: c }} />
+              ))}
+              <span className="mx-1 h-6 w-px bg-line/20" />
+              {[1.5, 2.5, 4, 7].map((w) => <button key={w} aria-label={`${t('ios.edit.size')} ${w}`} onClick={() => ed.setStrokeWidth(w)} className={clsx('grid h-7 w-9 shrink-0 place-items-center rounded-full', ed.strokeWidth === w ? 'bg-accent/20' : 'bg-surface-2')}><span className="rounded-full bg-fg" style={{ width: 22, height: Math.max(1.5, w) }} /></button>)}
+            </>
           )}
-          {textMode
-            ? [10, 14, 18, 24, 32].map((s) => <button key={s} onClick={() => ed.setFontSize(s)} className={clsx('h-7 min-w-8 shrink-0 rounded-full px-2 text-[13px] font-semibold', ed.fontSize === s ? 'bg-accent text-accent-fg' : 'bg-surface-2')}>{s}</button>)
-            : [1.5, 2.5, 4, 7].map((w) => <button key={w} aria-label={`${t('ios.edit.size')} ${w}`} onClick={() => ed.setStrokeWidth(w)} className={clsx('grid h-7 w-9 shrink-0 place-items-center rounded-full', ed.strokeWidth === w ? 'bg-accent/20' : 'bg-surface-2')}><span className="rounded-full bg-fg" style={{ width: 22, height: Math.max(1.5, w) }} /></button>)}
           {ed.selectedId && (
-            <button onClick={ed.removeSelected} className="ms-auto flex h-8 shrink-0 items-center gap-1 rounded-full bg-danger/12 px-3 text-[14px] font-semibold text-danger"><Trash2 className="h-4 w-4" />{t('ios.edit.delete')}</button>
+            <button onClick={ed.removeSelected} aria-label={t('ios.edit.delete')} className="ms-auto flex h-8 shrink-0 items-center gap-1 rounded-full bg-danger/12 px-3 text-[14px] font-semibold text-danger"><Trash2 className="h-4 w-4" />{textMode ? null : t('ios.edit.delete')}</button>
           )}
         </div>
       )}
-      {fontsOpen && (
-        <Sheet open onClose={() => setFontsOpen(false)} title={t('ios.edit.font')} trailing={<button className="text-accent" onClick={() => setFontsOpen(false)}>{t('ios.common.done')}</button>}>
-          <div className="mx-4 overflow-hidden rounded-ios bg-surface">
-            <button onClick={() => { ed.setFontName(null); setFontsOpen(false) }} className={clsx('flex min-h-[52px] w-full items-center justify-between border-b hairline px-4 text-start text-[17px]', !currentFont && 'text-accent')}>{t('ios.edit.systemFont')}</button>
-            {EDITOR_FONTS.map((f) => (
-              <button key={f.family} onClick={() => { ed.setFontName(f.family); setFontsOpen(false) }} className={clsx('flex min-h-[60px] w-full flex-col items-start justify-center border-b hairline px-4 text-start last:border-0', currentFont === f.family && 'text-accent')}>
-                <span className="text-[20px] leading-snug" style={{ fontFamily: `"${f.family}", serif` }} dir="rtl">بسم الله الرحمن الرحيم · Aa 123</span>
-                <span className="text-[12px] text-muted">{f.label}</span>
-              </button>
-            ))}
-          </div>
-          <p className="px-6 pt-3 text-center text-[12px] text-muted">{t('ios.edit.fontsNote')}</p>
-        </Sheet>
-      )}
+      {ed.formatOpen && <TextFormatSheet onClose={() => ed.setFormatOpen(false)} />}
       <div className="flex items-center gap-0.5 overflow-x-auto px-2 py-1.5">
         <button aria-label={t('ios.edit.undo')} disabled={!ed.past.length} onClick={ed.undo} className="grid h-11 w-10 shrink-0 place-items-center text-accent disabled:opacity-30"><Undo2 className="flip-rtl h-[22px] w-[22px]" /></button>
         <button aria-label={t('ios.edit.redo')} disabled={!ed.future.length} onClick={ed.redo} className="grid h-11 w-10 shrink-0 place-items-center text-accent disabled:opacity-30"><Redo2 className="flip-rtl h-[22px] w-[22px]" /></button>
