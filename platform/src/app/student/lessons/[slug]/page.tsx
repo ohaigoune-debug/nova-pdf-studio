@@ -1,11 +1,13 @@
 import { notFound } from 'next/navigation'
 import { LessonComments, LessonQuizButton } from '@/components/domain/lesson-extras'
 import { LessonView } from '@/components/domain/lesson-view'
+import { OutOfScopeNotice } from '@/components/student/student-scope-ui'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { getContentForStudent } from '@/server/services/content.service'
 import { lessonQuizForStudent, listLessonComments } from '@/server/services/lesson-extras.service'
+import { studentScope } from '@/server/services/student-scope.service'
 
 /** درس التلميذ: الصفحة الواحدة (LessonView) ومعها اختبار الدرس والتعليقات */
 export default async function StudentLessonPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -22,6 +24,8 @@ export default async function StudentLessonPage({ params }: { params: Promise<{ 
     }
     item = await getContentForStudent(db, actor, decoded)
   } catch (e) {
+    // درس لمستوى أو شعبة أخرى (رابط معدَّل أو قديم): رسالة واضحة بدل «غير موجود»
+    if (isAppError(e) && e.code === 'LESSON_OUT_OF_SCOPE') return <OutOfScopeNotice label={(await studentScope(db, actor.studentId!)).label} />
     if (isAppError(e)) notFound()
     throw e
   }

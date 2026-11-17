@@ -1090,6 +1090,7 @@ const ar = {
     ASSISTANT_ALREADY_ACTIVE: 'هذا المساعد مرتبط حالياً بأستاذ. يجب إلغاء ارتباطه أولاً.',
     ASSISTANT_NOT_FOUND: 'المساعد غير موجود.',
     ASSISTANT_NO_WORKSPACE: 'حسابك كمساعد غير مرتبط بأي أستاذ حالياً.',
+    LESSON_OUT_OF_SCOPE: 'هذا الدرس ليس لمستواك وشعبتك. غيّرهما من «حسابي» إن كانا غير صحيحين.',
     INTERNAL: 'حدث خطأ غير متوقع. حاول مرة أخرى.'
   },
   ai: {
@@ -1162,6 +1163,8 @@ const ar = {
    * صفحات المشرف تعرض المفتاح الخام عمداً: سجلّ التدقيق يحتاج الدقة لا الصياغة.
    */
   activity: {
+    student_scope_request: 'طلب تغيير الشعبة',
+    student_scope_decide: 'قرّر في طلب تغيير شعبة',
     session_start: 'بدأ حصة',
     session_close: 'أنهى حصة',
     session_cancel: 'ألغى حصة',

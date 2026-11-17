@@ -18,6 +18,7 @@ import type { Actor } from '@/server/lib/actor'
 import { studentIdOf } from '@/server/lib/actor'
 import { reachableGroupIds } from '@/server/lib/course-access'
 import type { ContentCard } from './content.queries'
+import { contentScopeClause, studentScope } from '@/server/services/student-scope.service'
 
 /** الأفواج التي يصل التلميذ إلى محتواها الآن (اشتراك الدورة المنتهي يُستبعد) */
 async function myGroupIds(db: Db, studentId: string): Promise<string[]> {
@@ -27,7 +28,8 @@ async function myGroupIds(db: Db, studentId: string): Promise<string[]> {
 /** المحتوى المتاح للطالب: عام + للطلاب + الموجّه لأفواجه أو له شخصياً */
 export async function listStudentContent(db: Db, actor: Actor, opts: { types?: string[]; limit?: number } = {}): Promise<ContentCard[]> {
   const studentId = studentIdOf(actor)
-  const gids = await myGroupIds(db, studentId)
+  // من مستواه وشعبته فقط (نفس شرط «دروسي» وفتح الدرس)؛ محتوى دوراته الموجَّه له يبقى
+  const [gids, scope] = await Promise.all([myGroupIds(db, studentId), studentScope(db, studentId)])
   const targeted = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)
@@ -54,7 +56,7 @@ export async function listStudentContent(db: Db, actor: Actor, opts: { types?: s
         isNotNull(content.publishedAt),
         isNull(content.deletedAt),
         opts.types?.length ? inArray(content.type, opts.types) : undefined,
-        /* فيديوهات يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ محتوى دوراته يبقى */ or(and(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), sql`coalesce(${content.videoProvider}, '') <> 'YOUTUBE'`), inArray(content.id, targeted))
+        /* فيديوهات يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ محتوى دوراته يبقى */ or(and(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), sql`coalesce(${content.videoProvider}, '') <> 'YOUTUBE'`, contentScopeClause(scope)), inArray(content.id, targeted))
       )
     )
     .orderBy(desc(content.publishedAt))
@@ -94,7 +96,8 @@ export async function listStudentSkills(db: Db, actor: Actor) {
 
 export async function listStudentFiles(db: Db, actor: Actor) {
   const studentId = studentIdOf(actor)
-  const gids = await myGroupIds(db, studentId)
+  // من مستواه وشعبته فقط (نفس شرط «دروسي» وفتح الدرس)؛ محتوى دوراته الموجَّه له يبقى
+  const [gids, scope] = await Promise.all([myGroupIds(db, studentId), studentScope(db, studentId)])
   const targeted = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)
@@ -103,7 +106,7 @@ export async function listStudentFiles(db: Db, actor: Actor) {
     .select({ id: content.id, slug: content.slug, title: content.title, type: content.type, publishedAt: content.publishedAt, fileId: files.id, fileName: files.originalName, size: files.sizeBytes, mime: files.mimeType, allowDownload: content.allowDownload })
     .from(content)
     .innerJoin(files, eq(files.id, content.fileId))
-    .where(and(isNull(content.deletedAt), isNotNull(content.publishedAt), /* فيديوهات يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ محتوى دوراته يبقى */ or(and(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), sql`coalesce(${content.videoProvider}, '') <> 'YOUTUBE'`), inArray(content.id, targeted))))
+    .where(and(isNull(content.deletedAt), isNotNull(content.publishedAt), /* فيديوهات يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ محتوى دوراته يبقى */ or(and(inArray(content.visibility, ['PUBLIC', 'STUDENTS_ONLY']), sql`coalesce(${content.videoProvider}, '') <> 'YOUTUBE'`, contentScopeClause(scope)), inArray(content.id, targeted))))
     .orderBy(desc(content.publishedAt))
 }
 
