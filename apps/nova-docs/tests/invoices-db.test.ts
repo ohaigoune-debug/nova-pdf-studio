@@ -129,5 +129,13 @@ describe('iOS demo data (store screenshots)', () => {
     expect(bad).toBe(0)
     expect(badSnap).toBe(0)
     expect(good).toBe(1)
+    const realish = db.get<{ n: number }>(
+      `SELECT COUNT(*) AS n FROM customers WHERE is_demo = 1 AND (email NOT LIKE '%example%' OR phone IN ('0550 12 34 56', '0661 98 76 54', '0770 11 22 33', '+33 6 12 34 56 78'))`
+    )!.n
+    const realishSnap = db.get<{ n: number }>(
+      `SELECT COUNT(*) AS n FROM invoices WHERE is_demo = 1 AND (customer_snapshot LIKE '%alnour.dz%' OR customer_snapshot LIKE '%haddad-ie.com%' OR customer_snapshot LIKE '%0661 98 76 54%')`
+    )!.n
+    expect(realish).toBe(0)
+    expect(realishSnap).toBe(0)
   })
 })
