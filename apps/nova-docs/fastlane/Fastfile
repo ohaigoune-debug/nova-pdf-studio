@@ -1,0 +1,41 @@
+# رفع بيانات صفحة App Store ولقطاتها لإصدار 1.0.0 — دون رفع بناء ودون تقديم للمراجعة.
+# يُشغَّل من سير العمل nova-docs-appstore-metadata.yml بمفتاح App Store Connect API (من GitHub Secrets).
+default_platform(:ios)
+
+platform :ios do
+  lane :metadata do
+    api_key = app_store_connect_api_key(
+      key_id: ENV.fetch('ASC_KEY_ID'),
+      issuer_id: ENV.fetch('ASC_ISSUER_ID'),
+      key_filepath: ENV.fetch('ASC_KEY_PATH'),
+      in_house: false
+    )
+    # بيانات الاتصال بالمراجِع تأتي من GitHub Secrets ولا تُحفظ في المستودع
+    review = {
+      'first_name' => ENV.fetch('REVIEW_FIRST_NAME'),
+      'last_name' => ENV.fetch('REVIEW_LAST_NAME'),
+      'phone_number' => ENV.fetch('REVIEW_PHONE'),
+      'email_address' => ENV.fetch('SUPPORT_EMAIL'),
+      'demo_required' => false,
+      'notes' => File.read('fastlane/metadata/review_information/notes.txt')
+    }
+    deliver(
+      api_key: api_key,
+      app_review_information: review,
+      app_identifier: 'com.haigoune.novadocs',
+      app_version: '1.0.0',
+      platform: 'ios',
+      metadata_path: './fastlane/metadata',
+      screenshots_path: ENV.fetch('SCREENSHOTS_PATH'),
+      skip_binary_upload: true,
+      skip_app_version_update: false,
+      overwrite_screenshots: true,
+      force: true,
+      submit_for_review: false,
+      automatic_release: false,
+      run_precheck_before_submit: false,
+      precheck_include_in_app_purchases: false,
+      ignore_language_directory_validation: true
+    )
+  end
+end

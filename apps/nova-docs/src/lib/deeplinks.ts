@@ -81,7 +81,7 @@ export async function handleDeepLink(url: string): Promise<void> {
     useToolSheet.getState().open(arg as never)
   } else if (kind === 'demo-invoices') {
     await ensureDatabase()
-    const { demoStatus, loadDemoData } = await import('@modules/database/main/demo-data')
+    const { demoStatus, loadIosDemoData: loadDemoData } = await import('./demoData')
     if (!demoStatus().loaded) loadDemoData()
     nav.popToRoot('invoices')
     nav.setTab('invoices')

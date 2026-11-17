@@ -88,7 +88,7 @@ export async function runInvoicePdfSelfTest(): Promise<Record<string, unknown>> 
   const t0 = performance.now()
   const { ensureDatabase } = await import('../platform/db')
   await ensureDatabase()
-  const { demoStatus, loadDemoData } = await import('@modules/database/main/demo-data')
+  const { demoStatus, loadIosDemoData: loadDemoData } = await import('./demoData')
   if (!demoStatus().loaded) loadDemoData()
   const { getInvoice, listInvoices } = await import('@modules/invoices/main/repository')
   const row = listInvoices({ limit: 20, sort: 'date_desc' }).rows.find((r) => r.status !== 'cancelled') ?? listInvoices({ limit: 1 }).rows[0]

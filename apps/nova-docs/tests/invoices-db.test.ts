@@ -115,3 +115,19 @@ describe('world currencies (all ISO 4217, offline)', () => {
     expect(getCurrency('EUR')?.symbol).toBe('€')
   })
 })
+
+describe('iOS demo data (store screenshots)', () => {
+  it('replaces the famous-person demo name everywhere, including invoice snapshots', async () => {
+    const { loadIosDemoData, clearDemoData } = await import('../src/lib/demoData')
+    const { getDatabase } = await import('@modules/database/main')
+    clearDemoData()
+    loadIosDemoData()
+    const db = getDatabase()
+    const bad = db.get<{ n: number }>(`SELECT COUNT(*) AS n FROM customers WHERE first_name = 'ليلى' AND last_name = 'مراد'`)!.n
+    const badSnap = db.get<{ n: number }>(`SELECT COUNT(*) AS n FROM invoices WHERE customer_snapshot LIKE '%مراد%'`)!.n
+    const good = db.get<{ n: number }>(`SELECT COUNT(*) AS n FROM customers WHERE first_name = 'سلمى' AND last_name = 'بن عيسى' AND is_demo = 1`)!.n
+    expect(bad).toBe(0)
+    expect(badSnap).toBe(0)
+    expect(good).toBe(1)
+  })
+})

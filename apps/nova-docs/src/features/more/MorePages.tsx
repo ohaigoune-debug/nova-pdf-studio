@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LANGUAGES, type CompanyProfile } from '@shared/settings'
 import { getSettings, updateSettings } from '@modules/settings/main/repository'
-import { clearDemoData, demoStatus, loadDemoData } from '@modules/database/main/demo-data'
+import { clearDemoData, demoStatus, loadIosDemoData } from '../../lib/demoData'
 import { getDatabase, replaceDatabase } from '../../platform/shims/database-main'
 import type { Route } from '../../stores/nav'
 import { useNav } from '../../stores/nav'
@@ -71,7 +71,7 @@ function SettingsPage() {
       <Section header={t('ios.settings.demo')}>
         {demo
           ? <Row title={t('ios.settings.clearDemo')} destructive onClick={() => { clearDemoData(); setDemo(false); toast(t('ios.common.done')) }} />
-          : <Row title={t('ios.settings.loadDemo')} onClick={() => { loadDemoData(); setDemo(true); toast(t('ios.common.done')) }} />}
+          : <Row title={t('ios.settings.loadDemo')} onClick={() => { loadIosDemoData(); setDemo(true); toast(t('ios.common.done')) }} />}
       </Section>
     </Page>
   )
