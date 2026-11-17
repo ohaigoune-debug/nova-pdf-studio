@@ -33,7 +33,7 @@ jobs:
         run: |
           [ -n "$ASC_KEY_ID" ] && [ -n "$ASC_ISSUER_ID" ] || { echo "::error::ASC_KEY_ID / ASC_ISSUER_ID missing"; exit 1; }
           [ -n "$ASC_KEY_P8" ] || [ -n "$ASC_KEY_P8_BASE64" ] || { echo "::error::ASC_KEY_P8 missing"; exit 1; }
-          for v in SUPPORT_EMAIL REVIEW_PHONE REVIEW_FIRST_NAME REVIEW_LAST_NAME; do [ -n "${!v}" ] || { echo "::error::secret for $v missing (NOVA_SUPPORT_EMAIL / NOVA_REVIEW_PHONE / NOVA_REVIEW_FIRST_NAME / NOVA_REVIEW_LAST_NAME)"; exit 1; }; done
+          for v in SUPPORT_EMAIL REVIEW_PHONE REVIEW_FIRST_NAME REVIEW_LAST_NAME; do [ -n "${!v}" ] || echo "::warning::$v not set — fill App Review contact on the web"; done
           n6=$(ls ../../docs/ios/screenshots/iphone-6.9/*.png | wc -l); n13=$(ls ../../docs/ios/screenshots/ipad-13/*.png | wc -l)
           echo "screenshots: iPhone 6.9 = $n6, iPad 13 = $n13"
           [ "$n6" -ge 3 ] && [ "$n6" -le 10 ] && [ "$n13" -ge 3 ] && [ "$n13" -le 10 ] || { echo "::error::Need 3–10 screenshots per device"; exit 1; }
