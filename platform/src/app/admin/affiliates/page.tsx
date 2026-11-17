@@ -11,7 +11,7 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { wilayas } from '@/server/db/schema'
 import { PARTNER_KIND_AR, listAffiliates, listPartnerApplications, partnersOverview } from '@/server/services/affiliates.service'
-import { referralPolicy } from '@/server/services/referrals.service'
+import { referralPolicy, studentCreditsOn } from '@/server/services/referrals.service'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'المسوّقون وطلبات الشراكة' }
@@ -32,12 +32,15 @@ export default async function AffiliatesPage() {
   const wilayaOpts = ws.map((w) => ({ id: w.id, name: `${w.code} — ${w.name}` }))
   return (
     <div className="space-y-6">
-      <PageHeader title="المسوّقون وطلبات الشراكة" description={`كل مسوّق له كود: ${policy.affiliateDefaultDzd} دج نقدًا عن كل تلميذ جديد يستلم أول دورة بكوده (افتراضيًّا). التلميذ يدعو زميله: ${policy.referrerCreditDzd} دج رصيدًا له و${policy.welcomeCreditDzd} دج لزميله.`} />
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-4">
+      <PageHeader
+        title="المسوّقون وطلبات الشراكة"
+        description={`كل مسوّق له كود ورابط: ${policy.affiliateDefaultDzd} دج نقدًا عن كل تلميذ جديد يستلم أول دورة بكوده (افتراضيًّا).${studentCreditsOn(policy) ? ` التلميذ يدعو زميله: ${policy.referrerCreditDzd} دج رصيدًا له و${policy.welcomeCreditDzd} دج لزميله.` : ''}`}
+      />
+      <div className={`grid grid-cols-1 gap-3 ${studentCreditsOn(policy) ? 'sm:grid-cols-4' : 'sm:grid-cols-3'}`}>
         <StatCard label="طلبات شراكة جديدة" value={overview.newApplications} icon={Inbox} tone={overview.newApplications ? 'warning' : 'default'} />
         <StatCard label="المسوّقون" value={items.length} icon={Megaphone} />
         <StatCard label="مستحق للمسوّقين الآن" value={`${due} دج`} icon={Wallet} tone={due > 0 ? 'warning' : 'default'} />
-        <StatCard label="دعوات التلاميذ" value={`${overview.studentBought} / ${overview.studentInvited}`} hint={`اشتروا / سجّلوا · رصيد مُنح ${overview.creditGrantedDzd} دج`} icon={Gift} />
+        {studentCreditsOn(policy) ? <StatCard label="دعوات التلاميذ" value={`${overview.studentBought} / ${overview.studentInvited}`} hint={`اشتروا / سجّلوا بدعوة زميل · رصيد مُنح للتلاميذ (دعوات وهدايا ترحيب): ${overview.creditGrantedDzd} دج`} icon={Gift} /> : null}
       </div>
 
       <Card>
@@ -88,7 +91,33 @@ export default async function AffiliatesPage() {
           {items.length === 0 ? (
             <EmptyState icon={Megaphone} title="لا مسوّقين بعد" description="اقبل طلبًا من «كن شريكًا» أو أضف مسوّقًا من النموذج أدناه." />
           ) : (
-            <div className="overflow-x-auto">
+            <>
+            {/* على الهاتف: بطاقة لكل مسوّق بدل جدول يُسحب جانبًا */}
+            <ul className="divide-y sm:hidden">
+              {items.map((a) => (
+                <li key={a.id} className="space-y-2 py-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <Link href={`/admin/affiliates/${a.id}`} className="font-semibold text-primary hover:underline">
+                        {a.name}
+                      </Link>
+                      <p className="text-xs text-muted-foreground">
+                        <span dir="ltr" className="font-mono">{a.code ?? '—'}</span> · {a.followers != null ? `${a.followers} متابع · ` : ''}
+                        {a.commissionDzd} دج/تلميذ
+                      </p>
+                    </div>
+                    {a.status === 'ACTIVE' ? <Badge variant="success">مفعّل</Badge> : <Badge variant="muted">موقوف</Badge>}
+                  </div>
+                  <dl className="grid grid-cols-4 gap-2 text-center text-xs">
+                    <div><dt className="text-muted-foreground">سجّلوا</dt><dd className="text-base font-bold tabular-nums">{a.registered}</dd></div>
+                    <div><dt className="text-muted-foreground">اشتروا</dt><dd className="text-base font-bold tabular-nums">{a.buyers}</dd></div>
+                    <div><dt className="text-muted-foreground">المستحق</dt><dd className="text-base font-bold tabular-nums">{a.money.dueDzd}</dd></div>
+                    <div><dt className="text-muted-foreground">دُفع</dt><dd className="text-base font-bold tabular-nums">{a.money.paidDzd}</dd></div>
+                  </dl>
+                </li>
+              ))}
+            </ul>
+            <div className="hidden overflow-x-auto sm:block">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -126,6 +155,7 @@ export default async function AffiliatesPage() {
                 </TableBody>
               </Table>
             </div>
+            </>
           )}
         </CardContent>
       </Card>

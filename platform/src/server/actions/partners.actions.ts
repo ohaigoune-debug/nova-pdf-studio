@@ -201,11 +201,14 @@ export async function rejectApplicationAction(id: string, note?: string | null):
 }
 
 /** المبالغ والمدد — للمشرف وحده */
-export async function setReferralPolicyAction(input: Partial<ReferralPolicy>): Promise<ActionResult<ReferralPolicy>> {
+export async function setReferralPolicyAction(input: Partial<ReferralPolicy> & { applyToAffiliates?: boolean }): Promise<ActionResult<ReferralPolicy>> {
   const n = (max: number, min = 0) => z.number().int().min(min).max(max).optional()
-  const parsed = z.object({ enabled: z.boolean().optional(), affiliateDefaultDzd: n(100_000), referrerCreditDzd: n(100_000), welcomeCreditDzd: n(100_000), creditMonths: n(36, 1), holdDays: n(60) }).strict().safeParse(input)
+  const parsed = z.object({ enabled: z.boolean().optional(), affiliateDefaultDzd: n(100_000), referrerCreditDzd: n(100_000), welcomeCreditDzd: n(100_000), creditMonths: n(36, 1), holdDays: n(60), studentInvites: z.boolean().optional(), applyToAffiliates: z.boolean().optional() }).strict().safeParse(input)
   if (!parsed.success) return failValidation(parsed.error)
   const r = await runAction(async () => setReferralPolicy(await getDb(), await requireRole('SUPER_ADMIN'), parsed.data))
-  if (r.ok) revalidatePartners()
+  if (r.ok) {
+    revalidatePartners()
+    revalidatePath('/student', 'layout')
+  }
   return r
 }

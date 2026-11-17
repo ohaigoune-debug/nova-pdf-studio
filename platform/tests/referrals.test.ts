@@ -112,6 +112,9 @@ beforeAll(async () => {
   wilayaId = (await refIds(h.db)).wilayaId!
   const m = await createStaffAccount(h.db, admin, { email: uniq('ops') + '@test.dz', password: 'Manager@12345', fullName: 'مدير العمليات', phone: '0771999888', role: 'MANAGER' })
   manager = await actorOf(h.db, m.userId)
+  // هذا الملف يختبر البرنامج كاملًا (وضع الموسم: دعوات التلاميذ مشغّلة، وعمولة 300).
+  // الإعداد الافتراضي منذ 18 نوفمبر 2026 (دعوات مطفأة، عمولة 400) في referrals-switch.test.ts
+  await setReferralPolicy(h.db, admin, { studentInvites: true, affiliateDefaultDzd: 300 })
 })
 afterAll(async () => {
   vi.unstubAllGlobals()

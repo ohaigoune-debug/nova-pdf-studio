@@ -13,7 +13,7 @@ type Opt = { id: string; name: string }
  * passwordless (زائر صفحة الهبوط، 18 نوفمبر 2026): بلا كلمة سر ولا بريد — يُولَّد رمز دخول من 6 أرقام صالح 7 أيام،
  * ويُطلب إنشاء كلمة السر لاحقًا من داخل الحساب.
  */
-export function RegisterForm({ wilayas, levels, streams, referral, passwordless = false }: { wilayas: Opt[]; levels: (Opt & { secondary?: boolean; streamIds?: string[] })[]; streams: Opt[]; referral?: { defaultCode: string; welcomeCreditDzd: number } | null; passwordless?: boolean }) {
+export function RegisterForm({ wilayas, levels, streams, referral, passwordless = false }: { wilayas: Opt[]; levels: (Opt & { secondary?: boolean; streamIds?: string[] })[]; streams: Opt[]; referral?: { defaultCode: string; welcomeCreditDzd: number; studentInvites?: boolean } | null; passwordless?: boolean }) {
   const t = useT()
   const [state, action] = useActionState(registerAction, null)
   const [levelId, setLevelId] = useState('')
@@ -81,10 +81,10 @@ export function RegisterForm({ wilayas, levels, streams, referral, passwordless 
       </Field>
       {referral ? (
         <Field
-          label="كود الدعوة (اختياري)"
+          label={referral.studentInvites ? 'كود الدعوة (اختياري)' : 'كود المسوّق (اختياري)'}
           htmlFor="refCode"
           error={fieldError(state, 'refCode')}
-          hint={referral.welcomeCreditDzd ? `من زميلك أو من صفحة تتابعها: ${referral.welcomeCreditDzd} دج هدية في رصيدك بعد استلام أول دورة` : 'من زميلك أو من صفحة تتابعها'}
+          hint={referral.welcomeCreditDzd ? `من زميلك أو من صفحة تتابعها: ${referral.welcomeCreditDzd} دج هدية في رصيدك بعد استلام أول دورة` : referral.studentInvites ? 'من زميلك أو من صفحة تتابعها' : 'من الصفحة التي جئت منها، إن أعطتك كودًا'}
         >
           <Input id="refCode" name="refCode" defaultValue={referral.defaultCode} dir="ltr" autoCapitalize="characters" autoComplete="off" maxLength={24} placeholder="ABCD12" />
         </Field>

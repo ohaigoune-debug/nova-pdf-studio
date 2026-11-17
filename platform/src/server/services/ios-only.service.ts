@@ -8,6 +8,7 @@ import { isIosStudyOnly } from '@/server/lib/ios-study'
 import { ttlDelete, ttlMemo } from '@/server/lib/ttl-cache'
 import { expandHidden } from '@/lib/student-menu'
 import { iosOnlyHiddenFor, withIosOnly } from '@/lib/ios-only'
+import { referralPolicyForDisplay, withInvitesHidden } from './referrals.service'
 import { getHiddenStudentEntries } from './student-menu.service'
 
 const KEY = 'web.play_bac_ios_only'
@@ -39,6 +40,7 @@ export async function playBacHiddenHere(db: Db, role?: UserRole | null): Promise
 
 /** كل ما يُخفى عن التلميذ في هذا الطلب: ما أخفاه المشرف، ومعه PLAY والبنك خارج آيفون */
 export async function studentHiddenPaths(db: Db): Promise<string[]> {
-  const [entries, hide] = await Promise.all([getHiddenStudentEntries(db), playBacHiddenHere(db, 'STUDENT')])
-  return withIosOnly(expandHidden(entries), hide)
+  const [entries, hide, policy] = await Promise.all([getHiddenStudentEntries(db), playBacHiddenHere(db, 'STUDENT'), referralPolicyForDisplay(db)])
+  // دعوات التلاميذ مطفأة (قرار المالك 18 نوفمبر 2026): لا صفحة «ادعُ زميلك ورصيدي» ولا رابط إليها
+  return withInvitesHidden(withIosOnly(expandHidden(entries), hide), policy)
 }
