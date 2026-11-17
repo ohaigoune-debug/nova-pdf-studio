@@ -187,7 +187,9 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
                 { href: '/admin/points-of-sale', label: 'نقاط البيع', iconKey: 'Store' },
                 { href: '/admin/affiliates', label: 'المسوّقون', iconKey: 'Megaphone' },
                 { href: '/admin/scope-requests', label: 'طلبات تغيير الشعبة', iconKey: 'Shuffle' },
-                { href: '/admin/invoices', label: 'الفواتير', iconKey: 'Receipt' }
+                { href: '/admin/invoices', label: 'الفواتير', iconKey: 'Receipt' },
+                // من أرجع طلبًا بلا سبب: البطاقة فقط (17 نوفمبر 2026)
+                { href: '/admin/store/cod-blocks', label: 'ممنوعون من الدفع عند الاستلام', iconKey: 'CreditCard' }
               ]
             },
             {

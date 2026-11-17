@@ -351,6 +351,13 @@
       "when": 1794900000000,
       "tag": "0049_course_shipping_included",
       "breakpoints": true
+    },
+    {
+      "idx": 50,
+      "version": "7",
+      "when": 1795000000000,
+      "tag": "0050_cod_phone_blocks",
+      "breakpoints": true
     }
   ]
 }

@@ -23,6 +23,7 @@ import { ecotrackFeeFor, listEcotrackFees } from './ecotrack.service'
 import { transitionOrder } from './order-status.service'
 import { heldByOther, inConfirmQueue, reservationPolicy, takeForAction } from './confirm-reservations.service'
 import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
+import { assertCodAllowed, codBlockFor } from './cod-blocks.service'
 import { commercialSettings } from './commercial-settings.service'
 import { courseShippingDzd, strongestShippingIncluded } from '@/lib/course-shipping'
 
@@ -380,6 +381,8 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
   const shipping = !needsShipping ? 0 : included === 'NONE' ? await shippingFeeFor(db, input.wilayaId ?? null, deliveryType) : courseShippingDzd(included, await shippingFeesFor(db, input.wilayaId ?? null), deliveryType)
   const total = subtotal + shipping
   const paymentMethod: PaymentMethod = total === 0 ? 'FREE' : needsShipping ? 'COD' : 'TRANSFER'
+  // من أرجع طلبًا بلا سبب لا يطلب بالدفع عند الاستلام (17 نوفمبر 2026)
+  if (paymentMethod === 'COD') await assertCodAllowed(db, actor.userId, phone)
   const status: OrderStatus = paymentMethod === 'FREE' ? 'DELIVERED' : 'PENDING'
   const order = await db.transaction(async (tx) => {
     const [o] = await tx
@@ -660,5 +663,12 @@ export async function lastShippingAddress(db: Db, userId: string): Promise<{ wil
 /** كل ما تحتاجه استمارة «شراء الدورة» (المعلومات تُعبّأ من التسجيل ومن آخر طلب) */
 export async function courseCheckoutData(db: Db, actor: Actor) {
   const [defaults, ws, feeTable, channels, policy, last] = await Promise.all([customerDefaults(db, actor), db.select({ id: wilayas.id, code: wilayas.code, nameAr: wilayas.nameAr }).from(wilayas).orderBy(asc(wilayas.code)), shippingFeeTable(db), import('./phone-gate.service').then((m) => m.phoneChannels(db)), storePolicy(db), lastShippingAddress(db, actor.userId)])
-  return { defaults, last, wilayas: ws.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` })), feeTable, shippingDzd: await shippingFeeDzd(db), smsReady: channels.sms, skipOtpForVerifiedPhone: policy.skipOtpForVerifiedPhone, onlinePay: await import('@/server/lib/guiddini').then((m) => m.onlinePaymentEnabled(db)) }
+  // رقم الحساب أو رقم آخر طلب ممنوع من الدفع عند الاستلام ⇒ الاستمارة تعرض البطاقة وحدها (والخادم يرفض على كل حال)
+  const codBlocked = Boolean(await codBlockFor(db, [defaults.phone, last ? await lastOrderPhone(db, actor.userId) : null]))
+  return { defaults, last, wilayas: ws.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` })), feeTable, shippingDzd: await shippingFeeDzd(db), smsReady: channels.sms, skipOtpForVerifiedPhone: policy.skipOtpForVerifiedPhone, onlinePay: await import('@/server/lib/guiddini').then((m) => m.onlinePaymentEnabled(db)), codBlocked }
+}
+
+async function lastOrderPhone(db: Db, userId: string): Promise<string | null> {
+  const [o] = await db.select({ phone: orders.phone }).from(orders).where(eq(orders.userId, userId)).orderBy(desc(orders.createdAt)).limit(1)
+  return o?.phone ?? null
 }

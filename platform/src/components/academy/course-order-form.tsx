@@ -25,6 +25,8 @@ export interface CheckoutData {
   smsReady: boolean
   /** «ادفع الآن» بالبطاقة متاح (مفاتيح eFawtara مضبوطة ومفعّلة) */
   onlinePay?: boolean
+  /** رقم الحساب ممنوع من الدفع عند الاستلام (طلب سابق أُرجع بلا سبب): البطاقة وحدها */
+  codBlocked?: boolean
 }
 
 const PHONE_RE = /^0[5-7]\d{8}$/
@@ -43,6 +45,9 @@ export function CourseOrderForm({ courseId, book, data, shippingIncluded = 'NONE
   const [who, setWho] = useState<'self' | 'guardian' | 'other'>(d.phone ? 'self' : d.guardianPhone ? 'guardian' : 'other')
   const [other, setOther] = useState('')
   const [payNow, setPayNow] = useState(Boolean(data.onlinePay))
+  // ممنوع من الدفع عند الاستلام ⇒ البطاقة وحدها (الخادم يرفض الدفع عند الاستلام على كل حال)
+  const codBlocked = Boolean(data.codBlocked)
+  const cardOnly = codBlocked && Boolean(data.onlinePay)
   const last = data.last ?? null
   const [f, setF] = useState({ wilayaId: last?.wilayaId ?? d.wilayaId ?? '', commune: last?.commune ?? '', address: last?.address ?? '', deliveryType: (last?.deliveryType ?? 'HOME') as 'HOME' | 'DESK', otpCode: '' })
   const [communeResult, setCommuneResult] = useState<{ wilayaId: string; lookup: CourseCommuneLookup } | null>(null)
@@ -103,7 +108,7 @@ export function CourseOrderForm({ courseId, book, data, shippingIncluded = 'NONE
   const price = quote?.priceDzd ?? book.priceDzd
   const credit = useCredit ? (quote?.creditDzd ?? 0) : 0
   const total = (quote?.totalDzd ?? book.priceDzd) - credit
-  const ready = phoneOk && Boolean(f.wilayaId) && !communesLoading && Boolean(f.commune.trim()) && (communeLookup?.mode !== 'select' || Boolean(selectedCommune)) && Boolean(f.address.trim()) && (!needsOtp || f.otpCode.length >= 4)
+  const ready = !(codBlocked && !payNow) && phoneOk && Boolean(f.wilayaId) && !communesLoading && Boolean(f.commune.trim()) && (communeLookup?.mode !== 'select' || Boolean(selectedCommune)) && Boolean(f.address.trim()) && (!needsOtp || f.otpCode.length >= 4)
   // ما ينقص لتفعيل زر التأكيد — الشروط نفسها أعلاه، بالترتيب الظاهر في النموذج (الزر الباهت لا يبقى لغزاً)
   const missing = [
     !phoneOk && 'رقم هاتف صحيح',
@@ -204,7 +209,12 @@ export function CourseOrderForm({ courseId, book, data, shippingIncluded = 'NONE
       {needsOtp && phoneOk ? (
         <OtpVerifyCard key={phone} purpose="ORDER" phone={phone} editablePhone={false} collectOnly onCode={(c) => setF((s) => ({ ...s, otpCode: c }))} title="رمز التأكيد" description={`نرسل رمزاً إلى ${phone}؛ أدخله ثم أكّد الطلب.`} />
       ) : null}
-      {data.onlinePay ? (
+      {codBlocked ? (
+        <Alert tone="warning" title="الدفع عند الاستلام غير متاح لحسابك">
+          {data.onlinePay ? 'بسبب طلب سابق أُرجع دون سبب، يتم الطلب بالدفع بالبطاقة الذهبية أو CIB فقط. تُفعَّل الدورة فور الدفع.' : 'بسبب طلب سابق أُرجع دون سبب، لا يمكن الطلب بالدفع عند الاستلام. تواصل معنا لإتمام طلبك.'}
+        </Alert>
+      ) : null}
+      {data.onlinePay && !cardOnly ? (
         <fieldset className="space-y-2 rounded-lg border p-4">
           <legend className="px-1 font-heading text-base font-semibold">طريقة الدفع</legend>
           <label className={`flex cursor-pointer items-start gap-3 rounded-md border p-3 ${payNow ? 'border-primary bg-primary/5' : ''}`}>
