@@ -186,7 +186,8 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
                 { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' },
                 { href: '/admin/points-of-sale', label: 'نقاط البيع', iconKey: 'Store' },
                 { href: '/admin/affiliates', label: 'المسوّقون', iconKey: 'Megaphone' },
-                { href: '/admin/scope-requests', label: 'طلبات تغيير الشعبة', iconKey: 'Shuffle' }
+                { href: '/admin/scope-requests', label: 'طلبات تغيير الشعبة', iconKey: 'Shuffle' },
+                { href: '/admin/invoices', label: 'الفواتير', iconKey: 'Receipt' }
               ]
             },
             {

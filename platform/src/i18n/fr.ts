@@ -187,6 +187,7 @@ const fr: DeepPartial<typeof ar> = {
     ASSISTANT_NOT_FOUND: 'Assistant introuvable.',
     ASSISTANT_NO_WORKSPACE: "Votre compte assistant n'est rattaché à aucun enseignant.",
     LESSON_OUT_OF_SCOPE: 'Cette leçon n’est pas destinée à votre niveau et filière. Modifiez-les depuis « Mon compte » s’ils sont incorrects.',
+    INVOICE_NOT_FOUND: 'Facture introuvable.',
     INTERNAL: 'Une erreur inattendue est survenue. Réessayez.'
   }
 }

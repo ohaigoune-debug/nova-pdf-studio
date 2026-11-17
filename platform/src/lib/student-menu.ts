@@ -37,6 +37,7 @@ export const HIDEABLE_STUDENT_ENTRIES: HideableEntry[] = [
   tab('/student/grades', 'تبويب «العلامات»', 'حسابي'),
   tab('/student/notifications', 'الإشعارات', 'حسابي'),
   tab('/student/invite', 'ادعُ زميلك ورصيدي', 'حسابي'),
+  tab('/student/invoices', 'تبويب «فواتيري»', 'حسابي'),
   tab('/student/support', 'الدعم والشكاوى', 'حسابي')
 ]
 

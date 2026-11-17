@@ -1091,6 +1091,7 @@ const ar = {
     ASSISTANT_NOT_FOUND: 'المساعد غير موجود.',
     ASSISTANT_NO_WORKSPACE: 'حسابك كمساعد غير مرتبط بأي أستاذ حالياً.',
     LESSON_OUT_OF_SCOPE: 'هذا الدرس ليس لمستواك وشعبتك. غيّرهما من «حسابي» إن كانا غير صحيحين.',
+    INVOICE_NOT_FOUND: 'الفاتورة غير موجودة.',
     INTERNAL: 'حدث خطأ غير متوقع. حاول مرة أخرى.'
   },
   ai: {
@@ -1165,6 +1166,9 @@ const ar = {
   activity: {
     student_scope_request: 'طلب تغيير الشعبة',
     student_scope_decide: 'قرّر في طلب تغيير شعبة',
+    invoice_issue: 'أصدر فاتورة',
+    invoice_cancel: 'ألغى فاتورة',
+    settings_invoice: 'عدّل بيانات الفاتورة',
     session_start: 'بدأ حصة',
     session_close: 'أنهى حصة',
     session_cancel: 'ألغى حصة',

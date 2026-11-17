@@ -63,6 +63,7 @@ export const STUDENT_HUBS = {
       { href: '/student/grades', label: 'العلامات' },
       { href: '/student/notifications', label: 'الإشعارات' },
       { href: '/student/invite', label: 'ادعُ زميلك ورصيدي' },
+      { href: '/student/invoices', label: 'فواتيري' },
       { href: '/student/support', label: 'الدعم والشكاوى' }
     ]
   }
