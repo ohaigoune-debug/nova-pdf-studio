@@ -1264,6 +1264,8 @@ const ar = {
     store_order_status: 'غيّر حالة طلب شراء',
     store_cod_block: 'منع رقمًا من الدفع عند الاستلام',
     store_cod_lift: 'أعفى رقمًا من منع الدفع عند الاستلام',
+    landing_create: 'أنشأ صفحة هبوط',
+    landing_update: 'عدّل صفحة هبوط',
     store_order_stream: 'غيّر شعبة طلب شراء',
     store_order_amount: 'عدّل مبلغ طلب شراء',
     store_order_customer: 'عدّل بيانات زبون في طلب شراء',

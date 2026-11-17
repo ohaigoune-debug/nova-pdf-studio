@@ -460,6 +460,9 @@ export async function myOrders(db: Db, actor: Actor) {
 
 /** حقول تعديل الطلب في القوائم: الشعبة، تفصيل المبلغ، ووجود دورة (لزر التفعيل) */
 const orderEditFields = {
+  // صفحة الهبوط ومصدرها (شارة صغيرة على الطلب في الإدارة) — 17 نوفمبر 2026
+  landingSlug: sql<string | null>`(select lp.slug from landing_pages lp where lp.id = ${orders.landingId})`,
+  trafficSource: orders.trafficSource,
   streamId: orders.streamId,
   streamName: streams.nameAr,
   subtotalDzd: orders.subtotalDzd,

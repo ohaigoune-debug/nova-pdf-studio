@@ -18,6 +18,7 @@ import { CONFIRM_APK_FILENAME, apkInfo } from '@/server/lib/android-apk'
 import { ecotrackOperatorStatus, ecotrackStatus } from '@/server/services/ecotrack.service'
 import { ORDER_STATUS_AR } from '@/server/services/order-status.service'
 import { listStreams } from '@/server/services/reference.service'
+import { sourceLabel } from '@/server/services/landing.service'
 import { listConfirmationQueue, PAYMENT_AR, type PhoneHistory } from '@/server/services/store.service'
 
 export const dynamic = 'force-dynamic'
@@ -103,6 +104,7 @@ export default async function ConfirmQueuePage() {
                     <div className="min-w-0">
                       {worker ? <span className="font-mono text-sm font-semibold" dir="ltr">{o.number}</span> : <Link href={`/store/orders/${o.id}`} className="font-mono text-sm font-semibold hover:underline" dir="ltr">{o.number}</Link>}
                       <span className="block text-xs text-muted-foreground">{formatDateTime(o.createdAt)}</span>
+                      {o.landingSlug ? <Badge variant="default" className="mt-1" title="جاء من صفحة هبوط">{o.landingSlug} · {sourceLabel(o.trafficSource)}</Badge> : null}
                     </div>
                     <Badge variant={STATUS_VARIANT[o.status] ?? 'secondary'}>{ORDER_STATUS_AR[o.status as OrderStatus]}</Badge>
                   </div>
@@ -151,6 +153,7 @@ export default async function ConfirmQueuePage() {
                     <TableCell>
                       {worker ? <span className="font-mono text-xs font-semibold" dir="ltr">{o.number}</span> : <Link href={`/store/orders/${o.id}`} className="font-mono text-xs font-semibold hover:underline" dir="ltr">{o.number}</Link>}
                       <span className="block text-[11px] text-muted-foreground">{formatDateTime(o.createdAt)}</span>
+                      {o.landingSlug ? <Badge variant="default" className="mt-1" title="جاء من صفحة هبوط">{o.landingSlug} · {sourceLabel(o.trafficSource)}</Badge> : null}
                       <span className="block text-[11px] text-muted-foreground">
                         {o.totalDzd} دج · {PAYMENT_AR[o.paymentMethod as keyof typeof PAYMENT_AR]}
                       </span>

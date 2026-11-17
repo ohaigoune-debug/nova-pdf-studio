@@ -291,7 +291,7 @@ async function assertCourseStream(db: Db, c: CourseRow, studentId: string, label
   return st?.streamId ?? null
 }
 
-async function hasActiveEnrollment(db: Db, courseId: string, studentId: string): Promise<boolean> {
+export async function hasActiveEnrollment(db: Db, courseId: string, studentId: string): Promise<boolean> {
   const [active] = await db
     .select({ id: courseEnrollments.id })
     .from(courseEnrollments)
@@ -301,7 +301,7 @@ async function hasActiveEnrollment(db: Db, courseId: string, studentId: string):
 }
 
 /** طلب مفتوح لهذا الحساب وهذه الدورة: رقمه وهل هو طلب رقمي (بلا شحن) */
-async function openCourseOrder(db: Db, userId: string, courseId: string): Promise<{ number: string; digital: boolean } | null> {
+export async function openCourseOrder(db: Db, userId: string, courseId: string): Promise<{ number: string; digital: boolean } | null> {
   const [open] = await db
     .select({ number: orders.number, needsShipping: orders.needsShipping })
     .from(orderItems)
@@ -316,7 +316,7 @@ async function openCourseOrder(db: Db, userId: string, courseId: string): Promis
  * التلميذ يؤكّد صراحةً أنه فهم أنها دون كتاب ورقي. الخادم يحدّد السعر والدورة، ويُحوَّل التلميذ إلى SATIM؛
  * تُفتح الدورة فور تأكّد الخادم من «paid» (online-payment.service) ويُغلق الطلب «مكتملًا».
  */
-export async function placeDigitalCourseOrder(db: Db, actor: Actor, input: { courseId: string; acceptNoBook: boolean; useCredit?: boolean }, fetchImpl?: typeof fetch): Promise<PlacedDigitalOrder> {
+export async function placeDigitalCourseOrder(db: Db, actor: Actor, input: { courseId: string; acceptNoBook: boolean; useCredit?: boolean; attribution?: { landingId: string; source: string } | null }, fetchImpl?: typeof fetch): Promise<PlacedDigitalOrder> {
   const studentId = studentIdOf(actor)
   if (!input.acceptNoBook) throw new AppError('DIGITAL_ACK_REQUIRED')
   const c = await loadCourse(db, input.courseId)
@@ -345,7 +345,7 @@ export async function placeDigitalCourseOrder(db: Db, actor: Actor, input: { cou
   const order = await db.transaction(async (tx) => {
     const [o] = await tx
       .insert(orders)
-      .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: 'ONLINE', needsShipping: false, subtotalDzd: price, shippingDzd: 0, totalDzd: price, customerName: actor.fullName.slice(0, 120), phone: d.phone ?? d.guardianPhone ?? '', wilayaId: d.wilayaId, streamId, beneficiaryStudentId: studentId, note: `دورة رقمية (دون كتاب): ${c.title}`.slice(0, 500) })
+      .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: 'ONLINE', needsShipping: false, subtotalDzd: price, shippingDzd: 0, totalDzd: price, customerName: actor.fullName.slice(0, 120), phone: d.phone ?? d.guardianPhone ?? '', wilayaId: d.wilayaId, streamId, beneficiaryStudentId: studentId, note: `دورة رقمية (دون كتاب): ${c.title}`.slice(0, 500), landingId: input.attribution?.landingId ?? null, trafficSource: input.attribution?.source ?? null })
       .returning()
     await tx.insert(orderItems).values({ orderId: o!.id, productId: null, courseId: c.id, title, type: 'COURSE', unitPriceDzd: price, qty: 1, lineTotalDzd: price })
     const credit = input.useCredit ? await applyCreditToOrder(tx, o!, { online: true }) : 0
@@ -385,6 +385,8 @@ export interface PlaceCourseOrderInput {
   payNow?: boolean
   /** يُخصم من رصيد التلميذ (لا يتجاوز ثمن الدورة؛ التوصيل يُدفع دائمًا) */
   useCredit?: boolean
+  /** صفحة الهبوط ومصدر الزيارة (من كعكة النسبة، يتحقّق منها الإجراء) — 17 نوفمبر 2026 */
+  attribution?: { landingId: string; source: string } | null
 }
 
 export interface PlacedCourseOrder {
@@ -513,7 +515,7 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
     if (!reserved) throw new AppError('OUT_OF_STOCK', { product: bookTitle })
     const [o] = await tx
       .insert(orders)
-      .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: payNow ? 'ONLINE' : 'COD', needsShipping: true, subtotalDzd: price, shippingDzd: shipping, totalDzd: total, customerName: (input.customerName?.trim() || actor.fullName).slice(0, 120), phone, wilayaId: input.wilayaId, streamId, otpVerifiedAt, beneficiaryStudentId: studentId, address: input.address.trim().slice(0, 400), commune, deliveryType, note: [`دورة: ${c.title}`, upgrade ? `الكتاب لمشترك في النسخة الرقمية (دفع ${upgrade.paidDigitalDzd} دج)` : null, payNow ? 'دفع إلكتروني' : null, input.note?.trim()].filter(Boolean).join(' — ').slice(0, 500) })
+      .values({ number: orderNumber(), userId: actor.userId, status: 'PENDING', paymentMethod: payNow ? 'ONLINE' : 'COD', needsShipping: true, subtotalDzd: price, shippingDzd: shipping, totalDzd: total, customerName: (input.customerName?.trim() || actor.fullName).slice(0, 120), phone, wilayaId: input.wilayaId, streamId, otpVerifiedAt, beneficiaryStudentId: studentId, address: input.address.trim().slice(0, 400), commune, deliveryType, note: [`دورة: ${c.title}`, upgrade ? `الكتاب لمشترك في النسخة الرقمية (دفع ${upgrade.paidDigitalDzd} دج)` : null, payNow ? 'دفع إلكتروني' : null, input.note?.trim()].filter(Boolean).join(' — ').slice(0, 500), landingId: input.attribution?.landingId ?? null, trafficSource: input.attribution?.source ?? null })
       .returning()
     await tx.insert(orderItems).values({ orderId: o!.id, productId: bookId, courseId: c.id, title: bookTitle, type: 'BOOK', unitPriceDzd: price, qty: 1, lineTotalDzd: price })
     const credit = input.useCredit ? await applyCreditToOrder(tx, o!, { online: payNow }) : 0

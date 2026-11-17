@@ -118,6 +118,9 @@ export const orders = pgTable(
     confirmAttempts: integer('confirm_attempts').notNull().default(0),
     lastCallAt: timestamp('last_call_at', { withTimezone: true }),
     returnedAt: timestamp('returned_at', { withTimezone: true }),
+    /** صفحة الهبوط التي جاء منها الطلب ومصدر الزيارة (0051). المفتاح الأجنبي في الترحيل فقط لتفادي دورة الاستيراد مع landing.ts */
+    landingId: uuid('landing_id'),
+    trafficSource: text('traffic_source'),
     /**
      * حجز طابور التأكيد (قرار المالك 2 نوفمبر 2026): الموظف الذي حجز الطلب ليتصل به، ومتى ينتهي حجزه.
      * الحجز المنتهي (reserved_until ≤ الآن) كأنه غير موجود: يعود الطلب إلى الطابور العام.
