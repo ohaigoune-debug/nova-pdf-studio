@@ -1,24 +1,35 @@
-import { Search } from 'lucide-react'
+import { KeyRound, Search } from 'lucide-react'
 import { UserStatusBadge } from '@/components/domain/status-badges'
 import { UserStatusButton } from '@/components/domain/user-status-button'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { PageHeader } from '@/components/ui/misc'
+import { PageHeader, StatCard } from '@/components/ui/misc'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { t, tEnum } from '@/i18n'
 import { formatDate } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listAllStudents } from '@/server/services/admin.service'
+import { tempPasswordStats } from '@/server/services/temp-login.service'
 
 export default async function AdminStudentsPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   const actor = await requirePageActor('SUPER_ADMIN')
   const { q } = await searchParams
-  const rows = await listAllStudents(await getDb(), actor, { search: q })
+  const db = await getDb()
+  const [rows, temp] = await Promise.all([listAllStudents(db, actor, { search: q }), tempPasswordStats(db)])
   return (
     <>
       <PageHeader title={t('admin.studentsTitle')} description={`${rows.length}`} />
+      {/* من سجّل دون كلمة سر من صفحات الهبوط (18 نوفمبر 2026) */}
+      <StatCard
+        className="mb-4"
+        icon={KeyRound}
+        tone={temp.expired > 0 ? 'warning' : 'default'}
+        label="حسابات بلا كلمة سر بعد (رمز دخول مؤقت)"
+        value={temp.total}
+        hint={`ينتهي رمزها خلال يومين: ${temp.warn} · انتهى رمزها ولم تُنشئ كلمة سر: ${temp.expired} — يصلهم تذكير بالإشعار، دون رسائل SMS.`}
+      />
       <form className="mb-4 flex gap-2">
         <div className="relative flex-1">
           <Search className="absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />

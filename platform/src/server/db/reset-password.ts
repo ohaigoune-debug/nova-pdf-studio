@@ -56,7 +56,7 @@ export async function resetUserPassword(db: Db, identifier: string, password: st
   if (password.length < min) throw new Error(`كلمة السر قصيرة — ${min} حرفاً على الأقل لهذا الحساب`)
 
   await db.transaction(async (tx) => {
-    await tx.update(users).set({ passwordHash: await hashPassword(password) }).where(eq(users.id, target.id))
+    await tx.update(users).set({ passwordHash: await hashPassword(password), tempPasswordUntil: null, tempCodeSealed: null }).where(eq(users.id, target.id))
     await revokeAllSessions(tx, target.id)
   })
   return { userId: target.id, role: target.role }

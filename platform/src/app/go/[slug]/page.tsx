@@ -56,7 +56,7 @@ export default async function LandingPage({ params, searchParams }: Props) {
   const embed = videoEmbedUrl(landing.videoUrl)
   const active = c.enrollment === 'ACTIVE'
   // الزائر الجديد يسجّل أولًا (صفحة واحدة + رمز SMS)، ثم يجد «أكمل طلب دورتك» في صفحته — والمسجَّل يذهب للطلب مباشرة
-  const go = (href: string) => (loggedIn ? href : '/register')
+  const go = (href: string) => (loggedIn ? href : '/register?from=go')
   const bookHref = go(`${c.href}/order`)
   const digital = onlinePay && c.digitalPriceDzd !== null
   const digitalHref = go(`${c.href}/digital`)

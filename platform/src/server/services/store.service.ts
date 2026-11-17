@@ -265,20 +265,25 @@ export interface PlaceOrderInput {
 /* ------------------------------- سياسة المتجر ------------------------------- */
 
 const STORE_POLICY_KEY = 'store.requireOtp'
-/** البند ب4: إعفاء هاتف الحساب المؤكَّد من رمز تأكيد طلب الدورة (افتراضي: لا، أي رمز لكل طلب كما كان) */
+/**
+ * البند ب4: إعفاء هاتف الحساب المؤكَّد من رمز تأكيد طلب الدورة. الافتراضي «نعم» منذ قرار المالك 18 نوفمبر 2026
+ * (رسالة SMS واحدة عند التسجيل، لا رسالة ثانية عند الطلب بالهاتف نفسه). يُطفأ من إعدادات المتجر.
+ */
 const SKIP_VERIFIED_OTP_KEY = 'store.orderOtp.skipVerifiedPhone'
 
 export interface StorePolicy {
   /** يُطلب رمز تحقق بالهاتف قبل إرسال الطلب (افتراضي: لا) */
   requireOtp: boolean
-  /** طلب دورة إلى هاتف الحساب المؤكَّد لا يحتاج رمزًا جديدًا (افتراضي: لا) */
+  /** طلب دورة إلى هاتف الحساب المؤكَّد لا يحتاج رمزًا جديدًا (افتراضي: نعم منذ 18 نوفمبر 2026) */
   skipOtpForVerifiedPhone: boolean
 }
 
 export async function storePolicy(db: Db): Promise<StorePolicy> {
   const rows = await db.select({ key: appSettings.key, value: appSettings.value }).from(appSettings).where(inArray(appSettings.key, [STORE_POLICY_KEY, SKIP_VERIFIED_OTP_KEY]))
   const on = (key: string) => rows.find((r) => r.key === key)?.value === true
-  return { requireOtp: on(STORE_POLICY_KEY), skipOtpForVerifiedPhone: on(SKIP_VERIFIED_OTP_KEY) }
+  // الإعفاء مفعَّل ما لم يُطفئه المشرف صراحة
+  const skip = rows.find((r) => r.key === SKIP_VERIFIED_OTP_KEY)?.value !== false
+  return { requireOtp: on(STORE_POLICY_KEY), skipOtpForVerifiedPhone: skip }
 }
 
 export async function setStorePolicy(db: Db, actor: Actor, input: Partial<StorePolicy>): Promise<StorePolicy> {

@@ -14,13 +14,23 @@ export const users = pgTable(
     status: text('status').notNull().default('ACTIVE'),
     emailVerifiedAt: timestamp('email_verified_at', { withTimezone: true }),
     lastLoginAt: timestamp('last_login_at', { withTimezone: true }),
+    /**
+     * 0052 (قرار المالك 18 نوفمبر 2026): التسجيل دون كلمة سر. رمز دخول من 6 أرقام (hash في password_hash) صالح حتى هذا التاريخ،
+     * ثم يُطلب إنشاء كلمة سر عادية. NULL = كلمة سر عادية.
+     */
+    tempPasswordUntil: timestamp('temp_password_until', { withTimezone: true }),
+    /** الرمز المؤقت مختومًا ليُعرض لصاحبه في لافتة التذكير */
+    tempCodeSealed: text('temp_code_sealed'),
+    /** تذكيرات الإشعار المرسلة (0، 1 = يوم 5، 2 = انتهاء الرمز) */
+    tempReminders: integer('temp_reminders').notNull().default(0),
     ...timestamps,
     ...softDelete
   },
   (t) => [
     check('users_role_check', inList(t.role, USER_ROLES)),
     check('users_status_check', inList(t.status, USER_STATUSES)),
-    index('users_role_idx').on(t.role)
+    index('users_role_idx').on(t.role),
+    index('users_temp_password_idx').on(t.tempPasswordUntil).where(sql`${t.tempPasswordUntil} is not null`)
   ]
 )
 

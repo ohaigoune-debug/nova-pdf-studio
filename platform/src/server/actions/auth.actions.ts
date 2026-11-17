@@ -15,8 +15,11 @@ import { deleteOwnAccount } from '@/server/services/account-deletion.service'
 import { changePassword, login, loginIdentity, logout, registerStudent, requestPasswordReset, resetPassword } from '@/server/services/auth.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
 import { attachReferralForNewAccount, checkCodeForSignup } from '@/server/services/referrals.service'
+import { setFirstPassword } from '@/server/services/temp-login.service'
 import { streamFitsLevel } from '@/server/services/reference.service'
 import { REF_COOKIE } from '@/lib/referral'
+import type { Actor } from '@/server/lib/actor'
+import { LANDING_COOKIE, landingResumeFor } from '@/server/services/landing.service'
 
 const loginSchema = z.object({
   // البريد أو رقم الهاتف
@@ -65,12 +68,17 @@ const registerSchema = z
     email: z.string().trim().pipe(z.union([z.literal(''), z.string().email('أدخل بريداً صحيحاً').max(254)])).optional(),
     phone: dzPhone('أدخل رقم هاتفك (05 / 06 / 07 — 10 أرقام)'),
     guardianPhone: dzPhone('أدخل رقم هاتف الولي (05 / 06 / 07 — 10 أرقام)'),
-    password: z.string().min(8, 'كلمة السر 8 أحرف على الأقل'),
+    // فارغة في التسجيل دون كلمة سر (زائر صفحة الهبوط): يُولَّد رمز دخول مؤقت
+    password: z.string().optional(),
+    passwordless: z.literal('1').optional(),
     wilayaId: z.string().uuid('اختر الولاية'),
     levelId: z.string().uuid('اختر المستوى'),
     streamId: z.string().uuid().optional().or(z.literal('')),
     /** كود دعوة زميل أو مسوّق (اختياري) */
     refCode: z.string().trim().max(24).optional()
+  })
+  .superRefine((v, ctx) => {
+    if (!v.passwordless && (v.password ?? '').length < 8) ctx.addIssue({ code: 'custom', path: ['password'], message: 'كلمة السر 8 أحرف على الأقل' })
   })
 
 export async function registerAction(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
@@ -89,7 +97,8 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
       db,
       {
         email: d.email || null,
-        password: d.password,
+        password: d.password ?? '',
+        passwordless: d.passwordless === '1',
         fullName: d.fullName,
         phone: d.phone,
         guardianPhone: d.guardianPhone,
@@ -107,8 +116,10 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
     return r
   })
   if (!result.ok) return result
+  // جاء من صفحة هبوط (إعلان): إلى استمارة طلب دورته مباشرة — بوابة تأكيد الهاتف تظهر هناك أولًا ثم الاستمارة
+  const resume = await landingResumeFor(db, { userId: result.data.userId, studentId: result.data.studentId, role: 'STUDENT' } as Actor, (await cookies()).get(LANDING_COOKIE)?.value).catch(() => null)
   // تأكيد الهاتف بعد التسجيل مباشرة (رمز SMS أو مكالمة فائتة مجانية): الحسابات الجديدة لا تدخل قبله
-  redirect('/student?verify=1')
+  redirect(resume?.href ?? '/student?verify=1')
 }
 
 export async function logoutAction(): Promise<void> {
@@ -184,6 +195,27 @@ export async function changePasswordAction(_prev: ActionResult | null, formData:
   if (!result.ok) return result
   await clearSessionCookie()
   redirect('/login?reset=1')
+}
+
+const firstPasswordSchema = z
+  .object({ password: z.string().min(8, 'كلمة السر 8 أحرف على الأقل'), confirm: z.string(), next: z.string().optional() })
+  .refine((d) => d.password === d.confirm, { path: ['confirm'], message: 'كلمتا السر غير متطابقتين' })
+
+/**
+ * أول كلمة سر لمن سجّل دون كلمة سر (رمز دخول مؤقت): لا يُطلب الرمز القديم، والجلسة الحالية تبقى
+ * (الجلسات الأخرى تُغلق). يعود إلى الصفحة التي جاء منها.
+ */
+export async function setFirstPasswordAction(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const parsed = firstPasswordSchema.safeParse(Object.fromEntries(formData))
+  if (!parsed.success) return failValidation(parsed.error)
+  const db = await getDb()
+  const result = await runAction(async () => {
+    const actor = await requireActor()
+    await setFirstPassword(db, { userId: actor.userId, password: parsed.data.password, keepToken: await currentSessionToken() })
+    return undefined
+  })
+  if (!result.ok) return result
+  redirect(safeNextPath(parsed.data.next) ?? '/student')
 }
 
 const deleteSchema = z.object({

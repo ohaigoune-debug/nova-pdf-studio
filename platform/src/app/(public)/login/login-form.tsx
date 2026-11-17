@@ -25,7 +25,7 @@ export function LoginForm({ next, showDemo, resetDone = false }: { next?: string
       <Field label={t('auth.identifier')} htmlFor="email" error={fieldError(state, 'email')}>
         <Input id="email" name="email" type="text" inputMode="email" autoComplete="username" autoCapitalize="none" spellCheck={false} required dir="ltr" />
       </Field>
-      <Field label={t('common.password')} htmlFor="password" error={fieldError(state, 'password')}>
+      <Field label={t('common.password')} htmlFor="password" error={fieldError(state, 'password')} hint="سجّلت دون كلمة سر؟ اكتب رمز الدخول (6 أرقام) مع رقم هاتفك.">
         <Input id="password" name="password" type="password" autoComplete="current-password" required dir="ltr" />
       </Field>
       <div className="text-end text-xs">
