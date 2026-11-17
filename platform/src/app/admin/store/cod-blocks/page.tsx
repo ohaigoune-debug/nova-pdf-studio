@@ -29,7 +29,7 @@ export default async function CodBlocksPage({ searchParams }: { searchParams: Pr
         title="ممنوعون من الدفع عند الاستلام"
         description={`من أرجع طلبًا دون سبب ولو مرة واحدة يطلب بالبطاقة فقط (الذهبية أو CIB). الإرجاع معذور إذا كان لصاحبه طلب آخر سُلِّم خلال ${EXCUSE_WINDOW_DAYS} أيام منه. يُفحص هاتف الطلب وهاتف الحساب معًا.`}
       />
-      <div className="grid gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatCard label="من متجر نوفا" value={counts.NOVA} />
         <StatCard label="مرتجعات مدرسة" value={madrasa} />
         <StatCard label="أضفتها يدويًا" value={counts.ADMIN} />
