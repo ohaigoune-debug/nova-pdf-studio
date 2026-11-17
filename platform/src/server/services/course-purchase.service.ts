@@ -21,6 +21,7 @@ import { courseCommunesForWilaya } from './delivery-communes.service'
 import { notifyMany } from './notifications.service'
 import { transitionOrder } from './order-status.service'
 import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
+import { assertCodAllowed } from './cod-blocks.service'
 import { orderNumber, shippingFeesFor, storePolicy } from './store.service'
 import { asShippingIncluded, courseShippingDzd, type CourseShippingIncluded } from '@/lib/course-shipping'
 import { applyCreditToOrder, creditPreview } from './referrals.service'
@@ -472,6 +473,8 @@ export async function placeCourseOrder(db: Db, actor: Actor, input: PlaceCourseO
     const { onlinePaymentEnabled } = await import('@/server/lib/guiddini')
     if (!(await onlinePaymentEnabled(db))) throw new AppError('PAYMENT_NOT_CONFIGURED')
   }
+  // من أرجع طلبًا بلا سبب يدفع بالبطاقة فقط (17 نوفمبر 2026): هاتف الطلب وهاتف الحساب
+  if (!payNow) await assertCodAllowed(db, actor.userId, phone)
 
   // كل طلب دورة يتأكد برمز جديد؛ تحقق التسجيل لا يستهلك تأكيد الطلب.
   const [policy, channels] = await Promise.all([storePolicy(db), import('./phone-gate.service').then((m) => m.phoneChannels(db))])

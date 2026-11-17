@@ -2,6 +2,7 @@
 import { afterAll, beforeAll, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
 import type { Actor } from '@/server/lib/actor'
+import { liftPhone } from '@/server/services/cod-blocks.service'
 import { setReservationPolicy } from '@/server/services/confirm-reservations.service'
 import { confirmerStats, createConfirmer, listConfirmerActivity } from '@/server/services/confirmer.service'
 import { createProduct, listConfirmationQueue, phoneOrderHistory, placeOrder, setOrderStatus } from '@/server/services/store.service'
@@ -34,6 +35,9 @@ it('الرقم الذي رفض الاستلام سابقاً يظهر بتحذي
   await setOrderStatus(h.db, admin, refused.id, 'CONFIRMED')
   await setOrderStatus(h.db, admin, refused.id, 'SHIPPED')
   await setOrderStatus(h.db, admin, refused.id, 'RETURNED')
+  // قرار المالك 17 نوفمبر 2026: من أرجع بلا سبب لا يطلب بالدفع عند الاستلام حتى يعفيه المشرف
+  await expect(buy('0662000001')).rejects.toMatchObject({ code: 'COD_BLOCKED' })
+  await liftPhone(h.db, admin, '0662000001', 'اختبار: أُعفي')
   const again = await buy('0662000001')
   const fresh = await buy('0662000002')
 

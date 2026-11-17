@@ -135,7 +135,9 @@ export const orders = pgTable(
     index('orders_user_idx').on(t.userId, t.createdAt),
     index('orders_status_idx').on(t.status, t.createdAt),
     index('orders_tracking_idx').on(t.deliveryProvider, t.deliveryTrackingId),
-    index('orders_reserved_idx').on(t.reservedByUserId, t.reservedUntil)
+    index('orders_reserved_idx').on(t.reservedByUserId, t.reservedUntil),
+    // مرتجعات الرقم عند الطلب بالدفع عند الاستلام (0050)
+    index('orders_phone_status_idx').on(t.phone, t.status)
   ]
 )
 
@@ -243,5 +245,29 @@ export const onlinePayments = pgTable(
     uniqueIndex('online_payments_gateway_ref_unique').on(t.provider, t.gatewayRef),
     index('online_payments_pending_idx').on(t.status, t.createdAt),
     index('online_payments_order_idx').on(t.orderId)
+  ]
+)
+
+/**
+ * أرقام ممنوعة من الدفع عند الاستلام (قرار المالك 17 نوفمبر 2026): من أرجع طلبًا بلا سبب يدفع بالبطاقة فقط.
+ * NOVA مستوردة من نوفا، ADMIN يدوية، MADRASA سطر إعفاء لرقم حظرته مرتجعات مدرسة (تلك تُحسب من الطلبات).
+ * liftedAt = أعفاه المشرف؛ مرتجع جديد بلا سبب بعده يحظره من جديد.
+ */
+export const codPhoneBlocks = pgTable(
+  'cod_phone_blocks',
+  {
+    phone: text('phone').primaryKey(),
+    source: text('source').notNull(),
+    returns: integer('returns').notNull().default(0),
+    lastReturnAt: timestamp('last_return_at', { withTimezone: true }),
+    note: text('note'),
+    liftedAt: timestamp('lifted_at', { withTimezone: true }),
+    liftedBy: uuid('lifted_by').references(() => users.id, { onDelete: 'set null' }),
+    ...timestamps
+  },
+  (t) => [
+    check('cod_phone_blocks_source_check', inList(t.source, ['NOVA', 'ADMIN', 'MADRASA'])),
+    check('cod_phone_blocks_phone_check', sql`${t.phone} ~ '^0[5-7][0-9]{8}$'`),
+    check('cod_phone_blocks_returns_check', sql`${t.returns} >= 0`)
   ]
 )
