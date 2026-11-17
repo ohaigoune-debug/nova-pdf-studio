@@ -106,8 +106,8 @@ jobs:
           02-documents|tab/documents
           03-tools|tab/tools
           04-scan|tab/scan
-          05-invoices|demo-invoices
-          06-invoice|invoice
+          05-invoices|demo-seller,demo-invoices
+          06-invoice|invoice/paid
           07-pro|paywall
           08-ar-documents|lang/ar,tab/documents
           09-ar-invoices|lang/ar,demo-invoices
@@ -120,7 +120,7 @@ jobs:
           16-filter-timing|lang/en,theme/light,filter-timing|25
           17-ar-merge-sheet|lang/ar,theme/dark,tool/merge|14
           18-fonts|lang/ar,theme/light,fonts-selftest|35
-          19-ar-invoices-seller|lang/ar,theme/light,tab/invoices|14
+          19-ar-invoices-seller|lang/ar,theme/light,no-seller,tab/invoices|14
           20-arabic-render|lang/ar,theme/light,arabic-render-selftest|30
           21-arabic-fonts-banner|lang/ar,theme/light,arabic-banner|16
           22-ar-text-format|lang/ar,theme/light,edit-format|20"

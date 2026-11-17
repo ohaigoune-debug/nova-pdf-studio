@@ -72,13 +72,24 @@ export async function handleDeepLink(url: string): Promise<void> {
   } else if (kind === 'invoice') {
     await ensureDatabase()
     const { listInvoices } = await import('@modules/invoices/main/repository')
-    const first = listInvoices({ limit: 1, sort: 'date_desc' }).rows[0]
+    // invoice/paid يفتح أحدث فاتورة مدفوعة (لقطات المتجر)، ودون وسيط أحدث فاتورة
+    const status = arg === 'paid' ? 'paid' : undefined
+    const first = listInvoices({ limit: 1, sort: 'date_desc', ...(status ? { status } : {}) }).rows[0]
     if (first) nav.push({ name: 'invoiceView', id: first.id }, 'invoices')
   } else if (kind === 'tool' && arg) {
     nav.popToRoot('tools')
     nav.setTab('tools')
     const { useToolSheet } = await import('../features/tools/ToolsScreen')
     useToolSheet.getState().open(arg as never)
+  } else if (kind === 'demo-seller' || kind === 'no-seller') {
+    // لقطات المتجر فقط (نسخة Debug في CI): بائع وهمي واضح، أو مسحه لإظهار بطاقة «أضف بيانات البائع»
+    if (!window.__NOVA_DEBUG__) throw new Error('demo seller is available in Debug builds only')
+    await ensureDatabase()
+    const { getSettings, updateSettings } = await import('@modules/settings/main/repository')
+    const c = getSettings().company
+    updateSettings({ company: kind === 'no-seller'
+      ? { ...c, name: '', firstName: '', lastName: '', address: '', city: '', phone: '', email: '' }
+      : { ...c, name: 'Studio Atlas — استوديو أطلس', address: '12 rue des Oliviers', city: 'Alger', phone: '+213 21 00 00 00', email: 'contact@studio-atlas.example' } })
   } else if (kind === 'demo-invoices') {
     await ensureDatabase()
     const { demoStatus, loadIosDemoData: loadDemoData } = await import('./demoData')
