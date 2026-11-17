@@ -11,21 +11,31 @@
  *    العمولة للمشرف وحده. كل حركة في سجلّ التدقيق باسم صاحبها، والقيد المالي لا يُحذف.
  */
 import { randomInt, randomUUID } from 'node:crypto'
-import { and, asc, desc, eq, inArray, isNull, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, inArray, isNotNull, isNull, ne, or, sql } from 'drizzle-orm'
+import { alias } from 'drizzle-orm/pg-core'
 import type { Db } from '@/server/db/connect'
-import { courseCodes, courses, pointsOfSale, posMembers, posPayments, posStockMoves, products, profiles, users, wilayas } from '@/server/db/schema'
+import { courseCodes, courseEnrollments, courses, levels, pointsOfSale, posMembers, posPayments, posStockMoves, products, profiles, streams, students, users, wilayas } from '@/server/db/schema'
 import { hashPassword } from '@/server/auth/password'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { seal, unseal } from '@/server/lib/secret-box'
 import { insertSingleCourseCode } from './course-codes.service'
-import { notifyMany } from './notifications.service'
-import { normalizePhone } from './otp.service'
+import { enrollStudent } from './courses.service'
+import { notify, notifyMany } from './notifications.service'
+import { normalizePhone, requestOtp, verifyOtp } from './otp.service'
 
 const SEAL_PURPOSE = 'pos.code'
 /** مهلة إلغاء كود لم يُستعمل (الباقة أُرجعت قبل التفعيل) */
 export const POS_CANCEL_WINDOW_MS = 48 * 3600 * 1000
+/** مهلة تراجع المكتبة عن تفعيل SMS خاطئ؛ بعدها الإدارة وحدها (قرار المالك 18 نوفمبر 2026) */
+export const POS_UNDO_WINDOW_MS = 24 * 3600 * 1000
+/** مهلة اختيار التلميذ حين يحمل الرقم أكثر من حساب (رقم وليّ لعدة أبناء) */
+const PICK_TICKET_MS = 10 * 60_000
+const TICKET_PURPOSE = 'pos.pick'
+
+/** 0662 •• •• 11 */
+export const maskPhone = (p: string) => `${p.slice(0, 4)} •• •• ${p.slice(8)}`
 const isPhysical = (type: string) => type === 'BOOK' || type === 'PACK'
 
 type PosRow = typeof pointsOfSale.$inferSelect
@@ -265,16 +275,24 @@ function shareTextFor(code: string, courseTitle: string): string {
  */
 export async function generatePosCode(db: Db, actor: Actor, courseId: string): Promise<GeneratedPosCode> {
   const pos = await posOfMember(db, actor)
-  return generateFor(db, actor, pos, courseId)
+  return generateFor(db, actor, pos, courseId, { soldVia: 'CODE' })
 }
 
 /** المشرف أو مدير العمليات يولّد كودًا نيابة عن نقطة (اتصلت المدرسة هاتفيًّا): يُحسب بيعًا عليها كالعادة */
 export async function generatePosCodeFor(db: Db, actor: Actor, posId: string, courseId: string): Promise<GeneratedPosCode> {
   assertPartnerStaff(actor)
-  return generateFor(db, actor, await loadPos(db, posId), courseId)
+  return generateFor(db, actor, await loadPos(db, posId), courseId, { soldVia: 'CODE' })
 }
 
-async function generateFor(db: Db, actor: Actor, pos: PosRow, courseId: string): Promise<GeneratedPosCode> {
+interface GenerateOpts {
+  soldVia?: 'CODE' | 'SMS'
+  /** الهاتف المؤكَّد برمز SMS لحظة البيع */
+  soldPhone?: string | null
+  /** تفعيل فوري لتلميذ في المعاملة نفسها (البيع برمز SMS): الكود يُستهلك والاشتراك يُفعَّل معًا أو لا شيء */
+  activateStudentId?: string | null
+}
+
+async function generateFor(db: Db, actor: Actor, pos: PosRow, courseId: string, opts: GenerateOpts = {}): Promise<GeneratedPosCode> {
   if (pos.status !== 'ACTIVE') throw new AppError('POS_SUSPENDED')
   assertUuid(courseId, 'COURSE_NOT_FOUND')
   const bundle = await bundlePriceOf(db, courseId)
@@ -288,10 +306,14 @@ async function generateFor(db: Db, actor: Actor, pos: PosRow, courseId: string):
       batchId: pos.id,
       batchLabel: `نقطة بيع: ${locked.name}`.slice(0, 80),
       createdByUserId: actor.userId,
-      extra: { posId: pos.id, salePriceDzd: bundle.priceDzd, commissionDzd: locked.commissionDzd },
+      extra: { posId: pos.id, salePriceDzd: bundle.priceDzd, commissionDzd: locked.commissionDzd, soldVia: opts.soldVia ?? null, soldPhone: opts.soldPhone ?? null },
       makeExtra: (c) => ({ codeSealed: seal(c, SEAL_PURPOSE) })
     })
-    await writeAudit(tx, { actorUserId: actor.userId, workspaceId: bundle.workspaceId, action: 'pos.code_generate', entityType: 'point_of_sale', entityId: pos.id, newValue: { codeId: id, courseId, priceDzd: bundle.priceDzd, commissionDzd: locked.commissionDzd } })
+    if (opts.activateStudentId) {
+      await tx.update(courseCodes).set({ status: 'USED', usedAt: new Date(), usedByStudentId: opts.activateStudentId }).where(eq(courseCodes.id, id))
+      await enrollStudent(tx, null, { courseId, studentId: opts.activateStudentId, source: 'POS', activatedByUserId: actor.userId })
+    }
+    await writeAudit(tx, { actorUserId: actor.userId, workspaceId: bundle.workspaceId, action: opts.activateStudentId ? 'pos.sms_activate' : opts.soldPhone ? 'pos.sms_reserve' : 'pos.code_generate', entityType: 'point_of_sale', entityId: pos.id, newValue: { codeId: id, courseId, priceDzd: bundle.priceDzd, commissionDzd: locked.commissionDzd, ...(opts.soldPhone ? { phoneTail: opts.soldPhone.slice(-4) } : {}), ...(opts.activateStudentId ? { studentId: opts.activateStudentId } : {}) } })
     return { id, code, remaining: s.sent - s.sold - 1, alertAt: locked.lowStockAlert, name: locked.name }
   })
   // تنبيه عند بلوغ حدّ التنبيه أو النفاد (مرة عند كل عتبة)
@@ -330,6 +352,14 @@ export interface PosCodeView {
   usedAt: Date | null
   soldBy: string | null
   cancellable: boolean
+  /** CODE = كود يُكتب في /claim، SMS = فعّلته المكتبة برمز (أو حجزته لرقم) */
+  soldVia: 'CODE' | 'SMS' | null
+  /** الهاتف المؤكَّد عند البيع، مقنّعًا */
+  soldPhoneMasked: string | null
+  /** التلميذ الذي فُعِّلت له الدورة */
+  studentName: string | null
+  /** تراجع عن تفعيل SMS خاطئ: 24 ساعة للمكتبة، وللإدارة دائمًا */
+  undoable: boolean
 }
 
 /** أكواد النقطة (الأحدث أولًا) — الكود الصريح يُفكّ للنقطة نفسها وللمشرف/المسؤول فقط */
@@ -338,18 +368,27 @@ export async function listPosCodes(db: Db, actor: Actor, posId: string, limit = 
     const pos = await posOfMember(db, actor)
     if (pos.id !== posId) throw new AppError('FORBIDDEN')
   } else assertPartnerViewer(actor)
+  const seller = alias(profiles, 'seller')
+  const studentProfile = alias(profiles, 'student_profile')
   const rows = await db
-    .select({ c: courseCodes, courseTitle: courses.title, soldBy: profiles.fullName })
+    .select({ c: courseCodes, courseTitle: courses.title, soldBy: seller.fullName, studentName: studentProfile.fullName })
     .from(courseCodes)
     .innerJoin(courses, eq(courses.id, courseCodes.courseId))
-    .leftJoin(profiles, eq(profiles.userId, courseCodes.createdByUserId))
+    .leftJoin(seller, eq(seller.userId, courseCodes.createdByUserId))
+    .leftJoin(students, eq(students.id, courseCodes.usedByStudentId))
+    .leftJoin(studentProfile, eq(studentProfile.userId, students.userId))
     .where(eq(courseCodes.posId, posId))
     .orderBy(desc(courseCodes.createdAt))
     .limit(Math.min(Math.max(limit, 1), 500))
   const staff = actor.role === 'SUPER_ADMIN' || actor.role === 'MANAGER'
   return rows.map((r) => {
     const status = r.c.cancelledAt ? 'CANCELLED' : r.c.status === 'USED' ? 'USED' : 'ACTIVE'
+    const soldVia = r.c.soldVia === 'SMS' || r.c.soldVia === 'CODE' ? r.c.soldVia : null
     return {
+      soldVia,
+      soldPhoneMasked: r.c.soldPhone ? maskPhone(r.c.soldPhone) : null,
+      studentName: r.studentName ?? null,
+      undoable: status === 'USED' && soldVia === 'SMS' && Boolean(r.c.usedAt) && (staff || now.getTime() - r.c.usedAt!.getTime() <= POS_UNDO_WINDOW_MS),
       id: r.c.id,
       code: r.c.codeSealed ? unseal(r.c.codeSealed, SEAL_PURPOSE) : null,
       courseTitle: r.courseTitle,
@@ -510,4 +549,175 @@ export async function posHome(db: Db, actor: Actor) {
   const pos = await posOfMember(db, actor)
   const [summary, codes] = await Promise.all([posSummary(db, pos.id), listPosCodes(db, actor, pos.id, 50)])
   return { pos: { id: pos.id, name: pos.name, status: pos.status, commissionDzd: pos.commissionDzd }, summary, codes }
+}
+
+/* ───────────── البيع برمز SMS (قرار المالك 18 نوفمبر 2026) ─────────────
+ * صاحب المكتبة يكتب هاتف التلميذ ← رسالة برمز من 6 أرقام إلى ذلك الهاتف ← يكتب الرمز الذي يقرؤه له التلميذ ←
+ *   - حساب واحد بالرقم (هاتفه أو هاتف وليّه): تُفعَّل الدورة فورًا، ويظهر الاسم واللقب والمستوى والولاية،
+ *   - أكثر من حساب (وليّ لعدة أبناء): يختار صاحب المكتبة من القائمة خلال 10 دقائق،
+ *   - لا حساب: تُحجز الدورة للرقم المؤكَّد وتُفعَّل تلقائيًا حين يسجّل التلميذ به ويؤكّده.
+ * الاسم لا يظهر قبل الرمز: لا يعرف أحد صاحب رقم إلا والهاتف بيد صاحبه أمامه.
+ * لا يُحسب البيع ولا ينقص المخزون قبل تأكيد الرمز. رسالة واحدة لكل بيع (أقل من 70 حرفًا).
+ */
+
+export const posOtpSmsText = (code: string, hasAccount: boolean) =>
+  hasAccount ? `مدرسة: رمز تفعيل دورتك ${code}. أعطه لصاحب المكتبة وأنت أمامه فقط.` : `مدرسة: رمز دورتك ${code}. بعده سجّل بهذا الرقم في madrasadz.com`
+
+export interface PosSaleStudent {
+  studentId: string
+  userId: string
+  fullName: string
+  levelName: string | null
+  streamName: string | null
+  wilayaName: string | null
+  /** مشترك في الدورة من قبل (لا يُباع له مرة ثانية) */
+  enrolled: boolean
+}
+
+export type PosSaleResult =
+  | { kind: 'ACTIVATED'; codeId: string; courseTitle: string; remaining: number; student: PosSaleStudent }
+  | { kind: 'RESERVED'; codeId: string; courseTitle: string; remaining: number; phoneMasked: string }
+  | { kind: 'PICK'; ticket: string; courseTitle: string; candidates: PosSaleStudent[] }
+  | { kind: 'ALREADY'; courseTitle: string; student: PosSaleStudent }
+
+/** حسابات التلاميذ التي يحملها الرقم: هاتف التلميذ أولًا ثم هاتف الولي (أقصى 6) */
+async function studentsOnPhone(db: Db, phone: string, courseId: string): Promise<PosSaleStudent[]> {
+  const rows = await db
+    .select({ studentId: students.id, userId: users.id, fullName: profiles.fullName, levelName: levels.nameAr, streamName: streams.nameAr, wilayaName: wilayas.nameAr, own: sql<boolean>`${profiles.phone} = ${phone}` })
+    .from(students)
+    .innerJoin(users, eq(users.id, students.userId))
+    .innerJoin(profiles, eq(profiles.userId, users.id))
+    .leftJoin(levels, eq(levels.id, students.levelId))
+    .leftJoin(streams, eq(streams.id, students.streamId))
+    .leftJoin(wilayas, eq(wilayas.id, students.wilayaId))
+    .where(and(or(eq(profiles.phone, phone), eq(students.guardianPhone, phone)), eq(users.role, 'STUDENT'), eq(users.status, 'ACTIVE'), isNull(users.deletedAt)))
+    .orderBy(desc(sql`${profiles.phone} = ${phone}`), asc(profiles.fullName))
+    .limit(6)
+  if (!rows.length) return []
+  const active = await db
+    .select({ studentId: courseEnrollments.studentId })
+    .from(courseEnrollments)
+    .where(and(eq(courseEnrollments.courseId, courseId), eq(courseEnrollments.status, 'ACTIVE'), inArray(courseEnrollments.studentId, rows.map((r) => r.studentId))))
+  const enrolled = new Set(active.map((a) => a.studentId))
+  return rows.map((r) => ({ studentId: r.studentId, userId: r.userId, fullName: r.fullName ?? '—', levelName: r.levelName ?? null, streamName: r.streamName ?? null, wilayaName: r.wilayaName ?? null, enrolled: enrolled.has(r.studentId) }))
+}
+
+async function assertSellable(db: Db, pos: PosRow, courseId: string): Promise<{ title: string }> {
+  if (pos.status !== 'ACTIVE') throw new AppError('POS_SUSPENDED')
+  assertUuid(courseId, 'COURSE_NOT_FOUND')
+  const bundle = await bundlePriceOf(db, courseId)
+  const s = (await stockByCourse(db, pos.id)).get(courseId) ?? { sent: 0, sold: 0 }
+  if (s.sent - s.sold < 1) throw new AppError('POS_OUT_OF_STOCK')
+  return { title: bundle.title }
+}
+
+/** «أرسل رمز التفعيل للتلميذ»: رسالة برمز إلى الهاتف — لا بيع ولا مخزون قبل تأكيد الرمز */
+export async function startPosSale(db: Db, actor: Actor, input: { courseId: string; phone: string; ip?: string | null }): Promise<{ phoneMasked: string; devCode?: string }> {
+  const pos = await posOfMember(db, actor)
+  await assertSellable(db, pos, input.courseId)
+  const phone = normalizePhone(input.phone)
+  const hasAccount = (await studentsOnPhone(db, phone, input.courseId)).length > 0
+  const r = await requestOtp(db, { phone, purpose: 'POS', userId: actor.userId, ip: input.ip ?? null, smsText: (code) => posOtpSmsText(code, hasAccount) })
+  return { phoneMasked: maskPhone(phone), ...(r.devCode ? { devCode: r.devCode } : {}) }
+}
+
+/** «فعّل الدورة الآن»: يتحقق من الرمز ثم يفعّل أو يحجز أو يطلب الاختيار */
+export async function confirmPosSale(db: Db, actor: Actor, input: { courseId: string; phone: string; code: string }): Promise<PosSaleResult> {
+  const pos = await posOfMember(db, actor)
+  const { title } = await assertSellable(db, pos, input.courseId)
+  const phone = normalizePhone(input.phone)
+  // الرمز مربوط بحساب المكتبة التي طلبته: لا تستهلكه مكتبة أخرى
+  await verifyOtp(db, { phone, purpose: 'POS', code: input.code, userId: actor.userId })
+  const found = await studentsOnPhone(db, phone, input.courseId)
+  if (found.length === 0) {
+    const g = await generateFor(db, actor, pos, input.courseId, { soldVia: 'SMS', soldPhone: phone })
+    return { kind: 'RESERVED', codeId: g.codeId, courseTitle: title, remaining: g.remaining, phoneMasked: maskPhone(phone) }
+  }
+  if (found.length === 1) {
+    const st = found[0]!
+    if (st.enrolled) return { kind: 'ALREADY', courseTitle: title, student: st }
+    return activateFor(db, actor, pos, input.courseId, title, phone, st)
+  }
+  const ticket = seal(JSON.stringify({ p: pos.id, c: input.courseId, ph: phone, u: actor.userId, e: Date.now() + PICK_TICKET_MS, s: found.map((f) => f.studentId) }), TICKET_PURPOSE)
+  return { kind: 'PICK', ticket, courseTitle: title, candidates: found }
+}
+
+/** رقم يحمله أكثر من حساب: صاحب المكتبة يختار التلميذ (بعد تأكيد الرمز، خلال 10 دقائق) */
+export async function pickPosSaleStudent(db: Db, actor: Actor, input: { ticket: string; studentId: string }): Promise<PosSaleResult> {
+  const pos = await posOfMember(db, actor)
+  const raw = unseal(input.ticket, TICKET_PURPOSE)
+  const t = raw ? (JSON.parse(raw) as { p: string; c: string; ph: string; u: string; e: number; s: string[] }) : null
+  if (!t || t.p !== pos.id || t.u !== actor.userId || t.e < Date.now() || !t.s.includes(input.studentId)) throw new AppError('POS_SALE_EXPIRED')
+  const { title } = await assertSellable(db, pos, t.c)
+  const st = (await studentsOnPhone(db, t.ph, t.c)).find((f) => f.studentId === input.studentId)
+  if (!st) throw new AppError('POS_SALE_EXPIRED')
+  if (st.enrolled) return { kind: 'ALREADY', courseTitle: title, student: st }
+  return activateFor(db, actor, pos, t.c, title, t.ph, st)
+}
+
+async function activateFor(db: Db, actor: Actor, pos: PosRow, courseId: string, title: string, phone: string, st: PosSaleStudent): Promise<PosSaleResult> {
+  const g = await generateFor(db, actor, pos, courseId, { soldVia: 'SMS', soldPhone: phone, activateStudentId: st.studentId })
+  await notify(db, { userId: st.userId, workspaceId: null, type: 'SYSTEM', title: `فُعّلت دورة «${title}» على حسابك`, body: `من «${pos.name}». بالتوفيق!`, link: '/student/courses' }).catch(() => null)
+  return { kind: 'ACTIVATED', codeId: g.codeId, courseTitle: title, remaining: g.remaining, student: { ...st, enrolled: true } }
+}
+
+/**
+ * تفعيل خاطئ (تلميذ آخر): يُلغى الاشتراك الذي فتحه هذا البيع، ويُلغى الكود فتعود الباقة إلى العدّاد.
+ * للمكتبة خلال 24 ساعة من التفعيل، وللمشرف ومدير العمليات في أي وقت.
+ */
+export async function undoPosActivation(db: Db, actor: Actor, codeId: string, now = new Date()): Promise<void> {
+  assertUuid(codeId, 'CODE_INVALID')
+  const [c] = await db.select().from(courseCodes).where(eq(courseCodes.id, codeId)).limit(1)
+  if (!c || !c.posId) throw new AppError('CODE_INVALID')
+  if (actor.role === 'POINT_OF_SALE') {
+    const pos = await posOfMember(db, actor)
+    if (pos.id !== c.posId) throw new AppError('FORBIDDEN')
+    if (!c.usedAt || now.getTime() - c.usedAt.getTime() > POS_UNDO_WINDOW_MS) throw new AppError('POS_UNDO_EXPIRED')
+  } else assertPartnerStaff(actor)
+  if (c.soldVia !== 'SMS' || c.status !== 'USED' || c.cancelledAt || !c.usedByStudentId) throw new AppError('POS_CODE_NOT_CANCELLABLE')
+  await db.transaction(async (tx) => {
+    const [row] = await tx.update(courseCodes).set({ status: 'DISABLED', cancelledAt: now }).where(and(eq(courseCodes.id, c.id), eq(courseCodes.status, 'USED'))).returning({ id: courseCodes.id })
+    if (!row) throw new AppError('POS_CODE_NOT_CANCELLABLE')
+    await tx
+      .update(courseEnrollments)
+      .set({ status: 'REVOKED', revokedReason: 'تراجع عن تفعيل خاطئ في نقطة البيع', updatedAt: now })
+      .where(and(eq(courseEnrollments.courseId, c.courseId), eq(courseEnrollments.studentId, c.usedByStudentId!), eq(courseEnrollments.source, 'POS'), eq(courseEnrollments.status, 'ACTIVE')))
+    await writeAudit(tx, { actorUserId: actor.userId, workspaceId: null, action: 'pos.sms_undo', entityType: 'point_of_sale', entityId: c.posId!, newValue: { codeId: c.id, studentId: c.usedByStudentId } })
+  })
+}
+
+/**
+ * التلميذ أكّد رقمًا حُجزت له دورة في نقطة بيع: تُفعَّل له تلقائيًا (يُستدعى بعد كل تأكيد هاتف، برمز أو بمكالمة).
+ * لا يرمي أبدًا: فشل التفعيل لا يُفشل تأكيد الهاتف، والكود يبقى صالحًا للكتابة في /claim.
+ */
+export async function activateReservedPosCodes(db: Db, userId: string, phone: string): Promise<number> {
+  try {
+    const [st] = await db.select({ id: students.id }).from(students).where(eq(students.userId, userId)).limit(1)
+    if (!st) return 0
+    const reserved = await db
+      .select({ id: courseCodes.id, courseId: courseCodes.courseId, posId: courseCodes.posId, title: courses.title, posName: pointsOfSale.name })
+      .from(courseCodes)
+      .innerJoin(courses, eq(courses.id, courseCodes.courseId))
+      .innerJoin(pointsOfSale, eq(pointsOfSale.id, courseCodes.posId))
+      .where(and(eq(courseCodes.soldPhone, phone), eq(courseCodes.status, 'ACTIVE'), isNull(courseCodes.cancelledAt), isNotNull(courseCodes.posId)))
+      .orderBy(asc(courseCodes.createdAt))
+      .limit(10)
+    let n = 0
+    for (const r of reserved) {
+      const done = await db.transaction(async (tx) => {
+        const [row] = await tx.update(courseCodes).set({ status: 'USED', usedAt: new Date(), usedByStudentId: st.id }).where(and(eq(courseCodes.id, r.id), eq(courseCodes.status, 'ACTIVE'), ne(courseCodes.soldPhone, ''))).returning({ id: courseCodes.id })
+        if (!row) return false
+        await enrollStudent(tx, null, { courseId: r.courseId, studentId: st.id, source: 'POS', activatedByUserId: userId })
+        await writeAudit(tx, { actorUserId: userId, workspaceId: null, action: 'pos.sms_reserved_activate', entityType: 'point_of_sale', entityId: r.posId!, newValue: { codeId: r.id, studentId: st.id } })
+        return true
+      })
+      if (!done) continue
+      n++
+      await notify(db, { userId, workspaceId: null, type: 'SYSTEM', title: `فُعّلت دورة «${r.title}» على حسابك`, body: `اشتريتها من «${r.posName}». بالتوفيق!`, link: '/student/courses' }).catch(() => null)
+    }
+    return n
+  } catch (e) {
+    if (process.env.NODE_ENV !== 'test') console.error('[pos] reserved activation failed:', e instanceof Error ? e.message : e)
+    return 0
+  }
 }

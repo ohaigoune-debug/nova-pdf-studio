@@ -162,6 +162,8 @@ export async function handleIncomingCall(db: Db, rawPhone: string, opts: { chann
     return { result: 'invalid_phone', reject: false }
   }
   const verified = await verifyCallerProfile(db, phone, at)
+  // دورة حُجزت لهذا الرقم في نقطة بيع: تُفعَّل لمن أكّده بالمكالمة (لا يرمي)
+  if (verified[0]) await import('./points-of-sale.service').then((m) => m.activateReservedPosCodes(db, verified[0]!.userId, phone))
   const since = new Date(at.getTime() - cfg.windowHours * 3_600_000)
   const until = new Date(at.getTime() + AT_SLACK_MS)
   const [order] = await db

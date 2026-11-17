@@ -182,9 +182,20 @@ export const courseCodes = pgTable(
     salePriceDzd: integer('sale_price_dzd'),
     commissionDzd: integer('commission_dzd'),
     /** ألغته نقطة البيع قبل استعماله (خلال 48 ساعة): الباقة تعود إلى عدّادها */
-    cancelledAt: timestamp('cancelled_at', { withTimezone: true })
+    cancelledAt: timestamp('cancelled_at', { withTimezone: true }),
+    /** 0053: الهاتف الذي أُكِّد برمز SMS لحظة البيع (التفعيل في المكتبة، أو حجز لرقم بلا حساب) */
+    soldPhone: text('sold_phone'),
+    /** 0053: CODE = كود يُكتب في /claim، SMS = فعّلته المكتبة برمز وصل التلميذ */
+    soldVia: text('sold_via')
   },
-  (t) => [check('course_codes_status_check', sql`${t.status} IN ('ACTIVE', 'USED', 'DISABLED')`), index('course_codes_course_idx').on(t.courseId, t.batchId), index('course_codes_pos_idx').on(t.posId, t.createdAt)]
+  (t) => [
+    check('course_codes_status_check', sql`${t.status} IN ('ACTIVE', 'USED', 'DISABLED')`),
+    check('course_codes_sold_via_check', sql`${t.soldVia} IS NULL OR ${t.soldVia} IN ('CODE', 'SMS')`),
+    check('course_codes_sold_phone_check', sql`${t.soldPhone} IS NULL OR ${t.soldPhone} ~ '^0[5-7][0-9]{8}$'`),
+    index('course_codes_course_idx').on(t.courseId, t.batchId),
+    index('course_codes_pos_idx').on(t.posId, t.createdAt),
+    index('course_codes_sold_phone_idx').on(t.soldPhone).where(sql`${t.soldPhone} IS NOT NULL AND ${t.status} = 'ACTIVE'`)
+  ]
 )
 
 /**
