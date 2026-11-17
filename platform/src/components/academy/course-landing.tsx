@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, PageHeader } from '@/components/ui/misc'
+import { SHIPPING_INCLUDED_BADGES } from '@/lib/course-shipping'
 import { formatDate } from '@/lib/utils'
 import type { CourseLanding } from '@/server/services/academy-catalog.service'
 import { priceLabel } from './course-catalog-card'
@@ -71,7 +72,7 @@ export function CourseLandingView({ landing, purchase, digital }: { landing: Cou
               <span>
                 <span className="block text-sm text-muted-foreground">الدورة مع الكتاب: «{purchase.book.title}»</span>
                 <span className="block text-2xl font-extrabold">{priceLabel(purchase.book.priceDzd)}</span>
-                <span className="block text-xs text-muted-foreground">+ التوصيل حسب ولايتك · الدفع عند الاستلام</span>
+                <span className="block text-xs text-muted-foreground">{SHIPPING_INCLUDED_BADGES[course.shippingIncluded] ?? '+ التوصيل حسب ولايتك'} · الدفع عند الاستلام</span>
               </span>
               <Button asChild size="lg">
                 <Link href={`/student/courses/${encodeURIComponent(course.slug)}/order`}>
