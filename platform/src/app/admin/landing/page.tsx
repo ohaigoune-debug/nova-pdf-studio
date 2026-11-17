@@ -1,9 +1,12 @@
 import Link from 'next/link'
+import { AdPixelsForm } from '@/components/landing/ad-pixels-form'
 import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { EmptyState, PageHeader } from '@/components/ui/misc'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { loadAdPixels } from '@/server/services/ad-pixels.service'
 import { landingStats, listLandings } from '@/server/services/landing.service'
 
 export const dynamic = 'force-dynamic'
@@ -14,7 +17,7 @@ export default async function AdminLandingListPage() {
   const actor = await requirePageActor('SUPER_ADMIN')
   const db = await getDb()
   const rows = await listLandings(db, actor)
-  const stats = await landingStats(db, actor, rows.map((r) => r.id))
+  const [stats, pixels] = await Promise.all([landingStats(db, actor, rows.map((r) => r.id)), loadAdPixels(db)])
   return (
     <div className="space-y-6">
       <PageHeader title="صفحات الهبوط" description="صفحة عامة لكل دورة لجلب التلاميذ من الترويج. أنشئ صفحة من صفحة الدورة: «الدورات والدروس» ← الدورة ← «إنشاء صفحة هبوط»." />
@@ -55,6 +58,19 @@ export default async function AdminLandingListPage() {
       ) : (
         <EmptyState title="لا صفحات هبوط بعد" description="افتح دورة من «الدورات والدروس» واضغط «إنشاء صفحة هبوط»." />
       )}
+
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base">بكسل الإعلانات الممولة</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            للحملات الممولة على فيسبوك وإنستغرام وتيك توك: يعدّ البكسل زيارة الصفحة، والضغط على «اطلب الآن»، والطلب نفسه (برقمه ومبلغه، دون اسم أو هاتف)، فتتعلّم المنصة الإعلانية من يطلب فعلًا. فارغ = معطّل.
+            {pixels.meta || pixels.tiktok ? ` مفعّل الآن: ${[pixels.meta ? 'Meta' : '', pixels.tiktok ? 'TikTok' : ''].filter(Boolean).join(' و')}.` : ''}
+          </p>
+        </CardHeader>
+        <CardContent>
+          <AdPixelsForm meta={pixels.meta} tiktok={pixels.tiktok} />
+        </CardContent>
+      </Card>
     </div>
   )
 }

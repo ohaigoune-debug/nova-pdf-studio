@@ -2,6 +2,8 @@ import { CheckCircle2, Clock, FileText, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { AdPixels } from '@/components/landing/ad-pixels'
+import { recentLandingConversions } from '@/server/services/ad-pixels.service'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { paymentById, paymentForReturn, receiptUrlOf, verifyPayment } from '@/server/services/online-payment.service'
@@ -34,8 +36,10 @@ export default async function PaymentReturnPage({ searchParams }: { searchParams
           ? { icon: Clock, tone: 'text-warning', title: 'الدفع قيد المراجعة', body: 'وصلنا دفع بمبلغ مختلف عن المطلوب؛ تراجعه الإدارة وتتصل بك.' }
           : { icon: XCircle, tone: 'text-destructive', title: status ? 'لم يتمّ الدفع' : 'لم نجد عملية دفع', body: 'لم يُقتطع شيء مقابل هذا الطلب. يمكنك المحاولة من جديد أو اختيار الدفع عند الاستلام.' }
   const Icon = view.icon
+  const conversions = status === 'PAID' ? await recentLandingConversions(db, actor.userId) : []
   return (
     <div className="mx-auto max-w-lg">
+      {conversions.length ? <AdPixels events={conversions} /> : null}
       <Card>
         <CardContent className="flex flex-col items-center gap-3 pt-8 text-center">
           <Icon className={`size-14 ${view.tone}`} />

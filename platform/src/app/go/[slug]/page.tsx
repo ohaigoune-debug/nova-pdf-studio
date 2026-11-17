@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Logo } from '@/components/brand/logo'
 import { priceLabel } from '@/components/academy/course-catalog-card'
+import { AdPixels } from '@/components/landing/ad-pixels'
 import { LandingBeacon } from '@/components/landing/landing-beacon'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -67,6 +68,7 @@ export default async function LandingPage({ params, searchParams }: Props) {
   return (
     <div className="min-h-dvh bg-background" dir="rtl">
       <LandingBeacon slug={landing.slug} src={sp.src ?? null} preview={preview} />
+      <AdPixels off={preview} events={[{ name: 'ViewContent', contentName: landing.slug }]} />
       {preview ? <div className="bg-warning/15 px-4 py-2 text-center text-sm font-semibold text-warning">معاينة — {landing.active ? 'الصفحة مشغّلة' : 'الصفحة متوقفة ولا يراها الزوار'}</div> : null}
 
       <header className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
@@ -93,7 +95,7 @@ export default async function LandingPage({ params, searchParams }: Props) {
             <img src={c.coverUrl} alt={c.title} className="mx-auto max-h-80 rounded-xl border object-contain" />
           ) : null}
           <Button asChild size="lg" className="w-full text-lg sm:w-auto sm:px-12">
-            <Link href={mainHref}>
+            <Link data-ad-cta href={mainHref}>
               <ShoppingBag className="size-5" aria-hidden /> {cta}
             </Link>
           </Button>
@@ -125,7 +127,7 @@ export default async function LandingPage({ params, searchParams }: Props) {
             <h2 className="text-xl font-bold">اختر عرضك</h2>
             <div className="grid gap-3 sm:grid-cols-2">
               {c.bookOffer ? (
-                <Link href={bookHref} className="block rounded-xl border-2 border-primary bg-card p-4 transition-colors hover:bg-primary/5">
+                <Link data-ad-cta href={bookHref} className="block rounded-xl border-2 border-primary bg-card p-4 transition-colors hover:bg-primary/5">
                   <span className="block font-bold">الدورة مع الكتب</span>
                   <span className="block text-2xl font-extrabold tabular-nums">{priceLabel(c.priceDzd)}</span>
                   {freeShipping ? <Badge variant="success" className="mt-1">{freeShipping}</Badge> : <span className="block text-xs text-muted-foreground">+ التوصيل حسب ولايتك</span>}
@@ -133,7 +135,7 @@ export default async function LandingPage({ params, searchParams }: Props) {
                 </Link>
               ) : null}
               {digital ? (
-                <Link href={digitalHref} className="block rounded-xl border bg-card p-4 transition-colors hover:bg-muted/60">
+                <Link data-ad-cta href={digitalHref} className="block rounded-xl border bg-card p-4 transition-colors hover:bg-muted/60">
                   <span className="block font-bold">النسخة الرقمية</span>
                   <span className="block text-2xl font-extrabold tabular-nums">{priceLabel(c.digitalPriceDzd!)}</span>
                   <span className="mt-2 block text-xs text-muted-foreground">بالبطاقة (CIB أو الذهبية)، تُفتح فورًا، دون كتاب</span>
@@ -176,7 +178,7 @@ export default async function LandingPage({ params, searchParams }: Props) {
             {active ? <span className="block font-bold text-success">أنت مشترك</span> : <span className="block text-lg font-extrabold tabular-nums">{priceLabel(mainPrice)}</span>}
           </div>
           <Button asChild size="lg">
-            <Link href={mainHref}>{cta}</Link>
+            <Link data-ad-cta href={mainHref}>{cta}</Link>
           </Button>
         </div>
       </div>

@@ -1359,6 +1359,7 @@ const ar = {
     settings_student_menu: 'تعديل أقسام حساب التلميذ',
     settings_play_bac_ios_only: 'تعديل ظهور PLAY وبنك البكالوريات (آيفون وحده)',
     settings_ios_app_link: 'تعديل رابط تطبيق الآيفون في App Store',
+    settings_ad_pixels: 'تعديل معرّفات بكسل الإعلانات',
     payment_initiate: 'بدء دفع إلكتروني',
     payment_paid: 'دفع إلكتروني مؤكَّد',
     payment_failed: 'دفع إلكتروني لم يتمّ',

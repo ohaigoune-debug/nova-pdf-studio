@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { PIXEL_CONNECT_ORIGINS, PIXEL_IMG_ORIGINS, isPixelPath } from '@/lib/ad-pixels'
 import { IOS_CLIENT_HEADER, IOS_PRESENTATION_COOKIE, IOS_PRESENTATION_HEADER, IOS_PRESENTATION_VALUE, iosPresentationRedirect, iosPresentationState } from '@/lib/ios-presentation'
 
 const SESSION_COOKIE = 'madrasa_session'
@@ -12,16 +13,17 @@ const APP_SOURCE = 'android-app'
  * سياسة أمن المحتوى (CSP) بـ nonce لكل طلب: لا سكربت مضمّن بلا nonce، ولا مصادر خارجية إلا خطوط Google.
  * Next.js يقرأ الترويسة من الطلب ويضع الـnonce على سكربتاته تلقائياً.
  */
-function buildCsp(nonce: string): string {
+function buildCsp(nonce: string, pixels = false): string {
   const dev = process.env.NODE_ENV !== 'production'
   const directives = [
     `default-src 'self'`,
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${dev ? " 'unsafe-eval'" : ''}`,
     `style-src 'self' 'unsafe-inline'`,
     `font-src 'self' data:`,
-    `img-src 'self' blob: data: https://i.ytimg.com`,
+    `img-src 'self' blob: data: https://i.ytimg.com${pixels ? ' ' + PIXEL_IMG_ORIGINS.join(' ') : ''}`,
     // رفع الفيديو مباشرة من المتصفح إلى Bunny (TUS) — لا يمرّ بخادمنا
-    `connect-src 'self' https://video.bunnycdn.com${dev ? ' ws: wss:' : ''}`,
+    // بكسلات الإعلانات (Meta/TikTok) على صفحات الهبوط وما بعد الطلب فقط — ومعطّلة ما لم يُحفظ معرّف
+    `connect-src 'self' https://video.bunnycdn.com${pixels ? ' ' + PIXEL_CONNECT_ORIGINS.join(' ') : ''}${dev ? ' ws: wss:' : ''}`,
     `worker-src 'self'`,
     `manifest-src 'self'`,
     `media-src 'self' blob:`,
@@ -55,7 +57,7 @@ export function middleware(req: NextRequest) {
   }
 
   const nonce = btoa(crypto.randomUUID())
-  const csp = buildCsp(nonce)
+  const csp = buildCsp(nonce, isPixelPath(pathname))
   const requestHeaders = new Headers(req.headers)
   // Ignore forged internal headers; only the persisted presentation preference
   // (or its explicit /ios bootstrap) supplies this server rendering hint.

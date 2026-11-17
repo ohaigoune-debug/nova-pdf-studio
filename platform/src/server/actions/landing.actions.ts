@@ -8,6 +8,8 @@ import { runAction, type ActionResult } from '@/server/lib/action-result'
 import { errorMessage } from '@/i18n'
 import { isAppError } from '@/server/lib/errors'
 import { createLandingForCourse, updateLanding } from '@/server/services/landing.service'
+import { setAdPixels } from '@/server/services/ad-pixels.service'
+import { cleanMetaPixel } from '@/lib/ad-pixels'
 
 /** زر «إنشاء صفحة هبوط» في صفحة الدورة: تُنشأ متوقفة ثم يُفتح محرّرها */
 export async function createLandingAction(fd: FormData): Promise<void> {
@@ -54,4 +56,20 @@ export async function saveLandingAction(_prev: ActionResult | null, fd: FormData
   revalidatePath(`/admin/landing/${id}`)
   revalidatePath('/go/[slug]', 'page')
   return { ok: true, data: undefined }
+}
+
+/** المشرف: معرّفا بكسل Meta و TikTok للإعلانات الممولة (فارغ = معطّل) */
+export async function saveAdPixelsAction(_prev: ActionResult | null, fd: FormData): Promise<ActionResult> {
+  const meta = String(fd.get('meta') ?? '')
+  const tiktok = String(fd.get('tiktok') ?? '')
+  const r = await runAction(async () => {
+    await setAdPixels(await getDb(), await requireRole('SUPER_ADMIN'), { meta, tiktok })
+    return undefined
+  })
+  if (!r.ok && r.error.code === 'VALIDATION') {
+    const field = !meta.trim() || cleanMetaPixel(meta) ? 'tiktok' : 'meta'
+    return { ok: false, error: { ...r.error, fieldErrors: { [field]: field === 'meta' ? 'معرّف Meta Pixel أرقام فقط (15 أو 16 رقمًا)' : 'معرّف TikTok Pixel حروف لاتينية كبيرة وأرقام (نحو 20 خانة)' } } }
+  }
+  if (r.ok) revalidatePath('/admin/landing')
+  return r
 }
