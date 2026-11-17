@@ -139,7 +139,7 @@
 6. للتوزيع في الاتحاد الأوروبي: تصريح «التاجر» (DSA).
 
 ### 9.6 ماذا يجب أن تضيف أنت؟ (بالترتيب)
-**تحديث 17 نوفمبر 10:05:** Paid Apps Agreement وُقّعت (Processing)، الحساب البنكي أُضيف (Processing)، W-8BEN مقدَّم (Active).
+**تحديث 17 نوفمبر 10:06:** Paid Apps Agreement **Active**، الحساب البنكي **Active**، W-8BEN **Active** (لقطة المالك). البندان 1 أدناه منجزان؛ رُفع بناء 1.0.0 جديد بكل إصلاحات 16 نوفمبر لاختبار الشراء الحقيقي في Sandbox.
 تم حسب تقاريرك: العضوية، Bundle ID `com.haigoune.novadocs`، سجل التطبيق في App Store Connect، مفتاح API (Admin) والأسرار الأربعة، مجموعة TestFlight «Owner»، جهاز iPhone.
 1. App Store Connect ← Business: **Paid Apps Agreement + البنك + الضرائب** (W-8BEN). **لا تضع أي بيانات بنكية في GitHub أو في الشيفرة.** تحقّق أن بنكك يظهر ويُقبل.
 2. **Small Business Program** (عمولة 15%).
