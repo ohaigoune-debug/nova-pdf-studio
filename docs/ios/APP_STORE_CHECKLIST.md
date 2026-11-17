@@ -3,8 +3,8 @@
 | # | البند | الحالة | ملاحظات |
 |---|---|---|---|
 | 1 | مشروع Xcode قابل للبناء | **COMPLETE** | CI على macOS-15 / Xcode 26.3: Debug (محاكي) وRelease (جهاز، دون توقيع) — BUILD SUCCEEDED |
-| 2 | Bundle ID مستقل عن «مدرسة» | COMPLETE (مقترح) | `com.haigoune.novadocs` — يُسجَّل في Developer ← Identifiers |
-| 3 | Version 1.0.0 / Build 1 | COMPLETE | `MARKETING_VERSION = 1.0.0`، `CURRENT_PROJECT_VERSION = 1` |
+| 2 | Bundle ID مستقل عن «مدرسة» | COMPLETE | `com.haigoune.novadocs` — مسجّل (تقرير المالك 16 نوفمبر) ومستعمل في كل البناءات المرفوعة |
+| 3 | Version 1.0.0 | COMPLETE | `MARKETING_VERSION = 1.0.0`؛ رقم البناء = رقم تشغيل CI. **مطلوب بناء 1.0.0 جديد** قبل التقديم (آخر 1.0.0 مرفوع هو (3)، قبل إصلاحات 16 نوفمبر) |
 | 4 | iPhone + iPad (TARGETED_DEVICE_FAMILY 1,2)، iOS 16.0+ | COMPLETE | |
 | 5 | الأيقونة 1024×1024 بلا شفافية | COMPLETE | `Assets.xcassets/AppIcon.appiconset` |
 | 6 | شاشة الإطلاق | COMPLETE | Splash 2732² بالهوية |
@@ -13,12 +13,16 @@
 | 9 | Export compliance | COMPLETE | `ITSAppUsesNonExemptEncryption = NO` |
 | 10 | منتج StoreKit + ملف اختبار | COMPLETE (شيفرة + 7/7 اختبارات StoreKit Testing) / BLOCKED (App Store Connect) | المنتج يجب أن يُنشأ في App Store Connect بالمعرّف نفسه حرفيًا |
 | 11 | وصف المتجر والكلمات المفتاحية ar/fr/en | COMPLETE | `APP_STORE_METADATA.md` (الأطوال محسوبة) |
-| 12 | سياسة الخصوصية + الشروط + الدعم | COMPLETE (محتوى) / BLOCKED (نشر) | `site/nova-docs/` — يحتاج استضافة بموافقتك |
-| 13 | لقطات iPhone 6.9" وiPad 13" حقيقية | PARTIAL | 8 لكل جهاز من المحاكي الحقيقي بالمقاسات المقبولة (1320×2868 و2064×2752) في `docs/ios/screenshots/`. **راجعها قبل الرفع**: بيانات الفواتير التجريبية مأخوذة من نسخة Windows وفيها اسم «ليلى مراد» (اسم فنانة معروفة) — يُفضَّل استبداله؛ ولقطة المسح هي شاشة المراجعة لصورة مولَّدة (المحاكي بلا كاميرا) ولا لشاشة Pro بسعر حقيقي. |
-| 14 | التوقيع (Signing) | BLOCKED | يحتاج Team ID وشهادة (أو مفتاح App Store Connect API للتوقيع التلقائي) |
-| 15 | IPA / Release Archive | BLOCKED | سير العمل `nova-docs-testflight.yml` جاهز ويحتاج الأسرار الأربعة |
-| 16 | TestFlight | BLOCKED | نفس ما سبق + تسجيل التطبيق في App Store Connect |
-| 17 | التقديم للمراجعة | **لن يتم دون موافقتك** | |
+| 12 | سياسة الخصوصية + الشروط + الدعم | COMPLETE (محتوى) / BLOCKED (نشر + بريد الدعم) | `site/nova-docs/` — يحتاج موافقتك على مكان النشر؛ بريد الدعم سرّ `NOVA_SUPPORT_EMAIL` |
+| 13 | لقطات iPhone 6.9" وiPad 13" حقيقية | PARTIAL | 8 لكل جهاز في `docs/ios/screenshots/` بالمقاسات المقبولة (1320×2868 و2064×2752) — **قديمة**: تُحدَّث بميزات 16 نوفمبر (تنسيق النص، الخطوط، البائع) وباستبدال الاسم التجريبي «ليلى مراد» (قرارك، البيانات مشتركة مع Windows). لا تُستعمل لقطة Pro بسعر غير حقيقي. |
+| 14 | التوقيع (Signing) | COMPLETE | توقيع سحابي Apple Distribution عند التصدير (مفتاح API بدور Admin)؛ اختبار التوقيع نجح (التشغيل 2) |
+| 15 | IPA / Release Archive | COMPLETE | `nova-docs-testflight.yml` — 5 رفعات ناجحة (1.0.0 (3)، 0.9.0 (4، 6، 8، 11)) |
+| 16 | TestFlight | COMPLETE (داخلي) | 1.0.0 (3) و0.9.0 (6) مثبّتان على iPhone المالك (تأكيده)؛ (8) و(11) رُفعا ولم يُؤكَّد ظهورهما |
+| 17 | منتج الشراء في App Store Connect | BLOCKED | `nova.docs.pro.lifetime` + Paid Apps Agreement + البنك + الضرائب (حسابك) |
+| 18 | Sandbox: شراء + استعادة على TestFlight | BLOCKED | بعد البند 17، على بناء 1.0.0 (لا 0.9.0) |
+| 19 | App Privacy + التصنيف العمري + الفئة + السعر | NOT STARTED | في App Store Connect (حسابك)؛ الجواب المقترح للخصوصية: Data Not Collected |
+| 20 | ملاحظات المراجِع (Review Notes) | NOT STARTED | تُكتب مع البناء النهائي: لا تسجيل دخول، ميزات Pro، طريقة الوصول للشراء |
+| 21 | التقديم للمراجعة | **لن يتم دون موافقتك** | |
 
 ## خطوات TestFlight عندما تصبح جاهزًا
 1. App Store Connect ← Users and Access ← Integrations ← **App Store Connect API** ← Generate Key (دور **App Manager**). احفظ: Key ID، Issuer ID، ملف `.p8` (يُنزَّل مرة واحدة).

@@ -15,8 +15,10 @@
 | الاسترداد وسحب الاستحقاق | COMPLETE | الاسترداد يسحب Pro — **مختبر على StoreKit** (`test05`)؛ الواجهة تقفل فورًا عند `entitlementsChanged`؛ زر «طلب استرداد» يفتح ورقة Apple الرسمية (غير مختبر) |
 | استعادة المشتريات | COMPLETE (منطق) / PARTIAL (تشغيلًا) | شراء من جهاز آخر يظهر في الاستحقاقات — **مختبر على StoreKit** (`test07`)؛ `AppStore.sync()` نفسه يحتاج تسجيل دخول Apple فلم يُختبر |
 | حماية الميزات المدفوعة | COMPLETE | بوابة مركزية `isFeatureAllowed` + فحص أصلي إضافي في Swift لـ OCR (`PRO_REQUIRED`). لا تحفظ الواجهة isPro كمصدر حقيقة. حدود صريحة: لا يوجد تطبيق محلي محصّن 100% على جهاز مكسور الحماية. |
-| اختبار StoreKit المحلي (StoreKit Testing) | **COMPLETE — 7/7 ناجحة في CI** | هدف `AppTests` (SKTestSession + `NovaDocs.storekit`)؛ يعمل مع كل دفعة على محاكي iPhone 16 Pro Max. والـ Scheme يربط الملف نفسه للتشغيل اليدوي من Xcode |
+| اختبار StoreKit المحلي (StoreKit Testing) | **COMPLETE — 7/7 ناجحة في CI** (آخر تأكيد `cb80501`؛ فشل عابر واحد في `19adf6a` — شهادة StoreKit Testing — ثم نجح دون تغيير) | هدف `AppTests` (SKTestSession + `NovaDocs.storekit`)؛ يعمل مع كل دفعة على محاكي iPhone 16 Pro Max. والـ Scheme يربط الملف نفسه للتشغيل اليدوي من Xcode |
 | اختبار Sandbox | BLOCKED | يتطلب: Paid Apps Agreement فعّالة + منتج في App Store Connect + حساب Sandbox Tester |
+| على iPhone حقيقي (TestFlight 1.0.0 (3)، 16 نوفمبر) | PARTIAL — كما هو متوقع | نافذة Pro تعرض «تعذّر الوصول إلى App Store حاليًا» + «إعادة المحاولة» (لقطتك): لا منتج في App Store Connect بعد. لا شيء فُتح دون شراء. |
+| بناء اختبار داخلي 0.9.0 | COMPLETE (للتجربة فقط) | شرط التجميع `NOVA_TESTER_PRO` يفتح Pro دون شراء ويعرض شريطًا أصفر؛ لا يوجد في أي بناء 1.0.0 ولا في AppTests؛ رقم 0.9.0 لا يُختار لمراجعة 1.0؛ سير العمل يرفض بناءً عاديًا برقم 0.9.0. **لا يُقدَّم للمراجعة أبدًا.** |
 | حساب Apple جاهز لاستلام الأرباح؟ | **غير معروف — يحتاجك** | انظر `APPLE_PAYMENTS_SETUP.md` (البنك الجزائري يجب التحقق منه، W-8BEN، Small Business Program) |
 
 ## اختبارات StoreKit الحقيقية (Apple StoreKit Testing — `ios/App/AppTests/StoreKitFlowTests.swift`) — 7/7

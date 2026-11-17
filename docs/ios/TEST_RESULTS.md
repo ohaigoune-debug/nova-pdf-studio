@@ -172,3 +172,16 @@ macOS-15 على GitHub، **Xcode 26.3 (17C529)**:
 - لقطة 22: لوحة «تنسيق النص»: «خطوط هذا المستند: TraditionalArabic — غير متوفر — الأقرب: أميري»، ثم كل الخطوط بمعاينة.
 - اختبارات StoreKit 7/7 (فشل عابر واحد في `19adf6a`: «failedToVerifyCertificateChain» في بيئة StoreKit Testing؛ نجح في الإعادة دون أي تغيير في شيفرة الشراء).
 - اختبارات الوحدة: 87/87.
+
+## 8e) التحقق الصباحي — 17 نوفمبر 2026 نحو 07:30 الجزائر (الصيغة النهائية)
+| المجموعة | الأمر | النتيجة |
+|---|---|---|
+| تطبيق iOS: typecheck | `npx tsc --noEmit -p tsconfig.json` | ✅ |
+| تطبيق iOS: وحدات | `npx vitest run` (apps/nova-docs) | ✅ **87 / 87** (11 ملفًا) |
+| تطبيق iOS: بناء الويب | `npm run build` | ✅ |
+| Windows: typecheck | `npm run typecheck` (الجذر) | ✅ |
+| Windows: وحدات | `npx vitest run` (الجذر) | ✅ **88 / 88** (12 ملفًا) |
+| `platform/` | `git diff --name-only origin/main...HEAD -- platform/` | ✅ 0 ملف |
+| CI على `cb80501` (HEAD الفعلي؛ `ea3fc8f` بعده وثائق فقط `[skip ci]`) | check-runs | ✅ Xcode + لقطات، ✅ typecheck/وحدات/OCR/Windows، ✅ رفع TestFlight 0.9.0 (11) |
+| لقطات المحاكي | `ci/nova-docs-ios-results` | ✅ 44 / 44 (22 مشهدًا × iPhone 16 Pro Max وiPad Pro 13")؛ راجعتُ 17 و22 على iPad: النافذة في الوسط والزر ظاهر |
+| StoreKit Testing | `storekit-tests-summary.txt` | ✅ 7 / 7، 0 أخطاء |
