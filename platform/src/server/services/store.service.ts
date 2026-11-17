@@ -24,6 +24,7 @@ import { transitionOrder } from './order-status.service'
 import { heldByOther, inConfirmQueue, reservationPolicy, takeForAction } from './confirm-reservations.service'
 import { isPhoneVerified, normalizePhone, verifyOtp } from './otp.service'
 import { commercialSettings } from './commercial-settings.service'
+import { courseShippingDzd, strongestShippingIncluded } from '@/lib/course-shipping'
 
 export const PRODUCT_TYPE_AR: Record<ProductType, string> = { BOOK: 'كتاب ورقي', PDF: 'ملف PDF', PACK: 'حزمة (ورقي + رقمي)' }
 export { ORDER_STATUS_AR } from './order-status.service'
@@ -42,6 +43,12 @@ export async function shippingFeeFor(db: Db, wilayaId: string | null, deliveryTy
     if (fee != null) return fee
   }
   return shippingFeeDzd(db)
+}
+
+/** رسما الولاية معًا (منزل ومكتب) — لحساب «السعر شامل التوصيل» في طلب الدورة */
+export async function shippingFeesFor(db: Db, wilayaId: string | null): Promise<{ home: number; desk: number }> {
+  const [home, desk] = await Promise.all([shippingFeeFor(db, wilayaId, 'HOME'), shippingFeeFor(db, wilayaId, 'DESK')])
+  return { home, desk }
 }
 
 /** خريطة الرسوم لكل ولاية (للسلة): null حين لا جدول EcoTrack محفوظ */
@@ -335,7 +342,7 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
   if (lines.some((l) => l.p.requiresStream) && !streamId) throw new AppError('ORDER_STREAM_REQUIRED')
   // كتب الدورات: لا يُطلب كتاب دورة لشعبة غير شعبة التلميذ (قرار المالك 2026-10-24). دورة بلا شعب = لكل الشعب.
   const courseLinks = await db
-    .select({ productId: courseProducts.productId, streamIds: courses.streamIds })
+    .select({ productId: courseProducts.productId, streamIds: courses.streamIds, shippingIncluded: courses.shippingIncluded })
     .from(courseProducts)
     .innerJoin(courses, eq(courses.id, courseProducts.courseId))
     .where(and(inArray(courseProducts.productId, ids), isNull(courses.deletedAt)))
@@ -368,7 +375,9 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
   if (needsShipping && !input.address?.trim()) throw new AppError('VALIDATION', { field: 'address' })
   const subtotal = lines.reduce((s, l) => s + l.total, 0)
   const deliveryType: 'HOME' | 'DESK' = input.deliveryType === 'DESK' ? 'DESK' : 'HOME'
-  const shipping = needsShipping ? await shippingFeeFor(db, input.wilayaId ?? null, deliveryType) : 0
+  // كتاب دورة في السلة: «السعر شامل التوصيل» في دورته يسري على الطرد كله (الأوسع إن تعدّدت الدورات)
+  const included = strongestShippingIncluded(courseLinks.map((l) => l.shippingIncluded))
+  const shipping = !needsShipping ? 0 : included === 'NONE' ? await shippingFeeFor(db, input.wilayaId ?? null, deliveryType) : courseShippingDzd(included, await shippingFeesFor(db, input.wilayaId ?? null), deliveryType)
   const total = subtotal + shipping
   const paymentMethod: PaymentMethod = total === 0 ? 'FREE' : needsShipping ? 'COD' : 'TRANSFER'
   const status: OrderStatus = paymentMethod === 'FREE' ? 'DELIVERED' : 'PENDING'

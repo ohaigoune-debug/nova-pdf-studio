@@ -11,6 +11,7 @@ import { id, inList, softDelete, timestamps } from './_common'
 import { users } from './auth'
 import { content, files } from './content'
 import {
+  COURSE_SHIPPING_INCLUDED,
   COURSE_STATUSES,
   DELIVERY_EVENT_STATUSES,
   ENROLLMENT_SOURCES,
@@ -65,6 +66,8 @@ export const courses = pgTable(
      * سعره هو سعر الدورة؛ يُدار من صفحة الدورة. null = دورة قديمة غير مكتملة (لا شراء جديد) أو مجانية.
      */
     bookProductId: uuid('book_product_id').references(() => products.id, { onDelete: 'set null' }),
+    /** التوصيل في سعر الكتاب (قرار المالك 2026-11-16): NONE لا يشمل، DESK شامل للمكتب (المنزل يدفع الفرق)، HOME شامل للمنزل */
+    shippingIncluded: text('shipping_included').notNull().default('NONE'),
     coverFileId: uuid('cover_file_id').references(() => files.id, { onDelete: 'set null' }),
     /** نص النظام الداخلي والشروط التي يوافق عليها التلميذ قبل الدخول (Markdown) */
     termsText: text('terms_text'),
@@ -78,6 +81,7 @@ export const courses = pgTable(
     check('courses_status_check', inList(t.status, COURSE_STATUSES)),
     check('courses_plan_check', sql`${t.plan} IN ('ANNUAL', 'TERM')`),
     check('courses_price_check', sql`${t.priceDzd} >= 0`),
+    check('courses_shipping_included_check', inList(t.shippingIncluded, COURSE_SHIPPING_INCLUDED)),
     check('courses_digital_price_check', sql`${t.digitalPriceDzd} IS NULL OR ${t.digitalPriceDzd} >= 50`),
     uniqueIndex('courses_group_unique').on(t.groupId),
     index('courses_status_idx').on(t.status, t.season)

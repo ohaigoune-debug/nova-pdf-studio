@@ -7,6 +7,7 @@ import { Input, Select, Textarea } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { toast } from '@/components/ui/toast'
 import { saveCourseAction } from '@/server/actions/courses.actions'
+import { ShippingIncludedField } from '@/components/courses/course-book-card'
 import type { CourseRow } from '@/server/db/schema'
 import { COURSE_STATUSES } from '@/server/db/schema/enums'
 
@@ -149,6 +150,7 @@ export function CourseForm({
                 <Field label="المخزون" htmlFor="c-book-stock" error={fieldError(state, 'bookStock')} hint="فارغ = غير محدود">
                   <Input id="c-book-stock" name="bookStock" type="number" min={0} dir="ltr" />
                 </Field>
+                <ShippingIncludedField id="c-book-shipping" defaultValue="NONE" className="sm:col-span-3" />
               </div>
             ) : (
               <p className="text-xs text-muted-foreground">بلا كتاب: يدخل التلاميذ الدورة بأكواد التفعيل أو بالتفعيل اليدوي. يمكنك إضافة كتاب لاحقًا من صفحة الدورة.</p>

@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
-import { COURSE_STATUSES, ENROLLMENT_SOURCES } from '@/server/db/schema/enums'
+import { COURSE_SHIPPING_INCLUDED, COURSE_STATUSES, ENROLLMENT_SOURCES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { AppError } from '@/server/lib/errors'
 import {
@@ -81,7 +81,8 @@ function fromForm(fd: FormData) {
 const newBookSchema = z.object({
   bookTitle: z.string().trim().min(2, 'اسم الكتاب').max(200),
   bookStock: z.number().int().min(0, 'المخزون 0 أو أكثر').nullable(),
-  priceDzd: z.coerce.number().int().min(1, 'الدورة ذات الكتاب سعرها 1 دج على الأقل').max(1_000_000)
+  priceDzd: z.coerce.number().int().min(1, 'الدورة ذات الكتاب سعرها 1 دج على الأقل').max(1_000_000),
+  shippingIncluded: z.enum(COURSE_SHIPPING_INCLUDED).optional()
 })
 
 async function uploadImage(db: Awaited<ReturnType<typeof getDb>>, actor: Awaited<ReturnType<typeof requireRole>>, file: FormDataEntryValue | null): Promise<string | null> {
@@ -99,7 +100,7 @@ export async function saveCourseAction(_prev: ActionResult<{ id: string }> | nul
   if (!parsed.success) return failValidation(parsed.error)
   const withBook = isNew && fd.get('withBook') === 'on'
   const stockRaw = String(fd.get('bookStock') ?? '').trim()
-  const book = withBook ? newBookSchema.safeParse({ bookTitle: fd.get('bookTitle') ?? '', bookStock: stockRaw === '' ? null : Number(stockRaw), priceDzd: fd.get('priceDzd') ?? 0 }) : null
+  const book = withBook ? newBookSchema.safeParse({ bookTitle: fd.get('bookTitle') ?? '', bookStock: stockRaw === '' ? null : Number(stockRaw), priceDzd: fd.get('priceDzd') ?? 0, shippingIncluded: fd.get('shippingIncluded') || undefined }) : null
   if (book && !book.success) return failValidation(book.error)
   // النسخة الرقمية اختيارية عند الإنشاء (فارغ = لا نسخة رقمية)
   const digitalRaw = isNew ? String(fd.get('digitalPriceDzd') ?? '').trim() : ''
@@ -116,7 +117,7 @@ export async function saveCourseAction(_prev: ActionResult<{ id: string }> | nul
     const row = await createCourse(db, actor, input)
     if (book?.success) {
       const { setCourseBook } = await import('@/server/services/course-purchase.service')
-      await setCourseBook(db, actor, row.id, { title: book.data.bookTitle, priceDzd: book.data.priceDzd, stock: book.data.bookStock, active: true, coverFileId: bookCoverId })
+      await setCourseBook(db, actor, row.id, { title: book.data.bookTitle, priceDzd: book.data.priceDzd, stock: book.data.bookStock, active: true, coverFileId: bookCoverId, shippingIncluded: book.data.shippingIncluded })
     }
     if (digital?.success) {
       const { setCourseDigitalPrice } = await import('@/server/services/course-purchase.service')
@@ -283,15 +284,15 @@ export async function releaseCourseCodeAction(code: string, revokeEnrollment: bo
 export async function setCourseBookAction(_prev: ActionResult<{ purchasable: boolean }> | null, fd: FormData): Promise<ActionResult<{ purchasable: boolean }>> {
   const stockRaw = String(fd.get('stock') ?? '').trim()
   const parsed = z
-    .object({ courseId: z.string().uuid(), title: z.string().trim().min(2, 'اسم الكتاب').max(200), priceDzd: z.coerce.number().int().min(1, 'السعر 1 دج على الأقل').max(1_000_000), stock: z.number().int().min(0).nullable(), active: z.boolean() })
-    .safeParse({ courseId: fd.get('courseId') ?? '', title: fd.get('title') ?? '', priceDzd: fd.get('priceDzd') ?? 0, stock: stockRaw === '' ? null : Number(stockRaw), active: fd.get('active') === 'on' })
+    .object({ courseId: z.string().uuid(), title: z.string().trim().min(2, 'اسم الكتاب').max(200), priceDzd: z.coerce.number().int().min(1, 'السعر 1 دج على الأقل').max(1_000_000), stock: z.number().int().min(0).nullable(), active: z.boolean(), shippingIncluded: z.enum(COURSE_SHIPPING_INCLUDED).optional() })
+    .safeParse({ courseId: fd.get('courseId') ?? '', title: fd.get('title') ?? '', priceDzd: fd.get('priceDzd') ?? 0, stock: stockRaw === '' ? null : Number(stockRaw), active: fd.get('active') === 'on', shippingIncluded: fd.get('shippingIncluded') || undefined })
   if (!parsed.success) return failValidation(parsed.error)
   const result = await runAction(async () => {
     const { setCourseBook } = await import('@/server/services/course-purchase.service')
     const actor = await requireRole('SUPER_ADMIN')
     const db = await getDb()
     const coverFileId = await uploadImage(db, actor, fd.get('cover'))
-    const s = await setCourseBook(db, actor, parsed.data.courseId, { title: parsed.data.title, priceDzd: parsed.data.priceDzd, stock: parsed.data.stock, active: parsed.data.active, coverFileId })
+    const s = await setCourseBook(db, actor, parsed.data.courseId, { title: parsed.data.title, priceDzd: parsed.data.priceDzd, stock: parsed.data.stock, active: parsed.data.active, coverFileId, shippingIncluded: parsed.data.shippingIncluded })
     return { purchasable: s.purchasable }
   })
   if (result.ok) {
