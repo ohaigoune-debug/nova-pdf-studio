@@ -19,7 +19,7 @@
 | اختبار Sandbox | BLOCKED | يتطلب: Paid Apps Agreement فعّالة + منتج في App Store Connect + حساب Sandbox Tester |
 | على iPhone حقيقي (TestFlight 1.0.0 (3)، 16 نوفمبر) | PARTIAL — كما هو متوقع | نافذة Pro تعرض «تعذّر الوصول إلى App Store حاليًا» + «إعادة المحاولة» (لقطتك): لا منتج في App Store Connect بعد. لا شيء فُتح دون شراء. |
 | بناء اختبار داخلي 0.9.0 | COMPLETE (للتجربة فقط) | شرط التجميع `NOVA_TESTER_PRO` يفتح Pro دون شراء ويعرض شريطًا أصفر؛ لا يوجد في أي بناء 1.0.0 ولا في AppTests؛ رقم 0.9.0 لا يُختار لمراجعة 1.0؛ سير العمل يرفض بناءً عاديًا برقم 0.9.0. **لا يُقدَّم للمراجعة أبدًا.** |
-| حساب Apple جاهز لاستلام الأرباح؟ | **غير معروف — يحتاجك** | انظر `APPLE_PAYMENTS_SETUP.md` (البنك الجزائري يجب التحقق منه، W-8BEN، Small Business Program) |
+| حساب Apple جاهز لاستلام الأرباح؟ | **قيد المعالجة عند Apple (17 نوفمبر 10:05، حسب لقطات المالك)** | Paid Apps Agreement: **Processing** (وُقّعت) · الحساب البنكي: بنك جزائري (BDL، SWIFT المقر BDLODZALXXX)، عملة الحساب EUR، عملة العائدات USD — **Processing** · الضرائب: W-8BEN و«Certificate of Foreign Status» **Active** (بلا مطالبة بمعاهدة: لا توجد معاهدة دخل بين أمريكا والجزائر ← حجز 30% على مبيعات المتجر الأمريكي عادةً). الباقي: موافقة Apple، DSA، Small Business Program، المنتج. لا أرقام حسابات في المستودع. | انظر `APPLE_PAYMENTS_SETUP.md` (البنك الجزائري يجب التحقق منه، W-8BEN، Small Business Program) |
 
 ## اختبارات StoreKit الحقيقية (Apple StoreKit Testing — `ios/App/AppTests/StoreKitFlowTests.swift`) — 7/7
 المنتج Non-Consumable بـ 4.99 وليس اشتراكًا · شراء موثّق يفتح · Ask to Buy معلّق ثم الموافقة تفتح · الرفض لا يفتح · الاسترداد يسحب · الفشل لا يفتح · شراء من جهاز آخر يُعترف به. (التفاصيل والأزمنة في `TEST_RESULTS.md` §8.)
