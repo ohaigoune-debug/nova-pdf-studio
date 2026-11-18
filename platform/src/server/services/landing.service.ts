@@ -281,5 +281,6 @@ export async function landingResumeFor(db: Db, actor: Actor, raw: string | null 
   const { hasActiveEnrollment, openCourseOrder } = await import('./course-purchase.service')
   if (await hasActiveEnrollment(db, row.courseId, actor.studentId)) return null
   if (await openCourseOrder(db, actor.userId, row.courseId)) return null
-  return { courseTitle: row.title, href: `/student/courses/${row.slug}${row.bookProductId ? '/order' : ''}` }
+  // المعرّف قد يكون عربيًا: يُرمَّز (التحويل بعد التسجيل يضعه في ترويسة HTTP)
+  return { courseTitle: row.title, href: `/student/courses/${encodeURIComponent(row.slug)}${row.bookProductId ? '/order' : ''}` }
 }

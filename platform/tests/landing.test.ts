@@ -119,7 +119,10 @@ describe('صفحة هبوط حقيقية', () => {
     const cookie = `${l.id}:ig`
     expect(await attributionFromCookie(h.db, cookie)).toEqual({ landingId: l.id, source: 'ig' })
     expect(await attributionFromCookie(h.db, 'not-a-uuid:ig')).toBeNull()
-    expect(await landingResumeFor(h.db, s, cookie)).toEqual({ courseTitle: c.title, href: `/student/courses/${c.slug}/order` })
+    const resume = await landingResumeFor(h.db, s, cookie)
+    expect(resume).toEqual({ courseTitle: c.title, href: `/student/courses/${encodeURIComponent(c.slug)}/order` })
+    // يُستعمل في تحويل بعد التسجيل (ترويسة HTTP): لا محارف خارج ASCII
+    expect(resume!.href).toMatch(/^[\x20-\x7e]+$/)
     const o = await placeCourseOrder(h.db, s, { courseId: c.id, phone: '0661999001', wilayaId, address: 'حي النصر', deliveryType: 'HOME', attribution: await attributionFromCookie(h.db, cookie) } as Parameters<typeof placeCourseOrder>[2])
     const [row] = await h.db.select({ landingId: orders.landingId, src: orders.trafficSource }).from(orders).where(eq(orders.id, o.id))
     expect(row).toEqual({ landingId: l.id, src: 'ig' })
