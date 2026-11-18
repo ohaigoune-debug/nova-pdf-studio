@@ -14,7 +14,14 @@ export const metadata: Metadata = {
   description: t('app.description'),
   applicationName: t('app.name'),
   manifest: '/manifest.webmanifest',
-  icons: { icon: '/icon-192.png', apple: '/icon-192.png' },
+  // شعار الهوية الزرقاء (بوابة مدرسة) — أسماء جديدة حتى لا يبقى المتصفح وCloudflare على الأيقونة الخضراء القديمة
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/brand/app-icon-192.png', sizes: '192x192', type: 'image/png' }
+    ],
+    apple: [{ url: '/brand/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }]
+  },
   appleWebApp: { capable: true, title: t('app.name'), statusBarStyle: 'default' }
 }
 
