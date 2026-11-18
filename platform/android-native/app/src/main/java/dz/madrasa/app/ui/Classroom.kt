@@ -185,6 +185,8 @@ private fun CommentRow(c: JsonObject, onReport: () -> Unit, onHide: (String, Str
     var menu by remember { mutableStateOf(false) }
     val mine = c.bool("mine") == true
     val teacher = c.bool("teacher") == true
+    // تعليق التلميذ ينتظر اعتماد الأستاذ أو مساعده: يراه صاحبه وحده حتى يُعتمد
+    val pending = mine && c.bool("pending") == true
     Row(
         Modifier
             .fillMaxWidth()
@@ -199,6 +201,7 @@ private fun CommentRow(c: JsonObject, onReport: () -> Unit, onHide: (String, Str
                 fontWeight = FontWeight.Bold, fontSize = 12.sp, color = if (teacher) Brand.blue else Brand.navy
             )
             Text(c.str("body") ?: "", fontSize = 14.sp)
+            if (pending) Text(T("commentPending"), fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         Box {
             IconButton(onClick = { menu = true }, modifier = Modifier.size(36.dp)) { Icon(Icons.Filled.MoreVert, T("commentActions"), modifier = Modifier.size(18.dp)) }

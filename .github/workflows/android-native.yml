@@ -5,7 +5,7 @@ name: أندرويد — التطبيق الأصيل (فحص وبناء)
 # الملف الموقّع للمتجر يُبنى على الخادم بمفتاح المالك (platform/android-native/scripts/build-aab-on-server.sh).
 on:
   push:
-    branches: [android-parity]
+    branches: [android-parity, 'claude/android-native-*']
     paths:
       - 'platform/android-native/**'
       - '.github/workflows/android-native.yml'

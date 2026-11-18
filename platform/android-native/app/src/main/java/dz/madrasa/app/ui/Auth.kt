@@ -277,7 +277,8 @@ private fun SignupScreen(onClose: () -> Unit) {
 
     fun firstInvalid(): String? {
         if (fullName.trim().length < 3) return "fullName"
-        if (!Regex("^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$").matches(email.trim())) return "email"
+        // البريد اختياري (قرار المالك 10 نوفمبر، كما في الموقع والخادم): يُفحص شكله حين يُكتب فقط
+        if (email.isNotBlank() && !Regex("^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$").matches(email.trim())) return "email"
         if (Phone.normalize(phone) == null) return "phone"
         if (Phone.normalize(guardian) == null) return "guardianPhone"
         if (password.length < 8) return "password"
@@ -300,7 +301,7 @@ private fun SignupScreen(onClose: () -> Unit) {
         working = true
         val payload: JsonObject = buildJsonObject {
             put("fullName", fullName.trim())
-            put("email", email.trim().lowercase())
+            if (email.isBlank()) put("email", JsonNull) else put("email", email.trim().lowercase())
             put("phone", Phone.normalize(phone) ?: phone)
             put("guardianPhone", Phone.normalize(guardian) ?: guardian)
             put("password", password)

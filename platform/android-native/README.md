@@ -6,7 +6,7 @@
 | | |
 |---|---|
 | الحزمة | `dz.madrasa.app` (نفس Play) — ونسخة التجربة `dz.madrasa.app.debug` تُثبَّت بجانبها |
-| الإصدار | versionCode 8 · versionName 1.1.0 (في `gradle.properties`) |
+| الإصدار | versionCode 20 · versionName 1.1.1 (في `gradle.properties`) |
 | أندرويد | من 7.0 (API 24) — targetSdk 36 كما تشترط Google منذ 31 أوت 2026 |
 | اللغة | العربية من اليمين إلى اليسار، بنصوص تطبيق الآيفون نفسها (`Strings.kt`) |
 
