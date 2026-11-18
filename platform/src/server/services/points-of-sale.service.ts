@@ -313,7 +313,10 @@ async function generateFor(db: Db, actor: Actor, pos: PosRow, courseId: string, 
       await tx.update(courseCodes).set({ status: 'USED', usedAt: new Date(), usedByStudentId: opts.activateStudentId }).where(eq(courseCodes.id, id))
       await enrollStudent(tx, null, { courseId, studentId: opts.activateStudentId, source: 'POS', activatedByUserId: actor.userId })
     }
-    await writeAudit(tx, { actorUserId: actor.userId, workspaceId: bundle.workspaceId, action: opts.activateStudentId ? 'pos.sms_activate' : opts.soldPhone ? 'pos.sms_reserve' : 'pos.code_generate', entityType: 'point_of_sale', entityId: pos.id, newValue: { codeId: id, courseId, priceDzd: bundle.priceDzd, commissionDzd: locked.commissionDzd, ...(opts.soldPhone ? { phoneTail: opts.soldPhone.slice(-4) } : {}), ...(opts.activateStudentId ? { studentId: opts.activateStudentId } : {}) } })
+    const audit = { actorUserId: actor.userId, workspaceId: bundle.workspaceId, entityType: 'point_of_sale', entityId: pos.id, newValue: { codeId: id, courseId, priceDzd: bundle.priceDzd, commissionDzd: locked.commissionDzd, ...(opts.soldPhone ? { phoneTail: opts.soldPhone.slice(-4) } : {}), ...(opts.activateStudentId ? { studentId: opts.activateStudentId } : {}) } }
+    if (opts.activateStudentId) await writeAudit(tx, { ...audit, action: 'pos.sms_activate' })
+    else if (opts.soldPhone) await writeAudit(tx, { ...audit, action: 'pos.sms_reserve' })
+    else await writeAudit(tx, { ...audit, action: 'pos.code_generate' })
     return { id, code, remaining: s.sent - s.sold - 1, alertAt: locked.lowStockAlert, name: locked.name }
   })
   // تنبيه عند بلوغ حدّ التنبيه أو النفاد (مرة عند كل عتبة)
