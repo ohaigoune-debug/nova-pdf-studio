@@ -53,6 +53,11 @@ const PRICES: { match: RegExp; input: number; output: number }[] = [
   { match: /gpt-5-mini/i, input: 0.25, output: 2 },
   { match: /gpt-5/i, input: 1.25, output: 10 },
   { match: /o4-mini|o3-mini/i, input: 1.1, output: 4.4 },
+  // الجيل 5.5 (صفحة النماذج الرسمية، نوفمبر 2026) قبل القواعد العامة
+  { match: /claude-sonnet-5-5/i, input: 2, output: 10 },
+  { match: /claude-opus-5-5/i, input: 4, output: 20 },
+  { match: /claude-haiku-5-5/i, input: 0.1, output: 0.5 },
+  { match: /claude-fable/i, input: 8, output: 40 },
   { match: /claude.*haiku/i, input: 0.8, output: 4 },
   { match: /claude.*sonnet/i, input: 3, output: 15 },
   { match: /claude.*opus/i, input: 15, output: 75 }

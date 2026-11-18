@@ -46,7 +46,8 @@ const handlers: Record<JobType, Handler> = {
   COURSE_EXPIRY: (db) => import('@/server/services/courses.service').then((m) => m.runCourseExpiryJob(db)),
   LIVE_REMINDERS: (db) => import('@/server/services/live.service').then((m) => m.runLiveRemindersJob(db)),
   ECOTRACK_SYNC: (db) => import('@/server/services/ecotrack.service').then((m) => m.runEcotrackSyncJob(db)),
-  ECOTRACK_SEND: (db, job) => import('@/server/services/ecotrack.service').then((m) => m.runEcotrackSendJob(db, job.payload))
+  ECOTRACK_SEND: (db, job) => import('@/server/services/ecotrack.service').then((m) => m.runEcotrackSendJob(db, job.payload)),
+  SUPPORT_AI_REPLY: (db, job) => import('@/server/support-ai/agent').then(async (m) => ({ ...(await m.runSupportAiJob(db, job.payload)) }))
 }
 
 export interface RunSummary {
