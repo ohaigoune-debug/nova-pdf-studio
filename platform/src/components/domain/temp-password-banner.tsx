@@ -18,7 +18,7 @@ export function TempPasswordBanner({ state }: { state: TempLoginState }) {
       <div className="flex items-start gap-3">
         {warn ? <ShieldAlert className="mt-0.5 size-5 shrink-0 text-warning" aria-hidden /> : <KeyRound className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />}
         <div className="space-y-1 text-sm">
-          <p className="font-bold">{warn ? `ينتهي رمز دخولك بعد ${state.daysLeft === 1 ? 'يوم واحد' : `${state.daysLeft} أيام`} — أنشئ كلمة سرك الآن` : 'أنشئ كلمة سرك لتحفظ حسابك'}</p>
+          <p className="font-bold">{warn ? `ينتهي رمز دخولك ${state.daysLeft <= 1 ? 'خلال يوم' : state.daysLeft === 2 ? 'بعد يومين' : `بعد ${state.daysLeft} أيام`} — أنشئ كلمة سرك الآن` : 'أنشئ كلمة سرك لتحفظ حسابك'}</p>
           {state.code ? (
             <p className="text-muted-foreground">
               رمز دخولك المؤقت: <span dir="ltr" className="font-mono text-base font-extrabold text-foreground">{fmtCode(state.code)}</span> — تدخل به مع رقم هاتفك {warn ? 'حتى انتهائه' : `(صالح ${state.daysLeft} أيام)`}.

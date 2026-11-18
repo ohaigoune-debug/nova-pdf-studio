@@ -87,7 +87,8 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
             </p>
             {purchase.book ? (
               <p className="text-4xl font-extrabold tabular-nums">
-                {price} <span className="text-lg font-bold text-white/75">{SHIPPING_INCLUDED_BADGES[course.shippingIncluded] ? `دج — ${SHIPPING_INCLUDED_BADGES[course.shippingIncluded]}` : 'دج + التوصيل'}</span>
+                {price} <span className="text-lg font-bold text-white/75">{SHIPPING_INCLUDED_BADGES[course.shippingIncluded] ? 'دج' : 'دج + التوصيل'}</span>
+                {SHIPPING_INCLUDED_BADGES[course.shippingIncluded] ? <span className="mt-1 block text-base font-semibold text-white/85">{SHIPPING_INCLUDED_BADGES[course.shippingIncluded]}</span> : null}
               </p>
             ) : null}
           </div>
