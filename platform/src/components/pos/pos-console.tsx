@@ -99,10 +99,9 @@ export function PosConsole({ pos, summary, codes }: { pos: { id: string; name: s
       const r = await confirmPosSaleAction({ courseId: step.line.courseId, phone: step.phone, code: digits(step.code) })
       if (!r.ok) return toast('error', r.error.message)
       setResult(r.data)
-      if (r.data.kind !== 'PICK') {
-        setStep(null)
-        setPhones((p) => ({ ...p, [step.line.courseId]: '' }))
-      }
+      // الرمز استُهلك: تختفي خانته في كل الحالات (والاختيار بين الأبناء يظهر في بطاقته)
+      setStep(null)
+      setPhones((p) => ({ ...p, [step.line.courseId]: '' }))
       router.refresh()
     })
 
@@ -436,7 +435,12 @@ export function PosConsole({ pos, summary, codes }: { pos: { id: string; name: s
                     </div>
                     <p className="text-xs text-muted-foreground">
                       {c.courseTitle} · {formatDateTime(new Date(c.usedAt ?? c.createdAt))}
-                      {c.studentName && c.soldPhoneMasked ? ` · ${c.soldPhoneMasked}` : ''}
+                      {c.studentName && c.soldPhoneMasked ? (
+                        <>
+                          {' · '}
+                          <span dir="ltr">{c.soldPhoneMasked}</span>
+                        </>
+                      ) : null}
                       {c.soldBy ? ` · ${c.soldBy}` : ''}
                     </p>
                     <div className="flex flex-wrap gap-2">

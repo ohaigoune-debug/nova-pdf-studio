@@ -175,8 +175,18 @@ export default async function PointOfSalePage({ params }: { params: Promise<{ id
                       </p>
                       <p className="text-xs text-muted-foreground">
                         {c.courseTitle} · {formatDateTime(c.usedAt ?? c.createdAt)}
-                        {c.studentName && c.soldPhoneMasked ? ` · ${c.soldPhoneMasked}` : ''}
-                        {c.code && (c.studentName || c.soldPhoneMasked) ? ` · كود ${formatPosCode(c.code)}` : ''}
+                        {c.studentName && c.soldPhoneMasked ? (
+                          <>
+                            {' · '}
+                            <span dir="ltr">{c.soldPhoneMasked}</span>
+                          </>
+                        ) : null}
+                        {c.code && (c.studentName || c.soldPhoneMasked) ? (
+                          <>
+                            {' · كود '}
+                            <span dir="ltr">{formatPosCode(c.code)}</span>
+                          </>
+                        ) : null}
                         {c.soldBy ? ` · ${c.soldBy}` : ''}
                       </p>
                     </div>
