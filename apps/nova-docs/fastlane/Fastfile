@@ -11,7 +11,7 @@ platform :ios do
       in_house: false
     )
     # بيانات الاتصال بالمراجِع تأتي من GitHub Secrets (اختيارية) ولا تُحفظ في المستودع؛ إن غابت تُملأ يدويًا على الويب
-    review = { 'demo_required' => false, 'notes' => File.read('fastlane/metadata/review_information/notes.txt') }
+    review = { 'demo_required' => false, 'notes' => File.read(File.join(__dir__, 'metadata', 'review_information', 'notes.txt')) }
     { 'first_name' => 'REVIEW_FIRST_NAME', 'last_name' => 'REVIEW_LAST_NAME',
       'phone_number' => 'REVIEW_PHONE', 'email_address' => 'SUPPORT_EMAIL' }.each do |k, env|
       v = ENV[env].to_s.strip
