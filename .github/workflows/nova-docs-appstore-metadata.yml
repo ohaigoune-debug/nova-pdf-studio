@@ -47,7 +47,9 @@ jobs:
           grep -q "BEGIN PRIVATE KEY" "$RUNNER_TEMP/asc.p8" || { echo "::error::Key is not a .p8 private key"; exit 1; }
           for loc in en-US fr-FR ar-SA; do
             mkdir -p "$RUNNER_TEMP/shots/$loc"
-            cp ../../docs/ios/screenshots/iphone-6.9/*.png ../../docs/ios/screenshots/ipad-13/*.png "$RUNNER_TEMP/shots/$loc/"
+            # iPhone and iPad files share names: prefix them (deliver picks the device from the pixel size)
+            for f in ../../docs/ios/screenshots/iphone-6.9/*.png; do cp "$f" "$RUNNER_TEMP/shots/$loc/iphone-$(basename "$f")"; done
+            for f in ../../docs/ios/screenshots/ipad-13/*.png; do cp "$f" "$RUNNER_TEMP/shots/$loc/ipad-$(basename "$f")"; done
           done
       - uses: ruby/setup-ruby@v1
         with:
