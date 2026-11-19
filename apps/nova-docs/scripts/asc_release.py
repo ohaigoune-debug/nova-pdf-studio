@@ -113,9 +113,21 @@ section(f"Version {VERSION}")
 d = get(f"/v1/apps/{APP}/appStoreVersions?" + urllib.parse.urlencode({"filter[platform]": "IOS", "limit": 20}))
 ver = next((v for v in (d or {}).get("data", []) if v["attributes"]["versionString"] == VERSION), None)
 if not ver:
+    editable = [v for v in (d or {}).get("data", [])
+                if v["attributes"].get("appStoreState") in ("PREPARE_FOR_SUBMISSION", "DEVELOPER_REJECTED", "REJECTED")]
     for v in (d or {}).get("data", []):
         print(f"  existing: {v['attributes']['versionString']} {v['attributes'].get('appStoreState')}")
-    sys.exit(f"::error::version {VERSION} not found in App Store Connect")
+    if len(editable) != 1:
+        sys.exit(f"::error::version {VERSION} not found in App Store Connect")
+    ver = editable[0]
+    old = ver["attributes"]["versionString"]
+    if MODE == "apply":
+        st, r = call("PATCH", f"/v1/appStoreVersions/{ver['id']}",
+                     {"data": {"type": "appStoreVersions", "id": ver["id"], "attributes": {"versionString": VERSION}}})
+        print(f"rename version {old} -> {VERSION} (to match the builds): {'OK' if st == 200 else err(r)}")
+    else:
+        print(f"  editable version is named {old}; builds are {VERSION} — apply renames it")
+        problems.append(f"App Store version is named {old}, builds are {VERSION}")
 VER = ver["id"]
 va = ver["attributes"]
 print(f"state: {va.get('appStoreState')} / {va.get('appVersionState')} | release: {va.get('releaseType')} | "
