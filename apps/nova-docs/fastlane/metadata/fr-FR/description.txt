@@ -1,0 +1,11 @@
+NOVA Docs réunit sur iPhone et iPad un studio complet PDF, scanner et facturation — entièrement sur l’appareil.
+
+ÉDITEUR PDF : texte, images, signatures, formes, surlignage, écriture manuscrite au doigt ou à l’Apple Pencil, vrais commentaires PDF, masquage et remplacement de texte par calque, 13 polices arabes intégrées et mise en forme du texte, recherche, partage, impression AirPrint, enregistrement dans Fichiers.
+OUTILS PDF : fusionner, diviser, extraire, supprimer, réorganiser et pivoter des pages, filigrane, numérotation, images → PDF, compression, PDF → texte.
+SCANNER : détection des bords, correction de perspective et recadrage par Apple VisionKit ; amélioration de l’éclairage, niveaux de gris, noir et blanc ; multi-pages.
+OCR ARABE, FRANÇAIS, ANGLAIS : PDF cherchables, hors ligne.
+FACTURES : clients, produits, TVA, remises, devises, paiements partiels, numérotation automatique, modèles avec logo, signature et cachet, montant en lettres, export PDF, import d’anciennes factures PDF.
+TABLEURS : formules, feuilles multiples, Excel et CSV.
+14 langues, arabe RTL complet, mode sombre, interface iPad.
+Confidentialité : aucun compte, aucune publicité, aucun suivi. Vos fichiers restent sur votre appareil.
+NOVA PRO : achat unique, sans abonnement.

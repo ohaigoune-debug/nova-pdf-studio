@@ -1,0 +1,48 @@
+name: NOVA Docs → App Store Connect status / setup (no submission)
+
+# MODE status (read-only) or apply: attaches the newest VALID 1.0.0 build, answers the age rating with "none",
+# declares no third-party content, sets the app price to Free if unset, uploads the Pro review screenshot if missing.
+# Never submits for review. Trigger: a commit on the branch whose message contains [asc-status] or [asc-apply].
+on:
+  push:
+    branches: [feature/nova-docs-ios]
+
+permissions:
+  contents: read
+
+jobs:
+  asc:
+    if: contains(github.event.head_commit.message, '[asc-status]') || contains(github.event.head_commit.message, '[asc-apply]')
+    runs-on: ubuntu-latest
+    environment: apple-release
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install --quiet pyjwt cryptography
+      - name: Prepare key
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+        run: |
+          umask 077
+          if [ -n "$ASC_KEY_P8" ]; then printf '%s\n' "$ASC_KEY_P8" > "$RUNNER_TEMP/asc.p8"; else printf '%s' "$ASC_KEY_P8_BASE64" | base64 -d > "$RUNNER_TEMP/asc.p8"; fi
+          grep -q "BEGIN PRIVATE KEY" "$RUNNER_TEMP/asc.p8" || { echo "::error::Key is not a .p8 private key"; exit 1; }
+      - name: App Store Connect
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          BUNDLE_ID: com.haigoune.novadocs
+          VERSION: 1.0.0
+          IAP_PRODUCT_ID: nova.docs.pro.lifetime
+          IAP_SCREENSHOT: docs/ios/review/pro-review-screenshot.png
+          MSG: ${{ github.event.head_commit.message }}
+        run: |
+          export KEY_PATH="$RUNNER_TEMP/asc.p8"
+          case "$MSG" in *"[asc-apply]"*) export MODE=apply ;; *) export MODE=status ;; esac
+          python3 apps/nova-docs/scripts/asc_release.py
+      - name: Clean up
+        if: always()
+        run: rm -f "$RUNNER_TEMP/asc.p8"

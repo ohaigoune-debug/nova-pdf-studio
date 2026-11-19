@@ -1,0 +1,76 @@
+{
+  "tabs": { "documents": "المستندات", "tools": "أدوات PDF", "scan": "المسح", "invoices": "الفواتير", "more": "المزيد" },
+  "brand": { "name": "NOVA Docs", "tagline": "مستنداتك. تحت سيطرتك." },
+  "common": { "done": "تم", "untitled": "بلا عنوان", "error": "حدث خطأ ما", "saveCopy": "حفظ كنسخة", "replace": "استبدال الأصل", "rename": "إعادة التسمية", "name": "الاسم", "optional": "اختياري", "processing": "جارٍ المعالجة…", "free": "مجاني", "pro": "PRO", "select": "تحديد", "selectAll": "تحديد الكل", "share": "مشاركة", "print": "طباعة", "open": "فتح", "close": "إغلاق", "more": "المزيد", "today": "اليوم", "learnMore": "اعرف المزيد", "offline": "يعمل دون إنترنت", "ok": "حسنًا" },
+  "docs": {
+    "title": "المستندات", "search": "ابحث في المستندات", "emptyTitle": "لا توجد مستندات بعد", "emptyDesc": "استورد ملف PDF من تطبيق الملفات أو iCloud Drive، أو امسح مستندًا ورقيًا.",
+    "import": "استيراد", "importFiles": "من الملفات / iCloud", "fromImages": "صور ← PDF", "newScan": "مسح مستند", "renamePrompt": "الاسم الجديد",
+    "duplicate": "تكرار", "confirmDelete": "حذف «{{name}}»؟ لا يمكن التراجع عن ذلك.", "saveToFiles": "حفظ في الملفات", "imported": "تم استيراد {{count}} ملف",
+    "pages": "{{count}} صفحة", "pages_one": "صفحة واحدة", "pages_two": "صفحتان", "pages_few": "{{count}} صفحات", "filesNote": "تُحفظ مستنداتك على هذا الجهاز في مجلد NOVA Docs داخل تطبيق «الملفات».", "deleted": "تم الحذف", "savedToFiles": "تم الحفظ في الملفات"
+  },
+  "viewer": {
+    "edit": "تحرير", "save": "حفظ", "saving": "جارٍ الحفظ…", "saved": "تم الحفظ", "search": "بحث", "searchPlaceholder": "ابحث داخل المستند", "results": "{{count}} نتيجة", "noResults": "لا نتائج",
+    "pages": "الصفحات", "info": "معلومات", "page": "الصفحة {{n}} من {{total}}", "passwordTitle": "ملف PDF محمي", "passwordHint": "أدخل كلمة المرور لفتح هذا المستند.",
+    "unsaved": "لديك تعديلات غير محفوظة.", "discard": "تجاهل التعديلات", "keepEditing": "متابعة التحرير", "saveAs": "حفظ التعديلات",
+    "layerNote": "تُضاف التعديلات كطبقات فوق الصفحة: النص الموجود يُغطّى ويُستبدل، ولا يُعاد كتابته داخل ملف PDF الأصلي.",
+    "scannedNotice": "تبدو هذه الصفحة ممسوحة ضوئيًا. شغّل OCR ليصبح نصها قابلًا للبحث.", "fontsMissing": "هذا الملف لا يحتوي خطوطه ({{fonts}})، لذلك قد تظهر العربية مقطّعة على iPhone وفي أي جهاز لا يملك هذه الخطوط. الحل: أعد تصديره من Word مع تفعيل «تضمين الخطوط في الملف».", "fontsRepaired": "هذا الملف لا يحتوي خطوطه ({{fonts}})، فأعاد NOVA رسم النص العربي بخط قريب ليتصل حرفه. قد يختلف الشكل قليلًا عن الأصل؛ للحصول على الشكل الأصلي أعد تصديره من Word مع «تضمين الخطوط في الملف».", "openFailed": "تعذّر فتح هذا الملف."
+  },
+  "edit": {
+    "select": "تحديد", "text": "نص", "highlight": "تظليل", "pen": "قلم", "signature": "توقيع", "image": "صورة", "shape": "شكل", "note": "تعليق", "whiteout": "تبييض",
+    "undo": "تراجع", "font": "الخط", "systemFont": "خط النظام (افتراضي)", "fontsNote": "خطوط مجانية مضمّنة في التطبيق (ترخيص OFL) وتعمل دون إنترنت.", "format": "تنسيق النص", "smaller": "تصغير", "larger": "تكبير", "bold": "عريض", "italic": "مائل", "underline": "تسطير", "align": "المحاذاة", "align_right": "محاذاة لليمين", "align_center": "توسيط", "align_left": "محاذاة لليسار", "docFonts": "خطوط هذا المستند", "fontExact": "الخط نفسه متوفر", "fontClosest": "غير متوفر — الأقرب: {{font}}", "allFonts": "كل الخطوط", "redo": "إعادة", "delete": "حذف", "color": "اللون", "size": "الحجم", "enterText": "اكتب النص", "enterNote": "اكتب تعليقًا",
+    "tapToPlace": "المس الصفحة لوضعه", "dragToDraw": "اسحب على الصفحة", "drawWithPencil": "ارسم بإصبعك أو بقلم Apple Pencil"
+  },
+  "sign": { "title": "التوقيع", "drawHere": "وقّع هنا", "clear": "مسح", "use": "استخدام التوقيع", "saved": "التوقيعات المحفوظة", "new": "توقيع جديد", "remove": "إزالة" },
+  "pages": { "title": "الصفحات", "rotate": "تدوير", "delete": "حذف", "extract": "استخراج", "moveBack": "تقديم", "moveForward": "تأخير", "selected": "{{count}} محددة", "applied": "تم تحديث الصفحات" },
+  "tools": {
+    "title": "أدوات PDF", "subtitle": "كل شيء يعمل على آيفون أو آيباد — لا يُرفع أي ملف.", "fromLibrary": "من المستندات", "fromFiles": "من الملفات / iCloud",
+    "run": "تنفيذ", "resultSaved": "تم حفظ «{{name}}»", "outputName": "اسم الملف الناتج", "selectFiles": "اختر الملفات", "selectFile": "اختر ملفًا", "chosen": "{{count}} محدد",
+    "needTwo": "اختر ملفين على الأقل", "ocrTitle": "OCR · PDF قابل للبحث", "ocrDesc": "التعرّف على النص العربي والفرنسي والإنجليزي وجعل ملفات PDF الممسوحة قابلة للبحث.",
+    "toTextTitle": "PDF ← نص", "toTextDesc": "استخراج كل النص إلى ملف ‎.txt", "imagesHint": "اختر صورًا", "openResult": "فتح"
+  },
+  "scan": {
+    "title": "المسح", "subtitle": "كشف تلقائي لحدود الورقة وتصحيح المنظور والقص عبر Apple VisionKit.", "start": "مسح مستند", "importPhotos": "استيراد صور",
+    "unsupported": "كاميرا المستندات غير متاحة هنا. يمكنك استيراد صور بدلًا منها.", "pages": "{{count}} صفحة", "pages_one": "صفحة واحدة", "pages_two": "صفحتان", "pages_few": "{{count}} صفحات", "addMore": "إضافة صفحات",
+    "filters": { "original": "الأصل", "enhanced": "محسّن", "grayscale": "رمادي", "bw": "أبيض وأسود" },
+    "searchable": "نص قابل للبحث (OCR)", "searchableHint": "التعرّف على النص لتتمكن من البحث فيه ونسخه.", "languages": "اللغات",
+    "save": "حفظ PDF", "saving": "جارٍ إنشاء PDF…", "ocrProgress": "جارٍ التعرّف على الصفحة {{page}} من {{total}}…", "saved": "تم حفظ «{{name}}»", "defaultName": "مسح {{date}}", "discard": "تجاهل المسح"
+  },
+  "ocr": { "engineVision": "Apple Vision", "engineTesseract": "المحرك المدمج (دون إنترنت)", "done": "تم التعرّف على {{pages}} صفحة", "copy": "نسخ النص", "copied": "تم النسخ", "empty": "لم يُعثر على نص", "run": "تشغيل OCR" },
+  "inv": {
+    "invoices": "الفواتير", "customers": "العملاء", "products": "المنتجات", "emptyInvoices": "لا توجد فواتير بعد", "emptyInvoicesDesc": "أنشئ فاتورتك الأولى — تُحسب المجاميع والضرائب والخصومات بدقة تامة.", "showMore": "عرض المزيد ({{shown}} من {{total}})",
+    "emptyCustomers": "لا يوجد عملاء بعد", "emptyProducts": "لا توجد منتجات بعد", "newInvoice": "فاتورة جديدة", "newCustomer": "عميل جديد", "newProduct": "منتج جديد",
+    "customer": "العميل", "chooseCustomer": "اختر العميل", "seller": "البائع (بياناتك)", "sellerAdd": "أضف بيانات البائع", "sellerMissing": "اسمك أو مؤسستك، الهاتف، العنوان، NIF… يُطبع في كل فاتورة", "sellerHint": "تظهر هذه البيانات في رأس كل فاتورة تصدرها. الشعار والختم والتوقيع من «المزيد» ← «الإعدادات» ← «ملف المؤسسة».", "noCustomer": "بلا عميل", "items": "البنود", "addItem": "إضافة بند", "item": "البند", "qty": "الكمية", "price": "سعر الوحدة",
+    "discount": "الخصم %", "tax": "الضريبة %", "currency": "العملة", "currencyCommon": "الأكثر استعمالًا", "currencyAll": "كل العملات", "issueDate": "تاريخ الإصدار", "dueDate": "تاريخ الاستحقاق", "notes": "ملاحظات", "shipping": "الشحن",
+    "subtotal": "المجموع الفرعي", "discountTotal": "الخصم", "taxTotal": "الضريبة", "total": "المجموع", "paid": "المدفوع", "remaining": "المتبقي",
+    "preview": "معاينة", "exportPdf": "تصدير PDF", "addPayment": "تسجيل دفعة", "amount": "المبلغ", "method": "الطريقة", "markPaid": "تعيين كمدفوعة", "markSent": "تعيين كمرسلة",
+    "duplicate": "تكرار", "confirmDelete": "نقل الفاتورة {{number}} إلى سلة المحذوفات؟", "saved": "تم حفظ الفاتورة {{number}}", "status": "الحالة", "type": "النوع",
+    "importPdf": "استيراد فاتورة قديمة (PDF)", "importPdfDesc": "يقرأ الرقم والتواريخ والعميل والبنود والمجاميع من فاتورة PDF موجودة.", "importFound": "تم العثور على {{items}} بند ومجموع {{total}}",
+    "importNothing": "لم يُعثر على بيانات فاتورة. للفواتير الممسوحة شغّل OCR أولًا.", "company": "المؤسسة", "sku": "الرمز", "unit": "الوحدة", "phone": "الهاتف", "email": "البريد الإلكتروني", "address": "العنوان", "city": "المدينة", "companyName": "اسم المؤسسة", "firstName": "الاسم", "lastName": "اللقب", "taxId": "الرقم الجبائي",
+    "pdfUnavailable": "تصدير الفواتير إلى PDF متاح في تطبيق iOS.", "payments": "المدفوعات", "edit": "تعديل"
+  },
+  "more": {
+    "title": "المزيد", "proActive": "NOVA Pro مفعّل", "proActiveDesc": "شكرًا لك! كل الأدوات الاحترافية مفتوحة على حساب Apple هذا.", "upgrade": "الترقية إلى NOVA Pro", "upgradeDesc": "شراء لمرة واحدة · بلا اشتراك",
+    "restore": "استعادة المشتريات", "restoring": "جارٍ الاستعادة…", "restored": "تمت استعادة المشتريات", "nothingToRestore": "لا توجد عملية شراء سابقة لحساب Apple هذا",
+    "spreadsheets": "الجداول", "settings": "الإعدادات", "languages": "اللغة", "backup": "النسخ الاحتياطي", "support": "الدعم", "privacy": "سياسة الخصوصية", "terms": "شروط الاستخدام", "about": "حول التطبيق", "version": "الإصدار {{v}}",
+    "refund": "طلب استرداد المبلغ", "refundSubmitted": "أُرسل طلب الاسترداد إلى Apple"
+  },
+  "pro": {
+    "title": "NOVA Pro", "subtitle": "شراء واحد. لك مدى الحياة.", "buy": "افتح الآن مقابل {{price}}", "buyNoPrice": "افتح NOVA Pro", "lifetime": "شراء لمرة واحدة · بلا اشتراك · على كل أجهزتك بنفس حساب Apple",
+    "f1": "تحرير PDF متقدم: نصوص وصور وأشكال وتظليل وتعليقات وكتابة يدوية", "f2": "OCR بالعربية والفرنسية والإنجليزية · PDF قابل للبحث", "f3": "فواتير ذكية: عملاء ومنتجات وضرائب ومدفوعات وقوالب",
+    "f4": "أدوات احترافية: تقسيم واستخراج وترتيب وعلامة مائية وترقيم وضغط", "f5": "مرشحات تحسين المسح والجداول", "f6": "كل شيء يبقى على جهازك",
+    "pending": "عملية الشراء بانتظار الموافقة. سيُفتح Pro تلقائيًا فور الموافقة.", "cancelled": "أُلغيت عملية الشراء.", "failed": "تعذّر إتمام عملية الشراء.",
+    "thanks": "مرحبًا بك في NOVA Pro!", "unavailable": "تعذّر الوصول إلى App Store حاليًا. حاول لاحقًا.", "paymentsDisabled": "عمليات الشراء داخل التطبيق معطّلة على هذا الجهاز (مدة استخدام الجهاز).",
+    "loadingPrice": "جارٍ تحميل السعر من App Store…", "retry": "إعادة المحاولة", "testerBuild": "نسخة اختبار داخلية — Pro مفتوح للتجربة دون شراء.", "lockedFeature": "هذه ميزة من NOVA Pro", "legal": "يُخصم المبلغ من حساب Apple الخاص بك وتعالج Apple عملية الشراء."
+  },
+  "settings": {
+    "appearance": "المظهر", "system": "حسب النظام", "light": "فاتح", "dark": "داكن", "company": "ملف المؤسسة", "nativeRender": "محرك iOS للعرض (بديل)", "nativeRenderHint": "محرك عرض بديل. جرّبه فقط إن ظهرت صفحة بشكل غير صحيح. لا يُستعمل مع الملفات التي لا تحتوي خطوطها.", "repairArabic": "إصلاح العربية في الملفات بلا خطوط", "repairArabicHint": "حين لا يحتوي الملف خطوطه، يعيد NOVA رسم النص العربي بخط قريب مضمّن في التطبيق ليتصل حرفه. للعرض فقط، والملف نفسه لا يتغيّر.", "companyHint": "يُطبع في كل فاتورة.", "defaultCurrency": "العملة الافتراضية",
+    "brand": "الشعار والتوقيع والختم", "logo": "الشعار", "signature": "التوقيع", "stamp": "الختم", "choose": "اختيار صورة", "remove": "إزالة", "demo": "بيانات تجريبية", "loadDemo": "تحميل فواتير تجريبية", "clearDemo": "حذف البيانات التجريبية", "invoiceLanguage": "لغة الفاتورة", "data": "البيانات"
+  },
+  "backup": {
+    "title": "النسخ الاحتياطي", "desc": "صدّر الفواتير والعملاء والمنتجات والجداول في ملف واحد. مستندات PDF موجودة أصلًا في تطبيق «الملفات».", "export": "تصدير نسخة احتياطية", "import": "الاستعادة من نسخة",
+    "confirmImport": "استبدال كل الفواتير والبيانات الحالية بالنسخة الاحتياطية؟", "exported": "تم حفظ النسخة الاحتياطية", "imported": "تمت الاستعادة", "invalid": "هذا الملف ليس نسخة احتياطية من NOVA."
+  },
+  "support": { "title": "الدعم", "email": "راسل الدعم", "desc": "نرد عادة خلال 48 ساعة بالعربية أو الفرنسية أو الإنجليزية.", "faqOffline": "هل يحتاج NOVA Docs إلى الإنترنت؟ لا — التحرير وOCR والفواتير تعمل بالكامل دون اتصال.", "faqPrivacy": "هل تُرفع ملفاتي؟ أبدًا. تبقى المستندات على جهازك أو في iCloud Drive الخاص بك." },
+  "lock": {"section": "الخصوصية", "setting": "القفل بـ {{method}}", "settingDesc": "يُقفل NOVA Docs عند مغادرته، ويُفتح بـ {{method}} أو برمز الجهاز.", "settingDescPasscode": "يُقفل NOVA Docs عند مغادرته، ويُفتح برمز الجهاز.", "passcode": "رمز الجهاز", "title": "NOVA Docs مقفل", "unlock": "فتح القفل", "reason": "افتح مستنداتك", "unavailable": "عيّن رمز مرور للجهاز لتتمكن من قفل التطبيق." },
+  "sheets": { "title": "الجداول", "new": "جدول جديد", "empty": "لا توجد جداول بعد", "import": "استيراد Excel / CSV", "exportXlsx": "تصدير Excel", "exportCsv": "تصدير CSV", "addSheet": "إضافة ورقة", "saved": "تم الحفظ", "formula": "صيغة أو قيمة", "toInvoice": "إنشاء فاتورة من الصفوف", "toInvoiceNothing": "لا توجد صفوف بنود (الأعمدة: الصنف، الكمية، السعر، الضريبة).", "toInvoiceSkipped": "تم تجاوز {{count}} صفًا (اسم أو سعر ناقص).", "bold": "عريض", "italic": "مائل", "alignStart": "محاذاة البداية", "alignCenter": "توسيط", "alignEnd": "محاذاة النهاية", "fmtGeneral": "عام", "fmtNumber": "رقم", "fmtCurrency": "عملة", "fmtPercent": "نسبة مئوية", "fill": "لون التعبئة", "insertRow": "إدراج صف", "deleteRow": "حذف الصف", "insertCol": "إدراج عمود", "deleteCol": "حذف العمود", "colNarrower": "تضييق العمود", "colWider": "توسيع العمود", "mergeRight": "دمج مع الخلية المجاورة", "mergeDown": "دمج مع الخلية بالأسفل", "unmerge": "إلغاء الدمج" }
+}

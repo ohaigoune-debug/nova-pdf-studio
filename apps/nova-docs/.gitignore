@@ -1,0 +1,19 @@
+node_modules
+dist
+coverage
+test-results
+e2e/out
+# أصول تُنسخ آليًا قبل البناء (scripts/copy-assets.mjs)
+public/tessdata
+public/tesseract
+public/sqljs
+public/fonts
+public/pdfjs
+# مخرجات Xcode/Capacitor المولَّدة
+ios/App/App/public
+ios/App/build
+ios/DerivedData
+ios/App/App/capacitor.config.json
+ios/App/App/config.xml
+*.xcuserstate
+xcuserdata
