@@ -1,0 +1,94 @@
+⚡️  Loading app at capacitor://localhost...
+SplashScreen.hideSplash: SplashScreen was automatically hidden after default timeout. You should call `SplashScreen.hide()` as soon as your web app is loaded (or increase the timeout). Read more at https://capacitorjs.com/docs/apis/splash-screen#hiding-the-splash-screen
+⚡️  To Native ->  Preferences get 41521986
+⚡️  WebView loaded
+⚡️  TO JS {"value":"{\"language\":\"ar\",\"theme\":\"light\",\"ocrLanguages\":[\"ara\",\"fra\",\"eng\"],\"signatures\":[],\"appLock\":false,\"nativeRender\":false,\"repairArabic\":true}"}
+⚡️  To Native ->  Filesystem readdir 41521987
+⚡️  To Native ->  App addListener 41521988
+⚡️  To Native ->  StatusBar setStyle 41521989
+⚡️  To Native ->  NovaStore addListener 41521990
+⚡️  To Native ->  SplashScreen hide 41521991
+⚡️  To Native ->  App addListener 41521992
+⚡️  To Native ->  App addListener 41521993
+⚡️  To Native ->  NovaStore getEntitlements 41521994
+⚡️  TO JS {"files":[{"ctime":1795126729350,"type":"file","name":"Agreement (signed).pdf","size":4099,"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8
+⚡️  TO JS {}
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readFile 41521995
+⚡️  To Native ->  Filesystem readFile 41521996
+⚡️  To Native ->  Filesystem readFile 41521997
+⚡️  To Native ->  Filesystem readFile 41521998
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjEgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFsgNCAwIFIgXQovQ291bnQgMQo+PgplbmRvYmoKCjIgMCBvYmoKPDwKL1R5cGUgL0NhdGFsb2cKL1BhZ2VzIDEgMCBSCj4+CmVuZG9iagoKMyAwIG9iago8PAovUHJvZHVjZXIgPEZFRkYwMDcwMDA2NDAwNjYwMDJEMDA2QzAwNjkwMDYyMDAyMDA
+⚡️  TO JS {"data":"JVBERi0xLjMKJcTl8uXrp\/Og0MTGCjMgMCBvYmoKPDwgL0ZpbHRlciAvRmxhdGVEZWNvZGUgL0xlbmd0aCAxOTAxNCA+PgpzdHJlYW0KeAGtnemSJclxnf\/XU1ztNRKncPdFvwQSMIk0GUiKTdFMyw9oiCEoYUBxeiCRL6F34xvpeGT4Occ9qrqrAYI0m2qvOF96RGb6Epn31t\/u\/nT3t7v9bv9yupzOp\/txd3lcXo63y3V3Px
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjEgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFsgNSAwIFIgXQovQ291bnQgMQo+PgplbmRvYmoKCjIgMCBvYmoKPDwKL1R5cGUgL0NhdGFsb2cKL1BhZ2VzIDEgMCBSCj4+CmVuZG9iagoKMyAwIG9iago8PAovUHJvZHVjZXIgPEZFRkYwMDcwMDA2NDAwNjYwMDJEMDA2QzAwNjkwMDYyMDAyMDA
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  To Native ->  Preferences set 41521999
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok lang/ar
+⚡️  To Native ->  NovaStore getEntitlements 41522000
+⚡️  To Native ->  SplashScreen hide 41522001
+⚡️  To Native ->  App addListener 41522002
+⚡️  To Native ->  App addListener 41522003
+⚡️  To Native ->  App removeListener -1
+⚡️  To Native ->  App removeListener -1
+⚡️  TO JS undefined
+⚡️  To Native ->  Preferences set 41522004
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok theme/light
+⚡️  TO JS {"tester":false,"checkedAt":"2026-11-19T22:26:22Z","isPro":false,"entitlements":[]}
+⚡️  To Native ->  NovaStore canMakePayments 41522005
+⚡️  TO JS {"canMakePayments":true}
+⚡️  To Native ->  NovaStore getProducts 41522006
+⚡️  TO JS {"products":[]}
+⚡️  TO JS {"isPro":false,"tester":false,"entitlements":[],"checkedAt":"2026-11-19T22:26:22Z"}
+⚡️  To Native ->  NovaStore canMakePayments 41522007
+⚡️  TO JS {"canMakePayments":true}
+⚡️  To Native ->  NovaStore getProducts 41522008
+⚡️  To Native ->  Filesystem writeFile 41522009
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Documents\/.nova-tmp-1795127182670.part"}
+⚡️  To Native ->  Filesystem stat 41522010
+ERROR MESSAGE:  {"errorMessage":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Documents\/NOVA%20arabic%20embedded.pdf'  does not exist.","message":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-64413473636
+⚡️  [error] - {"errorMessage":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/D78A0AA6-E6A8-4003-BA07-644134736365/Documents/NOVA%20arabic%20embedded.pdf'  does not exist.","message":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/D78A0AA6-E6A8-4003-BA07-644134736365/Documents/NOVA%20arabic%20embedded.pdf'  does not exist.","code":"OS-PLUG-FILE-0008"}
+⚡️  To Native ->  Filesystem rename 41522011
+⚡️  TO JS undefined
+⚡️  TO JS {"products":[]}
+⚡️  To Native ->  Filesystem getUri 41522012
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Documents\/NOVA%20arabic%20embedded.pdf"}
+⚡️  To Native ->  NovaPdfRender renderPage 41522013
+⚡️  TO JS {"width":720,"webPath":"capacitor:\/\/localhost\/_capacitor_file_\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Library\/Caches\/
+⚡️  To Native ->  Filesystem writeFile 41522014
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Documents\/.nova-tmp-1795127183274.part"}
+⚡️  To Native ->  Filesystem stat 41522015
+ERROR MESSAGE:  {"code":"OS-PLUG-FILE-0008","message":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Documents\/NOVA%20arabic%20non-embedded.pdf'  does not exist.","errorMessage":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A
+⚡️  [error] - {"code":"OS-PLUG-FILE-0008","message":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/D78A0AA6-E6A8-4003-BA07-644134736365/Documents/NOVA%20arabic%20non-embedded.pdf'  does not exist.","errorMessage":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/D78A0AA6-E6A8-4003-BA07-644134736365/Documents/NOVA%20arabic%20non-embedded.pdf'  does not exist."}
+⚡️  To Native ->  Filesystem rename 41522016
+⚡️  TO JS undefined
+⚡️  [log] - Warning: Cannot load system font: TraditionalArabic, installing it could help to improve PDF rendering.
+⚡️  To Native ->  Filesystem getUri 41522017
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Documents\/NOVA%20arabic%20non-embedded.pdf"}
+⚡️  To Native ->  NovaPdfRender renderPage 41522018
+⚡️  TO JS {"path":"\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Library\/Caches\/nova-render\/cyzpk2lddhlo-3186-1795127183276-p0-w720.jpg
+⚡️  To Native ->  Filesystem writeFile 41522019
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Documents\/.nova-tmp-1795127183987.part"}
+⚡️  To Native ->  Filesystem stat 41522020
+ERROR MESSAGE:  {"code":"OS-PLUG-FILE-0008","message":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Documents\/NOVA%20arabic%20render%20self-test.pdf'  does not exist.","errorMessage":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application
+⚡️  [error] - {"code":"OS-PLUG-FILE-0008","message":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/D78A0AA6-E6A8-4003-BA07-644134736365/Documents/NOVA%20arabic%20render%20self-test.pdf'  does not exist.","errorMessage":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/D78A0AA6-E6A8-4003-BA07-644134736365/Documents/NOVA%20arabic%20render%20self-test.pdf'  does not exist."}
+⚡️  To Native ->  Filesystem rename 41522021
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readdir 41522022
+⚡️  TO JS {"files":[{"name":"Agreement (signed).pdf","ctime":1795126729350,"size":4099,"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644
+⚡️  To Native ->  Filesystem readFile 41522023
+⚡️  To Native ->  Filesystem readFile 41522024
+⚡️  To Native ->  Filesystem readFile 41522025
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjYgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCAzNDUKPj4Kc3RyZWFtCnictZTdSkMxDMfv+xS9FralafMFImzsDAVvhPMCQ+ZQHDIRn990wznGjsfJ1kJo09D0l\/zPWYdJGyDW+b4Mo9vF6+fi4\/lxPhAwLQqiFhPG9ilgie19SJvQFNFNIojtKlwz8ZTRbfHpNo8RBHzN2PBY8
+⚡️  TO JS {"data":"JVBERi0xLjMKJb\/3ov4KMSAwIG9iago8PCAvT3BlbkFjdGlvbiBbIDMgMCBSIC9GaXRIIG51bGwgXSAvUGFnZUxheW91dCAvT25lQ29sdW1uIC9QYWdlcyA0IDAgUiAvVHlwZSAvQ2F0YWxvZyA+PgplbmRvYmoKMiAwIG9iago8PCAvQ3JlYXRpb25EYXRlIChEOjIwMjYxMTE2MTkwMTE0WikgPj4KZW5kb2JqCjMgMCBvYmoKPD
+⚡️  TO JS {"data":"JVBERi0xLjMKJenr8b8KMSAwIG9iago8PAovQ291bnQgMQovS2lkcyBbMyAwIFJdCi9NZWRpYUJveCBbMCAwIDU5NS4yOCA4NDEuODldCi9UeXBlIC9QYWdlcwo+PgplbmRvYmoKMiAwIG9iago8PAovT3BlbkFjdGlvbiBbMyAwIFIgL0ZpdEggbnVsbF0KL1BhZ2VMYXlvdXQgL09uZUNvbHVtbgovUGFnZXMgMSAwIFIKL1R5cGU
+⚡️  [log] - [nova-route] ok arabic-render-selftest {"embedded":{"fonts":[{"name":"NotoNaskhArabic","embedded":true}],"missing":[]},"embedded-repaired":false,"non-embedded":{"fonts":[{"name":"TraditionalArabic","embedded":false}],"missing":["TraditionalArabic"]},"non-embedded-repaired":true}
+⚡️  To Native ->  Filesystem readFile 41522026
+⚡️  To Native ->  Filesystem getUri 41522027
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjYgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCAzNDUKPj4Kc3RyZWFtCnictZTdSkMxDMfv+xS9FralafMFImzsDAVvhPMCQ+ZQHDIRn990wznGjsfJ1kJo09D0l\/zPWYdJGyDW+b4Mo9vF6+fi4\/lxPhAwLQqiFhPG9ilgie19SJvQFNFNIojtKlwz8ZTRbfHpNo8RBHzN2PBY8
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Documents\/NOVA%20arabic%20render%20self-test.pdf"}
+⚡️  [log] - Warning: Cannot load system font: TraditionalArabic, installing it could help to improve PDF rendering.
+⚡️  To Native ->  Filesystem getUri 4152

@@ -1,0 +1,49 @@
+⚡️  Loading app at capacitor://localhost...
+SplashScreen.hideSplash: SplashScreen was automatically hidden after default timeout. You should call `SplashScreen.hide()` as soon as your web app is loaded (or increase the timeout). Read more at https://capacitorjs.com/docs/apis/splash-screen#hiding-the-splash-screen
+⚡️  To Native ->  Preferences get 40530252
+⚡️  WebView loaded
+⚡️  TO JS {"value":null}
+⚡️  To Native ->  Filesystem readdir 40530253
+⚡️  To Native ->  App addListener 40530254
+⚡️  To Native ->  StatusBar setStyle 40530255
+⚡️  To Native ->  NovaStore addListener 40530256
+⚡️  To Native ->  SplashScreen hide 40530257
+⚡️  To Native ->  App addListener 40530258
+⚡️  To Native ->  App addListener 40530259
+⚡️  To Native ->  NovaStore getEntitlements 40530260
+⚡️  TO JS {"files":[]}
+⚡️  TO JS {}
+⚡️  TO JS undefined
+⚡️  To Native ->  Preferences set 40530261
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok lang/en
+⚡️  To Native ->  NovaStore getEntitlements 40530262
+⚡️  To Native ->  SplashScreen hide 40530263
+⚡️  To Native ->  App addListener 40530264
+⚡️  To Native ->  App addListener 40530265
+⚡️  To Native ->  App removeListener -1
+⚡️  TO JS undefined
+⚡️  To Native ->  App removeListener -1
+⚡️  To Native ->  Preferences set 40530266
+⚡️  To Native ->  StatusBar setStyle 40530267
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok theme/light
+⚡️  TO JS {}
+⚡️  To Native ->  Filesystem stat 40530268
+ERROR MESSAGE:  {"code":"OS-PLUG-FILE-0008","errorMessage":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/7624BDED-E4B1-48BF-839E-A0370E6B0DEE\/Documents\/Agreement%20(signed).pdf'  does not exist.","message":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/7624BDED-E4B
+⚡️  To Native ->  Filesystem ⚡️  [error] - {"code":"OS-PLUG-FILE-0008","errorMessage":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/30BC9F35-1953-43FC-8C13-880D8FD158AE/data/Containers/Data/Application/7624BDED-E4B1-48BF-839E-A0370E6B0DEE/Documents/Agreement%20(signed).pdf'  does not exist.","message":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/30BC9F35-1953-43FC-8C13-880D8FD158AE/data/Containers/Data/Application/7624BDED-E4B1-48BF-839E-A0370E6B0DEE/Documents/Agreement%20(signed).pdf'  does not exist."}
+writeFile 40530269
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/7624BDED-E4B1-48BF-839E-A0370E6B0DEE\/Documents\/.nova-tmp-1795126084640.part"}
+⚡️  To Native ->  Filesystem rename 40530270
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readdir 40530271
+⚡️  TO JS {"files":[{"size":4099,"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/7624BDED-E4B1-48BF-839E-A0370E6B0DEE\/Documents\/Agreement%20(signed).pdf","ctime
+⚡️  To Native ->  Filesystem readFile 40530272
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  [log] - [nova-route] ok annotated
+⚡️  To Native ->  Filesystem readFile 40530273
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  To Native ->  Filesystem getUri 40530274
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/7624BDED-E4B1-48BF-839E-A0370E6B0DEE\/Documents\/Agreement%20(signed).pdf"}
+⚡️  To Native ->  Filesystem getUri 40530275
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/

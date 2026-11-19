@@ -1,0 +1,50 @@
+⚡️  Loading app at capacitor://localhost...
+SplashScreen.hideSplash: SplashScreen was automatically hidden after default timeout. You should call `SplashScreen.hide()` as soon as your web app is loaded (or increase the timeout). Read more at https://capacitorjs.com/docs/apis/splash-screen#hiding-the-splash-screen
+⚡️  WebView loaded
+⚡️  To Native ->  Preferences get 122655999
+⚡️  TO JS {"value":"{\"language\":\"ar\",\"theme\":\"light\",\"ocrLanguages\":[\"ara\",\"fra\",\"eng\"],\"signatures\":[],\"appLock\":false,\"nativeRender\":false,\"repairArabic\":true}"}
+⚡️  To Native ->  Filesystem readdir 122656000
+⚡️  To Native ->  App addListener 122656001
+⚡️  To Native ->  StatusBar setStyle 122656002
+⚡️  To Native ->  NovaStore addListener 122656003
+⚡️  To Native ->  SplashScreen hide 122656004
+⚡️  To Native ->  App addListener 122656005
+⚡️  To Native ->  App addListener 122656006
+⚡️  To Native ->  NovaStore getEntitlements 122656007
+⚡️  TO JS {"files":[{"name":"Agreement (signed).pdf","size":4099,"type":"file","uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/7624BDED-E4B1-48BF-839E-A0370E6B0DE
+⚡️  TO JS {}
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readFile 122656008
+⚡️  To Native ->  Filesystem readFile 122656009
+⚡️  To Native ->  Filesystem readFile 122656010
+⚡️  TO JS {"data":"JVBERi0xLjMKJcTl8uXrp\/Og0MTGCjMgMCBvYmoKPDwgL0ZpbHRlciAvRmxhdGVEZWNvZGUgL0xlbmd0aCAxOTA5OSA+PgpzdHJlYW0KeAGtvd2SLclxnXlfT7FHGo2qNezC\/v\/RlUACpqFsDCTFQ9FsJF1ATTRBCQ2KfRoS+RLzbnojLY8MX2u5R9U5ddAAadZ1vGJ96RGZ6T+RuXf9w+4vdv+w2+\/2L6fL6Xy6H3eXx+XleLt
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjEgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFsgNSAwIFIgXQovQ291bnQgMQo+PgplbmRvYmoKCjIgMCBvYmoKPDwKL1R5cGUgL0NhdGFsb2cKL1BhZ2VzIDEgMCBSCj4+CmVuZG9iagoKMyAwIG9iago8PAovUHJvZHVjZXIgPEZFRkYwMDcwMDA2NDAwNjYwMDJEMDA2QzAwNjkwMDYyMDAyMDA
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  To Native ->  Preferences set 122656011
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok lang/en
+⚡️  To Native ->  NovaStore getEntitlements 122656012
+⚡️  To Native ->  SplashScreen hide 122656013
+⚡️  To Native ->  App addListener 122656014
+⚡️  To Native ->  App addListener 122656015
+⚡️  To Native ->  App removeListener -1
+⚡️  TO JS ⚡️  To Native ->  undefined
+App removeListener -1
+⚡️  To Native ->  Preferences set 122656016
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok theme/light
+⚡️  [log] - [nova-route] ok settings
+⚡️  To Native ->  Filesystem readFile 122656017
+⚡️  TO JS {"data":"U1FMaXRlIGZvcm1hdCAzABAAAQEAQCAgAAAAAQAAAEIAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAC6ZsQUAAAADD\/EAAAAALA\/7D\/YP8QjrBtoItgPuBqcDkAMjArkCUQ8dAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+⚡️  To Native ->  Filesystem writeFile 122656018
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/7624BDED-E4B1-48BF-839E-A0370E6B0DEE\/Library\/NovaData\/nova.sqlite.tmp"}
+⚡️  To Native ->  Filesystem deleteFile 122656019
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem rename 122656020
+⚡️  TO JS undefined
+⚡️  To Native ->  NovaLock status 122656021
+⚡️  To Native ->  Filesystem writeFile 122656022
+⚡️  TO JS {"available":true,"biometry":"none"}
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/D

@@ -1,0 +1,44 @@
+⚡️  Loading app at capacitor://localhost...
+SplashScreen.hideSplash: SplashScreen was automatically hidden after default timeout. You should call `SplashScreen.hide()` as soon as your web app is loaded (or increase the timeout). Read more at https://capacitorjs.com/docs/apis/splash-screen#hiding-the-splash-screen
+⚡️  WebView loaded
+⚡️  To Native ->  Preferences get 91157514
+⚡️  TO JS {"value":"{\"language\":\"ar\",\"theme\":\"dark\",\"ocrLanguages\":[\"ara\",\"fra\",\"eng\"],\"signatures\":[],\"appLock\":false,\"nativeRender\":false,\"repairArabic\":true}"}
+⚡️  To Native ->  Filesystem readdir 91157515
+⚡️  To Native ->  App addListener 91157516
+⚡️  To Native ->  StatusBar setStyle 91157517
+⚡️  To Native ->  NovaStore addListener 91157518
+⚡️  To Native ->  SplashScreen hide 91157519
+⚡️  To Native ->  App addListener 91157520
+⚡️  To Native ->  App addListener 91157521
+⚡️  To Native ->  NovaStore getEntitlements 91157522
+⚡️  TO JS {"files":[{"ctime":1795126729350,"type":"file","name":"Agreement (signed).pdf","mtime":1795126729350,"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78
+⚡️  TO JS {}
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readFile 91157523
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  To Native ->  Preferences set 91157524
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok lang/en
+⚡️  To Native ->  NovaStore getEntitlements 91157525
+⚡️  To Native ->  SplashScreen hide 91157526
+⚡️  TO JS undefined
+⚡️  To Native ->  App addListener 91157527
+⚡️  To Native ->  App addListener 91157528
+⚡️  To Native ->  App removeListener -1
+⚡️  To Native ->  App removeListener -1
+⚡️  To Native ->  Preferences set 91157529
+⚡️  To Native ->  StatusBar setStyle 91157530
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok theme/light
+⚡️  TO JS {}
+⚡️  To Native ->  Filesystem stat 91157531
+ERROR MESSAGE:  {"code":"OS-PLUG-FILE-0008","message":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Documents\/OCR%20self-test.pdf'  does not exist.","errorMessage":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-400
+⚡️  [error] - {"code":"OS-PLUG-FILE-0008","message":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/D78A0AA6-E6A8-4003-BA07-644134736365/Documents/OCR%20self-test.pdf'  does not exist.","errorMessage":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/D78A0AA6-E6A8-4003-BA07-644134736365/Documents/OCR%20self-test.pdf'  does not exist."}
+⚡️  To Native ->  Filesystem writeFile 91157532
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/D78A0AA6-E6A8-4003-BA07-644134736365\/Documents\/.nova-tmp-1795126923840.part"}
+⚡️  To Native ->  Filesystem rename 91157533
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readdir 91157534
+⚡️  TO JS {"files":[{"ctime":1795126729350,"type":"file","name":"Agreem
