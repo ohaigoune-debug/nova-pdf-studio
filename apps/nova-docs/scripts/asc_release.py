@@ -275,7 +275,16 @@ if MODE == "apply":
         else:
             print("app price: free price point not found")
     terr = get("/v1/territories?limit=200")
-    all_t = [t["id"] for t in (terr or {}).get("data", [])]
+    excluded = {t.strip() for t in os.environ.get("EXCLUDE_TERRITORIES", "CHN").split(",") if t.strip()}
+    all_t = [t["id"] for t in (terr or {}).get("data", []) if t["id"] not in excluded]
+    if av and av.get("data") and excluded:
+        ta = get(f"/v2/appAvailabilities/{av['data']['id']}/territoryAvailabilities?limit=200&include=territory")
+        for t in (ta or {}).get("data", []):
+            tid = t.get("relationships", {}).get("territory", {}).get("data", {}).get("id")
+            if tid in excluded and t["attributes"].get("available"):
+                st, r = call("PATCH", f"/v1/territoryAvailabilities/{t['id']}", {"data": {
+                    "type": "territoryAvailabilities", "id": t["id"], "attributes": {"available": False}}})
+                print(f"app availability: remove {tid}: {'OK' if st == 200 else err(r)}")
     if not (av and av.get("data")) and all_t:
         body = {"data": {"type": "appAvailabilities", "attributes": {"availableInNewTerritories": True},
                          "relationships": {"app": {"data": {"type": "apps", "id": APP}},
@@ -286,17 +295,21 @@ if MODE == "apply":
                               "relationships": {"territory": {"data": {"type": "territories", "id": t}}}}
                              for i, t in enumerate(all_t)]}
         st, r = call("POST", "/v2/appAvailabilities", body)
-        print(f"app availability -> all {len(all_t)} territories: {'OK' if st in (200, 201) else err(r)}")
+        print(f"app availability -> {len(all_t)} territories (without {','.join(sorted(excluded)) or 'none'}): {'OK' if st in (200, 201) else err(r)}")
         if st in (200, 201):
             problems[:] = [p for p in problems if "availability (territories)" not in p]
     if iap and all_t:
         ia = get(f"/v2/inAppPurchases/{iap['id']}/inAppPurchaseAvailability")
-        if not (ia and ia.get("data")):
+        stale = False
+        if ia and ia.get("data") and excluded:
+            have = get(f"/v1/inAppPurchaseAvailabilities/{ia['data']['id']}/availableTerritories?limit=200")
+            stale = any(t["id"] in excluded for t in (have or {}).get("data", []))
+        if not (ia and ia.get("data")) or stale:
             st, r = call("POST", "/v1/inAppPurchaseAvailabilities", {"data": {
                 "type": "inAppPurchaseAvailabilities", "attributes": {"availableInNewTerritories": True},
                 "relationships": {"inAppPurchase": {"data": {"type": "inAppPurchases", "id": iap["id"]}},
                                   "availableTerritories": {"data": [{"type": "territories", "id": t} for t in all_t]}}}})
-            print(f"IAP availability -> all {len(all_t)} territories: {'OK' if st in (200, 201) else err(r)}")
+            print(f"IAP availability -> {len(all_t)} territories (without {','.join(sorted(excluded)) or 'none'}): {'OK' if st in (200, 201) else err(r)}")
     if iap and not iap_shot and IAP_SHOT and os.path.exists(IAP_SHOT):
         blob = open(IAP_SHOT, "rb").read()
         st, r = call("POST", "/v1/inAppPurchaseAppStoreReviewScreenshots", {"data": {
