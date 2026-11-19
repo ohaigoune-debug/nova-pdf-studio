@@ -1,6 +1,6 @@
 'use client'
 
-import { CheckCircle2, Send } from 'lucide-react'
+import { Bot, CheckCircle2, Send, UserRound } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useActionState, useEffect, useRef, useTransition } from 'react'
@@ -10,6 +10,7 @@ import { Input, Select, Textarea } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { toast } from '@/components/ui/toast'
 import { SUPPORT_KINDS, SUPPORT_STATUSES, type SupportKind, type SupportStatus } from '@/server/db/schema/enums'
+import { requestHumanAction, setTicketAiPausedAction } from '@/server/actions/support-ai.actions'
 import { assignTicketAction, openTicketAction, replyTicketAction, setTicketStatusAction } from '@/server/actions/support.actions'
 import { KIND_AR, STATUS_AR } from './labels'
 
@@ -146,6 +147,39 @@ export function TicketControls({ ticketId, status, staff, assignedToUserId, agen
           ))}
         </Select>
       ) : null}
+    </div>
+  )
+}
+
+/**
+ * مساعد الدعم الذكي في التذكرة. التلميذ: «أريد موظفًا» بعد أول ردّ من المساعد.
+ * الموظف: إيقاف المساعد في هذه التذكرة أو إعادته.
+ */
+export function AiTicketControls({ ticketId, staff, aiPaused, aiReplied }: { ticketId: string; staff: boolean; aiPaused: boolean; aiReplied: boolean }) {
+  const router = useRouter()
+  const [pending, start] = useTransition()
+  const run = (fn: () => Promise<{ ok: boolean; error?: { message: string } }>, okMsg: string) =>
+    start(async () => {
+      const r = await fn()
+      if (!r.ok) return toast('error', r.error!.message)
+      toast('success', okMsg)
+      router.refresh()
+    })
+  if (staff) {
+    return (
+      <Button size="sm" variant="outline" loading={pending} onClick={() => run(() => setTicketAiPausedAction(ticketId, !aiPaused), aiPaused ? 'عاد المساعد إلى هذه التذكرة' : 'أُوقف المساعد في هذه التذكرة')}>
+        <Bot className="size-4" /> {aiPaused ? 'أعد تشغيل المساعد هنا' : 'أوقف المساعد هنا'}
+      </Button>
+    )
+  }
+  if (!aiReplied) return null
+  if (aiPaused) return <p className="rounded-md border border-dashed p-3 text-center text-sm text-muted-foreground">سيتابع أحد موظفي الدعم تذكرتك بنفسه.</p>
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-dashed p-3 text-sm">
+      <span className="text-muted-foreground">لم يحلّ المساعد مشكلتك؟</span>
+      <Button size="sm" variant="outline" loading={pending} onClick={() => run(() => requestHumanAction(ticketId), 'حُوّلت تذكرتك إلى موظف الدعم')}>
+        <UserRound className="size-4" /> أريد موظفًا
+      </Button>
     </div>
   )
 }
