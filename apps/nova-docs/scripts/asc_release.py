@@ -274,6 +274,24 @@ if MODE == "apply":
             print(f"app price -> Free: {'OK' if st in (200, 201) else err(r)}")
         else:
             print("app price: free price point not found")
+    contact = {k: os.environ.get(e, "").strip() for k, e in (
+        ("contactFirstName", "REVIEW_FIRST_NAME"), ("contactLastName", "REVIEW_LAST_NAME"),
+        ("contactPhone", "REVIEW_PHONE"), ("contactEmail", "REVIEW_EMAIL"))}
+    contact = {k: v for k, v in contact.items() if v}
+    if len(contact) == 4:
+        attrs = dict(contact, demoAccountRequired=False)
+        if os.environ.get("REVIEW_NOTES_FILE") and os.path.exists(os.environ["REVIEW_NOTES_FILE"]):
+            attrs["notes"] = open(os.environ["REVIEW_NOTES_FILE"]).read().strip()[:4000]
+        if rd and rd.get("data"):
+            st, r = call("PATCH", f"/v1/appStoreReviewDetails/{rd['data']['id']}", {"data": {
+                "type": "appStoreReviewDetails", "id": rd["data"]["id"], "attributes": attrs}})
+        else:
+            st, r = call("POST", "/v1/appStoreReviewDetails", {"data": {
+                "type": "appStoreReviewDetails", "attributes": attrs,
+                "relationships": {"appStoreVersion": {"data": {"type": "appStoreVersions", "id": VER}}}}})
+        print(f"App Review contact (name, phone, e-mail): {'OK' if st in (200, 201) else err(r)}")
+        if st in (200, 201):
+            problems[:] = [p for p in problems if "App Review contact" not in p]
     terr = get("/v1/territories?limit=200")
     excluded = {t.strip() for t in os.environ.get("EXCLUDE_TERRITORIES", "CHN").split(",") if t.strip()}
     all_t = [t["id"] for t in (terr or {}).get("data", []) if t["id"] not in excluded]
