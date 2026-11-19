@@ -274,6 +274,29 @@ if MODE == "apply":
             print(f"app price -> Free: {'OK' if st in (200, 201) else err(r)}")
         else:
             print("app price: free price point not found")
+    terr = get("/v1/territories?limit=200")
+    all_t = [t["id"] for t in (terr or {}).get("data", [])]
+    if not (av and av.get("data")) and all_t:
+        body = {"data": {"type": "appAvailabilities", "attributes": {"availableInNewTerritories": True},
+                         "relationships": {"app": {"data": {"type": "apps", "id": APP}},
+                                           "territoryAvailabilities": {"data": [
+                                               {"type": "territoryAvailabilities", "id": f"${{t{i}}}"}
+                                               for i, _ in enumerate(all_t)]}}},
+                "included": [{"type": "territoryAvailabilities", "id": f"${{t{i}}}", "attributes": {"available": True},
+                              "relationships": {"territory": {"data": {"type": "territories", "id": t}}}}
+                             for i, t in enumerate(all_t)]}
+        st, r = call("POST", "/v2/appAvailabilities", body)
+        print(f"app availability -> all {len(all_t)} territories: {'OK' if st in (200, 201) else err(r)}")
+        if st in (200, 201):
+            problems[:] = [p for p in problems if "availability (territories)" not in p]
+    if iap and all_t:
+        ia = get(f"/v2/inAppPurchases/{iap['id']}/inAppPurchaseAvailability")
+        if not (ia and ia.get("data")):
+            st, r = call("POST", "/v1/inAppPurchaseAvailabilities", {"data": {
+                "type": "inAppPurchaseAvailabilities", "attributes": {"availableInNewTerritories": True},
+                "relationships": {"inAppPurchase": {"data": {"type": "inAppPurchases", "id": iap["id"]}},
+                                  "availableTerritories": {"data": [{"type": "territories", "id": t} for t in all_t]}}}})
+            print(f"IAP availability -> all {len(all_t)} territories: {'OK' if st in (200, 201) else err(r)}")
     if iap and not iap_shot and IAP_SHOT and os.path.exists(IAP_SHOT):
         blob = open(IAP_SHOT, "rb").read()
         st, r = call("POST", "/v1/inAppPurchaseAppStoreReviewScreenshots", {"data": {
