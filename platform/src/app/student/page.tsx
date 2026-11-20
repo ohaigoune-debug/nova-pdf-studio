@@ -126,8 +126,9 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
 
   return (
     <div className="space-y-6">
-      <header>
-        <p className="text-sm text-muted-foreground">{dateLine}</p>
+      {/* شريط الهوية الكحلي (20 نوفمبر 2026) */}
+      <header className="brand-band rounded-2xl px-5 py-6 sm:px-8 sm:py-8">
+        <p className="band-eyebrow text-sm font-semibold">{dateLine}</p>
         <h1 className="mt-1 font-heading text-[26px] font-bold leading-[1.4] sm:text-3xl">
           {greeting(now)}، {firstName}
         </h1>

@@ -282,6 +282,72 @@
   .brand-header label svg { color: hsl(var(--muted-foreground)); }
   .brand-header button:not(.bg-primary), .brand-header a:not(.bg-primary) { color: inherit; }
   .brand-header button:not(.bg-primary):hover, .brand-header a:not(.bg-primary):hover { background-color: hsl(var(--muted)); }
+  /*
+   * خلفيات الهوية (20 نوفمبر 2026): صور صمّمها المالك (ChatGPT) بالكحلي والذهبي، محوّلة WebP (12–48 KB).
+   * في الأشرطة العليا وصفحات الدخول والتسجيل والهبوط فقط؛ صفحات الدروس والقراءة تبقى بلا زخرفة.
+   * الصورة تُحمَّل حسب الشاشة وحدها (الهاتف لا ينزّل نسخة الحاسوب)، والتظليل جهة النص يحفظ وضوحه.
+   */
+  .brand-band {
+    --band-img: url('/brand/bg/band-calm-m.webp');
+    --band-fade: linear-gradient(to left, rgb(15 37 68 / 0.82) 0%, rgb(15 37 68 / 0.45) 48%, rgb(15 37 68 / 0) 78%);
+    position: relative;
+    overflow: hidden;
+    --band-pos: center;
+    --band-size: cover;
+    background: var(--band-fade), var(--band-img) var(--band-pos) / var(--band-size) no-repeat, #0f2544;
+    color: #fffdf7;
+    border-bottom: 3px solid #c29b45;
+  }
+  html[dir='ltr'] .brand-band {
+    --band-fade: linear-gradient(to right, rgb(15 37 68 / 0.82) 0%, rgb(15 37 68 / 0.45) 48%, rgb(15 37 68 / 0) 78%);
+  }
+  .brand-band--center,
+  html[dir='ltr'] .brand-band--center {
+    --band-fade: linear-gradient(rgb(15 37 68 / 0.35), rgb(15 37 68 / 0.55));
+  }
+  @media (min-width: 768px) {
+    .brand-band { --band-img: url('/brand/bg/band-calm-d.webp'); }
+  }
+  .brand-band--strong { --band-img: url('/brand/bg/band-strong-m.webp'); }
+  @media (min-width: 768px) {
+    .brand-band--strong { --band-img: url('/brand/bg/band-strong-d.webp'); }
+  }
+  /* بطل صفحة الهبوط على الهاتف: أعلى خلفية التسجيل (القوس والنجوم) — الصورة نفسها تُخزَّن فتظهر صفحة التسجيل بعدها فورًا */
+  @media (max-width: 767px) {
+    .brand-band--hero { --band-img: url('/brand/bg/auth-m.webp'); --band-pos: center top; --band-size: 100% auto; }
+  }
+  .brand-band .text-muted-foreground { color: rgb(245 238 223 / 0.84); }
+  .brand-band .band-eyebrow { color: #e6cf95; }
+
+  /* الدخول والتسجيل: الخلفية ثابتة خلف الاستمارة (عنصر fixed لأن background-attachment لا يعمل على آيفون) */
+  /* clip-path يحصر العنصر الثابت داخل منطقة الاستمارة فلا يغطي التذييل عند التمرير */
+  .auth-backdrop { position: relative; isolation: isolate; clip-path: inset(0); }
+  .auth-backdrop::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url('/brand/bg/auth-m.webp') center / cover no-repeat, #0f2544;
+  }
+  @media (min-width: 768px) {
+    .auth-backdrop::before { background-image: url('/brand/bg/auth-d.webp'); }
+  }
+  .auth-backdrop .auth-outside { color: rgb(245 238 223 / 0.88); }
+  .auth-backdrop .auth-outside a { color: #e6cf95; }
+
+  /* الحالات الفارغة: النقش الذهبي خفيفًا جدًّا */
+  .tile-faint { position: relative; isolation: isolate; }
+  .tile-faint::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: url('/brand/bg/tile.png') center / 200px repeat;
+    opacity: 0.16;
+  }
+  .dark .tile-faint::before { opacity: 0.1; }
+
   .student-content { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
   .student-bottom-nav { padding-bottom: env(safe-area-inset-bottom); }
   @media (min-width: 1024px) { .student-content { padding-bottom: 2rem; } }

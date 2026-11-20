@@ -25,6 +25,7 @@ export default async function StudentCoursesPage() {
     <>
       <HubTabs hub="courses" />
       <PageHeader
+        band="calm"
         title="دوراتي"
         description="الدورات التي اشتركت فيها: حصص مباشرة، فيديوهات مسجّلة، ملفات، وقسم افتراضي مع أستاذك."
       />

@@ -74,7 +74,7 @@ export function StatCard({ label, value, hint, icon: Icon, tone = 'default', cla
 
 export function EmptyState({ icon: Icon, title, description, action, className }: { icon?: LucideIcon; title: string; description?: string; action?: React.ReactNode; className?: string }) {
   return (
-    <div className={cn('flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border bg-card/50 p-10 text-center', className)}>
+    <div className={cn('tile-faint flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border bg-card/50 p-10 text-center', className)}>
       {Icon ? (
         <span className="flex size-14 items-center justify-center rounded-full bg-muted text-muted-foreground/70">
           <Icon className="size-6" />
@@ -87,9 +87,29 @@ export function EmptyState({ icon: Icon, title, description, action, className }
   )
 }
 
-export function PageHeader({ title, description, actions, className }: { title: string; description?: React.ReactNode; actions?: React.ReactNode; className?: string }) {
+export function PageHeader({
+  title,
+  description,
+  actions,
+  className,
+  band
+}: {
+  title: string
+  description?: React.ReactNode
+  actions?: React.ReactNode
+  className?: string
+  /** شريط كحلي بخلفية الهوية (الصفحات الرئيسية للتلميذ فقط، لا صفحات الدروس) */
+  band?: 'calm' | 'strong'
+}) {
   return (
-    <div className={cn('mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between', className)}>
+    <div
+      className={cn(
+        'mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between',
+        band && 'brand-band rounded-2xl px-5 py-6 sm:px-8 sm:py-8',
+        band === 'strong' && 'brand-band--strong',
+        className
+      )}
+    >
       <div>
         <h1 className="text-balance font-heading text-[28px] font-bold leading-[1.4] sm:text-4xl">{title}</h1>
         {description ? <div className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted-foreground">{description}</div> : null}
