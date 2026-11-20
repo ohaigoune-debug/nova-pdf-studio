@@ -201,6 +201,7 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
                 { href: '/admin/employees', label: 'الموظفون ورافعو المحتوى', iconKey: 'UsersRound' },
                 { href: '/admin/settings/video', label: 'الفيديو (Bunny)', iconKey: 'Video' },
                 { href: '/admin/settings/payment', label: 'الدفع الإلكتروني', iconKey: 'CreditCard' },
+                { href: '/admin/settings/support-ai', label: 'مساعد الدعم الذكي', iconKey: 'Bot' },
                 { href: '/admin/settings/student-menu', label: 'أقسام حساب التلميذ', iconKey: 'EyeOff' },
                 { href: '/admin/settings/apps', label: 'تطبيق الآيفون', iconKey: 'Smartphone' },
                 // كشف التسريب صار تحت «التلاميذ»؛ exact حتى لا يُضاء «الأمان» معه
