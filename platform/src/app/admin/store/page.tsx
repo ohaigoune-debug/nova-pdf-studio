@@ -16,6 +16,7 @@ import { shippingInfoFor } from '@/server/services/delivery.service'
 import { courseOrderFunnel } from '@/server/services/course-order-funnel.service'
 import { ecotrackOperatorStatus, ecotrackStatus } from '@/server/services/ecotrack.service'
 import { listStreams } from '@/server/services/reference.service'
+import { sourceLabel } from '@/server/services/landing.service'
 import { listOrdersAdmin, listProductsAdmin, ORDER_STATUS_AR, PAYMENT_AR, PRODUCT_TYPE_AR, shippingFeeDzd, storeStats } from '@/server/services/store.service'
 
 export const dynamic = 'force-dynamic'
@@ -105,6 +106,7 @@ export default async function AdminStorePage({ searchParams }: { searchParams: P
                       </Link>
                       <span className="block text-[11px] text-muted-foreground">{o.items} عنصر</span>
                       {!o.needsShipping ? <Badge variant="muted" className="mt-1">رقمي</Badge> : null}
+                      {o.landingSlug ? <Badge variant="default" className="mt-1" title="جاء من صفحة هبوط">{o.landingSlug} · {sourceLabel(o.trafficSource)}</Badge> : null}
                     </TableCell>
                     <TableCell>
                       <span className="font-semibold">{o.customerName}</span>

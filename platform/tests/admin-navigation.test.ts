@@ -31,7 +31,7 @@ describe('قائمة الإدارة المختصرة', () => {
 
   it('الحصص المباشرة داخل الدورات، والشكاوى وكشف التسريب داخل التلاميذ (16 نوفمبر 2026)', () => {
     const items = navFor('SUPER_ADMIN')[0]!.items
-    expect(items.find((i) => i.href === '/admin/courses')!.children?.map((i) => i.href)).toEqual(['/admin/courses', '/admin/live'])
+    expect(items.find((i) => i.href === '/admin/courses')!.children?.map((i) => i.href)).toEqual(['/admin/courses', '/admin/live', '/admin/landing'])
     expect(items.find((i) => i.href === '/admin/students')!.children?.map((i) => i.href)).toEqual(['/admin/students', '/admin/support', '/admin/security/leaks'])
   })
 

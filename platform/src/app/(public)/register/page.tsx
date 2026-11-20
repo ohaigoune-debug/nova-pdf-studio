@@ -7,6 +7,7 @@ import { getT } from '@/i18n/server'
 import { getCurrentActor, homeFor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listLevels, listStreams, listWilayas, streamsByLevel } from '@/server/services/reference.service'
+import { LANDING_COOKIE, attributionFromCookie } from '@/server/services/landing.service'
 import { normalizePromoCode, referralPolicyForDisplay } from '@/server/services/referrals.service'
 import { RegisterForm } from './register-form'
 
@@ -16,19 +17,23 @@ export async function generateMetadata() {
 }
 export const dynamic = 'force-dynamic'
 
-export default async function RegisterPage({ searchParams }: { searchParams: Promise<{ ref?: string }> }) {
+export default async function RegisterPage({ searchParams }: { searchParams: Promise<{ ref?: string; from?: string }> }) {
   const { t, locale } = await getT()
   const actor = await getCurrentActor()
   if (actor) redirect(homeFor(actor.role))
   const db = await getDb()
   const [wilayas, levels, streams, policy, levelStreams] = await Promise.all([listWilayas(db), listLevels(db), listStreams(db), referralPolicyForDisplay(db), streamsByLevel(db)])
+  const sp = await searchParams
+  const jar = await cookies()
   // الكود من رابط الدعوة (/r/CODE) أو من ?ref=
-  const defaultRef = normalizePromoCode((await searchParams).ref) ?? normalizePromoCode((await cookies()).get(REF_COOKIE)?.value) ?? ''
+  const defaultRef = normalizePromoCode(sp.ref) ?? normalizePromoCode(jar.get(REF_COOKIE)?.value) ?? ''
+  // زائر من صفحة هبوط (إعلان): تسجيل دون كلمة سر ولا بريد، ثم استمارة الطلب مباشرة (18 نوفمبر 2026)
+  const fromAd = sp.from === 'go' || Boolean(await attributionFromCookie(db, jar.get(LANDING_COOKIE)?.value).catch(() => null))
   return (
     <AuthCard
       locale={locale}
-      title={t('auth.registerTitle')}
-      subtitle={t('auth.registerSubtitle')}
+      title={fromAd ? 'سجّل في دقيقة' : t('auth.registerTitle')}
+      subtitle={fromAd ? 'دون كلمة سر: نؤكّد رقمك برسالة قصيرة، ثم تكمل طلب دورتك مباشرة.' : t('auth.registerSubtitle')}
       footer={
         <>
           {t('auth.haveAccount')}{' '}
@@ -49,6 +54,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
         levels={levels.map((l) => ({ id: l.id, name: l.nameAr, secondary: /AS$/i.test(l.code), streamIds: levelStreams.get(l.id) ?? [] }))}
         streams={streams.map((s) => ({ id: s.id, name: s.nameAr }))}
         referral={policy.enabled ? { defaultCode: defaultRef, welcomeCreditDzd: policy.welcomeCreditDzd } : null}
+        passwordless={fromAd}
       />
     </AuthCard>
   )

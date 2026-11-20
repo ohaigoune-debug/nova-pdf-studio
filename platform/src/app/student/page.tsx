@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers'
 import { ArrowLeft, BookMarked, CalendarClock, CheckCircle2, ClipboardList, Compass, Flame, Gamepad2, RotateCcw, Smartphone, Sparkles, Trophy } from 'lucide-react'
 import Link from 'next/link'
 import { ContentGrid } from '@/components/domain/content-cards'
@@ -13,6 +14,7 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
 import { iosAppDownload } from '@/server/services/ios-app.service'
+import { LANDING_COOKIE, landingResumeFor } from '@/server/services/landing.service'
 import { listStudentContent } from '@/server/queries/student-extras.queries'
 import { upcomingForStudent } from '@/server/services/live.service'
 import { isPhoneVerified } from '@/server/services/otp.service'
@@ -112,6 +114,8 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
     upcomingForStudent(db, actor).catch(() => [])
   ])
   const show = (path: string) => !isPathHidden(path, hidden)
+  // جاء من صفحة هبوط ولم يطلب بعد: «أكمل طلب دورتك» (17 نوفمبر 2026)
+  const resume = await landingResumeFor(db, actor, (await cookies()).get(LANDING_COOKIE)?.value).catch(() => null)
   const nextLive = upcoming[0] ?? null
   const suggested = !today.hasCourses && show('/student/lessons') ? await listStudentContent(db, actor, { limit: 3 }) : []
   const firstName = actor.fullName.trim().split(/\s+/)[0] ?? ''
@@ -128,6 +132,16 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
           {greeting(now)}، {firstName}
         </h1>
       </header>
+
+      {resume ? (
+        <Link href={resume.href} className="flex items-center justify-between gap-3 rounded-xl border-2 border-primary bg-primary/5 p-4 transition-colors hover:bg-primary/10">
+          <span className="min-w-0 leading-tight">
+            <span className="block font-bold">أكمل طلب دورتك</span>
+            <span className="block truncate text-sm text-muted-foreground">{resume.courseTitle}</span>
+          </span>
+          <span className="shrink-0 rounded-lg bg-primary px-3 py-2 text-sm font-bold text-primary-foreground">اطلب الآن</span>
+        </Link>
+      ) : null}
 
       {/* الحصة المباشرة القادمة (دورات مدفوعة): لا شيء إن لم تكن حصة */}
       <NextLiveBanner session={nextLive ? { ...nextLive, startsAt: nextLive.startsAt.toISOString() } : null} />

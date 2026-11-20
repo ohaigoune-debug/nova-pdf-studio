@@ -8,6 +8,7 @@ import { placeCourseOrder, setCourseBook } from '@/server/services/course-purcha
 import { createCourse, setCourseStatus } from '@/server/services/courses.service'
 import { isPhoneVerified, requestOtp, verifyOtp } from '@/server/services/otp.service'
 import { phoneGateFor } from '@/server/services/phone-gate.service'
+import { setStorePolicy } from '@/server/services/store.service'
 import { makeAdmin, makeStudent, makeTeacher, refIds, setupDb, workspaceIdOfTeacher } from './helpers'
 
 let h: DatabaseHandle
@@ -81,18 +82,25 @@ describe('دفعة الانطلاق: بوابة التسجيل ورمز طلب �
     expect((await placeCourseOrder(h.db, s, orderInput(c.id, phone))).status).toBe('PENDING')
   })
 
-  it('تأكيد هاتف الحساب لا يستبدل رمزًا جديدًا لكل طلب دورة', async () => {
+  it('هاتف الحساب المؤكَّد يُعفى من رمز الطلب افتراضيًا (18 نوفمبر 2026)؛ وإن أطفأ المشرف الإعفاء عاد رمز جديد لكل طلب', async () => {
     smsChannel()
     const s = await makeStudent(h.db)
     const phone = '0771110003'
     await h.db.update(profiles).set({ phone, phoneVerifiedAt: new Date() }).where(eq(profiles.userId, s.userId))
     expect((await isPhoneVerified(h.db, s.userId)).verified).toBe(true)
-    const c = await course()
-    await expect(placeCourseOrder(h.db, s, orderInput(c.id, phone))).rejects.toMatchObject({ code: 'ORDER_OTP_REQUIRED' })
-    const code = await requestOtp(h.db, { phone, purpose: 'ORDER', userId: s.userId })
-    await placeCourseOrder(h.db, s, orderInput(c.id, phone, code.devCode))
-    const next = await course()
-    await expect(placeCourseOrder(h.db, s, orderInput(next.id, phone, code.devCode))).rejects.toMatchObject({ code: 'OTP_INVALID' })
+    const first = await course()
+    expect((await placeCourseOrder(h.db, s, orderInput(first.id, phone))).status).toBe('CONFIRMED')
+    await setStorePolicy(h.db, admin, { skipOtpForVerifiedPhone: false })
+    try {
+      const c = await course()
+      await expect(placeCourseOrder(h.db, s, orderInput(c.id, phone))).rejects.toMatchObject({ code: 'ORDER_OTP_REQUIRED' })
+      const code = await requestOtp(h.db, { phone, purpose: 'ORDER', userId: s.userId })
+      await placeCourseOrder(h.db, s, orderInput(c.id, phone, code.devCode))
+      const next = await course()
+      await expect(placeCourseOrder(h.db, s, orderInput(next.id, phone, code.devCode))).rejects.toMatchObject({ code: 'OTP_INVALID' })
+    } finally {
+      await setStorePolicy(h.db, admin, { skipOtpForVerifiedPhone: true })
+    }
   })
 })
 

@@ -74,10 +74,11 @@ describe('سياسة المتجر: الحدّ بالطلب، الشعبة، ال
   })
 
   it('store.requireOtp معطَّل افتراضياً: الطلب يمرّ بلا رمز؛ المشرف وحده يغيّره', async () => {
-    expect(await storePolicy(h.db)).toEqual({ requireOtp: false, skipOtpForVerifiedPhone: false })
+    // إعفاء هاتف الحساب المؤكَّد من رمز طلب الدورة مفعَّل افتراضيًا منذ 18 نوفمبر 2026 (رسالة واحدة عند التسجيل)
+    expect(await storePolicy(h.db)).toEqual({ requireOtp: false, skipOtpForVerifiedPhone: true })
     await expect(setStorePolicy(h.db, teacher, { requireOtp: true })).rejects.toMatchObject({ code: 'FORBIDDEN' })
-    expect(await setStorePolicy(h.db, admin, { requireOtp: true })).toEqual({ requireOtp: true, skipOtpForVerifiedPhone: false })
-    expect(await storePolicy(h.db)).toEqual({ requireOtp: true, skipOtpForVerifiedPhone: false })
+    expect(await setStorePolicy(h.db, admin, { requireOtp: true })).toEqual({ requireOtp: true, skipOtpForVerifiedPhone: true })
+    expect(await storePolicy(h.db)).toEqual({ requireOtp: true, skipOtpForVerifiedPhone: true })
   })
 
   it('requireOtp مفعَّل: يُرفض بلا رمز أو برمز خاطئ، ويُقبل بالصحيح مع otpVerifiedAt', async () => {

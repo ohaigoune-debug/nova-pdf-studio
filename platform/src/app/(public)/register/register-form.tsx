@@ -9,7 +9,11 @@ import { registerAction } from '@/server/actions/auth.actions'
 
 type Opt = { id: string; name: string }
 
-export function RegisterForm({ wilayas, levels, streams, referral }: { wilayas: Opt[]; levels: (Opt & { secondary?: boolean; streamIds?: string[] })[]; streams: Opt[]; referral?: { defaultCode: string; welcomeCreditDzd: number } | null }) {
+/**
+ * passwordless (زائر صفحة الهبوط، 18 نوفمبر 2026): بلا كلمة سر ولا بريد — يُولَّد رمز دخول من 6 أرقام صالح 7 أيام،
+ * ويُطلب إنشاء كلمة السر لاحقًا من داخل الحساب.
+ */
+export function RegisterForm({ wilayas, levels, streams, referral, passwordless = false }: { wilayas: Opt[]; levels: (Opt & { secondary?: boolean; streamIds?: string[] })[]; streams: Opt[]; referral?: { defaultCode: string; welcomeCreditDzd: number } | null; passwordless?: boolean }) {
   const t = useT()
   const [state, action] = useActionState(registerAction, null)
   const [levelId, setLevelId] = useState('')
@@ -23,9 +27,13 @@ export function RegisterForm({ wilayas, levels, streams, referral }: { wilayas: 
       <Field label={t('auth.fullName')} htmlFor="fullName" error={fieldError(state, 'fullName')}>
         <Input id="fullName" name="fullName" autoComplete="name" required />
       </Field>
-      <Field label={`${t('common.email')} (${t('common.optional')})`} htmlFor="email" error={fieldError(state, 'email')} hint={t('auth.emailOptionalHint')}>
-        <Input id="email" name="email" type="email" autoComplete="email" dir="ltr" />
-      </Field>
+      {passwordless ? (
+        <input type="hidden" name="passwordless" value="1" />
+      ) : (
+        <Field label={`${t('common.email')} (${t('common.optional')})`} htmlFor="email" error={fieldError(state, 'email')} hint={t('auth.emailOptionalHint')}>
+          <Input id="email" name="email" type="email" autoComplete="email" dir="ltr" />
+        </Field>
+      )}
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="هاتفك" htmlFor="phone" error={fieldError(state, 'phone')} hint="05 / 06 / 07 — يصلك عليه رمز تأكيد">
           <Input id="phone" name="phone" type="tel" autoComplete="tel" dir="ltr" inputMode="tel" placeholder="05XXXXXXXX" required />
@@ -34,9 +42,11 @@ export function RegisterForm({ wilayas, levels, streams, referral }: { wilayas: 
           <Input id="guardianPhone" name="guardianPhone" type="tel" dir="ltr" inputMode="tel" placeholder="06XXXXXXXX" required />
         </Field>
       </div>
-      <Field label={t('common.password')} htmlFor="password" hint={t('auth.passwordHint')} error={fieldError(state, 'password')}>
-        <Input id="password" name="password" type="password" autoComplete="new-password" minLength={8} required dir="ltr" />
-      </Field>
+      {passwordless ? null : (
+        <Field label={t('common.password')} htmlFor="password" hint={t('auth.passwordHint')} error={fieldError(state, 'password')}>
+          <Input id="password" name="password" type="password" autoComplete="new-password" minLength={8} required dir="ltr" />
+        </Field>
+      )}
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label={t('common.level')} htmlFor="levelId" error={fieldError(state, 'levelId')}>
           <Select id="levelId" name="levelId" value={levelId} onChange={(e) => { setLevelId(e.target.value); setStreamId('') }} required>
@@ -79,9 +89,14 @@ export function RegisterForm({ wilayas, levels, streams, referral }: { wilayas: 
           <Input id="refCode" name="refCode" defaultValue={referral.defaultCode} dir="ltr" autoCapitalize="characters" autoComplete="off" maxLength={24} placeholder="ABCD12" />
         </Field>
       ) : null}
+      {passwordless ? (
+        <p className="rounded-lg bg-secondary px-3 py-2 text-sm leading-relaxed text-secondary-foreground">
+          لا تحتاج كلمة سر الآن: نعطيك رمز دخول من 6 أرقام صالحًا أسبوعًا، وتنشئ كلمة سرك لاحقًا من حسابك في دقيقة.
+        </p>
+      ) : null}
       <FormError state={state} />
       <SubmitButton className="w-full" size="lg">
-        {t('auth.registerButton')}
+        {passwordless ? 'سجّل وأكمل طلبك' : t('auth.registerButton')}
       </SubmitButton>
     </form>
   )

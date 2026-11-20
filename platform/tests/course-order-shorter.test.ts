@@ -77,12 +77,20 @@ describe('العنوان من آخر طلب', () => {
 })
 
 describe('إعفاء هاتف الحساب المؤكَّد من الرمز', () => {
-  it('معطَّل افتراضيًا: رمز لكل طلب كما كان', async () => {
+  it('مفعَّل افتراضيًا منذ 18 نوفمبر 2026 (رسالة واحدة عند التسجيل)، ويُطفأ من الإعدادات فيعود رمز لكل طلب', async () => {
     smsChannel()
-    expect((await storePolicy(h.db)).skipOtpForVerifiedPhone).toBe(false)
+    expect((await storePolicy(h.db)).skipOtpForVerifiedPhone).toBe(true)
     const s = await verifiedStudent('0771220001')
-    await expect(placeCourseOrder(h.db, s, input((await course()).id, '0771220001'))).rejects.toMatchObject({ code: 'ORDER_OTP_REQUIRED' })
-    expect((await courseCheckoutData(h.db, s)).skipOtpForVerifiedPhone).toBe(false)
+    expect((await courseCheckoutData(h.db, s)).skipOtpForVerifiedPhone).toBe(true)
+    expect((await placeCourseOrder(h.db, s, input((await course()).id, '0771220001'))).status).toBe('CONFIRMED')
+    await setStorePolicy(h.db, admin, { skipOtpForVerifiedPhone: false })
+    try {
+      expect((await storePolicy(h.db)).skipOtpForVerifiedPhone).toBe(false)
+      await expect(placeCourseOrder(h.db, s, input((await course()).id, '0771220001'))).rejects.toMatchObject({ code: 'ORDER_OTP_REQUIRED' })
+      expect((await courseCheckoutData(h.db, s)).skipOtpForVerifiedPhone).toBe(false)
+    } finally {
+      await setStorePolicy(h.db, admin, { skipOtpForVerifiedPhone: true })
+    }
   })
 
   it('مفعَّل: هاتف الحساب المؤكَّد يُؤكَّد مباشرة، وهاتف آخر يبقى برمز', async () => {
@@ -105,7 +113,7 @@ describe('إعفاء هاتف الحساب المؤكَّد من الرمز', ()
       await h.db.update(profiles).set({ phone: '0771220003', phoneVerifiedAt: null }).where(eq(profiles.userId, unverified.userId))
       await expect(placeCourseOrder(h.db, unverified, input((await course()).id, '0771220003'))).rejects.toMatchObject({ code: 'ORDER_OTP_REQUIRED' })
     } finally {
-      await setStorePolicy(h.db, admin, { skipOtpForVerifiedPhone: false })
+      await setStorePolicy(h.db, admin, { skipOtpForVerifiedPhone: true })
     }
   })
 

@@ -44,7 +44,12 @@ const handlers: Record<JobType, Handler> = {
   CLEANUP: async (db) => ({ ...(await runCleanupJob(db)) }),
   PUSH_DISPATCH: (db, job) => runPushDispatchJob(db, job.payload),
   COURSE_EXPIRY: (db) => import('@/server/services/courses.service').then((m) => m.runCourseExpiryJob(db)),
-  LIVE_REMINDERS: (db) => import('@/server/services/live.service').then((m) => m.runLiveRemindersJob(db)),
+  // كل 10 دقائق: تذكير الحصص، ومعه تذكير من سجّل دون كلمة سر (يوم 5 ثم الانتهاء — مرة لكل مرحلة، 18 نوفمبر 2026)
+  LIVE_REMINDERS: async (db) => {
+    const live = await import('@/server/services/live.service').then((m) => m.runLiveRemindersJob(db))
+    const tempPassword = await import('@/server/services/temp-login.service').then((m) => m.sendTempPasswordReminders(db)).catch(() => null)
+    return { ...live, tempPassword }
+  },
   ECOTRACK_SYNC: (db) => import('@/server/services/ecotrack.service').then((m) => m.runEcotrackSyncJob(db)),
   ECOTRACK_SEND: (db, job) => import('@/server/services/ecotrack.service').then((m) => m.runEcotrackSendJob(db, job.payload)),
   SUPPORT_AI_REPLY: (db, job) => import('@/server/support-ai/agent').then(async (m) => ({ ...(await m.runSupportAiJob(db, job.payload)) }))

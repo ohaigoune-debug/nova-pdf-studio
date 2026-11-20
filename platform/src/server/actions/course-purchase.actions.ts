@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { cookies } from 'next/headers'
 import { z } from 'zod'
 import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
@@ -8,6 +9,7 @@ import { failValidation, runAction, type ActionResult } from '@/server/lib/actio
 import { checkRateLimit } from '@/server/lib/rate-limit'
 import { courseQuote, placeCourseOrder, placeDigitalCourseOrder, type CourseQuote, type PlacedCourseOrder, type PlacedDigitalOrder } from '@/server/services/course-purchase.service'
 import { courseCommunesForWilaya, type CourseCommuneLookup } from '@/server/services/delivery-communes.service'
+import { LANDING_COOKIE, attributionFromCookie } from '@/server/services/landing.service'
 
 /**
  * شراء «الدورة مع كتابها»: المتصفح يرسل courseId وبيانات الاستلام فقط —
@@ -34,7 +36,9 @@ export async function placeCourseOrderAction(input: { courseId: string; phone: s
     const actor = await requireRole('STUDENT')
     const db = await getDb()
     await checkRateLimit(db, { scope: 'course-order', subject: actor.userId, limit: 10, windowSeconds: 3600 })
-    return placeCourseOrder(db, actor, parsed.data)
+    // صفحة الهبوط التي جاء منها (كعكة 30 يومًا، يُتحقّق من وجود الصفحة)
+    const attribution = await attributionFromCookie(db, (await cookies()).get(LANDING_COOKIE)?.value)
+    return placeCourseOrder(db, actor, { ...parsed.data, attribution })
   })
   if (result.ok) {
     revalidatePath('/student/courses/orders')
@@ -54,7 +58,8 @@ export async function placeDigitalCourseOrderAction(input: { courseId: string; a
     const actor = await requireRole('STUDENT')
     const db = await getDb()
     await checkRateLimit(db, { scope: 'course-order', subject: actor.userId, limit: 10, windowSeconds: 3600 })
-    return placeDigitalCourseOrder(db, actor, parsed.data)
+    const attribution = await attributionFromCookie(db, (await cookies()).get(LANDING_COOKIE)?.value)
+    return placeDigitalCourseOrder(db, actor, { ...parsed.data, attribution })
   })
   if (result.ok) {
     revalidatePath('/student/courses/orders')

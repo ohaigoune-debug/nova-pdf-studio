@@ -105,7 +105,7 @@ export function StoreSmsSettings({ policy, sms }: Props) {
             <span className="flex items-center gap-1 font-semibold">
               <ShieldCheck className="size-4" /> طلب الدورة إلى هاتف الحساب المؤكَّد دون رمز جديد
             </span>
-            <span className="block text-xs text-muted-foreground">يختصر الطلب خطوة للتلميذ الذي أكّد هاتفه عند التسجيل، ويُؤكَّد الطلب مباشرة. الطلب إلى هاتف الولي أو رقم آخر يبقى برمز. مُعطَّل افتراضياً.</span>
+            <span className="block text-xs text-muted-foreground">يختصر الطلب خطوة للتلميذ الذي أكّد هاتفه عند التسجيل، ويُؤكَّد الطلب مباشرة. الطلب إلى هاتف الولي أو رقم آخر يبقى برمز. مفعَّل افتراضيًا: رسالة واحدة عند التسجيل تكفي.</span>
           </span>
         </label>
 

@@ -167,7 +167,9 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
               href: '/admin/courses', label: 'الدورات والدروس', iconKey: 'GraduationCap',
               children: [
                 { href: '/admin/courses', label: 'الدورات والدروس', iconKey: 'GraduationCap' },
-                { href: '/admin/live', label: 'الحصص المباشرة', iconKey: 'Radio' }
+                { href: '/admin/live', label: 'الحصص المباشرة', iconKey: 'Radio' },
+                // صفحات عامة لجلب التلاميذ من الترويج (17 نوفمبر 2026)
+                { href: '/admin/landing', label: 'صفحات الهبوط', iconKey: 'Megaphone' }
               ]
             },
             {

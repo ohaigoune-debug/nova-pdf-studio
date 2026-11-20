@@ -9,6 +9,7 @@ import { sha256 } from '@/server/lib/codes'
 import { AppError } from '@/server/lib/errors'
 import { getMailer } from '@/server/lib/mailer'
 import { isPhoneVerifiedElsewhere } from './phone-ownership.service'
+import { tempPasswordFields } from './temp-login.service'
 
 export interface RegisterInput {
   /** اختياري (قرار المالك 10 نوفمبر 2026): من سجّل بلا بريد يدخل برقم هاتفه. الفارغ = لا بريد. */
@@ -21,6 +22,11 @@ export interface RegisterInput {
   wilayaId?: string | null
   levelId?: string | null
   streamId?: string | null
+  /**
+   * التسجيل دون كلمة سر (قرار المالك 18 نوفمبر 2026، زائر صفحة الهبوط): password يُتجاهل،
+   * ويُولَّد رمز دخول من 6 أرقام صالح 7 أيام (يُعاد في النتيجة tempCode ليُعرض للتلميذ).
+   */
+  passwordless?: boolean
 }
 
 export interface RequestMeta {
@@ -34,7 +40,9 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
   const email = input.email?.trim().toLowerCase() || null
   // بلا بريد يصير الهاتف هو المعرّف الوحيد للدخول والاستعادة
   if (!email && !input.phone) throw new AppError('VALIDATION', { field: 'phone' })
-  if (!isStrongEnough(input.password)) throw new AppError('WEAK_PASSWORD')
+  if (!input.passwordless && !isStrongEnough(input.password)) throw new AppError('WEAK_PASSWORD')
+  // دون كلمة سر يُشترط الهاتف: به يدخل مع رمزه، وبه يستعيد حسابه
+  if (input.passwordless && !input.phone) throw new AppError('VALIDATION', { field: 'phone' })
 
   if (email) {
     const existing = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1)
@@ -61,11 +69,12 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
 
   // التجزئة قبل فتح المعاملة: scrypt غير المتزامن ينتظر خيوط libuv (4)، ولو انتظر داخل المعاملة لبقي
   // اتصال من المجمّع (10) محجوزاً خاملاً طوال الانتظار، فتستنزف موجة تسجيلات كل الاتصالات.
-  const passwordHash = await hashPassword(input.password)
+  const temp = input.passwordless ? await tempPasswordFields() : null
+  const passwordHash = temp ? temp.passwordHash : await hashPassword(input.password)
   const result = await db.transaction(async (tx) => {
     const [user] = await tx
       .insert(users)
-      .values({ email, passwordHash, role: 'STUDENT', lastLoginAt: new Date() })
+      .values({ email, passwordHash, role: 'STUDENT', lastLoginAt: new Date(), ...(temp ? { tempPasswordUntil: temp.tempPasswordUntil, tempCodeSealed: temp.tempCodeSealed } : {}) })
       .returning({ id: users.id })
     if (!user) throw new AppError('INTERNAL')
     await tx.insert(profiles).values({ userId: user.id, fullName: input.fullName.trim(), phone: input.phone ?? null })
@@ -85,7 +94,7 @@ export async function registerStudent(db: Db, input: RegisterInput, meta: Reques
   })
 
   const session = await createSession(db, { userId: result.userId, ...meta })
-  return { ...result, session }
+  return { ...result, session, tempCode: temp?.code ?? null }
 }
 
 /** رقم هاتف جزائري (05/06/07) بصيغه الشائعة (ومنها الأرقام الهندية ٠-٩ كما يقبلها تسجيل التطبيق)، أو null */
@@ -107,7 +116,7 @@ export function loginIdentity(raw: string): { scope: 'login-phone' | 'login-emai
 /** أقصى عدد حسابات تُجرَّب كلمة السر عليها من كل فئة في دخول واحد بالهاتف (كل تجربة = حساب scrypt) */
 const PHONE_LOGIN_GROUP_LIMIT = 5
 
-const loginCols = { id: users.id, passwordHash: users.passwordHash, status: users.status, role: users.role, deletedAt: users.deletedAt }
+const loginCols = { id: users.id, passwordHash: users.passwordHash, status: users.status, role: users.role, deletedAt: users.deletedAt, tempPasswordUntil: users.tempPasswordUntil }
 
 /**
  * الحسابات التي يفتحها رقم هاتف (قرار المالك 11 نوفمبر 2026: «الرقم يُفتح به حساب واحد فقط»):
@@ -146,6 +155,8 @@ export async function login(db: Db, input: { email: string; password: string }, 
   }
   if (!user || user.deletedAt) throw new AppError('INVALID_CREDENTIALS')
   if (user.status !== 'ACTIVE') throw new AppError('ACCOUNT_DISABLED')
+  // رمز الدخول المؤقت (التسجيل دون كلمة سر) لا يُقبل بعد 7 أيام: يستعيد حسابه برمز SMS ثم ينشئ كلمة سر
+  if (user.tempPasswordUntil && user.tempPasswordUntil.getTime() <= Date.now()) throw new AppError('TEMP_CODE_EXPIRED')
 
   await db.update(users).set({ lastLoginAt: new Date() }).where(eq(users.id, user.id))
   await writeActivity(db, { userId: user.id, event: 'auth.login' })
@@ -202,7 +213,7 @@ export async function resetPassword(db: Db, token: string, newPassword: string, 
   if (!isStrongEnough(newPassword)) throw new AppError('WEAK_PASSWORD')
   const row = await verifyPasswordResetToken(db, token, now)
   await db.transaction(async (tx) => {
-    await tx.update(users).set({ passwordHash: await hashPassword(newPassword) }).where(eq(users.id, row.userId))
+    await tx.update(users).set({ passwordHash: await hashPassword(newPassword), tempPasswordUntil: null, tempCodeSealed: null }).where(eq(users.id, row.userId))
     await tx.update(passwordResets).set({ usedAt: now }).where(eq(passwordResets.id, row.id))
     await revokeAllSessions(tx, row.userId)
     await invalidatePhoneRecoveryCodes(tx, row.userId, now)
@@ -218,7 +229,7 @@ export async function changePassword(db: Db, userId: string, current: string, ne
   const row = rows[0]
   if (!row || !(await verifyPassword(current, row.passwordHash))) throw new AppError('INVALID_CREDENTIALS')
   await db.transaction(async (tx) => {
-    await tx.update(users).set({ passwordHash: await hashPassword(next) }).where(eq(users.id, userId))
+    await tx.update(users).set({ passwordHash: await hashPassword(next), tempPasswordUntil: null, tempCodeSealed: null }).where(eq(users.id, userId))
     await revokeAllSessions(tx, userId)
     await invalidatePhoneRecoveryCodes(tx, userId, new Date())
     await writeActivity(tx, { userId, event: 'auth.password.change' })

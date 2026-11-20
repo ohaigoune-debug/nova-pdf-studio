@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert } from '@/components/ui/misc'
+import { SHIPPING_INCLUDED_BADGES } from '@/lib/course-shipping'
 import { formatDate } from '@/lib/utils'
 import { getCurrentActor, homeFor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
@@ -86,7 +87,8 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
             </p>
             {purchase.book ? (
               <p className="text-4xl font-extrabold tabular-nums">
-                {price} <span className="text-lg font-bold text-white/75">دج + التوصيل</span>
+                {price} <span className="text-lg font-bold text-white/75">{SHIPPING_INCLUDED_BADGES[course.shippingIncluded] ? 'دج' : 'دج + التوصيل'}</span>
+                {SHIPPING_INCLUDED_BADGES[course.shippingIncluded] ? <span className="mt-1 block text-base font-semibold text-white/85">{SHIPPING_INCLUDED_BADGES[course.shippingIncluded]}</span> : null}
               </p>
             ) : null}
           </div>
