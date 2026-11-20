@@ -373,6 +373,8 @@ export const supportTickets = pgTable(
     status: text('status').notNull().default('OPEN'),
     /** شكوى عن أستاذ أو مسألة حساسة: لا يراها إلا SUPER_ADMIN */
     isSensitive: boolean('is_sensitive').notNull().default(false),
+    /** طلب التلميذ موظفًا أو أوقف المشرف المساعد الذكي لهذه التذكرة (0051) */
+    aiPaused: boolean('ai_paused').notNull().default(false),
     assignedToUserId: uuid('assigned_to_user_id').references(() => users.id, { onDelete: 'set null' }),
     lastMessageAt: timestamp('last_message_at', { withTimezone: true }).notNull().defaultNow(),
     closedAt: timestamp('closed_at', { withTimezone: true }),
@@ -401,6 +403,8 @@ export const supportMessages = pgTable(
     fileId: uuid('file_id').references(() => files.id, { onDelete: 'set null' }),
     /** ملاحظة داخلية بين موظفي الدعم لا يراها صاحب التذكرة */
     isInternal: boolean('is_internal').notNull().default(false),
+    /** كتبها مساعد الدعم الذكي (ردّ أو مسودّة داخلية) — تظهر باسمه لا باسم المشرف الذي فعّله (0051) */
+    isAi: boolean('is_ai').notNull().default(false),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow()
   },
   (t) => [index('support_messages_ticket_idx').on(t.ticketId, t.createdAt)]

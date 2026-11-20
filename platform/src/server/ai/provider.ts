@@ -56,6 +56,16 @@ export function getAiProvider(): AIProvider {
   return cached
 }
 
+/**
+ * مفتاح Anthropic لمن يكلّم الواجهة مباشرة بالأدوات (مساعد الدعم): مفتاح لوحة الإدارة أولاً، وإلا البيئة.
+ * null إن كان المزوّد المضبوط OpenAI أو لا مفتاح — فلا يعمل المساعد ولا يخترع مزوّدًا.
+ */
+export function anthropicKeyForTools(): string | null {
+  if (runtime) return runtime.provider === 'anthropic' ? runtime.apiKey : null
+  const name = (process.env.AI_PROVIDER ?? '').toLowerCase()
+  return name === 'anthropic' && process.env.AI_API_KEY ? process.env.AI_API_KEY : null
+}
+
 export function aiProviderInfo() {
   const p = getAiProvider()
   return { name: p.name, model: p.model, configured: p.name !== 'mock', source: override ? ('test' as const) : runtime ? ('admin' as const) : p.name !== 'mock' ? ('env' as const) : ('none' as const) }

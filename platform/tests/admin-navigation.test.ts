@@ -24,7 +24,7 @@ describe('قائمة الإدارة المختصرة', () => {
     expect(orders.children?.map((i) => i.href)).toEqual(['/admin/store', '/admin/store/confirm', '/admin/delivery', '/admin/points-of-sale', '/admin/affiliates', '/admin/scope-requests', '/admin/invoices', '/admin/store/cod-blocks'])
     expect(orders.children?.map((i) => i.label)).toEqual(['طلبات الدورات', 'طابور التأكيد', 'التوصيل', 'نقاط البيع', 'المسوّقون', 'طلبات تغيير الشعبة', 'الفواتير', 'ممنوعون من الدفع عند الاستلام'])
     expect(items.find((i) => i.href === '/admin/settings')!.children?.map((i) => i.href)).toEqual([
-      '/admin/settings', '/admin/employees', '/admin/settings/video', '/admin/settings/payment', '/admin/settings/student-menu',
+      '/admin/settings', '/admin/employees', '/admin/settings/video', '/admin/settings/payment', '/admin/settings/support-ai', '/admin/settings/student-menu',
       '/admin/settings/apps', '/admin/security', '/admin/storage', '/admin/ai', '/admin/tools'
     ])
   })

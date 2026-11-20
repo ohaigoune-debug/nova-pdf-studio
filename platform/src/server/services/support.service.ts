@@ -11,6 +11,8 @@ import { SUPPORT_KINDS, SUPPORT_STATUSES } from '@/server/db/schema/enums'
 import type { Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
+import { scheduleSupportAi } from '@/server/support-ai/schedule'
+import { SUPPORT_AI_NAME } from '@/server/support-ai/settings'
 import { notify } from './notifications.service'
 
 export const SUPPORT_KIND_AR: Record<SupportKind, string> = { ORDER: 'طلب شراء', DELIVERY: 'التوصيل', ACCESS: 'الوصول إلى دورة', CONTENT: 'المحتوى', TEACHER: 'شكوى عن أستاذ', TECHNICAL: 'مشكلة تقنية', OTHER: 'أخرى' }
@@ -71,12 +73,14 @@ export async function openTicket(db: Db, actor: Actor, input: OpenTicketInput): 
   const ticket = await db.transaction(async (tx) => {
     const [t] = await tx.insert(supportTickets).values({ userId: actor.userId, courseId: input.courseId ?? null, orderId: input.orderId ?? null, kind: input.kind, subject, isSensitive, status: 'OPEN' }).returning()
     if (!t) throw new AppError('INTERNAL')
-    await tx.insert(supportMessages).values({ ticketId: t.id, authorUserId: actor.userId, body, fileId: input.fileId ?? null, isInternal: false })
-    return t
+    const [m] = await tx.insert(supportMessages).values({ ticketId: t.id, authorUserId: actor.userId, body, fileId: input.fileId ?? null, isInternal: false }).returning({ id: supportMessages.id })
+    return { ...t, firstMessageId: m?.id ?? null }
   })
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'support.open', entityType: 'support_ticket', entityId: ticket.id, newValue: { number: ticket.number, kind: input.kind, isSensitive } })
   await notifyAdmins(db, `تذكرة جديدة #${ticket.number}${isSensitive ? ' (حساسة)' : ''}`, `${SUPPORT_KIND_AR[input.kind]} · ${subject}`, `/admin/support/${ticket.id}`)
-  return ticket
+  if (ticket.firstMessageId && actor.role === 'STUDENT') await scheduleSupportAi(db, { ticket, messageId: ticket.firstMessageId })
+  const { firstMessageId: _first, ...row } = ticket
+  return row
 }
 
 const USER_PORTAL: Partial<Record<string, string>> = { STUDENT: '/student/support', TEACHER: '/teacher/support', PARENT: '/support', PUBLIC: '/support' }
@@ -109,7 +113,64 @@ export async function replyTicket(db: Db, actor: Actor, ticketId: string, body: 
     if (staff && t.userId !== actor.userId) await notify(db, { userId: t.userId, workspaceId: null, type: 'SYSTEM', title: `ردّ على تذكرتك #${t.number}`, body: text.slice(0, 160), link: await ownerLink(db, t) })
     else if (!staff) await notifyAdmins(db, `ردّ جديد على التذكرة #${t.number}`, text.slice(0, 160), `/admin/support/${t.id}`)
   }
+  if (!internal && !staff && actor.role === 'STUDENT' && t.userId === actor.userId) await scheduleSupportAi(db, { ticket: t, messageId: m.id })
   return { id: m.id }
+}
+
+/**
+ * رسالة مساعد الدعم الذكي (من مهمة SUPPORT_AI_REPLY وحدها): تُنسب إلى المشرف الذي فعّله وتُعلَّم is_ai.
+ * ردّ للتلميذ: التذكرة «بانتظار ردّك» ويُخطَر صاحبها — أو «مفتوحة» مع إيقاف المساعد إن حُوّلت إلى موظف.
+ * مسودّة: ملاحظة داخلية لا يراها التلميذ ولا تغيّر الحالة.
+ */
+export async function postAiMessage(db: Db, input: { ticketId: string; botUserId: string; body: string; internal: boolean; handoff?: { reasonAr: string; summary: string; suggestedAction: string | null } | null }): Promise<{ id: string }> {
+  const t = await loadTicket(db, input.ticketId)
+  const text = input.body.trim().slice(0, 5000)
+  if (!text) throw new AppError('VALIDATION', { field: 'body' })
+  const now = new Date()
+  const [m] = await db.insert(supportMessages).values({ ticketId: t.id, authorUserId: input.botUserId, body: text, isInternal: input.internal, isAi: true }).returning({ id: supportMessages.id })
+  if (!m) throw new AppError('INTERNAL')
+  if (input.handoff) {
+    const note = [`حوّل ${SUPPORT_AI_NAME} التذكرة إلى موظف — ${input.handoff.reasonAr}`, `الملخّص: ${input.handoff.summary}`, input.handoff.suggestedAction ? `الاقتراح: ${input.handoff.suggestedAction}` : null].filter(Boolean).join('\n')
+    await db.insert(supportMessages).values({ ticketId: t.id, authorUserId: input.botUserId, body: note.slice(0, 5000), isInternal: true, isAi: true })
+  }
+  if (!input.internal) {
+    const cur = t.status as SupportStatus
+    const nextStatus: SupportStatus = input.handoff ? (cur === 'CLOSED' ? cur : 'OPEN') : cur === 'RESOLVED' || cur === 'CLOSED' ? cur : 'WAITING_USER'
+    await db
+      .update(supportTickets)
+      .set({ lastMessageAt: now, status: nextStatus, aiPaused: input.handoff ? true : t.aiPaused, updatedAt: now })
+      .where(eq(supportTickets.id, t.id))
+    await notify(db, { userId: t.userId, workspaceId: null, type: 'SYSTEM', title: `ردّ على تذكرتك #${t.number}`, body: text.slice(0, 160), link: await ownerLink(db, t) })
+    if (input.handoff) await notifyAdmins(db, `تذكرة #${t.number} تحتاج موظفًا`, `${input.handoff.reasonAr} · ${input.handoff.summary.slice(0, 120)}`, `/admin/support/${t.id}`)
+  } else if (input.handoff) {
+    await db.update(supportTickets).set({ aiPaused: true, updatedAt: now }).where(eq(supportTickets.id, t.id))
+  }
+  const audit = { actorUserId: input.botUserId, workspaceId: null, entityType: 'support_ticket', entityId: t.id, newValue: { number: t.number, handoff: input.handoff?.reasonAr ?? null } }
+  if (input.internal) await writeAudit(db, { ...audit, action: 'support.ai_draft' })
+  else await writeAudit(db, { ...audit, action: 'support.ai_reply' })
+  return { id: m.id }
+}
+
+/** صاحب التذكرة يطلب موظفًا: يتوقف المساعد فيها نهائيًا، وتعود «مفتوحة»، ويُخطَر المشرفون */
+export async function requestHumanAgent(db: Db, actor: Actor, ticketId: string): Promise<void> {
+  const t = await loadTicket(db, ticketId)
+  if (t.userId !== actor.userId) throw new AppError('TICKET_NOT_FOUND')
+  if (t.aiPaused) return
+  const now = new Date()
+  await db
+    .update(supportTickets)
+    .set({ aiPaused: true, status: t.status === 'CLOSED' ? t.status : 'OPEN', updatedAt: now })
+    .where(eq(supportTickets.id, t.id))
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'support.human_requested', entityType: 'support_ticket', entityId: t.id, newValue: { number: t.number } })
+  await notifyAdmins(db, `التذكرة #${t.number}: التلميذ يطلب موظفًا`, t.subject, `/admin/support/${t.id}`)
+}
+
+/** المشرف يوقف المساعد في تذكرة أو يعيده */
+export async function setTicketAiPaused(db: Db, actor: Actor, ticketId: string, paused: boolean): Promise<void> {
+  if (!isStaff(actor)) throw new AppError('FORBIDDEN')
+  const t = await loadTicket(db, ticketId)
+  await db.update(supportTickets).set({ aiPaused: paused, updatedAt: new Date() }).where(eq(supportTickets.id, t.id))
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'support.ai_paused', entityType: 'support_ticket', entityId: t.id, oldValue: { aiPaused: t.aiPaused }, newValue: { aiPaused: paused } })
 }
 
 export async function setTicketStatus(db: Db, actor: Actor, ticketId: string, status: SupportStatus): Promise<void> {
@@ -169,7 +230,7 @@ export async function myTickets(db: Db, actor: Actor): Promise<TicketListRow[]> 
 
 export interface TicketView {
   ticket: SupportTicketRow & { ownerName: string; ownerEmail: string; ownerRole: string; assigneeName: string | null; courseTitle: string | null; orderNumber: string | null }
-  messages: { id: string; authorUserId: string; authorName: string; isStaff: boolean; isInternal: boolean; body: string; fileId: string | null; createdAt: Date }[]
+  messages: { id: string; authorUserId: string; authorName: string; isStaff: boolean; isInternal: boolean; isAi: boolean; body: string; fileId: string | null; createdAt: Date }[]
   /** هل الفاعل من طاقم الدعم (يرى الداخلي ويغيّر الحالة) */
   staff: boolean
 }
@@ -183,7 +244,7 @@ export async function getTicket(db: Db, actor: Actor, ticketId: string): Promise
   const course = t.courseId ? (await db.select({ title: courses.title }).from(courses).where(eq(courses.id, t.courseId)).limit(1))[0] : null
   const order = t.orderId ? (await db.select({ number: orders.number }).from(orders).where(eq(orders.id, t.orderId)).limit(1))[0] : null
   const msgs = await db
-    .select({ id: supportMessages.id, authorUserId: supportMessages.authorUserId, authorName: profiles.fullName, authorRole: users.role, isInternal: supportMessages.isInternal, body: supportMessages.body, fileId: supportMessages.fileId, createdAt: supportMessages.createdAt })
+    .select({ id: supportMessages.id, authorUserId: supportMessages.authorUserId, authorName: profiles.fullName, authorRole: users.role, isInternal: supportMessages.isInternal, isAi: supportMessages.isAi, body: supportMessages.body, fileId: supportMessages.fileId, createdAt: supportMessages.createdAt })
     .from(supportMessages)
     .innerJoin(users, eq(users.id, supportMessages.authorUserId))
     .leftJoin(profiles, eq(profiles.userId, users.id))
@@ -191,7 +252,7 @@ export async function getTicket(db: Db, actor: Actor, ticketId: string): Promise
     .orderBy(supportMessages.createdAt)
   return {
     ticket: { ...t, ownerName: owner?.name ?? '—', ownerEmail: owner?.email ?? '', ownerRole: owner?.role ?? 'STUDENT', assigneeName: assignee?.name ?? null, courseTitle: course?.title ?? null, orderNumber: order?.number ?? null },
-    messages: msgs.map((m) => ({ id: m.id, authorUserId: m.authorUserId, authorName: m.authorName ?? (m.authorRole === 'SUPER_ADMIN' ? 'فريق الدعم' : '—'), isStaff: m.authorRole === 'SUPER_ADMIN', isInternal: m.isInternal, body: m.body, fileId: m.fileId, createdAt: m.createdAt })),
+    messages: msgs.map((m) => ({ id: m.id, authorUserId: m.authorUserId, authorName: m.isAi ? SUPPORT_AI_NAME : (m.authorName ?? (m.authorRole === 'SUPER_ADMIN' ? 'فريق الدعم' : '—')), isStaff: m.isAi || m.authorRole === 'SUPER_ADMIN', isInternal: m.isInternal, isAi: m.isAi, body: m.body, fileId: m.fileId, createdAt: m.createdAt })),
     staff
   }
 }

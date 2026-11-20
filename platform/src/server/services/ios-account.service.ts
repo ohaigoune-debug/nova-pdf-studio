@@ -67,9 +67,10 @@ export async function iosTicket(db: Db, actor: Actor | null, id: string) {
     orderNumber: t.orderNumber,
     courseTitle: t.courseTitle,
     // الملاحظات الداخلية لا تصل أصلًا لغير الطاقم (getTicket)؛ اسم الموظف لا يُعرض: «فريق مدرسة»
+    // ai: ردّ مساعد الدعم الذكي (0051) — حقل إضافي، التطبيقات الحالية تعرضه ردًّا من فريق مدرسة
     messages: view.messages
       .filter((m) => !m.isInternal)
-      .map((m) => ({ id: m.id, mine: m.authorUserId === student.userId, staff: m.isStaff, author: m.isStaff ? null : m.authorName, body: m.body, createdAt: m.createdAt.toISOString() }))
+      .map((m) => ({ id: m.id, mine: m.authorUserId === student.userId, staff: m.isStaff, ai: m.isAi, author: m.isStaff ? null : m.authorName, body: m.body, createdAt: m.createdAt.toISOString() }))
   }
 }
 

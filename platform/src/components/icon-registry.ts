@@ -4,6 +4,7 @@ import {
   BarChart3,
   BellRing,
   BookMarked,
+  Bot,
   BookOpen,
   Brain,
   Calculator,
@@ -80,6 +81,7 @@ import {
  * اسم غير مسجَّل، فلا تظهر أيقونة فارغة للتلميذ دون أن ننتبه.
  */
 export const ICON_REGISTRY: Record<string, LucideIcon> = {
+  Bot,
   Atom,
   Award,
   BarChart3,
