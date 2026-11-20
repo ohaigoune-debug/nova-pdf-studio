@@ -8,6 +8,7 @@ import { AdPixels } from '@/components/landing/ad-pixels'
 import { LandingBeacon } from '@/components/landing/landing-beacon'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { LandingHeroBackgroundPreload } from '@/lib/brand-backgrounds'
 import { SHIPPING_INCLUDED_BADGES } from '@/lib/course-shipping'
 import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
@@ -67,32 +68,39 @@ export default async function LandingPage({ params, searchParams }: Props) {
 
   return (
     <div className="min-h-dvh bg-background" dir="rtl">
+      <LandingHeroBackgroundPreload />
       <LandingBeacon slug={landing.slug} src={sp.src ?? null} preview={preview} />
       <AdPixels off={preview} events={[{ name: 'ViewContent', contentName: landing.slug }]} />
       {preview ? <div className="bg-warning/15 px-4 py-2 text-center text-sm font-semibold text-warning">معاينة — {landing.active ? 'الصفحة مشغّلة' : 'الصفحة متوقفة ولا يراها الزوار'}</div> : null}
 
-      <header className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
-        <Logo />
-        {loggedIn ? null : (
-          <Button asChild variant="ghost" size="sm">
-            <Link href="/login">
-              <LogIn className="size-4" aria-hidden /> دخول
-            </Link>
-          </Button>
-        )}
-      </header>
-
-      <main className="mx-auto max-w-2xl space-y-10 px-4 pb-28">
-        <section className="space-y-4 pt-2 text-center">
+      {/* بطل الصفحة على خلفية الهوية الكحلية (20 نوفمبر 2026): العنوان أبيض، والفيديو أو الغلاف يعلو حافته */}
+      <div className="brand-band brand-band--strong brand-band--hero brand-band--center pb-16 sm:rounded-b-3xl">
+        <header className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
+          <Logo surface="plate" />
+          {loggedIn ? null : (
+            <Button asChild variant="ghost" size="sm" className="text-[#FFFDF7] hover:bg-white/10 hover:text-[#FFFDF7]">
+              <Link href="/login">
+                <LogIn className="size-4" aria-hidden /> دخول
+              </Link>
+            </Button>
+          )}
+        </header>
+        <div className="mx-auto max-w-2xl space-y-3 px-4 pt-4 text-center">
           <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl">{landing.headline}</h1>
           {landing.subheadline ? <p className="text-lg text-muted-foreground">{landing.subheadline}</p> : null}
+        </div>
+      </div>
+
+      <main className="relative mx-auto max-w-2xl space-y-10 px-4 pb-28">
+        {/* الفيديو أو الغلاف يعلو حافة الشريط؛ دونهما يبدأ الزر تحته مباشرة */}
+        <section className={embed || c.coverUrl ? '-mt-10 space-y-4 text-center' : 'space-y-4 pt-6 text-center'}>
           {embed ? (
-            <div className="overflow-hidden rounded-xl border bg-muted">
+            <div className="overflow-hidden rounded-xl border bg-muted shadow-xl">
               <iframe src={embed} title={landing.headline} className="aspect-video w-full" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
             </div>
           ) : c.coverUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={c.coverUrl} alt={c.title} className="mx-auto max-h-80 rounded-xl border object-contain" />
+            <img src={c.coverUrl} alt={c.title} className="mx-auto max-h-80 rounded-xl border bg-card object-contain shadow-xl" />
           ) : null}
           <Button asChild size="lg" className="w-full text-lg sm:w-auto sm:px-12">
             <Link data-ad-cta href={mainHref}>
