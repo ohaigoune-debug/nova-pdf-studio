@@ -51,7 +51,8 @@ const handlers: Record<JobType, Handler> = {
     return { ...live, tempPassword }
   },
   ECOTRACK_SYNC: (db) => import('@/server/services/ecotrack.service').then((m) => m.runEcotrackSyncJob(db)),
-  ECOTRACK_SEND: (db, job) => import('@/server/services/ecotrack.service').then((m) => m.runEcotrackSendJob(db, job.payload))
+  ECOTRACK_SEND: (db, job) => import('@/server/services/ecotrack.service').then((m) => m.runEcotrackSendJob(db, job.payload)),
+  SUPPORT_AI_REPLY: (db, job) => import('@/server/support-ai/agent').then(async (m) => ({ ...(await m.runSupportAiJob(db, job.payload)) }))
 }
 
 export interface RunSummary {

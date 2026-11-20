@@ -1,4 +1,4 @@
-import { Lock, ShieldAlert } from 'lucide-react'
+import { Bot, Lock, ShieldAlert } from 'lucide-react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -6,7 +6,7 @@ import { cn, formatDateTime } from '@/lib/utils'
 import type { SupportKind, SupportStatus } from '@/server/db/schema/enums'
 import type { TicketView } from '@/server/services/support.service'
 import { KIND_AR, STATUS_AR, STATUS_VARIANT } from './labels'
-import { ReplyForm, TicketControls } from './ticket-forms'
+import { AiTicketControls, ReplyForm, TicketControls } from './ticket-forms'
 
 export function TicketStatusBadge({ status }: { status: string }) {
   const s = status as SupportStatus
@@ -17,6 +17,8 @@ export function TicketStatusBadge({ status }: { status: string }) {
 export function TicketThread({ view, currentUserId, agents, backHref }: { view: TicketView; currentUserId: string; agents?: { id: string; name: string }[]; backHref: string }) {
   const { ticket, messages, staff } = view
   const closed = ticket.status === 'CLOSED'
+  const aiReplied = messages.some((m) => m.isAi && !m.isInternal)
+  const aiActive = messages.some((m) => m.isAi)
   return (
     <div className="mx-auto max-w-3xl space-y-4">
       <Card>
@@ -61,12 +63,16 @@ export function TicketThread({ view, currentUserId, agents, backHref }: { view: 
 
       <ol className="space-y-3">
         {messages.map((m) => {
-          const mine = m.authorUserId === currentUserId
+          // رسائل المساعد تُنسب إلى المشرف الذي فعّله: ليست «رسائلي» حتى عنده
+          const mine = !m.isAi && m.authorUserId === currentUserId
           return (
             <li key={m.id} className={cn('flex', mine ? 'justify-start' : 'justify-end')}>
               <div className={cn('max-w-[90%] rounded-lg border p-3 text-sm shadow-soft sm:max-w-[75%]', m.isInternal ? 'border-warning/40 bg-warning/10' : m.isStaff ? 'border-primary/20 bg-primary/5' : 'bg-card')}>
                 <div className="mb-1 flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
-                  <span className="font-semibold text-foreground">{m.isStaff && !staff ? 'فريق الدعم' : m.authorName}</span>
+                  <span className="inline-flex items-center gap-1 font-semibold text-foreground">
+                    {m.isAi ? <Bot className="size-3.5 text-primary" /> : null}
+                    {m.isAi ? m.authorName : m.isStaff && !staff ? 'فريق الدعم' : m.authorName}
+                  </span>
                   {m.isInternal ? (
                     <span className="inline-flex items-center gap-1 text-amber-800 dark:text-amber-300">
                       <Lock className="size-3" /> داخلية
@@ -80,6 +86,8 @@ export function TicketThread({ view, currentUserId, agents, backHref }: { view: 
           )
         })}
       </ol>
+
+      {!ticket.isSensitive && !closed && (staff ? aiActive || ticket.aiPaused : true) ? <AiTicketControls ticketId={ticket.id} staff={staff} aiPaused={ticket.aiPaused} aiReplied={aiReplied} /> : null}
 
       <Card>
         <CardContent className="pt-5">

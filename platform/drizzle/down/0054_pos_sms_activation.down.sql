@@ -1,5 +1,5 @@
--- تراجع عن 0053_pos_sms_activation (يعود البيع في نقطة البيع بالكود وحده):
---   psql "$DATABASE_URL" -f drizzle/down/0053_pos_sms_activation.down.sql
+-- تراجع عن 0054_pos_sms_activation (يعود البيع في نقطة البيع بالكود وحده):
+--   psql "$DATABASE_URL" -f drizzle/down/0054_pos_sms_activation.down.sql
 -- ثم احذف سطرها من سجل الترحيلات، وإلا لن تُطبَّق من جديد عند إعادة نشر هذه النسخة:
 --   DELETE FROM drizzle.__drizzle_migrations WHERE created_at = 1795300000000;
 -- رموز POS غير المستهلكة تُحذف أولًا (القيد القديم لا يقبلها)، والحجوزات تبقى أكوادًا عادية تُكتب في /claim.

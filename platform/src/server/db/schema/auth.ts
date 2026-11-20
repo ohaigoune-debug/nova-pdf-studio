@@ -15,7 +15,7 @@ export const users = pgTable(
     emailVerifiedAt: timestamp('email_verified_at', { withTimezone: true }),
     lastLoginAt: timestamp('last_login_at', { withTimezone: true }),
     /**
-     * 0052 (قرار المالك 18 نوفمبر 2026): التسجيل دون كلمة سر. رمز دخول من 6 أرقام (hash في password_hash) صالح حتى هذا التاريخ،
+     * 0053 (قرار المالك 18 نوفمبر 2026): التسجيل دون كلمة سر. رمز دخول من 6 أرقام (hash في password_hash) صالح حتى هذا التاريخ،
      * ثم يُطلب إنشاء كلمة سر عادية. NULL = كلمة سر عادية.
      */
     tempPasswordUntil: timestamp('temp_password_until', { withTimezone: true }),

@@ -118,7 +118,7 @@ export const orders = pgTable(
     confirmAttempts: integer('confirm_attempts').notNull().default(0),
     lastCallAt: timestamp('last_call_at', { withTimezone: true }),
     returnedAt: timestamp('returned_at', { withTimezone: true }),
-    /** صفحة الهبوط التي جاء منها الطلب ومصدر الزيارة (0051). المفتاح الأجنبي في الترحيل فقط لتفادي دورة الاستيراد مع landing.ts */
+    /** صفحة الهبوط التي جاء منها الطلب ومصدر الزيارة (0052). المفتاح الأجنبي في الترحيل فقط لتفادي دورة الاستيراد مع landing.ts */
     landingId: uuid('landing_id'),
     trafficSource: text('traffic_source'),
     /**
