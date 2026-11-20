@@ -16,7 +16,7 @@ import { products } from '@/server/db/schema'
 import { isAppError } from '@/server/lib/errors'
 import { courseLanding } from '@/server/services/academy-catalog.service'
 import { bookUpgradeOffer, courseBookStateById, courseDigitalStateById } from '@/server/services/course-purchase.service'
-import { referralEligibility, referralPolicy } from '@/server/services/referrals.service'
+import { effectiveWelcomeDzd, referralEligibility, referralPolicy } from '@/server/services/referrals.service'
 import { courseCheckoutData } from '@/server/services/store.service'
 import { recordCourseOrderView } from '@/server/services/course-order-funnel.service'
 
@@ -162,7 +162,7 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
           <CardContent>
             {purchase.purchasable && purchase.book ? (
               <div className="space-y-5">
-                {refEl.eligible ? <ReferralCodeBox source="CHECKOUT" welcomeCreditDzd={refPolicy.welcomeCreditDzd} /> : null}
+                {refEl.eligible ? <ReferralCodeBox source="CHECKOUT" welcomeCreditDzd={effectiveWelcomeDzd(refPolicy)} /> : null}
                 <CourseOrderForm courseId={course.id} book={{ title: purchase.book.title, priceDzd: price }} data={checkout} shippingIncluded={course.shippingIncluded} />
               </div>
             ) : (

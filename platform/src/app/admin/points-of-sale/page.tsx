@@ -36,7 +36,32 @@ export default async function PointsOfSalePage() {
           {items.length === 0 ? (
             <EmptyState icon={Store} title="لا نقاط بيع بعد" description="أضف أول مدرسة أو مكتبة من النموذج أدناه." />
           ) : (
-            <div className="overflow-x-auto">
+            <>
+            {/* على الهاتف: بطاقة لكل نقطة بدل جدول يُسحب جانبًا */}
+            <ul className="divide-y sm:hidden">
+              {items.map((p) => (
+                <li key={p.id} className="space-y-2 py-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <Link href={`/admin/points-of-sale/${p.id}`} className="font-semibold text-primary hover:underline">
+                        {p.name}
+                      </Link>
+                      <p className="text-xs text-muted-foreground">
+                        {p.wilayaName ?? '—'}
+                        {p.phone ? <> · <span dir="ltr">{p.phone}</span></> : null} · {p.members} حساب
+                      </p>
+                    </div>
+                    {p.status === 'ACTIVE' ? <Badge variant="success">مفتوحة</Badge> : <Badge variant="muted">مغلقة</Badge>}
+                  </div>
+                  <dl className="grid grid-cols-3 gap-2 text-center text-xs">
+                    <div><dt className="text-muted-foreground">باقي عندها</dt><dd className={`text-base font-bold tabular-nums ${p.remaining <= 0 ? 'text-destructive' : ''}`}>{p.remaining}</dd></div>
+                    <div><dt className="text-muted-foreground">بيعت</dt><dd className="text-base font-bold tabular-nums">{p.soldCount}</dd></div>
+                    <div><dt className="text-muted-foreground">المستحق</dt><dd className="text-base font-bold tabular-nums">{p.owedDzd} دج</dd></div>
+                  </dl>
+                </li>
+              ))}
+            </ul>
+            <div className="hidden overflow-x-auto sm:block">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -73,6 +98,7 @@ export default async function PointsOfSalePage() {
                 </TableBody>
               </Table>
             </div>
+            </>
           )}
         </CardContent>
       </Card>

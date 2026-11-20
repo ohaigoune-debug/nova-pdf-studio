@@ -20,7 +20,7 @@ import { AppError, assertUuid } from '@/server/lib/errors'
 import { notify, notifyMany } from './notifications.service'
 import { normalizePhone } from './otp.service'
 import { addPosMember, createPointOfSale, generateReadablePassword } from './points-of-sale.service'
-import { appBaseUrl, changePromoCode, createPromoCode, inviteLink, inviteesOf, referralPolicy, INVITEE_STATUS_AR } from './referrals.service'
+import { appBaseUrl, changePromoCode, createPromoCode, effectiveWelcomeDzd, inviteLink, inviteesOf, referralPolicy, INVITEE_STATUS_AR } from './referrals.service'
 
 /** تذكير واحد لكل زبون كل 48 ساعة */
 export const REMIND_EVERY_MS = 48 * 3600 * 1000
@@ -299,7 +299,7 @@ export async function affiliateHome(db: Db, actor: Actor, now = new Date()) {
     status: a.status,
     commissionDzd: a.commissionDzd,
     holdDays: policy.holdDays,
-    welcomeCreditDzd: policy.welcomeCreditDzd,
+    welcomeCreditDzd: effectiveWelcomeDzd(policy),
     code,
     link: inviteLink(code),
     money,
@@ -332,7 +332,7 @@ export async function remindCustomer(db: Db, actor: Actor, referralId: string, n
     .returning({ id: referrals.id })
   if (!ok) throw new AppError('REMIND_TOO_SOON')
   const policy = await referralPolicy(db)
-  await notify(db, { userId: r.referredUserId, workspaceId: null, type: 'SYSTEM', title: 'دورتك في انتظارك', body: `أكمل طلب دورتك في مدرسة${policy.welcomeCreditDzd ? `، ويُضاف إلى رصيدك ${policy.welcomeCreditDzd} دج هدية بعد الاستلام` : ''}.`, link: '/student/courses' })
+  await notify(db, { userId: r.referredUserId, workspaceId: null, type: 'SYSTEM', title: 'دورتك في انتظارك', body: `أكمل طلب دورتك في مدرسة${effectiveWelcomeDzd(policy) ? `، ويُضاف إلى رصيدك ${effectiveWelcomeDzd(policy)} دج هدية بعد الاستلام` : ''}.`, link: '/student/courses' })
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'affiliate.remind', entityType: 'referral', entityId: r.id, newValue: { count: r.remindCount + 1 } })
 }
 

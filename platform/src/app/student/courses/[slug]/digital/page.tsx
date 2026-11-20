@@ -13,7 +13,7 @@ import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { courseLanding } from '@/server/services/academy-catalog.service'
 import { courseBookStateById, courseDigitalStateById } from '@/server/services/course-purchase.service'
-import { creditPreview, referralEligibility, referralPolicy } from '@/server/services/referrals.service'
+import { creditPreview, effectiveWelcomeDzd, referralEligibility, referralPolicy } from '@/server/services/referrals.service'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'النسخة الرقمية' }
@@ -156,7 +156,7 @@ export default async function CourseDigitalPage({ params }: { params: Promise<{ 
           <CardContent>
             {digital.purchasable ? (
               <div className="space-y-4">
-                {refEl.eligible ? <ReferralCodeBox source="CHECKOUT" welcomeCreditDzd={refPolicy.welcomeCreditDzd} /> : null}
+                {refEl.eligible ? <ReferralCodeBox source="CHECKOUT" welcomeCreditDzd={effectiveWelcomeDzd(refPolicy)} /> : null}
                 <DigitalCheckout courseId={course.id} priceDzd={digital.priceDzd} credit={credit} />
               </div>
             ) : (

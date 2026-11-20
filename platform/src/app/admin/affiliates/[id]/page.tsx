@@ -95,7 +95,23 @@ export default async function AffiliateDetailPage({ params }: { params: Promise<
           {data.customers.length === 0 ? (
             <p className="text-sm text-muted-foreground">لا أحد بعد.</p>
           ) : (
-            <div className="overflow-x-auto">
+            <>
+            {/* على الهاتف: سطر لكل تلميذ والحالة ظاهرة دون سحب */}
+            <ul className="divide-y sm:hidden">
+              {data.customers.map((c) => (
+                <li key={c.referralId} className="flex items-start justify-between gap-2 py-3">
+                  <div className="min-w-0">
+                    <p className="font-semibold">{c.fullName || c.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      <span dir="ltr">{c.phone ?? '—'}</span> · سجّل {formatDate(c.createdAt)}
+                    </p>
+                    {c.note ? <p className="text-xs text-muted-foreground">{c.note}</p> : null}
+                  </div>
+                  <Badge variant={c.status === 'BOUGHT' ? 'success' : c.status === 'VOID' || c.status === 'RETURNED' ? 'destructive' : 'muted'}>{c.statusAr}</Badge>
+                </li>
+              ))}
+            </ul>
+            <div className="hidden overflow-x-auto sm:block">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -120,6 +136,7 @@ export default async function AffiliateDetailPage({ params }: { params: Promise<
                 </TableBody>
               </Table>
             </div>
+            </>
           )}
         </CardContent>
       </Card>

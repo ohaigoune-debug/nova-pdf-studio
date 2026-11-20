@@ -38,9 +38,24 @@ export interface ReferralPolicy {
   creditMonths: number
   /** مهلة الإرجاع قبل أن يصبح نقد المسوّق قابلًا للدفع (أيام) */
   holdDays: number
+  /**
+   * «دعوات التلاميذ» (قرار المالك 18 نوفمبر 2026: مطفأة حتى بداية الموسم القادم): التلميذ يدعو زميله برصيد،
+   * والرصيد الترحيبي لكل تلميذ جديد. مطفأة ⇒ لا كود للتلميذ ولا صفحة «ادعُ زميلك» ولا رصيد جديد لأحد؛
+   * يبقى المسوّق بالعمولة وحده. المبالغ تبقى محفوظة لحين التشغيل، ومن أخذ رصيدًا يحتفظ به حتى انتهائه.
+   */
+  studentInvites: boolean
 }
 
-export const DEFAULT_REFERRAL_POLICY: ReferralPolicy = { enabled: true, affiliateDefaultDzd: 300, referrerCreditDzd: 200, welcomeCreditDzd: 200, creditMonths: 12, holdDays: 7 }
+export const DEFAULT_REFERRAL_POLICY: ReferralPolicy = { enabled: true, affiliateDefaultDzd: 400, referrerCreditDzd: 200, welcomeCreditDzd: 200, creditMonths: 12, holdDays: 7, studentInvites: false }
+
+/** رصيد التلاميذ (دعوة زميل + الترحيب) يُمنح الآن؟ */
+export const studentCreditsOn = (p: ReferralPolicy): boolean => p.enabled && p.studentInvites
+/** مسارات التلميذ المخفية + صفحة «ادعُ زميلك ورصيدي» حين تكون دعوات التلاميذ مطفأة */
+export function withInvitesHidden(paths: string[], p: ReferralPolicy): string[] {
+  return studentCreditsOn(p) || paths.includes('/student/invite') ? paths : [...paths, '/student/invite']
+}
+/** الرصيد الترحيبي كما يُعرض ويُمنح الآن (0 حين تكون دعوات التلاميذ مطفأة) */
+export const effectiveWelcomeDzd = (p: ReferralPolicy): number => (studentCreditsOn(p) ? p.welcomeCreditDzd : 0)
 const POLICY_KEY = 'referrals.policy'
 /** أقل مبلغ يُرسَل إلى بوابة الدفع: الرصيد لا يُنزل الباقي تحته (يُدفع كاملًا بالرصيد أو 50 دج على الأقل) */
 export const ONLINE_MIN_DZD = 50
@@ -57,7 +72,8 @@ export async function referralPolicy(db: Db): Promise<ReferralPolicy> {
     referrerCreditDzd: intIn(v.referrerCreditDzd, 0, 100_000, d.referrerCreditDzd),
     welcomeCreditDzd: intIn(v.welcomeCreditDzd, 0, 100_000, d.welcomeCreditDzd),
     creditMonths: intIn(v.creditMonths, 1, 36, d.creditMonths),
-    holdDays: intIn(v.holdDays, 0, 60, d.holdDays)
+    holdDays: intIn(v.holdDays, 0, 60, d.holdDays),
+    studentInvites: typeof v.studentInvites === 'boolean' ? v.studentInvites : d.studentInvites
   }
 }
 
@@ -72,7 +88,7 @@ export function referralPolicyForDisplay(db: Db): Promise<ReferralPolicy> {
 }
 
 /** المبالغ والمدد للمشرف وحده (لا لمدير العمليات) */
-export async function setReferralPolicy(db: Db, actor: Actor, input: Partial<ReferralPolicy>): Promise<ReferralPolicy> {
+export async function setReferralPolicy(db: Db, actor: Actor, input: Partial<ReferralPolicy> & { applyToAffiliates?: boolean }): Promise<ReferralPolicy> {
   assertRole(actor, 'SUPER_ADMIN')
   const prev = await referralPolicy(db)
   const check = (k: keyof ReferralPolicy, min: number, max: number) => {
@@ -87,14 +103,21 @@ export async function setReferralPolicy(db: Db, actor: Actor, input: Partial<Ref
     referrerCreditDzd: check('referrerCreditDzd', 0, 100_000),
     welcomeCreditDzd: check('welcomeCreditDzd', 0, 100_000),
     creditMonths: check('creditMonths', 1, 36),
-    holdDays: check('holdDays', 0, 60)
+    holdDays: check('holdDays', 0, 60),
+    studentInvites: typeof input.studentInvites === 'boolean' ? input.studentInvites : prev.studentInvites
   }
   await db
     .insert(appSettings)
     .values({ key: POLICY_KEY, value: next })
     .onConflictDoUpdate({ target: appSettings.key, set: { value: next, updatedAt: new Date() } })
   ttlDelete(POLICY_DISPLAY_KEY)
-  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'settings.referral_policy', entityType: 'settings', entityId: null, oldValue: { ...prev }, newValue: { ...next } })
+  // «طبّق على المسوّقين الحاليين»: العمولة الافتراضية الجديدة لكل مسوّق موجود (تسري على كل طلب يُسلَّم بعدها)
+  let affiliatesUpdated = 0
+  if (input.applyToAffiliates) {
+    const rows = await db.update(affiliates).set({ commissionDzd: next.affiliateDefaultDzd, updatedAt: new Date() }).where(ne(affiliates.commissionDzd, next.affiliateDefaultDzd)).returning({ id: affiliates.id })
+    affiliatesUpdated = rows.length
+  }
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'settings.referral_policy', entityType: 'settings', entityId: null, oldValue: { ...prev }, newValue: { ...next, ...(input.applyToAffiliates ? { affiliatesUpdated } : {}) } })
   return next
 }
 
@@ -229,9 +252,11 @@ export async function referralEligibility(db: Db, userId: string): Promise<Refer
  * قبل إنشاء الحساب: الكود صالح ولا يعود لصاحب الرقم نفسه. يعيد الكود المعتمد أو يرمي سبب الرفض.
  */
 export async function checkCodeForSignup(db: Db, rawCode: string, phone: string | null): Promise<ResolvedCode> {
-  if (!(await referralPolicy(db)).enabled) throw new AppError('REFERRAL_PROGRAM_OFF')
+  const policy = await referralPolicy(db)
+  if (!policy.enabled) throw new AppError('REFERRAL_PROGRAM_OFF')
   const c = await resolvePromoCode(db, rawCode)
-  if (!c) throw new AppError('REFERRAL_CODE_INVALID')
+  // كود تلميذ ودعوات التلاميذ مطفأة: كأنه غير موجود
+  if (!c || (c.kind === 'STUDENT' && !policy.studentInvites)) throw new AppError('REFERRAL_CODE_INVALID')
   if (samePhone(c.ownerPhone, phone)) throw new AppError('REFERRAL_SELF')
   return c
 }
@@ -262,7 +287,7 @@ async function attachReferralFor(db: Db, userId: string, rawCode: string, source
   const policy = await referralPolicy(db)
   if (!policy.enabled) throw new AppError('REFERRAL_PROGRAM_OFF')
   const c = await resolvePromoCode(db, rawCode)
-  if (!c) throw new AppError('REFERRAL_CODE_INVALID')
+  if (!c || (c.kind === 'STUDENT' && !policy.studentInvites)) throw new AppError('REFERRAL_CODE_INVALID')
   if (c.ownerUserId === actor.userId) throw new AppError('REFERRAL_SELF')
   const [me] = await db.select({ phone: profiles.phone }).from(profiles).where(eq(profiles.userId, actor.userId)).limit(1)
   if (samePhone(c.ownerPhone, me?.phone)) throw new AppError('REFERRAL_SELF')
@@ -272,7 +297,7 @@ async function attachReferralFor(db: Db, userId: string, rawCode: string, source
   const [row] = await db.insert(referrals).values({ referredUserId: actor.userId, codeId: c.id, referrerUserId: c.ownerUserId, kind: c.kind, source }).onConflictDoNothing().returning({ id: referrals.id })
   if (!row) throw new AppError('REFERRAL_ALREADY_SET')
   await writeAudit(db, { actorUserId: actor.userId, workspaceId: null, action: 'referral.attach', entityType: 'referral', entityId: row.id, newValue: { code: c.code, kind: c.kind, source, referrerUserId: c.ownerUserId } })
-  return { code: c.code, kind: c.kind, referrerFirstName: c.ownerName.split(/\s+/)[0] ?? '', welcomeCreditDzd: policy.welcomeCreditDzd }
+  return { code: c.code, kind: c.kind, referrerFirstName: c.ownerName.split(/\s+/)[0] ?? '', welcomeCreditDzd: effectiveWelcomeDzd(policy) }
 }
 
 /** الكود الذي سُجّل به هذا الحساب (إن وُجد) */
@@ -339,11 +364,11 @@ export async function onOrderDelivered(db: Db, orderId: string, now = new Date()
         await tx.insert(referralRewards).values({ referralId: ref.id, beneficiaryUserId: ref.referrerUserId, kind: 'AFFILIATE_CASH', amountDzd: amount, orderId, availableAt: new Date(now.getTime() + policy.holdDays * 86_400_000) })
         out.push({ kind: 'AFFILIATE_CASH', amountDzd: amount, userId: ref.referrerUserId })
       }
-    } else if (policy.referrerCreditDzd > 0) {
+    } else if (studentCreditsOn(policy) && policy.referrerCreditDzd > 0) {
       await grantCreditReward(tx, { referralId: ref.id, userId: ref.referrerUserId, kind: 'REFERRER_CREDIT', amountDzd: policy.referrerCreditDzd, orderId, expiresAt: addMonths(now, policy.creditMonths) })
       out.push({ kind: 'REFERRER_CREDIT', amountDzd: policy.referrerCreditDzd, userId: ref.referrerUserId })
     }
-    if (policy.welcomeCreditDzd > 0) {
+    if (studentCreditsOn(policy) && policy.welcomeCreditDzd > 0) {
       await grantCreditReward(tx, { referralId: ref.id, userId: o.userId, kind: 'WELCOME_CREDIT', amountDzd: policy.welcomeCreditDzd, orderId, expiresAt: addMonths(now, policy.creditMonths) })
       out.push({ kind: 'WELCOME_CREDIT', amountDzd: policy.welcomeCreditDzd, userId: o.userId })
     }
@@ -565,7 +590,8 @@ export const inviteLink = (code: string, to?: string | null) => `${appBaseUrl()}
 export async function studentInviteHome(db: Db, actor: Actor, now = new Date()) {
   assertRole(actor, 'STUDENT')
   const policy = await referralPolicy(db)
-  const canInvite = policy.enabled && (await hasAnyEnrollment(db, actor.userId))
+  // دعوات التلاميذ مطفأة: لا يُنشأ كود تلميذ (الصفحة نفسها مخفية)
+  const canInvite = studentCreditsOn(policy) && (await hasAnyEnrollment(db, actor.userId))
   const code = canInvite ? (await createPromoCode(db, { ownerUserId: actor.userId, kind: 'STUDENT' })).code : ((await promoCodeOf(db, actor.userId))?.code ?? null)
   const [balance, invitees, mine, eligibility] = await Promise.all([creditBalance(db, actor.userId, now), code ? inviteesOf(db, actor.userId) : Promise.resolve([]), myReferral(db, actor.userId), referralEligibility(db, actor.userId)])
   const rewards = await db

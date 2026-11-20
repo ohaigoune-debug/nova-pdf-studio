@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { requireActor, requireRole } from '@/server/auth/current-user'
+import { requestMeta, requireActor, requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { AppError } from '@/server/lib/errors'
@@ -10,18 +10,23 @@ import { checkRateLimit } from '@/server/lib/rate-limit'
 import {
   addPosMember,
   cancelPosCode,
+  confirmPosSale,
   createPointOfSale,
   generatePosCode,
   generatePosCodeFor,
   movePosStock,
+  pickPosSaleStudent,
   recordPosPayment,
   requestRestock,
   resetPosMemberPassword,
   setPosMemberActive,
   setPosStatus,
+  startPosSale,
+  undoPosActivation,
   updatePointOfSale,
   type GeneratedPosCode,
-  type PosCredentials
+  type PosCredentials,
+  type PosSaleResult
 } from '@/server/services/points-of-sale.service'
 
 const uuid = z.string().uuid()
@@ -166,6 +171,58 @@ export async function generatePosCodeAction(courseId: string): Promise<ActionRes
     return generatePosCode(db, actor, parsed.data)
   })
   if (r.ok) revalidatePath('/pos')
+  return r
+}
+
+/* ───── البيع برمز SMS (18 نوفمبر 2026) ───── */
+
+const saleStartSchema = z.object({ courseId: uuid, phone: z.string().trim().min(9).max(20) })
+
+/** «أرسل رمز التفعيل للتلميذ»: رسالة واحدة إلى هاتف التلميذ (لا بيع قبل الرمز) */
+export async function startPosSaleAction(input: { courseId: string; phone: string }): Promise<ActionResult<{ phoneMasked: string }>> {
+  const parsed = saleStartSchema.safeParse(input)
+  if (!parsed.success) return failValidation(parsed.error)
+  return runAction(async () => {
+    const actor = await requireRole('POINT_OF_SALE')
+    const db = await getDb()
+    // سقف للرسائل من حساب مكتبة واحد (كل رسالة كلفة): يكفي يوم بيع مزدحم
+    await checkRateLimit(db, { scope: 'pos-sms', subject: actor.userId, limit: 40, windowSeconds: 3600 })
+    const r = await startPosSale(db, actor, { ...parsed.data, ip: (await requestMeta()).ip })
+    return { phoneMasked: r.phoneMasked }
+  })
+}
+
+const saleConfirmSchema = z.object({ courseId: uuid, phone: z.string().trim().min(9).max(20), code: z.string().trim().min(4).max(12) })
+
+/** «فعّل الدورة الآن»: الرمز الذي قرأه التلميذ */
+export async function confirmPosSaleAction(input: { courseId: string; phone: string; code: string }): Promise<ActionResult<PosSaleResult>> {
+  const parsed = saleConfirmSchema.safeParse(input)
+  if (!parsed.success) return failValidation(parsed.error)
+  const r = await runAction(async () => confirmPosSale(await getDb(), await requireRole('POINT_OF_SALE'), parsed.data))
+  if (r.ok) revalidatePath('/pos')
+  return r
+}
+
+/** رقم يحمله أكثر من حساب: اختيار التلميذ */
+export async function pickPosSaleStudentAction(input: { ticket: string; studentId: string }): Promise<ActionResult<PosSaleResult>> {
+  const parsed = z.object({ ticket: z.string().min(10).max(4000), studentId: uuid }).safeParse(input)
+  if (!parsed.success) return failValidation(parsed.error)
+  const r = await runAction(async () => pickPosSaleStudent(await getDb(), await requireRole('POINT_OF_SALE'), parsed.data))
+  if (r.ok) revalidatePath('/pos')
+  return r
+}
+
+/** تراجع عن تفعيل خاطئ: المكتبة خلال 24 ساعة، والمشرف/مدير العمليات دائمًا */
+export async function undoPosActivationAction(codeId: string): Promise<ActionResult> {
+  const parsed = uuid.safeParse(codeId)
+  if (!parsed.success) return failValidation(parsed.error)
+  const r = await runAction(async () => {
+    const actor = await requireActor()
+    if (!['POINT_OF_SALE', ...STAFF].includes(actor.role)) throw new AppError('FORBIDDEN')
+    await undoPosActivation(await getDb(), actor, parsed.data)
+    return undefined
+  })
+  if (r.ok) revalidatePos()
   return r
 }
 

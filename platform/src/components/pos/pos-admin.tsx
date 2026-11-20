@@ -1,6 +1,6 @@
 'use client'
 
-import { Copy, KeyRound, MessageCircle, PackageMinus, PackagePlus, Power, ShoppingBag, Wallet, XCircle } from 'lucide-react'
+import { Copy, KeyRound, MessageCircle, PackageMinus, PackagePlus, Power, ShoppingBag, Undo2, Wallet, XCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useActionState, useEffect, useState, useTransition } from 'react'
 import { FormError, SubmitButton, fieldError } from '@/components/forms/form-bits'
@@ -8,18 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input, Select } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { toast } from '@/components/ui/toast'
-import {
-  addPosMemberAction,
-  cancelPosCodeAction,
-  createPosAction,
-  generatePosCodeForAction,
-  movePosStockAction,
-  recordPosPaymentAction,
-  resetPosMemberAction,
-  setPosMemberActiveAction,
-  setPosStatusAction,
-  updatePosAction
-} from '@/server/actions/pos.actions'
+import { addPosMemberAction, cancelPosCodeAction, createPosAction, generatePosCodeForAction, movePosStockAction, recordPosPaymentAction, resetPosMemberAction, setPosMemberActiveAction, setPosStatusAction, undoPosActivationAction, updatePosAction } from '@/server/actions/pos.actions'
 
 type Opt = { id: string; name: string }
 const fmt = (code: string) => `${code.slice(0, 3)} ${code.slice(3, 7)} ${code.slice(7)}`
@@ -319,6 +308,24 @@ export function CancelCodeButton({ codeId }: { codeId: string }) {
   return (
     <Button size="sm" variant="ghost" loading={pending} onClick={go}>
       <XCircle className="size-4 text-destructive" /> إلغاء
+    </Button>
+  )
+}
+
+/** المشرف/مدير العمليات: تراجع عن تفعيل SMS خاطئ في أي وقت (يُلغى الاشتراك وتعود الباقة) */
+export function UndoActivationButton({ codeId }: { codeId: string }) {
+  const router = useRouter()
+  const [pending, start] = useTransition()
+  const go = () =>
+    start(async () => {
+      if (!window.confirm('تراجع عن هذا التفعيل؟ تُلغى الدورة من حساب التلميذ، وتعود الباقة إلى عدّاد النقطة ولا تُحسب عليها.')) return
+      const r = await undoPosActivationAction(codeId)
+      if (!r.ok) return toast('error', r.error.message)
+      router.refresh()
+    })
+  return (
+    <Button size="sm" variant="ghost" loading={pending} onClick={go}>
+      <Undo2 className="size-4 text-destructive" /> تراجع عن التفعيل
     </Button>
   )
 }

@@ -379,6 +379,13 @@
       "when": 1795300000000,
       "tag": "0053_temp_login_code",
       "breakpoints": true
+    },
+    {
+      "idx": 54,
+      "version": "7",
+      "when": 1795400000000,
+      "tag": "0054_pos_sms_activation",
+      "breakpoints": true
     }
   ]
 }

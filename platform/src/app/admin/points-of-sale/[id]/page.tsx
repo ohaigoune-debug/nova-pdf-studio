@@ -2,22 +2,27 @@ import { and, asc, eq, isNull } from 'drizzle-orm'
 import { ArrowRight, PackageCheck, ShoppingBag, Wallet } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { AddMemberForm, CancelCodeButton, GenerateForForm, MemberActions, PaymentForm, PosForm, PosStatusButton, StockForm } from '@/components/pos/pos-admin'
+import { AddMemberForm, CancelCodeButton, GenerateForForm, MemberActions, PaymentForm, PosForm, PosStatusButton, StockForm, UndoActivationButton } from '@/components/pos/pos-admin'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageHeader, StatCard } from '@/components/ui/misc'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { courses, wilayas } from '@/server/db/schema'
 import { isAppError } from '@/server/lib/errors'
-import { formatPosCode, getPointOfSale, listPosCodes, listPosPayments } from '@/server/services/points-of-sale.service'
+import { formatPosCode, getPointOfSale, listPosCodes, listPosPayments, type PosCodeView } from '@/server/services/points-of-sale.service'
 
 export const dynamic = 'force-dynamic'
 
-const CODE_STATUS = { USED: { label: 'فُعِّل', variant: 'success' }, ACTIVE: { label: 'لم يُفعَّل', variant: 'warning' }, CANCELLED: { label: 'أُلغي', variant: 'muted' } } as const
+/** حالة البيع كما تراها المكتبة: فُعّلت، محجوزة لرقم، كود لم يُستعمل، أُلغي/تُراجِع عنه */
+function saleStatus(c: PosCodeView): { label: string; variant: 'success' | 'warning' | 'muted' | 'secondary' } {
+  if (c.status === 'CANCELLED') return { label: c.soldVia === 'SMS' && c.usedAt ? 'تُراجِع عنه' : 'أُلغي', variant: 'muted' }
+  if (c.status === 'USED') return { label: c.soldVia === 'SMS' ? 'فُعّلت برمز SMS' : 'فُعّلت بالكود', variant: 'success' }
+  if (c.soldVia === 'SMS' && c.soldPhoneMasked) return { label: 'محجوزة لرقمه', variant: 'secondary' }
+  return { label: 'كود لم يُستعمل', variant: 'warning' }
+}
 
 export default async function PointOfSalePage({ params }: { params: Promise<{ id: string }> }) {
   const actor = await requirePageActor('SUPER_ADMIN', 'MANAGER')
@@ -152,43 +157,48 @@ export default async function PointOfSalePage({ params }: { params: Promise<{ id
 
       <Card>
         <CardHeader>
-          <CardTitle>الأكواد ({codes.length})</CardTitle>
-          <CardDescription>كل كود بيعٌ مسجَّل على النقطة لحظة توليده؛ «فُعِّل» حين يُدخله التلميذ.</CardDescription>
+          <CardTitle>المبيعات ({codes.length})</CardTitle>
+          <CardDescription>كل بيع مسجَّل على النقطة: تفعيل برمز SMS، أو حجز لرقم بلا حساب، أو كود احتياطي يكتبه التلميذ في /claim.</CardDescription>
         </CardHeader>
         <CardContent>
           {codes.length === 0 ? (
-            <p className="text-sm text-muted-foreground">لا أكواد بعد.</p>
+            <p className="text-sm text-muted-foreground">لا مبيعات بعد.</p>
           ) : (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>الكود</TableHead>
-                    <TableHead>الدورة</TableHead>
-                    <TableHead>التاريخ</TableHead>
-                    <TableHead>ولّده</TableHead>
-                    <TableHead>الحالة</TableHead>
-                    <TableHead />
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {codes.map((c) => (
-                    <TableRow key={c.id}>
-                      <TableCell dir="ltr" className="font-mono text-xs">
-                        {c.code ? formatPosCode(c.code) : '—'}
-                      </TableCell>
-                      <TableCell className="text-xs">{c.courseTitle}</TableCell>
-                      <TableCell className="text-xs text-muted-foreground">{formatDateTime(c.createdAt)}</TableCell>
-                      <TableCell className="text-xs">{c.soldBy ?? '—'}</TableCell>
-                      <TableCell>
-                        <Badge variant={CODE_STATUS[c.status].variant}>{CODE_STATUS[c.status].label}</Badge>
-                      </TableCell>
-                      <TableCell>{c.cancellable ? <CancelCodeButton codeId={c.id} /> : null}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+            <ul className="divide-y">
+              {codes.map((c) => {
+                const st = saleStatus(c)
+                return (
+                  <li key={c.id} className="flex flex-wrap items-start justify-between gap-2 py-3">
+                    <div className="min-w-0 space-y-0.5">
+                      <p className="font-semibold">
+                        {c.studentName ?? (c.soldPhoneMasked ? <span dir="ltr" className="font-mono">{c.soldPhoneMasked}</span> : c.code ? <span dir="ltr" className="font-mono">{formatPosCode(c.code)}</span> : '—')}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {c.courseTitle} · {formatDateTime(c.usedAt ?? c.createdAt)}
+                        {c.studentName && c.soldPhoneMasked ? (
+                          <>
+                            {' · '}
+                            <span dir="ltr">{c.soldPhoneMasked}</span>
+                          </>
+                        ) : null}
+                        {c.code && (c.studentName || c.soldPhoneMasked) ? (
+                          <>
+                            {' · كود '}
+                            <span dir="ltr">{formatPosCode(c.code)}</span>
+                          </>
+                        ) : null}
+                        {c.soldBy ? ` · ${c.soldBy}` : ''}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge variant={st.variant}>{st.label}</Badge>
+                      {c.undoable ? <UndoActivationButton codeId={c.id} /> : null}
+                      {c.cancellable ? <CancelCodeButton codeId={c.id} /> : null}
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
           )}
         </CardContent>
       </Card>

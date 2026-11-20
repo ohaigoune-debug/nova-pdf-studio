@@ -92,7 +92,7 @@ export function ReferralCodeBox({ source, welcomeCreditDzd }: { source: 'CHECKOU
   return (
     <div className="space-y-2 rounded-lg border border-dashed p-3">
       <p className="flex items-center gap-2 text-sm font-semibold">
-        <Ticket className="size-4 text-primary" /> هل دعاك زميل أو صفحة تتابعها؟
+        <Ticket className="size-4 text-primary" /> {welcomeCreditDzd ? 'هل دعاك زميل أو صفحة تتابعها؟' : 'جئت من صفحة تتابعها؟ اكتب كودها'}
       </p>
       <div className="flex gap-2">
         <Input value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} placeholder="الكود" dir="ltr" maxLength={24} autoCapitalize="characters" aria-label="كود الدعوة" />
@@ -417,15 +417,18 @@ export function VoidRewardButton({ rewardId, affiliateId }: { rewardId: string; 
   )
 }
 
-export function ReferralPolicyForm({ policy }: { policy: { enabled: boolean; affiliateDefaultDzd: number; referrerCreditDzd: number; welcomeCreditDzd: number; creditMonths: number; holdDays: number } }) {
+export function ReferralPolicyForm({ policy }: { policy: { enabled: boolean; affiliateDefaultDzd: number; referrerCreditDzd: number; welcomeCreditDzd: number; creditMonths: number; holdDays: number; studentInvites: boolean } }) {
   const router = useRouter()
   const [pending, start] = useTransition()
   const [f, setF] = useState({ ...policy, affiliateDefaultDzd: String(policy.affiliateDefaultDzd), referrerCreditDzd: String(policy.referrerCreditDzd), welcomeCreditDzd: String(policy.welcomeCreditDzd), creditMonths: String(policy.creditMonths), holdDays: String(policy.holdDays) })
+  const [applyAll, setApplyAll] = useState(false)
   const save = () =>
     start(async () => {
-      const r = await setReferralPolicyAction({ enabled: f.enabled, affiliateDefaultDzd: Number(f.affiliateDefaultDzd), referrerCreditDzd: Number(f.referrerCreditDzd), welcomeCreditDzd: Number(f.welcomeCreditDzd), creditMonths: Number(f.creditMonths), holdDays: Number(f.holdDays) })
+      if (applyAll && !window.confirm(`تطبيق ${f.affiliateDefaultDzd} دج على كل المسوّقين الحاليين؟ تسري على كل طلب يُسلَّم من الآن.`)) return
+      const r = await setReferralPolicyAction({ enabled: f.enabled, affiliateDefaultDzd: Number(f.affiliateDefaultDzd), referrerCreditDzd: Number(f.referrerCreditDzd), welcomeCreditDzd: Number(f.welcomeCreditDzd), creditMonths: Number(f.creditMonths), holdDays: Number(f.holdDays), studentInvites: f.studentInvites, applyToAffiliates: applyAll })
       if (!r.ok) return toast('error', r.error.message)
-      toast('success', 'حُفظت الإعدادات')
+      toast('success', applyAll ? 'حُفظت الإعدادات وطُبّقت العمولة على المسوّقين الحاليين' : 'حُفظت الإعدادات')
+      setApplyAll(false)
       router.refresh()
     })
   const n = (k: 'affiliateDefaultDzd' | 'referrerCreditDzd' | 'welcomeCreditDzd' | 'creditMonths' | 'holdDays', label: string, hint?: string) => (
@@ -434,17 +437,45 @@ export function ReferralPolicyForm({ policy }: { policy: { enabled: boolean; aff
     </Field>
   )
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <label className="flex items-center gap-2 text-sm font-semibold">
         <input type="checkbox" className="size-4" checked={f.enabled} onChange={(e) => setF({ ...f, enabled: e.target.checked })} /> البرنامج مفعّل (يقبل أكوادًا جديدة)
       </label>
-      <div className="grid gap-3 sm:grid-cols-3">
-        {n('affiliateDefaultDzd', 'عمولة المسوّق الافتراضية (دج نقدًا)', 'للمسوّقين الجدد')}
-        {n('referrerCreditDzd', 'رصيد التلميذ الداعي (دج)')}
-        {n('welcomeCreditDzd', 'الرصيد الترحيبي للتلميذ الجديد (دج)')}
-        {n('creditMonths', 'صلاحية الرصيد (أشهر)')}
-        {n('holdDays', 'مهلة الإرجاع قبل دفع العمولة (أيام)')}
+
+      <div className="space-y-3 rounded-lg border p-4">
+        <p className="font-bold">المسوّق بالعمولة</p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {n('affiliateDefaultDzd', 'عمولة المسوّق عن كل تلميذ جديد (دج نقدًا)', 'تُعطى للمسوّقين الجدد تلقائيًا')}
+          {n('holdDays', 'مهلة الإرجاع قبل دفع العمولة (أيام)')}
+        </div>
+        <label className="flex items-start gap-2 text-sm">
+          <input type="checkbox" className="mt-0.5 size-4" checked={applyAll} onChange={(e) => setApplyAll(e.target.checked)} />
+          <span>
+            <span className="block font-semibold">طبّقها على المسوّقين الحاليين أيضًا</span>
+            <span className="block text-xs text-muted-foreground">تتغيّر عمولة كل مسوّق موجود إلى هذا المبلغ، وتسري على كل طلب يُسلَّم بعد الحفظ.</span>
+          </span>
+        </label>
       </div>
+
+      <div className="space-y-3 rounded-lg border p-4">
+        <label className="flex items-start gap-2 text-sm">
+          <input type="checkbox" className="mt-0.5 size-4" checked={f.studentInvites} onChange={(e) => setF({ ...f, studentInvites: e.target.checked })} />
+          <span>
+            <span className="block font-bold">دعوات التلاميذ ورصيدهم</span>
+            <span className="block text-xs text-muted-foreground">
+              {f.studentInvites ? 'مشغّلة: صفحة «ادعُ زميلك» وكود لكل تلميذ، ورصيد للداعي ولزميله وهدية ترحيب.' : 'مطفأة: لا يرى التلاميذ أي دعوة ولا رصيد، ويبقى المسوّق بالعمولة وحده. شغّلها متى شئت (بداية الموسم القادم مثلًا).'}
+            </span>
+          </span>
+        </label>
+        {f.studentInvites ? (
+          <div className="grid gap-3 sm:grid-cols-3">
+            {n('referrerCreditDzd', 'رصيد التلميذ الداعي (دج)')}
+            {n('welcomeCreditDzd', 'الرصيد الترحيبي للتلميذ الجديد (دج)')}
+            {n('creditMonths', 'صلاحية الرصيد (أشهر)')}
+          </div>
+        ) : null}
+      </div>
+
       <Button onClick={save} loading={pending}>
         حفظ الإعدادات
       </Button>

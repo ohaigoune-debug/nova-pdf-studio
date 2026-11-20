@@ -57,6 +57,8 @@ export interface RequestOtpInput {
   purpose: OtpPurpose
   userId?: string | null
   ip?: string | null
+  /** نص الرسالة لغرض بعينه (نقطة البيع: «أعطه لصاحب المكتبة») — وإلا النص العام */
+  smsText?: (code: string) => string
 }
 
 export async function requestOtp(db: Db, input: RequestOtpInput, now: Date = new Date()): Promise<{ phone: string; expiresAt: Date; devCode?: string }> {
@@ -102,7 +104,7 @@ export async function requestOtp(db: Db, input: RequestOtpInput, now: Date = new
       const ch = await sender.sendOtp!(phone, `otp:${row!.id}`)
       await db.update(otpCodes).set({ providerRef: ch.id, codeHash: 'gateway' }).where(eq(otpCodes.id, row!.id))
     } else {
-      await sendSms(db, { to: phone, text: otpSmsText(code), variables: { name: 'مدرسة', code } })
+      await sendSms(db, { to: phone, text: (input.smsText ?? otpSmsText)(code), variables: { name: 'مدرسة', code } })
     }
   } catch (e) {
     // الرمز الذي لم يصل لا يبقى صالحاً
@@ -178,6 +180,8 @@ export async function verifyOtp(db: Db, input: VerifyOtpInput): Promise<{ ok: tr
     // الرقم الموثَّق لحساب واحد: قفل على الرقم ثم فحص ثم كتابة. مؤكَّد لحساب آخر ⇒ PHONE_TAKEN ولا يتغيّر الملف.
     try {
       await claimVerifiedPhone(db, { userId, phone, at: now })
+      // دورة حُجزت لهذا الرقم في نقطة بيع (لا حساب له يومها): تُفعَّل الآن (لا يرمي)
+      await import('./points-of-sale.service').then((m) => m.activateReservedPosCodes(db, userId, phone))
     } catch (e) {
       if (e instanceof AppError && e.code === 'PHONE_TAKEN') await writeAudit(db, { actorUserId: userId, workspaceId: null, action: 'otp.verify', entityType: 'otp', entityId: row.id, newValue: { purpose: input.purpose, ok: false, phoneTaken: true } })
       throw e

@@ -8,7 +8,7 @@ import { getCurrentActor, homeFor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { listLevels, listStreams, listWilayas, streamsByLevel } from '@/server/services/reference.service'
 import { LANDING_COOKIE, attributionFromCookie } from '@/server/services/landing.service'
-import { normalizePromoCode, referralPolicyForDisplay } from '@/server/services/referrals.service'
+import { effectiveWelcomeDzd, normalizePromoCode, referralPolicyForDisplay, resolvePromoCode, studentCreditsOn } from '@/server/services/referrals.service'
 import { RegisterForm } from './register-form'
 
 export async function generateMetadata() {
@@ -26,7 +26,10 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
   const sp = await searchParams
   const jar = await cookies()
   // الكود من رابط الدعوة (/r/CODE) أو من ?ref=
-  const defaultRef = normalizePromoCode(sp.ref) ?? normalizePromoCode(jar.get(REF_COOKIE)?.value) ?? ''
+  const rawRef = normalizePromoCode(sp.ref) ?? normalizePromoCode(jar.get(REF_COOKIE)?.value)
+  // كود تلميذ ودعوات التلاميذ مطفأة: لا يُملأ (وإلا رُفض التسجيل بكود «غير صالح» لم يكتبه)
+  const refOk = rawRef ? await resolvePromoCode(db, rawRef).then((c) => Boolean(c && (c.kind !== 'STUDENT' || policy.studentInvites))) : false
+  const defaultRef = refOk && rawRef ? rawRef : ''
   // زائر من صفحة هبوط (إعلان): تسجيل دون كلمة سر ولا بريد، ثم استمارة الطلب مباشرة (18 نوفمبر 2026)
   const fromAd = sp.from === 'go' || Boolean(await attributionFromCookie(db, jar.get(LANDING_COOKIE)?.value).catch(() => null))
   return (
@@ -53,7 +56,7 @@ export default async function RegisterPage({ searchParams }: { searchParams: Pro
         wilayas={wilayas.map((w) => ({ id: w.id, name: `${w.code} — ${w.nameAr}` }))}
         levels={levels.map((l) => ({ id: l.id, name: l.nameAr, secondary: /AS$/i.test(l.code), streamIds: levelStreams.get(l.id) ?? [] }))}
         streams={streams.map((s) => ({ id: s.id, name: s.nameAr }))}
-        referral={policy.enabled ? { defaultCode: defaultRef, welcomeCreditDzd: policy.welcomeCreditDzd } : null}
+        referral={policy.enabled ? { defaultCode: defaultRef, welcomeCreditDzd: effectiveWelcomeDzd(policy), studentInvites: studentCreditsOn(policy) } : null}
         passwordless={fromAd}
       />
     </AuthCard>
