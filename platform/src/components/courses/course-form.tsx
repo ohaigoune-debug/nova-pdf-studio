@@ -129,7 +129,7 @@ export function CourseForm({
         <Field label="الرابط (slug)" htmlFor="c-slug" hint="فارغ = من العنوان">
           <Input id="c-slug" name="slug" defaultValue={course?.slug ?? ''} maxLength={80} dir="ltr" />
         </Field>
-        <Field label="صورة الغلاف" htmlFor="c-cover" hint={course?.coverFileId ? 'يوجد غلاف؛ ارفع صورة لاستبداله' : 'اختياري'}>
+        <Field label="صورة الغلاف" htmlFor="c-cover" hint={course?.coverFileId ? 'يوجد غلاف؛ ارفع صورة مربّعة لاستبداله (1080×1080)' : 'مربّعة 1080×1080 — تظهر كبيرة ومربّعة في «دوراتي» وصفحة الدورة'}>
           <Input id="c-cover" name="cover" type="file" accept="image/*" />
         </Field>
         {course ? null : (

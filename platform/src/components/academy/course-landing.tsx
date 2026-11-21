@@ -41,7 +41,7 @@ export function CourseLandingView({ landing, purchase, digital }: { landing: Cou
 
       {course.coverUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={course.coverUrl} alt="" className="h-auto w-full rounded-xl border" />
+        <img src={course.coverUrl} alt="" className="mx-auto aspect-square w-full max-w-md rounded-xl border object-cover" />
       ) : null}
       {course.description ? <p className="text-sm leading-relaxed text-muted-foreground">{course.description}</p> : null}
 

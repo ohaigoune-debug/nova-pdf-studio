@@ -97,7 +97,7 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
             <img src={bookCover} alt={purchase.book?.title ?? ''} className="mx-auto h-48 w-auto rounded-lg border border-white/20 object-contain shadow-lift md:h-56" />
           ) : course.coverUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={course.coverUrl} alt="" className="mx-auto h-auto w-full max-w-md rounded-lg border border-white/20" />
+            <img src={course.coverUrl} alt="" className="mx-auto aspect-square w-full max-w-xs rounded-lg border border-white/20 object-cover" />
           ) : null}
         </div>
       </section>

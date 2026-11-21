@@ -84,7 +84,7 @@ export default async function CourseDigitalPage({ params }: { params: Promise<{ 
           </div>
           {course.coverUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={course.coverUrl} alt="" className="mx-auto h-auto w-full max-w-md rounded-lg border border-white/20" />
+            <img src={course.coverUrl} alt="" className="mx-auto aspect-square w-full max-w-xs rounded-lg border border-white/20 object-cover" />
           ) : (
             <MonitorPlay className="mx-auto size-24 text-white/60" />
           )}
