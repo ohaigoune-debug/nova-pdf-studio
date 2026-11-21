@@ -63,7 +63,7 @@ export default async function StudentCoursesPage() {
               <Card key={c.id} className={cn('overflow-hidden', expired && 'opacity-70 grayscale')}>
                 {c.coverUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={c.coverUrl} alt="" className="aspect-square w-full object-cover" />
+                  <img src={c.coverUrl} alt="" className="aspect-square w-full bg-[#0F2544] object-contain" />
                 ) : (
                   <div className="flex aspect-[16/7] w-full items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5 text-primary">
                     <BookMarked className="size-10" />
