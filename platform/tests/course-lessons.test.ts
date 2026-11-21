@@ -5,7 +5,7 @@
 import { eq } from 'drizzle-orm'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
-import { auditLogs, content, users } from '@/server/db/schema'
+import { auditLogs, content, courses, users } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { buildCourseSections } from '@/server/lib/course-sections'
 import { AppError } from '@/server/lib/errors'
@@ -13,7 +13,7 @@ import { listStudentLessonsOrganized } from '@/server/services/academy-catalog.s
 import { createContent } from '@/server/services/content.service'
 import { listCourseLessons, moveCourseLesson, saveCourseLesson, setCourseLessonPublished } from '@/server/services/course-lessons.service'
 import { assertCourseEditor, createContentUploader, listEditableCourses, setUploaderCourses } from '@/server/services/course-staff.service'
-import { createCourse, enrollStudent } from '@/server/services/courses.service'
+import { courseHome, createCourse, enrollStudent } from '@/server/services/courses.service'
 import { uploadFile } from '@/server/services/files.service'
 import { makeAdmin, makeStudent, makeTeacher, setupDb, workspaceIdOfTeacher } from './helpers'
 
@@ -110,13 +110,18 @@ describe('دروس الدورة', () => {
 })
 
 describe('حساب التلميذ', () => {
-  it('فيديوهات يوتيوب العامة مخفية، ودرس دورته (ولو بيوتيوب) يبقى ظاهرًا', async () => {
+  it('فيديوهات يوتيوب العامة مخفية، ودرس دورته (ولو بيوتيوب) يبقى ظاهرًا في صفحة الدورة', async () => {
     const pub = await createContent(h.db, teacher, { type: 'VIDEO', title: 'فيديو يوتيوب عام', visibility: 'PUBLIC', externalUrl: 'https://youtu.be/zzzzzzzzzzz', videoProvider: 'YOUTUBE', publish: true })
     const stu = await makeStudent(h.db, 'تلميذ مشترك')
     await enrollStudent(h.db, admin, { courseId: courseA, studentId: stu.studentId!, source: 'MANUAL' })
     const ids = (await listStudentLessonsOrganized(h.db, stu)).flatMap((s) => s.lessons.map((l) => l.id))
     expect(ids).not.toContain(pub.id)
     const courseLesson = (await h.db.select({ id: content.id }).from(content).where(eq(content.title, 'درس رافع المحتوى')))[0]!.id
-    expect(ids).toContain(courseLesson)
+    // 21 نوفمبر 2026: دروس الدورة في صفحتها وحدها، لا في «دروسي»
+    expect(ids).not.toContain(courseLesson)
+    const slug = (await h.db.select({ slug: courses.slug }).from(courses).where(eq(courses.id, courseA)))[0]!.slug
+    const home = await courseHome(h.db, stu, slug)
+    if (home.needsTerms) throw new Error('شروط غير متوقعة')
+    expect([...home.lessons, ...home.videos].map((c) => c.id)).toContain(courseLesson)
   })
 })

@@ -72,6 +72,11 @@ export default async function AdminCourseDetailPage({ params }: { params: Promis
                 <KeyRound className="size-4" /> أكواد التفعيل
               </Link>
             </Button>
+            <Button asChild variant="outline" size="sm">
+              <Link href={`/admin/students?course=${course.id}`}>
+                <Users className="size-4" /> التلاميذ والفواتير
+              </Link>
+            </Button>
             <ManualEnrollDialog courseId={course.id} defaultExpiresOn={course.accessEndsOn} />
           </>
         }

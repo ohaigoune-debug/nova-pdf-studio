@@ -47,7 +47,7 @@ export default async function StudentLessonsPage({ searchParams }: { searchParam
     )
   }
   const scope = { levelId: own.levelId, streamId: own.streamId, subjectId: sp.subject && UUID.test(sp.subject) ? sp.subject : null }
-  // القائمة تطبّق نطاق الحساب على الدروس العامة بنفسها؛ الموجَّه للتلميذ (دوراته) يبقى ظاهرًا أيًّا كان تصنيفه
+  // القائمة تطبّق نطاق الحساب على الدروس العامة بنفسها؛ دروس دوراته في صفحة الدورة وحدها (21 نوفمبر 2026)
   const [sections, options] = await Promise.all([listStudentLessonsOrganized(db, actor, { subjectId: scope.subjectId }), browseOptions(db, scope)])
   const total = sections.reduce((n, s) => n + s.lessons.length, 0)
   return (

@@ -28,7 +28,7 @@ import {
 } from '@/server/db/schema'
 import type { ResourceType } from '@/server/db/schema/enums'
 import { studentIdOf, type Actor } from '@/server/lib/actor'
-import { reachableGroupIds } from '@/server/lib/course-access'
+import { isNotCourseGroup, reachableGroupIds } from '@/server/lib/course-access'
 import { AppError } from '@/server/lib/errors'
 import { PICKER_LEVELS } from '@/lib/levels'
 import { signFileUrl } from '@/server/lib/storage'
@@ -303,7 +303,8 @@ export async function listStudentLessonsOrganized(db: Db, actor: Actor, scope: P
   const targeted = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)
-    .where(or(gids.length ? inArray(contentTargets.groupId, gids) : sql`false`, eq(contentTargets.studentId, studentId)))
+    // دروس الدورات خارج «دروسي»: تظهر في صفحة الدورة فقط (21 نوفمبر 2026)
+    .where(or(gids.length ? and(inArray(contentTargets.groupId, gids), isNotCourseGroup(contentTargets.groupId)) : sql`false`, eq(contentTargets.studentId, studentId)))
   const rows = await db
     .select({
       id: content.id,

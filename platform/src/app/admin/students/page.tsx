@@ -1,4 +1,7 @@
 import { KeyRound, Search } from 'lucide-react'
+import { notFound } from 'next/navigation'
+import { CoursePicker } from '@/components/admin/course-picker'
+import { CourseRosterView } from '@/components/admin/course-roster-view'
 import { UserStatusBadge } from '@/components/domain/status-badges'
 import { UserStatusButton } from '@/components/domain/user-status-button'
 import { Badge } from '@/components/ui/badge'
@@ -10,17 +13,55 @@ import { t, tEnum } from '@/i18n'
 import { formatDate } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { isAppError } from '@/server/lib/errors'
 import { listAllStudents } from '@/server/services/admin.service'
+import { courseOptions, courseRoster, parseRosterFilters } from '@/server/services/course-roster.service'
 import { tempPasswordStats } from '@/server/services/temp-login.service'
 
-export default async function AdminStudentsPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+export const dynamic = 'force-dynamic'
+
+type Q = { q?: string; course?: string; status?: string; source?: string; month?: string }
+
+export default async function AdminStudentsPage({ searchParams }: { searchParams: Promise<Q> }) {
   const actor = await requirePageActor('SUPER_ADMIN')
-  const { q } = await searchParams
+  const sp = await searchParams
   const db = await getDb()
+  const options = await courseOptions(db, actor)
+  const courseId = sp.course && options.some((o) => o.id === sp.course) ? sp.course : null
+  if (sp.course && !courseId) notFound()
+
+  const picker = (
+    <div className="mb-5 rounded-xl border bg-card p-3">
+      <label className="mb-1.5 block text-sm font-semibold">اختر دورة لترى تلاميذها وعددهم، وتصدّرهم أو تطبع فواتيرهم</label>
+      <CoursePicker options={options.map((o) => ({ id: o.id, title: o.title, active: o.active, archived: o.status === 'ARCHIVED' }))} value={courseId} />
+    </div>
+  )
+
+  /* تلاميذ دورة معيّنة (21 نوفمبر 2026) */
+  if (courseId) {
+    const filters = parseRosterFilters(sp)
+    let data
+    try {
+      data = await courseRoster(db, actor, { courseId, ...filters })
+    } catch (e) {
+      if (isAppError(e)) notFound()
+      throw e
+    }
+    return (
+      <>
+        <PageHeader title={t('admin.studentsTitle')} />
+        {picker}
+        <CourseRosterView course={data.course} stats={data.stats} rows={data.rows} matched={data.matched} filters={filters} />
+      </>
+    )
+  }
+
+  const q = sp.q
   const [rows, temp] = await Promise.all([listAllStudents(db, actor, { search: q }), tempPasswordStats(db)])
   return (
     <>
       <PageHeader title={t('admin.studentsTitle')} description={`${rows.length}`} />
+      {picker}
       {/* من سجّل دون كلمة سر من صفحات الهبوط (18 نوفمبر 2026) */}
       <StatCard
         className="mb-4"

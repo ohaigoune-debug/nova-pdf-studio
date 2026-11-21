@@ -211,8 +211,11 @@ describe('4. اختيار المستوى والشعبة والمادة', () => {
     const paid = await createContent(h.db, teacher, { type: 'LESSON', title: 'درس فوج بالمستوى', visibility: 'GROUP_ONLY', groupIds: [published.groupId], levelId: ids.levelId, subjectId: ids.subjectId, body: 'x', publish: true })
     const sections = await listStudentLessonsOrganized(h.db, noGroup, { levelId: ids.levelId, subjectId: ids.subjectId })
     expect(sections.flatMap((s) => s.lessons.map((l) => l.id))).not.toContain(paid.id)
+    // 21 نوفمبر 2026: درس فوج الدورة في صفحة الدورة وحدها لا في «دروسي»؛ المشترك يفتحه، وغيره لا
     const asMember = await listStudentLessonsOrganized(h.db, member, { levelId: ids.levelId, subjectId: ids.subjectId })
-    expect(asMember.flatMap((s) => s.lessons.map((l) => l.id))).toContain(paid.id)
+    expect(asMember.flatMap((s) => s.lessons.map((l) => l.id))).not.toContain(paid.id)
+    expect((await getContentForStudent(h.db, member, paid.slug)).id).toBe(paid.id)
+    await expect(getContentForStudent(h.db, noGroup, paid.slug)).rejects.toThrow()
   })
 })
 
@@ -281,7 +284,8 @@ describe('مراجعة PR #2 — الملاحظات الأربع', () => {
     // قبل الانتهاء: كل شيء متاح
     expect((await getContentForStudent(h.db, s, lesson.slug)).id).toBe(lesson.id)
     await expect(resolveMediaAccess(h.db, s, lesson.id)).resolves.toBeTruthy()
-    expect((await listStudentFiles(h.db, s)).some((f) => f.id === lesson.id)).toBe(true)
+    // ملف الدورة في صفحتها وحدها لا في «الملفات» (21 نوفمبر 2026)؛ الوصول نفسه مُتحقَّق أعلاه
+    expect((await listStudentFiles(h.db, s)).some((f) => f.id === lesson.id)).toBe(false)
     expect((await listResourceCards(h.db, { types: ['HOMEWORK'], studentId: s.studentId })).items.some((i) => i.id === res.id)).toBe(true)
     // ينتهي التاريخ دون أن تمرّ مهمة الانتهاء: العضوية ما زالت ACTIVE
     await h.db.update(courseEnrollments).set({ expiresAt: new Date(Date.now() - 1000) }).where(eq(courseEnrollments.id, e.id))

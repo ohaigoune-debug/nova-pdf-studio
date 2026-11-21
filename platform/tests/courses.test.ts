@@ -144,8 +144,9 @@ describe('الاشتراكات', () => {
     const v = await createContent(h.db, teacher, { type: 'VIDEO', title: 'حصة 1', visibility: 'GROUP_ONLY', groupIds: [course.groupId], videoProvider: 'YOUTUBE', externalUrl: 'https://youtu.be/dQw4w9WgXcQ', publish: true })
     expect(v.id).toBeTruthy()
 
+    // 21 نوفمبر 2026: ملفات الدورة في صفحتها وحدها لا في «الملفات»؛ الوصول للمشترك وحده (أدناه)
     const files = await listStudentFiles(h.db, student)
-    expect(files.some((f) => f.id === contentId)).toBe(true)
+    expect(files.some((f) => f.id === contentId)).toBe(false)
     await expect(resolveMediaAccess(h.db, student, contentId)).resolves.toBeTruthy()
     await expectCode(() => resolveMediaAccess(h.db, other, contentId), 'CONTENT_NOT_FOUND')
 
