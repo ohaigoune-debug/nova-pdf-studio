@@ -1326,6 +1326,7 @@ const ar = {
     course_book_set: 'ضبط كتاب الدورة',
     course_book_removed: 'إزالة كتاب الدورة',
     course_digital_price_set: 'ضبط سعر النسخة الرقمية للدورة',
+    course_roster_export: 'تصدير قائمة تلاميذ دورة (Excel)',
     pos_create: 'إضافة نقطة بيع',
     pos_update: 'تعديل نقطة بيع',
     pos_status: 'إيقاف أو تفعيل نقطة بيع',

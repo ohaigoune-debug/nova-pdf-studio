@@ -45,6 +45,11 @@ export default async function AdminInvoicesPage({ searchParams }: { searchParams
               </Link>
             </Button>
             <Button asChild variant="outline">
+              <Link href="/admin/students">
+                <GraduationCap className="size-4" /> حسب الدورة
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
               <Link href="/admin/invoices/settings">
                 <Settings className="size-4" /> بيانات الفاتورة
               </Link>
