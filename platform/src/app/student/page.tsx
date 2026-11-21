@@ -194,7 +194,7 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
               {show('/student/courses/catalog') ? (
                 <Button asChild variant="outline" className="shrink-0">
                   <Link href="/student/courses/catalog">
-                    <Compass className="size-4" /> اكتشف الدورات
+                    <Compass className="size-4" /> الكتب والدورات
                   </Link>
                 </Button>
               ) : null}

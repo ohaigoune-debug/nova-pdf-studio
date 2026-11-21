@@ -32,7 +32,7 @@ export default async function StudentCoursesPage() {
       <div className="mb-6 flex flex-wrap gap-3">
         {/* تفعيل دورة بكود في المقدّمة (21 نوفمبر 2026) */}
         <Button asChild size="lg"><Link href="/student/code"><KeyRound className="size-4" /> عندي كود: فعّل دورة</Link></Button>
-        <Button asChild variant="outline"><Link href="/student/courses/catalog">اكتشف الدورات المتاحة</Link></Button>
+        <Button asChild variant="outline"><Link href="/student/courses/catalog"><BookMarked className="size-4" /> الكتب والدورات</Link></Button>
         <Button asChild variant="outline"><Link href="/student/courses/orders"><ShoppingBag className="size-4" /> طلباتي وحالة التوصيل</Link></Button>
       </div>
       {items.length === 0 ? (
@@ -44,7 +44,7 @@ export default async function StudentCoursesPage() {
             <span className="flex flex-wrap justify-center gap-2">
               <Button asChild>
                 <Link href="/student/courses/catalog">
-                  <BookMarked className="size-4" /> تصفّح كتالوج الدورات
+                  <BookMarked className="size-4" /> تصفّح الكتب والدورات
                 </Link>
               </Button>
               <Button asChild variant="outline">

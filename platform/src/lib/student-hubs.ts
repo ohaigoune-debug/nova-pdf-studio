@@ -36,7 +36,7 @@ export const STUDENT_HUBS = {
       { href: '/student/lessons', label: 'دروس مجانية' },
       { href: '/student/classroom', label: 'القسم العام' },
       { href: '/student/files', label: 'الملفات' },
-      { href: '/student/courses/catalog', label: 'شراء دورة' },
+      { href: '/student/courses/catalog', label: 'الكتب والدورات' },
       { href: '/student/courses/orders', label: 'طلباتي' }
     ]
   },

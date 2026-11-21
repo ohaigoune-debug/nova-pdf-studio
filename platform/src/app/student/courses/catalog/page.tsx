@@ -8,7 +8,7 @@ import { onlinePaymentEnabled } from '@/server/lib/guiddini'
 import { listCourseCatalog, type CatalogCourse } from '@/server/services/academy-catalog.service'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'كتالوج الدورات' }
+export const metadata = { title: 'الكتب والدورات' }
 
 /** كل عرض بطاقة: «الدورة + الكتاب» و«النسخة الرقمية» منفصلتان؛ المشترك يرى بطاقة واحدة «دخول الدورة» */
 function offerCards(c: CatalogCourse, onlinePay: boolean): { key: string; offer?: 'book' | 'digital' }[] {
@@ -29,7 +29,7 @@ export default async function CourseCatalogPage() {
   return (
     <>
       <HubTabs hub="courses" />
-      <PageHeader title="كتالوج الدورات" description="دورات البكالوريا المتاحة في الأكاديمية: مع الكتاب الورقي، أو نسخة رقمية تُفتح فور الدفع بالبطاقة." />
+      <PageHeader title="📚 الكتب والدورات" description="كل دورة مع كتابها الورقي يصلك بالدفع عند الاستلام، أو بنسخة رقمية تُفتح فور الدفع بالبطاقة." />
       {items.length === 0 ? (
         <EmptyState icon={BookMarked} title="لا دورات منشورة بعد" description="تُضاف الدورات مع بداية كل موسم." />
       ) : (
