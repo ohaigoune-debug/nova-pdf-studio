@@ -203,6 +203,30 @@ public struct NativeCourse: Decodable, Equatable, Sendable {
         public let title: String
         public let startsAt: String?
         public let durationMinutes: Int?
+        /// Build 18 (21 Nov 2026): the session id for `POST /api/v1/ios/live/{id}/join`, and the
+        /// join window (15 minutes before the start). Older servers omit them: no join button.
+        public let id: String?
+        public let provider: String?
+        public let joinOpensAt: String?
+        public let joinClosesAt: String?
+
+        public init(title: String, startsAt: String?, durationMinutes: Int?, id: String? = nil, provider: String? = nil, joinOpensAt: String? = nil, joinClosesAt: String? = nil) {
+            self.title = title
+            self.startsAt = startsAt
+            self.durationMinutes = durationMinutes
+            self.id = id
+            self.provider = provider
+            self.joinOpensAt = joinOpensAt
+            self.joinClosesAt = joinClosesAt
+        }
+
+        /// Where the student stands for this session at `now`.
+        public func joinState(at now: Date) -> LiveJoinState {
+            guard id != nil, let opens = joinOpensAt.flatMap(IOSAPI.parseISODate), let closes = joinClosesAt.flatMap(IOSAPI.parseISODate) else { return .unavailable }
+            if now < opens { return .opensAt(opens) }
+            if now > closes { return .closed }
+            return .open
+        }
     }
 
     /// Pending course terms, accepted in the app (`POST /api/v1/ios/courses/{slug}/terms`).
@@ -235,6 +259,51 @@ public struct NativeCourse: Decodable, Equatable, Sendable {
     }
 
     public var itemCount: Int { sections.reduce(0) { $0 + $1.items.count } }
+
+    /// The content sections behind a door, with the website's grouping (server/lib/course-doors.ts):
+    /// lessons + videos → recorded, homework + tests → practice, files → files.
+    public func sections(for door: CourseDoor) -> [Section] {
+        sections.filter { door.sectionKinds.contains($0.kind) }
+    }
+
+    public func count(for door: CourseDoor) -> Int {
+        sections(for: door).reduce(0) { $0 + $1.items.count }
+    }
+}
+
+/// The five doors of a course page (owner's decision, 13 and 21 Nov 2026), always shown in this order
+/// even when empty, so tiles never move from one course to another.
+public enum CourseDoor: String, CaseIterable, Identifiable, Sendable {
+    case live, recorded, files, practice, forum
+    public var id: String { rawValue }
+
+    public var sectionKinds: [NativeCourse.SectionKind] {
+        switch self {
+        case .recorded: return [.lessons, .videos]
+        case .files: return [.files]
+        case .practice: return [.homework, .tests]
+        case .live, .forum: return []
+        }
+    }
+}
+
+public enum LiveJoinState: Equatable, Sendable {
+    /// The server sent no session id or window (older server): show the date only.
+    case unavailable
+    case opensAt(Date)
+    case open
+    case closed
+}
+
+extension IOSAPI {
+    /// ISO 8601 with or without fractional seconds, as the server sends it.
+    public static func parseISODate(_ value: String) -> Date? {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        if let date = formatter.date(from: value) { return date }
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter.date(from: value)
+    }
 }
 
 extension NativeCourse.Section {

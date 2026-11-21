@@ -52,6 +52,19 @@ The app shows native screens only if this succeeds with `apiVersion >= 1`.
 - A guest gets `account: null`, empty `courses` and empty `tools`.
 - `freeLessons` uses the same grouping as the `/ios` page (`server/lib/group-lessons.ts`).
 
+## `POST /api/v1/ios/live/{id}/join` — student (Build 18, 21 Nov 2026)
+
+Header `X-Madrasadz-Client: ios`, session cookie. Same rules as the web «انضم» button
+(`joinInfo`): active enrollment, accepted terms, inside the join window
+(15 minutes before the start until 30 minutes after the end). Records attendance.
+
+```json
+{"ok":true,"data":{"url":"https://…","provider":"ZOOM","title":"…"}}
+```
+
+The app opens `url` outside the app (Zoom, YouTube or Safari). Errors: `LIVE_NOT_OPEN`,
+`COURSE_NOT_ENROLLED`, `LIVE_NOT_FOUND`, `AUTH_REQUIRED`.
+
 ## `GET /api/v1/ios/courses/{slug}` — student
 
 ```json
@@ -59,7 +72,7 @@ The app shows native screens only if this succeeds with `apiVersion >= 1`.
   "needsTerms":false,
   "course":{"slug":"…","title":"…","teacherName":"…","season":"…","description":"…"|null,"accessEndsOn":"…"|null},
   "sections":[{"id":"lessons|videos|homework|tests|files","items":[{"slug":"…","title":"…","displayTitle":"…","session":3|null,"type":"PDF","videoProvider":"YOUTUBE"|null,"publishedAt":"ISO"|null}]}],
-  "upcoming":[{"title":"…","startsAt":"ISO","durationMinutes":60}],
+  "upcoming":[{"id":"uuid","title":"…","startsAt":"ISO","durationMinutes":60,"provider":"ZOOM|YOUTUBE|MEET|OTHER","joinOpensAt":"ISO","joinClosesAt":"ISO"}],
   "webPath":"/ios/course/{slug}"
 }}
 ```

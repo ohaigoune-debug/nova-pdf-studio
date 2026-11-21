@@ -9,6 +9,7 @@ import type { Db } from '@/server/db/connect'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { iosCourseHome, iosLearningHome, iosLesson } from './ios-learning.service'
+import { joinWindow } from './live.service'
 
 export const IOS_API_VERSION = 1
 
@@ -82,7 +83,11 @@ export async function iosApiCourse(db: Db, actor: Actor | null, slug: string) {
         publishedAt: iso(item.publishedAt)
       }))
     })),
-    upcoming: home.upcoming.map((s) => ({ title: s.title, startsAt: iso(s.startsAt), durationMinutes: s.durationMinutes })),
+    // id ونافذة الانضمام: زر «انضم» في التطبيق (21 نوفمبر 2026)؛ الرابط نفسه لا يُرسل إلا عند الانضمام
+    upcoming: home.upcoming.map((s) => {
+      const w = joinWindow(s.startsAt, s.durationMinutes)
+      return { id: s.id, title: s.title, startsAt: iso(s.startsAt), durationMinutes: s.durationMinutes, provider: s.provider, joinOpensAt: iso(w.opensAt), joinClosesAt: iso(w.closesAt) }
+    }),
     webPath
   }
 }
