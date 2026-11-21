@@ -1,14 +1,15 @@
 'use client'
 
-import { Archive, Eye, EyeOff, Link2, Search, UserPlus, UserX, X } from 'lucide-react'
+import { Archive, Eye, EyeOff, Link2, Search, Trash2, UserPlus, UserX, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input, Select } from '@/components/ui/input'
 import { Field } from '@/components/ui/label'
 import { toast } from '@/components/ui/toast'
 import {
+  deleteCourseAction,
   enrollStudentAction,
   linkCourseProductAction,
   revokeEnrollmentAction,
@@ -33,7 +34,45 @@ function useRun() {
   return { pending, run }
 }
 
-export function CourseStatusActions({ id, status }: { id: string; status: string }) {
+/** حذف الدورة نهائيًّا: نافذة تعرض عدد المشتركين وتطلب كتابة «حذف» (طلب المالك 22 نوفمبر 2026) */
+function DeleteCourseButton({ id, title, activeEnrollments }: { id: string; title: string; activeEnrollments: number }) {
+  const { pending, run } = useRun()
+  const [open, setOpen] = useState(false)
+  const [word, setWord] = useState('')
+  return (
+    <Dialog open={open} onOpenChange={(o) => { setOpen(o); if (!o) setWord('') }}>
+      <DialogTrigger asChild>
+        <Button size="sm" variant="ghost" title="حذف الدورة" className="text-destructive hover:bg-destructive/10 hover:text-destructive">
+          <Trash2 className="size-4" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>حذف «{title}» نهائيًّا؟</DialogTitle>
+          <DialogDescription>تختفي الدورة من المنصة كلها: لوحتك، و«الكتب والدورات»، و«دوراتي» عند التلاميذ. الطلبات والفواتير تبقى محفوظة للحسابات.</DialogDescription>
+        </DialogHeader>
+        <p className={activeEnrollments > 0 ? 'rounded-lg bg-destructive/10 p-3 text-sm font-semibold text-destructive' : 'rounded-lg bg-muted p-3 text-sm'}>
+          {activeEnrollments > 0 ? `فيها الآن ${activeEnrollments} تلميذًا مشتركًا: يفقدون الوصول إليها ويصلهم إشعار، وتُلغى حصصها المباشرة القادمة.` : 'لا تلميذ مشترك فيها الآن.'}
+        </p>
+        <Field label="للتأكيد اكتب: حذف" htmlFor={`del-${id}`}>
+          <Input id={`del-${id}`} value={word} onChange={(e) => setWord(e.target.value)} autoComplete="off" />
+        </Field>
+        <DialogFooter>
+          <Button
+            variant="destructive"
+            disabled={word.trim() !== 'حذف'}
+            loading={pending}
+            onClick={() => run(() => deleteCourseAction(id, word), 'حُذفت الدورة', () => setOpen(false))}
+          >
+            <Trash2 className="size-4" /> احذف الدورة
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export function CourseStatusActions({ id, status, title, activeEnrollments }: { id: string; status: string; title: string; activeEnrollments: number }) {
   const { pending, run } = useRun()
   return (
     <div className="flex justify-end gap-1">
@@ -51,6 +90,7 @@ export function CourseStatusActions({ id, status }: { id: string; status: string
           <Archive className="size-4" />
         </Button>
       ) : null}
+      <DeleteCourseButton id={id} title={title} activeEnrollments={activeEnrollments} />
     </div>
   )
 }

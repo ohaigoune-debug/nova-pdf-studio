@@ -346,6 +346,9 @@ export async function placeOrder(db: Db, actor: Actor, input: PlaceOrderInput): 
     if (!sr) throw new AppError('ORDER_STREAM_REQUIRED')
   }
   if (lines.some((l) => l.p.requiresStream) && !streamId) throw new AppError('ORDER_STREAM_REQUIRED')
+  // كتاب ورقي يطلبه تلميذ: الشعبة إلزامية دائمًا ولو لم يؤشَّر «يتطلّب شعبة» على المنتج،
+  // حتى لا يُرسل كتاب شعبة أخرى (قرار المالك 22 نوفمبر 2026). الحسابات القديمة بلا شعبة تختارها أولًا.
+  if (actor.role === 'STUDENT' && !streamId && lines.some((l) => isPhysical(l.p.type))) throw new AppError('ORDER_STREAM_REQUIRED')
   // كتب الدورات: لا يُطلب كتاب دورة لشعبة غير شعبة التلميذ (قرار المالك 2026-10-24). دورة بلا شعب = لكل الشعب.
   const courseLinks = await db
     .select({ productId: courseProducts.productId, streamIds: courses.streamIds, shippingIncluded: courses.shippingIncluded })

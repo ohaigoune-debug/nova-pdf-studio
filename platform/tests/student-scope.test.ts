@@ -39,9 +39,9 @@ beforeAll(async () => {
   h = await setupDb()
   await seedCurriculum(h.db)
   admin = await makeAdmin(h.db)
-  adab = await makeStudent(h.db, 'تلميذ آداب')
-  ulum = await makeStudent(h.db, 'تلميذ علوم')
-  bare = await makeStudent(h.db, 'تلميذ بلا مستوى')
+  adab = await makeStudent(h.db, 'تلميذ آداب', { scope: false })
+  ulum = await makeStudent(h.db, 'تلميذ علوم', { scope: false })
+  bare = await makeStudent(h.db, 'تلميذ بلا مستوى', { scope: false })
   const lit = await resolveCodes(h.db, { level: '3AS', stream: 'LIT', subject: 'ARABIC' })
   const sci = await resolveCodes(h.db, { level: '3AS', stream: 'SCI', subject: 'ARABIC' })
   const as2 = await resolveCodes(h.db, { level: '2AS', stream: 'SCI' })
@@ -143,7 +143,7 @@ describe('الخادم: فتح الدرس بتغيير الرابط', () => {
 
   it('تلميذ العلوم لا يفتح درس الآداب؛ التلميذ بلا مستوى (قبل الاختيار) كما كان', async () => {
     await expectCode(() => getContentForStudent(h.db, ulum, C.lit.slug), 'LESSON_OUT_OF_SCOPE')
-    const noLevel = await makeStudent(h.db, 'جديد بلا مستوى')
+    const noLevel = await makeStudent(h.db, 'جديد بلا مستوى', { scope: false })
     expect((await getContentForStudent(h.db, noLevel, C.sci.slug)).id).toBe(C.sci.id)
   })
 

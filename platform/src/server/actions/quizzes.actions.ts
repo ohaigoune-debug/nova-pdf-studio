@@ -9,6 +9,7 @@ import { QUESTION_TYPES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { createQuiz, deleteQuiz, reviewAttempt, startAttempt, submitAttempt, updateQuiz } from '@/server/services/quizzes.service'
 import { createRubric, deleteRubric, updateRubric } from '@/server/services/rubrics.service'
+import { parseDzDateTime } from '@/lib/dz-time'
 
 const questionSchema = z.object({
   id: z.string().optional(),
@@ -43,7 +44,7 @@ export async function saveQuizAction(quizId: string | null, payload: QuizPayload
   const parsed = quizSchema.safeParse(payload)
   if (!parsed.success) return failValidation(parsed.error)
   const d = parsed.data
-  const dueAt = d.dueAt ? new Date(d.dueAt) : null
+  const dueAt = d.dueAt ? parseDzDateTime(String(d.dueAt)) : null
   const result = await runAction(async () => {
     const actor = await requireRole('TEACHER', 'SUPER_ADMIN')
     const db = await getDb()

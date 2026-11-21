@@ -58,7 +58,7 @@ async function expectCode(fn: () => Promise<unknown>, code: string) {
 beforeAll(async () => {
   h = await setupDb()
   admin = await makeAdmin(h.db)
-  student = await makeStudent(h.db, 'طالب بلاي')
+  student = await makeStudent(h.db, 'طالب بلاي', { scope: false })
   const r = await syncCatalog(h.db, catalog)
   expect(r.inserted).toBe(3)
 })

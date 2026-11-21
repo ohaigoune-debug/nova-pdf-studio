@@ -118,7 +118,7 @@ export default async function AdminCoursesPage() {
                       <Badge variant={STATUS_VARIANT[c.status] ?? 'secondary'}>{COURSE_STATUS_AR[c.status as CourseStatus]}</Badge>
                     </TableCell>
                     <TableCell>
-                      <CourseStatusActions id={c.id} status={c.status} />
+                      <CourseStatusActions id={c.id} status={c.status} title={c.title} activeEnrollments={c.activeEnrollments} />
                     </TableCell>
                   </TableRow>
                 ))}

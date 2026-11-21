@@ -10,6 +10,7 @@ import { AppError } from '@/server/lib/errors'
 import {
   acceptTerms,
   createCourse,
+  deleteCourse,
   enrollStudent,
   endOfDayDz,
   linkProduct,
@@ -138,6 +139,21 @@ export async function setCourseStatusAction(id: string, status: string): Promise
     return undefined
   })
   if (r.ok) revalidate(parsed.data.id)
+  return r
+}
+
+/** حذف دورة بعد كتابة «حذف» (طلب المالك 22 نوفمبر 2026) */
+export async function deleteCourseAction(id: string, confirm: string): Promise<ActionResult<{ revoked: number }>> {
+  const parsed = z.object({ id: uuid, confirm: z.string().max(20) }).safeParse({ id, confirm })
+  if (!parsed.success) return failValidation(parsed.error)
+  const r = await runAction(async () => {
+    const actor = await requireRole('SUPER_ADMIN')
+    return deleteCourse(await getDb(), actor, parsed.data.id, parsed.data.confirm)
+  })
+  if (r.ok) {
+    revalidatePath('/admin/courses')
+    revalidatePath('/student', 'layout')
+  }
   return r
 }
 

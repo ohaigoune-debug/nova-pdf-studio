@@ -3,6 +3,7 @@ import { Smartphone } from 'lucide-react'
 import Link from 'next/link'
 import { iconByName } from '@/components/icon-registry'
 import { PhoneVerifyBanner } from '@/components/domain/otp-banner'
+import { ChooseScopeCard } from '@/components/student/student-scope-ui'
 import { t } from '@/i18n'
 import { STUDENT_HUBS, STUDENT_MENU_ORDER } from '@/lib/student-hubs'
 import { hubEntry } from '@/lib/student-menu'
@@ -18,6 +19,7 @@ import { LANDING_COOKIE, landingResumeFor } from '@/server/services/landing.serv
 import { joinWindow, upcomingForStudent } from '@/server/services/live.service'
 import { isPhoneVerified } from '@/server/services/otp.service'
 import { studentHiddenPaths } from '@/server/services/ios-only.service'
+import { levelStreamOptions, studentScope } from '@/server/services/student-scope.service'
 import { studentToday } from '@/server/services/student-today.service'
 
 export const metadata = { title: 'الرئيسية' }
@@ -46,6 +48,9 @@ export default async function StudentHomePage({ searchParams }: { searchParams: 
     studentHiddenPaths(db),
     upcomingForStudent(db, actor).catch(() => [])
   ])
+  // حساب قديم بلا مستوى أو شعبة: يختارهما أولًا (لا يُرسل كتاب شعبة أخرى، قرار المالك 22 نوفمبر 2026)
+  const scope = await studentScope(db, actor.studentId!)
+  const scopeOptions = scope.complete ? null : await levelStreamOptions(db)
   // جاء من صفحة هبوط ولم يطلب بعد: «أكمل طلب دورتك» (17 نوفمبر 2026)
   const resume = await landingResumeFor(db, actor, (await cookies()).get(LANDING_COOKIE)?.value).catch(() => null)
   const pendingCode = await readPendingCode()
@@ -90,6 +95,8 @@ export default async function StudentHomePage({ searchParams }: { searchParams: 
           </Link>
         ) : null}
       </header>
+
+      {scopeOptions ? <ChooseScopeCard options={scopeOptions} levelId={scope.levelId} streamId={scope.streamId} /> : null}
 
       {/* كتب كوده قبل أن يكون له حساب: زرّ واحد يُكمل التفعيل (21 نوفمبر 2026) */}
       {pendingCode ? (

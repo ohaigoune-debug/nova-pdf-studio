@@ -45,7 +45,11 @@ export async function saveMyLevelStreamAction(_prev: ActionResult | null, form: 
   if (!parsed.success) return failValidation(parsed.error)
   const actor = await requireActor()
   const r = await guarded(async () => saveStudentLevelStream(await getDb(), actor, { levelId: parsed.data.levelId, streamId: parsed.data.streamId || null }))
-  if (r.ok) for (const p of STUDENT_PATHS) revalidatePath(p)
+  if (r.ok) {
+    for (const p of STUDENT_PATHS) revalidatePath(p)
+    // كل صفحات التلميذ (صفحة طلب الكتاب مثلًا) تُعاد بعد الحفظ
+    revalidatePath('/student', 'layout')
+  }
   return r
 }
 
