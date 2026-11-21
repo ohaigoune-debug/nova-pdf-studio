@@ -30,6 +30,8 @@ export const STUDENT_HUBS = {
     href: '/student/courses',
     tabs: [
       { href: '/student/courses', label: 'دوراتي', exact: true },
+      // تفعيل دورة بكود في مكان ظاهر (21 نوفمبر 2026)
+      { href: '/student/code', label: '🔑 تفعيل كود' },
       { href: '/student/assignments', label: 'واجباتي' },
       { href: '/student/lessons', label: 'دروس مجانية' },
       { href: '/student/classroom', label: 'القسم العام' },

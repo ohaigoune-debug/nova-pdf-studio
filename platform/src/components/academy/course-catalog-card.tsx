@@ -29,7 +29,7 @@ export function CourseCatalogCard({ c, offer }: { c: CatalogCourse; offer?: 'boo
     <Card className="overflow-hidden">
       {c.coverUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={c.coverUrl} alt="" className="aspect-[16/7] w-full object-cover" />
+        <img src={c.coverUrl} alt="" className="aspect-square w-full bg-[#0F2544] object-contain" />
       ) : (
         <div className="flex aspect-[16/7] w-full items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5 text-primary">
           {digital ? <MonitorPlay className="size-10" /> : <BookMarked className="size-10" />}
