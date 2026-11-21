@@ -1,7 +1,10 @@
 /**
- * مجمّعات واجهة التلميذ (دمج الأقسام المتشابهة، قرار المالك 2026-10-23):
- * مدخل واحد في القائمة لكل مجمّع، والصفحات القديمة تبقى بمساراتها كتبويبات داخله.
- * المصدر الوحيد للتسميات والمسارات: القائمة الجانبية وشريط التبويبات يقرآن من هنا.
+ * مجمّعات واجهة التلميذ: مدخل واحد في القائمة لكل مجمّع، والصفحات القديمة تبقى بمساراتها كتبويبات داخله.
+ * المصدر الوحيد للتسميات والمسارات: القائمة الجانبية وشريط الهاتف وشريط التبويبات يقرؤون من هنا.
+ *
+ * قرار المالك (21 نوفمبر 2026): المنصة للدورات وحدها. ستة مداخل بلا عناوين فرعية، بهذا الترتيب:
+ * دوراتي، الكتب والدورات، تفعيل دورة، العب، الشكاوى والدعم، حسابي. «اليوم» صار «الرئيسية» (أيقونات كبيرة)،
+ * والدروس والملفات المجانية و«القسم العام» لا تظهر (البيانات باقية، وروابط الدروس المباشرة تعمل).
  */
 export interface HubTab {
   href: string
@@ -16,36 +19,48 @@ export interface StudentHub {
   /** المسار الذي يفتحه مدخل القائمة (= التبويب الأول) */
   href: string
   tabs: HubTab[]
-  /** اسم المدخل وأيقونته حين يُخفى تبويبه الأول (PLAY خارج آيفون مثلًا) */
-  whenFirstHidden?: { label: string; iconKey: string }
+  /** يختفي المدخل كله إن خُفي تبويبه الأول (لا «تدرّب» بديلًا حين يُخفى PLAY خارج آيفون) */
+  requireFirst?: boolean
 }
 
 export const STUDENT_HUBS = {
-  // ثلاثة أبواب فقط (قرار المالك 3 نوفمبر 2026): دوراتي، PLAY، حسابي — مع «اليوم» في الرئيسية.
-  // كل الصفحات القديمة باقية بمساراتها كتبويبات داخل بابها، فلا ينكسر رابط ولا إشعار.
   courses: {
     key: 'courses',
     label: 'دوراتي',
-    iconKey: 'BookMarked',
+    iconKey: 'FolderOpen',
     href: '/student/courses',
+    // صفحات تابعة لدوراته (لا تبويبات ظاهرة): الواجبات، منتدى الدورة، صفحات الدروس والملفات
     tabs: [
       { href: '/student/courses', label: 'دوراتي', exact: true },
-      // تفعيل دورة بكود في مكان ظاهر (21 نوفمبر 2026)
-      { href: '/student/code', label: '🔑 تفعيل كود' },
       { href: '/student/assignments', label: 'واجباتي' },
-      { href: '/student/lessons', label: 'دروس مجانية' },
-      { href: '/student/classroom', label: 'القسم العام' },
-      { href: '/student/files', label: 'الملفات' },
-      { href: '/student/courses/catalog', label: 'شراء دورة' },
+      { href: '/student/classroom', label: 'المنتدى' },
+      { href: '/student/lessons', label: 'الدروس' },
+      { href: '/student/files', label: 'الملفات' }
+    ]
+  },
+  shop: {
+    key: 'shop',
+    label: 'الكتب والدورات',
+    iconKey: 'ShoppingBag',
+    href: '/student/courses/catalog',
+    tabs: [
+      { href: '/student/courses/catalog', label: 'الكتب والدورات' },
       { href: '/student/courses/orders', label: 'طلباتي' }
     ]
   },
+  code: {
+    key: 'code',
+    label: 'تفعيل دورة',
+    iconKey: 'KeyRound',
+    href: '/student/code',
+    tabs: [{ href: '/student/code', label: 'تفعيل دورة' }]
+  },
   train: {
     key: 'train',
-    label: 'PLAY',
+    label: 'العب',
     iconKey: 'Gamepad2',
     href: '/student/play',
-    whenFirstHidden: { label: 'تدرّب', iconKey: 'Target' },
+    requireFirst: true,
     tabs: [
       { href: '/student/play', label: 'MADRASADZ PLAY' },
       { href: '/student/exams', label: 'فروض واختبارات' },
@@ -53,6 +68,13 @@ export const STUDENT_HUBS = {
       { href: '/student/quizzes', label: 'اختبارات أستاذي' },
       { href: '/student/practice', label: 'تدريب حرّ' }
     ]
+  },
+  support: {
+    key: 'support',
+    label: 'الشكاوى والدعم',
+    iconKey: 'LifeBuoy',
+    href: '/student/support',
+    tabs: [{ href: '/student/support', label: 'الشكاوى والدعم' }]
   },
   account: {
     key: 'account',
@@ -65,11 +87,13 @@ export const STUDENT_HUBS = {
       { href: '/student/grades', label: 'العلامات' },
       { href: '/student/notifications', label: 'الإشعارات' },
       { href: '/student/invite', label: 'ادعُ زميلك ورصيدي' },
-      { href: '/student/invoices', label: 'فواتيري' },
-      { href: '/student/support', label: 'الدعم والشكاوى' }
+      { href: '/student/invoices', label: 'فواتيري' }
     ]
   }
 } as const satisfies Record<string, StudentHub>
+
+/** ترتيب المداخل في القائمة الجانبية وأيقونات الرئيسية */
+export const STUDENT_MENU_ORDER = ['courses', 'shop', 'code', 'train', 'support', 'account'] as const
 
 export type StudentHubKey = keyof typeof STUDENT_HUBS
 
@@ -77,3 +101,10 @@ export type StudentHubKey = keyof typeof STUDENT_HUBS
 export function hubPaths(key: StudentHubKey): string[] {
   return STUDENT_HUBS[key].tabs.map((t) => t.href)
 }
+
+/**
+ * قرار المالك (21 نوفمبر 2026): قائمتا «الدروس المجانية» و«الملفات» مخفيتان حتى تُجمع في دورة مجانية أفضل.
+ * صفحتاهما تحوّلان إلى «دوراتي»؛ صفحة الدرس نفسها (/student/lessons/…) تبقى مفتوحة لدروس الدورات وللروابط المباشرة.
+ * للإعادة: false.
+ */
+export const FREE_LISTS_HIDDEN = true

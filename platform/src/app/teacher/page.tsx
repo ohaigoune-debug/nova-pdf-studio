@@ -110,7 +110,7 @@ export default async function TeacherHomePage() {
             <CardContent className="flex items-center gap-3 p-5">
               <MessagesSquare className="size-8 shrink-0 text-primary" />
               <span>
-                <span className="block font-bold">القسم الافتراضي</span>
+                <span className="block font-bold">المنتدى</span>
                 <span className="block text-xs text-muted-foreground">منشوراتك وأسئلة تلاميذك</span>
               </span>
             </CardContent>

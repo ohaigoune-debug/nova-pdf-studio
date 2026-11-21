@@ -55,11 +55,10 @@ describe('من يرى PLAY والبنك', () => {
     for (const p of ['/', '/exams', '/lessons', '/library', '/playground', '/bacalaureat']) expect(isIosOnlyPublicPath(p), p).toBe(false)
   })
 
-  it('باب «PLAY» يصير «تدرّب» ويفتح «فروض واختبارات» حين يُخفى PLAY؛ ويختفي إن خُفيت تبويباته كلها', () => {
-    expect(hubEntry('train', [])).toEqual({ href: '/student/play', label: 'PLAY', iconKey: 'Gamepad2' })
-    expect(hubEntry('train', withIosOnly([], true))).toEqual({ href: '/student/exams', label: 'تدرّب', iconKey: 'Target' })
+  it('باب «العب» يختفي كله حين يُخفى PLAY (لا «تدرّب» بديلًا، قرار 21 نوفمبر 2026) أو تبويباته كلها', () => {
+    expect(hubEntry('train', [])).toEqual({ href: '/student/play', label: 'العب', iconKey: 'Gamepad2' })
+    expect(hubEntry('train', withIosOnly([], true))).toBeNull()
     expect(hubEntry('train', ['/student/play', '/student/exams', '/bac', '/student/quizzes', '/student/practice'])).toBeNull()
-    // الأبواب الأخرى لا تتأثر
     expect(hubEntry('courses', withIosOnly([], true))?.href).toBe('/student/courses')
     expect(hubEntry('account', withIosOnly([], true))?.label).toBe('حسابي')
   })
@@ -76,10 +75,10 @@ describe('الإعداد من الإدارة', () => {
   })
 
   it('ما أخفاه المشرف يبقى مخفيًّا في آيفون أيضًا', async () => {
-    await setHiddenStudentEntries(h.db, admin, ['/student/files'])
+    await setHiddenStudentEntries(h.db, admin, ['/student/invoices'])
     ios.value = true
     const x = await studentHiddenPaths(h.db)
-    expect(isPathHidden('/student/files', x)).toBe(true)
+    expect(isPathHidden('/student/invoices', x)).toBe(true)
     expect(isPathHidden('/bac', x)).toBe(false)
     await setHiddenStudentEntries(h.db, admin, [])
   })
@@ -122,8 +121,10 @@ describe('حراس في الشيفرة', () => {
     const files = [...walk('app/student'), ...walk('app/(public)')]
       .filter((p) => !/^app\/student\/play\/|^app\/\(public\)\/(bac|play|past-bac|archive)\//.test(p))
       .filter((p) => /href[=:]\s*\{?\s*[`'"](\/bac|\/student\/play)(?![\w-])|href(:\s*|=\{)playHref/.test(read(p)))
-    // المكتبة، وسؤال المكتبة، والرئيسية، وصفحة الدورة على الأقل
-    expect(files.length).toBeGreaterThanOrEqual(4)
+    // المكتبة، وسؤال المكتبة، وصفحة الدورة على الأقل (الرئيسية تبني أيقوناتها من hubEntry، أدناه)
+    expect(files.length).toBeGreaterThanOrEqual(3)
+    expect(read('app/student/page.tsx')).toMatch(/hubEntry\(key, hidden\)/)
+    expect(read('app/student/page.tsx')).toMatch(/studentHiddenPaths\(db\)/)
     console.info('صفحات تربط إلى PLAY أو البنك:', files.join('، '))
     for (const p of files) expect(read(p), p).toMatch(/studentHiddenPaths|playBacHiddenHere|show\('\/student\/play'\)/)
   })

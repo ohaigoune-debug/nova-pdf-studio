@@ -1,15 +1,16 @@
-import { ArrowLeft, BookOpen, ClipboardCheck, TrendingUp, Clock, FileText, FolderOpen, Gamepad2, MessagesSquare, PlayCircle, Radio, type LucideIcon } from 'lucide-react'
+import { ArrowLeft, ArrowRight, BookOpen, TrendingUp, Clock, FileText, FolderOpen, Gamepad2, ListChecks, MessagesSquare, PlayCircle, type LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CourseLandingView } from '@/components/academy/course-landing'
-import { NextLiveBanner } from '@/components/live/next-live-banner'
+import { LiveDoor } from '@/components/live/live-door'
 import { TermsGate } from '@/components/courses/terms-gate'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, PageHeader } from '@/components/ui/misc'
 import { tEnum } from '@/i18n'
-import { formatDate, formatDateTime } from '@/lib/utils'
+import { countArForms as countAr } from '@/lib/arabic-count'
+import { formatDate } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
@@ -25,12 +26,11 @@ import { bookUpgradeOffer, courseBookStateById, courseDigitalStateById } from '@
 export const dynamic = 'force-dynamic'
 
 /** الأبواب الثلاثة ذات المحتوى (الأبواب الخمسة: قرار المالك 2026-11-13) */
-const DOOR_UI: Record<ContentDoorId, { icon: LucideIcon; tone: string; hint: string; empty: string }> = {
-  recorded: { icon: PlayCircle, tone: 'bg-warning/10 text-warning', hint: 'دروس وتسجيلات', empty: 'لا حصص مسجلة بعد. تظهر هنا الدروس وتسجيلات الحصص المباشرة.' },
-  files: { icon: FolderOpen, tone: 'bg-cyan/10 text-cyan', hint: 'ملفات ووثائق', empty: 'لا ملفات بعد.' },
-  practice: { icon: ClipboardCheck, tone: 'bg-success/10 text-success', hint: 'فروض واختبارات', empty: 'لا فروض ولا اختبارات بعد. نتائجك وتقدّمك في الزر أدناه.' }
+const DOOR_UI: Record<ContentDoorId, { icon: LucideIcon; tone: string; count: (n: number) => string; empty: string }> = {
+  recorded: { icon: PlayCircle, tone: 'bg-warning/10 text-warning', count: (n) => countAr(n, ['حصة واحدة', 'حصتان', 'حصص', 'حصة']), empty: 'لا حصص مسجلة بعد. تظهر هنا الدروس وتسجيلات الحصص المباشرة.' },
+  files: { icon: FolderOpen, tone: 'bg-cyan/10 text-cyan', count: (n) => countAr(n, ['ملف واحد', 'ملفان', 'ملفات', 'ملفًا']), empty: 'لا ملفات بعد.' },
+  practice: { icon: ListChecks, tone: 'bg-success/10 text-success', count: (n) => countAr(n, ['تمرين واحد', 'تمرينان', 'تمارين', 'تمرينًا']), empty: 'لا تمارين بعد. نتائجك وتقدّمك في الزر أدناه.' }
 }
-
 
 /** قائمة قسم: شارة برقم الحصة إن وُجد، وإلا أيقونة النوع */
 function SectionList({ items }: { items: SectionItem<CourseContentItem>[] }) {
@@ -100,7 +100,7 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
     )
   }
 
-  const { course, nextLive, upcoming, sections, playHref, classroomHref, expiresAt } = home
+  const { course, upcoming, sections, playHref, classroomHref, expiresAt } = home
   const [liveNext, upgrade, hidden] = await Promise.all([
     upcomingForStudent(db, actor)
       .catch(() => [])
@@ -112,18 +112,26 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
   const showPlay = !isPathHidden('/student/play', hidden)
   const doors = groupIntoDoors(sections)
   const count = (id: ContentDoorId) => doors.find((d) => d.id === id)?.count ?? 0
-  const liveHint = liveNext ? formatDateTime(liveNext.startsAt) : upcoming.length > 0 ? `${upcoming.length} · مجدولة` : 'لا حصص مجدولة'
   const tiles: Array<{ href: string; label: string; hint: string; icon: LucideIcon; tone: string }> = [
-    { href: '#live', label: COURSE_DOOR_LABELS_AR.live, hint: liveHint, icon: Radio, tone: 'bg-primary/10 text-primary' },
-    ...(['recorded', 'files', 'practice'] as const).map((id) => ({ href: `#${id}`, label: COURSE_DOOR_LABELS_AR[id], hint: `${count(id)} · ${DOOR_UI[id].hint}`, icon: DOOR_UI[id].icon, tone: DOOR_UI[id].tone })),
-    { href: classroomHref, label: COURSE_DOOR_LABELS_AR.classroom, hint: 'أسئلة ومناقشات', icon: MessagesSquare, tone: 'bg-destructive/10 text-destructive' }
+    ...(['recorded', 'files', 'practice'] as const).map((id) => ({ href: `#${id}`, label: COURSE_DOOR_LABELS_AR[id], hint: count(id) ? DOOR_UI[id].count(count(id)) : 'لا شيء بعد', icon: DOOR_UI[id].icon, tone: DOOR_UI[id].tone })),
+    { href: classroomHref, label: COURSE_DOOR_LABELS_AR.classroom, hint: 'أسئلة ومناقشات مع أستاذك', icon: MessagesSquare, tone: 'bg-[#5925DC]/10 text-[#5925DC] dark:text-[#BDB4FE]' }
   ]
+  const later = upcoming.filter((u) => u.id !== liveNext?.id).slice(0, 3)
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title={course.title}
-        description={
-          <span className="flex flex-wrap items-center gap-2">
+    <div className="space-y-5">
+      <Link href="/student/courses" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+        <ArrowRight className="size-4 ltr:rotate-180" /> دوراتي
+      </Link>
+
+      {/* الغلاف مصغّرًا بجانب العنوان: الأبواب أولًا (التصوّر المعتمد، 21 نوفمبر 2026) */}
+      <header className="flex items-center gap-3">
+        {course.coverUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={course.coverUrl} alt="" className="size-[76px] shrink-0 rounded-[14px] border-2 border-[#C29B45] bg-[#0F2544] object-cover sm:size-24" />
+        ) : null}
+        <div className="min-w-0">
+          <h1 className="font-heading text-[21px] font-bold leading-snug sm:text-2xl">{course.title}</h1>
+          <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
             <span>
               {course.teacherName} · {course.season}
             </span>
@@ -132,20 +140,9 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
                 <Clock className="size-3" /> حتى {formatDate(expiresAt ?? course.accessEndsOn)}
               </Badge>
             ) : null}
-          </span>
-        }
-        actions={
-          <Button asChild variant="outline" size="sm">
-            <Link href="/student/courses">دوراتي</Link>
-          </Button>
-        }
-      />
-
-      {course.coverUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={course.coverUrl} alt="" className="mx-auto aspect-square w-full max-w-md rounded-xl border bg-[#0F2544] object-contain" />
-      ) : null}
-      {course.description ? <p className="text-sm leading-relaxed text-muted-foreground">{course.description}</p> : null}
+          </p>
+        </div>
+      </header>
 
       {upgrade ? (
         <Alert tone="info" title="تريد الكتاب الورقي أيضًا؟">
@@ -162,59 +159,32 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
         </Alert>
       ) : null}
 
-      {/* الحصة المباشرة القادمة لهذه الدورة: عدّ تنازلي + زر «انضم» (يُفتح قبل الموعد بـ15 دقيقة) */}
-      {liveNext ? (
-        <NextLiveBanner session={{ ...liveNext, startsAt: liveNext.startsAt.toISOString() }} />
-      ) : nextLive ? (
-        <Alert tone="info" title={`البث القادم: ${nextLive.title}`}>
-          <p className="flex flex-wrap items-center gap-2">
-            <Radio className="size-4 text-primary" />
-            <span>
-              {formatDateTime(nextLive.startsAt)} · {nextLive.durationMinutes} دقيقة
-            </span>
-          </p>
-        </Alert>
-      ) : null}
+      {/* الباب الأول: الحصص المباشرة — عدّ تنازلي وزرّ «انضمّ» يُفتح قبل الموعد بربع ساعة */}
+      <LiveDoor
+        session={liveNext ? { ...liveNext, startsAt: liveNext.startsAt.toISOString() } : null}
+        later={(liveNext ? later : upcoming.slice(0, 3)).map((u) => ({ id: u.id, title: u.title, startsAt: u.startsAt.toISOString(), durationMinutes: u.durationMinutes }))}
+        serverNow={Date.now()}
+      />
 
-      {/* الأبواب الخمسة: المباشرة، المسجلة، الملفات، تماريني ونتائجي، القسم الافتراضي */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+      {/* الأبواب الأربعة الأخرى: المسجلة، الملفات، تمارين QCM، المنتدى — ظاهرة دائمًا ولو فارغة */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {tiles.map((item) => (
-          <Link key={item.href} href={item.href} className="flex min-h-36 flex-col items-center justify-center gap-3 rounded-lg border bg-card p-5 text-center shadow-soft transition-colors last:col-span-2 hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:last:col-span-1">
-            <span className={`flex size-14 items-center justify-center rounded-full ${item.tone}`}><item.icon className="size-6" /></span>
-            <span className="font-bold">{item.label}</span>
-            <span className="text-xs text-muted-foreground">{item.hint}</span>
+          <Link key={item.href} href={item.href} className="flex min-h-[112px] flex-col justify-between gap-3 rounded-[20px] border bg-card p-4 shadow-soft transition-colors hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <span className={`flex size-[52px] items-center justify-center rounded-2xl ${item.tone}`}>
+              <item.icon className="size-7" />
+            </span>
+            <span className="min-w-0">
+              <span className="block text-base font-bold leading-snug">{item.label}</span>
+              <span className="block truncate text-xs text-muted-foreground">{item.hint}</span>
+            </span>
           </Link>
         ))}
       </div>
 
-      <Card id="live">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Radio className="size-5 text-primary" /> {COURSE_DOOR_LABELS_AR.live}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {upcoming.length === 0 ? (
-            <p className="text-sm text-muted-foreground">لا حصص مجدولة حالياً.</p>
-          ) : (
-            <ul className="divide-y rounded-lg border text-sm">
-              {upcoming.map((s) => (
-                <li key={s.id} className="flex items-center justify-between gap-3 p-3">
-                  <span className="min-w-0">
-                    <span className="block font-semibold">{s.title}</span>
-                    <span className="block text-xs text-muted-foreground">
-                      {formatDateTime(s.startsAt)} · {s.durationMinutes} دقيقة
-                    </span>
-                  </span>
-                  <Badge variant="secondary">{s.provider}</Badge>
-                </li>
-              ))}
-            </ul>
-          )}
-        </CardContent>
-      </Card>
+      {course.description ? <p className="text-sm leading-relaxed text-muted-foreground">{course.description}</p> : null}
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      {/* grid-cols-1: عمود minmax(0,1fr) على الهاتف، فلا يمدّ عنوان درس طويل الصفحة أفقيًا */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {doors.map((d) => {
           const ui = DOOR_UI[d.id]
           return (

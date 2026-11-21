@@ -1,4 +1,6 @@
+import { redirect } from 'next/navigation'
 import { HubTabs } from '@/components/student/hub-tabs'
+import { FREE_LISTS_HIDDEN } from '@/lib/student-hubs'
 import { FolderOpen } from 'lucide-react'
 import Link from 'next/link'
 import { EmptyState, PageHeader } from '@/components/ui/misc'
@@ -12,6 +14,8 @@ import { listStudentFiles } from '@/server/queries/student-extras.queries'
 import { isRawDownloadAllowed } from '@/server/lib/download-policy'
 
 export default async function StudentFilesPage() {
+  // الدروس والملفات المجانية مخفية (قرار المالك 21 نوفمبر 2026): إلى «دوراتي»
+  if (FREE_LISTS_HIDDEN) redirect('/student/courses')
   const actor = await requirePageActor('STUDENT')
   const items = await listStudentFiles(await getDb(), actor)
   return (

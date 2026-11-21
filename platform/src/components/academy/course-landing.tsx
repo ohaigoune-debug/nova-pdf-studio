@@ -31,7 +31,7 @@ export function CourseLandingView({ landing, purchase, digital }: { landing: Cou
         }
         actions={
           <Button asChild variant="outline" size="sm">
-            <Link href="/student/courses/catalog">كتالوج الدورات</Link>
+            <Link href="/student/courses/catalog">الكتب والدورات</Link>
           </Button>
         }
       />

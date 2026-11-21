@@ -1,4 +1,3 @@
-import { HubTabs } from '@/components/student/hub-tabs'
 import { ClipboardList } from 'lucide-react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
@@ -23,7 +22,6 @@ export default async function StudentAssignmentsPage() {
   const items = await listAssignmentsForStudent(await getDb(), actor)
   return (
     <>
-      <HubTabs hub="courses" />
       <PageHeader title={t('nav.assignments')} />
       {items.length === 0 ? (
         <EmptyState icon={ClipboardList} title="لا توجد واجبات مسندة إليك حالياً." />

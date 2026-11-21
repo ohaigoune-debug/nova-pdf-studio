@@ -1,28 +1,26 @@
 import { cookies } from 'next/headers'
-import { ArrowLeft, BookMarked, CalendarClock, CheckCircle2, ClipboardList, Compass, Flame, Gamepad2, KeyRound, RotateCcw, Smartphone, Sparkles, Trophy } from 'lucide-react'
+import { Smartphone } from 'lucide-react'
 import Link from 'next/link'
-import { ContentGrid } from '@/components/domain/content-cards'
+import { iconByName } from '@/components/icon-registry'
 import { PhoneVerifyBanner } from '@/components/domain/otp-banner'
-import { NextLiveBanner } from '@/components/live/next-live-banner'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Progress } from '@/components/ui/misc'
 import { t } from '@/i18n'
-import { isPathHidden } from '@/lib/student-menu'
-import { formatDateTime } from '@/lib/utils'
+import { STUDENT_HUBS, STUDENT_MENU_ORDER } from '@/lib/student-hubs'
+import { hubEntry } from '@/lib/student-menu'
+import { STUDENT_HINTS, STUDENT_TONES } from '@/lib/student-tiles'
+import { untilLabel } from '@/lib/live-time'
+import { cn } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { readPendingCode } from '@/server/lib/pending-code'
 import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
 import { iosAppDownload } from '@/server/services/ios-app.service'
 import { LANDING_COOKIE, landingResumeFor } from '@/server/services/landing.service'
-import { listStudentContent } from '@/server/queries/student-extras.queries'
-import { upcomingForStudent } from '@/server/services/live.service'
+import { joinWindow, upcomingForStudent } from '@/server/services/live.service'
 import { isPhoneVerified } from '@/server/services/otp.service'
 import { studentHiddenPaths } from '@/server/services/ios-only.service'
-import { studentToday, type TodayCourse } from '@/server/services/student-today.service'
+import { studentToday } from '@/server/services/student-today.service'
 
-export const metadata = { title: 'اليوم' }
+export const metadata = { title: 'الرئيسية' }
 
 const DZ = 'Africa/Algiers'
 
@@ -31,77 +29,11 @@ function greeting(now: Date): string {
   return hour >= 5 && hour < 12 ? 'صباح الخير' : 'مساء الخير'
 }
 
-function dueLabel(dueAt: Date | null, now: Date): string {
-  if (!dueAt) return 'بلا موعد'
-  const hours = (dueAt.getTime() - now.getTime()) / 3_600_000
-  if (hours < 24) return `قبل ${formatDateTime(dueAt)} · اليوم`
-  return `قبل ${formatDateTime(dueAt)}`
-}
-
-/** دورة واحدة: أين توقّف، وكم بقي، وزر واحد للمتابعة */
-function CourseResume({ course }: { course: TodayCourse }) {
-  const pct = course.total ? Math.round((course.seen / course.total) * 100) : 0
-  const done = !course.needsTerms && course.total > 0 && !course.next
-  return (
-    <Card className="flex flex-col">
-      <CardContent className="flex flex-1 flex-col gap-4 p-5">
-        <div className="min-w-0">
-          <Link href={course.href} className="line-clamp-2 font-heading text-lg font-semibold leading-snug hover:underline">
-            {course.title}
-          </Link>
-          <p className="text-xs text-muted-foreground">{course.teacherName}</p>
-        </div>
-        {course.needsTerms ? (
-          <p className="text-sm text-muted-foreground">اقرأ شروط الدورة ووافق عليها لتبدأ.</p>
-        ) : course.total > 0 ? (
-          <div className="space-y-1.5">
-            <div className="flex justify-between text-xs text-muted-foreground">
-              <span>تقدّمك</span>
-              <span>
-                {course.seen} من {course.total}
-              </span>
-            </div>
-            <Progress value={pct} tone={done ? 'success' : 'primary'} />
-          </div>
-        ) : (
-          <p className="text-sm text-muted-foreground">لم يُنشر محتوى في هذه الدورة بعد.</p>
-        )}
-        {course.nextLive ? (
-          <p className="flex items-center gap-1.5 text-xs font-semibold text-primary">
-            <CalendarClock className="size-4" /> حصة مباشرة {formatDateTime(course.nextLive.startsAt)}
-          </p>
-        ) : null}
-        <div className="mt-auto">
-          {course.needsTerms ? (
-            <Button asChild className="w-full">
-              <Link href={course.href}>الشروط والبدء</Link>
-            </Button>
-          ) : course.next ? (
-            <Button asChild className="h-auto min-h-11 w-full justify-between gap-3 py-2 text-start">
-              <Link href={course.next.href}>
-                <span className="min-w-0">
-                  <span className="block text-[11px] font-normal opacity-80">{course.next.started ? 'التالي' : 'ابدأ من هنا'}</span>
-                  <span className="block truncate">{course.next.title}</span>
-                </span>
-                <ArrowLeft className="size-4 shrink-0 ltr:rotate-180" />
-              </Link>
-            </Button>
-          ) : (
-            <Button asChild variant="outline" className="w-full">
-              <Link href={course.href}>{done ? 'أكملت كل المحتوى — راجع الدورة' : 'دخول الدورة'}</Link>
-            </Button>
-          )}
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
-
 /**
- * «اليوم» (3 نوفمبر 2026): الصفحة الأولى للتلميذ تقول له ماذا يفعل الآن — أين توقّف في دوراته،
- * ما ينتظره من واجبات، وتحدي PLAY — لا قائمة أقسام (الأبواب الثلاثة في القائمة وشريط الهاتف).
+ * الرئيسية (قرار المالك 21 نوفمبر 2026، بدل «اليوم»): تحيّة وموعد الحصة المباشرة القادمة،
+ * ثم أيقونات كبيرة للمداخل الستة نفسها التي في القائمة — لا دروس مجانية ولا أقسام أخرى.
  */
-export default async function StudentTodayPage({ searchParams }: { searchParams: Promise<{ verify?: string }> }) {
+export default async function StudentHomePage({ searchParams }: { searchParams: Promise<{ verify?: string }> }) {
   const actor = await requirePageActor('STUDENT')
   const q = await searchParams
   const db = await getDb()
@@ -114,26 +46,49 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
     studentHiddenPaths(db),
     upcomingForStudent(db, actor).catch(() => [])
   ])
-  const show = (path: string) => !isPathHidden(path, hidden)
   // جاء من صفحة هبوط ولم يطلب بعد: «أكمل طلب دورتك» (17 نوفمبر 2026)
   const resume = await landingResumeFor(db, actor, (await cookies()).get(LANDING_COOKIE)?.value).catch(() => null)
   const pendingCode = await readPendingCode()
-  const nextLive = upcoming[0] ?? null
-  const suggested = !today.hasCourses && show('/student/lessons') ? await listStudentContent(db, actor, { limit: 3 }) : []
   const firstName = actor.fullName.trim().split(/\s+/)[0] ?? ''
   const dateLine = new Intl.DateTimeFormat('ar-DZ', { weekday: 'long', day: 'numeric', month: 'long', timeZone: DZ }).format(now)
-  const { play } = today
-  const showPlay = show('/student/play')
-  const showAssignments = show('/student/assignments') && today.assignments.length > 0
+
+  const nextLive = upcoming[0] ?? null
+  const liveCourse = nextLive ? today.courses.find((c) => c.id === nextLive.courseId) : null
+  const liveOpen = nextLive ? (() => { const w = joinWindow(nextLive.startsAt, nextLive.durationMinutes); return now >= w.opensAt && now <= w.closesAt })() : false
+  const liveWhen = nextLive ? new Intl.DateTimeFormat('ar-DZ', { weekday: 'long', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: DZ }).format(nextLive.startsAt) : ''
+
+  const coursesHint = today.courses.length === 1 ? today.courses[0]!.title : today.courses.length > 1 ? `${today.courses.length} دورات مفعّلة` : 'لا دورة مفعّلة بعد'
+  const tiles = STUDENT_MENU_ORDER.flatMap((key) => {
+    const entry = hubEntry(key, hidden)
+    return entry ? [{ key, href: entry.href, label: entry.label, icon: iconByName(STUDENT_HUBS[key].iconKey), hint: key === 'courses' ? coursesHint : STUDENT_HINTS[key] }] : []
+  })
 
   return (
     <div className="space-y-6">
-      {/* شريط الهوية الكحلي (20 نوفمبر 2026) */}
-      <header className="brand-band rounded-2xl px-5 py-6 sm:px-8 sm:py-8">
+      {/* شريط الهوية الكحلي، وفيه موعد الحصة المباشرة القادمة */}
+      <header className="brand-band rounded-2xl px-5 py-5 sm:px-8 sm:py-7">
         <p className="band-eyebrow text-sm font-semibold">{dateLine}</p>
         <h1 className="mt-1 font-heading text-[26px] font-bold leading-[1.4] sm:text-3xl">
           {greeting(now)}، {firstName}
         </h1>
+        {nextLive ? (
+          <Link
+            href={liveCourse ? `${liveCourse.href}#live` : '/student/courses'}
+            className={cn(
+              'mt-3 flex items-center gap-2 rounded-xl border px-3 py-2 text-[13px] transition-colors',
+              liveOpen ? 'border-white/40 bg-destructive/90 font-bold text-white hover:bg-destructive' : 'border-white/20 bg-white/10 hover:bg-white/15'
+            )}
+          >
+            <span className="size-2.5 shrink-0 rounded-full bg-[#F04438] shadow-[0_0_0_3px_rgba(240,68,56,.3)]" aria-hidden />
+            {liveOpen ? (
+              <span className="min-w-0 truncate">الحصة المباشرة مفتوحة الآن: اضغط لتنضمّ</span>
+            ) : (
+              <span className="min-w-0 truncate">
+                الحصة المباشرة القادمة: <b className="text-[#E6CF95]">{liveWhen}</b> · {untilLabel(nextLive.startsAt.getTime() - now.getTime())}
+              </span>
+            )}
+          </Link>
+        ) : null}
       </header>
 
       {/* كتب كوده قبل أن يكون له حساب: زرّ واحد يُكمل التفعيل (21 نوفمبر 2026) */}
@@ -157,148 +112,29 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
         </Link>
       ) : null}
 
-      {/* الحصة المباشرة القادمة (دورات مدفوعة): لا شيء إن لم تكن حصة */}
-      <NextLiveBanner session={nextLive ? { ...nextLive, startsAt: nextLive.startsAt.toISOString() } : null} />
       {/* الهاتف غير مؤكَّد: شريط صغير يفتح بطاقة OTP (مفتوحة مباشرة بعد التسجيل) */}
       {!phoneV.verified ? <PhoneVerifyBanner phone={phoneV.phone} open={q.verify === '1'} /> : null}
 
-      <section aria-labelledby="resume-title" className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 id="resume-title" className="font-heading text-xl font-bold">
-            أكمل من حيث توقّفت
-          </h2>
-          {today.hasCourses ? (
-            <Button asChild variant="link" size="sm">
-              <Link href="/student/courses">كل دوراتي</Link>
-            </Button>
-          ) : null}
-        </div>
-        {today.courses.length ? (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {today.courses.map((c) => (
-              <CourseResume key={c.id} course={c} />
-            ))}
-          </div>
-        ) : (
-          <Card>
-            <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center">
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
-                <BookMarked className="size-6" />
+      <section aria-labelledby="doors-title" className="space-y-3">
+        <h2 id="doors-title" className="font-heading text-lg font-bold">
+          ماذا تريد اليوم؟
+        </h2>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {tiles.map((tile) => (
+            <Link
+              key={tile.key}
+              href={tile.href}
+              className="flex min-h-[124px] flex-col justify-between gap-3 rounded-[20px] border bg-card p-4 shadow-soft transition-colors hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:min-h-[140px] sm:p-5"
+            >
+              <span className={cn('flex size-[52px] items-center justify-center rounded-2xl', STUDENT_TONES[tile.key])}>{tile.icon ? <tile.icon className="size-7" /> : null}</span>
+              <span className="min-w-0">
+                <span className="block text-base font-bold leading-snug">{tile.label}</span>
+                <span className="block truncate text-xs text-muted-foreground">{tile.hint}</span>
               </span>
-              <p className="text-sm text-muted-foreground sm:flex-1">لا دورة مفعّلة بعد. عندك كود من الأستاذ أو المكتبة؟ فعّله هنا. أو اطلب كتاب الدورة: يصلك بالدفع عند الاستلام.</p>
-              <Button asChild size="lg" className="shrink-0">
-                <Link href="/student/code">
-                  <KeyRound className="size-4" /> عندي كود
-                </Link>
-              </Button>
-              {show('/student/courses/catalog') ? (
-                <Button asChild variant="outline" className="shrink-0">
-                  <Link href="/student/courses/catalog">
-                    <Compass className="size-4" /> اكتشف الدورات
-                  </Link>
-                </Button>
-              ) : null}
-            </CardContent>
-          </Card>
-        )}
-      </section>
-
-      {showAssignments || showPlay ? (
-        <div className={showAssignments && showPlay ? 'grid gap-6 lg:grid-cols-2' : 'grid gap-6'}>
-          {showAssignments ? (
-            <Card>
-              <CardHeader className="flex-row items-center justify-between space-y-0">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <ClipboardList className="size-5 text-primary" /> واجبات تنتظرك
-                </CardTitle>
-                <Button asChild variant="link" size="sm">
-                  <Link href="/student/assignments">الكل</Link>
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <ul className="divide-y">
-                  {today.assignments.map((a) => (
-                    <li key={a.id}>
-                      <Link href={`/student/assignments/${a.id}`} className="flex items-center justify-between gap-3 py-3 hover:text-primary">
-                        <span className="min-w-0">
-                          <span className="block truncate font-semibold">{a.title}</span>
-                          <span className="block text-xs text-muted-foreground">
-                            {a.teacherName ? `${a.teacherName} · ` : ''}
-                            {dueLabel(a.dueAt, now)}
-                          </span>
-                        </span>
-                        <ArrowLeft className="size-4 shrink-0 text-muted-foreground ltr:rotate-180" />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          ) : null}
-
-          {showPlay ? (
-            <Card className="border-primary/25">
-              <CardHeader className="flex-row items-center justify-between space-y-0">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Gamepad2 className="size-5 text-primary" /> PLAY اليوم
-                </CardTitle>
-                {play.ready ? (
-                  <span className="text-xs font-semibold text-muted-foreground">
-                    {play.levelTitle} · {play.xpTotal} XP
-                  </span>
-                ) : null}
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {play.ready ? (
-                  <>
-                    <ul className="space-y-2.5 text-sm">
-                      <li className="flex items-center gap-2">
-                        {play.dailyDone ? <CheckCircle2 className="size-5 text-success" /> : <Sparkles className="size-5 text-primary" />}
-                        {play.dailyDone ? 'أنهيت تحدي اليوم' : 'تحدي اليوم ينتظرك'}
-                      </li>
-                      {play.mistakesDue > 0 ? (
-                        <li>
-                          <Link href="/student/play/mistakes" className="flex items-center gap-2 hover:text-primary hover:underline">
-                            <RotateCcw className="size-5 text-warning" /> {play.mistakesDue} {play.mistakesDue === 1 ? 'سؤال أخطأت فيه حان وقت مراجعته' : 'أسئلة أخطأت فيها حان وقت مراجعتها'}
-                          </Link>
-                        </li>
-                      ) : null}
-                      <li className="flex items-center gap-2">
-                        <Flame className={play.streakDays > 0 ? 'size-5 text-warning' : 'size-5 text-muted-foreground'} />
-                        {play.streakDays > 0 ? `سلسلتك: ${play.streakDays} ${play.streakDays === 1 ? 'يوم' : 'أيام'} — لا تقطعها` : 'ابدأ سلسلتك اليوم'}
-                      </li>
-                    </ul>
-                    <Button asChild className="w-full">
-                      <Link href="/student/play">
-                        <Trophy className="size-4" /> {play.dailyDone ? 'العب مرة أخرى' : 'العب الآن'}
-                      </Link>
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <p className="text-sm text-muted-foreground">بطاقات الدروس، الفروض والبكالوريات في لعبة واحدة. اختر قسمك وابدأ.</p>
-                    <Button asChild className="w-full">
-                      <Link href="/student/play/setup">ابدأ PLAY</Link>
-                    </Button>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-          ) : null}
+            </Link>
+          ))}
         </div>
-      ) : null}
-
-      {suggested.length ? (
-        <section className="space-y-3">
-          <div className="flex items-center justify-between">
-            <h2 className="font-heading text-xl font-bold">دروس مجانية لتبدأ بها</h2>
-            <Button asChild variant="link" size="sm">
-              <Link href="/student/lessons">{t('common.viewAll')}</Link>
-            </Button>
-          </div>
-          <ContentGrid items={suggested} basePath="/student/lessons" />
-        </section>
-      ) : null}
+      </section>
 
       {ios ? (
         <a href={ios.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-lg border border-primary/25 bg-primary/5 p-4 transition-colors hover:bg-primary/10">

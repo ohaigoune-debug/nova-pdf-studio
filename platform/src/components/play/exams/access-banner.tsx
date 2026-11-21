@@ -55,7 +55,7 @@ export function PlayAccessBanner({ access, subjectName, iosStudyOnly }: { access
             اشترك في دورة {subjectName ? `«${subjectName}» ` : ''}لمستواك لتصبح مدرسة PLAY مجانية لك طوال مدة اشتراكك.
           </p>
           <Link href="/student/courses/catalog" className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-gradient-to-b from-[#3B83F0] to-[#1457C5] px-5 text-sm font-extrabold text-white">
-            <Sparkles className="size-4" aria-hidden /> اكتشف الدورات
+            <Sparkles className="size-4" aria-hidden /> الكتب والدورات
           </Link>
         </>
       )}

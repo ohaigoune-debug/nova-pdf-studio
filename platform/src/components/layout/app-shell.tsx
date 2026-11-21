@@ -22,11 +22,15 @@ export async function AppShell({ actor, children }: { actor: Actor; children: Re
     children: i.children?.map(serializeItem)
   })
   const hidden = actor.role === 'STUDENT' ? await studentHiddenPaths(await getDb()) : []
-  // مدخل مجمّع يختفي حين تُخفى كل تبويباته
-  const visible = (i: NavItem) => !isPathHidden(i.href, hidden) || (i.also ?? []).some((h) => !isPathHidden(h, hidden))
+  // مدخل مجمّع يختفي حين تُخفى كل تبويباته، أو تبويبه الأول إن اشترطه («العب» بلا PLAY)
+  const visible = (i: NavItem) => {
+    const hub = actor.role === 'STUDENT' ? hubKeyByHref(i.href) : null
+    if (hub) return hubEntry(hub, hidden) !== null
+    return !isPathHidden(i.href, hidden) || (i.also ?? []).some((h) => !isPathHidden(h, hidden))
+  }
   const place = (i: NavItem): ShellNavItem => {
     const item = serializeItem(i)
-    // مدخل مجمّع للتلميذ: أول تبويب ظاهر، واسمه البديل إن خُفي تبويبه الأول («تدرّب» بدل PLAY)
+    // مدخل مجمّع للتلميذ: يفتح أول تبويب ظاهر
     const hub = actor.role === 'STUDENT' ? hubKeyByHref(i.href) : null
     const entry = hub ? hubEntry(hub, hidden) : null
     if (entry) return { ...item, ...entry }

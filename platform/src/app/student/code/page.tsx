@@ -1,7 +1,6 @@
 import { LifeBuoy } from 'lucide-react'
 import Link from 'next/link'
 import { CodeSteps, RedeemCodeForm } from '@/components/student/code-form'
-import { HubTabs } from '@/components/student/hub-tabs'
 import { requirePageActor } from '@/server/auth/current-user'
 import { readPendingCode } from '@/server/lib/pending-code'
 
@@ -18,7 +17,6 @@ export default async function StudentCodePage({ searchParams }: { searchParams: 
   const initial = c ?? (await readPendingCode())
   return (
     <div className="space-y-5">
-      <HubTabs hub="courses" />
       <div className="mx-auto max-w-md space-y-5">
         <div className="text-center">
           <h1 className="font-heading text-2xl font-bold">🔑 فعّل دورتك بالكود</h1>

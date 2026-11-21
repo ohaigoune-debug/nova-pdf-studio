@@ -17,28 +17,28 @@ const tab = (href: string, label: string, group: string): HideableEntry => ({ hr
 
 /**
  * ما يمكن إخفاؤه. «الرئيسية» و«حسابي» لا تُخفيان أبدًا (إلا تبويبات منه).
- * المسارات المخزّنة قبل الأبواب الثلاثة تبقى صالحة: «/student/lessons» يخفي الدروس والملفات معًا كما كان،
- * و«/student/exams» يخفي الفروض والواجبات معًا كما كان، و«/student/play» يخفي PLAY بكل تبويباته.
+ * المسارات المخزّنة قبل مداخل 21 نوفمبر تبقى صالحة: «/student/courses/catalog» و«/student/support» صارا مدخلين،
+ * و«/student/exams» يخفي الفروض والواجبات معًا كما كان، و«/student/play» يخفي «العب» بكل تبويباته.
+ * الدروس والملفات المجانية لم تعد في القائمة أصلًا (صفحتاهما تحوّلان إلى «دوراتي»)، فلا خانة لهما.
  */
 export const HIDEABLE_STUDENT_ENTRIES: HideableEntry[] = [
   hub('courses', 'دوراتي'),
-  tab('/student/assignments', 'تبويب «واجباتي»', 'دوراتي'),
-  { href: '/student/lessons', label: 'تبويبا «دروس مجانية» و«الملفات»', covers: ['/student/lessons', '/student/files'], group: 'دوراتي' },
-  tab('/student/files', 'تبويب «الملفات» وحده', 'دوراتي'),
-  tab('/student/classroom', 'القسم العام والأقسام الافتراضية للدورات', 'دوراتي'),
-  tab('/student/courses/catalog', 'تبويب «شراء دورة» (و«استكشف» في الهاتف)', 'دوراتي'),
-  tab('/student/courses/orders', 'تبويب «طلباتي»', 'دوراتي'),
-  hub('train', 'PLAY'),
-  { href: '/student/exams', label: 'تبويب «فروض واختبارات» (ومعه «واجباتي»)', covers: ['/student/exams', '/student/assignments'], group: 'PLAY' },
-  tab('/bac', 'بنك البكالوريات السابقة', 'PLAY'),
-  tab('/student/quizzes', 'تبويب «اختبارات أستاذي»', 'PLAY'),
-  tab('/student/practice', 'تبويب «تدريب حرّ»', 'PLAY'),
+  tab('/student/assignments', 'صفحة «واجباتي»', 'دوراتي'),
+  tab('/student/classroom', 'منتديات الدورات', 'دوراتي'),
+  hub('shop', 'الكتب والدورات'),
+  tab('/student/courses/orders', 'تبويب «طلباتي»', 'الكتب والدورات'),
+  hub('code', 'تفعيل دورة', 'تفعيل دورة بالكود'),
+  hub('train', 'العب'),
+  { href: '/student/exams', label: 'تبويب «فروض واختبارات» (ومعه «واجباتي»)', covers: ['/student/exams', '/student/assignments'], group: 'العب' },
+  tab('/bac', 'بنك البكالوريات السابقة', 'العب'),
+  tab('/student/quizzes', 'تبويب «اختبارات أستاذي»', 'العب'),
+  tab('/student/practice', 'تبويب «تدريب حرّ»', 'العب'),
+  hub('support', 'الشكاوى والدعم', 'الشكاوى والدعم'),
   tab('/student/progress', 'تبويب «تقدّمي»', 'حسابي'),
   tab('/student/grades', 'تبويب «العلامات»', 'حسابي'),
   tab('/student/notifications', 'الإشعارات', 'حسابي'),
   tab('/student/invite', 'ادعُ زميلك ورصيدي', 'حسابي'),
-  tab('/student/invoices', 'تبويب «فواتيري»', 'حسابي'),
-  tab('/student/support', 'الدعم والشكاوى', 'حسابي')
+  tab('/student/invoices', 'تبويب «فواتيري»', 'حسابي')
 ]
 
 const ALLOWED = new Set(HIDEABLE_STUDENT_ENTRIES.map((e) => e.href))
@@ -55,21 +55,39 @@ export function expandHidden(hidden: readonly string[]): string[] {
   return [...out]
 }
 
-/** هل هذا المسار مخفي؟ (المسار نفسه أو صفحة داخله). «/student/courses» المخفي كقسم لا يُخفي صفحة دورة يملكها التلميذ. */
+/** قوائم تُخفى وحدها دون صفحاتها: دورة يملكها التلميذ، ودرس أو ملف من دورته */
+const LIST_ONLY = new Set(['/student/courses', '/student/lessons', '/student/files'])
+
+/** هل هذا المسار مخفي؟ (المسار نفسه أو صفحة داخله، إلا القوائم أعلاه) */
 export function isPathHidden(path: string, expanded: readonly string[]): boolean {
-  return expanded.some((h) => path === h || (h !== '/student/courses' && path.startsWith(h + '/')))
+  return expanded.some((h) => path === h || (!LIST_ONLY.has(h) && path.startsWith(h + '/')))
 }
 
 /**
- * مدخل المجمّع كما يراه التلميذ: يفتح أول تبويب ظاهر، ويأخذ اسمه البديل إن خُفي تبويبه الأول
- * (PLAY مخفي ← «تدرّب» يفتح «فروض واختبارات»). null: كل تبويباته مخفية.
+ * مدخل المجمّع كما يراه التلميذ: يفتح أول تبويب ظاهر. null: كل تبويباته مخفية،
+ * أو خُفي تبويبه الأول والمجمّع يشترطه («العب» حين يُخفى PLAY خارج آيفون).
  */
 export function hubEntry(key: StudentHubKey, hidden: readonly string[]): { href: string; label: string; iconKey: string } | null {
   const h: StudentHub = STUDENT_HUBS[key]
   const first = h.tabs.find((t) => !isPathHidden(t.href, hidden))
   if (!first) return null
-  const alt = first.href !== h.tabs[0]?.href ? h.whenFirstHidden : undefined
-  return { href: first.href, label: alt?.label ?? h.label, iconKey: alt?.iconKey ?? h.iconKey }
+  if (h.requireFirst && first.href !== h.tabs[0]?.href) return null
+  return { href: first.href, label: h.label, iconKey: h.iconKey }
+}
+
+/**
+ * المدخل النشط في القائمة أو شريط الهاتف: صاحب أطول مسار يطابق الصفحة الحالية،
+ * فلا يُضاء «دوراتي» (/student/courses) في «الكتب والدورات» (/student/courses/catalog).
+ */
+export function activeEntry(pathname: string, entries: readonly { id: string; paths: readonly string[]; exact?: boolean }[]): string | null {
+  let best: { id: string; len: number } | null = null
+  for (const e of entries) {
+    for (const p of e.paths) {
+      const hit = e.exact ? pathname === p : pathname === p || pathname.startsWith(p + '/')
+      if (hit && (!best || p.length > best.len)) best = { id: e.id, len: p.length }
+    }
+  }
+  return best?.id ?? null
 }
 
 /** المجمّع الذي يبدأ بهذا المسار (مدخله في القائمة) */

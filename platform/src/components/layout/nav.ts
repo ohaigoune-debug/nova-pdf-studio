@@ -1,6 +1,6 @@
 import type { AssistantScope, UserRole } from '@/server/db/schema/enums'
 import { t } from '@/i18n'
-import { STUDENT_HUBS, hubPaths, type StudentHubKey } from '@/lib/student-hubs'
+import { STUDENT_HUBS, STUDENT_MENU_ORDER, hubPaths, type StudentHubKey } from '@/lib/student-hubs'
 
 /** iconKey = اسم أيقونة lucide (PascalCase) يُحلّ في العميل */
 export interface NavItem {
@@ -68,18 +68,9 @@ export const ADMIN_TOOLS: (NavItem & { group: string })[] = [
 export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope } = {}): NavSection[] {
   switch (role) {
     case 'STUDENT':
-      // قرار المالك (3 نوفمبر 2026): ثلاثة أبواب فقط بعد «اليوم» — دوراتي، PLAY، حسابي.
-      // الصفحات القديمة (الدروس، الفروض، بنك البكالوريات، الإشعارات…) تبويبات داخل أبوابها بمساراتها نفسها.
-      return [
-        {
-          items: [
-            { href: '/student', label: 'اليوم', iconKey: 'Sun', exact: true },
-            hubItem('courses'),
-            hubItem('train'),
-            hubItem('account')
-          ]
-        }
-      ]
+      // قرار المالك (21 نوفمبر 2026): ستة مداخل بلا عناوين فرعية — دوراتي، الكتب والدورات، تفعيل دورة، العب،
+      // الشكاوى والدعم، حسابي. الرئيسية من الشعار وشريط الهاتف؛ الصفحات القديمة باقية بمساراتها.
+      return [{ items: STUDENT_MENU_ORDER.map(hubItem) }]
     case 'TEACHER':
       // قرار المالك (2026-10-24): المسجّلون، المداخيل، نشر المحتوى، التفاعل — فقط. بقية الأدوات في /teacher/tools.
       return [
@@ -99,7 +90,7 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
         {
           title: 'التفاعل',
           items: [
-            { href: '/teacher/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' },
+            { href: '/teacher/classroom', label: 'المنتدى', iconKey: 'MessagesSquare' },
             { href: '/teacher/comments', label: 'تعليقات الحصص', iconKey: 'MessageSquare' }
           ]
         },
@@ -116,7 +107,7 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
       // «الأستاذ المساعد» (قرار المالك 13-14 نوفمبر 2026): القسم الافتراضي وحده، ثم حسابه
       if (opts.assistantScope === 'CLASSROOM')
         return [
-          { items: [{ href: '/assistant/classroom', label: 'القسم الافتراضي', iconKey: 'MessagesSquare' }] },
+          { items: [{ href: '/assistant/classroom', label: 'المنتدى', iconKey: 'MessagesSquare' }] },
           {
             title: 'الحساب',
             items: [
