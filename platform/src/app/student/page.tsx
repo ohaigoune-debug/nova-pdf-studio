@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers'
-import { ArrowLeft, BookMarked, CalendarClock, CheckCircle2, ClipboardList, Compass, Flame, Gamepad2, RotateCcw, Smartphone, Sparkles, Trophy } from 'lucide-react'
+import { ArrowLeft, BookMarked, CalendarClock, CheckCircle2, ClipboardList, Compass, Flame, Gamepad2, KeyRound, RotateCcw, Smartphone, Sparkles, Trophy } from 'lucide-react'
 import Link from 'next/link'
 import { ContentGrid } from '@/components/domain/content-cards'
 import { PhoneVerifyBanner } from '@/components/domain/otp-banner'
@@ -12,6 +12,7 @@ import { isPathHidden } from '@/lib/student-menu'
 import { formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
+import { readPendingCode } from '@/server/lib/pending-code'
 import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
 import { iosAppDownload } from '@/server/services/ios-app.service'
 import { LANDING_COOKIE, landingResumeFor } from '@/server/services/landing.service'
@@ -116,6 +117,7 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
   const show = (path: string) => !isPathHidden(path, hidden)
   // جاء من صفحة هبوط ولم يطلب بعد: «أكمل طلب دورتك» (17 نوفمبر 2026)
   const resume = await landingResumeFor(db, actor, (await cookies()).get(LANDING_COOKIE)?.value).catch(() => null)
+  const pendingCode = await readPendingCode()
   const nextLive = upcoming[0] ?? null
   const suggested = !today.hasCourses && show('/student/lessons') ? await listStudentContent(db, actor, { limit: 3 }) : []
   const firstName = actor.fullName.trim().split(/\s+/)[0] ?? ''
@@ -133,6 +135,17 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
           {greeting(now)}، {firstName}
         </h1>
       </header>
+
+      {/* كتب كوده قبل أن يكون له حساب: زرّ واحد يُكمل التفعيل (21 نوفمبر 2026) */}
+      {pendingCode ? (
+        <Link href="/student/code" className="flex items-center justify-between gap-3 rounded-xl border-2 border-success bg-success/10 p-4 transition-colors hover:bg-success/15">
+          <span className="min-w-0 leading-tight">
+            <span className="block font-bold">🔑 كودك محفوظ</span>
+            <span className="block text-sm text-muted-foreground">اضغط لتفعيل دورتك الآن</span>
+          </span>
+          <span className="shrink-0 rounded-lg bg-success px-3 py-2 text-sm font-bold text-white">فعّل الآن</span>
+        </Link>
+      ) : null}
 
       {resume ? (
         <Link href={resume.href} className="flex items-center justify-between gap-3 rounded-xl border-2 border-primary bg-primary/5 p-4 transition-colors hover:bg-primary/10">
@@ -172,9 +185,14 @@ export default async function StudentTodayPage({ searchParams }: { searchParams:
               <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
                 <BookMarked className="size-6" />
               </span>
-              <p className="text-sm text-muted-foreground sm:flex-1">لا دورة مفعّلة بعد. اطلب كتاب الدورة: يصلك بالدفع عند الاستلام وتُفعَّل الدورة عند التسليم.</p>
+              <p className="text-sm text-muted-foreground sm:flex-1">لا دورة مفعّلة بعد. عندك كود من الأستاذ أو المكتبة؟ فعّله هنا. أو اطلب كتاب الدورة: يصلك بالدفع عند الاستلام.</p>
+              <Button asChild size="lg" className="shrink-0">
+                <Link href="/student/code">
+                  <KeyRound className="size-4" /> عندي كود
+                </Link>
+              </Button>
               {show('/student/courses/catalog') ? (
-                <Button asChild className="shrink-0">
+                <Button asChild variant="outline" className="shrink-0">
                   <Link href="/student/courses/catalog">
                     <Compass className="size-4" /> اكتشف الدورات
                   </Link>

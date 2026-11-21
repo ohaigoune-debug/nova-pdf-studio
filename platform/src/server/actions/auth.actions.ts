@@ -9,6 +9,7 @@ import { getDb } from '@/server/db/client'
 import type { UserRole } from '@/server/db/schema/enums'
 import { fail, failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { sha256 } from '@/server/lib/codes'
+import { readPendingCode } from '@/server/lib/pending-code'
 import { safeNextPath } from '@/server/lib/safe-next'
 import { RATE_LIMITS, checkRateLimit, checkRegisterLimits, resetRateLimit } from '@/server/lib/rate-limit'
 import { deleteOwnAccount } from '@/server/services/account-deletion.service'
@@ -119,6 +120,8 @@ export async function registerAction(_prev: ActionResult | null, formData: FormD
   // جاء من صفحة هبوط (إعلان): إلى استمارة طلب دورته مباشرة — بوابة تأكيد الهاتف تظهر هناك أولًا ثم الاستمارة
   const resume = await landingResumeFor(db, { userId: result.data.userId, studentId: result.data.studentId, role: 'STUDENT' } as Actor, (await cookies()).get(LANDING_COOKIE)?.value).catch(() => null)
   // تأكيد الهاتف بعد التسجيل مباشرة (رمز SMS أو مكالمة فائتة مجانية): الحسابات الجديدة لا تدخل قبله
+  // كتب كوده قبل أن يكون له حساب ⇒ صفحة الكود مباشرة والكود مكتوب (21 نوفمبر 2026)
+  if (await readPendingCode()) redirect('/student/code')
   redirect(resume?.href ?? '/student?verify=1')
 }
 

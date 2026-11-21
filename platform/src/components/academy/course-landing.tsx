@@ -108,7 +108,7 @@ export function CourseLandingView({ landing, purchase, digital }: { landing: Cou
           ) : null}
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline">
-              <Link href="/claim">
+              <Link href="/student/code">
                 <KeyRound className="size-4" /> لديّ كود تفعيل
               </Link>
             </Button>

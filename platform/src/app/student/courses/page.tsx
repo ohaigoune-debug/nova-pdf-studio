@@ -1,7 +1,7 @@
 import { MyOrdersTracking } from '@/components/domain/order-tracking'
 import { myTrackedOrders } from '@/server/services/order-tracking.service'
 import { HubTabs } from '@/components/student/hub-tabs'
-import { BookMarked, Clock, FileText, PlayCircle, Radio, ShoppingBag } from 'lucide-react'
+import { BookMarked, Clock, FileText, KeyRound, PlayCircle, Radio, ShoppingBag } from 'lucide-react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -30,7 +30,9 @@ export default async function StudentCoursesPage() {
         description="الدورات التي اشتركت فيها: حصص مباشرة، فيديوهات مسجّلة، ملفات، وقسم افتراضي مع أستاذك."
       />
       <div className="mb-6 flex flex-wrap gap-3">
-        <Button asChild><Link href="/student/courses/catalog">اكتشف الدورات المتاحة</Link></Button>
+        {/* تفعيل دورة بكود في المقدّمة (21 نوفمبر 2026) */}
+        <Button asChild size="lg"><Link href="/student/code"><KeyRound className="size-4" /> عندي كود: فعّل دورة</Link></Button>
+        <Button asChild variant="outline"><Link href="/student/courses/catalog">اكتشف الدورات المتاحة</Link></Button>
         <Button asChild variant="outline"><Link href="/student/courses/orders"><ShoppingBag className="size-4" /> طلباتي وحالة التوصيل</Link></Button>
       </div>
       {items.length === 0 ? (
