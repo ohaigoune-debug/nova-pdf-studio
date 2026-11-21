@@ -36,7 +36,7 @@ export default async function StudentLessonPage({ params }: { params: Promise<{ 
       item={item}
       actor={actor}
       surface="student"
-      back={{ href: '/student/lessons', label: 'الدروس' }}
+      back={{ href: '/student/courses', label: 'دوراتي' }}
       extras={quiz ? <LessonQuizButton quiz={quiz} /> : null}
       footer={<LessonComments slug={item.slug} comments={comments.map((c) => ({ ...c, createdAt: c.createdAt.toISOString() }))} />}
     />

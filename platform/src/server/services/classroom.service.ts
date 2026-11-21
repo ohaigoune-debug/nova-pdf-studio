@@ -16,7 +16,7 @@
  */
 import { and, asc, desc, eq, inArray, isNull, or, type SQL } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { classComments, classPosts, files, groups, groupStudents, profiles, teacherAssistants, users } from '@/server/db/schema'
+import { classComments, classPosts, courseEnrollments, courses, files, groups, groupStudents, profiles, teacherAssistants, users } from '@/server/db/schema'
 import { assertRole, isClassroomAssistant, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
@@ -71,6 +71,23 @@ export async function studentClassGroups(db: Db, actor: Actor) {
     .innerJoin(groups, eq(groups.id, groupStudents.groupId))
     .where(and(eq(groupStudents.studentId, actor.studentId), inArray(groupStudents.status, [...REACHABLE_STATUSES]), isNull(groups.deletedAt)))
     .orderBy(groups.name)
+}
+
+/**
+ * منتديات التلميذ (21 نوفمبر 2026): أفواج دوراته المفعّلة وحدها، بترتيب الاسم — لا الأفواج الحضورية ولا «القسم العام».
+ */
+export async function studentCourseForums(db: Db, actor: Actor): Promise<{ id: string; name: string }[]> {
+  assertRole(actor, 'STUDENT')
+  if (!actor.studentId) throw new AppError('FORBIDDEN')
+  const gs = await studentClassGroups(db, actor)
+  if (!gs.length) return []
+  const rows = await db
+    .select({ groupId: courses.groupId })
+    .from(courseEnrollments)
+    .innerJoin(courses, eq(courses.id, courseEnrollments.courseId))
+    .where(and(eq(courseEnrollments.studentId, actor.studentId), eq(courseEnrollments.status, 'ACTIVE'), isNull(courses.deletedAt)))
+  const ids = new Set(rows.map((r) => r.groupId))
+  return gs.filter((g) => ids.has(g.id)).map(({ id, name }) => ({ id, name }))
 }
 
 /** القسم العام للتلميذ: المنشورات العامة لكل التلاميذ، و«لكل أفواجي» في مساحات أساتذته */

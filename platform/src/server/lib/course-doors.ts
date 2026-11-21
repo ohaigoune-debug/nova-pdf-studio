@@ -1,6 +1,6 @@
 /**
- * أبواب صفحة الدورة الخمسة (قرار المالك 2026-11-13): الحصص المباشرة، الحصص المسجلة، الملفات،
- * تماريني ونتائجي، القسم الافتراضي. عرض فقط: يعيد تجميع أقسام buildCourseSections كما هي،
+ * أبواب صفحة الدورة الخمسة (قرار المالك 2026-11-13، وتسميات 21 نوفمبر): الحصص المباشرة، الحصص المسجلة،
+ * الملفات، تمارين QCM، المنتدى. عرض فقط: يعيد تجميع أقسام buildCourseSections كما هي،
  * فلا يضيف عنصرًا ولا يخفيه ولا يغيّر ترتيبه داخل القسم. دوال نقية تُختبر وحدها.
  */
 import type { CourseSection, CourseSectionId } from './course-sections'
@@ -8,15 +8,15 @@ import type { CourseSection, CourseSectionId } from './course-sections'
 export const COURSE_DOOR_IDS = ['live', 'recorded', 'files', 'practice', 'classroom'] as const
 export type CourseDoorId = (typeof COURSE_DOOR_IDS)[number]
 
-/** الأبواب التي تحمل محتوى الدورة (المباشرة والقسم الافتراضي لهما مصدر آخر) */
+/** الأبواب التي تحمل محتوى الدورة (المباشرة والمنتدى لهما مصدر آخر) */
 export type ContentDoorId = Exclude<CourseDoorId, 'live' | 'classroom'>
 
 export const COURSE_DOOR_LABELS_AR: Record<CourseDoorId, string> = {
   live: 'الحصص المباشرة',
   recorded: 'الحصص المسجلة',
   files: 'الملفات',
-  practice: 'تماريني ونتائجي',
-  classroom: 'القسم الافتراضي'
+  practice: 'تمارين QCM',
+  classroom: 'المنتدى'
 }
 
 /** كل قسم محتوى في باب واحد بالضبط */

@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight, BookMarked, ChevronDown, MoreHorizontal, Sun, Bell, LogOut, Menu, Search, X } from 'lucide-react'
+import { ArrowRight, BookMarked, ChevronDown, MoreHorizontal, House, Bell, LogOut, Menu, Search, X } from 'lucide-react'
 import { iconByName } from '@/components/icon-registry'
 import Link from '@/components/ui/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -13,8 +13,9 @@ import { t, tEnum } from '@/i18n'
 import { cn } from '@/lib/utils'
 import { logoutAction } from '@/server/actions/auth.actions'
 import { HiddenPathsProvider } from '@/components/student/hidden-paths'
-import { hubEntry } from '@/lib/student-menu'
-import { hubPaths, type StudentHubKey } from '@/lib/student-hubs'
+import { activeEntry, hubEntry } from '@/lib/student-menu'
+import { STUDENT_HUBS, hubPaths, type StudentHubKey } from '@/lib/student-hubs'
+import { STUDENT_TONES } from '@/lib/student-tiles'
 
 export interface ShellNavItem {
   href: string
@@ -29,6 +30,9 @@ interface ShellSection {
   title?: string
   items: ShellNavItem[]
 }
+
+/** لون أيقونة كل مدخل من مداخل التلميذ (بأيقونته: كل مجمّع له أيقونة مختلفة) */
+const STUDENT_TONE_BY_ICON: Record<string, string> = Object.fromEntries((Object.keys(STUDENT_HUBS) as StudentHubKey[]).map((k) => [STUDENT_HUBS[k].iconKey, STUDENT_TONES[k]]))
 
 function Icon({ name, className }: { name: string; className?: string }) {
   const Cmp = iconByName(name)
@@ -66,7 +70,11 @@ export function ShellClient({
   const notificationsHref = `/${base}/notifications`
 
   const matches = (href: string, exact: boolean) => (exact ? pathname === href : pathname === href || pathname.startsWith(href + '/'))
-  const isActive = (item: ShellNavItem): boolean => matches(item.href, item.exact) || (item.also ?? []).some((h) => matches(h, false)) || (item.children ?? []).some(isActive)
+  const isStudent = actor.role === 'STUDENT'
+  // التلميذ: مدخل واحد مضاء، صاحب أطول مسار مطابق («الكتب والدورات» تحت /student/courses/catalog لا يُضيء «دوراتي»)
+  const studentActive = isStudent ? activeEntry(pathname, sections.flatMap((s) => s.items).map((i) => ({ id: i.href, paths: [i.href, ...(i.also ?? [])] }))) : null
+  const isActive = (item: ShellNavItem): boolean =>
+    isStudent ? item.href === studentActive : matches(item.href, item.exact) || (item.also ?? []).some((h) => matches(h, false)) || (item.children ?? []).some(isActive)
 
   const renderItem = (item: ShellNavItem): ReactNode => {
     const active = isActive(item)
@@ -90,6 +98,26 @@ export function ShellClient({
         <Link href={item.href} onClick={() => setOpen(false)} aria-current={active ? 'page' : undefined} className={classes}>
           <span className={cn('absolute inset-y-2 start-0 w-0.5 rounded-full bg-sidebar-active transition-opacity', active ? 'opacity-100' : 'opacity-0')} aria-hidden />
           {contents}
+        </Link>
+      </li>
+    )
+  }
+
+  /** مدخل في درج الهاتف للتلميذ: أيقونة ملوّنة كبيرة واسم واحد، بلا عناوين فرعية (التصوّر المعتمد، 21 نوفمبر 2026) */
+  const renderStudentItem = (item: ShellNavItem): ReactNode => {
+    const active = isActive(item)
+    return (
+      <li key={item.href}>
+        <Link
+          href={item.href}
+          onClick={() => setOpen(false)}
+          aria-current={active ? 'page' : undefined}
+          className={cn('flex items-center gap-3 rounded-xl px-2 py-2 text-[15px] font-bold transition-colors', active ? 'bg-primary/[0.07] text-foreground' : 'text-foreground/85 hover:bg-muted')}
+        >
+          <span className={cn('flex size-11 shrink-0 items-center justify-center rounded-xl', STUDENT_TONE_BY_ICON[item.iconKey] ?? 'bg-muted text-foreground')}>
+            <Icon name={item.iconKey} className="size-[22px]" />
+          </span>
+          <span className="truncate">{item.label}</span>
         </Link>
       </li>
     )
@@ -135,14 +163,43 @@ export function ShellClient({
       {/* الشريط الجانبي (حاسوب) */}
       <aside className="no-print sticky top-0 hidden h-dvh w-[268px] shrink-0 flex-col border-e border-sidebar-border bg-sidebar lg:flex">
         <div className="flex min-h-[88px] items-center border-b border-sidebar-border px-5 py-3">
-          <Brand role={actor.role} />
+          {isStudent ? (
+            <Link href="/student" aria-label="الرئيسية" className="rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-active">
+              <Brand role={actor.role} />
+            </Link>
+          ) : (
+            <Brand role={actor.role} />
+          )}
         </div>
         <div className="flex-1 overflow-y-auto scrollbar-thin">{nav}</div>
         <div className="border-t border-sidebar-border p-3">{userCard}</div>
       </aside>
 
       {/* الدرج (هاتف) */}
-      {open ? (
+      {open && isStudent ? (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div className="absolute inset-0 bg-[#0F2544]/45 backdrop-blur-[2px]" onClick={() => setOpen(false)} />
+          <aside className="absolute inset-y-0 start-0 flex w-[300px] max-w-[85vw] flex-col bg-card text-card-foreground shadow-2xl animate-fade-in">
+            <div className="flex items-center justify-between border-b px-4 py-3">
+              <Link href="/student" onClick={() => setOpen(false)} aria-label="الرئيسية" className="rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <Logo width={124} />
+              </Link>
+              <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label={t('common.close')}>
+                <X className="size-5" />
+              </Button>
+            </div>
+            <p className="truncate px-5 pb-1 pt-3 text-xs text-muted-foreground">{actor.fullName}</p>
+            <nav className="flex-1 overflow-y-auto px-3 pb-3" aria-label="القائمة">
+              <ul className="space-y-1">{sections.flatMap((s) => s.items).map(renderStudentItem)}</ul>
+            </nav>
+            <form action={logoutAction} className="border-t p-3">
+              <Button type="submit" variant="ghost" className="w-full justify-start gap-2 text-destructive hover:bg-destructive/10 hover:text-destructive">
+                <LogOut className="size-4" /> {t('common.logout')}
+              </Button>
+            </form>
+          </aside>
+        </div>
+      ) : open ? (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
           <aside className="absolute inset-y-0 start-0 flex w-[300px] max-w-[85vw] flex-col bg-sidebar shadow-2xl animate-fade-in">
@@ -215,23 +272,26 @@ export function ShellClient({
         {actor.role === 'STUDENT' ? (
           <nav aria-label="التنقل الرئيسي للتلميذ" className="student-bottom-nav no-print fixed inset-x-0 bottom-0 z-40 border-t bg-card shadow-soft lg:hidden">
             <div className="mx-auto grid h-[68px] max-w-lg grid-flow-col auto-cols-fr items-center px-2">
-              {[
-                { href: '/student', label: 'اليوم', icon: Sun, paths: [] as string[] },
-                // كل باب يفتح أول تبويب ظاهر فيه، ويختفي إن خُفيت تبويباته كلها («تدرّب» حين يُخفى PLAY)
-                ...(['courses', 'train', 'account'] as StudentHubKey[]).flatMap((key) => {
-                  const entry = hubEntry(key, hidden)
-                  return entry ? [{ href: entry.href, label: entry.label, icon: iconByName(entry.iconKey) ?? BookMarked, paths: hubPaths(key) }] : []
+              {(() => {
+                // الرئيسية ثم دوراتي والكتب والدورات وحسابي (التصوّر المعتمد، 21 نوفمبر 2026)؛ يختفي باب خُفيت تبويباته
+                const items = [
+                  { id: 'home', href: '/student', label: 'الرئيسية', icon: House, paths: ['/student'], exact: true },
+                  ...(['courses', 'shop', 'account'] as StudentHubKey[]).flatMap((key) => {
+                    const entry = hubEntry(key, hidden)
+                    return entry ? [{ id: key, href: entry.href, label: entry.label, icon: iconByName(entry.iconKey) ?? BookMarked, paths: hubPaths(key), exact: false }] : []
+                  })
+                ]
+                const on = activeEntry(pathname, items)
+                return items.map((item) => {
+                  const active = item.id === on
+                  return (
+                    <Link key={item.id} href={item.href} aria-current={active ? 'page' : undefined} className={cn('flex min-h-11 flex-col items-center justify-center gap-1 rounded-md text-[11px] font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring', active ? 'text-primary' : 'text-muted-foreground')}>
+                      <span className={cn('flex items-center justify-center', active && 'rounded-full bg-secondary px-3 py-0.5')}><item.icon className="size-5" /></span>
+                      {item.label}
+                    </Link>
+                  )
                 })
-              ].map((item) => {
-                // الأبواب الثلاثة: الباب نشط في كل تبويباته (الواجبات تحت «دوراتي»، الفروض تحت PLAY…)
-                const active = item.href === '/student' ? pathname === item.href : item.paths.some((h) => matches(h, false))
-                return (
-                  <Link key={item.href} href={item.href} aria-current={active ? 'page' : undefined} className={cn('flex min-h-11 flex-col items-center justify-center gap-1 rounded-md text-[11px] font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring', active ? 'text-primary' : 'text-muted-foreground')}>
-                    <span className={cn('flex items-center justify-center', active && 'rounded-full bg-secondary px-3 py-0.5')}><item.icon className="size-5" /></span>
-                    {item.label}
-                  </Link>
-                )
-              })}
+              })()}
             </div>
           </nav>
         ) : null}

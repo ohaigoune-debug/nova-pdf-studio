@@ -11,3 +11,11 @@ export const daysAr = (d: number): string => countAr(d, 'يومًا واحدًا
 
 /** مدة بالساعات تُكتب بالأيام إن كانت أيامًا كاملة، وإلا بالساعات */
 export const spanAr = (h: number): string => (h % 24 === 0 ? daysAr(h / 24) : hoursAr(h))
+
+/**
+ * العدد مع معدوده (21 نوفمبر 2026): forms = [المفرد، المثنى، الجمع، التمييز بعد العشرة]،
+ * مثل «حصة واحدة، حصتان، حصص، حصة» ← «حصة واحدة»، «حصتان»، «3 حصص»، «12 حصة».
+ */
+export function countArForms(n: number, forms: readonly [one: string, two: string, few: string, many: string]): string {
+  return countAr(n, ...forms)
+}

@@ -1,4 +1,6 @@
+import { redirect } from 'next/navigation'
 import { HubTabs } from '@/components/student/hub-tabs'
+import { FREE_LISTS_HIDDEN } from '@/lib/student-hubs'
 import { ArrowLeft, BookOpen, FileText, PlayCircle } from 'lucide-react'
 import Link from 'next/link'
 import { ScopePicker } from '@/components/academy/scope-picker'
@@ -27,6 +29,8 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
  * ?level= و?stream= القديمان يُتجاهلان؛ والخادم يمنع فتح درس خارج النطاق بتغيير الرابط.
  */
 export default async function StudentLessonsPage({ searchParams }: { searchParams: Promise<Q> }) {
+  // الدروس والملفات المجانية مخفية (قرار المالك 21 نوفمبر 2026): إلى «دوراتي»
+  if (FREE_LISTS_HIDDEN) redirect('/student/courses')
   const actor = await requirePageActor('STUDENT')
   const sp = await searchParams
   const db = await getDb()

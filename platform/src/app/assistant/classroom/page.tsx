@@ -24,7 +24,7 @@ export default async function AssistantClassroomPage({ searchParams }: { searchP
   const posts = await assistantStream(db, actor, current)
   return (
     <>
-      <PageHeader title="القسم الافتراضي" description="أجب عن أسئلة التلاميذ تحت منشورات الأستاذ، وأخفِ ما لا يليق. تصلك إشعارات بكل سؤال جديد." />
+      <PageHeader title="المنتدى" description="أجب عن أسئلة التلاميذ تحت منشورات الأستاذ، وأخفِ ما لا يليق. تصلك إشعارات بكل سؤال جديد." />
       <div className="mx-auto max-w-3xl space-y-4">
         <GroupTabs groups={groups} current={current} basePath="/assistant/classroom" allLabel="كل المنشورات" />
         <ClassStream posts={posts} role="ASSISTANT" />

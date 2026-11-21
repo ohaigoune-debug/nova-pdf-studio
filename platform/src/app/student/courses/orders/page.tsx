@@ -19,7 +19,7 @@ export default async function StudentOrdersPage() {
     <>
       {/* طلب جاء من صفحة هبوط: يُبلَّغ لبكسل الإعلانات (إن كان مضبوطًا) — رقم الطلب يمنع التكرار */}
       {conversions.length ? <AdPixels events={conversions} /> : null}
-      <HubTabs hub="courses" />
+      <HubTabs hub="shop" />
       <PageHeader title="طلباتي" description="حالة كل طلب لحظة بلحظة. يمكنك إلغاء الطلب ما دام لم يُسلَّم لشركة التوصيل." />
       <MyOrdersTracking orders={rows.map((o) => ({ ...o, createdAt: o.createdAt.toISOString(), timeline: o.timeline.map((t) => ({ ...t, at: t.at.toISOString() })) }))} />
     </>

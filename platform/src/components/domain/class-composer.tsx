@@ -9,25 +9,29 @@ import { createPostAction } from '@/server/actions/classroom.actions'
 
 type Opt = { id: string; name: string }
 
-/** كتابة منشور: في القسم العام (يراه كل التلاميذ ويعلّقون) أو في قسم فوج دورة، مع رابط أو ملف اختياريين */
+/**
+ * كتابة منشور في منتدى دورة (يراه تلاميذ فوجها وحدهم ويعلّقون)، مع رابط أو ملف اختياريين.
+ * «القسم العام» لم يعد يظهر للتلاميذ (قرار المالك 21 نوفمبر 2026)، فلا خيار له هنا.
+ */
 export function ClassComposer({ groups, files, defaultGroup }: { groups: Opt[]; files: Opt[]; defaultGroup: string | null }) {
   const [state, action] = useActionState(createPostAction, null)
   const ref = useRef<HTMLFormElement>(null)
+  const target = defaultGroup ?? groups[0]?.id ?? null
   useEffect(() => {
     if (state?.ok) {
       toast('success', 'نُشر المنشور')
       ref.current?.reset()
     }
   }, [state])
+  if (!target) return <p className="rounded-lg border bg-card p-4 text-sm text-muted-foreground">لا دورة لك بعد: يُفتح منتدى كل دورة حين تُربط بفوجها.</p>
   return (
     <form ref={ref} action={action} className="space-y-3 rounded-lg border bg-card p-4 shadow-soft">
       <Textarea name="body" rows={3} maxLength={5000} required placeholder="اكتب لتلاميذك: إعلان، سؤال للنقاش، تذكير بموعد…" />
       <div className="grid gap-2 sm:grid-cols-3">
-        <Select name="groupId" defaultValue={defaultGroup ?? 'public'} aria-label="أين يُنشر">
-          <option value="public">القسم العام — يراه كل التلاميذ</option>
+        <Select name="groupId" defaultValue={target} aria-label="أين يُنشر">
           {groups.map((g) => (
             <option key={g.id} value={g.id}>
-              قسم الدورة: {g.name}
+              منتدى: {g.name}
             </option>
           ))}
         </Select>

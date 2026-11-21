@@ -8,14 +8,14 @@ const item = (title: string, type = 'PDF', day = 1, id = title) => ({ id, title,
 describe('أبواب صفحة الدورة الخمسة', () => {
   it('خمسة أبواب بالترتيب الذي قرّره المالك', () => {
     expect(COURSE_DOOR_IDS).toEqual(['live', 'recorded', 'files', 'practice', 'classroom'])
-    expect(COURSE_DOOR_IDS.map((id) => COURSE_DOOR_LABELS_AR[id])).toEqual(['الحصص المباشرة', 'الحصص المسجلة', 'الملفات', 'تماريني ونتائجي', 'القسم الافتراضي'])
+    expect(COURSE_DOOR_IDS.map((id) => COURSE_DOOR_LABELS_AR[id])).toEqual(['الحصص المباشرة', 'الحصص المسجلة', 'الملفات', 'تمارين QCM', 'المنتدى'])
   })
 
   it('كل قسم محتوى له باب واحد، ولا يضيع قسم', () => {
     for (const id of COURSE_SECTION_IDS) expect(DOOR_OF_SECTION[id]).toBeDefined()
   })
 
-  it('الدروس والفيديوهات في «الحصص المسجلة»، والفروض والاختبارات في «تماريني ونتائجي»', () => {
+  it('الدروس والفيديوهات في «الحصص المسجلة»، والفروض والاختبارات في «تمارين QCM»', () => {
     const sections = buildCourseSections([
       item('الحصة 2 — الشعر الحر', 'LESSON', 2),
       item('الحصة 1 — مدخل', 'LESSON', 1),

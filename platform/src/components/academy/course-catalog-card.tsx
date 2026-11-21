@@ -1,6 +1,5 @@
 import { BookMarked, BookOpen, Clock, MonitorPlay } from 'lucide-react'
 import Link from 'next/link'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { formatDate } from '@/lib/utils'
@@ -16,60 +15,63 @@ const BOOK_DELIVERY_LINE: Record<CatalogCourse['shippingIncluded'], string> = {
 export const priceLabel = (dzd: number) => (dzd === 0 ? 'مجانية' : `${dzd.toLocaleString('ar-DZ')} دج`)
 
 /**
- * بطاقة دورة في الكتالوج: عرض فقط — الزر يقود إلى صفحة التعريف أو إلى الدورة إن كان الاشتراك سارياً.
- * offer: حين للدورة عرضان، لكلٍّ بطاقته المستقلة وصفحته (قرار المالك 2 نوفمبر 2026):
- *   book ⇒ «الدورة + الكتاب الورقي» بسعر الكتاب، وdigital ⇒ «النسخة الرقمية — دون كتاب» بسعرها، بالبطاقة.
+ * بطاقة دورة في «الكتب والدورات» (التصوّر المعتمد، 21 نوفمبر 2026): بطاقة واحدة لكل دورة، وفيها خياراها
+ * جنبًا إلى جنب — «رقمية» (تُفتح فور الدفع بالبطاقة) و«مع الكتاب» (الكتاب الورقي بالتوصيل) — كلٌّ بسعره وصفحته.
+ * المشترك يرى «دخول الدورة». عرض فقط: الطلب والدفع في صفحتي /order و/digital كما كانتا.
  */
-export function CourseCatalogCard({ c, offer }: { c: CatalogCourse; offer?: 'book' | 'digital' }) {
+export function CourseCatalogCard({ c, onlinePay }: { c: CatalogCourse; onlinePay: boolean }) {
   const active = c.enrollment === 'ACTIVE'
-  const digital = offer === 'digital'
-  const price = digital ? (c.digitalPriceDzd ?? c.priceDzd) : c.priceDzd
-  const href = offer && !active ? `${c.href}/${digital ? 'digital' : 'order'}` : c.href
+  const options = active
+    ? []
+    : [
+        ...(onlinePay && c.digitalPriceDzd !== null
+          ? [{ key: 'digital', icon: MonitorPlay, label: 'رقمية', price: c.digitalPriceDzd, hint: 'الحصص والملفات والتمارين على المنصة، تُفتح فور الدفع بالبطاقة.', href: `${c.href}/digital` }]
+          : []),
+        ...(c.bookOffer ? [{ key: 'book', icon: BookOpen, label: 'مع الكتاب', price: c.priceDzd, hint: `الدورة + الكتاب الورقي. ${BOOK_DELIVERY_LINE[c.shippingIncluded]}`, href: `${c.href}/order` }] : [])
+      ]
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden rounded-[20px]">
       {c.coverUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={c.coverUrl} alt="" className="aspect-square w-full bg-[#0F2544] object-contain" />
       ) : (
-        <div className="flex aspect-[16/7] w-full items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5 text-primary">
-          {digital ? <MonitorPlay className="size-10" /> : <BookMarked className="size-10" />}
+        <div className="flex aspect-square w-full flex-col items-center justify-center gap-3 border-b-[3px] border-[#C29B45] bg-gradient-to-br from-[#1C3A63] to-[#0F2544] p-6 text-center text-[#FFFDF7]">
+          <BookMarked className="size-10 text-[#E6CF95]" />
+          <span className="font-heading text-3xl font-bold leading-snug">{c.title}</span>
         </div>
       )}
-      {offer ? (
-        <div className={digital ? 'flex items-center gap-2 bg-secondary px-5 py-2 text-sm font-bold text-secondary-foreground' : 'flex items-center gap-2 bg-primary px-5 py-2 text-sm font-bold text-primary-foreground'}>
-          {digital ? <MonitorPlay className="size-4" /> : <BookOpen className="size-4" />}
-          {digital ? 'النسخة الرقمية — دون كتاب ورقي' : 'الدورة + الكتاب الورقي'}
-        </div>
-      ) : null}
-      <CardContent className="space-y-3 p-5">
-        <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
-            <h3 className="font-bold leading-snug">{c.title}</h3>
-            <p className="text-sm text-muted-foreground">
-              {c.teacherName} · {c.season}
-            </p>
-          </div>
-          <Badge variant={price === 0 ? 'success' : 'default'}>{priceLabel(price)}</Badge>
-        </div>
-        {c.description ? <p className="line-clamp-3 text-sm text-muted-foreground">{c.description}</p> : null}
-        <div className="flex flex-wrap gap-1.5 text-xs">
-          {c.levelName ? <Badge variant="muted">{c.levelName}</Badge> : null}
-          {c.subjectName ? <Badge variant="muted">{c.subjectName}</Badge> : null}
-          {c.streamNames.length ? c.streamNames.map((s) => <Badge key={s} variant="muted">{s}</Badge>) : <Badge variant="muted">كل الشعب</Badge>}
-        </div>
-        {offer && !active ? (
-          <p className="text-xs text-muted-foreground">
-            {digital ? 'الدفع بالبطاقة (CIB أو الذهبية) وتُفتح الدورة فورًا. لا يصلك كتاب.' : `${BOOK_DELIVERY_LINE[c.shippingIncluded]} الدفع عند الاستلام أو بالبطاقة.`}
+      <CardContent className="space-y-3 p-4 sm:p-5">
+        <div className="min-w-0">
+          <h3 className="font-bold leading-snug">{c.title}</h3>
+          <p className="text-sm text-muted-foreground">
+            {c.teacherName} · {c.season}
           </p>
-        ) : null}
-        {!offer && !active && c.bookOffer && c.shippingIncluded !== 'NONE' ? <p className="text-xs font-semibold text-success">{BOOK_DELIVERY_LINE[c.shippingIncluded]}</p> : null}
+        </div>
+        {c.description ? <p className="line-clamp-2 text-sm text-muted-foreground">{c.description}</p> : null}
         {c.accessEndsOn ? (
           <p className="inline-flex items-center gap-1 text-xs text-muted-foreground">
             <Clock className="size-3.5" /> الوصول حتى {formatDate(c.accessEndsOn)}
           </p>
         ) : null}
-        <Button asChild className="w-full" variant={active ? 'default' : offer ? 'default' : 'outline'}>
-          <Link href={href}>{active ? 'دخول الدورة' : digital ? 'اشترِ النسخة الرقمية' : offer ? 'اطلب الدورة مع الكتاب' : c.enrollment === 'EXPIRED' ? 'انتهى اشتراكك — التفاصيل' : 'التفاصيل وكيفية الاشتراك'}</Link>
+        {options.length ? (
+          <div className="grid grid-cols-2 gap-2.5">
+            {options.map((o) => (
+              <Link
+                key={o.key}
+                href={o.href}
+                className="flex flex-col gap-1 rounded-[14px] border-2 p-3 transition-colors hover:border-primary hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <span className="flex items-center gap-1.5 text-sm font-bold">
+                  <o.icon className="size-5 text-primary" /> {o.label}
+                </span>
+                <span className="text-base font-extrabold tabular-nums">{priceLabel(o.price)}</span>
+                <span className="text-[11.5px] leading-snug text-muted-foreground">{o.hint}</span>
+              </Link>
+            ))}
+          </div>
+        ) : null}
+        <Button asChild className="w-full" variant={active ? 'default' : 'outline'}>
+          <Link href={c.href}>{active ? 'دخول الدورة' : c.enrollment === 'EXPIRED' ? 'انتهى اشتراكك — التفاصيل' : options.length ? 'التفاصيل' : 'التفاصيل وكيفية الاشتراك'}</Link>
         </Button>
       </CardContent>
     </Card>

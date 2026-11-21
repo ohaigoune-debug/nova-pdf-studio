@@ -6,7 +6,7 @@ import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { navFor } from '@/components/layout/nav'
-import { STUDENT_HUBS, hubPaths, type StudentHubKey } from '@/lib/student-hubs'
+import { FREE_LISTS_HIDDEN, STUDENT_HUBS, STUDENT_MENU_ORDER, hubPaths, type StudentHubKey } from '@/lib/student-hubs'
 
 /** المسارات التي كانت مداخل مستقلة في القائمة قبل الدمج — يجب أن تبقى قابلة للوصول (روابط قديمة، إشعارات، التطبيق) */
 const LEGACY_ENTRIES = [
@@ -21,7 +21,7 @@ const LEGACY_ENTRIES = [
   '/student/grades',
   '/student/progress',
   '/student/files'
-  // /student/videos: مكتبة يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ الصفحة تحوّل إلى /student/lessons
+  // /student/videos: مكتبة يوتيوب العامة مخفية عن التلميذ (1 نوفمبر 2026)؛ الصفحة تحوّل إلى /student/courses
 ]
 
 /** روابط الإشعارات التي يولّدها الخادم للتلميذ (notifications.service وغيرها) */
@@ -44,15 +44,20 @@ describe('قائمة التلميذ بعد الدمج', () => {
     expect(new Set(labels).size).toBe(labels.length)
   })
 
-  it('قرار 2026-11-03: «اليوم» + ثلاثة أبواب فقط (دوراتي، PLAY، حسابي)', () => {
+  it('قرار 2026-11-21: ستة مداخل بلا عناوين فرعية، بهذا الترتيب', () => {
     expect(sections).toHaveLength(1)
     const main = sections[0]!
-    expect(main.items.map((i) => i.href)).toEqual(['/student', STUDENT_HUBS.courses.href, STUDENT_HUBS.train.href, STUDENT_HUBS.account.href])
-    expect(main.items.map((i) => i.label)).toEqual(['اليوم', 'دوراتي', 'PLAY', 'حسابي'])
-    for (const key of ['courses', 'train', 'account'] as StudentHubKey[]) {
+    expect(main.items.map((i) => i.label)).toEqual(['دوراتي', 'الكتب والدورات', 'تفعيل دورة', 'العب', 'الشكاوى والدعم', 'حسابي'])
+    expect(main.items.map((i) => i.href)).toEqual(['/student/courses', '/student/courses/catalog', '/student/code', '/student/play', '/student/support', '/student/profile'])
+    expect(main.items.every((i) => !i.children?.length)).toBe(true)
+    for (const key of STUDENT_MENU_ORDER) {
       const item = main.items.find((i) => i.href === STUDENT_HUBS[key].href)!
       expect(item.also).toEqual(hubPaths(key))
     }
+    // «اليوم» صار «الرئيسية» (من الشعار وشريط الهاتف)، والقسم العام والدروس المجانية ليست مداخل
+    expect(hrefs).not.toContain('/student')
+    expect(hrefs).not.toContain('/student/lessons')
+    expect(FREE_LISTS_HIDDEN).toBe(true)
   })
 
   it('لا صفحة في بابين، وكل تبويب له صفحة فعلية', () => {
@@ -83,10 +88,12 @@ describe('قائمة التلميذ بعد الدمج', () => {
     }
   })
 
-  it('كل باب يجمع ما يخصّه: الدراسة، التدرّب، الحساب', () => {
-    expect(STUDENT_HUBS.courses.tabs.map((t) => t.href)).toEqual(['/student/courses', '/student/code', '/student/assignments', '/student/lessons', '/student/classroom', '/student/files', '/student/courses/catalog', '/student/courses/orders'])
+  it('كل باب يجمع ما يخصّه', () => {
+    expect(STUDENT_HUBS.courses.tabs.map((t) => t.href)).toEqual(['/student/courses', '/student/assignments', '/student/classroom', '/student/lessons', '/student/files'])
+    expect(STUDENT_HUBS.shop.tabs.map((t) => t.href)).toEqual(['/student/courses/catalog', '/student/courses/orders'])
     expect(STUDENT_HUBS.train.tabs.map((t) => t.href)).toEqual(['/student/play', '/student/exams', '/bac', '/student/quizzes', '/student/practice'])
-    expect(STUDENT_HUBS.account.tabs.map((t) => t.href)).toEqual(['/student/profile', '/student/progress', '/student/grades', '/student/notifications', '/student/invite', '/student/invoices', '/student/support'])
+    expect(STUDENT_HUBS.account.tabs.map((t) => t.href)).toEqual(['/student/profile', '/student/progress', '/student/grades', '/student/notifications', '/student/invite', '/student/invoices'])
+    expect(STUDENT_HUBS.support.tabs.map((t) => t.href)).toEqual(['/student/support'])
   })
 
   it('روابط إشعارات الخادم تشير إلى صفحات قائمة', () => {
