@@ -11,6 +11,7 @@
  * الأفواج العادية (بلا دورة) لا تتأثر في النمطين.
  */
 import { and, eq, inArray, sql, type SQL } from 'drizzle-orm'
+import type { AnyPgColumn } from 'drizzle-orm/pg-core'
 import type { Db } from '@/server/db/connect'
 import { appSettings, groupStudents } from '@/server/db/schema'
 
@@ -68,4 +69,13 @@ export async function reachableGroupIds(db: Db, studentId: string, statuses: rea
     .from(groupStudents)
     .where(and(eq(groupStudents.studentId, studentId), inArray(groupStudents.status, [...statuses]), hasCourseAccessOn(groupStudents.groupId, studentId)))
   return rows.map((r) => r.groupId)
+}
+
+/**
+ * فوج ليس فوجًا خلفيًّا لدورة (قرار المالك 21 نوفمبر 2026): دروس الدورة وملفاتها تظهر داخل صفحة الدورة في «دوراتي» فقط،
+ * و«دروسي» و«الملفات» للمحتوى المجاني ولما وُجِّه للتلميذ من أفواجه العادية أو له شخصيًّا.
+ * لا يمسّ الصلاحيات: فتح درس الدورة من صفحتها يبقى بشرط الاشتراك نفسه.
+ */
+export function isNotCourseGroup(groupIdCol: SQL | AnyPgColumn): SQL {
+  return sql`not exists (select 1 from courses c where c.group_id = ${groupIdCol} and c.deleted_at is null)`
 }

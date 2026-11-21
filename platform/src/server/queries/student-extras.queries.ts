@@ -16,7 +16,7 @@ import {
 } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { studentIdOf } from '@/server/lib/actor'
-import { reachableGroupIds } from '@/server/lib/course-access'
+import { isNotCourseGroup, reachableGroupIds } from '@/server/lib/course-access'
 import type { ContentCard } from './content.queries'
 import { contentScopeClause, studentScope } from '@/server/services/student-scope.service'
 
@@ -33,7 +33,7 @@ export async function listStudentContent(db: Db, actor: Actor, opts: { types?: s
   const targeted = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)
-    .where(or(gids.length ? inArray(contentTargets.groupId, gids) : sql`false`, eq(contentTargets.studentId, studentId)))
+    .where(or(gids.length ? and(inArray(contentTargets.groupId, gids), isNotCourseGroup(contentTargets.groupId)) : sql`false`, eq(contentTargets.studentId, studentId)))
   return db
     .select({
       id: content.id,
@@ -101,7 +101,7 @@ export async function listStudentFiles(db: Db, actor: Actor) {
   const targeted = db
     .select({ id: contentTargets.contentId })
     .from(contentTargets)
-    .where(or(gids.length ? inArray(contentTargets.groupId, gids) : sql`false`, eq(contentTargets.studentId, studentId)))
+    .where(or(gids.length ? and(inArray(contentTargets.groupId, gids), isNotCourseGroup(contentTargets.groupId)) : sql`false`, eq(contentTargets.studentId, studentId)))
   return db
     .select({ id: content.id, slug: content.slug, title: content.title, type: content.type, publishedAt: content.publishedAt, fileId: files.id, fileName: files.originalName, size: files.sizeBytes, mime: files.mimeType, allowDownload: content.allowDownload })
     .from(content)
