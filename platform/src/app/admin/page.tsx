@@ -1,11 +1,11 @@
-import { Activity, AlertTriangle, CalendarCheck, Cpu, GraduationCap, HardDrive, ScrollText, Users, UsersRound } from 'lucide-react'
+import { Activity, AlertTriangle, CalendarCheck, Cpu, GraduationCap, HardDrive, ScrollText, UserPlus, Users, UsersRound } from 'lucide-react'
 import Link from 'next/link'
 import { AlgeriaMap } from '@/components/domain/algeria-map'
 import { RoleTiles, type RoleTile } from '@/components/domain/role-tiles'
 import { navFor } from '@/components/layout/nav'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { PageHeader, StatCard } from '@/components/ui/misc'
+import { StatCard } from '@/components/ui/misc'
 import { t } from '@/i18n'
 import { formatDateTime, percent } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
@@ -32,6 +32,7 @@ export default async function AdminHomePage() {
   const db = await getDb()
   const [s, storage, logs, map, queue] = await Promise.all([platformStats(db, actor), storageStats(db, actor), listAuditLogs(db, actor, 10), studentsPerWilaya(db), listConfirmationQueue(db, actor)])
   const awaiting = queue.filter((o) => o.status === 'PENDING').length
+  const dateLine = new Intl.DateTimeFormat('ar-DZ', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Africa/Algiers' }).format(new Date())
   const tiles: RoleTile[] = MAIN_TILES.map((tile) => (tile.href === '/admin/store/confirm' ? { ...tile, badge: awaiting } : tile))
   // بقية أوامر القائمة الجانبية (مداخل الأبواب الفرعية) روابط صغيرة تحت المربعات، من المصدر نفسه فلا تختلف عنه
   const mainHrefs = new Set(MAIN_TILES.map((x) => x.href))
@@ -47,15 +48,45 @@ export default async function AdminHomePage() {
   const topWilayas = map.filter((w) => w.students > 0).sort((a, b) => b.students - a.students).slice(0, 8)
   return (
     <div className="space-y-6">
-      <PageHeader
-        title={t('dashboard.adminTitle')}
-        description={t('dashboard.welcome', { name: actor.fullName })}
-        actions={
-          <Button asChild>
-            <Link href="/admin/teachers/new">{t('admin.newTeacher')}</Link>
+      {/* رأس فاخر بهوية مدرسة (طلب المالك 21 نوفمبر 2026): كحلي بزخرفة، ثلاثة أرقام اليوم، وزرّ ذهبي */}
+      <header className="brand-band brand-band--strong rounded-[24px] border-b-[3px] border-[#C29B45] px-5 py-6 text-[#FFFDF7] sm:px-8 sm:py-8">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="min-w-0">
+            <p className="band-eyebrow text-sm font-semibold">{dateLine}</p>
+            <h1 className="mt-1 font-heading text-[28px] font-bold leading-tight sm:text-4xl">{t('dashboard.adminTitle')}</h1>
+            <p className="mt-1 text-sm text-[#F5EEDF]/85">{t('dashboard.welcome', { name: actor.fullName })}</p>
+          </div>
+          <Button asChild className="border-0 bg-gradient-to-br from-[#F3DFA6] to-[#C29B45] font-bold text-[#0F2544] shadow-[0_8px_20px_-8px_rgba(194,155,69,.9)] hover:from-[#F7E7B9] hover:to-[#D1AA55]">
+            <Link href="/admin/teachers/new">
+              <UserPlus className="size-4" /> {t('admin.newTeacher')}
+            </Link>
           </Button>
-        }
-      />
+        </div>
+        <dl className="mt-5 grid grid-cols-3 gap-2 sm:max-w-xl sm:gap-3">
+          {[
+            { label: 'بانتظار التأكيد', value: awaiting, href: '/admin/store/confirm' },
+            { label: 'التلاميذ', value: s.students, href: '/admin/students' },
+            { label: 'نشِطون اليوم', value: s.activeUsersToday, href: null }
+          ].map((k) => {
+            const body = (
+              <>
+                <dd className="font-heading text-2xl font-bold tabular-nums text-white sm:text-3xl">{k.value.toLocaleString('en-US')}</dd>
+                <dt className="text-[11px] font-semibold text-[#E6CF95] sm:text-xs">{k.label}</dt>
+              </>
+            )
+            const cls = 'flex flex-col-reverse items-center gap-0.5 rounded-2xl border border-[#C29B45]/30 bg-[#0F2544]/45 px-2 py-2.5 text-center backdrop-blur-sm'
+            return k.href ? (
+              <Link key={k.label} href={k.href} className={cls + ' transition-colors hover:border-[#C29B45]/70 hover:bg-[#0F2544]/60'}>
+                {body}
+              </Link>
+            ) : (
+              <div key={k.label} className={cls}>
+                {body}
+              </div>
+            )
+          })}
+        </dl>
+      </header>
       <RoleTiles tiles={tiles} more={more} />
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label={t('dashboard.usersCount')} value={s.users} icon={Users} />
