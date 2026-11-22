@@ -1,0 +1,104 @@
+[
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "87C401A1-6137-4CF6-8AAC-E12E171B64D7",
+        "deviceName" : "iPhone SE (3rd generation)",
+        "exportedFileName" : "1881EC04-496D-4F28-A446-9FA88024DDE3.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "05c-lesson-practice-cards_0_4891E9EA-7D27-43DB-AD7B-BD3AD148AAC6.png",
+        "timestamp" : 1795374201.85
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "87C401A1-6137-4CF6-8AAC-E12E171B64D7",
+        "deviceName" : "iPhone SE (3rd generation)",
+        "exportedFileName" : "5DBFE1C0-49CA-41A2-95B4-DA0DEF0FA703.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "05b-lesson-practice_0_8F059A35-73EE-4A3B-B301-6BD8B12FE825.png",
+        "timestamp" : 1795374198.05
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "87C401A1-6137-4CF6-8AAC-E12E171B64D7",
+        "deviceName" : "iPhone SE (3rd generation)",
+        "exportedFileName" : "C619C21F-1050-459A-85E8-8AF78948C6BE.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "04b-course-practice-door_0_E7279FD9-43B1-4A2A-B424-37F4CD1ABF3C.png",
+        "timestamp" : 1795374195.501
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "87C401A1-6137-4CF6-8AAC-E12E171B64D7",
+        "deviceName" : "iPhone SE (3rd generation)",
+        "exportedFileName" : "239EF34A-E5EC-471A-BFF6-D7A32A6FEEE2.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "04a-course-doors_0_733A025E-A1F3-404F-AFBF-BE4A9AD443F8.png",
+        "timestamp" : 1795374191.659
+      }
+    ],
+    "testIdentifier" : "MadrasadzUITests/testCourseDoorsLiveAndPractice()",
+    "testIdentifierURL" : "test://com.apple.xcode/Madrasadz/MadrasadzUITests/MadrasadzUITests/testCourseDoorsLiveAndPractice"
+  },
+  {
+    "attachments" : [
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "87C401A1-6137-4CF6-8AAC-E12E171B64D7",
+        "deviceName" : "iPhone SE (3rd generation)",
+        "exportedFileName" : "47AE266F-59BD-443D-B650-16B9476C4F15.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "06-lesson-video_0_BEF0A140-D98E-4618-9C1F-A27AC712E84E.png",
+        "timestamp" : 1795374226.119
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "87C401A1-6137-4CF6-8AAC-E12E171B64D7",
+        "deviceName" : "iPhone SE (3rd generation)",
+        "exportedFileName" : "4EF1BBF0-164B-4102-B73F-E5AEDA04FEAF.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "05-lesson-text_0_6909182D-EBED-402E-BA43-CED0BD40A268.png",
+        "timestamp" : 1795374221.84
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "87C401A1-6137-4CF6-8AAC-E12E171B64D7",
+        "deviceName" : "iPhone SE (3rd generation)",
+        "exportedFileName" : "DF5B1C2F-4370-4B9F-A2B6-2988BD09C727.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "04c-course-recorded_0_03B270E4-B494-4602-B05B-897E5A89DEF9.png",
+        "timestamp" : 1795374219.68
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "87C401A1-6137-4CF6-8AAC-E12E171B64D7",
+        "deviceName" : "iPhone SE (3rd generation)",
+        "exportedFileName" : "C08E157B-7656-46E7-AEF7-5E5C04F2A637.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "04-course_0_33FA95AE-ED7D-4276-A539-2646120C969A.png",
+        "timestamp" : 1795374215.567
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "87C401A1-6137-4CF6-8AAC-E12E171B64D7",
+        "deviceName" : "iPhone SE (3rd generation)",
+        "exportedFileName" : "249FD25F-20CA-45A3-B7F2-9AE53341DF6C.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "03b-my-courses_0_D8CB0123-BA8C-471E-A7D9-31115B14EA60.png",
+        "timestamp" : 1795374211.841
+      },
+      {
+        "configurationName" : "Test Scheme Action",
+        "deviceId" : "87C401A1-6137-4CF6-8AAC-E12E171B64D7",
+        "deviceName" : "iPhone SE (3rd generation)",
+        "exportedFileName" : "F02ACEC0-77EE-452C-B4A3-E114C7796AE5.png",
+        "isAssociatedWithFailure" : false,
+        "suggestedHumanReadableName" : "03-home_0_9D32C380-6E5E-45A4-95B4-5541F01FD626.png",
+        "timestamp" : 1795374208.273
+      }
+    ],
+    "testIdentifier" : "MadrasadzUITests/testNativeCourseAndLesson()",
+    "testIdentifierURL" : "test://com.apple.xcode/Madrasadz/MadrasadzUITests/MadrasadzUITests/testNativeCourseAndLesson"
+  }
+]
