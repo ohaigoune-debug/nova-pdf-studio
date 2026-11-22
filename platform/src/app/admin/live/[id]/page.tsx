@@ -14,7 +14,10 @@ import { eq, inArray } from 'drizzle-orm'
 import { profiles, students } from '@/server/db/schema'
 import type { LiveSessionStatus } from '@/server/db/schema/enums'
 import { isAppError } from '@/server/lib/errors'
-import { LIVE_STATUS_AR, coursesForLiveForm, getLiveAdmin, joinWindow, liveAttendance, recordingCandidates } from '@/server/services/live.service'
+import { LIVE_STATUS_AR, coursesForLiveForm, getLiveAdmin, joinWindow, liveAttendance, liveEmbeddable, recordingCandidates } from '@/server/services/live.service'
+import { zoomOAuthStatus } from '@/server/services/zoom-oauth.service'
+import { Button } from '@/components/ui/button'
+import { Video } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -29,7 +32,9 @@ export default async function LiveDetailPage({ params }: { params: Promise<{ id:
     if (isAppError(e)) notFound()
     throw e
   }
-  const [courses, candidates, attendance] = await Promise.all([coursesForLiveForm(db, actor), recordingCandidates(db, actor, s.courseId), liveAttendance(db, actor, s.id)])
+  const [courses, candidates, attendance, zoom] = await Promise.all([coursesForLiveForm(db, actor), recordingCandidates(db, actor, s.courseId), liveAttendance(db, actor, s.id), zoomOAuthStatus(db)])
+  // «ابدأ الحصة من المنصة»: حصة Zoom لها رقم اجتماع، وحساب Zoom مربوط، وليست منتهية أو ملغاة
+  const canHost = zoom.connected && liveEmbeddable(s.provider, s.joinUrl, s.providerMeetingId) && s.status !== 'ENDED' && s.status !== 'CANCELLED'
   const names = attendance.length
     ? await db
         .select({ studentId: students.id, name: profiles.fullName })
@@ -55,7 +60,19 @@ export default async function LiveDetailPage({ params }: { params: Promise<{ id:
             <span className="text-xs">نافذة الانضمام: {formatDateTime(w.opensAt)} → {formatDateTime(w.closesAt)}</span>
           </span>
         }
-        actions={<LiveStatusButtons id={s.id} status={s.status} />}
+        actions={
+          <div className="flex flex-wrap gap-2">
+            {canHost ? (
+              <Button asChild size="sm">
+                {/* تنقّل كامل (لا Link): صفحة Zoom تحتاج خريطة الاستيراد من أول تحميل */}
+                <a href={`/live/${s.id}/host`}>
+                  <Video className="size-4" /> ابدأ الحصة من المنصة
+                </a>
+              </Button>
+            ) : null}
+            <LiveStatusButtons id={s.id} status={s.status} />
+          </div>
+        }
       />
       <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
         <Card>

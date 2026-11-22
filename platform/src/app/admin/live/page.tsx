@@ -9,6 +9,8 @@ import { cn, formatDateTime } from '@/lib/utils'
 import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { LIVE_PROVIDER_AR, LIVE_STATUS_AR, coursesForLiveForm, listLiveAdmin } from '@/server/services/live.service'
+import { zoomOAuthStatus } from '@/server/services/zoom-oauth.service'
+import { ZoomConnectCard } from '@/components/live/zoom-connect-card'
 import type { LiveProvider, LiveSessionStatus } from '@/server/db/schema/enums'
 
 export const dynamic = 'force-dynamic'
@@ -16,12 +18,12 @@ export const dynamic = 'force-dynamic'
 const STATUS_VARIANT: Record<string, 'secondary' | 'success' | 'warning' | 'muted' | 'destructive'> = { SCHEDULED: 'secondary', LIVE: 'destructive', ENDED: 'success', CANCELLED: 'muted' }
 
 /** إدارة الحصص المباشرة: قائمة (تصفية بالدورة) + إنشاء */
-export default async function AdminLivePage({ searchParams }: { searchParams: Promise<{ course?: string }> }) {
+export default async function AdminLivePage({ searchParams }: { searchParams: Promise<{ course?: string; zoom?: string }> }) {
   const actor = await requirePageActor('SUPER_ADMIN')
   const sp = await searchParams
   const courseId = sp.course && /^[0-9a-f-]{36}$/i.test(sp.course) ? sp.course : null
   const db = await getDb()
-  const [sessions, courses] = await Promise.all([listLiveAdmin(db, actor, { courseId }), coursesForLiveForm(db, actor)])
+  const [sessions, courses, zoom] = await Promise.all([listLiveAdmin(db, actor, { courseId }), coursesForLiveForm(db, actor), zoomOAuthStatus(db)])
   const now = Date.now()
   const upcoming = sessions.filter((s) => s.status === 'SCHEDULED' && s.startsAt.getTime() >= now).length
   const live = sessions.filter((s) => s.status === 'LIVE').length
@@ -38,6 +40,7 @@ export default async function AdminLivePage({ searchParams }: { searchParams: Pr
           </Button>
         }
       />
+      <ZoomConnectCard status={zoom} flash={sp.zoom ?? null} />
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label="على الهواء الآن" value={live} icon={Radio} tone={live ? 'destructive' : 'default'} />
         <StatCard label="قادمة" value={upcoming} icon={Radio} />
