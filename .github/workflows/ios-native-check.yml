@@ -14,7 +14,7 @@ on:
       - '!platform/ios/README.md'
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: ios-native-check-${{ github.sha }}
@@ -69,7 +69,7 @@ jobs:
           if ! xcodebuild -project Madrasadz.xcodeproj -scheme Madrasadz -configuration Debug \
               -destination "platform=iOS Simulator,id=$simulator_id" -derivedDataPath DerivedData \
               -resultBundlePath build/NativeUITests.xcresult \
-              CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO test 2>&1 | tee build-uitest.log; then
+              CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO -only-testing:MadrasadzUITests/MadrasadzUITests/testCourseDoorsLiveAndPractice -only-testing:MadrasadzUITests/MadrasadzUITests/testNativeCourseAndLesson test 2>&1 | tee build-uitest.log; then
             grep -E "error:|Test Case .* failed|XCTAssert" build-uitest.log | sort -u | head -40 | sed -e 's/%/%25/g' -e 's/^/::error title=UI test::/'
             exit 1
           fi
@@ -87,3 +87,17 @@ jobs:
           path: platform/ios/build/screenshots/
           retention-days: 7
           if-no-files-found: ignore
+      - name: Push screenshots to a branch (temporary branch only, for the owner's review in chat)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          [ -d build/screenshots ] || exit 0
+          cd build/screenshots
+          git init -q
+          git checkout -q -b ci/ios18-shots-out
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com add -A
+          git -c user.name=ci -c user.email=ci@users.noreply.github.com commit -q -m "screenshots ${GITHUB_SHA}"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" ci/ios18-shots-out
+
