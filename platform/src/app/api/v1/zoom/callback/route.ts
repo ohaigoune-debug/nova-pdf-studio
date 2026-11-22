@@ -1,8 +1,9 @@
 import { timingSafeEqual } from 'node:crypto'
-import { NextResponse, type NextRequest } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { getCurrentActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
+import { redirectPath } from '@/server/lib/relative-redirect'
 import { ZOOM_STATE_COOKIE, connectZoomWithCode } from '@/server/services/zoom-oauth.service'
 
 export const dynamic = 'force-dynamic'
@@ -17,12 +18,12 @@ function sameState(a: string | undefined, b: string | null): boolean {
 /** العودة من Zoom بعد الإذن: التحقق من الـstate والمشرف، ثم تبادل الرمز وحفظه مختومًا */
 export async function GET(req: NextRequest) {
   const back = (flag: string) => {
-    const res = NextResponse.redirect(new URL(`/admin/live?zoom=${flag}`, req.url))
+    const res = redirectPath(`/admin/live?zoom=${flag}`)
     res.cookies.set(ZOOM_STATE_COOKIE, '', { maxAge: 0, path: '/api/v1/zoom' })
     return res
   }
   const actor = await getCurrentActor()
-  if (!actor || actor.role !== 'SUPER_ADMIN') return NextResponse.redirect(new URL('/login', req.url))
+  if (!actor || actor.role !== 'SUPER_ADMIN') return redirectPath('/login')
   const sp = req.nextUrl.searchParams
   if (!sameState(req.cookies.get(ZOOM_STATE_COOKIE)?.value, sp.get('state'))) return back('state')
   const code = sp.get('code')

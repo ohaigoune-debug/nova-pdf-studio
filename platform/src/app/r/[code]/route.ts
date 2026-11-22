@@ -1,5 +1,6 @@
-import { NextResponse, type NextRequest } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { REF_COOKIE, REF_COOKIE_DAYS } from '@/lib/referral'
+import { redirectPath } from '@/server/lib/relative-redirect'
 import { safeNextPath } from '@/server/lib/safe-next'
 import { normalizePromoCode } from '@/server/services/referrals.service'
 
@@ -12,8 +13,8 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ code: strin
   const { code: raw } = await ctx.params
   const code = normalizePromoCode(decodeURIComponent(raw))
   const to = safeNextPath(req.nextUrl.searchParams.get('to'))
-  const target = new URL(to ?? (code ? `/register?ref=${code}` : '/register'), req.url)
-  const res = NextResponse.redirect(target)
+  // مسار نسبي: req.url خلف الوكيل يحمل العنوان الداخلي (0.0.0.0:3000)
+  const res = redirectPath(to ?? (code ? `/register?ref=${encodeURIComponent(code)}` : '/register'))
   if (code) res.cookies.set(REF_COOKIE, code, { maxAge: REF_COOKIE_DAYS * 86_400, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/', httpOnly: true })
   return res
 }
