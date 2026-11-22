@@ -16,7 +16,7 @@ import { AppError, assertUuid } from '@/server/lib/errors'
 import { seal, unseal } from '@/server/lib/secret-box'
 import { zoomMeetingNumber, zoomSdkKeys, zoomSdkSignature } from '@/server/lib/zoom-sdk'
 import { notifyMany } from './notifications.service'
-import { zoomHostZak } from './zoom-oauth.service'
+import { createZoomMeeting, deleteZoomMeeting, updateZoomMeeting, zoomHostZak } from './zoom-oauth.service'
 
 const PURPOSE = 'live'
 export const JOIN_OPENS_BEFORE_MS = 15 * 60_000
@@ -40,7 +40,11 @@ export interface LiveSessionInput {
   providerMeetingId?: string | null
   /** رمز اجتماع Zoom (Passcode) لدخول الحصة داخل المنصة؛ يُحفظ مشفّرًا. undefined = لا تغيير */
   meetingPasscode?: string | null
+  /** إنشاء: تُنشئ المنصة اجتماع Zoom في الحساب المربوط (لا رابط ولا رمز يُلصق) */
+  autoZoom?: boolean
 }
+
+type ZoomOpts = { fetchImpl?: typeof fetch }
 
 export type LiveSessionView = Omit<typeof liveSessions.$inferSelect, 'joinUrlSealed' | 'meetingPasscodeSealed'> & { hasJoinUrl: boolean; hasPasscode: boolean; courseTitle: string }
 
@@ -91,7 +95,7 @@ function validateUrl(url: string | null | undefined): string | null {
   return u.toString()
 }
 
-export async function createLiveSession(db: Db, actor: Actor, input: LiveSessionInput): Promise<LiveSessionView> {
+export async function createLiveSession(db: Db, actor: Actor, input: LiveSessionInput, opts: ZoomOpts = {}): Promise<LiveSessionView> {
   const course = await assertCourseAccess(db, actor, input.courseId)
   const title = input.title.trim()
   if (!title) throw new AppError('VALIDATION', { field: 'title' })
@@ -99,29 +103,48 @@ export async function createLiveSession(db: Db, actor: Actor, input: LiveSession
   const duration = Math.max(10, Math.min(600, Math.floor(input.durationMinutes ?? 90)))
   const provider = input.provider ?? 'ZOOM'
   if (!LIVE_PROVIDERS.includes(provider)) throw new AppError('VALIDATION', { field: 'provider' })
-  const url = validateUrl(input.joinUrl)
-  return db.transaction(async (tx) => {
-    const [row] = await tx
-      .insert(liveSessions)
-      .values({
-        courseId: course.id,
-        title,
-        description: input.description?.trim() || null,
-        startsAt: input.startsAt,
-        durationMinutes: duration,
-        provider,
-        joinUrlSealed: url ? seal(url, PURPOSE) : null,
-        providerMeetingId: input.providerMeetingId?.trim() || null,
-        meetingPasscodeSealed: sealPasscode(input.meetingPasscode)
-      })
-      .returning()
-    if (!row) throw new AppError('INTERNAL')
-    await writeAudit(tx, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'live.create', entityType: 'live_session', entityId: row.id, newValue: { courseId: course.id, title, startsAt: input.startsAt.toISOString(), provider } })
-    return strip(row, course.title)
-  })
+  let url = validateUrl(input.joinUrl)
+  let providerMeetingId = input.providerMeetingId?.trim() || null
+  let passcode = input.meetingPasscode
+  let zoomAuto = false
+  // اجتماع Zoom تُنشئه المنصة نفسها (22 نوفمبر 2026): قبل الحفظ، ويُحذف إن فشل الحفظ
+  if (input.autoZoom && provider === 'ZOOM' && !url) {
+    const m = await createZoomMeeting(db, { topic: `${course.title} — ${title}`, startsAt: input.startsAt, durationMinutes: duration }, opts)
+    url = validateUrl(m.joinUrl)
+    providerMeetingId = m.meetingId
+    passcode = m.passcode || null
+    zoomAuto = true
+  }
+  const insertSession = () =>
+    db.transaction(async (tx) => {
+      const [row] = await tx
+        .insert(liveSessions)
+        .values({
+          courseId: course.id,
+          title,
+          description: input.description?.trim() || null,
+          startsAt: input.startsAt,
+          durationMinutes: duration,
+          provider,
+          joinUrlSealed: url ? seal(url, PURPOSE) : null,
+          providerMeetingId,
+          meetingPasscodeSealed: sealPasscode(passcode),
+          zoomAuto
+        })
+        .returning()
+      if (!row) throw new AppError('INTERNAL')
+      await writeAudit(tx, { actorUserId: actor.userId, workspaceId: course.workspaceId, action: 'live.create', entityType: 'live_session', entityId: row.id, newValue: { courseId: course.id, title, startsAt: input.startsAt.toISOString(), provider, zoomAuto } })
+      return strip(row, course.title)
+    })
+  try {
+    return await insertSession()
+  } catch (e) {
+    if (zoomAuto && providerMeetingId) await deleteZoomMeeting(db, providerMeetingId, opts).catch(() => undefined)
+    throw e
+  }
 }
 
-export async function updateLiveSession(db: Db, actor: Actor, id: string, input: Partial<LiveSessionInput>): Promise<LiveSessionView> {
+export async function updateLiveSession(db: Db, actor: Actor, id: string, input: Partial<LiveSessionInput>, opts: ZoomOpts = {}): Promise<LiveSessionView> {
   const { s, courseTitle, workspaceId } = await loadSession(db, id)
   await assertCourseAccess(db, actor, s.courseId)
   const patch: Partial<typeof liveSessions.$inferInsert> = { updatedAt: new Date() }
@@ -149,20 +172,31 @@ export async function updateLiveSession(db: Db, actor: Actor, id: string, input:
   if (input.joinUrl !== undefined) {
     const url = validateUrl(input.joinUrl)
     patch.joinUrlSealed = url ? seal(url, PURPOSE) : null
+    // رابط ملصوق يدويًا مكان اجتماع المنصة: لم تعد المنصة تدير الاجتماع
+    if (s.zoomAuto) patch.zoomAuto = false
   }
   if (input.providerMeetingId !== undefined) patch.providerMeetingId = input.providerMeetingId?.trim() || null
   if (input.meetingPasscode !== undefined) patch.meetingPasscodeSealed = sealPasscode(input.meetingPasscode)
-  return db.transaction(async (tx) => {
+  const view = await db.transaction(async (tx) => {
     const [row] = await tx.update(liveSessions).set(patch).where(eq(liveSessions.id, s.id)).returning()
     if (!row) throw new AppError('INTERNAL')
-    const { joinUrlSealed: _omit, ...safePatch } = patch
+    const { joinUrlSealed: _omit, meetingPasscodeSealed: _omit2, ...safePatch } = patch
     void _omit
-    await writeAudit(tx, { actorUserId: actor.userId, workspaceId, action: 'live.update', entityType: 'live_session', entityId: s.id, oldValue: { title: s.title, startsAt: s.startsAt.toISOString() }, newValue: { ...safePatch, joinUrlChanged: input.joinUrl !== undefined } as Record<string, unknown> })
+    void _omit2
+    await writeAudit(tx, { actorUserId: actor.userId, workspaceId, action: 'live.update', entityType: 'live_session', entityId: s.id, oldValue: { title: s.title, startsAt: s.startsAt.toISOString() }, newValue: { ...safePatch, joinUrlChanged: input.joinUrl !== undefined, passcodeChanged: input.meetingPasscode !== undefined } as Record<string, unknown> })
     return strip(row, courseTitle)
   })
+  // اجتماع أنشأته المنصة: العنوان والموعد والمدة تُحدَّث في Zoom أيضًا (أفضل جهد: Zoom يسمح ببدء الاجتماع في أي وقت)
+  const changed = view.title !== s.title || view.startsAt.getTime() !== s.startsAt.getTime() || view.durationMinutes !== s.durationMinutes
+  if (view.zoomAuto && view.providerMeetingId && changed) {
+    await updateZoomMeeting(db, view.providerMeetingId, { topic: `${courseTitle} — ${view.title}`, startsAt: view.startsAt, durationMinutes: view.durationMinutes }, opts).catch((e) => {
+      if (process.env.NODE_ENV !== 'test') console.error('[live] zoom update failed', e instanceof Error ? e.message : e)
+    })
+  }
+  return view
 }
 
-export async function setLiveStatus(db: Db, actor: Actor, id: string, status: LiveSessionStatus): Promise<LiveSessionView> {
+export async function setLiveStatus(db: Db, actor: Actor, id: string, status: LiveSessionStatus, opts: ZoomOpts = {}): Promise<LiveSessionView> {
   if (!LIVE_SESSION_STATUSES.includes(status)) throw new AppError('VALIDATION', { field: 'status' })
   const { s, courseTitle, workspaceId } = await loadSession(db, id)
   await assertCourseAccess(db, actor, s.courseId)
@@ -171,6 +205,14 @@ export async function setLiveStatus(db: Db, actor: Actor, id: string, status: Li
     if (!row) throw new AppError('INTERNAL')
     await writeAudit(tx, { actorUserId: actor.userId, workspaceId, action: 'live.status', entityType: 'live_session', entityId: s.id, oldValue: { status: s.status }, newValue: { status } })
     return strip(row, courseTitle)
+  }).then(async (view) => {
+    // إلغاء حصة أنشأت المنصة اجتماعها ⇒ حذفه من Zoom (أفضل جهد)
+    if (status === 'CANCELLED' && s.status !== 'CANCELLED' && s.zoomAuto && s.providerMeetingId) {
+      await deleteZoomMeeting(db, s.providerMeetingId, opts).catch((e) => {
+        if (process.env.NODE_ENV !== 'test') console.error('[live] zoom delete failed', e instanceof Error ? e.message : e)
+      })
+    }
+    return view
   })
 }
 

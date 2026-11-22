@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatDateTime } from '@/lib/utils'
-import type { ZoomOAuthStatus } from '@/server/services/zoom-oauth.service'
+import { ZOOM_MEETING_SCOPES, type ZoomOAuthStatus } from '@/server/services/zoom-oauth.service'
 import { ZoomDisconnectButton } from './zoom-disconnect-button'
 
 const FLASH: Record<string, { ok: boolean; text: string }> = {
@@ -47,6 +47,21 @@ export function ZoomConnectCard({ status, flash }: { status: ZoomOAuthStatus; fl
             <Badge variant="muted">بعد إضافة المفتاحين</Badge>
           )}
         </div>
+        {status.connected ? (
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span>إنشاء اجتماعات Zoom من المنصة (دون فتح Zoom)</span>
+            {status.canCreateMeetings ? <Badge variant="success">مفعّل</Badge> : <Badge variant="warning">يحتاج صلاحيات الاجتماعات</Badge>}
+          </div>
+        ) : null}
+        {status.connected && !status.canCreateMeetings ? (
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            في تطبيقك على marketplace.zoom.us ← Scopes ← Add Scopes ← Meeting، أضف:{' '}
+            <code dir="ltr" className="rounded bg-muted px-1 font-mono">
+              {ZOOM_MEETING_SCOPES.join(' · ')}
+            </code>{' '}
+            ثم اضغط «فصل» هنا و«ربط حساب Zoom» من جديد.
+          </p>
+        ) : null}
         {!status.connected && status.configured ? (
           <p className="text-xs leading-relaxed text-muted-foreground">
             قبل الربط أضف رابط العودة هذا في تطبيقك على marketplace.zoom.us (Redirect URL و Allow List):{' '}

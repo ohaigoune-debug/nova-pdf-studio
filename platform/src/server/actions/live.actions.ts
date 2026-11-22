@@ -22,7 +22,9 @@ const sessionSchema = z.object({
   provider: z.enum(LIVE_PROVIDERS).default('ZOOM'),
   joinUrl: z.string().trim().url('رابط غير صحيح').optional().or(z.literal('')),
   providerMeetingId: z.string().trim().max(100).optional(),
-  meetingPasscode: z.string().trim().max(40).optional()
+  meetingPasscode: z.string().trim().max(40).optional(),
+  /** إنشاء: «أنشئ اجتماع Zoom تلقائيًا» */
+  autoZoom: z.literal('on').optional()
 })
 
 function revalidate() {
@@ -36,7 +38,8 @@ export async function createLiveSessionAction(_prev: ActionResult<{ id: string }
   const d = parsed.data
   const r = await runAction(async () => {
     const actor = await requireRole('SUPER_ADMIN', 'TEACHER')
-    const s = await createLiveSession(await getDb(), actor, { ...d, startsAt: parseDzDateTime(d.startsAt), joinUrl: d.joinUrl || null, description: d.description || null, providerMeetingId: d.providerMeetingId || null, meetingPasscode: d.meetingPasscode || null })
+    const { autoZoom, ...rest } = d
+    const s = await createLiveSession(await getDb(), actor, { ...rest, startsAt: parseDzDateTime(d.startsAt), joinUrl: d.joinUrl || null, description: d.description || null, providerMeetingId: d.providerMeetingId || null, meetingPasscode: d.meetingPasscode || null, autoZoom: autoZoom === 'on' })
     return { id: s.id }
   })
   if (r.ok) revalidate()
