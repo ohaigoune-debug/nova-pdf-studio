@@ -7,6 +7,8 @@
  *     الصلاحية نفسها كبدء جولة في الموقع (beginPlayAccess: الاشتراك أو التجربة).
  *  3. syncCardRound: الجولة المنجزة تُرفع، فتُنشأ لها جلسة LESSON_MASTERY وتُسجَّل كل أجوبتها في معاملة واحدة (submitPlayAnswers)
  *     نفسها — الخادم يعيد التصحيح بمفاتيحه، ويحسب XP والإتقان والذاكرة والشارات كما في الموقع تمامًا.
+ *  4. تمرين تحت درس الدورة (practiceLinkId، 22 نوفمبر 2026): الدرس الذي اختاره المشرف بعينه، باشتراك الدورة
+ *     بدل تجربة PLAY، ولكل شعب الدورة (لا تصفية بسنة التلميذ ولا شعبته)، كجولة الموقع تمامًا.
  */
 import { and, asc, eq, inArray } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
@@ -17,6 +19,7 @@ import { CHALLENGE_SIZES, PLAY_SUBJECTS } from '@/server/play/constants'
 import { correctAnswerText, hashToSeed } from '@/server/play/engine'
 import type { PlayAnswerKey, PlayPublicPayload, PlayStudentAnswer } from '@/server/play/question-types'
 import { beginPlayAccess } from './play-access.service'
+import { practiceLinkForStudent } from './practice-access'
 import { getPlayProfile, getPlayRules, levelFor, listLessonsFor, questionStreamFilter, servableFilter, streamFilter, submitPlayAnswers } from './play.service'
 
 /** أقصى عدد أسئلة في حزمة درس، وفي جولة مرفوعة */
@@ -62,29 +65,38 @@ export interface CardQuestion {
 }
 
 /** حزمة الدرس كاملة للتخزين في الهاتف. المفاتيح تصل إلى الجهاز عمدًا: الخادم يعيد التصحيح عند الرفع. */
-export async function lessonPack(db: Db, actor: Actor, lessonId: string, now: Date = new Date()) {
+/** رابط تمرين الدورة لهذا الدرس بعينه، لمشترك نشط؛ وإلا LESSON_PRACTICE_NOT_ALLOWED */
+async function practiceLessonLink(db: Db, actor: Actor, linkId: string, lessonId: string) {
+  const link = await practiceLinkForStudent(db, studentIdOf(actor), linkId)
+  if (link.kind !== 'LESSON' || link.playLessonId !== lessonId) throw new AppError('LESSON_PRACTICE_NOT_ALLOWED')
+  return link
+}
+
+export async function lessonPack(db: Db, actor: Actor, lessonId: string, now: Date = new Date(), opts: { practiceLinkId?: string | null } = {}) {
   assertUuid(lessonId, 'PLAY_LESSON_NOT_FOUND')
-  const profile = await profileOrThrow(db, actor)
+  const practice = opts.practiceLinkId ? await practiceLessonLink(db, actor, opts.practiceLinkId, lessonId) : null
+  const profile = practice ? await getPlayProfile(db, actor) : await profileOrThrow(db, actor)
   const [lesson] = await db
-    .select({ id: playLessons.id, subjectCode: playLessons.subjectCode, unitCode: playLessons.unitCode, unitName: playLessons.unitName, lessonName: playLessons.lessonName, objective: playLessons.objective })
+    .select({ id: playLessons.id, gradeCode: playLessons.gradeCode, subjectCode: playLessons.subjectCode, unitCode: playLessons.unitCode, unitName: playLessons.unitName, lessonName: playLessons.lessonName, objective: playLessons.objective })
     .from(playLessons)
-    .where(and(eq(playLessons.id, lessonId), eq(playLessons.gradeCode, profile.gradeCode!), eq(playLessons.isActive, true), streamFilter(profile.streamCode)))
+    .where(and(eq(playLessons.id, lessonId), eq(playLessons.isActive, true), ...(practice ? [] : [eq(playLessons.gradeCode, profile.gradeCode!), streamFilter(profile.streamCode)])))
     .limit(1)
   if (!lesson) throw new AppError('PLAY_LESSON_NOT_FOUND')
   const rules = await getPlayRules(db)
   const rows = await db
     .select({ id: playQuestions.id, type: playQuestions.type, difficulty: playQuestions.difficulty, language: playQuestions.language, questionText: playQuestions.questionText, payload: playQuestions.payload, answerKey: playQuestions.answerKey, explanation: playQuestions.explanation })
     .from(playQuestions)
-    .where(and(eq(playQuestions.lessonId, lesson.id), servableFilter(rules), questionStreamFilter(profile.streamCode)))
+    .where(and(eq(playQuestions.lessonId, lesson.id), servableFilter(rules), ...(practice ? [] : [questionStreamFilter(profile.streamCode)])))
     .orderBy(asc(playQuestions.key))
     .limit(CARD_PACK_MAX)
   if (rows.length === 0) throw new AppError('PLAY_NO_QUESTIONS')
-  // نفس صلاحية بدء جولة في الموقع: المشترك يمرّ، وإلا تبدأ التجربة مرة واحدة، والمنتهية تُرفض
-  await beginPlayAccess(db, actor, { gradeCode: profile.gradeCode!, streamCode: profile.streamCode, subjectCode: lesson.subjectCode }, now)
+  // نفس صلاحية بدء جولة في الموقع: المشترك يمرّ، وإلا تبدأ التجربة مرة واحدة، والمنتهية تُرفض — وتمرين الدورة باشتراكها
+  if (!practice) await beginPlayAccess(db, actor, { gradeCode: profile.gradeCode!, streamCode: profile.streamCode, subjectCode: lesson.subjectCode }, now)
   const questions: CardQuestion[] = rows.map((q) => ({ ...q, correctText: correctAnswerText(q.payload, q.answerKey) }))
   const language = PLAY_SUBJECTS.find((s) => s.code === lesson.subjectCode)?.language ?? 'ar'
+  const { gradeCode: _grade, ...publicLesson } = lesson
   return {
-    lesson: { ...lesson, language },
+    lesson: { ...publicLesson, language },
     // بصمة المحتوى: تتغيّر إن عُدّلت أسئلة الدرس، فيحدّث التطبيق نسخته
     checksum: String(hashToSeed(...rows.map((q) => q.id + ':' + q.questionText.length + ':' + q.explanation.length))),
     roundSize: CHALLENGE_SIZES.LESSON_MASTERY,
@@ -93,18 +105,15 @@ export async function lessonPack(db: Db, actor: Actor, lessonId: string, now: Da
   }
 }
 
-/**
- * جولة بطاقات أُنجزت في التطبيق (ربما دون إنترنت): جلسة LESSON_MASTERY بأسئلة الجولة، ثم كل جواب عبر submitPlayAnswer
- * — الطريق نفسه للموقع، فلا يُحتسب إلا تصحيح الخادم. سؤال حُذف أو لم يعد صالحًا يُتجاهل، ولا يُفشل الجولة.
- */
-export async function syncCardRound(db: Db, actor: Actor, input: { lessonId: string; answers: { questionId: string; answer: PlayStudentAnswer; timeMs: number | null }[] }, now: Date = new Date()) {
+export async function syncCardRound(db: Db, actor: Actor, input: { lessonId: string; practiceLinkId?: string | null; answers: { questionId: string; answer: PlayStudentAnswer; timeMs: number | null }[] }, now: Date = new Date()) {
   assertUuid(input.lessonId, 'PLAY_LESSON_NOT_FOUND')
-  const profile = await profileOrThrow(db, actor)
+  const practice = input.practiceLinkId ? await practiceLessonLink(db, actor, input.practiceLinkId, input.lessonId) : null
+  const profile = practice ? await getPlayProfile(db, actor) : await profileOrThrow(db, actor)
   const studentId = studentIdOf(actor)
   const [lesson] = await db
-    .select({ id: playLessons.id, subjectCode: playLessons.subjectCode, unitCode: playLessons.unitCode })
+    .select({ id: playLessons.id, gradeCode: playLessons.gradeCode, subjectCode: playLessons.subjectCode, unitCode: playLessons.unitCode })
     .from(playLessons)
-    .where(and(eq(playLessons.id, input.lessonId), eq(playLessons.gradeCode, profile.gradeCode!), streamFilter(profile.streamCode)))
+    .where(and(eq(playLessons.id, input.lessonId), ...(practice ? [] : [eq(playLessons.gradeCode, profile.gradeCode!), streamFilter(profile.streamCode)])))
     .limit(1)
   if (!lesson) throw new AppError('PLAY_LESSON_NOT_FOUND')
   const wanted = [...new Map(input.answers.slice(0, CARD_ROUND_MAX).map((a) => [a.questionId, a])).values()].filter((a) => /^[0-9a-f-]{36}$/i.test(a.questionId))
@@ -115,7 +124,7 @@ export async function syncCardRound(db: Db, actor: Actor, input: { lessonId: str
       await db
         .select({ id: playQuestions.id })
         .from(playQuestions)
-        .where(and(inArray(playQuestions.id, wanted.map((a) => a.questionId)), eq(playQuestions.lessonId, lesson.id), servableFilter(rules), questionStreamFilter(profile.streamCode)))
+        .where(and(inArray(playQuestions.id, wanted.map((a) => a.questionId)), eq(playQuestions.lessonId, lesson.id), servableFilter(rules), ...(practice ? [] : [questionStreamFilter(profile.streamCode)])))
     ).map((r) => r.id)
   )
   const answers = wanted.filter((a) => valid.has(a.questionId))
@@ -124,7 +133,7 @@ export async function syncCardRound(db: Db, actor: Actor, input: { lessonId: str
     .insert(playSessions)
     .values({
       studentId,
-      gradeCode: profile.gradeCode!,
+      gradeCode: practice ? lesson.gradeCode : profile.gradeCode!,
       streamCode: profile.streamCode,
       subjectCode: lesson.subjectCode,
       unitCode: lesson.unitCode,
@@ -134,7 +143,8 @@ export async function syncCardRound(db: Db, actor: Actor, input: { lessonId: str
       questionIds: answers.map((a) => a.questionId),
       seed: hashToSeed(studentId, String(now.getTime()), 'ios-cards'),
       startedAt: now,
-      expiresAt: null
+      expiresAt: null,
+      practiceLinkId: practice?.id ?? null
     })
     .returning({ id: playSessions.id })
   if (!session) throw new AppError('INTERNAL')

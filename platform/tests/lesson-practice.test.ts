@@ -5,7 +5,7 @@
 import { eq } from 'drizzle-orm'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
-import { courseEnrollments, playAccessTrials, playExamSets, playLessons } from '@/server/db/schema'
+import { content, courseEnrollments, courses, playAccessTrials, playExamAttempts, playExamSets, playLessons, playSessions } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { readExamSetFile, validateExamSet } from '@/server/play/exams/engine'
@@ -25,7 +25,9 @@ import {
   searchPracticeBank,
   startLessonPractice
 } from '@/server/services/lesson-practice.service'
-import { getExamAttemptView } from '@/server/services/play-exams.service'
+import { iosApiCourse, iosApiLesson } from '@/server/services/ios-api.service'
+import { lessonPack, syncCardRound } from '@/server/services/play-cards.service'
+import { getExamAttemptView, offlineExamPackage, syncOfflineAttempt } from '@/server/services/play-exams.service'
 import { getSessionView, startPlaySession, submitPlayAnswer } from '@/server/services/play.service'
 import { makeAdmin, makeStudent, makeTeacher, setupDb, workspaceIdOfTeacher } from './helpers'
 
@@ -164,6 +166,44 @@ describe('التلميذ تحت الدرس', () => {
     const view = await getExamAttemptView(h.db, student, attemptId)
     expect(view.practiceLinkId).toBe(items[1]!.linkId)
     expect(await isOwnPracticeRunPath(h.db, student, `/student/play/exam/${attemptId}/result`)).toBe(true)
+  })
+
+  it('آيفون: الدرس يحمل تمارينه بمعرّفاتها، والدورة تعدّها تحت الدرس', async () => {
+    const [c] = await h.db.select({ slug: courses.slug }).from(courses).where(eq(courses.id, courseId))
+    const [l] = await h.db.select({ slug: content.slug }).from(content).where(eq(content.id, lessonId))
+    const course = await iosApiCourse(h.db, student, c!.slug)
+    if (course.needsTerms) throw new Error('شروط غير متوقعة')
+    const item = course.sections.flatMap((x) => x.items).find((i) => i.slug === l!.slug)
+    expect(item?.practiceCount).toBe(2)
+    const lesson = await iosApiLesson(h.db, student, l!.slug)
+    expect(lesson.practice.map((p) => [p.kind, p.refId])).toEqual([
+      ['LESSON', playLessonId],
+      ['EXAM_SET', examSetId]
+    ])
+  })
+
+  it('آيفون: حزمة البطاقات والموضوع باشتراك الدورة، والجولة المرفوعة مربوطة بالتمرين', async () => {
+    const items = (await lessonPracticeForStudent(h.db, student, lessonId))!
+    const [lessonLink, setLink] = [items[0]!.linkId, items[1]!.linkId]
+    const pack = await lessonPack(h.db, student, playLessonId, new Date(), { practiceLinkId: lessonLink })
+    expect(pack.questions.length).toBe(14)
+    // رابط موضوع لا يفتح حزمة درس، وغير المشترك لا يفتح شيئًا
+    await expectCode(() => lessonPack(h.db, student, playLessonId, new Date(), { practiceLinkId: setLink }), 'LESSON_PRACTICE_NOT_ALLOWED')
+    await expectCode(() => lessonPack(h.db, outsider, playLessonId, new Date(), { practiceLinkId: lessonLink }), 'LESSON_PRACTICE_NOT_ALLOWED')
+    const q = pack.questions[0]!
+    const key = q.payload.type === 'MCQ' ? q.payload.options[0]!.key : ''
+    const round = await syncCardRound(h.db, student, { lessonId: playLessonId, practiceLinkId: lessonLink, answers: [{ questionId: q.id, answer: { type: 'MCQ', key }, timeMs: 800 }] })
+    const [session] = await h.db.select({ link: playSessions.practiceLinkId }).from(playSessions).where(eq(playSessions.id, round.sessionId!))
+    expect(session?.link).toBe(lessonLink)
+    const pkg = await offlineExamPackage(h.db, student, examSetId, new Date(), { practiceLinkId: setLink })
+    expect(pkg.steps.length).toBeGreaterThan(0)
+    await expectCode(() => offlineExamPackage(h.db, student, examSetId, new Date(), { practiceLinkId: lessonLink }), 'LESSON_PRACTICE_NOT_ALLOWED')
+    const synced = await syncOfflineAttempt(h.db, student, { setUuid: examSetId, practiceLinkId: setLink, answers: {} })
+    const [attempt] = await h.db.select({ link: playExamAttempts.practiceLinkId }).from(playExamAttempts).where(eq(playExamAttempts.id, synced.attemptId))
+    expect(attempt?.link).toBe(setLink)
+    await expectCode(() => syncOfflineAttempt(h.db, outsider, { setUuid: examSetId, practiceLinkId: setLink, answers: {} }), 'LESSON_PRACTICE_NOT_ALLOWED')
+    // كل هذا دون تجربة PLAY
+    expect(await h.db.select().from(playAccessTrials).where(eq(playAccessTrials.studentId, student.studentId!))).toHaveLength(0)
   })
 
   it('انتهاء الاشتراك يوقف التمرين حتى في جولة مفتوحة', async () => {

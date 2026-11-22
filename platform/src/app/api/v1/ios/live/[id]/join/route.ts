@@ -3,7 +3,7 @@ import { resolveActor, SESSION_COOKIE } from '@/server/auth/session'
 import { getDb } from '@/server/db/client'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { iosNoStore } from '@/server/services/ios-session.service'
-import { joinInfo } from '@/server/services/live.service'
+import { joinLiveIos } from '@/server/services/live.service'
 import { iosApiError } from '../../../_respond'
 
 export const dynamic = 'force-dynamic'
@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic'
 /**
  * POST /api/v1/ios/live/:id/join — رابط الانضمام إلى الحصة المباشرة من التطبيق (21 نوفمبر 2026).
  * القواعد نفسها لزر «انضم» في الموقع (joinInfo): مشترك نشط، قبل الشروط، داخل النافذة (15 دقيقة قبل الموعد).
- * يفتح التطبيق الرابط خارجه (Zoom أو يوتيوب أو المتصفح)، ويُسجَّل الحضور.
+ * يفتح التطبيق appUrl (تطبيق Zoom باسم التلميذ ورمز الاجتماع) وإلا url (يوتيوب أو المتصفح)، ويُسجَّل الحضور.
  */
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     const db = await getDb()
     const actor = await resolveActor(db, req.cookies.get(SESSION_COOKIE)?.value)
     if (!actor) throw new AppError('AUTH_REQUIRED')
-    const info = await joinInfo(db, actor, id)
+    const info = await joinLiveIos(db, actor, id)
     const res = NextResponse.json({ ok: true, data: info })
     res.headers.set('X-Madrasadz-Account', actor.userId)
     return iosNoStore(res)

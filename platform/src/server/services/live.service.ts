@@ -371,6 +371,31 @@ export async function joinLiveWeb(db: Db, actor: Actor, sessionId: string, now: 
   return { ...info, embedPath: liveEmbeddable(info.provider, info.url, s.providerMeetingId) ? `/live/${s.id}` : null }
 }
 
+/**
+ * رابط تطبيق Zoom على آيفون (zoomus://) باسم التلميذ في حسابه ورمز الاجتماع، فيدخل مباشرة دون كتابة شيء.
+ * لا بريد ولا هاتف. null إن لم يكن رقم الاجتماع مقروءًا (رابط غير Zoom).
+ */
+export function zoomIosAppUrl(meetingNumber: string | null, passcode: string | null, userName: string): string | null {
+  if (!meetingNumber) return null
+  const q = new URLSearchParams({ action: 'join', confno: meetingNumber })
+  if (passcode) q.set('pwd', passcode)
+  const name = userName.trim().slice(0, 60)
+  if (name) q.set('uname', name)
+  return `zoomus://zoom.us/join?${q.toString()}`
+}
+
+/**
+ * انضمام التلميذ من تطبيق آيفون (Build 18): كـ joinInfo (الاشتراك، الشروط، النافذة، الحضور)،
+ * ومعه appUrl لتطبيق Zoom باسمه؛ والرابط العادي احتياطًا إن لم يكن تطبيق Zoom مثبّتًا.
+ */
+export async function joinLiveIos(db: Db, actor: Actor, sessionId: string, now: Date = new Date()): Promise<{ url: string; provider: LiveProvider; title: string; appUrl: string | null }> {
+  const info = await joinInfo(db, actor, sessionId, now)
+  if (info.provider !== 'ZOOM') return { ...info, appUrl: null }
+  const { s } = await loadSession(db, sessionId)
+  const passcode = s.meetingPasscodeSealed ? unseal(s.meetingPasscodeSealed, PURPOSE) : null
+  return { ...info, appUrl: zoomIosAppUrl(zoomMeetingNumber(info.url, s.providerMeetingId), passcode, actor.fullName || '') }
+}
+
 export interface ZoomEmbedJoin {
   signature: string
   sdkKey: string

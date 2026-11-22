@@ -18,6 +18,8 @@ const answer = z.discriminatedUnion('type', [
 ])
 const schema = z.object({
   lessonId: z.string().uuid(),
+  // تمرين تحت درس الدورة (Build 18): باشتراك الدورة بدل تجربة PLAY
+  practiceLinkId: z.string().uuid().nullable().optional(),
   answers: z.array(z.object({ questionId: z.string().uuid(), answer, timeMs: z.number().int().min(0).max(3_600_000).nullable().optional() })).min(1).max(CARD_ROUND_MAX)
 })
 
@@ -34,7 +36,7 @@ export async function POST(req: NextRequest) {
     const parsed = schema.safeParse(await req.json().catch(() => null))
     if (!parsed.success) throw new AppError('VALIDATION')
     await checkRateLimit(db, { scope: 'ios-play-cards', subject: actor.userId, limit: 120, windowSeconds: 3600 })
-    const data = await syncCardRound(db, actor, { lessonId: parsed.data.lessonId, answers: parsed.data.answers.map((a) => ({ questionId: a.questionId, answer: a.answer, timeMs: a.timeMs ?? null })) })
+    const data = await syncCardRound(db, actor, { lessonId: parsed.data.lessonId, practiceLinkId: parsed.data.practiceLinkId ?? null, answers: parsed.data.answers.map((a) => ({ questionId: a.questionId, answer: a.answer, timeMs: a.timeMs ?? null })) })
     const res = NextResponse.json({ ok: true, data })
     res.headers.set('X-Madrasadz-Account', actor.userId)
     return iosNoStore(res)

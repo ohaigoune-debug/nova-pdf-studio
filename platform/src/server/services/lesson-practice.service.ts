@@ -195,6 +195,8 @@ export async function moveLessonPractice(db: Db, actor: Actor, courseId: string,
 export interface StudentPracticeItem {
   linkId: string
   kind: LessonPracticeKind
+  /** معرّف درس PLAY أو الموضوع: يفتح به تطبيق آيفون شاشته الأصلية (Build 18) */
+  refId: string
   title: string
   subtitle: string
   /** أفضل نتيجة سابقة للتلميذ في هذا التمرين (أي جولة/محاولة مكتملة فيه) */
@@ -250,7 +252,7 @@ export async function lessonPracticeForStudent(db: Db, actor: Actor, contentId: 
         if (!best || pct > best.pct) best = { pct, label: `أفضل علامة لك ${Number(a.score.toFixed(2))}/${a.maxScore}` }
       }
     }
-    return { linkId: l.linkId, kind: l.kind, title: l.title, subtitle: l.subtitle, best }
+    return { linkId: l.linkId, kind: l.kind, refId: l.refId, title: l.title, subtitle: l.subtitle, best }
   })
 }
 
