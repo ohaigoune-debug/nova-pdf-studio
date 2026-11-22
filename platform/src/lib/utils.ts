@@ -5,16 +5,19 @@ export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs))
 }
 
-const arDate = new Intl.DateTimeFormat('ar-DZ', { year: 'numeric', month: 'long', day: 'numeric' })
+// كل العرض بتوقيت الجزائر، فلا يختلف ما يرسمه الخادم (UTC في الإنتاج) عمّا يرسمه الهاتف (22 نوفمبر 2026)
+const TZ = 'Africa/Algiers'
+const arDate = new Intl.DateTimeFormat('ar-DZ', { year: 'numeric', month: 'long', day: 'numeric', timeZone: TZ })
 const arDateTime = new Intl.DateTimeFormat('ar-DZ', {
   year: 'numeric',
   month: 'short',
   day: 'numeric',
   hour: '2-digit',
-  minute: '2-digit'
+  minute: '2-digit',
+  timeZone: TZ
 })
-const arTime = new Intl.DateTimeFormat('ar-DZ', { hour: '2-digit', minute: '2-digit' })
-const arShort = new Intl.DateTimeFormat('ar-DZ', { month: 'short', day: 'numeric' })
+const arTime = new Intl.DateTimeFormat('ar-DZ', { hour: '2-digit', minute: '2-digit', timeZone: TZ })
+const arShort = new Intl.DateTimeFormat('ar-DZ', { month: 'short', day: 'numeric', timeZone: TZ })
 
 export function formatDate(value: Date | string | null | undefined): string {
   if (!value) return '—'

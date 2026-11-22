@@ -259,6 +259,42 @@ export async function setCourseStatus(db: Db, actor: Actor, id: string, status: 
   if (status === 'PUBLISHED') await import('./full-access.service').then((m) => m.enrollFullAccessInCourse(db, id))
 }
 
+/** كلمة التأكيد التي يكتبها المشرف قبل حذف دورة */
+export const COURSE_DELETE_CONFIRM = 'حذف'
+
+/**
+ * حذف دورة (طلب المالك 22 نوفمبر 2026، بدل الأرشفة): تختفي من لوحة المشرف ومن «الكتب والدورات»
+ * ومن «دوراتي» عند التلاميذ. اشتراكاتها السارية تُسحب (يُخطر كل تلميذ)، وحصصها المباشرة القادمة تُلغى،
+ * وكتبها تُفكّ عنها فلا يفعّل شراؤها دورة محذوفة، ورابطها يتحرّر لدورة جديدة.
+ * الطلبات والفواتير والمدفوعات تبقى كما هي للحسابات (حذف ناعم: deleted_at). يُسجَّل في التدقيق.
+ */
+export async function deleteCourse(db: Db, actor: Actor, id: string, confirm: string): Promise<{ revoked: number }> {
+  assertRole(actor, 'SUPER_ADMIN')
+  if (confirm.trim() !== COURSE_DELETE_CONFIRM) throw new AppError('VALIDATION', { field: 'confirm' })
+  return db.transaction(async (tx) => {
+    const course = await loadCourse(tx, id)
+    const active = await tx.select().from(courseEnrollments).where(and(eq(courseEnrollments.courseId, id), ne(courseEnrollments.status, 'REVOKED'))).for('update')
+    for (const e of active) await revokeEnrollmentRecord(tx, e, course, actor.userId, 'حُذفت الدورة')
+    const now = new Date()
+    await tx.update(liveSessions).set({ status: 'CANCELLED', updatedAt: now }).where(and(eq(liveSessions.courseId, id), eq(liveSessions.status, 'SCHEDULED')))
+    await tx.delete(courseProducts).where(eq(courseProducts.courseId, id))
+    await tx
+      .update(courses)
+      .set({ deletedAt: now, status: 'ARCHIVED', slug: `${course.slug}--deleted-${id.slice(0, 8)}`, bookProductId: null, updatedAt: now })
+      .where(eq(courses.id, id))
+    await writeAudit(tx, {
+      actorUserId: actor.userId,
+      workspaceId: course.workspaceId,
+      action: 'course.delete',
+      entityType: 'course',
+      entityId: id,
+      oldValue: { title: course.title, slug: course.slug, status: course.status },
+      newValue: { deleted: true, revokedEnrollments: active.filter((e) => e.status === 'ACTIVE').length }
+    })
+    return { revoked: active.filter((e) => e.status === 'ACTIVE').length }
+  })
+}
+
 export interface CourseListItem {
   id: string
   slug: string

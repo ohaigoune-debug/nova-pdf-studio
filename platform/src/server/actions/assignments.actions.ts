@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { parseDzDateTime } from '@/lib/dz-time'
 import { requireActor, requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { kickWorker } from '@/server/jobs/runner'
@@ -22,7 +23,7 @@ const optionalUuid = z.string().uuid().optional().or(z.literal('')).transform((v
 const optionalDate = z
   .string()
   .optional()
-  .transform((v) => (v && v.trim() ? new Date(v) : null))
+  .transform((v) => (v && v.trim() ? parseDzDateTime(v) : null))
   .refine((d) => d === null || !Number.isNaN(d.getTime()), 'تاريخ غير صحيح')
 
 const assignmentSchema = z.object({

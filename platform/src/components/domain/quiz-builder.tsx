@@ -13,6 +13,7 @@ import { t } from '@/i18n'
 import { saveQuizAction, type QuizPayload } from '@/server/actions/quizzes.actions'
 import { QUESTION_TYPES } from '@/server/db/schema/enums'
 import type { QuestionState } from '@/lib/quiz-state'
+import { toDzInput } from '@/lib/dz-time'
 
 type Opt = { id: string; name: string }
 
@@ -69,12 +70,8 @@ function toPayloadQuestion(q: QuestionState): NonNullable<QuizPayload['questions
   return { id: q.id, type: q.type as (typeof QUESTION_TYPES)[number], prompt: q.prompt, points: q.points, skillId: q.skillId || null, imageFileId: q.imageFileId || null, answerKey, options }
 }
 
-function toLocal(d: Date | null | undefined) {
-  if (!d) return ''
-  const x = new Date(d)
-  const p = (n: number) => String(n).padStart(2, '0')
-  return `${x.getFullYear()}-${p(x.getMonth() + 1)}-${p(x.getDate())}T${p(x.getHours())}:${p(x.getMinutes())}`
-}
+/** قيمة الخانة بتوقيت الجزائر (لا بتوقيت المتصفح) */
+const toLocal = (d: Date | null | undefined): string => toDzInput(d)
 
 export function QuizBuilder({ quizId, defaults = {}, groups, students, skills, files, levels = [], hasAttempts = false }: { quizId?: string; defaults?: QuizBuilderDefaults; groups: Opt[]; students: Opt[]; skills: Opt[]; files: Opt[]; levels?: Opt[]; hasAttempts?: boolean }) {
   const router = useRouter()

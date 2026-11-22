@@ -7,6 +7,7 @@ import { getDb } from '@/server/db/client'
 import { LIVE_PROVIDERS, LIVE_SESSION_STATUSES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import { attachRecording, createLiveSession, joinInfo, setLiveStatus, updateLiveSession } from '@/server/services/live.service'
+import { parseDzDateTime } from '@/lib/dz-time'
 
 const uuid = z.string().uuid()
 const optionalUuid = z.string().uuid().optional().or(z.literal('')).transform((v) => (v ? v : null))
@@ -15,7 +16,7 @@ const sessionSchema = z.object({
   courseId: uuid,
   title: z.string().trim().min(2, 'أدخل عنوان الحصة').max(200),
   description: z.string().trim().max(2000).optional(),
-  startsAt: z.string().refine((v) => !Number.isNaN(new Date(v).getTime()), 'موعد غير صحيح'),
+  startsAt: z.string().refine((v) => !Number.isNaN(parseDzDateTime(v).getTime()), 'موعد غير صحيح'),
   durationMinutes: z.coerce.number().int().min(10).max(600).default(90),
   provider: z.enum(LIVE_PROVIDERS).default('ZOOM'),
   joinUrl: z.string().trim().url('رابط غير صحيح').optional().or(z.literal('')),
@@ -33,7 +34,7 @@ export async function createLiveSessionAction(_prev: ActionResult<{ id: string }
   const d = parsed.data
   const r = await runAction(async () => {
     const actor = await requireRole('SUPER_ADMIN', 'TEACHER')
-    const s = await createLiveSession(await getDb(), actor, { ...d, startsAt: new Date(d.startsAt), joinUrl: d.joinUrl || null, description: d.description || null, providerMeetingId: d.providerMeetingId || null })
+    const s = await createLiveSession(await getDb(), actor, { ...d, startsAt: parseDzDateTime(d.startsAt), joinUrl: d.joinUrl || null, description: d.description || null, providerMeetingId: d.providerMeetingId || null })
     return { id: s.id }
   })
   if (r.ok) revalidate()
@@ -52,7 +53,7 @@ export async function updateLiveSessionAction(id: string, _prev: ActionResult<{ 
       courseId: d.courseId,
       title: d.title,
       description: d.description || null,
-      startsAt: new Date(d.startsAt),
+      startsAt: parseDzDateTime(d.startsAt),
       durationMinutes: d.durationMinutes,
       provider: d.provider,
       ...(keepUrl ? {} : { joinUrl: d.joinUrl || null }),

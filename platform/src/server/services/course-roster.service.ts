@@ -127,6 +127,7 @@ export async function courseOptions(db: Db, actor: Actor): Promise<CourseOption[
     })
     .from(courses)
     .leftJoin(courseEnrollments, eq(courseEnrollments.courseId, courses.id))
+    .where(isNull(courses.deletedAt))
     .groupBy(courses.id)
     .orderBy(desc(sql`count(${courseEnrollments.id}) filter (where ${isActiveSql})`), asc(courses.title))
   return rows.map((r) => ({ ...r, active: Number(r.active), total: Number(r.total) }))

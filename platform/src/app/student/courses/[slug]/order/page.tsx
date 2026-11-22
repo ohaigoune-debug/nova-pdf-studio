@@ -3,6 +3,7 @@ import { ArrowRight, BookOpen, CheckCircle2, FileText, Gamepad2, PackageCheck, P
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { CourseOrderForm } from '@/components/academy/course-order-form'
+import { ChooseScopeCard } from '@/components/student/student-scope-ui'
 import { ReferralCodeBox } from '@/components/partners/partners-client'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -19,6 +20,7 @@ import { bookUpgradeOffer, courseBookStateById, courseDigitalStateById } from '@
 import { effectiveWelcomeDzd, referralEligibility, referralPolicy } from '@/server/services/referrals.service'
 import { courseCheckoutData } from '@/server/services/store.service'
 import { recordCourseOrderView } from '@/server/services/course-order-funnel.service'
+import { levelStreamOptions, studentScope } from '@/server/services/student-scope.service'
 
 export const dynamic = 'force-dynamic'
 
@@ -62,6 +64,9 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
   const upgrade = course.enrollment === 'ACTIVE' ? await bookUpgradeOffer(db, actor, course.id) : null
   if (course.enrollment === 'ACTIVE' && !upgrade) redirect(courseHref)
   const [purchase, checkout, digital, refEl, refPolicy] = await Promise.all([courseBookStateById(db, course.id), courseCheckoutData(db, actor), courseDigitalStateById(db, course.id), referralEligibility(db, actor.userId), referralPolicy(db)])
+  // بلا شعبة لا طلب كتاب: يختارها هنا أولًا ثم يظهر النموذج (قرار المالك 22 نوفمبر 2026)
+  const scope = await studentScope(db, actor.studentId!)
+  const scopeOptions = scope.complete ? null : await levelStreamOptions(db)
   const price = upgrade ? upgrade.priceDzd : (purchase.book?.priceDzd ?? 0)
   // لقياس إتمام الطلب في لوحة الإدارة (البند ب4)
   if (purchase.purchasable && purchase.book) await recordCourseOrderView(db, actor.userId, course.id)
@@ -163,7 +168,11 @@ export default async function CourseOrderPage({ params }: { params: Promise<{ sl
             {purchase.purchasable && purchase.book ? (
               <div className="space-y-5">
                 {refEl.eligible ? <ReferralCodeBox source="CHECKOUT" welcomeCreditDzd={effectiveWelcomeDzd(refPolicy)} /> : null}
-                <CourseOrderForm courseId={course.id} book={{ title: purchase.book.title, priceDzd: price }} data={checkout} shippingIncluded={course.shippingIncluded} />
+                {scopeOptions ? (
+                  <ChooseScopeCard options={scopeOptions} levelId={scope.levelId} streamId={scope.streamId} />
+                ) : (
+                  <CourseOrderForm courseId={course.id} book={{ title: purchase.book.title, priceDzd: price }} data={checkout} shippingIncluded={course.shippingIncluded} />
+                )}
               </div>
             ) : (
               <Alert tone="warning" title="الطلب غير متاح حالياً">

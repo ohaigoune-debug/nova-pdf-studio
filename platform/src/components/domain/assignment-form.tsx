@@ -7,6 +7,7 @@ import { Field } from '@/components/ui/label'
 import { t } from '@/i18n'
 import { createAssignmentAction, updateAssignmentAction } from '@/server/actions/assignments.actions'
 import type { ActionResult } from '@/server/lib/action-result'
+import { toDzInput } from '@/lib/dz-time'
 
 type Opt = { id: string; name: string }
 
@@ -26,12 +27,8 @@ export interface AssignmentFormDefaults {
   studentIds?: string[]
 }
 
-function toLocalInput(d: Date | null | undefined): string {
-  if (!d) return ''
-  const x = new Date(d)
-  const pad = (n: number) => String(n).padStart(2, '0')
-  return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}T${pad(x.getHours())}:${pad(x.getMinutes())}`
-}
+/** قيمة الخانة بتوقيت الجزائر (لا بتوقيت المتصفح) */
+const toLocalInput = (d: Date | null | undefined): string => toDzInput(d)
 
 export function AssignmentForm({ assignmentId, defaults = {}, groups, students, skills, files, rubrics = [] }: { assignmentId?: string; defaults?: AssignmentFormDefaults; groups: Opt[]; students: Opt[]; skills: Opt[]; files: Opt[]; rubrics?: Opt[] }) {
   const action = assignmentId

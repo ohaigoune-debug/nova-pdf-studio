@@ -9,6 +9,7 @@ import { toast } from '@/components/ui/toast'
 import { createLiveSessionAction, updateLiveSessionAction } from '@/server/actions/live.actions'
 import { LIVE_PROVIDERS } from '@/server/db/schema/enums'
 import type { ActionResult } from '@/server/lib/action-result'
+import { toDzInput } from '@/lib/dz-time'
 
 const PROVIDER_AR: Record<string, string> = { ZOOM: 'Zoom', MEET: 'Google Meet', YOUTUBE: 'بث يوتيوب', OTHER: 'آخر' }
 
@@ -24,14 +25,8 @@ export interface LiveFormDefaults {
   providerMeetingId?: string | null
 }
 
-/** قيمة datetime-local بالتوقيت المحلي للمتصفح */
-function toLocalInput(v: string | Date | undefined): string {
-  if (!v) return ''
-  const d = new Date(v)
-  if (Number.isNaN(d.getTime())) return ''
-  const off = d.getTimezoneOffset()
-  return new Date(d.getTime() - off * 60_000).toISOString().slice(0, 16)
-}
+/** قيمة الخانة بتوقيت الجزائر (لا بتوقيت المتصفح): الخادم يقرؤها بتوقيت الجزائر أيضًا */
+const toLocalInput = (v: string | Date | undefined): string => toDzInput(v)
 
 /** نموذج حصة مباشرة (إنشاء/تعديل). رابط الانضمام يُختم في الخادم ولا يُعاد عرضه للمشرف إلا في صفحة التفاصيل. */
 export function LiveSessionForm({ id, defaults = {}, courses }: { id?: string; defaults?: LiveFormDefaults; courses: { id: string; title: string; season: string }[] }) {

@@ -65,6 +65,16 @@ describe('سياسة المتجر: الحدّ بالطلب، الشعبة، ال
     expect(s.streamId).toBe(streamId)
   })
 
+  it('قرار 22 نوفمبر 2026: كتاب ورقي يطلبه تلميذ بلا شعبة يُرفض ولو لم يؤشَّر «يتطلّب شعبة»؛ الملف الرقمي لا', async () => {
+    const old = await makeStudent(h.db, 'حساب قديم بلا شعبة', { scope: false })
+    await expect(placeOrder(h.db, old, { ...base, wilayaId, items: [{ productId: limited, qty: 1 }] })).rejects.toMatchObject({ code: 'ORDER_STREAM_REQUIRED' })
+    const pdf = await placeOrder(h.db, old, { ...base, wilayaId, items: [{ productId: plain, qty: 1 }] })
+    expect(pdf.streamId).toBeNull()
+    // بشعبته في حسابه يمرّ، ويُحفظ الطلب بها
+    const withStream = await placeOrder(h.db, student, { ...base, wilayaId, items: [{ productId: limited, qty: 1 }] })
+    expect(withStream.streamId).toBe(streamId)
+  })
+
   it('beneficiaryStudentId يُحفظ باختيار المشرف ويُرفض من الأستاذ', async () => {
     const input = { ...base, items: [{ productId: plain, qty: 1 }], beneficiaryStudentId: student.studentId }
     await expect(placeOrder(h.db, teacher, input)).rejects.toMatchObject({ code: 'FORBIDDEN' })

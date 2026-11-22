@@ -40,9 +40,18 @@ export async function makeTeacher(db: Db, admin: Actor, name = 'أستاذ تج�
   return actorOf(db, r.userId)
 }
 
-export async function makeStudent(db: Db, name = 'طالب تجريبي'): Promise<Actor> {
+/**
+ * تلميذ تجريبي. كالتسجيل الحقيقي له مستوى وشعبة (3AS · علوم تجريبية): طلب كتاب ورقي يشترط الشعبة
+ * (قرار المالك 22 نوفمبر 2026). { scope: false } لحساب قديم بلا مستوى ولا شعبة.
+ */
+export async function makeStudent(db: Db, name = 'طالب تجريبي', opts: { scope?: boolean } = {}): Promise<Actor> {
   const email = uniq('student') + '@test.dz'
   const r = await registerStudent(db, { email, password: 'Student@12345', fullName: name })
+  if (opts.scope !== false) {
+    const [lv] = await db.select({ id: levels.id }).from(levels).where(eq(levels.code, '3AS')).limit(1)
+    const [st] = await db.select({ id: streams.id }).from(streams).where(eq(streams.code, 'SCI')).limit(1)
+    if (lv && st) await db.update(students).set({ levelId: lv.id, streamId: st.id }).where(eq(students.userId, r.userId))
+  }
   return actorOf(db, r.userId)
 }
 

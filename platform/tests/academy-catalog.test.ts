@@ -362,7 +362,7 @@ describe('مراجعة PR #2 — الملاحظات الأربع', () => {
     const pub = await createContent(h.db, teacher, { type: 'LESSON', title: 'درس TM عام', visibility: 'PUBLIC', body: 'x', publish: true, levelId: tm.levelId, streamId: tm.streamId, subjectId: tm.subjectId })
     const priv = await createContent(h.db, teacher, { type: 'LESSON', title: 'درس TM خاص', visibility: 'GROUP_ONLY', groupIds: [tmCourse.groupId], body: 'x', publish: true, levelId: tm.levelId, streamId: tm.streamId, subjectId: tm.subjectId })
     // منذ 15 نوفمبر 2026 النطاق من حساب التلميذ (لا من الرابط): تلميذ «هندسة مدنية» في حسابه، وnoGroup «علوم تجريبية»
-    const civilStudent = await makeStudent(h.db, 'تلميذ هندسة مدنية')
+    const civilStudent = await makeStudent(h.db, 'تلميذ هندسة مدنية', { scope: false })
     await saveStudentLevelStream(h.db, civilStudent, { levelId: civil.levelId!, streamId: civil.streamId })
     const seen = (await listStudentLessonsOrganized(h.db, civilStudent, { levelId: tm.levelId, streamId: civil.streamId, subjectId: tm.subjectId }, ['LESSON'])).flatMap((s) => s.lessons.map((l) => l.id))
     expect(seen).toContain(pub.id)
