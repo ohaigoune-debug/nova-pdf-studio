@@ -67,6 +67,7 @@ export async function removeLessonPracticeAction(payload: z.input<typeof linkSch
   const d = parsed.data
   const r = await runAction(async () => {
     await removeLessonPractice(await getDb(), await requireRole(...EDITORS), d.courseId, d.lessonId, d.linkId)
+    return undefined
   })
   if (r.ok) revalidateLesson(d.courseId)
   return r
@@ -80,6 +81,7 @@ export async function moveLessonPracticeAction(payload: z.input<typeof moveSchem
   const d = parsed.data
   const r = await runAction(async () => {
     await moveLessonPractice(await getDb(), await requireRole(...EDITORS), d.courseId, d.lessonId, d.linkId, d.direction)
+    return undefined
   })
   if (r.ok) revalidateLesson(d.courseId)
   return r

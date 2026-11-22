@@ -496,7 +496,9 @@ export async function getSessionView(db: Db, actor: Actor, sessionId: string, op
       total: session.questionIds.length,
       subjectCode: session.subjectCode,
       unitCode: session.unitCode,
-      lessonId: session.lessonId
+      lessonId: session.lessonId,
+      /** تمرين من تحت درس الدورة (المخارج إلى الدرس) */
+      practiceLinkId: session.practiceLinkId
     },
     questions
   }

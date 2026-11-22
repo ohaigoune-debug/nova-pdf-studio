@@ -4,6 +4,7 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
 import { subjectName, type PlayChallengeType } from '@/server/play/constants'
+import { practiceBackHref } from '@/server/services/lesson-practice.service'
 import { getPlayProfile, getPlayRules, getSessionView, levelFor } from '@/server/services/play.service'
 import { notFound } from 'next/navigation'
 
@@ -28,7 +29,9 @@ export default async function PlaySessionPage({ params, searchParams }: { params
   }
   const profile = await getPlayProfile(db, actor)
   const name = view.session.subjectCode ? subjectName(view.session.subjectCode) : 'مواد متعددة'
-  const backHref = view.session.subjectCode ? `/student/play/subject/${view.session.subjectCode}` : '/student/play'
+  const practiceLinkId = view.session.practiceLinkId ?? null
+  // تمرين من تحت درس الدورة: العودة إلى الدرس نفسه
+  const backHref = practiceLinkId ? await practiceBackHref(db, practiceLinkId) : view.session.subjectCode ? `/student/play/subject/${view.session.subjectCode}` : '/student/play'
   const session = { ...view.session, expiresAt: view.session.expiresAt ? view.session.expiresAt.toISOString() : null }
 
   if (viewParam === 'classic') {
@@ -46,6 +49,7 @@ export default async function PlaySessionPage({ params, searchParams }: { params
       retry={{ challengeType: view.session.challengeType as PlayChallengeType, subjectCode: view.session.subjectCode, unitCode: view.session.unitCode, lessonId: view.session.lessonId }}
       level={{ title: level.title, progressPct: level.progressPct, nextMinXp: level.nextMinXp }}
       xpTotal={profile.xpTotal}
+      practiceLinkId={practiceLinkId}
     />
   )
 }

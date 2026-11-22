@@ -15,6 +15,7 @@ import type { PlayStudentAnswer } from '@/server/play/question-types'
 import type { SessionQuestionView } from '@/server/services/play.service'
 import { answerReady, canSubmit, cardReducer, createSubmitGate, initialCardState, LEAVE_MS, longestStreak, resumeIndex } from './card-machine'
 import { StartButton, type LaunchTarget } from './challenge-launcher'
+import { PracticeAgainButton } from './practice-again-button'
 import { DeckMcq } from './deck-choices'
 import { DECK_BUTTON } from './deck-ui'
 import { FlipCard } from './flip-card'
@@ -36,6 +37,11 @@ export interface PlayCardGameProps extends PlayGameProps {
   retry: LaunchTarget
   level: PlayLevelView | null
   xpTotal: number
+  /**
+   * تمرين من تحت درس الدورة (22 نوفمبر 2026): المخارج كلها إلى الدرس (backHref) لا إلى قسم PLAY المخفي،
+   * و«تابع اللعب» جولة جديدة من التمرين نفسه.
+   */
+  practiceLinkId?: string | null
 }
 
 /** نتيجة سؤال كما تعرضها البطاقة (من رد الخادم أو من الجلسة المحفوظة) */
@@ -110,8 +116,10 @@ const clock = (sec: number) => `${String(Math.floor(sec / 60)).padStart(2, '0')}
  * جولة MADRASADZ PLAY بالبطاقات كما في حزمة الهوية المعتمدة: الأسئلة نفسها، والتصحيح والتسجيل نفسيهما
  * (submitPlayAnswerAction)، والصلاحيات نفسها. الواجهة السابقة باقية في PlayGame (?view=classic).
  */
-export function PlayCardGame({ session, questions, prefs, subjectName, backHref, retry, level, xpTotal }: PlayCardGameProps) {
+export function PlayCardGame({ session, questions, prefs, subjectName, backHref, retry, level, xpTotal, practiceLinkId = null }: PlayCardGameProps) {
   const router = useRouter()
+  // مخرج الجولة: قسم PLAY، أو الدرس لتمرين الدورة
+  const homeHref = practiceLinkId ? backHref : '/student/play'
   const [index, setIndex] = useState(() =>
     resumeIndex(
       session.status,
@@ -163,7 +171,7 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
           const r = (await res.json()) as CardBatchReply
           if (!r.ok) {
             toast('error', r.error.message)
-            if (r.error.code === 'PLAY_TRIAL_EXPIRED' || r.error.code === 'PLAY_TRIAL_REQUIRED') router.push('/student/play')
+            if (r.error.code === 'PLAY_TRIAL_EXPIRED' || r.error.code === 'PLAY_TRIAL_REQUIRED') router.push(homeHref)
             else if (r.error.code === 'PLAY_SESSION_CLOSED' || r.error.code === 'PLAY_SESSION_EXPIRED') {
               unsent.current = []
               writeUnsent(session.id, [])
@@ -194,7 +202,7 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
         flushing.current = null
       }
     },
-    [router, session.id]
+    [router, session.id, homeHref]
   )
 
   // عودة إلى جولة بقيت بطاقات منها في المتصفح: تُرسل ثم تُعرض الجولة كما حفظها الخادم
@@ -311,7 +319,7 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
           if (r.error.code === 'PLAY_SESSION_EXPIRED') setExpired(true)
           else if (r.error.code === 'PLAY_ALREADY_ANSWERED' || r.error.code === 'PLAY_SESSION_CLOSED') router.refresh()
           // انتهت التجربة المجانية أثناء الجولة: الصفحة الرئيسية تعرض دعوة الاشتراك (الخادم رفض الإجابة)
-          else if (r.error.code === 'PLAY_TRIAL_EXPIRED' || r.error.code === 'PLAY_TRIAL_REQUIRED') router.push('/student/play')
+          else if (r.error.code === 'PLAY_TRIAL_EXPIRED' || r.error.code === 'PLAY_TRIAL_REQUIRED') router.push(homeHref)
           toast('error', r.error.message)
           return
         }
@@ -385,7 +393,7 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
     setLeaving(true)
     void flush()
       .then(() => abandonPlaySessionAction(session.id))
-      .then(() => router.push('/student/play'))
+      .then(() => router.push(homeHref))
       .catch(() => {
         setLeaving(false)
         toast('error', 'تعذّر الاتصال بالخادم. حاول مرة أخرى.')
@@ -431,15 +439,15 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
         </div>
         <DialogFooter className="gap-2">
           {finished ? (
-            <Button variant="outline" onClick={() => router.push('/student/play')}>
-              العودة إلى لعبة الأسئلة
+            <Button variant="outline" onClick={() => router.push(homeHref)}>
+              {practiceLinkId ? 'العودة إلى الدرس' : 'العودة إلى لعبة الأسئلة'}
             </Button>
           ) : (
             <>
               <Button variant="outline" onClick={() => setPauseOpen(false)}>
                 متابعة اللعب
               </Button>
-              <Button variant="secondary" onClick={() => void flush().then(() => router.push('/student/play'))}>
+              <Button variant="secondary" onClick={() => void flush().then(() => router.push(homeHref))}>
                 حفظ والعودة
               </Button>
               <Button variant="destructive" loading={leaving} onClick={endChallenge}>
@@ -476,11 +484,17 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
           </dl>
         </section>
         <div className="space-y-3 pt-4">
-          <StartButton target={retry} timed={session.timed} className={DECK_BUTTON}>
-            <ChevronRight className="size-6" strokeWidth={3} aria-hidden /> تابع اللعب
-          </StartButton>
+          {practiceLinkId ? (
+            <PracticeAgainButton linkId={practiceLinkId} className={DECK_BUTTON}>
+              <ChevronRight className="size-6" strokeWidth={3} aria-hidden /> تابع اللعب
+            </PracticeAgainButton>
+          ) : (
+            <StartButton target={retry} timed={session.timed} className={DECK_BUTTON}>
+              <ChevronRight className="size-6" strokeWidth={3} aria-hidden /> تابع اللعب
+            </StartButton>
+          )}
           <Link href={backHref} className="mx-auto flex min-h-11 w-fit items-center rounded-full px-4 text-sm font-bold text-primary hover:underline">
-            {backHref === '/student/play' ? 'العودة إلى المواد' : 'العودة للدروس'}
+            {practiceLinkId ? 'العودة إلى الدرس' : backHref === '/student/play' ? 'العودة إلى المواد' : 'العودة للدروس'}
           </Link>
         </div>
         {lvl ? (
@@ -508,9 +522,11 @@ export function PlayCardGame({ session, questions, prefs, subjectName, backHref,
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
               <h3 className="font-bold">الأسئلة التي أخطأت فيها</h3>
-              <Link href="/student/play/mistakes" className="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-semibold text-primary hover:underline">
-                راجع أخطاءك
-              </Link>
+              {practiceLinkId ? null : (
+                <Link href="/student/play/mistakes" className="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-semibold text-primary hover:underline">
+                  راجع أخطاءك
+                </Link>
+              )}
             </div>
             {wrong.map((q) => (
               <div key={q.id} className="rounded-[18px] border border-[#D3E0F5] bg-white p-4 text-sm">

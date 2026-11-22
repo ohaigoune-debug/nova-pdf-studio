@@ -11,6 +11,7 @@ import { getDb } from '@/server/db/client'
 import { phoneGateFor } from '@/server/services/phone-gate.service'
 import { studentHiddenPaths } from '@/server/services/ios-only.service'
 import { tempLoginState } from '@/server/services/temp-login.service'
+import { isOwnPracticeRunPath } from '@/server/services/lesson-practice.service'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,7 +22,8 @@ export default async function StudentLayout({ children }: { children: ReactNode 
   // قسم أخفاه المشرف، أو PLAY والبنك خارج تطبيق آيفون: لا يُفتح ولو بالرابط المباشر
   const hidden = await studentHiddenPaths(db)
   const path = (await headers()).get('x-pathname') ?? ''
-  if (hidden.length && isPathHidden(path, hidden)) redirect('/student')
+  // استثناء: تمرين بدأ من تحت درس دورته (جولة/محاولة يملكها) يبقى مفتوحًا ولو أُخفي PLAY
+  if (hidden.length && isPathHidden(path, hidden) && !(await isOwnPracticeRunPath(db, actor, path))) redirect('/student')
   const [gate, temp] = await Promise.all([phoneGateFor(db, actor.userId), tempLoginState(db, actor.userId).catch(() => null)])
   // سجّل دون كلمة سر (18 نوفمبر 2026): لافتة تذكير/تحذير برمز الدخول المؤقت، وبعد انتهائه كلمة السر قبل المتابعة
   const onPasswordPage = path.startsWith('/student/password')

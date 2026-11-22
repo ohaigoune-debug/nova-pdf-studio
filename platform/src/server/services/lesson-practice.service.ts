@@ -133,6 +133,9 @@ export async function addLessonPractice(db: Db, actor: Actor, courseId: string, 
   if (input.kind === 'LESSON') {
     const [l] = await db.select({ id: playLessons.id }).from(playLessons).where(and(eq(playLessons.id, input.refId), eq(playLessons.isActive, true))).limit(1)
     if (!l) throw new AppError('PLAY_LESSON_NOT_FOUND')
+    // درس بلا أسئلة صالحة للعب لا يُضاف (لعبة فارغة تحت الدرس)
+    const [q] = await db.select({ id: playQuestions.id }).from(playQuestions).where(and(eq(playQuestions.lessonId, l.id), servableFilter(await getPlayRules(db)))).limit(1)
+    if (!q) throw new AppError('PLAY_NO_QUESTIONS')
   } else if (input.kind === 'EXAM_SET') {
     const [s] = await db.select({ id: playExamSets.id }).from(playExamSets).where(and(eq(playExamSets.id, input.refId), eq(playExamSets.publishable, true))).limit(1)
     if (!s) throw new AppError('PLAY_EXAM_NOT_FOUND')

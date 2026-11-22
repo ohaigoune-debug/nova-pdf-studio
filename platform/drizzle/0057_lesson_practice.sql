@@ -10,9 +10,14 @@ CREATE TABLE IF NOT EXISTS "content_play_links" (
   "created_at" timestamp with time zone DEFAULT now() NOT NULL,
   CONSTRAINT "content_play_links_kind_check" CHECK (("kind" = 'LESSON' AND "play_lesson_id" IS NOT NULL AND "exam_set_id" IS NULL) OR ("kind" = 'EXAM_SET' AND "exam_set_id" IS NOT NULL AND "play_lesson_id" IS NULL))
 );
+--> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "content_play_links_lesson_unique" ON "content_play_links" ("content_id", "play_lesson_id") WHERE "play_lesson_id" IS NOT NULL;
+--> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "content_play_links_exam_unique" ON "content_play_links" ("content_id", "exam_set_id") WHERE "exam_set_id" IS NOT NULL;
+--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "content_play_links_content_idx" ON "content_play_links" ("content_id", "sort_order");
+--> statement-breakpoint
 -- جولة/محاولة بدأت من تحت درس الدورة: الوصول باشتراك الدورة لا بتجربة PLAY
 ALTER TABLE "play_sessions" ADD COLUMN IF NOT EXISTS "practice_link_id" uuid REFERENCES "content_play_links"("id") ON DELETE SET NULL;
+--> statement-breakpoint
 ALTER TABLE "play_exam_attempts" ADD COLUMN IF NOT EXISTS "practice_link_id" uuid REFERENCES "content_play_links"("id") ON DELETE SET NULL;

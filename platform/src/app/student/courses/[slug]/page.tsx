@@ -17,6 +17,7 @@ import { isAppError } from '@/server/lib/errors'
 import { courseLanding } from '@/server/services/academy-catalog.service'
 import type { SectionItem } from '@/server/lib/course-sections'
 import { COURSE_DOOR_LABELS_AR, groupIntoDoors, type ContentDoorId } from '@/server/lib/course-doors'
+import { practiceCountsFor } from '@/server/services/lesson-practice.service'
 import { courseHome, type CourseContentItem } from '@/server/services/courses.service'
 import { upcomingForStudent } from '@/server/services/live.service'
 import { isPathHidden } from '@/lib/student-menu'
@@ -111,7 +112,15 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
   ])
   const showPlay = !isPathHidden('/student/play', hidden)
   const doors = groupIntoDoors(sections)
-  const count = (id: ContentDoorId) => doors.find((d) => d.id === id)?.count ?? 0
+  // تمارين بنك مدرسة تحت الدروس (22 نوفمبر 2026): تُعدّ في «تمارين QCM» وتُسرد دروسها فيه
+  const recordedItems = doors.find((d) => d.id === 'recorded')?.groups.flatMap((g) => g.items) ?? []
+  const practiceCounts = await practiceCountsFor(
+    db,
+    recordedItems.map((i) => i.id)
+  )
+  const practiceLessons = recordedItems.filter((i) => practiceCounts.get(i.id))
+  const practiceLinks = practiceLessons.reduce((n, i) => n + (practiceCounts.get(i.id) ?? 0), 0)
+  const count = (id: ContentDoorId) => (doors.find((d) => d.id === id)?.count ?? 0) + (id === 'practice' ? practiceLinks : 0)
   const tiles: Array<{ href: string; label: string; hint: string; icon: LucideIcon; tone: string }> = [
     ...(['recorded', 'files', 'practice'] as const).map((id) => ({ href: `#${id}`, label: COURSE_DOOR_LABELS_AR[id], hint: count(id) ? DOOR_UI[id].count(count(id)) : 'لا شيء بعد', icon: DOOR_UI[id].icon, tone: DOOR_UI[id].tone })),
     { href: classroomHref, label: COURSE_DOOR_LABELS_AR.classroom, hint: 'أسئلة ومناقشات مع أستاذك', icon: MessagesSquare, tone: 'bg-[#5925DC]/10 text-[#5925DC] dark:text-[#BDB4FE]' }
@@ -192,14 +201,20 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <ui.icon className="size-5 text-primary" /> {d.label}
-                  <Badge variant="secondary">{d.count}</Badge>
+                  <Badge variant="secondary">{count(d.id)}</Badge>
                 </CardTitle>
                 {d.id === 'recorded' ? <CardDescription>بترتيب الحصص: الحصة 1 ثم 2 ثم 3… تُشاهَد داخل المنصة فقط وتختفي بعد انتهاء الدورة.</CardDescription> : null}
               </CardHeader>
               <CardContent className="space-y-4">
-                {d.count === 0 ? (
+                {d.id === 'practice' && practiceLessons.length ? (
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-semibold text-muted-foreground">تمارين تحت الدروس (بنك مدرسة)</h3>
+                    <SectionList items={practiceLessons} />
+                  </div>
+                ) : null}
+                {count(d.id) === 0 ? (
                   <p className="text-sm text-muted-foreground">{ui.empty}</p>
-                ) : (
+                ) : d.count === 0 ? null : (
                   d.groups.map((g) => (
                     <div key={g.id} className="space-y-2">
                       {d.groups.length > 1 ? <h3 className="text-sm font-semibold text-muted-foreground">{g.label}</h3> : null}

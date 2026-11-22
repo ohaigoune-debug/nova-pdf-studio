@@ -246,6 +246,8 @@ export interface AttemptView {
   keys?: Record<string, LocalStepKey>
   /** اللعب في المتصفح مع الحفظ دفعات (الصفحة تطلبه دائمًا؛ غيابه = الطريقة السابقة خطوةً بخطوة) */
   local?: boolean
+  /** محاولة من تحت درس الدورة (المخارج إلى الدرس) */
+  practiceLinkId: string | null
 }
 
 export interface LocalStepKey {
@@ -267,6 +269,7 @@ export async function getExamAttemptView(db: Db, actor: Actor, attemptId: string
   }
   return {
     attemptId: attempt.id,
+    practiceLinkId: attempt.practiceLinkId ?? null,
     mode: attempt.mode as PlayExamMode,
     status: attempt.status,
     preview: !set.publishable,
