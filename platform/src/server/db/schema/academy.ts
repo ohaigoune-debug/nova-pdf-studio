@@ -313,6 +313,8 @@ export const liveSessions = pgTable(
     provider: text('provider').notNull().default('ZOOM'),
     /** رابط الانضمام مختوماً (secret-box) — لا يُعرض إلا للمشترك النشط وقت الحصة */
     joinUrlSealed: text('join_url_sealed'),
+    /** رمز اجتماع Zoom (Passcode) مشفّرًا — لدخول الحصة داخل المنصة بالـSDK (22 نوفمبر 2026) */
+    meetingPasscodeSealed: text('meeting_passcode_sealed'),
     providerMeetingId: text('provider_meeting_id'),
     /** التسجيل بعد الحصة: محتوى فيديو داخل الدورة */
     recordingContentId: uuid('recording_content_id').references(() => content.id, { onDelete: 'set null' }),

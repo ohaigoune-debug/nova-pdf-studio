@@ -14,6 +14,7 @@ import { assertRole, studentIdOf, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { seal, unseal } from '@/server/lib/secret-box'
+import { zoomMeetingNumber, zoomSdkKeys, zoomSdkSignature } from '@/server/lib/zoom-sdk'
 import { notifyMany } from './notifications.service'
 
 const PURPOSE = 'live'
@@ -36,13 +37,22 @@ export interface LiveSessionInput {
   provider?: LiveProvider
   joinUrl?: string | null
   providerMeetingId?: string | null
+  /** رمز اجتماع Zoom (Passcode) لدخول الحصة داخل المنصة؛ يُحفظ مشفّرًا. undefined = لا تغيير */
+  meetingPasscode?: string | null
 }
 
-export type LiveSessionView = Omit<typeof liveSessions.$inferSelect, 'joinUrlSealed'> & { hasJoinUrl: boolean; courseTitle: string }
+export type LiveSessionView = Omit<typeof liveSessions.$inferSelect, 'joinUrlSealed' | 'meetingPasscodeSealed'> & { hasJoinUrl: boolean; hasPasscode: boolean; courseTitle: string }
 
 function strip(row: typeof liveSessions.$inferSelect, courseTitle: string): LiveSessionView {
-  const { joinUrlSealed, ...rest } = row
-  return { ...rest, hasJoinUrl: !!joinUrlSealed, courseTitle }
+  const { joinUrlSealed, meetingPasscodeSealed, ...rest } = row
+  return { ...rest, hasJoinUrl: !!joinUrlSealed, hasPasscode: !!meetingPasscodeSealed, courseTitle }
+}
+
+function sealPasscode(v: string | null | undefined): string | null {
+  const p = v?.trim()
+  if (!p) return null
+  if (p.length > 40) throw new AppError('VALIDATION', { field: 'meetingPasscode' })
+  return seal(p, PURPOSE)
 }
 
 /** المشرف: كل الدورات. الأستاذ: دورات مساحته فقط. */
@@ -100,7 +110,8 @@ export async function createLiveSession(db: Db, actor: Actor, input: LiveSession
         durationMinutes: duration,
         provider,
         joinUrlSealed: url ? seal(url, PURPOSE) : null,
-        providerMeetingId: input.providerMeetingId?.trim() || null
+        providerMeetingId: input.providerMeetingId?.trim() || null,
+        meetingPasscodeSealed: sealPasscode(input.meetingPasscode)
       })
       .returning()
     if (!row) throw new AppError('INTERNAL')
@@ -139,6 +150,7 @@ export async function updateLiveSession(db: Db, actor: Actor, id: string, input:
     patch.joinUrlSealed = url ? seal(url, PURPOSE) : null
   }
   if (input.providerMeetingId !== undefined) patch.providerMeetingId = input.providerMeetingId?.trim() || null
+  if (input.meetingPasscode !== undefined) patch.meetingPasscodeSealed = sealPasscode(input.meetingPasscode)
   return db.transaction(async (tx) => {
     const [row] = await tx.update(liveSessions).set(patch).where(eq(liveSessions.id, s.id)).returning()
     if (!row) throw new AppError('INTERNAL')
@@ -302,6 +314,55 @@ export async function joinInfo(db: Db, actor: Actor, sessionId: string, now: Dat
   if (!url) throw new AppError('LIVE_NOT_OPEN')
   await writeAudit(db, { actorUserId: actor.userId, workspaceId, action: 'live.join', entityType: 'live_session', entityId: s.id, newValue: { studentId, sessionId: s.id, at: now.toISOString() } })
   return { url, provider: s.provider as LiveProvider, title: s.title }
+}
+
+/** هل تُفتح هذه الحصة داخل المنصة بـ Zoom Meeting SDK؟ (المفتاحان على الخادم + Zoom + رقم اجتماع مقروء) */
+export function liveEmbeddable(provider: string, joinUrl: string | null, providerMeetingId?: string | null): boolean {
+  return provider === 'ZOOM' && zoomSdkKeys() !== null && zoomMeetingNumber(joinUrl, providerMeetingId) !== null
+}
+
+/** انضمام التلميذ من الموقع: كـ joinInfo، ومعه مسار الدخول داخل المنصة إن أمكن (وإلا يُفتح الرابط كما كان) */
+export async function joinLiveWeb(db: Db, actor: Actor, sessionId: string, now: Date = new Date()): Promise<{ url: string; provider: LiveProvider; title: string; embedPath: string | null }> {
+  const info = await joinInfo(db, actor, sessionId, now)
+  const { s } = await loadSession(db, sessionId)
+  return { ...info, embedPath: liveEmbeddable(info.provider, info.url, s.providerMeetingId) ? `/live/${s.id}` : null }
+}
+
+export interface ZoomEmbedJoin {
+  signature: string
+  sdkKey: string
+  meetingNumber: string
+  passcode: string
+  userName: string
+  title: string
+  /** الرابط الأصلي: «افتح في تطبيق Zoom» إن تعذّر الدخول داخل المنصة */
+  fallbackUrl: string
+  /** صفحة الدورة: يعود إليها التلميذ حين يغادر الحصة */
+  leaveUrl: string
+}
+
+/**
+ * دخول الحصة داخل المنصة (Zoom Meeting SDK، 22 نوفمبر 2026): نفس شروط joinInfo (الاشتراك، الشروط،
+ * نافذة الانضمام) ويُسجَّل الحضور، ثم توقيع دخول صالح ساعتين باسم التلميذ في حسابه (لا بريد ولا هاتف).
+ */
+export async function zoomEmbedJoin(db: Db, actor: Actor, sessionId: string, now: Date = new Date()): Promise<ZoomEmbedJoin> {
+  const keys = zoomSdkKeys()
+  if (!keys) throw new AppError('LIVE_EMBED_UNAVAILABLE')
+  const info = await joinInfo(db, actor, sessionId, now)
+  const { s } = await loadSession(db, sessionId)
+  const meetingNumber = info.provider === 'ZOOM' ? zoomMeetingNumber(info.url, s.providerMeetingId) : null
+  if (!meetingNumber) throw new AppError('LIVE_EMBED_UNAVAILABLE')
+  const [c] = await db.select({ slug: courses.slug }).from(courses).where(eq(courses.id, s.courseId)).limit(1)
+  return {
+    signature: zoomSdkSignature(keys, meetingNumber, 0, now),
+    sdkKey: keys.clientId,
+    meetingNumber,
+    passcode: (s.meetingPasscodeSealed ? unseal(s.meetingPasscodeSealed, PURPOSE) : null) ?? '',
+    userName: actor.fullName.trim().slice(0, 60) || 'تلميذ',
+    title: info.title,
+    fallbackUrl: info.url,
+    leaveUrl: c ? `/student/courses/${encodeURIComponent(c.slug)}` : '/student/courses'
+  }
 }
 
 /** سجل حضور البث: من فتح الرابط (من التدقيق) — للمشرف/الأستاذ */

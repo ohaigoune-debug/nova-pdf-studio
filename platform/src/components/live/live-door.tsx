@@ -62,6 +62,11 @@ export function LiveDoor({ session, later, serverNow }: { session: NextLiveBanne
         toast('error', r.error.message)
         return
       }
+      // الحصة داخل المنصة (Zoom Meeting SDK) إن كانت مهيّأة، وإلا الرابط في تطبيق Zoom كما كان
+      if (r.data.embedPath) {
+        window.location.assign(r.data.embedPath)
+        return
+      }
       const w = window.open(r.data.url, '_blank', 'noopener,noreferrer')
       if (!w) window.location.href = r.data.url
     })

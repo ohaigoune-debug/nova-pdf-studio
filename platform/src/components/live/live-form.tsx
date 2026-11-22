@@ -23,6 +23,7 @@ export interface LiveFormDefaults {
   joinUrl?: string | null
   hasJoinUrl?: boolean
   providerMeetingId?: string | null
+  hasPasscode?: boolean
 }
 
 /** قيمة الخانة بتوقيت الجزائر (لا بتوقيت المتصفح): الخادم يقرؤها بتوقيت الجزائر أيضًا */
@@ -81,6 +82,21 @@ export function LiveSessionForm({ id, defaults = {}, courses }: { id?: string; d
         {id && defaults.hasJoinUrl ? (
           <label className="flex items-center gap-2 text-sm sm:col-span-2">
             <input type="checkbox" name="keepJoinUrl" defaultChecked className="size-4" /> الإبقاء على الرابط المحفوظ إن تُرك الحقل فارغاً
+          </label>
+        ) : null}
+        {/* Zoom Meeting SDK يحتاج رمز الاجتماع نفسه لا رمز الرابط المشفّر (22 نوفمبر 2026) */}
+        <Field
+          label="رمز اجتماع Zoom ‏(Passcode)"
+          htmlFor="l-passcode"
+          hint={id && defaults.hasPasscode ? 'محفوظ مشفّرًا. اتركه فارغًا مع «الإبقاء على الرمز» للاحتفاظ به.' : 'من تفاصيل الاجتماع في Zoom. به يدخل التلميذ الحصة داخل المنصة دون تطبيق Zoom؛ اتركه فارغًا إن لم يكن للاجتماع رمز.'}
+          error={fieldError(state, 'meetingPasscode')}
+          className="sm:col-span-2"
+        >
+          <Input id="l-passcode" name="meetingPasscode" maxLength={40} dir="ltr" autoComplete="off" placeholder={id && defaults.hasPasscode ? '••••••' : ''} />
+        </Field>
+        {id && defaults.hasPasscode ? (
+          <label className="flex items-center gap-2 text-sm sm:col-span-2">
+            <input type="checkbox" name="keepPasscode" defaultChecked className="size-4" /> الإبقاء على الرمز المحفوظ إن تُرك الحقل فارغًا
           </label>
         ) : null}
         <Field label="وصف (اختياري)" htmlFor="l-desc" className="sm:col-span-2">
