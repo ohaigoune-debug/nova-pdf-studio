@@ -90,6 +90,8 @@ struct CardLauncher: View {
     @ObservedObject var play: PlayModel
     let lessonID: String
     let title: String
+    /// Build 18: opened from «تدرّب على هذا الدرس» in a course (the subscription, not the PLAY trial).
+    var practiceLinkID: String? = nil
     @State private var pack: Cards.Pack?
     @State private var failure: String?
     @State private var trialEnded = false
@@ -98,7 +100,7 @@ struct CardLauncher: View {
     var body: some View {
         Group {
             if let pack {
-                CardGame(play: play, pack: pack, baseURL: model.api.baseURL) { round = UUID() }
+                CardGame(play: play, pack: pack, baseURL: model.api.baseURL, practiceLinkID: practiceLinkID) { round = UUID() }
                     .id(round)
             } else if trialEnded {
                 ContentUnavailableView {
@@ -127,7 +129,7 @@ struct CardLauncher: View {
         trialEnded = false
         if pack == nil, let stored = await play.storedLesson(id: lessonID) { pack = stored }
         do {
-            let fresh = try await play.openLesson(id: lessonID)
+            let fresh = try await play.openLesson(id: lessonID, practiceLinkID: practiceLinkID)
             if pack == nil || pack?.checksum != fresh.checksum { pack = fresh }
         } catch let error as APIFailure {
             guard pack == nil else { return }
@@ -145,6 +147,7 @@ struct CardGame: View {
     @ObservedObject var play: PlayModel
     let pack: Cards.Pack
     let baseURL: URL
+    var practiceLinkID: String? = nil
     let restart: () -> Void
 
     private enum Phase { case covered, front, answered }
@@ -300,7 +303,8 @@ struct CardGame: View {
             Task {
                 if !answers.isEmpty {
                     finished = await play.finishRound(pack, answers: answers,
-                                                      estimatedXP: Cards.estimatedXP(deck, results: results, rules: pack.xp, complete: answers.count == deck.count))
+                                                      estimatedXP: Cards.estimatedXP(deck, results: results, rules: pack.xp, complete: answers.count == deck.count),
+                                                      practiceLinkID: practiceLinkID)
                 }
                 done = true
             }

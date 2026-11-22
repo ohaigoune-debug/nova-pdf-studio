@@ -9,6 +9,8 @@ import type { Db } from '@/server/db/connect'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { iosCourseHome, iosLearningHome, iosLesson } from './ios-learning.service'
+import { lessonPracticeForStudent, practiceCountsFor } from './lesson-practice.service'
+import { joinWindow, upcomingForStudent } from './live.service'
 
 export const IOS_API_VERSION = 1
 
@@ -58,6 +60,13 @@ export async function iosApiCourse(db: Db, actor: Actor | null, slug: string) {
   const webPath = `/ios/course/${encodeURIComponent(home.course.slug)}`
   // نص الشروط ونسختها ليقبلها التلميذ داخل التطبيق الأصيل (POST /api/v1/ios/courses/:slug/terms)
   if (home.needsTerms) return { needsTerms: true as const, course: { slug: home.course.slug, title: home.course.title }, terms: { text: home.course.termsText, version: home.course.termsVersion }, webPath }
+  const [practice, live] = await Promise.all([
+    practiceCountsFor(
+      db,
+      home.sections.flatMap((section) => section.items.map((item) => item.id))
+    ),
+    actor ? upcomingForStudent(db, actor).then((ls) => ls.filter((l) => l.courseId === home.course.id).slice(0, 10)) : Promise.resolve([])
+  ])
   return {
     needsTerms: false as const,
     course: {
@@ -79,10 +88,17 @@ export async function iosApiCourse(db: Db, actor: Actor | null, slug: string) {
         session: item.session,
         type: item.type,
         videoProvider: item.videoProvider,
-        publishedAt: iso(item.publishedAt)
+        publishedAt: iso(item.publishedAt),
+        // تمارين QCM من بنك مدرسة تحت هذا الدرس (Build 18): تُعدّ في باب «تمارين QCM» كما في الموقع
+        practiceCount: practice.get(item.id) ?? 0
       }))
     })),
-    upcoming: home.upcoming.map((s) => ({ title: s.title, startsAt: iso(s.startsAt), durationMinutes: s.durationMinutes })),
+    // id ونافذة الانضمام: زر «انضم» في التطبيق (Build 18)؛ الرابط نفسه لا يُرسل إلا عند الانضمام.
+    // مصدرها مصدر باب «الحصص المباشرة» في الموقع: المجدولة والجارية ما دامت نافذة الانضمام مفتوحة
+    upcoming: live.map((s) => {
+      const w = joinWindow(s.startsAt, s.durationMinutes)
+      return { id: s.id, title: s.title, startsAt: iso(s.startsAt), durationMinutes: s.durationMinutes, provider: s.provider, status: s.status, joinOpensAt: iso(w.opensAt), joinClosesAt: iso(w.closesAt) }
+    }),
     webPath
   }
 }
@@ -133,6 +149,11 @@ export async function iosApiLesson(db: Db, actor: Actor | null, slug: string) {
       webPath: `/ios/lesson/${encodeURIComponent(item.slug)}`
     },
     // العلامة المائية في المشغّل الأصلي: اسم التلميذ نفسه ورمز حسابه (أول 8 خانات، مثل الموقع) — لا بريد ولا هاتف
-    viewer: actor ? { name: actor.fullName || null, code: actor.userId.slice(0, 8) } : null
+    viewer: actor ? { name: actor.fullName || null, code: actor.userId.slice(0, 8) } : null,
+    // «تدرّب على هذا الدرس» (Build 18): تمارين بنك مدرسة تحت درس الدورة للمشترك؛ [] لغيره.
+    // التطبيق يفتح بها لعبة البطاقات أو الموضوع الأصليّين، مع ?practice=<linkId> (باشتراك الدورة لا بتجربة PLAY)
+    practice: actor
+      ? ((await lessonPracticeForStudent(db, actor, item.id)) ?? []).map((p) => ({ linkId: p.linkId, kind: p.kind, refId: p.refId, title: p.title, subtitle: p.subtitle, bestPct: p.best?.pct ?? null, bestLabel: p.best?.label ?? null }))
+      : []
   }
 }

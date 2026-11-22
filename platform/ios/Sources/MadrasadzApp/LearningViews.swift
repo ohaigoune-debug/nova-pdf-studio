@@ -115,51 +115,28 @@ struct CourseView: View {
     private var path: String { "/api/v1/ios/courses/" + encoded(slug) }
 
     var body: some View {
-        List {
-            if let course = loader.value {
-                if loader.savedAt != nil || !model.online {
-                    OfflineBanner(savedAt: loader.savedAt).listRowBackground(Color.clear).listRowInsets(EdgeInsets())
+        Group {
+            if let course = loader.value, !course.needsTerms {
+                // Build 18: the website's doors — live, recorded, files, QCM exercises, forum
+                ScrollView {
+                    CourseDoorsPage(model: model, course: course, savedAt: loader.savedAt)
                 }
-                header(course)
-                if !course.needsTerms, let groupId = course.course.groupId {
-                    Section {
-                        NavigationLink { ClassroomView(model: model, groupId: groupId) } label: {
-                            AccountRow(title: L10n.text("classroom"), detail: L10n.text("classroomHint"), icon: "bubble.left.and.text.bubble.right.fill", tint: Brand.blue)
-                        }
-                        .accessibilityIdentifier("courseClassroom")
-                    }
-                }
-                if course.needsTerms {
-                    terms(course)
-                } else if course.sections.isEmpty {
-                    Text(L10n.text("courseEmpty")).foregroundStyle(.secondary)
-                } else {
-                    ForEach(course.sections) { section in
-                        Section(sectionTitle(section.kind)) {
-                            ForEach(section.items) { item in
-                                NavigationLink { LessonView(model: model, slug: item.slug) } label: { ItemRow(item: item) }
-                                    .accessibilityIdentifier("item-\(item.slug)")
-                            }
-                        }
-                    }
-                }
-                if !course.upcoming.isEmpty {
-                    Section(L10n.text("upcomingTitle")) {
-                        ForEach(Array(course.upcoming.enumerated()), id: \.offset) { _, session in
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(session.title).font(.subheadline.bold())
-                                if let date = session.startsAt.flatMap(parseDate) {
-                                    Text(date.formatted(date: .complete, time: .shortened)).font(.footnote).foregroundStyle(.secondary)
-                                }
-                            }
-                        }
-                    }
-                }
-            } else if let failure = loader.failure {
-                FailureView(message: failure.message) { Task { await loader.load(path, model: model, force: true) } }
-                    .listRowBackground(Color.clear)
+                .background(Brand.page)
             } else {
-                LoadingView().listRowBackground(Color.clear)
+                List {
+                    if let course = loader.value {
+                        if loader.savedAt != nil || !model.online {
+                            OfflineBanner(savedAt: loader.savedAt).listRowBackground(Color.clear).listRowInsets(EdgeInsets())
+                        }
+                        header(course)
+                        terms(course)
+                    } else if let failure = loader.failure {
+                        FailureView(message: failure.message) { Task { await loader.load(path, model: model, force: true) } }
+                            .listRowBackground(Color.clear)
+                    } else {
+                        LoadingView().listRowBackground(Color.clear)
+                    }
+                }
             }
         }
         .navigationTitle(title)
@@ -229,15 +206,6 @@ struct CourseView: View {
         }
     }
 
-    private func sectionTitle(_ kind: NativeCourse.SectionKind) -> String {
-        switch kind {
-        case .lessons: return L10n.text("sectionLessons")
-        case .videos: return L10n.text("sectionVideos")
-        case .homework: return L10n.text("sectionHomework")
-        case .tests: return L10n.text("sectionTests")
-        case .files: return L10n.text("sectionFiles")
-        }
-    }
 }
 
 func parseDate(_ value: String) -> Date? {
@@ -296,6 +264,8 @@ struct LessonView: View {
                     if let summary = lesson.summary { Text(summary).font(.callout).foregroundStyle(.secondary) }
                     ForEach(Array(lesson.parts.enumerated()), id: \.offset) { _, part in media(part, lesson: lesson) }
                     if let body = lesson.bodyMarkdown { LessonBody(markdown: body) }
+                    // Build 18: «تدرّب على هذا الدرس» — Madrasa-bank exercises under a course lesson
+                    if !lesson.practice.isEmpty { LessonPracticeCard(model: model, items: lesson.practice) }
                     if lesson.parts.isEmpty && lesson.bodyMarkdown == nil && lesson.summary == nil {
                         Label(L10n.text("lessonEmpty"), systemImage: "doc.text").font(.subheadline).foregroundStyle(.secondary).card()
                             .accessibilityIdentifier("lessonEmpty")

@@ -10,7 +10,7 @@ import { iosApiError, resolveIosActor } from '../../_respond'
 
 export const dynamic = 'force-dynamic'
 
-const schema = z.object({ setId: z.string().uuid(), answers: stepAnswersSchema })
+const schema = z.object({ setId: z.string().uuid(), practiceLinkId: z.string().uuid().nullable().optional(), answers: stepAnswersSchema })
 
 /**
  * POST /api/v1/ios/play/sync — محاولة PLAY أُنجزت في التطبيق تُرفع ويُعاد تصحيحها في الخادم.
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     const parsed = schema.safeParse(await req.json().catch(() => null))
     if (!parsed.success) throw new AppError('VALIDATION')
     await checkRateLimit(db, { scope: 'ios-play-sync', subject: actor.userId, limit: 120, windowSeconds: 3600 })
-    const data = await syncOfflineAttempt(db, actor, { setUuid: parsed.data.setId, answers: parsed.data.answers })
+    const data = await syncOfflineAttempt(db, actor, { setUuid: parsed.data.setId, practiceLinkId: parsed.data.practiceLinkId ?? null, answers: parsed.data.answers })
     const res = NextResponse.json({ ok: true, data })
     res.headers.set('X-Madrasadz-Account', actor.userId)
     return iosNoStore(res)

@@ -6,10 +6,11 @@ import { iosApiGet } from '../../../_respond'
 export const dynamic = 'force-dynamic'
 
 /** GET /api/v1/ios/play/sets/:id — حزمة الموضوع كاملة للتخزين والتصحيح دون إنترنت */
+/** ?practice=<linkId>: تمرين تحت درس الدورة (Build 18) — باشتراك الدورة بدل تجربة PLAY */
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   return iosApiGet(req, async (db, actor) => {
     if (!actor) throw new AppError('AUTH_REQUIRED')
-    return offlineExamPackage(db, actor, id)
+    return offlineExamPackage(db, actor, id, new Date(), { practiceLinkId: req.nextUrl.searchParams.get('practice') })
   })
 }

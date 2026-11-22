@@ -563,12 +563,18 @@ export interface OfflineExamPackage {
  * حزمة موضوع كاملة للتخزين في التطبيق. الصلاحية نفسها كبدء المحاولة على الموقع (التجربة أو الاشتراك).
  * المفاتيح تصل إلى الجهاز عمدًا: PLAY تدريب، والمحاولة المرفوعة يعيد الخادم تصحيحها بمفاتيحه (syncOfflineAttempt).
  */
-export async function offlineExamPackage(db: Db, actor: Actor, setUuid: string, now: Date = new Date()): Promise<OfflineExamPackage> {
-  studentIdOf(actor)
+export async function offlineExamPackage(db: Db, actor: Actor, setUuid: string, now: Date = new Date(), opts: { practiceLinkId?: string | null } = {}): Promise<OfflineExamPackage> {
+  const studentId = studentIdOf(actor)
   const set = await loadVisibleSet(db, setUuid)
   const profile = await getPlayProfile(db, actor)
-  if (set.streamCodes.length && profile.streamCode && !set.streamCodes.includes(profile.streamCode)) throw new AppError('PLAY_EXAM_NOT_FOUND')
-  await beginPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode: profile.streamCode, subjectCode: set.subjectCode }, now)
+  if (opts.practiceLinkId) {
+    // تمرين تحت درس الدورة (22 نوفمبر 2026): الموضوع الذي اختاره المشرف بعينه، باشتراك الدورة ولكل شعبها
+    const link = await practiceLinkForStudent(db, studentId, opts.practiceLinkId)
+    if (link.kind !== 'EXAM_SET' || link.examSetId !== set.id) throw new AppError('LESSON_PRACTICE_NOT_ALLOWED')
+  } else {
+    if (set.streamCodes.length && profile.streamCode && !set.streamCodes.includes(profile.streamCode)) throw new AppError('PLAY_EXAM_NOT_FOUND')
+    await beginPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode: profile.streamCode, subjectCode: set.subjectCode }, now)
+  }
   const document = await examDocument(db, set.id, set.checksum)
   const full = new Map(stepsFor(document, profile.streamCode).map((s) => [s.id, s]))
   const steps = publicSteps(document, profile.streamCode).flatMap((p): OfflineStep[] => {
@@ -582,8 +588,13 @@ export async function offlineExamPackage(db: Db, actor: Actor, setUuid: string, 
  * محاولة أُنجزت في التطبيق (ربما دون إنترنت) تُرفع عند عودة الاتصال: الخادم لا يثق بعلامة التطبيق،
  * بل يعيد التصحيح بمفاتيحه عبر المسار نفسه للموقع (بدء محاولة تدريب، إرسال كل خطوة، إنهاء).
  */
-export async function syncOfflineAttempt(db: Db, actor: Actor, input: { setUuid: string; answers: Record<string, StepAnswer> }, now: Date = new Date()): Promise<{ attemptId: string; score: number; max: number; accepted: number }> {
-  const { attemptId } = await startExamAttempt(db, actor, input.setUuid, 'PRACTICE', now)
+export async function syncOfflineAttempt(db: Db, actor: Actor, input: { setUuid: string; practiceLinkId?: string | null; answers: Record<string, StepAnswer> }, now: Date = new Date()): Promise<{ attemptId: string; score: number; max: number; accepted: number }> {
+  if (input.practiceLinkId) {
+    // startExamAttempt يثق بالمستدعي في تمرين الدورة: الرابط لهذا التلميذ ولهذا الموضوع بعينه
+    const link = await practiceLinkForStudent(db, studentIdOf(actor), input.practiceLinkId)
+    if (link.kind !== 'EXAM_SET' || link.examSetId !== input.setUuid) throw new AppError('LESSON_PRACTICE_NOT_ALLOWED')
+  }
+  const { attemptId } = await startExamAttempt(db, actor, input.setUuid, 'PRACTICE', now, input.practiceLinkId ? { practiceLinkId: input.practiceLinkId } : {})
   let accepted = 0
   for (const [stepId, answer] of Object.entries(input.answers).slice(0, 500)) {
     try {

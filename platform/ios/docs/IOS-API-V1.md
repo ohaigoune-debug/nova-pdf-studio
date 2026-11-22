@@ -52,14 +52,28 @@ The app shows native screens only if this succeeds with `apiVersion >= 1`.
 - A guest gets `account: null`, empty `courses` and empty `tools`.
 - `freeLessons` uses the same grouping as the `/ios` page (`server/lib/group-lessons.ts`).
 
+## `POST /api/v1/ios/live/{id}/join` — student (Build 18, 21 Nov 2026)
+
+Header `X-Madrasadz-Client: ios`, session cookie. Same rules as the web «انضم» button
+(`joinInfo`): active enrollment, accepted terms, inside the join window
+(15 minutes before the start until 30 minutes after the end). Records attendance.
+
+```json
+{"ok":true,"data":{"url":"https://…","provider":"ZOOM","title":"…","appUrl":"zoomus://zoom.us/join?action=join&confno=…&pwd=…&uname=…"|null}}
+```
+
+The app opens `appUrl` first (the Zoom app joins directly under the student's account name and the
+meeting passcode — no e-mail, no phone), and `url` when Zoom is not installed or for YouTube/Meet. Errors: `LIVE_NOT_OPEN`,
+`COURSE_NOT_ENROLLED`, `LIVE_NOT_FOUND`, `AUTH_REQUIRED`.
+
 ## `GET /api/v1/ios/courses/{slug}` — student
 
 ```json
 {"ok":true,"data":{
   "needsTerms":false,
   "course":{"slug":"…","title":"…","teacherName":"…","season":"…","description":"…"|null,"accessEndsOn":"…"|null},
-  "sections":[{"id":"lessons|videos|homework|tests|files","items":[{"slug":"…","title":"…","displayTitle":"…","session":3|null,"type":"PDF","videoProvider":"YOUTUBE"|null,"publishedAt":"ISO"|null}]}],
-  "upcoming":[{"title":"…","startsAt":"ISO","durationMinutes":60}],
+  "sections":[{"id":"lessons|videos|homework|tests|files","items":[{"slug":"…","title":"…","displayTitle":"…","session":3|null,"type":"PDF","videoProvider":"YOUTUBE"|null,"publishedAt":"ISO"|null,"practiceCount":0}]}],
+  "upcoming":[{"id":"uuid","title":"…","startsAt":"ISO","durationMinutes":60,"provider":"ZOOM|YOUTUBE|MEET|OTHER","status":"SCHEDULED|LIVE","joinOpensAt":"ISO","joinClosesAt":"ISO"}],
   "webPath":"/ios/course/{slug}"
 }}
 ```
@@ -231,3 +245,22 @@ teacher's students. With `?group=` it is the course classroom: that group's post
 (report and hide as in Build 16); in the general classroom another student's name shows shortened («سارة ع.»).
 Public posts send no mass notification. A course post's notification link carries `?group=`, and the app opens
 that course's classroom.
+
+## Build 18 (22 November 2026) — course doors, lives and practice under lessons
+
+The course page in the app follows the website's five doors (`server/lib/course-doors.ts`):
+الحصص المباشرة (the `upcoming` card with a join button), الحصص المسجلة (`lessons` + `videos`),
+الملفات (`files`), تمارين QCM (`homework` + `tests` + lessons whose `practiceCount > 0`) and
+المنتدى (the course classroom).
+
+- `upcoming` now has the same source as the website's live door: scheduled **and** running sessions while
+  their join window is still open (a late student can still join), with `status`.
+- `GET /api/v1/ios/lessons/{slug}` adds
+  `"practice":[{"linkId":"uuid","kind":"LESSON|EXAM_SET","refId":"uuid","title":"…","subtitle":"…","bestPct":80|null,"bestLabel":"…"|null}]`
+  for an active course subscriber (`[]` otherwise). `refId` is the PLAY lesson id (card game) or the exam set id.
+- Practice uses the native screens with the link id, paid by the course subscription instead of the PLAY trial,
+  for every stream of the course:
+  - `GET /api/v1/ios/play/lessons/{refId}?practice={linkId}` and `GET /api/v1/ios/play/sets/{refId}?practice={linkId}`;
+  - `POST /api/v1/ios/play/cards/sync` and `POST /api/v1/ios/play/sync` accept `"practiceLinkId":"uuid"`.
+  A link for another item, another student or an ended subscription: `LESSON_PRACTICE_NOT_ALLOWED`.
+

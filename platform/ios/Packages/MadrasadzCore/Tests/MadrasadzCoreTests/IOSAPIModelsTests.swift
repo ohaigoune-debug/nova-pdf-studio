@@ -56,6 +56,53 @@ final class IOSAPIModelsTests: XCTestCase {
         XCTAssertEqual(terms.course.title, "دورة بشروط")
     }
 
+    /// Build 18: the website's doors — practice counts under lessons, the running live session first.
+    func testCourseDoorsLiveAndPracticeCounts() throws {
+        let json = #"""
+        {"ok":true,"data":{"needsTerms":false,"course":{"slug":"s","title":"t"},
+         "sections":[{"id":"lessons","items":[{"slug":"a","title":"A","session":1,"type":"LESSON","practiceCount":2},{"slug":"b","title":"B","session":2,"type":"LESSON"}]},
+                     {"id":"homework","items":[{"slug":"h","title":"H","type":"PDF"}]},
+                     {"id":"files","items":[{"slug":"f","title":"F","type":"PDF"}]}],
+         "upcoming":[{"id":"u1","title":"جارية","startsAt":"2026-11-22T10:00:00Z","durationMinutes":60,"provider":"ZOOM","status":"LIVE","joinOpensAt":"2026-11-22T09:45:00Z","joinClosesAt":"2026-11-22T11:30:00Z"},
+                     {"id":"u2","title":"غدًا","startsAt":"2026-11-23T10:00:00Z","durationMinutes":60,"provider":"ZOOM","status":"SCHEDULED","joinOpensAt":"2026-11-23T09:45:00Z","joinClosesAt":"2026-11-23T11:30:00Z"}],
+         "webPath":"/ios/course/s"}}
+        """#
+        let course = try XCTUnwrap(decode(NativeCourse.self, json).data)
+        XCTAssertEqual(course.count(for: .recorded), 2)
+        XCTAssertEqual(course.count(for: .files), 1)
+        XCTAssertEqual(course.count(for: .practice), 3, "one homework + two bank exercises under lesson a")
+        XCTAssertEqual(course.practiceLessons.map(\.slug), ["a"])
+        let during = try XCTUnwrap(IOSAPI.parseISODate("2026-11-22T10:20:00Z"))
+        XCTAssertTrue(course.upcoming[0].isLive(at: during))
+        XCTAssertEqual(course.nextLive(at: during)?.id, "u1")
+        let evening = try XCTUnwrap(IOSAPI.parseISODate("2026-11-22T20:00:00Z"))
+        XCTAssertEqual(course.nextLive(at: evening)?.id, "u2", "a closed session gives way to the next one")
+        XCTAssertFalse(course.upcoming[1].isLive(at: evening))
+        XCTAssertEqual(course.upcoming[1].joinState(at: evening), .opensAt(try XCTUnwrap(IOSAPI.parseISODate("2026-11-23T09:45:00Z"))))
+        // An older server: no practice counts, no status — nothing breaks
+        let old = try XCTUnwrap(decode(NativeCourse.self, APIFixtures.course).data)
+        XCTAssertEqual(old.practiceLessons, [])
+        XCTAssertEqual(old.count(for: .practice), 2)
+    }
+
+    /// Build 18: «تدرّب على هذا الدرس» — unknown kinds are skipped, empty texts become nil.
+    func testLessonPracticeItems() throws {
+        let json = #"""
+        {"ok":true,"data":{"lesson":{"slug":"l","title":"L","type":"LESSON","media":{"kind":"none"},"webPath":"/ios/lesson/l"},"viewer":null,
+         "practice":[{"linkId":"k1","kind":"LESSON","refId":"p1","title":"لعبة: إعراب الجمل","subtitle":"3 ثانوي","bestPct":80,"bestLabel":"أفضل نتيجة لك 8/10"},
+                     {"linkId":"k2","kind":"EXAM_SET","refId":"s1","title":"بكالوريا 2016","subtitle":"","bestPct":null},
+                     {"linkId":"k3","kind":"VIDEO","refId":"x","title":"?"}]}}
+        """#
+        let lesson = try XCTUnwrap(decode(NativeLesson.self, json).data)
+        XCTAssertEqual(lesson.practice.map(\.kind), [.lesson, .examSet])
+        XCTAssertEqual(lesson.practice.map(\.refId), ["p1", "s1"])
+        XCTAssertEqual(lesson.practice.first?.bestPct, 80)
+        XCTAssertNil(lesson.practice.last?.subtitle)
+        XCTAssertNil(lesson.practice.last?.bestPct)
+        let plain = try XCTUnwrap(decode(NativeLesson.self, #"{"ok":true,"data":{"lesson":{"slug":"l","title":"L","type":"LESSON","media":{"kind":"none"},"webPath":"/x"}}}"#).data)
+        XCTAssertEqual(plain.practice, [])
+    }
+
     func testNewerServerFieldsAndValuesDoNotBreakDecoding() throws {
         let json = #"""
         {"ok":true,"data":{"needsTerms":false,"newField":1,"course":{"slug":"c","title":"T","extra":true},

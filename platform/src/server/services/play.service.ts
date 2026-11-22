@@ -329,7 +329,8 @@ export async function startPlaySession(db: Db, actor: Actor, input: StartSession
     .set({ status: 'ABANDONED' })
     .where(and(eq(playSessions.studentId, studentId), eq(playSessions.status, 'ACTIVE')))
 
-  const conds = [servableFilter(rules), eq(playQuestions.gradeCode, grade.code), questionStreamFilter(streamCode)]
+  // تمرين تحت درس الدورة: المشرف اختار الدرس بعينه، فتُقدَّم كل أسئلته لكل شعب الدورة (لا تصفية بشعبة التلميذ)
+  const conds = [servableFilter(rules), eq(playQuestions.gradeCode, grade.code), ...(practice ? [] : [questionStreamFilter(streamCode)])]
   if (input.challengeType === 'BAC') conds.push(eq(playQuestions.gradeCode, '3AS'))
   if (input.challengeType === 'HARD') conds.push(eq(playQuestions.difficulty, 'HARD'))
   if (input.subjectCode) conds.push(eq(playQuestions.subjectCode, input.subjectCode))

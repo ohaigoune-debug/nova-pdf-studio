@@ -319,6 +319,8 @@ struct ExamLauncher: View {
     @ObservedObject var play: PlayModel
     let setID: String
     let title: String
+    /// Build 18: opened from «تدرّب على هذا الدرس» in a course (the subscription, not the PLAY trial).
+    var practiceLinkID: String? = nil
     @State private var package: Play.Package?
     @State private var failure: String?
     @State private var trialEnded = false
@@ -327,7 +329,7 @@ struct ExamLauncher: View {
     var body: some View {
         Group {
             if let package {
-                ExamRunner(play: play, package: package, baseURL: model.api.baseURL) { attempt = UUID() }
+                ExamRunner(play: play, package: package, baseURL: model.api.baseURL, practiceLinkID: practiceLinkID) { attempt = UUID() }
                     .id(attempt)
             } else if trialEnded {
                 // Not an error and nothing to retry: the account's free PLAY trial is over.
@@ -358,7 +360,7 @@ struct ExamLauncher: View {
         // A saved copy opens at once; online, the latest version replaces it.
         if package == nil, let stored = await play.package(id: setID) { package = stored }
         do {
-            let fresh = try await play.open(setID: setID)
+            let fresh = try await play.open(setID: setID, practiceLinkID: practiceLinkID)
             if package == nil || package?.checksum != fresh.checksum { package = fresh }
         } catch let error as APIFailure {
             guard package == nil else { return }
@@ -376,6 +378,7 @@ struct ExamRunner: View {
     @ObservedObject var play: PlayModel
     let package: Play.Package
     let baseURL: URL
+    var practiceLinkID: String? = nil
     let restart: () -> Void
 
     @State private var index = 0
@@ -474,7 +477,7 @@ struct ExamRunner: View {
             withAnimation { index += 1 }
         } else {
             Task {
-                finished = await play.finish(package, answers: answers)
+                finished = await play.finish(package, answers: answers, practiceLinkID: practiceLinkID)
                     ?? PlayStore.Attempt(id: UUID(), setId: package.id, title: package.title, answers: answers,
                                          score: Play.score(package, answers: answers).score, max: Play.score(package, answers: answers).max,
                                          scoreTotal: package.scoreTotal, finishedAt: Date(), serverScore: nil, rejected: false)
