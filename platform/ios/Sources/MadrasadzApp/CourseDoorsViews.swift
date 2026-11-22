@@ -374,7 +374,7 @@ struct LessonPracticeCard: View {
             }
         }
         .card()
-        .accessibilityIdentifier("lessonPractice")
+        // No identifier on the card itself: SwiftUI would give it to each row and hide «practice-<linkId>».
     }
 }
 
