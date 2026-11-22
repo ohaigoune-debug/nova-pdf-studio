@@ -6,7 +6,7 @@ import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { LIVE_PROVIDERS, LIVE_SESSION_STATUSES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
-import { attachRecording, createLiveSession, joinInfo, setLiveStatus, updateLiveSession } from '@/server/services/live.service'
+import { attachRecording, createLiveSession, joinLiveWeb, setLiveStatus, updateLiveSession, zoomEmbedJoin, type ZoomEmbedJoin } from '@/server/services/live.service'
 import { parseDzDateTime } from '@/lib/dz-time'
 
 const uuid = z.string().uuid()
@@ -20,7 +20,8 @@ const sessionSchema = z.object({
   durationMinutes: z.coerce.number().int().min(10).max(600).default(90),
   provider: z.enum(LIVE_PROVIDERS).default('ZOOM'),
   joinUrl: z.string().trim().url('رابط غير صحيح').optional().or(z.literal('')),
-  providerMeetingId: z.string().trim().max(100).optional()
+  providerMeetingId: z.string().trim().max(100).optional(),
+  meetingPasscode: z.string().trim().max(40).optional()
 })
 
 function revalidate() {
@@ -34,7 +35,7 @@ export async function createLiveSessionAction(_prev: ActionResult<{ id: string }
   const d = parsed.data
   const r = await runAction(async () => {
     const actor = await requireRole('SUPER_ADMIN', 'TEACHER')
-    const s = await createLiveSession(await getDb(), actor, { ...d, startsAt: parseDzDateTime(d.startsAt), joinUrl: d.joinUrl || null, description: d.description || null, providerMeetingId: d.providerMeetingId || null })
+    const s = await createLiveSession(await getDb(), actor, { ...d, startsAt: parseDzDateTime(d.startsAt), joinUrl: d.joinUrl || null, description: d.description || null, providerMeetingId: d.providerMeetingId || null, meetingPasscode: d.meetingPasscode || null })
     return { id: s.id }
   })
   if (r.ok) revalidate()
@@ -57,7 +58,9 @@ export async function updateLiveSessionAction(id: string, _prev: ActionResult<{ 
       durationMinutes: d.durationMinutes,
       provider: d.provider,
       ...(keepUrl ? {} : { joinUrl: d.joinUrl || null }),
-      providerMeetingId: d.providerMeetingId || null
+      providerMeetingId: d.providerMeetingId || null,
+      // رمز Zoom: فارغ مع «الإبقاء على الرمز» = لا تغيير
+      ...(fd.get('keepPasscode') === 'on' && !d.meetingPasscode ? {} : { meetingPasscode: d.meetingPasscode || null })
     })
     return { id: s.id }
   })
@@ -99,11 +102,21 @@ export async function attachRecordingAction(_prev: ActionResult | null, fd: Form
 }
 
 /** التلميذ: رابط الانضمام (يُسجَّل حضوره)؛ يُرفض خارج النافذة أو بلا اشتراك نشط/شروط */
-export async function joinLiveAction(payload: { sessionId: string }): Promise<ActionResult<{ url: string; provider: string; title: string }>> {
+export async function joinLiveAction(payload: { sessionId: string }): Promise<ActionResult<{ url: string; provider: string; title: string; embedPath: string | null }>> {
   const parsed = z.object({ sessionId: uuid }).safeParse(payload)
   if (!parsed.success) return failValidation(parsed.error)
   return runAction(async () => {
     const actor = await requireRole('STUDENT')
-    return joinInfo(await getDb(), actor, parsed.data.sessionId)
+    return joinLiveWeb(await getDb(), actor, parsed.data.sessionId)
+  })
+}
+
+/** صفحة الحصة داخل المنصة تطلب توقيع الدخول لحظة فتحها (لا يُرسم في HTML الصفحة) */
+export async function zoomEmbedJoinAction(payload: { sessionId: string }): Promise<ActionResult<ZoomEmbedJoin>> {
+  const parsed = z.object({ sessionId: uuid }).safeParse(payload)
+  if (!parsed.success) return failValidation(parsed.error)
+  return runAction(async () => {
+    const actor = await requireRole('STUDENT')
+    return zoomEmbedJoin(await getDb(), actor, parsed.data.sessionId)
   })
 }

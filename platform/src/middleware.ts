@@ -3,7 +3,7 @@ import { PIXEL_CONNECT_ORIGINS, PIXEL_IMG_ORIGINS, isPixelPath } from '@/lib/ad-
 import { IOS_CLIENT_HEADER, IOS_PRESENTATION_COOKIE, IOS_PRESENTATION_HEADER, IOS_PRESENTATION_VALUE, iosPresentationRedirect, iosPresentationState } from '@/lib/ios-presentation'
 
 const SESSION_COOKIE = 'madrasa_session'
-const PROTECTED = ['/student', '/teacher', '/assistant', '/admin', '/studio', '/print', '/pos', '/affiliate']
+const PROTECTED = ['/student', '/teacher', '/assistant', '/admin', '/studio', '/print', '/pos', '/affiliate', '/live']
 // تطبيق أندرويد يُطلق المنصة بـ ?source=android-app (strings.xml): يُتذكَّر في كوكي
 // فتُخفى أزرار «حمّل التطبيق» عمّن يستعمل التطبيق أصلاً
 const APP_COOKIE = 'madrasa_app'
@@ -38,6 +38,32 @@ function buildCsp(nonce: string, pixels = false): string {
   return directives.join('; ')
 }
 
+/**
+ * صفحة الحصة داخل المنصة (/live/…، 22 نوفمبر 2026): Zoom Meeting SDK يحمّل سكربتاته وملفات WebAssembly
+ * من source.zoom.us، وReact 18 من esm.sh (مثال Zoom الرسمي)، ويتصل بخوادم Zoom المتعددة (https وwss)،
+ * وينشئ Workers من blob:. سياسة أوسع لهذه الصفحة وحدها — بلا strict-dynamic حتى تُحترم قائمة المصادر —
+ * وباقي الموقع على السياسة الصارمة أعلاه.
+ */
+function buildLiveCsp(nonce: string): string {
+  return [
+    `default-src 'self'`,
+    `script-src 'self' 'nonce-${nonce}' 'unsafe-eval' 'wasm-unsafe-eval' blob: https://source.zoom.us https://*.zoom.us https://esm.sh`,
+    `style-src 'self' 'unsafe-inline' https://source.zoom.us https://*.zoom.us`,
+    `font-src 'self' data: https://source.zoom.us https://*.zoom.us`,
+    `img-src 'self' blob: data: https:`,
+    `connect-src 'self' blob: data: https: wss:`,
+    `worker-src 'self' blob: https://source.zoom.us`,
+    `media-src 'self' blob: data: https:`,
+    `frame-src 'self' https://*.zoom.us https://www.google.com https://www.recaptcha.net`,
+    `manifest-src 'self'`,
+    `object-src 'none'`,
+    `base-uri 'self'`,
+    `form-action 'self' https://*.zoom.us`,
+    `frame-ancestors 'none'`,
+    ...(process.env.NODE_ENV !== 'production' ? [] : ['upgrade-insecure-requests'])
+  ].join('; ')
+}
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
   const ios = iosPresentationState({ pathname, cookie: req.cookies.get(IOS_PRESENTATION_COOKIE)?.value, clientHeader: req.headers.get(IOS_CLIENT_HEADER) })
@@ -57,7 +83,8 @@ export function middleware(req: NextRequest) {
   }
 
   const nonce = btoa(crypto.randomUUID())
-  const csp = buildCsp(nonce, isPixelPath(pathname))
+  const isLiveRoom = pathname.startsWith('/live/')
+  const csp = isLiveRoom ? buildLiveCsp(nonce) : buildCsp(nonce, isPixelPath(pathname))
   const requestHeaders = new Headers(req.headers)
   // Ignore forged internal headers; only the persisted presentation preference
   // (or its explicit /ios bootstrap) supplies this server rendering hint.
