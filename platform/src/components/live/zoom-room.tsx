@@ -3,7 +3,7 @@
 import { ArrowRight, ExternalLink, Loader2, Video } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { ZOOM_CLIENT_VIEW_URL, ZOOM_UI_LANG } from '@/lib/zoom-web'
-import { zoomEmbedJoinAction } from '@/server/actions/live.actions'
+import { zoomEmbedJoinAction, zoomHostJoinAction } from '@/server/actions/live.actions'
 
 /** الجزء الذي نستعمله من ZoomMtg (Client View) — واجهة Zoom بالـcallbacks */
 interface ZoomMtgApi {
@@ -11,7 +11,7 @@ interface ZoomMtgApi {
   prepareWebSDK(): void
   i18n: { load(lang: string): void; onLoad(cb: () => void): void }
   init(o: { leaveUrl: string; patchJsMedia?: boolean; disableCORP?: boolean; success?: () => void; error?: (e: unknown) => void }): void
-  join(o: { signature: string; sdkKey?: string; meetingNumber: string; userName: string; passWord: string; userEmail?: string; success?: () => void; error?: (e: unknown) => void }): void
+  join(o: { signature: string; sdkKey?: string; meetingNumber: string; userName: string; passWord: string; userEmail?: string; zak?: string; success?: () => void; error?: (e: unknown) => void }): void
 }
 
 type Phase = 'loading' | 'joining' | 'in' | 'error'
@@ -31,11 +31,12 @@ function zoomErrorText(e: unknown): string {
  * غرفة الحصة داخل المنصة: يطلب توقيع الدخول من الخادم، يحمّل Zoom Meeting SDK (Client View) من خادم Zoom،
  * ثم يُدخل التلميذ باسمه. أي تعثّر ⇒ رسالة عربية وزرّ «افتح في تطبيق Zoom» بالرابط الأصلي.
  */
-export function ZoomRoom({ sessionId }: { sessionId: string }) {
+export function ZoomRoom({ sessionId, mode = 'student' }: { sessionId: string; mode?: 'student' | 'host' }) {
+  const host = mode === 'host'
   const [phase, setPhase] = useState<Phase>('loading')
   const [error, setError] = useState<string | null>(null)
   const [fallbackUrl, setFallbackUrl] = useState<string | null>(null)
-  const [leaveUrl, setLeaveUrl] = useState('/student/courses')
+  const [leaveUrl, setLeaveUrl] = useState(host ? `/admin/live/${sessionId}` : '/student/courses')
   const [title, setTitle] = useState('')
   const [slow, setSlow] = useState(false)
   const started = useRef(false)
@@ -52,7 +53,7 @@ export function ZoomRoom({ sessionId }: { sessionId: string }) {
       setPhase('error')
     }
     ;(async () => {
-      const r = await zoomEmbedJoinAction({ sessionId })
+      const r = await (host ? zoomHostJoinAction : zoomEmbedJoinAction)({ sessionId })
       if (!r.ok) return fail(r.error.message)
       const j = r.data
       setFallbackUrl(j.fallbackUrl)
@@ -88,6 +89,7 @@ export function ZoomRoom({ sessionId }: { sessionId: string }) {
                 userName: j.userName,
                 passWord: j.passcode,
                 userEmail: '',
+                ...(j.zak ? { zak: j.zak } : {}),
                 error: (e) => fail(zoomErrorText(e))
               })
             },
@@ -99,7 +101,7 @@ export function ZoomRoom({ sessionId }: { sessionId: string }) {
       }
     })().catch(() => fail('تعذّر فتح الحصة داخل المنصة. ادخل من تطبيق Zoom.'))
     return () => window.clearTimeout(timer)
-  }, [sessionId])
+  }, [sessionId, host])
 
   if (phase === 'in') return null
   return (
@@ -109,9 +111,9 @@ export function ZoomRoom({ sessionId }: { sessionId: string }) {
           {phase === 'error' ? <Video className="size-7" /> : <Loader2 className="size-7 animate-spin" />}
         </span>
         <div className="space-y-1">
-          <h1 className="font-heading text-xl font-bold">{phase === 'error' ? 'تعذّر الدخول من المنصة' : 'جارٍ فتح الحصة…'}</h1>
+          <h1 className="font-heading text-xl font-bold">{phase === 'error' ? (host ? 'تعذّر بدء الحصة من المنصة' : 'تعذّر الدخول من المنصة') : host ? 'جارٍ بدء الحصة…' : 'جارٍ فتح الحصة…'}</h1>
           {title ? <p className="text-sm text-[#E6CF95]">{title}</p> : null}
-          <p className="text-sm leading-relaxed text-white/80">{phase === 'error' ? error : 'اسمح للمتصفح باستعمال الميكروفون إن طُلب منك.'}</p>
+          <p className="text-sm leading-relaxed text-white/80">{phase === 'error' ? error : host ? 'اسمح للمتصفح باستعمال الميكروفون والكاميرا.' : 'اسمح للمتصفح باستعمال الميكروفون إن طُلب منك.'}</p>
         </div>
         {fallbackUrl && (phase === 'error' || slow) ? (
           <a
@@ -124,7 +126,7 @@ export function ZoomRoom({ sessionId }: { sessionId: string }) {
           </a>
         ) : null}
         <a href={leaveUrl} className="inline-flex items-center gap-1 text-sm text-white/80 hover:text-white hover:underline">
-          <ArrowRight className="size-4" /> رجوع إلى الدورة
+          <ArrowRight className="size-4" /> {host ? 'رجوع إلى الحصة' : 'رجوع إلى الدورة'}
         </a>
       </div>
     </main>

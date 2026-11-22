@@ -16,6 +16,7 @@ import { AppError, assertUuid } from '@/server/lib/errors'
 import { seal, unseal } from '@/server/lib/secret-box'
 import { zoomMeetingNumber, zoomSdkKeys, zoomSdkSignature } from '@/server/lib/zoom-sdk'
 import { notifyMany } from './notifications.service'
+import { zoomHostZak } from './zoom-oauth.service'
 
 const PURPOSE = 'live'
 export const JOIN_OPENS_BEFORE_MS = 15 * 60_000
@@ -339,6 +340,8 @@ export interface ZoomEmbedJoin {
   fallbackUrl: string
   /** صفحة الدورة: يعود إليها التلميذ حين يغادر الحصة */
   leaveUrl: string
+  /** مفتاح المضيف (ZAK): للمشرف وحده حين يبدأ الحصة من المنصة */
+  zak?: string
 }
 
 /**
@@ -362,6 +365,35 @@ export async function zoomEmbedJoin(db: Db, actor: Actor, sessionId: string, now
     title: info.title,
     fallbackUrl: info.url,
     leaveUrl: c ? `/student/courses/${encodeURIComponent(c.slug)}` : '/student/courses'
+  }
+}
+
+/**
+ * بدء الحصة كمضيف من المنصة (المرحلة الثانية، 22 نوفمبر 2026): للمشرف وحده، بحساب Zoom المربوط («ربط Zoom»).
+ * توقيع role=1 ومفتاح المضيف (ZAK) يُطلب الآن من Zoom (صلاحيته دقائق). الاجتماع يجب أن يكون في الحساب المربوط.
+ */
+export async function zoomHostJoin(db: Db, actor: Actor, sessionId: string, opts: { now?: Date; fetchImpl?: typeof fetch } = {}): Promise<ZoomEmbedJoin> {
+  assertRole(actor, 'SUPER_ADMIN')
+  const now = opts.now ?? new Date()
+  const keys = zoomSdkKeys()
+  if (!keys) throw new AppError('LIVE_EMBED_UNAVAILABLE')
+  const { s, workspaceId } = await loadSession(db, sessionId)
+  if (s.status === 'CANCELLED') throw new AppError('LIVE_NOT_OPEN')
+  const url = s.joinUrlSealed ? unseal(s.joinUrlSealed, PURPOSE) : null
+  const meetingNumber = s.provider === 'ZOOM' ? zoomMeetingNumber(url, s.providerMeetingId) : null
+  if (!meetingNumber || !url) throw new AppError('LIVE_EMBED_UNAVAILABLE')
+  const zak = await zoomHostZak(db, { now, fetchImpl: opts.fetchImpl })
+  await writeAudit(db, { actorUserId: actor.userId, workspaceId, action: 'live.host_start', entityType: 'live_session', entityId: s.id })
+  return {
+    signature: zoomSdkSignature(keys, meetingNumber, 1, now),
+    sdkKey: keys.clientId,
+    meetingNumber,
+    passcode: (s.meetingPasscodeSealed ? unseal(s.meetingPasscodeSealed, PURPOSE) : null) ?? '',
+    userName: actor.fullName.trim().slice(0, 60) || 'الأستاذ',
+    title: s.title,
+    fallbackUrl: url,
+    leaveUrl: `/admin/live/${s.id}`,
+    zak
   }
 }
 

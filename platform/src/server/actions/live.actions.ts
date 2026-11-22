@@ -6,8 +6,9 @@ import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { LIVE_PROVIDERS, LIVE_SESSION_STATUSES } from '@/server/db/schema/enums'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
-import { attachRecording, createLiveSession, joinLiveWeb, setLiveStatus, updateLiveSession, zoomEmbedJoin, type ZoomEmbedJoin } from '@/server/services/live.service'
+import { attachRecording, createLiveSession, joinLiveWeb, setLiveStatus, updateLiveSession, zoomEmbedJoin, zoomHostJoin, type ZoomEmbedJoin } from '@/server/services/live.service'
 import { parseDzDateTime } from '@/lib/dz-time'
+import { disconnectZoom } from '@/server/services/zoom-oauth.service'
 
 const uuid = z.string().uuid()
 const optionalUuid = z.string().uuid().optional().or(z.literal('')).transform((v) => (v ? v : null))
@@ -118,5 +119,25 @@ export async function zoomEmbedJoinAction(payload: { sessionId: string }): Promi
   return runAction(async () => {
     const actor = await requireRole('STUDENT')
     return zoomEmbedJoin(await getDb(), actor, parsed.data.sessionId)
+  })
+}
+
+/** صفحة بدء الحصة كمضيف (/live/[id]/host): توقيع role=1 ومفتاح المضيف من حساب Zoom المربوط — للمشرف وحده */
+export async function zoomHostJoinAction(payload: { sessionId: string }): Promise<ActionResult<ZoomEmbedJoin>> {
+  const parsed = z.object({ sessionId: uuid }).safeParse(payload)
+  if (!parsed.success) return failValidation(parsed.error)
+  return runAction(async () => {
+    const actor = await requireRole('SUPER_ADMIN')
+    return zoomHostJoin(await getDb(), actor, parsed.data.sessionId)
+  })
+}
+
+/** «فصل حساب Zoom» من صفحة البث المباشر */
+export async function disconnectZoomAction(): Promise<ActionResult<{ ok: true }>> {
+  return runAction(async () => {
+    const actor = await requireRole('SUPER_ADMIN')
+    await disconnectZoom(await getDb(), actor)
+    revalidatePath('/admin/live')
+    return { ok: true as const }
   })
 }
