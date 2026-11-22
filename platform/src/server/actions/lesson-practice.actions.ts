@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { requireRole } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { LESSON_PRACTICE_KINDS } from '@/server/db/schema'
+import { PLAY_EXAM_KINDS } from '@/server/play/constants'
 import { failValidation, runAction, type ActionResult } from '@/server/lib/action-result'
 import {
   addLessonPractice,
@@ -25,7 +26,7 @@ const searchSchema = z.object({
   q: z.string().trim().max(80).optional(),
   gradeCode: z.string().trim().max(8).optional(),
   subjectCode: z.string().trim().max(16).optional(),
-  examKind: z.enum(['BAC', 'DEVOIR', 'TEST']).optional()
+  examKind: z.enum(PLAY_EXAM_KINDS).optional()
 })
 
 /** نافذة «أضف من بنك مدرسة»: بحث في دروس PLAY أو البكالوريات والفروض */

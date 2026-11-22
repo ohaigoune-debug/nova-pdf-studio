@@ -101,6 +101,20 @@ describe('visibility', () => {
     await h.db.delete(playExamSets).where(eq(playExamSets.id, row!.id))
   })
 
+  it('a proposal (PROPOSAL) is listed under its own kind only, never with tests or official bacs', async () => {
+    const pr: ExamSetDocument = structuredClone(doc)
+    pr.set_id = 'ar-proposal-kind-test'
+    pr.status = 'APPROVED'
+    pr.source.verified = true
+    for (const s of pr.steps) if (s.type !== 'essay_builder') s.review_status = 'approved'
+    const [row] = await h.db.insert(playExamSets).values({ kind: 'PROPOSAL', gradeCode: '2AS', streamCodes: doc.source.streams, subjectCode: 'AR', year: null, term: null, paper: null, scoreTotal: 20, stepCount: pr.steps.length, setId: pr.set_id, title: 'موضوع مقترح', status: 'APPROVED', publishable: true, checksum: 'proposal-test', document: pr }).returning()
+    const sci = await student('SCI')
+    expect((await listExamSets(h.db, sci, { subjectCode: 'AR', kind: 'PROPOSAL' })).items.map((i) => i.id)).toEqual([row!.id])
+    expect((await listExamSets(h.db, sci, { subjectCode: 'AR', kind: 'TESTS' })).items.map((i) => i.id)).not.toContain(row!.id)
+    expect((await listExamSets(h.db, sci, { subjectCode: 'AR', kind: 'BAC' })).items.map((i) => i.id)).not.toContain(row!.id)
+    await h.db.delete(playExamSets).where(eq(playExamSets.id, row!.id))
+  })
+
   it('PLAY_EXAM_PREVIEW=1 (development only) shows review sets with a preview badge', async () => {
     process.env.PLAY_EXAM_PREVIEW = '1'
     const sci = await student('SCI')

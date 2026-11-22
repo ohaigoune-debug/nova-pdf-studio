@@ -10,7 +10,7 @@ import { getPlayDashboard } from '@/server/services/play.service'
 
 export const dynamic = 'force-dynamic'
 
-const KIND = { TEST: 'الاختبارات', DEVOIR: 'الفروض', BAC: 'البكالوريا' } as const
+const KIND = { TEST: 'الاختبارات', DEVOIR: 'الفروض', BAC: 'البكالوريا', PROPOSAL: 'المقترحات' } as const
 const fmt = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/0+$/, '').replace(/\.$/, ''))
 
 /** القسم الرابع: نتائجي وتقدمي — مراجعة الدروس + الفروض والاختبارات والبكالوريا + المهارات */
@@ -26,8 +26,8 @@ export default async function PlayResultsPage() {
     <PlaySectionShell section="results" subjectCode={null} access={access} iosStudyOnly={ios}>
       <h1 className="text-[1.5rem] font-extrabold text-[#1B4DB1]">نتائجي وتقدمي</h1>
 
-      <section className="mt-4 grid grid-cols-3 gap-3" aria-label="ملخص">
-        {(['TEST', 'DEVOIR', 'BAC'] as const).map((k) => {
+      <section className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4" aria-label="ملخص">
+        {(['TEST', 'DEVOIR', 'BAC', 'PROPOSAL'] as const).map((k) => {
           const b = progress.byKind.find((x) => x.kind === k)
           return (
             <div key={k} className="rounded-2xl border border-[#D3E0F5] bg-white p-3 text-center" data-testid={`progress-${k}`}>

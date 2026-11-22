@@ -10,7 +10,7 @@ import { pointsFor, validateExamSet } from '@/server/play/exams/engine'
 
 export const dynamic = 'force-dynamic'
 
-const KIND = { BAC: 'بكالوريا', TEST: 'اختبار', DEVOIR: 'فرض' } as Record<string, string>
+const KIND = { BAC: 'بكالوريا', TEST: 'اختبار', DEVOIR: 'فرض', PROPOSAL: 'مقترح' } as Record<string, string>
 
 /** مراجعة المواضيع المحوّلة (قراءة فقط): الاعتماد يتمّ بأمر approve في المستودع ليبقى موثّقًا باسم المراجع */
 export default async function AdminPlayExamsPage() {

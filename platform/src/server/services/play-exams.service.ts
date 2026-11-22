@@ -507,7 +507,7 @@ export async function getExamProgress(db: Db, actor: Actor): Promise<ExamProgres
       completedAt: r.attempt.completedAt?.toISOString() ?? null,
       answered: Object.keys(r.attempt.answers ?? {}).length
     }))
-  const kinds: PlayExamKind[] = ['TEST', 'DEVOIR', 'BAC']
+  const kinds: PlayExamKind[] = ['TEST', 'DEVOIR', 'BAC', 'PROPOSAL']
   const byKind = kinds.map((kind) => {
     const done = rows.filter((r) => r.set.kind === kind && r.attempt.status === 'COMPLETED' && r.attempt.maxScore > 0)
     const pcts = done.map((r) => (r.attempt.score / r.attempt.maxScore) * 100)

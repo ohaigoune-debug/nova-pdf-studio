@@ -77,7 +77,7 @@ public enum Play {
     // MARK: Exam sets
 
     public enum Kind: String, CaseIterable, Sendable {
-        case bac = "BAC", devoir = "DEVOIR", test = "TEST"
+        case bac = "BAC", devoir = "DEVOIR", test = "TEST", proposal = "PROPOSAL"
     }
 
     public struct Score: Codable, Equatable, Sendable {
