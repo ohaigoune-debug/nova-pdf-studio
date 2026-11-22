@@ -79,6 +79,8 @@ enum Fixtures {
             json = home
         case ("GET", _) where path.hasPrefix("/api/v1/ios/courses/"):
             json = course
+        case ("POST", _) where path.hasPrefix("/api/v1/ios/live/") && path.hasSuffix("/join"):
+            json = #"{"ok":true,"data":{"url":"https://zoom.us/j/123456789","provider":"ZOOM","title":"حصة مباشرة تجريبية","appUrl":"zoomus://zoom.us/join?action=join&confno=123456789"}}"#
         case ("GET", _) where path.hasPrefix("/api/v1/ios/lessons/"):
             json = path.hasSuffix("v1") ? lessonVideo : path.hasSuffix("p1") ? lessonPDF : lessonText
         case ("GET", "/api/v1/ios/play/subjects"):
@@ -199,16 +201,27 @@ enum Fixtures {
      "tools":[]}}
     """#
 
-    static let course = #"""
+    /// ISO time `offset` seconds from now: the sample live session is always running (Build 18).
+    static func isoFromNow(_ offset: TimeInterval) -> String {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter.string(from: Date().addingTimeInterval(offset))
+    }
+
+    static var course: String { #"""
     {"ok":true,"data":{"needsTerms":false,"course":{"slug":"fixture-ar","title":"اللغة العربية — بكالوريا تجريبية","teacherName":"أستاذ تجريبي","season":"2026/2027","description":"دورة تجريبية للاختبار.","accessEndsOn":"2027-06-30","groupId":"\#(classGroupID)"},
-     "sections":[{"id":"lessons","items":[{"slug":"t1","title":"الحصة 1 — المدخل","displayTitle":"المدخل","session":1,"type":"LESSON","videoProvider":null,"publishedAt":"2026-10-28T15:53:15.778Z"}]},
+     "sections":[{"id":"lessons","items":[{"slug":"t1","title":"الحصة 1 — المدخل","displayTitle":"المدخل","session":1,"type":"LESSON","videoProvider":null,"publishedAt":"2026-10-28T15:53:15.778Z","practiceCount":2}]},
                  {"id":"videos","items":[{"slug":"v1","title":"شرح الحصة 1","displayTitle":"شرح","session":1,"type":"VIDEO","videoProvider":"YOUTUBE","publishedAt":"2026-10-28T15:53:15.787Z"}]},
                  {"id":"files","items":[{"slug":"p1","title":"ملخص الدرس","displayTitle":"ملخص الدرس","session":null,"type":"PDF","videoProvider":null,"publishedAt":"2026-10-28T15:53:15.806Z"}]}],
-     "upcoming":[],"webPath":"/ios/course/fixture-ar"}}
-    """#
+     "upcoming":[{"id":"dddddddd-dddd-4ddd-8ddd-dddddddddddd","title":"حصة مباشرة تجريبية: إعراب الجمل","startsAt":"\#(isoFromNow(-300))","durationMinutes":90,"provider":"ZOOM","status":"LIVE","joinOpensAt":"\#(isoFromNow(-1200))","joinClosesAt":"\#(isoFromNow(-300 + 120 * 60))"},
+                 {"id":"eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee","title":"حصة الغد: الصور البيانية","startsAt":"\#(isoFromNow(86_400))","durationMinutes":90,"provider":"ZOOM","status":"SCHEDULED","joinOpensAt":"\#(isoFromNow(86_400 - 900))","joinClosesAt":"\#(isoFromNow(86_400 + 120 * 60))"}],
+     "webPath":"/ios/course/fixture-ar"}}
+    """# }
 
     static let lessonText = #"""
-    {"ok":true,"data":{"lesson":{"slug":"t1","title":"المدخل","summary":"درس تجريبي","type":"LESSON","bodyMarkdown":"# مقدمة\nهذا **نص** درس تجريبي.\n- النقطة الأولى\n- النقطة الثانية","media":{"kind":"none"},"webPath":"/ios/lesson/t1"},"viewer":{"name":"تلميذ تجريبي","code":"00000000"}}}
+    {"ok":true,"data":{"lesson":{"slug":"t1","title":"المدخل","summary":"درس تجريبي","type":"LESSON","bodyMarkdown":"# مقدمة\nهذا **نص** درس تجريبي.\n- النقطة الأولى\n- النقطة الثانية","media":{"kind":"none"},"webPath":"/ios/lesson/t1"},"viewer":{"name":"تلميذ تجريبي","code":"00000000"},
+     "practice":[{"linkId":"bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb","kind":"LESSON","refId":"44444444-4444-4444-8444-444444444444","title":"لعبة: إعراب الجمل","subtitle":"البناء اللغوي · 3 ثانوي","bestPct":75,"bestLabel":"أفضل نتيجة لك 9/12"},
+                 {"linkId":"cccccccc-cccc-4ccc-8ccc-cccccccccccc","kind":"EXAM_SET","refId":"11111111-2222-4333-8444-555555555555","title":"بكالوريا تجريبية — الموضوع الأول","subtitle":"","bestPct":null,"bestLabel":null}]}}
     """#
 
     static let lessonVideo = #"""

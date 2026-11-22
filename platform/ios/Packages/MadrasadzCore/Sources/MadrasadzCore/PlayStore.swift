@@ -28,11 +28,14 @@ public actor PlayStore {
         public var serverScore: Play.Score?
         /// The server refused it for good (set removed, access ended).
         public var rejected: Bool
+        /// Build 18: opened from «تدرّب على هذا الدرس» in a course — synced with the course link
+        /// (the subscription, not the PLAY trial). nil in older indexes and for PLAY itself.
+        public var practiceLinkId: String?
 
         public var pending: Bool { serverScore == nil && !rejected }
 
         public init(id: UUID, setId: String, title: String, answers: [String: Play.Answer], score: Double, max: Double,
-                    scoreTotal: Double, finishedAt: Date, serverScore: Play.Score? = nil, rejected: Bool = false) {
+                    scoreTotal: Double, finishedAt: Date, serverScore: Play.Score? = nil, rejected: Bool = false, practiceLinkId: String? = nil) {
             self.id = id
             self.setId = setId
             self.title = title
@@ -43,6 +46,7 @@ public actor PlayStore {
             self.finishedAt = finishedAt
             self.serverScore = serverScore
             self.rejected = rejected
+            self.practiceLinkId = practiceLinkId
         }
     }
 
@@ -97,6 +101,8 @@ public actor PlayStore {
         public let finishedAt: Date
         public var server: CardResult?
         public var rejected: Bool
+        /// Build 18: a round of a course lesson's exercise (see `Attempt.practiceLinkId`).
+        public var practiceLinkId: String?
 
         public var pending: Bool { server == nil && !rejected }
         public var localCorrect: Int { answers.filter(\.correct).count }
@@ -226,11 +232,11 @@ public actor PlayStore {
 
     /// Records a finished attempt; it stays pending until `markSynced`.
     @discardableResult
-    public func addAttempt(package: Play.Package, answers: [String: Play.Answer], finishedAt: Date = Date()) throws -> Attempt {
+    public func addAttempt(package: Play.Package, answers: [String: Play.Answer], practiceLinkId: String? = nil, finishedAt: Date = Date()) throws -> Attempt {
         let account = try requireAccount()
         let local = Play.score(package, answers: answers)
         let attempt = Attempt(id: UUID(), setId: package.id, title: package.title, answers: answers, score: local.score, max: local.max,
-                              scoreTotal: package.scoreTotal, finishedAt: finishedAt, serverScore: nil, rejected: false)
+                              scoreTotal: package.scoreTotal, finishedAt: finishedAt, serverScore: nil, rejected: false, practiceLinkId: practiceLinkId)
         index.attempts.insert(attempt, at: 0)
         if index.attempts.count > Self.maximumAttempts {
             // Drop the oldest already-synced results first; pending ones are kept.
@@ -301,10 +307,10 @@ public actor PlayStore {
     public func pendingCardRounds() -> [CardRound] { index.cardRounds.filter(\.pending).reversed() }
 
     @discardableResult
-    public func addCardRound(lessonId: String, lessonName: String, answers: [CardAnswer], estimatedXP: Int, finishedAt: Date = Date()) throws -> CardRound {
+    public func addCardRound(lessonId: String, lessonName: String, answers: [CardAnswer], estimatedXP: Int, practiceLinkId: String? = nil, finishedAt: Date = Date()) throws -> CardRound {
         let account = try requireAccount()
         let round = CardRound(id: UUID(), lessonId: lessonId, lessonName: lessonName, answers: answers, estimatedXP: estimatedXP,
-                              finishedAt: finishedAt, server: nil, rejected: false)
+                              finishedAt: finishedAt, server: nil, rejected: false, practiceLinkId: practiceLinkId)
         index.cardRounds.insert(round, at: 0)
         for a in answers { index.cardMemory[a.questionId] = a.correct }
         while index.cardRounds.count > Self.maximumCardRounds, let last = index.cardRounds.lastIndex(where: { !$0.pending }) {

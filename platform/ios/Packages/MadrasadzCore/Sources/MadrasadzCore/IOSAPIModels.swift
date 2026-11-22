@@ -170,9 +170,11 @@ public struct NativeCourse: Decodable, Equatable, Sendable {
         public let type: String
         public let videoProvider: String?
         public let publishedAt: String?
+        /// Build 18: QCM exercises from the Madrasa bank under this lesson (counted in «تمارين QCM»).
+        public let practiceCount: Int
         public var id: String { slug }
 
-        private enum CodingKeys: String, CodingKey { case slug, title, displayTitle, session, type, videoProvider, publishedAt }
+        private enum CodingKeys: String, CodingKey { case slug, title, displayTitle, session, type, videoProvider, publishedAt, practiceCount }
         public init(from decoder: Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
             slug = try c.decode(String.self, forKey: .slug)
@@ -183,6 +185,7 @@ public struct NativeCourse: Decodable, Equatable, Sendable {
             type = (try? c.decode(String.self, forKey: .type)) ?? "LESSON"
             videoProvider = (try? c.decodeIfPresent(String.self, forKey: .videoProvider)) ?? nil
             publishedAt = (try? c.decodeIfPresent(String.self, forKey: .publishedAt)) ?? nil
+            practiceCount = max(0, ((try? c.decodeIfPresent(Int.self, forKey: .practiceCount)) ?? nil) ?? 0)
         }
     }
 
@@ -209,8 +212,10 @@ public struct NativeCourse: Decodable, Equatable, Sendable {
         public let provider: String?
         public let joinOpensAt: String?
         public let joinClosesAt: String?
+        /// "SCHEDULED" or "LIVE" (the teacher started it). Build 18.
+        public let status: String?
 
-        public init(title: String, startsAt: String?, durationMinutes: Int?, id: String? = nil, provider: String? = nil, joinOpensAt: String? = nil, joinClosesAt: String? = nil) {
+        public init(title: String, startsAt: String?, durationMinutes: Int?, id: String? = nil, provider: String? = nil, joinOpensAt: String? = nil, joinClosesAt: String? = nil, status: String? = nil) {
             self.title = title
             self.startsAt = startsAt
             self.durationMinutes = durationMinutes
@@ -218,6 +223,16 @@ public struct NativeCourse: Decodable, Equatable, Sendable {
             self.provider = provider
             self.joinOpensAt = joinOpensAt
             self.joinClosesAt = joinClosesAt
+            self.status = status
+        }
+
+        public var startDate: Date? { startsAt.flatMap(IOSAPI.parseISODate) }
+
+        /// Running now: the teacher started it, or its start time passed while the window is open.
+        public func isLive(at now: Date) -> Bool {
+            guard joinState(at: now) == .open else { return false }
+            if status == "LIVE" { return true }
+            return startDate.map { now >= $0 } ?? false
         }
 
         /// Where the student stands for this session at `now`.
@@ -266,8 +281,21 @@ public struct NativeCourse: Decodable, Equatable, Sendable {
         sections.filter { door.sectionKinds.contains($0.kind) }
     }
 
+    /// Recorded lessons with Madrasa-bank exercises under them, in the recorded order (Build 18).
+    public var practiceLessons: [Item] {
+        sections(for: .recorded).flatMap(\.items).filter { $0.practiceCount > 0 }
+    }
+
+    /// Items behind a door; «تمارين QCM» also counts the bank exercises under lessons, as on the website.
     public func count(for door: CourseDoor) -> Int {
-        sections(for: door).reduce(0) { $0 + $1.items.count }
+        let items = sections(for: door).reduce(0) { $0 + $1.items.count }
+        return door == .practice ? items + practiceLessons.reduce(0) { $0 + $1.practiceCount } : items
+    }
+
+    /// The live door's card: the running session, else the next one whose window has not closed.
+    public func nextLive(at now: Date) -> Upcoming? {
+        let open = upcoming.filter { $0.joinState(at: now) != .closed }
+        return open.first { $0.isLive(at: now) } ?? open.first
     }
 }
 
@@ -355,8 +383,39 @@ public struct NativeLesson: Decodable, Equatable, Sendable {
     public let parts: [Media]
     public let webPath: String
     public let viewer: Viewer?
+    /// «تدرّب على هذا الدرس» (Build 18): Madrasa-bank exercises under a course lesson, for its subscribers.
+    public let practice: [Practice]
 
-    private enum Keys: String, CodingKey { case lesson, viewer }
+    /// One exercise under the lesson: a PLAY lesson's card game, or a bac/devoir set, opened natively
+    /// with `?practice={linkId}` (the course subscription, not the PLAY trial).
+    public struct Practice: Decodable, Equatable, Identifiable, Sendable {
+        public enum Kind: String, Sendable { case lesson = "LESSON", examSet = "EXAM_SET" }
+        public let linkId: String
+        public let kind: Kind
+        public let refId: String
+        public let title: String
+        public let subtitle: String?
+        public let bestPct: Int?
+        public let bestLabel: String?
+        public var id: String { linkId }
+
+        private enum CodingKeys: String, CodingKey { case linkId, kind, refId, title, subtitle, bestPct, bestLabel }
+        public init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            linkId = try c.decode(String.self, forKey: .linkId)
+            guard let kind = Kind(rawValue: try c.decode(String.self, forKey: .kind)) else {
+                throw DecodingError.dataCorruptedError(forKey: .kind, in: c, debugDescription: "unknown practice kind")
+            }
+            self.kind = kind
+            refId = try c.decode(String.self, forKey: .refId)
+            title = try c.decode(String.self, forKey: .title)
+            subtitle = ((try? c.decodeIfPresent(String.self, forKey: .subtitle)) ?? nil).flatMap { $0.isEmpty ? nil : $0 }
+            bestPct = ((try? c.decodeIfPresent(Int.self, forKey: .bestPct)) ?? nil).map { min(100, max(0, $0)) }
+            bestLabel = ((try? c.decodeIfPresent(String.self, forKey: .bestLabel)) ?? nil).flatMap { $0.isEmpty ? nil : $0 }
+        }
+    }
+
+    private enum Keys: String, CodingKey { case lesson, viewer, practice }
     private enum LessonKeys: String, CodingKey { case slug, title, summary, type, bodyMarkdown, media, parts, webPath }
     private enum MediaKeys: String, CodingKey { case kind, youtubeId, contentId, allowDownload, provider, url }
     private enum ViewerKeys: String, CodingKey { case name, code }
@@ -390,6 +449,7 @@ public struct NativeLesson: Decodable, Equatable, Sendable {
         } else {
             viewer = nil
         }
+        practice = root.lossyArray(Practice.self, forKey: .practice)
     }
 
     private static func media(from m: KeyedDecodingContainer<MediaKeys>?) -> Media {

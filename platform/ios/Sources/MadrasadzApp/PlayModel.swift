@@ -54,13 +54,19 @@ final class PlayModel: ObservableObject {
         try? await store.package(id: id)
     }
 
+    /// `?practice=<linkId>` for an exercise under a course lesson (Build 18): the course subscription opens it.
+    private func practiceQuery(_ practiceLinkID: String?) -> String {
+        guard let practiceLinkID, let encoded = practiceLinkID.addingPercentEncoding(withAllowedCharacters: .alphanumerics) else { return "" }
+        return "?practice=" + encoded
+    }
+
     /// Downloads (or refreshes) a set for offline use. Falls back to the stored copy offline.
-    func open(setID: String) async throws -> Play.Package {
+    func open(setID: String, practiceLinkID: String? = nil) async throws -> Play.Package {
         guard let app else { throw APIFailure.invalid }
         downloading = setID
         defer { downloading = nil }
         do {
-            let path = "/api/v1/ios/play/sets/" + (setID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? setID)
+            let path = "/api/v1/ios/play/sets/" + (setID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? setID) + practiceQuery(practiceLinkID)
             guard let request = app.api.request(path: path) else { throw APIFailure.unauthorized }
             let (raw, response) = try await app.api.send(request)
             _ = try app.api.decode(Play.Package.self, data: raw, response: response)
@@ -84,9 +90,9 @@ final class PlayModel: ObservableObject {
 
     /// Saves a finished attempt locally, then tries to sync it.
     @discardableResult
-    func finish(_ package: Play.Package, answers: [String: Play.Answer]) async -> PlayStore.Attempt? {
+    func finish(_ package: Play.Package, answers: [String: Play.Answer], practiceLinkID: String? = nil) async -> PlayStore.Attempt? {
         guard account != nil else { return nil }
-        let attempt = try? await store.addAttempt(package: package, answers: answers)
+        let attempt = try? await store.addAttempt(package: package, answers: answers, practiceLinkId: practiceLinkID)
         attempts = await store.attempts()
         Task { await sync() }
         return attempt
@@ -99,12 +105,12 @@ final class PlayModel: ObservableObject {
     func cardMemory() async -> [String: Bool] { await store.cardMemory() }
 
     /// Downloads (or refreshes) a lesson pack; offline, the saved copy opens.
-    func openLesson(id: String) async throws -> Cards.Pack {
+    func openLesson(id: String, practiceLinkID: String? = nil) async throws -> Cards.Pack {
         guard let app else { throw APIFailure.invalid }
         downloading = id
         defer { downloading = nil }
         do {
-            let path = "/api/v1/ios/play/lessons/" + (id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? id)
+            let path = "/api/v1/ios/play/lessons/" + (id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? id) + practiceQuery(practiceLinkID)
             guard let request = app.api.request(path: path) else { throw APIFailure.unauthorized }
             let (raw, response) = try await app.api.send(request)
             _ = try app.api.decode(Cards.Pack.self, data: raw, response: response)
@@ -123,9 +129,9 @@ final class PlayModel: ObservableObject {
 
     /// Keeps a finished round on the phone, then tries to sync it.
     @discardableResult
-    func finishRound(_ pack: Cards.Pack, answers: [PlayStore.CardAnswer], estimatedXP: Int) async -> PlayStore.CardRound? {
+    func finishRound(_ pack: Cards.Pack, answers: [PlayStore.CardAnswer], estimatedXP: Int, practiceLinkID: String? = nil) async -> PlayStore.CardRound? {
         guard account != nil, !answers.isEmpty else { return nil }
-        let round = try? await store.addCardRound(lessonId: pack.id, lessonName: pack.lesson.lessonName, answers: answers, estimatedXP: estimatedXP)
+        let round = try? await store.addCardRound(lessonId: pack.id, lessonName: pack.lesson.lessonName, answers: answers, estimatedXP: estimatedXP, practiceLinkId: practiceLinkID)
         cardRounds = await store.cardRounds()
         Task { await sync() }
         return round
@@ -134,7 +140,7 @@ final class PlayModel: ObservableObject {
     /// Uploads pending card rounds; the server re-grades them and awards XP.
     private func syncCards(_ app: AppModel) async -> Bool {
         struct Item: Encodable { let questionId: String; let answer: Cards.Answer; let timeMs: Int? }
-        struct Body: Encodable { let lessonId: String; let answers: [Item] }
+        struct Body: Encodable { let lessonId: String; let practiceLinkId: String?; let answers: [Item] }
         struct Level: Decodable { let title: String? }
         struct Reply: Decodable { let correctCount: Int; let total: Int; let xpEarned: Int; let xpTotal: Int; let level: Level?; let lessonMastered: Bool? }
         let rounds = await store.pendingCardRounds()
@@ -142,7 +148,7 @@ final class PlayModel: ObservableObject {
             guard account != nil else { return false }
             do {
                 let reply = try await app.api.post(Reply.self, "/api/v1/ios/play/cards/sync",
-                                                   body: Body(lessonId: round.lessonId, answers: round.answers.map { Item(questionId: $0.questionId, answer: $0.answer, timeMs: $0.timeMs) }))
+                                                   body: Body(lessonId: round.lessonId, practiceLinkId: round.practiceLinkId, answers: round.answers.map { Item(questionId: $0.questionId, answer: $0.answer, timeMs: $0.timeMs) }))
                 try? await store.markCardSynced(round.id, result: .init(correctCount: reply.correctCount, total: reply.total, xpEarned: reply.xpEarned,
                                                                         xpTotal: reply.xpTotal, levelTitle: reply.level?.title, lessonMastered: reply.lessonMastered ?? false))
             } catch let failure as APIFailure {
@@ -174,12 +180,12 @@ final class PlayModel: ObservableObject {
         guard !pending.isEmpty else { return }
         syncing = true
         defer { syncing = false }
-        struct Body: Encodable { let setId: String; let answers: [String: Play.Answer] }
+        struct Body: Encodable { let setId: String; let practiceLinkId: String?; let answers: [String: Play.Answer] }
         struct Reply: Decodable { let attemptId: String; let score: Double; let max: Double; let accepted: Int }
         for attempt in pending {
             guard account != nil else { return }
             do {
-                let reply = try await app.api.post(Reply.self, "/api/v1/ios/play/sync", body: Body(setId: attempt.setId, answers: attempt.answers))
+                let reply = try await app.api.post(Reply.self, "/api/v1/ios/play/sync", body: Body(setId: attempt.setId, practiceLinkId: attempt.practiceLinkId, answers: attempt.answers))
                 try? await store.markSynced(attempt.id, server: Play.Score(score: reply.score, max: reply.max))
             } catch let failure as APIFailure {
                 switch failure {

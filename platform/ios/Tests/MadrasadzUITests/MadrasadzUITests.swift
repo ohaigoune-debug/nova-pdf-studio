@@ -122,9 +122,14 @@ final class MadrasadzUITests: XCTestCase {
         XCTAssertTrue(course.waitForExistence(timeout: 10), visible(app))
         snapshot(app, "03b-my-courses")
         course.tap()
-        let lesson = find(app, "item-t1")
-        XCTAssertTrue(lesson.waitForExistence(timeout: 10))
+        // Build 18: the course opens on its doors; the lessons are behind «الحصص المسجلة».
+        let recorded = find(app, "door-recorded")
+        XCTAssertTrue(recorded.waitForExistence(timeout: 10), visible(app))
         snapshot(app, "04-course")
+        tapWhenReady(recorded)
+        let lesson = find(app, "item-t1")
+        XCTAssertTrue(lesson.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "04c-course-recorded")
         lesson.tap()
         XCTAssertTrue(find(app, "lessonTitle").waitForExistence(timeout: 10))
         XCTAssertEqual(app.webViews.count, 0, "Lesson text is native")
@@ -136,6 +141,43 @@ final class MadrasadzUITests: XCTestCase {
         video.tap()
         XCTAssertTrue(find(app, "lessonPlayer").waitForExistence(timeout: 10))
         snapshot(app, "06-lesson-video")
+        #endif
+    }
+
+    /// Build 18: «دوراتي» shows the website's doors — the running live session with «انضمّ الآن»,
+    /// the four tiles, and the Madrasa-bank exercises under a lesson, played in the native card game.
+    @MainActor func testCourseDoorsLiveAndPractice() throws {
+        #if !DEBUG
+        throw XCTSkip("Fixtures exist in Debug only.")
+        #else
+        let app = launch(signedIn: true)
+        answerSystemAlert(timeout: 1)
+        let door = find(app, "homeTile-courses")
+        XCTAssertTrue(door.waitForExistence(timeout: 15), visible(app))
+        door.tap()
+        let course = find(app, "course-fixture-ar")
+        XCTAssertTrue(course.waitForExistence(timeout: 10), visible(app))
+        course.tap()
+        let join = find(app, "liveJoin")
+        XCTAssertTrue(join.waitForExistence(timeout: 10), visible(app))
+        XCTAssertTrue(join.isEnabled, "The running session can be joined")
+        XCTAssertTrue(find(app, "liveTitle").exists, visible(app))
+        for id in ["door-recorded", "door-files", "door-practice", "courseClassroom"] {
+            XCTAssertTrue(find(app, id).exists, "\(id) missing: \(visible(app))")
+        }
+        snapshot(app, "04a-course-doors")
+        tapWhenReady(find(app, "door-practice"))
+        let practiceLesson = find(app, "practiceLesson-t1")
+        XCTAssertTrue(practiceLesson.waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "04b-course-practice-door")
+        practiceLesson.tap()
+        let game = find(app, "practice-bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb")
+        XCTAssertTrue(game.waitForExistence(timeout: 10), visible(app))
+        scrollTo(app, find(app, "practice-cccccccc-cccc-4ccc-8ccc-cccccccccccc"), swipes: 2)
+        snapshot(app, "05b-lesson-practice")
+        tapWhenReady(game)
+        XCTAssertTrue(find(app, "cardBack").waitForExistence(timeout: 10), visible(app))
+        snapshot(app, "05c-lesson-practice-cards")
         #endif
     }
 
