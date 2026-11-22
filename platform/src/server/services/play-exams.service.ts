@@ -21,6 +21,7 @@ import { answerText, gradeStep, pointsFor, publicSteps, stepsFor, studentAnswerT
 import { skillLabel } from '@/server/play/exams/skills'
 import { QUEUED_STEP_TYPES, type ExamSetDocument, type PublicStep, type StepAnswer, type TrainingStep } from '@/server/play/exams/types'
 import { assertPlayAccess, beginPlayAccess } from './play-access.service'
+import { practiceLinkForStudent } from '@/server/services/practice-access'
 import { getPlayProfile } from './play.service'
 
 const PREVIEWABLE = ['NEEDS_HUMAN_REVIEW', 'AUTO_VALIDATED', 'APPROVED', 'STAGED']
@@ -171,23 +172,28 @@ async function loadVisibleSet(db: Db, setUuid: string): Promise<SetLight & { pre
 }
 
 /** بدء (أو استئناف) محاولة: أول بدء فعلي يفعّل التجربة لغير المشترك */
-export async function startExamAttempt(db: Db, actor: Actor, setUuid: string, mode: PlayExamMode, now: Date = new Date()): Promise<{ attemptId: string; resumed: boolean }> {
+/**
+ * practiceLinkId: محاولة من تحت درس الدورة — المستدعي تحقّق من اشتراك الدورة، فلا تجربة PLAY ولا قيد شعبة
+ * (الأستاذ اختار الموضوع لدورته)، ويُعاد فحص الاشتراك عند كل إرسال.
+ */
+export async function startExamAttempt(db: Db, actor: Actor, setUuid: string, mode: PlayExamMode, now: Date = new Date(), opts: { practiceLinkId?: string } = {}): Promise<{ attemptId: string; resumed: boolean }> {
   const studentId = studentIdOf(actor)
+  const practiceLinkId = opts.practiceLinkId ?? null
   const set = await loadVisibleSet(db, setUuid)
   const profile = await getPlayProfile(db, actor)
-  if (set.streamCodes.length && profile.streamCode && !set.streamCodes.includes(profile.streamCode)) throw new AppError('PLAY_EXAM_NOT_FOUND')
-  await beginPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode: profile.streamCode, subjectCode: set.subjectCode }, now)
+  if (!practiceLinkId && set.streamCodes.length && profile.streamCode && !set.streamCodes.includes(profile.streamCode)) throw new AppError('PLAY_EXAM_NOT_FOUND')
+  if (!practiceLinkId) await beginPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode: profile.streamCode, subjectCode: set.subjectCode }, now)
   const [active] = await db
-    .select({ id: playExamAttempts.id, mode: playExamAttempts.mode, checksum: playExamAttempts.setChecksum })
+    .select({ id: playExamAttempts.id, mode: playExamAttempts.mode, checksum: playExamAttempts.setChecksum, practiceLinkId: playExamAttempts.practiceLinkId })
     .from(playExamAttempts)
     .where(and(eq(playExamAttempts.studentId, studentId), eq(playExamAttempts.setId, set.id), eq(playExamAttempts.status, 'ACTIVE')))
     .orderBy(desc(playExamAttempts.startedAt))
     .limit(1)
-  if (active && active.mode === mode && active.checksum === set.checksum) return { attemptId: active.id, resumed: true }
+  if (active && active.mode === mode && active.checksum === set.checksum && active.practiceLinkId === practiceLinkId) return { attemptId: active.id, resumed: true }
   if (active) await db.update(playExamAttempts).set({ status: 'ABANDONED', updatedAt: now }).where(eq(playExamAttempts.id, active.id))
   const [created] = await db
     .insert(playExamAttempts)
-    .values({ studentId, setId: set.id, setChecksum: set.checksum, mode, status: 'ACTIVE', answers: {}, score: 0, maxScore: interactivePoints(await examDocument(db, set.id, set.checksum), profile.streamCode), startedAt: now })
+    .values({ studentId, setId: set.id, setChecksum: set.checksum, mode, status: 'ACTIVE', answers: {}, score: 0, maxScore: interactivePoints(await examDocument(db, set.id, set.checksum), profile.streamCode), startedAt: now, practiceLinkId })
     .returning({ id: playExamAttempts.id })
   return { attemptId: created!.id, resumed: false }
 }
@@ -318,11 +324,20 @@ function releasedSteps(all: PublicStep[], answers: Record<string, unknown>, comp
   return { steps: open < 0 ? all : all.slice(0, open + 1), totalSteps: all.length }
 }
 
+/** الوصول عند كل إرسال: محاولة من تحت درس الدورة ⇒ اشتراك الدورة؛ وإلا قواعد PLAY (اشتراك أو تجربة) */
+async function assertAttemptAccess(db: Db, actor: Actor, attempt: { practiceLinkId: string | null }, set: { gradeCode: string; subjectCode: string }, streamCode: string | null, now: Date): Promise<void> {
+  if (attempt.practiceLinkId) {
+    await practiceLinkForStudent(db, studentIdOf(actor), attempt.practiceLinkId)
+    return
+  }
+  await assertPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode, subjectCode: set.subjectCode }, now)
+}
+
 export async function submitExamStep(db: Db, actor: Actor, attemptId: string, stepId: string, answer: StepAnswer, now: Date = new Date()): Promise<ExamSubmitResult> {
   const { attempt, set } = await loadAttempt(db, actor, attemptId)
   if (attempt.status !== 'ACTIVE') throw new AppError('PLAY_EXAM_CLOSED')
   const profile = await getPlayProfile(db, actor)
-  await assertPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode: profile.streamCode, subjectCode: set.subjectCode }, now)
+  await assertAttemptAccess(db, actor, attempt, set, profile.streamCode, now)
   // خطوات شعبة التلميذ فقط (الفروع البديلة لشعبة أخرى غير قابلة للإجابة)
   const mine = myStepsCached(set, profile.streamCode)
   const step = mine.find((s) => s.id === stepId)
@@ -369,7 +384,7 @@ export async function submitExamSteps(db: Db, actor: Actor, attemptId: string, i
   }
   const profile = await getPlayProfile(db, actor)
   const entries = Object.entries(input).slice(0, 500)
-  if (entries.length) await assertPlayAccess(db, actor, { gradeCode: set.gradeCode, streamCode: profile.streamCode, subjectCode: set.subjectCode }, now)
+  if (entries.length) await assertAttemptAccess(db, actor, attempt, set, profile.streamCode, now)
   const mine = new Map(myStepsCached(set, profile.streamCode).filter((s) => !isQueued(s.type)).map((s) => [s.id, s]))
   const total = mine.size
   const result = await db.transaction(async (tx) => {
