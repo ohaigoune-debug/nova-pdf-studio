@@ -18,10 +18,10 @@ import plistlib, sys, zipfile
 with zipfile.ZipFile(sys.argv[1]) as z:
     p = plistlib.loads(z.read('Payload/Madrasadz.app/Info.plist'))
     assert p['CFBundleIdentifier'] == 'com.madrasadz.student', 'Unexpected app'
-    assert p['CFBundleShortVersionString'] == '1.0.0', 'Unexpected version'
-    assert p['CFBundleVersion'] == '10', 'Unexpected replacement build'
+    assert p['CFBundleShortVersionString'] == '1.1.0', 'Unexpected version'
+    assert p['CFBundleVersion'] == '18', 'Unexpected replacement build'
     assert 'Payload/Madrasadz.app/embedded.mobileprovision' in z.namelist()
-print('PASS: expected signed Madrasadz 1.0.0 (10) IPA selected for upload.')
+print('PASS: expected signed Madrasadz 1.1.0 (18) IPA selected for upload.')
 PY
 key_directory="$HOME/.appstoreconnect/private_keys"
 mkdir -p "$key_directory"
