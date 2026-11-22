@@ -400,6 +400,13 @@
       "when": 1795600000000,
       "tag": "0056_live_zoom_auto",
       "breakpoints": true
+    },
+    {
+      "idx": 57,
+      "version": "7",
+      "when": 1795700000000,
+      "tag": "0057_lesson_practice",
+      "breakpoints": true
     }
   ]
 }

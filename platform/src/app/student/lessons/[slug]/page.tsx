@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation'
+import { LessonPracticeCard } from '@/components/domain/lesson-practice-card'
+import { lessonPracticeForStudent } from '@/server/services/lesson-practice.service'
 import { LessonComments, LessonQuizButton } from '@/components/domain/lesson-extras'
 import { LessonView } from '@/components/domain/lesson-view'
 import { OutOfScopeNotice } from '@/components/student/student-scope-ui'
@@ -30,14 +32,22 @@ export default async function StudentLessonPage({ params }: { params: Promise<{ 
     throw e
   }
   // تحت الوسائط: اختبار QCM المرتبط + التعليقات (بموافقة الأستاذ)
-  const [quiz, comments] = await Promise.all([lessonQuizForStudent(db, actor, item.id), listLessonComments(db, actor, item.id)])
+  const [quiz, comments, practice] = await Promise.all([lessonQuizForStudent(db, actor, item.id), listLessonComments(db, actor, item.id), lessonPracticeForStudent(db, actor, item.id)])
   return (
     <LessonView
       item={item}
       actor={actor}
       surface="student"
       back={{ href: '/student/courses', label: 'دوراتي' }}
-      extras={quiz ? <LessonQuizButton quiz={quiz} /> : null}
+      extras={
+        quiz || practice?.length ? (
+          <>
+            {quiz ? <LessonQuizButton quiz={quiz} /> : null}
+            {/* تمارين من بنك مدرسة تحت الدرس: لمشتركي الدورة */}
+            {practice?.length ? <LessonPracticeCard items={practice} /> : null}
+          </>
+        ) : null
+      }
       footer={<LessonComments slug={item.slug} comments={comments.map((c) => ({ ...c, createdAt: c.createdAt.toISOString() }))} />}
     />
   )

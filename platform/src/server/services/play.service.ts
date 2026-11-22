@@ -43,6 +43,7 @@ import {
 import { playProfileFromAccount, type AccountPlayProfile } from '@/server/play/profile-from-account'
 import { correctAnswerText, gradePlayAnswer, hashToSeed, seededRandom, shufflePayloadForSession } from '@/server/play/engine'
 import { assertPlayAccess, beginPlayAccess, getPlayAccess, type PlayScope } from '@/server/services/play-access.service'
+import { practiceLinkForStudent } from '@/server/services/practice-access'
 import type { PlayAnswerKey, PlayPublicPayload, PlayStudentAnswer } from '@/server/play/question-types'
 
 /* --------------------------------- القواعد -------------------------------- */
@@ -285,11 +286,21 @@ export interface StartSessionInput {
   timed?: boolean
 }
 
-export async function startPlaySession(db: Db, actor: Actor, input: StartSessionInput, now: Date = new Date()) {
+/**
+ * practice: جولة من تحت درس الدورة (lesson-practice.service). سنة الدرس نفسه، ولا تجربة PLAY:
+ * الوصول تحقّق منه المستدعي باشتراك الدورة، ويُعاد فحصه عند كل إجابة (practiceLinkId).
+ */
+export interface PracticeContext {
+  linkId: string
+  gradeCode: string
+}
+
+export async function startPlaySession(db: Db, actor: Actor, input: StartSessionInput, now: Date = new Date(), opts: { practice?: PracticeContext } = {}) {
   const studentId = studentIdOf(actor)
+  const practice = opts.practice ?? null
   const profile = await getPlayProfile(db, actor)
-  if (!profile.gradeCode) throw new AppError('PLAY_PROFILE_REQUIRED')
-  const grade = gradeByCode(profile.gradeCode)
+  if (!practice && !profile.gradeCode) throw new AppError('PLAY_PROFILE_REQUIRED')
+  const grade = gradeByCode(practice ? practice.gradeCode : profile.gradeCode!)
   if (!grade) throw new AppError('PLAY_PROFILE_REQUIRED')
   const streamCode = profile.streamCode
   const rules = await getPlayRules(db)
@@ -304,10 +315,13 @@ export async function startPlaySession(db: Db, actor: Actor, input: StartSession
     accessSubject = l?.subjectCode ?? null
   }
   const accessScope: PlayScope = { gradeCode: grade.code, streamCode, subjectCode: accessSubject }
-  const access = await getPlayAccess(db, actor, accessScope, now)
-  if (access.state.kind === 'trial_expired') throw new AppError('PLAY_TRIAL_EXPIRED')
-  // جولة متعددة المواد لمشترك في بعض المواد فقط (دون تجربة نشطة): أسئلة مواد اشتراكه فقط
-  const allowedSubjects = access.state.kind === 'subscriber' && accessSubject === null && access.entitledSubjects !== 'ALL' ? access.entitledSubjects : null
+  let allowedSubjects: string[] | null = null
+  if (!practice) {
+    const access = await getPlayAccess(db, actor, accessScope, now)
+    if (access.state.kind === 'trial_expired') throw new AppError('PLAY_TRIAL_EXPIRED')
+    // جولة متعددة المواد لمشترك في بعض المواد فقط (دون تجربة نشطة): أسئلة مواد اشتراكه فقط
+    allowedSubjects = access.state.kind === 'subscriber' && accessSubject === null && access.entitledSubjects !== 'ALL' ? access.entitledSubjects : null
+  }
 
   // إغلاق أي جلسة نشطة قديمة للطالب (جلسة واحدة نشطة)
   await db
@@ -340,8 +354,8 @@ export async function startPlaySession(db: Db, actor: Actor, input: StartSession
       .limit(1500)
   }
   if (rows.length === 0) throw new AppError('PLAY_NO_QUESTIONS')
-  // أول بدء لعب فعلي: تبدأ التجربة ذريًّا (مرة واحدة)؛ المشترك لا تُنشأ له تجربة
-  await beginPlayAccess(db, actor, accessScope, now)
+  // أول بدء لعب فعلي: تبدأ التجربة ذريًّا (مرة واحدة)؛ المشترك لا تُنشأ له تجربة، وجولة الدورة لا تمسّ التجربة
+  if (!practice) await beginPlayAccess(db, actor, accessScope, now)
 
   const memory = await db
     .select({ questionId: playQuestionMemory.questionId, box: playQuestionMemory.box, dueAt: playQuestionMemory.dueAt, lastResult: playQuestionMemory.lastResult, lastSeenAt: playQuestionMemory.lastSeenAt })
@@ -382,7 +396,8 @@ export async function startPlaySession(db: Db, actor: Actor, input: StartSession
       questionIds: ids,
       seed,
       startedAt: now,
-      expiresAt: timed ? new Date(now.getTime() + ids.length * TIMED_SECONDS_PER_QUESTION * 1000) : null
+      expiresAt: timed ? new Date(now.getTime() + ids.length * TIMED_SECONDS_PER_QUESTION * 1000) : null,
+      practiceLinkId: practice?.linkId ?? null
     })
     .returning()
   if (!session) throw new AppError('INTERNAL')
@@ -481,7 +496,9 @@ export async function getSessionView(db: Db, actor: Actor, sessionId: string, op
       total: session.questionIds.length,
       subjectCode: session.subjectCode,
       unitCode: session.unitCode,
-      lessonId: session.lessonId
+      lessonId: session.lessonId,
+      /** تمرين من تحت درس الدورة (المخارج إلى الدرس) */
+      practiceLinkId: session.practiceLinkId
     },
     questions
   }
@@ -532,14 +549,19 @@ async function applyPlayAnswers(db: Db, actor: Actor, sessionId: string, input: 
   if (!items.length) return []
   // الوصول عند كل إجابة (لا عند العرض فقط): مشترك أو تجربة نشطة بوقت الخادم — لكل مادة في الدفعة
   const [scope] = await db
-    .select({ gradeCode: playSessions.gradeCode, streamCode: playSessions.streamCode, subjectCode: playSessions.subjectCode })
+    .select({ gradeCode: playSessions.gradeCode, streamCode: playSessions.streamCode, subjectCode: playSessions.subjectCode, practiceLinkId: playSessions.practiceLinkId })
     .from(playSessions)
     .where(and(eq(playSessions.id, sessionId), eq(playSessions.studentId, studentId)))
     .limit(1)
   if (!scope) throw new AppError('PLAY_SESSION_NOT_FOUND')
-  const qSubjects = await db.select({ id: playQuestions.id, subjectCode: playQuestions.subjectCode }).from(playQuestions).where(inArray(playQuestions.id, items.map((i) => i.questionId)))
-  const subjectsToCheck = new Set(items.map((i) => qSubjects.find((q) => q.id === i.questionId)?.subjectCode ?? scope.subjectCode))
-  for (const subjectCode of subjectsToCheck) await assertPlayAccess(db, actor, { gradeCode: scope.gradeCode, streamCode: scope.streamCode, subjectCode }, now)
+  if (scope.practiceLinkId) {
+    // جولة من تحت درس الدورة: اشتراك الدورة لا تجربة PLAY
+    await practiceLinkForStudent(db, studentId, scope.practiceLinkId)
+  } else {
+    const qSubjects = await db.select({ id: playQuestions.id, subjectCode: playQuestions.subjectCode }).from(playQuestions).where(inArray(playQuestions.id, items.map((i) => i.questionId)))
+    const subjectsToCheck = new Set(items.map((i) => qSubjects.find((q) => q.id === i.questionId)?.subjectCode ?? scope.subjectCode))
+    for (const subjectCode of subjectsToCheck) await assertPlayAccess(db, actor, { gradeCode: scope.gradeCode, streamCode: scope.streamCode, subjectCode }, now)
+  }
   const rules = await getPlayRules(db)
   return db.transaction(async (tx) => {
     const [session] = await tx

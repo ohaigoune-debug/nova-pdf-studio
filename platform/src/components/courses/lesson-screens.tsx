@@ -7,8 +7,10 @@ import type { Actor } from '@/server/lib/actor'
 import { getBunnyCredentials } from '@/server/lib/bunny'
 import { isAppError } from '@/server/lib/errors'
 import { getCourseLesson, listCourseLessons } from '@/server/services/course-lessons.service'
+import { listLessonPractice } from '@/server/services/lesson-practice.service'
 import { CourseLessonsPanel, type PanelLesson } from './course-lessons-panel'
 import { LessonEditor } from './lesson-editor'
+import { LessonPracticePanel } from './lesson-practice-panel'
 
 const NOT_FOUND = new Set(['COURSE_NOT_FOUND', 'LESSON_NOT_FOUND', 'FORBIDDEN'])
 
@@ -35,6 +37,8 @@ export async function LessonEditorScreen({ actor, courseId, lessonId, basePath }
   const data = lessonId ? await guard(() => getCourseLesson(db, actor, courseId, lessonId)) : { ...(await guard(() => listCourseLessons(db, actor, courseId))), lesson: null }
   const bunnyConfigured = Boolean(await getBunnyCredentials(db))
   const l = data.lesson
+  // تمارين من بنك مدرسة تحت الدرس (بعد حفظ الدرس أول مرة)
+  const practice = l ? await listLessonPractice(db, actor, courseId, l.id) : null
   return (
     <div className="mx-auto max-w-3xl space-y-4">
       <PageHeader
@@ -69,6 +73,7 @@ export async function LessonEditorScreen({ actor, courseId, lessonId, basePath }
             : null
         }
       />
+      {l && practice ? <LessonPracticePanel courseId={courseId} lessonId={l.id} items={practice} /> : null}
     </div>
   )
 }

@@ -6,6 +6,7 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { AppError } from '@/server/lib/errors'
 import { PLAY_MATH_SUBJECTS } from '@/server/play/constants'
+import { practiceBackHref } from '@/server/services/lesson-practice.service'
 import { getExamAttemptView, getExamResult } from '@/server/services/play-exams.service'
 
 export const dynamic = 'force-dynamic'
@@ -29,7 +30,9 @@ export default async function PlayExamResultPage({ params }: { params: Promise<{
   const { view } = result
   const lang = view.set.lang
   const dir = lang === 'ar' ? undefined : 'ltr'
-  const back = view.set.kind === 'BAC' ? `/student/play/bac?subject=${view.set.subjectCode}` : `/student/play/exams?subject=${view.set.subjectCode}`
+  // محاولة من تحت درس الدورة: العودة إلى الدرس (قسم PLAY قد يكون مخفيًا في الموقع)
+  const practice = view.practiceLinkId ? await practiceBackHref(db, view.practiceLinkId) : null
+  const back = practice ?? (view.set.kind === 'BAC' ? `/student/play/bac?subject=${view.set.subjectCode}` : `/student/play/exams?subject=${view.set.subjectCode}`)
   const wrong = result.steps.filter((s) => s.feedback && !s.feedback.correct)
   const skipped = result.steps.filter((s) => !s.feedback)
   return (
@@ -135,11 +138,13 @@ export default async function PlayExamResultPage({ params }: { params: Promise<{
 
       <div className="flex flex-wrap justify-center gap-2">
         <Link href={back} className="inline-flex min-h-11 items-center gap-2 rounded-full bg-gradient-to-b from-[#3B83F0] to-[#1457C5] px-5 text-sm font-extrabold text-white">
-          <RotateCcw className="size-4" aria-hidden /> مواضيع أخرى
+          <RotateCcw className="size-4" aria-hidden /> {practice ? 'العودة إلى الدرس' : 'مواضيع أخرى'}
         </Link>
-        <Link href="/student/play/results" className="inline-flex min-h-11 items-center rounded-full border-[1.5px] border-[#6E9DEB] bg-white px-5 text-sm font-extrabold text-[#1457C5]">
-          نتائجي وتقدمي
-        </Link>
+        {practice ? null : (
+          <Link href="/student/play/results" className="inline-flex min-h-11 items-center rounded-full border-[1.5px] border-[#6E9DEB] bg-white px-5 text-sm font-extrabold text-[#1457C5]">
+            نتائجي وتقدمي
+          </Link>
+        )}
       </div>
       </div>
     </MathScope>

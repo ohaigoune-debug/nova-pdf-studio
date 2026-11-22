@@ -146,6 +146,8 @@ export const playSessions = pgTable(
     startedAt: timestamp('started_at', { withTimezone: true }).notNull().defaultNow(),
     expiresAt: timestamp('expires_at', { withTimezone: true }),
     completedAt: timestamp('completed_at', { withTimezone: true }),
+    /** جولة بدأت من تحت درس الدورة (content_play_links): الوصول باشتراك الدورة. المفتاح الأجنبي في الـmigration ‏0057 */
+    practiceLinkId: uuid('practice_link_id'),
     ...timestamps
   },
   (t) => [
@@ -391,6 +393,8 @@ export const playExamAttempts = pgTable(
     maxScore: doublePrecision('max_score').notNull().default(20),
     startedAt: timestamp('started_at', { withTimezone: true }).notNull().defaultNow(),
     completedAt: timestamp('completed_at', { withTimezone: true }),
+    /** محاولة بدأت من تحت درس الدورة (content_play_links). المفتاح الأجنبي في الـmigration ‏0057 */
+    practiceLinkId: uuid('practice_link_id'),
     ...timestamps
   },
   (t) => [
