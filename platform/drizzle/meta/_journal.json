@@ -393,6 +393,13 @@
       "when": 1795500000000,
       "tag": "0055_live_passcode",
       "breakpoints": true
+    },
+    {
+      "idx": 56,
+      "version": "7",
+      "when": 1795600000000,
+      "tag": "0056_live_zoom_auto",
+      "breakpoints": true
     }
   ]
 }

@@ -52,6 +52,8 @@ export interface ZoomOAuthStatus {
   connectedAt: string | null
   /** محفوظ لكن لا يُفتح (تغيّر سرّ الخادم) أو رفضه Zoom آخر مرة: يُعاد الربط */
   needsReconnect: boolean
+  /** الربط يشمل صلاحية إنشاء الاجتماعات (meeting:write:meeting) */
+  canCreateMeetings: boolean
   redirectUri: string
 }
 
@@ -98,10 +100,25 @@ async function writeStored(db: Db, value: Stored): Promise<void> {
     .onConflictDoUpdate({ target: appSettings.key, set: { value, updatedAt: new Date() } })
 }
 
+/** صلاحيات إنشاء اجتماعات Zoom من المنصة وتعديلها وحذفها (تُضاف في تطبيق Zoom ثم يُعاد الربط) */
+export const ZOOM_MEETING_SCOPES = ['meeting:write:meeting', 'meeting:update:meeting', 'meeting:delete:meeting'] as const
+
+function hasScope(scope: string | undefined, wanted: string): boolean {
+  return (scope ?? '').split(/[\s,]+/).includes(wanted)
+}
+
 export async function zoomOAuthStatus(db: Db): Promise<ZoomOAuthStatus> {
   const s = await readStored(db)
   const unusable = Boolean(s && (unseal(s.refreshSealed, PURPOSE) === null || s.lastError))
-  return { configured: zoomSdkKeys() !== null, connected: Boolean(s) && !unusable, connectedAt: s?.connectedAt ?? null, needsReconnect: Boolean(s) && unusable, redirectUri: zoomRedirectUri() }
+  const connected = Boolean(s) && !unusable
+  return {
+    configured: zoomSdkKeys() !== null,
+    connected,
+    connectedAt: s?.connectedAt ?? null,
+    needsReconnect: Boolean(s) && unusable,
+    canCreateMeetings: connected && hasScope(s?.scope, 'meeting:write:meeting'),
+    redirectUri: zoomRedirectUri()
+  }
 }
 
 async function tokenRequest(keys: ZoomSdkKeys, params: Record<string, string>, fetchImpl: typeof fetch): Promise<Required<Pick<TokenResponse, 'access_token' | 'refresh_token' | 'expires_in'>> & { scope: string }> {
@@ -226,3 +243,89 @@ export async function zoomHostZak(db: Db, opts: { fetchImpl?: typeof fetch; now?
   if (!r.ok) throw new AppError('ZOOM_AUTH_FAILED', { status: r.status, reason: 'zak' })
   return r.zak
 }
+
+/* ───────────── اجتماعات Zoom من المنصة (إنشاء، تعديل، حذف) ───────────── */
+
+const API = 'https://api.zoom.us/v2'
+
+interface ApiResult<T> {
+  status: number
+  body: T | null
+}
+
+async function apiCall<T>(token: string, method: 'POST' | 'PATCH' | 'DELETE', path: string, body: unknown, fetchImpl: typeof fetch): Promise<ApiResult<T>> {
+  let res: Response
+  try {
+    res = await fetchImpl(`${API}${path}`, {
+      method,
+      headers: { Authorization: `Bearer ${token}`, Accept: 'application/json', ...(body ? { 'Content-Type': 'application/json' } : {}) },
+      body: body ? JSON.stringify(body) : undefined,
+      signal: AbortSignal.timeout(20_000)
+    })
+  } catch {
+    throw new AppError('ZOOM_UNREACHABLE')
+  }
+  const text = await res.text().catch(() => '')
+  let parsed: T | null = null
+  try {
+    parsed = text ? (JSON.parse(text) as T) : null
+  } catch {
+    parsed = null
+  }
+  return { status: res.status, body: parsed }
+}
+
+/** طلب إلى واجهة Zoom بحساب المشرف المربوط: تجديد الرمز عند الحاجة، وإعادة مرة واحدة بعد 401 */
+async function zoomApi<T>(db: Db, method: 'POST' | 'PATCH' | 'DELETE', path: string, body: unknown, opts: { fetchImpl?: typeof fetch; now?: Date } = {}): Promise<ApiResult<T>> {
+  const keys = requireKeys()
+  const fetchImpl = opts.fetchImpl ?? fetch
+  const now = opts.now ?? new Date()
+  let r = await apiCall<T>(await accessToken(db, keys, fetchImpl, now), method, path, body, fetchImpl)
+  if (r.status === 401) r = await apiCall<T>(await accessToken(db, keys, fetchImpl, now, true), method, path, body, fetchImpl)
+  const err = r.body as { code?: number; message?: string } | null
+  // رمز بلا الصلاحية المطلوبة (لم تُضف في التطبيق أو لم يُعَد الربط بعد إضافتها)
+  if ((r.status === 400 || r.status === 401 || r.status === 403) && (err?.code === 4711 || err?.code === 4700 || /scope/i.test(err?.message ?? ''))) throw new AppError('ZOOM_SCOPE_MISSING')
+  return r
+}
+
+export interface ZoomMeetingInput {
+  topic: string
+  startsAt: Date
+  durationMinutes: number
+}
+
+/** إعدادات اجتماعات الحصص: التلميذ يدخل بلا كاميرا وبميكروفون مكتوم، ولا يدخل قبل الأستاذ */
+function meetingBody(input: ZoomMeetingInput) {
+  return {
+    topic: input.topic.slice(0, 200),
+    type: 2,
+    start_time: input.startsAt.toISOString().replace(/\.\d{3}Z$/, 'Z'),
+    duration: Math.max(10, Math.min(600, Math.floor(input.durationMinutes))),
+    timezone: 'Africa/Algiers',
+    settings: { host_video: true, participant_video: false, join_before_host: false, mute_upon_entry: true, waiting_room: false, approval_type: 2 }
+  }
+}
+
+/** إنشاء اجتماع Zoom في الحساب المربوط: الرابط ورقم الاجتماع ورمزه */
+export async function createZoomMeeting(db: Db, input: ZoomMeetingInput, opts: { fetchImpl?: typeof fetch; now?: Date } = {}): Promise<{ meetingId: string; joinUrl: string; passcode: string }> {
+  const r = await zoomApi<{ id?: number | string; join_url?: string; password?: string; message?: string }>(db, 'POST', '/users/me/meetings', meetingBody(input), opts)
+  if (r.status !== 201 && r.status !== 200) throw new AppError('ZOOM_MEETING_FAILED', { status: r.status, reason: String(r.body?.message ?? '').slice(0, 120) })
+  const id = r.body?.id !== undefined ? String(r.body.id) : ''
+  if (!/^\d{9,12}$/.test(id) || !r.body?.join_url) throw new AppError('ZOOM_MEETING_FAILED', { status: r.status, reason: 'bad response' })
+  return { meetingId: id, joinUrl: r.body.join_url, passcode: String(r.body.password ?? '') }
+}
+
+/** تحديث عنوان الاجتماع وموعده ومدته في Zoom */
+export async function updateZoomMeeting(db: Db, meetingId: string, input: ZoomMeetingInput, opts: { fetchImpl?: typeof fetch; now?: Date } = {}): Promise<void> {
+  const { settings: _s, ...body } = meetingBody(input)
+  void _s
+  const r = await zoomApi(db, 'PATCH', `/meetings/${encodeURIComponent(meetingId)}`, body, opts)
+  if (r.status !== 204 && r.status !== 200) throw new AppError('ZOOM_MEETING_FAILED', { status: r.status, reason: 'update' })
+}
+
+/** حذف الاجتماع من Zoom (غير موجود أصلًا = تمّ) */
+export async function deleteZoomMeeting(db: Db, meetingId: string, opts: { fetchImpl?: typeof fetch; now?: Date } = {}): Promise<void> {
+  const r = await zoomApi(db, 'DELETE', `/meetings/${encodeURIComponent(meetingId)}`, null, opts)
+  if (r.status !== 204 && r.status !== 200 && r.status !== 404) throw new AppError('ZOOM_MEETING_FAILED', { status: r.status, reason: 'delete' })
+}
+
