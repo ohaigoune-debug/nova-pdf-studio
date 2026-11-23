@@ -54,7 +54,7 @@ describe('«الأستاذ المساعد» في القسم الافتراضي',
     expect(isClassroomAssistant(attendanceHelper)).toBe(false)
 
     const hrefs = navFor('ASSISTANT', { assistantScope: 'CLASSROOM' }).flatMap((s) => s.items.map((i) => i.href))
-    expect(hrefs).toEqual(['/assistant/classroom', '/assistant/notifications', '/assistant/settings'])
+    expect(hrefs).toEqual(['/assistant/classroom', '/assistant/earnings', '/assistant/notifications', '/assistant/settings'])
     expect(navFor('ASSISTANT', { assistantScope: 'FULL' }).flatMap((s) => s.items.map((i) => i.href))).toContain('/assistant/students')
 
     const [m] = await h.db.select({ scope: teacherAssistants.scope }).from(teacherAssistants).where(eq(teacherAssistants.userId, helper.userId))

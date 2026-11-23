@@ -184,6 +184,7 @@ const fr: DeepPartial<typeof ar> = {
     ASSISTANT_EMAIL_MISMATCH: 'Ce code est réservé à une autre adresse e-mail.',
     ASSISTANT_EMAIL_TAKEN: "Cet e-mail appartient déjà à un compte d'un autre type.",
     ASSISTANT_ALREADY_ACTIVE: 'Cet assistant est déjà rattaché à un enseignant.',
+    PAYOUT_ALREADY_RECORDED: 'Le paiement de ce mois est déjà enregistré.',
     ASSISTANT_NOT_FOUND: 'Assistant introuvable.',
     ASSISTANT_NO_WORKSPACE: "Votre compte assistant n'est rattaché à aucun enseignant.",
     LESSON_OUT_OF_SCOPE: 'Cette leçon n’est pas destinée à votre niveau et filière. Modifiez-les depuis « Mon compte » s’ils sont incorrects.',
