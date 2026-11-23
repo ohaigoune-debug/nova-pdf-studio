@@ -1,0 +1,49 @@
+⚡️  Loading app at capacitor://localhost...
+SplashScreen.hideSplash: SplashScreen was automatically hidden after default timeout. You should call `SplashScreen.hide()` as soon as your web app is loaded (or increase the timeout). Read more at https://capacitorjs.com/docs/apis/splash-screen#hiding-the-splash-screen
+⚡️  To Native ->  Preferences get 9314410
+⚡️  TO JS {"value":null}
+⚡️  WebView loaded
+⚡️  To Native ->  Filesystem readdir 9314411
+⚡️  To Native ->  App addListener 9314412
+⚡️  To Native ->  StatusBar setStyle 9314413
+⚡️  To Native ->  NovaStore addListener 9314414
+⚡️  To Native ->  SplashScreen hide 9314415
+⚡️  TO JS {"files":[]}
+⚡️  TO JS {}
+⚡️  TO JS undefined
+⚡️  To Native ->  App addListener 9314416
+⚡️  To Native ->  App addListener 9314417
+⚡️  To Native ->  NovaStore getEntitlements 9314418
+⚡️  To Native ->  Preferences set 9314419
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok lang/en
+⚡️  To Native ->  NovaStore getEntitlements 9314420
+⚡️  To Native ->  SplashScreen hide 9314421
+⚡️  TO JS undefined
+⚡️  To Native ->  App addListener 9314422
+⚡️  To Native ->  App addListener 9314423
+⚡️  To Native ->  App removeListener -1
+⚡️  To Native ->  App removeListener -1
+⚡️  To Native ->  Preferences set 9314424
+⚡️  To Native ->  StatusBar setStyle 9314425
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok theme/light
+⚡️  TO JS {}
+⚡️  To Native ->  Filesystem stat 9314426
+ERROR MESSAGE:  {"errorMessage":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/5E7E97BB-0A69-48F4-8EDF-05BE25F2768D\/Documents\/Agreement%20(signed).pdf'  does not exist.","message":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/5E7E97BB-0A69-48F4-8EDF-05BE25F2768D\/D
+⚡️  [error] - {"errorMessage":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/30BC9F35-1953-43FC-8C13-880D8FD158AE/data/Containers/Data/Application/5E7E97BB-0A69-48F4-8EDF-05BE25F2768D/Documents/Agreement%20(signed).pdf'  does not exist.","message":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/30BC9F35-1953-43FC-8C13-880D8FD158AE/data/Containers/Data/Application/5E7E97BB-0A69-48F4-8EDF-05BE25F2768D/Documents/Agreement%20(signed).pdf'  does not exist.","code":"OS-PLUG-FILE-0008"}
+⚡️  To Native ->  Filesystem writeFile 9314427
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/5E7E97BB-0A69-48F4-8EDF-05BE25F2768D\/Documents\/.nova-tmp-1795424449253.part"}
+⚡️  To Native ->  Filesystem rename 9314428
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readdir 9314429
+⚡️  TO JS {"files":[{"type":"file","size":4099,"ctime":1795424449262,"mtime":1795424449262,"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/5E7E97BB-0A69-48F4-8EDF
+⚡️  To Native ->  Filesystem readFile 9314430
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  [log] - [nova-route] ok annotated
+⚡️  To Native ->  Filesystem readFile 9314431
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  To Native ->  Filesystem getUri 9314432
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/5E7E97BB-0A69-48F4-8EDF-05BE25F2768D\/Documents\/Agreement%20(signed).pdf"}
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡

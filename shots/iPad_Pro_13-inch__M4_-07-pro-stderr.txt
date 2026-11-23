@@ -1,0 +1,2 @@
+2026-11-23 09:16:51.215 App[49320:137334] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/DDA8E4D1-9039-478B-84D8-E950A0144D7D/Library/Cookies/com.haigoune.novadocs.binarycookies
+2026-11-23 09:16:51.331 App[49320:137334] KeyboardPlugin: resize mode - native

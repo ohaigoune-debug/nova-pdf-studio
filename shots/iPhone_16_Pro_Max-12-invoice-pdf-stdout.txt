@@ -1,0 +1,53 @@
+⚡️  Loading app at capacitor://localhost...
+SplashScreen.hideSplash: SplashScreen was automatically hidden after default timeout. You should call `SplashScreen.hide()` as soon as your web app is loaded (or increase the timeout). Read more at https://capacitorjs.com/docs/apis/splash-screen#hiding-the-splash-screen
+⚡️  WebView loaded
+⚡️  To Native ->  Preferences get 72682439
+⚡️  TO JS {"value":"{\"language\":\"en\",\"theme\":\"light\",\"ocrLanguages\":[\"ara\",\"fra\",\"eng\"],\"signatures\":[],\"appLock\":false,\"nativeRender\":false,\"repairArabic\":true}"}
+⚡️  To Native ->  Filesystem readdir 72682440
+⚡️  To Native ->  App addListener 72682441
+⚡️  To Native ->  StatusBar setStyle 72682442
+⚡️  To Native ->  NovaStore addListener 72682443
+⚡️  To Native ->  SplashScreen hide 72682444
+⚡️  To Native ->  App addListener 72682445
+⚡️  To Native ->  App addListener 72682446
+⚡️  To Native ->  NovaStore getEntitlements 72682447
+⚡️  TO JS {"files":[{"ctime":1795424449262,"mtime":1795424449262,"type":"file","uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/5E7E97BB-0A69-48F4-8EDF-05BE25F2768
+⚡️  TO JS {}
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readFile 72682448
+⚡️  To Native ->  Filesystem readFile 72682449
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjEgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFsgNSAwIFIgXQovQ291bnQgMQo+PgplbmRvYmoKCjIgMCBvYmoKPDwKL1R5cGUgL0NhdGFsb2cKL1BhZ2VzIDEgMCBSCj4+CmVuZG9iagoKMyAwIG9iago8PAovUHJvZHVjZXIgPEZFRkYwMDcwMDA2NDAwNjYwMDJEMDA2QzAwNjkwMDYyMDAyMDA
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  To Native ->  Preferences set 72682450
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok lang/en
+⚡️  To Native ->  NovaStore getEntitlements 72682451
+⚡️  To Native ->  SplashScreen hide 72682452
+⚡️  TO JS ⚡️  To Native ->  App undefined
+addListener 72682453
+⚡️  To Native ->  App addListener 72682454
+⚡️  To Native ->  App removeListener -1
+⚡️  To Native ->  App removeListener -1
+⚡️  To Native ->  Preferences set 72682455
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok theme/light
+⚡️  To Native ->  Filesystem readFile 72682456
+⚡️  TO JS {"data":"U1FMaXRlIGZvcm1hdCAzABAAAQEAQCAgAAAAAQAAAEIAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAC6ZsQUAAAADD\/EAAAAALA\/7D\/YP8QjrBtoItgPuBqcDkAMjArkCUQ8dAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+⚡️  To Native ->  Filesystem writeFile 72682457
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/5E7E97BB-0A69-48F4-8EDF-05BE25F2768D\/Library\/NovaData\/nova.sqlite.tmp"}
+⚡️  To Native ->  Filesystem deleteFile 72682458
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem rename 72682459
+⚡️  TO JS undefined
+⚡️  To Native ->  NovaDocuments htmlToPdf 72682460
+⚡️  To Native ->  Filesystem writeFile 72682461
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/5E7E97BB-0A69-48F4-8EDF-05BE25F2768D\/Library\/NovaData\/nova.sqlite.tmp"}
+⚡️  To Native ->  Filesystem deleteFile 72682462
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem rename 72682463
+⚡️  TO JS undefined
+⚡️  TO JS {"size":73390,"mimeType":"application\/pdf","path":"\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/30BC9F35-1953-43FC-8C13-880D8FD158AE\/data\/Containers\/Data\/Application\/5E7E97BB-0A69-48F4-8EDF-05BE25F2768D\/tmp\/nova-inbox\/INV-2026-0901
+⚡️  To Native ->  Filesystem stat 72682464
+ERROR MESSAGE:  {"errorMessage":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator

@@ -1,0 +1,11 @@
+	 Executed 7 tests, with 0 failures (0 unexpected) in 33.367 (33.374) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 33.367 (33.375) seconds
+** TEST SUCCEEDED **
+Test Case '-[AppTests.StoreKitFlowTests test01_productIsLifetimeNonConsumableAt499]' passed (10.921 seconds).
+Test Case '-[AppTests.StoreKitFlowTests test02_verifiedPurchaseUnlocksPro]' passed (10.225 seconds).
+Test Case '-[AppTests.StoreKitFlowTests test03_askToBuyIsPendingThenApprovalUnlocks]' passed (0.947 seconds).
+Test Case '-[AppTests.StoreKitFlowTests test04_declinedAskToBuyNeverUnlocks]' passed (4.376 seconds).
+Test Case '-[AppTests.StoreKitFlowTests test05_refundRevokesPro]' passed (6.014 seconds).
+Test Case '-[AppTests.StoreKitFlowTests test06_failedPurchaseDoesNotUnlock]' passed (0.784 seconds).
+Test Case '-[AppTests.StoreKitFlowTests test06_failedPurchaseDoesNotUnlock]' started.
+Test Case '-[AppTests.StoreKitFlowTests test07_purchaseFromAnotherDeviceIsRecognized]' passed (0.100 seconds).

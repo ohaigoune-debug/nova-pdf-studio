@@ -1,0 +1,29 @@
+⚡️  Loading app at capacitor://localhost...
+SplashScreen.hideSplash: SplashScreen was automatically hidden after default timeout. You should call `SplashScreen.hide()` as soon as your web app is loaded (or increase the timeout). Read more at https://capacitorjs.com/docs/apis/splash-screen#hiding-the-splash-screen
+⚡️  To Native ->  Preferences get 68929723
+⚡️  TO JS {"value":"{\"language\":\"en\",\"theme\":\"light\",\"ocrLanguages\":[\"ara\",\"fra\",\"eng\"],\"signatures\":[],\"appLock\":false,\"nativeRender\":false,\"repairArabic\":true}"}
+⚡️  WebView loaded
+⚡️  To Native ->  Filesystem readdir 68929724
+⚡️  To Native ->  App addListener 68929725
+⚡️  To Native ->  StatusBar setStyle 68929726
+⚡️  To Native ->  NovaStore addListener 68929727
+⚡️  To Native ->  SplashScreen hide 68929728
+⚡️  To Native ->  App addListener 68929729
+⚡️  To Native ->  App addListener 68929730
+⚡️  To Native ->  NovaStore getEntitlements 68929731
+⚡️  TO JS {"files":[{"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Documents\/Agreement%20(signed).pdf","size":4101,"name"
+⚡️  TO JS {}
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readFile 68929732
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  To Native ->  Filesystem readFile 68929733
+ERROR MESSAGE:  {"code":"OS-PLUG-FILE-0008","message":"'readFile' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Library\/NovaData\/nova.sqlite'  does not exist.","errorMessage":"'readFile' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-
+⚡️  [error] - {"code":"OS-PLUG-FILE-0008","message":"'readFile' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/DDA8E4D1-9039-478B-84D8-E950A0144D7D/Library/NovaData/nova.sqlite'  does not exist.","errorMessage":"'readFile' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/DDA8E4D1-9039-478B-84D8-E950A0144D7D/Library/NovaData/nova.sqlite'  does not exist."}
+⚡️  [log] - [nova:info] database migrations applied {"applied":[1,2],"currentVersion":2}
+⚡️  To Native ->  Filesystem writeFile 68929734
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Library\/NovaData\/nova.sqlite.tmp"}
+⚡️  To Native ->  Filesystem deleteFile 68929735
+ERROR MESSAGE:  {"code":"OS-PLUG-FILE-0008","message":"'deleteFile' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Library\/NovaData\/nova.sqlite'  does not exist.","errorMessage":"'deleteFile' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E
+⚡️  [error] - {"code":"OS-PLUG-FILE-0008","message":"'deleteFile' failed because file at 'file:///Users/runner/Library

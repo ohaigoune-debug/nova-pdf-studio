@@ -1,0 +1,37 @@
+⚡️  Loading app at capacitor://localhost...
+SplashScreen.hideSplash: SplashScreen was automatically hidden after default timeout. You should call `SplashScreen.hide()` as soon as your web app is loaded (or increase the timeout). Read more at https://capacitorjs.com/docs/apis/splash-screen#hiding-the-splash-screen
+⚡️  WebView loaded
+⚡️  To Native ->  Preferences get 128956063
+⚡️  TO JS {"value":"{\"language\":\"ar\",\"theme\":\"light\",\"ocrLanguages\":[\"ara\",\"fra\",\"eng\"],\"signatures\":[],\"appLock\":false,\"nativeRender\":false,\"repairArabic\":true}"}
+⚡️  To Native ->  Filesystem readdir 128956064
+⚡️  To Native ->  App addListener 128956065
+⚡️  To Native ->  StatusBar setStyle 128956066
+⚡️  To Native ->  NovaStore addListener 128956067
+⚡️  To Native ->  SplashScreen hide 128956068
+⚡️  To Native ->  App addListener 128956069
+⚡️  To Native ->  App addListener 128956070
+⚡️  To Native ->  NovaStore getEntitlements 128956071
+⚡️  TO JS {"files":[{"name":"Agreement (signed).pdf","type":"file","ctime":1795425284629,"mtime":1795425284629,"size":4101,"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Appl
+⚡️  TO JS {}
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readFile 128956072
+⚡️  To Native ->  Filesystem readFile 128956073
+⚡️  To Native ->  Filesystem readFile 128956074
+⚡️  To Native ->  Filesystem readFile 128956075
+⚡️  To Native ->  Filesystem readFile 128956076
+⚡️  To Native ->  Filesystem readFile 128956077
+⚡️  To Native ->  Filesystem readFile 128956078
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjYgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCAzNDUKPj4Kc3RyZWFtCnictZTdSkMxDMfv+xS9FralafMFImzsDAVvhPMCQ+ZQHDIRn990wznGjsfJ1kJo09D0l\/zPWYdJGyDW+b4Mo9vF6+fi4\/lxPhAwLQqiFhPG9ilgie19SJvQFNFNIojtKlwz8ZTRbfHpNo8RBHzN2PBY8
+⚡️  TO JS {"data":"JVBERi0xLjMKJb\/3ov4KMSAwIG9iago8PCAvT3BlbkFjdGlvbiBbIDMgMCBSIC9GaXRIIG51bGwgXSAvUGFnZUxheW91dCAvT25lQ29sdW1uIC9QYWdlcyA0IDAgUiAvVHlwZSAvQ2F0YWxvZyA+PgplbmRvYmoKMiAwIG9iago8PCAvQ3JlYXRpb25EYXRlIChEOjIwMjYxMTE2MTkwMTE0WikgPj4KZW5kb2JqCjMgMCBvYmoKPD
+⚡️  TO JS {"data":"JVBERi0xLjMKJenr8b8KMSAwIG9iago8PAovQ291bnQgMQovS2lkcyBbMyAwIFJdCi9NZWRpYUJveCBbMCAwIDU5NS4yOCA4NDEuODldCi9UeXBlIC9QYWdlcwo+PgplbmRvYmoKMiAwIG9iago8PAovT3BlbkFjdGlvbiBbMyAwIFIgL0ZpdEggbnVsbF0KL1BhZ2VMYXlvdXQgL09uZUNvbHVtbgovUGFnZXMgMSAwIFIKL1R5cGU
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjEgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFsgNCAwIFIgXQovQ291bnQgMQo+PgplbmRvYmoKCjIgMCBvYmoKPDwKL1R5cGUgL0NhdGFsb2cKL1BhZ2VzIDEgMCBSCj4+CmVuZG9iagoKMyAwIG9iago8PAovUHJvZHVjZXIgPEZFRkYwMDcwMDA2NDAwNjYwMDJEMDA2QzAwNjkwMDYyMDAyMDA
+⚡️  TO JS {"data":"JVBERi0xLjMKJcTl8uXrp\/Og0MTGCjMgMCBvYmoKPDwgL0ZpbHRlciAvRmxhdGVEZWNvZGUgL0xlbmd0aCAxOTAzNCA+PgpzdHJlYW0KeAGtneuSJclxnP\/3UxzdeyVu49wv+iWQgEmkyUBSHIpmuvyAlliCEhYUdxYS+RJ6N76RPLIy3D0iu2d6AII0257o9K8is6rSM7LqnP7b3Z\/u\/na33+1fTpfT+XQ\/7i6Py8vxdrnu7u
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjEgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFsgNSAwIFIgXQovQ291bnQgMQo+PgplbmRvYmoKCjIgMCBvYmoKPDwKL1R5cGUgL0NhdGFsb2cKL1BhZ2VzIDEgMCBSCj4+CmVuZG9iagoKMyAwIG9iago8PAovUHJvZHVjZXIgPEZFRkYwMDcwMDA2NDAwNjYwMDJEMDA2QzAwNjkwMDYyMDAyMDA
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  TO JS {"tester":false,"checkedAt":"2026-11-23T09:23:09Z","isPro":false,"entitlements":[]}
+⚡️  To Native ->  NovaStore canMakePayments 128956079
+⚡️  TO JS {"canMakePayments":true}
+⚡️  To Native ->  NovaStore getProducts 128956080
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  [log] - Warning: Cannot load system font: 

@@ -1,0 +1,78 @@
+⚡️  Loading app at capacitor://localhost...
+SplashScreen.hideSplash: SplashScreen was automatically hidden after default timeout. You should call `SplashScreen.hide()` as soon as your web app is loaded (or increase the timeout). Read more at https://capacitorjs.com/docs/apis/splash-screen#hiding-the-splash-screen
+⚡️  WebView loaded
+⚡️  To Native ->  Preferences get 41884770
+⚡️  TO JS {"value":"{\"language\":\"en\",\"theme\":\"light\",\"ocrLanguages\":[\"ara\",\"fra\",\"eng\"],\"signatures\":[],\"appLock\":false,\"nativeRender\":false,\"repairArabic\":true}"}
+⚡️  To Native ->  Filesystem readdir 41884771
+⚡️  TO JS {"files":[{"name":"Agreement (signed).pdf","type":"file","mtime":1795425284629,"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E
+⚡️  To Native ->  App addListener 41884772
+⚡️  To Native ->  StatusBar setStyle 41884773
+⚡️  To Native ->  NovaStore addListener ⚡️  TO JS 41884774
+{}
+⚡️  To Native ->  SplashScreen hide 41884775
+⚡️  To Native ->  App addListener 41884776
+⚡️  To Native ->  App addListener 41884777
+⚡️  To Native ->  NovaStore getEntitlements 41884778
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readFile 41884779
+⚡️  To Native ->  Filesystem readFile 41884780
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjEgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFsgNSAwIFIgXQovQ291bnQgMQo+PgplbmRvYmoKCjIgMCBvYmoKPDwKL1R5cGUgL0NhdGFsb2cKL1BhZ2VzIDEgMCBSCj4+CmVuZG9iagoKMyAwIG9iago8PAovUHJvZHVjZXIgPEZFRkYwMDcwMDA2NDAwNjYwMDJEMDA2QzAwNjkwMDYyMDAyMDA
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  [log] - Warning: Cannot load system font: Helvetica-Bold, installing it could help to improve PDF rendering.
+⚡️  To Native ->  Preferences set 41884781
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok lang/en
+⚡️  To Native ->  NovaStore getEntitlements 41884782
+⚡️  To Native ->  SplashScreen hide 41884783
+⚡️  To Native ->  App addListener 41884784
+⚡️  To Native ->  App addListener 41884785
+⚡️  To Native ->  App removeListener -1
+⚡️  To Native ->  App removeListener -1
+⚡️  TO JS undefined
+⚡️  To Native ->  Preferences set 41884786
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok theme/light
+⚡️  To Native ->  Filesystem readFile 41884787
+⚡️  TO JS {"data":"U1FMaXRlIGZvcm1hdCAzABAAAQEAQCAgAAAAAQAAAEIAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAC6ZsQUAAAADD\/EAAAAALA\/7D\/YP8QjrBtoItgPuBqcDkAMjArkCUQ8dAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+⚡️  To Native ->  Filesystem writeFile 41884788
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Library\/NovaData\/nova.sqlite.tmp"}
+⚡️  To Native ->  Filesystem deleteFile 41884789
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem rename 41884790
+⚡️  TO JS undefined
+⚡️  To Native ->  NovaDocuments htmlToPdf 41884791
+⚡️  To Native ->  Filesystem writeFile 41884792
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Library\/NovaData\/nova.sqlite.tmp"}
+⚡️  To Native ->  Filesystem deleteFile 41884793
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem rename 41884794
+⚡️  TO JS undefined
+⚡️  TO JS {"path":"\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/tmp\/nova-inbox\/INV-2026-09013_Haddad-Import-Export.pdf","name":"INV-202
+⚡️  To Native ->  Filesystem stat 41884795
+ERROR MESSAGE:  {"code":"OS-PLUG-FILE-0008","message":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Documents\/Invoice%20self-test%20INV-2026-09013.pdf'  does not exist.","errorMessage":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Applicati
+⚡️  [error] - {"code":"OS-PLUG-FILE-0008","message":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/DDA8E4D1-9039-478B-84D8-E950A0144D7D/Documents/Invoice%20self-test%20INV-2026-09013.pdf'  does not exist.","errorMessage":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/DDA8E4D1-9039-478B-84D8-E950A0144D7D/Documents/Invoice%20self-test%20INV-2026-09013.pdf'  does not exist."}
+⚡️  To Native ->  Filesystem writeFile 41884796
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Documents\/.nova-tmp-1795425541989.part"}
+⚡️  To Native ->  Filesystem rename 41884797
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readdir 41884798
+⚡️  TO JS {"files":[{"ctime":1795425284629,"mtime":1795425284629,"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Documents\/
+⚡️  [log] - [nova-selftest] {"invoice":"INV-2026-09013","pdfKB":72,"pages":1,"textHasNumber":true,"grandTotalMinor":2616000,"reimport":{"number":"INV-2026-09013","items":1,"totalMinor":2616000,"totalMatches":true},"file":"Invoice self-test INV-2026-09013.pdf","ms":1902}
+⚡️  To Native ->  Filesystem readFile 41884799
+⚡️  TO JS {"data":"JVBERi0xLjMKJcTl8uXrp\/Og0MTGCjMgMCBvYmoKPDwgL0ZpbHRlciAvRmxhdGVEZWNvZGUgL0xlbmd0aCAxOTAzNCA+PgpzdHJlYW0KeAGtneuSJclxnP\/3UxzdeyVu49wv+iWQgEmkyUBSHIpmuvyAlliCEhYUdxYS+RJ6N76RPLIy3D0iu2d6AII0257o9K8is6rSM7LqnP7b3Z\/u\/na33+1fTpfT+XQ\/7i6Py8vxdrnu7u
+⚡️  [log] - [nova-route] ok invoice-pdf-selftest
+⚡️  To Native ->  Filesystem readFile 41884800
+⚡️  To Native ->  Filesystem getUri 41884801
+⚡️  TO JS {"data":"JVBERi0xLjMKJcTl8uXrp\/Og0MTGCjMgMCBvYmoKPDwgL0ZpbHRlciAvRmxhdGVEZWNvZGUgL0xlbmd0aCAxOTAzNCA+PgpzdHJlYW0KeAGtneuSJclxnP\/3UxzdeyVu49wv+iWQgEmkyUBSHIpmuvyAlliCEhYUdxYS+RJ6N76RPLIy3D0iu2d6AII0257o9K8is6rSM7LqnP7b3Z\/u\/na33+1fTpfT+XQ\/7i6Py8vxdrnu7u
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Documents\/Invoice%20self-test%20INV-2026-09013.pdf"}
+⚡️  To Native ->  Filesystem getUri 41884802
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Documents\/Invoice%20self-test%20INV-2026-09013.pdf"}
+⚡️  TO JS {"isPro":false,"entitlements":[],"tester":false,"checkedAt":"2026-11-23T09:19:07Z"}
+⚡️  TO JS {"isPro":false,"checkedAt":"2026-11-23T09:19:07Z","entitlements":[],"tester":false}
+⚡️  To Native ->  NovaStore canMakePayments 41884803
+⚡️  To Native ->  NovaStore canMakePayments 41884804
+⚡️  TO JS {"canMakePayments":true}
+⚡️  TO JS {"canMakePayments":true}
+⚡️  To Native ->  NovaStore getProducts 41884805
+⚡️  To Native ->  NovaStore getPr

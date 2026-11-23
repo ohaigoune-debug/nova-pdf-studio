@@ -1,0 +1,46 @@
+⚡️  Loading app at capacitor://localhost...
+SplashScreen.hideSplash: SplashScreen was automatically hidden after default timeout. You should call `SplashScreen.hide()` as soon as your web app is loaded (or increase the timeout). Read more at https://capacitorjs.com/docs/apis/splash-screen#hiding-the-splash-screen
+⚡️  WebView loaded
+⚡️  To Native ->  Preferences get 129211686
+⚡️  TO JS {"value":null}
+⚡️  To Native ->  Filesystem readdir 129211687
+⚡️  To Native ->  App addListener 129211688
+⚡️  To Native ->  StatusBar setStyle 129211689
+⚡️  To Native ->  NovaStore addListener 129211690
+⚡️  To Native ->  SplashScreen hide 129211691
+⚡️  To Native ->  App addListener 129211692
+⚡️  To Native ->  App addListener 129211693
+⚡️  To Native ->  NovaStore getEntitlements 129211694
+⚡️  TO JS {"files":[]}
+⚡️  TO JS {}
+⚡️  TO JS undefined
+⚡️  To Native ->  Preferences set 129211695
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok lang/en
+⚡️  To Native ->  NovaStore getEntitlements 129211696
+⚡️  To Native ->  SplashScreen hide 129211697
+⚡️  TO JS undefined
+⚡️  To Native ->  App addListener 129211698
+⚡️  To Native ->  App addListener 129211699
+⚡️  To Native ->  App removeListener -1
+⚡️  To Native ->  App removeListener -1
+⚡️  To Native ->  Preferences set 129211700
+⚡️  To Native ->  StatusBar setStyle 129211701
+⚡️  TO JS undefined
+⚡️  [log] - [nova-route] ok theme/light
+⚡️  TO JS {}
+⚡️  To Native ->  Filesystem stat 129211702
+ERROR MESSAGE:  {"errorMessage":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Documents\/Agreement%20(signed).pdf'  does not exist.","message":"'stat' failed because file at 'file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/D
+⚡️  [error] - {"errorMessage":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/DDA8E4D1-9039-478B-84D8-E950A0144D7D/Documents/Agreement%20(signed).pdf'  does not exist.","message":"'stat' failed because file at 'file:///Users/runner/Library/Developer/CoreSimulator/Devices/7EBE6895-EB5E-45A3-B782-5514370A4454/data/Containers/Data/Application/DDA8E4D1-9039-478B-84D8-E950A0144D7D/Documents/Agreement%20(signed).pdf'  does not exist.","code":"OS-PLUG-FILE-0008"}
+⚡️  To Native ->  Filesystem writeFile 129211703
+⚡️  TO JS {"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Documents\/.nova-tmp-1795425284601.part"}
+⚡️  To Native ->  Filesystem rename 129211704
+⚡️  TO JS undefined
+⚡️  To Native ->  Filesystem readdir 129211705
+⚡️  TO JS {"files":[{"uri":"file:\/\/\/Users\/runner\/Library\/Developer\/CoreSimulator\/Devices\/7EBE6895-EB5E-45A3-B782-5514370A4454\/data\/Containers\/Data\/Application\/DDA8E4D1-9039-478B-84D8-E950A0144D7D\/Documents\/Agreement%20(signed).pdf","size":4101,"mtime
+⚡️  To Native ->  Filesystem readFile 129211706
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLmf
+⚡️  [log] - [nova-route] ok annotated
+⚡️  To Native ->  Filesystem readFile 129211707
+⚡️  To Native ->  Filesystem getUri 129211708
+⚡️  TO JS {"data":"JVBERi0xLjcKJYGBgYEKCjcgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA0MzYKPj4Kc3RyZWFtCnicjZNLbxMxFIX3\/hVeIzVc2\/dlCbFoMhELNkizQyxQH7QoFSpC9O\/3XE8TEUhRNBqPff0437nX85hoRZZpVTmakn9+S5Sf0ucvmfJ1KmgpR2te8tXDHwE6MYxPtFryLkmXVfWjPqF7l27Tp\/SYLm
