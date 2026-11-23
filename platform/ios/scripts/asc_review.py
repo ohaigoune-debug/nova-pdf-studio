@@ -86,31 +86,33 @@ if editable and editable is not target:
     print(f"  editable version {editable['attributes']['versionString']} exists; it will be renamed to {VERSION}")
 
 # ------------------------------------------------------------------ age rating
-section("Age rating")
-infos = get(f"/v1/apps/{APP}/appInfos") or {"data": []}
-info = next((i for i in infos["data"] if i["attributes"].get("appStoreState") != "READY_FOR_SALE"), None) or (infos["data"][0] if infos["data"] else None)
-if info:
+def age_rating(fix):
+    """Unanswered required age-rating questions on the editable app info (exists once 1.1.0 exists)."""
+    section("Age rating")
+    infos = get(f"/v1/apps/{APP}/appInfos") or {"data": []}
+    for i in infos["data"]:
+        print(f"  appInfo {i['id'][:8]}…: {i['attributes'].get('appStoreState') or i['attributes'].get('state')}")
+    info = next((i for i in infos["data"] if (i["attributes"].get("appStoreState") or i["attributes"].get("state")) not in ("READY_FOR_SALE", "READY_FOR_DISTRIBUTION")), None) or (infos["data"][0] if infos["data"] else None)
+    if not info:
+        return ["app info not found"]
     d = get(f"/v1/appInfos/{info['id']}/ageRatingDeclaration")
-    if d:
-        a = d["data"]["attributes"]
-        optional = {"developerAgeRatingInfoUrl", "gracRatingClassificationNumber", "kidsAgeBand"}
-        missing = sorted(k for k, val in a.items() if val is None and k not in optional)
-        print("  UNANSWERED (required):", ", ".join(missing) or "none")
-        # تطبيق تعليميّ: لا محتوى مواعدة ولا مشاركة موقع — إجابة واقعيّة لسؤالين جديدين من آبل
-        factual = {"datingAndRelationships", "sharedLocation"}
-        if MODE == "submit" and missing and set(missing) <= factual:
-            for k in missing:
-                for val in (False, "NONE"):
-                    st, r = call("PATCH", f"/v1/ageRatingDeclarations/{d['data']['id']}", {"data": {"type": "ageRatingDeclarations", "id": d["data"]["id"], "attributes": {k: val}}})
-                    if st == 200:
-                        print(f"  {k} -> {val}: OK")
-                        break
-                else:
-                    print(f"  {k}: {err(r)}")
-            d = get(f"/v1/appInfos/{info['id']}/ageRatingDeclaration")
-            missing = sorted(k for k, val in d["data"]["attributes"].items() if val is None and k not in optional)
-        if missing:
-            problems.append("age-rating questions unanswered: " + ", ".join(missing))
+    if not d:
+        return ["age rating not readable"]
+    optional = {"developerAgeRatingInfoUrl", "gracRatingClassificationNumber", "kidsAgeBand"}
+    missing = sorted(k for k, val in d["data"]["attributes"].items() if val is None and k not in optional)
+    print("  UNANSWERED (required):", ", ".join(missing) or "none")
+    # تطبيق تعليميّ: لا محتوى مواعدة ولا مشاركة موقع — إجابة واقعيّة لسؤالين جديدين من آبل
+    factual = {"datingAndRelationships", "sharedLocation"}
+    if fix and missing and set(missing) <= factual:
+        st, r = call("PATCH", f"/v1/ageRatingDeclarations/{d['data']['id']}", {"data": {"type": "ageRatingDeclarations", "id": d["data"]["id"], "attributes": {k: False for k in missing}}})
+        print(f"  {', '.join(missing)} -> false:", "OK" if st == 200 else err(r))
+        d = get(f"/v1/appInfos/{info['id']}/ageRatingDeclaration")
+        missing = sorted(k for k, val in d["data"]["attributes"].items() if val is None and k not in optional)
+    return ["age-rating questions unanswered: " + ", ".join(missing)] if missing else []
+
+
+if MODE != "submit":
+    problems += age_rating(False)
 
 # ------------------------------------------------------------------ live version details (copied to 1.1.0)
 src = target or editable or live
@@ -145,8 +147,6 @@ if MODE != "submit":
 
 # ================================================================== submit
 section("Submit")
-if problems:
-    sys.exit("::error::not submitted — " + " | ".join(problems))
 build = None
 for _ in range(60):
     b = get(f"/v1/builds?filter[app]={APP}&filter[version]={BUILD}&limit=5") or {"data": []}
@@ -177,6 +177,8 @@ st, d = call("PATCH", f"/v1/appStoreVersions/{target['id']}/relationships/build"
 print(f"  attach Build {BUILD}:", "OK" if st == 204 else err(d))
 if st != 204:
     sys.exit(1)
+
+problems += age_rating(True)
 
 locs = get(f"/v1/appStoreVersions/{target['id']}/appStoreVersionLocalizations") or {"data": []}
 for l in locs["data"]:
