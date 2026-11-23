@@ -107,7 +107,12 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
       // «الأستاذ المساعد» (قرار المالك 13-14 نوفمبر 2026): القسم الافتراضي وحده، ثم حسابه
       if (opts.assistantScope === 'CLASSROOM')
         return [
-          { items: [{ href: '/assistant/classroom', label: 'المنتدى', iconKey: 'MessagesSquare' }] },
+          {
+            items: [
+              { href: '/assistant/classroom', label: 'المنتدى', iconKey: 'MessagesSquare' },
+              { href: '/assistant/earnings', label: 'أرباحي', iconKey: 'Wallet' }
+            ]
+          },
           {
             title: 'الحساب',
             items: [
@@ -194,6 +199,7 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
                 { href: '/admin/settings/payment', label: 'الدفع الإلكتروني', iconKey: 'CreditCard' },
                 { href: '/admin/settings/support-ai', label: 'مساعد الدعم الذكي', iconKey: 'Bot' },
                 { href: '/admin/settings/student-menu', label: 'أقسام حساب التلميذ', iconKey: 'EyeOff' },
+                { href: '/admin/assistants-pay', label: 'أجور الأستاذ المساعد', iconKey: 'Wallet' },
                 { href: '/admin/settings/apps', label: 'تطبيق الآيفون', iconKey: 'Smartphone' },
                 // كشف التسريب صار تحت «التلاميذ»؛ exact حتى لا يُضاء «الأمان» معه
                 { href: '/admin/security', label: t('nav.security'), iconKey: 'Shield', exact: true },

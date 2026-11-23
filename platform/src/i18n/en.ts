@@ -184,6 +184,7 @@ const en: DeepPartial<typeof ar> = {
     ASSISTANT_EMAIL_MISMATCH: 'This code was issued for a different email address.',
     ASSISTANT_EMAIL_TAKEN: 'This email already belongs to an account of another type.',
     ASSISTANT_ALREADY_ACTIVE: 'This assistant is already attached to a teacher.',
+    PAYOUT_ALREADY_RECORDED: 'This month is already marked as paid.',
     ASSISTANT_NOT_FOUND: 'Assistant not found.',
     ASSISTANT_NO_WORKSPACE: 'Your assistant account is not attached to any teacher.',
     LESSON_OUT_OF_SCOPE: 'This lesson is not for your level and stream. Change them from “My account” if they are wrong.',

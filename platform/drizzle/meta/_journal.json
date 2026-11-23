@@ -414,6 +414,13 @@
       "when": 1795800000000,
       "tag": "0058_play_exam_proposal",
       "breakpoints": true
+    },
+    {
+      "idx": 59,
+      "version": "7",
+      "when": 1795900000000,
+      "tag": "0059_assistant_pay",
+      "breakpoints": true
     }
   ]
 }
