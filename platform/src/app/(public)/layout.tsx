@@ -14,6 +14,8 @@ import { getT } from '@/i18n/server'
 import { getCurrentActor, homeFor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { playBacHiddenHere } from '@/server/services/ios-only.service'
+import { getHiddenPublicEntries } from '@/server/services/public-menu.service'
+import { LEVEL_PICKER_KEY } from '@/lib/public-menu'
 import { IOS_PRESENTATION_HEADER, IOS_PRESENTATION_VALUE } from '@/lib/ios-presentation'
 
 export default async function PublicLayout({ children }: { children: ReactNode }) {
@@ -24,8 +26,10 @@ export default async function PublicLayout({ children }: { children: ReactNode }
   }
   const [actor, { t }, saved, db] = await Promise.all([getCurrentActor(), getT(), savedLevelCode(), getDb()])
   // بنك البكالوريات في تطبيق آيفون وحده ما لم يُظهره المشرف
-  const bacHidden = await playBacHiddenHere(db, actor?.role)
-  const links: PublicLink[] = MAIN_SECTIONS.filter((s) => !(bacHidden && s.href === '/bac')).map((s) => ({ href: s.href, label: s.label }))
+  const [bacHidden, publicHidden] = await Promise.all([playBacHiddenHere(db, actor?.role), getHiddenPublicEntries(db)])
+  // تبويبات أخفاها المشرف من «أقسام حساب التلميذ ← الواجهة العامّة» (من التنقّل فقط؛ الصفحات تبقى تعمل)
+  const links: PublicLink[] = MAIN_SECTIONS.filter((s) => !(bacHidden && s.href === '/bac') && !publicHidden.includes(s.href)).map((s) => ({ href: s.href, label: s.label }))
+  const showLevelPicker = !publicHidden.includes(LEVEL_PICKER_KEY)
   const legal = [
     { href: '/privacy', label: t('public.privacy') },
     { href: '/delete-account', label: t('public.deleteAccount') }
@@ -41,9 +45,11 @@ export default async function PublicLayout({ children }: { children: ReactNode }
           </Link>
           <PublicNav links={links} variant="desktop" />
           <div className="min-w-0 flex-1" />
-          <Suspense fallback={null}>
-            <LevelPicker saved={saved} className="hidden min-[1720px]:inline-flex" />
-          </Suspense>
+          {showLevelPicker ? (
+            <Suspense fallback={null}>
+              <LevelPicker saved={saved} className="hidden min-[1720px]:inline-flex" />
+            </Suspense>
+          ) : null}
           {/* على الهاتف يُنقل مبدّل اللغة إلى السطر الثاني كي لا تخرج الترويسة عن عرض الشاشة */}
           <span className="hidden sm:inline-flex">
             <LocaleSwitcher />
@@ -81,9 +87,11 @@ export default async function PublicLayout({ children }: { children: ReactNode }
             <LocaleSwitcher />
             <ThemeToggle />
           </span>
-          <Suspense fallback={null}>
-            <LevelPicker saved={saved} className="shrink-0" />
-          </Suspense>
+          {showLevelPicker ? (
+            <Suspense fallback={null}>
+              <LevelPicker saved={saved} className="shrink-0" />
+            </Suspense>
+          ) : null}
           <PublicNav links={links} variant="mobile" />
         </nav>
       </header>
