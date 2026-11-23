@@ -11,6 +11,21 @@ import UniformTypeIdentifiers
 /// - الطباعة عبر AirPrint (UIPrintInteractionController).
 /// - تحويل HTML (الفواتير) إلى PDF متجهي بخطوط النظام وتشكيل عربي صحيح (WKWebView + UIPrintPageRenderer).
 @objc(NovaDocumentsPlugin)
+/// يحوّل مسارًا قادمًا من طبقة الويب إلى URL ملف موجود. Capacitor يعيد عناوين file:// مرمّزة
+/// (%20 للمسافات، والحروف العربية والفرنسية مرمّزة)، فإذا حُذفت البادئة فقط بقي المسار مرمّزًا
+/// ولم يوجد الملف: كانت الطباعة تفشل بـ «This file cannot be printed» والحفظ في الملفات بـ «File not found»
+/// لكل ملف في اسمه مسافة أو حرف غير لاتيني (مثل فاتورة «INV-… Atelier Lumière»).
+enum NovaPath {
+    static func fileURL(_ raw: String) -> URL {
+        let fm = FileManager.default
+        if raw.hasPrefix("file://"), let u = URL(string: raw), fm.fileExists(atPath: u.path) { return u }
+        let plain = raw.hasPrefix("file://") ? String(raw.dropFirst("file://".count)) : raw
+        if fm.fileExists(atPath: plain) { return URL(fileURLWithPath: plain) }
+        if let decoded = plain.removingPercentEncoding, fm.fileExists(atPath: decoded) { return URL(fileURLWithPath: decoded) }
+        return URL(fileURLWithPath: plain)
+    }
+}
+
 public class NovaDocumentsPlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerDelegate, WKNavigationDelegate {
     public let identifier = "NovaDocumentsPlugin"
     public let jsName = "NovaDocuments"
@@ -102,7 +117,7 @@ public class NovaDocumentsPlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerD
             call.reject("path is required", "BAD_ARGS")
             return
         }
-        let url = URL(fileURLWithPath: path.replacingOccurrences(of: "file://", with: ""))
+        let url = NovaPath.fileURL(path)
         guard FileManager.default.fileExists(atPath: url.path) else {
             call.reject("File not found", "NOT_FOUND")
             return
@@ -172,7 +187,7 @@ public class NovaDocumentsPlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerD
             call.reject("path is required", "BAD_ARGS")
             return
         }
-        let url = URL(fileURLWithPath: path.replacingOccurrences(of: "file://", with: ""))
+        let url = NovaPath.fileURL(path)
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             guard UIPrintInteractionController.canPrint(url) else {

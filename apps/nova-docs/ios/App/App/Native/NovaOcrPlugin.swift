@@ -40,7 +40,7 @@ public class NovaOcrPlugin: CAPPlugin, CAPBridgedPlugin {
             }
             DispatchQueue.global(qos: .userInitiated).async {
                 var image: UIImage?
-                if let path, let data = FileManager.default.contents(atPath: path.replacingOccurrences(of: "file://", with: "")) {
+                if let path, let data = FileManager.default.contents(atPath: NovaPath.fileURL(path).path) {
                     image = UIImage(data: data)
                 } else if let base64, let data = Data(base64Encoded: base64.components(separatedBy: ",").last ?? base64) {
                     image = UIImage(data: data)
