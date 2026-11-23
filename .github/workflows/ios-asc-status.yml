@@ -1,6 +1,7 @@
 name: iOS — App Store Connect status / App Review submission (manual release)
 
 # [asc-status]: read-only check of Madrasadz 1.1.0 (versions, review details, age-rating gaps, Build 19).
+# Uses the owner's App Manager key (MADRASADZ_ASC_MANAGER_*, added 23 Nov 2026).
 # [asc-submit]: owner-approved App Review submission («ارسله للمراجعة», 23 Nov 2026) — release stays MANUAL.
 # Trigger: a commit on claude/ios-build19-sign whose message contains [asc-status].
 on:
@@ -23,15 +24,16 @@ jobs:
       - run: pip install --quiet pyjwt cryptography
       - name: Prepare key
         env:
-          MADRASADZ_ASC_PRIVATE_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_PRIVATE_KEY_BASE64 }}
+          MANAGER_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_MANAGER_KEY_BASE64 }}
         run: |
           umask 077
-          printf '%s' "$MADRASADZ_ASC_PRIVATE_KEY_BASE64" | base64 -d > "$RUNNER_TEMP/asc.p8"
+          [ -n "$MANAGER_KEY_BASE64" ] || { echo "::error::secret MADRASADZ_ASC_MANAGER_KEY_BASE64 is empty or missing"; exit 1; }
+          printf '%s' "$MANAGER_KEY_BASE64" | base64 -d > "$RUNNER_TEMP/asc.p8" 2>/dev/null || printf '%s\n' "$MANAGER_KEY_BASE64" > "$RUNNER_TEMP/asc.p8"
           grep -q "BEGIN PRIVATE KEY" "$RUNNER_TEMP/asc.p8" || { echo "::error::Key is not a .p8 private key"; exit 1; }
       - name: App Store Connect status
         env:
-          ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_KEY_ID }}
-          ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
+          ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_MANAGER_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_MANAGER_ISSUER_ID }}
           BUNDLE_ID: com.madrasadz.student
           VERSION: 1.1.0
           MODE: ${{ contains(github.event.head_commit.message, '[asc-submit]') && 'submit' || 'status' }}
