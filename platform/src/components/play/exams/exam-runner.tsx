@@ -445,7 +445,7 @@ export function ExamRunner({ view }: { view: AttemptView }) {
     for (const s of steps) for (const d of s.source_question.documents) if (!seen.has(d.id)) seen.set(d.id, d)
     return [...seen.values()]
   }, [steps])
-  const kindLabel = view.set.kind === 'BAC' ? 'بكالوريا' : view.set.kind === 'TEST' ? 'اختبار' : 'فرض'
+  const kindLabel = view.set.kind === 'BAC' ? 'بكالوريا' : view.set.kind === 'PROPOSAL' ? 'موضوع مقترح' : view.set.kind === 'TEST' ? 'اختبار' : 'فرض'
   const local = Boolean(view.local)
   const unsent = useRef<Record<string, StepAnswer>>({})
   const flushing = useRef<Promise<'ok' | 'offline' | 'refused'> | null>(null)
@@ -453,7 +453,7 @@ export function ExamRunner({ view }: { view: AttemptView }) {
   const refused = useCallback(
     (error: { code: string; message: string }) => {
       toast('error', error.message)
-      if (error.code === 'PLAY_TRIAL_EXPIRED' || error.code === 'PLAY_TRIAL_REQUIRED') router.push(view.set.kind === 'BAC' ? '/student/play/bac' : '/student/play/exams')
+      if (error.code === 'PLAY_TRIAL_EXPIRED' || error.code === 'PLAY_TRIAL_REQUIRED') router.push(view.set.kind === 'BAC' || view.set.kind === 'PROPOSAL' ? '/student/play/bac' : '/student/play/exams')
       else if (error.code === 'PLAY_EXAM_CLOSED') router.refresh()
     },
     [router, view.set.kind]
@@ -554,7 +554,7 @@ export function ExamRunner({ view }: { view: AttemptView }) {
       const r = await submitExamStepAction({ attemptId: view.attemptId, stepId: step.id, answer: a })
       if (!r.ok) {
         toast('error', r.error.message)
-        if (r.error.code === 'PLAY_TRIAL_EXPIRED' || r.error.code === 'PLAY_TRIAL_REQUIRED') router.push(view.set.kind === 'BAC' ? '/student/play/bac' : '/student/play/exams')
+        if (r.error.code === 'PLAY_TRIAL_EXPIRED' || r.error.code === 'PLAY_TRIAL_REQUIRED') router.push(view.set.kind === 'BAC' || view.set.kind === 'PROPOSAL' ? '/student/play/bac' : '/student/play/exams')
         else if (r.error.code === 'PLAY_EXAM_CLOSED') router.refresh()
         return
       }

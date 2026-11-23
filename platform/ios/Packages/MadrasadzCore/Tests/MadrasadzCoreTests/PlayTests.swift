@@ -146,11 +146,12 @@ final class PlayTests: XCTestCase {
         XCTAssertTrue(subjects.needsProfile)
         XCTAssertEqual(subjects.grades.map(\.code), ["3AS"])
         let sets = try JSONDecoder().decode(Play.SetList.self, from: Data(#"""
-        {"items":[{"id":"a","setId":"x","kind":"BAC","year":2022,"term":null,"paper":1,"title":"بكالوريا 2022","stepCount":12,"interactivePoints":14,"scoreTotal":20,"preview":false,"attempts":2,"best":{"score":11,"max":14}},{"id":"b","title":"فرض","kind":"NEW_KIND"}],"preview":false}
+        {"items":[{"id":"a","setId":"x","kind":"BAC","year":2022,"term":null,"paper":1,"title":"بكالوريا 2022","stepCount":12,"interactivePoints":14,"scoreTotal":20,"preview":false,"attempts":2,"best":{"score":11,"max":14}},{"id":"b","title":"فرض","kind":"NEW_KIND"},{"id":"c","title":"موضوع مقترح","kind":"PROPOSAL"}],"preview":false}
         """#.utf8))
-        XCTAssertEqual(sets.items.count, 2)
+        XCTAssertEqual(sets.items.count, 3)
         XCTAssertEqual(sets.items[0].best, Play.Score(score: 11, max: 14))
         XCTAssertEqual(sets.items[1].kind, .test)
+        XCTAssertEqual(sets.items[2].kind, .proposal)
     }
 
     func testPlayStoreKeepsPackagesAndAttemptsPerAccount() async throws {

@@ -18,7 +18,7 @@ import { practiceLinkForStudent } from './practice-access'
 
 export const PRACTICE_MAX_PER_LESSON = 12
 
-const EXAM_KIND_AR: Record<string, string> = { BAC: 'بكالوريا', DEVOIR: 'فرض', TEST: 'اختبار' }
+const EXAM_KIND_AR: Record<string, string> = { BAC: 'بكالوريا', DEVOIR: 'فرض', TEST: 'اختبار', PROPOSAL: 'موضوع مقترح' }
 
 export interface PracticeBankItem {
   kind: LessonPracticeKind

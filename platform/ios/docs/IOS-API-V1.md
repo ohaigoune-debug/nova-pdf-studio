@@ -264,3 +264,10 @@ The course page in the app follows the website's five doors (`server/lib/course-
   - `POST /api/v1/ios/play/cards/sync` and `POST /api/v1/ios/play/sync` accept `"practiceLinkId":"uuid"`.
   A link for another item, another student or an ended subscription: `LESSON_PRACTICE_NOT_ALLOWED`.
 
+
+## Build 19 (22 November 2026) — proposed papers («مواضيع مقترحة»)
+
+- `GET /api/v1/ios/play/sets?subject=AR&kind=PROPOSAL` lists the owner's proposed bac-style papers (3AS, on 20, no bac year;
+  `term` may be null). `kind=TESTS` still means DEVOIR + TEST only; `kind=BAC` stays official papers only.
+- Set summaries and lesson-practice items can carry `"kind":"PROPOSAL"`. Older builds decode unknown kinds as `TEST`.
+- The PLAY subject screen gets a fifth segment «مقترحات» (`Play.Kind.proposal`). `CURRENT_PROJECT_VERSION` = 19.

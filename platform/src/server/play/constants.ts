@@ -120,7 +120,8 @@ export type PlaySessionStatus = (typeof PLAY_SESSION_STATUSES)[number]
 /* ─────────── الفروض والاختبارات والبكالوريا (مجموعات تدريب مشتقة من مصادر أصلية) ─────────── */
 
 /** نوع المصدر الأصلي: بكالوريا، فرض، اختبار فصلي */
-export const PLAY_EXAM_KINDS = ['BAC', 'DEVOIR', 'TEST'] as const
+/** BAC رسميّة، فرض، اختبار، وPROPOSAL «موضوع مقترح» على نمط البكالوريا (ليس موضوعًا رسميًّا) */
+export const PLAY_EXAM_KINDS = ['BAC', 'DEVOIR', 'TEST', 'PROPOSAL'] as const
 export type PlayExamKind = (typeof PLAY_EXAM_KINDS)[number]
 
 /**

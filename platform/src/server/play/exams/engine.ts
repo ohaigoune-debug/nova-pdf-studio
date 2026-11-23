@@ -182,7 +182,7 @@ export function validateExamSet(doc: ExamSetDocument, opts: ValidateOptions = {}
   if (doc.schema_version !== 1) err('SCHEMA', 'schema_version', 'الإصدار المدعوم 1')
   if (!/^[a-z0-9][a-z0-9-]{2,80}$/.test(doc.set_id ?? '')) err('SCHEMA', 'set_id', 'معرّف المجموعة: حروف لاتينية صغيرة وأرقام وشرطات')
   if (!(PLAY_EXAM_SET_STATUSES as readonly string[]).includes(doc.status)) err('SCHEMA', 'status', `حالة غير معروفة: ${doc.status}`)
-  if (!src || !(PLAY_EXAM_KINDS as readonly string[]).includes(src.kind)) err('SCHEMA', 'source.kind', 'نوع المصدر BAC أو DEVOIR أو TEST')
+  if (!src || !(PLAY_EXAM_KINDS as readonly string[]).includes(src.kind)) err('SCHEMA', 'source.kind', 'نوع المصدر BAC أو DEVOIR أو TEST أو PROPOSAL')
   if (src && !PLAY_GRADES.some((g) => g.code === src.level)) err('SCHEMA', 'source.level', `مستوى غير معروف: ${src?.level}`)
   if (src && !PLAY_SUBJECTS.some((s) => s.code === src.subject)) err('SCHEMA', 'source.subject', `مادة غير معروفة: ${src?.subject}`)
   for (const st of src?.streams ?? []) if (!PLAY_STREAMS.some((s) => s.code === st)) err('SCHEMA', 'source.streams', `شعبة غير معروفة: ${st}`)
@@ -192,7 +192,14 @@ export function validateExamSet(doc: ExamSetDocument, opts: ValidateOptions = {}
     if (src.paper !== 1 && src.paper !== 2) err('SCHEMA', 'source.paper', 'الموضوع الأول أو الثاني')
     if (Math.abs(doc.score_total - 20) > WEIGHT_EPSILON) err('BAC_TOTAL_NOT_20', 'score_total', `علامة البكالوريا 20 لا ${doc.score_total}`)
   }
-  if (src && src.kind !== 'BAC' && (src.term === null || src.term < 1 || src.term > 3)) err('SCHEMA', 'source.term', 'الفصل 1 أو 2 أو 3')
+  if (src?.kind === 'PROPOSAL') {
+    // موضوع مقترح على نمط البكالوريا: للثالثة ثانوي، على 20، بلا سنة دورة (ليس موضوعًا رسميًّا)
+    if (src.level !== '3AS') err('BAC_LEVEL', 'source.level', 'المواضيع المقترحة للثالثة ثانوي فقط')
+    if (src.year) err('SCHEMA', 'source.year', 'الموضوع المقترح بلا سنة دورة')
+    if (src.term !== null && src.term !== undefined && (src.term < 1 || src.term > 3)) err('SCHEMA', 'source.term', 'الفصل 1 أو 2 أو 3 أو بلا فصل')
+    if (Math.abs(doc.score_total - 20) > WEIGHT_EPSILON) err('BAC_TOTAL_NOT_20', 'score_total', `علامة الموضوع المقترح 20 لا ${doc.score_total}`)
+  }
+  if (src && (src.kind === 'DEVOIR' || src.kind === 'TEST') && (src.term === null || src.term < 1 || src.term > 3)) err('SCHEMA', 'source.term', 'الفصل 1 أو 2 أو 3')
   const sourceTrusted = !!src && src.verified && (!!src.correction_url || !!src.correction_file_ref) && (!!src.original_url || !!src.original_file_ref)
   if (!doc.fixture && !sourceTrusted) warn('SOURCE_UNVERIFIED', 'source', 'الأصل أو التصحيح غير موثّق: لا اعتماد ولا نشر')
   if (doc.fixture && src?.trust !== 'synthetic_fixture') err('FIXTURE', 'source.trust', 'مجموعة الاختبار يجب أن تُعلَن synthetic_fixture')

@@ -126,6 +126,7 @@ func kindName(_ kind: String) -> String {
     switch kind {
     case "BAC": return L10n.text("kindBac")
     case "DEVOIR": return L10n.text("kindDevoir")
+    case "PROPOSAL": return L10n.text("kindProposal")
     default: return L10n.text("kindTest")
     }
 }
@@ -239,6 +240,7 @@ struct SubjectSetsView: View {
                     Text(L10n.text("kindBac")).tag(Mode.exams(.bac))
                     Text(L10n.text("kindDevoir")).tag(Mode.exams(.devoir))
                     Text(L10n.text("kindTest")).tag(Mode.exams(.test))
+                    Text(L10n.text("kindProposal")).tag(Mode.exams(.proposal))
                 }
                 .pickerStyle(.segmented)
                 .listRowBackground(Color.clear)

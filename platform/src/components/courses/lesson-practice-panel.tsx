@@ -16,11 +16,13 @@ import type { LessonPracticeAdminItem, PracticeBankItem } from '@/server/service
 type Kind = 'LESSON' | 'EXAM_SET'
 
 const GRADES = PLAY_GRADES.filter((g) => g.cycle === 'SECONDARY' || g.code === '4AM')
-const EXAM_KINDS: { v: '' | 'BAC' | 'DEVOIR' | 'TEST'; label: string }[] = [
+type ExamKindFilter = '' | 'BAC' | 'DEVOIR' | 'TEST' | 'PROPOSAL'
+const EXAM_KINDS: { v: ExamKindFilter; label: string }[] = [
   { v: '', label: 'الكل' },
   { v: 'BAC', label: 'بكالوريا' },
   { v: 'DEVOIR', label: 'فروض' },
-  { v: 'TEST', label: 'اختبارات' }
+  { v: 'TEST', label: 'اختبارات' },
+  { v: 'PROPOSAL', label: 'مقترحات' }
 ]
 
 function KindIcon({ kind }: { kind: Kind }) {
@@ -97,7 +99,7 @@ function BankDialog({ open, onOpenChange, courseId, lessonId, added, onAdded }: 
   const [q, setQ] = useState('')
   const [grade, setGrade] = useState('3AS')
   const [subject, setSubject] = useState('AR')
-  const [examKind, setExamKind] = useState<'' | 'BAC' | 'DEVOIR' | 'TEST'>('')
+  const [examKind, setExamKind] = useState<ExamKindFilter>('')
   const [results, setResults] = useState<PracticeBankItem[] | null>(null)
   const [justAdded, setJustAdded] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(false)

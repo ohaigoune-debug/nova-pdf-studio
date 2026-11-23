@@ -294,6 +294,7 @@ enum L10n {
         "kindBac": ["بكالوريا", "BAC", "BAC"],
         "kindDevoir": ["فروض", "Devoirs", "Homework"],
         "kindTest": ["اختبارات", "Examens", "Tests"],
+        "kindProposal": ["مقترحات", "Sujets proposés", "Proposed"],
         "playNoSets": ["لا توجد مواضيع هنا بعد.", "Aucun sujet pour l’instant.", "No papers here yet."],
         "termNumber": ["الفصل %ld", "Trimestre %ld", "Term %ld"],
         "stepsCount": ["%ld سؤال", "%ld questions", "%ld questions"],

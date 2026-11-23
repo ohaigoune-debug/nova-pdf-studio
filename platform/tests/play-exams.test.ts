@@ -99,6 +99,30 @@ describe('scoring rules', () => {
     expect(codes(bac)).toContain('BAC_TOTAL_NOT_20')
   })
 
+  it('PROPOSAL sets (مواضيع مقترحة) are 3AS, on 20, with no bac year; the term is optional', () => {
+    const p = fresh()
+    p.source.kind = 'PROPOSAL'
+    p.source.term = null
+    p.source.year = 2024
+    expect(codes(p)).toEqual(expect.arrayContaining(['BAC_LEVEL', 'SCHEMA']))
+    p.source.level = '3AS'
+    p.source.year = null
+    expect(codes(p)).toEqual([])
+    p.source.term = 2
+    expect(codes(p)).toEqual([])
+    p.source.term = 4
+    expect(codes(p)).toContain('SCHEMA')
+    p.source.term = null
+    p.score_total = 40
+    expect(codes(p)).toContain('BAC_TOTAL_NOT_20')
+  })
+
+  it('DEVOIR and TEST still need a term', () => {
+    const d = fresh()
+    d.source.term = null
+    expect(codes(d)).toContain('SCHEMA')
+  })
+
   it('a step marked verbatim must equal the original question text', () => {
     const doc = fresh()
     doc.steps[0]!.is_verbatim_original = true

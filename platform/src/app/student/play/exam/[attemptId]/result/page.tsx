@@ -32,7 +32,7 @@ export default async function PlayExamResultPage({ params }: { params: Promise<{
   const dir = lang === 'ar' ? undefined : 'ltr'
   // محاولة من تحت درس الدورة: العودة إلى الدرس (قسم PLAY قد يكون مخفيًا في الموقع)
   const practice = view.practiceLinkId ? await practiceBackHref(db, view.practiceLinkId) : null
-  const back = practice ?? (view.set.kind === 'BAC' ? `/student/play/bac?subject=${view.set.subjectCode}` : `/student/play/exams?subject=${view.set.subjectCode}`)
+  const back = practice ?? (view.set.kind === 'BAC' || view.set.kind === 'PROPOSAL' ? `/student/play/bac?subject=${view.set.subjectCode}` : `/student/play/exams?subject=${view.set.subjectCode}`)
   const wrong = result.steps.filter((s) => s.feedback && !s.feedback.correct)
   const skipped = result.steps.filter((s) => !s.feedback)
   return (
