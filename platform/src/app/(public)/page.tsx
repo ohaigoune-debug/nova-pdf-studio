@@ -14,6 +14,8 @@ import { apkSizeMb, appDownload } from '@/server/lib/android-apk'
 import { iosAppDownload, iosAppLink } from '@/server/services/ios-app.service'
 import { latestPublicContent } from '@/server/queries/content.queries'
 import { publicStudentsPerWilaya } from '@/server/queries/map.queries'
+import { getHiddenPublicEntries } from '@/server/services/public-menu.service'
+import { HOME_LATEST_KEY } from '@/lib/public-menu'
 
 export const dynamic = 'force-dynamic'
 
@@ -32,7 +34,9 @@ export default async function HomePage() {
   if (actor && ['SUPER_ADMIN', 'CONFIRMER', 'CONTENT_UPLOADER', 'TEACHER', 'ASSISTANT'].includes(actor.role)) redirect(homeFor(actor.role))
   const student = actor?.role === 'STUDENT'
   const db = await getDb()
-  const [latest, map, apk, ios, { t, locale }] = await Promise.all([latestPublicContent(db), publicStudentsPerWilaya(db), appDownload(), iosAppDownload(db), getT()])
+  // «أحدث الدروس» ملفّات مجّانيّة: تُخفى ما دام المشرف أخفاها (المنصّة مدفوعة بالكامل منذ 23 نوفمبر 2026)
+  const showLatest = !(await getHiddenPublicEntries(db)).includes(HOME_LATEST_KEY)
+  const [latest, map, apk, ios, { t, locale }] = await Promise.all([showLatest ? latestPublicContent(db) : Promise.resolve([]), publicStudentsPerWilaya(db), appDownload(), iosAppDownload(db), getT()])
   const reached = map.filter((w) => w.students > 0).length
   const totalStudents = map.reduce((sum, w) => sum + w.students, 0)
   const steps = [
@@ -115,16 +119,18 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* أحدث الدروس */}
-      <section className="container py-16">
-        <div className="mb-8 flex items-end justify-between">
-          <h2 className="font-heading text-[28px] font-bold sm:text-4xl">{t('public.latestLessons')}</h2>
-          <Button asChild variant="link">
-            <Link href="/lessons">{t('common.viewAll')}</Link>
-          </Button>
-        </div>
-        <ContentGrid items={latest} locale={locale} />
-      </section>
+      {/* أحدث الدروس (يخفيها المشرف من «الواجهة العامّة») */}
+      {showLatest ? (
+        <section className="container py-16">
+          <div className="mb-8 flex items-end justify-between">
+            <h2 className="font-heading text-[28px] font-bold sm:text-4xl">{t('public.latestLessons')}</h2>
+            <Button asChild variant="link">
+              <Link href="/lessons">{t('common.viewAll')}</Link>
+            </Button>
+          </div>
+          <ContentGrid items={latest} locale={locale} />
+        </section>
+      ) : null}
 
       {/* نداء الأستاذ */}
       <section className="container pb-20">

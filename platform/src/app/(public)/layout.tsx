@@ -106,7 +106,7 @@ export default async function PublicLayout({ children }: { children: ReactNode }
             </p>
           </div>
           <nav className="flex flex-wrap justify-center gap-4">
-            {[...links, ...FOOTER_EXTRA, ...legal].map((l) => (
+            {[...links, ...FOOTER_EXTRA.filter((l) => !publicHidden.includes(l.href)), ...legal].map((l) => (
               <Link key={l.href} href={l.href} className="hover:text-foreground">
                 {l.label}
               </Link>

@@ -1,8 +1,8 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
 import type { Actor } from '@/server/lib/actor'
-import { DEFAULT_HIDDEN_PUBLIC, HIDEABLE_PUBLIC_ENTRIES, LEVEL_PICKER_KEY, cleanHiddenPublic, resolveHiddenPublic } from '@/lib/public-menu'
-import { MAIN_SECTIONS } from '@/lib/sections'
+import { DEFAULT_HIDDEN_PUBLIC, HIDEABLE_PUBLIC_ENTRIES, HOME_LATEST_KEY, LEVEL_PICKER_KEY, cleanHiddenPublic, resolveHiddenPublic } from '@/lib/public-menu'
+import { FOOTER_EXTRA, MAIN_SECTIONS } from '@/lib/sections'
 import { getHiddenPublicEntries, setHiddenPublicEntries } from '@/server/services/public-menu.service'
 import { makeAdmin, makeStudent, setupDb } from './helpers'
 
@@ -21,13 +21,17 @@ describe('تبويبات الواجهة العامّة', () => {
   it('كلّ أقسام الترويسة واختيار المستوى قابلة للإخفاء', () => {
     const keys = HIDEABLE_PUBLIC_ENTRIES.map((e) => e.key)
     expect(keys).toContain(LEVEL_PICKER_KEY)
-    for (const s of MAIN_SECTIONS) expect(keys).toContain(s.href)
+    for (const s of [...MAIN_SECTIONS, ...FOOTER_EXTRA]) expect(keys).toContain(s.href)
+    expect(keys).toContain(HOME_LATEST_KEY)
+    expect(keys).not.toContain('/privacy')
+    expect(keys).not.toContain('/delete-account')
   })
 
-  it('بلا اختيار محفوظ: يُخفى اختيار المستوى و«الدروس» و«الفروض والاختبارات» وحدها', () => {
+  it('بلا اختيار محفوظ (منصّة مدفوعة بالكامل): كلّ ما يمكن إخفاؤه مخفيّ', () => {
     expect(resolveHiddenPublic(undefined)).toEqual([...DEFAULT_HIDDEN_PUBLIC])
     expect(resolveHiddenPublic(null)).toEqual([...DEFAULT_HIDDEN_PUBLIC])
-    expect(DEFAULT_HIDDEN_PUBLIC).toEqual([LEVEL_PICKER_KEY, '/lessons', '/exams'])
+    expect([...DEFAULT_HIDDEN_PUBLIC].sort()).toEqual(HIDEABLE_PUBLIC_ENTRIES.map((e) => e.key).sort())
+    for (const k of [LEVEL_PICKER_KEY, '/quizzes', '/videos', '/forum', '/library', HOME_LATEST_KEY]) expect(DEFAULT_HIDDEN_PUBLIC).toContain(k)
   })
 
   it('اختيار محفوظ يُعتمد وحده، ولو كان فارغًا؛ والمفاتيح المجهولة والمكرّرة تُحذف', () => {
