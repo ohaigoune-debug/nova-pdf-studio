@@ -1,0 +1,41 @@
+name: iOS — App Store Connect status (no submission)
+
+# Read-only check of Madrasadz 1.1.0 before App Review: app info, version texts, screenshots,
+# review contact, builds, price/availability. Never submits and never changes anything (MODE=status).
+# Trigger: a commit on claude/ios-build19-sign whose message contains [asc-status].
+on:
+  push:
+    branches: [claude/ios-build19-sign]
+
+permissions:
+  contents: read
+
+jobs:
+  asc:
+    if: github.repository == 'ohaigoune-debug/nova-pdf-studio' && contains(github.event.head_commit.message, '[asc-status]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install --quiet pyjwt cryptography
+      - name: Prepare key
+        env:
+          MADRASADZ_ASC_PRIVATE_KEY_BASE64: ${{ secrets.MADRASADZ_ASC_PRIVATE_KEY_BASE64 }}
+        run: |
+          umask 077
+          printf '%s' "$MADRASADZ_ASC_PRIVATE_KEY_BASE64" | base64 -d > "$RUNNER_TEMP/asc.p8"
+          grep -q "BEGIN PRIVATE KEY" "$RUNNER_TEMP/asc.p8" || { echo "::error::Key is not a .p8 private key"; exit 1; }
+      - name: App Store Connect status
+        env:
+          ASC_KEY_ID: ${{ secrets.MADRASADZ_ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
+          BUNDLE_ID: com.madrasadz.student
+          VERSION: 1.1.0
+          MODE: status
+        run: KEY_PATH="$RUNNER_TEMP/asc.p8" python3 platform/ios/scripts/asc_release.py
+      - name: Clean up
+        if: always()
+        run: rm -f "$RUNNER_TEMP/asc.p8"
