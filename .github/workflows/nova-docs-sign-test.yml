@@ -1,0 +1,176 @@
+# اختبار التوقيع فقط — لا رفع إلى Apple إطلاقًا.
+# يوقّع نسخة Release بالتوقيع السحابي (مفتاح App Store Connect API) ويصدّر ملف IPA محليًا على الخادم
+# (method=app-store-connect، destination=export)، ثم يتحقق من Bundle ID والإصدار والتوقيع وملف التزويد.
+# لا يستعمل altool / notarytool / iTMSTransporter، ولا destination=upload، ولا يرفع ملف IPA كـ artifact
+# (المستودع عام) — يُنشر تقرير التحقق النصي المنقّح فقط (نوع الشهادة، بلا اسم الحساب ولا Team ID).
+#
+# الأسرار (Repository secrets): APPLE_TEAM_ID، ASC_KEY_ID، ASC_ISSUER_ID، و ASC_KEY_P8_BASE64 أو ASC_KEY_P8.
+# التشغيل: إيداع على feature/nova-docs-ios رسالته تحوي [sign-test]، أو وسم nova-docs-sign-test-*، أو Run workflow من main.
+name: NOVA Docs → signing test (IPA export, no upload)
+
+on:
+  push:
+    branches: [feature/nova-docs-ios]
+    tags: ['nova-docs-sign-test-*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sign-test:
+    # يعمل على push فقط إذا احتوت رسالة الإيداع على [sign-test] (بيئة العمل لا تستطيع دفع الوسوم)، أو بوسم، أو يدويًا
+    if: github.event_name != 'push' || startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[sign-test]')
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      BUNDLE_ID: com.haigoune.novadocs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+
+      - name: Check secrets (values never printed)
+        env:
+          TEAM: ${{ secrets.APPLE_TEAM_ID }}
+          KEY: ${{ secrets.ASC_KEY_ID }}
+          ISSUER: ${{ secrets.ASC_ISSUER_ID }}
+          P8_RAW: ${{ secrets.ASC_KEY_P8 }}
+          P8_B64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+        run: |
+          missing=""
+          [ -z "$TEAM" ] && missing="$missing APPLE_TEAM_ID"
+          [ -z "$KEY" ] && missing="$missing ASC_KEY_ID"
+          [ -z "$ISSUER" ] && missing="$missing ASC_ISSUER_ID"
+          [ -z "$P8_RAW" ] && [ -z "$P8_B64" ] && missing="$missing ASC_KEY_P8_BASE64(or ASC_KEY_P8)"
+          if [ -n "$missing" ]; then echo "::error::Missing Apple secrets:$missing"; exit 1; fi
+          if [ -n "$P8_RAW" ]; then
+            printf '%s\n' "$P8_RAW" | grep -q "BEGIN PRIVATE KEY" || { echo "::error::ASC_KEY_P8 is not the text of a .p8 key"; exit 1; }
+          else
+            echo "$P8_B64" | base64 --decode 2>/dev/null | grep -q "BEGIN PRIVATE KEY" || { echo "::error::ASC_KEY_P8_BASE64 is not a base64-encoded .p8 key"; exit 1; }
+          fi
+          echo "secrets present"
+
+      - name: Select newest Xcode
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | sort -V | tail -1)" && xcodebuild -version
+
+      - name: Build web app & sync (same steps as the TestFlight workflow)
+        working-directory: apps/nova-docs
+        env:
+          NOVA_BUILD_NUMBER: ${{ github.run_number }}
+          NOVA_BUNDLE_ID: com.haigoune.novadocs
+        run: |
+          npm ci --no-audit --no-fund
+          node scripts/copy-assets.mjs
+          npm run build
+          npx cap sync ios
+          python3 scripts/patch-xcode-project.py
+
+      # أرشفة غير موقّعة: التوقيع التلقائي وقت الأرشفة يطلب ملف تزويد «تطوير»، وهذا يتطلب جهازًا مسجّلًا في الحساب
+      # (فشل التشغيل 1: «Your team has no devices»). التوقيع الحقيقي (Apple Distribution + ملف App Store) يتم عند التصدير.
+      - name: Archive (unsigned — distribution signing happens at export)
+        working-directory: apps/nova-docs/ios/App
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -o pipefail
+          K="$RUNNER_TEMP/asc/AuthKey_${ASC_KEY_ID}.p8"
+          mkdir -p "$(dirname "$K")"
+          if [ -n "$ASC_KEY_P8" ]; then printf '%s\n' "$ASC_KEY_P8" | tr -d '\r' > "$K"; else echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$K"; fi
+          chmod 600 "$K"
+          xcodebuild -project App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' \
+            -archivePath build/NovaDocs.xcarchive DEVELOPMENT_TEAM="$TEAM_ID" CODE_SIGN_STYLE=Automatic \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            archive > archive.log 2>&1 \
+            || { tail -80 archive.log; grep -E "error:|Error Domain|No profiles|signing|certificate" archive.log | sort -u | head -30 | while IFS= read -r l; do echo "::error::${l:0:900}"; done; rm -f "$K"; exit 1; }
+          tail -12 archive.log
+
+      - name: Export signed IPA locally (destination=export — no upload)
+        working-directory: apps/nova-docs/ios/App
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -o pipefail
+          K="$RUNNER_TEMP/asc/AuthKey_${ASC_KEY_ID}.p8"
+          cat > ExportOptions-signtest.plist <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>export</string>
+            <key>teamID</key><string>$TEAM_ID</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>uploadSymbols</key><false/>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          PLIST
+          # حارس: هذا المسار لا يرفع أبدًا
+          [ "$(/usr/libexec/PlistBuddy -c 'Print :destination' ExportOptions-signtest.plist)" = "export" ] || { echo "::error::destination must be export"; exit 1; }
+          xcodebuild -exportArchive -archivePath build/NovaDocs.xcarchive -exportOptionsPlist ExportOptions-signtest.plist -exportPath build/export \
+            -allowProvisioningUpdates -authenticationKeyPath "$K" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            > export.log 2>&1 \
+            || { tail -80 export.log; grep -E "error:|Error Domain|permission|certificate|profile" export.log | sort -u | head -30 | while IFS= read -r l; do echo "::error::${l:0:900}"; done; rm -f "$K"; exit 1; }
+          rm -f "$K"
+          tail -12 export.log
+          ls -la build/export
+
+      - name: Verify IPA (bundle id, version, signature, provisioning profile)
+        working-directory: apps/nova-docs/ios/App
+        run: |
+          set -eo pipefail
+          IPA=$(ls build/export/*.ipa | head -1)
+          [ -f "$IPA" ] || { echo "::error::No IPA produced"; exit 1; }
+          W="$RUNNER_TEMP/ipa"; rm -rf "$W"; mkdir -p "$W"; unzip -q "$IPA" -d "$W"
+          APP=$(ls -d "$W"/Payload/*.app | head -1)
+          PL="$APP/Info.plist"
+          BID=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$PL")
+          VER=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$PL")
+          BLD=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$PL")
+          codesign --verify --deep --strict "$APP" || { echo "::error::codesign --verify failed: the app signature is not valid"; exit 1; }
+          echo "codesign --verify --deep --strict: valid"
+          # نوع الشهادة فقط (بلا اسم الحساب ولا Team ID)
+          AUTH=$(codesign -dvv "$APP" 2>&1 | grep '^Authority=' | head -1 | sed -E 's/^Authority=([^:]+).*/\1/')
+          codesign -d --entitlements - --xml "$APP" > "$W/ent.plist" 2>/dev/null || codesign -d --entitlements :- "$APP" > "$W/ent.plist" 2>/dev/null || true
+          GTA=$(/usr/libexec/PlistBuddy -c 'Print :get-task-allow' "$W/ent.plist" 2>/dev/null || echo "absent")
+          security cms -D -i "$APP/embedded.mobileprovision" > "$W/profile.plist"
+          PNAME=$(/usr/libexec/PlistBuddy -c 'Print :Name' "$W/profile.plist")
+          PEXP=$(/usr/libexec/PlistBuddy -c 'Print :ExpirationDate' "$W/profile.plist")
+          DEVICES=$(/usr/libexec/PlistBuddy -c 'Print :ProvisionedDevices' "$W/profile.plist" >/dev/null 2>&1 && echo "yes (NOT an App Store profile)" || echo "none (App Store profile)")
+          APPID=$(/usr/libexec/PlistBuddy -c 'Print :Entitlements:application-identifier' "$W/profile.plist" | sed 's/^[A-Z0-9]*\.//')
+          SHA=$(shasum -a 256 "$IPA" | cut -d' ' -f1)
+          SIZE=$(du -h "$IPA" | cut -f1)
+          {
+            echo "IPA: $IPA ($SIZE)"
+            echo "sha256: $SHA"
+            echo "CFBundleIdentifier: $BID"
+            echo "Version: $VER ($BLD)"
+            echo "Signing: $AUTH"
+            echo "get-task-allow: $GTA"
+            echo "Profile: $PNAME — expires $PEXP"
+            echo "Profile app id: $APPID"
+            echo "Provisioned devices: $DEVICES"
+          } | tee sign-test-report.txt
+          ok=1
+          [ "$BID" = "$BUNDLE_ID" ] || { echo "::error::Bundle ID is $BID, expected $BUNDLE_ID"; ok=0; }
+          [ "$APPID" = "$BUNDLE_ID" ] || { echo "::error::Profile app id is $APPID, expected $BUNDLE_ID"; ok=0; }
+          echo "$AUTH" | grep -q "Apple Distribution\|iPhone Distribution" || { echo "::error::Not signed with a distribution certificate: $AUTH"; ok=0; }
+          [ "$GTA" = "false" ] || [ "$GTA" = "absent" ] || { echo "::error::get-task-allow is $GTA (debug entitlement)"; ok=0; }
+          echo "$DEVICES" | grep -q "^none" || { echo "::error::Profile lists devices — not an App Store profile"; ok=0; }
+          [ $ok = 1 ] && echo "::notice::Signing test passed — $BID $VER ($BLD), $AUTH. Nothing was uploaded to Apple."
+          [ $ok = 1 ]
+
+      # المستودع عام: لا يُنشر ملف IPA ولا سجلات Xcode الخام (قد تحوي اسم الحساب ومعرّفاته؛ إخفاء الأسرار لا يشمل الملفات)
+      - name: Keep the sanitized text report only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nova-docs-sign-test-report
+          path: apps/nova-docs/ios/App/sign-test-report.txt
+          retention-days: 7
+          if-no-files-found: ignore

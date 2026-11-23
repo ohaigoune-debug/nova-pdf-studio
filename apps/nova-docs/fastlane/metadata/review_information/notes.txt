@@ -1,0 +1,6 @@
+NOVA Docs works fully offline; no account or login is required.
+Free features: open/read/search PDFs, sign, merge, rotate, images to PDF, scan, share, print.
+NOVA Pro is a single non-consumable In-App Purchase (nova.docs.pro.lifetime) that unlocks advanced editing, OCR, invoices, pro PDF tools, scanner filters and spreadsheets.
+To test: More → Upgrade to NOVA Pro (or tap any PRO tool). "Restore purchases" is in More.
+Sample data for invoices: More → Settings → Load sample invoices. A sample PDF can be opened via the URL novadocs://sample.
+The camera is used only for document scanning (Scan tab). Payments are processed only by Apple In-App Purchase.

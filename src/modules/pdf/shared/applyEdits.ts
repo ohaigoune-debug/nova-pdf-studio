@@ -9,7 +9,8 @@
  *
  * الإحداثيات في النموذج من أعلى-يسار؛ pdf-lib من أسفل-يسار، فنحوّل y.
  */
-import { degrees, PDFDocument, type PDFFont, type PDFPage, rgb, StandardFonts } from 'pdf-lib'
+import { concatTransformationMatrix, degrees, PDFDocument, type PDFFont, type PDFPage, popGraphicsState, pushGraphicsState, rgb, StandardFonts } from 'pdf-lib'
+import { displaySize, displayToUserMatrix, normalizeRotation } from './pageSpace'
 import { AppError } from '@shared/errors'
 import { type EditLayer, type EditObject, type FontFamily, hexToRgb01, isStandardFontSafe, type TextObject } from './editModel'
 
@@ -25,6 +26,12 @@ export type TextRasterizer = (object: TextObject, scale: number) => Promise<Rast
 export interface ApplyOptions {
   rasterizeText?: TextRasterizer
   rasterScale?: number     // بكسل لكل نقطة عند رسم النص كصورة (3 ≈ 216 DPI)
+  /**
+   * 'unrotated' (الافتراضي، سلوك Windows): الإحداثيات على الصفحة غير المدوّرة.
+   * 'display' (iOS): الإحداثيات كما تُعرض الصفحة المدوّرة (/Rotate) على الشاشة؛ تُحوَّل بمصفوفة لكل صفحة
+   * فيبقى النص والأشكال في مكانها وبالاتجاه الصحيح كما رآها المستخدم.
+   */
+  coordinateSpace?: 'unrotated' | 'display'
 }
 
 function base64ToBytes(b64: string): Uint8Array {
@@ -104,10 +111,17 @@ export async function applyEdits(bytes: Uint8Array, layer: EditLayer, options: A
   const order = (o: EditObject) => (o.kind === 'redact' ? 0 : o.kind === 'highlight' ? 1 : 2)
   const objects = [...layer.objects].sort((a, b) => order(a) - order(b))
 
+  const wrapped = new Set<number>()
   for (const o of objects) {
     if (o.page < 0 || o.page >= pageCount) continue
     const page = doc.getPage(o.page)
-    const { height: pageHeight } = page.getSize()
+    const size = page.getSize()
+    const turn = options.coordinateSpace === 'display' ? normalizeRotation(page.getRotation().angle) : 0
+    const pageHeight = displaySize(turn, size.width, size.height).height
+    if (turn && !wrapped.has(o.page)) {
+      page.pushOperators(pushGraphicsState(), concatTransformationMatrix(...displayToUserMatrix(turn, size.width, size.height)))
+      wrapped.add(o.page)
+    }
     const yBottom = pageHeight - o.y - o.height
     const rotate = o.rotation ? degrees(o.rotation) : undefined
 
@@ -180,6 +194,7 @@ export async function applyEdits(bytes: Uint8Array, layer: EditLayer, options: A
     }
   }
 
+  for (const index of wrapped) doc.getPage(index).pushOperators(popGraphicsState())
   doc.setModificationDate(new Date())
   return doc.save({ useObjectStreams: true, addDefaultPage: false })
 }

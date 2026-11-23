@@ -1,0 +1,1 @@
+éditeur,scanner,ocr,facture,devis,signer,signature,annoter,fusionner,reçu,arabe,hors ligne,scan

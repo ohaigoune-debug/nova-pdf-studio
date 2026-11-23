@@ -217,6 +217,10 @@ export function textInRect(spans: Span[], rect: Rect, pageW: number, pageH: numb
 
 // ------------------------------------------------------------------ كلمات مفتاحية
 type FieldKey = Exclude<ZoneField, 'items'>
+const SHORT_NUMBER = /(?:^|\s)(?:no\.|n[°º]|رقم)\s*:?\s*([a-z]{0,6}[-/_]?\d{2,}(?:[-/_.]\d+)*)\b/i
+const SHORT_NUMBER_REV = /([a-z]{0,6}[-/_]?\d{2,}(?:[-/_.]\d+)*)\s*:?\s*رقم/i
+const NOT_INVOICE_NUMBER = /(customer|client|العميل|الزبون|commande|order|t[ée]l|phone|هاتف|fiscal|nif|tax|الجبائي|compte|account|iban|rib)/i
+
 const KW: Record<FieldKey, RegExp> = {
   number: /(رقم\s*الفاتورة|فاتورة\s*رقم|الفاتورة\s*رقم|رقم\s*الوثيقة|facture\s*n[°ºo]?\.?|n[°ºo]\s*(de\s*)?facture|invoice\s*(no\.?|n[°º]|#|number|num)|inv(oice)?\s*#|\bn[°º]\s*:)/i,
   issueDate: /(تاريخ\s*(الإصدار|الفاتورة)|التاريخ|تاريخ\s*:|date\s*(de\s*)?(facturation|d.?émission|of\s*issue|invoice)|date\s*:|émis(e)?\s*le|fait\s*le|issued?\s*(on)?\b|الإصدار)/i,
@@ -296,6 +300,12 @@ export function detectFields(lines: TextLine[], decimals = 2): Partial<Record<Zo
     if (!out.number && matchesAny(line, KW.number)) {
       const tok = numberToken(afterKeyword(text, KW.number) ?? afterKeyword(line.textRev, KW.number) ?? '') ?? numberToken(text) ?? (next ? numberToken(next.text) : null)
       if (tok) out.number = field('number', text, tok, 0.8)
+    }
+    // التسميات القصيرة التي تطبعها قوالب NOVA نفسها وكثير من البرامج: «No. INV-…» / «N° 2026-015» / «رقم …»
+    // (بلا lookbehind في التعبير لأن Safari على iOS 16.0–16.3 لا يدعمه)
+    if (!out.number && !NOT_INVOICE_NUMBER.test(`${text} ${line.textRev}`)) {
+      const short = SHORT_NUMBER.exec(normalizeDigits(text)) ?? SHORT_NUMBER_REV.exec(normalizeDigits(line.textRev))
+      if (short) out.number = field('number', text, short[1], 0.6)
     }
     const d = parseDateText(text)
     if (d) {

@@ -1,0 +1,49 @@
+{
+  "identifier" : "9C6F0E1A",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "6754000001",
+      "localizations" : [
+        {
+          "description" : "Unlock all pro tools forever: advanced PDF editing, OCR, invoices and more.",
+          "displayName" : "NOVA Pro Lifetime",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "افتح كل الأدوات الاحترافية مدى الحياة: تحرير PDF المتقدم وOCR والفواتير.",
+          "displayName" : "NOVA Pro مدى الحياة",
+          "locale" : "ar"
+        },
+        {
+          "description" : "Débloquez à vie tous les outils pro : édition PDF avancée, OCR, factures.",
+          "displayName" : "NOVA Pro à vie",
+          "locale" : "fr"
+        }
+      ],
+      "productID" : "nova.docs.pro.lifetime",
+      "referenceName" : "NOVA Docs Pro Lifetime",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_askToBuyEnabled" : false,
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

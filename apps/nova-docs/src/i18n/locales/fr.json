@@ -1,0 +1,76 @@
+{
+  "tabs": { "documents": "Documents", "tools": "Outils PDF", "scan": "Scanner", "invoices": "Factures", "more": "Plus" },
+  "brand": { "name": "NOVA Docs", "tagline": "Vos documents. Votre contrôle." },
+  "common": { "done": "OK", "untitled": "Sans titre", "error": "Une erreur est survenue", "saveCopy": "Enregistrer une copie", "replace": "Remplacer l’original", "rename": "Renommer", "name": "Nom", "optional": "Facultatif", "processing": "Traitement…", "free": "Gratuit", "pro": "PRO", "select": "Sélectionner", "selectAll": "Tout sélectionner", "share": "Partager", "print": "Imprimer", "open": "Ouvrir", "close": "Fermer", "more": "Plus", "today": "Aujourd’hui", "learnMore": "En savoir plus", "offline": "Fonctionne hors ligne", "ok": "OK" },
+  "docs": {
+    "title": "Documents", "search": "Rechercher", "emptyTitle": "Aucun document", "emptyDesc": "Importez un PDF depuis Fichiers ou iCloud Drive, ou scannez un document papier.",
+    "import": "Importer", "importFiles": "Depuis Fichiers / iCloud", "fromImages": "Images → PDF", "newScan": "Scanner un document", "renamePrompt": "Nouveau nom",
+    "duplicate": "Dupliquer", "confirmDelete": "Supprimer « {{name}} » ? Action irréversible.", "saveToFiles": "Enregistrer dans Fichiers", "imported": "{{count}} fichier(s) importé(s)",
+    "pages": "{{count}} pages", "pages_one": "{{count}} page", "filesNote": "Vos documents sont stockés sur cet appareil, dans le dossier NOVA Docs de l’app Fichiers.", "deleted": "Supprimé", "savedToFiles": "Enregistré dans Fichiers"
+  },
+  "viewer": {
+    "edit": "Modifier", "save": "Enregistrer", "saving": "Enregistrement…", "saved": "Enregistré", "search": "Rechercher", "searchPlaceholder": "Rechercher dans le document", "results": "{{count}} résultats", "noResults": "Aucun résultat",
+    "pages": "Pages", "info": "Infos", "page": "Page {{n}} sur {{total}}", "passwordTitle": "PDF protégé", "passwordHint": "Saisissez le mot de passe pour ouvrir ce document.",
+    "unsaved": "Modifications non enregistrées.", "discard": "Ignorer les modifications", "keepEditing": "Continuer", "saveAs": "Enregistrer les modifications",
+    "layerNote": "Les modifications sont ajoutées en calques sur la page : le texte existant est masqué et remplacé, pas réécrit dans le PDF d’origine.",
+    "scannedNotice": "Cette page semble numérisée. Lancez l’OCR pour rendre son texte cherchable.", "fontsMissing": "Ce fichier ne contient pas ses polices ({{fonts}}) : le texte arabe peut s’afficher mal sur iPhone et sur tout appareil sans ces polices. Solution : réexportez-le depuis Word avec « Incorporer les polices dans le fichier ».", "fontsRepaired": "Ce fichier ne contient pas ses polices ({{fonts}}) : NOVA a redessiné l’arabe avec une police proche pour lier les lettres. L’aspect peut différer légèrement ; pour l’original, réexportez depuis Word avec « Incorporer les polices ».", "openFailed": "Impossible d’ouvrir ce fichier."
+  },
+  "edit": {
+    "select": "Sélection", "text": "Texte", "highlight": "Surligner", "pen": "Stylo", "signature": "Signer", "image": "Image", "shape": "Forme", "note": "Commentaire", "whiteout": "Effacer",
+    "undo": "Annuler", "font": "Police", "systemFont": "Police système (par défaut)", "fontsNote": "Polices gratuites intégrées (licence OFL), disponibles hors ligne.", "format": "Format du texte", "smaller": "Plus petit", "larger": "Plus grand", "bold": "Gras", "italic": "Italique", "underline": "Souligné", "align": "Alignement", "align_right": "Aligner à droite", "align_center": "Centrer", "align_left": "Aligner à gauche", "docFonts": "Polices de ce document", "fontExact": "Même police disponible", "fontClosest": "Indisponible — la plus proche : {{font}}", "allFonts": "Toutes les polices", "redo": "Rétablir", "delete": "Supprimer", "color": "Couleur", "size": "Taille", "enterText": "Saisissez le texte", "enterNote": "Écrivez un commentaire",
+    "tapToPlace": "Touchez la page pour le placer", "dragToDraw": "Glissez sur la page", "drawWithPencil": "Dessinez au doigt ou avec l’Apple Pencil"
+  },
+  "sign": { "title": "Signature", "drawHere": "Signez ici", "clear": "Effacer", "use": "Utiliser", "saved": "Signatures enregistrées", "new": "Nouvelle signature", "remove": "Retirer" },
+  "pages": { "title": "Pages", "rotate": "Pivoter", "delete": "Supprimer", "extract": "Extraire", "moveBack": "Avancer", "moveForward": "Reculer", "selected": "{{count}} sélectionnée(s)", "applied": "Pages mises à jour" },
+  "tools": {
+    "title": "Outils PDF", "subtitle": "Tout s’exécute sur votre iPhone ou iPad — rien n’est envoyé.", "fromLibrary": "Depuis Documents", "fromFiles": "Depuis Fichiers / iCloud",
+    "run": "Lancer", "resultSaved": "« {{name}} » enregistré", "outputName": "Nom du fichier", "selectFiles": "Choisir des fichiers", "selectFile": "Choisir un fichier", "chosen": "{{count}} sélectionné(s)",
+    "needTwo": "Choisissez au moins deux fichiers", "ocrTitle": "OCR · PDF cherchable", "ocrDesc": "Reconnaître le texte arabe, français et anglais et rendre les PDF numérisés cherchables.",
+    "toTextTitle": "PDF → Texte", "toTextDesc": "Extraire tout le texte dans un fichier .txt.", "imagesHint": "Choisissez des photos", "openResult": "Ouvrir"
+  },
+  "scan": {
+    "title": "Scanner", "subtitle": "Détection des bords, correction de perspective et recadrage automatiques par Apple VisionKit.", "start": "Scanner un document", "importPhotos": "Importer des photos",
+    "unsupported": "La caméra document n’est pas disponible ici. Vous pouvez importer des photos.", "pages": "{{count}} pages", "pages_one": "{{count}} page", "addMore": "Ajouter des pages",
+    "filters": { "original": "Original", "enhanced": "Amélioré", "grayscale": "Niveaux de gris", "bw": "Noir et blanc" },
+    "searchable": "Texte cherchable (OCR)", "searchableHint": "Reconnaître le texte pour le rechercher et le copier.", "languages": "Langues",
+    "save": "Enregistrer le PDF", "saving": "Création du PDF…", "ocrProgress": "Reconnaissance de la page {{page}} sur {{total}}…", "saved": "« {{name}} » enregistré", "defaultName": "Scan {{date}}", "discard": "Abandonner"
+  },
+  "ocr": { "engineVision": "Apple Vision", "engineTesseract": "Moteur intégré (hors ligne)", "done": "{{pages}} page(s) reconnue(s)", "copy": "Copier le texte", "copied": "Copié", "empty": "Aucun texte trouvé", "run": "Lancer l’OCR" },
+  "inv": {
+    "invoices": "Factures", "customers": "Clients", "products": "Produits", "emptyInvoices": "Aucune facture", "emptyInvoicesDesc": "Créez votre première facture — totaux, taxes et remises calculés au centime près.", "showMore": "Afficher plus ({{shown}} sur {{total}})",
+    "emptyCustomers": "Aucun client", "emptyProducts": "Aucun produit", "newInvoice": "Nouvelle facture", "newCustomer": "Nouveau client", "newProduct": "Nouveau produit",
+    "customer": "Client", "chooseCustomer": "Choisir un client", "seller": "Vendeur (vos coordonnées)", "sellerAdd": "Ajouter les infos du vendeur", "sellerMissing": "Votre nom ou entreprise, téléphone, adresse, NIF… imprimés sur chaque facture", "sellerHint": "Ces informations apparaissent en tête de chaque facture. Logo, cachet et signature : Plus → Réglages → Profil de l’entreprise.", "noCustomer": "Aucun client", "items": "Lignes", "addItem": "Ajouter une ligne", "item": "Article", "qty": "Qté", "price": "Prix unitaire",
+    "discount": "Remise %", "tax": "TVA %", "currency": "Devise", "currencyCommon": "Les plus utilisées", "currencyAll": "Toutes les devises", "issueDate": "Date d’émission", "dueDate": "Échéance", "notes": "Notes", "shipping": "Livraison",
+    "subtotal": "Sous-total", "discountTotal": "Remise", "taxTotal": "TVA", "total": "Total", "paid": "Payé", "remaining": "Reste à payer",
+    "preview": "Aperçu", "exportPdf": "Exporter en PDF", "addPayment": "Enregistrer un paiement", "amount": "Montant", "method": "Mode", "markPaid": "Marquer payée", "markSent": "Marquer envoyée",
+    "duplicate": "Dupliquer", "confirmDelete": "Mettre la facture {{number}} à la corbeille ?", "saved": "Facture {{number}} enregistrée", "status": "Statut", "type": "Type",
+    "importPdf": "Importer une ancienne facture (PDF)", "importPdfDesc": "Lit le numéro, les dates, le client, les lignes et les totaux d’une facture PDF existante.", "importFound": "{{items}} lignes trouvées, total {{total}}",
+    "importNothing": "Aucune donnée de facture trouvée. Pour une facture scannée, lancez d’abord l’OCR.", "company": "Entreprise", "sku": "Réf.", "unit": "Unité", "phone": "Téléphone", "email": "E-mail", "address": "Adresse", "city": "Ville", "companyName": "Raison sociale", "firstName": "Prénom", "lastName": "Nom", "taxId": "N° fiscal",
+    "pdfUnavailable": "L’export PDF des factures est disponible dans l’app iOS.", "payments": "Paiements", "edit": "Modifier"
+  },
+  "more": {
+    "title": "Plus", "proActive": "NOVA Pro est actif", "proActiveDesc": "Merci ! Tous les outils pro sont débloqués sur cet identifiant Apple.", "upgrade": "Passer à NOVA Pro", "upgradeDesc": "Achat unique · Sans abonnement",
+    "restore": "Restaurer les achats", "restoring": "Restauration…", "restored": "Achats restaurés", "nothingToRestore": "Aucun achat trouvé pour cet identifiant Apple",
+    "spreadsheets": "Tableurs", "settings": "Réglages", "languages": "Langue", "backup": "Sauvegarde", "support": "Assistance", "privacy": "Confidentialité", "terms": "Conditions d’utilisation", "about": "À propos", "version": "Version {{v}}",
+    "refund": "Demander un remboursement", "refundSubmitted": "Demande envoyée à Apple"
+  },
+  "pro": {
+    "title": "NOVA Pro", "subtitle": "Un seul achat. À vous pour toujours.", "buy": "Débloquer pour {{price}}", "buyNoPrice": "Débloquer NOVA Pro", "lifetime": "Achat unique · Sans abonnement · Sur vos appareils avec le même identifiant Apple",
+    "f1": "Édition PDF avancée : texte, images, formes, surlignage, commentaires et écriture manuscrite", "f2": "OCR en arabe, français et anglais · PDF cherchable", "f3": "Factures intelligentes : clients, produits, taxes, paiements, modèles",
+    "f4": "Outils pro : diviser, extraire, réorganiser, filigrane, numérotation, compression", "f5": "Filtres d’amélioration du scan et tableurs", "f6": "Tout reste sur votre appareil",
+    "pending": "Votre achat attend une approbation. Pro se débloquera automatiquement.", "cancelled": "Achat annulé.", "failed": "L’achat n’a pas pu aboutir.",
+    "thanks": "Bienvenue dans NOVA Pro !", "unavailable": "L’App Store est injoignable. Réessayez plus tard.", "paymentsDisabled": "Les achats intégrés sont désactivés sur cet appareil (Temps d’écran).",
+    "loadingPrice": "Chargement du prix depuis l’App Store…", "retry": "Réessayer", "testerBuild": "Version de test interne — Pro est débloqué pour les essais, sans achat.", "lockedFeature": "Fonction NOVA Pro", "legal": "Le paiement est débité de votre identifiant Apple et traité par Apple."
+  },
+  "settings": {
+    "appearance": "Apparence", "system": "Système", "light": "Clair", "dark": "Sombre", "company": "Profil de l’entreprise", "nativeRender": "Moteur d’affichage iOS (alternatif)", "nativeRenderHint": "Moteur d’affichage alternatif. À essayer seulement si une page s’affiche mal. Non utilisé pour les fichiers sans leurs polices.", "repairArabic": "Corriger l’arabe des fichiers sans polices", "repairArabicHint": "Si un fichier n’a pas ses polices, NOVA redessine l’arabe avec une police intégrée proche pour lier les lettres. Affichage seulement ; le fichier n’est pas modifié.", "companyHint": "Imprimé sur chaque facture.", "defaultCurrency": "Devise par défaut",
+    "brand": "Logo, signature et cachet", "logo": "Logo", "signature": "Signature", "stamp": "Cachet", "choose": "Choisir une image", "remove": "Retirer", "demo": "Données d’exemple", "loadDemo": "Charger des factures d’exemple", "clearDemo": "Supprimer les exemples", "invoiceLanguage": "Langue des factures", "data": "Données"
+  },
+  "backup": {
+    "title": "Sauvegarde", "desc": "Exportez factures, clients, produits et tableurs dans un seul fichier. Les PDF sont déjà dans l’app Fichiers.", "export": "Exporter une sauvegarde", "import": "Restaurer une sauvegarde",
+    "confirmImport": "Remplacer toutes les factures et données actuelles par la sauvegarde ?", "exported": "Sauvegarde enregistrée", "imported": "Sauvegarde restaurée", "invalid": "Ce fichier n’est pas une sauvegarde NOVA."
+  },
+  "support": { "title": "Assistance", "email": "Écrire au support", "desc": "Réponse sous 48 h, en arabe, français ou anglais.", "faqOffline": "NOVA Docs a-t-il besoin d’Internet ? Non — édition, OCR et factures fonctionnent hors ligne.", "faqPrivacy": "Mes fichiers sont-ils envoyés ? Jamais. Ils restent sur votre appareil ou votre iCloud Drive." },
+  "lock": {"section": "Confidentialité", "setting": "Verrouiller avec {{method}}", "settingDesc": "NOVA Docs se verrouille quand vous le quittez. Déverrouillez avec {{method}} ou le code de l’appareil.", "settingDescPasscode": "NOVA Docs se verrouille quand vous le quittez. Déverrouillez avec le code de l’appareil.", "passcode": "code de l’appareil", "title": "NOVA Docs est verrouillé", "unlock": "Déverrouiller", "reason": "Déverrouillez vos documents", "unavailable": "Définissez un code sur cet appareil pour verrouiller l’app." },
+  "sheets": { "title": "Tableurs", "new": "Nouveau tableur", "empty": "Aucun tableur", "import": "Importer Excel / CSV", "exportXlsx": "Exporter en Excel", "exportCsv": "Exporter en CSV", "addSheet": "Ajouter une feuille", "saved": "Enregistré", "formula": "Formule ou valeur", "toInvoice": "Créer une facture depuis les lignes", "toInvoiceNothing": "Aucune ligne d’article (colonnes : article, quantité, prix, TVA).", "toInvoiceSkipped": "{{count}} lignes ignorées (nom ou prix manquant).", "bold": "Gras", "italic": "Italique", "alignStart": "Aligner au début", "alignCenter": "Centrer", "alignEnd": "Aligner à la fin", "fmtGeneral": "Standard", "fmtNumber": "Nombre", "fmtCurrency": "Monétaire", "fmtPercent": "Pourcentage", "fill": "Couleur de remplissage", "insertRow": "Insérer une ligne", "deleteRow": "Supprimer la ligne", "insertCol": "Insérer une colonne", "deleteCol": "Supprimer la colonne", "colNarrower": "Colonne plus étroite", "colWider": "Colonne plus large", "mergeRight": "Fusionner avec la cellule voisine", "mergeDown": "Fusionner avec la cellule du dessous", "unmerge": "Annuler la fusion" }
+}
