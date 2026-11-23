@@ -1,7 +1,7 @@
-name: iOS — App Store Connect status (no submission)
+name: iOS — App Store Connect status / App Review submission (manual release)
 
-# Read-only check of Madrasadz 1.1.0 before App Review: app info, version texts, screenshots,
-# review contact, builds, price/availability. Never submits and never changes anything (MODE=status).
+# [asc-status]: read-only check of Madrasadz 1.1.0 (versions, review details, age-rating gaps, Build 19).
+# [asc-submit]: owner-approved App Review submission («ارسله للمراجعة», 23 Nov 2026) — release stays MANUAL.
 # Trigger: a commit on claude/ios-build19-sign whose message contains [asc-status].
 on:
   push:
@@ -12,9 +12,9 @@ permissions:
 
 jobs:
   asc:
-    if: github.repository == 'ohaigoune-debug/nova-pdf-studio' && contains(github.event.head_commit.message, '[asc-status]')
+    if: github.repository == 'ohaigoune-debug/nova-pdf-studio' && (contains(github.event.head_commit.message, '[asc-status]') || contains(github.event.head_commit.message, '[asc-submit]'))
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -34,8 +34,8 @@ jobs:
           ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
           BUNDLE_ID: com.madrasadz.student
           VERSION: 1.1.0
-          MODE: status
-        run: KEY_PATH="$RUNNER_TEMP/asc.p8" python3 platform/ios/scripts/asc_release.py
+          MODE: ${{ contains(github.event.head_commit.message, '[asc-submit]') && 'submit' || 'status' }}
+        run: KEY_PATH="$RUNNER_TEMP/asc.p8" python3 platform/ios/scripts/asc_review.py
       - name: Clean up
         if: always()
         run: rm -f "$RUNNER_TEMP/asc.p8"
