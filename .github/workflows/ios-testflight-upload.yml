@@ -26,8 +26,8 @@ jobs:
       - name: Download the owner-approved successful signed IPA
         uses: actions/download-artifact@v4
         with:
-          name: Madrasadz-signed-IPA-de74032caad372215ee027a23ff3b2a3e19da9ed
-          run-id: 45067581427
+          name: Madrasadz-signed-IPA-5aed32c1dc8cc0d8834de8712015cda4500f55e7
+          run-id: 45140602982
           github-token: ${{ github.token }}
           path: ${{ runner.temp }}/madrasadz-approved-ipa
       - name: Validate and upload Build 19 to Apple
@@ -37,7 +37,6 @@ jobs:
           MADRASADZ_ASC_ISSUER_ID: ${{ secrets.MADRASADZ_ASC_ISSUER_ID }}
         run: bash platform/ios/scripts/upload-testflight.sh "$RUNNER_TEMP/madrasadz-approved-ipa/Madrasadz.ipa"
 
-# Owner-approved internal replacement (owner's word «ارفع تحديث ايفون وقم بالدمج», 22 Nov 2026). Pinned signed
-# Build 19 / 1.1.0 (signed run 45067581427 on de74032 = work after PR #112): «دوراتي» shows the same lessons, lesson
-# practice and upcoming lives as the site, with a native Zoom join. The same source passed ios-native-check.yml on PR #112.
-# Owner-only internal group; no new invitation, App Review submission or release.
+# Owner-approved internal replacement (owner's word «ارفع 19», 23 Nov 2026). Pinned signed Build 19 / 1.1.0
+# (signed run 45140602982 on 5aed32c = work + PR #114): PLAY gets a fourth segment «مقترحات» (PROPOSAL papers).
+# Owner-only internal group; the App Review submission is a separate owner-approved step (ios-asc-status.yml).

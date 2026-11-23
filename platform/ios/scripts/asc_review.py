@@ -93,9 +93,22 @@ if info:
     d = get(f"/v1/appInfos/{info['id']}/ageRatingDeclaration")
     if d:
         a = d["data"]["attributes"]
-        missing = sorted(k for k, val in a.items() if val is None)
-        print("  answered:", json.dumps({k: v for k, v in a.items() if v is not None}, ensure_ascii=False))
-        print("  UNANSWERED:", ", ".join(missing) or "none")
+        optional = {"developerAgeRatingInfoUrl", "gracRatingClassificationNumber", "kidsAgeBand"}
+        missing = sorted(k for k, val in a.items() if val is None and k not in optional)
+        print("  UNANSWERED (required):", ", ".join(missing) or "none")
+        # تطبيق تعليميّ: لا محتوى مواعدة ولا مشاركة موقع — إجابة واقعيّة لسؤالين جديدين من آبل
+        factual = {"datingAndRelationships", "sharedLocation"}
+        if MODE == "submit" and missing and set(missing) <= factual:
+            for k in missing:
+                for val in (False, "NONE"):
+                    st, r = call("PATCH", f"/v1/ageRatingDeclarations/{d['data']['id']}", {"data": {"type": "ageRatingDeclarations", "id": d["data"]["id"], "attributes": {k: val}}})
+                    if st == 200:
+                        print(f"  {k} -> {val}: OK")
+                        break
+                else:
+                    print(f"  {k}: {err(r)}")
+            d = get(f"/v1/appInfos/{info['id']}/ageRatingDeclaration")
+            missing = sorted(k for k, val in d["data"]["attributes"].items() if val is None and k not in optional)
         if missing:
             problems.append("age-rating questions unanswered: " + ", ".join(missing))
 
