@@ -4,13 +4,6 @@ import UIKit
 import WebKit
 import UniformTypeIdentifiers
 
-/// تكامل الملفات الأصلي:
-/// - فتح ملفات من تطبيق Files / iCloud Drive / أي مزوّد ملفات (UIDocumentPicker، نسخة داخل التطبيق).
-/// - تصدير/حفظ نسخة إلى أي موقع يختاره المستخدم (بما فيه iCloud Drive).
-/// - استيراد ملف وصل عبر «فتح في NOVA Docs» (قد يكون خارج صندوق التطبيق → وصول مؤقت بنطاق أمني).
-/// - الطباعة عبر AirPrint (UIPrintInteractionController).
-/// - تحويل HTML (الفواتير) إلى PDF متجهي بخطوط النظام وتشكيل عربي صحيح (WKWebView + UIPrintPageRenderer).
-@objc(NovaDocumentsPlugin)
 /// يحوّل مسارًا قادمًا من طبقة الويب إلى URL ملف موجود. Capacitor يعيد عناوين file:// مرمّزة
 /// (%20 للمسافات، والحروف العربية والفرنسية مرمّزة)، فإذا حُذفت البادئة فقط بقي المسار مرمّزًا
 /// ولم يوجد الملف: كانت الطباعة تفشل بـ «This file cannot be printed» والحفظ في الملفات بـ «File not found»
@@ -26,6 +19,13 @@ enum NovaPath {
     }
 }
 
+/// تكامل الملفات الأصلي:
+/// - فتح ملفات من تطبيق Files / iCloud Drive / أي مزوّد ملفات (UIDocumentPicker، نسخة داخل التطبيق).
+/// - تصدير/حفظ نسخة إلى أي موقع يختاره المستخدم (بما فيه iCloud Drive).
+/// - استيراد ملف وصل عبر «فتح في NOVA Docs» (قد يكون خارج صندوق التطبيق → وصول مؤقت بنطاق أمني).
+/// - الطباعة عبر AirPrint (UIPrintInteractionController).
+/// - تحويل HTML (الفواتير) إلى PDF متجهي بخطوط النظام وتشكيل عربي صحيح (WKWebView + UIPrintPageRenderer).
+@objc(NovaDocumentsPlugin)
 public class NovaDocumentsPlugin: CAPPlugin, CAPBridgedPlugin, UIDocumentPickerDelegate, WKNavigationDelegate {
     public let identifier = "NovaDocumentsPlugin"
     public let jsName = "NovaDocuments"
