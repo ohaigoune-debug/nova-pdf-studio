@@ -1270,6 +1270,8 @@ const ar = {
     store_product_create: 'أضاف منتجاً إلى المتجر',
     store_product_update: 'عدّل منتجاً في المتجر',
     store_order_place: 'أرسل طلب شراء',
+    store_cod_received: 'علّم مال طرد «وصلني»',
+    store_cod_unreceived: 'تراجع عن «وصلني» لطرد',
     otp_request: 'طلب رمز تحقق بالهاتف',
     otp_verify: 'تحقّق من رمز الهاتف',
     settings_store_policy: 'عدّل سياسة المتجر',

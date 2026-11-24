@@ -425,8 +425,23 @@ describe('EcoTrack: نافذة الإرجاع بعد التسليم وأولوي
     expect(await h.db.select().from(deliveryEvents)).toEqual(eventsBefore)
   })
 
+  it('مسلّم منذ عشرين يومًا: لا إرجاع خارج النافذة؛ يُستطلع للمال فقط ما دام لم يصل (24 نوفمبر 2026)', async () => {
+    const fixture = await ecoOrder(20)
+    statuses.set(fixture.tracking, 'retour')
+    await h.db.update(orders).set({ codMoneyStatus: 'RECEIVED' }).where(eq(orders.id, fixture.order.id))
+    expect(await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })).toMatchObject({ polled: 0, changed: 0, failed: 0 })
+    expect(requests).toHaveLength(0)
+    await h.db.update(orders).set({ codMoneyStatus: null }).where(eq(orders.id, fixture.order.id))
+    expect(await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })).toMatchObject({ polled: 1, changed: 0, failed: 0 })
+    expect((await orderOf(fixture.order.id)).status).toBe('DELIVERED')
+    expect((await enrollmentsOf(fixture.student.studentId!))[0]!.status).toBe('ACTIVE')
+    // لا يُعاد قبل 3 ساعات
+    requests.length = 0
+    expect((await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })).polled).toBe(0)
+    await h.db.update(orders).set({ codMoneyStatus: 'RECEIVED' }).where(eq(orders.id, fixture.order.id))
+  })
+
   it.each([
-    ['مسلّم منذ عشرين يومًا', 20],
     ['بلا تاريخ تسليم', null],
     ['بتاريخ تسليم في المستقبل', -1]
   ] as const)('%s لا يُطلب من EcoTrack أصلًا', async (_label, daysAgo) => {

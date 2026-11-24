@@ -14,6 +14,8 @@ import { setSmsSenderForTests, type SmsMessage } from '@/server/lib/sms'
 import { listCourseCatalog } from '@/server/services/academy-catalog.service'
 import { getCallConfirm, handleIncomingCall, saveCallConfirm } from '@/server/services/call-confirm.service'
 import { createCourse, linkProduct } from '@/server/services/courses.service'
+import { codMoneySummary, listCodPending, setCodReceived } from '@/server/services/cod-money.service'
+import { monthOf } from '@/lib/assistant-pay'
 import { ecotrackStatus, ensureEcotrackSyncScheduled, saveEcotrackSettings, sendOrderToEcotrack, syncEcotrackFees, syncEcotrackShipments } from '@/server/services/ecotrack.service'
 import { generateCodes } from '@/server/services/enrollment-codes.service'
 import { redeemEnrollmentCode } from '@/server/services/enrollment.service'
@@ -190,6 +192,52 @@ describe('3. من طلب الكتاب إلى تفعيل الدورة عبر EcoT
     s = await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })
     expect(s.polled).toBe(1)
     expect((await h.db.select().from(deliveryEvents)).length).toBe(before)
+  })
+  it('مال الطرد بعد التسليم (24 نوفمبر 2026): عند السائق ← عند الشركة ← جاهز ← وصلني، وتعليم يدويّ', async () => {
+    const month = monthOf(new Date())
+    const recheck = () => h.db.update(orders).set({ codMoneyCheckedAt: null }).where(eq(orders.id, orderId))
+    let o = await order(orderId)
+    // «Livré» عام ⇒ عند السائق، ورسم الشركة من tarif_prestation
+    expect(o.codMoneyStatus).toBe('WITH_DRIVER')
+    expect(o.codFeeDzd).toBe(600)
+    const net = o.totalDzd - 600
+    let sum = await codMoneySummary(h.db, admin, month)
+    expect(sum.pending.WITH_DRIVER).toEqual({ orders: 1, netDzd: net })
+
+    eco.statuses.set('ECO-1', 'encaisse_non_paye')
+    await recheck()
+    await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })
+    o = await order(orderId)
+    expect(o.status).toBe('DELIVERED')
+    expect(o.codMoneyStatus).toBe('AT_CARRIER')
+    // داخل نافذة الإرجاع يُستطلع كلّ دورة؛ بعدها مرّة كلّ 3 ساعات (اختبار activation-hardening)
+    eco.statuses.set('ECO-1', 'paiements_prets')
+    await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })
+    expect((await order(orderId)).codMoneyStatus).toBe('READY')
+    expect((await listCodPending(h.db, admin)).map((x) => [x.id, x.status, x.netDzd])).toEqual([[orderId, 'READY', net]])
+
+    eco.statuses.set('ECO-1', 'paye_et_archive')
+    await recheck()
+    await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })
+    o = await order(orderId)
+    expect(o.codMoneyStatus).toBe('RECEIVED')
+    expect(o.codReceivedAt).toBeTruthy()
+    sum = await codMoneySummary(h.db, admin, month)
+    expect(sum.receivedInMonth).toEqual({ orders: 1, netDzd: net })
+    expect(sum.pendingNetDzd).toBe(0)
+    expect(await listCodPending(h.db, admin)).toEqual([])
+
+    // تراجع يدويّ ثم «استلمتُ»؛ وتعليم المشرف لا تنقضه المزامنة
+    await setCodReceived(h.db, admin, orderId, false)
+    expect((await order(orderId)).codMoneyStatus).toBeNull()
+    expect((await codMoneySummary(h.db, admin, month)).pending.UNTRACKED.orders).toBe(1)
+    await setCodReceived(h.db, admin, orderId, true)
+    eco.statuses.set('ECO-1', 'encaisse_non_paye')
+    await recheck()
+    await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })
+    expect((await order(orderId)).codMoneyStatus).toBe('RECEIVED')
+    await expectCode(() => setCodReceived(h.db, student, orderId, true), 'FORBIDDEN')
+    eco.statuses.set('ECO-1', 'Livré')
   })
   it('جدولة المزامنة: مرة واحدة في النافذة', async () => {
     expect(await ensureEcotrackSyncScheduled(h.db)).toBe(true)

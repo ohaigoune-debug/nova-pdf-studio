@@ -3,14 +3,15 @@
  * إرسال الطلب المؤكَّد طرداً، مزامنة دورية للطرود المفتوحة تُترجم حالة الشركة إلى حالة الطلب
  * (ومنها «سُلِّم» ⇒ تفعيل الدورة)، ورسوم التوصيل لكل ولاية من جدول الشركة.
  */
-import { and, desc, eq, gte, inArray, isNotNull, lt, lte, or, sql } from 'drizzle-orm'
+import { and, desc, eq, gte, inArray, isNotNull, isNull, lt, lte, ne, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import { appSettings, deliveryEvents, jobs, orderItems, orders, profiles, rateLimits, students, wilayas } from '@/server/db/schema'
 import type { DeliveryEventStatus } from '@/server/db/schema/enums'
 import { enqueueJob } from '@/server/jobs/queue'
 import { assertRole, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
-import { EcotrackClient, EcotrackError, ecotrackBaseUrl, type EcotrackFee, type EcotrackShipmentStatus } from '@/server/lib/ecotrack'
+import { EcotrackClient, EcotrackError, ecotrackBaseUrl, type EcotrackFee, type EcotrackShipmentStatus, type EcotrackTracking } from '@/server/lib/ecotrack'
+import { ecotrackMoneyStatus } from '@/lib/cod-money'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { seal, unseal } from '@/server/lib/secret-box'
 import { applyDeliveryStatus } from './delivery.service'
@@ -25,6 +26,9 @@ export const ECOTRACK_SYNC_INTERVAL_MS = 20 * 60 * 1000
 export const ECOTRACK_SYNC_BATCH = 60
 /** متابعة الإرجاع بعد التسليم خلال آخر 15 يومًا، مع أولوية الطرود المفتوحة. */
 export const ECOTRACK_DELIVERED_RETURN_WINDOW_DAYS = 15
+/** مال الدفع عند الاستلام: يُتابَع الطرد المسلَّم حتى «payé» إلى 90 يومًا، مرّة كلّ 3 ساعات على الأكثر */
+export const COD_MONEY_WINDOW_DAYS = 90
+export const COD_MONEY_RECHECK_MS = 3 * 60 * 60 * 1000
 
 interface Stored {
   baseUrl: string
@@ -323,6 +327,20 @@ async function knownStatuses(db: Db, trackings: string[]): Promise<Map<string, s
   return out
 }
 
+/** يحدّث حالة مال الطرد المسلَّم من آخر حالة EcoTrack؛ تعليم المشرف «وصلني» لا يُنقَض */
+async function applyCodMoney(db: Db, o: typeof orders.$inferSelect, t: EcotrackTracking): Promise<void> {
+  if (o.paymentMethod !== 'COD') return
+  const latest = [...t.events].sort((a, b) => b.occurredAt.getTime() - a.occurredAt.getTime())[0]?.description ?? null
+  const money = ecotrackMoneyStatus(t.carrierStatusLabel) ?? ecotrackMoneyStatus(latest)
+  const set: Partial<typeof orders.$inferInsert> = { codMoneyCheckedAt: new Date() }
+  if (t.feeDzd != null) set.codFeeDzd = t.feeDzd
+  if (money && o.codMoneyStatus !== 'RECEIVED' && money !== o.codMoneyStatus) {
+    set.codMoneyStatus = money
+    set.codReceivedAt = money === 'RECEIVED' ? new Date() : null
+  }
+  await db.update(orders).set(set).where(eq(orders.id, o.id))
+}
+
 /**
  * يستطلع الطرود المفتوحة أولًا، ثم المسلّمة حديثًا لرصد الإرجاع، ويطبّق الحالات الجديدة.
  * كل تغيّر يُسجَّل حدثاً فريداً (tracking:status) فلا يُعالَج مرتين؛ الميزانية تُحترم.
@@ -340,14 +358,25 @@ export async function syncEcotrackShipments(db: Db, opts: { fetchImpl?: typeof f
   }
   const now = new Date()
   const deliveredAfter = new Date(now.getTime() - ECOTRACK_DELIVERED_RETURN_WINDOW_DAYS * 24 * 60 * 60 * 1000)
+  const moneyAfter = new Date(now.getTime() - COD_MONEY_WINDOW_DAYS * 24 * 60 * 60 * 1000)
+  const moneyRecheck = new Date(now.getTime() - COD_MONEY_RECHECK_MS)
   const shipments = await db
     .select()
     .from(orders)
     .where(and(eq(orders.deliveryProvider, 'ecotrack'), isNotNull(orders.deliveryTrackingId), or(
       inArray(orders.status, ['CONFIRMED', 'SHIPPED']),
-      and(eq(orders.status, 'DELIVERED'), gte(orders.deliveredAt, deliveredAfter), lte(orders.deliveredAt, now))
+      and(eq(orders.status, 'DELIVERED'), gte(orders.deliveredAt, deliveredAfter), lte(orders.deliveredAt, now)),
+      // مال لم يصل بعد: حتى «payé»
+      and(
+        eq(orders.status, 'DELIVERED'),
+        eq(orders.paymentMethod, 'COD'),
+        or(isNull(orders.codMoneyStatus), ne(orders.codMoneyStatus, 'RECEIVED')),
+        gte(orders.deliveredAt, moneyAfter),
+        lte(orders.deliveredAt, now),
+        or(isNull(orders.codMoneyCheckedAt), lt(orders.codMoneyCheckedAt, moneyRecheck))
+      )
     )))
-    .orderBy(sql`case when ${orders.status} = 'DELIVERED' then 1 else 0 end`, sql`${orders.updatedAt} asc`)
+    .orderBy(sql`case when ${orders.status} = 'DELIVERED' then 1 else 0 end`, sql`coalesce(${orders.codMoneyCheckedAt}, to_timestamp(0)) asc`, sql`${orders.updatedAt} asc`)
     .limit(opts.limit ?? ECOTRACK_SYNC_BATCH)
   const known = await knownStatuses(
     db,
@@ -363,6 +392,12 @@ export async function syncEcotrackShipments(db: Db, opts: { fetchImpl?: typeof f
     try {
       const t = await client.tracking(tracking, known.get(tracking) ?? (o.status === 'DELIVERED' ? 'delivered' : null))
       const eventStatus = MAP_TO_EVENT[t.status]
+      if (eventStatus === 'DELIVERED') await applyCodMoney(db, o, t)
+      // خارج نافذة الإرجاع: استطلاع المال وحده، بلا أيّ تغيير في حالة الطلب
+      if (o.status === 'DELIVERED' && (!o.deliveredAt || o.deliveredAt < deliveredAfter)) {
+        if (eventStatus !== 'DELIVERED') await db.update(orders).set({ codMoneyCheckedAt: new Date() }).where(eq(orders.id, o.id))
+        continue
+      }
       // التسليم الثابت مجرد استطلاع: لا حدث جديد ولا إعادة محاولة تفعيل أو رسائل.
       if (o.status === 'DELIVERED' && eventStatus === 'DELIVERED') continue
       const inserted = await db
