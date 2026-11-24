@@ -47,7 +47,7 @@ export function AssistantsPanel({ assistants, pendingCodes, origin }: { assistan
   const joinUrl = generated ? `${origin}/assistant-join?code=${encodeURIComponent(generated.code)}&email=${encodeURIComponent(generated.email)}` : ''
 
   return (
-    <div className="grid gap-6 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 [&>*]:min-w-0">
       <Card className="lg:col-span-1">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -85,9 +85,9 @@ export function AssistantsPanel({ assistants, pendingCodes, origin }: { assistan
                 <Input id="email" name="email" type="email" placeholder={t('assistant.emailPlaceholder')} required dir="ltr" autoComplete="off" />
               </Field>
               <Field label="دوره" htmlFor="scope">
-                <Select id="scope" name="scope" defaultValue="FULL">
+                <Select id="scope" name="scope" defaultValue="CLASSROOM">
+                  <option value="CLASSROOM">أستاذ مساعد: يردّ على التلاميذ ويراجع التعليقات</option>
                   <option value="FULL">مساعد الحضور: الحصص والسكانر وقوائم التلاميذ</option>
-                  <option value="CLASSROOM">أستاذ مساعد: القسم الافتراضي وحده، يردّ على التلاميذ</option>
                 </Select>
               </Field>
               <Field label={t('assistant.expiresIn')} htmlFor="expiresDays">

@@ -12,10 +12,10 @@ const PREVIOUS_DESTINATIONS = [
 ]
 
 describe('قائمة الإدارة المختصرة', () => {
-  it('خمسة مداخل رئيسية بالترتيب المطلوب (تبسيط 1 نوفمبر 2026)', () => {
+  it('المداخل الرئيسية بالترتيب المطلوب (تبسيط 1 نوفمبر، و«مداخيل المنصة» 24 نوفمبر 2026)', () => {
     const main = navFor('SUPER_ADMIN')[0]!.items
-    expect(main.map((i) => i.label)).toEqual(['الرئيسية', 'الدورات والدروس', 'التلاميذ', 'الطلبات', 'الإعدادات'])
-    expect(main.map((i) => i.href)).toEqual(['/admin', '/admin/courses', '/admin/students', '/admin/store', '/admin/settings'])
+    expect(main.map((i) => i.label)).toEqual(['الرئيسية', 'مداخيل المنصة', 'الدورات والدروس', 'التلاميذ', 'الطلبات', 'الإعدادات'])
+    expect(main.map((i) => i.href)).toEqual(['/admin', '/admin/revenue', '/admin/courses', '/admin/students', '/admin/store', '/admin/settings'])
   })
 
   it('الطلبات تجمع طلبات الدورات وطابور التأكيد والتوصيل؛ الإعدادات تجمع الموظفين والفيديو والأمان', () => {

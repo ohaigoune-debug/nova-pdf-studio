@@ -97,7 +97,7 @@ describe('قائمة الأستاذ المبسّطة', () => {
   const items = navFor('TEACHER').flatMap((s) => s.items)
 
   it('قرار 2026-10-24: المسجّلون والمداخيل، نشر المحتوى، التفاعل + الحساب — ولكل مدخل صفحة', () => {
-    expect(items.map((i) => i.href)).toEqual(['/teacher', '/teacher/students', '/teacher/publish', '/teacher/content', '/teacher/classroom', '/teacher/comments', '/teacher/notifications', '/teacher/settings', '/teacher/tools'])
+    expect(items.map((i) => i.href)).toEqual(['/teacher', '/teacher/students', '/teacher/publish', '/teacher/content', '/teacher/classroom', '/teacher/comments', '/teacher/assistants', '/teacher/notifications', '/teacher/settings', '/teacher/tools'])
     for (const i of items) expect(existsSync(pageFile(i.href)), i.href).toBe(true)
   })
 
