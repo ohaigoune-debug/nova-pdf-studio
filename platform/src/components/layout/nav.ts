@@ -91,7 +91,9 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
           title: 'التفاعل',
           items: [
             { href: '/teacher/classroom', label: 'المنتدى', iconKey: 'MessagesSquare' },
-            { href: '/teacher/comments', label: 'تعليقات الحصص', iconKey: 'MessageSquare' }
+            { href: '/teacher/comments', label: 'تعليقات الحصص', iconKey: 'MessageSquare' },
+            // قرار المالك (24 نوفمبر 2026): الأستاذ المساعد يردّ ويراجع التعليقات — يُضاف من هنا
+            { href: '/teacher/assistants', label: 'الأستاذ المساعد', iconKey: 'UserPlus' }
           ]
         },
         {
@@ -156,9 +158,11 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
       return [
         {
           items: [
-            // خمسة أبواب فقط (تبسيط 1 نوفمبر، ثم إلغاء «المزيد» بقرار المالك 16 نوفمبر 2026):
+            // ستّة أبواب (تبسيط 1 نوفمبر، ثم إلغاء «المزيد» 16 نوفمبر، ثم «مداخيل المنصة» 24 نوفمبر 2026):
             // ما يخصّ الدورة داخل الدورات، وما يخصّ التلميذ داخل التلاميذ، والبقية في الإعدادات ← أدوات متقدمة.
             { href: '/admin', label: 'الرئيسية', iconKey: 'LayoutDashboard', exact: true },
+            // قرار المالك (24 نوفمبر 2026): تبويب «مداخيل المنصة»
+            { href: '/admin/revenue', label: 'مداخيل المنصة', iconKey: 'Wallet' },
             {
               href: '/admin/courses', label: 'الدورات والدروس', iconKey: 'GraduationCap',
               children: [
