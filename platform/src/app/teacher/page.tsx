@@ -78,8 +78,12 @@ export default async function TeacherHomePage() {
                 <dd className="font-bold tabular-nums">{dzd(h.income.pendingDzd)}</dd>
               </div>
               <div className="rounded-lg border p-2.5">
-                <dt className="text-xs text-muted-foreground">سوق الأساتذة — رصيدك</dt>
-                <dd className="font-bold tabular-nums">{dzd(h.income.marketBalanceDzd)}</dd>
+                <dt className="text-xs text-muted-foreground">نصيبك ومستحقّاتك</dt>
+                <dd>
+                  <Link href="/teacher/earnings" className="font-bold text-primary">
+                    مستحقّاتي ←
+                  </Link>
+                </dd>
               </div>
             </dl>
           </CardContent>

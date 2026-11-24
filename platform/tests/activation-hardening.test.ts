@@ -14,7 +14,7 @@ import * as activationService from '@/server/services/course-activation.service'
 import { courseBookStateById, placeCourseOrder, setCourseBook } from '@/server/services/course-purchase.service'
 import { createCourse, enrollStudent, revokeEnrollment, setCourseStatus } from '@/server/services/courses.service'
 import { applyDeliveryStatus, normalizeDeliveryStatus, recordDeliveryEvent } from '@/server/services/delivery.service'
-import { saveEcotrackSettings, syncEcotrackShipments } from '@/server/services/ecotrack.service'
+import { resetEcotrackPollMemory, saveEcotrackSettings, syncEcotrackShipments } from '@/server/services/ecotrack.service'
 import { transitionOrder } from '@/server/services/order-status.service'
 import * as notificationService from '@/server/services/notifications.service'
 import { placeOrder, setOrderStatus } from '@/server/services/store.service'
@@ -463,6 +463,39 @@ describe('EcoTrack: نافذة الإرجاع بعد التسليم وأولوي
     statuses.set(fixture.tracking, 'retour')
     expect((await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch })).polled).toBe(1)
     expect((await orderOf(fixture.order.id)).status).toBe('RETURNED')
+  })
+
+  it('الدورة كلّ 5 دقائق بالأدوار (24 نوفمبر 2026): «خرج للتسليم» كلّ 5، المفتوح كلّ 20، المسلَّم كلّ ساعة', async () => {
+    resetEcotrackPollMemory()
+    const t0 = new Date()
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(t0)
+    const open = await ecoOrder(null, 'SHIPPED')
+    const done = await ecoOrder(2)
+    statuses.set(open.tracking, 'En transit vers wilaya')
+    const polledNow = async () => {
+      requests.length = 0
+      await syncEcotrackShipments(h.db, { fetchImpl: ecoFetch, tiered: true })
+      return [...new Set(requests.filter((r) => r.path.endsWith('/get/orders')).map((r) => r.tracking))]
+    }
+    const at = (min: number) => vi.setSystemTime(new Date(t0.getTime() + min * 60_000))
+    // أوّل دورة: الكلّ، والمفتوح قبل المسلَّم
+    expect(await polledNow()).toEqual([open.tracking, done.tracking])
+    // بعد 6 دقائق: لا شيء (المفتوح كلّ 20، والمسلَّم كلّ ساعة)
+    at(6)
+    expect(await polledNow()).toEqual([])
+    // بعد 21 دقيقة: المفتوح يُسأل فيصير «خرج للتسليم»
+    statuses.set(open.tracking, 'Sorti en livraison')
+    at(21)
+    expect(await polledNow()).toEqual([open.tracking])
+    // صار ساخنًا: كلّ 5 دقائق، فيُرصد التسليم بسرعة
+    at(27)
+    statuses.set(open.tracking, 'Livré')
+    expect(await polledNow()).toEqual([open.tracking])
+    expect((await orderOf(open.order.id)).status).toBe('DELIVERED')
+    // بعد ساعة: المسلَّمان
+    at(90)
+    expect((await polledNow()).sort()).toEqual([open.tracking, done.tracking].sort())
   })
 
   it('limit يُحترم والطلبات غير المسلّمة تسبق المسلّمة ولو كان updatedAt للمسلّمة أقدم', async () => {

@@ -77,7 +77,9 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
         {
           items: [
             { href: '/teacher', label: 'المسجّلون والمداخيل', iconKey: 'LayoutDashboard', exact: true },
-            { href: '/teacher/students', label: 'المسجّلون', iconKey: 'Users' }
+            { href: '/teacher/students', label: 'المسجّلون', iconKey: 'Users' },
+            // قرار المالك (24 نوفمبر 2026): نصيب الأستاذ من مبيعات دوراته
+            { href: '/teacher/earnings', label: 'مستحقّاتي', iconKey: 'Wallet' }
           ]
         },
         {

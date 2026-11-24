@@ -89,7 +89,7 @@ export function EcotrackSettingsForm({ status }: { status: EcotrackStatus }) {
           <Button type="button" size="sm" variant="outline" loading={pending} onClick={() => run(syncEcotrackNowAction, (d: { polled: number; changed: number; delivered: number; failed: number; skipped: string | null }) => `استُطلع ${d.polled} طرد · تغيّر ${d.changed} · سُلِّم ${d.delivered}${d.failed ? ` · فشل ${d.failed}` : ''}${d.skipped ? ` · ${d.skipped}` : ''}`)}>
             <RefreshCcw className="size-4" /> مزامنة التتبّع الآن
           </Button>
-          <span className="text-xs text-muted-foreground">{s.feesCount ? `جدول الرسوم: ${s.feesCount} ولاية${s.feesSyncedAt ? ` · ${formatDateTime(new Date(s.feesSyncedAt))}` : ''}` : 'لا جدول رسوم بعد: يُستعمل الرسم الثابت.'} · المزامنة التلقائية كل 20 دقيقة.</span>
+          <span className="text-xs text-muted-foreground">{s.feesCount ? `جدول الرسوم: ${s.feesCount} ولاية${s.feesSyncedAt ? ` · ${formatDateTime(new Date(s.feesSyncedAt))}` : ''}` : 'لا جدول رسوم بعد: يُستعمل الرسم الثابت.'} · المزامنة التلقائية: الطرد الخارج للتسليم كل 5 دقائق، وبقية الطرود كل 20 دقيقة.</span>
         </div>
       ) : null}
     </div>

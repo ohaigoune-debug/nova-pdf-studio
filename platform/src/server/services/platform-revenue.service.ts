@@ -5,6 +5,7 @@ import { assertRole, type Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { monthRange } from '@/lib/assistant-pay'
 import { assistantMonth, listPaidAssistants } from '@/server/services/assistant-pay.service'
+import { teacherDues } from '@/server/services/teacher-share.service'
 
 /**
  * «مداخيل المنصة» (قرار المالك 24 نوفمبر 2026): من الفواتير الصادرة (تصدر عند تسليم الطلب أو يدويًا)،
@@ -19,7 +20,9 @@ export interface PlatformRevenue {
   /** أجر الأستاذ المساعد: المدفوع، والمستحقّ غير المدفوع بعد */
   assistantPaidDzd: number
   assistantDueDzd: number
-  /** الإجمالي − التوصيل − أجر المساعد */
+  /** مستحقّات الأساتذة الشركاء في الشهر (نصيبهم من مبيعات دوراتهم) */
+  teacherDueDzd: number
+  /** الإجمالي − التوصيل − أجر المساعد − مستحقّات الأساتذة */
   netDzd: number
   /** أكواد نقاط البيع المنشأة في الشّهر بسعر بيعها (بلا فاتورة، وخارج الصّافي) */
   pos: { codes: number; totalDzd: number }
@@ -44,7 +47,7 @@ export async function platformRevenue(db: Db, actor: Actor, month: string): Prom
   const trendStart = monthRange(shiftMonth(month, -5))!.start
   // الشّهر بتوقيت الجزائر (UTC+1 بلا توقيت صيفيّ)
   const monthKey = sql<string>`to_char(${invoices.issuedAt} + interval '1 hour', 'YYYY-MM')`
-  const [[tot], methods, items, trendRows, assistants, posRaw] = await Promise.all([
+  const [[tot], methods, items, trendRows, assistants, posRaw, dues] = await Promise.all([
     db.select({ n: count(), total: sum(invoices.totalDzd), shipping: sum(invoices.shippingDzd), discount: sum(invoices.discountDzd) }).from(invoices).where(issued),
     db
       .select({ method: invoices.paymentMethod, n: count(), total: sum(invoices.totalDzd) })
@@ -65,7 +68,8 @@ export async function platformRevenue(db: Db, actor: Actor, month: string): Prom
     listPaidAssistants(db, actor),
     db.execute(sql`select count(*)::int as n, coalesce(sum(c.sale_price_dzd), 0)::int as total from course_codes c
       where c.pos_id is not null and c.status <> 'DISABLED' and c.cancelled_at is null
-      and c.created_at >= ${range.start.toISOString()}::timestamptz and c.created_at < ${range.end.toISOString()}::timestamptz`)
+      and c.created_at >= ${range.start.toISOString()}::timestamptz and c.created_at < ${range.end.toISOString()}::timestamptz`),
+    teacherDues(db, actor, month)
   ])
   let assistantPaidDzd = 0
   let assistantDueDzd = 0
@@ -87,7 +91,8 @@ export async function platformRevenue(db: Db, actor: Actor, month: string): Prom
     discountDzd: Number(tot?.discount ?? 0),
     assistantPaidDzd,
     assistantDueDzd,
-    netDzd: grossDzd - shippingDzd - assistantPaidDzd - assistantDueDzd,
+    teacherDueDzd: dues.totalDueDzd,
+    netDzd: grossDzd - shippingDzd - assistantPaidDzd - assistantDueDzd - dues.totalDueDzd,
     byMethod: methods.map((r) => ({ method: r.method, invoices: Number(r.n), totalDzd: Number(r.total ?? 0) })),
     pos: { codes: Number(pos?.n ?? 0), totalDzd: Number(pos?.total ?? 0) },
     byItem: rows.map((r) => ({ title: r.title ?? '—', qty: Number(r.qty), totalDzd: Number(r.total) })),
