@@ -5,7 +5,7 @@
  */
 import { and, desc, eq, gte, inArray, isNotNull, isNull, lt, lte, ne, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { appSettings, deliveryEvents, jobs, orderItems, orders, profiles, rateLimits, students, wilayas } from '@/server/db/schema'
+import { appSettings, deliveryEvents, jobs, orderItems, orders, profiles, rateLimits, streams, students, wilayas } from '@/server/db/schema'
 import type { DeliveryEventStatus } from '@/server/db/schema/enums'
 import { enqueueJob } from '@/server/jobs/queue'
 import { assertRole, type Actor } from '@/server/lib/actor'
@@ -232,7 +232,9 @@ async function createEcotrackParcel(db: Db, client: EcotrackClient, actor: Actor
   const [w] = o.wilayaId ? await db.select({ code: wilayas.code, nameAr: wilayas.nameAr, nameFr: wilayas.nameFr }).from(wilayas).where(eq(wilayas.id, o.wilayaId)).limit(1) : []
   if (!w) throw new AppError('VALIDATION', { field: 'wilayaId' })
   const items = await db.select({ title: orderItems.title, qty: orderItems.qty }).from(orderItems).where(eq(orderItems.orderId, orderId))
-  const summary = items.map((i) => (i.qty > 1 ? `${i.title} ×${i.qty}` : i.title)).join(' + ')
+  // الشعبة على الطرد حتى لا يُرسل كتاب شعبة أخرى (قرار المالك 24 نوفمبر 2026)
+  const [st] = o.streamId ? await db.select({ nameAr: streams.nameAr }).from(streams).where(eq(streams.id, o.streamId)).limit(1) : []
+  const summary = items.map((i) => (i.qty > 1 ? `${i.title} ×${i.qty}` : i.title)).join(' + ') + (st?.nameAr ? ` — شعبة: ${st.nameAr}` : '')
   const cod = o.paymentMethod === 'COD' ? o.totalDzd : 0
   // الهاتف الثاني للطرد: هاتف التلميذ أو هاتف الولي (من التسجيل) — أيّهما ليس هاتف الطلب
   const phone2 = await secondPhoneFor(db, o.userId, o.phone)

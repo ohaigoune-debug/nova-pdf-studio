@@ -155,6 +155,8 @@ describe('3. من طلب الكتاب إلى تفعيل الدورة عبر EcoT
     expect(payload.montant).toBe(o.totalDzd)
     expect(payload.commune_id).toBe('1')
     expect(String(payload.produit)).toContain('كتاب وسام التفوق')
+    // الشعبة على الطرد (24 نوفمبر 2026)
+    expect(String(payload.produit)).toMatch(/— شعبة: \S+/)
     // إعادة الإرسال لا تنشئ طرداً ثانياً
     expect((await sendOrderToEcotrack(h.db, admin, orderId, ecoFetch)).tracking).toBe('ECO-1')
     expect(eco.created.length).toBe(1)
