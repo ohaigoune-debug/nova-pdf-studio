@@ -128,6 +128,15 @@ export const orders = pgTable(
     reservedByUserId: uuid('reserved_by_user_id').references(() => users.id, { onDelete: 'set null' }),
     reservedAt: timestamp('reserved_at', { withTimezone: true }),
     reservedUntil: timestamp('reserved_until', { withTimezone: true }),
+    /**
+     * مال الدفع عند الاستلام (0060، قرار المالك 24 نوفمبر 2026): WITH_DRIVER | AT_CARRIER | READY | RECEIVED.
+     * يُقرأ من EcoTrack في المزامنة، أو يعلّمه المشرف «استلمتُ». codFeeDzd: رسم الشركة (tarif_prestation).
+     */
+    codMoneyStatus: text('cod_money_status'),
+    codMoneyCheckedAt: timestamp('cod_money_checked_at', { withTimezone: true }),
+    codReceivedAt: timestamp('cod_received_at', { withTimezone: true }),
+    codReceivedByUserId: uuid('cod_received_by_user_id').references(() => users.id, { onDelete: 'set null' }),
+    codFeeDzd: integer('cod_fee_dzd'),
     ...timestamps
   },
   (t) => [
@@ -135,6 +144,7 @@ export const orders = pgTable(
     check('orders_delivery_type_check', inList(t.deliveryType, DELIVERY_TYPES)),
     check('orders_payment_check', inList(t.paymentMethod, PAYMENT_METHODS)),
     check('orders_credit_check', sql`${t.creditDzd} >= 0`),
+    check('orders_cod_money_check', sql`${t.codMoneyStatus} IS NULL OR ${t.codMoneyStatus} IN ('WITH_DRIVER', 'AT_CARRIER', 'READY', 'RECEIVED')`),
     index('orders_user_idx').on(t.userId, t.createdAt),
     index('orders_status_idx').on(t.status, t.createdAt),
     index('orders_tracking_idx').on(t.deliveryProvider, t.deliveryTrackingId),

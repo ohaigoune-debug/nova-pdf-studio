@@ -119,7 +119,8 @@ const ECOTRACK_STATUS_RULES: [EcotrackShipmentStatus, RegExp][] = [
   ['returned', /retour|return|مرتجع|إرجاع|ارجاع/],
   ['canceled', /supprim|annul|cancel/],
   ['failed_attempt', /echou|tentative|absent|injoignable|reporte|alerte|suspend/],
-  ['delivered', /livre|delivered|encaiss|paye/],
+  // بعد التسليم: livre_non_encaisse، encaisse_non_paye، paiements_prets، paye_et_archive
+  ['delivered', /livre|delivered|encaiss|paye|paiements? prets?/],
   ['out_for_delivery', /sorti|en livraison|out for delivery/],
   ['at_agency', /recu a wilaya|centre|agence|hub|arrive|au bureau|en attente du client|pret pour retrait/],
   // «prête à expédier»: ما زال الطرد عند الشركة لم يتحرّك.
@@ -289,7 +290,8 @@ export class EcotrackClient {
   private async orderRecord(tracking: string): Promise<Record<string, unknown> | null> {
     const page = await this.call<{ data?: unknown }>('GET', 'api/v1/get/orders', { tracking })
     const rows = (Array.isArray(page.data) ? page.data : page.data && typeof page.data === 'object' ? Object.values(page.data as Record<string, unknown>) : []) as Record<string, unknown>[]
-    return rows.find((o) => String(o.tracking ?? '') === tracking) ?? rows[0] ?? null
+    // لا نأخذ طردًا آخر حين لا يطابق الرقم (الطرد المؤرشف يغيب عن get/orders): صفّ وحيد فقط يُقبل بلا مطابقة
+    return rows.find((o) => String(o.tracking ?? '') === tracking) ?? (rows.length === 1 ? rows[0]! : null)
   }
 
   /**
