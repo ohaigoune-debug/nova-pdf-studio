@@ -12,6 +12,9 @@ import { getDb } from '@/server/db/client'
 import { platformRevenue } from '@/server/services/platform-revenue.service'
 import { codMoneySummary, listCodPending } from '@/server/services/cod-money.service'
 import { codReceivedAction } from '@/server/actions/cod-money.actions'
+import { teacherSharePaidAction } from '@/server/actions/teacher-share.actions'
+import { teacherDues } from '@/server/services/teacher-share.service'
+import { TeacherShareForm } from './share-form'
 import { COD_MONEY_LABELS } from '@/lib/cod-money'
 
 export const dynamic = 'force-dynamic'
@@ -24,11 +27,11 @@ export default async function AdminRevenuePage({ searchParams }: { searchParams:
   const months = recentMonths(now, 6)
   const month = m && monthRange(m) && months.includes(m) ? m : monthOf(now)
   const db = await getDb()
-  const [r, cod, pending] = await Promise.all([platformRevenue(db, actor, month), codMoneySummary(db, actor, month), listCodPending(db, actor, 50)])
+  const [r, cod, pending, dues] = await Promise.all([platformRevenue(db, actor, month), codMoneySummary(db, actor, month), listCodPending(db, actor, 50), teacherDues(db, actor, month)])
   const max = Math.max(1, ...r.trend.map((x) => x.totalDzd))
   return (
     <div className="space-y-6">
-      <PageHeader title="مداخيل المنصة" description="من الفواتير الصّادرة (تصدر عند تسليم الطّلب أو يدويًّا). الصّافي = المداخيل − رسوم التّوصيل − أجر الأستاذ المساعد." />
+      <PageHeader title="مداخيل المنصة" description="من الفواتير الصّادرة (تصدر عند تسليم الطّلب أو يدويًّا). الصّافي = المداخيل − رسوم التّوصيل − أجر الأستاذ المساعد − مستحقّات الأساتذة." />
       <MonthLinks current={month} months={months} href={(x) => `/admin/revenue?m=${x}`} />
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -40,7 +43,7 @@ export default async function AdminRevenuePage({ searchParams }: { searchParams:
           hint={r.assistantDueDzd ? `منها ${formatDa(r.assistantDueDzd)} غير مدفوعة بعد` : 'مدفوع'}
           icon={Banknote}
         />
-        <StatCard label="الصّافي" value={formatDa(r.netDzd)} hint="تقريبيّ: بلا مصاريف أخرى" icon={Receipt} tone={r.netDzd < 0 ? 'destructive' : 'success'} />
+        <StatCard label="الصّافي" value={formatDa(r.netDzd)} hint={r.teacherDueDzd ? `بعد ${formatDa(r.teacherDueDzd)} للأساتذة` : 'تقريبيّ: بلا مصاريف أخرى'} icon={Receipt} tone={r.netDzd < 0 ? 'destructive' : 'success'} />
       </div>
 
       <Card>
@@ -102,6 +105,48 @@ export default async function AdminRevenuePage({ searchParams }: { searchParams:
                   </div>
                 </li>
               ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">مستحقّات الأساتذة · {formatDa(dues.totalDueDzd)}</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            بالبطاقة: تُحذف TVA {dues.config.vatPct}% ثمّ للأستاذ {dues.config.cardPct}%. بغير البطاقة: للأستاذ {dues.config.otherPct}%. على ثمن المنتج وحده، للطّلبات المسلَّمة في الشّهر، وللأساتذة الشّركاء فقط.
+          </p>
+          {dues.rows.filter((x) => x.partner || x.salesDzd > 0).length === 0 ? (
+            <EmptyState title="لا مبيعات لدورات أساتذة شركاء هذا الشّهر" />
+          ) : (
+            <ul className="divide-y text-sm">
+              {dues.rows
+                .filter((x) => x.partner || x.salesDzd > 0)
+                .map((x) => (
+                  <li key={x.workspaceId} className="flex flex-wrap items-center justify-between gap-2 py-2">
+                    <div className="min-w-0">
+                      <div className="font-bold">{x.teacherName}</div>
+                      <div className="text-xs text-muted-foreground">
+                        مبيعات {formatDa(x.salesDzd)} · {x.lines} سطر{x.partner ? '' : ' · ليس شريكًا (لا نصيب)'}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold tabular-nums">{formatDa(x.shareDzd)}</span>
+                      {x.partner ? (
+                        <form action={teacherSharePaidAction}>
+                          <input type="hidden" name="workspaceId" value={x.workspaceId} />
+                          <input type="hidden" name="month" value={month} />
+                          {x.payout ? <input type="hidden" name="op" value="cancel" /> : null}
+                          <Button type="submit" size="sm" variant={x.payout ? 'outline' : 'success'}>
+                            {x.payout ? `مدفوع ${formatDa(x.payout.amountDzd)} · إلغاء` : 'مدفوع'}
+                          </Button>
+                        </form>
+                      ) : null}
+                    </div>
+                  </li>
+                ))}
             </ul>
           )}
         </CardContent>
@@ -178,6 +223,15 @@ export default async function AdminRevenuePage({ searchParams }: { searchParams:
           </CardContent>
         </Card>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">نصيب الأستاذ</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <TeacherShareForm config={dues.config} teachers={dues.rows.map((x) => ({ workspaceId: x.workspaceId, teacherName: x.teacherName }))} />
+        </CardContent>
+      </Card>
 
       <p className="text-xs text-muted-foreground">
         التّفاصيل فاتورةً فاتورة في{' '}

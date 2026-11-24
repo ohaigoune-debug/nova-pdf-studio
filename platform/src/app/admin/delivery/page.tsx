@@ -25,7 +25,7 @@ export default async function AdminDeliveryPage() {
   const [events, stats, secret, eco, fees] = await Promise.all([listDeliveryEvents(db, actor, 200), deliveryStats(db, actor), deliverySecretStatus(db), ecotrackStatus(db), listEcotrackFees(db)])
   return (
     <div className="space-y-6">
-      <PageHeader title="التوصيل" description="EcoTrack: إرسال الطرود بزر واحد ومزامنة التتبّع كل 20 دقيقة. عند «سُلِّمت» يُسلَّم الطلب وتُفعَّل الدورة المرتبطة بالكتاب تلقائياً، أو يُرسَل رمز مطالبة بالـSMS إلى وليّ الأمر. شركات أخرى: عبر webhook." />
+      <PageHeader title="التوصيل" description="EcoTrack: إرسال الطرود بزر واحد ومزامنة التتبّع كل 5 دقائق للطرد الخارج للتسليم (وكل 20 دقيقة لغيره). عند «سُلِّمت» يُسلَّم الطلب وتُفعَّل الدورة المرتبطة بالكتاب تلقائياً، أو يُرسَل رمز مطالبة بالـSMS إلى وليّ الأمر. شركات أخرى: عبر webhook." />
       <Card>
         <CardHeader>
           <CardTitle>EcoTrack</CardTitle>

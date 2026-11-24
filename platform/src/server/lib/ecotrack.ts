@@ -202,6 +202,13 @@ export class EcotrackClient {
     }
   }
 
+  /** آخر ما أعلنته EcoTrack من الميزانية الباقية (null = غير معروف أو قديم) */
+  budgetRemaining(): number | null {
+    const b = budget.get(keyOf(this.creds))
+    if (!b || Date.now() - b.at > BUDGET_TTL_MS) return null
+    return b.remaining
+  }
+
   /** الاستطلاع الدوري يتوقّف قبل نفاد الميزانية؛ إنشاء الطرود لا يتوقّف أبداً */
   pollingAllowed(): boolean {
     const b = budget.get(keyOf(this.creds))

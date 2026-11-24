@@ -20,8 +20,22 @@ import { notifyAdmins, transitionOrder } from './order-status.service'
 export const ECOTRACK_SETTINGS_KEY = 'delivery.ecotrack'
 export const ECOTRACK_FEES_KEY = 'delivery.ecotrack.fees'
 const SEAL_PURPOSE = 'ecotrack'
-/** المزامنة كل 20 دقيقة؛ EcoTrack بلا webhooks والميزانية اليومية محدودة */
-export const ECOTRACK_SYNC_INTERVAL_MS = 20 * 60 * 1000
+/**
+ * المزامنة تدور كل 5 دقائق (قرار المالك 24 نوفمبر 2026: تفعيل الدورة المسلَّمة أسرع)، لكن الطرد لا يُسأل عنه إلّا حين يحين دوره،
+ * فالميزانية اليومية (~15000 نداء) تكفي: «خرج للتسليم» أو «في المكتب» أو «محاولة فاشلة» كلّ 5 دقائق، بقية المفتوحة كلّ 20،
+ * والمسلَّمة (رصد الإرجاع) كلّ ساعة. إن قلّت الميزانية الباقية عاد الكلّ إلى 20 دقيقة.
+ */
+export const ECOTRACK_SYNC_INTERVAL_MS = 5 * 60 * 1000
+export const ECOTRACK_TIER_MS = { hot: 5 * 60 * 1000, open: 20 * 60 * 1000, delivered: 60 * 60 * 1000 } as const
+/** تحت هذه الميزانية الباقية لا استطلاع كلّ 5 دقائق */
+export const ECOTRACK_HOT_MIN_BUDGET = 5000
+const HOT_STATUSES = new Set(['out_for_delivery', 'at_agency', 'failed_attempt'])
+/** آخر استطلاع لكلّ طرد في هذه العملية (عامل المهامّ يعيش طويلًا؛ بعد إعادة التشغيل يُسأل عن الكلّ مرّة) */
+const lastPolledAt = new Map<string, number>()
+/** للاختبارات */
+export function resetEcotrackPollMemory(): void {
+  lastPolledAt.clear()
+}
 /** طرود كثيرة ⇒ دفعات، كي لا تستهلك مزامنة واحدة الميزانية */
 export const ECOTRACK_SYNC_BATCH = 60
 /** متابعة الإرجاع بعد التسليم خلال آخر 15 يومًا، مع أولوية الطرود المفتوحة. */
@@ -345,7 +359,7 @@ async function applyCodMoney(db: Db, o: typeof orders.$inferSelect, t: EcotrackT
  * يستطلع الطرود المفتوحة أولًا، ثم المسلّمة حديثًا لرصد الإرجاع، ويطبّق الحالات الجديدة.
  * كل تغيّر يُسجَّل حدثاً فريداً (tracking:status) فلا يُعالَج مرتين؛ الميزانية تُحترم.
  */
-export async function syncEcotrackShipments(db: Db, opts: { fetchImpl?: typeof fetch; limit?: number } = {}): Promise<EcotrackSyncSummary> {
+export async function syncEcotrackShipments(db: Db, opts: { fetchImpl?: typeof fetch; limit?: number; tiered?: boolean } = {}): Promise<EcotrackSyncSummary> {
   const summary: EcotrackSyncSummary = { polled: 0, changed: 0, delivered: 0, failed: 0, skipped: null }
   const client = await ecotrackClient(db, { fetchImpl: opts.fetchImpl })
   if (!client) {
@@ -377,11 +391,26 @@ export async function syncEcotrackShipments(db: Db, opts: { fetchImpl?: typeof f
       )
     )))
     .orderBy(sql`case when ${orders.status} = 'DELIVERED' then 1 else 0 end`, sql`coalesce(${orders.codMoneyCheckedAt}, to_timestamp(0)) asc`, sql`${orders.updatedAt} asc`)
-    .limit(opts.limit ?? ECOTRACK_SYNC_BATCH)
+    .limit(opts.tiered ? 1000 : (opts.limit ?? ECOTRACK_SYNC_BATCH))
   const known = await knownStatuses(
     db,
     shipments.map((o) => o.deliveryTrackingId!)
   )
+  // الدورة كلّ 5 دقائق: لا يُسأل إلّا عن الطرد الذي حان دوره، والأقرب إلى التسليم أوّلًا
+  if (opts.tiered) {
+    const remaining = client.budgetRemaining()
+    const hotOk = remaining === null || remaining > ECOTRACK_HOT_MIN_BUDGET
+    const nowMs = now.getTime()
+    const tierOf = (o: (typeof shipments)[number]) => {
+      if (o.status === 'DELIVERED') return 'delivered' as const
+      return hotOk && HOT_STATUSES.has(known.get(o.deliveryTrackingId!) ?? '') ? ('hot' as const) : ('open' as const)
+    }
+    const due = shipments.filter((o) => nowMs - (lastPolledAt.get(o.deliveryTrackingId!) ?? 0) >= ECOTRACK_TIER_MS[tierOf(o)] - 30_000)
+    const rank = { hot: 0, open: 1, delivered: 2 } as const
+    due.sort((a, b) => rank[tierOf(a)] - rank[tierOf(b)])
+    shipments.length = 0
+    shipments.push(...due.slice(0, opts.limit ?? ECOTRACK_SYNC_BATCH))
+  }
   for (const o of shipments) {
     if (!client.pollingAllowed()) {
       summary.skipped = 'rate budget reserved'
@@ -389,6 +418,7 @@ export async function syncEcotrackShipments(db: Db, opts: { fetchImpl?: typeof f
     }
     const tracking = o.deliveryTrackingId!
     summary.polled++
+    lastPolledAt.set(tracking, Date.now())
     try {
       const t = await client.tracking(tracking, known.get(tracking) ?? (o.status === 'DELIVERED' ? 'delivered' : null))
       const eventStatus = MAP_TO_EVENT[t.status]
@@ -442,7 +472,7 @@ export async function ensureEcotrackSyncScheduled(db: Db, now: Date = new Date()
 }
 
 export async function runEcotrackSyncJob(db: Db): Promise<Record<string, unknown>> {
-  const s = await syncEcotrackShipments(db)
+  const s = await syncEcotrackShipments(db, { tiered: true })
   return { ...s }
 }
 
