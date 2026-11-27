@@ -106,7 +106,12 @@ describe('أرقام التهميش', () => {
     expect(leakFootnotesOf(USER.toUpperCase())).toEqual(nums)
     expect(leakFootnotesOf('4b21efbc-1111-4222-8333-944455556667')).not.toEqual(nums)
     expect(footnotesMatch(USER, nums.slice(0, 4))).toBe(true)
-    expect(footnotesMatch(USER, [nums[1]!, nums[0]!, nums[2]!])).toBe(false)
+    // بأي ترتيب: من اليمين أو من اليسار، أو ثلاثة منها فقط
+    expect(footnotesMatch(USER, [...nums.slice(0, 4)].reverse())).toBe(true)
+    expect(footnotesMatch(USER, [nums[2]!, nums[0]!, nums[3]!])).toBe(true)
+    // رقم ليس من أرقامه لا يطابق
+    const other = [10, 11, 12, 13].find((n) => !nums.slice(0, 4).includes(n))!
+    expect(footnotesMatch(USER, [nums[0]!, nums[1]!, other])).toBe(false)
   })
 
   it('تُقرأ كما يكتبها المشرف من الصورة', () => {
