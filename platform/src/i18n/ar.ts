@@ -1204,6 +1204,7 @@ const ar = {
     teacher_create: 'أنشأ حساب أستاذ',
     user_status: 'غيّر حالة مستخدم',
     leak_trace: 'بحث في كشف التسريب',
+    leak_scan: 'فحص ملف مسرَّب في كشف التسريب',
     assignment_create: 'أنشأ واجباً',
     assignment_update: 'عدّل واجباً',
     assignment_delete: 'حذف واجباً',

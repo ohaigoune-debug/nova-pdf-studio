@@ -8,6 +8,7 @@ import { storage, type StorageAdapter } from '@/server/lib/storage'
 import { courseHome } from './courses.service'
 import { requireIosLearningStudent } from './ios-learning.service'
 import { resolveMediaAccess, stampPdf } from './media.service'
+import { leakMarkOf } from '@/server/lib/leak-ref'
 
 export const IOS_PDF_EXPORT_MAX_BYTES = 25 * 1024 * 1024
 
@@ -73,12 +74,12 @@ export async function exportIosPdf(db: Db, actor: Actor | null, contentId: strin
   // must not be knowingly exported. This cannot recall files already shared.
   const latest = await exportAccess(db, actor, contentId, mode)
   if (latest.file.id !== file.id || latest.file.storageKey !== file.storageKey || latest.file.checksum !== file.checksum) throw new AppError('FORBIDDEN')
-  // ختم كل نسخة تخرج إلى التطبيق بهوية التلميذ (البريد + رمز الحساب + التاريخ) كما في الموقع.
+  // ختم كل نسخة تخرج إلى التطبيق بهوية التلميذ (البريد + رمز الحساب + التاريخ + «رمز النسخة» وأرقام التهميش) كما في الموقع.
   // خط PDF القياسي لا يرسم العربية، فلا يُكتب إلا ما يقبله؛ وإن تعذّر الختم (ملف غير قياسي) يُسلَّم الأصل.
   const date = new Date().toISOString().slice(0, 10)
   const latin = (v: string) => v.replace(/[^\x20-\x7e]/g, '').trim()
   const lines = [latin(student.email ?? ''), `${date} · ${student.userId.slice(0, 8)}`].filter(Boolean)
-  const output = await stampPdf(bytes, lines).catch(() => bytes)
+  const output = await stampPdf(bytes, lines, leakMarkOf(student.userId)).catch(() => bytes)
   let filename = file.originalName.replace(/[\x00-\x1f\x7f/\\]/g, '_').slice(0, 190)
   if (!filename.toLowerCase().endsWith('.pdf')) filename += '.pdf'
   return { accountId: student.userId, filename, bytes: output }

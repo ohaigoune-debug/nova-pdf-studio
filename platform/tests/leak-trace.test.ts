@@ -2,13 +2,16 @@
  * كشف التسريب (3 نوفمبر 2026): من العلامة المائية إلى الحساب، مع ترجيح من شاهد في اليوم الظاهر.
  */
 import { eq } from 'drizzle-orm'
+import { PDFDocument } from 'pdf-lib'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
 import { auditLogs, mediaViews, profiles } from '@/server/db/schema'
 import type { Actor } from '@/server/lib/actor'
 import { AppError } from '@/server/lib/errors'
 import { createContent } from '@/server/services/content.service'
-import { parseLeakQuery, traceLeak } from '@/server/services/leak-trace.service'
+import { parseLeakQuery, scanLeakedPdfFor, traceLeak } from '@/server/services/leak-trace.service'
+import { formatLeakRef, leakFootnotesOf, leakMarkOf, leakRefOf } from '@/server/lib/leak-ref'
+import { resolveMediaAccess, stampPdf } from '@/server/services/media.service'
 import { makeAdmin, makeStudent, makeTeacher, setupDb } from './helpers'
 
 let h: DatabaseHandle
@@ -67,6 +70,42 @@ describe('الكشف', () => {
     expect(r.matches.map((m) => m.userId)).toEqual([leaker.userId, sameTail.userId])
     expect(r.matches.map((m) => m.viewedOnDate)).toEqual([true, false])
     expect(r.matches[1]!.views).toEqual([])
+  })
+
+  it('برمز النسخة المكتوب في ملف PDF: نفس الحساب حتى بعد حذف العلامة المائية', async () => {
+    const access = await resolveMediaAccess(h.db, leaker, contentId)
+    expect(access.leakMark).toEqual(leakMarkOf(leaker.userId))
+    const r = await traceLeak(h.db, admin, parseLeakQuery(`Ref. ${formatLeakRef(access.leakMark!.ref).toLowerCase()}`, '2026-11-03'))
+    expect(r.query.kind).toBe('ref')
+    expect(r.matches).toHaveLength(1)
+    expect(r.matches[0]).toMatchObject({ userId: leaker.userId, ref: formatLeakRef(access.leakMark!.ref), viewedOnDate: true })
+    expect((await resolveMediaAccess(h.db, null, contentId)).leakMark).toBeNull()
+    expect((await traceLeak(h.db, admin, parseLeakQuery('Ref. ZZZZ-ZZ'))).matches.filter((m) => m.userId === leaker.userId)).toEqual([])
+  })
+
+  it('بأرقام التهميش المنقولة من الصورة بترتيبها — مفصولةً أو ملتصقة (8 أرقام)', async () => {
+    const nums = leakFootnotesOf(leaker.userId).slice(0, 4)
+    const r = await traceLeak(h.db, admin, parseLeakQuery(nums.map((n) => `(${n})`).join(' '), '2026-11-03'))
+    expect(r.query).toEqual({ kind: 'fn', value: nums.join(' '), date: '2026-11-03' })
+    expect(r.matches.map((m) => m.userId)).toEqual([leaker.userId])
+    expect(r.matches[0]!.footnotes).toEqual(nums)
+    const glued = await traceLeak(h.db, admin, parseLeakQuery(nums.join('')))
+    expect(glued.query.kind).toBe('code')
+    expect(glued.matches.map((m) => m.userId)).toContain(leaker.userId)
+    // ترتيب خاطئ لا يطابق
+    expect((await traceLeak(h.db, admin, parseLeakQuery([nums[1], nums[0], nums[2], nums[3]].join(' ')))).matches.map((m) => m.userId)).not.toContain(leaker.userId)
+  })
+
+  it('فحص ملف مسرَّب: للمشرف وحده، ويُسجَّل دون بيانات شخصية', async () => {
+    const doc = await PDFDocument.create()
+    doc.addPage([595, 842])
+    const stamped = await stampPdf(Buffer.from(await doc.save()), ['x@test.dz', '2026-11-03 · abcdef12'], leakMarkOf(leaker.userId))
+    const r = await scanLeakedPdfFor(h.db, admin, stamped)
+    expect(r.ref).toBe(leakRefOf(leaker.userId))
+    const [audit] = await h.db.select().from(auditLogs).where(eq(auditLogs.action, 'leak.scan'))
+    expect(audit).toMatchObject({ actorUserId: admin.userId })
+    expect(JSON.stringify(audit!.newValue)).not.toContain(leakRefOf(leaker.userId))
+    await expect(scanLeakedPdfFor(h.db, teacher, stamped)).rejects.toSatisfy((e) => e instanceof AppError && e.code === 'FORBIDDEN')
   })
 
   it('للمشرف العام وحده', async () => {

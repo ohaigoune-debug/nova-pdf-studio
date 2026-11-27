@@ -65,7 +65,7 @@ export async function GET(req: Request, ctx: { params: Promise<{ fileId: string 
         headers.ETag = etag
         if (etagMatches(req.headers.get('if-none-match'), etag)) return new Response(null, { status: 304, headers })
       }
-      const stamped = await getOrCreateStamped(key, async () => stampPdf(await s.get(file.storageKey), access.watermark))
+      const stamped = await getOrCreateStamped(key, async () => stampPdf(await s.get(file.storageKey), access.watermark, access.leakMark))
       return new Response(stamped.body as BodyInit, { headers: { ...headers, 'Content-Length': String(stamped.size) } })
     }
 

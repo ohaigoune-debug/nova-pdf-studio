@@ -11,10 +11,12 @@ import { requirePageActor } from '@/server/auth/current-user'
 import { getDb } from '@/server/db/client'
 import { isAppError } from '@/server/lib/errors'
 import { LEAK_SEARCH_LIMIT, parseLeakQuery, traceLeak } from '@/server/services/leak-trace.service'
+import { LeakScanForm } from './scan-form'
+import { formatLeakRef } from '@/server/lib/leak-ref'
 
 export const metadata = { title: 'كشف التسريب' }
 
-const KIND_LABEL = { code: 'رمز الحساب', phone: 'آخر 4 أرقام الهاتف', email: 'البريد', name: 'الاسم' } as const
+const KIND_LABEL = { fn: 'أرقام التهميش', ref: 'رمز النسخة', code: 'رمز الحساب', phone: 'آخر 4 أرقام الهاتف', email: 'البريد', name: 'الاسم' } as const
 
 function minutes(seconds: number): string {
   return seconds >= 60 ? `${Math.round(seconds / 60)} د` : `${seconds} ث`
@@ -30,24 +32,31 @@ export default async function LeakTracePage({ searchParams }: { searchParams: Pr
       result = await traceLeak(await getDb(), actor, parseLeakQuery(q, date || null))
     } catch (e) {
       if (!isAppError(e)) throw e
-      error = e.code === 'VALIDATION' ? 'لم أفهم البحث. الصق رمز الحساب (8 خانات) أو آخر 4 أرقام الهاتف أو البريد أو الاسم، والتاريخ إن ظهر.' : errorMessage(e.code)
+      error = e.code === 'VALIDATION' ? 'لم أفهم البحث. اكتب أرقام التهميش بترتيبها (مثل 51 95 82 18) أو رمز النسخة (مثل Ref. 7K3Q-29) أو رمز الحساب (8 خانات) أو آخر 4 أرقام الهاتف أو البريد أو الاسم، والتاريخ إن ظهر.' : errorMessage(e.code)
     }
   }
   return (
     <>
       <PageHeader
         title="كشف التسريب"
-        description="الصق ما يظهر في الفيديو أو الملف المسرَّب: رمز الحساب (8 خانات بجانب التاريخ)، أو آخر 4 أرقام الهاتف، أو البريد، أو الاسم. أضف التاريخ الظاهر ليُقدَّم من شاهد في ذلك اليوم."
+        description="الصق ما يظهر في الفيديو أو الملف المسرَّب: أرقام التهميش بترتيب ظهورها في الدرس (مثل 51 95 82 18)، أو رمز النسخة «Ref.» (في ملفات PDF، يبقى حتى لو حُذفت العلامة المائية)، أو رمز الحساب (8 خانات بجانب التاريخ)، أو آخر 4 أرقام الهاتف، أو البريد، أو الاسم. أضف التاريخ الظاهر ليُقدَّم من شاهد في ذلك اليوم."
       />
       <Card className="mb-6">
         <CardContent className="pt-6">
           <form method="get" className="grid gap-3 sm:grid-cols-[1fr_12rem_auto]">
-            <Input name="q" defaultValue={q} placeholder="مثال: 2026-11-03 · 4b21efbc" aria-label="ما يظهر في العلامة المائية" dir="auto" required />
+            <Input name="q" defaultValue={q} placeholder="51 95 82 18" aria-label="ما يظهر في العلامة المائية" dir="auto" required />
             <Input name="date" type="date" defaultValue={date} aria-label="تاريخ المشاهدة" />
             <Button type="submit">
               <ScanSearch className="size-4" /> كشف
             </Button>
           </form>
+          <div className="mt-5 border-t pt-4">
+            <p className="mb-2 text-sm font-bold">ملف PDF مسرَّب؟ ارفعه لقراءة بصمته الخفية</p>
+            <LeakScanForm />
+            <p className="mt-2 text-xs text-muted-foreground">
+              دروسنا الجاهزة للبصمة تحمل لكل تلميذ أرقام تهميش خاصة به؛ وباقي ملفات PDF تحمل «رمز النسخة» صغيرًا أعلى يسار كل صفحة وعلى حافتها اليمنى. وكلها تحمل وسمًا خفيًا داخل الملف. في الصورة أو لقطة الشاشة اقرأ الأرقام أو الرمز بعينك واكتبها في البحث أعلاه. الملف المرفوع لا يُحفظ.
+            </p>
+          </div>
           <p className="mt-3 text-xs text-muted-foreground">
             كل بحث يُسجَّل في سجل التدقيق. الأرقام هنا قرائن تحتاج تأكيدًا قبل أي إجراء قانوني: احفظ صور المنشور المسرَّب وروابطه وتاريخه.
           </p>
@@ -59,10 +68,16 @@ export default async function LeakTracePage({ searchParams }: { searchParams: Pr
       {result ? (
         <>
           <p className="mb-4 text-sm text-muted-foreground">
-            البحث بـ{KIND_LABEL[result.query.kind]} «{result.query.value}»{result.query.date ? ` في ${result.query.date}` : ''}: {result.matches.length} حساب
+            البحث بـ{KIND_LABEL[result.query.kind]} «<bdi dir={result.query.kind === 'fn' ? 'rtl' : 'ltr'}>{result.query.kind === 'ref' ? formatLeakRef(result.query.value) : result.query.kind === 'fn' ? result.query.value.split(' ').join(' · ') : result.query.value}</bdi>»
+            {result.query.date ? (
+              <>
+                {' '}في <bdi dir="ltr">{result.query.date}</bdi>
+              </>
+            ) : null}
+            : {result.matches.length} حساب
             {result.truncated ? ` (أول ${LEAK_SEARCH_LIMIT} فقط — أضف التاريخ لتضييق النتائج)` : ''}.
           </p>
-          {result.matches.length === 0 ? <EmptyState icon={ShieldAlert} title="لا حساب يطابق هذه القرينة" description="تأكد من الرمز (8 خانات بالأرقام والحروف اللاتينية a–f) أو جرّب آخر 4 أرقام الهاتف مع التاريخ." /> : null}
+          {result.matches.length === 0 ? <EmptyState icon={ShieldAlert} title="لا حساب يطابق هذه القرينة" description="تأكد من الأرقام وترتيبها: أرقام التهميش من 10 إلى 99 بترتيب ظهورها، ورمز النسخة 6 خانات (مثل 7K3Q-29)، ورمز الحساب 8 خانات (أرقام وحروف a–f)؛ أو جرّب آخر 4 أرقام الهاتف مع التاريخ." /> : null}
           <div className="space-y-4">
             {result.matches.map((m) => (
               <Card key={m.userId} data-testid="leak-match">
@@ -74,6 +89,12 @@ export default async function LeakTracePage({ searchParams }: { searchParams: Pr
                     <div className="flex flex-wrap gap-2 text-sm">
                       <Badge variant="outline" dir="ltr">
                         {m.code}
+                      </Badge>
+                      <Badge variant="outline" dir="ltr" title="رمز النسخة في ملفات PDF">
+                        Ref. {m.ref}
+                      </Badge>
+                      <Badge variant="outline" dir="rtl" title="أرقام التهميش في الدروس الجاهزة للبصمة">
+                        تهميش {m.footnotes.join(' · ')}
                       </Badge>
                       <span dir="ltr">{m.email}</span>
                       {m.phone ? <span dir="ltr">{m.phone}</span> : null}
