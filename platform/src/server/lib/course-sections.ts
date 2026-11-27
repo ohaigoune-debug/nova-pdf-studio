@@ -97,7 +97,9 @@ export function displayTitle(title: string): string {
   return rest || title.trim()
 }
 
-export function classifyContent(item: { title: string; type: string }): CourseSectionId {
+export function classifyContent(item: { title: string; type: string; forceSection?: CourseSectionId | null }): CourseSectionId {
+  // ملفات الأستاذ المساعد في «الملفات» دائمًا، أيًّا كان عنوانها (قرار المالك 27 نوفمبر 2026)
+  if (item.forceSection) return item.forceSection
   const assessment = assessmentKind(item.title)
   if (assessment) return assessment
   if (item.type === 'VIDEO') return 'videos'

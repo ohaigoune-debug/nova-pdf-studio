@@ -1,9 +1,8 @@
 import { createHash } from 'node:crypto'
 import { and, asc, count, eq, gte, inArray, isNull, lt, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { appSettings, assistantContent, assistantPayouts, assistantReplyMarks, classComments, courses, files, levels, profiles, resourceGroups, resources, teacherAssistants } from '@/server/db/schema'
-import type { PublishType } from '@/server/db/schema/publish'
-import { upsertResource } from '@/server/services/resources.service'
+import { appSettings, assistantContent, assistantPayouts, assistantReplyMarks, classComments, content, courses, files, profiles, teacherAssistants } from '@/server/db/schema'
+import { publishFileToGroup } from '@/server/services/content.service'
 import { assertRole, isClassroomAssistant, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
@@ -25,8 +24,8 @@ import {
 } from '@/lib/assistant-pay'
 
 const KEY = 'assistant.pay'
-/** المحتوى: PDF أو Word فقط، 9 ميغابايت (حدّ أفعال الخادم 10 ميغابايت للطّلب كلّه) */
-const CONTENT_MIME = new Set(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
+/** المحتوى: PDF فقط (يُعرض للتلميذ داخل المنصّة بختم مائيّ)، 9 ميغابايت (حدّ أفعال الخادم 10 ميغابايت للطّلب كلّه) */
+const CONTENT_MIME = new Set(['application/pdf'])
 export const CONTENT_MAX_BYTES = 9 * 1024 * 1024
 
 export async function getAssistantPayConfig(db: Db): Promise<AssistantPayConfig> {
@@ -253,10 +252,6 @@ export async function setReplyCorrection(db: Db, actor: Actor, commentId: string
   else await db.delete(assistantReplyMarks).where(eq(assistantReplyMarks.commentId, c.id))
 }
 
-/** نوع المنشور عند التلميذ: الملخّص في «الدروس والموارد»، والتمارين والاختبارات والمقترحات في «الفروض والاختبارات» */
-const PUBLISH_TYPE_OF: Record<ContentKind, PublishType> = { SUMMARY: 'SUMMARY', EXERCISES: 'EXERCISE', EXAM: 'TEST', PROPOSAL: 'TEST' }
-export const CONTENT_SECTION_LABEL: Record<ContentKind, string> = { SUMMARY: 'الدروس والموارد', EXERCISES: 'الفروض والاختبارات', EXAM: 'الفروض والاختبارات', PROPOSAL: 'الفروض والاختبارات' }
-
 /** الدورات التي ينشر فيها المساعد (دورات مساحة أستاذه) */
 export async function assistantCourses(db: Db, actor: Actor): Promise<{ id: string; title: string }[]> {
   assertRole(actor, 'ASSISTANT')
@@ -340,28 +335,18 @@ export async function submitAssistantContent(db: Db, actor: Actor, input: Conten
     })
     return row
   })
-  // يُنشر للتلاميذ فورًا في فوج الدورة
-  const [lv] = course.levelId ? await db.select({ stageId: levels.stageId }).from(levels).where(eq(levels.id, course.levelId)).limit(1) : []
-  const [author] = await db.select({ fullName: profiles.fullName }).from(profiles).where(eq(profiles.userId, actor.userId)).limit(1)
-  const res = await upsertResource(db, {
-    sourceCode: 'madrasadz',
-    ref: `assistant:${saved.id}`,
-    type: PUBLISH_TYPE_OF[kind],
+  // يُنشر للتلاميذ فورًا في «الملفات» داخل الدورة
+  const pub = await publishFileToGroup(db, {
+    workspaceId: course.workspaceId,
+    authorUserId: actor.userId,
     title,
     fileId: saved.fileId,
+    groupId: course.groupId,
     levelId: course.levelId,
-    stageId: lv?.stageId ?? null,
     subjectId: course.subjectId,
-    streamId: course.streamIds.length === 1 ? course.streamIds[0]! : null,
-    originalAuthor: author?.fullName ?? null,
-    workspaceId: course.workspaceId,
-    accessLevel: 'GROUP',
-    status: 'PUBLISHED',
-    language: 'ar',
-    metadata: { assistantContentId: saved.id, uploadedBy: actor.userId, courseId: course.id }
+    streamId: course.streamIds.length === 1 ? course.streamIds[0]! : null
   })
-  await db.insert(resourceGroups).values({ resourceId: res.id, groupId: course.groupId }).onConflictDoNothing()
-  return { ...saved, resourceId: res.id, courseTitle: course.title }
+  return { ...saved, contentId: pub.id, courseTitle: course.title }
 }
 
 /** المشرف يحذف محتوى من الحساب (لا يُحسب بعدها) */
@@ -374,11 +359,9 @@ export async function removeAssistantContent(db: Db, actor: Actor, id: string): 
     .where(and(eq(assistantContent.id, id), isNull(assistantContent.removedAt)))
     .returning({ id: assistantContent.id })
   if (!row) throw new AppError('NOT_FOUND')
-  // ويُسحب من عند التلاميذ
-  await db
-    .update(resources)
-    .set({ deletedAt: new Date(), updatedAt: new Date() })
-    .where(and(sql`${resources.metadata}->>'assistantContentId' = ${id}`, isNull(resources.deletedAt)))
+  // ويُسحب من عند التلاميذ (ملف الدورة المنشور من الملف نفسه)
+  const [ac] = await db.select({ fileId: assistantContent.fileId, userId: assistantContent.assistantUserId }).from(assistantContent).where(eq(assistantContent.id, id)).limit(1)
+  if (ac) await db.update(content).set({ deletedAt: new Date(), updatedAt: new Date() }).where(and(eq(content.fileId, ac.fileId), eq(content.authorUserId, ac.userId), isNull(content.deletedAt)))
   await writeAudit(db, {
     actorUserId: actor.userId,
     workspaceId: null,

@@ -857,6 +857,8 @@ export interface CourseContentItem {
   /** ترتيب يدوي من محرّر الدروس (فارغ = الترتيب القديم) */
   position: number | null
   href: string
+  /** ملف رفعه الأستاذ المساعد: في «الملفات» دائمًا */
+  forceSection?: 'files' | null
 }
 
 export type CourseHome =
@@ -904,13 +906,14 @@ export async function courseHome(db: Db, actor: Actor, slug: string): Promise<Co
       .orderBy(asc(liveSessions.startsAt))
       .limit(10),
     db
-      .select({ id: content.id, slug: content.slug, title: content.title, type: content.type, summary: content.summary, publishedAt: content.publishedAt, videoProvider: content.videoProvider, position: content.position })
+      .select({ id: content.id, slug: content.slug, title: content.title, type: content.type, summary: content.summary, publishedAt: content.publishedAt, videoProvider: content.videoProvider, position: content.position, authorRole: users.role })
       .from(contentTargets)
       .innerJoin(content, eq(content.id, contentTargets.contentId))
+      .leftJoin(users, eq(users.id, content.authorUserId))
       .where(and(eq(contentTargets.groupId, course.groupId), isNull(content.deletedAt), isNotNull(content.publishedAt)))
       .orderBy(desc(content.publishedAt))
   ])
-  const toItem = (c: (typeof items)[number]): CourseContentItem => ({ ...c, href: `/student/lessons/${c.slug}` })
+  const toItem = ({ authorRole, ...c }: (typeof items)[number]): CourseContentItem => ({ ...c, href: `/student/lessons/${c.slug}`, forceSection: authorRole === 'ASSISTANT' ? 'files' : null })
   return {
     needsTerms: false,
     course: {

@@ -1,8 +1,9 @@
-import { and, eq, isNull, sql } from 'drizzle-orm'
+import { and, eq, isNull } from 'drizzle-orm'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
 import { DEFAULT_ASSISTANT_PAY, cleanPayConfig, computeStatement, formatDa, markOverLimit, monthOf, monthRange, termOf, type AssistantPayConfig } from '@/lib/assistant-pay'
-import { resourceGroups, resources } from '@/server/db/schema'
+import { content, contentTargets } from '@/server/db/schema'
+import { classifyContent } from '@/server/lib/course-sections'
 import type { Actor } from '@/server/lib/actor'
 import { createCourse } from '@/server/services/courses.service'
 import { seedCurriculum } from '@/server/db/seed-curriculum'
@@ -269,19 +270,24 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
       kind: 'SUMMARY',
       title: 'ملخّص الإعراب',
       pages: 2,
-      file: {
-        name: 's.docx',
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        bytes: Buffer.from('PK')
-      }
+      file: pdf('s.pdf')
     })
-    // يُنشر للتلاميذ فورًا في فوج الدورة: الملخّص في «الدروس والموارد»، والبقية في «الفروض والاختبارات»
+    // PDF فقط (يُعرض للتلميذ داخل المنصّة)
+    await expect(
+      submitAssistantContent(h.db, helper, { courseId, kind: 'SUMMARY', title: 'ملف وورد', pages: 1, file: { name: 's.docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', bytes: Buffer.from('PK') } })
+    ).rejects.toMatchObject({ code: 'FILE_TYPE_NOT_ALLOWED' })
+    // يُنشر فورًا في «الملفات» داخل الدورة لفوجها
     const pub = await h.db
-      .select({ id: resources.id, type: resources.type, access: resources.accessLevel, status: resources.status, groupId: resourceGroups.groupId })
-      .from(resources)
-      .innerJoin(resourceGroups, eq(resourceGroups.resourceId, resources.id))
-      .where(and(sql`${resources.metadata}->>'assistantContentId' = ${sum.id}`, isNull(resources.deletedAt)))
-    expect(pub).toEqual([{ id: sum.resourceId, type: 'SUMMARY', access: 'GROUP', status: 'PUBLISHED', groupId: courseGroupId }])
+      .select({ id: content.id, type: content.type, visibility: content.visibility, published: content.publishedAt, groupId: contentTargets.groupId })
+      .from(content)
+      .innerJoin(contentTargets, eq(contentTargets.contentId, content.id))
+      .where(and(eq(content.fileId, sum.fileId), isNull(content.deletedAt)))
+    expect(pub).toHaveLength(1)
+    expect(pub[0]).toMatchObject({ id: sum.contentId, type: 'PDF', visibility: 'GROUP_ONLY', groupId: courseGroupId })
+    expect(pub[0]!.published).toBeTruthy()
+    // ولو كان عنوانه «اختبار…» يبقى في «الملفات»
+    expect(classifyContent({ title: 'اختبار الفصل الأوّل', type: 'PDF', forceSection: 'files' })).toBe('files')
+    expect(classifyContent({ title: 'اختبار الفصل الأوّل', type: 'PDF' })).toBe('tests')
     await expect(
       submitAssistantContent(h.db, helper, { courseId: '00000000-0000-4000-8000-000000000000', kind: 'SUMMARY', title: 'دورة غريبة', pages: 1, file: pdf() })
     ).rejects.toMatchObject({ code: 'VALIDATION' })
@@ -293,7 +299,7 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
 
     await expect(removeAssistantContent(h.db, helper, sum.id)).rejects.toMatchObject({ code: 'FORBIDDEN' })
     await removeAssistantContent(h.db, admin, sum.id)
-    const [gone] = await h.db.select({ deletedAt: resources.deletedAt }).from(resources).where(eq(resources.id, sum.resourceId))
+    const [gone] = await h.db.select({ deletedAt: content.deletedAt }).from(content).where(eq(content.id, sum.contentId))
     expect(gone?.deletedAt).toBeTruthy()
     m = await assistantMonth(h.db, helper, { month })
     expect(m.statement.contentAmount).toBe(4000)
