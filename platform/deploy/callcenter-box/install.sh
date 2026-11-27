@@ -47,7 +47,7 @@ has_systemd() { [ -d /run/systemd/system ]; }
 say "1/7 تثبيت Asterisk والأدوات (قد يأخذ بضع دقائق)"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
-apt-get install -y -qq --no-install-recommends asterisk asterisk-core-sounds-en-gsm python3 sox alsa-utils ufw wget ca-certificates iputils-ping openssl >/dev/null
+apt-get install -y -qq --no-install-recommends asterisk asterisk-core-sounds-en-gsm python3 sox alsa-utils ufw wget ca-certificates iputils-ping iproute2 openssl >/dev/null
 ok "Asterisk $(asterisk -V 2>/dev/null | awk '{print $2}')"
 
 # ---------------------------------------------------------------- 2. ملفات الصندوق
@@ -255,8 +255,14 @@ fi
 # ---------------------------------------------------------------- 6. الكابل إلى TG400L
 say "6/7 شبكة الكابل إلى TG400L"
 if command -v nmcli >/dev/null; then
-  ETH=$(nmcli -t -f DEVICE,TYPE device 2>/dev/null | awk -F: '$2=="ethernet"{print $1; exit}')
-  if [ -n "$ETH" ]; then
+  # لا نلمس أبدًا المنفذ الذي يحمل الإنترنت الآن (حاسوب مكتبي موصول بالمودم بكابل مثلاً)
+  DEF=$(ip -o route show default 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i=="dev"){print $(i+1); exit}}')
+  ETH=$(nmcli -t -f DEVICE,TYPE device 2>/dev/null | awk -F: -v d="$DEF" '$2=="ethernet" && $1!=d {print $1; exit}')
+  ETH_NET=$(nmcli -t -f DEVICE,TYPE device 2>/dev/null | awk -F: -v d="$DEF" '$2=="ethernet" && $1==d {print $1; exit}')
+  if [ -z "$ETH" ] && [ -n "$ETH_NET" ]; then
+    warn "منفذ الكابل الوحيد ($ETH_NET) يحمل الإنترنت الآن، فلم أغيّره."
+    warn "اجعل الإنترنت عبر الويفي (أو محوّل USB-Ethernet ثانٍ للـTG400L) ثم أعد تشغيل السكربت"
+  elif [ -n "$ETH" ]; then
     if nmcli -t -f NAME connection show | grep -qx "$CON"; then nmcli connection delete "$CON" >/dev/null; fi
     nmcli connection add type ethernet ifname "$ETH" con-name "$CON" \
       ipv4.method manual ipv4.addresses "$LAPTOP_IP/24" ipv4.never-default yes ipv4.ignore-auto-dns yes \
@@ -264,7 +270,7 @@ if command -v nmcli >/dev/null; then
     nmcli connection up "$CON" >/dev/null 2>&1 || true
     ok "المنفذ $ETH ثابت على $LAPTOP_IP (الإنترنت يبقى عبر الويفي)"
   else
-    warn "لم أجد منفذ Ethernet في اللابتوب. استعمل محوّل USB-Ethernet ثم أعد تشغيل السكربت"
+    warn "لم أجد منفذ Ethernet في الحاسوب. استعمل محوّل USB-Ethernet ثم أعد تشغيل السكربت"
   fi
 else
   warn "nmcli غير موجود: اضبط يدويًا عنوان $LAPTOP_IP/24 على منفذ الكابل"
