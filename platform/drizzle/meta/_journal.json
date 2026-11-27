@@ -428,6 +428,13 @@
       "when": 1796000000000,
       "tag": "0060_cod_money",
       "breakpoints": true
+    },
+    {
+      "idx": 61,
+      "version": "7",
+      "when": 1796100000000,
+      "tag": "0061_call_center",
+      "breakpoints": true
     }
   ]
 }

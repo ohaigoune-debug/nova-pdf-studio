@@ -52,7 +52,9 @@ const handlers: Record<JobType, Handler> = {
   },
   ECOTRACK_SYNC: (db) => import('@/server/services/ecotrack.service').then((m) => m.runEcotrackSyncJob(db)),
   ECOTRACK_SEND: (db, job) => import('@/server/services/ecotrack.service').then((m) => m.runEcotrackSendJob(db, job.payload)),
-  SUPPORT_AI_REPLY: (db, job) => import('@/server/support-ai/agent').then(async (m) => ({ ...(await m.runSupportAiJob(db, job.payload)) }))
+  SUPPORT_AI_REPLY: (db, job) => import('@/server/support-ai/agent').then(async (m) => ({ ...(await m.runSupportAiJob(db, job.payload)) })),
+  // مركز الاتصال الذكي (27 نوفمبر 2026): كل 5 دقائق، تخطيط الرسائل والمكالمات من حالات 48HR
+  CALLCENTER_TICK: (db) => import('@/server/services/call-center.service').then((m) => m.runCallCenterTickJob(db))
 }
 
 export interface RunSummary {

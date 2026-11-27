@@ -31,6 +31,7 @@ export async function POST(req: Request) {
     await import('@/server/services/courses.service').then((m) => m.ensureCourseExpiryScheduled(db))
     await import('@/server/services/live.service').then((m) => m.ensureLiveRemindersScheduled(db))
     await import('@/server/services/ecotrack.service').then((m) => m.ensureEcotrackSyncScheduled(db))
+    await import('@/server/services/call-center.service').then((m) => m.ensureCallCenterTickScheduled(db))
     // الدفع الإلكتروني: تفعيل من دفع ولم يعد إلى الموقع
     await import('@/server/services/online-payment.service').then((m) => m.reconcilePendingPayments(db)).catch(() => null)
     const summary = await processQueuedJobs(db, { limit })
