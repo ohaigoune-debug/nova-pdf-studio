@@ -69,9 +69,20 @@ export function parseFootnoteNumbers(raw: string): number[] | null {
   return nums && nums.every((n) => n >= 10) ? nums : null
 }
 
+/**
+ * الأرقام تُقرأ من الصفحة بأي اتجاه: من اليمين كما في النص العربي، أو من اليسار كما يبدو سطر التهميش
+ * لمن يقرأ الأرقام اللاتينية، أو جزءًا منها فقط. فالمطابقة بلا ترتيب: كل رقم مكتوب من أرقام الحساب الأولى
+ * (4 في الصفحة الواحدة، أو بقدر ما كُتب إن زاد)، ولكل رقم مكتوب نظيره.
+ */
 export function footnotesMatch(userId: string, seen: number[]): boolean {
-  const own = leakFootnotesOf(userId)
-  return seen.length > 0 && seen.length <= own.length && seen.every((n, i) => own[i] === n)
+  if (!seen.length || seen.length > FOOTNOTE_COUNT) return false
+  const pool = leakFootnotesOf(userId).slice(0, Math.max(4, seen.length))
+  for (const n of seen) {
+    const i = pool.indexOf(n)
+    if (i < 0) return false
+    pool.splice(i, 1)
+  }
+  return true
 }
 
 /** كل ما يُختم به ملف PDF لصاحبه */

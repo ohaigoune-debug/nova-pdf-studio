@@ -32,14 +32,14 @@ export default async function LeakTracePage({ searchParams }: { searchParams: Pr
       result = await traceLeak(await getDb(), actor, parseLeakQuery(q, date || null))
     } catch (e) {
       if (!isAppError(e)) throw e
-      error = e.code === 'VALIDATION' ? 'لم أفهم البحث. اكتب أرقام التهميش بترتيبها (مثل 51 95 82 18) أو رمز النسخة (مثل Ref. 7K3Q-29) أو رمز الحساب (8 خانات) أو آخر 4 أرقام الهاتف أو البريد أو الاسم، والتاريخ إن ظهر.' : errorMessage(e.code)
+      error = e.code === 'VALIDATION' ? 'لم أفهم البحث. اكتب أرقام التهميش (مثل 51 95 82 18) أو رمز النسخة (مثل Ref. 7K3Q-29) أو رمز الحساب (8 خانات) أو آخر 4 أرقام الهاتف أو البريد أو الاسم، والتاريخ إن ظهر.' : errorMessage(e.code)
     }
   }
   return (
     <>
       <PageHeader
         title="كشف التسريب"
-        description="الصق ما يظهر في الفيديو أو الملف المسرَّب: أرقام التهميش بترتيب ظهورها في الدرس (مثل 51 95 82 18)، أو رمز النسخة «Ref.» (في ملفات PDF، يبقى حتى لو حُذفت العلامة المائية)، أو رمز الحساب (8 خانات بجانب التاريخ)، أو آخر 4 أرقام الهاتف، أو البريد، أو الاسم. أضف التاريخ الظاهر ليُقدَّم من شاهد في ذلك اليوم."
+        description="الصق ما يظهر في الفيديو أو الملف المسرَّب: أرقام التهميش بأي ترتيب (مثل 51 95 82 18)، أو رمز النسخة «Ref.» (في ملفات PDF، يبقى حتى لو حُذفت العلامة المائية)، أو رمز الحساب (8 خانات بجانب التاريخ)، أو آخر 4 أرقام الهاتف، أو البريد، أو الاسم. أضف التاريخ الظاهر ليُقدَّم من شاهد في ذلك اليوم."
       />
       <Card className="mb-6">
         <CardContent className="pt-6">
@@ -77,7 +77,7 @@ export default async function LeakTracePage({ searchParams }: { searchParams: Pr
             : {result.matches.length} حساب
             {result.truncated ? ` (أول ${LEAK_SEARCH_LIMIT} فقط — أضف التاريخ لتضييق النتائج)` : ''}.
           </p>
-          {result.matches.length === 0 ? <EmptyState icon={ShieldAlert} title="لا حساب يطابق هذه القرينة" description="تأكد من الأرقام وترتيبها: أرقام التهميش من 10 إلى 99 بترتيب ظهورها، ورمز النسخة 6 خانات (مثل 7K3Q-29)، ورمز الحساب 8 خانات (أرقام وحروف a–f)؛ أو جرّب آخر 4 أرقام الهاتف مع التاريخ." /> : null}
+          {result.matches.length === 0 ? <EmptyState icon={ShieldAlert} title="لا حساب يطابق هذه القرينة" description="تأكد من الأرقام: أرقام التهميش من 10 إلى 99 (الترتيب لا يهمّ)، ورمز النسخة 6 خانات (مثل 7K3Q-29)، ورمز الحساب 8 خانات (أرقام وحروف a–f)؛ أو جرّب آخر 4 أرقام الهاتف مع التاريخ." /> : null}
           <div className="space-y-4">
             {result.matches.map((m) => (
               <Card key={m.userId} data-testid="leak-match">
@@ -98,7 +98,9 @@ export default async function LeakTracePage({ searchParams }: { searchParams: Pr
                       </Badge>
                       <span dir="ltr">{m.email}</span>
                       {m.phone ? <span dir="ltr">{m.phone}</span> : null}
-                      {result.query.date ? m.viewedOnDate ? <Badge variant="destructive">شاهد في {result.query.date}</Badge> : <Badge variant="muted">لم يشاهد في ذلك اليوم</Badge> : null}
+                      {result.query.date ? m.viewedOnDate ? <Badge variant="destructive">
+                          شاهد في <bdi dir="ltr">{result.query.date}</bdi>
+                        </Badge> : <Badge variant="muted">لم يشاهد في ذلك اليوم</Badge> : null}
                       <Badge variant={m.status === 'ACTIVE' ? 'success' : 'muted'}>{m.status === 'ACTIVE' ? 'نشط' : 'موقوف'}</Badge>
                     </div>
                     <p className="text-xs text-muted-foreground">
@@ -119,7 +121,13 @@ export default async function LeakTracePage({ searchParams }: { searchParams: Pr
                   ) : null}
                   <div>
                     <h3 className="mb-2 flex items-center gap-1.5 font-bold">
-                      <PlayCircle className="size-4" /> {result.query.date ? `مشاهدات ${result.query.date}` : 'آخر المشاهدات'}
+                      <PlayCircle className="size-4" /> {result.query.date ? (
+                        <>
+                          مشاهدات <bdi dir="ltr">{result.query.date}</bdi>
+                        </>
+                      ) : (
+                        'آخر المشاهدات'
+                      )}
                     </h3>
                     {m.views.length === 0 ? (
                       <p className="text-muted-foreground">لا مشاهدات مسجّلة.</p>

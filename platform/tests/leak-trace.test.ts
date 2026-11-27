@@ -92,8 +92,8 @@ describe('الكشف', () => {
     const glued = await traceLeak(h.db, admin, parseLeakQuery(nums.join('')))
     expect(glued.query.kind).toBe('code')
     expect(glued.matches.map((m) => m.userId)).toContain(leaker.userId)
-    // ترتيب خاطئ لا يطابق
-    expect((await traceLeak(h.db, admin, parseLeakQuery([nums[1], nums[0], nums[2], nums[3]].join(' ')))).matches.map((m) => m.userId)).not.toContain(leaker.userId)
+    // كما يبدو سطر التهميش من اليسار إلى اليمين (عكس ترتيب ظهورها): يطابق أيضًا
+    expect((await traceLeak(h.db, admin, parseLeakQuery([...nums].reverse().map((n) => `(${n})`).join(' ')))).matches.map((m) => m.userId)).toContain(leaker.userId)
   })
 
   it('فحص ملف مسرَّب: للمشرف وحده، ويُسجَّل دون بيانات شخصية', async () => {
