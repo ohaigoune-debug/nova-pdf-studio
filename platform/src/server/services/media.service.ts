@@ -8,6 +8,8 @@ import type { Actor } from '@/server/lib/actor'
 import { AppError, assertUuid } from '@/server/lib/errors'
 import { getBunnyCredentials, isBunnyVideoId, signedEmbedUrl } from '@/server/lib/bunny'
 import { BUNNY_EMBED_TTL_SECONDS } from '@/lib/media-embed'
+import { LEAK_REF_TAG, PUBLIC_FOOTNOTE_OWNER, formatLeakRef, leakFootnotesOf, leakMarkOf, type LeakMark } from '@/server/lib/leak-ref'
+import { clearFootnoteSlots, drawFootnotes, readFootnoteSlots } from '@/server/lib/pdf-footnotes'
 import { addTimeline } from './timeline.service'
 import { contentInScope, studentScope } from './student-scope.service'
 
@@ -26,7 +28,7 @@ export const MEDIA_URL_TTL_SECONDS = 4 * 3600
  * نسخة إعدادات ختم PDF: تدخل في مفتاح كاش النسخ المختومة.
  * غيّرها عند أي تعديل في stampPdf (الخط، الموضع، اللون، طريقة الحفظ) كي لا تُخدَم نسخة قديمة.
  */
-export const PDF_STAMP_VERSION = '2-objstreams'
+export const PDF_STAMP_VERSION = '3-leak-mark'
 /** مع إعادة التحقق (PDF_PRIVATE_REVALIDATE) يثبت رابط PDF داخل نافذة ساعة كي يتعرّف عليه كاش المتصفح */
 export const PDF_URL_STABLE_WINDOW_SECONDS = 3600
 
@@ -98,6 +100,8 @@ export interface MediaAccess {
   studentId: string | null
   /** سطور الختم المائي (لاتينية: البريد/المعرّف/التاريخ لأن pdf-lib لا يشكّل العربية) */
   watermark: string[]
+  /** بصمة المشاهد (رمز النسخة + أرقام التهميش؛ null للزائر) — تُكتب في كل ملف PDF؛ انظر leak-ref.ts */
+  leakMark: LeakMark | null
   displayName: string
 }
 
@@ -142,7 +146,7 @@ export async function resolveMediaAccess(db: Db, actor: Actor | null, contentId:
   const viewerId = actor?.userId ?? ANON_VIEWER
   const date = new Date().toISOString().slice(0, 10)
   const watermark = actor ? [actor.email || actor.fullName, `${date} · ${actor.userId.slice(0, 8)}`] : ['madrasa · public', date]
-  return { content: c, file, viewerId, studentId, watermark, displayName: actor?.fullName ?? '' }
+  return { content: c, file, viewerId, studentId, watermark, leakMark: actor ? leakMarkOf(actor.userId) : null, displayName: actor?.fullName ?? '' }
 }
 
 /**
@@ -151,12 +155,36 @@ export async function resolveMediaAccess(db: Db, actor: Actor | null, contentId:
  * الحفظ بتيارات الكائنات (object streams) يصغّر الناتج، وقارئ الصفحات (unpdf/pdf.js) يفتحه — مُختبر في tests/pdf-stamp-cache.test.ts.
  * أي تعديل هنا ⇒ غيّر PDF_STAMP_VERSION.
  */
-export async function stampPdf(bytes: Buffer, lines: string[]): Promise<Buffer> {
+export async function stampPdf(bytes: Buffer, lines: string[], mark?: LeakMark | null): Promise<Buffer> {
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false })
   const font = await doc.embedFont(StandardFonts.HelveticaBold)
   const text = lines.join('   ')
-  for (const page of doc.getPages()) {
+  const pages = doc.getPages()
+  // دروسنا الجاهزة للبصمة: أرقام تهميش خاصة بصاحب النسخة في أماكنها (pdf-footnotes.ts)
+  const slots = readFootnoteSlots(doc)
+  if (slots) {
+    await drawFootnotes(doc, slots, mark?.footnotes ?? leakFootnotesOf(PUBLIC_FOOTNOTE_OWNER))
+    clearFootnoteSlots(doc)
+  }
+  const plain = mark ? await doc.embedFont(StandardFonts.Helvetica) : null
+  if (mark) {
+    // الطبقة الخفية 1: وسم في بيانات الملف — يبقى ما دام الملف يُرسَل كما هو
+    const kw = (doc.getKeywords() ?? '').split(/\s+/).filter((k) => k && !k.startsWith(`${LEAK_REF_TAG}:`))
+    doc.setKeywords([...kw, `${LEAK_REF_TAG}:${mark.ref}`])
+  }
+  for (const [i, page] of pages.entries()) {
     const { width, height } = page.getSize()
+    if (mark && plain) {
+      const ref = formatLeakRef(mark.ref)
+      if (!slots) {
+        // ملف بلا أماكن تهميش: «رمز النسخة» الظاهر، صغير ومعتم كرقم وثيقة — أعلى اليسار وعلى الحافة اليمنى
+        const ink = rgb(0.24, 0.24, 0.27)
+        page.drawText(`Ref. ${ref}`, { x: 16, y: height - 15, size: 7, font: plain, color: ink })
+        page.drawText(`${ref} · ${i + 1}/${pages.length}`, { x: width - 9, y: height * 0.38, size: 6.5, font: plain, color: ink, rotate: degrees(90) })
+      }
+      // الطبقة الخفية 2: نص شفاف تقرؤه برامج استخراج النص ولا تراه العين
+      page.drawText(`${LEAK_REF_TAG}:${mark.ref} © madrasadz.com — licensed copy, redistribution prohibited`, { x: 24, y: height * 0.62, size: 5, font: plain, color: rgb(1, 1, 1), opacity: 0 })
+    }
     const size = Math.max(14, Math.min(28, width / 24))
     const textWidth = font.widthOfTextAtSize(text, size)
     page.drawText(text, {

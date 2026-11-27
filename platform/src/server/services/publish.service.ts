@@ -9,6 +9,7 @@ import { createHash } from 'node:crypto'
 import path from 'node:path'
 import { and, asc, desc, eq, inArray, isNull, sql } from 'drizzle-orm'
 import { PDFDocument } from 'pdf-lib'
+import { readFootnoteSlots, writeFootnoteSlots } from '@/server/lib/pdf-footnotes'
 import { aiFailureReason } from '@/server/ai/failure'
 import { getAiProvider } from '@/server/ai/provider'
 import { heuristicOrganize } from '@/server/ai/shared'
@@ -279,11 +280,16 @@ export async function saveBatchItems(db: Db, actor: Actor, id: string, edits: Pa
 }
 
 /** صفحات من ملف PDF ← ملف جديد */
-async function slicePdf(bytes: Uint8Array, from: number, to: number): Promise<Uint8Array> {
+export async function slicePdf(bytes: Uint8Array, from: number, to: number): Promise<Uint8Array> {
   const src = await PDFDocument.load(bytes, { ignoreEncryption: true })
   const out = await PDFDocument.create()
   const idx = Array.from({ length: to - from + 1 }, (_, i) => from - 1 + i).filter((i) => i < src.getPageCount())
   for (const p of await out.copyPages(src, idx)) out.addPage(p)
+  // درس جاهز لأرقام التهميش: تنتقل أماكن الصفحات المقتطعة معها (copyPages لا ينقل بيانات الملف)
+  const slots = readFootnoteSlots(src)
+    ?.filter((s) => idx.includes(s.p))
+    .map((s) => ({ ...s, p: idx.indexOf(s.p) }))
+  if (slots?.length) writeFootnoteSlots(out, slots)
   return out.save()
 }
 

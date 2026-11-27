@@ -96,7 +96,8 @@ const decode = (s: string) =>
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&amp;/g, '&')
-const textOf = (html: string) => decode(html.replace(/<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim()
+// وسوم أماكن «أرقام التهميش» (mdzfn…) لا تدخل نص الدرس — انظر src/server/lib/pdf-footnotes.ts
+const textOf = (html: string) => decode(html.replace(/<svg[\s\S]*?<\/svg>/g, ' ').replace(/mdzfn\d+s\d+c[0-9a-f]{6}/gi, '').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim()
 
 /** نصّ قصير للبطاقات والبحث: «الفكرة في سطرين» دون العنوان الفرعي */
 export function summaryOf(html: string): string | null {
