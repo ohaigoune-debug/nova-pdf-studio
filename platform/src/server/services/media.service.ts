@@ -10,6 +10,7 @@ import { getBunnyCredentials, isBunnyVideoId, signedEmbedUrl } from '@/server/li
 import { BUNNY_EMBED_TTL_SECONDS } from '@/lib/media-embed'
 import { LEAK_REF_TAG, PUBLIC_FOOTNOTE_OWNER, formatLeakRef, leakFootnotesOf, leakMarkOf, type LeakMark } from '@/server/lib/leak-ref'
 import { clearFootnoteSlots, drawFootnotes, readFootnoteSlots } from '@/server/lib/pdf-footnotes'
+import { autoFootnoteLayout, drawAutoNotes } from '@/server/lib/pdf-auto-footnotes'
 import { addTimeline } from './timeline.service'
 import { contentInScope, studentScope } from './student-scope.service'
 
@@ -28,7 +29,7 @@ export const MEDIA_URL_TTL_SECONDS = 4 * 3600
  * نسخة إعدادات ختم PDF: تدخل في مفتاح كاش النسخ المختومة.
  * غيّرها عند أي تعديل في stampPdf (الخط، الموضع، اللون، طريقة الحفظ) كي لا تُخدَم نسخة قديمة.
  */
-export const PDF_STAMP_VERSION = '3-leak-mark'
+export const PDF_STAMP_VERSION = '4-auto-footnotes'
 /** مع إعادة التحقق (PDF_PRIVATE_REVALIDATE) يثبت رابط PDF داخل نافذة ساعة كي يتعرّف عليه كاش المتصفح */
 export const PDF_URL_STABLE_WINDOW_SECONDS = 3600
 
@@ -160,11 +161,21 @@ export async function stampPdf(bytes: Buffer, lines: string[], mark?: LeakMark |
   const font = await doc.embedFont(StandardFonts.HelveticaBold)
   const text = lines.join('   ')
   const pages = doc.getPages()
-  // دروسنا الجاهزة للبصمة: أرقام تهميش خاصة بصاحب النسخة في أماكنها (pdf-footnotes.ts)
+  // أرقام تهميش خاصة بصاحب النسخة: في أماكنها إن كان الدرس مجهّزًا (pdf-footnotes.ts)،
+  // وإلا يختار الخادم أماكنها تلقائيًا بعد آخر كلمة في بعض الأسطر مع سطر تهميش أسفل الصفحة (pdf-auto-footnotes.ts)
   const slots = readFootnoteSlots(doc)
+  const marked = new Set<number>()
   if (slots) {
     await drawFootnotes(doc, slots, mark?.footnotes ?? leakFootnotesOf(PUBLIC_FOOTNOTE_OWNER))
     clearFootnoteSlots(doc)
+    slots.forEach((s) => marked.add(s.p))
+  } else if (mark) {
+    const auto = await autoFootnoteLayout(bytes).catch(() => null)
+    if (auto) {
+      await drawFootnotes(doc, auto.markers, mark.footnotes)
+      await drawAutoNotes(doc, auto.notes, mark.footnotes)
+      auto.markers.forEach((m) => marked.add(m.p))
+    }
   }
   const plain = mark ? await doc.embedFont(StandardFonts.Helvetica) : null
   if (mark) {
@@ -176,8 +187,8 @@ export async function stampPdf(bytes: Buffer, lines: string[], mark?: LeakMark |
     const { width, height } = page.getSize()
     if (mark && plain) {
       const ref = formatLeakRef(mark.ref)
-      if (!slots) {
-        // ملف بلا أماكن تهميش: «رمز النسخة» الظاهر، صغير ومعتم كرقم وثيقة — أعلى اليسار وعلى الحافة اليمنى
+      if (!marked.has(i)) {
+        // صفحة بلا أرقام تهميش (ممسوحة ضوئيًا أو مملوءة): «رمز النسخة» الظاهر، صغير ومعتم كرقم وثيقة
         const ink = rgb(0.24, 0.24, 0.27)
         page.drawText(`Ref. ${ref}`, { x: 16, y: height - 15, size: 7, font: plain, color: ink })
         page.drawText(`${ref} · ${i + 1}/${pages.length}`, { x: width - 9, y: height * 0.38, size: 6.5, font: plain, color: ink, rotate: degrees(90) })
