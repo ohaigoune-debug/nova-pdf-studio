@@ -51,7 +51,7 @@ describe('الرمز', () => {
 })
 
 describe('الختم والفحص', () => {
-  it('كل صفحة تحمل الرمز الظاهر والنص الشفاف، وبيانات الملف تحمل الوسم؛ والختم حتمي', async () => {
+  it('كل صفحة تحمل أرقام التهميش أو الرمز الظاهر، والنص الشفاف، وبيانات الملف تحمل الوسم؛ والختم حتمي', async () => {
     const original = fs.readFileSync(FIXTURE)
     const ref = leakRefOf(USER)
     const stamped = await stampPdf(original, lines, leakMarkOf(USER))
@@ -61,10 +61,19 @@ describe('الختم والفحص', () => {
     const pdf = await getDocumentProxy(new Uint8Array(stamped))
     for (let i = 1; i <= pdf.numPages; i++) {
       const t = ((await (await pdf.getPage(i)).getTextContent()).items as { str?: string }[]).map((x) => x.str ?? '').join(' ')
-      expect(t).toContain(`Ref. ${formatLeakRef(ref)}`)
-      expect(t).toContain(`${formatLeakRef(ref)} · ${i}/${pdf.numPages}`)
+      // صفحة فيها أرقام تهميش تلقائية لا تحتاج «Ref.» الظاهر؛ غيرها يحمله أعلى الصفحة وعلى حافتها
+      const nums = leakFootnotesOf(USER).slice(0, 4).map((n) => `(${n})`)
+      if (!nums.some((n) => t.includes(n))) {
+        expect(t).toContain(`Ref. ${formatLeakRef(ref)}`)
+        expect(t).toContain(`${formatLeakRef(ref)} · ${i}/${pdf.numPages}`)
+      }
       expect(t).toContain(`mdz-ref:${ref}`)
     }
+    // ملف بلا مكان للأرقام (لا نص عربي): «Ref.» الظاهر في كل صفحة
+    const latin = await PDFDocument.create()
+    latin.addPage([595, 842])
+    const latinStamped = await stampPdf(Buffer.from(await latin.save()), lines, leakMarkOf(USER))
+    expect(await textOf(latinStamped)).toContain(`Ref. ${formatLeakRef(ref)}`)
     // بلا رمز (الزائر): لا شيء يُضاف غير العلامة المعتادة
     const plain = await stampPdf(original, lines)
     expect(await textOf(plain)).not.toContain('Ref.')

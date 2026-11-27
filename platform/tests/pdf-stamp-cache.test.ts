@@ -72,7 +72,8 @@ const textOf = async (pdf: Buffer) => String((await extractText(await getDocumen
 function cacheFiles(): string[] {
   const dir = stampCacheDir()
   if (!fs.existsSync(dir)) return []
-  return fs.readdirSync(dir).flatMap((s) => fs.readdirSync(path.join(dir, s)).map((n) => path.join(dir, s, n)))
+  // النسخ المختومة فقط (مجلدات الشظايا)؛ مجلد layouts لتخطيط أرقام التهميش التلقائية — انظر pdf-auto-footnotes.ts
+  return fs.readdirSync(dir).filter((s) => /^[a-f0-9]{2}$/.test(s)).flatMap((s) => fs.readdirSync(path.join(dir, s)).map((n) => path.join(dir, s, n)))
 }
 
 beforeAll(async () => {
