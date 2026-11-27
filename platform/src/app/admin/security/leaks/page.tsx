@@ -98,7 +98,9 @@ export default async function LeakTracePage({ searchParams }: { searchParams: Pr
                       </Badge>
                       <span dir="ltr">{m.email}</span>
                       {m.phone ? <span dir="ltr">{m.phone}</span> : null}
-                      {result.query.date ? m.viewedOnDate ? <Badge variant="destructive">شاهد في {result.query.date}</Badge> : <Badge variant="muted">لم يشاهد في ذلك اليوم</Badge> : null}
+                      {result.query.date ? m.viewedOnDate ? <Badge variant="destructive">
+                          شاهد في <bdi dir="ltr">{result.query.date}</bdi>
+                        </Badge> : <Badge variant="muted">لم يشاهد في ذلك اليوم</Badge> : null}
                       <Badge variant={m.status === 'ACTIVE' ? 'success' : 'muted'}>{m.status === 'ACTIVE' ? 'نشط' : 'موقوف'}</Badge>
                     </div>
                     <p className="text-xs text-muted-foreground">
@@ -119,7 +121,13 @@ export default async function LeakTracePage({ searchParams }: { searchParams: Pr
                   ) : null}
                   <div>
                     <h3 className="mb-2 flex items-center gap-1.5 font-bold">
-                      <PlayCircle className="size-4" /> {result.query.date ? `مشاهدات ${result.query.date}` : 'آخر المشاهدات'}
+                      <PlayCircle className="size-4" /> {result.query.date ? (
+                        <>
+                          مشاهدات <bdi dir="ltr">{result.query.date}</bdi>
+                        </>
+                      ) : (
+                        'آخر المشاهدات'
+                      )}
                     </h3>
                     {m.views.length === 0 ? (
                       <p className="text-muted-foreground">لا مشاهدات مسجّلة.</p>
