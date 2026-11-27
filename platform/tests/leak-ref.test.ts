@@ -12,6 +12,7 @@ import { findFootnoteTokens, readFootnoteSlots, writeFootnoteSlots } from '@/ser
 import { StandardFonts, rgb } from 'pdf-lib'
 import { parseLeakQuery, scanLeakedPdf } from '@/server/services/leak-trace.service'
 import { stampPdf } from '@/server/services/media.service'
+import { slicePdf } from '@/server/services/publish.service'
 
 const FIXTURE = 'content/lessons/pdf/4AM/MATH/U1-L1.pdf'
 const USER = '4b21efbc-1111-4222-8333-944455556666'
@@ -157,6 +158,13 @@ describe('أرقام التهميش', () => {
     const anon = await getDocumentProxy(new Uint8Array(await stampPdf(ready, ['madrasa · public'])))
     const pub = leakFootnotesOf('public')
     expect(((await (await anon.getPage(1)).getTextContent()).items as { str: string }[]).map((t) => t.str)).toContain(`(${pub[0]})`)
+  })
+
+  it('تقطيع الملف إلى صفحات (رفع دفعة) يُبقي أماكن الصفحات المقتطعة', async () => {
+    const doc = await PDFDocument.load(await tokenPdf())
+    writeFootnoteSlots(doc, await findFootnoteTokens(await doc.save()))
+    const second = await PDFDocument.load(await slicePdf(await doc.save(), 2, 2))
+    expect(readFootnoteSlots(second)?.map((s) => [s.p, s.k])).toEqual([[0, 2], [0, 3]])
   })
 
   it('درس «إعراب الجمل» في المستودع جاهز للبصمة: 4 أرقام في النص و4 في قائمة التهميشات', async () => {
