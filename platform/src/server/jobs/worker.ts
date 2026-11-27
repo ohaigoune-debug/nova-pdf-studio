@@ -23,6 +23,7 @@ async function main() {
     await import('@/server/services/courses.service').then((m) => m.ensureCourseExpiryScheduled(handle.db))
     await import('@/server/services/live.service').then((m) => m.ensureLiveRemindersScheduled(handle.db))
     await import('@/server/services/ecotrack.service').then((m) => m.ensureEcotrackSyncScheduled(handle.db))
+    await import('@/server/services/call-center.service').then((m) => m.ensureCallCenterTickScheduled(handle.db))
     // الدفع الإلكتروني: تفعيل من دفع ولم يعد إلى الموقع
     await import('@/server/services/online-payment.service').then((m) => m.reconcilePendingPayments(handle.db)).catch(() => null)
     const s = await processQueuedJobs(handle.db, { limit: 20 })

@@ -72,7 +72,7 @@ it('إنشاء الموظف وإدارته متاحان للمشرف فقط', as
 it('صفحة الموظف وقائمته تقتصران على التأكيد والطلبات', () => {
   expect(homeFor('CONFIRMER')).toBe('/admin/store/confirm')
   // + طلبات تغيير الشعبة (قرار المالك 16 نوفمبر 2026: يراجعها عون التأكيد)
-  expect(navFor('CONFIRMER').flatMap((s) => s.items.map((i) => i.href))).toEqual(['/admin/store/confirm', '/admin/store', '/admin/scope-requests'])
+  expect(navFor('CONFIRMER').flatMap((s) => s.items.map((i) => i.href))).toEqual(['/admin/store/confirm', '/admin/store', '/admin/callcenter', '/admin/scope-requests'])
 })
 
 it('كل صفحات الإدارة الأخرى ومسارات التصدير تحتفظ بحراسة المشرف ولو أُعيد استعمال Layout', () => {
@@ -80,7 +80,8 @@ it('كل صفحات الإدارة الأخرى ومسارات التصدير ت
   // مدير العمليات (2 نوفمبر 2026): نقاط البيع وإشعاراته فقط — بحراسة صريحة لهذين الدورين
   const managerPages = new Set(['points-of-sale/page.tsx', 'points-of-sale/[id]/page.tsx', 'affiliates/page.tsx', 'affiliates/[id]/page.tsx', 'notifications/page.tsx'])
   // عون التأكيد يراجع طلبات تغيير الشعبة (16 نوفمبر 2026) — بحراسة صريحة لهذين الدورين
-  const confirmerPages = new Set(['scope-requests/page.tsx'])
+  // ومركز الاتصال (27 نوفمبر 2026): الموظف الواحد يعالج ما تحيله الآلة إليه
+  const confirmerPages = new Set(['scope-requests/page.tsx', 'callcenter/page.tsx'])
   const walk = (dir: string): string[] => readdirSync(dir, { withFileTypes: true }).flatMap((entry) => entry.isDirectory() ? walk(join(dir, entry.name)) : [join(dir, entry.name)])
   const pages = walk('src/app/admin').filter((p) => p.endsWith('/page.tsx'))
   expect(pages.length).toBeGreaterThan(35)

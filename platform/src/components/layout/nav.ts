@@ -154,6 +154,7 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
       return [{ items: [
         { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall', exact: true },
         { href: '/admin/store', label: 'الطلبات', iconKey: 'ShoppingBag', exact: true },
+        { href: '/admin/callcenter', label: 'مركز الاتصال', iconKey: 'PhoneCall', exact: true },
         { href: '/admin/scope-requests', label: 'طلبات تغيير الشعبة', iconKey: 'Shuffle' }
       ] }]
     case 'SUPER_ADMIN':
@@ -188,6 +189,8 @@ export function navFor(role: UserRole, opts: { assistantScope?: AssistantScope }
                 { href: '/admin/store', label: 'طلبات الدورات', iconKey: 'ShoppingBag', exact: true },
                 { href: '/admin/store/confirm', label: 'طابور التأكيد', iconKey: 'PhoneCall' },
                 { href: '/admin/delivery', label: 'التوصيل', iconKey: 'Truck' },
+                // مركز الاتصال الذكي: رسائل ومكالمات آلية من حالات 48HR (27 نوفمبر 2026)
+                { href: '/admin/callcenter', label: 'مركز الاتصال', iconKey: 'PhoneCall' },
                 { href: '/admin/points-of-sale', label: 'نقاط البيع', iconKey: 'Store' },
                 { href: '/admin/affiliates', label: 'المسوّقون', iconKey: 'Megaphone' },
                 { href: '/admin/scope-requests', label: 'طلبات تغيير الشعبة', iconKey: 'Shuffle' },
