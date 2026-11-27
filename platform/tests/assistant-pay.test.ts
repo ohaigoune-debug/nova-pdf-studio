@@ -5,7 +5,8 @@ import { DEFAULT_ASSISTANT_PAY, cleanPayConfig, computeStatement, formatDa, mark
 import { content, contentTargets } from '@/server/db/schema'
 import { classifyContent } from '@/server/lib/course-sections'
 import type { Actor } from '@/server/lib/actor'
-import { createCourse } from '@/server/services/courses.service'
+import { acceptTerms, courseHome, createCourse, enrollStudent } from '@/server/services/courses.service'
+import { groupIntoDoors } from '@/server/lib/course-doors'
 import { seedCurriculum } from '@/server/db/seed-curriculum'
 import { createAssistantCode, joinAsAssistant } from '@/server/services/assistants.service'
 import {
@@ -150,6 +151,7 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
   let student: Actor
   let postId: string
   let courseId: string
+  let courseSlug: string
   let courseGroupId: string
   const month = monthOf(new Date())
   const pdf = (name = 'x.pdf') => ({
@@ -181,6 +183,7 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
     postId = (await createPost(h.db, teacher, { groupId: g.id, body: 'اطرحوا أسئلتكم' })).id
     const course = await createCourse(h.db, admin, { title: 'دورة الأدب العربي', workspaceId: await workspaceIdOfTeacher(h.db, teacher), season: '2026/2027', priceDzd: 2500, accessEndsOn: '2027-06-30', status: 'DRAFT' })
     courseId = course.id
+    courseSlug = course.slug
     courseGroupId = course.groupId!
   })
   afterAll(async () => {
@@ -276,7 +279,7 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
     await expect(
       submitAssistantContent(h.db, helper, { courseId, kind: 'SUMMARY', title: 'ملف وورد', pages: 1, file: { name: 's.docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', bytes: Buffer.from('PK') } })
     ).rejects.toMatchObject({ code: 'FILE_TYPE_NOT_ALLOWED' })
-    // يُنشر فورًا في «الملفات» داخل الدورة لفوجها
+    // يُنشر فورًا داخل الدورة لفوجها (الملخّص في «الملفات»، الاختبار والمقترح في «الفروض والاختبارات»)
     const pub = await h.db
       .select({ id: content.id, type: content.type, visibility: content.visibility, published: content.publishedAt, groupId: contentTargets.groupId })
       .from(content)
@@ -285,6 +288,17 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
     expect(pub).toHaveLength(1)
     expect(pub[0]).toMatchObject({ id: sum.contentId, type: 'PDF', visibility: 'GROUP_ONLY', groupId: courseGroupId })
     expect(pub[0]!.published).toBeTruthy()
+    // في صفحة الدورة عند التلميذ: الملخّص في «الملفات»، الاختبار والمقترح في «الفروض والاختبارات»
+    const learner = await makeStudent(h.db, 'تلميذ الدورة')
+    await enrollStudent(h.db, admin, { courseId, studentId: learner.studentId!, source: 'MANUAL' })
+    const home = await courseHome(h.db, learner, courseSlug)
+    if (home.needsTerms) await acceptTerms(h.db, learner, courseId)
+    const after = await courseHome(h.db, learner, courseSlug)
+    if (after.needsTerms) throw new Error('terms')
+    const doors = groupIntoDoors(after.sections)
+    const titlesIn = (id: string) => doors.find((d) => d.id === id)!.groups.flatMap((g) => g.items.map((i) => i.title)).sort()
+    expect(titlesIn('files')).toEqual(['ملخّص الإعراب'])
+    expect(titlesIn('exams')).toEqual(['اختبار الفصل الأوّل', 'المقترح الثّاني'].sort())
     // ولو كان عنوانه «اختبار…» يبقى في «الملفات»
     expect(classifyContent({ title: 'اختبار الفصل الأوّل', type: 'PDF', forceSection: 'files' })).toBe('files')
     expect(classifyContent({ title: 'اختبار الفصل الأوّل', type: 'PDF' })).toBe('tests')
