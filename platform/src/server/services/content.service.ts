@@ -102,6 +102,35 @@ function slugify(title: string): string {
   return `${base || 'content'}-${randomBytes(3).toString('hex')}`
 }
 
+/** ملف PDF يُنشر فورًا لفوج دورة (ملفات الأستاذ المساعد، قرار المالك 27 نوفمبر 2026)، مع إشعار التلاميذ */
+export async function publishFileToGroup(
+  db: Db,
+  input: { workspaceId: string; authorUserId: string; title: string; fileId: string; groupId: string; levelId: string | null; subjectId: string | null; streamId: string | null }
+): Promise<{ id: string; slug: string }> {
+  return db.transaction(async (tx) => {
+    const [row] = await tx
+      .insert(content)
+      .values({
+        workspaceId: input.workspaceId,
+        authorUserId: input.authorUserId,
+        type: 'PDF',
+        title: input.title,
+        slug: slugify(input.title),
+        fileId: input.fileId,
+        levelId: input.levelId,
+        subjectId: input.subjectId,
+        streamId: input.streamId,
+        visibility: 'GROUP_ONLY',
+        publishedAt: new Date()
+      })
+      .returning()
+    if (!row) throw new AppError('INTERNAL')
+    await tx.insert(contentTargets).values({ contentId: row.id, groupId: input.groupId })
+    await notifyTargets(tx, row)
+    return { id: row.id, slug: row.slug }
+  })
+}
+
 async function assertContentAccess(db: Db, actor: Actor, id: string): Promise<ContentRow> {
   assertRole(actor, 'TEACHER', 'SUPER_ADMIN')
   assertUuid(id, 'CONTENT_NOT_FOUND')

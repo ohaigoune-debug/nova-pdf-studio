@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, BookOpen, TrendingUp, Clock, FileText, FolderOpen, Gamepad2, ListChecks, MessagesSquare, PlayCircle, type LucideIcon } from 'lucide-react'
+import { ArrowLeft, ArrowRight, BookOpen, TrendingUp, ClipboardList, Clock, FileText, FolderOpen, Gamepad2, ListChecks, MessagesSquare, PlayCircle, type LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CourseLandingView } from '@/components/academy/course-landing'
@@ -26,10 +26,11 @@ import { bookUpgradeOffer, courseBookStateById, courseDigitalStateById } from '@
 
 export const dynamic = 'force-dynamic'
 
-/** الأبواب الثلاثة ذات المحتوى (الأبواب الخمسة: قرار المالك 2026-11-13) */
+/** الأبواب الأربعة ذات المحتوى (الأبواب الستّة: قرار المالك 2026-11-13 و27 نوفمبر) */
 const DOOR_UI: Record<ContentDoorId, { icon: LucideIcon; tone: string; count: (n: number) => string; empty: string }> = {
   recorded: { icon: PlayCircle, tone: 'bg-warning/10 text-warning', count: (n) => countAr(n, ['حصة واحدة', 'حصتان', 'حصص', 'حصة']), empty: 'لا حصص مسجلة بعد. تظهر هنا الدروس وتسجيلات الحصص المباشرة.' },
   files: { icon: FolderOpen, tone: 'bg-cyan/10 text-cyan', count: (n) => countAr(n, ['ملف واحد', 'ملفان', 'ملفات', 'ملفًا']), empty: 'لا ملفات بعد.' },
+  exams: { icon: ClipboardList, tone: 'bg-destructive/10 text-destructive', count: (n) => countAr(n, ['ملف واحد', 'ملفان', 'ملفات', 'ملفًا']), empty: 'لا فروض ولا اختبارات بعد.' },
   practice: { icon: ListChecks, tone: 'bg-success/10 text-success', count: (n) => countAr(n, ['تمرين واحد', 'تمرينان', 'تمارين', 'تمرينًا']), empty: 'لا تمارين بعد. نتائجك وتقدّمك في الزر أدناه.' }
 }
 
@@ -122,7 +123,7 @@ export default async function StudentCoursePage({ params }: { params: Promise<{ 
   const practiceLinks = practiceLessons.reduce((n, i) => n + (practiceCounts.get(i.id) ?? 0), 0)
   const count = (id: ContentDoorId) => (doors.find((d) => d.id === id)?.count ?? 0) + (id === 'practice' ? practiceLinks : 0)
   const tiles: Array<{ href: string; label: string; hint: string; icon: LucideIcon; tone: string }> = [
-    ...(['recorded', 'files', 'practice'] as const).map((id) => ({ href: `#${id}`, label: COURSE_DOOR_LABELS_AR[id], hint: count(id) ? DOOR_UI[id].count(count(id)) : 'لا شيء بعد', icon: DOOR_UI[id].icon, tone: DOOR_UI[id].tone })),
+    ...(['recorded', 'files', 'exams', 'practice'] as const).map((id) => ({ href: `#${id}`, label: COURSE_DOOR_LABELS_AR[id], hint: count(id) ? DOOR_UI[id].count(count(id)) : 'لا شيء بعد', icon: DOOR_UI[id].icon, tone: DOOR_UI[id].tone })),
     { href: classroomHref, label: COURSE_DOOR_LABELS_AR.classroom, hint: 'أسئلة ومناقشات مع أستاذك', icon: MessagesSquare, tone: 'bg-[#5925DC]/10 text-[#5925DC] dark:text-[#BDB4FE]' }
   ]
   const later = upcoming.filter((u) => u.id !== liveNext?.id).slice(0, 3)

@@ -5,17 +5,17 @@ import { COURSE_DOOR_IDS, COURSE_DOOR_LABELS_AR, DOOR_OF_SECTION, groupIntoDoors
 const at = (day: number) => new Date(Date.UTC(2026, 10, day))
 const item = (title: string, type = 'PDF', day = 1, id = title) => ({ id, title, type, publishedAt: at(day) })
 
-describe('أبواب صفحة الدورة الخمسة', () => {
-  it('خمسة أبواب بالترتيب الذي قرّره المالك', () => {
-    expect(COURSE_DOOR_IDS).toEqual(['live', 'recorded', 'files', 'practice', 'classroom'])
-    expect(COURSE_DOOR_IDS.map((id) => COURSE_DOOR_LABELS_AR[id])).toEqual(['الحصص المباشرة', 'الحصص المسجلة', 'الملفات', 'تمارين QCM', 'المنتدى'])
+describe('أبواب صفحة الدورة الستّة', () => {
+  it('ستّة أبواب بالترتيب الذي قرّره المالك (و«الفروض والاختبارات» 27 نوفمبر 2026)', () => {
+    expect(COURSE_DOOR_IDS).toEqual(['live', 'recorded', 'files', 'exams', 'practice', 'classroom'])
+    expect(COURSE_DOOR_IDS.map((id) => COURSE_DOOR_LABELS_AR[id])).toEqual(['الحصص المباشرة', 'الحصص المسجلة', 'الملفات', 'الفروض والاختبارات', 'تمارين QCM', 'المنتدى'])
   })
 
   it('كل قسم محتوى له باب واحد، ولا يضيع قسم', () => {
     for (const id of COURSE_SECTION_IDS) expect(DOOR_OF_SECTION[id]).toBeDefined()
   })
 
-  it('الدروس والفيديوهات في «الحصص المسجلة»، والفروض والاختبارات في «تمارين QCM»', () => {
+  it('الدروس والفيديوهات في «الحصص المسجلة»، والفروض والاختبارات في بابها', () => {
     const sections = buildCourseSections([
       item('الحصة 2 — الشعر الحر', 'LESSON', 2),
       item('الحصة 1 — مدخل', 'LESSON', 1),
@@ -25,7 +25,7 @@ describe('أبواب صفحة الدورة الخمسة', () => {
       item('ملخص الوحدة', 'PDF', 6)
     ])
     const doors = groupIntoDoors(sections)
-    expect(doors.map((d) => d.id)).toEqual(['recorded', 'files', 'practice'])
+    expect(doors.map((d) => d.id)).toEqual(['recorded', 'files', 'exams', 'practice'])
 
     const recorded = doors.find((d) => d.id === 'recorded')!
     expect(recorded.groups.map((g) => g.id)).toEqual(['lessons', 'videos'])
@@ -33,9 +33,10 @@ describe('أبواب صفحة الدورة الخمسة', () => {
     // الترتيب داخل القسم لا يتغيّر: الحصة 1 ثم 2
     expect(recorded.groups[0]!.items.map((i) => i.session)).toEqual([1, 2])
 
-    const practice = doors.find((d) => d.id === 'practice')!
-    expect(practice.groups.map((g) => g.id)).toEqual(['homework', 'tests'])
-    expect(practice.count).toBe(2)
+    const exams = doors.find((d) => d.id === 'exams')!
+    expect(exams.groups.map((g) => g.id)).toEqual(['homework', 'tests'])
+    expect(exams.count).toBe(2)
+    expect(doors.find((d) => d.id === 'practice')!.count).toBe(0)
 
     expect(doors.find((d) => d.id === 'files')!.count).toBe(1)
   })
@@ -45,6 +46,7 @@ describe('أبواب صفحة الدورة الخمسة', () => {
     expect(doors.map((d) => [d.id, d.count, d.groups.length])).toEqual([
       ['recorded', 0, 0],
       ['files', 0, 0],
+      ['exams', 0, 0],
       ['practice', 0, 0]
     ])
   })

@@ -11,7 +11,7 @@ import { getDb } from '@/server/db/client'
 import { isClassroomAssistant } from '@/server/lib/actor'
 import { signFileUrl } from '@/server/lib/storage'
 import { toggleCorrectionAction } from '@/server/actions/assistant-pay.actions'
-import { assistantMonth } from '@/server/services/assistant-pay.service'
+import { assistantCourses, assistantMonth } from '@/server/services/assistant-pay.service'
 import { ContentForm } from './content-form'
 
 export const dynamic = 'force-dynamic'
@@ -26,7 +26,8 @@ export default async function AssistantEarningsPage({ searchParams }: { searchPa
   const now = new Date()
   const months = recentMonths(now)
   const month = m && monthRange(m) && months.includes(m) ? m : monthOf(now)
-  const data = await assistantMonth(await getDb(), actor, { month })
+  const db = await getDb()
+  const [data, courses] = await Promise.all([assistantMonth(db, actor, { month }), assistantCourses(db, actor)])
   const isCurrent = month === monthOf(now)
   return (
     <>
@@ -41,7 +42,7 @@ export default async function AssistantEarningsPage({ searchParams }: { searchPa
               <CardTitle className="text-base">رفع محتوى</CardTitle>
             </CardHeader>
             <CardContent>
-              <ContentForm config={data.config} />
+              <ContentForm config={data.config} courses={courses} />
             </CardContent>
           </Card>
         ) : null}

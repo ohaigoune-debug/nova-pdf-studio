@@ -1,7 +1,13 @@
+import { and, eq, isNull } from 'drizzle-orm'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DatabaseHandle } from '@/server/db/connect'
 import { DEFAULT_ASSISTANT_PAY, cleanPayConfig, computeStatement, formatDa, markOverLimit, monthOf, monthRange, termOf, type AssistantPayConfig } from '@/lib/assistant-pay'
+import { content, contentTargets } from '@/server/db/schema'
+import { classifyContent } from '@/server/lib/course-sections'
 import type { Actor } from '@/server/lib/actor'
+import { acceptTerms, courseHome, createCourse, enrollStudent } from '@/server/services/courses.service'
+import { groupIntoDoors } from '@/server/lib/course-doors'
+import { seedCurriculum } from '@/server/db/seed-curriculum'
 import { createAssistantCode, joinAsAssistant } from '@/server/services/assistants.service'
 import {
   assistantMonth,
@@ -15,7 +21,7 @@ import {
 } from '@/server/services/assistant-pay.service'
 import { addComment, createPost } from '@/server/services/classroom.service'
 import { createGroup } from '@/server/services/groups.service'
-import { actorOf, makeAdmin, makeStudent, makeTeacher, setupDb } from './helpers'
+import { actorOf, makeAdmin, makeStudent, makeTeacher, setupDb, workspaceIdOfTeacher } from './helpers'
 
 const cfg: AssistantPayConfig = DEFAULT_ASSISTANT_PAY
 const replies = (n: number, chars = 50) => Array.from({ length: n }, () => ({ chars, correction: false }))
@@ -144,6 +150,9 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
   let attendance: Actor
   let student: Actor
   let postId: string
+  let courseId: string
+  let courseSlug: string
+  let courseGroupId: string
   const month = monthOf(new Date())
   const pdf = (name = 'x.pdf') => ({
     name,
@@ -165,12 +174,17 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
   beforeAll(async () => {
     h = await setupDb()
     admin = await makeAdmin(h.db)
+    await seedCurriculum(h.db)
     teacher = await makeTeacher(h.db, admin, 'الأستاذ')
     const g = await createGroup(h.db, teacher, { name: 'دورة الأدب' })
     student = await makeStudent(h.db, 'تلميذ')
     helper = await join(teacher, 'pay-helper@test.dz', 'CLASSROOM')
     attendance = await join(teacher, 'pay-attend@test.dz', 'FULL')
     postId = (await createPost(h.db, teacher, { groupId: g.id, body: 'اطرحوا أسئلتكم' })).id
+    const course = await createCourse(h.db, admin, { title: 'دورة الأدب العربي', workspaceId: await workspaceIdOfTeacher(h.db, teacher), season: '2026/2027', priceDzd: 2500, accessEndsOn: '2027-06-30', status: 'DRAFT' })
+    courseId = course.id
+    courseSlug = course.slug
+    courseGroupId = course.groupId!
   })
   afterAll(async () => {
     await h.close()
@@ -210,6 +224,7 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
   it('يرفع محتوى PDF أو Word فيُحسب فورًا، وحدّ الفصل يُطبَّق', async () => {
     await expect(
       submitAssistantContent(h.db, helper, {
+        courseId,
         kind: 'EXAM',
         title: 'اختبار',
         pages: 0,
@@ -218,6 +233,7 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
     ).rejects.toMatchObject({ code: 'VALIDATION' })
     await expect(
       submitAssistantContent(h.db, helper, {
+        courseId,
         kind: 'EXAM',
         title: 'اختبار',
         pages: 2,
@@ -230,6 +246,7 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
     ).rejects.toMatchObject({ code: 'FILE_TYPE_NOT_ALLOWED' })
     await expect(
       submitAssistantContent(h.db, attendance, {
+        courseId,
         kind: 'EXAM',
         title: 'اختبار',
         pages: 2,
@@ -238,27 +255,56 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
     ).rejects.toMatchObject({ code: 'FORBIDDEN' })
 
     await submitAssistantContent(h.db, helper, {
+      courseId,
       kind: 'EXAM',
       title: 'اختبار الفصل الأوّل',
       pages: 4,
       file: pdf()
     })
     await submitAssistantContent(h.db, helper, {
+      courseId,
       kind: 'PROPOSAL',
       title: 'المقترح الثّاني',
       pages: 3,
       file: pdf()
     })
     const sum = await submitAssistantContent(h.db, helper, {
+      courseId,
       kind: 'SUMMARY',
       title: 'ملخّص الإعراب',
       pages: 2,
-      file: {
-        name: 's.docx',
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        bytes: Buffer.from('PK')
-      }
+      file: pdf('s.pdf')
     })
+    // PDF فقط (يُعرض للتلميذ داخل المنصّة)
+    await expect(
+      submitAssistantContent(h.db, helper, { courseId, kind: 'SUMMARY', title: 'ملف وورد', pages: 1, file: { name: 's.docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', bytes: Buffer.from('PK') } })
+    ).rejects.toMatchObject({ code: 'FILE_TYPE_NOT_ALLOWED' })
+    // يُنشر فورًا داخل الدورة لفوجها (الملخّص في «الملفات»، الاختبار والمقترح في «الفروض والاختبارات»)
+    const pub = await h.db
+      .select({ id: content.id, type: content.type, visibility: content.visibility, published: content.publishedAt, groupId: contentTargets.groupId })
+      .from(content)
+      .innerJoin(contentTargets, eq(contentTargets.contentId, content.id))
+      .where(and(eq(content.fileId, sum.fileId), isNull(content.deletedAt)))
+    expect(pub).toHaveLength(1)
+    expect(pub[0]).toMatchObject({ id: sum.contentId, type: 'PDF', visibility: 'GROUP_ONLY', groupId: courseGroupId })
+    expect(pub[0]!.published).toBeTruthy()
+    // في صفحة الدورة عند التلميذ: الملخّص في «الملفات»، الاختبار والمقترح في «الفروض والاختبارات»
+    const learner = await makeStudent(h.db, 'تلميذ الدورة')
+    await enrollStudent(h.db, admin, { courseId, studentId: learner.studentId!, source: 'MANUAL' })
+    const home = await courseHome(h.db, learner, courseSlug)
+    if (home.needsTerms) await acceptTerms(h.db, learner, courseId)
+    const after = await courseHome(h.db, learner, courseSlug)
+    if (after.needsTerms) throw new Error('terms')
+    const doors = groupIntoDoors(after.sections)
+    const titlesIn = (id: string) => doors.find((d) => d.id === id)!.groups.flatMap((g) => g.items.map((i) => i.title)).sort()
+    expect(titlesIn('files')).toEqual(['ملخّص الإعراب'])
+    expect(titlesIn('exams')).toEqual(['اختبار الفصل الأوّل', 'المقترح الثّاني'].sort())
+    // ولو كان عنوانه «اختبار…» يبقى في «الملفات»
+    expect(classifyContent({ title: 'اختبار الفصل الأوّل', type: 'PDF', forceSection: 'files' })).toBe('files')
+    expect(classifyContent({ title: 'اختبار الفصل الأوّل', type: 'PDF' })).toBe('tests')
+    await expect(
+      submitAssistantContent(h.db, helper, { courseId: '00000000-0000-4000-8000-000000000000', kind: 'SUMMARY', title: 'دورة غريبة', pages: 1, file: pdf() })
+    ).rejects.toMatchObject({ code: 'VALIDATION' })
     let m = await assistantMonth(h.db, helper, { month })
     // termLimit = 1 في هذا الاختبار: المقترح بعد الاختبار فوق الحدّ
     expect(m.content.find((c) => c.kind === 'PROPOSAL')?.overLimit).toBe(true)
@@ -267,6 +313,8 @@ describe('الكشف الشّهريّ في قاعدة البيانات', () => {
 
     await expect(removeAssistantContent(h.db, helper, sum.id)).rejects.toMatchObject({ code: 'FORBIDDEN' })
     await removeAssistantContent(h.db, admin, sum.id)
+    const [gone] = await h.db.select({ deletedAt: content.deletedAt }).from(content).where(eq(content.id, sum.contentId))
+    expect(gone?.deletedAt).toBeTruthy()
     m = await assistantMonth(h.db, helper, { month })
     expect(m.statement.contentAmount).toBe(4000)
     expect(m.statement.total).toBe(40000 + 230 + 4000)

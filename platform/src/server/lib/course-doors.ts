@@ -1,11 +1,11 @@
 /**
- * أبواب صفحة الدورة الخمسة (قرار المالك 2026-11-13، وتسميات 21 نوفمبر): الحصص المباشرة، الحصص المسجلة،
- * الملفات، تمارين QCM، المنتدى. عرض فقط: يعيد تجميع أقسام buildCourseSections كما هي،
+ * أبواب صفحة الدورة الستّة (قرار المالك 2026-11-13، وتسميات 21 نوفمبر، و«الفروض والاختبارات» 27 نوفمبر):
+ * الحصص المباشرة، الحصص المسجلة، الملفات، الفروض والاختبارات، تمارين QCM، المنتدى. عرض فقط: يعيد تجميع أقسام buildCourseSections كما هي،
  * فلا يضيف عنصرًا ولا يخفيه ولا يغيّر ترتيبه داخل القسم. دوال نقية تُختبر وحدها.
  */
 import type { CourseSection, CourseSectionId } from './course-sections'
 
-export const COURSE_DOOR_IDS = ['live', 'recorded', 'files', 'practice', 'classroom'] as const
+export const COURSE_DOOR_IDS = ['live', 'recorded', 'files', 'exams', 'practice', 'classroom'] as const
 export type CourseDoorId = (typeof COURSE_DOOR_IDS)[number]
 
 /** الأبواب التي تحمل محتوى الدورة (المباشرة والمنتدى لهما مصدر آخر) */
@@ -15,6 +15,7 @@ export const COURSE_DOOR_LABELS_AR: Record<CourseDoorId, string> = {
   live: 'الحصص المباشرة',
   recorded: 'الحصص المسجلة',
   files: 'الملفات',
+  exams: 'الفروض والاختبارات',
   practice: 'تمارين QCM',
   classroom: 'المنتدى'
 }
@@ -23,12 +24,12 @@ export const COURSE_DOOR_LABELS_AR: Record<CourseDoorId, string> = {
 export const DOOR_OF_SECTION: Record<CourseSectionId, ContentDoorId> = {
   lessons: 'recorded',
   videos: 'recorded',
-  homework: 'practice',
-  tests: 'practice',
+  homework: 'exams',
+  tests: 'exams',
   files: 'files'
 }
 
-const CONTENT_DOORS: readonly ContentDoorId[] = ['recorded', 'files', 'practice']
+const CONTENT_DOORS: readonly ContentDoorId[] = ['recorded', 'files', 'exams', 'practice']
 
 export interface ContentDoor<T> {
   id: ContentDoorId

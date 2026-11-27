@@ -7,6 +7,7 @@ import { buildCourseSections, type CourseSection } from '@/server/lib/course-sec
 import { and, asc, desc, eq, gt, inArray, isNull, isNotNull, lt, ne, or, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
 import {
+  assistantContent,
   academicYears,
   content,
   contentTargets,
@@ -857,6 +858,8 @@ export interface CourseContentItem {
   /** ترتيب يدوي من محرّر الدروس (فارغ = الترتيب القديم) */
   position: number | null
   href: string
+  /** ملف رفعه الأستاذ المساعد: باب ثابت بحسب نوعه */
+  forceSection?: 'files' | 'tests' | null
 }
 
 export type CourseHome =
@@ -904,13 +907,20 @@ export async function courseHome(db: Db, actor: Actor, slug: string): Promise<Co
       .orderBy(asc(liveSessions.startsAt))
       .limit(10),
     db
-      .select({ id: content.id, slug: content.slug, title: content.title, type: content.type, summary: content.summary, publishedAt: content.publishedAt, videoProvider: content.videoProvider, position: content.position })
+      .select({ id: content.id, slug: content.slug, title: content.title, type: content.type, summary: content.summary, publishedAt: content.publishedAt, videoProvider: content.videoProvider, position: content.position, authorRole: users.role, assistantKind: assistantContent.kind })
       .from(contentTargets)
       .innerJoin(content, eq(content.id, contentTargets.contentId))
+      .leftJoin(users, eq(users.id, content.authorUserId))
+      .leftJoin(assistantContent, and(eq(assistantContent.fileId, content.fileId), eq(assistantContent.assistantUserId, content.authorUserId)))
       .where(and(eq(contentTargets.groupId, course.groupId), isNull(content.deletedAt), isNotNull(content.publishedAt)))
       .orderBy(desc(content.publishedAt))
   ])
-  const toItem = (c: (typeof items)[number]): CourseContentItem => ({ ...c, href: `/student/lessons/${c.slug}` })
+  // ملفات الأستاذ المساعد: الاختبار والمقترح في «الفروض والاختبارات»، والملخّص والتمارين في «الملفات» (27 نوفمبر 2026)
+  const toItem = ({ authorRole, assistantKind, ...c }: (typeof items)[number]): CourseContentItem => ({
+    ...c,
+    href: `/student/lessons/${c.slug}`,
+    forceSection: authorRole !== 'ASSISTANT' ? null : assistantKind === 'EXAM' || assistantKind === 'PROPOSAL' ? 'tests' : 'files'
+  })
   return {
     needsTerms: false,
     course: {
