@@ -7,19 +7,26 @@
   2. يطلب من Asterisk (AMI) الاتصال عبر الشريحة المحددة، فيشغّل الـdialplan التسجيلَ ويقرأ الزر.
   3. يعيد النتيجة: POST /api/v1/callcenter/agent/report.
 
-بلا مكتبات خارجية (Python 3.9+). الإعداد من متغيّرات البيئة (انظر README.md):
-  MADRASA_URL, CC_TOKEN, AMI_HOST, AMI_PORT, AMI_USER, AMI_SECRET, CC_TRUNK_PATTERN, CC_SIMS
+بلا مكتبات خارجية (Python 3.9+). الإعداد من /etc/madrasa-box.env (يكتبه install.sh) أو من متغيّرات البيئة:
+  MADRASA_URL, CC_TOKEN, AMI_HOST, AMI_PORT, AMI_USER, AMI_SECRET, CC_TRUNK_PATTERN, CC_SIMS, CC_GATEWAY_ENDPOINT
+
+لا يسحب مكالمات والبوابة غير متصلة (كابل منزوع أو جهاز مطفأ)، حتى لا تُحرق محاولات الزبائن في مكالمات فاشلة.
 """
 import json
 import os
+import queue
 import socket
 import sys
 import threading
 import time
 import urllib.error
 import urllib.request
+import uuid
 
-VERSION = "0.1"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import inbound  # noqa: E402  (load_env + إعادة إرسال الرسائل الواردة المعلّقة)
+
+VERSION = "0.2"
 BASE = os.environ.get("MADRASA_URL", "https://madrasadz.com").rstrip("/")
 TOKEN = os.environ.get("CC_TOKEN", "")
 AMI_HOST = os.environ.get("AMI_HOST", "127.0.0.1")
@@ -33,6 +40,8 @@ SIMS = [int(s) for s in os.environ.get("CC_SIMS", "1,2,3").split(",") if s.strip
 POLL_SECONDS = int(os.environ.get("CC_POLL_SECONDS", "15"))
 MAX_PARALLEL = int(os.environ.get("CC_MAX_PARALLEL", str(len(SIMS))))
 RING_SECONDS = int(os.environ.get("CC_RING_SECONDS", "35"))
+GATEWAY = os.environ.get("CC_GATEWAY_ENDPOINT", "tg400l")
+FLUSH_SECONDS = 300
 
 
 def log(*a):
@@ -53,12 +62,15 @@ class Ami:
         self.sock = None
         self.lock = threading.Lock()
         self.waiters = {}  # ActionID / TaskId ⇒ (Event, dict)
+        self.queries = {}  # ActionID ⇒ Queue: ردود الاستعلامات (مثل حالة البوابة)
 
     def connect(self):
         self.sock = socket.create_connection((AMI_HOST, AMI_PORT), timeout=10)
         self.sock.settimeout(None)
-        self.send({"Action": "Login", "Username": AMI_USER, "Secret": AMI_SECRET, "Events": "user,call"})
         threading.Thread(target=self.reader, daemon=True).start()
+        r = self.query({"Action": "Login", "Username": AMI_USER, "Secret": AMI_SECRET, "Events": "user,call"}, single=True)
+        if r[0].get("Response") != "Success":
+            sys.exit("AMI: فشل الدخول — تحقق من AMI_USER/AMI_SECRET في /etc/madrasa-box.env")
 
     def send(self, fields):
         msg = "".join(f"{k}: {v}\r\n" for k, v in fields.items()) + "\r\n"
@@ -83,6 +95,10 @@ class Ami:
                 self.dispatch(ev)
 
     def dispatch(self, ev):
+        q = self.queries.get(ev.get("ActionID", ""))
+        if q is not None:
+            q.put(ev)
+            return
         name = ev.get("Event")
         if name == "UserEvent" and ev.get("UserEvent") == "ccresult":
             key = ev.get("Task")
@@ -94,6 +110,37 @@ class Ami:
         if w:
             w[1].update(ev)
             w[0].set()
+
+    def query(self, fields, timeout=5.0, single=False):
+        """يرسل أمر AMI ويجمع أحداث الردّ حتى EventList: Complete (أو الردّ الأول إن single)."""
+        aid = "q" + uuid.uuid4().hex[:12]
+        q = queue.Queue()
+        self.queries[aid] = q
+        try:
+            self.send({**fields, "ActionID": aid})
+            out, deadline = [], time.time() + timeout
+            while True:
+                ev = q.get(timeout=max(0.1, deadline - time.time()))
+                out.append(ev)
+                if single or ev.get("Response") == "Error" or ev.get("EventList") == "Complete":
+                    return out
+        finally:
+            self.queries.pop(aid, None)
+
+    def gateway_ok(self):
+        """هل TG400L يردّ؟ (qualify كل 30 ثانية في pjsip.conf)"""
+        try:
+            evs = self.query({"Action": "PJSIPShowEndpoint", "Endpoint": GATEWAY})
+        except queue.Empty:
+            return False
+        if any(e.get("Response") == "Error" for e in evs):
+            return False
+        for e in evs:
+            if e.get("Event") == "EndpointDetail" and e.get("DeviceState") == "Unavailable":
+                return False
+            if e.get("Event") == "ContactStatusDetail" and e.get("Status") == "Unreachable":
+                return False
+        return any(e.get("Event") == "ContactStatusDetail" and e.get("Status") == "Reachable" for e in evs)
 
     def call(self, task):
         """يتصل ويعيد (outcome, digit, duration)."""
@@ -151,11 +198,29 @@ def main():
     ami = Ami()
     ami.connect()
     busy = set()
+    last_flush, gw_was = 0.0, None
     while True:
+        if time.time() - last_flush > FLUSH_SECONDS:
+            last_flush = time.time()
+            try:
+                n = inbound.flush()
+                if n:
+                    log("أُعيد إرسال رسائل واردة معلّقة:", n)
+            except Exception as e:  # noqa: BLE001
+                log("تعذّر إرسال المعلّق:", e)
+        gw = ami.gateway_ok()
+        if gw != gw_was:
+            log("البوابة TG400L", "متصلة" if gw else "غير متصلة — لا سحب للمكالمات حتى تعود")
+            gw_was = gw
         free = MAX_PARALLEL - len(busy)
         if free > 0:
             try:
-                tasks = api("POST", "/api/v1/callcenter/agent/pull", {"limit": free, "version": VERSION, "sims": [{"slot": s, "ok": True} for s in SIMS]}).get("tasks", [])
+                # البوابة غير متصلة: لا نسحب مهام، ونكتفي بـ ping لتبقى اللوحة ترى الصندوق حيًّا
+                if gw:
+                    tasks = api("POST", "/api/v1/callcenter/agent/pull", {"limit": free, "version": VERSION, "sims": [{"slot": s, "ok": True} for s in SIMS]}).get("tasks", [])
+                else:
+                    api("GET", f"/api/v1/callcenter/agent/ping?v={VERSION}")
+                    tasks = []
             except urllib.error.URLError as e:
                 log("المنصة غير متاحة:", e)
                 tasks = []

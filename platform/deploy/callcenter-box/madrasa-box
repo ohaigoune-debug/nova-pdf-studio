@@ -1,0 +1,174 @@
+#!/usr/bin/env bash
+# أداة صندوق مركز الاتصال (مدرسة). يثبّتها install.sh في /usr/local/bin/madrasa-box
+#   madrasa-box status              هل كل شيء يعمل؟ (Asterisk، الوكيل، الكابل، TG400L، المنصة، التسجيلات)
+#   madrasa-box logs                آخر ما فعله الوكيل (Ctrl+C للخروج)
+#   madrasa-box record [اسم]        تسجيل الرسائل الصوتية بصوتك من ميكروفون اللابتوب
+#   madrasa-box test-call رقم [شريحة]  مكالمة تجربة مباشرة (بلا المنصة): يرنّ الهاتف ويسمع رسالة «معلّقة»
+#   madrasa-box token               تغيير رمز الجهاز
+#   madrasa-box update              تحديث ملفات الصندوق من GitHub
+set -uo pipefail
+
+ENVF=/etc/madrasa-box.env
+SOUNDS=/var/lib/madrasa-box/sounds
+GW_IP=192.168.5.150
+PROMPTS=(SUSPENDED HOME_STUCK CONFIRM_SPECIAL menu beep_after thanks)
+RAW="https://raw.githubusercontent.com/ohaigoune-debug/nova-pdf-studio/${MADRASA_BOX_REF:-work}/platform/deploy/callcenter-box"
+
+G=$'\033[32m✔\033[0m' R=$'\033[31m✘\033[0m' Y=$'\033[33m!\033[0m'
+need_root() { [ "$(id -u)" -eq 0 ] || exec sudo -E "$0" "$@"; }
+ast() { asterisk -rx "$1" 2>/dev/null; }
+
+declare -A TEXTS=()
+load_texts() {
+  # النصوص الحالية من المنصة (كما في صفحة الإعدادات)؛ وإن تعذّر نستعمل النصوص المحفوظة هنا
+  while IFS=$'\t' read -r k v; do [ -n "$k" ] && TEXTS[$k]="$v"; done < <(sudo python3 - "$ENVF" <<'PY' 2>/dev/null
+import json, sys, urllib.request
+env = dict(l.strip().split("=", 1) for l in open(sys.argv[1], encoding="utf-8") if "=" in l and not l.startswith("#"))
+req = urllib.request.Request(env.get("MADRASA_URL", "https://madrasadz.com").rstrip("/") + "/api/v1/callcenter/agent/ping?v=record", headers={"Authorization": "Bearer " + env.get("CC_TOKEN", "")})
+d = json.loads(urllib.request.urlopen(req, timeout=15).read())
+for k, v in (d.get("scripts") or {}).items():
+    print(f"{k}\t{v['text']}")
+m = d.get("inboundMenu") or {}
+if m:
+    opts = "، ".join(f"{lbl} اضغطوا {dg}" for dg, lbl in sorted(m.items(), key=lambda x: (x[0] == "0", x[0])))
+    print(f"menu\tمرحبًا بكم في منصة مدرسة. {opts}.")
+PY
+)
+}
+
+prompt_text() {
+  [ -n "${TEXTS[$1]:-}" ] && { echo "${TEXTS[$1]}"; return; }
+  case "$1" in
+    SUSPENDED) echo "السلام عليكم، معكم منصة مدرسة. طرد ابنكم لم يُسلَّم بعد عند شركة التوصيل. إن أردتم إعادة التوصيل اضغطوا 1، وإن أردتم استلامه من المكتب اضغطوا 2، وللتحدث مع موظف اضغطوا 3." ;;
+    HOME_STUCK) echo "النص في صفحة «مركز الاتصال ← الإعدادات» (طرد وصل ولم يُستلم بعد 48 ساعة: 1 إعادة التوصيل، 2 الاستلام من المكتب، 3 موظف)." ;;
+    CONFIRM_SPECIAL) echo "النص في صفحة «مركز الاتصال ← الإعدادات» (تأكيد طلبية: 1 للتأكيد، 2 للتحدث مع موظف)." ;;
+    menu) echo "مرحبًا بكم في منصة مدرسة. للمشكل التقني اضغطوا 1، لتفعيل الدورة أو شحنها 2، لطلبيتكم والتوصيل 3، لأمر آخر 4، وللتحدث مع موظف 0." ;;
+    beep_after) echo "اتركوا رسالتكم بعد الصفارة، وسنعاود الاتصال بكم. (الصفارة تُضاف وحدها في آخر التسجيل)" ;;
+    thanks) echo "شكرًا لكم، في أمان الله." ;;
+  esac
+}
+
+cmd_status() {
+  local bad=0
+  echo "صندوق مركز الاتصال — $(date '+%Y-%m-%d %H:%M')"
+  if systemctl is-active -q asterisk 2>/dev/null || pgrep -x asterisk >/dev/null; then echo " $G Asterisk يعمل"; else echo " $R Asterisk متوقف  ←  sudo systemctl restart asterisk"; bad=1; fi
+  if systemctl is-active -q madrasa-agent 2>/dev/null; then echo " $G الوكيل يعمل"; else echo " $R الوكيل متوقف  ←  madrasa-box logs"; bad=1; fi
+  local eth
+  eth=$(nmcli -t -f DEVICE,TYPE,STATE device 2>/dev/null | awk -F: '$2=="ethernet"{print $1":"$3; exit}')
+  case "$eth" in
+    *:connected) echo " $G الكابل موصول (${eth%%:*})" ;;
+    "") echo " $Y لا منفذ Ethernet ظاهر" ;;
+    *) echo " $R الكابل غير موصول أو TG400L مطفأ (${eth%%:*})"; bad=1 ;;
+  esac
+  if ping -c1 -W2 "$GW_IP" >/dev/null 2>&1; then echo " $G TG400L يردّ على $GW_IP  (صفحته: http://$GW_IP)"; else echo " $R TG400L لا يردّ على $GW_IP"; bad=1; fi
+  local c
+  c=$(ast "pjsip show contacts" | awk '/tg400l/ && /Contact:/ {print $4; exit}')
+  case "$c" in
+    Avail|Reachable) echo " $G جذع SIP مع TG400L جاهز" ;;
+    "") echo " $Y جذع SIP: لا معلومات (Asterisk لا يجيب؟)" ;;
+    *) echo " $R جذع SIP مع TG400L: $c  ←  راجع «VoIP Trunk» في صفحة الجهاز"; bad=1 ;;
+  esac
+  local out
+  out=$(python3 - "$ENVF" <<'PY' 2>&1
+import json, sys, urllib.request
+env = {}
+try:
+    for l in open(sys.argv[1], encoding="utf-8"):
+        if "=" in l and not l.startswith("#"):
+            k, v = l.strip().split("=", 1); env[k] = v
+except OSError as e:
+    print("ERR لا أستطيع قراءة الإعداد (استعمل sudo)"); sys.exit()
+req = urllib.request.Request(env.get("MADRASA_URL", "https://madrasadz.com").rstrip("/") + "/api/v1/callcenter/agent/ping?v=status", headers={"Authorization": "Bearer " + env.get("CC_TOKEN", "")})
+try:
+    d = json.loads(urllib.request.urlopen(req, timeout=15).read())
+    print("OK", {"off": "متوقف", "test": "تجربة", "live": "تشغيل حقيقي"}.get(d.get("mode"), d.get("mode")))
+except urllib.error.HTTPError as e:
+    print("ERR", "الرمز مرفوض (401): أنشئ رمزًا جديدًا ثم  madrasa-box token" if e.code == 401 else f"خطأ {e.code}")
+except Exception as e:
+    print("ERR", "لا إنترنت أو المنصة لا تجيب:", e)
+PY
+)
+  if [[ "$out" == OK* ]]; then echo " $G المنصة تعرف الجهاز — الوضع: ${out#OK }"; else echo " $R المنصة: ${out#ERR }"; bad=1; fi
+  local missing=()
+  for p in "${PROMPTS[@]}"; do [ -s "$SOUNDS/$p.wav" ] || missing+=("$p"); done
+  if [ ${#missing[@]} -eq 0 ]; then echo " $G التسجيلات الصوتية الستّ موجودة"; else echo " $Y ينقص تسجيل: ${missing[*]}  ←  madrasa-box record"; fi
+  local pend
+  pend=$(find /var/spool/madrasa/pending -name '*.json' 2>/dev/null | wc -l)
+  [ "$pend" -gt 0 ] && echo " $Y رسائل واردة تنتظر الإنترنت: $pend"
+  return $bad
+}
+
+cmd_record() {
+  [ "$(id -u)" -ne 0 ] || { echo "شغّله بلا sudo (حتى يصل إلى ميكروفونك):  madrasa-box record"; exit 1; }
+  command -v arecord >/dev/null && command -v sox >/dev/null || { echo "ينقص arecord/sox: أعد تشغيل install.sh"; exit 1; }
+  local list=("${PROMPTS[@]}")
+  [ $# -gt 0 ] && list=("$@")
+  echo "سأطلب كلمة سر حاسوبك مرة واحدة (لحفظ التسجيلات)."
+  sudo -v || exit 1
+  load_texts
+  local tmp
+  tmp=$(mktemp -d)
+  for p in "${list[@]}"; do
+    while true; do
+      echo
+      echo "════ $p ════"
+      echo "اقرأ بهدوء ووضوح:"
+      echo "  $(prompt_text "$p")"
+      read -r -p "اضغط Enter وابدأ الكلام، ثم Enter عند الانتهاء… " _
+      arecord -q -f S16_LE -r 16000 -c 1 "$tmp/raw.wav" &
+      local pid=$!
+      read -r _
+      kill -INT "$pid" 2>/dev/null; wait "$pid" 2>/dev/null
+      [ -s "$tmp/raw.wav" ] || { echo "$R لم يُسجَّل شيء: تحقّق من الميكروفون (الإعدادات ← الصوت ← الإدخال)"; continue; }
+      # 8kHz أحادي (صيغة الهاتف) + إزالة الصمت من البداية والنهاية + توحيد الصوت
+      sox -q "$tmp/raw.wav" -r 8000 -c 1 -b 16 "$tmp/$p.wav" highpass 80 silence 1 0.1 0.5% reverse silence 1 0.1 0.5% reverse norm -1 2>/dev/null
+      if [ "$p" = beep_after ]; then
+        sox -q -n -r 8000 -c 1 -b 16 "$tmp/beep.wav" synth 0.5 sine 1000 vol 0.4
+        sox -q "$tmp/$p.wav" "$tmp/beep.wav" "$tmp/joined.wav" && mv "$tmp/joined.wav" "$tmp/$p.wav"
+      fi
+      echo "مدته: $(soxi -D "$tmp/$p.wav" 2>/dev/null | cut -d. -f1) ثانية. أسمعك إياه الآن…"
+      aplay -q "$tmp/$p.wav" 2>/dev/null
+      read -r -p "أحتفظ به؟ (Enter = نعم، r = أعد التسجيل) " a
+      [ "$a" = r ] || break
+    done
+    sudo install -m 644 "$tmp/$p.wav" "$SOUNDS/$p.wav" && echo "$G حُفظ $p"
+  done
+  rm -rf "$tmp"
+}
+
+cmd_test_call() {
+  need_root test-call "$@"
+  local phone="${1:-}" sim="${2:-1}"
+  [[ "$phone" =~ ^0[5-7][0-9]{8}$ ]] || { echo "اكتب رقم هاتفك هكذا:  madrasa-box test-call 0550123456 1"; exit 1; }
+  [[ "$sim" =~ ^[1-4]$ ]] || { echo "الشريحة من 1 إلى 4"; exit 1; }
+  local f="$SOUNDS/SUSPENDED"
+  [ -s "$f.wav" ] || { f="beep"; echo "$Y لا تسجيل بعد: ستسمع صفارة فقط"; }
+  echo "أتصل بـ $phone عبر الشريحة $sim…"
+  ast "channel originate PJSIP/${sim}${phone}@tg400l application Playback $f"
+  echo "إن رنّ هاتفك وسمعت الرسالة: الجهاز جاهز ✔  (وإلا:  madrasa-box status)"
+}
+
+cmd_token() {
+  need_root token
+  local t
+  read -r -s -p "الصق الرمز الجديد (cc_…) ثم Enter: " t </dev/tty; echo
+  t=$(printf '%s' "$t" | tr -d '[:space:]')
+  [[ "$t" =~ ^cc_[A-Za-z0-9_-]{20,}$ ]] || { echo "$R الرمز غير صحيح"; exit 1; }
+  sed -i -E "s|^CC_TOKEN=.*|CC_TOKEN=$t|" "$ENVF"
+  systemctl restart madrasa-agent && echo "$G حُفظ الرمز (…${t: -4}) وأُعيد تشغيل الوكيل"
+}
+
+cmd_update() {
+  need_root update
+  wget -qO- "$RAW/install.sh" | bash
+}
+
+case "${1:-status}" in
+  status) need_root status; cmd_status ;;
+  logs) tail -n 60 -F /var/log/madrasa-box/agent.log /var/log/madrasa-box/inbound.log 2>/dev/null ;;
+  record) shift; cmd_record "$@" ;;
+  test-call) shift; cmd_test_call "$@" ;;
+  token) shift; cmd_token ;;
+  update) shift; cmd_update ;;
+  *) sed -n '2,8p' "$0" | sed 's/^# \{0,1\}//' ;;
+esac
