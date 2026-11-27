@@ -67,6 +67,7 @@ export async function submitAssistantContentAction(_prev: ActionResult | null, f
     const actor = await requireRole('ASSISTANT')
     await submitAssistantContent(await getDb(), actor, {
       kind: str(fd, 'kind'),
+      courseId: str(fd, 'courseId'),
       title: str(fd, 'title'),
       pages: str(fd, 'pages'),
       note: str(fd, 'note') || null,

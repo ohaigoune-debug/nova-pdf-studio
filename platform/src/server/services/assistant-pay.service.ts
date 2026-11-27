@@ -1,7 +1,9 @@
 import { createHash } from 'node:crypto'
-import { and, asc, count, eq, gte, inArray, isNull, lt } from 'drizzle-orm'
+import { and, asc, count, eq, gte, inArray, isNull, lt, sql } from 'drizzle-orm'
 import type { Db } from '@/server/db/connect'
-import { appSettings, assistantContent, assistantPayouts, assistantReplyMarks, classComments, files, profiles, teacherAssistants } from '@/server/db/schema'
+import { appSettings, assistantContent, assistantPayouts, assistantReplyMarks, classComments, courses, files, levels, profiles, resourceGroups, resources, teacherAssistants } from '@/server/db/schema'
+import type { PublishType } from '@/server/db/schema/publish'
+import { upsertResource } from '@/server/services/resources.service'
 import { assertRole, isClassroomAssistant, type Actor } from '@/server/lib/actor'
 import { writeAudit } from '@/server/lib/audit'
 import { AppError, assertUuid } from '@/server/lib/errors'
@@ -251,8 +253,25 @@ export async function setReplyCorrection(db: Db, actor: Actor, commentId: string
   else await db.delete(assistantReplyMarks).where(eq(assistantReplyMarks.commentId, c.id))
 }
 
+/** نوع المنشور عند التلميذ: الملخّص في «الدروس والموارد»، والتمارين والاختبارات والمقترحات في «الفروض والاختبارات» */
+const PUBLISH_TYPE_OF: Record<ContentKind, PublishType> = { SUMMARY: 'SUMMARY', EXERCISES: 'EXERCISE', EXAM: 'TEST', PROPOSAL: 'TEST' }
+export const CONTENT_SECTION_LABEL: Record<ContentKind, string> = { SUMMARY: 'الدروس والموارد', EXERCISES: 'الفروض والاختبارات', EXAM: 'الفروض والاختبارات', PROPOSAL: 'الفروض والاختبارات' }
+
+/** الدورات التي ينشر فيها المساعد (دورات مساحة أستاذه) */
+export async function assistantCourses(db: Db, actor: Actor): Promise<{ id: string; title: string }[]> {
+  assertRole(actor, 'ASSISTANT')
+  if (!isClassroomAssistant(actor) || !actor.workspaceId) return []
+  return db
+    .select({ id: courses.id, title: courses.title })
+    .from(courses)
+    .where(and(eq(courses.workspaceId, actor.workspaceId), isNull(courses.deletedAt), sql`${courses.groupId} is not null`))
+    .orderBy(asc(courses.title))
+}
+
 export interface ContentInput {
   kind: string
+  /** الدورة التي يُنشر فيها للتلاميذ فورًا (قرار المالك 27 نوفمبر 2026: بلا مراجعة) */
+  courseId: string
   title: string
   pages: unknown
   note?: string | null
@@ -269,6 +288,13 @@ export async function submitAssistantContent(db: Db, actor: Actor, input: Conten
   if (title.length < 3) throw new AppError('VALIDATION', { field: 'title' })
   const pages = Number(input.pages)
   if (!Number.isInteger(pages) || pages < 1 || pages > 500) throw new AppError('VALIDATION', { field: 'pages' })
+  assertUuid(input.courseId, 'VALIDATION')
+  const [course] = await db
+    .select({ id: courses.id, title: courses.title, workspaceId: courses.workspaceId, groupId: courses.groupId, levelId: courses.levelId, subjectId: courses.subjectId, streamIds: courses.streamIds })
+    .from(courses)
+    .where(and(eq(courses.id, input.courseId), isNull(courses.deletedAt)))
+    .limit(1)
+  if (!course || !course.groupId || course.workspaceId !== actor.workspaceId) throw new AppError('VALIDATION', { field: 'courseId' })
   const mime = (input.file.type || '').toLowerCase()
   if (input.file.bytes.length === 0) throw new AppError('VALIDATION', { field: 'file' })
   if (input.file.bytes.length > CONTENT_MAX_BYTES) throw new AppError('FILE_TOO_LARGE')
@@ -276,7 +302,7 @@ export async function submitAssistantContent(db: Db, actor: Actor, input: Conten
   const ext = input.file.name.includes('.') ? (input.file.name.split('.').pop() ?? '') : ''
   const key = newStorageKey(actor.workspaceId ?? null, ext)
   await storage().put(key, input.file.bytes)
-  return db.transaction(async (tx) => {
+  const saved = await db.transaction(async (tx) => {
     const [f] = await tx
       .insert(files)
       .values({
@@ -310,10 +336,32 @@ export async function submitAssistantContent(db: Db, actor: Actor, input: Conten
       action: 'assistant.content',
       entityType: 'assistant_content',
       entityId: row.id,
-      newValue: { kind, title, pages }
+      newValue: { kind, title, pages, courseId: course.id }
     })
     return row
   })
+  // يُنشر للتلاميذ فورًا في فوج الدورة
+  const [lv] = course.levelId ? await db.select({ stageId: levels.stageId }).from(levels).where(eq(levels.id, course.levelId)).limit(1) : []
+  const [author] = await db.select({ fullName: profiles.fullName }).from(profiles).where(eq(profiles.userId, actor.userId)).limit(1)
+  const res = await upsertResource(db, {
+    sourceCode: 'madrasadz',
+    ref: `assistant:${saved.id}`,
+    type: PUBLISH_TYPE_OF[kind],
+    title,
+    fileId: saved.fileId,
+    levelId: course.levelId,
+    stageId: lv?.stageId ?? null,
+    subjectId: course.subjectId,
+    streamId: course.streamIds.length === 1 ? course.streamIds[0]! : null,
+    originalAuthor: author?.fullName ?? null,
+    workspaceId: course.workspaceId,
+    accessLevel: 'GROUP',
+    status: 'PUBLISHED',
+    language: 'ar',
+    metadata: { assistantContentId: saved.id, uploadedBy: actor.userId, courseId: course.id }
+  })
+  await db.insert(resourceGroups).values({ resourceId: res.id, groupId: course.groupId }).onConflictDoNothing()
+  return { ...saved, resourceId: res.id, courseTitle: course.title }
 }
 
 /** المشرف يحذف محتوى من الحساب (لا يُحسب بعدها) */
@@ -326,6 +374,11 @@ export async function removeAssistantContent(db: Db, actor: Actor, id: string): 
     .where(and(eq(assistantContent.id, id), isNull(assistantContent.removedAt)))
     .returning({ id: assistantContent.id })
   if (!row) throw new AppError('NOT_FOUND')
+  // ويُسحب من عند التلاميذ
+  await db
+    .update(resources)
+    .set({ deletedAt: new Date(), updatedAt: new Date() })
+    .where(and(sql`${resources.metadata}->>'assistantContentId' = ${id}`, isNull(resources.deletedAt)))
   await writeAudit(db, {
     actorUserId: actor.userId,
     workspaceId: null,
