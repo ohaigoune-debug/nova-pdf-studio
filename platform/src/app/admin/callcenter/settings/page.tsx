@@ -64,6 +64,13 @@ export default async function CallCenterSettingsPage() {
               </Badge>
             ))}
           </div>
+          <div className="space-y-2 rounded-lg border p-3">
+            <p className="font-semibold">تثبيت الصندوق على لابتوب Ubuntu 24.04</p>
+            <p className="text-muted-foreground">افتح Terminal في اللابتوب (Ctrl+Alt+T) والصق هذا الأمر، ثم الصق الرمز حين يطلبه. للفحص بعدها: madrasa-box status</p>
+            <pre className="overflow-x-auto rounded bg-muted p-2 font-mono text-xs" dir="ltr">
+              wget -qO- https://raw.githubusercontent.com/ohaigoune-debug/nova-pdf-studio/work/platform/deploy/callcenter-box/install.sh | sudo bash
+            </pre>
+          </div>
           <details className="rounded-lg border p-3">
             <summary className="cursor-pointer font-semibold">عناوين الجهاز (للمبرمج)</summary>
             <ul className="mt-2 space-y-1 font-mono text-xs" dir="ltr">
